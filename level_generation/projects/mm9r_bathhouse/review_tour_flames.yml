@@ -1,0 +1,32 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_bathhouse/review/flames
+settle_seconds: 1.5
+exit: true
+shots:
+- name: furnace_side_w
+  position:
+  - 3328
+  - -5079
+  - -81
+  yaw: 0.0
+  pitch: -0.1745
+- name: furnace_side_e
+  position:
+  - 4045
+  - -5079
+  - -122
+  yaw: 3.1416
+  pitch: -0.1745
+- name: furnace_front
+  position:
+  - 3676
+  - -5530
+  - -81
+  yaw: 1.5708
+  pitch: -0.0873
+- name: furnace_top
+  position:
+  - 3676
+  - -4864
+  - -122
+  yaw: -1.5708
+  pitch: -0.5236

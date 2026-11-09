@@ -1,0 +1,1938 @@
+{
+ "hes_pulse_pistol": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_pulse_pistol_1.png",
+  "items": [
+   {
+    "id": 11000,
+    "name": "Pulse Pistol",
+    "staged": true
+   }
+  ]
+ },
+ "hes_noble_sidearm": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_noble_sidearm_1.png",
+  "items": [
+   {
+    "id": 11001,
+    "name": "Noble Sidearm",
+    "staged": false
+   }
+  ]
+ },
+ "hes_ion_carbine": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_ion_carbine_1.png",
+  "items": [
+   {
+    "id": 11002,
+    "name": "Ion Carbine",
+    "staged": true
+   }
+  ]
+ },
+ "hes_lancer_carbine": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_lancer_carbine_1.png",
+  "items": [
+   {
+    "id": 11003,
+    "name": "Lancer Carbine",
+    "staged": true
+   }
+  ]
+ },
+ "hes_arc_rifle": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_arc_rifle_1.png",
+  "items": [
+   {
+    "id": 11004,
+    "name": "Arc Rifle",
+    "staged": true
+   }
+  ]
+ },
+ "hes_storm_rifle": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_storm_rifle_1.png",
+  "items": [
+   {
+    "id": 11005,
+    "name": "Storm Rifle",
+    "staged": false
+   }
+  ]
+ },
+ "hes_scatter_lance": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_scatter_lance_1.png",
+  "items": [
+   {
+    "id": 11006,
+    "name": "Scatter Lance",
+    "staged": false
+   }
+  ]
+ },
+ "hes_breaker_lance": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_breaker_lance_1.png",
+  "items": [
+   {
+    "id": 11007,
+    "name": "Breaker Lance",
+    "staged": false
+   }
+  ]
+ },
+ "hes_disruptor_cannon": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_disruptor_cannon_1.png",
+  "items": [
+   {
+    "id": 11008,
+    "name": "Disruptor Cannon",
+    "staged": true
+   }
+  ]
+ },
+ "hes_vibro_knife": {
+  "family": "dagger",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender blade, Meshy grip",
+  "master": "raw/hes_vibro_knife_1.png",
+  "items": [
+   {
+    "id": 11020,
+    "name": "Vibro Knife",
+    "staged": true
+   }
+  ]
+ },
+ "hes_noble_fang": {
+  "family": "dagger",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender blade, Meshy grip",
+  "master": "raw/hes_noble_fang_1.png",
+  "items": [
+   {
+    "id": 11021,
+    "name": "Noble Fang",
+    "staged": false
+   }
+  ]
+ },
+ "hes_plasma_saber": {
+  "family": "sword",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender energy blade, Meshy hilt",
+  "master": "raw/hes_plasma_saber_1.png",
+  "items": [
+   {
+    "id": 11022,
+    "name": "Plasma Saber",
+    "staged": false
+   }
+  ]
+ },
+ "hes_plasma_longblade": {
+  "family": "sword",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender energy blade, Meshy hilt",
+  "master": "raw/hes_plasma_longblade_1.png",
+  "items": [
+   {
+    "id": 11023,
+    "name": "Plasma Longblade",
+    "staged": true
+   }
+  ]
+ },
+ "hes_arc_maul": {
+  "family": "mace",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender haft, Meshy head",
+  "master": "raw/hes_arc_maul_1.png",
+  "items": [
+   {
+    "id": 11024,
+    "name": "Arc Maul",
+    "staged": true
+   }
+  ]
+ },
+ "hes_thunder_maul": {
+  "family": "mace",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender haft, Meshy head",
+  "master": "raw/hes_thunder_maul_1.png",
+  "items": [
+   {
+    "id": 11025,
+    "name": "Thunder Maul",
+    "staged": false
+   }
+  ]
+ },
+ "hes_phase_axe": {
+  "family": "axe",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender haft, Meshy head",
+  "master": "raw/hes_phase_axe_1.png",
+  "items": [
+   {
+    "id": 11026,
+    "name": "Phase Axe",
+    "staged": true
+   }
+  ]
+ },
+ "hes_phase_cleaver": {
+  "family": "axe",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender haft, Meshy head",
+  "master": "raw/hes_phase_cleaver_1.png",
+  "items": [
+   {
+    "id": 11027,
+    "name": "Phase Cleaver",
+    "staged": true
+   }
+  ]
+ },
+ "hes_ion_pike": {
+  "family": "spear",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender shaft, Meshy head",
+  "master": "raw/hes_ion_pike_1.png",
+  "items": [
+   {
+    "id": 11028,
+    "name": "Ion Pike",
+    "staged": true
+   }
+  ]
+ },
+ "hes_lattice_halberd": {
+  "family": "spear",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender shaft, Meshy head",
+  "master": "raw/hes_lattice_halberd_1.png",
+  "items": [
+   {
+    "id": 11029,
+    "name": "Lattice Halberd",
+    "staged": false
+   }
+  ]
+ },
+ "hes_overseers_rod": {
+  "family": "staff",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender shaft, Meshy head",
+  "master": "raw/hes_overseers_rod_1.png",
+  "items": [
+   {
+    "id": 11030,
+    "name": "Overseer's Rod",
+    "staged": false
+   }
+  ]
+ },
+ "hes_lattice_staff": {
+  "family": "staff",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender shaft, Meshy head",
+  "master": "raw/hes_lattice_staff_1.png",
+  "items": [
+   {
+    "id": 11031,
+    "name": "Lattice Staff",
+    "staged": false
+   }
+  ]
+ },
+ "hes_spinebow": {
+  "family": "bow",
+  "route": "blender",
+  "credits": 0,
+  "note": "swept limbs and a real string (ranged session route)",
+  "master": "raw/hes_spinebow_1.png",
+  "items": [
+   {
+    "id": 11032,
+    "name": "Spinebow",
+    "staged": false
+   }
+  ]
+ },
+ "hes_noble_recurve": {
+  "family": "bow",
+  "route": "blender",
+  "credits": 0,
+  "note": "swept limbs and a real string",
+  "master": "raw/hes_noble_recurve_1.png",
+  "items": [
+   {
+    "id": 11033,
+    "name": "Noble Recurve",
+    "staged": false
+   }
+  ]
+ },
+ "hes_weave_suit": {
+  "family": "body armor",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_weave_suit_1.png",
+  "items": [
+   {
+    "id": 11100,
+    "name": "Weave Suit",
+    "staged": true
+   }
+  ]
+ },
+ "hes_refractor_weave": {
+  "family": "body armor",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_refractor_weave_1.png",
+  "items": [
+   {
+    "id": 11101,
+    "name": "Refractor Weave",
+    "staged": true
+   }
+  ]
+ },
+ "hes_carapace_mail": {
+  "family": "body armor",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_carapace_mail_1.png",
+  "items": [
+   {
+    "id": 11102,
+    "name": "Carapace Mail",
+    "staged": true
+   }
+  ]
+ },
+ "hes_black_carapace": {
+  "family": "body armor",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_black_carapace_1.png",
+  "items": [
+   {
+    "id": 11103,
+    "name": "Black Carapace",
+    "staged": true
+   }
+  ]
+ },
+ "hes_grafted_plate": {
+  "family": "body armor",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_grafted_plate_1.png",
+  "items": [
+   {
+    "id": 11104,
+    "name": "Grafted Plate",
+    "staged": true
+   }
+  ]
+ },
+ "hes_bastion_plate": {
+  "family": "body armor",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_bastion_plate_1.png",
+  "items": [
+   {
+    "id": 11105,
+    "name": "Bastion Plate",
+    "staged": true
+   }
+  ]
+ },
+ "hes_rebreather_helm": {
+  "family": "helm",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_rebreather_helm_1.png",
+  "items": [
+   {
+    "id": 11106,
+    "name": "Rebreather Helm",
+    "staged": true
+   }
+  ]
+ },
+ "hes_sensor_helm": {
+  "family": "helm",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_sensor_helm_1.png",
+  "items": [
+   {
+    "id": 11107,
+    "name": "Sensor Helm",
+    "staged": true
+   }
+  ]
+ },
+ "hes_grip_gauntlets": {
+  "family": "gauntlets",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a pair",
+  "master": "raw/hes_grip_gauntlets_1.png",
+  "items": [
+   {
+    "id": 11108,
+    "name": "Grip Gauntlets",
+    "staged": true
+   }
+  ]
+ },
+ "hes_power_gauntlets": {
+  "family": "gauntlets",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a pair",
+  "master": "raw/hes_power_gauntlets_1.png",
+  "items": [
+   {
+    "id": 11109,
+    "name": "Power Gauntlets",
+    "staged": true
+   }
+  ]
+ },
+ "hes_mag_boots": {
+  "family": "boots",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a pair",
+  "master": "raw/hes_mag_boots_1.png",
+  "items": [
+   {
+    "id": 11110,
+    "name": "Mag Boots",
+    "staged": true
+   }
+  ]
+ },
+ "hes_grav_boots": {
+  "family": "boots",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a pair",
+  "master": "raw/hes_grav_boots_1.png",
+  "items": [
+   {
+    "id": 11111,
+    "name": "Grav Boots",
+    "staged": true
+   }
+  ]
+ },
+ "hes_utility_belt": {
+  "family": "belt",
+  "route": "blender",
+  "credits": 0,
+  "note": "strap loop and buckle (jewellery session route)",
+  "master": "raw/hes_utility_belt_1.png",
+  "items": [
+   {
+    "id": 11112,
+    "name": "Utility Belt",
+    "staged": true
+   }
+  ]
+ },
+ "hes_capacitor_belt": {
+  "family": "belt",
+  "route": "blender",
+  "credits": 0,
+  "note": "strap loop with cells",
+  "master": "raw/hes_capacitor_belt_1.png",
+  "items": [
+   {
+    "id": 11113,
+    "name": "Capacitor Belt",
+    "staged": true
+   }
+  ]
+ },
+ "hes_ash_cloak": {
+  "family": "cloak",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a folded heap",
+  "master": "raw/hes_ash_cloak_1.png",
+  "items": [
+   {
+    "id": 11114,
+    "name": "Ash Cloak",
+    "staged": true
+   }
+  ]
+ },
+ "hes_refractor_mantle": {
+  "family": "cloak",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a folded heap",
+  "master": "raw/hes_refractor_mantle_1.png",
+  "items": [
+   {
+    "id": 11115,
+    "name": "Refractor Mantle",
+    "staged": true
+   }
+  ]
+ },
+ "hes_conductor_ring": {
+  "family": "ring",
+  "route": "blender",
+  "credits": 0,
+  "note": "twisted wire band",
+  "master": "raw/hes_conductor_ring_1.png",
+  "items": [
+   {
+    "id": 11120,
+    "name": "Conductor Ring",
+    "staged": true
+   }
+  ]
+ },
+ "hes_lattice_pendant": {
+  "family": "amulet",
+  "route": "blender",
+  "credits": 0,
+  "note": "chain and faceted pendant",
+  "master": "raw/hes_lattice_pendant_1.png",
+  "items": [
+   {
+    "id": 11121,
+    "name": "Lattice Pendant",
+    "staged": true
+   }
+  ]
+ },
+ "hes_induction_ring": {
+  "family": "ring",
+  "route": "blender",
+  "credits": 0,
+  "note": "",
+  "master": "raw/hes_induction_ring_1.png",
+  "items": [
+   {
+    "id": 11122,
+    "name": "Induction Ring",
+    "staged": true
+   }
+  ]
+ },
+ "hes_crown_band": {
+  "family": "ring",
+  "route": "blender",
+  "credits": 0,
+  "note": "",
+  "master": "raw/hes_crown_band_2.png",
+  "items": [
+   {
+    "id": 11123,
+    "name": "Crown Band",
+    "staged": true
+   }
+  ]
+ },
+ "hes_stormglass_ring": {
+  "family": "ring",
+  "route": "blender",
+  "credits": 0,
+  "note": "two set stones",
+  "master": "raw/hes_stormglass_ring_1.png",
+  "items": [
+   {
+    "id": 11124,
+    "name": "Stormglass Ring",
+    "staged": true
+   }
+  ]
+ },
+ "hes_surveyors_pendant": {
+  "family": "amulet",
+  "route": "blender",
+  "credits": 0,
+  "note": "chain and diamond frame",
+  "master": "raw/hes_surveyors_pendant_2.png",
+  "items": [
+   {
+    "id": 11125,
+    "name": "Surveyor's Pendant",
+    "staged": true
+   }
+  ]
+ },
+ "hes_nightglass_amulet": {
+  "family": "amulet",
+  "route": "blender",
+  "credits": 0,
+  "note": "chain and teardrop stone",
+  "master": "raw/hes_nightglass_amulet_3.png",
+  "items": [
+   {
+    "id": 11126,
+    "name": "Nightglass Amulet",
+    "staged": true
+   }
+  ]
+ },
+ "hes_load_gauntlets": {
+  "family": "gauntlets",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a pair",
+  "master": "raw/hes_load_gauntlets_1.png",
+  "items": [
+   {
+    "id": 11140,
+    "name": "Load Gauntlets",
+    "staged": true
+   }
+  ]
+ },
+ "hes_reserve_belt": {
+  "family": "belt",
+  "route": "blender",
+  "credits": 0,
+  "note": "strap loop with cells",
+  "master": "raw/hes_reserve_belt_1.png",
+  "items": [
+   {
+    "id": 11141,
+    "name": "Reserve Belt",
+    "staged": true
+   }
+  ]
+ },
+ "hes_survey_helm": {
+  "family": "helm",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_survey_helm_1.png",
+  "items": [
+   {
+    "id": 11142,
+    "name": "Survey Helm",
+    "staged": true
+   }
+  ]
+ },
+ "hes_anchor_boots": {
+  "family": "boots",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a pair",
+  "master": "raw/hes_anchor_boots_1.png",
+  "items": [
+   {
+    "id": 11143,
+    "name": "Anchor Boots",
+    "staged": true
+   }
+  ]
+ },
+ "hes_insulator_cloak": {
+  "family": "cloak",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a folded heap",
+  "master": "raw/hes_insulator_cloak_2.png",
+  "items": [
+   {
+    "id": 11144,
+    "name": "Insulator Cloak",
+    "staged": true
+   }
+  ]
+ },
+ "hes_buckler_emitter": {
+  "family": "emitter",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_buckler_emitter_1.png",
+  "items": [
+   {
+    "id": 11130,
+    "name": "Buckler Emitter",
+    "staged": false
+   }
+  ]
+ },
+ "hes_bastion_emitter": {
+  "family": "emitter",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_bastion_emitter_1.png",
+  "items": [
+   {
+    "id": 11131,
+    "name": "Bastion Emitter",
+    "staged": false
+   }
+  ]
+ },
+ "hes_dermal_1": {
+  "family": "implant",
+  "route": "flat",
+  "credits": 0,
+  "note": "woven square plate, clawed corners",
+  "master": "raw/hes_dermal_1_1.png",
+  "items": [
+   {
+    "id": 11200,
+    "name": "Dermal Mesh I",
+    "staged": true
+   }
+  ]
+ },
+ "hes_dermal_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_dermal_1",
+  "master": "raw/hes_dermal_2_1.png",
+  "items": [
+   {
+    "id": 11201,
+    "name": "Dermal Mesh II",
+    "staged": false
+   }
+  ]
+ },
+ "hes_capacitor_1": {
+  "family": "implant",
+  "route": "blender",
+  "credits": 0,
+  "note": "lathed lozenge, blue core",
+  "master": "raw/hes_capacitor_1_1.png",
+  "items": [
+   {
+    "id": 11202,
+    "name": "Capacitor Node I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_capacitor_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_capacitor_1",
+  "master": "raw/hes_capacitor_2_1.png",
+  "items": [
+   {
+    "id": 11203,
+    "name": "Capacitor Node II",
+    "staged": false
+   }
+  ]
+ },
+ "hes_ablative_1": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "cracked rounded plates",
+  "master": "raw/hes_ablative_1_1.png",
+  "items": [
+   {
+    "id": 11204,
+    "name": "Ablative Lattice I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_ablative_2": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hexagonal plates: a different silhouette",
+  "master": "raw/hes_ablative_2_1.png",
+  "items": [
+   {
+    "id": 11205,
+    "name": "Ablative Lattice II",
+    "staged": false
+   }
+  ]
+ },
+ "hes_vital_1": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "gem in a claw cage",
+  "master": "raw/hes_vital_1_1.png",
+  "items": [
+   {
+    "id": 11206,
+    "name": "Vital Graft I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_vital_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_vital_1",
+  "master": "raw/hes_vital_2_1.png",
+  "items": [
+   {
+    "id": 11207,
+    "name": "Vital Graft II",
+    "staged": false
+   }
+  ]
+ },
+ "hes_optic_1": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "lens in a curved housing",
+  "master": "raw/hes_optic_1_1.png",
+  "items": [
+   {
+    "id": 11208,
+    "name": "Targeting Optic I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_optic_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_optic_1",
+  "master": "raw/hes_optic_2_1.png",
+  "items": [
+   {
+    "id": 11209,
+    "name": "Targeting Optic II",
+    "staged": false
+   }
+  ]
+ },
+ "hes_reflex_1": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "three-armed node",
+  "master": "raw/hes_reflex_1_1.png",
+  "items": [
+   {
+    "id": 11210,
+    "name": "Combat Reflex I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_reflex_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_reflex_1",
+  "master": "raw/hes_reflex_2_1.png",
+  "items": [
+   {
+    "id": 11211,
+    "name": "Combat Reflex II",
+    "staged": false
+   }
+  ]
+ },
+ "hes_damping_1": {
+  "family": "implant",
+  "route": "flat",
+  "credits": 0,
+  "note": "woven square panel",
+  "master": "raw/hes_damping_1_1.png",
+  "items": [
+   {
+    "id": 11212,
+    "name": "Damping Weave I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_damping_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_damping_1",
+  "master": "raw/hes_damping_2_1.png",
+  "items": [
+   {
+    "id": 11213,
+    "name": "Damping Weave II",
+    "staged": true
+   }
+  ]
+ },
+ "hes_regulator_1": {
+  "family": "implant",
+  "route": "blender",
+  "credits": 0,
+  "note": "ring disc, blue core",
+  "master": "raw/hes_regulator_1_1.png",
+  "items": [
+   {
+    "id": 11214,
+    "name": "Shield Regulator I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_regulator_2": {
+  "family": "implant",
+  "route": "blender",
+  "credits": 0,
+  "note": "open ring disc",
+  "master": "raw/hes_regulator_2_1.png",
+  "items": [
+   {
+    "id": 11215,
+    "name": "Shield Regulator II",
+    "staged": true
+   }
+  ]
+ },
+ "hes_damper_1": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "U clamp",
+  "master": "raw/hes_damper_1_1.png",
+  "items": [
+   {
+    "id": 11216,
+    "name": "Null Damper I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_damper_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_damper_1",
+  "master": "raw/hes_damper_2_1.png",
+  "items": [
+   {
+    "id": 11217,
+    "name": "Null Damper II",
+    "staged": false
+   }
+  ]
+ },
+ "hes_resonator_1": {
+  "family": "implant",
+  "route": "blender",
+  "credits": 0,
+  "note": "triangular frame, purple crystal",
+  "master": "raw/hes_resonator_1_1.png",
+  "items": [
+   {
+    "id": 11220,
+    "name": "Lattice Resonator I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_resonator_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_resonator_1",
+  "master": "raw/hes_resonator_2_1.png",
+  "items": [
+   {
+    "id": 11221,
+    "name": "Lattice Resonator II",
+    "staged": true
+   }
+  ]
+ },
+ "hes_resonator_3": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_resonator_1",
+  "master": "raw/hes_resonator_3_1.png",
+  "items": [
+   {
+    "id": 11222,
+    "name": "Voice-tuned Resonator",
+    "staged": false
+   }
+  ]
+ },
+ "hes_coupler_1": {
+  "family": "implant",
+  "route": "blender",
+  "credits": 0,
+  "note": "zigzag conduit, swept",
+  "master": "raw/hes_coupler_1_1.png",
+  "items": [
+   {
+    "id": 11223,
+    "name": "Arc Coupler I",
+    "staged": false
+   }
+  ]
+ },
+ "hes_coupler_2": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_coupler_1",
+  "master": "raw/hes_coupler_2_1.png",
+  "items": [
+   {
+    "id": 11224,
+    "name": "Arc Coupler II",
+    "staged": true
+   }
+  ]
+ },
+ "hes_coupler_3": {
+  "family": "implant",
+  "route": "variant",
+  "credits": 0,
+  "note": "",
+  "of": "hes_coupler_1",
+  "master": "raw/hes_coupler_3_1.png",
+  "items": [
+   {
+    "id": 11225,
+    "name": "Voice-tuned Coupler",
+    "staged": false
+   }
+  ]
+ },
+ "hes_trigger_graft": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "bent clawed arm",
+  "master": "raw/hes_trigger_graft_1.png",
+  "items": [
+   {
+    "id": 11226,
+    "name": "Trigger Graft",
+    "staged": false
+   }
+  ]
+ },
+ "hes_striking_lattice": {
+  "family": "implant",
+  "route": "flat",
+  "credits": 0,
+  "note": "diamond plate with a green stone",
+  "master": "raw/hes_striking_lattice_1.png",
+  "items": [
+   {
+    "id": 11227,
+    "name": "Striking Lattice",
+    "staged": true
+   }
+  ]
+ },
+ "hes_shield_cell": {
+  "family": "supply",
+  "route": "blender",
+  "credits": 0,
+  "note": "canister",
+  "master": "raw/hes_shield_cell_1.png",
+  "items": [
+   {
+    "id": 11300,
+    "name": "Shield Cell",
+    "staged": true
+   }
+  ]
+ },
+ "hes_shield_burst_cell": {
+  "family": "supply",
+  "route": "blender",
+  "credits": 0,
+  "note": "triple canister",
+  "master": "raw/hes_shield_burst_cell_1.png",
+  "items": [
+   {
+    "id": 11301,
+    "name": "Shield Burst Cell",
+    "staged": true
+   }
+  ]
+ },
+ "hes_stim": {
+  "family": "supply",
+  "route": "blender",
+  "credits": 0,
+  "note": "injector",
+  "master": "raw/hes_stim_1.png",
+  "items": [
+   {
+    "id": 11302,
+    "name": "Stim",
+    "staged": true
+   }
+  ]
+ },
+ "hes_emp_grenade": {
+  "family": "supply",
+  "route": "blender",
+  "credits": 0,
+  "note": "sphere with studs",
+  "master": "raw/hes_emp_grenade_1.png",
+  "items": [
+   {
+    "id": 11303,
+    "name": "EMP Grenade",
+    "staged": true
+   }
+  ]
+ },
+ "hes_breach_charge": {
+  "family": "supply",
+  "route": "blender",
+  "credits": 0,
+  "note": "strapped box charge",
+  "master": "raw/hes_breach_charge_1.png",
+  "items": [
+   {
+    "id": 11304,
+    "name": "Breach Charge",
+    "staged": true
+   }
+  ]
+ },
+ "hes_hesper_ration": {
+  "family": "supply",
+  "route": "blender",
+  "credits": 0,
+  "note": "wrapped block",
+  "master": "raw/hes_hesper_ration_1.png",
+  "items": [
+   {
+    "id": 11305,
+    "name": "Hesper Ration",
+    "staged": true
+   }
+  ]
+ },
+ "hes_engram_shard": {
+  "family": "engram",
+  "route": "blender",
+  "credits": 0,
+  "note": "cut crystal (jewellery session crystals)",
+  "master": "raw/hes_engram_shard_1.png",
+  "items": [
+   {
+    "id": 11330,
+    "name": "Engram Shard",
+    "staged": true
+   }
+  ]
+ },
+ "hes_engram": {
+  "family": "engram",
+  "route": "meshy",
+  "credits": 5,
+  "note": "crystal in a gold claw mount",
+  "master": "raw/hes_engram_1.png",
+  "items": [
+   {
+    "id": 11331,
+    "name": "Engram",
+    "staged": true
+   }
+  ]
+ },
+ "hes_engram_core": {
+  "family": "engram",
+  "route": "meshy",
+  "credits": 5,
+  "note": "crystal in a cage",
+  "master": "raw/hes_engram_core_1.png",
+  "items": [
+   {
+    "id": 11332,
+    "name": "Engram Core",
+    "staged": true
+   }
+  ]
+ },
+ "hes_kreegan_alloy": {
+  "family": "supply",
+  "route": "meshy",
+  "credits": 5,
+  "note": "rough resin-metal chunk",
+  "master": "raw/hes_kreegan_alloy_1.png",
+  "items": [
+   {
+    "id": 11350,
+    "name": "Kreegan Alloy",
+    "staged": true
+   }
+  ]
+ },
+ "hes_ion_cell": {
+  "family": "supply",
+  "route": "blender",
+  "credits": 0,
+  "note": "canister",
+  "master": "raw/hes_ion_cell_1.png",
+  "items": [
+   {
+    "id": 11351,
+    "name": "Ion Cell",
+    "staged": true
+   }
+  ]
+ },
+ "hes_founders_repeater": {
+  "family": "gun",
+  "route": "meshy",
+  "credits": 5,
+  "note": "colonial ceramic and gold, the one non-Kreegan gun",
+  "master": "raw/hes_founders_repeater_1.png",
+  "items": [
+   {
+    "id": 11420,
+    "name": "The Founder's Repeater",
+    "staged": true
+   }
+  ]
+ },
+ "hes_vhorrax_courtesy": {
+  "family": "sword",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender blade, Meshy hilt",
+  "master": "raw/hes_vhorrax_courtesy_1.png",
+  "items": [
+   {
+    "id": 11421,
+    "name": "Vhorrax's Courtesy",
+    "staged": true
+   }
+  ]
+ },
+ "hes_coil_spear": {
+  "family": "spear",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender shaft, Meshy head",
+  "master": "raw/hes_coil_spear_1.png",
+  "items": [
+   {
+    "id": 11422,
+    "name": "The Coil Spear",
+    "staged": true
+   }
+  ]
+ },
+ "hes_forgemasters_hammer": {
+  "family": "mace",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender haft, Meshy head",
+  "master": "raw/hes_forgemasters_hammer_1.png",
+  "items": [
+   {
+    "id": 11423,
+    "name": "The Forgemaster's Hammer",
+    "staged": true
+   }
+  ]
+ },
+ "hes_conductors_baton": {
+  "family": "staff",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender shaft, Meshy head",
+  "master": "raw/hes_conductors_baton_1.png",
+  "items": [
+   {
+    "id": 11424,
+    "name": "The Conductor's Baton",
+    "staged": true
+   }
+  ]
+ },
+ "hes_ssekhs_fang": {
+  "family": "dagger",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender blade, Meshy grip",
+  "master": "raw/hes_ssekhs_fang_1.png",
+  "items": [
+   {
+    "id": 11425,
+    "name": "Ssekh's Fang",
+    "staged": true
+   }
+  ]
+ },
+ "hes_mraals_cleaver": {
+  "family": "axe",
+  "route": "meshy",
+  "credits": 5,
+  "note": "hybrid: Blender haft, Meshy head",
+  "master": "raw/hes_mraals_cleaver_1.png",
+  "items": [
+   {
+    "id": 11426,
+    "name": "Mraal's Cleaver",
+    "staged": true
+   }
+  ]
+ },
+ "hes_noblebone_longbow": {
+  "family": "bow",
+  "route": "blender",
+  "credits": 0,
+  "note": "swept limbs and a real string",
+  "master": "raw/hes_noblebone_longbow_1.png",
+  "items": [
+   {
+    "id": 11427,
+    "name": "Noblebone Longbow",
+    "staged": true
+   }
+  ]
+ },
+ "hes_last_light_of_hesper": {
+  "family": "emitter",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_last_light_of_hesper_1.png",
+  "items": [
+   {
+    "id": 11428,
+    "name": "Last Light of Hesper",
+    "staged": false
+   }
+  ]
+ },
+ "hes_reflex_booster": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "crescent with an orange stone",
+  "master": "raw/hes_reflex_booster_1.png",
+  "items": [
+   {
+    "id": 11430,
+    "name": "Reflex Booster",
+    "staged": false
+   }
+  ]
+ },
+ "hes_kreegan_gland": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "organic pod",
+  "master": "raw/hes_kreegan_gland_1.png",
+  "items": [
+   {
+    "id": 11431,
+    "name": "Kreegan Gland",
+    "staged": true
+   }
+  ]
+ },
+ "hes_asters_lens": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "lens in a curled shell",
+  "master": "raw/hes_asters_lens_1.png",
+  "items": [
+   {
+    "id": 11432,
+    "name": "Aster's Lens",
+    "staged": true
+   }
+  ]
+ },
+ "hes_voice_splinter": {
+  "family": "implant",
+  "route": "meshy",
+  "credits": 5,
+  "note": "crystal in a claw",
+  "master": "raw/hes_voice_splinter_1.png",
+  "items": [
+   {
+    "id": 11433,
+    "name": "Voice Splinter",
+    "staged": true
+   }
+  ]
+ },
+ "hes_bulwarks_shell": {
+  "family": "body armor",
+  "route": "meshy",
+  "credits": 5,
+  "note": "",
+  "master": "raw/hes_bulwarks_shell_2.png",
+  "items": [
+   {
+    "id": 11434,
+    "name": "Bulwark's Shell",
+    "staged": true
+   }
+  ]
+ },
+ "hes_vreths_mantle": {
+  "family": "cloak",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a folded heap",
+  "master": "raw/hes_vreths_mantle_1.png",
+  "items": [
+   {
+    "id": 11435,
+    "name": "Vreth's Mantle",
+    "staged": true
+   }
+  ]
+ },
+ "hes_xiths_sight": {
+  "family": "ring",
+  "route": "blender",
+  "credits": 0,
+  "note": "large oval setting",
+  "master": "raw/hes_xiths_sight_2.png",
+  "items": [
+   {
+    "id": 11436,
+    "name": "Xith's Sight",
+    "staged": true
+   }
+  ]
+ },
+ "hes_gatekeepers_gorget": {
+  "family": "amulet",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a sculpted collar",
+  "master": "raw/hes_gatekeepers_gorget_1.png",
+  "items": [
+   {
+    "id": 11437,
+    "name": "Gatekeeper's Gorget",
+    "staged": true
+   }
+  ]
+ },
+ "hes_vreths_first_cut": {
+  "family": "sword",
+  "route": "reuse",
+  "credits": 0,
+  "note": "added 2026-10-24: hes_harrower_codex warglaives/ground",
+  "master": "masters/hes_vreths_first_cut.png",
+  "items": [
+   {
+    "id": 11438,
+    "name": "Vreth's First Cut",
+    "staged": true
+   }
+  ]
+ },
+ "hes_vreths_last_cut": {
+  "family": "sword",
+  "route": "reuse",
+  "credits": 0,
+  "note": "added 2026-10-24: hes_harrower_codex warglaives/ground",
+  "master": "masters/hes_vreths_last_cut.png",
+  "items": [
+   {
+    "id": 11439,
+    "name": "Vreth's Last Cut",
+    "staged": true
+   }
+  ]
+ },
+ "hes_jammer": {
+  "family": "amulet",
+  "route": "blender",
+  "credits": 0,
+  "note": "egg pendant on a loop",
+  "master": "raw/hes_jammer_1.png",
+  "items": [
+   {
+    "id": 11470,
+    "name": "Jammer",
+    "staged": true
+   }
+  ]
+ },
+ "hes_hive_navigation_crystal": {
+  "family": "quest",
+  "route": "meshy",
+  "credits": 5,
+  "note": "crystal in claws",
+  "master": "raw/hes_hive_navigation_crystal_1.png",
+  "items": [
+   {
+    "id": 11471,
+    "name": "Hive Navigation Crystal",
+    "staged": false
+   }
+  ]
+ },
+ "hes_zod_brood_record": {
+  "family": "quest",
+  "route": "meshy",
+  "credits": 5,
+  "note": "organic pod",
+  "master": "raw/hes_zod_brood_record_1.png",
+  "items": [
+   {
+    "id": 11472,
+    "name": "Zod Brood Record",
+    "staged": false
+   }
+  ]
+ },
+ "hes_escatons_ship_key": {
+  "family": "quest",
+  "route": "blocked",
+  "credits": 0,
+  "note": "no icon of its own yet (visual_status needs_art)",
+  "items": [
+   {
+    "id": 11473,
+    "name": "Escaton's Ship Key",
+    "staged": false
+   }
+  ]
+ },
+ "hes_ion_coil": {
+  "family": "quest",
+  "route": "blender",
+  "credits": 0,
+  "note": "coil torus",
+  "master": "raw/hes_ion_coil_1.png",
+  "items": [
+   {
+    "id": 11474,
+    "name": "Ion Coil",
+    "staged": true
+   }
+  ]
+ },
+ "hes_nav_matrix": {
+  "family": "quest",
+  "route": "blender",
+  "credits": 0,
+  "note": "boxed crystal grid",
+  "master": "raw/hes_nav_matrix_1.png",
+  "items": [
+   {
+    "id": 11475,
+    "name": "Nav Matrix",
+    "staged": true
+   }
+  ]
+ },
+ "hes_energy_core": {
+  "family": "quest",
+  "route": "blocked",
+  "credits": 0,
+  "note": "no icon of its own yet (visual_status needs_art)",
+  "items": [
+   {
+    "id": 11476,
+    "name": "Energy Core",
+    "staged": true
+   }
+  ]
+ },
+ "hes_reentry_emitter": {
+  "family": "quest",
+  "route": "blocked",
+  "credits": 0,
+  "note": "no icon of its own yet (visual_status needs_art)",
+  "items": [
+   {
+    "id": 11477,
+    "name": "Re-entry Emitter",
+    "staged": true
+   }
+  ]
+ },
+ "hes_aster_shard_1": {
+  "family": "quest",
+  "route": "blender",
+  "credits": 0,
+  "note": "a slab in its icon's outline; its Meshy block (batch 4) went unused",
+  "master": "raw/hes_aster_shard_1_1.png",
+  "items": [
+   {
+    "id": 11478,
+    "name": "Aster Shard (Starport)",
+    "staged": true
+   }
+  ]
+ },
+ "hes_aster_shard_2": {
+  "family": "quest",
+  "route": "blender",
+  "credits": 0,
+  "note": "crystal shard",
+  "master": "raw/hes_aster_shard_2_1.png",
+  "items": [
+   {
+    "id": 11479,
+    "name": "Aster Shard (Brood Pits)",
+    "staged": true
+   }
+  ]
+ },
+ "hes_aster_shard_3": {
+  "family": "quest",
+  "route": "blender",
+  "credits": 0,
+  "note": "crescent crystal",
+  "master": "raw/hes_aster_shard_3_1.png",
+  "items": [
+   {
+    "id": 11480,
+    "name": "Aster Shard (Seedship)",
+    "staged": true
+   }
+  ]
+ },
+ "hes_aster_shard_4": {
+  "family": "quest",
+  "route": "blender",
+  "credits": 0,
+  "note": "crystal shard",
+  "master": "raw/hes_aster_shard_4_1.png",
+  "items": [
+   {
+    "id": 11481,
+    "name": "Aster Shard (Archive)",
+    "staged": true
+   }
+  ]
+ },
+ "hes_thrixs_token": {
+  "family": "quest",
+  "route": "meshy",
+  "credits": 5,
+  "note": "carved bone token",
+  "master": "raw/hes_thrixs_token_1.png",
+  "items": [
+   {
+    "id": 11482,
+    "name": "Vhorrax's Token",
+    "staged": true
+   }
+  ]
+ },
+ "hes_ghulkats_collar_key": {
+  "family": "quest",
+  "route": "meshy",
+  "credits": 5,
+  "note": "organic two-pronged key",
+  "master": "raw/hes_ghulkats_collar_key_1.png",
+  "items": [
+   {
+    "id": 11483,
+    "name": "Ghulkat's Collar Key",
+    "staged": true
+   }
+  ]
+ },
+ "hes_glassback_heart": {
+  "family": "quest",
+  "route": "meshy",
+  "credits": 5,
+  "note": "organic heart",
+  "master": "raw/hes_glassback_heart_1.png",
+  "items": [
+   {
+    "id": 11485,
+    "name": "Glassback Heart",
+    "staged": true
+   }
+  ]
+ },
+ "hes_lander_log_core": {
+  "family": "quest",
+  "route": "blender",
+  "credits": 0,
+  "note": "lathed cylinder",
+  "master": "raw/hes_lander_log_core_1.png",
+  "items": [
+   {
+    "id": 11486,
+    "name": "Lander Log Core",
+    "staged": true
+   }
+  ]
+ },
+ "hes_archive_armoury_key": {
+  "family": "quest",
+  "route": "flat",
+  "credits": 0,
+  "note": "key card",
+  "master": "raw/hes_archive_armoury_key_1.png",
+  "items": [
+   {
+    "id": 11487,
+    "name": "Archive Armory Key",
+    "staged": true
+   }
+  ]
+ },
+ "hes_pilots_core": {
+  "family": "quest",
+  "route": "blender",
+  "credits": 0,
+  "note": "lathed cylinder",
+  "master": "raw/hes_pilots_core_1.png",
+  "items": [
+   {
+    "id": 11489,
+    "name": "Pilot's Core",
+    "staged": true
+   }
+  ]
+ },
+ "hes_court_seal": {
+  "family": "quest",
+  "route": "flat",
+  "credits": 0,
+  "note": "medallion disc",
+  "master": "raw/hes_court_seal_1.png",
+  "items": [
+   {
+    "id": 11510,
+    "name": "The Court Seal",
+    "staged": true
+   }
+  ]
+ },
+ "hes_founders_head": {
+  "family": "quest",
+  "route": "meshy",
+  "credits": 5,
+  "note": "a statue head",
+  "master": "raw/hes_founders_head_1.png",
+  "items": [
+   {
+    "id": 11511,
+    "name": "The Founder's Head",
+    "staged": true
+   }
+  ]
+ },
+ "hes_colony_log_tablet": {
+  "family": "readable",
+  "route": "flat",
+  "credits": 0,
+  "note": "tablet slab: twelve tablets share it",
+  "master": "raw/hes_colony_log_tablet_1.png",
+  "items": [
+   {
+    "id": 11360,
+    "name": "Colony Log Tablet, I",
+    "staged": true
+   },
+   {
+    "id": 11361,
+    "name": "Colony Log Tablet, II",
+    "staged": true
+   },
+   {
+    "id": 11362,
+    "name": "Colony Log Tablet, III",
+    "staged": true
+   },
+   {
+    "id": 11363,
+    "name": "Colony Log Tablet, IV",
+    "staged": true
+   },
+   {
+    "id": 11364,
+    "name": "Colony Log Tablet, V",
+    "staged": true
+   },
+   {
+    "id": 11365,
+    "name": "Colony Log Tablet, VI",
+    "staged": true
+   },
+   {
+    "id": 11366,
+    "name": "Colony Log Tablet, VII",
+    "staged": true
+   },
+   {
+    "id": 11367,
+    "name": "Colony Log Tablet, VIII",
+    "staged": true
+   },
+   {
+    "id": 11368,
+    "name": "Colony Log Tablet, IX",
+    "staged": true
+   },
+   {
+    "id": 11369,
+    "name": "Colony Log Tablet, X",
+    "staged": true
+   },
+   {
+    "id": 11370,
+    "name": "Colony Log Tablet, XI",
+    "staged": true
+   },
+   {
+    "id": 11371,
+    "name": "Colony Log Tablet, XII",
+    "staged": true
+   }
+  ]
+ },
+ "hes_data_slate": {
+  "family": "readable",
+  "route": "flat",
+  "credits": 0,
+  "note": "slate slab: six readables share it",
+  "master": "raw/hes_data_slate_1.png",
+  "items": [
+   {
+    "id": 11372,
+    "name": "The Founders' Charter",
+    "staged": true
+   },
+   {
+    "id": 11373,
+    "name": "Drone Control Duty Log",
+    "staged": true
+   },
+   {
+    "id": 11374,
+    "name": "Doctor Ilse's Notes",
+    "staged": true
+   },
+   {
+    "id": 11375,
+    "name": "Foundry Work Order",
+    "staged": true
+   },
+   {
+    "id": 11376,
+    "name": "Hale's Last Note",
+    "staged": true
+   },
+   {
+    "id": 11377,
+    "name": "A Noble's Letter",
+    "staged": true
+   }
+  ]
+ },
+ "hes_militia_warrant": {
+  "family": "readable",
+  "route": "flat",
+  "credits": 0,
+  "note": "sealed envelope (letters batch construction)",
+  "master": "raw/hes_militia_warrant_1.png",
+  "items": [
+   {
+    "id": 11488,
+    "name": "Militia Warrant",
+    "staged": false
+   }
+  ]
+ }
+}

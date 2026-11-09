@@ -1,0 +1,35 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/pilot_native/klusoshouse
+settle_seconds: 2.0
+exit: true
+shots:
+- name: thjozz6y06-d1-closed-front
+  position:
+  - 336
+  - 737
+  - 451
+  yaw: -3.1416
+  pitch: 0.024
+- name: thjozz6y06-d1-joint-graze
+  position:
+  - 180
+  - 857
+  - 451
+  yaw: -2.4981
+  pitch: 0.15
+- name: thjozz6y06-d1-closed-back
+  position:
+  - -248
+  - 737
+  - 451
+  yaw: 0.0
+  pitch: 0.024
+- name: thjozz6y06-d1-open-front
+  position:
+  - 336
+  - 737
+  - 451
+  yaw: -3.1416
+  pitch: 0.024
+  commands:
+  - event 101
+  settle_seconds: 5.0

@@ -1,0 +1,271 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "generated_outputs_saved_with_failed_checks",
+  "selected_means": "Retained generated return, not acceptance as meeting the brief.",
+  "max_corrective_regenerations_per_view": 1,
+  "writes_scope": "level_generation/props/hesper_decorations/codex_tex/hes_nest_mound/ (apart from built-in tool-managed originals)",
+  "builds_run": false,
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic game-model albedo texture source, NOT a beauty render.\nEdit the FIRST input image, the plain-grey orthographic geometry guide. The SECOND input image, design_reference.png, is ONLY the approved colour/material reference, never a camera, lighting or shape reference.\nReturn ONE native 1024 x 1024 RGBA PNG with genuine transparent background, unresized, no labels.\nABSOLUTE GEOMETRY LOCK: keep the first image's alpha silhouette, outline, framing, scale, position, every polygon edge and opening EXACTLY unchanged. Paint only surface colours over the existing grey object. Keep all existing shape edges, spikes, slabs, arches and cavity boundaries at their original pixel coordinates. Do not smooth, round, extend, remove, add, shift, rotate or reinterpret any geometry. Copy the guide's transparency exactly. The entire mound occupies x=67 through 956 and y=352 through 671; retain the generous empty transparent margins above and below. Do not enlarge the mound to fill the canvas. All triangles along the top and sides and the thin irregular base retain their exact original contours.\nMATERIALS: transfer the design reference's dark wet black-violet resin, grey-olive dried mud, pale yellow crystalline acid crust, and glowing bile-green acid in the existing holes. Resin/mud cover the mound structure; the existing angular protrusions/slabs are pale sulphur-yellow mineral crust; existing openings contain bile-green acid. Convey material character through fine albedo colour texture, not lighting. No new holes, new drips, new crystal geometry, or extra details beyond the guide silhouette.\nLIGHTING: flat, even, shadowless viewer-facing illumination for albedo use. No cast shadows, no ambient-occlusion darkening, no directional or gradient shading, no strong specular highlights, white glints, reflections, rim lighting, bloom or glow halo. Cavity surfaces also remain readable in even light. Emissive acid is painted its bright bile-green colour without casting any light on surrounding surfaces. Do not copy the dramatic lighting or background of the design reference. No background, floor, scenery, text, watermark or checkerboard pixels.\nVIEW: LEFT orthographic view. The edit target is guide_left.png. Preserve that view exactly.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1736efff5569632ab29a04a8f6900d6f7e8e0524d0e5befa7c2dc940acff2deb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3021b71531b6603f6d1bb587e3f858a17d3b3fd06817bf9568cc436076842fa6"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Initial native return is 1254x1254 rather than 1024x1024 and has strong baked highlights and cavity shading; the corrective attempt was retained instead.",
+      "source": "/home/pjasicek/.codex/generated_images/01a168a7-b500-7790-8624-017de8d51262/exec-139e1a1c-bf1d-445a-9461-1623cf1d782f.png",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "clean_transparent_background_pass": false,
+        "background_note": "Most background pixels have alpha=0, but faint nonzero alpha pixels extend well beyond the intended silhouette; edge colour fringe is visible.",
+        "silhouette_identical": false,
+        "silhouette_note": "Dimensions differ from the 1024x1024 guide. Visual comparison also shows local outline and interior-opening differences.",
+        "guide_alpha_bbox": [
+          67,
+          352,
+          957,
+          672
+        ],
+        "alpha_bbox": [
+          0,
+          37,
+          1232,
+          1254
+        ],
+        "alpha_bbox_above_128": [
+          82,
+          432,
+          1172,
+          820
+        ],
+        "transparent_pixels": 1306525,
+        "partial_alpha_pixels": 265597,
+        "total_pixels": 1572516,
+        "materials_and_colours": "Black-violet resin, sulphur-yellow crystalline crust and bile-green acid present; grey-olive mud underrepresented.",
+        "materials_and_colours_pass": "partial",
+        "flat_even_light_pass": false,
+        "lighting_note": "Residual glossy highlights, facet shading and dark cavities remain. No cast floor shadow or background scene.",
+        "unresized": true,
+        "postprocessed": false,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "6041dac9c222f7784a5a4ab84d951b0325ca6387418e7b27f5582372e8a7521a"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic game-model albedo texture source, NOT a beauty render.\nEdit the FIRST input image, the plain-grey orthographic geometry guide. The SECOND input image, design_reference.png, is ONLY the approved colour/material reference, never a camera, lighting or shape reference.\nReturn ONE native 1024 x 1024 RGBA PNG with genuine transparent background, unresized, no labels.\nABSOLUTE GEOMETRY LOCK: keep the first image's alpha silhouette, outline, framing, scale, position, every polygon edge and opening EXACTLY unchanged. Paint only surface colours over the existing grey object. Keep all existing shape edges, spikes, slabs, arches and cavity boundaries at their original pixel coordinates. Do not smooth, round, extend, remove, add, shift, rotate or reinterpret any geometry. Copy the guide's transparency exactly. The entire mound occupies x=67 through 956 and y=352 through 671; retain the generous empty transparent margins above and below. Do not enlarge the mound to fill the canvas. All triangles along the top and sides and the thin irregular base retain their exact original contours.\nMATERIALS: transfer the design reference's dark wet black-violet resin, grey-olive dried mud, pale yellow crystalline acid crust, and glowing bile-green acid in the existing holes. Resin/mud cover the mound structure; the existing angular protrusions/slabs are pale sulphur-yellow mineral crust; existing openings contain bile-green acid. Convey material character through fine albedo colour texture, not lighting. No new holes, new drips, new crystal geometry, or extra details beyond the guide silhouette.\nLIGHTING: flat, even, shadowless viewer-facing illumination for albedo use. No cast shadows, no ambient-occlusion darkening, no directional or gradient shading, no strong specular highlights, white glints, reflections, rim lighting, bloom or glow halo. Cavity surfaces also remain readable in even light. Emissive acid is painted its bright bile-green colour without casting any light on surrounding surfaces. Do not copy the dramatic lighting or background of the design reference. No background, floor, scenery, text, watermark or checkerboard pixels.\nVIEW: RIGHT orthographic view. The edit target is guide_right.png. Preserve that view exactly.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "729ed51574eb72ebe9adcd4cb2d1938dce13c55fac52a543df85bec2b71ddf93"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3021b71531b6603f6d1bb587e3f858a17d3b3fd06817bf9568cc436076842fa6"
+        }
+      ],
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Initial native return is 1254x1254 rather than 1024x1024 and has strong baked highlights and cavity shading; the corrective attempt was retained instead.",
+      "source": "/home/pjasicek/.codex/generated_images/01a168a7-b500-7790-8624-017de8d51262/exec-0ff43620-f5b2-4ff6-9255-c7300724a52e.png",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "clean_transparent_background_pass": false,
+        "background_note": "Most background pixels have alpha=0, but faint nonzero alpha pixels extend well beyond the intended silhouette; edge colour fringe is visible.",
+        "silhouette_identical": false,
+        "silhouette_note": "Dimensions differ from the 1024x1024 guide. Visual comparison also shows local outline and interior-opening differences.",
+        "guide_alpha_bbox": [
+          67,
+          352,
+          957,
+          672
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1236,
+          1254
+        ],
+        "alpha_bbox_above_128": [
+          82,
+          431,
+          1173,
+          823
+        ],
+        "transparent_pixels": 1303121,
+        "partial_alpha_pixels": 269163,
+        "total_pixels": 1572516,
+        "materials_and_colours": "Black-violet resin, sulphur-yellow crystalline crust and bile-green acid present; grey-olive mud underrepresented.",
+        "materials_and_colours_pass": "partial",
+        "flat_even_light_pass": false,
+        "lighting_note": "Residual glossy highlights, facet shading and dark cavities remain. No cast floor shadow or background scene.",
+        "unresized": true,
+        "postprocessed": false,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "3e55425d6815c75450602a03e5dd3ef972d55174ca8994773eaa1ca1f6ebc450"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: produce ONE image at EXACTLY 1024 pixels wide by 1024 pixels high. The required native output resolution is 1024x1024. Do not output 1254x1254. This is the sole allowed correction.\nUse case: style-transfer; flat base-colour texture-source painting.\nInput 1: guide_left.png, the EXACT 1024x1024 orthographic LEFT-side image to repaint. This is the composition and geometry authority.\nInput 2: design_reference.png, COLOUR AND MATERIAL authority ONLY. Ignore its shape, camera, lighting, shadows, glints and background.\n\nRepaint only the opaque pixels of input 1. Preserve its alpha mask and all of its geometric edges exactly, with no camera change or reframing. The mound is only 890 pixels wide and 320 pixels high, spanning x=67 to 956 and y=352 to 671 in the required 1024x1024 frame. Leave the large transparent margins completely untouched. Preserve all angular silhouette corners, the thin angular base, every slab and point, and each opening in its exact place. Do NOT make the object larger or taller, do NOT round off angular corners, do NOT add holes or reshape the openings, do NOT scatter particles or stray pixels. Do not reproduce the design reference's three-quarter composition. No invented mesh details.\n\nApply the design's colours as a matte, UNLIT DIFFUSE BASE-COLOUR PASS: dark black-violet resin with grey-olive dried mud across the existing mound surface; pale sulphur-yellow crystalline acid crust on the existing angular shards; bile-green acid colour inside the guide's existing cavities. Texture should be finely detailed coloured surface markings only, preserving the guide's boundaries. Wet resin is represented by its purple-black material colour, WITHOUT shiny highlights. Pale crystalline crust is represented by subdued yellow mineral mottling, WITHOUT white glints, shining facets or gold reflections. The acid has vivid bile-green local colour, WITHOUT bloom, light spill or bright reflected spots.\nFLAT LIGHTING IS MANDATORY: even front-facing shadowless illumination everywhere. Remove all baked specular and directional shading. No ambient occlusion, no black cavity-shadow gradients, no side-to-side lighting gradients, no cast shadows, rim light or reflections. Existing cavities remain structurally distinct by their material colour and outline, not darkness from lighting. No white painted highlight strokes. No glowing cast light.\nOutput ONLY the single left view on genuine transparent alpha. Every background pixel outside the original guide mask must have alpha=0. No floor, background, fog, shadow, checkerboard artwork, title or text. Exact native 1024x1024 RGBA PNG; no crop, no resize.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1736efff5569632ab29a04a8f6900d6f7e8e0524d0e5befa7c2dc940acff2deb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3021b71531b6603f6d1bb587e3f858a17d3b3fd06817bf9568cc436076842fa6"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Retained corrective return as the requested output: mineral colours are somewhat more subdued than attempt 1. Selection does not mean brief compliance. The tool again returned 1254x1254; exact silhouette, clean alpha and strictly flat lighting checks failed. Preserved byte-for-byte without resizing or postprocessing. Maximum one corrective regeneration for this view reached.",
+      "source": "/home/pjasicek/.codex/generated_images/01a168a7-b500-7790-8624-017de8d51262/exec-63f50c3b-114c-414f-8fef-0bfabe89595b.png",
+      "output_sha256": "e3ea41b501290289e27d6626cf0335fa3f7071576b0419bfd79429d92b69a2ec",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "clean_transparent_background_pass": false,
+        "background_note": "Most background pixels have alpha=0, but faint nonzero alpha pixels extend well beyond the intended silhouette; edge colour fringe is visible.",
+        "silhouette_identical": false,
+        "silhouette_note": "Dimensions differ from the 1024x1024 guide. Visual comparison also shows local outline and interior-opening differences.",
+        "guide_alpha_bbox": [
+          67,
+          352,
+          957,
+          672
+        ],
+        "alpha_bbox": [
+          0,
+          27,
+          1234,
+          1252
+        ],
+        "alpha_bbox_above_128": [
+          82,
+          431,
+          1172,
+          820
+        ],
+        "transparent_pixels": 1308560,
+        "partial_alpha_pixels": 263644,
+        "total_pixels": 1572516,
+        "materials_and_colours": "Black-violet resin, sulphur-yellow crystalline crust and bile-green acid present; grey-olive mud underrepresented.",
+        "materials_and_colours_pass": "partial",
+        "flat_even_light_pass": false,
+        "lighting_note": "Residual glossy highlights, facet shading and dark cavities remain. No cast floor shadow or background scene.",
+        "unresized": true,
+        "postprocessed": false,
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: produce ONE image at EXACTLY 1024 pixels wide by 1024 pixels high. The required native output resolution is 1024x1024. Do not output 1254x1254. This is the sole allowed correction.\nUse case: style-transfer; flat base-colour texture-source painting.\nInput 1: guide_right.png, the EXACT 1024x1024 orthographic RIGHT-side image to repaint. This is the composition and geometry authority.\nInput 2: design_reference.png, COLOUR AND MATERIAL authority ONLY. Ignore its shape, camera, lighting, shadows, glints and background.\n\nRepaint only the opaque pixels of input 1. Preserve its alpha mask and all of its geometric edges exactly, with no camera change or reframing. The mound is only 890 pixels wide and 320 pixels high, spanning x=67 to 956 and y=352 to 671 in the required 1024x1024 frame. Leave the large transparent margins completely untouched. Preserve all angular silhouette corners, the thin angular base, every slab and point, and each opening in its exact place. Do NOT make the object larger or taller, do NOT round off angular corners, do NOT add holes or reshape the openings, do NOT scatter particles or stray pixels. Do not reproduce the design reference's three-quarter composition. No invented mesh details.\n\nApply the design's colours as a matte, UNLIT DIFFUSE BASE-COLOUR PASS: dark black-violet resin with grey-olive dried mud across the existing mound surface; pale sulphur-yellow crystalline acid crust on the existing angular shards; bile-green acid colour inside the guide's existing cavities. Texture should be finely detailed coloured surface markings only, preserving the guide's boundaries. Wet resin is represented by its purple-black material colour, WITHOUT shiny highlights. Pale crystalline crust is represented by subdued yellow mineral mottling, WITHOUT white glints, shining facets or gold reflections. The acid has vivid bile-green local colour, WITHOUT bloom, light spill or bright reflected spots.\nFLAT LIGHTING IS MANDATORY: even front-facing shadowless illumination everywhere. Remove all baked specular and directional shading. No ambient occlusion, no black cavity-shadow gradients, no side-to-side lighting gradients, no cast shadows, rim light or reflections. Existing cavities remain structurally distinct by their material colour and outline, not darkness from lighting. No white painted highlight strokes. No glowing cast light.\nOutput ONLY the single right view on genuine transparent alpha. Every background pixel outside the original guide mask must have alpha=0. No floor, background, fog, shadow, checkerboard artwork, title or text. Exact native 1024x1024 RGBA PNG; no crop, no resize.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "729ed51574eb72ebe9adcd4cb2d1938dce13c55fac52a543df85bec2b71ddf93"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3021b71531b6603f6d1bb587e3f858a17d3b3fd06817bf9568cc436076842fa6"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Retained corrective return as the requested output: mineral colours are somewhat more subdued than attempt 1. Selection does not mean brief compliance. The tool again returned 1254x1254; exact silhouette, clean alpha and strictly flat lighting checks failed. Preserved byte-for-byte without resizing or postprocessing. Maximum one corrective regeneration for this view reached.",
+      "source": "/home/pjasicek/.codex/generated_images/01a168a7-b500-7790-8624-017de8d51262/exec-9a8fbfd0-0d94-4212-b2f6-82057fba78be.png",
+      "output_sha256": "e405758fac9b53887c5e9eedafd461244f008bc6858eac0aa9a690c6fd2ed396",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "clean_transparent_background_pass": false,
+        "background_note": "Most background pixels have alpha=0, but faint nonzero alpha pixels extend well beyond the intended silhouette; edge colour fringe is visible.",
+        "silhouette_identical": false,
+        "silhouette_note": "Dimensions differ from the 1024x1024 guide. Visual comparison also shows local outline and interior-opening differences.",
+        "guide_alpha_bbox": [
+          67,
+          352,
+          957,
+          672
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1240,
+          1254
+        ],
+        "alpha_bbox_above_128": [
+          84,
+          434,
+          1171,
+          819
+        ],
+        "transparent_pixels": 1310473,
+        "partial_alpha_pixels": 261760,
+        "total_pixels": 1572516,
+        "materials_and_colours": "Black-violet resin, sulphur-yellow crystalline crust and bile-green acid present; grey-olive mud underrepresented.",
+        "materials_and_colours_pass": "partial",
+        "flat_even_light_pass": false,
+        "lighting_note": "Residual glossy highlights, facet shading and dark cavities remain. No cast floor shadow or background scene.",
+        "unresized": true,
+        "postprocessed": false,
+        "strict_brief_pass": false
+      }
+    }
+  ]
+}

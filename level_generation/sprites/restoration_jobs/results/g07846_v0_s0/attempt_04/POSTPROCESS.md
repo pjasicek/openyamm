@@ -1,0 +1,1 @@
+After process, run clean_edges.py then queue.py check. clean_edges.py replays from immutable before_edge_cleanup backups. It removes observed secondary magenta only near outer contour, preserving maroon interiors. repair_review.json documents the now-resolved fringe. Correct mask prompt: state/g07846_v0_s0.mask_repair.txt; rejected shaded mask remains in attempt_03.

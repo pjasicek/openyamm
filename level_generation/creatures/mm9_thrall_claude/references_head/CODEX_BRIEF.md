@@ -1,0 +1,22 @@
+# Codex brief: head sculpt for the MM9 Thrall (mm9_thrall_claude)
+
+Scope: image generation only. Write ONLY into `level_generation/creatures/mm9_thrall_claude/references_head/`. No builds, no Meshy. Use your built-in image generation tool.
+The image is a modelling reference for a Meshy Smart Topology head model of a video-game man. Geometry only, so it is a sculpture with no colour.
+
+## Inputs (attached, in order)
+1. `references_hd/mm9_head_views_c.png`: renders of the ORIGINAL low-poly head, four views: front, three-quarter, side, back. Layout authority for the mass of the hair: a helmet-like mane close to
+   the skull on top that hangs straight behind the ears and ends at the nape, level with the jaw. Grey is background.
+2. `references_hd/mm9_head_views_a.png`: the same head with another skin: an old bald man with a beard. The same mesh must also carry this: so the top of the head must be a clean skull shape.
+3. `references_head/in_body_head.png`: the high-definition body master's head: face identity.
+
+## Deliverable (true transparent background, no floor, no shadow, no text, unresized return, 1024x1024)
+`00_geometry.png`: one matt, plain light-grey clay sculpture of a man's head and neck, front three-quarter from the figure's RIGHT (he looks toward image right and toward the viewer), camera at eye level, near-orthographic, even soft light.
+Keep raw returns in `raw/`. Write `generation_runs.json` (id, prompt, inputs with sha256, output path, reason). At most one corrective regeneration.
+
+## Content
+- A strong, weathered, ordinary MALE human head: straight nose, heavy brow, deep clearly formed eye sockets with eyelids and open eyes, firm closed lips with a clear parting line, a complete strong chin and jaw line.
+  Modelled ears are NOT needed: the hair covers them. No beard relief: clean shaven jaw, smooth skin (the beard is painted later).
+- HAIR as ONE solid smooth mass, like carved wood or a clay helmet: thin and tight on the crown so the skull shape reads, starting at a natural hairline, then thick behind the ears and at the back, hanging straight to end in a clean rounded edge at the jaw line level
+  at the nape. It stands clear of the neck behind and at the sides by 2-3 cm, a closed rounded lower rim. NO separate locks, no thin strands, no gaps, only very shallow combed grooves. The hair does not cover the cheeks or eyes.
+- NECK: a plain cylinder, cut flat below at the collar. No shoulders, no collar, no rope.
+- No colour, no texture, no hat, no hood.

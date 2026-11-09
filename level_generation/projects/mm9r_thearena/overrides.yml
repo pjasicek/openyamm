@@ -1,0 +1,51 @@
+# Explicit conversion choices for MM9's The Arena (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: thearena
+  display_name: The Arena
+  starts: [StartPoint0]               # start 0: inside the front door (Thjorgard City's arena door arrives here)
+  monster_classes: [ShopkeeperElfMaleB, SvenSvenssen, ClanSoldier, CommonerHuman2MaleB]
+  offset: [0, 0, 0]                   # the old map's frame: x -2950..2950, y -3930..2950 fit int16
+  ambient: 20
+  model_lighting: true                # MM9's model lighting (no light over the four-per-point cap: work/lights.json)
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  thin_walls: true                    # thin pieces (the arena master's bars, the box's canopy) keep their far faces
+plan_levels:
+  floor: [-70, 120]                   # the hall, the arena floor, the pens (floor 0 LT; the hall 48)
+  stands: [120, 700]                  # the stands, Sven's box (224), the crowd backdrop
+models:
+  # --- the arena's double door (RotatingDoor, 90 degrees about y, a pair): one rotate mover per leaf, one click,
+  # doorway portal from the leaves (no UserPortal in this map)
+  RotatingDoor0: {group: ArenaDoor, motion: rotate, doorway: true}
+  RotatingDoor1: {group: ArenaDoor, motion: rotate, doorway: true}
+  # --- the two pens' doors (Door, MoveDir along z, 76 LT apart): MM9's linear slide, doorway portals
+  RotatingDoor2: {group: WestPen, motion: dat, doorway: true}
+  RotatingDoor3: {group: WestPen, motion: dat, doorway: true}
+  RotatingDoor4: {group: EastPen, motion: dat, doorway: true}
+  RotatingDoor5: {group: EastPen, motion: dat, doorway: true}
+  # --- static world objects
+  WorldObject0: static                # the stadium's top ring (arenatop) round the open sky
+  WorldObject1: static                # the canopy over Sven's box (arenafabric1, translucent)
+  WorldObject2: static                # the bars of the arena master's counter (convert.py: untouchable cut-out)
+  WorldObject3: static                # the painted crowd round the stands (arenapeople1-3, cut-out and fully bright)
+  InvisibleBrush0: static             # invisible collision: keeps the party off the crowd backdrop and the top ring
+  InvisibleBrush1: static             # invisible collision under the box's canopy
+  # --- not built
+  AIRail0: skip                       # AI rails (rail.dtx): the arena floor, the pens' lanes
+  AIRail1: skip
+  AIRail2: skip
+  SkyBox0: skip                       # MM9's sky box (SnowMtns) far outside the stadium; the skymarker faces show it
+  TOD_Sky0: skip                      # the night sky shell (starfield) round the sky box
+model_patterns: {}
+portals:
+  - {name: stand_stair, axis: z, point: [184, 110, -1176], span: 200}   # the stair from the hall up to the south stand
+exits:
+  ExitTrigger0: {}
+glass:
+  arenapeople1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  arenapeople2.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  arenapeople3.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  arenafabric1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+textures:
+  'TEXTURES\Skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'TEXTURES\LevelTextures\Misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}

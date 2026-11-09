@@ -1,0 +1,111 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Paint one 1024 x 1024 RGBA texture-source image for the back view of an ash-stone pillar.\nInput 1 design_reference.png is ONLY the approved design, colour and material authority (three-quarter view); do not copy its camera or silhouette.\nInput 2 guide_back.png is the EDIT TARGET, a grey orthographic back view of the exact model on transparency. Its alpha silhouette and all shape edges are authoritative.\nPaint surface materials onto input 2 without changing ANY geometry, camera, framing, shape, position or scale. Keep its silhouette EXACTLY, including every angular ledge, rock, opening, rubble shape, edge and detail. No additions outside the silhouette, no cropping. Keep the full 1024 x 1024 canvas and transparent margins. The guide's occupied bounds are x=191..832, y=66..957. Preserve the exact pixel alpha boundary.\nMaterials from the design: layered grey-violet and dark brown volcanic stone, paler ash in grooves, a darker cap rock, detailed weathered grain and fine fissures. Maintain the guide's exact slab edges and rubble positions, using colour texture to describe material only.\nLIGHTING: this is albedo for texture projection, not a beauty render. Even, flat, shadowless illumination from the viewer on ALL surfaces, including undersides and crevices. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Dark brown is material colour, not black shadow. Pale ash remains visible in the grooves. No background, no floor, no halo. Do not transfer lighting from the reference or guide.\nReturn exactly one unresized 1024 x 1024 transparent PNG, no text.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604c-34fe-7eb0-a652-b681879d7fbe/exec-23185db5-b33d-43af-b3d3-77b9e265eabf.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: native dimensions differ from 1024 x 1024; shaded undersides conflict with flat albedo.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "55769837b2f6f170e4631addfc8deb363ea26854b54f750985c1b816f1225300"
+        }
+      ],
+      "output_sha256": "bb2290309e86bf30da0fee51e222ae6569a9d12e232961e7d9e0d07a1be976e7",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1190510,
+        "alpha_bbox": [
+          0,
+          19,
+          1238,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          191,
+          66,
+          833,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "Grey-violet and brown volcanic stone with paler grain and fissures; cap is not clearly darker.",
+        "lighting_visual": "Residual face shading remains; fully shadowless albedo requirement not met.",
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Paint one 1024 x 1024 RGBA texture-source image for the back view of an ash-stone pillar.\nInput 1 design_reference.png is ONLY the approved design, colour and material authority (three-quarter view); do not copy its camera or silhouette.\nInput 2 guide_back.png is the EDIT TARGET, a grey orthographic back view of the exact model on transparency. Its alpha silhouette and all shape edges are authoritative.\nPaint surface materials onto input 2 without changing ANY geometry, camera, framing, shape, position or scale. Keep its silhouette EXACTLY, including every angular ledge, rock, opening, rubble shape, edge and detail. No additions outside the silhouette, no cropping. Keep the full 1024 x 1024 canvas and transparent margins. The guide's occupied bounds are x=191..832, y=66..957. Preserve the exact pixel alpha boundary.\nMaterials from the design: layered grey-violet and dark brown volcanic stone, paler ash in grooves, a darker cap rock, detailed weathered grain and fine fissures. Maintain the guide's exact slab edges and rubble positions, using colour texture to describe material only.\nLIGHTING: this is albedo for texture projection, not a beauty render. Even, flat, shadowless illumination from the viewer on ALL surfaces, including undersides and crevices. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Dark brown is material colour, not black shadow. Pale ash remains visible in the grooves. No background, no floor, no halo. Do not transfer lighting from the reference or guide.\nReturn exactly one unresized 1024 x 1024 transparent PNG, no text.\nCORRECTIVE GENERATION (only permitted correction): The previous attempt returned 1254 x 1254 and had shaded undersides. Generate natively at EXACTLY 1024 x 1024 pixels. Do not upscale or resize the output. Start again from the original guide_back.png edit target, preserving its alpha channel EXACTLY; do not recreate the boundary or add faint opacity outside it. The guide is already 1024 x 1024. Retain every original interior geometry edge. Paint all faces with equally bright diffuse albedo and fine material grain. Undersides must be the same overall brightness as upper surfaces, with no dark bands beneath ledges. Use grey-violet and dark brown stone colour, paler ash grooves and a modestly darker cap as pigment, not lighting. The output must be a 1024 x 1024 transparent PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604c-34fe-7eb0-a652-b681879d7fbe/exec-1b09aa49-54f2-4f4c-8344-2883b110a01d.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted unmodified returns, with flatter surface lighting. Selection does not imply full brief compliance; see checks.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "55769837b2f6f170e4631addfc8deb363ea26854b54f750985c1b816f1225300"
+        }
+      ],
+      "output_sha256": "819c7315a500c21e4d90f4976fcd5363cc079fe8d084e0e064e83aa7d901e197",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1195243,
+        "alpha_bbox": [
+          0,
+          21,
+          1242,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          191,
+          66,
+          833,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "Grey-violet and brown volcanic stone with paler grain and fissures; cap is not clearly darker.",
+        "lighting_visual": "Residual face shading remains; fully shadowless albedo requirement not met.",
+        "unresized_return": true
+      }
+    }
+  ],
+  "status": "Best available return saved; exact dimensions, silhouette and fully flat lighting requirements were not met. One corrective generation exhausted. No resizing or postprocessing performed."
+}

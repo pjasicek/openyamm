@@ -1,0 +1,30 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint ONLY the grey objects in guide_atlas.png (edit target, first input). Produce ONE 1536x1024 PNG with a genuinely transparent background. Preserve the exact guide alpha silhouettes, positions, sizes, orthographic views and layout: 3 columns x 2 rows of 512x512 cells; row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, empty. Do not redraw, enlarge, move or redesign geometry. Second input design_reference.png is the approved material/detail reference only, not the shape or camera. Third input icon_x8.png is the colour reference only; magenta is background and must not appear. Object: Queen's Diamond, a round brilliant-cut diamond with flat table, crown facets and pointed pavilion, lying on the ground. Paint unlit base colour: clear colourless diamond, white and pale grey facets with faint cool blue tints. Facet detail follows the design reference scaled to each orthographic view, with restrained pale tonal facet distinctions. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text. Do not transfer the photographic reflections or rainbow highlights from the references. Keep all gaps and openings and everything outside the five guide silhouettes fully transparent. The lower-right cell stays entirely empty and transparent. Preserve the guide's flat table and low crown side silhouettes and its broad circular top view exactly.\nCORRECTION: The previous attempt incorrectly filled the background with opaque smoky halos. This is an alpha-mask-critical texture atlas. Copy the FIRST INPUT guide's exact alpha mask: zero alpha everywhere outside its five objects, including the entire empty sixth cell. No smoky background, no gradient backdrop, no bloom. Paint flat pale facet colour only inside the existing guide mask. The output must be RGBA with actual transparent pixels, not a black or grey background.",
+  "initial_prompt": "Use case: precise-object-edit. Paint ONLY the grey objects in guide_atlas.png (edit target, first input). Produce ONE 1536x1024 PNG with a genuinely transparent background. Preserve the exact guide alpha silhouettes, positions, sizes, orthographic views and layout: 3 columns x 2 rows of 512x512 cells; row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, empty. Do not redraw, enlarge, move or redesign geometry. Second input design_reference.png is the approved material/detail reference only, not the shape or camera. Third input icon_x8.png is the colour reference only; magenta is background and must not appear. Object: Queen's Diamond, a round brilliant-cut diamond with flat table, crown facets and pointed pavilion, lying on the ground. Paint unlit base colour: clear colourless diamond, white and pale grey facets with faint cool blue tints. Facet detail follows the design reference scaled to each orthographic view, with restrained pale tonal facet distinctions. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text. Do not transfer the photographic reflections or rainbow highlights from the references. Keep all gaps and openings and everything outside the five guide silhouettes fully transparent. The lower-right cell stays entirely empty and transparent. Preserve the guide's flat table and low crown side silhouettes and its broad circular top view exactly.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce6-7a59-7310-a9c2-927bf27f1c49/exec-02f506cc-e885-4998-b01e-20cfbd3ea2c9.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem10/guide_atlas.png",
+      "sha256": "ead84c721a64e7f2caf2fbda44028ba66307e3f1df225aa49fb321fe19fb730e"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem10/design_reference.png",
+      "sha256": "aafdb1c508a8f13b7d1b293b056317c487cda1dc5529e0aa065ce5d63192a9ba"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem10/icon_x8.png",
+      "sha256": "6ddbc878a6e574a5d8c0983ebbc7b2398117023cc2056a7741d701eb3c09af88"
+    }
+  ],
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem10/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "validation": "Failed: visible background halos remain after the single permitted corrective generation; raw output preserved without modification."
+}

@@ -1,0 +1,3 @@
+Saved `01_front.png`–`04_right.png`, updated `generation_runs.json` with all prompts, and wrote [selected_views_review.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_dagrell_claude/references_hd/selected_views_review.png). Used built-in image generation; frozen `00` is byte-identical.
+
+The permitted correction pass is exhausted. Results still fail halo, claw-count and pose checks; these limitations are recorded.

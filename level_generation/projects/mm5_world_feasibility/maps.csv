@@ -1,0 +1,130 @@
+id,name,scope,category,width,height,blocks,npcSites,serviceSites,npcOrServiceSites,eventSites,helperScriptSites,eventRecords,square,plan
+1,Area A1,MM5,surface,16,16,1,0,0,0,2,0,23,A1,plans/001.png
+2,Area A2,MM5,surface,16,16,2,0,0,0,9,1,33,A2,plans/002.png
+3,Area A3,MM5,surface,16,16,3,4,0,4,21,4,261,A3,plans/003.png
+4,Area A4,MM5,surface,16,16,4,4,0,4,15,0,123,A4,plans/004.png
+5,Area B1,MM5,surface,16,16,5,1,0,1,9,0,61,B1,plans/005.png
+6,Area B2,MM5,surface,16,16,6,4,0,4,17,0,75,B2,plans/006.png
+7,Area B3,MM5,surface,16,16,7,4,0,4,17,2,193,B3,plans/007.png
+8,Area B4,MM5,surface,16,16,8,1,0,1,7,0,85,B4,plans/008.png
+9,Area C1,MM5,surface,16,16,9,0,0,0,3,0,22,C1,plans/009.png
+10,Area C2,MM5,surface,16,16,10,3,0,3,9,0,83,C2,plans/010.png
+11,Area C3,MM5,surface,16,16,11,0,0,0,4,0,27,C3,plans/011.png
+12,Area C4,MM5,surface,16,16,12,1,0,1,12,0,178,C4,plans/012.png
+13,Area D1,MM5,surface,16,16,13,2,0,2,8,0,105,D1,plans/013.png
+14,Area D2,MM5,surface,16,16,14,1,0,1,9,0,70,D2,plans/014.png
+15,Area D3,MM5,surface,16,16,15,2,0,2,5,0,91,D3,plans/015.png
+16,Area D4,MM5,surface,16,16,16,0,0,0,8,0,90,D4,plans/016.png
+17,Area E1,MM5,surface,16,16,17,2,0,2,12,1,56,E1,plans/017.png
+18,Area E2,MM5,surface,16,16,18,2,0,2,5,0,51,E2,plans/018.png
+19,Area E3,MM5,surface,16,16,19,6,0,6,12,0,75,E3,plans/019.png
+20,Area E4,MM5,surface,16,16,20,1,0,1,18,0,125,E4,plans/020.png
+21,Area F1,MM5,surface,16,16,21,1,0,1,26,0,99,F1,plans/021.png
+22,Area F2,MM5,surface,16,16,22,0,0,0,13,0,29,F2,plans/022.png
+23,Area F3,MM5,surface,16,16,23,0,0,0,14,0,56,F3,plans/023.png
+24,Area F4,MM5,surface,16,16,24,2,0,2,17,1,79,F4,plans/024.png
+25,Elemental Plane of Fire,MM5,plane,16,16,25,1,0,1,15,0,44,,plans/025.png
+26,Elemental Plane of Air,MM5,plane,16,16,26,1,0,1,15,0,44,,plans/026.png
+27,Elemental Plane of Earth,MM5,plane,16,16,27,1,0,1,15,0,44,,plans/027.png
+28,Elemental Plane of Water,MM5,plane,16,16,28,1,0,1,15,0,44,,plans/028.png
+29,Castleview,MM5,town,32,32,29|130|131|132,35,6,41,158,6,869,,plans/029.png
+30,Castleview Sewer,MM5,interior,32,32,30|133|134|135,2,0,2,63,8,325,,plans/030.png
+31,Sandcaster,MM5,town,32,32,31|136|137|138,27,5,32,145,0,630,,plans/031.png
+32,Sandcaster Sewer,MM5,interior,32,32,32|139|140|141,1,0,1,27,1,183,,plans/032.png
+33,Lakeside,MM5,town,16,16,33,5,1,6,43,0,194,,plans/033.png
+34,Lakeside Sewer,MM5,interior,16,16,34,1,0,1,25,1,106,,plans/034.png
+35,Necropolis,MM5,town,16,16,35,1,1,2,31,0,373,,plans/035.png
+36,Necropolis Sewer,MM5,interior,16,16,36,0,0,0,30,0,350,,plans/036.png
+37,Olympus,MM5,town,16,16,37,6,5,11,33,0,96,,plans/037.png
+38,Olympus Sewer,MM5,interior,16,16,38,1,0,1,14,0,59,,plans/038.png
+39,Gemstone Mines,MM5,interior,32,32,39|142|143|144,1,0,1,115,7,1712,,plans/039.png
+40,Troll Holes,MM5,interior,32,32,40|145|146|147,1,0,1,99,7,473,,plans/040.png
+41,Castle Kalindra Level 1,MM5,interior,16,16,41,8,0,8,41,0,471,,plans/041.png
+42,Castle Kalindra Level 2,MM5,interior,16,16,42,2,0,2,33,0,359,,plans/042.png
+43,Castle Kalindra Level 3,MM5,interior,16,16,43,0,4,4,32,0,167,,plans/043.png
+44,Castle Kalindra Dungeon,MM5,interior,16,16,44,1,0,1,40,0,422,,plans/044.png
+45,Castle Blackfang Level 1,MM5,interior,16,16,45,1,0,1,36,0,233,,plans/045.png
+46,Castle Blackfang Level 2,MM5,interior,16,16,46,0,0,0,30,0,138,,plans/046.png
+47,Castle Blackfang Level 3,MM5,interior,16,16,47,0,0,0,30,0,196,,plans/047.png
+48,Castle Blackfang Dungeon,MM5,interior,16,16,48,1,0,1,2,0,25,,plans/048.png
+49,Castle Alamar Level 1,MM5,interior,16,16,49,0,0,0,91,0,152,,plans/049.png
+50,Castle Alamar Level 2,MM5,interior,16,16,50,0,0,0,119,4,728,,plans/050.png
+51,Castle Alamar Level 3,MM5,interior,16,16,51,0,0,0,87,0,121,,plans/051.png
+52,Castle Alamar Dungeon,MM5,interior,16,16,52,1,0,1,18,0,191,,plans/052.png
+53,Ellinger's Tower Lvl 1,MM5,interior,16,16,53,0,0,0,11,0,133,,plans/053.png
+54,Ellinger's Tower Lvl 2,MM5,interior,16,16,54,0,0,0,13,0,174,,plans/054.png
+55,Ellinger's Tower Lvl 3,MM5,interior,16,16,55,0,0,0,13,2,95,,plans/055.png
+56,Ellinger's Tower Lvl 4,MM5,interior,16,16,56,1,0,1,18,2,237,,plans/056.png
+57,Western Tower Lvl 1,MM5,interior,16,16,57,0,0,0,9,0,49,,plans/057.png
+58,Western Tower Lvl 2,MM5,interior,16,16,58,1,0,1,9,0,56,,plans/058.png
+59,Western Tower Lvl 3,MM5,interior,16,16,59,1,0,1,9,0,52,,plans/059.png
+60,Western Tower Lvl 4,MM5,interior,16,16,60,1,0,1,11,0,76,,plans/060.png
+61,Southern Tower Lvl 1,MM5,interior,16,16,61,0,0,0,12,0,152,,plans/061.png
+62,Southern Tower Lvl 2,MM5,interior,16,16,62,0,0,0,7,0,37,,plans/062.png
+63,Southern Tower Lvl 3,MM5,interior,16,16,63,0,0,0,18,0,89,,plans/063.png
+64,Southern Tower Lvl 4,MM5,interior,16,16,64,0,0,0,10,0,60,,plans/064.png
+65,Eastern Tower Lvl 1,MM5,interior,16,16,65,0,0,0,14,0,38,,plans/065.png
+66,Eastern Tower Lvl 2,MM5,interior,16,16,66,0,0,0,16,0,39,,plans/066.png
+67,Eastern Tower Lvl 3,MM5,interior,16,16,67,0,0,0,14,0,46,,plans/067.png
+68,Eastern Tower Lvl 4,MM5,interior,16,16,68,0,0,0,14,0,111,,plans/068.png
+69,Northern Tower Lvl 1,MM5,interior,16,16,69,0,0,0,12,0,101,,plans/069.png
+70,Northern Tower Lvl 2,MM5,interior,16,16,70,0,0,0,8,0,88,,plans/070.png
+71,Northern Tower Lvl 3,MM5,interior,16,16,71,0,0,0,10,0,111,,plans/071.png
+72,Northern Tower Lvl 4,MM5,interior,16,16,72,0,0,0,18,0,134,,plans/072.png
+73,Temple of Bark Lvl 1,MM5,interior,16,16,73,2,0,2,43,3,259,,plans/073.png
+74,Temple of Bark Lvl 2,MM5,interior,16,16,74,0,0,0,47,4,399,,plans/074.png
+75,Temple of Bark Lvl 3,MM5,interior,16,16,75,4,0,4,24,1,189,,plans/075.png
+76,Temple of Bark Lvl 4,MM5,interior,16,16,76,0,0,0,11,0,287,,plans/076.png
+77,Temple of Bark Lvl 5,MM5,interior,32,32,77|148|149|150,0,0,0,36,0,312,,plans/077.png
+78,Lost Souls Dungeon Lvl 1,MM5,interior,16,16,78,0,0,0,13,0,48,,plans/078.png
+79,Lost Souls Dungeon Lvl 3,MM5,interior,16,16,79,0,0,0,7,0,84,,plans/079.png
+80,Lost Souls Dungeon Lvl 2,MM5,interior,16,16,80,0,0,0,26,1,418,,plans/080.png
+81,Lost Souls Dungeon Lvl 4,MM5,interior,16,16,81,0,0,0,76,1,435,,plans/081.png
+82,Lost Souls Dungeon Lvl 5,MM5,interior,32,32,82|151|152|153,0,0,0,40,0,360,,plans/082.png
+83,The Great Pyramid Level 1,MM5,interior,32,32,83|154|155|156,0,0,0,27,0,230,,plans/083.png
+84,The Great Pyramid Level 2,MM5,interior,32,32,84|157|158|159,0,0,0,6,0,23,,plans/084.png
+85,The Great Pyramid Level 3,MM5,interior,32,32,85|160|161|162,0,0,0,6,0,12,,plans/085.png
+86,The Great Pyramid Level 4,MM5,interior,16,16,86,1,0,1,7,0,118,,plans/086.png
+87,Escape Pod 1,MM5,interior,32,16,87|163,1,0,1,11,0,155,,plans/087.png
+88,Escpae Pod 2,MM5,interior,32,16,88|164,0,0,0,9,0,50,,plans/088.png
+89,Skyroad A1,MM5,sky,16,16,89,1,0,1,5,0,28,A1,plans/089.png
+90,Skyroad A2,MM5,sky,16,16,90,3,0,3,4,0,35,A2,plans/090.png
+91,Skyroad A3,MM5,sky,16,16,91,1,0,1,5,0,25,A3,plans/091.png
+92,Skyroad A4,MM5,sky,16,16,92,1,0,1,7,0,33,A4,plans/092.png
+93,Skyroad B1,MM5,sky,16,16,93,3,0,3,4,0,33,B1,plans/093.png
+94,Skyroad B2,MM5,sky,16,16,94,1,0,1,2,0,21,B2,plans/094.png
+95,Skyroad B3,MM5,sky,16,16,95,1,0,1,23,0,80,B3,plans/095.png
+96,Skyroad B4,MM5,sky,16,16,96,1,0,1,2,0,11,B4,plans/096.png
+97,Skyroad C1,MM5,sky,16,16,97,3,0,3,3,0,32,C1,plans/097.png
+98,Skyroad C2,MM5,sky,16,16,98,3,0,3,37,0,131,C2,plans/098.png
+99,Skyroad C3,MM5,sky,16,16,99,1,0,1,13,0,58,C3,plans/099.png
+100,Skyroad C4,MM5,sky,16,16,100,1,0,1,2,0,11,C4,plans/100.png
+101,Skyroad D1,MM5,sky,16,16,101,1,0,1,3,0,16,D1,plans/101.png
+102,Skyroad D2,MM5,sky,16,16,102,0,0,0,1,0,5,D2,plans/102.png
+103,Skyroad D3,MM5,sky,16,16,103,0,0,0,2,0,8,D3,plans/103.png
+104,Skyroad D4,MM5,sky,16,16,104,2,0,2,3,0,27,D4,plans/104.png
+105,Skyroad E1,MM5,sky,16,16,105,2,0,2,3,0,23,E1,plans/105.png
+106,Skyroad E2,MM5,sky,16,16,106,4,0,4,4,0,48,E2,plans/106.png
+107,Skyroad E3,MM5,sky,16,16,107,4,0,4,8,0,26,E3,plans/107.png
+108,Skyroad E4,MM5,sky,16,16,108,2,0,2,14,0,56,E4,plans/108.png
+109,Skyroad F1,MM5,sky,16,16,109,2,0,2,7,0,45,F1,plans/109.png
+110,Skyroad F2,MM5,sky,16,16,110,4,0,4,4,0,44,F2,plans/110.png
+111,Skyroad F3,MM5,sky,16,16,111,1,0,1,3,0,16,F3,plans/111.png
+112,Skyroad F4,MM5,sky,16,16,112,2,0,2,13,0,44,F4,plans/112.png
+113,Darkstone Tower Level 1,WoX bonus,interior,16,16,113,0,0,0,8,0,37,,plans/113.png
+114,Darkstone Tower Level 2,WoX bonus,interior,16,16,114,0,0,0,7,0,27,,plans/114.png
+115,Darkstone Tower Level 3,WoX bonus,interior,16,16,115,0,0,0,8,0,38,,plans/115.png
+116,Darkstone Tower Level 4,WoX bonus,interior,16,16,116,0,0,0,9,0,50,,plans/116.png
+117,Dragon Tower Level 1,WoX bonus,interior,16,16,117,1,0,1,5,0,27,,plans/117.png
+118,Dragon Tower Level 2,WoX bonus,interior,16,16,118,0,0,0,16,0,52,,plans/118.png
+119,Dragon Tower Level 3,WoX bonus,interior,16,16,119,0,0,0,14,0,81,,plans/119.png
+120,Dragon Tower Level 4,WoX bonus,interior,16,16,120,0,0,0,13,0,75,,plans/120.png
+121,Dungeon of Death Level 1,WoX bonus,interior,32,32,121|165|166|167,0,0,0,93,0,1533,,plans/121.png
+122,Dungeon of Death Level 2,WoX bonus,interior,32,32,122|168|169|170,0,0,0,52,2,731,,plans/122.png
+123,Dungeon of Death Level 3,WoX bonus,interior,32,32,123|171|172|173,0,0,0,38,0,82,,plans/123.png
+124,Dungeon of Death Level 4,WoX bonus,interior,32,32,124|174|175|176,0,0,0,117,0,168,,plans/124.png
+125,Southern Sphinx Level 1,WoX bonus,interior,16,32,125|177,0,0,0,69,2,471,,plans/125.png
+126,Southern Sphinx Level 2,WoX bonus,interior,16,16,126,1,0,1,11,0,78,,plans/126.png
+127,Southern Sphinx Level 3,WoX bonus,interior,16,16,127,0,0,0,28,0,185,,plans/127.png
+128,Dragon Clouds,WoX bonus,interior,32,32,128|178|179|180,0,0,0,31,1,152,,plans/128.png
+129,Clouds of the Ancients,WoX bonus,interior,32,32,129|181|182|183,1,0,1,21,0,39,,plans/129.png

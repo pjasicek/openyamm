@@ -1,0 +1,22 @@
+{
+  "tool": "built-in imagegen",
+  "calls": 2,
+  "accepted": "raw/exact_join.png",
+  "rejected": "raw/rejected_pair.png",
+  "raw": {
+    "rejected_pair.png": "3e4908b1e0d11b636a4c0320b465cacf07d67af11fdb61a0446d18adcfebe5c9",
+    "exact_join.png": "cd93cd2eb45a9d59dee30eae3c6e7f5b6dff4efe9f4137e38ecb25d6e9f608df"
+  },
+  "prompts": {
+    "prompt.txt": "7626f5ffed7db0f710f61a746ae6250f8a2748f124ea7410849e8555d26704bb",
+    "join_prompt.txt": "9af92bf31b10a3b199ddec8435e47430bca1f92579da7afc4e6deb24daee1ef5"
+  },
+  "inputs": {
+    "drsrnw1_pair.png": "ff88a4db99274a7f7c2e1f7688ea801483538d24d57901aa743e60a39545e57f",
+    "drsrnw2_pair.png": "b2e64f7a8b7b7945076481afe783aac95cc1d03a268f1886833bb7c468ee108f",
+    "drsrne1_pair.png": "ce94865f29d8b194a5954c792378cb43acd596a10b6a18f224e5c0685f611291",
+    "accepted_stones.png": "66463e1d2dbe01f4de0edded5a79221f5f3093ced6dbe74894a5136a4e5bf0bb",
+    "drsrne2_pair.png": "0778f5fa2e6deafce2da2c9b2dfa7c10d4dbeb65ca71cd3c4dad7c78f16b495f",
+    "exact_join.png": "62651d5356a974f2d5578aa5713d6073fb82d21925f24c337c62452647c59461"
+  }
+}

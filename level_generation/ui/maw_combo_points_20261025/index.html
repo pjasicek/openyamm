@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Combo Points Study</title>
+<!--
+  Browser study for MAW's portrait class counter (ClassRules::portraitCounter, gameplay.yml ObsidianPcNCounter):
+  an Assassin's combo points (0-5, half points from arrows) and an Elementalist's stacks (no cap, halving when idle)
+  shown as pips instead of one number. Drawn over the native 1600x900 split-arc capture with the engine's arc
+  geometry (as maw_aura_reserve_20261025). Nothing here is wired into the game.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+@font-face { font-family: Alegreya; font-weight: 400 900; src: url(../../../assets_dev/engine/fonts/truetype/alegreya_variable.ttf); }
+:root { --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #9fa594; --gold: #e3c185; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 10px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33; flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit; cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review label { color: #c8c7a7; display: inline-flex; gap: 6px; align-items: center; }
+.review input[type=range] { width: 130px; }
+.review output { color: var(--gold); min-width: 30px; }
+#stage { display: block; width: 100%; height: auto; }
+section { padding: 14px 18px 4px; }
+h2 { font: 24px Fondamento, serif; color: var(--label); margin: 4px 0 10px; font-weight: normal; }
+.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.card { background: #0b1212; border: 1px solid #3c4436; padding: 10px; }
+.card.on { border-color: #d6bb80; }
+.card h3 { margin: 0 0 2px; font: 21px Fondamento, serif; color: var(--label); font-weight: normal; }
+.card .from { font: 600 14px Alegreya, serif; color: var(--muted); margin-bottom: 8px; }
+.card .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 4px; }
+.card figure { margin: 0; }
+.card svg { width: 100%; height: auto; display: block; background: #000; }
+.card figcaption { font: 600 13px Alegreya, serif; color: var(--muted); text-align: center; margin-top: 2px; }
+.card p { font: 600 15px/1.4 Alegreya, serif; color: var(--body); margin: 8px 0 0; }
+body.export .review, body.export section { display: none; }
+body.export-closeups .review, body.export-closeups #stage { display: none; }
+</style>
+</head>
+<body>
+<div class="review">
+  <span>Option</span>
+  <button data-option="now">Today · number</button>
+  <button data-option="A">A · Segment arc</button>
+  <button data-option="B">B · Gems</button>
+  <button data-option="C">C · Pip row</button>
+  <button data-option="D">D · Socket ring</button>
+  <label>Alexis's combo <input id="combo" type="range" min="0" max="5" step="0.5" value="3.5"><output id="comboOut"></output></label>
+  <label>Zoltan's stacks <input id="stacks" type="range" min="0" max="24" step="1" value="7"><output id="stacksOut"></output></label>
+  <label><input id="buttons" type="checkbox" checked> Potion buttons</label>
+</div>
+
+<svg id="stage" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg"></svg>
+
+<section>
+  <h2>Close-ups: Alexis (Assassin) at 0 · 2.5 · 5 combo points, Zoltan (Elementalist) at 3 · 10 · 17 stacks</h2>
+  <div class="grid" id="closeups"></div>
+</section>
+
+<script>
+'use strict';
+// Engine geometry at 1600x900 (HUD scale 1.875), as maw_aura_reserve_20261025: ObsidianPcN Health/Mana are 60.4 x 76.8
+// logical units around the face's centre with a 4.6-unit stroke; HP sweeps 100 -> 260 degrees, mana 80 -> -80.
+const Scale = 1.875;
+const Rx = 30.2 * Scale, Ry = 38.4 * Scale, Stroke = 4.6 * Scale;
+const centre = i => [498.5 + 150 * i, 802];
+const HealthArc = [100, 160], ManaArc = [80, -160];
+const Colours = {
+  hpHigh: ['#acd69b', '#80ad77', '#315834'], hpMid: ['#ead28c', '#c7a557', '#766031'],
+  hpLow: ['#e99682', '#c9685e', '#76362d'], mana: ['#abcfd8', '#73a4b7', '#2d596a'],
+  trackEdge: '#938666', track: '#0a1312',
+};
+// Alexis is the Assassin (energy on the mana arc), Zoltan the Elementalist.
+const Party = [
+  { name: 'Fredrick', hp: 0.92, mana: 0.40 }, { name: 'Alexis', hp: 0.80, mana: 0.62, kind: 'combo' },
+  { name: 'Serena', hp: 0.46, mana: 0.30 }, { name: 'Lys', hp: 0.60, mana: 0.48 },
+  { name: 'Zoltan', hp: 0.88, mana: 0.55, kind: 'stacks' },
+];
+const state = { option: 'B', combo: 3.5, stacks: 7, buttons: true };
+// The Assassin's cap (MawCombatRules: min(5, ...)); the Elementalist's stacks have no cap, 10 is where the cast delay
+// is back to normal and the damage doubled (CLASSES_SPELLS_SPEC §5.5), so the pips count to 10 and a number goes on.
+const ComboMax = 5, StackPips = 10;
+
+function point(c, arc, t, offset = 0)
+{
+  const a = (arc[0] + arc[1] * t) * Math.PI / 180;
+  return [c[0] + (Rx + offset) * Math.cos(a), c[1] + (Ry + offset) * Math.sin(a)];
+}
+function pointAt(c, degrees, offset)
+{
+  const a = degrees * Math.PI / 180;
+  return [c[0] + (Rx + offset) * Math.cos(a), c[1] + (Ry + offset) * Math.sin(a)];
+}
+function path(c, arc, from, to, offset = 0)
+{
+  if (to <= from) return '';
+  const steps = Math.max(2, Math.ceil((to - from) * 64));
+  let d = '';
+  for (let s = 0; s <= steps; ++s)
+  {
+    const p = point(c, arc, from + (to - from) * s / steps, offset);
+    d += (s ? 'L' : 'M') + p[0].toFixed(2) + ' ' + p[1].toFixed(2);
+  }
+  return d;
+}
+function degPath(c, a0, a1, offset)
+{
+  return path(c, [a0, a1 - a0], 0, 1, offset);
+}
+const stroke = (d, colour, width, extra = '') => d ? `<path d="${d}" fill="none" stroke="${colour}" stroke-width="${width}" ${extra}/>` : '';
+function shaded(c, arc, from, to, colours)
+{
+  return stroke(path(c, arc, from, to), colours[1], Stroke)
+    + stroke(path(c, arc, from, to, Stroke * 0.32), colours[0], Stroke * 0.3)
+    + stroke(path(c, arc, from, to, -Stroke * 0.34), colours[2], Stroke * 0.28);
+}
+function track(c, arc)
+{
+  return stroke(path(c, arc, 0, 1), Colours.trackEdge, Stroke + 1.7 * Scale) + stroke(path(c, arc, 0, 1), Colours.track, Stroke + 0.5 * Scale);
+}
+const healthColours = f => f >= 0.66 ? Colours.hpHigh : f > 0.33 ? Colours.hpMid : Colours.hpLow;
+function gauges(c, m)
+{
+  return track(c, HealthArc) + shaded(c, HealthArc, 0, m.hp, healthColours(m.hp))
+    + track(c, ManaArc) + shaded(c, ManaArc, 0, m.mana, Colours.mana);
+}
+// The potion quick-slot button at the portrait's upper right (native: maw_potion_radial_20261025/native/buttons.jpg).
+function potionButton(c)
+{
+  const x = c[0] + 48, y = c[1] - 53;
+  return `<circle cx="${x}" cy="${y}" r="18" fill="#0d1716" stroke="#8c815f" stroke-width="2"/>
+    <circle cx="${x}" cy="${y}" r="7" fill="none" stroke="#5b5a45" stroke-width="1.4"/>`;
+}
+
+// Lit colours: combo points red as in WoW, Elementalist stacks a hot fire orange; past 10 the stacks go ivory-gold.
+const Lit = { combo: ['#ff8a70', '#d8402c', '#6e1408'], stacks: ['#ffd27a', '#f08a2a', '#7a3408'], over: ['#fff4c8', '#f2d27a', '#8a6420'] };
+function amountFor(m) { return m.kind === 'combo' ? state.combo : state.stacks; }
+function countText(m, v) { return m.kind === 'combo' ? String(Math.floor(v)) : String(v); }
+
+// Pips are slots 0..n-1 with a fill 0..1 each (a half point fills half a slot).
+function fills(m, v)
+{
+  const n = m.kind === 'combo' ? ComboMax : StackPips;
+  const lap = m.kind === 'stacks' && v > n;
+  const shown = lap ? v - n : v;
+  return { n, lap, slots: Array.from({ length: n }, (_, k) => Math.max(0, Math.min(1, (lap ? (k < shown ? 1 : 0) : v - k)))) };
+}
+
+// A: a thin outer arc beside the top of the HP arc, cut into N segments.
+function optionA(c, m, v)
+{
+  const f = fills(m, v);
+  const a0 = 160, a1 = 238, gap = f.n === 5 ? 3 : 2;
+  const off = Stroke * 0.5 + 3.6 * Scale, w = f.n === 5 ? 3.4 * Scale : 2.6 * Scale;
+  const span = (a1 - a0 - gap * (f.n - 1)) / f.n;
+  let svg = '';
+  for (let k = 0; k < f.n; ++k)
+  {
+    const s0 = a0 + k * (span + gap), s1 = s0 + span;
+    const lit = f.lap ? (f.slots[k] ? Lit.over : Lit.stacks) : Lit[m.kind];
+    const fill = f.lap ? 1 : f.slots[k];
+    svg += stroke(degPath(c, s0, s1, off), '#000', w + 2.2) + stroke(degPath(c, s0, s1, off), '#1a2220', w);
+    if (fill > 0)
+    {
+      // Fills run from the bottom of the arc up (the order the points come in).
+      const e = s0 + span * fill;
+      svg += stroke(degPath(c, s0, e, off), lit[1], w) + stroke(degPath(c, s0, e, off + w * 0.28), lit[0], w * 0.3);
+    }
+  }
+  if (m.kind === 'stacks' && v > 0)
+  {
+    const p = pointAt(c, a0 - 10, off + 1);
+    svg += badge(p, String(v), f.lap);
+  }
+  return svg;
+}
+
+function badge(p, text, hot)
+{
+  const w = 10 + 7 * text.length;
+  return `<rect x="${p[0] - w / 2}" y="${p[1] - 9}" width="${w}" height="18" rx="9" fill="#0b1212" stroke="${hot ? '#f2d27a' : '#8c815f'}" stroke-width="1.4"/>
+    <text x="${p[0]}" y="${p[1] + 4.5}" text-anchor="middle" font-family="Lucida" font-size="13" fill="${hot ? '#fff4c8' : '#f2d27a'}">${text}</text>`;
+}
+
+function gem(p, r, fill, lit)
+{
+  const id = 'g' + Math.random().toString(36).slice(2, 8);
+  let svg = `<circle cx="${p[0]}" cy="${p[1]}" r="${r + 1.6}" fill="#000"/><circle cx="${p[0]}" cy="${p[1]}" r="${r + 0.8}" fill="#6f6448"/>
+    <circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="url(#socket)"/>`;
+  if (fill > 0)
+  {
+    svg += `<defs><radialGradient id="${id}" cx="0.38" cy="0.32" r="0.75"><stop offset="0" stop-color="${lit[0]}"/>
+      <stop offset="0.55" stop-color="${lit[1]}"/><stop offset="1" stop-color="${lit[2]}"/></radialGradient>
+      <clipPath id="${id}c"><rect x="${p[0] - r}" y="${p[1] + r - 2 * r * fill}" width="${2 * r}" height="${2 * r * fill}"/></clipPath></defs>
+      <circle cx="${p[0]}" cy="${p[1]}" r="${r}" fill="url(#${id})" clip-path="url(#${id}c)"/>
+      <circle cx="${p[0] - r * 0.32}" cy="${p[1] - r * 0.36}" r="${r * 0.26}" fill="#fff" opacity="${fill === 1 ? 0.55 : 0.25}"/>`;
+  }
+  return svg;
+}
+
+// B: WoW-like round gems on an arc outside the upper-left of the HP arc.
+function optionB(c, m, v)
+{
+  const f = fills(m, v);
+  const five = f.n === 5;
+  const off = Stroke * 0.5 + (five ? 8.5 : 6.5) * Scale, r = five ? 6.6 : 4.6;
+  const a0 = five ? 160 : 164, a1 = five ? 236 : 244;
+  let svg = '';
+  for (let k = 0; k < f.n; ++k)
+  {
+    const a = a0 + (a1 - a0) * k / (f.n - 1);
+    const lit = f.lap ? (f.slots[k] ? Lit.over : Lit.stacks) : Lit[m.kind];
+    svg += gem(pointAt(c, a, off), r, f.lap ? 1 : f.slots[k], lit);
+  }
+  if (m.kind === 'stacks' && v > 0) svg += badge(pointAt(c, 151, off - 2), String(v), f.lap);
+  return svg;
+}
+
+// C: a row of small diamonds in the basebar under the face, between the aggro diamond and the buff star.
+function optionC(c, m, v)
+{
+  const f = fills(m, v);
+  const five = f.n === 5;
+  const step = five ? 12.5 : 8.2, s = five ? 5.2 : 3.6;
+  const y = c[1] + 71;
+  let svg = '';
+  for (let k = 0; k < f.n; ++k)
+  {
+    const x = c[0] + (k - (f.n - 1) / 2) * step;
+    const lit = f.lap ? (f.slots[k] ? Lit.over : Lit.stacks) : Lit[m.kind];
+    const fill = f.lap ? 1 : f.slots[k];
+    const d = `M${x} ${y - s}L${x + s} ${y}L${x} ${y + s}L${x - s} ${y}Z`;
+    svg += `<path d="${d}" fill="#141b19" stroke="#000" stroke-width="2.4"/><path d="${d}" fill="#141b19" stroke="#6f6448" stroke-width="1"/>`;
+    if (fill > 0)
+    {
+      const id = 'c' + Math.random().toString(36).slice(2, 8);
+      svg += `<defs><clipPath id="${id}"><rect x="${x - s}" y="${y + s - 2 * s * fill}" width="${2 * s}" height="${2 * s * fill}"/></clipPath></defs>
+        <path d="${d}" fill="${lit[1]}" stroke="${lit[0]}" stroke-width="0.9" clip-path="url(#${id})"/>`;
+    }
+  }
+    return svg;
+}
+
+// D: today's place and number, inside a round socket whose ring is cut into N segments.
+function optionD(c, m, v)
+{
+  const f = fills(m, v);
+  const p = [c[0] - 60, c[1] - 56], r = 13.5, w = 3.6;
+  let svg = `<circle cx="${p[0]}" cy="${p[1]}" r="${r + 4}" fill="#0b1212" stroke="#000" stroke-width="1.5"/>`;
+  const gap = f.n === 5 ? 14 : 8;
+  const span = (360 - gap * f.n) / f.n;
+  for (let k = 0; k < f.n; ++k)
+  {
+    const s0 = -90 + gap / 2 + k * (span + gap);
+    const lit = f.lap ? (f.slots[k] ? Lit.over : Lit.stacks) : Lit[m.kind];
+    const fill = f.lap ? 1 : f.slots[k];
+    const arc = (a, b) => { const q = (t) => [p[0] + r * Math.cos(t * Math.PI / 180), p[1] + r * Math.sin(t * Math.PI / 180)];
+      const A = q(a), B = q(b); return `M${A[0]} ${A[1]}A${r} ${r} 0 0 1 ${B[0]} ${B[1]}`; };
+    svg += stroke(arc(s0, s0 + span), '#27302d', w);
+    if (fill > 0) svg += stroke(arc(s0, s0 + span * fill), lit[1], w);
+  }
+  svg += `<text x="${p[0]}" y="${p[1] + 5}" text-anchor="middle" font-family="Lucida" font-size="15" fill="${f.lap ? '#fff4c8' : '#f2d27a'}">${countText(m, v)}</text>`;
+  return svg;
+}
+
+// Today: the label ObsidianPcNCounter, Lucida 0.75 in #f2d27a at the portrait's upper-left corner.
+function optionNow(c, m, v)
+{
+  return `<text x="${c[0] - 56}" y="${c[1] - 54}" text-anchor="middle" font-family="Lucida" font-size="17" fill="#f2d27a"
+    stroke="#000" stroke-width="3" paint-order="stroke">${countText(m, v)}</text>`;
+}
+
+const Options = { now: optionNow, A: optionA, B: optionB, C: optionC, D: optionD };
+const Defs = `<defs><radialGradient id="socket" cx="0.45" cy="0.4" r="0.7"><stop offset="0" stop-color="#2a2f2c"/>
+  <stop offset="1" stop-color="#080b0a"/></radialGradient></defs>`;
+const Backdrop = '<image href="../maw_potion_radial_20261025/gameplay_backdrop.jpg" width="1600" height="900"/>';
+
+function scene(option, combo, stacks)
+{
+  const saved = { combo: state.combo, stacks: state.stacks };
+  state.combo = combo; state.stacks = stacks;
+  let svg = Defs + Backdrop;
+  Party.forEach((m, i) =>
+  {
+    const c = centre(i);
+    svg += gauges(c, m);
+    if (state.buttons) svg += potionButton(c);
+    if (m.kind) svg += Options[option](c, m, amountFor(m));
+  });
+  Object.assign(state, saved);
+  return svg;
+}
+
+function tooltip()
+{
+  const x = 560, y = 520;
+  return `<foreignObject x="${x}" y="${y}" width="330" height="128"><div xmlns="http://www.w3.org/1999/xhtml"
+    style="padding:9px 12px;background:#0b1212f2;border:1px solid #8c815f;font:600 15px/1.45 Alegreya,serif;color:#c8c7a7;box-shadow:0 4px 12px #000c">
+    <div style="font:19px Fondamento,serif;color:#e6d1a8">Alexis · Combo points</div>
+    <div style="display:flex;justify-content:space-between"><span>Combo points</span><span style="color:#ff8a70">${state.combo} / 5</span></div>
+    <div style="display:flex;justify-content:space-between"><span>Blades costs 3 · Fireball 5</span><span style="color:#8fe08a">${state.combo >= 3 ? 'Blades ready' : 'building'}</span></div>
+    <div style="color:#9fa594">+1 per paying blow or kill, +0.5 per arrow</div></div></foreignObject>`;
+}
+
+function render()
+{
+  document.getElementById('stage').innerHTML = scene(state.option, state.combo, state.stacks)
+    + (state.option !== 'now' && new URLSearchParams(location.search).get('hover') === '1' ? tooltip() : '');
+  document.getElementById('comboOut').textContent = state.combo;
+  document.getElementById('stacksOut').textContent = state.stacks;
+  for (const b of document.querySelectorAll('[data-option]')) b.setAttribute('aria-pressed', b.dataset.option === state.option);
+  renderCloseups();
+}
+
+const Cards = [
+  { id: 'now', title: 'Today · number', from: 'ObsidianPcNCounter', text: 'One small gold number at the upper left. Exact, but says nothing of the cap or of half points.' },
+  { id: 'A', title: 'A · Segment arc', from: 'Our HP/mana arc language', text: 'A thin arc outside the top of the HP arc, cut into 5 (10) segments that fill upward; a half point fills half a segment.' },
+  { id: 'B', title: 'B · Gems', from: 'As World of Warcraft', text: 'Five round sockets on an arc around the upper left, a ruby lights per point; ten smaller ones for stacks.' },
+  { id: 'C', title: 'C · Pip row', from: 'Diablo III style pips', text: 'Small diamonds in the basebar under the face, between the aggro diamond and the buff star.' },
+  { id: 'D', title: 'D · Socket ring', from: 'Today\'s place, a cooldown ring', text: 'Keeps the number where it is today, in a socket whose ring is cut into 5 (10) segments.' },
+];
+
+function renderCloseups()
+{
+  let html = '';
+  for (const card of Cards)
+  {
+    html += `<div class="card ${card.id === state.option ? 'on' : ''}" data-card="${card.id}"><h3>${card.title}</h3><div class="from">${card.from}</div>`;
+    for (const [who, values, label] of [[1, [0, 2.5, 5], v => `${v} / 5`], [4, [3, 10, 17], v => `${v} stacks`]])
+    {
+      const c = centre(who);
+      html += '<div class="row">';
+      for (const v of values)
+      {
+        html += `<figure><svg viewBox="${c[0] - 92} ${c[1] - 106} 184 196" xmlns="http://www.w3.org/2000/svg">`
+          + scene(card.id, who === 1 ? v : state.combo, who === 4 ? v : state.stacks) + `</svg><figcaption>${label(v)}</figcaption></figure>`;
+      }
+      html += '</div>';
+    }
+    html += `<p>${card.text}</p></div>`;
+  }
+  const el = document.getElementById('closeups');
+  el.innerHTML = html;
+  for (const card of el.querySelectorAll('[data-card]')) card.onclick = () => { state.option = card.dataset.card; render(); };
+}
+
+const q = new URLSearchParams(location.search);
+state.option = q.get('option') ?? state.option;
+if (q.has('combo')) state.combo = Number(q.get('combo'));
+if (q.has('stacks')) state.stacks = Number(q.get('stacks'));
+state.buttons = q.get('buttons') !== '0';
+if (q.get('export') === 'stage' || q.get('export') === '1') document.body.classList.add('export');
+if (q.get('export') === 'closeups') document.body.classList.add('export-closeups');
+document.getElementById('combo').value = state.combo;
+document.getElementById('stacks').value = state.stacks;
+document.getElementById('buttons').checked = state.buttons;
+for (const b of document.querySelectorAll('[data-option]')) b.onclick = () => { state.option = b.dataset.option; render(); };
+document.getElementById('combo').oninput = e => { state.combo = Number(e.target.value); render(); };
+document.getElementById('stacks').oninput = e => { state.stacks = Number(e.target.value); render(); };
+document.getElementById('buttons').onchange = e => { state.buttons = e.target.checked; render(); };
+document.fonts.ready.then(render);
+render();
+</script>
+</body>
+</html>

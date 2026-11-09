@@ -1,0 +1,91 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          -8128.0,
+          14848.0,
+          456.0
+        ],
+        "span": 12500
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm6/outc1_decor_settlement.png",
+      "camera_position": [
+        -2468.30712890625,
+        3528.6142578125,
+        14290.806640625
+      ],
+      "highlighted": [
+        {
+          "index": 323,
+          "name": "snotre01",
+          "position": [
+            -7120,
+            14272,
+            96
+          ]
+        },
+        {
+          "index": 457,
+          "name": "fla3__01",
+          "position": [
+            -6608,
+            15560,
+            2464
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "landscape",
+        "target": [
+          -1632,
+          2080,
+          262
+        ],
+        "span": 13000
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm6/outc1_decor_landscape.png",
+      "camera_position": [
+        4254.08056640625,
+        -9692.1611328125,
+        14650.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 375,
+          "name": "snotre03",
+          "position": [
+            -1632,
+            2080,
+            262
+          ]
+        },
+        {
+          "index": 350,
+          "name": "snotre01",
+          "position": [
+            -4032,
+            2048,
+            228
+          ]
+        },
+        {
+          "index": 415,
+          "name": "snotre03",
+          "position": [
+            -864,
+            4416,
+            246
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

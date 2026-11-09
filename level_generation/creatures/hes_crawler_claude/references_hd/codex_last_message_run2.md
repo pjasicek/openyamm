@@ -1,0 +1,3 @@
+Saved `01_front.png`–`04_right.png`, [selected_views_review.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_crawler_claude/references_hd/selected_views_review.png), and updated [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_crawler_claude/references_hd/generation_runs.json) with prompts, input hashes and checks. Used built-in image generation; masters remain unresized 1536×1024 RGBA.
+
+Stopped after one correction per view. Front/back still show six legs; camera and faint alpha-margin defects remain documented. No builds or Meshy calls.

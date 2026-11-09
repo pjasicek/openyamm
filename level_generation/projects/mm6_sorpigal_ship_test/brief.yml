@@ -1,0 +1,20 @@
+id: mm6_sorpigal_ship_test
+world: mm6
+status: playable_test_copy
+binary_format: OpenYAMM version-8 ODM
+request: Replace the New Sorpigal ship billboard with the ordinary MM8 Ravenshore ship in a separate test copy.
+base_map: oute3.odm
+donor_map: mm8/out02.odm
+donor_bmodels: [111, 112, 113, 114, 115]
+scope:
+  - Preserve New Sorpigal terrain, buildings, actors, events and services.
+  - Retire only ship decoration 477 and append the five native ship pieces.
+  - Import the twelve required textures with separate MM6 keys.
+  - Bind Odyssey service event 29 and house 496 only to the cabin door.
+  - Align the boarding opening with the pier and allow walking aboard and back without jumping.
+  - Bake lighting for the modified geometry.
+  - Leave the ordinary game asset root and saves untouched.
+review:
+  - Native views from the pier, above the berth and offshore.
+  - Native Odyssey interaction at the cabin door, and no dialogue on ordinary ship surfaces.
+  - Focused boarding in both directions and save/load smoke.

@@ -1,0 +1,103 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Create exactly one 1024 x 1024 PNG with genuine transparent background, a texture-source/albedo painting.\nInput 1 design_reference.png is the approved design, colour and material authority ONLY. Input 2 guide_back.png is the edit target and absolute geometry authority. Paint directly onto the second image's grey surfaces, preserving EXACTLY its silhouette, position, size, orthographic back camera, every shape edge, opening, occlusion and detail. Do not rotate, reframe, resize, rearrange, inflate, round off, add or remove any geometry. Retain the large empty margins exactly. Nothing outside the guide silhouette, nothing cropped.\nThe guide has three upright canisters on the left and centre, with a small partly occluded piece at far left; a stack of three broad crates on the right. Preserve all guide shapes and their precise boundaries. Parts hidden in this back view stay hidden, do not add visible fungi, basket, cable or glowing cell rack merely because present in the design reference.\nPaint the surface materials of the design reference onto this shape: worn white/ivory and ochre composite crates with black stencils and dark steel edge hardware, teal and orange markings as in approved reference; grey canisters with red-orange and teal caps, dark retaining struts. Dark woven synthetic basket, pale fungi, blue glowing cells in steel rack, black cable only where their surfaces are actually visible in the guide. The design image governs colour/material appearance, but its perspective and lighting MUST NOT be copied.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint subtle material wear without directional shading. Glowing parts are painted at their glowing colour, with no light cast on surroundings. No text labels or watermark.\nCritical: retain guide_back.png exact silhouette and geometry and 1024x1024 composition. Return unresized 1024x1024 transparent PNG.",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: incorrect dimensions and invented recessed handles absent from guide.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "b197d30ff6c32ca86da1438f90bc95b31a540638acd3b9190917451e3a8ed366"
+        }
+      ],
+      "sha256": "4d9f86696d05df871a2897e03eb87eb8a2729e4ff481b35336001941f1a28db8",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          37,
+          1238,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          289,
+          958,
+          735
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Broadly matches ivory, grey, teal, orange and dark steel design palette.",
+        "flat_lighting": "Partial: residual highlights and dark creases remain.",
+        "unresized": true
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Create exactly one 1024 x 1024 PNG with genuine transparent background, a texture-source/albedo painting.\nInput 1 design_reference.png is the approved design, colour and material authority ONLY. Input 2 guide_back.png is the edit target and absolute geometry authority. Paint directly onto the second image's grey surfaces, preserving EXACTLY its silhouette, position, size, orthographic back camera, every shape edge, opening, occlusion and detail. Do not rotate, reframe, resize, rearrange, inflate, round off, add or remove any geometry. Retain the large empty margins exactly. Nothing outside the guide silhouette, nothing cropped.\nThe guide has three upright canisters on the left and centre, with a small partly occluded piece at far left; a stack of three broad crates on the right. Preserve all guide shapes and their precise boundaries. Parts hidden in this back view stay hidden, do not add visible fungi, basket, cable or glowing cell rack merely because present in the design reference.\nPaint the surface materials of the design reference onto this shape: worn white/ivory and ochre composite crates with black stencils and dark steel edge hardware, teal and orange markings as in approved reference; grey canisters with red-orange and teal caps, dark retaining struts. Dark woven synthetic basket, pale fungi, blue glowing cells in steel rack, black cable only where their surfaces are actually visible in the guide. The design image governs colour/material appearance, but its perspective and lighting MUST NOT be copied.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint subtle material wear without directional shading. Glowing parts are painted at their glowing colour, with no light cast on surroundings. No text labels or watermark.\nCritical: retain guide_back.png exact silhouette and geometry and 1024x1024 composition. Return unresized 1024x1024 transparent PNG.\nCORRECTIVE GENERATION (the only correction allowed): The previous attempt returned 1254x1254 and changed geometry. Output MUST be native 1024 by 1024 pixels, not 1254, not 1280, not 1536. The guide alpha bounding box is x=66..957, y=289..734 on its 1024 square canvas. Copy that exact alpha silhouette and placement. Retain existing surface geometry; do not invent the large recessed crate handles or tall canister recesses from the design when the guide does not have those shapes. The crate backs have shallow small centre latch panels, exactly as the guide. Treat the grey guide as a locked image to colour in place, not a model to re-render. Outside its alpha silhouette must be exactly alpha zero, no stray pixels. No painted highlights, no shaded black halos in creases: even flat albedo. Image 2 is the sole camera, geometry, silhouette, edge and pixel-position authority.",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best of two permitted returns: corrected crate-back latch panels and fewer invented details. Retained unresized. Does not fully meet exact dimensions, silhouette or flat-albedo requirements.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "b197d30ff6c32ca86da1438f90bc95b31a540638acd3b9190917451e3a8ed366"
+        }
+      ],
+      "sha256": "3c61b0eb7f1838c66d7d7dce31253e54c788612987d44a210aa75c01a0d7464f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          28,
+          1242,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          289,
+          958,
+          735
+        ],
+        "silhouette_identical": false,
+        "materials_match": "Broadly matches ivory, grey, teal, orange and dark steel design palette.",
+        "flat_lighting": "Partial: residual highlights and dark creases remain.",
+        "unresized": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/images
+exit: true
+steps:
+- wait: 3
+- capture: nobody-ready
+- wait: 11
+- capture: selection-returns

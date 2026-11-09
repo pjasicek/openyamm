@@ -1,0 +1,17 @@
+output_dir: captures-1280
+exit: true
+steps:
+  - wait: 2
+  - key: Escape
+  - expect: pause
+  - click: [800, 366]
+  - capture: save-new
+  - click: [1000, 668]
+  - expect: text_input
+  - capture: save-name-editing
+  - click: [420, 324]
+  - capture: save-existing
+  - key: Escape
+  - expect: pause
+  - click: [800, 430]
+  - capture: load

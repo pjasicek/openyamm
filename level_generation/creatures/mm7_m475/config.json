@@ -1,0 +1,20 @@
+{
+  "label": "zBlasterGuy A",
+  "creature": "blaster_actor",
+  "base_palette": 527,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": true,
+  "batch_mode": "per_action_view",
+  "identity_frames": [
+    "m475sa0",
+    "m475sa1",
+    "m475sa2",
+    "m475sa3",
+    "m475sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The original adult human male blaster wielder, with medium straight brown hair, light tan skin and a short brown beard, black open-neck shirt with wide bright ivory V lapels, muted violet waistcoat panels and pale silver-lavender shoulder caps, dark brown studded belt, fitted black trousers, black knee boots and a long near-black cape with an exaggerated high pointed collar. A compact dark metal futuristic pistol is held low in his right hand. Preserve the native lean proportions, stern ordinary face, black tonal weight and small original weapon; no helmet, sword, extra armor or redesign.",
+  "protect_cool_purple": true,
+  "protect_warm_contours": false
+}

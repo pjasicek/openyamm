@@ -1,0 +1,7 @@
+Use case: style-transfer
+Asset type: seamless repeating overhead sky/cloud texture for the MM6 New Sorpigal outdoor renderer.
+Primary request: faithfully restore/upscale the first input image to 512x512 pixels (2x its native 256x256), improving cloud wisps and soft volume without redesigning the sky.
+Input images: Image 1 is the edit target, the actual runtime plansky1 sky. Image 2 is supporting reference only: the same original MM6 cloud artwork at 512x512, with a different palette. Preserve Image 1's muted pale slate-blue background and ivory/cream cloud palette; do not adopt Image 2's dark royal blue or yellow cast.
+Composition: preserve the exact overhead cloud layout, diagonal cloud bands, silhouettes, blue openings, coverage and orientation of Image 1. Flat full-bleed square texture, no perspective scene, no horizon or landscape.
+Style: natural, softly detailed wispy fair-weather clouds, faithful to the original fantasy game's artwork, smooth blue atmosphere and fine translucent cloud edges. Remove pixel stepping and palette banding, add restrained convincing cloud microstructure. Keep original contrast and cloud scale.
+Constraints: truly seamless tile on BOTH axes; clouds and background continue naturally across opposite edges, no frame, no edge fade, no mirroring or kaleidoscope. No new large clouds, no sun, stars, birds, objects, text, watermark, terrain, horizon, or dramatic lighting. Opaque RGB sky texture. Return just the restored square texture at 512x512.

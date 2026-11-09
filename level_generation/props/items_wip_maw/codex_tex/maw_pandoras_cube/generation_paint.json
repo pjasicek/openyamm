@@ -1,0 +1,30 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. The guide is a three-column FOUR-row grid with 512x512 cells. Preserve every object position, size, outline, gap and opening exactly. Paint grey objects only, never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Unlit base colour: dark aged bronze with intricate engraved geometric/runic patterns, darker grooves, small glowing blue gem inlays, blue gem lines and dots. Facets, engravings, scrollwork and inner swirls follow the approved design reference scaled to each guide view, without changing geometry. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No glow halo, sparkles or aura outside silhouette.\nRows 3-4 MATERIAL MASK: exact same five corresponding silhouettes FRONT, BACK, LEFT / RIGHT, TOP, empty, filled with FLAT pure colours only: #FF0000 for EVERY metal part (including dark grooves); #000000 for every gemstone, crystal, glass, pearl, mirror glass or liquid seen through glass. Every pixel inside gets exactly one of these colours. No shading, texture, outlines, antialiased colour blends inside. Match black gem mask regions to blue inlays in corresponding painted views.\nAll gaps and openings remain fully transparent exactly as guide. Column 3 of rows 2 and 4 empty transparent. Background fully transparent, no ground, no outlines, no text. Small cube-shaped bronze box rests on one face. Preserve guide registration with utmost precision.\nCORRECTION: The previous attempt had large red speckled debris outside the lower silhouettes. Absolutely no speckles or pixels outside original guide silhouettes. Use original guide alpha shapes exactly. Material mask grooves are METAL and must be pure RED, not black. Only blue gem inlays become black. Lower views must be absolutely flat red with only the gem center and narrow gem inlay channels black, no engraved lines represented as black and no relief shading. Keep original positions, proportions and full transparent gutters.",
+  "initial_prompt": "Edit the supplied paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. The guide is a three-column FOUR-row grid with 512x512 cells. Preserve every object position, size, outline, gap and opening exactly. Paint grey objects only, never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Unlit base colour: dark aged bronze with intricate engraved geometric/runic patterns, darker grooves, small glowing blue gem inlays, blue gem lines and dots. Facets, engravings, scrollwork and inner swirls follow the approved design reference scaled to each guide view, without changing geometry. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No glow halo, sparkles or aura outside silhouette.\nRows 3-4 MATERIAL MASK: exact same five corresponding silhouettes FRONT, BACK, LEFT / RIGHT, TOP, empty, filled with FLAT pure colours only: #FF0000 for EVERY metal part (including dark grooves); #000000 for every gemstone, crystal, glass, pearl, mirror glass or liquid seen through glass. Every pixel inside gets exactly one of these colours. No shading, texture, outlines, antialiased colour blends inside. Match black gem mask regions to blue inlays in corresponding painted views.\nAll gaps and openings remain fully transparent exactly as guide. Column 3 of rows 2 and 4 empty transparent. Background fully transparent, no ground, no outlines, no text. Small cube-shaped bronze box rests on one face. Preserve guide registration with utmost precision.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce9-a544-7b70-a2f8-09de62a9a36e/exec-d365c5b3-7e55-4127-a8d7-c2568f538efb.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_pandoras_cube/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_pandoras_cube/paint_mask_guide.png",
+      "sha256": "23f41f99383f26a9299304ccfc8c9a732e6c06786d9d260d23dba489b47b2ecb"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_pandoras_cube/design_reference.png",
+      "sha256": "d0eee11df79764aae3ce548b02c0810a8a46025fa2dd2cf478ddc11120a6978c"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_pandoras_cube/icon_x8.png",
+      "sha256": "e5e166111019538277971ad75ccbb6e9062a461a03dd5749ea5dc2e9baf58935"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": "Corrective generation retains stray red pixels outside mask silhouettes, mask colour variation and painted highlights; not fully compliant with brief."
+  }
+}

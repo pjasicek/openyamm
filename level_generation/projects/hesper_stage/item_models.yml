@@ -1,0 +1,132 @@
+# Hesper items' own ground models (level_generation/props/hesper_items_claude, installed by its install.py); stage.py
+# cooks each as worlds/hesper/models/item_<icon>.glb and binds it in place of the stand-in of items.yml's `ground`.
+models:
+  - {icon: hes_ablative_1, source: level_generation/props/hesper_items_claude/work/hes_ablative_1_export.glb}
+  - {icon: hes_ablative_2, source: level_generation/props/hesper_items_claude/work/hes_ablative_2_export.glb}
+  - {icon: hes_anchor_boots, source: level_generation/props/hesper_items_claude/work/hes_anchor_boots_export.glb}
+  - {icon: hes_arc_maul, source: level_generation/props/hesper_items_claude/work/hes_arc_maul_export.glb}
+  - {icon: hes_arc_rifle, source: level_generation/props/hesper_items_claude/work/hes_arc_rifle_export.glb}
+  - {icon: hes_archive_armoury_key, source: level_generation/props/hesper_items_claude/work/hes_archive_armoury_key_export.glb}
+  - {icon: hes_ash_cloak, source: level_generation/props/hesper_items_claude/work/hes_ash_cloak_export.glb}
+  - {icon: hes_aster_shard_1, source: level_generation/props/hesper_items_claude/work/hes_aster_shard_1_export.glb}
+  - {icon: hes_aster_shard_2, source: level_generation/props/hesper_items_claude/work/hes_aster_shard_2_export.glb}
+  - {icon: hes_aster_shard_3, source: level_generation/props/hesper_items_claude/work/hes_aster_shard_3_export.glb}
+  - {icon: hes_aster_shard_4, source: level_generation/props/hesper_items_claude/work/hes_aster_shard_4_export.glb}
+  - {icon: hes_asters_lens, source: level_generation/props/hesper_items_claude/work/hes_asters_lens_export.glb}
+  - {icon: hes_bastion_emitter, source: level_generation/props/hesper_items_claude/work/hes_bastion_emitter_export.glb, length: 58}
+  - {icon: hes_bastion_plate, source: level_generation/props/hesper_items_claude/work/hes_bastion_plate_export.glb, length: 80}
+  - {icon: hes_black_carapace, source: level_generation/props/hesper_items_claude/work/hes_black_carapace_export.glb, length: 80}
+  - {icon: hes_breach_charge, source: level_generation/props/hesper_items_claude/work/hes_breach_charge_export.glb}
+  - {icon: hes_breaker_lance, source: level_generation/props/hesper_items_claude/work/hes_breaker_lance_export.glb}
+  - {icon: hes_buckler_emitter, source: level_generation/props/hesper_items_claude/work/hes_buckler_emitter_export.glb, length: 48}
+  - {icon: hes_bulwarks_shell, source: level_generation/props/hesper_items_claude/work/hes_bulwarks_shell_export.glb, length: 80}
+  - {icon: hes_capacitor_1, source: level_generation/props/hesper_items_claude/work/hes_capacitor_1_export.glb}
+  - {icon: hes_capacitor_2, source: level_generation/props/hesper_items_claude/work/hes_capacitor_2_export.glb}
+  - {icon: hes_capacitor_belt, source: level_generation/props/hesper_items_claude/work/hes_capacitor_belt_export.glb}
+  - {icon: hes_carapace_mail, source: level_generation/props/hesper_items_claude/work/hes_carapace_mail_export.glb, length: 80}
+  - {icon: hes_coil_spear, source: level_generation/props/hesper_items_claude/work/hes_coil_spear_export.glb}
+  - {icon: hes_colony_log_tablet, source: level_generation/props/hesper_items_claude/work/hes_colony_log_tablet_export.glb}
+  - {icon: hes_conductor_ring, source: level_generation/props/hesper_items_claude/work/hes_conductor_ring_export.glb}
+  - {icon: hes_conductors_baton, source: level_generation/props/hesper_items_claude/work/hes_conductors_baton_export.glb}
+  - {icon: hes_coupler_1, source: level_generation/props/hesper_items_claude/work/hes_coupler_1_export.glb}
+  - {icon: hes_coupler_2, source: level_generation/props/hesper_items_claude/work/hes_coupler_2_export.glb}
+  - {icon: hes_coupler_3, source: level_generation/props/hesper_items_claude/work/hes_coupler_3_export.glb}
+  - {icon: hes_court_seal, source: level_generation/props/hesper_items_claude/work/hes_court_seal_export.glb}
+  - {icon: hes_crown_band, source: level_generation/props/hesper_items_claude/work/hes_crown_band_export.glb}
+  - {icon: hes_damper_1, source: level_generation/props/hesper_items_claude/work/hes_damper_1_export.glb}
+  - {icon: hes_damper_2, source: level_generation/props/hesper_items_claude/work/hes_damper_2_export.glb}
+  - {icon: hes_damping_1, source: level_generation/props/hesper_items_claude/work/hes_damping_1_export.glb}
+  - {icon: hes_damping_2, source: level_generation/props/hesper_items_claude/work/hes_damping_2_export.glb}
+  - {icon: hes_data_slate, source: level_generation/props/hesper_items_claude/work/hes_data_slate_export.glb}
+  - {icon: hes_dermal_1, source: level_generation/props/hesper_items_claude/work/hes_dermal_1_export.glb}
+  - {icon: hes_dermal_2, source: level_generation/props/hesper_items_claude/work/hes_dermal_2_export.glb}
+  - {icon: hes_disruptor_cannon, source: level_generation/props/hesper_items_claude/work/hes_disruptor_cannon_export.glb}
+  - {icon: hes_emp_grenade, source: level_generation/props/hesper_items_claude/work/hes_emp_grenade_export.glb}
+  - {icon: hes_engram, source: level_generation/props/hesper_items_claude/work/hes_engram_export.glb}
+  - {icon: hes_engram_core, source: level_generation/props/hesper_items_claude/work/hes_engram_core_export.glb}
+  - {icon: hes_engram_shard, source: level_generation/props/hesper_items_claude/work/hes_engram_shard_export.glb}
+  - {icon: hes_forgemasters_hammer, source: level_generation/props/hesper_items_claude/work/hes_forgemasters_hammer_export.glb}
+  - {icon: hes_founders_head, source: level_generation/props/hesper_items_claude/work/hes_founders_head_export.glb}
+  - {icon: hes_founders_repeater, source: level_generation/props/hesper_items_claude/work/hes_founders_repeater_export.glb}
+  - {icon: hes_gatekeepers_gorget, source: level_generation/props/hesper_items_claude/work/hes_gatekeepers_gorget_export.glb}
+  - {icon: hes_ghulkats_collar_key, source: level_generation/props/hesper_items_claude/work/hes_ghulkats_collar_key_export.glb}
+  - {icon: hes_glassback_heart, source: level_generation/props/hesper_items_claude/work/hes_glassback_heart_export.glb}
+  - {icon: hes_grafted_plate, source: level_generation/props/hesper_items_claude/work/hes_grafted_plate_export.glb, length: 80}
+  - {icon: hes_grav_boots, source: level_generation/props/hesper_items_claude/work/hes_grav_boots_export.glb}
+  - {icon: hes_grip_gauntlets, source: level_generation/props/hesper_items_claude/work/hes_grip_gauntlets_export.glb}
+  - {icon: hes_hesper_ration, source: level_generation/props/hesper_items_claude/work/hes_hesper_ration_export.glb}
+  - {icon: hes_hive_navigation_crystal, source: level_generation/props/hesper_items_claude/work/hes_hive_navigation_crystal_export.glb}
+  - {icon: hes_induction_ring, source: level_generation/props/hesper_items_claude/work/hes_induction_ring_export.glb}
+  - {icon: hes_insulator_cloak, source: level_generation/props/hesper_items_claude/work/hes_insulator_cloak_export.glb}
+  - {icon: hes_ion_carbine, source: level_generation/props/hesper_items_claude/work/hes_ion_carbine_export.glb}
+  - {icon: hes_ion_cell, source: level_generation/props/hesper_items_claude/work/hes_ion_cell_export.glb}
+  - {icon: hes_ion_coil, source: level_generation/props/hesper_items_claude/work/hes_ion_coil_export.glb}
+  - {icon: hes_ion_pike, source: level_generation/props/hesper_items_claude/work/hes_ion_pike_export.glb}
+  - {icon: hes_jammer, source: level_generation/props/hesper_items_claude/work/hes_jammer_export.glb}
+  - {icon: hes_kreegan_alloy, source: level_generation/props/hesper_items_claude/work/hes_kreegan_alloy_export.glb}
+  - {icon: hes_kreegan_gland, source: level_generation/props/hesper_items_claude/work/hes_kreegan_gland_export.glb}
+  - {icon: hes_lancer_carbine, source: level_generation/props/hesper_items_claude/work/hes_lancer_carbine_export.glb}
+  - {icon: hes_lander_log_core, source: level_generation/props/hesper_items_claude/work/hes_lander_log_core_export.glb}
+  - {icon: hes_last_light_of_hesper, source: level_generation/props/hesper_items_claude/work/hes_last_light_of_hesper_export.glb, length: 54}
+  - {icon: hes_lattice_halberd, source: level_generation/props/hesper_items_claude/work/hes_lattice_halberd_export.glb}
+  - {icon: hes_lattice_pendant, source: level_generation/props/hesper_items_claude/work/hes_lattice_pendant_export.glb}
+  - {icon: hes_lattice_staff, source: level_generation/props/hesper_items_claude/work/hes_lattice_staff_export.glb}
+  - {icon: hes_load_gauntlets, source: level_generation/props/hesper_items_claude/work/hes_load_gauntlets_export.glb}
+  - {icon: hes_mag_boots, source: level_generation/props/hesper_items_claude/work/hes_mag_boots_export.glb}
+  - {icon: hes_militia_warrant, source: level_generation/props/hesper_items_claude/work/hes_militia_warrant_export.glb}
+  - {icon: hes_mraals_cleaver, source: level_generation/props/hesper_items_claude/work/hes_mraals_cleaver_export.glb}
+  - {icon: hes_nav_matrix, source: level_generation/props/hesper_items_claude/work/hes_nav_matrix_export.glb}
+  - {icon: hes_nightglass_amulet, source: level_generation/props/hesper_items_claude/work/hes_nightglass_amulet_export.glb}
+  - {icon: hes_noble_fang, source: level_generation/props/hesper_items_claude/work/hes_noble_fang_export.glb}
+  - {icon: hes_noble_recurve, source: level_generation/props/hesper_items_claude/work/hes_noble_recurve_export.glb}
+  - {icon: hes_noble_sidearm, source: level_generation/props/hesper_items_claude/work/hes_noble_sidearm_export.glb}
+  - {icon: hes_noblebone_longbow, source: level_generation/props/hesper_items_claude/work/hes_noblebone_longbow_export.glb}
+  - {icon: hes_optic_1, source: level_generation/props/hesper_items_claude/work/hes_optic_1_export.glb}
+  - {icon: hes_optic_2, source: level_generation/props/hesper_items_claude/work/hes_optic_2_export.glb}
+  - {icon: hes_overseers_rod, source: level_generation/props/hesper_items_claude/work/hes_overseers_rod_export.glb}
+  - {icon: hes_phase_axe, source: level_generation/props/hesper_items_claude/work/hes_phase_axe_export.glb}
+  - {icon: hes_phase_cleaver, source: level_generation/props/hesper_items_claude/work/hes_phase_cleaver_export.glb}
+  - {icon: hes_pilots_core, source: level_generation/props/hesper_items_claude/work/hes_pilots_core_export.glb}
+  - {icon: hes_plasma_longblade, source: level_generation/props/hesper_items_claude/work/hes_plasma_longblade_export.glb}
+  - {icon: hes_plasma_saber, source: level_generation/props/hesper_items_claude/work/hes_plasma_saber_export.glb}
+  - {icon: hes_power_gauntlets, source: level_generation/props/hesper_items_claude/work/hes_power_gauntlets_export.glb}
+  - {icon: hes_pulse_pistol, source: level_generation/props/hesper_items_claude/work/hes_pulse_pistol_export.glb}
+  - {icon: hes_rebreather_helm, source: level_generation/props/hesper_items_claude/work/hes_rebreather_helm_export.glb}
+  - {icon: hes_reflex_1, source: level_generation/props/hesper_items_claude/work/hes_reflex_1_export.glb}
+  - {icon: hes_reflex_2, source: level_generation/props/hesper_items_claude/work/hes_reflex_2_export.glb}
+  - {icon: hes_reflex_booster, source: level_generation/props/hesper_items_claude/work/hes_reflex_booster_export.glb}
+  - {icon: hes_refractor_mantle, source: level_generation/props/hesper_items_claude/work/hes_refractor_mantle_export.glb}
+  - {icon: hes_refractor_weave, source: level_generation/props/hesper_items_claude/work/hes_refractor_weave_export.glb, length: 80}
+  - {icon: hes_regulator_1, source: level_generation/props/hesper_items_claude/work/hes_regulator_1_export.glb}
+  - {icon: hes_regulator_2, source: level_generation/props/hesper_items_claude/work/hes_regulator_2_export.glb}
+  - {icon: hes_reserve_belt, source: level_generation/props/hesper_items_claude/work/hes_reserve_belt_export.glb}
+  - {icon: hes_resonator_1, source: level_generation/props/hesper_items_claude/work/hes_resonator_1_export.glb}
+  - {icon: hes_resonator_2, source: level_generation/props/hesper_items_claude/work/hes_resonator_2_export.glb}
+  - {icon: hes_resonator_3, source: level_generation/props/hesper_items_claude/work/hes_resonator_3_export.glb}
+  - {icon: hes_scatter_lance, source: level_generation/props/hesper_items_claude/work/hes_scatter_lance_export.glb}
+  - {icon: hes_sensor_helm, source: level_generation/props/hesper_items_claude/work/hes_sensor_helm_export.glb}
+  - {icon: hes_shield_burst_cell, source: level_generation/props/hesper_items_claude/work/hes_shield_burst_cell_export.glb}
+  - {icon: hes_shield_cell, source: level_generation/props/hesper_items_claude/work/hes_shield_cell_export.glb}
+  - {icon: hes_spinebow, source: level_generation/props/hesper_items_claude/work/hes_spinebow_export.glb}
+  - {icon: hes_ssekhs_fang, source: level_generation/props/hesper_items_claude/work/hes_ssekhs_fang_export.glb}
+  - {icon: hes_stim, source: level_generation/props/hesper_items_claude/work/hes_stim_export.glb}
+  - {icon: hes_storm_rifle, source: level_generation/props/hesper_items_claude/work/hes_storm_rifle_export.glb}
+  - {icon: hes_stormglass_ring, source: level_generation/props/hesper_items_claude/work/hes_stormglass_ring_export.glb}
+  - {icon: hes_striking_lattice, source: level_generation/props/hesper_items_claude/work/hes_striking_lattice_export.glb}
+  - {icon: hes_survey_helm, source: level_generation/props/hesper_items_claude/work/hes_survey_helm_export.glb}
+  - {icon: hes_surveyors_pendant, source: level_generation/props/hesper_items_claude/work/hes_surveyors_pendant_export.glb}
+  - {icon: hes_thrixs_token, source: level_generation/props/hesper_items_claude/work/hes_thrixs_token_export.glb}
+  - {icon: hes_thunder_maul, source: level_generation/props/hesper_items_claude/work/hes_thunder_maul_export.glb}
+  - {icon: hes_trigger_graft, source: level_generation/props/hesper_items_claude/work/hes_trigger_graft_export.glb}
+  - {icon: hes_utility_belt, source: level_generation/props/hesper_items_claude/work/hes_utility_belt_export.glb}
+  - {icon: hes_vhorrax_courtesy, source: level_generation/props/hesper_items_claude/work/hes_vhorrax_courtesy_export.glb}
+  - {icon: hes_vibro_knife, source: level_generation/props/hesper_items_claude/work/hes_vibro_knife_export.glb}
+  - {icon: hes_vital_1, source: level_generation/props/hesper_items_claude/work/hes_vital_1_export.glb}
+  - {icon: hes_vital_2, source: level_generation/props/hesper_items_claude/work/hes_vital_2_export.glb}
+  - {icon: hes_voice_splinter, source: level_generation/props/hesper_items_claude/work/hes_voice_splinter_export.glb}
+  - {icon: hes_vreths_first_cut, source: level_generation/props/hesper_items_claude/work/hes_vreths_first_cut_export.glb}
+  - {icon: hes_vreths_last_cut, source: level_generation/props/hesper_items_claude/work/hes_vreths_last_cut_export.glb}
+  - {icon: hes_vreths_mantle, source: level_generation/props/hesper_items_claude/work/hes_vreths_mantle_export.glb}
+  - {icon: hes_weave_suit, source: level_generation/props/hesper_items_claude/work/hes_weave_suit_export.glb, length: 80}
+  - {icon: hes_xiths_sight, source: level_generation/props/hesper_items_claude/work/hes_xiths_sight_export.glb}
+  - {icon: hes_zod_brood_record, source: level_generation/props/hesper_items_claude/work/hes_zod_brood_record_export.glb}

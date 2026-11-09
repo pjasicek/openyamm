@@ -1,0 +1,2 @@
+Common .96,0,5 transform; bounds +2,0,-2.5,-4.5 native pixels. Outside .000256 is isolated tip rounding; full tree and roots remain intact.
+restore_native_tone.py followed by remove_spill.py removes purple matte contamination without alpha loss; wood_chroma.py reduces residual chroma to .35 while preserving luminance. Reviewed original companion mask retained. Alpha unchanged by color operations. Original raw, intermediate pixels, scripts and registration_checks.json preserved. Final light/dark proofs visually reviewed.

@@ -1,0 +1,179 @@
+effect: mm9:spell_reaver
+installed: false
+textures:
+- resource: mm9:effect-texture/bluering
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/bluering/export/00.png
+  native_asset: assets_dev/engine/effects/mm9/textures/bluering.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0000
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/00.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0000.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0003
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/01.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0003.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0006
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/02.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0006.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0009
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/03.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0009.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0012
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/04.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0012.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0015
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/05.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0015.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0018
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/06.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0018.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0021
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/07.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0021.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0024
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/08.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0024.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/particles/flare0027
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/09.png
+  native_asset: assets_dev/engine/effects/mm9/textures/particles/flare0027.png
+  logical_size:
+  - 32
+  - 32
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/sparks/ringexplodeblue
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/ringexplodeblue/export/00.png
+  native_asset: assets_dev/engine/effects/mm9/textures/sparks/ringexplodeblue.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0000
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/00.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0000.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0001
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/01.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0001.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0002
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/02.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0002.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0003
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/03.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0003.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0004
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/04.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0004.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0005
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/05.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0005.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0006
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/06.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0006.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0007
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/07.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0007.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0008
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/08.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0008.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0009
+  asset: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/09.png
+  native_asset: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0009.png
+  logical_size:
+  - 64
+  - 64
+  scale: 2
+  status: discarded_archived

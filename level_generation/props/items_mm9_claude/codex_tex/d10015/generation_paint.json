@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the provided paint_mask_guide.png into ONE transparent PNG paint/material-mask view atlas at 1536x2048 (3:4). The guide is the edit target; design_reference.png is the approved material/detail reference and icon_x8.png the original colour reference (magenta is background).\nPreserve the guide's exact silhouettes, positions, dimensions, gaps, orientations and layout. Three columns, FOUR rows of 512x512 cells. Rows 1-2 and 3-4 repeat five views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Follow actual guide geometry: row 1 has two tiny end-on views and a horizontal sword pointing left; row 2 has a horizontal sword pointing right, a vertical sword pointing up, empty. Repeat those exact shapes and positions in rows 3-4. Do not replace the tiny end-on or edge-on views with broad swords. Paint grey pixels only; never redraw, enlarge, move, redesign.\nRows 1-2 PAINT: unlit base colour, faithfully reproduce MM9 Mortuary Sword in MM6-MM8 inventory sprite style, restrained late-1990s realism. Very narrow straight pale-gray blade with dark spine, tiny flat reddish-gold circular guard, compact segmented brown-and-gold grip, small gold cap pommel. Austere funerary silhouette. Facets, engravings, scrollwork and inner swirls follow approved design scaled into each view. Brown grip, gold bands, gold pommel, reddish-gold guard and steel blade. No lighting, cast shadows, ambient occlusion, hot highlights, reflections.\nRows 3-4 MATERIAL MASK: identical five silhouettes filled with FLAT pure colours only. #FF0000 all metal including blade and gold/brass fittings; #00FF00 leather/fur; #0000FF cloth/cord/hair; #FFFF00 wood/bone/horn/stone/parchment/wax; #000000 gemstones/crystal/glass/pearl/enamel/liquids. Assign every silhouette pixel one material colour, no shading, texture, outlines or antialiased colour blends inside.\nGenuine transparent alpha outside all silhouettes and in gaps. Row 2 column 3 and row 4 column 3 entirely empty transparent. No grid, labels, text, watermark, frame, glow, ground, shadow, extra objects. Preserve canvas and all guide shapes exactly. The request for a complete vertical sword describes the reference design, not a replacement for the mandatory guide atlas.\nCORRECTION: The previous attempt incorrectly widened the horizontal edge-on blades and rounded the vertical blade tip. Start from the ORIGINAL grey guide again. Horizontal blades must remain hair-thin straight lines exactly as in the guide, with no broad blade surface visible. The vertical blade has the guide's exact straight taper and angular pointed tip. Match alpha silhouettes precisely. The compact brown grip must receive its actual nonmetal material colour in the lower mask, not be classified entirely as red metal. Do not thicken any silhouette.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac43-c86d-76a3-9770-bc3c9ddd27df/exec-47fa0b7b-0be4-4533-b4ad-351f2efec375.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10015/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "size": [
+    1086,
+    1448
+  ],
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10015/paint_mask_guide.png",
+      "sha256": "da6b4ff64f84d0dbfce64e8f400c22ca9247eb7cee106a1c52da0759a539fe42"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10015/design_reference.png",
+      "sha256": "360d3dfe3c7d03c6768429735f54413e9226c738a5b9ee804c9cf6bb868e42c3"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10015/icon_x8.png",
+      "sha256": "497e7ac68298cb52ec0e76c72a2c151eed61a04db5037787498fe37b60edbd04"
+    }
+  ],
+  "validation_notes": "Layout retained; generated silhouettes still drift from guide and mask has stray pixels and inconsistent grip classification. Raw tool output preserved without editing."
+}

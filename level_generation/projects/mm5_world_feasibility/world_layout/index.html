@@ -1,0 +1,176 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>MM5 surface world layout</title>
+<style>body{margin:24px;background:#111820;color:#eee5cd;font:15px system-ui}a{color:#a8d7ec}
+h1{font-size:25px}p{line-height:1.6;max-width:1100px}.controls{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0}
+button,select{font:inherit;color:inherit;background:#283741;border:1px solid #899995;padding:8px;cursor:pointer}
+#terrain svg{width:100%;height:auto}#travel img,#palette img{width:100%;height:auto;max-width:1320px}
+#detail{padding:20px;background:#223039;margin:15px 0;line-height:1.6}#detail h2{margin-top:0}
+.links{display:flex;gap:15px;flex-wrap:wrap}.hidden{display:none}label{cursor:pointer}
+</style><h1>MM5 surface world — first layout</h1>
+<p>Six adjoining travel areas derived from the original Darkside wilderness. The terrain view is a minimap-style
+planning study with illustrative relief, not a screenshot of generated game maps. Each region uses the same proposed
+native terrain dimensions; towns will get separately authored footprints.</p>
+<div class="links"><a href="README.md">Design decisions</a><a href="world_map.png">World map PNG</a>
+<a href="foot_travel.png">Foot-travel PNG</a><a href="layout.json">Editable layout</a>
+<a href="../atlas.html">Original-map atlas</a><a href="other_outdoors.html">All 16 outdoor maps: surface, sky and planes</a></div>
+<div class="controls"><button data-view="terrain">Terrain overview</button><button data-view="travel">Foot travel</button>
+<button data-view="palette">Material palette</button><select id="region" aria-label="Region details"><option value="sw">SW — Castleview / Kalindra</option></select></div>
+<div class="controls" id="layers"><label><input type="checkbox" data-layer="regions" checked> Region boundaries</label>
+<label><input type="checkbox" data-layer="source-grid" checked> Original squares</label>
+<label><input type="checkbox" data-layer="labels" checked> Landmarks</label>
+<label><input type="checkbox" data-layer="crossings" checked> Foot crossings</label></div>
+<section id="terrain"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1616" height="1244" viewBox="0 0 1616 1244" font-family="DejaVu Sans, sans-serif">
+<rect width="1616" height="1244" fill="#111820"/>
+<text x="40" y="37" font-size="25" fill="#eee5cd" font-weight="bold">DARKSIDE OF XEEN</text>
+<text x="40" y="64" font-size="15" fill="#b9c4c8" >Surface study v1 · six equal travel areas · north up</text>
+<g transform="translate(40 90)">
+<image xlink:href="world_terrain.png" width="1536" height="1024"/>
+<g id="source-grid" opacity=".22">
+<path d="M256 0V1024" stroke="#f8f0cb" stroke-dasharray="3 7"/>
+<path d="M512 0V1024" stroke="#f8f0cb" stroke-dasharray="3 7"/>
+<path d="M768 0V1024" stroke="#f8f0cb" stroke-dasharray="3 7"/>
+<path d="M1024 0V1024" stroke="#f8f0cb" stroke-dasharray="3 7"/>
+<path d="M1280 0V1024" stroke="#f8f0cb" stroke-dasharray="3 7"/>
+<path d="M0 256H1536" stroke="#f8f0cb" stroke-dasharray="3 7"/>
+<path d="M0 512H1536" stroke="#f8f0cb" stroke-dasharray="3 7"/>
+<path d="M0 768H1536" stroke="#f8f0cb" stroke-dasharray="3 7"/>
+</g>
+<g id="regions">
+<rect x="0" y="0" width="512" height="512" fill="none" stroke="#dfc785" stroke-width="2"/>
+<rect x="8" y="8" width="496" height="43" rx="3" fill="#101820" opacity=".85"/>
+<text x="18" y="28" font-size="16" fill="#eee5cd" font-weight="bold">NW  Alamar / Necropolis</text>
+<text x="18" y="44" font-size="11" fill="#b9c5b4" >A1 · A2 · B1 · B2</text>
+<rect x="512" y="0" width="512" height="512" fill="none" stroke="#dfc785" stroke-width="2"/>
+<rect x="520" y="8" width="496" height="43" rx="3" fill="#101820" opacity=".85"/>
+<text x="530" y="28" font-size="16" fill="#eee5cd" font-weight="bold">NC  Desert / Northern Highlands</text>
+<text x="530" y="44" font-size="11" fill="#b9c5b4" >C1 · C2 · D1 · D2</text>
+<rect x="1024" y="0" width="512" height="512" fill="none" stroke="#dfc785" stroke-width="2"/>
+<rect x="1032" y="8" width="496" height="43" rx="3" fill="#101820" opacity=".85"/>
+<text x="1042" y="28" font-size="16" fill="#eee5cd" font-weight="bold">NE  Blackfang / Lakeside</text>
+<text x="1042" y="44" font-size="11" fill="#b9c5b4" >E1 · E2 · F1 · F2</text>
+<rect x="0" y="512" width="512" height="512" fill="none" stroke="#dfc785" stroke-width="2"/>
+<rect x="8" y="520" width="496" height="43" rx="3" fill="#101820" opacity=".85"/>
+<text x="18" y="540" font-size="16" fill="#eee5cd" font-weight="bold">SW  Castleview / Kalindra</text>
+<text x="18" y="556" font-size="11" fill="#b9c5b4" >A3 · A4 · B3 · B4</text>
+<rect x="512" y="512" width="512" height="512" fill="none" stroke="#dfc785" stroke-width="2"/>
+<rect x="520" y="520" width="496" height="43" rx="3" fill="#101820" opacity=".85"/>
+<text x="530" y="540" font-size="16" fill="#eee5cd" font-weight="bold">SC  Sprite Forest / Southern Tower</text>
+<text x="530" y="556" font-size="11" fill="#b9c5b4" >C3 · C4 · D3 · D4</text>
+<rect x="1024" y="512" width="512" height="512" fill="none" stroke="#dfc785" stroke-width="2"/>
+<rect x="1032" y="520" width="496" height="43" rx="3" fill="#101820" opacity=".85"/>
+<text x="1042" y="540" font-size="16" fill="#eee5cd" font-weight="bold">SE  Sandcaster / Eastern Forest</text>
+<text x="1042" y="556" font-size="11" fill="#b9c5b4" >E3 · E4 · F3 · F4</text>
+</g>
+<g id="labels">
+<rect x="163.0" y="179.0" width="10" height="10" fill="#efe2b3" stroke="#171e24" stroke-width="2"/>
+<text x="178.0" y="188.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Alamar</text>
+<text x="178.0" y="188.0" font-size="13" fill="#efe2b3" >Alamar</text>
+<rect x="387.0" y="307.0" width="10" height="10" fill="#efe2b3" stroke="#171e24" stroke-width="2"/>
+<text x="402.0" y="316.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Necropolis</text>
+<text x="402.0" y="316.0" font-size="13" fill="#efe2b3" >Necropolis</text>
+<circle cx="456.0" cy="184.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="466.0" y="188.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Griffin Pass</text>
+<text x="466.0" y="188.0" font-size="13" fill="#efe2b3" >Griffin Pass</text>
+<circle cx="296.0" cy="104.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="306.0" y="108.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Corak / Escape Pod 1</text>
+<text x="306.0" y="108.0" font-size="13" fill="#efe2b3" >Corak / Escape Pod 1</text>
+<circle cx="312.0" cy="376.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="322.0" y="380.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Escape Pod 2</text>
+<text x="322.0" y="380.0" font-size="13" fill="#efe2b3" >Escape Pod 2</text>
+<circle cx="808.0" cy="88.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="818.0" y="92.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Northern Tower</text>
+<text x="818.0" y="92.0" font-size="13" fill="#efe2b3" >Northern Tower</text>
+<circle cx="776.0" cy="424.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="786.0" y="428.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Great Pyramid</text>
+<text x="786.0" y="428.0" font-size="13" fill="#efe2b3" >Great Pyramid</text>
+<rect x="1427.0" y="67.0" width="10" height="10" fill="#efe2b3" stroke="#171e24" stroke-width="2"/>
+<text x="1442.0" y="76.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Blackfang</text>
+<text x="1442.0" y="76.0" font-size="13" fill="#efe2b3" >Blackfang</text>
+<circle cx="1048.0" cy="56.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<path d="M1048.0 56.0L1055.0 74.0" stroke="#efe2b3" stroke-width="1" opacity=".8"/>
+<text x="1058.0" y="78.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Magic Mountain</text>
+<text x="1058.0" y="78.0" font-size="13" fill="#efe2b3" >Magic Mountain</text>
+<rect x="1331.0" y="259.0" width="10" height="10" fill="#efe2b3" stroke="#171e24" stroke-width="2"/>
+<text x="1346.0" y="268.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Lakeside</text>
+<text x="1346.0" y="268.0" font-size="13" fill="#efe2b3" >Lakeside</text>
+<circle cx="1384.0" cy="344.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="1394.0" y="348.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Lost Souls</text>
+<text x="1394.0" y="348.0" font-size="13" fill="#efe2b3" >Lost Souls</text>
+<rect x="227.0" y="851.0" width="10" height="10" fill="#efe2b3" stroke="#171e24" stroke-width="2"/>
+<text x="242.0" y="860.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Castleview / Ellinger</text>
+<text x="242.0" y="860.0" font-size="13" fill="#efe2b3" >Castleview / Ellinger</text>
+<rect x="83.0" y="787.0" width="10" height="10" fill="#efe2b3" stroke="#171e24" stroke-width="2"/>
+<text x="98.0" y="796.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Kalindra</text>
+<text x="98.0" y="796.0" font-size="13" fill="#efe2b3" >Kalindra</text>
+<circle cx="72.0" cy="616.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="82.0" y="620.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Western Tower</text>
+<text x="82.0" y="620.0" font-size="13" fill="#efe2b3" >Western Tower</text>
+<circle cx="232.0" cy="664.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="242.0" y="668.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Dark Grove</text>
+<text x="242.0" y="668.0" font-size="13" fill="#efe2b3" >Dark Grove</text>
+<circle cx="552.0" cy="888.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="562.0" y="892.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Temple of Bark</text>
+<text x="562.0" y="892.0" font-size="13" fill="#efe2b3" >Temple of Bark</text>
+<circle cx="808.0" cy="904.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="818.0" y="908.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Southern Tower</text>
+<text x="818.0" y="908.0" font-size="13" fill="#efe2b3" >Southern Tower</text>
+<rect x="1091.0" y="563.0" width="10" height="10" fill="#efe2b3" stroke="#171e24" stroke-width="2"/>
+<path d="M1096.0 568.0L1103.0 586.0" stroke="#efe2b3" stroke-width="1" opacity=".8"/>
+<text x="1106.0" y="590.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Sandcaster</text>
+<text x="1106.0" y="590.0" font-size="13" fill="#efe2b3" >Sandcaster</text>
+<circle cx="1256.0" cy="584.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="1266.0" y="588.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Crossroads</text>
+<text x="1266.0" y="588.0" font-size="13" fill="#efe2b3" >Crossroads</text>
+<circle cx="1448.0" cy="616.0" r="4" fill="#efe2b3" stroke="#171e24" stroke-width="1.5"/>
+<text x="1330.5" y="620.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Eastern Tower</text>
+<text x="1330.5" y="620.0" font-size="13" fill="#efe2b3" >Eastern Tower</text>
+<circle cx="296.0" cy="552.0" r="4" fill="#9cd3e5" stroke="#171e24" stroke-width="1.5"/>
+<path d="M296.0 552.0L303.0 584.0" stroke="#9cd3e5" stroke-width="1" opacity=".8"/>
+<text x="306.0" y="588.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Acid Pond</text>
+<text x="306.0" y="588.0" font-size="13" fill="#9cd3e5" >Acid Pond</text>
+<circle cx="1384.0" cy="456.0" r="4" fill="#9cd3e5" stroke="#171e24" stroke-width="1.5"/>
+<text x="1394.0" y="460.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Octopod Lake</text>
+<text x="1394.0" y="460.0" font-size="13" fill="#9cd3e5" >Octopod Lake</text>
+<circle cx="1384.0" cy="200.0" r="4" fill="#9cd3e5" stroke="#171e24" stroke-width="1.5"/>
+<text x="1394.0" y="204.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Snow River Rapids</text>
+<text x="1394.0" y="204.0" font-size="13" fill="#9cd3e5" >Snow River Rapids</text>
+<circle cx="1320.0" cy="680.0" r="4" fill="#9cd3e5" stroke="#171e24" stroke-width="1.5"/>
+<text x="1330.0" y="684.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">River of Wrath</text>
+<text x="1330.0" y="684.0" font-size="13" fill="#9cd3e5" >River of Wrath</text>
+<circle cx="1352.0" cy="856.0" r="4" fill="#9cd3e5" stroke="#171e24" stroke-width="1.5"/>
+<text x="1362.0" y="860.0" font-size="13" fill="#101820" stroke="#101820" stroke-width="3" stroke-linejoin="round">Venom Pond</text>
+<text x="1362.0" y="860.0" font-size="13" fill="#9cd3e5" >Venom Pond</text>
+</g>
+<g id="crossings">
+<path d="M512.0 704.0l8 8-8 8-8-8Z" fill="#f7da8b" stroke="#111820" stroke-width="2"/>
+<path d="M1024.0 736.0l8 8-8 8-8-8Z" fill="#f7da8b" stroke="#111820" stroke-width="2"/>
+<path d="M1024.0 256.0l8 8-8 8-8-8Z" fill="#f7da8b" stroke="#111820" stroke-width="2"/>
+<path d="M1288.0 504.0l8 8-8 8-8-8Z" fill="#f7da8b" stroke="#111820" stroke-width="2"/>
+<path d="M136.0 504.0l8 8-8 8-8-8Z" fill="#85dfdf" stroke="#111820" stroke-width="2"/>
+<path d="M512.0 384.0l8 8-8 8-8-8Z" fill="#85dfdf" stroke="#111820" stroke-width="2"/>
+<path d="M712.0 504.0l8 8-8 8-8-8Z" fill="#85dfdf" stroke="#111820" stroke-width="2"/>
+</g>
+</g>
+<text x="40" y="1144" font-size="14" fill="#eee5cd" >Gold diamonds: road crossings    Cyan diamonds: proposed off-road crossing anchors</text>
+<text x="40" y="1170" font-size="13" fill="#b9c4c8" >Geography from all 24 MM5 surface grids; native MM8 ground textures + MM7 snow/sand. Relief is illustrative.</text>
+<text x="40" y="1194" font-size="13" fill="#b9c4c8" >Landmark symbols are source anchors, not final building footprints. The dark outer rim is world-edge space, not sea.</text>
+<text x="40" y="1218" font-size="13" fill="#dccc94" >First region: SW Castleview / Kalindra. Native map generation follows town-footprint and terrain-bank review.</text>
+</svg></section><section id="travel" class="hidden"><img src="foot_travel.png" alt="Foot travel diagram"></section>
+<section id="palette" class="hidden"><img src="tileset_palette.png" alt="Native texture palette"></section><aside id="detail"></aside>
+<script>const layout={"title": "Darkside of Xeen \u2014 surface world layout v1", "status": "Source-based terrain and travel study; no native ODMs generated", "scale": {"sourceCells": [96, 64], "regionSourceCells": [32, 32], "terrainSamples": [128, 128], "nativeSampleSpacing": 512, "proposedTravelBounds": [-24576, 24576, -24576, 24576], "renderedTerrainBounds": [-32768, 32256, -32256, 32768], "note": "The six equal squares depict adjoining travel areas. Each future ODM has a larger scenery apron; those aprons overlap conceptually and are not six extra strips of geography. Town footprints are authored independently."}, "regions": [{"id": "nw", "column": 0, "row": 0, "title": "Alamar / Necropolis", "squares": ["A1", "A2", "B1", "B2"], "palette": ["volcanic", "badlands", "dead_ground", "snow"], "intent": "Lava fields in the west, dry approaches around Necropolis and Griffin Pass, snow at the northeast edge. Shadowspire treatment is localized to the necromantic district; retain the surrounding source landforms."}, {"id": "nc", "column": 1, "row": 0, "title": "Desert / Northern Highlands", "squares": ["C1", "C2", "D1", "D2"], "palette": ["desert", "snow", "rock"], "intent": "Snow and snowy forest in the north; Desert of Doom and Perishing Sands to the south. Preserve the long snow/desert frontier and the Great Pyramid approach."}, {"id": "ne", "column": 2, "row": 0, "title": "Blackfang / Lakeside", "squares": ["E1", "E2", "F1", "F2"], "palette": ["snow", "forest", "water", "rock", "desert"], "intent": "Snowy Blackfang and Magic Mountain, Snow River Rapids, Octopod Lake and its original island. Forest and desert fringes continue from neighboring regions."}, {"id": "sw", "column": 0, "row": 1, "title": "Castleview / Kalindra", "squares": ["A3", "A4", "B3", "B4"], "palette": ["grassland", "forest", "badlands", "water", "rock"], "intent": "Temperate inhabited south, Dark Grove, Acid Pond and winding watercourses; dry rocky northern fringe. The town and Kalindra need independent native-scale footprints. Recommended first region."}, {"id": "sc", "column": 1, "row": 1, "title": "Sprite Forest / Southern Tower", "squares": ["C3", "C4", "D3", "D4"], "palette": ["forest", "badlands", "desert", "water", "rock"], "intent": "Desert fringe and Gemstone Range in the north, Sprite Forest and watercourses in the south. Bark and Southern Tower are separate landmarks. Preserve off-road caves and camps."}, {"id": "se", "column": 2, "row": 1, "title": "Sandcaster / Eastern Forest", "squares": ["E3", "E4", "F3", "F4"], "palette": ["forest", "badlands", "desert", "water", "rock"], "intent": "Sandcaster at the dry northern edge; Crossroads, Howling Woods and Aging Forest farther south. Continue the River of Wrath and keep Venom Pond distinct."}], "connections": [{"id": "sw_sc", "a": "sw", "b": "sc", "kind": "road", "source": [7, 15, 3], "destination": [11, 0, 3], "label": "Southern road west"}, {"id": "sc_se", "a": "sc", "b": "se", "kind": "road", "source": [15, 15, 1], "destination": [19, 0, 1], "label": "Southern road east"}, {"id": "nc_ne", "a": "nc", "b": "ne", "kind": "road", "source": [14, 15, 15], "destination": [18, 0, 15], "label": "Northern road"}, {"id": "ne_se", "a": "ne", "b": "se", "kind": "road", "source": [22, 0, 0], "destination": [23, 0, 15], "label": "Eastern road"}, {"id": "nw_sw", "a": "nw", "b": "sw", "kind": "off_road", "source": [2, 8, 0], "destination": [3, 8, 15], "label": "Dry western approach"}, {"id": "nw_nc", "a": "nw", "b": "nc", "kind": "off_road", "source": [6, 15, 7], "destination": [10, 0, 7], "label": "Western desert approach"}, {"id": "nc_sc", "a": "nc", "b": "sc", "kind": "off_road", "source": [10, 12, 0], "destination": [11, 12, 15], "label": "Open desert approach"}], "palettes": [{"id": "grassland", "name": "Grassland", "donor": "MM8 Ravenshore / Alvar", "textures": ["mm8:grastyl", "mm8:grastyl2", "mm8:dirttyl"], "note": "Established temperate town palette and ordinary roadside vegetation."}, {"id": "forest", "name": "Forest", "donor": "MM8 Murmurwoods / Garrote Gorge", "textures": ["mm8:grastyl", "mm8:dirttyl"], "note": "Canopy and ground-cover composition supply the woodland identity; dark and light woods remain distinct."}, {"id": "badlands", "name": "Dirt / badlands", "donor": "MM8 Ravage Roaming", "textures": ["mm8:dirttyl", "mm8:rctyl"], "note": "Dry shelves and exposed rocky ground, with deliberate quiet spaces."}, {"id": "dead_ground", "name": "Necromantic ground", "donor": "MM8 Shadowspire", "textures": ["mm8:dirttyl", "mm8:gstyl", "mm8:tartyl"], "note": "Proposed local Necropolis art direction. Dead trees, ruins and architecture matter as much as the ground. No new tar lake is implied."}, {"id": "desert", "name": "Desert / sand", "donor": "MM8 Ironsand; MM7 sand as a lighter option", "textures": ["mm8:plntyl", "mm8:plsatyl", "mm7:7sand"], "note": "Separate pale sand from volcanic ground; deserts do not automatically contain lava."}, {"id": "volcanic", "name": "Volcanic land / lava", "donor": "MM8 Ironsand Desert", "textures": ["mm8:plntyl", "mm8:plsatyl", "mm8:lavtyl"], "note": "Preserve northwest lava channels. A new large volcano is not part of this layout; the source does not establish a crater here."}, {"id": "snow", "name": "Snow / cold rock", "donor": "MM7 Mount Nighon", "textures": ["mm7:7snow", "mm7:7dirttyl"], "note": "Locally available snow and snow-to-dirt family; audit final transition-bank assignment before generating terrain."}, {"id": "rock", "name": "Ridges / mountains", "donor": "MM8 Ravenshore / Ravage Roaming", "textures": ["mm8:rktyl", "mm8:rctyl"], "note": "Relief in this study is illustrative and derives from source mountain classes; heights are not measured MM5 elevations."}, {"id": "water", "name": "Rivers / lakes", "donor": "MM8 water family", "textures": ["mm8:wtrtyl"], "note": "Keep shallow and deep source water, narrow river continuity and the Lost Souls island. Magical ponds need their own eventual material/effects choice."}], "landmarks": [{"name": "Alamar", "source": [1, 10, 4], "kind": "castle"}, {"name": "Necropolis", "source": [6, 8, 12], "kind": "town"}, {"name": "Griffin Pass", "source": [5, 12, 4], "kind": "place"}, {"name": "Corak / Escape Pod 1", "source": [5, 2, 9], "kind": "dungeon"}, {"name": "Escape Pod 2", "source": [6, 3, 8], "kind": "dungeon"}, {"name": "Northern Tower", "source": [13, 2, 10], "kind": "tower"}, {"name": "Great Pyramid", "source": [14, 0, 5], "kind": "dungeon"}, {"name": "Blackfang", "source": [21, 9, 11], "kind": "castle"}, {"name": "Magic Mountain", "source": [17, 1, 12], "kind": "place"}, {"name": "Lakeside", "source": [22, 3, 15], "kind": "town"}, {"name": "Lost Souls", "source": [22, 6, 10], "kind": "dungeon"}, {"name": "Castleview / Ellinger", "source": [4, 14, 10], "kind": "town"}, {"name": "Kalindra", "source": [4, 5, 14], "kind": "castle"}, {"name": "Western Tower", "source": [3, 4, 9], "kind": "tower"}, {"name": "Dark Grove", "source": [3, 14, 6], "kind": "place"}, {"name": "Temple of Bark", "source": [12, 2, 8], "kind": "dungeon"}, {"name": "Southern Tower", "source": [16, 2, 7], "kind": "tower"}, {"name": "Sandcaster", "source": [19, 4, 12], "kind": "town"}, {"name": "Crossroads", "source": [19, 14, 11], "kind": "place"}, {"name": "Eastern Tower", "source": [23, 10, 9], "kind": "tower"}, {"name": "Acid Pond", "source": [7, 2, 13], "kind": "water"}, {"name": "Octopod Lake", "source": [22, 6, 3], "kind": "water"}, {"name": "Snow River Rapids", "source": [21, 6, 3], "kind": "water"}, {"name": "River of Wrath", "source": [23, 2, 5], "kind": "water"}, {"name": "Venom Pond", "source": [24, 4, 10], "kind": "water"}], "firstRegion": {"id": "sw", "reason": "Tests town density, established temperate assets, water, countryside and two regional exits in the main starting hub.", "firstBuildScope": "Plan the complete SW travel square first; build Castleview and its Kalindra approach as the first reviewable district within it. Keep Ellinger/sewer entrances, Western Tower and both regional connections reserved.", "deferred": "Detailed interiors, full quest export, sky mechanics and final combat balance. These are future work, not removed content."}};
+const select=document.querySelector('#region'),detail=document.querySelector('#detail');select.replaceChildren();
+for(const r of layout.regions){const o=document.createElement('option');o.value=r.id;o.textContent=r.id.toUpperCase()+' — '+r.title;select.append(o)}
+select.value='sw';
+function showRegion(){const r=layout.regions.find(r=>r.id===select.value);detail.replaceChildren();
+const h=document.createElement('h2');h.textContent=r.id.toUpperCase()+' — '+r.title;detail.append(h);
+for(const text of [r.squares.join(', '),r.intent,'Material families: '+r.palette.join(', '),
+ r.id==='sw'?layout.firstRegion.firstBuildScope:'Equal native terrain footprint; actual playable land and occupied area vary.']){
+ const p=document.createElement('p');p.textContent=text;detail.append(p)}
+const a=document.createElement('a');a.href='regions/'+r.id+'.png';a.textContent='Open equal-size region crop';detail.append(a)}
+select.addEventListener('change',showRegion);showRegion();
+for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>{
+ for(const name of ['terrain','travel','palette'])document.getElementById(name).classList.toggle('hidden',name!==button.dataset.view);
+ document.getElementById('layers').classList.toggle('hidden',button.dataset.view!=='terrain')});
+for(const input of document.querySelectorAll('[data-layer]'))input.addEventListener('change',()=>{
+ document.getElementById(input.dataset.layer).style.display=input.checked?'':'none'});
+</script></html>

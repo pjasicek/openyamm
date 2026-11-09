@@ -1,0 +1,26 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/overlay_arcs/images
+exit: true
+steps:
+- wait: 2
+- action: trigger
+- wait: 2
+- capture: bank-bank
+- click:
+  - 1240
+  - 403
+- wait: 0.5
+- capture: bank-deposit
+- wait: 1
+- text: '125'
+- capture: bank-input
+- key: Return
+- wait: 0.5
+- capture: bank-deposited
+- click:
+  - 1240
+  - 488
+- text: '25'
+- capture: bank-withdrawal-input
+- key: Return
+- wait: 0.5
+- capture: bank-withdrawn

@@ -1,0 +1,232 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "Generated and saved unresized returns; strict brief checks not satisfied. One corrective regeneration per view exhausted.",
+  "postprocessing": "None. Files copied byte-for-byte; no resizing, cropping, alpha replacement, or repainting.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Create paint_left.png: a 1024 x 1024 transparent RGBA texture-source painting over the supplied guide_left.png, unresized return.\nInput 1 guide_left.png is the EXACT geometry/edit target and is authoritative for every pixel of silhouette, position, scale, shape edge and opening. Input 2 design_reference.png is ONLY the approved design, colour and material reference, not a composition or lighting reference.\nPaint ONLY the visible surfaces of the grey orthographic LEFT view, retaining precisely its existing shape, polygon edges, arrangement and broad empty transparent margins. Silhouette spans approximately x=92..931 and y=335..688 in the 1024 square. Do not zoom, center differently, rotate, change view, change camera, remodel, round off, add parts, fill holes or move anything. Keep all debris boundaries, pipe openings, panel breaks, overlaps and detail edges exactly where the guide puts them. This is a material paintover of that low-poly mesh, not a re-creation of the reference heap.\nMaterials from design_reference.png: chipped ivory white ceramic panels with tarnished gold edge bands and restrained gold inlays; rust-brown and grey steel pipes, flanges and sheet; black rubber cables where present; dark glass console face where visible; grime, dust and fine cracks. Paint material detail onto the existing surfaces only. Maintain the guide's two large pipe openings at lower left and upper center-left, the horizontal lower pipes, tall rear-left slab, wide upper-right sloping slab, central upright shard and ground debris exactly.\nLIGHTING: albedo TEXTURE SOURCE. Completely even, flat, shadowless illumination from viewer, no cast shadows, no ambient-occlusion darkening, no directional gradients, no strong specular highlights, no reflections, no rim light. Pipe interiors have their material colour without black lighting gradients. Do not transfer the design reference's dramatic studio light. Glowing parts if present are their glowing colour without light cast around them.\nGenuinely transparent background, including through existing gaps. No black backdrop, floor, contact shadow, environment, text or watermark. Nothing outside the original guide silhouette, nothing cropped. Return a single 1024 x 1024 image.",
+      "source": "/home/pjasicek/.codex/generated_images/01a157e1-e8af-7722-87cd-77b16ea3bfac/exec-128ffed1-2919-45b6-8211-c4f69d7c6ed8.png",
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/paint_left_initial.png",
+      "selected": false,
+      "reason": "Correction chosen because it preserves the guide's lower horizontal pipe surfaces more closely; initial return replaces much of them with cables and console details. Native output resolution and silhouette do not meet the brief.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/guide_left.png",
+          "sha256": "4798690aac307fff47dd8c6e17d91cf25e11b03bacc1893e2e842b8b6729d846"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/design_reference.png",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5"
+        }
+      ],
+      "sha256": "184731d6b7a3fe2be388fcc69d58e8656f646bb17726741909203aeaa79d994d",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "expected_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_bbox": [
+          25,
+          9,
+          1236,
+          1214
+        ],
+        "alpha_128_bbox": [
+          114,
+          411,
+          1140,
+          843
+        ],
+        "guide_alpha_bbox": [
+          93,
+          335,
+          931,
+          689
+        ],
+        "silhouette_identical_pass": false,
+        "materials_colours": "Broad palette matches white ceramic, tarnished gold, rusty grey steel and black rubber; generated placement/detail differs from guide.",
+        "flat_even_light_pass": false,
+        "lighting_reason": "Residual dark recess shading and highlights visible.",
+        "unresized_return_pass": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Create paint_right.png, EXACT output resolution 1024 x 1024 pixels, transparent RGBA, unresized return. Material-only paintover of guide_right.png.\nInput 1 guide_right.png is the EXACT geometry edit target: preserve every shape edge and opening, outline, size and position in frame. Input 2 design_reference.png is ONLY the approved material/colour/design authority, never a camera, framing or lighting reference.\nRetain the guide's orthographic RIGHT view exactly: low horizontal rubble heap with open polygonal pipe mouth at lower left; rectangular console block behind it at center-left; long ceramic shard rising diagonally from bottom center to upper right; highest broken slab at rear upper right; slanted ceramic panel on right; thin bent sheet at far right; scattered bottom debris. Keep ALL of these components and their edges at their exact guide positions. In 1024 coordinates the complete original silhouette spans about x=92..931 and y=335..688. Preserve the large original empty margins. Do not center differently, zoom, rotate, change camera, remodel, round edges, add bolts/parts outside guide geometry or fill existing gaps.\nPaint existing surfaces with chipped white/ivory ceramic, tarnished gold edge bands/inlays, rust-brown and grey steel on pipes and sheet, black rubber cables where visible, a dark glass console face where visible, grime and dust. Match design_reference's colours, weathering and material identities on the guide shapes. Fine cracks and scratches are painted texture, not geometry. No invented objects.\nLIGHTING: flat albedo texture-source under even shadowless illumination from viewer. No cast shadows, no ambient occlusion, no directional shading or gradients, no strong specular highlights/reflections, no rim light. No dramatic design-reference lighting. Pipe interiors retain readable local material colours, no black shadow gradients. If a glowing part is present its local glowing colour only, no light cast on surroundings.\nBackground truly transparent including gaps, no floor, backdrop, contact shadow, text or watermark. Absolutely nothing outside guide silhouette, nothing cropped. Return one square PNG at 1024 x 1024.",
+      "source": "/home/pjasicek/.codex/generated_images/01a157e1-e8af-7722-87cd-77b16ea3bfac/exec-dd7abe52-61de-465b-b8f1-e19e935299a6.png",
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/paint_right.png",
+      "selected": true,
+      "reason": "Closest available right-view return: retains the far-right steel sheet material and arrangement more closely than correction. Selected as best available only, not accepted as compliant: native resolution and exact silhouette fail; residual shading remains.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/guide_right.png",
+          "sha256": "73758fb9f3c5bf3399383b70419fcafaf807222b463308a1018c06bcac88b7d8"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/design_reference.png",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5"
+        }
+      ],
+      "sha256": "8aea4b07ea91dbf072f70d9668bdecf62933ae0d5d698ee5e8f97f374e8baeff",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "expected_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1240,
+          1226
+        ],
+        "alpha_128_bbox": [
+          114,
+          414,
+          1141,
+          843
+        ],
+        "guide_alpha_bbox": [
+          93,
+          335,
+          931,
+          689
+        ],
+        "silhouette_identical_pass": false,
+        "materials_colours": "Broad palette matches white ceramic, tarnished gold, rusty grey steel and black rubber; generated placement/detail differs from guide.",
+        "flat_even_light_pass": false,
+        "lighting_reason": "Residual dark recess shading and highlights visible.",
+        "unresized_return_pass": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, LEFT VIEW. Output must be exactly 1024x1024 pixels, native 1024-square generation, transparent PNG. The previous attempt returned 1254x1254, altered edges and added shading. Correct those failures.\nImage 1 guide_left.png is the edit target, a 1024x1024 RGBA mesh guide. Preserve its alpha silhouette EXACTLY pixel for pixel, all geometry boundaries, holes, object positions, orthographic camera and wide empty margins. PAINT THE EXISTING GREY PIXELS ONLY. Do not create a new heap or restage it. Keep all gaps, straight polygon edges and original overlaps. Do not add silhouetted cracks, chips, rivets, bevels, extra cables or new debris. No geometry refinement. Do not enlarge or reposition the guide. In the 1024x1024 output the alpha bounding box must remain (93,335)-(931,689).\nImage 2 design_reference.png supplies MATERIAL COLOURS ONLY: chipped white ceramic slabs with tarnished gold edge strips/inlays; rust-brown and grey steel pipes and sheet, black rubber cables, dark glass console if visible, grime and dust. Apply fine weathering as painted RGB surface texture within the pre-existing boundaries. Keep all original shape edges, pipe mouth shapes and holes fixed.\nThis is an ALBEDO texture source, not a studio render. Every surface has evenly lit local colour, flat and shadowless from the viewer. NO shading inside pipe mouths, NO dark ambient occlusion between objects, NO cast shadows, NO strong speculars or reflections, NO rim light, NO baked directional light. Recesses and back surfaces use the same albedo brightness as forward surfaces of the same material. Fine cracks and grime only. Background alpha zero, including all original gaps; no floor, background colour, contact shadow, text or watermark. Return only the single 1024x1024 left material paintover.",
+      "source": "/home/pjasicek/.codex/generated_images/01a157e1-e8af-7722-87cd-77b16ea3bfac/exec-8e93ca80-9537-4682-b92f-116b027a2241.png",
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/paint_left.png",
+      "selected": true,
+      "reason": "Closest available left-view return: lower horizontal pipe surfaces follow the guide more closely than initial. Selected as best available only, not accepted as compliant: native resolution and exact silhouette fail; residual shading remains.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/guide_left.png",
+          "sha256": "4798690aac307fff47dd8c6e17d91cf25e11b03bacc1893e2e842b8b6729d846"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/design_reference.png",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5"
+        }
+      ],
+      "sha256": "c7ae166703a183688e201ab680a7f25a82afb17df4b94ce68e299cbe45255b2e",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "expected_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_bbox": [
+          0,
+          31,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          114,
+          411,
+          1140,
+          843
+        ],
+        "guide_alpha_bbox": [
+          93,
+          335,
+          931,
+          689
+        ],
+        "silhouette_identical_pass": false,
+        "materials_colours": "Broad palette matches white ceramic, tarnished gold, rusty grey steel and black rubber; generated placement/detail differs from guide.",
+        "flat_even_light_pass": false,
+        "lighting_reason": "Residual dark recess shading and highlights visible.",
+        "unresized_return_pass": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, RIGHT VIEW. Output must be exactly 1024x1024 pixels, native 1024-square generation, transparent PNG. The previous attempt returned 1254x1254, altered edges and added shading. Correct those failures.\nImage 1 guide_right.png is the edit target, a 1024x1024 RGBA mesh guide. Preserve its alpha silhouette EXACTLY pixel for pixel, all geometry boundaries, holes, object positions, orthographic camera and wide empty margins. PAINT THE EXISTING GREY PIXELS ONLY. Do not create a new heap or restage it. Keep all gaps, straight polygon edges and original overlaps. Do not add silhouetted cracks, chips, rivets, bevels, extra cables or new debris. No geometry refinement. Do not enlarge or reposition the guide. In the 1024x1024 output the alpha bounding box must remain (93,335)-(931,689).\nRetain every existing shape: lower-left open polygonal pipe, center-left rectangular console block, long central diagonal slab rising toward right, tallest rear-right slab, smaller slanted right panel and thin bent sheet at far right. Every shape edge and opening stays in its original location.\nImage 2 design_reference.png supplies MATERIAL COLOURS ONLY: chipped white ceramic slabs with tarnished gold edge strips/inlays; rust-brown and grey steel pipes and sheet, black rubber cables, dark glass console if visible, grime and dust. Apply fine weathering as painted RGB surface texture within the pre-existing boundaries. Keep all original shape edges, pipe mouth shapes and holes fixed.\nThis is an ALBEDO texture source, not a studio render. Every surface has evenly lit local colour, flat and shadowless from the viewer. NO shading inside pipe mouths, NO dark ambient occlusion between objects, NO cast shadows, NO strong speculars or reflections, NO rim light, NO baked directional light. Recesses and back surfaces use the same albedo brightness as forward surfaces of the same material. Fine cracks and grime only. Background alpha zero, including all original gaps; no floor, background colour, contact shadow, text or watermark. Return only the single 1024x1024 right material paintover.",
+      "source": "/home/pjasicek/.codex/generated_images/01a157e1-e8af-7722-87cd-77b16ea3bfac/exec-65fc5e37-ad28-4913-bf2a-df051bb029cb.png",
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/paint_right_corrective.png",
+      "selected": false,
+      "reason": "Correction still fails native resolution and exact silhouette, and changes the far-right sheet to ceramic. Initial selected as closer material/shape match.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/guide_right.png",
+          "sha256": "73758fb9f3c5bf3399383b70419fcafaf807222b463308a1018c06bcac88b7d8"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_heap/design_reference.png",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5"
+        }
+      ],
+      "sha256": "abd7aa81afc5184f2a6647fea4b76c816cf8adb0a0ee19c19b30210817b61bc2",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "expected_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_bbox": [
+          47,
+          23,
+          1198,
+          1220
+        ],
+        "alpha_128_bbox": [
+          96,
+          418,
+          1159,
+          862
+        ],
+        "guide_alpha_bbox": [
+          93,
+          335,
+          931,
+          689
+        ],
+        "silhouette_identical_pass": false,
+        "materials_colours": "Broad palette matches white ceramic, tarnished gold, rusty grey steel and black rubber; generated placement/detail differs from guide.",
+        "flat_even_light_pass": false,
+        "lighting_reason": "Residual dark recess shading and highlights visible.",
+        "unresized_return_pass": true
+      }
+    }
+  ]
+}

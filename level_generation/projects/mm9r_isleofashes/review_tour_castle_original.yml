@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/review/castle_original
+settle_seconds: 2.5
+exit: true
+shots:
+- name: castle_top
+  position:
+  - -5857
+  - 1333
+  - 4336
+  yaw: 1.5708
+  pitch: -1.1
+- name: structure00
+  position:
+  - -7015
+  - -774
+  - 502
+  yaw: 1.2826
+  pitch: 0.0347
+- name: castle_low
+  position:
+  - -8457
+  - 533
+  - 136
+  yaw: 0.785
+  pitch: 0.05

@@ -1,0 +1,3 @@
+The built-in image tool declined the request. As the brief requires, I stopped without retrying. No image was produced. The submitted prompt and exact refusal are saved in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m294_claude/references_hd/generation_runs.json).
+
+“Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 6bdd504a-b1bf-4362-8462-a83f05029be6. safety_violations=[sexual].”

@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png for materials/detail and icon_x8.png for color. Produce ONE transparent PNG 1536x2048 (3:4), preserving EXACT guide geometry, positions, sizes, outlines, openings and 3-column FOUR-row layout of 512x512 cells. The guide is the edit target; never use the reference image's shape or perspective instead. Rows 1-2 and rows 3-4 each contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey objects only; never redraw, enlarge, move, or redesign them.\nRows 1-2 PAINT: unlit base colour: fiery orange-red faceted topaz, yellow-orange glow in middle of every facet, polished warm yellow gold filigree with darker gold recesses. Facets, engravings, scrollwork, inner swirls follow design reference scaled to each existing orthographic view. Same oval cushion-cut stone with flat table top, pointed faceted underside; low open gold cradle of curling scrollwork and small prongs wrapping lower half and rim with upper stone free.\nRows 3-4 MATERIAL MASK: same five silhouettes, FLAT pure colors ONLY. Every metal part pure red #FF0000; every gemstone part pure black #000000. No shading, texture, outlines, antialiased interior color blends. Every silhouette pixel exactly one of these colors.\nPreserve all guide gaps/openings fully transparent. Empty column 3 row 2 and column 3 row 4 stay transparent. Unlit base color only, no lighting, cast shadows, ambient occlusion, hot highlights/reflections, exterior glow halo, sparkles, aura, ground, outlines or text. Preserve transparent background.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem12/paint_mask_guide.png",
+      "sha256": "827367dfea9df7beb722f51a4b3a84b1d7590db92e5e2811c18c308993f6a041"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem12/design_reference.png",
+      "sha256": "c5975e97116050e367ca21f413ca7f9f8f3fa4a36dfa3fdcd3049fdee8c6114e"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem12/icon_x8.png",
+      "sha256": "4a87ac7735d0a43cb72ca8ba2da3a0554259c18d25c995b9af94328ec193ca6e"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce6-b6d3-7e91-90e2-0cb3ff5fbdfd/exec-3b2b836d-32b6-40cd-8041-8f0963f65358.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem12/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "selection_note": "Original retained: corrective generation had more stray pixels. Raw output has silhouette/edge artifacts and does not fully satisfy exact guide preservation."
+}

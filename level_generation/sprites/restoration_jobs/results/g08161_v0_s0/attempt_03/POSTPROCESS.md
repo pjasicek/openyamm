@@ -1,0 +1,1 @@
+Run repair_extraction.py instead of ordinary process. Reviewed white/coral/pink/lilac petals and green foliage have no yellow material; direct yellow-matte extraction replaces eroding companion mask and preserves solid petals. Default registration. Script writes checks/proofs. Original mask retained for provenance, not used by corrected export. No tone grade.

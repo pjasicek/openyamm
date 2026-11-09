@@ -1,0 +1,228 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_thronheimcity/review/v03
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_east_gate_start
+  position:
+  - 14377
+  - 164
+  - 3093
+  yaw: 3.1416
+  pitch: 0.0
+- name: s02_east_gate_square
+  position:
+  - 14316
+  - 102
+  - 3093
+  yaw: 2.8799
+  pitch: 0.0
+- name: s03_prison_street
+  position:
+  - 10588
+  - 348
+  - 3093
+  yaw: -2.8799
+  pitch: 0.0
+- name: s04_docks_square
+  position:
+  - 7762
+  - -184
+  - 3093
+  yaw: 0.2616
+  pitch: 0.0
+- name: s05_east_lane
+  position:
+  - 12595
+  - 1659
+  - 3093
+  yaw: -2.6181
+  pitch: 0.0
+- name: s06_bank_street
+  position:
+  - 14643
+  - 3748
+  - 3093
+  yaw: -2.6181
+  pitch: 0.0
+- name: s07_central_square
+  position:
+  - 9564
+  - 5059
+  - 3093
+  yaw: 3.1416
+  pitch: 0.0
+- name: s08_central_square_east
+  position:
+  - 6246
+  - 4895
+  - 3093
+  yaw: 0.0
+  pitch: 0.0
+- name: s09_centre_south_street
+  position:
+  - 3215
+  - 5100
+  - 3093
+  yaw: 0.0
+  pitch: 0.0
+- name: s10_northeast_plaza
+  position:
+  - 9523
+  - 8991
+  - 3093
+  yaw: -1.5708
+  pitch: 0.0
+- name: s11_east_street
+  position:
+  - 12308
+  - 7188
+  - 3093
+  yaw: -0.5235
+  pitch: 0.0
+- name: s12_centre_west_lane
+  position:
+  - 1290
+  - 6369
+  - 3093
+  yaw: -0.5235
+  pitch: 0.0
+- name: s13_centre_north
+  position:
+  - 1290
+  - 12554
+  - 3093
+  yaw: 1.3091
+  pitch: 0.0
+- name: s14_docks_exit
+  position:
+  - 2048
+  - 14336
+  - 3093
+  yaw: -1.5708
+  pitch: 0.0
+- name: s15_west_lane
+  position:
+  - -1372
+  - 6001
+  - 3093
+  yaw: 2.0943
+  pitch: 0.0
+- name: s16_west_market
+  position:
+  - -2970
+  - 7680
+  - 3093
+  yaw: 1.3091
+  pitch: 0.0
+- name: s17_west_square
+  position:
+  - -2560
+  - 12022
+  - 3093
+  yaw: 2.8799
+  pitch: 0.0
+- name: s18_temple_square
+  position:
+  - -4895
+  - 12063
+  - 3093
+  yaw: 2.3562
+  pitch: 0.0
+- name: s19_northwest_street
+  position:
+  - -8581
+  - 13455
+  - 3093
+  yaw: -0.2616
+  pitch: 0.0
+- name: s20_roofs_from_square
+  position:
+  - 9564
+  - 5059
+  - 3093
+  yaw: 2.4792
+  pitch: 0.4363
+- name: i01_weapons_shop
+  position:
+  - 1997
+  - 4864
+  - 3152
+  yaw: 3.0792
+  pitch: 0.0
+- name: i02_armour_shop
+  position:
+  - -1101
+  - 10906
+  - 3152
+  yaw: -0.9653
+  pitch: 0.0
+- name: i03_magic_shop
+  position:
+  - 3302
+  - 12416
+  - 3152
+  yaw: 0.0451
+  pitch: 0.0
+- name: i04_tavern
+  position:
+  - 11674
+  - 1946
+  - 3124
+  yaw: 1.734
+  pitch: 0.0
+- name: i05_apothecary
+  position:
+  - 13670
+  - 5069
+  - 3124
+  yaw: -0.5476
+  pitch: 0.0
+- name: i06_town_hall
+  position:
+  - 8320
+  - 6272
+  - 3155
+  yaw: 2.4821
+  pitch: 0.0
+- name: i07_library
+  position:
+  - 10675
+  - 10506
+  - 3134
+  yaw: 0.2656
+  pitch: 0.0
+- name: i08_the_hall
+  position:
+  - -5248
+  - 8832
+  - 3152
+  yaw: -0.9608
+  pitch: 0.0
+- name: i09_bank
+  position:
+  - 16026
+  - 3814
+  - 3114
+  yaw: -0.0125
+  pitch: 0.0
+- name: i10_kira_council
+  position:
+  - -11264
+  - 15744
+  - 3278
+  yaw: 1.5708
+  pitch: 0.0
+- name: i11_temple_rata
+  position:
+  - -8274
+  - 12186
+  - 3268
+  yaw: -1.5708
+  pitch: 0.0
+- name: i12_temple_fre
+  position:
+  - -5504
+  - 14131
+  - 3268
+  yaw: 0.0
+  pitch: 0.0

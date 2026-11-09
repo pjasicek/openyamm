@@ -1,0 +1,516 @@
+{
+ "id": "20261009-1628-mm6-outb1-28",
+ "world": "mm6",
+ "maps": [
+  "outb1.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/vh2ctrw",
+  "mm6/vh4winlg",
+  "mm6/vh2re",
+  "mm6/vh4ctrw",
+  "mm6/vh4re",
+  "mm6/vh4wnrex",
+  "mm6/vh4le",
+  "mm6/vh4ctr",
+  "mm6/vh2winle",
+  "mm6/vh2le",
+  "mm6/vh2winre",
+  "mm6/csde128",
+  "mm6/cswdw128",
+  "mm6/sdkwst",
+  "mm6/vh1le",
+  "mm6/vh1winle",
+  "mm6/bmdk16e",
+  "mm6/vh4trimc",
+  "mm6/bmdk16",
+  "mm6/cstr128",
+  "mm6/armorpor",
+  "mm6/bemdorb",
+  "mm6/bemv16b",
+  "mm6/blksmmid"
+ ],
+ "requests": {
+  "mm6/vh2ctrw": {
+   "name": "vh2ctrw",
+   "versions": [
+    1
+   ],
+   "material": "house facade of orange-brown timber framing with dark charcoal stone brick infill, a central leaded window of green diamond glass panes above a hinged orange wooden shutter; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh2ctr"
+     ],
+     "fraction": 0.408
+    }
+   }
+  },
+  "mm6/vh4winlg": {
+   "name": "vh4winlg",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark red-brown beams with diagonal braces, cream plaster upper panels and dark charcoal stone brick lower panels, a terracotta tile band at the top, two barred amber-lit windows above olive-green plank shutters; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh4winle"
+     ],
+     "fraction": 0.289
+    }
+   }
+  },
+  "mm6/vh2re": {
+   "name": "vh2re",
+   "versions": [
+    1
+   ],
+   "material": "house facade of orange-brown timber framing with dark charcoal stone brick infill, with a corner timber post and a small carved post block on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh2ctr"
+     ],
+     "fraction": 0.391
+    }
+   }
+  },
+  "mm6/vh4ctrw": {
+   "name": "vh4ctrw",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark red-brown beams with diagonal braces, cream plaster upper panels and dark charcoal stone brick lower panels, a terracotta tile band at the top, a central barred amber-lit window; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh4winlg"
+     ],
+     "fraction": 0.12
+    }
+   }
+  },
+  "mm6/vh4re": {
+   "name": "vh4re",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark red-brown beams with diagonal braces, cream plaster upper panels and dark charcoal stone brick lower panels, a terracotta tile band at the top, with a corner post and carved post block on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh4wnrex": {
+   "name": "vh4wnrex",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade of dark red-brown beams with diagonal braces, cream plaster upper panels and dark charcoal stone brick lower panels, a terracotta tile band at the top, an olive-green curtained window with iron hinges, a carved post block on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh4re"
+     ],
+     "fraction": 0.62
+    },
+    "2": {
+     "sources": [
+      "mm6/vh4re"
+     ],
+     "fraction": 0.62
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm6/vh4re"
+    }
+   }
+  },
+  "mm6/vh4le": {
+   "name": "vh4le",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark red-brown beams with diagonal braces, cream plaster upper panels and dark charcoal stone brick lower panels, a terracotta tile band at the top, with a corner post and carved post block on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh4winle"
+     ],
+     "fraction": 0.52
+    }
+   }
+  },
+  "mm6/vh4ctr": {
+   "name": "vh4ctr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade of dark red-brown beams with diagonal braces, cream plaster upper panels and dark charcoal stone brick lower panels, a terracotta tile band at the top, V-shaped braces below; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh4ctrw"
+     ],
+     "fraction": 0.498
+    },
+    "2": {
+     "sources": [
+      "mm6/vh4ctrw"
+     ],
+     "fraction": 0.498
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/vh4wnrex",
+     "left": "mm6/vh4wnlex",
+     "bottom": "mm6/vh4ctrw"
+    }
+   }
+  },
+  "mm6/vh2winle": {
+   "name": "vh2winle",
+   "versions": [
+    1
+   ],
+   "material": "house facade of orange-brown timber framing with dark charcoal stone brick infill, a leaded window of green diamond glass panes above a hinged orange wooden shutter on the right, a small carved wooden post block on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh2ctrw"
+     ],
+     "fraction": 0.268
+    }
+   }
+  },
+  "mm6/vh2le": {
+   "name": "vh2le",
+   "versions": [
+    1
+   ],
+   "material": "house facade of orange-brown timber framing with dark charcoal stone brick infill, with a corner timber post and a small carved post block on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh2winle",
+      "mm6/vh2ctr"
+     ],
+     "fraction": 0.151
+    }
+   }
+  },
+  "mm6/vh2winre": {
+   "name": "vh2winre",
+   "versions": [
+    1
+   ],
+   "material": "house facade of orange-brown timber framing with dark charcoal stone brick infill, a leaded window of green diamond glass panes above a hinged orange wooden shutter on the left, a small carved wooden post block on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh2re",
+      "mm6/vh2le"
+     ],
+     "fraction": 0.266
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/csde128": {
+   "name": "csde128",
+   "versions": [
+    1
+   ],
+   "material": "grey-violet cut stone block castle wall with pale mortar and rough chiselled faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csdearo"
+     ],
+     "fraction": 0.18
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/cswdw128": {
+   "name": "cswdw128",
+   "versions": [
+    1
+   ],
+   "material": "grey-violet cut stone block castle wall with a tall arched gothic window of pink stained glass with grey stone tracery inside a voussoir arch; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cswndw"
+     ],
+     "fraction": 0.13
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/csle128",
+     "right": "mm6/cswl128"
+    }
+   }
+  },
+  "mm6/sdkwst": {
+   "name": "sdkwst",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown vertical wooden log palisade wall with snow-covered ledges and hanging icicles in two bands; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh1le": {
+   "name": "vh1le",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark red-brown beams with diagonal braces over dark charcoal rough stone infill, a terracotta tile band at the top, with a corner post and carved post block on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh1winle": {
+   "name": "vh1winle",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of dark red-brown beams with diagonal braces over dark charcoal rough stone infill, a terracotta tile band at the top, a barred amber-lit window on the right, a carved post block on the left edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh1le"
+     ],
+     "fraction": 0.071
+    }
+   }
+  },
+  "mm6/bmdk16e": {
+   "name": "bmdk16e",
+   "versions": [],
+   "material": "plain dark reddish-brown wood grain vertical strip",
+   "notes": {}
+  },
+  "mm6/vh4trimc": {
+   "name": "vh4trimc",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain cream-yellow rough plaster wall infill panel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vh4ctr"
+     ],
+     "fraction": 0.972
+    },
+    "2": {
+     "sources": [
+      "mm6/vh4ctr"
+     ],
+     "fraction": 0.972
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/bmdk16": {
+   "name": "bmdk16",
+   "versions": [
+    1
+   ],
+   "material": "plain dark reddish-brown wood grain horizontal strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemdk1"
+     ],
+     "fraction": 0.815
+    }
+   }
+  },
+  "mm6/cstr128": {
+   "name": "cstr128",
+   "versions": [
+    1
+   ],
+   "material": "plain grey-violet cut stone block trim strip of three bevelled blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csde128"
+     ],
+     "fraction": 0.608
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/armorpor": {
+   "name": "armorpor",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "armoury shop sign: green steel knight helmet painted on brown vertical wooden planks with an iron-riveted frame; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge.",
+    "3": "No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference. Copy the composition exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     47,
+     43
+    ]
+   }
+  },
+  "mm6/bemdorb": {
+   "name": "bemdorb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown vertical wooden plank door with two horizontal iron-nailed crossbands and a top board",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemv16b": {
+   "name": "bemv16b",
+   "versions": [
+    1
+   ],
+   "material": "plain reddish-brown wood grain vertical strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/blksmmid": {
+   "name": "blksmmid",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "blacksmith shop sign: dark iron anvil painted on orange-brown horizontal wooden boards with an iron-riveted brass frame; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge.",
+    "3": "No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference. Copy the composition exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     25
+    ]
+   }
+  }
+ }
+}

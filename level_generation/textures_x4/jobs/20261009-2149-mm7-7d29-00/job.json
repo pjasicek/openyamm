@@ -1,0 +1,49 @@
+{
+ "id": "20261009-2149-mm7-7d29-00",
+ "world": "mm7",
+ "maps": [
+  "7d29.blv"
+ ],
+ "created": "2026-10-09T19:49:00+00:00",
+ "textures": [
+  "mm7/wizh-a"
+ ],
+ "requests": {
+  "mm7/wizh-a": {
+   "name": "wizh-a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with the upper part of a hanging banner of muted greyish slate-blue cloth, not saturated, hung from a rod, bordered on both sides by dark maroon-red and black interlaced knot strips, embroidered with a pale gold scroll crossed with a wand and a pale gold serpent; copy the composition exactly",
+   "notes": {
+    "2": "the cloth is a dusky violet-tinged slate blue with no green or cyan in it, the same tone as the sharp lower banner part below the bottom edge, which it continues seamlessly; the border strips are dark maroon-red knotwork on near-black"
+   },
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/bannwc-a",
+      "mm7/chb1p4"
+     ],
+     "fraction": 0.152
+    },
+    "2": {
+     "sources": [
+      "mm7/bannwc-a",
+      "mm7/chb1p4"
+     ],
+     "fraction": 0.152
+    }
+   },
+   "context": {
+    "1": {
+     "bottom": "mm7/wizh-b"
+    },
+    "2": {
+     "bottom": "mm7/wizh-b"
+    }
+   }
+  }
+ }
+}

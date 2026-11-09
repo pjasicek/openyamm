@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as colour reference (ignore magenta background). Produce ONE transparent PNG 1536x2048, 3:4. Preserve the guide's exact 3-column FOUR-row layout of 512-square cells and all silhouettes, positions, sizes, orientations, gaps and openings. Do not reinterpret the unusual orthographic orientations. Rows 1-2 and 3-4 repeat the same five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Change only grey object pixels.\nRows 1-2 PAINT: unlit base colour of a sleeveless tunic of bright silver-grey riveted chain mail with fine even links, a plain round neck and long skirt split at front; no trim and no other colours. Match approved reference chain detail scaled finely to each view and original icon colour. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No outlines.\nRows 3-4 MATERIAL MASK: fill the same five exact silhouettes solid flat pure red #FF0000, because the entire item is metal chainmail. No shading, texture, outlines or interior antialiased colour blends. Material rules: metal red #FF0000, leather/fur green #00FF00, cloth/hair blue #0000FF, gems/glass/enamel/liquid black #000000. This item is all metal; all silhouette pixels red.\nEvery gap/opening stays fully transparent. Empty cells column 3 row 2 and column 3 row 4 remain transparent. No background, ground, text, glow, sparkles or aura. Paint objects only, never redraw, enlarge, move or redesign them. Output the painted guide atlas, not the standalone reference tunic.",
+  "corrective_prompt": "Edit paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as colour reference (ignore magenta background). Produce ONE transparent PNG 1536x2048, 3:4. Preserve the guide's exact 3-column FOUR-row layout of 512-square cells and all silhouettes, positions, sizes, orientations, gaps and openings. Do not reinterpret the unusual orthographic orientations. Rows 1-2 and 3-4 repeat the same five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Change only grey object pixels.\nRows 1-2 PAINT: unlit base colour of a sleeveless tunic of bright silver-grey riveted chain mail with fine even links, a plain round neck and long skirt split at front; no trim and no other colours. Match approved reference chain detail scaled finely to each view and original icon colour. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No outlines.\nRows 3-4 MATERIAL MASK: fill the same five exact silhouettes solid flat pure red #FF0000, because the entire item is metal chainmail. No shading, texture, outlines or interior antialiased colour blends. Material rules: metal red #FF0000, leather/fur green #00FF00, cloth/hair blue #0000FF, gems/glass/enamel/liquid black #000000. This item is all metal; all silhouette pixels red.\nEvery gap/opening stays fully transparent. Empty cells column 3 row 2 and column 3 row 4 remain transparent. No background, ground, text, glow, sparkles or aura. Paint objects only, never redraw, enlarge, move or redesign them. Output the painted guide atlas, not the standalone reference tunic.\nCRITICAL CORRECTION: Make alpha edges clean and exact to the original guide. No stray red pixels, spray, speckling or noise anywhere outside the five lower silhouettes or inside their circular openings. Upper views must contain only silver-grey pixels, never red. Lower masks must be perfectly uniform solid pure red with clean cutout holes and zero texture. Preserve the original guide alpha silhouette precisely. No red haze surrounding the masks.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acaa-7d95-71b1-92ff-4e6da0a4a984/exec-da317b46-71e4-47ce-a7fa-ae9e42bfac49.png",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1acaa-7d95-71b1-92ff-4e6da0a4a984/exec-9bda425c-d48a-44fd-b0f9-46186034ddc9.png",
+  "tool": "built-in image_gen",
+  "validation": "Both attempts have stray mask pixels outside silhouettes and in openings. Original selected because corrective output introduces more contamination in upper openings. Raw output copied unchanged; strict mask requirements not met.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10097/paint_mask_guide.png",
+      "sha256": "a21cf97631c414de0f276f7092a977f6f0ee5d8a915b5e8e86b5f8ae863c1db4"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10097/design_reference.png",
+      "sha256": "3682e26532291650a69e654e3f0071db13b73ff71e30fad70199c2c7fc413d2d"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10097/icon_x8.png",
+      "sha256": "45fc566d8fe4de1e839b8d5bc4d88b4f9654b76fa949797a8e58496b8ceaed46"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10097/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

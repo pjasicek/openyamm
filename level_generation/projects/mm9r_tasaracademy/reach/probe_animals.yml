@@ -1,0 +1,676 @@
+id: mm9r.ta_probe_animals
+title: animals
+world: mm9
+mode: faithful
+tags:
+- draft
+steps:
+- load_map:
+    map: tasaracademy.blv
+- set_pose:
+    map: tasaracademy.blv
+    x: 5120
+    y: -11674
+    z: 329
+    yaw: -1.5708
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+- advance_runtime:
+    seconds: 8

@@ -1,0 +1,88 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_lichlab/review/lighting_v01_baked
+settle_seconds: 1.5
+exit: true
+shots:
+- name: u01_entrance
+  position:
+  - -1311
+  - -4326
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u04_lobby_corridor
+  position:
+  - -4352
+  - -205
+  - 1312
+  yaw: 0.0
+  pitch: 0.0
+- name: u08_ring_west
+  position:
+  - -5094
+  - 2944
+  - 1312
+  yaw: 1.5708
+  pitch: 0.0
+- name: u16_ring_atrium
+  position:
+  - -5094
+  - 4096
+  - 1312
+  yaw: 0.0
+  pitch: 0.0
+- name: t01_kitchen
+  position:
+  - 154
+  - 3328
+  - 1
+  yaw: 0.9237
+  pitch: 0.0
+- name: t02_engine_crown
+  position:
+  - -4352
+  - 6226
+  - 2377
+  yaw: 0.0
+  pitch: 0.0
+- name: g01_cross_hall
+  position:
+  - -1720
+  - 3712
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: g04_north_corridor
+  position:
+  - -6656
+  - 10496
+  - 329
+  yaw: 0.0
+  pitch: 0.0
+- name: g06_east_lab
+  position:
+  - 6400
+  - 3200
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: g09_explosion_lab
+  position:
+  - -8448
+  - 6912
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: b01_engine_hall
+  position:
+  - -3840
+  - 3584
+  - -654
+  yaw: 0.8946
+  pitch: 0.0
+- name: b03_ghost_pools
+  position:
+  - -655
+  - -1434
+  - -675
+  yaw: -1.5708
+  pitch: 0.0

@@ -1,0 +1,62 @@
+id: mm6.ships.outd3.zephyr
+title: Zephyr boarding and cabin
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: outd3.odm
+- movement_segment:
+    start:
+      map: outd3.odm
+      x: 21208
+      y: 8192
+      z: 193
+      yaw: 6.283185307179586
+      pitch: 0
+    expect_stop:
+      map: outd3.odm
+      x: 21688
+      y: 8192
+      z: 121
+      yaw: 6.283185307179586
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- movement_segment:
+    start:
+      map: outd3.odm
+      x: 21688
+      y: 8192
+      z: 121
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: outd3.odm
+      x: 21303
+      y: 8192
+      z: 193
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- press_interact:
+    pose:
+      map: outd3.odm
+      x: 21840
+      y: 7968
+      z: 121
+      yaw: 4.71238898038469
+      pitch: 0
+    expect:
+      can_activate: true
+      target_index: 71
+      face_index: 42
+      triggered_event: 44

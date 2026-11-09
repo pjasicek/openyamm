@@ -1,0 +1,584 @@
+{
+  "item": "hes_capacitor_2",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": 1,
+  "status": "Five best available paintings saved; strict silhouette and fully flat lighting requirements remain unmet after the permitted single correction per view.",
+  "postprocessing": "None. Outputs are byte-identical copies of built-in image generation returns.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the existing Hesper +700 personal shield 3D model hes_capacitor_2.\n\nIMAGE 1 is the EDIT TARGET, a plain orthographic model guide. IMAGE 2 is the approved DESIGN REFERENCE for material, colour and surface detail only. Paint ONLY the surfaces of image 1. Image 1 is the absolute authority for camera, outline, every part's edge, placement and scale. Image 2 must NEVER change the geometry or camera of image 1.\n\nOutput one 1024 x 1024 RGBA PNG with a truly transparent background, maintaining the entire original square canvas and every transparent margin. Preserve image 1's exact silhouette and alpha boundary pixel for pixel; do not resize, recenter, crop, tilt, round off or add geometry. Preserve its lightly faceted model perimeter. The guide's material tints and baked shading are only labels and must be replaced.\n\nPaint the approved reference's warm ivory-white ceramic with restrained fine wear and very fine hairline marks, subdued brushed antique gold, charcoal black-violet resin seams, cool steel inset areas, and blue-white luminous crystal. All detail is painted within the guide's existing parts. Keep material boundaries and large panel divisions coherent across this item's views. Glowing pieces are bright ice-blue/blue-white base colour with restrained internal crystal detail, no bloom outside the silhouette. Ceramic stays light ivory on every facing surface, including the lower half. Use delicate panel joins, engraved lines and small geometric, non-letter markings where appropriate. Continue unseen surfaces plausibly with the same materials.\n\nLIGHTING IS STRICTLY ALBEDO: even flat shadowless frontal illumination, no cast shadows, no ambient occlusion shading, no directional shading or dark undersides, no hot specular highlights, reflections or rim light. Metals are their base colour with only a very faint brushed sheen; do not copy the reference's dramatic lighting. No background, floor, ground shadow, text, letters, numerals, labels, logos or watermark. One view only, no collage.\n\nVIEW-SPECIFIC INVARIANTS:\nPaint the FRONT guide exactly as shown: a very low wide horizontal body seen straight-on at its equator. Visible silhouette lies within x=66..957 and y=368..655 of the 1024 square. The raised cyan crystal is a shallow dome at top centre; the gold ring is seen edge-on as a narrow strip. DO NOT expose a circular face on the main body. Preserve both side blocks in their edge-on form at far left and far right. The three small gold hexagonal front connector ends are centred near (452,573), (511,573), and (571,573); preserve precisely THREE ends in these positions, no extra pins. Follow every guide edge and keep the wide blank space above and below.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "3db76fb050209b3239b1400d5b53f53373b3798e26a421bd21f99fd115a513b5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-36649825-e2a9-4f31-85f5-45e8c25f4cf8.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected initial return because it preserves the guide silhouette substantially better (normalized mask IoU 0.95328 versus 0.79897); lower ceramic shading remains.",
+      "output_sha256": "ab74ddf67b05892ac3360ca6f188cabb1ca898cf4126ea940b9dae502f5d2efa",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.953283,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          70,
+          450,
+          1184,
+          795
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Residual shaded lower ceramic and metallic highlights; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: create a flat albedo painting of the supplied exact orthographic guide. This is the sole allowed correction.\n\nIMAGE 1: approved design reference, colour/material authority only.\nIMAGE 2: initial painting, useful as a material-detail example BUT REJECTED for altered outline, scale/position drift, bright metallic reflections and shaded undersides.\nIMAGE 3 (LAST IMAGE): the exact 1024 x 1024 orthographic GUIDE and the actual EDIT TARGET. Return this last image with only its surface colours/textures changed. Use the LAST IMAGE's canvas size and preserve its precise alpha silhouette, part edges, scale and positions. Do not reproduce image 2's geometry drift.\n\nThe sole correction is fidelity to the guide as an unlit texture source. Retain the guide's exact low polygon outline. Preserve every pixel of its transparency, including large empty margins. Paint inside the existing opaque parts only. No geometry, scale, position, framing, view-angle or silhouette changes. Do not crop or zoom. 1024 x 1024 transparent RGBA output.\n\nMaterial colours from image 1: gently worn light ivory ceramic, muted brushed antique gold, charcoal black-violet resin seams, cool grey steel, bright ice-blue-white crystal. All ceramic panels, including downward-facing ones, must use the SAME pale ivory brightness: remove every broad grey/brown underside shade. Treat this as UNLIT BASE COLOUR, like a hand-painted albedo pass viewed in emission mode, not a shaded beauty render. Use restrained fine hairline wear and faint mottling. Gold is a near-uniform ochre-gold base colour with faint brushing only, no bright yellow-white highlight bands or reflected light. Steel is nearly uniform cool medium grey. Dark marks are actual thin material seams only, never AO or cast shadows. Crystal is bright cyan-white with delicate facet lines, never glare or a bright spotlight. No bloom, no rim light, no ground or background, no lettering, numerals or symbols resembling writing. No title, collage, frame or watermark.\n\nVIEW INVARIANTS FROM THE LAST IMAGE:\nPaint the FRONT guide exactly as shown: a very low wide horizontal body seen straight-on at its equator. Visible silhouette lies within x=66..957 and y=368..655 of the 1024 square. The raised cyan crystal is a shallow dome at top centre; the gold ring is seen edge-on as a narrow strip. DO NOT expose a circular face on the main body. Preserve both side blocks in their edge-on form at far left and far right. The three small gold hexagonal front connector ends are centred near (452,573), (511,573), and (571,573); preserve precisely THREE ends in these positions, no extra pins. Follow every guide edge and keep the wide blank space above and below.\n\nDeliver one painted version of the LAST IMAGE. Its contour is the boundary: texture only, preserve geometry exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        },
+        {
+          "path": "paint_front.png",
+          "sha256": "ab74ddf67b05892ac3360ca6f188cabb1ca898cf4126ea940b9dae502f5d2efa"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "3db76fb050209b3239b1400d5b53f53373b3798e26a421bd21f99fd115a513b5"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-27d92f5c-de12-4612-a15a-2f8650b290ce.png",
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Rejected correction: flatter ceramic, but markedly worse size/position and silhouette fidelity.",
+      "output_sha256": "c688d447f47967e8fc140350aa2b90c86fbce80c6014191201bd3ca3869a2d6e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.798974,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          52,
+          467,
+          1201,
+          832
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Ceramic lighting improved, but bevel shading and some metallic highlights remain; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the existing Hesper +700 personal shield 3D model hes_capacitor_2.\n\nIMAGE 1 is the EDIT TARGET, a plain orthographic model guide. IMAGE 2 is the approved DESIGN REFERENCE for material, colour and surface detail only. Paint ONLY the surfaces of image 1. Image 1 is the absolute authority for camera, outline, every part's edge, placement and scale. Image 2 must NEVER change the geometry or camera of image 1.\n\nOutput one 1024 x 1024 RGBA PNG with a truly transparent background, maintaining the entire original square canvas and every transparent margin. Preserve image 1's exact silhouette and alpha boundary pixel for pixel; do not resize, recenter, crop, tilt, round off or add geometry. Preserve its lightly faceted model perimeter. The guide's material tints and baked shading are only labels and must be replaced.\n\nPaint the approved reference's warm ivory-white ceramic with restrained fine wear and very fine hairline marks, subdued brushed antique gold, charcoal black-violet resin seams, cool steel inset areas, and blue-white luminous crystal. All detail is painted within the guide's existing parts. Keep material boundaries and large panel divisions coherent across this item's views. Glowing pieces are bright ice-blue/blue-white base colour with restrained internal crystal detail, no bloom outside the silhouette. Ceramic stays light ivory on every facing surface, including the lower half. Use delicate panel joins, engraved lines and small geometric, non-letter markings where appropriate. Continue unseen surfaces plausibly with the same materials.\n\nLIGHTING IS STRICTLY ALBEDO: even flat shadowless frontal illumination, no cast shadows, no ambient occlusion shading, no directional shading or dark undersides, no hot specular highlights, reflections or rim light. Metals are their base colour with only a very faint brushed sheen; do not copy the reference's dramatic lighting. No background, floor, ground shadow, text, letters, numerals, labels, logos or watermark. One view only, no collage.\n\nVIEW-SPECIFIC INVARIANTS:\nPaint the BACK guide exactly as shown: a very low wide horizontal body seen straight-on at its equator. Visible silhouette lies within x=66..957 and y=368..655 of the 1024 square. The raised cyan crystal is a shallow dome at top centre; the gold ring is seen edge-on as a narrow strip. DO NOT expose a circular face on the main body. Preserve both side blocks in their edge-on form at far left and far right. This back view has NO connector ends on the broad facing ceramic panel. Continue the approved ivory panels, restrained gold trim and dark inset seams plausibly on the rear. Follow every guide edge and keep the wide blank space above and below.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "042302a8d454f4dbc888d36bd3efb6538211d46549c1bc4190e0e70f7ec6b6fc"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-22584ed2-f4e5-4d81-9c19-b727466d9cd4.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrected, more evenly coloured ceramic; this initial return has slightly better silhouette overlap.",
+      "output_sha256": "65fb717a597f625405363e22998a4cf9dab7cc48c70cfb6efa2fe80e18954131",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.970144,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          79,
+          452,
+          1176,
+          805
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Residual shaded lower ceramic and metallic highlights; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: create a flat albedo painting of the supplied exact orthographic guide. This is the sole allowed correction.\n\nIMAGE 1: approved design reference, colour/material authority only.\nIMAGE 2: initial painting, useful as a material-detail example BUT REJECTED for altered outline, scale/position drift, bright metallic reflections and shaded undersides.\nIMAGE 3 (LAST IMAGE): the exact 1024 x 1024 orthographic GUIDE and the actual EDIT TARGET. Return this last image with only its surface colours/textures changed. Use the LAST IMAGE's canvas size and preserve its precise alpha silhouette, part edges, scale and positions. Do not reproduce image 2's geometry drift.\n\nThe sole correction is fidelity to the guide as an unlit texture source. Retain the guide's exact low polygon outline. Preserve every pixel of its transparency, including large empty margins. Paint inside the existing opaque parts only. No geometry, scale, position, framing, view-angle or silhouette changes. Do not crop or zoom. 1024 x 1024 transparent RGBA output.\n\nMaterial colours from image 1: gently worn light ivory ceramic, muted brushed antique gold, charcoal black-violet resin seams, cool grey steel, bright ice-blue-white crystal. All ceramic panels, including downward-facing ones, must use the SAME pale ivory brightness: remove every broad grey/brown underside shade. Treat this as UNLIT BASE COLOUR, like a hand-painted albedo pass viewed in emission mode, not a shaded beauty render. Use restrained fine hairline wear and faint mottling. Gold is a near-uniform ochre-gold base colour with faint brushing only, no bright yellow-white highlight bands or reflected light. Steel is nearly uniform cool medium grey. Dark marks are actual thin material seams only, never AO or cast shadows. Crystal is bright cyan-white with delicate facet lines, never glare or a bright spotlight. No bloom, no rim light, no ground or background, no lettering, numerals or symbols resembling writing. No title, collage, frame or watermark.\n\nVIEW INVARIANTS FROM THE LAST IMAGE:\nPaint the BACK guide exactly as shown: a very low wide horizontal body seen straight-on at its equator. Visible silhouette lies within x=66..957 and y=368..655 of the 1024 square. The raised cyan crystal is a shallow dome at top centre; the gold ring is seen edge-on as a narrow strip. DO NOT expose a circular face on the main body. Preserve both side blocks in their edge-on form at far left and far right. This back view has NO connector ends on the broad facing ceramic panel. Continue the approved ivory panels, restrained gold trim and dark inset seams plausibly on the rear. Follow every guide edge and keep the wide blank space above and below.\n\nDeliver one painted version of the LAST IMAGE. Its contour is the boundary: texture only, preserve geometry exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        },
+        {
+          "path": "paint_back_attempt1.png",
+          "sha256": "65fb717a597f625405363e22998a4cf9dab7cc48c70cfb6efa2fe80e18954131"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "042302a8d454f4dbc888d36bd3efb6538211d46549c1bc4190e0e70f7ec6b6fc"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-5625a5e4-4389-4f66-abb2-254db5454fdb.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction for substantially flatter ceramic and subdued glare with only a small silhouette-overlap loss (0.94708 versus 0.97014).",
+      "output_sha256": "c4099e4f2bd61f0c6a4abebf1b41e8ef65473e2494ebeb0399c5fbe4118145e1",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.947081,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          79,
+          449,
+          1175,
+          811
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Ceramic lighting improved, but bevel shading and some metallic highlights remain; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the existing Hesper +700 personal shield 3D model hes_capacitor_2.\n\nIMAGE 1 is the EDIT TARGET, a plain orthographic model guide. IMAGE 2 is the approved DESIGN REFERENCE for material, colour and surface detail only. Paint ONLY the surfaces of image 1. Image 1 is the absolute authority for camera, outline, every part's edge, placement and scale. Image 2 must NEVER change the geometry or camera of image 1.\n\nOutput one 1024 x 1024 RGBA PNG with a truly transparent background, maintaining the entire original square canvas and every transparent margin. Preserve image 1's exact silhouette and alpha boundary pixel for pixel; do not resize, recenter, crop, tilt, round off or add geometry. Preserve its lightly faceted model perimeter. The guide's material tints and baked shading are only labels and must be replaced.\n\nPaint the approved reference's warm ivory-white ceramic with restrained fine wear and very fine hairline marks, subdued brushed antique gold, charcoal black-violet resin seams, cool steel inset areas, and blue-white luminous crystal. All detail is painted within the guide's existing parts. Keep material boundaries and large panel divisions coherent across this item's views. Glowing pieces are bright ice-blue/blue-white base colour with restrained internal crystal detail, no bloom outside the silhouette. Ceramic stays light ivory on every facing surface, including the lower half. Use delicate panel joins, engraved lines and small geometric, non-letter markings where appropriate. Continue unseen surfaces plausibly with the same materials.\n\nLIGHTING IS STRICTLY ALBEDO: even flat shadowless frontal illumination, no cast shadows, no ambient occlusion shading, no directional shading or dark undersides, no hot specular highlights, reflections or rim light. Metals are their base colour with only a very faint brushed sheen; do not copy the reference's dramatic lighting. No background, floor, ground shadow, text, letters, numerals, labels, logos or watermark. One view only, no collage.\n\nVIEW-SPECIFIC INVARIANTS:\nPaint the LEFT guide exactly as shown: a low horizontal side profile. Visible silhouette lies within x=171..852 and y=368..655 of the 1024 square. Keep the large flat polygonal side terminal centred at about (488,521) exactly within its existing boundary: paint its interior as a gold bezel surrounding a smaller luminous blue crystal, as the design reference shows, with no protrusion or outline change. The top crystal is only a very shallow dome seen edge-on. Retain the gold connector extension at image RIGHT, near y=555..591, and all other guide parts in exactly the shown locations. Preserve broad empty canvas margins; do not zoom.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "79462ceca8e8dcb41343c52223e91d6ae19d1b0f068a4070a40ec5c7a769c628"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-0048c676-07cb-4a60-84e7-6b18a21dd44e.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: darker underside and slightly worse guide overlap.",
+      "output_sha256": "7258afe250456ec8fd67a13936926c4413257e548d3eaa21b5763a247240eadf",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.734567,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          179,
+          456,
+          1147,
+          852
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Residual shaded lower ceramic and metallic highlights; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: create a flat albedo painting of the supplied exact orthographic guide. This is the sole allowed correction.\n\nIMAGE 1: approved design reference, colour/material authority only.\nIMAGE 2: initial painting, useful as a material-detail example BUT REJECTED for altered outline, scale/position drift, bright metallic reflections and shaded undersides.\nIMAGE 3 (LAST IMAGE): the exact 1024 x 1024 orthographic GUIDE and the actual EDIT TARGET. Return this last image with only its surface colours/textures changed. Use the LAST IMAGE's canvas size and preserve its precise alpha silhouette, part edges, scale and positions. Do not reproduce image 2's geometry drift.\n\nThe sole correction is fidelity to the guide as an unlit texture source. Retain the guide's exact low polygon outline. Preserve every pixel of its transparency, including large empty margins. Paint inside the existing opaque parts only. No geometry, scale, position, framing, view-angle or silhouette changes. Do not crop or zoom. 1024 x 1024 transparent RGBA output.\n\nMaterial colours from image 1: gently worn light ivory ceramic, muted brushed antique gold, charcoal black-violet resin seams, cool grey steel, bright ice-blue-white crystal. All ceramic panels, including downward-facing ones, must use the SAME pale ivory brightness: remove every broad grey/brown underside shade. Treat this as UNLIT BASE COLOUR, like a hand-painted albedo pass viewed in emission mode, not a shaded beauty render. Use restrained fine hairline wear and faint mottling. Gold is a near-uniform ochre-gold base colour with faint brushing only, no bright yellow-white highlight bands or reflected light. Steel is nearly uniform cool medium grey. Dark marks are actual thin material seams only, never AO or cast shadows. Crystal is bright cyan-white with delicate facet lines, never glare or a bright spotlight. No bloom, no rim light, no ground or background, no lettering, numerals or symbols resembling writing. No title, collage, frame or watermark.\n\nVIEW INVARIANTS FROM THE LAST IMAGE:\nPaint the LEFT guide exactly as shown: a low horizontal side profile. Visible silhouette lies within x=171..852 and y=368..655 of the 1024 square. Keep the large flat polygonal side terminal centred at about (488,521) exactly within its existing boundary: paint its interior as a gold bezel surrounding a smaller luminous blue crystal, as the design reference shows, with no protrusion or outline change. The top crystal is only a very shallow dome seen edge-on. Retain the gold connector extension at image RIGHT, near y=555..591, and all other guide parts in exactly the shown locations. Preserve broad empty canvas margins; do not zoom.\n\nDeliver one painted version of the LAST IMAGE. Its contour is the boundary: texture only, preserve geometry exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        },
+        {
+          "path": "paint_left_attempt1.png",
+          "sha256": "7258afe250456ec8fd67a13936926c4413257e548d3eaa21b5763a247240eadf"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "79462ceca8e8dcb41343c52223e91d6ae19d1b0f068a4070a40ec5c7a769c628"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-02a4f41e-41b9-4bc6-abb1-5274b3e7eff2.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction for improved ceramic lighting and slightly improved silhouette overlap (0.74580 versus 0.73457). Significant silhouette/part-placement mismatch remains.",
+      "output_sha256": "cc4855504050fdf8ee15519bc96d5966cbc6d7bc40b542459203d19f026e7f53",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.745798,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          189,
+          451,
+          1146,
+          855
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Ceramic lighting improved, but bevel shading and some metallic highlights remain; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the existing Hesper +700 personal shield 3D model hes_capacitor_2.\n\nIMAGE 1 is the EDIT TARGET, a plain orthographic model guide. IMAGE 2 is the approved DESIGN REFERENCE for material, colour and surface detail only. Paint ONLY the surfaces of image 1. Image 1 is the absolute authority for camera, outline, every part's edge, placement and scale. Image 2 must NEVER change the geometry or camera of image 1.\n\nOutput one 1024 x 1024 RGBA PNG with a truly transparent background, maintaining the entire original square canvas and every transparent margin. Preserve image 1's exact silhouette and alpha boundary pixel for pixel; do not resize, recenter, crop, tilt, round off or add geometry. Preserve its lightly faceted model perimeter. The guide's material tints and baked shading are only labels and must be replaced.\n\nPaint the approved reference's warm ivory-white ceramic with restrained fine wear and very fine hairline marks, subdued brushed antique gold, charcoal black-violet resin seams, cool steel inset areas, and blue-white luminous crystal. All detail is painted within the guide's existing parts. Keep material boundaries and large panel divisions coherent across this item's views. Glowing pieces are bright ice-blue/blue-white base colour with restrained internal crystal detail, no bloom outside the silhouette. Ceramic stays light ivory on every facing surface, including the lower half. Use delicate panel joins, engraved lines and small geometric, non-letter markings where appropriate. Continue unseen surfaces plausibly with the same materials.\n\nLIGHTING IS STRICTLY ALBEDO: even flat shadowless frontal illumination, no cast shadows, no ambient occlusion shading, no directional shading or dark undersides, no hot specular highlights, reflections or rim light. Metals are their base colour with only a very faint brushed sheen; do not copy the reference's dramatic lighting. No background, floor, ground shadow, text, letters, numerals, labels, logos or watermark. One view only, no collage.\n\nVIEW-SPECIFIC INVARIANTS:\nPaint the RIGHT guide exactly as shown: a low horizontal side profile. Visible silhouette lies within x=171..852 and y=368..655 of the 1024 square. Keep the large flat polygonal side terminal centred at about (536,521) exactly within its existing boundary: paint its interior as a gold bezel surrounding a smaller luminous blue crystal, as the design reference shows, with no protrusion or outline change. The top crystal is only a very shallow dome seen edge-on. Retain the gold connector extension at image LEFT, near y=555..591, and all other guide parts in exactly the shown locations. Preserve broad empty canvas margins; do not zoom.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "2b8e8c4297a76901b0a06238b21ebe3828c38ace3b04da7216e70b417f10122a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-81be1275-8f19-4c9d-aa3c-283b1dcf1bf5.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: shifted silhouette and shaded lower panels.",
+      "output_sha256": "c48bdd98c23cb19ed7fc5d60a12156b4cd599de1dcc35ba46812d64c8442cd0f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.835874,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          195,
+          469,
+          1067,
+          827
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Residual shaded lower ceramic and metallic highlights; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: create a flat albedo painting of the supplied exact orthographic guide. This is the sole allowed correction.\n\nIMAGE 1: approved design reference, colour/material authority only.\nIMAGE 2: initial painting, useful as a material-detail example BUT REJECTED for altered outline, scale/position drift, bright metallic reflections and shaded undersides.\nIMAGE 3 (LAST IMAGE): the exact 1024 x 1024 orthographic GUIDE and the actual EDIT TARGET. Return this last image with only its surface colours/textures changed. Use the LAST IMAGE's canvas size and preserve its precise alpha silhouette, part edges, scale and positions. Do not reproduce image 2's geometry drift.\n\nThe sole correction is fidelity to the guide as an unlit texture source. Retain the guide's exact low polygon outline. Preserve every pixel of its transparency, including large empty margins. Paint inside the existing opaque parts only. No geometry, scale, position, framing, view-angle or silhouette changes. Do not crop or zoom. 1024 x 1024 transparent RGBA output.\n\nMaterial colours from image 1: gently worn light ivory ceramic, muted brushed antique gold, charcoal black-violet resin seams, cool grey steel, bright ice-blue-white crystal. All ceramic panels, including downward-facing ones, must use the SAME pale ivory brightness: remove every broad grey/brown underside shade. Treat this as UNLIT BASE COLOUR, like a hand-painted albedo pass viewed in emission mode, not a shaded beauty render. Use restrained fine hairline wear and faint mottling. Gold is a near-uniform ochre-gold base colour with faint brushing only, no bright yellow-white highlight bands or reflected light. Steel is nearly uniform cool medium grey. Dark marks are actual thin material seams only, never AO or cast shadows. Crystal is bright cyan-white with delicate facet lines, never glare or a bright spotlight. No bloom, no rim light, no ground or background, no lettering, numerals or symbols resembling writing. No title, collage, frame or watermark.\n\nVIEW INVARIANTS FROM THE LAST IMAGE:\nPaint the RIGHT guide exactly as shown: a low horizontal side profile. Visible silhouette lies within x=171..852 and y=368..655 of the 1024 square. Keep the large flat polygonal side terminal centred at about (536,521) exactly within its existing boundary: paint its interior as a gold bezel surrounding a smaller luminous blue crystal, as the design reference shows, with no protrusion or outline change. The top crystal is only a very shallow dome seen edge-on. Retain the gold connector extension at image LEFT, near y=555..591, and all other guide parts in exactly the shown locations. Preserve broad empty canvas margins; do not zoom.\n\nDeliver one painted version of the LAST IMAGE. Its contour is the boundary: texture only, preserve geometry exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        },
+        {
+          "path": "paint_right_attempt1.png",
+          "sha256": "c48bdd98c23cb19ed7fc5d60a12156b4cd599de1dcc35ba46812d64c8442cd0f"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "2b8e8c4297a76901b0a06238b21ebe3828c38ace3b04da7216e70b417f10122a"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-6b201c80-4550-44f5-a12c-b23ef9ab148a.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction: substantially better guide overlap (0.96796 versus 0.83587) and flatter ceramic lighting.",
+      "output_sha256": "70bd2392f302583bcb0654e9fed23f10826f057faec52b4cb8c34f8510b5528d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.96796,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          210,
+          450,
+          1043,
+          797
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Ceramic lighting improved, but bevel shading and some metallic highlights remain; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the existing Hesper +700 personal shield 3D model hes_capacitor_2.\n\nIMAGE 1 is the EDIT TARGET, a plain orthographic model guide. IMAGE 2 is the approved DESIGN REFERENCE for material, colour and surface detail only. Paint ONLY the surfaces of image 1. Image 1 is the absolute authority for camera, outline, every part's edge, placement and scale. Image 2 must NEVER change the geometry or camera of image 1.\n\nOutput one 1024 x 1024 RGBA PNG with a truly transparent background, maintaining the entire original square canvas and every transparent margin. Preserve image 1's exact silhouette and alpha boundary pixel for pixel; do not resize, recenter, crop, tilt, round off or add geometry. Preserve its lightly faceted model perimeter. The guide's material tints and baked shading are only labels and must be replaced.\n\nPaint the approved reference's warm ivory-white ceramic with restrained fine wear and very fine hairline marks, subdued brushed antique gold, charcoal black-violet resin seams, cool steel inset areas, and blue-white luminous crystal. All detail is painted within the guide's existing parts. Keep material boundaries and large panel divisions coherent across this item's views. Glowing pieces are bright ice-blue/blue-white base colour with restrained internal crystal detail, no bloom outside the silhouette. Ceramic stays light ivory on every facing surface, including the lower half. Use delicate panel joins, engraved lines and small geometric, non-letter markings where appropriate. Continue unseen surfaces plausibly with the same materials.\n\nLIGHTING IS STRICTLY ALBEDO: even flat shadowless frontal illumination, no cast shadows, no ambient occlusion shading, no directional shading or dark undersides, no hot specular highlights, reflections or rim light. Metals are their base colour with only a very faint brushed sheen; do not copy the reference's dramatic lighting. No background, floor, ground shadow, text, letters, numerals, labels, logos or watermark. One view only, no collage.\n\nVIEW-SPECIFIC INVARIANTS:\nPaint the TOP guide exactly as shown, from directly overhead with zero perspective. Visible silhouette lies within x=66..957 and y=171..852 of the 1024 square. Retain the horizontally broad oval ceramic body, the central polygonal gold ring and its ice-blue crystal at their exact guide boundaries, the two broad shallow crescent steel insets above and below the ring, the edge-on gold terminals at image left and right, and exactly THREE gold connector pins at image bottom. The central crystal may contain the reference's fine pale geometric facet lines. Side terminals remain edge-on in this view: do not add facing circular lenses there. Preserve each pin's length, width and location. Do not transform this into the reference's oblique product view.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "9bfc90ab49bb71675c9518784ecd6db5fd71c27482b27095959c658a5fc1e589"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-3aada032-3b73-4dd6-8f6a-47a148fa2ca2.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: smaller object footprint and more specular lighting.",
+      "output_sha256": "d87288db9fdf5e05f5677b22e62599e53535d1eab88c6df475c1dab47f5258b9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.90479,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          100,
+          207,
+          1155,
+          1012
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Residual shaded lower ceramic and metallic highlights; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: create a flat albedo painting of the supplied exact orthographic guide. This is the sole allowed correction.\n\nIMAGE 1: approved design reference, colour/material authority only.\nIMAGE 2: initial painting, useful as a material-detail example BUT REJECTED for altered outline, scale/position drift, bright metallic reflections and shaded undersides.\nIMAGE 3 (LAST IMAGE): the exact 1024 x 1024 orthographic GUIDE and the actual EDIT TARGET. Return this last image with only its surface colours/textures changed. Use the LAST IMAGE's canvas size and preserve its precise alpha silhouette, part edges, scale and positions. Do not reproduce image 2's geometry drift.\n\nThe sole correction is fidelity to the guide as an unlit texture source. Retain the guide's exact low polygon outline. Preserve every pixel of its transparency, including large empty margins. Paint inside the existing opaque parts only. No geometry, scale, position, framing, view-angle or silhouette changes. Do not crop or zoom. 1024 x 1024 transparent RGBA output.\n\nMaterial colours from image 1: gently worn light ivory ceramic, muted brushed antique gold, charcoal black-violet resin seams, cool grey steel, bright ice-blue-white crystal. All ceramic panels, including downward-facing ones, must use the SAME pale ivory brightness: remove every broad grey/brown underside shade. Treat this as UNLIT BASE COLOUR, like a hand-painted albedo pass viewed in emission mode, not a shaded beauty render. Use restrained fine hairline wear and faint mottling. Gold is a near-uniform ochre-gold base colour with faint brushing only, no bright yellow-white highlight bands or reflected light. Steel is nearly uniform cool medium grey. Dark marks are actual thin material seams only, never AO or cast shadows. Crystal is bright cyan-white with delicate facet lines, never glare or a bright spotlight. No bloom, no rim light, no ground or background, no lettering, numerals or symbols resembling writing. No title, collage, frame or watermark.\n\nVIEW INVARIANTS FROM THE LAST IMAGE:\nPaint the TOP guide exactly as shown, from directly overhead with zero perspective. Visible silhouette lies within x=66..957 and y=171..852 of the 1024 square. Retain the horizontally broad oval ceramic body, the central polygonal gold ring and its ice-blue crystal at their exact guide boundaries, the two broad shallow crescent steel insets above and below the ring, the edge-on gold terminals at image left and right, and exactly THREE gold connector pins at image bottom. The central crystal may contain the reference's fine pale geometric facet lines. Side terminals remain edge-on in this view: do not add facing circular lenses there. Preserve each pin's length, width and location. Do not transform this into the reference's oblique product view.\n\nDeliver one painted version of the LAST IMAGE. Its contour is the boundary: texture only, preserve geometry exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6872e8246979c3b72db5e1dd474cbef716dd2cf2fe187afd654d20dc1bce81bb"
+        },
+        {
+          "path": "paint_top_attempt1.png",
+          "sha256": "d87288db9fdf5e05f5677b22e62599e53535d1eab88c6df475c1dab47f5258b9"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "9bfc90ab49bb71675c9518784ecd6db5fd71c27482b27095959c658a5fc1e589"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16da7-dcea-7400-89d5-fdd6f4fd7eb2/exec-5bcab59d-2131-4b01-af81-2d2bf7db9acb.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction: improved guide overlap (0.93843 versus 0.90479), flatter steel and ceramic, and retained three connector pins; residual metal highlights and geometry mismatch remain.",
+      "output_sha256": "ce67225b42167006da569b2a93fc23260c84626aa19299cb36563c4f4764e91e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "size_note": "Tool returned 1254 x 1254; retained unresized as required by the brief.",
+      "checks": {
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.938433,
+        "silhouette_method": "Read-only nearest-pixel sampling of generated alpha on normalized guide coordinates, alpha >= 128. Diagnostic only: no resizing or image edits were saved.",
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "solid_bounds": [
+          70,
+          209,
+          1186,
+          1072
+        ],
+        "exact_alpha_match": false,
+        "colours_and_materials_match_reference": "Visual pass: ivory ceramic, gold, dark resin/steel and blue-white crystal. Material motifs match; exact part boundaries drift.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_notes": "Ceramic lighting improved, but bevel shading and some metallic highlights remain; not a fully unlit albedo.",
+        "transparent_background": true,
+        "transparency_notes": "RGBA with transparent background; faint alpha specks/edge fringes remain. Returned alpha preserved unchanged.",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "no_text_or_letters": true,
+        "visual_review_completed": true,
+        "meets_all_brief_checks": false
+      }
+    }
+  ]
+}

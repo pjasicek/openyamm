@@ -1,0 +1,554 @@
+{
+ "id": "20261009-1628-mm6-6d08-21",
+ "world": "mm6",
+ "maps": [
+  "6d08.blv",
+  "6d19.blv",
+  "zddb10.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/d5colum",
+  "mm6/d5dorlgb",
+  "mm6/d5drsmbs",
+  "mm6/d5florc",
+  "mm6/d5flore",
+  "mm6/d5smtra",
+  "mm6/d5smtrb",
+  "mm6/mystryb",
+  "mm6/t1c11",
+  "mm6/t1wl4rea",
+  "mm6/t1wl7spa",
+  "mm6/t1spclb",
+  "mm6/t1swbd",
+  "mm6/t1wl0lg",
+  "mm6/d8wlcsp5",
+  "mm6/d8wldsp3",
+  "mm6/dkwle",
+  "mm6/d8wlbxr",
+  "mm6/d8wlcspr",
+  "mm6/d8wlcspl",
+  "mm6/dkwre",
+  "mm6/bemsh32b",
+  "mm6/d8dorabs",
+  "mm6/d8dorae"
+ ],
+ "requests": {
+  "mm6/d5colum": {
+   "name": "d5colum",
+   "versions": [
+    1
+   ],
+   "material": "weathered tan sandstone column shaft with rough horizontal joints and a small carved Mayan-style glyph medallion near the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5dorlgb": {
+   "name": "d5dorlgb",
+   "versions": [
+    1
+   ],
+   "material": "large greenish-grey carved stone door slab covered in deep Mayan-style relief of a seated figure, scrolls and glyph blocks, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5drsmbs": {
+   "name": "d5drsmbs",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow dark stone strip with a carved tan chain-link border pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5florc": {
+   "name": "d5florc",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone floor of four large square slabs with worn carved surface relief and dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5flore": {
+   "name": "d5flore",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tan sandstone floor of square carved Mayan-style glyph blocks with dark joints",
+   "notes": {
+    "2": "Copy the carved glyphs exactly as in the reference, same shapes and positions; no Latin letters or numerals."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5smtra": {
+   "name": "d5smtra",
+   "versions": [
+    1
+   ],
+   "material": "small tan sandstone tile carved with a single Mayan-style glyph in relief on a dark ground, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5smtrb": {
+   "name": "d5smtrb",
+   "versions": [
+    1
+   ],
+   "material": "small tan sandstone tile carved with a pair of Mayan-style glyphs in relief on a dark ground, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/mystryb": {
+   "name": "mystryb",
+   "versions": [
+    1
+   ],
+   "material": "black magical surface with a web of glowing electric-blue crackling vein lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1c11": {
+   "name": "t1c11",
+   "versions": [
+    1
+   ],
+   "material": "square pale white marble frame with bevelled edges around a glossy pale ice-blue crystal panel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1wl4rea": {
+   "name": "t1wl4rea",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with pale mortar, ending in a stepped broken-off brick edge on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl4reb",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl1lea1",
+      "mm6/t1wl1ctl"
+     ],
+     "fraction": 0.895
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl4reb",
+      "mm6/t1w15a",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl1rea"
+     ],
+     "fraction": 0.905
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/t1wl4ctl",
+     "bottom": "mm6/t1wl4reb"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/t1wl7spa": {
+   "name": "t1wl7spa",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink-cream marble block wall with a dark arched niche holding a dark bronze bust of a curly-haired man draped in a green cloak on a green marble plinth, copy the composition exactly",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "Each marble block is one continuous polished surface: no rectangular lighter or darker patches, no stepped notches along block edges; veins flow across the whole block. No mosaic of small cells or scales."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.251
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.251
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.251
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   }
+  },
+  "mm6/t1spclb": {
+   "name": "t1spclb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink marble wall panel with two tall dark green marble niches each holding a pale classical marble statue, copy the composition exactly",
+   "notes": {
+    "2": "All figures fully clothed in long robes; no bare skin."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1swbd": {
+   "name": "t1swbd",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small pink marble square plate with a raised round red button in the centre",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1wl0lg": {
+   "name": "t1wl0lg",
+   "versions": [
+    1
+   ],
+   "material": "pink-cream and red-brown marble block wall laid in running bond with pale mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wlcsp5": {
+   "name": "d8wlcsp5",
+   "versions": [
+    1
+   ],
+   "material": "red brick wall set inside a dark grey fieldstone arched niche with a stone archivolt, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wldsp3": {
+   "name": "d8wldsp3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown stone brick wall with a framed pale stone relief panel of struggling warriors and a horse, copy the composition exactly",
+   "notes": {
+    "2": "Smooth carved sandstone relief with natural irregular grain: no regular diamond, knurl or cross-hatch micro-pattern over the surface."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wldsp2"
+     ],
+     "fraction": 0.385
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wldsp2"
+     ],
+     "fraction": 0.385
+    }
+   }
+  },
+  "mm6/dkwle": {
+   "name": "dkwle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark weathered vertical wooden planks with green moss staining inside an orange-brown wooden frame, frame post on the left edge",
+   "notes": {
+    "2": "Keep the thin black line along both the top and the bottom edge exactly as in the reference, so the texture tiles seamlessly top to bottom."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wlbxr": {
+   "name": "d8wlbxr",
+   "versions": [
+    1
+   ],
+   "material": "dark grey rough fieldstone wall with a smooth darker vertical stone pilaster on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlbx"
+     ],
+     "fraction": 0.668
+    }
+   }
+  },
+  "mm6/d8wlcspr": {
+   "name": "d8wlcspr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark blue-grey rough fieldstone wall with a smooth darker vertical stone pilaster strip, right-hand variant",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlcre"
+     ],
+     "fraction": 0.127
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wlcre"
+     ],
+     "fraction": 0.112
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d8wlcle"
+    }
+   }
+  },
+  "mm6/d8wlcspl": {
+   "name": "d8wlcspl",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark blue-grey rough fieldstone wall with a smooth darker vertical stone pilaster strip, left-hand variant",
+   "notes": {
+    "2": "No dark outline or shadow along the right edge; the outermost columns keep the same brightness as the interior.",
+    "3": "No dark outline or shadow along the right edge; the outermost columns keep the same brightness as the interior."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlcspr"
+     ],
+     "fraction": 0.497
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wlcspr"
+     ],
+     "fraction": 0.497
+    },
+    "3": {
+     "sources": [
+      "mm6/d8wlcspr"
+     ],
+     "fraction": 0.497
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm6/d8wlcspr",
+     "left": "mm6/d8dora"
+    }
+   }
+  },
+  "mm6/dkwre": {
+   "name": "dkwre",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark weathered vertical wooden planks with green moss staining inside an orange-brown wooden frame, frame post on the right edge",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior.",
+    "3": "No dark outline or shadow along the right edge: the orange wooden post stays bright and solid to the very last column.",
+    "4": "The orange wooden post on the right stays bright and solid to the very last column: no dark line along the right edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/dkwle"
+     ],
+     "fraction": 0.359
+    },
+    "2": {
+     "sources": [
+      "mm6/dkwle"
+     ],
+     "fraction": 0.359
+    },
+    "3": {
+     "sources": [
+      "mm6/dkwle"
+     ],
+     "fraction": 0.359
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     176
+    ]
+   }
+  },
+  "mm6/bemsh32b": {
+   "name": "bemsh32b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain warm orange-brown polished wood beam with long straight grain and a small knot",
+   "notes": {
+    "2": "Plain strip only: one continuous wood plank with natural grain, no joints, seams, grooves or end caps; tile seamlessly in both directions."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/beemdorc"
+     ],
+     "fraction": 0.679
+    },
+    "2": {
+     "sources": [
+      "mm6/beemdorc"
+     ],
+     "fraction": 0.679
+    }
+   }
+  },
+  "mm6/d8dorabs": {
+   "name": "d8dorabs",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow rough grey stone door jamb strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8dorae": {
+   "name": "d8dorae",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow rough grey stone door lintel strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

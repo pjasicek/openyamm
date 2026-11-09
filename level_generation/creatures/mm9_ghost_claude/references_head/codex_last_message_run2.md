@@ -1,0 +1,3 @@
+Saved run 2’s four views in [references_head/b/](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_ghost_claude/references_head/b). Built-in image generation used; raw returns, prompts, hashes and selections recorded in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_ghost_claude/references_head/generation_runs.json).
+
+No resizing or cleanup performed. Despite one correction per view, returns remain 1254×1254 with alpha/edge defects and some framing/profile inaccuracies, so they do not fully meet the brief.

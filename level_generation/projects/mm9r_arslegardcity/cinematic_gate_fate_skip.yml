@@ -1,0 +1,14 @@
+# gate_fate skipped at about 2 s: its steps still run (key 98, the peephole opened and shut, 46 000 experience as
+# capped, the move to the Dark Passageway). README "Cinematics".
+id: mm9r.arslegardcity.cinematic_gate_fate_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: arslegardcity.blv}
+- advance_runtime: {seconds: 4}
+- console: {line: cinematic list, expect_contains: playing gate_fate}
+- assert: {mechanism: {id: 8, state: closed}}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5, follow_map_move: true}
+- assert: {qbit_set: [90098]}
+- assert: {map_arrived: {map: darkpassageway.blv}}

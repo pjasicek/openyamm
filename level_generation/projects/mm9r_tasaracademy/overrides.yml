@@ -1,0 +1,131 @@
+# Explicit conversion choices for MM9's Ta'Sar Academy (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: tasaracademy
+  display_name: Ta'Sar Academy
+  starts: [StartPoint0]               # the only start: ExitTrigger0's door from Lindisfarne (TaSarExit there)
+  monster_classes: [Guard, GuardCaptain, HalfOrcCaptain, Dagrell, Cow, Pig, Goat]
+  offset: [0, 0, 0]                   # the old map's frame (fits int16): transitions and bounds stay valid
+  ambient: 31                         # sector minimum light 31: no frame ambient subtracted from the decorations' light (AGENT_BRIEF workaround)
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  split_retry: true                   # floors and ceilings over rows of rooms (the dormitories): try every wall split
+  thin_walls: true                    # partitions under a voxel thick keep their far face (Drangheim's cow pen lesson)
+models:
+  # --- the library's secret door (LibraryDoor, Locked): TaSarTable.scr's CheckAllKeys unlocks, opens and relocks it
+  LibraryDoor: {group: LibraryDoor, motion: rotate, doorway: true, portal: Librarysecret}
+  # --- the rotating bookcase to the Book of Rules' room: BookButtonFront1/Back1 (the book buttons) toggle it
+  RotatingBookcase1: {group: RotatingBookcase1, motion: rotate, doorway: true, portal: BookcasePortal1}
+  BookButtonFront1: {group: BookButtonFront1, motion: dat}
+  BookButtonBack1: {group: BookButtonBack1, motion: dat}
+  # --- the trap doors in front of the lecture podium (PitDoorTrigger1): they drop the party into the spike pit
+  PitDoorLeft1: {group: PitDoor, motion: rotate, bodies: push, carry: true, click: false, owner_lt: [496, 20, -2000]}
+  PitDoorRight1: {group: PitDoor, motion: rotate, bodies: push, carry: true, click: false, owner_lt: [496, 20, -2000]}
+  # --- the two secret doors and their wall switches (Switch, Switch1: each toggles its door)
+  SecretDoor0: {group: SecretDoor0, motion: dat, doorway: true, portal: SecretPortal0}
+  SecretDoor1: {group: SecretDoor1, motion: dat, doorway: true, portal: SecretPortal1}
+  Switch: {group: Switch, motion: rotate}
+  Switch1: {group: Switch1, motion: rotate}
+  # --- the linear double doors (MM9 Door pairs, MoveDist 44, CloseWaitTime 5/7, PushOpen)
+  DoubleDoorL11: {group: DD11, motion: dat, doorway: true, portal: DoubleDoorPortal11}
+  DoubleDoorR11: {group: DD11, motion: dat, doorway: true, portal: DoubleDoorPortal11}
+  Door32: {group: D32_33, motion: dat, doorway: true}
+  Door33: {group: D32_33, motion: dat, doorway: true}
+  Door30: {group: D30_31, motion: dat, doorway: true}
+  Door31: {group: D30_31, motion: dat, doorway: true}
+  Door28: {group: D28_29, motion: dat, doorway: true}
+  Door29: {group: D28_29, motion: dat, doorway: true}
+  Door26: {group: D26_27, motion: dat, doorway: true}
+  Door27: {group: D26_27, motion: dat, doorway: true}
+  Door24: {group: D24_25, motion: dat, doorway: true}
+  Door25: {group: D24_25, motion: dat, doorway: true}
+  Door22: {group: D22_23, motion: dat, doorway: true, portal: Door_22_23_portal}
+  Door23: {group: D22_23, motion: dat, doorway: true, portal: Door_22_23_portal}
+  Door20: {group: D20_21, motion: dat, doorway: true, portal: Door_20_21_portal}
+  Door21: {group: D20_21, motion: dat, doorway: true, portal: Door_20_21_portal}
+  Door18: {group: D18_19, motion: dat, doorway: true}
+  Door19: {group: D18_19, motion: dat, doorway: true}
+  Door16: {group: D16_17, motion: dat, doorway: true, portal: Door_16_17_portal}
+  Door17: {group: D16_17, motion: dat, doorway: true, portal: Door_16_17_portal}
+  Door14: {group: D14_15, motion: dat, doorway: true, portal: Door_14_15_portal}
+  Door15: {group: D14_15, motion: dat, doorway: true, portal: Door_14_15_portal}
+  Door10: {group: D10_13, motion: dat, doorway: true, portal: Door_10_13_portal}
+  Door13: {group: D10_13, motion: dat, doorway: true, portal: Door_10_13_portal}
+  Door8: {group: D8_9, motion: dat, doorway: true, portal: Door_8_9_portal}
+  Door9: {group: D8_9, motion: dat, doorway: true, portal: Door_8_9_portal}
+  Door6: {group: D6_7, motion: dat, doorway: true, portal: Door_6_7_portal}
+  Door7: {group: D6_7, motion: dat, doorway: true, portal: Door_6_7_portal}
+  Door4: {group: D4_5, motion: dat, doorway: true, portal: Door_4_5_portal}
+  Door5: {group: D4_5, motion: dat, doorway: true, portal: Door_4_5_portal}
+  Door2: {group: D2_3, motion: dat, doorway: true, portal: Door_2_3_portal}
+  Door3: {group: D2_3, motion: dat, doorway: true, portal: Door_2_3_portal}
+  Door0: {group: D0_1, motion: dat, doorway: true, portal: Door_0_1_portal}
+  Door1: {group: D0_1, motion: dat, doorway: true, portal: Door_0_1_portal}
+  # --- static world objects
+  WorldObject0: static                # the ladder faces (the climbing is the `ladders` section)
+  WorldObject1: static
+  WorldObject2: static                # the arena's two gates
+  WorldObject3: static
+  WorldObject4: static                # the library's upper gallery structure
+  Rails: static                       # the library galleries' handrails
+  Rails0: static
+  "Transparent Bars": static          # barred windows of the west wing
+  "Transparent Bars0": static
+  InvisibleBrush0: static             # invisible collision
+  InvisibleBrush1: static
+  InvisibleBrush2: static
+  # the cracked wall by the library's lower floor (DestructableBrush, 25 hit points): breaking it (convert.py: a click)
+  # hides both brushes
+  # the cracked wall: scene destructibles (dungeon/destructibles.py `break`, 2026-11-06); weapons break "door crack" (25
+  # hit points), a click on either still does ("door crack 2" is TriggerDestroyOnly: its click is the crack's, 38000 + 599)
+  "door crack": {group: DoorCrack, motion: break, doorway: true}
+  "door crack 2": {group: DoorCrack, motion: break, doorway: true, click: 38599}
+  # --- sky
+  SkyBox0: skip
+  TOD_Sky0: skip
+model_patterns: {}
+portals:
+  # the arena's four short passages to the ring corridor (the arena is open to them; MM9 has no UserPortal there)
+  - {name: arena_west, axis: x, points: [[540, 60, -850], [540, 60, -1360]], span: 160}
+  - {name: arena_east, axis: x, points: [[1690, 60, -850], [1690, 60, -1360]], span: 160}
+  # the stair from the library's floor up to the south hall (under the upper landing, room of the LibraryDoor)
+  - {name: library_stair, axis: z, point: [496, 60, -3480], span: 128}
+  # the stair from the olive hall down to the octagonal hall
+  - {name: east_stair, axis: z, point: [1960, 60, -3480], span: 128}
+textures:
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}   # InvisibleBrush2's sound-only faces: invisible collision
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+# The trap doors lie in the tower's floor plane: a horizontal portal over the pit (the UserPortal's side samples fall
+# in no air); the leaves belong to the tower above (owner_lt), as Anskram Keep's pivot traps.
+skip_user_portals: [PitDoorPortal1]
+rect_portals:
+  - {name: PitMouth, min_lt: [432, -16, -2064], max_lt: [560, -16, -1936]}
+  # The barn's five barred gates (Iron bars 4 LT apart close the voxel pass; playbook "Bars close the voxel pass"):
+  # one portal in each gate, its plane between the bars' two rows, so the pens draw through them. The second pen
+  # (x 1880-1992) holds no animal: its air is seeded below.
+  - {name: PenGate1, min_lt: [1780, 128, -4704], max_lt: [1828, 224, -4704]}
+  - {name: PenGate2, min_lt: [1912, 128, -4704], max_lt: [1960, 224, -4704]}
+  - {name: PenGate3, min_lt: [2044, 128, -4704], max_lt: [2092, 224, -4704]}
+  - {name: PenGate4, min_lt: [2176, 128, -4704], max_lt: [2224, 224, -4704]}
+  - {name: PenGate5, min_lt: [2304, 128, -4704], max_lt: [2352, 224, -4704]}
+# The library's central tower (wood floors at 208 and 416 LT, a hole in each): Ladder0 climbs from the floor through
+# the 208 floor's hole (rungs on its north edge), Ladder1 from 208 through the 416 floor's hole (rungs on its south
+# edge). The tops step off backwards onto the floors beside the holes.
+ladders:
+  Ladder0: {facing_lt: [0, 1], surface_lt: -2852, top_exit_lt: [496, 216, -2975]}
+  Ladder1: {facing_lt: [0, -1], surface_lt: -2972, top_exit_lt: [496, 424, -2858]}
+# The barn's second pen (x 1880-1992 behind the second gate): no animal stands in it to seed its air.
+seeds:
+  - [1936, 160, -4770]
+exits:
+  ExitTrigger0: {}
+plan_levels:
+  pit: [-300, -10]
+  main: [-10, 200]
+  upper: [200, 600]
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [GuardCaptain0, DooksGuardCaptain0, DooksGuardCaptain1]
+  themed_near: [Bookcase38, Bookcase56, Bookcase57, Bookcase58, Bookcase59, Weaponrack0, Weaponrack1, Weaponrack2]

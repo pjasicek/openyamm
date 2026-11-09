@@ -1,0 +1,1 @@
+Existing master preserved in revision02 and reprocessed with current rectangle sampling. registration_checks.json saved. Fifth flame has -6 native pixel opaque top drift; several other flame tips also exceed reference. Pending visual flame repair/companion review, not accepted.

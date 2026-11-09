@@ -1,0 +1,97 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm6/models/mm6_kni_sword.glb",
+ "output": "material_pass/pilot/mm6_kni_sword.glb",
+ "class_maps": {
+  "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_kni_codex/textures/sword_round1/material_classes_1k.png"
+ },
+ "textures": [
+  {
+   "image": "metal_rough_1k",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "KnightSword_Round1"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "x": [
+      0,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "parts": {
+    "body": {
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_kni_codex/textures/sword_round1/material_classes_1k.png",
+     "uv_covered_texels": 354340,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.618,
+     "class_share_in_uv": {
+      "cloth": 0.2513,
+      "metal": 0.7487
+     },
+     "new_roughness_mean_by_class": {
+      "cloth": 0.75,
+      "metal": 0.38
+     }
+    }
+   },
+   "class_share_total": {
+    "cloth": 0.2513,
+    "metal": 0.7487
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "KnightSword_Round1": {
+     "median_srgb": [
+      98,
+      98,
+      98
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      80,
+      98,
+      138
+     ],
+     "share_below_srgb_30": 0.0016,
+     "share_below_srgb_90": 0.2184,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 255,
+     "mean": 207.7
+    },
+    "G": {
+     "min": 77,
+     "max": 191,
+     "mean": 121.9
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 187.3
+    }
+   }
+  }
+ ]
+}

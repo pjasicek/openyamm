@@ -1,0 +1,30 @@
+# D2's fixed chests (P4's ITEM_PLACEMENT; the integrator's follow-ups 28 and 29): the drowned worker on the cistern
+# floor carries the Rebreather Helm (11106), the sunken locker an Engram, and the cache in the Pump Hall, before the
+# Filter Beds, two Shield Cells and a Stim. Headless, from output/hesper_stage/scenario_run.
+id: hesper.d02.chests_and_cache
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d02.blv
+- set_pose: {map: hes_d02.blv, x: 6420, y: 2600, z: -256, yaw: 0, pitch: -0.35}
+- press_interact: {}
+- assert:
+    chest_contains_quest_item: {chest_id: 4, item_id: 11302}
+- press_action: {action: cancel_dialog}
+# The three valves drain the cistern (as drain_and_water_works.yml), then the floor's worker and locker.
+- set_pose: {map: hes_d02.blv, x: 1150, y: 2700, z: 0, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- set_pose: {map: hes_d02.blv, x: 3200, y: 2972, z: 0, yaw: 1.5707963, pitch: 0}
+- press_interact: {}
+- set_pose: {map: hes_d02.blv, x: 4172, y: 900, z: 0, yaw: 0, pitch: 0}
+- press_interact: {}
+- set_pose: {map: hes_d02.blv, x: 3400, y: 2080, z: -768, yaw: 1.5707963, pitch: -0.6}
+- press_interact: {}
+- assert:
+    chest_contains_quest_item: {chest_id: 3, item_id: 11106}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_d02.blv, x: 1780, y: 1300, z: -768, yaw: 0, pitch: -0.4}
+- press_interact: {}
+- assert:
+    chest_contains_quest_item: {chest_id: 0, item_id: 11331}

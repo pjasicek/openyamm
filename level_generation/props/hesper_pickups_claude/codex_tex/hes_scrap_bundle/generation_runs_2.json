@@ -1,0 +1,166 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen.imagegen",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "guide_alpha_bbox": [
+    172,
+    274,
+    852,
+    750
+  ],
+  "correction_limit": 1,
+  "corrections_used": 1,
+  "brief_satisfied": false,
+  "status": "Best available raw return saved; neither attempt meets all brief requirements.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: back-view albedo texture source for the existing Kreegan scrap bundle 3D model.\nProduce exactly ONE 1024 x 1024 PNG with a genuine transparent background, at native generation resolution.\n\nINPUT ROLES:\nImage 1, guide_back.png, is the EDIT TARGET and the absolute authority for every pixel of geometry, the orthographic back camera, silhouette, scale, position, openings and shape edges.\nImage 2, design_reference.png, is the approved design, colour and material authority ONLY.\nImage 3, concept_crop.png, is the original concept supporting the material identities ONLY.\nPaint directly over Image 1. Preserve its original alpha silhouette exactly, including the transparent opening at the left claw. Do not use the camera, pose, silhouette, framing, or lighting of images 2 or 3.\n\nGEOMETRY LOCK:\nThe guide is a 1024 x 1024 square. The entire object occupies x=172..851 and y=274..749. Keep those margins and all geometry exactly. Do not enlarge or recenter it. Retain the faceted outline, the claw extending down the LEFT side with its tip near (296,694), the central round rear scrap face, every overlapping resin ribbon and the raised shapes at top and right. Preserve all existing shapes and edges. Add nothing outside the silhouette. Nothing cropped, no new protrusions, no additional machinery or features. This is the BACK of the object, not the three-quarter reference view.\n\nMATERIAL PAINT:\nApply the reference materials onto the existing shapes: black-violet Kreegan resin wraps with faint thin orange seams; bone-white ceramic and gold on the wrapped scrap; dark rubber on the existing visible hose surfaces; pale ivory on the bone claw clasp with its existing gold ring. Use the same design's colour family and restrained fine wear and chips. The central exposed round scrap rear surface is bone-white ceramic with its existing gold edging. Keep the wraps deep black-violet, not bright lavender. Orange seams and any existing orange sacs are painted at their glowing colour without bloom or illumination on neighbouring surfaces. Do not invent front-facing components that the guide does not expose.\n\nLIGHTING / ALBEDO:\nEven, flat, shadowless illumination from the viewer. The image is a texture source, not a beauty render. Paint surface colour only: no cast shadows, no ambient-occlusion darkening in creases, no strong specular highlights, no reflections, no rim light, no gradients from directional lighting. Gold retains its warm gold material colour but has no baked glare. No background, no floor, no contact shadow, no text or watermark. Retain genuine zero-alpha transparency everywhere outside the guide's exact silhouette and in its openings.\nReturn only the completed painted guide, 1024 x 1024, unresized.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; geometry, framing and alpha authority",
+          "sha256": "e080146394d62c5ff96820c4bdbc80a422258c2a3b64d1dadbcf9d7ae8f9d974"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "cd2ad644270cb0b12600a9d8422b742ba1c260c0cb7fd98041b02915e3b5cf03"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept supporting reference",
+          "sha256": "7a8d2a59590e8d769821da90070ac91e17d230f3729405cd80b5ed9440b61979"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "output_sha256": "c91c93352e454e4802622f50c091e7dfd4bc4371cf5a2f5b8814f0366c63373a",
+      "selected": false,
+      "reason": "Rejected: returned 1254 x 1254; object enlarged and silhouette changed; strong orange seams, highlights and crevice shading.",
+      "checks": {
+        "dimensions": {
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette_identical": {
+          "pass": false,
+          "alpha_bbox": [
+            0,
+            37,
+            1235,
+            1228
+          ],
+          "alpha_over_127_bbox": [
+            156,
+            308,
+            1115,
+            968
+          ]
+        },
+        "materials_and_colours": {
+          "status": "partial",
+          "reason": "Requested material families present; orange seams too bright and broad."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "reason": "Visible highlights and dark crevices."
+        },
+        "transparent_background": {
+          "status": "partial",
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "zero_alpha_pixels": 1129220,
+          "reason": "Genuine alpha transparency present, but faint nonzero-alpha pixels extend beyond the object."
+        },
+        "unresized_return": {
+          "pass": true,
+          "byte_identical_to_tool_file": true
+        }
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "kind": "single corrective regeneration",
+      "prompt": "Edit image 1 (guide_back.png) in place as a STRICT texture paint-over. Output one native 1024 x 1024 transparent PNG, exactly the same canvas size as image 1. Do not return 1254 x 1254, do not upscale, crop, reframe, move, rotate or resize any part of the guide. This is the only permitted corrective attempt.\n\nImage 1 is the geometry and alpha-mask authority. Image 2 (design_reference.png) is ONLY the material palette authority. Image 3 (concept_crop.png) is ONLY a supporting original design reference.\n\nKeep the original guide pixel positions and its original silhouette mask exactly unchanged. The guide is an orthographic BACK view of the Kreegan scrap bundle. Copy its alpha channel without changes: object bounds are [172,274,852,750) on the 1024-square canvas, with substantial transparent margins. Keep every angular outer edge, every opening and every existing internal shape edge exactly where shown. In particular keep the thin angular left claw's shape and tip at (296,694), the exposed round rear face, and the layered angular wraps; do not smooth, round off, enlarge or remodel them. Paint the grey surfaces already present, never redraw or reinterpret their geometry. Nothing added or removed.\n\nPaint BLACK-VIOLET resin onto the existing wraps, with only FAINT THIN ORANGE seams, BONE-WHITE ceramic and warm GOLD colour onto the existing scrap, pale IVORY onto the existing left claw with its GOLD clasp, and DARK RUBBER on existing hose surfaces. Use restrained fine wear/chips from the design. The central existing rear disc is bone-white ceramic with existing gold edging. Do not add the front-view hose nozzle, blue light, or any geometry absent from the guide.\n\nThis is an UNLIT BASE-COLOUR / ALBEDO TEXTURE, not a shaded object illustration. Flat evenly coloured surfaces, evenly lit from the viewer. Remove ALL guide grey lighting and do NOT copy any lighting from either design reference. NO ambient-occlusion darkening, cast shadows, bright edge highlights, glossy white reflections, metallic glare, rim lighting, directional gradients or lighting gradients across the central disc. Gold is its warm base colour, resin its deep black-violet base colour. Orange seams are fine orange pigment lines with no bloom, no yellow-hot flares and no light on adjacent surfaces. Materials read through their intrinsic colours and fine surface marks only.\n\nTransparent outside the original guide mask and within its existing openings: no background, floor, checkerboard, cast shadow, text or watermark. Preserve image 1's exact 1024 x 1024 dimensions, placement, all shape edges, and original alpha silhouette. Return the original-size painted guide without any output resizing.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; geometry, framing and alpha authority",
+          "sha256": "e080146394d62c5ff96820c4bdbc80a422258c2a3b64d1dadbcf9d7ae8f9d974"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "cd2ad644270cb0b12600a9d8422b742ba1c260c0cb7fd98041b02915e3b5cf03"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept supporting reference",
+          "sha256": "7a8d2a59590e8d769821da90070ac91e17d230f3729405cd80b5ed9440b61979"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "0b9bb682f2fac6186e7c2b0e16b8d16cbc2f5ee610b0a74008b17bc076970bac",
+      "selected": true,
+      "reason": "Best available within the one-correction limit: closer relative guide framing and angular silhouette, finer orange seams, flatter central ceramic. Selected for delivery only, not accepted as compliant: wrong native dimensions, non-identical silhouette, residual highlights/dark crevices and stray faint alpha. Saved without resizing or other pixel edits.",
+      "checks": {
+        "dimensions": {
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette_identical": {
+          "pass": false,
+          "alpha_bbox": [
+            49,
+            31,
+            1232,
+            1214
+          ],
+          "alpha_over_127_bbox": [
+            211,
+            335,
+            1044,
+            917
+          ]
+        },
+        "materials_and_colours": {
+          "status": "visual pass",
+          "reason": "Black-violet resin, fine orange seams, bone-white ceramic, gold edging, dark rubber and ivory claw are present."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "reason": "Flatter ceramic and subtler seams than attempt 1, but resin/gold retain highlights and overlaps retain darkening."
+        },
+        "transparent_background": {
+          "status": "partial",
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "zero_alpha_pixels": 1231065,
+          "reason": "Genuine alpha transparency present, but faint nonzero-alpha pixels extend beyond the object."
+        },
+        "unresized_return": {
+          "pass": true,
+          "byte_identical_to_tool_file": true
+        }
+      }
+    }
+  ],
+  "limits": "No further regeneration because the brief permits at most one correction. No resizing, alpha-mask replacement, pixel edits, builds or runtime checks."
+}

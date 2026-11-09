@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (first input), using design_reference.png (second input) as the approved material/detail reference and icon_x8.png (third input) as the colour reference; magenta is background only.\nProduce ONE transparent PNG, 3:4 canvas, 1536x2048 or nearest 3:4 size. Preserve the guide's exact object positions, sizes, outlines, openings, and orthographic views. Paint grey objects only; never redraw, enlarge, move or redesign them.\nThe guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 and 3-4 repeat the same five model renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve this exact layout.\nRows 1-2 PAINT: unlit base colour. Fuzzy slippers shaped like sleepy green-grey furry rabbits: each toe is a rabbit face with closed eyes, a pink nose and a long floppy ear laid back along the side, on a soft pale-pink fur sole; low, no shaft. Match approved reference details and original icon palette. Fine fur surface detail without changing silhouettes. Keep the same views, not the references' perspective.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours ONLY. No shading, texture, outlines, or antialiased colour blends inside. Pure red #FF0000 for metal; pure green #00FF00 for leather (straps, padding, hide, suede) AND FUR; pure blue #0000FF for cloth (tabards, quilting, linings, cords, ribbons) AND HAIR; pure yellow #FFFF00 for matte nonmetal solid (wood, bone, horn, stone, parchment, paper, wax). These slippers are fur-covered with soft padding, so their fur and padding including pink fur soles and ear surfaces must be solid pure GREEN in masks. Every silhouette pixel exactly one allowed colour; nothing outside silhouettes.\nFacets, engravings, scrollwork and inner swirls if present follow reference scaled to view. Keep every gap/opening exactly as guide and fully transparent. Empty cells column 3 row 2 and row 4 remain fully transparent. No lighting, shadows, AO, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Preserve transparent background and full original layout.\nCORRECTION REQUIRED: Strictly clip every painted pixel and every mask pixel to the corresponding original guide silhouette. The previous attempt had extensive green overspray outside the lower silhouettes and red/yellow speckles around upper views: eliminate ALL of that. Background must be clean alpha zero everywhere outside original objects. Lower mask shapes are clean solid #00FF00 cutouts with no outlines, no internal lines, no grain, no overspray. Match the original guide exactly; do not use fuzzy boundaries that expand its silhouettes.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-b47a-7600-b796-820f9bcb0922/exec-c5501028-45f6-4890-a9d2-f9776df592c9.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10366/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10366/paint_mask_guide.png",
+      "sha256": "fb03b7177289076fa49b73a8b78ea1b9ff1e86499627d6d179aeb8749dff10a4"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10366/design_reference.png",
+      "sha256": "e1790738a1e2dcfe0cbd4f501f0c95c6dafddee7146dce859e18b88473249f74"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10366/icon_x8.png",
+      "sha256": "2f444b754702f250de726922861c29349d971fd3ed9a39f93e804e6de619162d"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "validation": "Visual inspection: colour spill remains outside silhouettes after one corrective regeneration; does not fully satisfy brief. Raw tool output preserved unchanged."
+}

@@ -1,0 +1,29 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, preserving its exact silhouettes, placement, scale, gaps and orthographic geometry. The other images are material references only: design_reference.png is approved detail/material reference, icon_x8.png is original color reference (ignore magenta background). Produce ONE transparent PNG 1536x2048 (3:4). Three columns FOUR rows of 512-square cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly these five views. Paint only existing grey pixels, never enlarge, move, redraw or redesign geometry to match reference. Upper two rows: unlit base color gold metal hoop and setting, ivory-white diamond facets with subtle intrinsic facet color differences following reference, source-faithful upright hoop plane. Adapt reference details within existing guide geometry. No lighting, AO, shadows, hot highlights, reflections, halo, sparkles, outlines or text. Lower two rows: MATERIAL MASK, every metal part solid pure red #FF0000, every gemstone/crystal/glass/pearl/enamel solid pure black #000000. Exactly these two flat RGB colors within silhouettes, no shading, texture, outlines or antialiased interior blends. Distinguish visible gemstone from surrounding gold bezel in all views; hidden gems stay hidden. Background and all ring holes fully transparent; row 2 column 3 and row 4 column 3 completely empty. Keep exact guide layout and silhouettes. Save raw generated PNG without postprocessing.",
+  "corrective_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, preserving its exact silhouettes, placement, scale, gaps and orthographic geometry. The other images are material references only: design_reference.png is approved detail/material reference, icon_x8.png is original color reference (ignore magenta background). Produce ONE transparent PNG 1536x2048 (3:4). Three columns FOUR rows of 512-square cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly these five views. Paint only existing grey pixels, never enlarge, move, redraw or redesign geometry to match reference. Upper two rows: unlit base color gold metal hoop and setting, ivory-white diamond facets with subtle intrinsic facet color differences following reference, source-faithful upright hoop plane. Adapt reference details within existing guide geometry. No lighting, AO, shadows, hot highlights, reflections, halo, sparkles, outlines or text. Lower two rows: MATERIAL MASK, every metal part solid pure red #FF0000, every gemstone/crystal/glass/pearl/enamel solid pure black #000000. Exactly these two flat RGB colors within silhouettes, no shading, texture, outlines or antialiased interior blends. Distinguish visible gemstone from surrounding gold bezel in all views; hidden gems stay hidden. Background and all ring holes fully transparent; row 2 column 3 and row 4 column 3 completely empty. Keep exact guide layout and silhouettes. Save raw generated PNG without postprocessing.\nCRITICAL CORRECTION: first attempt had scattered red/yellow debris in transparent areas and ring openings. This is forbidden. Use the original grey guide alpha as strict boundary: perfectly clean transparent background and perfectly empty openings, no speckles anywhere. Preserve exact original silhouettes. Lower mask is clean flat red metal and opaque black gems only.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3e-c978-7332-a22f-f209253ec35c/exec-cbfeb4e0-3fd7-44db-8d36-edc3d7262401.png",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3e-c978-7332-a22f-f209253ec35c/exec-1b7c6abd-a835-4056-aa24-c1a8e4aef94a.png",
+  "tool": "built-in image_gen",
+  "selection": "First output retained: correction did not improve stray pixels.",
+  "validation": "Visible stray pixels outside silhouettes and in openings remain; not fully compliant.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10159/paint_mask_guide.png",
+      "sha256": "83dff6633502fda509ba4cd1a67a4cac23e933936dca5a2cdc1876f0a1f95f55"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10159/design_reference.png",
+      "sha256": "346d47ba01cdda5d98ba639c8af624e57d85c776ebdf426087d00c3fa5aa8a51"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10159/icon_x8.png",
+      "sha256": "82899ed1e54b946cb294bbcc5b1ac9541af1ef5f9d7be0985aa15869f600e1a0"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10159/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

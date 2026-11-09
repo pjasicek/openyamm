@@ -1,0 +1,3 @@
+Saved 01–04 using built-in image generation, updated `generation_runs.json` with prompts and hashes, and wrote [selected_views_review.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_magreeb_claude/references_hd/selected_views_review.png). Frozen 00 is unchanged.
+
+Stopped at one correction per view. Results remain imperfect: back has six legs, side cameras are oblique, and margins are tight.

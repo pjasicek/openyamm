@@ -1,0 +1,537 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "returns_resized": false,
+  "status": "generation_finished_with_unresolved_quality_failures",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render / precise surface painting.\nAsset type: orthographic albedo texture source for the existing Hesper energy coupler 3D model.\nINPUT ROLES: Image 1 is the EDIT TARGET, the exact geometry/camera/alpha-mask guide. Image 2 is ONLY the approved material and surface-design reference. Paint directly over image 1. Never copy image 2's pose, perspective, proportions, lighting, or silhouette.\nOUTPUT: ONE 1024 x 1024 RGBA PNG, genuinely transparent background. Keep the entire original square canvas and all its empty margins. Do not crop, zoom, enlarge, shift, rotate, warp, or add a perspective view. Preserve the guide's silhouette EXACTLY, at identical pixel coordinates, including all protrusions, polygon edges, occlusions and internal gaps; every part stays where it is. Nothing may appear outside its original alpha silhouette.\nPaint the guide surfaces in the reference's materials: warm off-white fine-worn ceramic plates, warm brushed gold frames/contacts, very narrow black-violet resin seams, and bright cyan/blue-white energy channels. Tints in the guide identify parts, not final colours. Translate the reference's restrained seams, panel joins, fine engraved lines and minute wear onto the existing parts without adding geometry. Continue unseen surfaces plausibly. No unrelated materials, letters, labels, symbols, numbers or watermark.\nLIGHTING: this is flat ALBEDO for projection onto a model, not a product photograph. Use perfectly even shadowless illumination from the viewer. No cast shadows, ambient occlusion, darkened undersides, directional shading, hot highlights, reflections, rim lighting or floor. Brushed gold has its base gold colour and faint microtexture sheen only. White ceramic remains evenly white/ivory on every facet; distinguish materials with colour and restrained painted seams, not shading. Cyan luminous inlays are bright cyan/blue-white colour within their shapes, with no bloom or halo outside the silhouette.\nVIEW: FRONT, exactly guide_front.png. A very thin horizontal edge-on view; the zigzag in the reference is foreshortened and MUST NOT be reconstructed as a visible zigzag. The object occupies only x=66..957, y=447..576 on the 1024-square canvas, with vast transparent space above and below. Two large ceramic terminal housings at the ends, thin sideways gold contacts at x=66 and x=957, narrow horizontal connecting body with a fine cyan upper strip, and the existing gold foreground section below the middle. Preserve their original polygon boundaries and all relative positions exactly. Paint only visible faces.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "9b9cf11b575673c1c77a64652ecae73436ac177c3267b6fb2fb93c78b285f282"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected initial return for materially closer guide alignment (normalized mask IoU 0.891873 versus 0.618247). The correction reduced sheen but shifted the painting downward. Selected return still has outline drift and strong gold edge highlights.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-d7d16f05-b804-4113-834a-4e20aa52ea4d.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1230,
+          1224
+        ],
+        "opaque_bbox": [
+          62,
+          544,
+          1193,
+          702
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.891873,
+        "output_sha256": "ab2799e2a073ec031d3c97555ad5f11a8b3f114de0d3602334b489c6b3d545da",
+        "transparent_pixel_fraction": 0.918248,
+        "very_faint_alpha_pixels_1_to_15": 11240,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Gold framing, ivory ceramic and cyan channels follow the reference palette. Gold is too reflective; casing/contact silhouettes and panel boundaries drift.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit image 1, the 1024x1024 orthographic guide_front.png. It is the exact LOCKED paint template. Image 2 is a MATERIAL SWATCH REFERENCE ONLY. Make ONE corrected FRONT albedo painting, on a 1024x1024 transparent canvas.\n\nStrict geometry: reproduce image 1's alpha boundary and every geometric edge exactly, not approximately. NO reframing. Thin horizontal object from x66 to x957 and y447 to y576, with the contacts at y503..520. Left housing x115..280, right housing x743..908, the thin horizontal middle at y490..576. Leave all remaining pixels transparent. The entire object is only 130 pixels tall in a 1024-pixel-high canvas. Do not enlarge or thicken any part; do not round the guide's polygon corners. The zigzag is seen edge-on here. Do not add rings, collars, flanges or other geometry from image 2.\n\nPaint only flat diffuse base colours and very fine surface texture INSIDE these exact pre-existing shapes. White/ivory fine-worn ceramic on housings and the middle white material. Restrained warm brushed gold on existing gold faces, fine gold trim and narrow black-violet resin joints mapped inside the housing faces, cyan-blue-white on the existing thin luminous strips. Interpret the approved reference's panel pattern as a painted surface, never geometry.\n\nCORRECTION TARGET: absolutely flat, shadowless ALBEDO. Remove photographic metal gleam, white edge highlights, dark bottom shading and ambient occlusion. Gold should look like muted ochre-gold base pigment with tiny brushed grain, not shiny illuminated metal. Every ceramic facet stays the same light ivory value. Only true resin seams may be dark, as thin lines. No specular reflections, cast shadows, rim light, glow halos, floor or background. No text, letters, numbers or labels. Preserve the template's silhouette and framing above all. Return one PNG with real alpha transparency, ideally exactly 1024x1024.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "9b9cf11b575673c1c77a64652ecae73436ac177c3267b6fb2fb93c78b285f282"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        }
+      ],
+      "output": "front_attempt_2.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return for materially closer guide alignment (normalized mask IoU 0.891873 versus 0.618247). The correction reduced sheen but shifted the painting downward. Selected return still has outline drift and strong gold edge highlights.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-56bc120a-7d61-47db-b786-a435d39cbc31.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          61,
+          32,
+          1234,
+          1238
+        ],
+        "opaque_bbox": [
+          67,
+          568,
+          1188,
+          734
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.618247,
+        "output_sha256": "64eb0fc606a63e9ba91b70faa161b5403e1e59ba544375683aef0a50322c615d",
+        "transparent_pixel_fraction": 0.920298,
+        "very_faint_alpha_pixels_1_to_15": 7069,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Flatter gold and ceramic but object is shifted downward. Simplified panel pattern and residual facet shading.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render / precise surface painting.\nAsset type: orthographic albedo texture source for the existing Hesper energy coupler 3D model.\nINPUT ROLES: Image 1 is ONLY the approved material and surface-design reference. Image 2 (guide_back.png) is the EDIT TARGET, the exact 1024x1024 geometry/camera/alpha-mask guide. Paint directly over IMAGE 2, and retain IMAGE 2's canvas and pixel coordinates. Never copy image 1's pose, perspective, proportions, canvas size, lighting, or silhouette.\nOUTPUT: ONE 1024 x 1024 RGBA PNG, genuinely transparent background. Keep the entire original square canvas and all its empty margins. Do not crop, zoom, enlarge, shift, rotate, warp, or add a perspective view. Preserve the guide's silhouette EXACTLY, at identical pixel coordinates, including all protrusions, polygon edges, occlusions and internal gaps; every part stays where it is. Nothing may appear outside its original alpha silhouette.\nPaint the guide surfaces in the reference's materials: warm off-white fine-worn ceramic plates, warm brushed gold frames/contacts, very narrow black-violet resin seams, and bright cyan/blue-white energy channels. Tints in the guide identify parts, not final colours. Translate the reference's restrained seams, panel joins, fine engraved lines and minute wear onto the existing parts without adding geometry. Continue unseen surfaces plausibly. No unrelated materials, letters, labels, symbols, numbers or watermark.\nLIGHTING: this is flat ALBEDO for projection onto a model, not a product photograph. Use perfectly even shadowless illumination from the viewer. No cast shadows, ambient occlusion, darkened undersides, directional shading, hot highlights, reflections, rim lighting or floor. Brushed gold has its base gold colour and faint microtexture sheen only. White ceramic remains evenly white/ivory on every facet; distinguish materials with colour and restrained painted seams, not shading. Cyan luminous inlays are bright cyan/blue-white colour within their shapes, with no bloom or halo outside the silhouette.\nVIEW: BACK, exactly guide_back.png. Edge-on horizontal view, never show the zigzag in plan. The complete object occupies only x=66..957, y=447..576 on the 1024-square canvas. Two ceramic terminal housings and thin gold contacts at the ends, a shallow continuous connecting body, a thin cyan strip at its upper edge and a very thin gold strip along the lower middle edge. There is NO front-facing bulky gold middle plate in this view. Preserve all original facets and occlusions.\nTreat the reference's metallic highlights as lighting to REMOVE. Use matte base-colour gold, with a faint brushed grain and no white bevel highlights. Do not add round collars or flanges at the contact ends, preserve the guide's existing simple polygon shapes exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "a19c7a6b28ae3a2c4f46787cb891f1cead7a02a0f228c2c655d0d099dca83c82"
+        }
+      ],
+      "output": "back_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Selected correction for closer guide alignment (normalized mask IoU 0.952749 versus 0.938610) and simpler surface treatment. Face shading and faint alpha artifacts remain.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-172ff3f6-dfd8-4519-a6bb-ba0f04070375.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          39,
+          1234,
+          1196
+        ],
+        "opaque_bbox": [
+          79,
+          553,
+          1176,
+          708
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.93861,
+        "output_sha256": "bae83563c279add10100d171506945246b235ebb9de1430a571c585de14a68fb",
+        "transparent_pixel_fraction": 0.919989,
+        "very_faint_alpha_pixels_1_to_15": 10455,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Reference palette is present. Gold edges have highlights and lower ceramic faces are shaded. Housing panel pattern is plausible but geometry drifts.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render / precise surface painting.\nAsset type: orthographic albedo texture source for the existing Hesper energy coupler 3D model.\nINPUT ROLES: Image 1 is ONLY the approved material and surface-design reference. Image 2 (guide_left.png) is the EDIT TARGET, the exact 1024x1024 geometry/camera/alpha-mask guide. Paint directly over IMAGE 2, and retain IMAGE 2's canvas and pixel coordinates. Never copy image 1's pose, perspective, proportions, canvas size, lighting, or silhouette.\nOUTPUT: ONE 1024 x 1024 RGBA PNG, genuinely transparent background. Keep the entire original square canvas and all its empty margins. Do not crop, zoom, enlarge, shift, rotate, warp, or add a perspective view. Preserve the guide's silhouette EXACTLY, at identical pixel coordinates, including all protrusions, polygon edges, occlusions and internal gaps; every part stays where it is. Nothing may appear outside its original alpha silhouette.\nPaint the guide surfaces in the reference's materials: warm off-white fine-worn ceramic plates, warm brushed gold frames/contacts, very narrow black-violet resin seams, and bright cyan/blue-white energy channels. Tints in the guide identify parts, not final colours. Translate the reference's restrained seams, panel joins, fine engraved lines and minute wear onto the existing parts without adding geometry. Continue unseen surfaces plausibly. No unrelated materials, letters, labels, symbols, numbers or watermark.\nLIGHTING: this is flat ALBEDO for projection onto a model, not a product photograph. Use perfectly even shadowless illumination from the viewer. No cast shadows, ambient occlusion, darkened undersides, directional shading, hot highlights, reflections, rim lighting or floor. Brushed gold has its base gold colour and faint microtexture sheen only. White ceramic remains evenly white/ivory on every facet; distinguish materials with colour and restrained painted seams, not shading. Cyan luminous inlays are bright cyan/blue-white colour within their shapes, with no bloom or halo outside the silhouette.\nVIEW: LEFT, exactly guide_left.png. The complete object is very SMALL in the full square image: only x=325..698, y=447..576, width 374px and height 130px. Preserve the huge empty transparent margins. The near polygonal terminal face is at x~592, y~512 with its two tiny contact prongs pointing diagonally down-left on screen, the distant terminal is at x~391,y~512, and the slim bridge with a cyan edge connects them horizontally. The visible existing gold section extends at lower right. This is the guide's exact end-on orthographic camera, not a rotated or enlarged view.\nCritical: do not add rings, collars, flanges, thicker rails or other geometry from the design reference; paint its material design onto the guide's unchanged mesh. Remove the guide's lighting gradients as well as the reference's glossy highlights; this must be pure flat diffuse colour with only fine material grain and panel lines.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "77e0562c8bb3d08efb06692c79a4e3b72fd86c54ad1bfaa36ffb169753fc2da5"
+        }
+      ],
+      "output": "left_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected. Selected correction for closer guide alignment (normalized mask IoU 0.956487 versus 0.899235) and reduced metallic highlights. Pin geometry and face shading still differ from the guide.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-868037bb-250c-4ee3-bdb7-3b4f857bc7f9.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1109,
+          1110
+        ],
+        "opaque_bbox": [
+          404,
+          544,
+          859,
+          710
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.899235,
+        "output_sha256": "9b983eefe3a081921ae304081d4faae9161dde68397b467fe8f1332ef7ae2b0d",
+        "transparent_pixel_fraction": 0.963902,
+        "very_faint_alpha_pixels_1_to_15": 2611,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Plausible ivory, gold and cyan material continuation. Pronounced bevel highlights and grey lower-face shading; outline is approximate.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render / precise surface painting.\nAsset type: orthographic albedo texture source for the existing Hesper energy coupler 3D model.\nINPUT ROLES: Image 1 is ONLY the approved material and surface-design reference. Image 2 (guide_right.png) is the EDIT TARGET, the exact 1024x1024 geometry/camera/alpha-mask guide. Paint directly over IMAGE 2, and retain IMAGE 2's canvas and pixel coordinates. Never copy image 1's pose, perspective, proportions, canvas size, lighting, or silhouette.\nOUTPUT: ONE 1024 x 1024 RGBA PNG, genuinely transparent background. Keep the entire original square canvas and all its empty margins. Do not crop, zoom, enlarge, shift, rotate, warp, or add a perspective view. Preserve the guide's silhouette EXACTLY, at identical pixel coordinates, including all protrusions, polygon edges, occlusions and internal gaps; every part stays where it is. Nothing may appear outside its original alpha silhouette.\nPaint the guide surfaces in the reference's materials: warm off-white fine-worn ceramic plates, warm brushed gold frames/contacts, very narrow black-violet resin seams, and bright cyan/blue-white energy channels. Tints in the guide identify parts, not final colours. Translate the reference's restrained seams, panel joins, fine engraved lines and minute wear onto the existing parts without adding geometry. Continue unseen surfaces plausibly. No unrelated materials, letters, labels, symbols, numbers or watermark.\nLIGHTING: this is flat ALBEDO for projection onto a model, not a product photograph. Use perfectly even shadowless illumination from the viewer. No cast shadows, ambient occlusion, darkened undersides, directional shading, hot highlights, reflections, rim lighting or floor. Brushed gold has its base gold colour and faint microtexture sheen only. White ceramic remains evenly white/ivory on every facet; distinguish materials with colour and restrained painted seams, not shading. Cyan luminous inlays are bright cyan/blue-white colour within their shapes, with no bloom or halo outside the silhouette.\nVIEW: RIGHT, exactly guide_right.png. The complete object is very SMALL in the full square image: only x=325..698, y=447..576, width 374px and height 130px. Preserve the huge empty transparent margins. The near polygonal terminal face is at x~633,y~512 with its two tiny contact prongs pointing diagonally down-left on screen, the distant terminal is at x~431,y~512, and the slim bridge with a cyan edge connects them horizontally. The existing wide gold section is IN THE FOREGROUND AT LOWER LEFT, spanning approximately x=325..544,y=520..576. Preserve this asymmetry exactly; do not mirror the left view.\nCritical: do not add rings, collars, flanges, thicker rails or other geometry from the design reference; paint its material design onto the guide's unchanged mesh. Remove the guide's lighting gradients as well as the reference's glossy highlights; this must be pure flat diffuse colour with only fine material grain and panel lines.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "5cabb47f4ec979c12a0758e5d3239e1d01473c0f053c4957a0477ec07b7490c8"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected initial return for closer guide alignment (normalized mask IoU 0.703071 versus 0.648093). The correction shortened the pins but shifted the object downward. Selected return is oversized, has elongated pins and strong highlights; it fails the exact-geometry and albedo requirements.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-7b41de70-4744-4a6d-b325-34080f24f4f1.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          41,
+          53,
+          1206,
+          1198
+        ],
+        "opaque_bbox": [
+          379,
+          544,
+          896,
+          730
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.703071,
+        "output_sha256": "1f25e31c18c23e5a1ed16b529d0cc8dab147cea7049d7bfddc9eeac339c21532",
+        "transparent_pixel_fraction": 0.954187,
+        "very_faint_alpha_pixels_1_to_15": 4175,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Ivory/gold/cyan palette matches. Object is enlarged, contacts are much longer than the guide, and metal has strong highlights.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render / precise surface painting.\nAsset type: orthographic albedo texture source for the existing Hesper energy coupler 3D model.\nINPUT ROLES: Image 1 is ONLY the approved material and surface-design reference. Image 2 (guide_top.png) is the EDIT TARGET, the exact 1024x1024 geometry/camera/alpha-mask guide. Paint directly over IMAGE 2, and retain IMAGE 2's canvas and pixel coordinates. Never copy image 1's pose, perspective, proportions, canvas size, lighting, or silhouette.\nOUTPUT: ONE 1024 x 1024 RGBA PNG, genuinely transparent background. Keep the entire original square canvas and all its empty margins. Do not crop, zoom, enlarge, shift, rotate, warp, or add a perspective view. Preserve the guide's silhouette EXACTLY, at identical pixel coordinates, including all protrusions, polygon edges, occlusions and internal gaps; every part stays where it is. Nothing may appear outside its original alpha silhouette.\nPaint the guide surfaces in the reference's materials: warm off-white fine-worn ceramic plates, warm brushed gold frames/contacts, very narrow black-violet resin seams, and bright cyan/blue-white energy channels. Tints in the guide identify parts, not final colours. Translate the reference's restrained seams, panel joins, fine engraved lines and minute wear onto the existing parts without adding geometry. Continue unseen surfaces plausibly. No unrelated materials, letters, labels, symbols, numbers or watermark.\nLIGHTING: this is flat ALBEDO for projection onto a model, not a product photograph. Use perfectly even shadowless illumination from the viewer. No cast shadows, ambient occlusion, darkened undersides, directional shading, hot highlights, reflections, rim lighting or floor. Brushed gold has its base gold colour and faint microtexture sheen only. White ceramic remains evenly white/ivory on every facet; distinguish materials with colour and restrained painted seams, not shading. Cyan luminous inlays are bright cyan/blue-white colour within their shapes, with no bloom or halo outside the silhouette.\nVIEW: TOP, exactly guide_top.png. Straight-down orthographic view, no perspective. Object occupies x=66..957,y=325..698 on the square canvas. Preserve precisely the sharp angular zigzag rails and EVERY open transparent gap. The left ceramic terminal is lower-left with TWO gold contacts pointing left, the right ceramic terminal is upper-right with TWO gold contacts pointing right. Both terminals keep the guide's existing width and shape. Paint brushed warm gold and bright cyan along the existing zigzag rails using the reference's surface material pattern, without rounding the sharp corners or thickening the rails. Preserve the existing diagonal gold lower segment at x~369..679,y~485..698.\nCritical: do not add rings, collars, flanges, thicker rails or other geometry from the design reference; paint its material design onto the guide's unchanged mesh. Remove the guide's lighting gradients as well as the reference's glossy highlights; this must be pure flat diffuse colour with only fine material grain and panel lines.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "d527785a728b6194fd4d6f40dff7e3659c77dfabb8f8740aa348be0f1cb6b603"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected initial return for slightly closer guide alignment (normalized mask IoU 0.891999 versus 0.888333) and retention of the secondary cyan strip. The correction removed that strip and changed the housings. Selected return still has geometric drift and metallic highlights.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-07c54b8b-000b-459e-a0f4-336409880b91.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          51,
+          52,
+          1234,
+          1230
+        ],
+        "opaque_bbox": [
+          56,
+          401,
+          1207,
+          856
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.891999,
+        "output_sha256": "de859ee3bc164214a0fa09453d37c0754711daa9f184a53fea3443eba15fd7e0",
+        "transparent_pixel_fraction": 0.885106,
+        "very_faint_alpha_pixels_1_to_15": 12652,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Reference palette and both cyan paths are retained. Gold is too reflective and several rail/housing/contact edges drift.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce ONE orthographic ALBEDO painting by recolouring and texturing IMAGE 2 (the guide) inside its existing alpha mask. IMAGE 1 is only a reference for materials. The guide's geometry and transparent pixels are locked. Use the SAME 1024x1024 canvas, silhouette, camera, object size and position as IMAGE 2. No enlargement, no centering adjustment, no redesign, no rotations, no new protrusions. Preserve every polygon corner, internal edge and overlap.\n\nThis is the single corrective pass. Priority is exact image-2 alignment and fully flat albedo. Paint white/ivory ceramic with sparse microscopic wear, MUTED warm ochre-gold with subtle fine brushed grain, very thin black-violet resin panel seams, and flat bright cyan/blue-white on the existing energy strips. The reference's strong shine must not be copied. Treat its surface details as painted lines within the guide's existing faces, never raised geometry. No white bevel highlights, specular sheen, reflections, ambient occlusion, cast shadows, dark underside gradients, rim light or bloom. Use identical base brightness on all faces of the same material; do not copy the grey lighting of the guide. No floor, background, text, letters, numbers or watermark. Genuine RGBA alpha transparency, all space outside the guide's object entirely empty.\nVIEW BACK: BACK, exactly guide_back.png. Edge-on horizontal view, never show the zigzag in plan. The complete object occupies only x=66..957, y=447..576 on the 1024-square canvas. Two ceramic terminal housings and thin gold contacts at the ends, a shallow continuous connecting body, a thin cyan strip at its upper edge and a very thin gold strip along the lower middle edge. There is NO front-facing bulky gold middle plate in this view. Preserve all original facets and occlusions.\nSPECIFIC CORRECTION: The body remains a very thin horizontal strip with two polygonal terminal housings. Preserve the guide's straight angular outside corners and the slim contact on either end. The upper cyan line stays as thin as in the guide; do not thicken it. Match the housing tops and the different lower middle edge exactly. The lower facets must stay ivory rather than shaded grey. No shiny gold rims.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "a19c7a6b28ae3a2c4f46787cb891f1cead7a02a0f228c2c655d0d099dca83c82"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction for closer guide alignment (normalized mask IoU 0.952749 versus 0.938610) and simpler surface treatment. Face shading and faint alpha artifacts remain.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-eba4fbdc-0169-4b69-b96f-0a737fbc8aea.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          47,
+          101,
+          1179,
+          1206
+        ],
+        "opaque_bbox": [
+          79,
+          547,
+          1176,
+          704
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.952749,
+        "output_sha256": "ceca78281a2c1a4559d405ac3fe85d7b05f333bc450cf700527d85c3b8b153cc",
+        "transparent_pixel_fraction": 0.918071,
+        "very_faint_alpha_pixels_1_to_15": 12590,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Closer outline and flatter surface treatment. Broad ivory/gold/cyan materials remain consistent, but the ceramic lower faces retain grey shading and contact highlights remain.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce ONE orthographic ALBEDO painting by recolouring and texturing IMAGE 2 (the guide) inside its existing alpha mask. IMAGE 1 is only a reference for materials. The guide's geometry and transparent pixels are locked. Use the SAME 1024x1024 canvas, silhouette, camera, object size and position as IMAGE 2. No enlargement, no centering adjustment, no redesign, no rotations, no new protrusions. Preserve every polygon corner, internal edge and overlap.\n\nThis is the single corrective pass. Priority is exact image-2 alignment and fully flat albedo. Paint white/ivory ceramic with sparse microscopic wear, MUTED warm ochre-gold with subtle fine brushed grain, very thin black-violet resin panel seams, and flat bright cyan/blue-white on the existing energy strips. The reference's strong shine must not be copied. Treat its surface details as painted lines within the guide's existing faces, never raised geometry. No white bevel highlights, specular sheen, reflections, ambient occlusion, cast shadows, dark underside gradients, rim light or bloom. Use identical base brightness on all faces of the same material; do not copy the grey lighting of the guide. No floor, background, text, letters, numbers or watermark. Genuine RGBA alpha transparency, all space outside the guide's object entirely empty.\nVIEW LEFT: LEFT, exactly guide_left.png. The complete object is very SMALL in the full square image: only x=325..698, y=447..576, width 374px and height 130px. Preserve the huge empty transparent margins. The near polygonal terminal face is at x~592, y~512 with its two tiny contact prongs pointing diagonally down-left on screen, the distant terminal is at x~391,y~512, and the slim bridge with a cyan edge connects them horizontally. The visible existing gold section extends at lower right. This is the guide's exact end-on orthographic camera, not a rotated or enlarged view.\nSPECIFIC CORRECTION: Keep the small end-on object exactly at its guide position and scale: total width 36.52% and height 12.70% of canvas, center (50%,50%). The foreground terminal center stays near (57.8%,50%). Both pins remain as tiny short dark contact faces with small gold caps, exactly the same geometry as the guide, with NO added pin length. The existing gold block at lower right retains its faceted outline, and the lower bridge edge remains exactly the guide's uneven outline. Gold frame patterns are painted only INSIDE the ceramic terminal silhouette. No shiny edge lines or dark shading on the lower bridge.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "77e0562c8bb3d08efb06692c79a4e3b72fd86c54ad1bfaa36ffb169753fc2da5"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction for closer guide alignment (normalized mask IoU 0.956487 versus 0.899235) and reduced metallic highlights. Pin geometry and face shading still differ from the guide.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-9d2eaef2-8f07-483f-8fb1-eaaedf482c2c.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          27,
+          28,
+          1224,
+          1150
+        ],
+        "opaque_bbox": [
+          397,
+          547,
+          858,
+          708
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.956487,
+        "output_sha256": "9e95536281a9da56f396294226b9fcf5dfcced40ab5cd41139cd8c166606e39b",
+        "transparent_pixel_fraction": 0.963876,
+        "very_faint_alpha_pixels_1_to_15": 3647,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Improved silhouette and restrained gold sheen. Residual facet shading, altered tiny contacts and thick painted seams prevent exact compliance.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce ONE orthographic ALBEDO painting by recolouring and texturing IMAGE 2 (the guide) inside its existing alpha mask. IMAGE 1 is only a reference for materials. The guide's geometry and transparent pixels are locked. Use the SAME 1024x1024 canvas, silhouette, camera, object size and position as IMAGE 2. No enlargement, no centering adjustment, no redesign, no rotations, no new protrusions. Preserve every polygon corner, internal edge and overlap.\n\nThis is the single corrective pass. Priority is exact image-2 alignment and fully flat albedo. Paint white/ivory ceramic with sparse microscopic wear, MUTED warm ochre-gold with subtle fine brushed grain, very thin black-violet resin panel seams, and flat bright cyan/blue-white on the existing energy strips. The reference's strong shine must not be copied. Treat its surface details as painted lines within the guide's existing faces, never raised geometry. No white bevel highlights, specular sheen, reflections, ambient occlusion, cast shadows, dark underside gradients, rim light or bloom. Use identical base brightness on all faces of the same material; do not copy the grey lighting of the guide. No floor, background, text, letters, numbers or watermark. Genuine RGBA alpha transparency, all space outside the guide's object entirely empty.\nVIEW RIGHT: RIGHT, exactly guide_right.png. The complete object is very SMALL in the full square image: only x=325..698, y=447..576, width 374px and height 130px. Preserve the huge empty transparent margins. The near polygonal terminal face is at x~633,y~512 with its two tiny contact prongs pointing diagonally down-left on screen, the distant terminal is at x~431,y~512, and the slim bridge with a cyan edge connects them horizontally. The existing wide gold section is IN THE FOREGROUND AT LOWER LEFT, spanning approximately x=325..544,y=520..576. Preserve this asymmetry exactly; do not mirror the left view.\nSPECIFIC CORRECTION: Correct the prior tendencies to enlarge the item and lengthen the contact pins. The entire object is only 36.52% of canvas width and 12.70% of canvas height, center (50%,50%), exactly as IMAGE 2. The foreground terminal is at (61.8%,50%); preserve its existing polygon outline. Its two pins are TINY short flat-looking diagonals as in the guide, NOT long projecting cylindrical pins. Keep the wide foreground gold bar at LOWER LEFT in its exact guide shape, with flat ochre-gold grain and no highlights. Keep the narrow cyan strip exactly at its guide thickness. Do not add raised collars or white insulator sleeves. Paint inside existing shapes only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "5cabb47f4ec979c12a0758e5d3239e1d01473c0f053c4957a0477ec07b7490c8"
+        }
+      ],
+      "output": "right_attempt_2.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return for closer guide alignment (normalized mask IoU 0.703071 versus 0.648093). The correction shortened the pins but shifted the object downward. Selected return is oversized, has elongated pins and strong highlights; it fails the exact-geometry and albedo requirements.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-2a9f3ee6-4fc4-473e-85df-6724efd5d497.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1222,
+          1214
+        ],
+        "opaque_bbox": [
+          398,
+          563,
+          880,
+          729
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.648093,
+        "output_sha256": "8b90021001a7cadecc8754be587c3dff125fbdef9d6b399f0debc09d16a58bff",
+        "transparent_pixel_fraction": 0.961512,
+        "very_faint_alpha_pixels_1_to_15": 3159,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Shorter pins and flatter gold improve the material treatment. Object is shifted down, terminal is displaced and ceramic facets remain shaded.",
+        "strict_brief_quality_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce ONE orthographic ALBEDO painting by recolouring and texturing IMAGE 2 (the guide) inside its existing alpha mask. IMAGE 1 is only a reference for materials. The guide's geometry and transparent pixels are locked. Use the SAME 1024x1024 canvas, silhouette, camera, object size and position as IMAGE 2. No enlargement, no centering adjustment, no redesign, no rotations, no new protrusions. Preserve every polygon corner, internal edge and overlap.\n\nThis is the single corrective pass. Priority is exact image-2 alignment and fully flat albedo. Paint white/ivory ceramic with sparse microscopic wear, MUTED warm ochre-gold with subtle fine brushed grain, very thin black-violet resin panel seams, and flat bright cyan/blue-white on the existing energy strips. The reference's strong shine must not be copied. Treat its surface details as painted lines within the guide's existing faces, never raised geometry. No white bevel highlights, specular sheen, reflections, ambient occlusion, cast shadows, dark underside gradients, rim light or bloom. Use identical base brightness on all faces of the same material; do not copy the grey lighting of the guide. No floor, background, text, letters, numbers or watermark. Genuine RGBA alpha transparency, all space outside the guide's object entirely empty.\nVIEW TOP: TOP, exactly guide_top.png. Straight-down orthographic view, no perspective. Object occupies x=66..957,y=325..698 on the square canvas. Preserve precisely the sharp angular zigzag rails and EVERY open transparent gap. The left ceramic terminal is lower-left with TWO gold contacts pointing left, the right ceramic terminal is upper-right with TWO gold contacts pointing right. Both terminals keep the guide's existing width and shape. Paint brushed warm gold and bright cyan along the existing zigzag rails using the reference's surface material pattern, without rounding the sharp corners or thickening the rails. Preserve the existing diagonal gold lower segment at x~369..679,y~485..698.\nSPECIFIC CORRECTION: Preserve the precise zigzag path and every sharp corner and gap of the top guide. The complete object has the guide's 87.11% canvas width and 36.52% canvas height. The two straight rectangular contact prongs at each end keep their exact guide shapes: do not round, lengthen or add collars. Both ceramic housings retain their exact polygon shapes. Do not shift the zigzag lower, widen its rails or shrink its open holes. The guide's long grey/light rails surrounding cyan should become flat warm brushed gold where the design shows metal, with no white or dark bevel shading. White ceramic housings remain ivory everywhere. All bright cyan paths stay within the exact narrow guide strip boundaries. Absolutely no metallic gleam or face lighting.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "4ce1dfdd04cc8360131a7c52a7493aeda5ebc4c0cc24811431dfd23e8183a7bc"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "d527785a728b6194fd4d6f40dff7e3659c77dfabb8f8740aa348be0f1cb6b603"
+        }
+      ],
+      "output": "top_attempt_2.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return for slightly closer guide alignment (normalized mask IoU 0.891999 versus 0.888333) and retention of the secondary cyan strip. The correction removed that strip and changed the housings. Selected return still has geometric drift and metallic highlights.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16db1-602d-73c0-ae42-7f6a8e264dd5/exec-ae6bb6f8-69da-406f-aad7-278cba8fc612.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          21,
+          1216,
+          1223
+        ],
+        "opaque_bbox": [
+          63,
+          398,
+          1191,
+          853
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_mask_iou": 0.888333,
+        "output_sha256": "3efe18ead9e33efb1459f34c224c42fb1a31a4bc78634b2ef43ece0e48eae878",
+        "transparent_pixel_fraction": 0.881532,
+        "very_faint_alpha_pixels_1_to_15": 16531,
+        "colours_and_material_families_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "no_text_or_letters": true,
+        "no_alpha_outside_guide_silhouette": false,
+        "visual_review": "Flatter gold and cyan but secondary cyan path is absent; ceramic housing and rail outlines drift. Some bright edge shading remains.",
+        "strict_brief_quality_pass": false
+      }
+    }
+  ],
+  "validation_method": "Exact alpha comparison is authoritative. IoU is a diagnostic only: alpha >=128, compared on an in-memory 1024x1024 grid without changing saved returns. Materials, lighting and absence of text are visually reviewed.",
+  "quality_accepted": false,
+  "correction_limit_per_view": 1,
+  "corrections_used_per_view": {
+    "front": 1,
+    "back": 1,
+    "left": 1,
+    "right": 1,
+    "top": 1
+  },
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "limitations": [
+    "All built-in returns are 1254x1254 rather than the requested 1024x1024; all are preserved byte-for-byte, unresized, as required by the brief.",
+    "No candidate preserves the guide alpha silhouette exactly. Even normalized outline overlap is imperfect. The right view is the poorest geometric match.",
+    "Residual facet shading and metallic edge highlights violate the flat albedo requirement.",
+    "Returns have real alpha transparency but include faint stray alpha and edge fringes outside the intended object silhouette.",
+    "One initial generation and exactly one corrective generation were used per view; no additional generation or manual pixel correction was performed.",
+    "These selected candidates are not accepted as exact projection-ready texture sources."
+  ]
+}

@@ -1,0 +1,1 @@
+Common .98,0,30 registration; registration_checks.json retains clipping evidence. restore_native_tone.py followed by petals_tone.py (red-material selection) matches native tonal weight without changing alpha. Raw and intermediate pixels preserved; final light/dark proofs inspected.

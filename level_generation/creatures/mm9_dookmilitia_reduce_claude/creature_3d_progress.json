@@ -1,0 +1,24 @@
+{
+  "creature_3d_identity": "mm9reduce:dookmilitia",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "status": "ready for review (fix pass, chart guard, UV audit 0)",
+  "date": "2026-11-04",
+  "source": "assets_source/worlds/mm9/models/mm9_dookmilitia.glb (sha256 8a60c4575c2e, before/)",
+  "candidate": "export/mm9_dookmilitia.glb (m155b, sha256 ebd178434414)",
+  "lod0": [
+    12906,
+    10168
+  ],
+  "lods_after": [
+    5071,
+    1822,
+    603
+  ],
+  "ladder": "mpqem M1 r55 (MP_CHART=1, SETS=C4)",
+  "installed": false,
+  "credits": 0,
+  "uv_audit_lod0_escaping": 0
+}

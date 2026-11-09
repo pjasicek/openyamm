@@ -1,0 +1,22 @@
+{
+ "format_version": 1,
+ "kind": "outdoor_map_package",
+ "package_id": "mm9:isleofashes",
+ "display_name": "Isle of Ashes",
+ "map_file": "isleofashes.odm",
+ "scene_file": "isleofashes.scene.yml",
+ "geometry_metadata_file": "isleofashes.geometry.yml",
+ "terrain_metadata_file": "isleofashes.terrain.yml",
+ "script_module": "maps/isleofashes.lua",
+ "map_stats_id": 9021,
+ "redbook_track": 0,
+ "environment_name": "grassland",
+ "is_top_level_area": true,
+ "outdoor_bounds": {
+  "enabled": true,
+  "min_x": -22528,
+  "max_x": 22528,
+  "min_y": -22528,
+  "max_y": 22528
+ }
+}

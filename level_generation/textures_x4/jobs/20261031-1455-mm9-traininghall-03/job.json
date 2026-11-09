@@ -1,0 +1,493 @@
+{
+ "id": "20261031-1455-mm9-traininghall-03",
+ "world": "mm9",
+ "maps": [
+  "traininghall.blv",
+  "lichlab.blv"
+ ],
+ "created": "2026-10-31T13:55:38+00:00",
+ "textures": [
+  "mm9/banneu8t2u",
+  "mm9/clanqdp12n",
+  "mm9/xeengke8ot",
+  "mm9/bron37kwgf",
+  "mm9/tubeuvvd6g",
+  "mm9/tubeglvfxc",
+  "mm9/bronwjz27v",
+  "mm9/skul88g71v",
+  "mm9/skul4ggrbq",
+  "mm9/bronfthtre",
+  "mm9/tubean7gdg",
+  "mm9/tubeoytzcv",
+  "mm9/bronyu7arz",
+  "mm9/bronmcs3xc",
+  "mm9/bron1mi6y6",
+  "mm9/outehfrdd1",
+  "mm9/outecpb4oj",
+  "mm9/bronuswuxb",
+  "mm9/bronfivc7k",
+  "mm9/wainpci52v",
+  "mm9/bron39o88x",
+  "mm9/bulla96a9n",
+  "mm9/bull7okcx5",
+  "mm9/jigsy9zfwq"
+ ],
+ "requests": {
+  "mm9/banneu8t2u": {
+   "name": "banneu8t2u",
+   "versions": [
+    1
+   ],
+   "material": "a red silk banner with a heraldic coat of arms: a gold and black striped shield with a crowned helm and feathered crest above, gold scroll mantling around it, a zigzag fringed bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/clanqdp12n": {
+   "name": "clanqdp12n",
+   "versions": [
+    1
+   ],
+   "material": "grey brushed metal with soft vertical streaks and faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/xeengke8ot": {
+   "name": "xeengke8ot",
+   "versions": [
+    1
+   ],
+   "material": "a single vertical round grey metal bar with a soft cylindrical highlight in the middle, plain black on both sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bron37kwgf": {
+   "name": "bron37kwgf",
+   "versions": [
+    1
+   ],
+   "material": "worn hammered bronze-brown metal wall plate with soft mottled tarnish and dark grime, a thin riveted metal strip along the bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tubeuvvd6g": {
+   "name": "tubeuvvd6g",
+   "versions": [
+    1
+   ],
+   "material": "copper-bronze pipes running vertically over a worn bronze-brown metal wall plate with tarnish and grime, several straight and bent pipes with joints and brackets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bron37kwgf"
+     ],
+     "fraction": 0.344
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tubeglvfxc": {
+   "name": "tubeglvfxc",
+   "versions": [
+    1
+   ],
+   "material": "copper-bronze pipes running vertically over a worn bronze-brown metal wall plate with tarnish and grime, pipes running in a tangled mess with bends and joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/tubeuvvd6g"
+     ],
+     "fraction": 0.676
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bronwjz27v": {
+   "name": "bronwjz27v",
+   "versions": [
+    1
+   ],
+   "material": "worn hammered bronze-brown metal wall plate with soft mottled tarnish and dark grime, a thin riveted metal strip along the bottom edge, with a carved bronze relief of a horned demon face in the upper middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bron37kwgf"
+     ],
+     "fraction": 0.786
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/skul88g71v": {
+   "name": "skul88g71v",
+   "versions": [
+    1
+   ],
+   "material": "worn hammered bronze-brown metal wall plate with soft mottled tarnish and dark grime, a thin riveted metal strip along the bottom edge, with a bronze relief of a full standing human skeleton holding a long staff at its side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bron37kwgf"
+     ],
+     "fraction": 0.661
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/skul4ggrbq": {
+   "name": "skul4ggrbq",
+   "versions": [
+    1
+   ],
+   "material": "worn hammered bronze-brown metal wall plate with soft mottled tarnish and dark grime, a thin riveted metal strip along the bottom edge, with a bronze relief of a full standing human skeleton holding a long staff at its side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bron37kwgf"
+     ],
+     "fraction": 0.66
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bronfthtre": {
+   "name": "bronfthtre",
+   "versions": [
+    1
+   ],
+   "material": "worn hammered bronze-brown metal wall plate with soft mottled tarnish and dark grime, a thin riveted metal strip along the bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/wainqcu65o",
+      "mm9/bron37kwgf"
+     ],
+     "fraction": 0.55
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tubean7gdg": {
+   "name": "tubean7gdg",
+   "versions": [
+    1
+   ],
+   "material": "copper-bronze pipes running vertically over a worn bronze-brown metal wall plate with tarnish and grime, pipes running straight with a grid of riveted horizontal straps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/tubeuvvd6g"
+     ],
+     "fraction": 0.382
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tubeoytzcv": {
+   "name": "tubeoytzcv",
+   "versions": [
+    1
+   ],
+   "material": "copper-bronze pipes running vertically over a worn bronze-brown metal wall plate with tarnish and grime, a few straight pipes with occasional joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bron37kwgf",
+      "mm9/tubeglvfxc",
+      "mm9/tubeuvvd6g"
+     ],
+     "fraction": 0.469
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bronyu7arz": {
+   "name": "bronyu7arz",
+   "versions": [
+    1
+   ],
+   "material": "worn hammered bronze-brown metal wall plate with soft mottled tarnish and dark grime, a thin riveted metal strip along the bottom edge, with a carved bronze relief of a winged gargoyle face with scrollwork in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bronfthtre"
+     ],
+     "fraction": 0.73
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bronmcs3xc": {
+   "name": "bronmcs3xc",
+   "versions": [
+    1
+   ],
+   "material": "a ceiling of worn bronze-brown riveted metal plates in a square grid, rows of round rivet heads along every seam, tarnish and green-grey grime",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/tubean7gdg"
+     ],
+     "fraction": 0.319
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bron1mi6y6": {
+   "name": "bron1mi6y6",
+   "versions": [
+    1
+   ],
+   "material": "a ceiling of worn bronze-brown riveted metal plates in a square grid, rows of round rivet heads along every seam, tarnish and green-grey grime, a round glowing yellow-white glass porthole light set in a riveted bronze frame in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bronmcs3xc"
+     ],
+     "fraction": 0.67
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/outehfrdd1": {
+   "name": "outehfrdd1",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey stone pointed gothic arch window frame with tracery at the top, filled with dark mossy stone blocks, flanked by pale stone jambs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/outecpb4oj": {
+   "name": "outecpb4oj",
+   "versions": [
+    1
+   ],
+   "material": "a wall of dark grey-brown rough stone blocks in running-bond courses with mossy green patches in the joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/outehfrdd1"
+     ],
+     "fraction": 0.514
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bronuswuxb": {
+   "name": "bronuswuxb",
+   "versions": [
+    1
+   ],
+   "material": "worn hammered bronze-brown metal wall plate with soft mottled tarnish and dark grime, a thin riveted metal strip along the bottom edge, with a wide carved bronze frieze relief of a gargoyle face flanked by ornate scrolling wings across the upper middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bronfthtre"
+     ],
+     "fraction": 0.479
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bronfivc7k": {
+   "name": "bronfivc7k",
+   "versions": [
+    1
+   ],
+   "material": "a ceiling of worn bronze-brown riveted metal plates in a square grid, rows of round rivet heads along every seam, tarnish and green-grey grime, a square bronze hatch in the middle with a lever handle, riveted frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bronmcs3xc",
+      "mm9/tubean7gdg"
+     ],
+     "fraction": 0.385
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wainpci52v": {
+   "name": "wainpci52v",
+   "versions": [
+    1
+   ],
+   "material": "an interior wall lined with a dark wooden bookcase: shelves full of old leather-bound books, with a carved dark wooden pilaster at the right edge; lower part dark reddish-brown carved wooden wainscot panelling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/wainjld1bn"
+     ],
+     "fraction": 0.137
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bron39o88x": {
+   "name": "bron39o88x",
+   "versions": [
+    1
+   ],
+   "material": "a ceiling of worn bronze-brown riveted metal plates in a square grid, rows of round rivet heads along every seam, tarnish and green-grey grime, a large round bronze medallion in the middle with a skull with red glowing eyes inside an engraved compass-star ring",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bronmcs3xc"
+     ],
+     "fraction": 0.286
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bulla96a9n": {
+   "name": "bulla96a9n",
+   "versions": [
+    1
+   ],
+   "material": "coarse straw bale surface: densely packed pale grey-brown dry straw fibres running in rough diagonal streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bull7okcx5": {
+   "name": "bull7okcx5",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a round archery target painted on coarse fabric: concentric rings of blue, green, yellow and a red bullseye, on a pale beige background",
+   "notes": {
+    "2": "the target's background is the same brown-grey shaggy straw/fur as the native (long diagonal strands, dark gaps), not pale woven burlap; keep the painted rings exactly as they are"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bulla96a9n"
+     ],
+     "fraction": 0.149
+    },
+    "2": {
+     "sources": [
+      "mm9/bulla96a9n"
+     ],
+     "fraction": 0.149
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/jigsy9zfwq": {
+   "name": "jigsy9zfwq",
+   "versions": [
+    1
+   ],
+   "material": "a floor of large brown stone slabs in a jigsaw pattern of interlocking rectangles of different sizes, dark joints, worn surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

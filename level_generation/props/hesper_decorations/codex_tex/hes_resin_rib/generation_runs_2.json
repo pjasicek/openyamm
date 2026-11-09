@@ -1,0 +1,94 @@
+[
+  {
+    "view": "back",
+    "prompt": "Use case: style-transfer.\nAsset type: back-view albedo texture source for an existing 3D decoration.\nEdit target: image 1, guide_back.png, a 1024 x 1024 orthographic grey back render. Supporting material reference: image 2, design_reference.png. Output exactly one 1024 x 1024 RGBA image with genuine transparent background.\nPaint ONLY the grey model surfaces in image 1. Preserve its silhouette EXACTLY at the original pixel positions, same outline, size, framing, tip curving to upper LEFT, root footprint, every existing edge, opening, protrusion, ridge, facet and the two lower embedded shapes. Do not copy the reference's viewpoint, geometry or lighting. Nothing outside the guide silhouette; no new holes or branches; nothing cropped. Keep the back view and all guide geometry unchanged.\nTransfer image 2's surface materials: black-violet resin and chitin, delicate organic striations, thin vivid orange veins following the existing grooves, a few fused chipped white ceramic fragments with gold edges on the existing lower embedded plate shapes. Dark purple-black resin predominates. Paint orange seams at their glowing orange colour, without any light spilling onto adjacent surfaces.\nLIGHTING: this is an ALBEDO texture source, not a beauty render. Even flat shadowless light from the viewer, with all surfaces legible. Convey resin through material colour/detail, without strong specular highlights, reflections, baked shadows, ambient-occlusion darkening, rim light or directional gradients. No cast shadows. No floor, background, halo, text or watermark. Preserve true alpha outside the exact guide outline.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "role": "edit target; geometry authority",
+        "sha256": "489f18b33ef420306fdc86eec72cb1a741d53b06b0f86f3d34b6d3ba74b1000b"
+      },
+      {
+        "path": "design_reference.png",
+        "role": "colour and material reference",
+        "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+      }
+    ],
+    "output": "paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Rejected: wrong output dimensions, excessive specular highlights and shaded recesses.",
+    "tool": "built-in image_gen",
+    "attempt": 1,
+    "corrective": false,
+    "sha256": "e251b8351d2ec666a5b3020c67acb44ef6f37ae1f2ec6b1c40c9b762a9fd0153",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "unresized_return": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "silhouette_note": "Output canvas differs from guide; outline and internal geometry are approximate, not pixel-identical.",
+      "materials_and_colours": "Black-violet resin, orange seams and ivory ceramic with gold edges present.",
+      "flat_even_light_pass": false,
+      "lighting_note": "Strong specular highlights and recess shading."
+    }
+  },
+  {
+    "view": "back",
+    "prompt": "Use case: style-transfer. Corrective generation for a texture-source asset.\nReturn an EXACTLY 1024 by 1024 pixel square transparent PNG, native resolution 1024x1024, unresized. The grey guide image 1 is a locked canvas, geometry and alpha-mask authority. Image 2 is ONLY a colour/material reference.\nPaint the grey surfaces of image 1 in place, as a back-view albedo texture painting. Preserve the exact silhouette, ALL edges and protrusions and surface features. Do not recompose or change the guide model. At 1024x1024 the tip starts near (198,94), top at y66, and root ends at y958 with the far right point near x827. The horn curves to the upper LEFT. Preserve the lower big embedded shape on the right near (641,777), and the smaller embedded shape near (520,846). Preserve all jagged root tips, ridges and grooves, same size and same positions. No geometry from image 2 may replace or reshape this guide.\nMaterials from image 2: dark black-violet resin/chitin with fine organic surface striations, very thin orange seams along the existing grooves, chipped ivory-white ceramic with thin gold edges on the two lower embedded shapes. Keep the broad raised surfaces dark violet. Keep everything readable under uniform frontal illumination.\nCRITICAL correction: use FLAT EVEN SHADOWLESS ALBEDO colour. NO specular dots, NO white resin highlights, NO shiny reflections, NO deep shaded recesses, NO ambient occlusion, NO rim light or side lighting, NO gradients caused by light. Resin is glossy as a material but gloss highlights must NOT be baked into this albedo image. Orange veins are local orange paint colour only, without cast illumination or bloom. Small ceramic chips and resin surface marks may vary the local colour but must not look like lighting.\nTrue transparent background outside the guide silhouette, no floor or shadow or halo. No text. One image only. Exact 1024x1024 output; keep every feature pixel-aligned to image 1.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "role": "edit target; geometry authority",
+        "sha256": "489f18b33ef420306fdc86eec72cb1a741d53b06b0f86f3d34b6d3ba74b1000b"
+      },
+      {
+        "path": "design_reference.png",
+        "role": "colour and material reference",
+        "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+      }
+    ],
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected corrective return: reduced highlights and thinner orange seams. Still fails exact dimensions, silhouette and flat-albedo requirements.",
+    "tool": "built-in image_gen",
+    "attempt": 2,
+    "corrective": true,
+    "sha256": "2803a469793862a4b099ec338369880a2123b58937a455423bb4e49efce5694a",
+    "checks": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "required_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_pass": false,
+      "unresized_return": true,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "silhouette_note": "Output canvas differs from guide; outline and internal geometry are approximate, not pixel-identical.",
+      "materials_and_colours": "Black-violet resin, orange seams and ivory ceramic with gold edges present.",
+      "flat_even_light_pass": false,
+      "lighting_note": "Corrective return reduces glare, but retains surface highlights and recess shading."
+    }
+  }
+]

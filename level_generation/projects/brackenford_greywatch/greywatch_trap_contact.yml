@@ -1,0 +1,120 @@
+id: levelgen.greywatch.trap_contact
+title: Walking onto native pressure plates records one-shot local state and preserves
+  it in saves
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg02.blv
+- assert:
+    state_dump_map_var:
+      index: 1
+      value: 0
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 3008
+      y: 3072
+      z: 384
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 3456
+      y: 3072
+      z: 384
+      yaw: 0
+      pitch: 0
+    seconds: 0.5833333333333334
+    input: forward
+- assert:
+    pressure_plate_triggered:
+      world: indoor
+      event_id: 301
+    state_dump_map_var:
+      index: 1
+      value: 1
+- save_game: greywatch_plate_301
+- load_game: greywatch_plate_301
+- assert:
+    state_dump_map_var:
+      index: 1
+      value: 1
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 3456
+      y: 3072
+      z: 384
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 3008
+      y: 3072
+      z: 384
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 0.5833333333333334
+    input: forward
+- assert:
+    state_dump_map_var:
+      index: 1
+      value: 1
+- new_game_flow:
+    start_map: lg02.blv
+- assert:
+    state_dump_map_var:
+      index: 2
+      value: 0
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: -1152
+      y: 3072
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: -1792
+      y: 3072
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 0.8333333333333334
+    input: forward
+- assert:
+    pressure_plate_triggered:
+      world: indoor
+      event_id: 302
+    state_dump_map_var:
+      index: 2
+      value: 1
+- save_game: greywatch_plate_302
+- load_game: greywatch_plate_302
+- assert:
+    state_dump_map_var:
+      index: 2
+      value: 1
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: -1792
+      y: 3072
+      z: 768
+      yaw: 0.0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: -1152
+      y: 3072
+      z: 768
+      yaw: 0.0
+      pitch: 0
+    seconds: 0.8333333333333334
+    input: forward
+- assert:
+    state_dump_map_var:
+      index: 2
+      value: 1

@@ -1,0 +1,3 @@
+Saved [02_profile.png](level_generation/creatures/mm9_peasantdm3_claude/references_head/profile_fix/02_profile.png): 1254×1254, true transparency, generated with the built-in tool. Selected attempt 2; silhouette overlap is 99.28%. Both raw returns, prompts and input hashes are saved alongside it.
+
+No builds or Meshy work. Minor contour differences and edge artifacts remain; the match is not pixel-exact.

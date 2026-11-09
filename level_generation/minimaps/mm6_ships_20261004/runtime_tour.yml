@@ -1,0 +1,9 @@
+output_dir: ./runtime_check/captures
+exit: true
+steps:
+  - wait: 3
+  - expect: gameplay
+  - capture: ship-hud
+  - action: map_book
+  - wait: 1
+  - capture: ship-map-book

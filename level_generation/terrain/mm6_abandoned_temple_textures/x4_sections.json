@@ -1,0 +1,204 @@
+{
+  "wywl": [
+    {
+      "section": 1,
+      "native_region": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "layout": "references/wywl_x4_section_1_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    },
+    {
+      "section": 2,
+      "native_region": [
+        0,
+        256,
+        256,
+        512
+      ],
+      "layout": "references/wywl_x4_section_2_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    }
+  ],
+  "stabig2": [
+    {
+      "section": 1,
+      "native_region": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "layout": "references/stabig2_x4_section_1_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    },
+    {
+      "section": 2,
+      "native_region": [
+        0,
+        256,
+        256,
+        512
+      ],
+      "layout": "references/stabig2_x4_section_2_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    }
+  ],
+  "wywt": [
+    {
+      "section": 1,
+      "native_region": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "layout": "references/wywt_x4_section_1_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    },
+    {
+      "section": 2,
+      "native_region": [
+        0,
+        256,
+        256,
+        512
+      ],
+      "layout": "references/wywt_x4_section_2_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    }
+  ],
+  "carpt01": [
+    {
+      "section": 1,
+      "native_region": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "layout": "references/carpt01_x4_section_1_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    },
+    {
+      "section": 2,
+      "native_region": [
+        256,
+        0,
+        512,
+        256
+      ],
+      "layout": "references/carpt01_x4_section_2_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    }
+  ],
+  "stain512": [
+    {
+      "section": 1,
+      "native_region": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "layout": "references/stain512_x4_section_1_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    },
+    {
+      "section": 2,
+      "native_region": [
+        256,
+        0,
+        512,
+        256
+      ],
+      "layout": "references/stain512_x4_section_2_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    },
+    {
+      "section": 3,
+      "native_region": [
+        0,
+        256,
+        256,
+        512
+      ],
+      "layout": "references/stain512_x4_section_3_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    },
+    {
+      "section": 4,
+      "native_region": [
+        256,
+        256,
+        512,
+        512
+      ],
+      "layout": "references/stain512_x4_section_4_layout.png",
+      "core_fraction": [
+        0.05555555555555555,
+        0.05555555555555555,
+        0.9444444444444444,
+        0.9444444444444444
+      ]
+    }
+  ]
+}

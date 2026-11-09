@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Odin (6crown5). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Open gold crown with continuous band and repeated tall arrow-pointed castellated uprights; no fabric cap. This is a genuine geometry variant; match the attached 6crown5 icon colours and ornament instead of copying the master variant colours. Exact material boundaries: Use the icon and identity; red only for actual metal fittings, keep leather, horn and fabric in their own classes. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6crown5/inputs/guide_paint.png",
+  "input_guide_sha256": "54ddc62eb0e4d59811a75f71efa85ca812bbb2f46396d5b21ec640d62ef1223e",
+  "revision": 1,
+  "input_icon": "6crown5",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-a0cde7d5-010f-4549-a40b-fb14db283ae0.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "c965557323f7a5ad204a779b44c6aa7700507950f9289671b403997845d4610e",
+  "input_icon_path": "assets_dev/engine/icons_x2/6crown5.png",
+  "input_icon_sha256": "0389a9a0a12862117d96b2b626a15ae5cf286d7281612562630f235e3ef33f2d",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

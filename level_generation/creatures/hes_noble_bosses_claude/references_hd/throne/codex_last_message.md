@@ -1,0 +1,3 @@
+Saved 00–04 as 1024 × 1536 transparent PNGs, raw returns, [generation log](level_generation/creatures/hes_noble_bosses_claude/references_hd/throne/generation_runs.json), and [review sheet](level_generation/creatures/hes_noble_bosses_claude/references_hd/throne/selected_views_review.png). Used built-in image generation; prompts and input hashes are logged.
+
+Stopped before Meshy or builds. Minor geometry differences remain between generated views.

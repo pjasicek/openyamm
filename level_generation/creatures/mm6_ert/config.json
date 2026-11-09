@@ -1,0 +1,22 @@
+{
+  "family": "ert",
+  "title": "MM6 Earth Elemental",
+  "descriptor_ids": [
+    526,
+    527,
+    528
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 725,
+  "matte": "magenta",
+  "mask_kind": "olive",
+  "description": "Native MM6 earth elemental, a stout humanoid formed entirely from rough dark brown rocky earth. The original silhouette has a small blunt stone head, broad rounded shoulders, boulder fists, thick segmented limbs and heavy feet. Irregular overlapping cracked stone slabs follow the native torso and limbs, with deep black fissures and muted dusty brown highlights. No skin, clothing, metal armor, lava, crystals, glowing eyes, moss, weapons or accessories. Match the original squat sturdy proportions and primitive face exactly, without enlarging the head or exaggerating muscles.",
+  "regions": "All earthen stone surfaces share the native material palette. Preserve black crevices and eye/mouth shadows. Generate only the native muted brown A material, no green variant in the base artwork.",
+  "variant_names": {
+    "725": "Earth elemental A / brown",
+    "726": "Earth elemental B / green",
+    "727": "Earth elemental C / dark grey"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 1
+}

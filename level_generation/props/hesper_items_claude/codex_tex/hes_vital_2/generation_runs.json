@@ -1,0 +1,497 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic game-model texture projection source; flat albedo painting.\nInput image 1 is the exact geometry guide and edit target. Input image 2 is the approved design reference, used ONLY for its materials, colours and surface design, NEVER its camera angle, outline, proportions or pose.\nPaint the supplied guide in place. Preserve the guide's silhouette EXACTLY, identical outline, scale, orientation, position, every part edge, cutout and gap. Do not rotate, recenter, enlarge, move, reshape or replace any part. Do not invent new geometry or parts outside the guide. Preserve even its angular facets and small irregularities. One object, same 1024 x 1024 square canvas as the guide, transparent background, no cropping.\nApply only the reference's actual materials: warm ivory-white ceramic armour with fine subtle hairline wear, restrained fine seams/panel joins, brushed ochre-gold trim, black-violet resin at exposed mechanical joints and connectors, and ruby-red crystal with red-orange luminous veins where its gem surfaces are visible. The reference's RED crystal colour is authoritative; do not introduce blue light. No leather, cloth or paper where the reference does not show them. Continue those same materials plausibly over unseen rear and underside surfaces. Keep the surface design coherent and restrained.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, not a beauty render. Flat even shadowless lighting from the viewer. Remove the guide's baked shading. No cast shadows, no ambient occlusion, no directional gradients or dark corners, no rim lighting, no hot white highlights, no reflected lights or environment, no bright metallic reflections. Metals read as solid ochre-gold base colour with at most a faint sheen. Crystals read as deep ruby red with bright red-orange vein colour, no glow halo or bloom beyond their surface. No floor or background. No text, letters, numbers, logos, watermark or labels.\nVIEW-SPECIFIC GEOMETRY: FRONT view, paint guide_front.png exactly as it is. Its sharp central apex points UP near (512,163), both hooked mechanical appendages occupy the UPPER corners, and its broad plain underbody tapers to a lower point near (512,860). The central plain shell has no large oval socket visible in this view: continue ivory ceramic back/underside plates with restrained gold seams and a dark resin joint at the appendage collars. Do not move the reference's large jewel onto an invisible socket. Preserve the guide's raised angular chevron ridge and all existing borders. The guide orientation takes priority over what the word front might suggest.",
+    "inputs": [
+      {
+        "file": "guide_front.png",
+        "sha256": "6acf30569f3b1cf4c7a79673bf301111c2c53be00ba280864d98b7bb750d6f85"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1"
+      }
+    ],
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Rejected: changed frame scale and part contours, added geometric detailing, metallic highlights and ceramic shading; use one corrective regeneration.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        47,
+        149,
+        1207,
+        1046
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.8339620988398762
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "508cdc5be96543af99b4ce76d8dd3322147fd8cb775ad6bb46e2f69a24d64fe0"
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: precise-object-edit. Paint only the surface colour of the SECOND image, the gray orthographic model guide, to make an albedo texture projection source. Image 1 is ONLY the colour/material reference. Image 2 is the actual edit canvas and fixes ALL geometry. Return a single 1024x1024 transparent PNG.\n\nCRITICAL: keep the SECOND image's original exact camera, silhouette, object size, placement, shape, all part edges, angular facets, cutouts, and margins. Copy its alpha silhouette and keep every contour at its exact original pixel position. Do not straighten, smooth, redraw, prettify, add bevels or redesign the model. Paint the existing geometry in place, do not draw a new version of the reference. The output must overlay the grayscale guide precisely.\n\nOnly add material pigmentation to the visible surfaces: ivory white ceramic with extremely fine light wear; muted brushed ochre-gold along existing raised trim and collars; uniform dark black-violet exposed joint connectors; ruby-red crystal and bright red-orange vein pigmentation ONLY in existing visible jewel sockets. No blue. Use the first image to interpret material assignment, not to import its outline or viewpoint. No added gems on plain back/underside plates.\n\nStrictly FLAT ALBEDO: ceramic must be even ivory throughout all plane orientations, gold uniform muted ochre with only a very faint sheen. Remove ALL gray guide lighting; no top-to-bottom darkening, no shaded sides, no ambient occlusion, no crevice shadows, no specular white lines, no bright glints or metallic reflections, no rim light, no bloom or glow spill. Panel joins are fine pigment lines, never thick shadowed bevels. Glowing crystal veins are bright colour only. Transparent background; no ground, shadows, text, letters, labels or watermark. Preserve the original canvas margins exactly.\nFRONT view, paint guide_front.png exactly as it is. Its sharp central apex points UP near (512,163), both hooked mechanical appendages occupy the UPPER corners, and its broad plain underbody tapers to a lower point near (512,860). The central plain shell has no large oval socket visible in this view: continue ivory ceramic back/underside plates with restrained gold seams and a dark resin joint at the appendage collars. Do not move the reference's large jewel onto an invisible socket. Preserve the guide's raised angular chevron ridge and all existing borders. The guide orientation takes priority over what the word front might suggest.\nCORRECTION: the previous result expanded and reshaped the outline, added raised framing, and used beauty-render shading. Correct those issues by retaining the ORIGINAL GRAY GUIDE exactly and applying only flat colour.",
+    "inputs": [
+      {
+        "file": "design_reference.png",
+        "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1"
+      },
+      {
+        "file": "guide_front.png",
+        "sha256": "6acf30569f3b1cf4c7a79673bf301111c2c53be00ba280864d98b7bb750d6f85"
+      }
+    ],
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected the permitted correction: closer framing and more even surfaces than attempt 1. Remaining deviations: generated contours/part boundaries are not pixel-identical and faint edge shading remains. Raw tool size retained.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "visual_notes": "Closer guide framing; stylized bevel highlights, joint reshaping and added seam details remain.",
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        80,
+        202,
+        1173,
+        1052
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.9792506300026355
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "002dee5bf7649058cc3c63707b3660df35dc201f0f4c425c8c37155ca23a9248"
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Paint only the surface colour of the SECOND image, the gray orthographic model guide, to make an albedo texture projection source. Image 1 is ONLY the colour/material reference. Image 2 is the actual edit canvas and fixes ALL geometry. Return a single 1024x1024 transparent PNG.\n\nCRITICAL: keep the SECOND image's original exact camera, silhouette, object size, placement, shape, all part edges, angular facets, cutouts, and margins. Copy its alpha silhouette and keep every contour at its exact original pixel position. Do not straighten, smooth, redraw, prettify, add bevels or redesign the model. Paint the existing geometry in place, do not draw a new version of the reference. The output must overlay the grayscale guide precisely.\n\nOnly add material pigmentation to the visible surfaces: ivory white ceramic with extremely fine light wear; muted brushed ochre-gold along existing raised trim and collars; uniform dark black-violet exposed joint connectors; ruby-red crystal and bright red-orange vein pigmentation ONLY in existing visible jewel sockets. No blue. Use the first image to interpret material assignment, not to import its outline or viewpoint. No added gems on plain back/underside plates.\n\nStrictly FLAT ALBEDO: ceramic must be even ivory throughout all plane orientations, gold uniform muted ochre with only a very faint sheen. Remove ALL gray guide lighting; no top-to-bottom darkening, no shaded sides, no ambient occlusion, no crevice shadows, no specular white lines, no bright glints or metallic reflections, no rim light, no bloom or glow spill. Panel joins are fine pigment lines, never thick shadowed bevels. Glowing crystal veins are bright colour only. Transparent background; no ground, shadows, text, letters, labels or watermark. Preserve the original canvas margins exactly.\nBACK view, paint guide_back.png exactly as it is. The narrow pointed apex is UP near (512,163), both curled appendages are at the upper sides, and the body ends at the lower centre near (512,860). The guide's existing oval socket on the upper central face (roughly x420-606, y314-522) receives the red crystal. Its existing surrounding rim and vertical lower spine receive gold trim; large adjacent plates receive ivory ceramic. Preserve the entire guide geometry and small split at the bottom. Do not reverse or rotate this guide.",
+    "inputs": [
+      {
+        "file": "design_reference.png",
+        "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1"
+      },
+      {
+        "file": "guide_back.png",
+        "sha256": "9266438e2905ec4e6f3776e6a4a22b7313f273b92e5b382d4b9860e6d8a016d4"
+      }
+    ],
+    "output": "paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Use one corrective regeneration: gem and gold retain specular highlights, crevices retain shading, and some contours are interpreted instead of copied. Try guide-only image conditioning with explicit reference material specification.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        78,
+        196,
+        1176,
+        1053
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.9759003085437726
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "c540c63084fffbebc7515baa36a31f3d8c7bf84fc7d168cc22bd07579ae58276"
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "prompt": "Precisely recolour the attached 1024x1024 grayscale orthographic model render, preserving its original alpha silhouette and ALL shapes and part edges pixel for pixel. This input is the edit canvas. Texture projection source, flat ALBEDO ONLY. Do not redraw or render new geometry. Do not change its view, perspective, scale, placement or framing. Keep its original transparent background. Output 1024x1024, one isolated object in the identical guide pose.\n\nApproved design material specification: ivory-white ceramic body plates with very fine, faint warm hairline wear, muted ochre-gold brushed trim on existing rim/border strips and collars, black-violet resin on exposed mechanical connectors, and ruby-red gemstone with thin red-orange luminous veins wherever the guide has a jewel socket. These material colours derive from the approved design_reference.png. Keep gold restricted to existing borders and raised strips. No additional objects, decorative spikes, added jewels or added structure.\n\nReplace gray guide shading with simple flat pigment colour: ivory surfaces are evenly ivory regardless of their orientation, gold strips evenly muted ochre-gold, dark joints evenly dark violet-black. Very subtle surface texture only. This is diffuse albedo without lighting information. ZERO glossy reflections, ZERO white specular marks, ZERO bright edge strips, ZERO bevel lighting, ZERO shaded sides, ZERO crevice shadow, ZERO ambient occlusion. Gems are flat ruby pigment with thin bright red-orange veins; no white reflections, highlights or glow bloom. No cast shadows, background, floor, text, letters, watermark or labels. Most important: preserve the original outline, all gaps and every part boundary, do not redraw the model as an illustration.\nBACK view, paint guide_back.png exactly as it is. The narrow pointed apex is UP near (512,163), both curled appendages are at the upper sides, and the body ends at the lower centre near (512,860). The guide's existing oval socket on the upper central face (roughly x420-606, y314-522) receives the red crystal. Its existing surrounding rim and vertical lower spine receive gold trim; large adjacent plates receive ivory ceramic. Preserve the entire guide geometry and small split at the bottom. Do not reverse or rotate this guide.\nCorrective regeneration: remove the previous version's gold reflections and gem white highlights, and preserve the original guide contours exactly. Do not add trim thickness or new bevels.",
+    "inputs": [
+      {
+        "file": "guide_back.png",
+        "sha256": "9266438e2905ec4e6f3776e6a4a22b7313f273b92e5b382d4b9860e6d8a016d4"
+      }
+    ],
+    "material_reference": {
+      "file": "design_reference.png",
+      "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1",
+      "use": "Visually inspected and described in prompt; provided directly in attempt 1."
+    },
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected the permitted correction: much flatter ceramic, gold and crystal, with better restraint on additional trim. Remaining contour drift, small edge artifacts and facet/crevice shading are recorded; raw size retained.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "visual_notes": "Substantially flatter than first attempt, but some gold facet and dark connector shading remains; small pale edge artifacts.",
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        81,
+        201,
+        1173,
+        1054
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.988671894569641
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "8b56cb4a1e0609a906c0a5bdd78612ec291a2ac47f1d40648d7aa29621480a6c"
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Precisely recolour the attached 1024x1024 grayscale orthographic model render, preserving its original alpha silhouette and ALL shapes and part edges pixel for pixel. This input is the edit canvas. Texture projection source, flat ALBEDO ONLY. Do not redraw or render new geometry. Do not change its view, perspective, scale, placement or framing. Keep its original transparent background. Output 1024x1024, one isolated object in the identical guide pose.\n\nApproved design material specification: ivory-white ceramic body plates with very fine, faint warm hairline wear, muted ochre-gold brushed trim on existing rim/border strips and collars, black-violet resin on exposed mechanical connectors, and ruby-red gemstone with thin red-orange luminous veins wherever the guide has a jewel socket. These material colours derive from the approved design_reference.png. Keep gold restricted to existing borders and raised strips. No additional objects, decorative spikes, added jewels or added structure.\n\nReplace gray guide shading with simple flat pigment colour: ivory surfaces are evenly ivory regardless of their orientation, gold strips evenly muted ochre-gold, dark joints evenly dark violet-black. Very subtle surface texture only. This is diffuse albedo without lighting information. ZERO glossy reflections, ZERO white specular marks, ZERO bright edge strips, ZERO bevel lighting, ZERO shaded sides, ZERO crevice shadow, ZERO ambient occlusion. Gems are flat ruby pigment with thin bright red-orange veins; no white reflections, highlights or glow bloom. No cast shadows, background, floor, text, letters, watermark or labels. Most important: preserve the original outline, all gaps and every part boundary, do not redraw the model as an illustration.\nLEFT view, paint guide_left.png exactly as it is. Preserve the diagonal side profile from the pointed LOWER LEFT end near (100,830) to the rounded UPPER RIGHT appendage near (900,230). The bulk of the broad underbody occupies the lower middle. Retain the one visible curled appendage, joint collar, side plate slopes and thin raised crest. Continue the ivory ceramic shell, gold panel trim and dark exposed resin connector on this side; do not invent a face-on oval jewel on this side profile.",
+    "inputs": [
+      {
+        "file": "guide_left.png",
+        "sha256": "69438c12eb0caad7fca8e60819a20a59e12a37fcff7c383685e6a4359260cf65"
+      }
+    ],
+    "material_reference": {
+      "file": "design_reference.png",
+      "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1",
+      "use": "Visually inspected and described in prompt."
+    },
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected attempt 1: closer material assignment to the guide/reference; the permitted correction invented an unwanted jewel. Residual shading and non-identical contours remain. Raw tool size retained.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "visual_notes": "Close overall guide silhouette, with some smoothed contours, pale edge artifacts and shaded ceramic/joints.",
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        95,
+        200,
+        1159,
+        1054
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.994022766582197
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "a1bc1971b7a956719ed1c2e73a8f08f9e17694bff3e129363f686bb3ad3d7a27"
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Precisely recolour the attached 1024x1024 grayscale orthographic model render, preserving its original alpha silhouette and ALL shapes and part edges pixel for pixel. This input is the edit canvas. Texture projection source, flat ALBEDO ONLY. Do not redraw or render new geometry. Do not change its view, perspective, scale, placement or framing. Keep its original transparent background. Output 1024x1024, one isolated object in the identical guide pose.\n\nApproved design material specification: ivory-white ceramic body plates with very fine, faint warm hairline wear, muted ochre-gold brushed trim on existing rim/border strips and collars, black-violet resin on exposed mechanical connectors, and ruby-red gemstone with thin red-orange luminous veins wherever the guide has a jewel socket. These material colours derive from the approved design_reference.png. Keep gold restricted to existing borders and raised strips. No additional objects, decorative spikes, added jewels or added structure.\n\nReplace gray guide shading with simple flat pigment colour: ivory surfaces are evenly ivory regardless of their orientation, gold strips evenly muted ochre-gold, dark joints evenly dark violet-black. Very subtle surface texture only. This is diffuse albedo without lighting information. ZERO glossy reflections, ZERO white specular marks, ZERO bright edge strips, ZERO bevel lighting, ZERO shaded sides, ZERO crevice shadow, ZERO ambient occlusion. Gems are flat ruby pigment with thin bright red-orange veins; no white reflections, highlights or glow bloom. No cast shadows, background, floor, text, letters, watermark or labels. Most important: preserve the original outline, all gaps and every part boundary, do not redraw the model as an illustration.\nLEFT view, paint guide_left.png exactly as it is. Preserve the diagonal side profile from the pointed LOWER LEFT end near (100,830) to the rounded UPPER RIGHT appendage near (900,230). The bulk of the broad underbody occupies the lower middle. Retain the one visible curled appendage, joint collar, side plate slopes and thin raised crest. Continue the ivory ceramic shell, gold panel trim and dark exposed resin connector on this side; do not invent a face-on oval jewel on this side profile.\nCORRECTION: eliminate all residual surface shading. All ceramic panels must have the SAME ivory base brightness on their entire area including lower and right-facing curves. All gold collars and trim must have the SAME muted gold base brightness on all facets. Keep fine wear only. Trace the supplied grayscale guide contour exactly, including its jagged angular notches; do not round or tidy them. No extra pale or coloured edge pixels, no fringe. Keep exact transparent margins and guide pixel coordinates.",
+    "inputs": [
+      {
+        "file": "guide_left.png",
+        "sha256": "69438c12eb0caad7fca8e60819a20a59e12a37fcff7c383685e6a4359260cf65"
+      }
+    ],
+    "material_reference": {
+      "file": "design_reference.png",
+      "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1",
+      "use": "Visually inspected and described in prompt."
+    },
+    "output": "paint_left_attempt2.png",
+    "selected": false,
+    "reason": "Correction rejected: it added a red jewel to the side connector and altered material placement. Prefer attempt 1 for consistent geometry/material assignment.",
+    "checks": {
+      "materials_match_reference": false,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "visual_notes": "Introduced a jewel on a plain connector; remaining shading and pale edge artifacts.",
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        96,
+        200,
+        1158,
+        1054
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.991210980828725
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "ac9877ba6e2a435b1c575426168133f72ca5cf2677df22ff283d6ff21210f52a"
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Precisely recolour the attached 1024x1024 grayscale orthographic model render, preserving its original alpha silhouette and ALL shapes and part edges pixel for pixel. This input is the edit canvas. Texture projection source, flat ALBEDO ONLY. Do not redraw or render new geometry. Do not change its view, perspective, scale, placement or framing. Keep its original transparent background. Output 1024x1024, one isolated object in the identical guide pose.\n\nApproved design material specification: ivory-white ceramic body plates with very fine, faint warm hairline wear, muted ochre-gold brushed trim on existing rim/border strips and collars, black-violet resin on exposed mechanical connectors, and ruby-red gemstone with thin red-orange luminous veins wherever the guide has a jewel socket. These material colours derive from the approved design_reference.png. Keep gold restricted to existing borders and raised strips. No additional objects, decorative spikes, added jewels or added structure.\n\nReplace gray guide shading with simple flat pigment colour: ivory surfaces are evenly ivory regardless of their orientation, gold strips evenly muted ochre-gold, dark joints evenly dark violet-black. Very subtle surface texture only. This is diffuse albedo without lighting information. ZERO glossy reflections, ZERO white specular marks, ZERO bright edge strips, ZERO bevel lighting, ZERO shaded sides, ZERO crevice shadow, ZERO ambient occlusion. Gems are flat ruby pigment with thin bright red-orange veins; no white reflections, highlights or glow bloom. No cast shadows, background, floor, text, letters, watermark or labels. Most important: preserve the original outline, all gaps and every part boundary, do not redraw the model as an illustration.\nRIGHT view, paint guide_right.png exactly as it is. Preserve the diagonal side profile from the rounded UPPER LEFT appendage near (120,230) to the pointed LOWER RIGHT end near (920,830). The bulk of the broad underbody occupies the lower middle. Retain the visible curled appendage, joint collar, side plate slopes and thin raised crest. Continue the ivory ceramic shell, gold panel trim and dark exposed resin connector consistently with the design; do not invent a face-on oval jewel on this side profile.\nNo gemstone is visible in this side guide: keep the small rounded section below the collar ivory ceramic. The broad side shell and the curved upper appendage are ivory, the thin plate-edge strips and joint collar are ochre-gold, and the exposed neck connector is dark black-violet. No new red inserts. Match this assignment coherently to the opposite side. Flat uniform pigment only on all surfaces.",
+    "inputs": [
+      {
+        "file": "guide_right.png",
+        "sha256": "6fae6d38b10418bda7c162394f35cb164063b8b99b7a08499390f8fe9775b9b0"
+      }
+    ],
+    "material_reference": {
+      "file": "design_reference.png",
+      "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1",
+      "use": "Visually inspected and described in prompt."
+    },
+    "output": "paint_right_attempt1.png",
+    "selected": false,
+    "reason": "Use the permitted correction to flatten the broad body gradient and gold collar shading while retaining the current material placement.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "visual_notes": "Good overall guide alignment, but broad ceramic body has directional shading and edge artifacts remain.",
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        95,
+        198,
+        1160,
+        1054
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.9893086871420051
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "50ded8833c40852c1ebbc6836c99d8eb56daa5a6e9a7a33e56bf6cf92cd1112d"
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Precisely recolour the attached 1024x1024 grayscale orthographic model render, preserving its original alpha silhouette and ALL shapes and part edges pixel for pixel. This input is the edit canvas. Texture projection source, flat ALBEDO ONLY. Do not redraw or render new geometry. Do not change its view, perspective, scale, placement or framing. Keep its original transparent background. Output 1024x1024, one isolated object in the identical guide pose.\n\nApproved design material specification: ivory-white ceramic body plates with very fine, faint warm hairline wear, muted ochre-gold brushed trim on existing rim/border strips and collars, black-violet resin on exposed mechanical connectors, and ruby-red gemstone with thin red-orange luminous veins wherever the guide has a jewel socket. These material colours derive from the approved design_reference.png. Keep gold restricted to existing borders and raised strips. No additional objects, decorative spikes, added jewels or added structure.\n\nReplace gray guide shading with simple flat pigment colour: ivory surfaces are evenly ivory regardless of their orientation, gold strips evenly muted ochre-gold, dark joints evenly dark violet-black. Very subtle surface texture only. This is diffuse albedo without lighting information. ZERO glossy reflections, ZERO white specular marks, ZERO bright edge strips, ZERO bevel lighting, ZERO shaded sides, ZERO crevice shadow, ZERO ambient occlusion. Gems are flat ruby pigment with thin bright red-orange veins; no white reflections, highlights or glow bloom. No cast shadows, background, floor, text, letters, watermark or labels. Most important: preserve the original outline, all gaps and every part boundary, do not redraw the model as an illustration.\nRIGHT view, paint guide_right.png exactly as it is. Preserve the diagonal side profile from the rounded UPPER LEFT appendage near (120,230) to the pointed LOWER RIGHT end near (920,830). The bulk of the broad underbody occupies the lower middle. Retain the visible curled appendage, joint collar, side plate slopes and thin raised crest. Continue the ivory ceramic shell, gold panel trim and dark exposed resin connector consistently with the design; do not invent a face-on oval jewel on this side profile.\nNo gemstone is visible in this side guide: keep the small rounded section below the collar ivory ceramic. The broad side shell and the curved upper appendage are ivory, the thin plate-edge strips and joint collar are ochre-gold, and the exposed neck connector is dark black-violet. No new red inserts. Match this assignment coherently to the opposite side. Flat uniform pigment only on all surfaces.\nCORRECTION: flatten the body lighting completely while preserving all material regions. The broad lower-left-facing ceramic body must be the same flat ivory brightness as the topmost ceramic plate; no side darkening at all. The gold collar must have the same flat base gold colour around its entire circumference. No shaded bevels or cavity shadows. Maintain the original guide's precise contour, position and margins. Keep the small rounded section below the collar ceramic, with no red jewel. Do not add any decoration or change part shapes.",
+    "inputs": [
+      {
+        "file": "guide_right.png",
+        "sha256": "6fae6d38b10418bda7c162394f35cb164063b8b99b7a08499390f8fe9775b9b0"
+      }
+    ],
+    "material_reference": {
+      "file": "design_reference.png",
+      "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1",
+      "use": "Visually inspected and described in prompt."
+    },
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected the permitted correction for substantially flatter ceramic body colour. Outline is still not pixel-identical; some trim placement varies from the opposite side, and mild collar/joint shading and edge artifacts remain. Raw size retained.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "visual_notes": "Reduced broad body gradient, with residual collar/joint shading, minor trim placement variation and pale edge artifacts.",
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        95,
+        199,
+        1162,
+        1056
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.9864376346660283
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "c1bd0443bed87846b3481971e95060823f2076425539f2b66bfa4e74730e58db"
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Precisely recolour the attached 1024x1024 grayscale orthographic model render, preserving its original alpha silhouette and ALL shapes and part edges pixel for pixel. This input is the edit canvas. Texture projection source, flat ALBEDO ONLY. Do not redraw or render new geometry. Do not change its view, perspective, scale, placement or framing. Keep its original transparent background. Output 1024x1024, one isolated object in the identical guide pose.\n\nApproved design material specification: ivory-white ceramic body plates with very fine, faint warm hairline wear, muted ochre-gold brushed trim on existing rim/border strips and collars, black-violet resin on exposed mechanical connectors, and ruby-red gemstone with thin red-orange luminous veins wherever the guide has a jewel socket. These material colours derive from the approved design_reference.png. Keep gold restricted to existing borders and raised strips. No additional objects, decorative spikes, added jewels or added structure.\n\nReplace gray guide shading with simple flat pigment colour: ivory surfaces are evenly ivory regardless of their orientation, gold strips evenly muted ochre-gold, dark joints evenly dark violet-black. Very subtle surface texture only. This is diffuse albedo without lighting information. ZERO glossy reflections, ZERO white specular marks, ZERO bright edge strips, ZERO bevel lighting, ZERO shaded sides, ZERO crevice shadow, ZERO ambient occlusion. Gems are flat ruby pigment with thin bright red-orange veins; no white reflections, highlights or glow bloom. No cast shadows, background, floor, text, letters, watermark or labels. Most important: preserve the original outline, all gaps and every part boundary, do not redraw the model as an illustration.\nTOP view, paint guide_top.png exactly as it is, directly above. The central body's narrow flat-ended spine points UP near (512,80), its opposite sharp point points DOWN near (512,818), and the two curled appendages are in the LOWER corners extending to y946. The guide's existing oval central socket (roughly x416-602, y300-537) receives ruby-red crystal; its existing ring, spine and thin borders receive gold. Ceramic plates flank the central socket. Preserve every existing cutout and gap including the small inward appendage prongs. Do not flip the guide to match another view.\nThe two hooked appendages are ivory ceramic with gold end trim and gold collars, exposed neck connectors dark violet-black. The large red centre crystal has delicate orange-red branching veins in a deep ruby base. Keep the long upper spine and narrow pointward strip solid gold, large side fields ivory. Match the approved design's material palette, without its reflected lighting. Entire gold rim must stay one flat muted gold shade across all facets.",
+    "inputs": [
+      {
+        "file": "guide_top.png",
+        "sha256": "b547844b70deabe32c7e1a90a64e79a547d96cdbd273886b3eb36b2e7eeb8f40"
+      }
+    ],
+    "material_reference": {
+      "file": "design_reference.png",
+      "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1",
+      "use": "Visually inspected and described in prompt."
+    },
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Use one corrective regeneration to flatten gold facet/collar shading and ivory side darkening while preserving existing guide geometry.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "visual_notes": "Close overall silhouette, but uneven metal facets, dark jewel socket rim and shaded appendage sides remain.",
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        80,
+        94,
+        1174,
+        1158
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.9889041260435226
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "d3cea1a729fbe21a2157e7517d1c06446352b95dfe0b853a070db49ff0d253a9"
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Precisely recolour the attached 1024x1024 grayscale orthographic model render, preserving its original alpha silhouette and ALL shapes and part edges pixel for pixel. This input is the edit canvas. Texture projection source, flat ALBEDO ONLY. Do not redraw or render new geometry. Do not change its view, perspective, scale, placement or framing. Keep its original transparent background. Output 1024x1024, one isolated object in the identical guide pose.\n\nApproved design material specification: ivory-white ceramic body plates with very fine, faint warm hairline wear, muted ochre-gold brushed trim on existing rim/border strips and collars, black-violet resin on exposed mechanical connectors, and ruby-red gemstone with thin red-orange luminous veins wherever the guide has a jewel socket. These material colours derive from the approved design_reference.png. Keep gold restricted to existing borders and raised strips. No additional objects, decorative spikes, added jewels or added structure.\n\nReplace gray guide shading with simple flat pigment colour: ivory surfaces are evenly ivory regardless of their orientation, gold strips evenly muted ochre-gold, dark joints evenly dark violet-black. Very subtle surface texture only. This is diffuse albedo without lighting information. ZERO glossy reflections, ZERO white specular marks, ZERO bright edge strips, ZERO bevel lighting, ZERO shaded sides, ZERO crevice shadow, ZERO ambient occlusion. Gems are flat ruby pigment with thin bright red-orange veins; no white reflections, highlights or glow bloom. No cast shadows, background, floor, text, letters, watermark or labels. Most important: preserve the original outline, all gaps and every part boundary, do not redraw the model as an illustration.\nTOP view, paint guide_top.png exactly as it is, directly above. The central body's narrow flat-ended spine points UP near (512,80), its opposite sharp point points DOWN near (512,818), and the two curled appendages are in the LOWER corners extending to y946. The guide's existing oval central socket (roughly x416-602, y300-537) receives ruby-red crystal; its existing ring, spine and thin borders receive gold. Ceramic plates flank the central socket. Preserve every existing cutout and gap including the small inward appendage prongs. Do not flip the guide to match another view.\nThe two hooked appendages are ivory ceramic with gold end trim and gold collars, exposed neck connectors dark violet-black. The large red centre crystal has delicate orange-red branching veins in a deep ruby base. Keep the long upper spine and narrow pointward strip solid gold, large side fields ivory. Match the approved design's material palette, without its reflected lighting. Entire gold rim must stay one flat muted gold shade across all facets.\nCORRECTIVE REGENERATION: fix only the unwanted lighting and contour drift. Every facet of the central gold ring, central spine and both gold collars must have identical matte ochre-gold brightness. No dark inner rim, no darker facet on the left or right. Every ceramic panel and hooked appendage must have identical ivory base brightness everywhere, with only very fine light wear. Keep the original guide's faceted outline and margins precisely, with no stray pixels or added outlines. The red gem needs subtle fine branching orange-red veins without any glossy highlight. Texture pigment, not a shaded 3D beauty render.",
+    "inputs": [
+      {
+        "file": "guide_top.png",
+        "sha256": "b547844b70deabe32c7e1a90a64e79a547d96cdbd273886b3eb36b2e7eeb8f40"
+      }
+    ],
+    "material_reference": {
+      "file": "design_reference.png",
+      "sha256": "0defec91b2fb23db76f2fca6c0faa634b5954b895a1fb089808f72a0e1dd71c1",
+      "use": "Visually inspected and described in prompt."
+    },
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected the permitted correction for finer red crystal veins and more even broad material areas. Residual facet/crevice shading and contour drift remain; raw tool size retained.",
+    "checks": {
+      "materials_match_reference": true,
+      "flat_even_lighting": false,
+      "no_text_or_letters": true,
+      "visual_geometry_match": false,
+      "visual_notes": "Flatter broad material regions and finer crystal veins; residual dark inner rim, gold facet shading and small edge artifacts remain.",
+      "transparent_background": true,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "opaque_silhouette_bbox": [
+        79,
+        95,
+        1176,
+        1160
+      ],
+      "silhouette_pixel_identical": false,
+      "normalized_silhouette_iou": 0.9813535192194174
+    },
+    "tool": "built-in image_gen",
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "actual_dimensions": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "sha256": "24f120f3b34118fde38eb7dae2d35c27ed47980b73c21a61760d44de1acbac28"
+  }
+]

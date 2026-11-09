@@ -1,0 +1,336 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thjoradmine_doors_exits
+title: Thjorad Mine (native BLV) - the exit, the entrance door, the refinery door, the lift gates by their levers, the plain
+  doors
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjoradmine.blv
+- note:
+    text: 'ExitTrigger0 (DAT object 84): the way out to Thjorgard, south of StartPoint0.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thjoradmine.blv
+      x: 2785
+      y: -2785
+      z: -900
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: thjoradmine.blv
+      x: 2785
+      y: -3085
+      z: -900
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 500
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 84
+- load_map:
+    map: thjoradmine.blv
+- note:
+    text: 'Door2 (Locked 1, no key in MM9): a click only jiggles it.'
+- set_pose:
+    map: thjoradmine.blv
+    x: 2887
+    y: -3184
+    z: -900
+    yaw: -2.7489
+    pitch: -0.1501
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 6
+      state: closed
+- note:
+    text: 'The refinery''s handle (handletrigger05): the bolts draw and slidingdoor05 slides open.'
+- assert:
+    mechanism:
+      id: 41
+      state: closed
+- set_pose:
+    map: thjoradmine.blv
+    x: 201
+    y: 1501
+    z: 1
+    yaw: -2.3562
+    pitch: 0.0349
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    named_map_var_changed:
+      name: RefineryBusy
+      current: 1
+- assert:
+    mechanism:
+      id: 41
+      state: open
+- assert:
+    mechanism:
+      id: 39
+      state: open
+- note:
+    text: 'The door shuts after 2.75 s and the handle works again once switch05 closes (10 s): the door opens again (a one-shot
+      handle locked the party in, 2026-11-08).'
+- set_pose:
+    map: thjoradmine.blv
+    x: 201
+    y: 1801
+    z: 1
+    yaw: -1.5708
+    pitch: 0
+- advance_runtime:
+    seconds: 10
+- assert:
+    named_map_var_changed:
+      name: RefineryBusy
+      current: 0
+- assert:
+    mechanism:
+      id: 41
+      state: closed
+- set_pose:
+    map: thjoradmine.blv
+    x: 201
+    y: 1501
+    z: 1
+    yaw: -2.3562
+    pitch: 0.0349
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    named_map_var_changed:
+      name: RefineryBusy
+      current: 1
+- assert:
+    mechanism:
+      id: 41
+      state: open
+- note:
+    text: 'Door0 (Portal0, MM9 Door MoveDir +y 128 LT): shut, it stops a walk from the west; Switch3 raises it on a real click
+      and the party walks through.'
+- assert:
+    mechanism:
+      id: 4
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thjoradmine.blv
+      x: -1756
+      y: 0
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: thjoradmine.blv
+      x: -1556
+      y: 0
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 30
+- set_pose:
+    map: thjoradmine.blv
+    x: -1558
+    y: -48
+    z: 1
+    yaw: -1.9635
+    pitch: -0.4163
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 4
+- assert:
+    mechanism:
+      id: 4
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.7
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thjoradmine.blv
+      x: -1756
+      y: 0
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: thjoradmine.blv
+      x: -1216
+      y: 0
+      z: 1
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'Door1 (Portal1): Switch4 raises it.'
+- assert:
+    mechanism:
+      id: 5
+      state: closed
+- set_pose:
+    map: thjoradmine.blv
+    x: 1713
+    y: -150
+    z: -691
+    yaw: 3.1416
+    pitch: -0.1047
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 4
+- assert:
+    mechanism:
+      id: 5
+      state: open
+- note:
+    text: 'RotatingDoor61: a click opens it (the party steps back from its swing).'
+- assert:
+    mechanism:
+      id: 11
+      state: closed
+- set_pose:
+    map: thjoradmine.blv
+    x: -7435
+    y: 1020
+    z: 656
+    yaw: -2.7489
+    pitch: 0.3462
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- set_pose:
+    map: thjoradmine.blv
+    x: -7186
+    y: 1123
+    z: 656
+    yaw: -2.7489
+    pitch: 0.104
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 11
+      state: open
+- note:
+    text: 'RotatingDoor62: a click opens it (the party steps back from its swing).'
+- assert:
+    mechanism:
+      id: 12
+      state: closed
+- set_pose:
+    map: thjoradmine.blv
+    x: -7107
+    y: 1020
+    z: 656
+    yaw: -2.7489
+    pitch: 0.3462
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- set_pose:
+    map: thjoradmine.blv
+    x: -6858
+    y: 1123
+    z: 656
+    yaw: -2.7489
+    pitch: 0.104
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 12
+      state: open
+- note:
+    text: 'RotatingDoor63: a click opens it (the party steps back from its swing).'
+- assert:
+    mechanism:
+      id: 13
+      state: closed
+- set_pose:
+    map: thjoradmine.blv
+    x: -6780
+    y: 1020
+    z: 656
+    yaw: -2.7489
+    pitch: 0.3462
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- set_pose:
+    map: thjoradmine.blv
+    x: -6613
+    y: 1247
+    z: 656
+    yaw: -2.3562
+    pitch: 0.104
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 13
+      state: open
+- note:
+    text: 'RotatingDoor0: a click opens it (the party steps back from its swing).'
+- assert:
+    mechanism:
+      id: 10
+      state: closed
+- set_pose:
+    map: thjoradmine.blv
+    x: -2593
+    y: 978
+    z: 1
+    yaw: 3.1416
+    pitch: -0.6173
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- set_pose:
+    map: thjoradmine.blv
+    x: -2323
+    y: 978
+    z: 1
+    yaw: 3.1416
+    pitch: -0.2027
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 10
+      state: open

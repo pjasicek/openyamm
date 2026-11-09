@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Angelic Helm (6helm5). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Ornate gold full helmet, long central nose guard, broad eye opening, three tall crown-like spikes, blue forehead jewel and chainmail neck skirt. Exact material boundaries: Gold helmet, pointed crest, face guard and chainmail skirt RED. Blue forehead jewel BLACK. CORRECTION: the exact grey mesh guide is authoritative for every outline and every hole. The inventory icon supplies colour and materials only. Do not widen or shrink the object, fingers, horns or cloth. Every solid grey surface stays opaque, including inner faces, chainmail panels and tiny fingers. Never make new openings or transparent pattern cutouts. Black gemstones must be opaque black, alpha 255. All five views retain exact guide framing. Entire gold nose guard, face panels and chainmail neck curtain are solid METAL RED, even where the inventory icon has dark holes; only actual grey-guide openings are transparent. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6helm5/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "ffa055aee45ae309d1dbc3b2df6bc8a1044345ec3bd812337bb016463a41864a",
+  "revision": 2,
+  "input_icon": "6helm5",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-1b95fdae-d47a-4eec-acc6-a6ebe11ca671.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Superseded by reviewed per-face material labels or explicit exterior/lining materials.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "e57d56e2ab0482bc2b7b43847c96ef8eaae710980f515c97ac265c561748df98",
+  "input_icon_path": "assets_dev/engine/icons_x2/6helm5.png",
+  "input_icon_sha256": "694444a80392db36645fc3ad594d919fc2fd93438d622a02dd0e67b72bcb84f9",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

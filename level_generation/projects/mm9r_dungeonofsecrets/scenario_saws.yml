@@ -1,0 +1,28 @@
+# The saws (saw8a/b, saw9: RotatingBrush riding gtrap8a/b and gtrap9, scene mover.spin): they spin up over 1 s
+# (YAxisSpinUpTime) and down over 4 s; the map's dispatcher sends gplate8's on and gtrap8timertrigger's off.
+id: mm9r.dungeonofsecrets_saws
+title: 'Dungeon of Secrets (native BLV): the saws spin up and down'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: dungeonofsecrets.blv
+- advance_runtime: {seconds: 0.5}
+- assert:
+    mechanism: {id: 141, spinning: false}
+- lua_event:
+    source: evt.SpinMover(141, "on")
+- advance_runtime: {seconds: 1.5}
+- assert:
+    mechanism: {id: 141, spinning: true, spin_rate_min: 0.99}
+- lua_event:
+    source: evt.SpinMover(141, "off")
+- advance_runtime: {seconds: 1.0}
+- assert:
+    mechanism: {id: 141, spinning: true}
+- advance_runtime: {seconds: 4.0}
+- assert:
+    mechanism: {id: 141, spinning: false}

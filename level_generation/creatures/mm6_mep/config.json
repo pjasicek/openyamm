@@ -1,0 +1,47 @@
+{
+  "family": "mep",
+  "title": "MM6 male peasant 3",
+  "base_palette": 804,
+  "matte": "magenta",
+  "mask_kind": "mep_regions",
+  "variant_names": {
+    "804": "Blue cap, red sash",
+    "805": "Grey cap, orange sash",
+    "806": "Cyan cap, dark sash"
+  },
+  "regions": "four independent native-guided coverages: red sash/buttons; cool blue cap/trousers; pale coat/shirt/hair; warm skin/wood/leather. Native 806 also shifts neutral and warm materials subtly toward green, so these are explicitly separate from the red-to-dark accent change.",
+  "description": "The same elderly male villager, lean elderly human build, warm medium brown weathered skin, white bushy moustache and pointed white beard, white eyebrows and short white hair. Small PALE BLUE wrapped cloth cap/turban with folded bands and a modest uneven peaked crown, plus a pale cloth tail descending behind the head. Not a western knit cap. A long worn pale ivory-grey high-collared open-front coat with irregular dark grey mottled weathering to mid-thigh, two rows of small RED round buttons, rolled pale sleeve cuffs at mid-forearm, simple pale inner shirt, bright muted RED tied waist sash with two long tasseled ends down the front. Loose BLUE-GREY calf-length baggy trousers, bare lower shins, simple brown leather sandals. His RIGHT hand holds a long slender slightly crooked rough brown wooden walking staff, no magic glow or ornate head. Preserve native equipment, age, build, face and clothing structure; no new armor, jewelry or fancy embroidery.",
+  "raw_cell_rect_overrides": {
+    "mepdyie0": [
+      520,
+      571,
+      1006,
+      1024
+    ],
+    "mepdyif0": [
+      985,
+      571,
+      1536,
+      1024
+    ]
+  },
+  "raw_cell_foreign_rects": {
+    "mepdyie0": [
+      [
+        985,
+        940,
+        1006,
+        1024
+      ]
+    ],
+    "mepdyif0": [
+      [
+        985,
+        571,
+        1006,
+        920
+      ]
+    ]
+  },
+  "local_extraction_note": "Death cell E right fingertips and cell F loose staff overlap slightly in X at different Y positions. Reviewed expanded source rectangles preserve both complete silhouettes; explicit foreign-art rectangles split ownership across their empty horizontal gap. Coordinates are in the original death_corpse sheet; no creature pixels are erased."
+}

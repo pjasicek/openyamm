@@ -1,0 +1,195 @@
+{
+  "tool": "built-in image_gen",
+  "status": "requirements_not_met",
+  "notes": "Unresized and otherwise unmodified tool returns. One initial generation and one corrective generation per view. Selected means best available, not acceptance against the brief. No builds or runtime checks performed.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG texture-source painting, left orthographic view. Image 1 (guide_left.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the material and colour reference. Paint the grey surfaces of image 1, retaining its EXACT silhouette, every angular polygon edge, opening, detail, object size and position in the 1024-square canvas. Do not re-create the round branching silhouette of image 2. Keep the guide's broad triangular surfaces and spikes exactly where they are; paint woody wire-stem texture on those existing surfaces. Materials: matte charcoal-black woody wire stems, rust-red thorn tips, grey ash tufts and ash at the foot, matching image 2. This is ALBEDO: flat even shadowless viewer-facing illumination; no cast shadows, no ambient occlusion, no specular highlights, reflections, rim lighting, backdrop or floor. Keep all original transparent areas transparent, including internal openings. Do not add branches or tufts outside the guide silhouette. No cropping, reframing, text or labels. Return the image at native 1024 x 1024, not a sheet.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-4470-7493-806c-be8fc8222849/exec-52a10a0a-ea62-4e7f-87d6-0ad13179ca01.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, silhouette drift and excessive bright red edges.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "08ecdc3a026adec6d0d9d77518384b2799f5987f17446a994c9a8caa9975a3d9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1208312,
+        "opaque_pixels": 826,
+        "alpha_bbox": [
+          0,
+          33,
+          1218,
+          1228
+        ],
+        "silhouette_identical": false,
+        "materials": "Charcoal woody texture, rust-red accents and grey ash tufts present; red extends beyond thorn tips.",
+        "flat_even_light": "No floor or cast shadow; some surface brightness and crevice darkness remain."
+      },
+      "output_sha256": "d9316e479ef60d7b24bafdbf3ae36de5a8761585e57f0951623fe95d839d5abc"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG texture-source painting, right orthographic view. Image 1 (guide_right.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the material and colour reference. Paint the grey surfaces of image 1, retaining its EXACT silhouette, every angular polygon edge, opening, detail, object size and position in the 1024-square canvas. Do not re-create the round branching silhouette of image 2. Keep the guide's broad triangular surfaces and spikes exactly where they are; paint woody wire-stem texture on those existing surfaces. Materials: matte charcoal-black woody wire stems, rust-red thorn tips, grey ash tufts and ash at the foot, matching image 2. This is ALBEDO: flat even shadowless viewer-facing illumination; no cast shadows, no ambient occlusion, no specular highlights, reflections, rim lighting, backdrop or floor. Keep all original transparent areas transparent, including internal openings. Do not add branches or tufts outside the guide silhouette. No cropping, reframing, text or labels. Return the image at native 1024 x 1024, not a sheet.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-4470-7493-806c-be8fc8222849/exec-a653a20f-847f-4067-b33f-826b7ed05245.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, silhouette drift and excessive bright red edges.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1c5ebf6998128ae414b7c071fe3141863d8145e232efa70e16610beb64ed47f2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1227429,
+        "opaque_pixels": 1089,
+        "alpha_bbox": [
+          0,
+          0,
+          1251,
+          1232
+        ],
+        "silhouette_identical": false,
+        "materials": "Charcoal woody texture, rust-red accents and grey ash tufts present; red extends beyond thorn tips.",
+        "flat_even_light": "No floor or cast shadow; some surface brightness and crevice darkness remain."
+      },
+      "output_sha256": "c87ef01201cc69311587b775d7688692313c56db09ba301fe5671c109d953b89"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG texture-source painting, left orthographic view. Image 1 (guide_left.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the material and colour reference. Paint the grey surfaces of image 1, retaining its EXACT silhouette, every angular polygon edge, opening, detail, object size and position in the 1024-square canvas. Do not re-create the round branching silhouette of image 2. Keep the guide's broad triangular surfaces and spikes exactly where they are; paint woody wire-stem texture on those existing surfaces. Materials: matte charcoal-black woody wire stems, rust-red thorn tips, grey ash tufts and ash at the foot, matching image 2. This is ALBEDO: flat even shadowless viewer-facing illumination; no cast shadows, no ambient occlusion, no specular highlights, reflections, rim lighting, backdrop or floor. Keep all original transparent areas transparent, including internal openings. Do not add branches or tufts outside the guide silhouette. No cropping, reframing, text or labels. Return the image at native 1024 x 1024, not a sheet.\nCORRECTIVE PASS (only allowed correction): The previous generation was incorrectly 1254 x 1254 and drifted in silhouette. Set the actual native output canvas to precisely 1024 x 1024 pixels. Edit the supplied ORIGINAL guide itself as a locked pixel template, keep its original alpha mask, do not redraw or expand any shape. Guide alpha bounds: x=80..943, y=259..764. Retain all original transparent holes and empty pixels; background alpha must be exactly zero. Make charcoal surfaces matte with reduced bright ridges and reduce red-orange to the thorn tips, not all surface edges. Do not change the mesh silhouette to resemble natural branches; the exact angular guide silhouette is mandatory. No extra objects. Output only the corrected left image.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-4470-7493-806c-be8fc8222849/exec-19e175c2-db33-49a6-92fb-4b569ced5f38.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as best available unresized return after the one permitted correction; still fails exact dimensions and silhouette requirements. Flatter matte materials and reduced bright ridges.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "08ecdc3a026adec6d0d9d77518384b2799f5987f17446a994c9a8caa9975a3d9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1193751,
+        "opaque_pixels": 1017,
+        "alpha_bbox": [
+          0,
+          23,
+          1202,
+          1230
+        ],
+        "silhouette_identical": false,
+        "materials": "Charcoal woody texture, rust-red accents and grey ash tufts present; red extends beyond thorn tips.",
+        "flat_even_light": "No floor or cast shadow; some surface brightness and crevice darkness remain."
+      },
+      "output_sha256": "6a4960201d687626b9d8958997f8b7494ed461bb74963c8ebe68419d1ca2bd21"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG texture-source painting, right orthographic view. Image 1 (guide_right.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the material and colour reference. Paint the grey surfaces of image 1, retaining its EXACT silhouette, every angular polygon edge, opening, detail, object size and position in the 1024-square canvas. Do not re-create the round branching silhouette of image 2. Keep the guide's broad triangular surfaces and spikes exactly where they are; paint woody wire-stem texture on those existing surfaces. Materials: matte charcoal-black woody wire stems, rust-red thorn tips, grey ash tufts and ash at the foot, matching image 2. This is ALBEDO: flat even shadowless viewer-facing illumination; no cast shadows, no ambient occlusion, no specular highlights, reflections, rim lighting, backdrop or floor. Keep all original transparent areas transparent, including internal openings. Do not add branches or tufts outside the guide silhouette. No cropping, reframing, text or labels. Return the image at native 1024 x 1024, not a sheet.\nCORRECTIVE PASS (only allowed correction): The previous generation was incorrectly 1254 x 1254 and drifted in silhouette. Set the actual native output canvas to precisely 1024 x 1024 pixels. Edit the supplied ORIGINAL guide itself as a locked pixel template, keep its original alpha mask, do not redraw or expand any shape. Guide alpha bounds: x=80..943, y=259..764. Retain all original transparent holes and empty pixels; background alpha must be exactly zero. Make charcoal surfaces matte with reduced bright ridges and reduce red-orange to the thorn tips, not all surface edges. Do not change the mesh silhouette to resemble natural branches; the exact angular guide silhouette is mandatory. No extra objects. Output only the corrected right image.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-4470-7493-806c-be8fc8222849/exec-e6b827d2-9935-40aa-a8b5-5344b2dd1f24.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as best available unresized return after the one permitted correction; still fails exact dimensions and silhouette requirements. Flatter matte materials and reduced bright ridges.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1c5ebf6998128ae414b7c071fe3141863d8145e232efa70e16610beb64ed47f2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1231374,
+        "opaque_pixels": 1030,
+        "alpha_bbox": [
+          0,
+          21,
+          1236,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials": "Charcoal woody texture, rust-red accents and grey ash tufts present; red extends beyond thorn tips.",
+        "flat_even_light": "No floor or cast shadow; some surface brightness and crevice darkness remain."
+      },
+      "output_sha256": "ce301eb41a705141152e25b395812e96ddd7997ae0286be8b9efeb68b551fa59"
+    }
+  ]
+}

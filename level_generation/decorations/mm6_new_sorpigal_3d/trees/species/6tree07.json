@@ -1,0 +1,119 @@
+{
+ "sprite": "6tree07",
+ "output": "mm6_deco_tree07.glb",
+ "height_m": 4.25,
+ "note": "Wide, flat-topped crown from a third of the height on a short trunk forking into a few limbs.",
+ "sapling": {
+  "scale": 3.01,
+  "baseSplits": 2,
+  "splitHeight": 0.2,
+  "splitAngle": [
+   28,
+   18,
+   15,
+   0
+  ],
+  "baseSize": 0.35,
+  "seed": 171,
+  "ratio": 0.035,
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "attractUp": [
+   0,
+   0.25,
+   0.3,
+   0
+  ],
+  "downAngle": [
+   90,
+   50,
+   45,
+   45
+  ],
+  "rootFlare": 1.3
+ },
+ "crown": {
+  "canopy_low": 0.3,
+  "centre": 0.66,
+  "clumps": 90,
+  "inner_clumps": 12,
+  "outer_radius": [
+   0.28,
+   0.44
+  ],
+  "inner_radius": [
+   0.26,
+   0.36
+  ],
+  "flatten": 0.85,
+  "lobes": {
+   "fraction": 0.3,
+   "slack": 1.15
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   116,
+   84,
+   54
+  ],
+  "min_thickness": [
+   0.02,
+   0.035,
+   0.06
+  ],
+  "root_reach": 0.2,
+  "clip_below_crown": true,
+  "roots": 4,
+  "root_radius": 0.5
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "lod2_card_scale": 0.95,
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    1.05,
+    1.05,
+    1.05
+   ]
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   92,
+   188,
+   52
+  ],
+  "seeds": [
+   171,
+   183,
+   197,
+   211
+  ],
+  "value": [
+   0.8,
+   1.5
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "impostor_dilate": 6,
+ "impostor_edge_fill": true,
+ "transparent_bounces": 64
+}

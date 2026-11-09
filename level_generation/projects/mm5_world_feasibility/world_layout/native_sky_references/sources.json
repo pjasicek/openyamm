@@ -1,0 +1,357 @@
+{
+  "materials": [
+    {
+      "world": "mm8",
+      "texture": "CDB",
+      "path": "assets_dev/worlds/mm8/textures/CDB.bmp",
+      "sha256": "ff8deea04893084b9912ed379f6502b50de14fe9d83c1d2edf1dffbd51442332"
+    },
+    {
+      "world": "mm8",
+      "texture": "GWSPHLWL",
+      "path": "assets_dev/worlds/mm8/textures/GWSPHLWL.bmp",
+      "sha256": "0acceea57502bc3e0dc42b80f9fb7ad05a6e1d26e914b1e161720582b22e2987"
+    },
+    {
+      "world": "mm8",
+      "texture": "GWSPHLFL",
+      "path": "assets_dev/worlds/mm8/textures/GWSPHLFL.bmp",
+      "sha256": "adb2cc159f28b8fc42478051cb3b765066ba1cf16ca40e90c5f28c83e5e6c9ed"
+    },
+    {
+      "world": "mm8",
+      "texture": "GWSPEDG",
+      "path": "assets_dev/worlds/mm8/textures/GWSPEDG.bmp",
+      "sha256": "4312590cf64c69253041071c01eb65b0928bc75312492b582b14722d00ae5d92"
+    },
+    {
+      "world": "mm7",
+      "texture": "CWB",
+      "path": "assets_dev/worlds/mm7/textures/cwb.bmp",
+      "sha256": "99a07ac688fdc82be5c4258fa9a8d69054b287d4232290f838d8edf41979f297"
+    },
+    {
+      "world": "mm7",
+      "texture": "SKY19",
+      "path": "assets_dev/worlds/mm7/textures/sky19.bmp",
+      "sha256": "9f08dea4c56811c9d8f342eca906c2a7125d14e974920a8a7bb01880aedd57e2"
+    },
+    {
+      "world": "mm7",
+      "texture": "7plansky1",
+      "path": "assets_dev/worlds/mm7/textures/7plansky1.bmp",
+      "sha256": "cd305243206f94c9d9164f0f845c2de2410f9c49ef827c8ddabfc5b09f8b664b"
+    },
+    {
+      "world": "mm7",
+      "texture": "Hwm2WALL",
+      "path": "assets_dev/worlds/mm7/textures/hwm2wall.bmp",
+      "sha256": "f284d43bbcc9c0431d0259dc2e5c72d5a88f41ac5213572ba0f26bf19268a2a6"
+    },
+    {
+      "world": "mm7",
+      "texture": "HWM2RF",
+      "path": "assets_dev/worlds/mm7/textures/hwm2rf.bmp",
+      "sha256": "17bc3e8ba9b63822a1050d2388292cb253904617d7a74e045913ebd42f40b244"
+    }
+  ],
+  "maps": {
+    "elema.odm": {
+      "path": "assets_dev/worlds/mm8/maps/elema.odm",
+      "sha256": "359c0cb0854bde3a04946263421624326698e4f89328ea4ad44b070fd17bad06",
+      "faces": 2301,
+      "models": 39,
+      "textures": [
+        [
+          "GWSPHLWL",
+          624
+        ],
+        [
+          "CDB",
+          262
+        ],
+        [
+          "t09a01",
+          238
+        ],
+        [
+          "GWSPHLFL",
+          192
+        ],
+        [
+          "T01A01A",
+          167
+        ],
+        [
+          "t09c01",
+          165
+        ],
+        [
+          "gn_mtl03",
+          132
+        ],
+        [
+          "gn_mtl02",
+          129
+        ],
+        [
+          "gn_mtl01",
+          91
+        ],
+        [
+          "GWSPEDG",
+          64
+        ],
+        [
+          "GWSPOTWL",
+          48
+        ],
+        [
+          "t19a02",
+          33
+        ],
+        [
+          "t09a04b",
+          21
+        ],
+        [
+          "t09a07",
+          17
+        ],
+        [
+          "t09a06",
+          17
+        ],
+        [
+          "t09c04a",
+          14
+        ],
+        [
+          "t09a04a",
+          13
+        ],
+        [
+          "CDB1S",
+          9
+        ],
+        [
+          "t09a03a",
+          8
+        ],
+        [
+          "t09a03b",
+          8
+        ],
+        [
+          "CDBW",
+          8
+        ],
+        [
+          "t09c07",
+          8
+        ],
+        [
+          "t09c06",
+          8
+        ],
+        [
+          "CDB1EL",
+          5
+        ],
+        [
+          "CDB1ER",
+          5
+        ],
+        [
+          "t09c04b",
+          4
+        ],
+        [
+          "t19b10b",
+          2
+        ],
+        [
+          "PLANSKY1",
+          2
+        ],
+        [
+          "CDB1SER",
+          2
+        ],
+        [
+          "CDB1SEL",
+          2
+        ]
+      ],
+      "heightMin": 0,
+      "heightMax": 3136,
+      "tileLookup": [
+        342,
+        126,
+        162,
+        414
+      ]
+    },
+    "7d25.blv": {
+      "path": "assets_dev/worlds/mm7/maps/7d25.blv",
+      "sha256": "23d8a240a9fc67b02d0abe5b5fbc9163050af1c28c9024520fc628c2a9a4cab2",
+      "faces": 3973,
+      "models": 0,
+      "textures": [
+        [
+          "Hwm2WALL",
+          678
+        ],
+        [
+          "SKY19",
+          578
+        ],
+        [
+          "CWB",
+          505
+        ],
+        [
+          "Hwm1b",
+          286
+        ],
+        [
+          "Hwp1bWALL",
+          272
+        ],
+        [
+          "7plansky1",
+          213
+        ],
+        [
+          "Hwp1b",
+          183
+        ],
+        [
+          "7tws1f",
+          141
+        ],
+        [
+          "7t1beds2",
+          127
+        ],
+        [
+          "HWM2RF",
+          117
+        ],
+        [
+          "T3S2B",
+          110
+        ],
+        [
+          "7wtrtyl",
+          102
+        ],
+        [
+          "HWR1WALL",
+          93
+        ],
+        [
+          "Hwp2WALL",
+          87
+        ],
+        [
+          "HWP1Rf",
+          73
+        ],
+        [
+          "Hwm1bWALL",
+          67
+        ],
+        [
+          "HWR1B",
+          64
+        ],
+        [
+          "T2S1FL",
+          34
+        ],
+        [
+          "Hwm2d",
+          32
+        ],
+        [
+          "7trimda",
+          32
+        ],
+        [
+          "Trim9_32a",
+          18
+        ],
+        [
+          "Trim9_32",
+          18
+        ],
+        [
+          "T2BS",
+          18
+        ],
+        [
+          "Hwm2er",
+          10
+        ],
+        [
+          "Hwr1rf",
+          10
+        ],
+        [
+          "Hwm2el",
+          9
+        ],
+        [
+          "Hwm2bw",
+          8
+        ],
+        [
+          "T3S2FL",
+          8
+        ],
+        [
+          "7tws1fa",
+          8
+        ],
+        [
+          "7t1butts",
+          8
+        ]
+      ],
+      "sky19": {
+        "faces": 578,
+        "zMin": -64,
+        "zMax": 1792,
+        "facetTypes": {
+          "1": 309,
+          "6": 129,
+          "4": 126,
+          "3": 14
+        }
+      },
+      "7plansky1": {
+        "faces": 213,
+        "zMin": -64,
+        "zMax": 2608,
+        "facetTypes": {
+          "1": 120,
+          "5": 42,
+          "3": 51
+        }
+      },
+      "cwb": {
+        "faces": 505,
+        "zMin": -64,
+        "zMax": 2320,
+        "facetTypes": {
+          "1": 369,
+          "6": 41,
+          "5": 34,
+          "4": 18,
+          "3": 43
+        }
+      }
+    }
+  }
+}

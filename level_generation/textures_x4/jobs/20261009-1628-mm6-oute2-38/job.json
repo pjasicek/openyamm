@@ -1,0 +1,543 @@
+{
+ "id": "20261009-1628-mm6-oute2-38",
+ "world": "mm6",
+ "maps": [
+  "oute2.odm",
+  "outb2.odm",
+  "outc1.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/cnclrich",
+  "mm6/qtargtop",
+  "mm6/qtargtsd",
+  "mm6/sign22",
+  "mm6/wood011",
+  "mm6/dkwlew",
+  "mm6/tentwal7a",
+  "mm6/tentwal7b",
+  "mm6/dkwwn",
+  "mm6/dkwwn1",
+  "mm6/dkwrew",
+  "mm6/dkdorb",
+  "mm6/dkwdr",
+  "mm6/dkwmt1",
+  "mm6/dkwsde",
+  "mm6/dkwwnde",
+  "mm6/plg128t1",
+  "mm6/sdkwbwl",
+  "mm6/tentdor7",
+  "mm6/tentdor7a",
+  "mm6/yindark",
+  "mm6/sgstrdr",
+  "mm6/sgstrst",
+  "mm6/gstrwde"
+ ],
+ "requests": {
+  "mm6/cnclrich": {
+   "name": "cnclrich",
+   "versions": [
+    1
+   ],
+   "material": "square council sign with golden scales of justice on a brown wood-grain panel inside a riveted grey speckled stone frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/qtargtop": {
+   "name": "qtargtop",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow-green packed straw surface of fine tangled dry fibres",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/qtargtsd": {
+   "name": "qtargtsd",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow-green packed straw surface of fine tangled dry fibres",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sign22": {
+   "name": "sign22",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "long bronze-brown metal plaque with a raised border and two lines of engraved dark runic lettering; copy the composition exactly; copy every letter shape exactly as in the reference",
+   "notes": {
+    "2": "Copy the rune lettering exactly as in the reference. The outer frame edge keeps the reference's dark tone; no bright bevel or highlight on the outer border.",
+    "3": "Copy the composition exactly: thick light bronze outer frame band with a dark inner groove, warm bronze-brown colour, every rune at the same position and shape as in the reference.",
+    "4": "Copy the composition exactly: thick light bronze outer frame band with a dark inner groove, warm bronze-brown colour, every rune at the same position and shape as in the reference.",
+    "5": "Copy the reference plaque letter for letter at its stroke weight and spacing (thin serifed rune-like glyphs in two rows of four alternating groups); keep the wide bevelled frame with its dark outer edge on the left and right; tan-brown colour as in the reference.",
+    "6": "Copy the reference plaque exactly: outer rim mid brown on the top, left and right and dark along the bottom; the inner dark groove at the reference position; every glyph stroke present at full reference width (thin serifed rune-like letters, two rows).",
+    "7": "Top rim: a mid-brown rim only two reference pixels tall, then the dark inner groove right below it; at the bottom keep a pale lip just above the dark bottom edge; glyph strokes as in the reference.",
+    "8": "Keep the top and the glyphs as now; the bottom frame copies the reference: the dark groove, then a pale lip, then a ramp down to near-black at the very bottom edge; no pale rows at the bottom edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {
+     "top": "mm6/egywlspa",
+     "bottom": "mm6/egydrlgl"
+    },
+    "5": {
+     "top": "mm6/egywlspa",
+     "bottom": "mm6/egydrlgl"
+    },
+    "6": {
+     "top": "mm6/egywlspa",
+     "bottom": "mm6/egydrlgl"
+    },
+    "7": {
+     "top": "mm6/egywlspa",
+     "bottom": "mm6/egydrlgl"
+    },
+    "8": {
+     "top": "mm6/egywlspa",
+     "bottom": "mm6/egydrlgl"
+    }
+   },
+   "ref_blur": {
+    "6": 0.6,
+    "7": 0.6,
+    "8": 0.6
+   }
+  },
+  "mm6/wood011": {
+   "name": "wood011",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain strip of red-brown wood with fine horizontal grain",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Top row continues the wood grain."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/dkwlew": {
+   "name": "dkwlew",
+   "versions": [
+    1
+   ],
+   "material": "dark brown vertical wooden plank house wall with green moss streaks in an orange-brown timber frame with top beam and rails, a vertical timber post on the left edge and a glowing amber diamond-leaded window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/dkwle"
+     ],
+     "fraction": 0.241
+    }
+   }
+  },
+  "mm6/tentwal7a": {
+   "name": "tentwal7a",
+   "versions": [
+    1
+   ],
+   "material": "red and cream vertical striped canvas tent wall with a rough woven fabric texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentwal7b": {
+   "name": "tentwal7b",
+   "versions": [
+    1
+   ],
+   "material": "red and cream vertical striped canvas tent wall with a rough woven fabric texture, with a dark red scalloped valance with gold tassels along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/tentwal7a"
+     ],
+     "fraction": 0.486
+    }
+   }
+  },
+  "mm6/dkwwn": {
+   "name": "dkwwn",
+   "versions": [
+    1
+   ],
+   "material": "dark brown vertical wooden plank house wall with green moss streaks in an orange-brown timber frame with top beam and rails and a glowing amber diamond-leaded window in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/dkwwn1": {
+   "name": "dkwwn1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown vertical wooden plank house wall with green moss streaks in an orange-brown timber frame with top beam and rails and an unlit dark diamond-leaded window in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/dkwwn"
+     ],
+     "fraction": 0.117
+    }
+   }
+  },
+  "mm6/dkwrew": {
+   "name": "dkwrew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown vertical wooden plank house wall with green moss streaks in an orange-brown timber frame with top beam and rails, a vertical timber post on the right edge and a glowing amber diamond-leaded window",
+   "notes": {
+    "2": "No dark outline or shadow along the right edge; the right wooden post runs to the edge in its own wood tone."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/dkwlew"
+     ],
+     "fraction": 0.275
+    },
+    "2": {
+     "sources": [
+      "mm6/dkwlew"
+     ],
+     "fraction": 0.275
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/dkwle"
+    }
+   }
+  },
+  "mm6/dkdorb": {
+   "name": "dkdorb",
+   "versions": [
+    1
+   ],
+   "material": "wide orange-brown wooden plank double house door with brass bar handles, under a curved arched wooden lintel in a timber frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/dkwdr": {
+   "name": "dkwdr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "orange-brown vertical wooden plank house door with dark iron bands and a small iron latch, set in an orange-brown timber frame under a dark plank transom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/dkwrew",
+     "left": "mm6/dkwlew",
+     "top": "mm6/dkwrew"
+    }
+   }
+  },
+  "mm6/dkwmt1": {
+   "name": "dkwmt1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown vertical wooden plank house wall with green moss streaks in an orange-brown timber frame with top beam and rails, vertical timber posts on both edges and a wide glowing amber diamond-leaded window in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/dkwle",
+     "bottom": "mm6/dkdorb",
+     "right": "mm6/dkwre"
+    }
+   }
+  },
+  "mm6/dkwsde": {
+   "name": "dkwsde",
+   "versions": [
+    1
+   ],
+   "material": "dark brown vertical wooden plank house wall with green moss streaks in an orange-brown timber frame with top beam and rails, vertical timber posts on both left and right edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/dkwwnde": {
+   "name": "dkwwnde",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown vertical wooden plank house wall with green moss streaks in an orange-brown timber frame with top beam and rails, vertical timber posts on both edges and a glowing amber diamond-leaded window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm6/dkwsde"
+    }
+   }
+  },
+  "mm6/plg128t1": {
+   "name": "plg128t1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "square orange-brown wooden panel with a bevelled border and an inlaid pale grey stone four-petal cross flower in the centre; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Right edge continues the wood panel."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sdkwbwl": {
+   "name": "sdkwbwl",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-blue vertical wooden planks with brown stains and streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentdor7": {
+   "name": "tentdor7",
+   "versions": [
+    1
+   ],
+   "material": "red and cream vertical striped canvas tent doorway with two flaps parted open to a black interior, a dark red scalloped valance with gold tassels along the top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentdor7a": {
+   "name": "tentdor7a",
+   "versions": [
+    1
+   ],
+   "material": "red and cream vertical striped canvas tent doorway with two flaps parted open to a black interior in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/yindark": {
+   "name": "yindark",
+   "versions": [
+    1
+   ],
+   "material": "black and white yin-yang symbol painted on brown wooden planks between dark riveted iron straps on the left and right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sgstrdr": {
+   "name": "sgstrdr",
+   "versions": [
+    1
+   ],
+   "material": "snow-dusted brown wooden plank cabin door with iron studs and handle, icicles hanging from the log lintel and snow drifted at the base; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrdr",
+      "mm6/gldorb"
+     ],
+     "fraction": 0.658
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/sgstrst": {
+   "name": "sgstrst",
+   "versions": [
+    1
+   ],
+   "material": "snowy log cabin wall of horizontal brown logs with snow along each log, icicles over a grey fieldstone foundation dusted with snow",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrst"
+     ],
+     "fraction": 0.629
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/gstrwde": {
+   "name": "gstrwde",
+   "versions": [
+    1
+   ],
+   "material": "log cabin wall of horizontal brown logs with a small latticed window, grey fieldstone corner pillars on both edges and a grey fieldstone foundation below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrlew"
+     ],
+     "fraction": 0.184
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

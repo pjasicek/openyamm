@@ -1,0 +1,246 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "image_gen.imagegen (built-in)",
+  "status": "Generated and saved best permitted raw returns; strict brief checks not all satisfied.",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "postprocessing": "None. Selected PNG files copied byte-for-byte from the built-in tool output.",
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "validation_method": "Native PNG dimensions and alpha inspected. Normalized-mask IoU is a diagnostic comparison of alpha > 127 sampled onto the guide grid in memory; no deliverable was resized. Materials, geometry and lighting visually reviewed.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate paint_front.png: ONE 1024 x 1024 RGBA texture-source painting with real transparent background. Return at native 1024 x 1024 resolution.\nInput 1, guide_front.png, is the EDIT TARGET and absolute geometric authority: the exact grey orthographic 3D model. Input 2, design_reference.png, supplies only approved materials, colours and surface design. Input 3, concept_crop.png, is supporting original-concept context, not a composition or lighting reference.\nPaint ONLY the existing visible surfaces of input 1. Preserve its exact alpha silhouette and all object positions, scale, framing, camera projection, shapes, edges, holes, openings and details. Do not redraw or redesign the geometry. The object remains within the identical guide bounds (x=66..957, y=229..793) on the 1024 square canvas, with the same generous transparent margins. Keep every jagged shard, small spike and curved rib where the guide puts it; retain the five tall curved spines and small terminal hook in their precise guide locations, the front diagonal rail, irregular stern fracture on the left and pointed right end. Do not borrow the reference image's camera or proportions. Every grey face in the guide must remain an object face; every transparent pixel remains transparent.\nTransfer the approved weathered grey-brown chitin and bone-plate materials, darker spines, black-violet resin webbing visible on the existing surfaces within openings, and dry dust. Use the reference's cracked, striated, chipped organic plate surfaces as colour texture within the guide geometry. Do not add strands, spikes, loose fragments or new openings, or extend any material beyond the guide silhouette. Keep muted natural grey-brown plate colours, dark brown-grey spines and subdued black-violet resin. Preserve all geometry even where the design reference is more elaborate.\nLIGHTING: albedo texture source, even flat shadowless illumination from the viewer. Remove the guide's shading. No cast shadows, no ambient occlusion or directional darkening, no specular highlights or reflections, no rim light, no cinematic colour grading. Dark resin is dark because of its pigment, not because of shadow. Any existing emissive colour is painted only as local colour without illuminating neighbours; invent no glowing components.\nNo scene, background, floor, ground, labels, border or watermark. True alpha transparency, no opaque black or checkerboard background. Preserve guide silhouette pixel for pixel; surface repaint only.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/guide_front.png",
+          "sha256": "e797d6f232a7096cfd9dae67ff7f75ff83b303cbf4dee1a5f0933e1422b1e4f9"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/design_reference.png",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/concept_crop.png",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7460-a1ce-eece72abe806/exec-75cadc84-43c7-4427-a68e-e38fc850c2cf.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7460-a1ce-eece72abe806/exec-75cadc84-43c7-4427-a68e-e38fc850c2cf.png",
+      "output_sha256": "0aa715d617cb36a5ef0a1219ee14459735f74c2b7a84bdcecbd10e35ed5a4986",
+      "selected": false,
+      "reason": "Rejected in favour of the permitted correction: the upper-left connecting geometry was lost, silhouette edges drifted, and strong baked lighting remains. Returned 1254x1254 rather than 1024x1024.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": "RGBA transparency present; faint nonzero alpha extends beyond the main silhouette.",
+        "fully_transparent_fraction": 0.7072563967552635,
+        "alpha_bbox": [
+          0,
+          19,
+          1234,
+          1254
+        ],
+        "alpha_gt_127_bbox": [
+          80,
+          279,
+          1175,
+          971
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9580482516340437,
+        "normalized_mask_mismatch_pixels": 12073,
+        "materials_and_colours": "Weathered grey-brown plates and violet resin broadly match; warm edge accents and insufficiently darker spines remain.",
+        "flat_even_light": false,
+        "lighting_review": "Baked edge glints and shaded recesses remain.",
+        "fully_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Edit the FIRST image, guide_front.png, IN PLACE. Output exactly one 1024x1024 transparent PNG, the same dimensions as this first input. This is a colour-only albedo repaint of the supplied orthographic grey model, not a new rendering.\nThe second image is design_reference.png (material reference only); the third is concept_crop.png (colour context only).\n\nCORRECTIVE PASS: The prior attempt did not preserve the guide precisely, added shading/specular glints, and returned 1254x1254 instead of the required 1024x1024. Correct these issues in this fresh repaint of the original guide. Keep the original guide's exact 1024x1024 canvas, unchanged pixel positions and alpha silhouette, including every little chipped edge, all five ribs and the small right hook, the triangular connecting pieces at upper left, and every hole and interior edge. The silhouette occupies x=66..957, y=229..793. No zoom, move, rotation, crop, smoothing of edges, extra holes, or added geometry. Preserve all transparent gaps and all opaque surfaces.\n\nReplace grey only with matte weathered grey-brown chitin and bone plates, darker brown-grey spines, subdued black-violet resin texture on existing interior faces, and dusty fine cracks/striations. Match the approved material colours of the second image but REMOVE its lighting. Do not add detailed reference-image geometry or extra filaments. Fine material variation is painted onto the unchanged guide surfaces.\n\nFlat diffuse ALBEDO ONLY: absolutely even shadowless front lighting. No ambient occlusion, darkened crevices, directional shading, highlights, gold edge glints, reflections, rim lighting or cast shadows. Local resin pigment may be dark violet. No environment, floor, text or glow cast onto surfaces. True transparent alpha background, not black. Pixel-registered repaint of the first image, exact native output resolution 1024 by 1024 pixels.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/guide_front.png",
+          "sha256": "e797d6f232a7096cfd9dae67ff7f75ff83b303cbf4dee1a5f0933e1422b1e4f9"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/design_reference.png",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/concept_crop.png",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "paint_front.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7460-a1ce-eece72abe806/exec-ba9577ea-955e-4215-aa58-84d2b0d66eb4.png",
+      "output_sha256": "d3cdaa3fd1644004378b97410ad30009c3f048d590c94dfe5b0a86b62542abe9",
+      "selected": true,
+      "reason": "Selected as the closer of the two permitted front returns: restored upper-left connecting geometry and improved normalized silhouette overlap. Still fails the required native dimensions, exact silhouette and fully flat lighting; selected does not mean compliant.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": "RGBA transparency present; faint nonzero alpha extends beyond the main silhouette.",
+        "fully_transparent_fraction": 0.7077473297568991,
+        "alpha_bbox": [
+          0,
+          0,
+          1226,
+          1254
+        ],
+        "alpha_gt_127_bbox": [
+          82,
+          283,
+          1174,
+          971
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9855752096852164,
+        "normalized_mask_mismatch_pixels": 4088,
+        "materials_and_colours": "Weathered grey-brown plates and violet resin broadly match; warm edge accents and insufficiently darker spines remain.",
+        "flat_even_light": false,
+        "lighting_review": "Baked edge glints and shaded recesses remain.",
+        "fully_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the supplied grey TOP VIEW in place as an albedo texture source. Produce ONE transparent RGBA PNG at EXACTLY 1024 x 1024 pixels, matching the first input image dimensions. No resizing, reframing or cropping.\n\nInput 1: guide_top.png, the edit target. It is the absolute authority for silhouette, all edge positions, shape, scale, framing, orthographic camera and every detail. Recolour this actual image, preserving its alpha and geometry exactly.\nInput 2: design_reference.png, approved colour/material authority ONLY; do not copy its three-quarter camera, lighting or geometry.\nInput 3: concept_crop.png, supporting original design context ONLY; do not copy environment or illumination.\n\nThis is the derelict swarmship's stern half viewed from above exactly as shown in the first input. Keep the broad broken stern at image left, tapered pointed end at right, long edge rails above and below, the five foreshortened curved central ribs, every small spike, shard, opening, occlusion boundary and visible interior surface in its original guide position. The unchanged silhouette bounds are x=66..957 and y=259..764 on the 1024 square canvas. Do not rotate to a side view or reconstruct invisible geometry. Every transparent pixel stays transparent; every opaque guide surface stays present.\n\nPaint weathered grey-brown chitin and bone plates, darker brown-grey spines, black-violet resin webbing on the existing surfaces in openings, and dust, using the reference's material identity. Surface scratches, fine cracks and striations are colour detail only. Never add or remove geometry, holes, or dangling webs. Keep the same exact outline as input 1.\n\nFlat, even, shadowless illumination from the viewer. This is MATTE ALBEDO, no cast shadows, no ambient-occlusion darkening, no directional shading, no highlights, no gold rim-light, no reflections. Violet resin has dark local pigment, not dark shadows. Any existing emissive parts retain their local colour without casting light; invent none. True transparent background with no floor, scenery, text or watermark. Native output must be 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/guide_top.png",
+          "sha256": "5c9a87771e6967a64c2befe64acd45539c199ca152e6c0eb9d40fb1f4a85cded"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/design_reference.png",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/concept_crop.png",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7460-a1ce-eece72abe806/exec-68df0a05-c626-4eee-bf75-6e9459d854d9.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7460-a1ce-eece72abe806/exec-68df0a05-c626-4eee-bf75-6e9459d854d9.png",
+      "output_sha256": "8ee6f06653c74c7a730616a03ec5ca83e1f537034d79c08b208199bca39f5da7",
+      "selected": false,
+      "reason": "Rejected in favour of the permitted correction because of stronger bevel glints and baked lighting. Silhouette approximation is close but not exact, and native dimensions are wrong.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": "RGBA transparency present; faint nonzero alpha extends beyond the main silhouette.",
+        "fully_transparent_fraction": 0.700546767091718,
+        "alpha_bbox": [
+          0,
+          17,
+          1214,
+          1254
+        ],
+        "alpha_gt_127_bbox": [
+          81,
+          317,
+          1174,
+          936
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.989689326236215,
+        "normalized_mask_mismatch_pixels": 3047,
+        "materials_and_colours": "Weathered grey-brown plates and violet resin broadly match; warm edge accents and insufficiently darker spines remain.",
+        "flat_even_light": false,
+        "lighting_review": "Baked edge glints and shaded recesses remain.",
+        "fully_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE ALBEDO REPAINT of guide_top.png. Return a single PNG exactly 1024 by 1024 pixels, with transparency.\nImage 1 is the original 1024-square grey TOP VIEW and must be edited in place. Image 2 supplies approved material colours; image 3 is original concept context. Only recolour image 1. Retain its existing pixel positions and alpha mask, every outline, spike, rib, shard, occlusion edge, interior face, hole, scale and camera exactly.\n\nThe prior attempt returned the wrong dimensions (1254x1254), altered edges and had baked directional shading, shadowed seams and bright edge glints. Correct those failures. This is a flat base-colour texture source, NOT a beauty render. There must be NO light-to-dark gradients across convex ribs, NO shaded cavities, NO ambient occlusion, NO bright bevel highlights, NO gold outlines or directional shadows. All faces of a given material have the same average albedo regardless of their facing direction. Fine non-directional pigment variation, weathering, dust, cracks and scratches are allowed. Dark violet is only the resin's pigment, not illumination.\n\nMaterials: weathered muted grey-brown chitin and bone plates; darker grey-brown spines; subdued black-violet resin webbing painted on existing interior surfaces. Match design_reference.png's material colours, but exclude its dramatic lighting. Do not transfer its three-quarter silhouette or added geometry. The original guide's opaque interior surfaces must remain present and opaque; never cut new holes into the guide.\n\nExact geometry: broad broken left end, tapered right end, both long outside rails and all five foreshortened central ribs in precisely their guide positions. Bounds x=66..957, y=259..764 on a 1024x1024 transparent canvas. Keep the blank margins unchanged. No rotation, rescaling, reframing, crop, smoothing or new structure. No scene, floor, background, text or labels. Preserve the guide silhouette pixel-for-pixel. Output native 1024x1024, not 1254x1254.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/guide_top.png",
+          "sha256": "5c9a87771e6967a64c2befe64acd45539c199ca152e6c0eb9d40fb1f4a85cded"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/design_reference.png",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_derelict_hull_b/concept_crop.png",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "paint_top.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7460-a1ce-eece72abe806/exec-5a2b0f42-793b-47ae-8a67-4aa2cdd147fd.png",
+      "output_sha256": "508ae797df794816ce043a2b855c4642660484b8619ed65d3dd9e3788a9806e7",
+      "selected": true,
+      "reason": "Selected as the flatter of the two permitted top returns, with reduced warm bevel glints. Still has directional shading and edge drift and is 1254x1254; selected does not mean compliant.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": "RGBA transparency present; faint nonzero alpha extends beyond the main silhouette.",
+        "fully_transparent_fraction": 0.7039209775925969,
+        "alpha_bbox": [
+          25,
+          21,
+          1238,
+          1254
+        ],
+        "alpha_gt_127_bbox": [
+          80,
+          317,
+          1174,
+          937
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.988523222146769,
+        "normalized_mask_mismatch_pixels": 3397,
+        "materials_and_colours": "Weathered grey-brown plates and violet resin broadly match; warm edge accents and insufficiently darker spines remain.",
+        "flat_even_light": false,
+        "lighting_review": "Reduced glints compared with initial return, but ribs and interior surfaces retain directional shading.",
+        "fully_compliant": false
+      }
+    }
+  ]
+}

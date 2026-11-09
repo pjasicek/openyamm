@@ -1,0 +1,763 @@
+{
+ "id": "20261009-1247-mm6-sewer-06",
+ "world": "mm6",
+ "maps": [
+  "sewer.blv",
+  "cd1.blv"
+ ],
+ "created": "2026-10-09T10:48:37+00:00",
+ "textures": [
+  "mm6/cbeam5",
+  "mm6/d1ladder",
+  "mm6/cbb",
+  "mm6/d1wlbctr",
+  "mm6/d1wvnta",
+  "mm6/d1wldle4",
+  "mm6/bd1hdbrt",
+  "mm6/cb4frnt",
+  "mm6/d1spcl2",
+  "mm6/t3d2abe",
+  "mm6/cb4side",
+  "mm6/d1spcl3",
+  "mm6/cb3top",
+  "mm6/bemob1b",
+  "mm6/ctwl5",
+  "mm6/d1wlbct1",
+  "mm6/bemob1",
+  "mm6/ormrblgb",
+  "mm6/granite",
+  "mm6/bemstrt1",
+  "mm6/wood012",
+  "mm6/d8dorb",
+  "mm6/orfyr32",
+  "mm6/bemh16b"
+ ],
+ "requests": {
+  "mm6/cbeam5": {
+   "name": "cbeam5",
+   "reference": {
+    "pad": [
+     80,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     683,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished orange-brown wooden beam with fine grain and small knots",
+   "notes": {}
+  },
+  "mm6/d1ladder": {
+   "name": "d1ladder",
+   "reference": {
+    "pad": [
+     0,
+     16
+    ],
+    "copies": 2,
+    "gap": 32,
+    "stack_axis": "u",
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark wooden ladder with round rungs fixed against a grey-brown stone brick wall",
+   "notes": {}
+  },
+  "mm6/cbb": {
+   "name": "cbb",
+   "reference": {
+    "pad": [
+     8,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered pale brown pine crate side: one wider horizontal frame board along the top above four horizontal planks, thin dark gaps between them",
+   "notes": {
+    "3": "Copy the plank layout exactly: one wider horizontal frame board across the top, then four horizontal planks of the reference's heights; dark gaps at the same rows."
+   },
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm6/d1wlbctr": {
+   "name": "d1wlbctr",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-grey stacked sandstone brick wall with dark mortar",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm6/d1wlbct1"
+     ],
+     "fraction": 0.317
+    }
+   }
+  },
+  "mm6/d1wvnta": {
+   "name": "d1wvnta",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-grey stacked sandstone brick wall with a small dark vent opening and a dark damp stain running down below it",
+   "notes": {}
+  },
+  "mm6/d1wldle4": {
+   "name": "d1wldle4",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brown-grey stacked sandstone brick wall with dark mortar",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d1wldle3"
+     ],
+     "fraction": 0.95
+    },
+    "4": {
+     "sources": [
+      "mm6/d1wldle3"
+     ],
+     "fraction": 0.95
+    }
+   }
+  },
+  "mm6/bd1hdbrt": {
+   "name": "bd1hdbrt",
+   "reference": {
+    "pad": [
+     16,
+     88
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     683
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved dark red-brown wooden headboard rail with fine ornament",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm6/bd1rail"
+     ],
+     "fraction": 0.375
+    }
+   }
+  },
+  "mm6/cb4frnt": {
+   "name": "cb4frnt",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "black lacquered chinoiserie cabinet front painted with golden figures, birds and floral scenes",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/d1spcl2": {
+   "name": "d1spcl2",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-grey stone brick wall boarded over with rough dark wooden planks nailed across a dark opening",
+   "notes": {}
+  },
+  "mm6/t3d2abe": {
+   "name": "t3d2abe",
+   "reference": {
+    "pad": [
+     16,
+     80
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     683
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark aged oak beam with fine grain",
+   "notes": {}
+  },
+  "mm6/cb4side": {
+   "name": "cb4side",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 16,
+    "stack_axis": "u",
+    "size": [
+     576,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "black lacquered chinoiserie cabinet side painted with golden figures and floral scenes",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm6/d1spcl3": {
+   "name": "d1spcl3",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-grey stone brick wall boarded over with rough dark wooden planks nailed across a dark opening",
+   "notes": {}
+  },
+  "mm6/cb3top": {
+   "name": "cb3top",
+   "reference": {
+    "pad": [
+     0,
+     8
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     640
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "dark ebony cabinet top with a thin gilded border",
+   "notes": {}
+  },
+  "mm6/bemob1b": {
+   "name": "bemob1b",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown granite with black and pale crystals",
+   "notes": {
+    "2": "Fine-grained natural polished granite with irregular crystals of varied sizes: no mosaic of uniform cells, no grid, no confetti noise."
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm6/ctwl5": {
+   "name": "ctwl5",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "warm brown sandstone blocks in staggered courses with soft dark joints",
+   "notes": {}
+  },
+  "mm6/d1wlbct1": {
+   "name": "d1wlbct1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-grey stacked sandstone brick wall with dark mortar",
+   "notes": {}
+  },
+  "mm6/bemob1": {
+   "name": "bemob1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "polished pinkish red-brown granite with irregular black and pale crystals of varied sizes",
+   "notes": {
+    "3": "Natural granite crystals of varied sizes and shapes: no mosaic of uniform cells."
+   },
+   "ref_blur": {
+    "3": 2.5
+   }
+  },
+  "mm6/ormrblgb": {
+   "name": "ormrblgb",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale white-pink polished marble with soft grey veins and a thin pale border",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/ormrblga"
+     ],
+     "fraction": 0.845
+    }
+   }
+  },
+  "mm6/granite": {
+   "name": "granite",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished grey-violet granite with black and white crystals",
+   "notes": {
+    "2": "Fine-grained natural polished granite with irregular crystals of varied sizes: no mosaic of uniform cells, no grid, no confetti noise."
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm6/bemstrt1": {
+   "name": "bemstrt1",
+   "reference": {
+    "pad": [
+     16,
+     80
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     683
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain polished orange-brown mahogany trim strip with crisp fine straight grain",
+   "notes": {
+    "3": "Sharp photographic wood grain, no smeared or blurred streaks."
+   }
+  },
+  "mm6/wood012": {
+   "name": "wood012",
+   "reference": {
+    "pad": [
+     16,
+     38
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     691
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark brown polished wooden trim with fine grain and a pale top edge",
+   "notes": {
+    "3": "Restore the reference's bright bevel highlight along the top edge and a band that fades to black at the bottom, ending in black at the last row; keep the soft side joints."
+   },
+   "pad": {
+    "2": [
+     32,
+     38
+    ],
+    "3": [
+     32,
+     38
+    ]
+   },
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "top": "mm6/mswalll",
+     "left": "mm6/d1trimle",
+     "right": "mm6/d1trimle"
+    },
+    "3": {
+     "top": "mm6/mswalll",
+     "left": "mm6/d1trimle",
+     "right": "mm6/d1trimle"
+    }
+   },
+   "ref_blur": {
+    "3": 0.6
+   }
+  },
+  "mm6/d8dorb": {
+   "name": "d8dorb",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     512,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "grey carved stone door slab with a weathered relief and a small barred square window in a stone frame",
+   "notes": {
+    "5": "Keep everything as now; the round carved emblem in the upper panel is a lion's face with a mane, exactly as in the reference, not an eagle or a crest."
+   },
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d8dora"
+     ],
+     "fraction": 0.565
+    },
+    "4": {
+     "sources": [
+      "mm6/d8dora"
+     ],
+     "fraction": 0.548
+    },
+    "5": {
+     "sources": [
+      "mm6/d8dora"
+     ],
+     "fraction": 0.548
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "4": {
+     "left": "mm6/d8wlcre"
+    },
+    "5": {
+     "left": "mm6/d8wlcre"
+    }
+   }
+  },
+  "mm6/orfyr32": {
+   "name": "orfyr32",
+   "reference": {
+    "pad": [
+     4,
+     4
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "glowing red-orange molten lava stone tile",
+   "notes": {}
+  },
+  "mm6/bemh16b": {
+   "name": "bemh16b",
+   "reference": {
+    "pad": [
+     16,
+     88
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     683
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain polished orange-brown mahogany trim strip with crisp fine straight grain",
+   "notes": {
+    "3": "Sharp photographic wood grain, no smeared or blurred streaks."
+   }
+  }
+ }
+}

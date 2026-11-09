@@ -1,0 +1,95 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_inventastorca/review/open01
+settle_seconds: 4.0
+exit: true
+shots:
+- name: o00_wait
+  position:
+  - 369
+  - 154
+  - -890
+  yaw: 3.0796
+  pitch: 0.0
+- name: o01_bookcases_fallen
+  position:
+  - -205
+  - -5734
+  - -1637
+  yaw: 1.9577
+  pitch: 0.0
+- name: o02_bookcases_aisle
+  position:
+  - -1101
+  - -4224
+  - -1637
+  yaw: -1.1903
+  pitch: 0.0
+- name: o03_secret_panel_niche
+  position:
+  - 973
+  - -3584
+  - -1637
+  yaw: 0.0
+  pitch: -0.0873
+- name: o04_secret_panel0_niche
+  position:
+  - -1659
+  - -6784
+  - -1474
+  yaw: -1.5708
+  pitch: 0.1745
+- name: o05_floor_compartment
+  position:
+  - -655
+  - -3994
+  - -1637
+  yaw: -1.5708
+  pitch: -0.9599
+- name: o06_broken_wall0
+  position:
+  - -707
+  - 384
+  - -890
+  yaw: -1.5708
+  pitch: 0.0
+- name: o07_broken_wall2
+  position:
+  - -5632
+  - -3507
+  - -857
+  yaw: 0.0
+  pitch: 0.0
+- name: o08_broken_wall3
+  position:
+  - -2048
+  - -3046
+  - -1637
+  yaw: 3.1416
+  pitch: 0.0
+- name: o09_cage_open
+  position:
+  - -9907
+  - -563
+  - -859
+  yaw: 1.5708
+  pitch: 0.0
+- name: o10_ceiling_hole
+  position:
+  - -3712
+  - -7086
+  - -859
+  yaw: 3.1416
+  pitch: 0.6109
+- name: o11_dresser_open
+  position:
+  - -11213
+  - -2022
+  - -859
+  yaw: 3.1416
+  pitch: -0.1745
+- name: o12_trapdoor_open
+  position:
+  - -1843
+  - -6554
+  - -859
+  yaw: -1.5708
+  pitch: -0.6981

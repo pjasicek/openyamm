@@ -1,0 +1,1140 @@
+{
+ "hes_skull_ribs": {
+  "title": "Giant Kreegan skull and ribs",
+  "concept": "z1_05_decorations.png",
+  "crop": [
+   700,
+   460,
+   1240,
+   720
+  ],
+  "identity": "The bleached skeleton of a huge Kreegan beast half sunk in grey ash: a long low skull with a ridged crest, empty eye sockets and heavy jaws, and behind it a row of tall curved ribs rising out of the ash like a broken fence. A landmark about sixteen metres long.",
+  "materials": "bleached old bone, cracked and pitted, pale ivory with grey-violet ash dust in every crack and darker brown-grey bone in the sockets and joints; the ash mound it lies in is grey-violet",
+  "tris": 6000,
+  "metallic": 0.0,
+  "rough": [
+   0.95,
+   0.75
+  ],
+  "normal": 2.2,
+  "length": 1600
+ },
+ "hes_founder_statue": {
+  "title": "Broken founder statue",
+  "concept": "z1_05_decorations.png",
+  "crop": [
+   0,
+   700,
+   390,
+   1010
+  ],
+  "identity": "A statue of a robed colonist founder, the head broken off, standing on a cracked square plinth with fallen stone blocks around its feet. Long straight robe with a gold-trimmed hem and a sash, arms at the sides.",
+  "materials": "white-and-bone ceramic stone, weathered and chipped, thin tarnished gold trim on the robe hem and sash, grey-violet ash in the folds and on the plinth",
+  "tris": 4500,
+  "metallic": 0.0,
+  "rough": [
+   0.85,
+   0.6
+  ],
+  "normal": 1.8,
+  "length": 180
+ },
+ "hes_ashrunner_totem": {
+  "title": "Ashrunner totem",
+  "concept": "z1_05_decorations.png",
+  "crop": [
+   390,
+   700,
+   760,
+   1010
+  ],
+  "identity": "A scrap scarecrow on a pole stuck in an ash mound: a dented round helmet with two big goggle lenses for a head, a crossbar of pipe for arms, a ragged hooded cloth cape, and scrap charms (bolts, cells, small bones) hanging from the crossbar on wires.",
+  "materials": "rusted dark metal pipe and helmet, dull glass goggle lenses, faded ochre and grey rags, copper wire, small bleached bones; grey ash on the base",
+  "tris": 3500,
+  "metallic": 0.25,
+  "rough": [
+   0.85,
+   0.55
+  ],
+  "normal": 1.8,
+  "length": 120
+ },
+ "hes_creep_pod": {
+  "title": "Kreegan creep pod",
+  "concept": "z1_05_decorations.png",
+  "crop": [
+   0,
+   220,
+   370,
+   470
+  ],
+  "identity": "An organic Kreegan growth rooted in the ground: a cage of black-violet ribbed tendrils arching over a cluster of three glowing orange egg sacs, roots spreading out over the ground.",
+  "materials": "glossy black-violet resin and chitin tendrils with a faint sheen, translucent glowing orange egg sacs with darker veins, dark roots",
+  "tris": 3500,
+  "metallic": 0.0,
+  "rough": [
+   0.55,
+   0.25
+  ],
+  "normal": 1.6,
+  "length": 150
+ },
+ "hes_kreegan_pod_chest": {
+  "title": "Kreegan pod chest (closed)",
+  "concept": "z1_06_chests.png",
+  "crop": [
+   70,
+   300,
+   700,
+   600
+  ],
+  "identity": "A closed Kreegan loot pod: a low wide organic husk like a closed seed pod, made of overlapping black-violet chitin petals with spiny edges, glowing orange seams between the petals.",
+  "materials": "glossy black-violet chitin with purple highlights, spiny edges, glowing orange seams and small vent slits",
+  "tris": 3000,
+  "metallic": 0.0,
+  "rough": [
+   0.55,
+   0.25
+  ],
+  "normal": 1.8,
+  "length": 110
+ },
+ "hes_corpse_colonist": {
+  "title": "Drowned colonist",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/art/portraits/masters/hes_townsfolk_3.png",
+   "design/kreegan_world/zone1/dungeons/concepts/z1d_08_lowhold_overview.png"
+  ],
+  "identity": "A drowned Hesperian worker lying on the floor on their side, curled slightly, face turned down into one arm so the face is hidden: faded patched work coveralls in dull ochre and grey, a leather tool belt with a wrench, heavy worn boots, a scarf, one arm reaching out with a pale grey hand. Damp darkened cloth with a little white mineral crust. Peaceful and sad, not gory: no wounds, no blood, no bones.",
+  "materials": "faded ochre and grey canvas coveralls, darkened by water, a little white mineral crust on the cloth, worn brown leather belt and boots, dull steel wrench, pale grey skin on the visible hand",
+  "tris": 3500,
+  "metallic": 0.0,
+  "rough": [
+   0.9,
+   0.7
+  ],
+  "normal": 1.4,
+  "length": 180
+ },
+ "hes_founder_intact": {
+  "title": "Founder statue (intact)",
+  "concept": null,
+  "refs": [
+   "level_generation/props/hesper_decorations/meshy/hes_founder_statue/references_hd/00_three_quarter.png"
+  ],
+  "identity": "The SAME statue as the attached broken founder statue, but whole and clean, as kept inside the Archive: a robed colonist founder with the head intact - a calm face with short hair, looking straight ahead - standing on a square plinth with crisp edges, long straight robe with a gold-trimmed hem and a sash, arms at the sides. No cracks, no missing pieces, no fallen blocks, no ash.",
+  "materials": "polished white-and-bone ceramic stone, clean and smooth, bright gold trim on the robe hem, the sash and the plinth's top edge",
+  "tris": 4500,
+  "metallic": 0.0,
+  "rough": [
+   0.55,
+   0.35
+  ],
+  "normal": 1.0,
+  "length": 210
+ },
+ "hes_salvage_heap": {
+  "title": "Salvage heap",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/art/textures_out1/masters/hosalvage.png",
+   "design/kreegan_world/zone1/dungeons/concepts/z1d_08_lowhold_overview.png"
+  ],
+  "identity": "A roughly mound-shaped heap of salvaged scrap about twice as wide as it is high: bent white ceramic Ancient panels with gold edges, rusted pipe sections, coiled black cables, a cracked console box with a dark glass face, a sheet of corrugated metal, a few loose bolts and brackets. Collected, not a wreck: Hesperian salvage waiting to be sorted.",
+  "materials": "chipped white ceramic panels with tarnished gold edges, rust-brown and grey steel pipes and sheet, black rubber cables, a dark glass console face, grime and dust",
+  "tris": 4000,
+  "metallic": 0.4,
+  "rough": [
+   0.85,
+   0.55
+  ],
+  "normal": 1.6,
+  "length": 160
+ },
+ "hes_market_goods": {
+  "title": "Market goods pile",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone1/dungeons/concepts/z1d_08_lowhold_overview.png",
+   "design/kreegan_world/art/textures_interiors/masters/hfcloth.png"
+  ],
+  "identity": "A Hesperian market stall's goods set out on the ground: three stacked cloth grain sacks tied with cord, a bundle of dried roots, two lidded clay jars, a few dented tin canisters, a small open salvage crate holding cups and tools, all in one tight low pile about as wide as a person's arm span.",
+  "materials": "coarse ochre and tan sackcloth with cord ties, dried brown roots, red-brown fired clay, dented grey tin, weathered salvage wood and steel, dust",
+  "tris": 3500,
+  "metallic": 0.1,
+  "rough": [
+   0.9,
+   0.6
+  ],
+  "normal": 1.4,
+  "length": 130
+ },
+ "hes_loader_mech": {
+  "title": "Dead loader mech",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/art/textures_d0/blv/hcpanel.png",
+   "design/kreegan_world/zone1/dungeons/concepts/z1d_01_colonial_tileset.png"
+  ],
+  "identity": "A dead Colonial cargo loader mech, slumped forward and powered down: a squat two-legged walker with thick reverse-jointed legs, an open cab frame with a single seat and roll bars, two heavy lifting arms ending in flat forks resting on the ground in front of it, hydraulic pistons and cables at the joints; one armour panel missing on a leg to show the machinery. An industrial machine, not a combat robot: no weapons.",
+  "materials": "white ceramic armour plates with gold trim like the attached wall panel, yellow-black hazard stripes on the forks, dark grey steel joints and pistons, black cables, scuffs and ash dust",
+  "tris": 6000,
+  "metallic": 0.3,
+  "rough": [
+   0.7,
+   0.45
+  ],
+  "normal": 1.4,
+  "length": 300
+ },
+ "hes_resin_rib": {
+  "title": "Kreegan resin rib",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_04_dungeon_entrances.png",
+   "design/kreegan_world/art/textures_out1/masters/hoaresin.png",
+   "design/kreegan_world/art/textures_out1/masters/hochitin.png"
+  ],
+  "identity": "One giant curved rib of a Kreegan resin fence, standing alone: it grows out of a low knot of black-violet resin roots on the ground, rises about four times its base width and curves over to one side like a tusk or a rib bone, tapering to a point. Glossy black-violet resin with thin glowing orange veins, ridged like chitin, with one or two fused fragments of white Ancient ceramic plating caught in it near the base. In the style of the Kreegan doorway, bottom right of the first reference.",
+  "materials": "glossy black-violet resin and chitin with thin glowing orange veins, a few fused fragments of chipped white ceramic plating with gold edges",
+  "tris": 3500,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.25
+  ],
+  "normal": 1.4,
+  "length": 700
+ },
+ "hes_ash_hull_home": {
+  "title": "Ashrunner crawler-hull home",
+  "concept": "z1_03_buildings.png",
+  "crop": [
+   500,
+   20,
+   1070,
+   380
+  ],
+  "identity": "An Ashrunner home made from a gutted Ancient crawler tank: the long tracked hull with its tread wheels half sunk in ash, white ceramic armour plates on the front, the cab cut open into a lit doorway with a short steel stair, a tall rusted stove pipe, patched tarps and torn red cloth stretched over a pole frame on top as a roof and an awning over the door, crates, drums and a hanging lantern at the door. About ten metres long.",
+  "materials": "rust-brown and dark steel tracks and hull, chipped white ceramic armour with gold edges, faded red-brown and grey tarps, black cable, warm lantern glow in the doorway",
+  "length": 1000,
+  "tris": 8000,
+  "rough": [
+   0.85,
+   0.55
+  ],
+  "metallic": 0.4,
+  "normal": 1.6,
+  "texture": 2048
+ },
+ "hes_ash_hull_home_b": {
+  "title": "Ashrunner hull-section home",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_03_buildings.png",
+   "design/kreegan_world/zone1/concepts/z1_09_ashrunner_camp.png",
+   "design/kreegan_world/art/textures_out1/masters/hosalvage.png"
+  ],
+  "identity": "A second Ashrunner home: the round rear section of a big Ancient cargo crawler, cut off and set upright on scrap blocks, its curved white ceramic shell patched with rusted steel sheets and rivets, a round hatch turned into a door with a tarp curtain and a lantern, a lean-to porch of corrugated sheet on salvage poles along one side, a crooked stove pipe, cables and charms hanging. About eight metres long, four tall.",
+  "materials": "chipped white ceramic shell with gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables, a warm lantern",
+  "length": 800,
+  "tris": 7000,
+  "rough": [
+   0.85,
+   0.55
+  ],
+  "metallic": 0.35,
+  "normal": 1.6,
+  "texture": 2048
+ },
+ "hes_ash_trader_stall": {
+  "title": "Ashrunner trader stall",
+  "concept": "z1_03_buildings.png",
+  "crop": [
+   1050,
+   10,
+   1530,
+   420
+  ],
+  "identity": "The Ashrunner trader's stall: a counter of salvaged crates and cases under a torn red-and-white tarp roof on a pole frame, the back wall hung with salvaged Ancient parts (round ceramic hatches, gold rings, cables, tools), two lanterns, a tall white ceramic panel leaning at one side, wares on the counter. About six metres wide.",
+  "materials": "dark and rusted steel poles and crates, faded red and white tarps, chipped white ceramic and gold salvage, warm lantern glow",
+  "length": 600,
+  "tris": 7000,
+  "rough": [
+   0.85,
+   0.55
+  ],
+  "metallic": 0.35,
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_ash_watchtower": {
+  "title": "Ashrunner watchtower",
+  "concept": "z1_09_ashrunner_camp.png",
+  "crop": [
+   280,
+   0,
+   580,
+   380
+  ],
+  "identity": "The Ashrunner watchtower: four tall scaffold legs of salvaged steel girders with cross bracing and a ladder, a lookout platform at the top walled with riveted scrap sheets, a torn tarp canopy on poles over it, a hanging lantern and a frayed banner. About ten metres tall, no person on it.",
+  "materials": "rust-brown and dark grey salvaged steel girders and sheets, faded red-brown tarp, a warm lantern",
+  "length": 1000,
+  "tris": 6000,
+  "rough": [
+   0.85,
+   0.6
+  ],
+  "metallic": 0.5,
+  "normal": 1.6,
+  "texture": 2048
+ },
+ "hes_low_pod_home": {
+  "title": "Hesperian escape-pod home",
+  "concept": "z1_03_buildings.png",
+  "crop": [
+   10,
+   20,
+   520,
+   380
+  ],
+  "identity": "A Hesperian home made from a landed Ancient escape pod: a rounded white ceramic hull with gold seams and rivets, a big curved glass canopy at the front, a tail fin, landing legs braced in the ash, a side hatch opened into a lit doorway with a short stair, salvaged plates and rubble round its foot. About nine metres long.",
+  "materials": "chipped white ceramic with gold seams and rivets, dark tinted glass, rust on the landing legs, warm lamplight in the doorway",
+  "length": 900,
+  "tris": 7000,
+  "rough": [
+   0.6,
+   0.35
+  ],
+  "metallic": 0.2,
+  "normal": 1.3,
+  "texture": 2048
+ },
+ "hes_low_shelter": {
+  "title": "Hesperian shelter",
+  "concept": "z1_03_buildings.png",
+  "crop": [
+   1040,
+   480,
+   1530,
+   910
+  ],
+  "identity": "A Hesperian shelter: a pale patched tarp stretched from a big leaning slab of white ceramic Ancient plating with a gold stripe down to poles in the ash, guy ropes, inside a bedroll, cushions, a pot, a lit candle and nets hanging from the poles. About six metres long.",
+  "materials": "pale stained canvas tarp, chipped white ceramic slab with a gold stripe, black glass rubble, wooden and steel poles, a warm candle",
+  "length": 600,
+  "tris": 5000,
+  "rough": [
+   0.9,
+   0.6
+  ],
+  "metallic": 0.1,
+  "normal": 1.4,
+  "texture": 2048
+ },
+ "hes_low_palisade": {
+  "title": "Hesperian salvage palisade",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_03_buildings.png",
+   "design/kreegan_world/zone1/concepts/z1_09_ashrunner_camp.png",
+   "design/kreegan_world/art/textures_out1/masters/hosalvage.png"
+  ],
+  "identity": "One straight segment of a defensive palisade wall built by colonists from salvage: overlapping upright white ceramic hull plates with gold edges and rusted steel sheets, bolted to two vertical steel girder posts at its ends, with a horizontal girder brace, a row of sharpened scrap spikes along the top, sandbag-like ash bags and rubble piled at the foot. Both faces finished (seen from inside and outside). About five metres long and three and a half metres tall, flat and straight so segments line up end to end.",
+  "materials": "chipped white ceramic plates with gold edges, rust-brown and grey steel sheets and girders, dull grey ash bags",
+  "length": 500,
+  "tris": 3000,
+  "rough": [
+   0.8,
+   0.5
+  ],
+  "metallic": 0.4,
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_low_gate": {
+  "title": "Hesperian palisade gate",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_03_buildings.png",
+   "design/kreegan_world/zone1/concepts/z1_09_ashrunner_camp.png",
+   "design/kreegan_world/art/textures_out1/masters/hosalvage.png"
+  ],
+  "identity": "The gate of a salvage palisade: two tall towers of stacked white ceramic Ancient hull plates and steel girders, joined overhead by a big curved Ancient hull rib as a lintel with a lantern hanging from it, two heavy gate leaves of riveted scrap sheet standing OPEN inward, a scrap spike row on the towers. The opening between the towers is clear and wide (about three metres). About seven metres wide and five tall.",
+  "materials": "chipped white ceramic plates with gold edges, rust-brown and grey riveted steel, a warm lantern",
+  "length": 700,
+  "tris": 5000,
+  "rough": [
+   0.8,
+   0.5
+  ],
+  "metallic": 0.4,
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_low_water_still": {
+  "title": "Hesperian water still",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_08_canyon_brine.png",
+   "design/kreegan_world/zone1/concepts/z1_03_buildings.png",
+   "design/kreegan_world/art/textures_out1/masters/hosalvage.png"
+  ],
+  "identity": "The settlement's water still, its well: a round salvaged Ancient tank on a steel tripod, a coil of copper pipe dripping into a wide stone and ceramic basin below with a little clear water in it, a hand crank and a valve wheel, a small fire box under the tank, buckets and jugs at the basin. About three metres tall.",
+  "materials": "white ceramic tank with gold bands, green-brown copper pipes, rusted steel tripod, grey stone basin, clear water, a dim orange fire glow",
+  "length": 320,
+  "tris": 4000,
+  "rough": [
+   0.6,
+   0.35
+  ],
+  "metallic": 0.5,
+  "normal": 1.4,
+  "texture": 2048
+ },
+ "hes_salvage_crane": {
+  "title": "Kreegan scrapyard crane",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_03_buildings.png",
+   "design/kreegan_world/zone1/concepts/z1_04_dungeon_entrances.png",
+   "design/kreegan_world/art/textures_out1/masters/hoaresin.png"
+  ],
+  "identity": "The work crane of a Kreegan scrapyard: a stolen white Ancient lattice crane mast with gold joints, overgrown at its foot and joints by black-violet Kreegan resin with glowing orange veins, a long lattice jib on top with a counterweight block at its short end, a heavy chain hanging from the jib tip with a big claw hook gripping a torn piece of white hull plating. About twelve metres tall.",
+  "materials": "white ceramic and steel lattice with gold joints, rust, glossy black-violet resin with glowing orange veins, dark steel chain and claw",
+  "length": 1200,
+  "tris": 6000,
+  "rough": [
+   0.6,
+   0.35
+  ],
+  "metallic": 0.5,
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_kreegan_outpost": {
+  "title": "Kreegan forward outpost",
+  "concept": "z1_03_buildings.png",
+  "crop": [
+   480,
+   360,
+   880,
+   1010
+  ],
+  "identity": "The Kreegan forward outpost: a tall round white Ancient pylon tower with gold bands and an arched door, grown over and gripped by black-violet Kreegan resin: thick ribbed resin buttresses rising from black glass rubble, thorn spires around and above the top, glowing orange veins and seams, a small scaffold platform with a ladder on one side, a torn red Kreegan banner. ONLY the tower: leave out the separate glowing alarm pylon standing beside it in the concept. About sixteen metres tall.",
+  "materials": "chipped white ceramic with gold bands, glossy black-violet resin and chitin with glowing orange veins, rust on the scaffold, black glass rubble",
+  "length": 1600,
+  "tris": 8000,
+  "rough": [
+   0.5,
+   0.3
+  ],
+  "metallic": 0.1,
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_alarm_pylon": {
+  "title": "Kreegan alarm pylon",
+  "concept": "z1_03_buildings.png",
+  "crop": [
+   840,
+   500,
+   960,
+   900
+  ],
+  "identity": "The Kreegan alarm pylon: a slender spire of black-violet resin and chitin with thorn crests, a long glowing orange-red crystal core showing through slots down its length, a few hanging strands, rooted in black glass rubble. Only the pylon, nothing else. About nine metres tall.",
+  "materials": "glossy black-violet resin and chitin, a glowing orange-red core, black glass rubble",
+  "length": 900,
+  "tris": 3500,
+  "rough": [
+   0.4,
+   0.25
+  ],
+  "metallic": 0.0,
+  "normal": 1.4,
+  "texture": 2048
+ },
+ "hes_lift_head": {
+  "title": "The Lift Head",
+  "concept": "z1_03_buildings.png",
+  "crop": [
+   0,
+   400,
+   470,
+   1010
+  ],
+  "identity": "The Lift Head, the colony lift down to the underground town: a round white ceramic Ancient tower with a low domed roof, gold bands and tall arched windows with glowing blue light strips, a lower side wing with an arch, and on the front a gold-framed glass lift cage standing AT GROUND LEVEL in a tall glass shaft, its doors open, warm light inside, two short steps up to it. Black glass rubble at its foot. Kept and lived with by the Hesperians: a few salvaged lamps hang by the cage. About eleven metres tall.",
+  "materials": "chipped white ceramic with gold bands and frames, glowing blue light strips, gold-framed glass cage with warm light inside, black glass rubble",
+  "length": 950,
+  "tris": 8000,
+  "texture": 2048,
+  "rough": [
+   0.55,
+   0.3
+  ],
+  "metallic": 0.25,
+  "normal": 1.3
+ },
+ "hes_glass_tree": {
+  "title": "Glass tree (fulgurite)",
+  "concept": null,
+  "tris": 4000,
+  "length": 480,
+  "identity": "A 'glass tree' of Hesper's ash plains: a fulgurite, lightning-fused glass that grew up out of the ash in the shape of a gnarled leafless tree about five metres tall: a thick twisted trunk of glossy black glass rising from a crusted ash mound, splitting into four or five crooked branching limbs that taper to sharp points, the glass rough and bubbly near the ground, smooth and glossy higher up, a few hollow tube ends. No leaves. Not a living plant.",
+  "materials": "glossy black obsidian glass with a faint violet sheen, rough bubbly grey-black glass at the foot, pale grey ash crust round the base",
+  "metallic": 0.0,
+  "normal": 1.4,
+  "rough": [
+   0.25,
+   0.7
+  ],
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_05_decorations.png",
+   "design/kreegan_world/zone1/concepts/z1_01_terrain_materials.png"
+  ]
+ },
+ "hes_wire_thicket": {
+  "title": "Wire scrub thicket",
+  "concept": null,
+  "tris": 3500,
+  "length": 260,
+  "identity": "A thicket of Hesper's black 'wire scrub': a dense low dome of thin, hard, wiry black stems about one and a half metres high and two and a half metres across, tangled and thorny, the stem tips rust-red, a few dead grey ash tufts at its foot. Leafless, dry, like a giant tumbleweed of black wire rooted in the ash.",
+  "materials": "matte charcoal-black woody wire stems with rust-red thorn tips, grey ash tufts and ash at the foot",
+  "metallic": 0.0,
+  "normal": 1.5,
+  "rough": [
+   0.9,
+   0.7
+  ],
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_05_decorations.png",
+   "design/kreegan_world/zone1/concepts/z1_01_terrain_materials.png"
+  ]
+ },
+ "hes_ash_hoodoo": {
+  "title": "Ash-stone pillar",
+  "concept": null,
+  "tris": 3000,
+  "length": 380,
+  "identity": "A wind-carved ash-stone pillar (a hoodoo) about four metres tall standing in the ash plain: a column of layered grey-violet volcanic stone, narrower in the middle, with a wider flat cap rock on top, deep horizontal wind grooves and banding, a skirt of fallen stones and ash round its foot.",
+  "materials": "layered grey-violet and dark brown volcanic stone, paler ash in the grooves, a darker cap rock",
+  "metallic": 0.0,
+  "normal": 1.6,
+  "rough": [
+   0.95,
+   0.85
+  ],
+  "refs": [
+   "design/kreegan_world/zone1/concepts/z1_01_terrain_materials.png",
+   "design/kreegan_world/art/textures_out1/masters/hhrock.png"
+  ]
+ },
+ "hes_fungus_tree": {
+  "title": "Cultivated fungus tree",
+  "concept": null,
+  "tris": 4000,
+  "length": 420,
+  "identity": "A tall cultivated fungus 'tree' grown by the Hesperian settlers in their town: one slender ribbed pale cream stalk about four metres tall, slightly curved, crowned by a broad flat round cap (pale cream on top with soft speckles, fine violet gills underneath), two smaller caps lower on the stalk, growing out of a low round planter ring of white settler prefab composite with an ochre band, dark composted soil inside the ring and a small slim lamp post bent over it with a warm grow-light.",
+  "materials": "pale cream fungus flesh with soft speckles, violet gills, white prefab composite planter with an ochre band, dark soil, a little brass on the lamp",
+  "metallic": 0.05,
+  "normal": 1.3,
+  "rough": [
+   0.7,
+   0.5
+  ],
+  "refs": [
+   "design/kreegan_world/art/textures_out1/masters/hhwallpf.png",
+   "design/kreegan_world/art/textures_interiors/masters/hofungus.png"
+  ]
+ },
+ "hes_fungus_planter": {
+  "title": "Fungus planter box",
+  "concept": null,
+  "tris": 3000,
+  "length": 200,
+  "identity": "A Hesperian settler planter box standing in a town street: a long low rectangular box of dark slate grey-green prefab composite with an ochre-gold band and corner posts, about two metres long and waist high, filled with dark soil and a dense crop of pale cultivated mushrooms of different heights (cream caps, some with violet undersides), and a small water drip pipe along one edge.",
+  "materials": "dark slate grey-green composite with an ochre band, dark soil, pale cream and violet mushrooms, a thin grey pipe",
+  "metallic": 0.1,
+  "normal": 1.3,
+  "rough": [
+   0.8,
+   0.5
+  ],
+  "refs": [
+   "design/kreegan_world/art/textures_out1/masters/hhwalldk.png",
+   "design/kreegan_world/art/textures_interiors/masters/hofungus.png"
+  ]
+ },
+ "hes_water_condenser": {
+  "title": "Water condenser",
+  "concept": null,
+  "tris": 3500,
+  "length": 380,
+  "identity": "A settler's water condenser beside a house: a slim tower about three and a half metres tall on four short legs, a stack of thin horizontal collector fins near its top under a small round cap, a cylindrical white composite water tank in its lower half with a teal band and a level gauge window, a drip pipe and a tap at the bottom over a small catch basin. Science-fiction colony equipment, clean and kept up.",
+  "materials": "white and pale grey prefab composite with a teal and orange band, brushed steel fins, a glass gauge with blue water, dark rubber hoses",
+  "metallic": 0.35,
+  "normal": 1.2,
+  "rough": [
+   0.55,
+   0.35
+  ],
+  "refs": [
+   "design/kreegan_world/art/textures_out1/masters/hhwallpf.png",
+   "design/kreegan_world/art/textures_out1/masters/hhpost.png"
+  ]
+ },
+ "hes_hand_cart": {
+  "title": "Settler hand cart",
+  "concept": null,
+  "tris": 3000,
+  "length": 220,
+  "identity": "A Hesperian settler's two-wheeled hand cart parked in the street: a flat bed of white prefab composite panels with low side rails, two fat balloon tyres on composite hubs, two long pull handles resting on the ground, loaded with two stencilled composite crates, a sealed canister and a rolled red cloth.",
+  "materials": "white prefab composite with a teal and orange band, dark grey rubber tyres, brushed steel axle, ochre and white crates with black stencils, red cloth",
+  "metallic": 0.2,
+  "normal": 1.3,
+  "rough": [
+   0.6,
+   0.4
+  ],
+  "refs": [
+   "design/kreegan_world/art/textures_out1/masters/hhwallpf.png",
+   "design/kreegan_world/art/textures_interiors/masters/hfcloth.png"
+  ]
+ },
+ "hes_market_goods_colony": {
+  "title": "Colony market goods",
+  "concept": null,
+  "tris": 3500,
+  "length": 150,
+  "identity": "A Landfall market stall's goods set out on the ground, science-fiction colony goods, NOT medieval: a stack of three stencilled composite ration crates, sealed grey canisters with coloured caps, a woven synthetic basket of pale cream fungi, a rack of six glowing blue energy cells, a coil of cable, all in one tight low pile about as wide as a person's arm span. No clay pots, no sacks, no wood.",
+  "materials": "white and ochre composite crates with black stencils, grey canisters with red and teal caps, a dark woven synthetic basket, pale fungi, blue glowing cells in a steel rack, black cable",
+  "metallic": 0.25,
+  "normal": 1.3,
+  "rough": [
+   0.6,
+   0.4
+  ],
+  "refs": [
+   "design/kreegan_world/art/textures_out1/masters/hhwallpf.png",
+   "design/kreegan_world/art/textures_interiors/masters/hofungus.png"
+  ]
+ },
+ "hes_fungus_clump": {
+  "title": "Fungus clump",
+  "concept": null,
+  "tris": 2500,
+  "length": 90,
+  "identity": "A low knee-high clump of pale cultivated mushrooms that the Landfall settlers grow in beds along their streets, MM-style flower beds made of fungi: about seven mushrooms of different sizes on a small mound of dark composted soil, cream and ivory caps (some flat, some rounded, one large), soft violet gills, two thin stalks with small glowing blue-white tips.",
+  "materials": "pale cream and ivory fungus flesh with soft speckles, violet gills, dark brown composted soil, faint blue-white glowing tips",
+  "metallic": 0.0,
+  "normal": 1.3,
+  "rough": [
+   0.75,
+   0.5
+  ],
+  "refs": [
+   "design/kreegan_world/art/textures_interiors/masters/hofungus.png",
+   "design/kreegan_world/zone1/concepts/z1_05_decorations.png"
+  ]
+ },
+ "hes_fungus_tree_b": {
+  "title": "Cultivated fungus tree, cluster",
+  "concept": null,
+  "tris": 4000,
+  "length": 420,
+  "identity": "A cultivated fungus 'tree' grown by the Hesperian settlers in their town, a DIFFERENT kind from a single flat-capped stalk: a cluster of three slender smooth pale ivory stalks of different heights (about four, three and two metres) leaning slightly apart from one planter, each crowned by a deep bell-shaped cap, pale cream with a soft violet rim and fine violet gills underneath, a few small glowing blue-white bulbs at the stalks' feet; growing out of a low round planter ring of DARK slate grey-green settler prefab composite with an ochre-gold band, dark composted soil inside.",
+  "materials": "pale ivory and cream fungus flesh, soft violet cap rims and gills, small blue-white glowing bulbs, dark slate grey-green composite planter with an ochre band, dark soil",
+  "metallic": 0.05,
+  "normal": 1.3,
+  "rough": [
+   0.7,
+   0.5
+  ],
+  "refs": [
+   "design/kreegan_world/art/textures_out1/masters/hhwalldk.png",
+   "design/kreegan_world/art/textures_interiors/masters/hofungus.png"
+  ]
+ },
+ "hes_fungus_tree_c": {
+  "title": "Cultivated fungus tree, shelf",
+  "concept": null,
+  "tris": 4000,
+  "length": 380,
+  "identity": "A cultivated fungus 'tree' grown by the Hesperian settlers in their town, a DIFFERENT kind from a single flat-capped stalk: one thick ribbed pale trunk about three and a half metres tall, slightly twisted, wearing five tiers of broad wavy shelf caps (bracket fungus) spiralling up its sides, cream on top with tan growth rings, ochre-orange undersides, the top tier the widest; growing out of a low round planter ring of white settler prefab composite with a teal and orange band, dark composted soil inside.",
+  "materials": "pale cream fungus flesh with tan growth rings, ochre-orange shelf undersides, white prefab composite planter with a teal and orange band, dark soil",
+  "metallic": 0.05,
+  "normal": 1.3,
+  "rough": [
+   0.7,
+   0.5
+  ],
+  "refs": [
+   "design/kreegan_world/art/textures_out1/masters/hhwallpf.png",
+   "design/kreegan_world/art/textures_interiors/masters/hofungus.png"
+  ]
+ },
+ "hes_lander_wreck": {
+  "title": "The party's wrecked colony lander",
+  "concept": "../../concepts/01_starport_reach_landing.png",
+  "crop": [
+   380,
+   515,
+   790,
+   800
+  ],
+  "identity": "The party's own colony lander after a crash landing, lying on its belly, tilted a little onto its right side, about twelve metres long: a small rounded Ancient spacecraft, a domed hull of white ceramic plates in gold-trimmed segments, a big curved glass cockpit canopy at the nose (cracked), a tall tail fin, two round engine nacelles at the rear with gold rings (the left one torn away, leaving a ragged socket and dangling cables), the right stub wing still attached but bent, the left wing torn off at the root leaving jagged plates and bent spars. A side hatch on the right flank hangs open, a warm amber light inside and a cracked console glowing cyan. Black soot and scorch streaks sweep back from the nose, several plates cracked or missing showing dark ribs underneath, one landing leg snapped. A low ridge of ploughed glassy black rubble against its nose and flank.",
+  "materials": "chipped white ceramic plates with gold trim and rivets, black soot and scorch streaks, dark tinted cracked glass, dark steel ribs where plates are gone, warm amber light in the open hatch, a cyan glow on the console, black glassy rubble",
+  "length": 1200,
+  "tris": 9000,
+  "rough": [
+   0.55,
+   0.35
+  ],
+  "metallic": 0.25,
+  "normal": 1.4,
+  "texture": 2048
+ },
+ "hes_lander_wing": {
+  "title": "The lander's torn-off wing",
+  "concept": null,
+  "refs": [
+   "level_generation/props/hesper_decorations/meshy/hes_lander_wreck/references_hd/concept_crop.png",
+   "design/kreegan_world/concepts/06_architecture_styles.png"
+  ],
+  "identity": "The torn-off left wing of a small Ancient colony lander, lying flat on the ground: a swept, gently curved wing panel about six metres long of white ceramic plates in gold-trimmed segments, a gold leading edge, a small upturned gold-and-white fin at its tip, the root end ripped off in jagged torn plates with bent steel spars and a few cut cables sticking out, the torn root scorched black, a few dents and soot streaks along it.",
+  "materials": "chipped white ceramic plates with gold trim and rivets, black soot and scorch at the torn root, dark steel spars, black cables",
+  "length": 600,
+  "tris": 4000,
+  "rough": [
+   0.55,
+   0.35
+  ],
+  "metallic": 0.25,
+  "normal": 1.4
+ },
+ "hes_lander_engine": {
+  "title": "The lander's torn-off engine nacelle",
+  "concept": null,
+  "refs": [
+   "level_generation/props/hesper_decorations/meshy/hes_lander_wreck/references_hd/concept_crop.png",
+   "design/kreegan_world/concepts/06_architecture_styles.png"
+  ],
+  "identity": "One engine nacelle torn off a small Ancient colony lander, lying on its side on the ground: a short fat round pod about three and a half metres long of white ceramic plates with broad gold rings, a dark round exhaust nozzle at the back with an inner gold turbine ring, the front end ripped open with torn plates, bent mounting struts and dangling cables, scorched black and dented.",
+  "materials": "chipped white ceramic plates with broad gold rings, a dark steel exhaust nozzle with a gold turbine ring, black soot and scorch, black cables",
+  "length": 350,
+  "tris": 3500,
+  "rough": [
+   0.5,
+   0.35
+  ],
+  "metallic": 0.3,
+  "normal": 1.4
+ },
+ "hes_spire_great": {
+  "title": "Great hive spire",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   40,
+   20,
+   350,
+   640
+  ],
+  "identity": "A great Kreegan hive spire about thirty metres tall, grown not built: ONE massive tapering trunk of glossy black-violet resin, built of thick vertical vertebral ribs and fused root strands that run the whole height like the ribs of a spine, its silhouette a tall narrow fang or obelisk; a column of tall pointed slit windows glowing hot orange from inside up its face; heavy root buttresses flaring out at the foot; only a few SHORT ivory bone spurs pressed close to the trunk, and two or three ivory spikes at the very top.",
+  "materials": "glossy wet black-violet resin and chitin with a faint violet sheen, hot glowing orange slit windows and veins, ivory bone spikes with pale tips",
+  "tris": 2400,
+  "length": 3000,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.6
+ },
+ "hes_spire_roost": {
+  "title": "Roost spire",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   352,
+   50,
+   598,
+   640
+  ],
+  "identity": "A great Kreegan hive spire about thirty metres tall topped by a roost: the same twisting trunk of glossy black-violet resin ribs with glowing orange slit windows and ivory bone spikes, crowned by a wide cup-shaped nest of woven resin and bone with two huge curved ivory tusks rising from its rim like a crescent. The roost cup is EMPTY: the winged creature perched on it in the concept is NOT part of this model.",
+  "materials": "glossy wet black-violet resin and chitin, hot glowing orange slit windows, ivory bone spikes and two great ivory tusks, a dark woven resin nest cup",
+  "tris": 2800,
+  "length": 3000,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.6
+ },
+ "hes_spire_mid": {
+  "title": "Mid hive spire",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   614,
+   285,
+   702,
+   640
+  ],
+  "identity": "A slender Kreegan hive spire about sixteen metres tall: one narrow tapering trunk of glossy black-violet resin ribs running vertically like a spine, a fang or needle silhouette, one cluster of glowing orange slit windows in its middle, a few short ivory spurs close to the trunk, one ivory spike at the tip, a small root foot.",
+  "materials": "glossy wet black-violet resin and chitin, glowing orange slit windows, ivory bone thorns",
+  "tris": 1400,
+  "length": 1600,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.6
+ },
+ "hes_spire_cluster": {
+  "title": "Spike cluster",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   770,
+   420,
+   885,
+   640
+  ],
+  "identity": "A low cluster of three short Kreegan resin fangs about eight metres tall fused together at a common root mass: three thick tapering horns of black-violet resin ribs, each with a faint orange glow in a slit, ending in an ivory bone point, the root mass spreading over the ground.",
+  "materials": "glossy black-violet resin lattice, faint glowing orange inside, ivory bone points",
+  "tris": 800,
+  "length": 800,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5
+ },
+ "hes_spire_fallen": {
+  "title": "Fallen hive spire",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   922,
+   430,
+   1275,
+   640
+  ],
+  "identity": "A great Kreegan hive spire that has toppled and broken: three hollow segments of its black-violet resin rib trunk lying in a row on the ground, about twenty metres long in all, the broken ends jagged and open showing dim orange inside, ivory bone spikes sticking out sideways and up, the root end with its torn buttresses lifted.",
+  "materials": "glossy black-violet resin and chitin, dim glowing orange inside the hollow broken ends, ivory bone spikes",
+  "tris": 1600,
+  "length": 2000,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.6
+ },
+ "hes_hive_mound": {
+  "title": "Hive mound",
+  "concept": "../../zone3/concepts/z3_03_spires.png",
+  "crop": [
+   1300,
+   470,
+   1490,
+   640
+  ],
+  "identity": "A Kreegan hive mound about nine metres across and six high: a ribbed dome of black-violet resin lattice with round vent openings, half-sunk glowing amber eggs bulging out at its foot, short ivory bone spikes on its crown.",
+  "materials": "glossy black-violet resin lattice, glowing orange inside the vents, translucent glowing amber eggs, ivory bone spikes",
+  "tris": 2500,
+  "length": 900,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5
+ },
+ "hes_egg_mound": {
+  "title": "Egg-field mound",
+  "concept": "../../zone3/concepts/z3_05_decorations.png",
+  "crop": [
+   30,
+   0,
+   560,
+   300
+  ],
+  "identity": "A low membrane mound of an egg field about six metres across: a nest of black-violet resin roots and tendrils holding a heap of big glossy amber Kreegan eggs, one cracked open and glowing hot orange inside, smaller eggs round its rim.",
+  "materials": "glossy black-violet resin roots, translucent glowing amber-orange eggs with dark veins, a hot orange glow inside the cracked egg",
+  "tris": 2500,
+  "length": 600,
+  "metallic": 0.0,
+  "rough": [
+   0.4,
+   0.2
+  ],
+  "normal": 1.4
+ },
+ "hes_nest_mound": {
+  "title": "Acid crawler nest mound",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone3/concepts/z3_05_decorations.png",
+   "design/kreegan_world/zone3/concepts/z3_03_spires.png"
+  ],
+  "identity": "A nest mound of the acid crawlers about seven metres across and two high: a squat lumpy heap of hardened black-violet resin and marsh mud, pocked with four or five dark burrow holes round its sides, crusted with pale yellow acid crystals and glossy bile-green acid dripping from the holes. Organic, wet, alien; no eggs, no bones.",
+  "materials": "dark wet black-violet resin and grey-olive dried mud, pale yellow crystalline acid crust, glowing bile-green acid in the holes",
+  "tris": 2000,
+  "length": 700,
+  "metallic": 0.0,
+  "rough": [
+   0.5,
+   0.25
+  ],
+  "normal": 1.4
+ },
+ "hes_turret_mount_k": {
+  "title": "Grafted turret mount",
+  "concept": "../../zone3/concepts/z3_05_decorations.png",
+  "crop": [
+   40,
+   640,
+   430,
+   1000
+  ],
+  "identity": "ONLY the pedestal under the turret in the concept, with NO turret on it: a broken white Ancient ceramic plinth of stacked gold-edged blocks, overgrown by a black-violet resin mass with glowing orange veins that climbs it and ends in a flat round resin socket on top where a turret will stand. About seven metres across and four high.",
+  "materials": "chipped white ceramic blocks with gold edges, glossy black-violet resin with glowing orange veins, a flat dark resin socket on top",
+  "tris": 2000,
+  "length": 700,
+  "metallic": 0.1,
+  "rough": [
+   0.5,
+   0.25
+  ],
+  "normal": 1.4
+ },
+ "hes_giant_rib": {
+  "title": "Giant rib bone",
+  "concept": "../../zone3/concepts/z3_05_decorations.png",
+  "crop": [
+   30,
+   300,
+   750,
+   500
+  ],
+  "identity": "One giant ivory rib bone about twelve metres long lying on its side on the ground, gently curved, its thick knobbed head at one end, its surface cracked into plates, half grown over at the foot by thin black-violet resin roots and a few loose bone shards.",
+  "materials": "ivory bone with brown-amber cracks and stains, thin black-violet resin roots",
+  "tris": 2000,
+  "length": 1200,
+  "metallic": 0.0,
+  "rough": [
+   0.6,
+   0.35
+  ],
+  "normal": 1.4
+ },
+ "hes_acid_shelf": {
+  "title": "Acid crust shelf",
+  "concept": "../../zone3/concepts/z3_05_decorations.png",
+  "crop": [
+   750,
+   320,
+   1045,
+   500
+  ],
+  "identity": "A shelf of pale yellow acid crust at the rim of an acid pool, about four metres across: a flat crystalline slab cracked into cells, its edge dripping glowing bile-green acid in thick drips, a few acid bubbles, dark roots under it.",
+  "materials": "pale yellow crystalline acid crust, glowing translucent bile-green acid drips, dark violet roots",
+  "tris": 1500,
+  "length": 400,
+  "metallic": 0.0,
+  "rough": [
+   0.35,
+   0.15
+  ],
+  "normal": 1.3
+ },
+ "hes_hatchery_tower": {
+  "title": "Hatchery tower",
+  "concept": "../../zone3/concepts/z3_04_entrances.png",
+  "crop": [
+   905,
+   515,
+   1250,
+   880
+  ],
+  "identity": "The Kreegan hatchery: a squat tower of black-violet resin lattice about twenty-six metres tall and fourteen across, its broad base of arched resin ribs with glowing orange openings, stepping in to a narrower top crowned by an ivory bone spike and two curved ivory horns. Only the tower: no eggs round it, no flying creatures.",
+  "materials": "glossy black-violet resin lattice and chitin, glowing orange arched openings, ivory bone spike and horns",
+  "tris": 5000,
+  "length": 2600,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_relay_spire": {
+  "title": "The Relay Spire",
+  "concept": "../../zone3/concepts/z3_04_entrances.png",
+  "crop": [
+   180,
+   0,
+   650,
+   460
+  ],
+  "identity": "A Kreegan signal tower grown over a stolen Ancient relay mast, sixty-four metres tall: a spine of black-violet resin vertebrae rising from a broad mound of buttress roots, its east face straight with enclosed stair galleries and rib windows glowing orange, its other faces stepping in ring by ring, three white-and-gold Ancient relay dishes and coils with blue glowing lights grafted near its top under a resin spike, two great ivory tusks curving up beside it. A grafted white Ancient blast door half open in the root mound. Seen whole from base to tip.",
+  "materials": "glossy black-violet resin vertebrae and roots, glowing orange rib windows, white ceramic and gold Ancient dishes with blue glowing lights, ivory tusks",
+  "tris": 8000,
+  "length": 6400,
+  "metallic": 0.15,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_seedship": {
+  "title": "The Seedship",
+  "concept": "../../zone3/concepts/z3_06_seedship.png",
+  "crop": [
+   270,
+   330,
+   1210,
+   600
+  ],
+  "identity": "The Kreegan Seedship, a colossal organic ship about 120 metres long, 40 wide and 45 high, lying low: a long dark resin hull vaulted over by ivory ribs along its whole length, rows of glowing amber openings along both flanks, a crest of bone spines along its spine, a blunt armoured bow. ONLY the ship: none of the giant ivory arches standing round it in the concept, no gantry, no ground, no flying creatures.",
+  "materials": "dark violet-black resin hull, ivory bone ribs and plates with thin gold-brown veins, glowing amber-orange openings, ivory spines",
+  "tris": 15000,
+  "length": 12000,
+  "metallic": 0.0,
+  "rough": [
+   0.45,
+   0.2
+  ],
+  "normal": 1.5,
+  "texture": 2048
+ },
+ "hes_cradle_arch": {
+  "title": "Cradle arch",
+  "concept": "../../zone3/concepts/z3_06_seedship.png",
+  "crop": [
+   1110,
+   300,
+   1340,
+   600
+  ],
+  "identity": "One of the Seedship's cradle arches: a single colossal ivory bone arch about seventy metres tall rising from a broad foot on the ground and curving over like a tusk, its surface in ivory plates with a gold-brown vein pattern, one round blue-white glowing Ancient beacon set in it near the foot.",
+  "materials": "ivory bone plates with thin gold-brown veins, a round blue-white glowing beacon lens",
+  "tris": 3000,
+  "length": 7000,
+  "metallic": 0.0,
+  "rough": [
+   0.55,
+   0.3
+  ],
+  "normal": 1.4
+ },
+ "hes_nest_mound_dead": {
+  "title": "Acid crawler nest mound, cleared (dark)",
+  "concept": null,
+  "refs": [
+   "design/kreegan_world/zone3/concepts/z3_05_decorations.png",
+   "design/kreegan_world/zone3/concepts/z3_03_spires.png"
+  ],
+  "identity": "The S10 nest mound gone dark: hes_nest_mound with its colour darkened and its glow removed (level_generation/projects/hesper_out3/make_dead_nest_blender.py); not a Meshy job.",
+  "materials": "dark wet black-violet resin and grey-olive dried mud, pale yellow crystalline acid crust, glowing bile-green acid in the holes",
+  "tris": 2000,
+  "length": 700,
+  "metallic": 0.0,
+  "rough": [
+   0.5,
+   0.25
+  ],
+  "normal": 1.4
+ },
+ "hes_collar_node": {
+  "title": "A Kreegan work camp's collar node",
+  "concept": "../../zone2/concepts/z2_07_work_camp.png",
+  "crop": [
+   850,
+   190,
+   1200,
+   560
+  ],
+  "identity": "The collar node that holds a work camp's slaves: a pillar about four metres high on a low square plinth of cracked white stone. Its core is grown black-violet Kreegan resin like twisted tendons, wrapped round a column of white ceramic Ancient machinery with tall curved brushed-gold armour plates on both front corners; down its front runs a column of four glowing violet-red oval lenses in gold settings, and thick resin roots and cables splay out from its foot over the plinth. ONLY the pillar and its plinth: no people, no shanties, no background.",
+  "materials": "glossy black-violet resin with dark red veins, white ceramic plates and brushed gold armour, glowing violet-red magenta lenses, cracked pale grey stone plinth",
+  "tris": 4000,
+  "length": 420,
+  "metallic": 0.3,
+  "rough": [
+   0.45,
+   0.3
+  ],
+  "normal": 1.5
+ },
+ "hes_overseer_perch": {
+  "title": "An Overseer's perch over a work camp",
+  "concept": "../../zone2/concepts/z2_07_work_camp.png",
+  "crop": [
+   190,
+   40,
+   570,
+   380
+  ],
+  "identity": "The perch an Overseer watches a work camp from: a square flat deck about three metres across standing about nine metres up on four tall legs of white ceramic Ancient pylons wrapped and braced by black-violet resin struts and bone ribs, a narrow glowing orange light strip running up one leg, a low railing of short bone spikes round the deck's edge and a resin-grown ladder of ribs up one side. The deck's top is flat and EMPTY (no throne, no seat, no figure). Much taller than wide. ONLY the perch: no creature, no ore heaps, no background.",
+  "materials": "black-violet resin struts and roots, white ceramic pylons with brushed gold bands, ivory bone ribs and spikes, a glowing orange light strip, dark worn alloy deck plates",
+  "tris": 5000,
+  "length": 1000,
+  "metallic": 0.3,
+  "rough": [
+   0.5,
+   0.3
+  ],
+  "normal": 1.5
+ },
+ "hes_derelict_hull_a": {
+  "title": "The derelict swarmship's bow half",
+  "concept": "../../zone2/concepts/z2_08_derelict_wreck.png",
+  "crop": [
+   50,
+   20,
+   950,
+   580
+  ],
+  "identity": "The front half of a crashed Kreegan swarmship, broken off and lying on the ground: a long curved keel of weathered grey-brown chitin plates rising to a raised pointed bow at one end, great curved ribs arching up from the keel over an open hollow belly like a skeleton boat, black-violet resin webbing and drips between the ribs, the other end torn off and ragged. About twenty-two metres long and nine high. ONLY the hull half: no drop pods, no figures, no ground, no background.",
+  "materials": "weathered grey-brown chitin and bone plates, darker ribs, black-violet resin webbing and drips, faint dark orange glow deep inside, dust",
+  "tris": 7000,
+  "length": 2200,
+  "metallic": 0.0,
+  "rough": [
+   0.8,
+   0.55
+  ],
+  "normal": 1.8,
+  "texture": 2048
+ },
+ "hes_derelict_hull_b": {
+  "title": "The derelict swarmship's stern half",
+  "concept": "../../zone2/concepts/z2_08_derelict_wreck.png",
+  "crop": [
+   900,
+   140,
+   1500,
+   590
+  ],
+  "identity": "The rear half of a crashed Kreegan swarmship, lying on the ground: a long low armoured hull of weathered grey-brown chitin plates with round port openings along its side, a row of five tall curved rib spines rising from its back like a broken fence, black-violet resin webbing in the openings, the front end torn off and ragged where it broke from the bow half. About nineteen metres long. ONLY the hull half: no figures, no ground, no background.",
+  "materials": "weathered grey-brown chitin and bone plates, darker spines, black-violet resin webbing in the openings, dust",
+  "tris": 7000,
+  "length": 1900,
+  "metallic": 0.0,
+  "rough": [
+   0.8,
+   0.55
+  ],
+  "normal": 1.8,
+  "texture": 2048
+ },
+ "hes_collar_node_off": {
+  "title": "The collar node, dark (its camp freed)",
+  "variant_of": "hes_collar_node",
+  "made_by": "scripts/derive_dark_variant.py work/codex_tex/hes_collar_node_export.glb (the lenses dimmed)",
+  "length": 420
+ }
+}

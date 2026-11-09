@@ -1,0 +1,49 @@
+{
+  "creature_3d_identity": "mm7:m362_reduce",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 1
+  },
+  "creature": "MM7 Peasant Human2 Male m362 reduction (no retexture)",
+  "status": "installed_2026-10-20_reduced",
+  "source": {
+    "path": "work/mm7_m362_source_pre_reduce.glb",
+    "sha256": "930fbee963a7107531de36b7219db0bc15ef6afbfe9fe243d58b7d11b15efc38",
+    "from": "../mm7_m362_claude/export/mm7_m362.glb"
+  },
+  "pick": {
+    "config": "h",
+    "step": "r86",
+    "lod0_tris": 8180,
+    "lods": [
+      8180,
+      4085,
+      1630,
+      532
+    ],
+    "p99_mm": 4.8,
+    "max_mm": 20.83,
+    "iou": 0.9925,
+    "ssim": 0.9948
+  },
+  "exports": {
+    "export/mm7_m362.glb": "d3380c87f3e268d63df6e65637d5c71b404336eaa22ba1c8241862fd8ce83444"
+  },
+  "meshy_credits_spent": 0,
+  "checks": {
+    "compare_glb": "DIFFERENCES none",
+    "grip": "1546 hand vertices exact",
+    "kept": "rapier, eyes/mouth, studs/laces exact",
+    "winding": "0 inverted",
+    "viewer": "108 switches, no console errors"
+  },
+  "next_action": {
+    "owner": "user",
+    "action": "review in review/viewer; install later (README)"
+  },
+  "last_update_utc": "2026-10-20",
+  "installed": {
+    "source": "assets_source/worlds/mm7/models/mm7_m362.glb",
+    "binding": "assets_dev/worlds/mm7/models/actors.yml"
+  }
+}

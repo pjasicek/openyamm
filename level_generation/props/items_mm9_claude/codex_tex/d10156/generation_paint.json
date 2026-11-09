@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png precisely as a texture paint and material mask atlas. The guide is the edit target; design_reference.png is material/detail reference and icon_x8.png is colour reference (magenta is not part of the item).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas, three columns by FOUR rows of equal square cells. Preserve exact guide positions, sizes, outlines, orientations, gaps and openings. Do not redraw, enlarge, move or redesign geometry. Five views repeated: rows 1-2 FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 exactly the same views.\nObject: plain gold ring, source-faithful upright hoop plane.\nRows 1-2 PAINT: paint grey objects only with unlit gold base colour faithful to reference and original icon. Subtle fine gold surface texture from design reference, no invented decoration. Reference details scaled to each view. No lighting, shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text.\nRows 3-4 MATERIAL MASK: all five ring silhouettes are entirely metal, so fill every interior pixel FLAT PURE RED #FF0000. No shading, texture, outlines or antialiased colour blends inside. Pure black #000000 is reserved for gemstones/glass/enamel/liquid, none of which this plain gold ring has. Do not paint these rows gold.\nEverything outside silhouettes, including every ring opening and the empty column 3 cells of rows 2 and 4, remains fully transparent. Preserve guide silhouette boundaries exactly.\nCRITICAL CORRECTION: The previous attempt had scattered red and gold noise outside the shapes and within the holes. Absolutely no stray pixels or speckles: use the exact clean alpha silhouettes of paint_mask_guide.png. All openings and spaces between views must be completely empty transparent. Solid flat red lower views with clean edges. Upper gold must be unlit, no directional shading or bright highlights. Preserve the original guide geometry.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10156/paint_mask_guide.png",
+      "sha256": "9417b40fc27e9fd59553e8b9048187191767fd1b93745c7c7295b03ce5807dd7"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10156/design_reference.png",
+      "sha256": "f2b1e0ff256fec3f5d2cef9b802a97b204874036807178fe1e1a8af5b744dd97"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10156/icon_x8.png",
+      "sha256": "9cce86ccd8a16abbebed458d0a9516f7ac94deff1b223e183dc5e2eee4019676"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3e-6db6-7b83-a72b-bcd2270183ae/exec-151b47e1-fd29-469e-87f8-0f4cbf6920d9.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10156/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "visual_review": "Stray red and gold pixels remain outside silhouettes and inside openings; raw output preserved as requested."
+}

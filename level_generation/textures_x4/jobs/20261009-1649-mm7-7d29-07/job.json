@@ -1,0 +1,703 @@
+{
+ "id": "20261009-1649-mm7-7d29-07",
+ "world": "mm7",
+ "maps": [
+  "7d29.blv",
+  "7d32.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/tfb09h-g",
+  "mm7/7tws1h",
+  "mm7/tfb09d-g",
+  "mm7/tfb09c-g",
+  "mm7/wizh-a",
+  "mm7/tfb09f-g",
+  "mm7/chb1dr",
+  "mm7/tfb09b-g",
+  "mm7/chb1dl",
+  "mm7/chb1p6",
+  "mm7/elfhuma",
+  "mm7/hwm2rf",
+  "mm7/sgtempl",
+  "mm7/t1s1cp2",
+  "mm7/tap1",
+  "mm7/tap2",
+  "mm7/tap3",
+  "mm7/tap4",
+  "mm7/tap5",
+  "mm7/tap7",
+  "mm7/tfb09i-g",
+  "mm7/tfb09r1i",
+  "mm7/tfb09r1j",
+  "mm7/td1"
+ ],
+ "requests": {
+  "mm7/tfb09h-g": {
+   "name": "tfb09h-g",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered dark olive-green stone floor blocks with dark mortar, partly covered by a woven rust-orange and black patterned carpet with octagonal medallions and a key-pattern border, with patches of dark soot and grime",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb09r1h",
+      "mm7/tfb09a-g"
+     ],
+     "fraction": 0.221
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb09r1h",
+      "mm7/tfb09a-g"
+     ],
+     "fraction": 0.221
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/7tws1h": {
+   "name": "7tws1h",
+   "versions": [
+    1
+   ],
+   "material": "weathered pale beige sandstone plaster with brown stains and faint cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb09d-g": {
+   "name": "tfb09d-g",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered dark olive-green stone floor blocks with dark mortar, partly covered by a woven rust-orange and black patterned carpet with octagonal medallions and a key-pattern border, with patches of dark soot and grime",
+   "notes": {
+    "2": "the stone blocks stay at full brightness right to the bottom edge of the canvas; no dark line or shadow along the bottom edge",
+    "3": "the stone blocks stay at full brightness right to the bottom edge of the canvas; no dark line or shadow along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb09r1d"
+     ],
+     "fraction": 0.185
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb09r1d"
+     ],
+     "fraction": 0.185
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb09r1d"
+     ],
+     "fraction": 0.185
+    }
+   }
+  },
+  "mm7/tfb09c-g": {
+   "name": "tfb09c-g",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered dark olive-green stone floor blocks with dark mortar, partly covered by a woven rust-orange and black patterned carpet with octagonal medallions and a key-pattern border, with patches of dark soot and grime",
+   "notes": {
+    "3": "the olive-green stone blocks run straight off the left edge at full brightness; no dark vertical line or mortar joint on the outermost left columns"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb09r1c",
+      "mm7/tfb09d-g"
+     ],
+     "fraction": 0.229
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb09r1c",
+      "mm7/tfb09d-g"
+     ],
+     "fraction": 0.229
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb09r1c",
+      "mm7/tfb09d-g"
+     ],
+     "fraction": 0.229
+    }
+   }
+  },
+  "mm7/wizh-a": {
+   "name": "wizh-a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with the upper part of a hanging dusky muted royal-blue cloth banner, slightly greyish, hung from a rod, bordered on both sides by dark maroon-red and black interlaced knot strips, embroidered with a pale gold scroll crossed with a wand and a pale gold serpent; copy the composition exactly",
+   "notes": {
+    "4": "the blue cloth has one even deep royal blue tone from top to bottom, exactly the tone of the sharp lower banner part below the bottom edge; the gold scroll, wand and serpent are the bright elements, the cloth itself is not bright; at the bottom edge cloth and red knot borders continue seamlessly into the sharp part",
+    "5": "the blue cloth is the native's slightly muted royal blue, a little greyish-violet, never deep saturated blue, exactly continuing the sharp lower banner part below the bottom edge; the gold scroll, wand and serpent stay at the reference's positions",
+    "6": "the banner cloth is dusky muted blue and the border strips are dark maroon on black, both exactly as dark and dull as the sharp lower banner part below the bottom edge, which they continue without any seam; the bright elements are only the gold embroidery",
+    "7": "the banner cloth is dusky muted blue and the border strips are dark maroon on black, both exactly as dark and dull as the sharp lower banner part below the bottom edge, which they continue without any seam"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.152
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.152
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.152
+    },
+    "4": {
+     "sources": [
+      "mm7/chb1p4"
+     ],
+     "fraction": 0.152
+    },
+    "5": {
+     "sources": [
+      "mm7/bannwc-a",
+      "mm7/chb1p4"
+     ],
+     "fraction": 0.152
+    },
+    "6": {
+     "sources": [
+      "mm7/bannwc-a",
+      "mm7/chb1p4"
+     ],
+     "fraction": 0.152
+    },
+    "7": {
+     "sources": [
+      "mm7/bannwc-a",
+      "mm7/chb1p4"
+     ],
+     "fraction": 0.152
+    }
+   },
+   "context": {
+    "3": {
+     "bottom": "mm7/wizh-b"
+    },
+    "4": {
+     "bottom": "mm7/wizh-b"
+    },
+    "5": {
+     "bottom": "mm7/wizh-b"
+    },
+    "6": {
+     "bottom": "mm7/wizh-b"
+    },
+    "7": {
+     "bottom": "mm7/wizh-b"
+    }
+   },
+   "match_neighbor": true
+  },
+  "mm7/tfb09f-g": {
+   "name": "tfb09f-g",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "weathered dark olive-green stone floor blocks with dark mortar, partly covered by a woven rust-orange and black patterned carpet with octagonal medallions and a key-pattern border, with patches of dark soot and grime",
+   "notes": {
+    "2": "the carpet field stays at full brightness right to the left edge of the canvas; no dark line or shadow along the left edge",
+    "3": "the carpet field stays at full brightness right to the left edge of the canvas; no dark line or shadow along the left edge",
+    "4": "the olive-green floor blocks run straight off the right edge at the same brightness as the stone beside them; no dark mortar line or shadow on the outermost pixel columns at the right",
+    "5": "continue the sharp olive-green stone blocks at the right exactly; where the carpet border meets the right edge the outermost columns are carpet or stone at normal brightness, never a black vertical line; the texture's last pixel column matches the column just inside it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb09r1f"
+     ],
+     "fraction": 0.183
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb09r1f"
+     ],
+     "fraction": 0.183
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb09r1f"
+     ],
+     "fraction": 0.183
+    },
+    "4": {
+     "sources": [
+      "mm7/tfb09r1f"
+     ],
+     "fraction": 0.183
+    },
+    "5": {
+     "sources": [
+      "mm7/tfb09r1f"
+     ],
+     "fraction": 0.183
+    }
+   }
+  },
+  "mm7/chb1dr": {
+   "name": "chb1dr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with an arch of dressed stones over a dark wooden plank door with iron hinges and a ring handle; copy the composition exactly",
+   "notes": {
+    "2": "keep the riveted dark greenish iron band across the top of the door under the arch, as in the reference; the stone arch and cobbles stay lit right to the top edge of the canvas, no dark line along the top edge",
+    "3": "this is the right half of a double door: the arched area above the riveted iron band is a solid dark green-bronze hammered metal plate, not wood planks, exactly as in the reference; the stone arch and cobbles stay lit right to the top edge, no dark line along the top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    }
+   }
+  },
+  "mm7/tfb09b-g": {
+   "name": "tfb09b-g",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered dark olive-green stone floor blocks with dark mortar, partly covered by a woven rust-orange and black patterned carpet with octagonal medallions and a key-pattern border, with patches of dark soot and grime",
+   "notes": {
+    "2": "the stone and its mortar stay at full brightness right to the left edge of the canvas; no dark line or shadow along the left edge",
+    "3": "the leftmost column of stone blocks is lit evenly like the rest of the stone, mid grey-green right up to the canvas's left edge; no soot, shadow or dark mortar line along the left edge; keep the soot patches on the carpet only"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb09r1b"
+     ],
+     "fraction": 0.135
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb09r1b"
+     ],
+     "fraction": 0.135
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb09r1b"
+     ],
+     "fraction": 0.135
+    }
+   }
+  },
+  "mm7/chb1dl": {
+   "name": "chb1dl",
+   "versions": [
+    1
+   ],
+   "material": "brown wall of rounded flat cobble stones set in dark mortar, with an arch of dressed stones over a dark wooden plank door with iron hinges and a ring handle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/chb1p6": {
+   "name": "chb1p6",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brown wall of rounded flat cobble stones set in dark mortar, with the upper part of a hanging violet and white striped heraldic banner bearing a gold rampant lion, hung from a rod; copy the composition exactly",
+   "notes": {
+    "3": "the banner continues into the lower banner piece below: at the bottom edge the white half must be the same soft grey-white and the violet half the same violet as the sharp lower piece in the bottom margin, with the lion's feet ending exactly where that piece continues them; no brighter band or step at the bottom edge",
+    "4": "the lower half of the banner darkens gently toward the bottom edge so that the last rows exactly match the sharp lower banner piece shown in the bottom margin: the white half ends as a muted grey-white, the violet half as a deep violet; no bright band at the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "bottom": "mm7/chb1p7"
+    },
+    "3": {
+     "bottom": "mm7/chb1p7"
+    },
+    "4": {
+     "bottom": "mm7/chb1p7"
+    }
+   }
+  },
+  "mm7/elfhuma": {
+   "name": "elfhuma",
+   "versions": [
+    1
+   ],
+   "material": "brown wall of rounded flat cobble stones set in dark mortar, with the upper part of a hanging green cloth banner with gold edging bearing a gold tree emblem, hung from a rod; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hwm2rf": {
+   "name": "hwm2rf",
+   "versions": [
+    1
+   ],
+   "material": "dark slate-grey weathered vertical wooden roof boards with deep dark seams and streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgtempl": {
+   "name": "sgtempl",
+   "versions": [
+    1
+   ],
+   "material": "square shop sign of dark wood boards in a riveted wooden frame, painted with a gold caduceus; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t1s1cp2": {
+   "name": "t1s1cp2",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of carved grey-brown stone pilaster with a vertical groove",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap1": {
+   "name": "tap1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven medieval wool tapestry in a blue border with gold corner squares, showing robed courtly figures and a white heron in a garden; copy the composition exactly",
+   "notes": {
+    "2": "the blue woven border runs at full brightness right to the outer edge on all four sides; no dark outline or shadow at the canvas edge",
+    "3": "the tapestry's left edge ends in the light blue patterned border itself, bright right to the very last pixel column: no dark outline, binding or shadow along the left side; keep every figure, the heron and the border at exactly the reference positions, nothing shifted up or down"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap2": {
+   "name": "tap2",
+   "versions": [
+    1
+   ],
+   "material": "woven medieval wool tapestry in a blue border with gold corner squares, showing white hounds and deer in a green forest; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap3": {
+   "name": "tap3",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven medieval wool tapestry in a blue border with a blue and white arch, showing fully robed courtly figures before a castle on a hill; copy the composition exactly",
+   "notes": {
+    "2": "keep the patterned rose-red border band at full brightness right to the top edge and every other edge; no dark outline or shadow at the canvas edge",
+    "3": "keep the rose-red top border band as thin as in the reference and the blue arch, castle and figures at exactly the reference heights; nothing shifted down; border bright to the canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap4": {
+   "name": "tap4",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "woven medieval wool tapestry in a blue border with a blue and white arch, showing a hunting party with a rider on a white horse in a landscape; copy the composition exactly",
+   "notes": {
+    "2": "keep the patterned green and gold border band at full brightness right to the top edge and every other edge; no dark outline or shadow at the canvas edge",
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     65,
+     0
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/tap5": {
+   "name": "tap5",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven medieval wool tapestry in a blue border with a blue and white arch, showing a white towered castle on a hill above a lake; copy the composition exactly",
+   "notes": {
+    "2": "copy the reference composition and scale exactly: the castle at the same size and position, the same small lake, the brown fields along the bottom, the arch and the gold bottom border band exactly where the reference has them; nothing shifted; border at full brightness to the canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap7": {
+   "name": "tap7",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven medieval wool tapestry in a red and gold border under a pointed arch, showing a hound chasing a stag in a landscape; copy the composition exactly",
+   "notes": {
+    "2": "copy the reference composition exactly: the large hound and the deer fill the lower half at the same size and position as in the reference, the sky and arch above; keep the border width; do not shrink the animals into a distant landscape",
+    "3": "match the reference frame exactly: the red-and-gold border at the same width, the inner gold arch outline at the same position, and the hound and deer at the reference size and position in the lower half; nothing shifted"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb09i-g": {
+   "name": "tfb09i-g",
+   "versions": [
+    1
+   ],
+   "material": "plain dark maroon woven carpet field with a faint dim diamond medallion and soot shading",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb09r1i": {
+   "name": "tfb09r1i",
+   "versions": [
+    1
+   ],
+   "material": "plain dark maroon woven carpet field with a small dim octagonal medallion in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb09r1j": {
+   "name": "tfb09r1j",
+   "versions": [
+    1
+   ],
+   "material": "plain dark maroon woven carpet field",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/td1": {
+   "name": "td1",
+   "versions": [
+    1
+   ],
+   "material": "brown stone floor with a large round carved bronze ring around a dark circular centre, the ring set with four carved stone skulls and red gems; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ]
+   }
+  }
+ }
+}

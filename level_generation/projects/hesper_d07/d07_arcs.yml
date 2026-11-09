@@ -1,0 +1,176 @@
+id: hesper.d07_arcs
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    party:
+      members:
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Ada
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Bram
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Cyra
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Dana
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Eli
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+    start_map: hes_d07.blv
+- assert:
+    state_dump_map_var:
+      index: 8
+      value: 0
+- assert:
+    party_health:
+      full: true
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 3090
+      y: 5472
+      yaw: 0
+      z: -512
+    input: forward
+    loose_tolerance: true
+    seconds: 0.4
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 2780
+      y: 5472
+      yaw: 0
+      z: -512
+    tolerance_xy: 100
+    tolerance_z: 40
+- assert:
+    party_health:
+      full: false
+- new_game_flow:
+    party:
+      members:
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Ada
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Bram
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Cyra
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Dana
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+      - class: Knight
+        equipment: {}
+        level: 1000
+        name: Eli
+        skills:
+        - level: 12
+          mastery: 3
+          name: Hacking
+    start_map: hes_d07.blv
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 4800
+      y: 300
+      yaw: 0
+      z: 0
+    input: none
+    seconds: 2.1
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 4800
+      y: 300
+      yaw: 0
+      z: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+- assert:
+    state_dump_map_var:
+      index: 8
+      value: 2
+- movement_segment:
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    expect_stop:
+      map: hes_d07.blv
+      pitch: 0
+      x: 3090
+      y: 5472
+      yaw: 0
+      z: -512
+    input: forward
+    loose_tolerance: true
+    seconds: 0.4
+    start:
+      map: hes_d07.blv
+      pitch: 0
+      x: 2780
+      y: 5472
+      yaw: 0
+      z: -512
+    tolerance_xy: 100
+    tolerance_z: 40
+- assert:
+    party_health:
+      full: true

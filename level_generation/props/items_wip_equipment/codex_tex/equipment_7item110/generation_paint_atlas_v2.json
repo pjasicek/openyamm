@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Pinched Gauntlets (7item110). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single olive-bronze long gauntlet, four joined straight fingers and bent thumb, narrow wrist, flared cuff with a vertical row of gold studs. CORRECTION: use exactly the guide's hand and cuff width (previous paint front was 9.1% too wide). Keep all five existing digit silhouettes and positions, no widening fingers or thumb. Exact material boundaries: Bronze plates on hand back, finger backs, cuff and rivets are METAL RED. Palm, flexible finger joints and inner cuff lining are LEATHER GREEN. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item110/inputs/guide_paint_v2.png",
+  "input_guide_sha256": "b95fed8da8feefba65476c8c5af376fa037f9ff8fc268abc5ca4117f87b5ea77",
+  "revision": 2,
+  "input_icon": "7item110",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-8450f6dd-ec4b-4168-a0da-354704fff80e.png",
+  "output": "paint_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v2.png",
+  "output_sha256": "3907726633190cc70ba173751e9d93891030ae73bbf2202b72d885b0326d9430",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item110.png",
+  "input_icon_sha256": "ccdac02979de03ae7fd0b49a4d3cf776adc7d6a789e5353496fab3686d219e83",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

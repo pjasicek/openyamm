@@ -1,0 +1,618 @@
+{
+ "id": "20261009-1649-mm7-7d07-01",
+ "world": "mm7",
+ "maps": [
+  "7d07.blv",
+  "7d26.blv"
+ ],
+ "created": "2026-10-09T14:49:59+00:00",
+ "textures": [
+  "mm7/7t1beds2",
+  "mm7/7t1books",
+  "mm7/7t1butts",
+  "mm7/7t1cab",
+  "mm7/7t1cabs",
+  "mm7/7trimd",
+  "mm7/lava",
+  "mm7/t3s2c",
+  "mm7/t3s2fl",
+  "mm7/t5d1",
+  "mm7/wall",
+  "mm7/ckb",
+  "mm7/cnb",
+  "mm7/hnm2b",
+  "mm7/hnm2el",
+  "mm7/hnm2er",
+  "mm7/hnm2bw",
+  "mm7/hnp3wle",
+  "mm7/hnm2elw",
+  "mm7/hnm2erw",
+  "mm7/hnp3b",
+  "mm7/hnp3le",
+  "mm7/hnrer",
+  "mm7/hnrel"
+ ],
+ "requests": {
+  "mm7/7t1beds2": {
+   "name": "7t1beds2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale beige woven linen fabric with fine vertical threads",
+   "notes": {
+    "3": "plain even linen cloth over the whole picture: the cloth reaches the left and right edges at full brightness with no dark stripe, seam, hem, shadow or border line along any edge; whatever appears in the margins is a different surface and is not continued into the picture"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/chb1",
+     "left": "mm7/hhm3d",
+     "top": "mm7/7cdb"
+    },
+    "3": {
+     "right": "mm7/chb1",
+     "left": "mm7/hhm3d",
+     "top": "mm7/7cdb"
+    }
+   }
+  },
+  "mm7/7t1books": {
+   "name": "7t1books",
+   "versions": [
+    1
+   ],
+   "material": "tall dark wooden bookshelf with four shelves of old leather-bound books in brown, red and green; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7t1butts": {
+   "name": "7t1butts",
+   "versions": [
+    1
+   ],
+   "material": "mottled grey-brown weathered wood end grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7t1cab": {
+   "name": "7t1cab",
+   "versions": [
+    1
+   ],
+   "material": "cabinet front of four carved golden-oak drawers, each with a sunburst carving and an iron ring pull; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7t1cabs": {
+   "name": "7t1cabs",
+   "versions": [
+    1
+   ],
+   "material": "plain golden-brown oak wood with long vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7trimd": {
+   "name": "7trimd",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown vertical wooden planks with dark gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/lava": {
+   "name": "lava",
+   "versions": [
+    1
+   ],
+   "material": "molten orange-yellow lava with black cooled crust patches",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2c": {
+   "name": "t3s2c",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-cream marble ceiling with a raised bevelled X-shaped band pattern; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl": {
+   "name": "t3s2fl",
+   "versions": [
+    1
+   ],
+   "material": "grey stone floor of irregular polygonal slabs with pale raised mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t5d1": {
+   "name": "t5d1",
+   "versions": [
+    1
+   ],
+   "material": "grey stone door panel with riveted steel bands and inlaid brass half-circle and circle shapes; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/wall": {
+   "name": "wall",
+   "versions": [
+    1
+   ],
+   "material": "dark grey small rough stone bricks in staggered courses with thin dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ckb": {
+   "name": "ckb",
+   "versions": [
+    1
+   ],
+   "material": "tan and olive mossy fieldstone wall of rounded irregular stones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/cnb": {
+   "name": "cnb",
+   "versions": [
+    1
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hnm2b": {
+   "name": "hnm2b",
+   "versions": [
+    1
+   ],
+   "material": "house facade: dark weathered wooden plank band and beam across the top, pale greenish-beige rough plaster panel in the middle, dark wooden sill beam, and dark grey irregular fieldstone wall below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hnm2el": {
+   "name": "hnm2el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade: dark weathered wooden plank band and beam across the top, pale greenish-beige rough plaster panel in the middle, dark wooden sill beam, and dark grey irregular fieldstone wall below, with a dark vertical timber post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm2b"
+     ],
+     "fraction": 0.826
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm2b"
+     ],
+     "fraction": 0.826
+    }
+   }
+  },
+  "mm7/hnm2er": {
+   "name": "hnm2er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade: dark weathered wooden plank band and beam across the top, pale greenish-beige rough plaster panel in the middle, dark wooden sill beam, and dark grey irregular fieldstone wall below, with a dark vertical timber post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm2b"
+     ],
+     "fraction": 0.815
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm2b"
+     ],
+     "fraction": 0.815
+    }
+   }
+  },
+  "mm7/hnm2bw": {
+   "name": "hnm2bw",
+   "versions": [
+    1
+   ],
+   "material": "house facade: dark weathered wooden plank band and beam across the top, pale greenish-beige rough plaster panel in the middle, dark wooden sill beam, and dark grey irregular fieldstone wall below, with a small arched iron-barred window in a carved stone surround set in the plaster; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm2b"
+     ],
+     "fraction": 0.864
+    }
+   }
+  },
+  "mm7/hnp3wle": {
+   "name": "hnp3wle",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a weathered grey wooden beam and a pale stone lintel band carved with a row of runes, with a weathered wooden sill at the bottom, with a dark vertical wooden post on the left edge and a jagged broken hole into black darkness in the upper stonework; copy the composition exactly",
+   "notes": {
+    "3": "the weathered wooden sill at the bottom keeps the reference brightness right down to the last row: no dark line, groove or shadow along or just above the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/hnm2elw": {
+   "name": "hnm2elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade: dark weathered wooden plank band and beam across the top, pale greenish-beige rough plaster panel in the middle, dark wooden sill beam, and dark grey irregular fieldstone wall below, with a dark vertical timber post on the left edge and a small arched iron-barred window in a carved stone surround set in the plaster; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm2el",
+      "mm7/hnm2bw"
+     ],
+     "fraction": 0.994
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm2el",
+      "mm7/hnm2bw"
+     ],
+     "fraction": 0.994
+    }
+   }
+  },
+  "mm7/hnm2erw": {
+   "name": "hnm2erw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade: dark weathered wooden plank band and beam across the top, pale greenish-beige rough plaster panel in the middle, dark wooden sill beam, and dark grey irregular fieldstone wall below, with a dark vertical timber post on the right edge and a small arched iron-barred window in a carved stone surround set in the plaster; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm2er",
+      "mm7/hnm2bw"
+     ],
+     "fraction": 0.994
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm2er",
+      "mm7/hnm2bw"
+     ],
+     "fraction": 0.994
+    }
+   }
+  },
+  "mm7/hnp3b": {
+   "name": "hnp3b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom",
+   "notes": {
+    "3": "the rubble stonework runs straight off the right edge: no thin dark vertical line or crack one pixel in from the right edge, the outermost columns look like the stones beside them",
+    "4": "the rubble stonework runs straight off the right edge: no thin dark vertical line or crack one pixel in from the right edge, the outermost columns look like the stones beside them",
+    "5": "the stones continue straight into the neighbouring wall pieces at the left and right edges: no thin dark or reddish vertical line anywhere in the last three pixel columns at the right or the first three at the left; mortar and stones run right through the edge",
+    "6": "the stones continue straight into the neighbouring wall pieces at the left and right edges: no thin dark or reddish vertical line anywhere in the last three pixel columns at the right or the first three at the left; mortar and stones run right through the edge",
+    "7": "the weathered wooden sill at the bottom keeps the reference brightness right down to the last row: no dark line, groove or shadow along or just above the bottom edge",
+    "8": "the rubble stonework runs evenly to the left and right edges with no dark column or joint line on either edge",
+    "9": "the rubble stonework runs evenly across the tile with no dark column or vertical joint line anywhere near the left and right edges; the sill at the bottom keeps the reference brightness to the last row"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    },
+    "6": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    },
+    "7": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    },
+    "8": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    },
+    "9": {
+     "sources": [
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.538
+    }
+   },
+   "context": {
+    "4": {
+     "left": "mm7/hnp3wle"
+    },
+    "5": {
+     "left": "mm7/hnp3wle"
+    },
+    "6": {
+     "left": "mm7/hnp3wle"
+    },
+    "7": {
+     "left": "mm7/hnp3wle"
+    },
+    "8": {
+     "left": "mm7/hnp3wle"
+    },
+    "9": {}
+   },
+   "roll": {
+    "9": [
+     83,
+     0
+    ]
+   }
+  },
+  "mm7/hnp3le": {
+   "name": "hnp3le",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, with a dark vertical wooden post on the left edge",
+   "notes": {
+    "4": "the timber post at the left continues past the left edge: its outermost two pixel columns are post wood as bright as the middle of the post, with no dark line, crack or shadow along the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.982
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.982
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.982
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.982
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hnp3b"
+    },
+    "4": {
+     "right": "mm7/hnp3b"
+    }
+   }
+  },
+  "mm7/hnrer": {
+   "name": "hnrer",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "golden-ochre rough stucco plaster wall panel framed by carved golden-brown wooden moulding along the top and bottom, with a carved wooden pilaster on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hnrel": {
+   "name": "hnrel",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "golden-ochre rough stucco plaster wall panel framed by carved golden-brown wooden moulding along the top and bottom, with a carved wooden pilaster on the left edge",
+   "notes": {
+    "3": "the soft shadow under the top moulding is one even horizontal band across the whole width; no rectangular dark block or stepped notch in the shadow beside the carved bracket"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrer"
+     ],
+     "fraction": 0.616
+    },
+    "2": {
+     "sources": [
+      "mm7/hnrer"
+     ],
+     "fraction": 0.616
+    },
+    "3": {
+     "sources": [
+      "mm7/hnrer"
+     ],
+     "fraction": 0.616
+    }
+   }
+  }
+ }
+}

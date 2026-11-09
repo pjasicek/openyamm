@@ -1,0 +1,1 @@
+const families = [{"name": "bluering", "count": 1, "fps": 15, "width": 64, "height": 64}, {"name": "flareparticle", "count": 10, "fps": 15, "width": 32, "height": 32}, {"name": "ringexplodeblue", "count": 1, "fps": 15, "width": 64, "height": 64}, {"name": "smokenoise", "count": 10, "fps": 15, "width": 64, "height": 64}];

@@ -1,0 +1,312 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "failed_brief_checks",
+  "selected_outputs": [
+    "paint_left.png",
+    "paint_right.png"
+  ],
+  "selected_does_not_mean_accepted": true,
+  "required_dimensions": [
+    1024,
+    1024
+  ],
+  "generation_count": 4,
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "postprocessing": "None. All four PNGs are unresized, byte-identical copies of the built-in tool returns.",
+  "guides": {
+    "left": {
+      "path": "guide_left.png",
+      "sha256": "6809b5ab58696a1d4ce81f7c646fbd846aa354ea20392cc747a3ba94e9477b5b",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        66,
+        66,
+        958,
+        958
+      ],
+      "alpha_128_bbox": [
+        67,
+        67,
+        957,
+        957
+      ]
+    },
+    "right": {
+      "path": "guide_right.png",
+      "sha256": "d1f3b521a28de5d617970ab4cce93c8427782eaf2310686c78d987131cd5418c",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        66,
+        66,
+        958,
+        958
+      ],
+      "alpha_128_bbox": [
+        67,
+        67,
+        957,
+        957
+      ]
+    }
+  },
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render.\nTask: EDIT the first input image in place, replacing the grey RGB surface colours with painted albedo materials. Output ONE native 1024 x 1024 RGBA PNG with real transparency.\n\nINPUTS:\n1. guide_left.png — the edit target. It is a 1024 x 1024 orthographic LEFT side render of the EXACT model. This image alone controls all geometry, silhouette, camera, scale, placement, edges and openings.\n2. design_reference.png — approved design, colour and material authority ONLY. Do not borrow its three-quarter perspective, geometry or dramatic lighting.\n3. concept_crop.png — secondary original concept reference.\n\nLOCKED GEOMETRY:\nKeep the first image's original 1024-square canvas and alpha mask exactly. Preserve the outline, size and position of every shape, opening, faceted cable, loop, plate, clamp, rock and plinth. Keep all visible edges and cable crossings exactly where the guide has them. Do not round the polygonal contours. No new shapes, omitted shapes, cropping, recentering or change of camera. Paint surface colours only. The guide shows the left side, not the front.\nKeep the large upper-left oval housing, the upper-right bent ceramic plate, the lower-right angular plates, the crown loops, the column of cables, all flared cable roots and the low straight plinth in their exact guide locations.\n\nMATERIAL PAINT:\nGlossy black-violet resin identity, with dark red veins, rendered as base colour without reflected lighting; white ceramic plates and brushed gold armour, trims and existing collars; glowing violet-red magenta lenses/seams where appropriate to existing geometry; cracked pale grey stone plinth and rocks. Upper oval housing faces are brushed gold armour. Match the design reference's material palette and wear. Do not add a front-facing stack of lenses where this side guide has none. Surface details must stay inside existing surfaces and cannot change edges.\n\nSTRICT ALBEDO LIGHTING:\nEven, flat, shadowless light from the viewer. This is a texture source, not a beauty render. NO cast shadows, NO ambient-occlusion/cavity darkening, NO strong specular highlights or reflections, NO rim light, NO bloom or coloured spill. Resin gloss and brushed gold are material identities; do not paint directional highlights. Glowing parts, orange sacs and seams are painted at their glowing colour only and cast no light on surroundings.\n\nTransparent background and original transparent holes, with opaque solid surfaces. No backdrop, floor, checkerboard pixels, text or labels. The unresized return must be 1024 x 1024. Pixel registration to the guide has priority over embellishment.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6809b5ab58696a1d4ce81f7c646fbd846aa354ea20392cc747a3ba94e9477b5b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5"
+        }
+      ],
+      "corrective": false,
+      "source": "/home/pjasicek/.codex/generated_images/01a16917-c06c-7fd0-ac80-bfd4b9f5e63b/exec-a863fbf8-1666-4807-a858-de9f5d5a031d.png",
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected in favour of the corrective return: native size is 1254 x 1254 instead of 1024 x 1024, silhouette/alpha and internal edges differ, and strong reflected highlights violate flat albedo lighting.",
+      "checks": {
+        "sha256": "89d110ad689f974ac2681c13a3dbb35b3d0288386a296a0827f586f99677cce0",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          9,
+          1242,
+          1187
+        ],
+        "alpha_128_bbox": [
+          80,
+          78,
+          1174,
+          1175
+        ],
+        "transparent_pixels": 1049349,
+        "opaque_pixels": 950,
+        "partially_transparent_pixels": 522217,
+        "required_1024_square": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "byte_identical_to_tool_return": true,
+        "materials_and_colours": "Broad reference palette matches: black-violet resin, dark red veins, white ceramic, gold armour, magenta seams and pale cracked stone. Material and shape boundaries are not exact.",
+        "flat_even_light": false,
+        "visual_notes": "Strong resin reflections and gold edge gleams remain. Cable contours, fittings and plate edges are embellished relative to the guide. Stray low-alpha coloured pixels occur beyond the main outline; solid surfaces are largely slightly translucent."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "CORRECTIVE PAINTOVER. Return exactly ONE 1024 x 1024 transparent RGBA image, the same dimensions as input 1. This is the final permitted correction.\nUse case: sketch-to-render; orthographic LEFT-side albedo texture source.\n\nImage 1 guide_left.png is the image to EDIT. Preserve it pixel-for-pixel except for surface RGB colour. Images 2 design_reference.png and 3 concept_crop.png supply material colours only. Paint the grey guide directly, keeping its original alpha mask, native canvas, object size and placement, every polygonal shape edge, all openings, cable crossings, ceramic plate outlines and rocks. Do not recreate or redesign the object. Do not use the reference's camera or lighting.\n\nThe previous attempt failed because it returned 1254 x 1254 instead of 1024 x 1024, changed shape edges and added strong reflections. Correct these failures. Keep the original 1024 x 1024 canvas with no resizing. The occupied guide bounds are approximately x=66 through 957, y=66 through 957. Preserve the angular cables, crown loops, upper-left oval disk, bent upper-right plate, lower-right angular plates, low plinth and all small rocks exactly where they already are. No added collars or cables, no smoothing, no cropping.\n\nApply ONLY material base colour: black-violet resin and dark red veins; white ceramic plate faces with brushed gold armour and trims; upper oval disk in subdued gold; existing appropriate lens/seam surfaces in violet-red magenta; cracked pale grey stone base. Do not add front-view lenses.\n\nFLAT UNLIT COLOUR ONLY. Uniform shadowless viewer illumination. Remove ALL strong specular flecks, shiny white lines, reflections, gold gleams, cast shadows, occlusion darkening, rim lighting and directional shading. Material grain is fine and low contrast. Emissive red/magenta/orange areas are uniform saturated colours without bright white cores, bloom or light spill. This is albedo for projection onto a mesh, NOT a lit product render. Keep surfaces opaque and background/holes genuinely transparent. Output only the edited guide; no scene, floor, checkerboard, labels or border.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6809b5ab58696a1d4ce81f7c646fbd846aa354ea20392cc747a3ba94e9477b5b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16917-c06c-7fd0-ac80-bfd4b9f5e63b/exec-9d81d2bd-6d7a-4bf8-b534-7649084fc7f6.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the better available unmodified return because it reduces highlights and follows the guide's angular geometry more closely. It is not accepted as brief-compliant: native size is 1254 x 1254, silhouette/alpha and internal edges differ, and residual shading remains. One corrective regeneration was used; no further generation is permitted by the brief.",
+      "checks": {
+        "sha256": "568cacf47031cf6351815c4f1c0bcb933b625beb9579caa87dffd9c5663ad0ca",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          9,
+          1230,
+          1254
+        ],
+        "alpha_128_bbox": [
+          79,
+          80,
+          1175,
+          1175
+        ],
+        "transparent_pixels": 1048330,
+        "opaque_pixels": 1043,
+        "partially_transparent_pixels": 523143,
+        "required_1024_square": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "byte_identical_to_tool_return": true,
+        "materials_and_colours": "Broad reference palette matches: black-violet resin, dark red veins, white ceramic, gold armour, magenta seams and pale cracked stone. Material and shape boundaries are not exact.",
+        "flat_even_light": false,
+        "visual_notes": "Reduced specular highlights and more angular contours than attempt 1. Residual facet shading and dark cavities remain, with changed edges and openings. Stray low-alpha coloured pixels occur beyond the main outline; solid surfaces are largely slightly translucent."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "corrective": false,
+      "prompt": "Use case: sketch-to-render.\nTask: EDIT the first input image in place, replacing the grey RGB surface colours with painted albedo materials. Output ONE native 1024 x 1024 RGBA PNG with real transparency.\n\nINPUTS:\n1. guide_right.png — the edit target. It is a 1024 x 1024 orthographic RIGHT side render of the EXACT model. This image alone controls all geometry, silhouette, camera, scale, placement, edges and openings.\n2. design_reference.png — approved design, colour and material authority ONLY. Do not borrow its three-quarter perspective, geometry or dramatic lighting.\n3. concept_crop.png — secondary original concept reference.\n\nLOCKED GEOMETRY:\nKeep the first image's original 1024-square canvas and alpha mask exactly. Preserve the outline, size and position of every shape, opening, faceted cable, loop, plate, clamp, rock and plinth. Keep all visible edges and cable crossings exactly where the guide has them. Do not round the polygonal contours. No new shapes, omitted shapes, cropping, recentering or change of camera. Paint surface colours only. The guide shows the right side, not the front.\nKeep both upper oval housings, the upper-left projecting plate, the mid-left bent plate and adjacent long plate, the top loops, column of cables, flared roots and low straight plinth in their exact guide locations.\n\nMATERIAL PAINT:\nGlossy black-violet resin identity, with dark red veins, rendered as base colour without reflected lighting; white ceramic plates and brushed gold armour, trims and existing collars; glowing violet-red magenta lenses/seams where appropriate to existing geometry; cracked pale grey stone plinth and rocks. Upper oval housing faces are brushed gold armour. Match the design reference's material palette and wear. Do not add a front-facing stack of lenses where this side guide has none. Surface details must stay inside existing surfaces and cannot change edges.\n\nSTRICT ALBEDO LIGHTING:\nEven, flat, shadowless light from the viewer. This is a texture source, not a beauty render. NO cast shadows, NO ambient-occlusion/cavity darkening, NO strong specular highlights or reflections, NO rim light, NO bloom or coloured spill. Resin gloss and brushed gold are material identities; do not paint directional highlights. Glowing parts, orange sacs and seams are painted at their glowing colour only and cast no light on surroundings.\n\nTransparent background and original transparent holes, with opaque solid surfaces. No backdrop, floor, checkerboard pixels, text or labels. The unresized return must be 1024 x 1024. Pixel registration to the guide has priority over embellishment.\nTreat this as an unlit material-ID paintover with surface grain: no shiny white speckles or specular stripes on the resin, no directional gold gleams. Keep every guide edge fixed. Return the native 1024 x 1024 dimensions of the first input.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d1f3b521a28de5d617970ab4cce93c8427782eaf2310686c78d987131cd5418c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16917-c06c-7fd0-ac80-bfd4b9f5e63b/exec-975977a3-d715-48ba-b617-835a3d891dea.png",
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected in favour of the corrective return: native size is 1254 x 1254 instead of 1024 x 1024, silhouette/alpha and internal edges differ, and strong reflected highlights violate flat albedo lighting.",
+      "checks": {
+        "sha256": "f1d711978aaacac9448f9509fb4bcba516cfa5116af6950ad3c35b63ff201b43",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          29,
+          1238,
+          1238
+        ],
+        "alpha_128_bbox": [
+          80,
+          80,
+          1171,
+          1176
+        ],
+        "transparent_pixels": 1050068,
+        "opaque_pixels": 1184,
+        "partially_transparent_pixels": 521264,
+        "required_1024_square": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "byte_identical_to_tool_return": true,
+        "materials_and_colours": "Broad reference palette matches, but long white ceramic strips are assigned to some guide cable surfaces; shape and material boundaries are not exact.",
+        "flat_even_light": false,
+        "visual_notes": "Strong resin reflections and gold edge gleams remain. Cable contours, fittings and plate edges are embellished relative to the guide. Stray low-alpha coloured pixels occur beyond the main outline; solid surfaces are largely slightly translucent."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "FINAL CORRECTION: EDIT IMAGE 1 IN PLACE. ONE native 1024 x 1024 RGBA PNG. Use case: sketch-to-render. Orthographic RIGHT view, flat albedo texture source.\n\nInput 1 guide_right.png is the exact 1024-square grey model render to recolour. Input 2 design_reference.png and input 3 concept_crop.png provide only material colour references. Preserve input 1's original canvas and exact alpha silhouette. Change only surface RGB colours. Do not redraw, rotate, rescale or redesign anything.\n\nThe previous result was 1254-square, moved and embellished shapes, and painted strong reflections. Correct these errors: output exactly 1024-square without resizing the guide. Keep every original angular cable contour, opening, crossing, plate edge, rock and plinth edge fixed. In particular, keep the two upper oval plates, the top cable loops, the small left edge plate, the mid-left bent plate and adjacent long narrow plate, vertical cables, flared cable feet and low straight base in their exact guide locations. Do not add extra white ceramic strips over the long vertical resin cables. Do not add collars where the guide has none. No front-facing lens column. Do not thicken or round any contours.\n\nPaint colour only: dark black-violet resin with fine dark red veins, existing ceramic plates in warm white, existing armour and collars in subdued brushed gold, the two upper oval faces in subdued gold, existing appropriate seams/lenses in violet-red magenta, pale grey cracked stone base and stones. Fine grain and wear only.\n\nThis must look like an UNLIT DIFFUSE/ALBEDO PASS. All illumination is even, flat, shadowless and from the viewer. Absolutely no specular highlights, shiny white flecks, streaks, gold edge gleams, reflections, rim lights, cast shadows, ambient occlusion, cavity blackening, directional gradients, bloom or light cast by glowing parts. Emission is flat saturated orange/red/magenta colour without white cores or adjacent light spill. Convey materials with base colour and fine grain rather than highlights. Keep the original transparent background and all holes; solid surfaces remain opaque. No backdrop, floor, checkerboard, text or border. Return the original 1024 x 1024 canvas, with the exact same geometry and alpha as guide_right.png.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d1f3b521a28de5d617970ab4cce93c8427782eaf2310686c78d987131cd5418c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "5349e73f24c54595d8e4fc186f30c34df57b6cadfef79cb3c4d7e1e2e8871828"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ec3d500060f030122aadf927bb85eff9b77be1b5c62a0ba9d252fc376f6feea5"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16917-c06c-7fd0-ac80-bfd4b9f5e63b/exec-2bb6cb06-5c35-45f1-aa09-37b86327f218.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the better available unmodified return because it reduces highlights and follows the guide's angular geometry more closely. It is not accepted as brief-compliant: native size is 1254 x 1254, silhouette/alpha and internal edges differ, and residual shading remains. One corrective regeneration was used; no further generation is permitted by the brief.",
+      "checks": {
+        "sha256": "48c28a331240356e5a2c55e7fe42f956fd7dc3bd30de8fc88d2901179fd133c5",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1248,
+          1254
+        ],
+        "alpha_128_bbox": [
+          82,
+          80,
+          1173,
+          1175
+        ],
+        "transparent_pixels": 1044732,
+        "opaque_pixels": 1397,
+        "partially_transparent_pixels": 526387,
+        "required_1024_square": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "byte_identical_to_tool_return": true,
+        "materials_and_colours": "Broad reference palette matches, but long white ceramic strips are assigned to some guide cable surfaces; shape and material boundaries are not exact.",
+        "flat_even_light": false,
+        "visual_notes": "Reduced specular highlights and more angular contours than attempt 1. Residual facet shading and dark cavities remain, with changed edges and openings. Stray low-alpha coloured pixels occur beyond the main outline; solid surfaces are largely slightly translucent."
+      }
+    }
+  ],
+  "limitations": [
+    "All returns are 1254 x 1254 rather than the requested native 1024 x 1024. The callable built-in tool exposes no size parameter; the requested dimensions were specified in every prompt.",
+    "None preserves the guide silhouette, alpha, internal shape boundaries or openings exactly.",
+    "The selected corrections reduce highlights but retain facet shading and dark cavities; strict flat albedo checks fail.",
+    "Actual alpha transparency is present, but solid surfaces are largely slightly translucent and stray low-alpha edge pixels remain.",
+    "Selected files are candidates requiring review, not brief-compliant texture sources.",
+    "No resizing, alpha replacement, external image editing, builds, texture installation or runtime checks were performed."
+  ]
+}

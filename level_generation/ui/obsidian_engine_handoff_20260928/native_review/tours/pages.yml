@@ -1,0 +1,144 @@
+output_dir: /tmp/obsidian-native-full
+exit: true
+steps:
+- wait: 3
+- capture: gameplay
+- right_down:
+  - 276
+  - 120
+- click:
+  - 276
+  - 120
+- capture: buffs-expanded
+- click:
+  - 600
+  - 400
+- right_up:
+  - 600
+  - 400
+- right_down:
+  - 568
+  - 805
+- click:
+  - 568
+  - 805
+- capture: personal-buffs
+- click:
+  - 568
+  - 805
+- right_up:
+  - 568
+  - 805
+- action: combat
+- capture: turn-based
+- action: combat
+- action: cast
+- capture: spellbook
+- right_down:
+  - 510
+  - 210
+- capture: spell-inspect
+- right_up:
+  - 510
+  - 210
+- key: Escape
+- action: quest
+- wait: 0.7
+- capture: character
+- click:
+  - 342
+  - 847
+- capture: overlay-personal-buffs
+- click:
+  - 342
+  - 847
+- right_down:
+  - 242
+  - 207
+- wait: 0.5
+- capture: item-inspect
+- right_up:
+  - 242
+  - 207
+- capture: item-released
+- click:
+  - 300
+  - 656
+- capture: stats
+- right_down:
+  - 260
+  - 160
+- capture: stat-inspect
+- right_up:
+  - 260
+  - 160
+- click:
+  - 470
+  - 656
+- capture: skills
+- click:
+  - 300
+  - 317
+- capture: skill-click
+- right_down:
+  - 300
+  - 317
+- capture: skill-inspect
+- right_up:
+  - 300
+  - 317
+- pointer_move:
+  - 650
+  - 450
+- wheel: -9
+- capture: skills-scrolled
+- right_down:
+  - 720
+  - 570
+- capture: skill-scrolled-inspect
+- right_up:
+  - 720
+  - 570
+- wheel: 9
+- click:
+  - 800
+  - 656
+- capture: awards
+- pointer_move:
+  - 650
+  - 450
+- wheel: -5
+- capture: awards-scrolled
+- click:
+  - 640
+  - 656
+- capture: inventory
+- key: Escape
+- action: quick_ref
+- capture: quickref
+- key: Escape
+- action: rest
+- capture: rest
+- key: Escape
+- action: map_book
+- capture: journal
+- click:
+  - 1315
+  - 294
+- capture: quests
+- click:
+  - 1175
+  - 203
+- capture: quests-next
+- click:
+  - 1315
+  - 112
+- capture: map
+- click:
+  - 1315
+  - 654
+- capture: notes
+- click:
+  - 1315
+  - 471
+- capture: story

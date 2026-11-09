@@ -1,0 +1,128 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "image_gen.imagegen (built-in)",
+  "status": "requirements_not_met",
+  "selected_output": "paint_back.png",
+  "selected_note": "Selected means best available raw return, not acceptance of the brief's failed requirements.",
+  "corrective_regenerations_used": 1,
+  "corrective_regenerations_limit": 1,
+  "postprocessing": "None. Both tool returns were copied byte-for-byte; no resize, crop, alpha replacement, or repaint was performed.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: game-model BACK-view albedo texture painting, exactly 1024 x 1024 RGBA, transparent background.\n\nInput 1, guide_back.png, is the EDIT TARGET and absolute geometry authority: a grey orthographic rendering of the exact 3D mesh seen from the BACK. Paint directly over this image while preserving its alpha silhouette, canvas, position, scale, outline, every edge, opening, spike, facet junction and overlapping shape exactly, pixel for pixel. Do not redraw or redesign its geometry.\nInput 2, design_reference.png, is ONLY the approved colour, design and material reference. Its three-quarter viewpoint and silhouette must NOT be copied.\nInput 3, concept_crop.png, is the original concept, secondary appearance reference only.\n\nApply the approved surface materials onto the locked shapes of input 1: black-violet resin lattice, faint orange glowing interiors, ivory bone points. The purple organic resin's glossy material identity is conveyed by its fine surface texture and colour, with NO baked reflections or highlights. Bone points are warm ivory with subtle natural grain and restrained fine ochre seams like the design reference. Paint black-violet lattice and small subdued burnt-orange interior sacs/seams on the body surfaces, preserving all guide geometry; painted recesses are material colours, never new transparent openings.\n\nKeep the guide's exact asymmetrical back view. Main tip at approximately (502,66), left tip (360,435), right tip (650,399), basal extremities (154,953) and (869,953). The entire guide footprint is x154..869, y66..957 in the 1024-square canvas. Preserve these bounds and all contours between them, including the angular barb shapes of the central tower and side spikes and the broad flat root foot. Never round away, extend, relocate or add geometry. Retain the exact empty transparent regions and existing openings from the guide.\n\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer. Remove the grey render's shading when assigning albedo. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no directional lighting gradient. Orange sacs and seams are painted at their glowing orange colour, with no bloom, halo, or light cast on adjacent surfaces. Do not reproduce the dramatic shading of the design reference. Material colours must be readable and evenly lit on every facet.\n\nOutput one image only, exactly 1024x1024, original-size unresized return. Fully transparent background, no background colour, no checkerboard graphic, no floor, no shadow, no text, no labels. Change only the guide's surface colours/material painting; preserve all shapes, silhouette and framing EXACTLY.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; authoritative back-view geometry",
+          "sha256": "df442e4cc6feee091a61b60711bf9ac0d81cdb3f3d209dc0ecbaa79419f66a4e"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, material and colour reference",
+          "sha256": "8ed9231a98a43cfbcd05cb2b57bb79a64b598d30bbcbe0ff35a97aac61db59e9"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept reference",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16875-e53f-7853-a994-3d1da3cb5258/exec-c1566945-5264-4e22-b0d9-294694cc6c1f.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected for 1254x1254 native dimensions, nonidentical silhouette/alpha, and excessive baked lighting. Retained for provenance.",
+      "checks": {
+        "sha256": "7d0ce26481479545bca93aec2133d5621d826e1cf50a7ac8eb4de3bbeefd7834",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          21,
+          31,
+          1230,
+          1254
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          186,
+          76,
+          1068,
+          1173
+        ],
+        "native_1024x1024": false,
+        "unresized_unmodified_tool_return": true,
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "The native return is 1254x1254, so its alpha silhouette cannot equal the 1024x1024 guide. Low-alpha pixels also extend beyond the main object.",
+        "materials_and_colours": "Black-violet resin, ivory bone and orange interiors are present; orange areas are stronger than the requested faint glow.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_note": "Strong edge highlights and dark recessed shading remain."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION, the single correction allowed for this asset.\nUse case: style-transfer. Paint a BACK-view game-model albedo texture source.\n\nOUTPUT RESOLUTION MUST BE 1024 x 1024 pixels, exactly the dimensions of input 1. Request/render the native output at 1024x1024. Do not enlarge, resize or recenter the input. The previous attempt failed by returning 1254x1254 and including shaded highlights. This correction must address those failures.\n\nINPUT 1 guide_back.png: EDIT TARGET. This exact 1024x1024 grey orthographic back view is the only authority for geometry, silhouette, outline, position and size. Keep its exact alpha mask and every polygon edge, shape junction, opening and detail in place. Colour this image directly.\nINPUT 2 design_reference.png: material and colour reference ONLY; ignore its camera, silhouette and lighting.\nINPUT 3 concept_crop.png: secondary colour/material reference ONLY.\n\nReplace the grey surfaces of INPUT 1 with the approved material colours: dark black-violet resin lattice body, warm ivory bone points and faint orange interior sacs/seams. Use subtle resin and bone-grain surface texture and fine ochre bone seams. Follow each existing angular surface and edge in input 1. Resin lattice recesses and orange details are flat painted colour within the existing shapes, not newly cut holes. Keep the grey guide's exact shape even when it differs from the detailed design reference. No added spikes, no rounded edges, no new holes or extensions.\n\nALBEDO ONLY: flat even diffuse illumination from the viewer. Every surface has uniform material colour apart from fine intrinsic surface texture. No directional shading, no bright rim strokes, no white/gold specular streaks, no reflections, no cast shadows, no ambient-occlusion darkening, no black shadow gradients. Glossy black-violet resin is the physical material being depicted, but its gloss/specular lighting MUST NOT be baked into the albedo. Orange details are restrained orange pigment values with zero bloom, zero light spill, zero cast orange light.\n\nCANVAS LOCK: exact square 1024x1024. Copy the guide's alpha and its object placement pixel-for-pixel: centre tip (502,66), left tip (360,435), right tip (650,399), left foot edge (154,953), right foot edge (869,953), bottommost edge y957. Preserve the exact angular outline, existing transparency and all internal shape positions. Nothing outside the original silhouette, no edge specks, no halo, nothing cropped. Transparent background, no floor, no background graphics, no checkerboard, no text. Return one native 1024x1024 RGBA PNG.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; authoritative back-view geometry",
+          "sha256": "df442e4cc6feee091a61b60711bf9ac0d81cdb3f3d209dc0ecbaa79419f66a4e"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, material and colour reference",
+          "sha256": "8ed9231a98a43cfbcd05cb2b57bb79a64b598d30bbcbe0ff35a97aac61db59e9"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept reference",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16875-e53f-7853-a994-3d1da3cb5258/exec-ff71b397-710a-4e80-8049-131e1cbdbc12.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best available raw return after the sole allowed correction: angular surfaces follow the guide more closely and specular appearance is reduced. Still fails native dimensions, exact silhouette/alpha and fully flat lighting; not production-approved.",
+      "checks": {
+        "sha256": "e3b1d25d125bf9ff796bab8a2027353cfc449a5d50695e6fcd6440889877cb8b",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          17,
+          33,
+          1192,
+          1212
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          188,
+          79,
+          1067,
+          1173
+        ],
+        "native_1024x1024": false,
+        "unresized_unmodified_tool_return": true,
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "The native return is 1254x1254, so its alpha silhouette cannot equal the 1024x1024 guide. Low-alpha pixels also extend beyond the main object.",
+        "materials_and_colours": "Black-violet resin, ivory bone and orange interiors are present; orange areas are stronger than the requested faint glow.",
+        "flat_even_shadowless_albedo": false,
+        "lighting_note": "Reduced specular appearance versus attempt 1, but light edge strokes and dark recessed shading remain."
+      }
+    }
+  ]
+}

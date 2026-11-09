@@ -1,0 +1,15 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/refinement_2134/images
+exit: true
+steps:
+- wait: 2
+- capture: diamond-first
+- right_down:
+  - 950
+  - 802
+- click:
+  - 950
+  - 802
+- right_up:
+  - 950
+  - 802
+- capture: diamond-fourth

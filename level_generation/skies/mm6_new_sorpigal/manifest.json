@@ -1,0 +1,72 @@
+{
+  "world": "mm6",
+  "map": "oute3.odm",
+  "texture_key": "plansky1",
+  "runtime_source": "assets_dev/worlds/mm8/textures/PLANSKY1.bmp",
+  "identical_merged_source": "assets_dev/worlds/mmmerge/textures/plansky1.bmp",
+  "native_mm6_layout_reference": "assets_dev/worlds/mm6/textures/6plansky1.bmp",
+  "generation_mode": "built-in image_gen edit",
+  "prompt": "prompt.txt",
+  "export": "ImageMagick Lanczos resize to 512x512, opaque PNG24, no sharpening or color correction",
+  "installed": "assets_dev/worlds/mm6/textures_x2/plansky1.png",
+  "main_settings_changed": false,
+  "pose": {
+    "position": [
+      -9954.209,
+      -9427.79,
+      161.0
+    ],
+    "yaw_radians": 1.458266,
+    "pitch_radians": 0.4530007
+  },
+  "files": {
+    "source/plansky1.png": {
+      "sha256": "164300e5ab4774c7ba0b752ddb6621c240591c459eb30b6634a935e40dff73e8",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "P",
+      "edge_mean_absolute_rgb_difference": {
+        "left_right": 1.3333333333333333,
+        "top_bottom": 2.3515625
+      }
+    },
+    "source/6plansky1.png": {
+      "sha256": "fb8e6b3c08fb46a1d4496b0a58fbbbdab27c61bc4d9695652e9690114517dc6b",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "P",
+      "edge_mean_absolute_rgb_difference": {
+        "left_right": 1.6204427083333333,
+        "top_bottom": 2.5091145833333335
+      }
+    },
+    "generated/plansky1_v1.png": {
+      "sha256": "79b7126d71fc4b7b0b29ef700af18c8187d8d165eb56f37ba2e77d35d6fa2a22",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "edge_mean_absolute_rgb_difference": {
+        "left_right": 2.5170122275385434,
+        "top_bottom": 4.645667198298777
+      }
+    },
+    "runtime/plansky1.png": {
+      "sha256": "a6db629efaca1289b267cc806ce11c6a187d871dd11ecbe31d591baf8f9e65d1",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "edge_mean_absolute_rgb_difference": {
+        "left_right": 2.4817708333333335,
+        "top_bottom": 4.5703125
+      }
+    }
+  }
+}

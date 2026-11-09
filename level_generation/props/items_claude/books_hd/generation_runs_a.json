@@ -1,0 +1,891 @@
+{
+  "brief": "CODEX_BRIEF_a.md",
+  "tool": "built-in image_gen.imagegen",
+  "scope": "Texture generation only; output PNGs retained byte-for-byte at returned sizes.",
+  "runs": [
+    {
+      "icon": "6book2",
+      "kind": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nUse case: precise-object-edit. Input image: 6book2_icon_x8.png, sole design/material/colour authority; its magenta backdrop is not part of the artwork.\nGenerate ONLY the FRONT COVER texture, portrait 1024 x 1536. Unproject the top cover into a perfect upright rectangle coincident with all four image edges. Every pixel belongs to the cover surface: no margins, page edges, spine, thickness, external background, cast shadow or rounded silhouette revealing a background.\nFaithfully preserve this relatively plain dark warm russet/reddish brown worn leather cover with a broad unadorned leather centre. Across the top and bottom edges are broad dull antique brass/tan-gold fittings, with inward scalloped flowing edges and the symmetrical brown leather cutout/flourish shapes visible in the reference. Preserve their simple irregular heraldic scroll silhouette; these are broad edge plates, not tiny ornate corner caps. Keep the centre empty of symbols. No invented skull, emblem, gem, writing or ornamental border. Reconstruct fine leather grain and mottled tarnished metal without enlarged source pixels.\nRender the cover square-on, as an opaque flat diffuse/albedo texture with soft even light, no directional lighting gradient, no strong highlights, no cast shadows. Preserve the original muted reddish brown and aged brass colours. Output one image only.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Front cover fills the rectangular canvas edge to edge; muted russet leather, broad scalloped brass end plates and empty centre match the icon. Straight-on, no lettering, page edges, spine or background; restrained even illumination.",
+      "inputs": [
+        {
+          "path": "6book2_icon_x8.png",
+          "sha256": "c2c00f277932181fc69818a0607d8951e2440c8f7da859907655ce669b8f3b67"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "6book2_cover.png",
+          "sha256": "223001b0810971c61474d625ebed0455551a99c7189564552ee99b239286de87",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-95627d1f-b939-4675-886c-fa5c95de3f61.png"
+    },
+    {
+      "icon": "6book2",
+      "kind": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nUse case: precise-object-edit. Input image 6book2_icon_x8.png is the sole design and colour authority. Generate ONLY the SPINE texture of this reddish-brown leather book, requested exact canvas 256 x 1536 pixels, extremely narrow portrait 1:6 aspect ratio. The entire canvas IS the flat spine surface, including every edge and corner. Opaque edge-to-edge material; no margins, no magenta, no backdrop, no page block, no front cover, no book thickness, no rounded silhouette or side faces.\nUse the original dark warm burgundy/russet brown aged leather, fine natural worn grain; restrained raised horizontal leather binding bands dividing the tall spine into panels. Small dull antique brass scroll accents at the two ends echo the simple broad scalloped brass fittings in the reference. Keep ornaments modest and matching; no central medallion, gems, lettering, numbers, symbols that resemble writing, title or logos. No invented elaborate decoration.\nPerfectly frontal flattened diffuse/albedo material texture, soft even illumination, no strong highlights, no cast shadows, no side-to-side cylinder shading. One spine only.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": false,
+      "reason": "Rejected: the tool returned a 1024 x 1536 canvas with white side margins around the spine. Corrective generation must fill the entire frame with the spine texture.",
+      "inputs": [
+        {
+          "path": "6book2_icon_x8.png",
+          "sha256": "c2c00f277932181fc69818a0607d8951e2440c8f7da859907655ce669b8f3b67"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "6book2_spine_attempt_01.png",
+          "sha256": "49ea0f7fe5c8f2eaa24c5f0e5d2d13c335b8bd3bc48c9fa2d9a982a3915d9c04",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-3bc31666-1ea5-4c0e-9596-4adbefd48094.png"
+    },
+    {
+      "icon": "6book2",
+      "kind": "spine",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nCORRECTIVE GENERATION, composition correction only. Image 1 is the original 6book2 icon, the design/material authority. Image 2 is the failed spine: retain its leather, horizontal bands and end scrolls, but ELIMINATE THE WHITE SIDE MARGINS by extending the spine texture to ALL FOUR EDGES of the output. Do not depict a narrow object sitting on a wide canvas. The image itself is a rectangular UV surface, with every pixel part of the leather or brass. The leftmost pixel column and rightmost pixel column must contain russet leather and full-width bands; the top and bottom rows are part of the brass/leather end fittings. No white anywhere.\nRequested 256 x 1536 portrait. If the returned canvas has a different aspect ratio, the SPINE TEXTURE MUST STILL FILL THE WHOLE RETURNED FRAME EDGE TO EDGE. Use the entire available width for the material and horizontal bands. No padded narrow strip. This framing requirement is more important than a visually narrow silhouette.\nDark warm russet/burgundy leather, subtle aged grain, four raised horizontal binding bands extending from the left image edge to the right image edge. Simple dull brass scalloped scroll fittings across the top and bottom. Keep empty leather between the bands. Perfectly front-facing flat diffuse/albedo texture, evenly illuminated, no strong highlights, cast shadows or cylindrical side shading. No lettering, gems, background, margins, spine silhouette, front cover, pages or book thickness.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Corrective return removes the white margins: russet leather and four horizontal raised bands fill the full rectangle, with matching brass end scrolls and no lettering. Returned 1024 x 1536 is retained unresized as instructed; minor relief shading remains on raised bands.",
+      "inputs": [
+        {
+          "path": "6book2_icon_x8.png",
+          "sha256": "c2c00f277932181fc69818a0607d8951e2440c8f7da859907655ce669b8f3b67"
+        },
+        {
+          "path": "6book2_spine_attempt_01.png",
+          "sha256": "49ea0f7fe5c8f2eaa24c5f0e5d2d13c335b8bd3bc48c9fa2d9a982a3915d9c04"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "6book2_spine.png",
+          "sha256": "262518122f8e6af04afcec3e8c56255e0e119487fa087a2c751b6c2dee21b7e0",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-8b1a1b76-4bc4-49fe-81fe-96bf33c69eb1.png"
+    },
+    {
+      "icon": "7item190",
+      "kind": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nUse case: precise-object-edit. Input image 7item190_icon_x8.png is the sole design/material/colour authority; discard the magenta background and book volume. Generate ONLY its FRONT COVER as a portrait 1024 x 1536 opaque diffuse/albedo texture. Flatten the slanted cover to a perfect upright rectangle exactly coincident with the image frame; ALL pixels belong to the cover, including corners. No margin, background, page edges, spine, book thickness or cast shadow.\nFaithfully match the dark olive/forest green leather with pale olive mottled marbling, faint diagonal incised scrolling lines and a thin inner ruled border. At the centre, a single antique gold/brass sunburst medallion with about twelve straight pointed rays radiating around a round deep green cabochon in a raised circular gold bezel. Four modest golden corner fittings, ornate pointed foliate flourishes with small warm bronze bosses, anchored to the exact corners. Keep the placement, relative sizes, materials and subdued green/gold palette of the icon; no extra major motifs or jewels. Restore smooth coherent detail, no enlarged source pixels.\nEven flat soft illumination, minimal baked relief shading, no strong directional highlights or cast shadows, no spotlight, no vignette. No lettering, words, numerals, logos or watermark. One flat cover image only.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Rejected for lighting: composition and green/gold sun identity are correct, but the gem has a strong white reflection and metal casts dark relief shadows. Corrective generation requests diffuse-only flat lighting.",
+      "inputs": [
+        {
+          "path": "7item190_icon_x8.png",
+          "sha256": "03e39700a9a359c0b1731ab4ee6facab900f968baef0367ad5940fa9841e0950"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item190_cover_attempt_01.png",
+          "sha256": "2a286414fd4c2473aeed264e9e9ab9822855228bc54d10776d959d26f3535197",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-d8a51d78-81b3-40d7-8abe-1d5512fa9487.png"
+    },
+    {
+      "icon": "7item190",
+      "kind": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nCORRECTION: produce the FLAT UNLIT DIFFUSE BASE-COLOUR TEXTURE, 1024 x 1536 portrait. Image 1 is the original 7item190 design authority. Image 2 is the prior full-frame reconstruction to correct. Preserve image 2's rectangular edge-to-edge layout, four corner ornaments, central gold pointed sun and green stone, but REMOVE ITS BAKED LIGHTING. No white spot reflection on the green stone, no black cast shadows beneath the sun or corner pieces, no bright specular streaks on gold. Show dull ochre antique brass, forest/olive green leather and muted green stone as local material colours in evenly diffuse omnidirectional light. The gold sun rays are flattened in-plane ornament, not tall protruding spikes. Reduce the high-contrast shiny metal appearance. Keep ornament edges legible by fine contours and material colour changes, with only subtle shallow emboss detail. Retain green mottling and subdued fine engraved scrolling, closer to the original icon's quieter worn olive palette.\nThe complete cover is exactly the entire rectangular canvas. All four corners and edges contain cover material. No margin, background, perspective, pages, spine, thickness, text, new decoration or vignette. One image only.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Corrective return removes the white gem reflection and greatly flattens metal lighting. Full-frame straight-on olive green cover retains the gold sunburst, green centre and four corner fittings; no text or book volume.",
+      "inputs": [
+        {
+          "path": "7item190_icon_x8.png",
+          "sha256": "03e39700a9a359c0b1731ab4ee6facab900f968baef0367ad5940fa9841e0950"
+        },
+        {
+          "path": "7item190_cover_attempt_01.png",
+          "sha256": "2a286414fd4c2473aeed264e9e9ab9822855228bc54d10776d959d26f3535197"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item190_cover.png",
+          "sha256": "7febcfff538e254db07eb617c973c7c477573e308c7f0b5da31770645bb1d285",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-b88d171b-ea97-454c-b0ae-af7df8e906a2.png"
+    },
+    {
+      "icon": "7item190",
+      "kind": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nUse case: precise-object-edit. Image 1: 7item190_icon_x8.png, original design authority. Image 2: its selected flat front cover, supporting palette/material reference. Generate ONLY a matching SPINE UV texture. Requested 256 x 1536 portrait. Whatever pixel dimensions the tool returns, the MATERIAL MUST OCCUPY THE ENTIRE IMAGE WIDTH AND HEIGHT. Never put a narrow spine strip on a larger canvas: all four image edges and all corners must be leather or ornament. No white, magenta, black or transparent margins.\nDark muted forest/olive green aged leather, mottled pale olive veining matching the supplied cover. Four shallow raised horizontal leather binding bands span the full image width, dividing the tall spine into panels. A small simple dull antique gold sun ornament centred in the middle panel, restrained golden foliate accents at the two ends echo the original corner metal. Leave the remaining panels as green leather, avoid oversized cover-like medallion. No text, letters, runes, title or numbers.\nFlat unlit diffuse BASE COLOUR texture with soft uniform light and subdued colour range. Metal is matte ochre-brass colour with fine contour detail: no specular glints, white reflections, black cast shadows, vignette or cylinder shading. Perfectly rectangular frontal texture, no book silhouette, side faces, pages, front cover or thickness. One image only.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": false,
+      "reason": "Full-frame spine material and matching motifs are present, but strong gem/metal reflections and dark relief shadows fail the flat-light requirement. Use one corrective lighting pass.",
+      "inputs": [
+        {
+          "path": "7item190_icon_x8.png",
+          "sha256": "03e39700a9a359c0b1731ab4ee6facab900f968baef0367ad5940fa9841e0950"
+        },
+        {
+          "path": "7item190_cover.png",
+          "sha256": "7febcfff538e254db07eb617c973c7c477573e308c7f0b5da31770645bb1d285"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item190_spine_attempt_01.png",
+          "sha256": "3e6c4e748da72c6c66232fe26b573070bcdbeb1b9e3d32d0cb82f4564712c6d2",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-f496cbb0-ec18-48a3-a4c0-06c0f41d757a.png"
+    },
+    {
+      "icon": "7item190",
+      "kind": "spine",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nCORRECTIVE LIGHTING PASS ONLY. First input is the original 7item190 design icon. Second input is the spine texture to correct. Preserve the second image's entire edge-to-edge rectangular composition: green leather, four horizontal binding bands, small middle sun ornament and end ornaments. Convert it to a FLAT PAINTED UNLIT BASE-COLOUR MAP. Remove the white reflection from the centre green cabochon. Remove highlights from metal studs, bands and sun rays, and remove black cast shadows. Use diffuse matte ochre-brass for the ornaments and dark olive/forest green mottled leather. Define shallow band relief with fine outlines and slight local tone variation only. No glossy shading, cylindrical shading, spotlight or vignette. Even flat colour throughout. The small green centre is matte green stone, not a mirror. No extra details.\nRequested 256 x 1536 portrait, but whatever dimensions are returned, continue the material to every pixel of all four image edges. Keep it unpadded, with absolutely no white/transparent/magenta background, margins, book silhouette, pages, thickness or cover. No lettering or numbers.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Chosen corrective return: white gem reflection and shiny stud highlights removed; full-frame green leather, four transverse bands and matching small sun retained, without text/background. Some local ornament relief shading remains. Native 1024 x 1536 kept unresized; corrective limit reached.",
+      "inputs": [
+        {
+          "path": "7item190_icon_x8.png",
+          "sha256": "03e39700a9a359c0b1731ab4ee6facab900f968baef0367ad5940fa9841e0950"
+        },
+        {
+          "path": "7item190_spine_attempt_01.png",
+          "sha256": "3e6c4e748da72c6c66232fe26b573070bcdbeb1b9e3d32d0cb82f4564712c6d2"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item190_spine.png",
+          "sha256": "f057672dcdffa2a9f507cfe5c69277592ab298b66137602a9edced629cc60a14",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-4b651933-ff30-479e-b14d-17ca49576b93.png"
+    },
+    {
+      "icon": "7item191",
+      "kind": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 7item191_icon_x8.png is the sole design authority. Make a painted diffuse BASE-COLOUR MAP of ONLY its FRONT COVER, portrait 1024 x 1536. Flatten the angled cover into a perfectly rectangular front elevation, all four cover edges coinciding exactly with the canvas boundaries. Every pixel is cover material. No surrounding space, spine, pages, thickness, perspective, backdrop or book silhouette.\nCopy the original rich burnt reddish chestnut-brown leather and dense shallow embossed interlaced floral/knot scrollwork. Copy its prominent antique gold framework: a perimeter frame with ornate filigree corner plates; two large inward-bowing curved gold braces, one from each side, whose arcs meet at the middle to form the distinctive horizontal paired-lobe/hourglass framework. Two red cabochon ornaments sit left and right within the lobes at mid-height. The upper and lower leather fields carry smaller gold/red decorative accents. Include the original small gold strap/clasp plates at the right edge and band attachment points at the left edge, all flattened onto the cover plane. Follow the icon's actual shapes and placement; do not add a central sun, skull, cross, writing or a new design.\nRendering: FLAT PAINTED TEXTURE, not a photograph of reflective jewellery. Antiqued metal has muted ochre/gold local colour; red stones are matte deep ruby. Even soft light across every part, no white glints, no bright metal bevel highlights, no cast shadows beneath ornaments, no spotlight, no vignette. Keep shallow emboss lines legible by small colour variations. Fine reconstructed detail without pixel steps. No lettering, numbers, logos or watermark. One cover only.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Design and framing match, but gold braces and ruby ornaments retain directional highlights and under-edge shadows. Corrective pass requests a flatter diffuse texture.",
+      "inputs": [
+        {
+          "path": "7item191_icon_x8.png",
+          "sha256": "09480ae5aee5687271d70b6ce2446ded830e2cd37887228f3de5e0dec45b21fc"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item191_cover_attempt_01.png",
+          "sha256": "64b71ca4e29ecd384110bb730bd99da80da79ccc07eb3b0b09609db0f7d4dfff",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-b6d160a1-aaf6-416d-96c1-b53cd6ca13ad.png"
+    },
+    {
+      "icon": "7item191",
+      "kind": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nCORRECTIVE DE-LIGHTING ONLY. First image is 7item191 original icon for identity. Second image is the front-cover texture to correct. Keep that second image's layout and every motif exactly: red-brown tooled leather, antique gold perimeter, paired bowed gold braces meeting at the centre, two ruby-red middle stones, small top/bottom ornaments and two right-edge clasps. Portrait 1024 x 1536, opaque texture reaching every edge and corner.\nMake the FLAT UNLIT DIFFUSE ALBEDO version. Remove all cast/drop shadows under metal braces and border pieces. Remove shiny bevel highlights, spherical light gradients and white reflections from all studs and red stones. Gold is aged matte ochre, stones matte deep red. Leather grain and fine tooled motifs stay detailed and the same colour. Preserve material boundaries with fine engraved outlines, not light-and-shadow rendering. The result should look like the same textured coloured artwork printed on a flat sheet, without lighting baked into it. Uniform diffuse illumination everywhere, no vignette. No background, margins, pages, spine, book thickness, text or additional motifs.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Corrective albedo pass removes bright ruby/metal highlights and cast shadows while preserving the paired curved gold braces, ruby placements, chestnut leather, corners and clasps. Straight-on edge-to-edge rectangle, no text/background/book volume.",
+      "inputs": [
+        {
+          "path": "7item191_icon_x8.png",
+          "sha256": "09480ae5aee5687271d70b6ce2446ded830e2cd37887228f3de5e0dec45b21fc"
+        },
+        {
+          "path": "7item191_cover_attempt_01.png",
+          "sha256": "64b71ca4e29ecd384110bb730bd99da80da79ccc07eb3b0b09609db0f7d4dfff"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item191_cover.png",
+          "sha256": "1b1a647c10da61ec4ba8e61b99f3efab19ce21f92edb3dc4003676861da97eac",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-1e0ac68c-969f-4241-9454-b17673b3467d.png"
+    },
+    {
+      "icon": "7item191",
+      "kind": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nImage 1 is the original 7item191 design icon. Image 2 is its selected cover BASE COLOUR texture: MATCH ITS FLAT UNLIT STYLE AND COLOURS EXACTLY. Produce only the matching SPINE texture, requested 256 x 1536 portrait. The full canvas is one continuous opaque spine material, edge to edge, regardless of actual returned dimensions. Use every pixel and the full image width; never draw a narrow object with blank side margins. No white, magenta, transparent or black background.\nUse chestnut/reddish brown leather and subtle embossed scrolling matching the cover. Four shallow raised horizontal binding bands go all the way from the left edge to the right edge, thin antique matte gold piping on the bands, small matching gold scroll ornaments in selected panels and one modest red lozenge ornament at the centre. Simple matching end ornaments. The book's material is primary, decoration restrained. No lettering or pseudo-writing.\nRender exactly like a flat coloured textured print: UNLIT DIFFUSE ALBEDO, without any baked light. Matte gold ochre local colour, matte ruby red ornament. Fine texture and engraved contour lines define the band shapes; no cast shadows, bright bevel highlights, sphere gradients, reflection spots, directional light, vignette or cylinder shading. No front cover, pages, side faces, silhouette or thickness. One spine texture only.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Full-frame matching chestnut leather, transverse gold binding bands, small red lozenge ornaments and scrollwork. Frontal, text-free, matte texture with restrained local relief; no margins or book volume. Native 1024 x 1536 retained unresized.",
+      "inputs": [
+        {
+          "path": "7item191_icon_x8.png",
+          "sha256": "09480ae5aee5687271d70b6ce2446ded830e2cd37887228f3de5e0dec45b21fc"
+        },
+        {
+          "path": "7item191_cover.png",
+          "sha256": "1b1a647c10da61ec4ba8e61b99f3efab19ce21f92edb3dc4003676861da97eac"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item191_spine.png",
+          "sha256": "01ef66aa1f8f22f4afeb67d6ee6b7db416c3180988d0ad619971c78e5e3af6c1",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-b26f40fc-d836-4be7-8df1-213c77697e71.png"
+    },
+    {
+      "icon": "7item192",
+      "kind": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 7item192_icon_x8.png is the sole design and material authority. Produce ONLY the FRONT COVER, 1024 x 1536 portrait, flattened from the angled icon into a perfectly upright rectangular diffuse base-colour texture. All cover edges coincide with image edges; every pixel, including corners, belongs to the cover. No magenta, margins, pages, spine, thickness, silhouette background or cast shadow.\nPreserve the dark warm brown/reddish leather under very dense fine intertwined antique gold and muted pewter/silver filigree. The design reads as elaborate interlocking knotwork, curling fine tendrils and fine angular inlaid strands over most of the cover. At the exact centre is a modest round gold medallion with a small deep turquoise-blue round stone; delicate pointed rays around the ring. Each of the four corners has a triangular gold fitting holding one matching blue stone. Four thin gold right-angle bracket motifs sit in the inner corners, framing the busy central filigree field. Preserve these defining motifs and their placement, scale and colour. No clasp straps on this cover, no invented giant emblem, no writing.\nIMPORTANT: render the UNLIT ALBEDO of these materials, like detailed textured artwork printed flat on a sheet. Muted ochre-gold and pewter-grey inlay, dark brown leather, matte teal-blue stones. No white reflection spots, shiny gold streaks, drop shadows, light-source gradients, black bevel shading or vignette. Flat uniform lighting; define shallow ornament through fine contour and material colour alone. Fine coherent new detail, not enlarged pixelation. No lettering, numbers or watermark. One cover only.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Cover identity and edge-to-edge framing are present, but filigree bevels, gem gradients and corner plates still have baked lighting. One corrective albedo pass is used.",
+      "inputs": [
+        {
+          "path": "7item192_icon_x8.png",
+          "sha256": "35623b01ccdc16a881af1098946a58626bbee14b26c6f99e98eb9b1c0d015304"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item192_cover_attempt_01.png",
+          "sha256": "a5c71a0109ff81cdf7cae58b2345cb2307c4769a0275d15ea9d14879aedf073e",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-30729810-7a62-44b3-9132-11da22c2f2c7.png"
+    },
+    {
+      "icon": "7item192",
+      "kind": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nOne corrective DE-LIGHTING pass. Image 1: original 7item192 icon, identity authority. Image 2: the full-frame cover texture to correct. Preserve image 2's exact rectangular layout, dense gold/pewter intertwined filigree, four inner right-angle brackets, four blue corner stones and round blue-stone centre medallion. Do not move, add or remove ornaments. 1024 x 1536 portrait.\nConvert image 2 into flat UNLIT DIFFUSE ALBEDO. Treat its gold and pewter shapes as thin flush inlays printed flat, defined by colour and fine contours. Remove dark cast/drop shadows under every ornament, remove reflective metal bevel highlights and stone light gradients. All five stones should be matte dark teal-blue with natural mottling but no white reflections or spherical lighting. Preserve rich dark brown leather grain, antique ochre-gold and pewter-grey material colour. Fine shallow engraving only, evenly illuminated over the whole image. No raised jewellery photography look, no new lighting, no vignette.\nThe flat rectangular cover exactly fills all edges and corners. No margins, background, magenta, page edges, spine, thickness, lettering, symbols resembling writing or watermark.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Selected correction flattens metallic filigree and all five blue stones without changing the dense gold/pewter design, inner corner brackets and central ring. Full rectangular coverage, no letters or background, even light.",
+      "inputs": [
+        {
+          "path": "7item192_icon_x8.png",
+          "sha256": "35623b01ccdc16a881af1098946a58626bbee14b26c6f99e98eb9b1c0d015304"
+        },
+        {
+          "path": "7item192_cover_attempt_01.png",
+          "sha256": "a5c71a0109ff81cdf7cae58b2345cb2307c4769a0275d15ea9d14879aedf073e"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item192_cover.png",
+          "sha256": "66e46897775777453624c9abe0c70a49db375bab72a11a4f3c8f395bfa993fcc",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-dad8c3e5-1a75-4eff-970b-8cfe3c3dab35.png"
+    },
+    {
+      "icon": "7item192",
+      "kind": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nImage 1: original 7item192 icon, authoritative design. Image 2: accepted front-cover diffuse texture, authoritative flat shading and palette. Produce ONLY the matching SPINE texture, requested 256 x 1536 portrait. Fill the entire returned canvas edge to edge with opaque material, even if actual dimensions differ: no narrow floating strip or padded margins. Every pixel is spine leather or ornament.\nDark warm brown/reddish leather, subtle fine grain, raised horizontal leather binding bands across the complete width. The tall panels between bands carry restrained fine antique ochre-gold/pewter interlaced tendrils echoing the cover's filigree, with small matte blue-stone circular accents in simple gold rings. End bands use matching modest gold details. Keep ornaments small, no large cover-sized central emblem. No lettering, numbers, runes, title, logos or watermark.\nMatch the second reference's FLAT UNLIT BASE COLOUR style: thin inlaid ornament, matte material colours, fine contour definition, shallow band relief only. Absolutely no bright bevel highlights, glossy reflections, white spots, cast/drop shadows, cylindrical side shading or vignette. The engine will light it. No front cover, pages, book thickness, external background, perspective or silhouette. One spine only.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": false,
+      "reason": "Matching full-frame spine has excessively rounded lighting on the binding bands and dark edge shading. One correction requested to preserve only shallow band relief.",
+      "inputs": [
+        {
+          "path": "7item192_icon_x8.png",
+          "sha256": "35623b01ccdc16a881af1098946a58626bbee14b26c6f99e98eb9b1c0d015304"
+        },
+        {
+          "path": "7item192_cover.png",
+          "sha256": "66e46897775777453624c9abe0c70a49db375bab72a11a4f3c8f395bfa993fcc"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item192_spine_attempt_01.png",
+          "sha256": "6197e1d5ea3fee0dae9cac117e9c5c848a16a11e73eff4f5a8dc43dc7ec19d03",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-bb8d63cd-f89d-4f58-8295-57135bece913.png"
+    },
+    {
+      "icon": "7item192",
+      "kind": "spine",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nCORRECTIVE DE-LIGHTING ONLY. Image 1 is the 7item192 original icon. Image 2 is the spine texture to correct. Keep image 2's composition and colours: dark warm brown leather, four full-width horizontal bands, restrained gold/pewter interlaced ornaments and three small blue stones. Change only its baked lighting. Remove the glossy cylindrical highlight stripe and black underside gradient from each horizontal band; render the same bands as shallow raised leather strips defined with fine edge lines. Remove perimeter vignette, corner darkening and shadows behind ornaments. Metal and gems are matte local colours, no reflections, glints or spherical lighting. Preserve fine leather grain and ornament detail. The entire image must read as a FLAT PAINTED UNLIT BASE-COLOUR TEXTURE, uniformly lit, not a lit relief sculpture.\nRequested 256 x 1536 portrait; retain FULL-FRAME material at whatever canvas dimensions are returned. Opaque texture touches every edge and corner. No white margins, no background, magenta, transparency, front cover, page edges, book thickness, text or additional motifs.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Corrective image removes cylindrical band highlights and perimeter darkening. Matching brown leather, gold/pewter ornament, blue accents and shallow full-width bands fill the frame; no lettering or background. Native 1024 x 1536 retained unresized.",
+      "inputs": [
+        {
+          "path": "7item192_icon_x8.png",
+          "sha256": "35623b01ccdc16a881af1098946a58626bbee14b26c6f99e98eb9b1c0d015304"
+        },
+        {
+          "path": "7item192_spine_attempt_01.png",
+          "sha256": "6197e1d5ea3fee0dae9cac117e9c5c848a16a11e73eff4f5a8dc43dc7ec19d03"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item192_spine.png",
+          "sha256": "f4e29319e8388b2a638fc5b8d6142b08a040005c8d14d0af761e6063bbdb9c59",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-e32470aa-fced-4687-b236-6dc002e95916.png"
+    },
+    {
+      "icon": "7item193",
+      "kind": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput image 7item193_icon_x8.png is the sole design/material authority. Generate its FRONT COVER only as a 1024 x 1536 portrait opaque texture, upright rectangular front elevation. Unproject the source perspective. Cover surface reaches all four canvas edges and corners without any external margin. No spine, pages, book thickness, backdrop or magenta.\nPreserve its rich warm cognac/chestnut brown leather with dense intricate embossed interlaced knotwork and scrolling border. In the centre is a round darker outlined leather field containing an upright SQUARE antique brass plaque (not diamond orientation) with intricate circular braided knotwork engraving and a tiny pale central boss. The square plaque is modest, about a third of the cover width, set within a larger plain circular leather field. All four corners have ornate triangular antique gold fittings, each with one small dark turquoise-blue stone. Along the RIGHT edge are exactly TWO short broad antique gold clasp plates extending inward, one above and one below mid-height, with bevelled/pentagonal ends and small rivets. Keep the original proportions and placement, no extra central gemstone or sunburst, no new motifs.\nMake a FLAT UNLIT DIFFUSE BASE-COLOUR MAP: matte aged ochre/brass metal, matte blue stones, natural brown leather grain. Define shallow emboss and engraving through subtle contour and colour changes only. No reflective glints, white gem spots, bright bevel shading, cast/drop shadows, side-to-side shading or vignette. This is flat textured coloured artwork printed on a sheet, not a lit photograph of jewellery. Fine reconstructed texture without source pixels. No lettering, numerals, watermark or background. One cover only.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Faithful square plaque, two clasps and four blue corners, but relief shading/highlights remain on the metal and gems. One corrective de-lighting pass requested.",
+      "inputs": [
+        {
+          "path": "7item193_icon_x8.png",
+          "sha256": "411a801fbf0685ab17d534d72287805da419a4d8e7dc73f9b444942d37637d77"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item193_cover_attempt_01.png",
+          "sha256": "66f30455c8db6f2f998fa7814c576472a03cf393de0104676f805d22cb88d15e",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-ebc587af-e4f6-4e48-8b8d-b3fabfead83a.png"
+    },
+    {
+      "icon": "7item193",
+      "kind": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nOne corrective DE-LIGHTING pass. First image is the original 7item193 icon. Second is the generated cover to correct: preserve its exact layout, upright square knotwork plaque inside a circular leather field, dense brown leather knotwork, four gold corners with blue stones and exactly two right-edge clasp plates. Do not change proportions, shapes or ornament count. 1024 x 1536 portrait.\nConvert it to a FLAT UNLIT DIFFUSE BASE-COLOUR MAP, like textured colour artwork printed on a flat sheet. Remove all cast shadows under plaque/clasps/corners, remove bright bevels, metallic reflections and spherical gem/stud lighting. Render antique brass as matte ochre-gold local colour, blue stones as matte dark teal-blue. Preserve natural subtle surface mottling and fine leather grain. Knotted engraved lines remain detailed and legible through fine contours and local colour only, with no black drop shadows. Flat uniform lighting without vignette. Every image pixel remains cover material, all corners and boundaries filled. No background, pages, spine, thickness, text or new ornaments.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Selected de-lit cover preserves upright square brass knotwork plaque in circular field, two right clasps, four blue-stone corners and brown embossed leather. Edge-to-edge frontal rectangle with matte colours and no text, background or book volume.",
+      "inputs": [
+        {
+          "path": "7item193_icon_x8.png",
+          "sha256": "411a801fbf0685ab17d534d72287805da419a4d8e7dc73f9b444942d37637d77"
+        },
+        {
+          "path": "7item193_cover_attempt_01.png",
+          "sha256": "66f30455c8db6f2f998fa7814c576472a03cf393de0104676f805d22cb88d15e"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item193_cover.png",
+          "sha256": "4f7839fd4eb9c06c36cc681377d246a360d51a73aaaca88ed6885f3caaad432f",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-0fd85c3e-f760-4178-941d-3fab3e944b3b.png"
+    },
+    {
+      "icon": "7item193",
+      "kind": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nImage 1: original 7item193 icon, design authority. Image 2: selected cover, exact palette and flat shading reference. Generate ONLY the SPINE texture of that book. Requested 256 x 1536 portrait; regardless of returned size, the entire image rectangle must be filled edge to edge with leather or ornament, with no outside background or margins. Do not depict a narrow object surrounded by white.\nWarm chestnut/cognac brown leather with subtle dense embossed knotwork. Several horizontal shallow raised leather binding bands run completely across the width, dividing the spine into tall leather panels. Thin dull antique brass lines on the bands, modest small square engraved knotwork ornaments echo the cover's centre plaque; restrained blue accents and end ornament only if small and matching. Do not paste a front cover onto the spine. No text, letters, runes or numbers.\nMatch image 2's FLAT PRINTED UNLIT ALBEDO style. Preserve fine natural material grain and engraved contours, matte ochre gold, matte blue and leather local colours. Binding bands should have only subtle shallow contour relief, NOT a shiny cylindrical highlight or black lower shadow. No cast/drop shadows, reflections, bevel lighting, white spots, vignette or side shading. Opaque perfectly rectangular texture, no page edges, front cover, book thickness or silhouette. One image only.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Matching brown tooled leather and shallow transverse binding bands, small square brass knotwork ornaments and blue end accents. Straight-on full-frame texture without letters, background, pages or cover; restrained local relief shading remains. Native 1024 x 1536 retained unresized.",
+      "inputs": [
+        {
+          "path": "7item193_icon_x8.png",
+          "sha256": "411a801fbf0685ab17d534d72287805da419a4d8e7dc73f9b444942d37637d77"
+        },
+        {
+          "path": "7item193_cover.png",
+          "sha256": "4f7839fd4eb9c06c36cc681377d246a360d51a73aaaca88ed6885f3caaad432f"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "7item193_spine.png",
+          "sha256": "ba6dc7b6d2cc4eb9b123e032bb58b1a5dd3a2cc80e2bd28780312deaa60d6d84",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-068aeed9-8f06-4a0a-8b2d-2e9fdb84b614.png"
+    },
+    {
+      "icon": "book1",
+      "kind": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput book1_icon_x8.png is the sole design/material/colour authority. Generate ONLY its FRONT COVER texture at 1024 x 1536 portrait. Unproject the angled cream cover into a perfect upright rectangle coincident with the whole canvas. Every pixel and corner is cover material, no margins, background, page edges, spine, book thickness or cast shadow.\nFaithfully copy the simple aged pale cream/ochre-beige cloth or parchment-like cover, with evenly spaced rows of small muted grey-green four-point cross/fleur-de-lis ornaments repeated across the entire surface. The pattern is small and regular, about eight columns and twelve to fifteen rows, allowing the reference's slightly worn/stamped irregularity. Keep the centre without a large emblem. Preserve the four dark reddish-brown leather reinforcement pieces seen in the reference: two short broad horizontal tabs entering from the LEFT edge near the upper and lower portions, with softly scalloped/worn inner ends, and simple brown corner protectors at the upper RIGHT and lower RIGHT corners. No gold fittings or stones. Do not turn the corner leather into an elaborate frame or add extra straps. The left spine itself and page blocks are excluded.\nFine natural cloth/parchment mottling and subtle leather grain, faithfully muted warm cream and brown with desaturated green stamps. Smooth reconstructed detail rather than enlarged pixels. FLAT UNLIT DIFFUSE ALBEDO, even soft illumination, no directional light, glossy highlights, cast/drop shadows, vignette or dimensional bevels. No lettering, numbers, logos or watermark. One front-cover texture only.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Cream patterned cloth, muted green repeated stamps, two left brown tabs and two right corner protectors match the original. Full-frame straight-on cover, subtle natural material detail, even light, no text or book volume.",
+      "inputs": [
+        {
+          "path": "book1_icon_x8.png",
+          "sha256": "048919041af130117a9fd048277da0922e6f4b3d5550c499ec0c1c153b5a23fb"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book1_cover.png",
+          "sha256": "ef59e02543acf42e519243143c53cd66776717810dfbbe150347696dd0e90047",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-81d040a2-a588-47ad-9cf2-e5d683cfb6cb.png"
+    },
+    {
+      "icon": "book1",
+      "kind": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nImage 1: original book1 icon, design authority. Image 2: selected front cover, material/palette reference. Generate ONLY the matching SPINE texture, requested 256 x 1536 portrait. Whatever actual dimensions are returned, the entire canvas is the flat spine material, all four boundaries and corners covered; never put a narrow spine on a white or transparent wider canvas.\nMatch the cream/ochre-beige aged cloth, small muted grey-green four-petal cross ornaments and dark reddish-brown leather of this simple book. Cream patterned cloth panels between several shallow raised brown leather horizontal binding bands. The same brown leather provides modest top/bottom reinforcement, with plain worn edges, no elaborate metal ornaments. Small green cross/fleur stamps repeat quietly in the cream panels, matching the cover. No central emblem, gold, gems, lettering, numbers, title, runes or watermark.\nFlat painted UNLIT DIFFUSE base-colour texture, even uniform soft light, detailed cloth weave and subtle worn leather grain. Binding bands are represented with restrained shallow contour detail only; no glossy cylinder highlight or black underside shadow. No cast shadows, reflections, vignette, side shading, page edges, front cover, book thickness, perspective or background. One spine image only.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Cream cloth panels and muted green stamps match the cover, separated by brown horizontal leather binding bands. Texture fills all edges with no lettering, background or book volume; fine natural material detail and restrained relief. Actual returned size retained unresized.",
+      "inputs": [
+        {
+          "path": "book1_icon_x8.png",
+          "sha256": "048919041af130117a9fd048277da0922e6f4b3d5550c499ec0c1c153b5a23fb"
+        },
+        {
+          "path": "book1_cover.png",
+          "sha256": "ef59e02543acf42e519243143c53cd66776717810dfbbe150347696dd0e90047"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book1_spine.png",
+          "sha256": "c686442a985be0fa197cfdcdd27c05800d3f159245a60712083984732215e674",
+          "size": [
+            809,
+            1942
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-5c404a64-e02c-4a6a-8b6e-4ed105db75ab.png"
+    },
+    {
+      "icon": "book3",
+      "kind": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput book3_icon_x8.png is the sole design/material/colour authority. Generate ONLY the FRONT COVER texture, 1024 x 1536 portrait. Unproject the slanted cover to a perfect upright rectangle coincident exactly with the entire image frame. Every edge and corner contains cover material. No pages, spine, book thickness, background, magenta, margins or cast shadow.\nPreserve the medium warm brown aged leather, intricate tan-brown embossed intertwined flowing vine/knotwork border and fine tooling across the leather. Preserve the distinctive three vertically stacked turquoise/pale blue-green inlaid cord designs: upper group is two parallel gently wavy horizontal ribbons with curled/looping tips; middle group is a horizontal intertwined elongated loop like a narrow infinity/fish-shaped knot; lower group is again two sweeping parallel wavy cord strokes with the same curled pointed tips. Follow the actual attached design shapes rather than substituting a new emblem. These three groups are the only turquoise decoration, laid over the leather in the same relative placement. The brown carved border is broad and more intricate along the right side, with flowing pointed leaf/interlace shapes. No metal corner caps, jewels, gold frame, clasp plates, invented sun, skull or lettering.\nFine reconstructed leather grain and continuous smooth inlay edges, no enlarged source pixels. FLAT UNLIT DIFFUSE ALBEDO, soft uniform illumination. Turquoise inlay is matte and muted, not glowing; tooled brown shapes defined by small tone differences and fine contour lines. No cast/drop shadows, bright highlights, bevel lighting, spotlight or vignette. No numbers, words, watermark or background. One front cover only.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Brown tooling and three turquoise groups match, but the perimeter is rendered as a rounded lit bevel and there is an isolated extra turquoise chip above the lower motif. Corrective pass requests a flat rectangular albedo and removal of that chip.",
+      "inputs": [
+        {
+          "path": "book3_icon_x8.png",
+          "sha256": "edd9281b98d22d47b35be72678b271458e857aa9a774e6203dfb99996d9bd66c"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book3_cover_attempt_01.png",
+          "sha256": "c6a749a3bb5ee923ed577183802c6b43c1ff0f0f183cb788cee65e22659e9fbc",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-58da80f9-b165-453f-9ec1-5c45085f2f81.png"
+    },
+    {
+      "icon": "book3",
+      "kind": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nCORRECTIVE PASS. Image 1 is book3 original icon, design authority. Image 2 is the generated cover to correct. Keep image 2's brown tooled leather and three turquoise horizontal motif groups, including their original arrangement and the broad intricate brown border at the right. Remove only the stray isolated small turquoise teardrop/chip just above the lower left wave; turquoise belongs exclusively to the three principal ribbon/loop groups.\nFlatten the remaining dimensional lighting: remove the bright rounded perimeter bevel and its black edge shadows. The rectangular cover surface must reach every image edge and corner, with no rounded 3D rim, thickness or silhouette. Keep the border as flat incised ornament in brown leather. Remove directional bevel highlights and drop shadows from tooling and inlay. Preserve fine grain and naturally mottled brown and muted blue-green local colours. Make the UNLIT DIFFUSE ALBEDO, like the same textured coloured artwork printed flat on paper, with fine contour lines and even illumination. No glow, highlights, vignette or added ornaments. 1024 x 1536 portrait, no margins, background, magenta, pages, spine, text or watermark.",
+      "transparent_background": false,
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Corrective return removes the rounded lit rim and stray turquoise chip; retains three source-derived ribbon/loop groups and broad brown tooled border. Rectangular full-frame matte cover with no text, background or book volume.",
+      "inputs": [
+        {
+          "path": "book3_icon_x8.png",
+          "sha256": "edd9281b98d22d47b35be72678b271458e857aa9a774e6203dfb99996d9bd66c"
+        },
+        {
+          "path": "book3_cover_attempt_01.png",
+          "sha256": "c6a749a3bb5ee923ed577183802c6b43c1ff0f0f183cb788cee65e22659e9fbc"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book3_cover.png",
+          "sha256": "c7d23ec884e200f3237d37cd467366ef38ee618ab91f22dd4c1bbeaeaaa068a0",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": true,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-0effa455-1eb4-41d3-a31e-f4a36cb5682b.png"
+    },
+    {
+      "icon": "book3",
+      "kind": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nImage 1: original book3 icon, design authority. Image 2: selected cover texture, matching material/colour and flat light reference. Generate ONLY the SPINE texture, requested 256 x 1536 portrait. Whichever dimensions the tool returns, the texture fills all image width and height, every edge and corner. No narrow object placed within a larger blank canvas, no margins of any colour or transparency.\nWarm medium brown aged leather with fine grain and the cover's subdued tan-brown vine/leaf knot tooling. Several shallow raised horizontal leather binding bands across the full width; between them small muted turquoise/blue-green inlaid looping cord or wave ornaments echoing the original cover's three groups, modest in scale. Top and bottom have simple brown tooled interlace. No gold, metal corner fittings, gemstones, clasp plates, title, lettering, numbers, runes or invented central emblem.\nMatch the second reference's FLAT UNLIT BASE COLOUR texture, as printed detailed coloured artwork: matte natural brown leather and matte turquoise inlay, uniformly lit. Show band relief only by fine restrained contour lines, not bright cylindrical highlights or dark underside gradients. No cast/drop shadows, reflections, glowing turquoise, bevel lighting, vignette or rounded perimeter rim. No page edges, front cover, book thickness, silhouette or background. One spine only.",
+      "transparent_background": false,
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Matching warm brown tooled leather, horizontal raised bands and small turquoise loop ornaments fill the whole rectangle. No lettering, margins, pages or book volume; local shallow band/tooling relief remains without strong specular highlights. Native 1024 x 1536 retained unresized.",
+      "inputs": [
+        {
+          "path": "book3_icon_x8.png",
+          "sha256": "edd9281b98d22d47b35be72678b271458e857aa9a774e6203dfb99996d9bd66c"
+        },
+        {
+          "path": "book3_cover.png",
+          "sha256": "c7d23ec884e200f3237d37cd467366ef38ee618ab91f22dd4c1bbeaeaaa068a0"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book3_spine.png",
+          "sha256": "2b042d250c15239d5f673f70f4f8930e0ac43112e7654f67e28f8fd19d655021",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "alpha_extrema": [
+            255,
+            255
+          ],
+          "unresized": true
+        }
+      ],
+      "size_matches_request": false,
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a145fb-69ce-7b12-a5b4-afcc54919fae/exec-4cd834f5-e85d-44b9-bdc9-d8aba2f74697.png"
+    }
+  ],
+  "validation": {
+    "selected_deliverables": 14,
+    "generation_calls": 22,
+    "max_attempts_per_image": 2,
+    "all_files_decode_as_png": true,
+    "selected_files_opaque": true,
+    "input_and_output_hashes_verified": true,
+    "all_outputs_match_unmodified_tool_returns": true,
+    "resizing_or_pixel_postprocessing": false,
+    "selected_files_no_white_or_magenta_background_border": true,
+    "visual_review": "Each return inspected for flat rectangular framing, source identity, text absence and lighting; per-run observations and remaining local relief shading are recorded in reason.",
+    "size_policy": "All seven covers are 1024 x 1536. Six spines are 1024 x 1536; book1_spine is 809 x 1942. Spine dimensions differ from requested 256 x 1536 and are retained unresized per brief.",
+    "builds_or_runtime_tests": "Not run; scope is image generation only."
+  }
+}

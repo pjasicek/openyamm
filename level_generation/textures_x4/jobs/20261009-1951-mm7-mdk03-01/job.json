@@ -1,0 +1,272 @@
+{
+ "id": "20261009-1951-mm7-mdk03-01",
+ "world": "mm7",
+ "maps": [
+  "mdk03.blv",
+  "7d33.blv",
+  "7out05.odm"
+ ],
+ "created": "2026-10-09T17:51:26+00:00",
+ "textures": [
+  "mm7/ch003g",
+  "mm7/ch003e",
+  "mm7/ch003a",
+  "mm7/t5s1bh",
+  "mm7/ch001b",
+  "mm7/ch001f",
+  "mm7/ch001c",
+  "mm7/hnp1er",
+  "mm7/hnp1el",
+  "mm7/cnb1sel"
+ ],
+ "requests": {
+  "mm7/ch003g": {
+   "name": "ch003g",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mottled blue-grey brushed steel chest panel with faint rust flecks, inside a frame of dark riveted rusty iron bands along all four edges; copy the composition exactly",
+   "notes": {
+    "2": "the dark riveted iron bands are plain and uniform with evenly spaced round rivets along all four edges; no extra square plates, brackets or corner pieces anywhere on the bands",
+    "3": "the dark riveted iron bands are plain and uniform with evenly spaced round rivets along all four edges; no extra square plates, brackets or corner pieces; fine natural steel scratches and rust, not a pixel pattern"
+   },
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch003e": {
+   "name": "ch003e",
+   "versions": [
+    1
+   ],
+   "material": "mottled blue-grey brushed steel chest panel with faint rust flecks, plain, with a small dark rusty iron keyhole lock plate at the bottom centre; copy the composition exactly",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch003a": {
+   "name": "ch003a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mottled blue-grey brushed steel chest panel with faint rust flecks, inside a narrow silver-grey steel frame studded with a row of small round rivets on all four sides",
+   "notes": {
+    "2": "the frame carries a row of small dark round rivets along all four sides: along the left and right strips and also along the top edge and the bottom edge, as in the reference",
+    "3": "two horizontal narrow silver-grey steel strips run along the full top edge and the full bottom edge, each studded with a row of about nine small dark round rivets, exactly like the reference; together with the left and right strips they form a closed frame"
+   },
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t5s1bh": {
+   "name": "t5s1bh",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with a hung portrait of a hooded man in a dark draped cloak in a gilded frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.469
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.469
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/ch001b": {
+   "name": "ch001b",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown varnished wooden chest panel of horizontal planks with fine wood grain, plain",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch001f": {
+   "name": "ch001f",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown varnished wooden chest panel of horizontal planks with fine wood grain, with two small dark iron keyhole plates at the top centre and bottom centre edges; copy the composition exactly",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch001c": {
+   "name": "ch001c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-brown varnished wooden chest panel of horizontal planks with fine wood grain, with dark riveted iron bands along the left and right edges; copy the composition exactly",
+   "notes": {
+    "2": "the bottom-most pixel rows are plank wood as bright as the reference, with no dark joint, shadow or rim line along the bottom edge; planks repeat cleanly from bottom to top",
+    "3": "the bottom plank runs right down to the bottom edge: the last pixel rows are plank wood as bright as the reference, no dark joint, groove, shadow or rim line at the bottom edge or the top edge"
+   },
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hnp1er": {
+   "name": "hnp1er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, under a band of dark rough rubble stone along the top, with a column of dark rough rubble stone along the right edge; one even plaster tone with no square patches",
+   "notes": {
+    "2": "the plaster beside the stone column must continue the sharp copied plaster exactly in brightness, white patches and texture, right up to the stones: no darker flat vertical strip and no straight vertical boundary inside the plaster"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b",
+      "mm7/hnp1erw"
+     ],
+     "fraction": 0.871
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b",
+      "mm7/hnp1erw"
+     ],
+     "fraction": 0.871
+    }
+   }
+  },
+  "mm7/hnp1el": {
+   "name": "hnp1el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, under a band of dark rough rubble stone along the top, with a column of dark rough rubble stone along the left edge; one even plaster tone with no square patches",
+   "notes": {
+    "2": "the plaster beside the stone column must continue the sharp copied plaster exactly in brightness, white patches and texture, right up to the stones: no darker flat vertical strip and no straight vertical boundary inside the plaster"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b",
+      "mm7/hnp1elw"
+     ],
+     "fraction": 0.849
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b",
+      "mm7/hnp1elw"
+     ],
+     "fraction": 0.849
+    }
+   }
+  },
+  "mm7/cnb1sel": {
+   "name": "cnb1sel",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, under a band of pale tan stone along the top, with a column of large tan sandstone corner blocks along the left edge",
+   "notes": {
+    "2": "keep every block at exactly the reference's position (no vertical drift): the tan corner blocks on the left and every grey block and mortar joint line up with the reference",
+    "3": "keep every block at exactly the reference position; the right-most pixel columns keep the stone's own colours, with no pale or bright line along the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb1s"
+     ],
+     "fraction": 0.756
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb1s"
+     ],
+     "fraction": 0.756
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb1s"
+     ],
+     "fraction": 0.756
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  }
+ }
+}

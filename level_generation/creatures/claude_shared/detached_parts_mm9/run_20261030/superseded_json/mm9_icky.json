@@ -1,0 +1,190 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_icky.glb",
+  "components": 14,
+  "body": 0,
+  "size": 1.4076773524284363,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "2": {
+    "joint": "XbackA",
+    "where": "+x side",
+    "triangles": 4155,
+    "extent": 1.0977,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0002,
+    "worst": {
+     "gap": 0.01228,
+     "to_body_cluster": 0.01228,
+     "clip": "AttackRanged",
+     "frame": 22,
+     "time": 0.7333,
+     "part_point": [
+      -0.04045,
+      0.78937,
+      0.01189
+     ],
+     "attached_point": [
+      -0.03452,
+      0.78645,
+      0.00012
+     ],
+     "kind": "parted",
+     "against": "XwarmB"
+    },
+    "detached_poses": 71,
+    "poses": 287,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.01129,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 5
+     },
+     "AttackRanged": {
+      "max_gap": 0.01228,
+      "frame": 22,
+      "time": 0.7333,
+      "frames": 14
+     },
+     "Dead": {
+      "max_gap": 0.00858,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.00982,
+      "frame": 56,
+      "time": 1.8667,
+      "frames": 21
+     }
+    },
+    "shallowest": {
+     "depth": -0.00232,
+     "on": "XwarmB",
+     "clip": "Death",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_icky_part2.png"
+   },
+   "10": {
+    "joint": "XwfinA01",
+    "where": "+x side",
+    "triangles": 572,
+    "extent": 0.7326,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01923,
+    "worst": {
+     "gap": 0.00827,
+     "to_body_cluster": 0.00827,
+     "clip": "AttackRanged",
+     "frame": 12,
+     "time": 0.4,
+     "part_point": [
+      0.02851,
+      0.85212,
+      -0.16011
+     ],
+     "attached_point": [
+      0.0231,
+      0.85492,
+      -0.15792
+     ],
+     "kind": "parted",
+     "against": "XbackA"
+    },
+    "detached_poses": 4,
+    "poses": 287,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.00819,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 2
+     },
+     "AttackRanged": {
+      "max_gap": 0.00827,
+      "frame": 12,
+      "time": 0.4,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": 0.01922,
+     "on": "XbackA",
+     "clip": "Cast",
+     "frame": 8,
+     "time": 0.2667
+    },
+    "concealed_poses": 2,
+    "worst_concealed": {
+     "gap": 0.03882,
+     "clip": "AttackMelee",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "carried_poses": 71,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_icky_part10.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 14,
+   "attached_in_every_pose": 11
+  },
+  "concealed": {},
+  "shallow": {
+   "1": {
+    "joint": "Xfingerpiv",
+    "where": "central",
+    "triangles": 12,
+    "extent": 0.1034,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00074,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 287,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00098,
+     "on": "XwarmB",
+     "clip": "AttackRanged",
+     "frame": 27,
+     "time": 0.9
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "13": {
+    "joint": "Xfingerpiv01",
+    "where": "+x side",
+    "triangles": 12,
+    "extent": 0.1021,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00207,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 287,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00219,
+     "on": "XwfinA01",
+     "clip": "AttackRanged",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 77
+   }
+  }
+ }
+]

@@ -1,0 +1,45 @@
+{
+  "label": "Elemental Earth A",
+  "creature": "earth_elemental",
+  "base_palette": 504,
+  "palette_paths": {
+    "504": "assets_dev/worlds/mm8/textures/pal504.act"
+  },
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "core_magenta_tolerance": 8,
+  "protect_warm_contours": false,
+  "batch_mode": "per_action_view",
+  "identity_frames": [
+    "m198sa0",
+    "m198sa1",
+    "m198sa2",
+    "m198sa3",
+    "m198sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The original stocky humanoid earth elemental made entirely of dark brown irregular fractured rock plates. Small blunt rocky head, broad bulky shoulders and torso, heavy bent arms with huge clenched stone fists, thick short legs and broad flat rock feet. Deep nearly black cracks separate warm dull ochre-brown stone facets with small restrained upper highlights. Preserve the compact native blocky silhouette, plain face and very dark earthy tonal weight. No glowing cracks, moss, crystals, armor, clothes, spikes, weapons, ornaments or redesigned anatomy.",
+  "reviewed_placement_translation_px": {
+    "m198da0": [
+      -15,
+      0
+    ],
+    "m198db0": [
+      -22,
+      0
+    ],
+    "m198dc0": [
+      -15,
+      0
+    ],
+    "m198dd0": [
+      -12,
+      0
+    ],
+    "m198xa0": [
+      -14,
+      0
+    ]
+  }
+}

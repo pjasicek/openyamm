@@ -1,0 +1,3 @@
+Saved run 1’s [three-quarter master](level_generation/creatures/mm9_scholar_claude/references_hd/00_three_quarter.png), unresized at 1536×1024 RGBA, using built-in image generation. Both raw attempts and prompts/input hashes are retained in [generation_runs.json](level_generation/creatures/mm9_scholar_claude/references_hd/generation_runs.json).
+
+Stopped before run 2. Residual issues: tight vertical margins, faint stray alpha, and overlapping far-hand fingers.

@@ -1,0 +1,84 @@
+{
+ "sprite": "6tree13",
+ "output": "mm6_deco_tree13.glb",
+ "height_m": 7.78,
+ "note": "Dense round broadleaf, deep green, on a short trunk forking low into several stems.",
+ "sapling": {
+  "scale": 5.51,
+  "baseSplits": 4,
+  "splitHeight": 0.16,
+  "splitAngle": [
+   30,
+   18,
+   15,
+   0
+  ],
+  "baseSize": 0.12,
+  "seed": 151,
+  "ratio": 0.03,
+  "curveRes": [
+   16,
+   4,
+   3,
+   1
+  ],
+  "attractUp": [
+   0,
+   0.45,
+   0.35,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.24,
+  "centre": 0.6,
+  "clumps": 140,
+  "inner_clumps": 25
+ },
+ "bark": {
+  "target_srgb": [
+   104,
+   70,
+   34
+  ],
+  "budget": [
+   1900,
+   620,
+   260
+  ],
+  "clip_below_crown": true
+ },
+ "leaves": {
+  "target_srgb": [
+   78,
+   182,
+   52
+  ],
+  "seeds": [
+   151,
+   167,
+   179,
+   193
+  ],
+  "value": [
+   0.8,
+   1.55
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "lod": {
+  "tone": [
+   1.0,
+   0.92,
+   [
+    1.076,
+    0.929,
+    0.885
+   ]
+  ]
+ },
+ "transparent_bounces": 64
+}

@@ -1,0 +1,81 @@
+{
+  "rock": {
+    "source": "source/namaqualand_boulder_04/namaqualand_boulder_04_2k.gltf",
+    "name": "Rock",
+    "mode": "decimate",
+    "yaw_deg": 90,
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 0.5,
+      "gain": [
+        1.666,
+        1.34,
+        0.676
+      ]
+    }
+  },
+  "barrel": {
+    "source": "source/wine_barrel_01/wine_barrel_01_2k.gltf",
+    "name": "Barrel",
+    "mode": "lathe",
+    "scale": [
+      0.92,
+      0.92,
+      1.0
+    ],
+    "lathe_levels": [
+      [
+        40,
+        14,
+        true
+      ],
+      [
+        24,
+        9,
+        true
+      ],
+      [
+        14,
+        6,
+        true
+      ],
+      [
+        10,
+        3,
+        false
+      ]
+    ],
+    "rim": {
+      "thickness": 0.022,
+      "lid_depth": 0.036,
+      "open": {
+        "floor": 0.06,
+        "rings": [6, 4, 2],
+        "stave_band": [0.6, 0.535],
+        "rim_shade": 0.62,
+        "floor_shade": 0.18,
+        "floor_specular": 0.1
+      }
+    },
+    "cage_extrusion": 0.02,
+    "max_ray": 0.08,
+    "ao_strength": 0.5,
+    "grade": {
+      "saturation": 1.5,
+      "gain": [
+        1.2,
+        1.0,
+        0.32
+      ],
+      "skip_metal": true
+    }
+  }
+}

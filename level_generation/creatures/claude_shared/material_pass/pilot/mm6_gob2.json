@@ -1,0 +1,172 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm6/models/mm6_gob2.glb",
+ "output": "material_pass/pilot/mm6_gob2.glb",
+ "class_maps": {
+  "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_gob2_reduce_claude/textures/gob2_material_classes.png",
+  "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_gob2_reduce_claude/textures/gob2_head_material_classes.png"
+ },
+ "textures": [
+  {
+   "image": "gob2_metal_rough_1k_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Goblin_A",
+    "Goblin_B",
+    "Goblin_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "x": [
+      0,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "x": [
+      1056,
+      2080
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "constant",
+   "stretched_uv_triangles": 0,
+   "parts": {
+    "body": {
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_gob2_reduce_claude/textures/gob2_material_classes.png",
+     "uv_covered_texels": 362748,
+     "uv_covered_without_class": 0.0532,
+     "uv_covered_without_class_far": 0.0017,
+     "class_texels_outside_uv": 0.0,
+     "class_share_in_uv": {
+      "skin": 0.6127,
+      "claw": 0.0242,
+      "cloth": 0.1842,
+      "metal": 0.1231,
+      "other": 0.0558
+     },
+     "new_roughness_mean_by_class": {
+      "skin": 0.8,
+      "claw": 0.45,
+      "cloth": 0.75,
+      "metal": 0.38,
+      "other": 0.7
+     }
+    },
+    "head": {
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_gob2_reduce_claude/textures/gob2_head_material_classes.png",
+     "uv_covered_texels": 622046,
+     "uv_covered_without_class": 0.0102,
+     "uv_covered_without_class_far": 0.0001,
+     "class_texels_outside_uv": 0.0,
+     "class_share_in_uv": {
+      "skin": 0.891,
+      "tooth": 0.0137,
+      "eye": 0.0042,
+      "mouth": 0.0312,
+      "metal": 0.0578,
+      "other": 0.0021
+     },
+     "new_roughness_mean_by_class": {
+      "skin": 0.8,
+      "tooth": 0.351,
+      "eye": 0.152,
+      "mouth": 0.45,
+      "metal": 0.38,
+      "other": 0.701
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.7885,
+    "claw": 0.0089,
+    "tooth": 0.0087,
+    "eye": 0.0027,
+    "mouth": 0.0197,
+    "cloth": 0.0678,
+    "metal": 0.0818,
+    "other": 0.0219
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Goblin_A": {
+     "median_srgb": [
+      122,
+      114,
+      90
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      74,
+      116,
+      177
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.3113,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Goblin_B": {
+     "median_srgb": [
+      122,
+      114,
+      90
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      74,
+      116,
+      177
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.3114,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Goblin_C": {
+     "median_srgb": [
+      122,
+      114,
+      90
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      74,
+      116,
+      177
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.3115,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 64,
+     "max": 255,
+     "mean": 103.5
+    },
+    "G": {
+     "min": 26,
+     "max": 230,
+     "mean": 179.6
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 34.4
+    }
+   }
+  }
+ ]
+}

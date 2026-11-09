@@ -1,0 +1,2080 @@
+screen: SettingsKeyboard
+elements:
+- id: SettingsKeyboardRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: Native menu canvas fitted uniformly by MenuDesignScreen.
+  children:
+  - id: SettingsKeyboardBackground
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 0
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_title_backdrop.png
+    notes: Use the live dimmed game view instead when entered from Pause.
+  - id: SettingsKeyboardPanel
+    anchor: top_left
+    offset_x: 62.9333
+    offset_y: 48.5333
+    width: 727.4667
+    height: 417.0667
+    z_index: 2
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_frame.png
+  - id: SettingsKeyboardSeal
+    anchor: top_left
+    offset_x: 75.2
+    offset_y: 14.4501
+    width: 24.0
+    height: 24.0
+    z_index: 8
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_seal.png
+  - id: SettingsKeyboardWordmark
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 13.3333
+    width: 136.1584
+    height: 16.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: OpenYAMM
+      font: fondamento
+      color: '#e9d4a6'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: SettingsKeyboardSubtitle
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 32.5333
+    width: 136.1584
+    height: 7.0336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Universe of Might and Magic
+      font: menu_arrus
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.37053
+      pad_x: 0.0
+  - id: SettingsKeyboardTitle
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 73.0667
+    width: 400.0
+    height: 27.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Settings
+      font: fondamento
+      color: '#efe0bc'
+      align_x: left
+      align_y: middle
+      scale: 0.71667
+      pad_x: 0.0
+  - id: SettingsKeyboardHeadRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 111.2501
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: SettingsKeyboardFooterRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 403.7333
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: SettingsKeyboardTabGameplay
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 124.5835
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Gameplay
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsKeyboardTabVideo
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 164.0501
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Video
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsKeyboardTabAudio
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 203.5168
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Audio
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsKeyboardTabControls
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 242.9835
+    width: 97.6
+    height: 53.3333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Mouse & Controls
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsKeyboardTabKeyboard
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 301.6501
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Keyboard
+      font: fondamento
+      color: '#f5dfae'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsKeyboardHeading
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 124.5835
+    width: 540.8
+    height: 23.4667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Keyboard
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: SettingsKeyboardDefaultsButton
+    anchor: top_left
+    offset_x: 661.9003
+    offset_y: 76.6917
+    width: 99.7003
+    height: 20.2667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_small_default.png
+      highlighted: hud_x2/menus/omenu_button_small_hover.png
+      pressed: hud_x2/menus/omenu_button_small_pressed.png
+    text:
+      value: Restore Defaults
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.33333
+      pad_x: 11.7333
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: SettingsKeyboardBackButton
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 414.4
+    width: 54.7669
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_quiet_default.png
+      highlighted: hud_x2/menus/omenu_button_quiet_hover.png
+      pressed: hud_x2/menus/omenu_button_quiet_pressed.png
+    text:
+      value: Back
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: SettingsKeyboardRevertButton
+    anchor: top_left
+    offset_x: 573.7333
+    offset_y: 414.4
+    width: 65.9248
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_quiet_default.png
+      highlighted: hud_x2/menus/omenu_button_quiet_hover.png
+      pressed: hud_x2/menus/omenu_button_quiet_pressed.png
+    text:
+      value: Revert
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: SettingsKeyboardApplyButton
+    anchor: top_left
+    offset_x: 646.0581
+    offset_y: 414.4
+    width: 115.5419
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_primary_default.png
+      highlighted: hud_x2/menus/omenu_button_primary_hover.png
+      pressed: hud_x2/menus/omenu_button_primary_pressed.png
+    text:
+      value: Apply Changes
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: SettingsKeyboardDirtyStatus
+    anchor: top_left
+    offset_x: 293.0
+    offset_y: 421.7083
+    width: 270
+    height: 11.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{settings_status}'
+      font: menu_lucida
+      color: '#b8b9a8'
+      align_x: left
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: SettingsKeyboardSearch
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 152.4165
+    width: 417.0667
+    height: 23.4667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_text_field.png
+    text:
+      value: '{search_query}'
+      font: menu_lucida
+      color: '#e9dcc0'
+      align_x: left
+      align_y: middle
+      scale: 0.71529
+      pad_x: 6.9333
+    notes: Search action/group/assigned-key name; do not search legacy page numbers. Controller supplies live text.
+  - id: SettingsKeyboardGroupFilter
+    anchor: top_left
+    offset_x: 644.2667
+    offset_y: 152.4165
+    width: 117.3333
+    height: 23.4667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_text_field.png
+    text:
+      value: '{selected_group}'
+      font: menu_lucida
+      color: '#e9dcc0'
+      align_x: left
+      align_y: middle
+      scale: 0.71529
+      pad_x: 6.9333
+    notes: Controller supplies live text.
+  - id: SettingsKeyboardColumn0
+    anchor: top_left
+    offset_x: 227.2
+    offset_y: 182.2832
+    width: 189.3333
+    height: 18.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Action
+      font: menu_lucida
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.48941
+  - id: SettingsKeyboardColumn1
+    anchor: top_left
+    offset_x: 425.0667
+    offset_y: 182.2832
+    width: 62.4
+    height: 18.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Assigned key
+      font: menu_lucida
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.48941
+  - id: SettingsKeyboardColumn2
+    anchor: top_left
+    offset_x: 499.2
+    offset_y: 182.2832
+    width: 189.3333
+    height: 18.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Action
+      font: menu_lucida
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.48941
+  - id: SettingsKeyboardColumn3
+    anchor: top_left
+    offset_x: 696.0
+    offset_y: 182.2832
+    width: 62.4
+    height: 18.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Assigned key
+      font: menu_lucida
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.48941
+  - id: SettingsKeyboardScrollViewport
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 200.9499
+    width: 540.8
+    height: 193.1835
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: Clip all descendant rendering and pointer hits to this viewport. Scroll offset is controller-owned; YAML has
+      no clipping/scroll primitive.
+    children:
+    - id: SettingsKeyboardGroup0
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 390.9333
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Fixed shortcuts
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsKeyboardForwardLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 3.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Forward
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardForwardGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 18.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardForwardKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 4.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_forward}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardBackwardLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 3.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Backward
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardBackwardGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 18.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardBackwardKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 4.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_backward}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardLeftLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 32.4336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Move / turn left
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardLeftGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 47.3669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardLeftKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 33.6
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_left}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardRightLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 32.4336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Move / turn right
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardRightGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 47.3669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardRightKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 33.6
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_right}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardJumpLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 61.7669
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Jump
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardJumpGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 76.7003
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardJumpKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 62.9333
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_jump}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardAlwaysRunToggleLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 61.7669
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Toggle always run
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardAlwaysRunToggleGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 76.7003
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardAlwaysRunToggleKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 62.9333
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_always_run_toggle}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardFlyUpLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 91.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Fly Up
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardFlyUpGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 106.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardFlyUpKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 92.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_fly_up}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardFlyDownLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 91.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Fly Down
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardFlyDownGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 106.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardFlyDownKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 92.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_fly_down}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardLandLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 120.4336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Land
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardLandGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 135.3669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Movement
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardLandKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 121.6
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_land}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardCastReadyLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 120.4336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Cast quick spell
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardCastReadyGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 135.3669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Combat
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardCastReadyKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 121.6
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_cast_ready}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardAttackLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 149.7669
+      width: 171.4832
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Attack
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardAttackGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 164.7003
+      width: 171.4832
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Combat
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardAttackKey
+      anchor: top_left
+      offset_x: 183.2165
+      offset_y: 150.9333
+      width: 69.3168
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_attack}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardCastLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 149.7669
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Open spellbook
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardCastGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 164.7003
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Combat
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardCastKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 150.9333
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_cast}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardTriggerLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 179.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Interact ahead
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardTriggerGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 194.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Interaction
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardTriggerKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 180.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_trigger}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardUseLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 179.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Use / interact
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardUseGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 194.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Interaction
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardUseKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 180.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_use}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardCharCycleLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 208.4336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Next character
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardCharCycleGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 223.3669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party & books
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardCharCycleKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 209.6
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_char_cycle}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardQuestLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 208.4336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Quest book
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardQuestGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 223.3669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party & books
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardQuestKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 209.6
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_quest}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardQuickRefLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 237.7669
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Quick reference
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardQuickRefGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 252.7003
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party & books
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardQuickRefKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 238.9333
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_quick_ref}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardRestLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 237.7669
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Rest
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardRestGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 252.7003
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party & books
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardRestKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 238.9333
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_rest}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardHistoryLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 267.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: History
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardHistoryGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 282.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party & books
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardHistoryKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 268.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_history}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardMapBookLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 267.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Map book
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardMapBookGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 282.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party & books
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardMapBookKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 268.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_map_book}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardLookUpLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 296.4336
+      width: 174.8667
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Look Up
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardLookUpGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 311.3669
+      width: 174.8667
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Camera
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardLookUpKey
+      anchor: top_left
+      offset_x: 186.6
+      offset_y: 297.6
+      width: 65.9333
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_look_up}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardLookDownLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 296.4336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Look Down
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardLookDownGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 311.3669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Camera
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardLookDownKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 297.6
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_look_down}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardCenterViewLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 325.7669
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Centre view
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardCenterViewGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 340.7003
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Camera
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardCenterViewKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 326.9333
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_center_view}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardZoomInLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 325.7669
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Zoom In
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardZoomInGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 340.7003
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Camera
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardZoomInKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 326.9333
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_zoom_in}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardZoomOutLabel
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 355.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Zoom Out
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardZoomOutGroup
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 370.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Camera
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardZoomOutKey
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 356.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_zoom_out}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardDoubleSpeedLabel
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 355.1003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Toggle double speed
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardDoubleSpeedGroup
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 370.0336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: System
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardDoubleSpeedKey
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 356.2667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: '{key_double_speed}'
+        font: menu_lucida
+        color: '#e8d5aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes. Controller supplies live text.
+    - id: SettingsKeyboardFixed0Label
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 414.3003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Open / close menu
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardFixed0Group
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 429.2336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Fixed shortcut
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardFixed0Key
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 415.4667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: false
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: Escape
+        font: menu_lucida
+        color: '#b4b8aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes.
+    - id: SettingsKeyboardFixed1Label
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 414.3003
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Quicksave
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardFixed1Group
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 429.2336
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Fixed shortcut
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardFixed1Key
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 415.4667
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: false
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: F9
+        font: menu_lucida
+        color: '#b4b8aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes.
+    - id: SettingsKeyboardFixed2Label
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 443.6336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Quickload
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardFixed2Group
+      anchor: top_left
+      offset_x: 5.3333
+      offset_y: 458.5669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Fixed shortcut
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardFixed2Key
+      anchor: top_left
+      offset_x: 193.8667
+      offset_y: 444.8
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: false
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: F10
+        font: menu_lucida
+        color: '#b4b8aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes.
+    - id: SettingsKeyboardFixed3Label
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 443.6336
+      width: 182.1333
+      height: 13.3333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Select party member
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67368
+        pad_x: 0.0
+    - id: SettingsKeyboardFixed3Group
+      anchor: top_left
+      offset_x: 272.8
+      offset_y: 458.5669
+      width: 182.1333
+      height: 7.68
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Fixed shortcut
+        font: menu_lucida
+        color: '#a0aa99'
+        align_x: left
+        align_y: middle
+        scale: 0.45176
+    - id: SettingsKeyboardFixed3Key
+      anchor: top_left
+      offset_x: 461.3333
+      offset_y: 444.8
+      width: 58.6667
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: false
+      asset:
+        default: hud_x2/menus/omenu_keycap.png
+      text:
+        value: 1–5
+        font: menu_lucida
+        color: '#b4b8aa'
+        align_x: center
+        align_y: middle
+        scale: 0.67765
+        pad_x: 5.3333
+      notes: Controller maps registry IDs, not browser KeyboardEvent codes.
+  - id: SettingsKeyboardNavigationRule
+    anchor: top_left
+    offset_x: 201.6
+    offset_y: 112.0
+    width: 0.8
+    height: 291.7333
+    z_index: 10
+    visible: true
+    interactive: false

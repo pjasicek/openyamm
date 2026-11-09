@@ -1,0 +1,2162 @@
+[
+  {
+    "icon": "6trident5",
+    "family": "spears",
+    "items": [
+      {
+        "id": 2037,
+        "name": "Poseidon"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6trident5",
+      "model": "engine/world_items/models/item_6trident5.glb",
+      "length": 256.5
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "6trident5",
+      "name": "Poseidon",
+      "id": 2037,
+      "triangles": 293,
+      "runtime_triangles": 293,
+      "thickness_pct_length": 1.53,
+      "zero_thickness_triangles": 31,
+      "zero_thickness_area_pct": 20.52,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6trident5.png"
+  },
+  {
+    "icon": "7item031",
+    "family": "spears",
+    "items": [
+      {
+        "id": 833,
+        "name": "Crude Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item031",
+      "model": "engine/world_items/models/item_7item031.glb",
+      "length": 238.5
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item031",
+      "name": "Crude Spear",
+      "id": 833,
+      "triangles": 367,
+      "runtime_triangles": 367,
+      "thickness_pct_length": 1.91,
+      "zero_thickness_triangles": 39,
+      "zero_thickness_area_pct": 3.69,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item031.png"
+  },
+  {
+    "icon": "7item032",
+    "family": "spears",
+    "items": [
+      {
+        "id": 834,
+        "name": "Soldier's spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item032",
+      "model": "engine/world_items/models/item_7item032.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item032",
+      "name": "Soldier's spear",
+      "id": 834,
+      "triangles": 59,
+      "runtime_triangles": 59,
+      "thickness_pct_length": 1.23,
+      "zero_thickness_triangles": 39,
+      "zero_thickness_area_pct": 81.81,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item032.png"
+  },
+  {
+    "icon": "7item033",
+    "family": "spears",
+    "items": [
+      {
+        "id": 835,
+        "name": "Elven Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item033",
+      "model": "engine/world_items/models/item_7item033.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item033",
+      "name": "Elven Spear",
+      "id": 835,
+      "triangles": 348,
+      "runtime_triangles": 348,
+      "thickness_pct_length": 1.88,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 1.37,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item033.png"
+  },
+  {
+    "icon": "7item034",
+    "family": "spears",
+    "items": [
+      {
+        "id": 836,
+        "name": "Cruel Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item034",
+      "model": "engine/world_items/models/item_7item034.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item034",
+      "name": "Cruel Spear",
+      "id": 836,
+      "triangles": 373,
+      "runtime_triangles": 373,
+      "thickness_pct_length": 1.62,
+      "zero_thickness_triangles": 39,
+      "zero_thickness_area_pct": 5.92,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item034.png"
+  },
+  {
+    "icon": "7item035",
+    "family": "spears",
+    "items": [
+      {
+        "id": 837,
+        "name": "Sublime Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item035",
+      "model": "engine/world_items/models/item_7item035.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item035",
+      "name": "Sublime Spear",
+      "id": 837,
+      "triangles": 491,
+      "runtime_triangles": 491,
+      "thickness_pct_length": 1.81,
+      "zero_thickness_triangles": 63,
+      "zero_thickness_area_pct": 4.42,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item035.png"
+  },
+  {
+    "icon": "7item036",
+    "family": "spears",
+    "items": [
+      {
+        "id": 838,
+        "name": "Old Halberd"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item036",
+      "model": "engine/world_items/models/item_7item036.glb",
+      "length": 258.3
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item036",
+      "name": "Old Halberd",
+      "id": 838,
+      "triangles": 526,
+      "runtime_triangles": 526,
+      "thickness_pct_length": 2.28,
+      "zero_thickness_triangles": 62,
+      "zero_thickness_area_pct": 12.07,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item036.png"
+  },
+  {
+    "icon": "7item037",
+    "family": "spears",
+    "items": [
+      {
+        "id": 840,
+        "name": "Mighty Halberd"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item037",
+      "model": "engine/world_items/models/item_7item037.glb",
+      "length": 257.4
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item037",
+      "name": "Mighty Halberd",
+      "id": 840,
+      "triangles": 575,
+      "runtime_triangles": 575,
+      "thickness_pct_length": 2.01,
+      "zero_thickness_triangles": 27,
+      "zero_thickness_area_pct": 3.08,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item037.png"
+  },
+  {
+    "icon": "7item038",
+    "family": "spears",
+    "items": [
+      {
+        "id": 839,
+        "name": "Weighted Halberd"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item038",
+      "model": "engine/world_items/models/item_7item038.glb",
+      "length": 265.9
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item038",
+      "name": "Weighted Halberd",
+      "id": 839,
+      "triangles": 604,
+      "runtime_triangles": 604,
+      "thickness_pct_length": 2.14,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 2.84,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item038.png"
+  },
+  {
+    "icon": "7item039",
+    "family": "spears",
+    "items": [
+      {
+        "id": 841,
+        "name": "Crude Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item039",
+      "model": "engine/world_items/models/item_7item039.glb",
+      "length": 241.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item039",
+      "name": "Crude Trident",
+      "id": 841,
+      "triangles": 214,
+      "runtime_triangles": 214,
+      "thickness_pct_length": 1.46,
+      "zero_thickness_triangles": 30,
+      "zero_thickness_area_pct": 15.35,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item039.png"
+  },
+  {
+    "icon": "7item040",
+    "family": "spears",
+    "items": [
+      {
+        "id": 842,
+        "name": "Barbed Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item040",
+      "model": "engine/world_items/models/item_7item040.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item040",
+      "name": "Barbed Trident",
+      "id": 842,
+      "triangles": 176,
+      "runtime_triangles": 176,
+      "thickness_pct_length": 1.31,
+      "zero_thickness_triangles": 82,
+      "zero_thickness_area_pct": 62.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item040.png"
+  },
+  {
+    "icon": "7item041",
+    "family": "spears",
+    "items": [
+      {
+        "id": 843,
+        "name": "War Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item041",
+      "model": "engine/world_items/models/item_7item041.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item041",
+      "name": "War Trident",
+      "id": 843,
+      "triangles": 380,
+      "runtime_triangles": 380,
+      "thickness_pct_length": 1.73,
+      "zero_thickness_triangles": 8,
+      "zero_thickness_area_pct": 0.92,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item041.png"
+  },
+  {
+    "icon": "7item225",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1310,
+        "name": "Gibbet"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item225",
+      "model": "engine/world_items/models/item_7item225.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item225",
+      "name": "Gibbet",
+      "id": 1310,
+      "triangles": 404,
+      "runtime_triangles": 404,
+      "thickness_pct_length": 1.76,
+      "zero_thickness_triangles": 30,
+      "zero_thickness_area_pct": 3.39,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item225.png"
+  },
+  {
+    "icon": "7item227",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1311,
+        "name": "Charele"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item227",
+      "model": "engine/world_items/models/item_7item227.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "7item227",
+      "name": "Charele",
+      "id": 1311,
+      "triangles": 315,
+      "runtime_triangles": 315,
+      "thickness_pct_length": 1.53,
+      "zero_thickness_triangles": 79,
+      "zero_thickness_area_pct": 26.57,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item227.png"
+  },
+  {
+    "icon": "halberd1",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1638,
+        "name": "Common Halberd"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "halberd1",
+      "model": "engine/world_items/models/item_halberd1.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "halberd1",
+      "name": "Common Halberd",
+      "id": 1638,
+      "triangles": 364,
+      "runtime_triangles": 364,
+      "thickness_pct_length": 2.15,
+      "zero_thickness_triangles": 50,
+      "zero_thickness_area_pct": 26.72,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/halberd1.png"
+  },
+  {
+    "icon": "halberd2",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1640,
+        "name": "Elite Halberd"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "halberd2",
+      "model": "engine/world_items/models/item_halberd2.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "halberd2",
+      "name": "Elite Halberd",
+      "id": 1640,
+      "triangles": 435,
+      "runtime_triangles": 435,
+      "thickness_pct_length": 1.73,
+      "zero_thickness_triangles": 21,
+      "zero_thickness_area_pct": 1.93,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/halberd2.png"
+  },
+  {
+    "icon": "halberd3",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1639,
+        "name": "Massive Halberd"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "halberd3",
+      "model": "engine/world_items/models/item_halberd3.glb",
+      "length": 253.3
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "halberd3",
+      "name": "Massive Halberd",
+      "id": 1639,
+      "triangles": 527,
+      "runtime_triangles": 527,
+      "thickness_pct_length": 2.21,
+      "zero_thickness_triangles": 11,
+      "zero_thickness_area_pct": 1.35,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/halberd3.png"
+  },
+  {
+    "icon": "item041",
+    "family": "spears",
+    "items": [
+      {
+        "id": 41,
+        "name": "Ogre Fighting Stick"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item041",
+      "model": "engine/world_items/models/item_item041.glb",
+      "length": 246.6
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item041",
+      "name": "Ogre Fighting Stick",
+      "id": 41,
+      "triangles": 558,
+      "runtime_triangles": 558,
+      "thickness_pct_length": 1.91,
+      "zero_thickness_triangles": 70,
+      "zero_thickness_area_pct": 6.05,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item041.png"
+  },
+  {
+    "icon": "item042",
+    "family": "spears",
+    "items": [
+      {
+        "id": 42,
+        "name": "Steel Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item042",
+      "model": "engine/world_items/models/item_item042.glb",
+      "length": 250.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item042",
+      "name": "Steel Spear",
+      "id": 42,
+      "triangles": 199,
+      "runtime_triangles": 199,
+      "thickness_pct_length": 1.6,
+      "zero_thickness_triangles": 59,
+      "zero_thickness_area_pct": 45.59,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item042.png"
+  },
+  {
+    "icon": "item043",
+    "family": "spears",
+    "items": [
+      {
+        "id": 43,
+        "name": "Elven Long Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item043",
+      "model": "engine/world_items/models/item_item043.glb",
+      "length": 256.5
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item043",
+      "name": "Elven Long Spear",
+      "id": 43,
+      "triangles": 432,
+      "runtime_triangles": 432,
+      "thickness_pct_length": 1.78,
+      "zero_thickness_triangles": 44,
+      "zero_thickness_area_pct": 3.31,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item043.png"
+  },
+  {
+    "icon": "item044",
+    "family": "spears",
+    "items": [
+      {
+        "id": 44,
+        "name": "War Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item044",
+      "model": "engine/world_items/models/item_item044.glb",
+      "length": 256.1
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item044",
+      "name": "War Spear",
+      "id": 44,
+      "triangles": 457,
+      "runtime_triangles": 457,
+      "thickness_pct_length": 1.73,
+      "zero_thickness_triangles": 35,
+      "zero_thickness_area_pct": 3.74,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item044.png"
+  },
+  {
+    "icon": "item045",
+    "family": "spears",
+    "items": [
+      {
+        "id": 45,
+        "name": "Dragon Harpoon"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item045",
+      "model": "engine/world_items/models/item_item045.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item045",
+      "name": "Dragon Harpoon",
+      "id": 45,
+      "triangles": 338,
+      "runtime_triangles": 338,
+      "thickness_pct_length": 1.73,
+      "zero_thickness_triangles": 94,
+      "zero_thickness_area_pct": 22.93,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item045.png"
+  },
+  {
+    "icon": "item046",
+    "family": "spears",
+    "items": [
+      {
+        "id": 46,
+        "name": "Improvised Voulge"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item046",
+      "model": "engine/world_items/models/item_item046.glb",
+      "length": 245.7
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item046",
+      "name": "Improvised Voulge",
+      "id": 46,
+      "triangles": 516,
+      "runtime_triangles": 516,
+      "thickness_pct_length": 2.14,
+      "zero_thickness_triangles": 20,
+      "zero_thickness_area_pct": 3.17,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item046.png"
+  },
+  {
+    "icon": "item047",
+    "family": "spears",
+    "items": [
+      {
+        "id": 48,
+        "name": "Beaked Halberd"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item047",
+      "model": "engine/world_items/models/item_item047.glb",
+      "length": 247.5
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item047",
+      "name": "Beaked Halberd",
+      "id": 48,
+      "triangles": 475,
+      "runtime_triangles": 475,
+      "thickness_pct_length": 2.11,
+      "zero_thickness_triangles": 29,
+      "zero_thickness_area_pct": 1.76,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item047.png"
+  },
+  {
+    "icon": "item048",
+    "family": "spears",
+    "items": [
+      {
+        "id": 47,
+        "name": "Halberd"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item048",
+      "model": "engine/world_items/models/item_item048.glb",
+      "length": 250.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item048",
+      "name": "Halberd",
+      "id": 47,
+      "triangles": 372,
+      "runtime_triangles": 372,
+      "thickness_pct_length": 1.76,
+      "zero_thickness_triangles": 66,
+      "zero_thickness_area_pct": 28.99,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item048.png"
+  },
+  {
+    "icon": "item049",
+    "family": "spears",
+    "items": [
+      {
+        "id": 49,
+        "name": "Minotaur Campaign Pole-axe"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item049",
+      "model": "engine/world_items/models/item_item049.glb",
+      "length": 255.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item049",
+      "name": "Minotaur Campaign Pole-axe",
+      "id": 49,
+      "triangles": 630,
+      "runtime_triangles": 630,
+      "thickness_pct_length": 2.09,
+      "zero_thickness_triangles": 54,
+      "zero_thickness_area_pct": 3.86,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item049.png"
+  },
+  {
+    "icon": "item050",
+    "family": "spears",
+    "items": [
+      {
+        "id": 50,
+        "name": "Labyrinth Grapple"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item050",
+      "model": "engine/world_items/models/item_item050.glb",
+      "length": 256.5
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item050",
+      "name": "Labyrinth Grapple",
+      "id": 50,
+      "triangles": 517,
+      "runtime_triangles": 517,
+      "thickness_pct_length": 1.82,
+      "zero_thickness_triangles": 67,
+      "zero_thickness_area_pct": 8.09,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item050.png"
+  },
+  {
+    "icon": "item051",
+    "family": "spears",
+    "items": [
+      {
+        "id": 51,
+        "name": "Hayfork"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item051",
+      "model": "engine/world_items/models/item_item051.glb",
+      "length": 236.7
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item051",
+      "name": "Hayfork",
+      "id": 51,
+      "triangles": 197,
+      "runtime_triangles": 197,
+      "thickness_pct_length": 1.52,
+      "zero_thickness_triangles": 63,
+      "zero_thickness_area_pct": 53.36,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item051.png"
+  },
+  {
+    "icon": "item052",
+    "family": "spears",
+    "items": [
+      {
+        "id": 52,
+        "name": "Infantry Fork"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item052",
+      "model": "engine/world_items/models/item_item052.glb",
+      "length": 243.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item052",
+      "name": "Infantry Fork",
+      "id": 52,
+      "triangles": 247,
+      "runtime_triangles": 247,
+      "thickness_pct_length": 1.84,
+      "zero_thickness_triangles": 99,
+      "zero_thickness_area_pct": 40.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item052.png"
+  },
+  {
+    "icon": "item053",
+    "family": "spears",
+    "items": [
+      {
+        "id": 53,
+        "name": "Lizardman Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item053",
+      "model": "engine/world_items/models/item_item053.glb",
+      "length": 250.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item053",
+      "name": "Lizardman Trident",
+      "id": 53,
+      "triangles": 411,
+      "runtime_triangles": 411,
+      "thickness_pct_length": 1.69,
+      "zero_thickness_triangles": 85,
+      "zero_thickness_area_pct": 12.04,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item053.png"
+  },
+  {
+    "icon": "item054",
+    "family": "spears",
+    "items": [
+      {
+        "id": 54,
+        "name": "Regnan Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item054",
+      "model": "engine/world_items/models/item_item054.glb",
+      "length": 251.1
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item054",
+      "name": "Regnan Trident",
+      "id": 54,
+      "triangles": 419,
+      "runtime_triangles": 419,
+      "thickness_pct_length": 1.64,
+      "zero_thickness_triangles": 55,
+      "zero_thickness_area_pct": 5.42,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item054.png"
+  },
+  {
+    "icon": "item055",
+    "family": "spears",
+    "items": [
+      {
+        "id": 55,
+        "name": "Triton Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item055",
+      "model": "engine/world_items/models/item_item055.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item055",
+      "name": "Triton Trident",
+      "id": 55,
+      "triangles": 356,
+      "runtime_triangles": 356,
+      "thickness_pct_length": 1.53,
+      "zero_thickness_triangles": 92,
+      "zero_thickness_area_pct": 28.57,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item055.png"
+  },
+  {
+    "icon": "item242",
+    "family": "spears",
+    "items": [
+      {
+        "id": 527,
+        "name": "Spiritslayer"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item242",
+      "model": "engine/world_items/models/item_item242.glb",
+      "length": 248.0
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item242",
+      "name": "Spiritslayer",
+      "id": 527,
+      "triangles": 449,
+      "runtime_triangles": 449,
+      "thickness_pct_length": 1.67,
+      "zero_thickness_triangles": 75,
+      "zero_thickness_area_pct": 14.53,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item242.png"
+  },
+  {
+    "icon": "item243",
+    "family": "spears",
+    "items": [
+      {
+        "id": 507,
+        "name": "Guardian"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item243",
+      "model": "engine/world_items/models/item_item243.glb",
+      "length": 252.9
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item243",
+      "name": "Guardian",
+      "id": 507,
+      "triangles": 727,
+      "runtime_triangles": 727,
+      "thickness_pct_length": 2.28,
+      "zero_thickness_triangles": 31,
+      "zero_thickness_area_pct": 1.65,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item243.png"
+  },
+  {
+    "icon": "item244",
+    "family": "spears",
+    "items": [
+      {
+        "id": 528,
+        "name": "Trident of Rulership"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item244",
+      "model": "engine/world_items/models/item_item244.glb",
+      "length": 249.8
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item244",
+      "name": "Trident of Rulership",
+      "id": 528,
+      "triangles": 217,
+      "runtime_triangles": 217,
+      "thickness_pct_length": 1.65,
+      "zero_thickness_triangles": 41,
+      "zero_thickness_area_pct": 41.42,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item244.png"
+  },
+  {
+    "icon": "item331",
+    "family": "spears",
+    "items": [
+      {
+        "id": 506,
+        "name": "Wyrm Spitter"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item331",
+      "model": "engine/world_items/models/item_item331.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item331",
+      "name": "Wyrm Spitter",
+      "id": 506,
+      "triangles": 338,
+      "runtime_triangles": 338,
+      "thickness_pct_length": 1.73,
+      "zero_thickness_triangles": 94,
+      "zero_thickness_area_pct": 22.93,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item331.png"
+  },
+  {
+    "icon": "item341",
+    "family": "spears",
+    "items": [
+      {
+        "id": 539,
+        "name": "Ebonest"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item341",
+      "model": "engine/world_items/models/item_item341.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "item341",
+      "name": "Ebonest",
+      "id": 539,
+      "triangles": 338,
+      "runtime_triangles": 338,
+      "thickness_pct_length": 1.73,
+      "zero_thickness_triangles": 94,
+      "zero_thickness_area_pct": 22.93,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item341.png"
+  },
+  {
+    "icon": "spear1",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1633,
+        "name": "Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "spear1",
+      "model": "engine/world_items/models/item_spear1.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "spear1",
+      "name": "Spear",
+      "id": 1633,
+      "triangles": 138,
+      "runtime_triangles": 138,
+      "thickness_pct_length": 1.19,
+      "zero_thickness_triangles": 34,
+      "zero_thickness_area_pct": 54.09,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/spear1.png"
+  },
+  {
+    "icon": "spear2",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1634,
+        "name": "Stout Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "spear2",
+      "model": "engine/world_items/models/item_spear2.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "spear2",
+      "name": "Stout Spear",
+      "id": 1634,
+      "triangles": 304,
+      "runtime_triangles": 304,
+      "thickness_pct_length": 1.48,
+      "zero_thickness_triangles": 16,
+      "zero_thickness_area_pct": 1.24,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/spear2.png"
+  },
+  {
+    "icon": "spear3",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1635,
+        "name": "Serpent Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "spear3",
+      "model": "engine/world_items/models/item_spear3.glb",
+      "length": 257.9
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "spear3",
+      "name": "Serpent Spear",
+      "id": 1635,
+      "triangles": 377,
+      "runtime_triangles": 377,
+      "thickness_pct_length": 1.91,
+      "zero_thickness_triangles": 13,
+      "zero_thickness_area_pct": 2.45,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/spear3.png"
+  },
+  {
+    "icon": "spear4",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1636,
+        "name": "Savage Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "spear4",
+      "model": "engine/world_items/models/item_spear4.glb",
+      "length": 257.9
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "spear4",
+      "name": "Savage Spear",
+      "id": 1636,
+      "triangles": 324,
+      "runtime_triangles": 324,
+      "thickness_pct_length": 1.84,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 3.81,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/spear4.png"
+  },
+  {
+    "icon": "spear5",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1637,
+        "name": "Sacred Spear"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "spear5",
+      "model": "engine/world_items/models/item_spear5.glb",
+      "length": 258.3
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "spear5",
+      "name": "Sacred Spear",
+      "id": 1637,
+      "triangles": 417,
+      "runtime_triangles": 417,
+      "thickness_pct_length": 1.85,
+      "zero_thickness_triangles": 55,
+      "zero_thickness_area_pct": 5.47,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/spear5.png"
+  },
+  {
+    "icon": "trident1",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1641,
+        "name": "Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "trident1",
+      "model": "engine/world_items/models/item_trident1.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "trident1",
+      "name": "Trident",
+      "id": 1641,
+      "triangles": 422,
+      "runtime_triangles": 422,
+      "thickness_pct_length": 1.74,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 7.21,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/trident1.png"
+  },
+  {
+    "icon": "trident2",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1642,
+        "name": "Ornate Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "trident2",
+      "model": "engine/world_items/models/item_trident2.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "trident2",
+      "name": "Ornate Trident",
+      "id": 1642,
+      "triangles": 436,
+      "runtime_triangles": 436,
+      "thickness_pct_length": 1.79,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 1.61,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/trident2.png"
+  },
+  {
+    "icon": "trident3",
+    "family": "spears",
+    "items": [
+      {
+        "id": 1643,
+        "name": "Titanic Trident"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "trident3",
+      "model": "engine/world_items/models/item_trident3.glb",
+      "length": 256.5
+    },
+    "baseline_audit": {
+      "family": "spears",
+      "icon": "trident3",
+      "name": "Titanic Trident",
+      "id": 1643,
+      "triangles": 293,
+      "runtime_triangles": 293,
+      "thickness_pct_length": 1.53,
+      "zero_thickness_triangles": 31,
+      "zero_thickness_area_pct": 20.52,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/trident3.png"
+  },
+  {
+    "icon": "6staff4",
+    "family": "staves",
+    "items": [
+      {
+        "id": 2024,
+        "name": "Merlin"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6staff4",
+      "model": "engine/world_items/models/item_6staff4.glb",
+      "length": 258.8
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "6staff4",
+      "name": "Merlin",
+      "id": 2024,
+      "triangles": 816,
+      "runtime_triangles": 816,
+      "thickness_pct_length": 3.34,
+      "zero_thickness_triangles": 24,
+      "zero_thickness_area_pct": 0.78,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6staff4.png"
+  },
+  {
+    "icon": "7item061",
+    "family": "staves",
+    "items": [
+      {
+        "id": 863,
+        "name": "Simple Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item061",
+      "model": "engine/world_items/models/item_7item061.glb",
+      "length": 234.9
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "7item061",
+      "name": "Simple Staff",
+      "id": 863,
+      "triangles": 415,
+      "runtime_triangles": 415,
+      "thickness_pct_length": 2.65,
+      "zero_thickness_triangles": 7,
+      "zero_thickness_area_pct": 0.26,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item061.png"
+  },
+  {
+    "icon": "7item062",
+    "family": "staves",
+    "items": [
+      {
+        "id": 864,
+        "name": "Iron Core Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item062",
+      "model": "engine/world_items/models/item_7item062.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "7item062",
+      "name": "Iron Core Staff",
+      "id": 864,
+      "triangles": 403,
+      "runtime_triangles": 403,
+      "thickness_pct_length": 3.02,
+      "zero_thickness_triangles": 7,
+      "zero_thickness_area_pct": 0.13,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item062.png"
+  },
+  {
+    "icon": "7item063",
+    "family": "staves",
+    "items": [
+      {
+        "id": 865,
+        "name": "Wizard Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item063",
+      "model": "engine/world_items/models/item_7item063.glb",
+      "length": 252.0
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "7item063",
+      "name": "Wizard Staff",
+      "id": 865,
+      "triangles": 451,
+      "runtime_triangles": 451,
+      "thickness_pct_length": 3.25,
+      "zero_thickness_triangles": 9,
+      "zero_thickness_area_pct": 0.19,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item063.png"
+  },
+  {
+    "icon": "7item233",
+    "family": "staves",
+    "items": [
+      {
+        "id": 1317,
+        "name": "Ethric's Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item233",
+      "model": "engine/world_items/models/item_7item233.glb",
+      "length": 251.6
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "7item233",
+      "name": "Ethric's Staff",
+      "id": 1317,
+      "triangles": 455,
+      "runtime_triangles": 455,
+      "thickness_pct_length": 2.64,
+      "zero_thickness_triangles": 69,
+      "zero_thickness_area_pct": 15.54,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item233.png"
+  },
+  {
+    "icon": "item079",
+    "family": "staves",
+    "items": [
+      {
+        "id": 79,
+        "name": "Journey Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item079",
+      "model": "engine/world_items/models/item_item079.glb",
+      "length": 237.6
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "item079",
+      "name": "Journey Staff",
+      "id": 79,
+      "triangles": 740,
+      "runtime_triangles": 740,
+      "thickness_pct_length": 2.48,
+      "zero_thickness_triangles": 60,
+      "zero_thickness_area_pct": 2.31,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item079.png"
+  },
+  {
+    "icon": "item080",
+    "family": "staves",
+    "items": [
+      {
+        "id": 80,
+        "name": "Orb Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item080",
+      "model": "engine/world_items/models/item_item080.glb",
+      "length": 249.3
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "item080",
+      "name": "Orb Staff",
+      "id": 80,
+      "triangles": 438,
+      "runtime_triangles": 438,
+      "thickness_pct_length": 2.89,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 1.8,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item080.png"
+  },
+  {
+    "icon": "item081",
+    "family": "staves",
+    "items": [
+      {
+        "id": 81,
+        "name": "Priestly Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item081",
+      "model": "engine/world_items/models/item_item081.glb",
+      "length": 253.8
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "item081",
+      "name": "Priestly Staff",
+      "id": 81,
+      "triangles": 289,
+      "runtime_triangles": 289,
+      "thickness_pct_length": 1.83,
+      "zero_thickness_triangles": 27,
+      "zero_thickness_area_pct": 11.65,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item081.png"
+  },
+  {
+    "icon": "item082",
+    "family": "staves",
+    "items": [
+      {
+        "id": 82,
+        "name": "Serpent Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item082",
+      "model": "engine/world_items/models/item_item082.glb",
+      "length": 257.4
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "item082",
+      "name": "Serpent Staff",
+      "id": 82,
+      "triangles": 905,
+      "runtime_triangles": 905,
+      "thickness_pct_length": 3.31,
+      "zero_thickness_triangles": 19,
+      "zero_thickness_area_pct": 0.55,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item082.png"
+  },
+  {
+    "icon": "item083",
+    "family": "staves",
+    "items": [
+      {
+        "id": 83,
+        "name": "Bone Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item083",
+      "model": "engine/world_items/models/item_item083.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "item083",
+      "name": "Bone Staff",
+      "id": 83,
+      "triangles": 977,
+      "runtime_triangles": 977,
+      "thickness_pct_length": 2.96,
+      "zero_thickness_triangles": 171,
+      "zero_thickness_area_pct": 10.27,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item083.png"
+  },
+  {
+    "icon": "item250",
+    "family": "staves",
+    "items": [
+      {
+        "id": 511,
+        "name": "Staff of the Swamp"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item250",
+      "model": "engine/world_items/models/item_item250.glb",
+      "length": 255.6
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "item250",
+      "name": "Staff of the Swamp",
+      "id": 511,
+      "triangles": 562,
+      "runtime_triangles": 562,
+      "thickness_pct_length": 3.34,
+      "zero_thickness_triangles": 50,
+      "zero_thickness_area_pct": 19.25,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item250.png"
+  },
+  {
+    "icon": "item335",
+    "family": "staves",
+    "items": [
+      {
+        "id": 530,
+        "name": "Staff of Elements"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item335",
+      "model": "engine/world_items/models/item_item335.glb",
+      "length": 259.2
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "item335",
+      "name": "Staff of Elements",
+      "id": 530,
+      "triangles": 977,
+      "runtime_triangles": 977,
+      "thickness_pct_length": 2.96,
+      "zero_thickness_triangles": 171,
+      "zero_thickness_area_pct": 10.27,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item335.png"
+  },
+  {
+    "icon": "staff1",
+    "family": "staves",
+    "items": [
+      {
+        "id": 1663,
+        "name": "Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "staff1",
+      "model": "engine/world_items/models/item_staff1.glb",
+      "length": 191.7
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "staff1",
+      "name": "Staff",
+      "id": 1663,
+      "triangles": 240,
+      "runtime_triangles": 240,
+      "thickness_pct_length": 3.17,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 11.65,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/staff1.png"
+  },
+  {
+    "icon": "staff2",
+    "family": "staves",
+    "items": [
+      {
+        "id": 1664,
+        "name": "Emerald Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "staff2",
+      "model": "engine/world_items/models/item_staff2.glb",
+      "length": 258.3
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "staff2",
+      "name": "Emerald Staff",
+      "id": 1664,
+      "triangles": 311,
+      "runtime_triangles": 311,
+      "thickness_pct_length": 2.42,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 21.34,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/staff2.png"
+  },
+  {
+    "icon": "staff3",
+    "family": "staves",
+    "items": [
+      {
+        "id": 1665,
+        "name": "Power Staff"
+      }
+    ],
+    "owner": "weapons_polearms_staves",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "staff3",
+      "model": "engine/world_items/models/item_staff3.glb",
+      "length": 258.8
+    },
+    "baseline_audit": {
+      "family": "staves",
+      "icon": "staff3",
+      "name": "Power Staff",
+      "id": 1665,
+      "triangles": 816,
+      "runtime_triangles": 816,
+      "thickness_pct_length": 3.34,
+      "zero_thickness_triangles": 24,
+      "zero_thickness_area_pct": 0.78,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/staff3.png"
+  }
+]

@@ -1,0 +1,740 @@
+{
+ "id": "20261009-1649-mm7-7out04-25",
+ "world": "mm7",
+ "maps": [
+  "7out04.odm",
+  "out10.odm"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/hem2elw",
+  "mm7/hem2erw",
+  "mm7/hem2bw",
+  "mm7/hem1er",
+  "mm7/hem1erw",
+  "mm7/hem2d",
+  "mm7/hem1d",
+  "mm7/hem1rf",
+  "mm7/hemflor",
+  "mm7/hkm1b1",
+  "mm7/hkm2bs",
+  "mm7/hkr1b",
+  "mm7/hkm1dl",
+  "mm7/hkm1er",
+  "mm7/hkm2bw",
+  "mm7/hkm1el",
+  "mm7/hkm1elw",
+  "mm7/hkm1erw",
+  "mm7/hkr1le",
+  "mm7/hkr1re",
+  "mm7/hkm1d",
+  "mm7/hkm1bw",
+  "mm7/hkr1bw",
+  "mm7/hkr1lew",
+  "mm7/hkm1dr"
+ ],
+ "requests": {
+  "mm7/hem2elw": {
+   "name": "hem2elw",
+   "versions": [
+    1
+   ],
+   "material": "cottage wall of pale grey-beige plaster above, weathered vertical wooden planks below, framed by dark timber beams overgrown with climbing green ivy, with an arched lattice window with open wooden shutters in the plaster and an ivy-covered timber corner post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem2el"
+     ],
+     "fraction": 0.76
+    }
+   }
+  },
+  "mm7/hem2erw": {
+   "name": "hem2erw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "cottage wall of pale grey-beige plaster above, weathered vertical wooden planks below, framed by dark timber beams overgrown with climbing green ivy, with an arched lattice window with open wooden shutters in the plaster and an ivy-covered timber corner post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem2er",
+      "mm7/hem2elw"
+     ],
+     "fraction": 0.94
+    },
+    "2": {
+     "sources": [
+      "mm7/hem2er",
+      "mm7/hem2bw",
+      "mm7/hem2elw"
+     ],
+     "fraction": 0.948
+    }
+   }
+  },
+  "mm7/hem2bw": {
+   "name": "hem2bw",
+   "versions": [
+    1
+   ],
+   "material": "cottage wall of pale grey-beige plaster above, weathered vertical wooden planks below, framed by dark timber beams overgrown with climbing green ivy, with an arched lattice window with open wooden shutters in the plaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem2b",
+      "mm7/hem2elw"
+     ],
+     "fraction": 0.92
+    }
+   }
+  },
+  "mm7/hem1er": {
+   "name": "hem1er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream weathered vertical wooden planks under dark brown curved timber arches, a few small green leaves, with a dark timber post on the right edge",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hem1b"
+    }
+   }
+  },
+  "mm7/hem1erw": {
+   "name": "hem1erw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream weathered vertical wooden planks under dark brown curved timber arches, a few small green leaves, with a small arched window on the left",
+   "notes": {
+    "2": "the sharp areas are the finished wall: continue their exact plank grain, tone and brightness into the new areas so no patch edges or stepped outlines show; only the small arched window on the left is new"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem1er"
+     ],
+     "fraction": 0.852
+    },
+    "2": {
+     "sources": [
+      "mm7/hem1er"
+     ],
+     "fraction": 0.852
+    }
+   }
+  },
+  "mm7/hem2d": {
+   "name": "hem2d",
+   "versions": [
+    1
+   ],
+   "material": "arched cottage door of dark wood with tall blue leaded glass panes, set in pale plaster under an ivy-covered timber arch; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem2b"
+     ],
+     "fraction": 0.145
+    }
+   }
+  },
+  "mm7/hem1d": {
+   "name": "hem1d",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pointed-arch door of pale cream wooden planks with a carved green heart-shaped leaf emblem and two small dark iron fittings, under a dark brown timber arch; copy the composition exactly",
+   "notes": {
+    "3": "the left edge continues the neighbouring wall's pale plank straight across the joint: no dark plank gap, groove or shadow line in the leftmost pixel columns; the leaf emblem is very dark blackish green with thin bright green veins and outline, as in the reference",
+    "4": "the plank at the very left edge is the same plank as the sharp neighbouring wall shown in the left margin: the same warm light cream colour, brightness and grain continue straight across the left edge with no tone change, groove or line; the leaf emblem is very dark blackish green with thin bright green veins and outline, as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hem1el"
+    },
+    "3": {
+     "left": "mm7/hem1el"
+    },
+    "4": {
+     "left": "mm7/hem1el"
+    }
+   }
+  },
+  "mm7/hem1rf": {
+   "name": "hem1rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of rough brown tree-bark shingles overlapping in rows, deep furrowed bark grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hemflor": {
+   "name": "hemflor",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown wooden plank floor overgrown with dense green ivy leaves and vines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkm1b1": {
+   "name": "hkm1b1",
+   "versions": [
+    1
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, dark stone pilaster strips at the edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkm2bs": {
+   "name": "hkm2bs",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rubble cobblestone wall framed by dark carved timber posts, a carved wooden lintel with small skull ornaments along the top, with a carved wooden skeleton totem figure with a skull head in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkr1b": {
+   "name": "hkr1b",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-green mottled rough plaster wall, gritty and weathered",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkm1dl": {
+   "name": "hkm1dl",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with a grey carved stone scalloped arch frieze along the top, with an ornate dark carved wooden door with silver iron scrollwork hinges and a ring knocker; copy the composition exactly",
+   "notes": {
+    "2": "keep the outermost right column exactly as bright as the reference: the right edge is the door's grey iron frame band, not a dark shadow; no dark rim on any edge",
+    "3": "the dark door edge at the right runs right up to the very last pixel column: no pale or light line along the right edge",
+    "4": "the dark door edge at the right runs right up to the very last pixel column: no pale or light line along the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.314
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.314
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.314
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm7/hkm1er": {
+   "name": "hkm1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with a narrow pale grey carved stone corner pilaster with a dark engraved vertical pattern on the right edge",
+   "notes": {
+    "3": "the pale grey pilaster strip on the right runs up to the very last pixel column at full brightness; no dark line, outline or shadow along the right edge",
+    "4": "the pale grey carved pilaster at the right edge continues beyond the right border of the picture: the rightmost pixel columns show the middle of its pale stone face, not its outer edge, so there is no dark outline, groove or shadow line at the right border"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.822
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.822
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.822
+    },
+    "4": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.822
+    }
+   }
+  },
+  "mm7/hkm2bw": {
+   "name": "hkm2bw",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rubble cobblestone wall framed by dark carved timber posts, a carved wooden lintel with small skull ornaments along the top, with crossed diagonal timbers forming an X around a green diamond panel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm2bs"
+     ],
+     "fraction": 0.403
+    }
+   }
+  },
+  "mm7/hkm1el": {
+   "name": "hkm1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with a narrow pale whitish-grey carved stone corner pilaster with a dark engraved vertical pattern on the left edge",
+   "notes": {
+    "3": "the pale pilaster strip on the left is as light as in the reference and runs at full brightness to the very first pixel column; no dark outline or shadow line along the left edge",
+    "4": "keep the narrow pale whitish-grey carved stone pilaster down the full height of the left edge, about one tenth of the width, with its column of small dark engraved square and cross symbols exactly as in the reference, ending at the dark cornice above and the beam below; the sandstone blocks beside it continue the sharp blocks in the same even tone, with no darker band"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.791
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.791
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.791
+    },
+    "4": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.791
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hkm1b1"
+    },
+    "3": {
+     "right": "mm7/hkm1b1"
+    },
+    "4": {
+     "right": "mm7/hkm1b1"
+    }
+   }
+  },
+  "mm7/hkm1elw": {
+   "name": "hkm1elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "left edge: a narrow flat pale whitish-grey stone pilaster strip, about one tenth of the width, engraved with a vertical column of small dark square and cross symbols, running from the cornice down to the bottom beam; beside it a manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with a hexagonal window of cracked pale blue glass in a white stone frame; copy the composition exactly",
+   "notes": {
+    "3": "keep the narrow pale whitish-grey carved stone pilaster down the full height of the left edge with its column of small dark engraved square and cross symbols exactly as in the reference; it is flat, not a round column, and runs at full brightness to the very first pixel column"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1el"
+     ],
+     "fraction": 0.544
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.369
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.369
+    },
+    "4": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.369
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hkm1b1"
+    },
+    "3": {
+     "right": "mm7/hkm1b1"
+    },
+    "4": {
+     "right": "mm7/hkm1b1"
+    }
+   }
+  },
+  "mm7/hkm1erw": {
+   "name": "hkm1erw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with a hexagonal window of cracked pale blue glass in a white stone frame and a corner pilaster on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1er",
+      "mm7/hkm1elw"
+     ],
+     "fraction": 0.913
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1bw",
+      "mm7/hkm1elw"
+     ],
+     "fraction": 0.755
+    }
+   }
+  },
+  "mm7/hkr1le": {
+   "name": "hkr1le",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-green mottled rough plaster wall, gritty and weathered, with carved dark wooden scroll brackets in the left corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkr1b"
+     ],
+     "fraction": 0.569
+    },
+    "2": {
+     "sources": [
+      "mm7/hkr1b"
+     ],
+     "fraction": 0.569
+    }
+   }
+  },
+  "mm7/hkr1re": {
+   "name": "hkr1re",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-green mottled rough plaster wall, gritty and weathered, with carved dark wooden scroll brackets in the right corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkr1b"
+     ],
+     "fraction": 0.538
+    },
+    "2": {
+     "sources": [
+      "mm7/hkr1b"
+     ],
+     "fraction": 0.538
+    }
+   }
+  },
+  "mm7/hkm1d": {
+   "name": "hkm1d",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with an ornate dark carved wooden door with silver iron scrollwork hinges and a ring knocker; copy the composition exactly",
+   "notes": {
+    "2": "match the reference brightness exactly in the newly painted areas; keep the bottom rows as bright as the reference (no dark rim or shadow along the bottom edge)",
+    "3": "the very bottom edge is a thin light grey stone sill line, as bright as the stone blocks; do not paint a dark threshold or shadow at the bottom; keep the door and stone at the reference brightness, not brighter",
+    "4": "the very bottom edge is a thin light grey stone sill line, as bright as the stone blocks; do not paint a dark threshold or shadow at the bottom; keep the door and stone at the reference brightness, not brighter",
+    "5": "the very bottom edge is a thin light grey stone sill line, as bright as the stone blocks; do not paint a dark threshold or shadow at the bottom; keep the door and stone at the reference brightness, not brighter",
+    "6": "the very bottom edge is a thin light grey stone sill line, as bright as the stone blocks; no dark threshold or shadow at the bottom",
+    "7": "along the very bottom runs a light grey stone sill band about as thick as the reference's bottom pixel row, with no dark groove, crack or shadow line directly above or below it; the stone blocks to the right of the door continue the neighbouring wall's tone with only the soft shadow of the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1dl",
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.91
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1dl",
+      "mm7/hkm1bw"
+     ],
+     "fraction": 0.91
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm1dl",
+      "mm7/hkm1bw"
+     ],
+     "fraction": 0.91
+    },
+    "4": {
+     "sources": [
+      "mm7/hkm1dl",
+      "mm7/hkm1bw"
+     ],
+     "fraction": 0.91
+    },
+    "5": {
+     "sources": [
+      "mm7/hkm1dl",
+      "mm7/hkm1dr"
+     ],
+     "fraction": 0.909
+    },
+    "6": {
+     "sources": [
+      "mm7/hkm1dl",
+      "mm7/hkm1dr"
+     ],
+     "fraction": 0.909
+    },
+    "7": {
+     "sources": [
+      "mm7/hkm1dl",
+      "mm7/hkm1dr"
+     ],
+     "fraction": 0.909
+    }
+   },
+   "context": {
+    "5": {
+     "right": "mm7/hkm1b1",
+     "left": "mm7/hkm1elw"
+    },
+    "6": {},
+    "7": {}
+   },
+   "roll": {
+    "6": [
+     0,
+     64
+    ],
+    "7": [
+     0,
+     64
+    ]
+   }
+  },
+  "mm7/hkm1bw": {
+   "name": "hkm1bw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with a hexagonal window of cracked pale blue glass in a white stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1elw"
+     ],
+     "fraction": 0.879
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1erw",
+      "mm7/hkm1elw"
+     ],
+     "fraction": 0.88
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hkm1b1",
+     "right": "mm7/hkm1b1"
+    }
+   }
+  },
+  "mm7/hkr1bw": {
+   "name": "hkr1bw",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-green mottled rough plaster wall, gritty and weathered, with a carved dark wooden window frame with spoked round shutter and a hanging ornament on top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkr1b"
+     ],
+     "fraction": 0.587
+    }
+   }
+  },
+  "mm7/hkr1lew": {
+   "name": "hkr1lew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-green mottled rough plaster wall, gritty and weathered, with a carved dark wooden window frame with spoked round shutter and carved wooden scroll brackets in the left corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkr1le",
+      "mm7/hkr1bw"
+     ],
+     "fraction": 0.845
+    },
+    "2": {
+     "sources": [
+      "mm7/hkr1le",
+      "mm7/hkr1bw"
+     ],
+     "fraction": 0.845
+    }
+   }
+  },
+  "mm7/hkm1dr": {
+   "name": "hkm1dr",
+   "versions": [
+    1
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: manor wall of tan-grey cut sandstone blocks with a grey carved stone scalloped arch frieze along the top, with an ornate dark carved wooden door with silver iron scrollwork hinges and a ring knocker - right part: manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with an ornate dark carved wooden door with silver iron scrollwork hinges and a ring knocker; copy the composition exactly",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1d",
+      "mm7/hkm1b1",
+      "mm7/hkm1bw"
+     ],
+     "fraction": 0.656
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hkm1el",
+     "right": "mm7/hkm1el"
+    }
+   }
+  }
+ }
+}

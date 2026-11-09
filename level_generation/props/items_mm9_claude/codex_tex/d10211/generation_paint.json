@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, the geometry/layout authority. design_reference.png is the approved materials/details reference; icon_x8.png is original colour reference (ignore magenta background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve exact guide layout: 3 columns by FOUR rows of square cells. Rows 1-2 and 3-4 contain identical five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint ONLY the grey objects, keep every object's exact position, size, silhouette, hoop opening and orientation. Do not reshape the simple model to match the reference's larger bezel. Source-faithful upright hoop plane.\nRows 1-2: unlit base colour painting. Rich gold metal hoop and bezel, yellow gemstone. Translate reference engravings, shoulder detailing and inner swirls onto the existing guide geometry scaled to each view. No lighting, shadows, ambient occlusion, hot highlights or reflections. No glow, sparkles, aura, outlines or text.\nRows 3-4: material segmentation masks of same five silhouettes. EVERY metal pixel FLAT PURE RED #FF0000. EVERY gemstone pixel FLAT PURE BLACK #000000. No shading, texture, outlines or internal antialiased colour blends. Distinguish the visible domed gemstone from the metal bezel; back of setting is metal. All gaps and openings remain fully transparent. Cell column 3 row 2 and column 3 row 4 remain fully transparent. Background genuinely transparent, no ground. Preserve layout and outlines with utmost precision; never enlarge, move, redraw or redesign the objects.\nCORRECTION: The previous attempt is rejected for changed silhouettes and stray coloured noise outside them. Start fresh from the original grey guide. Absolutely preserve the thin plain hoop and small cylindrical bezel, including their exact boundaries; shoulder motifs must be flat painted detail WITHIN the guide, never protrusions or expanded shoulders. All pixels outside original grey silhouettes MUST have alpha zero, with clean empty holes, no speckles anywhere. Bottom-half masks must be completely solid flat #FF0000 metal / #000000 gem, no engraved lines or tonal changes at all. Match original guide positions precisely.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, the geometry/layout authority. design_reference.png is the approved materials/details reference; icon_x8.png is original colour reference (ignore magenta background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve exact guide layout: 3 columns by FOUR rows of square cells. Rows 1-2 and 3-4 contain identical five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint ONLY the grey objects, keep every object's exact position, size, silhouette, hoop opening and orientation. Do not reshape the simple model to match the reference's larger bezel. Source-faithful upright hoop plane.\nRows 1-2: unlit base colour painting. Rich gold metal hoop and bezel, yellow gemstone. Translate reference engravings, shoulder detailing and inner swirls onto the existing guide geometry scaled to each view. No lighting, shadows, ambient occlusion, hot highlights or reflections. No glow, sparkles, aura, outlines or text.\nRows 3-4: material segmentation masks of same five silhouettes. EVERY metal pixel FLAT PURE RED #FF0000. EVERY gemstone pixel FLAT PURE BLACK #000000. No shading, texture, outlines or internal antialiased colour blends. Distinguish the visible domed gemstone from the metal bezel; back of setting is metal. All gaps and openings remain fully transparent. Cell column 3 row 2 and column 3 row 4 remain fully transparent. Background genuinely transparent, no ground. Preserve layout and outlines with utmost precision; never enlarge, move, redraw or redesign the objects.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3f-98e2-7952-9a5b-f44cb7905aac/exec-05e9ae5a-4259-460f-a64c-7b1fa68b26a9.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10211/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Generated output retains stray pixels outside silhouettes and does not meet exact silhouette/pure-mask requirements. Saved raw unmodified as requested.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10211/paint_mask_guide.png",
+      "sha256": "83dff6633502fda509ba4cd1a67a4cac23e933936dca5a2cdc1876f0a1f95f55"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10211/design_reference.png",
+      "sha256": "dc25bdec204262213dfc282302c7e31ec0368388ca0b61b22a2da202d14d8c4d"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10211/icon_x8.png",
+      "sha256": "e0fc21124f7b8090687cc5fa1235581c1fd8e8da4ecfa6550a8fa2a5ad1ae9e5"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

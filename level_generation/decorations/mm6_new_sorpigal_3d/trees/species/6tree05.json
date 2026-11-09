@@ -1,0 +1,46 @@
+{
+ "sprite": "6tree05",
+ "output": "mm6_deco_tree05.glb",
+ "height_m": 7.39,
+ "note": "16 placements. Bushy oval crown, light green, short trunk.",
+ "sapling": {
+  "scale": 5.23,
+  "baseSize": 0.35,
+  "splitHeight": 0.32,
+  "attractUp": [
+   0,
+   0.7,
+   0.35,
+   0
+  ],
+  "seed": 41,
+  "baseSplits": 0,
+  "ratio": 0.04
+ },
+ "crown": {
+  "canopy_low": 0.32,
+  "centre": 0.6,
+  "clumps": 119,
+  "inner_clumps": 21
+ },
+ "bark": {
+  "target_srgb": [
+   90,
+   72,
+   58
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   110,
+   175,
+   70
+  ],
+  "seeds": [
+   17,
+   31,
+   43,
+   59
+  ]
+ }
+}

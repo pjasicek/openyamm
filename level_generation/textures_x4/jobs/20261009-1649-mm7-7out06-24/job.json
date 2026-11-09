@@ -1,0 +1,1079 @@
+{
+ "id": "20261009-1649-mm7-7out06-24",
+ "world": "mm7",
+ "maps": [
+  "7out06.odm",
+  "7out04.odm"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/hwr1bw",
+  "mm7/hwm1bs1",
+  "mm7/hwp2bs",
+  "mm7/hwp2er",
+  "mm7/hwr1el",
+  "mm7/hwr1er",
+  "mm7/hwr1bs2",
+  "mm7/hwm1bsw",
+  "mm7/hwp2el",
+  "mm7/hwm1el",
+  "mm7/hwp2wall",
+  "mm7/hwm1er",
+  "mm7/hwm1el2",
+  "mm7/hwr1wall",
+  "mm7/hwr1dr",
+  "mm7/cwdl",
+  "mm7/cwdr",
+  "mm7/hwm1d",
+  "mm7/hwp2d",
+  "mm7/hwr1dl",
+  "mm7/t2s1fl",
+  "mm7/hem2b",
+  "mm7/hem2er",
+  "mm7/hem2el"
+ ],
+ "requests": {
+  "mm7/hwr1bw": {
+   "name": "hwr1bw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "half-timbered wall: upper part of pale yellow vertical wooden planks under a dark carved wooden beam, lower part of rough brown fieldstones in dark mortar, separated by a dark wooden beam, with a small arched window of dark blue-grey leaded glass in the plank section; copy the composition exactly",
+   "notes": {
+    "3": "inside the arched window, seen through the dark blue leaded panes, a large glowing pale blue crystal ball rests on the bronze stand between the two candlesticks, exactly as in the reference; the window frame is dark grey stone",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "5": "the small arched window has a thick dark grey stone frame (not wood), like the neighbouring window pieces; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "6": "the small arched window has a thick dark grey stone frame (not wood); inside it, in front of blue-grey leaded glass that glows pale at its centre, stand two tall cream candles in bronze candlesticks at left and right and a small bronze chalice in the middle, exactly as in the reference; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.831
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.817
+    },
+    "3": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1bs2",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.904
+    },
+    "4": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.817
+    },
+    "5": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.831
+    },
+    "6": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.831
+    }
+   },
+   "context": {
+    "4": {
+     "left": "mm7/hwr1b",
+     "right": "mm7/hwr1b"
+    },
+    "5": {
+     "left": "mm7/hwr1b",
+     "right": "mm7/hwr1b"
+    },
+    "6": {
+     "left": "mm7/hwr1b",
+     "right": "mm7/hwr1b"
+    }
+   }
+  },
+  "mm7/hwm1bs1": {
+   "name": "hwm1bs1",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "timber house wall of golden-brown horizontal wooden boards above, two carved wooden panels with ornate leaf relief below, framed by dark brown timber posts and beams",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: the dark joint on the top edge stays on the very first pixel row; no pale or dark line along any edge",
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: the thin black joint runs along the very first pixel row at the top edge, and the bottom edge ends in plain wood with no dark line; no pale or dark line along any edge",
+    "5": "every edge keeps the reference colours right up to the last pixel row and column: the thin black joint runs along the very first pixel row at the top edge, and the bottom edge ends in plain wood with no dark line; no pale or dark line along any edge",
+    "6": "each vertical post carries single round iron rivets at the top, middle and bottom, never doubled; the thin black joint runs along the very first pixel row at the top edge, and the bottom edge ends in plain wood with no dark line; no pale or dark line along the side edges",
+    "7": "copy the layout exactly: the planks, the carved panels and the cross beams at the same heights as in the reference; each vertical post carries single round iron rivets at the top, middle and bottom, never doubled; the thin black joint runs along the very first pixel row at the top edge, and the bottom edge ends in plain wood with no dark line; no pale or dark line along the side edges",
+    "8": "copy the layout exactly: the planks, the carved panels and the cross beams at the same heights as in the reference; a thin straight black joint line runs horizontally exactly where the reference has it at the top of the uppermost beam; each vertical post carries single round iron rivets, never doubled; no pale or dark line along the side edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     145
+    ],
+    "5": [
+     0,
+     145
+    ],
+    "8": [
+     0,
+     145
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   }
+  },
+  "mm7/hwp2bs": {
+   "name": "hwp2bs",
+   "versions": [
+    1
+   ],
+   "material": "weathered tan plaster wall with grey flaking patches of exposed stone, crossed by grey weathered wooden timber beams studded with iron rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwpb2"
+     ],
+     "fraction": 0.751
+    }
+   }
+  },
+  "mm7/hwp2er": {
+   "name": "hwp2er",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered tan plaster wall with grey flaking patches of exposed stone, crossed by grey weathered wooden timber beams studded with iron rivets: a horizontal beam in the lower part and two vertical posts in the right half, with a narrow strip of plaster beyond them at the right edge; copy the composition exactly",
+   "notes": {
+    "3": "the narrow tan plaster strip at the right edge continues as plain plaster right up to the last pixel column; no black crack, outline or shadow line anywhere along the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwp2bs",
+      "mm7/hwpb2"
+     ],
+     "fraction": 0.625
+    },
+    "2": {
+     "sources": [
+      "mm7/hwp2bs",
+      "mm7/hwpb2"
+     ],
+     "fraction": 0.625
+    },
+    "3": {
+     "sources": [
+      "mm7/hwp2bs",
+      "mm7/hwpb2"
+     ],
+     "fraction": 0.625
+    }
+   }
+  },
+  "mm7/hwr1el": {
+   "name": "hwr1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "half-timbered wall: upper part of pale yellow vertical wooden planks under a dark carved wooden beam, lower part of rough brown fieldstones in dark mortar, separated by a dark wooden beam, with a dark wooden post on the left edge",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "5": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1elw"
+     ],
+     "fraction": 0.834
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1elw"
+     ],
+     "fraction": 0.834
+    },
+    "3": {
+     "sources": [
+      "mm7/hwr1elw"
+     ],
+     "fraction": 0.834
+    },
+    "4": {
+     "sources": [
+      "mm7/hwr1elw"
+     ],
+     "fraction": 0.834
+    },
+    "5": {
+     "sources": [
+      "mm7/hwr1elw"
+     ],
+     "fraction": 0.834
+    }
+   },
+   "roll": {
+    "4": [
+     44,
+     0
+    ],
+    "5": [
+     44,
+     0
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm7/hwr1er": {
+   "name": "hwr1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "half-timbered wall: upper part of pale yellow vertical wooden planks under a dark carved wooden beam, lower part of rough brown fieldstones in dark mortar, separated by a dark wooden beam, with a dark wooden post on the right edge",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.833
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.833
+    },
+    "3": {
+     "sources": [
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.833
+    },
+    "4": {
+     "sources": [
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.833
+    }
+   },
+   "roll": {
+    "4": [
+     80,
+     0
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/hwr1bs2": {
+   "name": "hwr1bs2",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "half-timbered wall: upper part of pale yellow vertical wooden planks under a dark carved wooden beam, lower part of rough brown fieldstones in dark mortar, separated by a dark wooden beam, with a small arched window of dark blue-grey leaded glass in the plank section and a grey stone drain channel down the fieldstones; copy the composition exactly",
+   "notes": {
+    "2": "inside the arched window, behind dark blue leaded glass, keep the leaning stack of red and brown leather books at lower left and the small stack of grey slate tablets at lower right exactly as in the reference",
+    "3": "inside the arched window, behind dark blue leaded glass, keep the leaning stack of red and brown leather books at lower left and the small stack of grey slate tablets at lower right exactly as in the reference",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "5": "the small arched window has a thick grey stone frame; inside it, behind dark blue leaded glass, keep the leaning stack of red and brown leather books at lower left and the small stack of grey slate tablets at lower right exactly as in the reference; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "6": "the small arched window has a thick dark grey stone frame; inside it, behind dark blue leaded glass, keep the leaning stack of red and brown leather books at lower left and the small stack of grey slate tablets at lower right exactly as in the reference; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw",
+      "mm7/hwr1elw"
+     ],
+     "fraction": 0.801
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1bw",
+      "mm7/hwr1b",
+      "mm7/hwr1elw",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.816
+    },
+    "3": {
+     "sources": [
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.801
+    },
+    "4": {
+     "sources": [
+      "mm7/hwr1bw",
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.816
+    },
+    "5": {
+     "sources": [
+      "mm7/hwr1bw",
+      "mm7/hwr1b",
+      "mm7/hwr1elw",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.816
+    },
+    "6": {
+     "sources": [
+      "mm7/hwr1bw",
+      "mm7/hwr1b",
+      "mm7/hwr1erw"
+     ],
+     "fraction": 0.816
+    }
+   },
+   "context": {
+    "4": {
+     "right": "mm7/hwr1bw"
+    },
+    "5": {
+     "right": "mm7/hwr1bw"
+    },
+    "6": {
+     "right": "mm7/hwr1bw"
+    }
+   }
+  },
+  "mm7/hwm1bsw": {
+   "name": "hwm1bsw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "timber house wall of golden-brown horizontal wooden boards above, two carved wooden panels with ornate leaf relief below, framed by dark brown timber posts and beams, with a small arched window of wooden lattice in the upper boards",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: the dark joint on the top edge stays on the very first pixel row; no pale or dark line along any edge",
+    "5": "every edge keeps the reference colours right up to the last pixel row and column: the thin black joint runs along the very first pixel row at the top edge, and the bottom edge ends in plain wood with no dark line; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.816
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.816
+    },
+    "3": {
+     "sources": [
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.816
+    },
+    "4": {
+     "sources": [
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.816
+    },
+    "5": {
+     "sources": [
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.816
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     145
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm7/hwp2el": {
+   "name": "hwp2el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered tan plaster wall with grey flaking patches of exposed stone, crossed by grey weathered wooden timber beams studded with iron rivets: a horizontal beam in the lower part, a vertical post on the left edge and a second post left of centre; copy the composition exactly",
+   "notes": {
+    "3": "the tan plaster right beside each post has the same even brightness and colour as the sharp plaster areas of the reference and continues them seamlessly; no darker vertical shadow band, light streak or straight vertical edge in the plaster next to the posts",
+    "4": "the narrow plaster strip between the two posts is the same warm light tan as the wide plaster area on the right, evenly lit across its whole width, continuing the thin sharp plaster sliver in the reference without a visible stripe; the wide plaster area on the right is one even tone from the post to the right edge, with no darker vertical band beside the post"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwp2bs",
+      "mm7/hwpb2",
+      "mm7/hwp2er"
+     ],
+     "fraction": 0.764
+    },
+    "2": {
+     "sources": [
+      "mm7/hwp2bs",
+      "mm7/hwpb2",
+      "mm7/hwp2er"
+     ],
+     "fraction": 0.764
+    },
+    "3": {
+     "sources": [
+      "mm7/hwp2bs",
+      "mm7/hwpb2",
+      "mm7/hwp2er"
+     ],
+     "fraction": 0.764
+    },
+    "4": {
+     "sources": [
+      "mm7/hwp2bs",
+      "mm7/hwpb2",
+      "mm7/hwp2er"
+     ],
+     "fraction": 0.764
+    }
+   }
+  },
+  "mm7/hwm1el": {
+   "name": "hwm1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "timber house wall of golden-brown horizontal wooden boards above, two carved wooden panels with ornate leaf relief below, framed by dark brown timber posts and beams, with a carved diagonal wooden bracket in the upper left corner and a dark post on the left edge",
+   "notes": {
+    "4": "keep the reference's deep dark recess along the right edge: the boards and beams darken smoothly into near-black over the last eighth of the width, the right edge itself is near-black from top to bottom, and the space right of the lower carved panel is solid black void, not slats",
+    "5": "every edge keeps the reference colours right up to the last pixel row and column: the dark joint on the top edge stays on the very first pixel row; no pale or dark line along any edge",
+    "6": "copy the layout exactly: the carved wooden lattice ornament at upper left, the planks, the two carved panels and the beams at the same positions as in the reference; the right edge is a narrow black gap running the full height; a thin black joint runs along the very first pixel row at the top edge; the planks are one even wood tone with no lighter rectangular patches; no other pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm1er2",
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.579
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm1er2",
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.579
+    },
+    "3": {
+     "sources": [
+      "mm7/hwm1er2",
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.579
+    },
+    "4": {
+     "sources": [
+      "mm7/hwm1er2",
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.579
+    },
+    "5": {
+     "sources": [
+      "mm7/hwm1er2",
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.579
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {
+     "right": "mm7/hwm1er"
+    },
+    "6": {
+     "right": "mm7/hwm1er"
+    }
+   },
+   "standalone": true,
+   "match_neighbor": true
+  },
+  "mm7/hwp2wall": {
+   "name": "hwp2wall",
+   "versions": [
+    1
+   ],
+   "material": "weathered tan plaster wall with grey flaking patches of exposed stone, plain, no beams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwpb2"
+     ],
+     "fraction": 0.654
+    }
+   }
+  },
+  "mm7/hwm1er": {
+   "name": "hwm1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "timber house wall of golden-brown horizontal wooden boards above, two carved wooden panels with ornate leaf relief below, framed by dark brown timber posts and beams, with a carved diagonal wooden bracket in the upper right corner and a dark post on the right edge",
+   "notes": {
+    "3": "the timber post on the right edge is lit golden-brown wood right up to the last pixel column, with no black outline along the right edge; the boards and beams at the left edge continue the neighbouring wall's boards at the same brightness and colour, with no dark shadow band along the left edge",
+    "4": "the left edge continues the neighbouring wall shown sharp in the left margin: in the lower carved-panel band the leftmost columns are the same near-black dark recess with no light edge line, and the boards and beams above continue at exactly the neighbour's brightness and colour; the timber post on the right edge is lit golden-brown wood up to the last pixel column with no black outline"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hwm1el"
+    },
+    "3": {
+     "left": "mm7/hwm1el"
+    },
+    "4": {
+     "left": "mm7/hwm1el"
+    }
+   }
+  },
+  "mm7/hwm1el2": {
+   "name": "hwm1el2",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "timber house wall of golden-brown horizontal wooden boards above, two carved wooden panels with ornate leaf relief below, framed by dark brown timber posts and beams, with a carved diagonal wooden bracket in the upper right corner",
+   "notes": {
+    "4": "the horizontal boards, beams and carved panels continue straight from the sharp wall shown in the left margin across the left edge: the leftmost pixel columns keep the same golden-brown board colour as the margin, with no dark vertical line, gap or groove at or along the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm1er"
+     ],
+     "fraction": 0.408
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hwm1b"
+    },
+    "3": {
+     "left": "mm7/hwm1b"
+    },
+    "4": {
+     "left": "mm7/hwm1b"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/hwr1wall": {
+   "name": "hwr1wall",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale yellow weathered vertical wooden planks with fine grain, small knots and dark seams between boards",
+   "notes": {
+    "2": "the sharp areas are finished planks: continue each plank's exact grain, tone and brightness through the new areas so no horizontal step or patch edge shows across any board"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.316
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.316
+    }
+   }
+  },
+  "mm7/hwr1dr": {
+   "name": "hwr1dr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: cottage door of pale yellow vertical planks in a dark riveted iron frame, a black cross-shaped window slot with blue glass, an iron ring handle and small carved runes, with a grey stone block jamb on the left - right part: cottage door of pale yellow vertical planks in a dark riveted iron frame, a black cross-shaped window slot with blue glass, an iron ring handle and small carved runes, with a grey stone block jamb and then a flat squared brown timber post that runs to the right edge, evenly lit with no rounded shading or dark outline; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "at both outer edges the picture continues straight into the sharp neighbouring wall shown in the margins: the timber posts keep their plain brown wood colour right up to the last pixel column, with no dark outline, groove or shadow line along the left or right edge",
+    "5": "at both outer edges the picture continues straight into the sharp neighbouring wall shown in the margins: stone and timber keep their plain colours right up to the last pixel column, with no dark outline, groove or shadow line along the left or right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm7/hwr1dl"
+     ],
+     "fraction": 0.093
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hwr1dl"
+    },
+    "3": {
+     "left": "mm7/hwr1b",
+     "right": "mm7/hwr1b"
+    },
+    "4": {
+     "left": "mm7/hwr1b",
+     "right": "mm7/hwr1b"
+    },
+    "5": {
+     "left": "mm7/hwr1b",
+     "right": "mm7/hwr1b"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/cwdl": {
+   "name": "cwdl",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "one complete front face of a grand double door: arched dark oak double doors with gold fittings and a gold threshold plate, set in grey stone brick walls under a carved white stone arch with a red jewel keystone and a glass orb lamp on each top corner; copy the composition exactly",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   }
+  },
+  "mm7/cwdr": {
+   "name": "cwdr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "one complete front face of a grand double door: arched dark oak double doors with gold fittings and a gold threshold plate, set in grey stone brick walls under a carved white stone arch with a red jewel keystone and a glass orb lamp on each top corner; copy the composition exactly",
+   "notes": {
+    "4": "the brick wall at the far left and far right edges continues the neighbouring wall shown sharp in the margins: the same warm grey-brown brick colour and brightness and the same brick courses at the same heights run straight across both outer edges, with no colour change, vertical line or misaligned course at the edges",
+    "5": "the brick wall at the far left and far right edges continues the neighbouring wall shown sharp in the margins with the same warm grey-brown brick colour and the same brick courses; the gold threshold plate and stone at the bottom run at full brightness to the very last pixel row with no dark line along the bottom edge",
+    "6": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   }
+  },
+  "mm7/hwm1d": {
+   "name": "hwm1d",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "wooden plank door of warm brown boards under a carved horned dragon head holding a red scaled shield crest, dark iron fittings at the side; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge; keep the dragon head, egg, keyhole and hinges exactly where the reference has them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     182
+    ],
+    "4": [
+     58,
+     182
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/hwp2d": {
+   "name": "hwp2d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey weathered wooden door with iron bands and a hanging leather flap, under a carved horned skull ornament, set in tan plaster; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     64
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/hwr1dl": {
+   "name": "hwr1dl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "cottage door of pale yellow vertical planks in a dark riveted iron frame, a black cross-shaped window slot with blue glass, an iron ring handle and small carved runes, with a grey stone block jamb on the left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t2s1fl": {
+   "name": "t2s1fl",
+   "versions": [
+    1
+   ],
+   "material": "pale cream and beige marble floor with fine grey cracks and soft veining",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hem2b": {
+   "name": "hem2b",
+   "versions": [
+    1
+   ],
+   "material": "cottage wall of pale grey-beige plaster above, weathered vertical wooden planks below, framed by dark timber beams overgrown with climbing green ivy",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hem2er": {
+   "name": "hem2er",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "cottage wall of pale grey-beige plaster above, weathered vertical wooden planks below, framed by dark timber beams overgrown with climbing green ivy, with an ivy-covered timber corner post on the right edge",
+   "notes": {
+    "2": "the sharp areas are the finished wall: paint the plaster panel as one even surface continuing their exact tone and brightness, so no lighter or darker rectangle or stepped patch edge shows in the plaster",
+    "3": "keep the small dark carved wooden corner bracket in the top right corner of the plaster panel, under the beam beside the post; paint the plaster evenly lit, matching the sharp plaster areas exactly so no lighter or darker rectangles or stepped edges appear"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem2b"
+     ],
+     "fraction": 0.77
+    },
+    "2": {
+     "sources": [
+      "mm7/hem2b"
+     ],
+     "fraction": 0.77
+    },
+    "3": {
+     "sources": [
+      "mm7/hem2b"
+     ],
+     "fraction": 0.77
+    }
+   }
+  },
+  "mm7/hem2el": {
+   "name": "hem2el",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "cottage wall of pale grey-beige plaster above, weathered vertical wooden planks below, framed by dark timber beams overgrown with climbing green ivy, with an ivy-covered timber corner post on the left edge",
+   "notes": {
+    "2": "keep the outermost left and right columns exactly as in the reference: no extra dark beam, shadow or dark rim along the left or right edge; the plaster and planks run to the right edge",
+    "3": "keep the small dark carved wooden corner bracket in the top left corner of the plaster panel, under the beam beside the post; paint the plaster evenly lit, matching the sharp plaster areas exactly so no lighter or darker bands or stepped edges appear; no dark rim on the left or right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem2b"
+     ],
+     "fraction": 0.769
+    },
+    "2": {
+     "sources": [
+      "mm7/hem2b"
+     ],
+     "fraction": 0.769
+    },
+    "3": {
+     "sources": [
+      "mm7/hem2b"
+     ],
+     "fraction": 0.769
+    }
+   }
+  }
+ }
+}

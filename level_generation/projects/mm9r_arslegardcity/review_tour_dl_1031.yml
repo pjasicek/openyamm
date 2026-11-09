@@ -1,0 +1,33 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_arslegardcity/review/dl_1031
+settle_seconds: 2.0
+exit: true
+shots:
+- name: s01_gate_start_1200
+  position: &id001
+  - 14400
+  - 2387
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+  commands: &id002
+  - qbit set 90098
+  time: '12:00'
+- name: s03_north_street_west_1200
+  position: &id003
+  - 6912
+  - 1056
+  - -491
+  yaw: 3.1416
+  pitch: 0.0
+  time: '12:00'
+- name: s01_gate_start_2330
+  position: *id001
+  yaw: -1.5708
+  pitch: 0.0
+  commands: *id002
+  time: '23:30'
+- name: s03_north_street_west_2330
+  position: *id003
+  yaw: 3.1416
+  pitch: 0.0
+  time: '23:30'

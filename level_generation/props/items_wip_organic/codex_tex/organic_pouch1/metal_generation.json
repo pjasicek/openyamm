@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset: binary METALLIC MATERIAL MASK SHEET for a six-view PBR projection bake. Image1 is the exact edit target, a 3-column by 2-row sheet of SIX orthographic views of ONE exact game mesh Leather Pouch / Bat Guano. Keep the exact sheet proportions, every panel boundary at thirds and halves, and ALL SIX existing object shapes in precisely the same position, angle and scale. Panel order: top FRONT, BACK, LEFT; bottom RIGHT, TOP, BOTTOM. Never rearrange or turn any panel. Other images are design/colour references only. Golden tan rounded rectangular leather shoulder pouch with arched flap, a brass U-shaped clasp and long narrow leather strap loosely around it. Visible creased leather panels and stitched edges.  Replace every gray object surface in Image1 with SOLID BLACK except actual exposed metal hardware, which must be SOLID WHITE. Gold bands, gold fringe, gold socket/rings/prongs, gold clasp/pendant loops or silver diamond buckle are white where appropriate to THIS item. All leather, cloth, feathers, ivory teeth, organic scales and crystal are black. The entire object must remain opaque even where black. Transparent empty background and holes. No highlights, shadows, shading, reflections, gradients, texture, outlines, text or labels. White means metal, black means non-metal. Keep all six whole-object silhouettes EXACT; do not draw only the metal pieces. Return this one binary six-view mask sheet in landscape 3:2.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_pouch1/guide_sheet.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/meshy/organic_pouch1/references_hd/00_three_quarter.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/meshy/organic_pouch1/references_hd/icon_x8.png"
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_pouch1/metal_sheet_raw.png",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-c2847add-ae79-4f62-9b1f-569a8efca808.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "selected": true,
+  "output_sha256": "8442ce0454b83a2476b09109deb55f2e80d0bb1fb838dcd9ae85b322245fd9bd",
+  "guide_sha256": "6bdeb01942c07abd5522b0e584899a583697061820c38909b9033b07bb97178b"
+}

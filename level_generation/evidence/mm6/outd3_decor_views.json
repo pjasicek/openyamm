@@ -1,0 +1,100 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          17688.0,
+          15352.0,
+          2136.0
+        ],
+        "span": 12500
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm6/outd3_decor_settlement.png",
+      "camera_position": [
+        23347.693359375,
+        4032.6142578125,
+        15970.806640625
+      ],
+      "highlighted": [
+        {
+          "index": 123,
+          "name": "6tree03",
+          "position": [
+            18208,
+            14880,
+            2080
+          ]
+        },
+        {
+          "index": 122,
+          "name": "6flower07",
+          "position": [
+            16624,
+            15368,
+            2192
+          ]
+        },
+        {
+          "index": 270,
+          "name": "fla1__01",
+          "position": [
+            18688,
+            16384,
+            3168
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "landscape",
+        "target": [
+          3816,
+          2360,
+          96
+        ],
+        "span": 13000
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm6/outd3_decor_landscape.png",
+      "camera_position": [
+        9702.080078125,
+        -9412.1611328125,
+        14484.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 249,
+          "name": "6tree05",
+          "position": [
+            3816,
+            2360,
+            96
+          ]
+        },
+        {
+          "index": 250,
+          "name": "6tree05",
+          "position": [
+            5216,
+            4000,
+            96
+          ]
+        },
+        {
+          "index": 243,
+          "name": "6tree05",
+          "position": [
+            3360,
+            6512,
+            96
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

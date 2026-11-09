@@ -1,0 +1,3323 @@
+{
+  "schema_version": 1,
+  "schema_status": "staged offline contract; not installed",
+  "creature": "mm7:ambient_rat",
+  "installed": false,
+  "pixels_per_logical_pixel": 2,
+  "logical_canvas": [
+    256,
+    256
+  ],
+  "logical_pivot": [
+    128,
+    256
+  ],
+  "anchor": "bottom-center",
+  "native_frame_scale": 1,
+  "coordinate_rule": "x=(crop_x+u)/2-128; up=256-(crop_y+v)/2",
+  "pages": [
+    {
+      "base": "atlas/base_0.png",
+      "mask": "atlas/mask_0.png",
+      "size": [
+        1024,
+        956
+      ],
+      "base_format": "RGBA8 sRGB",
+      "mask_format": "R8 linear"
+    }
+  ],
+  "frames": {
+    "m514da0": {
+      "source": "m514da0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        204,
+        400
+      ],
+      "crop_in_aligned_px": [
+        218,
+        400,
+        325,
+        517
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        539
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        604,
+        253,
+        107,
+        117
+      ]
+    },
+    "m514db0": {
+      "source": "m514db0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        220,
+        394
+      ],
+      "crop_in_aligned_px": [
+        234,
+        394,
+        352,
+        516
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        536
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        890,
+        2,
+        118,
+        122
+      ]
+    },
+    "m514dc0": {
+      "source": "m514dc0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        215,
+        410
+      ],
+      "crop_in_aligned_px": [
+        229,
+        410,
+        378,
+        515
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        538
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        365,
+        844,
+        149,
+        105
+      ]
+    },
+    "m514sa0": {
+      "source": "m514sa0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        206,
+        402
+      ],
+      "crop_in_aligned_px": [
+        220,
+        402,
+        330,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        536
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        578,
+        376,
+        110,
+        116
+      ]
+    },
+    "m514sa1": {
+      "source": "m514sa1.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        117,
+        405
+      ],
+      "crop_in_aligned_px": [
+        131,
+        405,
+        373,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        536
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        755,
+        613,
+        242,
+        114
+      ]
+    },
+    "m514sa2": {
+      "source": "m514sa2.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        14,
+        403
+      ],
+      "crop_in_aligned_px": [
+        28,
+        403,
+        397,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        536
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        495,
+        369,
+        116
+      ]
+    },
+    "m514sa3": {
+      "source": "m514sa3.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        46,
+        403
+      ],
+      "crop_in_aligned_px": [
+        60,
+        403,
+        373,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        536
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        373,
+        495,
+        313,
+        116
+      ]
+    },
+    "m514sa4": {
+      "source": "m514sa4.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        195,
+        403
+      ],
+      "crop_in_aligned_px": [
+        209,
+        403,
+        322,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        536
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        688,
+        495,
+        113,
+        116
+      ]
+    },
+    "m514wa0": {
+      "source": "m514wa0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        208,
+        395
+      ],
+      "crop_in_aligned_px": [
+        222,
+        395,
+        319,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        537
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        106,
+        2,
+        97,
+        123
+      ]
+    },
+    "m514wa1": {
+      "source": "m514wa1.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        68,
+        398
+      ],
+      "crop_in_aligned_px": [
+        82,
+        398,
+        380,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        539
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        119,
+        129,
+        298,
+        121
+      ]
+    },
+    "m514wa2": {
+      "source": "m514wa2.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        4,
+        403
+      ],
+      "crop_in_aligned_px": [
+        18,
+        403,
+        397,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        539
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        613,
+        379,
+        115
+      ]
+    },
+    "m514wa3": {
+      "source": "m514wa3.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        87,
+        398
+      ],
+      "crop_in_aligned_px": [
+        101,
+        398,
+        373,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        540
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        419,
+        129,
+        272,
+        121
+      ]
+    },
+    "m514wa4": {
+      "source": "m514wa4.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        207,
+        399
+      ],
+      "crop_in_aligned_px": [
+        221,
+        399,
+        327,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        540
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        496,
+        253,
+        106,
+        119
+      ]
+    },
+    "m514wb0": {
+      "source": "m514wb0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        188,
+        400
+      ],
+      "crop_in_aligned_px": [
+        202,
+        400,
+        317,
+        517
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        537
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        713,
+        253,
+        115,
+        117
+      ]
+    },
+    "m514wb1": {
+      "source": "m514wb1.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        66,
+        406
+      ],
+      "crop_in_aligned_px": [
+        80,
+        406,
+        381,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        539
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        730,
+        301,
+        112
+      ]
+    },
+    "m514wb2": {
+      "source": "m514wb2.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        24,
+        408
+      ],
+      "crop_in_aligned_px": [
+        38,
+        408,
+        399,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        539
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        844,
+        361,
+        110
+      ]
+    },
+    "m514wb3": {
+      "source": "m514wb3.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        103,
+        408
+      ],
+      "crop_in_aligned_px": [
+        117,
+        408,
+        373,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        540
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        305,
+        730,
+        256,
+        111
+      ]
+    },
+    "m514wb4": {
+      "source": "m514wb4.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        213,
+        407
+      ],
+      "crop_in_aligned_px": [
+        227,
+        407,
+        348,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        540
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        563,
+        730,
+        121,
+        111
+      ]
+    },
+    "m514wc0": {
+      "source": "m514wc0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        207,
+        396
+      ],
+      "crop_in_aligned_px": [
+        221,
+        396,
+        321,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        540
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        205,
+        2,
+        100,
+        123
+      ]
+    },
+    "m514wc1": {
+      "source": "m514wc1.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        77,
+        396
+      ],
+      "crop_in_aligned_px": [
+        91,
+        396,
+        380,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        546
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        307,
+        2,
+        289,
+        123
+      ]
+    },
+    "m514wc2": {
+      "source": "m514wc2.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        4,
+        398
+      ],
+      "crop_in_aligned_px": [
+        18,
+        398,
+        396,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        544
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        253,
+        378,
+        121
+      ]
+    },
+    "m514wc3": {
+      "source": "m514wc3.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        73,
+        396
+      ],
+      "crop_in_aligned_px": [
+        87,
+        396,
+        377,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        546
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        598,
+        2,
+        290,
+        123
+      ]
+    },
+    "m514wc4": {
+      "source": "m514wc4.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        208,
+        393
+      ],
+      "crop_in_aligned_px": [
+        222,
+        393,
+        324,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        543
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        2,
+        102,
+        125
+      ]
+    },
+    "m514wd0": {
+      "source": "m514wd0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        206,
+        398
+      ],
+      "crop_in_aligned_px": [
+        220,
+        398,
+        332,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        539
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        382,
+        253,
+        112,
+        120
+      ]
+    },
+    "m514wd1": {
+      "source": "m514wd1.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        112,
+        402
+      ],
+      "crop_in_aligned_px": [
+        126,
+        402,
+        380,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        546
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        376,
+        254,
+        117
+      ]
+    },
+    "m514wd2": {
+      "source": "m514wd2.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        17,
+        404
+      ],
+      "crop_in_aligned_px": [
+        31,
+        404,
+        401,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        545
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        383,
+        613,
+        370,
+        115
+      ]
+    },
+    "m514wd3": {
+      "source": "m514wd3.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        41,
+        402
+      ],
+      "crop_in_aligned_px": [
+        55,
+        402,
+        373,
+        519
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        547
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        258,
+        376,
+        318,
+        117
+      ]
+    },
+    "m514wd4": {
+      "source": "m514wd4.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        200,
+        396
+      ],
+      "crop_in_aligned_px": [
+        214,
+        396,
+        329,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        544
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        2,
+        129,
+        115,
+        122
+      ]
+    },
+    "m514xa0": {
+      "source": "m514xa0.bmp",
+      "source_canvas": [
+        256,
+        256
+      ],
+      "source_palette": 545,
+      "crop_origin_px": [
+        203,
+        426
+      ],
+      "crop_in_aligned_px": [
+        217,
+        426,
+        411,
+        518
+      ],
+      "aligned_canvas_origin_px": [
+        -14,
+        0
+      ],
+      "aligned_canvas_size_px": [
+        526,
+        534
+      ],
+      "page": 0,
+      "atlas_xywh": [
+        516,
+        844,
+        194,
+        92
+      ]
+    }
+  },
+  "animations": {
+    "standing": {
+      "native_group": "7m514s",
+      "native_group_id": 16813,
+      "animation_length_raw": 2,
+      "loop": true,
+      "hold_last": false,
+      "directions": {
+        "0": [
+          {
+            "frame": "m514sa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "1": [
+          {
+            "frame": "m514sa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "2": [
+          {
+            "frame": "m514sa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "3": [
+          {
+            "frame": "m514sa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "4": [
+          {
+            "frame": "m514sa4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "5": [
+          {
+            "frame": "m514sa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "6": [
+          {
+            "frame": "m514sa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "7": [
+          {
+            "frame": "m514sa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ]
+      }
+    },
+    "walk": {
+      "native_group": "7m514w",
+      "native_group_id": 16814,
+      "animation_length_raw": 8,
+      "loop": true,
+      "hold_last": false,
+      "directions": {
+        "0": [
+          {
+            "frame": "m514wa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "1": [
+          {
+            "frame": "m514wa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "2": [
+          {
+            "frame": "m514wa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "3": [
+          {
+            "frame": "m514wa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "4": [
+          {
+            "frame": "m514wa4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "5": [
+          {
+            "frame": "m514wa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "6": [
+          {
+            "frame": "m514wa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "7": [
+          {
+            "frame": "m514wa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ]
+      }
+    },
+    "attack": {
+      "native_group": "7m514w",
+      "native_group_id": 16814,
+      "animation_length_raw": 8,
+      "loop": true,
+      "hold_last": false,
+      "directions": {
+        "0": [
+          {
+            "frame": "m514wa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "1": [
+          {
+            "frame": "m514wa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "2": [
+          {
+            "frame": "m514wa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "3": [
+          {
+            "frame": "m514wa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "4": [
+          {
+            "frame": "m514wa4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "5": [
+          {
+            "frame": "m514wa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "6": [
+          {
+            "frame": "m514wa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "7": [
+          {
+            "frame": "m514wa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ]
+      }
+    },
+    "shoot": {
+      "native_group": "7m514w",
+      "native_group_id": 16814,
+      "animation_length_raw": 8,
+      "loop": true,
+      "hold_last": false,
+      "directions": {
+        "0": [
+          {
+            "frame": "m514wa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "1": [
+          {
+            "frame": "m514wa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "2": [
+          {
+            "frame": "m514wa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "3": [
+          {
+            "frame": "m514wa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "4": [
+          {
+            "frame": "m514wa4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "5": [
+          {
+            "frame": "m514wa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "6": [
+          {
+            "frame": "m514wa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "7": [
+          {
+            "frame": "m514wa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wb1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wc1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514wd1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ]
+      }
+    },
+    "hit": {
+      "native_group": "7m514s",
+      "native_group_id": 16813,
+      "animation_length_raw": 2,
+      "loop": true,
+      "hold_last": false,
+      "directions": {
+        "0": [
+          {
+            "frame": "m514sa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "1": [
+          {
+            "frame": "m514sa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "2": [
+          {
+            "frame": "m514sa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "3": [
+          {
+            "frame": "m514sa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "4": [
+          {
+            "frame": "m514sa4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "5": [
+          {
+            "frame": "m514sa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "6": [
+          {
+            "frame": "m514sa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "7": [
+          {
+            "frame": "m514sa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ]
+      }
+    },
+    "death": {
+      "native_group": "7m514d",
+      "native_group_id": 16810,
+      "animation_length_raw": 6,
+      "loop": false,
+      "hold_last": true,
+      "directions": {
+        "0": [
+          {
+            "frame": "m514da0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514db0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514dc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "1": [
+          {
+            "frame": "m514da0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514db0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514dc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "2": [
+          {
+            "frame": "m514da0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514db0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514dc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "3": [
+          {
+            "frame": "m514da0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514db0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514dc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "4": [
+          {
+            "frame": "m514da0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514db0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514dc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "5": [
+          {
+            "frame": "m514da0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514db0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514dc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "6": [
+          {
+            "frame": "m514da0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514db0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514dc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "7": [
+          {
+            "frame": "m514da0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514db0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "HasMore",
+              "Image1"
+            ],
+            "palette_id": 545
+          },
+          {
+            "frame": "m514dc0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ]
+      }
+    },
+    "corpse": {
+      "native_group": "7m514x",
+      "native_group_id": 16818,
+      "animation_length_raw": 2,
+      "loop": false,
+      "hold_last": true,
+      "directions": {
+        "0": [
+          {
+            "frame": "m514xa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "1": [
+          {
+            "frame": "m514xa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "2": [
+          {
+            "frame": "m514xa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "3": [
+          {
+            "frame": "m514xa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "4": [
+          {
+            "frame": "m514xa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "5": [
+          {
+            "frame": "m514xa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "6": [
+          {
+            "frame": "m514xa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "7": [
+          {
+            "frame": "m514xa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Image1"
+            ],
+            "palette_id": 545
+          }
+        ]
+      }
+    },
+    "fidget": {
+      "native_group": "7m514s",
+      "native_group_id": 16813,
+      "animation_length_raw": 2,
+      "loop": true,
+      "hold_last": false,
+      "directions": {
+        "0": [
+          {
+            "frame": "m514sa0",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "1": [
+          {
+            "frame": "m514sa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "2": [
+          {
+            "frame": "m514sa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "3": [
+          {
+            "frame": "m514sa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "4": [
+          {
+            "frame": "m514sa4",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": false,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "5": [
+          {
+            "frame": "m514sa3",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "6": [
+          {
+            "frame": "m514sa2",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ],
+        "7": [
+          {
+            "frame": "m514sa1",
+            "duration_raw": 2,
+            "duration_ms": 125.0,
+            "mirror": true,
+            "scale": 1,
+            "flags": [
+              "First",
+              "Mirror5",
+              "Mirror6",
+              "Mirror7"
+            ],
+            "palette_id": 545
+          }
+        ]
+      }
+    }
+  },
+  "native_group_bindings": {
+    "472": {
+      "standing": "7m514s",
+      "walk": "7m514w",
+      "attack": "7m514w",
+      "shoot": "7m514w",
+      "hit": "7m514s",
+      "death": "7m514d",
+      "corpse": "7m514x",
+      "fidget": "7m514s"
+    },
+    "473": {
+      "standing": "7m514s",
+      "walk": "7m514w",
+      "attack": "7m514w",
+      "shoot": "7m514w",
+      "hit": "7m514s",
+      "death": "7m514d",
+      "corpse": "7m514x",
+      "fidget": "7m514s"
+    },
+    "474": {
+      "standing": "7m514s",
+      "walk": "7m514w",
+      "attack": "7m514w",
+      "shoot": "7m514w",
+      "hit": "7m514s",
+      "death": "7m514d",
+      "corpse": "7m514x",
+      "fidget": "7m514s"
+    }
+  },
+  "regions": [],
+  "variants": [
+    {
+      "id": "mm7:palette545",
+      "palette_id": 545,
+      "default": true,
+      "exact_bypass": true,
+      "descriptors": [
+        472,
+        473,
+        474
+      ]
+    }
+  ],
+  "recolor": {
+    "operation": "identity",
+    "reason": "All native appearances share palette 545; matching masks are zero."
+  },
+  "filtering": {
+    "mipmaps": false,
+    "crop_padding_px": 4,
+    "rgb_extrusion_px": 3,
+    "resampling": "premultiplied Lanczos"
+  },
+  "memory_bytes": {
+    "base_rgba8": 3915776,
+    "mask_r8": 978944,
+    "shared_total": 4894720,
+    "packing_included": true,
+    "tight_base_and_mask": 3688745
+  },
+  "limitations": [
+    "AI detail is an interpretation; native placement is preserved through the common reference window, not anatomical correspondence at every pixel.",
+    "Single-background alpha is estimated; very fine whiskers may have approximate opacity."
+  ],
+  "review_record": "review/acceptance.json"
+}

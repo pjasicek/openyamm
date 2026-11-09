@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_giant_claude/references_mallet/00_three_quarter.png), unresized at 1024×1536 with transparency, using built-in image generation. Both raw returns, prompts and input hashes are preserved in `generation_runs.json`.
+
+Stopped after one correction; views 01–04 were not generated. Remaining fault: shaft/head ratio is approximately 3.5:1, below the requested 4.1:1.

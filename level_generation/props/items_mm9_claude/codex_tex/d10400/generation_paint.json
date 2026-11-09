@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png exactly per this specification. Input roles: paint_mask_guide.png is the edit target and exact geometry/layout; design_reference.png is parchment material/detail reference; icon_x8.png is colour reference (ignore magenta background). Produce ONE transparent PNG at 1536x2048 (3:4). Preserve exact positions, sizes, outlines, gaps of ALL guide objects. Three columns FOUR rows, 512x512 cells: FRONT BACK LEFT / RIGHT TOP empty / FRONT BACK LEFT / RIGHT TOP empty. Do not redesign, enlarge, move or redraw silhouettes. TOP HALF rows 1-2: paint unlit base colour of a rolled aged golden parchment Victory Certificate won for beating Ivan the Smart, matching reference warm ochre tan paper, fine paper fibres, mild age mottling, rolled paper rims/inner swirls following guide geometry. No text. No lighting, cast shadows, ambient occlusion, highlights, reflections. BOTTOM HALF rows 3-4: exact repeated five silhouettes entirely FLAT PURE YELLOW #FFFF00 since every part is matte parchment/paper. No shading, no texture, no outlines, no internal antialiased colour blends in material mask. Every silhouette pixel yellow; nothing outside. Keep all openings and gaps exactly as guide and transparent. Empty column 3 cells of rows 2 and 4 entirely transparent. No background, ground, glow, aura, labels or extra objects. Paint grey objects only. Output is a technical paint + material mask view atlas, not a presentation illustration.\nCRITICAL CORRECTION: Prior attempt had scattered yellow and red pixels outside object edges. Those are forbidden. Use original grey guide alpha silhouettes as exact clean hard boundaries. Absolutely no paint splatter, speckles, fringes, red pixels, yellow halos or outlines outside any silhouette. Material-mask objects must be uniform #FFFF00 including all edge strips, without dark outlines or gradients. Preserve exact guide contours. Transparent empty canvas everywhere else.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad12-fdee-7d33-aa7f-1747e061672a/exec-b63c06ab-f61d-4659-9ba6-f1aa94cb75bf.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10400/paint_mask_guide.png",
+      "sha256": "842a288c04656d9d012ff4b5c107db20cf9247c5448d87d856403d6005f70183"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10400/design_reference.png",
+      "sha256": "e1a4270c8bc80cbcee2b65152bbcff392a2a0024d882edd49c38f8840b5d67a6"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10400/icon_x8.png",
+      "sha256": "f1817ab7729f816d108c1647bc60fc8a2f2308adc09405cec5f0cd34adc826c0"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10400/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained; visible edge artifacts and nonuniform mask remain after the single allowed correction. Raw tool output preserved without editing."
+}

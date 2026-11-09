@@ -1,0 +1,620 @@
+{
+ "id": "20261009-1649-mm8-out01-09",
+ "world": "mm8",
+ "maps": [
+  "out01.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t03a09a",
+  "mm8/t03a09b",
+  "mm8/t03a10a",
+  "mm8/t03a10b",
+  "mm8/t03a10c",
+  "mm8/t03a10d",
+  "mm8/t03a11a",
+  "mm8/t03a11b",
+  "mm8/t03a11c",
+  "mm8/t03a11d",
+  "mm8/t03a12a",
+  "mm8/t03a12c",
+  "mm8/t14a05b",
+  "mm8/t6502b",
+  "mm8/t65a03",
+  "mm8/t65a11",
+  "mm8/t65a13",
+  "mm8/t65a13a",
+  "mm8/t65b02",
+  "mm8/t65b05l",
+  "mm8/t65b05r",
+  "mm8/t65b10",
+  "mm8/t65b11a",
+  "mm8/t65c03"
+ ],
+ "requests": {
+  "mm8/t03a09a": {
+   "name": "t03a09a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles with a small bamboo-framed window hung with a pale hide curtain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a09b": {
+   "name": "t03a09b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles with a bamboo window grid",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a10a": {
+   "name": "t03a10a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "single vertical golden bamboo pole with nodes",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a10b": {
+   "name": "t03a10b",
+   "versions": [
+    1
+   ],
+   "material": "single vertical golden bamboo pole with nodes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a10c": {
+   "name": "t03a10c",
+   "versions": [
+    1
+   ],
+   "material": "single vertical golden bamboo pole with nodes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a10d": {
+   "name": "t03a10d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single vertical golden bamboo pole with nodes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a11a": {
+   "name": "t03a11a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single horizontal golden bamboo pole with nodes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/t03a09a"
+    }
+   }
+  },
+  "mm8/t03a11b": {
+   "name": "t03a11b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "single horizontal golden bamboo pole with nodes",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/t03a06b"
+    },
+    "3": {
+     "bottom": "mm8/t03a06b"
+    }
+   }
+  },
+  "mm8/t03a11c": {
+   "name": "t03a11c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single horizontal golden bamboo pole with nodes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a11d": {
+   "name": "t03a11d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "single horizontal golden bamboo pole with nodes",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a12a": {
+   "name": "t03a12a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "lashed golden bamboo poles in a fence over dark shadow, with a pale animal skull tied to the top",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "5": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "4": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11b",
+     "right": "mm8/t03a04b",
+     "bottom": "mm8/t03a04b"
+    },
+    "5": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11b",
+     "right": "mm8/t03a04b",
+     "bottom": "mm8/t03a04b"
+    },
+    "6": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11b",
+     "right": "mm8/t03a04b",
+     "bottom": "mm8/t03a04b"
+    },
+    "7": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11b",
+     "right": "mm8/t03a04b",
+     "bottom": "mm8/t03a04b"
+    },
+    "8": {
+     "left": "mm8/t03a07b",
+     "top": "mm8/t03a11b",
+     "right": "mm8/t03a04b",
+     "bottom": "mm8/t03a04b"
+    }
+   }
+  },
+  "mm8/t03a12c": {
+   "name": "t03a12c",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "lashed golden bamboo poles in a fence of vertical and horizontal poles with rope bindings over dark shadow",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t14a05b": {
+   "name": "t14a05b",
+   "versions": [
+    1
+   ],
+   "material": "smooth windswept brown sand with faint ripples",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t6502b": {
+   "name": "t6502b",
+   "versions": [
+    1
+   ],
+   "material": "coarse dark brown-tan gravel and grit",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a03": {
+   "name": "t65a03",
+   "versions": [
+    1
+   ],
+   "material": "rough brown sandstone blocks with dark recessed joints and pitted weathering",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a11": {
+   "name": "t65a11",
+   "versions": [
+    1
+   ],
+   "material": "thin horizontal carved golden-brown sandstone strip with small glyph reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a13": {
+   "name": "t65a13",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief of a horned demon skull with an open fanged mouth, inside a square recessed frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a13a": {
+   "name": "t65a13a",
+   "versions": [
+    1
+   ],
+   "material": "small carved golden-brown sandstone square with a tiny glyph relief",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b02": {
+   "name": "t65b02",
+   "versions": [
+    1
+   ],
+   "material": "coarse brown-tan sandstone with fine pitted grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b05l": {
+   "name": "t65b05l",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief column of tribal glyphs with stepped bars, spirals and a hooked meander",
+   "notes": {}
+  },
+  "mm8/t65b05r": {
+   "name": "t65b05r",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "carved golden-brown sandstone relief column of tribal glyphs with stepped bars, spirals and a hooked meander",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm8/t65b10": {
+   "name": "t65b10",
+   "versions": [
+    1
+   ],
+   "material": "narrow vertical carved golden-brown sandstone strip with small tribal glyph reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b11a": {
+   "name": "t65b11a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "horizontal carved golden-brown sandstone frieze of tangled tribal glyphs and figures",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/t65a02"
+    }
+   }
+  },
+  "mm8/t65c03": {
+   "name": "t65c03",
+   "versions": [
+    1
+   ],
+   "material": "irregular rounded tan-brown flagstones with dark gaps, worn smooth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

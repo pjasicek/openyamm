@@ -1,0 +1,171 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Best permitted returns saved; strict dimension, silhouette and flat-light requirements not fully met. One corrective regeneration per view exhausted. No resizing or post-processing.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Create paint_front.png, a 1024 x 1024 transparent RGBA albedo texture-source painting. Image 1 (guide_front.png) is the EDIT TARGET and absolute pixel geometry authority. Image 2 (design_reference.png) is ONLY the approved material and colour reference, NOT camera or geometry. Paint directly over the exact grey orthographic front guide. Preserve its exact silhouette, alpha coverage, position, size, every polygon edge, opening, occlusion, attachment, handle, pipe, beam, basin and small vessel. Keep every object at the guide's exact image coordinates; no cropping, rotation, reframing, perspective or invented geometry. Preserve even simplified mesh shapes: paint materials on them, do not reconstruct the detailed reference silhouette. White weathered ceramic tank with gold bands; green-brown aged copper pipes and coil; rusted steel supporting tripod and mechanisms; grey stone basin; clear water only on existing visible water surfaces; dim orange fire colour only within existing furnace opening. Use the reference's material wear and colour language on the guide surfaces. Texture source ALBEDO lighting: flat even shadowless illumination from viewer, no cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light. Fire colour must not illuminate nearby surfaces. Truly transparent background, no black background, no checkerboard, no floor, no text. Output just this front view at native 1024 x 1024; keep the guide outline EXACTLY.",
+      "selected": false,
+      "reason": "Initial return adds geometry including a water stream and sight glass, and has stronger shading; correction preferred. Tool returned 1254 x 1254 despite explicit 1024 x 1024 request; preserved unresized as required.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/guide_front.png",
+          "sha256": "57fe1c11d1522f4e3138fe6bbd892bf4003557319468b244ab8a5b2905256622"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/paint_front_attempt_1.png",
+      "output_sha256": "677000f614e98ef78542517b2ded421d6cea77eb5675ab8d679ca2dc82d1cfee",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          15,
+          1251,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials": "Improved in corrective attempt; see reason.",
+        "flat_even_light": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Edit the FIRST input image guide_top.png in place. REQUIRED OUTPUT CANVAS: 1024x1024 pixels, exactly the input dimensions. Use case: precise-object-edit; albedo texture-source painting for a 3D model. First image is the exact grey TOP-DOWN ORTHOGRAPHIC model and absolute geometry/alpha authority. Second image design_reference.png is material/colour reference only, NOT the desired camera, arrangement or lighting. Recolour the first image's existing surfaces without redrawing or moving its edges. Retain the exact outline, every interior hole, every polygon shape, all occlusions, the same scale and position. The circular tank roof remains upper-centre, basin below it, all radial support beams and little vessels exactly where the top guide places them. No three-quarter view, no perspective, no changed shapes, no added objects. Paint weathered white ceramic tank roof with gold bands and fittings; green-brown aged copper pipes; rusted steel support beams and mechanisms; grey stone basin with clear water on its existing water surface. Small vessels use the reference's wood, ceramic and metal as appropriate. Dim orange fire colour only where the guide actually exposes furnace interior; do not reveal hidden components. Surface material detail should follow the design reference while remaining FLAT DIFFUSE ALBEDO: even shadowless illumination from viewer, zero cast shadows, zero ambient occlusion, zero strong specular highlights or reflections, no rim lighting. No light spill. Keep actual transparent background and the original guide alpha outline; do not fill holes. No background, ground, text, or checkerboard. Deliver one raw 1024x1024 RGBA top view.",
+      "selected": false,
+      "reason": "Initial return uses pale ceramic basin and bright water highlights; correction preferred. Tool returned 1254 x 1254 despite explicit 1024 x 1024 request; preserved unresized as required.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/guide_top.png",
+          "sha256": "6504f47b6e5ede77c48d41aeb97601cefaae2c21cdc63c880973f41c427d033a"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/paint_top_attempt_1.png",
+      "output_sha256": "1cbb353452f0319c5c93b2d545c5fded87b37bcb3b4aad0668088221c3e2f177",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          9,
+          1236,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials": "Improved in corrective attempt; see reason.",
+        "flat_even_light": false
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Create paint_front.png, a 1024 x 1024 transparent RGBA albedo texture-source painting. Image 1 (guide_front.png) is the EDIT TARGET and absolute pixel geometry authority. Image 2 (design_reference.png) is ONLY the approved material and colour reference, NOT camera or geometry. Paint directly over the exact grey orthographic front guide. Preserve its exact silhouette, alpha coverage, position, size, every polygon edge, opening, occlusion, attachment, handle, pipe, beam, basin and small vessel. Keep every object at the guide's exact image coordinates; no cropping, rotation, reframing, perspective or invented geometry. Preserve even simplified mesh shapes: paint materials on them, do not reconstruct the detailed reference silhouette. White weathered ceramic tank with gold bands; green-brown aged copper pipes and coil; rusted steel supporting tripod and mechanisms; grey stone basin; clear water only on existing visible water surfaces; dim orange fire colour only within existing furnace opening. Use the reference's material wear and colour language on the guide surfaces. Texture source ALBEDO lighting: flat even shadowless illumination from viewer, no cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light. Fire colour must not illuminate nearby surfaces. Truly transparent background, no black background, no checkerboard, no floor, no text. Output just this front view at native 1024 x 1024; keep the guide outline EXACTLY.\nCORRECTIVE REGENERATION (one permitted attempt): The previous attempt incorrectly returned 1254x1254 and embellished shapes and used directional shading. This return MUST be native 1024x1024, matching the input guide pixel for pixel; do not upscale it. Treat the grey front guide as an immutable stencil: only replace RGB surface colour inside its unchanged alpha, do not alter ANY edge. Do not add a water stream, sight glass, rounded handles or other design-reference geometry unless already in the front guide. All simplified flat polygon shapes must remain exactly as in the guide. Only transfer weathered material colours, with no directional light or specular glints. Grey stone basin, NOT white ceramic. Preserve all holes and the exact outer alpha contour, and use full even albedo brightness on the furnace body and beam faces. Output 1024x1024 transparent RGBA.",
+      "selected": true,
+      "reason": "Closer to simplified guide geometry and requested grey stone basin; best permitted front return, but not exact silhouette or fully flat albedo. Tool returned 1254 x 1254 despite explicit 1024 x 1024 request; preserved unresized as required.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/guide_front.png",
+          "sha256": "57fe1c11d1522f4e3138fe6bbd892bf4003557319468b244ab8a5b2905256622"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/paint_front.png",
+      "output_sha256": "517c007337e22c48211b087e4b5c3472aae1ce552fd582a48c3f2c482a2ef793",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1242,
+          1230
+        ],
+        "silhouette_identical": false,
+        "materials": "Improved in corrective attempt; see reason.",
+        "flat_even_light": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Edit the FIRST input image guide_top.png in place. REQUIRED OUTPUT CANVAS: 1024x1024 pixels, exactly the input dimensions. Use case: precise-object-edit; albedo texture-source painting for a 3D model. First image is the exact grey TOP-DOWN ORTHOGRAPHIC model and absolute geometry/alpha authority. Second image design_reference.png is material/colour reference only, NOT the desired camera, arrangement or lighting. Recolour the first image's existing surfaces without redrawing or moving its edges. Retain the exact outline, every interior hole, every polygon shape, all occlusions, the same scale and position. The circular tank roof remains upper-centre, basin below it, all radial support beams and little vessels exactly where the top guide places them. No three-quarter view, no perspective, no changed shapes, no added objects. Paint weathered white ceramic tank roof with gold bands and fittings; green-brown aged copper pipes; rusted steel support beams and mechanisms; grey stone basin with clear water on its existing water surface. Small vessels use the reference's wood, ceramic and metal as appropriate. Dim orange fire colour only where the guide actually exposes furnace interior; do not reveal hidden components. Surface material detail should follow the design reference while remaining FLAT DIFFUSE ALBEDO: even shadowless illumination from viewer, zero cast shadows, zero ambient occlusion, zero strong specular highlights or reflections, no rim lighting. No light spill. Keep actual transparent background and the original guide alpha outline; do not fill holes. No background, ground, text, or checkerboard. Deliver one raw 1024x1024 RGBA top view.\nCORRECTIVE REGENERATION (one permitted attempt): The prior return added highlights, dark crevices, and a pale ceramic basin. Correct these: the basin is GREY STONE, water has a subtle clear blue-grey tint with NO bright reflective caustics. Every surface is flat unlit base colour, evenly visible; no bevel highlights, no cast shadows or ambient occlusion between parts. Preserve the FIRST grey image's exact geometry and silhouette as an immutable stencil, even the simplified angular pipe, polygonal handle and obscure parts; no embellishment or reference-based reconstruction. Do not add spouts or hardware absent from guide. Critical output resolution is exactly native 1024x1024, NOT 1254x1254. Do not change camera, scale, image placement or alpha outline. Paint directly onto the unchanged input guide with transparent background.",
+      "selected": true,
+      "reason": "Grey stone basin and reduced water highlights better meet brief; best permitted top return, but not exact silhouette or fully flat albedo. Tool returned 1254 x 1254 despite explicit 1024 x 1024 request; preserved unresized as required.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/guide_top.png",
+          "sha256": "6504f47b6e5ede77c48d41aeb97601cefaae2c21cdc63c880973f41c427d033a"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_low_water_still/paint_top.png",
+      "output_sha256": "45937a2b03dc158a6a2d2819d50ca7e8594d7b5ddef1a07a3b13046f3fada1a6",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1244,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials": "Improved in corrective attempt; see reason.",
+        "flat_even_light": false
+      }
+    }
+  ]
+}

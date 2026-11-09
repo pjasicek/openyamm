@@ -1,0 +1,39 @@
+{
+  "bounds_game": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      2048,
+      1024,
+      768
+    ]
+  ],
+  "occupied_sectors": 2,
+  "portal_sector_pair": [
+    1,
+    2
+  ],
+  "surface_event": 101,
+  "texture_dimensions": {
+    "GSton1WL": [
+      128,
+      256
+    ],
+    "GSton1FL": [
+      128,
+      128
+    ],
+    "TFB11": [
+      128,
+      128
+    ],
+    "gt002b": [
+      64,
+      64
+    ]
+  },
+  "scope": "Compiler calibration only; derived BSP/automap verified, no scene gameplay state"
+}

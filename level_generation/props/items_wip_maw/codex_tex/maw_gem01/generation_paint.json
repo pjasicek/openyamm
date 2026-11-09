@@ -1,0 +1,38 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint-only texture view atlas. Edit guide_atlas.png (first input), not the other reference images. Output ONE 1536x1024 PNG with genuine transparent background. Preserve the guide's exact silhouettes, gaps, positions, sizes, orthographic views and 3x2 grid of 512x512 cells. Row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, EMPTY. Bottom-right cell fully transparent. Paint only the existing grey objects; never redraw, enlarge, move or redesign them. Subject: Lunar Shard, an irregular rough natural uncut chunk of moonstone crystal with broken flat fracture faces and sharp edges. Use design_reference.png (second input) for approved material and detail and icon_x8.png (third input) for colour only (magenta is background, never paint magenta). Paint unlit base colour: frosty translucent milky-white moonstone, pale blue tints, bright fracture edges. Facets and internal detail follow the approved reference scaled to each existing view; maintain coherent material across all five views. No invented engravings or scrollwork absent from the reference. No lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles or aura outside silhouette, ground, outlines or text. Keep every gap/opening exactly as in guide fully transparent. Preserve guide alpha silhouettes precisely. This is an unlit base-colour texture painting, not a newly composed crystal illustration.\nCORRECTION: The previous output incorrectly painted a blue/grey haze covering the transparent background and empty cell. All pixels outside the five original guide silhouettes MUST have alpha 0, including entire bottom-right cell. NO haze, NO background colour, NO glow. Use guide_atlas.png as exact alpha mask. Keep only the five isolated painted objects with clean transparent cutout edges. Paint the milky white/pale blue material within those masks only, with flat unlit base colour and no specular shine.",
+  "initial_prompt": "Use case: precise-object-edit. Paint-only texture view atlas. Edit guide_atlas.png (first input), not the other reference images. Output ONE 1536x1024 PNG with genuine transparent background. Preserve the guide's exact silhouettes, gaps, positions, sizes, orthographic views and 3x2 grid of 512x512 cells. Row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, EMPTY. Bottom-right cell fully transparent. Paint only the existing grey objects; never redraw, enlarge, move or redesign them. Subject: Lunar Shard, an irregular rough natural uncut chunk of moonstone crystal with broken flat fracture faces and sharp edges. Use design_reference.png (second input) for approved material and detail and icon_x8.png (third input) for colour only (magenta is background, never paint magenta). Paint unlit base colour: frosty translucent milky-white moonstone, pale blue tints, bright fracture edges. Facets and internal detail follow the approved reference scaled to each existing view; maintain coherent material across all five views. No invented engravings or scrollwork absent from the reference. No lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles or aura outside silhouette, ground, outlines or text. Keep every gap/opening exactly as in guide fully transparent. Preserve guide alpha silhouettes precisely. This is an unlit base-colour texture painting, not a newly composed crystal illustration.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce2-461b-7990-9d62-faf68847472c/exec-928f5454-0d97-407d-94f6-2243fecd061c.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem01/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem01/guide_atlas.png",
+      "sha256": "cc22d8cb066fab80c92cbfbdc3794fb2a2240941ae0d0adeebc6345f5bd62cc5"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem01/design_reference.png",
+      "sha256": "dceba829783808195a258eeba947e454d6315cdfff5345dd60eafb6ffd7c0aee"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem01/icon_x8.png",
+      "sha256": "36c356816965de8ab103f54e31bb5068082647c28660a74c03549f54ce0fb32b"
+    }
+  ],
+  "validation": {
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA",
+    "empty_cell_alpha_extrema": [
+      0,
+      1
+    ],
+    "note": "Raw tool output preserved. Empty cell has residual alpha up to 1/255; exact transparency requirement not fully met."
+  }
+}

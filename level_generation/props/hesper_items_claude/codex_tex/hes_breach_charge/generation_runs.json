@@ -1,0 +1,322 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "tool": "image_gen.imagegen",
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 1 is the exact orthographic geometry guide and EDIT TARGET. INPUT 2 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 1. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nFRONT guide: a low, wide horizontal iron case. Body spans approximately x66\u2013889, y373\u2013715. Vertical brown leather band x459\u2013632, y358\u2013722. Thin edge of ceramic slab x135\u2013683, y336\u2013371, NOT a broad front ceramic face. The small iron buckle peeks above it x504\u2013588, y319\u2013337. Keep the copper wire along the top on the right and the existing brass cap at x836\u2013907, y302\u2013374; the attached iron cylinder projects to the right edge x958, y374\u2013507. Preserve all of these exact shapes. Overall opaque bounds approximately x66\u2013958, y302\u2013722; do not fill the blank space above or below.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "1b08ab924318f61952193f9f84f1588c90fabefb27b1c33a8db211a9f2999971"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      }
+    ],
+    "output": null,
+    "selected": false,
+    "reason": "Tool returned no image: HTTP 400 moderation_blocked, output moderation stage, category violence. Request ID ebe0e60f-148e-42c6-af9f-d06f756921d3.",
+    "status": "blocked_by_image_tool"
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "tool": "image_gen.imagegen",
+    "prompt": "Context: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 1 is the exact orthographic geometry guide and EDIT TARGET. INPUT 2 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 1. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nFRONT guide: a low, wide horizontal iron case. Body spans approximately x66\u2013889, y373\u2013715. Vertical brown leather band x459\u2013632, y358\u2013722. Thin edge of ceramic slab x135\u2013683, y336\u2013371, NOT a broad front ceramic face. The small iron buckle peeks above it x504\u2013588, y319\u2013337. Keep the copper wire along the top on the right and the existing brass cap at x836\u2013907, y302\u2013374; the attached iron cylinder projects to the right edge x958, y374\u2013507. Preserve all of these exact shapes. Overall opaque bounds approximately x66\u2013958, y302\u2013722; do not fill the blank space above or below.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "1b08ab924318f61952193f9f84f1588c90fabefb27b1c33a8db211a9f2999971"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      }
+    ],
+    "output": null,
+    "selected": false,
+    "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 6ee74ba4-7d8e-49ab-8858-6d37f3888423. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+    "status": "blocked_by_image_tool"
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "tool": "image_gen.imagegen",
+    "prompt": "Context: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 1 is the exact orthographic geometry guide and EDIT TARGET. INPUT 2 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 1. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nBACK guide: a low, wide horizontal iron case. Body spans approximately x134\u2013958, y373\u2013715. Vertical brown leather band x391\u2013564, y358\u2013722. Thin edge of ceramic slab x340\u2013889, y336\u2013371, NOT a broad ceramic face. The small iron buckle peeks above it x435\u2013519, y319\u2013337. Copper wire lies along top left. Brass cap at x117\u2013188, y302\u2013374, attached iron cylinder projects to left edge x66, y374\u2013507. Continue the unseen rear with the same worn dark iron and brown strap. Overall opaque bounds x66\u2013958, y302\u2013722; preserve blank margins.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "47e163885167f7c631e4b762025db86ec89fc771b175b5c8c9318950fab17c12"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      }
+    ],
+    "output": null,
+    "selected": false,
+    "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID f64befd9-b053-4756-8e3b-4ce6f62f98c4. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+    "status": "blocked_by_image_tool"
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "tool": "image_gen.imagegen",
+    "prompt": "Context: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 1 is the exact orthographic geometry guide and EDIT TARGET. INPUT 2 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 1. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nLEFT guide: the short end face, a low wide bevelled iron rectangle approximately x170\u2013854, y372\u2013715. The leather band is visible BEHIND it as the tan perimeter rectangle x151\u2013873, y357\u2013722, not across the middle of the end face. Ceramic plate is the thin horizontal off-white bar x273\u2013752, y336\u2013371. Small iron buckle above the bar x435\u2013588, y319\u2013337. Brass cap above left x339\u2013410, y302\u2013337; tiny copper wire segment further left. No cylinder is visible on this end face. Overall opaque bounds x151\u2013873, y302\u2013722; preserve blank margins.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "cff13046f593ee3a8d714e8d53fb896773b21bcca7751f071c9849b1b65806c2"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      }
+    ],
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Only returned left view; the permitted corrective attempt was moderation-blocked. Materials match the reference, but guide silhouette alignment and flat albedo checks fail. Preserved unresized as best available, not fully compliant.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-39d7-7540-aac5-df336b12b9f2/exec-aecf7730-4f63-48f0-a712-f29743ab6d47.png",
+    "width": 1254,
+    "height": 1254,
+    "resized": false,
+    "output_sha256": "4e5ccc89ca8d14e652d272311a14f453c7f6330827c73fd8a7b4adabc750cd1b",
+    "status": "selected_with_failed_checks",
+    "checks": {
+      "png_valid": true,
+      "mode": "RGBA",
+      "size_1024x1024": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        23,
+        1238,
+        1254
+      ],
+      "opaque_bbox_alpha_ge_128": [
+        137,
+        358,
+        1120,
+        884
+      ],
+      "opaque_bbox_normalized_to_1024": [
+        111.87,
+        292.34,
+        914.58,
+        721.86
+      ],
+      "guide_alpha_bbox": [
+        151,
+        302,
+        873,
+        722
+      ],
+      "silhouette_identical_to_guide": false,
+      "materials_match_reference_visual": true,
+      "flat_shadowless_lighting_visual": false,
+      "no_text_or_letters_visual": true,
+      "meets_all_brief_checks": false
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "tool": "image_gen.imagegen",
+    "prompt": "Context: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 1 is the exact orthographic geometry guide and EDIT TARGET. INPUT 2 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 1. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nRIGHT guide: the opposite short end face, a low wide bevelled iron rectangle approximately x170\u2013854, y372\u2013715. The leather band is visible BEHIND it as tan perimeter rectangle x151\u2013873, y357\u2013722, not across the middle of this end face. Ceramic plate is the thin horizontal off-white bar x273\u2013752, y336\u2013371. Small iron buckle above it x435\u2013588, y319\u2013337. Brass cap is at x614\u2013685, y302\u2013374, directly above the existing projecting grey iron fitting, which shows its polygonal end face around x560\u2013718, y374\u2013547. Preserve that exact polygon and side surfaces; do not replace it with a large round device. Copper wire segment rises on the upper right. Overall opaque bounds x151\u2013873, y302\u2013722; preserve blank margins.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "4421d62df31102cf85ff4e24d72b7c6d465990f08844579e78c62fb82c129d57"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      }
+    ],
+    "output": null,
+    "selected": false,
+    "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 74cd48cd-012a-4b01-9ad9-2c0ee03e26ca. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+    "status": "blocked_by_image_tool"
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "tool": "image_gen.imagegen",
+    "prompt": "Context: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 1 is the exact orthographic geometry guide and EDIT TARGET. INPUT 2 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 1. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nTOP guide: directly overhead, with no perspective. Main iron case rectangle approximately x66\u2013889, y168\u2013857. Brown leather band vertical at x459\u2013632 and visible at y151\u2013273 and y754\u2013873 where it is not occluded by the plate. Broad warm off-white ceramic slab exactly x135\u2013683, y273\u2013754 with chamfered corners; keep its existing straight outer boundary, put hairline cracks and worn glaze inside it only. Small iron buckle rectangle on the slab at x504\u2013588, y437\u2013590. Copper wire follows its exact angular course from x544,y249 via x715,y302 to x820,y374. Small brass cap is the octagon at x837\u2013905,y341\u2013410, on an iron fitting extending to x958 at the right. Keep all part placement and edges unchanged. Overall opaque bounds x66\u2013958, y151\u2013873; preserve blank margins.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "25fc121525cc3ba6f5c1ea6dfd759bcb85bde94f8c55beea02b8d59ce1259fd7"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      }
+    ],
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Superseded by attempt 2, which reduces edge highlights and improves framing. This image retains strong bevel highlights/contact shading and silhouette drift; preserved unresized for the run record.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-39d7-7540-aac5-df336b12b9f2/exec-168d5d1b-d496-4bdc-b3f2-2cb8f97fbc21.png",
+    "width": 1254,
+    "height": 1254,
+    "resized": false,
+    "output_sha256": "6bb3fdb54f37c1f2ef3b41ccbcaf9dbaa1dc531a5a69e650fb93f3505f022b76",
+    "status": "superseded",
+    "checks": {
+      "png_valid": true,
+      "mode": "RGBA",
+      "size_1024x1024": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1244,
+        1238
+      ],
+      "opaque_bbox_alpha_ge_128": [
+        78,
+        169,
+        1186,
+        1027
+      ],
+      "opaque_bbox_normalized_to_1024": [
+        63.69,
+        138.0,
+        968.47,
+        838.63
+      ],
+      "guide_alpha_bbox": [
+        66,
+        151,
+        958,
+        873
+      ],
+      "silhouette_identical_to_guide": false,
+      "materials_match_reference_visual": true,
+      "flat_shadowless_lighting_visual": false,
+      "no_text_or_letters_visual": true,
+      "meets_all_brief_checks": false
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "tool": "image_gen.imagegen",
+    "prompt": "Context: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 1 is the exact orthographic geometry guide and EDIT TARGET. INPUT 2 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 1. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nBACK guide: a low, wide horizontal iron case. Body spans approximately x134\u2013958, y373\u2013715. Vertical brown leather band x391\u2013564, y358\u2013722. Thin edge of ceramic slab x340\u2013889, y336\u2013371, NOT a broad ceramic face. The small iron buckle peeks above it x435\u2013519, y319\u2013337. Copper wire lies along top left. Brass cap at x117\u2013188, y302\u2013374, attached iron cylinder projects to left edge x66, y374\u2013507. Continue the unseen rear with the same worn dark iron and brown strap. Overall opaque bounds x66\u2013958, y302\u2013722; preserve blank margins.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "47e163885167f7c631e4b762025db86ec89fc771b175b5c8c9318950fab17c12"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      }
+    ],
+    "output": null,
+    "selected": false,
+    "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 9c31776e-8638-4446-90c4-e92d838ba29a. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+    "status": "blocked_by_image_tool"
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "tool": "image_gen.imagegen",
+    "prompt": "Context: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 1 is the exact orthographic geometry guide and EDIT TARGET. INPUT 2 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 1. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nRIGHT guide: the opposite short end face, a low wide bevelled iron rectangle approximately x170\u2013854, y372\u2013715. The leather band is visible BEHIND it as tan perimeter rectangle x151\u2013873, y357\u2013722, not across the middle of this end face. Ceramic plate is the thin horizontal off-white bar x273\u2013752, y336\u2013371. Small iron buckle above it x435\u2013588, y319\u2013337. Brass cap is at x614\u2013685, y302\u2013374, directly above the existing projecting grey iron fitting, which shows its polygonal end face around x560\u2013718, y374\u2013547. Preserve that exact polygon and side surfaces; do not replace it with a large round device. Copper wire segment rises on the upper right. Overall opaque bounds x151\u2013873, y302\u2013722; preserve blank margins.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "4421d62df31102cf85ff4e24d72b7c6d465990f08844579e78c62fb82c129d57"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      }
+    ],
+    "output": null,
+    "selected": false,
+    "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 7b6ca44b-cd20-4319-87f1-5eb7935b7191. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+    "status": "blocked_by_image_tool"
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "tool": "image_gen.imagegen",
+    "prompt": "CORRECTIVE TEXTURE PASS: paint from the ORIGINAL guide again. The first version's chief defect was photographic shading: bright white polished bevels and dark occlusion. REMOVE all baked lighting. Use uniform charcoal iron base colour with rust/pigment scuffs, warm brown leather, dull muted brass and copper, off-white ceramic. Bevels must have the SAME colour/value as their broad parent surfaces. No shaded undersides, shadow under the slab, shiny edges, glints, bloom or contact blackening. Keep guide shapes precise and its margins identical. Fine texture must not create extra edge projections. This is an UNLIT ALBEDO pass for lighting elsewhere, not a rendered promotional picture. Use the guide's 1024 x 1024 canvas.\n\nContext: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 2 is the exact orthographic geometry guide and EDIT TARGET. INPUT 1 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 2. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nLEFT guide: the short end face, a low wide bevelled iron rectangle approximately x170\u2013854, y372\u2013715. The leather band is visible BEHIND it as the tan perimeter rectangle x151\u2013873, y357\u2013722, not across the middle of the end face. Ceramic plate is the thin horizontal off-white bar x273\u2013752, y336\u2013371. Small iron buckle above the bar x435\u2013588, y319\u2013337. Brass cap above left x339\u2013410, y302\u2013337; tiny copper wire segment further left. No cylinder is visible on this end face. Overall opaque bounds x151\u2013873, y302\u2013722; preserve blank margins.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      },
+      {
+        "path": "guide_left.png",
+        "sha256": "cff13046f593ee3a8d714e8d53fb896773b21bcca7751f071c9849b1b65806c2"
+      }
+    ],
+    "output": null,
+    "selected": false,
+    "reason": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID bbca481a-d941-4b42-a669-e9e8b631df5b. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+    "status": "blocked_by_image_tool"
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "tool": "image_gen.imagegen",
+    "prompt": "CORRECTIVE TEXTURE PASS: paint from the ORIGINAL guide again. The first version's chief defect was photographic shading: bright white polished bevels and dark occlusion. REMOVE all baked lighting. Use uniform charcoal iron base colour with rust/pigment scuffs, warm brown leather, dull muted brass and copper, off-white ceramic. Bevels must have the SAME colour/value as their broad parent surfaces. No shaded undersides, shadow under the slab, shiny edges, glints, bloom or contact blackening. Keep guide shapes precise and its margins identical. Fine texture must not create extra edge projections. This is an UNLIT ALBEDO pass for lighting elsewhere, not a rendered promotional picture. Use the guide's 1024 x 1024 canvas.\n\nContext: this is surface artwork for an inert, fictional fantasy game inventory prop. This request is exclusively to paint material colours on an already existing mesh guide; it contains no functioning mechanism, technical construction details, real-world instructions, injury or violent scene.\n\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture-paint source for an existing game model, NOT a product photograph.\nINPUT 2 is the exact orthographic geometry guide and EDIT TARGET. INPUT 1 is the approved design reference, used ONLY for material, colour and wear appearance; do not copy its perspective, composition or silhouette.\nPaint only inside input 2. Keep its 1024 x 1024 canvas, identical alpha silhouette, pixel positions, size, all part edges, occlusions, chamfers and orthographic view. The object must stay at exactly the same place and scale with all the large transparent margins. Absolutely no perspective change, rotation, new shape, enlarged part, cropping, re-layout or extra protrusions. Preserve the guide alpha including its antialiased boundary.\nSubject: a heavy rectangular old workshop-made strapped metal case, matching the approved art. Surfaces: dark charcoal iron with fine brown oxidation and scuff marks, weathered brown leather with fine grain and stitched seams, dull warm copper wire, tarnished muted brass cap, warm off-white ceramic with fine cracks, sparse brown dirt and worn glaze. Use reference material colours, NOT the guide's pastel material ID tints. Continue unseen surfaces plausibly with the same material. All painted detailing must remain on existing parts; no invented geometry. The grey main box is IRON; the thin almost-white plate on top is CERAMIC; the tan band is BROWN LEATHER; salmon-pink angular wire is COPPER; pale yellow fitting is BRASS; little grey block is an IRON BUCKLE. Follow the guide's actual visible surfaces even if the ceramic face is only visible edge-on. Do not put a ceramic panel on the iron side. Include no materials absent from these inputs.\nLighting: perfectly flat, evenly lit unlit base colour/albedo. Remove the guide's directional shading. No cast shadows, ambient occlusion, contact darkening, highlights, white edge reflections, specular glints, rim lights, light falloff, gradients from lighting or studio illumination. Metals are matte base colour with only extremely faint sheen. Surface cracks and scuffs are pigment details, not dimensional lighting. Where the reference shows amber light on the fitting, paint its visible inset bright orange as flat colour without bloom or emitted illumination.\nOutput: one 1024 x 1024 PNG with a truly transparent alpha background. No floor, background colour, checkerboard pixels, text, letters, numbers, logos, labels, watermarks or border. Exact guide silhouette and geometry have priority over reference detail.\n\nTOP guide: directly overhead, with no perspective. Main iron case rectangle approximately x66\u2013889, y168\u2013857. Brown leather band vertical at x459\u2013632 and visible at y151\u2013273 and y754\u2013873 where it is not occluded by the plate. Broad warm off-white ceramic slab exactly x135\u2013683, y273\u2013754 with chamfered corners; keep its existing straight outer boundary, put hairline cracks and worn glaze inside it only. Small iron buckle rectangle on the slab at x504\u2013588, y437\u2013590. Copper wire follows its exact angular course from x544,y249 via x715,y302 to x820,y374. Small brass cap is the octagon at x837\u2013905,y341\u2013410, on an iron fitting extending to x958 at the right. Keep all part placement and edges unchanged. Overall opaque bounds x66\u2013958, y151\u2013873; preserve blank margins.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "f9eb6027fc8e6c4764e5cbe02ff17ed11f043bda829823580d35f511fdf9768e"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "25fc121525cc3ba6f5c1ea6dfd759bcb85bde94f8c55beea02b8d59ce1259fd7"
+      }
+    ],
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Best returned top view: bevel highlights reduced and framing closer to the guide than attempt 1. Still not exact guide silhouette and not fully shadowless albedo. Preserved unresized; no more corrective generations permitted.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e1f-39d7-7540-aac5-df336b12b9f2/exec-be9614d9-3b1f-4964-958d-f8a80c66c602.png",
+    "width": 1254,
+    "height": 1254,
+    "resized": false,
+    "output_sha256": "67533e2663951a06399ae9dc0bd9e02cf47a82a1d41012cc85c5e035eefd8aef",
+    "status": "selected_with_failed_checks",
+    "checks": {
+      "png_valid": true,
+      "mode": "RGBA",
+      "size_1024x1024": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1253,
+        1254
+      ],
+      "opaque_bbox_alpha_ge_128": [
+        74,
+        184,
+        1180,
+        1056
+      ],
+      "opaque_bbox_normalized_to_1024": [
+        60.43,
+        150.25,
+        963.57,
+        862.32
+      ],
+      "guide_alpha_bbox": [
+        66,
+        151,
+        958,
+        873
+      ],
+      "silhouette_identical_to_guide": false,
+      "materials_match_reference_visual": true,
+      "flat_shadowless_lighting_visual": false,
+      "no_text_or_letters_visual": true,
+      "meets_all_brief_checks": false
+    }
+  }
+]

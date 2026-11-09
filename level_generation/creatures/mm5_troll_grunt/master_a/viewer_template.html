@@ -1,0 +1,72 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Troll Grunt — selected master A</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#1c2026;color:#e4e1da;font:15px system-ui,sans-serif}
+main{max-width:1360px;margin:auto;padding:24px}h1{margin:4px 0;font-size:30px}p{color:#b8bec6;line-height:1.55}
+a{color:#d2bc89}.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0}
+select,button,input{font:inherit;color:#eee;background:#303741;border:1px solid #657181;border-radius:4px;padding:6px}
+label{display:flex;align-items:center;gap:6px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:24px}
+canvas{width:100%;border:1px solid #414d5d;border-radius:6px}aside{background:#252c35;padding:16px;border-radius:6px}
+aside img{width:100%;max-height:380px;object-fit:contain;background:#363d45}aside h3{margin:8px 0}
+.strip{display:flex;gap:6px;flex-wrap:wrap}.strip img{width:108px;cursor:pointer;background:#363d45}
+details{margin:20px 0}details img{max-width:100%}#info{font:13px monospace;white-space:pre-line}
+@media(max-width:800px){.layout{grid-template-columns:1fr}}
+</style><main><small>OPENYAMM · MM5 TO MM7/MM8 CREATURE ADAPTATION</small>
+<h1>Troll Grunt — selected master A</h1>
+<p>Original MM5 Troll Grunt → user-selected master A → matching views and animations.
+The player can show the full-resolution source cells or the aligned 2× atlas.</p>
+<div class="bar">
+<label>Action <select id="action"></select></label><label>View <select id="view"></select></label>
+<button id="play">Pause</button><label>Speed <select id="speed"><option value=".5">½×</option><option selected value="1">1×</option><option value="2">2×</option></select></label>
+<label>Image <select id="detail"><option value="source">Source master</option><option value="atlas">2× atlas</option></select></label>
+<label>Zoom <select id="zoom"><option value="1">1×</option><option selected value="1.6">1.6×</option><option value="2">2×</option></select></label>
+<label>Background <select id="background"><option value="#363d45">Slate</option><option value="#eeeeeb">Light</option><option value="#101216">Dark</option></select></label>
+<label><input id="guides" type="checkbox" checked>Pivot</label><label><input id="repeat" type="checkbox" checked>Repeat</label></div>
+<div class="layout"><section><canvas id="canvas" width="840" height="640"></canvas>
+<div class="bar"><label>Frame <input id="frame" type="range" min="0" value="0"></label><span id="counter"></span>
+<a id="raw" target="_blank">Open source pixels</a></div><p id="info"></p></section>
+<aside><h3>Chosen new master A</h3><a href="../style_front_v2/A_faithful_render.png"><img src="../style_front_v2/A_faithful_render.png"></a>
+<h3>Original MM5</h3><img src="../native/mm5_mon_0.png" style="max-height:150px">
+<p id="coverage"></p><p><a href="README.md">Source-to-master mapping</a><br><a href="manifest.json">Atlas / animations</a></p></aside></div>
+<div class="strip" id="strip"></div>
+<details><summary>All sprites</summary>CONTACTS</details>
+<details><summary>Vest mask review</summary>MASKS</details>
+<script>
+const data=MANIFEST,el=id=>document.getElementById(id),ctx=el('canvas').getContext('2d');
+const action=el('action'),view=el('view'),slider=el('frame');let index=0,playing=true,last=0,elapsed=0;
+const cache=new Map(),pages=data.pages.map(p=>{const im=new Image();im.src=p.base;return im});
+const available=Object.entries(data.animations).filter(([k,a])=>Object.values(a.views).some(v=>v.every(e=>data.frames[e.frame])));
+available.forEach(([k])=>action.add(new Option(k,k)));data.direction_labels.forEach((k,i)=>view.add(new Option(k,i)));
+const params=new URLSearchParams(location.search);action.value=params.get('action')||'walk';
+if(!action.value)action.selectedIndex=0;view.value=params.get('view')||'0';
+if(params.has('frame')){index=+params.get('frame');playing=false;el('play').textContent='Play'}
+function seq(){return data.animations[action.value].views[view.value]}
+function refreshViews(){for(const option of view.options){option.disabled=!data.animations[action.value].views[option.value].every(e=>data.frames[e.frame])}
+if(view.selectedOptions[0].disabled)view.value=Array.from(view.options).find(o=>!o.disabled).value}
+function image(path){if(!cache.has(path)){const im=new Image();im.src=path;cache.set(path,im)}return cache.get(path)}
+function refresh(){cache.clear();slider.max=seq().length-1;el('strip').replaceChildren();seq().forEach((e,i)=>{
+const im=new Image();im.src='aligned_2x/'+e.frame+'.png';im.title=e.frame;if(e.mirrored)im.style.transform='scaleX(-1)';
+im.onclick=()=>{index=i;playing=false;el('play').textContent='Play'};el('strip').append(im);image(data.frames[e.frame].source_cell)})}
+function reset(){index=0;elapsed=0;refreshViews();refresh()}
+action.onchange=reset;view.onchange=reset;slider.oninput=()=>{index=+slider.value;playing=false;el('play').textContent='Play'};
+el('play').onclick=()=>{playing=!playing;el('play').textContent=playing?'Pause':'Play'};
+el('coverage').textContent=data.coverage.exported+' / 160 sprites · five stored views + three mirrors · '+data.pages.length+' atlas pages · '+
+(data.decoded_memory_bytes/1048576).toFixed(2)+' MiB decoded including masks and padding. Staged art.'+
+(data.coverage.exported<160?' '+(160-data.coverage.exported)+' sprites pending generation; unavailable views are disabled.':'');
+function draw(t){const dt=last?Math.min(t-last,100):0;last=t;let sequence=seq();
+if(playing){elapsed+=dt*+el('speed').value;while(elapsed>=sequence[index].duration_ms){elapsed-=sequence[index].duration_ms;
+if(index+1<sequence.length)index++;else if(data.animations[action.value].playback==='loop'||el('repeat').checked)index=0;
+else{playing=false;el('play').textContent='Play';break}}}
+index=Math.min(index,sequence.length-1);const e=sequence[index],f=data.frames[e.frame],z=+el('zoom').value;
+ctx.fillStyle=el('background').value;ctx.fillRect(0,0,840,640);
+if(el('guides').checked){ctx.strokeStyle='#8d948366';ctx.beginPath();ctx.moveTo(420,0);ctx.lineTo(420,640);ctx.moveTo(0,590);ctx.lineTo(840,590);ctx.stroke()}
+ctx.save();ctx.translate(420,590);ctx.scale(e.mirrored?-z:z,z);
+if(el('detail').value==='source'){const im=image(f.source_cell);if(im.complete&&im.naturalWidth)ctx.drawImage(im,
+f.translation_px[0]-320,f.translation_px[1]-576,im.width*f.registration_scale,im.height*f.registration_scale)}
+else{const [x,y,w,h]=f.atlas_xywh;const im=pages[f.page];if(im.complete&&im.naturalWidth)ctx.drawImage(im,x,y,w,h,f.crop_origin_px[0]-320,f.crop_origin_px[1]-576,w,h)}
+ctx.restore();slider.value=index;el('counter').textContent=(index+1)+' / '+sequence.length;
+el('raw').href=f.source_cell;el('info').textContent=e.frame+' · '+e.duration_ms+' ms · '+(e.mirrored?'mirrored':'stored')+'\n'+
+f.generated_pixels_per_native_pixel.toFixed(2)+' generated pixels per native pixel · raw source cell '+f.source_cell_size.join('×');
+requestAnimationFrame(draw)}refreshViews();refresh();requestAnimationFrame(draw);
+</script></main>

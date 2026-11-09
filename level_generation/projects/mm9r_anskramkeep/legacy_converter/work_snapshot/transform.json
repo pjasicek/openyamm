@@ -1,0 +1,10 @@
+{
+ "scale": 2.56,
+ "offset": [
+  0,
+  0,
+  0
+ ],
+ "voxel_lt": 16,
+ "note": "native x = LT.x * scale - offset[0], y = LT.z * scale - offset[1], z = LT.y * scale - offset[2] (the frame of the old bmodel_world map, so its transitions and minimap bounds stay valid)"
+}

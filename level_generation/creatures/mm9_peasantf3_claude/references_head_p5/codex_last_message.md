@@ -1,0 +1,3 @@
+Saved all eight unresized 1254×1254 images using built-in image generation in [references_head_p5](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantf3_claude/references_head_p5), plus `review.png` and `generation_runs.json` with prompts and input hashes.
+
+No builds or model edits performed. **Strict pixel alignment remains unmet in places after the allowed corrections**; residual issues are documented in the log.

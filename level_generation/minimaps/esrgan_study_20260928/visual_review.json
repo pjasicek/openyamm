@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "count": 27,
+  "exports_sha256": "a9afa480970082de91f1f668a9515c28df9a6599d69fb38e8a5685221e468f01",
+  "selected_variant": "video2",
+  "authority": "User selected full-strength anime-video v3 direct 2x and accepted all MM7/MM8 maps.",
+  "inspected": [
+    "All 27 direct-2x map overviews",
+    "Full-resolution original/model/blend crops on representative coastlines, roofs, roads, snow, lava and underwater terrain",
+    "Mount Nighon additional town and registration comparison"
+  ],
+  "findings": "Retained native maps and painted landmarks. Smoother source edges; MM8 source grain is reduced as in the selected trial. No missing canvas regions or gross landmark relocation observed.",
+  "registration_note": "26 phase-correlation peaks are zero. Mount Nighon has a 1-pixel phase-only peak; direct smoothed-pixel error at the full frame and inspected town/coast regions is minimized at zero shift. All 27 maps have zero-shift minimum pixel error. No corrective warp applied.",
+  "limitations": "Neural enhancement changes local contours. Source dither and softness remain in some areas. This is model-level batch approval, not claimed individual user review of every map.",
+  "overviews": {
+    "level_generation/minimaps/esrgan_study_20260928/contacts/selected_1.jpg": "881b1beeaaed6785f7991bf10c254f2f310268f00d950f7204354bee04317f7f",
+    "level_generation/minimaps/esrgan_study_20260928/contacts/selected_2.jpg": "331ddc27f8fb65a47e908dbefafe615f2f477ce3d4cf583aebdc4ff3e4359a0a",
+    "level_generation/minimaps/esrgan_study_20260928/contacts/selected_3.jpg": "dcd9c3b13d01d2e3ca1a7f34059554265bea4d62ec781a232d51d77e000f0872"
+  }
+}

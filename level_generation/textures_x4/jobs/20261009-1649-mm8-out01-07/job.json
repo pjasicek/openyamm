@@ -1,0 +1,874 @@
+{
+ "id": "20261009-1649-mm8-out01-07",
+ "world": "mm8",
+ "maps": [
+  "out01.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t02a07",
+  "mm8/t66a04",
+  "mm8/t02a12a",
+  "mm8/t02b03c",
+  "mm8/t65b02a1",
+  "mm8/t03a07a",
+  "mm8/t02a09a",
+  "mm8/t02a06",
+  "mm8/t02a03a",
+  "mm8/t02a12b",
+  "mm8/t03a01b",
+  "mm8/t02a03b",
+  "mm8/t65c02",
+  "mm8/t02a09b",
+  "mm8/t03a07b",
+  "mm8/t03a12d",
+  "mm8/t02a03c",
+  "mm8/t02a08a",
+  "mm8/t65a01a",
+  "mm8/t65a12",
+  "mm8/t02a01b",
+  "mm8/t65o13a",
+  "mm8/t65o13b",
+  "mm8/t02a11c"
+ ],
+ "requests": {
+  "mm8/t02a07": {
+   "name": "t02a07",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered ochre-brown mud plaster wall framed by grey stone pilasters under a grey stone zigzag frieze",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a01"
+     ],
+     "fraction": 0.477
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a01"
+     ],
+     "fraction": 0.477
+    },
+    "3": {
+     "sources": [
+      "mm8/t02a01"
+     ],
+     "fraction": 0.477
+    }
+   }
+  },
+  "mm8/t66a04": {
+   "name": "t66a04",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough grey-beige cracked plaster wall with three tall narrow dark slit windows above a carved reddish-brown wooden wainscot, under a wooden beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66a01"
+     ],
+     "fraction": 0.762
+    },
+    "2": {
+     "sources": [
+      "mm8/t66a07"
+     ],
+     "fraction": 0.602
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm8/t02a12a": {
+   "name": "t02a12a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered ochre-brown mud plaster wall under a grey stone zigzag frieze, with a small dark wooden window and a dry grass ledge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a08b"
+     ],
+     "fraction": 0.566
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a08b"
+     ],
+     "fraction": 0.538
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t02a01",
+     "left": "mm8/t02a01",
+     "bottom": "mm8/t02a11a"
+    }
+   },
+   "joint_tone": true
+  },
+  "mm8/t02b03c": {
+   "name": "t02b03c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered green-grey vertical plank wooden door with an iron latch, set in a grey stone frame under a carved wooden lintel",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge; the top row continues the pale stone frieze, not a dark line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b02a1": {
+   "name": "t65b02a1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough brown-grey sandstone blocks in staggered courses with several blocks crumbled and fallen out, dark gaps behind",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a07a": {
+   "name": "t03a07a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a09a": {
+   "name": "t02a09a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered ochre-brown mud plaster wall framed by grey stone pilasters under a grey stone zigzag frieze, with a narrow dark slit window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a07"
+     ],
+     "fraction": 0.478
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a07"
+     ],
+     "fraction": 0.478
+    }
+   }
+  },
+  "mm8/t02a06": {
+   "name": "t02a06",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered ochre-brown mud plaster wall under a grey stone zigzag frieze, with a grey stone pilaster edge",
+   "notes": {
+    "3": "continue the finished neighbouring wall in the border seamlessly: the same stone courses or plaster mottling, the same brightness and colour right across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a08b"
+     ],
+     "fraction": 0.563
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a08b"
+     ],
+     "fraction": 0.563
+    },
+    "3": {
+     "sources": [
+      "mm8/t02a08b"
+     ],
+     "fraction": 0.563
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t02a01",
+     "right": "mm8/t02a01",
+     "bottom": "mm8/t02a01"
+    },
+    "3": {
+     "left": "mm8/t02a01",
+     "right": "mm8/t02a01",
+     "bottom": "mm8/t02a01"
+    }
+   },
+   "joint_tone": true
+  },
+  "mm8/t02a03a": {
+   "name": "t02a03a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered green-grey vertical plank wooden door with an iron latch, set in a grey stone frame under a carved wooden lintel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a12b": {
+   "name": "t02a12b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered ochre-brown mud plaster wall framed by grey stone pilasters under a grey stone zigzag frieze, with a narrow dark slit window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a08b"
+     ],
+     "fraction": 0.43
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a08b"
+     ],
+     "fraction": 0.43
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t02a09a",
+     "right": "mm8/t02a06",
+     "bottom": "mm8/t02a01"
+    }
+   },
+   "joint_tone": true
+  },
+  "mm8/t03a01b": {
+   "name": "t03a01b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark brown woven palm-bark panel between horizontal lashed golden bamboo poles",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge; the top row continues the pale stone frieze, not a dark line",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge; the top row continues the pale stone frieze, not a dark line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t03a07a"
+     ],
+     "fraction": 0.487
+    },
+    "2": {
+     "sources": [
+      "mm8/t03a07a"
+     ],
+     "fraction": 0.487
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a03b": {
+   "name": "t02a03b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "weathered green-grey vertical plank wooden door with an iron latch, set in a grey stone frame under a carved wooden lintel",
+   "notes": {
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a03a"
+     ],
+     "fraction": 0.332
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a03a"
+     ],
+     "fraction": 0.332
+    },
+    "3": {
+     "sources": [
+      "mm8/t02b03c"
+     ],
+     "fraction": 0.216
+    },
+    "4": {
+     "sources": [
+      "mm8/t02b03c"
+     ],
+     "fraction": 0.216
+    },
+    "5": {
+     "sources": [
+      "mm8/t02b03c"
+     ],
+     "fraction": 0.216
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t02a06",
+     "right": "mm8/t02a06"
+    },
+    "4": {
+     "left": "mm8/t02a06",
+     "right": "mm8/t02a06"
+    },
+    "5": {
+     "left": "mm8/t02a06",
+     "right": "mm8/t02a06"
+    }
+   }
+  },
+  "mm8/t65c02": {
+   "name": "t65c02",
+   "versions": [
+    1
+   ],
+   "material": "rough brown-grey sandstone blocks in staggered courses with dark recessed joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65b02a1"
+     ],
+     "fraction": 0.917
+    }
+   }
+  },
+  "mm8/t02a09b": {
+   "name": "t02a09b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered ochre-brown mud plaster wall under a grey stone zigzag frieze, with a small dark wooden window and a dry grass ledge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a07"
+     ],
+     "fraction": 0.344
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a07"
+     ],
+     "fraction": 0.344
+    },
+    "3": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a07",
+      "mm8/t02a09a"
+     ],
+     "fraction": 0.352
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t02a01",
+     "bottom": "mm8/t02a09a"
+    }
+   },
+   "joint_tone": true
+  },
+  "mm8/t03a07b": {
+   "name": "t03a07b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "lashed golden bamboo poles in a fence of vertical and horizontal poles with rope bindings over dark shadow",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a12d": {
+   "name": "t03a12d",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "lashed golden bamboo poles in a fence of vertical and horizontal poles with rope bindings over dark shadow",
+   "notes": {
+    "2": "every bamboo pole is a smooth continuous cane with fine fibrous grain; no square patches, cells or blocks anywhere",
+    "3": "every bamboo pole is a smooth continuous cane with fine fibrous grain; no square patches, cells or blocks anywhere",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t03a07b"
+     ],
+     "fraction": 0.391
+    },
+    "2": {
+     "sources": [
+      "mm8/t03a07b"
+     ],
+     "fraction": 0.391
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [
+      "mm8/t03a07b"
+     ],
+     "fraction": 0.391
+    },
+    "6": {
+     "sources": [
+      "mm8/t03a07b"
+     ],
+     "fraction": 0.391
+    }
+   },
+   "roll": {
+    "5": [
+     0,
+     69
+    ]
+   },
+   "context": {
+    "5": {},
+    "6": {}
+   }
+  },
+  "mm8/t02a03c": {
+   "name": "t02a03c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown carved panelled wooden double door under a green stone arch, set in a grey stone frame under a zigzag frieze",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t02a08a": {
+   "name": "t02a08a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "weathered ochre-brown mud plaster wall framed by grey stone pilasters under a grey stone zigzag frieze, with a narrow dark slit window",
+   "notes": {
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge; the top row continues the pale stone frieze, not a dark line",
+    "4": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge; the top row continues the pale stone frieze, not a dark line",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "7": "continue the finished neighbouring wall in the border seamlessly: the same stone courses or plaster mottling, the same brightness and colour right across the joint"
+   },
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm8/t02a01"
+     ],
+     "fraction": 0.246
+    },
+    "3": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a12b"
+     ],
+     "fraction": 0.259
+    },
+    "4": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a12b"
+     ],
+     "fraction": 0.258
+    },
+    "5": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a12b"
+     ],
+     "fraction": 0.258
+    },
+    "6": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a12b"
+     ],
+     "fraction": 0.258
+    },
+    "7": {
+     "sources": [
+      "mm8/t02a01",
+      "mm8/t02a12a",
+      "mm8/t02a12b"
+     ],
+     "fraction": 0.258
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "4": {
+     "left": "mm8/t02a01",
+     "top": "mm8/t02a08b"
+    },
+    "5": {
+     "left": "mm8/t02a01",
+     "top": "mm8/t02a08b"
+    },
+    "6": {
+     "left": "mm8/t02a01",
+     "top": "mm8/t02a08b"
+    },
+    "7": {
+     "left": "mm8/t02a01",
+     "top": "mm8/t02a08b"
+    }
+   },
+   "joint_tone": true
+  },
+  "mm8/t65a01a": {
+   "name": "t65a01a",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief column of tribal glyphs: crosshatch band, spirals and stepped meander",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a12": {
+   "name": "t65a12",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief panel of a coiled serpent with two heads inside a raised border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65a01a"
+     ],
+     "fraction": 0.35
+    }
+   }
+  },
+  "mm8/t02a01b": {
+   "name": "t02a01b",
+   "versions": [
+    1
+   ],
+   "material": "weathered ochre-brown mud plaster wall under a grey stone zigzag frieze with a large dark scorched burn stain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a01"
+     ],
+     "fraction": 0.127
+    }
+   }
+  },
+  "mm8/t65o13a": {
+   "name": "t65o13a",
+   "versions": [
+    1
+   ],
+   "material": "rounded green moss-covered cobblestones set in dark earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o13b": {
+   "name": "t65o13b",
+   "versions": [
+    1
+   ],
+   "material": "rounded green moss-covered cobblestones set in dark earth with a glowing red crystal eye shape in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65o13a"
+     ],
+     "fraction": 0.142
+    }
+   }
+  },
+  "mm8/t02a11c": {
+   "name": "t02a11c",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "small tile: a band of dry golden-grey thatch straw on the upper part above a grey stone frieze strip carved with a zigzag chevron",
+   "notes": {
+    "2": "keep exactly the two parts of the reference: straw on top, carved zigzag stone strip below, at the same heights",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a03b"
+     ],
+     "fraction": 0.5
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a03b"
+     ],
+     "fraction": 0.5
+    },
+    "3": {
+     "sources": [
+      "mm8/t02a03b"
+     ],
+     "fraction": 0.5
+    },
+    "4": {
+     "sources": [
+      "mm8/t02a03a"
+     ],
+     "fraction": 0.5
+    },
+    "5": {
+     "sources": [
+      "mm8/t02a03c"
+     ],
+     "fraction": 0.5
+    }
+   },
+   "context": {
+    "4": {},
+    "5": {}
+   }
+  }
+ }
+}

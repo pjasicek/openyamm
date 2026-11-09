@@ -1,0 +1,11 @@
+# Land dragon restoration review
+
+Accepted all 59 unique native images: 53 referenced and six unused. Eleven generated sheets retain five stored walk views, native animated idle/fidget, attack, hit, disintegration/corpse and unused poses. Native repeated idle frame, timings, mirror aliases, palette-specific scale and logical anchoring are preserved. Static corpse groups legitimately omit animation_length_raw; exporter now applies the same zero default as SpriteTables.cpp.
+
+Reviewed native/raw action sheets, complete base/mask contacts, five-view identity variants and worst-edge light/dark contacts. Offline viewer checks include mirrored walk view 6 / blue 696 / frame 3 and red 695 death view 0 / frame 3. Foot phases, long neck/tail, thin spines and collapsing mass follow native poses. Corrected death sheet restores the first head turn toward screen left and removes added glow from final ash. Initial recolor fit accidentally included transparent palette index zero; excluding it removed green highlight contamination. Rejected artwork and exact prompts are preserved.
+
+Four soft enhanced-art mask channels distinguish green hide, olive/gold tones, warm gold highlights/effects and pale ivory-blue horns/claws. Fixed native usage-weighted sigma=4 luminance lookup curves produce blue 696 and red 695 from green 697; base bypass is exact. Overall gain .80, final ash mask zero. The enhanced mottled scales are coarser, highlights smoother, and variant claws somewhat warmer than native. These are visible approximations; there is no missing anatomy, altered animation binding or surrounding matte halo. Wide native/enhanced poses can exceed the default viewer pane zoom; atlas boundaries remain unclipped.
+
+Source, palette and generation hashes, alpha invariance, mask weight sums, timeline bindings and exact crop/atlas reconstruction pass. Zero residual magenta candidates in cleaned, exported and atlas-extracted art. Decoded base plus RGBA masks: 93,577,424 bytes (89.24 MiB), excluding previews. Staged only; multi_mask_luminance_lut_v1 needs matching runtime support or deterministic variant baking before installation. No performance claim.
+
+Reproduce: process.py, package.py, ../mm6_peasants/build_viewer.py drr1, ../mm6_remaining/identity_contact.py drr1. Rebuild clears visual acceptance; review affected outputs again.

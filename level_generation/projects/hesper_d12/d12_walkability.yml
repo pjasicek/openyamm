@@ -1,0 +1,518 @@
+# Each fresh fight crosses a repaired flight, ring, landing, dais or turret base. Original actor indices stay fixed.
+id: hesper.d12.walkability
+world: hesper
+mode: faithful
+steps:
+- &id007
+  new_game_flow:
+    start_map: hes_d12.blv
+    party:
+      members:
+      - name: Crown walk tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills:
+        - name: Sword
+          level: 1
+          mastery: 1
+- &id001
+  damage_actor:
+    actor_index: 61
+    amount: 1000000
+    tier: kreegan_energy
+- *id001
+- &id002
+  damage_actor:
+    actor_index: 62
+    amount: 1000000
+    tier: kreegan_energy
+- *id002
+- &id003
+  damage_actor:
+    actor_index: 63
+    amount: 1000000
+    tier: kreegan_energy
+- *id003
+- &id004
+  damage_actor:
+    actor_index: 64
+    amount: 1000000
+    tier: kreegan_energy
+- *id004
+- &id005
+  damage_actor:
+    actor_index: 65
+    amount: 1000000
+    tier: kreegan_energy
+- *id005
+- &id006
+  damage_actor:
+    actor_index: 66
+    amount: 1000000
+    tier: kreegan_energy
+- *id006
+- execute_event:
+    id: 105
+- wait_until:
+    timeout_runtime_seconds: 7
+    assert:
+      mechanism:
+        id: 5
+        state: open
+- set_pose:
+    map: hes_d12.blv
+    x: 400
+    y: 8570
+    z: 768
+    yaw: -1.5707963267948966
+    pitch: 0
+- spawn_actor:
+    monster_id: 10001
+    count: 1
+    x: 400
+    y: 6350
+    z: 48
+- advance_runtime:
+    seconds: 24
+- assert:
+    actor_visible:
+      actor_index: 123
+      report_state: true
+      dead: false
+      near:
+        x: 400
+        y: 8570
+        max_distance: 400
+- *id007
+- &id008
+  damage_actor:
+    actor_index: 61
+    amount: 1000000
+    tier: kreegan_energy
+- *id008
+- &id009
+  damage_actor:
+    actor_index: 62
+    amount: 1000000
+    tier: kreegan_energy
+- *id009
+- &id010
+  damage_actor:
+    actor_index: 63
+    amount: 1000000
+    tier: kreegan_energy
+- *id010
+- &id011
+  damage_actor:
+    actor_index: 64
+    amount: 1000000
+    tier: kreegan_energy
+- *id011
+- &id012
+  damage_actor:
+    actor_index: 65
+    amount: 1000000
+    tier: kreegan_energy
+- *id012
+- &id013
+  damage_actor:
+    actor_index: 66
+    amount: 1000000
+    tier: kreegan_energy
+- *id013
+- &id014
+  damage_actor:
+    actor_index: 74
+    amount: 1000000
+    tier: kreegan_energy
+- *id014
+- &id015
+  damage_actor:
+    actor_index: 75
+    amount: 1000000
+    tier: kreegan_energy
+- *id015
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 8380
+    z: 768
+    yaw: 1.5707963267948966
+    pitch: 0
+- spawn_actor:
+    monster_id: 10001
+    count: 1
+    x: 0
+    y: 9500
+    z: 704
+- advance_runtime:
+    seconds: 14
+- assert:
+    actor_visible:
+      actor_index: 123
+      report_state: true
+      dead: false
+      near:
+        x: 0
+        y: 8380
+        max_distance: 400
+- *id007
+- &id016
+  damage_actor:
+    actor_index: 86
+    amount: 1000000
+    tier: kreegan_energy
+- *id016
+- &id017
+  damage_actor:
+    actor_index: 87
+    amount: 1000000
+    tier: kreegan_energy
+- *id017
+- &id018
+  damage_actor:
+    actor_index: 112
+    amount: 1000000
+    tier: kreegan_energy
+- *id018
+- &id019
+  damage_actor:
+    actor_index: 113
+    amount: 1000000
+    tier: kreegan_energy
+- *id019
+- execute_event:
+    id: 122
+- wait_until:
+    timeout_runtime_seconds: 7
+    assert:
+      mechanism:
+        id: 22
+        state: open
+- set_pose:
+    map: hes_d12.blv
+    x: 2110
+    y: 2364
+    z: -1536
+    yaw: 0.0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10001
+    count: 1
+    x: 3350
+    y: 2364
+    z: -1536
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_visible:
+      actor_index: 123
+      report_state: true
+      dead: false
+      near:
+        x: 2110
+        y: 2364
+        max_distance: 400
+- *id007
+- &id020
+  damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- *id020
+- &id021
+  damage_actor:
+    actor_index: 9
+    amount: 1000000
+    tier: kreegan_energy
+- *id021
+- &id022
+  damage_actor:
+    actor_index: 10
+    amount: 1000000
+    tier: kreegan_energy
+- *id022
+- &id023
+  damage_actor:
+    actor_index: 11
+    amount: 1000000
+    tier: kreegan_energy
+- *id023
+- &id024
+  damage_actor:
+    actor_index: 12
+    amount: 1000000
+    tier: kreegan_energy
+- *id024
+- &id025
+  damage_actor:
+    actor_index: 13
+    amount: 1000000
+    tier: kreegan_energy
+- *id025
+- &id026
+  damage_actor:
+    actor_index: 14
+    amount: 1000000
+    tier: kreegan_energy
+- *id026
+- &id027
+  damage_actor:
+    actor_index: 15
+    amount: 1000000
+    tier: kreegan_energy
+- *id027
+- &id028
+  damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- *id028
+- &id029
+  damage_actor:
+    actor_index: 17
+    amount: 1000000
+    tier: kreegan_energy
+- *id029
+- &id030
+  damage_actor:
+    actor_index: 18
+    amount: 1000000
+    tier: kreegan_energy
+- *id030
+- &id031
+  damage_actor:
+    actor_index: 19
+    amount: 1000000
+    tier: kreegan_energy
+- *id031
+- &id032
+  damage_actor:
+    actor_index: 20
+    amount: 1000000
+    tier: kreegan_energy
+- *id032
+- &id033
+  damage_actor:
+    actor_index: 21
+    amount: 1000000
+    tier: kreegan_energy
+- *id033
+- &id034
+  damage_actor:
+    actor_index: 22
+    amount: 1000000
+    tier: kreegan_energy
+- *id034
+- &id035
+  damage_actor:
+    actor_index: 23
+    amount: 1000000
+    tier: kreegan_energy
+- *id035
+- &id036
+  damage_actor:
+    actor_index: 25
+    amount: 1000000
+    tier: kreegan_energy
+- *id036
+- &id037
+  damage_actor:
+    actor_index: 42
+    amount: 1000000
+    tier: kreegan_energy
+- *id037
+- &id038
+  damage_actor:
+    actor_index: 46
+    amount: 1000000
+    tier: kreegan_energy
+- *id038
+- &id039
+  damage_actor:
+    actor_index: 47
+    amount: 1000000
+    tier: kreegan_energy
+- *id039
+- &id040
+  damage_actor:
+    actor_index: 48
+    amount: 1000000
+    tier: kreegan_energy
+- *id040
+- execute_event:
+    id: 109
+- wait_until:
+    timeout_runtime_seconds: 7
+    assert:
+      mechanism:
+        id: 9
+        state: open
+- set_pose:
+    map: hes_d12.blv
+    x: 2110
+    y: 2364
+    z: 0
+    yaw: 3.141592653589793
+    pitch: 0
+- spawn_actor:
+    monster_id: 10001
+    count: 1
+    x: 1050
+    y: 2364
+    z: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_visible:
+      actor_index: 123
+      report_state: true
+      dead: false
+      near:
+        x: 2110
+        y: 2364
+        max_distance: 400
+- *id007
+- &id041
+  damage_actor:
+    actor_index: 76
+    amount: 1000000
+    tier: kreegan_energy
+- *id041
+- &id042
+  damage_actor:
+    actor_index: 77
+    amount: 1000000
+    tier: kreegan_energy
+- *id042
+- execute_event:
+    id: 121
+- wait_until:
+    timeout_runtime_seconds: 7
+    assert:
+      mechanism:
+        id: 21
+        state: open
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 13600
+    z: 2304
+    yaw: -1.5707963267948966
+    pitch: 0
+- spawn_actor:
+    monster_id: 10001
+    count: 1
+    x: 0
+    y: 12400
+    z: 2304
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_visible:
+      actor_index: 123
+      report_state: true
+      dead: false
+      near:
+        x: 0
+        y: 13600
+        max_distance: 400
+- *id007
+- &id043
+  damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- *id043
+- &id044
+  damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- *id044
+- &id045
+  damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- *id045
+- &id046
+  damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- *id046
+- set_pose:
+    map: hes_d12.blv
+    x: 0
+    y: 18400
+    z: 2560
+    yaw: -1.5707963267948966
+    pitch: 0
+- spawn_actor:
+    monster_id: 10001
+    count: 1
+    x: 0
+    y: 16900
+    z: 2304
+- advance_runtime:
+    seconds: 16
+- assert:
+    actor_visible:
+      actor_index: 123
+      report_state: true
+      dead: false
+      near:
+        x: 0
+        y: 18400
+        max_distance: 400
+- *id007
+- &id047
+  damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- *id047
+- &id048
+  damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- *id048
+- &id049
+  damage_actor:
+    actor_index: 76
+    amount: 1000000
+    tier: kreegan_energy
+- *id049
+- &id050
+  damage_actor:
+    actor_index: 77
+    amount: 1000000
+    tier: kreegan_energy
+- *id050
+- set_pose:
+    map: hes_d12.blv
+    x: 1500
+    y: 17000
+    z: 2304
+    yaw: -1.5707963267948966
+    pitch: 0
+- spawn_actor:
+    monster_id: 10001
+    count: 1
+    x: 1500
+    y: 15850
+    z: 2304
+- advance_runtime:
+    seconds: 14
+- assert:
+    actor_visible:
+      actor_index: 123
+      report_state: true
+      dead: false
+      near:
+        x: 1500
+        y: 17000
+        max_distance: 400

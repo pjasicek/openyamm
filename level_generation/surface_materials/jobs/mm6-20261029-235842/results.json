@@ -1,0 +1,26 @@
+{
+ "mm6/bemstara": {
+  "problems": [
+   "height misaligned by (-51, 0) texels"
+  ],
+  "family": [],
+  "correlation": 0.77,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/pxstrdr": {
+  "problems": [
+   "height misaligned by (25, 183) texels"
+  ],
+  "family": [
+   "mm6/pxstrlew"
+  ],
+  "correlation": 0.222,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ }
+}

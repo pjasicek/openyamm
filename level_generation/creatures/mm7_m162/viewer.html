@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>MM7 Behemoth · restored sprite review</title>
+<style>body{margin:24px;background:#202422;color:#edf0ed;font:16px system-ui}h1{font-size:24px}label,button{margin-right:16px}select,button,input{font:inherit}canvas{width:48%;max-width:700px;border:1px solid #68716a}p{max-width:1100px;color:#c6d0c9}.controls{line-height:3}a{color:#acd9e9}</style>
+<h1>MM7 Behemoth · native / restored</h1><p>Original animation timing, five stored directions and eight view aliases. The colored mane and beard share one coverage mask. Open this file directly; no server required.</p>
+<div class="controls"><label>Action <select id="action"></select></label><label>View <select id="view"></select></label><label>Palette <select id="palette"></select></label><br>
+<button id="play">Pause</button><button id="step">Step frame</button><button id="restart">Restart</button><label>Zoom <input id="zoom" type="range" min="0.5" max="2" step="0.1" value="1.5"></label><label>Background <input id="bg" type="color" value="#343a36"></label><label><input id="mask" type="checkbox">Mask overlay</label><label><input id="crop" type="checkbox">Crop bounds</label><label><input id="loop" type="checkbox" checked>Repeat for review</label></div>
+<div><canvas id="native" width="700" height="600"></canvas> <canvas id="enhanced" width="700" height="600"></canvas></div><p id="status"></p>
+<p><a href="README.md">Notes and reproduction</a> · <a href="review/standing_variants.png">Variant comparison</a> · <a href="review/edge_current.png">Edge audit</a> · <a href="manifest.json">Manifest</a></p>
+<script>
+const manifest=/* MANIFEST */;
+const $=id=>document.getElementById(id),images=new Map();let elapsed=0,playing=true,last=performance.now(),frame=0;
+for(const a of ['standing','walk','attack','hit','fidget','death','corpse'])$('action').add(new Option(a,a));
+for(let v=0;v<8;v++)$('view').add(new Option(`${v}${v>4?' (mirrored)':''}`,v));
+for(const [id,v] of Object.entries(manifest.variants))$('palette').add(new Option(v.name,id));$('palette').value='163';
+const params=new URLSearchParams(location.search);for(const id of ['action','view','palette'])if(params.has(id))$(id).value=params.get(id);
+function img(path){if(!images.has(path)){const image=new Image();images.set(path,image);image.onload=()=>{const s=seq()[frame];draw($('native'),s,true);draw($('enhanced'),s,false)};image.src=path}return images.get(path)}
+function seq(){return manifest.animations[$('action').value].views[$('view').value]}
+if(params.has('frame')){playing=false;frame=Math.max(0,Math.min(seq().length-1,Number(params.get('frame'))||0));elapsed=seq().slice(0,frame).reduce((s,f)=>s+f.duration_ms,0);$('play').textContent='Play'}
+function reset(){elapsed=0;frame=0}for(const id of ['action','view','palette'])$(id).onchange=reset;
+$('play').onclick=()=>{playing=!playing;$('play').textContent=playing?'Pause':'Play'};
+$('step').onclick=()=>{playing=false;$('play').textContent='Play';frame=(frame+1)%seq().length;elapsed=seq().slice(0,frame).reduce((s,f)=>s+f.duration_ms,0)};$('restart').onclick=reset;
+function draw(canvas,step,original){const c=canvas.getContext('2d'),z=+$('zoom').value,x=350,y=530;
+ c.fillStyle=$('bg').value;c.fillRect(0,0,700,600);c.fillStyle='#e8eee8';c.font='18px system-ui';c.fillText(original?'Original native palette':'Enhanced 2× atlas',20,28);
+ c.strokeStyle='#77918a';c.beginPath();c.moveTo(20,y);c.lineTo(680,y);c.moveTo(x,y-6);c.lineTo(x,y+6);c.stroke();
+ const f=manifest.frames[step.frame],p=manifest.pages[f.page];c.save();c.translate(x,y);c.scale(step.mirrored?-z:z,z);c.imageSmoothingEnabled=!original;
+ if(original){const image=img(`native_variants/${step.frame}_${$('palette').value}.png`);if(image.complete&&image.naturalWidth)c.drawImage(image,-128,-256,256,256)}
+ else{const image=img($('mask').checked?p.mask_overlay:p.variant_previews[$('palette').value]);const [sx,sy,w,h]=f.atlas_xywh,dx=f.crop_origin_px[0]/2-128,dy=f.crop_origin_px[1]/2-256;
+ if(image.complete&&image.naturalWidth)c.drawImage(image,sx,sy,w,h,dx,dy,w/2,h/2);
+ if($('crop').checked){c.lineWidth=1/z;c.strokeStyle='#ffd558';c.strokeRect(dx,dy,w/2,h/2)}}c.restore();}
+function tick(now){const a=manifest.animations[$('action').value],steps=seq(),total=steps.reduce((s,f)=>s+f.duration_ms,0);if(playing)elapsed+=Math.min(now-last,100);last=now;
+ if(elapsed>=total){if($('loop').checked||a.playback==='loop')elapsed%=total;else elapsed=total-.001}let sum=0;frame=steps.length-1;for(let i=0;i<steps.length;i++){sum+=steps[i].duration_ms;if(elapsed<sum){frame=i;break}}
+ const s=steps[frame];draw($('native'),s,true);draw($('enhanced'),s,false);$('status').textContent=`${s.frame} · frame ${frame+1}/${steps.length} · ${s.duration_ms} ms · ${s.mirrored?'mirrored':'stored'}${a.single_view?' · native front-only action':''}`;requestAnimationFrame(tick)}
+const initial=seq()[frame];draw($('native'),initial,true);draw($('enhanced'),initial,false);
+requestAnimationFrame(tick);
+</script></html>

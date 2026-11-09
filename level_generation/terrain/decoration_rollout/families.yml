@@ -1,0 +1,127 @@
+version: 1
+status: installed
+defaults:
+  distance: 4096
+  minimum_normal_z: 0.88
+  density_variation: 0.8
+  patch_size: 768
+  tall_grass_chance: 0.04
+  tall_grass_scale: 1.5
+  units: "Width/height/distance are world units; candidates are per 512-unit cell before exclusions."
+  placement: "Deterministic scatter; respect material coverage, buildings, existing entities and steep slopes."
+  excluded_materials: [sand, snow, dirt, cracked, waste, volcano, plains, plains_sand, grey_dirt, grey_stone,
+                       rock, sandstone, red_dirt, roads, shore, water, lava, tar, lava_dirt, lava_plains, tar_grey]
+  calibration: "Preserve New Sorpigal's grass rules and 6144-unit range; remove its stone rules."
+families:
+  meadow:
+    kind: grass
+    candidates: 50
+    width: 40
+    height: 30
+    art: existing_four_grass_variants
+    weights: [45, 35, 15, 5]
+    readiness: reuse_art
+    palette: "Retain accepted MM6 tint; calibrate MM7/MM8 to their darker olive masters in native lighting."
+  coastal_grass:
+    kind: grass
+    candidates: 50
+    width: 36
+    height: 24
+    art: existing_four_grass_variants
+    weights: [15, 40, 35, 10]
+    readiness: reuse_art
+    palette: "Muted olive, with no bright lime tips; short silhouette on islands."
+  woodland_grass:
+    kind: grass
+    candidates: 50
+    width: 40
+    height: 28
+    art: existing_four_grass_variants
+    weights: [50, 35, 12, 3]
+    readiness: reuse_art
+    palette: "Muted olive green; patchiness rather than extra height/density provides woodland variation."
+  dry_meadow:
+    kind: grass
+    candidates: 50
+    width: 36
+    height: 24
+    art: existing_four_grass_variants
+    weights: [10, 20, 25, 45]
+    readiness: reuse_art
+    palette: "Dull olive/straw, not bright yellow; retain some living grass on genuinely green tiles."
+  dry_tuft:
+    kind: grass
+    candidates: 8
+    width: 28
+    height: 18
+    art: existing_dry_and_wispy_grass
+    readiness: validated_reused_art
+    palette: "Brown straw harmonized separately with MM6 gold, MM7 ochre and MM8 orange sand."
+    placement: "Sparse patches; clear dune/beach areas need local density masks. No global desert carpet."
+  dead_tuft:
+    kind: grass
+    candidates: 8
+    width: 24
+    height: 18
+    art: two_new_dead_stalk_variants
+    readiness: validated_art
+    palette: "Dark gray-brown broken stalks, no green leaves or conspicuous pale seed heads."
+  marsh_reed:
+    kind: grass
+    candidates: 18
+    width: 24
+    height: 100
+    art: two_new_low_reed_sedge_variants
+    readiness: validated_art_and_mask
+    palette: "Dull olive/brown; MM6 yellow-green and MM7 darker marsh receive separate calibration."
+    placement: "Full-footprint root mask excludes painted blue channels even on opaque base swamp tiles."
+  tropical_low:
+    kind: grass
+    candidates: 24
+    width: 40
+    height: 26
+    art: two_new_broadleaf_variants_plus_existing_grass
+    readiness: validated_art
+    palette: "Restrained broadleaf forms; brighter yellow-green for MM6 tropical, darker olive for MM8."
+    placement: "Low undergrowth only; no palms, large ferns or added gameplay entities."
+  earth_stone:
+    kind: stone
+    candidates: 10
+    width: 12
+    height: 4
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: "Match each world's local dirt tone; preserve New Sorpigal's accepted brown tint."
+  snow_stone:
+    kind: stone
+    candidates: 3
+    width: 10
+    height: 3
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: "Small subdued cool-gray protrusions; no white-tinted grass or snow mound carpet."
+    placement: "Favor exposed dirt/snow margins with a local mask; otherwise keep the interior bare."
+  volcanic_stone:
+    kind: stone
+    candidates: 6
+    width: 12
+    height: 4
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: "Charcoal close to the accepted volcanic master; no emissive or bright gray pebbles."
+  rock_chip:
+    kind: stone
+    candidates: 4
+    width: 12
+    height: 4
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: "World/material-specific neutral gray, red-brown or warm sandstone; never one tint for every rock."
+  grey_stone_chip:
+    kind: stone
+    candidates: 4
+    width: 12
+    height: 4
+    art: existing_stone_mesh
+    readiness: reuse_mesh
+    palette: "Dark neutral gray for Shadowspire; retain its gray dirt and black stone contrast."

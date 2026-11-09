@@ -1,0 +1,290 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "generated_with_failed_acceptance_checks",
+  "selected_means": "Chosen raw return saved to the requested destination; does not imply compliance or user acceptance.",
+  "postprocessing": "None. Selected PNG files copied byte for byte; no resizing, masking, cropping, or repainting.",
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the derelict swarmship's bow half.\nEDIT IMAGE 1 (guide_left.png) IN PLACE. Return exactly ONE 1024 x 1024 RGBA PNG with a truly transparent background. Keep the original 1024-square canvas and the original guide alpha silhouette, without resizing or recentering the object.\nInput roles: Image 1 is guide_left.png, the EXACT geometry/position/scale/edge authority and edit target. Image 2 is design_reference.png, the approved design, colour and surface-material authority ONLY. Image 3 is concept_crop.png, supporting original concept ONLY. The two references are NOT composition or camera references.\nPaint the decoration seen from the LEFT, precisely as image 1 already shows it. Keep EVERY edge, opening, rib, plate, drip, rock, and detail at its existing location. Preserve the end-on orthographic view. Do not turn it into the wide three-quarter view of images 2 or 3. The model is deliberately small in this canvas: its alpha bounding rectangle is x=320 through 703, y=324 through 700, with large transparent margins on all sides. The rounded top is near (512,324), the central bottom tip near (510,700), and the rock/base spans x=320..703 near y=640..683. Match image 1's alpha pixel for pixel: NOTHING added outside it, nothing removed inside it, nothing cropped, enlarged, moved, or geometrically redesigned.\nChange only surface colours/materials from grey clay to the approved reference: weathered grey-brown chitin and bone plates, darker ribs, black-violet resin webbing and drips, faint dark orange colour deep inside, dust. Follow guide 1's existing surface divisions exactly. Apply the reference's rusty dusty stone colouring to the already-existing base fragments; do not add a ground plane. The muted bone grey-brown and dark violet resin should remain distinguishable.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Dark resin is dark intrinsic material colour, not painted shadow. Any faint dark orange seams/sacs are painted their glowing colour, with NO illumination cast onto adjacent material. No bloom. No background, no floor, no scenery, no text. Preserve real transparent alpha, including all existing transparent openings, and return the full unresized 1024 x 1024 canvas.",
+      "output": "/home/pjasicek/.codex/generated_images/01a16915-eab5-7f30-89a9-71fa5c232838/exec-c83cf2c4-5759-421d-97a4-27c301b88fd3.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted correction: wrong 1254x1254 resolution, alpha outside the guide footprint, and excessive highlights/interior brightness.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6f8a889ca7c4f2c9065782949fa94a16bb43253c6382c1ff04d68188b86ac894"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16915-eab5-7f30-89a9-71fa5c232838/exec-c83cf2c4-5759-421d-97a4-27c301b88fd3.png",
+      "output_sha256": "3781845aa010dbcc7fc14a35ba6dc94c519ae0282d789ad72ce656ba8744da18",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "transparent_pixel_count": 1441643,
+        "alpha_bbox_by_threshold": {
+          "0": [
+            0,
+            93,
+            1216,
+            1214
+          ],
+          "127": [
+            392,
+            396,
+            862,
+            858
+          ],
+          "254": [
+            393,
+            404,
+            860,
+            846
+          ]
+        },
+        "guide_alpha_bbox": [
+          320,
+          324,
+          704,
+          701
+        ],
+        "exact_guide_alpha_pass": false,
+        "silhouette_and_internal_edges": "FAIL: not pixel-identical; output resolution differs and internal shape edges drift.",
+        "materials_and_colours": "Approximate visual match: weathered grey-brown plates, dark violet resin, dusty rust-coloured existing base.",
+        "flat_even_light": "PARTIAL: corrected returns reduce highlights/glow, but some rendered depth shading remains.",
+        "strict_transparent_background": "FAIL: real transparency exists, but faint stray alpha extends outside the model footprint.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective generation 1 of 1 for paint_left.png.\nOUTPUT RESOLUTION MUST BE EXACTLY 1024 x 1024 pixels, a square RGBA PNG. DO NOT output 1254 x 1254, do not upscale, do not pad or change the canvas. This is a texture-paint edit of Image 1, so use Image 1's exact resolution and exact alpha channel as the output.\nImage 1 = guide_left.png: EDIT TARGET and pixel-locked silhouette, camera, composition and geometry. Image 2 = design_reference.png: material and colour reference only. Image 3 = concept_crop.png: supporting concept only.\nPaint RGB ONLY on the existing grey visible model surfaces of Image 1; leave its alpha unchanged pixel for pixel. Keep every outline, opening, shape edge and detail in the exact location in Image 1. Outside Image 1's silhouette alpha must be ZERO, including zero faint isolated flecks. The guide's entire occupied rectangle is x=320..703 inclusive, y=324..700 inclusive on the requested 1024 x 1024 canvas. Keep the full large transparent margins. Keep the narrow end-on LEFT orthographic view. Do not enlarge or reframe; do not copy the wide perspective of the design references.\nPaint weathered grey-brown chitin and bone plates; darker ribs; black-violet resin webbing and existing drips; very faint dark orange deep interior material accents; dust. Preserve existing rocks/base and paint them dusty reddish brown as in design_reference.png, without adding a floor. Change surface colours only, do not invent geometric plates/ribs/openings or fill an existing opening.\nALBEDO-ONLY TEXTURE SOURCE: completely even, flat, shadowless diffuse frontal light across all surfaces. No painted ambient occlusion or depth shadows, no cast shadows, no shiny or bright edge highlights, no reflections or rim lighting. Black-violet is the intrinsic resin pigment. Deep orange accents are colour only without bloom, without cast light. No background, ground plane, extra objects, captions or watermark.\nThe previous attempt failed resolution and precise alpha registration. The correction is to obey the exact original image dimensions, silhouette and all edges while applying the flat material colours. Return ONE unresized 1024 x 1024 transparent image.",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Retained as the best available unresized return after one allowed correction; more subdued material rendering. NOT compliant with the exact-size/silhouette requirements: still 1254x1254 with stray alpha and geometric drift; residual shading remains.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6f8a889ca7c4f2c9065782949fa94a16bb43253c6382c1ff04d68188b86ac894"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16915-eab5-7f30-89a9-71fa5c232838/exec-6afafba0-363b-448e-b015-09c339547f53.png",
+      "output_sha256": "65f42743599dff9e77ebe9278e4436f64a5491b62e213df5ff32cc7dcf89e0c0",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "transparent_pixel_count": 1441204,
+        "alpha_bbox_by_threshold": {
+          "0": [
+            95,
+            53,
+            1202,
+            1232
+          ],
+          "127": [
+            393,
+            395,
+            861,
+            858
+          ],
+          "254": [
+            394,
+            405,
+            846,
+            857
+          ]
+        },
+        "guide_alpha_bbox": [
+          320,
+          324,
+          704,
+          701
+        ],
+        "exact_guide_alpha_pass": false,
+        "silhouette_and_internal_edges": "FAIL: not pixel-identical; output resolution differs and internal shape edges drift.",
+        "materials_and_colours": "Approximate visual match: weathered grey-brown plates, dark violet resin, dusty rust-coloured existing base.",
+        "flat_even_light": "PARTIAL: corrected returns reduce highlights/glow, but some rendered depth shading remains.",
+        "strict_transparent_background": "FAIL: real transparency exists, but faint stray alpha extends outside the model footprint.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: RIGHT orthographic albedo painting for the derelict swarmship bow-half model.\nEDIT THE FIRST INPUT IMAGE IN PLACE. Output one transparent RGBA PNG at EXACTLY 1024 x 1024 pixels, identical to the edit target's canvas. No automatic upscaling, resizing, padding, reframing, or tight cropping.\nInput 1: guide_right.png, the edit target. Its geometry, silhouette, camera, edge layout, position, scale and alpha mask are authoritative and must be preserved exactly.\nInput 2: design_reference.png, approved design/material/colour reference only.\nInput 3: concept_crop.png, supporting original concept only.\nThis task is to paint surface colours onto the EXISTING GREY MODEL in input 1. Preserve the exact narrow end-on RIGHT view and every rib, plate, opening, base rock and edge. In particular retain the broad long central top plate and the descending diagonal rib arrangement exactly as in guide_right.png. DO NOT rotate to the broadside or three-quarter design-reference view.\nCopy input 1's silhouette/alpha pixel for pixel. Its nontransparent pixels are confined to x=320..703, y=324..700 on the full 1024-square canvas; its top is near (512,324), bottom centre tip near (512,700), and rock base near y=640..683. Retain the deliberately large transparent margins. Nothing added outside the existing silhouette, no alpha speckles, no new geometry, no altered openings, nothing cropped.\nReplace grey clay with the approved material colours: weathered grey-brown chitin and bone plates, darker ribs, black-violet resin webbing and drips, faint dark orange colour deep inside, dust. Existing base fragments are dusty rusty-brown stone matching the design reference, without adding a floor.\nLIGHTING IS FLAT ALBEDO: completely even, shadowless light from the viewer, without cast shadows, ambient occlusion darkening, directional shading, strong specular highlights, reflections or rim light. Make the reference's material pigments recognizable without copying its dramatic shading. Orange seams/sacs are painted the faint dark orange glowing colour only; NO light cast on surrounding surfaces, NO bloom.\nNo background, floor, scenery, labels or watermark. Real transparency throughout all guide-transparent pixels. Return the unresized 1024 x 1024 texture-source image, preserving all original shape edges.",
+      "output": "/home/pjasicek/.codex/generated_images/01a16915-eab5-7f30-89a9-71fa5c232838/exec-faa670a9-648d-4506-8bc2-37c486c0b4e3.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted correction: wrong 1254x1254 resolution, alpha outside the guide footprint, and orange interior too bright for the requested faint albedo colour.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "de713fbf761e585deaf7af24ca5ee829acf2154f73ebd1000f3c0fe10b360af0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16915-eab5-7f30-89a9-71fa5c232838/exec-faa670a9-648d-4506-8bc2-37c486c0b4e3.png",
+      "output_sha256": "a2e006f8b498cc9826a83483831ba05eafe5ecf17c9b2eb8e3171d7d6cdeeb3f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "transparent_pixel_count": 1439906,
+        "alpha_bbox_by_threshold": {
+          "0": [
+            0,
+            21,
+            1224,
+            1228
+          ],
+          "127": [
+            392,
+            395,
+            862,
+            859
+          ],
+          "254": [
+            420,
+            419,
+            856,
+            845
+          ]
+        },
+        "guide_alpha_bbox": [
+          320,
+          324,
+          704,
+          701
+        ],
+        "exact_guide_alpha_pass": false,
+        "silhouette_and_internal_edges": "FAIL: not pixel-identical; output resolution differs and internal shape edges drift.",
+        "materials_and_colours": "Approximate visual match: weathered grey-brown plates, dark violet resin, dusty rust-coloured existing base.",
+        "flat_even_light": "PARTIAL: corrected returns reduce highlights/glow, but some rendered depth shading remains.",
+        "strict_transparent_background": "FAIL: real transparency exists, but faint stray alpha extends outside the model footprint.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective generation 1 of 1. Use case: style-transfer. Edit guide_right.png (input 1) directly as a flat albedo texture painting, maintaining its native 1024 by 1024 pixel dimensions and its EXACT alpha.\nCRITICAL CORRECTION: the previous tool return was 1254 x 1254 and contained faint alpha noise outside the silhouette. This output MUST be exactly 1024 x 1024, NOT 1254. Preserve the source canvas unchanged. Every pixel outside the guide's silhouette must have alpha 0, with no stray translucent flecks. Do not change any original outline, internal edge, opening, shape size, placement or perspective.\nINPUTS: 1 guide_right.png = the source image to paint, sole geometry/camera/alpha authority. 2 design_reference.png = approved colour and material reference only. 3 concept_crop.png = supporting original concept only. Do not copy the references' camera, composition or lighting.\nThe output is the exact RIGHT end-on orthographic model in input 1, not the long ship viewed from the side. The object is small, centered in a large transparent 1024-square frame, occupying ONLY x=320..703 and y=324..700 inclusive. Its broad central top plate, diagonal side ribs, lower central opening, ground fragments and bottom central point must stay at the exact original guide pixel positions. Copy the existing alpha mask and paint RGB only.\nMaterial colours: muted weathered grey-brown chitin and bone plates, darker ribs, black-violet resin webbing and drips, dust; dusty reddish-brown existing base rocks. Faint dark burnt-orange colour deep inside only. Orange must remain very subdued, never bright yellow or a glowing light source.\nFLAT, EVEN ALBEDO ONLY. Apply intrinsic material pigments without light/shadow rendering. Uniform shadowless frontal illumination across the entire surface, even within recesses. No cast shadows, no ambient occlusion, no strong highlights, specular reflections, rim light or directional shading. No glow spill or bloom. Deep resin is dark violet pigment, not a black shadow. Do not add texture-created geometric edges that alter the guide's structure.\nNo scene/background/floor/text/additions. Transparent PNG, exact 1024x1024 native guide resolution, original silhouette and internal geometry unchanged.",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Retained as the best available unresized return after one allowed correction; interior orange and highlights more subdued. NOT compliant with the exact-size/silhouette requirements: still 1254x1254 with stray alpha and geometric drift; residual shading remains.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "de713fbf761e585deaf7af24ca5ee829acf2154f73ebd1000f3c0fe10b360af0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16915-eab5-7f30-89a9-71fa5c232838/exec-bab19e85-3d16-4d68-ab7c-3d7560f14519.png",
+      "output_sha256": "8a451361ea2bf20b1bc6469ee88d861b7194d9660fc4ed1fbbf8bc94ce177ce9",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_background": true,
+        "transparent_pixel_count": 1439232,
+        "alpha_bbox_by_threshold": {
+          "0": [
+            162,
+            232,
+            1063,
+            1150
+          ],
+          "127": [
+            389,
+            397,
+            865,
+            861
+          ],
+          "254": [
+            396,
+            466,
+            842,
+            860
+          ]
+        },
+        "guide_alpha_bbox": [
+          320,
+          324,
+          704,
+          701
+        ],
+        "exact_guide_alpha_pass": false,
+        "silhouette_and_internal_edges": "FAIL: not pixel-identical; output resolution differs and internal shape edges drift.",
+        "materials_and_colours": "Approximate visual match: weathered grey-brown plates, dark violet resin, dusty rust-coloured existing base.",
+        "flat_even_light": "PARTIAL: corrected returns reduce highlights/glow, but some rendered depth shading remains.",
+        "strict_transparent_background": "FAIL: real transparency exists, but faint stray alpha extends outside the model footprint.",
+        "accepted": false
+      }
+    }
+  ]
+}

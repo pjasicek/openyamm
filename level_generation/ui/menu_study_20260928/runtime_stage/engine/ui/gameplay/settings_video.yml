@@ -1,0 +1,1165 @@
+screen: SettingsVideo
+elements:
+- id: SettingsVideoRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: Integration draft. Fit the complete 16:9 canvas; see contracts/theme.yml. The current menu resolver does
+    not yet honor this reference width.
+  children:
+  - id: SettingsVideoBackground
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 0
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_title_backdrop
+    notes: Use the live dimmed game view instead when entered from Pause.
+  - id: SettingsVideoPanel
+    anchor: top_left
+    offset_x: 62.9333
+    offset_y: 48.5333
+    width: 727.4667
+    height: 417.0667
+    z_index: 2
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_frame
+  - id: SettingsVideoSeal
+    anchor: top_left
+    offset_x: 75.2
+    offset_y: 14.4501
+    width: 24.0
+    height: 24.0
+    z_index: 8
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_seal
+  - id: SettingsVideoWordmark
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 13.3333
+    width: 136.1584
+    height: 16.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: OpenYAMM
+      font: fondamento
+      color: '#e9d4a6'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: SettingsVideoSubtitle
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 32.5333
+    width: 136.1584
+    height: 7.0336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Universe of Might and Magic
+      font: arrus
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.37053
+      pad_x: 0.0
+  - id: SettingsVideoTitle
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 73.0667
+    width: 77.4917
+    height: 27.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Settings
+      font: fondamento
+      color: '#efe0bc'
+      align_x: left
+      align_y: middle
+      scale: 0.71667
+      pad_x: 0.0
+  - id: SettingsVideoHeadRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 111.2501
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: SettingsVideoFooterRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 403.7333
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: SettingsVideoTabGameplay
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 124.5835
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Gameplay
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsVideoTabVideo
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 164.0501
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Video
+      font: fondamento
+      color: '#f5dfae'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsVideoTabAudio
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 203.5168
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Audio
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsVideoTabControls
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 242.9835
+    width: 97.6
+    height: 53.3333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Mouse & Controls
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsVideoTabKeyboard
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 301.6501
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_tab
+      selected: omenu_tab_selected
+    text:
+      value: Keyboard
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsVideoHeading
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 124.5835
+    width: 41.5584
+    height: 19.8336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Video
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: SettingsVideoDescription
+    anchor: top_left
+    offset_x: 270.3584
+    offset_y: 131.5168
+    width: 108.3584
+    height: 10.6667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Display and appearance
+      font: lucida
+      color: '#aeb5a6'
+      align_x: left
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+  - id: SettingsVideoDefaultsButton
+    anchor: top_left
+    offset_x: 661.9003
+    offset_y: 76.6917
+    width: 99.7003
+    height: 20.2667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_small_default
+      highlighted: omenu_button_small_hover
+      pressed: omenu_button_small_pressed
+    text:
+      value: Restore Defaults
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.33333
+      pad_x: 11.7333
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: SettingsVideoBackButton
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 414.4
+    width: 54.7669
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_quiet_default
+      highlighted: omenu_button_quiet_hover
+      pressed: omenu_button_quiet_pressed
+    text:
+      value: Back
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: SettingsVideoRevertButton
+    anchor: top_left
+    offset_x: 573.7333
+    offset_y: 414.4
+    width: 65.9248
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_quiet_default
+      highlighted: omenu_button_quiet_hover
+      pressed: omenu_button_quiet_pressed
+    text:
+      value: Revert
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: SettingsVideoApplyButton
+    anchor: top_left
+    offset_x: 646.0581
+    offset_y: 414.4
+    width: 115.5419
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_primary_default
+      highlighted: omenu_button_primary_hover
+      pressed: omenu_button_primary_pressed
+    text:
+      value: Apply Changes
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'
+  - id: SettingsVideoDirtyStatus
+    anchor: top_left
+    offset_x: 293.0
+    offset_y: 421.7083
+    width: 134.2416
+    height: 11.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{settings_status}'
+      font: lucida
+      color: '#b8b9a8'
+      align_x: left
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: SettingsVideoScrollViewport
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 152.4165
+    width: 540.8
+    height: 241.7168
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: Clip all descendant rendering and pointer hits to this viewport. Scroll offset is controller-owned; YAML
+      has no clipping/scroll primitive.
+    children:
+    - id: SettingsVideoGroup0
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 0.0
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Display
+        font: lucida
+        color: '#c2b084'
+        align_x: left
+        align_y: middle
+        scale: 0.48941
+        pad_x: 0.0
+    - id: SettingsVideoGroup1
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 146.6416
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: World detail
+        font: lucida
+        color: '#c2b084'
+        align_x: left
+        align_y: middle
+        scale: 0.48941
+        pad_x: 0.0
+    - id: SettingsVideoGroup2
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 343.7253
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Colour & effects
+        font: lucida
+        color: '#c2b084'
+        align_x: left
+        align_y: middle
+        scale: 0.48941
+        pad_x: 0.0
+    - id: SettingsVideoWindowModeLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 25.6
+      width: 216.7083
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Display mode
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWindowModeDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 41.8085
+      width: 216.7083
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Changes must be confirmed within 15 seconds.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWindowModeControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 27.7253
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_text_field
+      text:
+        value: '{window_mode}'
+        font: lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to video.window_mode; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsVideoResolutionLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 64.5253
+      width: 186.6085
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Resolution
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoResolutionDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 80.7333
+      width: 186.6085
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Borderless uses your desktop resolution.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoResolutionControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 66.6501
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_text_field
+      text:
+        value: '{resolution}'
+        font: lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to video.resolution; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsVideoVsyncLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 103.4501
+      width: 260.0501
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Vertical sync
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoVsyncDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 119.6587
+      width: 260.0501
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Reduce screen tearing by syncing frames to the display.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoVsyncControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 107.1749
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{vsync}'
+        font: lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.vsync; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsVideoViewDistanceLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 172.2416
+      width: 241.3915
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: View distance
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoViewDistanceDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 188.4501
+      width: 241.3915
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Longer distances can reduce performance outdoors.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoViewDistanceControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 174.3669
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_text_field
+      text:
+        value: '{view_distance}'
+        font: lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to video.view_distance; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsVideoTextureFilteringLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 211.1669
+      width: 266.6752
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Smooth textures
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoTextureFilteringDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 227.3749
+      width: 266.6752
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Filter texture pixels instead of showing sharp texel edges.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoTextureFilteringControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 214.8917
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{texture_filtering}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.texture_filtering; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsVideoTerrainAnisotropyLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 250.0917
+      width: 288.0
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Ground texture clarity
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoTerrainAnisotropyDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 266.3003
+      width: 288.0
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Keep distant ground textures sharper. Uses anisotropic terrain filtering.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoTerrainAnisotropyControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 257.9749
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_text_field
+      text:
+        value: '{terrain_anisotropy}'
+        font: lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to video.terrain_anisotropy; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsVideoTerrainDecorationsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 300.5333
+      width: 220.9248
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Terrain details
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoTerrainDecorationsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 316.7419
+      width: 220.9248
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Draw extra terrain decorations where available.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoTerrainDecorationsControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 304.2587
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{terrain_decorations}'
+        font: lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.terrain_decorations; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsVideoCinematicGradingLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 369.3253
+      width: 176.9835
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Cinematic colour
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoCinematicGradingDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 385.5333
+      width: 176.9835
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Apply the cinematic colour treatment.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoCinematicGradingControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 373.0501
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{cinematic_grading}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.cinematic_grading; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior. Controller supplies live text; braces are draft
+        placeholders.
+    - id: SettingsVideoCinematicStrengthLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 408.2501
+      width: 185.4085
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Colour intensity
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoCinematicStrengthDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 424.4587
+      width: 185.4085
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Adjust the strength of cinematic colour.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoCinematicStrengthControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 414.1083
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+      notes: Bind to video.cinematic_strength; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior.
+    - id: SettingsVideoCinematicStrengthValue
+      anchor: top_left
+      offset_x: 497.0667
+      offset_y: 416.2416
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{cinematic_strength}%'
+        font: lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
+      notes: Controller supplies live text; braces are draft placeholders.
+    - id: SettingsVideoColoredLightsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 447.1749
+      width: 184.8085
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Coloured lighting
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoColoredLightsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 463.3835
+      width: 184.8085
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Use the colours of nearby light sources.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoColoredLightsControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 450.9003
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{colored_lights}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.colored_lights; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsVideoTintingLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 486.1003
+      width: 151.1003
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Colour tinting
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoTintingDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 502.3083
+      width: 151.1003
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Retain the original tinting option.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoTintingControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 489.8251
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{tinting}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.tinting; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsVideoBloodSplatsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 525.0251
+      width: 116.7835
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Blood splats
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoBloodSplatsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 541.2336
+      width: 116.7835
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Show blood splat effects.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoBloodSplatsControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 528.7504
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{blood_splats}'
+        font: lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.blood_splats; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text; braces are draft placeholders.
+    - id: SettingsVideoMeleeHitBloodEffectsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 563.9504
+      width: 219.1168
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Melee blood effects
+        font: arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoMeleeHitBloodEffectsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 580.1584
+      width: 219.1168
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Add blood effects when melee attacks connect.
+        font: lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoMeleeHitBloodEffectsControl
+      anchor: top_left
+      offset_x: 472.5333
+      offset_y: 567.6752
+      width: 51.2
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: omenu_toggle_off
+        selected: omenu_toggle_on
+      text:
+        value: '{melee_hit_blood_effects}'
+        font: lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to gameplay.melee_hit_blood_effects; see contracts/settings.yml. Ranges need a track and thumb
+        renderer; selection controls need native dropdown/focus behavior. Controller supplies live text; braces
+        are draft placeholders.

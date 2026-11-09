@@ -1,0 +1,285 @@
+{
+  "label": "zUltra Dragon A",
+  "creature": "ultra dragon",
+  "base_palette": 531,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "material_edge_hue_repair": false,
+  "true_alpha": true,
+  "preserve_delivered_rgb": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "n"
+  ],
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "identity_frames": [
+    "7m480sa0",
+    "7m480sa1",
+    "7m480sa2",
+    "7m480sa3",
+    "7m480sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique and back in native order",
+  "extra_batches": {
+    "attack": {
+      "frames": [
+        "7m480aa0",
+        "7m480ab0",
+        "7m480ac0",
+        "7m480ad0",
+        "7m480ae0",
+        "7m480af0",
+        "7m480ag0",
+        "7m480ah0",
+        "7m480ai0",
+        "7m480aj0"
+      ],
+      "columns": 3,
+      "view": "FRONT in every cell; native flying breath-attack poses exactly"
+    }
+  },
+  "description": "The exact original Might and Magic VII ultra dragon: a slender upright flying dragon with charcoal-black finely scaled hide, dark crimson-red ridges and highlights, long curved neck, narrow angular reptilian head, small red-orange eyes and a long toothed muzzle. A crown of many long ivory-gold horns sweeps upward and backward from the skull; preserve their native count, length and silhouette. Golden ochre overlapping chevron belly plates run down the long neck and chest. Four separate slender clawed legs: small bent forelegs held in front of the torso and two rear legs hanging beneath the hips, all with pale ivory-blue claws. Two large bat wings have dark red-black struts, sharply scalloped golden-orange membranes with mottled scale-like veining, deep dark olive shadows, and long pointed wing fingertips. Preserve each wing fold, sweep, angle and body occlusion from the native frame. A very long slender dark tail with red ridges and ivory dorsal spikes curves behind the body, ending in a small pale ivory multi-pointed spiked tip. Preserve the long neck, small head, narrow body, exact four-leg anatomy, native dark tonal weight and exact flying orientation. No clothing, armor, harness, weapons, extra limbs or added horns. Match only effects actually present in a native attack frame; add no glow, fire, particles, ground, shadow or environment. One native palette only: charcoal-black body, gold-orange wing membranes and golden belly, red ridges, pale horns and claws remain consistent in every pose.",
+  "clear_alpha1_border_batches": [
+    "standing_0",
+    "standing_1",
+    "w_0_0",
+    "w_0_1",
+    "w_0_2",
+    "w_0_3",
+    "w_0_4",
+    "w_1_0",
+    "w_1_2",
+    "w_1_1",
+    "w_2_0",
+    "w_2_1",
+    "w_2_2",
+    "w_3_0",
+    "w_3_1",
+    "w_3_2",
+    "w_4_0",
+    "w_4_1",
+    "w_4_2",
+    "w_4_3",
+    "w_4_4",
+    "n_0_0",
+    "n_0_1",
+    "n_0_2",
+    "n_0_3",
+    "n_0_4",
+    "n_1_0",
+    "n_1_1",
+    "n_1_2",
+    "n_2_0",
+    "n_2_1",
+    "n_2_2",
+    "n_3_0",
+    "n_3_1",
+    "n_3_2",
+    "n_4_0",
+    "n_4_1",
+    "n_4_2",
+    "n_4_3",
+    "n_4_4",
+    "fidget_0",
+    "fidget_1",
+    "fidget_2",
+    "fidget_3",
+    "fidget_4",
+    "fidget_5",
+    "fidget_6",
+    "fidget_7",
+    "fidget_8",
+    "fidget_9",
+    "fidget_10",
+    "fidget_11",
+    "fidget_12",
+    "fidget_13",
+    "fidget_14",
+    "fidget_15",
+    "fidget_16",
+    "fidget_17",
+    "fidget_18",
+    "fidget_19",
+    "fidget_20",
+    "fidget_21",
+    "fidget_22",
+    "fidget_23",
+    "fidget_24",
+    "death_corpse_0",
+    "death_corpse_1",
+    "death_corpse_2",
+    "death_corpse_3",
+    "death_corpse_4",
+    "death_corpse_5",
+    "attack_0",
+    "attack_1",
+    "attack_2",
+    "attack_3",
+    "attack_4"
+  ],
+  "materials": {
+    "regions": [],
+    "limitation": "Single native palette; no recoloring required."
+  },
+  "reviewed_border_alpha_limits": {
+    "w_1_1": 2,
+    "w_4_1": 11
+  },
+  "reviewed_border_notes": {
+    "w_4_1": "Both wing tips inspected at 4x on gray: opaque silhouettes end inside image; only two alpha 11 fringe pixels reach right edge."
+  },
+  "reviewed_placement_translation_px": {
+    "7m480fa1": [
+      -24,
+      0
+    ],
+    "7m480fa2": [
+      -16,
+      0
+    ],
+    "7m480fa3": [
+      -24,
+      0
+    ],
+    "7m480fb1": [
+      -20,
+      0
+    ],
+    "7m480fb2": [
+      -28,
+      0
+    ],
+    "7m480fc1": [
+      -16,
+      0
+    ],
+    "7m480fc2": [
+      -20,
+      0
+    ],
+    "7m480fc3": [
+      -40,
+      0
+    ],
+    "7m480fd1": [
+      -32,
+      0
+    ],
+    "7m480fd2": [
+      -24,
+      0
+    ],
+    "7m480fe1": [
+      -8,
+      0
+    ],
+    "7m480fe2": [
+      -12,
+      0
+    ],
+    "7m480fe3": [
+      -8,
+      0
+    ],
+    "7m480ff1": [
+      -16,
+      0
+    ],
+    "7m480ff2": [
+      -16,
+      0
+    ],
+    "7m480ff3": [
+      -12,
+      0
+    ],
+    "7m480fg1": [
+      -24,
+      0
+    ],
+    "7m480fg2": [
+      -20,
+      0
+    ],
+    "7m480fg3": [
+      -28,
+      0
+    ],
+    "7m480fh1": [
+      -20,
+      0
+    ],
+    "7m480fh2": [
+      -32,
+      0
+    ],
+    "7m480fh3": [
+      -20,
+      0
+    ],
+    "7m480fi1": [
+      -24,
+      0
+    ],
+    "7m480fi2": [
+      -16,
+      0
+    ],
+    "7m480fi3": [
+      -36,
+      0
+    ],
+    "7m480fj1": [
+      -20,
+      0
+    ],
+    "7m480fj2": [
+      -28,
+      0
+    ],
+    "7m480fj3": [
+      -24,
+      0
+    ],
+    "7m480wc2": [
+      -24,
+      0
+    ],
+    "7m480nf2": [
+      -24,
+      0
+    ],
+    "7m480ng2": [
+      -16,
+      0
+    ],
+    "7m480nf3": [
+      -24,
+      0
+    ],
+    "7m480ng3": [
+      -24,
+      0
+    ],
+    "7m480nh1": [
+      -12,
+      0
+    ],
+    "7m480ni1": [
+      -16,
+      0
+    ],
+    "7m480nc1": [
+      24,
+      0
+    ],
+    "7m480nb1": [
+      -8,
+      0
+    ]
+  }
+}

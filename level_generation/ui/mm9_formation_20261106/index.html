@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MM9 formation builder study</title>
+<style>
+  @font-face { font-family: Fondamento; src: url(assets/fondamento.ttf); }
+  :root { --u: 2.25px; --ivory: #efe3c2; --brass: #c9b27a; --dim: #9c9277; }
+  html, body { margin: 0; background: #0d0f0e; }
+  .screen { position: relative; overflow: hidden; background-size: 100% 100%; }
+  .abs { position: absolute; }
+  .shade { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); }
+  .t { position: absolute; font-family: Fondamento, serif; color: var(--ivory); white-space: nowrap;
+       text-shadow: 0 1px 2px #000; }
+  .cell { position: absolute; box-sizing: border-box; border-radius: calc(var(--u) * 2);
+          background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
+          border: calc(var(--u) * 0.8) solid #6f5d36; box-shadow: inset 0 0 calc(var(--u) * 4) #000; }
+  .cell.empty { border-style: dashed; border-color: #5a503a; background: rgba(0,0,0,0.25); }
+  .cell.target { border: calc(var(--u) * 1.2) solid #e2c46e; box-shadow: inset 0 0 calc(var(--u) * 5) #000,
+                 0 0 calc(var(--u) * 4) rgba(226, 196, 110, 0.55); }
+  .face { position: absolute; border-radius: 50%; background-size: cover; background-position: center 20%;
+          box-shadow: 0 0 0 calc(var(--u) * 1.1) var(--brass); }
+  .ghost { opacity: 0.85; filter: drop-shadow(0 calc(var(--u) * 3) calc(var(--u) * 3) rgba(0,0,0,0.8)); }
+  .button { position: absolute; background: url(assets/obsidian_button_tab_normal.png) 0 0 / 100% 100%;
+            display: flex; align-items: center; justify-content: center; font-family: Fondamento, serif;
+            color: var(--ivory); text-shadow: 0 1px 2px #000; }
+  .button.hover { background-image: url(assets/obsidian_button_tab_hover.png); }
+  .tip { position: absolute; padding: calc(var(--u) * 2) calc(var(--u) * 5); background: rgba(10, 14, 12, 0.92);
+         border: calc(var(--u) * 0.7) solid #8a7546; font-family: Fondamento, serif; color: var(--ivory); white-space: nowrap; }
+  .gallery { color: #ddd; font: 15px/1.45 system-ui, sans-serif; padding: 16px; max-width: 1500px; margin: auto; }
+  .gallery img { width: 100%; border: 1px solid #333; }
+  .gallery .pair { display: grid; grid-template-columns: 16fr 12fr; gap: 12px; }
+  @media (max-width: 900px) { .gallery .pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<script>
+// The MM9 formation builder (study, 2026-11-06): MM9's 3 x 3 grid (INTERFACESCREENS/FORMATION, PARTYORDERCOORDS.txt:
+// front, middle and rear rank, one member a cell) as an Obsidian panel, in HUD units of 1/480 of the screen height.
+// ?aspect=16x9|4x3&state=default|drag
+const params = new URLSearchParams(location.search);
+const FRAME = '../mm9_hirelings_20261106/assets/frame/';
+
+function panelHtml(x, y, w, h, u) {
+  const c = 30.933333 * 0.75, t = 48.286179 * 0.75;
+  const piece = (name, px, py, pw, ph, rep) =>
+    `<div class="abs" style="left:${px*u}px;top:${py*u}px;width:${pw*u}px;height:${ph*u}px;` +
+    `background:url(${FRAME}obsidian_frame_${name}.png) 0 0 / ${rep === 'x' ? `${t*u}px ${c*u}px` : rep === 'y' ? `${c*u}px ${t*u}px` : '100% 100%'} ${rep ? (rep === 'x' ? 'repeat-x' : 'repeat-y') : 'no-repeat'}"></div>`;
+  let html = `<div class="abs" style="left:${x*u}px;top:${y*u}px;width:${w*u}px;height:${h*u}px;` +
+    `background:url(${FRAME}obsidian_reading_surface.png) 0 0 / ${640*u}px ${480*u}px"></div>`;
+  html += piece('top', x + c, y, w - 2 * c, c, 'x') + piece('bottom', x + c, y + h - c, w - 2 * c, c, 'x');
+  html += piece('left', x, y + c, c, h - 2 * c, 'y') + piece('right', x + w - c, y + c, c, h - 2 * c, 'y');
+  html += piece('tl', x, y, c, c) + piece('tr', x + w - c, y, c, c);
+  html += piece('bl', x, y + h - c, c, c) + piece('br', x + w - c, y + h - c, c, c);
+  return html;
+}
+
+// Five PCs and three hirelings (two paid and Forad), placed as MM9 places joiners: the lowest free cell, front rank
+// first (research section 10.3). The cells run left to right, front rank first.
+const MEMBERS = [
+  {face: 'assets/pc1.png', name: 'Zoltan'}, {face: 'assets/pc2.png', name: 'Roderick'},
+  {face: 'assets/pc3.png', name: 'Serena'}, {face: 'assets/pc4.png', name: 'Alexis'},
+  {face: 'assets/pc5.png', name: 'Golbard'},
+  {face: 'assets/npc15.png', name: 'Forad Darre', hireling: true},
+  {face: 'assets/npc07.png', name: 'Edina A\'Mor', hireling: true},
+  {face: 'assets/npc14.png', name: 'Tamur Leng', hireling: true},
+];
+
+function scene(aspect, state) {
+  const u = 2.25, H = 480, W = aspect === '4x3' ? 640 : 853.333;
+  const bg = `../mm9_hirelings_20261106/images/R2_${aspect === '4x3' ? '4x3' : '16x9'}.png`;
+  let html = `<div class="screen" style="width:${W*u}px;height:${H*u}px;background-image:url(${bg})"><div class="shade"></div>`;
+  // the MM9 world's formation button: the first place of the row under the minimap (the combat-log and followers
+  // buttons are hidden in MM9); a carved slab with a 3 x 3 grid of brass diamonds
+  const bx = W - 28, by = 148, bs = 24;
+  html += `<div class="abs" style="left:${bx*u}px;top:${by*u}px;width:${bs*u}px;height:${bs*u}px;box-sizing:border-box;` +
+    `background:linear-gradient(160deg,#26302a,#141916);border:${0.9*u}px solid #8f7b4b;box-shadow:0 0 ${2*u}px #000"></div>`;
+  html += `<svg class="abs" style="left:${bx*u}px;top:${by*u}px" width="${bs*u}" height="${bs*u}">`;
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) {
+    const cx = (6 + c * 6) * u, cy = (6 + r * 6) * u, s = (r === 0 ? 2.4 : 1.8) * u;
+    html += `<path d="M${cx} ${cy-s}L${cx+s} ${cy}L${cx} ${cy+s}L${cx-s} ${cy}Z" fill="${r === 0 ? '#e2c46e' : '#a8956a'}"/>`;
+  }
+  html += `</svg>`;
+
+  // the panel
+  const pw = 330, ph = 334, px = (W - pw) / 2, py = 38;
+  html += panelHtml(px, py, pw, ph, u);
+  html += `<div class="t" style="left:${px*u}px;width:${pw*u}px;top:${(py+14)*u}px;text-align:center;font-size:${15*u}px">Party Formation</div>`;
+  html += `<div class="abs" style="left:${(px+40)*u}px;top:${(py+36)*u}px;width:${(pw-80)*u}px;height:${0.8*u}px;background:linear-gradient(90deg,transparent,#8f7b4b,transparent)"></div>`;
+  const cw = 54, ch = 66, gap = 6, gx = px + 118, gy = py + 48;
+  const ranks = [['Front rank', '70 % of blows'], ['Middle rank', '20 % of blows'], ['Rear rank', '10 % of blows']];
+  ranks.forEach(([name, chance], r) => {
+    const y = gy + r * (ch + gap) + ch / 2;
+    html += `<div class="t" style="left:${(px+22)*u}px;top:${(y-11)*u}px;font-size:${11*u}px">${name}</div>`;
+    html += `<div class="t" style="left:${(px+22)*u}px;top:${(y+3)*u}px;font-size:${8*u}px;color:var(--dim)">${chance}</div>`;
+  });
+  const dragging = state === 'drag' ? 7 : -1;      // Tamur, from rear middle to the empty rear right (legal)
+  const target = state === 'drag' ? 8 : -1;
+  for (let i = 0; i < 9; i++) {
+    const r = Math.floor(i / 3), c = i % 3, x = gx + c * (cw + gap), y = gy + r * (ch + gap);
+    const m = MEMBERS[i];
+    const empty = !m || i === dragging;
+    html += `<div class="cell${empty ? ' empty' : ''}${i === target ? ' target' : ''}" style="left:${x*u}px;top:${y*u}px;width:${cw*u}px;height:${ch*u}px"></div>`;
+    if (m && i !== dragging) {
+      const fw = 40, fh = 54;
+      html += `<div class="face" style="left:${(x+(cw-fw)/2)*u}px;top:${(y+(ch-fh)/2)*u}px;width:${fw*u}px;height:${fh*u}px;background-image:url(${m.face})"></div>`;
+      if (m.hireling) {
+        // a hireling's cell: the small brass hireling mark (the rail's) in the corner
+        html += `<svg class="abs" style="left:${(x+cw-10)*u}px;top:${(y+3)*u}px" width="${7*u}" height="${7*u}"><path d="M${3.5*u} ${0.5*u}L${6.5*u} ${3.5*u}L${3.5*u} ${6.5*u}L${0.5*u} ${3.5*u}Z" fill="#c9b27a" stroke="#3a3020" stroke-width="${0.5*u}"/></svg>`;
+      }
+    }
+  }
+  if (state === 'drag') {
+    const x = gx + 2 * (cw + gap) + 16, y = gy + 2 * (ch + gap) - 10, fw = 42, fh = 57;
+    html += `<div class="face ghost" style="left:${x*u}px;top:${y*u}px;width:${fw*u}px;height:${fh*u}px;background-image:url(${MEMBERS[7].face})"></div>`;
+    html += `<svg class="abs" style="left:${(x+30)*u}px;top:${(y+38)*u}px" width="${16*u}" height="${20*u}"><path d="M2 2 L2 ${16*u} L${5*u} ${12*u} L${8*u} ${19*u} L${10.5*u} ${18*u} L${7.5*u} ${11*u} L${12*u} ${11*u} Z" fill="#f2ead2" stroke="#000" stroke-width="${0.8*u}"/></svg>`;
+  } else {
+    // pointing at a member shows its name (MM9)
+    const x = gx + 2 * (cw + gap) + cw * 0.55, y = gy + (ch + gap) + 6;
+    html += `<div class="tip" style="left:${x*u}px;top:${(y-16)*u}px;font-size:${10*u}px">Forad Darre</div>`;
+  }
+  const iy = gy + 3 * ch + 2 * gap + 10;
+  html += `<div class="t" style="left:${px*u}px;width:${pw*u}px;top:${iy*u}px;text-align:center;font-size:${9.5*u}px;color:var(--dim);white-space:normal">Drag a portrait onto an empty cell. Nobody may stand behind an empty cell.</div>`;
+  const by2 = py + ph - 40, bw = 86, bh = 26;
+  html += `<div class="button" style="left:${(px+pw/2-bw-8)*u}px;top:${by2*u}px;width:${bw*u}px;height:${bh*u}px;font-size:${11*u}px">Cancel</div>`;
+  html += `<div class="button hover" style="left:${(px+pw/2+8)*u}px;top:${by2*u}px;width:${bw*u}px;height:${bh*u}px;font-size:${11*u}px">Accept</div>`;
+  return html + `</div>`;
+}
+
+if (params.get('aspect')) {
+  document.body.innerHTML = scene(params.get('aspect'), params.get('state') || 'default');
+} else {
+  document.body.innerHTML = `<div class="gallery"><h1>MM9 formation builder</h1>
+  <p>MM9's 3 × 3 party formation (front, middle and rear rank; one member a cell; PCs and hirelings alike) as an
+  Obsidian panel, opened by the MM9 world's button under the minimap (MM9 itself has only the F key). The chance a
+  monster's blow lands on a rank is shown under its name. Members join on the lowest free cell; a portrait is dragged
+  onto an empty cell; Accept refuses a layout with someone behind an empty cell.</p>
+  <h2>Default (pointing at Forad shows his name)</h2><div class="pair"><img src="images/formation_16x9.png"><img src="images/formation_4x3.png"></div>
+  <h2>Dragging Tamur within the rear rank</h2><div class="pair"><img src="images/formation_16x9_drag.png"></div></div>`;
+}
+</script>
+</body>
+</html>

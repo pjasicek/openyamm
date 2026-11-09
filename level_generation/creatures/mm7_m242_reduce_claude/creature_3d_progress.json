@@ -1,0 +1,24 @@
+{
+ "creature_3d_identity": "mm7:m242-reduce",
+ "scope": "Batch G: triangle reduction of mm7_m242_claude/export/mm7_m242.glb (user: reduce tris count for all 5); no retexture, no install",
+ "meshy": {
+  "credit_limit": 1,
+  "jobs": {}
+ },
+ "status": "reduced and exported (not installed); pending user review",
+ "result": {
+  "lod0": [
+   8168,
+   6696
+  ],
+  "lods": [
+   6696,
+   3292,
+   1214,
+   335
+  ],
+  "picked": "ladder_h Cand_82",
+  "export": "export/mm7_m242.glb",
+  "rollback": "work/mm7_m242_source_pre_reduce.glb"
+ }
+}

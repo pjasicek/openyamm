@@ -1,0 +1,637 @@
+{
+ "id": "20261009-1649-mm7-7d33-21",
+ "world": "mm7",
+ "maps": [
+  "7d33.blv",
+  "t02.blv",
+  "mdt01.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/ch001b",
+  "mm7/ch001f",
+  "mm7/7ch002h",
+  "mm7/ch001c",
+  "mm7/ch003h",
+  "mm7/ch001i",
+  "mm7/ch001h",
+  "mm7/g-kath",
+  "mm7/tfb1r3i",
+  "mm7/tfb1r3j",
+  "mm7/tfb1r3k",
+  "mm7/tfb1r3l",
+  "mm7/tfb1r3m",
+  "mm7/tfb1r3n",
+  "mm7/t2bedside",
+  "mm7/t2bedtrim",
+  "mm7/sgstars",
+  "mm7/t2bed",
+  "mm7/mdr04",
+  "mm7/mdr03",
+  "mm7/mdr01",
+  "mm7/mdt03",
+  "mm7/mdt01",
+  "mm7/t4s1b"
+ ],
+ "requests": {
+  "mm7/ch001b": {
+   "name": "ch001b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "orange-brown varnished wooden chest panel of plain horizontal planks with fine wood grain",
+   "notes": {
+    "2": "only horizontal planks running edge to edge, joints exactly where the reference has them; no frame, border, inset square or iron band"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.506
+    },
+    "2": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.506
+    }
+   }
+  },
+  "mm7/ch001f": {
+   "name": "ch001f",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown varnished wooden chest panel of planks with fine wood grain, with two small dark iron latch plates with keyholes; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001d",
+      "mm7/ch003f"
+     ],
+     "fraction": 0.542
+    }
+   }
+  },
+  "mm7/7ch002h": {
+   "name": "7ch002h",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered brown oak chest planks with dark seams, vertical planks inside a square frame of dark riveted iron bands with diagonal iron braces running to each corner; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001h",
+      "mm7/7ch002b"
+     ],
+     "fraction": 0.548
+    },
+    "2": {
+     "sources": [
+      "mm7/ch001h",
+      "mm7/7ch002b"
+     ],
+     "fraction": 0.548
+    }
+   }
+  },
+  "mm7/ch001c": {
+   "name": "ch001c",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown varnished wooden chest panel of planks with fine wood grain, with dark iron bands along the left and right edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.665
+    }
+   }
+  },
+  "mm7/ch003h": {
+   "name": "ch003h",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mottled blue-grey brushed steel chest panel with faint rust flecks, inside a square frame of dark riveted rusty iron bands with diagonal corner braces; copy the composition exactly",
+   "notes": {
+    "3": "the four iron bands of the central square end at the square's corners; from each corner one straight diagonal brace runs out to the matching corner of the panel; plain steel trapezoids fill the rest; no band or dark line along the outer edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.558
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.558
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "standalone": true
+  },
+  "mm7/ch001i": {
+   "name": "ch001i",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "orange-brown varnished wooden chest panel of vertical planks with fine wood grain",
+   "notes": {
+    "2": "only vertical planks running from top to bottom edge, joints exactly where the reference has them; no frame, top rail, border or iron band",
+    "3": "only vertical planks running from top to bottom edge, joints exactly where the reference has them; no frame, top rail, border or iron band",
+    "4": "only vertical planks running from top to bottom edge, joints exactly where the reference has them and continuing the sharp planks seamlessly; no horizontal line, frame, top rail, border or iron band",
+    "5": "only straight vertical planks running from the top edge to the bottom edge, with plank joints exactly where the reference has them; no horizontal line, frame, top rail, border or iron band"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001j"
+     ],
+     "fraction": 0.765
+    },
+    "2": {
+     "sources": [
+      "mm7/ch001j"
+     ],
+     "fraction": 0.765
+    },
+    "3": {
+     "sources": [
+      "mm7/ch001j"
+     ],
+     "fraction": 0.765
+    },
+    "4": {
+     "sources": [
+      "mm7/ch001j"
+     ],
+     "fraction": 0.765
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "4": {},
+    "5": {}
+   },
+   "standalone": true
+  },
+  "mm7/ch001h": {
+   "name": "ch001h",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "orange-brown varnished wooden chest panel of vertical planks inside a square frame of dark riveted iron bands with diagonal corner braces; copy the composition exactly",
+   "notes": {
+    "3": "the iron bands and diagonal corner braces are uniformly dark blackish rusty iron with round rivets and plain straight edges, no pale blue-grey steel edging and no serrated teeth; from each corner of the central square one straight diagonal brace runs to the matching corner of the panel",
+    "4": "the iron bands and diagonal corner braces are uniformly dark blackish rusty iron with round rivets and plain straight edges, no pale blue-grey steel edging and no serrated teeth; from each corner of the central square one straight diagonal brace runs to the matching corner of the panel"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003h",
+      "mm7/ch001i"
+     ],
+     "fraction": 0.743
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003h",
+      "mm7/ch001j"
+     ],
+     "fraction": 0.607
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {
+     "bottom": "mm7/ch001d"
+    }
+   },
+   "standalone": true,
+   "pad": {
+    "4": [
+     8,
+     32
+    ]
+   }
+  },
+  "mm7/g-kath": {
+   "name": "g-kath",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "painted portrait of a dark-haired woman in polished dark plate armour and an ornate jewelled circlet, head bowed, before a bright yellow sun on a salmon-orange background; copy the composition exactly",
+   "notes": {
+    "2": "keep her complexion the dark bronze-brown of the reference, as if lit in deep shadow, with steel-grey armour; keep the bright yellow sun disc and salmon-orange background exactly",
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "5": "her face and neck are in deep shadow: dark bronze-brown skin, much darker than the armour highlights, exactly the tones of the reference; keep the salmon glow around her head and shoulders and the brown-orange lower right; every edge keeps the reference colours, no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     69,
+     92
+    ],
+    "5": [
+     69,
+     92
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm7/tfb1r3i": {
+   "name": "tfb1r3i",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red woven wool carpet field with a single small gold floral cross motif in the centre; copy the composition exactly",
+   "notes": {
+    "2": "keep the motif golden yellow with small red centres and the field the same deep orange-red as the reference; do not shift the colours"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb1r3j": {
+   "name": "tfb1r3j",
+   "versions": [
+    1
+   ],
+   "material": "plain red woven wool carpet field with fine weave texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb1r3k": {
+   "name": "tfb1r3k",
+   "versions": [
+    1
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows an inner corner of the border with a stone patch in the lower right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb1r3l": {
+   "name": "tfb1r3l",
+   "versions": [
+    1
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows an inner corner of the border with a stone patch in the lower left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb1r3m": {
+   "name": "tfb1r3m",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows an inner corner of the border with a stone patch in the upper left; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     68
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm7/tfb1r3h"
+    },
+    "3": {
+     "left": "mm7/tfb1r3h"
+    }
+   }
+  },
+  "mm7/tfb1r3n": {
+   "name": "tfb1r3n",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows an inner corner of the border with a stone patch in the upper right; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "top": "mm7/tfb1r3f"
+    }
+   }
+  },
+  "mm7/t2bedside": {
+   "name": "t2bedside",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden bed frame board with horizontal grain, edged above and below by dark grey riveted iron strips",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t2bedtrim": {
+   "name": "t2bedtrim",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of dark brown wooden bed frame board with horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t2bedside"
+     ],
+     "fraction": 0.938
+    },
+    "2": {
+     "sources": [
+      "mm7/t2bedside"
+     ],
+     "fraction": 0.938
+    }
+   },
+   "context": {
+    "2": {
+     "top": "mm7/t2bedside"
+    }
+   }
+  },
+  "mm7/sgstars": {
+   "name": "sgstars",
+   "versions": [
+    1
+   ],
+   "material": "black night sky with scattered small white stars",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t2bed": {
+   "name": "t2bed",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden bed end panel with X-shaped cross braces inside a dark grey riveted iron frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/mdr04": {
+   "name": "mdr04",
+   "versions": [
+    1
+   ],
+   "material": "pale pinkish-grey carved stone floor tile with a moulded border, a raised central diamond carved with a Roman numeral, four dark carved knotwork diamonds around it and carved Roman numerals in the corners, worn and dusty; copy the composition and numerals exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/mdr03": {
+   "name": "mdr03",
+   "versions": [
+    1
+   ],
+   "material": "pale pinkish-grey carved stone floor tile with a moulded border, a raised central diamond carved with a Roman numeral, four dark carved knotwork diamonds around it and carved Roman numerals in the corners, worn and dusty; copy the composition and numerals exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.921
+    }
+   }
+  },
+  "mm7/mdr01": {
+   "name": "mdr01",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale pinkish-grey carved stone floor tile with a moulded border, a raised central diamond carved with a Roman numeral, four dark carved knotwork diamonds around it and carved Roman numerals in the corners, worn and dusty, with a carved tree relief on the right; copy the composition and numerals exactly",
+   "notes": {
+    "2": "the carved numerals must be exactly VII at upper left and III at lower left, X in the centre diamond, and no numeral at upper right or lower right where the tree stands; these numerals are a puzzle clue"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.765
+    },
+    "2": {
+     "sources": [
+      "mm7/mdt03",
+      "mm7/mdr04",
+      "mm7/mdr03",
+      "mm7/mdr02",
+      "mm7/mdk03",
+      "mm7/mdr05",
+      "mm7/mdt04"
+     ],
+     "fraction": 0.809
+    }
+   }
+  },
+  "mm7/mdt03": {
+   "name": "mdt03",
+   "versions": [
+    1
+   ],
+   "material": "pale pinkish-grey carved stone floor tile with a moulded border, a raised central diamond carved with a Roman numeral, four dark carved knotwork diamonds around it and carved Roman numerals in the corners, worn and dusty; copy the composition and numerals exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.91
+    }
+   }
+  },
+  "mm7/mdt01": {
+   "name": "mdt01",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale pinkish-grey carved stone floor tile with a moulded border, a raised central diamond carved with a Roman numeral, four dark carved knotwork diamonds around it and carved Roman numerals in the corners, worn and dusty, with a carved tree relief on the right; copy the composition and numerals exactly",
+   "notes": {
+    "2": "the carved numerals must be exactly V at upper left and VII (two strokes after the V, not three) at lower left, IX in the centre diamond, and no numeral at upper right or lower right where the tree stands; these numerals are a puzzle clue"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr01",
+      "mm7/mdr04",
+      "mm7/mdr03",
+      "mm7/mdr02",
+      "mm7/mdr05"
+     ],
+     "fraction": 0.957
+    },
+    "2": {
+     "sources": [
+      "mm7/mdr01",
+      "mm7/mdr04",
+      "mm7/mdr03",
+      "mm7/mdr02",
+      "mm7/mdr05"
+     ],
+     "fraction": 0.957
+    }
+   }
+  },
+  "mm7/t4s1b": {
+   "name": "t4s1b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-green speckled granite wall panel between carved pale olive stone bands, an angular stepped band at the top and a band of X-shaped crossings over dark green marble at the bottom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

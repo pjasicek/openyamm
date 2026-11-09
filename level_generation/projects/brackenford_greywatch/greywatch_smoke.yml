@@ -1,0 +1,32 @@
+id: levelgen.greywatch.native_smoke
+title: Greywatch native map loading and paired door interaction
+world: mm8
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: lg02.blv
+  - assert:
+      map: lg02.blv
+  - assert_mechanism:
+      id: 1
+      state: closed
+  - assert_mechanism:
+      id: 2
+      state: closed
+  - set_pose:
+      map: lg02.blv
+      x: -128
+      y: 1056
+      z: 768
+      yaw: 1.57079632679
+      pitch: 0
+  - press_interact: {}
+  - wait_until:
+      timeout_runtime_seconds: 2.5
+      assert:
+        mechanism:
+          id: 1
+          state: open
+  - assert_mechanism:
+      id: 2
+      state: open

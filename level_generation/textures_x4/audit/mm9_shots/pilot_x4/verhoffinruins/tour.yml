@@ -1,0 +1,35 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/pilot_x4/verhoffinruins
+settle_seconds: 2.0
+exit: true
+shots:
+- name: verd9vx2h2-d32-closed-front
+  position:
+  - 2523
+  - -492
+  - -328
+  yaw: -0.0
+  pitch: 0.04
+- name: verd9vx2h2-d32-joint-graze
+  position:
+  - 2707
+  - -612
+  - -328
+  yaw: 0.6435
+  pitch: 0.15
+- name: verd9vx2h2-d32-closed-back
+  position:
+  - 3211
+  - -492
+  - -328
+  yaw: 3.1416
+  pitch: 0.04
+- name: verd9vx2h2-d32-open-front
+  position:
+  - 2523
+  - -492
+  - -328
+  yaw: -0.0
+  pitch: 0.04
+  commands:
+  - event 114
+  settle_seconds: 5.0

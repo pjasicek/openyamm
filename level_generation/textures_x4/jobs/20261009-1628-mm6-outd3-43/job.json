@@ -1,0 +1,1015 @@
+{
+ "id": "20261009-1628-mm6-outd3-43",
+ "world": "mm6",
+ "maps": [
+  "outd3.odm",
+  "zddb06.blv",
+  "zddb07.blv",
+  "oute3.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/thctr",
+  "mm6/thle",
+  "mm6/hcbalcwb",
+  "mm6/thctrw1",
+  "mm6/crside",
+  "mm6/bcsctr",
+  "mm6/hclgdr",
+  "mm6/selfmind",
+  "mm6/thlgdr",
+  "mm6/thsmdr",
+  "mm6/d3ll2",
+  "mm6/d3ll61",
+  "mm6/d3ll2le",
+  "mm6/d3ll2re",
+  "mm6/d3ll6re",
+  "mm6/d3ll6le",
+  "mm6/d3oor2",
+  "mm6/d3oor3",
+  "mm6/d3rsml",
+  "mm6/d3rsmls",
+  "mm6/swpdr3a",
+  "mm6/rblmt",
+  "mm6/t1wl5lec",
+  "mm6/rblre"
+ ],
+ "requests": {
+  "mm6/thctr": {
+   "name": "thctr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "red brick town-hall facade crossed by a green-bronze carved frieze band of figure relief panels, a small carved stone corbel bracket at the centre below it",
+   "notes": {
+    "3": "Copy the reference top band stack exactly from the very first row: a dark olive line one reference pixel tall, a pale cream-green band, a dark olive line, a white line, the pink cornice band, then a dark line; the top row is dark olive, never pink."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thre"
+     ],
+     "fraction": 0.144
+    },
+    "2": {
+     "sources": [
+      "mm6/thre"
+     ],
+     "fraction": 0.144
+    },
+    "3": {
+     "sources": [
+      "mm6/thre"
+     ],
+     "fraction": 0.144
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/thre",
+     "left": "mm6/thctrw2"
+    },
+    "2": {
+     "right": "mm6/thre",
+     "left": "mm6/thctrw2",
+     "bottom": "mm6/cbmxbrck"
+    },
+    "3": {
+     "left": "mm6/thle",
+     "right": "mm6/thre",
+     "bottom": "mm6/cbmxbrck",
+     "top": "mm6/thle"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "ref_blur": {
+    "3": 0.5
+   }
+  },
+  "mm6/thle": {
+   "name": "thle",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "red brick town-hall facade crossed by a green-bronze carved frieze band of figure relief panels, a fluted terracotta column with carved capital and base on the left edge",
+   "notes": {
+    "4": "The frieze mouldings next to the pilaster are identical to the sharp copied frieze on the right: same plain moulding, no dentil row."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thre"
+     ],
+     "fraction": 0.282
+    },
+    "2": {
+     "sources": [
+      "mm6/thre"
+     ],
+     "fraction": 0.282
+    },
+    "3": {
+     "sources": [
+      "mm6/thctr",
+      "mm6/thre"
+     ],
+     "fraction": 0.815
+    },
+    "4": {
+     "sources": [
+      "mm6/thctr",
+      "mm6/thre"
+     ],
+     "fraction": 0.815
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/thre"
+    },
+    "2": {
+     "right": "mm6/thre",
+     "bottom": "mm6/cbmxbrck"
+    },
+    "3": {
+     "right": "mm6/thre",
+     "bottom": "mm6/cbmxbrck"
+    },
+    "4": {
+     "right": "mm6/thre",
+     "bottom": "mm6/cbmxbrck"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/hcbalcwb": {
+   "name": "hcbalcwb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "pale sandstone block house wall with a tall pointed gothic arched window of green leaded glass in an ornate bronze frame, a small wooden balustraded balcony beneath, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or hairline along any outer edge; the stone wall continues to the canvas border at even brightness.",
+    "3": "Rebuilt on the corrected relative. No dark or pale hairline along the top or right edge: the stone blocks continue to the border at even brightness.",
+    "4": "Left edge beside the balcony: the dark shadow next to the railing continues to the outermost left column as in the reference; no pale hairline or highlight along the left border.",
+    "5": "Left edge beside the balcony: the dark shadow next to the railing reaches the outermost left column as in the reference; the stone of the opposite edge does not continue onto the first columns, no pale strip along the left border.",
+    "6": "Left edge beside the window and balcony: the dark recessed joint lies on the outermost left columns as in the reference; no sliver of pale stone block outside that joint along the left border.",
+    "7": "Left edge beside the window and balcony: the dark recessed joint lies on the outermost left columns as in the reference; no sliver of pale stone block outside that joint along the left border.",
+    "8": "Along the right edge the ashlar courses and mortar lines must sit at exactly the reference heights so they continue straight into the plain wall beside it; same stone tone as the wall; no lighter or darker strip at the right edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.228
+    },
+    "2": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.228
+    },
+    "3": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.228
+    },
+    "4": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.228
+    },
+    "5": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.228
+    },
+    "6": {
+     "sources": [
+      "mm6/hcwall",
+      "mm6/hcwindo",
+      "mm6/hcw1reb"
+     ],
+     "fraction": 0.215
+    },
+    "7": {
+     "sources": [
+      "mm6/hcwall",
+      "mm6/hcwindo",
+      "mm6/hcw1leb",
+      "mm6/hcw1reb"
+     ],
+     "fraction": 0.227
+    },
+    "8": {
+     "sources": [
+      "mm6/hcwall",
+      "mm6/hcwindo",
+      "mm6/hcw1leb",
+      "mm6/hcw1reb"
+     ],
+     "fraction": 0.227
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {
+     "bottom": "mm6/hcwall",
+     "right": "mm6/hcwall",
+     "left": "mm6/hcwall"
+    },
+    "8": {
+     "bottom": "mm6/hcwall",
+     "right": "mm6/hcwall",
+     "left": "mm6/hcwall"
+    }
+   },
+   "roll": {
+    "2": [
+     63,
+     177
+    ],
+    "3": [
+     63,
+     177
+    ],
+    "4": [
+     63,
+     177
+    ],
+    "5": [
+     63,
+     177
+    ],
+    "6": [
+     63,
+     177
+    ]
+   },
+   "pad": {
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/thctrw1": {
+   "name": "thctrw1",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "red brick town-hall facade crossed by a green-bronze carved frieze band of figure relief panels, a tall narrow round-topped window of turquoise leaded glass in a dark iron frame with a keystone, copy the composition exactly",
+   "notes": {
+    "3": "The top edge starts with the reference's dark olive line, then the green, olive and white lines, then the pink cornice bands at the reference rows; no pale pink line at the very top. The cornice is pink as in the reference.",
+    "4": "Top band stack exactly as in the reference from the very top row: a dark olive line, a pale green-cream band, a dark olive line, a white line, the pink cornice band, then a dark line; no pink at the top edge.",
+    "5": "From the very top row: a dark olive line (about one reference pixel), a pale cream-green band, a dark olive line, a white line, a pink cornice band and a dark line, at the reference row heights; the top row is dark olive, never pink.",
+    "6": "Copy the reference top band stack exactly from the very first row: a dark olive line, a pale cream-green band, a dark olive line, a white line, the pink cornice band, then a dark line; the top row is dark olive, never pink.",
+    "7": "Copy the reference top band stack exactly from the very first row: a dark olive line, a pale cream-green band, a dark olive line, a white line, the pink cornice band, then a dark line; the top row is dark olive, never pink."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.112
+    },
+    "2": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.112
+    },
+    "3": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.112
+    },
+    "4": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.112
+    },
+    "5": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.112
+    },
+    "6": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.112
+    },
+    "7": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.432
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/thre",
+     "left": "mm6/thle"
+    },
+    "2": {
+     "right": "mm6/thre",
+     "left": "mm6/thle",
+     "bottom": "mm6/thle"
+    },
+    "3": {
+     "right": "mm6/thre",
+     "left": "mm6/thle",
+     "bottom": "mm6/thle"
+    },
+    "4": {
+     "right": "mm6/thre",
+     "left": "mm6/thle",
+     "bottom": "mm6/thle"
+    },
+    "5": {
+     "right": "mm6/thre",
+     "left": "mm6/thle",
+     "bottom": "mm6/thle"
+    },
+    "6": {
+     "right": "mm6/thre",
+     "left": "mm6/thle",
+     "bottom": "mm6/thle"
+    },
+    "7": {
+     "right": "mm6/thre",
+     "left": "mm6/thle",
+     "top": "mm6/bemvwal",
+     "bottom": "mm6/thle"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ]
+   },
+   "ref_blur": {
+    "4": 0.6,
+    "5": 0.5,
+    "6": 0.5
+   }
+  },
+  "mm6/crside": {
+   "name": "crside",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "material": "side of a wooden crate: a square frame of four dark weathered boards (one full-width board along the top, one along the bottom, one post at each side) enclosing five horizontal weathered planks",
+   "notes": {
+    "2": "Keep the crate frame posts at the left and right edges exactly as wide and as light as in the reference. No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference.",
+    "3": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Outer frame boards keep the same brightness right up to the left and right borders.",
+    "4": "Copy the composition exactly: keep the horizontal frame rails along the top and bottom edges as well as the vertical posts at left and right, as in the reference.",
+    "5": "Copy the composition exactly: horizontal frame rails along the top and bottom edges span the full width, vertical posts at left and right sit between them, as in the reference. No dark outline along any outer edge.",
+    "6": "Copy the composition exactly: horizontal frame rails along the top and bottom edges span the full width; the vertical posts sit between them; no dark line along the left or right edge.",
+    "7": "Copy the composition exactly: a light horizontal rail board along the full top edge and another along the full bottom edge, two light vertical posts at left and right between them, horizontal planks inside. The light posts run right up to the left and right borders: no dark groove or line in the outermost columns.",
+    "8": "Copy the composition exactly: a light horizontal rail board along the full top edge and another along the full bottom edge, two light vertical posts at left and right between them, horizontal planks inside. The left post's light wood runs right up to the left border: no dark groove, outline or line in the outermost columns.",
+    "9": "The top and bottom frame boards span the full width exactly as in the reference; keep all four frame boards.",
+    "10": "Keep all four frame boards: full-width boards along the top and bottom, posts at both sides, five planks inside.",
+    "11": "One complete crate side: dark weathered frame boards along all four edges (full-width top and bottom boards, posts at left and right), five horizontal planks inside; copy the reference layout exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "2": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "3": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "4": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "5": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "6": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "7": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "8": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "9": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "10": {
+     "sources": [
+      "mm6/cbb"
+     ],
+     "fraction": 0.622
+    },
+    "11": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {},
+    "10": {},
+    "11": {}
+   },
+   "roll": {
+    "5": [
+     39,
+     0
+    ],
+    "6": [
+     39,
+     0
+    ],
+    "7": [
+     39,
+     0
+    ],
+    "8": [
+     39,
+     0
+    ]
+   },
+   "border": "edge",
+   "ref_blur": {
+    "11": 0.6
+   },
+   "standalone": true
+  },
+  "mm6/bcsctr": {
+   "name": "bcsctr",
+   "versions": [
+    1
+   ],
+   "material": "rough reddish-brown lumpy rock wall with rounded knobbly stones and dark crevices",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hclgdr": {
+   "name": "hclgdr",
+   "versions": [
+    1
+   ],
+   "material": "grand double wooden door with black iron scroll strap hinges and ring handles under two pointed yellow-green stained glass arches, flanked by stone columns with carved capitals and ornate gilded crests with green jewels, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/selfmind": {
+   "name": "selfmind",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "guild sign: an orange circle with a Vitruvian-style human figure with outstretched arms and legs, on brown wooden boards with a riveted blue-steel band on the left, copy the composition exactly",
+   "notes": {
+    "2": "The figure is a stylised diagram silhouette, fully clothed in a long robe; no bare skin, no anatomy detail."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thlgdr": {
+   "name": "thlgdr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "grand double door with turquoise hexagonal stained glass panels and carved dark iron lower panels, under a round fanlight of turquoise glass, set in a red brick facade with green-bronze figure relief panels to either side, copy the composition exactly",
+   "notes": {
+    "2": "Keep the pale stone band along the top edge as in the reference. No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference.",
+    "3": "Keep the pale stone band along the top edge as in the reference. No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference.",
+    "4": "Copy the composition exactly: the pilaster bases at the bottom left and right of the door sit at the same positions and widths as in the reference, running to the bottom border with no hairline. Keep the pale stone band along the top edge.",
+    "5": "Copy the composition exactly: the pilaster bases at the bottom left and right of the door sit at the same positions and widths as in the reference, running to the bottom border with no hairline. Keep the pale stone band along the top edge.",
+    "6": "Copy the composition exactly: the pilaster bases at the bottom left and right of the door sit at the same positions and widths as in the reference, running to the bottom border with no hairline. Keep the pale stone band along the top edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.306
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm6/thle",
+     "right": "mm6/thre"
+    },
+    "4": {
+     "left": "mm6/thle",
+     "right": "mm6/thre"
+    },
+    "5": {
+     "left": "mm6/thle",
+     "right": "mm6/thre"
+    },
+    "6": {
+     "left": "mm6/thle",
+     "right": "mm6/thre"
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     131
+    ]
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/thsmdr": {
+   "name": "thsmdr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "narrow single door with a turquoise hexagonal stained glass panel and carved dark iron lower panel, under a rounded red brick arch with a keystone, set in a red brick facade with a green-bronze frieze band, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.094
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/thle",
+     "right": "mm6/thre"
+    },
+    "3": {
+     "left": "mm6/thle",
+     "right": "mm6/thre"
+    }
+   }
+  },
+  "mm6/d3ll2": {
+   "name": "d3ll2",
+   "versions": [
+    1
+   ],
+   "material": "rough brown packed earth wall divided by a vertical dark timber post under a timber beam, joined with iron straps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d3ll61": {
+   "name": "d3ll61",
+   "versions": [
+    1
+   ],
+   "material": "rough brown packed earth wall with vertical bark-like ridges and cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d3ll6"
+     ],
+     "fraction": 0.709
+    }
+   }
+  },
+  "mm6/d3ll2le": {
+   "name": "d3ll2le",
+   "versions": [
+    1
+   ],
+   "material": "rough brown packed earth wall inside a dark timber frame with a diagonal brace, left-hand piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d3ll2"
+     ],
+     "fraction": 0.449
+    }
+   }
+  },
+  "mm6/d3ll2re": {
+   "name": "d3ll2re",
+   "versions": [
+    1
+   ],
+   "material": "rough brown packed earth wall inside a dark timber frame with a diagonal brace, right-hand piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d3ll2"
+     ],
+     "fraction": 0.347
+    }
+   }
+  },
+  "mm6/d3ll6re": {
+   "name": "d3ll6re",
+   "versions": [
+    1
+   ],
+   "material": "rough brown packed earth wall with a vertical dark brown wooden post on the right held by an iron strap and a black iron vent plate at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d3ll6"
+     ],
+     "fraction": 0.323
+    }
+   }
+  },
+  "mm6/d3ll6le": {
+   "name": "d3ll6le",
+   "versions": [
+    1
+   ],
+   "material": "rough brown packed earth wall with a vertical dark brown wooden post on the left held by an iron strap and a black iron vent plate at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d3ll6"
+     ],
+     "fraction": 0.313
+    }
+   }
+  },
+  "mm6/d3oor2": {
+   "name": "d3oor2",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown sand floor with soft wind-blown ripples",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d3oor3": {
+   "name": "d3oor3",
+   "versions": [
+    1
+   ],
+   "material": "dry cracked red-brown mud floor broken into small irregular plates with dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d3rsml": {
+   "name": "d3rsml",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "narrow weathered reddish-brown vertical plank door with a small barred iron peephole and a brass lock plate, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference. Keep the planks, grille and lock plate where they are in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d3rsmls": {
+   "name": "d3rsmls",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow weathered reddish-brown wooden plank strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swpdr3a": {
+   "name": "swpdr3a",
+   "versions": [
+    1
+   ],
+   "material": "weathered blue-grey wooden plank double door with heavy horizontal rails and a rusty iron latch in the centre, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/rblmt": {
+   "name": "rblmt",
+   "versions": [
+    1
+   ],
+   "material": "grey rounded cobblestone rubble wall with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rblst"
+     ],
+     "fraction": 0.402
+    }
+   }
+  },
+  "mm6/t1wl5lec": {
+   "name": "t1wl5lec",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with pale mortar, alternating long and short quoin blocks forming a corner edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl4ctr",
+      "mm6/t1wl5ctl"
+     ],
+     "fraction": 0.672
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl5leb"
+     ],
+     "fraction": 0.678
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/t1wl5lea",
+     "bottom": "mm6/t1wl5lea",
+     "right": "mm6/t1wl5rea"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/rblre": {
+   "name": "rblre",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey rounded cobblestone rubble wall with dark joints and a vertical column of stones forming the right edge",
+   "notes": {
+    "2": "No dark or pale hairline along the right edge; the stones continue to the border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rblst",
+      "mm6/rblmt"
+     ],
+     "fraction": 0.618
+    },
+    "2": {
+     "sources": [
+      "mm6/rblst",
+      "mm6/rblmt"
+     ],
+     "fraction": 0.618
+    },
+    "3": {
+     "sources": [
+      "mm6/rblst",
+      "mm6/rblmt"
+     ],
+     "fraction": 0.618
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     95,
+     0
+    ],
+    "3": [
+     0,
+     142
+    ]
+   }
+  }
+ }
+}

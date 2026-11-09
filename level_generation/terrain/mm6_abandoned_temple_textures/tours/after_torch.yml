@@ -1,0 +1,67 @@
+{
+  "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/captures/after_torch",
+  "settle_seconds": 1.0,
+  "exit": true,
+  "shots": [
+    {
+      "name": "cave-near",
+      "position": [
+        -24644,
+        -10305,
+        -2200
+      ],
+      "yaw": 2.6,
+      "pitch": 0.1
+    },
+    {
+      "name": "rubble-floor",
+      "position": [
+        -17100,
+        -9839,
+        -1681
+      ],
+      "yaw": 2.3,
+      "pitch": -0.5
+    },
+    {
+      "name": "masonry-stairs",
+      "position": [
+        16384,
+        -15136,
+        225
+      ],
+      "yaw": 1.570796,
+      "pitch": 0.08
+    },
+    {
+      "name": "masonry-vault",
+      "position": [
+        7808,
+        9972,
+        -1879
+      ],
+      "yaw": 1.570796,
+      "pitch": 0.15
+    },
+    {
+      "name": "mosaic-ceiling",
+      "position": [
+        16384,
+        -15603,
+        225
+      ],
+      "yaw": 1.570796,
+      "pitch": 0.55
+    },
+    {
+      "name": "sandstone-sanctum",
+      "position": [
+        16336,
+        -18208,
+        753
+      ],
+      "yaw": 0,
+      "pitch": 0.15
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Preserved delivered-alpha master. Process --adjust 0.97 0 0, run restore_native_tone.py then queue check. Native RGB tone matching preserves alpha. No solid pixels outside canvas; final light/dark proofs reviewed.

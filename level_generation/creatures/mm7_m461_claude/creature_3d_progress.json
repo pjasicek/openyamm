@@ -1,0 +1,47 @@
+{
+  "creature_3d_identity": "mm7:m461",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 0
+  },
+  "scope": "BATCH_M model 5: MM7 copy of an installed MM8 model, no install (batch rule)",
+  "native_family": "mm7:m461",
+  "descriptor_ids": [
+    448,
+    449,
+    450
+  ],
+  "decision": "Same render at a smaller raster, other colours.",
+  "reuse_source": [
+    {
+      "path": "assets_source/worlds/mm8/models/mm8_m480.glb",
+      "sha256": "8405e7fdeb136dd998eb2e45c4a704a75a41d2879056c1e5cea9fa1a65416323"
+    },
+    {
+      "path": "assets_source/worlds/mm8/models/mm8_m480_club.glb",
+      "sha256": "3e57d987a59a70c717009df30ad5301087cfa538c80cb6be8bea316e81b3a290"
+    }
+  ],
+  "selected_artifacts": {
+    "export_0": {
+      "path": "export/mm7_m461.glb",
+      "sha256": "414b4b946c27a214df8747777b5693bcc34d5a7ec7535d6b6c7eb2d585918470"
+    },
+    "export_1": {
+      "path": "export/mm7_m461_club.glb",
+      "sha256": "e9ba307adff4b12fbe72faa51c867d3f9ddf9c41bb9b7563f5278fe6ec6b9bfa"
+    },
+    "ramps": {
+      "path": "textures/m461_ramps.json",
+      "sha256": "f7cd1f761b5dae200f516d82c9a5c6941aa38451731eb07ef98364106e961be3"
+    }
+  },
+  "credits_spent": 0,
+  "current_stage": "exported",
+  "current_substep": "awaiting user review / install decision",
+  "next_action": {
+    "owner": "user",
+    "action": "review tiers; decide install (own GLB vs binding the MM8 model)"
+  },
+  "user_artistic_acceptance": "pending"
+}

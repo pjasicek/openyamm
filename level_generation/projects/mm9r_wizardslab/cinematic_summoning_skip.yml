@@ -1,0 +1,18 @@
+# The summoning's cinematic skipped at 1 s: its remaining steps (the six apprentices' ticks, the master's, the
+# Greater Demon) run at once. See README "Cinematics".
+id: mm9r.wizardslab.cinematic_summoning_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: wizardslab.blv}
+- set_pose: {map: wizardslab.blv, x: -7864, y: 15043, z: 1477, yaw: 4.71238875, pitch: 0.0}
+- advance_runtime: {seconds: 1.0}
+- console: {line: cinematic list, expect_contains: playing summoning}
+- assert: {state_dump_named_map_var: {name: RitualStep, value: 1}}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- assert: {state_dump_named_map_var: {name: RitualStep, value: 9}}
+- assert: {state_dump_named_map_var: {name: DemonUp, value: 1}}
+- assert: {actor_count: {monster_id: 9242, min: 1, max: 1}}
+- advance_runtime: {seconds: 3.0}
+- assert: {actor_count: {monster_id: 9242, min: 1, max: 1}}

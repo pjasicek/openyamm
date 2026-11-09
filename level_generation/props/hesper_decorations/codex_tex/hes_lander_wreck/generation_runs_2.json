@@ -1,0 +1,122 @@
+{
+  "status": "noncompliant_best_available",
+  "corrective_regenerations": 1,
+  "runs": [
+    {
+      "view": "back",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nCreate paint_back.png: a 1024 x 1024 transparent RGBA texture-source painting of the wrecked colony lander.\nInput 1 guide_back.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is ONLY the approved material/colour/design reference. Input 3 concept_crop.png is supporting original concept.\nPaint directly over input 1 without changing its pixel geometry or alpha silhouette. Keep its exact orthographic BACK view, outline, size, position, all shape edges and openings. Do not adopt the references' three-quarter camera. Leave the generous transparent top/bottom margins exactly as in the guide. Guide opaque content spans approximately x=66..957, y=303..720. The pointed nose and long broken spars face LEFT; tall tail fin stands at RIGHT. Preserve the dome, small roof hatch, open rectangular hatch at x=397..470 y=574..666, round engine ring centered about (603,592), right-side broken machinery, fin, every individual rubble shape and narrow rubble base exactly where they are.\nPaint the existing shapes with chipped ivory-white ceramic plates, aged gold trim and rivets, black soot and scorch streaks, dark tinted cracked glass on existing glass regions, dark steel ribs where plates are gone, warm amber colour in the existing open hatch, a cyan console glow only if visible within that opening, black glassy rubble. Follow the reference materials while keeping every shape of the guide. Do not add openings, parts, rocks, cables or protrusions outside or inside the existing silhouette; surface-only painted details are allowed.\nThis is ALBEDO for texture projection, not a beauty render. Even flat shadowless viewer-facing illumination, constant material colour on all surface orientations. NO cast shadows, NO ambient-occlusion darkening, NO strong specular highlights/reflections, NO rim light or gradients of directional illumination. Emission is colour only, no light spill. Distinguish dark material and painted scorch from lighting shadows. No background, no floor, no text, no watermark. Preserve actual transparency and original 1024 x 1024 canvas.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "454f588e253b5c4d6275124248547b6098047e260c10437a6ae4946910f3ad16"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "output_sha256": "f939c3cb3d4f1ffed108ae534f24ba1bf0c8b14e19123904f5838104e4f21d60",
+      "selected": false,
+      "reason": "Rejected: enlarged/reframed geometry, wrong output dimensions, residual highlights and shading.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1228551,
+        "partially_transparent_pixels": 343439,
+        "alpha_bbox": [
+          25,
+          23,
+          1224,
+          1254
+        ],
+        "opaque_threshold_bbox": [
+          43,
+          368,
+          1216,
+          915
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "White ceramic, gold trim, soot, dark metal, amber hatch, cyan console and dark rubble broadly match the references.",
+        "flat_light_pass": false,
+        "lighting_visual": "Residual metallic highlights and dark crevice shading remain."
+      },
+      "unresized_return": true
+    },
+    {
+      "view": "back",
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, precise-object-edit. Output exactly 1024x1024 pixels with genuine transparent background. Edit input 1 (guide_back.png) in place. Treat the guide as a locked stencil, preserving its exact alpha coverage and ALL shape edges. Only replace grey surface colours with albedo materials. Do not resize, zoom, reframe, move, redraw or enlarge the object. In the 1024x1024 canvas the object remains entirely between x=66 and x=957 and y=303 and y=720. The large empty margin above and below MUST stay transparent. Preserve the guide's silhouette pixel-for-pixel, including every rubble fragment, all openings, and internal part boundaries.\nInput 2 design_reference.png supplies materials ONLY; input 3 concept_crop.png is the original concept. Do not copy their perspective, lighting, shadows or geometry.\nPaint this exact BACK orthographic guide: nose and broken spars point LEFT, tall fin on RIGHT, low broad dome, round engine at (603,592), small hatch opening around (430,620), narrow rubble base at y=700. Every part stays at the guide's precise coordinates. Match approved chipped white ceramic plating with aged gold trim/rivets, soot/scorch marks, dark cracked glass where present, dark steel exposed machinery, amber-coloured open hatch interior, small cyan console inside it, black glassy rubble. No new geometry or holes. No attached scenery.\nCRITICAL ALBEDO LIGHTING: remove the grey guide's shading. Use uniform flat material colours and texture detail across all orientations. NO ambient occlusion, black recess shading, cast shadow, directional shading, metallic glints, specular highlights, reflections or rim light. Gold is matte golden ochre, white panels stay equally bright from top to bottom. Black steel/rubble are dark due to their material, not shadows. Amber/cyan are flat emissive colour only, no spill. No floor, background, text or watermark.\nThe prior attempt failed by enlarging/reframing the guide and outputting 1254x1254 pixels. Correct those errors: exact input canvas 1024x1024, locked geometry and placement, genuine clean transparent alpha outside the existing guide. Return the unresized 1024x1024 painting.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "454f588e253b5c4d6275124248547b6098047e260c10437a6ae4946910f3ad16"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "4422d992073adadd47fe5c1529229313acd015fb598448ad3ad7a4e83501d45e",
+      "selected": true,
+      "reason": "Selected as closer framing after the single allowed corrective regeneration; remains noncompliant with exact size, silhouette and flat albedo requirements.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "fully_transparent_pixels": 1253937,
+        "partially_transparent_pixels": 318077,
+        "alpha_bbox": [
+          37,
+          39,
+          1240,
+          1228
+        ],
+        "opaque_threshold_bbox": [
+          73,
+          369,
+          1206,
+          901
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "White ceramic, gold trim, soot, dark metal, amber hatch, cyan console and dark rubble broadly match the references.",
+        "flat_light_pass": false,
+        "lighting_visual": "Residual metallic highlights and dark crevice shading remain."
+      },
+      "unresized_return": true
+    }
+  ]
+}

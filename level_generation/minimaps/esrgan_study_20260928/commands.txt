@@ -1,0 +1,5 @@
+tools/upscaling/realesrgan-ncnn-vulkan -i level_generation/minimaps/esrgan_study_20260928/input -o level_generation/minimaps/esrgan_study_20260928/raw/video2 -n realesr-animevideov3 -s 2 -m tools/upscaling/models -g 0 -j 1:1:1 -t 0
+tools/upscaling/realesrgan-ncnn-vulkan -i level_generation/minimaps/esrgan_study_20260928/input -o level_generation/minimaps/esrgan_study_20260928/raw/video4 -n realesr-animevideov3 -s 4 -m tools/upscaling/models -g 0 -j 1:1:1 -t 0
+tools/upscaling/realesrgan-ncnn-vulkan -i level_generation/minimaps/esrgan_study_20260928/input -o level_generation/minimaps/esrgan_study_20260928/raw/general4 -n realesrgan-x4plus -s 4 -m tools/upscaling/models -g 0 -j 1:1:1 -t 0
+tools/upscaling/realesrgan-ncnn-vulkan -i level_generation/minimaps/esrgan_study_20260928/input -o level_generation/minimaps/esrgan_study_20260928/raw/anime4 -n realesrgan-x4plus-anime -s 4 -m tools/upscaling/models -g 0 -j 1:1:1 -t 0
+tools/upscaling/realesrgan-ncnn-vulkan -i level_generation/minimaps/esrgan_study_20260928/input -o level_generation/minimaps/esrgan_study_20260928/raw/video2_tta -n realesr-animevideov3 -s 2 -m tools/upscaling/models -g 0 -j 1:1:1 -t 0 -x

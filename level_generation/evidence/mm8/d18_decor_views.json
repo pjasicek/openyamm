@@ -1,0 +1,78 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "room",
+        "target": [
+          3500,
+          -596,
+          968
+        ],
+        "span": 6500
+      },
+      "section_top_z": 1480,
+      "image": "level_generation/evidence/mm8/d18_decor_room.png",
+      "camera_position": [
+        6443.0400390625,
+        -6482.08056640625,
+        8162.0986328125
+      ],
+      "highlighted": [
+        {
+          "index": 12,
+          "name": "dec56",
+          "position": [
+            3728,
+            -1684,
+            968
+          ]
+        },
+        {
+          "index": 15,
+          "name": "dec56",
+          "position": [
+            1876,
+            -2020,
+            1008
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "torch_detail",
+        "target": [
+          116,
+          -1016,
+          80
+        ],
+        "span": 2200,
+        "direction": [
+          -0.45,
+          0.9,
+          1.1
+        ]
+      },
+      "section_top_z": 592,
+      "image": "level_generation/evidence/mm8/d18_decor_torch_detail.png",
+      "camera_position": [
+        -880.10595703125,
+        976.2119140625,
+        2514.92578125
+      ],
+      "highlighted": [
+        {
+          "index": 1,
+          "name": "dec56",
+          "position": [
+            116,
+            -1016,
+            80
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

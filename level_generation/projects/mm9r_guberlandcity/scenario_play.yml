@@ -1,0 +1,26 @@
+# The Guberland Players' show (citylua.py play_lines; Narrator.scr @m 14:30 and 16:30, THEPLAY.scr's lines): the
+# curtain opens, the 29 lines play one after another at the speakers' places, the curtain closes after the bow.
+id: mm9r.guberlandcity_play
+title: 'Guberland City (native BLV): the Players'' show at 14:30'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: guberlandcity.blv
+- console: {line: 'time set 14:28'}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    state_dump_named_map_var: {name: PlayLine, value: 0}
+- advance_runtime: {seconds: 5.0}
+- assert:
+    state_dump_named_map_var: {name: PlayShows, value: 1}
+- note:
+    text: About 170 s of lines and a 5 s bow; then the show is over.
+- advance_runtime: {seconds: 200.0}
+- assert:
+    state_dump_named_map_var: {name: PlayLine, value: 0}
+- assert:
+    state_dump_named_map_var: {name: PlayShows, value: 1}

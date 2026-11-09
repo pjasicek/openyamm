@@ -1,0 +1,25 @@
+{
+  "family": "drr1",
+  "title": "MM6 Land Dragon",
+  "descriptor_ids": [
+    511,
+    512,
+    513
+  ],
+  "base_palette": 697,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "standing_reference_frame": 0,
+  "batch_distinct_standing": true,
+  "identity_reference_action": "walk",
+  "description": "Original MM6 land dragon A: wingless quadruped with dark forest-green mottled scales, long slender curved neck, narrow crocodilian horned head, muscular but slender four legs, arched elongated torso and long tapering tail. Numerous thin golden-yellow spines run from head down neck/back/tail, gold segmented throat and underside, very pale ivory-blue tips on the longest head horns and claws, yellow-green eyes. Preserve exact native spiny silhouette, four-legged stance, small head, long neck, tail and foot placement, fine scale mottling and dark tonal weight. No wings, extra limbs, armor, ornaments or redesign.",
+  "regions": "Native hide, underside, horns and wing material; selective enhanced-art masks derived after palette review.",
+  "variant_names": {
+    "697": "Land Dragon A / green",
+    "696": "Land Dragon B / blue",
+    "695": "Land Dragon C / red"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

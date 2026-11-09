@@ -1,0 +1,1080 @@
+{
+  "map": "6d02.blv",
+  "scope": "12 focused 4x candidate textures; other surfaces retain ESRGAN artwork",
+  "selected": [
+    {
+      "name": "wltil2",
+      "native_size": [
+        256,
+        256
+      ],
+      "runtime_size": [
+        1024,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "9de7bbd7fcf1dde728476603972396f02e1cd8f449879dd058460755bc458961",
+      "construction": "shared plaster base"
+    },
+    {
+      "name": "wywl",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        }
+      ],
+      "runtime_sha256": "221fbffb0ec29809a24e097ca5d7693e158734d915b998436247a6ddac162937",
+      "construction": "plaster + dado at native y=435"
+    },
+    {
+      "name": "wywl2",
+      "native_size": [
+        256,
+        128
+      ],
+      "runtime_size": [
+        1024,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        }
+      ],
+      "runtime_sha256": "709c6c12a0cd1b259e022596a9511c59ce8d6f9e43a4133a8e94b503fe124a45",
+      "construction": "bottom 128 native rows of the identical wall base"
+    },
+    {
+      "name": "wywt",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        },
+        {
+          "source": "generated/wywt_x4_overlay_clean_v1.png",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "source_sha256": "a0c8e09ee82402cd93cabec92943589c3cd4b735b784d92f49fd714078203652",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              253
+            ],
+            "transparent_pixels": 53750
+          },
+          "crop": [
+            24,
+            8,
+            1002,
+            1524
+          ],
+          "prompt": "prompts/wywt_x4_overlay_clean_v1.txt"
+        }
+      ],
+      "runtime_sha256": "717696ca6a6b406f5c8465a85f3d94d2f398d95e1df2adf33919eebfb1c30ec7",
+      "native_placement": [
+        14,
+        40,
+        243,
+        391
+      ],
+      "construction": "registered foreground over the identical shared wall; opaque native panel interiors"
+    },
+    {
+      "name": "stabig2",
+      "native_size": [
+        256,
+        512
+      ],
+      "runtime_size": [
+        1024,
+        2048
+      ],
+      "sources": [
+        {
+          "source": "generated/wywl_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "4fd9f39ebe906e735ce56a5c7cdcbcc85ca6ffe902e2f1171acbc22db0e49c6f",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/wywl_x4_section1_clean_v2.txt"
+        },
+        {
+          "source": "generated/wood_dado_x4_alpha_v1.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "0e1a852773b35c4b4748103020787accb482041919965f03ce60da6d289fd671",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 806327
+          },
+          "crop": [
+            0,
+            239,
+            1774,
+            664
+          ],
+          "prompt": "prompts/wood_dado_x4_alpha_v1.txt"
+        },
+        {
+          "source": "generated/stabig2_x4_overlay_clean_v2.png",
+          "source_size": [
+            1083,
+            1452
+          ],
+          "source_sha256": "b015dcb6a91236c6e897bfc1facf8a811a93d073b99eef68011d4e3a57ffdb63",
+          "raw_alpha": {
+            "extrema": [
+              10,
+              252
+            ],
+            "transparent_pixels": 0
+          },
+          "crop": [
+            0,
+            0,
+            1083,
+            1452
+          ],
+          "prompt": "prompts/stabig2_x4_overlay_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "0c113f9f891cf4070ea0c545b6f9358df99eb3813936a1223af4c32cc074bc10",
+      "native_placement": [
+        0,
+        63,
+        256,
+        406
+      ],
+      "construction": "registered foreground over the identical shared wall; opaque native panel interiors"
+    },
+    {
+      "name": "beamplnh",
+      "native_size": [
+        256,
+        32
+      ],
+      "runtime_size": [
+        1024,
+        128
+      ],
+      "sources": [
+        {
+          "source": "generated/beamplnh_x4_v2.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "9268d0469c082b4b68c7253716ccf4c0fe42477d35cbe61f4a7ecb32b7ec0695",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1258306
+          },
+          "crop": [
+            0,
+            362,
+            1774,
+            526
+          ],
+          "body_crop_within_strip": [
+            177,
+            0,
+            1597,
+            164
+          ],
+          "prompt": "prompts/beamplnh_x4_v2.txt"
+        }
+      ],
+      "runtime_sha256": "21832110a0eacf0aac4efc99fc9f10c424caeeb1e4de2fb25ee6d740c517840f",
+      "construction": "registered central repeat body from true-alpha extended master"
+    },
+    {
+      "name": "beamplnv",
+      "native_size": [
+        32,
+        256
+      ],
+      "runtime_size": [
+        128,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/beamplnh_x4_v2.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "9268d0469c082b4b68c7253716ccf4c0fe42477d35cbe61f4a7ecb32b7ec0695",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1258306
+          },
+          "crop": [
+            0,
+            362,
+            1774,
+            526
+          ],
+          "body_crop_within_strip": [
+            177,
+            0,
+            1597,
+            164
+          ],
+          "prompt": "prompts/beamplnh_x4_v2.txt"
+        }
+      ],
+      "runtime_sha256": "5dbd1bccd1351ac109bf61e1b8c22012f952d818ea3219f9470938f9580c4982",
+      "construction": "same wood body rotated 90 degrees"
+    },
+    {
+      "name": "gset06",
+      "native_size": [
+        256,
+        32
+      ],
+      "runtime_size": [
+        1024,
+        128
+      ],
+      "sources": [
+        {
+          "source": "generated/gset06_x4_v2.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "6784f5de3438978817cfec8f4d27838708d2a929d6895d24e1704e82594f306c",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              255
+            ],
+            "transparent_pixels": 1270340
+          },
+          "crop": [
+            0,
+            340,
+            1774,
+            502
+          ],
+          "body_crop_within_strip": [
+            177,
+            0,
+            1597,
+            162
+          ],
+          "prompt": "prompts/gset06_x4_v2.txt"
+        }
+      ],
+      "runtime_sha256": "1326fb0630e82e729e606247c67d5b4cc849d797f7e8b10dfd8298a3774d4a72",
+      "construction": "registered central repeat body from true-alpha extended master"
+    },
+    {
+      "name": "gset05",
+      "native_size": [
+        256,
+        16
+      ],
+      "runtime_size": [
+        1024,
+        64
+      ],
+      "sources": [
+        {
+          "source": "generated/gset05_x4_v2.png",
+          "source_size": [
+            1774,
+            887
+          ],
+          "source_sha256": "8b6c1c8a81f1fa6020876a8b8404bedecddae45443c4f06521489086126206c1",
+          "raw_alpha": {
+            "extrema": [
+              0,
+              254
+            ],
+            "transparent_pixels": 1379707
+          },
+          "crop": [
+            0,
+            396,
+            1774,
+            490
+          ],
+          "body_crop_within_strip": [
+            177,
+            0,
+            1597,
+            94
+          ],
+          "prompt": "prompts/gset05_x4_v2.txt"
+        }
+      ],
+      "runtime_sha256": "6ec731e8808fa92e413138ee42ff831d918f5729daf715654de5f1ff20dd52b6",
+      "construction": "registered central repeat body from true-alpha extended master"
+    },
+    {
+      "name": "cekr4",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/cekr4_x4_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "f8c9135cb51bcf91a5f091ad05e9fb0f7fdb2907b0811d970032ce7c24266712",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/cekr4_x4_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "a11e77fe5e4b45a17270372b44e3acf3e0e0f76c1b65b392fc88975c86099825",
+      "construction": "full fresh material master reduced to native 4x"
+    },
+    {
+      "name": "ctflor3",
+      "native_size": [
+        128,
+        128
+      ],
+      "runtime_size": [
+        512,
+        512
+      ],
+      "sources": [
+        {
+          "source": "generated/ctflor3-v1.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b1ca9252186eae1e1110c6db071746005c7a14928253dd2f816f8c061a81fe00",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/ctflor3-v1.txt"
+        }
+      ],
+      "runtime_sha256": "09eb32bddaef1a1c528c5d91682ff200548c387c75ff3f62fe55271977ecd0d3",
+      "construction": "full fresh material master reduced to native 4x"
+    },
+    {
+      "name": "carpt01",
+      "native_size": [
+        512,
+        256
+      ],
+      "runtime_size": [
+        2048,
+        1024
+      ],
+      "sources": [
+        {
+          "source": "generated/carpt01_x4_section1_clean_v2.png",
+          "source_size": [
+            1254,
+            1254
+          ],
+          "source_sha256": "b62e80102ba8aea9e5cc5b5e121903bd18dc001e4436feb8cb8a8e9e7be59988",
+          "crop": [
+            0,
+            0,
+            1254,
+            1254
+          ],
+          "prompt": "prompts/carpt01_x4_section1_clean_v2.txt"
+        }
+      ],
+      "runtime_sha256": "441c71d2a8b8bd2b2b3076281f2ac19f0f83433cfcb8774661d3a1dbe9f0baf4",
+      "construction": "symmetric carpet demo assembled from a fresh half and its mirror",
+      "limitation": "native asymmetrical wear is not reproduced; ornament is a candidate reinterpretation"
+    }
+  ],
+  "context_only": [
+    {
+      "name": "bdksh32b",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "72707f177f82fcfa4108dc017409487c88c1ec4bcbe78e0235eca52ac60291b5",
+      "carrier_size": [
+        512,
+        128
+      ],
+      "carrier_sha256": "7331dac002df2082b4676f8b38e8389f55b30bf11a9c3cb13ec7a1e0879f23cf"
+    },
+    {
+      "name": "bdksv32b",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "9f835ce13ff07fb442ecbd770415a97d0b952c5e883a7b4c3b93199c7f07ab49",
+      "carrier_size": [
+        128,
+        512
+      ],
+      "carrier_sha256": "77be49d8d3baae949bcc99784cb5ab4a8cce0866b962b446a0c789f1d22f4ba7"
+    },
+    {
+      "name": "bemdord",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "33f5a8f9ba83769e6a2722b49929714938779b0bbe4647533638a6b445d0636d",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "c972f8eef919d4cb9d2395adf828c25bbad9995f51a0847647ae1899628f9f01"
+    },
+    {
+      "name": "bemhwal1",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "12ad92cf706bbbe941b0822d3106d344f77b0614ce4faa78e7b76bffce1ab004",
+      "carrier_size": [
+        1024,
+        512
+      ],
+      "carrier_sha256": "4800983941e2d67b136d8a0ded20ebd69f31ee3e1c0333c33144242e6ed9c462"
+    },
+    {
+      "name": "bemsv32a",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "c109c6084381d8aa6b5267fc122d212f86926d110486ce1c2790aabb2cbc6e44",
+      "carrier_size": [
+        128,
+        512
+      ],
+      "carrier_sha256": "5fb3260d3165256463f9fe2e52c2219093b5b4ff5024986d91390483c5ae8225"
+    },
+    {
+      "name": "bemsv32c",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "a0b26ecb7917e97616353528ffcc8000d763547da7b4015e29f64369812649e3",
+      "carrier_size": [
+        128,
+        512
+      ],
+      "carrier_sha256": "c5c004acdb4009a2131eb4f4bba110bcb4fd04b878a695e668a77b41fabdfa39"
+    },
+    {
+      "name": "ceilbemh",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "79341a0f47098d493b03e1f7afa5ceec46ac4c04e8e07bdd3df064bae779bc1f",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "2f0fa08240040cefa2f89b21b4874f5a01fcafe9e743389b7f710c9073bbeb54"
+    },
+    {
+      "name": "celtile",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "3c73d462349b514cb26af58c7e47891f86c1e96105b99a3829f7a15e2a3a8579",
+      "carrier_size": [
+        512,
+        256
+      ],
+      "carrier_sha256": "d86bf482c40ac6ca28d51fe81c6ab1af7f8123f6c121ec8fb5a4a6f5c9f1b66b"
+    },
+    {
+      "name": "ch1bakb",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "944107e7796cd560afd88f8ac6f85e9d5998250f836122eb922311d75fffff30",
+      "carrier_size": [
+        256,
+        256
+      ],
+      "carrier_sha256": "b0aae8d973d899c6cced9ab653a98b733afcd7fff1dc32429da4881e6e7a3fe5"
+    },
+    {
+      "name": "ch1bkle",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "19abb78b7eb72c4f1a9dea8cd2efda08c8ec57ec74e55ab6ed2a5b692793635a",
+      "carrier_size": [
+        64,
+        256
+      ],
+      "carrier_sha256": "43e73d642dc78a0009781f435df550eb1d5c0ae91744351e466186c88bfa0b46"
+    },
+    {
+      "name": "ch1bkre",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "65d46c1b6df08f31cbfe437f4406c3058ec7b5169a8187db98a6f876e9e0861d",
+      "carrier_size": [
+        64,
+        256
+      ],
+      "carrier_sha256": "cff746ccc815535dc04082d4c0b2ba1ac691f3440153557c29820268a503ab34"
+    },
+    {
+      "name": "ch1frle",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "52af21d271b33521d7f0146e31f04024f1ada923d2980cafab990c29cf55e31d",
+      "carrier_size": [
+        64,
+        256
+      ],
+      "carrier_sha256": "811b61be7e9d8d731806fc34ed6df7f61aaf5c64612631fd3b02c262e7f9fd50"
+    },
+    {
+      "name": "ch1frntb",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "5fff84f1d6d6e0e28ee4c0887a01a04569761da9187102e980d190f39c7e53ac",
+      "carrier_size": [
+        256,
+        256
+      ],
+      "carrier_sha256": "1ebd6c05a6e78f348039581f33b5f2ef503b279574b89a2d573355e2a20bd180"
+    },
+    {
+      "name": "ch1frre",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "c64ed756c12d799454056ccf3f942af6d0fd5f36ba5ff13233ba9926b229b1d8",
+      "carrier_size": [
+        64,
+        256
+      ],
+      "carrier_sha256": "7415c7a8f3af951c8a83333d9f54c8981261274b591517f1f642f91993b51690"
+    },
+    {
+      "name": "ch1side",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "e26d65a7cb53c3067f398d26c8b9afe38c4d3c933fc05ab3a0ea302c4e21da17",
+      "carrier_size": [
+        256,
+        256
+      ],
+      "carrier_sha256": "1242b87286948891e4643970c945ec1d44aad904ede1b26f7ec39080b29bab94"
+    },
+    {
+      "name": "ch1tpbv",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "d09a54c21799079e0962509b128c7bea124836adcd60a205d1561eb080c39f55",
+      "carrier_size": [
+        256,
+        256
+      ],
+      "carrier_sha256": "e630445a5f02232987e2bcae1f2c000f1a114da47fdb311e08cbf8e7adf8a2b9"
+    },
+    {
+      "name": "ch1tplev",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "ccfc1f7634449499a53a8ee19908453dce902ec0f03466b2a2c6902164670804",
+      "carrier_size": [
+        256,
+        64
+      ],
+      "carrier_sha256": "a3aa28699e55fab7d2b5cf71382cbc562f2aece869e1bd5a71fbedb451e5e1f0"
+    },
+    {
+      "name": "ch1tprev",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "3c811745d11fa131f4117cabd16ec7cab1c034fe15486005f386f5502a43c2f5",
+      "carrier_size": [
+        256,
+        64
+      ],
+      "carrier_sha256": "3c0603109eb3cc74136a0ca350ce5041e5f08b5bc26246ca74afb83ef9929fb6"
+    },
+    {
+      "name": "crdflr4",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "f6655cb06827c6cfe0dbb4956a246fdbfeb619ad5955afc8735d7a0d4b037982",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "395f80815f65d1e7f8010ff0b85253e332b22e0bb5bc22ada1b9712f5e7938f9"
+    },
+    {
+      "name": "crdrf2",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "aa507e488b4f218fef3e168c5e65ae03dd35dfec1511eee076a3d5e6854c3eeb",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "d6d33be315303026b29fc9afd767285667f1160f69eab61146ab14d1049ccc0d"
+    },
+    {
+      "name": "ctceil1",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "2dc07d1985eb20d619554ecd7c36f021df5c84aa7101268dc0649cbd6f4caf54",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "a02350d4f3c283cf8c032186ef6a5eccd0701414895b3617fb994de2e3ea74a0"
+    },
+    {
+      "name": "ctceil2",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "8283c82ecda8fdffadf7880ae35f671b4520b9aef3438aa562f13ddb198c398e",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "38c62cb043c0badc78663a2fc99abe725277c7387a9ad04df4c05a281c92d80b"
+    },
+    {
+      "name": "ctdor2",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "06d43446d036e88ad0638928b66962a2e484aa7b171474b3818488effd7683a1",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "8b80b6aaf4df70b18c2019af413fca8c1029be5b7f0c476d9851fef73e04074b"
+    },
+    {
+      "name": "ctdor4",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "192e0ffa48642b180e3e10b2eac5f5dd71deefbf2971ad1fa65d5381baf70f56",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "a84fc7337beb125d8e57754b2a2e90c4b64354ef011e238e0f6ae08fe7430494"
+    },
+    {
+      "name": "ctflor4",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "25848587beede3686c2de55189b9eec1a43394b5d9e086a55092b800a1ac6103",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "adce7290d8406fa2cab987405f56fc2fb47e1c9ad6eca0034eae60ab55eba05c"
+    },
+    {
+      "name": "ctmura",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "d736c4d6940f163cb24d0135c351b0afb62286abfec22f9817502e746b6524e6",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "44e95289711e451d5637f4d7ba31efe1b5e0ed0987e6b6ed2d6ae34137955aa3"
+    },
+    {
+      "name": "d1wldle",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "97dbc67789b99397e7a3f6eea163434f42c07c4d3782d76a00ff412767495320",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "a3f7b1a351797e9cb9328ea47dbe08cfae89f40953b7e6023bb56c9614fccc3d"
+    },
+    {
+      "name": "d1wldle2",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "b4718a282251e529c8562d26073abab9f5778b5a266e9fb01e508c2c6e341d99",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "b86772b3b34dc67122ce9a63bf5704c3b2911d7504f2b312e59115884a9af1fb"
+    },
+    {
+      "name": "d1wldle3",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "4e3f1fbfbb88b8fb1d032152c379a88cde89989576e14de684274b6fb84871c7",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "a82d86487ce30834d3c551a83f862746365286b86c64cbbb69308c8f31d0e88b"
+    },
+    {
+      "name": "d1wldre",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "a8ba84e672e728407ecd72eb342c2c3b6f1639925f2e208baeaa9adbeea5dcd6",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "0af8039966bfeb4e7a86d463163bf132af59230ad291e88324886eb7e926799b"
+    },
+    {
+      "name": "d1wldsp",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "8e9b426a14ac6e7c3579ce9e7593d973a4e3b8221ec74c135476b8fde3e5ffc0",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "ad5e2ad7c1dc0ddc017077659ca91ec464e134ff123091f13a4820666e918511"
+    },
+    {
+      "name": "d1wlele",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "809cabbfa042e712961e3ba1eb278d7a74231fe0e9869c78651ec6d7b2f1b54c",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "c58bcb98580f14bb2aa12486d5c1d2cfd64910ea50b990dbcb3bb66b86b8f897"
+    },
+    {
+      "name": "d1wlere",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "34e576d7abbf212baa16c62431bcea4e4d3164063b56b1a4c42590029e660753",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "a9d8effea8c46b2b274a7cb39766806326cd646b6228da67fdf0439d30b41755"
+    },
+    {
+      "name": "d2ceil1",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "68a16f2d51050ead01eb43a70f2c6f7a66d28f7b8b302b5438d35b85c689452b",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "4317d736435c5884b252a56312c22c1b207d86656712ad7e089b90390d403c44"
+    },
+    {
+      "name": "d2ceil3",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "5f52717eb39a6a92038330a38ce1bed1c35d61bf816a7a4c5b1e98432dfa1ed8",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "ce0f5f0114d4c39bf5aa5cece4575f51dce34e2c04a405cd57d8dd69345c23e2"
+    },
+    {
+      "name": "d2flor4",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "289badfee0412b8739a13f6e354913f6497724034c9fade87ff19dd2d4c197bf",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "1795a464922fddb6472a6486d3a0b2c2484bf8b28900e96e48b5a582c72a790e"
+    },
+    {
+      "name": "d2flor5",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "4caa4ab350458a3eb0c439fb6bb8eaed97bf53cf0d1a129cadcd5a325810368c",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "a79f0f24b748512f2199fcf4ff11d7bc2f64b3e5d15706f1db6821d8ad8c6f77"
+    },
+    {
+      "name": "d2wctra",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "f4269bfca7934b07be1a96450afbe72893de97baf66bbe80844b323162fa4c55",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "a191d2ee618b2200a3b5d42d8e4ae1f7f016fa2c682b2eedd0ff5b585f4b662b"
+    },
+    {
+      "name": "d2wlactr",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "3cd582161fad8aa49b9af7a3afdd6588dae79d488dc7577a9fc6aa15933783bd",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "3229ac51be52d2a3ea3125049b27e01fa14385ab635f6502f3cc7e41b60b552a"
+    },
+    {
+      "name": "d2wlale",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "edb55e1b4f48bdb271bd5f7b33ccabc783fc77f440307a528ac9b045465897d1",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "13b89f0f733bb07663470880deb32ede48641233d48b8cf271d98349bd74e70b"
+    },
+    {
+      "name": "d2wlare",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "e2e37656f7fedbe9c168c9bac75b44ebad745ba7233dedd91b48d3e187018130",
+      "carrier_size": [
+        512,
+        1024
+      ],
+      "carrier_sha256": "03d34fe59c212cc89205ad838ad8a361b667b93a1151f508c48e7f9bc2988a1c"
+    },
+    {
+      "name": "d2wlbmnk",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "39b7f80767a0b3523883aba4fbb9b29893a154852a8a60ec874c2d79ace52187",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "823796ac26bab595920bd029787758843cc51f7262f6329317ab42d22bca26ba"
+    },
+    {
+      "name": "d5flora",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "0828b1c4af087ac593b6dfc98c897e4edaa87abd5a3edb5014e582dc50bc1008",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "24dfacc93d8c2b5884fa68e03d418321520b7f6fbb878d236f83057b401de957"
+    },
+    {
+      "name": "graysq",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "c2f2be53d3b7c45423364bb5cf645361b414b46d9e0bc0ffab8ecede7286ebf8",
+      "carrier_size": [
+        256,
+        256
+      ],
+      "carrier_sha256": "5127ec3f1a680560fa6588a21e1b5ac00c45f95fc44932cf1d74ee4208fa309d"
+    },
+    {
+      "name": "gset04",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "86396381ff66ffaa19b3323d6eef560c450435e519cd8d5a52fcf52b090c33be",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "dd517c28d90ca818b454beb41829de7171b49b8e1ce30a2c624fbbe552609712"
+    },
+    {
+      "name": "gset07",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "8899a92696cf045c7552a620ad289d5cf2c2cc91124cdbc7e3239c3341b7e60e",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "370c633dafae4aa150ad5a431e80b90bb0eba02a63575aa04c4cb6dd5097113e"
+    },
+    {
+      "name": "orwtrtyl",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "661bd83507360a4e38619e1d34e4e394648f1bfb10d7dd78abe255b0b4a8c963",
+      "carrier_size": [
+        512,
+        512
+      ],
+      "carrier_sha256": "2d5050c12098b9652d3771b3c609bef74e5283df7cbc4d58bae257244fa44129"
+    },
+    {
+      "name": "plnkdrk",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "d5a2215565772248f7bc789297c6f3dc12c0df130389ca6e6069603fc8934ebc",
+      "carrier_size": [
+        256,
+        512
+      ],
+      "carrier_sha256": "4a1397b7e3469b4921326673b7098371e8c0f9a3245033ff80a1838e92a62c1d"
+    },
+    {
+      "name": "slabco2",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "51e3cf108351025c1efa9ab1dd78783f67db9daa189ede8b59d25aeeed1ba52d",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "13ec94d8c83934e1b7a688d44e62fbb764b76972060128a78c861b09fd19aa23"
+    },
+    {
+      "name": "sndston",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "616dc6d9c6f12e9ded219edfb7ba60d6ad4fffbfaa034207903969c2fc555f7f",
+      "carrier_size": [
+        1024,
+        1024
+      ],
+      "carrier_sha256": "c3c837d7d66b7f5ca65ade9961c9e69a3aed843142ab93c48c83097fb90cd2cd"
+    },
+    {
+      "name": "stain512",
+      "source": "current ESRGAN 2x; context only",
+      "source_sha256": "4096fa2c89a642ef27881fb9e81960da25881ed720b41fd13a538944ea6bd2b7",
+      "carrier_size": [
+        2048,
+        2048
+      ],
+      "carrier_sha256": "dd2ae541fbaf74e079922848ce5e7f55fbb419b211ff2ebbacfea1e57b488e93"
+    }
+  ],
+  "stage": "/home/pjasicek/github/OpenYAMM/output/temple-textures-stage-20261008/x4/assets_dev",
+  "binary_sha256": "dddf9d461a34370550d630b91afbc0ee417273ae2c02c57b016ca61974c52bef",
+  "map_sha256": "065192c7f6afb8df019e55e587800731347764379b6857e56b76a54b149b7dd4",
+  "status": "exported_for_native_visual_review",
+  "production_changed": false
+}

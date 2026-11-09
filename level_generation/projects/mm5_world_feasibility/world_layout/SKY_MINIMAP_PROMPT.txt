@@ -1,0 +1,24 @@
+Use case: stylized-concept.
+Asset type: an actual terrain/minimap-style world planning image for a Might and Magic V Darkside of Xeen recreation in an MM6-MM8-style engine.
+Primary request: replace a bare stitched tile diagram with a fully rendered, strictly top-down orthographic minimap concept, matching the terrain rendering language of the supplied MM6 world map and supplied textured surface study. This is cartography, not a perspective illustration or a UI screenshot.
+Input images: Image 1 is the authoritative Skyroad TOPOLOGY reference (blue void, tan roads, pale cloud platforms). Image 2 is the desired terrain rendering/detail style from our surface study. Image 3 is the classic MM6 minimap style reference. Preserve the topology of Image 1; do not copy the surface landmass from Images 2 or 3.
+Composition: one continuous landscape map, 3:2 aspect ratio, ideally 1536x1024. It will later be divided into six equal square regions in three columns and two rows. No gutters, panel borders, labels, lettering, dots, compass, legend or UI. Camera exactly vertical, no horizon, no isometric buildings. Crop map edge to edge.
+Geography: retain the rectangular PERIMETER skyway near the four outer edges, with gently irregular ancient stone paths, bevelled stone edges and weathered paving, not ruler-straight diagram strokes. Preserve every existing branch, gap and cloud island. The perimeter path is a real route. Do not add cross-void bridges between disconnected islands. Keep most of the middle as open sky/low cloud depth.
+Main landmark footprints in normalized map coordinates, x from left and y from top:
+- Alamar upper dark castle platform near (0.11,0.18), isolated from the perimeter road.
+- Northern Tower small rooftop at (0.526,0.086), connected by a short south spur from north perimeter.
+- Blackfang dark rooftop near (0.932,0.070), near the northeastern perimeter.
+- Western Tower platform at (0.047,0.602) attached to west perimeter.
+- Kalindra rooftop at (0.057,0.773), attached to the west path branch.
+- Ellinger tower rooftop at (0.151,0.836), at the south end of that inland branch.
+- The SW inland branch also reaches a cloudy transport landing near (0.14,0.63) and extends east to approximately (0.29,0.62); do not turn the cyan dotted transport sequence into a new solid road.
+- Olympus compact marble sky settlement near (0.36,0.383), on the larger central-west cloud platform; preserve its separation from surrounding void. It has tiny roof footprints and courtyards, not a giant single monument.
+- Pyramid summit platform near (0.505,0.414), isolated; hint at a golden stone roof seen vertically.
+- Southern Tower small roof at (0.526,0.883), short north spur from the southern perimeter.
+- Eastern Tower small roof at (0.943,0.602), attached to east perimeter.
+- A cloud-supported blue lake with a small central island occupies roughly x 0.61-0.80, y 0.55-0.77, crossing the lower middle/right region boundary. Keep its source position and isolated approach.
+- Retain the sparse smaller pale cloud stepping platforms scattered in the northeast and northwest from Image 1.
+- Corner elemental gateway pads remain near NW Fire, NE Air, SW Water, SE Earth. Small elemental-colored stone circles only, no giant symbols.
+Style: crisp late-1990s/early-2000s RPG automap terrain, subtle pixel-like texture, top-down relief shading, tiny readable roof footprints, wispy cloud banks around pale stone platforms, dark blue atmosphere beneath. Concrete material texture and elevation shadows, no flat single-color blocks. Paths have some natural architectural variation within their original corridor. Preserve large empty gaps, and do not hide paths under atmospheric fog.
+Avoid: reproducing the 16x16 or 32x32 cell edges, a visible square tile grid, a network diagram, flat color swatches, giant floating-island concept-art perspective, painted panoramas, ornate frames, decorative fantasy text, new towns, extra castles, new continuous sky roads, sea shores, vegetation everywhere.
+User refinement / additional reference: Use the actual MM8 Plane of Air and MM7 Celeste floating-world visual language. The additional native material sheet is reference image 4. It contains verified actual MM8 CDB/GWSP stone and floor/edge textures and MM7 Celeste CWB masonry, SKY19 cloud field and 7plansky1 blue sky. These are stone architecture and sky textures, not a flat ocean. Show textured cloud layers BELOW the elevated walking surfaces with open blue gaps, parapet/edge thickness and modest contact shadows. Use small warm masonry and dark-roof details reminiscent of Celeste for Olympus. The view must feel suspended in air even seen vertically. Retain the source topology; avoid putting one solid land slab under all the paths. The rendered image itself must have NO words or swatch labels from the reference sheet.

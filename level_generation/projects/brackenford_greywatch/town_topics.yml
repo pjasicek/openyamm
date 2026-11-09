@@ -1,0 +1,273 @@
+id: levelgen.brackenford.ambient_topics
+title: Native house conversations preserve existing MM8 ambient text
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: -9472
+    y: 3132
+    z: 768
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 664
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12000
+      title: Myles Greydawn
+      text_hash: '5087380451230611379'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -11520
+    y: 7364
+    z: 928
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 661
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12005
+      title: Ethan Hillsman
+      text_hash: '15656985129229265592'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -7680
+    y: 5820
+    z: 928
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 662
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12006
+      title: Holden
+      text_hash: '2105258326937414668'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -7680
+    y: 5820
+    z: 928
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 671
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12006
+      title: Holden
+      text_hash: '3179617631433621968'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -4292
+    y: 5632
+    z: 864
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 663
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12007
+      title: Karlin Ivers
+      text_hash: '3062275558996094125'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -4292
+    y: 5632
+    z: 864
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 662
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12007
+      title: Karlin Ivers
+      text_hash: '2105258326937414668'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -13312
+    y: -6460
+    z: 576
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 666
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12008
+      title: Thomas Laraselle
+      text_hash: '13808591471801914681'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -10240
+    y: -6460
+    z: 576
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 655
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12009
+      title: Asael Fromago
+      text_hash: '14320982629015550204'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -4292
+    y: -6144
+    z: 576
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 718
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12010
+      title: Davee Sail
+      text_hash: '15671949597771986378'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -16700
+    y: 2560
+    z: 672
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 671
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12011
+      title: Heather Goblinreaver
+      text_hash: '3179617631433621968'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -16700
+    y: -4096
+    z: 576
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 674
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12012
+      title: Isram Delver
+      text_hash: '9918490958288024810'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -3396
+    y: -2048
+    z: 576
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 677
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12013
+      title: Aznog Black
+      text_hash: '4898402447563543263'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -15164
+    y: 6400
+    z: 928
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 678
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12014
+      title: Mortie Bith
+      text_hash: '5692488553242822708'
+- press_action:
+    action: escape
+- set_pose:
+    map: lg01.odm
+    x: -4608
+    y: 8900
+    z: 960
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 722
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      source_id: 12015
+      title: Yoel Wargreen
+      text_hash: '611627188942675483'
+- press_action:
+    action: escape

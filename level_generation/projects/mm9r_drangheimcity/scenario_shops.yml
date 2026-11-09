@@ -1,0 +1,109 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimcity_shops
+title: 'Drangheim City (native BLV) - walk-in shops: the shopkeepers'' dialogues open by real clicks and their service rows
+  open the shops'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimcity.blv
+- advance_runtime:
+    seconds: 1.5
+- note:
+    text: 'ShopkeeperHumanFemaleA1 (RUDE 97) in the shop: a click opens the dialogue; "Yes.  We would like to see what you
+      have" opens the shop.'
+- set_pose:
+    map: drangheimcity.blv
+    x: 19005
+    y: -1908
+    z: 370
+    yaw: -1.5708
+    pitch: -0.6138
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 97
+- assert:
+    dialog:
+      active: true
+      source_id: 97
+- select_topic:
+    action_id: 2
+    match_label: Yes.  We would like to see what you have.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'ShopkeeperHumanFemaleA3 (RUDE 99) in the shop: a click opens the dialogue; "We would like to look at your spells."
+      opens the shop.'
+- set_pose:
+    map: drangheimcity.blv
+    x: 14008
+    y: -6741
+    z: 1179
+    yaw: -1.5708
+    pitch: -0.9398
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 99
+- assert:
+    dialog:
+      active: true
+      source_id: 99
+- select_topic:
+    action_id: 2
+    match_label: We would like to look at your spells.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'The innkeeper Thorkatla the Indiscreet (RUDE 101): a click opens her dialogue.'
+- set_pose:
+    map: drangheimcity.blv
+    x: 16080
+    y: -2826
+    z: 431
+    yaw: 0.0
+    pitch: -0.6159
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 101
+- assert:
+    dialog:
+      active: true
+      source_id: 101
+- press_action:
+    action: cancel_dialog

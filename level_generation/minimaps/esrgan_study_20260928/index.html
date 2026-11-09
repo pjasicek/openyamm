@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MM7 / MM8 — faithful ESRGAN comparison</title>
+<style>
+:root {color-scheme:dark;font:15px system-ui;background:#151b20;color:#e2e7ec}
+body {max-width:1550px;margin:auto;padding:20px}
+h1 {font-size:24px;margin:0 0 8px} p {color:#aebec8;line-height:1.5;margin:8px 0 16px}
+button,select {font:inherit;background:#28333c;border:1px solid #607584;color:inherit;padding:8px;border-radius:5px}
+button {cursor:pointer} a {color:#8dd7ec} label {display:inline-flex;gap:8px;align-items:center}
+.controls {display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+.pair {display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel {min-width:0;background:#202930;padding:12px;border-radius:8px}
+.panel header {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+canvas {width:100%;height:auto;display:block;background:#0b1014;cursor:grab;touch-action:none}
+canvas:active {cursor:grabbing} #status {font-variant-numeric:tabular-nums}
+@media(max-width:800px) {.pair{grid-template-columns:1fr}.panel header{flex-wrap:wrap}}
+</style>
+<h1>MM7 / MM8 — faithful ESRGAN comparison</h1>
+<p id="recommendation">Original minimap paintings, enlarged without reframing. Comparison candidates only.</p>
+<div class="controls">
+  <button id="prev" aria-label="Previous map">←</button>
+  <label>Map <select id="map"></select></label>
+  <button id="next" aria-label="Next map">→</button>
+  <label>View <select id="zoom">
+    <option value="1">Full map</option><option value="2">Detail ×2</option><option value="4">Detail ×4</option>
+  </select></label>
+  <button id="reset">Reset position</button>
+</div>
+<div class="pair">
+  <section class="panel"><header><select id="leftMode" aria-label="Left method"></select>
+    <a id="leftLink" target="_blank">Full PNG</a></header><canvas id="left"></canvas></section>
+  <section class="panel"><header><select id="rightMode" aria-label="Right method"></select>
+    <a id="rightLink" target="_blank">Full PNG</a></header><canvas id="right"></canvas></section>
+</div>
+<p id="status"></p>
+<p>← / → change map · hold Space to compare the right image with the left · zoom, then drag either map to pan.
+Full PNG opens the exact 2× export. No added grain, geometry redraw, or colour grading.</p>
+<p><a href="README.md">Recipe and findings</a> · <a href="exports.json">Source and output records</a> ·
+<a href="../">Existing deployed Blender batch</a></p>
+<script type="module">
+const $ = id => document.getElementById(id);
+const data = await (await fetch('exports.json')).json();
+const records = data.records;
+let position = [0.5, 0.5], zoom = 1, blink = false, images = [], paths = [], token = 0;
+const cache = new Map();
+for (const [i, row] of records.entries()) {
+  $('map').add(new Option(`${row.world.toUpperCase()} — ${row.name}`, i));
+}
+const loadImage = path => {
+  if (!cache.has(path)) cache.set(path, new Promise((resolve, reject) => {
+    const image = new Image();image.onload = () => resolve(image);image.onerror = reject;image.src = path;
+  }));
+  return cache.get(path);
+};
+function methods() {
+  const row = records[Number($('map').value)];
+  const choices = {nearest:'Original — nearest 2×', lanczos:'Original — Lanczos 2×'};
+  for (const [key, item] of Object.entries(row.variants)) choices[key] = item.label;
+  for (const id of ['leftMode', 'rightMode']) {
+    const previous = $(id).value;
+    $(id).replaceChildren(...Object.entries(choices).map(([key, name]) => new Option(name, key)));
+    $(id).value = choices[previous] ? previous : id === 'leftMode' ? 'nearest' : data.recommended || 'video2';
+  }
+}
+function draw() {
+  if (images.length !== 2) return;
+  for (const [i, id] of ['left', 'right'].entries()) {
+    const image = images[blink && i === 1 ? 0 : i], canvas = $(id), context = canvas.getContext('2d');
+    const width = canvas.width / zoom, height = canvas.height / zoom;
+    const x = Math.max(0, Math.min(image.width - width, position[0] * image.width - width / 2));
+    const y = Math.max(0, Math.min(image.height - height, position[1] * image.height - height / 2));
+    context.imageSmoothingEnabled = false;
+    context.drawImage(image, x, y, width, height, 0, 0, canvas.width, canvas.height);
+  }
+}
+async function refresh() {
+  const serial = ++token;
+  document.body.dataset.ready = 'false';
+  const row = records[Number($('map').value)];
+  paths = ['leftMode', 'rightMode'].map(id => `maps/${row.key}/${$(id).value}.png`);
+  const loaded = await Promise.all(paths.map(loadImage));
+  if (serial !== token) return;
+  images = loaded;
+  for (const [i, id] of ['left', 'right'].entries()) {
+    $(id).width = row.x2_size[0];$(id).height = row.x2_size[1];$(id + 'Link').href = paths[i];
+  }
+  $('status').textContent = `${row.name} · ${row.x2_size.join(' × ')} px · native canvas and orientation preserved`;
+  draw();document.body.dataset.ready = 'true';
+}
+function changeMap(delta) {
+  $('map').value = (Number($('map').value) + delta + records.length) % records.length;
+  position = [0.5, 0.5];methods();refresh();
+}
+$('map').onchange = () => {position = [0.5, 0.5];methods();refresh();};
+$('prev').onclick = () => changeMap(-1);$('next').onclick = () => changeMap(1);
+$('leftMode').onchange = refresh;$('rightMode').onchange = refresh;
+$('zoom').onchange = () => {zoom = Number($('zoom').value);draw();};
+$('reset').onclick = () => {position = [0.5, 0.5];draw();};
+for (const id of ['left', 'right']) {
+  let drag;
+  $(id).onpointerdown = event => {
+    drag = [event.clientX, event.clientY, ...position];$(id).setPointerCapture(event.pointerId);
+  };
+  $(id).onpointermove = event => {
+    if (!drag) return;
+    const rect = $(id).getBoundingClientRect();
+    position = [drag[2] - (event.clientX - drag[0]) / rect.width / zoom,
+                drag[3] - (event.clientY - drag[1]) / rect.height / zoom].map(v => Math.max(0, Math.min(1, v)));
+    draw();
+  };
+  $(id).onpointerup = $(id).onpointercancel = () => {drag = null;};
+}
+document.addEventListener('keydown', event => {
+  if (event.target.matches('select,input,textarea')) return;
+  if (event.code === 'Space') {event.preventDefault();blink = true;draw();}
+  if (event.code === 'ArrowLeft') {event.preventDefault();changeMap(-1);}
+  if (event.code === 'ArrowRight') {event.preventDefault();changeMap(1);}
+});
+document.addEventListener('keyup', event => {
+  if (event.code === 'Space') {event.preventDefault();blink = false;draw();}
+});
+window.addEventListener('blur', () => {blink = false;draw();});
+if (data.recommendation) $('recommendation').textContent = data.recommendation;
+methods();await refresh();
+</script>
+</html>

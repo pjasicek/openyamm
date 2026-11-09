@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d02/review/monsters
+settle_seconds: 2
+exit: true
+shots:
+- name: queen_and_pups
+  position:
+  - 7200
+  - 1800
+  - -256
+  yaw: 0
+  pitch: 0
+  commands:
+  - immortal on
+  - invisible on
+- name: gallery_crawlers
+  position:
+  - 1124
+  - 1550
+  - 0
+  yaw: -1.5707963267948966
+  pitch: -0.25
+- name: north_gallery
+  position:
+  - 1800
+  - 2972
+  - 0
+  yaw: 0
+  pitch: -0.2
+- name: pump_hall
+  position:
+  - 5000
+  - 1400
+  - -256
+  yaw: 0
+  pitch: 0
+- name: sump_before_drain
+  position:
+  - 3600
+  - 2972
+  - 0
+  yaw: -2.3
+  pitch: -0.5
+- name: sump_crawlers_drained
+  position:
+  - 2300
+  - 1850
+  - -768
+  yaw: 0
+  pitch: -0.15
+  commands:
+  - event 3
+  - event 4
+  - event 5

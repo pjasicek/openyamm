@@ -1,0 +1,84 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "status": "best_effort_output_saved; brief validation failed",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting for an existing 3D market goods pile. Output exactly one 1024 x 1024 PNG with genuine transparent background, at the original guide canvas size, unresized.\nINPUT ROLES: design_reference.png is ONLY the approved material/colour/design reference. guide_back.png is the EDIT TARGET and exact geometry/composition authority. Paint guide_back.png in place. Preserve its alpha silhouette, every shape edge and opening, object positions, dimensions, scale, orthographic back camera, and all empty margins EXACTLY. Do not use the reference's three-quarter camera or rearrange the pile.\nTarget layout from guide: low crate at far left with just a few tool handles protruding; small lidded pot left of centre; larger lidded pot in centre; three horizontally stacked bulging sacks at right, with the top sack tied at its left end. Retain the exact lid handle holes, ties, hanging cords, base strips and small visible scraps under the pots. Things hidden in this back view remain hidden. All boundaries must stay on the guide's existing boundaries.\nPaint visible surfaces with the same material identity and colours as design_reference.png: coarse ochre/tan woven sackcloth, muted dusty cord ties, red-brown fired clay on both pots and their lids/handles, weathered salvage wood on the crate and wood tool handles, dented grey tin and weathered steel on visible metal pieces, dried brown roots on any visible root fragments, subtle dust. Rich fine material detail belongs inside existing surfaces, with no new protrusions, no new objects, no silhouette fuzz. Translate materials to the back view; do not copy reference's front-facing patches onto arbitrary back surfaces.\nLIGHTING: pure albedo texture source with flat even shadowless frontal illumination. No cast shadows, no ambient-occlusion darkening between objects or below lids, no directional modelling light, no strong specular highlights, no reflections, no rim light. Texture colour variation only; uniformly readable surfaces. No background, no floor, no contact shadow, no glow cast on neighbours, no labels or watermark. Preserve the guide's exact silhouette, framing and openings. Return only the painted back view.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "eb052b662ef14f7b29dbbd53270a3c1149f88f7492c75fb8265a6904271f69cc"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a157e4-512a-7882-acba-9039ab922625/exec-676b939a-1183-4987-bf1a-88ec16b1811c.png",
+      "selected": false,
+      "reason": "Rejected: returned 1261x1247 instead of 1024x1024; shape/proportions differ from guide; visible shading. One corrective regeneration requested.",
+      "checks": {
+        "size": [
+          1261,
+          1247
+        ],
+        "exact_1024_square": false,
+        "silhouette_identical": false,
+        "materials_match": "Broadly matches approved palette and materials.",
+        "flat_even_light": false,
+        "transparent_background": "RGBA transparency present, but alpha fringes and low-alpha pixels extend beyond object."
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Edit guide_back.png directly in place. STRICT CANVAS: 1024 pixels wide by 1024 pixels high, square 1:1 PNG. Do not crop, trim transparent margins, enlarge the object, resize the canvas or make a new composition. Preserve the exact guide alpha mask pixel for pixel. The complete object occupies x=66 through 957 and y=320 through 703 on the 1024-square canvas; everything outside is transparent. Its height is only 384 pixels. Preserve this wide, low silhouette and large transparent areas above and below. Preserve EVERY original polygon boundary and geometric edge, even where angular. This is a surface-paint-only operation on the supplied grey guide. The design_reference.png is ONLY a material-colour swatch reference, NOT the layout or lighting authority.\nUse case: sketch-to-render, orthographic back-view albedo texture source. The small crate is at the far left, small clay pot left of centre, large clay pot centre, three horizontally stacked sacks right. Every contour, opening in both lid handles, hanging cord, tool, sack crease and visible base fragment must keep the shape, position and proportions of guide_back.png. Do not make the sacks larger or rounded differently, do not make the pots taller, do not add base plinths or objects. No roots or metal vessels hidden by this back camera may be introduced. Keep all original empty margins and all negative spaces.\nPaint the guide's visible shapes in the exact approved design materials: ochre/tan coarse woven sackcloth on the three sacks; dusty tan cord ties; red-brown fired clay pots, lids and handles; weathered salvage wood crate/tool handles and grey steel on metal tool parts. Retain finely detailed material wear, cloth weave, pottery mottling and wood grain, with subtle dust. Restrict every mark and texture to the existing shape.\nLIGHTING IS PURE FLAT ALBEDO: constant uniform frontal illumination, no lighting gradients, no shadows, no ambient occlusion under the lids or between objects, no specular shine or reflections, no rim light. Do not copy the design reference's studio lighting. Background genuinely transparent, no black paint, no floor, no shadow, no noise or coloured fringe outside alpha. No text, no watermark. Deliver the UNRESIZED 1024x1024 full guide canvas, coloured inside its exact original silhouette.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "eb052b662ef14f7b29dbbd53270a3c1149f88f7492c75fb8265a6904271f69cc"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a157e4-512a-7882-acba-9039ab922625/exec-463da770-4bcd-413a-871a-2250b5703f97.png",
+      "sha256": "0d4ff8d621a8a67203715eeaf2067b2ee16e5f88ab023105fa9dcf27912c246a",
+      "selected": true,
+      "reason": "Selected as the closer of the two raw returns, not accepted as brief-compliant. Corrective generation exhausted. Saved byte-for-byte without resizing or alpha modification. Tool still returned 1254x1254 and changed the guide edges; residual shading and alpha artifacts remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "exact_1024_square": false,
+        "unresized_return": true,
+        "silhouette_identical": false,
+        "guide_alpha_bbox": [
+          66,
+          320,
+          958,
+          704
+        ],
+        "output_alpha_bbox": [
+          0,
+          21,
+          1192,
+          1212
+        ],
+        "output_alpha_128_bbox": [
+          81,
+          392,
+          1175,
+          862
+        ],
+        "materials_match": "Broadly matches ochre sackcloth, red-brown clay, tan cords, weathered wood and grey steel.",
+        "flat_even_light": false,
+        "transparent_background": "RGBA transparency present, but alpha fringes and low-alpha pixels extend beyond object."
+      }
+    }
+  ]
+}

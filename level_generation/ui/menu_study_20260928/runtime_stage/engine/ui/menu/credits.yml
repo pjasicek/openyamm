@@ -1,0 +1,299 @@
+screen: Credits
+elements:
+- id: CreditsRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: Integration draft. Fit the complete 16:9 canvas; see contracts/theme.yml. The current menu resolver does
+    not yet honor this reference width.
+  children:
+  - id: CreditsBackground
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 0
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_title_backdrop
+    notes: Use the live dimmed game view instead when entered from Pause.
+  - id: CreditsPanel
+    anchor: top_left
+    offset_x: 62.9333
+    offset_y: 48.5333
+    width: 727.4667
+    height: 417.0667
+    z_index: 2
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_frame
+  - id: CreditsSeal
+    anchor: top_left
+    offset_x: 75.2
+    offset_y: 14.4501
+    width: 24.0
+    height: 24.0
+    z_index: 8
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_seal
+  - id: CreditsWordmark
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 13.3333
+    width: 136.1584
+    height: 16.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: OpenYAMM
+      font: fondamento
+      color: '#e9d4a6'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: CreditsSubtitle
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 32.5333
+    width: 136.1584
+    height: 7.0336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Universe of Might and Magic
+      font: arrus
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.37053
+      pad_x: 0.0
+  - id: CreditsTitle
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 73.0667
+    width: 70.5248
+    height: 27.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Credits
+      font: fondamento
+      color: '#efe0bc'
+      align_x: left
+      align_y: middle
+      scale: 0.71667
+      pad_x: 0.0
+  - id: CreditsHeadRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 111.2501
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: CreditsFooterRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 403.7333
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: CreditsHeading0
+    anchor: top_left
+    offset_x: 165.3333
+    offset_y: 157.9835
+    width: 244.0
+    height: 18.5584
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: New World Computing
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.48333
+      pad_x: 0.0
+  - id: CreditsHeading1
+    anchor: top_left
+    offset_x: 444.0
+    offset_y: 157.9835
+    width: 244.0
+    height: 18.5584
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: OpenEnroth
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.48333
+      pad_x: 0.0
+  - id: CreditsHeading2
+    anchor: top_left
+    offset_x: 165.3333
+    offset_y: 251.8416
+    width: 244.0
+    height: 37.1168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Rodril & the MMMerge contributors
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.48333
+      pad_x: 0.0
+  - id: CreditsHeading3
+    anchor: top_left
+    offset_x: 444.0
+    offset_y: 251.8416
+    width: 244.0
+    height: 18.5584
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: OpenYAMM
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.48333
+      pad_x: 0.0
+  - id: CreditsText0
+    anchor: top_left
+    offset_x: 165.3333
+    offset_y: 182.9419
+    width: 244.0
+    height: 36.3669
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: For creating Might and Magic and the worlds that started it all.
+      font: arrus
+      color: '#c9c9b6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CreditsText1
+    anchor: top_left
+    offset_x: 444.0
+    offset_y: 182.9419
+    width: 244.0
+    height: 36.3669
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: For inspiring the engine’s development.
+      font: arrus
+      color: '#c9c9b6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CreditsText2
+    anchor: top_left
+    offset_x: 165.3333
+    offset_y: 295.3584
+    width: 244.0
+    height: 36.3669
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: For bringing the worlds of Might and Magic together.
+      font: arrus
+      color: '#c9c9b6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CreditsText3
+    anchor: top_left
+    offset_x: 444.0
+    offset_y: 276.8
+    width: 244.0
+    height: 72.7333
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: 'pjasicek · Main developer
+
+        With thanks to everyone testing OpenYAMM and helping make it better.'
+      font: arrus
+      color: '#c9c9b6'
+      align_x: left
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+  - id: CreditsProjectLink
+    anchor: top_left
+    offset_x: 444.0
+    offset_y: 358.6
+    width: 111.1584
+    height: 11.7333
+    z_index: 10
+    visible: true
+    interactive: true
+    text:
+      value: OpenYAMM on GitHub
+      font: lucida
+      color: '#d9c391'
+      align_x: left
+      align_y: middle
+      scale: 0.64
+      pad_x: 0.0
+    notes: Explicit click opens https://github.com/pjasicek/OpenYAMM in the browser.
+  - id: CreditsBackButton
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 414.4
+    width: 54.7669
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_quiet_default
+      highlighted: omenu_button_quiet_hover
+      pressed: omenu_button_quiet_pressed
+    text:
+      value: Back
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml.'

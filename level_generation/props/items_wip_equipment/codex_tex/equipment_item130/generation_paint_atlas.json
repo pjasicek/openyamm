@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Crusader's Gauntlets (item130). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single silver plate gauntlet with curved dark fingers, open hand, long angular flared cuff crossed by gold diagonal strap and projecting side spikes. Exact material boundaries: Silver cuff, back plates, gold diagonal brace and spikes are METAL RED. Dark flexible fingers, palm and lining are LEATHER GREEN. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item130/inputs/guide_paint.png",
+  "input_guide_sha256": "28af4cdd14d8a10debe725add17bfec8847e6378d5e63b97b75f47f3708b25cb",
+  "revision": 1,
+  "input_icon": "item130",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-799b0dc4-b6c7-40c6-a18a-dea76ebe26c7.png",
+  "output": "paint_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "71cf65ca6fbf3969b92ccdf5ef2f1a0aedd31f462562a1763f8da3715793080a",
+  "input_icon_path": "assets_dev/engine/icons_x2/item130.png",
+  "input_icon_sha256": "d66e5ea95bdbcbb0aba2e162b3a6881efeb928327cd7976bbf59c512bab50a78",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

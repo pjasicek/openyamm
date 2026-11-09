@@ -1,0 +1,158 @@
+id: mm9r.vr_probe_control_corridor
+title: control_corridor
+world: mm9
+mode: faithful
+tags:
+- mm9
+- draft
+steps:
+- load_map:
+    map: verhoffinruins.blv
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 9164
+    count: 1
+    x: 2432
+    y: -5376
+    z: -327
+    group: 77
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true
+- advance_runtime:
+    seconds: 2
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1280
+    y: -5376
+    z: -327
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 30
+      report_state: true

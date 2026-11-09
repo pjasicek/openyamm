@@ -1,0 +1,446 @@
+{
+ "id": "20261101-1523-mm9-thronheimcity-08",
+ "world": "mm9",
+ "maps": [
+  "thronheimcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/thro3rsyhg",
+  "mm9/thro00wu9g",
+  "mm9/throqzys6v",
+  "mm9/thjo7r3urr",
+  "mm9/throjhhvfb",
+  "mm9/thjotgg91i",
+  "mm9/thjohyyf9u",
+  "mm9/thjo87u48r",
+  "mm9/thjoj5rw2p",
+  "mm9/thjo4biequ",
+  "mm9/thjo7rso44",
+  "mm9/thjom1vt9b",
+  "mm9/thjovo6jbj",
+  "mm9/thjoxtx7kh",
+  "mm9/thjo5lfmmi",
+  "mm9/throi96jo3",
+  "mm9/dooko8ih77",
+  "mm9/thjo0nd6ox",
+  "mm9/thjookgsq6",
+  "mm9/thjo4xgsld",
+  "mm9/thjo7ykbnp",
+  "mm9/thjory8y1w",
+  "mm9/thjo4mxoxe",
+  "mm9/thjockuy0y"
+ ],
+ "requests": {
+  "mm9/thro3rsyhg": {
+   "name": "thro3rsyhg",
+   "versions": [
+    1
+   ],
+   "material": "a pair of dark brown wooden door leaves in a wooden frame with corner rivets, each leaf carved with interlaced knotwork scrolls forming an S-like loop, two dark iron handle plates meeting at the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thro00wu9g": {
+   "name": "thro00wu9g",
+   "versions": [
+    1
+   ],
+   "material": "a pair of light brown planked wooden door leaves under a carved pointed-arch frame, vertical boards with grain, two dark iron handle plates at the centre seam, iron corner rivets on the outer frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thro3rsyhg"
+     ],
+     "fraction": 0.218
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/throqzys6v": {
+   "name": "throqzys6v",
+   "versions": [
+    1
+   ],
+   "material": "grey-blue wall of small rectangular rough stone blocks in staggered courses with dark mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo7r3urr": {
+   "name": "thjo7r3urr",
+   "versions": [
+    1
+   ],
+   "material": "light grey-beige stone wall with a darker brown-grey vertical pilaster down the centre carved with stepped geometric meander blocks, a thin double horizontal moulding line across the lower third",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/throjhhvfb": {
+   "name": "throjhhvfb",
+   "versions": [
+    1
+   ],
+   "material": "plain beige-grey dressed stone wall with a horizontal band near the top carved as a twisted rope moulding between two thin ledges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjotgg91i": {
+   "name": "thjotgg91i",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-tan stone wall of small rough blocks in staggered rows above, larger squarer blocks in the lower half, thin mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjohyyf9u": {
+   "name": "thjohyyf9u",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-green rough rock surface of rounded lumpy cobbles packed tightly together with shallow dark crevices",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo87u48r": {
+   "name": "thjo87u48r",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden wall of vertical rounded planks or logs with deep shadowed gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoj5rw2p": {
+   "name": "thjoj5rw2p",
+   "versions": [
+    1
+   ],
+   "material": "dark grey weathered wooden shingles in overlapping horizontal rows, each shingle with vertical grain and ragged lower edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo4biequ": {
+   "name": "thjo4biequ",
+   "versions": [
+    1
+   ],
+   "material": "grey dressed stone wall of large rectangular blocks in staggered courses with slightly chipped edges and thin dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo7rso44": {
+   "name": "thjo7rso44",
+   "versions": [
+    1
+   ],
+   "material": "brown wooden parquet of short planks laid in alternating horizontal and vertical pairs in a basketweave pattern, worn grain and dark seams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjom1vt9b": {
+   "name": "thjom1vt9b",
+   "versions": [
+    1
+   ],
+   "material": "dark brown and olive wooden shingles in overlapping horizontal rows with staggered joints and dark shadowed lower edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjovo6jbj": {
+   "name": "thjovo6jbj",
+   "versions": [
+    1
+   ],
+   "material": "roof of rounded orange-brown and grey clay barrel tiles in overlapping vertical columns with dark gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoxtx7kh": {
+   "name": "thjoxtx7kh",
+   "versions": [
+    1
+   ],
+   "material": "dark purple-brown wooden shingles in staggered horizontal rows with vertical grain and thin dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo5lfmmi": {
+   "name": "thjo5lfmmi",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown rough stone wall with a top frieze of gold and brown carved knotwork ornaments above a band of light grey stone blocks, and a narrow grey stone band with small studs along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/throi96jo3": {
+   "name": "throi96jo3",
+   "versions": [
+    1
+   ],
+   "material": "wall of irregular grey and blue-green rough stone blocks of mixed sizes with dark mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dooko8ih77": {
+   "name": "dooko8ih77",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown clay roof of curved half-round tiles stacked in vertical columns, each column shadowed by dark gaps, rounded tile lips stepping down in rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo0nd6ox": {
+   "name": "thjo0nd6ox",
+   "versions": [
+    1
+   ],
+   "material": "brown-grey stone floor or wall with a lattice of dark carved diagonal lines forming a repeating interlaced octagon and diamond pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjookgsq6": {
+   "name": "thjookgsq6",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown wooden wall of vertical planks with a horizontal wooden crossbeam across the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo4xgsld": {
+   "name": "thjo4xgsld",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough wooden planks laid horizontally with cracked grain and dark seams between boards",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo7ykbnp": {
+   "name": "thjo7ykbnp",
+   "versions": [
+    1
+   ],
+   "material": "warm brown wooden floor of short planks laid in a herringbone zigzag pattern with visible grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjory8y1w": {
+   "name": "thjory8y1w",
+   "versions": [
+    1
+   ],
+   "material": "light grey-beige stone wall of square and rectangular blocks in staggered courses with thin grey mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo4mxoxe": {
+   "name": "thjo4mxoxe",
+   "versions": [
+    1
+   ],
+   "material": "pale cream and beige mottled plaster or marble wall with faint stains, a narrow darker grey stone skirting band along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjockuy0y": {
+   "name": "thjockuy0y",
+   "versions": [
+    1
+   ],
+   "material": "grey-tan wall of rounded fieldstones set in mortar, edged by thin dark wooden or stone strips along the top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

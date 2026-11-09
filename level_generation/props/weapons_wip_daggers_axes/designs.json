@@ -1,0 +1,3383 @@
+{
+  "w02_item024": {
+    "icons": [
+      "item024"
+    ],
+    "title": "Master's Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "guard": 0.62,
+    "guard_width": 0.17,
+    "guard_shape": "up",
+    "guard_radius": 0.012,
+    "blade": [
+      [
+        0,
+        0.036,
+        0
+      ],
+      [
+        0.15,
+        0.039,
+        0
+      ],
+      [
+        0.7,
+        0.032,
+        0
+      ],
+      [
+        0.93,
+        0.018,
+        0
+      ],
+      [
+        1,
+        0.0008,
+        0
+      ]
+    ],
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "grip_cell": "brown",
+    "grip_radius": 0.022,
+    "wrap_cell": "ochre",
+    "gem": "red",
+    "turns": 6
+  },
+  "w02_7item026": {
+    "icons": [
+      "7item026"
+    ],
+    "title": "Steel Axe",
+    "family": "axes",
+    "route": "blender",
+    "head_top": 0.43,
+    "head_mid": 0.31,
+    "left": [
+      [
+        0.17,
+        0.08
+      ],
+      [
+        0.2,
+        0.12
+      ],
+      [
+        0.28,
+        0.14
+      ],
+      [
+        0.38,
+        0.12
+      ],
+      [
+        0.43,
+        0.07
+      ],
+      [
+        0.44,
+        0.012
+      ]
+    ],
+    "right": [
+      [
+        0.22,
+        0.01
+      ],
+      [
+        0.25,
+        0.07
+      ],
+      [
+        0.34,
+        0.11
+      ],
+      [
+        0.39,
+        0.07
+      ],
+      [
+        0.4,
+        0.01
+      ]
+    ],
+    "spike": true,
+    "head_cell": "steel",
+    "furniture": "brass",
+    "haft_cell": "iron",
+    "haft_radius": 0.017,
+    "grips": [
+      [
+        -0.46,
+        -0.22,
+        "walnut"
+      ]
+    ],
+    "grip_wrap": false,
+    "extra_bands": [
+      [
+        -0.43,
+        0.014,
+        0.023
+      ],
+      [
+        -0.4,
+        0.011,
+        0.022
+      ],
+      [
+        -0.34,
+        0.012,
+        0.023
+      ],
+      [
+        -0.31,
+        0.013,
+        0.022
+      ],
+      [
+        -0.24,
+        0.014,
+        0.022
+      ],
+      [
+        0.19,
+        0.01,
+        0.023
+      ]
+    ]
+  },
+  "w02_6ldagger4": {
+    "title": "Mordred / Divine Dagger",
+    "icons": [
+      "6ldagger4",
+      "ldagger3"
+    ],
+    "master_icon": "6ldagger4",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A slender straight stiletto dagger with a very long narrow steel diamond-section blade and spear point, a gold crescent U crossguard rising on both sides, small silver hooked flourishes hugging the blade root, a red patterned leather grip divided by gold collars, and a faceted ruby pendant-like gold pommel. No scabbard.",
+    "materials": "Steel blade and silver flukes, gold furniture, red leather grip, red ruby pommel.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 121.0,
+    "seam_union_voxel": 0.0015
+  },
+  "w02_7item017": {
+    "title": "Sharktooth Dagger",
+    "icons": [
+      "7item017"
+    ],
+    "master_icon": "7item017",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A short broad triangular dark-steel dagger, strongly ridged and widening into a teardrop base, black and burgundy rounded guard lobes each with a ruby cabochon, a tightly wrapped dark leather grip, and a forked pointed black-metal pommel with another round ruby. Preserve the squat broad sharktooth silhouette.",
+    "materials": "Dark steel blade, blackened metal and burgundy inlays, dark leather, three red gems.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 75.6,
+    "seam_union_voxel": 0.0015,
+    "hybrid_grip": true
+  },
+  "w02_7item018": {
+    "title": "Assassin's Dagger",
+    "icons": [
+      "7item018"
+    ],
+    "master_icon": "7item018",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A white silver slender kris dagger with six gentle wavy undulations along its blade, a dark steel bat-wing crossguard with multiple rising angular points and a red ruby in the centre, diagonally wrapped brown leather grip and a conical pointed silver pommel.",
+    "materials": "Silver blade and pommel, dark steel wing guard, brown leather, central red ruby.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 89.5
+  },
+  "w02_7item019": {
+    "title": "Wonder / Lady Carmine Dagger",
+    "icons": [
+      "7item019",
+      "7item289"
+    ],
+    "master_icon": "7item019",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A straight bright-steel dagger blade tapering from a broad base to a needle point, two swept golden feathered wings rising as the crossguard around the blade root, a central oval pearl medallion, an ivory tapering grip and a simple gold end cap. The feathers are separate sculpted vane forms, not a solid sheet.",
+    "materials": "Steel blade, gold wing guard and cap, white pearl medallion, ivory grip.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 90.0,
+    "seam_union_voxel": 0.0015
+  },
+  "w02_7item221": {
+    "title": "Old Nick",
+    "icons": [
+      "7item221"
+    ],
+    "master_icon": "7item221",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A slender straight pale blue steel dagger blade, short golden curved guard with a silver feather-like prong rising on each side, a black handle with gold diagonal spiral wrap, and a small silver rounded pommel.",
+    "materials": "Pale blue steel blade and silver feather flukes, gold crossguard and spiral binding, black leather grip.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 89.1
+  },
+  "w02_item025": {
+    "title": "Fanged Blade",
+    "icons": [
+      "item025"
+    ],
+    "master_icon": "item025",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "An unusual S-shaped paired hooked crescent dagger: two opposing inward curved polished steel blades at the top and bottom, a short brown leather wrapped grip in the narrow centre, and gold serrated saw teeth all along both convex outer edges. The central grip is open and graspable. Preserve the pair of mirrored curling tips and the central opening.",
+    "materials": "Steel cutting blades, golden spine teeth and frame, brown leather central grip.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 81.0,
+    "seam_union_voxel": 0.0015
+  },
+  "w02_item029": {
+    "title": "Dueling Long Dagger",
+    "icons": [
+      "item029"
+    ],
+    "master_icon": "item029",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A straight long polished steel dagger with a narrow leaf spear tip, seven prominent scalloped saw notches on EACH side of its lower blade, a silver stylized wing guard, a small gold disk with red ruby at the guard, an orange-brown diagonally wrapped grip and a gold-rimmed ruby pommel.",
+    "materials": "Polished steel blade and wing guard, gold ruby settings, brown leather grip, two red gems.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 109.4,
+    "seam_union_voxel": 0.0015
+  },
+  "w02_item030": {
+    "title": "Twilight Kris",
+    "icons": [
+      "item030"
+    ],
+    "master_icon": "item030",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A thin long bright steel kris blade with six flowing serpentine waves, an ornate symmetrical gold bat-wing crossguard with real open cutouts and hooked tips, a red ruby at its centre, a golden grip engraved with fine scrolls divided by gold collars and a small rounded gold pommel.",
+    "materials": "Silver steel blade, ornate gold wing guard and grip, central ruby.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 109.8
+  },
+  "w02_item238": {
+    "title": "Blade of Mercy",
+    "icons": [
+      "item238"
+    ],
+    "master_icon": "item238",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A gold long dagger with a smooth slightly S-curved single-edged flame blade and a distinct long narrow open slot in the lower blade, short swept gold crossguard with a red central ruby, blue leather handle wrapped in a gold diagonal spiral, and an elongated ruby pommel. Preserve its tall thin profile and open blade slot.",
+    "materials": "Warm golden metal blade/guard and binding, royal blue leather grip, red rubies.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 98.1
+  },
+  "w02_item239": {
+    "title": "Foulfang",
+    "icons": [
+      "item239"
+    ],
+    "master_icon": "item239",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A brutal red-orange organic dagger with a large forward-curved single cutting blade, a row of many small gold spine teeth, a skeletal hooked brass guard with three claw tips, a black leather grip and a horned gold skull pommel with a green gem. Preserve the broad curved blade, fine serrated spine and small sculptural skull.",
+    "materials": "Red-orange etched blade, gold spine teeth and skeletal furniture, black leather grip, green gem in skull pommel.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 113.9
+  },
+  "w02_6axe7": {
+    "title": "Cronos / Supreme Axe",
+    "icons": [
+      "6axe7",
+      "axe5"
+    ],
+    "master_icon": "6axe7",
+    "family": "axes",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "An ornate short battle axe with a curved silver crescent blade on the left, a gold sculptural dragon head and open claw-like beak on the right, an oval ruby at the top, patterned dark haft with gold inlay, orange leather grip divided by silver/gold rings, and a small oval black braided wrist loop at the butt. Shaft is slender but round, head thick with a true socket.",
+    "materials": "Silver blade, gold dragon head and inlay, dark wooden shaft, orange leather, red ruby, black braided wrist loop.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 141.3
+  },
+  "w02_6axe8": {
+    "title": "Snergle's / Dwarven Noble Axe",
+    "icons": [
+      "6axe8",
+      "axe4"
+    ],
+    "master_icon": "6axe8",
+    "family": "axes",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A short ornate axe with a broad shallow fan-shaped red enamel blade on the left bordered by gold metal cutting edge and fine gold scroll engraving, a short straight gold pointed poll on the right, a thick square gold socket with coloured rivets, long blue enamel metal strips on both sides of the brown wood haft and an orange grip divided by gold and silver rings.",
+    "materials": "Gold blade border/socket/poll, red enamel broad blade with gold scrollwork, brown wood haft, blue enamel strips, orange leather grip, small coloured gems.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 106.2
+  },
+  "w02_7item223": {
+    "title": "Splitter",
+    "icons": [
+      "7item223"
+    ],
+    "master_icon": "7item223",
+    "family": "axes",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "An elaborate double-headed golden axe: a large crescent blade on the left and a smaller upturned angular blade on the right, symmetrical deep ornamental open scroll cutouts in both heads, a long golden spike at the top, round thick gold socket, short reddish wooden haft with gold collars and a rounded butt. Preserve the unequal blade sizes and the real pierced openings.",
+    "materials": "Gold pierced filigree head and collars, reddish-brown wooden haft.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 104.4
+  },
+  "w02_7item224": {
+    "title": "Amuck",
+    "icons": [
+      "7item224"
+    ],
+    "master_icon": "7item224",
+    "family": "axes",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "An ornate gold short axe with a large crescent blade on the left containing dense shallow scroll engravings, a small slender dragon-head beak on the right, a gold U-shaped fork tip at the top of the socket, dark brown leather wrapped haft with diagonal gold lattice binding, and rounded golden butt.",
+    "materials": "Gold engraved axe head and dragon beak, dark brown leather haft with gold diagonal bindings.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 144.0,
+    "seam_union_voxel": 0.0015,
+    "hybrid_head": true
+  },
+  "w02_7item226": {
+    "title": "Ghoulsbane",
+    "icons": [
+      "7item226"
+    ],
+    "master_icon": "7item226",
+    "family": "axes",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "An ornate long poleaxe with a crescent gold head on the left and a smaller angular crescent gold blade on the right, pierced filigree ornament at their roots, a long spear point at the top, golden socket, reddish wooden round shaft, lower gold ribbing, and a pointed bracketed butt spike. Preserve its long polearm proportions, never turn it into a short hand axe.",
+    "materials": "Warm gold blades/socket/ferrules, reddish-brown wood shaft, subtle carved engraving.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 246.6
+  },
+  "w02_item248": {
+    "title": "Hell's Cleaver",
+    "icons": [
+      "item248"
+    ],
+    "master_icon": "item248",
+    "family": "axes",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A fanciful golden battle axe with a large vertical S-curled gold blade on the right, hooked upper and lower tips, a narrow left gold spike poll, square gold/blue socket with two turquoise inlays, dark blue narrow shaft neck, thick gold spiral lower grip and a large round emerald pommel. The head is solid forged metal with an edge taper, the grip is a real twisting three-dimensional helix.",
+    "materials": "Warm gold head and helical grip, dark blue enamel shaft neck, turquoise inlays, green emerald pommel.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 141.3
+  },
+  "w02_item028": {
+    "title": "Regnan Fighting Knife",
+    "icons": [
+      "item028"
+    ],
+    "master_icon": "item028",
+    "family": "daggers",
+    "route": "codex",
+    "shape": "meshy",
+    "identity": "A slender straight silver long dagger with a slightly asymmetrical fine point, a gold guard with two curling silver scroll tips, an elongated red ruby bezel under the guard, a curved S-shaped orange leather grip enclosed in a continuous gold frame and a gold curled butt. Preserve the distinctive curved open-frame handle rather than replacing it with a straight cylinder.",
+    "materials": "Silver steel blade and curled tips, gold frame and guard, orange-brown leather grip, red ruby.",
+    "tris": 5500,
+    "metallic": 1,
+    "material_mode": "mixed",
+    "rough": [
+      0.55,
+      0.55
+    ],
+    "normal": 0.45,
+    "rest_rotation_degrees": [
+      -90,
+      0,
+      0
+    ],
+    "length": 107.1
+  },
+  "w02_7item015": {
+    "icons": [
+      "7item015"
+    ],
+    "master_icon": "7item015",
+    "title": "Improvised Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 89.5,
+    "guard": 0.71,
+    "guard_width": 0.065,
+    "guard_shape": "straight",
+    "grip_cell": "brown",
+    "blade_cell": "worn",
+    "furniture": "iron",
+    "blade": [
+      [
+        0,
+        0.032663316582914576,
+        0.0
+      ],
+      [
+        0.15,
+        0.02763819095477387,
+        0.0
+      ],
+      [
+        0.4,
+        0.02512562814070352,
+        0.0025125628140703522
+      ],
+      [
+        0.65,
+        0.020100502512562814,
+        0.0025125628140703522
+      ],
+      [
+        0.83,
+        0.010050251256281407,
+        0.0025125628140703522
+      ],
+      [
+        0.94,
+        0.005025125628140704,
+        0.0025125628140703514
+      ],
+      [
+        1,
+        0.0009,
+        0.002512562814070352
+      ]
+    ],
+    "grip_radius": 0.021,
+    "guard_radius": 0.006
+  },
+  "w02_7item016": {
+    "icons": [
+      "7item016"
+    ],
+    "master_icon": "7item016",
+    "title": "Dwarven Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 91.4,
+    "guard": 0.66,
+    "guard_width": 0.14,
+    "guard_shape": "straight",
+    "grip_cell": "red",
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.03940886699507389,
+        0.0024630541871921152
+      ],
+      [
+        0.15,
+        0.03940886699507389,
+        0.0024630541871921152
+      ],
+      [
+        0.4,
+        0.03940886699507389,
+        0.0024630541871921152
+      ],
+      [
+        0.65,
+        0.03940886699507389,
+        0.0024630541871921152
+      ],
+      [
+        0.83,
+        0.034482758620689655,
+        0.0024630541871921187
+      ],
+      [
+        0.94,
+        0.017241379310344827,
+        0.0
+      ],
+      [
+        1,
+        0.0049261083743842365,
+        0.002463054187192118
+      ]
+    ],
+    "grip_radius": 0.021,
+    "gem": "blue",
+    "wrap": false
+  },
+  "w02_7item020": {
+    "icons": [
+      "7item020"
+    ],
+    "master_icon": "7item020",
+    "title": "Shoddy Long Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 101.2,
+    "guard": 0.74,
+    "guard_width": 0.11,
+    "guard_shape": "up",
+    "grip_cell": "ochre",
+    "blade_cell": "iron",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.064,
+        0.0
+      ],
+      [
+        0.15,
+        0.044444444444444446,
+        0.0022222222222222227
+      ],
+      [
+        0.4,
+        0.03777777777777778,
+        0.0
+      ],
+      [
+        0.65,
+        0.026666666666666665,
+        0.002222222222222221
+      ],
+      [
+        0.83,
+        0.017777777777777778,
+        -0.0022222222222222227
+      ],
+      [
+        0.94,
+        0.008888888888888889,
+        -0.0022222222222222222
+      ],
+      [
+        1,
+        0.0022222222222222222,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "guard_radius": 0.01,
+    "turns": 9
+  },
+  "w02_7item021": {
+    "icons": [
+      "7item021"
+    ],
+    "master_icon": "7item021",
+    "title": "Erathian Long Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 95.4,
+    "guard": 0.74,
+    "guard_width": 0.085,
+    "guard_shape": "up",
+    "grip_cell": "black",
+    "blade_cell": "worn",
+    "furniture": "iron",
+    "blade": [
+      [
+        0,
+        0.064,
+        0.0
+      ],
+      [
+        0.15,
+        0.064,
+        -0.0023584905660377353
+      ],
+      [
+        0.4,
+        0.054245283018867926,
+        0.0
+      ],
+      [
+        0.65,
+        0.03537735849056604,
+        0.0
+      ],
+      [
+        0.83,
+        0.02122641509433962,
+        0.0
+      ],
+      [
+        0.94,
+        0.007075471698113208,
+        0.0
+      ],
+      [
+        1,
+        0.0023584905660377358,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "pommel_gem": "white"
+  },
+  "w02_7item022": {
+    "icons": [
+      "7item022"
+    ],
+    "master_icon": "7item022",
+    "title": "Exquisite Long Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 102.2,
+    "guard": 0.68,
+    "guard_width": 0.17,
+    "guard_shape": "down",
+    "grip_cell": "brown",
+    "blade_cell": "steel",
+    "furniture": "filigree",
+    "blade": [
+      [
+        0,
+        0.04185022026431719,
+        -0.002202643171806167
+      ],
+      [
+        0.15,
+        0.04185022026431719,
+        -0.002202643171806167
+      ],
+      [
+        0.4,
+        0.039647577092511016,
+        -0.004405286343612334
+      ],
+      [
+        0.65,
+        0.03524229074889868,
+        -0.004405286343612336
+      ],
+      [
+        0.83,
+        0.024229074889867842,
+        -0.0066079295154185015
+      ],
+      [
+        0.94,
+        0.013215859030837005,
+        -0.00881057268722467
+      ],
+      [
+        1,
+        0.0022026431718061676,
+        -0.006607929515418503
+      ]
+    ],
+    "grip_radius": 0.021,
+    "pommel_gem": "red",
+    "guard_radius": 0.014
+  },
+  "w02_dagger1": {
+    "icons": [
+      "dagger1"
+    ],
+    "master_icon": "dagger1",
+    "title": "Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 97.2,
+    "guard": 0.69,
+    "guard_width": 0.15,
+    "guard_shape": "up",
+    "grip_cell": "black",
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.064,
+        -0.0023148148148148112
+      ],
+      [
+        0.15,
+        0.04166666666666667,
+        -0.0023148148148148147
+      ],
+      [
+        0.4,
+        0.037037037037037035,
+        -0.0023148148148148147
+      ],
+      [
+        0.65,
+        0.02546296296296296,
+        0.0
+      ],
+      [
+        0.83,
+        0.016203703703703703,
+        0.0
+      ],
+      [
+        0.94,
+        0.006944444444444444,
+        0.0
+      ],
+      [
+        1,
+        0.0023148148148148147,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "pommel_gem": "black"
+  },
+  "w02_dagger2": {
+    "icons": [
+      "dagger2"
+    ],
+    "master_icon": "dagger2",
+    "title": "Blood Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 109.4,
+    "guard": 0.66,
+    "guard_width": 0.12,
+    "guard_shape": "straight",
+    "grip_cell": "brown",
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.064,
+        0.0
+      ],
+      [
+        0.15,
+        0.03909465020576132,
+        0.0
+      ],
+      [
+        0.4,
+        0.030864197530864196,
+        0.0
+      ],
+      [
+        0.65,
+        0.02263374485596708,
+        0.0
+      ],
+      [
+        0.83,
+        0.012345679012345678,
+        0.00205761316872428
+      ],
+      [
+        0.94,
+        0.006172839506172839,
+        0.0
+      ],
+      [
+        1,
+        0.00205761316872428,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "pommel_gem": "green",
+    "wrap": false
+  },
+  "w02_dagger3": {
+    "icons": [
+      "dagger3"
+    ],
+    "master_icon": "dagger3",
+    "title": "Shadow Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 109.8,
+    "guard": 0.66,
+    "guard_width": 0.14,
+    "guard_shape": "up",
+    "grip_cell": "ochre",
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.064,
+        0.0
+      ],
+      [
+        0.15,
+        0.02663934426229508,
+        0.0
+      ],
+      [
+        0.4,
+        0.02663934426229508,
+        0.0
+      ],
+      [
+        0.65,
+        0.018442622950819672,
+        0.0
+      ],
+      [
+        0.83,
+        0.014344262295081968,
+        0.0
+      ],
+      [
+        0.94,
+        0.006147540983606557,
+        0.0
+      ],
+      [
+        1,
+        0.0020491803278688526,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "gem": "blue",
+    "guard_radius": 0.006
+  },
+  "w02_dagger4": {
+    "icons": [
+      "dagger4"
+    ],
+    "master_icon": "dagger4",
+    "title": "Mage Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 93.6,
+    "guard": 0.65,
+    "guard_width": 0.11,
+    "guard_shape": "up",
+    "grip_cell": "ivory",
+    "blade_cell": "steel",
+    "furniture": "filigree",
+    "blade": [
+      [
+        0,
+        0.064,
+        0.0
+      ],
+      [
+        0.15,
+        0.04567307692307692,
+        0.0
+      ],
+      [
+        0.4,
+        0.040865384615384616,
+        0.0
+      ],
+      [
+        0.65,
+        0.028846153846153848,
+        -0.002403846153846154
+      ],
+      [
+        0.83,
+        0.016826923076923076,
+        0.0
+      ],
+      [
+        0.94,
+        0.007211538461538462,
+        0.0
+      ],
+      [
+        1,
+        0.002403846153846154,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "pommel_gem": "green",
+    "wrap": false,
+    "guard_radius": 0.008
+  },
+  "w02_dagger5": {
+    "icons": [
+      "dagger5"
+    ],
+    "master_icon": "dagger5",
+    "title": "Jeweled Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 100.4,
+    "guard": 0.67,
+    "guard_width": 0.15,
+    "guard_shape": "up",
+    "grip_cell": "red",
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.064,
+        0.0
+      ],
+      [
+        0.15,
+        0.064,
+        0.0022421524663677195
+      ],
+      [
+        0.4,
+        0.033632286995515695,
+        0.0
+      ],
+      [
+        0.65,
+        0.02466367713004484,
+        0.0
+      ],
+      [
+        0.83,
+        0.013452914798206279,
+        0.0022421524663677134
+      ],
+      [
+        0.94,
+        0.006726457399103139,
+        0.0
+      ],
+      [
+        1,
+        0.0009,
+        0.002242152466367713
+      ]
+    ],
+    "grip_radius": 0.021,
+    "pommel_gem": "red",
+    "turns": 5
+  },
+  "w02_item021": {
+    "icons": [
+      "item021"
+    ],
+    "master_icon": "item021",
+    "title": "Crude Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 87.3,
+    "guard": 0.65,
+    "guard_width": 0.12,
+    "guard_shape": "straight",
+    "grip_cell": "brown",
+    "blade_cell": "worn",
+    "furniture": "steel",
+    "blade": [
+      [
+        0,
+        0.04381443298969072,
+        0.0
+      ],
+      [
+        0.15,
+        0.04381443298969072,
+        0.0
+      ],
+      [
+        0.4,
+        0.04381443298969072,
+        0.0
+      ],
+      [
+        0.65,
+        0.03865979381443299,
+        0.0
+      ],
+      [
+        0.83,
+        0.03350515463917526,
+        0.0
+      ],
+      [
+        0.94,
+        0.01804123711340206,
+        0.0
+      ],
+      [
+        1,
+        0.002577319587628866,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "guard_radius": 0.007,
+    "turns": 6
+  },
+  "w02_item022": {
+    "icons": [
+      "item022"
+    ],
+    "master_icon": "item022",
+    "title": "Crystal Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 85.0,
+    "guard": 0.63,
+    "guard_width": 0.13,
+    "guard_shape": "down",
+    "grip_cell": "red",
+    "blade_cell": "steel",
+    "furniture": "steel",
+    "blade": [
+      [
+        0,
+        0.064,
+        0.0026455026455026454
+      ],
+      [
+        0.15,
+        0.064,
+        0.0
+      ],
+      [
+        0.4,
+        0.064,
+        0.0
+      ],
+      [
+        0.65,
+        0.0582010582010582,
+        0.0026455026455026454
+      ],
+      [
+        0.83,
+        0.031746031746031744,
+        0.0026455026455026454
+      ],
+      [
+        0.94,
+        0.013227513227513227,
+        0.0
+      ],
+      [
+        1,
+        0.0026455026455026454,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "gem": "white",
+    "pommel_gem": "white",
+    "guard_radius": 0.01,
+    "turns": 3
+  },
+  "w02_item023": {
+    "icons": [
+      "item023"
+    ],
+    "master_icon": "item023",
+    "title": "Merchantman's Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 88.7,
+    "guard": 0.69,
+    "guard_width": 0.14,
+    "guard_shape": "up",
+    "grip_cell": "ochre",
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.064,
+        0.0
+      ],
+      [
+        0.15,
+        0.03553299492385787,
+        -0.0025380710659898484
+      ],
+      [
+        0.4,
+        0.027918781725888325,
+        0.0
+      ],
+      [
+        0.65,
+        0.02284263959390863,
+        0.0
+      ],
+      [
+        0.83,
+        0.012690355329949238,
+        0.0
+      ],
+      [
+        0.94,
+        0.007614213197969543,
+        0.0
+      ],
+      [
+        1,
+        0.0025380710659898475,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "guard_radius": 0.008,
+    "turns": 8
+  },
+  "w02_item026": {
+    "icons": [
+      "item026"
+    ],
+    "master_icon": "item026",
+    "title": "Long Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 103.0,
+    "guard": 0.75,
+    "guard_width": 0.12,
+    "guard_shape": "straight",
+    "grip_cell": "ochre",
+    "blade_cell": "worn",
+    "furniture": "steel",
+    "blade": [
+      [
+        0,
+        0.03711790393013101,
+        0.004366812227074236
+      ],
+      [
+        0.15,
+        0.03711790393013101,
+        0.004366812227074236
+      ],
+      [
+        0.4,
+        0.03711790393013101,
+        0.004366812227074236
+      ],
+      [
+        0.65,
+        0.03711790393013101,
+        0.004366812227074236
+      ],
+      [
+        0.83,
+        0.024017467248908297,
+        0.004366812227074236
+      ],
+      [
+        0.94,
+        0.010917030567685589,
+        0.004366812227074236
+      ],
+      [
+        1,
+        0.002183406113537118,
+        0.004366812227074236
+      ]
+    ],
+    "grip_radius": 0.021,
+    "guard_radius": 0.008,
+    "turns": 7
+  },
+  "w02_item027": {
+    "icons": [
+      "item027"
+    ],
+    "master_icon": "item027",
+    "title": "Alvarian Poignard",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 106.2,
+    "guard": 0.7,
+    "guard_width": 0.12,
+    "guard_shape": "straight",
+    "grip_cell": "brown",
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.03177966101694915,
+        0.0
+      ],
+      [
+        0.15,
+        0.03177966101694915,
+        0.0
+      ],
+      [
+        0.4,
+        0.025423728813559324,
+        -0.0021186440677966097
+      ],
+      [
+        0.65,
+        0.01694915254237288,
+        -0.0021186440677966106
+      ],
+      [
+        0.83,
+        0.01059322033898305,
+        0.0
+      ],
+      [
+        0.94,
+        0.006355932203389831,
+        0.0
+      ],
+      [
+        1,
+        0.00211864406779661,
+        0.0
+      ]
+    ],
+    "grip_radius": 0.021,
+    "guard_radius": 0.007,
+    "turns": 8
+  },
+  "w02_ldagger1": {
+    "icons": [
+      "ldagger1"
+    ],
+    "master_icon": "ldagger1",
+    "title": "Fine Long Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 113.4,
+    "guard": 0.7,
+    "guard_width": 0.15,
+    "guard_shape": "up",
+    "grip_cell": "black",
+    "blade_cell": "worn",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.037698412698412696,
+        0.0
+      ],
+      [
+        0.15,
+        0.03571428571428571,
+        0.001984126984126984
+      ],
+      [
+        0.4,
+        0.031746031746031744,
+        0.001984126984126984
+      ],
+      [
+        0.65,
+        0.023809523809523808,
+        0.001984126984126984
+      ],
+      [
+        0.83,
+        0.015873015873015872,
+        0.001984126984126984
+      ],
+      [
+        0.94,
+        0.007936507936507936,
+        0.001984126984126984
+      ],
+      [
+        1,
+        0.0009,
+        0.001984126984126984
+      ]
+    ],
+    "grip_radius": 0.021,
+    "pommel_gem": "black"
+  },
+  "w02_ldagger2": {
+    "icons": [
+      "ldagger2"
+    ],
+    "master_icon": "ldagger2",
+    "title": "Piercing Dagger",
+    "family": "daggers",
+    "route": "blender",
+    "shape": "components",
+    "length": 124.2,
+    "guard": 0.67,
+    "guard_width": 0.13,
+    "guard_shape": "up",
+    "grip_cell": "ochre",
+    "blade_cell": "steel",
+    "furniture": "brass",
+    "blade": [
+      [
+        0,
+        0.021739130434782608,
+        -0.0018115942028985518
+      ],
+      [
+        0.15,
+        0.021739130434782608,
+        -0.0018115942028985518
+      ],
+      [
+        0.4,
+        0.019927536231884056,
+        0.0
+      ],
+      [
+        0.65,
+        0.014492753623188406,
+        -0.00181159420289855
+      ],
+      [
+        0.83,
+        0.007246376811594203,
+        -0.001811594202898551
+      ],
+      [
+        0.94,
+        0.005434782608695652,
+        0.0
+      ],
+      [
+        1,
+        0.0036231884057971015,
+        -0.0018115942028985505
+      ]
+    ],
+    "grip_radius": 0.021,
+    "guard_radius": 0.006,
+    "turns": 8
+  },
+  "w02_2haxe1": {
+    "icons": [
+      "2haxe1"
+    ],
+    "master_icon": "2haxe1",
+    "title": "Light Poleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 159.8,
+    "left": [
+      [
+        0.25,
+        0.04,
+        0.037
+      ],
+      [
+        0.29,
+        0.12,
+        0.045
+      ],
+      [
+        0.36,
+        0.15,
+        0.008
+      ],
+      [
+        0.43,
+        0.13,
+        0.008
+      ],
+      [
+        0.49,
+        0.04,
+        0.037
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "brass",
+    "haft_cell": "ash",
+    "haft_radius": 0.016,
+    "head_mid": 0.37,
+    "beak": 0.15,
+    "grips": [
+      [
+        -0.45,
+        -0.29,
+        "brown"
+      ],
+      [
+        0.03,
+        0.2,
+        "brown"
+      ]
+    ],
+    "extra_bands": [
+      [
+        -0.46,
+        0.015,
+        0.022
+      ],
+      [
+        -0.25,
+        0.02,
+        0.019
+      ]
+    ],
+    "spike": false
+  },
+  "w02_2haxe2": {
+    "icons": [
+      "2haxe2"
+    ],
+    "master_icon": "2haxe2",
+    "title": "Heavy Poleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 226.8,
+    "left": [
+      [
+        0.1,
+        0.065,
+        0.06
+      ],
+      [
+        0.15,
+        0.105,
+        0.03
+      ],
+      [
+        0.27,
+        0.13,
+        0.02
+      ],
+      [
+        0.4,
+        0.1,
+        0.02
+      ],
+      [
+        0.49,
+        0.03,
+        0.028
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "brass",
+    "haft_cell": "ash",
+    "haft_radius": 0.012,
+    "head_mid": 0.27,
+    "grips": [
+      [
+        -0.45,
+        -0.35,
+        "brown"
+      ]
+    ],
+    "pommel_gem": "green"
+  },
+  "w02_2haxe3": {
+    "icons": [
+      "2haxe3"
+    ],
+    "master_icon": "2haxe3",
+    "title": "Grand Poleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 238.5,
+    "left": [
+      [
+        0.2,
+        0.035,
+        0.032
+      ],
+      [
+        0.23,
+        0.08,
+        0.035
+      ],
+      [
+        0.33,
+        0.105,
+        0.008
+      ],
+      [
+        0.43,
+        0.08,
+        0.01
+      ],
+      [
+        0.49,
+        0.025,
+        0.023
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "brass",
+    "haft_cell": "iron",
+    "haft_radius": 0.009,
+    "head_mid": 0.34,
+    "beak": 0.07,
+    "grips": [
+      [
+        -0.45,
+        -0.32,
+        "brown"
+      ],
+      [
+        -0.1,
+        0.01,
+        "brown"
+      ]
+    ],
+    "extra_bands": [
+      [
+        0.12,
+        0.012,
+        0.013
+      ],
+      [
+        0.17,
+        0.012,
+        0.013
+      ]
+    ]
+  },
+  "w02_7item023": {
+    "icons": [
+      "7item023"
+    ],
+    "master_icon": "7item023",
+    "title": "Crude Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 102.6,
+    "left": [
+      [
+        0.28,
+        0.13,
+        0.01
+      ],
+      [
+        0.31,
+        0.15,
+        0.01
+      ],
+      [
+        0.4,
+        0.15,
+        0.01
+      ],
+      [
+        0.46,
+        0.14,
+        0.01
+      ]
+    ],
+    "head_cell": "brass",
+    "furniture": "brass",
+    "haft_cell": "walnut",
+    "haft_radius": 0.017,
+    "head_mid": 0.37,
+    "right": [
+      [
+        0.28,
+        0.06,
+        0.01
+      ],
+      [
+        0.31,
+        0.09,
+        0.01
+      ],
+      [
+        0.4,
+        0.09,
+        0.01
+      ],
+      [
+        0.46,
+        0.06,
+        0.01
+      ]
+    ],
+    "grips": [
+      [
+        -0.46,
+        -0.2,
+        "black"
+      ]
+    ]
+  },
+  "w02_7item024": {
+    "icons": [
+      "7item024"
+    ],
+    "master_icon": "7item024",
+    "title": "Battle Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 103.0,
+    "left": [
+      [
+        0.24,
+        0.045,
+        0.042
+      ],
+      [
+        0.27,
+        0.1,
+        0.05
+      ],
+      [
+        0.32,
+        0.14,
+        0.012
+      ],
+      [
+        0.39,
+        0.15,
+        0.012
+      ],
+      [
+        0.45,
+        0.12,
+        0.055
+      ],
+      [
+        0.49,
+        0.065,
+        0.062
+      ]
+    ],
+    "head_cell": "iron",
+    "furniture": "brass",
+    "haft_cell": "ash",
+    "haft_radius": 0.018,
+    "head_mid": 0.36,
+    "beak": 0.1,
+    "grips": [
+      [
+        -0.46,
+        -0.14,
+        "black"
+      ]
+    ]
+  },
+  "w02_7item025": {
+    "icons": [
+      "7item025"
+    ],
+    "master_icon": "7item025",
+    "title": "Dwarven Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 120.6,
+    "left": [
+      [
+        0.02,
+        0.03,
+        0.027
+      ],
+      [
+        0.07,
+        0.11,
+        0.045
+      ],
+      [
+        0.2,
+        0.18,
+        0.015
+      ],
+      [
+        0.34,
+        0.17,
+        0.015
+      ],
+      [
+        0.45,
+        0.11,
+        0.05
+      ],
+      [
+        0.49,
+        0.02,
+        0.018
+      ]
+    ],
+    "head_cell": "silverwork",
+    "furniture": "steel",
+    "haft_cell": "walnut",
+    "haft_radius": 0.017,
+    "head_mid": 0.27,
+    "grips": [
+      [
+        -0.46,
+        -0.33,
+        "brown"
+      ]
+    ]
+  },
+  "w02_7item027": {
+    "icons": [
+      "7item027"
+    ],
+    "master_icon": "7item027",
+    "title": "Minotaur Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 130.1,
+    "left": [
+      [
+        0.06,
+        0.08,
+        0.077
+      ],
+      [
+        0.14,
+        0.17,
+        0.07
+      ],
+      [
+        0.28,
+        0.2,
+        0.008
+      ],
+      [
+        0.41,
+        0.17,
+        0.06
+      ],
+      [
+        0.47,
+        0.09,
+        0.087
+      ]
+    ],
+    "head_cell": "iron",
+    "furniture": "steel",
+    "haft_cell": "iron",
+    "haft_radius": 0.016,
+    "head_mid": 0.28,
+    "right": [
+      [
+        0.06,
+        0.08,
+        0.077
+      ],
+      [
+        0.14,
+        0.17,
+        0.07
+      ],
+      [
+        0.28,
+        0.2,
+        0.008
+      ],
+      [
+        0.41,
+        0.17,
+        0.06
+      ],
+      [
+        0.47,
+        0.09,
+        0.087
+      ]
+    ],
+    "grips": [
+      [
+        -0.46,
+        -0.22,
+        "red"
+      ]
+    ],
+    "spike": true,
+    "head_top": 0.43
+  },
+  "w02_7item028": {
+    "icons": [
+      "7item028"
+    ],
+    "master_icon": "7item028",
+    "title": "Poleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 198.9,
+    "left": [
+      [
+        0.24,
+        0.035,
+        0.032
+      ],
+      [
+        0.28,
+        0.09,
+        0.04
+      ],
+      [
+        0.36,
+        0.12,
+        0.008
+      ],
+      [
+        0.43,
+        0.1,
+        0.008
+      ],
+      [
+        0.48,
+        0.03,
+        0.028
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "brass",
+    "haft_cell": "ash",
+    "haft_radius": 0.013,
+    "head_mid": 0.36,
+    "beak": 0.13,
+    "grips": [
+      [
+        -0.45,
+        -0.26,
+        "brown"
+      ],
+      [
+        0.03,
+        0.2,
+        "brown"
+      ]
+    ]
+  },
+  "w02_7item029": {
+    "icons": [
+      "7item029"
+    ],
+    "master_icon": "7item029",
+    "title": "Warrior's Poleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 244.3,
+    "left": [
+      [
+        0.18,
+        0.055,
+        0.052
+      ],
+      [
+        0.23,
+        0.082,
+        0.04
+      ],
+      [
+        0.31,
+        0.1,
+        0.008
+      ],
+      [
+        0.39,
+        0.09,
+        0.035
+      ],
+      [
+        0.48,
+        0.04,
+        0.037
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "walnut",
+    "haft_radius": 0.009,
+    "head_mid": 0.3,
+    "beak": 0.06,
+    "grips": [
+      [
+        -0.45,
+        -0.32,
+        "black"
+      ],
+      [
+        -0.15,
+        -0.03,
+        "black"
+      ]
+    ],
+    "holes_left": [
+      [
+        -0.062,
+        0.25,
+        0.007
+      ],
+      [
+        -0.066,
+        0.31,
+        0.008
+      ],
+      [
+        -0.065,
+        0.37,
+        0.007
+      ]
+    ]
+  },
+  "w02_7item030": {
+    "icons": [
+      "7item030"
+    ],
+    "master_icon": "7item030",
+    "title": "Headsman's Poleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 243.0,
+    "left": [
+      [
+        0.12,
+        0.06,
+        0.057
+      ],
+      [
+        0.18,
+        0.1,
+        0.045
+      ],
+      [
+        0.28,
+        0.115,
+        0.015
+      ],
+      [
+        0.4,
+        0.08,
+        0.025
+      ],
+      [
+        0.49,
+        0.025,
+        0.023
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "walnut",
+    "haft_radius": 0.011,
+    "head_mid": 0.25,
+    "grips": [
+      [
+        -0.46,
+        -0.24,
+        "black"
+      ],
+      [
+        0.1,
+        0.23,
+        "black"
+      ]
+    ],
+    "extra_bands": [
+      [
+        -0.1,
+        0.016,
+        0.015
+      ]
+    ]
+  },
+  "w02_axe1": {
+    "icons": [
+      "axe1"
+    ],
+    "master_icon": "axe1",
+    "title": "Hand Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 98.1,
+    "left": [
+      [
+        0.2,
+        0.11,
+        0.105
+      ],
+      [
+        0.24,
+        0.13,
+        0.02
+      ],
+      [
+        0.35,
+        0.13,
+        0.008
+      ],
+      [
+        0.39,
+        0.1,
+        0.009
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "brass",
+    "haft_cell": "ash",
+    "haft_radius": 0.022,
+    "head_mid": 0.31,
+    "grips": [
+      [
+        -0.46,
+        -0.39,
+        "ash"
+      ],
+      [
+        -0.15,
+        -0.08,
+        "ash"
+      ]
+    ],
+    "grip_wrap": false
+  },
+  "w02_axe2": {
+    "icons": [
+      "axe2"
+    ],
+    "master_icon": "axe2",
+    "title": "Barbarian Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 127.4,
+    "left": [
+      [
+        0.04,
+        0.04,
+        0.037
+      ],
+      [
+        0.1,
+        0.13,
+        0.06
+      ],
+      [
+        0.26,
+        0.16,
+        0.008
+      ],
+      [
+        0.39,
+        0.12,
+        0.015
+      ],
+      [
+        0.49,
+        0.03,
+        0.027
+      ]
+    ],
+    "head_cell": "silverwork",
+    "furniture": "steel",
+    "haft_cell": "walnut",
+    "haft_radius": 0.016,
+    "head_mid": 0.27,
+    "beak": 0.09,
+    "spike": true,
+    "head_top": 0.44,
+    "grips": [
+      [
+        -0.46,
+        -0.35,
+        "walnut"
+      ]
+    ],
+    "pommel_gem": "blue",
+    "grip_wrap": false
+  },
+  "w02_axe3": {
+    "icons": [
+      "axe3"
+    ],
+    "master_icon": "axe3",
+    "title": "War Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 117.5,
+    "left": [
+      [
+        0.2,
+        0.06,
+        0.057
+      ],
+      [
+        0.25,
+        0.12,
+        0.05
+      ],
+      [
+        0.36,
+        0.14,
+        0.008
+      ],
+      [
+        0.43,
+        0.09,
+        0.008
+      ],
+      [
+        0.47,
+        0.04,
+        0.037
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "brass",
+    "haft_cell": "iron",
+    "haft_radius": 0.017,
+    "head_mid": 0.34,
+    "beak": 0.1,
+    "spike": true,
+    "grips": [
+      [
+        -0.45,
+        -0.31,
+        "red"
+      ]
+    ],
+    "extra_bands": [
+      [
+        -0.2,
+        0.02,
+        0.022
+      ],
+      [
+        0.06,
+        0.02,
+        0.022
+      ]
+    ]
+  },
+  "w02_item031": {
+    "icons": [
+      "item031"
+    ],
+    "master_icon": "item031",
+    "title": "Stone Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 102.6,
+    "left": [
+      [
+        0.28,
+        0.12,
+        0.115
+      ],
+      [
+        0.31,
+        0.15,
+        0.01
+      ],
+      [
+        0.39,
+        0.15,
+        0.01
+      ],
+      [
+        0.45,
+        0.1,
+        0.009
+      ]
+    ],
+    "head_cell": "stone",
+    "furniture": "brass",
+    "haft_cell": "walnut",
+    "haft_radius": 0.018,
+    "head_mid": 0.36,
+    "grips": [
+      [
+        -0.46,
+        0.15,
+        "black"
+      ]
+    ],
+    "grip_wrap": true
+  },
+  "w02_item032": {
+    "icons": [
+      "item032"
+    ],
+    "master_icon": "item032",
+    "title": "Battle Hatchet",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 106.2,
+    "left": [
+      [
+        0.24,
+        0.13,
+        0.125
+      ],
+      [
+        0.29,
+        0.12,
+        0.06
+      ],
+      [
+        0.36,
+        0.12,
+        0.008
+      ],
+      [
+        0.4,
+        0.09,
+        0.008
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.017,
+    "head_mid": 0.35,
+    "beak": 0.08,
+    "grips": [
+      [
+        -0.46,
+        -0.24,
+        "brown"
+      ],
+      [
+        0.18,
+        0.26,
+        "brown"
+      ]
+    ]
+  },
+  "w02_item033": {
+    "icons": [
+      "item033"
+    ],
+    "master_icon": "item033",
+    "title": "Battleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 118.4,
+    "left": [
+      [
+        0.2,
+        0.13,
+        0.125
+      ],
+      [
+        0.27,
+        0.12,
+        0.06
+      ],
+      [
+        0.36,
+        0.13,
+        0.008
+      ],
+      [
+        0.42,
+        0.13,
+        0.008
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.016,
+    "head_mid": 0.35,
+    "beak": 0.07,
+    "grips": [
+      [
+        -0.46,
+        -0.21,
+        "brown"
+      ]
+    ],
+    "extra_bands": [
+      [
+        -0.04,
+        0.022,
+        0.023
+      ]
+    ]
+  },
+  "w02_item034": {
+    "icons": [
+      "item034"
+    ],
+    "master_icon": "item034",
+    "title": "Dwarven Battleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 129.6,
+    "left": [
+      [
+        0.18,
+        0.04,
+        0.037
+      ],
+      [
+        0.23,
+        0.13,
+        0.04
+      ],
+      [
+        0.34,
+        0.18,
+        0.008
+      ],
+      [
+        0.46,
+        0.12,
+        0.04
+      ],
+      [
+        0.49,
+        0.065,
+        0.062
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.016,
+    "head_mid": 0.34,
+    "beak": 0.09,
+    "grips": [
+      [
+        -0.46,
+        -0.23,
+        "brown"
+      ]
+    ],
+    "holes_left": [
+      [
+        -0.075,
+        0.36,
+        0.025
+      ]
+    ],
+    "extra_bands": [
+      [
+        -0.1,
+        0.026,
+        0.025
+      ]
+    ],
+    "forked_poll": true
+  },
+  "w02_item035": {
+    "icons": [
+      "item035"
+    ],
+    "master_icon": "item035",
+    "title": "Minotaur Battleaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 136.3,
+    "left": [
+      [
+        0.12,
+        0.06,
+        0.056
+      ],
+      [
+        0.18,
+        0.14,
+        0.06
+      ],
+      [
+        0.29,
+        0.17,
+        0.008
+      ],
+      [
+        0.42,
+        0.13,
+        0.045
+      ],
+      [
+        0.49,
+        0.06,
+        0.057
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "walnut",
+    "haft_radius": 0.017,
+    "head_mid": 0.31,
+    "beak": 0.12,
+    "grips": [
+      [
+        -0.46,
+        -0.43,
+        "walnut"
+      ]
+    ],
+    "grip_wrap": false,
+    "holes_left": [
+      [
+        -0.055,
+        0.34,
+        0.014
+      ]
+    ],
+    "extra_bands": [
+      [
+        -0.08,
+        0.025,
+        0.024
+      ]
+    ]
+  },
+  "w02_item036": {
+    "icons": [
+      "item036"
+    ],
+    "master_icon": "item036",
+    "title": "Two-Handed Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 198.5,
+    "left": [
+      [
+        0.34,
+        0.1,
+        0.095
+      ],
+      [
+        0.36,
+        0.13,
+        0.008
+      ],
+      [
+        0.42,
+        0.13,
+        0.008
+      ],
+      [
+        0.45,
+        0.07,
+        0.008
+      ]
+    ],
+    "head_cell": "stone",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.012,
+    "head_mid": 0.39,
+    "spike": true,
+    "head_top": 0.44,
+    "grips": [
+      [
+        -0.46,
+        0.12,
+        "black"
+      ]
+    ],
+    "grip_wrap": true
+  },
+  "w02_item037": {
+    "icons": [
+      "item037"
+    ],
+    "master_icon": "item037",
+    "title": "Minotaur War Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 198.9,
+    "left": [
+      [
+        0.34,
+        0.1,
+        0.096
+      ],
+      [
+        0.37,
+        0.13,
+        0.05
+      ],
+      [
+        0.43,
+        0.14,
+        0.008
+      ],
+      [
+        0.47,
+        0.09,
+        0.008
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.012,
+    "head_mid": 0.42,
+    "beak": 0.06,
+    "grips": [
+      [
+        -0.46,
+        -0.28,
+        "brown"
+      ],
+      [
+        0.07,
+        0.32,
+        "brown"
+      ]
+    ],
+    "extra_bands": [
+      [
+        0.04,
+        0.022,
+        0.019
+      ]
+    ]
+  },
+  "w02_item038": {
+    "icons": [
+      "item038"
+    ],
+    "master_icon": "item038",
+    "title": "Footman's Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 225.0,
+    "left": [
+      [
+        0.29,
+        0.07,
+        0.067
+      ],
+      [
+        0.34,
+        0.11,
+        0.04
+      ],
+      [
+        0.43,
+        0.13,
+        0.008
+      ],
+      [
+        0.47,
+        0.13,
+        0.008
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.011,
+    "head_mid": 0.4,
+    "beak": 0.06,
+    "grips": [
+      [
+        -0.46,
+        -0.27,
+        "brown"
+      ],
+      [
+        -0.05,
+        0.1,
+        "brown"
+      ]
+    ]
+  },
+  "w02_item039": {
+    "icons": [
+      "item039"
+    ],
+    "master_icon": "item039",
+    "title": "Elite Minotaur Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 230.4,
+    "left": [
+      [
+        0.25,
+        0.065,
+        0.061
+      ],
+      [
+        0.29,
+        0.12,
+        0.065
+      ],
+      [
+        0.4,
+        0.13,
+        0.008
+      ],
+      [
+        0.47,
+        0.12,
+        0.008
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.011,
+    "head_mid": 0.4,
+    "beak": 0.06,
+    "grips": [
+      [
+        -0.46,
+        -0.28,
+        "brown"
+      ]
+    ],
+    "holes_left": [
+      [
+        -0.072,
+        0.415,
+        0.011
+      ],
+      [
+        -0.09,
+        0.415,
+        0.011
+      ]
+    ]
+  },
+  "w02_item040": {
+    "icons": [
+      "item040"
+    ],
+    "master_icon": "item040",
+    "title": "Minotaur Herdsman Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 243.9,
+    "left": [
+      [
+        0.27,
+        0.045,
+        0.042
+      ],
+      [
+        0.3,
+        0.08,
+        0.045
+      ],
+      [
+        0.35,
+        0.1,
+        0.008
+      ],
+      [
+        0.41,
+        0.09,
+        0.04
+      ],
+      [
+        0.44,
+        0.045,
+        0.042
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.011,
+    "head_mid": 0.36,
+    "beak": 0.075,
+    "spike": true,
+    "head_top": 0.44,
+    "grips": [
+      [
+        -0.46,
+        -0.24,
+        "brown"
+      ]
+    ],
+    "holes_left": [
+      [
+        -0.058,
+        0.415,
+        0.011
+      ],
+      [
+        -0.06,
+        0.295,
+        0.01
+      ]
+    ],
+    "extra_bands": [
+      [
+        0.22,
+        0.012,
+        0.016
+      ]
+    ]
+  },
+  "w02_item240": {
+    "icons": [
+      "item240"
+    ],
+    "master_icon": "item240",
+    "title": "Elderaxe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 135.0,
+    "left": [
+      [
+        0.1,
+        0.045,
+        0.041
+      ],
+      [
+        0.17,
+        0.14,
+        0.05
+      ],
+      [
+        0.3,
+        0.19,
+        0.008
+      ],
+      [
+        0.43,
+        0.16,
+        0.05
+      ],
+      [
+        0.49,
+        0.07,
+        0.066
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "walnut",
+    "haft_radius": 0.018,
+    "head_mid": 0.3,
+    "beak": 0.12,
+    "grips": [
+      [
+        -0.46,
+        -0.3,
+        "iron"
+      ]
+    ],
+    "holes_left": [
+      [
+        -0.06,
+        0.29,
+        0.017
+      ]
+    ],
+    "grip_wrap": false
+  },
+  "w02_item241": {
+    "icons": [
+      "item241"
+    ],
+    "master_icon": "item241",
+    "title": "Volcano",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 241.2,
+    "left": [
+      [
+        0.34,
+        0.025,
+        0.023
+      ],
+      [
+        0.36,
+        0.075,
+        0.03
+      ],
+      [
+        0.41,
+        0.09,
+        0.008
+      ],
+      [
+        0.47,
+        0.06,
+        0.008
+      ],
+      [
+        0.49,
+        0.02,
+        0.018
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "filigree",
+    "haft_cell": "ash",
+    "haft_radius": 0.01,
+    "head_mid": 0.41,
+    "right": [
+      [
+        0.34,
+        0.025,
+        0.023
+      ],
+      [
+        0.36,
+        0.06,
+        0.03
+      ],
+      [
+        0.41,
+        0.085,
+        0.008
+      ],
+      [
+        0.46,
+        0.04,
+        0.008
+      ]
+    ],
+    "spike": true,
+    "head_top": 0.46,
+    "grips": [
+      [
+        -0.46,
+        -0.31,
+        "brown"
+      ]
+    ],
+    "extra_bands": [
+      [
+        0.24,
+        0.01,
+        0.014
+      ],
+      [
+        0.06,
+        0.01,
+        0.014
+      ],
+      [
+        -0.11,
+        0.01,
+        0.014
+      ]
+    ]
+  },
+  "w02_62haxe4": {
+    "icons": [
+      "62haxe4"
+    ],
+    "master_icon": "62haxe4",
+    "title": "Conan",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 238.5,
+    "left": [
+      [
+        0.2,
+        0.035,
+        0.032
+      ],
+      [
+        0.23,
+        0.08,
+        0.035
+      ],
+      [
+        0.33,
+        0.105,
+        0.008
+      ],
+      [
+        0.43,
+        0.08,
+        0.01
+      ],
+      [
+        0.49,
+        0.025,
+        0.023
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "brass",
+    "haft_cell": "iron",
+    "haft_radius": 0.009,
+    "head_mid": 0.34,
+    "beak": 0.07,
+    "grips": [
+      [
+        -0.45,
+        -0.32,
+        "brown"
+      ],
+      [
+        -0.1,
+        0.01,
+        "brown"
+      ]
+    ],
+    "extra_bands": [
+      [
+        0.12,
+        0.012,
+        0.013
+      ],
+      [
+        0.17,
+        0.012,
+        0.013
+      ]
+    ],
+    "variant_of": "w02_2haxe3"
+  },
+  "w02_7item305": {
+    "icons": [
+      "7item305"
+    ],
+    "master_icon": "7item305",
+    "title": "Minotaur's Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 130.1,
+    "left": [
+      [
+        0.06,
+        0.08,
+        0.077
+      ],
+      [
+        0.14,
+        0.17,
+        0.07
+      ],
+      [
+        0.28,
+        0.2,
+        0.008
+      ],
+      [
+        0.41,
+        0.17,
+        0.06
+      ],
+      [
+        0.47,
+        0.09,
+        0.087
+      ]
+    ],
+    "head_cell": "iron",
+    "furniture": "steel",
+    "haft_cell": "iron",
+    "haft_radius": 0.016,
+    "head_mid": 0.28,
+    "right": [
+      [
+        0.06,
+        0.08,
+        0.077
+      ],
+      [
+        0.14,
+        0.17,
+        0.07
+      ],
+      [
+        0.28,
+        0.2,
+        0.008
+      ],
+      [
+        0.41,
+        0.17,
+        0.06
+      ],
+      [
+        0.47,
+        0.09,
+        0.087
+      ]
+    ],
+    "grips": [
+      [
+        -0.46,
+        -0.22,
+        "red"
+      ]
+    ],
+    "spike": true,
+    "head_top": 0.43,
+    "variant_of": "w02_7item027"
+  },
+  "w02_7item304": {
+    "icons": [
+      "7item304"
+    ],
+    "master_icon": "7item304",
+    "title": "Zokarr's Axe",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 243.0,
+    "left": [
+      [
+        0.12,
+        0.06,
+        0.057
+      ],
+      [
+        0.18,
+        0.1,
+        0.045
+      ],
+      [
+        0.28,
+        0.115,
+        0.015
+      ],
+      [
+        0.4,
+        0.08,
+        0.025
+      ],
+      [
+        0.49,
+        0.025,
+        0.023
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "walnut",
+    "haft_radius": 0.011,
+    "head_mid": 0.25,
+    "grips": [
+      [
+        -0.46,
+        -0.24,
+        "black"
+      ],
+      [
+        0.1,
+        0.23,
+        "black"
+      ]
+    ],
+    "extra_bands": [
+      [
+        -0.1,
+        0.016,
+        0.015
+      ]
+    ],
+    "variant_of": "w02_7item030"
+  },
+  "w02_item343": {
+    "icons": [
+      "item343"
+    ],
+    "master_icon": "item343",
+    "title": "Axe of Balthazar",
+    "family": "axes",
+    "route": "blender",
+    "shape": "components",
+    "length": 243.9,
+    "left": [
+      [
+        0.27,
+        0.045,
+        0.042
+      ],
+      [
+        0.3,
+        0.08,
+        0.045
+      ],
+      [
+        0.35,
+        0.1,
+        0.008
+      ],
+      [
+        0.41,
+        0.09,
+        0.04
+      ],
+      [
+        0.44,
+        0.045,
+        0.042
+      ]
+    ],
+    "head_cell": "steel",
+    "furniture": "steel",
+    "haft_cell": "ash",
+    "haft_radius": 0.011,
+    "head_mid": 0.36,
+    "beak": 0.075,
+    "spike": true,
+    "head_top": 0.44,
+    "grips": [
+      [
+        -0.46,
+        -0.24,
+        "brown"
+      ]
+    ],
+    "holes_left": [
+      [
+        -0.058,
+        0.415,
+        0.011
+      ],
+      [
+        -0.06,
+        0.295,
+        0.01
+      ]
+    ],
+    "extra_bands": [
+      [
+        0.22,
+        0.012,
+        0.016
+      ]
+    ],
+    "variant_of": "w02_item040"
+  }
+}

@@ -1,0 +1,184 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.lichlab_doors_exits
+title: Lich Lab (native BLV) - doors swing open on their click and the party walks through; the entrance raises its exit trigger
+  to Yorwick
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: lichlab.blv
+- note:
+    text: 'ExitTrigger0 (DAT object 1201): the entrance to Yorwick, just south of the start.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: -1311
+      y: -4362
+      z: 1312
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: -1311
+      y: -4662
+      z: 1312
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 1201
+- load_map:
+    map: lichlab.blv
+- note:
+    text: RotatingDoor176 (door 54, event 142) is shut.
+- assert:
+    mechanism:
+      id: 54
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: 450
+      y: -3932
+      z: 1312
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: 692
+      y: -3932
+      z: 1312
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 70
+    tolerance_z: 20
+- execute_event:
+    id: 142
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 54
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: 450
+      y: -3932
+      z: 1312
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: 1524
+      y: -3932
+      z: 1312
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: RotatingDoor157 (door 37, event 125) is shut.
+- assert:
+    mechanism:
+      id: 37
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: 4588
+      y: 4424
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: 3895
+      y: 4424
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 70
+    tolerance_z: 20
+- execute_event:
+    id: 125
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 37
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: 4588
+      y: 4424
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: 3514
+      y: 4424
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 140
+    tolerance_z: 40
+- note:
+    text: 'The engine hall''s south-east stair: from the basement floor up onto the cross hall''s bridge (MM9''s invisible
+      ramp over its foot, then 8-LT steps).'
+- movement_segment:
+    input: forward
+    seconds: 2.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: -1075
+      y: 4669
+      z: -654
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: 805
+      y: 4669
+      z: 0
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 20

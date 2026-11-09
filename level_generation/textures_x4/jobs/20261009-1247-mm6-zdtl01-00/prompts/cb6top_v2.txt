@@ -1,0 +1,13 @@
+Use case: precise-object-edit.
+Asset: flat repeating surface albedo texture for a 1990s first-person RPG remaster, native 128x64 pixels, repeating in both directions.
+Reference 1 is a soft enlargement of the original low-resolution texture, surrounded by a wrap-around border (16 original pixels left/right, 8 top/bottom) showing the neighbouring repeats; the border must continue the same layout seamlessly. It is a guide for layout,
+colours and materials only and contains no real fine detail. Reproduce EXACTLY its layout:
+every block, plank, joint, ornament, figure and border at the same positions and proportions, the same colours,
+palette and overall brightness. Do not add, remove, move or resize anything.
+Redraw it as new clean high-definition artwork at 4x the original resolution: polished red-brown marble-like veined stone tabletop with pale cream veins;
+continuous crisp edges and fine natural surface detail invented anew, everything in sharp focus, even diffuse
+lighting.
+Keep the full canvas including the wrap-around border, flat orthographic view, full bleed, opaque.
+No perspective, vignette, baked highlights or cast shadows, frame, text or watermark.
+Avoid enlarged pixel blocks, dithering, stippled noise, crunchy grain and sharpening halos.
+Any fine checkered or crosshatch dither in the reference is a palette artefact: paint smooth continuous material.

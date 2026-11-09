@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_peasantf6_claude/references_hd/00_three_quarter.png), unresized at 1024×1536. Raw returns, prompts, input hashes and selection notes are retained in `raw/` and `generation_runs.json`.
+
+Stopped after the one allowed correction; run 2 was not started. Residual issues: background haze and tight margins remain, so the result is not fully brief-compliant.

@@ -1,0 +1,25 @@
+{
+  "family": "drg1",
+  "title": "MM6 Flying Dragon",
+  "descriptor_ids": [
+    508,
+    509,
+    510
+  ],
+  "base_palette": 692,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "standing_reference_frame": 0,
+  "batch_distinct_standing": true,
+  "identity_reference_action": "walk",
+  "description": "Original MM6 flying dragon A: slender upright dark forest-green dragon with a long curved neck, narrow horned head, huge olive leathery bat wings, golden orange segmented belly and jagged orange fin running down the neck/back/long thin tail, small bent legs with pale ivory claws, pale horn tips and green wing struts. Preserve the exact native long silhouette and wing span, small head, swept horns, torn/scalloped membrane contour, baked shadows and original dark tonal weight. Four legs remain close to the body; do not invent large forward arms, extra wings, armor or ornaments.",
+  "regions": "Native body, wing membranes, horns and claws; determine enhanced material coverage from the original palette variants.",
+  "variant_names": {
+    "692": "Flying Dragon A",
+    "693": "Flying Dragon B",
+    "694": "Flying Dragon C"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

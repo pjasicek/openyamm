@@ -1,0 +1,193 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_ogr.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_ogr.glb",
+ "assignments": [
+  {
+   "match": "=Ogre_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ogr_claude/textures/ogr_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ogr_claude/textures/ogr_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "ogr_material_response_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Ogre_A",
+    "Ogre_B",
+    "Ogre_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      1056,
+      0,
+      2080,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 259,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 563327,
+     "uv_covered_without_class": 0.019,
+     "uv_covered_without_class_far": 0.0011,
+     "class_texels_outside_uv": 0.0242,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ogr_claude/textures/ogr_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.6314,
+      "claw": 0.0947,
+      "tooth": 0.0157,
+      "cloth": 0.0627,
+      "metal": 0.1954
+     }
+    },
+    "head": {
+     "uv_covered_texels": 318102,
+     "uv_covered_without_class": 0.0299,
+     "uv_covered_without_class_far": 0.0048,
+     "class_texels_outside_uv": 0.2435,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ogr_claude/textures/ogr_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.9727,
+      "tooth": 0.0194,
+      "eye": 0.0079
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.7546,
+    "claw": 0.0605,
+    "tooth": 0.017,
+    "eye": 0.0028,
+    "cloth": 0.0401,
+    "metal": 0.1249
+   },
+   "kept_classes": [
+    "cloth"
+   ],
+   "kept_texels": 35330,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "claw": 0.349,
+    "tooth": 0.4,
+    "eye": 1.0,
+    "cloth": 0.078,
+    "metal": 1.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.25,
+    "claw": 1.0,
+    "tooth": 1.0,
+    "eye": 1.0,
+    "cloth": 0.078,
+    "metal": 1.0
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.8,
+    "claw": 0.45,
+    "tooth": 0.35,
+    "eye": 0.15,
+    "cloth": 0.878,
+    "metal": 0.38
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Ogre_A": {
+     "median_srgb": [
+      171,
+      153,
+      137
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      81,
+      156,
+      200
+     ],
+     "share_below_srgb_30": 0.0099,
+     "share_below_srgb_90": 0.1747,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Ogre_B": {
+     "median_srgb": [
+      171,
+      153,
+      137
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      81,
+      156,
+      200
+     ],
+     "share_below_srgb_30": 0.0099,
+     "share_below_srgb_90": 0.1747,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Ogre_C": {
+     "median_srgb": [
+      171,
+      153,
+      137
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      81,
+      156,
+      200
+     ],
+     "share_below_srgb_30": 0.0099,
+     "share_below_srgb_90": 0.1747,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 20,
+     "max": 255,
+     "mean": 96.9
+    },
+    "G": {
+     "min": 38,
+     "max": 230,
+     "mean": 185.6
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 27.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

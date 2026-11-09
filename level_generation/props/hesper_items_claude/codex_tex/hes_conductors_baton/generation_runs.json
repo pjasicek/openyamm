@@ -1,0 +1,673 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper Conductor's Baton 3D model.\nEDIT INPUT 1 ONLY: it is the exact orthographic guide and determines EVERY pixel of the silhouette, each part edge, camera, scale, size and position. INPUT 2 is design_reference.png, the authority for surface design, colour and material ONLY. Do not use its framing, pose, lighting, proportions or silhouette.\nDeliver ONE 1024 x 1024 RGBA PNG on a genuinely transparent background. Keep the guide's exact alpha silhouette, holes and antialiasing; do not crop, rotate, zoom, recenter, thicken or add geometry. Preserve all the large transparent margins. Repaint only the existing object's surfaces.\nTransfer the reference materials: off-white ceramic with tiny wear and fine engravings, muted ochre brushed gold with only a faint sheen, near-black violet resin with fine twisting grain, narrow orange bright light veins, and blue-white light on the existing lens. Preserve the guide's seams, rings, panel joins, part boundaries and orientation; its pale tints are material identifiers and must NOT be copied as final colours. Continue unseen surfaces plausibly. Never add surface detail outside the outline.\nLIGHTING IS UNLIT ALBEDO: flat, even, shadowless viewer-facing illumination across all surfaces. No cast shadow, no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim lighting. Light channels have bright base colour but no bloom or glow outside the silhouette. No backdrop, floor, contact shadow, text, letters, symbols, labels, watermark, chart, montage or border.\nView-specific exact geometry:\nFRONT view is END-ON along the staff axis. Its entire visible silhouette is only 124 pixels wide and 58 pixels high: bounding box x=450..573 and y=483..540 in the 1024-square canvas. Keep this tiny, centered end-on projection; do not show the full staff length, do not enlarge. The pale central end cap becomes the reference's ivory/brushed-gold fitting. The overlapped rounded head surfaces continue ivory ceramic and brushed gold with dark violet resin at the lateral fins. Only show blue-white/orange material where that actual visible part calls for it.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_front.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Initial return: visible contour/part-edge drift and specular shading; corrective regeneration required.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "71cd034f05d0e9e3f3e0aff04b0b630ee3d09fdbfa92f60674162f8c0de6b1f1",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-e1ce9098-77ae-4df0-8bed-6c3a35f93ca2.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "318c8ef0437072475a8985a46ed2a213ca094bb9d90b7a12b0aa9cbb2d18da49",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.995678,
+        "alpha_bbox_any_opacity": [
+          156,
+          214,
+          1214,
+          1188
+        ],
+        "alpha_bbox_threshold_128": [
+          552,
+          593,
+          702,
+          661
+        ],
+        "guide_alpha_bbox": [
+          450,
+          483,
+          574,
+          541
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.92279,
+        "pixels_above_half_opacity_outside_normalized_guide": 337,
+        "nonzero_alpha_pixels_outside_normalized_guide": 2087,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper Conductor's Baton 3D model.\nEDIT INPUT 1 ONLY: it is the exact orthographic guide and determines EVERY pixel of the silhouette, each part edge, camera, scale, size and position. INPUT 2 is design_reference.png, the authority for surface design, colour and material ONLY. Do not use its framing, pose, lighting, proportions or silhouette.\nDeliver ONE 1024 x 1024 RGBA PNG on a genuinely transparent background. Keep the guide's exact alpha silhouette, holes and antialiasing; do not crop, rotate, zoom, recenter, thicken or add geometry. Preserve all the large transparent margins. Repaint only the existing object's surfaces.\nTransfer the reference materials: off-white ceramic with tiny wear and fine engravings, muted ochre brushed gold with only a faint sheen, near-black violet resin with fine twisting grain, narrow orange bright light veins, and blue-white light on the existing lens. Preserve the guide's seams, rings, panel joins, part boundaries and orientation; its pale tints are material identifiers and must NOT be copied as final colours. Continue unseen surfaces plausibly. Never add surface detail outside the outline.\nLIGHTING IS UNLIT ALBEDO: flat, even, shadowless viewer-facing illumination across all surfaces. No cast shadow, no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim lighting. Light channels have bright base colour but no bloom or glow outside the silhouette. No backdrop, floor, contact shadow, text, letters, symbols, labels, watermark, chart, montage or border.\nView-specific exact geometry:\nBACK view is END-ON along the staff axis. Its entire visible silhouette is only 124 pixels wide and 58 pixels high: bounding box x=450..573 and y=483..540 in the 1024-square canvas. Keep this tiny, centered end-on projection; do not show the full staff length, do not enlarge. Continue the reference's ivory ceramic orb shell with muted brushed-gold spiral bands around its rear, and black-violet resin with ivory/brushed-gold trim on the two lateral prong edge faces. Do not invent a rear glowing lens where the guide only has the shell.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_back.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Initial return: visible contour/part-edge drift and specular shading; corrective regeneration required.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "fe6ebe26969fc4ff26371e48ee4f9e93dc7676e8e6653d3d4df41646d76b0353",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-5f8b3ccb-b8ed-4e1f-9903-ddffd3aaa777.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e5b4aa1e13995eaaef4ca38b6f087bb5404750e068e47342158f0a9da4f1c7f1",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.9926,
+        "alpha_bbox_any_opacity": [
+          308,
+          149,
+          1154,
+          1086
+        ],
+        "alpha_bbox_threshold_128": [
+          525,
+          575,
+          729,
+          671
+        ],
+        "guide_alpha_bbox": [
+          450,
+          483,
+          574,
+          541
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.4835,
+        "pixels_above_half_opacity_outside_normalized_guide": 5040,
+        "nonzero_alpha_pixels_outside_normalized_guide": 6919,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper Conductor's Baton 3D model.\nEDIT INPUT 1 ONLY: it is the exact orthographic guide and determines EVERY pixel of the silhouette, each part edge, camera, scale, size and position. INPUT 2 is design_reference.png, the authority for surface design, colour and material ONLY. Do not use its framing, pose, lighting, proportions or silhouette.\nDeliver ONE 1024 x 1024 RGBA PNG on a genuinely transparent background. Keep the guide's exact alpha silhouette, holes and antialiasing; do not crop, rotate, zoom, recenter, thicken or add geometry. Preserve all the large transparent margins. Repaint only the existing object's surfaces.\nTransfer the reference materials: off-white ceramic with tiny wear and fine engravings, muted ochre brushed gold with only a faint sheen, near-black violet resin with fine twisting grain, narrow orange bright light veins, and blue-white light on the existing lens. Preserve the guide's seams, rings, panel joins, part boundaries and orientation; its pale tints are material identifiers and must NOT be copied as final colours. Continue unseen surfaces plausibly. Never add surface detail outside the outline.\nLIGHTING IS UNLIT ALBEDO: flat, even, shadowless viewer-facing illumination across all surfaces. No cast shadow, no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim lighting. Light channels have bright base colour but no bloom or glow outside the silhouette. No backdrop, floor, contact shadow, text, letters, symbols, labels, watermark, chart, montage or border.\nView-specific exact geometry:\nLEFT view is a very thin horizontal staff at y=512: bounding box x=66..957 and y=483..540. The head is on the LEFT and the small flared butt cap on the RIGHT. Keep this side profile exactly, including the very narrow, overlapping head prongs. The long cylindrical shaft is from about x=240 to x=921, about 24 pixels thick, with existing narrow rings centered near x=421,588,754. Paint that shaft black-violet twisted resin with subtle incised grain and narrow orange light veins, and those exact rings muted brushed gold/ivory. Paint the head's existing surfaces ivory ceramic, dark resin, brushed gold around the ivory orb; blue-white lens only if visible in this angle. Keep all ornament painted INSIDE the existing silhouette.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_left.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Initial return: visible contour/part-edge drift and specular shading; corrective regeneration required.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "fba7b8c4fbf2657e719a7a559b8434b9c38356eb63fe9ee10e6a207dd99a2b50",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-05075b7b-2c49-4197-9a97-2cdc145b949c.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c451ddaf305c51d89ccb577df9205a7bdada93298904b0fe836cbc1bdf9954e5",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.972112,
+        "alpha_bbox_any_opacity": [
+          77,
+          37,
+          1206,
+          1230
+        ],
+        "alpha_bbox_threshold_128": [
+          80,
+          586,
+          1175,
+          665
+        ],
+        "guide_alpha_bbox": [
+          66,
+          483,
+          958,
+          541
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8049,
+        "pixels_above_half_opacity_outside_normalized_guide": 6160,
+        "nonzero_alpha_pixels_outside_normalized_guide": 15187,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper Conductor's Baton 3D model.\nEDIT INPUT 1 ONLY: it is the exact orthographic guide and determines EVERY pixel of the silhouette, each part edge, camera, scale, size and position. INPUT 2 is design_reference.png, the authority for surface design, colour and material ONLY. Do not use its framing, pose, lighting, proportions or silhouette.\nDeliver ONE 1024 x 1024 RGBA PNG on a genuinely transparent background. Keep the guide's exact alpha silhouette, holes and antialiasing; do not crop, rotate, zoom, recenter, thicken or add geometry. Preserve all the large transparent margins. Repaint only the existing object's surfaces.\nTransfer the reference materials: off-white ceramic with tiny wear and fine engravings, muted ochre brushed gold with only a faint sheen, near-black violet resin with fine twisting grain, narrow orange bright light veins, and blue-white light on the existing lens. Preserve the guide's seams, rings, panel joins, part boundaries and orientation; its pale tints are material identifiers and must NOT be copied as final colours. Continue unseen surfaces plausibly. Never add surface detail outside the outline.\nLIGHTING IS UNLIT ALBEDO: flat, even, shadowless viewer-facing illumination across all surfaces. No cast shadow, no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim lighting. Light channels have bright base colour but no bloom or glow outside the silhouette. No backdrop, floor, contact shadow, text, letters, symbols, labels, watermark, chart, montage or border.\nView-specific exact geometry:\nRIGHT view is a very thin horizontal staff at y=512: bounding box x=66..957 and y=483..540. The small flared butt cap is on the LEFT and the head is on the RIGHT. Keep this side profile exactly, including the very narrow, overlapping head prongs. The long cylindrical shaft is from about x=102 to x=784, about 24 pixels thick, with existing narrow rings centered near x=269,436,603. Paint that shaft black-violet twisted resin with subtle incised grain and narrow orange light veins, and those exact rings muted brushed gold/ivory. Paint the head's existing surfaces ivory ceramic, dark resin, brushed gold around the ivory orb; blue-white lens only if visible in this angle. Keep all ornament painted INSIDE the existing silhouette.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_right.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Initial return: visible contour/part-edge drift and specular shading; corrective regeneration required.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "f964e4c36e4eb181b82cd07ff124a2416b34b15e587f71f9cccccb0df43ecf49",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-6fb7dab4-d827-4207-9d62-4e9a28723261.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7351c4d64838a348bf7d12b44a7ba23869a01797646dcf21846da654e959b3b0",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.974178,
+        "alpha_bbox_any_opacity": [
+          0,
+          0,
+          1180,
+          1220
+        ],
+        "alpha_bbox_threshold_128": [
+          78,
+          589,
+          1175,
+          662
+        ],
+        "guide_alpha_bbox": [
+          66,
+          483,
+          958,
+          541
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.85856,
+        "pixels_above_half_opacity_outside_normalized_guide": 4686,
+        "nonzero_alpha_pixels_outside_normalized_guide": 11926,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the existing Hesper Conductor's Baton 3D model.\nEDIT INPUT 1 ONLY: it is the exact orthographic guide and determines EVERY pixel of the silhouette, each part edge, camera, scale, size and position. INPUT 2 is design_reference.png, the authority for surface design, colour and material ONLY. Do not use its framing, pose, lighting, proportions or silhouette.\nDeliver ONE 1024 x 1024 RGBA PNG on a genuinely transparent background. Keep the guide's exact alpha silhouette, holes and antialiasing; do not crop, rotate, zoom, recenter, thicken or add geometry. Preserve all the large transparent margins. Repaint only the existing object's surfaces.\nTransfer the reference materials: off-white ceramic with tiny wear and fine engravings, muted ochre brushed gold with only a faint sheen, near-black violet resin with fine twisting grain, narrow orange bright light veins, and blue-white light on the existing lens. Preserve the guide's seams, rings, panel joins, part boundaries and orientation; its pale tints are material identifiers and must NOT be copied as final colours. Continue unseen surfaces plausibly. Never add surface detail outside the outline.\nLIGHTING IS UNLIT ALBEDO: flat, even, shadowless viewer-facing illumination across all surfaces. No cast shadow, no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim lighting. Light channels have bright base colour but no bloom or glow outside the silhouette. No backdrop, floor, contact shadow, text, letters, symbols, labels, watermark, chart, montage or border.\nView-specific exact geometry:\nTOP view is the full length vertical staff centered on x=512: bounding box x=450..573 and y=66..957. Two prongs point UP, with the ivory orb held between them near (512,164). The narrow shaft extends down from about y=240 to y=922, about 24 pixels wide, and the small flared butt cap ends at y=957. Keep the head and shaft proportions of the guide, not the design reference. Existing rings are near y=421,588,754. Paint black-violet twisted resin shaft and prong bodies with tiny orange light channels, ivory ceramic prong tips and collar insets, muted brushed-gold bands at the existing ring positions and spiralling around the ivory orb. The orb's existing central lens is pale blue-white. Ornament stays INSIDE existing silhouette; no enlarged collars.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_top.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial return: visible contour/part-edge drift and specular shading; corrective regeneration required.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "fff5b49b831c6d22dd3f4ac97ead3b2e8334dd79906382c2ae4cb0a2f0d70e46",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-e092cab3-1535-4912-b90e-df2ed3d40e64.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9eabf83300181b3288062b60035c9a4cf73f669a548aa585872b15804013615f",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.965315,
+        "alpha_bbox_any_opacity": [
+          73,
+          75,
+          1192,
+          1228
+        ],
+        "alpha_bbox_threshold_128": [
+          552,
+          78,
+          703,
+          1177
+        ],
+        "guide_alpha_bbox": [
+          450,
+          66,
+          574,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.82377,
+        "pixels_above_half_opacity_outside_normalized_guide": 7359,
+        "nonzero_alpha_pixels_outside_normalized_guide": 18245,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: colourize the FIRST attached image, which is the immutable geometry template. Use the SECOND attached image only to choose colours and surface patterns. Deliver one 1024 x 1024 transparent PNG, same framing as the first image. This is a registered texture-baking source: change RGB within its object, keep its alpha silhouette and every component edge pixel-identical. No zoom, cropping, repositioning, geometry redesign, enlarged ornaments or altered camera.\n\nThe previous attempt failed by borrowing the art reference's sculpted contours and photographic highlights. Correct exactly that. Ignore the reference's shading entirely. Paint MATTE UNLIT BASE COLOUR, like a diffuse-colour texture displayed in an unlit material editor. Gold is a nearly uniform subdued ochre base colour, NOT shiny yellow metal. Ceramic is nearly uniform pale ivory. Resin is nearly uniform very dark violet with subtle engraved twisting grain. Orange slits have a flat bright-orange fill. A visible original lens can have a flat pale-blue-white fill. Tiny engraved lines, wear and material seams may remain, but no raised-looking illuminated ridges. No highlights, specular streaks, deep shaded grooves, ambient occlusion, cast shadows, directional lighting, rim light, bloom, reflections, 3D-render lighting or gradient shading. Do not copy the guide's grey/lavender tints either.\n\nPreserve exactly transparent pixels outside the guide object, including tiny internal holes. No stray coloured pixels, no glow outside the mask. No background, floor, text, letters or watermark.\n\nExact view:\nEnd-on front view: retain the guide's exact little horizontal silhouette x450..573, y483..540 on a 1024-square image. Its width is 12.1% of the canvas and height 5.7%; keep all that empty transparency. The visible centered cap is ivory/brushed gold. Keep all the overlapped circular/prong surfaces exactly where the guide puts them.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_front.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "71cd034f05d0e9e3f3e0aff04b0b630ee3d09fdbfa92f60674162f8c0de6b1f1",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available of the two permitted returns; selected for delivery, not approved as fully compliant. Flatter than attempt 1 with similar end-on framing. Central cap became blue-white rather than the requested ivory/gold; some component boundaries differ.",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-cf91e24c-360b-45b8-8ac5-28d1d9c8c7e7.png",
+      "visual_review": {
+        "materials_match_reference": false,
+        "flat_even_light_no_hot_highlights": true,
+        "no_text_or_letters": true,
+        "notes": "Flatter than attempt 1 with similar end-on framing. Central cap became blue-white rather than the requested ivory/gold; some component boundaries differ."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "80ac3cf2761722d11a91b9586980d159359aae84a155636b506ea0630866b293",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.996222,
+        "alpha_bbox_any_opacity": [
+          347,
+          69,
+          959,
+          1075
+        ],
+        "alpha_bbox_threshold_128": [
+          552,
+          594,
+          702,
+          658
+        ],
+        "guide_alpha_bbox": [
+          450,
+          483,
+          574,
+          541
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.88185,
+        "pixels_above_half_opacity_outside_normalized_guide": 212,
+        "nonzero_alpha_pixels_outside_normalized_guide": 1296,
+        "no_text_or_letters": true,
+        "materials_match_reference": false,
+        "flat_even_light_no_hot_highlights": true,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: colourize the FIRST attached image, which is the immutable geometry template. Use the SECOND attached image only to choose colours and surface patterns. Deliver one 1024 x 1024 transparent PNG, same framing as the first image. This is a registered texture-baking source: change RGB within its object, keep its alpha silhouette and every component edge pixel-identical. No zoom, cropping, repositioning, geometry redesign, enlarged ornaments or altered camera.\n\nThe previous attempt failed by borrowing the art reference's sculpted contours and photographic highlights. Correct exactly that. Ignore the reference's shading entirely. Paint MATTE UNLIT BASE COLOUR, like a diffuse-colour texture displayed in an unlit material editor. Gold is a nearly uniform subdued ochre base colour, NOT shiny yellow metal. Ceramic is nearly uniform pale ivory. Resin is nearly uniform very dark violet with subtle engraved twisting grain. Orange slits have a flat bright-orange fill. A visible original lens can have a flat pale-blue-white fill. Tiny engraved lines, wear and material seams may remain, but no raised-looking illuminated ridges. No highlights, specular streaks, deep shaded grooves, ambient occlusion, cast shadows, directional lighting, rim light, bloom, reflections, 3D-render lighting or gradient shading. Do not copy the guide's grey/lavender tints either.\n\nPreserve exactly transparent pixels outside the guide object, including tiny internal holes. No stray coloured pixels, no glow outside the mask. No background, floor, text, letters or watermark.\n\nExact view:\nEnd-on rear view: retain the guide's exact little horizontal silhouette x450..573, y483..540 on a 1024-square image. Its width is 12.1% of the canvas and height 5.7%; keep all that empty transparency. It must be the SAME width as the supplied guide; do not enlarge the rear head. Paint the existing rounded shell off-white ceramic crossed by flat muted-gold bands, no new central lens.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_back.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "fe6ebe26969fc4ff26371e48ee4f9e93dc7676e8e6653d3d4df41646d76b0353",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best available of the two permitted returns; selected for delivery, not approved as fully compliant. Corrected excessive enlargement from attempt 1. Rear material pattern remains plausible, but gold/ceramic surfaces retain directional highlights and shading.",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-e23c9f63-1192-4d13-8334-d3da24bac17e.png",
+      "visual_review": {
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "notes": "Corrected excessive enlargement from attempt 1. Rear material pattern remains plausible, but gold/ceramic surfaces retain directional highlights and shading."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "8ac043bca17f486f518a17e7fb1ad583985b24ddc90ed7696cebb3f8e47a1f62",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.995858,
+        "alpha_bbox_any_opacity": [
+          0,
+          0,
+          1150,
+          1166
+        ],
+        "alpha_bbox_threshold_128": [
+          553,
+          594,
+          701,
+          660
+        ],
+        "guide_alpha_bbox": [
+          450,
+          483,
+          574,
+          541
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.96144,
+        "pixels_above_half_opacity_outside_normalized_guide": 106,
+        "nonzero_alpha_pixels_outside_normalized_guide": 1799,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: colourize the FIRST attached image, which is the immutable geometry template. Use the SECOND attached image only to choose colours and surface patterns. Deliver one 1024 x 1024 transparent PNG, same framing as the first image. This is a registered texture-baking source: change RGB within its object, keep its alpha silhouette and every component edge pixel-identical. No zoom, cropping, repositioning, geometry redesign, enlarged ornaments or altered camera.\n\nThe previous attempt failed by borrowing the art reference's sculpted contours and photographic highlights. Correct exactly that. Ignore the reference's shading entirely. Paint MATTE UNLIT BASE COLOUR, like a diffuse-colour texture displayed in an unlit material editor. Gold is a nearly uniform subdued ochre base colour, NOT shiny yellow metal. Ceramic is nearly uniform pale ivory. Resin is nearly uniform very dark violet with subtle engraved twisting grain. Orange slits have a flat bright-orange fill. A visible original lens can have a flat pale-blue-white fill. Tiny engraved lines, wear and material seams may remain, but no raised-looking illuminated ridges. No highlights, specular streaks, deep shaded grooves, ambient occlusion, cast shadows, directional lighting, rim light, bloom, reflections, 3D-render lighting or gradient shading. Do not copy the guide's grey/lavender tints either.\n\nPreserve exactly transparent pixels outside the guide object, including tiny internal holes. No stray coloured pixels, no glow outside the mask. No background, floor, text, letters or watermark.\n\nExact view:\nThin horizontal left profile, head LEFT and flared butt RIGHT. Preserve exactly x66..957, y483..540, shaft centered y512, shaft width 24 pixels, rings x421,588,754. The prongs are overlapped in this side camera. Do not turn the orb toward the camera to reveal a lens, and do not enlarge its collar. Butt cap is the simple flared wedge of the guide.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_left.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "fba7b8c4fbf2657e719a7a559b8434b9c38356eb63fe9ee10e6a207dd99a2b50",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available of the two permitted returns; selected for delivery, not approved as fully compliant. Narrow rings and shaft are closer to the guide and flatter than attempt 1. Head/neck contours still differ and retain shaded/specular details.",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-4ca62dfb-ff03-4dad-a1d3-9a1919d1ca76.png",
+      "visual_review": {
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "notes": "Narrow rings and shaft are closer to the guide and flatter than attempt 1. Head/neck contours still differ and retain shaded/specular details."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "cd9fdad62800ea5c449169081c213911890437b487e18850b03a6765ef4cc9df",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.97549,
+        "alpha_bbox_any_opacity": [
+          47,
+          61,
+          1240,
+          1166
+        ],
+        "alpha_bbox_threshold_128": [
+          81,
+          594,
+          1174,
+          659
+        ],
+        "guide_alpha_bbox": [
+          66,
+          483,
+          958,
+          541
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.93422,
+        "pixels_above_half_opacity_outside_normalized_guide": 1862,
+        "nonzero_alpha_pixels_outside_normalized_guide": 9872,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: colourize the FIRST attached image, which is the immutable geometry template. Use the SECOND attached image only to choose colours and surface patterns. Deliver one 1024 x 1024 transparent PNG, same framing as the first image. This is a registered texture-baking source: change RGB within its object, keep its alpha silhouette and every component edge pixel-identical. No zoom, cropping, repositioning, geometry redesign, enlarged ornaments or altered camera.\n\nThe previous attempt failed by borrowing the art reference's sculpted contours and photographic highlights. Correct exactly that. Ignore the reference's shading entirely. Paint MATTE UNLIT BASE COLOUR, like a diffuse-colour texture displayed in an unlit material editor. Gold is a nearly uniform subdued ochre base colour, NOT shiny yellow metal. Ceramic is nearly uniform pale ivory. Resin is nearly uniform very dark violet with subtle engraved twisting grain. Orange slits have a flat bright-orange fill. A visible original lens can have a flat pale-blue-white fill. Tiny engraved lines, wear and material seams may remain, but no raised-looking illuminated ridges. No highlights, specular streaks, deep shaded grooves, ambient occlusion, cast shadows, directional lighting, rim light, bloom, reflections, 3D-render lighting or gradient shading. Do not copy the guide's grey/lavender tints either.\n\nPreserve exactly transparent pixels outside the guide object, including tiny internal holes. No stray coloured pixels, no glow outside the mask. No background, floor, text, letters or watermark.\n\nExact view:\nThin horizontal right profile, flared butt LEFT and head RIGHT. Preserve exactly x66..957, y483..540, shaft centered y512, shaft width 24 pixels, rings x269,436,603. The prongs are overlapped in this side camera. Do not turn the orb toward the camera to reveal a lens, and do not enlarge its collar. Butt cap is the simple flared wedge of the guide.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_right.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "f964e4c36e4eb181b82cd07ff124a2416b34b15e587f71f9cccccb0df43ecf49",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available of the two permitted returns; selected for delivery, not approved as fully compliant. Narrow rings and shaft are closer to the guide and flatter than attempt 1. Head/neck contours still differ; ivory/gold edges retain bright highlights.",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-20817944-0b63-4034-8016-aef4cce98e45.png",
+      "visual_review": {
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "notes": "Narrow rings and shaft are closer to the guide and flatter than attempt 1. Head/neck contours still differ; ivory/gold edges retain bright highlights."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "22669f2feb58451a9bf3efe31894d6e309caaf5f87bdf92a0258157763490070",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.974064,
+        "alpha_bbox_any_opacity": [
+          75,
+          25,
+          1178,
+          1204
+        ],
+        "alpha_bbox_threshold_128": [
+          79,
+          592,
+          1175,
+          661
+        ],
+        "guide_alpha_bbox": [
+          66,
+          483,
+          958,
+          541
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.89471,
+        "pixels_above_half_opacity_outside_normalized_guide": 3374,
+        "nonzero_alpha_pixels_outside_normalized_guide": 12106,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "all_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: colourize the FIRST attached image, which is the immutable geometry template. Use the SECOND attached image only to choose colours and surface patterns. Deliver one 1024 x 1024 transparent PNG, same framing as the first image. This is a registered texture-baking source: change RGB within its object, keep its alpha silhouette and every component edge pixel-identical. No zoom, cropping, repositioning, geometry redesign, enlarged ornaments or altered camera.\n\nThe previous attempt failed by borrowing the art reference's sculpted contours and photographic highlights. Correct exactly that. Ignore the reference's shading entirely. Paint MATTE UNLIT BASE COLOUR, like a diffuse-colour texture displayed in an unlit material editor. Gold is a nearly uniform subdued ochre base colour, NOT shiny yellow metal. Ceramic is nearly uniform pale ivory. Resin is nearly uniform very dark violet with subtle engraved twisting grain. Orange slits have a flat bright-orange fill. A visible original lens can have a flat pale-blue-white fill. Tiny engraved lines, wear and material seams may remain, but no raised-looking illuminated ridges. No highlights, specular streaks, deep shaded grooves, ambient occlusion, cast shadows, directional lighting, rim light, bloom, reflections, 3D-render lighting or gradient shading. Do not copy the guide's grey/lavender tints either.\n\nPreserve exactly transparent pixels outside the guide object, including tiny internal holes. No stray coloured pixels, no glow outside the mask. No background, floor, text, letters or watermark.\n\nExact view:\nVertical full-length overhead view: x450..573, y66..957, staff center x512. Preserve every head contour, inner prong tooth, opening, neck, and all shaft edges. The shaft is a straight 24-pixel wide cylinder; the three rings at y421,588,754 remain the guide's narrow 12-pixel-tall plain rings, NOT the art's large sculpted collars. Retain the guide's small flared wedge butt at y922..957. Keep this exact geometry and paint decorative designs only within it.",
+      "input_paths": [
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/guide_top.png",
+        "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_conductors_baton/design_reference.png"
+      ],
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "fff5b49b831c6d22dd3f4ac97ead3b2e8334dd79906382c2ae4cb0a2f0d70e46",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1e8a12a9000b3b7777a3219a75365caa157dd3c8ee421498c13388c6f9ec9d03",
+          "role": "materials reference"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available of the two permitted returns; selected for delivery, not approved as fully compliant. Much flatter resin and rings than attempt 1. Head/neck silhouette and internal openings still differ; prong tips and butt cap are too gold relative to the ivory reference.",
+      "generated_path": "/home/pjasicek/.codex/generated_images/01a16eb9-41f2-7920-a328-3fb02dc9b982/exec-a761abc6-1ddd-400e-9f9b-48060fd246d0.png",
+      "visual_review": {
+        "materials_match_reference": false,
+        "flat_even_light_no_hot_highlights": true,
+        "no_text_or_letters": true,
+        "notes": "Much flatter resin and rings than attempt 1. Head/neck silhouette and internal openings still differ; prong tips and butt cap are too gold relative to the ivory reference."
+      },
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c2613a03358bb51afeb7611540b2a1a5e32fcd037e95f310f034a7d964874d49",
+      "checks": {
+        "rgba": true,
+        "requested_size": false,
+        "unresized_unedited_return": true,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.9649,
+        "alpha_bbox_any_opacity": [
+          73,
+          76,
+          1208,
+          1181
+        ],
+        "alpha_bbox_threshold_128": [
+          551,
+          79,
+          704,
+          1176
+        ],
+        "guide_alpha_bbox": [
+          450,
+          66,
+          574,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.80544,
+        "pixels_above_half_opacity_outside_normalized_guide": 8578,
+        "nonzero_alpha_pixels_outside_normalized_guide": 18882,
+        "no_text_or_letters": true,
+        "materials_match_reference": false,
+        "flat_even_light_no_hot_highlights": true,
+        "all_brief_checks_passed": false
+      }
+    }
+  ],
+  "status": "Delivered best available raw returns; exact silhouette requirement not achieved within the one-correction-per-view limit.",
+  "selection_note": "Selected means the preferred raw return copied to the required paint filename; it does not mean all brief checks passed.",
+  "validation_method": "PNG metadata and SHA-256 checked on unchanged returns. Silhouette alpha compared exactly when dimensions match; normalized silhouette IoU uses nearest-center guide sampling in memory at alpha >= 128 only for diagnostics. No PNG pixels were changed or resized."
+}

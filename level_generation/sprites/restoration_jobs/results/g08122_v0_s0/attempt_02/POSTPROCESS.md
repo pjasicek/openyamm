@@ -1,0 +1,1 @@
+Process with --adjust 0.96 0 10. Save fresh ungraded final as .before_tone.png, run restore_native_tone.py, then queue.py check g08122_v0_s0. Foliage and bark are matched separately to native opaque RGB means with alpha unchanged. Refresh backup after reprocessing. Default registration clipped the top crown and was replaced.

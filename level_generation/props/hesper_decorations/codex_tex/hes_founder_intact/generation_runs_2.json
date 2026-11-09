@@ -1,0 +1,88 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations_used": 1,
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Asset type: rear orthographic albedo texture-source painting for an existing 3D statue, 1024 x 1024 RGBA PNG, transparent background.\nInput image 1 (design_reference.png) is ONLY the authority for design, colours and surface materials. Input image 2 (guide_back.png) is the EDIT TARGET and absolute geometry authority. Paint the grey surface of image 2, preserving its EXACT silhouette, outline, position, size, every shape edge, opening, detail, stepped plinth and rear orthographic camera. Do not copy the camera, pose or shape of image 1. Return the full 1024x1024 frame of image 2 without cropping, repositioning or resizing the object. Preserve the transparent background and the target alpha silhouette exactly, including edge antialiasing. This is the statue seen directly from the BACK: rear of head, short carved curly hair, back of hood/collar, shoulder mantle and cascading long robe/cape over a stepped rectangular plinth. Do not turn it toward the viewer, do not show its face or chest.\nPaint the material design onto the existing shapes: polished white-and-bone ceramic stone, clean and smooth with subtle pale ivory/beige mineral variation as in the approved reference; same pale stone head and hands, not flesh, and pale stone carved curly hair. Bright gold trim on existing robe hem, sash and plinth's top edge, following the reference's gold edging where those surfaces are visible from behind. Gold is a flat golden-yellow albedo material colour with quiet fine trim detailing. All existing folds remain in the exact locations of the guide, no newly projecting ornaments, no changes to silhouette. Do not invent new structures.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. The reference supplies materials, NOT its directional lighting or strong fold shadows. Keep deep folds light ivory in their local material colour, not dark grey or black. No glow or lighting spill, no text, no watermark. Nothing added outside the guide silhouette, nothing cropped. Produce one finished back-view painting only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "cd5f88aa51948c1e206b317a29c99c1ca6a656481ed6ca7d059c235c25f341e6"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a157df-3c61-7402-a029-519b99c3604e/exec-7ade0949-9e26-4684-aba4-3b43a79083cc.png",
+      "output_sha256": "b1845c7411f3db11e4fce2247b188113d154ecabf128d0b27de83b3d1302d3a0",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254, silhouette and folds were redesigned, and directional fold shading remains.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "silhouette_identical": false,
+        "materials_and_colours_match": true,
+        "flat_even_shadowless_light": false,
+        "transparent_background": true
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "CORRECTIVE GENERATION, ONE IMAGE. Required native output: exactly 1024 by 1024 pixels, RGBA PNG with transparent background. Do not output 1254 by 1254 or any other size. This is a precise material-only edit of the FIRST attached image, guide_back.png, not a new statue illustration.\nFIRST IMAGE: exact 1024x1024 rear orthographic grey geometry guide, the EDIT TARGET. Preserve the guide's alpha mask pixel-for-pixel, all shape edges, folds, cutouts, stepped plinth, the exact framing, scale and position. The statue's silhouette occupies x=301..722 and y=66..957 within the 1024x1024 frame. Do not smooth away or redesign the guide's angular cloth silhouette or the pointed/angled hem. Do not round its plinth corners. Do not make the robe wider, narrower, taller or shorter. Keep each visible grey fold edge in its exact place. Keep the rear head and collar outlines and all irregular left and right cape/sleeve edges. Every transparent pixel must stay transparent. No new outer details. No cropping, reframing, perspective or changing the rear view.\nSECOND IMAGE: design_reference.png is ONLY the material and colour reference: ivory white-and-bone polished ceramic stone and bright gold trim. Paint these materials into the FIRST IMAGE'S exact shapes. Use subtle, restrained pale beige mineral texture on clean smooth white/bone stone. The back of head has carved pale stone short curls, within the unchanged guide contour. All surfaces remain stone, not skin or fabric. Gold follows existing visible robe hem, sash/garment trim and the plinth's top edge, consistent with the approved design. Surface detail must not change geometry.\nCRITICAL: this is an ALBEDO TEXTURE SOURCE for projection onto the existing model. FLAT, EVEN, SHADOWLESS frontal illumination. No ambient occlusion, no dark crease shadows, no cast shadow, no rim light, no specular glints or shine, no reflections, no floor, no backdrop. No photographic product lighting. Preserve light ivory local material colour even in recesses. Gold reads as flat golden-yellow local colour without glints. The design reference's lighting is NOT to be copied.\nCorrect the prior attempt's failures: use native 1024x1024 output, keep the original guide's exact angular silhouette and fold edges instead of inventing smoothly rounded cape folds, and eliminate directional shading. Return only the finished material-painted original guide, full frame, transparent background.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "cd5f88aa51948c1e206b317a29c99c1ca6a656481ed6ca7d059c235c25f341e6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "output": "paint_back.png",
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a157df-3c61-7402-a029-519b99c3604e/exec-25c8de7b-4c7d-4c37-b97f-e1353168d0a2.png",
+      "output_sha256": "c43a0ad629205313a4d9a1f1efb284f647223de96d54edc0ad6f4285d281ac26",
+      "selected": true,
+      "accepted": false,
+      "reason": "Best available after the one permitted corrective generation: closer angular folds and suitable ivory/gold palette. Saved byte-for-byte, unresized. Still fails the exact 1024x1024 requirement and exact guide silhouette; some fold shading and faint stray alpha remain. Selection does not mean brief compliance.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "silhouette_identical": false,
+        "materials_and_colours_match": true,
+        "flat_even_shadowless_light": false,
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          21,
+          1246,
+          1254
+        ],
+        "alpha_128_bbox": [
+          371,
+          77,
+          891,
+          1172
+        ],
+        "postprocessed": false
+      }
+    }
+  ]
+}

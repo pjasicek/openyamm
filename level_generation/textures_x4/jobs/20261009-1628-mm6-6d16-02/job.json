@@ -1,0 +1,435 @@
+{
+ "id": "20261009-1628-mm6-6d16-02",
+ "world": "mm6",
+ "maps": [
+  "6d16.blv",
+  "6d03.blv",
+  "6t2.blv"
+ ],
+ "created": "2026-10-09T14:28:25+00:00",
+ "textures": [
+  "mm6/d2smldo2",
+  "mm6/d8ceila",
+  "mm6/d8ceild",
+  "mm6/d8florf",
+  "mm6/d8florg",
+  "mm6/d8florh",
+  "mm6/d8s2off",
+  "mm6/d8s2on",
+  "mm6/qgzwood",
+  "mm6/d8dorf",
+  "mm6/bemdk3",
+  "mm6/cb5side",
+  "mm6/bemstart",
+  "mm6/cb5frnt",
+  "mm6/cb5top",
+  "mm6/cbfeam9",
+  "mm6/cbm16",
+  "mm6/cbm16b",
+  "mm6/cbmxbrck",
+  "mm6/cbrdbrck",
+  "mm6/d5flord",
+  "mm6/wood017",
+  "mm6/wood018a",
+  "mm6/mnflorc"
+ ],
+ "requests": {
+  "mm6/d2smldo2": {
+   "name": "d2smldo2",
+   "versions": [
+    1
+   ],
+   "material": "narrow dark brown weathered vertical wooden plank door with a black iron ring-pull handle and latch plate on the left, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8ceila": {
+   "name": "d8ceila",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-purple rough stone ceiling of large square blocks with pale worn joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8ceild": {
+   "name": "d8ceild",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown rough crumbly earth and stone ceiling surface",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8florf": {
+   "name": "d8florf",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark-jointed crazy-paving floor of irregular tan-brown flagstones with thick black gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm6/mbdrst",
+     "left": "mm6/d8florc"
+    }
+   }
+  },
+  "mm6/d8florg": {
+   "name": "d8florg",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey rough cut stone block floor with irregular square slabs and dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8florh": {
+   "name": "d8florh",
+   "versions": [
+    1
+   ],
+   "material": "plain dull dark red stucco floor with soft uneven mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8s2off": {
+   "name": "d8s2off",
+   "versions": [
+    1
+   ],
+   "material": "small dark stone wall plate with a recessed vertical slot and a bronze T-shaped lever handle in the lowered position, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8s2on": {
+   "name": "d8s2on",
+   "versions": [
+    1
+   ],
+   "material": "small dark stone wall plate with a recessed vertical slot and a bronze T-shaped lever handle in the raised position, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/qgzwood": {
+   "name": "qgzwood",
+   "versions": [
+    1
+   ],
+   "material": "pale whitewashed wood with faint grey horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8dorf": {
+   "name": "d8dorf",
+   "versions": [
+    1
+   ],
+   "material": "tall dark blue-grey weathered metal door panel with a riveted bronze frame and a rusty red iron bar latch across the lower part, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8dore"
+     ],
+     "fraction": 0.816
+    }
+   }
+  },
+  "mm6/bemdk3": {
+   "name": "bemdk3",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "dark red-brown polished wood beam with long straight grain",
+   "notes": {
+    "3": "One continuous horizontal wooden plank with grain only; no panel joints, rails or frame lines.",
+    "4": "One single wooden plank running the full width with grain from edge to edge; no vertical post, no horizontal joint line and no rail anywhere.",
+    "5": "One continuous dark red-brown wooden plank across the full width with straight grain from edge to edge; no vertical post, no horizontal rail or joint line anywhere."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bdksh32b",
+      "mm6/bdksh16a"
+     ],
+     "fraction": 0.462
+    },
+    "2": {
+     "sources": [
+      "mm6/bdksh32b"
+     ],
+     "fraction": 0.438
+    },
+    "3": {
+     "sources": [
+      "mm6/bdksh32b"
+     ],
+     "fraction": 0.438
+    },
+    "4": {
+     "sources": [
+      "mm6/bdksh32b"
+     ],
+     "fraction": 0.438
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm6/cb5side": {
+   "name": "cb5side",
+   "versions": [
+    1
+   ],
+   "material": "ornate wooden cabinet side: orange-brown wood panel framed in a gilded border filled with a small checkered marquetry inlay pattern, gilded marquetry band at the top, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemstart": {
+   "name": "bemstart",
+   "versions": [
+    1
+   ],
+   "material": "plain warm orange-brown polished wood beam with long straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cb5frnt": {
+   "name": "cb5frnt",
+   "versions": [
+    1
+   ],
+   "material": "one complete front face of an ornate wooden cabinet: three orange-brown wood door panels, the centre one with a round embossed gold medallion, the side ones with blue-and-white oval porcelain plaques of flowers, gilded carved friezes along the top, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cb5top": {
+   "name": "cb5top",
+   "versions": [
+    1
+   ],
+   "material": "plain grey-white veined marble cabinet top slab",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbfeam9": {
+   "name": "cbfeam9",
+   "versions": [
+    1
+   ],
+   "material": "plain warm orange-brown wood plank with straight grain and a small knot",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbm16": {
+   "name": "cbm16",
+   "versions": [
+    1
+   ],
+   "material": "plain dark orange-brown polished wood beam with long straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbm16b": {
+   "name": "cbm16b",
+   "versions": [
+    1
+   ],
+   "material": "plain dark orange-brown polished wood beam with long straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbmxbrck": {
+   "name": "cbmxbrck",
+   "versions": [
+    1
+   ],
+   "material": "red-orange clay brick wall with mixed pale and dark bricks and light grey mortar, running bond",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cbrdbrck": {
+   "name": "cbrdbrck",
+   "versions": [
+    1
+   ],
+   "material": "red clay brick wall with light grey mortar, running bond",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5flord": {
+   "name": "d5flord",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone floor slab with a carved square border framing a dark interlaced diagonal lattice relief, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/wood017": {
+   "name": "wood017",
+   "versions": [
+    1
+   ],
+   "material": "plain warm medium-brown wood plank with straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/wood018a": {
+   "name": "wood018a",
+   "versions": [
+    1
+   ],
+   "material": "plain pale tan-brown wood plank with straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/mnflorc": {
+   "name": "mnflorc",
+   "versions": [
+    1
+   ],
+   "material": "dark brown weathered horizontal wooden floor planks with deep grain and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

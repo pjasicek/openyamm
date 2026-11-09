@@ -1,0 +1,617 @@
+{
+ "id": "20261009-1649-mm8-out13-03",
+ "world": "mm8",
+ "maps": [
+  "out13.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/gstntilev",
+  "mm8/sgalch",
+  "mm8/sgarm",
+  "mm8/sgmagic",
+  "mm8/sgspell",
+  "mm8/sgtvrn",
+  "mm8/sgweap",
+  "mm8/t01a02a",
+  "mm8/t01a02b",
+  "mm8/t01a03c",
+  "mm8/t02a11a",
+  "mm8/t03a05c",
+  "mm8/t05a10",
+  "mm8/t05a11",
+  "mm8/t06c11",
+  "mm8/t08a04",
+  "mm8/t09a02a",
+  "mm8/t09a02b",
+  "mm8/t09a03a",
+  "mm8/t09a03b",
+  "mm8/t09a03c",
+  "mm8/t09a05",
+  "mm8/t09a10b",
+  "mm8/t09b11a"
+ ],
+ "requests": {
+  "mm8/gstntilev": {
+   "name": "gstntilev",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark green-grey marble tiles with pale veining, in a column",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gstn1cl",
+     "right": "mm8/gstn1cl"
+    }
+   }
+  },
+  "mm8/sgalch": {
+   "name": "sgalch",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign: purple board with a blue-grey frame, a glass flask with an orange flame in the centre, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/sgarm": {
+   "name": "sgarm",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign: red-brown plank board with a blue-grey frame, a silver plate armour breastplate and gauntlet in the centre, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/sgmagic": {
+   "name": "sgmagic",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign: purple board with a blue-grey frame, two crossed golden magic wands, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/sgspell": {
+   "name": "sgspell",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "painted wooden shop sign: purple board with a blue-grey frame, a starry blue wizard hat and a small green potion, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm8/sgtvrn": {
+   "name": "sgtvrn",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "painted wooden shop sign: green board with a brown wooden frame, a pewter beer tankard, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     8
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t05a10"
+    }
+   }
+  },
+  "mm8/sgweap": {
+   "name": "sgweap",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign: light wooden board, a crossed sword and battle axe, copy the emblem exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t01a02a": {
+   "name": "t01a02a",
+   "versions": [
+    1
+   ],
+   "material": "rounded pale grey-brown cobblestones packed in dark earth, worn smooth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t01a02b": {
+   "name": "t01a02b",
+   "versions": [
+    1
+   ],
+   "material": "rounded dark grey-brown cobblestones packed in black earth, worn smooth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t01a03c": {
+   "name": "t01a03c",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "irregular warm brown-grey fieldstone wall with an ornate carved bone-white serpentine frame and a pale crystal, beside a dark wooden plank door",
+   "notes": {
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [
+      "mm8/t01a11c"
+     ],
+     "fraction": 0.022
+    },
+    "5": {
+     "sources": [
+      "mm8/t01a11c"
+     ],
+     "fraction": 0.022
+    },
+    "6": {
+     "sources": [
+      "mm8/t01a11c"
+     ],
+     "fraction": 0.022
+    },
+    "7": {
+     "sources": [
+      "mm8/t01a11c"
+     ],
+     "fraction": 0.022
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {
+     "left": "mm8/t01a03b",
+     "right": "mm8/t01a07a"
+    },
+    "5": {
+     "left": "mm8/t01a03b",
+     "right": "mm8/t01a07a"
+    },
+    "6": {
+     "left": "mm8/t01a03b",
+     "right": "mm8/t01a07a"
+    },
+    "7": {
+     "left": "mm8/t01a03b",
+     "right": "mm8/t01a07a"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ],
+    "7": [
+     32,
+     16
+    ]
+   },
+   "roll": {
+    "5": [
+     0,
+     150
+    ]
+   }
+  },
+  "mm8/t02a11a": {
+   "name": "t02a11a",
+   "versions": [
+    1
+   ],
+   "material": "horizontal rounded grey stone moulding strip, weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t03a05c": {
+   "name": "t03a05c",
+   "versions": [
+    1
+   ],
+   "material": "dry golden-tan thatch straw, dense and windswept",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t05a10": {
+   "name": "t05a10",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark reddish-brown wood board photographed in sharp focus: crisp continuous fine vertical grain lines, pores and small cracks",
+   "notes": {
+    "3": "sharp photographic wood: every grain line crisp and continuous, no smeared or brushed look"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "3": 2.5
+   }
+  },
+  "mm8/t05a11": {
+   "name": "t05a11",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark reddish-brown wood board photographed in sharp focus: crisp continuous fine horizontal grain lines, pores and small cracks",
+   "notes": {
+    "3": "sharp photographic wood: every grain line crisp and continuous, no smeared or brushed look"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "3": 2.5
+   }
+  },
+  "mm8/t06c11": {
+   "name": "t06c11",
+   "versions": [
+    1
+   ],
+   "material": "weathered olive-brown wood grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t08a04": {
+   "name": "t08a04",
+   "versions": [
+    1
+   ],
+   "material": "rows of rounded terracotta clay roof tiles, red-orange, weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t09a02a": {
+   "name": "t09a02a",
+   "versions": [
+    1
+   ],
+   "material": "smooth grey-brown weathered stone plaster, faintly mottled",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t09a02b": {
+   "name": "t09a02b",
+   "versions": [
+    1
+   ],
+   "material": "smooth grey-brown weathered stone slab with a darker bevelled border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t09a03a": {
+   "name": "t09a03a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grey granite arched doorway frame of wedge stones around a dark carved oak door with iron fittings",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t09a01"
+    },
+    "3": {
+     "left": "mm8/t09a01"
+    },
+    "4": {
+     "left": "mm8/t09a01"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     155
+    ]
+   }
+  },
+  "mm8/t09a03b": {
+   "name": "t09a03b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey granite arched doorway frame of wedge stones around a dark carved oak door with iron fittings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t09a03a",
+     "right": "mm8/t09a01"
+    },
+    "3": {
+     "left": "mm8/t09a03a",
+     "right": "mm8/t09a01"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     156
+    ]
+   }
+  },
+  "mm8/t09a03c": {
+   "name": "t09a03c",
+   "versions": [
+    1
+   ],
+   "material": "grey granite arched doorway frame of wedge stones around a dark oak plank door with iron straps and a small barred window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t09a05": {
+   "name": "t09a05",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rows of curved terracotta clay roof tiles, red-orange, photographed in sharp focus: crisp tile edges, fine clay grain, small chips and weathering",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t09a10b": {
+   "name": "t09a10b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark carved oak panel with an inlaid geometric meander groove",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t09b11a": {
+   "name": "t09b11a",
+   "versions": [
+    1
+   ],
+   "material": "horizontal grey stone cornice with parallel carved mouldings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as colour reference only (magenta is not part of the object). Output one transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the exact guide geometry and layout: three columns FOUR rows, 512 square cells at requested size. Rows 1-2 contain five views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 duplicate those same five views. The actual guide is authoritative: four views are very thin horizontal edge-on shields with a small protruding boss, and only the middle cell of row 2 (and row 4) is the broad round face. Do not replace edge-on views with upright discs. Paint grey objects only, preserve each object's exact position, size, outline, faceted geometry and openings. Empty cells column 3 rows 2 and 4 fully transparent.\nRows 1-2 PAINT: unlit base colour matching the approved pale-silver round shield, thick red studded rim and red-over-white central boss. Reference detail scaled to each visible view. No lighting, cast shadows, AO, hot highlights or reflections; reference white on boss should be base pigment rather than specular highlight. No invented detail.\nRows 3-4 MATERIAL MASK: same five exact silhouettes with FLAT PURE colours ONLY: #FF0000 every metal (including painted metal shield, boss, rim and studs); #00FF00 leather and fur; #FFFF00 matte nonmetal solid (wood, bone, horn, stone, paper, wax); #000000 gemstones, crystal, glass, pearl, enamel or liquid through glass. No shading, texture, outlines or antialiased colour blends inside. Each silhouette pixel exactly one material colour; nothing outside. This shield's visible metal surfaces should be pure red in mask regardless of their paint colours.\nKeep all gaps and outside fully transparent, no background, ground, text, labels, outlines, halos, sparkle or aura. Never redraw, enlarge, move or redesign the guide objects.\nCRITICAL CORRECTION: Exact clean silhouette fidelity is essential. No scattered pixels, paint spray, flecks or debris anywhere outside the original grey silhouettes. Retain the guide's polygonal round face outline, not a redesigned smooth circle. Bottom two rows must be solid uniformly pure #FF0000 silhouettes, absolutely NO internal linework, NO circles outlining studs, NO rim lines, NO boss outlines, NO gradients, NO shadows. A featureless single red fill within each guide silhouette. Upper rows need flat unlit painted textures, not shaded photographic render. Use original guide alpha boundaries strictly.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10223/paint_mask_guide.png",
+      "sha256": "0b65bce4254df779de42bd40696820f6d027f6f0ab3f264a1f3c57f4dedb2193"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10223/design_reference.png",
+      "sha256": "7694ab58557bd3b207eebb243d92e9381352662cb7c09924dafdfaffb1fe595e"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10223/icon_x8.png",
+      "sha256": "7dd8aab2567b37eca44f3246ef930efaa52cd7195841f8ecb5dedd9117fd49f7"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0b-a8c7-72c2-a7cb-450c11ca13e0/exec-c0357125-5f1b-4da2-83e7-744b48eaa41a.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10223/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained, but stray pixels outside silhouettes and nonuniform material mask remain; raw output preserved unchanged."
+}

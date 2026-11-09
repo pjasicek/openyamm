@@ -1,0 +1,64 @@
+{
+  "status": "prepared_and_reviewed",
+  "iteration": "connected_v5",
+  "dirt_master": "v6",
+  "user_artistic_approval": "Accepted masters retained; new edge artwork prepared for user comparison, approval not assumed",
+  "user_reference": "test_img/1264.png",
+  "scope": "36 non-water land tiles at256px;33 masks at512px",
+  "structural": {
+    "mask_checks_512_and_256": 398,
+    "unique_rgb_joins": 211,
+    "placed_rgb_joins": 8524,
+    "failures": 0,
+    "reports": [
+      "mask_check_v5.json",
+      "rgb_join_check_v5.json",
+      "invariants_v5.json"
+    ],
+    "unique_rgb_joins_authoring_512": 211
+  },
+  "visual_review": {
+    "reviewer": "Codex visual inspection",
+    "material_repeat": "Accepted grass, dirt, cobble and volcano masters unchanged; single-master pattern repetition remains visible, especially grass on flat patches",
+    "families": "All33 AI boundary edits reviewed original/before/new at runtime size; protected interiors unchanged",
+    "pairs_and_corners": "All199 compatible source pair types and280 source2x2 cases inspected for v5;10 contradictory source cases remain flagged; all6 legal larger layouts inspected",
+    "native_flat": "Six legal layouts plus allfour oblique directions at near/far distances reviewed",
+    "map": "Four requested New Sorpigal viewpoints plusfour corrected-land contexts; original/new comparison generated",
+    "sampling": "Anisotropic8x and bilinear views inspected, including nine sampled movement frames each; no land-boundary discontinuities seen in these samples",
+    "limits": [
+      "Fine texture still mathematically repeats from one master",
+      "No full-frame-rate temporal shimmer certification or GPU benchmark",
+      "Water and shoreline are excluded; their original seams remain visible",
+      "Some actual-map screenshots contain active actors and spell effects; flat image contexts and native fixture provide unobscured land coverage"
+    ],
+    "edge_appearance": "Road contact rims darkened and clipped perimeter stones rounded; grass has irregular olive/brown fringe; rock has weaker speckled blending. No broad uniform black outline added"
+  },
+  "map_correction": {
+    "changed_cells": 7,
+    "original_asset_modified": false,
+    "patch": "../map_corrections/patch.json"
+  },
+  "regression_invariants": {
+    "unchanged_masks_since_v4": 33,
+    "unchanged_masters": [
+      "grass v1",
+      "cobbles v1",
+      "volcano v2",
+      "dirt v6"
+    ],
+    "unchanged_pure_runtime_tiles": 3,
+    "protected_transition_interiors_unchanged": 33,
+    "report": "invariants_v5.json",
+    "original_map_sha256": "f882b149aba446c0f1396d05255f4146efd5c885aa5dd2dea38740a0c1e1dbf4"
+  },
+  "captures": "capture_manifest_v5.json",
+  "iteration_feedback": "../edge_treatment/feedback.json",
+  "production_installation": "none; isolated trial stages and portable overlay prepared",
+  "ai_edge_edits": 33,
+  "capture_provenance": {
+    "capture_runs": 33,
+    "same_frozen_binary": true,
+    "binary_sha256": "3300fd48ece0b3d6ebc2a6438f1ab109fb0726a0059f636a42faee51e3f68d5d",
+    "note": "One bilinear Xvfb wrapper exited143 during cleanup after saving complete capture metadata and images; outputs and settings hashes verified."
+  }
+}

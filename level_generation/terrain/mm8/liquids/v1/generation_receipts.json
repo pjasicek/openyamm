@@ -1,0 +1,38 @@
+{
+  "count": 3,
+  "outputs": [
+    {
+      "family": "water",
+      "tool": "built-in imagegen",
+      "cache_source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-ad30f7af-821b-43a8-a1d6-3e39f9974d83.png",
+      "raw": "level_generation/terrain/mm8/liquids/v1/raw/water_atlas.png",
+      "raw_sha256": "9a7ce30fa382e158236c68e63494ec7520f6b52e46bee8c102d1d958eb8b8a95",
+      "prompt": "level_generation/terrain/mm8/liquids/v1/prompts/water.txt",
+      "prompt_sha256": "f9b1a67271dde1adfdbae4c4c2ad8a2f4e90db74e8165f277631cd0b73e90cec",
+      "reference": "level_generation/terrain/mm8/liquids/v1/inputs/water_atlas.png",
+      "reference_sha256": "45e4bf6ede30801e17c025171734452c4c57da7eb5355378e26b62084a7fa1e0"
+    },
+    {
+      "family": "lava",
+      "tool": "built-in imagegen",
+      "cache_source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-2fc18a86-26e8-4ec8-9fad-d139d0f4e103.png",
+      "raw": "level_generation/terrain/mm8/liquids/v1/raw/lava_atlas.png",
+      "raw_sha256": "f87416e2f7a73a5c26f47f8e432c3c6ff89de79a0ac407324442c261f53b84ae",
+      "prompt": "level_generation/terrain/mm8/liquids/v1/prompts/lava.txt",
+      "prompt_sha256": "6938081387a6a59003c369b4e2cdb33fb7c2216b8c8845c93d3e730df4a43f62",
+      "reference": "level_generation/terrain/mm8/liquids/v1/inputs/lava_atlas.png",
+      "reference_sha256": "24480e7bc6db26d997f5f9fa8632e25d58afc438d110a4c77ac27455f327aabc"
+    },
+    {
+      "family": "tar",
+      "tool": "built-in imagegen",
+      "cache_source": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-e76773db-076c-4840-8290-5d4d63835537.png",
+      "raw": "level_generation/terrain/mm8/liquids/v1/raw/tar_atlas.png",
+      "raw_sha256": "6fb7362f83d5e62cb9d455329c801c690e2abb7f4d4ddf73439f24414dace199",
+      "prompt": "level_generation/terrain/mm8/liquids/v1/prompts/tar.txt",
+      "prompt_sha256": "35fa0a81effb04afb61c4d4d7b51cb0a83f622e0d238f782e1fd846398dd3ea4",
+      "reference": "level_generation/terrain/mm8/liquids/v1/inputs/tar_atlas.png",
+      "reference_sha256": "c5f56cc3609d94315891771a038c487a0c636fdc66d2d60465997f966b974b9e"
+    }
+  ]
+}

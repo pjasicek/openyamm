@@ -1,0 +1,172 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_verhoffinruins/review/cal3
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a01_start_stair
+  position:
+  - -1229
+  - -5967
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: a03_falling_door
+  position:
+  - -768
+  - -5059
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: a04_bolted_door
+  position:
+  - -4506
+  - -3968
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: a05_pentagram
+  position:
+  - -3968
+  - -3727
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: a06_torture_chamber
+  position:
+  - -5120
+  - -3727
+  - -327
+  yaw: 3.1416
+  pitch: 0.0
+- name: a07_capstone_block
+  position:
+  - -6707
+  - -3328
+  - -327
+  yaw: -2.1645
+  pitch: 0.0
+- name: a09_saw_corridor
+  position:
+  - -4531
+  - -1434
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: a10_water_trap_room
+  position:
+  - 384
+  - -896
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: a11_door5
+  position:
+  - -307
+  - 307
+  - -327
+  yaw: 2.7707
+  pitch: 0.0
+- name: a12_book
+  position:
+  - -358
+  - 461
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: a13_key_table
+  position:
+  - 3328
+  - -5376
+  - -327
+  yaw: -1.9716
+  pitch: 0.0
+- name: r01_a
+  position:
+  - -4119
+  - -5947
+  - -327
+  yaw: 0.0454
+  pitch: 0.0
+- name: r03_a
+  position:
+  - -2130
+  - -5914
+  - -327
+  yaw: -3.0253
+  pitch: 0.0
+- name: r07_b
+  position:
+  - -3564
+  - -5120
+  - -327
+  yaw: 0.69
+  pitch: 0.0
+- name: r13_a
+  position:
+  - -3912
+  - -4252
+  - -327
+  yaw: -0.0296
+  pitch: 0.0
+- name: r14_b
+  position:
+  - -3087
+  - -4273
+  - -327
+  yaw: -0.0752
+  pitch: 0.0
+- name: r15_a
+  position:
+  - -6157
+  - -2703
+  - -327
+  yaw: -1.5781
+  pitch: 0.0
+- name: r17_a
+  position:
+  - -5363
+  - -3072
+  - -327
+  yaw: -1.0763
+  pitch: 0.0
+- name: r22_a
+  position:
+  - -6856
+  - -2363
+  - -327
+  yaw: -0.1718
+  pitch: 0.0
+- name: r23_b
+  position:
+  - 3333
+  - -1208
+  - -327
+  yaw: -1.5708
+  pitch: 0.0
+- name: r24_b
+  position:
+  - 397
+  - -1672
+  - -327
+  yaw: 1.6094
+  pitch: 0.0
+- name: r25_a
+  position:
+  - 302
+  - -556
+  - -327
+  yaw: -3.1371
+  pitch: 0.0
+- name: r26_a
+  position:
+  - 1398
+  - -755
+  - -327
+  yaw: -0.1924
+  pitch: 0.0
+- name: r27_b
+  position:
+  - 3341
+  - -691
+  - -327
+  yaw: 1.4453
+  pitch: 0.0

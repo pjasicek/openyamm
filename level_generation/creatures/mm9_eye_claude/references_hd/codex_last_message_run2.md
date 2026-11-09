@@ -1,0 +1,3 @@
+Saved `01_front.png`–`04_right.png` using built-in image generation, updated `generation_runs.json` with prompts and hashes, and created the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_eye_claude/references_hd/selected_views_review.png). Frozen `00` is unchanged.
+
+Stopped at one correction per view. Remaining limitations: imperfect side profiles, obscured limbs, tight margins and stray alpha pixels; full compliance is not claimed.

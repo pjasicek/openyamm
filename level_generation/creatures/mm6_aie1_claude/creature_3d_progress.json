@@ -1,0 +1,58 @@
+{
+ "creature_3d_identity": "mm6:aie1",
+ "creature": "MM6 air elemental (aie1), descriptors 523/524/525 ElemAir A/B/C (Dust Devil, Twister, Air Elemental)",
+ "scope": "Complete family: procedural wind model from the restored x2 frames (no Meshy), all clips including the lightning attack, three tiers by region ramps, LODs, runtime binding, regression and outdoor/indoor checks.",
+ "source": {
+  "world": "mm6",
+  "family": "aie1",
+  "descriptor_ids": [
+   523,
+   524,
+   525
+  ],
+  "palettes": [
+   198,
+   199,
+   724
+  ],
+  "restored_frames": "../mm6_aie1/redo_2x/aligned_2x"
+ },
+ "status": "complete",
+ "route": "Procedural Blender shells + texture scroll (README.md); the Meshy playbooks and HD masters do not apply to a body without surface or anatomy.",
+ "next_action": {
+  "owner": "none",
+  "action": "Accepted; no outstanding work."
+ },
+ "runtime": {
+  "source": "assets_source/worlds/mm6/models/mm6_aie1.glb",
+  "source_sha256": "0bfda8647f60405d344d4134f35fe8dc0e6bcfa1ab756df1725d70e4e3140846",
+  "runtime_copy": "assets_dev/worlds/mm6/models/mm6_aie1.glb",
+  "runtime_sha256": "0bfda8647f60405d344d4134f35fe8dc0e6bcfa1ab756df1725d70e4e3140846",
+  "binding": "assets_dev/worlds/mm6/models/actors.yml (ElemAir A/B/C)",
+  "regression": "mm6_aie1_actor_model_tiers_follow_sprite_scales"
+ },
+ "agent_visual_review": {
+  "status": "passed",
+  "evidence": [
+   "review/attack_clip.png",
+   "review/clips_standing_hit_death.png",
+   "review/ingame_indoor_air_elemental.png",
+   "review/ingame_standing.png",
+   "review/ingame_tiers_outdoor.png",
+   "review/lods_forced.png",
+   "review/region_mask.png",
+   "review/standing_vs_restored_sprite.png",
+   "review/wind_atlas_dark.png",
+   "review/wind_atlas_sky.png"
+  ]
+ },
+ "user_acceptance": {
+  "status": "accepted",
+  "revision": "mm6_aie1_v1 (texture scroll 1.0/s)",
+  "runtime_sha256": "0bfda8647f60405d344d4134f35fe8dc0e6bcfa1ab756df1725d70e4e3140846",
+  "accepted_at": "2026-10-13T15:34:12.801104+00:00",
+  "feedback": "Make the texture rotation faster (scroll 0.45 -> 1.0 per second).",
+  "statement": "ok perfect accept it"
+ },
+ "updated_at": "2026-10-13T15:34:12.801104+00:00"
+}

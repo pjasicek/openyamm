@@ -1,0 +1,532 @@
+{
+  "label": "Titan A",
+  "creature": "titan",
+  "base_palette": 91,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "preserve_delivered_rgb": true,
+  "material_edge_hue_repair": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m414sa0",
+    "m414sa1",
+    "m414sa2",
+    "m414sa3",
+    "m414sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "true_alpha": true,
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "description": "The exact original towering ancient Greek-style armored male titan: tall muscular adult human proportions, small stern clean-shaven pale gray-tan face and bare strong gray-tan arms and thighs. Fitted very dark navy-blue metallic muscle cuirass with defined chest and abdomen, angular pointed shoulder rims edged in narrow gold, short overlapping navy scale-like armored skirt, narrow gold waist belt. Navy-blue helmet with thin gold brow band and cheek guards, small raised gold central forehead ornament, and high swept-back silver-white ribbed horsehair crest running front to back. Dark navy knee-high shin greaves with gold upper rims and gold lightning-shaped front inlay; navy feet with small gold toe borders. Navy forearm bracers with gold rims. His right hand holds the exact native straight broad silver short sword with a slightly leaf-shaped taper, tiny gold crossguard and gold pommel; left hand empty. Preserve native blade angle, length and hand grip in each pose. Restrained blue metallic highlights, dark heavy shadow, gold trim, gray-tan skin, pale silver crest and silver blade. Navy armor changes to olive-gold or dark red in native variants, while the crest changes separately to orange or crimson; skin, sword and gold trim stay protected. No shield, cape, beard, new ornaments, wings, glow, extra weapon or redesign. Preserve native tall slender proportions and original pose, including exactly the native collapse fragments.",
+  "clear_alpha1_border_batches": [
+    "standing",
+    "w_1_0",
+    "w_1_1",
+    "w_0_0",
+    "w_0_1",
+    "w_2_0",
+    "w_3_0",
+    "w_2_1",
+    "w_3_1",
+    "a_0_0",
+    "a_0_1",
+    "w_4_0",
+    "w_4_1",
+    "a_1_0",
+    "a_3_0",
+    "a_4_0",
+    "a_4_1",
+    "n_1_0",
+    "n_2_0",
+    "n_3_0",
+    "fidget",
+    "n_4_1",
+    "death_corpse_0"
+  ],
+  "reviewed_border_alpha_limits": {
+    "standing": 7,
+    "w_1_0": 1,
+    "w_1_1": 1,
+    "w_0_0": 1,
+    "w_0_1": 1,
+    "w_2_0": 1,
+    "w_3_0": 1,
+    "w_2_1": 2,
+    "w_3_1": 2,
+    "a_0_0": 1,
+    "a_0_1": 1,
+    "w_4_0": 5,
+    "w_4_1": 4,
+    "a_1_0": 1,
+    "a_3_0": 1,
+    "a_4_0": 1,
+    "a_4_1": 1,
+    "n_1_0": 1,
+    "n_2_0": 1,
+    "n_3_0": 1,
+    "fidget": 2,
+    "n_4_1": 1,
+    "death_corpse_0": 1
+  },
+  "materials": {
+    "limitation": "Enhanced material boundaries approximate the native palette separation; crest mask uses enhanced neutral pixels within a loose native crest support region.",
+    "regions": [
+      {
+        "name": "navy_armor",
+        "selector": "blue",
+        "thresholds": [
+          0.03,
+          0.22
+        ],
+        "palette_indices": [
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.6,
+        "frame_exclude_polygons": {
+          "m414ne2": [
+            [
+              [
+                104,
+                147
+              ],
+              [
+                116,
+                147
+              ],
+              [
+                122,
+                160
+              ],
+              [
+                119,
+                174
+              ],
+              [
+                109,
+                176
+              ],
+              [
+                103,
+                166
+              ]
+            ],
+            [
+              [
+                141,
+                164
+              ],
+              [
+                149,
+                163
+              ],
+              [
+                154,
+                180
+              ],
+              [
+                146,
+                187
+              ],
+              [
+                141,
+                178
+              ]
+            ]
+          ],
+          "m414aa1": [
+            [
+              [
+                109.0,
+                39.0
+              ],
+              [
+                114.0,
+                40.5
+              ],
+              [
+                100.5,
+                118.5
+              ],
+              [
+                88.5,
+                119.5
+              ],
+              [
+                100.0,
+                57.5
+              ]
+            ]
+          ],
+          "m414ab3": [
+            [
+              [
+                75.5,
+                18.5
+              ],
+              [
+                88.0,
+                22.0
+              ],
+              [
+                137.0,
+                62.0
+              ],
+              [
+                134.0,
+                69.5
+              ],
+              [
+                85.0,
+                36.0
+              ]
+            ]
+          ],
+          "m414nb3": [
+            [
+              [
+                74.0,
+                71.0
+              ],
+              [
+                80.0,
+                77.0
+              ],
+              [
+                102.5,
+                142.0
+              ],
+              [
+                98.5,
+                147.0
+              ],
+              [
+                78.5,
+                98.0
+              ]
+            ]
+          ]
+        }
+      },
+      {
+        "name": "helmet_crest",
+        "selector": "neutral",
+        "thresholds": [
+          0.65,
+          0.92
+        ],
+        "palette_indices": [
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248
+        ],
+        "fit": "luminance",
+        "native_palette_spatial_support": [
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248
+        ],
+        "support_padding": 20,
+        "mask_sigma": 0.5,
+        "exclude_channels": [
+          0
+        ],
+        "support_enhanced_component": true,
+        "brightness_floor": [
+          40,
+          75
+        ],
+        "frame_exclude_polygons": {
+          "m414aa1": [
+            [
+              [
+                109.0,
+                39.0
+              ],
+              [
+                114.0,
+                40.5
+              ],
+              [
+                100.5,
+                118.5
+              ],
+              [
+                88.5,
+                119.5
+              ],
+              [
+                100.0,
+                57.5
+              ]
+            ]
+          ],
+          "m414ab3": [
+            [
+              [
+                75.5,
+                18.5
+              ],
+              [
+                88.0,
+                22.0
+              ],
+              [
+                137.0,
+                62.0
+              ],
+              [
+                134.0,
+                69.5
+              ],
+              [
+                85.0,
+                36.0
+              ]
+            ]
+          ],
+          "m414nb3": [
+            [
+              [
+                74.0,
+                71.0
+              ],
+              [
+                80.0,
+                77.0
+              ],
+              [
+                102.5,
+                142.0
+              ],
+              [
+                98.5,
+                147.0
+              ],
+              [
+                78.5,
+                98.0
+              ]
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "reviewed_placement_translation_px": {
+    "m414sa0": [
+      -13,
+      0
+    ],
+    "m414sa1": [
+      -12,
+      0
+    ],
+    "m414sa2": [
+      -17,
+      0
+    ],
+    "m414sa3": [
+      -13,
+      0
+    ],
+    "m414sa4": [
+      -21,
+      0
+    ],
+    "m414wg0": [
+      -44,
+      0
+    ],
+    "m414wh0": [
+      88,
+      0
+    ],
+    "m414wc1": [
+      -11,
+      0
+    ],
+    "m414wg1": [
+      9,
+      0
+    ],
+    "m414wh1": [
+      -18,
+      0
+    ],
+    "m414wg2": [
+      -24,
+      0
+    ],
+    "m414wg3": [
+      -60,
+      0
+    ],
+    "m414wh3": [
+      -14,
+      0
+    ],
+    "m414wg4": [
+      -40,
+      0
+    ],
+    "m414ab1": [
+      -66,
+      0
+    ],
+    "m414ab2": [
+      -24,
+      0
+    ],
+    "m414ab3": [
+      -30,
+      0
+    ],
+    "m414ad3": [
+      -40,
+      0
+    ],
+    "m414ae3": [
+      -40,
+      0
+    ],
+    "m414af3": [
+      -50,
+      0
+    ],
+    "m414ad4": [
+      -32,
+      0
+    ],
+    "m414nb2": [
+      -32,
+      0
+    ],
+    "m414na4": [
+      -22,
+      0
+    ],
+    "m414nb4": [
+      -40,
+      0
+    ],
+    "m414nc4": [
+      -20,
+      0
+    ],
+    "m414ne4": [
+      -30,
+      0
+    ],
+    "m414nf4": [
+      -46,
+      0
+    ]
+  }
+}

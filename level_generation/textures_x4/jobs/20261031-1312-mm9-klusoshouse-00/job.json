@@ -1,0 +1,442 @@
+{
+ "id": "20261031-1312-mm9-klusoshouse-00",
+ "world": "mm9",
+ "maps": [
+  "klusoshouse.blv",
+  "1000terrors.blv",
+  "beethoven.blv",
+  "tasaracademy.blv",
+  "verhoffinruins.blv",
+  "lichlab.blv",
+  "yanmirsfort.blv",
+  "chasmofthedead.blv",
+  "drangheimprison.blv",
+  "inventastorca.blv",
+  "templeofhonk.blv",
+  "dungeonofsecrets.blv"
+ ],
+ "created": "2026-10-31T12:12:53+00:00",
+ "textures": [
+  "mm9/thjozz6y06",
+  "mm9/doornnw65b",
+  "mm9/honkwptqzm",
+  "mm9/doorpjfvqy",
+  "mm9/tasaodaph1",
+  "mm9/tasa2sautz",
+  "mm9/verd9vx2h2",
+  "mm9/verdrahook",
+  "mm9/dungm4uan3",
+  "mm9/yanmh7oyef",
+  "mm9/koenkzg05g",
+  "mm9/pris68v3ri",
+  "mm9/dung4y77qh",
+  "mm9/honkblexjc",
+  "mm9/honktmoe68",
+  "mm9/honkozmkrz",
+  "mm9/honkvup7f3",
+  "mm9/dung2bwia7"
+ ],
+ "requests": {
+  "mm9/thjozz6y06": {
+   "name": "thjozz6y06",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "two different wooden door leaves side by side: on the left a dark brown vertical-plank leaf crossed by two pairs of horizontal timber rails with rows of small brass rivets and a brass drop pull handle hanging from a small shaped backplate; on the right a lighter warm-brown leaf in a plank frame with a diagonal X brace and an ornate brass scroll lever handle on a long plate; fine wood grain, worn edges, a dark gap between the leaves",
+   "notes": {
+    "2": "the left leaf's brass fitting is a hanging drop pull handle on a small shaped backplate, with no keyhole",
+    "3": "the left leaf's brass fitting is a hanging drop pull handle on a small shaped backplate, with no keyhole"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm9/doornnw65b": {
+   "name": "doornnw65b",
+   "versions": [
+    1
+   ],
+   "material": "a pair of heavy riveted double doors of dull olive-khaki painted iron: each leaf made of raised horizontal plates with rows of small dark rivet heads, framed by vertical iron straps, two small iron latch bars at the centre where the leaves meet, a narrow dark gap down the middle; slightly worn chipped paint",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/honkwptqzm": {
+   "name": "honkwptqzm",
+   "versions": [
+    1
+   ],
+   "material": "smooth polished blue-grey slate floor tiles in a square grid, fine soft mottling and faint pale veins, thin light-grey joints with a small pale diamond where four tiles meet, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/doorpjfvqy": {
+   "name": "doorpjfvqy",
+   "versions": [
+    1
+   ],
+   "material": "one narrow door leaf of mottled red-brown and grey marbled stone panels split by a diagonal dark crack line, in a rust-red wooden frame, crossed by two black wrought-iron strap hinges with diamond-shaped ends and round rivets, iron hinge knuckles on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tasaodaph1": {
+   "name": "tasaodaph1",
+   "versions": [
+    1
+   ],
+   "material": "large smooth beige sandstone floor slabs with soft grey-green and ochre mottling, thin grey joints in a cross, a small inset diamond at the centre crossing, worn flat surface, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tasa2sautz": {
+   "name": "tasa2sautz",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pointed-top stone door of pale cream limestone with a raised khaki-olive stone border following the pointed outline, two tall recessed panels, and in the centre a large carved bronze emblem of a sword with a ring around its blade; the area outside the pointed outline is plain black",
+   "notes": {
+    "2": "keep the outer border edges the same brightness as the reference; no dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     93,
+     0
+    ]
+   }
+  },
+  "mm9/verd9vx2h2": {
+   "name": "verd9vx2h2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "two weathered oak door leaves of vertical planks with strong swirling grain, rust-red painted wooden frames, black wrought-iron strap hinges with round bolt heads and drop ring pulls; the left leaf has a small barred iron grille window, the right leaf a small rectangular brass plate",
+   "notes": {
+    "2": "keep the outer edges the same brightness as the reference; no dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     133,
+     182
+    ]
+   }
+  },
+  "mm9/verdrahook": {
+   "name": "verdrahook",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "two different wooden door leaves side by side in a dark weathered timber frame: the left leaf has six square panels of glowing orange-amber glass set in dark wooden muntins; the right leaf has plain recessed vertical-plank wooden panels with a dark crack; dark iron strap hinges and latches across both; fine wood grain",
+   "notes": {
+    "2": "the copper tile panels are dim dark brownish copper exactly as in the native, not bright or orange; the frame posts, rails and planks stay dark warm brown weathered wood, not grey"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/dungm4uan3": {
+   "name": "dungm4uan3",
+   "versions": [
+    1
+   ],
+   "material": "a square silver-grey metal panel frame of smooth curving art-nouveau tendrils and hooked horn shapes at the corners, around a dark grey-brown mottled stone plaque; in the centre a large polished silver-grey stone mask face with hollow eye slits, a long nose and a stern frowning mouth, smooth carved surface with faint cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/yanmh7oyef": {
+   "name": "yanmh7oyef",
+   "versions": [
+    1
+   ],
+   "material": "a tall narrow pair of pointed-arch double doors of dark blue-grey weathered wood with dark wooden frames, pale frosted icy glazing in the arched tops with icicle-shaped frost drips running down, tall blue-painted pointed-arch panels in the lower part, a dark iron lock plate where the leaves meet; pale snowy grey outside the arch in the top corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/koenkzg05g": {
+   "name": "koenkzg05g",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a carved stone tomb slab in a raised rough grey-beige stone border engraved with rows of runic glyphs: a weathered mossy greenish-grey stone relief of two tall robed figures facing each other, between them a large carved goblet-shaped pillar with two smaller ones; lichen and grime, chipped worn surface",
+   "notes": {
+    "2": "keep the outer border edges the same brightness as the reference; no dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     88,
+     0
+    ]
+   }
+  },
+  "mm9/pris68v3ri": {
+   "name": "pris68v3ri",
+   "versions": [
+    1
+   ],
+   "material": "a pair of dark charcoal-grey iron prison door leaves with heavy riveted borders and pyramid-shaped iron studs around the edges, each leaf with a raised inner panel bearing an embossed diamond plaque with a fleur-de-lis, a smaller fleur-de-lis below and above, and a vertical iron bar handle near the centre; dull scratched metal",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung4y77qh": {
+   "name": "dung4y77qh",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pair of ornate arched carved stone door leaves in ochre and mossy greenish-brown weathered stone: each leaf with a round sun-like rosette in an arched top panel, carved rows of small figures and a wavy band across the middle, a fringe of carved tassels along the bottom, deep dark recesses, grime and moss",
+   "notes": {
+    "2": "keep the outer edges the same brightness as the reference; no dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     84,
+     64
+    ]
+   }
+  },
+  "mm9/honkblexjc": {
+   "name": "honkblexjc",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale beige-green plaster wall with soft mottled stains, a narrow vertical carved white marble column strip with a twisted rope moulding down the middle, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/honktmoe68": {
+   "name": "honktmoe68",
+   "versions": [
+    1
+   ],
+   "material": "a square coffered ceiling panel of pale blue-grey stone: a raised frame of white-grey marble carved with a running scroll motif, bevelled sides sloping in to a recessed square centre panel, all engraved with fine flowing swirling vine lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/honkozmkrz": {
+   "name": "honkozmkrz",
+   "versions": [
+    1
+   ],
+   "material": "a pale blue-grey smooth stone ceiling panel engraved with fine flowing symmetric swirling vine lines and loops, between two vertical borders of white-grey marble carved with a running scroll motif and thin beige-gold edge strips, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/honkvup7f3": {
+   "name": "honkvup7f3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pair of pale grey-green carved stone double doors under a pointed arch moulding, with stylised symmetrical swooping wing-like shapes in darker grey-green relief, two thin vertical brass pull handles at the centre where the leaves meet, pale cream stone frame with small scroll corners",
+   "notes": {
+    "2": "keep the outer edges the same brightness as the reference; no dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     93,
+     45
+    ]
+   }
+  },
+  "mm9/dung2bwia7": {
+   "name": "dung2bwia7",
+   "versions": [
+    1
+   ],
+   "material": "a square silver-grey metal panel frame of smooth curving art-nouveau tendrils and hooked horn shapes at the corners, around a dark grey-brown mottled stone plaque with soft cloudy blotches, plain, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/dungm4uan3"
+     ],
+     "fraction": 0.572
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

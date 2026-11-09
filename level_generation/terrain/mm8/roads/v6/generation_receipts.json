@@ -1,0 +1,50 @@
+{
+  "tool": "built-in imagegen",
+  "calls": [
+    {
+      "raw": "raw/drsrne1_attempt1.png",
+      "raw_sha256": "e830f6ff581bc7b86aa2ba015add7e544de2837fc184c856a9dc7a19f36e6b2f",
+      "prompt": "prompts/diagonal.txt",
+      "prompt_sha256": "b45ef149c1e9f7e1c606e104faffc5c2f779805d0f4dfd97499facfb7fa8d8d8",
+      "input_order": [
+        "roads/v4/authoring/drsrne1.png",
+        "roads/v6/inputs/drsrne1_coverage.png"
+      ],
+      "inputs": {
+        "roads/v4/authoring/drsrne1.png": "b89f422155785fb4d1a4544f897b24b34c9e2fe4be6224755523c8b825a27040",
+        "roads/v6/inputs/drsrne1_coverage.png": "e1015164c7607b09d213699f06ae49364f871d2d19df81ba6f5e4db4feffa614"
+      },
+      "disposition": "rejected_opening_drift"
+    },
+    {
+      "raw": "raw/drsrne2.png",
+      "raw_sha256": "052eb053cd360e7005a3e1cb37c39f202076507a5c312bb93f751b392e2e1056",
+      "prompt": "prompts/drsrne2.txt",
+      "prompt_sha256": "79ef15b317cde27988a552b93f0df553bfb9e301b29f49e5fc122a1785e49fda",
+      "input_order": [
+        "roads/v4/authoring/drsrne2.png",
+        "roads/v6/inputs/drsrne2_coverage.png"
+      ],
+      "inputs": {
+        "roads/v4/authoring/drsrne2.png": "89aa07e9dfad815cfa7c206cfc9a3d258804e8484a6b981e6d584da9932b29e4",
+        "roads/v6/inputs/drsrne2_coverage.png": "28327144298a214448f3077cb11079ad4bf2f44d139c3a4bdb05dc988f7297da"
+      },
+      "disposition": "registered_and_composited"
+    },
+    {
+      "raw": "raw/drsrne1.png",
+      "raw_sha256": "c5d1993b3880294f9591e264850e0539fe944335f1a8b9b6485163d831dd6c79",
+      "prompt": "prompts/drsrne1.txt",
+      "prompt_sha256": "18af768d03e6fd19fe87748f01f1c0283e183ce7c70e56f63a88f7f08ac9a6ea",
+      "input_order": [
+        "roads/v6/inputs/drsrne1_coverage.png",
+        "roads/v4/authoring/drsrne1.png"
+      ],
+      "inputs": {
+        "roads/v6/inputs/drsrne1_coverage.png": "e1015164c7607b09d213699f06ae49364f871d2d19df81ba6f5e4db4feffa614",
+        "roads/v4/authoring/drsrne1.png": "b89f422155785fb4d1a4544f897b24b34c9e2fe4be6224755523c8b825a27040"
+      },
+      "disposition": "registered_and_composited"
+    }
+  ]
+}

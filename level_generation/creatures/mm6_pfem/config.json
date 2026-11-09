@@ -1,0 +1,125 @@
+{
+  "family": "pfem",
+  "title": "MM6 female peasant 1",
+  "base_palette": 786,
+  "matte": "magenta",
+  "description": "The same adult human woman in every pose, ordinary realistic proportions, fair warm skin, auburn/chestnut hair pulled into a low short tied tail at the nape, with a thin tan headband across the forehead. Medieval green fitted square-neck bodice, short white puff sleeves, long full off-white skirt with green border stripes near its hem, narrow dark brown belt with small brass buckle, brown low shoes. Preserve the native hair arrangement, bodice construction, sleeve volume and exact colored stripe placement from front and back. No weapons, jewelry additions, gloves, armor, hat or invented accessories. Modest practical clothing, not a modern fashion redesign.",
+  "regions": "green bodice and green skirt border bands; protect skin, auburn hair, white skirt/sleeves, brown belt and shoes",
+  "mask_kind": "green",
+  "variant_names": {
+    "786": "Green dress",
+    "787": "Brown dress",
+    "788": "Blue dress"
+  },
+  "neutral_material_polygons": {
+    "pfemata0": [
+      [
+        110,
+        273
+      ],
+      [
+        116,
+        270
+      ],
+      [
+        139,
+        312
+      ],
+      [
+        127,
+        313
+      ]
+    ],
+    "pfematb0": [
+      [
+        0,
+        250
+      ],
+      [
+        35,
+        205
+      ],
+      [
+        54,
+        204
+      ],
+      [
+        18,
+        252
+      ]
+    ],
+    "pfematc0": [
+      [
+        169,
+        219
+      ],
+      [
+        199,
+        201
+      ],
+      [
+        207,
+        199
+      ],
+      [
+        174,
+        223
+      ]
+    ],
+    "pfematd0": [
+      [
+        343,
+        206
+      ],
+      [
+        393,
+        177
+      ],
+      [
+        400,
+        188
+      ],
+      [
+        351,
+        225
+      ]
+    ],
+    "pfemate0": [
+      [
+        326,
+        220
+      ],
+      [
+        375,
+        200
+      ],
+      [
+        381,
+        211
+      ],
+      [
+        335,
+        238
+      ]
+    ],
+    "pfematf0": [
+      [
+        276,
+        214
+      ],
+      [
+        325,
+        190
+      ],
+      [
+        333,
+        207
+      ],
+      [
+        280,
+        234
+      ]
+    ]
+  },
+  "local_repair_note": "The small knife blades picked up green in matte-derived RGB and consequently entered the cloth mask. Reviewed blade polygons neutralize RGB by preserving encoded luma, preserve alpha, and force zero variant coverage. Coordinates are physical pixels in each aligned master; see review/attack_coordinates.png."
+}

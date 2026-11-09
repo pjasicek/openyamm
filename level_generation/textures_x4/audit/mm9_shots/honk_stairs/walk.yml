@@ -1,0 +1,10 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/honk_stairs
+exit: true
+steps:
+  - wait: 3
+  - console: loc
+  - action_down: forward
+  - wait: 4
+  - action_up: forward
+  - console: loc
+  - capture: walk-end

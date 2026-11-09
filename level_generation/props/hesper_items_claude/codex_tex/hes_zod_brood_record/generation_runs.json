@@ -1,0 +1,716 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "status": "generation_finished_with_failed_acceptance_checks",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper quest item hes_zod_brood_record, Colony Zod's hatchery log.\nInput image 1 is the EXACT geometry guide and edit target. Input image 2, design_reference.png, is ONLY the approved material/color/design reference, not the target pose.\nPaint materials onto image 1 WITHOUT moving, reshaping, smoothing, rotating, mirroring, enlarging, cropping, or adding any geometry. Preserve every outer contour pixel, interior opening, part boundary, position and scale in the 1024 x 1024 target. Keep the existing angular silhouette. Keep its exact camera orientation, even when unlike the reference. Output one 1024 x 1024 PNG with actual alpha transparency, identical to the guide outside the object; do not draw a black background or checkerboard.\nMaterials from the reference: warm ivory-white ceramic/bone-like exterior ribs with fine pores and subtle beige wear; dark black-violet resin framework with finely mottled purple surface; restrained brushed warm gold trim on the existing ceramic rectangular clasp; orange amber glass chambers with organic orange vein/cell patterns and bright amber-orange contents. Only use those materials where the guide's existing parts support them. Continue unseen surfaces plausibly in the same materials. Engraved lines, seams and panel joins are allowed as surface paint only. No blue parts, leather, cloth or paper since those are absent in the approved design.\nLIGHTING IS STRICT FLAT ALBEDO: uniform viewer-facing shadowless illumination. Do not reproduce the reference's studio lighting. No cast shadows, no ambient occlusion, no darkened crevices from lighting, no directional gradients, no white specular hotspots, no reflections, no rim lights, no glowing halos or bloom. Gold is its base color with only a faint sheen. Amber bright coloration is painted, not a light illuminating neighbors. Preserve material detail without baked lighting. No text, letters, numbers, glyphs, labels, signatures, floor or background.\nVIEW: front. Use guide_front.png's wide, shallow shape exactly (occupied bounds x=66..957, y=258..765 in the 1024 square). This camera sees the broad mostly featureless underside and raised rim, NOT the three egg chambers of the design reference. Keep that large bottom/central surface as continuous dark black-violet resin with subtle organic grain and restrained seams; do not invent egg chambers on it. The existing rectangular part at the top center is worn ivory ceramic with thin gold trim and a small orange inset line painted on its surface. Existing outer ribs are ivory ceramic; recessed side channels may show the reference's violet ribs and amber inserts only within their existing borders. Keep the right-side angular rim shapes and every piece of the guide fixed.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "5d935f5bb8943fcea16c51dc69c5be8cef1bf21c93b3211cfdc6f51c7d42c732"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-8b733358-e166-42bd-aab1-a500fb9f96ca.png",
+      "output": "runs/paint_front_01.png",
+      "selected": true,
+      "reason": "Selected: best front silhouette registration (normalized IoU 0.9844 versus 0.9108); correct underside material continuation. Exact alpha and flat-lighting checks remain failed.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1214,
+          1230
+        ],
+        "opaque_mask_bbox": [
+          84,
+          319,
+          1175,
+          934
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.9843910886934164,
+        "outside_guide_pixels_alpha_above_127": 3009,
+        "missing_guide_pixels_alpha_above_127": 4616,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Ivory, violet resin, gold trim and orange side channels match the reference palette; no visible text. Added organic underside seams are plausible. Contact darkening and bevel highlights remain.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "d30ba848176fd491fab7671ec961c27be24c2c42be2a4db53f766578b06fec7e",
+      "selected_output": "paint_front.png"
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper quest item hes_zod_brood_record, Colony Zod's hatchery log.\nInput image 1 is the EXACT geometry guide and edit target. Input image 2, design_reference.png, is ONLY the approved material/color/design reference, not the target pose.\nPaint materials onto image 1 WITHOUT moving, reshaping, smoothing, rotating, mirroring, enlarging, cropping, or adding any geometry. Preserve every outer contour pixel, interior opening, part boundary, position and scale in the 1024 x 1024 target. Keep the existing angular silhouette. Keep its exact camera orientation, even when unlike the reference. Output one 1024 x 1024 PNG with actual alpha transparency, identical to the guide outside the object; do not draw a black background or checkerboard.\nMaterials from the reference: warm ivory-white ceramic/bone-like exterior ribs with fine pores and subtle beige wear; dark black-violet resin framework with finely mottled purple surface; restrained brushed warm gold trim on the existing ceramic rectangular clasp; orange amber glass chambers with organic orange vein/cell patterns and bright amber-orange contents. Only use those materials where the guide's existing parts support them. Continue unseen surfaces plausibly in the same materials. Engraved lines, seams and panel joins are allowed as surface paint only. No blue parts, leather, cloth or paper since those are absent in the approved design.\nLIGHTING IS STRICT FLAT ALBEDO: uniform viewer-facing shadowless illumination. Do not reproduce the reference's studio lighting. No cast shadows, no ambient occlusion, no darkened crevices from lighting, no directional gradients, no white specular hotspots, no reflections, no rim lights, no glowing halos or bloom. Gold is its base color with only a faint sheen. Amber bright coloration is painted, not a light illuminating neighbors. Preserve material detail without baked lighting. No text, letters, numbers, glyphs, labels, signatures, floor or background.\nVIEW: back. Paint guide_back.png's exact low horizontal foreshortened view: bounds x=66..957, y=258..765 in the 1024 square. The existing three round domes are amber-orange chambers with organic orange cellular veins. Preserve their current centers and foreshortening. Paint the existing narrow framework around the chambers dark black-violet resin. Existing broad external pointed strips are warm ivory ceramic, following each angular polygon edge exactly. The existing broad rectangular clasp at the top center remains at the top, painted ivory with thin brushed gold edging. Do not rearrange the chambers or turn the item upright to mimic the reference. Preserve the guide's angular silhouette and every internal part location. STRICT ALBEDO, even flat color with surface detail, no rendering highlights or cast/occlusion shadows.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "4cd279f76c18a369d060e1c8250c03324bda8a69ea8842d337730aaa3c52c339"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-e37055b7-c1aa-460a-b856-e17279e89362.png",
+      "output": "runs/paint_back_01.png",
+      "selected": false,
+      "reason": "Rejected: expanded outline and an invented fourth main chamber; replaced by the corrective pass.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          27,
+          1210,
+          1254
+        ],
+        "opaque_mask_bbox": [
+          75,
+          315,
+          1207,
+          963
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.9094785895589201,
+        "outside_guide_pixels_alpha_above_127": 42824,
+        "missing_guide_pixels_alpha_above_127": 5000,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Reference palette matches; no visible text. Four main orange chambers instead of three, with lit beveled rims and contact shading.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "83b5509a4e66e3b50507e2a523afbf54da75a7f752473c36e4d331dd84b0dd23"
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper quest item hes_zod_brood_record, Colony Zod's hatchery log.\nInput image 1 is the EXACT geometry guide and edit target. Input image 2, design_reference.png, is ONLY the approved material/color/design reference, not the target pose.\nPaint materials onto image 1 WITHOUT moving, reshaping, smoothing, rotating, mirroring, enlarging, cropping, or adding any geometry. Preserve every outer contour pixel, interior opening, part boundary, position and scale in the 1024 x 1024 target. Keep the existing angular silhouette. Keep its exact camera orientation, even when unlike the reference. Output one 1024 x 1024 PNG with actual alpha transparency, identical to the guide outside the object; do not draw a black background or checkerboard.\nMaterials from the reference: warm ivory-white ceramic/bone-like exterior ribs with fine pores and subtle beige wear; dark black-violet resin framework with finely mottled purple surface; restrained brushed warm gold trim on the existing ceramic rectangular clasp; orange amber glass chambers with organic orange vein/cell patterns and bright amber-orange contents. Only use those materials where the guide's existing parts support them. Continue unseen surfaces plausibly in the same materials. Engraved lines, seams and panel joins are allowed as surface paint only. No blue parts, leather, cloth or paper since those are absent in the approved design.\nLIGHTING IS STRICT FLAT ALBEDO: uniform viewer-facing shadowless illumination. Do not reproduce the reference's studio lighting. No cast shadows, no ambient occlusion, no darkened crevices from lighting, no directional gradients, no white specular hotspots, no reflections, no rim lights, no glowing halos or bloom. Gold is its base color with only a faint sheen. Amber bright coloration is painted, not a light illuminating neighbors. Preserve material detail without baked lighting. No text, letters, numbers, glyphs, labels, signatures, floor or background.\nVIEW: left. Edit guide_left.png only. It is a thin diagonal side profile running from lower left to upper right (bounds x=69..954 and y=258..765 on the 1024 square), NOT a face-on egg shape. Preserve this exact slope, foreshortening and slender thickness. Its rectangular clasp is at the UPPER RIGHT, paint that part ivory with sparse brushed gold borders. Existing long oval recess near the upper-right end is amber-orange inset with violet ribbing painted only within its borders. Existing outer broad pointed strips are ivory ceramic and narrow internal rib edges black-violet resin. The broad visible underside/side surface in the lower-middle is dark black-violet resin with subtle grain; do not add egg windows where the guide has a solid surface. Match every protrusion and triangular corner exactly. Surface colors only; fully shadowless evenly exposed albedo.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "f641f57e0326d68165207d22f710083146dd4425b675f25819cc235450e84f51"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-ee104cfe-d973-4be8-9ce7-c02a680d440c.png",
+      "output": "runs/paint_left_01.png",
+      "selected": false,
+      "reason": "Rejected: enlarged, thicker profile with normalized silhouette IoU 0.8413.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          78,
+          25,
+          1231,
+          1236
+        ],
+        "opaque_mask_bbox": [
+          82,
+          294,
+          1226,
+          958
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.8412703170996385,
+        "outside_guide_pixels_alpha_above_127": 44835,
+        "missing_guide_pixels_alpha_above_127": 8115,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Reference palette matches; no visible text. The long side inset and outer strips remain, but profile thickening and shiny edge highlights fail the brief.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "c8befc28c1bd51f293d103db2fcab748362213d74c887975f54a8f3cffb10986"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper quest item hes_zod_brood_record, Colony Zod's hatchery log.\nInput image 1, design_reference.png, is ONLY the approved material/color/design reference, not the target pose. Input image 2 is the EXACT geometry guide and edit target.\nPaint materials onto image 2 WITHOUT moving, reshaping, smoothing, rotating, mirroring, enlarging, cropping, or adding any geometry. Preserve every outer contour pixel, interior opening, part boundary, position and scale in the 1024 x 1024 target. Keep the existing angular silhouette. Keep its exact camera orientation, even when unlike the reference. Output one 1024 x 1024 PNG with actual alpha transparency, identical to the guide outside the object; do not draw a black background or checkerboard.\nMaterials from the reference: warm ivory-white ceramic/bone-like exterior ribs with fine pores and subtle beige wear; dark black-violet resin framework with finely mottled purple surface; restrained brushed warm gold trim on the existing ceramic rectangular clasp; orange amber glass chambers with organic orange vein/cell patterns and bright amber-orange contents. Only use those materials where the guide's existing parts support them. Continue unseen surfaces plausibly in the same materials. Engraved lines, seams and panel joins are allowed as surface paint only. No blue parts, leather, cloth or paper since those are absent in the approved design.\nLIGHTING IS STRICT FLAT ALBEDO: uniform viewer-facing shadowless illumination. Do not reproduce the reference's studio lighting. No cast shadows, no ambient occlusion, no darkened crevices from lighting, no directional gradients, no white specular hotspots, no reflections, no rim lights, no glowing halos or bloom. Gold is its base color with only a faint sheen. Amber bright coloration is painted, not a light illuminating neighbors. Preserve material detail without baked lighting. No text, letters, numbers, glyphs, labels, signatures, floor or background.\nVIEW: right. Edit guide_right.png only. Its narrow diagonal profile runs from UPPER LEFT to LOWER RIGHT (bounds x=69..954, y=258..765 of the 1024 square). Preserve the exact slope, camera, thickness, pointed corners and concave breaks. The existing clasp is at the UPPER LEFT: warm ivory ceramic with thin gold surface trim. The existing long oval surface below it is an orange amber inset surrounded by violet resin, within its guide edges. Existing broad pointed exterior strips are ivory-white ceramic with fine beige wear, following their exact faceted geometry. The solid broad lower side/underside continues the black-violet resin with subtle organic grain and restrained seams. Paint only the visible existing parts; do not turn this into a broad front view, and do not invent additional exposed egg chambers. Strict flat shadowless albedo; no highlights, reflections or shading gradients.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "96e1d5b5d01330f4854cfeb57c15fc9953d26d07d16fa963d2eba825516cc1a0"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-297c142d-288f-4519-ba49-c6ac55cfe4fd.png",
+      "output": "runs/paint_right_01.png",
+      "selected": true,
+      "reason": "Selected: substantially closer guide silhouette, normalized IoU 0.9213 versus corrective 0.7716. Exact alpha and flat-lighting checks remain failed.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          33,
+          1192,
+          1214
+        ],
+        "opaque_mask_bbox": [
+          76,
+          302,
+          1189,
+          939
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.9212661469391724,
+        "outside_guide_pixels_alpha_above_127": 19746,
+        "missing_guide_pixels_alpha_above_127": 4543,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Reference palette matches; no visible text. Part segmentation drifts, including merged orange regions; bevel highlights and side shading remain.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "e82036279b29f7e9fa95e3749dd983172753ae7aeb47ff86c15054cfc2f3c0e4",
+      "selected_output": "paint_right.png"
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper quest item hes_zod_brood_record, Colony Zod's hatchery log.\nInput image 1 is the EXACT geometry guide and edit target. Input image 2, design_reference.png, is ONLY the approved material/color/design reference, not the target pose.\nPaint materials onto image 1 WITHOUT moving, reshaping, smoothing, rotating, mirroring, enlarging, cropping, or adding any geometry. Preserve every outer contour pixel, interior opening, part boundary, position and scale in the 1024 x 1024 target. Keep the existing angular silhouette. Keep its exact camera orientation, even when unlike the reference. Output one 1024 x 1024 PNG with actual alpha transparency, identical to the guide outside the object; do not draw a black background or checkerboard.\nMaterials from the reference: warm ivory-white ceramic/bone-like exterior ribs with fine pores and subtle beige wear; dark black-violet resin framework with finely mottled purple surface; restrained brushed warm gold trim on the existing ceramic rectangular clasp; orange amber glass chambers with organic orange vein/cell patterns and bright amber-orange contents. Only use those materials where the guide's existing parts support them. Continue unseen surfaces plausibly in the same materials. Engraved lines, seams and panel joins are allowed as surface paint only. No blue parts, leather, cloth or paper since those are absent in the approved design.\nLIGHTING IS STRICT FLAT ALBEDO: uniform viewer-facing shadowless illumination. Do not reproduce the reference's studio lighting. No cast shadows, no ambient occlusion, no darkened crevices from lighting, no directional gradients, no white specular hotspots, no reflections, no rim lights, no glowing halos or bloom. Gold is its base color with only a faint sheen. Amber bright coloration is painted, not a light illuminating neighbors. Preserve material detail without baked lighting. No text, letters, numbers, glyphs, labels, signatures, floor or background.\nVIEW: top. This is guide_top.png viewed directly above. Keep its precise near-full-height shape and transparent holes (bounds x=66..957, y=69..954 on the 1024 square). Exactly THREE existing domed chambers: one large vertical egg at the upper center, one smaller tilted egg at lower left, one smaller tilted egg at lower right. Paint these three exact surfaces amber-orange with orange cellular veins. Their thin immediate rims and connecting inner framework are dark black-violet resin. The wide branching outer pointed exoskeletal strips are warm ivory ceramic. The existing broad rectangular clasp at bottom center is ivory ceramic with thin brushed gold trim and the reference's narrow orange slot; preserve its shape and placement. Preserve every black/transparent hole in the guide, including the holes flanking the lower egg chambers, without filling any of them with resin. No extra egg chambers. Strict albedo only: vivid orange flat base colors with organic cells, ivory ceramic with pores, purple resin grain, subdued gold; zero white highlights, zero shadows, zero reflected lighting.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "a1f68319b7fe310abad10c0359532a3407edc80f45c2836f7c97b58f8f7a57a2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-da47bd9d-66f3-498f-a783-9905add419f7.png",
+      "output": "runs/paint_top_01.png",
+      "selected": false,
+      "reason": "Rejected: invented transparent upper holes where the guide has solid surfaces, despite a somewhat higher whole-mask IoU.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          23,
+          1228,
+          1229
+        ],
+        "opaque_mask_bbox": [
+          84,
+          75,
+          1172,
+          1158
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.9318656584586078,
+        "outside_guide_pixels_alpha_above_127": 16332,
+        "missing_guide_pixels_alpha_above_127": 38822,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Reference palette and three orange chambers match; no visible text. Upper panels were incorrectly hollowed out. Stronger contour shading remains.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "e3f2e90b01876de82fa298f8d3bc23cd3914e98676f2f0e5a3406374be4b24e8"
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. CORRECTIVE GENERATION, front view. Paint directly into the provided guide_front.png. This is a 1024x1024 orthographic albedo projection for an existing mesh, so the input is an immutable pixel template, NOT a loose visual suggestion. Only replace the gray RGB values INSIDE its exact existing alpha mask. Copy all transparent pixels and the guide alpha unchanged. Output exactly the guide's 1024x1024 canvas. Do not rescale, reposition, rotate, round corners, add thickness, grow the rim or add holes. Preserve the wide low outline x66..957, y258..765 and every internal part edge. No new geometry. Keep ALL visible parts in the exact guide locations.\nUse the approved hatchery-log material scheme: large continuous underside is finely mottled dark black-violet resin with restrained fine organic seam lines. Existing rectangular clasp at top center is warm ivory ceramic with subtle beige pores/wear, thin muted brushed-gold edging and one narrow orange inset line. Existing outer rims are ivory ceramic. Existing side channels contain dark-violet organic ribs and small orange amber inserts with cellular veins only within the existing recess boundaries. Keep the unseen underside continuous; no new egg chambers.\nCRITICAL CORRECTION: true flat ALBEDO ONLY, no studio render lighting. Constant material base colors with fine surface texture, uniform viewer-facing light, absolutely no darker sides, no ambient occlusion, no contact shadows, no edge sheen or specular marks, no reflections, no white highlights. Gold is matte muted gold base color, orange emissive inserts are painted bright orange without bloom. No text, letters, numbers or symbols. Actual clean transparent background, no faint stray pixels outside the guide mask.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "5d935f5bb8943fcea16c51dc69c5be8cef1bf21c93b3211cfdc6f51c7d42c732"
+        }
+      ],
+      "material_reference": {
+        "path": "design_reference.png",
+        "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+      },
+      "material_reference_usage": "Inspected approved reference; material description supplied in prompt. Guide alone supplied to corrective tool call to reduce reference-driven geometry and lighting drift.",
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-5caacb54-65e5-4978-8fb8-a22b8eaf585b.png",
+      "output": "runs/paint_front_02.png",
+      "selected": false,
+      "reason": "Rejected: corrective pass widened the outline and shifted the clasp; normalized IoU fell from 0.9844 to 0.9108.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          32,
+          1210,
+          1190
+        ],
+        "opaque_mask_bbox": [
+          57,
+          327,
+          1205,
+          943
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.9107526495011423,
+        "outside_guide_pixels_alpha_above_127": 42813,
+        "missing_guide_pixels_alpha_above_127": 4337,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Palette broadly matches, with matte gold; no visible text. Clasp and side channel patterns changed, with residual side shading.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "ef6cdc526e00c08d0a207d05b91915130909af66858cfc646fcc7e2ebdd80d78"
+    },
+    {
+      "view": "back",
+      "prompt": "Corrective edit: COLORIZE THE PROVIDED GRAY GUIDE, preserving its pixels and geometry. Image 1 is guide_back.png, the immutable 1024x1024 target. Image 2 is design_reference.png, materials only. Return one 1024x1024 transparent PNG.\nThe previous attempt widened and thickened the outline and added a fourth chamber. Correct that. Trace the guide exactly, keeping its bounding box x66..957 y258..765, every polygon corner, part boundary, camera and internal opening. Do not enlarge, move, round or redesign any part.\nThere are exactly THREE main smooth chamber surfaces in this guide: the left middle dome, the upper-right dome, and the large lower-center dome. Give these amber-orange glass coloration with fine orange organic cellular veins; do not create a fourth dome at upper left. Their immediate thin framework is black-violet resin. Broad outer angular strips remain warm ivory ceramic with fine beige wear. The existing top-center rectangular clasp is ivory with restrained brushed-gold trim. All other inner surfaces are subtly mottled black-violet resin. Map these material colors directly onto the guide's existing pieces, never invent new parts or holes.\nThis is base-color/albedo paint, NOT a shaded beauty render. Flat uniform front light, no ambient occlusion/contact darkening, no shadows, no directional gradients, no highlights/reflections/rim light. Gold has only its muted base color; orange is bright pigment without bloom. Actual alpha transparency identical to guide; no pixels outside its mask, no background, no text, letters, numbers or glyphs.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "4cd279f76c18a369d060e1c8250c03324bda8a69ea8842d337730aaa3c52c339"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-2989c828-4219-4b98-b101-5d5fe0a6ce9d.png",
+      "output": "runs/paint_back_02.png",
+      "selected": true,
+      "reason": "Selected: restores three main chambers and improves silhouette registration from 0.9095 to 0.9392. Exact alpha and flat-lighting checks remain failed.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          14,
+          1232,
+          1254
+        ],
+        "opaque_mask_bbox": [
+          82,
+          294,
+          1184,
+          930
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.9392412176513468,
+        "outside_guide_pixels_alpha_above_127": 23454,
+        "missing_guide_pixels_alpha_above_127": 7469,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Reference palette and three main chambers match; no visible text. Faceted rims are retained more closely, but material boundaries drift and side/contact shading remains.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "cad67224f3694620e0de421a51365bf2892ce29815e38fc225593a1bdcb5ee2f",
+      "selected_output": "paint_back.png"
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: precise-object-edit. Corrective colorization of guide_left.png (image 1) using ONLY the colors/materials of design_reference.png (image 2). Keep the guide's exact camera, geometry, alpha mask and 1024x1024 canvas. This is for mesh projection and every shape must remain registered.\nThe previous attempt enlarged and thickened the side profile. Restore the EXACT gray guide silhouette: thin diagonal from lower-left to upper-right, identical tip positions, width, thickness, outline corners and all internal part edges. Bounds are x69..954 y258..765 on the 1024 square. Do not zoom or extend any piece.\nApply material color without changing shapes: broad outer strips warm ivory ceramic with subtle beige pores/wear; thin internal framework and broad visible lower side/underside dark black-violet finely mottled resin; existing long oval channel near upper right orange amber with cellular veins and violet organic ribs inside its exact borders. Rectangular clasp at upper-right end ivory with narrow muted brushed-gold borders. Do not add new egg windows to a solid surface.\nPaint a FLAT ALBEDO map: uniform material brightness, no shadows, ambient occlusion, darker sides, reflections, white specular streaks, directional lighting, beveled edge highlights or rim light. Gold only muted base color. Orange inserts bright base color, no bloom or spill. Copy every transparent pixel of the guide unchanged. No text, letters, labels, numbers or symbols. Output a single transparent PNG at 1024x1024.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "f641f57e0326d68165207d22f710083146dd4425b675f25819cc235450e84f51"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-b78cd579-bcb2-4450-a8a5-d5613be24f2a.png",
+      "output": "runs/paint_left_02.png",
+      "selected": true,
+      "reason": "Selected: closer thin profile and improved normalized silhouette IoU 0.9293. Exact alpha and flat-lighting checks remain failed.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          25,
+          1189,
+          1206
+        ],
+        "opaque_mask_bbox": [
+          90,
+          297,
+          1186,
+          934
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.9293314959835983,
+        "outside_guide_pixels_alpha_above_127": 8779,
+        "missing_guide_pixels_alpha_above_127": 12247,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Reference palette matches; no visible text. Thinner profile and less prominent edge sheen; residual shading, altered surface boundaries and contour drift remain.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "19826ba20121a453d236eef815c76daa353b31ee5d0029cc523428f48f3c2965",
+      "selected_output": "paint_left.png"
+    },
+    {
+      "view": "right",
+      "prompt": "Precise corrective object edit for a texture projection. Image 1 (guide_right.png) is the exact 1024x1024 pixel-aligned mesh target. Image 2 is its approved material reference ONLY. COLORIZE image 1 without changing the guide geometry or alpha.\nPreserve the narrow diagonal upper-left to lower-right silhouette, all faceted corners, thickness, internal part edges and the entire guide camera framing. Do not rotate, zoom, thicken or move anything. Target bounds x69..954 y258..765 on a 1024 square. Reuse the original alpha mask exactly, including transparent exterior.\nCorrection: reduce the prior attempt's rounded highlights and inflated outline. Keep the exact guide's angular surfaces. Apply warm ivory ceramic with subtle beige pores to the broad outer raised strips; apply finely mottled black-violet resin to the thin inner frame and broad lower side. Existing rectangular end clasp at upper-left is ivory with thin muted gold trim. Continue materials on surfaces hidden in the design reference plausibly, using the guide's existing segmentation. Use orange amber cellular patterns only in existing inset surfaces. Do not invent new windows or structures.\nTRUE ALBEDO: colors are flat, uniformly exposed, shadowless and nonreflective. No ambient occlusion, darker sides, black contact shadows, directional shading, beveled highlights, white specular marks, reflections, rim light or bloom. Gold is its restrained base color and orange inserts are bright orange pigment. The output must look like a material-color pass, not a lit product rendering. No text/letters/numbers/glyphs, no floor or background. Return one transparent 1024x1024 PNG.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "96e1d5b5d01330f4854cfeb57c15fc9953d26d07d16fa963d2eba825516cc1a0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-1f995b05-0f66-49b0-bc36-9c2c2dc7c3f3.png",
+      "output": "runs/paint_right_02.png",
+      "selected": false,
+      "reason": "Rejected: some flatter material treatment but severe upward contour displacement; normalized silhouette IoU 0.7716.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1228
+        ],
+        "opaque_mask_bbox": [
+          85,
+          286,
+          1183,
+          905
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.7715807080270689,
+        "outside_guide_pixels_alpha_above_127": 37086,
+        "missing_guide_pixels_alpha_above_127": 37341,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Reference palette matches; no visible text. Flatter-looking surfaces and more separated orange regions, but camera registration and outline shifted.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "49492baf53715fb915908d5b8b7241c84f813e4e869cb3712bfe33194d274fbc"
+    },
+    {
+      "view": "top",
+      "prompt": "Corrective precise-object-edit: paint the RGB of guide_top.png (image 1), keeping every guide alpha pixel and every part edge fixed. Image 2 is the approved materials reference only. Return one 1024x1024 transparent albedo PNG.\nThe guide is viewed DIRECTLY FROM ABOVE. Preserve its exact orthographic camera, faceted silhouette, angular strips, shape, position and dimensions (bounds x66..957,y69..954). No perspective change, no rescaling, no smoothing, no new or enlarged openings.\nCritical correction: the last painting invented large transparent holes in the upper-left and upper-right regions. Those regions are SOLID SURFACES in the guide; preserve them and paint their original pieces with the corresponding ivory ceramic or violet resin. Retain ONLY the actual guide's transparent holes, including the left and right openings beside the two lower domes. Do not hollow out any solid gray region.\nExactly three amber-orange chamber surfaces in the exact guide locations: large upper-center egg, smaller lower-left egg and smaller lower-right egg. Paint organic orange cellular veins. Narrow immediate rims and inner connecting framework are dark black-violet resin. Broad angular exterior strips warm ivory ceramic with fine beige wear and pores. Existing bottom-center rectangular clasp ivory ceramic with narrow brushed-gold trim and a small orange inset line. Preserve every part edge.\nPaint strict flat uniformly lit ALBEDO. No cast/contact shadows, no ambient occlusion, no dark crevices caused by lighting, no highlights/reflections/specular white marks, no rim light or bloom. Matte gold base color, bright orange base color, subtle ceramic/resin surface grain. No text, letters, numbers, symbols, floor or background. Copy the guide's silhouette and transparent holes exactly.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "a1f68319b7fe310abad10c0359532a3407edc80f45c2836f7c97b58f8f7a57a2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2e97-71c1-ad5e-eb45e20e9736/exec-4146ae11-b8db-491a-9174-7ede4ee48760.png",
+      "output": "runs/paint_top_02.png",
+      "selected": true,
+      "reason": "Selected: restores solid upper side panels and retains the three main chambers and actual flanking openings. Top tip and outer contours still drift; normalized IoU 0.9132. Exact alpha and flat-lighting checks remain failed.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          15,
+          1236,
+          1194
+        ],
+        "opaque_mask_bbox": [
+          85,
+          43,
+          1175,
+          1186
+        ],
+        "exact_guide_alpha_match": false,
+        "normalized_silhouette_iou": 0.9132227665356027,
+        "outside_guide_pixels_alpha_above_127": 46637,
+        "missing_guide_pixels_alpha_above_127": 26238,
+        "comparison_note": "IoU compares alpha>127 in normalized canvas coordinates; guide mask is sampled for measurement only. Output bytes are untouched.",
+        "visual_review": "Reference palette and three orange chambers match; no visible text. Upper solid panels restored. Some inner edge materials and outer shape differ from the guide, with residual shaded rims.",
+        "palette_matches_reference": true,
+        "exact_part_boundaries_match": false,
+        "flat_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "clean_alpha_outside_guide": false,
+        "acceptance_passed": false,
+        "review_method": "Visual inspection of the raw tool return and quantitative alpha-mask comparison."
+      },
+      "output_sha256": "ce90f76a555a07130f0fa3a9b6d8dc226803aa627d393e07acb6ff60c15ddeef",
+      "selected_output": "paint_top.png"
+    }
+  ],
+  "material_reference": {
+    "path": "design_reference.png",
+    "sha256": "f62994a93f869536428bca1cbe713c25dfa7075eae70c809cdbbc72386a8efc3"
+  },
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "returned_sizes": [
+    [
+      1254,
+      1254
+    ]
+  ],
+  "postprocessing": "None. Every retained PNG is a byte-for-byte copy of a built-in image generation return. No resizing, cropping, alpha replacement or painting by code.",
+  "attempt_limit": "One initial generation plus one corrective regeneration per view; exactly two attempts per view.",
+  "acceptance": {
+    "passed": false,
+    "limitations": [
+      "All native tool returns are 1254x1254, preserved unresized under the brief size exception.",
+      "No result preserves the exact guide silhouette or per-part boundaries. Normalized mask measurements are diagnostic only, not a pass.",
+      "All results retain some baked shading, contact darkening or edge highlights and therefore fail strict shadowless albedo.",
+      "Actual RGBA transparency is present, but faint stray alpha pixels remain outside the main silhouette.",
+      "Selected means preferred among the two permitted attempts, not accepted as fully compliant."
+    ]
+  },
+  "deliverables": [
+    {
+      "view": "front",
+      "path": "paint_front.png",
+      "selected_attempt": 1,
+      "sha256": "d30ba848176fd491fab7671ec961c27be24c2c42be2a4db53f766578b06fec7e",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "acceptance_passed": false
+    },
+    {
+      "view": "right",
+      "path": "paint_right.png",
+      "selected_attempt": 1,
+      "sha256": "e82036279b29f7e9fa95e3749dd983172753ae7aeb47ff86c15054cfc2f3c0e4",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "acceptance_passed": false
+    },
+    {
+      "view": "back",
+      "path": "paint_back.png",
+      "selected_attempt": 2,
+      "sha256": "cad67224f3694620e0de421a51365bf2892ce29815e38fc225593a1bdcb5ee2f",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "acceptance_passed": false
+    },
+    {
+      "view": "left",
+      "path": "paint_left.png",
+      "selected_attempt": 2,
+      "sha256": "19826ba20121a453d236eef815c76daa353b31ee5d0029cc523428f48f3c2965",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "acceptance_passed": false
+    },
+    {
+      "view": "top",
+      "path": "paint_top.png",
+      "selected_attempt": 2,
+      "sha256": "ce90f76a555a07130f0fa3a9b6d8dc226803aa627d393e07acb6ff60c15ddeef",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "acceptance_passed": false
+    }
+  ]
+}

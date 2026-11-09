@@ -1,0 +1,99 @@
+# Starport Reach's hostile monsters (spawns.py places them; build_out1.py calls it). The design's monster groups
+# (design/kreegan_world/zone1/STARPORT_REACH.md "Monsters", make_starport_detail.py PLACES) are the anchors; the
+# extra spawn points follow the MM6-MM8 study (README "How MM6-MM8 populate their outdoor maps", spawn_density.py):
+# about 0.07 hostile monsters per million square units of land on the first visit, groups of 1-4 about 1 500 apart,
+# off the roads, a guard near most chests and every dungeon entrance, nothing within 5 000 of the crash site or
+# 2 500 of Landfall's wall, and the harder groups (Hunters, the Bull, the Kreegans) toward the far north and east.
+#
+# at: [cell, fx, fy] as in make_starport_detail.py (fx east, fy south within the cell; 5 760 units a cell), or
+# near: an earlier spawn point (as placed) and offset: [dx, dy] from it, for the second points of a cluster.
+# Spawn points: slot (the map_stats encounter slot), tier (empty: random by the slot's difficulty; A/B/C: fixed),
+# group (actor group, for events). Placed squads: monster rows and counts, a formation, facing.
+
+# The map's encounter slots are its map_stats row's (hesper_stage/maps.yml `slots`): slot 1 the Drones (difficulty 0,
+# all Seekers), slot 2 the Glassbacks (difficulty 2: 70 % Pup, 20 % Glassback, 10 % Bull). The stage gives these
+# monsters MM-style "<family> A/B/C" pictures (hesper_stage/monsters.yml `picture`): an encounter slot finds its
+# tiers by its picture and the tier letter.
+
+# Relations are world data since 2026-10-23: the stage's relations.yml (hesper_stage/relations.yml, staged as
+# worlds/hesper/relations.yml) makes the drones, the Trooper and the glassbacks hostile and the Ashrunners hostile
+# until S1 (QBit 100101, S1 done), so the map's load event no longer calls evt.SetMonsterRelation.
+hide_after_qbit:                       # groups made invisible once the QBit is set
+  - {group: 50, qbit: 100002, quest: M2 (the Terminal stops hunting along Landfall's walls)}
+
+quiet:                                 # no spawn point or squad within (the arrival's scripted drones are not here)
+  crew_door: 5000
+  landfall_wall: 2500
+
+spawns:
+  # --- Drones (slot 1): Seekers; the design's Hunters are placed beside their Seekers below ---------------------
+  - {name: apron patrol west, at: [D4, 0.6, 0.3], slot: 1, group: 51}                      # design: 6 A + 1 B
+  - {name: apron patrol east, near: apron patrol west, offset: [1400, -800], slot: 1, group: 51}
+  - {name: pass road, at: [E2, 0.5, 0.45], slot: 1, group: 52}                             # design: 4 A + 2 B
+  - {name: Landfall's walls west, at: [B6, 0.4, 0.3], slot: 1, group: 50}                  # design: 5 A, until M2
+  - {name: Landfall's walls east, at: [B6, 0.8, 0.45], slot: 1, group: 50}
+  - {name: crater rim, at: [C5, 0.45, 0.3], slot: 1, group: 53}                            # design: 3 A; log core 1
+  - {name: hangar ruins north, at: [C3, 0.5, 0.5], slot: 1, group: 54}                     # design: 4 A
+  - {name: hangar ruins lockers, at: [C4, 0.65, 0.65], slot: 1, group: 54}                 # the two C4 lockers
+  - {name: canyon by D2, at: [G7, 0.5, 0.55], slot: 1, group: 55}                          # design: 3 A + 1 B
+  - {name: Pumping Station hatch, at: [G6, 0.45, 0.35], slot: 1, group: 55}                # D2's entrance
+  - {name: old hangars, at: [D3, 0.55, 0.75], slot: 1, group: 56}                          # the D3 locker
+  - {name: gantries, at: [E3, 0.3, 0.7], slot: 1, group: 56}                               # the Engram Shard
+  - {name: Terminal doors north, at: [F4, 0.15, 0.2], slot: 1, group: 57}                  # D1's entrance
+  - {name: Terminal doors south, at: [F4, 0.2, 0.85], slot: 1, group: 57}
+  - {name: service road bend, at: [D5, 0.6, 0.35], slot: 1, group: 53}                     # crater to apron
+  - {name: canyon wreck, at: [F6, 0.45, 0.6], slot: 1, group: 55}                          # the F6 locker
+  - {name: south dunes, at: [F7, 0.6, 0.5], slot: 1, group: 58}
+  - {name: north flats, at: [F2, 0.4, 0.5], slot: 1, group: 52}
+  - {name: Archive dome, at: [C1, 0.75, 0.75], slot: 1, group: 59}                         # D10's entrance
+  - {name: Spinefall Pass mouth, at: [E1, 0.3, 0.45], slot: 1, tier: B, group: 52}         # Hunters: the far north
+  - {name: road to the Scour, at: [H5, 0.6, 0.85], slot: 1, tier: B, group: 59}            # Hunters: the far east
+  # The second and third points of an area (MM sets its spawn points in clusters about 1 000-1 700 apart).
+  - {name: apron north, near: apron patrol east, offset: [1200, 900], slot: 1, group: 51}
+  - {name: crater rim south, near: crater rim, offset: [-1100, -900], slot: 1, group: 53}
+  - {name: pass road north, near: pass road, offset: [-700, 1300], slot: 1, group: 52}
+  - {name: north flats east, near: north flats, offset: [1300, 700], slot: 1, group: 52}
+  - {name: gantries east, near: gantries, offset: [1400, 500], slot: 1, group: 56}
+  - {name: old hangars north, near: old hangars, offset: [-1000, 1200], slot: 1, group: 56}
+  - {name: hangar ruins west, near: hangar ruins lockers, offset: [-1300, 900], slot: 1, group: 54}
+  - {name: Archive approach, near: Archive dome, offset: [1500, 400], slot: 1, group: 59}
+  - {name: Archive south, near: Archive dome, offset: [-700, -1300], slot: 1, group: 59}
+  - {name: canyon mouth, near: canyon wreck, offset: [300, 1500], slot: 1, group: 55}
+  - {name: south dunes west, near: south dunes, offset: [-1500, 300], slot: 1, group: 58}
+  - {name: Scour road, near: road to the Scour, offset: [-1500, 900], slot: 1, group: 59}
+  - {name: east flats, near: road to the Scour, offset: [-900, -1400], slot: 1, group: 58}
+  # --- Glassbacks (slot 2): the glassfields (S4's nests) ---------------------------------------------------------
+  - {name: G2 nest pups, at: [G2, 0.4, 0.45], slot: 2, tier: A, group: 60}                 # design: 2 A + 2 B
+  - {name: G2 nest glassbacks, at: [G2, 0.62, 0.58], slot: 2, tier: B, group: 60}
+  - {name: H1 nest, at: [H1, 0.45, 0.55], slot: 2, tier: B, group: 61}                     # design: 2 B + 1 C
+  - {name: H3 pups, at: [H3, 0.35, 0.65], slot: 2, tier: A, group: 62}                     # design: 2 A; tablet
+  - {name: H2 locker, at: [H2, 0.55, 0.55], slot: 2, group: 63}                            # the nest's locker
+  - {name: G1 glass, at: [G1, 0.45, 0.5], slot: 2, group: 63}
+  - {name: G3 glass, near: H3 pups, offset: [-1500, 800], slot: 2, group: 62}
+  - {name: F1 glass, near: G1 glass, offset: [-1500, -400], slot: 2, group: 63}
+  - {name: G2 glass west, at: [G2, 0.15, 0.2], slot: 2, group: 60}
+  - {name: H2 glass north, at: [H2, 0.25, 0.2], slot: 2, group: 63}
+  - {name: G1 glass east, at: [G1, 0.85, 0.3], slot: 2, group: 61}
+  - {name: H3 glass east, at: [H3, 0.75, 0.3], slot: 2, group: 62}
+
+squads:
+  # --- Drone Hunters beside their Seekers (the design's B tiers) ---------------------------------------------------
+  - {name: apron Hunter, at: [D4, 0.7, 0.4], monsters: {10051: 1}, group: 51}
+  - {name: pass road Hunters, at: [E2, 0.6, 0.55], monsters: {10051: 2}, group: 52}
+  - {name: canyon Hunter, at: [G7, 0.6, 0.45], monsters: {10051: 1}, group: 55}
+  # --- The H1 nest's Bull ---------------------------------------------------------------------------------------------
+  - {name: H1 Bull, at: [H1, 0.55, 0.65], monsters: {10082: 1}, group: 61}
+  # --- Ashrunners (hostile until S1): the camp and the dunes --------------------------------------------------------
+  # design: 4 Scav, 3 Raider, 1 Gunner
+  - {name: Ashrunner camp, at: [B3, 0.5, 0.5], monsters: {10070: 4, 10071: 3, 10072: 1}, group: 30,
+     formation: camp, face: out}
+  - {name: north dune patrol, at: [B1, 0.6, 0.6], monsters: {10070: 3}, group: 31}         # design: 3 Scav
+  - {name: west dune patrol, at: [B5, 0.5, 0.5], monsters: {10070: 2, 10071: 1}, group: 32}  # the B5 locker
+  # --- Kreegan Troopers ---------------------------------------------------------------------------------------------
+  # design: 6, facing the Terminal
+  - {name: scrapyard fire team, at: [G4, 0.38, 0.62], monsters: {10010: 6}, group: 40, formation: line,
+     face: [F4, 0.6, 0.5]}
+  - {name: forward outpost, at: [H4, 0.45, 0.62], monsters: {10010: 5}, group: 41, formation: ring, face: out}
+
+  # Deep-drain den in the canyon recess southeast of D2; outside the road and wall quiet zones.
+  - {name: Gloamling canyon den, at: [G6, 0.85, 0.75], monsters: {10320: 5}, group: 90}

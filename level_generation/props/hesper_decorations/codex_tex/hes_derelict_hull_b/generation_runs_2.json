@@ -1,0 +1,149 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "needs_review; both allowed generations failed required dimensions and exact silhouette",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "postprocessing": "none; output PNGs copied byte-for-byte without resizing, masking, cropping or colour changes",
+  "corrective_regenerations_per_view": {
+    "back": 1
+  },
+  "validation_method": "Pillow inspection of native dimensions and alpha; visual comparison against the guide and material references. Exact silhouette fails because dimensions differ and visible geometry drifts. No model integration or builds.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: 3D texture-source albedo painting, BACK view of a derelict swarmship's stern half.\nProduce exactly ONE 1024 x 1024 PNG with a genuinely transparent background, at native output size.\n\nINPUTS, IN ORDER:\n1. guide_back.png: EDIT TARGET and absolute authority for every pixel of the object's silhouette, orthographic camera, position, size, surface edge, opening and shape.\n2. design_reference.png: approved material, colour and design reference ONLY. Do not borrow its pose, silhouette, framing or lighting.\n3. concept_crop.png: original concept supporting reference ONLY. Do not copy its background or illumination.\n\nPaint ONLY the existing grey model surfaces of input 1, matching the weathered grey-brown chitin and bone plates, darker spines, black-violet resin webbing inside existing openings, and dust of input 2. Preserve the exact alpha mask of input 1, including all outer contours and transparent holes. All geometry stays exactly where it is in the guide. Do not reconstruct or redesign the hull; this is a texture painting over the supplied model render.\n\nCOMPOSITION LOCK:\nKeep the entire 1024-square canvas unchanged. The object occupies approximately x=66 to 958 and y=229 to 795; preserve the large transparent margins above and below. The narrow pointed end faces lower left and the tall broken stern end is on the right. The five long curved dorsal spines rise towards the right, and a small hook is at lower left. Follow their exact widths, curves, tips, connecting surfaces, triangular teeth, broken angular lower edges, long diagonal hull strake and round recessed side openings. Preserve the unusual thin sheet and triangular opening between the uppermost right spines as modeled. Every edge and opening must coincide with the guide. Do not add strands, chips or details outside the existing silhouette. Do not fill transparent spaces between spines. Do not crop, recenter, zoom, rotate, mirror or change the perspective.\n\nMATERIAL PAINT:\nUse matte, dusty weathered grey-brown chitin/bone plates with fine worn longitudinal grain, surface cracks and restrained ochre-brown worn seams; darker grey-brown spines; dark black-violet resin fibers/webbing painted only onto the modeled recessed surfaces in the existing openings. Follow the design reference's material identity, at the guide's simpler exact geometry. Surface detail is colour texture only, not new protruding geometry. Keep the restrained grey-brown and black-violet palette rather than orange scene lighting or shiny gold.\n\nLIGHTING IS CRITICAL:\nThis is a flat albedo texture source, not a beauty render. Even, flat, shadowless frontal illumination. Remove the guide's shaded-lighting appearance. No cast shadows, no ambient-occlusion darkening, no directional gradient, no strong specular highlights or reflections, no rim light. Dark resin is dark by material pigment, not by shading. Any existing glowing parts are painted at their glowing colour without light cast onto surroundings. No background colour, no scenery, no floor, no ground shadow, no haze, no text, no labels and no watermark. The background and all originally transparent openings remain genuinely transparent.\n\nReturn the unresized 1024 x 1024 painting only.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; authoritative exact geometry, camera and alpha mask",
+          "sha256": "7040a3d4da9ceac702357fdc77e97b65174c0244336eae298104522591dd6057"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, material and colour reference",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept supporting reference",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "output_sha256": "34eb20b4e84790709e9c355968cacac0e1adac63d44f75e1e281f684a8b94487",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected in favour of the corrective return. Native output is 1254 x 1254, not 1024 x 1024. Silhouette and internal edges drift from the guide; conspicuous edge highlights and recessed shading remain.",
+      "checks": {
+        "dimensions": {
+          "passed": false,
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette": {
+          "passed": false,
+          "alpha_bbox": [
+            0,
+            23,
+            1230,
+            1236
+          ],
+          "alpha_128_bbox": [
+            76,
+            281,
+            1177,
+            973
+          ],
+          "notes": "Not pixel-identical to the guide. Guide alpha bounds are [66,229,958,795] on a 1024-square canvas."
+        },
+        "materials_and_colours": {
+          "passed": true,
+          "notes": "Visual check: weathered grey-brown bone/chitin with dark violet resin webbing and dusty wear."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "notes": "Residual edge highlights and recessed dark shading are visible."
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "fully_transparent_pixels": 1101673,
+          "notes": "Contains genuine transparency, but faint stray alpha extends well beyond the opaque object and does not preserve the guide mask."
+        }
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION — exact 1024 x 1024 pixels, transparent PNG. Native output resolution MUST be 1024 x 1024, matching the first input image. Do not output 1254 x 1254 or any other size.\n\nEdit INPUT 1 (guide_back.png) by painting its existing surfaces only. It is a fixed, transparent 1024 x 1024 orthographic render of the exact 3D model. Preserve the original image's alpha mask pixel-for-pixel: every outer silhouette pixel and inner transparent opening must remain identical. All silhouette coordinates, internal modeled shape edges, gaps, teeth, angular broken edges, protrusions, round recesses and connecting membranes are locked. DO NOT redraw, reconstruct, reshape or improve the model geometry. Paint over the original pixels.\n\nINPUT 2 (design_reference.png) supplies only the surface materials and colours: weathered grey-brown chitin and bone plates, darker spines, black-violet resin webbing painted onto modeled surfaces in the openings, and dust.\nINPUT 3 (concept_crop.png) is the original concept for supporting material identity only.\nDo not use the silhouettes, camera, scale, highlights or shadows of inputs 2 or 3.\n\nCANVAS AND GEOMETRY LOCK: The first input image is the complete output template. Keep its 1024 x 1024 canvas and original object placement, with transparent margins. Object alpha bounds are x=66 through 957 and y=229 through 794. The narrow tip faces left, the broad tall stern is right. Five principal curved spines and the small lower-left hook retain their exact original widths, curves, positions and tips. Keep the broad straight diagonal hull strake, the right upper triangular membrane, its little transparent opening, and every edge of the jagged bottom exactly as rendered in the guide. Keep internal surface boundaries at their original pixel locations. Do not convert flat modeled planes into added jagged protrusions. Fine weathering is flat colour detail on those planes. Nothing added outside the alpha mask. No expansion of the hull, no reframing, no cropping, no scaling, no movement. Leave all transparent pixels transparent without a speckle or halo.\n\nLIGHTING CORRECTION: This must be an ALBEDO TEXTURE SOURCE in completely even flat shadowless viewer-facing illumination, not a studio render. Matte pigment colours only. Weathered muted grey-brown/bone chitin, slightly darker spines, dark desaturated black-violet resin webbing, dusty worn surface markings. The resin is a dark material, not shaded cavities. No ambient occlusion, no recessed cavity shading, no cast shadows, no bright edge highlighting, no gold rim lines, no glossy reflections, no specular highlights or reflections, no rim light, no directional shading. Any glowing part is only its intrinsic glowing colour, without light spill. No background, no floor, no scene, no atmosphere, no text.\n\nReturn one unresized 1024 x 1024 transparent image. Highest priority is exact preservation of the FIRST INPUT's canvas, alpha mask and geometry; only surface colour and texture may change.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; authoritative exact geometry, camera and alpha mask",
+          "sha256": "7040a3d4da9ceac702357fdc77e97b65174c0244336eae298104522591dd6057"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, material and colour reference",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "original concept supporting reference",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "d4e46e3194558fdfc7ee37160fb6ed6a90cf065382a936cae718a5d9d48fa6d7",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the better available unresized return after the one permitted correction; flatter surface treatment and broadly closer placement. This selection is not acceptance: required native dimensions, exact guide silhouette and fully flat lighting still fail. Further generation stopped at the brief's limit.",
+      "checks": {
+        "dimensions": {
+          "passed": false,
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette": {
+          "passed": false,
+          "alpha_bbox": [
+            0,
+            19,
+            1254,
+            1254
+          ],
+          "alpha_128_bbox": [
+            80,
+            281,
+            1174,
+            972
+          ],
+          "notes": "Not pixel-identical to the guide. Internal contours and the upper-right connecting membrane/opening differ, with faint stray alpha in the background."
+        },
+        "materials_and_colours": {
+          "passed": true,
+          "notes": "Visual check: weathered grey-brown chitin/bone plates, darker spines, black-violet resin webbing and dust."
+        },
+        "flat_even_light": {
+          "passed": false,
+          "notes": "More matte than the first return, but residual edge highlights and dark recessed shading remain."
+        },
+        "transparent_background": {
+          "passed": true,
+          "mode": "RGBA",
+          "fully_transparent_pixels": 1110621,
+          "notes": "Contains genuine transparency; original guide alpha mask is not preserved."
+        }
+      }
+    }
+  ]
+}

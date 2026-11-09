@@ -1,0 +1,3 @@
+Saved all four `c_01_front.png`–`c_04_right.png` in [references_tiers](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_zombie_claude/references_tiers), using built-in image generation. Raw attempts, prompts, input hashes and checks are retained.
+
+The outputs are **not fully brief-compliant**: soft alpha halos and silhouette drift remain after one correction per view. No builds or Meshy calls were run.

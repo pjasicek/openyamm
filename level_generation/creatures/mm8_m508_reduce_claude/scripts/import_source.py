@@ -1,0 +1,50 @@
+"""Installed creature source GLB (REA_GLB, default the MM8 Phoenix; mesh node REA_NODE) -> work/source.blend with the names the ladder expects (Body, Rig); the ash-remains
+mesh is kept hidden (the user will replace that effect). glTF splits vertices at every UV/normal seam, so exact
+duplicates are welded (UVs stay per face corner); otherwise every seam is an open edge the decimation cannot cross.
+Prints size and clip list."""
+import os, bpy
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
+bpy.ops.wm.read_factory_settings(use_empty=True)
+NODE = os.environ.get('REA_NODE', 'Demon_Native_Mesh')
+bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, os.environ.get('REA_GLB', 'assets_source/worlds/mm6/models/mm6_demon.glb')))
+# the Air Elemental's mesh nodes import as an empty named like the node plus the mesh object '<node>.001'
+body = next(o for o in bpy.data.objects if o.type == 'MESH' and o.name in (NODE, NODE + '.001'))
+for o in bpy.data.objects:
+    if o.type != 'MESH' and o.name == 'Body':
+        o.name = 'Body_node'
+rig = next(o for o in bpy.data.objects if o.type == 'ARMATURE')
+body.name = 'Body'; rig.name = 'Rig'
+for o in bpy.data.objects:
+    if o.type == 'MESH' and o is not body:
+        o.hide_render = True; o.hide_viewport = True
+import bmesh
+# weld only duplicates with the same weights: a coincident vertex of another armour piece (knight: fauld and
+# cuirass) has other weights, and merging it gave the fauld a pelvis-weighted corner that folded in every pose
+bm = bmesh.new(); bm.from_mesh(body.data)
+open_before = sum(1 for e in bm.edges if e.is_boundary)
+dl = bm.verts.layers.deform.active
+sig = lambda v: tuple(sorted((g, round(w, 4)) for g, w in v[dl].items())) if dl else ()
+classes = {}
+for v in bm.verts:
+    classes.setdefault(sig(v), []).append(v)
+for vs in classes.values():
+    bmesh.ops.remove_doubles(bm, verts=vs, dist=1e-6)
+bm.verts.ensure_lookup_table()
+from mathutils import kdtree
+tree = kdtree.KDTree(len(bm.verts))
+for v in bm.verts:
+    tree.insert(v.co, v.index)
+tree.balance()
+kept_apart = sum(1 for v in bm.verts if any(j != v.index for _, j, _ in tree.find_range(v.co, 1e-6)))
+print('WELD open edges', open_before, '->', sum(1 for e in bm.edges if e.is_boundary), 'verts', len(bm.verts),
+      'coincident with other weights', kept_apart)
+bm.to_mesh(body.data); bm.free(); body.data.update()
+dims = body.dimensions; bpy.context.view_layer.update()
+import mathutils
+pts = [body.matrix_world @ mathutils.Vector(c) for c in body.bound_box]
+print('SIZE', [round(max(p[k] for p in pts) - min(p[k] for p in pts), 3) for k in range(3)])
+print('TRIS', sum(len(p.vertices) - 2 for p in body.data.polygons), 'MATS', [m.name for m in body.data.materials])
+print('ACTIONS', [(a.name, tuple(a.frame_range)) for a in bpy.data.actions])
+print('UV', [u.name for u in body.data.uv_layers], 'ATTR', [a.name for a in body.data.attributes if not a.name.startswith('.')])
+bpy.ops.wm.save_as_mainfile(filepath=os.path.join(HERE, 'work', 'source.blend'))

@@ -1,0 +1,388 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper lander's flight core.\nImage 1 is the EDIT TARGET: the exact 1024 x 1024 guide for this view. Image 2 is the approved DESIGN/MATERIAL reference only.\nPaint directly over Image 1, retaining its pixel-perfect outer alpha silhouette, canvas, position, scale, camera and EVERY existing part boundary. Preserve the enormous transparent margins where present. Do not reframe, zoom, rotate, broaden or shorten the object, add geometry, change perspective or imitate the reference's three-quarter camera. Preserve the guide's faceted contour exactly. Only replace the surface colors within that exact shape. Guide tints only identify materials, never final colors.\nThe lander's flight core pulled from a wreck: warm white ceramic with fine speckled wear and subtle engraved panel seams, muted brushed gold with fine abrasion, a ring of soft blue-white light, gold contact prongs, localized charcoal scorch marks and one hairline crack. Colonial, a little battered, quietly alive. Match the approved reference's material identities and plausible surfaces on unseen faces. No new parts; any fine detail is painted within existing parts.\nLIGHTING: pure albedo texture source, flat even shadowless viewer-facing illumination. Remove the guide's lighting gradients. Warm ivory ceramic stays the same light base value over all faces. Gold is a muted gold base color with only faint grain/sheen, no white highlight. Glow is painted pale blue-white, no bloom outside silhouette. No cast shadow, no ambient occlusion, no rim light, no strong specular, reflections, bright hotspots or directional lighting. Damage is pigment coloration rather than shaded relief.\nReturn ONE 1024 x 1024 PNG, actual transparent alpha background. Background must remain entirely transparent, with no floor, scene, labels, text, letters, watermark or other objects. Preserve raw output dimensions.\nView FRONT: obey guide_front.png exactly. This is a tiny nearly circular polygonal END-ON view, NOT a tall cylinder. The entire object lies in x=406..617 and y=406..617 on a 1024 square canvas, centered at (512,512). Keep that 212-pixel diameter and transparent surrounding 80% of image. Keep all nested edge contours; the three existing contact prongs project into the lower interior of this disc at their precise guide positions. Paint those three prongs brushed gold, the existing central broad ceramic cap warm ivory with fine wear, the existing collar gold and its narrow blue-white perimeter light. Continue the unseen base plausibly; do not invent a large lens or change the central cap into light. Preserve the three separate contacts and every boundary.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "8f6ef87379a538db02807b26a803e9fdaff7803e41b7a624112d225d09a80c64"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-5dcfbfb5-4182-433b-b75d-104899e817a0.png",
+      "selected": false,
+      "reason": "Superseded by the single correction, which has flatter lighting and simpler material partitions. Raw initial return retained at the generator source path.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-5dcfbfb5-4182-433b-b75d-104899e817a0.png",
+      "output_sha256": "4aa550f872d5a6c1587f6132e9f5b9bca46c8edc388c46e2979e971773276dc3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "rgba": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1211,
+          1230
+        ],
+        "opaque_bbox": [
+          502,
+          501,
+          752,
+          748
+        ],
+        "fully_transparent_fraction": 0.9674756886416418,
+        "normalized_opaque_mask_iou": 0.9468950368083591,
+        "silhouette_identical": false,
+        "resized": false,
+        "visual": "Materials broadly match; lighting bevels and silhouette drift need correction."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper lander's flight core.\nImage 1 is the EDIT TARGET: the exact 1024 x 1024 guide for this view. Image 2 is the approved DESIGN/MATERIAL reference only.\nPaint directly over Image 1, retaining its pixel-perfect outer alpha silhouette, canvas, position, scale, camera and EVERY existing part boundary. Preserve the enormous transparent margins where present. Do not reframe, zoom, rotate, broaden or shorten the object, add geometry, change perspective or imitate the reference's three-quarter camera. Preserve the guide's faceted contour exactly. Only replace the surface colors within that exact shape. Guide tints only identify materials, never final colors.\nThe lander's flight core pulled from a wreck: warm white ceramic with fine speckled wear and subtle engraved panel seams, muted brushed gold with fine abrasion, a ring of soft blue-white light, gold contact prongs, localized charcoal scorch marks and one hairline crack. Colonial, a little battered, quietly alive. Match the approved reference's material identities and plausible surfaces on unseen faces. No new parts; any fine detail is painted within existing parts.\nLIGHTING: pure albedo texture source, flat even shadowless viewer-facing illumination. Remove the guide's lighting gradients. Warm ivory ceramic stays the same light base value over all faces. Gold is a muted gold base color with only faint grain/sheen, no white highlight. Glow is painted pale blue-white, no bloom outside silhouette. No cast shadow, no ambient occlusion, no rim light, no strong specular, reflections, bright hotspots or directional lighting. Damage is pigment coloration rather than shaded relief.\nReturn ONE 1024 x 1024 PNG, actual transparent alpha background. Background must remain entirely transparent, with no floor, scene, labels, text, letters, watermark or other objects. Preserve raw output dimensions.\nView BACK: obey guide_back.png exactly. This is a tiny nearly circular polygonal END-ON view, NOT a tall cylinder. The entire object lies in x=406..617 and y=406..617 on a 1024 square canvas, centered at (512,512). Keep that 212-pixel diameter and transparent surrounding 80% of image. Keep all nested edge contours. The broad plain central cap is warm white ceramic with fine wear, the existing annular collar brushed gold and the very narrow outer rim pale blue-white. No contact prongs are visible in this view and none may be added. Continue unseen surfaces plausibly; keep the ceramic central cap and do not invent extra concentric hardware.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "445eacd3ddb3d15eedb113c38ab925059578b5b1d795999348bbcdf466362339"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-25bfe0b8-80ae-4d59-b15c-00ec7fe10f52.png",
+      "selected": false,
+      "reason": "Superseded by the single correction, which has flatter lighting and simpler material partitions. Raw initial return retained at the generator source path.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-25bfe0b8-80ae-4d59-b15c-00ec7fe10f52.png",
+      "output_sha256": "84ea1e1a765b4ce3a0a135976419739c19a8e7c7b34327b84ae9a6846ac175aa",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "rgba": true,
+        "alpha_bbox": [
+          288,
+          32,
+          1184,
+          1229
+        ],
+        "opaque_bbox": [
+          500,
+          497,
+          753,
+          750
+        ],
+        "fully_transparent_fraction": 0.9668416728351253,
+        "normalized_opaque_mask_iou": 0.9583726972130373,
+        "silhouette_identical": false,
+        "resized": false,
+        "visual": "Materials broadly match; lighting bevels and silhouette drift need correction."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper lander's flight core.\nImage 1 is the EDIT TARGET: the exact 1024 x 1024 guide for this view. Image 2 is the approved DESIGN/MATERIAL reference only.\nPaint directly over Image 1, retaining its pixel-perfect outer alpha silhouette, canvas, position, scale, camera and EVERY existing part boundary. Preserve the enormous transparent margins where present. Do not reframe, zoom, rotate, broaden or shorten the object, add geometry, change perspective or imitate the reference's three-quarter camera. Preserve the guide's faceted contour exactly. Only replace the surface colors within that exact shape. Guide tints only identify materials, never final colors.\nThe lander's flight core pulled from a wreck: warm white ceramic with fine speckled wear and subtle engraved panel seams, muted brushed gold with fine abrasion, a ring of soft blue-white light, gold contact prongs, localized charcoal scorch marks and one hairline crack. Colonial, a little battered, quietly alive. Match the approved reference's material identities and plausible surfaces on unseen faces. No new parts; any fine detail is painted within existing parts.\nLIGHTING: pure albedo texture source, flat even shadowless viewer-facing illumination. Remove the guide's lighting gradients. Warm ivory ceramic stays the same light base value over all faces. Gold is a muted gold base color with only faint grain/sheen, no white highlight. Glow is painted pale blue-white, no bloom outside silhouette. No cast shadow, no ambient occlusion, no rim light, no strong specular, reflections, bright hotspots or directional lighting. Damage is pigment coloration rather than shaded relief.\nReturn ONE 1024 x 1024 PNG, actual transparent alpha background. Background must remain entirely transparent, with no floor, scene, labels, text, letters, watermark or other objects. Preserve raw output dimensions.\nView LEFT: obey guide_left.png exactly. The cylinder lies HORIZONTALLY with its long axis at y=512, round closed end at LEFT and one narrow visible gold contact silhouette extending to the RIGHT at y approximately 545. Total nontransparent bounds x=66..957, y=406..617. The long body occupies about y=428..595. Preserve this slender long silhouette, guide chamfers and ALL ring boundaries. Gold rings are centered near x=353 and x=575; the thin light ring is centered near x=456 and has its existing narrow gold edge. Paint ceramic between them and all extended end housings; do not move rings to match the design illustration. Fine elongated recessed markings and panel seams can be painted within ceramic, never extruded beyond the contour. Localized charcoal scorch and a fine crack on this face echo the reference; do not add a large circular bulge or lens because it is absent from the guide.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "f9924086faf9842a63469596ac2d0a5d4454abb99912f51446a45510607e5e29"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Image service output-stage moderation rejected this harmless aircraft-component request as violence; no image returned.",
+      "requested_output": "paint_left.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper lander's flight core.\nImage 1 is the EDIT TARGET: the exact 1024 x 1024 guide for this view. Image 2 is the approved DESIGN/MATERIAL reference only.\nPaint directly over Image 1, retaining its pixel-perfect outer alpha silhouette, canvas, position, scale, camera and EVERY existing part boundary. Preserve the enormous transparent margins where present. Do not reframe, zoom, rotate, broaden or shorten the object, add geometry, change perspective or imitate the reference's three-quarter camera. Preserve the guide's faceted contour exactly. Only replace the surface colors within that exact shape. Guide tints only identify materials, never final colors.\nThe lander's flight core pulled from a wreck: warm white ceramic with fine speckled wear and subtle engraved panel seams, muted brushed gold with fine abrasion, a ring of soft blue-white light, gold contact prongs, localized charcoal scorch marks and one hairline crack. Colonial, a little battered, quietly alive. Match the approved reference's material identities and plausible surfaces on unseen faces. No new parts; any fine detail is painted within existing parts.\nLIGHTING: pure albedo texture source, flat even shadowless viewer-facing illumination. Remove the guide's lighting gradients. Warm ivory ceramic stays the same light base value over all faces. Gold is a muted gold base color with only faint grain/sheen, no white highlight. Glow is painted pale blue-white, no bloom outside silhouette. No cast shadow, no ambient occlusion, no rim light, no strong specular, reflections, bright hotspots or directional lighting. Damage is pigment coloration rather than shaded relief.\nReturn ONE 1024 x 1024 PNG, actual transparent alpha background. Background must remain entirely transparent, with no floor, scene, labels, text, letters, watermark or other objects. Preserve raw output dimensions.\nView RIGHT: obey guide_right.png exactly. The cylinder lies HORIZONTALLY with its long axis at y=512, round closed end at RIGHT and one narrow visible gold contact silhouette extending to the LEFT at y approximately 545. Total nontransparent bounds x=66..957, y=406..617. The long body occupies about y=428..595. Preserve this slender long silhouette, guide chamfers and ALL ring boundaries. Gold rings are centered near x=449 and x=671; the thin light ring is centered near x=568 and has its existing narrow gold edge. Paint ceramic between them and all extended end housings; do not move rings to match the design illustration. Continue the opposite side plausibly with the same warm ceramic and worn brushed gold, restrained fine seams and wear. Do not duplicate the main severe scorch damage on every face. Do not add a large circular bulge or lens because it is absent from the guide.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "8e0391960ffcfedadd651353a4c065e1cd1a47d416c5574179e90b22e7dc5556"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Image service output-stage moderation rejected this harmless aircraft-component request as violence; no image returned.",
+      "requested_output": "paint_right.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper lander's flight core.\nImage 1 is the EDIT TARGET: the exact 1024 x 1024 guide for this view. Image 2 is the approved DESIGN/MATERIAL reference only.\nPaint directly over Image 1, retaining its pixel-perfect outer alpha silhouette, canvas, position, scale, camera and EVERY existing part boundary. Preserve the enormous transparent margins where present. Do not reframe, zoom, rotate, broaden or shorten the object, add geometry, change perspective or imitate the reference's three-quarter camera. Preserve the guide's faceted contour exactly. Only replace the surface colors within that exact shape. Guide tints only identify materials, never final colors.\nThe lander's flight core pulled from a wreck: warm white ceramic with fine speckled wear and subtle engraved panel seams, muted brushed gold with fine abrasion, a ring of soft blue-white light, gold contact prongs, localized charcoal scorch marks and one hairline crack. Colonial, a little battered, quietly alive. Match the approved reference's material identities and plausible surfaces on unseen faces. No new parts; any fine detail is painted within existing parts.\nLIGHTING: pure albedo texture source, flat even shadowless viewer-facing illumination. Remove the guide's lighting gradients. Warm ivory ceramic stays the same light base value over all faces. Gold is a muted gold base color with only faint grain/sheen, no white highlight. Glow is painted pale blue-white, no bloom outside silhouette. No cast shadow, no ambient occlusion, no rim light, no strong specular, reflections, bright hotspots or directional lighting. Damage is pigment coloration rather than shaded relief.\nReturn ONE 1024 x 1024 PNG, actual transparent alpha background. Background must remain entirely transparent, with no floor, scene, labels, text, letters, watermark or other objects. Preserve raw output dimensions.\nView TOP: obey guide_top.png exactly. Despite the view name this guide shows a long VERTICAL cylinder, NOT a circular end cap. Its long axis is x=512, closed end at TOP and three separate long narrow gold contact prongs at BOTTOM. Total bounds x=406..617 and y=66..957. Body width about x=428..595; preserve this slender profile, exact chamfers and ALL rings. Gold bands are centered near y=353 and y=575, and the thin pale blue-white luminous ring near y=456 with its existing narrow gold edge. Three contact prongs at bottom remain exactly aligned near x=480,512,544 from y=910..957, with transparent gaps. Paint only existing surfaces: warm white ceramic, fine aged panel seams and restrained wear, muted brushed gold and pale blue-white ring. Carry a little side scorch and fine hairline cracking near one edge plausibly. Do not substitute the much broader proportions of the design reference or add a protruding central circular eye.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "2ee789aeab2434598a77696fbea0a6a6a9992bd0bfc42de3ecee49eb8ac2b016"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-38ddcc80-57b3-4d00-9142-ef14c602a890.png",
+      "selected": false,
+      "reason": "Superseded by the single correction, which has flatter lighting and simpler material partitions. Raw initial return retained at the generator source path.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-38ddcc80-57b3-4d00-9142-ef14c602a890.png",
+      "output_sha256": "12b2c43c80d5cce2a41b3b4009a5e66a49bb2b195096a312331bdb51e8126896",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "rgba": true,
+        "alpha_bbox": [
+          0,
+          31,
+          1214,
+          1229
+        ],
+        "opaque_bbox": [
+          500,
+          78,
+          754,
+          1176
+        ],
+        "fully_transparent_fraction": 0.8491919955027485,
+        "normalized_opaque_mask_iou": 0.9827431156408823,
+        "silhouette_identical": false,
+        "resized": false,
+        "visual": "Materials broadly match; lighting bevels and silhouette drift need correction."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint the provided orthographic GUIDE (image 1) as a flat albedo texture source, using image 2 ONLY for its ceramic/gold/pale-blue material palette and restrained worn finish. This is a harmless inert aircraft avionics module, no weapon or weapon function. Return one RGBA PNG at exactly 1024 x 1024, genuine transparency.\nMOST IMPORTANT: copy image 1's exact alpha mask, canvas, small object coverage, polygonal contours and ALL part boundaries. Color pixels inside existing parts only. Keep every outside pixel fully transparent (alpha 0), with no dust, fringe, ghost pixels, colored haze or faint image residue. Do not add any geometry, rings, clamps, segments or divisions to the guide. Surface markings only. No text or letters.\nMaterial paint: creamy white ceramic with small subtle flecks of aged wear, a few fine panel join lines; muted brushed yellow gold on the guide's gold-tinted parts; pale blue-white on only the guide's light-blue ring; existing contacts gold. Where appropriate, a small charcoal heat-discolored patch and thin ceramic hairline fracture, contained inside the surface. Match the reference palette, but completely discard its dramatic illumination.\nABSOLUTELY FLAT ALBEDO: consistent base color across each part, no top-to-bottom or side-to-side lighting gradient, no ambient shadow beneath rings or contacts, no dark bevel edges, no bright metallic bevel edges, no glossy reflection, no hot highlights, no rim light, no cast shadows. Metal has fine low-contrast brushed texture only. Light-blue parts are flat bright pigment, with no bloom. This image is for projection onto an already lit 3D mesh. Prioritize exact guide tracing over illustrative dimensional realism.\n\nView FRONT: obey guide_front.png exactly. This is a tiny nearly circular polygonal END-ON view, NOT a tall cylinder. The entire object lies in x=406..617 and y=406..617 on a 1024 square canvas, centered at (512,512). Keep that 212-pixel diameter and transparent surrounding 80% of image. Keep all nested edge contours; the three existing contact prongs project into the lower interior of this disc at their precise guide positions. Paint those three prongs brushed gold, the existing central broad ceramic cap warm ivory with fine wear, the existing collar gold and its narrow blue-white perimeter light. Continue the unseen base plausibly; do not invent a large lens or change the central cap into light. Preserve the three separate contacts and every boundary.\nCorrection: retain the guide's original single continuous annular material boundaries. Do not add segmented gold clamp blocks or move the thin outer light ring into the interior. Keep all three straight rectangular prism prongs in exactly the guide shapes; do not round them into pegs.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "8f6ef87379a538db02807b26a803e9fdaff7803e41b7a624112d225d09a80c64"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected after the single permitted correction for improved flatness/material partitioning. Best available return, not an exact silhouette or lighting pass; preserved unresized and unedited.",
+      "requested_output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-96cd3b49-0cda-4964-91bb-4e81297466f4.png",
+      "output_sha256": "21c3903c6d5122e6a5eb0e5a293284e05c5324eae90efc5dcfc0f49fa01c5b6a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "rgba": true,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          39,
+          1226,
+          1230
+        ],
+        "opaque_bbox": [
+          506,
+          507,
+          747,
+          746
+        ],
+        "fully_transparent_fraction": 0.9705968015587759,
+        "normalized_opaque_mask_iou": 0.8728033721206364,
+        "normalized_opaque_pixels_outside_guide": 0,
+        "normalized_guide_pixels_missing": 4285,
+        "silhouette_identical": false,
+        "colours_materials_match_visual": true,
+        "flat_shadowless_lighting_pass": false,
+        "text_or_letters_visible": false,
+        "resized": false,
+        "edited_after_generation": false,
+        "visual": "Flatter ceramic and gold, and fewer invented collar segments than attempt 1. Three contacts retained. Residual dark edge lines and light-band placement differs from the guide; exact part boundaries not preserved."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint the provided orthographic GUIDE (image 1) as a flat albedo texture source, using image 2 ONLY for its ceramic/gold/pale-blue material palette and restrained worn finish. This is a harmless inert aircraft avionics module, no weapon or weapon function. Return one RGBA PNG at exactly 1024 x 1024, genuine transparency.\nMOST IMPORTANT: copy image 1's exact alpha mask, canvas, small object coverage, polygonal contours and ALL part boundaries. Color pixels inside existing parts only. Keep every outside pixel fully transparent (alpha 0), with no dust, fringe, ghost pixels, colored haze or faint image residue. Do not add any geometry, rings, clamps, segments or divisions to the guide. Surface markings only. No text or letters.\nMaterial paint: creamy white ceramic with small subtle flecks of aged wear, a few fine panel join lines; muted brushed yellow gold on the guide's gold-tinted parts; pale blue-white on only the guide's light-blue ring; existing contacts gold. Where appropriate, a small charcoal heat-discolored patch and thin ceramic hairline fracture, contained inside the surface. Match the reference palette, but completely discard its dramatic illumination.\nABSOLUTELY FLAT ALBEDO: consistent base color across each part, no top-to-bottom or side-to-side lighting gradient, no ambient shadow beneath rings or contacts, no dark bevel edges, no bright metallic bevel edges, no glossy reflection, no hot highlights, no rim light, no cast shadows. Metal has fine low-contrast brushed texture only. Light-blue parts are flat bright pigment, with no bloom. This image is for projection onto an already lit 3D mesh. Prioritize exact guide tracing over illustrative dimensional realism.\n\nView BACK: obey guide_back.png exactly. This is a tiny nearly circular polygonal END-ON view, NOT a tall cylinder. The entire object lies in x=406..617 and y=406..617 on a 1024 square canvas, centered at (512,512). Keep that 212-pixel diameter and transparent surrounding 80% of image. Keep all nested edge contours. The broad plain central cap is warm white ceramic with fine wear, the existing annular collar brushed gold and the very narrow outer rim pale blue-white. No contact prongs are visible in this view and none may be added. Continue unseen surfaces plausibly; keep the ceramic central cap and do not invent extra concentric hardware.\nCorrection: keep the original faceted outline and plain central ceramic cap. No shaded dark circular groove or glossy gold highlight; no new radial divisions.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "445eacd3ddb3d15eedb113c38ab925059578b5b1d795999348bbcdf466362339"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected after the single permitted correction for improved flatness/material partitioning. Best available return, not an exact silhouette or lighting pass; preserved unresized and unedited.",
+      "requested_output": "paint_back.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-881b8feb-3c4e-40b2-b708-efedf23177b3.png",
+      "output_sha256": "7508630881bf5b0863b8e843129a3b0686dcb9d8f813e0e523da8ad07fd82e85",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "rgba": true,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          81,
+          160,
+          1208,
+          1087
+        ],
+        "opaque_bbox": [
+          500,
+          498,
+          754,
+          752
+        ],
+        "fully_transparent_fraction": 0.9668429446822798,
+        "normalized_opaque_mask_iou": 0.9745253117687135,
+        "normalized_opaque_pixels_outside_guide": 71,
+        "normalized_guide_pixels_missing": 789,
+        "silhouette_identical": false,
+        "colours_materials_match_visual": true,
+        "flat_shadowless_lighting_pass": false,
+        "text_or_letters_visible": false,
+        "resized": false,
+        "edited_after_generation": false,
+        "visual": "Flatter continuous gold band and ceramic cap than attempt 1; reference palette retained. Slight contour drift and perimeter residue remain."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint the provided orthographic GUIDE (image 1) as a flat albedo texture source, using image 2 ONLY for its ceramic/gold/pale-blue material palette and restrained worn finish. This is a harmless inert aircraft avionics module, no weapon or weapon function. Return one RGBA PNG at exactly 1024 x 1024, genuine transparency.\nMOST IMPORTANT: copy image 1's exact alpha mask, canvas, small object coverage, polygonal contours and ALL part boundaries. Color pixels inside existing parts only. Keep every outside pixel fully transparent (alpha 0), with no dust, fringe, ghost pixels, colored haze or faint image residue. Do not add any geometry, rings, clamps, segments or divisions to the guide. Surface markings only. No text or letters.\nMaterial paint: creamy white ceramic with small subtle flecks of aged wear, a few fine panel join lines; muted brushed yellow gold on the guide's gold-tinted parts; pale blue-white on only the guide's light-blue ring; existing contacts gold. Where appropriate, a small charcoal heat-discolored patch and thin ceramic hairline fracture, contained inside the surface. Match the reference palette, but completely discard its dramatic illumination.\nABSOLUTELY FLAT ALBEDO: consistent base color across each part, no top-to-bottom or side-to-side lighting gradient, no ambient shadow beneath rings or contacts, no dark bevel edges, no bright metallic bevel edges, no glossy reflection, no hot highlights, no rim light, no cast shadows. Metal has fine low-contrast brushed texture only. Light-blue parts are flat bright pigment, with no bloom. This image is for projection onto an already lit 3D mesh. Prioritize exact guide tracing over illustrative dimensional realism.\n\nView LEFT: obey guide_left.png exactly. The cylinder lies HORIZONTALLY with its long axis at y=512, round closed end at LEFT and one narrow visible gold contact silhouette extending to the RIGHT at y approximately 545. Total nontransparent bounds x=66..957, y=406..617. The long body occupies about y=428..595. Preserve this slender long silhouette, guide chamfers and ALL ring boundaries. Gold rings are centered near x=353 and x=575; the thin light ring is centered near x=456 and has its existing narrow gold edge. Paint ceramic between them and all extended end housings; do not move rings to match the design illustration. Fine elongated recessed markings and panel seams can be painted within ceramic, never extruded beyond the contour. Localized charcoal scorch and a fine crack on this face echo the reference; do not add a large circular bulge or lens because it is absent from the guide.\nRetry the non-weapon aircraft component painting. Preserve the original guide silhouette and material partitions exactly.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "f9924086faf9842a63469596ac2d0a5d4454abb99912f51446a45510607e5e29"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Second output-stage moderation rejection (violence) for this harmless aircraft-component request. No image returned. Stopped at the brief limit of one corrective regeneration per view.",
+      "requested_output": "paint_left.png",
+      "error": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID fa13b8ef-5d84-4816-aa86-71f8b538a6b9. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint the provided orthographic GUIDE (image 1) as a flat albedo texture source, using image 2 ONLY for its ceramic/gold/pale-blue material palette and restrained worn finish. This is a harmless inert aircraft avionics module, no weapon or weapon function. Return one RGBA PNG at exactly 1024 x 1024, genuine transparency.\nMOST IMPORTANT: copy image 1's exact alpha mask, canvas, small object coverage, polygonal contours and ALL part boundaries. Color pixels inside existing parts only. Keep every outside pixel fully transparent (alpha 0), with no dust, fringe, ghost pixels, colored haze or faint image residue. Do not add any geometry, rings, clamps, segments or divisions to the guide. Surface markings only. No text or letters.\nMaterial paint: creamy white ceramic with small subtle flecks of aged wear, a few fine panel join lines; muted brushed yellow gold on the guide's gold-tinted parts; pale blue-white on only the guide's light-blue ring; existing contacts gold. Where appropriate, a small charcoal heat-discolored patch and thin ceramic hairline fracture, contained inside the surface. Match the reference palette, but completely discard its dramatic illumination.\nABSOLUTELY FLAT ALBEDO: consistent base color across each part, no top-to-bottom or side-to-side lighting gradient, no ambient shadow beneath rings or contacts, no dark bevel edges, no bright metallic bevel edges, no glossy reflection, no hot highlights, no rim light, no cast shadows. Metal has fine low-contrast brushed texture only. Light-blue parts are flat bright pigment, with no bloom. This image is for projection onto an already lit 3D mesh. Prioritize exact guide tracing over illustrative dimensional realism.\n\nView RIGHT: obey guide_right.png exactly. The cylinder lies HORIZONTALLY with its long axis at y=512, round closed end at RIGHT and one narrow visible gold contact silhouette extending to the LEFT at y approximately 545. Total nontransparent bounds x=66..957, y=406..617. The long body occupies about y=428..595. Preserve this slender long silhouette, guide chamfers and ALL ring boundaries. Gold rings are centered near x=449 and x=671; the thin light ring is centered near x=568 and has its existing narrow gold edge. Paint ceramic between them and all extended end housings; do not move rings to match the design illustration. Continue the opposite side plausibly with the same warm ceramic and worn brushed gold, restrained fine seams and wear. Do not duplicate the main severe scorch damage on every face. Do not add a large circular bulge or lens because it is absent from the guide.\nRetry the non-weapon aircraft component painting. Preserve the original guide silhouette and material partitions exactly.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "8e0391960ffcfedadd651353a4c065e1cd1a47d416c5574179e90b22e7dc5556"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Second output-stage moderation rejection (violence) for this harmless aircraft-component request. No image returned. Stopped at the brief limit of one corrective regeneration per view.",
+      "requested_output": "paint_right.png",
+      "error": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 69f0c3fd-85df-4569-a104-b40bd44719d0. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint the provided orthographic GUIDE (image 1) as a flat albedo texture source, using image 2 ONLY for its ceramic/gold/pale-blue material palette and restrained worn finish. This is a harmless inert aircraft avionics module, no weapon or weapon function. Return one RGBA PNG at exactly 1024 x 1024, genuine transparency.\nMOST IMPORTANT: copy image 1's exact alpha mask, canvas, small object coverage, polygonal contours and ALL part boundaries. Color pixels inside existing parts only. Keep every outside pixel fully transparent (alpha 0), with no dust, fringe, ghost pixels, colored haze or faint image residue. Do not add any geometry, rings, clamps, segments or divisions to the guide. Surface markings only. No text or letters.\nMaterial paint: creamy white ceramic with small subtle flecks of aged wear, a few fine panel join lines; muted brushed yellow gold on the guide's gold-tinted parts; pale blue-white on only the guide's light-blue ring; existing contacts gold. Where appropriate, a small charcoal heat-discolored patch and thin ceramic hairline fracture, contained inside the surface. Match the reference palette, but completely discard its dramatic illumination.\nABSOLUTELY FLAT ALBEDO: consistent base color across each part, no top-to-bottom or side-to-side lighting gradient, no ambient shadow beneath rings or contacts, no dark bevel edges, no bright metallic bevel edges, no glossy reflection, no hot highlights, no rim light, no cast shadows. Metal has fine low-contrast brushed texture only. Light-blue parts are flat bright pigment, with no bloom. This image is for projection onto an already lit 3D mesh. Prioritize exact guide tracing over illustrative dimensional realism.\n\nView TOP: obey guide_top.png exactly. Despite the view name this guide shows a long VERTICAL cylinder, NOT a circular end cap. Its long axis is x=512, closed end at TOP and three separate long narrow gold contact prongs at BOTTOM. Total bounds x=406..617 and y=66..957. Body width about x=428..595; preserve this slender profile, exact chamfers and ALL rings. Gold bands are centered near y=353 and y=575, and the thin pale blue-white luminous ring near y=456 with its existing narrow gold edge. Three contact prongs at bottom remain exactly aligned near x=480,512,544 from y=910..957, with transparent gaps. Paint only existing surfaces: warm white ceramic, fine aged panel seams and restrained wear, muted brushed gold and pale blue-white ring. Carry a little side scorch and fine hairline cracking near one edge plausibly. Do not substitute the much broader proportions of the design reference or add a protruding central circular eye.\nCorrection: all gold bevel faces must share the same muted base hue, ceramic must have uniform value without cylindrical shading. Keep all three rectangular contacts and their fully transparent gaps; no shaded seams or contact shadow.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "2ee789aeab2434598a77696fbea0a6a6a9992bd0bfc42de3ecee49eb8ac2b016"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6f914049b6c5430bcdda24a15095d75bda3cae0c8dec80002ea5dc2e6d57b045"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected after the single permitted correction for improved flatness/material partitioning. Best available return, not an exact silhouette or lighting pass; preserved unresized and unedited.",
+      "requested_output": "paint_top.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16dea-aa33-7173-9aca-7d527f97fc83/exec-1de9a689-aa3b-4719-9579-dd2282e1fcf8.png",
+      "output_sha256": "1af24862362c1aa0c16c44cc5b90165323d7308c081ae84d01aac7d7665bc893",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "rgba": true,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          31,
+          55,
+          1226,
+          1224
+        ],
+        "opaque_bbox": [
+          500,
+          80,
+          753,
+          1175
+        ],
+        "fully_transparent_fraction": 0.8517178839515782,
+        "normalized_opaque_mask_iou": 0.988477326574467,
+        "normalized_opaque_pixels_outside_guide": 787,
+        "normalized_guide_pixels_missing": 886,
+        "silhouette_identical": false,
+        "colours_materials_match_visual": true,
+        "flat_shadowless_lighting_pass": false,
+        "text_or_letters_visible": false,
+        "resized": false,
+        "edited_after_generation": false,
+        "visual": "Reference materials, vertical layout, three contacts and ring positions retained. Less contrast than attempt 1, but gold highlights and ceramic neck shading remain; alpha fringe near silhouette and between contacts."
+      }
+    }
+  ],
+  "status": "incomplete",
+  "summary": "Three paintings saved. Left and right each rejected twice by image-service output moderation, with no image returned. No third attempts made. All three saved images are unmodified 1254x1254 returns, as the brief allows for other returned sizes. They retain transparency but fail exact silhouette requirements; remaining shading/edge artifacts are documented per view.",
+  "comparison_method": "Read-only alpha comparison: the generated alpha is sampled at normalized 1024x1024 guide pixel centers, using alpha >= 128 for opaque-mask overlap. This comparison does not resize or modify any saved image. Exact equality additionally requires the same pixel dimensions and alpha array.",
+  "constraints": {
+    "built_in_imagegen_only": true,
+    "max_calls_per_view": 2,
+    "raw_returns_preserved": true,
+    "no_builds": true,
+    "no_runtime_or_3d_changes": true
+  }
+}

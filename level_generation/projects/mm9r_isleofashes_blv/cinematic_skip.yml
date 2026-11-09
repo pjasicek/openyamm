@@ -1,0 +1,16 @@
+# The book's cinematic skipped at 1 s: its remaining gameplay steps (OnSink's key 28, FadeOut2's exit) still happen.
+id: mm9r.isleofashes_blv.cinematic_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: isleofashes.blv}
+- set_pose: {map: isleofashes.blv, x: -942, y: 5287, z: 22, yaw: 1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90029}
+- execute_event: {id: 30496}
+- advance_runtime: {seconds: 1.0}
+- console: {line: cinematic list, expect_contains: playing book_sinking}
+- assert: {qbit_clear: [90028]}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5, follow_map_move: true}
+- assert: {qbit_set: [90028]}
+- assert: {map_arrived: {map: sturmford.blv}}

@@ -1,0 +1,23 @@
+{
+  "family": "hrp",
+  "title": "MM6 Harpy",
+  "descriptor_ids": [
+    556,
+    557,
+    558
+  ],
+  "base_palette": 751,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "green",
+  "description": "MM6 harpy: monstrous adult female bird-human creature, dark brown-gray skin, harsh long narrow snarling face with swept-back ridged brown hair, long thin arms and clawed hands. Bright green feathered chest covering and green inner wing leading edges, enormous tapered brown layered flight feathers on wings behind shoulders. Dark furred abdomen, spotted orange-brown feathered thighs, scaly ochre bird legs and long gold talons with ivory tips. Preserve the native ugly creature face and feathered anatomy, wing lengths and each flight angle. No beautification, no added clothing or accessories; no bare human chest, retain native feather covering.",
+  "regions": "Green chest feathers and inner wings change to red/blue. Brown feathers, skin, mottled thighs, ochre talons and hair remain protected.",
+  "variant_names": {
+    "751": "Harpy 1",
+    "752": "Harpy 2",
+    "753": "Harpy 3"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 1,
+  "standing_reference_frame": 0
+}

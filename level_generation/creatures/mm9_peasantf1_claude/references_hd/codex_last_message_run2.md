@@ -1,0 +1,3 @@
+Saved `01_front.png`–`04_right.png`, eight raw returns, prompts/hashes in `generation_runs.json`, and the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantf1_claude/references_hd/selected_views_review.png). Used built-in image generation; preserved both 00 masters.
+
+Stopped after one correction per view as specified. Residual faults include faint alpha noise, fabric patterning and right-profile pose drift.

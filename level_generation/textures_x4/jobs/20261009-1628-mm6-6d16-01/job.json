@@ -1,0 +1,574 @@
+{
+ "id": "20261009-1628-mm6-6d16-01",
+ "world": "mm6",
+ "maps": [
+  "6d16.blv"
+ ],
+ "created": "2026-10-09T14:28:25+00:00",
+ "textures": [
+  "mm6/d8wlbsp5",
+  "mm6/d8wld",
+  "mm6/d8wlbsp4",
+  "mm6/d8wlbsp3",
+  "mm6/d8wldsp4",
+  "mm6/d8wlbre",
+  "mm6/d8wldre",
+  "mm6/d8wldle",
+  "mm6/d1wrea",
+  "mm6/bedside",
+  "mm6/bemdk4",
+  "mm6/bemv32b",
+  "mm6/bmdk16a",
+  "mm6/bemv16a",
+  "mm6/bemh32a",
+  "mm6/bemstra1",
+  "mm6/cb2frnt",
+  "mm6/cb2side",
+  "mm6/cb2top",
+  "mm6/cb6frnt",
+  "mm6/cb6side",
+  "mm6/ch1bak",
+  "mm6/ch1topv",
+  "mm6/d1wlea"
+ ],
+ "requests": {
+  "mm6/d8wlbsp5": {
+   "name": "d8wlbsp5",
+   "versions": [
+    1
+   ],
+   "material": "mossy grey-green fieldstone wall between a dark stone beam at the top and a grey stone plinth at the bottom, with a vertical green slime trickle past three small dark iron holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlb",
+      "mm6/d8wlbsp6"
+     ],
+     "fraction": 0.829
+    }
+   }
+  },
+  "mm6/d8wld": {
+   "name": "d8wld",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown wall of stacked flat slate stones in uneven horizontal courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wldsp1"
+     ],
+     "fraction": 0.72
+    }
+   }
+  },
+  "mm6/d8wlbsp4": {
+   "name": "d8wlbsp4",
+   "versions": [
+    1
+   ],
+   "material": "mossy grey-green fieldstone wall between a dark stone beam at the top and a grey stone plinth at the bottom, with an arched rubble-stone niche holding a seated brown skeleton; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlbsp6",
+      "mm6/d8wlbsp5",
+      "mm6/d8wlbre"
+     ],
+     "fraction": 0.358
+    }
+   }
+  },
+  "mm6/d8wlbsp3": {
+   "name": "d8wlbsp3",
+   "versions": [
+    1
+   ],
+   "material": "mossy grey-green fieldstone wall between a dark stone beam at the top and a grey stone plinth at the bottom, with an arched rubble-stone niche holding a small stone idol statue; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlbsp4",
+      "mm6/d8wlbsp6",
+      "mm6/d8wlble"
+     ],
+     "fraction": 0.597
+    }
+   }
+  },
+  "mm6/d8wldsp4": {
+   "name": "d8wldsp4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey-brown slate stone wall with a dentil row along the top and a large tan carved stone relief panel of a prowling beast; copy the composition exactly",
+   "notes": {
+    "2": "Smooth carved sandstone relief with natural irregular grain: keep the lion's mane and fur carving, no scale pattern on its body and no regular diamond or knurl micro-pattern over the surface."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wldsp2",
+      "mm6/d8wldsp1"
+     ],
+     "fraction": 0.183
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wldsp2",
+      "mm6/d8wldsp1"
+     ],
+     "fraction": 0.183
+    }
+   }
+  },
+  "mm6/d8wlbre": {
+   "name": "d8wlbre",
+   "versions": [
+    1
+   ],
+   "material": "mossy grey-green fieldstone wall between a dark stone beam at the top and a grey stone plinth at the bottom, with a rough grey stone pilaster on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlb",
+      "mm6/d8wlbsp6",
+      "mm6/d8wlble"
+     ],
+     "fraction": 0.595
+    }
+   }
+  },
+  "mm6/d8wldre": {
+   "name": "d8wldre",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey-brown wall of stacked flat slate stones with jutting stone ledges and a raised stone frame with square bosses on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wldsp1",
+      "mm6/d8wld"
+     ],
+     "fraction": 0.337
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wldsp1",
+      "mm6/d8wld"
+     ],
+     "fraction": 0.335
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d8wldsp1",
+     "right": "mm6/d8dorb"
+    }
+   }
+  },
+  "mm6/d8wldle": {
+   "name": "d8wldle",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered grey-brown wall of stacked flat slate stones with jutting stone ledges and a raised stone frame with square bosses on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wldsp1",
+      "mm6/d8wld"
+     ],
+     "fraction": 0.311
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wldsp1",
+      "mm6/d8wld",
+      "mm6/d8wldre"
+     ],
+     "fraction": 0.329
+    },
+    "3": {
+     "sources": [
+      "mm6/d8wldsp1",
+      "mm6/d8wld",
+      "mm6/d8wldre"
+     ],
+     "fraction": 0.328
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d8wldsp1"
+    },
+    "3": {
+     "right": "mm6/d8wldsp1",
+     "left": "mm6/d8dorb"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/d1wrea": {
+   "name": "d1wrea",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "olive-tan stone block wall under a brown wooden beam, with two vertical rough tan stone pilasters on the right half",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior.",
+    "3": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior.",
+    "4": "No dark line along the left edge; the top beam and stone courses run straight to the left edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d1wctra"
+     ],
+     "fraction": 0.146
+    },
+    "2": {
+     "sources": [
+      "mm6/d1wctra"
+     ],
+     "fraction": 0.146
+    },
+    "3": {
+     "sources": [
+      "mm6/d1wctra"
+     ],
+     "fraction": 0.146
+    },
+    "4": {
+     "sources": [
+      "mm6/d1wctra"
+     ],
+     "fraction": 0.146
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm6/d1wctra",
+     "right": "mm6/d8dore"
+    },
+    "4": {
+     "left": "mm6/d1wctra",
+     "right": "mm6/d8dore"
+    }
+   }
+  },
+  "mm6/bedside": {
+   "name": "bedside",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ornate bed side panel of dark carved wood with gilded fluted drapery carving above a band of dark carved ornament",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bedsid2"
+     ],
+     "fraction": 0.447
+    },
+    "2": {
+     "sources": [
+      "mm6/bedsid2"
+     ],
+     "fraction": 0.447
+    }
+   }
+  },
+  "mm6/bemdk4": {
+   "name": "bemdk4",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain polished red-brown wooden beam strip with vertical grain",
+   "notes": {
+    "3": "Plain dark red wood trim across the full width with continuous grain; no stone or gold strip at the left edge and no horizontal breaks."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmdk16c",
+      "mm6/bdksv16c"
+     ],
+     "fraction": 0.657
+    },
+    "2": {
+     "sources": [
+      "mm6/bmdk16c",
+      "mm6/bdksv16c"
+     ],
+     "fraction": 0.657
+    },
+    "3": {
+     "sources": [
+      "mm6/bmdk16c",
+      "mm6/bdksv16c"
+     ],
+     "fraction": 0.657
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm6/strle",
+     "left": "mm6/d8wlare"
+    },
+    "3": {
+     "right": "mm6/strle",
+     "left": "mm6/d8wlare"
+    }
+   }
+  },
+  "mm6/bemv32b": {
+   "name": "bemv32b",
+   "versions": [
+    1
+   ],
+   "material": "plain polished red-brown wooden beam strip with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemsv32a"
+     ],
+     "fraction": 0.359
+    }
+   }
+  },
+  "mm6/bmdk16a": {
+   "name": "bmdk16a",
+   "versions": [
+    1
+   ],
+   "material": "plain polished red-brown wooden beam strip with horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemdk1",
+      "mm6/bdksh16c"
+     ],
+     "fraction": 0.908
+    }
+   }
+  },
+  "mm6/bemv16a": {
+   "name": "bemv16a",
+   "versions": [
+    1
+   ],
+   "material": "plain polished red-brown wooden beam strip with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemv32b"
+     ],
+     "fraction": 0.688
+    }
+   }
+  },
+  "mm6/bemh32a": {
+   "name": "bemh32a",
+   "versions": [
+    1
+   ],
+   "material": "plain polished red-brown wooden beam strip with horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/bemstra1": {
+   "name": "bemstra1",
+   "versions": [
+    1
+   ],
+   "material": "plain polished red-brown wooden beam strip with horizontal grain and a lighter top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cb2frnt": {
+   "name": "cb2frnt",
+   "versions": [
+    1
+   ],
+   "material": "one complete front face of an ornate rosewood cabinet: two gilded round relief medallions, a central orange checker marquetry panel, blue and gilt painted cartouches and gold scrollwork; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cb2side": {
+   "name": "cb2side",
+   "versions": [
+    1
+   ],
+   "material": "side of an ornate rosewood cabinet: an orange checker marquetry panel between blue and gilt painted cartouches, framed by gilt ornaments; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cb2top": {
+   "name": "cb2top",
+   "versions": [
+    1
+   ],
+   "material": "plain mottled dark red-brown tortoiseshell wood cabinet top with a thin gilt edge moulding",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cb6frnt": {
+   "name": "cb6frnt",
+   "versions": [
+    1
+   ],
+   "material": "one complete front face of a black lacquered chest of drawers: three drawers with white ivory scroll inlay and gilt bronze mask handles under a gilt carved frieze; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cb6side": {
+   "name": "cb6side",
+   "versions": [
+    1
+   ],
+   "material": "side of a black lacquered cabinet with a gilt border and a single central gilt bronze ornament, gilt frieze at the top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1bak": {
+   "name": "ch1bak",
+   "versions": [
+    1
+   ],
+   "material": "back of a weathered grey plank wooden chest with dark iron corner brackets, rivets and two hinges along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch1topv": {
+   "name": "ch1topv",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey plank wooden chest lid with a dark iron rim and corner brackets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d1wlea": {
+   "name": "d1wlea",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "olive-tan stone block wall under a brown wooden beam, with two vertical rough tan stone pilasters on the left half",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d1wctra",
+     "left": "mm6/d1wctra"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,699 @@
+{
+  "item": "hes_ablative_2",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper hes_ablative_2 energy-resistance item.\nImage 1 is the EDIT TARGET: an exact gray 3D-model orthographic guide. Image 2 is the approved DESIGN REFERENCE for colours and materials ONLY, never for camera, geometry, silhouette or composition.\nPaint directly over Image 1 at 1024 x 1024. Lock Image 1's alpha silhouette, orthographic camera, outline, exact pixel size and position, every individual part edge, all protrusions and pins, every overlap and the empty margins. Do not remodel, straighten, rotate, reframe, enlarge, crop, or substitute the reference's shape. No added geometry. Treat the guide as a fixed stencil, painting only within its existing opaque shape. Retain all original transparent pixels.\nCopy the reference's warm white/ivory ceramic panels with extremely fine pale warm wear and hairline material marks, muted brushed gold structural rims and metal connector pins, black-violet resin sockets and recessed joins, and bright orange/yellow-orange light strips only where the corresponding channels are visible. Preserve the reference's panel material allocation, seams and engraved lines, fitted to the existing guide parts. Continue unseen faces plausibly in those same materials; no invented text, letters, numbers, labels or logos. No blue lights because this design's lights are orange.\nLIGHTING IS FLAT ALBEDO: even, flat, shadowless illumination from viewer, identical base-colour exposure on all faces. No cast shadow, no ambient occlusion or darkening beside overlaps, no directional gradients, no strong specular highlights, no reflections, no rim light. Gold is a muted gold base colour with fine brushed texture and at most a faint sheen; ivory stays consistently ivory without white specular edges. Dark areas are black-violet resin material, never baked shadows. Glowing parts are their bright orange light colour, without bloom, spill or halos.\nOutput ONE 1024 x 1024 RGBA image with genuinely transparent background; no backdrop, floor, ground shadow, checkerboard painting, layout panels, text or letters.\nVIEW-SPECIFIC INVARIANTS: FRONT guide: preserve this narrow, steeply foreshortened diagonal from lower-left to upper-right, with five connector pins on the lower-left end. Its occupied bounds on the 1024 canvas are x=94..929, y=215..808. Paint the top raised plates ivory, exposed supporting frame gold, sockets and thin seams violet-black; do not turn it into a broad top view.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "1369b242c666904c3d90f348dbf8eba22a66b7b91cef0467b37841070fbb65e2"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-fe9206bd-7064-4099-917e-9a46ed841b8e.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected initial return because it retains five visible connector pins; correction has only four. Correction is slightly closer in overall silhouette and flatter, but loses a required part. Selected return still fails exact silhouette and flat-light requirements.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 5
+      },
+      "output_sha256": "2fb9c830d12997f34f9823c09dc142f813c8ea8fa935d801a98e2199326d9f1c",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1218,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          94,
+          215,
+          930,
+          809
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.830851,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          108,
+          266,
+          1173,
+          1046
+        ]
+      },
+      "raw_return": "paint_front_run01.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper hes_ablative_2 energy-resistance item.\nImage 1 is the EDIT TARGET: an exact gray 3D-model orthographic guide. Image 2 is the approved DESIGN REFERENCE for colours and materials ONLY, never for camera, geometry, silhouette or composition.\nPaint directly over Image 1 at 1024 x 1024. Lock Image 1's alpha silhouette, orthographic camera, outline, exact pixel size and position, every individual part edge, all protrusions and pins, every overlap and the empty margins. Do not remodel, straighten, rotate, reframe, enlarge, crop, or substitute the reference's shape. No added geometry. Treat the guide as a fixed stencil, painting only within its existing opaque shape. Retain all original transparent pixels.\nCopy the reference's warm white/ivory ceramic panels with extremely fine pale warm wear and hairline material marks, muted brushed gold structural rims and metal connector pins, black-violet resin sockets and recessed joins, and bright orange/yellow-orange light strips only where the corresponding channels are visible. Preserve the reference's panel material allocation, seams and engraved lines, fitted to the existing guide parts. Continue unseen faces plausibly in those same materials; no invented text, letters, numbers, labels or logos. No blue lights because this design's lights are orange.\nLIGHTING IS FLAT ALBEDO: even, flat, shadowless illumination from viewer, identical base-colour exposure on all faces. No cast shadow, no ambient occlusion or darkening beside overlaps, no directional gradients, no strong specular highlights, no reflections, no rim light. Gold is a muted gold base colour with fine brushed texture and at most a faint sheen; ivory stays consistently ivory without white specular edges. Dark areas are black-violet resin material, never baked shadows. Glowing parts are their bright orange light colour, without bloom, spill or halos.\nOutput ONE 1024 x 1024 RGBA image with genuinely transparent background; no backdrop, floor, ground shadow, checkerboard painting, layout panels, text or letters.\nVIEW-SPECIFIC INVARIANTS: BACK guide: preserve the diagonal from upper-left to lower-right and the five pins at the lower-right end. Its occupied bounds are x=94..929, y=215..808. This angle exposes a large plain back/underside plate and upper edge layers. Continue the unseen back as a broad ivory ceramic cover framed by muted gold, resin seam, gold supporting case and gold pins in black-violet sockets. Keep the broad flat underside unembellished, without inventing raised hardware or lights there.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "c7f26eed9c26e3727b74a594b61ca8ec807d74022d4b676042cbc333f76a5c1c"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-0b06d404-83ba-4ee1-90e6-a4b2c9d86fff.png",
+      "output": "paint_back_run01.png",
+      "selected": false,
+      "reason": "Not selected. Selected correction for closer silhouette (normalized mask IoU 0.877407 versus 0.839590), flatter gold and fewer invented light details. Still fails exact silhouette and flat-light requirements; only four connector pins are visibly distinct.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 4
+      },
+      "output_sha256": "9080cef5a07f97e8019985aabe8ddc56ddb5d89419201c31c1646a5be8991df6",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          47,
+          1232,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          94,
+          215,
+          930,
+          809
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.83959,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          102,
+          215,
+          1153,
+          981
+        ]
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper hes_ablative_2 energy-resistance item.\nImage 1 is the EDIT TARGET: an exact gray 3D-model orthographic guide. Image 2 is the approved DESIGN REFERENCE for colours and materials ONLY, never for camera, geometry, silhouette or composition.\nPaint directly over Image 1 at 1024 x 1024. Lock Image 1's alpha silhouette, orthographic camera, outline, exact pixel size and position, every individual part edge, all protrusions and pins, every overlap and the empty margins. Do not remodel, straighten, rotate, reframe, enlarge, crop, or substitute the reference's shape. No added geometry. Treat the guide as a fixed stencil, painting only within its existing opaque shape. Retain all original transparent pixels.\nCopy the reference's warm white/ivory ceramic panels with extremely fine pale warm wear and hairline material marks, muted brushed gold structural rims and metal connector pins, black-violet resin sockets and recessed joins, and bright orange/yellow-orange light strips only where the corresponding channels are visible. Preserve the reference's panel material allocation, seams and engraved lines, fitted to the existing guide parts. Continue unseen faces plausibly in those same materials; no invented text, letters, numbers, labels or logos. No blue lights because this design's lights are orange.\nLIGHTING IS FLAT ALBEDO: even, flat, shadowless illumination from viewer, identical base-colour exposure on all faces. No cast shadow, no ambient occlusion or darkening beside overlaps, no directional gradients, no strong specular highlights, no reflections, no rim light. Gold is a muted gold base colour with fine brushed texture and at most a faint sheen; ivory stays consistently ivory without white specular edges. Dark areas are black-violet resin material, never baked shadows. Glowing parts are their bright orange light colour, without bloom, spill or halos.\nOutput ONE 1024 x 1024 RGBA image with genuinely transparent background; no backdrop, floor, ground shadow, checkerboard painting, layout panels, text or letters.\nVIEW-SPECIFIC INVARIANTS: LEFT guide: preserve this broader foreshortened view of the decorated upper face, with five connector pins along the near lower edge, its central polygon plate and every surrounding raised plate. Its occupied bounds are x=66..957, y=215..808. Put ivory ceramic on existing raised panels, muted brushed gold on the exposed structural frame and pins, violet-black resin in the existing recesses, and the reference's orange light strips in the appropriate two recessed face channels. Preserve all panel edges.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "9111aa5b88d65681c6e2f27a6fc5a4ce9a1edc844730d748d7a5d669d52a259e"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-f6913443-c8cb-496f-a776-1209aa64e27d.png",
+      "output": "paint_left_run01.png",
+      "selected": false,
+      "reason": "Not selected. Selected correction for closer silhouette (normalized mask IoU 0.943078 versus 0.898245), more faithful angular pins and flatter lighting. Still fails exact silhouette and flat-light requirements; the second orange channel is not distinctly preserved.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 5
+      },
+      "output_sha256": "26a5944aec00592ef817950623129aff65696b9e24b4e69bf8a9f62b5ceab7e9",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1240,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          66,
+          215,
+          958,
+          809
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.898245,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          83,
+          233,
+          1202,
+          1005
+        ]
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper hes_ablative_2 energy-resistance item.\nImage 1 is the EDIT TARGET: an exact gray 3D-model orthographic guide. Image 2 is the approved DESIGN REFERENCE for colours and materials ONLY, never for camera, geometry, silhouette or composition.\nPaint directly over Image 1 at 1024 x 1024. Lock Image 1's alpha silhouette, orthographic camera, outline, exact pixel size and position, every individual part edge, all protrusions and pins, every overlap and the empty margins. Do not remodel, straighten, rotate, reframe, enlarge, crop, or substitute the reference's shape. No added geometry. Treat the guide as a fixed stencil, painting only within its existing opaque shape. Retain all original transparent pixels.\nCopy the reference's warm white/ivory ceramic panels with extremely fine pale warm wear and hairline material marks, muted brushed gold structural rims and metal connector pins, black-violet resin sockets and recessed joins, and bright orange/yellow-orange light strips only where the corresponding channels are visible. Preserve the reference's panel material allocation, seams and engraved lines, fitted to the existing guide parts. Continue unseen faces plausibly in those same materials; no invented text, letters, numbers, labels or logos. No blue lights because this design's lights are orange.\nLIGHTING IS FLAT ALBEDO: even, flat, shadowless illumination from viewer, identical base-colour exposure on all faces. No cast shadow, no ambient occlusion or darkening beside overlaps, no directional gradients, no strong specular highlights, no reflections, no rim light. Gold is a muted gold base colour with fine brushed texture and at most a faint sheen; ivory stays consistently ivory without white specular edges. Dark areas are black-violet resin material, never baked shadows. Glowing parts are their bright orange light colour, without bloom, spill or halos.\nOutput ONE 1024 x 1024 RGBA image with genuinely transparent background; no backdrop, floor, ground shadow, checkerboard painting, layout panels, text or letters.\nVIEW-SPECIFIC INVARIANTS: RIGHT guide: preserve the diagonal broad plain underside, the exact upper-edge protrusions and surrounding casing; this angle hides the connector row. Its occupied bounds are x=66..957, y=215..808. Continue the unseen underside as a broad ivory ceramic back cover with a restrained muted-gold edge frame and black-violet resin separation seam. Keep the original broad flat face and original edge pieces; do not invent protrusions, light strips, hardware, screws or symbols on the plain underside.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "fa9f55d0b7dd0f9aacda261664778eedcb8a6d3904bc241fb6f0c5dc5a7e2418"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-08587984-354f-4c7b-87e3-dc93343e3b18.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected initial return for substantially closer silhouette (normalized mask IoU 0.934946 versus 0.867549). Correction expands the object within the frame. Selected return still has baked highlights and shading.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 0
+      },
+      "output_sha256": "33d321f013e7f4a0efc62500119802fbf618ff256dbf40607c2967bd5a006d2e",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          234,
+          1198,
+          1037
+        ],
+        "guide_alpha_bbox": [
+          66,
+          215,
+          958,
+          809
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.934946,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          76,
+          237,
+          1193,
+          987
+        ]
+      },
+      "raw_return": "paint_right_run01.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper hes_ablative_2 energy-resistance item.\nImage 1 is the EDIT TARGET: an exact gray 3D-model orthographic guide. Image 2 is the approved DESIGN REFERENCE for colours and materials ONLY, never for camera, geometry, silhouette or composition.\nPaint directly over Image 1 at 1024 x 1024. Lock Image 1's alpha silhouette, orthographic camera, outline, exact pixel size and position, every individual part edge, all protrusions and pins, every overlap and the empty margins. Do not remodel, straighten, rotate, reframe, enlarge, crop, or substitute the reference's shape. No added geometry. Treat the guide as a fixed stencil, painting only within its existing opaque shape. Retain all original transparent pixels.\nCopy the reference's warm white/ivory ceramic panels with extremely fine pale warm wear and hairline material marks, muted brushed gold structural rims and metal connector pins, black-violet resin sockets and recessed joins, and bright orange/yellow-orange light strips only where the corresponding channels are visible. Preserve the reference's panel material allocation, seams and engraved lines, fitted to the existing guide parts. Continue unseen faces plausibly in those same materials; no invented text, letters, numbers, labels or logos. No blue lights because this design's lights are orange.\nLIGHTING IS FLAT ALBEDO: even, flat, shadowless illumination from viewer, identical base-colour exposure on all faces. No cast shadow, no ambient occlusion or darkening beside overlaps, no directional gradients, no strong specular highlights, no reflections, no rim light. Gold is a muted gold base colour with fine brushed texture and at most a faint sheen; ivory stays consistently ivory without white specular edges. Dark areas are black-violet resin material, never baked shadows. Glowing parts are their bright orange light colour, without bloom, spill or halos.\nOutput ONE 1024 x 1024 RGBA image with genuinely transparent background; no backdrop, floor, ground shadow, checkerboard painting, layout panels, text or letters.\nVIEW-SPECIFIC INVARIANTS: TOP guide: preserve the exact directly-above orthographic view, tilted orientation within the frame, central polygonal panel, all surrounding plate shapes and five pins projecting to the left. Its occupied bounds are x=94..929, y=66..957. Paint existing raised plates warm ivory ceramic, exposed structural channels and rim muted brushed gold, pin sockets/recesses violet-black resin and pins gold. Put the reference's two orange light strips in their corresponding existing inset channels, retaining all guide panel boundaries.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "50c274b9efe30ca26482cf386a97a87c1e5292882764715b6096ff5b7e90aac8"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-2a841272-ecc6-43cb-862c-a8514b39aff1.png",
+      "output": "paint_top_run01.png",
+      "selected": false,
+      "reason": "Not selected. Selected correction for closer silhouette (normalized mask IoU 0.923648 versus 0.915732) and flatter ceramic/gold treatment, retaining five connector pins and two orange light channels. Still fails exact silhouette and fully flat-light requirements.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 5
+      },
+      "output_sha256": "7ba39b069742d4be7e1f46f17b31c282a0cf2b0bdbc8409c9048351fcbb76d0e",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          65,
+          1216,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          94,
+          66,
+          930,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.915732,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          129,
+          69,
+          1130,
+          1143
+        ]
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. CORRECTIVE MATERIAL PAINTOVER for a 3D texture bake, 1024 x 1024 RGBA.\nImage 1 is the exact gray guide to colourize. Image 2 is ONLY the ivory/gold/violet-black/orange material reference.\nHighest priority: edit ONLY RGB inside Image 1's existing alpha mask. Copy Image 1's alpha channel and object/part boundaries unchanged. Every edge, polygon, protrusion and pin must keep its original pixel coordinates. Preserve the original camera and frame margins. Do not round, smooth, bevel or improve its low-poly geometry. Do not add any opaque pixels, edge flecks or decorations in the transparent region. Output exactly the same 1024 x 1024 canvas as Image 1.\nColourize the existing surface planes: reference's warm ivory white ceramic with faint wear; brushed ochre gold for metal frame and pins; dark desaturated violet-black resin at sockets and existing insets; saturated yellow-orange emissive colour in existing light channels. Existing broad ceramic surfaces stay continuous. Carry unseen back surfaces through plausibly using the same ceramic and gold. Do not invent extra panels.\nCorrect the prior failure: the result must be a FLAT UNLIT BASE-COLOUR texture. Use uniform material colour across each face regardless of orientation. Ivory sides and bevels have the SAME brightness as ivory tops. Gold has the SAME matte ochre-gold brightness on all planes, with only subtle fine brush texture. Remove bright edge highlights, glints, metallic reflections, shading gradients, ambient occlusion, contact shadows, cast shadows, light spill and bloom completely. Recesses may be violet-black because that is their actual resin colour, with no shadow halo around them. Fine material texture only; never simulate lighting in the paint.\nTransparent background, no floor, no checkerboard, no text, letters, numbers, logo or watermark. One single item, one single view.\nEXACT GUIDE VIEW: FRONT guide: preserve this narrow, steeply foreshortened diagonal from lower-left to upper-right, with five connector pins on the lower-left end. Its occupied bounds on the 1024 canvas are x=94..929, y=215..808. Paint the top raised plates ivory, exposed supporting frame gold, sockets and thin seams violet-black; do not turn it into a broad top view.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "1369b242c666904c3d90f348dbf8eba22a66b7b91cef0467b37841070fbb65e2"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-253964b0-d6e0-486a-a277-c2c56644486c.png",
+      "output": "paint_front_run02.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return because it retains five visible connector pins; correction has only four. Correction is slightly closer in overall silhouette and flatter, but loses a required part. Selected return still fails exact silhouette and flat-light requirements.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "notes": "Flatter than initial attempt, but face shading and edge highlights remain.",
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 4
+      },
+      "output_sha256": "d837a960fcd8beadc542071610851fc6c4e0628d3fbe28f62db080f7d5cc6a01",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          81,
+          23,
+          1234,
+          1208
+        ],
+        "guide_alpha_bbox": [
+          94,
+          215,
+          930,
+          809
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.848663,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          111,
+          252,
+          1179,
+          1036
+        ]
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. CORRECTIVE MATERIAL PAINTOVER for a 3D texture bake, 1024 x 1024 RGBA.\nImage 1 is the exact gray guide to colourize. Image 2 is ONLY the ivory/gold/violet-black/orange material reference.\nHighest priority: edit ONLY RGB inside Image 1's existing alpha mask. Copy Image 1's alpha channel and object/part boundaries unchanged. Every edge, polygon, protrusion and pin must keep its original pixel coordinates. Preserve the original camera and frame margins. Do not round, smooth, bevel or improve its low-poly geometry. Do not add any opaque pixels, edge flecks or decorations in the transparent region. Output exactly the same 1024 x 1024 canvas as Image 1.\nColourize the existing surface planes: reference's warm ivory white ceramic with faint wear; brushed ochre gold for metal frame and pins; dark desaturated violet-black resin at sockets and existing insets; saturated yellow-orange emissive colour in existing light channels. Existing broad ceramic surfaces stay continuous. Carry unseen back surfaces through plausibly using the same ceramic and gold. Do not invent extra panels.\nCorrect the prior failure: the result must be a FLAT UNLIT BASE-COLOUR texture. Use uniform material colour across each face regardless of orientation. Ivory sides and bevels have the SAME brightness as ivory tops. Gold has the SAME matte ochre-gold brightness on all planes, with only subtle fine brush texture. Remove bright edge highlights, glints, metallic reflections, shading gradients, ambient occlusion, contact shadows, cast shadows, light spill and bloom completely. Recesses may be violet-black because that is their actual resin colour, with no shadow halo around them. Fine material texture only; never simulate lighting in the paint.\nTransparent background, no floor, no checkerboard, no text, letters, numbers, logo or watermark. One single item, one single view.\nEXACT GUIDE VIEW: BACK guide: preserve the diagonal from upper-left to lower-right and the five pins at the lower-right end. Its occupied bounds are x=94..929, y=215..808. This angle exposes a large plain back/underside plate and upper edge layers. Continue the unseen back as a broad ivory ceramic cover framed by muted gold, resin seam, gold supporting case and gold pins in black-violet sockets. Keep the broad flat underside unembellished, without inventing raised hardware or lights there.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "c7f26eed9c26e3727b74a594b61ca8ec807d74022d4b676042cbc333f76a5c1c"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-9b1aefdb-0546-4e39-b5a3-f8ca66da8a1b.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction for closer silhouette (normalized mask IoU 0.877407 versus 0.839590), flatter gold and fewer invented light details. Still fails exact silhouette and flat-light requirements; only four connector pins are visibly distinct.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "notes": "Flatter than initial attempt, but face shading and edge highlights remain.",
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 4
+      },
+      "output_sha256": "df68091565b9310da2fae6694f75c01bbf40a165dcea496df11349e25f5bd366",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          35,
+          1220,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          94,
+          215,
+          930,
+          809
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.877407,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          106,
+          232,
+          1140,
+          984
+        ]
+      },
+      "raw_return": "paint_back_run02.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. CORRECTIVE MATERIAL PAINTOVER for a 3D texture bake, 1024 x 1024 RGBA.\nImage 1 is the exact gray guide to colourize. Image 2 is ONLY the ivory/gold/violet-black/orange material reference.\nHighest priority: edit ONLY RGB inside Image 1's existing alpha mask. Copy Image 1's alpha channel and object/part boundaries unchanged. Every edge, polygon, protrusion and pin must keep its original pixel coordinates. Preserve the original camera and frame margins. Do not round, smooth, bevel or improve its low-poly geometry. Do not add any opaque pixels, edge flecks or decorations in the transparent region. Output exactly the same 1024 x 1024 canvas as Image 1.\nColourize the existing surface planes: reference's warm ivory white ceramic with faint wear; brushed ochre gold for metal frame and pins; dark desaturated violet-black resin at sockets and existing insets; saturated yellow-orange emissive colour in existing light channels. Existing broad ceramic surfaces stay continuous. Carry unseen back surfaces through plausibly using the same ceramic and gold. Do not invent extra panels.\nCorrect the prior failure: the result must be a FLAT UNLIT BASE-COLOUR texture. Use uniform material colour across each face regardless of orientation. Ivory sides and bevels have the SAME brightness as ivory tops. Gold has the SAME matte ochre-gold brightness on all planes, with only subtle fine brush texture. Remove bright edge highlights, glints, metallic reflections, shading gradients, ambient occlusion, contact shadows, cast shadows, light spill and bloom completely. Recesses may be violet-black because that is their actual resin colour, with no shadow halo around them. Fine material texture only; never simulate lighting in the paint.\nTransparent background, no floor, no checkerboard, no text, letters, numbers, logo or watermark. One single item, one single view.\nEXACT GUIDE VIEW: LEFT guide: preserve this broader foreshortened view of the decorated upper face, with five connector pins along the near lower edge, its central polygon plate and every surrounding raised plate. Its occupied bounds are x=66..957, y=215..808. Put ivory ceramic on existing raised panels, muted brushed gold on the exposed structural frame and pins, violet-black resin in the existing recesses, and the reference's orange light strips in the appropriate two recessed face channels. Preserve all panel edges.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "9111aa5b88d65681c6e2f27a6fc5a4ce9a1edc844730d748d7a5d669d52a259e"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-810364f2-ae0b-407d-9ad9-504258be6787.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction for closer silhouette (normalized mask IoU 0.943078 versus 0.898245), more faithful angular pins and flatter lighting. Still fails exact silhouette and flat-light requirements; the second orange channel is not distinctly preserved.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "notes": "Flatter than initial attempt, but face shading and edge highlights remain.",
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 5
+      },
+      "output_sha256": "7ac4702ba0a1f8b13640638b1d60e350c3815c10011a4b46e3c88975805f9aba",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1206,
+          1228
+        ],
+        "guide_alpha_bbox": [
+          66,
+          215,
+          958,
+          809
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.943078,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          81,
+          254,
+          1201,
+          1006
+        ]
+      },
+      "raw_return": "paint_left_run02.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. CORRECTIVE MATERIAL PAINTOVER for a 3D texture bake, 1024 x 1024 RGBA.\nImage 1 is the exact gray guide to colourize. Image 2 is ONLY the ivory/gold/violet-black/orange material reference.\nHighest priority: edit ONLY RGB inside Image 1's existing alpha mask. Copy Image 1's alpha channel and object/part boundaries unchanged. Every edge, polygon, protrusion and pin must keep its original pixel coordinates. Preserve the original camera and frame margins. Do not round, smooth, bevel or improve its low-poly geometry. Do not add any opaque pixels, edge flecks or decorations in the transparent region. Output exactly the same 1024 x 1024 canvas as Image 1.\nColourize the existing surface planes: reference's warm ivory white ceramic with faint wear; brushed ochre gold for metal frame and pins; dark desaturated violet-black resin at sockets and existing insets; saturated yellow-orange emissive colour in existing light channels. Existing broad ceramic surfaces stay continuous. Carry unseen back surfaces through plausibly using the same ceramic and gold. Do not invent extra panels.\nCorrect the prior failure: the result must be a FLAT UNLIT BASE-COLOUR texture. Use uniform material colour across each face regardless of orientation. Ivory sides and bevels have the SAME brightness as ivory tops. Gold has the SAME matte ochre-gold brightness on all planes, with only subtle fine brush texture. Remove bright edge highlights, glints, metallic reflections, shading gradients, ambient occlusion, contact shadows, cast shadows, light spill and bloom completely. Recesses may be violet-black because that is their actual resin colour, with no shadow halo around them. Fine material texture only; never simulate lighting in the paint.\nTransparent background, no floor, no checkerboard, no text, letters, numbers, logo or watermark. One single item, one single view.\nEXACT GUIDE VIEW: RIGHT guide: preserve the diagonal broad plain underside, the exact upper-edge protrusions and surrounding casing; this angle hides the connector row. Its occupied bounds are x=66..957, y=215..808. Continue the unseen underside as a broad ivory ceramic back cover with a restrained muted-gold edge frame and black-violet resin separation seam. Keep the original broad flat face and original edge pieces; do not invent protrusions, light strips, hardware, screws or symbols on the plain underside.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "fa9f55d0b7dd0f9aacda261664778eedcb8a6d3904bc241fb6f0c5dc5a7e2418"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-75c622a1-c261-464c-9b87-d3a0930765cc.png",
+      "output": "paint_right_run02.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return for substantially closer silhouette (normalized mask IoU 0.934946 versus 0.867549). Correction expands the object within the frame. Selected return still has baked highlights and shading.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "notes": "Flatter than initial attempt, but face shading and edge highlights remain.",
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 0
+      },
+      "output_sha256": "7bf09b3106d9da1a1b742d54750da2e0d8d8cc00243cd08a757db6a2c75ae96f",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          60,
+          1225,
+          1198
+        ],
+        "guide_alpha_bbox": [
+          66,
+          215,
+          958,
+          809
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.867549,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          49,
+          247,
+          1222,
+          1032
+        ]
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. CORRECTIVE MATERIAL PAINTOVER for a 3D texture bake, 1024 x 1024 RGBA.\nImage 1 is the exact gray guide to colourize. Image 2 is ONLY the ivory/gold/violet-black/orange material reference.\nHighest priority: edit ONLY RGB inside Image 1's existing alpha mask. Copy Image 1's alpha channel and object/part boundaries unchanged. Every edge, polygon, protrusion and pin must keep its original pixel coordinates. Preserve the original camera and frame margins. Do not round, smooth, bevel or improve its low-poly geometry. Do not add any opaque pixels, edge flecks or decorations in the transparent region. Output exactly the same 1024 x 1024 canvas as Image 1.\nColourize the existing surface planes: reference's warm ivory white ceramic with faint wear; brushed ochre gold for metal frame and pins; dark desaturated violet-black resin at sockets and existing insets; saturated yellow-orange emissive colour in existing light channels. Existing broad ceramic surfaces stay continuous. Carry unseen back surfaces through plausibly using the same ceramic and gold. Do not invent extra panels.\nCorrect the prior failure: the result must be a FLAT UNLIT BASE-COLOUR texture. Use uniform material colour across each face regardless of orientation. Ivory sides and bevels have the SAME brightness as ivory tops. Gold has the SAME matte ochre-gold brightness on all planes, with only subtle fine brush texture. Remove bright edge highlights, glints, metallic reflections, shading gradients, ambient occlusion, contact shadows, cast shadows, light spill and bloom completely. Recesses may be violet-black because that is their actual resin colour, with no shadow halo around them. Fine material texture only; never simulate lighting in the paint.\nTransparent background, no floor, no checkerboard, no text, letters, numbers, logo or watermark. One single item, one single view.\nEXACT GUIDE VIEW: TOP guide: preserve the exact directly-above orthographic view, tilted orientation within the frame, central polygonal panel, all surrounding plate shapes and five pins projecting to the left. Its occupied bounds are x=94..929, y=66..957. Paint existing raised plates warm ivory ceramic, exposed structural channels and rim muted brushed gold, pin sockets/recesses violet-black resin and pins gold. Put the reference's two orange light strips in their corresponding existing inset channels, retaining all guide panel boundaries.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "50c274b9efe30ca26482cf386a97a87c1e5292882764715b6096ff5b7e90aac8"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "612826af1cb6455ed321314d8e5b739cbd0bc10c8be68f2985ea887d9e39e5db"
+        }
+      ],
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5d-0d9f-7d02-ba5b-7bfecf9db380/exec-79866b42-7005-452c-a188-0634f84a5c4f.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction for closer silhouette (normalized mask IoU 0.923648 versus 0.915732) and flatter ceramic/gold treatment, retaining five connector pins and two orange light channels. Still fails exact silhouette and fully flat-light requirements.",
+      "visual_checks": {
+        "materials_match_reference": true,
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "notes": "Flatter than initial attempt, but face shading and edge highlights remain.",
+        "exact_part_edges_preserved": false,
+        "lighting_notes": "Visible plane shading and bright bevel or metal edges remain; strict flat albedo check fails.",
+        "visible_connector_pins": 5
+      },
+      "output_sha256": "adae3858dd84acd7207bdf2d361ccd6ab2ba7ab3ceb7aa6b764d2fdd1c1ca6ff",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "checks": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1218,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          94,
+          66,
+          930,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.923648,
+        "measurement": "Nearest pixel lookup at normalized canvas coordinates for comparison only; no output resizing.",
+        "opaque_bbox": [
+          122,
+          69,
+          1148,
+          1155
+        ]
+      },
+      "raw_return": "paint_top_run02.png"
+    }
+  ],
+  "status": "best_available_returns_saved; strict silhouette and flat-light requirements not achieved",
+  "selection_policy": "Visual comparison of original and corrective returns, prioritizing required visible parts and geometry; normalized alpha-mask IoU supplements visual inspection. Selected does not mean all brief checks passed.",
+  "limitations": [
+    "All ten built-in returns were 1254 x 1254 instead of the requested 1024 x 1024; all are preserved without resizing, recropping, alpha replacement or RGB edits.",
+    "None preserves the guide silhouette or every part edge exactly; see per-run measurements and visual notes. Alpha channels also contain low-alpha edge/background residue.",
+    "Generated paint retains some plane shading and bright bevel/metal edges, despite explicit flat albedo prompts and one corrective regeneration per view.",
+    "Back view does not distinctly preserve all five connector pins. Left correction does not distinctly preserve the second orange light channel.",
+    "No build, texture bake, model installation or runtime check was performed; scope was image generation only."
+  ],
+  "verification": {
+    "views_saved": [
+      "front",
+      "back",
+      "left",
+      "right",
+      "top"
+    ],
+    "attempts_per_view": {
+      "front": 2,
+      "back": 2,
+      "left": 2,
+      "right": 2,
+      "top": 2
+    },
+    "selected_count_per_view": {
+      "front": 1,
+      "back": 1,
+      "left": 1,
+      "right": 1,
+      "top": 1
+    },
+    "input_sha256_unchanged": true,
+    "outputs_byte_identical_to_tool_returns": true,
+    "all_deliverables_png_rgba": true,
+    "all_deliverables_have_transparency": true,
+    "all_silhouettes_identical": false,
+    "all_flat_lighting": false
+  }
+}

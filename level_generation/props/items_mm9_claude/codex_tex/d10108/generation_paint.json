@@ -1,0 +1,26 @@
+{
+  "prompt": "# Ronenguard Plate: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10108/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: A sleeveless breastplate of dark blued steel ending in a point below the belly, with riveted steel bands along the armholes, neck and edges, a horizontal riveted seam across the chest and a vertical riveted strap down each side..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A sleeveless breastplate of dark blued steel ending in a point below the belly, with riveted steel bands along the armholes, neck and edges, a horizontal riveted seam across the chest and a vertical riveted strap down each side.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10108/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nInput order: image 1 paint_mask_guide.png is the exact edit target; image 2 design_reference.png is appearance reference; image 3 icon_x8.png is colour reference. Preserve guide geometry and alpha precisely. All visible armor surfaces are metal, so all five lower-half material silhouettes must be solid pure #FF0000, including visible interior metal surfaces, with original holes transparent. Output at 1536x2048.\nCRITICAL CORRECTION: The previous attempt produced red noise outside the lower silhouettes. Absolutely no red noise, flecks, haze, spray, or stray pixels. Lower half must be five CLEAN SOLID RED CUTOUTS on fully transparent background, matching guide outlines and holes exactly. Each lower silhouette has a single uniform red fill with no internal edges or shading. Use the original supplied guide for exact placement, not the previous attempt. Upper five views painted as specified. Preserve all ten silhouettes at exact guide locations.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10108/paint_mask_guide.png",
+      "sha256": "e9091ea577466ccbf972d5935be84013e9fdb43011a55a7e91de66dc9569f725"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10108/design_reference.png",
+      "sha256": "495bb8fcf1189b183fa72ef0c7c6993200bc90175d35fe4f982110cdee09c102"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10108/icon_x8.png",
+      "sha256": "098af15bd4685b76cf5c17e187ca5a30f0db04ce16cb99321389971e482abbfe"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acc6-0cc1-7902-a6a8-82c9ccdacb9d/exec-105bdc42-e3ee-492a-b304-8c94f95afc72.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10108/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained, but red stray pixels and mask opening differences remain after the permitted correction; raw output preserved without modification."
+}

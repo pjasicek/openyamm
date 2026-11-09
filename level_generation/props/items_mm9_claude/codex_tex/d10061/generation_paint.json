@@ -1,0 +1,29 @@
+{
+  "prompt": "# Decorative prop d10061: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10061/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: Faithfully extrapolate the complete MM9 shaped metal head in MM6-MM8 inventory style. Preserve the gray-steel three-part head with long up-curved flat metal piece, rounded left crescent, larger swept batwing-like right/lower flat metal piece, small socket, and very long plain brown shaft. Render the full shaped metal head on transparent RGBA..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: A harmless static decorative prop for a cosy fantasy game, texture sheet only. Faithfully extrapolate the complete MM9 shaped metal head in MM6-MM8 inventory style. Preserve the gray-steel three-part head with long up-curved flat metal piece, rounded left crescent, larger swept batwing-like right/lower flat metal piece, small socket, and very long plain brown shaft. Render the full shaped metal head on transparent RGBA.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10061/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nInput order: image 1 paint_mask_guide.png is the edit target; image 2 design_reference.png is the material/detail reference; image 3 icon_x8.png is the original colour reference. Preserve the sparse guide layout exactly, including the tiny edge-on views. Produce 1536x2048 transparent PNG. Do not make a presentation or enlarge the objects to fill empty space.\nCORRECTION: The previous attempt had stray red/yellow pixels and expanded ragged edges outside the guide. Strictly retain the original guide alpha silhouettes, with no stray pixels, fuzz, expanded edges or outlines. Material masks must be solid pure red metal and pure yellow wood bounded precisely by the original guide. Paint only inside existing guide shapes. Keep the exact thin shaft widths and every tiny edge-on shape.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad27-2dba-7c62-9344-4d57753db111/exec-78419c58-e724-4415-b3e1-55abf02157ca.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10061/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10061/paint_mask_guide.png",
+      "sha256": "b07f76908e6a19b92f00f83789f2add8f462da96cfa7f90c6a28efcb9232fd57"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10061/design_reference.png",
+      "sha256": "dfcecb654bf2c751074fbba65cd52b322b6b3bb20e5675af9e2950e4badaf5d7"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10061/icon_x8.png",
+      "sha256": "d7d939b9aaac3932a67928bb971060e0fb53fac2a7ba8f7965ed295cdff2fa45"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "note": "Visual inspection: layout retained, but residual fringe pixels and imperfect material mask boundaries remain after the permitted correction. Raw tool output preserved without editing."
+  }
+}

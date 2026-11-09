@@ -1,0 +1,576 @@
+{
+ "id": "20261101-1523-mm9-guberlandcity-04",
+ "world": "mm9",
+ "maps": [
+  "guberlandcity.blv",
+  "sturmfordcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/boar485877",
+  "mm9/fleupiwcbm",
+  "mm9/mottmjhfox",
+  "mm9/windghlzdv",
+  "mm9/oldw0r6y0d",
+  "mm9/sturdev8si",
+  "mm9/abndv7m7yc",
+  "mm9/storw5d49w",
+  "mm9/winddsvu1t",
+  "mm9/door0qlnr3",
+  "mm9/cawnkbfjwl",
+  "mm9/door6ilni2",
+  "mm9/housn2n0o8",
+  "mm9/brok8s5hou",
+  "mm9/archu1sg7j",
+  "mm9/housbnug9f",
+  "mm9/woode6rkb7",
+  "mm9/castbbspdw",
+  "mm9/fort362ynh",
+  "mm9/stucgi60y8",
+  "mm9/sturh1ow08",
+  "mm9/sturtofwx7",
+  "mm9/stuccorut4",
+  "mm9/sturol8ay2"
+ ],
+ "requests": {
+  "mm9/boar485877": {
+   "name": "boar485877",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green vertical wooden planks with two dark horizontal cross boards at the top and bottom, nail heads along the boards, moss-tinted and worn",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fleupiwcbm": {
+   "name": "fleupiwcbm",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a tall stained-glass panel of blue and gold diamond panes in dark leading, a large orange-red fleur-de-lis with gold outline in the centre",
+   "notes": {
+    "2": "paint the fleur-de-lis and the small corner squares warm orange-amber with orange-red petal tips as in the native, not mustard yellow"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/mottmjhfox": {
+   "name": "mottmjhfox",
+   "versions": [
+    1
+   ],
+   "material": "pale peach-beige plaster wall with soft mottled streaks and faint cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/windghlzdv": {
+   "name": "windghlzdv",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a square window frame of dark brown wood with a three-by-three grid of wooden muntins, black openings between the bars",
+   "notes": {
+    "2": "keep the full thick wooden frame unbroken on all four sides with the 3x3 panes evenly spaced inside it as in the native, no torn or missing frame at the top and bottom, no coloured fringe pixels"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/oldw0r6y0d": {
+   "name": "oldw0r6y0d",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered wooden planks running horizontally with grey-brown grain and faint seams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturdev8si": {
+   "name": "sturdev8si",
+   "versions": [
+    1
+   ],
+   "material": "a pair of dark weathered wooden door leaves in a plank frame, the left leaf with two columns of rust-red riveted iron panels, iron ring handles at the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/abndv7m7yc": {
+   "name": "abndv7m7yc",
+   "versions": [
+    1
+   ],
+   "material": "grey slate-blue brick wall of small rectangular bricks in staggered courses with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/storw5d49w": {
+   "name": "storw5d49w",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark weathered vertical wooden planks with heavy rusted iron strap hinges at the top and bottom and a diagonal brace in the middle",
+   "notes": {
+    "2": "end the planks at a straight dark line along the top and bottom edges as in the native, no ragged light plank tops and no soft dark fade"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/winddsvu1t": {
+   "name": "winddsvu1t",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a lattice of diagonal iron bars in a diamond pattern with small rivets at the crossings, pale blue-grey glass panes between them",
+   "notes": {
+    "2": "fill the whole square edge to edge with the diamond lattice and pale glass, no faded or transparent corners"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/door0qlnr3": {
+   "name": "door0qlnr3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pair of brown wooden door leaves, the left with herringbone planks, small barred iron grilles at the top, ornate black iron strap hinges and ring handles",
+   "notes": {
+    "2": "carry the bottom frame rail straight down to the bottom edge with no dark groove and no light strip along it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     182
+    ]
+   }
+  },
+  "mm9/cawnkbfjwl": {
+   "name": "cawnkbfjwl",
+   "versions": [
+    1
+   ],
+   "material": "faded red woven canvas cloth with fine pale crosshatched weave and soft creases",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/door6ilni2": {
+   "name": "door6ilni2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown vertical plank door with ornate black curled iron hinges on the right, a small barred grille at the top, a rusty iron latch and lock plate in the middle",
+   "notes": {
+    "2": "run the planks right up to the left edge with no dark hairline along it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     64,
+     0
+    ]
+   }
+  },
+  "mm9/housn2n0o8": {
+   "name": "housn2n0o8",
+   "versions": [
+    1
+   ],
+   "material": "a pair of weathered brown wooden door leaves, the left with a grid of copper-brown inset panels in two columns, the right with plain framed planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/brok8s5hou": {
+   "name": "brok8s5hou",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "broken weathered grey wooden planks nailed with diagonal and horizontal cross boards in a jagged boarded-up pattern, rusty nails",
+   "notes": {
+    "2": "fill the gaps between the broken planks with plain black shadow as in the native, no red or yellow pixels"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/archu1sg7j": {
+   "name": "archu1sg7j",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a narrow pointed-arch stained-glass window of magenta and violet diamond panes, two pale rose-pink rounded lancets in the middle, dark leading, black stone frame",
+   "notes": {
+    "2": "brighter, more saturated glass: vivid magenta diamonds and bright peach-pink panes as in the native"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/housbnug9f": {
+   "name": "housbnug9f",
+   "versions": [
+    1
+   ],
+   "material": "a pair of red-brown wooden door leaves in a dark iron-studded frame, a row of four small red-glass squares across the top, iron hinges and a central lock plate",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/woode6rkb7": {
+   "name": "woode6rkb7",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey wooden planks with diagonal and horizontal braces in a crossed pattern, rusted nails and iron strap at the top",
+   "notes": {
+    "2": "clean straight plank ends along the top edge, no red, green or noisy band"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/castbbspdw": {
+   "name": "castbbspdw",
+   "versions": [
+    1
+   ],
+   "material": "a strip of pale grey-green stone cornice moulding with a carved upper rim above a band of stone blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fort362ynh": {
+   "name": "fort362ynh",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grey-green stone block wall in staggered courses, a carved frieze of leafy scroll ornament between moulded bands across the top",
+   "notes": {
+    "2": "the frieze is shallow incised low relief, not deep foliage: pairs of thin crossed branch sprigs forming X shapes, linked by one thin wavy incised line, on flat worn stone; above it a row of small rounded dentils with dark gaps; keep the stone wall courses below exactly as copied",
+    "3": "the frieze is shallow incised low relief, not deep foliage: pairs of thin crossed branch sprigs forming X shapes, linked by one thin wavy incised line, on flat worn stone; above it a row of small rounded dentils with dark gaps, and above the dentils a thin plain light-grey stone fillet; keep the stone wall courses exactly as copied",
+    "4": "the frieze is shallow incised low relief, not deep foliage: pairs of thin crossed branch sprigs forming X shapes, linked by one thin wavy incised line, on flat worn stone; above it a row of small rounded dentils with dark gaps; the topmost edge of the picture is a plain light-grey stone fillet right up to the border, with no dark line or shadow along the top edge"
+   },
+   "prefill_from": [
+    "mm9/sturtuff78"
+   ],
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturtuff78"
+     ],
+     "fraction": 0.734
+    },
+    "2": {
+     "sources": [
+      "mm9/sturtuff78"
+     ],
+     "fraction": 0.734
+    },
+    "3": {
+     "sources": [
+      "mm9/sturtuff78"
+     ],
+     "fraction": 0.734
+    },
+    "4": {
+     "sources": [
+      "mm9/sturtuff78"
+     ],
+     "fraction": 0.734
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {}
+   },
+   "roll": {
+    "3": [
+     0,
+     182
+    ]
+   }
+  },
+  "mm9/stucgi60y8": {
+   "name": "stucgi60y8",
+   "versions": [
+    1
+   ],
+   "material": "cream-beige plaster wall with soft stains, a dark brown wooden post along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/plasabaarc"
+     ],
+     "fraction": 0.149
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturh1ow08": {
+   "name": "sturh1ow08",
+   "versions": [
+    1
+   ],
+   "material": "grey stained stone wall with a moulded cornice band at the top and a small square window in the centre with a dark iron-grid lattice, set in a recessed stone surround",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturwqt3jw"
+     ],
+     "fraction": 0.573
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturtofwx7": {
+   "name": "sturtofwx7",
+   "versions": [
+    1
+   ],
+   "material": "cream-beige plaster wall under a dark brown wooden beam across the top with four small square joist ends hanging below it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/stucgi60y8"
+     ],
+     "fraction": 0.572
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stuccorut4": {
+   "name": "stuccorut4",
+   "versions": [
+    1
+   ],
+   "material": "cream plaster wall with a large dark brown timber X brace running corner to corner inside a timber frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/stucgi60y8"
+     ],
+     "fraction": 0.601
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturol8ay2": {
+   "name": "sturol8ay2",
+   "versions": [
+    1
+   ],
+   "material": "dark slate-grey smooth stone wall with faint streaks, a pale stone moulding band across the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

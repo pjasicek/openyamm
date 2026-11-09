@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m342_claude/references_hd/00_three_quarter.png), the unresized 1024 × 1536 transparent return from built-in image generation.
+
+Both raw returns and complete prompts are preserved in `raw/` and `generation_runs.json`. Selected the corrective return; remaining arm-angle, finger-spacing and margin deviations are documented.

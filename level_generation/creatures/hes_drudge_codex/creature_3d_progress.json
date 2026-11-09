@@ -1,0 +1,206 @@
+{
+  "creature_3d_identity": "hesper:drudge",
+  "meshy": {
+    "credit_limit": 0,
+    "jobs": {},
+    "credits_spent": 0
+  },
+  "scope": "CREATURE_BUILDS Drudges row: 10000/10001/10002/10003/10263; project and stage only, no installed assets.",
+  "status": "complete",
+  "stage": "complete",
+  "selected_artifacts": [
+    {
+      "role": "required_shared_body",
+      "path": "../hes_kreegan_claude/export/hes_kreegan.glb",
+      "sha256": "7057137fbabc3ff257d2d7f48f1510d9fcd20e636f6a57a04fd90ac2fabaceed"
+    },
+    {
+      "role": "runtime_export",
+      "path": "export/hes_drudge.glb"
+    },
+    {
+      "role": "runtime_export",
+      "path": "export/hes_drudge_scarf.glb"
+    },
+    {
+      "role": "runtime_export",
+      "path": "export/hes_drudge_shoulder.glb"
+    },
+    {
+      "role": "runtime_export",
+      "path": "export/hes_drudge_slabs.glb"
+    },
+    {
+      "role": "runtime_export",
+      "path": "export/hes_thrix.glb"
+    }
+  ],
+  "required_components": [
+    "shared_drudge_body",
+    "brute_scrap_shoulder",
+    "hulk_slab_grafts",
+    "thrix_healed_graft_details",
+    "thrix_torn_scarf"
+  ],
+  "stages": {
+    "references": {
+      "status": "complete",
+      "evidence": "P1.md: Integrator answer to the Drudge builder (2026-10-23, openyamm-30); CREATURE_BUILDS rules 2 and 6."
+    },
+    "model_and_attachments": {
+      "status": "complete",
+      "evidence": "review/validation.json"
+    },
+    "textures_and_variants": {
+      "status": "complete",
+      "evidence": "review/validation.json"
+    },
+    "animation_gates": {
+      "status": "complete",
+      "evidence": "review/validation.json"
+    },
+    "lods_and_winding": {
+      "status": "complete",
+      "evidence": "review/validation.json"
+    },
+    "stage_integration": {
+      "status": "complete",
+      "rows": [
+        10000,
+        10001,
+        10002,
+        10003,
+        10263
+      ],
+      "evidence": "review/staged_bindings.json",
+      "regression": {
+        "exit_code": 1,
+        "counts": {
+          "PASS": 68,
+          "FAIL": 2,
+          "WIP-FAIL": 1
+        },
+        "log_directory": "output/hesper_stage/logs/scenarios_152532_60",
+        "failures": [
+          {
+            "scenario": "hesper_d15/d15_side_paths",
+            "status": "FAIL",
+            "log": "/home/pjasicek/github/OpenYAMM/output/hesper_stage/logs/scenarios_152532_60/d15_side_paths.log",
+            "reasons": [
+              "Scenario failure: ../../../level_generation/projects/hesper_d15/d15_side_paths.yml:285 step 43 (press_interact): scenario keyboard interaction picked a target but activation failed: has_hit=true kind=event_target target_kind=1 target_index=2296 face_index=2296 event_primary=0 event_secondary=0 triggered_event=0 trigger=0 var_primary=0 var_secondary=0 special_trigger=0 attributes=0 name=\"\" distance=150.633 hit=(16051.6,10755.9,160); recorded event-target replay was not valid for the recorded pose/hit"
+            ]
+          },
+          {
+            "scenario": "hesper_d05/relay_spire_climb",
+            "status": "WIP-FAIL",
+            "log": "/home/pjasicek/github/OpenYAMM/output/hesper_stage/logs/scenarios_152532_60/relay_spire_climb.log",
+            "reasons": [
+              "Scenario failure: ../../../level_generation/projects/hesper_d05/relay_spire_climb.yml:17 step 3 (movement_segment): movement_segment replay walked 138.619 XY units, recorded walk was 763.000, tolerance 16.000",
+              "Scenario failure: ../../../level_generation/projects/hesper_d05/relay_spire_climb.yml:17 step 3 (movement_segment): movement_segment replay walked 0.000 Z units, recorded walk was 32.000, tolerance 16.000",
+              "Scenario failure: ../../../level_generation/projects/hesper_d05/relay_spire_climb.yml:17 step 3 (movement_segment): movement_segment final XY was 624.423 units from expected, tolerance 16.000",
+              "Scenario failure: ../../../level_generation/projects/hesper_d05/relay_spire_climb.yml:17 step 3 (movement_segment): movement_segment final Z was 32.000 units from expected, tolerance 16.000"
+            ]
+          },
+          {
+            "scenario": "hesper_out2/scour_edges",
+            "status": "FAIL",
+            "log": "/home/pjasicek/github/OpenYAMM/output/hesper_stage/logs/scenarios_152532_60/scour_edges.log",
+            "reasons": [
+              "Scenario failure: ../../../level_generation/projects/hesper_out2/scour_edges.yml:92 step 22 (assert): map_transition_requested source_id expected 1 but found 0",
+              "Scenario failure: ../../../level_generation/projects/hesper_out2/scour_edges.yml:92 step 22 (assert): map_transition_requested destination_map expected 'hes_out2.odm' but found 'hes_out4.odm'"
+            ]
+          }
+        ],
+        "engine_build": "not run",
+        "mode": "--scenarios-only"
+      },
+      "integrator_resolution": "Earlier two failures were intermittent; later sweeps pass. D15 step 87 belongs to the separate Actor sizes job.",
+      "acceptance_evidence": "design/kreegan_world/WORK_PACKAGES/requests/P1.md#integrator-answer-drudges-playback-and-in-game-2026-10-24"
+    },
+    "viewer_handoff": {
+      "status": "complete",
+      "models": 5,
+      "clips_each": 22,
+      "path": "review/viewer/manifest.json",
+      "visual_review": "Playback of A: Standing, Attack, Running, Death; every tier: Brute, Hulk, Hatchling, Thrix.",
+      "feedback_schema": "Corrected empty array to {findings: []}; generator fixed and verification assertion added.",
+      "acceptance_evidence": "design/kreegan_world/WORK_PACKAGES/requests/P1.md#integrator-answer-drudges-playback-and-in-game-2026-10-24"
+    }
+  },
+  "concept_acceptance": {
+    "status": "accepted",
+    "evidence": "CREATURE_BUILDS.md explicitly records concept approval on 2026-10-23."
+  },
+  "output_artistic_acceptance": {
+    "status": "accepted",
+    "date": "2026-10-24",
+    "scope": "Complete Drudge family build: rows 10000, 10001, 10002, 10003, 10263.",
+    "evidence": "design/kreegan_world/WORK_PACKAGES/requests/P1.md#integrator-answer-drudges-playback-and-in-game-2026-10-24",
+    "accepted_deviation": "Small chest-slab/body gap retained as approved by the user.",
+    "user_appearance_acceptance": {
+      "status": "accepted_with_minor_deviation",
+      "date": "2026-10-23",
+      "scope": "Appearance shown in the user screenshot (Hulk); no additional per-tier or animation review inferred.",
+      "revision": "hes_drudge_codex_v1",
+      "model_id": "c",
+      "model_sha256": "e23f704f26b5980ce00d97a2e2500bb356bf5b4b971ea1146ddbe7d4fd4d2d41",
+      "evidence": "review/user_acceptance_20261023.png",
+      "accepted_deviation": "Small visible gap between the chest slab and body; user accepts leaving it.",
+      "user_comment": "i guess we dont care its small ... otherwise fine i guess."
+    }
+  },
+  "findings": [
+    {
+      "id": "drudge_source_concept_conflict",
+      "status": "resolved",
+      "evidence": "review/source_audit.json",
+      "detail": "Mandatory base contains non-attachment tail geometry; approved concept is tailless and bare. Rule 10 requires stopping rather than choosing a different design.",
+      "resolution": "Shared body governs: retain tail and sculpted harness; paint G as skin."
+    },
+    {
+      "id": "drudge_chest_slab_gap",
+      "status": "accepted_by_user",
+      "severity": "minor",
+      "date": "2026-10-23",
+      "evidence": "review/user_acceptance_20261023.png",
+      "resolution": "Leave geometry unchanged as accepted by the user."
+    }
+  ],
+  "next_action": {
+    "owner": "none",
+    "action": "None. The accepted Drudge build is complete."
+  },
+  "runtime": {
+    "staged_rows": [
+      10000,
+      10001,
+      10002,
+      10003,
+      10263
+    ],
+    "installed_models": [],
+    "review_captures": "Load and draw verified in D3, D5, D8 and D9 capture round; 0 Actor model load failed.",
+    "review_evidence": "design/kreegan_world/WORK_PACKAGES/requests/P1.md#integrator-answer-drudges-playback-and-in-game-2026-10-24"
+  },
+  "updated_at": "2026-10-23T22:31:32.874611+00:00",
+  "completion": {
+    "asset_build": "complete",
+    "stage": "complete",
+    "numeric_bound_clip_gates": "pass",
+    "far_lod_gates": "pass",
+    "winding": "pass",
+    "scenario_sweep": "Historical builder sweep retained; integrator confirms intermittent failures and later passing sweeps.",
+    "final_visual_acceptance": "Accepted by the integrator on 2026-10-24 after viewer playback and D3/D5/D8/D9 game captures."
+  },
+  "completed_at": "2026-10-23T22:31:32.874611+00:00",
+  "integrator_acceptance": {
+    "status": "accepted",
+    "date": "2026-10-24",
+    "authority": "Hesper integrator",
+    "evidence": "design/kreegan_world/WORK_PACKAGES/requests/P1.md#integrator-answer-drudges-playback-and-in-game-2026-10-24",
+    "viewer": "Playback of A: Standing, Attack, Running, Death; every tier: Brute, Hulk, Hatchling, Thrix.",
+    "in_game": "Load and draw verified in D3, D5, D8 and D9 capture round; 0 Actor model load failed.",
+    "regression": "Earlier two failures were intermittent; later sweeps pass. D15 step 87 belongs to the separate Actor sizes job.",
+    "decision": "The Drudge build is complete; user-approved attachment gap retained."
+  }
+}

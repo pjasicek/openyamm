@@ -1,0 +1,3 @@
+Saved all five tier C PNGs in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_monk_claude/references_head), with raw attempts and prompts in `generation_runs_c.json`. Used built-in image generation; verified transparency and unchanged dimensions matching the clay.
+
+No builds or Meshy work. Exact pixel alignment remains unmet despite one correction per view; these aren’t ready for direct projection.

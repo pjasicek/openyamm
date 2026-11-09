@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Use case: precise-object-edit. Generate one FLAT MATERIAL CLASS MASK ATLAS. Image 1 exact mesh-guide atlas is EDIT TARGET, 1536x1024 3 columns by 2 rows, five grey silhouettes and empty bottom-right tile. Keep EXACT canvas ratio/grid/positions/scales/silhouettes and every hole. Image 2 and 3 only identify materials. Fill the grey shapes with these EXACT flat RGB colours, no shading/no texture/no outlines/no light: pure RED #ff0000 exposed iron/steel/gold including helmet dome, brow band, studs, visor bars, cheeks and chainmail neck skirt; pure YELLOW #ffff00 both large curved side horns. This helmet has metal dome, NOT horn dome; horns only left and right curls. Every visible object pixel opaque; exterior, visor holes and empty sixth tile truly transparent. Each of five views identical positioning to image 1, top row front/back/left, bottom row right/top/EMPTY. No text or labels. Output one 3:2 landscape atlas 1536x1024 or proportional higher resolution.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-f1c617c4-1a39-4b09-b5fa-c0f75577d795.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Classes authored from homogeneous exterior/separate lining or exact mesh components.",
+  "raw_output": "mask_raw_v1.png",
+  "output_sha256": "e6a94e9d7835931eb76f10b900e6b3a3b476f07859b81baf740e9e62a9384587",
+  "revision": 1,
+  "input_icon": "item110",
+  "input_icon_path": "assets_dev/engine/icons_x2/item110.png",
+  "input_icon_sha256": "475f68b68a4591736bfe98fe0e08294748db14cec965a2b28ed0ce1ec4d75971",
+  "retained_guide": "codex_tex/equipment_item110/guide_atlas.png",
+  "retained_guide_sha256": "0a3a7c21ec77c525c61b8838131cd83d378e623b50db12815c5a16d9ecfbeb2e",
+  "guide_hash_note": "Retained guide hashed retrospectively; original receipt omitted input hash.",
+  "active_bytes_match": false,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

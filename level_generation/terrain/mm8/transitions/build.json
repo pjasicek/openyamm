@@ -1,0 +1,2990 @@
+{
+  "status": "candidate_fields_require_visual_and_join_review",
+  "tiles": [
+    {
+      "name": "grastyl2",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "11",
+        "E": "11",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.125645922568626,
+      "exact_background_fraction": 0.03076171875,
+      "shade_min": 0.6030250787734985,
+      "shade_max": 1.1198979616165161,
+      "runtime_sha256": "d51d1d8e22e05f7d7339a6008fe9f26739c3b11e3086d1dc7dc3d47214de0175",
+      "field_sha256": "9eec5d73ec958532e18453384d1b87952570674516f84494aa3c3cc235e88cde"
+    },
+    {
+      "name": "grdrte",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.1648910222114395,
+      "exact_background_fraction": 0.15948486328125,
+      "shade_min": 0.6065833568572998,
+      "shade_max": 1.1250888109207153,
+      "runtime_sha256": "81160a6f9dbc62afb755a324358780fb45925335c020034046d93b27e7507eab",
+      "field_sha256": "736a42f4d66469bc81506f10340a5905a2b5410686f572dc476ab93efff0e0d3"
+    },
+    {
+      "name": "grdrtn",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.1910855370000364,
+      "exact_background_fraction": 0.1669921875,
+      "shade_min": 0.6122927069664001,
+      "shade_max": 1.1202483177185059,
+      "runtime_sha256": "32a18e87db054c9edeca26d5b70a1eab17384293d9fd8f4df85d5045c05c903a",
+      "field_sha256": "fb78f4884d84a9ea43b921c6b9e932f730f033f5cefc1944102b96f0fe019dc4"
+    },
+    {
+      "name": "grdrtne",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.514350001456985,
+      "exact_background_fraction": 0.25390625,
+      "shade_min": 0.5987107753753662,
+      "shade_max": 1.125912070274353,
+      "runtime_sha256": "b0faf69649880b8f6c9ca1f24e0199237ad00056a649831e1417d5a7c3db2861",
+      "field_sha256": "964afa7bf269930e1ba96c6b5c112033b8b2b97b68b92f637823afefb434605c"
+    },
+    {
+      "name": "grdrtnw",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.3578192807782554,
+      "exact_background_fraction": 0.259033203125,
+      "shade_min": 0.5739470720291138,
+      "shade_max": 1.1313601732254028,
+      "runtime_sha256": "001ac89c164457166ae6cb8062acb3c38b53bbfc3a2f4b898d5a7c5bb3535b87",
+      "field_sha256": "3665ea001040f5b87a03ea159ebac5a5ff50b7436a39d47eb69d7b3f40d5ccdc"
+    },
+    {
+      "name": "grdrts",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.2809688936490706,
+      "exact_background_fraction": 0.15484619140625,
+      "shade_min": 0.5939231514930725,
+      "shade_max": 1.124620795249939,
+      "runtime_sha256": "cdafe167460e6fa157ec4bae6dfbb8f8038bd5581a727cd6faaaf5825fecacec",
+      "field_sha256": "d96873d350f110dbe9163690a0da9afa14883fd3fe7a5eadec516fed449dcfb4"
+    },
+    {
+      "name": "grdrtse",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.4644189724529282,
+      "exact_background_fraction": 0.263916015625,
+      "shade_min": 0.5846898555755615,
+      "shade_max": 1.1376103162765503,
+      "runtime_sha256": "1cd2bdb79f73f9c9fdcb4e9ba4ceb78587fe2aacbc08f61dad1c3bf1780d5e7f",
+      "field_sha256": "f3720f0f2309fe9714750a1a41c063f00c75b7817ad8ee0a1b2cf7aeeffa719d"
+    },
+    {
+      "name": "grdrtsw",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.518539100018697,
+      "exact_background_fraction": 0.23828125,
+      "shade_min": 0.5803777575492859,
+      "shade_max": 1.1413956880569458,
+      "runtime_sha256": "91f50edc1eb33a64c5c3715ff0b59610717c636e4948401f6e24c6b37d411534",
+      "field_sha256": "5f49d24c4334e9ebae7bcfd18b38b950611e877b07b11575483ed1e5f4b43e0d"
+    },
+    {
+      "name": "grdrtw",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.2370499710703764,
+      "exact_background_fraction": 0.127197265625,
+      "shade_min": 0.5822173357009888,
+      "shade_max": 1.1311880350112915,
+      "runtime_sha256": "2793f0d8641eca62f70b4d316906445acd4e58eb770a8f3ac2b996340e54c90e",
+      "field_sha256": "a731838aee715727478ac49281e34fb17a793362ed24f61cc45e0fd8a4ac75ec"
+    },
+    {
+      "name": "grdrtxne",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.0649651406275749,
+      "exact_background_fraction": 0.082275390625,
+      "shade_min": 0.6051879525184631,
+      "shade_max": 1.10935640335083,
+      "runtime_sha256": "b6f3a8f1d36ba5c235ddd15fcdd9cfb1ad20659a29a1524a2cc76e946893f616",
+      "field_sha256": "1f7a0ed973571feef5f6402737184aca84b17d4ef48683d349b87eb93c4b5fb4"
+    },
+    {
+      "name": "grdrtxnw",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.9907785457090811,
+      "exact_background_fraction": 0.077880859375,
+      "shade_min": 0.6351284384727478,
+      "shade_max": 1.1252830028533936,
+      "runtime_sha256": "34b6c285966b0684ef5ade61ad4ee77565516f566862eaeb64ba45689d8b0d5b",
+      "field_sha256": "9dc0620406ad62d87a0fb316a77986e7ada4e0bf5bb4b1296c9f8433b7d1673d"
+    },
+    {
+      "name": "grdrtxse",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.0546112825914165,
+      "exact_background_fraction": 0.06256103515625,
+      "shade_min": 0.632210910320282,
+      "shade_max": 1.135080099105835,
+      "runtime_sha256": "29f67b37de081bdbd3376a559e5a6d314a20e386270fb29ba80116ca91ef88bc",
+      "field_sha256": "209c7f06208d228dc545b702fd9534740ccf967af7804355f5f22efa6d08cbea"
+    },
+    {
+      "name": "grdrtxsw",
+      "family": "grass",
+      "binding": {
+        "background": "dirt",
+        "foreground": "grass",
+        "prefix": "grdrt"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.1752861092492397,
+      "exact_background_fraction": 0.05718994140625,
+      "shade_min": 0.5930129289627075,
+      "shade_max": 1.1298120021820068,
+      "runtime_sha256": "3ea1ee26c4cac3a52a117bbd122d10f42aae9be30897e0648a3fbeceb1ee0b1a",
+      "field_sha256": "8f13aa5905e5a5eb5270f46056652bfe7488164e2d9891b794585058dafc9228"
+    },
+    {
+      "name": "gse",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.4976993934649963,
+      "exact_background_fraction": 0.25762939453125,
+      "shade_min": 0.4737030565738678,
+      "shade_max": 1.1387493051443016,
+      "runtime_sha256": "56f9312b9a2ea3d927645ddd34fbe2f9b339f2389b90c00913a717c79472fb96",
+      "field_sha256": "dfa91f45a3146eccbaab46d7f703bd192d0c51fe3793fd6ba3f35fe150737d70"
+    },
+    {
+      "name": "gsn",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.742431238139173,
+      "exact_background_fraction": 0.263671875,
+      "shade_min": 0.5066820383071899,
+      "shade_max": 1.1493986050060014,
+      "runtime_sha256": "af9fc3a5b3df376c48db1bcf87f853248b3f687cda6b7324c17b585a57ae3795",
+      "field_sha256": "7469f3b5f363c7c5f7a853ea54fbf5acdf4942963035c7ee6151c8b4a34e0038"
+    },
+    {
+      "name": "gsne",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.5531239866989923,
+      "exact_background_fraction": 0.46710205078125,
+      "shade_min": 0.6206405758857727,
+      "shade_max": 1.1484013795852661,
+      "runtime_sha256": "24efd3f62ae87f59412ce0c3217ed32efbae6cba54aa7847354ff3356ab9bd07",
+      "field_sha256": "63b3b374112afb3a304447b469d3dde03816387684a51dcf4cb6683a8ca0020a"
+    },
+    {
+      "name": "gsnw",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.6469411511802547,
+      "exact_background_fraction": 0.4154052734375,
+      "shade_min": 0.48826590180397034,
+      "shade_max": 1.15,
+      "runtime_sha256": "20fe4827560bc202371888207614b0aef645f955c4bca4c25814ccb5400bd32d",
+      "field_sha256": "d97d7c74408c421894929286bd35bf01adbd2702c36a52d1326b76732cc52f11"
+    },
+    {
+      "name": "gss",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.9431168878647656,
+      "exact_background_fraction": 0.26458740234375,
+      "shade_min": 0.4667844772338867,
+      "shade_max": 1.15,
+      "runtime_sha256": "0dd44e8d7cbd46f7e3b9e515a4c7bde04d465150339a05c930d85bffd7f77c60",
+      "field_sha256": "d009515248365baa9dbbe68518c2af803a5628659d81526173895a3ecc8733e4"
+    },
+    {
+      "name": "gsse",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.7124556809773612,
+      "exact_background_fraction": 0.381591796875,
+      "shade_min": 0.5173498392105103,
+      "shade_max": 1.146968960762024,
+      "runtime_sha256": "6e88c642120b449df19b194738ce549cb16146e835dc540fc03b281d9ec5d50c",
+      "field_sha256": "2f006cdad42c84a6e4d316d0c3099f14f0c8ca378a8bb61fe9eaca115b1aa36a"
+    },
+    {
+      "name": "gssw",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.9742426894794913,
+      "exact_background_fraction": 0.38079833984375,
+      "shade_min": 0.4543478488922119,
+      "shade_max": 1.1446969509124756,
+      "runtime_sha256": "2196fab000b19ff9416481635fc735c525936ccde39b949aed3803e812942968",
+      "field_sha256": "0b78f7d591ac0a2e832509f703abac7927cb157c81787dd3bfbe7f3811ca8bbb"
+    },
+    {
+      "name": "gstylx",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "11",
+        "E": "11",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.9527794325514899,
+      "exact_background_fraction": 0.016845703125,
+      "shade_min": 0.5550296306610107,
+      "shade_max": 1.1401065587997437,
+      "runtime_sha256": "ab5f2eb1466c944ff95e411210ab6043c51218592ef49173ea3b3b0a47cc1ec9",
+      "field_sha256": "13f37e28b046fbee8956be8b0daaf05a5847a8f2eb857ce2434a1fbcdbcb21ff"
+    },
+    {
+      "name": "gsw",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.6236656448622258,
+      "exact_background_fraction": 0.256103515625,
+      "shade_min": 0.4744183123111725,
+      "shade_max": 1.14995276927948,
+      "runtime_sha256": "59a7e10c2ef558f1fd1a6714612c9754c754a3a2086bf720bfad976c1b199277",
+      "field_sha256": "e48ee60449b01e6c444cd974cf34b336674f74eee7965d9e3ff04244eb2ae8c5"
+    },
+    {
+      "name": "gsxne",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.7163921377690736,
+      "exact_background_fraction": 0.12457275390625,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.144618034362793,
+      "runtime_sha256": "6e604e51580b280a1c7ab0946665525797101e92f09ff7e0ea55e45b593a560c",
+      "field_sha256": "7bea1475b875a184134c65d6b212ce1ad6b072211a67e60598060aac58434509"
+    },
+    {
+      "name": "gsxnw",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.6238861663483475,
+      "exact_background_fraction": 0.095458984375,
+      "shade_min": 0.47007760405540466,
+      "shade_max": 1.1457417011260986,
+      "runtime_sha256": "4161e80ede473fe500449667075ca7a02dd713ead58c00ffb44ec513e80ad839",
+      "field_sha256": "eecdabea0db8414d69442e739b58ea4202ccfcce19358c1d3f1fbf6d27b1eb49"
+    },
+    {
+      "name": "gsxse",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.4964041513349027,
+      "exact_background_fraction": 0.11883544921875,
+      "shade_min": 0.45404383540153503,
+      "shade_max": 1.15,
+      "runtime_sha256": "bc18f68275922c6a57e3bd987440e2f957ee710abd39072bd36ed06fdf593453",
+      "field_sha256": "7c20f51a071e4202d9998adb7de6a3c16dc34836bd3d5fbdb1d24fe2707129c4"
+    },
+    {
+      "name": "gsxsw",
+      "family": "grey_stone",
+      "binding": {
+        "background": "grey_dirt",
+        "foreground": "grey_stone",
+        "prefix": "gs"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.2674959445148475,
+      "exact_background_fraction": 0.09136962890625,
+      "shade_min": 0.4620814621448517,
+      "shade_max": 1.1473466157913208,
+      "runtime_sha256": "ffb26c0bc01d5f3d3b787a3716c50c3e70ff11ce9b7b58f5e66c87616947c9e1",
+      "field_sha256": "e9b84192e73395ec1f891b6c42eb1a799fb1f4aa089c64796d9d4a67745b4db0"
+    },
+    {
+      "name": "lvdre",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 5.019066498846235,
+      "exact_background_fraction": 0.167236328125,
+      "shade_min": 0.4373367428779602,
+      "shade_max": 1.1474725008010864,
+      "runtime_sha256": "bf2ae1d96b493e053e26f888771af03fdcc0a7024bbd8bdf8a1cd2d9fb88469c",
+      "field_sha256": "03ade90d6f1ea2d21fb8ff35f43c3e49d6d423794f2ef2e526e19c04cb6dc467"
+    },
+    {
+      "name": "lvdrn",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 3.96912013536379,
+      "exact_background_fraction": 0.2666015625,
+      "shade_min": 0.43665942549705505,
+      "shade_max": 1.1466575860977173,
+      "runtime_sha256": "25bd71e3be3c2e65a53391b50ca88ffb4fc57cc6f516d083a1c99761b421e3a6",
+      "field_sha256": "9b180a4f58d4ee44708fb9980cbc27befe6f8d33980d1d29e5e1a46bf7fd0aca"
+    },
+    {
+      "name": "lvdrne",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 3.9148942985265855,
+      "exact_background_fraction": 0.2889404296875,
+      "shade_min": 0.437059223651886,
+      "shade_max": 1.1487253904342651,
+      "runtime_sha256": "3a239113c5c00ae36ab941724905bb40853f6d286f26449051ff1320502a315a",
+      "field_sha256": "b4b0346bcf1fd7f93c1cd9a7103515744cd028e2534ed2649b9e45ddc4e857ab"
+    },
+    {
+      "name": "lvdrnw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 3.1030834569625045,
+      "exact_background_fraction": 0.36529541015625,
+      "shade_min": 0.43821337819099426,
+      "shade_max": 1.1492791175842285,
+      "runtime_sha256": "96cb02bb4fd51bbbb5cee95ed6a17fd2b04b6b5e0bb20e9018d2a4abe02dfea2",
+      "field_sha256": "edbe2db8636195c19bb8898ce9199b8e630fa622155bfd395e0f283f9dd146ce"
+    },
+    {
+      "name": "lvdrs",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 4.976774369977702,
+      "exact_background_fraction": 0.19976806640625,
+      "shade_min": 0.43641912937164307,
+      "shade_max": 1.1352778673171997,
+      "runtime_sha256": "b00a420eb8352149eae75c2037f7c59a63bccbfdffb65e0600416c2555d2f629",
+      "field_sha256": "1daab61f7989a07635ddb077a6a5fd54b87b95ab7e94471950cc15ed12e95ae3"
+    },
+    {
+      "name": "lvdrse",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 3.2824651452164813,
+      "exact_background_fraction": 0.34735107421875,
+      "shade_min": 0.4368540048599243,
+      "shade_max": 1.1473501920700073,
+      "runtime_sha256": "9ead1fb635eca731dbf39ec1e8a8ba17e5eb965912d3a5b17e8e8c213f5944ef",
+      "field_sha256": "12cc6c6dc72d9c8c96dac036f5f97618425167bb7e695278b55dc1f9c5abc5f8"
+    },
+    {
+      "name": "lvdrsw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 2.8488710611198416,
+      "exact_background_fraction": 0.420166015625,
+      "shade_min": 0.4369995594024658,
+      "shade_max": 1.1486759185791016,
+      "runtime_sha256": "c207d00a79b472fa7db3fe26fc9a18374b549aba43e52ec437bb7d7bfb8d4ddf",
+      "field_sha256": "d0209553201ab28e5ee3aa56e41672b706471233aeb2be201d8cf0940b96aeee"
+    },
+    {
+      "name": "lvdrw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 3.888562934307615,
+      "exact_background_fraction": 0.25341796875,
+      "shade_min": 0.4364970028400421,
+      "shade_max": 1.1486760377883911,
+      "runtime_sha256": "79285068bb763d8c5a7351701775022efa50a3346537b4fe8c9f2111ae168230",
+      "field_sha256": "284b8d758ca29753c18cc665de822c6d144c50e11e8cf4d6cdb404ac336e147f"
+    },
+    {
+      "name": "lvdrxne",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 6.204042541187091,
+      "exact_background_fraction": 0.114501953125,
+      "shade_min": 0.4364970028400421,
+      "shade_max": 1.1474725008010864,
+      "runtime_sha256": "93667976670d226d9d64a8d0088098fd0261873400aee9a6de0280d0903fe357",
+      "field_sha256": "dc0a35088270b8873417ae45b0bcd9139926c6103bf923acf9d1815950bea39f"
+    },
+    {
+      "name": "lvdrxnw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 7.486421643695763,
+      "exact_background_fraction": 0.0679931640625,
+      "shade_min": 0.4374801516532898,
+      "shade_max": 1.1464803218841553,
+      "runtime_sha256": "4eb5ff090c28cb4aa664622609550703c51ac865ff68fdac0a6a7a429aa430c9",
+      "field_sha256": "56e8e2a5d3bd9e6238d487d0830f08d5936df64b29fceb2d9a4799ddc0c61f8d"
+    },
+    {
+      "name": "lvdrxse",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 5.992518996200761,
+      "exact_background_fraction": 0.151611328125,
+      "shade_min": 0.4374808669090271,
+      "shade_max": 1.0733317136764526,
+      "runtime_sha256": "e7dbcba7f8aff8ae13e8907e1a1e30f0b313219d0d1bea17ac4df1a09c76d1fc",
+      "field_sha256": "182a226bf8daff1e5a48041975691e9391f7151360ff0d4a74818e654644bd53"
+    },
+    {
+      "name": "lvdrxsw",
+      "family": "lava_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "lava",
+        "prefix": "lvdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 6.743159244706396,
+      "exact_background_fraction": 0.10357666015625,
+      "shade_min": 0.4350077509880066,
+      "shade_max": 1.1046288013458252,
+      "runtime_sha256": "4114a6fd651ad71f4938054ae0dc21f26b10fc24ddd0c075fbcc8a7bc3379a23",
+      "field_sha256": "a2e1274da9ce77fea8e1d8ce0f715382c2580d81d6d5c02fd4488264022ec6d9"
+    },
+    {
+      "name": "lve",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.1791363048484278,
+      "exact_background_fraction": 0.0284423828125,
+      "shade_min": 0.44590169191360474,
+      "shade_max": 1.3513340950012207,
+      "runtime_sha256": "eedd207d84e67ed553db4e97c15aac78aaf27e5df294fd0ce5b8308114542c16",
+      "field_sha256": "d06d1a825b511f03ee8ab86760286d03044f993069222afed31b96e4ca644c2e"
+    },
+    {
+      "name": "lvn",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.3634633240482825,
+      "exact_background_fraction": 0.0235595703125,
+      "shade_min": 0.4513494372367859,
+      "shade_max": 1.3336542844772339,
+      "runtime_sha256": "b1788eca01f86a0eaca4453b05c230fab4fcfff4bb008266d9444d5f6e3f9962",
+      "field_sha256": "cc4ee691d366dbfefb26c6fe9d87cb04742bab0c736772310a54cb77d43c64f4"
+    },
+    {
+      "name": "lvne",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.0650347944431608,
+      "exact_background_fraction": 0.04010009765625,
+      "shade_min": 0.455710768699646,
+      "shade_max": 1.3497153520584106,
+      "runtime_sha256": "970ec8af968fe668d9d995f343ec0db753d223012619efb1cd493ab37ff45aa9",
+      "field_sha256": "3b7c08e1441cc706bb72d5712ad3a7daf0f7c351e0a5f0c5d287d53547b900bd"
+    },
+    {
+      "name": "lvnw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.201028067408511,
+      "exact_background_fraction": 0.02880859375,
+      "shade_min": 0.4439562261104584,
+      "shade_max": 1.3546247482299805,
+      "runtime_sha256": "6e426191b12d6b76eea43936386d987a2a9eef586685cc36008ed33476ef969e",
+      "field_sha256": "b6e89a9ff3a7cb92ea5920156a0d21fdd35e818d86b48771305d58182a5bcc13"
+    },
+    {
+      "name": "lvs",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.2568434367694625,
+      "exact_background_fraction": 0.0233154296875,
+      "shade_min": 0.4467293322086334,
+      "shade_max": 1.3540321588516235,
+      "runtime_sha256": "34254c00db9114e95c3788409755e3b5881b8ed5e2ab421c59fb9991c5ca0653",
+      "field_sha256": "5a62b093e5fe1d25f8c106d07d45d86c88c6259f5df331f035078e9cc3f52baf"
+    },
+    {
+      "name": "lvse",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.1334936499586685,
+      "exact_background_fraction": 0.0391845703125,
+      "shade_min": 0.44723787903785706,
+      "shade_max": 1.3470360040664673,
+      "runtime_sha256": "0ae8a903b18aa0e01f83989cc463c2bf893a89f82e0929fd8bdf59e55e3e4f6c",
+      "field_sha256": "f55dfaaf33f9d54ae84ca8c291ea7a009a1ae203f85975c0f35045ead81f5b92"
+    },
+    {
+      "name": "lvsw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.118017500892903,
+      "exact_background_fraction": 0.04144287109375,
+      "shade_min": 0.44961467385292053,
+      "shade_max": 1.3466346263885498,
+      "runtime_sha256": "c865a3f335463d264c6c266b5907c9a87572dff9cfca97c258f42d6771c0a83f",
+      "field_sha256": "69898b0844fa89a687f21c1ffd3a78e5efa7270c0bfbb6bc6c77f50c8a6a85c3"
+    },
+    {
+      "name": "lvw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.1911604575763142,
+      "exact_background_fraction": 0.03057861328125,
+      "shade_min": 0.4465184509754181,
+      "shade_max": 1.3378044366836548,
+      "runtime_sha256": "9831c2b42007cfee981b8590c28be9dec72e437b61d6f37b168b2ceb7185bcf5",
+      "field_sha256": "ab826ce5e54c7b72f659880141c8a85b1ae58f7124af609d84e081f75c3febb3"
+    },
+    {
+      "name": "lvxne",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.3637769176009968,
+      "exact_background_fraction": 0.015380859375,
+      "shade_min": 0.4519353210926056,
+      "shade_max": 1.341225266456604,
+      "runtime_sha256": "56df6f712102a6ab8ac9e3b938b7abb68ca9906d130a648291ee29c80a3e14e9",
+      "field_sha256": "7ef482bdd245bae7d47dd5fd3ae6fde26da33748287cc33e09b877e174bdde0c"
+    },
+    {
+      "name": "lvxnw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.3302147571134917,
+      "exact_background_fraction": 0.010498046875,
+      "shade_min": 0.4461733102798462,
+      "shade_max": 1.3430707454681396,
+      "runtime_sha256": "b31771d3f9731bfec0c5162293a01662db1fe18bdb886c8dac4909c9dfc1acb0",
+      "field_sha256": "e217956437388721b6bc67fc60a134ff8cbc2245908412b1b7f4620951dcb792"
+    },
+    {
+      "name": "lvxse",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.1782895899611172,
+      "exact_background_fraction": 0.00970458984375,
+      "shade_min": 0.44390591979026794,
+      "shade_max": 1.3427343368530273,
+      "runtime_sha256": "3483f53c49205e3c917e83470d1a4368713e981edd8b3bd58e13f1872548200e",
+      "field_sha256": "168b00d9af89381a16f0542e194190318e36db2519e3e2c96ae4c93ea76433d0"
+    },
+    {
+      "name": "lvxsw",
+      "family": "lava_plains",
+      "binding": {
+        "land": "plains",
+        "liquid": "lava",
+        "prefix": "lv"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.180371732026144,
+      "exact_background_fraction": 0.00994873046875,
+      "shade_min": 0.4516230821609497,
+      "shade_max": 1.3376085758209229,
+      "runtime_sha256": "ce138862f1660ce4c2b18de18c9c13a73852d6361ed8ff6523c32390c796c0ec",
+      "field_sha256": "5d36e5b0d058abd9300c5d9a53dec79f5c0dbb712e66b78cf0ecd9680a9953f0"
+    },
+    {
+      "name": "plsae",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.87072646628661,
+      "exact_background_fraction": 0.058349609375,
+      "shade_min": 0.8936581142479554,
+      "shade_max": 1.1439645290374756,
+      "runtime_sha256": "49e4ce3ec93f312d5d6c6cbbbb36ae81664b32af3acf6c99e2d742a5ac31914d",
+      "field_sha256": "1e557669f7b676511a0b048a5b899a7d9870bb9c35a400a03555ec008942032f"
+    },
+    {
+      "name": "plsan",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 2.053602024797769,
+      "exact_background_fraction": 0.0601806640625,
+      "shade_min": 0.8840371370315552,
+      "shade_max": 1.1458816528320312,
+      "runtime_sha256": "b19e677409d01d1e8aa1d1837b5f9dcaadb0588e284250233378865d1501c994",
+      "field_sha256": "1015ee240e5fcdf7bf7941665d115e56f82baf2fe045ecdd3ec37910ab07ecc2"
+    },
+    {
+      "name": "plsane",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 2.236156866027627,
+      "exact_background_fraction": 0.09442138671875,
+      "shade_min": 0.8665376305580139,
+      "shade_max": 1.1423285007476807,
+      "runtime_sha256": "a894e053fe4e0f57f831e1a153173a07d0d969ec218ccd15238ba794b9e9fe62",
+      "field_sha256": "3accdd58c2136823fe0b96e307866783e985b4d6e06f26720198f8bb3b956a3f"
+    },
+    {
+      "name": "plsanw",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 2.3885701743640384,
+      "exact_background_fraction": 0.09515380859375,
+      "shade_min": 0.8679897785186768,
+      "shade_max": 1.1489979028701782,
+      "runtime_sha256": "617512b70914995a7695a517219b6811ffa24285454b2eef4deefebb51a78790",
+      "field_sha256": "50090e53fa4050e4eadd1d2612e1d5bdf8cff4fa2a7c36d7d39cc130a49c541f"
+    },
+    {
+      "name": "plsas",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.8222892365566767,
+      "exact_background_fraction": 0.07061767578125,
+      "shade_min": 0.8801029920578003,
+      "shade_max": 1.1313645839691162,
+      "runtime_sha256": "08eff4db85fbded1d70eb1397ce1e6d5ef8d4a0ec166c261a777658842ec5de8",
+      "field_sha256": "dc572944294003482228c555e9808bba07b15a31b0f5a1bec6c6a1ba84ab0124"
+    },
+    {
+      "name": "plsase",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 2.447074598804334,
+      "exact_background_fraction": 0.096435546875,
+      "shade_min": 0.8769275546073914,
+      "shade_max": 1.1466586589813232,
+      "runtime_sha256": "1ac17339425c502f0bbb02cf59b8e1b12a12c62e44dedce5bcc9fc6760bc748d",
+      "field_sha256": "1f8039332449d006aee7f729f78582e3dd1e46b8bdd82d263015c87d1117d217"
+    },
+    {
+      "name": "plsasw",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 2.2910823172954546,
+      "exact_background_fraction": 0.09295654296875,
+      "shade_min": 0.8862296938896179,
+      "shade_max": 1.1369236707687378,
+      "runtime_sha256": "a0b5502da8119f5e3a3cdea33a3f52a77c79fb3a18520251ad80c21505a7c68b",
+      "field_sha256": "07c4f69456ea23f764940693020f8b1f98fc9fa8003f45e1fd0fd971330e114b"
+    },
+    {
+      "name": "plsatylx",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "11",
+        "E": "11",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.96739429647641,
+      "exact_background_fraction": 0.00885009765625,
+      "shade_min": 0.8996850848197937,
+      "shade_max": 1.1395920515060425,
+      "runtime_sha256": "f0fdcc6be6eef5ff1643725687741a4feba2d5c995756ab489edd8181c8dacd3",
+      "field_sha256": "c7d714d559750108d959e835daea680ad58b65bd15d396b82bcbd13009be1575"
+    },
+    {
+      "name": "plsaw",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.8076411103201764,
+      "exact_background_fraction": 0.06591796875,
+      "shade_min": 0.8663468360900879,
+      "shade_max": 1.1442468166351318,
+      "runtime_sha256": "48c0733fad27cee9734e2f9d508f35a78c3639a8af745130c094aa5ec1575fca",
+      "field_sha256": "e4876cd0b9f1ae8c528bbd5df2ed56308de4cfd716136457359e599b7e6a8a94"
+    },
+    {
+      "name": "plsaxne",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.547403090691182,
+      "exact_background_fraction": 0.03863525390625,
+      "shade_min": 0.8931505084037781,
+      "shade_max": 1.14785897731781,
+      "runtime_sha256": "2d2a7fbe6f8b9d270d2e5b31a1b63150322914212f082a62845d4c2aa37f4d4d",
+      "field_sha256": "1e1073ce18bd27cb220eba3fb45cd27ca445ef61eddbce06d3276a396f32b33a"
+    },
+    {
+      "name": "plsaxnw",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.259009348166598,
+      "exact_background_fraction": 0.03350830078125,
+      "shade_min": 0.9020116925239563,
+      "shade_max": 1.1437221697555282,
+      "runtime_sha256": "3751c3357da100ea802581eaadbb9c5c1e7f0337622609d753cbc937db732d36",
+      "field_sha256": "d3cad5623971edd886058353a69e3f709e9ee820099643e1a4f4b9cd707c30c8"
+    },
+    {
+      "name": "plsaxse",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.5381852585608762,
+      "exact_background_fraction": 0.0455322265625,
+      "shade_min": 0.8921602368354797,
+      "shade_max": 1.1408435106277466,
+      "runtime_sha256": "8f501c892819bfc07e6d212a394d5254e7eb0ef50c364e32677061ab553e1fd2",
+      "field_sha256": "4370bd4dd2177a0587e8dc72e025a5c6145a078ffb009568c5a798e35702f449"
+    },
+    {
+      "name": "plsaxsw",
+      "family": "plains_sand",
+      "binding": {
+        "background": "plains",
+        "foreground": "plains_sand",
+        "prefix": "plsa"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.8540542473883002,
+      "exact_background_fraction": 0.0360107421875,
+      "shade_min": 0.8864407539367676,
+      "shade_max": 1.1493314504623413,
+      "runtime_sha256": "ad095612d78f08d0aa5bf8c2f7870e5767885bf822dc5ff630a05060aaed839e",
+      "field_sha256": "bf3015df6de528f2442e728c39bfb723df115c263ccd3df74eb8ecf94e39056e"
+    },
+    {
+      "name": "rce",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 2.017050639269395,
+      "exact_background_fraction": 0.1571044921875,
+      "shade_min": 0.4567761719226837,
+      "shade_max": 1.15,
+      "runtime_sha256": "5a897d8092bc58058cbccfeb7ab4586db3aee3b2904cedade306c0042f35085d",
+      "field_sha256": "c527487a2c5760fe4bbcc27b75ef87700079cfe460f4b50e32d2de323f605eae"
+    },
+    {
+      "name": "rcn",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 2.0087771283474676,
+      "exact_background_fraction": 0.11444091796875,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "58bd0d1d183d31d5a68228dcafc0f1257c74d856aef7562585d7c56c201971c2",
+      "field_sha256": "b83826a517ae5c16ec7ef847beae4314509704ab41d44ed13a2031712ab6a552"
+    },
+    {
+      "name": "rcne",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 2.2699903913646087,
+      "exact_background_fraction": 0.26019287109375,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "38a47fe458b8f506d2896e5fae8413bf99c5060dc909c2976c12e43ad366a8f2",
+      "field_sha256": "f4dc7f5600b62b020b1586f79f3d458b31c945da11fcd014c20def5d07d87aca"
+    },
+    {
+      "name": "rcnw",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 2.407018427193849,
+      "exact_background_fraction": 0.2738037109375,
+      "shade_min": 0.4803871810436249,
+      "shade_max": 1.15,
+      "runtime_sha256": "f0663f3e94db41c23ffc0fc11ee51759315c5e10a46c1f04924db644fbd5fb95",
+      "field_sha256": "92c5c1ad01e6c7baf170bbfe19e5f0ef8b03ccf849e9b7f538176b29516857a2"
+    },
+    {
+      "name": "rcs",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 2.5356966888424592,
+      "exact_background_fraction": 0.11181640625,
+      "shade_min": 0.4522617757320404,
+      "shade_max": 1.15,
+      "runtime_sha256": "d4151f2d571a60af215b652b48b7d790ffbcd8f5f186ab255ff72d635cabf1bb",
+      "field_sha256": "6df5553311a587d63ea930e9ff8b075f7afc3821384fe6750dc90f9464295013"
+    },
+    {
+      "name": "rcse",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 2.217724026886296,
+      "exact_background_fraction": 0.22021484375,
+      "shade_min": 0.4509500563144684,
+      "shade_max": 1.1498025939828949,
+      "runtime_sha256": "ac1866a22b1abe9c31aab914b0d5d78ac3a74ae90a7f45e0c8c6d1c400b7ef2b",
+      "field_sha256": "23331e686cbebec5c869861134f3f3d32bdb13081f173173e9bee717e219fc7e"
+    },
+    {
+      "name": "rctylx",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "11",
+        "E": "11",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.4014570529454438,
+      "exact_background_fraction": 0.02642822265625,
+      "shade_min": 0.457892507314682,
+      "shade_max": 1.1453123092651367,
+      "runtime_sha256": "0c11625c44ce67c59da906c42ee83cb33b1d25a8766f744e905791a1116fa488",
+      "field_sha256": "6759249d8c1c9702714051f6e4f3429b20a977acd1008bb0ef7fa15c4024401b"
+    },
+    {
+      "name": "rcw",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 2.502994187586177,
+      "exact_background_fraction": 0.1563720703125,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "a0fb661fdda866e61873ccc6e9eb39fd34394bd32e45c8d22162c05d28391cfe",
+      "field_sha256": "3450b68fbb30097f7cdffcd1ae9ab2f4c4661642b2c9af2386c53b6de5d9e3b6"
+    },
+    {
+      "name": "rcxne",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 2.0866948406770356,
+      "exact_background_fraction": 0.0919189453125,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.1487908363342285,
+      "runtime_sha256": "c6bcd5028df888d05a50eb7ca046d7169fe971908d4c5d11044e71e4677737b4",
+      "field_sha256": "ebcd273513b04c1049288ef9e6fc1c442704ad54c04b287b9544f559f95b2953"
+    },
+    {
+      "name": "rcxnw",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.4437639352578657,
+      "exact_background_fraction": 0.05328369140625,
+      "shade_min": 0.45110031962394714,
+      "shade_max": 1.15,
+      "runtime_sha256": "ca8e8f5a3b30d2d43cccad5fb2512bee4822a583faf315eaaa3a87d9d1287271",
+      "field_sha256": "028ac358791bfd9de3bf7bb73e6f548f04f6b7503629ac9cd21fb3f823d56bd8"
+    },
+    {
+      "name": "rcxse",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.8548466165910995,
+      "exact_background_fraction": 0.0733642578125,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.140913486480713,
+      "runtime_sha256": "802eb5c1c99ddb7d1a5d09b11fe18e837fa2339ddb78b85a6064358a9903280d",
+      "field_sha256": "3a0987cc78a07939bb287620d4388bcc712023e6ba6b68d9b39c55516aa8d8e4"
+    },
+    {
+      "name": "rcxsw",
+      "family": "sandstone",
+      "binding": {
+        "background": "dirt",
+        "foreground": "sandstone",
+        "prefix": "rc"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.6193617081687859,
+      "exact_background_fraction": 0.08013916015625,
+      "shade_min": 0.4535894989967346,
+      "shade_max": 1.1485577821731567,
+      "runtime_sha256": "130d59559cfeea751d6f94085bde679a28f624a6c8d0e067b5373c85b1ea386d",
+      "field_sha256": "d0d6a9c20c28ecddd5cb9420821ca836ff39fb1e0bc19f229ed7dd3a4751157a"
+    },
+    {
+      "name": "rdnw",
+      "family": "red_dirt",
+      "binding": {
+        "background": "dirt",
+        "foreground": "red_dirt",
+        "prefix": "rd"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.9365928133118484,
+      "exact_background_fraction": 0.24053955078125,
+      "shade_min": 0.5371494293212891,
+      "shade_max": 1.15,
+      "runtime_sha256": "8a06e9e777557ad646ac7eaee5e0707e5c4838342d5ef1ff7199cc814af9210c",
+      "field_sha256": "c07c42082a355ef9a0b55cd6fb7ab3480bed23747020d4ca223a1d826fe59642"
+    },
+    {
+      "name": "rke",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 2.1023493270916105,
+      "exact_background_fraction": 0.15966796875,
+      "shade_min": 0.47686129808425903,
+      "shade_max": 1.15,
+      "runtime_sha256": "29e165895e279be6333c5fcce623cecbd63a5d61a3f843d9e559651ce348a2e8",
+      "field_sha256": "9d469c02ad6b016c1b5c154a5ef88505657737eb2ceb96ad6a7b8ef8351ee8c9"
+    },
+    {
+      "name": "rkn",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 2.621155281328201,
+      "exact_background_fraction": 0.16546630859375,
+      "shade_min": 0.45640280842781067,
+      "shade_max": 1.15,
+      "runtime_sha256": "bdb66cd6915ea6dc9abeafaa225aa7c85b412dbc1f46f80ab9211d26d6c978d6",
+      "field_sha256": "0972a8e8016e89985c01c77691a47f5248239a321acaf6b8f8c4cb1f3ac4d5e8"
+    },
+    {
+      "name": "rkne",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.6455948783785863,
+      "exact_background_fraction": 0.31903076171875,
+      "shade_min": 0.4632625877857208,
+      "shade_max": 1.15,
+      "runtime_sha256": "b2bb58accff052e6bfa3d4e451063bbfef0b4e1c05c43c99c50bd5fbdb4915c8",
+      "field_sha256": "3d57a6763f780889d87607c27b8d1b5308c3d24a78426411f0ffe43927f72451"
+    },
+    {
+      "name": "rknw",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.5713516757931298,
+      "exact_background_fraction": 0.3082275390625,
+      "shade_min": 0.4538760781288147,
+      "shade_max": 1.15,
+      "runtime_sha256": "72fc8e7921f2001c872359aa37ad9b6711cb0f158a39747bb5a0e2c30fe1a3bf",
+      "field_sha256": "d256c7bd1e1904e4e1976dd9e47a3d596e4725115ccb75b0c5c01fed627dc8a0"
+    },
+    {
+      "name": "rks",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.6190001655866824,
+      "exact_background_fraction": 0.19525146484375,
+      "shade_min": 0.4605431854724884,
+      "shade_max": 1.15,
+      "runtime_sha256": "c5c121389c09998856a962c3626738fc0a6e712c5265967dbfb78543b64d47f8",
+      "field_sha256": "5e92da1353ebb589913fd6f8bf2e251680c464e85a0ac8f6662b115ec9873902"
+    },
+    {
+      "name": "rkse",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.762930676990334,
+      "exact_background_fraction": 0.2392578125,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "4592b3b9a0a2ad1eaffab3293b1eb1697021ede4e56628dd5cedef11bbe71697",
+      "field_sha256": "2deb3a618cc773c95d4d57cdade5298feee358deaf782041f756b13245786314"
+    },
+    {
+      "name": "rksw",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.451967181839547,
+      "exact_background_fraction": 0.2249755859375,
+      "shade_min": 0.46058720350265503,
+      "shade_max": 1.15,
+      "runtime_sha256": "ba93697cff238496a1c69df4d819dbfb86bce6e5562b21bb8b3b46dfd5592f61",
+      "field_sha256": "a9fd459bd903b3ad30b17b3393c2efc1a918c54cb1389a97ad38206c0af3b1b3"
+    },
+    {
+      "name": "rktylx",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "11",
+        "E": "11",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.616162420244763,
+      "exact_background_fraction": 0.0360107421875,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.0879656076431274,
+      "runtime_sha256": "14bb66dfa6daa4f92e94c2d323c787793f4e07239a5ddf06d909cee887c1f7b7",
+      "field_sha256": "df21f50756a8b84866da44a44ce296dba9185a336e799ff889237082a0db5ce1"
+    },
+    {
+      "name": "rkw",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 1.5709058573509838,
+      "exact_background_fraction": 0.135498046875,
+      "shade_min": 0.45219022035598755,
+      "shade_max": 1.15,
+      "runtime_sha256": "ef7aead9968ff6533ddd0a5513b40cefc08672b481456072ecfc6f9a119f39b4",
+      "field_sha256": "c722750a70f90d2a31a8412f437941a453b8f7421ad7ce727f299518c542ea4d"
+    },
+    {
+      "name": "rkxne",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.358742861937368,
+      "exact_background_fraction": 0.0548095703125,
+      "shade_min": 0.4542533755302429,
+      "shade_max": 1.15,
+      "runtime_sha256": "6c5b442a7f54d39cff718ce6b079e0cc6aa5837ab029a112fd437b550fa4e915",
+      "field_sha256": "e44022169020a612e6db9fa109203fa0ed3bbb471f85000658822854b73b3cd8"
+    },
+    {
+      "name": "rkxnw",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.6608325548594165,
+      "exact_background_fraction": 0.0462646484375,
+      "shade_min": 0.45018747448921204,
+      "shade_max": 1.15,
+      "runtime_sha256": "0c015865d70c0c0c0db19ba22aa4d5ee91f6eea9fb5bf95eb8a9f03d05e9ad2e",
+      "field_sha256": "aa839c8dea5319f87b11da6f8b9de53dade03f786a7873710827b336eedb1865"
+    },
+    {
+      "name": "rkxse",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.49967936385442,
+      "exact_background_fraction": 0.06610107421875,
+      "shade_min": 0.45540890097618103,
+      "shade_max": 1.15,
+      "runtime_sha256": "78208e97cb6f6ac848247c4c5ae9584da0b1c9075b25fcb5bf81d0e8b37f3122",
+      "field_sha256": "110bb57a2311a633936b7bc62597d69550dcedf9ecedbf866e054f3908a7228c"
+    },
+    {
+      "name": "rkxsw",
+      "family": "rock",
+      "binding": {
+        "background": "dirt",
+        "foreground": "rock",
+        "prefix": "rk"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.4642342029469262,
+      "exact_background_fraction": 0.060546875,
+      "shade_min": 0.45425787568092346,
+      "shade_max": 1.15,
+      "runtime_sha256": "31ae92de75d2fd93ff2c13d1509c0bba2e1aff8d101e4683df6fc28d32e6cb25",
+      "field_sha256": "d5e0ec4cbc68eddd977c067afb1cfba26e3d77118964deb448f91ff3cf9f2c48"
+    },
+    {
+      "name": "tre",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.6547619047619048,
+      "exact_background_fraction": 0.315185546875,
+      "shade_min": 0.47099894285202026,
+      "shade_max": 1.1207869052886963,
+      "runtime_sha256": "9fc9b499416c66ef1432c1f62acb4ba72b675ad7df0cd3ef74cd6d7605914a7f",
+      "field_sha256": "df0bb52fe3ddd2d677e97d1e9e59ae4237bac91cd870c22bf12dfaad833d00b1"
+    },
+    {
+      "name": "trn",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.6498055298829329,
+      "exact_background_fraction": 0.31610107421875,
+      "shade_min": 0.4961586594581604,
+      "shade_max": 1.198994517326355,
+      "runtime_sha256": "79348b42f471dc9d5b46d74b6212a2217ea3295e15f6b7fcbf49af71d7539d21",
+      "field_sha256": "fd20c9d78e8082c280135a498211e35ea198c99fef79860a8e88db47687834f1"
+    },
+    {
+      "name": "trne",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.6542889087656529,
+      "exact_background_fraction": 0.4329833984375,
+      "shade_min": 0.537298858165741,
+      "shade_max": 1.1076909303665161,
+      "runtime_sha256": "edac2a1783c1ab104f920c139d0d5d406e684cf3b4b98d7b628f8b44fe75cd03",
+      "field_sha256": "a0428fdb8bdd83317ef34fa14d1a51e36897bd26b42ab4c4537e136b5830fc9e"
+    },
+    {
+      "name": "trnw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.6603701280493505,
+      "exact_background_fraction": 0.4022216796875,
+      "shade_min": 0.4873447120189667,
+      "shade_max": 1.0918761491775513,
+      "runtime_sha256": "f19c8f66153a3ccc29c280c478303267fa3f5cc5989a6b60f5111ceee92a9a8f",
+      "field_sha256": "78c3d594765cf5b1daacfc212531bd81c0a5cafa0d07487b9652bda72923777a"
+    },
+    {
+      "name": "trs",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.6638390368966671,
+      "exact_background_fraction": 0.28814697265625,
+      "shade_min": 0.480482816696167,
+      "shade_max": 1.303471326828003,
+      "runtime_sha256": "656455348b126b385ab9afdd4f43e1bf9b117d6d9c9570dba134e3b9305243c4",
+      "field_sha256": "5c42ce08613bed2a1ec055dbafd192d699f0588685212f789e80e3fe110042d4"
+    },
+    {
+      "name": "trse",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.6379126436781609,
+      "exact_background_fraction": 0.3746337890625,
+      "shade_min": 0.46645787358283997,
+      "shade_max": 1.2860831022262573,
+      "runtime_sha256": "a2160a0a9119549ac93698e32cf89defdaf2a858f579f89f492aa7ef134afc73",
+      "field_sha256": "59bc2a43cf32b9172d250db15482afd024b8143527fc9a5bafd51d8a837982e7"
+    },
+    {
+      "name": "trsw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.6651407584977566,
+      "exact_background_fraction": 0.39263916015625,
+      "shade_min": 0.4905301630496979,
+      "shade_max": 1.2864766120910645,
+      "runtime_sha256": "246827c789b095acbc09422f3590b296a1232ea58387e44ce47b2f8294054cf8",
+      "field_sha256": "4812b619b42946f24dd8ef52d5b9e5407899217d6233d13806b5bcfcf8d9a2ef"
+    },
+    {
+      "name": "trw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.6562074365417533,
+      "exact_background_fraction": 0.33270263671875,
+      "shade_min": 0.4961903691291809,
+      "shade_max": 1.253387689590454,
+      "runtime_sha256": "4c3df2f8ddedf8d7c95507a165211b44f065083f5a4929bb853c81a08db23b13",
+      "field_sha256": "037d154dc1bb629f28c9ff4fd0cd738828ee452ecc95a8ea336ca299994a62e1"
+    },
+    {
+      "name": "trxne",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.5848025094424173,
+      "exact_background_fraction": 0.135498046875,
+      "shade_min": 0.498222291469574,
+      "shade_max": 1.1273683309555054,
+      "runtime_sha256": "5932c8f631b5411778f85f5680e7cf3f8d2a15f327a8199c3ccbe9ff690d88e5",
+      "field_sha256": "6e3a98524b8172f45e2552bc79ddd419d78abce731aef07fb94795e173c8c792"
+    },
+    {
+      "name": "trxnw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.604682389937107,
+      "exact_background_fraction": 0.14300537109375,
+      "shade_min": 0.4934214651584625,
+      "shade_max": 1.2805930376052856,
+      "runtime_sha256": "1b8bb8756b21f1db9ca88f06859b24fda62159f33977c3b122e57d3ac28dcc35",
+      "field_sha256": "7d9ac98c264fe81174d46a86d5b38837d423e1609749e5e9e52ad33b13f63187"
+    },
+    {
+      "name": "trxse",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.5980208333333336,
+      "exact_background_fraction": 0.16900634765625,
+      "shade_min": 0.5151012539863586,
+      "shade_max": 1.1081927640043432,
+      "runtime_sha256": "7a9de712b3b374826cf2d6d2277b9191d6bf8af421ed35e486ecf94c4b0328f1",
+      "field_sha256": "f06651d9ce631eadc1c6a9e92f0a463a29971e7e2871cef0722c6972ff42c477"
+    },
+    {
+      "name": "trxsw",
+      "family": "tar_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "tar",
+        "prefix": "tr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.5168708998638447,
+      "exact_background_fraction": 0.12091064453125,
+      "shade_min": 0.501790463924408,
+      "shade_max": 1.2510424852371216,
+      "runtime_sha256": "9689624966c051a74767f0edd20d12f513213481c67598658f26202b3699e9fe",
+      "field_sha256": "d4ae9213ff4d1728cc2822d069e45c2f9527b7e5059bb8203cafde6ddd861ee9"
+    },
+    {
+      "name": "vole",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 2.4055154378700134,
+      "exact_background_fraction": 0.1898193359375,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "0aeb5b5a7489616db9a468a57d43327d0236dd8617d0f9a17a0d83e0a5a89f2a",
+      "field_sha256": "b7c593e584bd89df86588b178570c08ab53356f3add40c32ba5f91c22e8281b9"
+    },
+    {
+      "name": "voln",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 2.2839635320982516,
+      "exact_background_fraction": 0.16253662109375,
+      "shade_min": 0.4530043303966522,
+      "shade_max": 1.15,
+      "runtime_sha256": "9039df5cfc6c7dd7b1e46e55300c2cabdb45e635b5b7484129d85ec9ad5f6317",
+      "field_sha256": "80e1755c277e0763a847c0689137e79338164967b160b76ab943e94d0c321e2d"
+    },
+    {
+      "name": "volne",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 3.2242722665276617,
+      "exact_background_fraction": 0.2562255859375,
+      "shade_min": 0.4521220028400421,
+      "shade_max": 1.15,
+      "runtime_sha256": "66a852a67e8499a61edd17b06c7b8e99f987cb7081b6e25bfe2b5c2f56565cf8",
+      "field_sha256": "52c176972b9303fbb662a04c0e6ceff46dcc60c30cc850e65f60faf2f58748ca"
+    },
+    {
+      "name": "volnw",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 2.43712567498655,
+      "exact_background_fraction": 0.319580078125,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "2f956a9560d44f750d6bfbf510fc3db1df3fb6d165d24e7c2c0de88ef0b9d78f",
+      "field_sha256": "4d3dd4df17528688caea6d908346b6436206812a329cbc107d0b4b432a2d6671"
+    },
+    {
+      "name": "vols",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 2.70819468313901,
+      "exact_background_fraction": 0.24591064453125,
+      "shade_min": 0.46105435490608215,
+      "shade_max": 1.15,
+      "runtime_sha256": "7e035a002b12903069bd69b0af21a87214d97dd877654cca9dacf3e8d5a9695b",
+      "field_sha256": "75ddb5dbf7a20428ac5cd4d6119fafaadfef81fca9a6ccb3da3963234d0c87dc"
+    },
+    {
+      "name": "volse",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 3.1035183107591267,
+      "exact_background_fraction": 0.31353759765625,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "88952c70578916c89be637c99f5f58450d94ec6711eb17d84359109c3052980a",
+      "field_sha256": "efbe5b7e1339615fc281727d8eb7e6995fd5e3ecf14043064a4c897a71df336c"
+    },
+    {
+      "name": "volsw",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 2.5845558080850095,
+      "exact_background_fraction": 0.2677001953125,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "9ce483e2dac07625c251e5223ec54ba40cb5ca4acb39469488f2f33bd98cc76a",
+      "field_sha256": "42a315419fedeebf37ba5ac29799f7cc9134d29627853e4a875766c2dbd1c5ea"
+    },
+    {
+      "name": "voltylx",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 2.392777014569172,
+      "exact_background_fraction": 0.1168212890625,
+      "shade_min": 0.5151724815368652,
+      "shade_max": 1.15,
+      "runtime_sha256": "1dacc323ed8112ebba2a690b26e4e30d34a7cbb70630fc4a4cc77c5a903f1bbd",
+      "field_sha256": "63abe9845a1474e504f17657bd8edda18696bd6e6caa7ab300e8688267caa48a"
+    },
+    {
+      "name": "volw",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 2.9895559769145046,
+      "exact_background_fraction": 0.21954345703125,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "764b7645095456cd00d386dfaf66874312e2899fc22d74fd292bf0f7e289589b",
+      "field_sha256": "7ecea4e5c7b916325570731ed40450e18ef21f2e986af96b94dd2927928d5b9f"
+    },
+    {
+      "name": "volxne",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.3044844820640886,
+      "exact_background_fraction": 0.1328125,
+      "shade_min": 0.44999999999999996,
+      "shade_max": 1.15,
+      "runtime_sha256": "f3e2eb2acbbbf7a73772c9a391ce1fe2de8f065bd157b57b7493bf18d7bdc176",
+      "field_sha256": "f39eb15f774c34e7b36412cffc88c97219778a0f18d6e9bab0fa2a4d315acf91"
+    },
+    {
+      "name": "volxnw",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 1.8368990159846843,
+      "exact_background_fraction": 0.11712646484375,
+      "shade_min": 0.45150119066238403,
+      "shade_max": 1.15,
+      "runtime_sha256": "2ad0133b3a5741e7233f5eb992f32deff7c894e20d4871c56290e7c2f3313777",
+      "field_sha256": "5aa020791619a7e96095b00f7afea70fcd6679903d2fa11bf2db2da1b72d528a"
+    },
+    {
+      "name": "volxse",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 1.774557155702226,
+      "exact_background_fraction": 0.15386962890625,
+      "shade_min": 0.45557594299316406,
+      "shade_max": 1.15,
+      "runtime_sha256": "659a36cefb8a86ff9b5774122848af99b8eb725a1c491a4a0c2cda434880fde9",
+      "field_sha256": "35188c9731573c316fb96a50b65e1062a958642cec7454b7bf615dac985b61b4"
+    },
+    {
+      "name": "volxsw",
+      "family": "volcano",
+      "binding": {
+        "background": "dirt",
+        "foreground": "volcano",
+        "prefix": "vol"
+      },
+      "overlay": false,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 1.5307393742506483,
+      "exact_background_fraction": 0.13458251953125,
+      "shade_min": 0.47304418683052063,
+      "shade_max": 1.15,
+      "runtime_sha256": "154d4bfee45b58133abb7845184dfea96e2696ab3f04b0407506ea45dcbbbeb7",
+      "field_sha256": "f51559b1b05fee6ce664388aa6e71d4441003ba14e21c15b40a9f8a36b2be94f"
+    },
+    {
+      "name": "wae",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.6117600407015025,
+      "exact_background_fraction": 0.335693359375,
+      "shade_min": 0.5005296468734741,
+      "shade_max": 1.3196836709976196,
+      "runtime_sha256": "9e8f11d66a0c652b9201d98a8ce615c2e52a86b87bc59c347a7f38a5f4d8337b",
+      "field_sha256": "edd74758b2fc368437c34489d1b74e97604f95c026c65d7ef7d99e820f03a825"
+    },
+    {
+      "name": "wan",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.5828101145038169,
+      "exact_background_fraction": 0.29156494140625,
+      "shade_min": 0.4876439571380615,
+      "shade_max": 1.3141001462936401,
+      "runtime_sha256": "0d2e9de8d91e0defebaf663781cf9d58277ad972cd2a0856692d38efcd6dc77f",
+      "field_sha256": "bb202a7cb9f15ce82cd15f33abd2c047a77be6a8e3f7391c2a0fdedd5ba070d9"
+    },
+    {
+      "name": "wane",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.6362848917261235,
+      "exact_background_fraction": 0.4171142578125,
+      "shade_min": 0.47147008776664734,
+      "shade_max": 1.3013042211532593,
+      "runtime_sha256": "d4c09af838a3af72112a445c5aba29c29e7a56e5f0b01a3695b101fea3a3217d",
+      "field_sha256": "c56b9d925fec28c6b4cb990c43a98c381eb5e7cbeb0806b552072829c31d82ad"
+    },
+    {
+      "name": "wanw",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 0.617320581369079,
+      "exact_background_fraction": 0.39056396484375,
+      "shade_min": 0.4849841892719269,
+      "shade_max": 1.3089900016784668,
+      "runtime_sha256": "a94c2a4352c7eb0c3cd7ab818df45f9cb1fc5fa5cc1c79f0ce04c424a76c088f",
+      "field_sha256": "8285e93af0a8fba0d85d155991ce202712abfab68f62e7c450d57f697ac3ad2f"
+    },
+    {
+      "name": "was",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.5489756158873808,
+      "exact_background_fraction": 0.263916015625,
+      "shade_min": 0.5025386810302734,
+      "shade_max": 1.3224892616271973,
+      "runtime_sha256": "1bfeb646a6d96a65881c3b72d8b42300ead2d6e4d269f2fcec8d198734c0c78e",
+      "field_sha256": "4e61c4261e76f44e4fbee1ae5b1f2175947677442b47b24460c9a7a37b84a06a"
+    },
+    {
+      "name": "wase",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 0.6519279107792176,
+      "exact_background_fraction": 0.46307373046875,
+      "shade_min": 0.5043586492538452,
+      "shade_max": 1.302006721496582,
+      "runtime_sha256": "97fc40dd9d90bf432aa82a12904c5f9dc27895c9e50e9fa5cb8c031ae521400d",
+      "field_sha256": "cdb02542b0971e64fd591078b5de0131fa423dae43179566fb567064f9c135b7"
+    },
+    {
+      "name": "waxne",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.4571597322483267,
+      "exact_background_fraction": 0.12261962890625,
+      "shade_min": 0.4829154908657074,
+      "shade_max": 1.2968944311141968,
+      "runtime_sha256": "d1ff4fe43b65a7c92d5b6d5ed18dbec6425862087553f86477649bc9a7152ea7",
+      "field_sha256": "9303e063597ec8ff091d562a91cf96cfd7c157cf9f17e3d93db0a7af4771906f"
+    },
+    {
+      "name": "waxnw",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 0.4681193806193807,
+      "exact_background_fraction": 0.1522216796875,
+      "shade_min": 0.49102580547332764,
+      "shade_max": 1.3104164600372314,
+      "runtime_sha256": "8ea840ed15517cb9963c4d8e1adf990a206e87f9bc291d09d41c985eb6d773f7",
+      "field_sha256": "a8aba62624e478a51289b2292d744d0ddea5e5faa1383f8a8e2cf3648c1ebdf8"
+    },
+    {
+      "name": "waxse",
+      "family": "shore_grey",
+      "binding": {
+        "land": "grey_dirt",
+        "liquid": "water",
+        "prefix": "wa"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 0.4368417966459483,
+      "exact_background_fraction": 0.12054443359375,
+      "shade_min": 0.48864126205444336,
+      "shade_max": 1.3044856786727905,
+      "runtime_sha256": "c5e8a65eb216c31de15bae5e07f2d859d06f4e1121e7b850e150d07c805660e6",
+      "field_sha256": "130185f52fef94c6f51da41f49730a1ce1fac0a0ce74b6107cae14df0afdcc7e"
+    },
+    {
+      "name": "wtrdre",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "reconstruction_mae": 6.771332074680092,
+      "exact_background_fraction": 0.129638671875,
+      "shade_min": 0.5308307409286499,
+      "shade_max": 1.3602325916290283,
+      "runtime_sha256": "bf4451f64794e0ff3b274455d87a6a85c6154767925591005702c4eafb1d88cc",
+      "field_sha256": "9e928ce294538bc1305bcf9626d4bf1659dc49c683d178d5fdb4ee1a27068bf0"
+    },
+    {
+      "name": "wtrdrn",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "reconstruction_mae": 4.788619218838127,
+      "exact_background_fraction": 0.2164306640625,
+      "shade_min": 0.6013926267623901,
+      "shade_max": 1.3602627515792847,
+      "runtime_sha256": "c935e2490837579ac1d8ab5b6b14e1c94403670e05242dd7f576746c43473c1e",
+      "field_sha256": "a327d8108fa2170eb3a4f2e38a86c7d626874cfabbff9e1f3596c13f7c0e85c9"
+    },
+    {
+      "name": "wtrdrne",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "reconstruction_mae": 5.450015252737866,
+      "exact_background_fraction": 0.22772216796875,
+      "shade_min": 0.6511242985725403,
+      "shade_max": 1.3586777448654175,
+      "runtime_sha256": "47d523b45710804ecac9d89c5b5919451a00908fac2c407ad827b75b58344770",
+      "field_sha256": "628168171660784ef59d2cf89a3dd30cca5633102f352ee7a1c21d876957c17e"
+    },
+    {
+      "name": "wtrdrnw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "reconstruction_mae": 4.308453326351922,
+      "exact_background_fraction": 0.2752685546875,
+      "shade_min": 0.6128060817718506,
+      "shade_max": 1.3579002618789673,
+      "runtime_sha256": "c1faff4b23fccf73116d95294b019efa0e66f912fa15c31500c1cc3d89b609b4",
+      "field_sha256": "50aab3c30a4078d3aa49c8ba0bcfdb7f1c9d813c9e0f1aa4fc84e4d7487715df"
+    },
+    {
+      "name": "wtrdrs",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "reconstruction_mae": 6.229858218688206,
+      "exact_background_fraction": 0.14501953125,
+      "shade_min": 0.6546371579170227,
+      "shade_max": 1.3591896295547485,
+      "runtime_sha256": "937609192d6f103eb6018f638f4c950c8fc28e0479cb2c719a5b0bbd069a8b8e",
+      "field_sha256": "ae9430cdaff65ba992fa06905959f798e22869c70d0f4d365d3d3ebfa46ffff0"
+    },
+    {
+      "name": "wtrdrse",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "reconstruction_mae": 5.240123299680438,
+      "exact_background_fraction": 0.244873046875,
+      "shade_min": 0.5734885931015015,
+      "shade_max": 1.3599754571914673,
+      "runtime_sha256": "05f735c44521ce4b6a5f99b2ac69b3de850cc126666cb59b67b2df1e64d5c67e",
+      "field_sha256": "eefcbdbeb634a75bcc7c5c3c49d4f1234543b4022b79fc6307d7ca804b4dae8f"
+    },
+    {
+      "name": "wtrdrsw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "reconstruction_mae": 4.307934276183387,
+      "exact_background_fraction": 0.28515625,
+      "shade_min": 0.6461948156356812,
+      "shade_max": 1.359000563621521,
+      "runtime_sha256": "5439202015646f46e7dab12d8623daabcb7efe818733374c27ce60696fb02302",
+      "field_sha256": "2929ce125f4d4ae0b10e360cb6a3e5e20d54d707586bc1eefec3b4c049d364f7"
+    },
+    {
+      "name": "wtrdrw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "reconstruction_mae": 7.162216132960813,
+      "exact_background_fraction": 0.15386962890625,
+      "shade_min": 0.49589627981185913,
+      "shade_max": 1.359786868095398,
+      "runtime_sha256": "4d949d4201a067ac422b98b9c04ce5c59bdf3a37e4e4722129ce99455a98a23d",
+      "field_sha256": "c62970299420f3337fdd467aa742aaf8dff658a5227025f04c644da1279ff456"
+    },
+    {
+      "name": "wtrdrxne",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "reconstruction_mae": 7.722566446588791,
+      "exact_background_fraction": 0.07183837890625,
+      "shade_min": 0.6130717992782593,
+      "shade_max": 1.3591521978378296,
+      "runtime_sha256": "5cac738b6a3796d5a8c410f76d185881acee9f03732a0800962acf894ec4b456",
+      "field_sha256": "8c1c4e6170710994ff8e31f0c24126c4a98b140f060df0a822e2d017325e3ef4"
+    },
+    {
+      "name": "wtrdrxnw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "reconstruction_mae": 8.573794939108874,
+      "exact_background_fraction": 0.05426025390625,
+      "shade_min": 0.6259874626084638,
+      "shade_max": 1.3582379817962646,
+      "runtime_sha256": "e54f17ec01951d4b1c97ba438fe3c8cd27bf32bebe36c00eb327483c70816212",
+      "field_sha256": "72679c25924614ba31915f2fccebed51c46c3d388a35d138f0f3411554462549"
+    },
+    {
+      "name": "wtrdrxse",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "reconstruction_mae": 6.751582183563288,
+      "exact_background_fraction": 0.10198974609375,
+      "shade_min": 0.6716175675392151,
+      "shade_max": 1.3580825328826904,
+      "runtime_sha256": "6094832b524055658952199892ea885f5c0cd8a2e2d99a72127c7fae07db870b",
+      "field_sha256": "04f099a50d81c9fc600b6575d7d735dafca64f39aeec9feae1c72484eeeaefcf"
+    },
+    {
+      "name": "wtrdrxsw",
+      "family": "shore_dirt",
+      "binding": {
+        "land": "dirt",
+        "liquid": "water",
+        "prefix": "wtrdr"
+      },
+      "overlay": true,
+      "topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "reconstruction_mae": 8.069200422292605,
+      "exact_background_fraction": 0.06915283203125,
+      "shade_min": 0.6454102993011475,
+      "shade_max": 1.3595426082611084,
+      "runtime_sha256": "02025c0dbeb01828770283f78e07588e3eb38e92b91f983537d21ef36b67edc6",
+      "field_sha256": "33a046f333a724de4efb7952458f7bdbd271ce6cb2be014944d5ea93e61ec838"
+    }
+  ],
+  "land_count": 78,
+  "overlay_count": 57,
+  "masters": {
+    "plains_sand": "8628f59890496586d8be91ac680df00d7840f23a1599b3cb0137795d7f8c16c8",
+    "grass": "dc57a23d08b8471a49ba3e00946af3b8c6a112772f101862b3b5d1ecd0a69bf4",
+    "plains": "aad28c8345d14309fe95a48c8b9cf0b933cffd37f840cc96dfefbfb5c17c7a18",
+    "grey_stone": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224",
+    "red_dirt": "245373e014c0202baae88ed90ab6cff57997bceacc9733a926a5112192561b0c",
+    "dirt": "88f9379ecad45e35a4b3888654abb972f428809e9f101d8c4321f7926d669dea",
+    "volcano": "8590b47c129c271ba459df9d4ca0fbe2431b5dd6f8e706882b7cfc48d707d547",
+    "grey_dirt": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0",
+    "sandstone": "df67d1f2588709995722f84dd1e80c57b48c833f76f368aa4f2f5e23dae051a6",
+    "rock": "7067e62b80c208e4c6c47be53ef764bf071f40dec917ec9efa695fa328f17a62"
+  },
+  "source_bindings_sha256": "aad5bdea1f655d9c89344b374719bd5020c2f56aad83846bbefca5b5d86b517b"
+}

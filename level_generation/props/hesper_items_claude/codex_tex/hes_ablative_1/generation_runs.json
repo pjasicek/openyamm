@@ -1,0 +1,518 @@
+{
+  "item": "hes_ablative_1",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-paint source for the Hesper +20 Energy resistance item hes_ablative_1.\nINPUT 1 is the exact 1024x1024 unpainted 3D guide and the EDIT TARGET. INPUT 2 is design_reference.png, the approved material and colour reference ONLY.\nPaint directly over INPUT 1 without changing its geometry. Output ONE 1024x1024 RGBA PNG with real transparent background. Preserve the guide's full square canvas, alpha silhouette, holes, outline, pixel position, scale, orientation, all part edges and every protrusion EXACTLY. Do not reframe, zoom, centre differently, crop, rotate or adopt the design reference's perspective. All pixels outside the guide silhouette stay fully transparent.\nTransfer the approved surface design: warm ivory-white ceramic with delicate fine wear and tiny subdued beige flecks, brushed warm gold structural frame and connector metal, very dark charcoal black-violet resin insets and seams, bright orange-amber light colour only at the existing appropriate energy accents. Follow the reference's geometric engraved lines, panel joins and non-letter markings. Unseen faces continue these materials plausibly. Paint each material onto existing parts, preserving their shapes. No additional objects or geometry.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, NOT a beauty render. Use even flat shadowless illumination from the viewer. Remove guide lighting gradients and reference lighting from the painted material. No cast shadows, no ambient occlusion darkening, no specular hotspots, no reflections, no rim light, no directional shading. Gold is its medium warm gold base colour with at most a faint sheen; ceramic remains evenly ivory on every face. Resin is intrinsically dark material, not painted shadow. Glowing parts are their bright orange light colour with no bloom or spill beyond their parts. No backdrop, floor, text, letters, numbers, labels or watermark.\nVIEW AND PLACEMENT: Exact FRONT orthographic edge view. Keep the narrow horizontal profile, including the three small connector ends at their original central-right positions. Guide alpha bounding box is x=74..949, y=427..596.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "0247874092bcb3b57b21ce2e69531f983bb45efc6d16f8faa595e5a402eddb1d"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "output_sha256": "3005fa34b9ac63b5830871cfa30a013a59d03dcf755aaa3122417a20ffb2f687",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-b674a821-87b3-477b-9bca-f13186116bab.png",
+      "selected": false,
+      "reason": "Superseded by the corrective return, which reduces glow and highlights. Initial return does not preserve the guide silhouette exactly and retains strong bevel lighting.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          0,
+          17,
+          1234,
+          1238
+        ],
+        "bbox_alpha_above_127": [
+          96,
+          546,
+          1175,
+          754
+        ],
+        "alpha_zero_pixels": 1360144,
+        "alpha_opaque_pixels": 988,
+        "normalized_silhouette_iou": 0.7673211991057755,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-paint source for the Hesper +20 Energy resistance item hes_ablative_1.\nINPUT 1 is the exact 1024x1024 unpainted 3D guide and the EDIT TARGET. INPUT 2 is design_reference.png, the approved material and colour reference ONLY.\nPaint directly over INPUT 1 without changing its geometry. Output ONE 1024x1024 RGBA PNG with real transparent background. Preserve the guide's full square canvas, alpha silhouette, holes, outline, pixel position, scale, orientation, all part edges and every protrusion EXACTLY. Do not reframe, zoom, centre differently, crop, rotate or adopt the design reference's perspective. All pixels outside the guide silhouette stay fully transparent.\nTransfer the approved surface design: warm ivory-white ceramic with delicate fine wear and tiny subdued beige flecks, brushed warm gold structural frame and connector metal, very dark charcoal black-violet resin insets and seams, bright orange-amber light colour only at the existing appropriate energy accents. Follow the reference's geometric engraved lines, panel joins and non-letter markings. Unseen faces continue these materials plausibly. Paint each material onto existing parts, preserving their shapes. No additional objects or geometry.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, NOT a beauty render. Use even flat shadowless illumination from the viewer. Remove guide lighting gradients and reference lighting from the painted material. No cast shadows, no ambient occlusion darkening, no specular hotspots, no reflections, no rim light, no directional shading. Gold is its medium warm gold base colour with at most a faint sheen; ceramic remains evenly ivory on every face. Resin is intrinsically dark material, not painted shadow. Glowing parts are their bright orange light colour with no bloom or spill beyond their parts. No backdrop, floor, text, letters, numbers, labels or watermark.\nVIEW AND PLACEMENT: Exact BACK orthographic edge view. Keep the narrow horizontal profile, including the wide central block and both horizontal side rails at their original positions. Guide alpha bounding box is x=74..949, y=427..596.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "cb11a051c33c0da727c4d0e2969fb9ff563d439fb4bba40e75e56e00d458f855"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "output_sha256": "3af8d13b1b7719d8eb30cc9178cef452662613fa674005466f75906ccdd5bedb",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-4cd000ef-3fad-4f24-abcd-0c09b077c234.png",
+      "selected": false,
+      "reason": "Superseded by the corrective return, which reduces glow and highlights. Initial return does not preserve the guide silhouette exactly and retains strong bevel lighting.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          53,
+          32,
+          1166,
+          1228
+        ],
+        "bbox_alpha_above_127": [
+          92,
+          539,
+          1162,
+          743
+        ],
+        "alpha_zero_pixels": 1363632,
+        "alpha_opaque_pixels": 333,
+        "normalized_silhouette_iou": 0.8547890410702854,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-paint source for the Hesper +20 Energy resistance item hes_ablative_1.\nINPUT 1 is the exact 1024x1024 unpainted 3D guide and the EDIT TARGET. INPUT 2 is design_reference.png, the approved material and colour reference ONLY.\nPaint directly over INPUT 1 without changing its geometry. Output ONE 1024x1024 RGBA PNG with real transparent background. Preserve the guide's full square canvas, alpha silhouette, holes, outline, pixel position, scale, orientation, all part edges and every protrusion EXACTLY. Do not reframe, zoom, centre differently, crop, rotate or adopt the design reference's perspective. All pixels outside the guide silhouette stay fully transparent.\nTransfer the approved surface design: warm ivory-white ceramic with delicate fine wear and tiny subdued beige flecks, brushed warm gold structural frame and connector metal, very dark charcoal black-violet resin insets and seams, bright orange-amber light colour only at the existing appropriate energy accents. Follow the reference's geometric engraved lines, panel joins and non-letter markings. Unseen faces continue these materials plausibly. Paint each material onto existing parts, preserving their shapes. No additional objects or geometry.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, NOT a beauty render. Use even flat shadowless illumination from the viewer. Remove guide lighting gradients and reference lighting from the painted material. No cast shadows, no ambient occlusion darkening, no specular hotspots, no reflections, no rim light, no directional shading. Gold is its medium warm gold base colour with at most a faint sheen; ceramic remains evenly ivory on every face. Resin is intrinsically dark material, not painted shadow. Glowing parts are their bright orange light colour with no bloom or spill beyond their parts. No backdrop, floor, text, letters, numbers, labels or watermark.\nVIEW AND PLACEMENT: Exact LEFT orthographic edge view. Keep the narrow horizontal profile, central block, short rail on the left and long rail and small projection on the right. Guide alpha bounding box is x=66..957, y=427..596.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "d93c851101c805e8b83b27130c3f89791ea5a20bbae1d3ac02be927818d10c1b"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "output_sha256": "4f54ed67da6c549dfc2100193f24bd4897c161db51059b38ace7f5975e9b1b1b",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-308dd4bf-8769-48cc-9047-0c63820dcf85.png",
+      "selected": false,
+      "reason": "Superseded by the corrective return, which reduces glow and highlights. Initial return does not preserve the guide silhouette exactly and retains strong bevel lighting.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          31,
+          68,
+          1224,
+          1200
+        ],
+        "bbox_alpha_above_127": [
+          83,
+          557,
+          1192,
+          762
+        ],
+        "alpha_zero_pixels": 1353519,
+        "alpha_opaque_pixels": 404,
+        "normalized_silhouette_iou": 0.6948183226340158,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-paint source for the Hesper +20 Energy resistance item hes_ablative_1.\nINPUT 1 is the exact 1024x1024 unpainted 3D guide and the EDIT TARGET. INPUT 2 is design_reference.png, the approved material and colour reference ONLY.\nPaint directly over INPUT 1 without changing its geometry. Output ONE 1024x1024 RGBA PNG with real transparent background. Preserve the guide's full square canvas, alpha silhouette, holes, outline, pixel position, scale, orientation, all part edges and every protrusion EXACTLY. Do not reframe, zoom, centre differently, crop, rotate or adopt the design reference's perspective. All pixels outside the guide silhouette stay fully transparent.\nTransfer the approved surface design: warm ivory-white ceramic with delicate fine wear and tiny subdued beige flecks, brushed warm gold structural frame and connector metal, very dark charcoal black-violet resin insets and seams, bright orange-amber light colour only at the existing appropriate energy accents. Follow the reference's geometric engraved lines, panel joins and non-letter markings. Unseen faces continue these materials plausibly. Paint each material onto existing parts, preserving their shapes. No additional objects or geometry.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, NOT a beauty render. Use even flat shadowless illumination from the viewer. Remove guide lighting gradients and reference lighting from the painted material. No cast shadows, no ambient occlusion darkening, no specular hotspots, no reflections, no rim light, no directional shading. Gold is its medium warm gold base colour with at most a faint sheen; ceramic remains evenly ivory on every face. Resin is intrinsically dark material, not painted shadow. Glowing parts are their bright orange light colour with no bloom or spill beyond their parts. No backdrop, floor, text, letters, numbers, labels or watermark.\nVIEW AND PLACEMENT: Exact RIGHT orthographic edge view. Keep the narrow horizontal profile, all small projections on the left, central block and long rail extending to the right. Guide alpha bounding box is x=66..957, y=427..596.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "a8e74dd81e2f73b9fed4b19e4811a8489432de667fb3f95a5ea266f6b1625058"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "output_sha256": "f3d113186a013af7ffee8b25886b99d10d772be156617a48a88d84623afc6ea6",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-e6a3db85-2c9b-43ee-87ee-4dfef13635a4.png",
+      "selected": false,
+      "reason": "Superseded by the corrective return, which reduces glow and highlights. Initial return does not preserve the guide silhouette exactly and retains strong bevel lighting.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          33,
+          21,
+          1192,
+          1200
+        ],
+        "bbox_alpha_above_127": [
+          82,
+          527,
+          1184,
+          731
+        ],
+        "alpha_zero_pixels": 1359467,
+        "alpha_opaque_pixels": 346,
+        "normalized_silhouette_iou": 0.9508880799394103,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-paint source for the Hesper +20 Energy resistance item hes_ablative_1.\nINPUT 1 is the exact 1024x1024 unpainted 3D guide and the EDIT TARGET. INPUT 2 is design_reference.png, the approved material and colour reference ONLY.\nPaint directly over INPUT 1 without changing its geometry. Output ONE 1024x1024 RGBA PNG with real transparent background. Preserve the guide's full square canvas, alpha silhouette, holes, outline, pixel position, scale, orientation, all part edges and every protrusion EXACTLY. Do not reframe, zoom, centre differently, crop, rotate or adopt the design reference's perspective. All pixels outside the guide silhouette stay fully transparent.\nTransfer the approved surface design: warm ivory-white ceramic with delicate fine wear and tiny subdued beige flecks, brushed warm gold structural frame and connector metal, very dark charcoal black-violet resin insets and seams, bright orange-amber light colour only at the existing appropriate energy accents. Follow the reference's geometric engraved lines, panel joins and non-letter markings. Unseen faces continue these materials plausibly. Paint each material onto existing parts, preserving their shapes. No additional objects or geometry.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, NOT a beauty render. Use even flat shadowless illumination from the viewer. Remove guide lighting gradients and reference lighting from the painted material. No cast shadows, no ambient occlusion darkening, no specular hotspots, no reflections, no rim light, no directional shading. Gold is its medium warm gold base colour with at most a faint sheen; ceramic remains evenly ivory on every face. Resin is intrinsically dark material, not painted shadow. Glowing parts are their bright orange light colour with no bloom or spill beyond their parts. No backdrop, floor, text, letters, numbers, labels or watermark.\nVIEW AND PLACEMENT: Exact TOP orthographic view looking directly down. Keep the guide's diagonally oriented polygonal plate, four ceramic panel forms, frame openings, curving central channel and three bottom connector pins, all exactly in place. Guide alpha bounding box is x=74..949, y=66..957.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "b7a0bd868a883ce23c7d1f2ca943437383d966bb89ea742691930d806da68c96"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "output_sha256": "96faddb205e38143bd88d1726b59781310c50b42fffabae67eb12b0e53a56876",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-8af16567-f98a-4718-aea8-16091dda9e0b.png",
+      "selected": false,
+      "reason": "Superseded by the corrective return, which reduces glow and highlights. Initial return does not preserve the guide silhouette exactly and retains strong bevel lighting.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          0,
+          56,
+          1228,
+          1228
+        ],
+        "bbox_alpha_above_127": [
+          89,
+          70,
+          1165,
+          1183
+        ],
+        "alpha_zero_pixels": 799961,
+        "alpha_opaque_pixels": 564,
+        "normalized_silhouette_iou": 0.943508778360151,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective texture painting, one PNG only.\nIMAGE 1 = approved design and material reference. IMAGE 2 = exact unpainted FRONT guide, the sole EDIT TARGET.\nReturn the edited IMAGE 2 at its original 1024 x 1024 size with its original genuine transparent alpha. COPY IMAGE 2's silhouette/alpha exactly, including every hole, all antialiased edges and its completely empty transparent margins. Do not use IMAGE 1's canvas size, perspective, object placement or lighting.\nExact FRONT orthographic edge view. Keep the narrow horizontal profile, including the three small connector ends at their original central-right positions. Guide alpha bounding box is x=74..949, y=427..596.\nThe previous attempt drifted from the guide and looked glossy; correct those issues by painting material colour ONLY inside the original guide. Keep every guide edge and part position unchanged. Do not grow, shrink or shift the object or redesign/simplify its geometry. The orthographic view and square full canvas are fixed.\nPaint the approved warm ivory-white ceramic panels with subtle beige wear and tiny surface flecks, matte brushed warm gold frame and metal hardware, dark charcoal black-violet resin seams/insets, and flat bright orange-amber colour at the energy details. Continue these same materials plausibly on unseen faces. Preserve the reference's appropriate engraved geometry and panel joins as fine material-colour lines, without letters.\nCRITICAL: flat diffuse ALBEDO BASE COLOUR only. Eliminate ALL white bevel highlight lines, bright gold edges, reflected light, shaded bevels, ambient-occlusion shadows, dark lighting gradients, glossy sparkles and glow bloom. Across bevels the material has the SAME base colour as the adjacent surface; distinguish parts with actual seams and subtle painted wear only. Gold is muted medium warm ochre-gold, not luminous yellow. Ceramic is warm pale ivory, not a white highlight. Orange light surfaces are uniformly bright orange with no spill or halo. No beauty-render lighting, no cast shadows, no rim light, no floor/background, no text/letters/numbers, no added parts. The full background is transparent, not black paint.\nReturn exactly the guide's 1024 x 1024 RGBA image, keeping guide alignment pixel for pixel.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "0247874092bcb3b57b21ce2e69531f983bb45efc6d16f8faa595e5a402eddb1d"
+        }
+      ],
+      "output": "paint_front.png",
+      "output_sha256": "b1fe111816317122c5aba5ef123f46342b5362f56a1300f444131c3426f84dcd",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-3abbdf2e-afb3-4224-a2cc-13f01af2fcc6.png",
+      "selected": true,
+      "reason": "Selected corrective return for reduced bloom and flatter material presentation; normalized silhouette overlap improved. Selection is not full acceptance: exact guide silhouette/part edges and shadowless albedo checks still fail. Returned size is retained unresized. One corrective regeneration per view is exhausted.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          81,
+          48,
+          1236,
+          1214
+        ],
+        "bbox_alpha_above_127": [
+          90,
+          524,
+          1164,
+          728
+        ],
+        "alpha_zero_pixels": 1356246,
+        "alpha_opaque_pixels": 97,
+        "normalized_silhouette_iou": 0.9758223111516525,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective texture painting, one PNG only.\nIMAGE 1 = approved design and material reference. IMAGE 2 = exact unpainted BACK guide, the sole EDIT TARGET.\nReturn the edited IMAGE 2 at its original 1024 x 1024 size with its original genuine transparent alpha. COPY IMAGE 2's silhouette/alpha exactly, including every hole, all antialiased edges and its completely empty transparent margins. Do not use IMAGE 1's canvas size, perspective, object placement or lighting.\nExact BACK orthographic edge view. Keep the narrow horizontal profile, including the wide central block and both horizontal side rails at their original positions. Guide alpha bounding box is x=74..949, y=427..596.\nThe previous attempt drifted from the guide and looked glossy; correct those issues by painting material colour ONLY inside the original guide. Keep every guide edge and part position unchanged. Do not grow, shrink or shift the object or redesign/simplify its geometry. The orthographic view and square full canvas are fixed.\nPaint the approved warm ivory-white ceramic panels with subtle beige wear and tiny surface flecks, matte brushed warm gold frame and metal hardware, dark charcoal black-violet resin seams/insets, and flat bright orange-amber colour at the energy details. Continue these same materials plausibly on unseen faces. Preserve the reference's appropriate engraved geometry and panel joins as fine material-colour lines, without letters.\nCRITICAL: flat diffuse ALBEDO BASE COLOUR only. Eliminate ALL white bevel highlight lines, bright gold edges, reflected light, shaded bevels, ambient-occlusion shadows, dark lighting gradients, glossy sparkles and glow bloom. Across bevels the material has the SAME base colour as the adjacent surface; distinguish parts with actual seams and subtle painted wear only. Gold is muted medium warm ochre-gold, not luminous yellow. Ceramic is warm pale ivory, not a white highlight. Orange light surfaces are uniformly bright orange with no spill or halo. No beauty-render lighting, no cast shadows, no rim light, no floor/background, no text/letters/numbers, no added parts. The full background is transparent, not black paint.\nReturn exactly the guide's 1024 x 1024 RGBA image, keeping guide alignment pixel for pixel.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "cb11a051c33c0da727c4d0e2969fb9ff563d439fb4bba40e75e56e00d458f855"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "41d52d623ddd33957592ac0633bf1b713e8964a2ccebbb8f788d4264056fa566",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-b7cc4fb7-4e8f-4879-9d48-29ac7c9255cb.png",
+      "selected": true,
+      "reason": "Selected corrective return for reduced bloom and flatter material presentation; normalized silhouette overlap improved. Selection is not full acceptance: exact guide silhouette/part edges and shadowless albedo checks still fail. Returned size is retained unresized. One corrective regeneration per view is exhausted.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          47,
+          55,
+          1240,
+          1254
+        ],
+        "bbox_alpha_above_127": [
+          94,
+          522,
+          1160,
+          727
+        ],
+        "alpha_zero_pixels": 1358030,
+        "alpha_opaque_pixels": 28,
+        "normalized_silhouette_iou": 0.9830488294911672,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective texture painting, one PNG only.\nIMAGE 1 = approved design and material reference. IMAGE 2 = exact unpainted LEFT guide, the sole EDIT TARGET.\nReturn the edited IMAGE 2 at its original 1024 x 1024 size with its original genuine transparent alpha. COPY IMAGE 2's silhouette/alpha exactly, including every hole, all antialiased edges and its completely empty transparent margins. Do not use IMAGE 1's canvas size, perspective, object placement or lighting.\nExact LEFT orthographic edge view. Keep the narrow horizontal profile, central block, short rail on the left and long rail and small projection on the right. Guide alpha bounding box is x=66..957, y=427..596.\nThe previous attempt drifted from the guide and looked glossy; correct those issues by painting material colour ONLY inside the original guide. Keep every guide edge and part position unchanged. Do not grow, shrink or shift the object or redesign/simplify its geometry. The orthographic view and square full canvas are fixed.\nPaint the approved warm ivory-white ceramic panels with subtle beige wear and tiny surface flecks, matte brushed warm gold frame and metal hardware, dark charcoal black-violet resin seams/insets, and flat bright orange-amber colour at the energy details. Continue these same materials plausibly on unseen faces. Preserve the reference's appropriate engraved geometry and panel joins as fine material-colour lines, without letters.\nCRITICAL: flat diffuse ALBEDO BASE COLOUR only. Eliminate ALL white bevel highlight lines, bright gold edges, reflected light, shaded bevels, ambient-occlusion shadows, dark lighting gradients, glossy sparkles and glow bloom. Across bevels the material has the SAME base colour as the adjacent surface; distinguish parts with actual seams and subtle painted wear only. Gold is muted medium warm ochre-gold, not luminous yellow. Ceramic is warm pale ivory, not a white highlight. Orange light surfaces are uniformly bright orange with no spill or halo. No beauty-render lighting, no cast shadows, no rim light, no floor/background, no text/letters/numbers, no added parts. The full background is transparent, not black paint.\nReturn exactly the guide's 1024 x 1024 RGBA image, keeping guide alignment pixel for pixel.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "d93c851101c805e8b83b27130c3f89791ea5a20bbae1d3ac02be927818d10c1b"
+        }
+      ],
+      "output": "paint_left.png",
+      "output_sha256": "db86019c9d4d2c97bdea470a25b24d88c60d0ed6df69328b64db9f5d41c6da08",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-97f5ec0e-5f47-4610-a1cb-67d6822fb6b5.png",
+      "selected": true,
+      "reason": "Selected corrective return for reduced bloom and flatter material presentation; normalized silhouette overlap improved. Selection is not full acceptance: exact guide silhouette/part edges and shadowless albedo checks still fail. Returned size is retained unresized. One corrective regeneration per view is exhausted.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          0,
+          61,
+          1210,
+          1180
+        ],
+        "bbox_alpha_above_127": [
+          80,
+          524,
+          1182,
+          729
+        ],
+        "alpha_zero_pixels": 1356679,
+        "alpha_opaque_pixels": 1090,
+        "normalized_silhouette_iou": 0.9761815583263516,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective texture painting, one PNG only.\nIMAGE 1 = approved design and material reference. IMAGE 2 = exact unpainted RIGHT guide, the sole EDIT TARGET.\nReturn the edited IMAGE 2 at its original 1024 x 1024 size with its original genuine transparent alpha. COPY IMAGE 2's silhouette/alpha exactly, including every hole, all antialiased edges and its completely empty transparent margins. Do not use IMAGE 1's canvas size, perspective, object placement or lighting.\nExact RIGHT orthographic edge view. Keep the narrow horizontal profile, all small projections on the left, central block and long rail extending to the right. Guide alpha bounding box is x=66..957, y=427..596.\nThe previous attempt drifted from the guide and looked glossy; correct those issues by painting material colour ONLY inside the original guide. Keep every guide edge and part position unchanged. Do not grow, shrink or shift the object or redesign/simplify its geometry. The orthographic view and square full canvas are fixed.\nPaint the approved warm ivory-white ceramic panels with subtle beige wear and tiny surface flecks, matte brushed warm gold frame and metal hardware, dark charcoal black-violet resin seams/insets, and flat bright orange-amber colour at the energy details. Continue these same materials plausibly on unseen faces. Preserve the reference's appropriate engraved geometry and panel joins as fine material-colour lines, without letters.\nCRITICAL: flat diffuse ALBEDO BASE COLOUR only. Eliminate ALL white bevel highlight lines, bright gold edges, reflected light, shaded bevels, ambient-occlusion shadows, dark lighting gradients, glossy sparkles and glow bloom. Across bevels the material has the SAME base colour as the adjacent surface; distinguish parts with actual seams and subtle painted wear only. Gold is muted medium warm ochre-gold, not luminous yellow. Ceramic is warm pale ivory, not a white highlight. Orange light surfaces are uniformly bright orange with no spill or halo. No beauty-render lighting, no cast shadows, no rim light, no floor/background, no text/letters/numbers, no added parts. The full background is transparent, not black paint.\nReturn exactly the guide's 1024 x 1024 RGBA image, keeping guide alignment pixel for pixel.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "a8e74dd81e2f73b9fed4b19e4811a8489432de667fb3f95a5ea266f6b1625058"
+        }
+      ],
+      "output": "paint_right.png",
+      "output_sha256": "d629b5f23a30e748f58c2f73f0fb4e1062b7dba44c4bebd4b9ee353130c718ff",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-de870eae-579b-487e-9b4d-6e000b09b14b.png",
+      "selected": true,
+      "reason": "Selected corrective return for reduced bloom and flatter material presentation; normalized silhouette overlap improved. Selection is not full acceptance: exact guide silhouette/part edges and shadowless albedo checks still fail. Returned size is retained unresized. One corrective regeneration per view is exhausted.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          25,
+          39,
+          1194,
+          1230
+        ],
+        "bbox_alpha_above_127": [
+          81,
+          524,
+          1174,
+          728
+        ],
+        "alpha_zero_pixels": 1357462,
+        "alpha_opaque_pixels": 331,
+        "normalized_silhouette_iou": 0.9820689518112395,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective texture painting, one PNG only.\nIMAGE 1 = approved design and material reference. IMAGE 2 = exact unpainted TOP guide, the sole EDIT TARGET.\nReturn the edited IMAGE 2 at its original 1024 x 1024 size with its original genuine transparent alpha. COPY IMAGE 2's silhouette/alpha exactly, including every hole, all antialiased edges and its completely empty transparent margins. Do not use IMAGE 1's canvas size, perspective, object placement or lighting.\nExact TOP orthographic view looking directly down. Keep the guide's diagonally oriented polygonal plate, four ceramic panel forms, frame openings, curving central channel and three bottom connector pins, all exactly in place. Guide alpha bounding box is x=74..949, y=66..957.\nThe previous attempt drifted from the guide and looked glossy; correct those issues by painting material colour ONLY inside the original guide. Keep every guide edge and part position unchanged. Do not grow, shrink or shift the object or redesign/simplify its geometry. The orthographic view and square full canvas are fixed.\nPaint the approved warm ivory-white ceramic panels with subtle beige wear and tiny surface flecks, matte brushed warm gold frame and metal hardware, dark charcoal black-violet resin seams/insets, and flat bright orange-amber colour at the energy details. Continue these same materials plausibly on unseen faces. Preserve the reference's appropriate engraved geometry and panel joins as fine material-colour lines, without letters.\nCRITICAL: flat diffuse ALBEDO BASE COLOUR only. Eliminate ALL white bevel highlight lines, bright gold edges, reflected light, shaded bevels, ambient-occlusion shadows, dark lighting gradients, glossy sparkles and glow bloom. Across bevels the material has the SAME base colour as the adjacent surface; distinguish parts with actual seams and subtle painted wear only. Gold is muted medium warm ochre-gold, not luminous yellow. Ceramic is warm pale ivory, not a white highlight. Orange light surfaces are uniformly bright orange with no spill or halo. No beauty-render lighting, no cast shadows, no rim light, no floor/background, no text/letters/numbers, no added parts. The full background is transparent, not black paint.\nReturn exactly the guide's 1024 x 1024 RGBA image, keeping guide alignment pixel for pixel.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "f65c103670f924ebf157d247d3f0b6db161c53a8e7356b49ccad5caf53ab30a7"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "b7a0bd868a883ce23c7d1f2ca943437383d966bb89ea742691930d806da68c96"
+        }
+      ],
+      "output": "paint_top.png",
+      "output_sha256": "bae559d1228182ae920be17ad50a71599fff843fadcf166c885914aa040e5979",
+      "tool_output": "/home/pjasicek/.codex/generated_images/01a16e5c-a744-74f3-9ae3-78c34c33658b/exec-134c969e-4c45-4597-9cce-a69270830f6e.png",
+      "selected": true,
+      "reason": "Selected corrective return for reduced bloom and flatter material presentation; normalized silhouette overlap improved. Selection is not full acceptance: exact guide silhouette/part edges and shadowless albedo checks still fail. Returned size is retained unresized. One corrective regeneration per view is exhausted.",
+      "unresized": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "bbox_all_nonzero_alpha": [
+          25,
+          19,
+          1242,
+          1254
+        ],
+        "bbox_alpha_above_127": [
+          92,
+          77,
+          1163,
+          1183
+        ],
+        "alpha_zero_pixels": 799493,
+        "alpha_opaque_pixels": 574,
+        "normalized_silhouette_iou": 0.9717077813238126,
+        "pixel_identical_silhouette": false,
+        "has_transparent_background": true,
+        "flat_even_albedo_lighting": false,
+        "no_text_or_letters_visual_check": true,
+        "reference_material_palette_visual_check": true,
+        "guide_part_edges_identical_visual_check": false
+      }
+    }
+  ],
+  "status": "generated_with_unresolved_brief_checks",
+  "measurement": "Silhouette IoU uses alpha > 127. Guide mask is sampled at output pixel centres in normalized canvas coordinates for comparison only; no output image is resized or edited. Exact silhouette check includes canvas size and full alpha equality.",
+  "review": "All ten raw returns visually reviewed. Corrective returns reduce glow and bright edge highlights, but residual bevel shading and geometric drift remain. RGBA backgrounds contain zero-alpha pixels as well as faint stray nonzero-alpha pixels outside the intended silhouettes. Palette and absence of text pass visual inspection. Selected means preferred available attempt, not that all brief checks passed.",
+  "constraints": {
+    "max_corrective_regenerations_per_view": 1,
+    "actual_corrective_regenerations_per_view": 1,
+    "outputs_unresized_and_unmodified": true,
+    "builds_run": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+ "sprite": "tree06a",
+ "output": "mm6_deco_tree06a.glb",
+ "base": "6tree06",
+ "note": "9 placements: the food tree with fruit; an event swaps it to 6tree06 when the fruit is picked. Same tree as 6tree06 plus fruit.",
+ "height_m": 7.05,
+ "lod": {
+  "triangles": [
+   8000,
+   3000,
+   1000
+  ]
+ },
+ "fruit": {
+  "count": [
+   34,
+   24,
+   16
+  ],
+  "radius_m": 0.075,
+  "srgb": [
+   240,
+   85,
+   25
+  ],
+  "depth": 1.0
+ }
+}

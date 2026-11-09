@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the attached paint_mask_guide.png exactly according to this specification. The guide is the edit target; design_reference.png is material/detail reference and icon_x8.png is colour reference (ignore magenta background).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve EXACT guide silhouettes, positions, sizes, orthographic projections, gaps and openings. Three columns by FOUR rows of square cells. Rows 1-2 and rows 3-4 repeat the same five views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Front/back/top cells contain pairs as shown; side cells contain single side silhouettes. Do not redraw, move, enlarge or redesign geometry.\nRows 1-2 PAINT: unlit base colour of brown leather boots with wide turned-down brown leather cuffs, steel bands around shins, steel plates over foot and toes divided by brown leather straps. Match approved HD reference details and original icon colours. Leather grain and restrained steel surface detail; no lighting, shadows, ambient occlusion, hot highlights, reflections, halos, sparkles, aura, ground, outlines or text. Facets, engravings, scrollwork and inner swirls follow reference where present, scaled to each view.\nRows 3-4 MATERIAL MASK: repeat same five silhouettes with identical material boundaries as painted views, filled with FLAT PURE colours only. #FF0000 red every metal part; #00FF00 green every leather part and fur; #0000FF blue cloth/linings/cords/hair; #FFFF00 yellow matte nonmetal solids wood/bone/horn/stone/paper/wax. Every silhouette pixel gets exactly one colour, no shading, texture, outlines or antialiased internal colour blends. Brown leather cuffs, shafts, straps and leather soles are GREEN; steel shin bands, instep armour and toe caps RED. Nothing outside silhouettes.\nKeep every guide gap/opening transparent, preserve transparent background. Column 3 row 2 and column 3 row 4 remain empty transparent. Only paint existing guide objects.\nCRITICAL CORRECTION: The previous attempt had large green/red spray and speckles outside mask silhouettes. Absolutely NO spray, speckles, noise, dithering or colored background. All outside pixels must be fully transparent. Mask shapes must have crisp clean boundaries precisely matching original grey guide. Do not fill the gaps between boots or around them. Preserve each individual outline and all openings. Material masks are clean solid vector-like red and green shapes, not painted brushstrokes. Paint section must be flat albedo, without specular highlights.",
+  "initial_prompt": "Use case: precise-object-edit. Paint the attached paint_mask_guide.png exactly according to this specification. The guide is the edit target; design_reference.png is material/detail reference and icon_x8.png is colour reference (ignore magenta background).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve EXACT guide silhouettes, positions, sizes, orthographic projections, gaps and openings. Three columns by FOUR rows of square cells. Rows 1-2 and rows 3-4 repeat the same five views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Front/back/top cells contain pairs as shown; side cells contain single side silhouettes. Do not redraw, move, enlarge or redesign geometry.\nRows 1-2 PAINT: unlit base colour of brown leather boots with wide turned-down brown leather cuffs, steel bands around shins, steel plates over foot and toes divided by brown leather straps. Match approved HD reference details and original icon colours. Leather grain and restrained steel surface detail; no lighting, shadows, ambient occlusion, hot highlights, reflections, halos, sparkles, aura, ground, outlines or text. Facets, engravings, scrollwork and inner swirls follow reference where present, scaled to each view.\nRows 3-4 MATERIAL MASK: repeat same five silhouettes with identical material boundaries as painted views, filled with FLAT PURE colours only. #FF0000 red every metal part; #00FF00 green every leather part and fur; #0000FF blue cloth/linings/cords/hair; #FFFF00 yellow matte nonmetal solids wood/bone/horn/stone/paper/wax. Every silhouette pixel gets exactly one colour, no shading, texture, outlines or antialiased internal colour blends. Brown leather cuffs, shafts, straps and leather soles are GREEN; steel shin bands, instep armour and toe caps RED. Nothing outside silhouettes.\nKeep every guide gap/opening transparent, preserve transparent background. Column 3 row 2 and column 3 row 4 remain empty transparent. Only paint existing guide objects.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-6896-7d70-820b-97a8906c558d/exec-7ca7a10c-441d-4b4f-aff1-5f2f44830c0d.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10129/paint_mask_guide.png",
+      "sha256": "576a7632480f91e3bf11932934bc8f68462d75b0c52883ab5df0c966f69cf7e3"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10129/design_reference.png",
+      "sha256": "8b6eae1f339d827ee5ae98e3ddd06298eae0608b1e81151b07a2c687a0a81bc8"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10129/icon_x8.png",
+      "sha256": "ff407f44f853716b64b2e53715e5731a4b6aa3f7c604abeee119ffa4a7e91d68"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10129/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained, but generated mask has visible colour spill outside silhouettes and paint retains shading. Raw tool output preserved without edits."
+}

@@ -1,0 +1,23 @@
+# The great cannon's strike (COMBAT "Ion cannons", ENGINE item "Ion cannon presentation"): the party 9 500 south of
+# the dome, in reach and sight, with a Drudge beside it. After the 3 s lock the cannon fires the CrownIon missile
+# (evt.FireMissile): the event deals the party its 1 500 Energy and the pulse's blast kills the Drudge within 600
+# (8 s: the timer's first tick, the 3 s lock and the flight, with room).
+# Run from output/hesper_stage/scenario_run (its settings.ini mounts the stage).
+id: hesper.out4.crown_cannon
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out4.odm
+    party:
+      members:
+      - {name: Ada, class: Knight, level: 200, equipment: {}, skills: []}
+      - {name: Bram, class: Knight, level: 200, equipment: {}, skills: []}
+- assert: {map: hes_out4.odm}
+- set_pose: {map: hes_out4.odm, x: 0, y: -9500, z: 1088, yaw: 1.5708, pitch: 0.0}
+- spawn_actor: {monster_id: 10000, count: 1, x: 350, y: -9500, z: 1088}
+- assert: {actor_visible: {actor_index: last, report_state: true, dead: false}}
+- assert: {party_health: {full: true}}
+- advance_runtime: {seconds: 8}
+- assert: {party_health: {full: false}}
+- assert: {actor_visible: {actor_index: last, report_state: true, dead: true}}

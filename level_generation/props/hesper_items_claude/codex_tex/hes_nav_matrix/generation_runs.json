@@ -1,0 +1,620 @@
+{
+  "item": "hes_nav_matrix",
+  "generator": "built-in image_gen",
+  "scope": "Five unmodified generated paintings only; no builds or runtime integration.",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "max_corrective_regenerations_per_view": 1,
+  "all_brief_checks_passed": false,
+  "selection_note": "Selected marks the best available deliverable within the two-attempt limit, not full compliance. All returned files are preserved unresized. See per-run failures.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 1 is the EDIT TARGET and immutable geometry/registration guide. Input image 2 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 1 directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: FRONT elevation. Preserve the body rectangle x77..946, y405..674. The raised top assembly is only seen edge-on: gold base x260..763 y372..406, blue crystal edge x310..713 y355..373, narrow gold edge x327..696 y349..356. Preserve all NINE vertical rectangular ribs at exactly the guide locations across the front; paint these warm brushed gold with charcoal/black-violet steel or resin in the underlying shallow front panel, matching the reference's gold connector row. White worn ceramic remains on the main casing, with reference-like gold corner band surface details contained entirely inside the original silhouette. Do not expose any top-facing surface or show the crystal grid from above.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "54edf52e269c7773f4e2ad2249ab6e8a0ed78d5fca84fbafe195bd194609158b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Initial return has better guide silhouette overlap and less exaggerated bevel shading than the correction; all nine front ribs are present. Selected as best available only; exact silhouette and flat-light checks fail. Native 1254x1254 return retained as instructed.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-05f7077d-46a4-44fa-ac37-701c26a4373a.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "10421b23a7d9ec0d57bc1513e3e2d1f6ac2aacb03fee0fa6d2e279ca56fd6968",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          87,
+          434,
+          1167,
+          836
+        ],
+        "guide_bbox_alpha_128": [
+          78,
+          350,
+          946,
+          674
+        ],
+        "normalized_silhouette_iou": 0.9328921652411066,
+        "normalized_extra_pixels": 11516,
+        "normalized_missing_pixels": 6545,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return.",
+        "front_connector_count": 9
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 1 is the EDIT TARGET and immutable geometry/registration guide. Input image 2 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 1 directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: BACK elevation. Preserve the body rectangle x77..946, y405..674. The raised top assembly is only seen edge-on: gold base x260..763 y372..406, blue crystal edge x310..713 y355..373, narrow gold edge x327..696 y349..356. The back is a broad uninterrupted ceramic casing with restrained gold perimeter/corner band surface details and fine engraved panel seams, continuing the reference plausibly. NO front connector ribs on this back view. No extra geometry. Do not expose any top-facing surface or show the crystal grid from above.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "0b3f376ad54b1d4905b7ec61796d7955b8116fe00e48357b5ac9841fa2e9f2ea"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Initial return has better guide silhouette overlap and simpler, flatter ceramic surfaces than the correction. Selected as best available only; exact silhouette and flat-light checks fail. Native 1254x1254 return retained as instructed.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-7b8080d1-a956-4193-a6c5-231a0c121aec.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "fc532576395fa093fcadebd935342bcfab9088f857f541b15f9cae6e87f91042",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          86,
+          412,
+          1169,
+          814
+        ],
+        "guide_bbox_alpha_128": [
+          78,
+          350,
+          946,
+          674
+        ],
+        "normalized_silhouette_iou": 0.9127105217903545,
+        "normalized_extra_pixels": 15691,
+        "normalized_missing_pixels": 8166,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 1 is the EDIT TARGET and immutable geometry/registration guide. Input image 2 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 1 directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: LEFT elevation. The casing stays at x66..934, y405..674; preserve the single edge-on protruding connector at the RIGHT edge, x935..957 y506..614. Preserve all the exact original raised assembly rectangles above the body (gold lower band, pale blue crystal middle strip, thin gold top strip), shifted slightly to the left as in this guide. The side is a broad ivory ceramic casing with the reference's brushed gold side rail and fine panel seams represented as painted surface detail within the existing guide geometry. The visible connector at the right is brushed gold. Do not add a row of connectors or change any shapes. Do not expose top-facing surfaces.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "eefcfea3a306861fe4f0e5bce8c1844ae530f4e7fa840bf051546566a6fcef61"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-70fce5ce-a446-4de8-be47-7cfd67e2f5c9.png",
+      "selected": false,
+      "reason": "Not selected. Correction improves guide silhouette overlap and preserves the connector on the right edge. This unselected raw return remains at its built-in generator path.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-70fce5ce-a446-4de8-be47-7cfd67e2f5c9.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "2396f9ca8b91d5f25ce7d5a38afa86991e897e5db4b0371108aa6bdd22ea2780",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          80,
+          441,
+          1181,
+          830
+        ],
+        "guide_bbox_alpha_128": [
+          67,
+          350,
+          957,
+          674
+        ],
+        "normalized_silhouette_iou": 0.9489154103534875,
+        "normalized_extra_pixels": 3781,
+        "normalized_missing_pixels": 9685,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 1 is the EDIT TARGET and immutable geometry/registration guide. Input image 2 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 1 directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: RIGHT elevation. The casing stays at x89..957, y405..674; preserve the single edge-on protruding connector at the LEFT edge, x66..88 y506..614. Preserve all the exact original raised assembly rectangles above the body (gold lower band, pale blue crystal middle strip, thin gold top strip), shifted slightly to the right as in this guide. The side is a broad ivory ceramic casing with the reference's brushed gold side rail and fine panel seams represented as painted surface detail within the existing guide geometry. The visible connector at the left is brushed gold. Do not add a row of connectors or change any shapes. Do not expose top-facing surfaces.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "7dfb49f4544977a396e4abd76e8f90cce9009353adff2a393f58a5f5ced6b4ac"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-3025f5c4-0591-40e8-9495-e13ce3870023.png",
+      "selected": false,
+      "reason": "Not selected. Correction substantially improves guide silhouette overlap and preserves the connector on the left edge. This unselected raw return remains at its built-in generator path.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-3025f5c4-0591-40e8-9495-e13ce3870023.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "e9c438a8c03a89d8c9bbd0584907d0c7237fcac38df101f5494d5f493e4c1c85",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          61,
+          408,
+          1196,
+          814
+        ],
+        "guide_bbox_alpha_128": [
+          67,
+          350,
+          957,
+          674
+        ],
+        "normalized_silhouette_iou": 0.884323676605343,
+        "normalized_extra_pixels": 23919,
+        "normalized_missing_pixels": 8903,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 1 is the EDIT TARGET and immutable geometry/registration guide. Input image 2 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 1 directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: TOP elevation looking directly vertically down. Preserve the large rounded/chamfered square ceramic body x77..946 y66..934, the centered rounded-square gold bezel x260..762 y250..750, blue crystal window x310..712 y300..700, and precisely THREE vertical plus THREE horizontal narrow gold lattice bars at the positions in the guide. Preserve all NINE tiny rectangular connector protrusions along the BOTTOM edge at their existing positions, paint gold. The crystal window contains pale electric-blue crystalline facets with restrained blue-white luminous colour, with the gold grid still in its exact existing straight orthogonal shape. Paint fine gold perimeter/corner band surfaces and restrained panel seams onto the white ceramic casing as informed by the reference; do not recreate the diagonal/isometric lattice from the reference. Remove the guide's lower-left grey cast shadow from the bezel: the area there is flat evenly lit ivory ceramic. Keep the exact original silhouette, rounded corners, grid and all edges. No perspective.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "d203124ae2fba82b2ea9456cf5a7d99341eb3200b34111575d6862242caff152"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-3ded5b8c-be23-42d5-acd2-edfc3d24d672.png",
+      "selected": false,
+      "reason": "Not selected. Correction restores all nine bottom connectors and keeps three vertical and three horizontal lattice bars; silhouette and inner-part registration still drift. This unselected raw return remains at its built-in generator path.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-3ded5b8c-be23-42d5-acd2-edfc3d24d672.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "76062b607e12cd953035f52c958a12979b06f7a84e84b23c2b9a11f90611013f",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          158,
+          167,
+          1096,
+          1046
+        ],
+        "guide_bbox_alpha_128": [
+          78,
+          67,
+          946,
+          957
+        ],
+        "normalized_silhouette_iou": 0.7134724271275895,
+        "normalized_extra_pixels": 0,
+        "normalized_missing_pixels": 213247,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return.",
+        "bottom_connector_count": 7,
+        "three_horizontal_and_three_vertical_grid_bars": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, final allowed attempt. The previous attempt enlarged/repositioned the object, used 1254x1254 instead of 1024x1024, added bevel highlights and changed edges. Correct those failures. The LAST input is the 1024x1024 GUIDE TO EDIT. Return exactly that last image's original 1024x1024 canvas and alpha silhouette; keep every pixel coordinate of all parts. The FIRST input is only a palette/material reference; do not inherit its size or illumination. This is a flat base-colour paintover, not a relit beauty rendering. Gold must be subdued ochre-gold with fine brushing and constant brightness across each face. No bright edges, no reflections, no bevel highlights and no shading. Ceramic is evenly lit warm white with subtle fine wear. Preserve straight outer boundaries without chips protruding into transparency. Add only fine painted seams. Do not add new bevel geometry or change the shape. Transparent outside, fully opaque object.\n\nUse case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 2 (LAST IMAGE) is the EDIT TARGET and immutable geometry/registration guide. Input image 1 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 2 (the LAST IMAGE) directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: FRONT elevation. Preserve the body rectangle x77..946, y405..674. The raised top assembly is only seen edge-on: gold base x260..763 y372..406, blue crystal edge x310..713 y355..373, narrow gold edge x327..696 y349..356. Preserve all NINE vertical rectangular ribs at exactly the guide locations across the front; paint these warm brushed gold with charcoal/black-violet steel or resin in the underlying shallow front panel, matching the reference's gold connector row. White worn ceramic remains on the main casing, with reference-like gold corner band surface details contained entirely inside the original silhouette. Do not expose any top-facing surface or show the crystal grid from above.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "54edf52e269c7773f4e2ad2249ab6e8a0ed78d5fca84fbafe195bd194609158b"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-4abd1d9e-0282-48ac-9b37-bb306c2e1f2a.png",
+      "selected": false,
+      "reason": "Not selected. Initial return has better guide silhouette overlap and less exaggerated bevel shading than the correction; all nine front ribs are present. This unselected raw return remains at its built-in generator path.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-4abd1d9e-0282-48ac-9b37-bb306c2e1f2a.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "722d7a9398a946d5f84f79a89342a8568a4f12e88b241b874b76f00af795603f",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          81,
+          443,
+          1174,
+          839
+        ],
+        "guide_bbox_alpha_128": [
+          78,
+          350,
+          946,
+          674
+        ],
+        "normalized_silhouette_iou": 0.8970708461918054,
+        "normalized_extra_pixels": 13928,
+        "normalized_missing_pixels": 14022,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return.",
+        "front_connector_count": 9
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, final allowed attempt. The previous attempt enlarged/repositioned the object, used 1254x1254 instead of 1024x1024, added bevel highlights and changed edges. Correct those failures. The LAST input is the 1024x1024 GUIDE TO EDIT. Return exactly that last image's original 1024x1024 canvas and alpha silhouette; keep every pixel coordinate of all parts. The FIRST input is only a palette/material reference; do not inherit its size or illumination. This is a flat base-colour paintover, not a relit beauty rendering. Gold must be subdued ochre-gold with fine brushing and constant brightness across each face. No bright edges, no reflections, no bevel highlights and no shading. Ceramic is evenly lit warm white with subtle fine wear. Preserve straight outer boundaries without chips protruding into transparency. Add only fine painted seams. Do not add new bevel geometry or change the shape. Transparent outside, fully opaque object.\n\nUse case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 2 (LAST IMAGE) is the EDIT TARGET and immutable geometry/registration guide. Input image 1 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 2 (the LAST IMAGE) directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: BACK elevation. Preserve the body rectangle x77..946, y405..674. The raised top assembly is only seen edge-on: gold base x260..763 y372..406, blue crystal edge x310..713 y355..373, narrow gold edge x327..696 y349..356. The back is a broad uninterrupted ceramic casing with restrained gold perimeter/corner band surface details and fine engraved panel seams, continuing the reference plausibly. NO front connector ribs on this back view. No extra geometry. Do not expose any top-facing surface or show the crystal grid from above.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "0b3f376ad54b1d4905b7ec61796d7955b8116fe00e48357b5ac9841fa2e9f2ea"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-1673533d-8f8f-4556-973d-f090c8c56e72.png",
+      "selected": false,
+      "reason": "Not selected. Initial return has better guide silhouette overlap and simpler, flatter ceramic surfaces than the correction. This unselected raw return remains at its built-in generator path.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-1673533d-8f8f-4556-973d-f090c8c56e72.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "2f41640e5f2f27d18d7c6991640d274d448cb526104db0903b39ece298a0f2d3",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          72,
+          406,
+          1183,
+          803
+        ],
+        "guide_bbox_alpha_128": [
+          78,
+          350,
+          946,
+          674
+        ],
+        "normalized_silhouette_iou": 0.8712733251011222,
+        "normalized_extra_pixels": 18533,
+        "normalized_missing_pixels": 17015,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, final allowed attempt. The previous attempt enlarged/repositioned the object, used 1254x1254 instead of 1024x1024, added bevel highlights and changed edges. Correct those failures. The LAST input is the 1024x1024 GUIDE TO EDIT. Return exactly that last image's original 1024x1024 canvas and alpha silhouette; keep every pixel coordinate of all parts. The FIRST input is only a palette/material reference; do not inherit its size or illumination. This is a flat base-colour paintover, not a relit beauty rendering. Gold must be subdued ochre-gold with fine brushing and constant brightness across each face. No bright edges, no reflections, no bevel highlights and no shading. Ceramic is evenly lit warm white with subtle fine wear. Preserve straight outer boundaries without chips protruding into transparency. Add only fine painted seams. Do not add new bevel geometry or change the shape. Transparent outside, fully opaque object.\n\nUse case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 2 (LAST IMAGE) is the EDIT TARGET and immutable geometry/registration guide. Input image 1 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 2 (the LAST IMAGE) directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: LEFT elevation. The casing stays at x66..934, y405..674; preserve the single edge-on protruding connector at the RIGHT edge, x935..957 y506..614. Preserve all the exact original raised assembly rectangles above the body (gold lower band, pale blue crystal middle strip, thin gold top strip), shifted slightly to the left as in this guide. The side is a broad ivory ceramic casing with the reference's brushed gold side rail and fine panel seams represented as painted surface detail within the existing guide geometry. The visible connector at the right is brushed gold. Do not add a row of connectors or change any shapes. Do not expose top-facing surfaces.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "eefcfea3a306861fe4f0e5bce8c1844ae530f4e7fa840bf051546566a6fcef61"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Correction improves guide silhouette overlap and preserves the connector on the right edge. Selected as best available only; exact silhouette and flat-light checks fail. Native 1254x1254 return retained as instructed.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-eb3c5fbc-ff0d-4ec4-9962-c35d8abb1828.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "d72fc24aa65af0506134791a336b9e2a9e019384481acd0f95da25cc80152766",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          81,
+          430,
+          1183,
+          825
+        ],
+        "guide_bbox_alpha_128": [
+          67,
+          350,
+          957,
+          674
+        ],
+        "normalized_silhouette_iou": 0.979707491943634,
+        "normalized_extra_pixels": 2394,
+        "normalized_missing_pixels": 2927,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, final allowed attempt. The previous attempt enlarged/repositioned the object, used 1254x1254 instead of 1024x1024, added bevel highlights and changed edges. Correct those failures. The LAST input is the 1024x1024 GUIDE TO EDIT. Return exactly that last image's original 1024x1024 canvas and alpha silhouette; keep every pixel coordinate of all parts. The FIRST input is only a palette/material reference; do not inherit its size or illumination. This is a flat base-colour paintover, not a relit beauty rendering. Gold must be subdued ochre-gold with fine brushing and constant brightness across each face. No bright edges, no reflections, no bevel highlights and no shading. Ceramic is evenly lit warm white with subtle fine wear. Preserve straight outer boundaries without chips protruding into transparency. Add only fine painted seams. Do not add new bevel geometry or change the shape. Transparent outside, fully opaque object.\n\nUse case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 2 (LAST IMAGE) is the EDIT TARGET and immutable geometry/registration guide. Input image 1 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 2 (the LAST IMAGE) directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: RIGHT elevation. The casing stays at x89..957, y405..674; preserve the single edge-on protruding connector at the LEFT edge, x66..88 y506..614. Preserve all the exact original raised assembly rectangles above the body (gold lower band, pale blue crystal middle strip, thin gold top strip), shifted slightly to the right as in this guide. The side is a broad ivory ceramic casing with the reference's brushed gold side rail and fine panel seams represented as painted surface detail within the existing guide geometry. The visible connector at the left is brushed gold. Do not add a row of connectors or change any shapes. Do not expose top-facing surfaces.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "7dfb49f4544977a396e4abd76e8f90cce9009353adff2a393f58a5f5ced6b4ac"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Correction substantially improves guide silhouette overlap and preserves the connector on the left edge. Selected as best available only; exact silhouette and flat-light checks fail. Native 1254x1254 return retained as instructed.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-56bed349-fd93-4076-ac27-dd783b77fb16.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "bc6576cf9a751341619ef0ebb052ab22d8a7c56a54047a615bb5ed8bedb8b056",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          80,
+          427,
+          1174,
+          821
+        ],
+        "guide_bbox_alpha_128": [
+          67,
+          350,
+          957,
+          674
+        ],
+        "normalized_silhouette_iou": 0.9784772511993155,
+        "normalized_extra_pixels": 1995,
+        "normalized_missing_pixels": 3640,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, final allowed attempt. The previous attempt enlarged/repositioned the object, used 1254x1254 instead of 1024x1024, added bevel highlights and changed edges. Correct those failures. The LAST input is the 1024x1024 GUIDE TO EDIT. Return exactly that last image's original 1024x1024 canvas and alpha silhouette; keep every pixel coordinate of all parts. The FIRST input is only a palette/material reference; do not inherit its size or illumination. This is a flat base-colour paintover, not a relit beauty rendering. Gold must be subdued ochre-gold with fine brushing and constant brightness across each face. No bright edges, no reflections, no bevel highlights and no shading. Ceramic is evenly lit warm white with subtle fine wear. Preserve straight outer boundaries without chips protruding into transparency. Add only fine painted seams. Do not add new bevel geometry or change the shape. Transparent outside, fully opaque object.\n\nUse case: sketch-to-render. Asset type: orthographic albedo texture-source painting for the Hesper navigation matrix, a lander part.\nInput image 2 (LAST IMAGE) is the EDIT TARGET and immutable geometry/registration guide. Input image 1 is the approved DESIGN REFERENCE for material colours and surface character only, never for camera, outline, shape or proportions.\nEdit image 2 (the LAST IMAGE) directly, painting only its existing object pixels. Output a single 1024 x 1024 PNG with a true transparent alpha background. Preserve the guide's exact canvas size, pixel placement, scale, silhouette, all geometry edges, every component's size and position, and transparent exterior. The object must NOT be enlarged to fill the frame; preserve all empty margins. No cropping, recentering, camera movement, rotation, perspective, new protrusions or added geometry. No sheet, labels or second object.\nMATERIALS: match the approved reference: warm off-white ivory ceramic with very fine restrained tan scuffs and tiny wear marks; subdued warm brushed gold with fine linear grain; charcoal/black-violet steel/resin at actual seams; pale cyan-blue glass/crystal with blue-white luminous colour. The guide's pastel tints are only part identifiers, not the final palette. Surface engraving, panel joints and tiny nonalphabetic wear marks can be painted within the existing geometry. Continue unseen surfaces plausibly using the same materials. No cloth, leather, paper or orange light because none appears on this item.\nLIGHTING: flat, shadowless albedo texture source under uniform viewer-facing illumination. Material colour and fine surface texture only. Eliminate the guide's shadows and gradients. No cast shadows, no ambient occlusion, no directional lighting, no dark bevel shading, no specular hot spots, no bright reflections, no rim lighting, no bloom or glow extending outside the object; metal has at most a faint sheen. Glowing crystal is a bright light colour rather than a lighting effect. No background, no ground, no floor, no checkerboard drawn into pixels. No text, letters, numerals, logos or watermarks.\n\nVIEW-SPECIFIC REQUIREMENTS: TOP elevation looking directly vertically down. Preserve the large rounded/chamfered square ceramic body x77..946 y66..934, the centered rounded-square gold bezel x260..762 y250..750, blue crystal window x310..712 y300..700, and precisely THREE vertical plus THREE horizontal narrow gold lattice bars at the positions in the guide. Preserve all NINE tiny rectangular connector protrusions along the BOTTOM edge at their existing positions, paint gold. The crystal window contains pale electric-blue crystalline facets with restrained blue-white luminous colour, with the gold grid still in its exact existing straight orthogonal shape. Paint fine gold perimeter/corner band surfaces and restrained panel seams onto the white ceramic casing as informed by the reference; do not recreate the diagonal/isometric lattice from the reference. Remove the guide's lower-left grey cast shadow from the bezel: the area there is flat evenly lit ivory ceramic. Keep the exact original silhouette, rounded corners, grid and all edges. No perspective.\nCRITICAL: The top-guide body fills x77..946 and y66..934; do not shrink it. The window remains about 400px wide, NOT enlarged. All NINE bottom gold connectors must remain, each about 29px wide, at x230,297,364,431,498,565,632,699,766 and y934..957. Preserve the original straight top and bottom borders and the corner cut shapes.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "8a145406937dea4b4cb4e53695940c04acca3c3049d7fddb370cf43ffdb14b67"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "d203124ae2fba82b2ea9456cf5a7d99341eb3200b34111575d6862242caff152"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Correction restores all nine bottom connectors and keeps three vertical and three horizontal lattice bars; silhouette and inner-part registration still drift. Selected as best available only; exact silhouette and flat-light checks fail. Native 1254x1254 return retained as instructed.",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "raw_output": "/home/pjasicek/.codex/generated_images/01a16de1-6e6d-7f90-90a3-882ed9bf99c2/exec-95fce37b-3b1d-408b-ae54-9976278cda42.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "returned_mode": "RGBA",
+      "resized": false,
+      "postprocessed": false,
+      "output_sha256": "c96eafc36067c66beb53a1a77af60a9e16e9f474fc6be8528644ea0b25f76b54",
+      "checks": {
+        "requested_size_returned": false,
+        "silhouette_identical_to_guide": false,
+        "output_bbox_alpha_128": [
+          149,
+          152,
+          1106,
+          1090
+        ],
+        "guide_bbox_alpha_128": [
+          78,
+          67,
+          946,
+          957
+        ],
+        "normalized_silhouette_iou": 0.7723655887972525,
+        "normalized_extra_pixels": 0,
+        "normalized_missing_pixels": 169416,
+        "transparent_background": true,
+        "materials_match_reference": true,
+        "materials_review": "Ivory ceramic, worn brushed gold, charcoal seams and pale blue crystal visually match the reference palette.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Baked bevel shading and bright metallic edge highlights remain; not a pure albedo source.",
+        "no_text_or_letters": true,
+        "geometry_review": "Orthographic direction is correct, but outline, size, position and internal part edges are not identical to the guide.",
+        "edge_review": "Fine coloured/bright alpha fringes are present in the raw return.",
+        "bottom_connector_count": 9,
+        "three_horizontal_and_three_vertical_grid_bars": true
+      }
+    }
+  ]
+}

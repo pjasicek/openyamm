@@ -1,0 +1,680 @@
+{
+  "label": "ATroll A",
+  "creature": "troll",
+  "base_palette": 505,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "material_edge_hue_repair": false,
+  "true_alpha": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a"
+  ],
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "identity_frames": [
+    "m461sa0",
+    "m461sa1",
+    "m461sa2",
+    "m461sa3",
+    "m461sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique and back, in native order",
+  "description": "The exact original adult fantasy troll: olive-yellow-green skin, rounded belly, sloping shoulders, lean long arms, bent legs, bare broad feet, long ivory fingernails, small pointed ears, a broad stern wrinkled face with long nose and two small tusks. Short stiff dark blue-gray mohawk continues down a mottled blue-gray hairy back. Short ragged dark indigo-blue loincloth and matching narrow wrist bands, no armor or shoes. One native red fleshy bone club with pale ivory bone ends held in the right hand, faithfully retaining the existing original asset without adding or intensifying injury detail. Preserve the club silhouette, grip, hand pose and exact original coloration. The other hand is empty and relaxed with curved long pale fingernails. Keep native small head, rounded stomach, narrow shoulders and original body size; some source sets are larger and must retain their supplied scale. Indigo cloth and blue-gray hair change palette offline; skin, nails, eyes and club stay unchanged. Preserve dark tonal weight and native proportions; no new weapons, accessories, effects, wounds or redesign.",
+  "extra_batches": {
+    "large_w_0": {
+      "frames": [
+        "m462wa0",
+        "m462wb0",
+        "m462wc0",
+        "m462wd0",
+        "m462we0",
+        "m462wf0",
+        "m462wg0",
+        "m462wh0"
+      ],
+      "columns": 3,
+      "view": "front in every cell; exact native large troll pose and size"
+    },
+    "large_w_1": {
+      "frames": [
+        "m462wa1",
+        "m462wb1",
+        "m462wc1",
+        "m462wd1",
+        "m462we1",
+        "m462wf1",
+        "m462wg1",
+        "m462wh1"
+      ],
+      "columns": 3,
+      "view": "front-right oblique in every cell; exact native large troll pose and size"
+    },
+    "large_w_2": {
+      "frames": [
+        "m462wa2",
+        "m462wb2",
+        "m462wc2",
+        "m462wd2",
+        "m462we2",
+        "m462wf2",
+        "m462wg2",
+        "m462wh2"
+      ],
+      "columns": 3,
+      "view": "right profile in every cell; exact native large troll pose and size"
+    },
+    "large_w_3": {
+      "frames": [
+        "m462wa3",
+        "m462wb3",
+        "m462wc3",
+        "m462wd3",
+        "m462we3",
+        "m462wf3",
+        "m462wg3",
+        "m462wh3"
+      ],
+      "columns": 3,
+      "view": "rear-right oblique in every cell; exact native large troll pose and size"
+    },
+    "large_w_4": {
+      "frames": [
+        "m462wa4",
+        "m462wb4",
+        "m462wc4",
+        "m462wd4",
+        "m462we4",
+        "m462wf4",
+        "m462wg4",
+        "m462wh4"
+      ],
+      "columns": 3,
+      "view": "back in every cell; exact native large troll pose and size"
+    },
+    "large_a_0": {
+      "frames": [
+        "m462aa0",
+        "m462ab0",
+        "m462ac0",
+        "m462ad0",
+        "m462ae0",
+        "m462af0",
+        "m462ag0",
+        "m462ah0"
+      ],
+      "columns": 3,
+      "view": "front in every cell; exact native large troll pose and size"
+    },
+    "large_a_1": {
+      "frames": [
+        "m462aa1",
+        "m462ab1",
+        "m462ac1",
+        "m462ad1",
+        "m462ae1",
+        "m462af1",
+        "m462ag1",
+        "m462ah1"
+      ],
+      "columns": 3,
+      "view": "front-right oblique in every cell; exact native large troll pose and size"
+    },
+    "large_a_2": {
+      "frames": [
+        "m462aa2",
+        "m462ab2",
+        "m462ac2",
+        "m462ad2",
+        "m462ae2",
+        "m462af2",
+        "m462ag2",
+        "m462ah2"
+      ],
+      "columns": 3,
+      "view": "right profile in every cell; exact native large troll pose and size"
+    },
+    "large_a_3": {
+      "frames": [
+        "m462aa3",
+        "m462ab3",
+        "m462ac3",
+        "m462ad3",
+        "m462ae3",
+        "m462af3",
+        "m462ag3",
+        "m462ah3"
+      ],
+      "columns": 3,
+      "view": "rear-right oblique in every cell; exact native large troll pose and size"
+    },
+    "large_a_4": {
+      "frames": [
+        "m462aa4",
+        "m462ab4",
+        "m462ac4",
+        "m462ad4",
+        "m462ae4",
+        "m462af4",
+        "m462ag4",
+        "m462ah4"
+      ],
+      "columns": 3,
+      "view": "back in every cell; exact native large troll pose and size"
+    },
+    "large_n_0": {
+      "frames": [
+        "m462na0",
+        "m462nb0",
+        "m462nc0",
+        "m462nd0",
+        "m462ne0"
+      ],
+      "columns": 3,
+      "view": "front in every cell; exact native large troll pose and size"
+    },
+    "large_n_1": {
+      "frames": [
+        "m462na1",
+        "m462nb1",
+        "m462nc1",
+        "m462nd1",
+        "m462ne1"
+      ],
+      "columns": 3,
+      "view": "front-right oblique in every cell; exact native large troll pose and size"
+    },
+    "large_n_2": {
+      "frames": [
+        "m462na2",
+        "m462nb2",
+        "m462nc2",
+        "m462nd2",
+        "m462ne2"
+      ],
+      "columns": 3,
+      "view": "right profile in every cell; exact native large troll pose and size"
+    },
+    "large_n_3": {
+      "frames": [
+        "m462na3",
+        "m462nb3",
+        "m462nc3",
+        "m462nd3",
+        "m462ne3"
+      ],
+      "columns": 3,
+      "view": "rear-right oblique in every cell; exact native large troll pose and size"
+    },
+    "large_n_4": {
+      "frames": [
+        "m462na4",
+        "m462nb4",
+        "m462nc4",
+        "m462nd4",
+        "m462ne4"
+      ],
+      "columns": 3,
+      "view": "back in every cell; exact native large troll pose and size"
+    },
+    "large_standing": {
+      "frames": [
+        "m462sa0",
+        "m462sa1",
+        "m462sa2",
+        "m462sa3",
+        "m462sa4"
+      ],
+      "columns": 3,
+      "view": "exact native large troll views and poses in row-major order"
+    },
+    "large_fidget": {
+      "frames": [
+        "m462fa0",
+        "m462fb0",
+        "m462fc0",
+        "m462fd0",
+        "m462fe0"
+      ],
+      "columns": 3,
+      "view": "exact native large troll views and poses in row-major order"
+    },
+    "large_death_corpse": {
+      "frames": [
+        "m462da0",
+        "m462db0",
+        "m462dc0",
+        "m462dd0",
+        "m462xa0"
+      ],
+      "columns": 3,
+      "view": "exact native large troll views and poses in row-major order"
+    }
+  },
+  "preserve_delivered_rgb": true,
+  "materials": {
+    "regions": [
+      {
+        "name": "loincloth",
+        "selector": "blue",
+        "thresholds": [
+          0.1,
+          0.28
+        ],
+        "palette_indices": [
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "fit": "luminance",
+        "native_palette_spatial_support": [
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200
+        ],
+        "support_padding": 12,
+        "mask_sigma": 0.5,
+        "support_components_min_pixels": 8
+      },
+      {
+        "name": "mohawk_and_back_hair",
+        "selector": "blue",
+        "thresholds": [
+          0.015,
+          0.1
+        ],
+        "palette_indices": [
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157
+        ],
+        "fit": "luminance",
+        "native_palette_spatial_support": [
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157
+        ],
+        "support_padding": 10,
+        "mask_sigma": 0.5,
+        "exclude_channels": [
+          0
+        ]
+      }
+    ],
+    "limitation": "Native cloth and blue-gray hair use separate enhanced-pixel masks; mixed skin/hair pixels and neutral highlights recolor approximately. Generated narrow blue wristbands have no native recolorable counterpart and remain protected."
+  },
+  "clear_alpha1_border_batches": [
+    "standing",
+    "w_0",
+    "w_1",
+    "w_2",
+    "w_3",
+    "w_4",
+    "a_0",
+    "a_1",
+    "a_3",
+    "a_4",
+    "fidget_0",
+    "fidget_1",
+    "a_2",
+    "fidget_2",
+    "death_corpse_0",
+    "death_corpse_1",
+    "death_corpse_2",
+    "large_w_0_0",
+    "large_w_0_1",
+    "large_w_1_0",
+    "large_w_1_1",
+    "large_w_2_0",
+    "large_w_2_1",
+    "large_w_3_0",
+    "large_w_3_1",
+    "large_w_4_0",
+    "large_w_4_1",
+    "large_a_0_0",
+    "large_a_0_1",
+    "large_a_1_0",
+    "large_a_1_1",
+    "large_a_2_0",
+    "large_a_2_1",
+    "large_a_3_0",
+    "large_a_3_1",
+    "large_a_3_2",
+    "large_a_3_3",
+    "large_a_4_0",
+    "large_a_4_1",
+    "large_n_0_0",
+    "large_n_0_1",
+    "large_n_1_0",
+    "large_n_1_1",
+    "large_n_2_0",
+    "large_n_2_1",
+    "large_n_3_1",
+    "large_n_4_0",
+    "large_n_4_1",
+    "large_standing_0",
+    "large_standing_1",
+    "large_fidget_0",
+    "large_fidget_1",
+    "large_death_corpse_0",
+    "large_death_corpse_1",
+    "large_n_3_0"
+  ],
+  "reviewed_border_alpha_limits": {
+    "a_2": 2,
+    "large_n_3_0": 6
+  },
+  "reviewed_placement_translation_px": {
+    "m461wb1": [
+      -8,
+      0
+    ],
+    "m461wc1": [
+      -12,
+      0
+    ],
+    "m461wd1": [
+      -8,
+      0
+    ],
+    "m461we1": [
+      -8,
+      0
+    ],
+    "m461wf1": [
+      -10,
+      0
+    ],
+    "m461wg1": [
+      -14,
+      0
+    ],
+    "m461wa2": [
+      -16,
+      0
+    ],
+    "m461wb2": [
+      -8,
+      0
+    ],
+    "m461wd2": [
+      -12,
+      0
+    ],
+    "m461we2": [
+      -8,
+      0
+    ],
+    "m461wf2": [
+      -6,
+      0
+    ],
+    "m461wg2": [
+      -8,
+      0
+    ],
+    "m461wh2": [
+      -12,
+      0
+    ],
+    "m461wa3": [
+      -8,
+      0
+    ],
+    "m461wb3": [
+      -12,
+      0
+    ],
+    "m461wc3": [
+      -8,
+      0
+    ],
+    "m461wd3": [
+      -8,
+      0
+    ],
+    "m461ae2": [
+      -10,
+      0
+    ],
+    "m461ag2": [
+      -12,
+      0
+    ],
+    "m461aa3": [
+      -8,
+      0
+    ],
+    "m461ab4": [
+      -26,
+      0
+    ],
+    "m461ac4": [
+      -22,
+      0
+    ],
+    "m461ad4": [
+      -22,
+      0
+    ],
+    "m461ah4": [
+      -24,
+      0
+    ],
+    "m461aa4": [
+      -8,
+      0
+    ],
+    "m461ae4": [
+      12,
+      0
+    ],
+    "m461ag4": [
+      8,
+      0
+    ],
+    "m461fa1": [
+      -18,
+      0
+    ],
+    "m461fa2": [
+      -10,
+      0
+    ],
+    "m461fb1": [
+      -8,
+      0
+    ],
+    "m461fb2": [
+      -12,
+      0
+    ],
+    "m461fc1": [
+      -12,
+      0
+    ],
+    "m461fc2": [
+      -14,
+      0
+    ],
+    "m461fd1": [
+      -12,
+      0
+    ],
+    "m461fd2": [
+      -12,
+      0
+    ],
+    "m461fe1": [
+      -10,
+      0
+    ],
+    "m462wc1": [
+      -10,
+      0
+    ],
+    "m462wd1": [
+      -10,
+      0
+    ],
+    "m462ae0": [
+      -18,
+      0
+    ],
+    "m462af0": [
+      -26,
+      0
+    ],
+    "m462ag0": [
+      -22,
+      0
+    ],
+    "m462ah0": [
+      -28,
+      0
+    ],
+    "m462aa3": [
+      -8,
+      0
+    ],
+    "m462ab3": [
+      -12,
+      0
+    ],
+    "m462ac3": [
+      -14,
+      0
+    ],
+    "m462ad3": [
+      -18,
+      0
+    ],
+    "m462na3": [
+      -12,
+      0
+    ],
+    "m462nb3": [
+      -38,
+      0
+    ],
+    "m462nc3": [
+      -12,
+      0
+    ],
+    "m462ne1": [
+      -14,
+      0
+    ],
+    "m462sa1": [
+      -8,
+      0
+    ]
+  }
+}

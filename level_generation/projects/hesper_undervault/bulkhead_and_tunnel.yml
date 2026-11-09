@@ -1,0 +1,39 @@
+# The Undervault's two later ways, headless (run from output/hesper_stage/scenario_run): the Deep Stair bulkhead stays
+# shut for a party without Grandmaster Hacking (event 17, map variable 1 stays 0); the Water Works door is barred
+# before S2 (no dialogue, no move) and after S2 (100102) asks for its two ways (CR-P1-5): the Service tunnel (topic
+# 9041) leads to the Scour (hes_out2.odm) and sets 100420, the Pumping Station (9040) leads down to D2.
+# bulkhead_open.yml checks the bulkhead with a Grandmaster.
+id: hesper.undervault.bulkhead_and_tunnel
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_undervault.blv
+- set_pose: {map: hes_undervault.blv, x: 480, y: -2048, z: -1024, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- assert:
+    map: hes_undervault.blv
+    runtime_event_variable: {id: 124, value: 0}
+- set_pose: {map: hes_undervault.blv, x: 6150, y: -900, z: 0, yaw: 0, pitch: 0}
+- press_interact: {}
+- assert:
+    map: hes_undervault.blv
+    dialog: {active: false}
+- setup_shortcut: {kind: set_qbit, id: 100102, reason: S2 done (D2's filter console)}
+- press_interact: {}
+- assert:
+    dialog:
+      active: true
+      actions:
+      - label: Pumping Station
+      - label: Service tunnel
+- select_topic: {kind: npc_topic, action_id: 9040}
+- assert:
+    map: hes_d02.blv
+- set_pose: {map: hes_undervault.blv, x: 6150, y: -900, z: 0, yaw: 0, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: npc_topic, action_id: 9041}
+- select_topic: {kind: map_transition_confirm, source_id: 0, action_id: 0, selection_index: 0, label: OK}
+- assert:
+    map: hes_out2.odm
+    qbit_set: [100420]

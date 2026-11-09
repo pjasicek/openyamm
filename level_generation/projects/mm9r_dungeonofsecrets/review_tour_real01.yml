@@ -1,0 +1,67 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dungeonofsecrets/review/real01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: d1_s08_corridor
+  position:
+  - 2304
+  - -256
+  - -40
+  yaw: -3.1283
+  pitch: 0.0
+- name: d2_pool_room_w_a
+  position:
+  - 640
+  - 1536
+  - -60
+  yaw: 3.1416
+  pitch: 0.0
+- name: d2_pool_room_w_b
+  position:
+  - 256
+  - 1587
+  - -60
+  yaw: 3.1416
+  pitch: 0.0
+- name: d2_pool_room_w_c
+  position:
+  - 640
+  - 1165
+  - -60
+  yaw: 3.1416
+  pitch: 0.0
+- name: d2_pool_room_w_d
+  position:
+  - 0
+  - 1331
+  - -60
+  yaw: 3.1416
+  pitch: 0.0
+- name: d3a_hub_door_s10
+  position:
+  - 4736
+  - -358
+  - -40
+  yaw: 3.1416
+  pitch: 0.0
+- name: d3b_s10_room
+  position:
+  - 3942
+  - -384
+  - -40
+  yaw: 3.1416
+  pitch: 0.0
+- name: d4_s04_corridor_w
+  position:
+  - 384
+  - 1254
+  - 615
+  yaw: 3.1416
+  pitch: 0.0
+- name: d4_alt_back
+  position:
+  - 768
+  - 1254
+  - 656
+  yaw: 3.1416
+  pitch: 0.0

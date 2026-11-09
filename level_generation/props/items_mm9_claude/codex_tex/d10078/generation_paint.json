@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise-object-edit texture atlas. The guide is the edit target; design_reference.png is material/detail reference; icon_x8.png is original colour reference (magenta is background).\nOutput ONE genuine transparent RGBA PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's three columns and FOUR rows, every silhouette's EXACT position, size, outline and orientation. Paint grey objects ONLY, never enlarge, move, redesign or redraw geometry. Each two-row group has FRONT, BACK, LEFT / RIGHT, TOP, empty. The tiny end-on dots are intentional and must remain tiny dots. Empty column 3 in rows 2 and 4 stays transparent.\nRows 1\u20132: unlit base colour faithfully matching original MM9 Steel Staff in MM6-MM8 inventory style: extremely slim straight pale-silver shaft, narrow brown leather and gold grip sections near both ends, small gold upper collar, dark-silver tip caps. Follow the design reference and original icon for the placement of brown leather wraps and gold bands. No lighting, shadows, AO, hot highlights, reflections, glow, ground, outlines or text. Preserve all gaps with full transparency.\nRows 3\u20134: identical five silhouettes as rows 1\u20132, but pure FLAT material ID colours only. Every metal part including steel shaft, silver tip caps and gold bands is #FF0000. Every brown leather grip or strap is #00FF00. Cloth/hair if present #0000FF; matte wood/bone/stone if present #FFFF00; gems/glass/enamel if present #000000. No shading, texture, outlines, or antialiased colour blends inside. Exactly one material colour per silhouette pixel; nothing outside silhouettes.\nThis is an austere steel staff, not a sword. Keep the very narrow geometry and sparse atlas layout exactly as supplied. Do not fill the canvas with enlarged staffs.\nCRITICAL CORRECTION: In column 1 row 2 AND column 1 row 4, the LONG leather grip must be on the LEFT, short leather grip on the RIGHT, exactly as the guide shows. In column 3 rows 1 and 3 long grip is RIGHT. Vertical views long grip is BOTTOM. Preserve original guide contours without any stray pixels or coloured fringes outside. Upper half contains only base colours, never material ID red or green. Lower half only clean pure red and green. Match guide width exactly.",
+  "initial_prompt": "Edit paint_mask_guide.png as a precise-object-edit texture atlas. The guide is the edit target; design_reference.png is material/detail reference; icon_x8.png is original colour reference (magenta is background).\nOutput ONE genuine transparent RGBA PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's three columns and FOUR rows, every silhouette's EXACT position, size, outline and orientation. Paint grey objects ONLY, never enlarge, move, redesign or redraw geometry. Each two-row group has FRONT, BACK, LEFT / RIGHT, TOP, empty. The tiny end-on dots are intentional and must remain tiny dots. Empty column 3 in rows 2 and 4 stays transparent.\nRows 1\u20132: unlit base colour faithfully matching original MM9 Steel Staff in MM6-MM8 inventory style: extremely slim straight pale-silver shaft, narrow brown leather and gold grip sections near both ends, small gold upper collar, dark-silver tip caps. Follow the design reference and original icon for the placement of brown leather wraps and gold bands. No lighting, shadows, AO, hot highlights, reflections, glow, ground, outlines or text. Preserve all gaps with full transparency.\nRows 3\u20134: identical five silhouettes as rows 1\u20132, but pure FLAT material ID colours only. Every metal part including steel shaft, silver tip caps and gold bands is #FF0000. Every brown leather grip or strap is #00FF00. Cloth/hair if present #0000FF; matte wood/bone/stone if present #FFFF00; gems/glass/enamel if present #000000. No shading, texture, outlines, or antialiased colour blends inside. Exactly one material colour per silhouette pixel; nothing outside silhouettes.\nThis is an austere steel staff, not a sword. Keep the very narrow geometry and sparse atlas layout exactly as supplied. Do not fill the canvas with enlarged staffs.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3d-da64-7fd3-8dbb-b5509a9b7259/exec-db205fe3-e2fc-4651-bc35-aa62c1d366ad.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10078/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10078/paint_mask_guide.png",
+      "sha256": "6fe1ab0cbce533bd3eced20f55a5a41961ab18526c6e082c59db96c56109155b"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10078/design_reference.png",
+      "sha256": "f64088c5ef35dd8b124f28df2f98b6a82c9d44ef8c981bd159926c8a82e4a74d"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10078/icon_x8.png",
+      "sha256": "ded8f9b73517fbfbbda27ac577051d7a5dd7f7fad90721b3e01941737120d28b"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "review": "Corrected horizontal orientation; stray coloured edge pixels remain. Raw tool output preserved without modification."
+}

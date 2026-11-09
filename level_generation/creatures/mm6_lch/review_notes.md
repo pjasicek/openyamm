@@ -1,0 +1,9 @@
+# Lich acceptance
+
+Accepted 2026-09-13: 59 unique native images, 10 batches, palettes 763/764/765. All native/raw sheets, all-frame base/mask contacts, palette rows, light/dark edge close-ups, and offline attack palette 765/frame 3 and death palette 764/frame 4 were inspected. Stored/mirrored walk views, six attack/hit/fidget moments, five falling moments and corpse retain native timing, scale and anchoring. Detached crown/skull and foreshortened falling bones remain in their native places.
+
+One enhanced-art R8 mask selects silver-blue forearm guards and the small cool collar fitting. Native-used forearm indices 209-226 supply usage-weighted nonlinear green/red luminance LUTs, standard sRGB luminance coefficients. Base is exact bypass. Tan bone, gold crown, red-brown boots, warm gray-lavender torso and ochre cloth stay protected. Body gain .80. Reduced matte foreground threshold removes opaque magenta finger gaps; remaining non-spell pink RGB is capped locally without removing thin bone alpha. Four native white-lilac spell poses are protected.
+
+All source/palette/raw provenance, registration, exact crop/atlas, timing, variant alpha and zero-mask checks pass; no raw clipping. Remaining above-16 residual candidates (1323 cleaned, 1687 exported/atlas) are confined to four native lilac magic poses, reviewed in context and worst-edge contact. Decoded padded base+R8 masks 43,863,860 bytes (41.83 MiB). Physical export 2x; generated standing body detail about 450 pixels tall.
+
+Visible limits: skeletal joints and crown are rounder and more strongly modeled; spell highlights are slightly less bright than the native pixels and the tiny collar fitting uses the forearm curve. Offline checks establish pose order/appearance, not GPU performance. Staged only; LUT-aware loader or deterministic baking needed before gameplay installation.

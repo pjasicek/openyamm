@@ -1,0 +1,46 @@
+{
+  "name": "grass_variation_before",
+  "world": "mm6",
+  "map": "oute3.odm",
+  "pose": [
+    -9728.0,
+    -11319.0,
+    161.0,
+    4.758,
+    -0.109502449
+  ],
+  "screenshot": "grass_variation_before.png",
+  "look_left": 0,
+  "look_down": 0,
+  "diagnostic_flying": false,
+  "warmup_seconds": 1.0,
+  "actions": "level_generation/terrain/mm6_ground_cover/review/performance/cached_motion_actions.json",
+  "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+  "performance_sample": true,
+  "display": ":107",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "vsync": false,
+  "measurement_seconds": 12,
+  "fps_samples": [
+    19.4902,
+    18.1892,
+    18.4778,
+    20.4331,
+    16.4709,
+    14.9887,
+    19.0417,
+    18.8231,
+    19.72,
+    18.4143,
+    24.2679,
+    23.0671
+  ],
+  "median_fps": 18.9324,
+  "binary_sha256": "b8915577939858a52fee5933ac206a02eba2f45e57fa168d465755b2fa49152e",
+  "settings_sha256": "c4654cd450c2dd6d4fb43c245c2e4b8980a7bf69e9a220077c728f5e216ee6e5",
+  "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+  "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+}

@@ -1,0 +1,452 @@
+# Hesper's sounds (design/kreegan_world/AUDIO.md), installed by audio_stage.py (run from stage.py).
+# source: the ElevenLabs workspace (tools/audio/README.md); each listed name is the pick out/<job>/<name>.wav (the job
+# and the output share the name), installed as worlds/hesper/audio/hesper/<name>.wav. The engine finds a sound by its
+# file name in the merged audio tree (game/audio/SoundCatalog.cpp), so a named placeholder (the shields' and the
+# blink's, which play their fallback while the file is missing) is replaced by dropping the file in.
+source: design/kreegan_world/audio
+install:
+  # Named hooks the engine already plays (worlds/hesper/shields.yml sounds, modifiers.yml blink).
+  - shield_hit_light
+  - shield_hit_standard
+  - shield_hit_noble
+  - shield_break
+  - shield_break_noble
+  - shield_regen
+  - party_shield_hit
+  - party_shield_break
+  - monster_blink
+  # Monster sounds (by id below), and the rest of batch 1 so that later hooks find them installed.
+  - hes_bolt_fire
+  - hes_heavy_fire
+  - hes_starport_fire
+  - hes_rifle_fire
+  - party_pistol_fire
+  - party_rifle_fire
+  - kr_plasma_fire
+  - kr_hot_fire
+  - kr_dart_fire
+  - ash_blaster_fire
+  - kr_lance_charge
+  - kr_lance_fire
+  - kr_lance_shot
+  - energy_hit_flesh
+  - energy_hit_armor
+  - energy_hit_rock
+  - drone_hover_loop
+  - turret_servo_loop
+  - turret_windup
+  - emp_grenade
+  - shield_cell_use
+  - cell_charger
+  - drone_death
+  - turret_destroyed
+  - crawler_spit
+  - crawler_acid_hit
+  - crawler_skitter
+  - glassback_roar
+  - glassback_crunch
+  - glassback_wince
+  - glassback_death
+  - amb_starport_wind
+  - amb_facility_hum
+  - amb_starport_bed
+  - amb_facility_bed
+  # Zone 3 (2026-10-23): the Brood Spires, D5, D9, D11; played by name from map Lua and behaviours, or by id below.
+  - egg_hatch
+  - egg_burst
+  - sac_burst
+  - membrane_split
+  - brood_heartbeat
+  - brood_heartbeat_falter
+  - ganglion_convulsion
+  - acid_burn
+  - crawler_wince
+  - crawler_death
+  - hatchling_screech
+  - hatchling_wince
+  - hatchling_death
+  - resin_lift_groan
+  - signal_chime
+  - duel_drum
+  - vhorrax_charge
+  - wing_beat
+  - mother_gurgle
+  # Zone 4 (2026-10-23): the Crown, D6, D7, D12, D13, D15, D16 (AUDIO.md, Zone 4); by name from map Lua and
+  # behaviours, the charge's two by the engine's named placeholders, or by id below.
+  - cannon_charge_1                 # the wind-up, one stage per 0.5 s lock step (audio/make_cannon_charge.py)
+  - cannon_charge_2
+  - cannon_charge_3
+  - cannon_charge_4
+  - cannon_charge_5
+  - cannon_pulse
+  - cannon_blast
+  - harrower_slash
+  - harrower_fidget
+  - harrower_wince
+  - harrower_death
+  - monster_charge_windup
+  - monster_charge_hit
+  - vreth_roar
+  - market_crowd
+  - noble_wings
+  - lattice_heart_die
+  - lattice_alarm
+  - breach_charge_blast
+  - arc_snap
+  - vent_blast
+  - column_die
+  - voice_chord
+  - tram_rush
+  - debris_crash
+  - terminal_chime
+  # Batch 3 (2026-10-24): the staged monsters' own voices (AUDIO.md, Monster voices); tier C sets are the A sets
+  # pitched down (derived jobs).
+  - drudge_attack
+  - drudge_wince
+  - drudge_death
+  - drudge_fidget
+  - drudge_hulk_attack
+  - drudge_hulk_wince
+  - drudge_hulk_death
+  - drudge_hulk_fidget
+  - trooper_wince
+  - trooper_death
+  - trooper_fidget
+  - spire_guard_wince
+  - spire_guard_death
+  - spire_guard_fidget
+  - lancer_wince
+  - lancer_death
+  - lancer_fidget
+  - crown_lancer_wince
+  - crown_lancer_death
+  - crown_lancer_fidget
+  - overseer_wince
+  - overseer_death
+  - noble_wince
+  - noble_death
+  - conduit_rupture
+  # The bosses' sets.
+  - custodian_attack
+  - custodian_wince
+  - custodian_death
+  - custodian_fidget
+  - glassback_queen_attack
+  - glassback_queen_wince
+  - glassback_queen_death
+  - glassback_queen_roar
+  - krav_wince
+  - krav_death
+  - krav_fidget
+  - ghulkat_attack
+  - ghulkat_wince
+  - ghulkat_death
+  - ghulkat_fidget
+  - harvester_attack
+  - harvester_wince
+  - harvester_death
+  - harvester_fidget
+  - vhorrax_wince
+  - vhorrax_death
+  - vhorrax_fidget
+  - bulwark_attack
+  - bulwark_wince
+  - bulwark_death
+  - bulwark_fidget
+  - coil_keeper_wince
+  - coil_keeper_death
+  - coil_keeper_fidget
+  - conductor_wince
+  - conductor_death
+  - conductor_fidget
+  - forgemaster_attack
+  - forgemaster_wince
+  - forgemaster_death
+  - forgemaster_fidget
+  - brood_mother_attack
+  - brood_mother_wince
+  - brood_mother_death
+  - brood_mother_fidget
+  - gatekeeper_wince
+  - gatekeeper_death
+  - gatekeeper_fidget
+  - ssekh_wince
+  - ssekh_death
+  - ssekh_fidget
+  - mraal_wince
+  - mraal_death
+  - mraal_fidget
+  - xith_attack
+  - xith_wince
+  - xith_death
+  - xith_fidget
+  - hierarch_attack
+  - hierarch_wince
+  - hierarch_death
+  - hierarch_fidget
+  # Boss lines (2026-10-24, design/kreegan_world/audio/BOSS_LINES.md): the voiced first-sight and death lines, played by
+  # name from map Lua (evt.PlaySoundName) and behaviours (self:playSound). vo_vreth_sight is his roar and line joined.
+  - vo_krav_sight
+  - vo_ghulkat_sight
+  - vo_forgemaster_sight
+  - vo_vhorrax_sight
+  - vo_vhorrax_death_terms
+  - vo_vhorrax_death
+  - vo_vreth_sight
+  - vo_vreth_death
+  - vo_coil_keeper_sight
+  - vo_conductor_sight
+  - vo_gatekeeper_sight
+  - vo_ssekh_sight
+  - vo_mraal_sight
+  - vo_xith_sight
+  - vo_hierarch_sight
+  - vo_hierarch_death
+  - vo_custodian_sight
+# Numeric sound ids for the names a table refers to by number (the monster descriptors' sound columns, map Lua's
+# evt.PlaySound): rows appended to the stage copy of engine/data_tables/sounds.txt. Stage-only block 60000-60999
+# (the descriptors hold 16-bit sound ids; the engine's own end at 46801).
+sound_ids:
+  # The missiles' impacts (projectiles.yml impact_sound; monster_projectiles.yml impact_sound_id).
+  energy_hit_flesh: 60300
+  energy_hit_armor: 60301
+  energy_hit_rock: 60302
+  crawler_acid_hit: 60303
+  hes_bolt_fire: 60000
+  hes_heavy_fire: 60001
+  hes_starport_fire: 60002
+  hes_rifle_fire: 60003
+  # The party's guns (projectiles.yml party: shot_sound).
+  party_pistol_fire: 60004
+  party_rifle_fire: 60005
+  kr_plasma_fire: 60010
+  kr_hot_fire: 60011
+  kr_dart_fire: 60012
+  kr_lance_shot: 60013
+  ash_blaster_fire: 60020
+  crawler_spit: 60030
+  turret_windup: 60040
+  turret_servo_loop: 60043
+  drone_hover_loop: 60044
+  turret_destroyed: 60041
+  drone_death: 60042
+  glassback_roar: 60050
+  glassback_crunch: 60051
+  glassback_wince: 60052
+  glassback_death: 60053
+  cell_charger: 60060
+  # Zone 3's creatures.
+  crawler_skitter: 60031
+  crawler_wince: 60032
+  crawler_death: 60033
+  hatchling_screech: 60070
+  hatchling_wince: 60071
+  hatchling_death: 60072
+  egg_burst: 60073
+  sac_burst: 60074
+  ganglion_convulsion: 60075
+  # Zone 4's creatures.
+  harrower_slash: 60080
+  harrower_fidget: 60081
+  harrower_wince: 60082
+  harrower_death: 60083
+  noble_wings: 60084
+  # Batch 3: the families (60100-60199) and the bosses (60200-60299).
+  drudge_attack: 60100
+  drudge_wince: 60101
+  drudge_death: 60102
+  drudge_fidget: 60103
+  drudge_hulk_attack: 60104
+  drudge_hulk_wince: 60105
+  drudge_hulk_death: 60106
+  drudge_hulk_fidget: 60107
+  trooper_wince: 60110
+  trooper_death: 60111
+  trooper_fidget: 60112
+  spire_guard_wince: 60113
+  spire_guard_death: 60114
+  spire_guard_fidget: 60115
+  lancer_wince: 60120
+  lancer_death: 60121
+  lancer_fidget: 60122
+  crown_lancer_wince: 60123
+  crown_lancer_death: 60124
+  crown_lancer_fidget: 60125
+  overseer_wince: 60130
+  overseer_death: 60131
+  noble_wince: 60132
+  noble_death: 60133
+  conduit_rupture: 60140
+  column_die: 60141
+  custodian_attack: 60200
+  custodian_wince: 60201
+  custodian_death: 60202
+  custodian_fidget: 60203
+  glassback_queen_attack: 60204
+  glassback_queen_wince: 60205
+  glassback_queen_death: 60206
+  glassback_queen_roar: 60207
+  krav_wince: 60208
+  krav_death: 60209
+  krav_fidget: 60210
+  ghulkat_attack: 60211
+  ghulkat_wince: 60212
+  ghulkat_death: 60213
+  ghulkat_fidget: 60214
+  harvester_attack: 60215
+  harvester_wince: 60216
+  harvester_death: 60217
+  harvester_fidget: 60218
+  vhorrax_wince: 60219
+  vhorrax_death: 60220
+  vhorrax_fidget: 60221
+  bulwark_attack: 60222
+  bulwark_wince: 60223
+  bulwark_death: 60224
+  bulwark_fidget: 60225
+  coil_keeper_wince: 60226
+  coil_keeper_death: 60227
+  coil_keeper_fidget: 60228
+  conductor_wince: 60229
+  conductor_death: 60230
+  conductor_fidget: 60231
+  forgemaster_attack: 60232
+  forgemaster_wince: 60233
+  forgemaster_death: 60234
+  forgemaster_fidget: 60235
+  brood_mother_attack: 60236
+  brood_mother_wince: 60237
+  brood_mother_death: 60238
+  brood_mother_fidget: 60239
+  gatekeeper_wince: 60240
+  gatekeeper_death: 60241
+  gatekeeper_fidget: 60242
+  ssekh_wince: 60243
+  ssekh_death: 60244
+  ssekh_fidget: 60245
+  mraal_wince: 60246
+  mraal_death: 60247
+  mraal_fidget: 60248
+  xith_attack: 60249
+  xith_wince: 60250
+  xith_death: 60251
+  xith_fidget: 60252
+  hierarch_attack: 60253
+  hierarch_wince: 60254
+  hierarch_death: 60255
+  hierarch_fidget: 60256
+# The staged monsters' descriptor sounds (columns AttackSoundId, DeathSoundId, WinceSoundId and the fourth, named
+# AwareSoundId but played by the engine as the idle fidget: MonsterTable boredSoundId), replacing the reference row's.
+# A ranged monster's shot plays its attack sound (PROJECTILES.md). Unlisted columns keep the reference row's sound.
+monsters:
+  10065: {attack: hes_bolt_fire, bored: turret_servo_loop, death: turret_destroyed}       # Ward Turret
+  10066: {attack: hes_heavy_fire, bored: turret_servo_loop, death: turret_destroyed}      # Gate Bastion
+  10054: {attack: hes_starport_fire, bored: turret_servo_loop, death: turret_destroyed}   # Old Starport Turret
+  10067: {attack: hes_rifle_fire}                                                     # Landfall Guard ranks
+  10068: {attack: hes_rifle_fire}
+  10069: {attack: hes_rifle_fire}
+  10050: {attack: kr_dart_fire, death: drone_death, bored: drone_hover_loop}   # Seeker Drone
+  10051: {attack: kr_dart_fire, death: drone_death, bored: drone_hover_loop}   # Hunter Drone
+  10080: {attack: glassback_crunch, bored: glassback_roar, wince: glassback_wince, death: glassback_death}
+  10081: {attack: glassback_crunch, bored: glassback_roar, wince: glassback_wince, death: glassback_death}
+  10082: {attack: glassback_crunch, bored: glassback_roar, wince: glassback_wince, death: glassback_death}
+  10070: {attack: ash_blaster_fire}                                                   # Ashrunner Scav
+  10071: {attack: ash_blaster_fire}                                                   # Ashrunner Raider
+  10072: {attack: kr_plasma_fire}                                                     # Ashrunner Gunner
+  10010: {attack: kr_plasma_fire, wince: trooper_wince, death: trooper_death, bored: trooper_fidget}   # Trooper
+  10090: {attack: crawler_spit, wince: crawler_wince, death: crawler_death, bored: crawler_skitter}   # Acid Crawlers
+  10091: {attack: crawler_spit, wince: crawler_wince, death: crawler_death, bored: crawler_skitter}
+  10092: {attack: crawler_spit, wince: crawler_wince, death: crawler_death, bored: crawler_skitter}
+  10003: {attack: hatchling_screech, wince: hatchling_wince, death: hatchling_death}  # Hatchling (zone 3)
+  10045: {death: egg_burst}                                                           # Egg Cluster
+  10130: {death: sac_burst}                                                           # Brood Sac
+  10131: {death: ganglion_convulsion}                                                 # Ganglion
+  # Zone 4: the Harrowers and Huntmaster Vreth (HARROWERS.md, Sounds); the winged Nobles' and Overseers' fidget.
+  10240: {attack: harrower_slash, bored: harrower_fidget, wince: harrower_wince, death: harrower_death}
+  10241: {attack: harrower_slash, bored: harrower_fidget, wince: harrower_wince, death: harrower_death}
+  10242: {attack: harrower_slash, bored: harrower_fidget, wince: harrower_wince, death: harrower_death}
+  10147: {attack: harrower_slash, bored: harrower_fidget, wince: harrower_wince, death: harrower_death}  # Vreth
+  10040: {attack: kr_hot_fire, wince: noble_wince, death: noble_death, bored: noble_wings}   # Kreegan Nobles
+  10041: {attack: kr_hot_fire, wince: noble_wince, death: noble_death, bored: noble_wings}
+  10042: {attack: kr_hot_fire, wince: noble_wince, death: noble_death, bored: noble_wings}
+  10030: {attack: kr_plasma_fire, wince: overseer_wince, death: overseer_death, bored: noble_wings}   # Overseers
+  10031: {attack: kr_plasma_fire, wince: overseer_wince, death: overseer_death, bored: noble_wings}
+  10032: {attack: kr_hot_fire, wince: overseer_wince, death: overseer_death, bored: noble_wings}
+  # Batch 3 (2026-10-24, AUDIO.md, Monster voices). Gunners keep their missile's fire sound as their attack.
+  10000: {attack: drudge_attack, wince: drudge_wince, death: drudge_death, bored: drudge_fidget}   # Drudge
+  10001: {attack: drudge_attack, wince: drudge_wince, death: drudge_death, bored: drudge_fidget}   # Drudge Brute
+  10002: {attack: drudge_hulk_attack, wince: drudge_hulk_wince, death: drudge_hulk_death, bored: drudge_hulk_fidget}   # Drudge Hulk
+  10263: {attack: drudge_attack, wince: drudge_wince, death: drudge_death, bored: drudge_fidget}   # Thrix (friendly, a freed Drudge)
+  10011: {attack: kr_plasma_fire, wince: trooper_wince, death: trooper_death, bored: trooper_fidget}   # Veteran Trooper
+  10012: {attack: kr_hot_fire, wince: spire_guard_wince, death: spire_guard_death, bored: spire_guard_fidget}   # Spire Guard
+  10020: {attack: kr_lance_shot, wince: lancer_wince, death: lancer_death, bored: lancer_fidget}   # Lancer
+  10021: {attack: kr_lance_shot, wince: lancer_wince, death: lancer_death, bored: lancer_fidget}   # Heavy Lancer
+  10022: {attack: kr_lance_shot, wince: crown_lancer_wince, death: crown_lancer_death, bored: crown_lancer_fidget}   # Crown Lancer
+  10052: {attack: kr_hot_fire, death: drone_death, bored: drone_hover_loop}          # Reaver Drone
+  10055: {attack: kr_plasma_fire, death: turret_destroyed, bored: turret_servo_loop}   # Sentinel Turret
+  10056: {attack: kr_hot_fire, death: turret_destroyed, bored: turret_servo_loop}   # Heavy Sentinel
+  10057: {attack: kr_hot_fire, death: turret_destroyed, bored: turret_servo_loop}   # Crown Sentinel
+  10144: {attack: kr_hot_fire, death: turret_destroyed, bored: turret_servo_loop}   # Throne Turret
+  10140: {attack: hes_heavy_fire, death: turret_destroyed, bored: turret_servo_loop}   # Test Emplacement (its map shot plays hes_heavy_fire too)
+  10142: {death: column_die}                                                         # Capacitor Column
+  10143: {death: conduit_rupture}                                                    # Throne Conduit
+  # The bosses.
+  10100: {attack: custodian_attack, wince: custodian_wince, death: custodian_death, bored: custodian_fidget}   # The Custodian
+  10101: {attack: glassback_queen_attack, wince: glassback_queen_wince, death: glassback_queen_death, bored: glassback_queen_roar}   # Glassback Queen
+  10102: {attack: kr_plasma_fire, wince: krav_wince, death: krav_death, bored: krav_fidget}   # Overseer Krav
+  10103: {attack: ghulkat_attack, wince: ghulkat_wince, death: ghulkat_death, bored: ghulkat_fidget}   # Overseer Ghulkat
+  10104: {attack: harvester_attack, wince: harvester_wince, death: harvester_death, bored: harvester_fidget}   # The Harvester
+  10105: {attack: kr_hot_fire, wince: vhorrax_wince, death: vhorrax_death, bored: vhorrax_fidget}   # Lord Vhorrax (D5)
+  10106: {attack: kr_hot_fire, wince: vhorrax_wince, death: vhorrax_death, bored: vhorrax_fidget}   # Lord Vhorrax (D11)
+  10107: {attack: bulwark_attack, wince: bulwark_wince, death: bulwark_death, bored: bulwark_fidget}   # The Bulwark
+  10141: {attack: bulwark_attack, wince: bulwark_wince, death: bulwark_death, bored: bulwark_fidget}   # The Bulwark (coupled)
+  10108: {attack: kr_hot_fire, wince: coil_keeper_wince, death: coil_keeper_death, bored: coil_keeper_fidget}   # The Coil Keeper
+  10109: {attack: kr_hot_fire, wince: conductor_wince, death: conductor_death, bored: conductor_fidget}   # The Conductor
+  10110: {attack: forgemaster_attack, wince: forgemaster_wince, death: forgemaster_death, bored: forgemaster_fidget}   # The Forgemaster
+  10111: {attack: brood_mother_attack, wince: brood_mother_wince, death: brood_mother_death, bored: brood_mother_fidget}   # The Brood Mother
+  10112: {attack: kr_lance_shot, wince: gatekeeper_wince, death: gatekeeper_death, bored: gatekeeper_fidget}   # The Gatekeeper
+  10113: {attack: kr_hot_fire, wince: ssekh_wince, death: ssekh_death, bored: ssekh_fidget}   # Lady Ssekh
+  10114: {attack: kr_hot_fire, wince: mraal_wince, death: mraal_death, bored: mraal_fidget}   # Lord Mraal
+  10115: {attack: xith_attack, wince: xith_wince, death: xith_death, bored: xith_fidget}   # Lord Xith
+  10120: {attack: hierarch_attack, wince: hierarch_wince, death: hierarch_death, bored: hierarch_fidget}   # The Hierarch
+  10145: {attack: hierarch_attack, wince: hierarch_wince, death: hierarch_death, bored: hierarch_fidget}   # The Hierarch (enthroned)
+  10146: {attack: hierarch_attack, wince: hierarch_wince, death: hierarch_death, bored: hierarch_fidget}   # The Hierarch (faltering)
+# The maps' music (map_stats Track; GameAudioSystem plays Music/<N>.mp3 on map entry and loops it): the music jobs'
+# 320 kbit/s MP3s (out/<job>/<job>.mp3, from the FLAC masters) as worlds/hesper/music/<N>.mp3. MAPS.md, Music: the
+# Undervault gets the warm town track. Music is per map: Landfall's own district on hes_out1 cannot have it until the
+# engine has per-area music. The ambience beds stay installed as sounds; the engine has no ambience loop under the
+# music, so they play nowhere for now (AUDIO.md, Engine needs).
+music:
+  101: hes_music_starport          # Starport Reach, the surface
+  102: hes_music_facility          # the Ancient facilities
+  103: hes_music_landfall          # Landfall's people: the Undervault
+  104: hes_music_kreegan           # the Kreegan hives and works
+  105: hes_music_lattice           # the Lattice power cores
+  106: hes_music_undercroft        # deep Ancient transit and archives
+  107: hes_music_crownspire        # the Crownspire, the final dungeon
+  108: hes_music_crown             # the Crown, the Kreegan fortress-city plateau (2026-10-24)
+# Every Hesper map, built or not: a map not yet in maps.yml is skipped until it is registered, then gets its track
+# the moment it is built. No Hesper map may keep its reference row's MM6/MM7 track (sci-fi.blv plays 46, the Control
+# Center's).
+map_tracks:
+  hes_out1.odm: 101                # Starport Reach
+  hes_out2.odm: 101                # The Scour (MAPS.md: the surface is low synth drones under a sparse orchestra)
+  hes_out3.odm: 101                # Brood Spires
+  hes_out4.odm: 108                # The Crown (its own grim martial theme since 2026-10-24; was 101)
+  hes_undervault.blv: 103          # the Undervault (MAPS.md: warm strings, hand percussion)
+  hes_d00.blv: 102                 # D0 Hangar Nine
+  hes_d01.blv: 102                 # D1 Starport Terminal
+  hes_d02.blv: 102                 # D2 Pumping Station
+  hes_d03.blv: 104                 # D3 Quarry Outpost
+  hes_d04.blv: 104                 # D4 Labor Pens
+  hes_d05.blv: 104                 # D5 Relay Spire (Kreegan grafted)
+  hes_d06.blv: 105                 # D6 Lattice Node West
+  hes_d07.blv: 105                 # D7 Lattice Node East
+  hes_d08.blv: 104                 # D8 The Foundry
+  hes_d09.blv: 104                 # D9 Brood Pits (organic: a brood track would fit better, AUDIO.md)
+  hes_d10.blv: 106                 # D10 Colony Archive (lonelier than D0-D2's 102, and heard after them)
+  hes_d11.blv: 104                 # D11 The Seedship (organic: a brood track would fit better, AUDIO.md)
+  hes_d12.blv: 107                 # D12 Crownspire
+  hes_d13.blv: 105                 # D13 Deepwell, the escape run
+  hes_d15.blv: 106                 # D15 The Undercroft
+  hes_d16.blv: 105                 # D16 Lattice Node North

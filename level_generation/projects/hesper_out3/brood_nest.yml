@@ -1,0 +1,68 @@
+# S10's nest (BROOD_SPIRES.md section 7, events 5, 150; P4's Hesk 9726): Hesk gives S10 (100230); the Matron and her
+# brood killed, the nest is quiet (100510; the mounds go dark: checked in the game, a decoration swap); Hesk closes S10
+# (100110, 100230 cleared).
+id: hesper.out3.brood_nest
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out3.odm
+- assert:
+    qbit_clear:
+    - 100510
+    - 100110
+- speak_npc:
+    source_id: 9510
+- select_topic:
+    kind: npc_topic
+    action_id: 9726
+- assert:
+    qbit_set:
+    - 100230
+- press_action:
+    action: cancel_dialog
+- damage_actor:
+    actor_index: 47
+    amount: 100000
+- damage_actor:
+    actor_index: 48
+    amount: 100000
+- damage_actor:
+    actor_index: 49
+    amount: 100000
+- damage_actor:
+    actor_index: 50
+    amount: 100000
+- damage_actor:
+    actor_index: 51
+    amount: 100000
+- damage_actor:
+    actor_index: 52
+    amount: 100000
+- damage_actor:
+    actor_index: 53
+    amount: 100000
+- damage_actor:
+    actor_index: 54
+    amount: 100000
+- advance_runtime:
+    seconds: 0.5
+- advance_runtime:
+    seconds: 3
+- load_map:
+    map: hes_out3.odm
+- assert:
+    qbit_set:
+    - 100510
+- speak_npc:
+    source_id: 9510
+- select_topic:
+    kind: npc_topic
+    action_id: 9726
+- assert:
+    qbit_set:
+    - 100110
+    qbit_clear:
+    - 100230
+- press_action:
+    action: cancel_dialog

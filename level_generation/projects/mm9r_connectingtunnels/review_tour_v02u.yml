@@ -1,0 +1,277 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_connectingtunnels/review/v02u
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a01_start0_thronheim
+  position:
+  - 17324
+  - -3523
+  - 1496
+  yaw: 1.5708
+  pitch: 0.0
+- name: a02_start1_yorwick
+  position:
+  - -17164
+  - -7782
+  - 1501
+  yaw: 0.0822
+  pitch: 0.0
+- name: a03_start2_yorwick_upper
+  position:
+  - -16437
+  - 9221
+  - 6133
+  yaw: -2.7928
+  pitch: 0.0
+- name: a04_rockfall
+  position:
+  - -10498
+  - -3328
+  - -572
+  yaw: 1.5708
+  pitch: 0.0
+- name: a05_coffin
+  position:
+  - -2024
+  - -13056
+  - -1777
+  yaw: -0.1965
+  pitch: -0.1396
+- name: a06_coffin_chamber
+  position:
+  - 1688
+  - -12800
+  - -1593
+  yaw: -3.0828
+  pitch: 0.0
+- name: a07_coffin_side
+  position:
+  - -1691
+  - -13271
+  - -1831
+  yaw: 0.0
+  pitch: -0.3142
+- name: a08_chest0
+  position:
+  - 10648
+  - 384
+  - -154
+  yaw: -0.3921
+  pitch: -0.1745
+- name: r01_a
+  position:
+  - 2046
+  - -13325
+  - -1542
+  yaw: 3.1036
+  pitch: 0.0
+- name: r02_a
+  position:
+  - 3467
+  - -13128
+  - -1368
+  yaw: 0.7404
+  pitch: 0.0
+- name: r03_a
+  position:
+  - -4863
+  - -9244
+  - -1105
+  yaw: -2.6475
+  pitch: 0.0
+- name: r04_a
+  position:
+  - -17463
+  - -10212
+  - 2213
+  yaw: 2.0686
+  pitch: 0.0
+- name: r05_a
+  position:
+  - -15894
+  - -7360
+  - 1284
+  yaw: -2.8662
+  pitch: 0.0
+- name: r06_a
+  position:
+  - -13137
+  - -7386
+  - 233
+  yaw: 1.9504
+  pitch: 0.0
+- name: r07_a
+  position:
+  - -10910
+  - -6321
+  - -218
+  yaw: -2.2341
+  pitch: 0.0
+- name: r08_a
+  position:
+  - -8137
+  - -4280
+  - -531
+  yaw: -0.6956
+  pitch: 0.0
+- name: r09_a
+  position:
+  - -3033
+  - -6623
+  - -812
+  yaw: 0.751
+  pitch: 0.0
+- name: r10_a
+  position:
+  - 6642
+  - -6088
+  - -695
+  yaw: 3.0862
+  pitch: 0.0
+- name: r11_a
+  position:
+  - 15031
+  - -6295
+  - -366
+  yaw: 0.1107
+  pitch: 0.0
+- name: r12_a
+  position:
+  - -15336
+  - -5097
+  - 992
+  yaw: -0.0215
+  pitch: 0.0
+- name: r13_a
+  position:
+  - 9092
+  - -4826
+  - -531
+  yaw: -2.6317
+  pitch: 0.0
+- name: r14_a
+  position:
+  - 9563
+  - -4539
+  - -531
+  yaw: 0.1837
+  pitch: 0.0
+- name: r15_a
+  position:
+  - 17829
+  - -5379
+  - 2008
+  yaw: -0.4244
+  pitch: 0.0
+- name: r16_a
+  position:
+  - -11074
+  - -4698
+  - -545
+  yaw: 0.5923
+  pitch: 0.0
+- name: r17_a
+  position:
+  - -1353
+  - -4370
+  - -846
+  yaw: 1.1782
+  pitch: 0.0
+- name: r18_a
+  position:
+  - 5863
+  - -4093
+  - -819
+  yaw: 1.2371
+  pitch: 0.0
+- name: r19_a
+  position:
+  - -10393
+  - -1708
+  - -409
+  yaw: 2.0238
+  pitch: 0.0
+- name: r20_a
+  position:
+  - 4053
+  - -428
+  - -578
+  yaw: -0.2816
+  pitch: 0.0
+- name: r21_a
+  position:
+  - 3234
+  - 1188
+  - -163
+  yaw: -1.293
+  pitch: 0.0
+- name: r22_a
+  position:
+  - 8956
+  - 410
+  - -67
+  yaw: 0.1505
+  pitch: 0.0
+- name: r23_a
+  position:
+  - -13191
+  - 3768
+  - 1557
+  yaw: -1.9611
+  pitch: 0.0
+- name: r24_a
+  position:
+  - 6155
+  - 3412
+  - -422
+  yaw: -0.9117
+  pitch: 0.0
+- name: r25_a
+  position:
+  - -17819
+  - 3059
+  - 2930
+  yaw: 2.1723
+  pitch: 0.0
+- name: r26_a
+  position:
+  - -15333
+  - 6684
+  - 2169
+  yaw: -1.9217
+  pitch: 0.0
+- name: r27_a
+  position:
+  - -15062
+  - 6781
+  - 2155
+  yaw: -0.8369
+  pitch: 0.0
+- name: r28_a
+  position:
+  - -18923
+  - 5563
+  - 3996
+  yaw: 1.9966
+  pitch: 0.0
+- name: r29_a
+  position:
+  - -19307
+  - 8548
+  - 5169
+  yaw: 0.361
+  pitch: 0.0
+- name: r30_a
+  position:
+  - -14896
+  - 10540
+  - 6581
+  yaw: -2.5001
+  pitch: 0.0
+- name: r31_a
+  position:
+  - -14965
+  - 11850
+  - 6766
+  yaw: -1.9115
+  pitch: 0.0

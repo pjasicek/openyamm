@@ -1,0 +1,230 @@
+# Explicit conversion choices for MM9's Thjorgard City (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon and the city module ../mm9r_common/city; a rerun keeps them). Rules and keys:
+# ../mm9r_common/DUNGEON_PLAYBOOK.md and ../mm9r_common/CITY_PLAYBOOK.md.
+map:
+  fog: lithtech                      # MM9's own fog model and its WeatherMan night fog (CITY_PLAYBOOK "Daylight and fog")
+  bright_scale_lights: true          # BLV light colour x MM9's BrightScale, as its lightmaps (CITY_PLAYBOOK "Street lights")
+  stem: thjorgardcity
+  display_name: Thjorgard City
+  # start index = the old map's: 0 from the Arena, 1 the docks (StartPoint0), 2 the west gate (from the Thjorgard
+  # wilderness), 3 Town Portal (the palace terrace)
+  starts: [ArenaExit, StartPoint0, StartPointTerrain, TownPortal]
+  monster_classes: [TownDwarfMaleA, TownHuman2MaleA, TownElfFemaleB, CommonerHumanMaleA, ShopkeeperElfMaleA,
+                    TownElfFemaleA, CommonerElfMaleA, TownElfMaleA, TownHuman2MaleB, TownHuman2FemaleA,
+                    ShopkeeperHuman2MaleA, CommonerHuman2FemaleA, CommonerElfMaleB, ShopkeeperHuman2MaleB,
+                    ShopkeeperDwarfMaleB, TownHumanFemaleA, TownDwarfMaleB, TownHumanMaleA, ShopkeeperHumanMaleA,
+                    ShopkeeperHumanFemaleA, ShopkeeperElfFemaleB, CommonerDwarfFemaleB, CommonerHuman2MaleA,
+                    CommonerElfFemaleB, TownDwarfFemaleB, SvenSvenssen, CommonerHumanFemaleA, CommonerElfFemaleA,
+                    CommonerHuman2MaleB]
+  painted_minimap: true               # MM9's painted city map (catalog entry kept); no outline pass (CITY_PLAYBOOK.md)
+  offset: [0, 0, 0]                   # the old map's frame (x -9 640..9 700, y -8 100..23 190 native): fits int16
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+plan_levels:
+  street: [-100, 160]
+  upper: [160, 600]
+  palace: [900, 1700]
+model_patterns:
+  WorldObject: static                 # hanging chains (ChainLink in invisible boxes), window panes, porch slabs
+  DestructableBrush: static           # window panes in Invisible boxes (MM9 breaks them; not breakable here)
+  InvisibleBrush: static              # invisible collision (Firethrough / Invisible)
+  Carpet: static                      # carpets and runners (AmazingTrim, CarpetOld, tapestry)
+  BlueWater: static                   # the palace terrace's four basins (Water115 top in an Invisible box)
+models:
+  SkyBox0: skip                       # DemoSkyWorldModel: MM9's sky box (SnowMtns_*), drawn by the sky, not geometry
+  TOD_Sky0: skip                      # TOD_Sky: the night starfield shell
+  Terrain1: static                    # the hillside up to the palace (abndfortgrass, cobblestone path)
+  Apothzone: skip                     # PortalZones (greenscreen): MM9's renderer zones that open the window portals
+  Apothzone0: skip
+  Genzone: skip
+  Genzone0: skip
+  RH1pz1: skip
+  RH1pz0: skip
+  Magipz: skip
+  TPZ2: skip
+  TPZ1: skip
+  # --- doors (work/draft_rules.py, edited): pairs share a group; every swing door is a doorway
+  MeetingroomR: {group: MeetingroomL, motion: rotate, doorway: true}
+  MeetingroomL: {group: MeetingroomL, motion: rotate, doorway: true}
+  Officedoor: {group: Officedoor, motion: rotate, doorway: true}
+  TownhallL: {group: TownhallL, motion: rotate, doorway: true, portal: Townhallportal}
+  TownhallR: {group: TownhallL, motion: rotate, doorway: true, portal: Townhallportal}
+  Door21: {group: Door21, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  RotatingDoor7: {group: RotatingDoor7, motion: rotate, doorway: true, portal: portal7}
+  RotatingDoor8: {group: RotatingDoor8, motion: rotate, doorway: true, portal: portal8}
+  RotatingDoor9: {group: RotatingDoor9, motion: rotate, doorway: true, portal: portal9}
+  RotatingDoor10: {group: RotatingDoor10, motion: rotate, doorway: true, portal: portal10}
+  RotatingDoor3: {group: RotatingDoor3, motion: rotate, doorway: true, portal: MH2portal1}
+  RotatingDoor4: {group: RotatingDoor3, motion: rotate, doorway: true, portal: MH2portal1}
+  RotatingDoor5: {group: RotatingDoor5, motion: rotate, doorway: true, portal: MH2portal2}
+  RotatingDoor6: {group: RotatingDoor6, motion: rotate, doorway: true, portal: MH2portal3}
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate, doorway: true}
+  RotatingDoor1: {group: RotatingDoor1, motion: rotate, doorway: true}
+  RotatingDoor2: {group: RotatingDoor2, motion: rotate, doorway: true}
+  RotatingDoor22: {group: RotatingDoor22, motion: rotate, doorway: true, portal: RH1portal}
+  RotatingDoor23: {group: RotatingDoor22, motion: rotate, doorway: true, portal: RH1portal}
+  Door35: {group: Door35, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door36: {group: Door36, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door37: {group: Door37, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  RotatingDoor24: {group: RotatingDoor24, motion: rotate, doorway: true}
+  RotatingDoor25: {group: RotatingDoor24, motion: rotate, doorway: true}
+  RotatingDoor26: {group: RotatingDoor26, motion: rotate, doorway: true}
+  RotatingDoor27: {group: RotatingDoor27, motion: rotate, doorway: true}
+  RotatingDoor11: {group: RotatingDoor11, motion: rotate, doorway: true, portal: RH2portal}
+  RotatingDoor12: {group: RotatingDoor11, motion: rotate, doorway: true, portal: RH2portal}
+  Door25: {group: Door25, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door26: {group: Door26, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door27: {group: Door27, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door28: {group: Door28, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door29: {group: Door29, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door30: {group: Door30, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  RotatingDoor13: {group: RotatingDoor13, motion: rotate, doorway: true}
+  RotatingDoor14: {group: RotatingDoor13, motion: rotate, doorway: true}
+  Door31: {group: Door31, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door32: {group: Door32, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  RotatingDoor15: {group: RotatingDoor15, motion: rotate, doorway: true}
+  RotatingDoor16: {group: RotatingDoor16, motion: rotate, doorway: true}
+  RotatingDoor17: {group: RotatingDoor16, motion: rotate, doorway: true}
+  Door33: {group: Door33, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door34: {group: Door34, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  RotatingDoor18: {group: RotatingDoor18, motion: rotate, doorway: true}
+  RotatingDoor19: {group: RotatingDoor18, motion: rotate, doorway: true}
+  RotatingDoor20: {group: RotatingDoor20, motion: rotate, doorway: true}
+  RotatingDoor21: {group: RotatingDoor21, motion: rotate, doorway: true, portal: portal21}
+  TempledoorL: {group: TempledoorL, motion: rotate, doorway: true, portal: Templedoorportal}
+  TempledoorR: {group: TempledoorL, motion: rotate, doorway: true, portal: Templedoorportal}
+  Door64: {group: Door64, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  ApothDoor0: {group: ApothDoor0, motion: rotate, doorway: true, portal: Apothportal}
+  Door71: {group: Door71, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door2: {group: Door2, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  BankdoorR: {group: BankdoorL, motion: rotate, doorway: true, portal: Bankdoorportal}
+  BankdoorL: {group: BankdoorL, motion: rotate, doorway: true, portal: Bankdoorportal}
+  Door3: {group: Door3, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door12: {group: Door12, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door13: {group: Door13, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  StoredoorL: {group: StoredoorL, motion: rotate, doorway: true, portal: Storeportal}
+  StoredoorR: {group: StoredoorL, motion: rotate, doorway: true, portal: Storeportal}
+  LibrarydoorL: {group: LibrarydoorL, motion: rotate, doorway: true, portal: Librarydoorportal}
+  LibrarydoorR: {group: LibrarydoorL, motion: rotate, doorway: true, portal: Librarydoorportal}
+  MageDoorL: {group: MageDoorL, motion: rotate, doorway: true, portal: Magiportal}
+  MageDoorR: {group: MageDoorL, motion: rotate, doorway: true, portal: Magiportal}
+  Door22: {group: Door22, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door23: {group: Door23, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door24: {group: Door24, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  THDLL: {group: THDLL, motion: rotate, doorway: true, portal: THDLportal}
+  THDRR: {group: THDRL, motion: rotate, doorway: true, portal: THDRportal}
+  THDLR: {group: THDLL, motion: rotate, doorway: true, portal: THDLportal}
+  THDRL: {group: THDRL, motion: rotate, doorway: true, portal: THDRportal}
+  TraininghalldoorR: {group: TraininghalldoorL, motion: rotate, doorway: true, portal: Traininghalldoorportal}
+  TraininghalldoorL: {group: TraininghalldoorL, motion: rotate, doorway: true, portal: Traininghalldoorportal}
+  Tavernstoreroom: {group: Tavernstoreroom, motion: rotate, doorway: true}
+  TavernkitchenL: {group: TavernkitchenL, motion: rotate, doorway: true}
+  TavernkitchenR: {group: TavernkitchenL, motion: rotate, doorway: true}
+  Door14: {group: Door14, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0, MoveDir 0 (the tavern's upstairs rooms): never opens
+  Door16: {group: Door16, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0, MoveDir 0 (the tavern's upstairs rooms): never opens
+  Door17: {group: Door17, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0, MoveDir 0 (the tavern's upstairs rooms): never opens
+  Door18: {group: Door18, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0, MoveDir 0 (the tavern's upstairs rooms): never opens
+  Door19: {group: Door19, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door20: {group: Door20, motion: dat, move_dist_lt: 2, move_dir_lt: [0, 1, 0]}   # locked, MoveDist 0, MoveDir 0 (the tavern's upstairs rooms): never opens
+  TaverndoorL: {group: TaverndoorL, motion: rotate, doorway: true, portal: Tavernportal}
+  TaverndoorR: {group: TaverndoorL, motion: rotate, doorway: true, portal: Tavernportal}
+  Door15: {group: Door15, motion: rotate, doorway: true}
+  ArmorBeddoor0: {group: ArmorBeddoor0, motion: rotate, doorway: true, portal: Armorbedportal}
+  ForgedoorL0: {group: ForgedoorL0, motion: rotate, doorway: true, portal: Forgedoorportal}
+  ForgedoorR0: {group: ForgedoorL0, motion: rotate, doorway: true, portal: Forgedoorportal}
+  Weapon-Forge0: {group: Weapon-Forge0, motion: rotate, doorway: true, portal: Weapon-Forgeportal}
+  Armor-Forge0: {group: Armor-Forge0, motion: rotate, doorway: true, portal: Armor-Forgeportal}
+  WeapondoorR0: {group: WeapondoorL0, motion: rotate, doorway: true, portal: Weapondoorportal}
+  WeapondoorL0: {group: WeapondoorL0, motion: rotate, doorway: true, portal: Weapondoorportal}
+  ArmordoorL0: {group: ArmordoorL0, motion: rotate, doorway: true, portal: Armordoorportal}
+  ArmordoorR0: {group: ArmordoorL0, motion: rotate, doorway: true, portal: Armordoorportal}
+  WeaponBeddoor0: {group: WeaponBeddoor0, motion: rotate, doorway: true, portal: Weaponbedportal}
+  Door4: {group: Door4, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door5: {group: Door5, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  BembStudy1: {group: BembStudy1, motion: rotate, doorway: true}
+  BembStudy2: {group: BembStudy2, motion: rotate, doorway: true}
+  Door6: {group: Door6, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door7: {group: Door7, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door8: {group: Door8, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door9: {group: Door9, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door10: {group: Door10, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  HearingroomR: {group: HearingroomL, motion: rotate, doorway: true}
+  HearingroomL: {group: HearingroomL, motion: rotate, doorway: true}
+  Door11: {group: Door11, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  BembdoorR: {group: BembdoorL, motion: rotate, doorway: true, portal: Bembdoorportal}
+  BembdoorL: {group: BembdoorL, motion: rotate, doorway: true, portal: Bembdoorportal}
+  BembgateR: {group: BembgateL, motion: rotate}   # the university garden gate: open air on both sides, no doorway
+  BembgateL: {group: BembgateL, motion: rotate}   # (as BembgateR)
+  PalacedoorL: {group: PalacedoorL, motion: rotate, doorway: true, portal: Palaceportal}
+  PalacedoorR: {group: PalacedoorL, motion: rotate, doorway: true, portal: Palaceportal}
+  Door65: {group: Door65, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door66: {group: Door66, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door67: {group: Door67, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door68: {group: Door68, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door69: {group: Door69, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door70: {group: Door70, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door38: {group: Door38, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door39: {group: Door39, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door40: {group: Door40, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door41: {group: Door41, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door42: {group: Door42, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door43: {group: Door43, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door44: {group: Door44, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door45: {group: Door45, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door46: {group: Door46, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door47: {group: Door47, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door48: {group: Door48, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door49: {group: Door49, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door50: {group: Door50, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door51: {group: Door51, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door52: {group: Door52, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door54: {group: Door54, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door53: {group: Door53, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door55: {group: Door55, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door56: {group: Door56, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door57: {group: Door57, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door58: {group: Door58, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door59: {group: Door59, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door60: {group: Door60, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door61: {group: Door61, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door62: {group: Door62, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door63: {group: Door63, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+# The air over the north town wall (z 5 900-5 995, its top at 368) up to the sky lid: one archway cut divides the
+# open air over the town's roofs from the hillside and the palace terrace (each was 5 300 faces in one sector)
+portals:
+  - {name: north_wall_sky, axis: z, point: [0, 1000, 5960], span: 4200}
+# The window UserPortals of MM9's PortalZones (greenscreen zones behind the shop windows): the window panes are glass
+# portals here
+skip_user_portals: [Apothpz, Apothpz0, Genpz, Genpz0, RH1p0, Magip, TP1, TP2]
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # the sky shell: IndoorSky faces (scene override)
+  # greenscreen: 7 sky-flagged (0x111) polygons are the library's skylight and its upper windows' backs (sky faces);
+  # the 6 solid ones behind the facade doors are retextured to a wall in convert.py
+  'textures\leveltextures\misc\greenscreen.dtx': {alias: sky04, width: 512, height: 512}
+# MM9's window panes (Invisible boxes with one translucent pane, flag 0x8): translucent faces (dungeon/rooms.py Glass:
+# glass per face from MM9's Translucent flag). The houses' window boxes without the flag (0x1081) are opaque, as in MM9
+# (the user, 2026-11-07, superseding the see-through panes of 2026-11-01). These entries only tune the flagged faces.
+glass:
+  thjorwindow4.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  thjorwindow2.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  thjorbars.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# The city's open air (../mm9r_common/city/structure.py): street air under the roof line, the air over the roofs one
+# room per district, street cuts found automatically.
+city:
+  weather: rain                    # the outdoor weather over the open sky (the user's decision 2026-11-06; city.hooks.apply_weather)
+  merged_top_portals: true          # few large convex top portals over walls and roofs (CITY_PLAYBOOK "The open air" step 3)
+  daylight: true                     # sun and sky light on the sectors open to the sky (CITY_PLAYBOOK "Daylight and fog")
+  street_top_lt: 224                 # 224 LT over the streets (0): under the eaves, and under the gatehouse's side
+                                     # passages (240) so the town wall is crossed below it only by the gate
+  # The walled town only (the north wall stands at z 5 900-5 995): the hillside and Sven's palace terrace north of it
+  # stay one room with the air over the roofs (a roof line there cuts the slope into ~1 300 rectangles)
+  street_box_lt: [[-4000, -2000], [4500, 5952]]
+  extra_cuts:
+    - {axis: z, point: [-1024, 100, 5944]}   # the north gate, the only opening of the wall below the roof line
+  sky_preset: cloudy                 # the outdoor maps' high-definition sky (was sky_texture plansky3, the old import's)
+  outdoor_view: true                 # view distance and haze as an outdoor map's, not MM9's grey fog (INDOOR_OPEN_SKY.md)
+  view_distance_scale: 0.5           # 8 096 units at the default view distance setting (16 192), the user's choice
+  half_steps: true                   # invisible half steps onto standable raised floors 50-66 high (CITY_PLAYBOOK "Raised floors")

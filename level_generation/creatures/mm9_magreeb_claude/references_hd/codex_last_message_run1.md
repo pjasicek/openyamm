@@ -1,0 +1,3 @@
+Saved the unresized 1536×1024 [00_three_quarter.png](level_generation/creatures/mm9_magreeb_claude/references_hd/00_three_quarter.png) and [generation_runs.json](level_generation/creatures/mm9_magreeb_claude/references_hd/generation_runs.json), including prompts, hashes and both built-in generation attempts.
+
+Run 2 was not started. The allowed correction failed to remove the halo; tight margins and thicker legs remain, documented in the record.

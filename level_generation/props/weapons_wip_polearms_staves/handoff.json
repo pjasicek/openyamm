@@ -1,0 +1,371 @@
+{
+  "worker": "weapons_polearms_staves",
+  "status": "all_60_installed_and_reviewed_coordinator_bounds_refresh_pending",
+  "assigned": 60,
+  "installed": 60,
+  "pending": 0,
+  "in_progress": [],
+  "pilots": [
+    "7item031",
+    "7item036",
+    "staff3"
+  ],
+  "meshy": {
+    "authorization": "Unlimited Meshy credits for these weapon sessions, as recorded in TASK.txt",
+    "bookkeeping_credit_limit": 1000,
+    "spent": 40,
+    "jobs": {
+      "pole_staff3_st_v1": "01a14e8d-e282-7416-a114-0103d3e2243b",
+      "pole_7item063_st_v1": "01a14eaf-23aa-73b7-a837-13696f3d2319",
+      "pole_7item233_st_v1": "01a14eb0-ab46-7710-8925-6f387760b603",
+      "pole_item050_st_v1": "01a14eb0-c720-776b-838b-8d3c74c21420",
+      "pole_item250_st_v1": "01a14eb1-2c03-7003-9682-c34b1a95a403",
+      "pole_item082_st_v1": "01a14eb2-458a-773e-9943-08d46c2b5c2a",
+      "pole_item083_st_v1": "01a14eb2-9432-73f0-b1e1-4a8205888bed",
+      "pole_item242_st_v1": "01a14eb3-4c82-7054-9b36-8a9d2bb697c3"
+    },
+    "lease": "released"
+  },
+  "binding_changes": [],
+  "scope": "Own authoring project and the exact 60 assigned source/runtime models only; no shared bindings, engine, settings, tables or package edits.",
+  "native_blocker": null,
+  "clay_exports": 60,
+  "image_queue_completed": 56,
+  "native_pilot_outdoor": {
+    "status": "passed",
+    "capture": "level_generation/props/weapons_wip_polearms_staves/review/native_pilots_outdoor/pilot_weapons.png",
+    "run_record": "/tmp/openyamm-desktop-polearms-staves-pilots-outdoor-retry-5hbtdlw9/run.json",
+    "note": "Coordinator desktop build updated; pilots load and render on ground. Final 60 batch checks pending."
+  },
+  "unique_designs": 55,
+  "triangles": {
+    "base_total": 180840,
+    "minimum": 692,
+    "maximum": 7074,
+    "lod_total": 49366,
+    "models_with_lod": 21
+  },
+  "bounds_updates": {
+    "count": 58,
+    "receipt": "receipts/proposed_bounds_updates.json",
+    "status": "coordinator-owned manifest; proposals only"
+  },
+  "image_generations": 81,
+  "reviews": {
+    "all_60": "review/finished_contact_1.png through review/finished_contact_10.png",
+    "neutral_clay": "review/finished_clay_contact_*.png",
+    "uv_checker": "review/finished_checker_contact_*.png",
+    "lod_comparison": "review/lod_comparison_1.png through 3.png",
+    "numeric": "review/validation.json",
+    "desktop_cook": "receipts/install_<icon>.log; 60 passed",
+    "native": "receipts/native_review.json; six passed native runs on NVIDIA/OpenGL 3.3 Wayland"
+  },
+  "unmodified_save_sha256": "795fffeb87a7d95962e0e4e5af72b166ca9b6986400f43ad96c0d95edbe2fffa",
+  "coordinator_actions": [
+    "Apply the 58 proposed bounds updates from receipts/proposed_bounds_updates.json to the coordinator-owned items.yml after workers finish; item_model_shapes.py can refresh them. Binding lengths stay unchanged."
+  ],
+  "missing_icons": [],
+  "failed_icons": [],
+  "mesh_or_material_defects": [],
+  "native_reviews": [
+    {
+      "name": "outdoor_a",
+      "icons": [
+        "7item031",
+        "7item039",
+        "7item225"
+      ],
+      "world": "mm7",
+      "map": "out10.odm",
+      "position": [
+        -4550,
+        13000,
+        1024
+      ],
+      "pitch": -12,
+      "tour": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/work/native_outdoor_a.yml",
+      "capture": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/review/native_outdoor_a/outdoor_a.png",
+      "status": "visually_passed",
+      "renderer": "OpenGL 3.3",
+      "gpu_vendor": "NVIDIA 0x10de",
+      "sdl": "wayland",
+      "exit_code": 0,
+      "binary_sha256": "621f2c5efb20ec2380d2acc19b3dc0c94efe577b46bf865944be6c0a3498a8b7",
+      "run_record": "receipts/native_runs/outdoor_a_run.json",
+      "observation": "Distinct head/shaft silhouettes, physical depth, material colours and ground contact visible at ordinary gameplay distance."
+    },
+    {
+      "name": "outdoor_b",
+      "icons": [
+        "item050",
+        "item250",
+        "item083"
+      ],
+      "world": "mm7",
+      "map": "out10.odm",
+      "position": [
+        -4550,
+        13000,
+        1024
+      ],
+      "pitch": -12,
+      "tour": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/work/native_outdoor_b.yml",
+      "capture": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/review/native_outdoor_b/outdoor_b.png",
+      "status": "visually_passed",
+      "renderer": "OpenGL 3.3",
+      "gpu_vendor": "NVIDIA 0x10de",
+      "sdl": "wayland",
+      "exit_code": 0,
+      "binary_sha256": "621f2c5efb20ec2380d2acc19b3dc0c94efe577b46bf865944be6c0a3498a8b7",
+      "run_record": "receipts/native_runs/outdoor_b_run.json",
+      "observation": "Distinct head/shaft silhouettes, physical depth, material colours and ground contact visible at ordinary gameplay distance."
+    },
+    {
+      "name": "outdoor_c",
+      "icons": [
+        "staff3",
+        "item082",
+        "item080"
+      ],
+      "world": "mm7",
+      "map": "out10.odm",
+      "position": [
+        -4550,
+        13000,
+        1024
+      ],
+      "pitch": -12,
+      "tour": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/work/native_outdoor_c.yml",
+      "capture": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/review/native_outdoor_c/outdoor_c.png",
+      "status": "visually_passed",
+      "renderer": "OpenGL 3.3",
+      "gpu_vendor": "NVIDIA 0x10de",
+      "sdl": "wayland",
+      "exit_code": 0,
+      "binary_sha256": "621f2c5efb20ec2380d2acc19b3dc0c94efe577b46bf865944be6c0a3498a8b7",
+      "run_record": "receipts/native_runs/outdoor_c_run.json",
+      "observation": "Distinct head/shaft silhouettes, physical depth, material colours and ground contact visible at ordinary gameplay distance."
+    },
+    {
+      "name": "outdoor_low",
+      "icons": [
+        "item041",
+        "7item063",
+        "item045"
+      ],
+      "world": "mm7",
+      "map": "out10.odm",
+      "position": [
+        -4550,
+        13000,
+        1024
+      ],
+      "pitch": -6,
+      "tour": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/work/native_outdoor_low.yml",
+      "capture": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/review/native_outdoor_low/outdoor_low.png",
+      "status": "visually_passed",
+      "renderer": "OpenGL 3.3",
+      "gpu_vendor": "NVIDIA 0x10de",
+      "sdl": "wayland",
+      "exit_code": 0,
+      "binary_sha256": "621f2c5efb20ec2380d2acc19b3dc0c94efe577b46bf865944be6c0a3498a8b7",
+      "run_record": "receipts/native_runs/outdoor_low_run.json",
+      "observation": "Distinct head/shaft silhouettes, physical depth, material colours and ground contact visible at ordinary gameplay distance."
+    },
+    {
+      "name": "indoor_a",
+      "icons": [
+        "7item036",
+        "item045",
+        "staff3"
+      ],
+      "world": "mm6",
+      "map": "6d19.blv",
+      "position": [
+        1740,
+        -3350,
+        10
+      ],
+      "pitch": -16,
+      "tour": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/work/native_indoor_a.yml",
+      "capture": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/review/native_indoor_a/indoor_a.png",
+      "status": "visually_passed",
+      "renderer": "OpenGL 3.3",
+      "gpu_vendor": "NVIDIA 0x10de",
+      "sdl": "wayland",
+      "exit_code": 0,
+      "binary_sha256": "621f2c5efb20ec2380d2acc19b3dc0c94efe577b46bf865944be6c0a3498a8b7",
+      "run_record": "receipts/native_runs/indoor_a_run.json",
+      "observation": "Round hafts, separated prongs/ornaments, closed sides and ground contact visible; dim metal remains legible."
+    },
+    {
+      "name": "indoor_b",
+      "icons": [
+        "7item063",
+        "item080",
+        "item082"
+      ],
+      "world": "mm6",
+      "map": "6d19.blv",
+      "position": [
+        1740,
+        -3350,
+        10
+      ],
+      "pitch": -16,
+      "tour": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/work/native_indoor_b.yml",
+      "capture": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_polearms_staves/review/native_indoor_b/indoor_b.png",
+      "status": "visually_passed",
+      "renderer": "OpenGL 3.3",
+      "gpu_vendor": "NVIDIA 0x10de",
+      "sdl": "wayland",
+      "exit_code": 0,
+      "binary_sha256": "621f2c5efb20ec2380d2acc19b3dc0c94efe577b46bf865944be6c0a3498a8b7",
+      "run_record": "receipts/native_runs/indoor_b_run.json",
+      "observation": "Round hafts, separated prongs/ornaments, closed sides and ground contact visible; dim metal remains legible."
+    }
+  ],
+  "baseline_save_unchanged": true,
+  "staging_or_commits": false,
+  "android_checked": false,
+  "release_promotion": false,
+  "texture_summary": {
+    "body_atlases": [
+      512,
+      1024
+    ],
+    "sculptural_atlases": [
+      1024,
+      1024
+    ],
+    "maps": [
+      "sRGB base colour",
+      "linear packed occlusion/roughness/metallic",
+      "linear OpenGL +Y normal"
+    ],
+    "runtime_texture_receipt": "receipts/cooked_textures.json",
+    "runtime_textures": 178,
+    "runtime_texture_bytes": 37674516
+  },
+  "geometry_reuse": {
+    "6trident5": "trident3",
+    "item331": "item045",
+    "item341": "item045",
+    "6staff4": "staff3",
+    "item335": "item083"
+  },
+  "modelling_exceptions": [
+    "Only one half-resolution LOD for 21 complex assets; a quarter-resolution pilot damaged small sculptural features and was rejected. Simple assets retain their adequate base mesh.",
+    "Smooth radial normals retained at cylindrical wrap seams to avoid a visible weld line; blade edges and sculptural hard corners keep deliberate sharp normals.",
+    "Gems use opaque nonmetal PBR surfaces; no refraction shader or renderer changes."
+  ],
+  "staff_socket_followup": {
+    "models": [
+      {
+        "icon": "6staff4",
+        "path": "level_generation/props/weapons_wip_polearms_staves/work/finished/pole_6staff4_export.glb",
+        "sha256": "106b66c38b3c3c2097ba7c54a32736ccc069fe2eba964b936e48e7fc649bb48e",
+        "triangles": 4384,
+        "lod_triangles": [
+          2192
+        ],
+        "vertices": 5235,
+        "closed_parts": 28,
+        "materials": 2,
+        "embedded_pngs": 6,
+        "gltf_bounds": [
+          [
+            -0.2673611342906952,
+            0.0,
+            -0.9905351400375366
+          ],
+          [
+            0.2673611342906952,
+            0.33409106731414795,
+            0.9905351400375366
+          ]
+        ],
+        "checks": "passed"
+      },
+      {
+        "icon": "staff3",
+        "path": "level_generation/props/weapons_wip_polearms_staves/work/finished/pole_staff3_export.glb",
+        "sha256": "6d61fbecef15539a7bc71f25b6e66160329f25e4348b34806a6d54e4eaf6c246",
+        "triangles": 4384,
+        "lod_triangles": [
+          2192
+        ],
+        "vertices": 5235,
+        "closed_parts": 28,
+        "materials": 2,
+        "embedded_pngs": 6,
+        "gltf_bounds": [
+          [
+            -0.2673611342906952,
+            0.0,
+            -0.9905351400375366
+          ],
+          [
+            0.2673611342906952,
+            0.33409106731414795,
+            0.9905351400375366
+          ]
+        ],
+        "checks": "passed"
+      }
+    ],
+    "identical_geometry_all_lods": true,
+    "geometry_sha256": "bbcddacd854267bc6e040c6e3904dce90fad37f3609613e440f71b6863c53f85",
+    "status": "installed_and_native_visually_reviewed",
+    "cause": "Off-centre ram socket positioned using the overall skull/horn bounding-box centre.",
+    "fix": "Centre the lower 10% socket cross-section on the shaft axis; retain the existing axial tenon overlap.",
+    "native_capture": "review/staff_socket_fix/native/merlin_and_power_staff.png",
+    "native_run": "/tmp/openyamm-desktop-staff-socket-fix-eygp1_ld/run.json",
+    "mesh_triangles": [
+      4384,
+      2192
+    ],
+    "paid_generation_credits": 0,
+    "bindings_unchanged": true,
+    "installation": [
+      {
+        "icon": "6staff4",
+        "source": "assets_source/engine/world_items/models/item_6staff4.glb",
+        "source_sha256": "106b66c38b3c3c2097ba7c54a32736ccc069fe2eba964b936e48e7fc649bb48e",
+        "runtime": "assets_dev/engine/world_items/models/item_6staff4.glb",
+        "runtime_sha256": "6e60729f0410f722e83fbdb2148b2a1850470b309c407c2e9ee83563a009d4ae",
+        "binding_length": 258.8,
+        "export": "level_generation/props/weapons_wip_polearms_staves/work/finished/pole_6staff4_export.glb",
+        "export_sha256": "106b66c38b3c3c2097ba7c54a32736ccc069fe2eba964b936e48e7fc649bb48e",
+        "desktop_scoped_verify": "passed",
+        "cooked_textures": [
+          "assets_dev/engine/world_items/models/textures/424f97d1a1b65aedb268ad4513d5e45f.oytex",
+          "assets_dev/engine/world_items/models/textures/c94086964345821ab5d0a40b3f8c00dd.oytex",
+          "assets_dev/engine/world_items/models/textures/0f29ce4be6b5b92991c321ea52e60560.oytex",
+          "assets_dev/engine/world_items/models/textures/dc9dabeb06e35aa6514e738a944d155b.oytex",
+          "assets_dev/engine/world_items/models/textures/1dbae810cc7641b75203ed23ebd39a49.oytex",
+          "assets_dev/engine/world_items/models/textures/4cdee0cdcb576cbefae1c098e8afb250.oytex"
+        ]
+      },
+      {
+        "icon": "staff3",
+        "source": "assets_source/engine/world_items/models/item_staff3.glb",
+        "source_sha256": "6d61fbecef15539a7bc71f25b6e66160329f25e4348b34806a6d54e4eaf6c246",
+        "runtime": "assets_dev/engine/world_items/models/item_staff3.glb",
+        "runtime_sha256": "44c6e8e7ae9ba2a949dc516f90fba2e85dec9331ff03a01a9ae4522bd7ca8202",
+        "binding_length": 258.8,
+        "export": "level_generation/props/weapons_wip_polearms_staves/work/finished/pole_staff3_export.glb",
+        "export_sha256": "6d61fbecef15539a7bc71f25b6e66160329f25e4348b34806a6d54e4eaf6c246",
+        "desktop_scoped_verify": "passed",
+        "cooked_textures": [
+          "assets_dev/engine/world_items/models/textures/424f97d1a1b65aedb268ad4513d5e45f.oytex",
+          "assets_dev/engine/world_items/models/textures/c94086964345821ab5d0a40b3f8c00dd.oytex",
+          "assets_dev/engine/world_items/models/textures/0f29ce4be6b5b92991c321ea52e60560.oytex",
+          "assets_dev/engine/world_items/models/textures/dc9dabeb06e35aa6514e738a944d155b.oytex",
+          "assets_dev/engine/world_items/models/textures/1dbae810cc7641b75203ed23ebd39a49.oytex",
+          "assets_dev/engine/world_items/models/textures/4cdee0cdcb576cbefae1c098e8afb250.oytex"
+        ]
+      }
+    ]
+  }
+}

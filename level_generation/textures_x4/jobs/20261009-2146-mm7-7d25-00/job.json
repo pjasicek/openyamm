@@ -1,0 +1,31 @@
+{
+ "id": "20261009-2146-mm7-7d25-00",
+ "world": "mm7",
+ "maps": [
+  "7d25.blv"
+ ],
+ "created": "2026-10-09T19:46:08+00:00",
+ "textures": [
+  "mm7/hwr1wall"
+ ],
+ "requests": {
+  "mm7/hwr1wall": {
+   "name": "hwr1wall",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow weathered vertical wooden planks with fine grain, small knots and dark seams between boards; every board runs straight and unbroken from top to bottom",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

@@ -1,0 +1,101 @@
+{
+  "creature_3d_identity": "mm8:m440",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "scope": "Texture-aware triangle reduction trial; preserve appearance, clips, grip and foot contacts; candidate review before installation",
+  "stage": "reduction_trial_review_ready",
+  "status": "complete",
+  "source_project": "../mm8_m440_claude",
+  "installed": false,
+  "next_action": {
+    "owner": "user",
+    "action": "Review the staged candidate versus installed model; installation follows artistic review per the retopology playbook.",
+    "url": "http://127.0.0.1:8912/level_generation/creatures/mm8_m440_reduce_codex/review/viewer/"
+  },
+  "snapshots": [
+    {
+      "path": "work/master_pre_reduce.blend",
+      "sha256": "c8a3dc27f8db479f0af1a7ab0c23edc4c436575b513872418fa94ff5d9374dbb"
+    },
+    {
+      "path": "work/mm8_m440_club_runtime_pre_reduce.glb",
+      "sha256": "a98e33676b8fcf6d974e8f4837bf9467b433cad461ee10cbeb3c9b447e132a1d"
+    },
+    {
+      "path": "work/mm8_m440_club_source_pre_reduce.glb",
+      "sha256": "9be200fe322609cc36f46281a9844c119a4c0c8913cf003edce798cc3e25af47"
+    },
+    {
+      "path": "work/mm8_m440_runtime_pre_reduce.glb",
+      "sha256": "79d148ecb44102e70610c30118207ee2eaad39467d1328a15ae3e2c8bdf15893"
+    },
+    {
+      "path": "work/mm8_m440_source_pre_reduce.glb",
+      "sha256": "646cf15caee0b9b16d393ab973e4281172e3dbd3bdcc72895684a801fe363cbd"
+    }
+  ],
+  "updated_at": "2026-10-18T18:02:17.222738+00:00",
+  "user_artistic_acceptance": "not_recorded",
+  "selected_artifacts": [
+    {
+      "role": "runtime_source_candidate",
+      "path": "export/mm8_m440.glb",
+      "sha256": "8fcdfa3cd45415cd4f87a635c51e5dc568ce8fa5d08038b899de60083afc8154"
+    },
+    {
+      "role": "editable_candidate",
+      "path": "work/ladder.blend",
+      "sha256": "f380902732ccb7f6c0aada31f6128ff52530cf03a87ef2deca3affefdf27aa5b"
+    },
+    {
+      "role": "geometry_cook_preview",
+      "path": "export/mm8_m440_geometry_preview.glb",
+      "sha256": "62674efc67d0dbb92426399a7a64d5cbce9d820d224ab5a8f7732e8c807e7995"
+    },
+    {
+      "role": "viewer_manifest",
+      "path": "review/viewer/manifest.json",
+      "sha256": "3a47ec0c707c998baa9f8186bf57399b5ee730cfe89b2364f10327fb342ac253"
+    }
+  ],
+  "result": {
+    "body_source_triangles": [
+      18752,
+      17626
+    ],
+    "body_and_club_runtime_triangles": [
+      20953,
+      19783
+    ],
+    "runtime_lod0_saving_percent": 5.58488,
+    "runtime_lower_lods_unchanged": true,
+    "maximum_influences": 4,
+    "credits_spent": 0,
+    "materials_clips_skeleton_unchanged": true
+  },
+  "verification": {
+    "shared_gates": {
+      "PASS": 6618,
+      "INFO": 128,
+      "N/A": 40
+    },
+    "gate_report": "review/gates/gates.json",
+    "preservation": "review/preservation.json",
+    "viewer": "review/viewer_check.json",
+    "playback": "review/playback/playback.json",
+    "comparison": "review/comparison.png",
+    "sampling_note": "all eight clips at normal/half speed; inspected timed screenshot sequences and close comparisons"
+  },
+  "review_notes": [
+    {
+      "classification": "unverified heuristic finding",
+      "detail": "Nearest-sample texture drift flags 11 changed faces above 40/255 (p99 14.8), mainly chainmail plus a strap. Before/after back and chest close-ups inspected; no obvious new blotch or pattern break observed. User artistic review pending."
+    }
+  ],
+  "limitations": [
+    "Modest LOD0-only saving; head, hands, sole patches and hardware dominate protected geometry.",
+    "No installation, native-game check or performance benchmark for this staged trial."
+  ]
+}

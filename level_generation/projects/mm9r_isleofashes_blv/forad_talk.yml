@@ -1,0 +1,77 @@
+# Forad Darre at the bridge (user play-test 2026-11-07, README "User play-test 2026-11-07"). MM9's own behaviour:
+# - he faces his DAT Rotation (ry 299.8 deg -> native yaw 90 - ry = 150.2 deg, convert.py / dungeon/source.py
+#   facing_degrees) and keeps it while the party approaches;
+# - no talk by approach: FORAD.scr's OnFoundPlayer / OnTargetWithinDist 16 Talk is armed only by an Appear message,
+#   which only Frosgard City's BattleMan.scr sends;
+# - the party's Use (E or Space) runs his OnUse (key 480, 800 experience), plays his GreetingSound and opens RUDE 2,
+#   and he turns to the party.
+# The pose is the user's (1889, -7518, 177; yaw 1.8 deg, pitch -18.2), 282 units west of him.
+#   cd level_generation/projects/mm9r_isleofashes_blv/work/scenario_run && \
+#     ../../../../../build/game/openyamm --world mm9 --headless-run-scenario ../../forad_talk.yml --scenario-no-color
+id: mm9r.isleofashes_blv.forad_talk
+world: mm9
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: isleofashes.blv
+  # His MM9 facing: a point 300 units along 150.2 deg from him.
+  - assert:
+      actor_visible:
+        actor_index: 13
+        name: Forad Darre
+        report_state: true
+        hidden: false
+        faces: {x: 1911, y: -7357, within_degrees: 3}
+  - set_pose:
+      map: isleofashes.blv
+      x: 1889.129
+      y: -7518.290
+      z: 177.097
+      yaw: 0.032
+      pitch_degrees: -18.2
+  # Standing in front of him for a while starts nothing and does not turn him (MM9 has no approach talk here).
+  - advance_runtime: {seconds: 3.0}
+  - assert:
+      dialog: {active: false}
+      qbit_clear: [90480]
+      actor_visible:
+        actor_index: 13
+        faces: {x: 1911, y: -7357, within_degrees: 3}
+  # E: the crosshair is on him; his Use and his dialogue.
+  - press_interact:
+      expect: {kind: actor, actor_index: 13}
+  - advance_runtime: {seconds: 0.3}
+  - assert:
+      actor_dialog_started:
+        kind: mm9_rude
+        source_id: 2
+      dialog:
+        active: true
+        source_id: 2
+      qbit_set: [90480]
+  # He turned to the party (MM9's NPC use: 540 deg/s toward the player).
+  - assert:
+      actor_visible:
+        actor_index: 13
+        report_state: true
+        faces: {x: 1889, y: -7518, within_degrees: 15}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+  - assert:
+      dialog: {active: false}
+  # Use again from a step closer, looking level: the same.
+  - set_pose:
+      map: isleofashes.blv
+      x: 1980
+      y: -7513
+      z: 147
+      yaw: 0.0
+      pitch_degrees: 0
+  - advance_runtime: {seconds: 0.2}
+  - press_interact:
+      expect: {kind: actor, actor_index: 13}
+  - advance_runtime: {seconds: 0.3}
+  - assert:
+      dialog:
+        active: true
+        source_id: 2

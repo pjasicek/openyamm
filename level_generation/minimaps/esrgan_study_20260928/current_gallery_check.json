@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "maps": 42,
+  "url": "http://127.0.0.1:8899/level_generation/minimaps/",
+  "checks": [
+    "All 42 installed images decode",
+    "MM7 resolves current ESRGAN assets",
+    "Canvas equals installed image pixels",
+    "Native MM8 1020 height",
+    "No browser exceptions"
+  ]
+}

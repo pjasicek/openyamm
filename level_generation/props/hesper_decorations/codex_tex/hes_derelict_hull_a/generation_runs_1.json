@@ -1,0 +1,264 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generated_best_available_candidates; strict_brief_checks_failed",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "raw_returns_preserved": true,
+  "postprocessing": "None. Selected PNG files copied byte-for-byte; no resizing, cropping, masking or alpha edits.",
+  "corrective_regenerations": {
+    "front": 1,
+    "top": 1
+  },
+  "limitations": [
+    "The built-in tool returned all four PNGs at 1254 x 1254 despite explicit 1024 x 1024 prompts.",
+    "None of the returned alpha masks is identical to its guide. Transparent backgrounds include faint stray alpha pixels outside the principal silhouette.",
+    "Materials broadly match the approved reference, but the generated paintings retain shading/highlights and do not pass strict flat albedo requirements.",
+    "The specified one-correction-per-view cap was honoured. Selected files are closest candidates, not fully compliant texture sources."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7323-a858-564444925877/exec-b8b27572-3ec1-4a49-aeb4-e8236699a1db.png",
+      "output_sha256": "615e9aaaee18c53cb38aa7a1f6a45c93d9763596e86fe23f10f8567e5c6bf953",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          33,
+          1254,
+          1254
+        ],
+        "opaque_bbox_threshold_128": [
+          80,
+          396,
+          1175,
+          856
+        ],
+        "fully_transparent_fraction": 0.8092699851702622,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold_128": 0.9751759786983437,
+        "normalization_note": "Nearest pixel sampling for comparison only; saved image remains unmodified.",
+        "materials_and_colours": "Broadly match grey-brown chitin/bone, dark ribs, violet-black resin and dusty brown stone; painted surface details differ from guide geometry.",
+        "flat_even_lighting_pass": false,
+        "lighting_review": "Residual cavity/contact darkening and edge highlights are visible.",
+        "transparent_background_pass": true,
+        "exact_guide_alpha_pass": false,
+        "all_brief_checks_pass": false
+      },
+      "prompt": "Use case: precise-object-edit.\nAsset type: game prop texture source / unlit albedo painting.\nCreate ONE image, exactly 1024 x 1024 pixels, RGBA with truly transparent background. Deliver the front view paint for the derelict swarmship's bow half.\n\nINPUT ROLES IN ATTACHED ORDER:\n1. guide_front.png: EDIT TARGET and absolute geometry authority. This is the exact orthographic model projection. Paint ONLY its existing grey surfaces; retain its alpha mask, silhouette, all openings, every shape edge, object position, scale and full 1024-square canvas exactly.\n2. design_reference.png: approved material and colour authority only; do not copy its perspective or its geometry.\n3. concept_crop.png: supporting original concept only; do not copy its landscape, sky, other objects, camera or dramatic illumination.\n\nPrimary request: repaint the grey guide with the reference's weathered grey-brown chitin and bone plates, darker ribs, black-violet resin webbing and drips, faint dark orange colour deep inside, and dust. Keep the existing small base stones as dusty brown stone, in exactly their guide shapes. Translate reference surface detail onto the EXISTING shapes, without creating extra holes, protrusions, ribs, stones, webs or structures. Large solid grey surfaces remain solid; every transparent opening remains transparent. Keep every existing edge visible in exactly its original place.\n\nGEOMETRY LOCK: Guide front silhouette occupies approximately x=66 through 957, y=323 through 700 on the 1024 x 1024 canvas. Preserve the guide's large transparent margins. The left tip is high and curled, the front hull rim slopes down toward the right, open arched ribs rise above it, with hanging points below the left and a thin curved base along the bottom. Use these notes only to preserve the exact provided guide. No reframing, resizing, cropping, rotation, new perspective or redesign.\n\nLIGHTING: strictly flat even shadowless illumination from the viewer, suitable for a diffuse ALBEDO texture projection. No cast shadows, ambient-occlusion darkening, directional shading, strong highlights, specular reflections or rim light. Dark resin is an intrinsic material colour, not a shadow. Any tiny deep orange seams are painted as muted orange material colour only, with no bloom or light spill. No floor, background, scene, labels or extra objects. Keep antialiased transparent edges clean; no black or white matte and no checkerboard drawn into the image.\n\nReturn only the single painted front image at original 1024 x 1024 resolution. Preserve all geometry and alpha precisely.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "3a724b42ed5b2ff8ec9acfa4c12c4d79ba344d1677fab43e54c30edc34adbe4e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closest available front candidate: better normalized silhouette overlap (0.9752 versus 0.9219) and subtler orange detail than the correction. Selection does not indicate compliance: wrong 1254-square size, non-identical silhouette/alpha, stray faint alpha, and residual shading/highlights remain."
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7323-a858-564444925877/exec-88deeddb-d11e-4bfa-818e-f4020404ade0.png",
+      "output_sha256": "ba3297c73efd389c5c83c04152454c47614dc5ecbeb0095fb9748a3e9c7f41fa",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          28,
+          19,
+          1234,
+          1254
+        ],
+        "opaque_bbox_threshold_128": [
+          79,
+          404,
+          1175,
+          857
+        ],
+        "fully_transparent_fraction": 0.8081634781458503,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold_128": 0.921930857210744,
+        "normalization_note": "Nearest pixel sampling for comparison only; saved image remains unmodified.",
+        "materials_and_colours": "Broadly match grey-brown chitin/bone, dark ribs, violet-black resin and dusty brown stone; painted surface details differ from guide geometry.",
+        "flat_even_lighting_pass": false,
+        "lighting_review": "Residual cavity/contact darkening and edge highlights are visible.",
+        "transparent_background_pass": true,
+        "exact_guide_alpha_pass": false,
+        "all_brief_checks_pass": false
+      },
+      "prompt": "Corrective regeneration, the only correction allowed for this view.\nUse case: precise-object-edit. Produce paint_front.png as a game-prop albedo texture source.\n\nInput 1 guide_front.png is the exact 1024 x 1024 RGBA edit target. Input 2 design_reference.png is the approved materials and colours. Input 3 concept_crop.png is supporting concept only. Input 4 is the rejected previous painting: retain its material palette but FIX its changed geometry, unwanted shading and wrong 1254 x 1254 canvas.\n\nOUTPUT MUST BE EXACTLY 1024 x 1024 pixels, same canvas dimensions as input 1, transparent RGBA. Do not output 1254 pixels. Do not enlarge the guide or change its framing. This is a pixel-aligned paint-over of INPUT 1. Preserve the input 1 alpha channel exactly: the existing silhouette, every open space between ribs and every edge stays at the original pixels. The opaque object is confined to x=66..957, y=323..700. Transparent padding stays transparent with no stray pixels. Preserve all solid grey surfaces as solid. No new gaps or strands in openings. Preserve the flat curved bottom base and each small stone exactly as modelled. Do not substitute the three-quarter view from the design reference.\n\nApply weathered grey-brown chitin and bone plate COLOUR, darker brown ribs, black-violet resin webbing and drips ON the existing grey model surfaces, subtle dark orange colour in deep interior resin, dust, and dusty brown stone on the existing base stones. Match the approved reference colours but remove its lighting. Keep the materials subdued, matte and readable.\n\nSTRICT ALBEDO: entirely even, flat, shadowless illumination from viewer. No directional shading, ambient occlusion, dark contact gradients, cast shadows, strong specular highlights, reflections, rim light, bloom or light cast by orange details. Material variation only. No ground, no background, no scenery, no text. Do not create any new geometry; change surface RGB only while preserving the guide's exact alpha and shapes.\n\nReturn one raw 1024 x 1024 image, unresized, with genuine transparent background and clean alpha, painted directly over the exact first image.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "3a724b42ed5b2ff8ec9acfa4c12c4d79ba344d1677fab43e54c30edc34adbe4e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7323-a858-564444925877/exec-b8b27572-3ec1-4a49-aeb4-e8236699a1db.png",
+          "sha256": "615e9aaaee18c53cb38aa7a1f6a45c93d9763596e86fe23f10f8567e5c6bf953",
+          "role": "rejected first front painting"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7323-a858-564444925877/exec-88deeddb-d11e-4bfa-818e-f4020404ade0.png",
+      "selected": false,
+      "reason": "Rejected: correction still returns 1254-square, worsens silhouette alignment and introduces larger orange patches. One corrective regeneration exhausted."
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7323-a858-564444925877/exec-350bfc9a-b589-4711-b30f-1aacdde50736.png",
+      "output_sha256": "83dc0ec8f761ba0194473ceee9b295e306d4c955a4e4ebd3727fd11136a22196",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          22,
+          1216,
+          1222
+        ],
+        "opaque_bbox_threshold_128": [
+          81,
+          390,
+          1177,
+          862
+        ],
+        "fully_transparent_fraction": 0.7593900475416466,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold_128": 0.9754845040477553,
+        "normalization_note": "Nearest pixel sampling for comparison only; saved image remains unmodified.",
+        "materials_and_colours": "Broadly match grey-brown chitin/bone, dark ribs, violet-black resin and dusty brown stone; painted surface details differ from guide geometry.",
+        "flat_even_lighting_pass": false,
+        "lighting_review": "Residual cavity/contact darkening and edge highlights are visible.",
+        "transparent_background_pass": true,
+        "exact_guide_alpha_pass": false,
+        "all_brief_checks_pass": false
+      },
+      "prompt": "Use case: precise-object-edit.\nGenerate exactly ONE 1024 x 1024 transparent RGBA image: paint_top.png, the top-view albedo texture painting for a derelict swarmship bow half.\n\nEDIT TARGET: first attached image, guide_top.png. It is an exact orthographic top-down grey render of the model. Change only its surface colours, preserving its silhouette, alpha mask, exact position, scale, geometry edges and openings. Keep its original 1024-square canvas and all empty margins. Do not redraw, redesign, rotate, crop, zoom, or recenter the model. Do not use a three-quarter view.\nMATERIAL REFERENCE: second image, design_reference.png. Use its approved design, colours and surface materials without adopting its shape, viewpoint or lighting.\nCONCEPT REFERENCE: third image, concept_crop.png. Supporting original concept only, no environment or concept lighting.\n\nPaint weathered grey-brown chitin and bone plates, darker ribs, black-violet resin webbing and drips, faint muted dark orange colour deep inside and dust. Existing small rocks should be dusty earth-brown, keeping exactly their guide shapes. Apply fine plate wear and organic material pattern as surface colour. Keep all broad ribs broad and in the same place. Reference details must conform to the guide, never create new geometry. Keep all opaque guide surfaces opaque and all truly transparent areas transparent.\n\nThe top-down guide has a long horizontal hull with the rounded pointed bow at LEFT and the broken end at RIGHT, a straight broad central longitudinal spine, thick outer rim and diagonal internal ribs. Maintain each rib and plate edge exactly as seen in the guide. The guide occupies approximately x=66..957, y=320..703 in a 1024 x 1024 canvas; preserve those exact coordinates. Do not fill the frame with the object.\n\nLIGHTING IS ALBEDO: uniform flat shadowless frontal light over the entire surface, as if viewing an unlit diffuse texture. No ambient occlusion, contact shadows, cast shadows, directional gradients, specular highlights or reflections, rim light or bloom. Paint dark orange seams in their own intrinsic colour, without illumination of adjacent surfaces. Material colour variation only; do not make deep areas dark through lighting. Use the reference's dark violet resin colour where resin exists.\n\nGenuinely transparent background, including every transparent opening in the guide. No floor, black matte, white matte, painted checkerboard, scene, props, text or watermark. No added tendrils, stones or material outside the exact guide silhouette. Output raw at 1024 x 1024 pixels, keeping the original guide geometry unchanged.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "460d03a80a978e60fa90dfb3a37e6da21259f2e25b4228d11ec57b9bdb466de8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7323-a858-564444925877/exec-350bfc9a-b589-4711-b30f-1aacdde50736.png",
+      "selected": false,
+      "reason": "Rejected in favour of correction: stronger cavity shading and lower normalized silhouette overlap (0.9755 versus 0.9902). Wrong 1254-square size and changed alpha."
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1690b-2074-7323-a858-564444925877/exec-83b5410a-b7a9-48c2-9d29-809882685712.png",
+      "output_sha256": "2b78c3d19f994030efb5c729437104e0d0bd4aec264ff4e3a3ea3144c7aba5ff",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1240,
+          1254
+        ],
+        "opaque_bbox_threshold_128": [
+          80,
+          391,
+          1175,
+          862
+        ],
+        "fully_transparent_fraction": 0.75673633845379,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_threshold_128": 0.990164189302533,
+        "normalization_note": "Nearest pixel sampling for comparison only; saved image remains unmodified.",
+        "materials_and_colours": "Broadly match grey-brown chitin/bone, dark ribs, violet-black resin and dusty brown stone; painted surface details differ from guide geometry.",
+        "flat_even_lighting_pass": false,
+        "lighting_review": "Flatter than first attempt, but residual cavity shading and bright edge accents remain.",
+        "transparent_background_pass": true,
+        "exact_guide_alpha_pass": false,
+        "all_brief_checks_pass": false
+      },
+      "prompt": "Use case: precise-object-edit. One corrective regeneration for paint_top.png, a flat unlit diffuse/albedo painting of the derelict swarmship bow-half model.\n\nThe FIRST attached image guide_top.png is the EXACT EDIT TARGET, a 1024 x 1024 transparent grey top-down model render. Paint that image in place: preserve all its edges, shape boundaries, opaque regions and alpha pixel-for-pixel. The SECOND image design_reference.png defines materials and colours only. The THIRD image concept_crop.png is secondary concept reference only. Generate one square PNG at exactly 1024 x 1024 pixels, not 1254 x 1254. Keep the guide's original transparent margins and exact object location x=66..957 and y=320..703.\n\nThe previous top painting incorrectly produced a 1254-square image with changed alpha and dark lighting in the cavities. This correction must fix those failures by making a surface-colour-only paint-over of the FIRST image, with no geometry change and no lighting baked into colour. Treat the grey model as a fixed pixel stencil, not a suggestion to redraw. Its broad middle horizontal spine, diagonal ribs, end shapes and base stones must remain where they are, with their exact thicknesses. Do not turn solid inner panels into new holes or openings. Nothing outside the guide silhouette and no stray alpha pixels.\n\nMaterials: reference-matched weathered grey-brown chitin and bone plates, darker grey-brown ribs, black-violet resin webbing and drips, dust. Use muted dark orange pigment on tiny deep interior details, not bright bulbs or illumination. Existing base rocks are dusty brown. All fine wear, fractures, pores and resin details are colour painted ON the guide surfaces without modifying edges or geometry.\n\nCRITICAL LIGHTING CORRECTION: unlit texture colour under perfectly even flat shadowless illumination. Display all surfaces at their intrinsic base colour with equal exposure, including interior panels and under the ribs. No ambient occlusion, shadowed cavities, contact-darkening, cast shadows, directional shading, specular highlights, reflections or edge/rim light. Dark violet resin is a uniform dark material, not an occlusion gradient. No orange glow spilling onto adjacent surfaces. Keep the design reference's material palette but remove ALL its light and shadow.\n\nNo background, floor, environment, text or added objects. Real transparent RGBA alpha, including all original transparent openings. Deliver the single raw 1024 x 1024 top view exactly aligned to guide_top.png.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "460d03a80a978e60fa90dfb3a37e6da21259f2e25b4228d11ec57b9bdb466de8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9616b3c48fa4fd83f71437272d03a74214d84248803290ad069a05460ac08744"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "b36893fa6a33592705c10af6aaa1e060746cea664d6bb47092eac770da949311"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closest available top candidate: improved normalized silhouette overlap (0.9902) and more even material colouring than first attempt. Selection does not indicate compliance: wrong 1254-square size, non-identical silhouette/alpha, stray faint alpha, residual cavity shading and edge highlights, and minimal visible orange remain."
+    }
+  ]
+}

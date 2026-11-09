@@ -1,0 +1,65 @@
+# Prepared for the integrator; the user explicitly excluded capture in the builder's sandbox.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d10/review/build01
+settle_seconds: 1.5
+exit: true
+shots:
+  - name: dome_atrium
+    position: [1200, 2150, 0]
+    yaw: -1.5707963
+    pitch: 0.45
+    commands: [config toggle immortal, config toggle invisible]
+  - name: sockets_and_exit
+    position: [1200, 1600, 0]
+    yaw: 1.5707963
+    pitch: 0.05
+  - name: reading_rooms
+    position: [2600, 1200, 0]
+    yaw: 0
+    pitch: 0
+    commands: [event 21]
+  - name: founders_plaques_and_charter
+    position: [3900, 1120, 0]
+    yaw: 1.5707963
+    pitch: 0.15
+  - name: flooded_stacks
+    position: [5600, 1200, 0]
+    yaw: 0
+    pitch: -0.1
+  - name: archivist_and_shorted_shelf
+    position: [6700, 900, 0]
+    yaw: -0.8
+    pitch: -0.15
+  - name: gallery_ramp
+    position: [1200, -80, -14]
+    yaw: -1.5707963
+    pitch: -0.2
+  - name: dormant_memory_wells
+    position: [1200, -2050, -512]
+    yaw: -1.5707963
+    pitch: -0.1
+  - name: lit_memory_wells
+    position: [1200, -2900, -512]
+    yaw: 0.8
+    pitch: 0.1
+    commands: [event 13, event 15, event 12, event 14]
+  - name: armoury_console
+    position: [1700, -3100, -512]
+    yaw: 0
+    pitch: 0
+    commands: [skill set Hacking 12 M, event 17]
+  - name: repeater_shelf
+    position: [2800, -3100, -512]
+    yaw: 0.3
+    pitch: -0.05
+  - name: founders_hall
+    position: [50, -3000, -512]
+    yaw: 3.1415927
+    pitch: 0.1
+  - name: founders_casket
+    position: [-800, -3200, -512]
+    yaw: -1.5707963
+    pitch: 0.1
+  - name: founders_record
+    position: [-800, -2750, -512]
+    yaw: 1.5707963
+    pitch: -0.1

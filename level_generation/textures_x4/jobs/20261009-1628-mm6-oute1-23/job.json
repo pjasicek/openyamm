@@ -1,0 +1,930 @@
+{
+ "id": "20261009-1628-mm6-oute1-23",
+ "world": "mm6",
+ "maps": [
+  "oute1.odm"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/rblst",
+  "mm6/px1rew",
+  "mm6/px1lew",
+  "mm6/pxstrrew",
+  "mm6/pxstrst",
+  "mm6/gstrrew",
+  "mm6/gstrre",
+  "mm6/gstrdr",
+  "mm6/pxstrwb",
+  "mm6/mswallr",
+  "mm6/pxstrdr",
+  "mm6/mswalll",
+  "mm6/pxstrwde",
+  "mm6/mswinr",
+  "mm6/mswaldc",
+  "mm6/mswinm4",
+  "mm6/plg128",
+  "mm6/ns8s00",
+  "mm6/mswinm",
+  "mm6/mswallm",
+  "mm6/gstrsbw",
+  "mm6/pxsle",
+  "mm6/pxsre",
+  "mm6/cedhwal2"
+ ],
+ "requests": {
+  "mm6/rblst": {
+   "name": "rblst",
+   "versions": [
+    1
+   ],
+   "material": "grey rounded rubble cobblestone wall with dark gaps and pale highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/px1rew": {
+   "name": "px1rew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade of white-grey rough stucco with brown timber framing, a leaded amber-lit diamond-pane window with a diagonal brace above, with a corner post on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1re",
+      "mm6/pxstrwde",
+      "mm6/pxstrlew"
+     ],
+     "fraction": 0.975
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1re",
+      "mm6/pxstrwde",
+      "mm6/pxstrlew"
+     ],
+     "fraction": 0.985
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/px1ctr"
+    },
+    "2": {
+     "left": "mm6/px1ctr"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/px1lew": {
+   "name": "px1lew",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house facade of white-grey rough stucco with brown timber framing, a leaded amber-lit diamond-pane window with a diagonal brace above, with a corner post on the left edge; copy the composition exactly",
+   "notes": {
+    "3": "No yellow or tan halo around the window frame: the frame sits directly on the grey-beige copied plaster, with only a soft dark shadow below and right."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1le",
+      "mm6/pxstrlew"
+     ],
+     "fraction": 0.83
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1le",
+      "mm6/pxstrlew"
+     ],
+     "fraction": 0.849
+    },
+    "3": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1le",
+      "mm6/pxstrlew"
+     ],
+     "fraction": 0.849
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/px1ctr"
+    },
+    "2": {
+     "right": "mm6/px1ctr"
+    },
+    "3": {
+     "right": "mm6/px1ctr"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/pxstrrew": {
+   "name": "pxstrrew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade of white-grey rough stucco with brown timber framing, a leaded amber-lit diamond-pane window with a diagonal brace above, with a corner post on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1rew",
+      "mm6/pxstrre",
+      "mm6/px1lew"
+     ],
+     "fraction": 0.966
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1rew",
+      "mm6/pxstrre",
+      "mm6/px1lew"
+     ],
+     "fraction": 0.989
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/pxstrle"
+    },
+    "2": {
+     "left": "mm6/pxstrst",
+     "top": "mm6/plg128t1",
+     "bottom": "mm6/pxstrre"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/pxstrst": {
+   "name": "pxstrst",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade of white-grey rough stucco with brown timber beams top, middle and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1ctr",
+      "mm6/pxstrle",
+      "mm6/pxstrre",
+      "mm6/plg128"
+     ],
+     "fraction": 0.916
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/pxstrle",
+     "right": "mm6/pxstrre"
+    }
+   }
+  },
+  "mm6/gstrrew": {
+   "name": "gstrrew",
+   "versions": [
+    1
+   ],
+   "material": "log cabin house facade of stacked round brown logs over a grey rubble stone foundation, a small dark multi-pane window, a grey stone corner column on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrst",
+      "mm6/gstrlew"
+     ],
+     "fraction": 0.792
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/gstrst"
+    }
+   }
+  },
+  "mm6/gstrre": {
+   "name": "gstrre",
+   "versions": [
+    1
+   ],
+   "material": "log cabin house facade of stacked round brown logs over a grey rubble stone foundation, a grey stone corner column on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrst",
+      "mm6/gstrrew"
+     ],
+     "fraction": 0.831
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/gstrwn1"
+    }
+   }
+  },
+  "mm6/gstrdr": {
+   "name": "gstrdr",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown vertical plank wooden door with iron strap bands and a sliding bolt latch, in a log timber frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gldorb",
+      "mm6/gstrst"
+     ],
+     "fraction": 0.876
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/pxstrwb": {
+   "name": "pxstrwb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade of white-grey rough stucco with brown timber beams top, middle and bottom, a wide leaded amber-lit diamond-pane window in the upper panel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1ctr",
+      "mm6/pxstrlew",
+      "mm6/pxstrrew",
+      "mm6/px1rew"
+     ],
+     "fraction": 0.879
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxstrlew"
+     ],
+     "fraction": 0.903
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/pxstrre",
+     "left": "mm6/pxstrst"
+    },
+    "2": {
+     "right": "mm6/pxstrre",
+     "left": "mm6/pxstrst"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/mswallr": {
+   "name": "mswallr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "grand house facade of smooth taupe plaster with two recessed square panels, an orange and lavender painted frieze band along the top and bottom, with an ornate carved pilaster of bronze rosettes and grey stone panels on the right edge; copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material.",
+    "3": "Copy the friezes exactly: keep the carved lower frieze band at the reference height near the bottom, and the top frieze; plain stucco between them.",
+    "4": "Copy the lower frieze exactly at the reference height: thin dark line, orange-gold stripe, then a grey-lavender band carved with a continuous lavender scrollwork pattern as in the reference (not plain stucco), then a dark line and the orange stripe at the bottom. Below the top frieze a soft even shadow gradient, no blocky stepped dark patches.",
+    "5": "Keep the lower frieze exactly as in the previous version and the reference: thin dark line, orange-gold stripe, a grey-lavender band carved with continuous lavender scrollwork at the reference height near the bottom, then a dark line and the orange stripe. Upper wall directly below the top frieze: plain even taupe stucco continuing the rest of the wall, no dark blotches and no blocky or stair-stepped shadow shapes."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswalld"
+     ],
+     "fraction": 0.595
+    },
+    "2": {
+     "sources": [
+      "mm6/mswalld"
+     ],
+     "fraction": 0.595
+    },
+    "3": {
+     "sources": [
+      "mm6/mswalld"
+     ],
+     "fraction": 0.595
+    },
+    "4": {
+     "sources": [
+      "mm6/mswalld"
+     ],
+     "fraction": 0.595
+    },
+    "5": {
+     "sources": [
+      "mm6/mswalld"
+     ],
+     "fraction": 0.595
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   },
+   "ref_blur": {
+    "4": 0.8
+   },
+   "copy_from": {
+    "id": "mm6/mswalld",
+    "dx": 128,
+    "dy": 0
+   }
+  },
+  "mm6/pxstrdr": {
+   "name": "pxstrdr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "brown wooden plank house door with a carved gold cross-shaped emblem panel, round brass knobs and a leaded amber diamond-pane transom window above, in a timber frame; copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly. Keep the warm brown wood colour of the reference.",
+    "3": "No dark or light hairline on any edge: the outermost pixels continue the material exactly. Keep the warm brown wood colour of the reference.",
+    "4": "No dark or light hairline on any edge: the outermost pixels continue the material exactly. Keep the warm brown wood colour of the reference.",
+    "5": "All timber, no plaster anywhere below the top beam: posts, door and beams meet directly, as in the native."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.846
+    },
+    "2": {
+     "sources": [
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.846
+    },
+    "3": {
+     "sources": [
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.846
+    },
+    "4": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.88
+    },
+    "5": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.85
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {
+     "left": "mm6/pxstrle",
+     "right": "mm6/pxstrwb"
+    },
+    "4": {
+     "left": "mm6/pxstrle",
+     "right": "mm6/pxstrwb"
+    },
+    "5": {
+     "left": "mm6/pxstrle",
+     "right": "mm6/pxstrwb"
+    }
+   },
+   "roll": {
+    "2": [
+     34,
+     0
+    ]
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/mswalll": {
+   "name": "mswalll",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grand house facade of smooth taupe plaster with two recessed square panels, an orange and lavender painted frieze band along the top and bottom, with an ornate carved pilaster of bronze rosettes and grey stone panels on the left edge; copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material.",
+    "3": "Copy the friezes exactly: keep the carved lower frieze band at the reference height near the bottom, and the top frieze; plain stucco between them."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswalld"
+     ],
+     "fraction": 0.592
+    },
+    "2": {
+     "sources": [
+      "mm6/mswalld"
+     ],
+     "fraction": 0.592
+    },
+    "3": {
+     "sources": [
+      "mm6/mswalld"
+     ],
+     "fraction": 0.592
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/mswallr"
+    },
+    "2": {
+     "right": "mm6/mswallr"
+    },
+    "3": {
+     "right": "mm6/mswallr"
+    }
+   },
+   "copy_from": {
+    "id": "mm6/mswalld",
+    "dx": 0,
+    "dy": 0
+   }
+  },
+  "mm6/pxstrwde": {
+   "name": "pxstrwde",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade of white-grey rough stucco with brown timber framing, a narrow leaded amber-lit diamond-pane window under a pair of diagonal braces, corner posts on both edges; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1re",
+      "mm6/px1le"
+     ],
+     "fraction": 0.785
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1re",
+      "mm6/px1le"
+     ],
+     "fraction": 0.796
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/mswinr": {
+   "name": "mswinr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "grand house facade of smooth taupe plaster with a pointed-arch window of blue bullseye glass in a dark carved stone frame, an orange and lavender painted frieze band along the top and bottom, with an ornate carved pilaster on the right edge; copy the composition exactly",
+   "notes": {
+    "2": "Rebuilt on the corrected relative. No dark hairline along the right edge: the carved pilaster continues to the right border exactly as in the reference.",
+    "3": "Right edge: keep the dark recessed shadow column at the right border exactly as in the reference (dark, like the neighbouring wall piece); no pale or light hairline along the right edge.",
+    "4": "Keep the dark recessed shadow column at the right border exactly as in the reference; no pale or coloured hairline on the right edge.",
+    "5": "Right edge: the carved pilaster continues exactly to the outermost column as in the reference; no pale or dark hairline along the right side.",
+    "6": "Copy the friezes exactly: keep the carved lower frieze band at the reference height near the bottom, and the top frieze; plain stucco between them."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswallr",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.255
+    },
+    "2": {
+     "sources": [
+      "mm6/mswallr",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.255
+    },
+    "3": {
+     "sources": [
+      "mm6/mswallr",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.255
+    },
+    "4": {
+     "sources": [
+      "mm6/mswallr",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.255
+    },
+    "5": {
+     "sources": [
+      "mm6/mswallr",
+      "mm6/mswalld",
+      "mm6/mswinr1"
+     ],
+     "fraction": 0.258
+    },
+    "6": {
+     "sources": [
+      "mm6/mswallr",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.251
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   },
+   "roll": {
+    "2": [
+     82,
+     0
+    ],
+    "3": [
+     82,
+     0
+    ],
+    "4": [
+     82,
+     0
+    ],
+    "5": [
+     82,
+     0
+    ]
+   }
+  },
+  "mm6/mswaldc": {
+   "name": "mswaldc",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grand house facade of smooth taupe plaster with two narrow recessed vertical panels, an orange and lavender painted frieze band along the top and bottom, with ornate carved pilasters of bronze rosettes and grey stone panels on both edges; copy the composition exactly",
+   "notes": {
+    "2": "Copy the friezes exactly: keep the carved lower frieze band at the reference height near the bottom, and the top frieze; plain stucco between them."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswalll",
+      "mm6/mswallr"
+     ],
+     "fraction": 0.609
+    },
+    "2": {
+     "sources": [
+      "mm6/mswalll",
+      "mm6/mswallr"
+     ],
+     "fraction": 0.609
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/mswinm4": {
+   "name": "mswinm4",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grand house facade of smooth taupe plaster with a pointed-arch window of blue bullseye glass in a dark carved stone frame, an orange and lavender painted frieze band along the top and bottom; copy the composition exactly",
+   "notes": {
+    "2": "Continue the neighbouring mswallr seamlessly across the right edge: no pale hairline in the outermost right columns; the stucco and the shadow under the top trim run straight into the border.",
+    "3": "Rebuilt on the corrected wall pieces: lower frieze at the reference height, continuing mswalll and mswallr.",
+    "4": "Copy the reference composition exactly: same window, pilasters and frieze positions; no added hairlines at the edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswinr"
+     ],
+     "fraction": 0.213
+    },
+    "2": {
+     "sources": [
+      "mm6/mswinr"
+     ],
+     "fraction": 0.213
+    },
+    "3": {
+     "sources": [
+      "mm6/mswinr"
+     ],
+     "fraction": 0.213
+    },
+    "4": {
+     "sources": [
+      "mm6/mswinr"
+     ],
+     "fraction": 0.213
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/mswalll",
+     "right": "mm6/mswallr"
+    },
+    "2": {
+     "left": "mm6/mswalll",
+     "right": "mm6/mswallr"
+    },
+    "3": {
+     "left": "mm6/mswalll",
+     "right": "mm6/mswallr"
+    },
+    "4": {
+     "left": "mm6/mswalll",
+     "right": "mm6/mswallr"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/plg128": {
+   "name": "plg128",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale beige-grey rough sandy stucco plaster surface",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pxstrle",
+      "mm6/px1re"
+     ],
+     "fraction": 0.987
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/ns8s00": {
+   "name": "ns8s00",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "light orange-brown vertical plank wooden door with crossbars, a small barred grille window and a black iron pull handle, in a brown horizontal plank wall; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/ns8s06"
+     ],
+     "fraction": 0.36
+    },
+    "2": {
+     "sources": [
+      "mm6/ns8s06",
+      "mm6/ns8s08"
+     ],
+     "fraction": 0.329
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/ns8s07"
+    },
+    "2": {
+     "right": "mm6/ns8s07"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/mswinm": {
+   "name": "mswinm",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grand house facade of smooth taupe plaster with a rectangular stained glass window of a green dragon on blue bullseye glass in a dark carved frame, an orange and lavender painted frieze band along the top and bottom; copy the composition exactly",
+   "notes": {
+    "2": "Copy the reference composition exactly, including the lower frieze at the reference height: thin dark line, orange-gold stripe, a grey-lavender band with lavender scrollwork, then a dark line and the orange stripe; plain even taupe stucco elsewhere, no blocky patches and no hairlines at the edges."
+   },
+   "pad": {
+    "1": [
+     32,
+     16
+    ],
+    "2": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswinm4"
+     ],
+     "fraction": 0.269
+    },
+    "2": {
+     "sources": [
+      "mm6/mswinm4"
+     ],
+     "fraction": 0.269
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/mswalll",
+     "right": "mm6/mswallr"
+    },
+    "2": {
+     "left": "mm6/mswalll",
+     "right": "mm6/mswallr"
+    }
+   }
+  },
+  "mm6/mswallm": {
+   "name": "mswallm",
+   "versions": [
+    1
+   ],
+   "material": "grand house facade of smooth taupe plaster with two recessed square panels, an orange and lavender painted frieze band along the top and bottom; copy the composition exactly",
+   "notes": {
+    "1": "Copy the reference composition exactly, including the lower frieze at the reference height: thin dark line, orange-gold stripe, a grey-lavender band with lavender scrollwork, then a dark line and the orange stripe; plain even taupe stucco elsewhere, no blocky patches and no hairlines at the edges."
+   },
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswinm4",
+      "mm6/mswinm"
+     ],
+     "fraction": 0.19
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/mswallr",
+     "left": "mm6/mswinm"
+    }
+   }
+  },
+  "mm6/gstrsbw": {
+   "name": "gstrsbw",
+   "versions": [
+    1
+   ],
+   "material": "grey rounded rubble cobblestone wall with dark gaps and pale highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pxsle": {
+   "name": "pxsle",
+   "versions": [
+    1
+   ],
+   "material": "plain trim strip of a brown timber post on the left beside white-grey rough stucco",
+   "notes": {}
+  },
+  "mm6/pxsre": {
+   "name": "pxsre",
+   "versions": [
+    1
+   ],
+   "material": "plain trim strip of white-grey rough stucco beside a brown timber post on the right",
+   "notes": {}
+  },
+  "mm6/cedhwal2": {
+   "name": "cedhwal2",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown horizontal cedar wood plank wall with dark seams and knots",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

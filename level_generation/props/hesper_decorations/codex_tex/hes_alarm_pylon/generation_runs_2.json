@@ -1,0 +1,88 @@
+{
+  "tool": "built-in image_gen",
+  "status": "incomplete: neither return meets the exact size and silhouette requirements",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: sketch-to-render. Produce exactly one 1024 x 1024 RGBA image with genuinely transparent background, a texture-source/albedo painting of the BACK of the Kreegan alarm pylon.\nINPUT ROLES: Image 1 guide_back.png is the exact geometry/edit target. Image 2 design_reference.png is the approved design, colour and material authority only (its three-quarter camera is NOT to be used). Image 3 concept_crop.png is the original concept supporting the same design.\nPaint directly over guide_back.png. Lock the guide's silhouette EXACTLY: same outline, size, position, every edge, opening, thin hanging strand, spike and detail, pixel-aligned in the unchanged 1024-square frame. Preserve all transparent holes and all transparent background. Nothing added outside the silhouette, nothing cropped, no geometry changes. This is the decoration seen from the BACK, exactly as in the guide, not the three-quarter reference.\nPaint the surface materials of the approved design onto the guide shape: glossy black-violet resin and chitin, glowing orange-red core, black glass rubble. Glossy is the material identity only; this is flat albedo, not a beauty render. Follow the guide's existing ribs, plates, central panels, spikes and base fragments; colour the exposed core panels orange-red and keep chitin black-violet.\nLIGHTING: TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No bloom, halo or light spill. No text or watermark.\nOutput a single unresized 1024 x 1024 transparent PNG painting, with exactly the guide geometry.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9d-c91b-75f1-8caa-ed93b486cec7/exec-4dd87a52-3f9e-4bde-875e-85973f49f22a.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Best available candidate: flatter lighting and less pronounced surface highlights than the correction. Preserved unresized. Fails required 1024x1024 size and exact guide silhouette; not an approved compliant texture source.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "6b5c9bdc4f27e7ee014b1d0fa06942842bb05b6072fe3983963804ea50f98d37"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output_sha256": "2785e746fd98ac5c2f0050e5dcd33de61cd6b9fc1659e9b714b6dbf18c179813",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "silhouette_identical": false,
+        "alpha_channel": true,
+        "transparent_pixels_present": true,
+        "materials_and_colours": "Black-violet shell, orange-red core and dark glass base visually match the reference palette.",
+        "flat_even_light": "Partial: visible edge highlights and dark recesses remain.",
+        "postprocessing": "None; byte-for-byte copy of unresized built-in return."
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Corrective generation, the one permitted correction for this view. Use case: sketch-to-render. Deliver ONE native 1024 x 1024 PNG with alpha transparency. Exact output dimensions are mandatory: 1024 pixels wide and 1024 pixels high. Do not output 1254 x 1254 or any other resolution.\nImage 1 guide_back.png is the actual image to edit: colour ONLY its existing opaque pixels while preserving its exact alpha mask, pixel positions, shapes and openings. This is a texture painting onto this exact orthographic back-view render, NOT a new rendition. Its full alpha bounds are x=344 through 679 and y=66 through 957 in the 1024-square canvas. Retain this narrow width, top and bottom margins and all thin tendrils/spikes in precisely their original locations. Do not shift, enlarge, rotate, recenter or reinterpret geometry. Do not create new ribs or change surface edges.\nImages 2 design_reference.png and 3 concept_crop.png are colour/material references only. Transfer glossy black-violet resin and chitin, glowing orange-red core and black glass rubble onto the exact guide surfaces. Do not transfer the reference's camera, silhouette or dramatic lighting. Existing exposed central panels are orange-red, existing armor and spines are black-violet, base is black glass rubble. Preserve all existing geometry and holes.\nThis is flat albedo TEXTURE SOURCE. Even flat shadowless illumination from viewer, NO cast shadows, NO ambient occlusion darkening, NO bright specular edges or reflections, NO rim light. Orange core/seams are painted glowing-colour pigment only, with NO light cast on adjacent surfaces, no bloom or halo. Entire background is genuine alpha zero, no floor, no environment, no stray pixels. Exact source alpha mask must remain unchanged, including all silhouette edges and interior holes.\nThe previous attempt failed size and silhouette checks: do not repeat that. Paint the provided GUIDE directly, preserving its geometry and scale, at native 1024x1024.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9d-c91b-75f1-8caa-ed93b486cec7/exec-cc209380-b0e8-4c53-ba30-70319a8a9ce7.png",
+      "output": "paint_back_correction.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "One permitted corrective regeneration. Still returned 1254x1254 with altered silhouette and stronger highlights. Retained unresized for traceability.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "6b5c9bdc4f27e7ee014b1d0fa06942842bb05b6072fe3983963804ea50f98d37"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output_sha256": "751963c2ce0483caf193e8c4f7e94f683318cc0fee0c7b2a0bf81788052fdaec",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "silhouette_identical": false,
+        "alpha_channel": true,
+        "transparent_pixels_present": true,
+        "materials_and_colours": "Black-violet shell, orange-red core and dark glass base visually match the reference palette.",
+        "flat_even_light": "Partial: visible edge highlights and dark recesses remain.",
+        "postprocessing": "None; byte-for-byte copy of unresized built-in return."
+      }
+    }
+  ]
+}

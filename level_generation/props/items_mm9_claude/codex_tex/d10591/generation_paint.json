@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png following this exact brief. Input roles: paint_mask_guide.png is the edit target and authoritative geometry/layout; design_reference.png is the approved detailed appearance reference; icon_x8.png is original color reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 3:4 canvas, 1536x2048 or nearest 3:4 size. Preserve guide layout: three columns by FOUR equal rows. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat precisely those five views. Each object must remain in exactly the same position, size and outline as the grey guide. Paint only grey objects, never redraw, enlarge, move or redesign them. Preserve all gaps and openings as fully transparent. Column 3 of rows 2 and 4 remains fully transparent.\nObject: King Basilisk Skin, source-faithful vertically hanging hide. Upper two rows PAINT: unlit base color, detailed reptilian hide faithfully following design_reference and original icon colors: muted grey olive overlapping scaly plates and central brown ridge, purple blue muted russet scale limbs, head colors as reference. Scale detail mapped consistently to each orthographic view. Facets and internal details follow design reference at each view scale. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, outlines, text, ground, aura or extras.\nLower two rows MATERIAL MASK: identical five guide silhouettes filled entirely FLAT PURE GREEN #00FF00 because this whole object is hide/leather, including scales, limbs and central ridge. No texture, no shading, no internal lines, no antialiased color blends inside. Material legend if relevant: metal red #FF0000; hide/leather/fur green #00FF00; cloth/hair blue #0000FF; matte nonmetal wood/bone/horn/stone yellow #FFFF00; gem/glass/enamel/liquid black #000000. This is skin, all green. Nothing outside silhouettes.\nExact silhouette and layout preservation are essential; use the guide as fixed paint regions.\nCORRECTIVE GENERATION: The previous attempt had enormous green speckle clouds outside the bottom five silhouettes. This is clearly wrong. Ensure lower rows contain ONLY five clean, solid flat green silhouettes exactly bounded by the original grey guide, with fully transparent surrounding pixels and gaps. No green spill, spray, fuzz, particles, outlines, or green background. Preserve the original guide silhouettes strictly, including small toes and limb gaps. Upper rows paint as specified. Use original guide as the edit target.",
+  "initial_prompt": "Edit the supplied paint_mask_guide.png following this exact brief. Input roles: paint_mask_guide.png is the edit target and authoritative geometry/layout; design_reference.png is the approved detailed appearance reference; icon_x8.png is original color reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 3:4 canvas, 1536x2048 or nearest 3:4 size. Preserve guide layout: three columns by FOUR equal rows. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat precisely those five views. Each object must remain in exactly the same position, size and outline as the grey guide. Paint only grey objects, never redraw, enlarge, move or redesign them. Preserve all gaps and openings as fully transparent. Column 3 of rows 2 and 4 remains fully transparent.\nObject: King Basilisk Skin, source-faithful vertically hanging hide. Upper two rows PAINT: unlit base color, detailed reptilian hide faithfully following design_reference and original icon colors: muted grey olive overlapping scaly plates and central brown ridge, purple blue muted russet scale limbs, head colors as reference. Scale detail mapped consistently to each orthographic view. Facets and internal details follow design reference at each view scale. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, outlines, text, ground, aura or extras.\nLower two rows MATERIAL MASK: identical five guide silhouettes filled entirely FLAT PURE GREEN #00FF00 because this whole object is hide/leather, including scales, limbs and central ridge. No texture, no shading, no internal lines, no antialiased color blends inside. Material legend if relevant: metal red #FF0000; hide/leather/fur green #00FF00; cloth/hair blue #0000FF; matte nonmetal wood/bone/horn/stone yellow #FFFF00; gem/glass/enamel/liquid black #000000. This is skin, all green. Nothing outside silhouettes.\nExact silhouette and layout preservation are essential; use the guide as fixed paint regions.",
+  "tool": "built-in image_gen",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad13-3aae-7f00-8faa-d731260d67ae/exec-3ec7b086-eedf-463f-a0cb-354fbbfdd3c8.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10591/paint_mask_raw_v1.png",
+  "corrective_regenerations": 1,
+  "validation": "Material mask contains visible green spill outside silhouettes after the single permitted correction. Raw output preserved without modification.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10591/paint_mask_guide.png",
+      "sha256": "26e0a0fa2c2a91faab85e50b41b50302fe07abd7a8d639be4e140f2be0ca811c"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10591/design_reference.png",
+      "sha256": "24dde82116d9d870a3dfa81d64193a8b626293abf384152e31fef3969cd1d88a"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10591/icon_x8.png",
+      "sha256": "02d15745a63d4788199698796f2c7854684f3bfbbe9b3e48b6f1512574e87afd"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

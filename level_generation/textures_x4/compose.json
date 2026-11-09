@@ -1,0 +1,498 @@
+{
+ "mm6/thle": {
+  "base": "mm6/thctr",
+  "features": [
+   [
+    0,
+    0,
+    36,
+    256
+   ],
+   [
+    38,
+    46,
+    92,
+    150
+   ]
+  ]
+ },
+ "mm6/thre": {
+  "base": "mm6/thctr",
+  "features": [
+   [
+    94,
+    0,
+    128,
+    256
+   ],
+   [
+    38,
+    46,
+    96,
+    150
+   ]
+  ]
+ },
+ "mm6/thctrw1": {
+  "base": "mm6/thctr",
+  "features": [
+   [
+    18,
+    18,
+    112,
+    216
+   ]
+  ]
+ },
+ "mm6/thctrw2": {
+  "base": "mm6/thctr",
+  "features": [
+   [
+    8,
+    24,
+    120,
+    222
+   ]
+  ]
+ },
+ "mm6/thsmdr": {
+  "base": "mm6/thctr",
+  "features": [
+   [
+    6,
+    0,
+    122,
+    256
+   ]
+  ]
+ },
+ "mm6/thlgdr": {
+  "base": "mm6/thctr",
+  "features": [
+   [
+    38,
+    6,
+    220,
+    256
+   ]
+  ]
+ },
+ "mm6/strle": {
+  "base": "mm6/strctr",
+  "features": [
+   [
+    0,
+    0,
+    34,
+    256
+   ]
+  ]
+ },
+ "mm6/strre": {
+  "base": "mm6/strctr",
+  "features": [
+   [
+    80,
+    0,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm6/strdr": {
+  "base": "mm6/strctr",
+  "features": [
+   [
+    14,
+    54,
+    118,
+    256
+   ]
+  ]
+ },
+ "mm6/strdr2": {
+  "base": "mm6/strctr",
+  "features": [
+   [
+    12,
+    26,
+    244,
+    256
+   ]
+  ]
+ },
+ "mm6/strwin1": {
+  "base": "mm6/strctr",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    192
+   ]
+  ]
+ },
+ "mm6/strwin2": {
+  "base": "mm6/strctr",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    198
+   ]
+  ]
+ },
+ "mm6/strlew": {
+  "base": "mm6/strctr",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    192
+   ],
+   [
+    0,
+    192,
+    34,
+    256
+   ]
+  ]
+ },
+ "mm6/strrew": {
+  "base": "mm6/strctr",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    198
+   ],
+   [
+    80,
+    198,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm6/pxstrle": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    30,
+    256
+   ],
+   [
+    16,
+    14,
+    80,
+    84
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    0,
+    0,
+    17,
+    256
+   ]
+  ]
+ },
+ "mm6/pxstrre": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    98,
+    0,
+    128,
+    256
+   ],
+   [
+    48,
+    14,
+    112,
+    84
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    111,
+    0,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm6/pxstrdr": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    12,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm6/pxstrlew": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    30,
+    256
+   ],
+   [
+    16,
+    14,
+    80,
+    84
+   ],
+   [
+    24,
+    50,
+    122,
+    160
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    0,
+    0,
+    17,
+    256
+   ]
+  ]
+ },
+ "mm6/pxstrrew": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    98,
+    0,
+    128,
+    256
+   ],
+   [
+    48,
+    14,
+    112,
+    84
+   ],
+   [
+    10,
+    50,
+    104,
+    160
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    111,
+    0,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm6/pxstrwb": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    2,
+    50,
+    126,
+    160
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60
+ },
+ "mm6/px1ctr": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    256
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60
+ },
+ "mm6/px1le": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    256
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    0,
+    0,
+    20,
+    256
+   ]
+  ]
+ },
+ "mm6/px1lew": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    256
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    0,
+    0,
+    20,
+    256
+   ]
+  ]
+ },
+ "mm6/px1re": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    256
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    108,
+    0,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm6/px1rew": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    256
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    108,
+    0,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm6/pxstrde": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    256
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    0,
+    0,
+    20,
+    256
+   ],
+   [
+    108,
+    0,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm6/pxstrwde": {
+  "base": "mm6/pxstrst",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    256
+   ]
+  ],
+  "refine": "diff",
+  "tol": 60,
+  "keep": [
+   [
+    0,
+    0,
+    20,
+    256
+   ],
+   [
+    108,
+    0,
+    128,
+    256
+   ]
+  ]
+ },
+ "mm9/ansk57va3o": {
+  "base": "mm9/ansk57va3o-lattice",
+  "features": [
+   [
+    0,
+    0,
+    128,
+    128
+   ]
+  ],
+  "mask": "masks/mm9_ansk57va3o_beams.png"
+ },
+ "mm9/ansk9ja1jm": {
+  "base": "mm9/ansks302ur",
+  "features": [
+   [
+    16,
+    28,
+    124,
+    108
+   ]
+  ]
+ }
+}

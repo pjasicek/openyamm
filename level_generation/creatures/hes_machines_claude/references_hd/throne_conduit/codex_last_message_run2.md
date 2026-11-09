@@ -1,0 +1,3 @@
+Saved `01_front`–`04_right`, the [contact sheet](level_generation/creatures/hes_machines_claude/references_hd/throne_conduit/selected_views_review.png), and updated `generation_runs.json` with prompts, hashes and selections. Used built-in image generation.
+
+Stopped at one correction per view. Remaining cable-count, framing and profile-angle deviations are recorded; no builds or Meshy work performed.

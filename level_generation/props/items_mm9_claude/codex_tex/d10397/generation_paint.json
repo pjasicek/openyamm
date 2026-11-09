@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png exactly according to this brief. Inputs: image 1 design_reference.png is approved material/detail reference; image 2 icon_x8.png is original colour reference (magenta is background); image 3 paint_mask_guide.png is the edit target and authoritative geometry. Output one transparent PNG, 1536x2048 or nearest 3:4 size. Preserve guide positions, sizes, outlines and extremely thin edge-on views precisely. Three columns, FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat FRONT, BACK, LEFT / RIGHT, TOP, empty. These are a thin parchment page: row 1 three thin horizontal edges, row 2 a thin edge at left and large upright rectangle at center. Row 3 repeat the three thin edges, row 4 repeat thin left edge and center rectangle. Do not turn any thin edge into a full page. Paint only existing guide silhouettes.\nRows 1-2: unlit base colour for source-faithful upright readable page, warm aged parchment and dark ink illustrative markings following design_reference and icon. Preserve reference's arrangement of ink marks and bird-like drawing on the central rectangular page, scaled into the exact rectangle, no added text or labels. Fine parchment material detail, no baked lighting, cast shadows, AO, hot highlights, reflections, glow, ground or outlines. Never redraw, enlarge, move or redesign silhouettes.\nRows 3-4: material segmentation mask; every silhouette pixel of this entirely parchment/paper object is FLAT pure yellow #FFFF00, including thin edges and the central rectangle. No ink marks in material mask. No shading, texture, outlines, or interior antialiased colour blends. Material code globally: cloth/hair pure blue #0000FF, matte nonmetal solid pure yellow #FFFF00, metal pure red #FF0000; this object has only parchment.\nEverything outside silhouettes fully transparent; empty column 3 row 2 and column 3 row 4 fully transparent. No text, grid, labels or background. Geometry and layout fidelity are critical.\nCORRECTION: Previous attempt leaked coloured speckles and enlarged thin edge silhouettes. Enforce absolutely clean geometry from guide. All thin bars must remain straight smooth narrow bars with no roughness outside. Central page must keep straight rectangular guide outline, with all parchment texture confined INSIDE. Bottom mask MUST be uniform solid #FFFF00, not yellow shaded material, no dark seams, no texture, no gradients. Absolutely zero scattered pixels, coloured fringes or smudges outside original guide shapes. Use original guide as strict silhouette stencil.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10397/paint_mask_guide.png",
+      "sha256": "07ec142b144126ee072d3092fc5107172a2ac8b8dde6d4c5c3b98d35f349d29c"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10397/design_reference.png",
+      "sha256": "d7b3b84495c3d013d035990d8bb64e497fc7a1e33999ff25a033ed38ce25ddf8"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10397/icon_x8.png",
+      "sha256": "7a9c1e179bb5937b48f3185658af545c8494b387f7ad205da3d2a0e1ee7dc19a"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad12-365f-7903-8c92-1748ab3ea4aa/exec-aafc8d8c-20c1-45d2-8105-f43c07c91e9f.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10397/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained; visible stray edge pixels and non-flat mask remain after allowed correction. Raw output copied without modification."
+}

@@ -1,0 +1,11 @@
+# Druidess restoration review
+
+Accepted 59 unique native images, including 58 referenced images and unused dru1fib0. Eleven generated sheets cover five stored directions, walk, spell attack, hit, fidget and falling/corpse poses. Native reused frames, timing, mirror aliases, scale and bottom anchoring remain intact.
+
+Reviewed all native/raw sheets, complete final base/mask contacts, three-palette identity comparison and worst-edge light/dark contact. Offline viewer captures cover rose 723 mirrored walk view 6 frame 3, blue 194 spell frame 4 and green 722 falling frame 4. Cloak folds and stepping phases remain coherent. White/gold spell threads retain their fine separated silhouette without a colored matte fringe. The adult face and leather studs are more explicitly defined than native, and the final spell is slightly warmer/dimmer; no new accessories or changed outfit coverage.
+
+The first identity output incorrectly mixed palette colors across views and was rejected. Accepted identity is uniformly native green. The unused single-pose output contained four extra unrequested views; only its first cell, matching native chin-touch dru1fib0, is extracted. batches.json records its actual 3-column/2-row raw layout and keeps only the one native frame. Extra synthetic views are never exported. Rejected raw art, accepted raw art and exact submitted prompts remain preserved.
+
+Overall RGB gain .88. One soft R8 mask follows enhanced green hood/cloak pixels, protecting skin, brown hair/leather/boots, gold and spell effects. Native usage-weighted sigma=4 luminance lookup curves derive muted rose 723 and blue 194 from green 722; transparent index zero is excluded and base bypass is exact. All source/generation hashes, native sequence bindings, alpha invariance, zero-mask protection and exact crop/atlas reconstruction pass. Zero residual magenta candidates in cleaned, exported and atlas-extracted art. Decoded base plus R8 mask is 34,483,230 bytes (32.89 MiB), excluding variant previews.
+
+Open review.html for the offline viewer. Staged only, no gameplay installation or GPU performance claim. masked_luminance_lut_v1 requires matching runtime support or deterministic variant baking. Reproduce with process.py, package.py and ../mm6_peasants/build_viewer.py dru1; rebuilding clears visual acceptance.

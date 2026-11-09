@@ -1,0 +1,652 @@
+{
+ "id": "20261009-1649-mm7-7d07-00",
+ "world": "mm7",
+ "maps": [
+  "7d07.blv"
+ ],
+ "created": "2026-10-09T14:49:59+00:00",
+ "textures": [
+  "mm7/c2b",
+  "mm7/cwb",
+  "mm7/t3s2b",
+  "mm7/t3s2b1",
+  "mm7/ch1b1",
+  "mm7/7dirt1",
+  "mm7/7dirt2",
+  "mm7/cfb1",
+  "mm7/7dirttyl",
+  "mm7/7t1books2",
+  "mm7/cwb1",
+  "mm7/7gt002f",
+  "mm7/7gt002a",
+  "mm7/7gt003a",
+  "mm7/7t1books1",
+  "mm7/7gt002b",
+  "mm7/7gt002d",
+  "mm7/7gt003d",
+  "mm7/7gt002e",
+  "mm7/7gt003b",
+  "mm7/7gt002c",
+  "mm7/7gt002g",
+  "mm7/7t1beds",
+  "mm7/7t1beds1"
+ ],
+ "requests": {
+  "mm7/c2b": {
+   "name": "c2b",
+   "versions": [
+    1
+   ],
+   "material": "rough dark cave rock wall, black-brown stone with reddish-brown earthy patches and deep crevices",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/cwb": {
+   "name": "cwb",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown cut stone brick wall in staggered courses with thin dark mortar joints, worn and slightly dusty",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2b": {
+   "name": "t3s2b",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-beige mottled marble wall panels divided by thin incised lines, above a dark carved stone skirting band with interlaced knotwork; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2b1": {
+   "name": "t3s2b1",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-beige mottled marble wall panels divided by thin incised lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2b"
+     ],
+     "fraction": 0.478
+    }
+   }
+  },
+  "mm7/ch1b1": {
+   "name": "ch1b1",
+   "versions": [
+    1
+   ],
+   "material": "rough brown cave rock with irregular flat-faced stones and dark cracks between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7dirt1": {
+   "name": "7dirt1",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown packed earth floor with scattered small grey pebbles and faint scuffed ridges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7dirt2": {
+   "name": "7dirt2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "reddish-brown packed earth floor with scattered small grey pebbles and faint scuffed ridges",
+   "notes": {
+    "2": "keep the native's muted reddish-brown earth and plain grey pebbles; no saturated orange, no white or bluish crystals"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7dirt1"
+     ],
+     "fraction": 0.953
+    },
+    "2": {
+     "sources": [
+      "mm7/7dirt1"
+     ],
+     "fraction": 0.953
+    }
+   }
+  },
+  "mm7/cfb1": {
+   "name": "cfb1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown damp cave floor of crumbly earth and fine grit",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7dirttyl": {
+   "name": "7dirttyl",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown packed earth floor with faint scuffed ridges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7dirt1"
+     ],
+     "fraction": 0.488
+    }
+   }
+  },
+  "mm7/7t1books2": {
+   "name": "7t1books2",
+   "versions": [
+    1
+   ],
+   "material": "tall dark oak cabinet door panel with a carved border, a carved vertical rib and a round brass boss in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/cwb1": {
+   "name": "cwb1",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown cave rock with fine mineral speckles and small pits",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7gt002f": {
+   "name": "7gt002f",
+   "versions": [
+    1
+   ],
+   "material": "wooden crate face of horizontal reddish-brown planks with dark iron corner brackets and rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7gt002a": {
+   "name": "7gt002a",
+   "versions": [
+    1
+   ],
+   "material": "wooden crate face of horizontal reddish-brown planks with dark iron corner brackets and rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.383
+    }
+   }
+  },
+  "mm7/7gt003a": {
+   "name": "7gt003a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wooden crate face of vertical reddish-brown planks with dark iron corner brackets and rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/7gt002a",
+    "k": 1
+   }
+  },
+  "mm7/7t1books1": {
+   "name": "7t1books1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain worn brown wooden boards with long straight grain and a few faint scratches",
+   "notes": {
+    "2": "the sharp wood areas are final: continue their planks, grain, tone and dark plank lines seamlessly so no outline or step is visible where they meet the new wood",
+    "3": "plain vertical boards only; the sharp areas are final and must blend invisibly: match their exact brown tone, grain direction and board edges, no lighter or darker patches, no outlines"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7t1books2"
+     ],
+     "fraction": 0.162
+    },
+    "2": {
+     "sources": [
+      "mm7/7t1books2"
+     ],
+     "fraction": 0.162
+    },
+    "3": {
+     "sources": [
+      "mm7/7t1books2"
+     ],
+     "fraction": 0.162
+    }
+   }
+  },
+  "mm7/7gt002b": {
+   "name": "7gt002b",
+   "versions": [
+    1
+   ],
+   "material": "wooden crate face of horizontal reddish-brown planks with dark iron corner brackets and rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt002f",
+      "mm7/7gt002a"
+     ],
+     "fraction": 0.829
+    }
+   }
+  },
+  "mm7/7gt002d": {
+   "name": "7gt002d",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "wooden crate face of horizontal reddish-brown planks with dark iron corner brackets and rivets and a small square iron lock plate at the bottom centre; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "crate face: the outermost pixel rows and columns keep the reference colours exactly; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt002a"
+     ],
+     "fraction": 0.848
+    },
+    "2": {
+     "sources": [
+      "mm7/7gt002a"
+     ],
+     "fraction": 0.848
+    },
+    "3": {
+     "sources": [
+      "mm7/7gt002a"
+     ],
+     "fraction": 0.848
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     30
+    ],
+    "4": [
+     0,
+     30
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   },
+   "standalone": true
+  },
+  "mm7/7gt003d": {
+   "name": "7gt003d",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "wooden crate face of vertical reddish-brown planks with dark iron corner brackets and rivets and a small square iron lock plate at the right; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "crate face: the outermost pixel rows and columns keep the reference colours exactly; no pale or dark line along any edge",
+    "5": "crate face: the last pixel columns at the right edge are the thin pale light-tan highlight of the board edge exactly as in the reference, not a dark or brown line and not moved inward; outermost rows and columns keep the reference colours exactly",
+    "6": "crate face: the last pixel columns at the right edge are the thin pale light-tan highlight of the board edge exactly as in the reference, not a dark or brown line and not moved inward; outermost rows and columns keep the reference colours exactly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt003a"
+     ],
+     "fraction": 0.848
+    },
+    "2": {
+     "sources": [
+      "mm7/7gt003a"
+     ],
+     "fraction": 0.848
+    },
+    "3": {
+     "sources": [
+      "mm7/7gt003a"
+     ],
+     "fraction": 0.848
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     30,
+     0
+    ],
+    "4": [
+     30,
+     0
+    ],
+    "5": [
+     30,
+     0
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   },
+   "standalone": true,
+   "rotate_from": {
+    "id": "mm7/7gt002d",
+    "k": 1
+   }
+  },
+  "mm7/7gt002e": {
+   "name": "7gt002e",
+   "versions": [
+    1
+   ],
+   "material": "wooden crate face of horizontal reddish-brown planks with dark iron corner brackets and rivets and two small square iron lock plates; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt002a"
+     ],
+     "fraction": 0.824
+    }
+   }
+  },
+  "mm7/7gt003b": {
+   "name": "7gt003b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "wooden crate face of vertical reddish-brown planks with dark iron corner brackets and rivets",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "crate face: the outermost pixel rows and columns keep the reference colours exactly; no pale or dark line along any edge",
+    "5": "crate face: the outermost pixel rows and columns keep the reference colours exactly; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt003a",
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.68
+    },
+    "2": {
+     "sources": [
+      "mm7/7gt003a",
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.68
+    },
+    "3": {
+     "sources": [
+      "mm7/7gt003a",
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.68
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     30,
+     0
+    ],
+    "4": [
+     30,
+     0
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   },
+   "standalone": true,
+   "rotate_from": {
+    "id": "mm7/7gt002b",
+    "k": 1
+   }
+  },
+  "mm7/7gt002c": {
+   "name": "7gt002c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "wooden crate face of vertical reddish-brown planks inside a dark iron frame with corner rivets and a square iron plate in the centre; copy the composition exactly",
+   "notes": {
+    "2": "the sharp areas are final: continue each plank and its dark joint line straight across every boundary so no plank edge is offset next to the frame",
+    "3": "keep every sharp plank exactly where it is and draw the new planks as their straight continuation: each horizontal joint line runs unbroken from frame to frame at the same height, with no short offset plank pieces"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.594
+    },
+    "2": {
+     "sources": [
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.594
+    },
+    "3": {
+     "sources": [
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.594
+    }
+   }
+  },
+  "mm7/7gt002g": {
+   "name": "7gt002g",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "wooden crate face of reddish-brown planks inside a dark iron frame with diagonal iron cross braces from each corner and rivets; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "crate face: the outermost pixel rows and columns keep the reference colours exactly; no pale or dark line along any edge",
+    "5": "crate face: the thin dark shadow line under the bottom board lies exactly on the last pixel rows of the bottom edge, not moved inward; the wood above it reaches right down to that line; outermost rows and columns keep the reference colours exactly",
+    "6": "crate face: the thin dark shadow line under the bottom board lies exactly on the last pixel rows of the bottom edge, not moved inward; the wood above it reaches right down to that line; outermost rows and columns keep the reference colours exactly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt003a",
+      "mm7/7gt002a"
+     ],
+     "fraction": 0.493
+    },
+    "2": {
+     "sources": [
+      "mm7/7gt003a",
+      "mm7/7gt002a"
+     ],
+     "fraction": 0.493
+    },
+    "3": {
+     "sources": [
+      "mm7/7gt003a",
+      "mm7/7gt002a"
+     ],
+     "fraction": 0.493
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     19
+    ],
+    "4": [
+     0,
+     19
+    ],
+    "5": [
+     0,
+     19
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {
+     "bottom": "mm7/7gt002c"
+    }
+   },
+   "standalone": true,
+   "pad": {
+    "6": [
+     8,
+     32
+    ]
+   }
+  },
+  "mm7/7t1beds": {
+   "name": "7t1beds",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of smooth golden-brown wood with long straight grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7t1beds1": {
+   "name": "7t1beds1",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of carved golden-brown wooden trim with a thin dark inlaid line along its length",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,17 @@
+# MM8 Phoenix restoration
+
+Staged restoration of all 125 native unique BMP poses (103 referenced and 22 stored orphan poses), five stored directions and palettes 573–575. Nothing is installed into gameplay. Native bindings retain descriptor actions, timing, mirrors, Center flags and 256×256 logical size; orphan poses are selectable without invented timing.
+
+Generation uses the built-in image generator. `generation.json` records every selected raw sheet, exact prompt and ordered native/identity reference hashes. All 21 sheets are retained in `raw/`. `checkpoints/identity_acceptance.json` records the five-view identity checkpoint. Original assets are read only.
+
+Processing: exact common-cell extraction; local magenta matte unmix; frozen identity luminance multiplier 0.9692761040838265; premultiplied Lanczos to 2×. One reviewed uniform scale and translation per action/view batch restores native layout. The second row of reaction view 3 was displaced upward by the generator and receives one shared 66px downward translation before calibration. No per-frame silhouette fitting, alpha replacement or equal-height normalization is used. The before-correction evidence is retained in `checkpoints/before_row_registration/`.
+
+Gold flame contours drifted pink/orange. `tone.py` restores alpha-normalized native coarse RGB (Gaussian sigma 7 physical pixels) plus 0.7 times generated high-frequency detail. Geometry and alpha stay unchanged. A contour-only RGB repair removes demonstrated magenta/cyan matte flecks while preserving alpha; all native visible base pixels were verified to have zero cyan excess. Before-repair patches and settings are retained in `checkpoints/before_cyan_repair/`.
+
+`materials.py` derives coverage from enhanced RGB using eight nearest native palette samples, inverse fourth-power weights, chroma/luma features and a fixed palette-delta lookup. Palette 573 bypasses recoloring exactly. Native 574 pink-white flames/orange feathers/blue tail accents and 575 red flames/yellow feathers are deterministic variants of the same enhanced geometry. Masks never come from enlarged native silhouettes.
+
+Export: 2× RGBA8 base pages and matching R8 coverage pages, four-pixel crop padding, three-pixel hidden color/coverage bleed, sixteen-pixel aligned gutters, no mipmaps. Placement retains physical crop origins and native logical pivots. `viewer.html` opens offline with all native actions, eight logical directions, three palettes, stored orphan poses, native comparison and masks. The palette operation is staged metadata; runtime integration is separate scope.
+
+Rebuild with `python3 level_generation/creatures/mm8_m572/rebuild.py`. Reuse selected raw sheets; do not regenerate accepted art. Review all contacts, palettes and worst edges, run `browser_checks.py`, renew `review/decision.json`, then run `finalize.py` and `inventory_remaining.py`. Rebuilding does not grant visual acceptance. The hash-sealed `review/acceptance.json` and `validation.json`, when present and current, are the completion authority.
+
+Validation: accepted all 21 native/final sequences and all 21 three-palette/mask contacts. Browser checks passed 375 variant decodes, 125 stored poses, 192 tracks and 1,152 timing boundaries. Six atlas/mask page pairs total 105,582,080 decoded bytes (76,523,915 tight bytes; 29,058,165 packing overhead). Complete contour audits report zero magenta/cyan excess.

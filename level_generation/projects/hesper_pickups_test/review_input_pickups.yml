@@ -1,0 +1,54 @@
+# The pickups in game (desktop): the room with everything full, then each container drunk and each satchel opened,
+# a frame before and after (the item satchel's item in the hand, the bundle's gold on the status line). An input tour
+# (gameplay keeps running). goto keeps the pitch, so the party looks down once and stands each pickup on its centre ray. Run minimized under both shared locks:
+#   ./tools/run_game.sh --isolated pickups --world hesper --map hes_pickups_test.blv \
+#       --assets "$PWD/output/hesper_stage/assets_editor_dev" \
+#       --set debug.menu_input_tour_path="$PWD/level_generation/projects/hesper_pickups_test/review_input_pickups.yml" --seconds 0
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_pickups_test/review/build02
+exit: true
+steps:
+  - wait: 4
+  - expect: gameplay
+  - console: goto 9109 768 40 0 512
+  - wait: 0.8
+  - capture: 00-room
+  - action_down: look_down
+  - wait: 0.25
+  - action_up: look_down
+  - console: goto 9109 300 490 0 512
+  - wait: 0.6
+  - capture: 01-canister_full
+  - action: use
+  - wait: 0.8
+  - capture: 02-canister_drunk
+  - console: goto 9109 600 470 0 512
+  - wait: 0.6
+  - capture: 03-vat_full
+  - action: use
+  - wait: 0.8
+  - capture: 04-vat_drunk
+  - console: goto 9109 900 510 0 512
+  - wait: 0.6
+  - capture: 05-satchel_full
+  - action: use
+  - wait: 0.8
+  - capture: 06-satchel_751
+  - console: goto 9109 1100 510 0 512
+  - wait: 0.6
+  - action: use
+  - wait: 0.8
+  - capture: 07-satchel_752
+  - console: goto 9109 1300 510 0 512
+  - wait: 0.6
+  - action: use
+  - wait: 0.8
+  - capture: 08-satchel_753
+  - console: goto 9109 1110 300 0 0
+  - wait: 0.6
+  - capture: 09-bundle_full
+  - action: use
+  - wait: 0.8
+  - capture: 10-bundle_754
+  - console: goto 9109 768 40 0 512
+  - wait: 0.8
+  - capture: 11-room_after

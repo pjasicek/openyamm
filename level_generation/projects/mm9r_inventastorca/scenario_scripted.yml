@@ -1,0 +1,482 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.inventastorca_scripted
+title: Inventa Storca (native BLV) - hints, orbs, a letter, bookcases, critters, bust-outs, the Lich King's kill, the dead
+  adventurers, the cavern's water
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: inventastorca.blv
+- note:
+    text: 'The dead adventurers (GreenParty.scr: Die at launch) lie dead; the dying one lives.'
+- assert:
+    actor_visible:
+      actor_index: 36
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 37
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 29
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 30
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 31
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 33
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 32
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 34
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 28
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 35
+      dead: false
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 38
+      hostile_to_party: false
+- note:
+    text: 'Perception hints: hidden at Perception 1, shown at 8 (PerceptionValue 8).'
+- console:
+    line: skill set Perception 1 B
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    state_dump_named_map_var:
+      name: HintSkill
+      value: 1
+- console:
+    line: skill set Perception 8 B
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    state_dump_named_map_var:
+      name: HintSkill
+      value: 8
+- note:
+    text: 'Orb.scr: Prop4, a world item, picked up: an Orb of Linking (item 252).'
+- set_pose:
+    map: inventastorca.blv
+    x: -147
+    y: -5665
+    z: -1637
+    yaw: -2.2689
+    pitch: -1.0153
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    inventory_any_member:
+    - item_id: 10252
+      count: 1
+- note:
+    text: 'BookLetter.scr: Prop8 shows MM9''s letter 495 (On Visitors from Space).'
+- set_pose:
+    map: inventastorca.blv
+    x: 795
+    y: -3489
+    z: -1637
+    yaw: -2.0054
+    pitch: -0.5062
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- press_action:
+    action: cancel_dialog
+- note:
+    text: FallingBookcaseSwitch topples FallingBookcase1-6 one a second; its riders fall with them.
+- set_pose:
+    map: inventastorca.blv
+    x: -614
+    y: -5676
+    z: -1637
+    yaw: 1.5708
+    pitch: 0.6638
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    mechanism:
+      id: 63
+      state: opening
+- assert:
+    mechanism:
+      id: 68
+      state: closed
+- advance_runtime:
+    seconds: 9
+- assert:
+    mechanism:
+      id: 63
+      state: open
+- assert:
+    mechanism:
+      id: 64
+      state: open
+- assert:
+    mechanism:
+      id: 65
+      state: open
+- assert:
+    mechanism:
+      id: 66
+      state: open
+- assert:
+    mechanism:
+      id: 67
+      state: open
+- assert:
+    mechanism:
+      id: 68
+      state: open
+- assert:
+    mechanism:
+      id: 69
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: Domino
+      value: 6
+- note:
+    text: 'ScurryTrigger0: three small basilisks run off and vanish (ScurryCreature.scr Hide).'
+- assert:
+    actor_visible:
+      actor_index: 22
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 23
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 24
+      hidden: false
+- movement_segment:
+    input: forward
+    seconds: 0.62
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: inventastorca.blv
+      x: -11018
+      y: -1006
+      z: -859
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: inventastorca.blv
+      x: -11018
+      y: -532
+      z: -859
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: ScurryTrigger0
+      value: 1
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 22
+      hidden: false
+      far:
+        x: -11633
+        y: -164
+        min_distance: 48
+- assert:
+    actor_visible:
+      actor_index: 23
+      hidden: false
+      far:
+        x: -11387
+        y: -164
+        min_distance: 48
+- assert:
+    actor_visible:
+      actor_index: 24
+      hidden: false
+      far:
+        x: -11387
+        y: -410
+        min_distance: 48
+- advance_runtime:
+    seconds: 25
+- assert:
+    actor_visible:
+      actor_index: 22
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 23
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 24
+      hidden: true
+- note:
+    text: 'BirdTrigg0 (in the cave shaft): the five resting ickies scatter and are gone.'
+- execute_event:
+    id: 194
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    actor_visible:
+      actor_index: 12
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 14
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 15
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 16
+      hidden: true
+- note:
+    text: 'BustOutTrigger0: the cage wall (DestructableBrush4) gives way; BustOutLich0 wakes.'
+- movement_segment:
+    input: forward
+    seconds: 0.54
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: inventastorca.blv
+      x: -9954
+      y: -1400
+      z: -859
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: inventastorca.blv
+      x: -9954
+      y: -983
+      z: -859
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- advance_runtime:
+    seconds: 2
+- assert:
+    state_dump_named_map_var:
+      name: BustOut0
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 17
+      hostile_to_party: true
+- note:
+    text: 'BustOutTrigger1: the ceiling slab drops away and the Lich King and two skeletons stand under the hole.'
+- assert:
+    actor_visible:
+      actor_index: 21
+      hidden: true
+- execute_event:
+    id: 191
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    actor_visible:
+      actor_index: 21
+      hidden: false
+- note:
+    text: 'SpookTrigger5: the Lich King turns on the dying adventurer and on the party.'
+- movement_segment:
+    input: forward
+    seconds: 0.54
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: inventastorca.blv
+      x: -8561
+      y: -566
+      z: -859
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: inventastorca.blv
+      x: -8561
+      y: -983
+      z: -859
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: LichKills
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 38
+      hostile_to_party: true
+- advance_runtime:
+    seconds: 8
+- assert:
+    actor_visible:
+      actor_index: 35
+      dead: true
+- note:
+    text: 'SpookTrigger0: a spook sound, once.'
+- execute_event:
+    id: 196
+- assert:
+    state_dump_named_map_var:
+      name: SpookTrigger0
+      value: 1
+- note:
+    text: 'The cavern''s water is swum (MM9): from its bed east into the flooded channel, south along it under the rock and
+      up the well into the niche.'
+- movement_segment:
+    input: none
+    seconds: 0.3
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: inventastorca.blv
+      x: -3200
+      y: -2304
+      z: -2304
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: inventastorca.blv
+      x: -3200
+      y: -2304
+      z: -2304
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 4000
+    tolerance_z: 4000
+- assert:
+    water:
+      eye_under: true
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: inventastorca.blv
+      x: -3200
+      y: -2304
+      z: -2304
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: inventastorca.blv
+      x: -3200
+      y: -2304
+      z: -2304
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 4000
+    tolerance_z: 4000
+- assert:
+    water:
+      eye_under: true
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: inventastorca.blv
+      x: -2744
+      y: -2304
+      z: -2304
+      yaw: -1.5708
+      pitch: 0.0
+    expect_stop:
+      map: inventastorca.blv
+      x: -2744
+      y: -2304
+      z: -2304
+      yaw: -1.5708
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 4000
+    tolerance_z: 4000
+- assert:
+    party_position:
+      x: -2744
+      y: -3031
+      radius: 160
+- movement_segment:
+    input: none
+    seconds: 2.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: inventastorca.blv
+      x: -2744
+      y: -3031
+      z: -2304
+      yaw: -1.5708
+      pitch: 0.0
+    expect_stop:
+      map: inventastorca.blv
+      x: -2744
+      y: -3031
+      z: -2304
+      yaw: -1.5708
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 4000
+    tolerance_z: 4000
+    fly_up: true
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99

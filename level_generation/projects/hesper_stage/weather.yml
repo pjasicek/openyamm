@@ -1,0 +1,14 @@
+# Weather of the Hesper maps, merged by stage.py into the stage's copy of engine/rendering/weather/weather.yml
+# (the keys of its maps section). Hesper has no bolster_maps.txt rows, so it never rains or snows; ash is the daily
+# chance of an ash fall spell (grey slow flakes, dust winds and a lower haze; the look is weather.yml's flakes.ash).
+# ash_look names a flakes look below (it starts from the engine's ash); dry_lightning is the daily chance of lightning
+# without rain; rain_color tints a map's rain (the Brood Spires' acid rain, which hes_out3's own Lua rolls and burns).
+flakes:
+  # The Scour's ember fall: glowing orange motes, slower and sparser than ash, under the stacks' smoke haze.
+  ember: {color: [1.9, 0.75, 0.25], fall_speed: 40, size: [1.6, 3.2], alpha: [0.95, 0.8], sway: 70, sway_rate: 0.8,
+          haze: [3000, 14000]}
+maps:
+  hes_out1.odm: {ash: 65}   # Starport Reach: ash fall and dust winds, no rain (STARPORT_REACH.md, Sky and weather)
+  hes_out2.odm: {ash: 55, ash_look: ember}   # the Scour: smoke haze and ember fall from the stacks (THE_SCOUR.md 9)
+  hes_out3.odm: {rain_color: [0.62, 0.84, 0.42]}   # the Brood Spires: acid rain, bile green (MAPS.md)
+  hes_out4.odm: {dry_lightning: 100}   # the Crown: dry lightning over the dome every night and day (MAPS.md)

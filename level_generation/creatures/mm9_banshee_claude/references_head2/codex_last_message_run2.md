@@ -1,0 +1,3 @@
+Saved run 2’s four images in [references_head2/a/](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_banshee_claude/references_head2/a). Built-in generation returns preserved unresized; raw attempts, prompts and input hashes recorded in `generation_runs.json`.
+
+Remaining issues: profiles aren’t exact, proportions still deviate, and alpha contains stray pixels. Correction limits respected. Run 3 was not started.

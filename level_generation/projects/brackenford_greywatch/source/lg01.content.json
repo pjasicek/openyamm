@@ -1,0 +1,6427 @@
+{
+  "format_version": 1,
+  "actors": [
+    {
+      "actor_index": 0,
+      "name": "Dark Elven Defender",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 153,
+      "hostility_type": 0,
+      "monster_info_id": 26,
+      "monster_id": 26,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 260,
+      "position": {
+        "x": -18688,
+        "y": 256,
+        "z": 704
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 1,
+      "name": "Dark Elven Defender",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 153,
+      "hostility_type": 0,
+      "monster_info_id": 26,
+      "monster_id": 26,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 260,
+      "position": {
+        "x": -5376,
+        "y": 256,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 2,
+      "name": "Dark Elven Crusader",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 269,
+      "hostility_type": 0,
+      "monster_info_id": 27,
+      "monster_id": 27,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 280,
+      "position": {
+        "x": -12032,
+        "y": -5376,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 3,
+      "name": "Dark Elven Defender",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 153,
+      "hostility_type": 0,
+      "monster_info_id": 26,
+      "monster_id": 26,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 260,
+      "position": {
+        "x": -14592,
+        "y": 6400,
+        "z": 1488
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 4,
+      "name": "Dark Elven Defender",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 153,
+      "hostility_type": 0,
+      "monster_info_id": 26,
+      "monster_id": 26,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 260,
+      "position": {
+        "x": -9984,
+        "y": 3328,
+        "z": 656
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 5,
+      "name": "Dark Elven Crusader",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 269,
+      "hostility_type": 0,
+      "monster_info_id": 27,
+      "monster_id": 27,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 280,
+      "position": {
+        "x": -6912,
+        "y": -4864,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 6,
+      "name": "Dark Elven Defender",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 153,
+      "hostility_type": 0,
+      "monster_info_id": 26,
+      "monster_id": 26,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 260,
+      "position": {
+        "x": -9984,
+        "y": -1280,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 7,
+      "name": "Dark Elven Defender",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 153,
+      "hostility_type": 0,
+      "monster_info_id": 26,
+      "monster_id": 26,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 260,
+      "position": {
+        "x": -15104,
+        "y": -2304,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 8,
+      "name": "Dark Elven Crusader",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 269,
+      "hostility_type": 0,
+      "monster_info_id": 27,
+      "monster_id": 27,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 280,
+      "position": {
+        "x": -17664,
+        "y": 3840,
+        "z": 736
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 9,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 22,
+      "monster_id": 22,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -13568,
+        "y": 3328,
+        "z": 688
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 10,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 17,
+      "hostility_type": 0,
+      "monster_info_id": 23,
+      "monster_id": 23,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -7424,
+        "y": 2304,
+        "z": 640
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 11,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 19,
+      "monster_id": 19,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -12544,
+        "y": -2816,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 12,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 17,
+      "hostility_type": 0,
+      "monster_info_id": 20,
+      "monster_id": 20,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -17664,
+        "y": 6400,
+        "z": 1536
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 13,
+      "name": "Human Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 166,
+      "monster_id": 166,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -9472,
+        "y": -5376,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 14,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 22,
+      "monster_id": 22,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -6912,
+        "y": -2304,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 15,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 17,
+      "hostility_type": 0,
+      "monster_info_id": 23,
+      "monster_id": 23,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -14080,
+        "y": -4352,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 16,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 19,
+      "monster_id": 19,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -12032,
+        "y": 1792,
+        "z": 960
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 17,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 17,
+      "hostility_type": 0,
+      "monster_info_id": 20,
+      "monster_id": 20,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -16640,
+        "y": -256,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 18,
+      "name": "Human Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 166,
+      "monster_id": 166,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -15616,
+        "y": 3328,
+        "z": 688
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 19,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 22,
+      "monster_id": 22,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -17664,
+        "y": 1792,
+        "z": 608
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 20,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 17,
+      "hostility_type": 0,
+      "monster_info_id": 23,
+      "monster_id": 23,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -8960,
+        "y": -2816,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 21,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 19,
+      "monster_id": 19,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -6912,
+        "y": -256,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 22,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 17,
+      "hostility_type": 0,
+      "monster_info_id": 20,
+      "monster_id": 20,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -14592,
+        "y": 4864,
+        "z": 1072
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 23,
+      "name": "Human Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 166,
+      "monster_id": 166,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -12032,
+        "y": 3328,
+        "z": 688
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 24,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 22,
+      "monster_id": 22,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -11008,
+        "y": -2816,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 25,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 17,
+      "hostility_type": 0,
+      "monster_info_id": 23,
+      "monster_id": 23,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -9984,
+        "y": 256,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 26,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 19,
+      "monster_id": 19,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -8960,
+        "y": 2304,
+        "z": 640
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 27,
+      "name": "Dark Elf Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 17,
+      "hostility_type": 0,
+      "monster_info_id": 20,
+      "monster_id": 20,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -16128,
+        "y": -1280,
+        "z": 688
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 28,
+      "name": "Human Peasant",
+      "npc_id": 0,
+      "attributes": 0,
+      "hp": 3,
+      "hostility_type": 0,
+      "monster_info_id": 166,
+      "monster_id": 166,
+      "radius": 60,
+      "height": 160,
+      "move_speed": 140,
+      "position": {
+        "x": -14080,
+        "y": -2816,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 38,
+      "ally": 8,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 29,
+      "name": "Ogre Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 100,
+      "hostility_type": 2,
+      "monster_info_id": 32,
+      "monster_id": 32,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 300,
+      "position": {
+        "x": 19328,
+        "y": 3328,
+        "z": 1248
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 10,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 30,
+      "name": "Ogre Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 100,
+      "hostility_type": 2,
+      "monster_info_id": 32,
+      "monster_id": 32,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 300,
+      "position": {
+        "x": 19712,
+        "y": 4352,
+        "z": 1264
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 10,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 31,
+      "name": "Ogre Warleader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 162,
+      "hostility_type": 2,
+      "monster_info_id": 33,
+      "monster_id": 33,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 310,
+      "position": {
+        "x": 20480,
+        "y": 4736,
+        "z": 1216
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 10,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 32,
+      "name": "Ogre Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 100,
+      "hostility_type": 2,
+      "monster_info_id": 32,
+      "monster_id": 32,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 300,
+      "position": {
+        "x": 21376,
+        "y": 4352,
+        "z": 1128
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 10,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 33,
+      "name": "Ogre Warleader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 162,
+      "hostility_type": 2,
+      "monster_info_id": 33,
+      "monster_id": 33,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 310,
+      "position": {
+        "x": 21504,
+        "y": 3072,
+        "z": 1088
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 10,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 34,
+      "name": "Ogre Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 162,
+      "hostility_type": 3,
+      "monster_info_id": 107,
+      "monster_id": 107,
+      "radius": 90,
+      "height": 160,
+      "move_speed": 220,
+      "position": {
+        "x": 20224,
+        "y": 2560,
+        "z": 1136
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 10,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 35,
+      "name": "Ogre Magi",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 227,
+      "hostility_type": 3,
+      "monster_info_id": 108,
+      "monster_id": 108,
+      "radius": 90,
+      "height": 160,
+      "move_speed": 240,
+      "position": {
+        "x": 20864,
+        "y": 3584,
+        "z": 1160
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 10,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 36,
+      "name": "Ogre Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 100,
+      "hostility_type": 2,
+      "monster_info_id": 32,
+      "monster_id": 32,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 300,
+      "position": {
+        "x": 9088,
+        "y": -20992,
+        "z": 992
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 11,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 37,
+      "name": "Ogre Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 100,
+      "hostility_type": 2,
+      "monster_info_id": 32,
+      "monster_id": 32,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 300,
+      "position": {
+        "x": 9472,
+        "y": -19968,
+        "z": 928
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 11,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 38,
+      "name": "Ogre Warleader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 162,
+      "hostility_type": 2,
+      "monster_info_id": 33,
+      "monster_id": 33,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 310,
+      "position": {
+        "x": 10240,
+        "y": -19584,
+        "z": 896
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 11,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 39,
+      "name": "Ogre Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 100,
+      "hostility_type": 2,
+      "monster_info_id": 32,
+      "monster_id": 32,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 300,
+      "position": {
+        "x": 11136,
+        "y": -19968,
+        "z": 896
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 11,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 40,
+      "name": "Ogre Warleader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 162,
+      "hostility_type": 2,
+      "monster_info_id": 33,
+      "monster_id": 33,
+      "radius": 90,
+      "height": 180,
+      "move_speed": 310,
+      "position": {
+        "x": 11264,
+        "y": -21248,
+        "z": 960
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 11,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 41,
+      "name": "Ogre Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 162,
+      "hostility_type": 3,
+      "monster_info_id": 107,
+      "monster_id": 107,
+      "radius": 90,
+      "height": 160,
+      "move_speed": 220,
+      "position": {
+        "x": 9984,
+        "y": -21760,
+        "z": 1024
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 11,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 42,
+      "name": "Ogre Magi",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 227,
+      "hostility_type": 3,
+      "monster_info_id": 108,
+      "monster_id": 108,
+      "radius": 90,
+      "height": 160,
+      "move_speed": 240,
+      "position": {
+        "x": 10624,
+        "y": -20736,
+        "z": 944
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 11,
+      "ally": 11,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 43,
+      "name": "Dire Wolf Yearling",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 35,
+      "hostility_type": 2,
+      "monster_info_id": 85,
+      "monster_id": 85,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": -14352,
+        "y": 20352,
+        "z": 1478
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 12,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 44,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -14336,
+        "y": 20672,
+        "z": 1528
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 12,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 45,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -14560,
+        "y": 20624,
+        "z": 1480
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 12,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 46,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -15024,
+        "y": 20064,
+        "z": 1334
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 12,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 47,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -14544,
+        "y": 20160,
+        "z": 1418
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 12,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 48,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -15280,
+        "y": 20336,
+        "z": 1318
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 12,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 49,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -15024,
+        "y": 20672,
+        "z": 1399
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 12,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 50,
+      "name": "Dire Wolf Yearling",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 35,
+      "hostility_type": 2,
+      "monster_info_id": 85,
+      "monster_id": 85,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": -8992,
+        "y": 19456,
+        "z": 822
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 13,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 51,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -8624,
+        "y": 18896,
+        "z": 764
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 13,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 52,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -9088,
+        "y": 18752,
+        "z": 852
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 13,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 53,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -9760,
+        "y": 19072,
+        "z": 966
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 13,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 54,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -9264,
+        "y": 19008,
+        "z": 873
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 13,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 55,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -10048,
+        "y": 18816,
+        "z": 1028
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 13,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 56,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -9616,
+        "y": 18720,
+        "z": 953
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 13,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 57,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -9552,
+        "y": 19408,
+        "z": 927
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 13,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 58,
+      "name": "Dire Wolf Yearling",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 35,
+      "hostility_type": 2,
+      "monster_info_id": 85,
+      "monster_id": 85,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": -5184,
+        "y": 21760,
+        "z": 416
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 14,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 59,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -4864,
+        "y": 22016,
+        "z": 432
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 14,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 60,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -5456,
+        "y": 22352,
+        "z": 416
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 14,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 61,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -5232,
+        "y": 22512,
+        "z": 416
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 14,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 62,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -4784,
+        "y": 22704,
+        "z": 448
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 14,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 63,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -5552,
+        "y": 21776,
+        "z": 416
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 14,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 64,
+      "name": "Dire Wolf Yearling",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 35,
+      "hostility_type": 2,
+      "monster_info_id": 85,
+      "monster_id": 85,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": -17184,
+        "y": -20192,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 15,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 65,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -16128,
+        "y": -20880,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 15,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 66,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -16528,
+        "y": -21312,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 15,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 67,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -16416,
+        "y": -21056,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 15,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 68,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -17072,
+        "y": -20928,
+        "z": 565
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 15,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 69,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -16768,
+        "y": -20112,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 15,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 70,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -15872,
+        "y": -20816,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 15,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 71,
+      "name": "Dire Wolf Yearling",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 35,
+      "hostility_type": 2,
+      "monster_info_id": 85,
+      "monster_id": 85,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": -10256,
+        "y": -18320,
+        "z": 313
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 16,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 72,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -11680,
+        "y": -18144,
+        "z": 360
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 16,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 73,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -11392,
+        "y": -18320,
+        "z": 353
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 16,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 74,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -11456,
+        "y": -17840,
+        "z": 327
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 16,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 75,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -10864,
+        "y": -18192,
+        "z": 312
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 16,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 76,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -11168,
+        "y": -18384,
+        "z": 343
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 16,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 77,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -10208,
+        "y": -17936,
+        "z": 287
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 16,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 78,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -11696,
+        "y": -17552,
+        "z": 324
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 16,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 79,
+      "name": "Dire Wolf Yearling",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 35,
+      "hostility_type": 2,
+      "monster_info_id": 85,
+      "monster_id": 85,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": -4128,
+        "y": -22192,
+        "z": 288
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 17,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 80,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -3920,
+        "y": -21344,
+        "z": 320
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 17,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 81,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -4752,
+        "y": -21984,
+        "z": 299
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 17,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 82,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": -5024,
+        "y": -21456,
+        "z": 320
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 17,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 83,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -4448,
+        "y": -22400,
+        "z": 288
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 17,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 84,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": -4576,
+        "y": -21440,
+        "z": 320
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 17,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 85,
+      "name": "Centaur",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 45,
+      "hostility_type": 3,
+      "monster_info_id": 100,
+      "monster_id": 100,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": 21344,
+        "y": 10384,
+        "z": 747
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 18,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 86,
+      "name": "Centaur Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 3,
+      "monster_info_id": 101,
+      "monster_id": 101,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 285,
+      "position": {
+        "x": 20592,
+        "y": 11040,
+        "z": 757
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 18,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 87,
+      "name": "Centaur Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 3,
+      "monster_info_id": 101,
+      "monster_id": 101,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 285,
+      "position": {
+        "x": 21824,
+        "y": 9936,
+        "z": 754
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 18,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 88,
+      "name": "Centaur Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 3,
+      "monster_info_id": 101,
+      "monster_id": 101,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 285,
+      "position": {
+        "x": 22400,
+        "y": 10032,
+        "z": 725
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 18,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 89,
+      "name": "Centaur Warlord",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 86,
+      "hostility_type": 3,
+      "monster_info_id": 102,
+      "monster_id": 102,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": 21008,
+        "y": 10416,
+        "z": 777
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 18,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 90,
+      "name": "Centaur Warlord",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 86,
+      "hostility_type": 3,
+      "monster_info_id": 102,
+      "monster_id": 102,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": 22176,
+        "y": 10064,
+        "z": 726
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 18,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 91,
+      "name": "Centaur",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 45,
+      "hostility_type": 3,
+      "monster_info_id": 100,
+      "monster_id": 100,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": 22848,
+        "y": -6432,
+        "z": 910
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 19,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 92,
+      "name": "Centaur Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 3,
+      "monster_info_id": 101,
+      "monster_id": 101,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 285,
+      "position": {
+        "x": 23168,
+        "y": -6704,
+        "z": 893
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 19,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 93,
+      "name": "Centaur Warrior",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 3,
+      "monster_info_id": 101,
+      "monster_id": 101,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 285,
+      "position": {
+        "x": 23184,
+        "y": -7072,
+        "z": 870
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 19,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 94,
+      "name": "Centaur Warlord",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 86,
+      "hostility_type": 3,
+      "monster_info_id": 102,
+      "monster_id": 102,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": 22160,
+        "y": -6128,
+        "z": 928
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 19,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 95,
+      "name": "Centaur Warlord",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 86,
+      "hostility_type": 3,
+      "monster_info_id": 102,
+      "monster_id": 102,
+      "radius": 125,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": 22144,
+        "y": -7520,
+        "z": 920
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 19,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 96,
+      "name": "Dire Wolf Yearling",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 35,
+      "hostility_type": 2,
+      "monster_info_id": 85,
+      "monster_id": 85,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 275,
+      "position": {
+        "x": 16096,
+        "y": -19264,
+        "z": 1130
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 20,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 97,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": 16256,
+        "y": -18704,
+        "z": 1315
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 20,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 98,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": 16528,
+        "y": -19424,
+        "z": 1100
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 20,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 99,
+      "name": "Dire Wolf",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 61,
+      "hostility_type": 2,
+      "monster_info_id": 86,
+      "monster_id": 86,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 295,
+      "position": {
+        "x": 16080,
+        "y": -19008,
+        "z": 1209
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 20,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 100,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": 15728,
+        "y": -19280,
+        "z": 1102
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 20,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 101,
+      "name": "Pack Leader",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 93,
+      "hostility_type": 2,
+      "monster_info_id": 87,
+      "monster_id": 87,
+      "radius": 100,
+      "height": 160,
+      "move_speed": 315,
+      "position": {
+        "x": 16928,
+        "y": -18560,
+        "z": 1350
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 20,
+      "ally": 0,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 102,
+      "name": "Apprentice Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 6,
+      "hostility_type": 4,
+      "monster_info_id": 904,
+      "monster_id": 904,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 23376,
+        "y": 12256,
+        "z": 599
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 21,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 103,
+      "name": "Journeyman Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 21,
+      "hostility_type": 4,
+      "monster_info_id": 905,
+      "monster_id": 905,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 23280,
+        "y": 12864,
+        "z": 576
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 21,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 104,
+      "name": "Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 40,
+      "hostility_type": 4,
+      "monster_info_id": 906,
+      "monster_id": 906,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 24208,
+        "y": 12736,
+        "z": 649
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 21,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 105,
+      "name": "Apprentice Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 6,
+      "hostility_type": 4,
+      "monster_info_id": 904,
+      "monster_id": 904,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 16752,
+        "y": 10192,
+        "z": 1170
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 22,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 106,
+      "name": "Journeyman Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 21,
+      "hostility_type": 4,
+      "monster_info_id": 905,
+      "monster_id": 905,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17536,
+        "y": 10064,
+        "z": 1115
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 22,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 107,
+      "name": "Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 40,
+      "hostility_type": 4,
+      "monster_info_id": 906,
+      "monster_id": 906,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17104,
+        "y": 9520,
+        "z": 1184
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 22,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 108,
+      "name": "Apprentice Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 6,
+      "hostility_type": 4,
+      "monster_info_id": 904,
+      "monster_id": 904,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17216,
+        "y": 5264,
+        "z": 1475
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 23,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 109,
+      "name": "Journeyman Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 21,
+      "hostility_type": 4,
+      "monster_info_id": 905,
+      "monster_id": 905,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 16704,
+        "y": 5216,
+        "z": 1522
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 23,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 110,
+      "name": "Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 40,
+      "hostility_type": 4,
+      "monster_info_id": 906,
+      "monster_id": 906,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17248,
+        "y": 5808,
+        "z": 1439
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 23,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 111,
+      "name": "Apprentice Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 6,
+      "hostility_type": 4,
+      "monster_info_id": 904,
+      "monster_id": 904,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 18048,
+        "y": -2720,
+        "z": 1030
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 24,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 112,
+      "name": "Journeyman Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 21,
+      "hostility_type": 4,
+      "monster_info_id": 905,
+      "monster_id": 905,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17840,
+        "y": -3328,
+        "z": 1034
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 24,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 113,
+      "name": "Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 40,
+      "hostility_type": 4,
+      "monster_info_id": 906,
+      "monster_id": 906,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17344,
+        "y": -2960,
+        "z": 1143
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 24,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 114,
+      "name": "Apprentice Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 6,
+      "hostility_type": 4,
+      "monster_info_id": 904,
+      "monster_id": 904,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 23472,
+        "y": -2400,
+        "z": 1078
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 25,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 115,
+      "name": "Journeyman Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 21,
+      "hostility_type": 4,
+      "monster_info_id": 905,
+      "monster_id": 905,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 23504,
+        "y": -2736,
+        "z": 1082
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 25,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 116,
+      "name": "Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 40,
+      "hostility_type": 4,
+      "monster_info_id": 906,
+      "monster_id": 906,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 23968,
+        "y": -2128,
+        "z": 1140
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 25,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 117,
+      "name": "Apprentice Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 6,
+      "hostility_type": 4,
+      "monster_info_id": 904,
+      "monster_id": 904,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17536,
+        "y": -8656,
+        "z": 1759
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 26,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 118,
+      "name": "Journeyman Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 21,
+      "hostility_type": 4,
+      "monster_info_id": 905,
+      "monster_id": 905,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17280,
+        "y": -8608,
+        "z": 1792
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 26,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 119,
+      "name": "Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 40,
+      "hostility_type": 4,
+      "monster_info_id": 906,
+      "monster_id": 906,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 17744,
+        "y": -9264,
+        "z": 1872
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 26,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 120,
+      "name": "Apprentice Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 6,
+      "hostility_type": 4,
+      "monster_info_id": 904,
+      "monster_id": 904,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 23168,
+        "y": -11024,
+        "z": 808
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 27,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 121,
+      "name": "Journeyman Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 21,
+      "hostility_type": 4,
+      "monster_info_id": 905,
+      "monster_id": 905,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 23488,
+        "y": -11488,
+        "z": 790
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 27,
+      "ally": 34,
+      "unique_name_index": 0
+    },
+    {
+      "actor_index": 122,
+      "name": "Mage",
+      "npc_id": 0,
+      "attributes": 524288,
+      "hp": 40,
+      "hostility_type": 4,
+      "monster_info_id": 906,
+      "monster_id": 906,
+      "radius": 89,
+      "height": 161,
+      "move_speed": 140,
+      "position": {
+        "x": 23088,
+        "y": -11584,
+        "z": 846
+      },
+      "sprite_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sector_id": 0,
+      "current_action_animation": 0,
+      "carried_item_id": 0,
+      "group": 27,
+      "ally": 34,
+      "unique_name_index": 0
+    }
+  ],
+  "markers": [
+    {
+      "id": "guard_01",
+      "kind": "fixed_actor",
+      "actor_index": 0,
+      "position": [
+        -18688,
+        256,
+        704
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_02",
+      "kind": "fixed_actor",
+      "actor_index": 1,
+      "position": [
+        -5376,
+        256,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_03",
+      "kind": "fixed_actor",
+      "actor_index": 2,
+      "position": [
+        -12032,
+        -5376,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 27,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_04",
+      "kind": "fixed_actor",
+      "actor_index": 3,
+      "position": [
+        -14592,
+        6400,
+        1488
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_05",
+      "kind": "fixed_actor",
+      "actor_index": 4,
+      "position": [
+        -9984,
+        3328,
+        656
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_06",
+      "kind": "fixed_actor",
+      "actor_index": 5,
+      "position": [
+        -6912,
+        -4864,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 27,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_07",
+      "kind": "fixed_actor",
+      "actor_index": 6,
+      "position": [
+        -9984,
+        -1280,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_08",
+      "kind": "fixed_actor",
+      "actor_index": 7,
+      "position": [
+        -15104,
+        -2304,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_09",
+      "kind": "fixed_actor",
+      "actor_index": 8,
+      "position": [
+        -17664,
+        3840,
+        736
+      ],
+      "role": "guard",
+      "monster_id": 27,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_01",
+      "kind": "fixed_actor",
+      "actor_index": 9,
+      "position": [
+        -13568,
+        3328,
+        688
+      ],
+      "role": "villager",
+      "monster_id": 22,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_02",
+      "kind": "fixed_actor",
+      "actor_index": 10,
+      "position": [
+        -7424,
+        2304,
+        640
+      ],
+      "role": "villager",
+      "monster_id": 23,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_03",
+      "kind": "fixed_actor",
+      "actor_index": 11,
+      "position": [
+        -12544,
+        -2816,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 19,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_04",
+      "kind": "fixed_actor",
+      "actor_index": 12,
+      "position": [
+        -17664,
+        6400,
+        1536
+      ],
+      "role": "villager",
+      "monster_id": 20,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_05",
+      "kind": "fixed_actor",
+      "actor_index": 13,
+      "position": [
+        -9472,
+        -5376,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 166,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_06",
+      "kind": "fixed_actor",
+      "actor_index": 14,
+      "position": [
+        -6912,
+        -2304,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 22,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_07",
+      "kind": "fixed_actor",
+      "actor_index": 15,
+      "position": [
+        -14080,
+        -4352,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 23,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_08",
+      "kind": "fixed_actor",
+      "actor_index": 16,
+      "position": [
+        -12032,
+        1792,
+        960
+      ],
+      "role": "villager",
+      "monster_id": 19,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_09",
+      "kind": "fixed_actor",
+      "actor_index": 17,
+      "position": [
+        -16640,
+        -256,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 20,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_10",
+      "kind": "fixed_actor",
+      "actor_index": 18,
+      "position": [
+        -15616,
+        3328,
+        688
+      ],
+      "role": "villager",
+      "monster_id": 166,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_11",
+      "kind": "fixed_actor",
+      "actor_index": 19,
+      "position": [
+        -17664,
+        1792,
+        608
+      ],
+      "role": "villager",
+      "monster_id": 22,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_12",
+      "kind": "fixed_actor",
+      "actor_index": 20,
+      "position": [
+        -8960,
+        -2816,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 23,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_13",
+      "kind": "fixed_actor",
+      "actor_index": 21,
+      "position": [
+        -6912,
+        -256,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 19,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_14",
+      "kind": "fixed_actor",
+      "actor_index": 22,
+      "position": [
+        -14592,
+        4864,
+        1072
+      ],
+      "role": "villager",
+      "monster_id": 20,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_15",
+      "kind": "fixed_actor",
+      "actor_index": 23,
+      "position": [
+        -12032,
+        3328,
+        688
+      ],
+      "role": "villager",
+      "monster_id": 166,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_16",
+      "kind": "fixed_actor",
+      "actor_index": 24,
+      "position": [
+        -11008,
+        -2816,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 22,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_17",
+      "kind": "fixed_actor",
+      "actor_index": 25,
+      "position": [
+        -9984,
+        256,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 23,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_18",
+      "kind": "fixed_actor",
+      "actor_index": 26,
+      "position": [
+        -8960,
+        2304,
+        640
+      ],
+      "role": "villager",
+      "monster_id": 19,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_19",
+      "kind": "fixed_actor",
+      "actor_index": 27,
+      "position": [
+        -16128,
+        -1280,
+        688
+      ],
+      "role": "villager",
+      "monster_id": 20,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_20",
+      "kind": "fixed_actor",
+      "actor_index": 28,
+      "position": [
+        -14080,
+        -2816,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 166,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "eastern_ogres_01",
+      "kind": "fixed_actor",
+      "actor_index": 29,
+      "position": [
+        19328,
+        3328,
+        1248
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 32,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_02",
+      "kind": "fixed_actor",
+      "actor_index": 30,
+      "position": [
+        19712,
+        4352,
+        1264
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 32,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_03",
+      "kind": "fixed_actor",
+      "actor_index": 31,
+      "position": [
+        20480,
+        4736,
+        1216
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 33,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_04",
+      "kind": "fixed_actor",
+      "actor_index": 32,
+      "position": [
+        21376,
+        4352,
+        1128
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 32,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_05",
+      "kind": "fixed_actor",
+      "actor_index": 33,
+      "position": [
+        21504,
+        3072,
+        1088
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 33,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_06",
+      "kind": "fixed_actor",
+      "actor_index": 34,
+      "position": [
+        20224,
+        2560,
+        1136
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 107,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_07",
+      "kind": "fixed_actor",
+      "actor_index": 35,
+      "position": [
+        20864,
+        3584,
+        1160
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 108,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_01",
+      "kind": "fixed_actor",
+      "actor_index": 36,
+      "position": [
+        9088,
+        -20992,
+        992
+      ],
+      "role": "southern_ogres",
+      "monster_id": 32,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_02",
+      "kind": "fixed_actor",
+      "actor_index": 37,
+      "position": [
+        9472,
+        -19968,
+        928
+      ],
+      "role": "southern_ogres",
+      "monster_id": 32,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_03",
+      "kind": "fixed_actor",
+      "actor_index": 38,
+      "position": [
+        10240,
+        -19584,
+        896
+      ],
+      "role": "southern_ogres",
+      "monster_id": 33,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_04",
+      "kind": "fixed_actor",
+      "actor_index": 39,
+      "position": [
+        11136,
+        -19968,
+        896
+      ],
+      "role": "southern_ogres",
+      "monster_id": 32,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_05",
+      "kind": "fixed_actor",
+      "actor_index": 40,
+      "position": [
+        11264,
+        -21248,
+        960
+      ],
+      "role": "southern_ogres",
+      "monster_id": 33,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_06",
+      "kind": "fixed_actor",
+      "actor_index": 41,
+      "position": [
+        9984,
+        -21760,
+        1024
+      ],
+      "role": "southern_ogres",
+      "monster_id": 107,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_07",
+      "kind": "fixed_actor",
+      "actor_index": 42,
+      "position": [
+        10624,
+        -20736,
+        944
+      ],
+      "role": "southern_ogres",
+      "monster_id": 108,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "northwood_hollow_01",
+      "kind": "fixed_actor",
+      "actor_index": 43,
+      "position": [
+        -14352,
+        20352,
+        1478
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 85,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_02",
+      "kind": "fixed_actor",
+      "actor_index": 44,
+      "position": [
+        -14336,
+        20672,
+        1528
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 86,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_03",
+      "kind": "fixed_actor",
+      "actor_index": 45,
+      "position": [
+        -14560,
+        20624,
+        1480
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 86,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_04",
+      "kind": "fixed_actor",
+      "actor_index": 46,
+      "position": [
+        -15024,
+        20064,
+        1334
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 86,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_05",
+      "kind": "fixed_actor",
+      "actor_index": 47,
+      "position": [
+        -14544,
+        20160,
+        1418
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 86,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_06",
+      "kind": "fixed_actor",
+      "actor_index": 48,
+      "position": [
+        -15280,
+        20336,
+        1318
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 87,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_07",
+      "kind": "fixed_actor",
+      "actor_index": 49,
+      "position": [
+        -15024,
+        20672,
+        1399
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 87,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_01",
+      "kind": "fixed_actor",
+      "actor_index": 50,
+      "position": [
+        -8992,
+        19456,
+        822
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 85,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_02",
+      "kind": "fixed_actor",
+      "actor_index": 51,
+      "position": [
+        -8624,
+        18896,
+        764
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_03",
+      "kind": "fixed_actor",
+      "actor_index": 52,
+      "position": [
+        -9088,
+        18752,
+        852
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_04",
+      "kind": "fixed_actor",
+      "actor_index": 53,
+      "position": [
+        -9760,
+        19072,
+        966
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_05",
+      "kind": "fixed_actor",
+      "actor_index": 54,
+      "position": [
+        -9264,
+        19008,
+        873
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_06",
+      "kind": "fixed_actor",
+      "actor_index": 55,
+      "position": [
+        -10048,
+        18816,
+        1028
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_07",
+      "kind": "fixed_actor",
+      "actor_index": 56,
+      "position": [
+        -9616,
+        18720,
+        953
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 87,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_08",
+      "kind": "fixed_actor",
+      "actor_index": 57,
+      "position": [
+        -9552,
+        19408,
+        927
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 87,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_01",
+      "kind": "fixed_actor",
+      "actor_index": 58,
+      "position": [
+        -5184,
+        21760,
+        416
+      ],
+      "role": "northwood_edge",
+      "monster_id": 85,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_02",
+      "kind": "fixed_actor",
+      "actor_index": 59,
+      "position": [
+        -4864,
+        22016,
+        432
+      ],
+      "role": "northwood_edge",
+      "monster_id": 86,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_03",
+      "kind": "fixed_actor",
+      "actor_index": 60,
+      "position": [
+        -5456,
+        22352,
+        416
+      ],
+      "role": "northwood_edge",
+      "monster_id": 86,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_04",
+      "kind": "fixed_actor",
+      "actor_index": 61,
+      "position": [
+        -5232,
+        22512,
+        416
+      ],
+      "role": "northwood_edge",
+      "monster_id": 86,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_05",
+      "kind": "fixed_actor",
+      "actor_index": 62,
+      "position": [
+        -4784,
+        22704,
+        448
+      ],
+      "role": "northwood_edge",
+      "monster_id": 87,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_06",
+      "kind": "fixed_actor",
+      "actor_index": 63,
+      "position": [
+        -5552,
+        21776,
+        416
+      ],
+      "role": "northwood_edge",
+      "monster_id": 87,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_01",
+      "kind": "fixed_actor",
+      "actor_index": 64,
+      "position": [
+        -17184,
+        -20192,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 85,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_02",
+      "kind": "fixed_actor",
+      "actor_index": 65,
+      "position": [
+        -16128,
+        -20880,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 86,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_03",
+      "kind": "fixed_actor",
+      "actor_index": 66,
+      "position": [
+        -16528,
+        -21312,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 86,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_04",
+      "kind": "fixed_actor",
+      "actor_index": 67,
+      "position": [
+        -16416,
+        -21056,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 86,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_05",
+      "kind": "fixed_actor",
+      "actor_index": 68,
+      "position": [
+        -17072,
+        -20928,
+        565
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 86,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_06",
+      "kind": "fixed_actor",
+      "actor_index": 69,
+      "position": [
+        -16768,
+        -20112,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 87,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_07",
+      "kind": "fixed_actor",
+      "actor_index": 70,
+      "position": [
+        -15872,
+        -20816,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 87,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_01",
+      "kind": "fixed_actor",
+      "actor_index": 71,
+      "position": [
+        -10256,
+        -18320,
+        313
+      ],
+      "role": "southwood_slope",
+      "monster_id": 85,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_02",
+      "kind": "fixed_actor",
+      "actor_index": 72,
+      "position": [
+        -11680,
+        -18144,
+        360
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_03",
+      "kind": "fixed_actor",
+      "actor_index": 73,
+      "position": [
+        -11392,
+        -18320,
+        353
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_04",
+      "kind": "fixed_actor",
+      "actor_index": 74,
+      "position": [
+        -11456,
+        -17840,
+        327
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_05",
+      "kind": "fixed_actor",
+      "actor_index": 75,
+      "position": [
+        -10864,
+        -18192,
+        312
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_06",
+      "kind": "fixed_actor",
+      "actor_index": 76,
+      "position": [
+        -11168,
+        -18384,
+        343
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_07",
+      "kind": "fixed_actor",
+      "actor_index": 77,
+      "position": [
+        -10208,
+        -17936,
+        287
+      ],
+      "role": "southwood_slope",
+      "monster_id": 87,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_08",
+      "kind": "fixed_actor",
+      "actor_index": 78,
+      "position": [
+        -11696,
+        -17552,
+        324
+      ],
+      "role": "southwood_slope",
+      "monster_id": 87,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_01",
+      "kind": "fixed_actor",
+      "actor_index": 79,
+      "position": [
+        -4128,
+        -22192,
+        288
+      ],
+      "role": "southwood_edge",
+      "monster_id": 85,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_02",
+      "kind": "fixed_actor",
+      "actor_index": 80,
+      "position": [
+        -3920,
+        -21344,
+        320
+      ],
+      "role": "southwood_edge",
+      "monster_id": 86,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_03",
+      "kind": "fixed_actor",
+      "actor_index": 81,
+      "position": [
+        -4752,
+        -21984,
+        299
+      ],
+      "role": "southwood_edge",
+      "monster_id": 86,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_04",
+      "kind": "fixed_actor",
+      "actor_index": 82,
+      "position": [
+        -5024,
+        -21456,
+        320
+      ],
+      "role": "southwood_edge",
+      "monster_id": 86,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_05",
+      "kind": "fixed_actor",
+      "actor_index": 83,
+      "position": [
+        -4448,
+        -22400,
+        288
+      ],
+      "role": "southwood_edge",
+      "monster_id": 87,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_06",
+      "kind": "fixed_actor",
+      "actor_index": 84,
+      "position": [
+        -4576,
+        -21440,
+        320
+      ],
+      "role": "southwood_edge",
+      "monster_id": 87,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_01",
+      "kind": "fixed_actor",
+      "actor_index": 85,
+      "position": [
+        21344,
+        10384,
+        747
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 100,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_02",
+      "kind": "fixed_actor",
+      "actor_index": 86,
+      "position": [
+        20592,
+        11040,
+        757
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 101,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_03",
+      "kind": "fixed_actor",
+      "actor_index": 87,
+      "position": [
+        21824,
+        9936,
+        754
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 101,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_04",
+      "kind": "fixed_actor",
+      "actor_index": 88,
+      "position": [
+        22400,
+        10032,
+        725
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 101,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_05",
+      "kind": "fixed_actor",
+      "actor_index": 89,
+      "position": [
+        21008,
+        10416,
+        777
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 102,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_06",
+      "kind": "fixed_actor",
+      "actor_index": 90,
+      "position": [
+        22176,
+        10064,
+        726
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 102,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_01",
+      "kind": "fixed_actor",
+      "actor_index": 91,
+      "position": [
+        22848,
+        -6432,
+        910
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 100,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_02",
+      "kind": "fixed_actor",
+      "actor_index": 92,
+      "position": [
+        23168,
+        -6704,
+        893
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 101,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_03",
+      "kind": "fixed_actor",
+      "actor_index": 93,
+      "position": [
+        23184,
+        -7072,
+        870
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 101,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_04",
+      "kind": "fixed_actor",
+      "actor_index": 94,
+      "position": [
+        22160,
+        -6128,
+        928
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 102,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_05",
+      "kind": "fixed_actor",
+      "actor_index": 95,
+      "position": [
+        22144,
+        -7520,
+        920
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 102,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_01",
+      "kind": "fixed_actor",
+      "actor_index": 96,
+      "position": [
+        16096,
+        -19264,
+        1130
+      ],
+      "role": "den_wolves",
+      "monster_id": 85,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_02",
+      "kind": "fixed_actor",
+      "actor_index": 97,
+      "position": [
+        16256,
+        -18704,
+        1315
+      ],
+      "role": "den_wolves",
+      "monster_id": 86,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_03",
+      "kind": "fixed_actor",
+      "actor_index": 98,
+      "position": [
+        16528,
+        -19424,
+        1100
+      ],
+      "role": "den_wolves",
+      "monster_id": 86,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_04",
+      "kind": "fixed_actor",
+      "actor_index": 99,
+      "position": [
+        16080,
+        -19008,
+        1209
+      ],
+      "role": "den_wolves",
+      "monster_id": 86,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_05",
+      "kind": "fixed_actor",
+      "actor_index": 100,
+      "position": [
+        15728,
+        -19280,
+        1102
+      ],
+      "role": "den_wolves",
+      "monster_id": 87,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_06",
+      "kind": "fixed_actor",
+      "actor_index": 101,
+      "position": [
+        16928,
+        -18560,
+        1350
+      ],
+      "role": "den_wolves",
+      "monster_id": 87,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "east_mages_01_01",
+      "kind": "fixed_actor",
+      "actor_index": 102,
+      "position": [
+        23376,
+        12256,
+        599
+      ],
+      "role": "east_mages_01",
+      "monster_id": 904,
+      "group": 21,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_01_02",
+      "kind": "fixed_actor",
+      "actor_index": 103,
+      "position": [
+        23280,
+        12864,
+        576
+      ],
+      "role": "east_mages_01",
+      "monster_id": 905,
+      "group": 21,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_01_03",
+      "kind": "fixed_actor",
+      "actor_index": 104,
+      "position": [
+        24208,
+        12736,
+        649
+      ],
+      "role": "east_mages_01",
+      "monster_id": 906,
+      "group": 21,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_02_01",
+      "kind": "fixed_actor",
+      "actor_index": 105,
+      "position": [
+        16752,
+        10192,
+        1170
+      ],
+      "role": "east_mages_02",
+      "monster_id": 904,
+      "group": 22,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_02_02",
+      "kind": "fixed_actor",
+      "actor_index": 106,
+      "position": [
+        17536,
+        10064,
+        1115
+      ],
+      "role": "east_mages_02",
+      "monster_id": 905,
+      "group": 22,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_02_03",
+      "kind": "fixed_actor",
+      "actor_index": 107,
+      "position": [
+        17104,
+        9520,
+        1184
+      ],
+      "role": "east_mages_02",
+      "monster_id": 906,
+      "group": 22,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_03_01",
+      "kind": "fixed_actor",
+      "actor_index": 108,
+      "position": [
+        17216,
+        5264,
+        1475
+      ],
+      "role": "east_mages_03",
+      "monster_id": 904,
+      "group": 23,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_03_02",
+      "kind": "fixed_actor",
+      "actor_index": 109,
+      "position": [
+        16704,
+        5216,
+        1522
+      ],
+      "role": "east_mages_03",
+      "monster_id": 905,
+      "group": 23,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_03_03",
+      "kind": "fixed_actor",
+      "actor_index": 110,
+      "position": [
+        17248,
+        5808,
+        1439
+      ],
+      "role": "east_mages_03",
+      "monster_id": 906,
+      "group": 23,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_04_01",
+      "kind": "fixed_actor",
+      "actor_index": 111,
+      "position": [
+        18048,
+        -2720,
+        1030
+      ],
+      "role": "east_mages_04",
+      "monster_id": 904,
+      "group": 24,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_04_02",
+      "kind": "fixed_actor",
+      "actor_index": 112,
+      "position": [
+        17840,
+        -3328,
+        1034
+      ],
+      "role": "east_mages_04",
+      "monster_id": 905,
+      "group": 24,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_04_03",
+      "kind": "fixed_actor",
+      "actor_index": 113,
+      "position": [
+        17344,
+        -2960,
+        1143
+      ],
+      "role": "east_mages_04",
+      "monster_id": 906,
+      "group": 24,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_05_01",
+      "kind": "fixed_actor",
+      "actor_index": 114,
+      "position": [
+        23472,
+        -2400,
+        1078
+      ],
+      "role": "east_mages_05",
+      "monster_id": 904,
+      "group": 25,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_05_02",
+      "kind": "fixed_actor",
+      "actor_index": 115,
+      "position": [
+        23504,
+        -2736,
+        1082
+      ],
+      "role": "east_mages_05",
+      "monster_id": 905,
+      "group": 25,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_05_03",
+      "kind": "fixed_actor",
+      "actor_index": 116,
+      "position": [
+        23968,
+        -2128,
+        1140
+      ],
+      "role": "east_mages_05",
+      "monster_id": 906,
+      "group": 25,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_06_01",
+      "kind": "fixed_actor",
+      "actor_index": 117,
+      "position": [
+        17536,
+        -8656,
+        1759
+      ],
+      "role": "east_mages_06",
+      "monster_id": 904,
+      "group": 26,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_06_02",
+      "kind": "fixed_actor",
+      "actor_index": 118,
+      "position": [
+        17280,
+        -8608,
+        1792
+      ],
+      "role": "east_mages_06",
+      "monster_id": 905,
+      "group": 26,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_06_03",
+      "kind": "fixed_actor",
+      "actor_index": 119,
+      "position": [
+        17744,
+        -9264,
+        1872
+      ],
+      "role": "east_mages_06",
+      "monster_id": 906,
+      "group": 26,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_07_01",
+      "kind": "fixed_actor",
+      "actor_index": 120,
+      "position": [
+        23168,
+        -11024,
+        808
+      ],
+      "role": "east_mages_07",
+      "monster_id": 904,
+      "group": 27,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_07_02",
+      "kind": "fixed_actor",
+      "actor_index": 121,
+      "position": [
+        23488,
+        -11488,
+        790
+      ],
+      "role": "east_mages_07",
+      "monster_id": 905,
+      "group": 27,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_07_03",
+      "kind": "fixed_actor",
+      "actor_index": 122,
+      "position": [
+        23088,
+        -11584,
+        846
+      ],
+      "role": "east_mages_07",
+      "monster_id": 906,
+      "group": 27,
+      "ally": 34
+    }
+  ],
+  "loot_containers": [
+    {
+      "source_id": "mm8:brackenford:east_cache_chest_1",
+      "source_object_index": 0,
+      "source_name": "east_cache_chest_1",
+      "position": {
+        "x": 21248,
+        "y": 3584,
+        "z": 1120
+      },
+      "container_id": 0,
+      "kind": "chest",
+      "presentation": "wooden chest",
+      "random_treasure_level": 6,
+      "treasure_type": 0,
+      "gold": 1500,
+      "gold_only": false,
+      "random": true,
+      "ai_drop": false,
+      "trap_level": 1,
+      "should_repopulate": true,
+      "fixed_items": [
+        {
+          "slot": 1,
+          "raw_mm9_item_id": 0,
+          "item_id": 98
+        }
+      ],
+      "remove_when_empty": false,
+      "random_item_pool": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        35,
+        45,
+        55,
+        60,
+        65,
+        70,
+        75,
+        88,
+        93,
+        97,
+        103,
+        108,
+        125,
+        135,
+        145,
+        172
+      ],
+      "random_item_count": 3
+    },
+    {
+      "source_id": "mm8:brackenford:east_cache_chest_2",
+      "source_object_index": 1,
+      "source_name": "east_cache_chest_2",
+      "position": {
+        "x": 21760,
+        "y": 3584,
+        "z": 1072
+      },
+      "container_id": 1,
+      "kind": "chest",
+      "presentation": "wooden chest",
+      "random_treasure_level": 6,
+      "treasure_type": 0,
+      "gold": 1750,
+      "gold_only": false,
+      "random": true,
+      "ai_drop": false,
+      "trap_level": 1,
+      "should_repopulate": true,
+      "fixed_items": [
+        {
+          "slot": 1,
+          "raw_mm9_item_id": 0,
+          "item_id": 103
+        }
+      ],
+      "remove_when_empty": false,
+      "random_item_pool": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        35,
+        45,
+        55,
+        60,
+        65,
+        70,
+        75,
+        88,
+        93,
+        97,
+        98,
+        108,
+        125,
+        135,
+        145,
+        172
+      ],
+      "random_item_count": 3
+    },
+    {
+      "source_id": "mm8:brackenford:south_cache_chest_1",
+      "source_object_index": 2,
+      "source_name": "south_cache_chest_1",
+      "position": {
+        "x": 9984,
+        "y": -22528,
+        "z": 1088
+      },
+      "container_id": 2,
+      "kind": "chest",
+      "presentation": "wooden chest",
+      "random_treasure_level": 6,
+      "treasure_type": 0,
+      "gold": 2000,
+      "gold_only": false,
+      "random": true,
+      "ai_drop": false,
+      "trap_level": 1,
+      "should_repopulate": true,
+      "fixed_items": [
+        {
+          "slot": 1,
+          "raw_mm9_item_id": 0,
+          "item_id": 15
+        }
+      ],
+      "remove_when_empty": false,
+      "random_item_pool": [
+        5,
+        10,
+        20,
+        25,
+        35,
+        45,
+        55,
+        60,
+        65,
+        70,
+        75,
+        88,
+        93,
+        97,
+        98,
+        103,
+        108,
+        125,
+        135,
+        145,
+        172
+      ],
+      "random_item_count": 3
+    },
+    {
+      "source_id": "mm8:brackenford:south_cache_chest_2",
+      "source_object_index": 3,
+      "source_name": "south_cache_chest_2",
+      "position": {
+        "x": 14848,
+        "y": -18432,
+        "z": 1312
+      },
+      "container_id": 3,
+      "kind": "chest",
+      "presentation": "wooden chest",
+      "random_treasure_level": 6,
+      "treasure_type": 0,
+      "gold": 2250,
+      "gold_only": false,
+      "random": true,
+      "ai_drop": false,
+      "trap_level": 1,
+      "should_repopulate": true,
+      "fixed_items": [
+        {
+          "slot": 1,
+          "raw_mm9_item_id": 0,
+          "item_id": 55
+        }
+      ],
+      "remove_when_empty": false,
+      "random_item_pool": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        35,
+        45,
+        60,
+        65,
+        70,
+        75,
+        88,
+        93,
+        97,
+        98,
+        103,
+        108,
+        125,
+        135,
+        145,
+        172
+      ],
+      "random_item_count": 3
+    }
+  ],
+  "world_items": [
+    {
+      "source_id": "mm8:brackenford:east_cache:loose_1",
+      "source_object_index": 0,
+      "source_name": "Champion's Sword",
+      "position": {
+        "x": 21344,
+        "y": 3360,
+        "z": 1098
+      },
+      "kind": "item",
+      "raw_primary_item_id": 5,
+      "item_id": 5,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 5,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    },
+    {
+      "source_id": "mm8:brackenford:east_cache:loose_2",
+      "source_object_index": 1,
+      "source_name": "Banded Plate",
+      "position": {
+        "x": 21504,
+        "y": 3360,
+        "z": 1088
+      },
+      "kind": "item",
+      "raw_primary_item_id": 95,
+      "item_id": 95,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 95,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    },
+    {
+      "source_id": "mm8:brackenford:east_cache:loose_3",
+      "source_object_index": 2,
+      "source_name": "Sun Opal Ring",
+      "position": {
+        "x": 21664,
+        "y": 3360,
+        "z": 1078
+      },
+      "kind": "item",
+      "raw_primary_item_id": 145,
+      "item_id": 145,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 145,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    },
+    {
+      "source_id": "mm8:brackenford:south_cache:loose_1",
+      "source_object_index": 3,
+      "source_name": "Archangel Broadsword",
+      "position": {
+        "x": 10080,
+        "y": -22752,
+        "z": 1116
+      },
+      "kind": "item",
+      "raw_primary_item_id": 15,
+      "item_id": 15,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 15,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    },
+    {
+      "source_id": "mm8:brackenford:south_cache:loose_2",
+      "source_object_index": 4,
+      "source_name": "Regnan Crossbow",
+      "position": {
+        "x": 10240,
+        "y": -22752,
+        "z": 1116
+      },
+      "kind": "item",
+      "raw_primary_item_id": 65,
+      "item_id": 65,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 65,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    }
+  ],
+  "landmarks": [
+    {
+      "id": "east_cache_chest_1",
+      "kind": "chest_target",
+      "position": [
+        21248,
+        3584,
+        1120
+      ],
+      "event_id": 201,
+      "container_id": 0,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 1
+    },
+    {
+      "id": "east_cache_chest_2",
+      "kind": "chest_target",
+      "position": [
+        21760,
+        3584,
+        1072
+      ],
+      "event_id": 202,
+      "container_id": 1,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 1
+    },
+    {
+      "id": "south_cache_chest_1",
+      "kind": "chest_target",
+      "position": [
+        9984,
+        -22528,
+        1088
+      ],
+      "event_id": 203,
+      "container_id": 2,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 1
+    },
+    {
+      "id": "south_cache_chest_2",
+      "kind": "chest_target",
+      "position": [
+        14848,
+        -18432,
+        1312
+      ],
+      "event_id": 204,
+      "container_id": 3,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 1
+    },
+    {
+      "id": "obelisk",
+      "kind": "obelisk",
+      "position": [
+        -18432,
+        15360,
+        1472
+      ],
+      "event_id": 301,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 65
+    },
+    {
+      "id": "town_well",
+      "kind": "well",
+      "position": [
+        -12800,
+        -1792,
+        624
+      ],
+      "event_id": 302,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 6
+    },
+    {
+      "id": "well_south",
+      "kind": "well",
+      "position": [
+        -10240,
+        -3584,
+        576
+      ],
+      "event_id": 303,
+      "reuse_map": "out02.odm",
+      "reuse_bmodels": [
+        6
+      ]
+    },
+    {
+      "id": "fountain",
+      "kind": "fountain",
+      "position": [
+        -8192,
+        256,
+        576
+      ],
+      "event_id": 304,
+      "reuse_map": "out02.odm",
+      "reuse_bmodels": [
+        83,
+        84
+      ]
+    }
+  ],
+  "provenance": {
+    "monsters": {
+      "19": [
+        "Dark Elf Peasant",
+        "Dark Elf Pesant Male A"
+      ],
+      "20": [
+        "Dark Elf Peasant",
+        "Dark Elf Pesant Male B"
+      ],
+      "22": [
+        "Dark Elf Peasant",
+        "Dark Elf Pesant Female A"
+      ],
+      "23": [
+        "Dark Elf Peasant",
+        "Dark Elf Pesant Female B"
+      ],
+      "26": [
+        "Dark Elven Defender",
+        "Dark Elf Warrior B"
+      ],
+      "27": [
+        "Dark Elven Crusader",
+        "Dark Elf Warrior C"
+      ],
+      "32": [
+        "Ogre Warrior",
+        "Ogre Warrior B"
+      ],
+      "33": [
+        "Ogre Warleader",
+        "Ogre Warrior C"
+      ],
+      "85": [
+        "Dire Wolf Yearling",
+        "Dire Wolf A"
+      ],
+      "86": [
+        "Dire Wolf",
+        "Dire Wolf B"
+      ],
+      "87": [
+        "Pack Leader",
+        "Dire Wolf C"
+      ],
+      "100": [
+        "Centaur",
+        "Centaur A"
+      ],
+      "101": [
+        "Centaur Warrior",
+        "Centaur B"
+      ],
+      "102": [
+        "Centaur Warlord",
+        "Centaur C"
+      ],
+      "107": [
+        "Ogre Mage ",
+        "Ogre Mage B"
+      ],
+      "108": [
+        "Ogre Magi",
+        "Ogre Mage C"
+      ],
+      "166": [
+        "Human Peasant",
+        "Bedraggled Human (peasant) A"
+      ],
+      "904": [
+        "Apprentice Mage",
+        "custom:pmn2_red"
+      ],
+      "905": [
+        "Journeyman Mage",
+        "custom:pmn2_green"
+      ],
+      "906": [
+        "Mage",
+        "custom:pmn2_blue"
+      ]
+    },
+    "items": {
+      "5": [
+        "item005",
+        "Champion's Sword",
+        "700"
+      ],
+      "15": [
+        "item015",
+        "Archangel Broadsword",
+        "1200"
+      ],
+      "65": [
+        "item065",
+        "Regnan Crossbow",
+        "750"
+      ],
+      "95": [
+        "item095",
+        "Banded Plate",
+        "1400"
+      ],
+      "145": [
+        "item145",
+        "Sun Opal Ring",
+        "1800"
+      ]
+    },
+    "original_landmark_map_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367"
+  },
+  "town_wilderness_initial_minimum_xy": 11208.68,
+  "spawn_policy": "123 fixed actors in town and 18 authored wilderness areas; zero encounter spawns; rest encounter chance zero",
+  "encounter_areas": [
+    {
+      "id": "eastern_ogres",
+      "xy": [
+        20480,
+        3584
+      ],
+      "monster_ids": [
+        32,
+        32,
+        33,
+        32,
+        33,
+        107,
+        108
+      ],
+      "offsets": [
+        [
+          -1152,
+          -256
+        ],
+        [
+          -768,
+          768
+        ],
+        [
+          0,
+          1152
+        ],
+        [
+          896,
+          768
+        ],
+        [
+          1024,
+          -512
+        ],
+        [
+          -256,
+          -1024
+        ],
+        [
+          384,
+          0
+        ]
+      ],
+      "ally": 11,
+      "role": "guard loot clearing"
+    },
+    {
+      "id": "southern_ogres",
+      "xy": [
+        10240,
+        -20736
+      ],
+      "monster_ids": [
+        32,
+        32,
+        33,
+        32,
+        33,
+        107,
+        108
+      ],
+      "offsets": [
+        [
+          -1152,
+          -256
+        ],
+        [
+          -768,
+          768
+        ],
+        [
+          0,
+          1152
+        ],
+        [
+          896,
+          768
+        ],
+        [
+          1024,
+          -512
+        ],
+        [
+          -256,
+          -1024
+        ],
+        [
+          384,
+          0
+        ]
+      ],
+      "ally": 11,
+      "role": "guard loot clearing"
+    },
+    {
+      "id": "northwood_hollow",
+      "xy": [
+        -15000,
+        20500
+      ],
+      "extent": [
+        850,
+        650
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "wolf hollow off the northern route"
+    },
+    {
+      "id": "northwood_ridge",
+      "xy": [
+        -9500,
+        19200
+      ],
+      "extent": [
+        1150,
+        550
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "separate wooded ridge"
+    },
+    {
+      "id": "northwood_edge",
+      "xy": [
+        -5000,
+        22000
+      ],
+      "extent": [
+        650,
+        1000
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "woodland edge; clear ground towards pond"
+    },
+    {
+      "id": "southwood_hollow",
+      "xy": [
+        -16500,
+        -20500
+      ],
+      "extent": [
+        750,
+        850
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "southern woodland hollow"
+    },
+    {
+      "id": "southwood_slope",
+      "xy": [
+        -11000,
+        -18000
+      ],
+      "extent": [
+        1200,
+        650
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "southern slope; leave town departure quiet"
+    },
+    {
+      "id": "southwood_edge",
+      "xy": [
+        -4500,
+        -21700
+      ],
+      "extent": [
+        750,
+        850
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "separate southeast woodland edge"
+    },
+    {
+      "id": "east_ridge_patrol",
+      "xy": [
+        21500,
+        10500
+      ],
+      "extent": [
+        1000,
+        1700
+      ],
+      "monster_ids": [
+        100,
+        101,
+        101,
+        101,
+        102,
+        102
+      ],
+      "ally": 0,
+      "role": "loose centaur patrol beyond castle approach"
+    },
+    {
+      "id": "east_lowland_patrol",
+      "xy": [
+        22500,
+        -6500
+      ],
+      "extent": [
+        750,
+        1500
+      ],
+      "monster_ids": [
+        100,
+        101,
+        101,
+        102,
+        102
+      ],
+      "ally": 0,
+      "role": "loose centaur patrol between distant ogre camps"
+    },
+    {
+      "id": "den_wolves",
+      "xy": [
+        16500,
+        -19100
+      ],
+      "extent": [
+        950,
+        700
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "guard cave approach and nearby chest"
+    },
+    {
+      "id": "east_mages_01",
+      "xy": [
+        23700,
+        12500
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_02",
+      "xy": [
+        17000,
+        10000
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_03",
+      "xy": [
+        17200,
+        5500
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_04",
+      "xy": [
+        17700,
+        -3000
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_05",
+      "xy": [
+        23500,
+        -2500
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_06",
+      "xy": [
+        17800,
+        -8800
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_07",
+      "xy": [
+        23100,
+        -11200
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    }
+  ],
+  "well_policy": "Existing MM8 +25 temporary Might on selected character when bonus <25; no stacking. Available again after normal temporary-bonus reset; no campaign autonote or QBit.",
+  "obelisk_policy": "Existing ethesunsh inscription; local MapVar(11) discovery only; repeat readable.",
+  "validation_status": "Existing behavior retained; native wiring and visual placement review required"
+}

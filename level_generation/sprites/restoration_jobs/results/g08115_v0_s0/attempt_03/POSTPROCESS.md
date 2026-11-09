@@ -1,0 +1,1 @@
+Process with --adjust 0.965 0 16. Preserve the resulting ungraded PNG as the matching .before_tone.png, then run restore_native_tone.py and queue.py check g08115_v0_s0. The script matches native opaque RGB means with channel gamma while preserving alpha. Reprocessing requires refreshing the before_tone backup before replaying the grade.

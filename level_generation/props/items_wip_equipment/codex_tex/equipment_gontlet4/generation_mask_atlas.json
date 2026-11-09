@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Cavalier Gauntlets (gontlet4). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single long silver gauntlet with brown leather finger joints, broad angular hand plate bearing a red cross and flared riveted cuff. Exact material boundaries: Brown leather finger joints, palm and lining are GREEN. Silver finger and hand plates, flared cuff, gold studs and edging are METAL RED. The red cross is painted enamel on metal. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_gontlet4/inputs/guide_mask.png",
+  "input_guide_sha256": "2b1c13f47add7136c27bd26c82239c4eb126d2e4505333e1dbbcd7b9fae2a1b7",
+  "revision": 1,
+  "input_icon": "gontlet4",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-8141e2ad-6972-4232-bb3c-4cf4337445cc.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "mask_raw_v1.png",
+  "output_sha256": "72b0ff9432e75154d4ff885388b40938153017589c2a7b0dfdf930a9c7f8af9f",
+  "input_icon_path": "assets_dev/engine/icons_x2/gontlet4.png",
+  "input_icon_sha256": "ff02175d8b062bfa65abcc710818c896fb123060ae3ccb849431884ea0ee24f7",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

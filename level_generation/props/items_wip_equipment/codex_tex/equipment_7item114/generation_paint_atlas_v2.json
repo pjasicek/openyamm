@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Mogred Gauntlets (7item114). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single green scaled glove with straight fingers, gold-edged narrow cuff and two oval red gems along its back. CORRECTION: the exact grey mesh guide is authoritative for every outline and every hole. The inventory icon supplies colour and materials only. Do not widen or shrink the object, fingers, horns or cloth. Every solid grey surface stays opaque, including inner faces, chainmail panels and tiny fingers. Never make new openings or transparent pattern cutouts. Black gemstones must be opaque black, alpha 255. All five views retain exact guide framing. Exact material boundaries: Green dragon-hide hand and fingers are LEATHER GREEN. Gold gem settings and rim are METAL RED. Two red jewels are GEM BLACK. CORRECTION: previous material map cut into solid grey surfaces. Every solid guide surface, palm, lining, fingers and hardware must remain opaque. No new holes, ragged edges or missing thin regions. Black gemstone pixels stay fully opaque RGBA(0,0,0,255); only the actual background is transparent. Preserve original grey guide framing exactly. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item114/inputs/guide_paint_v2.png",
+  "input_guide_sha256": "82f9b07968acb89b3fdec4270d7a2848a53248930890be73e37b12deee8f7391",
+  "revision": 2,
+  "input_icon": "7item114",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-ca43c17c-2743-4289-a0d2-d1559b33bd30.png",
+  "output": "paint_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v2.png",
+  "output_sha256": "c9a5e894546244010b1bd97f87ca8d98f652a6e24e22a820c6c6374cfdb68509",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item114.png",
+  "input_icon_sha256": "6b7a5bf5c28a2d44971602a0e880010cfa8e9fec20eab406edd7bf0a0a23178f",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

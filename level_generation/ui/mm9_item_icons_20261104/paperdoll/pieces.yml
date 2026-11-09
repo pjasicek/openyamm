@@ -1,0 +1,651 @@
+# MM9 worn equipment drawn on the paperdoll, repainted from the new MM7/MM8-style icons (prototype, 2026-11-05).
+# Same fields as level_generation/ui/hesper_paperdoll/pieces.yml. The key is the item's Pic File, so the doll files
+# are mm9_item_<id><suffix>.png as the engine looks them up.
+#
+#   reference  the engine item whose fitted MM7/MM8 files own canvas, pose, placement and silhouette: the reviewed
+#              choice of tools/mm9_import_discovery/mm9_equipment_legacy_base_mappings.yml
+#   coverage   armour: that table's geometry_profile (the reviewed cut of the reference's legs)
+#   smooth_crown  helms whose table entry asks for smooth_upper_protrusions
+#   facts      the design facts read from the NEW icon (items/<id>/icon_a_x2.png), not the table's older
+#              transfer_focus
+# Gauntlets: one glove (the inventory icon) drawn in the jewellery panel's 40x72 cell, centred by its
+# complex_item_pictures row (all six doll types alike).
+gauntlets:
+  mm9_item_10133: 10133
+  mm9_item_10134: 10134
+  mm9_item_10135: 10135
+  mm9_item_10136: 10136
+  mm9_item_10137: 10137
+  mm9_item_10138: 10138
+  mm9_item_10139: 10139
+  mm9_item_10140: 10140
+  mm9_item_10141: 10141
+  mm9_item_10206: 10206
+  mm9_item_10227: 10227
+  mm9_item_10237: 10237
+  mm9_item_10365: 10365
+pieces:
+  mm9_item_10102:
+    id: 10102
+    name: Chedian Chain
+    slot: Armor
+    reference: 876            # MM7 Resplendent Chain Mail
+    coverage: thigh_length
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end the mail shirt at mid-thigh
+    facts: >-
+      A silver-grey chain mail shirt of small round links with short sleeves; royal-blue and yellow striped bands at
+      the collar, the sleeve cuffs and the hem; on the chest a pointed shield-shaped cloth panel divided diagonally into
+      yellow and royal blue; a long mail skirt split at the front, edged with the same blue and yellow band.
+  mm9_item_10113:
+    id: 10113
+    name: Thjoradric Plate
+    slot: Armor
+    reference: 879            # MM7 Splendid Plate Armor
+    coverage: full_harness
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end the plate skirt at mid-thigh
+    facts: >-
+      Warm polished copper plate armour: a domed breastplate with a vertical centre ridge, layered rounded copper
+      shoulder plates, ribbed segmented copper arm plates, and a long skirt of vertical copper plate strips on riveted
+      bands; small dark rivets, soft pale highlights on the copper, no other colours.
+  mm9_item_10123:
+    id: 10123
+    name: Dragon Helm
+    slot: Helm
+    reference: 111            # MM8 Full Helm
+    smooth_crown: 5
+    facts: >-
+      A closed great helm of dark blued black steel with a fine scale texture; a bold polished gold cross frames the
+      T-shaped eye and breath slit, with a gold band along the bottom rim; the face is hidden.
+  mm9_item_10125:
+    id: 10125
+    name: Jarl's Helm
+    slot: Helm
+    reference: 894            # MM7 Phynaxian Helm
+    smooth_crown: 9           # a wider opening also takes the reference's side horns off (Jarl's Helm has none)
+    facts: >-
+      A rounded polished silver steel dome with vertical riveted ridges and a riveted brow band, two round spectacle
+      eye guards joined by a short pointed nasal; the lower face stays open where Image 1 leaves it open.
+  mm9_item_10152:
+    id: 10152
+    name: Soldier's Belt
+    slot: Belt
+    reference: 904            # MM7 Strong Belt
+    facts: >-
+      A plain warm-brown leather belt with a row of small steel rivets along it, a square steel buckle at the front and
+      a small steel strap keeper beside it.
+  mm9_item_10153:
+    id: 10153
+    name: Regal Belt
+    slot: Belt
+    reference: 905            # MM7 Silver Belt
+    facts: >-
+      A belt of linked polished gold plaques, each set with an oval red gem, small gold beads between them, and an
+      ornate gold clasp with a larger red gem at the front.
+  mm9_item_10126:
+    id: 10126
+    name: Leather Boots
+    slot: Boots
+    reference: 917            # MM7 Leather Boots
+    facts: >-
+      Warm reddish-brown leather ankle boots with a turned-down cuff, three small brass buttons up the outer side,
+      rounded toes and a dark sole.
+  mm9_item_10132:
+    id: 10132
+    name: Prote der Fatta
+    slot: Boots
+    reference: 921            # MM7 Paladin Boots
+    facts: >-
+      Plate boots: black lacquered shin plates with a polished gold rim at the top and a gold band at the ankle, and
+      white-silver segmented plates over the feet ending in pointed toes.
+  # Full pass (2026-11-05): reference and coverage from the mapping table, facts from the new icons.
+  mm9_item_10086:
+    id: 10086
+    name: Arming Doublet
+    slot: Armor
+    reference: 84             # MM8 Leather Jerkin
+    coverage: hip_length
+    facts: >-
+      A dark-brown quilted leather doublet with a high round collar, long padded sleeves and a wrap front crossing
+      from the left shoulder to the waist, tied at the waist with a thin leather cord; fine diagonal quilting seams, a
+      long skirt split at the front, and a paler worn leather edging at the hem and cuffs.
+  mm9_item_10087:
+    id: 10087
+    name: Padded Leather
+    slot: Armor
+    reference: 84             # MM8 Leather Jerkin
+    coverage: hip_length
+    facts: >-
+      A bright orange-tan leather tunic with short sleeves, a small V neck laced with a dark cord, a narrow dark
+      leather belt set with small square steel studs at the waist, a skirt split at the front, and a pale tan edging
+      at the hem, neck and cuffs.
+  mm9_item_10088:
+    id: 10088
+    name: Hardened Leather
+    slot: Armor
+    reference: 85             # MM8 Hardened Leather Vest
+    coverage: short_torso
+    facts: >-
+      A sleeveless fitted vest of smooth dark-brown hardened leather with a high round neck; an olive-bronze leather
+      panel crossing diagonally from the near shoulder over the chest, edged with a row of small brass studs; a rolled
+      leather hem band with brass studs.
+  mm9_item_10089:
+    id: 10089
+    name: Beldonian Hard Leather
+    slot: Armor
+    reference: 85             # MM8 Hardened Leather Vest
+    coverage: short_torso
+    facts: >-
+      A sleeveless fitted vest of glossy cobalt-blue leather with a round neck, a large pale-blue leather flap
+      standing up over each shoulder, a rounded chest panel outlined by silver piping and small silver studs, and a
+      silver-studded rolled hem band.
+  mm9_item_10090:
+    id: 10090
+    name: Scaled Leather
+    slot: Armor
+    reference: 870            # MM7 Officer's Leather
+    coverage: short_torso
+    facts: >-
+      A sleeveless round-neck vest covered in large overlapping square ochre-orange leather scales in rows, a pale
+      leather band around the neck and armholes, a dark leather strap with two brass rivets down the near side, and a
+      pale rolled hem.
+  mm9_item_10091:
+    id: 10091
+    name: Imperial Scale
+    slot: Armor
+    reference: 86             # MM8 Caravaner's Leather
+    coverage: hip_length
+    coverage_limits: {0: 215, 4: 225}   # the vest ends at the hips; the MM8 bodysuit cut at hip_length still reached the knee
+    facts: >-
+      A vest of small rounded copper-orange leather scales overlapping in rows, pale white-steel shoulder guards
+      rimmed in brass, three short steel straps across the upper chest, a brass-edged round collar and a brass-edged
+      hem.
+  mm9_item_10092:
+    id: 10092
+    name: Brigandine
+    slot: Armor
+    reference: 87             # MM8 Regnan Leather
+    coverage: hip_length
+    coverage_limits: {0: 235}   # the short brigandine skirt; hip_length left the MM8 suit's leather legs on the human male
+    facts: >-
+      A short-sleeved black-brown leather brigandine densely covered in small silver rivets, built of horizontal
+      panels, with a brown leather belt at the waist and a short skirt of vertical studded panels below it.
+  mm9_item_10093:
+    id: 10093
+    name: Combat Brigandine
+    slot: Armor
+    reference: 88             # MM8 Alvarian Leather
+    coverage: thigh_length
+    facts: >-
+      A long-sleeved warm-brown leather brigandine of square riveted leather panels with silver rivets at every
+      corner, a round collar, a brown leather belt at the waist and a long skirt split at the front.
+  mm9_item_10094:
+    id: 10094
+    name: Brigan der Combit
+    slot: Armor
+    reference: 88             # MM8 Alvarian Leather
+    coverage: thigh_length
+    facts: >-
+      A short-sleeved brigandine of grey-brown square leather plates, each edged and studded with small brass rivets;
+      a bright orange-tan leather trim at the collar, cuffs, front split and hem; a narrow belt at the waist and a
+      long skirt split at the front.
+  mm9_item_10095:
+    id: 10095
+    name: Aklean Bouila
+    slot: Armor
+    reference: 872            # MM7 Royal Leather
+    coverage: hip_length
+    facts: >-
+      A short-sleeved deep-green leather jerkin with large pale-green rounded shoulder pads, a yellow-green shield-
+      shaped chest panel framed by brass studs, a brass-trimmed round collar, and a short skirt of green and yellow-
+      green checkered panels with a brass-trimmed hem.
+  mm9_item_10096:
+    id: 10096
+    name: Butted Chain
+    slot: Armor
+    reference: 875            # MM7 Fine Chain Mail
+    coverage: hip_length
+    facts: >-
+      A sleeveless tunic of large rusty brown-bronze butted chain rings, coarse and slightly irregular with a few
+      broken links, a plain round neck and a short split skirt.
+  mm9_item_10097:
+    id: 10097
+    name: Rivited Chain
+    slot: Armor
+    reference: 91             # MM8 Minotaur Chainmail
+    coverage: thigh_length
+    facts: >-
+      A sleeveless tunic of bright silver-grey riveted chain mail with fine even links, a plain round neck and a long
+      skirt split at the front; no trim, no other colours.
+  mm9_item_10098:
+    id: 10098
+    name: Iron Chain
+    slot: Armor
+    reference: 91             # MM8 Minotaur Chainmail
+    coverage: thigh_length
+    facts: >-
+      A short-sleeved tunic of dark iron-grey chain mail with an overlapping wrap front crossing diagonally to the
+      hip, a plain round neck and a skirt split at the front; dull dark iron, no trim.
+  mm9_item_10099:
+    id: 10099
+    name: Steel Chain
+    slot: Armor
+    reference: 91             # MM8 Minotaur Chainmail
+    coverage: thigh_length
+    facts: >-
+      A short-sleeved tunic of bright polished steel chain mail with a soft draped cowl around the round neck and a
+      skirt split at the front; bright silver, no trim, no other colours.
+  mm9_item_10100:
+    id: 10100
+    name: Chain Haubergeon
+    slot: Armor
+    reference: 876            # MM7 Resplendent Chain Mail
+    coverage: short_torso
+    facts: >-
+      A short-sleeved silver-grey chain mail shirt ending at the waist, with a pointed V-shaped bib of finer, denser
+      mail hanging from the neck over the chest; no trim, no other colours.
+  mm9_item_10101:
+    id: 10101
+    name: Chain Hauberk
+    slot: Armor
+    reference: 92             # MM8 Siertal Chainmail
+    coverage: thigh_length
+    facts: >-
+      A short-sleeved long chain mail hauberk of silver-grey links with a round neck and a long skirt split at the
+      front; no trim, no other colours.
+  mm9_item_10103:
+    id: 10103
+    name: Chain Harness
+    slot: Armor
+    reference: 93             # MM8 Erudine Chainmail
+    coverage: short_torso
+    facts: >-
+      A long-sleeved silver-grey chain mail shirt with a round neck, its lower part a short skirt of mail over mail
+      shorts; no trim, no other colours.
+  mm9_item_10104:
+    id: 10104
+    name: Lachmon Hauberk
+    slot: Armor
+    reference: 877            # MM7 Golden Chain Mail
+    coverage: thigh_length
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end it at mid-thigh
+    facts: >-
+      A short-sleeved long hauberk of pale green-silver chain mail with a round neck and a long skirt split at the
+      front; pale green tint on silver links, no trim.
+  mm9_item_10105:
+    id: 10105
+    name: Trigvanian Mail
+    slot: Armor
+    reference: 877            # MM7 Golden Chain Mail
+    coverage: thigh_length
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end it at mid-thigh
+    facts: >-
+      A long-sleeved green-silver chain mail shirt with a bronze-edged neck and a front panel of finer mail edged in
+      bronze, carrying two large dark-green spiral discs one above the other on the chest and belly; mail skirt below.
+  mm9_item_10108:
+    id: 10108
+    name: Ronenguard Plate
+    slot: Armor
+    reference: 96             # MM8 Minotaur Plate
+    coverage: short_torso
+    facts: >-
+      A sleeveless breastplate of dark blued steel ending in a point below the belly, with riveted steel bands along
+      the armholes, neck and edges, a horizontal riveted seam across the chest and a vertical riveted strap down each
+      side.
+  mm9_item_10109:
+    id: 10109
+    name: Field Plate
+    slot: Armor
+    reference: 96             # MM8 Minotaur Plate
+    coverage: short_torso
+    facts: >-
+      A plain sleeveless breastplate of smooth dark gunmetal steel with a rolled steel rim at the neck and armholes
+      and a hem that dips to a point below the belly; no rivets, no ornament.
+  mm9_item_10110:
+    id: 10110
+    name: Full Plate
+    slot: Armor
+    reference: 878            # MM7 Plate Armor
+    coverage: thigh_length    # table: full_harness; the design's lames end at the upper thigh; the reference has plate legs to the knee
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end it at mid-thigh
+    facts: >-
+      Blue-grey polished steel full plate: a smooth rounded breastplate, layered rounded shoulder plates, segmented
+      steel arm plates, and a skirt of overlapping horizontal steel lames below the waist.
+  mm9_item_10111:
+    id: 10111
+    name: "Paladin's Plate"
+    slot: Armor
+    reference: 879            # MM7 Splendid Plate Armor
+    coverage: full_harness
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end it at mid-thigh
+    facts: >-
+      Silver steel plate with gold trim: angular shoulder plates with small gold bars, a breastplate with a vertical
+      gold ridge and a round gold-ringed boss on the chest, a gold band at the waist, and long steel tasset plates
+      edged in gold.
+  mm9_item_10112:
+    id: 10112
+    name: Heavy Plate
+    slot: Armor
+    reference: 879            # MM7 Splendid Plate Armor
+    coverage: thigh_length    # table: full_harness; the design's strip skirt ends at mid-thigh; the reference has plate legs to the knee
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end it at mid-thigh
+    facts: >-
+      Dark blue-black steel plate: a smooth breastplate, large rounded shoulder plates, segmented arm plates, and a
+      long skirt of vertical dark steel strips; plain, no gold, no other colours.
+  mm9_item_10114:
+    id: 10114
+    name: Imperial Harness
+    slot: Armor
+    reference: 880            # MM7 Noble Plate Armor
+    coverage: full_harness
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end it at mid-thigh
+    facts: >-
+      A long coat of charcoal-black plate covered by a dense lattice of polished gold bands crossing at right angles,
+      gold rivets at the crossings, a high gold-rimmed collar, a plain silver steel forearm guard on the near arm and
+      a gold-edged hem.
+  mm9_item_10115:
+    id: 10115
+    name: Dark Plate
+    slot: Armor
+    reference: 880            # MM7 Noble Plate Armor
+    coverage: full_harness
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end it at mid-thigh
+    facts: >-
+      Dark bronze and gold plate armour: each shoulder guard is a roaring golden lion head, a sculpted gold-bronze
+      breastplate with gold rivets, a thin purple trim along the edges and at the waist, and dark bronze tasset plates
+      edged in gold.
+  mm9_item_10200:
+    id: 10200
+    name: Igdrasine
+    slot: Armor
+    reference: 870            # MM7 Officer's Leather
+    coverage: hip_length
+    facts: >-
+      A sleeveless fitted leather jerkin quartered in green and blue (green upper near side and lower far side, blue
+      upper far side and lower near side), a golden tree with spreading leafy branches embossed on the chest, gold
+      studs on the green quarters, and a gold-rimmed neck, armholes and hem.
+  mm9_item_10201:
+    id: 10201
+    name: Poltergeist
+    slot: Armor
+    reference: 1335           # MM7 Elven Chainmail
+    coverage: short_torso
+    facts: >-
+      A short-sleeved shirt of mossy green-and-white chain mail with an irregular mottled green patina, a steel band
+      crossing from the near shoulder, and a steel band around the waist.
+  mm9_item_10202:
+    id: 10202
+    name: Swordsbane
+    slot: Armor
+    reference: 515            # MM8 Supreme Plate
+    coverage: thigh_length    # table: full_harness; the design's lame skirt ends at mid-thigh; the reference has mail legs to the knee
+    coverage_limits: {1: 230}   # the female reference is a full-leg suit: end it at mid-thigh
+    smooth_crown: 5
+    facts: >-
+      Bronze-copper plate armour with red enamel trim: rounded layered bronze shoulder plates with dark rivets, a
+      breastplate of vertical bronze ribs edged in red, and a long skirt of horizontal bronze lames with red-edged
+      side panels.
+  mm9_item_10220:
+    id: 10220
+    name: Prize Plate
+    slot: Armor
+    reference: 95             # MM8 Banded Plate
+    coverage: short_torso
+    facts: >-
+      A polished silver steel breastplate of overlapping horizontal lames with a central ridge, a brass collar, brass
+      shoulder plates, each shoulder plate set with a small bunch of bright red feather plumes, and a brass hem rim.
+  mm9_item_10225:
+    id: 10225
+    name: "Broderick's Hauberk"
+    slot: Armor
+    reference: 1335           # MM7 Elven Chainmail
+    coverage: hip_length
+    facts: >-
+      A short-sleeved silver chain mail hauberk trimmed with bright blue cloth at the neck, the cuffs and the edges of
+      a skirt split at the front, and a pale blue-white belt with a silver buckle at the waist.
+  mm9_item_10230:
+    id: 10230
+    name: Death Cuirass
+    slot: Armor
+    reference: 870            # MM7 Officer's Leather
+    coverage: short_torso
+    facts: >-
+      A sleeveless glossy black plate cuirass with a gold-rimmed neck, armholes and hem, and two large gold spiral
+      scrolls on the upper chest; faint dark black flame-like patterns embossed over the lower breastplate.
+  mm9_item_10367:
+    id: 10367
+    name: Quilted Armor
+    slot: Armor
+    reference: 868            # MM7 Crude Leather Armor
+    coverage: short_torso
+    facts: >-
+      A simple tan-gold quilted cloth tube wrapped around the torso with diamond stitching, held up by two pale cloth
+      shoulder straps knotted to the top edge, and loose pale cloth ties knotted at the sides; no sleeves, no collar.
+  mm9_item_10116:
+    id: 10116
+    name: Coif
+    slot: Helm
+    reference: 893            # MM7 Elven Helm
+    facts: >-
+      A chain mail coif of grey steel links: a hood covering the head, ears and neck with an oval face opening and a
+      mail cape spreading over the top of the shoulders; the face shows through where Image 1 leaves it open.
+  mm9_item_10117:
+    id: 10117
+    name: Plain Helm
+    slot: Helm
+    reference: 109            # MM8 Helm
+    facts: >-
+      A rounded bronze-brown steel skullcap with a broad steel brow band, two crossing steel bands over the dome with
+      rivets, a small knob at the top, and a straight steel nasal bar down over the nose.
+  mm9_item_10119:
+    id: 10119
+    name: Barbute Helm
+    slot: Helm
+    reference: 111            # MM8 Full Helm
+    smooth_crown: 5
+    facts: >-
+      A tall rounded barbute of polished silver steel enclosing the head, with a T-shaped face opening: two dark eye
+      slits joined to a vertical slot over the mouth; plain, no trim.
+  mm9_item_10120:
+    id: 10120
+    name: Loaf Helm
+    slot: Helm
+    reference: 111            # MM8 Full Helm (table: MM7 Elven Helm, an open nasal helm with a coif; the design is a closed great helm)
+    smooth_crown: 5
+    facts: >-
+      A pointed conical great helm of bluish polished steel with a vertical steel ridge running down the front to the
+      chin, crossed by a narrow horizontal eye slit; plain, no colours.
+  mm9_item_10121:
+    id: 10121
+    name: Bascinet
+    slot: Helm
+    reference: 111            # MM8 Full Helm
+    smooth_crown: 5
+    facts: >-
+      A rounded bascinet of polished silver steel with a closed visor carrying one horizontal eye slit, a ridge over
+      the crown, and a flared steel gorget plate below the chin; plain, no trim.
+  mm9_item_10122:
+    id: 10122
+    name: Sallet
+    slot: Helm
+    reference: 892            # MM7 Conscript's Helm
+    smooth_crown: 5
+    facts: >-
+      A rounded open sallet of polished silver steel: a tall smooth dome with a short flared brim; the face stays open
+      where Image 1 leaves it open; plain, no trim.
+  mm9_item_10124:
+    id: 10124
+    name: Imperial Helm
+    slot: Helm
+    reference: 111            # MM8 Full Helm
+    smooth_crown: 5
+    facts: >-
+      A tall flat-topped great helm of silver steel with a bold polished gold cross on the front framing the
+      horizontal eye slit, and rows of small round breathing holes on both sides of the cross below the slit.
+  mm9_item_10203:
+    id: 10203
+    name: Witchbane
+    slot: Helm
+    reference: 111            # MM8 Full Helm (table: MM8 Drogg's Helm, whose crest and side horns the skull lacks)
+    see_through: [70, 20]     # eye sockets, nose and mouth open: the face shows through (user, 2026-11-05)
+    smooth_crown: 5
+    facts: >-
+      A helm made from a large old yellowed bone skull: the cranium covers the head, the face is the skull's dark eye
+      sockets and nose hole over a gaping open jaw, and a blue-grey steel collar with bone fangs flares below it.
+  mm9_item_10204:
+    id: 10204
+    name: Brongnoker
+    slot: Helm
+    reference: 109            # MM8 Helm
+    same_art_as: mm9_item_10117   # the same design and reference as Plain Helm: its generations are reused
+    facts: >-
+      A rounded bronze-brown steel skullcap with a broad steel brow band, two crossing steel bands over the dome with
+      rivets, a small knob at the top, and a straight steel nasal bar down over the nose.
+  mm9_item_10221:
+    id: 10221
+    name: Prize Skullcap
+    slot: Helm
+    reference: 892            # MM7 Conscript's Helm (table: MM7 Elven Helm, whose coif the plain skullcap lacks)
+    smooth_crown: 5
+    facts: >-
+      A tall pointed conical skullcap of polished grey steel with raised steel bands up the front and sides set with
+      small red square studs, and a heavy steel brow rim with a row of red studs.
+  mm9_item_10226:
+    id: 10226
+    name: "Broderick's Helm"
+    slot: Helm
+    reference: 111            # MM8 Full Helm
+    smooth_crown: 5
+    facts: >-
+      A tall flat-topped great helm of silver steel with a pale-blue enamelled steel cross on the front framing the
+      horizontal eye slit, and rows of small round breathing holes on both sides of the cross below the slit.
+  mm9_item_10231:
+    id: 10231
+    name: Death Cap
+    slot: Helm
+    reference: 111            # MM8 Full Helm (table: MM8 Drogg's Helm, whose crest and side horns the skull helm lacks)
+    smooth_crown: 5
+    facts: >-
+      A dark blackened steel helm whose front is sculpted as a skull face: hollow dark eye sockets and a nose hole,
+      the helm flaring at the cheeks with the chin open below; dark steel with dull pale highlights.
+  mm9_item_10236:
+    id: 10236
+    name: "Fre's Helm"
+    slot: Helm
+    reference: 894            # MM7 Phynaxian Helm (table: MM7 Mogred Helm, whose side horns no opening removes)
+    smooth_crown: 9           # as Jarl's Helm: opens the reference's side horns away
+    facts: >-
+      A rounded helm with a green enamelled dome divided by bronze bands, a bronze brow band with rivets and a small
+      spike on top, and a polished gold spectacle mask with two oval eye holes and a pointed nasal below it.
+  mm9_item_10364:
+    id: 10364
+    name: Fur Cap
+    slot: Helm
+    reference: 898            # MM7 Fancy Hat
+    facts: >-
+      A round flat-topped cap of spotted tan and brown fur with a thick fur brim; a striped brown-and-cream raccoon
+      tail hangs from the back.
+  mm9_item_10127:
+    id: 10127
+    name: Hardened Boots
+    slot: Boots
+    reference: 133            # MM8 Hardened Leather Boots
+    facts: >-
+      Tall plain warm-brown leather boots reaching up the calf, each with a narrow leather strap and steel buckle at
+      the ankle, rounded toes and a dark heel.
+  mm9_item_10128:
+    id: 10128
+    name: Chain Boots
+    slot: Boots
+    reference: 917            # MM7 Leather Boots
+    facts: >-
+      Boots of grey steel chain mail with a wide turned-down reddish-brown leather cuff at the top, small leather tabs
+      under the cuff and dark leather soles.
+  mm9_item_10129:
+    id: 10129
+    name: Ronenguard Boots
+    slot: Boots
+    reference: 918            # MM7 Steel Plated Boots
+    facts: >-
+      Brown leather boots with a wide turned-down brown leather cuff, a steel band around the shin, and steel plates
+      over the foot and toes divided by a brown leather strap.
+  mm9_item_10130:
+    id: 10130
+    name: Steel Boots
+    slot: Boots
+    reference: 918            # MM7 Steel Plated Boots
+    facts: >-
+      Ankle boots of polished steel plates over the foot and ankle, a riveted steel strap across the instep, and a
+      soft reddish-brown leather rim at the top.
+  mm9_item_10131:
+    id: 10131
+    name: Sabaton
+    slot: Boots
+    reference: 920            # MM7 Knight's Boots
+    facts: >-
+      Sabatons: shins of stacked horizontal polished steel rings, a strip of chain mail at the ankle, and rounded
+      polished steel plates over the feet.
+  mm9_item_10205:
+    id: 10205
+    name: Walking Boots
+    slot: Boots
+    reference: 1314           # MM7 Seven League Boots
+    facts: >-
+      Tall soft rust-red suede boots reaching up the calf, with a row of four small square gold buttons on short
+      leather straps down the outer side, soft rounded toes and a thin dark sole.
+  mm9_item_10233:
+    id: 10233
+    name: Death Boots
+    slot: Boots
+    reference: 920            # MM7 Knight's Boots
+    facts: >-
+      Tall boots of deep blue fabric reaching up the calf, with a polished silver steel shin plate of stacked bands
+      down the front, a silver rim at the top, and segmented silver steel plates over the feet.
+  mm9_item_10238:
+    id: 10238
+    name: "Fre's Chain Boots"
+    slot: Boots
+    reference: 921            # MM7 Paladin Boots
+    facts: >-
+      Tall boots of fine bronze-gold chain mail reaching up the calf, with a dark-green rim and gold band at the top
+      and a dark-green welt and gold band around the sole.
+  mm9_item_10366:
+    id: 10366
+    name: Fuzzy Slippers
+    slot: Boots
+    reference: 917            # MM7 Leather Boots
+    keep_lower: 0.42          # slippers: each boot outline cut to its foot (mm9_paperdoll.py)
+    facts: >-
+      Fuzzy slippers shaped like sleepy green-grey furry rabbits: each toe is a rabbit face with closed eyes, a pink
+      nose and a long floppy ear laid back along the side, on a soft pale-pink fur sole; low, no shaft.
+  mm9_item_10150:
+    id: 10150
+    name: Peasant Belt
+    slot: Belt
+    reference: 902            # MM7 Leather Belt
+    facts: >-
+      A plain tan-yellow cloth sash belt painted with dark-red X marks along it, tied at the front with a thin red-
+      brown leather cord loop whose ends hang down a little.
+  mm9_item_10151:
+    id: 10151
+    name: Fancy Belt
+    slot: Belt
+    reference: 903            # MM7 Fine Belt
+    facts: >-
+      A narrow red-brown leather belt with a rounded silver buckle at the front, small silver keepers along it, and
+      the strap end hanging down with a silver tip.
+  mm9_item_10154:
+    id: 10154
+    name: Dragon Belt
+    slot: Belt
+    reference: 906            # MM7 Gilded Belt
+    facts: >-
+      A belt of gold-green overlapping dragon scales, with a gold quatrefoil clasp at the front set with four round
+      green gems around a gold boss.
+  mm9_item_10208:
+    id: 10208
+    name: Hubris
+    slot: Belt
+    reference: 1337           # MM7 Hero's Belt
+    facts: >-
+      A broad dark-red leather belt with ornate gold fittings: a large round gold medallion clasp at the front on a
+      gold plate, small square gold studs beside it, and gold scrollwork ornaments at the sides.

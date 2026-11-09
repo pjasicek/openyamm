@@ -1,0 +1,180 @@
+{
+  "kind": "indoor",
+  "world": "mm6",
+  "map": "zddb01.blv",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm6/maps/zddb01.blv",
+      "sha256": "81a88338bb3469d972e2666b3ac1a6e2ff220b03fa7af33cfc718714b71e047e"
+    },
+    {
+      "path": "assets_dev/worlds/mm6/maps/zddb01.scene.yml",
+      "sha256": "d75e1e5f49a7f8c726b5a8d9f4d06c4035377ba11daca2ab5b70b991255d4ae2"
+    },
+    {
+      "path": "assets_dev/worlds/mm6/events/maps/zddb01.lua",
+      "sha256": "15ce14c9c7f3028359c1868ffaa08e097d0d75030da2b5b5f023b512693f60d8"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/map_stats.txt",
+      "sha256": "15c97e7fa3a23f1857be2646cf732e89c5000a06b3b3ee252f9a36a4250e5ed6"
+    },
+    {
+      "path": "reference/mmext-scripts/Decompiled_Scripts/mm6orig/txt/ZDDB01.txt",
+      "sha256": "1a2052c09890368e2ce8ea33d1d04958102e0cd0a7e9a3907d646e17a951c9f2"
+    }
+  ],
+  "map_stats": {
+    "id": 189,
+    "name": "Dragon's Lair",
+    "line": 192,
+    "perception": 0,
+    "refill_days": 672,
+    "disarm": 1,
+    "trap_d20": 1,
+    "treasure": 6,
+    "encounter_chance": 10,
+    "music": "42",
+    "encounters": [
+      {
+        "name": "DragonCover",
+        "difficulty": "2",
+        "count": "1-2",
+        "weight": 0
+      },
+      {
+        "name": "0",
+        "difficulty": "1",
+        "count": "1-4",
+        "weight": 0
+      },
+      {
+        "name": "0",
+        "difficulty": "1",
+        "count": "1-4",
+        "weight": 0
+      }
+    ]
+  },
+  "source_version": 8,
+  "scene_counts": {
+    "face_attribute_overrides": 0,
+    "decoration_flags": 9,
+    "actors": 1,
+    "sprite_objects": 9,
+    "chests": 20,
+    "doors": 0
+  },
+  "entities": 11,
+  "spawn_records": 0,
+  "decorations": {
+    "6torch01": 9,
+    "dec04": 2
+  },
+  "unique_actors": [
+    {
+      "actor_index": 0,
+      "name": "",
+      "monster_id": 7200,
+      "unique_name_index": 137,
+      "carried_item_id": 2075,
+      "hp": 880,
+      "group": 85,
+      "position": {
+        "x": 0,
+        "y": 128,
+        "z": 0
+      }
+    }
+  ],
+  "declared_event_count": 1,
+  "vertices": 68,
+  "faces": 104,
+  "sectors": [
+    {
+      "floors": 0,
+      "walls": 0,
+      "ceilings": 0,
+      "portals": 0,
+      "faces": 0,
+      "ambient": 22
+    },
+    {
+      "floors": 45,
+      "walls": 13,
+      "ceilings": 46,
+      "portals": 0,
+      "faces": 104,
+      "ambient": 22
+    }
+  ],
+  "occupied_sectors": 1,
+  "portal_faces": 0,
+  "outlines": 78,
+  "bsp_nodes": 56,
+  "lights": 11,
+  "light_radius_range": [
+    64,
+    640
+  ],
+  "facet_types": {
+    "3": 19,
+    "4": 26,
+    "1": 13,
+    "6": 46
+  },
+  "bounds": [
+    [
+      -768,
+      -1594,
+      0
+    ],
+    [
+      1664,
+      2604,
+      968
+    ]
+  ],
+  "doors": [],
+  "face_flags": {
+    "secret": 0,
+    "invisible": 0,
+    "animated": 0,
+    "clickable": 2,
+    "pressure_plate": 0,
+    "trigger_monster": 0,
+    "trigger_object": 0
+  },
+  "textures": {
+    "d2ceil4": 83,
+    "D2flor5": 19,
+    "T3D2B": 1,
+    "T3D2A": 1
+  },
+  "bound_events": [
+    {
+      "id": 1,
+      "binding_count": 2,
+      "line": 19,
+      "calls": [
+        "MoveToMap"
+      ],
+      "chests": [],
+      "houses": [],
+      "doors": [],
+      "destinations": [
+        "outc3.odm"
+      ],
+      "position": [
+        -768.0,
+        256.75,
+        128.0
+      ]
+    }
+  ],
+  "bound_chest_slots": [],
+  "bound_door_ids": [],
+  "bound_call_counts": {
+    "MoveToMap": 1
+  }
+}

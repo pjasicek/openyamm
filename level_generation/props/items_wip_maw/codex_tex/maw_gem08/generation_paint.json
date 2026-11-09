@@ -1,0 +1,33 @@
+{
+  "prompt": "Edit the attached guide_atlas.png (image 2), using image 1 design_reference.png as material/detail reference and image 3 icon_x8.png as colour reference only (magenta is background). Produce ONE 1536x1024 PNG, transparent background. Paint ONLY the existing grey objects in the guide; preserve exact positions, sizes, outlines and facet geometry. This is a three-column two-row atlas of 512x512 cells: row 1 FRONT end-on hexagon, BACK end-on hexagon, LEFT horizontal prism; row 2 RIGHT horizontal prism, TOP vertical prism, empty. Keep the last cell fully transparent. The item is an elongated hexagonal crystal prism with pointed faceted terminations at both ends, lying on its side, clear turquoise-cyan with pale aqua edges. Paint unlit base colour only. Follow the approved reference's crystalline inner swirls, fractures and facet detail scaled to each view. Keep every gap and opening exactly as in the guide and fully transparent. No redesign, moving, enlargement, perspective change or additional objects. No lighting, cast shadows, ambient occlusion, hot highlights or reflections, no glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text. Preserve the guide's exact silhouette and atlas layout; replace grey with turquoise-cyan material and pale aqua edges without adding baked illumination.\nCORRECTION: The previous attempt failed by adding a large cyan halo/background outside all five silhouettes and shifting the lower-left object. Strict alpha cutouts required: every pixel outside the exact original grey guide silhouettes MUST be alpha zero, including the entire empty lower-right cell. Absolutely NO halo or background colour. Use original guide as the edit target, not previous output. Copy its shapes precisely: lower-left horizontal prism extends x33 to478 with rectangular body starting x113 and ending398, y678 to858. Upper-right extends x1057 to1502, y166 to346; end-on hexagons x178..334 and690..846 y166..346; bottom middle x690..846 y546..990. Keep original facet divisions, do not introduce extra bevel bands. Muted unlit turquoise base colour, fine pale aqua inner fractures; no white specular highlights. Real transparent PNG.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem08/design_reference.png",
+      "sha256": "ace157043246195cc1b94acde93e7bec7a5c10588b34d5a62dae0a1e3b26a668"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem08/guide_atlas.png",
+      "sha256": "c90b5edc6fd1a6d99a2589851492a8d5fe6d2386a17fd6c1a584e194f02507de"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem08/icon_x8.png",
+      "sha256": "13239006f0bfcb075ecf2e49954b54a7c7eef13f4e0e0e9addb9cb752e659b80"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce4-d2de-7140-b30b-b672e75f8970/exec-19c163ea-1f4a-4b76-8f60-eaac09dc422c.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem08/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": {
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "limitations": "Generated output retains unwanted halo/background and altered facets despite corrective generation; raw tool output preserved as requested."
+  }
+}

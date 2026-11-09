@@ -1,0 +1,2443 @@
+{
+  "status": "model_comparison_only",
+  "runtime_42_unchanged": true,
+  "binary_sha256": "22c2296a39b40cc43ac92615c827ab6d4b60b7142e8cee59f718e3f8e2cdbda9",
+  "records": [
+    {
+      "world": "mm7",
+      "map": "7out01.odm",
+      "name": "Emerald Island",
+      "target": "worlds-mm7--icons--7out01.bmp",
+      "directory": "maps/mm7/7out01",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/7out01",
+      "id": "mm7_7out01",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/7out01.bmp",
+      "source_sha256": "22a65af32e03d993548d05573bd8c0292dbe5e067b79d36807a7b085cb1a366b",
+      "original_sha256": "623cb6c8d521a09663dd16668f89458da70fd1e92b2d884bc7a682507f1b0c30",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "0a62fafe2f28bf4e4ba77f1fb23f9d4443849f1196f939a7f246911dbd741e80",
+          "master_sha256": "d27d105e0e4f8d3f8eab078d28ea9271a8890ddf03b3b48cda81701aa121870a",
+          "x2_sha256": "d27d105e0e4f8d3f8eab078d28ea9271a8890ddf03b3b48cda81701aa121870a",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.268,
+            0.554,
+            -2.063
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "f990dcb05d617606b31f782e9145ff55b560fc2451fae87e547b8e41ae8dbd26",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "15eb03f0827362847040fed1801df248815db9629769a38e5a4788214dc8833b",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/7out01.png"
+    },
+    {
+      "world": "mm7",
+      "map": "7out02.odm",
+      "name": "Harmondale",
+      "target": "worlds-mm7--icons--7out02.bmp",
+      "directory": "maps/mm7/7out02",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/7out02",
+      "id": "mm7_7out02",
+      "trial": true,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/7out02.bmp",
+      "source_sha256": "149f3d416e22df048789ada3866999cc6123ca36db96c77a8dd240f67082a40b",
+      "original_sha256": "2fd60b99242774631beffd242d66b3f9e29e81d5ba27776115d388086b8eb56c",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "2759d99f58f32fcd82568533e5eeb1f623c2aa7b9e3f5538c88224248255e668",
+          "master_sha256": "8bcf2bc5828d7865f18af2dccce5ca316f700240416cb514b2393614c264d65c",
+          "x2_sha256": "8bcf2bc5828d7865f18af2dccce5ca316f700240416cb514b2393614c264d65c",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.551,
+            1.323,
+            0.654
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video4": {
+          "label": "Anime-video v3, 4x to 2x",
+          "model": "realesr-animevideov3",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "91aa59876b582198f7139551ca6e4ba8e63c39789cc2fc4456f593b986aafb8f",
+          "master_sha256": "02bb1e73cc45d85f07dab46409040b4d9a770be67b257b88c989fd770df33cc5",
+          "x2_sha256": "4bb6196ba37dcb8d90bd6a9b5520f03912a467d7b31a700b6b3d79857a3f0815",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.549,
+            1.321,
+            0.654
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "850a248e7c14c27e5bd8cf7265113a9441036a7db63963bb8aa5169d788a435e"
+          }
+        },
+        "general4": {
+          "label": "General x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "711ee7d1dfba48901ab7b997cd444bc43c9f9351f2a646b7db6401e13d4e447e",
+          "master_sha256": "cfae11207174b61e1b8cbb59700dfe4f096607bb49b9ce6ec51a49654bef980c",
+          "x2_sha256": "60407b5f3a53c230066f1d131b57ec76c248c62feb9a10924a44639f0d474201",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -5.327,
+            -3.442,
+            -2.321
+          ],
+          "model_sha256": {
+            "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+            "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+          }
+        },
+        "anime4": {
+          "label": "Anime x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus-anime",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "43e8b6e34ab76bae91ebcbfe86f2963d46ed8a9b638fae58fff42d5ede2b5305",
+          "master_sha256": "6ccec0555ca076e2f0df2082cded958f452fb683d867a6bff34211a64dd7367d",
+          "x2_sha256": "f5417208e88b46885362555750b13eecb9b742a97fce2067e2238b375fe05588",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.72,
+            -1.173,
+            0.901
+          ],
+          "model_sha256": {
+            "bin": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+            "param": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+          }
+        },
+        "video2_tta": {
+          "label": "Anime-video v3, 2x + TTA",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": true,
+          "raw_sha256": "334d5efc7b477faf451e91483f94743ca9f5ba95c89994f3c4bba5a8734ad861",
+          "master_sha256": "11e046f15c7a7341b3c5256e659ed9d376f7b202af17452d59a7834e75434ca6",
+          "x2_sha256": "11e046f15c7a7341b3c5256e659ed9d376f7b202af17452d59a7834e75434ca6",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.766,
+            1.277,
+            0.677
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "fd89b74be7bab56266075be7fe818c1c660d47b0482fa0be483b419e70cba722",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "5d66c1b71137dd682c3c185519ff7da6412388ff92ea70b403e033dafc911a28",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/7out02.png"
+    },
+    {
+      "world": "mm7",
+      "map": "7out03.odm",
+      "name": "Erathia",
+      "target": "worlds-mm7--icons--7out03.bmp",
+      "directory": "maps/mm7/7out03",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/7out03",
+      "id": "mm7_7out03",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/7out03.bmp",
+      "source_sha256": "31ae64599b3b3ba39a5405446d0f7b17d0fd8492f1cb7e7df3ebbf1f05b0ee71",
+      "original_sha256": "2c9cd81b7782478fd5a3eead6e32675083027629ed73c87eab41a66a079f84d9",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "4b20c274ca3fd8f6e080c3d310afe996744a8fb63ee00d17198bc4f4b9351cdf",
+          "master_sha256": "94b8d8e9e7dc38b90940bdc9bd578087e9381273cf84f78cf4e63411b97434a1",
+          "x2_sha256": "94b8d8e9e7dc38b90940bdc9bd578087e9381273cf84f78cf4e63411b97434a1",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.996,
+            2.089,
+            0.655
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "2a22495c83200d8bf5a76145704188206e68a6d84c7222baa7f432b92831f6c6",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "6fbe067f47821fe4e15058d7aba7dc0e6477886ce0503221854a96df863b016f",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/7out03.png"
+    },
+    {
+      "world": "mm7",
+      "map": "7out04.odm",
+      "name": "The Tularean Forest",
+      "target": "worlds-mm7--icons--7out04.bmp",
+      "directory": "maps/mm7/7out04",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/7out04",
+      "id": "mm7_7out04",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/7out04.bmp",
+      "source_sha256": "e95b2900f9470b5ddaaa0b8b835336ec00281473416ba254ffc2c81897ea2312",
+      "original_sha256": "e34ca0bd5105974ca7419751e81131639b04c51565d5e131ab252f2669f5b991",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "6c115507387d6f5f6d2a5f558a4a93c5127bd5dc547de430971bb1bce037c670",
+          "master_sha256": "6fd39c8ceae63031edede50d528054241711978b24d3840dfd4f1333d2282edd",
+          "x2_sha256": "6fd39c8ceae63031edede50d528054241711978b24d3840dfd4f1333d2282edd",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.677,
+            1.559,
+            0.231
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "aa3098abf7a70be9032f26eaee587337971ad84bcae2759c889ab9abd0fb9fa5",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "d4a29596ca817c4d76216b3310a8ff19a592e3611df124c59e0382dc3534cca2",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/7out04.png"
+    },
+    {
+      "world": "mm7",
+      "map": "7out05.odm",
+      "name": "Deyja",
+      "target": "worlds-mm7--icons--7out05.bmp",
+      "directory": "maps/mm7/7out05",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/7out05",
+      "id": "mm7_7out05",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/7out05.bmp",
+      "source_sha256": "69cd6a9a5951cad90f436d830217331c1ab21f953e91f34887005bf48ee8c3ad",
+      "original_sha256": "52cebe5a65fce77fa480db565a78c99ac36c489f6e5ec9639002b21ad551636c",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "6dac3b6a7d8429d3ea4573df2d809b85c72a335f3036f0ae1b0e1c0182cf767d",
+          "master_sha256": "eb64a266d2bc21db747816ca5efd0c7d37d295f4e75f866ed4f358d220ee8060",
+          "x2_sha256": "eb64a266d2bc21db747816ca5efd0c7d37d295f4e75f866ed4f358d220ee8060",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.696,
+            0.888,
+            -0.021
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "6fc76df084ce8478a5505d3e493d7ea7f59e23fc1db02e694a4ee7615d83848c",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "c48c32af13fffd927e5ce473d91786aa6fa8213d1c859974bab181a6bd1c482e",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/7out05.png"
+    },
+    {
+      "world": "mm7",
+      "map": "7out06.odm",
+      "name": "The Bracada Desert",
+      "target": "worlds-mm7--icons--7out06.bmp",
+      "directory": "maps/mm7/7out06",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/7out06",
+      "id": "mm7_7out06",
+      "trial": true,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/7out06.bmp",
+      "source_sha256": "42c44f5994ebbc2b5937284c01ba504c1e939295eb0ab58331093eec5b27096d",
+      "original_sha256": "b6cdb452a4d2d3ae0160e881cd4394c566ba9839d5548561dab792846e16aa2b",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "fe61e400d211fb120e19ec8ac99f66ee484bc14bdfb3fed90fd34365b37284a8",
+          "master_sha256": "0df821a13a477b3f6b387a7f319dbb6f6aa49deeead55e263c3a54b6be029b79",
+          "x2_sha256": "0df821a13a477b3f6b387a7f319dbb6f6aa49deeead55e263c3a54b6be029b79",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.363,
+            1.218,
+            0.62
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video4": {
+          "label": "Anime-video v3, 4x to 2x",
+          "model": "realesr-animevideov3",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "4dc6814714fd6456e5fd45f9136a7aa074b76c2909ef392613eb61582c03eb46",
+          "master_sha256": "e1e00ca5955a438163494d7c5d039d38b2516b65e538b89631199e35d5d4fde4",
+          "x2_sha256": "8d9c2fc761925af8976ac6c0f78e8fbddd4b373a9a1c5092ba547999a4d124a8",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.363,
+            1.216,
+            0.619
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "850a248e7c14c27e5bd8cf7265113a9441036a7db63963bb8aa5169d788a435e"
+          }
+        },
+        "general4": {
+          "label": "General x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "aa1f4ed5c76cea42df356c887dfddb93d2de19a485a50982f13208670dfbb241",
+          "master_sha256": "3410c07cd13f86f4d01d9e4e76f934b672272ddec639c2d4baed04abf433532d",
+          "x2_sha256": "ff75f314487682b48f6c6315ee0ceffd1faffd570ca96f3f6394ba679958e83a",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -4.254,
+            -2.142,
+            -0.853
+          ],
+          "model_sha256": {
+            "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+            "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+          }
+        },
+        "anime4": {
+          "label": "Anime x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus-anime",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "d5d8462dc55858ed9673bb1088fa5be2a246ab12d07e6476ecd0f9000d70b732",
+          "master_sha256": "3ad8bf040583854097897ae84e1a6981f6688f90886bae24d2bd88164ef0ed6e",
+          "x2_sha256": "97a44d3311ed5d13baa4076caccf51d899290a7b6cc35d82fbcc837b2a4b6e77",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.672,
+            -0.948,
+            1.234
+          ],
+          "model_sha256": {
+            "bin": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+            "param": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+          }
+        },
+        "video2_tta": {
+          "label": "Anime-video v3, 2x + TTA",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": true,
+          "raw_sha256": "c54fa7d18df4d5e84b68f9f6521fc04615c11b6cdad711c2fc92a06ed35c3f44",
+          "master_sha256": "d653aa805e84ebdd095298e922e49a343963d87d1ffc2689101c719aae5a7735",
+          "x2_sha256": "d653aa805e84ebdd095298e922e49a343963d87d1ffc2689101c719aae5a7735",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.612,
+            1.153,
+            0.583
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "f2d0ec77d27fc3f0f6a6ad67c6aceead92c1899d70b83264052504cdeacdb079",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "07e1ba6e7f7186431d63a4512293bed92a86f48648d0194defd6dff2c5a2ad28",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/7out06.png"
+    },
+    {
+      "world": "mm7",
+      "map": "7out13.odm",
+      "name": "Tatalia",
+      "target": "worlds-mm7--icons--7out13.bmp",
+      "directory": "maps/mm7/7out13",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/7out13",
+      "id": "mm7_7out13",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/7out13.bmp",
+      "source_sha256": "ea491a9fd659b5de29778f70898d5af6dbd70ea3e0f46c88fbd08ff0dfc5f0c1",
+      "original_sha256": "754bbd30fe0c62445d4630df87fbe7362feb40dddd22f83dd9438aafcaf562e0",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "f0e2b60b6cf0022bde4800f94c5756e9d334611c646dfb5a0770d61394e05ef3",
+          "master_sha256": "56edeb746e43216570648933b0a40adcb6542e2d36aa84f6d5468187bb6667d8",
+          "x2_sha256": "56edeb746e43216570648933b0a40adcb6542e2d36aa84f6d5468187bb6667d8",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.56,
+            1.088,
+            0.191
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "871a2c7b2890c5ca4cd3c2ef630cd2143463b156e3b088ea947c2b9430f3671a",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "05a06fbcbb5bd2633cd6088bdccad44609063a9ebe9e3320a196e5cdc6b9df61",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/7out13.png"
+    },
+    {
+      "world": "mm7",
+      "map": "7out15.odm",
+      "name": "Shoals",
+      "target": "worlds-mm7--icons--7out15.bmp",
+      "directory": "maps/mm7/7out15",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/7out15",
+      "id": "mm7_7out15",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/7out15.bmp",
+      "source_sha256": "19d0f1e1122f2eb18da83c7dea2d32448a970ce8d61a8a8328dac8f72a6deae4",
+      "original_sha256": "25a5b8af426623bb6f352481c469108b186eceb50685ead3e6bf3f6c37cd98c5",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "18c21d07968f87115c069807d63f2b4e7515f7b9d684e052f1955d6dc44cb5b4",
+          "master_sha256": "45078e2ec7338679ed5b024bb2629656702d6c5fafdd65b0b98b7fd1bdb701db",
+          "x2_sha256": "45078e2ec7338679ed5b024bb2629656702d6c5fafdd65b0b98b7fd1bdb701db",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            2.501,
+            1.582,
+            1.976
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "3525fd0cd78abba9ad8f373dd981a80f6ba2f38cf8995f56d9ea010e2126234d",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "ddb24e4b7f36e49e9c78a4bf2eaa18d6efb614f36e80d4ff303b62d3df7b62ec",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/7out15.png"
+    },
+    {
+      "world": "mm7",
+      "map": "out09.odm",
+      "name": "Evenmorn Island",
+      "target": "worlds-mm7--icons--out09.bmp",
+      "directory": "maps/mm7/out09",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/out09",
+      "id": "mm7_out09",
+      "trial": true,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/out09.bmp",
+      "source_sha256": "fd26b310c4457e436a943e46011fcab517b2418bf81cbf176ef489c888de0320",
+      "original_sha256": "35544e2bab02d03ed2f79346230bf689ce2e568aa5297bd57a7ff6fa8daae3a1",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "0213cf58621beb361167988421247824dee43099d73201ef1e0f44c04cadd9c4",
+          "master_sha256": "f7a772247280c7b02ef63fe8b0af911d9595b4ee7c1de439992db605805b6d49",
+          "x2_sha256": "f7a772247280c7b02ef63fe8b0af911d9595b4ee7c1de439992db605805b6d49",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.104,
+            1.221,
+            -1.232
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video4": {
+          "label": "Anime-video v3, 4x to 2x",
+          "model": "realesr-animevideov3",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "134a2ca46d18480233da9e48d53fa07eb967cc4f38cd13351dd522858f74fdd1",
+          "master_sha256": "2e8b7de086a1e357bcf478f63053f6035ef2dff445f0208442f7468bf72dd778",
+          "x2_sha256": "badcba64da133448dce7d1c07d2947ed0f3478d87a084eafc5f72543c6764ee7",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.115,
+            1.222,
+            -1.233
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "850a248e7c14c27e5bd8cf7265113a9441036a7db63963bb8aa5169d788a435e"
+          }
+        },
+        "general4": {
+          "label": "General x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "e334815aa0cfc175cee05f17f47b0fa80e6f0eebc6aa9af441f728e71477d8aa",
+          "master_sha256": "9218e81a40333959db814cb2b2876d665ba0166aadab9e84c481f429ea101dc6",
+          "x2_sha256": "25f391d38c18d2f3480c80cdd7f084dd3d621f1d78c3033ea573ccf709475822",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -2.3,
+            -0.747,
+            0.44
+          ],
+          "model_sha256": {
+            "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+            "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+          }
+        },
+        "anime4": {
+          "label": "Anime x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus-anime",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "980811d68a1af478a4ba7d609d052c81e287c022909ad0917f1e6e5122c2c37a",
+          "master_sha256": "fd8e0b88739f5d5c849c04359f5f2b054edcefbae332a07ea19967e5e15076b7",
+          "x2_sha256": "32b8cf4feb6812bfd720f7f817a2ec41e58f98a401c0e0c46e41a84297eb8b4b",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -1.685,
+            -0.345,
+            2.008
+          ],
+          "model_sha256": {
+            "bin": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+            "param": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+          }
+        },
+        "video2_tta": {
+          "label": "Anime-video v3, 2x + TTA",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": true,
+          "raw_sha256": "7140d88dfd318b8099a09557faef463f298f69ac71ab24053c466d60812ce38e",
+          "master_sha256": "56d43a31508d72e70faffc9eb84ceb118d2a5be95e887f23d771698a282e7967",
+          "x2_sha256": "56d43a31508d72e70faffc9eb84ceb118d2a5be95e887f23d771698a282e7967",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.127,
+            1.038,
+            -1.288
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "4547980fa55e49c32974b4f8cf705086b64670655cb96f3684f86b2008bdb67d",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "be17310e2eda03006d16470df311e05e7b313e3d7831ff3e202042830e77aac9",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/out09.png"
+    },
+    {
+      "world": "mm7",
+      "map": "out10.odm",
+      "name": "Mount Nighon",
+      "target": "worlds-mm7--icons--out10.bmp",
+      "directory": "maps/mm7/out10",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/out10",
+      "id": "mm7_out10",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/out10.bmp",
+      "source_sha256": "925125ccdc7a782b96d5b15de5f6dac22db2fab07c6657a76c5da98c7e078c18",
+      "original_sha256": "be97d319385548f817b4e0f6ab28336a4f1fef1f18b7f3fdccb2564707ace0f5",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "c8c226efdeef5746455183a3cdebefdfd456d84285df4ed72d13e73d20c8529e",
+          "master_sha256": "7c7eb3df622813980c27223911b49034c6935cc0ebd16555cdbcff420d4ed660",
+          "x2_sha256": "7c7eb3df622813980c27223911b49034c6935cc0ebd16555cdbcff420d4ed660",
+          "whole_frame_translation_x2_px": [
+            0,
+            1
+          ],
+          "mean_rgb_difference_255": [
+            0.329,
+            1.103,
+            0.482
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "7ee42762d0c117a98b08ef9d33b43b17885b76716bc25344b06e01220d58b694",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "229dd069d7184581c7cf8c741e0a7fc74b0e96433dccfd2e8081a6e5d1447f1b",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/out10.png"
+    },
+    {
+      "world": "mm7",
+      "map": "out11.odm",
+      "name": "The Barrow Downs",
+      "target": "worlds-mm7--icons--out11.bmp",
+      "directory": "maps/mm7/out11",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/out11",
+      "id": "mm7_out11",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/out11.bmp",
+      "source_sha256": "1dca53cff39095857f5045857d9411b144e6742e675ec4d7c6763310dd28292a",
+      "original_sha256": "3df7c3ad6c6c53839c937a48be82ce61893dec8eaaca46e709f1a12d575d2be5",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "5e95e59ed97587bce3fc2edc2f5b9f94d5c551f87f6035285c0893276935621d",
+          "master_sha256": "059033fab33d48c1cedc0c6eed1d8673fb73d28764db4b02de4bb38eb25a53f5",
+          "x2_sha256": "059033fab33d48c1cedc0c6eed1d8673fb73d28764db4b02de4bb38eb25a53f5",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.49,
+            0.857,
+            0.413
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "2a1d7c0364ebbb4030444a1216b53a07609459410ad83e0bb67ec21a1faca86d",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "ec2ce7e9e7a668a5673e46584b4716ae5dc446867613f8002cbfb578cc4206da",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/out11.png"
+    },
+    {
+      "world": "mm7",
+      "map": "out12.odm",
+      "name": "The Land of the Giants",
+      "target": "worlds-mm7--icons--out12.bmp",
+      "directory": "maps/mm7/out12",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/out12",
+      "id": "mm7_out12",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/out12.bmp",
+      "source_sha256": "2484319c4209375188d5f88284adee8608b0f08319dc00614c91e3292dcc5679",
+      "original_sha256": "6e3b310090c826bd4f1de1039ce5f7d15fc82e78732162a1bff6ea805f852848",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "6a46a1a25c0b03815d8a6d4b4b9982b46ab4defb006db71840619e42e641a0b0",
+          "master_sha256": "b5a0e8e17483105b629f45797dd6bee1dc49b1f57965c422a41d6814d8e442bd",
+          "x2_sha256": "b5a0e8e17483105b629f45797dd6bee1dc49b1f57965c422a41d6814d8e442bd",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.059,
+            0.982,
+            -0.339
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "551ef31f766f4c16c1dfac5a87ca27eb952c43517f3a59d6124ee7b0e3a6c7ba",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "3108ac2898b8eaf71a4ac30bec98e644233ba579dea3cb31a4751d6e9f8a5f85",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/out12.png"
+    },
+    {
+      "world": "mm7",
+      "map": "out14.odm",
+      "name": "Avlee",
+      "target": "worlds-mm7--icons--out14.bmp",
+      "directory": "maps/mm7/out14",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm7/out14",
+      "id": "mm7_out14",
+      "trial": true,
+      "source": "assets_legacy/icons_20260926/worlds/mm7/icons/out14.bmp",
+      "source_sha256": "d921ca7f0bed5d3dedd4fb3011506b9b1001ed38cc9ae0a55881754ad7f18e0e",
+      "original_sha256": "060192d8968e66c3937c995c4437d3d4cf504cf71dd31cc1c5518fc5f4457d40",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "d21780d1ce44f8216e45f81034e6995eac94333484242e0f8f4eb1dea5536f68",
+          "master_sha256": "3717a3da5e5954fc7439460a431b048573c76b3ef2cb7af5139bd0e6eabe3e97",
+          "x2_sha256": "3717a3da5e5954fc7439460a431b048573c76b3ef2cb7af5139bd0e6eabe3e97",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.945,
+            1.493,
+            0.754
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video4": {
+          "label": "Anime-video v3, 4x to 2x",
+          "model": "realesr-animevideov3",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "6c065dd49c781f3e4b4a352f1b94ffa38c1577581285ea9bbe020de12803db69",
+          "master_sha256": "9595773c5dd07ef3eb6119c4c2a80cccbbbb5407c1c1a5b5c52abe63a23cfb3e",
+          "x2_sha256": "298c86ea339a2d8c4d975b07b8c90ecd160313f0e4df427f3df2c3aa122fe7aa",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.944,
+            1.492,
+            0.752
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "850a248e7c14c27e5bd8cf7265113a9441036a7db63963bb8aa5169d788a435e"
+          }
+        },
+        "general4": {
+          "label": "General x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "68906f7aa762575174e31ae24a64da96e854dd388af058da3aeac563138eccac",
+          "master_sha256": "50ff77361c4889806879cb8aecaf52bd535826e60d7cde5bd709eae03c92a59a",
+          "x2_sha256": "81dfdba418c815b92d52f9bb3b67456d364a63d949dab36507691abdeff75f15",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -3.217,
+            -1.129,
+            -2.669
+          ],
+          "model_sha256": {
+            "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+            "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+          }
+        },
+        "anime4": {
+          "label": "Anime x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus-anime",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "f4749582c9b9cc2b58e4e87e3a88e6c65b371ed38ea330292278c52d2145f972",
+          "master_sha256": "6a28d155e3e47f7bebcd2b44f785f4f94405c31aa35b9ecedb7fc0044ddc70c6",
+          "x2_sha256": "532e6aa7cd9af1e17beaa2fc617db516922072da15ac1c35bf014ec842258a7e",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.187,
+            -1.511,
+            0.937
+          ],
+          "model_sha256": {
+            "bin": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+            "param": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+          }
+        },
+        "video2_tta": {
+          "label": "Anime-video v3, 2x + TTA",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": true,
+          "raw_sha256": "b95ee494dc8c29745d067703e3bacfc5ff84682d67f4797b5c6bedf6e0bb0062",
+          "master_sha256": "0d0fd806ebd3a82f1461412654c9d8aa9a47a32b356bfef75ffc0a7efc6b6af3",
+          "x2_sha256": "0d0fd806ebd3a82f1461412654c9d8aa9a47a32b356bfef75ffc0a7efc6b6af3",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.935,
+            1.467,
+            0.677
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "0f5aa95d57061e5e216a61dc0acdfcfe3a501689504e3addbbbeb659a9b3a89a",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "318b5db93aa12c6f58723a16e4d1df9b46edd64e8423ba04f83bfd466b8a70de",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm7/out14.png"
+    },
+    {
+      "world": "mm8",
+      "map": "elema.odm",
+      "name": "Plane of Air",
+      "target": "worlds-mm8--icons--elema.bmp",
+      "directory": "maps/mm8/elema",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm8/elema",
+      "id": "mm8_elema",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/elema.bmp",
+      "source_sha256": "ff0e7cc47cacff41c6424f8e1e54afd5b9b10d9d029463871e8c71994e9bfdaa",
+      "original_sha256": "cf2b06b396bafad55c15c867b10723587c0dba3c5b216bc80d4eee6ea4a049be",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "c58f853b68ec4cc1b372ead548705191f072ccc09aadfd1218dc3c9db823281c",
+          "master_sha256": "63ac72fb3346422474ada4b93cf6f3b3c6caa21d162f4fe050c95494f85156e8",
+          "x2_sha256": "63ac72fb3346422474ada4b93cf6f3b3c6caa21d162f4fe050c95494f85156e8",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.35,
+            2.8,
+            1.895
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "9a90017f4ac559913a028c9cb0c76433c4f9bc6364c3ac7e273f4b7ef2e546bd",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "2ed18e233bc449fa20586984e4fe916d428d75b6e06b29285ce0362f7ebf3f5e",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/elema.png"
+    },
+    {
+      "world": "mm8",
+      "map": "elemf.odm",
+      "name": "Plane of Fire",
+      "target": "worlds-mm8--icons--elemf.bmp",
+      "directory": "maps/mm8/elemf",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm8/elemf",
+      "id": "mm8_elemf",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/elemf.bmp",
+      "source_sha256": "b7402e613ef07315e6a8b28df47ef1077eb55c3406b22e07650cb4ecb7a35574",
+      "original_sha256": "d618b75f2a1f2cb403b2554c637dd5a832cfea4639f74520756b4e91fce080c5",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "a8b1af38be8a037cda397646e5282cc2b78e403c71905414df1a4bd771711ad4",
+          "master_sha256": "40efd507a0467c0c2c7cd818c245d94bf45c85621e28bd944ba173866d4836fc",
+          "x2_sha256": "40efd507a0467c0c2c7cd818c245d94bf45c85621e28bd944ba173866d4836fc",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.291,
+            0.605,
+            1.921
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "9be25f98c6260d496cb1551eab53918d841760f0bf8ff9c241195167727a7839",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "0b1b6bafd62f81926fdb603481380fc669da6281a4320d5ca7c58e57e0450e58",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/elemf.png"
+    },
+    {
+      "world": "mm8",
+      "map": "elemw.odm",
+      "name": "Plane of Water",
+      "target": "worlds-mm8--icons--elemw.bmp",
+      "directory": "maps/mm8/elemw",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm8/elemw",
+      "id": "mm8_elemw",
+      "trial": true,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/elemw.bmp",
+      "source_sha256": "4c5e8323234f868d0e8bb7115cdb79baa888a8d01c679d97be54638b27cc2e62",
+      "original_sha256": "5b7dfb1c96bc5439995e087917e60bdd5e672ccc47ad517fa64195570b7aa31c",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "b7595e2c3889f9092d264e5bf8c334d45247a571131a3682511e330637d53504",
+          "master_sha256": "40e1bd5ac4a991220409ba39f1591b94546bbaea1001ce3d996c1358a4fb18dd",
+          "x2_sha256": "40e1bd5ac4a991220409ba39f1591b94546bbaea1001ce3d996c1358a4fb18dd",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            2.546,
+            2.931,
+            2.218
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video4": {
+          "label": "Anime-video v3, 4x to 2x",
+          "model": "realesr-animevideov3",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "8627740ec8000a2eeb2ed0de526c7dd42907786d7293790d0096090f1d38971e",
+          "master_sha256": "94fa6b801ff28678b304a49df65e0fd8530c0ea58f185ad735e8e6a6689a74f0",
+          "x2_sha256": "4970b14d364f5ad97662c834e2ed397efd7472897cd33720378401dc25160d03",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            2.539,
+            2.924,
+            2.215
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "850a248e7c14c27e5bd8cf7265113a9441036a7db63963bb8aa5169d788a435e"
+          }
+        },
+        "general4": {
+          "label": "General x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "6b5d9586bffed6cb850515831a7a412e31feff5b8f82d5306e992d96330dcdbb",
+          "master_sha256": "bda5d25a79c0fd9bad50a071666dcbfa33751dd835005f5440512b1b22cacc78",
+          "x2_sha256": "ff14fb1eb0dfd2dfec56c5ac8866a22e093f900cc8b1fdc4ee04a18dec488969",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.688,
+            -1.055,
+            -1.11
+          ],
+          "model_sha256": {
+            "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+            "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+          }
+        },
+        "anime4": {
+          "label": "Anime x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus-anime",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "714ced463b38b7e3b65bfc787ed463831d8be5c41fb9041000afa1eb540faaaf",
+          "master_sha256": "017469f3dcd6fafad01f54496a416178ac3f1542062ae3579b25b88a86c40884",
+          "x2_sha256": "11bb401a5070e081dbc613fc74cdbdf22ed840b6a79adbbe21cb9c906ebc41de",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.96,
+            -2.558,
+            3.127
+          ],
+          "model_sha256": {
+            "bin": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+            "param": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+          }
+        },
+        "video2_tta": {
+          "label": "Anime-video v3, 2x + TTA",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": true,
+          "raw_sha256": "90925d209eb3caa28a4e4dc230901f283b8c687bd483048e161e81e0c863079d",
+          "master_sha256": "466255c421421933669895654cfe74720430d4ccc77f8a999b2e879937345fd4",
+          "x2_sha256": "466255c421421933669895654cfe74720430d4ccc77f8a999b2e879937345fd4",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            2.528,
+            2.953,
+            2.197
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "823c529fb72013a322e3743a2c95df2a3298d0202badaa7ee53a29e8935ea49a",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "e6a5791833aa8298dada23b426d5720dc0987fce3efc0bd9ff79c71754fc7654",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/elemw.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out01.odm",
+      "name": "Dagger Wound Island",
+      "target": "worlds-mm8--icons--out01.bmp",
+      "directory": "maps/mm8/out01",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "key": "mm8/out01",
+      "id": "mm8_out01",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out01.bmp",
+      "source_sha256": "8d60a19367768cb663875b81907bfe54fbf1681281c72077e9929cd2bd7e9354",
+      "original_sha256": "c4f12a5fa0e5e6d3027274636549e43735f13566bfe5f7ae3f9a036416d029b5",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "85c9d79a1168502d979c578d52e4e78175f0111056d3f2770460080b3765f0dd",
+          "master_sha256": "877a782347d2c80dfa98098ed46f5efeff722cb2ba99c92d48f28220d4b2af98",
+          "x2_sha256": "877a782347d2c80dfa98098ed46f5efeff722cb2ba99c92d48f28220d4b2af98",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.304,
+            0.794,
+            -1.258
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "48229ad1fa3f902ba68c83539aae4bb4a760712ca0e4a5a452f9260478ede926",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "3fe1550ad7d869ce787b494daa36ff40a4cc1b3c505dea4ff449cf7e6fa1cb28",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out01.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out02.odm",
+      "name": "Ravenshore",
+      "target": "worlds-mm8--icons--out02.bmp",
+      "directory": "maps/mm8/out02",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "key": "mm8/out02",
+      "id": "mm8_out02",
+      "trial": true,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out02.bmp",
+      "source_sha256": "fca98af7ad34827d1e96be5c213263c70cad7e3f9ea242d486375e6edabed107",
+      "original_sha256": "3f3bc1632cc07052469360931c8865215275331cf73c093a15c6261ca846e8e7",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "250ac9075bad18368c3bab6bae481a913c1389f11a66d7d16460015b0278bd08",
+          "master_sha256": "32459af91eab3dc80a2682902e6b3a18cddee9eb33914705f31c5da5ce6d6778",
+          "x2_sha256": "32459af91eab3dc80a2682902e6b3a18cddee9eb33914705f31c5da5ce6d6778",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.087,
+            1.105,
+            0.211
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video4": {
+          "label": "Anime-video v3, 4x to 2x",
+          "model": "realesr-animevideov3",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "d23d9ad4b6adf9901faf28fe570c2ea58849b308bd121075c010e973874ebfca",
+          "master_sha256": "92134271cac1c832d992af340f4859894593f67687c1c406a1215940ca385d90",
+          "x2_sha256": "e28ad84e5393187260dfd37b219f07b872341d119fa4f8c53bc657d18f632b79",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.084,
+            1.1,
+            0.208
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "850a248e7c14c27e5bd8cf7265113a9441036a7db63963bb8aa5169d788a435e"
+          }
+        },
+        "general4": {
+          "label": "General x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "d5050bbb2e0c2c5a8edebf3563668d20b248f78fcef30f9eee7adc2c08b0cf42",
+          "master_sha256": "877cbbae53df4550a11d69a2ddee207d2de7936d590d9690adf5c58a47fd06ec",
+          "x2_sha256": "095dbbcc7484e6a1ce091ea2db62c173204565d5f877691fcca2bf258361c0ba",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -1.67,
+            -0.576,
+            -0.124
+          ],
+          "model_sha256": {
+            "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+            "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+          }
+        },
+        "anime4": {
+          "label": "Anime x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus-anime",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "28065ee75e6498213d072bdfdda103a9ab49320bc2bf89bb72ab13619a9a6337",
+          "master_sha256": "d38918cfad385662aeec4af0cf90155bbfcff5ea609e48a26876443bbf4ba481",
+          "x2_sha256": "156b4f8ffc48351f9520b0e0228835709933536b5f594279e74baaceb264a325",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -0.685,
+            -0.884,
+            1.12
+          ],
+          "model_sha256": {
+            "bin": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+            "param": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+          }
+        },
+        "video2_tta": {
+          "label": "Anime-video v3, 2x + TTA",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": true,
+          "raw_sha256": "971df2d4232f0b6afdcdd8120655c8923cc43c22f5121bde265427faf13ca369",
+          "master_sha256": "e720d0556d8d8c764a120856e882dab32b7bc4d5c84ff499bfccad1212da895a",
+          "x2_sha256": "e720d0556d8d8c764a120856e882dab32b7bc4d5c84ff499bfccad1212da895a",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.123,
+            1.125,
+            0.168
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "12752652b5f224cc16a09d7e084a0b9c209d25ec01c24a142a6261485247f8c5",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "2e5658b47f344152584356b7b087eb651ebb8b7547a940e9ef796cb21aa598f3",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out02.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out03.odm",
+      "name": "Alvar",
+      "target": "worlds-mm8--icons--out03.bmp",
+      "directory": "maps/mm8/out03",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm8/out03",
+      "id": "mm8_out03",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out03.bmp",
+      "source_sha256": "5d492ba77d0849836dbd64112be1845f301f0eff58e2a928447f1c5cbc74d785",
+      "original_sha256": "1fe94285a61088b62457bb257683cabff29e2e52adf15ae4b78f6dba818e4952",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "483e6a5e01a9332f13f1eb4266707f7e9cf27f5d083dbf7cb332be53cd9678e5",
+          "master_sha256": "188d66a2150bc8efb6642b1553e0122ae186185da300ee3bb9fb97b1031a8dba",
+          "x2_sha256": "188d66a2150bc8efb6642b1553e0122ae186185da300ee3bb9fb97b1031a8dba",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.197,
+            0.382,
+            1.483
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "b3ee3acb17b0ed04758db99335276754ca1fd170ba4df588f9b7ba02d968c2bb",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "18b619a918f6b7ea465a46081db76eba9ccc0aa8d9743044c113a18066d1ed53",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out03.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out04.odm",
+      "name": "Ironsand Desert",
+      "target": "worlds-mm8--icons--out04.bmp",
+      "directory": "maps/mm8/out04",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm8/out04",
+      "id": "mm8_out04",
+      "trial": true,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out04.bmp",
+      "source_sha256": "2a818a2422a8845e9e3795d2c0e843c540906ce68c2db56eb574e3a0be6dac68",
+      "original_sha256": "c021561b064b416771a6008117cdb124fe4791df2d0b1dcec1ac9e1659e1337b",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "ea7e80cbe9856d16705a39df76cb638e58cc2f88f853d87e80fdfac2ec5e48a3",
+          "master_sha256": "997231c5d5b494dd1bece2f25a8a135052ad36b3b3b9a8f73f39e700346d388b",
+          "x2_sha256": "997231c5d5b494dd1bece2f25a8a135052ad36b3b3b9a8f73f39e700346d388b",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.018,
+            0.984,
+            1.376
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video4": {
+          "label": "Anime-video v3, 4x to 2x",
+          "model": "realesr-animevideov3",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "6a2d1944e5f8c87288d3553d1b73a352ee413fedb5e3935950ee193665e937c0",
+          "master_sha256": "defeb1567e648eda982008f19de074ad877036f61966a09b7c7cb3756236ad6a",
+          "x2_sha256": "b49802ee8af810d960f6201d815300964c6adb717e478916f76159bc109dd8c4",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.009,
+            0.979,
+            1.382
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "850a248e7c14c27e5bd8cf7265113a9441036a7db63963bb8aa5169d788a435e"
+          }
+        },
+        "general4": {
+          "label": "General x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "cc65ad64594c04e058354e436a3698f776a7e30c33a9ca3c30dd24e5a484f282",
+          "master_sha256": "4c658574b5b0396018edf3da87e9818bbeb83f5d8e366668247050cc373292d1",
+          "x2_sha256": "25c7619bb527953be73dc240f40b2c0a58937055253ac65b8ed182fca459701c",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            -2.049,
+            -1.419,
+            -1.813
+          ],
+          "model_sha256": {
+            "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+            "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+          }
+        },
+        "anime4": {
+          "label": "Anime x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus-anime",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "0610ee0ab6bc63dd1e335a3386bef5fc61830962577ae97f6d5a42ca8b3efa27",
+          "master_sha256": "fee8b4a5fa36c6a8df029a10e0f3d651a0e5e545d0dc409e9b65f81ca4a8a350",
+          "x2_sha256": "23e514ee910bb05302f8ead386aca713075d5e05f0c4f8dc85b30a6cede558a7",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.618,
+            -0.673,
+            -0.919
+          ],
+          "model_sha256": {
+            "bin": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+            "param": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+          }
+        },
+        "video2_tta": {
+          "label": "Anime-video v3, 2x + TTA",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": true,
+          "raw_sha256": "3d10227bcbd5f1be0c521804d731a4ab672dbd8f7fcfd6c2183c9863b71dcc68",
+          "master_sha256": "8ed151417dcf0c1fab0b429a537f318d9461438d06c092a465f71c04293a91bb",
+          "x2_sha256": "8ed151417dcf0c1fab0b429a537f318d9461438d06c092a465f71c04293a91bb",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.126,
+            1.036,
+            1.377
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "0ddba704088e6a6ac33cdc471cc797f6619fdc288392509b495d8ff5a5c5f5a6",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "282d8918f2d873e02a088a90c88ce45c0eedbb24e1af83d0d1d2e51c10322822",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out04.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out05.odm",
+      "name": "Garrote Gorge",
+      "target": "worlds-mm8--icons--out05.bmp",
+      "directory": "maps/mm8/out05",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "key": "mm8/out05",
+      "id": "mm8_out05",
+      "trial": true,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out05.bmp",
+      "source_sha256": "9870c7a0534da81bd35a2a67877fdfc26e647b622f8d6da927645e5da86c8234",
+      "original_sha256": "a00496fce1b8eae8f892061d964472de9332102f8f0f618a015a42d431c593d0",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "a790c8d3b4774471c98edcc531e0b66602a4fbf53a543095085b4d71912b73ac",
+          "master_sha256": "e5e196e95d3a75499a02341a4a9e1f3e4e1f8d6fdcd503f8af3eaaeda5b16b77",
+          "x2_sha256": "e5e196e95d3a75499a02341a4a9e1f3e4e1f8d6fdcd503f8af3eaaeda5b16b77",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.426,
+            0.818,
+            1.59
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video4": {
+          "label": "Anime-video v3, 4x to 2x",
+          "model": "realesr-animevideov3",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "dbd4597271d41f9887f6c6e88b5b363d912c59f05726b129d2d9300ce1bacfc9",
+          "master_sha256": "a5d1a74093729c28ba4827473d7a2286a1a741fcee89e65a314dd7450b2e730d",
+          "x2_sha256": "7f466cd11c0a0b767266b315dd09e463c84fe136f7f4c26593622e07822d6a11",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.425,
+            0.814,
+            1.589
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "850a248e7c14c27e5bd8cf7265113a9441036a7db63963bb8aa5169d788a435e"
+          }
+        },
+        "general4": {
+          "label": "General x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "3913c87484a8a846274ee4179fc1ad31ef0c00b4c00a3da286d9b7163498df94",
+          "master_sha256": "8cf3d52095278ae701a9076b97e12a2616177b2acbe5da590ecf8883642249ac",
+          "x2_sha256": "7326f49183e249c81b09bb0c7ccf2d58755e67c474acd27c38e82bb0121132ff",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.419,
+            0.423,
+            -0.123
+          ],
+          "model_sha256": {
+            "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+            "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+          }
+        },
+        "anime4": {
+          "label": "Anime x4plus, 4x to 2x",
+          "model": "realesrgan-x4plus-anime",
+          "scale": 4,
+          "tta": false,
+          "raw_sha256": "d857b13b38b6f1140597fd7c98c44d1de43ffe7a2588a96c87e88aa45de1d4f4",
+          "master_sha256": "d818e7783cfc8d7121f66d0c2d1c87fd671619a3b633b92427e873e13536c560",
+          "x2_sha256": "8382ff2e126b33f3704adbcb036b999077aab265e3e526e00cc200998006a77d",
+          "whole_frame_translation_x2_px": [
+            0,
+            1
+          ],
+          "mean_rgb_difference_255": [
+            1.791,
+            0.717,
+            0.112
+          ],
+          "model_sha256": {
+            "bin": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+            "param": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4"
+          }
+        },
+        "video2_tta": {
+          "label": "Anime-video v3, 2x + TTA",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": true,
+          "raw_sha256": "5795cd2f1f0eb1fcf05844f462652e3c4e76ff479e255eaa754500427fbe48de",
+          "master_sha256": "8e588de4f0ecb278146f1963924593dbc5e3ced0c004eea84562cd54fb27a2b4",
+          "x2_sha256": "8e588de4f0ecb278146f1963924593dbc5e3ced0c004eea84562cd54fb27a2b4",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.434,
+            0.824,
+            1.561
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "9310c9ba19a7b22aad1cefde8146b02314be5b6c15c5a11e9f07f1ed9daf5114",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "cca84c9d9b283d0e2e4295aa17a1b5bf7be4e4c23a9746899375360ee733ae92",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out05.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out06.odm",
+      "name": "Shadowspire",
+      "target": "worlds-mm8--icons--out06.bmp",
+      "directory": "maps/mm8/out06",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "key": "mm8/out06",
+      "id": "mm8_out06",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out06.bmp",
+      "source_sha256": "4e8ef2201f4e90700463c20ba9c4a4ee25515b54b180729901f7b50f4758f007",
+      "original_sha256": "95d683eeddc416560710ced1be9996525ef0517f4b95bc360de5927631024e0c",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "08153c812404a1d11bf104fda3634af3a7626f1b8d06c18f6e3b02da4fcaaf29",
+          "master_sha256": "aad3a412fd30aeee477956abaec85a01a9b4cf9d54f2ae16377c2157653e3553",
+          "x2_sha256": "aad3a412fd30aeee477956abaec85a01a9b4cf9d54f2ae16377c2157653e3553",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.212,
+            -0.176,
+            -0.543
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "771c5473b150f49fd2589595f1a0c8bdc4a763096ecc9394c69ebc423d7aadd0",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "b4fe3ef2828dcb19453a5117c5d09cdb0c40743ed6b735710d8fa8174f81025c",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out06.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out07.odm",
+      "name": "Murmurwoods",
+      "target": "worlds-mm8--icons--out07.bmp",
+      "directory": "maps/mm8/out07",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "key": "mm8/out07",
+      "id": "mm8_out07",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out07.bmp",
+      "source_sha256": "d55b5276fe42a9879acdcd6a7c7c6f87b964daa943ec8a9c79f67f5392eed372",
+      "original_sha256": "8be9fe1f771da705613a51ca96169444127c9e85e09767422f07698e8e2b1f12",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "07e5bdd53690cd496e13c59f87847763683576d161007e0b6326ede48ee4dda7",
+          "master_sha256": "d304ae907f0ab27a5bb9f94d6bb21a7dfc55385a737820b1c9f7fea55e718317",
+          "x2_sha256": "d304ae907f0ab27a5bb9f94d6bb21a7dfc55385a737820b1c9f7fea55e718317",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            1.655,
+            1.134,
+            1.677
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "afeafcb27f5ceedea7c64207792ac2bf04582e6062003a9efa61fa9289e68919",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "eae30b0affd5dc7f7ea443bc9bfc6165bd1372e27f8e8b72480e158b9e57a2ac",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out07.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out08.odm",
+      "name": "Ravage Roaming",
+      "target": "worlds-mm8--icons--out08.bmp",
+      "directory": "maps/mm8/out08",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm8/out08",
+      "id": "mm8_out08",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out08.bmp",
+      "source_sha256": "8eb6c9dc00321cd69f4233bf29a9c56e56419eb1142e11689dcd9871224046bf",
+      "original_sha256": "9774c6c718ea4b5686478dfc3ca8e3720e1f5ab5d4ad1c75e4e8c59e8a1afbdc",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "c4bbf62ae65997aeb3094b723ff2d626490bcf10aaa229ac9a1e6e37e766532e",
+          "master_sha256": "902ab97354d9c44ea6957a54e73a2a59ed6869b394ab397109ef96b8b15772ac",
+          "x2_sha256": "902ab97354d9c44ea6957a54e73a2a59ed6869b394ab397109ef96b8b15772ac",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.844,
+            1.082,
+            0.864
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "3e7627147287fdfdd2e795fb33d9cfeabb40ad848d2ea2f5319c3a77e2f1d4c0",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "6147ca55c12fce7cc49fb40a0834965af12881d2e6c76ac3879dc36771cfaa88",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out08.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out13.odm",
+      "name": "Regna",
+      "target": "worlds-mm8--icons--out13.bmp",
+      "directory": "maps/mm8/out13",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "key": "mm8/out13",
+      "id": "mm8_out13",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out13.bmp",
+      "source_sha256": "a46809e61e1965639600f4ea1fe0375888ebd2dc2048517004d16d5d1543918f",
+      "original_sha256": "abf7e11d4436ea883e507c3d76cc5a0a3d12368016afff07ae61b970a9306642",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "c9a4e16c7a2ae47934718457fc4286969bc3e3095d860293eb3cb7f93ce52a21",
+          "master_sha256": "eeb64ecd539ef9afb97a6fc48fc53db1fdf148a35a97235dfd176a27ab3292f2",
+          "x2_sha256": "eeb64ecd539ef9afb97a6fc48fc53db1fdf148a35a97235dfd176a27ab3292f2",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.566,
+            1.324,
+            -1.138
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "239bb6df024de52dd2e35472977b2b6110a12aa236007040a59bec4c6af1019c",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "6490d487df185216832e73585a3ef10166c9e74495834f148b024fa12d521460",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out13.png"
+    },
+    {
+      "world": "mm8",
+      "map": "out15.odm",
+      "name": "Tutorial",
+      "target": "worlds-mm8--icons--out15.bmp",
+      "directory": "maps/mm8/out15",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "key": "mm8/out15",
+      "id": "mm8_out15",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/out15.bmp",
+      "source_sha256": "19d0f1e1122f2eb18da83c7dea2d32448a970ce8d61a8a8328dac8f72a6deae4",
+      "original_sha256": "25a5b8af426623bb6f352481c469108b186eceb50685ead3e6bf3f6c37cd98c5",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "18c21d07968f87115c069807d63f2b4e7515f7b9d684e052f1955d6dc44cb5b4",
+          "master_sha256": "45078e2ec7338679ed5b024bb2629656702d6c5fafdd65b0b98b7fd1bdb701db",
+          "x2_sha256": "45078e2ec7338679ed5b024bb2629656702d6c5fafdd65b0b98b7fd1bdb701db",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            2.501,
+            1.582,
+            1.976
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "3525fd0cd78abba9ad8f373dd981a80f6ba2f38cf8995f56d9ea010e2126234d",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "ddb24e4b7f36e49e9c78a4bf2eaa18d6efb614f36e80d4ff303b62d3df7b62ec",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/out15.png"
+    },
+    {
+      "world": "mm8",
+      "map": "pbp.odm",
+      "name": "Plane Between Planes",
+      "target": "worlds-mm8--icons--pbp.bmp",
+      "directory": "maps/mm8/pbp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "key": "mm8/pbp",
+      "id": "mm8_pbp",
+      "trial": false,
+      "source": "assets_legacy/icons_20260926/worlds/mm8/icons/pbp.bmp",
+      "source_sha256": "7c3c00f773529af56fdec63614d122f5b5b1077b4bf6f2a3d3f9b4b113c7b6be",
+      "original_sha256": "92d3186e2a9ed0cd0c7504d28295ab51327f4f846c38d667b02c97210e9a03e0",
+      "variants": {
+        "video2": {
+          "label": "Anime-video v3, direct 2x",
+          "model": "realesr-animevideov3",
+          "scale": 2,
+          "tta": false,
+          "raw_sha256": "96c3f1ef51060ad0cec68442f8af8a5e6325f4889de75091f88ed181269796eb",
+          "master_sha256": "d4d3932a67a67a199eecec0a57711e1fa3766cda1243692a55a2949ee8ce860e",
+          "x2_sha256": "d4d3932a67a67a199eecec0a57711e1fa3766cda1243692a55a2949ee8ce860e",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ],
+          "mean_rgb_difference_255": [
+            0.84,
+            0.847,
+            0.934
+          ],
+          "model_sha256": {
+            "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+            "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+          }
+        },
+        "video2_mix50": {
+          "label": "Anime-video 2x / 50% neural + 50% original",
+          "neural_fraction": 0.5,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "9e13d71e9f7912837ed79b6ce00598ffac0a2dda74da3bd509100f9696cf4fb8",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        },
+        "video2_mix75": {
+          "label": "Anime-video 2x / 75% neural + 25% original",
+          "neural_fraction": 0.75,
+          "neural_source": "video2",
+          "baseline": "lanczos",
+          "x2_sha256": "2889ef81ed9388d0b590ec3b20b0336860c61a554673230c407cb2d6ab60d12c",
+          "whole_frame_translation_x2_px": [
+            0,
+            0
+          ]
+        }
+      },
+      "recommended": "recommended/mm8/pbp.png"
+    }
+  ],
+  "pad_native_px": 16,
+  "registration_limit": "Whole-frame translation does not prove absence of local neural shape changes.",
+  "recommended": "video2",
+  "recommendation": "User selected: anime-video v3, direct 2\u00d7 at full strength. All 27 MM7/MM8 maps use the original paintings; MM6 retains its approved Blender treatment."
+}

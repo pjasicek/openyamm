@@ -1,0 +1,501 @@
+{
+ "id": "20261009-1628-mm6-outc2-34",
+ "world": "mm6",
+ "maps": [
+  "outc2.odm",
+  "hive.blv"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/rblrf",
+  "mm6/selfbody",
+  "mm6/selfsprt",
+  "mm6/sign11",
+  "mm6/storemid",
+  "mm6/strdr2",
+  "mm6/strroof1",
+  "mm6/t1lava",
+  "mm6/tavlgdr",
+  "mm6/tavrf",
+  "mm6/tavsmdr",
+  "mm6/hvwl3a",
+  "mm6/hvwl3spa",
+  "mm6/hvwl4a",
+  "mm6/hvwl2a",
+  "mm6/hvwl5le",
+  "mm6/hvwl5re",
+  "mm6/hvwl1re",
+  "mm6/hvwl1le",
+  "mm6/hvwl2re",
+  "mm6/hvwl4re",
+  "mm6/hvwl2le",
+  "mm6/hvwl6re",
+  "mm6/d5trima",
+  "mm6/hvwl3le"
+ ],
+ "requests": {
+  "mm6/rblrf": {
+   "name": "rblrf",
+   "versions": [
+    1
+   ],
+   "material": "overlapping red-brown weathered wooden clapboard roof planks laid horizontally with dark shadow gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/selfbody": {
+   "name": "selfbody",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "shop sign of a brown wooden plank board between riveted blue steel side bands showing a Vitruvian man figure in an olive-green circle, copy the composition exactly",
+   "notes": {
+    "2": "The figure is a stylised diagram silhouette, fully clothed in a long robe; no bare skin, no anatomy detail."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/selfsprt": {
+   "name": "selfsprt",
+   "versions": [
+    1
+   ],
+   "material": "shop sign of a brown wooden plank board between riveted blue steel side bands showing a Vitruvian man figure in a violet circle, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/sign11": {
+   "name": "sign11",
+   "versions": [
+    1
+   ],
+   "material": "plain dark brown wooden sign board strip with a raised frame edge and faint carved scroll ornament",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/storemid": {
+   "name": "storemid",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "shop sign of a bright orange wooden plank board with rivet strips at top and bottom showing three stacked wooden barrels with iron hoops, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference. Copy the composition exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/strdr2": {
+   "name": "strdr2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered green-grey wooden double door with black wrought-iron scroll strap hinges and ring pulls, set in a wall of rounded rose-brown cobblestones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm6/strctr"
+     ],
+     "fraction": 0.186
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/strwin1",
+     "right": "mm6/strwin1"
+    }
+   }
+  },
+  "mm6/strroof1": {
+   "name": "strroof1",
+   "versions": [
+    1
+   ],
+   "material": "brown wooden shingle roof of overlapping rough shakes in staggered rows with frayed edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1lava": {
+   "name": "t1lava",
+   "versions": [
+    1
+   ],
+   "material": "dark crimson cooled lava crust cracked by glowing orange molten veins",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavlgdr": {
+   "name": "tavlgdr",
+   "versions": [
+    1
+   ],
+   "material": "tall arched orange-brown wooden double door with two dark iron grotesque face knockers, iron pull handles and strap hinges, under a carved stone arch with blue scrollwork set in tan stone blocks; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavrf": {
+   "name": "tavrf",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown wooden roof planks laid horizontally with fine grain and dark shadow gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavsmdr": {
+   "name": "tavsmdr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "narrow arched orange-brown wooden door with a dark iron green-man face knocker and strap hinges, under a carved tan stone arch with scrollwork set in tan stone blocks; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: keep the large green-man mask filling the top of the door opening at the same size as in the reference, the arch and side pillars at the same widths and heights.",
+    "3": "Copy the composition exactly: keep the large green-man mask filling the top of the door opening at the same size as in the reference, the arch and side pillars at the same widths and heights."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm6/tavwctr",
+     "left": "mm6/tavwle"
+    }
+   }
+  },
+  "mm6/hvwl3a": {
+   "name": "hvwl3a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark red fleshy organic membrane with raised purple-blue veins running horizontally; along the left edge a column of purple-grey alien growths with pale-red eyes and curling pale-tan tendrils reaching into the membrane; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm6/hvwl3spa",
+      "mm6/hvwl3re"
+     ],
+     "fraction": 0.528
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/hvwl3spa": {
+   "name": "hvwl3spa",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark red fleshy organic membrane with purple-blue veins, with a central alien hive organ of a green carapaced segmented bug-like mass with ringed green arms, a gold arc and dangling red flesh; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Right edge continues the red flesh background.",
+    "3": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Right edge continues the red flesh background."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl3a"
+     ],
+     "fraction": 0.412
+    },
+    "2": {
+     "sources": [
+      "mm6/hvwl3a"
+     ],
+     "fraction": 0.412
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm6/hvwl4a": {
+   "name": "hvwl4a",
+   "versions": [
+    1
+   ],
+   "material": "murky green and red organic hive tissue with tangled grey sinews framing hexagonal cells",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvwl2a": {
+   "name": "hvwl2a",
+   "versions": [
+    1
+   ],
+   "material": "dark red glossy fleshy hexagon cells separated by black ridges, organic hive wall",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvwl5le": {
+   "name": "hvwl5le",
+   "versions": [
+    1
+   ],
+   "material": "purple and violet tangled organic tissue of coiled tubes, with a column of red fleshy growths wrapped in green tendrils along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl5a"
+     ],
+     "fraction": 0.631
+    }
+   }
+  },
+  "mm6/hvwl5re": {
+   "name": "hvwl5re",
+   "versions": [
+    1
+   ],
+   "material": "purple and violet tangled organic tissue of coiled tubes, with a column of red fleshy growths wrapped in green tendrils along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl5a"
+     ],
+     "fraction": 0.619
+    }
+   }
+  },
+  "mm6/hvwl1re": {
+   "name": "hvwl1re",
+   "versions": [
+    1
+   ],
+   "material": "deep blue glossy hexagon cells separated by black ridges, with a column of grey bony flesh and dangling red sinews along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl1a"
+     ],
+     "fraction": 0.586
+    }
+   }
+  },
+  "mm6/hvwl1le": {
+   "name": "hvwl1le",
+   "versions": [
+    1
+   ],
+   "material": "deep blue glossy hexagon cells separated by black ridges, with a column of grey bony flesh and dangling red sinews along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl1a"
+     ],
+     "fraction": 0.579
+    }
+   }
+  },
+  "mm6/hvwl2re": {
+   "name": "hvwl2re",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark red glossy fleshy hexagon cells separated by black ridges, with a column of grey bony flesh and dangling red sinews along the right edge",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Left edge continues the hexagon flesh cells."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl2a"
+     ],
+     "fraction": 0.474
+    },
+    "2": {
+     "sources": [
+      "mm6/hvwl2a"
+     ],
+     "fraction": 0.474
+    }
+   }
+  },
+  "mm6/hvwl4re": {
+   "name": "hvwl4re",
+   "versions": [
+    1
+   ],
+   "material": "murky green and red organic hive tissue with tangled grey sinews, with a column of grey bony vertebrae and green vines along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl4a"
+     ],
+     "fraction": 0.474
+    }
+   }
+  },
+  "mm6/hvwl2le": {
+   "name": "hvwl2le",
+   "versions": [
+    1
+   ],
+   "material": "dark red glossy fleshy hexagon cells separated by black ridges, with a column of grey bony flesh and dangling red sinews along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl2a"
+     ],
+     "fraction": 0.469
+    }
+   }
+  },
+  "mm6/hvwl6re": {
+   "name": "hvwl6re",
+   "versions": [
+    1
+   ],
+   "material": "violet-blue glossy hexagon cells separated by black ridges, with a column of grey bony flesh and dangling red sinews along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl6"
+     ],
+     "fraction": 0.432
+    }
+   }
+  },
+  "mm6/d5trima": {
+   "name": "d5trima",
+   "versions": [
+    1
+   ],
+   "material": "olive-tan rough stone frieze strip of a row of rounded stone knobs set in a dark recess between two courses of rough stone blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walas2"
+     ],
+     "fraction": 0.963
+    }
+   }
+  },
+  "mm6/hvwl3le": {
+   "name": "hvwl3le",
+   "versions": [
+    1
+   ],
+   "material": "left end of the hive membrane wall: purple-grey alien growths with pale-red eyes and pale-tan tendrils over dark red veined membrane",
+   "notes": {}
+  }
+ }
+}

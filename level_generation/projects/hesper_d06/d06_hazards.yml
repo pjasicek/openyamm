@@ -1,0 +1,469 @@
+id: hesper.d06_hazards
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d06.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Cyra
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Dana
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Eli
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+- assert:
+    state_dump_map_var:
+      index: 8
+      value: 0
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 0
+- assert:
+    party_health:
+      full: true
+- movement_segment:
+    input: forward
+    seconds: 0.4
+    start:
+      map: hes_d06.blv
+      x: 2780
+      y: 5472
+      z: -512
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 3090
+      y: 5472
+      z: -512
+      yaw: 0
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- assert:
+    party_health:
+      full: false
+- new_game_flow:
+    start_map: hes_d06.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Cyra
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Dana
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Eli
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+- movement_segment:
+    input: none
+    seconds: 2.1
+    start:
+      map: hes_d06.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 8
+      value: 2
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.4
+    start:
+      map: hes_d06.blv
+      x: 2780
+      y: 5472
+      z: -512
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 3090
+      y: 5472
+      z: -512
+      yaw: 0
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- assert:
+    party_health:
+      full: true
+- new_game_flow:
+    start_map: hes_d06.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Cyra
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Dana
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Eli
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+- movement_segment:
+    input: forward
+    seconds: 0.45
+    start:
+      map: hes_d06.blv
+      x: 9900
+      y: 6810
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 9900
+      y: 7150
+      z: -528
+      yaw: 1.5707963267948966
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- assert:
+    party_health:
+      full: false
+- new_game_flow:
+    start_map: hes_d06.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Cyra
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Dana
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Eli
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+- movement_segment:
+    input: none
+    seconds: 2.1
+    start:
+      map: hes_d06.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 2
+- movement_segment:
+    input: forward
+    seconds: 0.45
+    start:
+      map: hes_d06.blv
+      x: 9900
+      y: 6810
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 9900
+      y: 7150
+      z: -528
+      yaw: 1.5707963267948966
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- assert:
+    party_health:
+      full: true
+- new_game_flow:
+    start_map: hes_d06.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Cyra
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Dana
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Eli
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+- assert:
+    mechanism:
+      id: 8
+      state: open
+- assert:
+    mechanism:
+      id: 9
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.2
+    start:
+      map: hes_d06.blv
+      x: 6170
+      y: 8316
+      z: -512
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 6330
+      y: 8316
+      z: -512
+      yaw: 0
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 100
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 11
+      value: 1
+- movement_segment:
+    input: none
+    seconds: 3.1
+    start:
+      map: hes_d06.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d06.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 13
+      value: 1
+- advance_runtime:
+    seconds: 0.7
+- assert:
+    state_dump_map_var:
+      index: 6
+      value: 0
+- assert:
+    mechanism:
+      kind: indoor_door
+      id: 8
+      state: closed
+- assert:
+    mechanism:
+      kind: indoor_door
+      id: 9
+      state: open

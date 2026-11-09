@@ -1,0 +1,620 @@
+{
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper Lattice Halberd, a ceremonial polearm of the Crownspire guard wired into the Lattice.\nInput image 1 is the EDIT TARGET, the exact 1024 x 1024 orthographic model guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY.\nPaint only the existing nontransparent pixels of input image 1. Preserve its alpha silhouette, outline, position, size, orientation, part edges, holes and all empty canvas EXACTLY. Do not recompose, zoom, rotate, improve geometry, expand the object or copy the composition of image 2. Each existing part must stay exactly where the guide puts it.\nReplace the guide's pale material-identification tints with the design reference's surfaces: worn ivory-white ceramic, finely brushed muted gold, near-black violet resin, fine gold inlay/engraving and seams, bone-like ivory rib details painted within existing geometry, and small orange or icy blue-white light-colour insets wherever those surfaces are visible. Continue unseen faces plausibly using the same materials. The guide's tints are NOT the palette.\nLIGHTING: true ALBEDO TEXTURE SOURCE, flat even shadowless frontal illumination. No cast shadow, no ambient-occlusion shading, no directional shading, no bright specular highlight or reflection, no rim light, no bloom or glow halo. Metal is its base gold colour with only faint sheen. Emissive details are bright flat colour contained inside the object. Fine material wear is colour detail, not lighting.\nOutput exactly one 1024 x 1024 PNG with genuine transparent alpha background. Preserve the full canvas and empty margins. No text, letters, labels, watermark, floor, background or extra objects. Exact guide silhouette has priority over adding details from the design reference.\nView FRONT: this is an END-ON orthographic view looking along the polearm's length. The complete visible object is tiny and centered: alpha bounding box x=445..578, y=490..533 (about 134 x 44 pixels), centered near (512,512). Keep that tiny width and height, leaving almost the entire square transparent. A gold end face occupies the central rounded part, with thin ivory/gold blade edges extending horizontally to either side and dark violet resin in visible recess surfaces. Do NOT draw the long shaft or an upright full weapon; these are occluded in this exact end-on view.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "443390422131d55a54453e7a153d0ce15fbacf67b53f87fa5c7a0659309183ee",
+          "role": "edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-1e7e1cbe-14fa-4a4e-bb57-2fe2204a1f27.png",
+      "output": "paint_front_attempt1.png",
+      "selected": true,
+      "reason": "Selected first return: closer guide-mask overlap than the correction (0.541194 vs 0.515231). End-on object remains enlarged; exact silhouette and flat albedo checks fail.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          59,
+          68,
+          1009,
+          1055
+        ],
+        "opaque_bbox": [
+          518,
+          591,
+          737,
+          664
+        ],
+        "normalized_silhouette_iou_alpha128": 0.541194,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.99507,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "output_sha256": "86a16f5c404a9c5285aed9e252f315baed0396c100c0df3269b41ba161366d41",
+      "accepted_as_exact_brief_compliant": false,
+      "final_output": "paint_front.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper Lattice Halberd, a ceremonial polearm of the Crownspire guard wired into the Lattice.\nInput image 1 is the EDIT TARGET, the exact 1024 x 1024 orthographic model guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY.\nPaint only the existing nontransparent pixels of input image 1. Preserve its alpha silhouette, outline, position, size, orientation, part edges, holes and all empty canvas EXACTLY. Do not recompose, zoom, rotate, improve geometry, expand the object or copy the composition of image 2. Each existing part must stay exactly where the guide puts it.\nReplace the guide's pale material-identification tints with the design reference's surfaces: worn ivory-white ceramic, finely brushed muted gold, near-black violet resin, fine gold inlay/engraving and seams, bone-like ivory rib details painted within existing geometry, and small orange or icy blue-white light-colour insets wherever those surfaces are visible. Continue unseen faces plausibly using the same materials. The guide's tints are NOT the palette.\nLIGHTING: true ALBEDO TEXTURE SOURCE, flat even shadowless frontal illumination. No cast shadow, no ambient-occlusion shading, no directional shading, no bright specular highlight or reflection, no rim light, no bloom or glow halo. Metal is its base gold colour with only faint sheen. Emissive details are bright flat colour contained inside the object. Fine material wear is colour detail, not lighting.\nOutput exactly one 1024 x 1024 PNG with genuine transparent alpha background. Preserve the full canvas and empty margins. No text, letters, labels, watermark, floor, background or extra objects. Exact guide silhouette has priority over adding details from the design reference.\nView BACK: this is the opposite END-ON orthographic view looking along the polearm's length. The complete visible object is tiny and centered: alpha bounding box x=445..578, y=490..533 (about 134 x 44 pixels), centered near (512,512). Preserve this small asymmetric flattened shape, including the pointed central blade facets and thin lateral wings. Paint ivory ceramic with muted gold inlay and black-violet resin at the existing recess surfaces; retain the guide's visible part overlaps. Do NOT draw a long shaft or an upright full weapon; these are occluded in this exact end-on view.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "e35b671735023915078808ba5f69d747e0d8e68a0dbc512a1dcb219cad7833f6",
+          "role": "edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-9435f33f-947b-489c-a5d4-0d3bb53f7d44.png",
+      "output": "paint_back_attempt1.png",
+      "selected": true,
+      "reason": "Selected first return: closer guide-mask overlap than the correction (0.542857 vs 0.449704). End-on object remains enlarged; exact silhouette and flat albedo checks fail.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          97,
+          142,
+          774,
+          1166
+        ],
+        "opaque_bbox": [
+          516,
+          594,
+          738,
+          661
+        ],
+        "normalized_silhouette_iou_alpha128": 0.542857,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.994417,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "output_sha256": "5b9594a25aa5faedd2943e54e7205f064b3e589d7f30f57105e3c7906898b17a",
+      "accepted_as_exact_brief_compliant": false,
+      "final_output": "paint_back.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper Lattice Halberd, a ceremonial polearm of the Crownspire guard wired into the Lattice.\nInput image 1 is the EDIT TARGET, the exact 1024 x 1024 orthographic model guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY.\nPaint only the existing nontransparent pixels of input image 1. Preserve its alpha silhouette, outline, position, size, orientation, part edges, holes and all empty canvas EXACTLY. Do not recompose, zoom, rotate, improve geometry, expand the object or copy the composition of image 2. Each existing part must stay exactly where the guide puts it.\nReplace the guide's pale material-identification tints with the design reference's surfaces: worn ivory-white ceramic, finely brushed muted gold, near-black violet resin, fine gold inlay/engraving and seams, bone-like ivory rib details painted within existing geometry, and small orange or icy blue-white light-colour insets wherever those surfaces are visible. Continue unseen faces plausibly using the same materials. The guide's tints are NOT the palette.\nLIGHTING: true ALBEDO TEXTURE SOURCE, flat even shadowless frontal illumination. No cast shadow, no ambient-occlusion shading, no directional shading, no bright specular highlight or reflection, no rim light, no bloom or glow halo. Metal is its base gold colour with only faint sheen. Emissive details are bright flat colour contained inside the object. Fine material wear is colour detail, not lighting.\nOutput exactly one 1024 x 1024 PNG with genuine transparent alpha background. Preserve the full canvas and empty margins. No text, letters, labels, watermark, floor, background or extra objects. Exact guide silhouette has priority over adding details from the design reference.\nView LEFT: this is a VERY THIN EDGE-ON profile, running HORIZONTALLY across the middle of the canvas at y=512. Its exact alpha bounding box is x=66..957, y=490..533. Spear/blade point on the LEFT; the butt cap on the RIGHT. Preserve all existing head serrations and the 28-pixel-thick shaft. Shaft begins around x=300 and ends around x=918. Three gold bands remain exactly at x=470,620,768. Paint the shaft black-violet resin with the reference's fine ivory rib motifs and gold surface ornaments only inside the original outline; head edge ivory with gold details and tiny orange/blue-white light insets. Do NOT expose the broad face of the axe head or widen any part.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6ba7d6e7a806a06cee82ebb4adf86d10cf9682c86293c500ee7a94ce42708c66",
+          "role": "edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-636dc5c2-344c-4a52-8fe5-3acf925e2ed1.png",
+      "output": "paint_left_attempt1.png",
+      "selected": true,
+      "reason": "Selected first return: the one permitted corrective request was rejected by the tool and returned no image. Normalized silhouette overlap is 0.917176; edge drift, fringes and baked shading remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          27,
+          33,
+          1240,
+          1206
+        ],
+        "opaque_bbox": [
+          83,
+          602,
+          1175,
+          652
+        ],
+        "normalized_silhouette_iou_alpha128": 0.917176,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.973146,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "output_sha256": "1b373caa6d077115cdaec413a9f48266355f51ba5b0bb78e9a30ff1b548df443",
+      "accepted_as_exact_brief_compliant": false,
+      "final_output": "paint_left.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper Lattice Halberd, a ceremonial polearm of the Crownspire guard wired into the Lattice.\nInput image 1 is the EDIT TARGET, the exact 1024 x 1024 orthographic model guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY.\nPaint only the existing nontransparent pixels of input image 1. Preserve its alpha silhouette, outline, position, size, orientation, part edges, holes and all empty canvas EXACTLY. Do not recompose, zoom, rotate, improve geometry, expand the object or copy the composition of image 2. Each existing part must stay exactly where the guide puts it.\nReplace the guide's pale material-identification tints with the design reference's surfaces: worn ivory-white ceramic, finely brushed muted gold, near-black violet resin, fine gold inlay/engraving and seams, bone-like ivory rib details painted within existing geometry, and small orange or icy blue-white light-colour insets wherever those surfaces are visible. Continue unseen faces plausibly using the same materials. The guide's tints are NOT the palette.\nLIGHTING: true ALBEDO TEXTURE SOURCE, flat even shadowless frontal illumination. No cast shadow, no ambient-occlusion shading, no directional shading, no bright specular highlight or reflection, no rim light, no bloom or glow halo. Metal is its base gold colour with only faint sheen. Emissive details are bright flat colour contained inside the object. Fine material wear is colour detail, not lighting.\nOutput exactly one 1024 x 1024 PNG with genuine transparent alpha background. Preserve the full canvas and empty margins. No text, letters, labels, watermark, floor, background or extra objects. Exact guide silhouette has priority over adding details from the design reference.\nView RIGHT: this is the opposite VERY THIN EDGE-ON profile, running HORIZONTALLY across the middle of the canvas at y=512. Its exact alpha bounding box is x=66..957, y=490..533. Butt cap on the LEFT; spear/blade point on the RIGHT. Shaft runs from around x=106 to x=723. The three existing gold bands remain exactly at x=255,404,553. Preserve the narrow blade head and its serrations. Paint the shaft black-violet resin with fine ivory rib motifs and gold ornaments only inside its original outline; head edge ivory with gold details and tiny orange/blue-white insets. Do NOT expose the broad face of the axe head or widen any part.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d226f47029c617f81d44a516faed8f93627751cbaeba50b8609b3945fa0c72e8",
+          "role": "edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-40c203fb-9771-4238-910f-834fed65074b.png",
+      "output": "paint_right_attempt1.png",
+      "selected": true,
+      "reason": "Selected first return: correction changed the square framing to 2172 x 724 and reduced normalized silhouette overlap from 0.881874 to 0.293329. Edge drift, fringes and baked shading remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          71,
+          1232,
+          1198
+        ],
+        "opaque_bbox": [
+          80,
+          600,
+          1173,
+          653
+        ],
+        "normalized_silhouette_iou_alpha128": 0.881874,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.9735,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "output_sha256": "517b70cf0d4249ebc199d0028db22919a895194f21aa65035c956e25ce11c379",
+      "accepted_as_exact_brief_compliant": false,
+      "final_output": "paint_right.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper Lattice Halberd, a ceremonial polearm of the Crownspire guard wired into the Lattice.\nInput image 1 is the EDIT TARGET, the exact 1024 x 1024 orthographic model guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY.\nPaint only the existing nontransparent pixels of input image 1. Preserve its alpha silhouette, outline, position, size, orientation, part edges, holes and all empty canvas EXACTLY. Do not recompose, zoom, rotate, improve geometry, expand the object or copy the composition of image 2. Each existing part must stay exactly where the guide puts it.\nReplace the guide's pale material-identification tints with the design reference's surfaces: worn ivory-white ceramic, finely brushed muted gold, near-black violet resin, fine gold inlay/engraving and seams, bone-like ivory rib details painted within existing geometry, and small orange or icy blue-white light-colour insets wherever those surfaces are visible. Continue unseen faces plausibly using the same materials. The guide's tints are NOT the palette.\nLIGHTING: true ALBEDO TEXTURE SOURCE, flat even shadowless frontal illumination. No cast shadow, no ambient-occlusion shading, no directional shading, no bright specular highlight or reflection, no rim light, no bloom or glow halo. Metal is its base gold colour with only faint sheen. Emissive details are bright flat colour contained inside the object. Fine material wear is colour detail, not lighting.\nOutput exactly one 1024 x 1024 PNG with genuine transparent alpha background. Preserve the full canvas and empty margins. No text, letters, labels, watermark, floor, background or extra objects. Exact guide silhouette has priority over adding details from the design reference.\nView TOP: directly above the model, this is its BROAD FACE with the shaft vertical. Exact alpha bounding box x=444..579, y=66..957. Spear tip at the TOP near (525,66); butt cap at the BOTTOM near (512,958). The guide's larger curved blade is on the LEFT and the smaller blade on the RIGHT: preserve this asymmetry exactly even though the design reference faces the opposite way. The head occupies only about y=66..318; the long narrow shaft is at x=499..524, y=301..917, with three existing gold bands at y=470,620,768. Keep all holes and serrations unchanged. Paint ivory ceramic blades with fine gold inlay, dark violet resin central lattice with small orange coloured insets, subtly blue-white blade-edge colour strictly inside the silhouette; black-violet resin shaft with painted ivory rib motifs and gold decoration; gold bands and ceramic/gold butt cap. Do not enlarge or lengthen the head, shorten the shaft, or add new protrusions.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "c6748ecfd498d4ab1b8a2196ceff8d5ac8bc610a69296ee7b346fd7f35d09c9b",
+          "role": "edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-3356ccfe-d483-40d7-b5a9-5138963ea617.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected. Selected correction: restores the simple shaft, three narrow bands and simple butt cap, improving normalized silhouette overlap from 0.875868 to 0.890102. Exact guide edges and flat albedo still fail.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          63,
+          25,
+          1202,
+          1196
+        ],
+        "opaque_bbox": [
+          544,
+          79,
+          711,
+          1177
+        ],
+        "normalized_silhouette_iou_alpha128": 0.875868,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.96446,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "output_sha256": "924a668e302639aa99faaebe1679d2498003faf7b10679c0d1f8647d5a428c69",
+      "accepted_as_exact_brief_compliant": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE EDIT, second and final attempt for view front. Output a single 1024 x 1024 transparent PNG.\nInput 1: guide_front.png, the ORIGINAL TARGET and absolute authority for alpha silhouette, framing, geometry, camera and part placement.\nInput 2: the prior painted attempt, provided ONLY to identify the errors being corrected.\nInput 3: design_reference.png, authority for material colours and fine surface details only.\nThe first attempt enlarged the small end-on part by about one third. Correct its footprint to the ORIGINAL GUIDE: width ONLY 13.09% of the whole canvas and height ONLY 4.30%, centered at (50%,50%). Do not fill more canvas to show detail. The original guide alpha spans x=43.457%..56.543%, y=47.852%..52.148%. Preserve the central solid end face and the exact asymmetric thin lateral blade contours. Suppress the first attempt's strong ridged highlights and tiny coloured fringe speckles.\nRepaint the ORIGINAL GUIDE with ivory-white ceramic, subdued brushed gold, black-violet resin, and small flat orange or ice-blue light-colour insets from the reference. Treat this as colouring an existing immutable cutout, never redesigning a weapon. Match the guide's entire alpha mask, including every gap, endpoint and contour. Do not zoom, rotate or reframe the guide. The empty margins are essential texture-baking space.\nTRUE FLAT ALBEDO: completely even colour illumination, no shading, cast shadows, ambient occlusion, reflections, metallic glints, bright lighting gradients, rim lighting, glow spill or bloom. Fine engraving and wear are subdued painted colour marks. All glow is solid light colour only within the original part. No coloured fringe, isolated alpha specks, floor, background, text, letters, labels or watermark. The entire background is genuinely transparent and all content fits strictly inside the guide's silhouette. The geometry in the guide outranks all decoration in the painting or design reference.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "443390422131d55a54453e7a153d0ce15fbacf67b53f87fa5c7a0659309183ee",
+          "role": "original edit target"
+        },
+        {
+          "path": "paint_front_attempt1.png",
+          "role": "previous return; error reference",
+          "sha256": "86a16f5c404a9c5285aed9e252f315baed0396c100c0df3269b41ba161366d41"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-851313f8-2bad-4373-9c60-7caf08ed0c72.png",
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Not selected. Selected first return: closer guide-mask overlap than the correction (0.541194 vs 0.515231). End-on object remains enlarged; exact silhouette and flat albedo checks fail.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "312373b610cbe39dc6b732b58411b334a1ae009a28f39038622837e7120e5c79",
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          47,
+          63,
+          741,
+          812
+        ],
+        "opaque_bbox": [
+          517,
+          591,
+          737,
+          664
+        ],
+        "normalized_silhouette_iou_alpha128": 0.515231,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.995271,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "accepted_as_exact_brief_compliant": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE EDIT, second and final attempt for view back. Output a single 1024 x 1024 transparent PNG.\nInput 1: guide_back.png, the ORIGINAL TARGET and absolute authority for alpha silhouette, framing, geometry, camera and part placement.\nInput 2: the prior painted attempt, provided ONLY to identify the errors being corrected.\nInput 3: design_reference.png, authority for material colours and fine surface details only.\nThe first attempt enlarged the small end-on part by about one third. Correct its footprint to the ORIGINAL GUIDE: width ONLY 13.09% of the whole canvas and height ONLY 4.30%, centered at (50%,50%). The guide alpha spans x=43.457%..56.543%, y=47.852%..52.148%. Keep every asymmetry and the pointed central facet of the original guide; do not simplify into a symmetrical ornament. Suppress strong ridged highlights and coloured fringe speckles.\nRepaint the ORIGINAL GUIDE with ivory-white ceramic, subdued brushed gold, black-violet resin, and small flat orange or ice-blue light-colour insets from the reference. Treat this as colouring an existing immutable cutout, never redesigning a weapon. Match the guide's entire alpha mask, including every gap, endpoint and contour. Do not zoom, rotate or reframe the guide. The empty margins are essential texture-baking space.\nTRUE FLAT ALBEDO: completely even colour illumination, no shading, cast shadows, ambient occlusion, reflections, metallic glints, bright lighting gradients, rim lighting, glow spill or bloom. Fine engraving and wear are subdued painted colour marks. All glow is solid light colour only within the original part. No coloured fringe, isolated alpha specks, floor, background, text, letters, labels or watermark. The entire background is genuinely transparent and all content fits strictly inside the guide's silhouette. The geometry in the guide outranks all decoration in the painting or design reference.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "e35b671735023915078808ba5f69d747e0d8e68a0dbc512a1dcb219cad7833f6",
+          "role": "original edit target"
+        },
+        {
+          "path": "paint_back_attempt1.png",
+          "role": "previous return; error reference",
+          "sha256": "5b9594a25aa5faedd2943e54e7205f064b3e589d7f30f57105e3c7906898b17a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-8e053057-9fd5-4a9b-8758-5d8663133264.png",
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Not selected. Selected first return: closer guide-mask overlap than the correction (0.542857 vs 0.449704). End-on object remains enlarged; exact silhouette and flat albedo checks fail.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ca923bfea436a8a0d042880ca3eefc0f0f3a2a989588f75d373e279887927115",
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          202,
+          71,
+          1174,
+          1214
+        ],
+        "opaque_bbox": [
+          512,
+          593,
+          743,
+          662
+        ],
+        "normalized_silhouette_iou_alpha128": 0.449704,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.994232,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "accepted_as_exact_brief_compliant": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE EDIT, second and final attempt for view left. Output a single 1024 x 1024 transparent PNG.\nInput 1: guide_left.png, the ORIGINAL TARGET and absolute authority for alpha silhouette, framing, geometry, camera and part placement.\nInput 2: the prior painted attempt, provided ONLY to identify the errors being corrected.\nInput 3: design_reference.png, authority for material colours and fine surface details only.\nKeep the original guide's thin horizontal profile: total width 87.11% of canvas, total maximum height only 4.30%, centerline y=50%, blade points left. The original head and shaft edges are hard geometric limits. Remove the first attempt's extra edge protrusions, edge halo, saturated fringe pixels and strong shiny ridges. Keep the three plain narrow gold bands in the exact original positions. The shaft remains straight with constant diameter; ivory ribs are painted surface motifs only, not raised outside its silhouette. Use flat diffuse colour without metallic highlights.\nRepaint the ORIGINAL GUIDE with ivory-white ceramic, subdued brushed gold, black-violet resin, and small flat orange or ice-blue light-colour insets from the reference. Treat this as colouring an existing immutable cutout, never redesigning a weapon. Match the guide's entire alpha mask, including every gap, endpoint and contour. Do not zoom, rotate or reframe the guide. The empty margins are essential texture-baking space.\nTRUE FLAT ALBEDO: completely even colour illumination, no shading, cast shadows, ambient occlusion, reflections, metallic glints, bright lighting gradients, rim lighting, glow spill or bloom. Fine engraving and wear are subdued painted colour marks. All glow is solid light colour only within the original part. No coloured fringe, isolated alpha specks, floor, background, text, letters, labels or watermark. The entire background is genuinely transparent and all content fits strictly inside the guide's silhouette. The geometry in the guide outranks all decoration in the painting or design reference.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6ba7d6e7a806a06cee82ebb4adf86d10cf9682c86293c500ee7a94ce42708c66",
+          "role": "original edit target"
+        },
+        {
+          "path": "paint_left_attempt1.png",
+          "role": "previous return; error reference",
+          "sha256": "1b373caa6d077115cdaec413a9f48266355f51ba5b0bb78e9a30ff1b548df443"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by the image tool safety system (violence); no image returned. Request ID fa3de2bf-0577-4e3d-854a-ca2fd3aa14ed. No further regeneration under the brief's one-correction limit.",
+      "status": "tool_rejected",
+      "accepted_as_exact_brief_compliant": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE EDIT, second and final attempt for view right. Output a single 1024 x 1024 transparent PNG.\nInput 1: guide_right.png, the ORIGINAL TARGET and absolute authority for alpha silhouette, framing, geometry, camera and part placement.\nInput 2: the prior painted attempt, provided ONLY to identify the errors being corrected.\nInput 3: design_reference.png, authority for material colours and fine surface details only.\nKeep the original guide's thin horizontal profile: total width 87.11% of canvas, total maximum height only 4.30%, centerline y=50%, blade points right. The original head and shaft edges are hard geometric limits. Remove the first attempt's extra edge protrusions, edge halo, saturated fringe pixels and strong shiny ridges. Keep the three plain narrow gold bands in the exact original positions. The shaft remains straight with constant diameter; ivory ribs are painted surface motifs only, not raised outside its silhouette. Use flat diffuse colour without metallic highlights.\nRepaint the ORIGINAL GUIDE with ivory-white ceramic, subdued brushed gold, black-violet resin, and small flat orange or ice-blue light-colour insets from the reference. Treat this as colouring an existing immutable cutout, never redesigning a weapon. Match the guide's entire alpha mask, including every gap, endpoint and contour. Do not zoom, rotate or reframe the guide. The empty margins are essential texture-baking space.\nTRUE FLAT ALBEDO: completely even colour illumination, no shading, cast shadows, ambient occlusion, reflections, metallic glints, bright lighting gradients, rim lighting, glow spill or bloom. Fine engraving and wear are subdued painted colour marks. All glow is solid light colour only within the original part. No coloured fringe, isolated alpha specks, floor, background, text, letters, labels or watermark. The entire background is genuinely transparent and all content fits strictly inside the guide's silhouette. The geometry in the guide outranks all decoration in the painting or design reference.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d226f47029c617f81d44a516faed8f93627751cbaeba50b8609b3945fa0c72e8",
+          "role": "original edit target"
+        },
+        {
+          "path": "paint_right_attempt1.png",
+          "role": "previous return; error reference",
+          "sha256": "517b70cf0d4249ebc199d0028db22919a895194f21aa65035c956e25ce11c379"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-54dd35cb-0cd2-42d1-b65f-6f02a5696188.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Not selected. Selected first return: correction changed the square framing to 2172 x 724 and reduced normalized silhouette overlap from 0.881874 to 0.293329. Edge drift, fringes and baked shading remain.",
+      "status": "generated",
+      "returned_size": [
+        2172,
+        724
+      ],
+      "output_sha256": "3dc76645a3b2dc57a1b2a3dfaecaf83564b8bd9249346b523010cfd66019b396",
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          49,
+          178,
+          2046,
+          708
+        ],
+        "opaque_bbox": [
+          105,
+          318,
+          2042,
+          419
+        ],
+        "normalized_silhouette_iou_alpha128": 0.293329,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.926037,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "accepted_as_exact_brief_compliant": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE EDIT, second and final attempt for view top. Output a single 1024 x 1024 transparent PNG.\nInput 1: guide_top.png, the ORIGINAL TARGET and absolute authority for alpha silhouette, framing, geometry, camera and part placement.\nInput 2: the prior painted attempt, provided ONLY to identify the errors being corrected.\nInput 3: design_reference.png, authority for material colours and fine surface details only.\nCorrect the silhouette and geometry to the ORIGINAL GUIDE. Preserve the original long straight constant-width cylindrical shaft x=48.73%..51.27% of canvas from y=29.4% to89.6%, and only three thin gold bands at y=45.9%,60.5%,75%. The first attempt invented bulbous gold cages at the neck and along the shaft, a fourth band, and an elaborate flaring lower finial: REMOVE those shape changes. Keep a simple narrow butt cap in precisely the guide's original triangular outline at the bottom. The head outline, internal holes, serrations, short side blades, and sharp spear all match the original guide exactly. Larger curved blade on LEFT. Paint reference details ONLY inside those unchanged shapes. Head/spear ends y=6.45%; bottom ends y=93.55%; entire object x=43.36%..56.64%. Remove glossy highlights and coloured fringe pixels.\nRepaint the ORIGINAL GUIDE with ivory-white ceramic, subdued brushed gold, black-violet resin, and small flat orange or ice-blue light-colour insets from the reference. Treat this as colouring an existing immutable cutout, never redesigning a weapon. Match the guide's entire alpha mask, including every gap, endpoint and contour. Do not zoom, rotate or reframe the guide. The empty margins are essential texture-baking space.\nTRUE FLAT ALBEDO: completely even colour illumination, no shading, cast shadows, ambient occlusion, reflections, metallic glints, bright lighting gradients, rim lighting, glow spill or bloom. Fine engraving and wear are subdued painted colour marks. All glow is solid light colour only within the original part. No coloured fringe, isolated alpha specks, floor, background, text, letters, labels or watermark. The entire background is genuinely transparent and all content fits strictly inside the guide's silhouette. The geometry in the guide outranks all decoration in the painting or design reference.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "c6748ecfd498d4ab1b8a2196ceff8d5ac8bc610a69296ee7b346fd7f35d09c9b",
+          "role": "original edit target"
+        },
+        {
+          "path": "paint_top_attempt1.png",
+          "role": "previous return; error reference",
+          "sha256": "924a668e302639aa99faaebe1679d2498003faf7b10679c0d1f8647d5a428c69"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d4fc55fe53166dfc2e388d92153d0e5fec4e3e38f54830d95f39b03df5a3691e",
+          "role": "material and colour reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-bea5-7713-83cb-7c062ca3dc8c/exec-272948cd-c606-42cd-a439-d2e4a7ddc722.png",
+      "output": "paint_top_attempt2.png",
+      "selected": true,
+      "reason": "Selected correction: restores the simple shaft, three narrow bands and simple butt cap, improving normalized silhouette overlap from 0.875868 to 0.890102. Exact guide edges and flat albedo still fail.",
+      "status": "generated",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3f25620599e2bffcdb4ed5490b70217dae5fb54886667d4dba301b5f8457ec6e",
+      "checks": {
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          136,
+          41,
+          1224,
+          1178
+        ],
+        "opaque_bbox": [
+          546,
+          76,
+          710,
+          1175
+        ],
+        "normalized_silhouette_iou_alpha128": 0.890102,
+        "silhouette_identical": false,
+        "transparent_pixel_fraction": 0.967386,
+        "no_text_or_letters": true,
+        "materials_match_reference_palette": true,
+        "flat_even_light_without_hot_highlights": false,
+        "visual_notes": "Palette is consistent with ivory ceramic, gold and black-violet resin. Baked surface shading/highlights and coloured edge fringes remain. Transparent canvas contains low-alpha specks beyond the main object."
+      },
+      "accepted_as_exact_brief_compliant": false,
+      "final_output": "paint_top.png"
+    }
+  ],
+  "validation_method": "Visual review plus read-only RGBA analysis. Exact silhouette compares native alpha arrays; normalized IoU samples the guide mask at output pixel centers (alpha >= 128) without modifying any saved image.",
+  "status": "All five requested filenames saved as best available unresized candidates; not fully brief-compliant.",
+  "deliverables": [
+    {
+      "view": "front",
+      "output": "paint_front.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "86a16f5c404a9c5285aed9e252f315baed0396c100c0df3269b41ba161366d41",
+      "brief_compliant": false
+    },
+    {
+      "view": "back",
+      "output": "paint_back.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "5b9594a25aa5faedd2943e54e7205f064b3e589d7f30f57105e3c7906898b17a",
+      "brief_compliant": false
+    },
+    {
+      "view": "left",
+      "output": "paint_left.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "1b373caa6d077115cdaec413a9f48266355f51ba5b0bb78e9a30ff1b548df443",
+      "brief_compliant": false
+    },
+    {
+      "view": "right",
+      "output": "paint_right.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "517b70cf0d4249ebc199d0028db22919a895194f21aa65035c956e25ce11c379",
+      "brief_compliant": false
+    },
+    {
+      "view": "top",
+      "output": "paint_top.png",
+      "selected_attempt": 2,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "3f25620599e2bffcdb4ed5490b70217dae5fb54886667d4dba301b5f8457ec6e",
+      "brief_compliant": false
+    }
+  ],
+  "limitations": [
+    "All selected outputs are 1254 x 1254 instead of the requested 1024 x 1024; retained byte-for-byte and unresized as instructed.",
+    "The exact guide-silhouette requirement is not met. Front and back are noticeably enlarged even relative to canvas size.",
+    "Baked shading/highlights, coloured edge fringes and low-alpha specks remain; flat albedo and clean-alpha checks are not fully satisfied.",
+    "One corrective call per view was used. The left corrective call was rejected by the image tool; no third calls were made.",
+    "No builds, runtime checks, resizing, alpha replacement or post-generation image editing were performed."
+  ]
+}

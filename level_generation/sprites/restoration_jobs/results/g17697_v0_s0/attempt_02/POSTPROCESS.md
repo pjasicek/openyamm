@@ -1,0 +1,1 @@
+Retained original detailed RGBA master. Common --adjust 0.99 0 0 protects knob contour. Measured native opaque RGB gamma preserves alpha; see tone.json. Inspected raw, native reference and both final contrast proofs. Registration retained separately.

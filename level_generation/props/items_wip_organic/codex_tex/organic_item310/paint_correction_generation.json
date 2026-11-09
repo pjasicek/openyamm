@@ -1,0 +1,13 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Strict mask inpainting for a game ALBEDO six-view sheet. The ONLY input is the exact new pirate-hat mesh guide with a CLOSED CROWN. Keep precisely the SAME six silhouettes, angles, folds, screen positions, scales and panel framing in this 3-column 2-row sheet. Top FRONT BACK LEFT, bottom RIGHT TOP BOTTOM. Fill gray pixels only: worn charcoal-black felt/leather hat, narrow deep red cloth trim along the upturned brim edge, small ivory skull and crossed bones only where the FRONT guide shows the raised skull ornament. The rounded central crown in the top and bottom views is SOLID BLACK CLOTH: do not turn it into a hole or transparent opening. The lower lining is dark grey cloth. Flat uniform unlit midtone pigment, fine cloth grain and tiny worn fibres; no lighting, highlights, reflections, shadows, AO or edge glow. No changed geometry or new ornaments, no labels. True transparent background. Exact 3:2 whole sheet.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_item310/guide_sheet.png"
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_item310/paint_sheet_raw.png",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-ef5708f4-1914-43ca-b89c-41e88314a18a.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "reason": "Closed the crown before painting.",
+  "selected": true,
+  "guide_sha256": "db6da9f045eed111b21074e67d96a9b25f51c5873ba9aafca4e503c2b371e77b",
+  "output_sha256": "01d7b2a452bad743653b238d0afbe09992051123d175e52dda84df28789570a3"
+}

@@ -1,0 +1,12 @@
+# Load review/hes_d11_blind.oysav; verify_saved_state.py refreshes it after the scenario passes.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d11/review/build02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: 12_brain_dead
+  position:
+  - 1800
+  - 4100
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0.92

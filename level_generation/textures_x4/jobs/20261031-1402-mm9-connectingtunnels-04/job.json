@@ -1,0 +1,496 @@
+{
+ "id": "20261031-1402-mm9-connectingtunnels-04",
+ "world": "mm9",
+ "maps": [
+  "connectingtunnels.blv",
+  "1000terrors.blv"
+ ],
+ "created": "2026-10-31T13:02:09+00:00",
+ "textures": [
+  "mm9/karhgq5ta0",
+  "mm9/karh4iht1n",
+  "mm9/karh09wb7i",
+  "mm9/refikj0cwd",
+  "mm9/outskpwiut",
+  "mm9/traiugli2q",
+  "mm9/woodxpywkr",
+  "mm9/lichzdhkt1",
+  "mm9/thjovregho",
+  "mm9/bwalucal4h",
+  "mm9/abndg0sw7e",
+  "mm9/travd5sofy",
+  "mm9/tilensvqng",
+  "mm9/nwalwn2phm",
+  "mm9/curvgllf5c",
+  "mm9/runi12frb2",
+  "mm9/karpv1kzjj",
+  "mm9/ston6vszln",
+  "mm9/stonxd5q88",
+  "mm9/browo3lqn1",
+  "mm9/ston9s2zzl",
+  "mm9/stonpl4c1p",
+  "mm9/ston165ho1",
+  "mm9/ceilivn1tp"
+ ],
+ "requests": {
+  "mm9/karhgq5ta0": {
+   "name": "karhgq5ta0",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-white plaster wall with fine stucco texture and soft faint stains; along the top a carved white plaster frieze band of a running lizard and scroll pattern in low relief above a thin moulding",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karh3v44vq"
+     ],
+     "fraction": 0.746
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karh4iht1n": {
+   "name": "karh4iht1n",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-white plaster wall with fine stucco texture and soft faint stains, a rounded arch niche moulding in the upper part; along the bottom a band of blue and white glazed tiles painted with a stylised fish and wave scroll",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karhdsxw8r"
+     ],
+     "fraction": 0.3
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karh09wb7i": {
+   "name": "karh09wb7i",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-white plaster wall with fine stucco texture and soft faint stains, with a small round carved Celtic knot medallion in low relief in the upper middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karhdsxw8r"
+     ],
+     "fraction": 0.764
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refikj0cwd": {
+   "name": "refikj0cwd",
+   "versions": [
+    1
+   ],
+   "material": "a dark rough cliff face of mossy olive-green and brown rock with layered ledges and deep cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      288
+     ],
+     [
+      260,
+      0,
+      544,
+      288
+     ]
+    ]
+   }
+  },
+  "mm9/outskpwiut": {
+   "name": "outskpwiut",
+   "versions": [
+    1
+   ],
+   "material": "rough outdoor ground of brown dirt and dry earth with scattered dark grey flat stones and gravel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/traiugli2q": {
+   "name": "traiugli2q",
+   "versions": [
+    1
+   ],
+   "material": "a dark charcoal-grey stone brick wall in regular running-bond courses, rough faces and thin dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/woodxpywkr": {
+   "name": "woodxpywkr",
+   "versions": [
+    1
+   ],
+   "material": "warm orange-brown wood grain with long horizontal fibres and darker streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/lichzdhkt1": {
+   "name": "lichzdhkt1",
+   "versions": [
+    1
+   ],
+   "material": "a pale blue frosted glass window with soft cloudy white swirls in a symmetric pattern, faint ghostly skull-like shapes in the frost",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjovregho": {
+   "name": "thjovregho",
+   "versions": [
+    1
+   ],
+   "material": "a grey-green slate floor of irregular polygonal flagstones with dark joints, worn smooth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bwalucal4h": {
+   "name": "bwalucal4h",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-green mottled stone wall with cloudy darker patches and fine speckle, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/abndg0sw7e": {
+   "name": "abndg0sw7e",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a narrow vertical grey stone pillar strip with a rounded highlight down the middle and darker edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     28,
+     0
+    ]
+   }
+  },
+  "mm9/travd5sofy": {
+   "name": "travd5sofy",
+   "versions": [
+    1
+   ],
+   "material": "pale cream travertine stone with small pits and soft beige mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tilensvqng": {
+   "name": "tilensvqng",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a floor of purple-blue and green glazed stone tiles in a circular interlocking pattern with dark lead-grey borders and diamond inlays",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     188
+    ]
+   }
+  },
+  "mm9/nwalwn2phm": {
+   "name": "nwalwn2phm",
+   "versions": [
+    1
+   ],
+   "material": "a purple-grey stone wall band with fine vertical streaks between a carved dark moulding along the top and the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/curvgllf5c": {
+   "name": "curvgllf5c",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey stone trim of vertical bars: rounded grey stone balusters separated by narrow pale blue-white gaps, a moulded band along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/runi12frb2": {
+   "name": "runi12frb2",
+   "versions": [
+    1
+   ],
+   "material": "a grey-brown stone trim with a carved band of angular runes in a recessed panel, repeated in two rows separated by plain stone strips",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karpv1kzjj": {
+   "name": "karpv1kzjj",
+   "versions": [
+    1
+   ],
+   "material": "a grey stone pillar wall of large cut stone blocks with narrow recessed joints and a vertical raised edge strip, mottled weathered surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ston6vszln": {
+   "name": "ston6vszln",
+   "versions": [
+    1
+   ],
+   "material": "a dark charcoal-grey stone brick wall in regular courses with a carved stone relief of a crouching lion in the middle, rough weathered faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonxd5q88": {
+   "name": "stonxd5q88",
+   "versions": [
+    1
+   ],
+   "material": "a dark charcoal-grey stone brick wall in regular running-bond courses with rough weathered faces and thin dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/ston6vszln"
+     ],
+     "fraction": 0.71
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/browo3lqn1": {
+   "name": "browo3lqn1",
+   "versions": [
+    1
+   ],
+   "material": "a sandy brown plaster wall with dark cracks branching across it, mottled stains and worn patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ston9s2zzl": {
+   "name": "ston9s2zzl",
+   "versions": [
+    1
+   ],
+   "material": "a dark charcoal-grey stone brick wall in regular courses with a tall carved stone relief of a robed bearded king holding a child, rough weathered faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/ston6vszln"
+     ],
+     "fraction": 0.27
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonpl4c1p": {
+   "name": "stonpl4c1p",
+   "versions": [
+    1
+   ],
+   "material": "a dark charcoal-grey stone brick wall in regular courses with a carved stone relief frieze of a hunting scene: a chariot with horses and riders, rough weathered faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/stonxd5q88"
+     ],
+     "fraction": 0.233
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ston165ho1": {
+   "name": "ston165ho1",
+   "versions": [
+    1
+   ],
+   "material": "a dark charcoal-grey stone brick wall in regular courses with a carved stone relief frieze of two winged griffons facing a central figure, rough weathered faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/stonxd5q88"
+     ],
+     "fraction": 0.216
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ceilivn1tp": {
+   "name": "ceilivn1tp",
+   "versions": [
+    1
+   ],
+   "material": "a dark ceiling panel of mossy dark green-grey stone between two vertical dark wooden beams and a horizontal wooden crossbeam at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

@@ -1,0 +1,42 @@
+# Hand-drafted (MM9 object lifecycle, devdocs/mm9_rework/scr_audit/README.md "Implicit engine semantics"); actor ids
+# from the R3 build (work/content.json): recheck them after a reconversion.
+id: mm9r.chasmofthedead_lifecycle
+title: Chasm of the Dead (native BLV) - a mummy killed in its coffin takes no awaken, and its chain of fourteen stays
+  asleep
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: chasmofthedead.blv
+- note:
+    text: 'MummyAwaken.scr: PetrifiedMummy16 (actor 13, ScriptParams "0 PetrifiedMummy17") wakes its chain at once when
+      it wakes. Killed dormant in one blow, its OnDamage does not fire (a dead AI) and its OnDeath is DoNothing (p0 0):
+      nothing wakes.'
+- damage_actor:
+    actor_index: 13
+    amount: 1000000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    actor_visible:
+      actor_index: 13
+      dead: true
+- assert:
+    state_dump_named_map_var:
+      name: MummiesAwake
+      value: 0
+- note:
+    text: 'CronaKiga.scr: its CKTrigger sends awaken to PetrifiedMummy16. The corpse takes none (MM9.receives): the chain
+      PetrifiedMummy17-29 stays in its coffins (before the rule: 15 awake).'
+- execute_event:
+    id: 235
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: MummiesAwake
+      value: 0

@@ -1,0 +1,22 @@
+{
+  "family": "bh",
+  "title": "MM6 Beholder",
+  "descriptor_ids": [
+    484,
+    485,
+    486
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 670,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "standing_reference_frame": 0,
+  "description": "Original MM6 beholder B: floating tapered demonic head with two thick curling ram horns, one large central purple eye with black pupil and bright white highlight, a broad rectangular fang-filled mouth and ragged pointed chin tassels. Dark blue leathery wrinkled skull and rear, charcoal gray craggy face and ridged horns, cool ivory pointed teeth. Preserve the native horn loops and pointed inner horn ends, lumpy skull planes, heavy brow, vertically elongated face, worn coarse old prerendered fantasy finish, and very dark baked shading. No limbs, extra eyes, eye stalks, accessories, modern redesign or glossy plastic.",
+  "regions": "Separate dark blue skull skin, neutral face/horns/teeth and purple central iris for native palette derivation. Preserve black pupil, eye catchlight and mouth cavity. Base palette 670; derive brown/gray green-eye 669 and black/olive green-eye 671 deterministically.",
+  "variant_names": {
+    "669": "Beholder A / brown and gray, green eye",
+    "670": "Beholder B / blue and gray, purple eye",
+    "671": "Beholder C / black and olive, green eye"
+  },
+  "material_module": "materials.py"
+}

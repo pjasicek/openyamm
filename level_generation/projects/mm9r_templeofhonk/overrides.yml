@@ -1,0 +1,110 @@
+# Explicit conversion choices for the Temple of Honk (convert.py and the shared converter read this; a rerun
+# keeps them). Keys: ../mm9r_common/DUNGEON_PLAYBOOK.md (overrides.yml).
+map:
+  stem: templeofhonk
+  display_name: Temple of Honk
+  starts: [StartPoint0]
+  monster_classes: [Honk, Honk2, ElderHonk, Goose, Fish]   # geese and the pool's fish on their own rows 293, 227
+  offset: [0, 0, 0]               # the old bmodel_world map's frame (fits int16): transitions and bounds stay valid
+  ambient: 14                     # brighter than Anskram (20): MM9 lights the temple evenly (its fill lights are over the cap)
+  model_lighting: false           # re-light 2026-10-31: tried (AmbientLight 80, ModelAdd 30), props x0.74 of their view against the old path x1.15 (capture x0.80): work/relight/model_lighting_props.txt
+  split_minor_rooms: true         # split at a crossing portal from 3 samples of the second room (vault floor strips)
+# What every DAT world model becomes (motions: ../mm9r_common/dungeon/movers.py).
+models:
+  NCornerStone: {group: NCornerStone, motion: dat}   # Door: rises 48 out of the pool corner when NButton is pressed
+  OCornerStone: {group: OCornerStone, motion: dat}   # Door: rises 48 out of the pool corner when OButton is pressed
+  HCornerStone: {group: HCornerStone, motion: dat}   # Door: rises 48 out of the pool corner when HButton is pressed
+  KCornerStone: {group: KCornerStone, motion: dat}   # Door: rises 48 out of the pool corner when KButton is pressed
+  KButton: {group: KButton, motion: dat}   # Door: pushed 4 into the button wall
+  NButton: {group: NButton, motion: dat}   # Door: pushed 4 into the button wall
+  OButton: {group: OButton, motion: dat}   # Door: pushed 4 into the button wall
+  HButton: {group: HButton, motion: dat}   # Door: pushed 4 into the button wall
+  DoubleDoorL1: {group: DoubleDoor1, motion: rotate, doorway: true, portal: DoubleDoorPortal1}
+  DoubleDoorR1: {group: DoubleDoor1, motion: rotate, doorway: true, portal: DoubleDoorPortal1}
+  DoubleDoorL2: {group: DoubleDoor2, motion: rotate, doorway: true, portal: DoubleDoorPortal2}
+  DoubleDoorR2: {group: DoubleDoor2, motion: rotate, doorway: true, portal: DoubleDoorPortal2}
+  DoubleDoorL3: {group: DoubleDoor3, motion: rotate, doorway: true, portal: DoubleDoorPortal3}
+  DoubleDoorR3: {group: DoubleDoor3, motion: rotate, doorway: true, portal: DoubleDoorPortal3}
+  DoubleDoorL4: {group: DoubleDoor4, motion: rotate, doorway: true, portal: DoubleDoorPortal4}
+  DoubleDoorR4: {group: DoubleDoor4, motion: rotate, doorway: true, portal: DoubleDoorPortal4}
+  DoubleDoorL5: {group: DoubleDoor5, motion: rotate, doorway: true, portal: DoubleDoorPortal5}
+  DoubleDoorR5: {group: DoubleDoor5, motion: rotate, doorway: true, portal: DoubleDoorPortal5}
+  DoubleDoorL6: {group: DoubleDoor6, motion: rotate, doorway: true, portal: DoubleDoorPortal6}
+  DoubleDoorR6: {group: DoubleDoor6, motion: rotate, doorway: true, portal: DoubleDoorPortal6}
+  DoubleDoorL7: {group: DoubleDoor7, motion: rotate, doorway: true, portal: DoubleDoorPortal7}
+  DoubleDoorR7: {group: DoubleDoor7, motion: rotate, doorway: true, portal: DoubleDoorPortal7}
+  DoubleDoorL9: {group: DoubleDoor9, motion: rotate, doorway: true, portal: DoubleDoorPortal9}
+  DoubleDoorR9: {group: DoubleDoor9, motion: rotate, doorway: true, portal: DoubleDoorPortal9}
+  DoubleDoorL10: {group: DoubleDoor10, motion: rotate, doorway: true, portal: DoubleDoorPortal10}
+  DoubleDoorR10: {group: DoubleDoor10, motion: rotate, doorway: true, portal: DoubleDoorPortal10}
+  DoubleDoorL11: {group: DoubleDoor11, motion: rotate, doorway: true, portal: DoubleDoorPortal11}
+  DoubleDoorR11: {group: DoubleDoor11, motion: rotate, doorway: true, portal: DoubleDoorPortal11}
+  DoubleDoorL12: {group: DoubleDoor12, motion: rotate, doorway: true, portal: DoubleDoorPortal12}
+  DoubleDoorR12: {group: DoubleDoor12, motion: rotate, doorway: true, portal: DoubleDoorPortal12}
+  DoubleDoorL13: {group: DoubleDoor13, motion: rotate, doorway: true, portal: DoubleDoorPortal13}
+  DoubleDoorR13: {group: DoubleDoor13, motion: rotate, doorway: true, portal: DoubleDoorPortal13}
+  DoubleDoorL14: {group: DoubleDoor14, motion: rotate, doorway: true, portal: DoubleDoorPortal14}
+  DoubleDoorR14: {group: DoubleDoor14, motion: rotate, doorway: true, portal: DoubleDoorPortal14}
+  SecretDoor: {group: SecretDoor, motion: slide, move_lt: [-78, 0, -7], speed: 128, doorway: true, portal: SecretDoorPortal, click: false}   # MM9: back 7, then 78 aside (SecretDoorMover)
+  SecretDoorMover: skip            # invisible helper that carries SecretDoor aside (its slide is SecretDoor's)
+  BlueWater0: skip                 # the water volume of the entrance channel (its surface: water below)
+  SkyBox0: skip                    # sky box far outside the map
+  TOD_Sky0: skip
+  WorldObject0: static              # skylight glass (window_03) and its invisible frame
+  WorldObject1: static              # skylight glass (window_03) and its invisible frame
+  WorldObject2: static              # skylight glass (window_03) and its invisible frame
+  WorldObject3: static              # skylight glass (window_03) and its invisible frame
+  WorldObject32: static            # copper chains of the altar
+  WorldObject33: static
+  Carpet0: static
+  Carpet1: static
+  Carpet2: static
+  Carpet3: static
+  Carpet4: static
+  Carpet5: static
+  Carpet6: static
+  Carpet7: static
+  Carpet8: static
+  Carpet9: static
+  Carpet10: static
+  Carpet11: static
+  Carpet12: static
+  Carpet13: static
+  Carpet14: static
+  Carpet15: static
+  Carpet16: static
+  Carpet17: static
+model_patterns: {}
+# Archway portals beyond the doorways (chosen on work/rooms_large.png).
+portals:
+  - {name: south_corridor_north, axis: z, point: [-255, 50, 60], span: 160}      # the corridor north to room 4's door
+  - {name: south_hall_west_arc, axis: x, point: [-1640, 50, -60], span: 200}     # the west ring arc
+  - {name: south_hall_east_arc, axis: x, point: [300, 50, 100], span: 200}       # the arc east of the long corridor
+  - {name: east_box_arcs, axis: z, points: [[600, 50, 230], [760, 50, 230]], span: 220}   # both arcs under the east corridor
+  - {name: southeast_arc, axis: x, point: [1100, 50, -60], span: 200}            # the arc rising to the east upper corridor
+  - {name: hall_stair_top, axis: z, point: [-8, 60, 890], span: 100}             # the stair from the main hall to the basement
+  - {name: west_wing_diagonal, axis: x, point: [-1750, 50, 560], span: 200}
+  - {name: west_wing_north, axis: x, point: [-1900, 50, 1300], span: 200}
+  - {name: northeast_arc, axis: z, point: [790, 80, 2440], span: 150}            # the arc rising to the upper floor
+exits: {}
+# No `glass`: the skylight glass (window_03: leaded panes, alpha 0-255, brush Alpha 1) stays opaque. Tried as
+# translucent faces (2026-10-30, devdocs/INDOOR_TRANSLUCENT_FACES.md): 8 of its 20 faces have the sky faces behind them,
+# the rest nothing; through the panes the shaft showed holes (black) and a clear cloud texture where MM9 shows frosted
+# glass, at the same brightness (123.9 / 123.9). The opaque panes are the profile's sky emitters.
+# MM9 source textures without an alias in the old import: the skylights' sky markers (MM9 draws its sky box through
+# them) draw MM9's Clouds1 sky (worlds/mm9/textures/CLOUVKSJD0.bmp).
+textures:
+  "TEXTURES\\Skybox\\skymarker.dtx": {alias: CLOUVKSJD0, width: 256, height: 256}
+  # The entrance channel's water surface (convert.py pool(): BlueWater0's top face): MM9's own Water115.spr, first frame.
+  "water:pool": {alias: WATEQOBX0Z, width: 128, height: 128}
+plan_levels:
+  low: [-300, -60]
+  main: [-60, 200]
+  upper: [200, 700]
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [CollectionChest]
+  themed_near: [Bookcase0, Bookcase4, Bookcase8]

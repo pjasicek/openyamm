@@ -1,0 +1,411 @@
+effect: mm9:spell_reaver
+families:
+- family: bluering
+  sprite:
+    legacy: sprites/spells/bluering.spr
+    kind: sprite
+    resource: mm9:effect-sprite/spells/bluering
+    asset: engine/effects/mm9/sprites/spells/bluering.yml
+    status: bound
+    source:
+      path: mm9/extracted/SPRITES/SPRITES/SPELLS/BLUERING.spr
+      bytes: 49
+      sha256: 848325b8bbbe6d2b92c257c6c3784c94f4baac061a46a2a9ecde9452ba553260
+    origin: spells_fxf
+    sprite:
+      framesPerSecond: 15
+      logicalWidth: 64
+      logicalHeight: 64
+      keyed: false
+      translucent: false
+      colorKey: 0
+      frames:
+      - index: 0
+        legacy: spritetextures/bluering.dtx
+        resource: mm9:effect-texture/bluering
+  frames:
+  - resource: mm9:effect-texture/bluering
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/BLUERING.dtx
+      bytes: 21924
+      sha256: 82d5f6cb552cd8cc6590ab933874f6b623b77abc76972b084c415f21d07cb969
+    native_png: assets_dev/engine/effects/mm9/textures/bluering.png
+    size:
+    - 64
+    - 64
+  status: discarded_archived
+  selected: analytic_master.png
+  review: Continuous radial reconstruction preserves native muted RGB and alpha including
+    the off-center native alpha centroid. Rounded ring removes coarse polygonal source
+    steps without filling its translucent center. Both AI drafts rejected for opacity/profile
+    mismatch.
+  attempts:
+  - path: bluering/raw_01.png
+    sha256: 94862bb2816339ca154494b6a26d29c290cebe6ec3cc345d7bcb29b59806da18
+    status: rejected
+    tool: built-in image_gen
+  - path: bluering/raw_02.png
+    sha256: bf743af786ab754df0a902f916762ff7fbe15ae7bf369020f6253799aa853b8f
+    status: rejected
+    tool: built-in image_gen
+- family: flareparticle
+  sprite:
+    legacy: sprites/flareparticle.spr
+    kind: sprite
+    resource: mm9:effect-sprite/flareparticle
+    asset: engine/effects/mm9/sprites/flareparticle.yml
+    status: bound
+    source:
+      path: mm9/extracted/SPRITES/SPRITES/FLAREPARTICLE.spr
+      bytes: 420
+      sha256: ff0c62eef19aefc9c65f1ff8c60d0f18398ab1fb347566bba7a7b5cf56ad78db
+    origin: spells_fxf
+    sprite:
+      framesPerSecond: 15
+      logicalWidth: 32
+      logicalHeight: 32
+      keyed: false
+      translucent: false
+      colorKey: 0
+      frames:
+      - index: 0
+        legacy: spritetextures/particles/flare0000.dtx
+        resource: mm9:effect-texture/particles/flare0000
+      - index: 1
+        legacy: spritetextures/particles/flare0003.dtx
+        resource: mm9:effect-texture/particles/flare0003
+      - index: 2
+        legacy: spritetextures/particles/flare0006.dtx
+        resource: mm9:effect-texture/particles/flare0006
+      - index: 3
+        legacy: spritetextures/particles/flare0009.dtx
+        resource: mm9:effect-texture/particles/flare0009
+      - index: 4
+        legacy: spritetextures/particles/flare0012.dtx
+        resource: mm9:effect-texture/particles/flare0012
+      - index: 5
+        legacy: spritetextures/particles/flare0015.dtx
+        resource: mm9:effect-texture/particles/flare0015
+      - index: 6
+        legacy: spritetextures/particles/flare0018.dtx
+        resource: mm9:effect-texture/particles/flare0018
+      - index: 7
+        legacy: spritetextures/particles/flare0021.dtx
+        resource: mm9:effect-texture/particles/flare0021
+      - index: 8
+        legacy: spritetextures/particles/flare0024.dtx
+        resource: mm9:effect-texture/particles/flare0024
+      - index: 9
+        legacy: spritetextures/particles/flare0027.dtx
+        resource: mm9:effect-texture/particles/flare0027
+  frames:
+  - resource: mm9:effect-texture/particles/flare0000
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0000.dtx
+      bytes: 5604
+      sha256: d6984105c915fdbac0e566a98b48dc4804c7d09008d2e7005b9b8a0953a8b737
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0000.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0003
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0003.dtx
+      bytes: 5604
+      sha256: 729a6d4ea8c868e1a88a887694573575cdf67da2ca006a07030269f7c53fd19a
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0003.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0006
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0006.dtx
+      bytes: 5604
+      sha256: 1ddb053050432623818fd38b46775681c49389df07e64f584acf6ffd135d2afb
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0006.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0009
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0009.dtx
+      bytes: 5604
+      sha256: ff4f8f22064224586ca49938047359d2983ed52787816115ac923f9822dea15c
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0009.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0012
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0012.dtx
+      bytes: 5604
+      sha256: f4df6b1514fa43d7781fd33ef82bc736494ecd8af5e42667c0b1bb7614614513
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0012.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0015
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0015.dtx
+      bytes: 5604
+      sha256: b3c9d692cffa522ba4f8470a373e7e06dff4875966fc42f7183dcdcacdf1223b
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0015.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0018
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0018.dtx
+      bytes: 5604
+      sha256: dc5b81c18c338ae845ac4312381eca69339f83b40fa75b49e56782a695d9f7e1
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0018.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0021
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0021.dtx
+      bytes: 5604
+      sha256: 7ba85b1bcd5bd6d3c3f10072518098556772a264e9e57e3d77e2779a6492f276
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0021.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0024
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0024.dtx
+      bytes: 5604
+      sha256: aa263e45ed7615ffc0f3998ced620ae6e1391d5efbfff3ad0c54d651579a1e1d
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0024.png
+    size:
+    - 32
+    - 32
+  - resource: mm9:effect-texture/particles/flare0027
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/PARTICLES/FLARE0027.dtx
+      bytes: 5604
+      sha256: 08ffc038efea908106863783d90bdd769a6a997dfc5069070543184e68385ac6
+    native_png: assets_dev/engine/effects/mm9/textures/particles/flare0027.png
+    size:
+    - 32
+    - 32
+  status: discarded_archived
+  selected: raw_02.png
+  review: Attempt 02 has round luminous cores, fine blue-green rays and the ten phase-specific
+    orientations. Attempt 01 rejected for square enlarged cores. Energy varies about
+    -13% to +14% by frame versus native; sequence average is retained with one shared
+    grade. No independent per-frame normalization.
+  attempts:
+  - path: flareparticle/raw_01.png
+    sha256: f26f1aaa544cf776d7878236f8affcae30d56e62724788bb0b1fc651fa37d981
+    status: rejected
+    tool: built-in image_gen
+  - path: flareparticle/raw_02.png
+    sha256: e0ab3136885b7cabdd8c3cb80f13ce8e377913610f0fabab5db55182fee3523a
+    status: selected
+    tool: built-in image_gen
+- family: ringexplodeblue
+  sprite:
+    legacy: sprites/weapons/ringexplodeblue.spr
+    kind: sprite
+    resource: mm9:effect-sprite/weapons/ringexplodeblue
+    asset: engine/effects/mm9/sprites/weapons/ringexplodeblue.yml
+    status: bound
+    source:
+      path: mm9/extracted/SPRITES/SPRITES/WEAPONS/RINGEXPLODEBLUE.spr
+      bytes: 63
+      sha256: 0b8f785d2236faf49bc493b865a66a57384fe79eed9f4a959cf5816e35c2cc0e
+    origin: spells_fxf
+    sprite:
+      framesPerSecond: 15
+      logicalWidth: 64
+      logicalHeight: 64
+      keyed: false
+      translucent: false
+      colorKey: 0
+      frames:
+      - index: 0
+        legacy: spritetextures/sparks/ringexplodeblue.dtx
+        resource: mm9:effect-texture/sparks/ringexplodeblue
+  frames:
+  - resource: mm9:effect-texture/sparks/ringexplodeblue
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SPARKS/RINGEXPLODEBLUE.dtx
+      bytes: 21924
+      sha256: 6eca0aafaa52c274e1925431620248362a8634e4e4094738d30b90445f2393b3
+    native_png: assets_dev/engine/effects/mm9/textures/sparks/ringexplodeblue.png
+    size:
+    - 64
+    - 64
+  status: discarded_archived
+  selected: raw_02.png
+  review: Attempt 02 retains dominant pale center and faint broken outer ring with
+    smooth radial traces. Attempt 01 rejected because its broad bright rim overwhelmed
+    the center after energy matching. Light alpha preview has more defined ring fragments
+    than native; additive is the actual Reaver consumer.
+  attempts:
+  - path: ringexplodeblue/raw_01.png
+    sha256: 052b22bb7461bb70a43af713a1b91fc3b9afe3a8ff574f48771eb102814e1a1e
+    status: rejected
+    tool: built-in image_gen
+  - path: ringexplodeblue/raw_02.png
+    sha256: fea38124af7b2087e62a45ba6a5e11375a12b8f92b73772bc0036017c9b8cd65
+    status: selected
+    tool: built-in image_gen
+- family: smokenoise
+  sprite:
+    legacy: sprites/smoke/smokenoise.spr
+    kind: sprite
+    resource: mm9:effect-sprite/smoke/smokenoise
+    asset: engine/effects/mm9/sprites/smoke/smokenoise.yml
+    status: bound
+    source:
+      path: mm9/extracted/SPRITES/SPRITES/SMOKE/SMOKENOISE.spr
+      bytes: 620
+      sha256: 759a1f83208bebf3b0ebd1b18cd8717f2eaf5f972ddc2307e07f190835a069c7
+    origin: spells_fxf
+    sprite:
+      framesPerSecond: 15
+      logicalWidth: 64
+      logicalHeight: 64
+      keyed: false
+      translucent: false
+      colorKey: 0
+      frames:
+      - index: 0
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0000.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0000
+      - index: 1
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0001.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0001
+      - index: 2
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0002.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0002
+      - index: 3
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0003.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0003
+      - index: 4
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0004.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0004
+      - index: 5
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0005.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0005
+      - index: 6
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0006.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0006
+      - index: 7
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0007.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0007
+      - index: 8
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0008.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0008
+      - index: 9
+        legacy: spritetextures/smokeeffects/smokenoise/smoke_noise0009.dtx
+        resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0009
+  frames:
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0000
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0000.dtx
+      bytes: 21924
+      sha256: 372a5a18a3fde7130f3cbba1607d37499d137f33ca6be48ab256f7d0586fbca6
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0000.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0001
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0001.dtx
+      bytes: 21924
+      sha256: 76e73649f1b06bd8357af07ed8e39aee8dfb1dda4f24bff2047750958aa6b07d
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0001.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0002
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0002.dtx
+      bytes: 21924
+      sha256: 780ce0eb9361620cec09f55cc86f64a814f1ca3d8da7d74247c56c3ab900a8a6
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0002.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0003
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0003.dtx
+      bytes: 21924
+      sha256: aa80eff914d20371687f7bd7018899a4ca6f6ce28a4bdf8916fd0e9a48795105
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0003.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0004
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0004.dtx
+      bytes: 21924
+      sha256: 98087466f13ac2bf24a9d48e34770b27184cb968e56030652bff1a01af81a95b
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0004.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0005
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0005.dtx
+      bytes: 21924
+      sha256: 4846db2626fe2d5cdb5c8af01abd258a893cfd9a4d5bd84c6a4adff884127dbf
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0005.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0006
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0006.dtx
+      bytes: 21924
+      sha256: cddd049c458bba34ca8a19bc143ee206399ba56f047a981fbb288cd9ad44c293
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0006.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0007
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0007.dtx
+      bytes: 21924
+      sha256: 796645e980239bf808fc27b20d915005a3909d7fb994caec56333b9c3401ce85
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0007.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0008
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0008.dtx
+      bytes: 21924
+      sha256: 5a5e021bbdefd0b6109e60f7c187a328902b856dfba7f0190a733cc5e7f40bb9
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0008.png
+    size:
+    - 64
+    - 64
+  - resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0009
+    source:
+      path: mm9/extracted/SPRITETEXTURES/SPRITETEXTURES/SMOKEEFFECTS/SMOKENOISE/SMOKE_NOISE0009.dtx
+      bytes: 21924
+      sha256: 104c4980278880de89ee87c39008f5a108baefb16398cd74ea915ad350988baa
+    native_png: assets_dev/engine/effects/mm9/textures/smokeeffects/smokenoise/smoke_noise0009.png
+    size:
+    - 64
+    - 64
+  status: discarded_archived
+  selected: raw_02.png
+  review: Attempt 02 retains ten billowing phase silhouettes and moving internal openings.
+    White native RGB reconstructed by folding generated neutral shading into delivered
+    alpha, then one sequence-wide opacity gain. Attempt 01 rejected for filled interiors
+    and changed holes. Remaining energy variation is about -6% to +5% versus corresponding
+    native phases.
+  attempts:
+  - path: smokenoise/raw_01.png
+    sha256: 17bc0a7f6f912a491ad1b343f9b5f7991308dd0a1e644ce83a0a3187dbb78a0e
+    status: rejected
+    tool: built-in image_gen
+  - path: smokenoise/raw_02.png
+    sha256: f7e026b9564d2b457b710f58f809f533534433cfbadb6b197e8b022859ba221c
+    status: selected
+    tool: built-in image_gen

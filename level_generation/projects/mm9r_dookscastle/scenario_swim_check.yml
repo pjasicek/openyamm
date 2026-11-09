@@ -1,0 +1,101 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.dookscastle_swim_check
+title: 'Dook''s Castle (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in their
+  water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dookscastle.blv
+- note:
+    text: 'ClearWater0: on its bed at -4915, 1065 under its top -3850.2'
+- set_pose:
+    map: dookscastle.blv
+    x: 6799
+    y: 4672
+    z: -4914
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -4903.2
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 3.3
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dookscastle.blv
+      x: 6799
+      y: 4672
+      z: -4914
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: dookscastle.blv
+      x: 6799
+      y: 4672
+      z: -3983
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- note:
+    text: 'ClearWater0: on its bed at -4915, 1065 under its top -3850.2'
+- set_pose:
+    map: dookscastle.blv
+    x: 6799
+    y: 3508
+    z: -4914
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -4903.2
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 3.3
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dookscastle.blv
+      x: 6799
+      y: 3508
+      z: -4914
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: dookscastle.blv
+      x: 6799
+      y: 3508
+      z: -3983
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99

@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_fre_claude/references_newhead/00_three_quarter.png) using built-in image generation. Both raw attempts, prompts, input hashes and review notes are preserved in [generation_runs.json](level_generation/creatures/mm9_fre_claude/references_newhead/generation_runs.json).
+
+Only RUN 1 produced. Residual deviations: native return is **1254×1254**, preserved unresized; framing and shoulder alignment remain slightly off brief.

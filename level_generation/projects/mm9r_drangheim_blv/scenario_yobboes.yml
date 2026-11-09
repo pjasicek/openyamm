@@ -1,0 +1,57 @@
+# Hand-written (2026-11-05): regionlua.py's HARDROCK kill counter (actor indices from the 2026-11-05 build).
+id: mm9r.drangheim_yobboes
+title: 'Drangheim (native BLV): the Yobboe man''s six bandits'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheim.blv
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'TM_Hardrock.scr "6 129 6000" (YobboeMan): the sixth bandit''s death gives key 129.'
+- damage_actor:
+    actor_index: 25
+    amount: 5000
+- advance_runtime:
+    seconds: 1.0
+- damage_actor:
+    actor_index: 26
+    amount: 5000
+- advance_runtime:
+    seconds: 1.0
+- damage_actor:
+    actor_index: 27
+    amount: 5000
+- advance_runtime:
+    seconds: 1.0
+- damage_actor:
+    actor_index: 28
+    amount: 5000
+- advance_runtime:
+    seconds: 1.0
+- damage_actor:
+    actor_index: 29
+    amount: 5000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: YobboesDown
+      value: 5
+- damage_actor:
+    actor_index: 30
+    amount: 5000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: YobboesDown
+      value: 6
+- assert:
+    qbit_set:
+    - 90129

@@ -1,0 +1,312 @@
+{
+  "7rock01": {
+    "targets": [
+      900,
+      400,
+      180,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 1.0,
+      "gain": [
+        0.628,
+        0.588,
+        0.538
+      ],
+      "contrast": 1.5
+    },
+    "ground_band": 0.12,
+    "name": "Rock7_01",
+    "source": "nb03",
+    "scale": [
+      1,
+      1,
+      1.14
+    ],
+    "height_m": 1.224,
+    "review_yaw": 105,
+    "review_el": 20,
+    "base_shade": 0.65
+  },
+  "7rock02": {
+    "targets": [
+      900,
+      400,
+      180,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 1.0,
+      "gain": [
+        0.653,
+        0.466,
+        0.369
+      ],
+      "contrast": 1.2
+    },
+    "ground_band": 0.12,
+    "name": "Rock7_02",
+    "source": "nb05",
+    "mirror": true,
+    "scale": [
+      0.65,
+      1,
+      1.1
+    ],
+    "height_m": 1.567,
+    "review_yaw": 105,
+    "review_el": 10,
+    "base_shade": 0.65
+  },
+  "7rock03": {
+    "targets": [
+      900,
+      400,
+      180,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 1.0,
+      "gain": [
+        0.526,
+        0.505,
+        0.56
+      ],
+      "contrast": 1.5
+    },
+    "ground_band": 0.12,
+    "name": "Rock7_03",
+    "source": "nb06",
+    "mirror": true,
+    "scale": [
+      1,
+      0.7,
+      0.76
+    ],
+    "height_m": 1.077,
+    "review_yaw": 165,
+    "review_el": 10,
+    "base_shade": 0.65
+  },
+  "7rock05": {
+    "targets": [
+      900,
+      400,
+      180,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 1.0,
+      "gain": [
+        0.736,
+        0.699,
+        0.727
+      ],
+      "contrast": 1.5
+    },
+    "ground_band": 0.12,
+    "name": "Rock7_05",
+    "source": "nb06",
+    "scale": [
+      1,
+      0.7,
+      0.92
+    ],
+    "height_m": 1.469,
+    "review_yaw": 15,
+    "review_el": 10,
+    "base_shade": 0.65
+  },
+  "7rock04": {
+    "targets": [
+      900,
+      400,
+      180,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 1.0,
+      "gain": [
+        0.819,
+        0.852,
+        0.831
+      ],
+      "contrast": 1.5,
+      "luma_cap": 1.8,
+      "tint_mix": 0.8
+    },
+    "ground_band": 0.12,
+    "name": "Rock7_04",
+    "source": "nb04",
+    "scale": [
+      1,
+      1,
+      0.8
+    ],
+    "height_m": 1.42,
+    "review_yaw": 210,
+    "review_el": 10,
+    "base_shade": 0.65,
+    "calibrate": "mid"
+  },
+  "7rock07": {
+    "targets": [
+      900,
+      400,
+      180,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 1.0,
+      "gain": [
+        0.484,
+        0.375,
+        0.35
+      ],
+      "contrast": 1.5
+    },
+    "ground_band": 0.12,
+    "base_shade": 0.65,
+    "name": "Rock7_07",
+    "source": "nr_d",
+    "mirror": true,
+    "rotation_deg": [
+      0,
+      20,
+      0
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "height_m": 2.166,
+    "review_yaw": 20,
+    "review_el": 15,
+    "post_scale": [
+      1.4,
+      1.25,
+      1
+    ]
+  },
+  "7rock09": {
+    "targets": [
+      900,
+      420,
+      220,
+      110
+    ],
+    "cage_extrusion": 0.03,
+    "max_ray": 0.1,
+    "ao_strength": 0.7,
+    "grade": {
+      "saturation": 0.85,
+      "gain": [
+        0.603,
+        0.325,
+        0.067
+      ],
+      "contrast": 1.5
+    },
+    "ground_band": 0.06,
+    "base_shade": 0.65,
+    "name": "Rock7_09",
+    "source": "nb03",
+    "rotation_deg": [
+      90,
+      -25,
+      0
+    ],
+    "height_m": 0.78,
+    "parts": [
+      {
+        "source": "nb03",
+        "location": [
+          0.36,
+          0.2,
+          0.5
+        ],
+        "rotation_deg": [
+          90,
+          0,
+          25
+        ],
+        "size_m": 0.46
+      },
+      {
+        "source": "nb04",
+        "location": [
+          0.36,
+          -0.22,
+          0.15
+        ],
+        "rotation_deg": [
+          0,
+          0,
+          200
+        ],
+        "size_m": 0.62,
+        "scale": [
+          1,
+          1,
+          0.72
+        ]
+      }
+    ],
+    "review_yaw": 0,
+    "review_el": 15,
+    "post_scale": [
+      1,
+      1.7,
+      1
+    ],
+    "fuse": false
+  },
+  "7rock08": {
+    "name": "Rock7_08",
+    "source": "meshy08",
+    "height_m": 1.138,
+    "targets": [
+      900,
+      400,
+      180,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.0,
+    "ground_band": 0.12,
+    "base_shade": 0.65,
+    "grade": {
+      "saturation": 0.35,
+      "gain": [
+        0.675,
+        0.605,
+        0.412
+      ],
+      "contrast": 1.6,
+      "luma_cap": 1.7
+    },
+    "review_yaw": 290,
+    "review_el": 20,
+    "calibrate": "mid"
+  }
+}

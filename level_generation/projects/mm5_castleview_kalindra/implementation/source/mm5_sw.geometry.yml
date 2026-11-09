@@ -1,0 +1,5891 @@
+{
+  "version": 1,
+  "map_file": "mm5_sw.odm",
+  "bmodels": [
+    {
+      "geometry_id": "mm5:castleview/guild/guild_front_hall",
+      "runtime_bmodel_index": 0,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/guild_front_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05c04c": "t05c04c",
+          "t05c01": "t05c01",
+          "t05a07b": "t05a07b",
+          "t05a01": "t05a01",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/guild/guild_rear_wing",
+      "runtime_bmodel_index": 1,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/guild_rear_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05c04c": "t05c04c",
+          "t05a07b": "t05a07b",
+          "t05a01": "t05a01",
+          "t05c01": "t05c01",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/guild/guild_public_notice",
+      "runtime_bmodel_index": 2,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/guild_public_notice.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5guild": "mm5guild"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/guild/guild_door_0",
+      "runtime_bmodel_index": 3,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/guild_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05b03",
+        "remaps": {
+          "t05b03": "t05b03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/forge/forge_work_hall",
+      "runtime_bmodel_index": 4,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/forge_work_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/forge/forge_stock_canopy",
+      "runtime_bmodel_index": 5,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/forge_stock_canopy.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/forge/forge_service_details",
+      "runtime_bmodel_index": 6,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/forge_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a10": "t05a10",
+          "gn_mtl03": "gn_mtl03",
+          "t68a03a": "t68a03a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/forge/forge_door_0",
+      "runtime_bmodel_index": 7,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/forge_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/training/training_main",
+      "runtime_bmodel_index": 8,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/training_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a01b": "t05a01b",
+          "t05a04c": "t05a04c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/training/training_entrance_hood",
+      "runtime_bmodel_index": 9,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/training_entrance_hood.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a05",
+        "remaps": {
+          "t05a05": "t05a05",
+          "t05a10": "t05a10",
+          "t05a01c": "t05a01c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/training/training_service_details",
+      "runtime_bmodel_index": 10,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/training_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a06a",
+        "remaps": {
+          "t05a06a": "t05a06a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/training/training_door_0",
+      "runtime_bmodel_index": 11,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/training_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/training/training_door_1",
+      "runtime_bmodel_index": 12,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/training_door_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/jail/jail_main",
+      "runtime_bmodel_index": 13,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/jail_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a01b": "t18a01b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/jail/jail_service_details",
+      "runtime_bmodel_index": 14,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/jail_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/jail/jail_door_0",
+      "runtime_bmodel_index": 15,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/jail_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a03c",
+        "remaps": {
+          "t18a03c": "t18a03c",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/monks_n/monks_n_main",
+      "runtime_bmodel_index": 16,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/monks_n_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/monks_n/monks_n_door_0",
+      "runtime_bmodel_index": 17,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/monks_n_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/monks_s/monks_s_main",
+      "runtime_bmodel_index": 18,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/monks_s_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/monks_s/monks_s_door_0",
+      "runtime_bmodel_index": 19,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/monks_s_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/bank/bank_shared_hall",
+      "runtime_bmodel_index": 20,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/bank_shared_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05c01": "t05c01",
+          "t05a07b": "t05a07b",
+          "t05a01": "t05a01",
+          "t05c04c": "t05c04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/bank/bank_door_0",
+      "runtime_bmodel_index": 21,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/bank_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05b03",
+        "remaps": {
+          "t05b03": "t05b03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/bank/bank_door_1",
+      "runtime_bmodel_index": 22,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/bank_door_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05b03",
+        "remaps": {
+          "t05b03": "t05b03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/tavern/tavern_entrance_wing",
+      "runtime_bmodel_index": 23,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/tavern_entrance_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/tavern/tavern_guest_hall",
+      "runtime_bmodel_index": 24,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/tavern_guest_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/tavern/tavern_door_0",
+      "runtime_bmodel_index": 25,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/tavern_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/lodging/lodging_main",
+      "runtime_bmodel_index": 26,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/lodging_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/lodging/lodging_door_0",
+      "runtime_bmodel_index": 27,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/lodging_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/maps/maps_front_hall",
+      "runtime_bmodel_index": 28,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/maps_front_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/maps/maps_rear_wing",
+      "runtime_bmodel_index": 29,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/maps_rear_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a07b": "t05a07b",
+          "t05a01": "t05a01",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/maps/maps_service_details",
+      "runtime_bmodel_index": 30,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/maps_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5jethro": "mm5jethro",
+          "mm5lydia": "mm5lydia",
+          "mm5miles": "mm5miles"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/maps/maps_door_0",
+      "runtime_bmodel_index": 31,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/maps_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/maps/maps_door_1",
+      "runtime_bmodel_index": 32,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/maps_door_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/maps/maps_door_2",
+      "runtime_bmodel_index": 33,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/maps_door_2.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/mayor/mayor_front_hall",
+      "runtime_bmodel_index": 34,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/mayor_front_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05c04c": "t05c04c",
+          "t05c01": "t05c01",
+          "t05a07b": "t05a07b",
+          "t05a01": "t05a01",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/mayor/mayor_rear_wing",
+      "runtime_bmodel_index": 35,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/mayor_rear_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05c04c": "t05c04c",
+          "t05c01": "t05c01",
+          "t05a07b": "t05a07b",
+          "t05a01": "t05a01",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/mayor/mayor_public_notice",
+      "runtime_bmodel_index": 36,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/mayor_public_notice.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5civic": "mm5civic"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/mayor/mayor_door_0",
+      "runtime_bmodel_index": 37,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/mayor_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05b03",
+        "remaps": {
+          "t05b03": "t05b03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/mayor/mayor_door_1",
+      "runtime_bmodel_index": 38,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/mayor_door_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05b03",
+        "remaps": {
+          "t05b03": "t05b03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/workyard/workyard_work_hall",
+      "runtime_bmodel_index": 39,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/workyard_work_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/workyard/workyard_stock_canopy",
+      "runtime_bmodel_index": 40,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/workyard_stock_canopy.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/workyard/workyard_public_notice",
+      "runtime_bmodel_index": 41,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/workyard_public_notice.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5hiring": "mm5hiring"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/workyard/workyard_door_0",
+      "runtime_bmodel_index": 42,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/workyard_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/joe/joe_main",
+      "runtime_bmodel_index": 43,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/joe_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/joe/joe_door_0",
+      "runtime_bmodel_index": 44,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/joe_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5map": "mm5map",
+          "mm5lunch": "mm5lunch"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/ranger/ranger_main",
+      "runtime_bmodel_index": 45,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/ranger_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/ranger/ranger_door_0",
+      "runtime_bmodel_index": 46,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/ranger_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/herbalist/herbalist_front_hall",
+      "runtime_bmodel_index": 47,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/herbalist_front_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/herbalist/herbalist_rear_wing",
+      "runtime_bmodel_index": 48,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/herbalist_rear_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/herbalist/herbalist_service_details",
+      "runtime_bmodel_index": 49,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/herbalist_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/herbalist/herbalist_door_0",
+      "runtime_bmodel_index": 50,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/herbalist_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/nadia/nadia_main",
+      "runtime_bmodel_index": 51,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/nadia_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/nadia/nadia_door_0",
+      "runtime_bmodel_index": 52,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/nadia_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/diviners/diviners_main",
+      "runtime_bmodel_index": 53,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/diviners_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/diviners/diviners_service_details",
+      "runtime_bmodel_index": 54,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/diviners_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/diviners/diviners_door_0",
+      "runtime_bmodel_index": 55,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/diviners_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/king/king_entry_wing",
+      "runtime_bmodel_index": 56,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/king_entry_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/king/king_audience_hall",
+      "runtime_bmodel_index": 57,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/king_audience_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a04c": "t18a04c",
+          "t18a11a": "t18a11a",
+          "t18a05": "t18a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/king/king_door_0",
+      "runtime_bmodel_index": 58,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/king_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a03c",
+        "remaps": {
+          "t18a03c": "t18a03c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/tower/tower_site",
+      "runtime_bmodel_index": 59,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/tower_site.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05c01": "t05c01",
+          "t05a07b": "t05a07b",
+          "t05c04c": "t05c04c",
+          "t05a05": "t05a05",
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/tower/tower_door_0",
+      "runtime_bmodel_index": 60,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/tower_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05b03",
+        "remaps": {
+          "t05b03": "t05b03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/temple/temple_nave",
+      "runtime_bmodel_index": 61,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/temple_nave.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05c07b": "t05c07b",
+          "t05c04b": "t05c04b",
+          "t05c01": "t05c01",
+          "t05a07d": "t05a07d",
+          "t05a01": "t05a01",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/temple/temple_service_wing",
+      "runtime_bmodel_index": 62,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/temple_service_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05c07b": "t05c07b",
+          "t05c04b": "t05c04b",
+          "t05c01": "t05c01",
+          "t05a01": "t05a01",
+          "t05a07d": "t05a07d",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/temple/temple_contact_wing",
+      "runtime_bmodel_index": 63,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/temple_contact_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05c07b": "t05c07b",
+          "t05c04b": "t05c04b",
+          "t05c01": "t05c01",
+          "t05a07d": "t05a07d",
+          "t05a01": "t05a01",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/temple/temple_apse",
+      "runtime_bmodel_index": 64,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/temple_apse.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05c07b": "t05c07b",
+          "t05c04b": "t05c04b",
+          "t05c01": "t05c01",
+          "t05a07d": "t05a07d",
+          "t05a05": "t05a05",
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/temple/temple_porch",
+      "runtime_bmodel_index": 65,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/temple_porch.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a05",
+        "remaps": {
+          "t05a05": "t05a05",
+          "t05a10": "t05a10",
+          "t05a01c": "t05a01c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/temple/temple_service_details",
+      "runtime_bmodel_index": 66,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/temple_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "gstn1bot",
+        "remaps": {
+          "gstn1bot": "gstn1bot"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/temple/temple_door_0",
+      "runtime_bmodel_index": 67,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/temple_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05b03",
+        "remaps": {
+          "t05b03": "t05b03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/crafts/crafts_shared_hall",
+      "runtime_bmodel_index": 68,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/crafts_shared_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/crafts/crafts_tailor_canopy",
+      "runtime_bmodel_index": 69,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/crafts_tailor_canopy.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a05",
+        "remaps": {
+          "t05a05": "t05a05",
+          "t05a10": "t05a10",
+          "t05a01c": "t05a01c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/crafts/crafts_cobbler_canopy",
+      "runtime_bmodel_index": 70,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/crafts_cobbler_canopy.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a05",
+        "remaps": {
+          "t05a05": "t05a05",
+          "t05a10": "t05a10",
+          "t05a01c": "t05a01c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/crafts/crafts_service_details",
+      "runtime_bmodel_index": 71,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/crafts_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "gn_mtl03": "gn_mtl03",
+          "mm5tailor": "mm5tailor",
+          "mm5cobble": "mm5cobble"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/crafts/crafts_door_0",
+      "runtime_bmodel_index": 72,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/crafts_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/crafts/crafts_door_1",
+      "runtime_bmodel_index": 73,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/crafts_door_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/workers/workers_main",
+      "runtime_bmodel_index": 74,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/workers_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/workers/workers_door_0",
+      "runtime_bmodel_index": 75,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/workers_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/keeper/keeper_front_hall",
+      "runtime_bmodel_index": 76,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/keeper_front_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/keeper/keeper_rear_wing",
+      "runtime_bmodel_index": 77,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/keeper_rear_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/keeper/keeper_service_details",
+      "runtime_bmodel_index": 78,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/keeper_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/keeper/keeper_door_0",
+      "runtime_bmodel_index": 79,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/keeper_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/puzzle/puzzle_desk_wing",
+      "runtime_bmodel_index": 80,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/puzzle_desk_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/puzzle/puzzle_west_puzzle_bay",
+      "runtime_bmodel_index": 81,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/puzzle_west_puzzle_bay.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/puzzle/puzzle_east_puzzle_bay",
+      "runtime_bmodel_index": 82,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/puzzle_east_puzzle_bay.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/puzzle/puzzle_service_details",
+      "runtime_bmodel_index": 83,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/puzzle_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/puzzle/puzzle_door_0",
+      "runtime_bmodel_index": 84,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/puzzle_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/dreyfus/dreyfus_cloth_shelter",
+      "runtime_bmodel_index": 85,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/dreyfus_cloth_shelter.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "t06c11": "t06c11",
+          "gnecclg2": "gnecclg2"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/dreyfus/dreyfus_service_details",
+      "runtime_bmodel_index": 86,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/dreyfus_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64",
+          "gnecclg2": "gnecclg2",
+          "t06a10": "t06a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/dreyfus/dreyfus_door_0",
+      "runtime_bmodel_index": 87,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/dreyfus_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06c11",
+        "remaps": {
+          "t06c11": "t06c11",
+          "t06a10": "t06a10",
+          "gnecclg2": "gnecclg2"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/ruby/ruby_work_hall",
+      "runtime_bmodel_index": 88,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/ruby_work_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/ruby/ruby_sorting_canopy",
+      "runtime_bmodel_index": 89,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/ruby_sorting_canopy.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/ruby/ruby_service_details",
+      "runtime_bmodel_index": 90,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/ruby_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5ruby": "mm5ruby",
+          "t68a03a": "t68a03a",
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/ruby/ruby_door_0",
+      "runtime_bmodel_index": 91,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/ruby_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/emerald/emerald_work_hall",
+      "runtime_bmodel_index": 92,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/emerald_work_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/emerald/emerald_sorting_canopy",
+      "runtime_bmodel_index": 93,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/emerald_sorting_canopy.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/emerald/emerald_service_details",
+      "runtime_bmodel_index": 94,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/emerald_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5emerald": "mm5emerald",
+          "t68a03a": "t68a03a",
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/emerald/emerald_door_0",
+      "runtime_bmodel_index": 95,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/emerald_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/sapphire/sapphire_work_hall",
+      "runtime_bmodel_index": 96,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/sapphire_work_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/sapphire/sapphire_sorting_canopy",
+      "runtime_bmodel_index": 97,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/sapphire_sorting_canopy.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/sapphire/sapphire_service_details",
+      "runtime_bmodel_index": 98,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/sapphire_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5saph": "mm5saph",
+          "t68a03a": "t68a03a",
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/sapphire/sapphire_door_0",
+      "runtime_bmodel_index": 99,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/sapphire_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/diamond/diamond_work_hall",
+      "runtime_bmodel_index": 100,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/diamond_work_hall.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/diamond/diamond_sorting_canopy",
+      "runtime_bmodel_index": 101,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/diamond_sorting_canopy.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/diamond/diamond_service_details",
+      "runtime_bmodel_index": 102,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/diamond_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5diamond": "mm5diamond",
+          "t68a03a": "t68a03a",
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/diamond/diamond_door_0",
+      "runtime_bmodel_index": 103,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/diamond_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger/reger_main",
+      "runtime_bmodel_index": 104,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a07b": "t05a07b",
+          "t05a01": "t05a01",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger/reger_service_details",
+      "runtime_bmodel_index": 105,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger/reger_door_0",
+      "runtime_bmodel_index": 106,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/luna/luna_care_hut",
+      "runtime_bmodel_index": 107,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/luna_care_hut.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a04c": "t05a04c",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/luna/luna_animal_shelter",
+      "runtime_bmodel_index": 108,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/luna_animal_shelter.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/luna/luna_service_details",
+      "runtime_bmodel_index": 109,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/luna_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "wtrtyl": "wtrtyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/luna/luna_door_0",
+      "runtime_bmodel_index": 110,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/luna_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/justine/justine_cloth_shelter",
+      "runtime_bmodel_index": 111,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/justine_cloth_shelter.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "t06c11": "t06c11",
+          "gnecclg2": "gnecclg2"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/justine/justine_service_details",
+      "runtime_bmodel_index": 112,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/justine_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64",
+          "gnecclg2": "gnecclg2",
+          "t06a10": "t06a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/justine/justine_door_0",
+      "runtime_bmodel_index": 113,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/justine_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06c11",
+        "remaps": {
+          "t06c11": "t06c11",
+          "t06a10": "t06a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/yog/yog_chief_tent",
+      "runtime_bmodel_index": 114,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/yog_chief_tent.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "gnecclg2",
+        "remaps": {
+          "gnecclg2": "gnecclg2",
+          "t06a10": "t06a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/yog/yog_service_details",
+      "runtime_bmodel_index": 115,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/yog_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64",
+          "t06a10": "t06a10",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/yog/yog_door_0",
+      "runtime_bmodel_index": 116,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/yog_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "gnecclg2",
+        "remaps": {
+          "gnecclg2": "gnecclg2",
+          "t06a10": "t06a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/vespar/vespar_main",
+      "runtime_bmodel_index": 117,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/vespar_main.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "t05a07a": "t05a07a",
+          "t05a01": "t05a01",
+          "t05a07b": "t05a07b",
+          "t05a04c": "t05a04c",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/vespar/vespar_entry_hood",
+      "runtime_bmodel_index": 118,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/vespar_entry_hood.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a05",
+        "remaps": {
+          "t05a05": "t05a05",
+          "t05a10": "t05a10",
+          "t05a01c": "t05a01c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/vespar/vespar_service_details",
+      "runtime_bmodel_index": 119,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/vespar_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/vespar/vespar_door_0",
+      "runtime_bmodel_index": 120,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/vespar_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a03",
+        "remaps": {
+          "t05a03": "t05a03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kramer/kramer_covered_wagon",
+      "runtime_bmodel_index": 121,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kramer_covered_wagon.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "gn_mtl03": "gn_mtl03",
+          "t06c11": "t06c11",
+          "gnecclg2": "gnecclg2"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kramer/kramer_service_details",
+      "runtime_bmodel_index": 122,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kramer_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kramer/kramer_door_0",
+      "runtime_bmodel_index": 123,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kramer_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06c11",
+        "remaps": {
+          "t06c11": "t06c11",
+          "t06a10": "t06a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_main_keep",
+      "runtime_bmodel_index": 124,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_main_keep.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a04c": "t18a04c",
+          "t18a11a": "t18a11a",
+          "t18a05": "t18a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_south_wing",
+      "runtime_bmodel_index": 125,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_south_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a04c": "t18a04c",
+          "t18a11a": "t18a11a",
+          "t18a05": "t18a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_north_wing",
+      "runtime_bmodel_index": 126,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_north_wing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a04c": "t18a04c",
+          "t18a11a": "t18a11a",
+          "t18a05": "t18a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_south_tower",
+      "runtime_bmodel_index": 127,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_south_tower.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a02a",
+        "remaps": {
+          "t18a02a": "t18a02a",
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a04a": "t18a04a",
+          "t18a11a": "t18a11a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_north_tower",
+      "runtime_bmodel_index": 128,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_north_tower.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a02a",
+        "remaps": {
+          "t18a02a": "t18a02a",
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a04a": "t18a04a",
+          "t18a11a": "t18a11a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_entry_arch",
+      "runtime_bmodel_index": 129,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_entry_arch.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_court_paving",
+      "runtime_bmodel_index": 130,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_court_paving.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t32a05b",
+        "remaps": {
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_service_details",
+      "runtime_bmodel_index": 131,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a02a",
+        "remaps": {
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a",
+          "mm5royal": "mm5royal"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/kalindra/kalindra_door_0",
+      "runtime_bmodel_index": 132,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/kalindra_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a03c",
+        "remaps": {
+          "t18a03c": "t18a03c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/western/western_shaft",
+      "runtime_bmodel_index": 133,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/western_shaft.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a01b": "t18a01b",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/western/western_roof_access",
+      "runtime_bmodel_index": 134,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/western_roof_access.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "t18a06": "t18a06",
+          "t18a07": "t18a07",
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a05": "t18a05"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/western/western_door_0",
+      "runtime_bmodel_index": 135,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/western_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a03c",
+        "remaps": {
+          "t18a03c": "t18a03c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/western/western_door_1",
+      "runtime_bmodel_index": 136,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/western_door_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a03c",
+        "remaps": {
+          "t18a03c": "t18a03c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/mine/mine_rock_recess",
+      "runtime_bmodel_index": 137,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/mine_rock_recess.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t68a02a",
+        "remaps": {
+          "t68a02a": "t68a02a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/mine/mine_service_details",
+      "runtime_bmodel_index": 138,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/mine_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t68a02a",
+        "remaps": {
+          "t68a02a": "t68a02a",
+          "t06a10": "t06a10",
+          "t06c11": "t06c11",
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/mine/mine_door_0",
+      "runtime_bmodel_index": 139,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/mine_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "solid01",
+        "remaps": {
+          "solid01": "solid01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_a/troll_a_rock_recess",
+      "runtime_bmodel_index": 140,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_a_rock_recess.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t68a02a",
+        "remaps": {
+          "t68a02a": "t68a02a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_a/troll_a_service_details",
+      "runtime_bmodel_index": 141,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_a_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t68a02a",
+        "remaps": {
+          "t68a02a": "t68a02a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_a/troll_a_door_0",
+      "runtime_bmodel_index": 142,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_a_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "solid01",
+        "remaps": {
+          "solid01": "solid01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_b/troll_b_rock_recess",
+      "runtime_bmodel_index": 143,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_b_rock_recess.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t68a02a",
+        "remaps": {
+          "t68a02a": "t68a02a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_b/troll_b_service_details",
+      "runtime_bmodel_index": 144,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_b_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t68a02a",
+        "remaps": {
+          "t68a02a": "t68a02a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_b/troll_b_door_0",
+      "runtime_bmodel_index": 145,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_b_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "solid01",
+        "remaps": {
+          "solid01": "solid01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_c/troll_c_rock_recess",
+      "runtime_bmodel_index": 146,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_c_rock_recess.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t68a02a",
+        "remaps": {
+          "t68a02a": "t68a02a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_c/troll_c_service_details",
+      "runtime_bmodel_index": 147,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_c_service_details.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t68a02a",
+        "remaps": {
+          "t68a02a": "t68a02a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/troll_c/troll_c_door_0",
+      "runtime_bmodel_index": 148,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/troll_c_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "solid01",
+        "remaps": {
+          "solid01": "solid01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/sewer_out/sewer_out_culvert",
+      "runtime_bmodel_index": 149,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/sewer_out_culvert.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18b01": "t18b01",
+          "t18a02a": "t18a02a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/sewer_out/sewer_out_bank_landing",
+      "runtime_bmodel_index": 150,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/sewer_out_bank_landing.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t32a05b",
+        "remaps": {
+          "t32a05b": "t32a05b",
+          "t18b01": "t18b01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/sewer_out/sewer_out_door_0",
+      "runtime_bmodel_index": 151,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/sewer_out_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "solid01",
+        "remaps": {
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/skyrope/skyrope_brace",
+      "runtime_bmodel_index": 152,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/skyrope_brace.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "t06c11": "t06c11"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/skyrope/skyrope_door_0",
+      "runtime_bmodel_index": 153,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/skyrope_door_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06c11",
+        "remaps": {
+          "t06c11": "t06c11"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/healing_fountain/healing_fountain",
+      "runtime_bmodel_index": 154,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/healing_fountain.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "gcst2-bs",
+        "remaps": {
+          "gcst2-bs": "gcst2-bs",
+          "gstn1bot": "gstn1bot",
+          "wtrtyl": "wtrtyl",
+          "gstn1cl": "gstn1cl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/training_pool/training_pool",
+      "runtime_bmodel_index": 155,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/training_pool.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "gcst2-bs",
+        "remaps": {
+          "gcst2-bs": "gcst2-bs",
+          "gstn1bot": "gstn1bot",
+          "wtrtyl": "wtrtyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/luna_altar/luna_altar",
+      "runtime_bmodel_index": 156,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/luna_altar.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "gcst2-bs",
+        "remaps": {
+          "gcst2-bs": "gcst2-bs",
+          "gstn1cl": "gstn1cl",
+          "gstn1bot": "gstn1bot"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_1_13/source_29_1_13",
+      "runtime_bmodel_index": 157,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_1_13.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_2_29/source_29_2_29",
+      "runtime_bmodel_index": 158,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_2_29.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_12_30/source_29_12_30",
+      "runtime_bmodel_index": 159,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_12_30.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_26_1/source_29_26_1",
+      "runtime_bmodel_index": 160,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_26_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_30_18/source_29_30_18",
+      "runtime_bmodel_index": 161,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_30_18.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_10_29/source_29_10_29",
+      "runtime_bmodel_index": 162,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_10_29.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_10_30/source_29_10_30",
+      "runtime_bmodel_index": 163,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_10_30.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_11_29/source_29_11_29",
+      "runtime_bmodel_index": 164,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_11_29.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_18_30/source_29_18_30",
+      "runtime_bmodel_index": 165,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_18_30.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_29_20_11/source_29_20_11",
+      "runtime_bmodel_index": 166,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_29_20_11.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "solid01": "solid01",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_3_2_10/source_3_2_10",
+      "runtime_bmodel_index": 167,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_3_2_10.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "wtrtyl": "wtrtyl",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_3_3_3/source_3_3_3",
+      "runtime_bmodel_index": 168,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_3_3_3.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "wtrtyl": "wtrtyl",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_3_11_1/source_3_11_1",
+      "runtime_bmodel_index": 169,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_3_11_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "wtrtyl": "wtrtyl",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_4_3_10/source_4_3_10",
+      "runtime_bmodel_index": 170,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_4_3_10.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "wtrtyl": "wtrtyl",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_4_9_11/source_4_9_11",
+      "runtime_bmodel_index": 171,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_4_9_11.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "wtrtyl": "wtrtyl",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_8_2_2/source_8_2_2",
+      "runtime_bmodel_index": 172,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_8_2_2.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "wtrtyl": "wtrtyl",
+          "t05a10": "t05a10",
+          "t05a05": "t05a05",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_3_10_9/source_3_10_9",
+      "runtime_bmodel_index": 173,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_3_10_9.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5west": "mm5west",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_7_2_13/source_7_2_13",
+      "runtime_bmodel_index": 174,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_7_2_13.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5swim": "mm5swim",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_7_11_2/source_7_11_2",
+      "runtime_bmodel_index": 175,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_7_11_2.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "mm5danger": "mm5danger",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_3_8_14/source_3_8_14",
+      "runtime_bmodel_index": 176,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_3_8_14.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "gcst2-bs",
+        "remaps": {
+          "gcst2-bs": "gcst2-bs",
+          "gstn1bot": "gstn1bot",
+          "gstn1cl": "gstn1cl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_4_2_2/source_4_2_2",
+      "runtime_bmodel_index": 177,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_4_2_2.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5glass",
+        "remaps": {
+          "mm5glass": "mm5glass",
+          "mm5paper": "mm5paper"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_4_8_8/source_4_8_8",
+      "runtime_bmodel_index": 178,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_4_8_8.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5glass",
+        "remaps": {
+          "mm5glass": "mm5glass",
+          "mm5paper": "mm5paper"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_7_13_0/source_7_13_0",
+      "runtime_bmodel_index": 179,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_7_13_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5glass",
+        "remaps": {
+          "mm5glass": "mm5glass",
+          "mm5paper": "mm5paper"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_8_7_15/source_8_7_15",
+      "runtime_bmodel_index": 180,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_8_7_15.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5glass",
+        "remaps": {
+          "mm5glass": "mm5glass",
+          "mm5paper": "mm5paper"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_4_3_1/source_4_3_1",
+      "runtime_bmodel_index": 181,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_4_3_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5melon",
+        "remaps": {
+          "mm5melon": "mm5melon",
+          "mm5glass": "mm5glass",
+          "mm5vine": "mm5vine"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_4_8_4/source_4_8_4",
+      "runtime_bmodel_index": 182,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_4_8_4.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5melon",
+        "remaps": {
+          "mm5melon": "mm5melon",
+          "mm5glass": "mm5glass",
+          "mm5vine": "mm5vine"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_4_14_3/source_4_14_3",
+      "runtime_bmodel_index": 183,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_4_14_3.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5melon",
+        "remaps": {
+          "mm5melon": "mm5melon",
+          "mm5glass": "mm5glass",
+          "mm5vine": "mm5vine"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_8_1_4/source_8_1_4",
+      "runtime_bmodel_index": 184,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_8_1_4.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5melon",
+        "remaps": {
+          "mm5melon": "mm5melon",
+          "mm5glass": "mm5glass",
+          "mm5vine": "mm5vine"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_4_2_7/source_4_2_7",
+      "runtime_bmodel_index": 185,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_4_2_7.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "t06c11": "t06c11",
+          "gnecclg2": "gnecclg2"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/source_7_13_10/source_7_13_10",
+      "runtime_bmodel_index": 186,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_7_13_10.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t06a10",
+        "remaps": {
+          "t06a10": "t06a10",
+          "gnecclg2": "gnecclg2",
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/feature/cross_world/cross_world",
+      "runtime_bmodel_index": 187,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/cross_world.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "mm5pyrst",
+        "remaps": {
+          "mm5pyrst": "mm5pyrst",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/ranger/woodcraft/ranger_woodcraft",
+      "runtime_bmodel_index": 188,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/ranger_woodcraft.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/training_pell/training_pell",
+      "runtime_bmodel_index": 189,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/training_pell.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "gnecclg2": "gnecclg2",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/training_shield/training_shield",
+      "runtime_bmodel_index": 190,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/training_shield.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/workyard/hiring_repair/hiring_repair",
+      "runtime_bmodel_index": 191,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/hiring_repair.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/keeper/keeper_workbench/keeper_workbench",
+      "runtime_bmodel_index": 192,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/keeper_workbench.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/nadia/nadia_storage/nadia_storage",
+      "runtime_bmodel_index": 193,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/nadia_storage.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/workers/workers_sweep/workers_sweep",
+      "runtime_bmodel_index": 194,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/workers_sweep.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "gn_mtl03": "gn_mtl03"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/bank/fountain_court_seat/fountain_court_seat",
+      "runtime_bmodel_index": 195,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/fountain_court_seat.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/pass_gate/pass_gate_left_guard",
+      "runtime_bmodel_index": 196,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/pass_gate_left_guard.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a02a",
+        "remaps": {
+          "t18a02a": "t18a02a",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a01b": "t18a01b",
+          "t18a11a": "t18a11a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/pass_gate/pass_gate_right_guard",
+      "runtime_bmodel_index": 197,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/pass_gate_right_guard.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a02a",
+        "remaps": {
+          "t18a02a": "t18a02a",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a01b": "t18a01b",
+          "t18a11a": "t18a11a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/pass_gate/pass_gate_arch",
+      "runtime_bmodel_index": 198,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/pass_gate_arch.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/pass_gate/pass_gate_plaque",
+      "runtime_bmodel_index": 199,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/pass_gate_plaque.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a12b",
+        "remaps": {
+          "t18a12b": "t18a12b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/west_gate/west_gate_left_guard",
+      "runtime_bmodel_index": 200,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/west_gate_left_guard.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a02a",
+        "remaps": {
+          "t18a02a": "t18a02a",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a01b": "t18a01b",
+          "t18a11a": "t18a11a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/west_gate/west_gate_right_shoulder",
+      "runtime_bmodel_index": 201,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/west_gate_right_shoulder.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a02a",
+        "remaps": {
+          "t18a02a": "t18a02a",
+          "t18a06": "t18a06",
+          "t18a01a": "t18a01a",
+          "t18a07": "t18a07",
+          "t18a11a": "t18a11a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/west_gate/west_gate_arch",
+      "runtime_bmodel_index": 202,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/west_gate_arch.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/west_gate/west_gate_plaque",
+      "runtime_bmodel_index": 203,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/west_gate_plaque.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a12b",
+        "remaps": {
+          "t18a12b": "t18a12b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_00_0_00",
+      "runtime_bmodel_index": 204,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_00_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_00_0_01",
+      "runtime_bmodel_index": 205,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_00_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_00_0_02",
+      "runtime_bmodel_index": 206,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_00_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_01_0_00",
+      "runtime_bmodel_index": 207,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_01_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_01_0_01",
+      "runtime_bmodel_index": 208,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_01_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_01_0_02",
+      "runtime_bmodel_index": 209,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_01_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_01_0_03",
+      "runtime_bmodel_index": 210,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_01_0_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_02_0_00",
+      "runtime_bmodel_index": 211,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_02_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_02_0_01",
+      "runtime_bmodel_index": 212,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_02_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_02_0_02",
+      "runtime_bmodel_index": 213,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_02_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_02_0_03",
+      "runtime_bmodel_index": 214,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_02_0_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_02_0_04",
+      "runtime_bmodel_index": 215,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_02_0_04.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_02_0_05",
+      "runtime_bmodel_index": 216,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_02_0_05.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_02_0_06",
+      "runtime_bmodel_index": 217,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_02_0_06.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_02_0_07",
+      "runtime_bmodel_index": 218,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_02_0_07.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_03_0_00",
+      "runtime_bmodel_index": 219,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_03_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_03_0_01",
+      "runtime_bmodel_index": 220,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_03_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_03_0_02",
+      "runtime_bmodel_index": 221,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_03_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_04_0_00",
+      "runtime_bmodel_index": 222,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_04_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_04_0_01",
+      "runtime_bmodel_index": 223,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_04_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_04_0_02",
+      "runtime_bmodel_index": 224,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_04_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_04_0_03",
+      "runtime_bmodel_index": 225,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_04_0_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_04_1_00",
+      "runtime_bmodel_index": 226,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_04_1_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_04_1_01",
+      "runtime_bmodel_index": 227,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_04_1_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_04_1_02",
+      "runtime_bmodel_index": 228,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_04_1_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_05_0_00",
+      "runtime_bmodel_index": 229,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_05_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_05_0_01",
+      "runtime_bmodel_index": 230,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_05_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_05_0_02",
+      "runtime_bmodel_index": 231,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_05_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_05_0_03",
+      "runtime_bmodel_index": 232,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_05_0_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_06_0_00",
+      "runtime_bmodel_index": 233,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_06_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_06_0_01",
+      "runtime_bmodel_index": 234,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_06_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_06_0_02",
+      "runtime_bmodel_index": 235,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_06_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_06_0_03",
+      "runtime_bmodel_index": 236,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_06_0_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_06_0_04",
+      "runtime_bmodel_index": 237,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_06_0_04.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_07_0_00",
+      "runtime_bmodel_index": 238,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_07_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_08_0_00",
+      "runtime_bmodel_index": 239,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_08_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_09_0_00",
+      "runtime_bmodel_index": 240,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_09_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_09_0_01",
+      "runtime_bmodel_index": 241,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_09_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_09_0_02",
+      "runtime_bmodel_index": 242,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_09_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_09_0_03",
+      "runtime_bmodel_index": 243,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_09_0_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_10_0_00",
+      "runtime_bmodel_index": 244,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_10_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_10_0_01",
+      "runtime_bmodel_index": 245,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_10_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_10_0_02",
+      "runtime_bmodel_index": 246,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_10_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_11_0_00",
+      "runtime_bmodel_index": 247,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_11_0_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_11_0_01",
+      "runtime_bmodel_index": 248,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_11_0_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_11_0_02",
+      "runtime_bmodel_index": 249,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_11_0_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_11_0_03",
+      "runtime_bmodel_index": 250,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_11_0_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_11_0_04",
+      "runtime_bmodel_index": 251,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_11_0_04.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_11_0_05",
+      "runtime_bmodel_index": 252,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_11_0_05.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_11_0_06",
+      "runtime_bmodel_index": 253,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_11_0_06.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_wall_11_0_07",
+      "runtime_bmodel_index": 254,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_wall_11_0_07.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t32a05b": "t32a05b",
+          "t18a02a": "t18a02a",
+          "t18a11a": "t18a11a"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_00",
+      "runtime_bmodel_index": 255,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_01",
+      "runtime_bmodel_index": 256,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_02",
+      "runtime_bmodel_index": 257,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_03",
+      "runtime_bmodel_index": 258,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_04",
+      "runtime_bmodel_index": 259,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_04.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_05",
+      "runtime_bmodel_index": 260,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_05.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_06",
+      "runtime_bmodel_index": 261,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_06.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_07",
+      "runtime_bmodel_index": 262,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_07.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_09",
+      "runtime_bmodel_index": 263,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_09.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_10",
+      "runtime_bmodel_index": 264,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_10.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/town_wall/town_corner_11",
+      "runtime_bmodel_index": 265,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/town_corner_11.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18a01a",
+        "remaps": {
+          "t18a01a": "t18a01a",
+          "t18a11a": "t18a11a",
+          "t18a02a": "t18a02a",
+          "t32a05b": "t32a05b"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/water_well/water_well",
+      "runtime_bmodel_index": 266,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/water_well.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t18b01",
+        "remaps": {
+          "t18b01": "t18b01",
+          "wtrtyl": "wtrtyl",
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_564/source_bench_564",
+      "runtime_bmodel_index": 267,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_564.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_568/source_bench_568",
+      "runtime_bmodel_index": 268,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_568.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_572/source_bench_572",
+      "runtime_bmodel_index": 269,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_572.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_576/source_bench_576",
+      "runtime_bmodel_index": 270,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_576.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_580/source_bench_580",
+      "runtime_bmodel_index": 271,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_580.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_584/source_bench_584",
+      "runtime_bmodel_index": 272,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_584.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_588/source_bench_588",
+      "runtime_bmodel_index": 273,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_588.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_592/source_bench_592",
+      "runtime_bmodel_index": 274,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_592.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/source_bench_604/source_bench_604",
+      "runtime_bmodel_index": 275,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/source_bench_604.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/working_crates_0/working_crates_0",
+      "runtime_bmodel_index": 276,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/working_crates_0.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/working_crates_1/working_crates_1",
+      "runtime_bmodel_index": 277,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/working_crates_1.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/working_crates_2/working_crates_2",
+      "runtime_bmodel_index": 278,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/working_crates_2.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/working_crates_3/working_crates_3",
+      "runtime_bmodel_index": 279,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/working_crates_3.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/working_crates_4/working_crates_4",
+      "runtime_bmodel_index": 280,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/working_crates_4.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/decor/working_crates_5/working_crates_5",
+      "runtime_bmodel_index": 281,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/working_crates_5.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "crate_w64",
+        "remaps": {
+          "crate_w64": "crate_w64"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/chapter_court_bench/chapter_court_bench",
+      "runtime_bmodel_index": 282,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/chapter_court_bench.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:castleview/chapter_court_edging/chapter_court_edging",
+      "runtime_bmodel_index": 283,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/chapter_court_edging.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a01c",
+        "remaps": {
+          "t05a01c": "t05a01c"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_bay_00",
+      "runtime_bmodel_index": 284,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_bay_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_bay_01",
+      "runtime_bmodel_index": 285,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_bay_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_bay_02",
+      "runtime_bmodel_index": 286,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_bay_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_bay_03",
+      "runtime_bmodel_index": 287,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_bay_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_bay_04",
+      "runtime_bmodel_index": 288,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_bay_04.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_bay_05",
+      "runtime_bmodel_index": 289,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_bay_05.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_bay_06",
+      "runtime_bmodel_index": 290,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_bay_06.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_bay_07",
+      "runtime_bmodel_index": 291,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_bay_07.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_start_ramp",
+      "runtime_bmodel_index": 292,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_start_ramp.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t18b01": "t18b01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/river_crossing/river_crossing_end_ramp",
+      "runtime_bmodel_index": 293,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/river_crossing_end_ramp.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t18b01": "t18b01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_bay_00",
+      "runtime_bmodel_index": 294,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_bay_00.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_bay_01",
+      "runtime_bmodel_index": 295,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_bay_01.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_bay_02",
+      "runtime_bmodel_index": 296,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_bay_02.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_bay_03",
+      "runtime_bmodel_index": 297,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_bay_03.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_bay_04",
+      "runtime_bmodel_index": 298,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_bay_04.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_bay_05",
+      "runtime_bmodel_index": 299,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_bay_05.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_bay_06",
+      "runtime_bmodel_index": 300,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_bay_06.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_bay_07",
+      "runtime_bmodel_index": 301,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_bay_07.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_start_ramp",
+      "runtime_bmodel_index": 302,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_start_ramp.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t18b01": "t18b01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/reger_crossing/reger_crossing_end_ramp",
+      "runtime_bmodel_index": 303,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/reger_crossing_end_ramp.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "t05a10",
+        "remaps": {
+          "t05a10": "t05a10",
+          "t18b01": "t18b01"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_0/rim_0_cliff",
+      "runtime_bmodel_index": 304,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_0_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_0/rim_0_space_boundary",
+      "runtime_bmodel_index": 305,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_0_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_1/rim_1_cliff",
+      "runtime_bmodel_index": 306,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_1_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_1/rim_1_space_boundary",
+      "runtime_bmodel_index": 307,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_1_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_2/rim_2_cliff",
+      "runtime_bmodel_index": 308,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_2_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_2/rim_2_space_boundary",
+      "runtime_bmodel_index": 309,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_2_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_3/rim_3_cliff",
+      "runtime_bmodel_index": 310,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_3_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_3/rim_3_space_boundary",
+      "runtime_bmodel_index": 311,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_3_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_3/rim_3_water_spill",
+      "runtime_bmodel_index": 312,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_3_water_spill.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "wtrtyl",
+        "remaps": {
+          "wtrtyl": "wtrtyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_4/rim_4_cliff",
+      "runtime_bmodel_index": 313,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_4_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_4/rim_4_space_boundary",
+      "runtime_bmodel_index": 314,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_4_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_4/rim_4_water_spill",
+      "runtime_bmodel_index": 315,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_4_water_spill.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "wtrtyl",
+        "remaps": {
+          "wtrtyl": "wtrtyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_5/rim_5_cliff",
+      "runtime_bmodel_index": 316,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_5_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_5/rim_5_space_boundary",
+      "runtime_bmodel_index": 317,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_5_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_6/rim_6_cliff",
+      "runtime_bmodel_index": 318,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_6_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_6/rim_6_space_boundary",
+      "runtime_bmodel_index": 319,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_6_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_7/rim_7_cliff",
+      "runtime_bmodel_index": 320,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_7_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_7/rim_7_space_boundary",
+      "runtime_bmodel_index": 321,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_7_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_8/rim_8_cliff",
+      "runtime_bmodel_index": 322,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_8_cliff.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/rim/rim_8/rim_8_space_boundary",
+      "runtime_bmodel_index": 323,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/rim_8_space_boundary.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/route/sw_sc/route_sw_sc",
+      "runtime_bmodel_index": 324,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/route_sw_sc.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    },
+    {
+      "geometry_id": "mm5:sw/route/sw_nw/route_sw_nw",
+      "runtime_bmodel_index": 325,
+      "source": {
+        "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/mm5_castleview_kalindra/implementation/source/models/route_sw_nw.obj",
+        "scale": 128,
+        "merge_coplanar_faces": false,
+        "preserve_source_winding": true
+      },
+      "materials": {
+        "default_texture": "rctyl",
+        "remaps": {
+          "rctyl": "rctyl"
+        }
+      }
+    }
+  ]
+}

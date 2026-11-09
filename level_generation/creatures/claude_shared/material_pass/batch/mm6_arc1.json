@@ -1,0 +1,119 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_arc1.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_arc1.glb",
+ "assignments": [
+  {
+   "match": "=Archer_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_arc1_codex/textures/arc1_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_arc1_codex/textures/arc1_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "arc1_metal_rough_retex",
+   "size": [
+    2048,
+    1024
+   ],
+   "materials": [
+    "Archer_A",
+    "Archer_B",
+    "Archer_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      2048,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 1059484,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.4188,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_arc1_codex/textures/arc1_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.041,
+      "claw": 0.0848,
+      "mouth": 0.147,
+      "cloth": 0.7272
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.041,
+    "claw": 0.0848,
+    "mouth": 0.147,
+    "cloth": 0.7272
+   },
+   "kept_classes": [
+    "skin",
+    "cloth"
+   ],
+   "kept_texels": 813859,
+   "old_specular_mean_by_class": {
+    "skin": 0.161,
+    "claw": 0.161,
+    "mouth": 0.154,
+    "cloth": 0.154
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.161,
+    "claw": 1.0,
+    "mouth": 0.5,
+    "cloth": 0.154
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.72,
+    "claw": 0.45,
+    "mouth": 0.45,
+    "cloth": 0.729
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Archer_A": null,
+    "Archer_B": null,
+    "Archer_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 71.8
+    },
+    "G": {
+     "min": 0,
+     "max": 238,
+     "mean": 167.5
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

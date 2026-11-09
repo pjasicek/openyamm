@@ -1,0 +1,29 @@
+{
+  "label": "Ghost A",
+  "creature": "ghost",
+  "base_palette": 244,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m242sa0",
+    "m242sa1",
+    "m242sa2",
+    "m242sa3",
+    "m242sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original floating skeletal ghost, in its native dark brown robe palette. A small narrow yellowed ivory skull with deep black eye sockets, dark nasal cavity, small exposed teeth and no glowing eyes. Thin pale yellow-green aged bones form the neck, exposed upper rib cage, forearms and very long fine fingers; match each native finger curl and hand pose, with empty hands. The skull sits inside a close-fitting dark brown hood with a soft rounded crown and a small swept-back point visible in profile. Broad sloping shoulders, a short torn shoulder cape and long loose ragged brown sleeves surround the slim skeletal body. The robe is worn coarse dark umber cloth with muted brown-gray highlights, deep near-black vertical folds, mottled threadbare texture, long thin torn strips at the sleeve and lower hem, and irregular angular pointed edges. The robe tapers beneath the floating body; no visible feet, boots or leg bones, no floor shadow, smoke or mist. Preserve all native robe tears and the pointed profile silhouette. In standing poses both bent skeletal arms are held near the waist across the front. Attack raises the empty long-fingered hands; falling poses crumple the robe and separate only the native skeletal hand pieces. Preserve the small skull, narrow profile, robe width, native hand anatomy and deeply shaded tonal weight. Cloth recolors offline to gray-white and black; skull, ribs and hand bones stay yellowed ivory. No weapon, scythe, chain, belt, jewelry, extra bones, added aura or redesign.",
+  "fixed_grid_batches": [
+    "death_corpse"
+  ],
+  "material_edge_hue_repair": true,
+  "exclude_magenta_interior": true
+}

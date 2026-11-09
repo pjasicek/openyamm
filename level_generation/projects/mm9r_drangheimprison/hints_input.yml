@@ -1,0 +1,6 @@
+# Input tour for the perception hints review: Perception 12 on the party, so the map script shows the glow.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_drangheimprison/review/hints
+steps:
+  - wait: 2
+  - console: skill set Perception 12 G
+  - wait: 60

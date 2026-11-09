@@ -1,0 +1,27 @@
+{
+  "name": "mm7_road_mm6mask_pilot",
+  "world": "mm7",
+  "map": "7out01.odm",
+  "pose": null,
+  "screenshot": "mm7_road_mm6mask_pilot.png",
+  "look_left": 0,
+  "look_down": 0,
+  "diagnostic_flying": true,
+  "warmup_seconds": 1.0,
+  "actions": null,
+  "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+  "performance_sample": false,
+  "display": ":103",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "vsync": false,
+  "measurement_seconds": 0.0,
+  "fps_samples": [],
+  "median_fps": null,
+  "binary_sha256": "7355ee3c85ef2c0ead229edb750f0b5e7f422b2e3801097845341ed8d04d7a4a",
+  "settings_sha256": "71bb6a8c54e74d42062b0d6db71186abdad8a6cb1703b7e8c325c49ad451c7b2",
+  "native_sha256": "7158df68e9e08d90c8859031d1779b83a016d0af44ec22817e9be2fbc06ecc07",
+  "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+}

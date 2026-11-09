@@ -1,0 +1,113 @@
+# DESIGN CONTRACT; runtime-only behaviour is deliberately not disguised as UiLayoutManager fields.
+revision: obsidian-consolidated-01
+units:
+  logical_height: 480
+  review_height: 900
+  review_pixels_per_logical: 1.875
+  asset_density: 2
+  fullscreen_canvas: [640, 480]
+  full_viewport_hud: true
+  safe_edge_review: 28
+  png_alpha: straight RGBA, filter premultiplied samples correctly at edges
+  exported_geometry: ../hud_exports.json
+  measured_reference: ../hud_geometry.json
+party:
+  capacity: 5
+  live_count_range: [1, 5]
+  slot_width_review: 105
+  gap_review: 20
+  height_review: 185
+  bottom_review: 23
+  count_width: 105*n + 20*(n-1)
+  center_group_after_resizing: true
+  keep_native_portrait_art: true
+  names: Visible below gameplay portraits; hidden in the centered fullscreen basebar.
+  selection: Brighter double rim plus plain diamond above selected portrait.
+  input: Keep native single-select, double-action and inspect behaviour; medallion consumes its own hit first.
+  condition: No idle Ready label, no party numbers, no company title, no selection underline.
+  resource_meters:
+    shade: static
+    hp: '#d17f70'
+    hp_below_half: '#d99467'
+    hp_at_or_below_quarter: '#e37d6d'
+    sp: '#7baac5'
+    fill_rule: Clamp displayed fraction to 0..1, crop fill UV and width; never squeeze the end cap.
+    empty_maximum: Draw empty track; do not divide by zero or invent a positive resource.
+    transition_ms: 180
+    damage_trail: {color: '#e9bd7f', duration_ms: 750, trigger: damage_only}
+    low_health_pulse_default: false
+    reduced_motion: Snap live values; suppress trail and pulse.
+    fullscreen_meter_review: [107, 6]
+    gameplay_meter_review: [103, 7]
+readiness:
+  art: {clear: obsidian_aggro_explore, nearby: obsidian_aggro_nearby, danger: obsidian_aggro_combat, unavailable: obsidian_aggro_unlit}
+  content_review: [8, 8, 22, 25]
+  atlas_review: [38, 41]
+  note: Aggro art has shadow padding; place visible content at layout readiness rect, not the whole PNG.
+  meaning: Preserve native party danger and character ability/recovery rules; this is not an enemy targeting indicator.
+  symbols: none
+  recovering: Thin partial ring and live remaining time, using existing recovery clock.
+  priority: [incapacitated, recovering, native_danger_color]
+buffs:
+  enum_mapping: buffs.yml
+  compact: {visible: 4, columns: 5, width_review: 268, chip_review: [48, 57], pitch_review: [55, 65]}
+  optional_two_rows: {visible: 8, overflow_column: 5, overflow_vertically_centered: true}
+  sorting: Ascending finite expiry, stable enum order on ties; permanent effects last. Do not treat seconds=0 as permanent.
+  overflow: +N means hidden active effects, never total effects. Hide overflow when N=0; hide strip when no effects.
+  popup: Remaining effects, live durations, bounded height with scrolling. Single click toggles; outside/Esc closes.
+  reorder: Resolve pointer actions by stable buff ID, not visual index. Reorder after pointer release to avoid moving targets.
+  individual: Medallion visible only for character effects; owner-specific list. Party effects never multiply by party size.
+  timers: Native world clock; use remaining seconds for s/m/h formatting. Do not run a separate browser clock in the engine.
+  expiration_color: '#e3b579'
+  expiration_threshold_seconds: 60
+  icon_box_review: [36, 36]
+  art: Uniform glyph-free 128x128 RGBA; render contained, live timer separately.
+minimap:
+  content_review: [200, 200]
+  frame_review: [204, 204]
+  clipping: Circular alpha clip applies to map, reveal mask and markers; rim sits above, picking ignores outside circle.
+  retain: [world_renderer, explored_regions, wizard_eye_mastery, actor_markers, heading, zoom_limits, map_click]
+  location: Native localized map name, strong ivory text with dark shadow; fit long names to bounded width.
+  north: Native orientation, do not reuse the fixture map or baked player arrow.
+  markers: Keep native actual heading and marker semantics; do not bake scene data into exported assets.
+layout_collisions:
+  apply_after_live_party_count_and_text_measurement: true
+  coordinates: Review pixels below; divide by 1.875 for logical.
+  commands_right: 312
+  commands_with_turn_right: 459
+  party_visual_left: (viewport_width - (105*n + 20*(n-1)))/2 - 12
+  rule: If dock right + 16 exceeds party visual left, raise command/turn docks to bottom 239.
+  status_rule: If measured status box intersects a raised dock, raise its bottom to dock top - 16 in screen coordinates.
+  popups: Clamp inside screen safe bounds; preserve portrait and command targets. Scroll body instead of unbounded growth.
+  minimum_viewport: 640x480 logical equivalent. Smaller windows need explicit accessibility/layout review.
+  aspect_checks: [4:3, 16:9, 21:9]
+  no_alternative_legacy_standard_branch: Both desktop layout settings must resolve to the new shared HUD.
+status:
+  gameplay: Content-sized floating message, max 620x148 review; wrap, then scroll exceptionally long text.
+  fullscreen: Fixed clear rail reserved for status and editing. Never overlay the old Ui-FrSp texture.
+  fullscreen_rail_logical: [0, 0, 485.333333, 22.4]
+  fullscreen_text_logical: [14.4, 2.666667, 454.933333, 17.066667]
+  fullscreen_font: {face: Lucida, native_height: 17, scale: 1}
+  content_priority: [active_text_entry, transient_event, hover, empty]
+  passive_long_text: Keep native timing, clip or ellipsize one line; full text remains available through its native dialogue.
+  input_long_text: Horizontal caret-follow scrolling, never ellipsize the editable value.
+  input: Preserve native prompt, buffer, caret, selection, Enter, Escape, backspace, paste and length/character rules.
+  ownership: Input controller owns text. Status renderer observes it; hover and timer messages cannot overwrite editing.
+  bank: Native bank currently builds its input inside event-dialog lines. Rail placement requires an explicit shared binding;
+    do not duplicate transactions or change deposit/withdraw validation. Keep balance in the dialogue content.
+  event_passwords: Reuse existing event input and result callback, including Alamos JBARD. No fixture strings in game data.
+  fullscreen_party_adjustment: Rail grows 28->42 review px. Slots move 40->54; retain prior +3 right/+5 down local shift.
+  fullscreen_selection_diamond_top_review: -14
+  fullscreen_body: Sample original v2 art, fit body below enlarged rail. Right panel and topbar still use original artwork.
+slice_rules:
+  portrait_rims: Fixed aspect and padded render bounds; mask live face separately. Do not stretch a gameplay rim onto fullscreen slot.
+  popup_plate: Use 14 review px fixed outer caps (including 12px transparent padding); repeat/crop centre and edges.
+  status_plate: Keep horizontal fade caps and bottom rule; repeat flat middle. Height measured from live text.
+  command_resource_turn: Preserve 1px rules and padding; expand only flat middle when localized counters require it.
+  ambient: Stretch 8x900 gradient strip horizontally and to normalized viewport height; never include captured world scenery.
+mobile:
+  current_override: ../reference_runtime/ui/gameplay/gameplay_mobile.yml
+  readiness: Requires mobile migration before enabling new skin on Android; desktop draft cannot load with old overrides.
+  retain: [touch_movement, attack, cast, quick_cast, flight_up_down, contextual_action, inspect_mode, pause, inventory]
+  migrate: Remove retired visual overrides, inherit new HUD, re-anchor touch controls and validate all hit targets.
+  visual_approval: Desktop and centered fullscreen only; new touch layout is not claimed as approved.

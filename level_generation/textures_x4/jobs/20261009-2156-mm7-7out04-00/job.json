@@ -1,0 +1,37 @@
+{
+ "id": "20261009-2156-mm7-7out04-00",
+ "world": "mm7",
+ "maps": [
+  "7out04.odm"
+ ],
+ "created": "2026-10-09T19:56:09+00:00",
+ "textures": [
+  "mm7/her1erw"
+ ],
+ "requests": {
+  "mm7/her1erw": {
+   "name": "her1erw",
+   "versions": [
+    1
+   ],
+   "material": "elven timber-framed wall: dark brown curved timber frame with a speckled grey-brown plaster triangle at the top, a middle band of diagonal golden-yellow painted planks and a bottom band of dark stones behind curved timber braces, with a timber post on the right edge and an arched brown plank shutter window flanked by two teal carved columns in the centre; copy the composition exactly",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.0
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/her1elw"
+    }
+   }
+  }
+ }
+}

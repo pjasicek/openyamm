@@ -1,0 +1,65 @@
+{
+ "hwr1wall_v1": {
+  "member": "mm7/hwr1wall",
+  "version": 1,
+  "flags": [
+   "seam u 2.9 vs 0.8",
+   "rim left 0.42/0.93"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    1.0,
+    0.0
+   ],
+   "shift_after_crop": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.967,
+    1.018,
+    1.24
+   ],
+   "seam_u": [
+    2.91,
+    0.77
+   ],
+   "seam_v": [
+    0.89,
+    0.79
+   ],
+   "edge_top": 0.99,
+   "edge_bottom": 0.99,
+   "edge_left": 0.79,
+   "edge_right": 1.19,
+   "rim_top": [
+    1.01,
+    0.99
+   ],
+   "rim_bottom": [
+    1.01,
+    0.99
+   ],
+   "rim_left": [
+    0.42,
+    0.93
+   ],
+   "rim_right": [
+    1.25,
+    0.96
+   ],
+   "line_top": 0,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": -0.017,
+   "layout_corr": 0.951,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-2146-mm7-7d25-00/candidates/hwr1wall_v1.png"
+ }
+}

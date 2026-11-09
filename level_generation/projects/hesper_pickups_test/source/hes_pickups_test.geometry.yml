@@ -1,0 +1,165 @@
+{
+  "format_version": 2,
+  "kind": "indoor_geometry",
+  "map_file": "hes_pickups_test.blv",
+  "source": {
+    "authoring_file": "hes_pickups_test.blend",
+    "asset_path": "hes_pickups_test.glb",
+    "coordinate_system": "blender_z_up",
+    "unit_scale": 128,
+    "import": {
+      "source_format": "glb",
+      "reserve_sector_zero": true,
+      "merge_coplanar_faces": false,
+      "generate_bsp": true,
+      "generate_outlines": true
+    }
+  },
+  "materials": [
+    {
+      "id": "hcceiling",
+      "source_material": "hes_pickups_test_hcceiling",
+      "texture": "hcceiling",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcconsole",
+      "source_material": "hes_pickups_test_hcconsole",
+      "texture": "hcconsole",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcfloor",
+      "source_material": "hes_pickups_test_hcfloor",
+      "texture": "hcfloor",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcpanel",
+      "source_material": "hes_pickups_test_hcpanel",
+      "texture": "hcpanel",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hcstripd",
+      "source_material": "hes_pickups_test_hcstripd",
+      "texture": "hcstripd",
+      "texture_width": 128,
+      "texture_height": 32
+    },
+    {
+      "id": "hctrim",
+      "source_material": "hes_pickups_test_hctrim",
+      "texture": "hctrim",
+      "texture_width": 128,
+      "texture_height": 32
+    }
+  ],
+  "rooms": [
+    {
+      "id": "room_room",
+      "source_nodes": [
+        "ROOM_room",
+        "DECOR_hes_stim_canister_0",
+        "DECOR_hes_serum_vat_1",
+        "DECOR_hes_colony_satchel_2",
+        "DECOR_hes_colony_satchel_3",
+        "DECOR_hes_colony_satchel_4",
+        "DECOR_hes_scrap_bundle_5",
+        "LIGHT_room_a",
+        "LIGHT_room_b"
+      ],
+      "min_ambient_light_level": 8
+    }
+  ],
+  "portals": [],
+  "surfaces": [],
+  "mechanisms": [],
+  "entities": [
+    {
+      "id": "hes_stim_canister_0",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_stim_canister_0",
+      "decoration_list_id": 3237,
+      "event_id_primary": 701,
+      "event_id_secondary": 701,
+      "facing": 270
+    },
+    {
+      "id": "hes_serum_vat_1",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_1",
+      "decoration_list_id": 3246,
+      "event_id_primary": 702,
+      "event_id_secondary": 702,
+      "facing": 270
+    },
+    {
+      "id": "hes_colony_satchel_2",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_2",
+      "decoration_list_id": 3255,
+      "event_id_primary": 751,
+      "event_id_secondary": 751,
+      "facing": 270
+    },
+    {
+      "id": "hes_colony_satchel_3",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_3",
+      "decoration_list_id": 3255,
+      "event_id_primary": 752,
+      "event_id_secondary": 752,
+      "facing": 270
+    },
+    {
+      "id": "hes_colony_satchel_4",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_4",
+      "decoration_list_id": 3255,
+      "event_id_primary": 753,
+      "event_id_secondary": 753,
+      "facing": 270
+    },
+    {
+      "id": "hes_scrap_bundle_5",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_5",
+      "decoration_list_id": 3257,
+      "event_id_primary": 754,
+      "event_id_secondary": 754,
+      "facing": 270
+    }
+  ],
+  "lights": [
+    {
+      "id": "room_a",
+      "source_node": "LIGHT_room_a",
+      "color": [
+        225,
+        235,
+        255
+      ],
+      "radius": 900,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "room_b",
+      "source_node": "LIGHT_room_b",
+      "color": [
+        225,
+        235,
+        255
+      ],
+      "radius": 900,
+      "brightness": 31,
+      "type": "point"
+    }
+  ],
+  "spawns": []
+}

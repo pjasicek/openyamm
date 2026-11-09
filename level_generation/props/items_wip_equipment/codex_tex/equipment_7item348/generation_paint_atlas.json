@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Moon Cloak (7item348). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Compact folded rich blue cloak, gold stars and a gold crescent-moon brooch at its upper right. Exact material boundaries: Blue fabric and embroidered stars BLUE; gold crescent brooch RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item348/inputs/guide_paint.png",
+  "input_guide_sha256": "aa5219e65c40aaf2bd2a5b952b8fa52f7f7ed0012a28e63080b16a6f014d63e0",
+  "revision": 1,
+  "input_icon": "7item348",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-82ba5d9b-b1e9-4f05-aa7d-2093f755866a.png",
+  "output": "paint_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "c42170d85c6dc98738cc8105ee7906f338cecf05e0f67c472e5d6048d97e41c0",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item348.png",
+  "input_icon_sha256": "b07d25fcd67012c141ef72059e29cd90fb36da136e77923efac9749a83e171bb",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

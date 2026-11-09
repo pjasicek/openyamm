@@ -1,0 +1,136 @@
+{
+  "materials": [
+    {
+      "material": "sand",
+      "tile": "6sandtyl",
+      "master_sha256": "d610e842ba57f3d61bd1a7b936abde859b988a079637642efdd55cdd8ae02245",
+      "runtime_sha256": "32644dcf69d7f3eb800e22c5991a07c56aff29c336faebcb7980f4e874f51975",
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.2263684526096694,
+          "edge_max": 1.2836493886645648,
+          "interior_p95": 1.3508267898337227,
+          "interior_p999": 2.070553297994118,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.215411746397933,
+          "edge_max": 1.4372634843696799,
+          "interior_p95": 1.3556380593023578,
+          "interior_p999": 1.6761713246511263,
+          "pass": true
+        }
+      ],
+      "unchanged_from_v2": true
+    },
+    {
+      "material": "snow",
+      "tile": "snotyl",
+      "master_sha256": "fee4e235fe57d9abd65a8b1c8dacc3d75f823e42a8d71fc9986dfb902698b905",
+      "runtime_sha256": "75fc613db138e1bbfef55551a175c0984d1221dad3db73452d842b8f37d0e59f",
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.4220174708745084,
+          "edge_max": 1.9037277397837369,
+          "interior_p95": 1.385490871353691,
+          "interior_p999": 2.013414022197562,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.317780007706692,
+          "edge_max": 1.4067330972981327,
+          "interior_p95": 1.3640303591916556,
+          "interior_p999": 1.6574946417934553,
+          "pass": true
+        }
+      ],
+      "unchanged_from_v2": true
+    },
+    {
+      "material": "cracked",
+      "tile": "crktyl",
+      "master_sha256": "7ee57552860ffd526841a131eb9e349636858d28ad1406f1e1b7ec643b9764a8",
+      "runtime_sha256": "c52b4b22b1ee015dddf693c4de35343b4d5847c7cd7bfaf05635cbfd136fc7bf",
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.1075636257824315,
+          "edge_max": 1.218964598317937,
+          "interior_p95": 1.3692594232048898,
+          "interior_p999": 1.7475067909886197,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.3044406064670202,
+          "edge_max": 1.3537093164996676,
+          "interior_p95": 1.3530860786009034,
+          "interior_p999": 2.0088621230512156,
+          "pass": true
+        }
+      ],
+      "unchanged_from_v2": true
+    },
+    {
+      "material": "tropical",
+      "tile": "troptyl",
+      "master_sha256": "e6de0be885c0c522137647a4ff47a0f631e8461ef6b19a22c8c022ae1709a00e",
+      "runtime_sha256": "d9dfb3c83be727480d6ca64939351b62080bab222a6b7a1c7947a52746abe8ab",
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.2342708585745215,
+          "edge_max": 1.277348008736078,
+          "interior_p95": 1.3643857511452802,
+          "interior_p999": 1.767188327410092,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.319820349956517,
+          "edge_max": 1.8102361772158455,
+          "interior_p95": 1.532052614816236,
+          "interior_p999": 2.0838763530229607,
+          "pass": true
+        }
+      ],
+      "unchanged_from_v2": false
+    },
+    {
+      "material": "swamp",
+      "tile": "swmtyl",
+      "master_sha256": "22c5b0373a1b077cb54dc0ca8c2ddfa263b998c763c669b08a17bb439d5ea7ab",
+      "runtime_sha256": "d73093b703a1c1b21a49eeaf073357e1e1d54a73a8e583104b2a5d46c7e05137",
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.379290689916251,
+          "edge_max": 1.4285020181091486,
+          "interior_p95": 1.426916737925634,
+          "interior_p999": 1.8789920284161257,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.4789367841475485,
+          "edge_max": 1.5634821645241939,
+          "interior_p95": 1.4262176516761076,
+          "interior_p999": 1.8926032764206784,
+          "pass": true
+        }
+      ],
+      "unchanged_from_v2": true
+    }
+  ],
+  "failures": [],
+  "imagegen_source": {
+    "path": "raw/tropical.png",
+    "sha256": "163ea40a6ed89d370bb78ce19bce1cf2523f95bb2f0716be317a3889bde351a3",
+    "prompt": "prompts/tropical.txt"
+  },
+  "visual_review": "Repeated and offset runtime previews checked; heavy tropical bevel outlines removed. The other four masters remain byte-identical to v2."
+}

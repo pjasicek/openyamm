@@ -1,0 +1,250 @@
+{
+  "material_atlas": {
+    "tool": "built-in imagegen",
+    "raw": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/references/material_atlas_v1.png",
+    "raw_sha256": "5dbe6aeabee0ee3701902fb4360b1b72f8c71af7ddd1ac32cd3c1d454487af69",
+    "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/references/material_atlas_prompt.txt",
+    "selected": true,
+    "derivation": "Crop four-pixel source gutters; resize exact cells to 256; technical base-colour clamp; explicit per-cell metallic/roughness; OpenGL +Y micro-normal.",
+    "texture_size": [
+      1024,
+      1024
+    ],
+    "roughness": "constant per material, independent of albedo brightness",
+    "metallic": "binary material classification; red enamel/gold cell classified by its known palette"
+  },
+  "meshy": {
+    "w02_6ldagger4_st_v1": {
+      "task_id": "01a14e9a-fde5-72fa-b9dd-c2f669cb5df7",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item017_st_v1": {
+      "task_id": "01a14e9b-087b-73bb-8696-7b2c889502dc",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item018_st_v1": {
+      "task_id": "01a14e9b-11f6-748d-97b7-a13265b46695",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item019_st_v1": {
+      "task_id": "01a14e9b-1cad-7724-8b0a-d39426835c14",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item221_st_v1": {
+      "task_id": "01a14ea6-67b7-752a-9d19-842a3a6e9c06",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item025_st_v1": {
+      "task_id": "01a14ea6-7703-7201-8cd4-7f5addcfaaff",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item029_st_v1": {
+      "task_id": "01a14ea6-859e-752a-8c28-441cbd2cf579",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item030_st_v1": {
+      "task_id": "01a14ea6-9267-771b-9528-4c77e8969d6a",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item238_st_v1": {
+      "task_id": "01a14eb2-f877-7662-9a5f-59d4c0115159",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_6axe8_st_v1": {
+      "task_id": "01a14eb3-0066-7015-88ec-c3ce707508a9",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item239_st_v1": {
+      "task_id": "01a14eb3-528e-7191-bb40-23520ab02cab",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_6axe7_st_v1": {
+      "task_id": "01a14eb3-5cc7-7737-b034-4b2a06d6aef7",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item223_st_v1": {
+      "task_id": "01a14eb9-95a5-701e-9b0e-4ee91c2fcb75",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item224_st_v1": {
+      "task_id": "01a14eb9-a317-7715-810c-b02aed329b25",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_7item226_st_v1": {
+      "task_id": "01a14eb9-b1a2-776d-9c0a-8a616ae1707c",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item248_st_v1": {
+      "task_id": "01a14eb9-c3e1-7410-a152-a4dd3b3d103d",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    },
+    "w02_item028_st_v1": {
+      "task_id": "01a14ebe-4c44-71f5-9fa5-3e07a017160a",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5
+    }
+  },
+  "stone": {
+    "tool": "built-in imagegen",
+    "raw": "level_generation/props/weapons_wip_daggers_axes/references/stone_material_v1.png",
+    "sha256": "f7332d6e00fa2abcffd219b646a2fe5b0fc378e87fa9fb87aea7a14e981ca810",
+    "prompt": "level_generation/props/weapons_wip_daggers_axes/references/stone_material_prompt.txt",
+    "selected": true,
+    "derivation": "resize to 256-square technical material map; dielectric metallic 0, roughness .83"
+  },
+  "masters": {
+    "w02_6ldagger4": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_6ldagger4/references_hd/00_three_quarter.png",
+      "sha256": "634e51a193a7883019af82df36a6e86c30a8c92f23ff9467378892f9d2bf053c",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_6ldagger4/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_7item017": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item017/references_hd/00_three_quarter.png",
+      "sha256": "345c197858b8395723e26c651bd2c1a93d54e2ab146ecd1312a300a4274f2e0a",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item017/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_7item018": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item018/references_hd/00_three_quarter.png",
+      "sha256": "e5567fe6c972329148e40d1b0c082d31e513f3174b2859a5fe0af3fb8b45981f",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item018/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_7item019": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item019/references_hd/00_three_quarter.png",
+      "sha256": "698251bdf6c2645c4b499b58ecad99c34213778e738ce803c2b60fd0efe32e8a",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item019/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_7item221": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item221/references_hd/00_three_quarter.png",
+      "sha256": "324ce47ac257186804ff0cc272052073f4b3cce7791cf0d62786e023ccb8a407",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item221/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_item025": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item025/references_hd/00_three_quarter.png",
+      "sha256": "456f5acbd3903d0a2a65de63864326d597fbd1253ce27a4e3b829a07b056d06b",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item025/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_item029": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item029/references_hd/00_three_quarter.png",
+      "sha256": "28167d2306e2ebd5e5139d215523e130187497a6a00e0036f671649c1b043800",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item029/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_item030": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item030/references_hd/00_three_quarter.png",
+      "sha256": "bbf3c3046f4932172819c5417cea0ab7d5861cd6660a5b59d896992ff73dbcac",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item030/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_item238": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item238/references_hd/00_three_quarter.png",
+      "sha256": "f30048d267f34c173d628a4ffafa5ae89499141292560c198493a06c974b2cf0",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item238/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_item239": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item239/references_hd/00_three_quarter.png",
+      "sha256": "abce17908877cff0996d02ef5fc52f679ef20ec52f14f55dbadcd62f63ec91fe",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item239/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_6axe7": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_6axe7/references_hd/00_three_quarter.png",
+      "sha256": "550708a1750b13bc703488dba165635bcef092e462bfed66ff4bb76fb3ffbd57",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_6axe7/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_6axe8": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_6axe8/references_hd/00_three_quarter.png",
+      "sha256": "cffd85e2e591d34dcd3147c2357252645ef5b4d309377b3c15c8793808e34735",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_6axe8/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_7item223": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item223/references_hd/00_three_quarter.png",
+      "sha256": "6f44847032f4a371e454b37cb814da52c930bac9bb8528e793d8a6ca0d8b50c9",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item223/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_7item224": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item224/references_hd/00_three_quarter.png",
+      "sha256": "06e1d7595ccefd918a6edc5b638e038445d1c27f2f81287649d3b54a7c532afc",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item224/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_7item226": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item226/references_hd/00_three_quarter.png",
+      "sha256": "577bbb150972b219f9ebb76e6e5f8831cb3a20223ddd4f0c7364190be52e7571",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_7item226/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_item248": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item248/references_hd/00_three_quarter.png",
+      "sha256": "e7d5c654c34bdeb17efdfb16ea15988fa711f819d590905e6a191a8b62160ff7",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item248/references_hd/master_prompt.txt",
+      "selected": true
+    },
+    "w02_item028": {
+      "tool": "built-in imagegen",
+      "saved": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item028/references_hd/00_three_quarter.png",
+      "sha256": "496606fe1911c44c0f65b6b0cac719003398800b108889b77405fae4fdba845c",
+      "prompt": "level_generation/props/weapons_wip_daggers_axes/meshy/w02_item028/references_hd/master_prompt.txt",
+      "selected": true
+    }
+  },
+  "meshy_credit_spend": 85
+}

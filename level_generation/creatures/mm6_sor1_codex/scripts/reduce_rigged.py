@@ -1,0 +1,56 @@
+"""Triangle budget AFTER the weights (TEST_DRIVE.md: reducing before the Meshy weight transfer moved vertices up to
+23 mm, mismatched weights and pushed the attack's arm stretch from 4.3x to 9.7x). Collapse decimation interpolates
+vertex groups, so the finished weights survive. Per shell (piece) targets; on the skin the head (Head/Neck weight
+> 0.3) and the hands (hand/finger weight > 0.3) are protected. Shells are separated, reduced and joined back with
+the armature modifier. Args: -- <in blend> <out blend>"""
+import bpy, sys, os
+import numpy as np
+src, out = sys.argv[sys.argv.index('--') + 1:]
+bpy.ops.wm.open_mainfile(filepath=os.path.abspath(src))
+rig = bpy.data.objects['Rig']; body = bpy.data.objects['Body']; me = body.data
+# druidess (14.5k -> ~9.8k): skin 0 (face protected), cloak 100 (silhouette, enough rows for the chains), hair 1,
+# legs 2, hood 3, boots 6/7, belt 8, bracers 9/10, medallion 14; hands 4/5 and the front panel 11 stay as they are
+TARGET = {100:2000,1:1800,5:400,6:160,7:140,8:140,9:100,10:100,11:100,12:80,13:100,14:90,15:75,101:120,102:120,**{i:35 for i in range(16,33) if i not in (17,19)}}
+before = sum(len(p.vertices) - 2 for p in me.polygons)
+names = [g.name for g in body.vertex_groups]
+prot = body.vertex_groups.new(name='_protect')
+keys = [i for i, n in enumerate(names) if n in ('B_Head', 'B_Neck') or 'Hand' in n or 'Finger' in n]
+pv = np.zeros(len(me.vertices), np.int32); me.attributes['piece'].data.foreach_get('value', pv)
+for v in me.vertices:
+    w = sum(e.weight for e in v.groups if e.group in keys)
+    if w > 0.3 and pv[v.index] == 0:                       # only the face/hand SKIN; teeth and ear hoops ride the head
+        prot.add([v.index], 1.0, 'REPLACE')
+for o in bpy.data.objects:
+    o.select_set(o == body)
+bpy.context.view_layer.objects.active = body
+bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='DESELECT'); bpy.ops.object.mode_set(mode='OBJECT')
+parts = {}
+for p, tgt in TARGET.items():
+    for v in me.vertices:
+        v.select = bool(pv[v.index] == p)
+    bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.separate(type='SELECTED'); bpy.ops.object.mode_set(mode='OBJECT')
+    me = body.data
+    pv = np.zeros(len(me.vertices), np.int32); me.attributes['piece'].data.foreach_get('value', pv)
+    new = [o for o in bpy.context.selected_objects if o is not body]
+    parts[p] = new[-1]
+    for o in bpy.data.objects:
+        o.select_set(o == body)
+report = {}
+for p, o in parts.items():
+    tris = sum(len(f.vertices) - 2 for f in o.data.polygons)
+    if tris > TARGET[p]:
+        m = o.modifiers.new('dec', 'DECIMATE'); m.decimate_type = 'COLLAPSE'; m.ratio = TARGET[p] / tris
+        m.vertex_group = '_protect'; m.invert_vertex_group = True
+        bpy.context.view_layer.objects.active = o
+        for x in bpy.data.objects:
+            x.select_set(x == o)
+        bpy.ops.object.modifier_move_to_index(modifier='dec', index=0)
+        bpy.ops.object.modifier_apply(modifier='dec')
+    report[p] = (tris, sum(len(f.vertices) - 2 for f in o.data.polygons))
+for x in bpy.data.objects:
+    x.select_set(x is body or x in parts.values())
+bpy.context.view_layer.objects.active = body
+bpy.ops.object.join()
+body.vertex_groups.remove(body.vertex_groups['_protect'])
+print('REDUCE', {p: f'{a}->{b}' for p, (a, b) in report.items()}, 'total', before, '->', sum(len(f.vertices) - 2 for f in body.data.polygons))
+bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(out))

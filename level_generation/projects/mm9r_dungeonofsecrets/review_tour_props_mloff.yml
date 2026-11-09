@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dungeonofsecrets/review/props_mloff
+settle_seconds: 1.5
+exit: true
+shots:
+- name: m01_clawtorch_hub
+  position:
+  - 4137
+  - -512
+  - -40
+  yaw: 1.5708
+  pitch: 0.0873
+- name: m02_clawtorch_hub_s
+  position:
+  - 4137
+  - -1536
+  - -40
+  yaw: -1.5708
+  pitch: 0.0873
+- name: m03_sconces_plate_room
+  position:
+  - -2304
+  - 2816
+  - 1
+  yaw: 2.5258
+  pitch: 0.0873
+- name: m04_clawlamp_gauntlet
+  position:
+  - -154
+  - -1720
+  - -40
+  yaw: 0.0
+  pitch: 0.1745
+- name: m05_clawtorch_pool
+  position:
+  - 1434
+  - 1208
+  - 21
+  yaw: 0.0
+  pitch: 0.0873
+- name: m06_clawtorch_upper
+  position:
+  - 1280
+  - 3052
+  - 656
+  yaw: 3.1416
+  pitch: 0.0873

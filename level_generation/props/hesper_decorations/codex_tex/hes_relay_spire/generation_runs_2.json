@@ -1,0 +1,111 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset: paint_back.png, a 1024 x 1024 RGBA texture-source painting of the BACK of the Relay Spire.\nInput image 1, guide_back.png, is the EDIT TARGET and absolute geometry/camera/alpha authority. Input image 2, design_reference.png, is the approved material, colour and design authority ONLY, not the camera or geometry. Input image 3, concept_crop.png, is supporting original concept material reference.\nPaint the existing grey model in image 1, keeping the guide silhouette EXACTLY, pixel aligned. Preserve the original 1024 x 1024 canvas, orthographic back camera, object position, size, every shape edge and opening, overlap, antenna, sphere, crescent, thin tip and root. Do not rotate, recenter, rescale, redesign, add, remove, or crop any geometry. The guide object alpha bounds are x=66..957, y=75..948. Maintain its transparent pixels and all silhouette openings. This is the back view, not the three-quarter front of image 2; do not add the front doorway or freestanding console.\nPaint only surface materials of image 2 onto the fixed shapes of image 1: black-violet resin vertebrae, structural ribs and spreading roots; glowing saturated orange rib windows / sacs and seams; white ceramic and gold Ancient crescent dishes and equipment with blue/cyan lights on the existing spheres; ivory tusks. Match the reference's purple resin, orange, warm white ivory, aged gold and saturated cyan-blue palette and detailed surface patterns. Glossy resin is the material identity, but do NOT bake reflections or strong specular highlights into the colour source. Ornamental surface painting must remain on the existing geometry and must not change the edges or openings.\nLIGHTING: texture-source ALBEDO, even flat shadowless frontal illumination. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim lighting, no directional light gradients. Orange and blue emissive elements are painted at their glowing colour with no bloom, halo or light spill onto their surroundings. No background, no floor, no contact shadow, no text.\nReturn exactly one unresized 1024 x 1024 PNG with genuine transparent background. The entire original geometry and alpha silhouette of image 1 must remain fixed; change surface colours/material painting only.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "724fbc0d28e981fb6d2af3de4d43ce612b15ec4f114665d55a57e7772de9734b"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Correct palette and back-view arrangement, but native return is 1254 x 1254 instead of 1024 x 1024; silhouette and internal edges are not identical; visible highlights exceed flat-albedo brief.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          27,
+          1226,
+          1164
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "matches reference palette",
+        "flat_even_light": false
+      },
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16893-1c98-7493-914d-e811359e6c97/exec-292d49e2-5501-447d-9589-6f46ff817468.png",
+      "output_sha256": "bc07685c72b1955ec9cc18816acf8e4bf2eb23ee58fba58266382b16989c14d3"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "Corrective regeneration, the single correction permitted by the brief.\nReturn one PNG at EXACTLY 1024 x 1024 pixels, the native dimensions of input 1. Do not return 1254 x 1254 or enlarge/resample the target. This is a registered texture-source paint-over, not a new illustration.\n\nInput 1 guide_back.png is the EDIT TARGET. Keep its image canvas, exact alpha mask and geometry unaltered. Recolour the existing pixels, without replacing, reconstructing, smoothing or elaborating the geometry. The object's occupied bounds must remain x=66..957 and y=75..948 in the 1024 square. Preserve every thin projection, open space, sphere circumference, crescent edge, root tip, internal shape boundary and overlap at the exact source pixel coordinates. Keep the flat bottom contour, the faceted shapes and the original back-view orthographic projection. No new holes, structures or projections. Do not use the front-view composition of input 2.\nInput 2 design_reference.png gives only the surface material colours/patterns. Input 3 concept_crop.png is supporting colour/material reference.\n\nPaint existing vertebral ribs and roots black-violet resin; the existing rib-window surfaces saturated glowing orange; the existing dishes and equipment warm white ceramic with gold inlay, blue glowing lights on existing spheres, and ivory tusks. Use the reference surface vocabulary without moving or adding a single shape. Do not invent a front door or freestanding terminal in this back view.\n\nThis is ALBEDO for texture projection: perfectly even flat shadowless lighting from the viewer. Suppress specular gleams, white pinprick highlights, reflections, baked shading, cast shadows, ambient occlusion, rim light and directional gradients. Glossy resin is expressed by its base colour and organic surface pattern only. Orange and blue emissive surfaces keep saturated colour but cast NO light; no bloom, halo or transparent coloured fringe. Outside the guide's exact alpha mask, leave genuine fully transparent pixels; no background or floor.\nChange only surface colour/material details. Preserve guide geometry and alpha exactly, on its original 1024 x 1024 canvas.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "724fbc0d28e981fb6d2af3de4d43ce612b15ec4f114665d55a57e7772de9734b"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "0da8ba193a53668519141f702f6c3177293619ae382d1636e66f644e89a04ca6"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "83005ae749fd2b75ed2efe9901ddb97d9ba84aa801b35e4620892b833d9b49c1"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "e672240cdaab3c97f82154db00aaf5dd0cba5a2a37ce52a90843fcae09e7aaac",
+      "selected": true,
+      "reason": "Selected as the closer available paint-over: broad ceramic surfaces and blue light spheres follow the guide more closely. NOT compliant with all acceptance checks: native return remains 1254 x 1254, silhouette/internal edges differ, and specular highlights remain. Preserved unresized and unedited; the single permitted corrective regeneration is exhausted.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1234,
+          1216
+        ],
+        "opaque_bbox": [
+          78,
+          90,
+          1176,
+          1160
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Reference palette is present: violet resin, orange windows, ivory ceramic, gold trim and blue lights.",
+        "flat_even_light": false,
+        "visual_notes": "Guide alignment is approximate, with changed surface boundaries and internal gaps. White pinprick highlights and shaded recesses remain; not strict albedo."
+      },
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16893-1c98-7493-914d-e811359e6c97/exec-a0432827-ccdd-4070-ad3f-2f843779fa1d.png"
+    }
+  ],
+  "selected_output": "paint_back.png",
+  "acceptance_passed": false,
+  "status": "Generation finished within the two-attempt limit; exact 1024 x 1024 geometry-registered albedo requirement remains unmet.",
+  "postprocessing": "None. Both PNGs are byte-identical copies of the built-in tool returns; no resizing, cropping, masking or repainting."
+}

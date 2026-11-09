@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/hive
+settle_seconds: 2.0
+exit: true
+shots:
+- name: huge_s79
+  position:
+  - 4576
+  - 25766
+  - -2255
+  yaw: 4.725
+  pitch: -0.2
+- name: hall_s4
+  position:
+  - -1153
+  - 8441
+  - -767
+  yaw: 0.197
+  pitch: -0.12
+- name: hall_s35
+  position:
+  - -1223
+  - 16729
+  - -1535
+  yaw: 6.208
+  pitch: -0.12
+- name: corridor_s39
+  position:
+  - 451
+  - 11701
+  - -767
+  yaw: 1.574
+  pitch: -0.12
+- name: chest_room_s58
+  position:
+  - 4480
+  - 10960
+  - -1529
+  yaw: 5.202
+  pitch: -0.12
+- name: room_s50
+  position:
+  - 7479
+  - 7099
+  - -1334
+  yaw: 6.277
+  pitch: -0.12
+- name: switch_face2242
+  position:
+  - -1548
+  - 2498
+  - -2037
+  yaw: 4.712
+  pitch: -0.261

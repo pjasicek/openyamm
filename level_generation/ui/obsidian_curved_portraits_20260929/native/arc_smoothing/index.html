@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Obsidian HUD — smoother curves and clearer phase text</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101819;color:#e5dcc7;font:16px/1.5 system-ui,sans-serif}
+main{max-width:1600px;margin:auto;padding:28px}h1{font-size:28px;margin:0 0 12px;color:#ecd7ad}h2{font-size:20px}
+p{max-width:1000px;color:#c8cfca}a{color:#bddbe7}article{margin:24px 0;border:1px solid #43524a;background:#192324;padding:16px}
+.compare{display:flex;gap:32px;flex-wrap:wrap}.compare figure{margin:0}.crop{position:relative;width:300px;height:348px;overflow:hidden}
+.crop img{position:absolute;width:3200px;height:1800px;max-width:none;left:-850px;top:-1430px;image-rendering:pixelated}
+figure figcaption{margin:10px 0;color:#ecd7ad}.full{display:block;max-width:100%;height:auto}.turn{width:320px;height:180px}.turn img{left:-30px;top:-1580px}.clock{width:290px;height:95px}.clock img{left:-2760px;top:0}
+small{color:#a8b3ab}
+</style><main><h1>Smoother portrait curves and clearer HUD text</h1>
+<p>The HP/mana edges and inner selection rim now use a consistent one-screen-pixel fade. Meter widths, colours and portrait size remain the same. The turn-phase label and minimap clock use the existing Lucida font at a readable size.</p>
+<p><a href="../index.html">All native HUD captures</a> · <a href="README.md">Implementation and verification</a></p>
+<article><h2>Portrait outlines · before and after</h2><p>Real game captures at 1600 × 900, shown at 200% with nearest-pixel enlargement so the actual edge pixels remain visible.</p>
+<div class="compare"><figure><div class="crop"><img src="../refinement_2134/images/diamond-first.png" alt="Before: thin aliased portrait outlines"></div><figcaption>Before</figcaption></figure>
+<figure><div class="crop"><img src="images/gameplay-wide.png" alt="After: antialiased portrait outlines"></div><figcaption>After</figcaption></figure></div></article>
+<article><h2>Turn phase label</h2><div class="compare"><figure><img src="reference/reported-label.png" alt="Original reported blurry Attack label"><figcaption>Reported label</figcaption></figure>
+<figure><div class="crop turn"><img src="images/attack-wide.png" alt="Updated larger and clearer Attack label"></div><figcaption>Updated · 200%</figcaption></figure></div></article>
+<article><h2>Minimap clock</h2><div class="compare"><figure><img src="reference/reported-clock.png" alt="Original reported minimap clock"><figcaption>Reported clock</figcaption></figure><figure><div class="crop clock"><img src="images/gameplay-wide.png" alt="Clearer minimap clock"></div><figcaption>Updated · 200%</figcaption></figure></div></article>
+<article><h2>Gameplay · 1600 × 900</h2><a href="images/selected-second-wide.png"><img class="full" src="images/selected-second-wide.png" alt="Second member selected with smoother rings"></a></article>
+<article><h2>Inventory · the same smoothing</h2><a href="images/inventory-wide.png"><img class="full" src="images/inventory-wide.png" alt="Smoother full-screen overlay portraits"></a></article>
+<article><h2>800 × 600 · Attack</h2><a href="images/attack-small.png"><img class="full" src="images/attack-small.png" alt="Attack phase in small game window"></a></article>
+<article><h2>800 × 600 · Movement</h2><a href="images/movement-small.png"><img class="full" src="images/movement-small.png" alt="Movement phase in small game window"></a></article>
+<p><small>Native bgfx screenshots on OpenGL, NVIDIA GPU. Cropped details are CSS views of the original, unmodified captures.</small></p></main></html>

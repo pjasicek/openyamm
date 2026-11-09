@@ -1,0 +1,710 @@
+screen: SettingsControls
+elements:
+- id: SettingsControlsRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: Native menu canvas fitted uniformly by MenuDesignScreen.
+  children:
+  - id: SettingsControlsBackground
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 0
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_title_backdrop.png
+    notes: Use the live dimmed game view instead when entered from Pause.
+  - id: SettingsControlsPanel
+    anchor: top_left
+    offset_x: 62.9333
+    offset_y: 48.5333
+    width: 727.4667
+    height: 417.0667
+    z_index: 2
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_frame.png
+  - id: SettingsControlsSeal
+    anchor: top_left
+    offset_x: 75.2
+    offset_y: 14.4501
+    width: 24.0
+    height: 24.0
+    z_index: 8
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_seal.png
+  - id: SettingsControlsWordmark
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 13.3333
+    width: 136.1584
+    height: 16.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: OpenYAMM
+      font: fondamento
+      color: '#e9d4a6'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: SettingsControlsSubtitle
+    anchor: top_left
+    offset_x: 108.8
+    offset_y: 32.5333
+    width: 136.1584
+    height: 7.0336
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Universe of Might and Magic
+      font: menu_arrus
+      color: '#c2b69b'
+      align_x: left
+      align_y: middle
+      scale: 0.37053
+      pad_x: 0.0
+  - id: SettingsControlsTitle
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 73.0667
+    width: 400.0
+    height: 27.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Settings
+      font: fondamento
+      color: '#efe0bc'
+      align_x: left
+      align_y: middle
+      scale: 0.71667
+      pad_x: 0.0
+  - id: SettingsControlsHeadRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 111.2501
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: SettingsControlsFooterRule
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 403.7333
+    width: 669.8667
+    height: 0.5333
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
+  - id: SettingsControlsTabGameplay
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 124.5835
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Gameplay
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsControlsTabVideo
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 164.0501
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Video
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsControlsTabAudio
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 203.5168
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Audio
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsControlsTabControls
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 242.9835
+    width: 97.6
+    height: 53.3333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Mouse & Controls
+      font: fondamento
+      color: '#f5dfae'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsControlsTabKeyboard
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 301.6501
+    width: 97.6
+    height: 34.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_tab.png
+      selected: hud_x2/menus/omenu_tab_selected.png
+    text:
+      value: Keyboard
+      font: fondamento
+      color: '#bfc1b2'
+      align_x: left
+      align_y: middle
+      scale: 0.43333
+      pad_x: 8.5333
+    notes: Switch section without losing draft values. Selected state follows current section.
+  - id: SettingsControlsHeading
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 124.5835
+    width: 540.8
+    height: 23.4667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Mouse & Controls
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: left
+      align_y: middle
+      scale: 0.51667
+      pad_x: 0.0
+  - id: SettingsControlsDefaultsButton
+    anchor: top_left
+    offset_x: 661.9003
+    offset_y: 76.6917
+    width: 99.7003
+    height: 20.2667
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_small_default.png
+      highlighted: hud_x2/menus/omenu_button_small_hover.png
+      pressed: hud_x2/menus/omenu_button_small_pressed.png
+    text:
+      value: Restore Defaults
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.33333
+      pad_x: 11.7333
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: SettingsControlsBackButton
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 414.4
+    width: 54.7669
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_quiet_default.png
+      highlighted: hud_x2/menus/omenu_button_quiet_hover.png
+      pressed: hud_x2/menus/omenu_button_quiet_pressed.png
+    text:
+      value: Back
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: SettingsControlsRevertButton
+    anchor: top_left
+    offset_x: 573.7333
+    offset_y: 414.4
+    width: 65.9248
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_quiet_default.png
+      highlighted: hud_x2/menus/omenu_button_quiet_hover.png
+      pressed: hud_x2/menus/omenu_button_quiet_pressed.png
+    text:
+      value: Revert
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: SettingsControlsApplyButton
+    anchor: top_left
+    offset_x: 646.0581
+    offset_y: 414.4
+    width: 115.5419
+    height: 26.1333
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_primary_default.png
+      highlighted: hud_x2/menus/omenu_button_primary_hover.png
+      pressed: hud_x2/menus/omenu_button_primary_pressed.png
+    text:
+      value: Apply Changes
+      font: fondamento
+      color: '#8e948b'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: SettingsControlsDirtyStatus
+    anchor: top_left
+    offset_x: 293.0
+    offset_y: 421.7083
+    width: 270
+    height: 11.5168
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{settings_status}'
+      font: menu_lucida
+      color: '#b8b9a8'
+      align_x: left
+      align_y: middle
+      scale: 0.60235
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: SettingsControlsScrollViewport
+    anchor: top_left
+    offset_x: 220.8
+    offset_y: 152.4165
+    width: 540.8
+    height: 241.7168
+    z_index: 10
+    visible: true
+    interactive: false
+    notes: Clip all descendant rendering and pointer hits to this viewport. Scroll offset is controller-owned; YAML has
+      no clipping/scroll primitive.
+    children:
+    - id: SettingsControlsKeyboardButton
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 306.4
+      width: 118.6501
+      height: 20.2667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_button_small_default.png
+        highlighted: hud_x2/menus/omenu_button_small_hover.png
+        pressed: hud_x2/menus/omenu_button_small_pressed.png
+      text:
+        value: Configure Keyboard
+        font: fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.33333
+        pad_x: 11.7333
+      notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+    - id: SettingsControlsGroup0
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 0.0
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Input style
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsControlsGroup1
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 80.3083
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Look & movement
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsControlsControlSchemeLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 25.6
+      width: 288.0
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Control preset
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsControlsControlSchemeDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 41.8085
+      width: 397.2
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: 'Modern: WASD, left-click attack, E to use. Classic: arrow keys, A to attack, left-click to use.'
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsControlsControlSchemeControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 33.4837
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{control_scheme}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to controls.control_scheme; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text.
+    - id: SettingsControlsMouseSensitivityLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 105.9083
+      width: 288.0
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Mouse sensitivity
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsControlsMouseSensitivityDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 122.1168
+      width: 384.9333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: The response of mouse movement. Zero disables mouse look movement.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsControlsMouseSensitivityControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 117.5253
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+      notes: Bind to controls.mouse_sensitivity; see contracts/settings.yml. Ranges need a track and thumb renderer;
+        selection controls need native dropdown/focus behavior.
+    - id: SettingsControlsMouseSensitivityValue
+      anchor: top_left
+      offset_x: 497.0667
+      offset_y: 119.6587
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{mouse_sensitivity}%'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
+      notes: Controller supplies live text.
+    - id: SettingsControlsTurnRateLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 156.3504
+      width: 202.2667
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Turn rate
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsControlsTurnRateDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 172.5584
+      width: 397.2
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Preserve the original turning-speed choices.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsControlsTurnRateControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 158.4752
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{turn_rate}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to controls.turn_rate; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text.
+    - id: SettingsControlsAlwaysRunLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 195.2752
+      width: 158.3168
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Always run
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsControlsAlwaysRunDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 211.4837
+      width: 437.3333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Use running movement by default.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsControlsAlwaysRunControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 193.0543
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+      text:
+        value: '{always_run}'
+        font: menu_lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to controls.always_run; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text.
+    - id: SettingsControlsFlipOnExitLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 234.2
+      width: 285.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Face away on exit
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsControlsFlipOnExitDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 250.4085
+      width: 437.3333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Turn the party away from the doorway when leaving a house.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsControlsFlipOnExitControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 231.9796
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+      text:
+        value: '{flip_on_exit}'
+        font: menu_lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to controls.flip_on_exit; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text.
+  - id: SettingsControlsNavigationRule
+    anchor: top_left
+    offset_x: 201.6
+    offset_y: 112.0
+    width: 0.8
+    height: 291.7333
+    z_index: 10
+    visible: true
+    interactive: false

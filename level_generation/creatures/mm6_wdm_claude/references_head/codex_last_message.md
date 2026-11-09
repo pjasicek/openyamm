@@ -1,0 +1,3 @@
+Saved four transparent views, the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_wdm_claude/references_head/selected_views_review.png), and [prompts, hashes and run records](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_wdm_claude/references_head/generation_runs.json) using built-in imagegen.
+
+**The size requirement remains unmet:** every native return is 1254×1254. I preserved them unresized as the brief requires; your size choice is still pending.

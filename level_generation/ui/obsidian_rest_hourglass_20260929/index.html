@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obsidian rest — refined hourglass</title>
+<link rel="stylesheet" href="style.css?v=3">
+<main>
+  <p class="eyebrow">2140 correction · Approved artwork · 29 September 2026</p>
+  <h1>A carved Obsidian hourglass</h1>
+  <p><a href="native/index.html">Implemented in the game — native screenshots</a></p>
+  <p class="intro">Worn brass, engraved dark stone and clear glass, with fine champagne sand behind the reflections.
+    One fixed amount of sand transfers between the bulbs, measured against their curved volume.
+    The approved artwork and nine-second flow and turn remain.</p>
+  <div class="controls">
+    <button id="play" type="button">Pause</button>
+    <label>Design <select id="design"><option value="painted">Refined artwork</option>
+      <option value="wire">Previous motion proof</option></select></label>
+    <label>Cycle <input id="phase" type="range" min="0" max="1" step="0.001" value="0.2"></label>
+    <label>Backdrop <select id="backdrop"><option value="obsidian">Obsidian</option>
+      <option value="light">Light alpha check</option></select></label>
+    <span id="state" aria-live="polite">Sand falling</span>
+  </div>
+  <div id="stage-wrap"><div id="stage">
+    <img class="native-bottom" src="../../../test_img/2136.png" alt="Existing native portrait bar">
+    <div class="workspace">
+      <img class="sky" src="../../../assets_dev/engine/icons_x2/terra0091.png" alt="Rest panorama">
+      <div class="actions block">
+        <div class="rest-button">Rest &amp; Heal 8 Hours <img src="../../../assets_dev/engine/icons_x2/scorebg_food.png" alt="Food"><span>2</span></div>
+        <div class="wait block"><div class="wait-heading">Wait</div><div class="wait-button">Wait until Dawn</div>
+          <div class="wait-button">Wait 1 Hour</div><div class="wait-button">Wait 5 Minutes</div></div>
+      </div>
+      <div class="calendar block"><div class="hourglass-target in-scene" data-design="painted"></div><div class="date">
+        <div class="time">9:26 am</div><div class="date-row"><span>Day</span><span>1</span></div>
+        <div class="date-row"><span>Month</span><span>1</span></div><div class="date-row"><span>Year</span><span>1168</span></div>
+      </div></div>
+      <div class="exit-button">Exit Rest</div>
+    </div>
+  </div></div>
+  <p class="caption">A wider calendar block gives the hourglass room to turn. Date text keeps the recreated MM font;
+    the exit button is centred below that block. Above: a browser reconstruction using real UI assets.</p>
+  <section class="comparison" id="detail">
+    <article><h2>25% transferred</h2><div class="asset-stage"><div class="hourglass-target enlarged" data-design="painted" data-fill="0.25"></div></div>
+      <p>75% of the sand remains above, with 25% in the lower pile. This comparison holds the fill levels still.</p></article>
+    <article><h2>75% transferred</h2><div class="asset-stage"><div class="hourglass-target enlarged" data-design="painted" data-fill="0.75"></div></div>
+      <p>25% remains above, with 75% below. Both views contain the same total quantity, including after inversion.</p></article>
+    <article><h2>Animated material detail</h2><div class="asset-stage detail-stage"><div class="hourglass-target detail" data-design="painted"></div></div>
+      <p>Use Pause and Cycle to examine any point in the transfer. Sand added below is subtracted from the upper reservoir.</p></article>
+  </section>
+  <p class="caption">Switch the comparison backdrop to light to inspect transparency. The game-sized preview above and enlarged
+    views share the same artwork and volume calculation. This is the animated design reference;
+    <a href="native/index.html">the native rest screen is now integrated</a>.</p>
+  <p><a href="README.md">Design notes, source assets and prompts</a> · <a href="revisions/motion_v1/preview.png">Previous study</a></p>
+</main>
+<script src="wire-model.js"></script>
+<script type="module" src="app.js?v=3"></script>
+</html>

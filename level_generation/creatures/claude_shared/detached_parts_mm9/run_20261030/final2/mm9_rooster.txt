@@ -1,0 +1,61 @@
+mm9_rooster: 82 components, body 2468 tris, 4 detached in some pose
+  part 42 (Xhead, above, +z, 658 tris): bind gap 0.0000, worst 0.0559 in Death frame 25 (0.833 s), detached 89/304 poses (and carried by a break elsewhere in 0; up to 0.0559 from the body's cluster) [lifted off Xhead]
+  part 45 (XCENTER, -z, 2 tris): bind gap 0.0000, worst 0.0201 in Running frame 0 (0.000 s), detached 164/304 poses (and carried by a break elsewhere in 0; up to 0.0201 from the body's cluster) [floating off Xtail]
+  part 12 (Xtail, above, -z, 1 tris): bind gap 0.0000, worst 0.0066 in Running frame 3 (0.100 s), detached 19/304 poses (and carried by a break elsewhere in 0; up to 0.0066 from the body's cluster) [floating off Xtail]
+  part 81 (Xtail, above, -z, 1 tris): bind gap 0.0000, worst 0.0066 in Running frame 8 (0.267 s), detached 19/304 poses (and carried by a break elsewhere in 0; up to 0.0066 from the body's cluster) [floating off Xtail]
+  root lift: part 1 (XtailC, 63 tris) 90th percentile 0.0165 off XtailC in AttackMelee frame 14
+  root lift: part 4 (XtailB, 100 tris) 90th percentile 0.0142 off XtailC in AttackMelee frame 14
+  root lift: part 6 (XtailC, 49 tris) 90th percentile 0.0208 off XtailC in Death frame 14
+  root lift: part 13 (XtailE, 44 tris) 90th percentile 0.0313 off XtailC in Fidget frame 13
+  root lift: part 16 (Xhead, 178 tris) 90th percentile 0.0102 off Xhead in AttackMelee frame 13
+  root lift: part 17 (XtailE, 35 tris) 90th percentile 0.0266 off XtailC in AttackMelee frame 5
+  root lift: part 18 (XtailC, 158 tris) 90th percentile 0.0558 off XtailC in AttackMelee frame 14
+  root lift: part 22 (XtailE, 74 tris) 90th percentile 0.1053 off Xtail in AttackMelee frame 10
+  root lift: part 28 (XtailC, 39 tris) 90th percentile 0.0415 off XtailC in AttackMelee frame 12
+  root lift: part 30 (XtailC, 11 tris) 90th percentile 0.0110 off XtailC in Walking frame 7
+  root lift: part 41 (XtailE, 98 tris) 90th percentile 0.0396 off XtailC in Running frame 0
+  root lift: part 43 (XtailC, 26 tris) 90th percentile 0.0346 off XtailC in Fidget frame 9
+  root lift: part 49 (Xtail, 3 tris) 90th percentile 0.0083 off XtailB in AttackMelee frame 5
+  root lift: part 61 (XtailC, 39 tris) 90th percentile 0.0611 off XtailC in Running frame 5
+  root lift: part 62 (XtailC, 10 tris) 90th percentile 0.0272 off XtailC in AttackMelee frame 14
+  root lift: part 70 (XtailC, 49 tris) 90th percentile 0.0203 off XtailB in Death frame 14
+  root lift: part 80 (Xhead, 176 tris) 90th percentile 0.0088 off Xhead in AttackMelee frame 13
+  shallow: part 1 (XtailC, 63 tris) rooted -0.0035 on XtailC in Running frame 11
+  shallow: part 4 (XtailB, 100 tris) rooted -0.0038 on Xhead in Death frame 44
+  shallow: part 6 (XtailC, 49 tris) rooted -0.0032 on XtailC in AttackMelee frame 13
+  shallow: part 7 (XtailC, 54 tris) rooted 0.0056 on XtailC in Walking frame 33
+  shallow: part 8 (Xtail, 36 tris) rooted 0.0076 on Xhead in Death frame 5
+  shallow: part 9 (Xtail, 123 tris) rooted -0.0002 on Xhead in Running frame 11
+  shallow: part 10 (Xtail, 26 tris) rooted -0.0039 on XtailB in Death frame 44
+  shallow: part 11 (Xtail, 95 tris) rooted -0.0004 on Xhead in Walking frame 33
+  shallow: part 14 (XtailB, 12 tris) rooted -0.0040 on XtailC in Fidget frame 53
+  shallow: part 15 (Xtail, 35 tris) rooted 0.0020 on Xhead in bind frame 0
+  shallow: part 16 (Xhead, 178 tris) rooted 0.0033 on Xhead in Death frame 14
+  shallow: part 17 (XtailE, 35 tris) rooted -0.0039 on Xtail in Death frame 13
+  shallow: part 20 (Xtail, 16 tris) rooted -0.0021 on Xhead in Death frame 36
+  shallow: part 21 (Xtail, 22 tris) rooted 0.0003 on Xhead in Death frame 36
+  shallow: part 24 (Xhead, 94 tris) rooted 0.0069 on Xhead in Walking frame 33
+  shallow: part 26 (Xhead, 74 tris) rooted -0.0023 on Xhead in bind frame 0
+  shallow: part 28 (XtailC, 39 tris) rooted -0.0033 on XtailB in AttackMelee frame 4
+  shallow: part 31 (Xtail, 23 tris) rooted 0.0057 on Xhead in Fidget frame 9
+  shallow: part 33 (XtailE, 70 tris) rooted 0.0009 on Xhead in AttackMelee frame 5
+  shallow: part 36 (XtailC, 14 tris) rooted 0.0000 on XtailC in bind frame 0
+  shallow: part 37 (Xtail, 26 tris) rooted -0.0000 on Xhead in Running frame 2
+  shallow: part 41 (XtailE, 98 tris) rooted -0.0039 on XtailB in Fidget frame 5
+  shallow: part 52 (Xtail, 36 tris) rooted 0.0043 on XtailB in Death frame 35
+  shallow: part 53 (XtailB, 12 tris) rooted -0.0037 on XtailB in AttackMelee frame 11
+  shallow: part 55 (Xtail, 35 tris) rooted 0.0020 on Xhead in bind frame 0
+  shallow: part 56 (Xtail, 95 tris) rooted -0.0004 on Xhead in Walking frame 33
+  shallow: part 57 (XtailE, 44 tris) rooted 0.0068 on XtailB in Fidget frame 9
+  shallow: part 58 (Xtail, 26 tris) rooted -0.0038 on XtailB in Death frame 6
+  shallow: part 59 (XtailC, 57 tris) rooted -0.0020 on XtailC in bind frame 0
+  shallow: part 61 (XtailC, 39 tris) rooted -0.0039 on XtailB in Fidget frame 6
+  shallow: part 66 (XtailC, 11 tris) rooted -0.0008 on XtailC in Walking frame 33
+  shallow: part 67 (Xtail, 16 tris) rooted -0.0027 on Xhead in Death frame 50
+  shallow: part 68 (Xtail, 123 tris) rooted -0.0002 on Xhead in Running frame 0
+  shallow: part 69 (Xtail, 23 tris) rooted 0.0056 on Xhead in Death frame 51
+  shallow: part 73 (XtailE, 35 tris) rooted -0.0036 on XtailB in Running frame 9
+  shallow: part 74 (Xtail, 22 tris) rooted -0.0001 on Xhead in Death frame 50
+  shallow: part 75 (Xhead, 94 tris) rooted 0.0069 on Xhead in Walking frame 33
+  shallow: part 76 (Xhead, 74 tris) rooted -0.0025 on Xhead in Death frame 46
+  shallow: part 80 (Xhead, 176 tris) rooted 0.0044 on Xhead in AttackMelee frame 13

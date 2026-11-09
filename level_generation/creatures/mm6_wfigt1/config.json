@@ -1,0 +1,160 @@
+{
+  "family": "wfigt1",
+  "title": "MM6 Werewolf",
+  "descriptor_ids": [
+    643,
+    644,
+    645
+  ],
+  "base_palette": 831,
+  "mask_kind": "blue",
+  "description": "MM6 adult male werewolf, upright hunched muscular biped, dark charcoal-black fur with medium gray chest/shoulders, long wolf snout and swept-back dark mane, pointed ears, small glowing yellow eyes, pale pointed teeth and long pale curved finger/toe claws. Ragged rust-brown short trousers with torn irregular knee edges. Gold chain necklace and round gold pendant with small green center. Native massive shoulders and slightly crouched digitigrade legs. No extra clothing, armor, weapons, tail or redesign.",
+  "regions": "Rust trousers, gold necklace, green pendant center and fur tint are native palette regions. Keep natural charcoal fur, teeth and claws; preserve native subtle palette tint changes.",
+  "variant_names": {
+    "831": "Werewolf / rust trousers",
+    "832": "Werewolf / blue trousers",
+    "833": "Werewolf / red trousers"
+  },
+  "material_mask_channels": 4,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py",
+  "identity_reference_action": "walk",
+  "extra_sources": {
+    "wwalk1b1": {
+      "path": "assets_dev/engine/sprites/wwalk1b1.bmp"
+    },
+    "wwalk1b3": {
+      "path": "assets_dev/engine/sprites/wwalk1b3.bmp"
+    },
+    "wwalk1c1": {
+      "path": "assets_dev/engine/sprites/wwalk1c1.bmp"
+    },
+    "wwalk1e3": {
+      "path": "assets_dev/engine/sprites/wwalk1e3.bmp"
+    },
+    "wwalk1e1": {
+      "path": "assets_dev/engine/sprites/wwalk1e1.bmp"
+    },
+    "wwalk1a3": {
+      "path": "assets_dev/engine/sprites/wwalk1a3.bmp"
+    },
+    "wwalk1f0": {
+      "path": "assets_dev/engine/sprites/wwalk1f0.bmp"
+    },
+    "wwalk1d3": {
+      "path": "assets_dev/engine/sprites/wwalk1d3.bmp"
+    },
+    "wwalk1e2": {
+      "path": "assets_dev/engine/sprites/wwalk1e2.bmp"
+    },
+    "wwalk1a4": {
+      "path": "assets_dev/engine/sprites/wwalk1a4.bmp"
+    },
+    "wwalk1a2": {
+      "path": "assets_dev/engine/sprites/wwalk1a2.bmp"
+    },
+    "wwalk1c3": {
+      "path": "assets_dev/engine/sprites/wwalk1c3.bmp"
+    },
+    "wwalk1c0": {
+      "path": "assets_dev/engine/sprites/wwalk1c0.bmp"
+    },
+    "wwalk1d4": {
+      "path": "assets_dev/engine/sprites/wwalk1d4.bmp"
+    },
+    "wwalk1a0": {
+      "path": "assets_dev/engine/sprites/wwalk1a0.bmp"
+    },
+    "wwalk1f1": {
+      "path": "assets_dev/engine/sprites/wwalk1f1.bmp"
+    },
+    "wwalk1e0": {
+      "path": "assets_dev/engine/sprites/wwalk1e0.bmp"
+    },
+    "wwalk1c2": {
+      "path": "assets_dev/engine/sprites/wwalk1c2.bmp"
+    },
+    "wwalk1f4": {
+      "path": "assets_dev/engine/sprites/wwalk1f4.bmp"
+    },
+    "wwalk1d1": {
+      "path": "assets_dev/engine/sprites/wwalk1d1.bmp"
+    },
+    "wwalk1d2": {
+      "path": "assets_dev/engine/sprites/wwalk1d2.bmp"
+    },
+    "wwalk1f3": {
+      "path": "assets_dev/engine/sprites/wwalk1f3.bmp"
+    },
+    "wwalk1c4": {
+      "path": "assets_dev/engine/sprites/wwalk1c4.bmp"
+    },
+    "wwalk1b4": {
+      "path": "assets_dev/engine/sprites/wwalk1b4.bmp"
+    },
+    "wwalk1d0": {
+      "path": "assets_dev/engine/sprites/wwalk1d0.bmp"
+    },
+    "wwalk1e4": {
+      "path": "assets_dev/engine/sprites/wwalk1e4.bmp"
+    },
+    "wwalk1a1": {
+      "path": "assets_dev/engine/sprites/wwalk1a1.bmp"
+    },
+    "wwalk1b0": {
+      "path": "assets_dev/engine/sprites/wwalk1b0.bmp"
+    },
+    "wwalk1b2": {
+      "path": "assets_dev/engine/sprites/wwalk1b2.bmp"
+    },
+    "wwalk1f2": {
+      "path": "assets_dev/engine/sprites/wwalk1f2.bmp"
+    },
+    "wbite1b0": {
+      "path": "assets_dev/engine/sprites/wbite1b0.bmp"
+    },
+    "wbite1e0": {
+      "path": "assets_dev/engine/sprites/wbite1e0.bmp"
+    },
+    "wbite1d0": {
+      "path": "assets_dev/engine/sprites/wbite1d0.bmp"
+    },
+    "wbite1c0": {
+      "path": "assets_dev/engine/sprites/wbite1c0.bmp"
+    },
+    "wbite1a0": {
+      "path": "assets_dev/engine/sprites/wbite1a0.bmp"
+    },
+    "wouch1d0": {
+      "path": "assets_dev/engine/sprites/wouch1d0.bmp"
+    },
+    "wouch1c0": {
+      "path": "assets_dev/engine/sprites/wouch1c0.bmp"
+    },
+    "wouch1a0": {
+      "path": "assets_dev/engine/sprites/wouch1a0.bmp"
+    },
+    "wouch1b0": {
+      "path": "assets_dev/engine/sprites/wouch1b0.bmp"
+    },
+    "wouch1e0": {
+      "path": "assets_dev/engine/sprites/wouch1e0.bmp"
+    },
+    "wdead1e0": {
+      "path": "assets_dev/engine/sprites/wdead1e0.bmp"
+    },
+    "wdead1a0": {
+      "path": "assets_dev/engine/sprites/wdead1a0.bmp"
+    },
+    "wdead1b0": {
+      "path": "assets_dev/engine/sprites/wdead1b0.bmp"
+    },
+    "wdead1c0": {
+      "path": "assets_dev/engine/sprites/wdead1c0.bmp"
+    },
+    "wdead1d0": {
+      "path": "assets_dev/engine/sprites/wdead1d0.bmp"
+    }
+  }
+}

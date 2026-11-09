@@ -1,0 +1,5 @@
+# Codex brief: bandage strip swatch (mm9_mummy_claude)
+Scope: image generation only. Write ONLY `level_generation/creatures/mm9_mummy_claude/references_hd/strip_swatch.png` plus `strip_swatch_run.json` (prompt, inputs sha256). No builds, no other files.
+Inputs: `references_hd/01_front.png` and `references_hd/tierB/01_front.png`: the bandage material authority.
+Deliverable: 1536x1024, opaque, full bleed. Flat top-down photographic-quality texture of THREE long horizontal strips of the same aged linen bandage lying side by side, filling the whole image with no gap, each strip one third of the height. Tea-stained ochre and dirty straw coarse woven weave running along the strip,
+frayed slightly darker edges along the long sides, thin dark grime line between strips, stains and small tears, the same colours as the input bandages. No perspective, no shadow, no text, no objects, no folds. Even light, nothing baked that looks directional. It must read as cloth at close range, sharp weave, no blur.

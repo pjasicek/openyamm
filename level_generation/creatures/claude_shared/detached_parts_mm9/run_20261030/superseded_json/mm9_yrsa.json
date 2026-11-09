@@ -1,0 +1,421 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_yrsa.glb",
+  "components": 48,
+  "body": 2,
+  "size": 1.6924834251403809,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "0": {
+    "joint": "FHP L Hand",
+    "where": "above, -x side",
+    "triangles": 699,
+    "extent": 0.2649,
+    "bind_gap": 0.01331,
+    "bind_rooted_depth": null,
+    "worst": {
+     "gap": 0.01349,
+     "to_body_cluster": 0.01349,
+     "clip": "Fidget",
+     "frame": 87,
+     "time": 2.9,
+     "part_point": [
+      -0.23234,
+      0.87516,
+      0.20107
+     ],
+     "attached_point": [
+      -0.22522,
+      0.88568,
+      0.2056
+     ],
+     "kind": "floating",
+     "against": "FHP Spine2"
+    },
+    "detached_poses": 309,
+    "poses": 321,
+    "clips": {
+     "bind": {
+      "max_gap": 0.01331,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 1
+     },
+     "Standing": {
+      "max_gap": 0.01337,
+      "frame": 60,
+      "time": 2.0,
+      "frames": 61
+     },
+     "Walking": {
+      "max_gap": 0.01339,
+      "frame": 26,
+      "time": 0.8667,
+      "frames": 39
+     },
+     "Running": {
+      "max_gap": 0.01339,
+      "frame": 18,
+      "time": 0.6,
+      "frames": 28
+     },
+     "Fidget": {
+      "max_gap": 0.01349,
+      "frame": 87,
+      "time": 2.9,
+      "frames": 95
+     },
+     "Hit": {
+      "max_gap": 0.01337,
+      "frame": 31,
+      "time": 1.0333,
+      "frames": 24
+     },
+     "Death": {
+      "max_gap": 0.01337,
+      "frame": 31,
+      "time": 1.0333,
+      "frames": 30
+     },
+     "Dead": {
+      "max_gap": 0.01337,
+      "frame": 30,
+      "time": 1.0,
+      "frames": 31
+     }
+    },
+    "shallowest": {
+     "depth": -0.00363,
+     "on": "xbk_rt2",
+     "clip": "Fidget",
+     "frame": 43,
+     "time": 1.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_yrsa_part0.png"
+   },
+   "47": {
+    "joint": "FHP R Hand",
+    "where": "above, +x side",
+    "triangles": 700,
+    "extent": 0.2638,
+    "bind_gap": 0.00777,
+    "bind_rooted_depth": null,
+    "worst": {
+     "gap": 0.00799,
+     "to_body_cluster": 0.00799,
+     "clip": "Fidget",
+     "frame": 48,
+     "time": 1.6,
+     "part_point": [
+      0.24027,
+      0.91776,
+      0.1874
+     ],
+     "attached_point": [
+      0.23451,
+      0.92135,
+      0.18319
+     ],
+     "kind": "floating",
+     "against": "FHP Spine2"
+    },
+    "detached_poses": 309,
+    "poses": 321,
+    "clips": {
+     "bind": {
+      "max_gap": 0.00777,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 1
+     },
+     "Standing": {
+      "max_gap": 0.00785,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 61
+     },
+     "Walking": {
+      "max_gap": 0.00785,
+      "frame": 37,
+      "time": 1.2333,
+      "frames": 34
+     },
+     "Running": {
+      "max_gap": 0.00784,
+      "frame": 3,
+      "time": 0.1,
+      "frames": 23
+     },
+     "Fidget": {
+      "max_gap": 0.00799,
+      "frame": 48,
+      "time": 1.6,
+      "frames": 97
+     },
+     "Hit": {
+      "max_gap": 0.00785,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 30
+     },
+     "Death": {
+      "max_gap": 0.00785,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 32
+     },
+     "Dead": {
+      "max_gap": 0.00785,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     }
+    },
+    "shallowest": {
+     "depth": 0.2049,
+     "on": "FHP Spine2",
+     "clip": "Hit",
+     "frame": 12,
+     "time": 0.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_yrsa_part47.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 48,
+   "attached_in_every_pose": 45
+  },
+  "concealed": {},
+  "shallow": {
+   "1": {
+    "joint": "FHP Spine2",
+    "where": "above",
+    "triangles": 764,
+    "extent": 1.3538,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00145,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00063,
+     "on": "xbk_rt2",
+     "clip": "Walking",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "3": {
+    "joint": "FHP L Foot",
+    "where": "below",
+    "triangles": 174,
+    "extent": 1.1305,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00203,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00203,
+     "on": "xbk_rt2",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "4": {
+    "joint": "FHP Head",
+    "where": "above, +z",
+    "triangles": 2609,
+    "extent": 0.8674,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00887,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00223,
+     "on": "FHP Spine2",
+     "clip": "Fidget",
+     "frame": 70,
+     "time": 2.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "5": {
+    "joint": "FHP Spine2",
+    "where": "above",
+    "triangles": 151,
+    "extent": 0.4102,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00935,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00258,
+     "on": "xbk_rt2",
+     "clip": "Death",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "6": {
+    "joint": "FHP Spine2",
+    "where": "above, +z",
+    "triangles": 71,
+    "extent": 0.1243,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00444,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00135,
+     "on": "FHP Head",
+     "clip": "Running",
+     "frame": 13,
+     "time": 0.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "8": {
+    "joint": "FHP Spine2",
+    "where": "above, +z",
+    "triangles": 99,
+    "extent": 0.2161,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00059,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00012,
+     "on": "FHP Spine2",
+     "clip": "Death",
+     "frame": 15,
+     "time": 0.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "9": {
+    "joint": "FHP Spine3",
+    "where": "above",
+    "triangles": 84,
+    "extent": 0.2111,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0039,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0033,
+     "on": "FHP Spine2",
+     "clip": "Walking",
+     "frame": 12,
+     "time": 0.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "11": {
+    "joint": "FHP Spine2",
+    "where": "above, +z",
+    "triangles": 37,
+    "extent": 0.1293,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00395,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 6e-05,
+     "on": "FHP Spine2",
+     "clip": "Death",
+     "frame": 20,
+     "time": 0.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "38": {
+    "joint": "FHP R Foot",
+    "where": "below",
+    "triangles": 163,
+    "extent": 1.1334,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00276,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00196,
+     "on": "xbk_rt2",
+     "clip": "Hit",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "46": {
+    "joint": "FHP Spine2",
+    "where": "above, +z",
+    "triangles": 82,
+    "extent": 0.1245,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00537,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 321,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00306,
+     "on": "FHP Spine2",
+     "clip": "Walking",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   }
+  }
+ }
+]

@@ -1,0 +1,554 @@
+{
+ "id": "20261009-1628-mm6-6d13-19",
+ "world": "mm6",
+ "maps": [
+  "6d13.blv",
+  "outa1.odm"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/d6uniqb",
+  "mm6/d6wlble",
+  "mm6/d6wlbre",
+  "mm6/d6wldle",
+  "mm6/d6wldre",
+  "mm6/d6ebeam",
+  "mm6/6dirttyl",
+  "mm6/6grastyl",
+  "mm6/d6dorc",
+  "mm6/d6dorde",
+  "mm6/hvwl1spa",
+  "mm6/strctr",
+  "mm6/hvwl1a",
+  "mm6/pgstrst11",
+  "mm6/hvwl6",
+  "mm6/pgstrle",
+  "mm6/pgstrlew",
+  "mm6/pgstrre",
+  "mm6/pgwino",
+  "mm6/desend1",
+  "mm6/descnr1",
+  "mm6/deslft1",
+  "mm6/deswin1b",
+  "mm6/pgstrrew"
+ ],
+ "requests": {
+  "mm6/d6uniqb": {
+   "name": "d6uniqb",
+   "versions": [
+    1
+   ],
+   "material": "dark green mottled mossy rock surface with blue-grey and pale green blotches",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6uniqa"
+     ],
+     "fraction": 0.941
+    }
+   }
+  },
+  "mm6/d6wlble": {
+   "name": "d6wlble",
+   "versions": [
+    1
+   ],
+   "material": "dense tangle of dark olive-brown roots and vines over black earth, with a thicker root mass along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6wlbctr"
+     ],
+     "fraction": 0.741
+    }
+   }
+  },
+  "mm6/d6wlbre": {
+   "name": "d6wlbre",
+   "versions": [
+    1
+   ],
+   "material": "dense tangle of dark olive-brown roots and vines over black earth, with a thicker root mass along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6wlbctr"
+     ],
+     "fraction": 0.734
+    }
+   }
+  },
+  "mm6/d6wldle": {
+   "name": "d6wldle",
+   "versions": [
+    1
+   ],
+   "material": "dense tangle of dark olive-brown roots and vines over black earth with a pale human skeleton entwined in the roots on the left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6wldctr"
+     ],
+     "fraction": 0.618
+    }
+   }
+  },
+  "mm6/d6wldre": {
+   "name": "d6wldre",
+   "versions": [
+    1
+   ],
+   "material": "dense tangle of dark olive-brown roots and vines over black earth with a pale human skeleton entwined in the roots on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6wldctr"
+     ],
+     "fraction": 0.587
+    }
+   }
+  },
+  "mm6/d6ebeam": {
+   "name": "d6ebeam",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow vertical dark red-brown wooden beam strip with a few dark roots crossing it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d6wlale"
+     ],
+     "fraction": 0.938
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/d6wlactr"
+    }
+   }
+  },
+  "mm6/6dirttyl": {
+   "name": "6dirttyl",
+   "versions": [
+    1
+   ],
+   "material": "red-brown dry crumbly dirt ground with small clods and pits",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/6grastyl": {
+   "name": "6grastyl",
+   "versions": [
+    1
+   ],
+   "material": "green short grass ground with soft lighter and darker wavy patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6dorc": {
+   "name": "d6dorc",
+   "versions": [
+    1
+   ],
+   "material": "weathered teal-grey vertical wooden plank door with three raised plank posts and dark roots hanging over it; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6dorde": {
+   "name": "d6dorde",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow strip of weathered brown wood with dark root tendrils",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvwl1spa": {
+   "name": "hvwl1spa",
+   "versions": [
+    1
+   ],
+   "material": "glossy deep blue organic hexagonal honeycomb hive wall with dark seams, a dark organic pod in the centre wrapped in red and green tendrils; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/strctr": {
+   "name": "strctr",
+   "versions": [
+    1
+   ],
+   "material": "pinkish-brown irregular flagstone cobbles with raised pale mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvwl1a": {
+   "name": "hvwl1a",
+   "versions": [
+    1
+   ],
+   "material": "glossy deep blue organic hexagonal honeycomb hive wall with dark seams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hvwl1spa"
+     ],
+     "fraction": 0.892
+    }
+   }
+  },
+  "mm6/pgstrst11": {
+   "name": "pgstrst11",
+   "versions": [
+    1
+   ],
+   "material": "pale cream-green cracked plaster wall over a dark red-brown timber sill beam with an X-braced timber lower panel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvwl6": {
+   "name": "hvwl6",
+   "versions": [
+    1
+   ],
+   "material": "glossy violet-blue organic hexagonal honeycomb hive wall with dark seams and purple sheen",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pgstrle": {
+   "name": "pgstrle",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale cream-green cracked plaster wall in a dark red-brown timber frame with an X-braced timber lower panel, a vertical timber post on the left edge",
+   "notes": {
+    "2": "Copy the composition exactly: keep the broken plaster holes with exposed dark lath along the left post and the damaged patch at lower right, as in the reference; do not repair the plaster.",
+    "3": "Copy the composition exactly: keep the broken plaster holes with exposed dark lath along the left post and the damaged patch at lower right, as in the reference; do not repair the plaster."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.399
+    },
+    "2": {
+     "sources": [
+      "mm6/pgstrst11",
+      "mm6/pgwino"
+     ],
+     "fraction": 0.414
+    },
+    "3": {
+     "sources": [
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.399
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm6/pgstrst11"
+    }
+   }
+  },
+  "mm6/pgstrlew": {
+   "name": "pgstrlew",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream-green cracked plaster wall in a dark red-brown timber frame with an X-braced timber lower panel, a vertical timber post on the left edge and a small red lattice window",
+   "notes": {
+    "2": "No dark outline or shadow along the right edge; the outermost columns keep the same brightness as the interior.",
+    "3": "No dark outline or shadow along the right edge: the outermost columns keep the same brightness as the interior. Copy the composition exactly: keep the broken plaster patches exposing lath and stones at upper left and lower right as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pgstrle",
+      "mm6/pgwino",
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.616
+    },
+    "2": {
+     "sources": [
+      "mm6/pgstrle",
+      "mm6/pgwino",
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.616
+    },
+    "3": {
+     "sources": [
+      "mm6/pgstrle",
+      "mm6/pgwino",
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.616
+    }
+   },
+   "roll": {
+    "4": [
+     32,
+     0
+    ]
+   }
+  },
+  "mm6/pgstrre": {
+   "name": "pgstrre",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream-green cracked plaster wall in a dark red-brown timber frame with an X-braced timber lower panel, a vertical timber post on the right edge",
+   "notes": {
+    "2": "Copy the composition exactly: keep the broken plaster patches exposing the brick and lath underneath at the upper left and lower right as in the reference.",
+    "3": "Copy the composition exactly: keep the broken plaster patches exposing the brick and lath underneath at the upper left and lower right as in the reference.",
+    "4": "Copy the composition exactly: keep the broken plaster patches exposing the brick and lath underneath at the upper left and lower right as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pgstrst11",
+      "mm6/pgwino"
+     ],
+     "fraction": 0.271
+    },
+    "2": {
+     "sources": [
+      "mm6/pgstrst11",
+      "mm6/pgwino"
+     ],
+     "fraction": 0.271
+    },
+    "3": {
+     "sources": [
+      "mm6/pgstrst11",
+      "mm6/pgwino"
+     ],
+     "fraction": 0.271
+    },
+    "4": {
+     "sources": [
+      "mm6/pgstrst11",
+      "mm6/pgwino"
+     ],
+     "fraction": 0.271
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm6/pgstrst11",
+     "top": "mm6/pgstrst11"
+    },
+    "4": {
+     "left": "mm6/pgstrst11",
+     "top": "mm6/pgstrst11"
+    }
+   }
+  },
+  "mm6/pgwino": {
+   "name": "pgwino",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream-green cracked plaster wall in a dark red-brown timber frame with an X-braced timber lower panel and a small red lattice window in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.579
+    }
+   }
+  },
+  "mm6/desend1": {
+   "name": "desend1",
+   "versions": [
+    1
+   ],
+   "material": "red-brown rough flat stone brick wall with dark mortar, with a protruding vertical stone pilaster in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/descnr1": {
+   "name": "descnr1",
+   "versions": [
+    1
+   ],
+   "material": "red-brown rough flat stone brick wall with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/deslft1": {
+   "name": "deslft1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red-brown rough flat stone brick wall with dark mortar, with a shadowed vertical stone pilaster left of centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/descnr1"
+     ],
+     "fraction": 0.328
+    },
+    "2": {
+     "sources": [
+      "mm6/descnr1"
+     ],
+     "fraction": 0.315
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/desrt1",
+     "top": "mm6/descnr1"
+    }
+   }
+  },
+  "mm6/deswin1b": {
+   "name": "deswin1b",
+   "versions": [
+    1
+   ],
+   "material": "red-brown rough flat stone brick wall with dark mortar and a dark window with tattered grey-green curtains; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/desend1"
+     ],
+     "fraction": 0.235
+    }
+   }
+  },
+  "mm6/pgstrrew": {
+   "name": "pgstrrew",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale cream-green cracked plaster wall in a dark red-brown timber frame with an X-braced timber lower panel, a vertical timber post on the right edge and a small red lattice window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pgstrre"
+     ],
+     "fraction": 0.315
+    },
+    "2": {
+     "sources": [
+      "mm6/pgstrre",
+      "mm6/pgstrlew"
+     ],
+     "fraction": 0.316
+    },
+    "3": {
+     "sources": [
+      "mm6/pgstrre",
+      "mm6/pgstrlew"
+     ],
+     "fraction": 0.316
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  }
+ }
+}

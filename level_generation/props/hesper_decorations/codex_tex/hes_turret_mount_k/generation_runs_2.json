@@ -1,0 +1,99 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "Generation complete within attempt limit; selected raw return does not fully meet brief.",
+  "maximum_corrective_regenerations": 1,
+  "corrective_regenerations_used": 1,
+  "postprocessing": "None; copied original PNG bytes without resizing, masking or compositing.",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit.\nAsset type: 1024 x 1024 transparent RGBA texture-source painting, back view of the Grafted turret mount.\nEdit target: input image 1, guide_back.png. Input image 2, design_reference.png, is the approved design, colour and material authority ONLY. Input image 3, concept_crop.png, supplies original concept context ONLY.\n\nPaint the surfaces of the EXACT grey model in image 1, preserving its image-space geometry. Keep image 1's silhouette EXACTLY: same outline, size and position in the 1024 x 1024 frame, every shape edge, opening, facet, spike, draped resin ridge, base fragment and visible detail in precisely the same place. Keep the same orthographic back camera. Do not switch to the three-quarter design-reference view. Do not invent new geometry or reconstruct the front. Nothing may be added outside the guide's silhouette and nothing cropped, moved, enlarged, rounded off or omitted. Preserve the guide's transparent alpha silhouette and empty openings. The object alpha bounds in image 1 are x=104..919, y=232..791, with the tallest spike at the upper left. Retain all surrounding transparent margins exactly.\n\nApply the materials and colours of image 2 to the guide: chipped white ceramic blocks with gold edges, dark metal seams where appropriate, black-violet resin on the twisting webs and spikes with glowing orange veins and sacs, and a flat dark resin socket on top wherever visible in this back view. Ceramic surfaces have fine cracks and chipped ivory-white glaze exposing gold edges. The resin's intrinsic dark purple/black-violet colour should suggest its glossy material WITHOUT painting strong specular highlights or reflections. Keep every large feature and contour from the grey guide, including the central rounded body, the large raised U-shaped resin band across its lower right, the narrow horizontal lip on the upper right and the guide's small ground-level fragments. Only surface material markings may be added inside existing forms.\n\nLIGHTING IS CRITICAL: this is ALBEDO for texture projection, not a beauty render. Use even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Do not copy the design reference's dramatic studio lighting. Paint glowing orange sacs and seams at their bright orange glowing colour only, with NO bloom, halo, light spill or reflected orange light on neighbouring surfaces.\n\nOutput ONE square 1024 x 1024 image with genuine transparent background. No background colour, no black background, no floor, no ground shadow, no environment, no text, no labels. Retain the guide's exact silhouette, framing and all internal openings.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "b32448e025878a92c9c50ee46fec89c03bfe1d372f27a3950269370b34605545",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd",
+          "role": "design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097",
+          "role": "original concept"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254 x 1254 instead of 1024 x 1024; prominent resin and gold specular highlights are unsuitable for flat albedo; silhouette/alpha is not pixel-identical to guide.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_met": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "visually consistent",
+        "flat_even_light": false
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a168a8-2841-7641-86ae-5eb0fb63123a/exec-574414c3-523a-40b3-b311-abb091b02914.png",
+      "accepted": false,
+      "sha256": "d4cfc7426403acd8703e006de91514427f7c5292c67c36e482677724fee39117"
+    },
+    {
+      "view": "back",
+      "prompt": "CORRECTIVE GENERATION: produce exactly one 1024 x 1024 RGBA PNG, matching the native dimensions of input 1. Do not produce 1254 x 1254, 1536 x 1536 or any other resolution. No upscaling. The pixel canvas itself must be 1024 wide and 1024 tall.\n\nUse case: precise-object-edit, texture-source albedo repaint.\nINPUT 1 (guide_back.png): edit target and absolute geometry/alpha authority.\nINPUT 2 (design_reference.png): colour and material reference only; IGNORE its lights and camera.\nINPUT 3 (concept_crop.png): original concept context only.\n\nRepaint the grey pixels of INPUT 1 in place. Retain its alpha channel and every silhouette pixel, hole and edge EXACTLY. Lock camera, position, framing, proportions and all model geometry. Keep the guide's angular mesh shapes; do not round or sculpt them. Do not add or remove any spike, resin loop, fragment or opening. Preserve the silhouette's occupied bounds x=104 through 919 and y=232 through 791 on the 1024 x 1024 canvas; tallest spike tip at approximately (250,232). Keep the horizontal base and every irregular fragment below it. Keep the central drum, stepped top rim, hooked upper-right lip, and large U-shaped lower-right band exactly as in input 1. Preserve all transparent margins.\n\nThe material colours come from INPUT 2: chipped ivory-white ceramic with fine cracks and exposed gold edges; black-violet resin across the spikes and draped organic bands; bright orange veins and sacs painted inside these existing forms; flat dark resin socket on top where visible. Gold should be a flat ochre-gold base colour. Purple resin should be a flat dark black-violet base colour. White ceramic should be uniformly light ivory. This is a BASE COLOUR texture source, never a lit render. Translate glossy material identity into its base colour only, without white gloss lines, sparkling dots, specular streaks, metallic reflections or shine.\n\nCORRECT THE LIGHTING: fully diffuse, even, flat shadowless frontal illumination, same exposure on all sides and recesses. Absolutely NO directional shading, NO ambient-occlusion darkening, NO cast shadows, NO strong specular highlights, NO reflections, NO rim light. Thin intrinsic ceramic cracks and natural dark purple resin are allowed; painted lighting is not. Orange sacs and seams are solid bright glowing-colour surface markings only, no gradients of emitted light, no bloom, no halos, no orange light reflected on surrounding materials.\n\nGenuine transparency everywhere outside the guide's exact alpha and in its openings. No background, floor, cast ground shadow, checkerboard pixels, colour haze or stray semitransparent noise. Single back orthographic view only. No text or labels. Do not borrow the reference's three-quarter pose or add the turret. Exact 1024 x 1024 native output, exact guide geometry, flat albedo materials.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "b32448e025878a92c9c50ee46fec89c03bfe1d372f27a3950269370b34605545",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd",
+          "role": "design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097",
+          "role": "original concept"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the better unmodified return after the one permitted correction: flatter base colours and substantially reduced reflections. Not fully compliant: tool again returned 1254 x 1254; alpha is not identical to guide and contains stray low-alpha pixels; some residual highlights/shading remain and the large U-shaped band is gold/ceramic instead of resin. No resizing or masking performed.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_met": false,
+        "transparent_background": true,
+        "alpha_bounds": [
+          33,
+          29,
+          1226,
+          1254
+        ],
+        "alpha_bounds_above_127": [
+          128,
+          284,
+          1126,
+          970
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White ceramic, gold, violet resin and orange palette present; large U-shaped band material is incorrect.",
+        "flat_even_light": "Improved but not strictly compliant: residual resin highlights and darkening remain.",
+        "unresized_return": true
+      },
+      "sha256": "a32f09e6affe4133c1f53a7b25e77f637be6dfafb15f68047b073b27ec7503de",
+      "source": "/home/pjasicek/.codex/generated_images/01a168a8-2841-7641-86ae-5eb0fb63123a/exec-80005990-20ec-4016-81f2-61d97f15f52d.png"
+    }
+  ]
+}

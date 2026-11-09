@@ -1,0 +1,1817 @@
+{
+  "method": "Compare local scenery density and ground variants on usable land, with explicit settlement masks.",
+  "units": "512-unit terrain cells",
+  "region_method": "Convex hull of main-town service/resident envelopes: Ravenshore centers Y<8192, Alvar Y>8192, generated authored town; exterior edge within 4096 of envelopes; full-water cells excluded. Hulls are analytical masks, not official town boundaries.",
+  "heatmap_method": "1536-unit Gaussian; available-land normalization; common color range per category. Sparse source count, not sprite canopy area. Shore cells count as land.",
+  "maps": {
+    "ravenshore": {
+      "native": "assets_dev/worlds/mm8/maps/out02.odm",
+      "sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+      "decoration_source": "level_generation/evidence/mm8/out02_decorations.json",
+      "decoration_sha256": "1f008f0a925e87e8e7efee5838764a756b69f5a66525fb970d74b14c2b4f18aa",
+      "town_hull": [
+        [
+          -408.0,
+          -4310.0
+        ],
+        [
+          7424.0,
+          -17346.0
+        ],
+        [
+          18688.0,
+          -20736.0
+        ],
+        [
+          20736.0,
+          -20736.0
+        ],
+        [
+          21944.0,
+          -14336.0
+        ],
+        [
+          21944.0,
+          -12224.0
+        ],
+        [
+          21422.0,
+          -9392.0
+        ],
+        [
+          19136.0,
+          1456.0
+        ],
+        [
+          18080.0,
+          3920.0
+        ],
+        [
+          17184.0,
+          3920.0
+        ],
+        [
+          10304.0,
+          3696.0
+        ],
+        [
+          5610.0,
+          3528.0
+        ],
+        [
+          4376.0,
+          3256.0
+        ],
+        [
+          -72.0,
+          -2496.0
+        ],
+        [
+          -408.0,
+          -3322.0
+        ]
+      ],
+      "building_count": 59,
+      "all_house_count": 60,
+      "town_house_centers": [
+        [
+          17848.0,
+          -14064.0
+        ],
+        [
+          19120.0,
+          -14456.0
+        ],
+        [
+          20088.0,
+          -14528.0
+        ],
+        [
+          19760.0,
+          -13312.0
+        ],
+        [
+          21150.0,
+          -9728.0
+        ],
+        [
+          14768.0,
+          -13300.0
+        ],
+        [
+          19992.0,
+          -7064.0
+        ],
+        [
+          18688.0,
+          1072.0
+        ],
+        [
+          15236.0,
+          -4624.0
+        ],
+        [
+          13825.0,
+          -4564.0
+        ],
+        [
+          9216.0,
+          -10832.0
+        ],
+        [
+          10176.0,
+          -7352.0
+        ],
+        [
+          264.0,
+          -3816.0
+        ],
+        [
+          264.0,
+          -2768.0
+        ],
+        [
+          2544.0,
+          -1584.0
+        ],
+        [
+          3016.0,
+          -3640.0
+        ],
+        [
+          4696.0,
+          -64.0
+        ],
+        [
+          4032.0,
+          1632.0
+        ],
+        [
+          4696.0,
+          2840.0
+        ],
+        [
+          6104.0,
+          2856.0
+        ],
+        [
+          6064.0,
+          -150.0
+        ],
+        [
+          8200.0,
+          3264.0
+        ],
+        [
+          9408.0,
+          3136.0
+        ],
+        [
+          11552.0,
+          2976.0
+        ],
+        [
+          11664.0,
+          2000.0
+        ],
+        [
+          10176.0,
+          1104.0
+        ],
+        [
+          11512.0,
+          -4592.0
+        ],
+        [
+          16528.0,
+          -2496.0
+        ],
+        [
+          21528.0,
+          -13280.0
+        ],
+        [
+          15072.0,
+          -12236.0
+        ],
+        [
+          4144.0,
+          -1472.0
+        ],
+        [
+          9040.0,
+          1024.0
+        ],
+        [
+          17632.0,
+          3600.0
+        ],
+        [
+          17320.0,
+          -9424.0
+        ],
+        [
+          6640.0,
+          -7472.0
+        ],
+        [
+          12688.0,
+          -9488.0
+        ],
+        [
+          8384.0,
+          -5912.0
+        ],
+        [
+          16664.0,
+          128.0
+        ],
+        [
+          16906.0,
+          -6784.0
+        ],
+        [
+          17194.0,
+          -7520.0
+        ],
+        [
+          18218.0,
+          -7600.0
+        ],
+        [
+          13488.0,
+          -7100.0
+        ],
+        [
+          13616.0,
+          -6108.0
+        ],
+        [
+          12792.0,
+          -7324.0
+        ],
+        [
+          11888.0,
+          -7132.0
+        ],
+        [
+          10560.0,
+          3312.0
+        ],
+        [
+          8416.0,
+          -9040.0
+        ],
+        [
+          17680.0,
+          -5536.0
+        ],
+        [
+          18284.0,
+          -16080.0
+        ],
+        [
+          15088.0,
+          -7168.0
+        ],
+        [
+          2368.0,
+          -5152.0
+        ],
+        [
+          17936.0,
+          -11328.0
+        ],
+        [
+          17152.0,
+          -11264.0
+        ],
+        [
+          17344.0,
+          -12320.0
+        ],
+        [
+          15360.0,
+          -14912.0
+        ],
+        [
+          19624.0,
+          -9368.0
+        ],
+        [
+          19712.0,
+          -19840.0
+        ],
+        [
+          9320.0,
+          -14286.0
+        ],
+        [
+          7736.0,
+          -16946.0
+        ]
+      ],
+      "scenery": {
+        "trees": {
+          "town": {
+            "count": 33,
+            "land_cells": 1352,
+            "per_4096_square": 1.56
+          },
+          "town_edge": {
+            "count": 8,
+            "land_cells": 857,
+            "per_4096_square": 0.6
+          },
+          "wilderness": {
+            "count": 213,
+            "land_cells": 4860,
+            "per_4096_square": 2.8
+          }
+        },
+        "rocks": {
+          "town": {
+            "count": 91,
+            "land_cells": 1352,
+            "per_4096_square": 4.31
+          },
+          "town_edge": {
+            "count": 10,
+            "land_cells": 857,
+            "per_4096_square": 0.75
+          },
+          "wilderness": {
+            "count": 103,
+            "land_cells": 4860,
+            "per_4096_square": 1.36
+          }
+        },
+        "plants": {
+          "town": {
+            "count": 244,
+            "land_cells": 1352,
+            "per_4096_square": 11.55
+          },
+          "town_edge": {
+            "count": 8,
+            "land_cells": 857,
+            "per_4096_square": 0.6
+          },
+          "wilderness": {
+            "count": 17,
+            "land_cells": 4860,
+            "per_4096_square": 0.22
+          }
+        }
+      },
+      "terrain_textures_by_region": {
+        "town": {
+          "wtrdre": 26,
+          "dirttyl": 631,
+          "dirt2": 38,
+          "wtrdrw": 9,
+          "dirt1": 24,
+          "drsrncap": 2,
+          "drsrns": 73,
+          "wtrdrxse": 11,
+          "wtrdrse": 11,
+          "drsrnw1": 9,
+          "drsrew": 78,
+          "drsrne1": 6,
+          "wtrdrnw": 13,
+          "wtrdrxnw": 14,
+          "drsrnw2": 9,
+          "drsrne2": 5,
+          "drsrscap": 3,
+          "wtrdrn": 21,
+          "drsrns_e": 6,
+          "rknw": 2,
+          "rkw": 14,
+          "rkxnw": 1,
+          "rktyl": 13,
+          "wtrdrs": 11,
+          "grdrtnw": 18,
+          "grdrtn": 31,
+          "grdrtne": 17,
+          "grdrtxnw": 9,
+          "grastyl": 58,
+          "grdrte": 17,
+          "grastyl2": 1,
+          "grdrtsw": 17,
+          "grdrtxsw": 9,
+          "grdrtxne": 8,
+          "rksw": 6,
+          "rkxsw": 4,
+          "drsrn_e": 5,
+          "drsrs_w": 3,
+          "grdrts": 35,
+          "grdrtse": 12,
+          "drsrew_n": 4,
+          "grdrtw": 20,
+          "grdrtxse": 5,
+          "drsrew_s": 6,
+          "wtrdrne": 12,
+          "drsrs_e": 1,
+          "drsrns_w": 10,
+          "drsrwcap": 3,
+          "wtrdrxne": 10,
+          "drsrn_w": 1
+        },
+        "town_edge": {
+          "grastyl": 118,
+          "grdrtxse": 15,
+          "wtrdrw": 3,
+          "wtrdrxne": 20,
+          "wtrdrne": 17,
+          "grdrtsw": 16,
+          "grdrts": 12,
+          "grdrtxsw": 8,
+          "grdrtse": 19,
+          "wtrdrnw": 6,
+          "wtrdrn": 14,
+          "grdrte": 15,
+          "rknw": 2,
+          "rkxnw": 2,
+          "wtrdrsw": 7,
+          "wtrdrxsw": 7,
+          "grdrtw": 36,
+          "wtrdrxnw": 6,
+          "grastyl2": 11,
+          "rkw": 28,
+          "rktyl": 142,
+          "rke": 39,
+          "grdrtxne": 2,
+          "grdrtne": 2,
+          "wtrdre": 5,
+          "wtrdrxse": 2,
+          "wtrdrs": 10,
+          "wtrdrse": 2,
+          "dirttyl": 200,
+          "dirt1": 8,
+          "rksw": 8,
+          "rkxsw": 8,
+          "rkxne": 9,
+          "rkne": 8,
+          "dirt2": 6,
+          "rkn": 10,
+          "rkxse": 3,
+          "rks": 7,
+          "rkse": 2,
+          "drsrnw1": 1,
+          "drsrew": 15,
+          "drsrnw2": 1,
+          "grdrtnw": 2,
+          "grdrtxnw": 1,
+          "rktylx": 2
+        },
+        "wilderness": {
+          "grastyl": 2265,
+          "grdrte": 117,
+          "rkw": 67,
+          "rktyl": 514,
+          "rke": 87,
+          "grdrtnw": 36,
+          "grdrtxnw": 36,
+          "grastyl2": 138,
+          "wtrdrw": 30,
+          "wtrdre": 13,
+          "grdrtsw": 68,
+          "grdrtxsw": 71,
+          "drsrns": 52,
+          "grdrtw": 123,
+          "grdrtxne": 64,
+          "grdrtne": 66,
+          "wtrdrsw": 20,
+          "wtrdrs": 15,
+          "wtrdrse": 2,
+          "grdrtxse": 38,
+          "grdrtse": 42,
+          "wtrdrxne": 26,
+          "wtrdrne": 27,
+          "grdrtn": 82,
+          "rktylx": 19,
+          "rknw": 18,
+          "rkxnw": 17,
+          "wtrdrxsw": 19,
+          "grdrts": 103,
+          "rksw": 29,
+          "rkxsw": 32,
+          "wtrdrn": 32,
+          "drsrnw1": 15,
+          "drsrew": 66,
+          "drsrne1": 23,
+          "drsrnw2": 16,
+          "drsrne2": 22,
+          "rkn": 47,
+          "rkxse": 17,
+          "rks": 54,
+          "rkse": 19,
+          "rkxne": 29,
+          "rkne": 28,
+          "drsrn_e": 5,
+          "dirttyl": 196,
+          "drsrn_w": 5,
+          "drsrs_w": 2,
+          "drsrew_s": 2,
+          "dirt2": 5,
+          "drsrscap": 1,
+          "drsrncap": 2,
+          "drsrecap": 1,
+          "wtrdrnw": 15,
+          "wtrdrxnw": 15,
+          "wtrdrxse": 1,
+          "drsrs_e": 4,
+          "drsrns_e": 1,
+          "dirt1": 1
+        }
+      },
+      "whole_grid_interior_raw_counts": {
+        "1": 953,
+        "2": 37,
+        "3": 69,
+        "4": 53,
+        "5": 5,
+        "6": 11,
+        "7": 6,
+        "8": 4,
+        "9": 3,
+        "10": 5,
+        "11": 6,
+        "12": 4,
+        "90": 5297,
+        "91": 347,
+        "92": 332,
+        "93": 337,
+        "94": 32,
+        "95": 43,
+        "96": 34,
+        "97": 22,
+        "98": 29,
+        "99": 17,
+        "100": 27,
+        "101": 45
+      }
+    },
+    "alvar": {
+      "native": "assets_dev/worlds/mm8/maps/out03.odm",
+      "sha256": "874d31b13fcd6d628d4d5d61bf762c3f693c5c00cfd4a7efe04ea6d2e413113c",
+      "decoration_source": "level_generation/evidence/mm8/out03_decorations.json",
+      "decoration_sha256": "f2e1b87ab15dcc938f60c90a6c4df489bb770aa3ef6efbcf3370d751b264275a",
+      "town_hull": [
+        [
+          18312.0,
+          14552.0
+        ],
+        [
+          14136.0,
+          21328.0
+        ],
+        [
+          11760.0,
+          21832.0
+        ],
+        [
+          10480.0,
+          21832.0
+        ],
+        [
+          4176.0,
+          21752.0
+        ],
+        [
+          1064.0,
+          21712.0
+        ],
+        [
+          -2224.0,
+          19312.0
+        ],
+        [
+          -4288.0,
+          17656.0
+        ],
+        [
+          -6416.0,
+          15160.0
+        ],
+        [
+          -6912.0,
+          12880.0
+        ],
+        [
+          -7072.0,
+          11152.0
+        ],
+        [
+          -7072.0,
+          10128.0
+        ],
+        [
+          13928.0,
+          9832.0
+        ],
+        [
+          14696.0,
+          9832.0
+        ],
+        [
+          16816.0,
+          11304.0
+        ],
+        [
+          17752.0,
+          12552.0
+        ],
+        [
+          18312.0,
+          13912.0
+        ]
+      ],
+      "building_count": 42,
+      "all_house_count": 46,
+      "town_house_centers": [
+        [
+          4328.0,
+          13792.0
+        ],
+        [
+          9272.0,
+          17024.0
+        ],
+        [
+          9152.0,
+          17024.0
+        ],
+        [
+          8616.0,
+          17024.0
+        ],
+        [
+          -6488.0,
+          12288.0
+        ],
+        [
+          -4972.0,
+          13416.0
+        ],
+        [
+          -5776.0,
+          14768.0
+        ],
+        [
+          -3992.0,
+          15016.0
+        ],
+        [
+          -2728.0,
+          15360.0
+        ],
+        [
+          -3920.0,
+          17272.0
+        ],
+        [
+          -2672.0,
+          17184.0
+        ],
+        [
+          -1884.0,
+          18912.0
+        ],
+        [
+          -1404.0,
+          17416.0
+        ],
+        [
+          -136.0,
+          17512.0
+        ],
+        [
+          -344.0,
+          19456.0
+        ],
+        [
+          1024.0,
+          18944.0
+        ],
+        [
+          2324.0,
+          20024.0
+        ],
+        [
+          1704.0,
+          21320.0
+        ],
+        [
+          3368.0,
+          21352.0
+        ],
+        [
+          4640.0,
+          21416.0
+        ],
+        [
+          7024.0,
+          20100.0
+        ],
+        [
+          11120.0,
+          21440.0
+        ],
+        [
+          13712.0,
+          20736.0
+        ],
+        [
+          11184.0,
+          20068.0
+        ],
+        [
+          11224.0,
+          18832.0
+        ],
+        [
+          4120.0,
+          14900.0
+        ],
+        [
+          4056.0,
+          15912.0
+        ],
+        [
+          2552.0,
+          14712.0
+        ],
+        [
+          2632.0,
+          13472.0
+        ],
+        [
+          2600.0,
+          12572.0
+        ],
+        [
+          6808.0,
+          17808.0
+        ],
+        [
+          14640.0,
+          11936.0
+        ],
+        [
+          14312.0,
+          10088.0
+        ],
+        [
+          16400.0,
+          11624.0
+        ],
+        [
+          15840.0,
+          13464.0
+        ],
+        [
+          17496.0,
+          12936.0
+        ],
+        [
+          17896.0,
+          14232.0
+        ],
+        [
+          8400.0,
+          14878.0
+        ],
+        [
+          4336.0,
+          17872.0
+        ],
+        [
+          1000.0,
+          17440.0
+        ],
+        [
+          -6560.0,
+          10640.0
+        ],
+        [
+          6512.0,
+          13328.0
+        ]
+      ],
+      "scenery": {
+        "trees": {
+          "town": {
+            "count": 27,
+            "land_cells": 905,
+            "per_4096_square": 1.91
+          },
+          "town_edge": {
+            "count": 71,
+            "land_cells": 910,
+            "per_4096_square": 4.99
+          },
+          "wilderness": {
+            "count": 390,
+            "land_cells": 6898,
+            "per_4096_square": 3.62
+          }
+        },
+        "rocks": {
+          "town": {
+            "count": 51,
+            "land_cells": 905,
+            "per_4096_square": 3.61
+          },
+          "town_edge": {
+            "count": 19,
+            "land_cells": 910,
+            "per_4096_square": 1.34
+          },
+          "wilderness": {
+            "count": 18,
+            "land_cells": 6898,
+            "per_4096_square": 0.17
+          }
+        },
+        "plants": {
+          "town": {
+            "count": 52,
+            "land_cells": 905,
+            "per_4096_square": 3.68
+          },
+          "town_edge": {
+            "count": 12,
+            "land_cells": 910,
+            "per_4096_square": 0.84
+          },
+          "wilderness": {
+            "count": 224,
+            "land_cells": 6898,
+            "per_4096_square": 2.08
+          }
+        }
+      },
+      "terrain_textures_by_region": {
+        "town": {
+          "dirttyl": 403,
+          "dirt1": 17,
+          "dirt2": 13,
+          "rkse": 4,
+          "drsrs_e": 5,
+          "drsrew": 68,
+          "drsrew_s": 3,
+          "drsrs_w": 1,
+          "drsrecap": 2,
+          "drsrns": 55,
+          "grdrtnw": 13,
+          "grdrtne": 9,
+          "grdrtn": 34,
+          "grdrtsw": 6,
+          "grdrtse": 15,
+          "grdrtw": 20,
+          "grastyl": 83,
+          "grdrte": 17,
+          "drsrns_w": 3,
+          "grdrts": 23,
+          "drsrns_e": 4,
+          "drsrn_w": 5,
+          "wtrdrnw": 15,
+          "drsrew_n": 2,
+          "wtrdrxnw": 15,
+          "grdrtxsw": 1,
+          "wtrdrn": 10,
+          "wtrdrxse": 12,
+          "wtrdrse": 12,
+          "grdrtxnw": 5,
+          "grastyl2": 1,
+          "grdrtxse": 9,
+          "wtrdrw": 2,
+          "wtrdre": 3,
+          "drsrnw1": 7,
+          "drsrnw2": 5,
+          "drsrscap": 1,
+          "wtrdrs": 2
+        },
+        "town_edge": {
+          "grdrts": 11,
+          "grdrtse": 14,
+          "rknw": 22,
+          "rkn": 25,
+          "rkxnw": 26,
+          "rktyl": 371,
+          "rkxne": 9,
+          "rkne": 7,
+          "grdrtsw": 4,
+          "wtrdrw": 6,
+          "rke": 27,
+          "rkxse": 32,
+          "rks": 35,
+          "rkxsw": 6,
+          "wtrdrsw": 4,
+          "wtrdrxsw": 2,
+          "grdrte": 11,
+          "rkw": 17,
+          "rktylx": 1,
+          "rkse": 25,
+          "dirttyl": 81,
+          "dirt2": 3,
+          "rksw": 7,
+          "grdrtxse": 7,
+          "grastyl": 48,
+          "wtrdrnw": 4,
+          "wtrdrn": 5,
+          "wtrdrne": 2,
+          "wtrdrxnw": 3,
+          "wtrdrxne": 1,
+          "wtrdrxse": 5,
+          "wtrdrse": 4,
+          "dirt1": 3,
+          "grdrtnw": 18,
+          "grdrtw": 12,
+          "grdrtxnw": 9,
+          "drsrns": 9,
+          "drsrnw1": 3,
+          "drsrew": 9,
+          "drsrnw2": 3,
+          "wtrdrs": 10,
+          "drsrns_e": 1,
+          "grdrtn": 7,
+          "drsrn_w": 1
+        },
+        "wilderness": {
+          "grastyl": 2642,
+          "grastyl2": 41,
+          "grdrtxse": 79,
+          "wtrdrw": 38,
+          "grdrts": 175,
+          "grdrte": 98,
+          "wtrdrxsw": 34,
+          "rkne": 62,
+          "wtrdrsw": 32,
+          "wtrdrs": 69,
+          "rkw": 84,
+          "rkn": 139,
+          "grdrtnw": 90,
+          "grdrtne": 62,
+          "grdrtse": 85,
+          "rke": 69,
+          "grdrtw": 92,
+          "grdrtxne": 48,
+          "grdrtn": 187,
+          "rknw": 60,
+          "rkxnw": 62,
+          "grdrtxnw": 77,
+          "rktyl": 1151,
+          "drsrnw2": 17,
+          "wtrdrse": 40,
+          "dirttyl": 284,
+          "wtrdrnw": 36,
+          "wtrdrxnw": 37,
+          "wtrdrxse": 40,
+          "drsrwcap": 1,
+          "drsrew": 108,
+          "wtrdre": 33,
+          "drsrnw1": 17,
+          "wtrdrn": 64,
+          "grdrtsw": 55,
+          "grdrtxsw": 42,
+          "drsrns": 44,
+          "wtrdrxne": 27,
+          "wtrdrne": 26,
+          "rkxse": 66,
+          "rks": 134,
+          "rkse": 57,
+          "dirt2": 12,
+          "rkxne": 61,
+          "dirt1": 11,
+          "drsrs_e": 4,
+          "drsrew_n": 2,
+          "drsrs_w": 1,
+          "rksw": 60,
+          "rkxsw": 67,
+          "drsrn_w": 4,
+          "drsrscap": 3,
+          "drsrne1": 28,
+          "drsrne2": 27,
+          "rktylx": 6,
+          "drsrns_w": 1,
+          "drsrn_e": 2,
+          "drsrew_s": 1,
+          "drsrncap": 2,
+          "drsrns_e": 1,
+          "drsrecap": 1
+        }
+      },
+      "whole_grid_interior_raw_counts": {
+        "1": 809,
+        "2": 38,
+        "3": 48,
+        "4": 35,
+        "5": 3,
+        "6": 6,
+        "7": 2,
+        "8": 1,
+        "9": 7,
+        "10": 6,
+        "11": 3,
+        "12": 8,
+        "90": 7669,
+        "91": 120,
+        "92": 123,
+        "93": 156,
+        "94": 8,
+        "95": 14,
+        "96": 7,
+        "97": 9,
+        "98": 20,
+        "99": 17,
+        "100": 11,
+        "101": 10
+      }
+    },
+    "brackenford_before": {
+      "native": "level_generation/projects/brackenford_greywatch/review/landscape_revision/before/lg01.odm",
+      "sha256": "6d4184a1d34301004417db201b716db4795a5d3cccfd3cba8ef5a320af327236",
+      "decoration_source": "level_generation/projects/brackenford_greywatch/review/landscape_revision/before/lg01.decorations.json",
+      "decoration_sha256": "6e1d4ee815758878c25f4ebb8fd87fcb4e7bad177ec4cecc86e2a46ed4126005",
+      "town_hull": [
+        [
+          -16768.0,
+          8832.0
+        ],
+        [
+          -18624.0,
+          3200.0
+        ],
+        [
+          -18752.0,
+          1600.0
+        ],
+        [
+          -18752.0,
+          960.0
+        ],
+        [
+          -17730.0,
+          -1586.0
+        ],
+        [
+          -15040.0,
+          -4736.0
+        ],
+        [
+          -13120.0,
+          -6208.0
+        ],
+        [
+          -11200.0,
+          -6464.0
+        ],
+        [
+          -6592.0,
+          -6464.0
+        ],
+        [
+          -5824.0,
+          -4864.0
+        ],
+        [
+          -5568.0,
+          -1408.0
+        ],
+        [
+          -5568.0,
+          -128.0
+        ],
+        [
+          -5952.0,
+          2176.0
+        ],
+        [
+          -12416.0,
+          8832.0
+        ]
+      ],
+      "building_count": 29,
+      "all_house_count": 29,
+      "town_house_centers": [
+        [
+          -6208.0,
+          -4096.0
+        ],
+        [
+          -10048.0,
+          -6080.0
+        ],
+        [
+          -10816.0,
+          -6080.0
+        ],
+        [
+          -8192.0,
+          -3456.0
+        ],
+        [
+          -14592.0,
+          7936.0
+        ],
+        [
+          -9984.0,
+          960.0
+        ],
+        [
+          -13782.0,
+          1066.0
+        ],
+        [
+          -6080.0,
+          -768.0
+        ],
+        [
+          -6272.0,
+          1792.0
+        ],
+        [
+          -15872.0,
+          4032.0
+        ],
+        [
+          -13312.0,
+          3904.0
+        ],
+        [
+          -11264.0,
+          4032.0
+        ],
+        [
+          -9216.0,
+          3008.0
+        ],
+        [
+          -7680.0,
+          2880.0
+        ],
+        [
+          -18304.0,
+          2816.0
+        ],
+        [
+          -18368.0,
+          1280.0
+        ],
+        [
+          -17232.0,
+          -1088.0
+        ],
+        [
+          -15760.0,
+          -2464.0
+        ],
+        [
+          -14720.0,
+          -4352.0
+        ],
+        [
+          -12288.0,
+          -4672.0
+        ],
+        [
+          -7936.0,
+          -4672.0
+        ],
+        [
+          -12800.0,
+          -5952.0
+        ],
+        [
+          -6912.0,
+          -6080.0
+        ],
+        [
+          -10624.0,
+          -640.0
+        ],
+        [
+          -10624.0,
+          -1920.0
+        ],
+        [
+          -9280.0,
+          -1472.0
+        ],
+        [
+          -9344.0,
+          -128.0
+        ],
+        [
+          -7936.0,
+          -2112.0
+        ],
+        [
+          -7552.0,
+          -1024.0
+        ]
+      ],
+      "scenery": {
+        "trees": {
+          "town": {
+            "count": 30,
+            "land_cells": 580,
+            "per_4096_square": 3.31
+          },
+          "town_edge": {
+            "count": 19,
+            "land_cells": 895,
+            "per_4096_square": 1.36
+          },
+          "wilderness": {
+            "count": 324,
+            "land_cells": 7596,
+            "per_4096_square": 2.73
+          }
+        },
+        "rocks": {
+          "town": {
+            "count": 20,
+            "land_cells": 580,
+            "per_4096_square": 2.21
+          },
+          "town_edge": {
+            "count": 6,
+            "land_cells": 895,
+            "per_4096_square": 0.43
+          },
+          "wilderness": {
+            "count": 147,
+            "land_cells": 7596,
+            "per_4096_square": 1.24
+          }
+        },
+        "plants": {
+          "town": {
+            "count": 162,
+            "land_cells": 580,
+            "per_4096_square": 17.88
+          },
+          "town_edge": {
+            "count": 88,
+            "land_cells": 895,
+            "per_4096_square": 6.29
+          },
+          "wilderness": {
+            "count": 166,
+            "land_cells": 7596,
+            "per_4096_square": 1.4
+          }
+        }
+      },
+      "terrain_textures_by_region": {
+        "town": {
+          "dirttyl": 167,
+          "grdrtw": 26,
+          "grastyl": 74,
+          "grdrtnw": 11,
+          "grdrtn": 37,
+          "grdrtne": 13,
+          "drsrncap": 2,
+          "grdrtxnw": 6,
+          "grdrtsw": 19,
+          "grdrts": 31,
+          "grdrtse": 13,
+          "drsrns": 40,
+          "rdnw": 3,
+          "rdn": 8,
+          "rdne": 3,
+          "rdsw": 2,
+          "rds": 7,
+          "rdse": 2,
+          "drsrns_e": 2,
+          "drsrew": 46,
+          "drsrew_n": 3,
+          "drsrew_s": 2,
+          "drsrs_w": 2,
+          "grdrtxsw": 10,
+          "grdrtxse": 9,
+          "grdrte": 18,
+          "drsrn_e": 2,
+          "drsrwcap": 1,
+          "drsrn_w": 2,
+          "drsrne1": 6,
+          "grdrtxne": 6,
+          "drsrne2": 6,
+          "drsrns_w": 1
+        },
+        "town_edge": {
+          "drsrns": 14,
+          "grdrtw": 21,
+          "grastyl": 523,
+          "grdrte": 19,
+          "dirttyl": 98,
+          "rdsw": 7,
+          "rds": 19,
+          "rdxsw": 4,
+          "grdrtxne": 8,
+          "grdrtne": 4,
+          "grdrtn": 38,
+          "grdrtsw": 4,
+          "grdrtxsw": 9,
+          "drsrn_e": 1,
+          "drsrs_w": 1,
+          "grdrts": 29,
+          "grdrtxse": 1,
+          "grdrtse": 2,
+          "rdnw": 4,
+          "rdne": 7,
+          "rdn": 12,
+          "rdxnw": 3,
+          "rde": 9,
+          "rdtyl": 21,
+          "rdw": 2,
+          "rdxse": 3,
+          "rdse": 6,
+          "rdxne": 3,
+          "drsrs_e": 1,
+          "drsrew": 14,
+          "grdrtnw": 3,
+          "drsrn_w": 1,
+          "grdrtxnw": 4
+        },
+        "wilderness": {
+          "rdtyl": 412,
+          "rde": 32,
+          "dirttyl": 515,
+          "grdrtw": 187,
+          "grdrte": 179,
+          "drsrns": 84,
+          "grastyl": 5237,
+          "wtrdrw": 84,
+          "wtrdre": 84,
+          "rdxse": 15,
+          "rdse": 23,
+          "rdxsw": 13,
+          "rdsw": 18,
+          "grdrtnw": 30,
+          "grdrtxnw": 34,
+          "rdnw": 15,
+          "rdxnw": 9,
+          "wtrdrsw": 9,
+          "wtrdrxsw": 8,
+          "grdrtsw": 29,
+          "grdrtxsw": 31,
+          "rds": 34,
+          "grdrtxne": 25,
+          "grdrtne": 25,
+          "wtrdrxne": 7,
+          "wtrdrne": 8,
+          "grdrtn": 93,
+          "grdrtxse": 23,
+          "grdrts": 94,
+          "grdrtse": 22,
+          "wtrdrnw": 8,
+          "wtrdrn": 4,
+          "wtrdrxse": 8,
+          "wtrdrse": 9,
+          "wtrdrs": 2,
+          "rdn": 36,
+          "rdne": 21,
+          "rdw": 25,
+          "drsrs_e": 8,
+          "drsrecap": 3,
+          "rdxne": 16,
+          "wtrdrxnw": 7,
+          "drsrn_w": 7,
+          "drsrew": 53,
+          "drsrew_n": 1,
+          "drsrn_e": 4,
+          "drsrs_w": 3,
+          "drsrew_s": 1,
+          "drsrscap": 1
+        }
+      },
+      "whole_grid_interior_raw_counts": {
+        "1": 1409,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "90": 8785,
+        "91": 0,
+        "92": 0,
+        "93": 0,
+        "94": 0,
+        "95": 0,
+        "96": 0,
+        "97": 0,
+        "98": 0,
+        "99": 0,
+        "100": 0,
+        "101": 0
+      }
+    },
+    "brackenford": {
+      "native": "level_generation/projects/brackenford_greywatch/runtime/worlds/mm8/maps/lg01.odm",
+      "sha256": "b33d797d47b29e80c83ce53a78e9f7d0fff93be139ed8e3085e9b830efd56fa2",
+      "decoration_source": "level_generation/projects/brackenford_greywatch/source/lg01.decorations.json",
+      "decoration_sha256": "c21cd249de54d63f030f23a57a24f26ce098ce733ecd6dce775bfefe0d5b45de",
+      "town_hull": [
+        [
+          -16768.0,
+          8832.0
+        ],
+        [
+          -18624.0,
+          3200.0
+        ],
+        [
+          -18752.0,
+          1600.0
+        ],
+        [
+          -18752.0,
+          960.0
+        ],
+        [
+          -17730.0,
+          -1586.0
+        ],
+        [
+          -15040.0,
+          -4736.0
+        ],
+        [
+          -13120.0,
+          -6208.0
+        ],
+        [
+          -11200.0,
+          -6464.0
+        ],
+        [
+          -6592.0,
+          -6464.0
+        ],
+        [
+          -5824.0,
+          -4864.0
+        ],
+        [
+          -5568.0,
+          -1408.0
+        ],
+        [
+          -5568.0,
+          -128.0
+        ],
+        [
+          -5952.0,
+          2176.0
+        ],
+        [
+          -12416.0,
+          8832.0
+        ]
+      ],
+      "building_count": 29,
+      "all_house_count": 29,
+      "town_house_centers": [
+        [
+          -6208.0,
+          -4096.0
+        ],
+        [
+          -10048.0,
+          -6080.0
+        ],
+        [
+          -10816.0,
+          -6080.0
+        ],
+        [
+          -8192.0,
+          -3456.0
+        ],
+        [
+          -14592.0,
+          7936.0
+        ],
+        [
+          -9984.0,
+          960.0
+        ],
+        [
+          -13782.0,
+          1066.0
+        ],
+        [
+          -6080.0,
+          -768.0
+        ],
+        [
+          -6272.0,
+          1792.0
+        ],
+        [
+          -15872.0,
+          4032.0
+        ],
+        [
+          -13312.0,
+          3904.0
+        ],
+        [
+          -11264.0,
+          4032.0
+        ],
+        [
+          -9216.0,
+          3008.0
+        ],
+        [
+          -7680.0,
+          2880.0
+        ],
+        [
+          -18304.0,
+          2816.0
+        ],
+        [
+          -18368.0,
+          1280.0
+        ],
+        [
+          -17232.0,
+          -1088.0
+        ],
+        [
+          -15760.0,
+          -2464.0
+        ],
+        [
+          -14720.0,
+          -4352.0
+        ],
+        [
+          -12288.0,
+          -4672.0
+        ],
+        [
+          -7936.0,
+          -4672.0
+        ],
+        [
+          -12800.0,
+          -5952.0
+        ],
+        [
+          -6912.0,
+          -6080.0
+        ],
+        [
+          -10624.0,
+          -640.0
+        ],
+        [
+          -10624.0,
+          -1920.0
+        ],
+        [
+          -9280.0,
+          -1472.0
+        ],
+        [
+          -9344.0,
+          -128.0
+        ],
+        [
+          -7936.0,
+          -2112.0
+        ],
+        [
+          -7552.0,
+          -1024.0
+        ]
+      ],
+      "scenery": {
+        "trees": {
+          "town": {
+            "count": 30,
+            "land_cells": 580,
+            "per_4096_square": 3.31
+          },
+          "town_edge": {
+            "count": 58,
+            "land_cells": 895,
+            "per_4096_square": 4.15
+          },
+          "wilderness": {
+            "count": 399,
+            "land_cells": 7596,
+            "per_4096_square": 3.36
+          }
+        },
+        "rocks": {
+          "town": {
+            "count": 27,
+            "land_cells": 580,
+            "per_4096_square": 2.98
+          },
+          "town_edge": {
+            "count": 24,
+            "land_cells": 895,
+            "per_4096_square": 1.72
+          },
+          "wilderness": {
+            "count": 188,
+            "land_cells": 7596,
+            "per_4096_square": 1.58
+          }
+        },
+        "plants": {
+          "town": {
+            "count": 162,
+            "land_cells": 580,
+            "per_4096_square": 17.88
+          },
+          "town_edge": {
+            "count": 88,
+            "land_cells": 895,
+            "per_4096_square": 6.29
+          },
+          "wilderness": {
+            "count": 166,
+            "land_cells": 7596,
+            "per_4096_square": 1.4
+          }
+        }
+      },
+      "terrain_textures_by_region": {
+        "town": {
+          "dirttyl": 156,
+          "dirt1": 5,
+          "dirt2": 6,
+          "grdrtw": 26,
+          "grastyl": 72,
+          "grdrtnw": 11,
+          "grdrtn": 37,
+          "grdrtne": 13,
+          "drsrncap": 2,
+          "grdrtxnw": 6,
+          "grdrtsw": 19,
+          "grdrts": 31,
+          "grdrtse": 13,
+          "drsrns": 40,
+          "rdnw": 3,
+          "rdn": 8,
+          "rdne": 3,
+          "rdsw": 2,
+          "rds": 7,
+          "rdse": 2,
+          "grastyl2": 2,
+          "drsrns_e": 2,
+          "drsrew": 46,
+          "drsrew_n": 3,
+          "drsrew_s": 2,
+          "drsrs_w": 2,
+          "grdrtxsw": 10,
+          "grdrtxse": 9,
+          "grdrte": 18,
+          "drsrn_e": 2,
+          "drsrwcap": 1,
+          "drsrn_w": 2,
+          "drsrne1": 6,
+          "grdrtxne": 6,
+          "drsrne2": 6,
+          "drsrns_w": 1
+        },
+        "town_edge": {
+          "drsrns": 14,
+          "grdrtw": 21,
+          "grastyl": 449,
+          "grdrte": 22,
+          "dirttyl": 109,
+          "rdsw": 7,
+          "rds": 19,
+          "rdxsw": 4,
+          "grdrtxne": 15,
+          "grdrtne": 10,
+          "grdrtn": 34,
+          "dirt1": 3,
+          "grdrtsw": 7,
+          "grdrtxsw": 12,
+          "grdrtnw": 7,
+          "grastyl2": 24,
+          "drsrn_e": 1,
+          "drsrs_w": 1,
+          "grdrtxnw": 7,
+          "grdrts": 36,
+          "grdrtxse": 2,
+          "grdrtse": 2,
+          "rdnw": 4,
+          "rdne": 7,
+          "rdn": 12,
+          "rdxnw": 3,
+          "rde": 9,
+          "rdtyl": 21,
+          "rdw": 2,
+          "rdxse": 3,
+          "rdse": 6,
+          "rdxne": 3,
+          "drsrs_e": 1,
+          "drsrew": 14,
+          "dirt2": 3,
+          "drsrn_w": 1
+        },
+        "wilderness": {
+          "rdtyl": 408,
+          "rde": 32,
+          "dirttyl": 486,
+          "grdrtw": 200,
+          "grdrte": 193,
+          "drsrns": 85,
+          "grastyl": 4851,
+          "grastyl2": 267,
+          "wtrdrw": 84,
+          "wtrdre": 84,
+          "rdxse": 15,
+          "rdse": 25,
+          "rdxsw": 12,
+          "dirt2": 22,
+          "rdsw": 19,
+          "grdrtnw": 34,
+          "grdrtxnw": 47,
+          "rdnw": 16,
+          "rdxnw": 8,
+          "wtrdrsw": 9,
+          "wtrdrxsw": 8,
+          "grdrtsw": 31,
+          "grdrtxsw": 41,
+          "rds": 33,
+          "grdrtxse": 29,
+          "grdrts": 107,
+          "grdrtxne": 36,
+          "grdrtne": 29,
+          "wtrdrxne": 7,
+          "wtrdrne": 8,
+          "dirt1": 27,
+          "grdrtn": 103,
+          "grdrtse": 21,
+          "wtrdrnw": 8,
+          "wtrdrn": 4,
+          "wtrdrxse": 8,
+          "wtrdrse": 9,
+          "wtrdrs": 2,
+          "rdn": 35,
+          "rdne": 23,
+          "rdw": 27,
+          "drsrs_e": 6,
+          "drsrecap": 3,
+          "rdxne": 16,
+          "wtrdrxnw": 7,
+          "drsrn_w": 5,
+          "drsrew": 54,
+          "drsrns_w": 1,
+          "drsrns_e": 1,
+          "drsrew_n": 1,
+          "drsrn_e": 4,
+          "drsrs_w": 3,
+          "drsrew_s": 1,
+          "drsrscap": 1
+        }
+      },
+      "whole_grid_interior_raw_counts": {
+        "1": 1324,
+        "2": 67,
+        "3": 0,
+        "4": 55,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "90": 8154,
+        "91": 0,
+        "92": 462,
+        "93": 0,
+        "94": 0,
+        "95": 0,
+        "96": 0,
+        "97": 0,
+        "98": 0,
+        "99": 0,
+        "100": 0,
+        "101": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_ske.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_ske.glb",
+ "assignments": [
+  {
+   "match": "=Skeleton_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ske_claude/textures/ske_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ske_claude/textures/ske_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "ske_metal_rough_1k_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Skeleton_A",
+    "Skeleton_B",
+    "Skeleton_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      1056,
+      0,
+      2080,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 7,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 185265,
+     "uv_covered_without_class": 0.0179,
+     "uv_covered_without_class_far": 0.0011,
+     "class_texels_outside_uv": 0.0427,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ske_claude/textures/ske_material_classes.png",
+     "class_share_in_uv": {
+      "tooth": 1.0
+     }
+    },
+    "head": {
+     "uv_covered_texels": 554407,
+     "uv_covered_without_class": 0.0008,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.0074,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ske_claude/textures/ske_head_material_classes.png",
+     "class_share_in_uv": {
+      "tooth": 0.9999,
+      "eye": 0.0001
+     }
+    }
+   },
+   "class_share_total": {
+    "tooth": 1.0,
+    "eye": 0.0
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "tooth": 0.0,
+    "eye": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "tooth": 0.903,
+    "eye": 0.0
+   },
+   "new_roughness_mean_by_class": {
+    "tooth": 0.35,
+    "eye": 0.1
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Skeleton_A": null,
+    "Skeleton_B": null,
+    "Skeleton_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 153.1
+    },
+    "G": {
+     "min": 26,
+     "max": 215,
+     "mean": 89.3
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 0.1
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

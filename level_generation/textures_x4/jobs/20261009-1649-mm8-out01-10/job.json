@@ -1,0 +1,513 @@
+{
+ "id": "20261009-1649-mm8-out01-10",
+ "world": "mm8",
+ "maps": [
+  "out01.odm",
+  "out06.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t65c13",
+  "mm8/t65c14h",
+  "mm8/t65o02a",
+  "mm8/t65o02b",
+  "mm8/t65o02c",
+  "mm8/t65o05",
+  "mm8/t65o05b",
+  "mm8/t65o10",
+  "mm8/t65o10b",
+  "mm8/t65o10c",
+  "mm8/t65o11",
+  "mm8/t65o11a",
+  "mm8/t65o12l",
+  "mm8/t65o12r",
+  "mm8/t65o13c",
+  "mm8/t65o14",
+  "mm8/t66abc10a",
+  "mm8/t66b03l",
+  "mm8/t66b03r",
+  "mm8/t66roof",
+  "mm8/t68a13a",
+  "mm8/t05a01",
+  "mm8/t05a01c",
+  "mm8/t05a04a"
+ ],
+ "requests": {
+  "mm8/t65c13": {
+   "name": "t65c13",
+   "versions": [
+    1
+   ],
+   "material": "carved pale golden sandstone statue relief of a standing tribal idol with a tall headdress, stepped base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65c14h": {
+   "name": "t65c14h",
+   "versions": [
+    1
+   ],
+   "material": "irregular rounded tan-brown flagstones with dark gaps, worn smooth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o02a": {
+   "name": "t65o02a",
+   "versions": [
+    1
+   ],
+   "material": "rough brown sandstone blocks in staggered courses with dark recessed joints, weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o02b": {
+   "name": "t65o02b",
+   "versions": [
+    1
+   ],
+   "material": "rough brown sandstone blocks in staggered courses with dark joints, overgrown with green moss and hanging vines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o02c": {
+   "name": "t65o02c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough brown sandstone blocks in staggered courses with dark joints, with green moss and vines in the joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t65a12"
+    }
+   }
+  },
+  "mm8/t65o05": {
+   "name": "t65o05",
+   "versions": [
+    1
+   ],
+   "material": "dark carved stone panel with a square spiral maze relief of raised golden-brown ridges and a small square boss in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o05b": {
+   "name": "t65o05b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved golden-brown sandstone relief of a large tribal idol face with glyphs inside a raised square border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm8/t65o10": {
+   "name": "t65o10",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief of a grimacing tribal mask face with glyph bands above",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o10b": {
+   "name": "t65o10b",
+   "versions": [
+    1
+   ],
+   "material": "narrow vertical carved golden-brown sandstone strip with small tribal glyph reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o10c": {
+   "name": "t65o10c",
+   "versions": [
+    1
+   ],
+   "material": "dark carved stone panel with vertical rows of raised golden-brown square glyph bosses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o11": {
+   "name": "t65o11",
+   "versions": [
+    1
+   ],
+   "material": "horizontal carved golden-brown sandstone frieze with a row of square glyph bosses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o11a": {
+   "name": "t65o11a",
+   "versions": [
+    1
+   ],
+   "material": "horizontal carved golden-brown sandstone frieze of tangled tribal glyphs and figures",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o12l": {
+   "name": "t65o12l",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small carved golden-brown sandstone relief of a grimacing tribal mask face in a square frame",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/t65o10",
+     "right": "mm8/t65o11a"
+    },
+    "3": {
+     "bottom": "mm8/t65o10",
+     "right": "mm8/t65o11a"
+    }
+   }
+  },
+  "mm8/t65o12r": {
+   "name": "t65o12r",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small carved golden-brown sandstone relief of a grimacing tribal mask face in a square frame",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/t65o10",
+     "left": "mm8/t65o11a"
+    },
+    "3": {
+     "bottom": "mm8/t65o10",
+     "left": "mm8/t65o11a"
+    }
+   }
+  },
+  "mm8/t65o13c": {
+   "name": "t65o13c",
+   "versions": [
+    1
+   ],
+   "material": "rounded green moss-covered cobblestones set in dark earth with a glowing red crystal eye shape in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65o14": {
+   "name": "t65o14",
+   "versions": [
+    1
+   ],
+   "material": "horizontal rows of rough brown sandstone steps with mossy green edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66abc10a": {
+   "name": "t66abc10a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark reddish-brown wood grain, vertical",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t66floor",
+     "left": "mm8/t66flr2"
+    },
+    "3": {
+     "right": "mm8/t66floor",
+     "left": "mm8/t66flr2"
+    },
+    "4": {
+     "right": "mm8/t66floor",
+     "left": "mm8/t66flr2"
+    }
+   }
+  },
+  "mm8/t66b03l": {
+   "name": "t66b03l",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "reddish-brown plank Dutch door with a small arched window, a dark iron crossbrace in the lower half and iron hinges, under a wooden lintel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66b03r": {
+   "name": "t66b03r",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "reddish-brown plank Dutch door with a small arched window, a dark iron crossbrace in the lower half and iron hinges, under a wooden lintel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t66b01",
+     "right": "mm8/t66a01"
+    }
+   }
+  },
+  "mm8/t66roof": {
+   "name": "t66roof",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown wooden roof panels divided by twisted rope bindings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t68a13a": {
+   "name": "t68a13a",
+   "versions": [
+    1
+   ],
+   "material": "pale beige woven linen cloth, fine even weave",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t05a01": {
+   "name": "t05a01",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown adobe plaster, faintly mottled",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t05a01c": {
+   "name": "t05a01c",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown stone bricks in staggered courses with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t05a04a": {
+   "name": "t05a04a",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown adobe plaster wall with a tall pointed-arch window of glowing yellow-green glass in a dark stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01"
+     ],
+     "fraction": 0.685
+    }
+   }
+  }
+ }
+}

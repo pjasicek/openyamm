@@ -1,0 +1,1 @@
+Process with --adjust 0.94 0 24. Run restore_native_tone.py then queue.py check g08136_v0_s0. Script saves ungraded output as .before_tone.png and matches native opaque RGB means with channel gamma, alpha unchanged. Refresh backup after reprocessing. Earlier scale0.955 dy18 trial retained height drift and was replaced.

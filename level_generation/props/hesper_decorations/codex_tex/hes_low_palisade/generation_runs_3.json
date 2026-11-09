@@ -1,0 +1,231 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated outputs retained; strict brief compliance failed. One corrective regeneration per view exhausted. All returns unresized and unmodified.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA transparent PNG, an albedo texture-source painting of the LEFT side of the Lowfolk salvage palisade. Image 1 (guide_left.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the approved material and colour reference; do not copy its camera or lighting.\nPaint over image 1 without moving any edges. Preserve its EXACT silhouette, internal openings, every shape edge, size, position and generous transparent margins. The narrow end-on orthographic structure occupies approximately x337\u2013686 and y291\u2013734 on the 1024 canvas. Keep this small centered scale: do not enlarge or reframe it. Preserve the irregular differences in the left guide. Do not convert it into a frontal or three-quarter wall.\nChange only the grey surface materials: rust-brown and grey steel girders, cross straps and diagonal braces, mottled worn steel sheets, chipped off-white ceramic plates with muted gold edges where present, and dull grey ash bags and debris at the foot, matching the design reference. Surface rivets and rust are painted details, never additional silhouette geometry. Maintain every existing opening and brace placement. No added objects, no extra spikes.\nLIGHTING: flat, even, shadowless light from the viewer. This is unlit diffuse BASE COLOUR / ALBEDO for projection onto the existing 3D mesh. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Paint rust and chips as intrinsic colour, not lighting. No background, floor, gradient, halo, text or watermark. Transparent background including guide openings. Return exactly 1024 x 1024 with original guide outline and placement unchanged.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "06915dca60e5e9ca337e6e7205d68a80f830d59c94ca7d36f4b4d12e94f270e5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9c-45b9-7803-a061-032f71d4ef9e/exec-bed6ef22-4376-461f-a226-c4d5f7887053.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: enlarged object, altered geometry, wrong canvas size, residual shading.",
+      "visual_checks": {
+        "materials_colours": "Rust-brown/grey steel, chipped off-white ceramic, muted gold and grey bags broadly match reference.",
+        "silhouette": "FAIL: altered outlines and interior geometry.",
+        "flat_even_light": "FAIL: recess shading and edge/rivet highlights remain.",
+        "transparent_background": "RGBA transparency present; inspect alpha metrics for background residue."
+      },
+      "output_sha256": "c005a7c6ba88ae402752eb642ad30f4fce1e7dc31f86635c8680231453906bf9",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          0,
+          1224,
+          1228
+        ],
+        "alpha_bbox_at_128": [
+          371,
+          284,
+          894,
+          955
+        ],
+        "fully_transparent_pixels": 1439611,
+        "fully_opaque_pixels": 611,
+        "partially_transparent_pixels": 132294,
+        "exact_guide_alpha": false,
+        "unmodified_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA transparent PNG, an albedo texture-source painting of the RIGHT side of the Lowfolk salvage palisade. Image 1 (guide_right.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the approved material and colour reference; do not copy its camera or lighting.\nPaint over image 1 without moving any edges. Preserve its EXACT silhouette, internal openings, every shape edge, size, position and generous transparent margins. The narrow end-on orthographic structure occupies approximately x337\u2013686 and y291\u2013734 on the 1024 canvas. Keep this small centered scale: do not enlarge or reframe it. Preserve the irregular differences in the right guide. Do not convert it into a frontal or three-quarter wall.\nChange only the grey surface materials: rust-brown and grey steel girders, cross straps and diagonal braces, mottled worn steel sheets, chipped off-white ceramic plates with muted gold edges where present, and dull grey ash bags and debris at the foot, matching the design reference. Surface rivets and rust are painted details, never additional silhouette geometry. Maintain every existing opening and brace placement. No added objects, no extra spikes.\nLIGHTING: flat, even, shadowless light from the viewer. This is unlit diffuse BASE COLOUR / ALBEDO for projection onto the existing 3D mesh. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Paint rust and chips as intrinsic colour, not lighting. No background, floor, gradient, halo, text or watermark. Transparent background including guide openings. Return exactly 1024 x 1024 with original guide outline and placement unchanged.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "3e864a2be51348107e528e24b4bc2e5ca552f68992f7e6c7ef7113eaca5d272d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9c-45b9-7803-a061-032f71d4ef9e/exec-2d5313d0-f239-45b6-b02c-2d8e5e9ae361.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: enlarged object, altered geometry, wrong canvas size, residual shading.",
+      "visual_checks": {
+        "materials_colours": "Rust-brown/grey steel, chipped off-white ceramic, muted gold and grey bags broadly match reference.",
+        "silhouette": "FAIL: altered outlines and interior geometry.",
+        "flat_even_light": "FAIL: recess shading and edge/rivet highlights remain.",
+        "transparent_background": "RGBA transparency present; inspect alpha metrics for background residue."
+      },
+      "output_sha256": "60126442e154327cbca682b76a2178e2d1d618d30d5430968438e1c5037c996a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          33,
+          19,
+          1224,
+          1222
+        ],
+        "alpha_bbox_at_128": [
+          359,
+          304,
+          896,
+          988
+        ],
+        "fully_transparent_pixels": 1434242,
+        "fully_opaque_pixels": 489,
+        "partially_transparent_pixels": 137785,
+        "exact_guide_alpha": false,
+        "unmodified_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA transparent PNG, an albedo texture-source painting of the LEFT side of the Lowfolk salvage palisade. Image 1 (guide_left.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the approved material and colour reference; do not copy its camera or lighting.\nPaint over image 1 without moving any edges. Preserve its EXACT silhouette, internal openings, every shape edge, size, position and generous transparent margins. The narrow end-on orthographic structure occupies approximately x337\u2013686 and y291\u2013734 on the 1024 canvas. Keep this small centered scale: do not enlarge or reframe it. Preserve the irregular differences in the left guide. Do not convert it into a frontal or three-quarter wall.\nChange only the grey surface materials: rust-brown and grey steel girders, cross straps and diagonal braces, mottled worn steel sheets, chipped off-white ceramic plates with muted gold edges where present, and dull grey ash bags and debris at the foot, matching the design reference. Surface rivets and rust are painted details, never additional silhouette geometry. Maintain every existing opening and brace placement. No added objects, no extra spikes.\nLIGHTING: flat, even, shadowless light from the viewer. This is unlit diffuse BASE COLOUR / ALBEDO for projection onto the existing 3D mesh. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Paint rust and chips as intrinsic colour, not lighting. No background, floor, gradient, halo, text or watermark. Transparent background including guide openings. Return exactly 1024 x 1024 with original guide outline and placement unchanged.\nCORRECTIVE GENERATION, FINAL ATTEMPT: the previous return failed the size and silhouette checks. Repaint the ORIGINAL grey guide (image 1) directly, as a pixel-aligned surface-colour edit. Output MUST be 1024 by 1024 pixels, NOT 1254 by 1254. Object alpha bounding box MUST remain x337 to686 inclusive, y292 to732 inclusive. Keep ALL guide alpha edges, hole edges and crossbar positions unchanged. Preserve empty space above, below and on both sides. Do not enlarge the object to fill the frame. Do not add cap holes, protruding rivets, different feet or different debris shapes. Rust and ceramic chips must lie ONLY inside the original surfaces. Use flat material colours without shaded recesses or shiny edge lighting. The object is only 350 pixels wide including its triangular foot and 441 pixels tall on the 1024 square canvas. Geometry preservation takes priority over decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "06915dca60e5e9ca337e6e7205d68a80f830d59c94ca7d36f4b4d12e94f270e5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9c-45b9-7803-a061-032f71d4ef9e/exec-5bcfc31d-181e-490b-b6bf-38aae93fbd74.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Closer framing than initial attempt; selected as best available raw return, but size, exact geometry and flat albedo requirements remain unmet.",
+      "visual_checks": {
+        "materials_colours": "Rust-brown/grey steel, chipped off-white ceramic, muted gold and grey bags broadly match reference.",
+        "silhouette": "FAIL: altered outlines and interior geometry.",
+        "flat_even_light": "FAIL: recess shading and edge/rivet highlights remain.",
+        "transparent_background": "RGBA transparency present; inspect alpha metrics for background residue."
+      },
+      "output_sha256": "a2449ba4815f37ac8ae2e6e5711f2c97926d800da9e5363d40336cf5b20dbe87",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          57,
+          31,
+          1174,
+          1228
+        ],
+        "alpha_bbox_at_128": [
+          386,
+          346,
+          867,
+          948
+        ],
+        "fully_transparent_pixels": 1461528,
+        "fully_opaque_pixels": 377,
+        "partially_transparent_pixels": 110611,
+        "exact_guide_alpha": false,
+        "unmodified_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA transparent PNG, an albedo texture-source painting of the RIGHT side of the Lowfolk salvage palisade. Image 1 (guide_right.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the approved material and colour reference; do not copy its camera or lighting.\nPaint over image 1 without moving any edges. Preserve its EXACT silhouette, internal openings, every shape edge, size, position and generous transparent margins. The narrow end-on orthographic structure occupies approximately x337\u2013686 and y291\u2013734 on the 1024 canvas. Keep this small centered scale: do not enlarge or reframe it. Preserve the irregular differences in the right guide. Do not convert it into a frontal or three-quarter wall.\nChange only the grey surface materials: rust-brown and grey steel girders, cross straps and diagonal braces, mottled worn steel sheets, chipped off-white ceramic plates with muted gold edges where present, and dull grey ash bags and debris at the foot, matching the design reference. Surface rivets and rust are painted details, never additional silhouette geometry. Maintain every existing opening and brace placement. No added objects, no extra spikes.\nLIGHTING: flat, even, shadowless light from the viewer. This is unlit diffuse BASE COLOUR / ALBEDO for projection onto the existing 3D mesh. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Paint rust and chips as intrinsic colour, not lighting. No background, floor, gradient, halo, text or watermark. Transparent background including guide openings. Return exactly 1024 x 1024 with original guide outline and placement unchanged.\nCORRECTIVE GENERATION, FINAL ATTEMPT: the previous return failed the size and silhouette checks. Repaint the ORIGINAL grey guide (image 1) directly, as a pixel-aligned surface-colour edit. Output MUST be 1024 by 1024 pixels, NOT 1254 by 1254. Object alpha bounding box MUST remain x337 to686 inclusive, y292 to732 inclusive. Keep ALL guide alpha edges, hole edges and crossbar positions unchanged. Preserve empty space above, below and on both sides. Do not enlarge the object to fill the frame. Do not add cap holes, protruding rivets, different feet or different debris shapes. Rust and ceramic chips must lie ONLY inside the original surfaces. Use flat material colours without shaded recesses or shiny edge lighting. The object is only 350 pixels wide including its triangular foot and 441 pixels tall on the 1024 square canvas. Geometry preservation takes priority over decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "3e864a2be51348107e528e24b4bc2e5ca552f68992f7e6c7ef7113eaca5d272d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9c-45b9-7803-a061-032f71d4ef9e/exec-5f92a91e-41b5-4a86-8a16-5c0f2c0cb98d.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Closer framing than initial attempt; selected as best available raw return, but size, exact geometry and flat albedo requirements remain unmet.",
+      "visual_checks": {
+        "materials_colours": "Rust-brown/grey steel, chipped off-white ceramic, muted gold and grey bags broadly match reference.",
+        "silhouette": "FAIL: altered outlines and interior geometry.",
+        "flat_even_light": "FAIL: recess shading and edge/rivet highlights remain.",
+        "transparent_background": "RGBA transparency present; inspect alpha metrics for background residue."
+      },
+      "output_sha256": "d6409396879ec940d465d29f1d6e1c036848599129b92b66e46332f13a5d3757",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          65,
+          19,
+          1184,
+          1230
+        ],
+        "alpha_bbox_at_128": [
+          412,
+          356,
+          842,
+          896
+        ],
+        "fully_transparent_pixels": 1482903,
+        "fully_opaque_pixels": 222,
+        "partially_transparent_pixels": 89391,
+        "exact_guide_alpha": false,
+        "unmodified_return": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+# The charge modifier on Starport Reach (engine: devdocs/MONSTER_MODIFIERS.md; data: the design's monster_modifiers.yml,
+# staged as worlds/hesper/modifiers.yml). Run from output/hesper_stage/scenario_run:
+#   ../../../build/game/openyamm --headless-run-scenario ../../../level_generation/projects/hesper_out1/charge.yml
+# A Glassback Bull (10082: charge from 384-1 536, 0.7 s wind-up, 1 700 a second for up to 2 048, its melee attack,
+# a knock-back of 512) summoned 1 000 south of the party in the open west of the lander's wreck, where no other
+# monster spawns (true_aim.yml uses the ground beside it); the lane between them is clear of decorations (the glass tree
+# at -9 704, -11 895 stops a charge one lane east). "last" is the bull a spawn_actor step has just summoned.
+id: hesper.out1.charge
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+    party:
+      gold: 0
+      food: 10
+      members:
+      - {name: Charged Knight, class: Knight, level: 80, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+- set_pose: {map: hes_out1.odm, x: -10000, y: -11000, z: 1400, yaw: -1.5708, pitch: 0}
+- advance_runtime: {seconds: 1}
+- assert: {party_health: {full: true}, charges: {started: 0}}
+- note: {text: "Hit: the bull sees the party in its band, winds up, dashes the 1 000 and hits it."}
+- spawn_actor: {monster_id: 10082, x: -10000, y: -12000, z: 1380}
+- advance_runtime: {seconds: 2}
+- assert: {charges: {min_started: 1, min_hits: 1, misses: 0}, party_health: {full: false}}
+- assert: {actor_visible: {actor_index: last, report_state: true, near: {x: -10000, y: -11000, max_distance: 400}}}
+- note: {text: "Miss: a second bull 800 west, its charge started at once; the party steps 700 further west during the
+    wind-up, so the dash runs past it along the old line and ends in a stumble (the first bull, its charge cooling
+    down, follows the party on foot)."}
+- set_pose: {map: hes_out1.odm, x: -10800, y: -11000, z: 1400, yaw: -1.5708, pitch: 0}
+- spawn_actor: {monster_id: 10082, x: -10800, y: -12000, z: 1380}
+- charge_actor: {actor_index: last}
+- advance_runtime: {seconds: 0.2}
+- set_pose: {map: hes_out1.odm, x: -11500, y: -11000, z: 1400, yaw: 0, pitch: 0}
+- advance_runtime: {seconds: 2.5}
+- assert: {charges: {min_started: 2, min_misses: 1}}
+- assert: {actor_visible: {actor_index: last, report_state: true, far: {x: -10800, y: -12000, min_distance: 600}}}

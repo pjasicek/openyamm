@@ -1,0 +1,624 @@
+id: levelgen.greywatch.remaining_routes
+title: Lower entrance stairs and unlocked shortcut in both directions; active ordinary
+  party, segmented route coverage
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg02.blv
+    party: &id001
+      gold: 50000
+      food: 40
+      members:
+      - level: 25
+        might: 30
+        intellect: 20
+        personality: 20
+        endurance: 30
+        speed: 25
+        accuracy: 25
+        luck: 20
+        name: Test Knight
+        class: Knight
+        portrait_id: 0
+        race_id: 0
+        skills:
+        - name: Sword
+          level: 7
+          mastery: 2
+        - name: Bow
+          level: 4
+          mastery: 2
+        - name: Plate
+          level: 4
+          mastery: 2
+        - name: Shield
+          level: 4
+          mastery: 2
+        - name: Body Building
+          level: 7
+          mastery: 2
+        - name: Armsmaster
+          level: 4
+          mastery: 2
+        - name: Repair Item
+          level: 4
+          mastery: 2
+        equipment:
+          helm: 111
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          boots: 134
+          main_hand: 4
+          off_hand: 101
+          bow: 64
+          armor: 96
+        spells: []
+      - level: 25
+        might: 20
+        intellect: 20
+        personality: 35
+        endurance: 25
+        speed: 25
+        accuracy: 25
+        luck: 20
+        name: Test Cleric
+        class: Cleric
+        portrait_id: 4
+        race_id: 0
+        skills:
+        - name: Mace
+          level: 7
+          mastery: 2
+        - name: Chain
+          level: 4
+          mastery: 2
+        - name: Shield
+          level: 4
+          mastery: 2
+        - name: Body Magic
+          level: 7
+          mastery: 2
+        - name: Spirit Magic
+          level: 4
+          mastery: 2
+        - name: Mind Magic
+          level: 4
+          mastery: 2
+        - name: Meditation
+          level: 7
+          mastery: 2
+        equipment:
+          helm: 111
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          boots: 134
+          main_hand: 69
+          off_hand: 101
+          armor: 91
+        spells:
+        - 46
+        - 48
+        - 51
+        - 57
+        - 68
+        - 69
+        - 70
+      - level: 25
+        might: 20
+        intellect: 20
+        personality: 20
+        endurance: 25
+        speed: 30
+        accuracy: 30
+        luck: 20
+        name: Test Dark Elf
+        class: Dark Elf
+        portrait_id: 16
+        race_id: 2
+        skills:
+        - name: Sword
+          level: 7
+          mastery: 2
+        - name: Bow
+          level: 7
+          mastery: 2
+        - name: Disarm Trap
+          level: 7
+          mastery: 2
+        - name: Perception
+          level: 7
+          mastery: 2
+        - name: Chain
+          level: 4
+          mastery: 2
+        - name: Merchant
+          level: 4
+          mastery: 2
+        equipment:
+          helm: 111
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          boots: 134
+          main_hand: 3
+          bow: 59
+          armor: 91
+        spells: []
+      - level: 25
+        might: 40
+        intellect: 20
+        personality: 20
+        endurance: 35
+        speed: 25
+        accuracy: 25
+        luck: 20
+        name: Test Minotaur
+        class: Minotaur
+        portrait_id: 20
+        race_id: 3
+        skills:
+        - name: Axe
+          level: 7
+          mastery: 2
+        - name: Bow
+          level: 4
+          mastery: 2
+        - name: Chain
+          level: 4
+          mastery: 2
+        - name: Body Building
+          level: 7
+          mastery: 2
+        - name: Armsmaster
+          level: 4
+          mastery: 2
+        - name: Perception
+          level: 4
+          mastery: 2
+        equipment:
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          main_hand: 34
+          bow: 64
+          armor: 91
+        spells: []
+      - level: 25
+        might: 20
+        intellect: 35
+        personality: 20
+        endurance: 25
+        speed: 25
+        accuracy: 25
+        luck: 20
+        name: Test Necromancer
+        class: Necromancer
+        portrait_id: 8
+        race_id: 0
+        skills:
+        - name: Staff
+          level: 4
+          mastery: 2
+        - name: Leather
+          level: 4
+          mastery: 2
+        - name: Fire Magic
+          level: 7
+          mastery: 2
+        - name: Water Magic
+          level: 7
+          mastery: 2
+        - name: Air Magic
+          level: 4
+          mastery: 2
+        - name: Earth Magic
+          level: 4
+          mastery: 2
+        - name: Meditation
+          level: 7
+          mastery: 2
+        - name: Identify Item
+          level: 4
+          mastery: 2
+        equipment:
+          helm: 111
+          belt: 119
+          cloak: 124
+          gauntlets: 129
+          boots: 134
+          main_hand: 82
+          armor: 86
+        spells:
+        - 2
+        - 6
+        - 12
+        - 15
+        - 24
+        - 27
+        - 35
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5632
+      y: 900
+      z: 32
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5632
+      y: 2019
+      z: 384
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 2
+    input: forward
+- new_game_flow:
+    start_map: lg02.blv
+    party: *id001
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5632
+      y: 2019
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5632
+      y: 640
+      z: 0
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 1.7955729166666667
+    input: forward
+- new_game_flow:
+    start_map: lg02.blv
+    party: *id001
+- set_pose:
+    map: lg02.blv
+    x: -64
+    y: 1152
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.25
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- assert_mechanism:
+    id: 2
+    state: open
+- set_pose:
+    map: lg02.blv
+    x: -64
+    y: 1472
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.25
+    assert:
+      mechanism:
+        id: 1
+        state: closed
+- assert_mechanism:
+    id: 2
+    state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 0
+      y: 1536
+      z: 768
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 0
+      y: 1357
+      z: 768
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: -64
+    y: 1152
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.25
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 0
+      y: 1056
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 0
+      y: 1376
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 0.4166666666666667
+    input: forward
+- new_game_flow:
+    start_map: lg02.blv
+    party: *id001
+- set_pose:
+    map: lg02.blv
+    x: 8704
+    y: 3776
+    z: 384
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 4
+        state: open
+- set_pose:
+    map: lg02.blv
+    x: 9088
+    y: 4928
+    z: 384
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 4
+        state: closed
+- save_game: greywatch_secret_closed
+- load_game: greywatch_secret_closed
+- assert_mechanism:
+    id: 4
+    state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 8704
+      y: 4224
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 8704
+      y: 4069
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 9088
+    y: 4928
+    z: 384
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 4
+        state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 8704
+      y: 4224
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 8704
+      y: 3904
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.4166666666666667
+    input: forward
+- new_game_flow:
+    start_map: lg02.blv
+    party: *id001
+- set_pose:
+    map: lg02.blv
+    x: 832
+    y: 384
+    z: 768
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- assert_mechanism:
+    id: 5
+    state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 850
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 1003
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 6464
+    y: 3584
+    z: 384
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 3
+        state: open
+- set_pose:
+    map: lg02.blv
+    x: 832
+    y: 384
+    z: 768
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 5
+        state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 850
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 1152
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    seconds: 0.3932291666666667
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 1216
+    y: 64
+    z: 736
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 5
+        state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 1280
+      y: 0
+      z: 736
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 1141
+      y: 0
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 1216
+    y: 64
+    z: 736
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 5
+        state: open
+- save_game: greywatch_shortcut_open
+- load_game: greywatch_shortcut_open
+- assert_mechanism:
+    id: 5
+    state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 1280
+      y: 0
+      z: 736
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 896
+      y: 0
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 4800
+      y: 0
+      z: 32
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 896
+      y: 0
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 5.15234375
+    input: forward
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 896
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5120
+      y: 0
+      z: 0
+      yaw: 0
+      pitch: 0
+    seconds: 5.5
+    input: forward

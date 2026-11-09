@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, exact 3D guide for Shadow's Mask; image 2 is icon colour reference. Preserve EXACT 3:4 transparent canvas, three columns and four rows and the five views' positions duplicated in each half. Objects must remain exactly guide size, never larger. Keep model shape, all gaps and openings, no redesign. TOP TWO ROWS: FRONT/BACK/LEFT then RIGHT/TOP/EMPTY. Paint realistic UNLIT BASE COLOUR, no directional shading, highlights or ambient occlusion. Soft black leather eye mask, black continuous leather head strap and tied black ribbons. Two actual eye openings MUST stay completely transparent. No goggles, glass, lenses, hardware, metal or added details. Subtle dark leather grain. BOTTOM TWO ROWS: the same five objects at exactly corresponding sizes/positions, flat material IDs with no texture/shading: ALL surfaces pure GREEN #00ff00. Actual eye openings and backgrounds completely transparent. No text, outlines, speckles, ground, shadows or glow. Empty last slots remain transparent. Output one 1536x2048 transparent PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_7item344/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/7item344.png"
+  ],
+  "revision": 1,
+  "selected": false,
+  "reason": "Awaiting strict registration and PBR review",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-895830e0-48a6-4d91-b6f7-31c38a6b2087.png",
+  "raw_sha256": "68b27a90bc54b694a362eef9105028158256c78caac09c9213c7f37f9b5b1611",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_7item344/paint_mask_guide.png": "6a9ca1bd0d82d368886bd87df4c1766580c4c45e50be7ed40ab0a82b95eb0b3c",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/7item344.png": "f75557d2c35632714969530edbdc66d2501f6b3fdf80443fbac2b6dafab06c6b"
+  },
+  "prepared_scene_sha256": "97cc865a983e8b0209a14c5f395c4e98fc6e13781cd3dfb0a0114e9fbe68a63b"
+}

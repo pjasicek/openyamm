@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Party Creation B</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* Approach B: selected-member editor on the left, the party skill board ("bingo") centre stage. */
+.editor { position: absolute; left: 58px; top: 100px; width: 432px; height: 694px; padding: 12px 14px; display: flex; flex-direction: column; gap: 9px; }
+.etop { display: flex; gap: 12px; }
+.etop .portrait { width: 138px; height: 180px; flex: none; }
+.eright { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+.clsbtn { display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 8px; border: 1px solid #a48d5d; background: #1d251ecc; font: 25px var(--action); color: #ecd5a6; text-align: left; }
+.clsbtn img { width: 34px; height: 34px; }
+.clsbtn .chev { margin-left: auto; font-size: 14px; color: #b9a27a; }
+.vrow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.vbtn { height: 30px; font: 16px var(--small); color: #e2d7bb; border: 1px solid #6c6650; background: #121b19; padding: 0 9px; }
+.vbtn::before { content: "♪ "; color: #d6bd84; }
+.racecard { padding: 7px 10px; border: 1px solid #5d6b4c; background: linear-gradient(90deg, #1b2a1ccc, #101816cc); font: 14px/1.4 var(--small); color: #cdd3b4; }
+.racecard .rt { font: 21px var(--action); color: #d9e7b7; margin-right: 8px; }
+.racecard .tr { width: auto; margin-right: 6px; font-size: 14px; }
+.racecard .rs { color: #b7d38a; }
+.racecard .rs + .rs::before { content: " · "; color: #6f7a60; }
+.estats .sh { display: flex; justify-content: space-between; align-items: baseline; }
+.estats .pts { font: 17px var(--small); color: #e9cf91; }
+.estats .pts.zero { color: var(--ok); }
+.estats .stat { height: 33px; font-size: 21px; }
+.estats .stat .sq { width: 40px; height: 30px; }
+.estats .stat .lim { width: 72px; text-align: right; font: 12px var(--small); color: #8c907f; }
+.ehelp { margin-top: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+.bsum { position: absolute; left: 504px; top: 62px; width: 1038px; text-align: right; font: 14px var(--small); color: #b7b39f; }
+</style>
+</head>
+<body>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script src="board.js"></script>
+<script>
+function editorHtml() {
+  const i = App.sel, m = App.members[i], p = portraitById(m.portrait);
+  const sum = raceSummary(m, {long: true});
+  const left = pool(m);
+  return `<div class="editor stone" data-member="${i}">
+    <div class="etop">
+      <button class="portrait" data-portrait="${i}">${portraitImg(p)}<span class="edit">#${p.id} · change portrait</span></button>
+      <div class="eright">
+        <div style="display:flex;align-items:center;gap:8px">${badge(i)}<input class="field" data-name="${i}" value="${esc(m.name)}" maxlength="15"></div>
+        <button class="clsbtn" data-class="${i}"><img src="${classIcon(m.cls)}" alt="">${esc(className(m.cls))}<span class="chev">▼</span></button>
+        <div class="vrow"><button class="vbtn" data-voice="${i}">${voiceLabel(m.voice)}</button><span class="caption" style="letter-spacing:.5px;text-transform:none">${m.voice === p.voice ? 'own voice' : 'voice of #' + (voiceOwners(m.voice)[0] || {id: '?'}).id}</span></div>
+        <div class="lines" style="margin-top:0">${voiceButtons(m, ['ChooseMe', 'Hello', 'Win'])}</div>
+        <div style="display:flex;gap:6px;margin-top:auto"><button class="btn tiny quiet" data-reset="${i}">Default</button><button class="btn tiny quiet" data-remove="${i}" ${App.members.length < 2 ? 'disabled' : ''}>Remove</button><button class="btn tiny quiet" data-table="${i}">Mastery table</button></div>
+      </div>
+    </div>
+    <div class="racecard"><span class="rt">${esc(race(m).name)}</span>${sum.stats.join('') || '<span class="dim">even attributes</span>'}<br>${[...sum.skills, ...sum.notes].join('') || '<span class="dim">no skill bonuses</span>'}</div>
+    <div class="estats"><div class="sh"><span class="caption">Attributes</span><span class="pts${left === 0 ? ' zero' : ''}">${left} bonus point${left === 1 ? '' : 's'} left</span></div>
+      ${D.statNames.map((n, si) => {
+        const t = statTrait(m, si), r = statRule(m, si), v = m.stats[si];
+        return `<div class="stat"><span class="sn">${n}</span><span class="tr ${t.cls}">${t.mark}</span><span class="lim">${t.cls ? t.text : ''}</span>
+          <button class="btn sq" data-dec="${i}:${si}" ${canDec(m, si) ? '' : 'disabled'}>−</button><span class="sv${v > r.base ? ' up' : v < r.base ? ' down' : ''}">${v}</span>
+          <button class="btn sq" data-inc="${i}:${si}" ${canInc(m, si) ? '' : 'disabled'}>+</button></div>`;
+      }).join('')}</div>
+    <div class="ehelp">${planToggleHtml()}<span class="caption" style="text-transform:none;letter-spacing:.3px">${App.planMode ? 'Clicks mark skills to learn later' : `Click a cell to choose (${m.chosen.length}/2 chosen)`}</span></div>
+  </div>`;
+}
+
+function render() {
+  el('#screen').innerHTML = headHtml(`<span class="sub">${boardSummary()}</span>`) + editorHtml() + boardHtml() + footHtml();
+  wireCommon(el('#screen'));
+}
+boot('b', render);
+</script>
+</body>
+</html>

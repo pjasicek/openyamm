@@ -1,0 +1,264 @@
+id: hesper.d12.d12_backdoor
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d15.blv
+    party:
+      food: 200
+      members:
+      - name: Crown tester 1
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: &id001
+        - name: Hacking
+          level: 12
+          mastery: 2
+        equipment: {}
+      - name: Crown tester 2
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 3
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 4
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+      - name: Crown tester 5
+        class: Knight
+        level: 1000
+        endurance: 100
+        skills: *id001
+        equipment: {}
+- set_pose:
+    map: hes_d15.blv
+    x: 14292
+    y: 14930
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d12.blv
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      min: 1
+- assert:
+    qbit_clear:
+    - 100603
+- setup_shortcut:
+    kind: set_qbit
+    id: 100217
+- advance_runtime:
+    seconds: 1
+- assert:
+    party_health:
+      full: true
+- set_pose:
+    map: hes_d12.blv
+    x: 8660
+    y: 2200
+    z: -1536
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 1.6
+    assert:
+      mechanism:
+        id: 23
+        state: open
+- movement_segment:
+    input: forward
+    duration_ms: 800
+    delta_game_minutes: 0
+    start:
+      map: hes_d12.blv
+      x: 8620
+      y: 2200
+      z: -1536
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: hes_d12.blv
+      x: 8010
+      y: 2200
+      z: -1536
+      yaw: 3.141592653589793
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 100
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map_var_changed:
+      index: 4
+      value: 1
+- damage_actor:
+    actor_index: 114
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 114
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 115
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 115
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 116
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 116
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 117
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 117
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 118
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 118
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 119
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 119
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 120
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 120
+    amount: 1000000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 2
+- assert:
+    world_item_state:
+      item_id: 11437
+      present: true
+- set_pose:
+    map: hes_d12.blv
+    x: 6400
+    y: 4860
+    z: -1536
+    yaw: 1.5707963267948966
+    pitch: 0.4
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 100602
+    - 100017
+    - 100603
+    qbit_clear:
+    - 100217
+- press_action:
+    action: cancel_dialog
+- wait_until:
+    timeout_runtime_seconds: 2.1
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- save_game:
+    name: d12_grid
+- load_game:
+    name: d12_grid
+- assert:
+    qbit_set:
+    - 100602
+    - 100017
+    - 100603
+- set_pose:
+    map: hes_d12.blv
+    x: 6400
+    y: 4860
+    z: -1536
+    yaw: 1.5707963267948966
+    pitch: 0.4
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 100017
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d12.blv
+    x: 2400
+    y: 2364
+    z: -1536
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 6.1
+    assert:
+      mechanism:
+        id: 22
+        state: open
+- set_pose:
+    map: hes_d12.blv
+    x: 2164
+    y: 2364
+    z: -1536
+    yaw: 0.0
+    pitch: 0
+- set_pose:
+    map: hes_d12.blv
+    x: 2400
+    y: 2364
+    z: -1536
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 6.1
+    assert:
+      mechanism:
+        id: 22
+        state: closed
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 122
+      face_index: 6026
+- wait_until:
+    timeout_runtime_seconds: 6.1
+    assert:
+      mechanism:
+        id: 22
+        state: open
+- assert:
+    map: hes_d12.blv

@@ -1,0 +1,32 @@
+# Shield follow-ups on Starport Reach (engine: devdocs/ENERGY_SHIELDS_AND_RELATIONS.md; data: hesper_stage/shields.yml,
+# monsters.yml and the design's monster_hesper.txt). Run from output/hesper_stage/scenario_run:
+#   ../../../build/game/openyamm --headless-run-scenario ../../../level_generation/projects/hesper_out1/shield_followups.yml
+# A Glassback's body ignores energy weapons; a Trooper whose shield breaks falls back from the party while it is down
+# and comes back once it is up. "last" is the actor a spawn_actor step has just summoned.
+id: hesper.out1.shield_followups
+world: hesper
+mode: faithful
+steps:
+- load_map: {map: hes_out1.odm}
+- set_pose: {map: hes_out1.odm, x: 5000, y: -20000, z: 3000, yaw: 0.0, pitch: 0}
+- advance_runtime: {seconds: 1}
+- note: {text: "Energy immunity: a Glassback (2 000 HP) takes nothing from Kreegan energy or classic blasters."}
+- spawn_actor: {monster_id: 10081, x: 3000, y: -22000, z: 1800}
+- advance_runtime: {seconds: 0.2}
+- damage_actor: {actor_index: last, amount: 400, tier: kreegan_energy}
+- damage_actor: {actor_index: last, amount: 400, tier: classic_blaster}
+- assert: {actor_visible: {actor_index: last, report_state: true, hp: 2000}}
+- note: {text: "A Trooper engages from its rifle band; its shield breaks and it falls back while the shield is down."}
+- spawn_actor: {monster_id: 10010, x: 6600, y: -20000, z: 1800}
+- advance_runtime: {seconds: 3}
+- assert: {actor_visible: {actor_index: last, report_state: true, shield_raised: true,
+    near: {x: 5000, y: -20000, max_distance: 2600}}}
+- damage_actor: {actor_index: last, amount: 2000, tier: kreegan_energy}
+- advance_runtime: {seconds: 3}
+- assert: {actor_visible: {actor_index: last, report_state: true, shield_raised: false,
+    far: {x: 5000, y: -20000, min_distance: 2700}}}
+- note: {text: "Back up after its 4 s delay: it returns to its band (fleeing is only while the shield is down)."}
+- advance_runtime: {seconds: 3}
+- assert: {actor_visible: {actor_index: last, report_state: true, shield_raised: true}}
+- advance_runtime: {seconds: 5}
+- assert: {actor_visible: {actor_index: last, report_state: true, near: {x: 5000, y: -20000, max_distance: 2600}}}

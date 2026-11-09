@@ -1,0 +1,557 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "brief": {
+    "path": "CODEX_BRIEF.md",
+    "sha256": "58c66ec4acb6c8ebaaf9f15e139254f7048d101d40146dcf5fc65d5e48d99f38"
+  },
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "processing": "Raw tool returns copied byte-for-byte; no resizing, masking, cleanup or other image edits.",
+  "status": "generation_finished_with_failed_checks",
+  "accepted_for_texture_baking": false,
+  "summary": "All five requested filenames saved with transparent RGBA raw returns, one corrective regeneration per view. Selected outputs are 1254 x 1254 and retained unresized as required. Exact guide silhouettes and flat albedo requirements remain unmet. The selected flag identifies delivery choice only, not quality acceptance.",
+  "runs": [
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 RGBA PNG texture-source painting by painting directly over the FIRST input image, the orthographic model guide. The SECOND input image is design_reference.png, solely the colour/material/design authority. Do not copy the reference's silhouette, camera, scale or lighting.\nABSOLUTE INVARIANTS: keep the first image's exact canvas, every alpha/outline pixel, silhouette, position, scale, orientation, part edges and occlusion. Edit RGB within the guide's existing opaque pixels only; preserve its alpha channel exactly. Transparent background. No crop, enlargement, recentering, rotation, new geometry or elements outside the guide silhouette. The guide's lightly tinted materials only distinguish parts; they are not the colours to copy.\nPaint Hesper plasma saber materials as in the design: lightly worn ivory-white ceramic sweeping ribs and hooked guards; muted brushed antique gold fittings and borders; black-violet organic resin grip/body with fine mottled texture; blue-white/cyan plasma blade and blue-white inset emitter; vivid orange recessed power insets and pommel crystal where visible. Map these materials onto the existing parts, following their exact edges. Continue unseen surfaces plausibly in the same materials. Include subtle fine wear, engraved non-letter lines, seams and panel joins, but no text or letters.\nALBEDO LIGHTING: completely flat, even, shadowless frontal illumination. No cast shadows, no ambient occlusion or cavity darkening, no directional gradients, no strong specular highlights, no reflections, no rim lighting. Gold is its base colour with only a faint sheen. Glowing parts are bright painted colours with fine white-cyan energy pattern contained strictly INSIDE their silhouette; no bloom or external glow. No floor, backdrop, checkerboard, labels or watermark.\nReturn the raw unresized 1024 x 1024 transparent painting only.\nView: TOP, guide_top.png. Direct overhead orthographic view: sword vertical, tip UP at (512,66), pommel DOWN at (512,957). Total occupied bounds x=452..571, y=66..957 in the 1024-square canvas. Keep the extremely slender guide blade (about x=488..535 at its base y=600, narrowing toward tip); do not widen it to resemble the design reference. Emitter/guard starts around y=600, grip runs below to the pointed pommel. Map the design's ivory ribs over dark violet resin, gold emitter with cyan inset and orange vents onto the guide's existing shapes, with every edge fixed. All remaining canvas is transparent.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "8c516b1ea638e018f75333da830ace340bedc73b95afad41ddb26b38865914de"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected initial return because normalized silhouette IoU is 0.869973 versus 0.790379 for the correction. Palette matches, but geometry and flat albedo still fail. Delivery selection is not texture-baking acceptance.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-1cc293f4-94f8-4021-8e43-108f66e8bb73.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e3bbc5ba6f1fad1765c7d252deea9319649969f6f4eaef66b7e9eaa78b9760cc",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          146,
+          73,
+          1216,
+          1179
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          553,
+          79,
+          701,
+          1176
+        ],
+        "guide_alpha_bbox": [
+          452,
+          66,
+          572,
+          958
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.869973,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 RGBA PNG texture-source painting by painting directly over the SECOND input image, the orthographic model guide. The FIRST input image is design_reference.png, solely the colour/material/design authority. Do not copy the reference's silhouette, camera, scale or lighting.\nABSOLUTE INVARIANTS: keep the second image's exact canvas, every alpha/outline pixel, silhouette, position, scale, orientation, part edges and occlusion. Edit RGB within the guide's existing opaque pixels only; preserve its alpha channel exactly. Transparent background. No crop, enlargement, recentering, rotation, new geometry or elements outside the guide silhouette. The guide's lightly tinted materials only distinguish parts; they are not the colours to copy.\nPaint Hesper plasma saber materials as in the design: lightly worn ivory-white ceramic sweeping ribs and hooked guards; muted brushed antique gold fittings and borders; black-violet organic resin grip/body with fine mottled texture; blue-white/cyan plasma blade and blue-white inset emitter; vivid orange recessed power insets and pommel crystal where visible. Map these materials onto the existing parts, following their exact edges. Continue unseen surfaces plausibly in the same materials. Include subtle fine wear, engraved non-letter lines, seams and panel joins, but no text or letters.\nALBEDO LIGHTING: completely flat, even, shadowless frontal illumination. No cast shadows, no ambient occlusion or cavity darkening, no directional gradients, no strong specular highlights, no reflections, no rim lighting. Gold is its base colour with only a faint sheen. Glowing parts are bright painted colours with fine white-cyan energy pattern contained strictly INSIDE their silhouette; no bloom or external glow. No floor, backdrop, checkerboard, labels or watermark.\nReturn the raw unresized 1024 x 1024 transparent painting only.\nView: TOP, guide_top.png. Direct overhead orthographic view: sword vertical, tip UP at (512,66), pommel DOWN at (512,957). Total occupied bounds x=452..571, y=66..957 in the 1024-square canvas. Keep the extremely slender guide blade (about x=488..535 at its base y=600, narrowing toward tip); do not widen it to resemble the design reference. Emitter/guard starts around y=600, grip runs below to the pointed pommel. Map the design's ivory ribs over dark violet resin, gold emitter with cyan inset and orange vents onto the guide's existing shapes, with every edge fixed. All remaining canvas is transparent.\nCORRECTIVE GENERATION, only permitted correction for this view: the previous result copied the design art's shape and lighting, which is incorrect. Treat the LAST input (plain pale 3D guide) as the literal edit canvas and mandatory alpha mask. Recolour its existing pixels only. Its blade is a simple straight narrow taper with a short polygonal point, no ragged flame edges. Its handle has the guide's broad plain collar at y=600 and exact ivory spiral ridges; do not copy the longer prongs from the reference. The emitter inset must stay exactly where it appears in the guide. Preserve the guide's much larger pointed diamond pommel, not the reference's slender curved pommel. Give the guide surfaces material colour with flat illumination; remove reference-art glossy highlights, dark shading and glow halos. Output exactly 1024 by 1024 pixels, with the guide's alpha and footprint unchanged.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "8c516b1ea638e018f75333da830ace340bedc73b95afad41ddb26b38865914de"
+        }
+      ],
+      "output": "rejected/paint_top_02.png",
+      "selected": false,
+      "reason": "Correction simplified the collar but worsened silhouette agreement (normalized IoU about 0.7904 versus 0.8700 initially); rejected in favour of closer outline. Both remain noncompliant with the exact silhouette and flat-albedo requirements.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-7ea80959-deb5-4841-80e1-83e6d25ed30d.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "4a238c4a5cee6a3ef9f02b7929a9c8f9bb973a4159381624bdc80e4d8e2d0c08",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          73,
+          22,
+          1021,
+          1190
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          559,
+          68,
+          696,
+          1186
+        ],
+        "guide_alpha_bbox": [
+          452,
+          66,
+          572,
+          958
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.790379,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 RGBA PNG texture-source painting by painting directly over the SECOND input image, the orthographic model guide. The FIRST input image is design_reference.png, solely the colour/material/design authority. Do not copy the reference's silhouette, camera, scale or lighting.\nABSOLUTE INVARIANTS: keep the second image's exact canvas, every alpha/outline pixel, silhouette, position, scale, orientation, part edges and occlusion. Edit RGB within the guide's existing opaque pixels only; preserve its alpha channel exactly. Transparent background. No crop, enlargement, recentering, rotation, new geometry or elements outside the guide silhouette. The guide's lightly tinted materials only distinguish parts; they are not the colours to copy.\nPaint Hesper plasma saber materials as in the design: lightly worn ivory-white ceramic sweeping ribs and hooked guards; muted brushed antique gold fittings and borders; black-violet organic resin grip/body with fine mottled texture; blue-white/cyan plasma blade and blue-white inset emitter; vivid orange recessed power insets and pommel crystal where visible. Map these materials onto the existing parts, following their exact edges. Continue unseen surfaces plausibly in the same materials. Include subtle fine wear, engraved non-letter lines, seams and panel joins, but no text or letters.\nALBEDO LIGHTING: completely flat, even, shadowless frontal illumination. No cast shadows, no ambient occlusion or cavity darkening, no directional gradients, no strong specular highlights, no reflections, no rim lighting. Gold is its base colour with only a faint sheen. Glowing parts are bright painted colours with fine white-cyan energy pattern contained strictly INSIDE their silhouette; no bloom or external glow. No floor, backdrop, checkerboard, labels or watermark.\nReturn the raw unresized 1024 x 1024 transparent painting only.\nView: LEFT, guide_left.png. Keep the sword exactly horizontal, very thin, centred at y=512. Its total occupied bounds are x=66..957 and y=475..548 in the 1024-square canvas. Plasma tip is at LEFT x=66,y=512; plasma extends to the emitter around x=600. The sculpted grip extends to the pointed pommel at RIGHT x=957,y=512. Keep the thin blade profile, every guard hook, twist in the grip and exact side-face geometry. The ornate handle is only about 74 pixels high at its widest: do not enlarge it. All remaining canvas is transparent.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "0eb86f8798c915707a1e1529518541d785ed9fc8912cd4cc321fe2fa9364e0fd"
+        }
+      ],
+      "output": "rejected/paint_left_01.png",
+      "selected": false,
+      "reason": "Rejected: reference-art geometry and lighting overrode the guide; corrected once.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-1a3a0a37-e5e1-4532-81b3-d09c57b9db35.png",
+      "actual_size": [
+        1774,
+        887
+      ],
+      "output_sha256": "ac71a4a0decb5ca94ed788f0523b405d7ca92a998c67f1130714f3670eba3a85",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          10,
+          148,
+          1753,
+          871
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          114,
+          391,
+          1662,
+          501
+        ],
+        "guide_alpha_bbox": [
+          66,
+          475,
+          958,
+          549
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.377528,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit image 2 (guide_left.png) IN PLACE. Image 1 is colour reference only. Output a single SQUARE 1024 x 1024 transparent PNG matching image 2's canvas, scale, centre, geometry, edges and alpha exactly. The blade must remain the thin horizontal left-pointing shape in image 2. Recolour only the existing pale surfaces: blade bright cyan-blue-white plasma; handle's raised ribs worn ivory ceramic; inset grip black-violet resin; fittings muted brushed gold; existing vents and pommel inset orange. Use the reference for these colours, never for shape. Flat albedo colours, no lighting, shading, highlights, shadows, glow outside edges or ambient occlusion. No letters. The item remains within x=66..957, y=475..548, on an otherwise EMPTY transparent 1024-square canvas. One corrective attempt: previous result wrongly used a wide landscape canvas and invented handle details and blade width. Preserve image 2 verbatim except for its surface colours and subtle material texture. Do not rotate the full-length design reference.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "0eb86f8798c915707a1e1529518541d785ed9fc8912cd4cc321fe2fa9364e0fd"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Closest of the two allowed raw returns; guide silhouette is still not exact and baked lighting remains. Selected for delivery, not accepted as a compliant texture source.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-7f19d437-b338-4d2b-84fe-dd2225664365.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "6eb07f6c9398e2283bb56c0c70a5babd691bc03f07ffabd6a936921b38e01116",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          43,
+          71,
+          1210,
+          1158
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          86,
+          582,
+          1172,
+          673
+        ],
+        "guide_alpha_bbox": [
+          66,
+          475,
+          958,
+          549
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.886056,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Edit image 2 (guide_right.png) IN PLACE. Image 1 is material/colour reference only. Output one SQUARE 1024 x 1024 transparent PNG preserving image 2's alpha, canvas, exact outline, size, centre, orientation and every part's edge. Apply surface colours only; do not redraw geometry. The sword stays thin and horizontal with pommel LEFT, plasma blade tip RIGHT, spanning x=66..957, y=475..548, centred y=512. Its guard is near x=424. Keep exactly the guide's existing shapes, including broad faceted pommel, sculpted ribs and skinny blade. Colour blade cyan blue-white plasma with fine white energy lines strictly within its existing edge; handle raised ribs lightly worn ivory ceramic; grip black-violet resin; metal muted brushed gold; existing inset power details orange or blue-white as in reference. Flat even frontal albedo lighting, no cast shadows, AO, cavity darkening, glossy highlights, reflections or rim lights; faint metal sheen only. Nothing beyond guide alpha, no bloom or halo. No text, letters or marks resembling writing. Most of the square canvas remains fully transparent; do not zoom in or use a landscape canvas.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "45afa1e027d7c2a676ab55914dea70c89eb91323c55ccd8b7d3b1606b5f0ac46"
+        }
+      ],
+      "output": "rejected/paint_right_01.png",
+      "selected": false,
+      "reason": "Rejected: reference-art geometry and lighting overrode the guide; corrected once.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-482398a7-3e06-49c9-a114-1480b2844fe0.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "2a280d253cb71105fa072ba7386a412ff6e37a53a30d8c9d94de4e9e43fa0900",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          51,
+          130,
+          1199,
+          947
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          58,
+          585,
+          1195,
+          676
+        ],
+        "guide_alpha_bbox": [
+          66,
+          475,
+          958,
+          549
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.620147,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Edit image 2 (guide_right.png) IN PLACE. Image 1 is material/colour reference only. Output one SQUARE 1024 x 1024 transparent PNG preserving image 2's alpha, canvas, exact outline, size, centre, orientation and every part's edge. Apply surface colours only; do not redraw geometry. The sword stays thin and horizontal with pommel LEFT, plasma blade tip RIGHT, spanning x=66..957, y=475..548, centred y=512. Its guard is near x=424. Keep exactly the guide's existing shapes, including broad faceted pommel, sculpted ribs and skinny blade. Colour blade cyan blue-white plasma with fine white energy lines strictly within its existing edge; handle raised ribs lightly worn ivory ceramic; grip black-violet resin; metal muted brushed gold; existing inset power details orange or blue-white as in reference. Flat even frontal albedo lighting, no cast shadows, AO, cavity darkening, glossy highlights, reflections or rim lights; faint metal sheen only. Nothing beyond guide alpha, no bloom or halo. No text, letters or marks resembling writing. Most of the square canvas remains fully transparent; do not zoom in or use a landscape canvas.\nCORRECTION: previous attempt made the plasma blade too wide and added glow outside the silhouette, altered the hilt and increased the overall length. Now LOCK the guide image 2's silhouette and alpha channel. The plasma blade is the guide's very thin edge-on strip, only about 14 pixels high at maximum, NOT the broad face from image 1. Preserve the guide's side-profile silhouette and every interior sculpted edge. Finish the shapes precisely at x=66 and x=957; keep the entire image at 1024 x 1024. Use matte unlit base colour surfaces: remove the shiny lighting and dark sculptural shading. Preserve original guide geometry rather than making a new sword illustration.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "45afa1e027d7c2a676ab55914dea70c89eb91323c55ccd8b7d3b1606b5f0ac46"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Closest of the two allowed raw returns; guide silhouette is still not exact and baked lighting remains. Selected for delivery, not accepted as a compliant texture source.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-60f3a83f-daaa-48a3-bebc-6884b6ec809a.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "601aca9a9cd82a41f22d8a600332eaeaf7ba36e0f87929e7513e1c0d26afec9c",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          77,
+          115,
+          1220,
+          1180
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          81,
+          583,
+          1173,
+          671
+        ],
+        "guide_alpha_bbox": [
+          66,
+          475,
+          958,
+          549
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.813015,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Recolour ONLY the tiny central shape in image 2, guide_front.png. Keep its exact outline, geometry, camera, tiny size, location and alpha mask. Output one 1024 x 1024 SQUARE transparent PNG. Image 1 provides materials only.\nThis is an END-ON orthographic view looking straight along the sword axis. The entire visible geometry is the existing small flattened cluster at x=453..570, y=475..548, about 118 pixels wide and 74 pixels tall, centred in a mostly empty canvas. Do not show a full-length sword. Do not enlarge the object. Do not make a side or overhead view. Blade and grip project into this same tiny cluster; nothing extends vertically or horizontally from it.\nPaint the existing facets with the reference's surface materials: ivory-white ceramic ribs with subtle wear, muted brushed antique gold fittings, black-violet resin recesses, tiny cyan-white plasma/emitter surfaces and orange power inset where the guide's visible surfaces permit. Preserve all exact part boundaries. Continue unseen surfaces plausibly. Ignore the guide's original white tint. FLAT ALBEDO, evenly front lit with no shadows, AO, cavity darkening, specular highlights, reflections or rim lighting. Bright colour for emissive parts; no external glow. Actual transparency everywhere outside the ORIGINAL guide alpha. No background, floor, text or letters. Preserve image 2 pixel positions, no crop or rescale.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "e6310602c46b8a6826c50399d395dbd805a22b3de9f27b28649ac8baed1f0c96"
+        }
+      ],
+      "output": "rejected/paint_front_01.png",
+      "selected": false,
+      "reason": "Rejected: enlarged end-on cluster with invented jewel-like details and shaded/highlighted surfaces; corrected once.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-991a795b-62bb-4c62-b07e-d580a3c78430.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c05f5c04b57874b8c8ef5b3f0807d37d819c85b30fd3803f8cb62b8d6a699b5c",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          256,
+          84,
+          1216,
+          707
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          525,
+          566,
+          722,
+          688
+        ],
+        "guide_alpha_bbox": [
+          453,
+          475,
+          571,
+          549
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.531861,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Recolour ONLY the tiny central shape in image 2, guide_front.png. Keep its exact outline, geometry, camera, tiny size, location and alpha mask. Output one 1024 x 1024 SQUARE transparent PNG. Image 1 provides materials only.\nThis is an END-ON orthographic view looking straight along the sword axis. The entire visible geometry is the existing small flattened cluster at x=453..570, y=475..548, about 118 pixels wide and 74 pixels tall, centred in a mostly empty canvas. Do not show a full-length sword. Do not enlarge the object. Do not make a side or overhead view. Blade and grip project into this same tiny cluster; nothing extends vertically or horizontally from it.\nPaint the existing facets with the reference's surface materials: ivory-white ceramic ribs with subtle wear, muted brushed antique gold fittings, black-violet resin recesses, tiny cyan-white plasma/emitter surfaces and orange power inset where the guide's visible surfaces permit. Preserve all exact part boundaries. Continue unseen surfaces plausibly. Ignore the guide's original white tint. FLAT ALBEDO, evenly front lit with no shadows, AO, cavity darkening, specular highlights, reflections or rim lighting. Bright colour for emissive parts; no external glow. Actual transparency everywhere outside the ORIGINAL guide alpha. No background, floor, text or letters. Preserve image 2 pixel positions, no crop or rescale.\nONE CORRECTION: the previous object was too large (roughly 16% canvas width) and too glossy, with invented internal framing. The original guide's exact cluster is only 11.52% of canvas width and 7.23% of canvas height, centred at 50%,50%. Preserve those proportions exactly, with the same irregular silhouette and visible occluding facets as image 2. Paint the tiny original model facets instead of inventing a jewel icon. Remove all directional shading and specular highlights, use flat diffuse colour. The original guide alpha is mandatory; copying its outline is more important than embellishment. Return 1024 x 1024, transparent.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "e6310602c46b8a6826c50399d395dbd805a22b3de9f27b28649ac8baed1f0c96"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Correction more closely preserves the small end-on guide scale and facets. Exact silhouette and flat albedo checks still fail. Selected for delivery, not accepted as a compliant texture source.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-7fa1f1a5-38bb-44cb-9eb8-4daa004991a2.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "6cd515f901c3b2029a38847629e120f56369558e33ba5ddccef25e7dcef97775",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          290,
+          308,
+          707,
+          762
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          553,
+          581,
+          704,
+          671
+        ],
+        "guide_alpha_bbox": [
+          453,
+          475,
+          571,
+          549
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.907081,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Edit image 2 guide_back.png: recolour its existing tiny central geometry only. Image 1 design_reference.png is only the material-colour authority. Keep image 2's precise silhouette, placement, scale, every part edge, occlusion and alpha. Output ONE 1024 x 1024 SQUARE RGBA PNG, truly transparent around the guide's original shape.\nBACK END-ON orthographic projection, looking straight along the weapon axis from the pommel end. A small flattened irregular faceted cluster, not an upright or horizontal full-length sword. Keep all geometry within x=453..571, y=475..548: 11.62% canvas width and 7.23% canvas height, centred at 50%,50%. Most of the canvas is empty transparency. Preserve this end-on view verbatim; no enlargement or zoom.\nPaint only the existing visible surfaces in the reference's worn ivory ceramic, muted brushed gold and dark black-violet resin, with orange power crystal/inset where visible at this end. Continue concealed back surfaces in these same materials; do not import the reference image's front-view shapes. Only paint cyan-white plasma where a guide surface actually corresponds to exposed plasma, never add a new blade or cyan jewel. Fine non-letter surface lines and subtle wear only.\nAlbedo texture source: completely FLAT, even, shadowless viewer illumination. No directional shading, ambient occlusion, dark crevices, cast shadow, strong shiny highlights, reflected environment or rim light. Gold is a matte base colour with faint sheen. Emission is bright colour within existing silhouette only. No text, letters, watermark, background or floor. Return the unresized 1024-square image.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "37562e9e9a414a6aca5ab10ca9c625eb4a8eca3b5b4438ca10bec97e7aeb5c9b"
+        }
+      ],
+      "output": "rejected/paint_back_01.png",
+      "selected": false,
+      "reason": "Rejected: enlarged end-on cluster with invented jewel-like details and shaded/highlighted surfaces; corrected once.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-0cd14f64-d995-47d5-9a06-326a57cdff77.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "474f50f9872f2824ecd4ffb73d530c462dc1e548087b27012683f8287ebe4bb6",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          113,
+          71,
+          1160,
+          1198
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          545,
+          580,
+          709,
+          684
+        ],
+        "guide_alpha_bbox": [
+          453,
+          475,
+          572,
+          549
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.732492,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Edit image 2 guide_back.png: recolour its existing tiny central geometry only. Image 1 design_reference.png is only the material-colour authority. Keep image 2's precise silhouette, placement, scale, every part edge, occlusion and alpha. Output ONE 1024 x 1024 SQUARE RGBA PNG, truly transparent around the guide's original shape.\nBACK END-ON orthographic projection, looking straight along the weapon axis from the pommel end. A small flattened irregular faceted cluster, not an upright or horizontal full-length sword. Keep all geometry within x=453..571, y=475..548: 11.62% canvas width and 7.23% canvas height, centred at 50%,50%. Most of the canvas is empty transparency. Preserve this end-on view verbatim; no enlargement or zoom.\nPaint only the existing visible surfaces in the reference's worn ivory ceramic, muted brushed gold and dark black-violet resin, with orange power crystal/inset where visible at this end. Continue concealed back surfaces in these same materials; do not import the reference image's front-view shapes. Only paint cyan-white plasma where a guide surface actually corresponds to exposed plasma, never add a new blade or cyan jewel. Fine non-letter surface lines and subtle wear only.\nAlbedo texture source: completely FLAT, even, shadowless viewer illumination. No directional shading, ambient occlusion, dark crevices, cast shadow, strong shiny highlights, reflected environment or rim light. Gold is a matte base colour with faint sheen. Emission is bright colour within existing silhouette only. No text, letters, watermark, background or floor. Return the unresized 1024-square image.\nONE CORRECTIVE REGENERATION: the first back result enlarged the guide cluster and introduced a shaded jewel-like centre. Preserve the EXACT guide faceted end surface and alpha silhouette without adding geometry. The original shape must occupy only 11.62% canvas width and 7.23% canvas height, exactly centred, same irregular contour as image 2. Recolour those existing planes with matte gold, ivory and dark violet base pigments and a small orange inset where appropriate. Flatten all shading: no bright reflective edges, shadows under ribs or directional face darkening. Do not use reference illustration lighting. Keep all shape and part-edge pixels where guide_back.png has them. Output the requested 1024 x 1024 transparent image.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "32d39575af7c268808d012ef610a70dea1f085913d071289d4dd1eb9451817f6"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "37562e9e9a414a6aca5ab10ca9c625eb4a8eca3b5b4438ca10bec97e7aeb5c9b"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Correction more closely preserves the small end-on guide scale and facets. Exact silhouette and flat albedo checks still fail. Selected for delivery, not accepted as a compliant texture source.",
+      "source_tool_path": "/home/pjasicek/.codex/generated_images/01a16eba-af84-78c1-ac1e-77e1d77c28e0/exec-6cf7cba3-a465-406e-8e31-68d15c8045c9.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "5b6d6402bd37fc08b2581dc34182e43de29dff85e536c1a94e1e6e07665cffeb",
+      "resized": false,
+      "accepted_for_texture_baking": false,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          91,
+          377,
+          774,
+          1043
+        ],
+        "opaque_bbox_alpha_ge_128": [
+          553,
+          584,
+          703,
+          675
+        ],
+        "guide_alpha_bbox": [
+          453,
+          475,
+          572,
+          549
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "silhouette_iou_normalized_canvas_alpha_ge_128": 0.888968,
+        "comparison_method": "Read-only nearest coordinate sampling on normalized canvas, alpha >= 128; raw output file unchanged.",
+        "materials": "Reference palette present; exact part boundaries are not preserved.",
+        "flat_even_light": "fail: painted shading and specular highlights remain",
+        "no_text_or_letters": "pass: none seen on visual inspection"
+      }
+    }
+  ]
+}

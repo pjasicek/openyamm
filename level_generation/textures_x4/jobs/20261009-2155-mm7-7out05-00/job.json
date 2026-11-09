@@ -1,0 +1,64 @@
+{
+ "id": "20261009-2155-mm7-7out05-00",
+ "world": "mm7",
+ "maps": [
+  "7out05.odm"
+ ],
+ "created": "2026-10-09T19:55:44+00:00",
+ "textures": [
+  "mm7/hnp3re"
+ ],
+ "requests": {
+  "mm7/hnp3re": {
+   "name": "hnp3re",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, and a broad weathered wooden corner post filling the right edge that the picture border cuts through its middle",
+   "notes": {
+    "2": "the rubble stonework and the beams at the left run straight on across the left border with no vertical line, gap or shadow; the wooden post on the right is even weathered wood with no outline",
+    "3": "copy the composition exactly: a solid opaque dark weathered wooden post, as wide as in the reference, runs from top to bottom along the right edge; it is plain even brown wood running right up to the last pixel column with no outline, groove or dark line; the stonework stops against its left side"
+   },
+   "roll": {
+    "1": [
+     81,
+     0
+    ],
+    "2": [
+     81,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {
+     "left": "mm7/hnp3le"
+    }
+   },
+   "border": "edge"
+  }
+ }
+}

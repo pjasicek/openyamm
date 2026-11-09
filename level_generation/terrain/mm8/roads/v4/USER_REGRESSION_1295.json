@@ -1,0 +1,21 @@
+{
+  "status": "resolved_by_v5_exact_pose_correction",
+  "screenshot": "test_img/1295.png",
+  "launcher_verified": "Latest desktop run qip_m1cc uses repository assets_dev and video_quality.terrain=x2; run is later than v4 installation. All239 installed hashes pass.",
+  "finding": "User screenshot still shows unwanted road-edge protrusions. V4 representative-view acceptance was insufficient; do not attribute this to stale launcher or claim screenshot1295 fixed.",
+  "scope": "Camera starts on drsrns at row52 col75, but looks southeast along alternating drsrne2/drsrne1 diagonal tiles, rows53\u201356 cols75\u201378. Previous NS donor repair targeted straight artwork and opening grafts, not the offending diagonal interiors. Preserve accepted straight-road appearance; correct diagonal edge artwork against this exact view.",
+  "exact_pose": {
+    "position": [
+      5913.83,
+      5672.083,
+      545.0
+    ],
+    "yaw_radians": 5.446,
+    "pitch_degrees": -13.235
+  },
+  "identified_tiles": [
+    "drsrne1",
+    "drsrne2"
+  ],
+  "resolution": "roads/v5/visual_review.json: exact-pose diagonal correction installed and verified"
+}

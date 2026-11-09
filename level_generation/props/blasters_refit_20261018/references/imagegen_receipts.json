@@ -1,0 +1,28 @@
+{
+  "mode": "built-in image_gen",
+  "total_calls": 7,
+  "masters": [
+    {
+      "icon": "7item064",
+      "output_path": "/home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-51ba2433-3b76-40c9-915e-35d500fa4739.png"
+    },
+    {
+      "icon": "7item065",
+      "output_path": "/home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-3d051fc6-8079-4737-92aa-e7cc1adc11d3.png"
+    },
+    {
+      "icon": "raygun1",
+      "output_path": "/home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-212956ac-0c73-400d-84d6-545665608fae.png"
+    },
+    {
+      "icon": "raygun2",
+      "output_path": "/home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-0a5bb28a-f62c-4c84-8ea3-1dc595e2f7be.png"
+    },
+    {
+      "icon": "blastsg",
+      "output_path": "/home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-dac2a10e-3e17-4ec0-84c3-7770c382daf0.png"
+    }
+  ],
+  "correction_prompt": "PROMPT_shotgun_correction.txt",
+  "bank_prompt": "../textures/PROMPT_bank.txt"
+}

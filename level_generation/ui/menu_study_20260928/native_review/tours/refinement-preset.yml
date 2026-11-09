@@ -1,0 +1,10 @@
+output_dir: ../replay/refinement-preset
+exit: true
+steps:
+- click:
+  - 327.0
+  - 536.0
+- click:
+  - 374
+  - 500
+- capture: party-granted-skills

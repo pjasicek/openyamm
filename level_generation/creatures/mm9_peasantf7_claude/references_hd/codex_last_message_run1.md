@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantf7_claude/references_hd/00_three_quarter.png), unresized at 1536×1024, using built-in image generation. Both raw returns and prompts/input hashes are saved alongside it.
+
+Stopped after run 1 and its single correction. Residual fault: the generated halo remains, so transparency does not fully meet the brief.

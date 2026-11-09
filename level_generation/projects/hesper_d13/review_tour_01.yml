@@ -1,0 +1,54 @@
+# Integrator capture: party feet; the engine adds eye height. Hot shot restores the overload state.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d13/review/build02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: shaft
+  position:
+  - 400
+  - 1000
+  - 0
+  yaw: 0.0
+  pitch: 0
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+- name: exchangers
+  position:
+  - 2000
+  - 1000
+  - 0
+  yaw: 0.0
+  pitch: 0
+- name: tap
+  position:
+  - 5200
+  - 1000
+  - 0
+  yaw: 0.0
+  pitch: 0
+- name: tap_overload
+  position:
+  - 5200
+  - 1000
+  - 0
+  yaw: 0.0
+  pitch: 0
+  commands:
+  - mapvar set 1 1
+  - mapvar set 2 120
+  - event 1
+- name: debris_hall
+  position:
+  - 6328
+  - 2800
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0
+- name: upper_gallery
+  position:
+  - 7300
+  - 6192
+  - 512
+  yaw: 3.141592653589793
+  pitch: 0

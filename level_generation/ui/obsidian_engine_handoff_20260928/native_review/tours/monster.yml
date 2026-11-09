@@ -1,0 +1,10 @@
+output_dir: /tmp/obsidian-native-monster
+exit: true
+steps:
+  - wait: 1
+  - capture: encounter
+  - right_down: [800, 450]
+  - wait: 0.5
+  - capture: monster-inspect
+  - right_up: [800, 450]
+  - capture: monster-released

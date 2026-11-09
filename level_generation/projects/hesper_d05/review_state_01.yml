@@ -1,0 +1,18 @@
+# Native inventory hand-in and final review shot. Requires a working graphics display for the capture.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d05/review/build01
+exit: true
+steps:
+  - wait: 2
+  - console: event 150
+  - console: qbit get 100028
+  - console: event 32
+  - key: Escape
+  - console: mapvar get 1
+  - console: item add 11470
+  - console: qbit set 100207
+  - console: event 10
+  - key: Escape
+  - wait: 1
+  - console: qbit get 100007
+  - console: qbit get 100207
+  - capture: 14-terminus-lit

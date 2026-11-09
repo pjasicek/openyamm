@@ -1,0 +1,5822 @@
+{
+  "status": "authored geometry and population; full gameplay validation pending",
+  "buildings": [
+    {
+      "id": "stables",
+      "xy": [
+        -6208,
+        -4096
+      ],
+      "reference_house_profile": 452,
+      "target_footprint": [
+        768,
+        1536
+      ],
+      "form": "barn",
+      "local_footprint": [
+        1536,
+        768
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": 0,
+      "service_sign": "SGstabl",
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -6595,
+        -4096,
+        576
+      ],
+      "event_id": 100,
+      "door_outward": [
+        -1.0,
+        1.8369701987210297e-16
+      ],
+      "approach_yaw": -1.8369701987210297e-16,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "weapon_shop",
+      "xy": [
+        -10048,
+        -6080
+      ],
+      "reference_house_profile": 2,
+      "target_footprint": [
+        768,
+        768
+      ],
+      "form": "shop_bay",
+      "local_footprint": [
+        768,
+        768
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "service_sign": "sgWeap",
+      "shared_block": "smiths_row",
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -10048,
+        -5693,
+        576
+      ],
+      "event_id": 101,
+      "door_outward": [
+        1.2246467991473532e-16,
+        1.0
+      ],
+      "approach_yaw": -1.5707963267948968,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "armor_shop",
+      "xy": [
+        -10816,
+        -6080
+      ],
+      "reference_house_profile": 37,
+      "target_footprint": [
+        768,
+        768
+      ],
+      "form": "shop_bay",
+      "local_footprint": [
+        768,
+        768
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "service_sign": "sgArm",
+      "shared_block": "smiths_row",
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -10816,
+        -5693,
+        576
+      ],
+      "event_id": 102,
+      "door_outward": [
+        1.2246467991473532e-16,
+        1.0
+      ],
+      "approach_yaw": -1.5707963267948968,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "magic_shop",
+      "xy": [
+        -8192,
+        -3456
+      ],
+      "reference_house_profile": 77,
+      "target_footprint": [
+        768,
+        640
+      ],
+      "form": "turret_house",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "service_sign": "sgMAGIC",
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -8192,
+        -3133,
+        576
+      ],
+      "event_id": 103,
+      "door_outward": [
+        1.2246467991473532e-16,
+        1.0
+      ],
+      "approach_yaw": -1.5707963267948968,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "civic_hall",
+      "xy": [
+        -14592,
+        7936
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        4352,
+        1792
+      ],
+      "form": "manor",
+      "local_footprint": [
+        4352,
+        1792
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "elevation": 1536,
+      "approach_kind": "dedicated_lane",
+      "floor_z": 1536,
+      "door_position": [
+        -14592,
+        7037,
+        1536
+      ],
+      "event_id": 104,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14c03"
+    },
+    {
+      "id": "tavern",
+      "xy": [
+        -9984,
+        960
+      ],
+      "reference_house_profile": 229,
+      "target_footprint": [
+        1280,
+        896
+      ],
+      "form": "inn",
+      "local_footprint": [
+        1280,
+        896
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "service_sign": "sgTvrn",
+      "approach_kind": "dedicated_lane",
+      "floor_z": 576,
+      "door_position": [
+        -9984,
+        509,
+        576
+      ],
+      "event_id": 105,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "temple",
+      "xy": [
+        -13782,
+        1066
+      ],
+      "reference_house_profile": 304,
+      "target_footprint": [
+        2172,
+        2172
+      ],
+      "form": "chapel",
+      "local_footprint": [
+        1536,
+        1536
+      ],
+      "rotation_degrees": 135,
+      "door_offset_x": 0,
+      "elevation": 1088,
+      "approach_kind": "dedicated_lane",
+      "floor_z": 1088,
+      "door_position": [
+        -13237,
+        1611,
+        1088
+      ],
+      "event_id": 106,
+      "door_outward": [
+        0.7071067811865476,
+        0.7071067811865475
+      ],
+      "approach_yaw": -2.356194490192345,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14c03"
+    },
+    {
+      "id": "training",
+      "xy": [
+        -6080,
+        -768
+      ],
+      "reference_house_profile": 1568,
+      "target_footprint": [
+        1024,
+        1280
+      ],
+      "form": "courtyard",
+      "local_footprint": [
+        1280,
+        1024
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": -384,
+      "service_sign": "sgTrain",
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -6595,
+        -384,
+        576
+      ],
+      "event_id": 107,
+      "door_outward": [
+        -1.0,
+        1.8369701987210297e-16
+      ],
+      "approach_yaw": -1.8369701987210297e-16,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "alchemist",
+      "xy": [
+        -6272,
+        1792
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": 0,
+      "service_sign": "sgAlch",
+      "approach_kind": "street_frontage",
+      "floor_z": 608,
+      "door_position": [
+        -6595,
+        1792,
+        640
+      ],
+      "event_id": 108,
+      "door_outward": [
+        -1.0,
+        1.8369701987210297e-16
+      ],
+      "approach_yaw": -1.8369701987210297e-16,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14c03"
+    },
+    {
+      "id": "teacher_1",
+      "xy": [
+        -15872,
+        4032
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "gable",
+      "local_footprint": [
+        640,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 672,
+      "door_position": [
+        -15872,
+        3645,
+        704
+      ],
+      "event_id": 109,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "teacher_2",
+      "xy": [
+        -13312,
+        3904
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        512
+      ],
+      "form": "flat",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 672,
+      "door_position": [
+        -13312,
+        3645,
+        672
+      ],
+      "event_id": 110,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "teacher_3",
+      "xy": [
+        -11264,
+        4032
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        768,
+        640
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 672,
+      "door_position": [
+        -11264,
+        3709,
+        704
+      ],
+      "event_id": 111,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14c03"
+    },
+    {
+      "id": "teacher_4",
+      "xy": [
+        -9216,
+        3008
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "gable",
+      "local_footprint": [
+        640,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 640,
+      "door_position": [
+        -9216,
+        2621,
+        672
+      ],
+      "event_id": 112,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "resident_1",
+      "xy": [
+        -7680,
+        2880
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        512
+      ],
+      "form": "flat",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 640,
+      "door_position": [
+        -7680,
+        2621,
+        640
+      ],
+      "event_id": 113,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "resident_2",
+      "xy": [
+        -18304,
+        2816
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "turret_house",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 640,
+      "door_position": [
+        -17981,
+        2816,
+        640
+      ],
+      "event_id": 114,
+      "door_outward": [
+        1.0,
+        -6.123233995736766e-17
+      ],
+      "approach_yaw": 3.141592653589793,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "resident_3",
+      "xy": [
+        -18368,
+        1280
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        768,
+        640
+      ],
+      "form": "gable",
+      "local_footprint": [
+        640,
+        768
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -17981,
+        1280,
+        608
+      ],
+      "event_id": 115,
+      "door_outward": [
+        1.0,
+        -6.123233995736766e-17
+      ],
+      "approach_yaw": 3.141592653589793,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "resident_4",
+      "xy": [
+        -17232,
+        -1088
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        996,
+        996
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 135,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -17004,
+        -860,
+        608
+      ],
+      "event_id": 116,
+      "door_outward": [
+        0.7071067811865476,
+        0.7071067811865475
+      ],
+      "approach_yaw": -2.356194490192345,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14c03"
+    },
+    {
+      "id": "resident_5",
+      "xy": [
+        -15760,
+        -2464
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        815,
+        815
+      ],
+      "form": "flat",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 135,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -15577,
+        -2281,
+        576
+      ],
+      "event_id": 117,
+      "door_outward": [
+        0.7071067811865476,
+        0.7071067811865475
+      ],
+      "approach_yaw": -2.356194490192345,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "resident_6",
+      "xy": [
+        -14720,
+        -4352
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -14397,
+        -4352,
+        608
+      ],
+      "event_id": 118,
+      "door_outward": [
+        1.0,
+        -6.123233995736766e-17
+      ],
+      "approach_yaw": 3.141592653589793,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14c03"
+    },
+    {
+      "id": "warehouse_1",
+      "xy": [
+        -12288,
+        -4672
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        1024,
+        768
+      ],
+      "form": "barn",
+      "local_footprint": [
+        1024,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -12288,
+        -5059,
+        576
+      ],
+      "event_id": 119,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "warehouse_2",
+      "xy": [
+        -7936,
+        -4672
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        1024,
+        768
+      ],
+      "form": "barn",
+      "local_footprint": [
+        1024,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -7936,
+        -5059,
+        576
+      ],
+      "event_id": 120,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "residence_7",
+      "xy": [
+        -12800,
+        -5952
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        512
+      ],
+      "form": "flat",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -12800,
+        -5693,
+        576
+      ],
+      "event_id": 121,
+      "door_outward": [
+        1.2246467991473532e-16,
+        1.0
+      ],
+      "approach_yaw": -1.5707963267948968,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "residence_8",
+      "xy": [
+        -6912,
+        -6080
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "gable",
+      "local_footprint": [
+        640,
+        768
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -6912,
+        -5693,
+        608
+      ],
+      "event_id": 122,
+      "door_outward": [
+        1.2246467991473532e-16,
+        1.0
+      ],
+      "approach_yaw": -1.5707963267948968,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "residence_9",
+      "xy": [
+        -10624,
+        -640
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "floor_z": 576,
+      "door_position": [
+        -10301,
+        -640,
+        608
+      ],
+      "event_id": 123,
+      "door_outward": [
+        1.0,
+        -6.123233995736766e-17
+      ],
+      "approach_yaw": 3.141592653589793,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14c03"
+    },
+    {
+      "id": "well_lane_cottage",
+      "xy": [
+        -10624,
+        -1920
+      ],
+      "reference_house_profile": null,
+      "form": "gable",
+      "local_footprint": [
+        640,
+        640
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        640,
+        640
+      ],
+      "floor_z": 576,
+      "door_position": [
+        -10301,
+        -1920,
+        608
+      ],
+      "event_id": 124,
+      "door_outward": [
+        1.0,
+        -6.123233995736766e-17
+      ],
+      "approach_yaw": 3.141592653589793,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "court_west_long",
+      "xy": [
+        -9280,
+        -1472
+      ],
+      "reference_house_profile": null,
+      "form": "barn",
+      "local_footprint": [
+        1024,
+        768
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        768,
+        1024
+      ],
+      "floor_z": 576,
+      "door_position": [
+        -9667,
+        -1472,
+        576
+      ],
+      "event_id": 125,
+      "door_outward": [
+        -1.0,
+        1.8369701987210297e-16
+      ],
+      "approach_yaw": -1.8369701987210297e-16,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    },
+    {
+      "id": "court_west_small",
+      "xy": [
+        -9344,
+        -128
+      ],
+      "reference_house_profile": null,
+      "form": "flat",
+      "local_footprint": [
+        640,
+        640
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        640,
+        640
+      ],
+      "floor_z": 576,
+      "door_position": [
+        -9667,
+        -128,
+        576
+      ],
+      "event_id": 126,
+      "door_outward": [
+        -1.0,
+        1.8369701987210297e-16
+      ],
+      "approach_yaw": -1.8369701987210297e-16,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14a03"
+    },
+    {
+      "id": "court_south_long",
+      "xy": [
+        -7936,
+        -2112
+      ],
+      "reference_house_profile": null,
+      "form": "hipped",
+      "local_footprint": [
+        1024,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        1024,
+        768
+      ],
+      "floor_z": 576,
+      "door_position": [
+        -7936,
+        -2499,
+        608
+      ],
+      "event_id": 127,
+      "door_outward": [
+        0.0,
+        -1.0
+      ],
+      "approach_yaw": 1.5707963267948966,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14c03"
+    },
+    {
+      "id": "court_east_small",
+      "xy": [
+        -7552,
+        -1024
+      ],
+      "reference_house_profile": null,
+      "form": "gable",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        512,
+        640
+      ],
+      "floor_z": 576,
+      "door_position": [
+        -7293,
+        -1024,
+        608
+      ],
+      "event_id": 128,
+      "door_outward": [
+        1.0,
+        -6.123233995736766e-17
+      ],
+      "approach_yaw": 3.141592653589793,
+      "door_size": [
+        128,
+        256
+      ],
+      "door_texture": "t14b03"
+    }
+  ],
+  "roads": [
+    {
+      "id": "main_0",
+      "cells": [
+        [
+          66,
+          16
+        ],
+        [
+          66,
+          17
+        ],
+        [
+          66,
+          18
+        ],
+        [
+          66,
+          19
+        ],
+        [
+          66,
+          20
+        ],
+        [
+          66,
+          21
+        ],
+        [
+          66,
+          22
+        ],
+        [
+          66,
+          23
+        ],
+        [
+          66,
+          24
+        ],
+        [
+          66,
+          25
+        ],
+        [
+          66,
+          26
+        ]
+      ]
+    },
+    {
+      "id": "main_1",
+      "cells": [
+        [
+          66,
+          26
+        ],
+        [
+          65,
+          26
+        ],
+        [
+          64,
+          26
+        ],
+        [
+          63,
+          26
+        ],
+        [
+          63,
+          27
+        ],
+        [
+          63,
+          28
+        ],
+        [
+          63,
+          29
+        ]
+      ]
+    },
+    {
+      "id": "upper_loop_0",
+      "cells": [
+        [
+          63,
+          29
+        ],
+        [
+          62,
+          29
+        ],
+        [
+          61,
+          29
+        ],
+        [
+          60,
+          29
+        ],
+        [
+          59,
+          29
+        ],
+        [
+          58,
+          29
+        ],
+        [
+          57,
+          29
+        ]
+      ]
+    },
+    {
+      "id": "upper_loop_1",
+      "cells": [
+        [
+          57,
+          29
+        ],
+        [
+          57,
+          30
+        ],
+        [
+          57,
+          31
+        ],
+        [
+          57,
+          32
+        ],
+        [
+          57,
+          33
+        ],
+        [
+          57,
+          34
+        ],
+        [
+          57,
+          35
+        ],
+        [
+          57,
+          36
+        ],
+        [
+          57,
+          37
+        ],
+        [
+          57,
+          38
+        ],
+        [
+          57,
+          39
+        ],
+        [
+          57,
+          40
+        ],
+        [
+          57,
+          41
+        ],
+        [
+          57,
+          42
+        ],
+        [
+          57,
+          43
+        ],
+        [
+          57,
+          44
+        ]
+      ]
+    },
+    {
+      "id": "upper_loop_2",
+      "cells": [
+        [
+          57,
+          44
+        ],
+        [
+          58,
+          44
+        ],
+        [
+          59,
+          44
+        ]
+      ]
+    },
+    {
+      "id": "upper_loop_3",
+      "cells": [
+        [
+          59,
+          44
+        ],
+        [
+          59,
+          45
+        ],
+        [
+          59,
+          46
+        ],
+        [
+          59,
+          47
+        ],
+        [
+          59,
+          48
+        ],
+        [
+          59,
+          49
+        ],
+        [
+          59,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "upper_loop_4",
+      "cells": [
+        [
+          59,
+          50
+        ],
+        [
+          60,
+          50
+        ],
+        [
+          61,
+          50
+        ],
+        [
+          62,
+          50
+        ],
+        [
+          63,
+          50
+        ],
+        [
+          64,
+          50
+        ],
+        [
+          65,
+          50
+        ],
+        [
+          66,
+          50
+        ],
+        [
+          67,
+          50
+        ],
+        [
+          68,
+          50
+        ],
+        [
+          69,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "upper_loop_5",
+      "cells": [
+        [
+          69,
+          50
+        ],
+        [
+          69,
+          49
+        ],
+        [
+          69,
+          48
+        ],
+        [
+          69,
+          47
+        ],
+        [
+          69,
+          46
+        ],
+        [
+          69,
+          45
+        ],
+        [
+          69,
+          44
+        ],
+        [
+          69,
+          43
+        ],
+        [
+          69,
+          42
+        ],
+        [
+          69,
+          41
+        ],
+        [
+          69,
+          40
+        ],
+        [
+          69,
+          39
+        ],
+        [
+          69,
+          38
+        ],
+        [
+          69,
+          37
+        ],
+        [
+          69,
+          36
+        ]
+      ]
+    },
+    {
+      "id": "southern_lane_0",
+      "cells": [
+        [
+          69,
+          36
+        ],
+        [
+          70,
+          36
+        ],
+        [
+          71,
+          36
+        ],
+        [
+          72,
+          36
+        ],
+        [
+          73,
+          36
+        ],
+        [
+          74,
+          36
+        ]
+      ]
+    },
+    {
+      "id": "southern_lane_1",
+      "cells": [
+        [
+          74,
+          36
+        ],
+        [
+          74,
+          37
+        ],
+        [
+          74,
+          38
+        ],
+        [
+          74,
+          39
+        ],
+        [
+          74,
+          40
+        ],
+        [
+          74,
+          41
+        ],
+        [
+          74,
+          42
+        ],
+        [
+          74,
+          43
+        ],
+        [
+          74,
+          44
+        ],
+        [
+          74,
+          45
+        ],
+        [
+          74,
+          46
+        ],
+        [
+          74,
+          47
+        ],
+        [
+          74,
+          48
+        ],
+        [
+          74,
+          49
+        ],
+        [
+          74,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "southern_lane_2",
+      "cells": [
+        [
+          74,
+          50
+        ],
+        [
+          73,
+          50
+        ],
+        [
+          72,
+          50
+        ],
+        [
+          71,
+          50
+        ],
+        [
+          70,
+          50
+        ],
+        [
+          69,
+          50
+        ]
+      ]
+    },
+    {
+      "id": "manor_ascent_0",
+      "cells": [
+        [
+          57,
+          35
+        ],
+        [
+          56,
+          35
+        ],
+        [
+          55,
+          35
+        ],
+        [
+          54,
+          35
+        ],
+        [
+          53,
+          35
+        ],
+        [
+          52,
+          35
+        ],
+        [
+          51,
+          35
+        ]
+      ]
+    },
+    {
+      "id": "temple_ascent_0",
+      "cells": [
+        [
+          57,
+          40
+        ],
+        [
+          58,
+          40
+        ],
+        [
+          59,
+          40
+        ]
+      ]
+    },
+    {
+      "id": "temple_ascent_1",
+      "cells": [
+        [
+          59,
+          40
+        ],
+        [
+          60,
+          40
+        ],
+        [
+          60,
+          39
+        ],
+        [
+          60,
+          38
+        ]
+      ]
+    },
+    {
+      "id": "inn_lane_0",
+      "cells": [
+        [
+          69,
+          44
+        ],
+        [
+          68,
+          44
+        ],
+        [
+          67,
+          44
+        ],
+        [
+          66,
+          44
+        ],
+        [
+          65,
+          44
+        ],
+        [
+          64,
+          44
+        ],
+        [
+          63,
+          44
+        ]
+      ]
+    },
+    {
+      "id": "bridge_link_0",
+      "cells": [
+        [
+          63,
+          50
+        ],
+        [
+          63,
+          51
+        ],
+        [
+          63,
+          52
+        ],
+        [
+          63,
+          53
+        ],
+        [
+          63,
+          54
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          63,
+          56
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          63,
+          59
+        ],
+        [
+          63,
+          60
+        ],
+        [
+          63,
+          61
+        ],
+        [
+          63,
+          62
+        ],
+        [
+          63,
+          63
+        ],
+        [
+          63,
+          64
+        ],
+        [
+          63,
+          65
+        ],
+        [
+          63,
+          66
+        ],
+        [
+          63,
+          67
+        ],
+        [
+          63,
+          68
+        ],
+        [
+          63,
+          69
+        ]
+      ]
+    },
+    {
+      "id": "bridge_link_1",
+      "cells": [
+        [
+          63,
+          69
+        ],
+        [
+          63,
+          70
+        ],
+        [
+          63,
+          71
+        ],
+        [
+          63,
+          72
+        ],
+        [
+          63,
+          73
+        ],
+        [
+          63,
+          74
+        ],
+        [
+          63,
+          75
+        ],
+        [
+          63,
+          76
+        ],
+        [
+          63,
+          77
+        ],
+        [
+          63,
+          78
+        ],
+        [
+          63,
+          79
+        ]
+      ]
+    },
+    {
+      "id": "bridge_link_2",
+      "cells": [
+        [
+          63,
+          79
+        ],
+        [
+          63,
+          80
+        ],
+        [
+          63,
+          81
+        ],
+        [
+          63,
+          82
+        ],
+        [
+          63,
+          83
+        ],
+        [
+          63,
+          84
+        ],
+        [
+          63,
+          85
+        ],
+        [
+          62,
+          85
+        ],
+        [
+          62,
+          86
+        ],
+        [
+          62,
+          87
+        ],
+        [
+          61,
+          87
+        ],
+        [
+          60,
+          87
+        ],
+        [
+          59,
+          87
+        ],
+        [
+          59,
+          88
+        ],
+        [
+          58,
+          88
+        ],
+        [
+          57,
+          88
+        ],
+        [
+          56,
+          88
+        ]
+      ]
+    },
+    {
+      "id": "slanted_west_street",
+      "cells": [
+        [
+          63,
+          30
+        ],
+        [
+          64,
+          30
+        ],
+        [
+          64,
+          31
+        ],
+        [
+          65,
+          31
+        ],
+        [
+          65,
+          32
+        ],
+        [
+          66,
+          32
+        ],
+        [
+          66,
+          33
+        ],
+        [
+          67,
+          33
+        ],
+        [
+          67,
+          34
+        ],
+        [
+          68,
+          34
+        ],
+        [
+          68,
+          35
+        ],
+        [
+          69,
+          35
+        ]
+      ]
+    },
+    {
+      "id": "civic_hall_lane",
+      "cells": [
+        [
+          51,
+          35
+        ],
+        [
+          50,
+          35
+        ]
+      ]
+    },
+    {
+      "id": "tavern_lane",
+      "cells": [
+        [
+          63,
+          44
+        ]
+      ]
+    },
+    {
+      "id": "temple_lane",
+      "cells": [
+        [
+          60,
+          38
+        ]
+      ]
+    },
+    {
+      "id": "castle_approach",
+      "cells": [
+        [
+          56,
+          88
+        ],
+        [
+          55,
+          88
+        ],
+        [
+          55,
+          89
+        ],
+        [
+          54,
+          89
+        ],
+        [
+          53,
+          89
+        ],
+        [
+          52,
+          89
+        ],
+        [
+          51,
+          89
+        ],
+        [
+          50,
+          89
+        ],
+        [
+          49,
+          89
+        ],
+        [
+          48,
+          89
+        ],
+        [
+          47,
+          89
+        ],
+        [
+          46,
+          89
+        ],
+        [
+          46,
+          90
+        ],
+        [
+          46,
+          91
+        ],
+        [
+          46,
+          92
+        ],
+        [
+          45,
+          92
+        ],
+        [
+          45,
+          93
+        ],
+        [
+          44,
+          93
+        ],
+        [
+          43,
+          93
+        ],
+        [
+          42,
+          93
+        ],
+        [
+          41,
+          93
+        ],
+        [
+          40,
+          93
+        ],
+        [
+          39,
+          93
+        ],
+        [
+          38,
+          93
+        ],
+        [
+          37,
+          93
+        ],
+        [
+          36,
+          93
+        ],
+        [
+          35,
+          93
+        ],
+        [
+          34,
+          93
+        ],
+        [
+          34,
+          94
+        ]
+      ]
+    },
+    {
+      "id": "obelisk_walk",
+      "cells": [
+        [
+          66,
+          26
+        ],
+        [
+          65,
+          26
+        ],
+        [
+          64,
+          26
+        ],
+        [
+          63,
+          26
+        ],
+        [
+          63,
+          27
+        ],
+        [
+          63,
+          28
+        ],
+        [
+          63,
+          29
+        ],
+        [
+          62,
+          29
+        ],
+        [
+          61,
+          29
+        ],
+        [
+          60,
+          29
+        ],
+        [
+          59,
+          29
+        ],
+        [
+          58,
+          29
+        ],
+        [
+          57,
+          29
+        ],
+        [
+          56,
+          29
+        ],
+        [
+          55,
+          29
+        ],
+        [
+          54,
+          29
+        ],
+        [
+          53,
+          29
+        ],
+        [
+          52,
+          29
+        ],
+        [
+          51,
+          29
+        ],
+        [
+          50,
+          29
+        ],
+        [
+          49,
+          29
+        ],
+        [
+          48,
+          29
+        ],
+        [
+          47,
+          29
+        ],
+        [
+          46,
+          29
+        ],
+        [
+          45,
+          29
+        ],
+        [
+          44,
+          29
+        ],
+        [
+          43,
+          29
+        ],
+        [
+          43,
+          28
+        ],
+        [
+          42,
+          28
+        ],
+        [
+          41,
+          28
+        ],
+        [
+          40,
+          28
+        ],
+        [
+          39,
+          28
+        ],
+        [
+          38,
+          28
+        ],
+        [
+          37,
+          28
+        ],
+        [
+          36,
+          28
+        ],
+        [
+          35,
+          28
+        ],
+        [
+          34,
+          28
+        ]
+      ]
+    },
+    {
+      "id": "north_pass",
+      "cells": [
+        [
+          34,
+          28
+        ],
+        [
+          33,
+          28
+        ],
+        [
+          32,
+          28
+        ],
+        [
+          31,
+          28
+        ],
+        [
+          30,
+          28
+        ],
+        [
+          29,
+          28
+        ],
+        [
+          28,
+          28
+        ],
+        [
+          27,
+          28
+        ],
+        [
+          26,
+          28
+        ],
+        [
+          25,
+          28
+        ],
+        [
+          24,
+          28
+        ],
+        [
+          23,
+          28
+        ],
+        [
+          22,
+          28
+        ],
+        [
+          21,
+          28
+        ],
+        [
+          20,
+          28
+        ],
+        [
+          19,
+          28
+        ],
+        [
+          18,
+          28
+        ],
+        [
+          17,
+          28
+        ],
+        [
+          16,
+          28
+        ],
+        [
+          15,
+          28
+        ],
+        [
+          14,
+          28
+        ]
+      ]
+    },
+    {
+      "id": "west_pass",
+      "cells": [
+        [
+          66,
+          20
+        ],
+        [
+          66,
+          19
+        ],
+        [
+          66,
+          18
+        ],
+        [
+          66,
+          17
+        ],
+        [
+          66,
+          16
+        ],
+        [
+          66,
+          15
+        ],
+        [
+          66,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "west_scenic_continuation",
+      "cells": [
+        [
+          66,
+          14
+        ],
+        [
+          66,
+          13
+        ],
+        [
+          66,
+          12
+        ],
+        [
+          65,
+          12
+        ],
+        [
+          64,
+          12
+        ],
+        [
+          63,
+          12
+        ],
+        [
+          62,
+          12
+        ],
+        [
+          62,
+          11
+        ],
+        [
+          62,
+          10
+        ],
+        [
+          62,
+          9
+        ],
+        [
+          62,
+          8
+        ],
+        [
+          62,
+          7
+        ],
+        [
+          63,
+          7
+        ],
+        [
+          64,
+          7
+        ],
+        [
+          65,
+          7
+        ],
+        [
+          66,
+          7
+        ],
+        [
+          66,
+          6
+        ],
+        [
+          66,
+          5
+        ],
+        [
+          66,
+          4
+        ],
+        [
+          66,
+          3
+        ],
+        [
+          66,
+          2
+        ],
+        [
+          66,
+          1
+        ],
+        [
+          66,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "north_scenic_continuation",
+      "cells": [
+        [
+          14,
+          28
+        ],
+        [
+          13,
+          28
+        ],
+        [
+          12,
+          28
+        ],
+        [
+          12,
+          29
+        ],
+        [
+          12,
+          30
+        ],
+        [
+          12,
+          31
+        ],
+        [
+          12,
+          32
+        ],
+        [
+          11,
+          32
+        ],
+        [
+          10,
+          32
+        ],
+        [
+          9,
+          32
+        ],
+        [
+          8,
+          32
+        ],
+        [
+          7,
+          32
+        ],
+        [
+          7,
+          31
+        ],
+        [
+          7,
+          30
+        ],
+        [
+          7,
+          29
+        ],
+        [
+          7,
+          28
+        ],
+        [
+          6,
+          28
+        ],
+        [
+          5,
+          28
+        ],
+        [
+          4,
+          28
+        ],
+        [
+          3,
+          28
+        ],
+        [
+          2,
+          28
+        ],
+        [
+          1,
+          28
+        ],
+        [
+          0,
+          28
+        ]
+      ]
+    }
+  ],
+  "arrivals": [
+    {
+      "id": "default",
+      "position": [
+        -19456,
+        -1536,
+        640
+      ],
+      "yaw": 0
+    },
+    {
+      "id": "stable",
+      "position": [
+        -6656,
+        -4096,
+        576
+      ],
+      "yaw": 0
+    },
+    {
+      "id": "castle_door",
+      "position": [
+        15360,
+        14848,
+        1536
+      ],
+      "yaw": 0
+    },
+    {
+      "id": "cave_door",
+      "position": [
+        15360,
+        -17408,
+        1280
+      ],
+      "yaw": 0
+    },
+    {
+      "id": "west_region",
+      "position": [
+        -22016,
+        -1536,
+        576
+      ],
+      "yaw": 0
+    },
+    {
+      "id": "north_region",
+      "position": [
+        -18432,
+        23296,
+        960
+      ],
+      "yaw": 0
+    }
+  ],
+  "events": [
+    {
+      "id": 100,
+      "name": "stables_door",
+      "bmodel_index": 1,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 101,
+      "name": "weapon_shop_door",
+      "bmodel_index": 3,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 102,
+      "name": "armor_shop_door",
+      "bmodel_index": 5,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 103,
+      "name": "magic_shop_door",
+      "bmodel_index": 7,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 104,
+      "name": "civic_hall_door",
+      "bmodel_index": 9,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 105,
+      "name": "tavern_door",
+      "bmodel_index": 11,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 106,
+      "name": "temple_door",
+      "bmodel_index": 13,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 107,
+      "name": "training_door",
+      "bmodel_index": 15,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 108,
+      "name": "alchemist_door",
+      "bmodel_index": 17,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 109,
+      "name": "teacher_1_door",
+      "bmodel_index": 19,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 110,
+      "name": "teacher_2_door",
+      "bmodel_index": 21,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 111,
+      "name": "teacher_3_door",
+      "bmodel_index": 23,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 112,
+      "name": "teacher_4_door",
+      "bmodel_index": 25,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 113,
+      "name": "resident_1_door",
+      "bmodel_index": 27,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 114,
+      "name": "resident_2_door",
+      "bmodel_index": 29,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 115,
+      "name": "resident_3_door",
+      "bmodel_index": 31,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 116,
+      "name": "resident_4_door",
+      "bmodel_index": 33,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 117,
+      "name": "resident_5_door",
+      "bmodel_index": 35,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 118,
+      "name": "resident_6_door",
+      "bmodel_index": 37,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 119,
+      "name": "warehouse_1_door",
+      "bmodel_index": 39,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 120,
+      "name": "warehouse_2_door",
+      "bmodel_index": 41,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 121,
+      "name": "residence_7_door",
+      "bmodel_index": 43,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 122,
+      "name": "residence_8_door",
+      "bmodel_index": 45,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 123,
+      "name": "residence_9_door",
+      "bmodel_index": 47,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 124,
+      "name": "well_lane_cottage_door",
+      "bmodel_index": 49,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 125,
+      "name": "court_west_long_door",
+      "bmodel_index": 51,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 126,
+      "name": "court_west_small_door",
+      "bmodel_index": 53,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 127,
+      "name": "court_south_long_door",
+      "bmodel_index": 55,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 128,
+      "name": "court_east_small_door",
+      "bmodel_index": 57,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "name": "castle_entrance",
+      "bmodel_index": 74,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "name": "cave_entrance",
+      "bmodel_index": 78,
+      "faces": [
+        0
+      ]
+    },
+    {
+      "id": 201,
+      "name": "east_cache_chest_1",
+      "bmodel_index": 79,
+      "faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "id": 202,
+      "name": "east_cache_chest_2",
+      "bmodel_index": 80,
+      "faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "id": 203,
+      "name": "south_cache_chest_1",
+      "bmodel_index": 81,
+      "faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "id": 204,
+      "name": "south_cache_chest_2",
+      "bmodel_index": 82,
+      "faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "id": 301,
+      "name": "obelisk",
+      "bmodel_index": 83,
+      "faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": 302,
+      "name": "town_well",
+      "bmodel_index": 84,
+      "faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ]
+    },
+    {
+      "id": 303,
+      "name": "well_south",
+      "bmodel_index": 85,
+      "faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ]
+    },
+    {
+      "id": 304,
+      "name": "fountain",
+      "bmodel_index": 86,
+      "faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ]
+    }
+  ],
+  "bmodels": [
+    {
+      "id": "stables",
+      "index": 0,
+      "faces": 95
+    },
+    {
+      "id": "stables_door",
+      "index": 1,
+      "faces": 1
+    },
+    {
+      "id": "weapon_shop",
+      "index": 2,
+      "faces": 59
+    },
+    {
+      "id": "weapon_shop_door",
+      "index": 3,
+      "faces": 1
+    },
+    {
+      "id": "armor_shop",
+      "index": 4,
+      "faces": 55
+    },
+    {
+      "id": "armor_shop_door",
+      "index": 5,
+      "faces": 1
+    },
+    {
+      "id": "magic_shop",
+      "index": 6,
+      "faces": 104
+    },
+    {
+      "id": "magic_shop_door",
+      "index": 7,
+      "faces": 1
+    },
+    {
+      "id": "civic_hall",
+      "index": 8,
+      "faces": 826
+    },
+    {
+      "id": "civic_hall_door",
+      "index": 9,
+      "faces": 1
+    },
+    {
+      "id": "tavern",
+      "index": 10,
+      "faces": 135
+    },
+    {
+      "id": "tavern_door",
+      "index": 11,
+      "faces": 1
+    },
+    {
+      "id": "temple",
+      "index": 12,
+      "faces": 332
+    },
+    {
+      "id": "temple_door",
+      "index": 13,
+      "faces": 1
+    },
+    {
+      "id": "training",
+      "index": 14,
+      "faces": 117
+    },
+    {
+      "id": "training_door",
+      "index": 15,
+      "faces": 1
+    },
+    {
+      "id": "alchemist",
+      "index": 16,
+      "faces": 61
+    },
+    {
+      "id": "alchemist_door",
+      "index": 17,
+      "faces": 1
+    },
+    {
+      "id": "teacher_1",
+      "index": 18,
+      "faces": 60
+    },
+    {
+      "id": "teacher_1_door",
+      "index": 19,
+      "faces": 1
+    },
+    {
+      "id": "teacher_2",
+      "index": 20,
+      "faces": 64
+    },
+    {
+      "id": "teacher_2_door",
+      "index": 21,
+      "faces": 1
+    },
+    {
+      "id": "teacher_3",
+      "index": 22,
+      "faces": 60
+    },
+    {
+      "id": "teacher_3_door",
+      "index": 23,
+      "faces": 1
+    },
+    {
+      "id": "teacher_4",
+      "index": 24,
+      "faces": 60
+    },
+    {
+      "id": "teacher_4_door",
+      "index": 25,
+      "faces": 1
+    },
+    {
+      "id": "resident_1",
+      "index": 26,
+      "faces": 64
+    },
+    {
+      "id": "resident_1_door",
+      "index": 27,
+      "faces": 1
+    },
+    {
+      "id": "resident_2",
+      "index": 28,
+      "faces": 103
+    },
+    {
+      "id": "resident_2_door",
+      "index": 29,
+      "faces": 1
+    },
+    {
+      "id": "resident_3",
+      "index": 30,
+      "faces": 60
+    },
+    {
+      "id": "resident_3_door",
+      "index": 31,
+      "faces": 1
+    },
+    {
+      "id": "resident_4",
+      "index": 32,
+      "faces": 60
+    },
+    {
+      "id": "resident_4_door",
+      "index": 33,
+      "faces": 1
+    },
+    {
+      "id": "resident_5",
+      "index": 34,
+      "faces": 64
+    },
+    {
+      "id": "resident_5_door",
+      "index": 35,
+      "faces": 1
+    },
+    {
+      "id": "resident_6",
+      "index": 36,
+      "faces": 60
+    },
+    {
+      "id": "resident_6_door",
+      "index": 37,
+      "faces": 1
+    },
+    {
+      "id": "warehouse_1",
+      "index": 38,
+      "faces": 78
+    },
+    {
+      "id": "warehouse_1_door",
+      "index": 39,
+      "faces": 1
+    },
+    {
+      "id": "warehouse_2",
+      "index": 40,
+      "faces": 78
+    },
+    {
+      "id": "warehouse_2_door",
+      "index": 41,
+      "faces": 1
+    },
+    {
+      "id": "residence_7",
+      "index": 42,
+      "faces": 64
+    },
+    {
+      "id": "residence_7_door",
+      "index": 43,
+      "faces": 1
+    },
+    {
+      "id": "residence_8",
+      "index": 44,
+      "faces": 60
+    },
+    {
+      "id": "residence_8_door",
+      "index": 45,
+      "faces": 1
+    },
+    {
+      "id": "residence_9",
+      "index": 46,
+      "faces": 60
+    },
+    {
+      "id": "residence_9_door",
+      "index": 47,
+      "faces": 1
+    },
+    {
+      "id": "well_lane_cottage",
+      "index": 48,
+      "faces": 56
+    },
+    {
+      "id": "well_lane_cottage_door",
+      "index": 49,
+      "faces": 1
+    },
+    {
+      "id": "court_west_long",
+      "index": 50,
+      "faces": 78
+    },
+    {
+      "id": "court_west_long_door",
+      "index": 51,
+      "faces": 1
+    },
+    {
+      "id": "court_west_small",
+      "index": 52,
+      "faces": 70
+    },
+    {
+      "id": "court_west_small_door",
+      "index": 53,
+      "faces": 1
+    },
+    {
+      "id": "court_south_long",
+      "index": 54,
+      "faces": 72
+    },
+    {
+      "id": "court_south_long_door",
+      "index": 55,
+      "faces": 1
+    },
+    {
+      "id": "court_east_small",
+      "index": 56,
+      "faces": 52
+    },
+    {
+      "id": "court_east_small_door",
+      "index": 57,
+      "faces": 1
+    },
+    {
+      "id": "bridge_deck",
+      "index": 58,
+      "faces": 6
+    },
+    {
+      "id": "bridge_parapet_-256",
+      "index": 59,
+      "faces": 66
+    },
+    {
+      "id": "bridge_parapet_704",
+      "index": 60,
+      "faces": 66
+    },
+    {
+      "id": "bridge_pier_3840",
+      "index": 61,
+      "faces": 12
+    },
+    {
+      "id": "bridge_pier_6144",
+      "index": 62,
+      "faces": 12
+    },
+    {
+      "id": "castle_keep",
+      "index": 63,
+      "faces": 16
+    },
+    {
+      "id": "castle_tower_-2304_-1792",
+      "index": 64,
+      "faces": 48
+    },
+    {
+      "id": "castle_tower_-2304_1792",
+      "index": 65,
+      "faces": 52
+    },
+    {
+      "id": "castle_tower_2304_-1792",
+      "index": 66,
+      "faces": 48
+    },
+    {
+      "id": "castle_tower_2304_1792",
+      "index": 67,
+      "faces": 52
+    },
+    {
+      "id": "castle_side_-2304",
+      "index": 68,
+      "faces": 6
+    },
+    {
+      "id": "castle_side_2304",
+      "index": 69,
+      "faces": 6
+    },
+    {
+      "id": "castle_rear",
+      "index": 70,
+      "faces": 6
+    },
+    {
+      "id": "castle_front_-1",
+      "index": 71,
+      "faces": 6
+    },
+    {
+      "id": "castle_front_1",
+      "index": 72,
+      "faces": 6
+    },
+    {
+      "id": "castle_gatehouse",
+      "index": 73,
+      "faces": 10
+    },
+    {
+      "id": "castle_entrance",
+      "index": 74,
+      "faces": 1
+    },
+    {
+      "id": "cave_left",
+      "index": 75,
+      "faces": 14
+    },
+    {
+      "id": "cave_right",
+      "index": 76,
+      "faces": 14
+    },
+    {
+      "id": "cave_brow",
+      "index": 77,
+      "faces": 14
+    },
+    {
+      "id": "cave_entrance",
+      "index": 78,
+      "faces": 1
+    },
+    {
+      "id": "east_cache_chest_1",
+      "index": 79,
+      "faces": 19
+    },
+    {
+      "id": "east_cache_chest_2",
+      "index": 80,
+      "faces": 19
+    },
+    {
+      "id": "south_cache_chest_1",
+      "index": 81,
+      "faces": 19
+    },
+    {
+      "id": "south_cache_chest_2",
+      "index": 82,
+      "faces": 19
+    },
+    {
+      "id": "obelisk",
+      "index": 83,
+      "faces": 8
+    },
+    {
+      "id": "town_well",
+      "index": 84,
+      "faces": 51
+    },
+    {
+      "id": "well_south",
+      "index": 85,
+      "faces": 51
+    },
+    {
+      "id": "fountain",
+      "index": 86,
+      "faces": 96
+    }
+  ],
+  "texture_provenance": {
+    "dirttyl": "assets_dev/worlds/mm8/textures/DIRTtyl.bmp",
+    "dirt1": "assets_dev/worlds/mm8/textures/DIRT1.bmp",
+    "dirt2": "assets_dev/worlds/mm8/textures/DIRT2.bmp",
+    "grastyl": "assets_dev/worlds/mm8/textures/Grastyl.bmp",
+    "grastyl2": "assets_dev/worlds/mm8/textures/Grastyl2.bmp",
+    "grdrtne": "assets_dev/worlds/mm8/textures/GrdrtNE.bmp",
+    "grdrtse": "assets_dev/worlds/mm8/textures/GrdrtSE.bmp",
+    "grdrtnw": "assets_dev/worlds/mm8/textures/GrdrtNW.bmp",
+    "grdrtsw": "assets_dev/worlds/mm8/textures/GrdrtSW.bmp",
+    "grdrte": "assets_dev/worlds/mm8/textures/GrdrtE.bmp",
+    "grdrtw": "assets_dev/worlds/mm8/textures/GrdrtW.bmp",
+    "grdrtn": "assets_dev/worlds/mm8/textures/GrdrtN.bmp",
+    "grdrts": "assets_dev/worlds/mm8/textures/GrdrtS.bmp",
+    "grdrtxne": "assets_dev/worlds/mm8/textures/GrdrtXNE.bmp",
+    "grdrtxse": "assets_dev/worlds/mm8/textures/GrdrtXSE.bmp",
+    "grdrtxnw": "assets_dev/worlds/mm8/textures/GrdrtXNW.bmp",
+    "grdrtxsw": "assets_dev/worlds/mm8/textures/GrdrtXSW.bmp",
+    "wtrtyl": "assets_dev/worlds/mm8/textures/WtrTyl.bmp",
+    "wtrdrne": "assets_dev/worlds/mm8/textures/wtrdrNE.bmp",
+    "wtrdrse": "assets_dev/worlds/mm8/textures/wtrdrSE.bmp",
+    "wtrdrnw": "assets_dev/worlds/mm8/textures/wtrdrNW.bmp",
+    "wtrdrsw": "assets_dev/worlds/mm8/textures/wtrdrSW.bmp",
+    "wtrdre": "assets_dev/worlds/mm8/textures/wtrdrE.bmp",
+    "wtrdrw": "assets_dev/worlds/mm8/textures/wtrdrW.bmp",
+    "wtrdrn": "assets_dev/worlds/mm8/textures/wtrdrN.bmp",
+    "wtrdrs": "assets_dev/worlds/mm8/textures/wtrdrS.bmp",
+    "wtrdrxne": "assets_dev/worlds/mm8/textures/wtrdrXNE.bmp",
+    "wtrdrxse": "assets_dev/worlds/mm8/textures/wtrdrXSE.bmp",
+    "wtrdrxnw": "assets_dev/worlds/mm8/textures/wtrdrXNW.bmp",
+    "wtrdrxsw": "assets_dev/worlds/mm8/textures/wtrdrXSW.bmp",
+    "rdtyl": "assets_dev/worlds/mm8/textures/RdTyl.bmp",
+    "rdne": "assets_dev/worlds/mm8/textures/RdNE.bmp",
+    "rdse": "assets_dev/worlds/mm8/textures/RdSE.bmp",
+    "rdnw": "assets_dev/worlds/mm8/textures/RdNW.bmp",
+    "rdsw": "assets_dev/worlds/mm8/textures/RdSW.bmp",
+    "rde": "assets_dev/worlds/mm8/textures/RdE.bmp",
+    "rdw": "assets_dev/worlds/mm8/textures/RdW.bmp",
+    "rdn": "assets_dev/worlds/mm8/textures/RdN.bmp",
+    "rds": "assets_dev/worlds/mm8/textures/RdS.bmp",
+    "rdxne": "assets_dev/worlds/mm8/textures/RdXNE.bmp",
+    "rdxse": "assets_dev/worlds/mm8/textures/RdXSE.bmp",
+    "rdxnw": "assets_dev/worlds/mm8/textures/RdXNW.bmp",
+    "rdxsw": "assets_dev/worlds/mm8/textures/RdXSW.bmp",
+    "drsrns": "assets_dev/worlds/mm8/textures/DRSRNS.bmp",
+    "drsrew": "assets_dev/worlds/mm8/textures/DRSREW.bmp",
+    "drsrn_e": "assets_dev/worlds/mm8/textures/DRSRN_E.bmp",
+    "drsrn_w": "assets_dev/worlds/mm8/textures/DRSRN_W.bmp",
+    "drsrs_e": "assets_dev/worlds/mm8/textures/DRSRS_E.bmp",
+    "drsrs_w": "assets_dev/worlds/mm8/textures/DRSRS_W.bmp",
+    "drsrns_e": "assets_dev/worlds/mm8/textures/DRSRNS_E.bmp",
+    "drsrns_w": "assets_dev/worlds/mm8/textures/DRSRNS_W.bmp",
+    "drsrew_n": "assets_dev/worlds/mm8/textures/DRSREW_N.bmp",
+    "drsrew_s": "assets_dev/worlds/mm8/textures/DRSREW_S.bmp",
+    "drsrncap": "assets_dev/worlds/mm8/textures/DRSRNCAP.bmp",
+    "drsrecap": "assets_dev/worlds/mm8/textures/DRSRECAP.bmp",
+    "drsrwcap": "assets_dev/worlds/mm8/textures/DRSRWCAP.bmp",
+    "drsrne1": "assets_dev/worlds/mm8/textures/DRSRNE1.bmp",
+    "drsrne2": "assets_dev/worlds/mm8/textures/DRSRNE2.bmp",
+    "t14c01b": "assets_dev/worlds/mm8/textures/t14c01b.bmp",
+    "t14a05b": "assets_dev/worlds/mm8/textures/t14a05b.bmp",
+    "t14b06": "assets_dev/worlds/mm8/textures/t14b06.bmp",
+    "t14b04c": "assets_dev/worlds/mm8/textures/t14b04c.bmp",
+    "t14b01": "assets_dev/worlds/mm8/textures/t14b01.bmp",
+    "t14b03": "assets_dev/worlds/mm8/textures/t14b03.bmp",
+    "t14b07": "assets_dev/worlds/mm8/textures/t14b07.bmp",
+    "t14b05": "assets_dev/worlds/mm8/textures/t14b05.bmp",
+    "sgstabl": "assets_dev/worlds/mm8/textures/SGstabl.bmp",
+    "t14a06": "assets_dev/worlds/mm8/textures/t14a06.bmp",
+    "t14a04c": "assets_dev/worlds/mm8/textures/t14a04c.bmp",
+    "t14a01": "assets_dev/worlds/mm8/textures/t14a01.bmp",
+    "t14a03": "assets_dev/worlds/mm8/textures/t14a03.bmp",
+    "t14a07": "assets_dev/worlds/mm8/textures/t14a07.bmp",
+    "sgweap": "assets_dev/worlds/mm8/textures/sgWeap.bmp",
+    "sgarm": "assets_dev/worlds/mm8/textures/sgArm.bmp",
+    "t14d01": "assets_dev/worlds/mm8/textures/t14d01.bmp",
+    "sgmagic": "assets_dev/worlds/mm8/textures/sgMAGIC.bmp",
+    "t14c06": "assets_dev/worlds/mm8/textures/t14c06.bmp",
+    "t14c04c": "assets_dev/worlds/mm8/textures/t14c04c.bmp",
+    "t14c01": "assets_dev/worlds/mm8/textures/t14c01.bmp",
+    "t14c03": "assets_dev/worlds/mm8/textures/t14c03.bmp",
+    "t14c07": "assets_dev/worlds/mm8/textures/t14c07.bmp",
+    "sgtvrn": "assets_dev/worlds/mm8/textures/sgTvrn.bmp",
+    "sgtrain": "assets_dev/worlds/mm8/textures/sgTRAIN.bmp",
+    "sgalch": "assets_dev/worlds/mm8/textures/sgALCH.bmp",
+    "trim9_32": "assets_dev/worlds/mm8/textures/Trim9_32.bmp",
+    "trimd": "assets_dev/worlds/mm8/textures/trimD.bmp",
+    "trim1_16": "assets_dev/worlds/mm8/textures/TRIM1_16.bmp",
+    "hhr1p": "assets_dev/worlds/mm8/textures/HHR1P.bmp",
+    "gcst2-bs": "assets_dev/worlds/mm8/textures/Gcst2-bs.bmp",
+    "gston1wl": "assets_dev/worlds/mm8/textures/GSton1WL.bmp",
+    "gt002b": "assets_dev/worlds/mm8/textures/gt002b.bmp",
+    "solid01": "assets_dev/worlds/mm8/textures/solid01.bmp",
+    "gt002g": "assets_dev/worlds/mm8/textures/gt002g.bmp",
+    "gt002c": "assets_dev/worlds/mm8/textures/gt002c.bmp",
+    "gt002a": "assets_dev/worlds/mm8/textures/gt002a.bmp",
+    "gt002e": "assets_dev/worlds/mm8/textures/gt002e.bmp",
+    "t03a05c": "assets_dev/worlds/mm8/textures/T03A05C.bmp",
+    "t06b01": "assets_dev/worlds/mm8/textures/t06b01.bmp",
+    "t06a02": "assets_dev/worlds/mm8/textures/t06a02.bmp",
+    "t06a10": "assets_dev/worlds/mm8/textures/t06a10.bmp",
+    "t1cabs": "assets_dev/worlds/mm8/textures/T1cabs.bmp",
+    "t06c11": "assets_dev/worlds/mm8/textures/t06c11.bmp",
+    "gstn1bot": "assets_dev/worlds/mm8/textures/GStn1BOT.bmp",
+    "gstn1cl": "assets_dev/worlds/mm8/textures/GStn1CL.bmp"
+  },
+  "content_landmarks": [
+    {
+      "id": "east_cache_chest_1",
+      "kind": "chest_target",
+      "position": [
+        21248,
+        3584,
+        1120
+      ],
+      "event_id": 201,
+      "container_id": 0,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 1,
+      "bmodel_index": 79
+    },
+    {
+      "id": "east_cache_chest_2",
+      "kind": "chest_target",
+      "position": [
+        21760,
+        3584,
+        1072
+      ],
+      "event_id": 202,
+      "container_id": 1,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 1,
+      "bmodel_index": 80
+    },
+    {
+      "id": "south_cache_chest_1",
+      "kind": "chest_target",
+      "position": [
+        9984,
+        -22528,
+        1088
+      ],
+      "event_id": 203,
+      "container_id": 2,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 1,
+      "bmodel_index": 81
+    },
+    {
+      "id": "south_cache_chest_2",
+      "kind": "chest_target",
+      "position": [
+        14848,
+        -18432,
+        1312
+      ],
+      "event_id": 204,
+      "container_id": 3,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 1,
+      "bmodel_index": 82
+    },
+    {
+      "id": "obelisk",
+      "kind": "obelisk",
+      "position": [
+        -18432,
+        15360,
+        1472
+      ],
+      "event_id": 301,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 65,
+      "bmodel_index": 83
+    },
+    {
+      "id": "town_well",
+      "kind": "well",
+      "position": [
+        -12800,
+        -1792,
+        624
+      ],
+      "event_id": 302,
+      "reuse_map": "out02.odm",
+      "reuse_bmodel": 6,
+      "bmodel_index": 84
+    },
+    {
+      "id": "well_south",
+      "kind": "well",
+      "position": [
+        -10240,
+        -3584,
+        576
+      ],
+      "event_id": 303,
+      "reuse_map": "out02.odm",
+      "reuse_bmodels": [
+        6
+      ],
+      "bmodel_index": 85
+    },
+    {
+      "id": "fountain",
+      "kind": "fountain",
+      "position": [
+        -8192,
+        256,
+        576
+      ],
+      "event_id": 304,
+      "reuse_map": "out02.odm",
+      "reuse_bmodels": [
+        83,
+        84
+      ],
+      "bmodel_index": 86
+    }
+  ],
+  "fixed_actors": [
+    {
+      "id": "guard_01",
+      "kind": "fixed_actor",
+      "actor_index": 0,
+      "position": [
+        -18688,
+        256,
+        704
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_02",
+      "kind": "fixed_actor",
+      "actor_index": 1,
+      "position": [
+        -5376,
+        256,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_03",
+      "kind": "fixed_actor",
+      "actor_index": 2,
+      "position": [
+        -12032,
+        -5376,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 27,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_04",
+      "kind": "fixed_actor",
+      "actor_index": 3,
+      "position": [
+        -14592,
+        6400,
+        1488
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_05",
+      "kind": "fixed_actor",
+      "actor_index": 4,
+      "position": [
+        -9984,
+        3328,
+        656
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_06",
+      "kind": "fixed_actor",
+      "actor_index": 5,
+      "position": [
+        -6912,
+        -4864,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 27,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_07",
+      "kind": "fixed_actor",
+      "actor_index": 6,
+      "position": [
+        -9984,
+        -1280,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_08",
+      "kind": "fixed_actor",
+      "actor_index": 7,
+      "position": [
+        -15104,
+        -2304,
+        576
+      ],
+      "role": "guard",
+      "monster_id": 26,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "guard_09",
+      "kind": "fixed_actor",
+      "actor_index": 8,
+      "position": [
+        -17664,
+        3840,
+        736
+      ],
+      "role": "guard",
+      "monster_id": 27,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_01",
+      "kind": "fixed_actor",
+      "actor_index": 9,
+      "position": [
+        -13568,
+        3328,
+        688
+      ],
+      "role": "villager",
+      "monster_id": 22,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_02",
+      "kind": "fixed_actor",
+      "actor_index": 10,
+      "position": [
+        -7424,
+        2304,
+        640
+      ],
+      "role": "villager",
+      "monster_id": 23,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_03",
+      "kind": "fixed_actor",
+      "actor_index": 11,
+      "position": [
+        -12544,
+        -2816,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 19,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_04",
+      "kind": "fixed_actor",
+      "actor_index": 12,
+      "position": [
+        -17664,
+        6400,
+        1536
+      ],
+      "role": "villager",
+      "monster_id": 20,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_05",
+      "kind": "fixed_actor",
+      "actor_index": 13,
+      "position": [
+        -9472,
+        -5376,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 166,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_06",
+      "kind": "fixed_actor",
+      "actor_index": 14,
+      "position": [
+        -6912,
+        -2304,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 22,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_07",
+      "kind": "fixed_actor",
+      "actor_index": 15,
+      "position": [
+        -14080,
+        -4352,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 23,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_08",
+      "kind": "fixed_actor",
+      "actor_index": 16,
+      "position": [
+        -12032,
+        1792,
+        960
+      ],
+      "role": "villager",
+      "monster_id": 19,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_09",
+      "kind": "fixed_actor",
+      "actor_index": 17,
+      "position": [
+        -16640,
+        -256,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 20,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_10",
+      "kind": "fixed_actor",
+      "actor_index": 18,
+      "position": [
+        -15616,
+        3328,
+        688
+      ],
+      "role": "villager",
+      "monster_id": 166,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_11",
+      "kind": "fixed_actor",
+      "actor_index": 19,
+      "position": [
+        -17664,
+        1792,
+        608
+      ],
+      "role": "villager",
+      "monster_id": 22,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_12",
+      "kind": "fixed_actor",
+      "actor_index": 20,
+      "position": [
+        -8960,
+        -2816,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 23,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_13",
+      "kind": "fixed_actor",
+      "actor_index": 21,
+      "position": [
+        -6912,
+        -256,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 19,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_14",
+      "kind": "fixed_actor",
+      "actor_index": 22,
+      "position": [
+        -14592,
+        4864,
+        1072
+      ],
+      "role": "villager",
+      "monster_id": 20,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_15",
+      "kind": "fixed_actor",
+      "actor_index": 23,
+      "position": [
+        -12032,
+        3328,
+        688
+      ],
+      "role": "villager",
+      "monster_id": 166,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_16",
+      "kind": "fixed_actor",
+      "actor_index": 24,
+      "position": [
+        -11008,
+        -2816,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 22,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_17",
+      "kind": "fixed_actor",
+      "actor_index": 25,
+      "position": [
+        -9984,
+        256,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 23,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_18",
+      "kind": "fixed_actor",
+      "actor_index": 26,
+      "position": [
+        -8960,
+        2304,
+        640
+      ],
+      "role": "villager",
+      "monster_id": 19,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_19",
+      "kind": "fixed_actor",
+      "actor_index": 27,
+      "position": [
+        -16128,
+        -1280,
+        688
+      ],
+      "role": "villager",
+      "monster_id": 20,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "villager_20",
+      "kind": "fixed_actor",
+      "actor_index": 28,
+      "position": [
+        -14080,
+        -2816,
+        576
+      ],
+      "role": "villager",
+      "monster_id": 166,
+      "group": 38,
+      "ally": 8
+    },
+    {
+      "id": "eastern_ogres_01",
+      "kind": "fixed_actor",
+      "actor_index": 29,
+      "position": [
+        19328,
+        3328,
+        1248
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 32,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_02",
+      "kind": "fixed_actor",
+      "actor_index": 30,
+      "position": [
+        19712,
+        4352,
+        1264
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 32,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_03",
+      "kind": "fixed_actor",
+      "actor_index": 31,
+      "position": [
+        20480,
+        4736,
+        1216
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 33,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_04",
+      "kind": "fixed_actor",
+      "actor_index": 32,
+      "position": [
+        21376,
+        4352,
+        1128
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 32,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_05",
+      "kind": "fixed_actor",
+      "actor_index": 33,
+      "position": [
+        21504,
+        3072,
+        1088
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 33,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_06",
+      "kind": "fixed_actor",
+      "actor_index": 34,
+      "position": [
+        20224,
+        2560,
+        1136
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 107,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "eastern_ogres_07",
+      "kind": "fixed_actor",
+      "actor_index": 35,
+      "position": [
+        20864,
+        3584,
+        1160
+      ],
+      "role": "eastern_ogres",
+      "monster_id": 108,
+      "group": 10,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_01",
+      "kind": "fixed_actor",
+      "actor_index": 36,
+      "position": [
+        9088,
+        -20992,
+        992
+      ],
+      "role": "southern_ogres",
+      "monster_id": 32,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_02",
+      "kind": "fixed_actor",
+      "actor_index": 37,
+      "position": [
+        9472,
+        -19968,
+        928
+      ],
+      "role": "southern_ogres",
+      "monster_id": 32,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_03",
+      "kind": "fixed_actor",
+      "actor_index": 38,
+      "position": [
+        10240,
+        -19584,
+        896
+      ],
+      "role": "southern_ogres",
+      "monster_id": 33,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_04",
+      "kind": "fixed_actor",
+      "actor_index": 39,
+      "position": [
+        11136,
+        -19968,
+        896
+      ],
+      "role": "southern_ogres",
+      "monster_id": 32,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_05",
+      "kind": "fixed_actor",
+      "actor_index": 40,
+      "position": [
+        11264,
+        -21248,
+        960
+      ],
+      "role": "southern_ogres",
+      "monster_id": 33,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_06",
+      "kind": "fixed_actor",
+      "actor_index": 41,
+      "position": [
+        9984,
+        -21760,
+        1024
+      ],
+      "role": "southern_ogres",
+      "monster_id": 107,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "southern_ogres_07",
+      "kind": "fixed_actor",
+      "actor_index": 42,
+      "position": [
+        10624,
+        -20736,
+        944
+      ],
+      "role": "southern_ogres",
+      "monster_id": 108,
+      "group": 11,
+      "ally": 11
+    },
+    {
+      "id": "northwood_hollow_01",
+      "kind": "fixed_actor",
+      "actor_index": 43,
+      "position": [
+        -14352,
+        20352,
+        1478
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 85,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_02",
+      "kind": "fixed_actor",
+      "actor_index": 44,
+      "position": [
+        -14336,
+        20672,
+        1528
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 86,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_03",
+      "kind": "fixed_actor",
+      "actor_index": 45,
+      "position": [
+        -14560,
+        20624,
+        1480
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 86,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_04",
+      "kind": "fixed_actor",
+      "actor_index": 46,
+      "position": [
+        -15024,
+        20064,
+        1334
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 86,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_05",
+      "kind": "fixed_actor",
+      "actor_index": 47,
+      "position": [
+        -14544,
+        20160,
+        1418
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 86,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_06",
+      "kind": "fixed_actor",
+      "actor_index": 48,
+      "position": [
+        -15280,
+        20336,
+        1318
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 87,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_hollow_07",
+      "kind": "fixed_actor",
+      "actor_index": 49,
+      "position": [
+        -15024,
+        20672,
+        1399
+      ],
+      "role": "northwood_hollow",
+      "monster_id": 87,
+      "group": 12,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_01",
+      "kind": "fixed_actor",
+      "actor_index": 50,
+      "position": [
+        -8992,
+        19456,
+        822
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 85,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_02",
+      "kind": "fixed_actor",
+      "actor_index": 51,
+      "position": [
+        -8624,
+        18896,
+        764
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_03",
+      "kind": "fixed_actor",
+      "actor_index": 52,
+      "position": [
+        -9088,
+        18752,
+        852
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_04",
+      "kind": "fixed_actor",
+      "actor_index": 53,
+      "position": [
+        -9760,
+        19072,
+        966
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_05",
+      "kind": "fixed_actor",
+      "actor_index": 54,
+      "position": [
+        -9264,
+        19008,
+        873
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_06",
+      "kind": "fixed_actor",
+      "actor_index": 55,
+      "position": [
+        -10048,
+        18816,
+        1028
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 86,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_07",
+      "kind": "fixed_actor",
+      "actor_index": 56,
+      "position": [
+        -9616,
+        18720,
+        953
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 87,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_ridge_08",
+      "kind": "fixed_actor",
+      "actor_index": 57,
+      "position": [
+        -9552,
+        19408,
+        927
+      ],
+      "role": "northwood_ridge",
+      "monster_id": 87,
+      "group": 13,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_01",
+      "kind": "fixed_actor",
+      "actor_index": 58,
+      "position": [
+        -5184,
+        21760,
+        416
+      ],
+      "role": "northwood_edge",
+      "monster_id": 85,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_02",
+      "kind": "fixed_actor",
+      "actor_index": 59,
+      "position": [
+        -4864,
+        22016,
+        432
+      ],
+      "role": "northwood_edge",
+      "monster_id": 86,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_03",
+      "kind": "fixed_actor",
+      "actor_index": 60,
+      "position": [
+        -5456,
+        22352,
+        416
+      ],
+      "role": "northwood_edge",
+      "monster_id": 86,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_04",
+      "kind": "fixed_actor",
+      "actor_index": 61,
+      "position": [
+        -5232,
+        22512,
+        416
+      ],
+      "role": "northwood_edge",
+      "monster_id": 86,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_05",
+      "kind": "fixed_actor",
+      "actor_index": 62,
+      "position": [
+        -4784,
+        22704,
+        448
+      ],
+      "role": "northwood_edge",
+      "monster_id": 87,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "northwood_edge_06",
+      "kind": "fixed_actor",
+      "actor_index": 63,
+      "position": [
+        -5552,
+        21776,
+        416
+      ],
+      "role": "northwood_edge",
+      "monster_id": 87,
+      "group": 14,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_01",
+      "kind": "fixed_actor",
+      "actor_index": 64,
+      "position": [
+        -17184,
+        -20192,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 85,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_02",
+      "kind": "fixed_actor",
+      "actor_index": 65,
+      "position": [
+        -16128,
+        -20880,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 86,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_03",
+      "kind": "fixed_actor",
+      "actor_index": 66,
+      "position": [
+        -16528,
+        -21312,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 86,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_04",
+      "kind": "fixed_actor",
+      "actor_index": 67,
+      "position": [
+        -16416,
+        -21056,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 86,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_05",
+      "kind": "fixed_actor",
+      "actor_index": 68,
+      "position": [
+        -17072,
+        -20928,
+        565
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 86,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_06",
+      "kind": "fixed_actor",
+      "actor_index": 69,
+      "position": [
+        -16768,
+        -20112,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 87,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_hollow_07",
+      "kind": "fixed_actor",
+      "actor_index": 70,
+      "position": [
+        -15872,
+        -20816,
+        576
+      ],
+      "role": "southwood_hollow",
+      "monster_id": 87,
+      "group": 15,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_01",
+      "kind": "fixed_actor",
+      "actor_index": 71,
+      "position": [
+        -10256,
+        -18320,
+        313
+      ],
+      "role": "southwood_slope",
+      "monster_id": 85,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_02",
+      "kind": "fixed_actor",
+      "actor_index": 72,
+      "position": [
+        -11680,
+        -18144,
+        360
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_03",
+      "kind": "fixed_actor",
+      "actor_index": 73,
+      "position": [
+        -11392,
+        -18320,
+        353
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_04",
+      "kind": "fixed_actor",
+      "actor_index": 74,
+      "position": [
+        -11456,
+        -17840,
+        327
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_05",
+      "kind": "fixed_actor",
+      "actor_index": 75,
+      "position": [
+        -10864,
+        -18192,
+        312
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_06",
+      "kind": "fixed_actor",
+      "actor_index": 76,
+      "position": [
+        -11168,
+        -18384,
+        343
+      ],
+      "role": "southwood_slope",
+      "monster_id": 86,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_07",
+      "kind": "fixed_actor",
+      "actor_index": 77,
+      "position": [
+        -10208,
+        -17936,
+        287
+      ],
+      "role": "southwood_slope",
+      "monster_id": 87,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_slope_08",
+      "kind": "fixed_actor",
+      "actor_index": 78,
+      "position": [
+        -11696,
+        -17552,
+        324
+      ],
+      "role": "southwood_slope",
+      "monster_id": 87,
+      "group": 16,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_01",
+      "kind": "fixed_actor",
+      "actor_index": 79,
+      "position": [
+        -4128,
+        -22192,
+        288
+      ],
+      "role": "southwood_edge",
+      "monster_id": 85,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_02",
+      "kind": "fixed_actor",
+      "actor_index": 80,
+      "position": [
+        -3920,
+        -21344,
+        320
+      ],
+      "role": "southwood_edge",
+      "monster_id": 86,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_03",
+      "kind": "fixed_actor",
+      "actor_index": 81,
+      "position": [
+        -4752,
+        -21984,
+        299
+      ],
+      "role": "southwood_edge",
+      "monster_id": 86,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_04",
+      "kind": "fixed_actor",
+      "actor_index": 82,
+      "position": [
+        -5024,
+        -21456,
+        320
+      ],
+      "role": "southwood_edge",
+      "monster_id": 86,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_05",
+      "kind": "fixed_actor",
+      "actor_index": 83,
+      "position": [
+        -4448,
+        -22400,
+        288
+      ],
+      "role": "southwood_edge",
+      "monster_id": 87,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "southwood_edge_06",
+      "kind": "fixed_actor",
+      "actor_index": 84,
+      "position": [
+        -4576,
+        -21440,
+        320
+      ],
+      "role": "southwood_edge",
+      "monster_id": 87,
+      "group": 17,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_01",
+      "kind": "fixed_actor",
+      "actor_index": 85,
+      "position": [
+        21344,
+        10384,
+        747
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 100,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_02",
+      "kind": "fixed_actor",
+      "actor_index": 86,
+      "position": [
+        20592,
+        11040,
+        757
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 101,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_03",
+      "kind": "fixed_actor",
+      "actor_index": 87,
+      "position": [
+        21824,
+        9936,
+        754
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 101,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_04",
+      "kind": "fixed_actor",
+      "actor_index": 88,
+      "position": [
+        22400,
+        10032,
+        725
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 101,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_05",
+      "kind": "fixed_actor",
+      "actor_index": 89,
+      "position": [
+        21008,
+        10416,
+        777
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 102,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_ridge_patrol_06",
+      "kind": "fixed_actor",
+      "actor_index": 90,
+      "position": [
+        22176,
+        10064,
+        726
+      ],
+      "role": "east_ridge_patrol",
+      "monster_id": 102,
+      "group": 18,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_01",
+      "kind": "fixed_actor",
+      "actor_index": 91,
+      "position": [
+        22848,
+        -6432,
+        910
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 100,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_02",
+      "kind": "fixed_actor",
+      "actor_index": 92,
+      "position": [
+        23168,
+        -6704,
+        893
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 101,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_03",
+      "kind": "fixed_actor",
+      "actor_index": 93,
+      "position": [
+        23184,
+        -7072,
+        870
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 101,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_04",
+      "kind": "fixed_actor",
+      "actor_index": 94,
+      "position": [
+        22160,
+        -6128,
+        928
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 102,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "east_lowland_patrol_05",
+      "kind": "fixed_actor",
+      "actor_index": 95,
+      "position": [
+        22144,
+        -7520,
+        920
+      ],
+      "role": "east_lowland_patrol",
+      "monster_id": 102,
+      "group": 19,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_01",
+      "kind": "fixed_actor",
+      "actor_index": 96,
+      "position": [
+        16096,
+        -19264,
+        1130
+      ],
+      "role": "den_wolves",
+      "monster_id": 85,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_02",
+      "kind": "fixed_actor",
+      "actor_index": 97,
+      "position": [
+        16256,
+        -18704,
+        1315
+      ],
+      "role": "den_wolves",
+      "monster_id": 86,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_03",
+      "kind": "fixed_actor",
+      "actor_index": 98,
+      "position": [
+        16528,
+        -19424,
+        1100
+      ],
+      "role": "den_wolves",
+      "monster_id": 86,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_04",
+      "kind": "fixed_actor",
+      "actor_index": 99,
+      "position": [
+        16080,
+        -19008,
+        1209
+      ],
+      "role": "den_wolves",
+      "monster_id": 86,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_05",
+      "kind": "fixed_actor",
+      "actor_index": 100,
+      "position": [
+        15728,
+        -19280,
+        1102
+      ],
+      "role": "den_wolves",
+      "monster_id": 87,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "den_wolves_06",
+      "kind": "fixed_actor",
+      "actor_index": 101,
+      "position": [
+        16928,
+        -18560,
+        1350
+      ],
+      "role": "den_wolves",
+      "monster_id": 87,
+      "group": 20,
+      "ally": 0
+    },
+    {
+      "id": "east_mages_01_01",
+      "kind": "fixed_actor",
+      "actor_index": 102,
+      "position": [
+        23376,
+        12256,
+        599
+      ],
+      "role": "east_mages_01",
+      "monster_id": 904,
+      "group": 21,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_01_02",
+      "kind": "fixed_actor",
+      "actor_index": 103,
+      "position": [
+        23280,
+        12864,
+        576
+      ],
+      "role": "east_mages_01",
+      "monster_id": 905,
+      "group": 21,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_01_03",
+      "kind": "fixed_actor",
+      "actor_index": 104,
+      "position": [
+        24208,
+        12736,
+        649
+      ],
+      "role": "east_mages_01",
+      "monster_id": 906,
+      "group": 21,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_02_01",
+      "kind": "fixed_actor",
+      "actor_index": 105,
+      "position": [
+        16752,
+        10192,
+        1170
+      ],
+      "role": "east_mages_02",
+      "monster_id": 904,
+      "group": 22,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_02_02",
+      "kind": "fixed_actor",
+      "actor_index": 106,
+      "position": [
+        17536,
+        10064,
+        1115
+      ],
+      "role": "east_mages_02",
+      "monster_id": 905,
+      "group": 22,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_02_03",
+      "kind": "fixed_actor",
+      "actor_index": 107,
+      "position": [
+        17104,
+        9520,
+        1184
+      ],
+      "role": "east_mages_02",
+      "monster_id": 906,
+      "group": 22,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_03_01",
+      "kind": "fixed_actor",
+      "actor_index": 108,
+      "position": [
+        17216,
+        5264,
+        1475
+      ],
+      "role": "east_mages_03",
+      "monster_id": 904,
+      "group": 23,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_03_02",
+      "kind": "fixed_actor",
+      "actor_index": 109,
+      "position": [
+        16704,
+        5216,
+        1522
+      ],
+      "role": "east_mages_03",
+      "monster_id": 905,
+      "group": 23,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_03_03",
+      "kind": "fixed_actor",
+      "actor_index": 110,
+      "position": [
+        17248,
+        5808,
+        1439
+      ],
+      "role": "east_mages_03",
+      "monster_id": 906,
+      "group": 23,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_04_01",
+      "kind": "fixed_actor",
+      "actor_index": 111,
+      "position": [
+        18048,
+        -2720,
+        1030
+      ],
+      "role": "east_mages_04",
+      "monster_id": 904,
+      "group": 24,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_04_02",
+      "kind": "fixed_actor",
+      "actor_index": 112,
+      "position": [
+        17840,
+        -3328,
+        1034
+      ],
+      "role": "east_mages_04",
+      "monster_id": 905,
+      "group": 24,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_04_03",
+      "kind": "fixed_actor",
+      "actor_index": 113,
+      "position": [
+        17344,
+        -2960,
+        1143
+      ],
+      "role": "east_mages_04",
+      "monster_id": 906,
+      "group": 24,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_05_01",
+      "kind": "fixed_actor",
+      "actor_index": 114,
+      "position": [
+        23472,
+        -2400,
+        1078
+      ],
+      "role": "east_mages_05",
+      "monster_id": 904,
+      "group": 25,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_05_02",
+      "kind": "fixed_actor",
+      "actor_index": 115,
+      "position": [
+        23504,
+        -2736,
+        1082
+      ],
+      "role": "east_mages_05",
+      "monster_id": 905,
+      "group": 25,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_05_03",
+      "kind": "fixed_actor",
+      "actor_index": 116,
+      "position": [
+        23968,
+        -2128,
+        1140
+      ],
+      "role": "east_mages_05",
+      "monster_id": 906,
+      "group": 25,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_06_01",
+      "kind": "fixed_actor",
+      "actor_index": 117,
+      "position": [
+        17536,
+        -8656,
+        1759
+      ],
+      "role": "east_mages_06",
+      "monster_id": 904,
+      "group": 26,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_06_02",
+      "kind": "fixed_actor",
+      "actor_index": 118,
+      "position": [
+        17280,
+        -8608,
+        1792
+      ],
+      "role": "east_mages_06",
+      "monster_id": 905,
+      "group": 26,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_06_03",
+      "kind": "fixed_actor",
+      "actor_index": 119,
+      "position": [
+        17744,
+        -9264,
+        1872
+      ],
+      "role": "east_mages_06",
+      "monster_id": 906,
+      "group": 26,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_07_01",
+      "kind": "fixed_actor",
+      "actor_index": 120,
+      "position": [
+        23168,
+        -11024,
+        808
+      ],
+      "role": "east_mages_07",
+      "monster_id": 904,
+      "group": 27,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_07_02",
+      "kind": "fixed_actor",
+      "actor_index": 121,
+      "position": [
+        23488,
+        -11488,
+        790
+      ],
+      "role": "east_mages_07",
+      "monster_id": 905,
+      "group": 27,
+      "ally": 34
+    },
+    {
+      "id": "east_mages_07_03",
+      "kind": "fixed_actor",
+      "actor_index": 122,
+      "position": [
+        23088,
+        -11584,
+        846
+      ],
+      "role": "east_mages_07",
+      "monster_id": 906,
+      "group": 27,
+      "ally": 34
+    }
+  ],
+  "loose_items": [
+    {
+      "source_id": "mm8:brackenford:east_cache:loose_1",
+      "source_object_index": 0,
+      "source_name": "Champion's Sword",
+      "position": {
+        "x": 21344,
+        "y": 3360,
+        "z": 1098
+      },
+      "kind": "item",
+      "raw_primary_item_id": 5,
+      "item_id": 5,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 5,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    },
+    {
+      "source_id": "mm8:brackenford:east_cache:loose_2",
+      "source_object_index": 1,
+      "source_name": "Banded Plate",
+      "position": {
+        "x": 21504,
+        "y": 3360,
+        "z": 1088
+      },
+      "kind": "item",
+      "raw_primary_item_id": 95,
+      "item_id": 95,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 95,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    },
+    {
+      "source_id": "mm8:brackenford:east_cache:loose_3",
+      "source_object_index": 2,
+      "source_name": "Sun Opal Ring",
+      "position": {
+        "x": 21664,
+        "y": 3360,
+        "z": 1078
+      },
+      "kind": "item",
+      "raw_primary_item_id": 145,
+      "item_id": 145,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 145,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    },
+    {
+      "source_id": "mm8:brackenford:south_cache:loose_1",
+      "source_object_index": 3,
+      "source_name": "Archangel Broadsword",
+      "position": {
+        "x": 10080,
+        "y": -22752,
+        "z": 1116
+      },
+      "kind": "item",
+      "raw_primary_item_id": 15,
+      "item_id": 15,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 15,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    },
+    {
+      "source_id": "mm8:brackenford:south_cache:loose_2",
+      "source_object_index": 4,
+      "source_name": "Regnan Crossbow",
+      "position": {
+        "x": 10240,
+        "y": -22752,
+        "z": 1116
+      },
+      "kind": "item",
+      "raw_primary_item_id": 65,
+      "item_id": 65,
+      "on_pickup_event": "",
+      "consume_on_success": true,
+      "grant_items": [
+        {
+          "raw_mm9_item_id": 0,
+          "item_id": 65,
+          "quantity": 1
+        }
+      ],
+      "required_qbits": [],
+      "forbidden_qbits": [],
+      "required_items": [],
+      "forbidden_items": [],
+      "take_items": [],
+      "set_qbits": [],
+      "clear_qbits": [],
+      "random_item_pool": []
+    }
+  ],
+  "terrain": {
+    "width": 128,
+    "spacing": 512,
+    "height_quantum": 32,
+    "height_range": [
+      160,
+      4480
+    ],
+    "native_tile_ids": [
+      1,
+      2,
+      4,
+      90,
+      92,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      126,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      162,
+      174,
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      212,
+      217,
+      218
+    ],
+    "bridge_deck_z": 1152,
+    "water_z": 256,
+    "ponds": [
+      {
+        "id": "north_meadow_pond",
+        "xy": [
+          -512,
+          17920
+        ],
+        "radii": [
+          1408,
+          1024
+        ],
+        "water_z": 512,
+        "role": "quiet irregular grassland pond below northern ridge"
+      }
+    ]
+  },
+  "decorations": {
+    "source": "lg01.decorations.json",
+    "counts": {
+      "trees": 487,
+      "plants": 416,
+      "rocks": 239,
+      "props": 18,
+      "lights": 6
+    },
+    "representation": "native ODM entities; Blender billboards are previews only"
+  }
+}

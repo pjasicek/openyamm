@@ -1,0 +1,116 @@
+# APPROVED VISUAL DESIGN / RUNTIME DRAFT. Not mounted. See staging/INTEGRATION.md.
+# Keep existing IDs, actions and dynamic content. New bindings are explicitly noted.
+screen: CharacterDetail
+elements:
+- id: CharacterDetailRoot
+  anchor: top_left
+  width: 330
+  height: 210
+  z_index: 526
+  visible: false
+  asset:
+    default: obsidian_reading_surface
+  children:
+  - id: CharacterDetailTitle
+    anchor: top_center
+    offset_x: 0
+    offset_y: 12
+    width: 220
+    height: 22
+    text:
+      value: '{title}'
+      font: Create
+      color: '#e4c793'
+      align_x: center
+      align_y: middle
+  - id: CharacterDetailBody
+    anchor: top_left
+    offset_x: 18
+    offset_y: 40
+    width: 294
+    height: 146
+    text:
+      value: '{body}'
+      font: Create
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: CharacterDetailCorner_UR
+    anchor: top_right
+    offset_x: 0
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    asset:
+      default: obsidian_frame_tr
+    offset_y: 0
+  - id: CharacterDetailCorner_UL
+    anchor: top_left
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    asset:
+      default: obsidian_frame_tl
+    offset_x: 0
+    offset_y: 0
+  - id: CharacterDetailCorner_LR
+    anchor: bottom_right
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    offset_x: 0
+    offset_y: 0
+    asset:
+      default: obsidian_frame_br
+  - id: CharacterDetailCorner_LL
+    anchor: bottom_left
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    offset_y: 0
+    asset:
+      default: obsidian_frame_bl
+    offset_x: 0
+  - id: CharacterDetailCorner_TopEdge
+    anchor: top_left
+    width: 268.133333
+    height: 30.933333
+    z_index: 570
+    asset:
+      default: obsidian_frame_top
+    offset_x: 30.933333
+    offset_y: 0
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: CharacterDetailCorner_BottomEdge
+    anchor: bottom_left
+    offset_y: 0
+    width: 268.133333
+    height: 30.933333
+    z_index: 570
+    asset:
+      default: obsidian_frame_bottom
+    offset_x: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: CharacterDetailCorner_LeftEdge
+    anchor: top_left
+    width: 30.933333
+    height: 148.133333
+    z_index: 570
+    asset:
+      default: obsidian_frame_left
+    offset_x: 0
+    offset_y: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: CharacterDetailCorner_RightEdge
+    anchor: top_right
+    offset_x: 0
+    width: 30.933333
+    height: 148.133333
+    z_index: 570
+    asset:
+      default: obsidian_frame_right
+    offset_y: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  notes: Approved r03 skin draft. Surface must be sampled/cropped at fixed scale and inset 8.533333 logical units;
+    do not stretch this texture. Frame edges repeat, with a clipped final tile. Dynamic height remains runtime-owned.
+    See design/frame.yml.

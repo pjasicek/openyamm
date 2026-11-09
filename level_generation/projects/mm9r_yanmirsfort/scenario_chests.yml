@@ -1,0 +1,183 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.yanmirsfort_chests
+title: Yanmir's Fort (native BLV) - the eleven MM9 treasure chests open
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: yanmirsfort.blv
+- note:
+    text: The secret wall is opened first (the treasury beyond it).
+- execute_event:
+    id: 210
+- advance_runtime:
+    seconds: 6
+- set_pose:
+    map: yanmirsfort.blv
+    x: 19539
+    y: -13571
+    z: 1
+    yaw: -1.5778
+    pitch: -0.8764
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: -4055
+    y: 2184
+    z: 1
+    yaw: 1.5708
+    pitch: -0.8838
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: 3878
+    y: -20973
+    z: -40
+    yaw: 3.1329
+    pitch: -0.8766
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: 3878
+    y: -21300
+    z: -40
+    yaw: 3.1329
+    pitch: -0.8766
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: 3878
+    y: -21628
+    z: -40
+    yaw: 3.1329
+    pitch: -0.8766
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: 5297
+    y: -20972
+    z: -40
+    yaw: -0.0017
+    pitch: -0.8766
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: 5297
+    y: -20480
+    z: -40
+    yaw: -0.0017
+    pitch: -0.8766
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: 536
+    y: 8934
+    z: 656
+    yaw: 0.7854
+    pitch: -0.8873
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 7
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: -6034
+    y: 5530
+    z: 656
+    yaw: 3.1398
+    pitch: -0.8811
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 8
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: -9546
+    y: 3277
+    z: 656
+    yaw: 3.1416
+    pitch: -0.8815
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 9
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: yanmirsfort.blv
+    x: -6034
+    y: 6922
+    z: 656
+    yaw: 3.1398
+    pitch: -0.8811
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 10
+- press_action:
+    action: cancel_dialog

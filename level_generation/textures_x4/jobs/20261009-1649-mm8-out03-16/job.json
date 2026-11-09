@@ -1,0 +1,781 @@
+{
+ "id": "20261009-1649-mm8-out03-16",
+ "world": "mm8",
+ "maps": [
+  "out03.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t05a01b",
+  "mm8/t05c12a",
+  "mm8/t05a12h",
+  "mm8/t05a12g",
+  "mm8/t05c04c",
+  "mm8/t05a04",
+  "mm8/t05c12b",
+  "mm8/t05a12d",
+  "mm8/t05a07a",
+  "mm8/t05a06a",
+  "mm8/t05a07b",
+  "mm8/t05a06b",
+  "mm8/t05a03",
+  "mm8/t05b03",
+  "mm8/t05c07b",
+  "mm8/t05a07d",
+  "mm8/t05a01f",
+  "mm8/t05a04c",
+  "mm8/t05b12a",
+  "mm8/gwspotwl",
+  "mm8/gwspout",
+  "mm8/t01a11a",
+  "mm8/t05a03c",
+  "mm8/t05a03d"
+ ],
+ "requests": {
+  "mm8/t05a01b": {
+   "name": "t05a01b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a pale carved stone emblem of a winged diamond crest below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.819
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05c01"
+     ],
+     "fraction": 0.843
+    }
+   }
+  },
+  "mm8/t05c12a": {
+   "name": "t05c12a",
+   "versions": [],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a pale carved stone emblem of a winged diamond crest below, above a base of dark brown stone bricks",
+   "notes": {}
+  },
+  "mm8/t05a12h": {
+   "name": "t05a12h",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a large pale orange stylised flame or phoenix wing emblem painted in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.489
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05c01"
+     ],
+     "fraction": 0.525
+    }
+   }
+  },
+  "mm8/t05a12g": {
+   "name": "t05a12g",
+   "versions": [],
+   "material": "smooth reddish-brown adobe plaster wall with a large pale orange stylised flame or phoenix wing emblem painted in the centre",
+   "notes": {}
+  },
+  "mm8/t05c04c": {
+   "name": "t05c04c",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a tall gothic double lancet window of glowing yellow leaded glass in a dark stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05c01"
+     ],
+     "fraction": 0.441
+    }
+   }
+  },
+  "mm8/t05a04": {
+   "name": "t05a04",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a tall gothic double lancet window of glowing yellow leaded glass in a dark stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05c04c",
+      "mm8/t05b01c"
+     ],
+     "fraction": 0.978
+    }
+   }
+  },
+  "mm8/t05c12b": {
+   "name": "t05c12b",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a small barred iron grate in a dark stone frame near the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05c01"
+     ],
+     "fraction": 0.719
+    }
+   }
+  },
+  "mm8/t05a12d": {
+   "name": "t05a12d",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a small barred iron grate in a dark stone frame near the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05c12b",
+      "mm8/t05a01"
+     ],
+     "fraction": 0.97
+    }
+   }
+  },
+  "mm8/t05a07a": {
+   "name": "t05a07a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a jagged edge of exposed dark brown bricks along one side and a dark stone pilaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a07c",
+      "mm8/t05a01"
+     ],
+     "fraction": 0.945
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a07c",
+      "mm8/t05a01"
+     ],
+     "fraction": 0.945
+    }
+   }
+  },
+  "mm8/t05a06a": {
+   "name": "t05a06a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "dark brown stone bricks in staggered courses with dark mortar beside a dark stone pilaster, under a row of coping blocks",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.94
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.94
+    },
+    "3": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07a"
+     ],
+     "fraction": 0.926
+    },
+    "4": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07a"
+     ],
+     "fraction": 0.926
+    },
+    "5": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07a"
+     ],
+     "fraction": 0.926
+    },
+    "6": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07a"
+     ],
+     "fraction": 0.926
+    },
+    "7": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07a"
+     ],
+     "fraction": 0.926
+    },
+    "8": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07a"
+     ],
+     "fraction": 0.926
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t05a04a",
+     "bottom": "mm8/t05fstep",
+     "left": "mm8/t05a07a"
+    },
+    "4": {
+     "right": "mm8/t05a04a",
+     "bottom": "mm8/t05fstep",
+     "left": "mm8/t05a07a"
+    },
+    "5": {
+     "right": "mm8/t05a04a",
+     "bottom": "mm8/t05fstep",
+     "left": "mm8/t05a07a"
+    },
+    "6": {
+     "right": "mm8/t05a04a",
+     "bottom": "mm8/t05fstep",
+     "left": "mm8/t05a07a"
+    },
+    "7": {
+     "right": "mm8/t05a04a",
+     "bottom": "mm8/t05fstep",
+     "left": "mm8/t05a07a"
+    },
+    "8": {
+     "right": "mm8/t05a04a",
+     "bottom": "mm8/t05fstep",
+     "left": "mm8/t05a07a"
+    }
+   }
+  },
+  "mm8/t05a07b": {
+   "name": "t05a07b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a jagged edge of exposed dark brown bricks along one side and a dark stone pilaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05b07b",
+      "mm8/t05a01"
+     ],
+     "fraction": 0.945
+    },
+    "2": {
+     "sources": [
+      "mm8/t05b07b",
+      "mm8/t05a01"
+     ],
+     "fraction": 0.943
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t05a07a",
+     "bottom": "mm8/t05fstep",
+     "right": "mm8/t05a01c"
+    }
+   }
+  },
+  "mm8/t05a06b": {
+   "name": "t05a06b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "dark brown stone bricks in staggered courses with dark mortar beside a dark stone pilaster, under a row of coping blocks",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05b07b"
+     ],
+     "fraction": 0.909
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07b"
+     ],
+     "fraction": 0.894
+    },
+    "3": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07b"
+     ],
+     "fraction": 0.894
+    },
+    "4": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07b"
+     ],
+     "fraction": 0.894
+    },
+    "5": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07b"
+     ],
+     "fraction": 0.894
+    },
+    "6": {
+     "sources": [
+      "mm8/t05a01c",
+      "mm8/t05a07b"
+     ],
+     "fraction": 0.894
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t05a04a",
+     "right": "mm8/t05a07b",
+     "bottom": "mm8/t05fstep"
+    },
+    "3": {
+     "left": "mm8/t05a04a",
+     "right": "mm8/t05a07b",
+     "bottom": "mm8/t05fstep"
+    },
+    "4": {
+     "left": "mm8/t05a04a",
+     "right": "mm8/t05a07b",
+     "bottom": "mm8/t05fstep"
+    },
+    "5": {
+     "left": "mm8/t05a04a",
+     "right": "mm8/t05a07b",
+     "bottom": "mm8/t05fstep"
+    },
+    "6": {
+     "left": "mm8/t05a04a",
+     "right": "mm8/t05a07b",
+     "bottom": "mm8/t05fstep"
+    }
+   }
+  },
+  "mm8/t05a03": {
+   "name": "t05a03",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with an arched carved oak door with a dark iron ring knocker inside a frame of rounded stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t05a07a",
+     "right": "mm8/t05a07b"
+    }
+   }
+  },
+  "mm8/t05b03": {
+   "name": "t05b03",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with an arched carved oak door with a dark iron ring knocker inside a frame of rounded stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a03"
+     ],
+     "fraction": 0.895
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a03"
+     ],
+     "fraction": 0.895
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t05a01c",
+     "left": "mm8/t05a07d",
+     "right": "mm8/t05c04c"
+    }
+   }
+  },
+  "mm8/t05c07b": {
+   "name": "t05c07b",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a jagged edge of exposed dark brown bricks along one side, above a base of dark brown stone bricks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05b07b",
+      "mm8/t05c01"
+     ],
+     "fraction": 0.843
+    }
+   }
+  },
+  "mm8/t05a07d": {
+   "name": "t05a07d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a jagged edge of exposed dark brown bricks along one side and a dark stone pilaster",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.79
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.79
+    },
+    "3": {
+     "sources": [
+      "mm8/t05a07c",
+      "mm8/t05c01"
+     ],
+     "fraction": 0.815
+    }
+   }
+  },
+  "mm8/t05a01f": {
+   "name": "t05a01f",
+   "versions": [
+    1
+   ],
+   "material": "dark brown stone bricks in staggered courses with dark mortar under a row of dark stone coping blocks, above a darker brick base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01c"
+     ],
+     "fraction": 0.652
+    }
+   }
+  },
+  "mm8/t05a04c": {
+   "name": "t05a04c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall with a small window of yellow-green leaded glass in a frame of rounded stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01"
+     ],
+     "fraction": 0.59
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a01"
+     ],
+     "fraction": 0.59
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t05a07b",
+     "left": "mm8/t05a07a",
+     "bottom": "mm8/t05fstep"
+    }
+   }
+  },
+  "mm8/t05b12a": {
+   "name": "t05b12a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a vertical carved wooden post inlaid with dark runic glyphs",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.525
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.525
+    },
+    "3": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05c01"
+     ],
+     "fraction": 0.554
+    }
+   }
+  },
+  "mm8/gwspotwl": {
+   "name": "gwspotwl",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-blue weathered rock with fine pitted crust",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gwspout": {
+   "name": "gwspout",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-blue weathered rock with a dark hexagonal opening in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gwspotwl"
+     ],
+     "fraction": 0.204
+    }
+   }
+  },
+  "mm8/t01a11a": {
+   "name": "t01a11a",
+   "versions": [
+    1
+   ],
+   "material": "small carved stone spiral emblem tile",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t05a03c": {
+   "name": "t05a03c",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown plank door with ornate curling golden brass hinges and two lion-head ring knockers, in a carved wooden frame under coping blocks",
+   "notes": {}
+  },
+  "mm8/t05a03d": {
+   "name": "t05a03d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark reddish-brown plank door with ornate curling golden brass hinges, a lion-head ring knocker and a small lock plate, in a carved wooden frame under coping blocks",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/t05a07d",
+     "right": "mm8/t05c01"
+    },
+    "3": {
+     "left": "mm8/t05a07d",
+     "right": "mm8/t05c01"
+    }
+   }
+  }
+ }
+}

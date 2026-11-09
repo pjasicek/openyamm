@@ -1,0 +1,46 @@
+# The converted MM9 chests open from in front of their models. Written by make_chests_scenario.py.
+id: mm9r.isleofashes.chests
+world: mm9
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: isleofashes.odm
+- set_pose:
+    map: isleofashes.odm
+    x: -5451
+    y: -17154
+    z: 853
+    yaw: 1.5708
+    pitch: -0.9094
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: isleofashes.odm
+    x: -14074
+    y: 2389
+    z: 38
+    yaw: 1.5708
+    pitch: -0.8374
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: isleofashes.odm
+    x: -721
+    y: 4724
+    z: 0
+    yaw: 1.5708
+    pitch: -0.8311
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog

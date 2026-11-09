@@ -1,0 +1,13 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT TARGET is image 1, the exact RIGHT orthographic grey mesh guide of Lucky Hat. Image 2 supplies only the navy-blue velvet, crimson feather and dull gold brim-band colours. Preserve image 1's 1024x1024 square framing and EVERY silhouette, object pixel position, scale, width, folds, feather shape and band edge EXACTLY. Paint navy velvet on hat body, crimson on existing feather geometry, dull gold on existing brim-band. No shape expansion, reconstruction or new feather volume. All existing grey surfaces opaque. Flat even shadowless base colour, subtle fine velvet/feather grain; no AO, directional shadows, specular highlights or light falloff. Background fully transparent, no halo/glow/vignette/haze/floor/text. Output ONE square 1024x1024 image matching image 1 exactly. Texture projection source, not a new illustration.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-84ec9ae9-67bf-41fb-9a1f-c784128c7dd2.png",
+  "raw_output": "paint_right_finish_v1.png",
+  "output_sha256": "8ab1cf3ee30cac49fc73eaa9a1b3800ba1b1e4d3e9ae3835686cdeeb1bca2db1",
+  "input_guide": "guide_right.png",
+  "input_guide_sha256": "dd6ed608806414719da7f44770f8a5813d04217b3b1ee4491a98c6dcbcf83413",
+  "colour_reference": "paint_left_finish_v1.png",
+  "colour_reference_sha256": "0245f987f8ffddab5be0ee2578c48a51ee11dcc0237336b6a006f168f9084741",
+  "selected": false,
+  "reason": "Superseded by later corrected view"
+}

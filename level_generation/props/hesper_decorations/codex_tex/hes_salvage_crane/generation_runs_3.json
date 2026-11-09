@@ -1,0 +1,179 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated raw returns; strict acceptance checks failed. No resizing, masking or postprocessing applied.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Edit the first input image, guide_left.png, into a painted texture-source view. Second input, design_reference.png, is ONLY the material and colour authority.\nReturn exactly one 1024 x 1024 PNG with genuine transparent background. Preserve the FIRST image's exact orthographic camera, silhouette, pixel size, position, every shape edge, opening, overlap and detail. The narrow end-on view is intentional: the boom points away from the viewer and must remain foreshortened/occluded exactly as in the grey guide. Do not rotate into the reference's three-quarter view, expand the boom sideways, recenter, enlarge, crop, add geometry or invent openings. Paint only existing surfaces.\nTransfer the approved Kreegan scrapyard crane materials: weathered white ceramic and steel lattice, gold joints and structural bands, rust and scratches, glossy black-violet resin with orange glowing veins, dark steel chain and claw where visible. Follow the guide's actual resin lumps and structural shapes. Keep resin dark violet-black with orange seams, ceramic ivory-white and metal joints gold.\nLIGHTING: albedo texture source. Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. Represent glossy resin through its material colour and restrained surface detail, not reflective lighting. Orange veins are painted saturated orange, no bloom or light spill. Preserve all transparent pixels and internal gaps of the guide exactly. No text. Unresized 1024 x 1024 return.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d97-d0eb-7261-9b71-5f4615e3ecdd/exec-51c88953-3ca1-4705-9b93-9df5d1a4977b.png",
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by correction; guide brace arrangement drifted and strong shading remains.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_crane/guide_left.png",
+          "sha256": "c876f614469b96f3704200e602d836c8f79d83ef1d49c0530f082ca8f411db14"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_crane/design_reference.png",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "output_sha256": "b0e222b25ca152728781188b6a76b08e03ff096c2b1de264fbc3b08dc2e38aad",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          35,
+          1178,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Main white, gold, dark resin and orange palette matches visually.",
+        "flat_even_light": false,
+        "visual_notes": "Visible metallic highlights and dark crevice shading; shapes and internal edges differ from guide."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit the first input image, guide_left.png, into a painted texture-source view. Second input, design_reference.png, is ONLY the material and colour authority.\nReturn exactly one 1024 x 1024 PNG with genuine transparent background. Preserve the FIRST image's exact orthographic camera, silhouette, pixel size, position, every shape edge, opening, overlap and detail. The narrow end-on view is intentional: the boom points away from the viewer and must remain foreshortened/occluded exactly as in the grey guide. Do not rotate into the reference's three-quarter view, expand the boom sideways, recenter, enlarge, crop, add geometry or invent openings. Paint only existing surfaces.\nTransfer the approved Kreegan scrapyard crane materials: weathered white ceramic and steel lattice, gold joints and structural bands, rust and scratches, glossy black-violet resin with orange glowing veins, dark steel chain and claw where visible. Follow the guide's actual resin lumps and structural shapes. Keep resin dark violet-black with orange seams, ceramic ivory-white and metal joints gold.\nLIGHTING: albedo texture source. Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. Represent glossy resin through its material colour and restrained surface detail, not reflective lighting. Orange veins are painted saturated orange, no bloom or light spill. Preserve all transparent pixels and internal gaps of the guide exactly. No text. Unresized 1024 x 1024 return.\nCORRECTION \u2014 mandatory output resolution is 1024 by 1024 pixels, not 1254. Work as a strict surface-colour edit of the first grey guide, with its existing alpha mask unchanged. At 1024 resolution the entire nontransparent object occupies x=360..663, y=152..870. Keep that precise bounding box, narrow silhouette and generous transparent margins. Do not render a newly modelled crane. Do not change lattice braces or replace the large existing resin shapes. Remove baked shadows and bright metallic reflections: all surface colour must be flat evenly exposed albedo.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d97-d0eb-7261-9b71-5f4615e3ecdd/exec-49b72587-e6d3-48d9-b20a-0f99e547d756.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Closest left return within one-correction limit; retained unresized. Not compliant with exact guide geometry, dimensions or flat albedo lighting.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_crane/guide_left.png",
+          "sha256": "c876f614469b96f3704200e602d836c8f79d83ef1d49c0530f082ca8f411db14"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_crane/design_reference.png",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "output_sha256": "8d2c04034447b109e7653185f9e526b30487afd6d289d6595379be30e5284205",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          21,
+          17,
+          1234,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Main white, gold, dark resin and orange palette matches visually.",
+        "flat_even_light": false,
+        "visual_notes": "Visible metallic highlights and dark crevice shading; shapes and internal edges differ from guide."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Edit the first input image, guide_right.png, into a painted texture-source view. Second input, design_reference.png, is ONLY the material and colour authority.\nReturn exactly one 1024 x 1024 PNG with genuine transparent background. Preserve the FIRST image's exact orthographic camera, silhouette, pixel size, position, every shape edge, opening, overlap and detail. The narrow end-on view is intentional: the boom points toward the viewer; its end pulley, hanging chain, claw and carried slab overlap the tower and must remain foreshortened/occluded exactly as in the grey guide. Do not rotate into the reference's three-quarter view, expand the boom sideways, recenter, enlarge, crop, add geometry or invent openings. Paint only existing surfaces.\nTransfer the approved Kreegan scrapyard crane materials: weathered white ceramic and steel lattice, gold joints and structural bands, rust and scratches, glossy black-violet resin with orange glowing veins, dark steel chain and claw where visible. Follow the guide's actual resin lumps and structural shapes. Keep resin dark violet-black with orange seams, ceramic ivory-white and metal joints gold.\nLIGHTING: albedo texture source. Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. Represent glossy resin through its material colour and restrained surface detail, not reflective lighting. Orange veins are painted saturated orange, no bloom or light spill. Preserve all transparent pixels and internal gaps of the guide exactly. No text. Unresized 1024 x 1024 return.\nStrict pixel registration: the original guide is 1024 x 1024; preserve its original alpha mask and canvas dimensions. Object bounds x=360..663, y=152..870. All surrounding space is transparent. Recolour its existing shapes without redrawing the geometry.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d97-d0eb-7261-9b71-5f4615e3ecdd/exec-ce2d8caf-a7d4-44c8-b064-207ad2441a6b.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Initial return better retains broad carried-slab shape than correction. Retained unresized; not compliant with exact guide geometry, dimensions or flat albedo lighting.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_crane/guide_right.png",
+          "sha256": "b761c5fe487f85fa28d1b2a535f71140d3d59fac0bb35d0132d3c620d346b4ca"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_crane/design_reference.png",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "output_sha256": "fa3a2ba7cf166009de6e6f7c1ce91b136de90c8293bc2a8824fd9c842f54412e",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          29,
+          1240,
+          1238
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Main white, gold, dark resin and orange palette matches visually.",
+        "flat_even_light": false,
+        "visual_notes": "Visible metallic highlights and dark crevice shading; shapes and internal edges differ from guide."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Edit the first input image, guide_right.png, into a painted texture-source view. Second input, design_reference.png, is ONLY the material and colour authority.\nReturn exactly one 1024 x 1024 PNG with genuine transparent background. Preserve the FIRST image's exact orthographic camera, silhouette, pixel size, position, every shape edge, opening, overlap and detail. The narrow end-on view is intentional: the boom points toward the viewer; its end pulley, hanging chain, claw and carried slab overlap the tower and must remain foreshortened/occluded exactly as in the grey guide. Do not rotate into the reference's three-quarter view, expand the boom sideways, recenter, enlarge, crop, add geometry or invent openings. Paint only existing surfaces.\nTransfer the approved Kreegan scrapyard crane materials: weathered white ceramic and steel lattice, gold joints and structural bands, rust and scratches, glossy black-violet resin with orange glowing veins, dark steel chain and claw where visible. Follow the guide's actual resin lumps and structural shapes. Keep resin dark violet-black with orange seams, ceramic ivory-white and metal joints gold.\nLIGHTING: albedo texture source. Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. Represent glossy resin through its material colour and restrained surface detail, not reflective lighting. Orange veins are painted saturated orange, no bloom or light spill. Preserve all transparent pixels and internal gaps of the guide exactly. No text. Unresized 1024 x 1024 return.\nStrict pixel registration: the original guide is 1024 x 1024; preserve its original alpha mask and canvas dimensions. Object bounds x=360..663, y=152..870. All surrounding space is transparent. Recolour its existing shapes without redrawing the geometry.\nCORRECTIVE REGENERATION: exact 1024x1024 output required. Treat image 1 as a locked pixel stencil, only replace its grey surface colours. Do not replace angular resin masses with new shapes. Keep the carried slab's jagged guide outline and angle, claw shape, and all tower braces exactly. The existing geometry is authoritative even when it is simpler than the material reference. Use diffuse base colour only, no shiny gold reflections, black occlusion shading, cast shadows or luminous halo. Preserve the original guide alpha exactly.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d97-d0eb-7261-9b71-5f4615e3ecdd/exec-8b540a3b-38cf-4902-90aa-b220cd84baef.png",
+      "output": "paint_right_attempt_2.png",
+      "selected": false,
+      "reason": "Correction reshapes slab and pulley further and retains strong shading; no further regeneration permitted.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_crane/guide_right.png",
+          "sha256": "b761c5fe487f85fa28d1b2a535f71140d3d59fac0bb35d0132d3c620d346b4ca"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_salvage_crane/design_reference.png",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "output_sha256": "05a31a4060ac0094f0c1ed308fa53981f4cf5f5d89805b2b4ab4b40b12b9f83d",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          45,
+          1234,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Main white, gold, dark resin and orange palette matches visually.",
+        "flat_even_light": false,
+        "visual_notes": "Visible metallic highlights and dark crevice shading; shapes and internal edges differ from guide."
+      }
+    }
+  ]
+}

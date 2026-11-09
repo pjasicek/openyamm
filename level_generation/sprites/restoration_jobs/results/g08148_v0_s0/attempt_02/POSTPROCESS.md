@@ -1,0 +1,1 @@
+Legacy cyan master retained. Default registration; save ungraded finals as .before_tone.png, run restore_native_tone.py for separate foliage/bark RGB matching, then queue.py check. Alpha preserved. Refresh backups after re-registration.

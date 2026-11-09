@@ -1,0 +1,470 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized": true,
+  "status": "generated_with_known_deviations",
+  "selection_note": "Selected means the retained return for this view, not full acceptance against the brief. Exactly one corrective generation was used per view. No returned image was resized, masked, retouched or otherwise modified.",
+  "verification_note": "Normalized silhouette IoU is a read-only comparison at corresponding normalized canvas coordinates, thresholding alpha at 128; output image bytes remain untouched. It is not proof of exact silhouette registration.",
+  "remaining_deviations": [
+    "All returned images are 1254x1254, retained unresized as instructed for unexpected tool sizes.",
+    "None has pixel-identical guide alpha or exact part-edge registration.",
+    "Flat albedo is incomplete: residual edge highlights and recess shading remain, strongest on front and back."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for an existing 3D game item, hes_kreegan_gland.\nPaint directly over input image 1 (the named white model guide), changing ONLY its surface colours/material detail. Input image 2 is design_reference.png, the approved colour/material authority, NOT a camera or composition reference.\nThe guide is an immutable pixel-registration template. Preserve EXACTLY its 1024 x 1024 canvas, alpha silhouette, object size and position, projection, every protrusion, contour, hole, overlap and every part edge. Retain the angular geometry shown, without smoothing, rounding, enlarging, redesigning, rotating or moving anything. Do not reproduce the reference's diagonal hero composition. Keep every transparent pixel outside the guide transparent. Output ONE 1024 x 1024 RGBA PNG with genuine transparency, no checkerboard, no labels, no text or letters, no border.\nItem: a relic implant grown from a Brood Mother's gland. Follow the reference's dark black-violet chitin/resin casing, burgundy organic membranes and vein ridges, bright ember orange gland under those veins, worn ivory-white ceramic fittings and muted brushed-gold bands/struts. Only materials actually shown in the reference; do not invent blue light, leather, cloth, paper or extra components. Fine resin mottling, membrane pores, restrained ceramic wear, delicate engraved seams and panel joins should be surface-colour detail within the guide's existing parts. Unseen surfaces continue the reference's materials plausibly.\nCRITICAL LIGHTING: this is a BASE-COLOUR/ALBEDO painting, not a beauty render. Flat uniform shadowless illumination from the viewer across all surfaces. NO cast shadows, NO ambient occlusion darkening, NO directional shading, NO glossy white hotspots, NO reflections or rim light. Gold is an ochre-gold base colour with at most faint sheen. Dark resin stays violet-black by its material colour, not lighting. Orange glow is painted bright orange/yellow-orange colour, with NO bloom or light spill. No background or floor.\nVIEW-SPECIFIC MAPPING: FRONT view: retain the compact foreshortened upright outline and all generous empty margins of guide_front.png. Its silhouette bounding box is x=241..782, y=207..816. The large existing upper-central oval is the orange gland with burgundy membrane veins; the lower-front protruding nozzle is ivory ceramic with gold collar and trim. The surrounding shell/ridges are black-violet organic resin. Keep the nozzle and every rim exactly at the guide's positions.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "972968fba86a6a36fee32a1c3af3327aa137845fa7b90dd970454afef10873d6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "First return was 1254x1254 instead of 1024x1024, with strong highlights and shaded recesses. One corrective regeneration requested.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-93b83dab-aec8-44d3-bc52-c592bfac555c.png",
+      "output_sha256": "a58fe5db798abe51167b7d78d98fe10456cade8e9a83e83bd37da712507ed37a",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.7544959796911447,
+        "opaque_silhouette_bbox": [
+          289,
+          242,
+          968,
+          1005
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.952056286917491,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "First return was 1254x1254 instead of 1024x1024, with strong highlights and shaded recesses. One corrective regeneration requested."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for an existing 3D game item, hes_kreegan_gland.\nInput image 1 is design_reference.png: use ONLY its material colours, NOT its lighting, composition, scale or 1254x1254 dimensions. Input image 2 is the 1024x1024 white model guide, the EDIT TARGET. Paint directly over this SECOND image, changing ONLY surface colours/material detail. Use the SECOND image's exact 1024x1024 canvas and alpha mask.\nThe guide is an immutable pixel-registration template. Preserve EXACTLY its 1024 x 1024 canvas, alpha silhouette, object size and position, projection, every protrusion, contour, hole, overlap and every part edge. Retain the angular geometry shown, without smoothing, rounding, enlarging, redesigning, rotating or moving anything. Do not reproduce the reference's diagonal hero composition. Keep every transparent pixel outside the guide transparent. Output ONE 1024 x 1024 RGBA PNG with genuine transparency, no checkerboard, no labels, no text or letters, no border.\nItem: a relic implant grown from a Brood Mother's gland. Follow the reference's dark black-violet chitin/resin casing, burgundy organic membranes and vein ridges, bright ember orange gland under those veins, worn ivory-white ceramic fittings and muted brushed-gold bands/struts. Only materials actually shown in the reference; do not invent blue light, leather, cloth, paper or extra components. Fine resin mottling, membrane pores, restrained ceramic wear, delicate engraved seams and panel joins should be surface-colour detail within the guide's existing parts. Unseen surfaces continue the reference's materials plausibly.\nCRITICAL LIGHTING: this is a BASE-COLOUR/ALBEDO painting, not a beauty render. Flat uniform shadowless illumination from the viewer across all surfaces. NO cast shadows, NO ambient occlusion darkening, NO directional shading, NO glossy white hotspots, NO reflections or rim light. Gold is an ochre-gold base colour with at most faint sheen. Dark resin stays violet-black by its material colour, not lighting. Orange glow is painted bright orange/yellow-orange colour, with NO bloom or light spill. No background or floor.\nVIEW-SPECIFIC MAPPING: FRONT view: retain the compact foreshortened upright outline and all generous empty margins of guide_front.png. Its silhouette bounding box is x=241..782, y=207..816. The large existing upper-central oval is the orange gland with burgundy membrane veins; the lower-front protruding nozzle is ivory ceramic with gold collar and trim. The surrounding shell/ridges are black-violet organic resin. Keep the nozzle and every rim exactly at the guide's positions.\nCORRECTIVE GENERATION, final allowed attempt for this view: enforce 1024x1024, matching input 2 rather than input 1. Replace photographic rendering with evenly coloured matte albedo. Eliminate the reference's glossy spots, dark crevice shadowing and light gradients. Exact pixel registration and flat colour take precedence over a dramatic presentation. Retain fine coloured surface patterns without lighting baked in.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "972968fba86a6a36fee32a1c3af3327aa137845fa7b90dd970454afef10873d6"
+        }
+      ],
+      "output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-8802fc3d-0e72-4d33-8744-1701eae839ac.png",
+      "selected": true,
+      "reason": "Corrective return selected for closer ceramic/gold material layout and somewhat reduced highlights. Raw tool output retained; exact silhouette and perfectly flat albedo are not achieved.",
+      "output_sha256": "213fa3c6da91a86a4a723da408a9d32b161f09a84b823c21ce686b84b5154811",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.7611286626018432,
+        "opaque_silhouette_bbox": [
+          293,
+          252,
+          965,
+          1000
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.9809285883399871,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Corrective return selected for closer ceramic/gold material layout and somewhat reduced highlights. Raw tool output retained; exact silhouette and perfectly flat albedo are not achieved."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for an existing 3D game item, hes_kreegan_gland.\nInput image 1 is design_reference.png: use ONLY its material colours, NOT its lighting, composition, scale or 1254x1254 dimensions. Input image 2 is the 1024x1024 white model guide, the EDIT TARGET. Paint directly over this SECOND image, changing ONLY surface colours/material detail. Use the SECOND image's exact 1024x1024 canvas and alpha mask.\nThe guide is an immutable pixel-registration template. Preserve EXACTLY its 1024 x 1024 canvas, alpha silhouette, object size and position, projection, every protrusion, contour, hole, overlap and every part edge. Retain the angular geometry shown, without smoothing, rounding, enlarging, redesigning, rotating or moving anything. Do not reproduce the reference's diagonal hero composition. Keep every transparent pixel outside the guide transparent. Output ONE 1024 x 1024 RGBA PNG with genuine transparency, no checkerboard, no labels, no text or letters, no border.\nItem: a relic implant grown from a Brood Mother's gland. Follow the reference's dark black-violet chitin/resin casing, burgundy organic membranes and vein ridges, bright ember orange gland under those veins, worn ivory-white ceramic fittings and muted brushed-gold bands/struts. Only materials actually shown in the reference; do not invent blue light, leather, cloth, paper or extra components. Fine resin mottling, membrane pores, restrained ceramic wear, delicate engraved seams and panel joins should be surface-colour detail within the guide's existing parts. Unseen surfaces continue the reference's materials plausibly.\nCRITICAL LIGHTING: this is a BASE-COLOUR/ALBEDO painting, not a beauty render. Flat uniform shadowless illumination from the viewer across all surfaces. NO cast shadows, NO ambient occlusion darkening, NO directional shading, NO glossy white hotspots, NO reflections or rim light. Gold is an ochre-gold base colour with at most faint sheen. Dark resin stays violet-black by its material colour, not lighting. Orange glow is painted bright orange/yellow-orange colour, with NO bloom or light spill. No background or floor.\nVIEW-SPECIFIC MAPPING: BACK view: paint guide_back.png only, retaining its compact upright outline, bounding box x=241..782, y=207..816. This face is the closed rear black-violet resin/chitin shell with burgundy organic seams and the existing raised branching ridges. Continue the reference's sparse gold hardware only where corresponding existing fittings support it. Do not invent a large orange front gland window, ceramic front nozzle, or new holes on this closed back. Keep every spine and branch exactly registered to the guide.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "69207dba49e63d97adebfe4f795d85b1209788280ea0606f5482155bad3af833"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-3e1dd949-edd1-4efd-a304-f74b75b28ade.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Initial back return enlarged the silhouette, added prominent ivory plates, and retained strong highlights. Corrective regeneration requested.",
+      "output_sha256": "b5160bf4d0637710f1c0be2e3e05ffee0e47c6e7ac69d4769346e052ec07cd47",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.7087222006008206,
+        "opaque_silhouette_bbox": [
+          261,
+          223,
+          1001,
+          1065
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.8017287970481675,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Initial back return enlarged the silhouette, added prominent ivory plates, and retained strong highlights. Corrective regeneration requested."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective texture-source paintover. Input 1 is the material/colour reference. Input 2 is guide_back.png, the exact 1024x1024 image to edit. Output exactly 1024x1024 with transparent alpha.\nKeep input 2's object pixels and alpha outline exactly fixed: x=241..782, y=207..816; 241px left margin, 241px right margin, 207px top margin, 207px bottom margin. Do NOT enlarge or recenter the object. Trace every visible branch, panel edge and spike directly from input 2. Paint only inside its existing silhouette.\nThis is the BACK of a black-violet organic resin relic implant. Broad rear plates and all branching ridges are dark violet-black chitin, with burgundy organic seams and fine mottled pores. Continue the design reference's materials plausibly on the closed back. Keep fittings sparse and small in muted brushed ochre-gold only where guide geometry indicates a fitting. NO broad ivory plates pasted onto the rear; no large orange front window; no front nozzle; no invented geometry.\nRender as a MATTE UNLIT ALBEDO MAP with uniform base colour, fine low-contrast surface texture. Remove ALL specular glints, white scratch highlights, directional shading, crevice AO, cast shadows and reflections. Surface-colour variation only, like texture paint viewed in an unlit shader. Nothing outside the input 2 alpha silhouette. No text, letters, watermark, checkerboard, floor or background.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "69207dba49e63d97adebfe4f795d85b1209788280ea0606f5482155bad3af833"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-28428c31-5ae3-4f95-bb19-e4ab174a2cf1.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Corrective return better continues the closed organic back and removes large invented ivory plates. Residual shading and enlarged silhouette remain; regeneration cap reached.",
+      "output_sha256": "f7269e27d73f538fd40f7d08d7474ba702b96898ce4c381a93e42b6009adc90c",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.725109315262929,
+        "opaque_silhouette_bbox": [
+          266,
+          232,
+          994,
+          1041
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.8518062979399129,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Corrective return better continues the closed organic back and removes large invented ivory plates. Residual shading and enlarged silhouette remain; regeneration cap reached."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for an existing 3D game item, hes_kreegan_gland.\nInput image 1 is design_reference.png: use ONLY its material colours, NOT its lighting, composition, scale or 1254x1254 dimensions. Input image 2 is the 1024x1024 white model guide, the EDIT TARGET. Paint directly over this SECOND image, changing ONLY surface colours/material detail. Use the SECOND image's exact 1024x1024 canvas and alpha mask.\nThe guide is an immutable pixel-registration template. Preserve EXACTLY its 1024 x 1024 canvas, alpha silhouette, object size and position, projection, every protrusion, contour, hole, overlap and every part edge. Retain the angular geometry shown, without smoothing, rounding, enlarging, redesigning, rotating or moving anything. Do not reproduce the reference's diagonal hero composition. Keep every transparent pixel outside the guide transparent. Output ONE 1024 x 1024 RGBA PNG with genuine transparency, no checkerboard, no labels, no text or letters, no border.\nItem: a relic implant grown from a Brood Mother's gland. Follow the reference's dark black-violet chitin/resin casing, burgundy organic membranes and vein ridges, bright ember orange gland under those veins, worn ivory-white ceramic fittings and muted brushed-gold bands/struts. Only materials actually shown in the reference; do not invent blue light, leather, cloth, paper or extra components. Fine resin mottling, membrane pores, restrained ceramic wear, delicate engraved seams and panel joins should be surface-colour detail within the guide's existing parts. Unseen surfaces continue the reference's materials plausibly.\nCRITICAL LIGHTING: this is a BASE-COLOUR/ALBEDO painting, not a beauty render. Flat uniform shadowless illumination from the viewer across all surfaces. NO cast shadows, NO ambient occlusion darkening, NO directional shading, NO glossy white hotspots, NO reflections or rim light. Gold is an ochre-gold base colour with at most faint sheen. Dark resin stays violet-black by its material colour, not lighting. Orange glow is painted bright orange/yellow-orange colour, with NO bloom or light spill. No background or floor.\nVIEW-SPECIFIC MAPPING: LEFT view: paint guide_left.png only. The long axis slopes from the narrow spined tip at upper left to the ceramic nozzle at lower right. Preserve its exact broad diagonal silhouette, bounding box x=66..957, y=207..816. Paint the existing casing as black-violet organic resin with burgundy membranes in recessed panels, fine sparse gold struts on corresponding existing ridges, and the existing lower-right cylindrical nozzle as ivory ceramic with gold rings. Orange membrane appears only on an exposed gland surface actually present in the guide; do not invent an extra window. Keep all existing ribs, openings and panel boundaries registered.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "4c4f5bb37b7a9c1b94fcc979034b855e24a0a2c854a80d7eb896ed747be7a036"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-b81de765-b822-45c4-9ed5-44d3f524fe26.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Initial left return preserves overall orientation and reference palette but has conspicuous glossy highlights and dark recess shading. Corrective regeneration requested.",
+      "output_sha256": "c84a72cc21d9b7d9426ad72bdad2e52937afcd7361cc8073e13ab9490070e875",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.688386000524001,
+        "opaque_silhouette_bbox": [
+          80,
+          248,
+          1174,
+          1001
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.9866337288808505,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Initial left return preserves overall orientation and reference palette but has conspicuous glossy highlights and dark recess shading. Corrective regeneration requested."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit input image 1, paint_left_attempt1.png, into a strictly UNLIT BASE-COLOUR TEXTURE SOURCE. Input 2, guide_left.png, fixes the exact shape and 1024x1024 canvas. Input 3, design_reference.png, supplies material identity only.\nThe sole correction is to remove all lighting information while fitting the exact guide: no white/pale specular streaks, no dark occlusion beside ridges, no edge highlights, no directional gradients, no cast shadows or reflections. Every same-material surface must have equal base brightness regardless of orientation. Preserve subtle pigmented mottling and small colour seams. Black-violet resin is matte deep aubergine, burgundy membranes have subdued red vein patterns, orange gland is uniformly bright orange, ivory ceramic has fine colour wear, brushed gold is muted ochre with faint grain and no bright glints.\nKeep the left-side guide's exact silhouette and every geometry edge: top-left spined tip, bottom-right ivory/gold nozzle, unchanged diagonal orientation and empty margins. Never grow any horn, change any opening or move any fitting. Return 1024x1024 with the exact guide alpha. Keep the reference material layout consistent with the first painting. Truly transparent background, no text/letters, no floor, no checkerboard, no bloom.",
+      "inputs": [
+        {
+          "path": "paint_left_attempt1.png",
+          "sha256": "c84a72cc21d9b7d9426ad72bdad2e52937afcd7361cc8073e13ab9490070e875"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "4c4f5bb37b7a9c1b94fcc979034b855e24a0a2c854a80d7eb896ed747be7a036"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-29373682-037d-45f5-b400-d821ca9d801a.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Correction substantially removes glossy white highlights and gives flatter albedo colours. Selected for the brief's texture-source purpose despite residual seam shading and imperfect silhouette registration.",
+      "output_sha256": "3ac55a11b1e33a8cee2e012e2c6f181dccaf80233d0ebdb86be5403fd3167f5d",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.67677848746849,
+        "opaque_silhouette_bbox": [
+          78,
+          240,
+          1195,
+          1015
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.9441931619650524,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Correction substantially removes glossy white highlights and gives flatter albedo colours. Selected for the brief's texture-source purpose despite residual seam shading and imperfect silhouette registration."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for an existing 3D game item, hes_kreegan_gland.\nInput image 1 is design_reference.png: use ONLY its material colours, NOT its lighting, composition, scale or 1254x1254 dimensions. Input image 2 is the 1024x1024 white model guide, the EDIT TARGET. Paint directly over this SECOND image, changing ONLY surface colours/material detail. Use the SECOND image's exact 1024x1024 canvas and alpha mask.\nThe guide is an immutable pixel-registration template. Preserve EXACTLY its 1024 x 1024 canvas, alpha silhouette, object size and position, projection, every protrusion, contour, hole, overlap and every part edge. Retain the angular geometry shown, without smoothing, rounding, enlarging, redesigning, rotating or moving anything. Do not reproduce the reference's diagonal hero composition. Keep every transparent pixel outside the guide transparent. Output ONE 1024 x 1024 RGBA PNG with genuine transparency, no checkerboard, no labels, no text or letters, no border.\nItem: a relic implant grown from a Brood Mother's gland. Follow the reference's dark black-violet chitin/resin casing, burgundy organic membranes and vein ridges, bright ember orange gland under those veins, worn ivory-white ceramic fittings and muted brushed-gold bands/struts. Only materials actually shown in the reference; do not invent blue light, leather, cloth, paper or extra components. Fine resin mottling, membrane pores, restrained ceramic wear, delicate engraved seams and panel joins should be surface-colour detail within the guide's existing parts. Unseen surfaces continue the reference's materials plausibly.\nCRITICAL LIGHTING: this is a BASE-COLOUR/ALBEDO painting, not a beauty render. Flat uniform shadowless illumination from the viewer across all surfaces. NO cast shadows, NO ambient occlusion darkening, NO directional shading, NO glossy white hotspots, NO reflections or rim light. Gold is an ochre-gold base colour with at most faint sheen. Dark resin stays violet-black by its material colour, not lighting. Orange glow is painted bright orange/yellow-orange colour, with NO bloom or light spill. No background or floor.\nVIEW-SPECIFIC MAPPING: RIGHT view: paint guide_right.png only. The ceramic nozzle is at lower left and the narrow spined tip is at upper right, exactly as in this guide. Preserve its broad diagonal silhouette, bounding box x=66..957, y=207..816. Map black-violet resin shell and burgundy organic membranes to the existing panels and ridges; the exposed smooth gland membrane is ember orange with branching burgundy veins, bounded by the guide's actual surrounding shell. The lower-left nozzle and corresponding existing trim are ivory ceramic and muted brushed gold. Do not mirror or copy the left view; retain this guide's distinct structure.\nUse matte unlit material colours throughout: each material has equal base brightness regardless of surface direction. Fine pigmented texture only, without any white highlight marks.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "26a10c8e5a2a4e13de163ca356c75387a646e473cd1706692fc2d27d38e454e0"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-efd4e8c2-31c9-4960-9e63-4f782bda537f.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Initial right return has the proper opposing nozzle orientation but retains glossy texture highlights and shaded cavities. Corrective regeneration requested.",
+      "output_sha256": "f8a9845a2839cc250320e57bae706ad38d038036d446b9ac06b5e679f667d58e",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.6862492973044472,
+        "opaque_silhouette_bbox": [
+          77,
+          234,
+          1180,
+          976
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.9177177849516369,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Initial right return has the proper opposing nozzle orientation but retains glossy texture highlights and shaded cavities. Corrective regeneration requested."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Edit input image 1, paint_right_attempt1.png, into a strictly UNLIT BASE-COLOUR TEXTURE SOURCE. Input 2, guide_right.png, fixes the exact shape and 1024x1024 canvas. Input 3, design_reference.png, supplies material identity only.\nCorrect the baked-in lighting and exact registration: remove white/pale specular streaks, dark occlusion beside ridges, edge highlights, directional gradients, cast shadows and reflections. Same-material surfaces must have equal base brightness regardless of orientation. Preserve fine pigmented mottling and small colour seams. Black-violet resin is matte deep aubergine, burgundy membranes have subdued red veins, orange gland is uniformly bright orange, ivory ceramic has fine colour wear, brushed gold is muted ochre with faint grain and no bright glints.\nKeep the RIGHT guide's exact silhouette and every geometry edge: lower-left ceramic/gold nozzle, upper-right spined tip, unchanged diagonal orientation and transparent margins. The guide silhouette spans x=66..957 and y=207..816 in a 1024 square. Trace it exactly, including every angular notch. Do not add, move, mirror, rotate, rescale or enlarge any part. Keep the initial material assignments but flatten their lighting entirely. Output one 1024x1024 transparent RGBA painting. No text, letters, floor, background, checkerboard or bloom.",
+      "inputs": [
+        {
+          "path": "paint_right_attempt1.png",
+          "sha256": "f8a9845a2839cc250320e57bae706ad38d038036d446b9ac06b5e679f667d58e"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "26a10c8e5a2a4e13de163ca356c75387a646e473cd1706692fc2d27d38e454e0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-44ee6e84-a7a0-4d41-a00f-01506b947b8e.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Correction reduces specular glints and flattens the orange gland. Selected for improved albedo quality; edge/recess shading and silhouette differences remain after the one permitted correction.",
+      "output_sha256": "eee91c157fea47d5550b8d19ee9882fe751b663f880edda0a694e52a44ff605a",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.6645999150406101,
+        "opaque_silhouette_bbox": [
+          60,
+          216,
+          1201,
+          999
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.9015911384316458,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Correction reduces specular glints and flattens the orange gland. Selected for improved albedo quality; edge/recess shading and silhouette differences remain after the one permitted correction."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for an existing 3D game item, hes_kreegan_gland.\nInput image 1 is design_reference.png: use ONLY its material colours, NOT its lighting, composition, scale or 1254x1254 dimensions. Input image 2 is the 1024x1024 white model guide, the EDIT TARGET. Paint directly over this SECOND image, changing ONLY surface colours/material detail. Use the SECOND image's exact 1024x1024 canvas and alpha mask.\nThe guide is an immutable pixel-registration template. Preserve EXACTLY its 1024 x 1024 canvas, alpha silhouette, object size and position, projection, every protrusion, contour, hole, overlap and every part edge. Retain the angular geometry shown, without smoothing, rounding, enlarging, redesigning, rotating or moving anything. Do not reproduce the reference's diagonal hero composition. Keep every transparent pixel outside the guide transparent. Output ONE 1024 x 1024 RGBA PNG with genuine transparency, no checkerboard, no labels, no text or letters, no border.\nItem: a relic implant grown from a Brood Mother's gland. Follow the reference's dark black-violet chitin/resin casing, burgundy organic membranes and vein ridges, bright ember orange gland under those veins, worn ivory-white ceramic fittings and muted brushed-gold bands/struts. Only materials actually shown in the reference; do not invent blue light, leather, cloth, paper or extra components. Fine resin mottling, membrane pores, restrained ceramic wear, delicate engraved seams and panel joins should be surface-colour detail within the guide's existing parts. Unseen surfaces continue the reference's materials plausibly.\nCRITICAL LIGHTING: this is a BASE-COLOUR/ALBEDO painting, not a beauty render. Flat uniform shadowless illumination from the viewer across all surfaces. NO cast shadows, NO ambient occlusion darkening, NO directional shading, NO glossy white hotspots, NO reflections or rim light. Gold is an ochre-gold base colour with at most faint sheen. Dark resin stays violet-black by its material colour, not lighting. Orange glow is painted bright orange/yellow-orange colour, with NO bloom or light spill. No background or floor.\nVIEW-SPECIFIC MAPPING: TOP view: paint guide_top.png only, viewed directly from above. Preserve its upright elongated tear-shaped outline, pointed spines at top and existing short nozzle at bottom, bounding box x=241..782, y=66..957. Paint the existing long ridges and shell in black-violet resin, recessed organic surfaces in burgundy, the exposed gland surface bright ember-orange with burgundy vein tracery only where structurally visible, and the bottom nozzle in ivory ceramic with muted brushed-gold trim. Keep every top-view ridge, notch, panel and asymmetric edge in its exact guide position; no new silhouette details.\nUse matte unlit material colours throughout: each material has equal base brightness regardless of surface direction. Fine pigmented texture only, without any white highlight marks.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "e498d3cc6e452ecf7d84e46267ee5cfb254f4ae84d008467f2f3ea0fd5914c64"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-5fe8036a-37ea-400d-aa39-43f7c36a4169.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial top view matches the broad upright orientation but retains strong gloss, shaded recesses, and a changed nozzle outline. One corrective regeneration requested.",
+      "output_sha256": "bd7d227f053d738a5a4a2b52e963f444c2798a711ef8cd9d7ae7a712abb3b31d",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.6927414411045738,
+        "opaque_silhouette_bbox": [
+          292,
+          74,
+          961,
+          1194
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.967368943972792,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Initial top view matches the broad upright orientation but retains strong gloss, shaded recesses, and a changed nozzle outline. One corrective regeneration requested."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Edit input image 1, paint_top_attempt1.png, into a strictly UNLIT BASE-COLOUR TEXTURE SOURCE. Input 2, guide_top.png, is the immutable 1024x1024 pixel-registration template. Input 3, design_reference.png, supplies material identity only.\nCorrection: remove ALL specular highlights and lighting gradients, and return to the exact guide silhouette, especially the short polygonal bottom nozzle. Preserve input 2's directly-above projection, each angular ridge, overlap, notch and tip, and exact outline x=241..782, y=66..957. No enlarged or rounded nozzle, no new hole at its base, no added silhouette detail. The thin spines stay at the top, the short ceramic/gold fitting stays at bottom, no rotation or rescaling.\nFlat matte albedo only: same-material surfaces have identical base brightness regardless of orientation. Deep black-violet resin with restrained pigmented mottling; burgundy membrane seams and vein lines; uniformly bright ember-orange gland; ivory ceramic with fine surface-colour wear; muted brushed ochre-gold with faint grain. Preserve these initial colour assignments, but remove white glints, glossy patches, dark crevice occlusion, edge highlights, cast shadows, reflections and directional lighting. No light spill or bloom.\nOne 1024x1024 RGBA PNG with true transparency everywhere outside the guide's exact original alpha. No background, floor, labels, letters, watermark or checkerboard.",
+      "inputs": [
+        {
+          "path": "paint_top_attempt1.png",
+          "sha256": "bd7d227f053d738a5a4a2b52e963f444c2798a711ef8cd9d7ae7a712abb3b31d"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "e498d3cc6e452ecf7d84e46267ee5cfb254f4ae84d008467f2f3ea0fd5914c64"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cece710b37ded537403f06b4027c371fad661517b9f4d44f23fed930e3c7941"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-136f-7a12-9421-e67a3fb2d06a/exec-31da68a7-6288-4833-837f-ea6a8b4007ae.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Correction markedly reduces gloss and keeps the reference's palette. Selected as the flatter top source; the nozzle shape and silhouette still differ from the guide and some recess shading remains.",
+      "output_sha256": "fa48bbadbccf8c72264e5949d2a2635c56655a0fe15f7ec3ffa9f6840d8a4dc2",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixel_fraction": 0.69003622220696,
+        "opaque_silhouette_bbox": [
+          290,
+          75,
+          965,
+          1191
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.9573877437712541,
+        "unresized_unmodified_return": true,
+        "colours_and_materials_match_reference_palette": true,
+        "no_text_or_letters": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "fully_meets_brief": false,
+        "visual_review": "Correction markedly reduces gloss and keeps the reference's palette. Selected as the flatter top source; the nozzle shape and silhouette still differ from the guide and some recess shading remains."
+      }
+    }
+  ]
+}

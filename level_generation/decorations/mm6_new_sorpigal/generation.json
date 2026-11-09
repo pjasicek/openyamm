@@ -1,0 +1,264 @@
+{
+  "6tree01": {
+    "raw": "raw/6tree01.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "7f706795d8df89e76fbb27397c1b796cdc5d0dcaf14fcb33ba569814851ec703",
+    "reference": "references/6tree01.png",
+    "prompt": "prompts/6tree01.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.8216598918046586,
+    "cleanup": {
+      "clean_core_pixels": 498694,
+      "changed_visible_edge_pixels": 31213,
+      "alpha_pixels": 529899,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": [
+      0.7725409836065573,
+      1.1914893617021276
+    ]
+  },
+  "6tree02": {
+    "raw": "raw/6tree02.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "00ad2c31efecd1940868fd3c1ea33bfb84be51ddabb8190b1a93b85378076a9b",
+    "reference": "references/6tree02.png",
+    "prompt": "prompts/6tree02.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.897458618251949,
+    "cleanup": {
+      "clean_core_pixels": 513379,
+      "changed_visible_edge_pixels": 18413,
+      "alpha_pixels": 531788,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": [
+      1.0443548387096775,
+      1.542857142857143
+    ]
+  },
+  "6tree03": {
+    "raw": "raw/6tree03.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "15ae6b8bc5bbe07ee803b9a38181f9c78191d88bfb8dc29ff7634ebc7ca71bfc",
+    "reference": "references/6tree03.png",
+    "prompt": "prompts/6tree03.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.9684341737489012,
+    "cleanup": {
+      "clean_core_pixels": 538074,
+      "changed_visible_edge_pixels": 32799,
+      "alpha_pixels": 570859,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": null
+  },
+  "6tree04": {
+    "raw": "raw/6tree04.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "8d7983c7e449a89d905fba8c3457cbbbad78be471b25838c5e3ee298afb621b9",
+    "reference": "references/6tree04.png",
+    "prompt": "prompts/6tree04.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.9462064023970993,
+    "cleanup": {
+      "clean_core_pixels": 558411,
+      "changed_visible_edge_pixels": 19983,
+      "alpha_pixels": 578380,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": null
+  },
+  "6tree05": {
+    "raw": "raw/6tree05.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "f36fba62f3e2e3c8bc663f3c9582bf83ef8e09103dc5ab51265ce4b412ec9d0b",
+    "reference": "references/6tree05.png",
+    "prompt": "prompts/6tree05.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.8876753575583384,
+    "cleanup": {
+      "clean_core_pixels": 389848,
+      "changed_visible_edge_pixels": 36607,
+      "alpha_pixels": 426445,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": [
+      0.818855218855219,
+      1.3591836734693876
+    ]
+  },
+  "6tree19": {
+    "raw": "raw/6tree19.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "4c1e13195e46cbe53e41cbb78b6150c062d4c0e17e6c1977e4c351c267308326",
+    "reference": "references/6tree19.png",
+    "prompt": "prompts/6tree19.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.7509305353571717,
+    "cleanup": {
+      "clean_core_pixels": 506494,
+      "changed_visible_edge_pixels": 19066,
+      "alpha_pixels": 525557,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": [
+      0.42283776144714524,
+      1.1157894736842104
+    ]
+  },
+  "6flower02": {
+    "raw": "raw/6flower02.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "38e3d25b472ba2ec12eb0c567bbb8a7f9cb5406d82dbdad84b67896dfbce6d92",
+    "reference": "references/6flower02.png",
+    "prompt": "prompts/6flower02.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.9376416776424841,
+    "cleanup": {
+      "clean_core_pixels": 447900,
+      "changed_visible_edge_pixels": 11218,
+      "alpha_pixels": 459115,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": null
+  },
+  "6flower07": {
+    "raw": "raw/6flower07.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "a591d1e391875878c461a270b499c486ecbcfa97f3f57b468990c02b3e7b35ad",
+    "reference": "references/6flower07.png",
+    "prompt": "prompts/6flower07.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 1.08,
+    "cleanup": {
+      "clean_core_pixels": 528820,
+      "changed_visible_edge_pixels": 8545,
+      "alpha_pixels": 537365,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": null
+  },
+  "rok1": {
+    "raw": "raw/rok1.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "0a95edc226c46e08a3b9f86f863527c96222450312744b1b6e6919aa2008349f",
+    "reference": "references/rok1.png",
+    "prompt": "prompts/rok1.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 1.08,
+    "cleanup": {
+      "clean_core_pixels": 590425,
+      "changed_visible_edge_pixels": 4397,
+      "alpha_pixels": 594822,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": null
+  },
+  "bigbarel": {
+    "raw": "raw/bigbarel.png",
+    "raw_size": [
+      1254,
+      1254
+    ],
+    "raw_sha256": "02c15b8f8a15037d747f56443352a273df6e8b84618738b52256337ab8f9b19b",
+    "reference": "references/bigbarel.png",
+    "prompt": "prompts/bigbarel.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 1.0781093853215673,
+    "cleanup": {
+      "clean_core_pixels": 725404,
+      "changed_visible_edge_pixels": 5504,
+      "alpha_pixels": 730908,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": null
+  },
+  "food_tree": {
+    "raw": "raw/food_tree.png",
+    "raw_size": [
+      1642,
+      958
+    ],
+    "raw_sha256": "a84db62b350c951d6f7360bd4295ea8842b4e5effd82667421178a296cb56c0d",
+    "reference": "references/food_tree.png",
+    "prompt": "prompts/food_tree.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.822505558643691,
+    "cleanup": {
+      "clean_core_pixels": 503819,
+      "changed_visible_edge_pixels": 30082,
+      "alpha_pixels": 533895,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": [
+      0.34285714285714286,
+      1.0890625
+    ]
+  },
+  "sword_stone": {
+    "raw": "raw/sword_stone.png",
+    "raw_size": [
+      1774,
+      887
+    ],
+    "raw_sha256": "b24864f00a9c1120a7df32bf6202ec70310a1835ec3a0a83acb44f93aed8921a",
+    "reference": "references/sword_stone.png",
+    "prompt": "prompts/sword_stone.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 0.9745578189658823,
+    "cleanup": {
+      "clean_core_pixels": 274261,
+      "changed_visible_edge_pixels": 6689,
+      "alpha_pixels": 280945,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": null
+  },
+  "ship": {
+    "raw": "raw/ship.png",
+    "raw_size": [
+      1536,
+      1024
+    ],
+    "raw_sha256": "86c4584f3e64770a55c5a60ff7dd8aef924a86cd258cf8823ccfef99b7013ced",
+    "reference": "references/ship.png",
+    "prompt": "prompts/ship.txt",
+    "mode": "built-in imagegen",
+    "tonal_gain": 1.08,
+    "cleanup": {
+      "clean_core_pixels": 125408,
+      "changed_visible_edge_pixels": 43642,
+      "alpha_pixels": 169037,
+      "method": "local_matte_unmixing"
+    },
+    "foliage_red_blue_gain": null
+  }
+}

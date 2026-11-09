@@ -1,0 +1,3 @@
+Saved [raw.png](level_generation/ui/hud_inventory/mm9_pc_dolls/pc06/raw.png) using built-in image generation, with real transparency. Exact prompts and hashes are in [generation.json](level_generation/ui/hud_inventory/mm9_pc_dolls/pc06/generation.json); first attempt retained as `raw_rejected.png`.
+
+No pixel edits or builds. Body framing still differs from the donor after the single permitted correction.

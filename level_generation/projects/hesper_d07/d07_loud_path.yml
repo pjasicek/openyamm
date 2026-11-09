@@ -1,0 +1,250 @@
+id: hesper.d07_loud_path
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d07.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+      - name: Cyra
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+      - name: Dana
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+      - name: Eli
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: set_qbit
+    id: 100209
+- press_interact:
+    kind: world_item
+    world_item_index: 0
+    pose:
+      map: hes_d07.blv
+      x: 2950
+      y: 5870
+      z: -512
+      yaw: 1.5707963267948966
+      pitch: -0.15
+- setup_shortcut:
+    kind: grant_item
+    item_id: 11304
+- setup_shortcut:
+    kind: grant_item
+    item_id: 11304
+- save_game: d07_charges
+- load_game: d07_charges
+- movement_segment:
+    input: forward
+    seconds: 0.2083
+    start:
+      map: hes_d07.blv
+      x: 6170
+      y: 8316
+      z: -512
+      yaw: 0.0
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 6330
+      y: 8316
+      z: -512
+      yaw: 0.0
+      pitch: 0
+    delta_game_minutes: 0
+    tolerance_xy: 80
+    tolerance_z: 35
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 36
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 0
+- save_game: d07_coupled
+- movement_segment:
+    input: none
+    seconds: 6.2
+    start:
+      map: hes_d07.blv
+      x: 4800
+      y: 6200
+      z: -512
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 4800
+      y: 6200
+      z: -512
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 2
+    tolerance_z: 2
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 30
+      value: 1
+- save_game: d07_core_mine_armed
+- set_pose:
+    map: hes_d07.blv
+    x: 4800
+    y: 8266
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 1
+      value: 2
+- set_pose:
+    map: hes_d07.blv
+    x: 5666
+    y: 6766
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 2
+      value: 2
+- set_pose:
+    map: hes_d07.blv
+    x: 3934
+    y: 6766
+    z: -512
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- assert:
+    state_dump_map_var:
+      index: 3
+      value: 2
+- assert:
+    state_dump_map_var:
+      index: 5
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 30
+      value: 2
+- assert:
+    state_dump_map_var:
+      index: 35
+      value: 2
+- save_game: d07_loud_free
+- movement_segment:
+    input: none
+    seconds: 31
+    start:
+      map: hes_d07.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: hes_d07.blv
+      x: 4800
+      y: 300
+      z: 0
+      yaw: 0
+      pitch: 0
+    tolerance_xy: 2
+    tolerance_z: 2
+    actor_collision: false
+    actor_ai: false
+- assert:
+    state_dump_map_var:
+      index: 9
+      value: 31
+- save_game: d07_alarm_waves
+- set_pose:
+    map: hes_d07.blv
+    x: 4800
+    y: 300
+    z: 0
+    yaw: 0
+    pitch: 0
+- damage_actor:
+    actor_index: 23
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 23
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 3.2
+- assert:
+    actor_visible:
+      actor_index: 23
+      dead: true
+      hp: 0
+- assert:
+    state_dump_map_var:
+      index: 6
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 7
+      value: 1
+- assert:
+    qbit_set:
+    - 100009
+    qbit_clear:
+    - 100209
+- assert:
+    world_item_state:
+      item_id: 11332
+      present: true
+- assert:
+    mechanism:
+      id: 5
+      state: closed
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        id: 6
+        state: open
+- save_game: d07_loud_dead
+- load_game: d07_loud_dead
+- assert:
+    state_dump_map_var:
+      index: 3
+      value: 2
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 1

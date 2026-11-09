@@ -1,0 +1,262 @@
+[
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 RGBA transparent PNG, a left-side albedo texture-source painting for An Overseer's perch.\n\nINPUT ROLES: Image 1, guide_left.png, is the EDIT TARGET and absolute geometry/composition authority. Image 2, design_reference.png, supplies only the approved materials and colours. Image 3, concept_crop.png, is secondary concept context only; do not include its character or scenery.\n\nEdit Image 1 IN PLACE by painting its existing visible surfaces. Keep its exact orthographic LEFT view, identical silhouette, every shape edge, opening, detail, position and scale. Preserve the original transparency mask exactly, including all interior openings and all antialiased contour edges. Keep the object in precisely the existing 1024-square framing, approximately x=262..761, y=66..957. Do not rotate, reframe, shift, stretch, smooth the angular geometry or crop it. The narrow near-edge vertical ladder/strip stays on the RIGHT as in this left guide. The upper solid panel and its pointed arch relief remain solid where the guide is solid; transparent holes between supports and braces stay exactly where they are. All feet, tapered pylons, cross-braces, rails and spikes retain the guide shapes. Do not replace the guide with the three-quarter design reference. Add no ornament geometry, rubble, extra supports or spikes.\n\nPaint the reference material design onto ONLY these existing shapes: black-violet resin struts, arch frames and roots; aged white ceramic pylon panels with subtle fine cracks and brushed gold bands; warm ivory bone ribs and top spikes; orange inset light strip and orange inset sacs/seams only within existing surfaces; dark worn alloy deck plates. Follow the guide's surfaces for material boundaries. Surface markings may describe the design but must not alter any geometry. Use the design reference's distinct dark violet, white/ivory, muted gold and saturated orange palette.\n\nLIGHTING: This is an ALBEDO / BASE COLOUR texture source, not a beauty render. Even, flat, shadowless illumination from the viewer across ALL surfaces. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no directional light falloff. Orange luminous parts are painted their bright orange material colour without bloom, halos or cast orange light on neighbouring surfaces. Material grain and fine wear only, no baked lighting.\n\nBackground and all guide openings must be truly transparent (alpha=0), not black or a painted checkerboard. No background, floor, ground shadow, text, border, labels or watermark. Return the raw unresized 1024 x 1024 image.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "6809503bea953717e3618b6a779b3dd8d98bdaf458a91b824a3a81d006e20131"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734"
+      }
+    ],
+    "output": "paint_left_attempt_1.png",
+    "selected": false,
+    "reason": "Rejected in favour of attempt 2: excessive baked shading/specular detail and silhouette drift. Native return also fails requested 1024 x 1024 size.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16918-9265-7c43-890f-18aa44140627/exec-7f2648c5-7fba-4e3b-b562-0dfabd0a7c35.png",
+    "tool": "built-in image_gen",
+    "accepted": false,
+    "output_sha256": "c7be65f11d3de1817fd16a452393516ad5fdc98ea5140cb23ee61dfb6f9dd168",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches": false,
+      "unresized_raw_return": true,
+      "format": "PNG",
+      "mode": "RGBA",
+      "transparent_background_present": true,
+      "fully_transparent_pixels": 1276812,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "nonzero_alpha_bbox": [
+        23,
+        65,
+        1228,
+        1254
+      ],
+      "opaque_alpha_bbox": [
+        321,
+        70,
+        930,
+        1171
+      ],
+      "alpha_identical_to_guide": false,
+      "visual_silhouette_and_detail_edges_identical": false,
+      "materials_and_colours": "Matches the requested black-violet resin, light ceramic, ivory, gold and orange palette; surface details are generatively interpreted.",
+      "flat_even_light": "Excessive baked shading and highlights.",
+      "clean_alpha_edges": "Transparent background is present; sparse low-alpha pixels extend beyond the main silhouette.",
+      "normalized_silhouette_iou_alpha128": 0.9387787020088509,
+      "comparison_note": "Normalized pixel-centre sampling for measurement only; no output image was resized, re-encoded or altered."
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "CORRECTIVE GENERATION, LEFT VIEW. One image only. Required output: exactly 1024 pixels wide by 1024 pixels high, transparent RGBA PNG, at the ORIGINAL INPUT GUIDE resolution. Keep its 1024-square canvas; do not produce 1254 pixels or upscale.\n\nImage 1 guide_left.png is an exact locked 1024x1024 render to colour IN PLACE. Image 2 design_reference.png is a MATERIAL COLOUR SWATCH REFERENCE ONLY, not a lighting, geometry or composition reference. Image 3 concept_crop.png gives concept context only. Paint the existing guide, never redraw, redesign or beautify the structure.\n\nThe previous attempt was invalid because it changed shape edges, invented ornament relief, introduced highlights/dark shading and returned 1254-square. Correct these failures: preserve the complete alpha mask and EVERY visible geometry edge of IMAGE 1, including its angular low-poly outline, broad feet, straight pylons, narrow right-side ladder, pointed top-panel relief, all thin cross braces and curved arch supports, original spikes and railing openings. Match pixel-for-pixel the guide's position, dimensions, apertures and camera. Object's original frame bounds are x=262 to 761, y=66 to 957 on a 1024 canvas. The white filled panel under the platform remains filled; its holes below and between braces remain fully transparent. All small parts and off-centre asymmetry stay as in the guide. No movement of any edge. Retain the guide's exact silhouette, not the reference's more ornate silhouette. No extra roots, horns, gems, rubble or cutouts. Surface colour detail only.\n\nApply the approved materials on the guide's existing surfaces: white ceramic pylons, subtle fine worn cracks, brushed muted-gold bands, black-violet resin struts/arches/root structures, warm ivory bone spikes and ribs, dark worn alloy deck plates, bright orange inset light strip and small orange insets painted inside existing surfaces. Colouration follows the approved design reference; muted gold does not mean shining yellow reflections.\n\nSTRICT UNLIT ALBEDO: flat base-colour painting, all faces equally illuminated from the camera, even across angled surfaces. Remove ALL inherited guide shadows and ALL reference lighting. No directional shading, specular highlights, reflected light, shadow bands, ambient occlusion, cavity darkening, rim light, gloss, bloom or dark gradient. Dark resin is uniformly dark-violet material, not black shadow. White ceramic retains equally light diffuse colour all over. Orange strips are flat saturated orange, without halos or illumination of adjacent surfaces. Preserve fine material wear but never paint 3D lighting.\n\nAbsolutely no scene, floor, cast shadow, character, text or backdrop. Preserve clean true alpha=0 outside the original guide and in every opening. No stray semitransparent pixels, glow fringe or fake checkerboard. Return one original-size 1024x1024 transparent texture-source image.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "6809503bea953717e3618b6a779b3dd8d98bdaf458a91b824a3a81d006e20131"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734"
+      }
+    ],
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Best permitted left return: flatter ceramic/resin and closer framing than attempt 1. Selected for delivery, NOT accepted as fully brief-compliant: native resolution differs, guide silhouette/detail edges are not identical, and residual baked shading/highlights remain. Preserved raw and unresized; one corrective regeneration exhausted.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16918-9265-7c43-890f-18aa44140627/exec-95ea6659-1089-4466-b503-2ae294570c9e.png",
+    "tool": "built-in image_gen",
+    "accepted": false,
+    "output_sha256": "62bb455770cb9b5dabec987e14980835b8dd1812d67309d7b0c1e170fa11fadc",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches": false,
+      "unresized_raw_return": true,
+      "format": "PNG",
+      "mode": "RGBA",
+      "transparent_background_present": true,
+      "fully_transparent_pixels": 1277561,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "nonzero_alpha_bbox": [
+        33,
+        37,
+        1218,
+        1254
+      ],
+      "opaque_alpha_bbox": [
+        320,
+        80,
+        934,
+        1172
+      ],
+      "alpha_identical_to_guide": false,
+      "visual_silhouette_and_detail_edges_identical": false,
+      "materials_and_colours": "Matches the requested black-violet resin, light ceramic, ivory, gold and orange palette; surface details are generatively interpreted.",
+      "flat_even_light": "Improved in corrective generation but residual baked shading remains.",
+      "clean_alpha_edges": "Transparent background is present; sparse low-alpha pixels extend beyond the main silhouette.",
+      "normalized_silhouette_iou_alpha128": 0.960997756586697,
+      "comparison_note": "Normalized pixel-centre sampling for measurement only; no output image was resized, re-encoded or altered."
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: precise-object-edit. Paint the provided guide_right.png IN PLACE as a 1024 x 1024 transparent albedo texture source. Return ONE raw unresized image, exactly the guide's native 1024 x 1024 pixel dimensions.\n\nImage 1 is guide_right.png: edit target, locked silhouette and geometry. Image 2 is design_reference.png: authority for materials and colours ONLY. Image 3 is concept_crop.png: concept context only. No character or scenery.\n\nKeep the guide's exact orthographic RIGHT view: silhouette, position, scale, every shape edge, opening, crossbar, detail and transparent region are immutable. Paint colour on the existing surfaces without redrawing their geometry. Do not move, round or redesign any edge. Do not use the design reference's three-quarter camera or ornate shape. The narrow ladder/strip is on the LEFT edge in this view. Keep the original top spikes, parapet, solid upper panel, pointed arch relief, central cross-braces, curved lower arch, straight pylons and angular root feet at their exact guide positions. No additional geometry. Preserve alpha edges exactly. Object occupies x=262..761, y=66..957 in a 1024-square canvas; preserve the margins and native framing, nothing cropped.\n\nPaint only surface materials: black-violet resin struts and roots, white ceramic pylons with fine wear/cracks and brushed gold bands, ivory bone ribs and spikes, a glowing orange light strip, dark worn alloy deck plates. Material colours and placement follow the approved design reference while boundaries follow the guide. Retain the guide's filled surfaces; retain every guide opening as true alpha=0. Existing ribs remain the exact size/shape of the guide.\n\nThis is UNLIT BASE COLOUR, not a studio render. Flat even shadowless viewer-facing light. No cast shadows, ambient-occlusion darkening, specular highlights, reflections, directional gradients, rim lighting or glossy finish. All white ceramic surfaces equally light; all resin surfaces a consistent black-violet diffuse colour. Fine scratches and wear are material colour only. Orange seams and inset sacs are painted saturated orange, without bloom or orange light spilling onto other surfaces.\n\nTransparent background with clean alpha. No floor, backdrop, checkerboard, ground, rubble, environment, text, labels, watermark or shadow. Exactly 1024 x 1024 RGBA PNG.",
+    "output": "paint_right_attempt_1.png",
+    "selected": false,
+    "reason": "Rejected in favour of attempt 2: enlarged/shifted framing, altered openings/ornaments and excessive baked shading/highlights. Native return also fails requested 1024 x 1024 size.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16918-9265-7c43-890f-18aa44140627/exec-bb2f8059-c1ae-4ea4-9086-a3c27f2e4282.png",
+    "tool": "built-in image_gen",
+    "accepted": false,
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "2afee6ae1a337081b87448ff62344251976e7a94557cef2e9a9aff9daf180739"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734"
+      }
+    ],
+    "output_sha256": "376f817d5b997f99d234bf0f973fdf1ea8b76302e1b8da0ab2851f7abfdad10b",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches": false,
+      "unresized_raw_return": true,
+      "format": "PNG",
+      "mode": "RGBA",
+      "transparent_background_present": true,
+      "fully_transparent_pixels": 1254240,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "nonzero_alpha_bbox": [
+        37,
+        29,
+        1232,
+        1230
+      ],
+      "opaque_alpha_bbox": [
+        317,
+        56,
+        965,
+        1166
+      ],
+      "alpha_identical_to_guide": false,
+      "visual_silhouette_and_detail_edges_identical": false,
+      "materials_and_colours": "Matches the requested black-violet resin, light ceramic, ivory, gold and orange palette; surface details are generatively interpreted.",
+      "flat_even_light": "Excessive baked shading and highlights.",
+      "clean_alpha_edges": "Transparent background is present; sparse low-alpha pixels extend beyond the main silhouette.",
+      "normalized_silhouette_iou_alpha128": 0.7386272481900966,
+      "comparison_note": "Normalized pixel-centre sampling for measurement only; no output image was resized, re-encoded or altered."
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "CORRECTION: Colour the first input's existing pixels; preserve its geometry exactly. One 1024x1024 transparent PNG. DO NOT upscale to 1254x1254. The provided guide's original square 1024x1024 image is the output canvas.\n\nImage 1 = guide_right.png: the locked edit target. Image 2 = design_reference.png: colour and material reference only. Image 3 = concept_crop.png: concept reference only. Preserve guide_right.png's exact RGBA alpha silhouette, every contour, hole, detail edge and original pixel placement. Do not use the reference for geometry or lighting.\n\nThe previous right painting enlarged/repositioned the structure, changed brace openings, invented ornament shapes and retained shiny baked highlights. Correct those failures with a strict material-only repaint of the GUIDE: same original position and scale, exactly x=262..761 and y=66..957 on a 1024x1024 canvas. Trace all guide contours; preserve the original angular facets instead of rounding or elaborating them. Top railing y approximately 145; pointed relief in the upper filled panel, small rectangular opening below it, original crossing braces around y=350..405, tall main arch and all feet stay pixel aligned with the guide. The thin ladder strip remains at the LEFT, its rungs and width unchanged. Do not extrude new beads, gems, collars, roots, spikes or ladders beyond existing geometry. Preserve the solid upper panel and exact transparent holes.\n\nApply reference materials: flat white ceramic panels on the pylons with fine cracks and muted brushed gold bands; matte black-violet resin on existing struts, arch outlines and root areas; warm ivory bone on existing ribs and spikes; dark worn alloy on deck plates; flat saturated orange colour on the narrow inset light strip and small existing inset areas. All ornament is surface paint within the guide's geometry.\n\nCompletely FLAT UNLIT ALBEDO. Even shadowless light from the viewer on every face. No cast shadows, occlusion shading, cavity shadows, bright specular lines, white reflective edges, black shadow gradients, gloss or directional lighting. Fine material grain only. Orange light elements are orange paint in base colour, not actual lighting: no glow halos or orange spill.\n\nReturn clean real transparency, including all internal openings, with NO stray pixels or coloured fringe outside the original guide silhouette. No backdrop, floor, shadow, extra object, text, border or watermark. One raw original-resolution 1024x1024 RGBA texture painting.",
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Best permitted right return: improved framing, angular structure and flatter orange/resin material colours. Selected for delivery, NOT accepted as fully brief-compliant: native resolution differs, guide silhouette/detail edges are not identical, and some baked shading remains. Preserved raw and unresized; one corrective regeneration exhausted.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16918-9265-7c43-890f-18aa44140627/exec-500e8b74-481e-4b97-b402-4c2b0f4251f0.png",
+    "tool": "built-in image_gen",
+    "accepted": false,
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "2afee6ae1a337081b87448ff62344251976e7a94557cef2e9a9aff9daf180739"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734"
+      }
+    ],
+    "output_sha256": "d2049b190045ae915137ef53904f4a9860debaac8a61c220dbff01bc9a59e5da",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches": false,
+      "unresized_raw_return": true,
+      "format": "PNG",
+      "mode": "RGBA",
+      "transparent_background_present": true,
+      "fully_transparent_pixels": 1278651,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "nonzero_alpha_bbox": [
+        0,
+        20,
+        1230,
+        1214
+      ],
+      "opaque_alpha_bbox": [
+        320,
+        78,
+        935,
+        1170
+      ],
+      "alpha_identical_to_guide": false,
+      "visual_silhouette_and_detail_edges_identical": false,
+      "materials_and_colours": "Matches the requested black-violet resin, light ceramic, ivory, gold and orange palette; surface details are generatively interpreted.",
+      "flat_even_light": "Improved in corrective generation but residual baked shading remains.",
+      "clean_alpha_edges": "Transparent background is present; sparse low-alpha pixels extend beyond the main silhouette.",
+      "normalized_silhouette_iou_alpha128": 0.9599750616107612,
+      "comparison_note": "Normalized pixel-centre sampling for measurement only; no output image was resized, re-encoded or altered."
+    }
+  }
+]

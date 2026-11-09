@@ -1,0 +1,650 @@
+{
+ "id": "20261009-1628-mm6-hive-36",
+ "world": "mm6",
+ "maps": [
+  "hive.blv",
+  "outd1.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/hvwl1spb",
+  "mm6/hvwl3",
+  "mm6/hvwl4",
+  "mm6/hvwl5",
+  "mm6/swflorb",
+  "mm6/swhor1dk",
+  "mm6/swhz3",
+  "mm6/swr1",
+  "mm6/swtrpnl",
+  "mm6/plgctr1",
+  "mm6/plgre1w",
+  "mm6/plgre1",
+  "mm6/plgctr1w",
+  "mm6/plgle1w",
+  "mm6/plgle1",
+  "mm6/rhctr",
+  "mm6/rhctrw",
+  "mm6/rhle",
+  "mm6/rh128",
+  "mm6/apothmid",
+  "mm6/armormid",
+  "mm6/magicmid",
+  "mm6/mercmid",
+  "mm6/plgsmdr"
+ ],
+ "requests": {
+  "mm6/hvwl1spb": {
+   "name": "hvwl1spb",
+   "versions": [
+    1
+   ],
+   "material": "organic alien hive wall panel of dark red fleshy membrane bordered by purple veined tissue, with a central circular purple-ringed sphincter mechanism, a red bone stalk and fleshy side clamps; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvwl3": {
+   "name": "hvwl3",
+   "versions": [
+    1
+   ],
+   "material": "dark red fleshy organic membrane with raised purple-blue veins running horizontally",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvwl4": {
+   "name": "hvwl4",
+   "versions": [
+    1
+   ],
+   "material": "murky green and red organic hive tissue with a hexagonal knot of tangled grey sinews and veins, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvwl5": {
+   "name": "hvwl5",
+   "versions": [
+    1
+   ],
+   "material": "purple and violet tangled organic tissue of coiled worm-like tubes and veins",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swflorb": {
+   "name": "swflorb",
+   "versions": [
+    1
+   ],
+   "material": "green diamond lattice metal grate over a dark pit, set in a heavy teal-grey riveted metal frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swhor1dk": {
+   "name": "swhor1dk",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-grey metal grate of thick diagonal bars over a backing of rust-orange bars, in a heavy teal metal frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swhz3": {
+   "name": "swhz3",
+   "versions": [
+    1
+   ],
+   "material": "small dark green stone square tile with a raised round boss in the centre, bevelled grey-green border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swr1": {
+   "name": "swr1",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-grey metal grate of thick diagonal bars over a backing of rust-orange bars, in a heavy teal metal frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swtrpnl": {
+   "name": "swtrpnl",
+   "versions": [
+    1
+   ],
+   "material": "tarnished teal-green steel panel with crossed diagonal pipes, a grey horned demon skull boss in the centre, round vents and riveted fittings; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/plgctr1": {
+   "name": "plgctr1",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered house facade with cream-white rough plaster panels and dark red-brown timber framing, a horizontal sill beam and an inverted triangle brace in the lower panel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/plgre1w": {
+   "name": "plgre1w",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade with cream-white rough plaster panels and dark red-brown timber framing, a horizontal sill beam and an inverted triangle brace in the lower panel, with a timber corner post on the right edge and a small window of blue diamond leaded glass",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.578
+    },
+    "2": {
+     "sources": [
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.578
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/plgctr1"
+    }
+   }
+  },
+  "mm6/plgre1": {
+   "name": "plgre1",
+   "versions": [],
+   "material": "half-timbered house facade with cream-white rough plaster panels and dark red-brown timber framing, a horizontal sill beam and an inverted triangle brace in the lower panel, with a timber corner post on the right edge",
+   "notes": {}
+  },
+  "mm6/plgctr1w": {
+   "name": "plgctr1w",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house facade with cream-white rough plaster panels and dark red-brown timber framing, a horizontal sill beam and an inverted triangle brace in the lower panel, with a small window of blue diamond leaded glass in the centre",
+   "notes": {
+    "1": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Plain even pale green plaster inside the timber frame; no vertical tan streak beside the left post and no tan square or patch under the rail; keep the window, rails and braces as in the reference."
+   },
+   "pad": {
+    "1": [
+     32,
+     16
+    ],
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/plgctr1",
+      "mm6/plgle1w",
+      "mm6/plgre1w"
+     ],
+     "fraction": 0.999
+    },
+    "2": {
+     "sources": [
+      "mm6/plgctr1",
+      "mm6/plgle1w",
+      "mm6/plgre1w"
+     ],
+     "fraction": 0.999
+    },
+    "3": {
+     "sources": [
+      "mm6/plgctr1",
+      "mm6/plgre1w"
+     ],
+     "fraction": 0.999
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/plgre1"
+    },
+    "2": {
+     "right": "mm6/plgre1"
+    },
+    "3": {
+     "right": "mm6/plgre1"
+    }
+   }
+  },
+  "mm6/plgle1w": {
+   "name": "plgle1w",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "half-timbered house facade with cream-white rough plaster panels and dark red-brown timber framing, a horizontal sill beam and an inverted triangle brace in the lower panel, with a timber corner post on the left edge and a small window of blue diamond leaded glass",
+   "notes": {
+    "2": "Plaster is one continuous cream surface up to the timbers: no tan or brown rectangular patches or strips on the plaster (left of the window and below the window sill).",
+    "3": "Plaster is one continuous cream surface right up to every timber: no tan or brown strips along the left corner post, no tan square under the window sill, and no thin line along the right edge; continue the neighbouring plgctr1 wall seamlessly across the right edge.",
+    "4": "Plaster is one continuous cream surface right up to every timber: no tan strip along the left corner post, no tan square under the window sill, no brown patches at the window frame corners; continue the neighbouring plaster wall seamlessly across the right edge.",
+    "5": "Plaster is one continuous cream surface right up to every timber: no tan strip along the left corner post, no tan square under the window sill, no brown patches at the window frame corners; continue the neighbouring plaster wall seamlessly across the right edge.",
+    "6": "Plain even pale green plaster inside the timber frame; no vertical tan streak beside the left post and no tan square or patch under the rail; keep the window, rails and braces as in the reference.",
+    "7": "Plain even pale green plaster inside the timber frame; no tan square or patch under the rail and no tan streak; keep the window, rails and braces as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/plgctr1",
+      "mm6/plgre1w"
+     ],
+     "fraction": 0.863
+    },
+    "2": {
+     "sources": [
+      "mm6/plgctr1w"
+     ],
+     "fraction": 0.862
+    },
+    "3": {
+     "sources": [
+      "mm6/plgctr1w"
+     ],
+     "fraction": 0.862
+    },
+    "4": {
+     "sources": [
+      "mm6/plgctr1w"
+     ],
+     "fraction": 0.862
+    },
+    "5": {
+     "sources": [
+      "mm6/plgctr1",
+      "mm6/plgre1w"
+     ],
+     "fraction": 0.863
+    },
+    "6": {
+     "sources": [
+      "mm6/plgctr1",
+      "mm6/plgre1w"
+     ],
+     "fraction": 0.863
+    },
+    "7": {
+     "sources": [
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.625
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm6/plgctr1"
+    },
+    "4": {
+     "right": "mm6/plgctr1"
+    },
+    "5": {
+     "right": "mm6/plgctr1"
+    },
+    "6": {
+     "right": "mm6/plgctr1"
+    },
+    "7": {
+     "right": "mm6/plgctr1"
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ],
+    "7": [
+     32,
+     16
+    ]
+   },
+   "prefill_from": [
+    "mm6/plgctr1"
+   ]
+  },
+  "mm6/plgle1": {
+   "name": "plgle1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house facade with cream-white rough plaster panels and dark red-brown timber framing, a horizontal sill beam and an inverted triangle brace in the lower panel, with a timber corner post on the left edge",
+   "notes": {
+    "2": "Plain even pale green plaster inside the timber frame; no vertical tan streak and no small tan patches or rectangles anywhere in the plaster.",
+    "3": "Plain even pale green plaster inside the timber frame; no vertical tan streak and no tan patches."
+   },
+   "pad": {
+    "1": [
+     32,
+     16
+    ],
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/plgle1w",
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.996
+    },
+    "2": {
+     "sources": [
+      "mm6/plgle1w",
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.996
+    },
+    "3": {
+     "sources": [
+      "mm6/plgle1w",
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.996
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/plgctr1w"
+    },
+    "2": {
+     "right": "mm6/plgctr1w"
+    },
+    "3": {
+     "right": "mm6/plgctr1w"
+    }
+   }
+  },
+  "mm6/rhctr": {
+   "name": "rhctr",
+   "versions": [
+    1
+   ],
+   "material": "house facade of dark red lacquered timber framing with red brick infill, a chevron herringbone brick panel above and an X-braced brick panel below a sill rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/rhctrw": {
+   "name": "rhctrw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade of dark red lacquered timber framing with red brick infill, a white-framed six-pane glass window above and an X-braced brick panel below a sill rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rhctr"
+     ],
+     "fraction": 0.637
+    },
+    "2": {
+     "sources": [
+      "mm6/rhctr"
+     ],
+     "fraction": 0.637
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/rhctr",
+     "left": "mm6/rhctr",
+     "bottom": "mm6/rhctr",
+     "top": "mm6/rhctr"
+    }
+   }
+  },
+  "mm6/rhle": {
+   "name": "rhle",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade of dark red lacquered timber framing with red brick infill, a nested rectangular basket-weave brick panel above and an X-braced brick panel below a sill rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rhctr"
+     ],
+     "fraction": 0.613
+    },
+    "2": {
+     "sources": [
+      "mm6/rhctr"
+     ],
+     "fraction": 0.613
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/rhctr",
+     "left": "mm6/rhctr",
+     "top": "mm6/wood013"
+    }
+   }
+  },
+  "mm6/rh128": {
+   "name": "rh128",
+   "versions": [
+    1
+   ],
+   "material": "house facade of dark red lacquered timber framing with red brick infill, a chevron herringbone brick panel between dark red timber posts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/rhctr"
+     ],
+     "fraction": 0.932
+    }
+   }
+  },
+  "mm6/apothmid": {
+   "name": "apothmid",
+   "versions": [
+    1
+   ],
+   "material": "shop sign of a pale orange wooden plank board in a riveted brown frame showing a yellow round potion flask, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/armormid": {
+   "name": "armormid",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "shop sign of a brown wooden plank board in a riveted frame showing a steel winged knight helmet, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge. Copy the composition exactly: winged steel helmet on brown planks with the riveted frame bands as in the reference.",
+    "3": "The rusty riveted frame bands reach the canvas border on the left, right and bottom at their own mid-brown brightness; no dark outline, shadow or black hairline on the outermost pixels of any side. Keep the winged steel helmet on brown planks as in the reference.",
+    "4": "No dark outline or shadow along any outer edge. Keep the winged steel helmet on brown planks with the riveted frame bands as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     20,
+     47
+    ]
+   }
+  },
+  "mm6/magicmid": {
+   "name": "magicmid",
+   "versions": [
+    1
+   ],
+   "material": "shop sign of a bright orange board in a riveted brown frame showing a rolled parchment scroll crossed with a jewelled blue magic wand, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/mercmid": {
+   "name": "mercmid",
+   "versions": [
+    1
+   ],
+   "material": "shop sign of a dark brown wooden plank board in a riveted grey iron frame showing two crossed sabres with gold hilts, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/plgsmdr": {
+   "name": "plgsmdr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown wooden house door with three raised panels, brass knob and hinges, under a transom window of blue diamond leaded glass in a timber frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/plgle1w",
+     "right": "mm6/plgre1w"
+    }
+   }
+  }
+ }
+}

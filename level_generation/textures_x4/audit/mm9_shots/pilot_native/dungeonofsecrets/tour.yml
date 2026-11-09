@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/pilot_native/dungeonofsecrets
+settle_seconds: 2.0
+exit: true
+shots:
+- name: dung2bwia7-d9-closed-front
+  position:
+  - -2376
+  - 4182
+  - 0
+  yaw: 1.5708
+  pitch: 0.04
+- name: dung2bwia7-d9-joint-graze
+  position:
+  - -2256
+  - 4366
+  - 0
+  yaw: 2.2143
+  pitch: 0.15
+- name: dung2bwia7-d9-closed-back
+  position:
+  - -2376
+  - 4870
+  - 0
+  yaw: -1.5708
+  pitch: 0.04

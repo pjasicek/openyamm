@@ -1,0 +1,216 @@
+# Explicit conversion choices for MM9's Drangheim Prison (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: drangheimprison
+  display_name: Drangheim Prison
+  starts: [DPFrontDoor, DPSecretStart]   # start 0: the front door (ExitTrigger8 of Drangheim); start 1: the secret way in
+  monster_classes: [NagateHatchling, Guard, Nagate, NagateElder, GuardSegeant, DwarvenGuard, GuardCaptain,
+                    PrisonerHumanMaleA, CommonerHumanMaleA, CommonerHuman2MaleA, Cat, Cow, Rooster]
+  offset: [0, 0, 0]                   # the old map's frame: x -6840..9160, y -9460..2470, z -4530..450 fit int16
+  ambient: 20
+  model_lighting: true                # re-light 2026-10-31: MM9 model lighting (AmbientLight 40 50 50, ModelAdd 30); props x1.40 of their view against the old path x1.81 (capture x1.07), no dark props: work/relight/model_lighting_props.txt
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  split_retry: true                   # floors under rows of cells: try every wall split, not only the widest gap
+  thin_walls: true                   # walls under a voxel thick keep their far face (the cow pen's west wall)
+plan_levels:
+  bottom: [-1800, -1420]              # the secret way in: the cave at floor -1768
+  lower: [-1420, -1000]               # the abandoned lower level (floor -1400; Nagate)
+  shaft: [-1000, -890]
+  gate: [-890, -780]                  # entrance hall, interrogation block (floor -872)
+  main: [-780, -640]                  # barracks, mess hall, kitchen (floor -744)
+  middle: [-640, -500]                # the middle cell block (floor -616)
+  forge: [-500, -60]                  # the smithy (floor -160)
+  top: [-60, 200]                     # the top cell block (floor -32)
+models:
+  # --- MM9 linear double doors: both leaves slide apart (Door, MoveDir, MoveDist 48), one click, a doorway portal
+  DDoor3a: {group: DDoor3, motion: dat, doorway: true, portal: DDPortal3}
+  DDoor3b: {group: DDoor3, motion: dat, doorway: true, portal: DDPortal3}
+  DDoor4a: {group: DDoor4, motion: dat, doorway: true, portal: DDPortal4}
+  DDoor4b: {group: DDoor4, motion: dat, doorway: true, portal: DDPortal4}
+  DDoor5a: {group: DDoor5, motion: dat, doorway: true, portal: DDPortal5}
+  DDoor5b: {group: DDoor5, motion: dat, doorway: true, portal: DDPortal5}
+  DDoor6a: {group: DDoor6, motion: dat, doorway: true, portal: DDPortal6}
+  DDoor6b: {group: DDoor6, motion: dat, doorway: true, portal: DDPortal6}
+  DDoor7a: {group: DDoor7, motion: dat, doorway: true, portal: DDPortal7}
+  DDoor7b: {group: DDoor7, motion: dat, doorway: true, portal: DDPortal7}
+  DDoor8a: {group: DDoor8, motion: dat, doorway: true, portal: DDPortal8}
+  DDoor8b: {group: DDoor8, motion: dat, doorway: true, portal: DDPortal8}
+  DDoor9a: {group: DDoor9, motion: dat, doorway: true, portal: DDPortal9}
+  DDoor9b: {group: DDoor9, motion: dat, doorway: true, portal: DDPortal9}
+  DDoor10a: {group: DDoor10, motion: dat, doorway: true, portal: DDPortal10}
+  DDoor10b: {group: DDoor10, motion: dat, doorway: true, portal: DDPortal10}
+  DDoor11a: {group: DDoor11, motion: dat, doorway: true}
+  DDoor11b: {group: DDoor11, motion: dat, doorway: true}
+  ElevatorDoorL: {group: ElevatorDoor, motion: dat, doorway: true}
+  ElevatorDoorR: {group: ElevatorDoor, motion: dat, doorway: true}
+  # --- MM9 linear single doors
+  Door0: {group: Door0, motion: dat, doorway: true, portal: SDPortal0}
+  Door2: {group: Door2, motion: dat, doorway: true}     # the cow pen's secret door, a Perception brush marks it
+  SecretDoor0: {group: SecretDoor0, motion: dat, doorway: true, portal: SPortal0}
+  Door1: {group: Door1, motion: dat}                    # the grate in the smithy's floor over Ladder3
+  Door3: skip                                           # a 1 LT dummy leaf of Door1
+  # --- rotating doors with a UserPortal: MM9's own swing, one rotating mover per leaf (leaves of a pair: one click)
+  SingleDoor1: {group: SingleDoor1, motion: rotate, doorway: true, portal: Portal1}
+  RightDoor0: {group: InterrDoor, motion: rotate, doorway: true, portal: DoubleDoorPortal0}
+  LeftDoor0: {group: InterrDoor, motion: rotate, doorway: true, portal: DoubleDoorPortal0}
+  RightDoor1a: {group: EntryDoor, motion: rotate, doorway: true, portal: DoubleDoorPortal0a}
+  LeftDoor1a: {group: EntryDoor, motion: rotate, doorway: true, portal: DoubleDoorPortal0a}
+  BarrackDoor1: {group: BarrackDoor1, motion: rotate, doorway: true, portal: BarrackPorta1_1}
+  BarrackDoor02: {group: BarrackDoor02, motion: rotate, doorway: true, portal: BarrackPortal_2}
+  MessHallDoor0: {group: MessHallDoor0, motion: rotate, doorway: true, portal: MessHallPortal}
+  SingleDoor9: {group: Door9, motion: rotate, doorway: true, portal: Portal9}
+  RotatingDoor1: {group: Door9, motion: rotate, doorway: true, portal: Portal9}
+  HallDoor1: {group: HallDoor1, motion: rotate, doorway: true, portal: HallPortal1}
+  HallDoor2: {group: HallDoor2, motion: rotate, doorway: true, portal: HallPortal2}
+  HallDoor3: {group: HallDoor3, motion: rotate, doorway: true, portal: HallPortal3}
+  HallDoor4: {group: HallDoor4, motion: rotate, doorway: true, portal: HallPortal4}
+  # the security booths' doors (no UserPortal)
+  guardstation1door: {group: Booth0, motion: rotate, doorway: true}
+  guardstation1door0: {group: Booth1, motion: rotate, doorway: true}
+  guardstation1door1: {group: Booth2, motion: rotate, doorway: true}
+  guardstation1door3: {group: Booth3, motion: rotate, doorway: true}
+  # --- the cells: barred leaves, each with a doorway portal from its leaf; locked ones open by their lever
+  Celldoor1: {group: Celldoor1, motion: rotate, doorway: true, click: false}
+  Celldoor2: {group: Celldoor2, motion: rotate, doorway: true, click: false}
+  Celldoor3: {group: Celldoor3, motion: rotate, doorway: true, click: false}
+  Celldoor4: {group: Celldoor4, motion: rotate, doorway: true, click: false}
+  Celldoor5: {group: Celldoor5, motion: rotate, doorway: true, click: false}
+  Celldoor6: {group: Celldoor6, motion: rotate, doorway: true, click: false}
+  Celldoor7: {group: Celldoor7, motion: rotate, doorway: true, click: false}
+  Celldoor8: {group: Celldoor8, motion: rotate, doorway: true, click: false}
+  Celldoor9: {group: Celldoor9, motion: rotate, doorway: true, click: false}
+  Celldoor10: {group: Celldoor10, motion: rotate, doorway: true, click: false}
+  Celldoor11: {group: Celldoor11, motion: rotate, doorway: true, click: false}
+  Celldoor12: {group: Celldoor12, motion: rotate, doorway: true, click: false}
+  Celldoor13: {group: Celldoor13, motion: rotate, doorway: true, click: false}
+  Celldoor14: {group: Celldoor14, motion: rotate, doorway: true, click: false}
+  Celldoor15: {group: Celldoor15, motion: rotate, doorway: true, click: false}
+  Celldoor16: {group: Celldoor16, motion: rotate, doorway: true, click: false}
+  Celldoor17: {group: Celldoor17, motion: rotate, doorway: true, click: false}
+  Celldoor18: {group: Celldoor18, motion: rotate, doorway: true, click: false, authored_open: true}   # StartOpen: MM9
+                                      # authors it standing open along the cell's wall; built swung shut, starts open
+  Celldoor25: {group: Celldoor25, motion: rotate, doorway: true, click: false}
+  Celldoor26: {group: Celldoor26, motion: rotate, doorway: true, click: false}
+  Celldoor27: {group: Celldoor27, motion: rotate, doorway: true, click: false}
+  Celldoor28: {group: Celldoor28, motion: rotate, doorway: true, click: false}
+  Celldoor30: {group: Celldoor30, motion: rotate, doorway: true, click: false}
+  Celldoor31: {group: Celldoor31, motion: rotate, doorway: true}   # not locked: a click
+  Celldoor32: {group: Celldoor32, motion: rotate, doorway: true, click: false}
+  Celldoor33: {group: Celldoor33, motion: rotate, doorway: true, click: false}
+  Celldoor34: {group: Celldoor34, motion: rotate, doorway: true, click: false}
+  Celldoor35: {group: Celldoor35, motion: rotate, doorway: true}   # not locked: a click
+  Celldoor36: {group: Celldoor36, motion: rotate, doorway: true, click: false}
+  Celldoor37: {group: Celldoor37, motion: rotate, doorway: true}   # not locked: a click
+  Celldoor38: {group: Celldoor38, motion: rotate, doorway: true, click: false}
+  Celldoor29: {group: Celldoor29, motion: rotate, doorway: true, click: false}   # the cook's secret door (NPC419.scr)
+  # --- the cell levers: MM9's 15 degree swing; their clicks are convert.py's events
+  lever0: {group: lever0, motion: rotate}
+  lever1: {group: lever1, motion: rotate}
+  lever2: {group: lever2, motion: rotate}
+  lever3: {group: lever3, motion: rotate}
+  lever4: {group: lever4, motion: rotate}
+  lever5: {group: lever5, motion: rotate}
+  lever6: {group: lever6, motion: rotate}
+  lever7: {group: lever7, motion: rotate}
+  lever8: {group: lever8, motion: rotate}
+  lever9: {group: lever9, motion: rotate}
+  lever10: {group: lever10, motion: rotate}
+  lever11: {group: lever11, motion: rotate}
+  lever12: {group: lever12, motion: rotate}
+  lever15: {group: lever15, motion: rotate}
+  lever17: {group: lever17, motion: rotate}
+  lever24: {group: lever24, motion: rotate}
+  lever25: {group: lever25, motion: rotate}
+  lever26: {group: lever26, motion: rotate}
+  lever27: {group: lever27, motion: rotate}
+  lever28: {group: lever28, motion: rotate}
+  blever0: {group: blever0, motion: rotate}
+  blever1: {group: blever1, motion: rotate}
+  blever2: {group: blever2, motion: rotate}
+  # --- the lid over the well shaft and its wheel (Lid1 swings up 90 degrees, LidWheel1 turns a full circle)
+  Lid1: {group: WellLid, motion: rotate}            # stands by the well; a click swings it flat over the shaft
+  LidWheel1: {group: WellLid, motion: rotate}       # its wheel turns once meanwhile
+  RotatingDoor3: {group: Hatch, motion: rotate, rises: true}     # the wooden hatch over Ladder0
+  # --- the coops' gates: authored with RotationAngles 0 (they never move), but each stands in the mouth of a sealed
+  # coop: movers that nothing moves, so each is a doorway portal and the coop is seen through its bars
+  RotatingDoor6: {group: Coop6, motion: slide, move_lt: [0, 0, 1], doorway: true, click: false}
+  RotatingDoor7: {group: Coop7, motion: slide, move_lt: [0, 0, 1], doorway: true, click: false}
+  RotatingDoor8: {group: Coop8, motion: slide, move_lt: [0, 0, 1], doorway: true, click: false}
+  RotatingDoor9: {group: Coop9, motion: slide, move_lt: [0, 0, 1], doorway: true, click: false}
+  RotatingDoor10: {group: Coop10, motion: slide, move_lt: [0, 0, 1], doorway: true, click: false}
+  RotatingDoor11: {group: Coop11, motion: slide, move_lt: [0, 0, 1], doorway: true, click: false}
+  # --- static world objects
+  WorldObject0: static                # the quenching trough's surface (Ocean4)
+  WorldObject1: static                # ladder faces (the climbing is the `ladders` section)
+  WorldObject2: static
+  WorldObject3: static
+  WorldObject10: static               # the rungs in the well shaft
+  WorldObject25: static               # the curtain at Portal_8
+  Lava0: static                       # the forge's lava (Kato volume, a thin box with a lava top)
+  # --- not built
+  SinkWater0: skip                    # a sink's water volume (its surface: convert.py)
+  BlueWater0: skip                    # the trough's volume: WorldObject0 shows its surface
+  PortalZone7: skip                   # the zone that opens Portal_8 for the renderer
+model_patterns:
+  InvisibleBrush: static              # invisible collision
+# The old sink's water surface (convert.py sink()): MM9's Water115.spr, first frame.
+textures:
+  "water:pool": {alias: WATEQOBX0Z, width: 128, height: 128}
+# Air no seeded object reaches: the two empty coops
+seeds:
+  - [80, -710, 16]
+  - [240, -648, 16]
+# Archway portals: a voxel slice perpendicular to `axis` through `point` (LT) seals the opening it stands in. Chosen on
+# work/rooms_<level>.png, tried on the voxels (64 LT off the frames); each joins two rooms.
+portals:
+  - {name: lower_north_arm, axis: z, point: [800, -1330, -330]}
+  - {name: lower_ne_hall, axis: x, point: [1180, -1330, 440]}
+  - {name: lower_east_corridor, axis: x, point: [1830, -1330, -70]}
+  - {name: lower_east_diagonal, axis: x, point: [2400, -1330, -520], span: 300}
+  - {name: lower_east_diagonal2, axis: x, point: [2860, -1330, -800], span: 300}
+  - {name: lower_far_hall, axis: z, point: [3130, -1330, -1240]}
+  - {name: corridor744_m1300, axis: x, point: [-1300, -680, -590]}
+  - {name: corridor744_m1670, axis: x, point: [-1670, -680, -590]}
+  - {name: corridor744_north_stair, axis: z, point: [-1500, -700, -470], span: 100}
+  - {name: corridor744_south_stair, axis: z, point: [-1000, -760, -760]}
+  - {name: gate_corridor_m600, axis: x, point: [-600, -820, -1460]}
+  - {name: octagon_neck, axis: z, point: [-1000, -820, -1100]}
+  - {name: bottom_stair, axis: x, point: [-30, -1450, -2730]}
+  - {name: crypt_neck, axis: z, point: [-420, -1460, -3260]}
+  - {name: cave_west, axis: x, point: [400, -1700, -600]}
+  - {name: cave_east, axis: x, point: [790, -1700, -730]}
+  - {name: main_hall_east, axis: x, point: [180, -680, -540]}
+  - {name: main_north_arm, axis: z, point: [720, -680, -200]}
+  - {name: lower_south_arm, axis: z, point: [410, -1330, -1130]}
+  - {name: lower_hall_1160, axis: x, point: [1160, -1330, -870], span: 200}
+  - {name: wellhead_west, axis: x, point: [-280, -560, 100]}
+  - {name: stairs_north_a, axis: x, point: [-1700, -330, 470], span: 200}
+  - {name: stairs_north_b, axis: x, point: [-1700, -200, 290], span: 200}
+  - {name: top_corridor_m500, axis: x, point: [-500, -10, 60], span: 200}
+# The hatch and the grate lie in the floors' plane: horizontal portals over Ladder0's and Ladder3's shafts.
+rect_portals:
+  - {name: Ladder0Hatch, min_lt: [512, -1400, -672], max_lt: [592, -1400, -576]}
+  - {name: Ladder3Grate, min_lt: [-376, -160, -624], max_lt: [-280, -160, -544]}
+  # The security booths' barred windows: the bars seal the voxels, but one sees the room beyond through them.
+  - {name: Booth0Bars, min_lt: [-1300, -32, -20], max_lt: [-1300, 80, 96]}
+  - {name: Booth1Bars, min_lt: [-592, -616, 56], max_lt: [-592, -504, 168]}
+  - {name: Booth2Bars, min_lt: [502, -872, -1728], max_lt: [502, -760, -1604]}
+  - {name: Booth3Bars, min_lt: [-2330, -744, -1700], max_lt: [-2210, -632, -1700]}
+# MM9's Ladder volumes. facing_lt: (x, z) toward the ladder; surface_lt: where a climber stops along it; top_exit_lt:
+# where the party stands after climbing off. Ladder1 ends inside ExitTrigger0: climbing it leaves for the well in Drangheim.
+ladders:
+  Ladder0: {facing_lt: [1, 0], surface_lt: 586, top_exit_lt: [620, -1398, -624]}
+  Ladder1: {facing_lt: [0, 1], surface_lt: -146, top_exit_lt: [184, -1410, -200]}
+  Ladder2: {facing_lt: [-1, 0], surface_lt: -220, top_exit_lt: [-200, -414, -216]}
+  Ladder3: {facing_lt: [0, 1], surface_lt: -556, top_exit_lt: [-400, -158, -584]}
+  Ladder5: {facing_lt: [-1, 0], surface_lt: -216, top_exit_lt: [-232, -614, 82]}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [GuardCaptain0]
+  themed_near: [WeaponRack, Weaponrack0, Weaponrack1, Weaponrack2, Weaponrack3, Weaponrack4, Weaponrack5, Bonepile0, Bonepile1]
+  avoid_near:
+    - {name: Interrogator, radius: 600}
+    - {name: CookMarker, radius: 800}

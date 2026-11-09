@@ -1,0 +1,129 @@
+{
+  "creature_3d_identity": "mm8:m596",
+  "meshy": {
+    "jobs": {
+      "geometry_v1": {
+        "kind": "image-to-3d",
+        "request": {
+          "image_url": "@file:references_hd/00_three_quarter.png",
+          "ai_model": "meshy-t2",
+          "model_type": "smart-topology",
+          "target_polycount": 15000,
+          "should_texture": false,
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "references_hd/00_three_quarter.png",
+            "sha256": "db08b41e195661c7e7721e0aa8c510cc0b5147f7b9651eaf0af4b0b804d8ef65"
+          }
+        ],
+        "fingerprint": "7dee5ffa8ddbbc9e2713ba1b99fd4b9d8a56d62a6665df49139f00dc8266e97f",
+        "reserved_credits": 5,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-19T08:32:42.530669+00:00",
+        "task_id": "01a1534a-a458-7066-840e-1928f5126a9b",
+        "consumed_credits": 5,
+        "task": {
+          "id": "01a1534a-a458-7066-840e-1928f5126a9b",
+          "type": "image-to-3d",
+          "name": "",
+          "art_style": "",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1792398764521,
+          "progress": 100,
+          "started_at": 1792398764529,
+          "finished_at": 1792398768175,
+          "expires_at": 1792657968175,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1534a-a458-7066-840e-1928f5126a9b/output/model.glb?Expires=1792657968&Signature=nDbHV0vQ4q7r2Hcyg6zape3aEInYy9qQGoebi4muWJni984Q-LKo-Bgzk~H01xag~g~JmOTPpueNQeZ~BS7YOgRp4u-BYLFwwSJVshBch9L19ftFx3~3hrwOOMOFmuxf0UCi8e90QQ5YNWZY~5s4OZPQ40khi7AZ-L71xgDR2Pi5sMS~3dT8Krr2AVDnFs1wPMDc8nDzake5baWwotjCZfFW5APBZJBhh0SFY~oADBwNQAjTnwDsVR~QguEWawOLTpbNgQJi34k4vZ-sV5l8KRhtCXB3D4r99M~EHa5oyPYycwWvj87rzkygseSE1XWlYTfMm8eZFf3OxwrXxhcX5A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1534a-a458-7066-840e-1928f5126a9b/output/model.glb?Expires=1792657968&Signature=nDbHV0vQ4q7r2Hcyg6zape3aEInYy9qQGoebi4muWJni984Q-LKo-Bgzk~H01xag~g~JmOTPpueNQeZ~BS7YOgRp4u-BYLFwwSJVshBch9L19ftFx3~3hrwOOMOFmuxf0UCi8e90QQ5YNWZY~5s4OZPQ40khi7AZ-L71xgDR2Pi5sMS~3dT8Krr2AVDnFs1wPMDc8nDzake5baWwotjCZfFW5APBZJBhh0SFY~oADBwNQAjTnwDsVR~QguEWawOLTpbNgQJi34k4vZ-sV5l8KRhtCXB3D4r99M~EHa5oyPYycwWvj87rzkygseSE1XWlYTfMm8eZFf3OxwrXxhcX5A__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/708fba4f-719c-4a62-acdb-37222e4d8fb4/tasks/01a1534a-a458-7066-840e-1928f5126a9b/output/preview.png?Expires=1792657968&Signature=NoE0vLLeGggJOB-o~o5zwwuhH8IRdelK03Pp9qU-9pFLjbneF72NFYMsA6sSOCWH-LqxwjanDZaWVjnKfqiMFDd6UnFmD6M85UbzJrTGVltf45UzyfDJOlWkK8U6e48z8orSyYKV~249OmsxLHFoAdNfIGs75wSZbCYLV0VD5Ij49c7kkG6G2SDHLT3gsy5wKNuk8UsSOPTkGcjRaOupRQn-aDGw9fXIco8LcqftCa2VEMPdgRhfT990fTYTNfC4lCFakDFRj8gBJ-qOsuwhvSO9HmkvbJdHVyni19I58mYj5vm6nQuzbLd-SMQXDXuLpEnFluDtptiOxQhYGLLUyg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [],
+          "consumed_credits": 5
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/geometry_v1/model_urls_glb.glb",
+            "sha256": "2e2b35e4203077f8aefe54322decbbe0cfdd10395e9331af06988e9e956ca42a"
+          },
+          "thumbnail_url": {
+            "path": "meshy/geometry_v1/thumbnail_url.png",
+            "sha256": "4425754db1a9d01bc16e8ba25bdf910e64854137888752d7d0143ad3341779ae"
+          }
+        }
+      }
+    },
+    "credit_limit": 60
+  },
+  "creature": "MM8 Crystal Walker (v2 rebuild)",
+  "identity": "mm8:m596",
+  "requested_scope": "User 2026-10-19: \"redo this end to end like with more definition ... you can use meshy + the master(s) we have\". Complete production staged for review; install only after user approval.",
+  "required_components": [
+    {
+      "id": "body",
+      "artifact_role": "body",
+      "required": true,
+      "selected": "export/mm8_m596.glb",
+      "review": "agent visual + in-game captured; awaiting user"
+    }
+  ],
+  "references": {
+    "reused_from": "mm8_m596_claude/references_hd (gated five-view masters, consistent with native m596 frames)"
+  },
+  "stages": {
+    "geometry": "Meshy smart topology geometry_v1 (15,660 tris) -> prep_mesh.py: 1.877637 m, decimated with X symmetry to 7,000, flat shaded",
+    "rig": "rig.py: installed walker 18-bone hierarchy and names on fitted joints (work/joints_v1.json), heat weights + side/claw/head/leg rules, 4 influences",
+    "animation": "anim.py: world-axis joint rotations ported from the installed walker build.py, monotone cubic curves, leg IK, 48 fps keys",
+    "texture": "uv.py + texture.py: per-facet tones (1,422 facets), per-facet roughness 0.11-0.20, no painted white; 2048 base colour + orm",
+    "runtime": "prepare_actor_glb.py + build_lods.py: LOD 7000/3500/1750/874 + shadow LODs",
+    "round2": "User review 2: eyes (head_fix.py: face yaw 34 deg corrected, amber gem eyes in dark sockets), shoulder twist (clavicle bones, swing-only arm aims via a neutral direction), swipe attack top-right to front-left (authored; anim_library Mutant Swiping checked, not suitable; no purchase)",
+    "round3": "User review 3: head fully re-authored (new_head.py: hull wedge, boolean eye sockets with inset amber gems, eight prism crown shards, rigid to Head; 232 tris, no Meshy/Codex), attack made whole-body (left-foot step, pelvis shift and lunge, IK foot locks, root returns)",
+    "round4": "User review 4: head facet density matched to the body (edges split to <48 mm, jitter off ridges, multi-ring crown shards, same facet tones), larger brighter eyes, neck cap fanned into the head (no crease under the muzzle)",
+    "round5": "User review 5: head dihedral angles matched to the body (median 15.3 vs 15.4 deg; normal jitter 7.5 mm), crown shards twisted with facet breaks; LOD1 Cast stretch located at the left claws/thigh (not head/neck), left as is",
+    "round6": "User review 6: pale facets removed (base colour capped at palette-596 light pink: value <= 0.78, saturation >= 0.27; violet facets deeper; head roughness +0.11 against grazing sky sheen); LOD1 claw-thigh stretch fixed by protected vertices",
+    "round7": "User review 7: tone groups capped (head 3, body 6 triangles), violet 3 % isolated and only slightly deeper; no single-tone patches"
+  },
+  "selected_artifacts": [
+    {
+      "role": "body",
+      "path": "export/mm8_m596.glb",
+      "sha256": "434671fdbb32fa70f3c1e138bda5cf5ae5c8ca354cf9009a4c0ec8f30659d9e2"
+    },
+    {
+      "role": "master",
+      "path": "work/anim_v2.blend",
+      "sha256": "5593c0b051392bf99aa2be68ba0d257060cf9a3fbc120f7d65024f7f426c5208"
+    },
+    {
+      "role": "basecolor",
+      "path": "textures/basecolor.png",
+      "sha256": "6e634cff325cc5c80e13cd94c2b5f20725330dde31b19be4e6f3e252b19681a1"
+    },
+    {
+      "role": "orm",
+      "path": "textures/orm.png",
+      "sha256": "8f75c184b96458e31f288e4f62546f4b8300cc2fdbb7ddf6f9706d2873e0681d"
+    }
+  ],
+  "status": {
+    "technical": "installed 2026-10-19 (round 7; source 434671fd...)",
+    "agent_visual_review": "round 7 in game: review/ingame/compare_walker_v7.jpg, motion_v7.jpg, attack_v7_sheet.jpg",
+    "user_artistic_acceptance": "accepted 2026-10-19 (\"ok accepted\")"
+  },
+  "next_action": {
+    "owner": "none",
+    "action": "done; rollback in README"
+  }
+}

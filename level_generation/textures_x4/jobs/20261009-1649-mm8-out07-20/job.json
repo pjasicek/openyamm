@@ -1,0 +1,537 @@
+{
+ "id": "20261009-1649-mm8-out07-20",
+ "world": "mm8",
+ "maps": [
+  "out07.odm"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/t32b06",
+  "mm8/t32b06b",
+  "mm8/t32c01",
+  "mm8/t32c06",
+  "mm8/t32c06b",
+  "mm8/t32c07",
+  "mm8/t66e01s1",
+  "mm8/t32b07",
+  "mm8/t32b01",
+  "mm8/t32b04",
+  "mm8/t32c04",
+  "mm8/t32a04b",
+  "mm8/t32c03a",
+  "mm8/t32b03a",
+  "mm8/t32b07b",
+  "mm8/t32c07b",
+  "mm8/t32a03c",
+  "mm8/t32b03r",
+  "mm8/t32a03b",
+  "mm8/t32b03l",
+  "mm8/t32a06",
+  "mm8/t32a04a",
+  "mm8/t32a07",
+  "mm8/t32b03br"
+ ],
+ "requests": {
+  "mm8/t32b06": {
+   "name": "t32b06",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar beside a carved pale stone pilaster with a wavy pattern, above a dark stone base course",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01"
+     ],
+     "fraction": 0.541
+    },
+    "2": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32c01",
+      "mm8/t32b04"
+     ],
+     "fraction": 0.685
+    },
+    "3": {
+     "sources": [
+      "mm8/t32b01",
+      "mm8/t32a01",
+      "mm8/t32c01"
+     ],
+     "fraction": 0.685
+    }
+   }
+  },
+  "mm8/t32b06b": {
+   "name": "t32b06b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar beside a carved pale stone pilaster, with a small dark red lattice window in a stone frame, above a base course",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32b06"
+     ],
+     "fraction": 0.797
+    },
+    "2": {
+     "sources": [
+      "mm8/t32b06"
+     ],
+     "fraction": 0.797
+    }
+   }
+  },
+  "mm8/t32c01": {
+   "name": "t32c01",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar under a carved grey stone frieze of reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01"
+     ],
+     "fraction": 0.805
+    }
+   }
+  },
+  "mm8/t32c06": {
+   "name": "t32c06",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar under a carved grey stone frieze, beside a carved pale stone pilaster with a wavy pattern",
+   "notes": {}
+  },
+  "mm8/t32c06b": {
+   "name": "t32c06b",
+   "versions": [],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar under a carved grey stone frieze, beside a carved pale stone pilaster, with a small dark red lattice window",
+   "notes": {}
+  },
+  "mm8/t32c07": {
+   "name": "t32c07",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar under a carved grey stone frieze, beside a carved pale stone pilaster with a wavy pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32c01"
+     ],
+     "fraction": 0.7
+    }
+   }
+  },
+  "mm8/t66e01s1": {
+   "name": "t66e01s1",
+   "versions": [
+    1
+   ],
+   "material": "smooth warm tan-orange stained plaster with faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32b07": {
+   "name": "t32b07",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar beside a carved pale stone pilaster with a wavy pattern, above a dark stone base course",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32b01",
+      "mm8/t32c07"
+     ],
+     "fraction": 0.986
+    },
+    "2": {
+     "sources": [
+      "mm8/t32c07",
+      "mm8/t32b04"
+     ],
+     "fraction": 0.985
+    }
+   }
+  },
+  "mm8/t32b01": {
+   "name": "t32b01",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar above a dark stone base course",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32b06"
+     ],
+     "fraction": 0.91
+    },
+    "2": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32b04"
+     ],
+     "fraction": 0.986
+    }
+   }
+  },
+  "mm8/t32b04": {
+   "name": "t32b04",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar with a small dark red lattice window in an ornate carved baroque stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32b01",
+      "mm8/t32a01"
+     ],
+     "fraction": 0.637
+    }
+   }
+  },
+  "mm8/t32c04": {
+   "name": "t32c04",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar under a carved grey stone frieze, with a small dark red lattice window in an ornate carved baroque stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32c01"
+     ],
+     "fraction": 0.772
+    }
+   }
+  },
+  "mm8/t32a04b": {
+   "name": "t32a04b",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar with a small dark red lattice window in an ornate carved baroque stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32c04"
+     ],
+     "fraction": 0.984
+    }
+   }
+  },
+  "mm8/t32c03a": {
+   "name": "t32c03a",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around a red lacquered wooden door with a carved spiral emblem and a dark iron handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a03a",
+      "mm8/t32c01"
+     ],
+     "fraction": 0.982
+    }
+   }
+  },
+  "mm8/t32b03a": {
+   "name": "t32b03a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around a red lacquered wooden door with a carved spiral emblem and a dark iron handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a03a"
+     ],
+     "fraction": 0.924
+    },
+    "2": {
+     "sources": [
+      "mm8/t32a03a",
+      "mm8/t32b04"
+     ],
+     "fraction": 0.955
+    }
+   }
+  },
+  "mm8/t32b07b": {
+   "name": "t32b07b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar beside a carved pale stone pilaster, with a small dark red lattice window in a stone frame",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32c07",
+      "mm8/t32b01",
+      "mm8/t32b06b"
+     ],
+     "fraction": 0.913
+    },
+    "2": {
+     "sources": [
+      "mm8/t32b07",
+      "mm8/t32b06b"
+     ],
+     "fraction": 0.924
+    }
+   }
+  },
+  "mm8/t32c07b": {
+   "name": "t32c07b",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar under a carved grey stone frieze, beside a carved pale stone pilaster, with a small dark red lattice window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32c07",
+      "mm8/t32b07b"
+     ],
+     "fraction": 0.941
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm8/t32a03c": {
+   "name": "t32a03c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around an ornate gothic door of dark red carved wood with a tall leaded window, in a carved stone frame with statues",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "keep the door exactly as tall and wide as in the reference, reaching the bottom edge; no added sill or stone band at the bottom; keep the frame columns at the same positions"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32b03r": {
+   "name": "t32b03r",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around an ornate gothic door of dark red carved wood with a tall leaded window, in a carved stone frame with statues",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32a03b": {
+   "name": "t32a03b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around an ornate gothic door of dark red carved wood with a tall leaded window, in a carved stone frame with statues",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32b03l": {
+   "name": "t32b03l",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around an ornate gothic door of dark red carved wood with a tall leaded window, in a carved stone frame with statues",
+   "notes": {
+    "2": "keep the door exactly as tall and wide as in the reference, reaching the bottom edge; no added sill or stone band at the bottom; keep the frame columns at the same positions",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a03b"
+     ],
+     "fraction": 0.922
+    },
+    "2": {
+     "sources": [
+      "mm8/t32a03b"
+     ],
+     "fraction": 0.922
+    },
+    "3": {
+     "sources": [
+      "mm8/t32a03b"
+     ],
+     "fraction": 0.922
+    }
+   }
+  },
+  "mm8/t32a06": {
+   "name": "t32a06",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar beside a carved pale stone pilaster with a wavy pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32b06"
+     ],
+     "fraction": 0.888
+    },
+    "2": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32b06"
+     ],
+     "fraction": 0.888
+    }
+   }
+  },
+  "mm8/t32a04a": {
+   "name": "t32a04a",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar with a small dark red lattice window in an ornate carved baroque stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a04b",
+      "mm8/t32b03bl",
+      "mm8/t32b04",
+      "mm8/t32b03br"
+     ],
+     "fraction": 0.901
+    }
+   }
+  },
+  "mm8/t32a07": {
+   "name": "t32a07",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar beside a carved pale stone pilaster with a wavy pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32c07"
+     ],
+     "fraction": 0.883
+    }
+   }
+  },
+  "mm8/t32b03br": {
+   "name": "t32b03br",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar above a carved grey stone relief base at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01"
+     ],
+     "fraction": 0.718
+    }
+   }
+  }
+ }
+}

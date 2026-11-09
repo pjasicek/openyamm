@@ -1,0 +1,278 @@
+{
+  "label": "Peasant Human2 FemaleA A",
+  "creature": "female human peasant",
+  "base_palette": 373,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "preserve_delivered_rgb": true,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "n"
+  ],
+  "identity_frames": [
+    "m372sa0",
+    "m372sa1",
+    "m372sa2",
+    "m372sa3",
+    "m372sa4"
+  ],
+  "identity_view": "front, front-right, profile, rear-right, back in native order",
+  "description": "The exact original adult female human villager: slender tall build, pale face, dark brown hair partly visible under a muted pale sage-green head veil that wraps around neck and drapes down upper back. Long dark emerald green fitted medieval gown, long open hanging bell sleeves with pale sage lining, narrow gold waist belt, ankle-length flowing skirt and tiny brown shoes. Small gold accents around neckline and brow. Empty bare hands held naturally beside hips. Preserve the small sheathed gold-brown belt dagger with blue pommel wherever visible in the native frame. Preserve native modest full clothing coverage, slender proportions, veil shape and long sleeve openings. Dark gown, pale veil/lining and hair recolor according to native palette variants; face, hands, gold belt and shoes remain protected. No staff, weapon in hand, wings, jewelry additions or glow.",
+  "sampling_target": 2.3,
+  "true_alpha": true,
+  "palette_paths": {
+    "373": "assets_dev/worlds/mm7/textures/pal373.act",
+    "374": "assets_dev/worlds/mm7/textures/pal374.act",
+    "375": "assets_dev/worlds/mm7/textures/pal375.act",
+    "376": "assets_dev/worlds/mm7/textures/pal376.act",
+    "377": "assets_dev/worlds/mm7/textures/pal377.act",
+    "378": "assets_dev/worlds/mm7/textures/pal378.act"
+  },
+  "review_mass_region": "silhouette_mass",
+  "clear_alpha1_border_batches": [
+    "standing",
+    "w_0",
+    "w_1_0",
+    "w_1_1",
+    "w_2",
+    "w_3",
+    "w_4",
+    "n_0_0",
+    "n_0_1",
+    "n_1_0",
+    "n_1_1",
+    "n_2_0",
+    "n_2_1",
+    "n_3_0",
+    "n_3_1",
+    "n_4_0",
+    "n_4_1",
+    "fidget",
+    "death_corpse_0",
+    "death_corpse_1"
+  ],
+  "materials": {
+    "regions": [
+      {
+        "name": "emerald_gown",
+        "selector": "green",
+        "thresholds": [
+          0.16,
+          0.32
+        ],
+        "palette_indices": [
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196
+        ],
+        "fit": "luminance"
+      },
+      {
+        "name": "sage_veil_and_lining",
+        "selector": "neutral",
+        "thresholds": [
+          0.65,
+          0.84
+        ],
+        "minimum_green_over_blue": [
+          0.02,
+          0.07
+        ],
+        "palette_indices": [
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85
+        ],
+        "fit": "luminance",
+        "exclude_channels": [
+          0
+        ]
+      },
+      {
+        "name": "brown_hair",
+        "selector": "burgundy",
+        "thresholds": [
+          0.12,
+          0.28
+        ],
+        "palette_indices": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "fit": "luminance",
+        "native_palette_spatial_support": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "support_largest_component": true,
+        "support_padding": 3,
+        "mask_sigma": 0.7
+      }
+    ],
+    "limitation": "Fixed luminance fits approximate mixed native cloth shadow hues. Hair coverage is enhanced-pixel brown restricted to the native principal hair region."
+  },
+  "reviewed_placement_translation_px": {
+    "m372wa1": [
+      -18,
+      0
+    ],
+    "m372wb1": [
+      13,
+      0
+    ],
+    "m372wc1": [
+      32,
+      0
+    ],
+    "m372wd1": [
+      -23,
+      0
+    ],
+    "m372we1": [
+      7,
+      0
+    ],
+    "m372wf1": [
+      27,
+      0
+    ],
+    "m372nd0": [
+      -12,
+      0
+    ],
+    "m372nf0": [
+      -23,
+      0
+    ],
+    "m372ng1": [
+      -15,
+      0
+    ],
+    "m372nc2": [
+      -20,
+      0
+    ],
+    "m372ne2": [
+      -12,
+      0
+    ],
+    "m372nf2": [
+      -21,
+      0
+    ],
+    "m372nc3": [
+      -12,
+      0
+    ],
+    "m372xa0": [
+      27,
+      0
+    ]
+  }
+}

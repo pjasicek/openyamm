@@ -1,0 +1,1 @@
+Two builtin pixel_steps repairs; previous masters preserved. Reviewed gray master contains no magenta material, so repair_extraction.py keys actual magenta instead of frozen cyan collision route, then applies common registration (1,0,42). Run restore_native_tone.py and queue check afterward. Alpha unchanged by grade. Both final proofs reviewed.

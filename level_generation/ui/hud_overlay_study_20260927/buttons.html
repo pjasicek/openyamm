@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM · Button lettering and states</title>
+  <link rel="stylesheet" href="button-theme.css?v=1">
+  <link rel="stylesheet" href="buttons.css?v=1">
+  <script src="buttons.js?v=1" defer></script>
+</head>
+<body>
+  <header><a href="index.html">OPEN<span>YAMM</span></a><span>CARVED OBSIDIAN / BUTTON STUDY</span>
+    <a href="index.html" class="back">Return to revision 06 ↗</a></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">LETTERING · DEPTH · RESPONSE</p>
+      <h1>Bring back the calligraphic character.</h1></div>
+      <p>One live typeface, worn brass edges and a warm highlight. Try the lettering below,
+        then compare it in the inventory and dialogue screens.</p></section>
+    <section class="reference-grid" aria-label="Original and current comparison">
+      <article><div class="section-heading"><h2>Original tabs</h2><label class="original-select">Compare
+        <select id="original-label"><option value="20">Stats</option><option value="21">Skills</option>
+          <option value="22">Inventory</option><option value="23">Awards</option><option value="24">Exit</option></select></label></div>
+        <div class="reference-states" id="original-states"></div>
+        <p>Broad pen strokes, flourished capitals, a light cut edge. Hover adds gold behind the lettering;
+          the pressed drawing lowers the word and changes the bevel.</p></article>
+      <article><div class="section-heading"><h2>Current Obsidian mockup</h2><span>Georgia / system serif</span></div>
+        <div class="reference-states" id="current-states"></div>
+        <p>The frame has texture, but the regular serif loses the original calligraphy.
+          The mockup also has no distinct held-down treatment yet.</p></article>
+    </section>
+    <section class="proposal" aria-labelledby="proposal-title">
+      <div class="section-heading"><div><p class="eyebrow">SHARED BUTTON TREATMENT / PROPOSAL</p>
+        <h2 id="proposal-title">Calligraphic lettering in pale gold</h2></div><span>Hover · hold · click · Tab to focus</span></div>
+      <nav class="font-options" aria-label="Proposed button font">
+        <button data-face="fondamento"><b>Fondamento</b><small>Recommended · flowing, open forms</small></button>
+        <button data-face="almendra"><b>Almendra</b><small>Sharper · more medieval</small></button>
+        <button data-face="endgame"><b>Native ENDGAME</b><small>Quieter · already in the project</small></button>
+      </nav>
+      <div class="button-theme font-fondamento" id="specimen">
+        <div class="live-tabs" id="live-tabs" aria-label="Try tab selection"></div>
+        <div class="state-board" id="state-board" aria-label="All button states"></div>
+        <div class="try-row">
+          <label>Try a label <input id="label-input" value="Rest until healed" maxlength="60"></label>
+          <button class="obs-button editable" id="label-example"><span class="obs-label">Rest until healed</span></button>
+          <div class="topic-example"><button class="obs-button obs-topic" id="topic-example">
+            <span class="obs-label">Learn Skills</span></button><small>Same lettering on an open dialogue row</small></div>
+        </div>
+      </div>
+      <p class="feedback" id="feedback" role="status">Inventory is selected. Press another tab to compare.</p>
+    </section>
+    <section class="in-context" aria-labelledby="context-title">
+      <div class="section-heading"><div><p class="eyebrow">AT THE ACTUAL LAYOUT SIZE</p><h2 id="context-title">On the Carved Obsidian frame</h2></div>
+        <div class="context-controls"><label>Screen <select id="context-screen"><option value="2060">Inventory</option>
+          <option value="2061">House / Close</option><option value="2062">Shop / topic rows</option></select></label>
+          <label><input type="checkbox" id="current-toggle">Compare current lettering</label>
+          <button id="context-fullscreen">Full screen ↗</button></div></div>
+      <iframe id="context-frame" title="Carved Obsidian with the selected button lettering" allowfullscreen
+        src="index.html?screen=2060&amp;treatment=carved&amp;buttons=fondamento&amp;export=1"></iframe>
+      <p class="context-note">Inventory tabs, Close and shop topics share the chosen treatment. Select a font above to change all three.</p>
+    </section>
+    <section class="recipe" aria-label="Recommended solution">
+      <article><p class="eyebrow">TYPE</p><h2>One display face</h2><p>Fondamento for short button labels, in title case.
+        Optical size is matched to the original tabs. Paragraphs and compact numbers retain their readable text faces.</p></article>
+      <article><p class="eyebrow">SURFACE</p><h2>One reusable frame</h2><p>Keep a blank, textured button surround and draw the label above it.
+        Longer actions can grow or wrap; each new word does not need a new painted image.</p></article>
+      <article><p class="eyebrow">BEHAVIOUR</p><h2>One state recipe</h2><p>Warm hover, immediate pressed depth, persistent selected rim,
+        muted disabled ink and a clear keyboard focus edge. No idle pulsing; the button responds to input.</p></article>
+    </section>
+    <details><summary>Source evidence and implementation notes</summary>
+      <p>The original samples are the currently mounted restored But20U/H/D textures. Character layout assigns
+        separate U/H/D art to Stats, Skills, Inventory, Awards and Exit; the renderer also holds the active page in D.
+        This study separates selection from a held press.</p>
+      <p>The proposed faces are comparisons, not an identification of the historical font. Fondamento and Almendra
+        are locally bundled from Google Fonts with their SIL Open Font Licenses; ENDGAME is the existing project font.
+        The viewer makes no external font requests.</p>
+      <p><a href="BUTTON_TYPOGRAPHY.md">Full findings and shared implementation proposal</a> ·
+        <a href="button_sources.json">Original art provenance</a> · <a href="assets/fonts/sources.json">Font provenance</a> ·
+        <a href="assets/fonts/fondamento-OFL.txt">Fondamento license</a> ·
+        <a href="assets/fonts/almendra-OFL.txt">Almendra license</a></p>
+      <p>This is a browser proposal. The accepted frame reference and runtime UI remain at their existing revisions.</p>
+    </details>
+  </main>
+</body>
+</html>

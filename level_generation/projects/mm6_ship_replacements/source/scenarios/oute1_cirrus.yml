@@ -1,0 +1,62 @@
+id: mm6.ships.oute1.cirrus
+title: Cirrus boarding and cabin
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: oute1.odm
+- movement_segment:
+    start:
+      map: oute1.odm
+      x: -2232
+      y: -4000
+      z: 177
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: oute1.odm
+      x: -2712
+      y: -4000
+      z: 105
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- movement_segment:
+    start:
+      map: oute1.odm
+      x: -2712
+      y: -4000
+      z: 105
+      yaw: 0.0
+      pitch: 0
+    expect_stop:
+      map: oute1.odm
+      x: -2327
+      y: -4000
+      z: 177
+      yaw: 0.0
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- press_interact:
+    pose:
+      map: oute1.odm
+      x: -2864
+      y: -3776
+      z: 105
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect:
+      can_activate: true
+      target_index: 31
+      face_index: 42
+      triggered_event: 10

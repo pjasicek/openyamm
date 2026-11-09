@@ -1,0 +1,140 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.lindisfarnemonastery_immobile
+title: Lindisfarne Monastery (native BLV) - immobile actors hold position
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: lindisfarnemonastery.blv
+- advance_runtime:
+    seconds: 30
+- assert:
+    actor_visible:
+      actor_index: 0
+      near:
+        x: -425
+        y: 11366
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 1
+      near:
+        x: 3837
+        y: 5200
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 3
+      near:
+        x: -315
+        y: 10324
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 8
+      near:
+        x: 4931
+        y: 3763
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 9
+      near:
+        x: 4992
+        y: 3625
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 10
+      near:
+        x: 5663
+        y: 4613
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 11
+      near:
+        x: 5663
+        y: 1725
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 12
+      near:
+        x: 2729
+        y: 1075
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 13
+      near:
+        x: -348
+        y: 2401
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 14
+      near:
+        x: -497
+        y: 4326
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 15
+      near:
+        x: 2570
+        y: 4444
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 20
+      near:
+        x: 3164
+        y: 2084
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 21
+      near:
+        x: 3348
+        y: 2089
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 22
+      near:
+        x: 2985
+        y: 2084
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 23
+      near:
+        x: 7076
+        y: 6001
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 24
+      near:
+        x: 7035
+        y: 6134
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 25
+      near:
+        x: 6953
+        y: 6072
+        max_distance: 8
+- assert:
+    actor_visible:
+      actor_index: 26
+      near:
+        x: 6881
+        y: 5990
+        max_distance: 8

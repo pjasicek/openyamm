@@ -1,0 +1,27 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_fgt_new.glb",
+ "patch_materials": {
+  "Thug_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Thug_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Thug_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_fgt_new",
+ "size": 300,
+ "front": "-y"
+}

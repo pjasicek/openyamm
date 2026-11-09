@@ -1,0 +1,24 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact spatial template. The other two images are material/color references only. Follow this brief exactly:\n# Ascended Solarstone: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_wip_maw/codex_tex/maw_gem17/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: warm golden-yellow faceted gem, bright yellow centre, amber facets at the rim; polished warm yellow gold filigree with darker gold in its recesses.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (gold, silver, bronze, steel)\n  - pure black #000000: every gemstone, crystal, glass, pearl, mirror glass or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD master of the item (three-quarter view), the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: the same stone as the plain Solarstone (a round brilliant-cut gemstone with a flat table, crown facets and pointed pavilion; warm golden yellow like the sun), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_wip_maw/codex_tex/maw_gem17/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem17/paint_mask_guide.png",
+      "sha256": "3d4c17b288dba618e4f873d661773c25d2633950b77dce18d27f1232742ed5ba"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem17/design_reference.png",
+      "sha256": "d19e78d51df969a40ed72856260f334168da15d675e51ae38533deb388cea5a7"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem17/icon_x8.png",
+      "sha256": "f486004ac33354f566b9662e9edea3988a46420ae18d2863a7b1da71b8c27b60"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ced-ac62-78f3-926b-a2e25d2f8a66/exec-a6df0993-ea47-478c-993e-1a6a05b734f6.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem17/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen"
+}

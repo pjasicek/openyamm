@@ -1,0 +1,302 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/ruinedtemple/native/ruinedtemple
+settle_seconds: 2.0
+exit: true
+shots:
+- name: ruin5x58q0-d1-closed-front
+  position:
+  - -1
+  - -746
+  - -2294
+  yaw: 1.5708
+  pitch: 0.057
+- name: ruin5x58q0-d1-joint-graze
+  position:
+  - 119
+  - -446
+  - -2294
+  yaw: 2.2143
+  pitch: 0.15
+- name: ruin5x58q0-d1-closed-back
+  position:
+  - -1
+  - 105
+  - -2294
+  yaw: -1.5708
+  pitch: 0.057
+- name: ruin5x58q0-d1-open-front
+  position:
+  - -1
+  - -746
+  - -2294
+  yaw: 1.5708
+  pitch: 0.057
+  commands:
+  - event 101
+  settle_seconds: 5.0
+- name: ruin9xacj2-d24-closed-front
+  position:
+  - 246
+  - 6548
+  - -2929
+  yaw: -1.5708
+  pitch: 0.086
+- name: ruin9xacj2-d24-joint-graze
+  position:
+  - 126
+  - 6192
+  - -2929
+  yaw: -0.9273
+  pitch: 0.15
+- name: ruin9xacj2-d24-closed-back
+  position:
+  - 246
+  - 5515
+  - -2929
+  yaw: 1.5708
+  pitch: 0.086
+- name: ruinb0ut4a-d26-closed-front
+  position:
+  - 0
+  - -2296
+  - -1700
+  yaw: 1.5708
+  pitch: -0.065
+- name: ruinb0ut4a-d26-joint-graze
+  position:
+  - 120
+  - -2198
+  - -1700
+  yaw: 2.2143
+  pitch: 0.15
+- name: ruinb0ut4a-d26-closed-back
+  position:
+  - 0
+  - -1349
+  - -1700
+  yaw: -1.5708
+  pitch: -0.065
+- name: ruinel61v9-d22-closed-front
+  position:
+  - -2570
+  - 4928
+  - -2161
+  yaw: -1.5708
+  pitch: -0.155
+- name: ruinel61v9-d22-joint-graze
+  position:
+  - -2690
+  - 4788
+  - -2161
+  yaw: -0.9273
+  pitch: 0.15
+- name: ruinel61v9-d22-closed-back
+  position:
+  - -2570
+  - 4381
+  - -2161
+  yaw: 1.5708
+  pitch: -0.155
+- name: ruinjl7lyh-d42-closed-front
+  position:
+  - 1400
+  - 3077
+  - -2161
+  yaw: 0.0
+  pitch: -0.174
+- name: ruinjl7lyh-d42-joint-graze
+  position:
+  - 1540
+  - 3197
+  - -2161
+  yaw: -0.6435
+  pitch: 0.15
+- name: ruinmsuee0-d56-closed-front
+  position:
+  - -1020
+  - 4628
+  - -2867
+  yaw: -0.0
+  pitch: 0.04
+- name: ruinmsuee0-d56-joint-graze
+  position:
+  - -836
+  - 4508
+  - -2867
+  yaw: 0.6435
+  pitch: 0.15
+- name: ruinmsuee0-d56-closed-back
+  position:
+  - -331
+  - 4628
+  - -2867
+  yaw: 3.1416
+  pitch: 0.04
+- name: ruinmsuee0-d56-open-front
+  position:
+  - -1020
+  - 4628
+  - -2867
+  yaw: -0.0
+  pitch: 0.04
+  commands:
+  - event 102
+  settle_seconds: 5.0
+- name: travd5sofy-d12-closed-front
+  position:
+  - 212
+  - 5675
+  - -2836
+  yaw: -1.5708
+  pitch: -0.046
+- name: travd5sofy-d12-joint-graze
+  position:
+  - 92
+  - 5392
+  - -2836
+  yaw: -0.9273
+  pitch: 0.15
+- name: travd5sofy-d12-closed-back
+  position:
+  - 212
+  - 4545
+  - -2836
+  yaw: 1.5708
+  pitch: -0.046
+- name: room4-e
+  position: &id001
+  - -1102
+  - 3371
+  - -2314
+  yaw: 0.0
+  pitch: -0.12
+- name: room4-n
+  position: *id001
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room4-w
+  position: *id001
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room4-s
+  position: *id001
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room4-up
+  position: *id001
+  yaw: 0.0
+  pitch: 0.9
+- name: room1-e
+  position: &id002
+  - 0
+  - -3309
+  - -2212
+  yaw: 0.0
+  pitch: -0.12
+- name: room1-n
+  position: *id002
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room1-w
+  position: *id002
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room1-s
+  position: *id002
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room1-up
+  position: *id002
+  yaw: 0.0
+  pitch: 0.9
+- name: room8-e
+  position: &id003
+  - 273
+  - 4819
+  - -2867
+  yaw: 0.0
+  pitch: -0.12
+- name: room8-n
+  position: *id003
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room8-w
+  position: *id003
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room8-s
+  position: *id003
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room8-up
+  position: *id003
+  yaw: 0.0
+  pitch: 0.9
+- name: room5-e
+  position: &id004
+  - 1458
+  - 2232
+  - -2284
+  yaw: 0.0
+  pitch: -0.12
+- name: room5-n
+  position: *id004
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room5-w
+  position: *id004
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room5-s
+  position: *id004
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room5-up
+  position: *id004
+  yaw: 0.0
+  pitch: 0.9
+- name: room6-e
+  position: &id005
+  - 983
+  - 3944
+  - -2273
+  yaw: 0.0
+  pitch: -0.12
+- name: room6-n
+  position: *id005
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room6-w
+  position: *id005
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room6-s
+  position: *id005
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room6-up
+  position: *id005
+  yaw: 0.0
+  pitch: 0.9
+- name: room7-e
+  position: &id006
+  - -1161
+  - 4628
+  - -2867
+  yaw: 0.0
+  pitch: -0.12
+- name: room7-n
+  position: *id006
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: room7-w
+  position: *id006
+  yaw: 3.141592653589793
+  pitch: -0.12
+- name: room7-s
+  position: *id006
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: room7-up
+  position: *id006
+  yaw: 0.0
+  pitch: 0.9

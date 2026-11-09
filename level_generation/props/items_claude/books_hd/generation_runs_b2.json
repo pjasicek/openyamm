@@ -1,0 +1,1056 @@
+{
+  "brief": "CODEX_BRIEF_b2.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "complete_with_recorded_visual_limitations",
+  "resizing": "None; preserve each original tool return size.",
+  "runs": [
+    {
+      "icon": "book4",
+      "part": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput image: book4_icon_x8.png is the design, colour, material and ornament authority. Transform ONLY its front-cover face into a flat, orthographic texture.\nDeliver ONE portrait PNG, requested 1024 x 1536 pixels. The four outer edges of the cover coincide exactly with the four image edges; the entire canvas is covered by the surface. No margins, no magenta, no empty background, no page edges, no spine, no book thickness, no surrounding shadow.\nMatch the worn mottled dark slate-blue leather/cloth cover and its simple broad weathered dull brass motif: three parallel vertical bars, the middle bar considerably longer, crossed by one broad horizontal brass bar. The bar ends have the same irregular pointed/flared profiles as the icon. Preserve the simple aged metal hinge plates at the upper-left and lower-left edge and the triangular metal corner fittings at upper-right and lower-right, flattened onto the cover plane. Keep the design sparse; no added filigree, no extra symbols or borders.\nReconstruct crisp coherent aged material grain and fittings, without enlarged source pixels. Flat even neutral diffuse light, subdued metal without strong highlights, no cast shadows or directional shading, no vignette. No lettering, numbers, watermark, spine, pages, perspective or 3D mockup. Opaque albedo texture edge to edge.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Correct motif, blue leather and edge-to-edge framing, but the left edge includes a red-brown rounded spine strip and pronounced directional fitting shadows. One correction removes these.",
+      "inputs": [
+        {
+          "path": "book4_icon_x8.png",
+          "sha256": "a6176da5ff94927d0848a9a92f272cb6822980933e55d687304f55674e0470db"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book4_cover_attempt_01.png",
+          "sha256": "76812791d10aa09639186daaa18c9e81730b813dc3b9b98e2ff38364fd80ad12",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-57aafd41-a7f8-404f-bfac-93d58a23e53c.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true
+    },
+    {
+      "icon": "book4",
+      "part": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput image: book4_icon_x8.png is the design, colour, material and ornament authority. Transform ONLY its front-cover face into a flat, orthographic texture.\nDeliver ONE portrait PNG, requested 1024 x 1536 pixels. The four outer edges of the cover coincide exactly with the four image edges; the entire canvas is covered by the surface. No margins, no magenta, no empty background, no page edges, no spine, no book thickness, no surrounding shadow.\nMatch the worn mottled dark slate-blue leather/cloth cover and its simple broad weathered dull brass motif: three parallel vertical bars, the middle bar considerably longer, crossed by one broad horizontal brass bar. The bar ends have the same irregular pointed/flared profiles as the icon. Preserve the simple aged metal hinge plates at the upper-left and lower-left edge and the triangular metal corner fittings at upper-right and lower-right, flattened onto the cover plane. Keep the design sparse; no added filigree, no extra symbols or borders.\nReconstruct crisp coherent aged material grain and fittings, without enlarged source pixels. Flat even neutral diffuse light, subdued metal without strong highlights, no cast shadows or directional shading, no vignette. No lettering, numbers, watermark, spine, pages, perspective or 3D mockup. Opaque albedo texture edge to edge.\nCORRECTIVE PASS: Reference 1 is the original icon; reference 2 is the first texture. Keep reference 2's blue surface, broad three-bar brass motif and fitting placements. Remove the entire red-brown vertical spine/binding strip at the extreme left; extend the blue FRONT-COVER surface fully to the left image edge behind the flattened hinge plates. Eliminate rounded/cylindrical edges and all directional cast shadows under hardware. This is strictly a flat front-cover albedo map, uniformly lit; each pixel is cover surface or metal fitting. The canvas still has no external background or margin. Do not render any spine. Retain 1024 x 1536 portrait.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Selected correction: front-cover surface reaches all four edges; no spine or pages; original three-bar brass design, blue leather and corner fittings retained; no lettering.",
+      "inputs": [
+        {
+          "path": "book4_icon_x8.png",
+          "sha256": "a6176da5ff94927d0848a9a92f272cb6822980933e55d687304f55674e0470db"
+        },
+        {
+          "path": "book4_cover_attempt_01.png",
+          "sha256": "76812791d10aa09639186daaa18c9e81730b813dc3b9b98e2ff38364fd80ad12"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book4_cover.png",
+          "sha256": "42342a64a5fcfea0d00d0164c80fd4ee73cde45832b9fbd110dcff2a66d044f6",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-0640f34d-3ccd-4e29-8b2c-19df86f5a5ff.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true,
+      "limitations": [
+        "Some fine relief shading remains along metal edges despite the flat-light correction."
+      ]
+    },
+    {
+      "icon": "book4",
+      "part": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: book4_icon_x8.png, original design authority. Input 2: book4_cover.png, matching restored cover material reference only.\nDeliver ONE spine-only opaque PNG, requested 256 x 1536 pixels, a very narrow 1:6 portrait texture. The spine surface must cover EVERY pixel of the output from edge to edge. If the actual canvas differs, still fill its entire width and height with spine material; never draw a narrow strip on a wider background. This is a fully unwrapped flat UV surface, with no cylindrical shading, outline, side edges, pages, front cover, tabletop, empty margin or background.\nUse the same mottled dark slate-blue worn leather as the restored front cover, weathered silver/aged brass raised horizontal binding bands across the full width at several intervals, and small simple brass stud/flared-bar ornaments matching the book4 fittings. Keep the ornament sparse and geometric like the source. NO lettering, title, letters, numerals or invented complex filigree.\nFlat uniform neutral diffuse illumination, subdued metal, no directional highlights, no cast shadows, no rounded shaded spine silhouette, no vignette. Crisp coherent leather grain; not an upscaled pixelated icon. Full-bleed material-only spine albedo texture.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": false,
+      "reason": "Full-bleed blue leather spine texture with four horizontal brass binding bands and matching small ornaments; straight-on, opaque, no lettering, page edges or background. Superseded for one permitted correction to reduce baked lighting.",
+      "inputs": [
+        {
+          "path": "book4_icon_x8.png",
+          "sha256": "a6176da5ff94927d0848a9a92f272cb6822980933e55d687304f55674e0470db"
+        },
+        {
+          "path": "book4_cover.png",
+          "sha256": "42342a64a5fcfea0d00d0164c80fd4ee73cde45832b9fbd110dcff2a66d044f6"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book4_spine_attempt_01.png",
+          "sha256": "33766873c696fbd8969cfea046530cb20d4d164f6dcfb3bc386abe63f4596bcb",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-26e19533-a814-477f-8b2a-26dd2bb62484.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Tool returned 1024 x 1536 instead of requested 256 x 1536; preserved without resizing.",
+        "Fine relief shading remains at metal edges."
+      ]
+    },
+    {
+      "icon": "book5",
+      "part": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: book5_icon_x8.png, the sole design, colour, material and ornament authority. Rectify its front cover to a perfectly rectangular straight-on texture. Deliver ONE opaque portrait PNG, requested 1024 x 1536.\nMatch this specific cover: aged pale cream/ochre cover material exposed around a large irregular scalloped dark olive-green bronze central metal plate. Preserve the plate's pattern of paired embossed oval loops, four pairs arranged down the plate, with a column of four round studs between the pairs and smaller rivet details near the left edge, as visible in the source. The loops are simple embossed metal ovals, not letters. At the top and bottom retain the dark weathered curled metal clasp ornaments against the pale exposed cover, flattened into the same plane. Subtle dark green trim, worn warm metal and tarnished green-brown palette exactly from the icon. Do not add heraldry, skulls, lettering, elaborate filigree or a new frame.\nThe four COVER edges coincide with all four canvas edges: full-bleed material, no outside background, no magenta, no padding, no margins. Front face only: no visible spine, curved binding strip, page edges, book thickness or 3D mockup.\nEven neutral diffuse flat albedo lighting, no cast shadows, specular glare, directional highlights or vignette. Retain material detail and ornament outlines using colour, with only minimal relief cues. Coherent high-resolution surface grain without enlarged source pixels. No text, letters, numbers, signature or watermark.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Front cover fills a rectangular frame; olive-bronze scalloped plate, four paired loop rows, central studs and pale worn exposed cover match the source; no spine, pages or lettering. Superseded for one permitted correction to reduce baked lighting.",
+      "inputs": [
+        {
+          "path": "book5_icon_x8.png",
+          "sha256": "f9db7e1cd7a4c034bef1d27770c750425941c4f30b390aaf474c001f143db1a8"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book5_cover_attempt_01.png",
+          "sha256": "037c236c32c1667a01aee14fe6eb41ce94b21cbf183ba4c6af750f268f7c4fd7",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-3b9ccb63-2a8c-476d-b502-d38fe879408a.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true,
+      "limitations": [
+        "Local relief highlights and shading remain on embossed loops and studs."
+      ]
+    },
+    {
+      "icon": "book5",
+      "part": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: book5_icon_x8.png is the original book design authority. Input 2: book5_cover.png is the matching restored cover palette/material reference.\nDeliver ONE opaque spine-only PNG, requested 256 x 1536 pixels, narrow 1:6 portrait. The full output width and height must be covered by the unwrapped SPINE material. If returned dimensions differ, fill the entire returned canvas anyway. No narrow book object on a wider backdrop; every pixel is surface. Absolutely no cover face, page edges, book thickness, cylinder shading, empty border, margin, magenta or background.\nMatch book5's aged muted olive-green/brown bronze, pale cream-ochre worn binding material and restrained green patina. Use a spine covered in its olive-bronze/green-brown material, with raised horizontal binding bands at several intervals and matching small simple oval-loop and round-stud ornaments between bands. Include modest pale worn binding material near the head and foot to tie into the cover. Sparse simple metal decoration, no invented elaborate filigree. No lettering or titles.\nUniform flat diffuse albedo lighting, no cast shadows, no directional shine, no glossy highlights, no vignette. Render relief with restrained colour edges only. Straight rectangular edge-to-edge UV texture, no curved silhouette or perspective; crisp coherent material grain without source pixelation.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": false,
+      "reason": "Full-bleed straight-on olive-bronze spine with raised horizontal bands, paired oval ornaments, studs and worn pale head/foot panels matching the cover; no lettering or background. Superseded for one permitted correction to reduce baked lighting.",
+      "inputs": [
+        {
+          "path": "book5_icon_x8.png",
+          "sha256": "f9db7e1cd7a4c034bef1d27770c750425941c4f30b390aaf474c001f143db1a8"
+        },
+        {
+          "path": "book5_cover_attempt_01.png",
+          "sha256": "037c236c32c1667a01aee14fe6eb41ce94b21cbf183ba4c6af750f268f7c4fd7"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book5_spine_attempt_01.png",
+          "sha256": "aa37c6f1f6956c710adf81f89628c5583d3ae40330091b0c5330ea4d77bded70",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-d45776d4-2624-42db-a4f0-3ef3602f3d23.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Tool returned 1024 x 1536 rather than requested 256 x 1536; original retained unresized.",
+        "Local relief shading remains on raised bands and ornaments."
+      ]
+    },
+    {
+      "icon": "item207",
+      "part": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: item207_icon_x8.png is the exact design, colour, material and ornament authority. Flatten only its FRONT COVER into a rectangular opaque albedo texture. Requested output 1024 x 1536 portrait.\nPreserve its warm worn ochre/cinnamon-brown leather, wrinkled and lightly cracked, with two long blackened iron hinge straps crossing horizontally from the left edge toward the right, one in the upper quarter and one in the lower third. Each strap has the same gothic fleur-de-lis / spiked lobes near the left hinge, small bronze rivets, a straight narrow shank and an arrowhead pointing right. Preserve the small black iron pointed fastening plate extending inward from the right edge at mid-height and triangular black riveted metal guards in the upper-right and lower-right corners. Maintain the source's sparse rugged design: no added central emblem, text, jewels, filigree or decorative border.\nFull bleed: four front-cover edges coincide exactly with the four image boundaries. Brown leather reaches every edge behind the fittings. No outside scene or magenta, no empty margin, no pages, visible spine, curved binding strip, book thickness, perspective or photographed book object.\nUniform flat neutral diffuse lighting suitable for an albedo game texture: no strong highlights, directional light, cast shadows or vignette. Material wear and the flattened iron shapes should read by colour with restrained relief cues. High-resolution coherent leather/iron detail, no source pixel blocks. No lettering, words, numerals or watermark.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Accurate brown leather and black iron layout, but the extreme left has a rounded vertical binding/spine ridge. One correction flattens it and suppresses metal shadows.",
+      "inputs": [
+        {
+          "path": "item207_icon_x8.png",
+          "sha256": "b4360b3f22b33133059d510f0fcbcc978630d856edcef003a7651b78f94dabc3"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item207_cover_attempt_01.png",
+          "sha256": "e3cd2e51e5efe7aaf5e2a02b027a6ad64837928ac3c57a3d8bf8dba734b233df",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-8608c7f0-ae23-429c-8c46-99fb0f65c53f.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true
+    },
+    {
+      "icon": "item207",
+      "part": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: item207_icon_x8.png is the exact design, colour, material and ornament authority. Flatten only its FRONT COVER into a rectangular opaque albedo texture. Requested output 1024 x 1536 portrait.\nPreserve its warm worn ochre/cinnamon-brown leather, wrinkled and lightly cracked, with two long blackened iron hinge straps crossing horizontally from the left edge toward the right, one in the upper quarter and one in the lower third. Each strap has the same gothic fleur-de-lis / spiked lobes near the left hinge, small bronze rivets, a straight narrow shank and an arrowhead pointing right. Preserve the small black iron pointed fastening plate extending inward from the right edge at mid-height and triangular black riveted metal guards in the upper-right and lower-right corners. Maintain the source's sparse rugged design: no added central emblem, text, jewels, filigree or decorative border.\nFull bleed: four front-cover edges coincide exactly with the four image boundaries. Brown leather reaches every edge behind the fittings. No outside scene or magenta, no empty margin, no pages, visible spine, curved binding strip, book thickness, perspective or photographed book object.\nUniform flat neutral diffuse lighting suitable for an albedo game texture: no strong highlights, directional light, cast shadows or vignette. Material wear and the flattened iron shapes should read by colour with restrained relief cues. High-resolution coherent leather/iron detail, no source pixel blocks. No lettering, words, numerals or watermark.\nCORRECTIVE PASS: Image 1 is the authoritative original icon; image 2 is the first generated texture. Preserve image 2's full-bleed layout, brown leather colour, two iron arrow hinge straps, right-hand clasp and right corner guards. Remove the rounded vertical leather ridge at the far left, replacing it with perfectly flat front-cover leather all the way to x=0; flatten the cylindrical hinge barrels into rectangular fittings. Remove directional shadows beneath ironwork and edge vignetting. Aim for evenly illuminated diffuse base colour only, with flat colour-defined ornaments. Do not add a spine or book side. Keep 1024 x 1536.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Selected correction removes the rounded left binding; the brown front cover fills every edge with two black iron arrow straps, right clasp and corner guards matching the original. No text, pages or background.",
+      "inputs": [
+        {
+          "path": "item207_icon_x8.png",
+          "sha256": "b4360b3f22b33133059d510f0fcbcc978630d856edcef003a7651b78f94dabc3"
+        },
+        {
+          "path": "item207_cover_attempt_01.png",
+          "sha256": "e3cd2e51e5efe7aaf5e2a02b027a6ad64837928ac3c57a3d8bf8dba734b233df"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item207_cover.png",
+          "sha256": "4d7735e07f89d79e88b7351f4b921caf152affade89abf4cf068efc8133edfff",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-848c218e-9dbb-46f3-93a5-35b16b65775d.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true,
+      "limitations": [
+        "Small local relief shadows remain along iron edges."
+      ]
+    },
+    {
+      "icon": "item207",
+      "part": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: item207_icon_x8.png, original design authority. Input 2: item207_cover.png, matching restored leather and iron reference.\nProduce ONE opaque spine-only PNG, requested 256 x 1536 pixels, narrow 1:6 portrait. If actual output dimensions differ, the entire returned canvas must still be covered in spine surface, without padding. An unwrapped planar texture, not a book-object photograph; no front cover, pages, book thickness, curved silhouette, cylindrical shading, background or margins.\nWarm ochre/cinnamon-brown worn wrinkled leather matching the cover, with several raised horizontal binding bands and restrained blackened iron straps and small matching spiked/fleur-de-lis iron ornaments and aged brass rivets. Keep small ornaments centred between horizontal bands, not the large front-cover layout. Match the rugged sparse style of the icon; no extra heraldry, jewels or ornamental border, no titles or lettering.\nPerfectly flat front-facing rectangular UV surface filling all four image edges. Even neutral diffuse albedo lighting, no strong highlights, directional cast shadows or vignette. Detailed coherent leather grain and aged dark iron, no enlarged source pixelation. No text, letters, numerals or watermark.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": false,
+      "reason": "Full-bleed rectangular spine surface in matching cinnamon leather, with horizontal raised binding bands, dark iron arrow ornaments and brass rivets; no lettering, pages or outside background. Superseded for one permitted correction to reduce baked lighting.",
+      "inputs": [
+        {
+          "path": "item207_icon_x8.png",
+          "sha256": "b4360b3f22b33133059d510f0fcbcc978630d856edcef003a7651b78f94dabc3"
+        },
+        {
+          "path": "item207_cover.png",
+          "sha256": "4d7735e07f89d79e88b7351f4b921caf152affade89abf4cf068efc8133edfff"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item207_spine_attempt_01.png",
+          "sha256": "628dd947e2afd8c750b0bf3e5d27e2d3dac08bc6ac73504b1fa9e1e08ed8954a",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-b0544e77-102c-4a06-9add-f7a60525b11a.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Tool returned 1024 x 1536 instead of 256 x 1536; retained unresized.",
+        "Relief shading remains on binding bands and iron ornaments."
+      ]
+    },
+    {
+      "icon": "item208",
+      "part": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: item208_icon_x8.png is the exact design, colour, material and ornament authority. Convert its FRONT COVER to a flat orthographic rectangular texture, requested 1024 x 1536 portrait opaque PNG.\nFaithfully reconstruct the ornate bone-covered tome: dark aged olive-gold/brown backing, dense intertwined pale aged ivory bones and thin bone lattice, a large central stylized ivory skull surrounded by an oval/circular ring of small bones. Preserve the two small red jewels above the skull's dark amber eye sockets, its triangular black nasal opening and small bared teeth. Follow the icon's paired thick curved rib/horn-like bones curling outward and inward above and below the skull, connected by the finer diagonal bony lattice. Flatten the left-edge row of short horizontal ivory bone ties as cover-border ornament, not a projecting spine. Keep the original asymmetry and bone framework, not a new symmetrical gothic filigree design. Bone and antique gold palette with only the two small red accent stones, not a red cover.\nThe whole canvas IS the front cover: perfectly rectangular, edge-to-edge material, no outside background, magenta, margin or padding. All bone ornaments stay on this flat cover plane. No visible pages, no spine, no book thickness, no perspective, no curved book object or drop shadow.\nUse even flat diffuse neutral illumination appropriate to an albedo texture; no strong specular highlights, cast shadows or vignette. Show bone wear and dark interstices with restrained local colour detail, no dramatic relief lighting. Restore crisp coherent high-resolution shapes without the icon's pixel blocks. No letters, writing, words, numerals or watermark.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Bone lattice, palette and red brow stones match, but the skull gained long canine fangs and an elongated creature muzzle absent from the original. One correction restores the short skull and reduces relief lighting.",
+      "inputs": [
+        {
+          "path": "item208_icon_x8.png",
+          "sha256": "4d35f23f50748cfd8d9b9ae844c7f6648276e2b2925cd73970e4c4610689e7ff"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item208_cover_attempt_01.png",
+          "sha256": "325499c82553d40506a61102403b483c57b322bd64e7c723db258959f62a5c98",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-0ebe973e-a154-49dd-b806-3c885d39e251.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true
+    },
+    {
+      "icon": "item208",
+      "part": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: item208_icon_x8.png is the exact design, colour, material and ornament authority. Convert its FRONT COVER to a flat orthographic rectangular texture, requested 1024 x 1536 portrait opaque PNG.\nFaithfully reconstruct the ornate bone-covered tome: dark aged olive-gold/brown backing, dense intertwined pale aged ivory bones and thin bone lattice, a large central stylized ivory skull surrounded by an oval/circular ring of small bones. Preserve the two small red jewels above the skull's dark amber eye sockets, its triangular black nasal opening and small bared teeth. Follow the icon's paired thick curved rib/horn-like bones curling outward and inward above and below the skull, connected by the finer diagonal bony lattice. Flatten the left-edge row of short horizontal ivory bone ties as cover-border ornament, not a projecting spine. Keep the original asymmetry and bone framework, not a new symmetrical gothic filigree design. Bone and antique gold palette with only the two small red accent stones, not a red cover.\nThe whole canvas IS the front cover: perfectly rectangular, edge-to-edge material, no outside background, magenta, margin or padding. All bone ornaments stay on this flat cover plane. No visible pages, no spine, no book thickness, no perspective, no curved book object or drop shadow.\nUse even flat diffuse neutral illumination appropriate to an albedo texture; no strong specular highlights, cast shadows or vignette. Show bone wear and dark interstices with restrained local colour detail, no dramatic relief lighting. Restore crisp coherent high-resolution shapes without the icon's pixel blocks. No letters, writing, words, numerals or watermark.\nCORRECTIVE PASS: Image 1 is the authoritative original icon; image 2 is the first texture. Keep the full-bleed rectangular cover, aged ivory bone lattice, olive-gold backing, red brow stones and curved surrounding bones of image 2. Correct ONLY the skull identity and lighting: the icon has a short, broad stylized HUMAN skull face with a small straight row of short normal teeth and a compact jaw. Remove the elongated animal muzzle, ALL long canine fangs, and snarling monster anatomy. Preserve the source's two dark amber eye sockets below the small red forehead stones. Reduce strong shadows and bright highlights across the whole texture toward flat evenly lit diffuse base colour. Fill any tiny uncovered corner pixels with the same cover material. No background or projecting spine; no new ornaments. Output remains 1024 x 1536.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Selected correction shortens the skull and reduces its muzzle; bone lattice, two red brow stones, amber sockets and olive-gold backing remain faithful in a full-bleed rectangular cover. Better of the two allowed attempts.",
+      "inputs": [
+        {
+          "path": "item208_icon_x8.png",
+          "sha256": "4d35f23f50748cfd8d9b9ae844c7f6648276e2b2925cd73970e4c4610689e7ff"
+        },
+        {
+          "path": "item208_cover_attempt_01.png",
+          "sha256": "325499c82553d40506a61102403b483c57b322bd64e7c723db258959f62a5c98"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item208_cover.png",
+          "sha256": "6de8067eba55f7b1a01f517542b91aa842ffb3ff7e6f7607393e1618b43b5cad",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-354c4001-b186-4380-97be-26579d6c438f.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true,
+      "limitations": [
+        "The correction still leaves pointed canine-like teeth, differing from the source's short tooth row.",
+        "Bone relief retains visible local highlights/shadows despite the flat-light request; regeneration cap reached."
+      ]
+    },
+    {
+      "icon": "item208",
+      "part": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: item208_icon_x8.png is the original design authority. Input 2: item208_cover.png is the restored matching bone and backing material reference.\nONE opaque PNG of ONLY the unwrapped flat spine, requested 256 x 1536, narrow 1:6 portrait. If output uses another size, cover the whole returned canvas edge to edge; do not put a narrow object on a wider backdrop. No visible front cover, page edges, object silhouette, book thickness, perspective, curved cylindrical shading, margins or background.\nMatch the bone tome's aged ivory bones over dark muted olive-gold/brown cover material. Several horizontal pale bone binding bands span the full width, inspired by the short bone ties on the icon's spine. Between them use small vertebra/joint ornaments and restrained thin bone lattice from the cover. A spine pattern, not a second large skull cover: no big skull face, eyeballs or added heraldry. Ivory and subdued gold-brown palette with fine aged surface detail.\nUniform diffuse flat base-colour lighting: no cast shadows, strong highlights, spotlight, gradient or vignette. The outermost pixels on all four sides remain material, no empty corners. Crisp nonpixelated reconstruction. No letters, text, numbers, writing or watermark.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": false,
+      "reason": "Edge-to-edge straight-on spine in matching ivory and olive-gold, with horizontal bone bands and small vertebra/lattice ornaments; no large cover skull, lettering, pages or background. Superseded for one permitted correction to reduce baked lighting.",
+      "inputs": [
+        {
+          "path": "item208_icon_x8.png",
+          "sha256": "4d35f23f50748cfd8d9b9ae844c7f6648276e2b2925cd73970e4c4610689e7ff"
+        },
+        {
+          "path": "item208_cover.png",
+          "sha256": "6de8067eba55f7b1a01f517542b91aa842ffb3ff7e6f7607393e1618b43b5cad"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item208_spine_attempt_01.png",
+          "sha256": "94852369548ae680ec5db018cdc878804fe5c6faa9cf7efdf81a4764708d084d",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-11cebecf-765d-4ca2-b8be-7d95847e9cd1.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Tool returned 1024 x 1536 instead of 256 x 1536; retained unresized.",
+        "Visible relief shadows remain beneath bone bands."
+      ]
+    },
+    {
+      "icon": "item209",
+      "part": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: item209_icon_x8.png is the original and sole design, colour, material and ornament authority. Rectify ONLY its front cover to an opaque portrait texture, requested 1024 x 1536 pixels.\nMatch its deep black leather with vivid dark-scarlet/red curling vine-like ornamental inlay filling the surrounding cover field. In the centre is a black square inset panel with a thin tarnished silver rectangular frame and a red circular seal containing the same inverted five-pointed pentagram as the source: exactly FIVE points, one pointing straight DOWN, two upper points, lines visibly crossing within the circle. Keep the red circular ring and simple decorative non-letter marks, no legible or pseudo lettering. At all four corners are the source's triangular/scalloped tarnished silver fittings with red round cabochon stones; keep the small silver clasp flattened at the right edge near the upper middle. Restore the exact black/red/silver palette and original layout, no extra skull, gold ornament, flame, glow or invented heraldry.\nThis is the FRONT COVER plane only. All four cover edges meet all four canvas edges, every pixel is cover or fitting. No exposed spine or curled binding strip, no pages, no book thickness, no perspective, no outside background or magenta, no margin or padding. Thin silver edge trim is part of the face, not an outside picture frame.\nFlat even diffuse neutral illumination for an albedo map. No cast shadows, directional highlights, intense reflections, bloom, dramatic light or vignette; red is coloured inlay, not emitted light. Crisp coherent high-resolution material detail, no enlarged pixel grid. No letters, writing, words, numbers, captions or watermark.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Straight-on full-bleed black/red cover retains the inverted five-point pentagram in a circular seal, silver central frame, four red cabochon corner guards and right clasp. No text, spine, pages or background. Superseded for one permitted correction to reduce baked lighting.",
+      "inputs": [
+        {
+          "path": "item209_icon_x8.png",
+          "sha256": "ce7ecd8eb2a150c58545e408d98588da3434b342ac2a8d0495fb9d16e4d7013a"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item209_cover_attempt_01.png",
+          "sha256": "6fbbc1e46a60d57e9065a51d0c30f913f92f23f4cc7a34aecf86cd66812460d6",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-cae104d1-a23f-4145-8ebb-c86d9c165aea.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true,
+      "limitations": [
+        "Local metal/jewel highlights and relief shading remain."
+      ]
+    },
+    {
+      "icon": "item209",
+      "part": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: item209_icon_x8.png is the source design authority. Input 2: item209_cover.png is the matching restored material/ornament reference.\nDeliver ONE opaque spine-only PNG, requested 256 x 1536, narrow 1:6 portrait. Fill every pixel with the flat unwrapped spine surface, even if the tool returns a different canvas size. Never centre a narrow book object within an empty field. No cover face, pages, book thickness, perspective, curved cylindrical silhouette, background, margin or padding.\nMatching deep black worn leather with bright scarlet red ornamental curling vine inlay, several raised horizontal tarnished-silver binding bands, and small silver-set red cabochon studs between bands. Use restrained little red geometric star/circle ornaments from the cover where appropriate; keep small spine ornament scale, not a large front-cover panel. Same black, red and silver palette, no gold, skull, flames or new heraldry. Red inlay is matte colour, not glowing light.\nUniform flat diffuse albedo lighting with minimal relief cues, no cast shadows, strong highlights, spotlight, bloom or vignette. Material extends fully to all four borders, no external empty corners. Detailed coherent surface without enlarged pixels. No lettering, titles, words, numerals, pseudo-writing, labels or watermark.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": false,
+      "reason": "Full-bleed black/red spine with silver horizontal binding bands, matching red cabochons and small central red star seal; no text, pages, perspective or background. Superseded for one permitted correction to reduce baked lighting.",
+      "inputs": [
+        {
+          "path": "item209_icon_x8.png",
+          "sha256": "ce7ecd8eb2a150c58545e408d98588da3434b342ac2a8d0495fb9d16e4d7013a"
+        },
+        {
+          "path": "item209_cover_attempt_01.png",
+          "sha256": "6fbbc1e46a60d57e9065a51d0c30f913f92f23f4cc7a34aecf86cd66812460d6"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item209_spine_attempt_01.png",
+          "sha256": "f410efa30d132c8a76c86a7e79c4cc759b62b2069ae1bcb7deceefe3e45b4115",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-febe0804-6e5a-4fdd-bad9-9bb7fd076aad.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Tool returned 1024 x 1536 instead of 256 x 1536; retained unresized.",
+        "Local metallic and jewel relief highlights remain."
+      ]
+    },
+    {
+      "icon": "item210",
+      "part": "cover",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: item210_icon_x8.png is the exact design, colour, material and ornament authority. Transform its front cover only into a perfectly rectangular orthographic opaque PNG, requested 1024 x 1536 portrait.\nMatch the deep warm crimson/red leather cover densely decorated with delicate fine antique-gold winding vine/leaf filigree. In the centre preserve the large round gold-rimmed medallion with red field and a small broad ivory HUMAN skull, two dark burgundy-red empty eye sockets, triangular black nose cavity and short normal human teeth. No fangs, no animal muzzle, no horns, no flesh eyes. Retain the four small gold leaf/fleur-de-lis ornaments around the skull inside the medallion, following the source. Keep the four corner gold fittings with round red cabochons, thin gold perimeter trim and TWO small antique-gold clasp plates entering from the right edge, one above and one below the medallion's centre. All fittings are flattened onto the cover plane. Preserve the ornate source rather than redesigning it. No pentagram, no new heraldry, no extra jewels or skulls.\nThe four front-cover edges meet the four canvas edges exactly; every pixel belongs to the cover face or fittings. No external background, no magenta, no margin or padding, no pages, no visible spine or rolled binding strip, no book thickness, perspective or 3D mockup.\nFlat even diffuse neutral albedo lighting with matte/subdued gold and ivory, no directional cast shadows, strong highlights, spotlight, glow or vignette. Use fine surface colour detail for wear, not dramatic sculptural lighting. Crisp coherent restored leather and gold ornament, not pixel enlargement. No lettering, text, words, numbers, signatures or watermark.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": false,
+      "reason": "Correct red/gold cover, central human skull, four corner stones and two clasps, but strong metallic lighting and shadows are baked into raised ornament. One correction flattens lighting.",
+      "inputs": [
+        {
+          "path": "item210_icon_x8.png",
+          "sha256": "a3a45814fa8413a465a4ea8791dbf1772e8139597e364b6824be5efafc5a4139"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item210_cover_attempt_01.png",
+          "sha256": "66026a88af6588f4ebe0d049f36e4f1b605ec270e66032d83648fb3b42b513fb",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-427225f0-672f-4b3e-b540-fb8eca600056.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true
+    },
+    {
+      "icon": "item210",
+      "part": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: item210_icon_x8.png is the exact design, colour, material and ornament authority. Transform its front cover only into a perfectly rectangular orthographic opaque PNG, requested 1024 x 1536 portrait.\nMatch the deep warm crimson/red leather cover densely decorated with delicate fine antique-gold winding vine/leaf filigree. In the centre preserve the large round gold-rimmed medallion with red field and a small broad ivory HUMAN skull, two dark burgundy-red empty eye sockets, triangular black nose cavity and short normal human teeth. No fangs, no animal muzzle, no horns, no flesh eyes. Retain the four small gold leaf/fleur-de-lis ornaments around the skull inside the medallion, following the source. Keep the four corner gold fittings with round red cabochons, thin gold perimeter trim and TWO small antique-gold clasp plates entering from the right edge, one above and one below the medallion's centre. All fittings are flattened onto the cover plane. Preserve the ornate source rather than redesigning it. No pentagram, no new heraldry, no extra jewels or skulls.\nThe four front-cover edges meet the four canvas edges exactly; every pixel belongs to the cover face or fittings. No external background, no magenta, no margin or padding, no pages, no visible spine or rolled binding strip, no book thickness, perspective or 3D mockup.\nFlat even diffuse neutral albedo lighting with matte/subdued gold and ivory, no directional cast shadows, strong highlights, spotlight, glow or vignette. Use fine surface colour detail for wear, not dramatic sculptural lighting. Crisp coherent restored leather and gold ornament, not pixel enlargement. No lettering, text, words, numbers, signatures or watermark.\nCORRECTIVE PASS — UNLIT BASE COLOUR: Image 1 is the original design; image 2 is the generated cover to correct. Keep every shape, position, colour family and material pattern from image 2. Remove baked lighting only. This must look like a flat scanned printed texture, not a lit sculpted object: all gold filigree and rims become matte antique-gold colour with surface wear but NO white specular lines and NO dark cast-shadow strips beneath them. Skull becomes evenly illuminated ivory bone with dark eye/nose cavities only; no directional shadow underneath its jaw. Red leather has the same brightness everywhere. Preserve crisp design detail; do not wash out or blur. Entire frame remains covered, straight-on, no background, lettering, spine or pages. Requested 1024 x 1536.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Selected correction substantially reduces gold specular lighting while preserving the red cover, central human skull, gold filigree, four red corner stones and two clasps. Full-bleed straight-on face without text, spine or pages.",
+      "inputs": [
+        {
+          "path": "item210_icon_x8.png",
+          "sha256": "a3a45814fa8413a465a4ea8791dbf1772e8139597e364b6824be5efafc5a4139"
+        },
+        {
+          "path": "item210_cover_attempt_01.png",
+          "sha256": "66026a88af6588f4ebe0d049f36e4f1b605ec270e66032d83648fb3b42b513fb"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item210_cover.png",
+          "sha256": "4e88558a8c6443f1536ca1c47ba75edd4aab91587fef63dd94231e6194896b96",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-b4fb0576-57b5-455f-b74f-0670a00f7bd4.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true,
+      "limitations": [
+        "Some local relief shading persists around the skull and narrow ornament edges."
+      ]
+    },
+    {
+      "icon": "item210",
+      "part": "spine",
+      "attempt": 1,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: item210_icon_x8.png is the original book design authority. Input 2: item210_cover.png is the matching restored front-cover material reference.\nDeliver ONE opaque spine-only PNG, requested 256 x 1536, narrow 1:6 portrait. Entire width and height are spine material. If the tool returns another canvas size, fill its full area with the unwrapped planar spine texture anyway, never a narrow object on a wider background. No cover face, pages, book thickness, perspective, curved silhouette, cylindrical shading, margins or padding.\nMatch the warm crimson-red leather with delicate antique-gold winding leaf/vine inlay. Include several raised horizontal binding bands in matching antique gold, small gold fleur-de-lis ornaments and restrained small red cabochons between bands, using the source's details. Small spine ornament scale only, no large skull medallion or duplicate front-cover composition. Gold, red and muted ivory accents if needed, no silver or new motifs.\nUNLIT BASE COLOUR: render as a flat scanned printed texture, not a lit sculpted book. Matte antique-gold with wear, no white specular streaks or dark cast-shadow strips under ornament. Red leather evenly bright across its surface. Raised bands indicated by restrained material contours only. Preserve sharp surface grain without blur or upscaled pixelation. No directional light, strong highlights, vignette or glow. No lettering, text, titles, numbers, labels or watermark.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Edge-to-edge flat spine texture matches the crimson leather, matte gold filigree and red stones; raised horizontal bands and small ornaments, no text or front-cover skull.",
+      "inputs": [
+        {
+          "path": "item210_icon_x8.png",
+          "sha256": "a3a45814fa8413a465a4ea8791dbf1772e8139597e364b6824be5efafc5a4139"
+        },
+        {
+          "path": "item210_cover.png",
+          "sha256": "4e88558a8c6443f1536ca1c47ba75edd4aab91587fef63dd94231e6194896b96"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item210_spine.png",
+          "sha256": "7f35ac768cd20c9deaaf49363fcc1ac7697377ab1bcc39182fbc7d93afa9ff37",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-e6855f10-a86a-47be-ab64-2a0d666abe7c.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Tool returned 1024 x 1536 instead of 256 x 1536; retained unresized.",
+        "Some local relief shading and jewel highlights remain."
+      ]
+    },
+    {
+      "icon": "book4",
+      "part": "spine",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: book4_icon_x8.png, original design authority. Input 2: book4_cover.png, matching restored cover material reference only.\nDeliver ONE spine-only opaque PNG, requested 256 x 1536 pixels, a very narrow 1:6 portrait texture. The spine surface must cover EVERY pixel of the output from edge to edge. If the actual canvas differs, still fill its entire width and height with spine material; never draw a narrow strip on a wider background. This is a fully unwrapped flat UV surface, with no cylindrical shading, outline, side edges, pages, front cover, tabletop, empty margin or background.\nUse the same mottled dark slate-blue worn leather as the restored front cover, weathered silver/aged brass raised horizontal binding bands across the full width at several intervals, and small simple brass stud/flared-bar ornaments matching the book4 fittings. Keep the ornament sparse and geometric like the source. NO lettering, title, letters, numerals or invented complex filigree.\nFlat uniform neutral diffuse illumination, subdued metal, no directional highlights, no cast shadows, no rounded shaded spine silhouette, no vignette. Crisp coherent leather grain; not an upscaled pixelated icon. Full-bleed material-only spine albedo texture.\nCORRECTIVE PASS — UNLIT DIFFUSE BASE COLOUR ONLY: The first reference is the authoritative original icon; the FINAL reference is the current texture to correct (any middle reference is matching cover material). Keep the final reference's exact layout, ornament shapes, colour families, material wear, full-bleed framing and straight-on alignment. Remove baked directional lighting. Make this look like a flat scanned printed texture, not a lit sculpted object: metal has matte material colour with wear but NO white specular streaks and NO dark cast-shadow strips beneath it; bone is evenly illuminated aged ivory; leather has uniform overall illumination. Remove shadow gutters around horizontal bands while retaining their outlines, seams, shallow raised-band cues and material texture. No vignetting or darkened outer border. Preserve design contrast and fine detail, no blur or washed-out colours. No new features, lettering, pages, perspective, spine silhouette or background. Every pixel remains material. Preserve the returned canvas extent; do not introduce margins to chase the requested dimensions.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Correction keeps the blue leather, brass bands and small ornaments with less mottled specular metal shading; full-bleed and no lettering. Selected within the two-attempt cap.",
+      "inputs": [
+        {
+          "path": "book4_icon_x8.png",
+          "sha256": "a6176da5ff94927d0848a9a92f272cb6822980933e55d687304f55674e0470db"
+        },
+        {
+          "path": "book4_cover.png",
+          "sha256": "42342a64a5fcfea0d00d0164c80fd4ee73cde45832b9fbd110dcff2a66d044f6"
+        },
+        {
+          "path": "book4_spine_attempt_01.png",
+          "sha256": "33766873c696fbd8969cfea046530cb20d4d164f6dcfb3bc386abe63f4596bcb"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book4_spine.png",
+          "sha256": "2039ab01bf443ab75661eaf7ccf5b48e0576027ea8d40687a4cd73227abfc639",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-0eb593ff-a3d4-4ce8-9496-284c4a87363f.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Returned 1024 x 1536 rather than 256 x 1536; retained unresized.",
+        "Thin highlights and local relief shadows remain at hardware edges despite the correction."
+      ]
+    },
+    {
+      "icon": "book5",
+      "part": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: book5_icon_x8.png, the sole design, colour, material and ornament authority. Rectify its front cover to a perfectly rectangular straight-on texture. Deliver ONE opaque portrait PNG, requested 1024 x 1536.\nMatch this specific cover: aged pale cream/ochre cover material exposed around a large irregular scalloped dark olive-green bronze central metal plate. Preserve the plate's pattern of paired embossed oval loops, four pairs arranged down the plate, with a column of four round studs between the pairs and smaller rivet details near the left edge, as visible in the source. The loops are simple embossed metal ovals, not letters. At the top and bottom retain the dark weathered curled metal clasp ornaments against the pale exposed cover, flattened into the same plane. Subtle dark green trim, worn warm metal and tarnished green-brown palette exactly from the icon. Do not add heraldry, skulls, lettering, elaborate filigree or a new frame.\nThe four COVER edges coincide with all four canvas edges: full-bleed material, no outside background, no magenta, no padding, no margins. Front face only: no visible spine, curved binding strip, page edges, book thickness or 3D mockup.\nEven neutral diffuse flat albedo lighting, no cast shadows, specular glare, directional highlights or vignette. Retain material detail and ornament outlines using colour, with only minimal relief cues. Coherent high-resolution surface grain without enlarged source pixels. No text, letters, numbers, signature or watermark.\nCORRECTIVE PASS — UNLIT DIFFUSE BASE COLOUR ONLY: The first reference is the authoritative original icon; the FINAL reference is the current texture to correct (any middle reference is matching cover material). Keep the final reference's exact layout, ornament shapes, colour families, material wear, full-bleed framing and straight-on alignment. Remove baked directional lighting. Make this look like a flat scanned printed texture, not a lit sculpted object: metal has matte material colour with wear but NO white specular streaks and NO dark cast-shadow strips beneath it; bone is evenly illuminated aged ivory; leather has uniform overall illumination. Remove shadow gutters around horizontal bands while retaining their outlines, seams, shallow raised-band cues and material texture. No vignetting or darkened outer border. Preserve design contrast and fine detail, no blur or washed-out colours. No new features, lettering, pages, perspective, spine silhouette or background. Every pixel remains material. Preserve the returned canvas extent; do not introduce margins to chase the requested dimensions.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Lighting correction preserves the scalloped olive-bronze plate, loop/stud arrangement and pale exposed cover with a more uniform surface. Full-bleed, straight-on, no text, pages or spine.",
+      "inputs": [
+        {
+          "path": "book5_icon_x8.png",
+          "sha256": "f9db7e1cd7a4c034bef1d27770c750425941c4f30b390aaf474c001f143db1a8"
+        },
+        {
+          "path": "book5_cover_attempt_01.png",
+          "sha256": "037c236c32c1667a01aee14fe6eb41ce94b21cbf183ba4c6af750f268f7c4fd7"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book5_cover.png",
+          "sha256": "fd6a1c7f967fff39c743d97420c7ca543ee6a1ff8d9d9cf89600a0d0becef04e",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-de9b11b5-10c0-4a07-80d6-454c7d0de777.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true,
+      "limitations": [
+        "Local stud highlights and shading beside embossed loops persist; correction cap reached."
+      ]
+    },
+    {
+      "icon": "book5",
+      "part": "spine",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: book5_icon_x8.png is the original book design authority. Input 2: book5_cover.png is the matching restored cover palette/material reference.\nDeliver ONE opaque spine-only PNG, requested 256 x 1536 pixels, narrow 1:6 portrait. The full output width and height must be covered by the unwrapped SPINE material. If returned dimensions differ, fill the entire returned canvas anyway. No narrow book object on a wider backdrop; every pixel is surface. Absolutely no cover face, page edges, book thickness, cylinder shading, empty border, margin, magenta or background.\nMatch book5's aged muted olive-green/brown bronze, pale cream-ochre worn binding material and restrained green patina. Use a spine covered in its olive-bronze/green-brown material, with raised horizontal binding bands at several intervals and matching small simple oval-loop and round-stud ornaments between bands. Include modest pale worn binding material near the head and foot to tie into the cover. Sparse simple metal decoration, no invented elaborate filigree. No lettering or titles.\nUniform flat diffuse albedo lighting, no cast shadows, no directional shine, no glossy highlights, no vignette. Render relief with restrained colour edges only. Straight rectangular edge-to-edge UV texture, no curved silhouette or perspective; crisp coherent material grain without source pixelation.\nCORRECTIVE PASS — UNLIT DIFFUSE BASE COLOUR ONLY: The first reference is the authoritative original icon; the FINAL reference is the current texture to correct (any middle reference is matching cover material). Keep the final reference's exact layout, ornament shapes, colour families, material wear, full-bleed framing and straight-on alignment. Remove baked directional lighting. Make this look like a flat scanned printed texture, not a lit sculpted object: metal has matte material colour with wear but NO white specular streaks and NO dark cast-shadow strips beneath it; bone is evenly illuminated aged ivory; leather has uniform overall illumination. Remove shadow gutters around horizontal bands while retaining their outlines, seams, shallow raised-band cues and material texture. No vignetting or darkened outer border. Preserve design contrast and fine detail, no blur or washed-out colours. No new features, lettering, pages, perspective, spine silhouette or background. Every pixel remains material. Preserve the returned canvas extent; do not introduce margins to chase the requested dimensions.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Correction softens directional band shading while retaining the olive-bronze material, loop ornaments, studs and pale head/foot panels; full-bleed, straight-on and without lettering.",
+      "inputs": [
+        {
+          "path": "book5_icon_x8.png",
+          "sha256": "f9db7e1cd7a4c034bef1d27770c750425941c4f30b390aaf474c001f143db1a8"
+        },
+        {
+          "path": "book5_cover_attempt_01.png",
+          "sha256": "037c236c32c1667a01aee14fe6eb41ce94b21cbf183ba4c6af750f268f7c4fd7"
+        },
+        {
+          "path": "book5_spine_attempt_01.png",
+          "sha256": "aa37c6f1f6956c710adf81f89628c5583d3ae40330091b0c5330ea4d77bded70"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "book5_spine.png",
+          "sha256": "4a8e982054d96bb73d7f903efeebe431f650a717a4d779c6fbfcebaee174a29a",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-93fffdb0-657f-429b-840f-58c21deab4e2.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Returned 1024 x 1536 rather than 256 x 1536; retained unresized.",
+        "Local embossed-loop and stud shading remains; correction cap reached."
+      ]
+    },
+    {
+      "icon": "item207",
+      "part": "spine",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: item207_icon_x8.png, original design authority. Input 2: item207_cover.png, matching restored leather and iron reference.\nProduce ONE opaque spine-only PNG, requested 256 x 1536 pixels, narrow 1:6 portrait. If actual output dimensions differ, the entire returned canvas must still be covered in spine surface, without padding. An unwrapped planar texture, not a book-object photograph; no front cover, pages, book thickness, curved silhouette, cylindrical shading, background or margins.\nWarm ochre/cinnamon-brown worn wrinkled leather matching the cover, with several raised horizontal binding bands and restrained blackened iron straps and small matching spiked/fleur-de-lis iron ornaments and aged brass rivets. Keep small ornaments centred between horizontal bands, not the large front-cover layout. Match the rugged sparse style of the icon; no extra heraldry, jewels or ornamental border, no titles or lettering.\nPerfectly flat front-facing rectangular UV surface filling all four image edges. Even neutral diffuse albedo lighting, no strong highlights, directional cast shadows or vignette. Detailed coherent leather grain and aged dark iron, no enlarged source pixelation. No text, letters, numerals or watermark.\nCORRECTIVE PASS — UNLIT DIFFUSE BASE COLOUR ONLY: The first reference is the authoritative original icon; the FINAL reference is the current texture to correct (any middle reference is matching cover material). Keep the final reference's exact layout, ornament shapes, colour families, material wear, full-bleed framing and straight-on alignment. Remove baked directional lighting. Make this look like a flat scanned printed texture, not a lit sculpted object: metal has matte material colour with wear but NO white specular streaks and NO dark cast-shadow strips beneath it; bone is evenly illuminated aged ivory; leather has uniform overall illumination. Remove shadow gutters around horizontal bands while retaining their outlines, seams, shallow raised-band cues and material texture. No vignetting or darkened outer border. Preserve design contrast and fine detail, no blur or washed-out colours. No new features, lettering, pages, perspective, spine silhouette or background. Every pixel remains material. Preserve the returned canvas extent; do not introduce margins to chase the requested dimensions.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Correction retains cinnamon leather, raised horizontal bands and dark iron arrow ornaments with subdued metal treatment and no disconnected right-edge fitting. Full-bleed, straight-on, no text or pages.",
+      "inputs": [
+        {
+          "path": "item207_icon_x8.png",
+          "sha256": "b4360b3f22b33133059d510f0fcbcc978630d856edcef003a7651b78f94dabc3"
+        },
+        {
+          "path": "item207_cover.png",
+          "sha256": "4d7735e07f89d79e88b7351f4b921caf152affade89abf4cf068efc8133edfff"
+        },
+        {
+          "path": "item207_spine_attempt_01.png",
+          "sha256": "628dd947e2afd8c750b0bf3e5d27e2d3dac08bc6ac73504b1fa9e1e08ed8954a"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item207_spine.png",
+          "sha256": "49156b25fb1906b2baf8b207041622750562a1faec58a173d03fe1336bc68ae2",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-3d6b45ab-d5bd-4f5b-9e28-66ad885496ee.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Returned 1024 x 1536 rather than 256 x 1536; retained unresized.",
+        "Visible shading remains along raised leather bands and iron edges; correction cap reached."
+      ]
+    },
+    {
+      "icon": "item208",
+      "part": "spine",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: item208_icon_x8.png is the original design authority. Input 2: item208_cover.png is the restored matching bone and backing material reference.\nONE opaque PNG of ONLY the unwrapped flat spine, requested 256 x 1536, narrow 1:6 portrait. If output uses another size, cover the whole returned canvas edge to edge; do not put a narrow object on a wider backdrop. No visible front cover, page edges, object silhouette, book thickness, perspective, curved cylindrical shading, margins or background.\nMatch the bone tome's aged ivory bones over dark muted olive-gold/brown cover material. Several horizontal pale bone binding bands span the full width, inspired by the short bone ties on the icon's spine. Between them use small vertebra/joint ornaments and restrained thin bone lattice from the cover. A spine pattern, not a second large skull cover: no big skull face, eyeballs or added heraldry. Ivory and subdued gold-brown palette with fine aged surface detail.\nUniform diffuse flat base-colour lighting: no cast shadows, strong highlights, spotlight, gradient or vignette. The outermost pixels on all four sides remain material, no empty corners. Crisp nonpixelated reconstruction. No letters, text, numbers, writing or watermark.\nCORRECTIVE PASS — UNLIT DIFFUSE BASE COLOUR ONLY: The first reference is the authoritative original icon; the FINAL reference is the current texture to correct (any middle reference is matching cover material). Keep the final reference's exact layout, ornament shapes, colour families, material wear, full-bleed framing and straight-on alignment. Remove baked directional lighting. Make this look like a flat scanned printed texture, not a lit sculpted object: metal has matte material colour with wear but NO white specular streaks and NO dark cast-shadow strips beneath it; bone is evenly illuminated aged ivory; leather has uniform overall illumination. Remove shadow gutters around horizontal bands while retaining their outlines, seams, shallow raised-band cues and material texture. No vignetting or darkened outer border. Preserve design contrast and fine detail, no blur or washed-out colours. No new features, lettering, pages, perspective, spine silhouette or background. Every pixel remains material. Preserve the returned canvas extent; do not introduce margins to chase the requested dimensions.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Correction keeps the full-bleed ivory bone bands, small vertebrae and olive-gold backing with more even ivory surface lighting; no text, large skull, pages or external background.",
+      "inputs": [
+        {
+          "path": "item208_icon_x8.png",
+          "sha256": "4d35f23f50748cfd8d9b9ae844c7f6648276e2b2925cd73970e4c4610689e7ff"
+        },
+        {
+          "path": "item208_cover.png",
+          "sha256": "6de8067eba55f7b1a01f517542b91aa842ffb3ff7e6f7607393e1618b43b5cad"
+        },
+        {
+          "path": "item208_spine_attempt_01.png",
+          "sha256": "94852369548ae680ec5db018cdc878804fe5c6faa9cf7efdf81a4764708d084d"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item208_spine.png",
+          "sha256": "7e238daa5675b86acbb1dfa63775432f41a172c2c0bc497f3fb4a257fe75ddc7",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-91d526b0-2290-4804-ba03-ce0383b6adcd.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Returned 1024 x 1536 rather than 256 x 1536; retained unresized.",
+        "Local dark shading beneath raised bone remains; correction cap reached."
+      ]
+    },
+    {
+      "icon": "item209",
+      "part": "cover",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the cover of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The cover fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput: item209_icon_x8.png is the original and sole design, colour, material and ornament authority. Rectify ONLY its front cover to an opaque portrait texture, requested 1024 x 1536 pixels.\nMatch its deep black leather with vivid dark-scarlet/red curling vine-like ornamental inlay filling the surrounding cover field. In the centre is a black square inset panel with a thin tarnished silver rectangular frame and a red circular seal containing the same inverted five-pointed pentagram as the source: exactly FIVE points, one pointing straight DOWN, two upper points, lines visibly crossing within the circle. Keep the red circular ring and simple decorative non-letter marks, no legible or pseudo lettering. At all four corners are the source's triangular/scalloped tarnished silver fittings with red round cabochon stones; keep the small silver clasp flattened at the right edge near the upper middle. Restore the exact black/red/silver palette and original layout, no extra skull, gold ornament, flame, glow or invented heraldry.\nThis is the FRONT COVER plane only. All four cover edges meet all four canvas edges, every pixel is cover or fitting. No exposed spine or curled binding strip, no pages, no book thickness, no perspective, no outside background or magenta, no margin or padding. Thin silver edge trim is part of the face, not an outside picture frame.\nFlat even diffuse neutral illumination for an albedo map. No cast shadows, directional highlights, intense reflections, bloom, dramatic light or vignette; red is coloured inlay, not emitted light. Crisp coherent high-resolution material detail, no enlarged pixel grid. No letters, writing, words, numbers, captions or watermark.\nCORRECTIVE PASS — UNLIT DIFFUSE BASE COLOUR ONLY: The first reference is the authoritative original icon; the FINAL reference is the current texture to correct (any middle reference is matching cover material). Keep the final reference's exact layout, ornament shapes, colour families, material wear, full-bleed framing and straight-on alignment. Remove baked directional lighting. Make this look like a flat scanned printed texture, not a lit sculpted object: metal has matte material colour with wear but NO white specular streaks and NO dark cast-shadow strips beneath it; bone is evenly illuminated aged ivory; leather has uniform overall illumination. Remove shadow gutters around horizontal bands while retaining their outlines, seams, shallow raised-band cues and material texture. No vignetting or darkened outer border. Preserve design contrast and fine detail, no blur or washed-out colours. No new features, lettering, pages, perspective, spine silhouette or background. Every pixel remains material. Preserve the returned canvas extent; do not introduce margins to chase the requested dimensions.",
+      "requested_size": [
+        1024,
+        1536
+      ],
+      "selected": true,
+      "reason": "Correction flattens the red inlay and reduces fitting glare while preserving the inverted five-point pentagram, silver frames, four red stones and right clasp. Full-bleed, straight-on, no text, spine or pages.",
+      "inputs": [
+        {
+          "path": "item209_icon_x8.png",
+          "sha256": "ce7ecd8eb2a150c58545e408d98588da3434b342ac2a8d0495fb9d16e4d7013a"
+        },
+        {
+          "path": "item209_cover_attempt_01.png",
+          "sha256": "6fbbc1e46a60d57e9065a51d0c30f913f92f23f4cc7a34aecf86cd66812460d6"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item209_cover.png",
+          "sha256": "543d43b96e003d8153c5a8b2eca2a88b2de8415abdae4767cfc332560f8eee9a",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-f376509c-64bb-4987-93d6-71c82a67db0a.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": true,
+      "limitations": [
+        "Minor metal-edge and gemstone relief shading remains; correction cap reached."
+      ]
+    },
+    {
+      "icon": "item209",
+      "part": "spine",
+      "attempt": 2,
+      "prompt": "TASK CONTEXT — FANTASY-GAME ASSET RESTORATION: a flat texture of the spine of the EXISTING Might and Magic spellbook in the attached icon, for a 3D book model. Not a new design: same colours, materials and ornaments as the icon. The spine fills the entire image, perfectly straight-on, rectangular, no perspective, no background, no text.\nInput 1: item209_icon_x8.png is the source design authority. Input 2: item209_cover.png is the matching restored material/ornament reference.\nDeliver ONE opaque spine-only PNG, requested 256 x 1536, narrow 1:6 portrait. Fill every pixel with the flat unwrapped spine surface, even if the tool returns a different canvas size. Never centre a narrow book object within an empty field. No cover face, pages, book thickness, perspective, curved cylindrical silhouette, background, margin or padding.\nMatching deep black worn leather with bright scarlet red ornamental curling vine inlay, several raised horizontal tarnished-silver binding bands, and small silver-set red cabochon studs between bands. Use restrained little red geometric star/circle ornaments from the cover where appropriate; keep small spine ornament scale, not a large front-cover panel. Same black, red and silver palette, no gold, skull, flames or new heraldry. Red inlay is matte colour, not glowing light.\nUniform flat diffuse albedo lighting with minimal relief cues, no cast shadows, strong highlights, spotlight, bloom or vignette. Material extends fully to all four borders, no external empty corners. Detailed coherent surface without enlarged pixels. No lettering, titles, words, numerals, pseudo-writing, labels or watermark.\nCORRECTIVE PASS — UNLIT DIFFUSE BASE COLOUR ONLY: The first reference is the authoritative original icon; the FINAL reference is the current texture to correct (any middle reference is matching cover material). Keep the final reference's exact layout, ornament shapes, colour families, material wear, full-bleed framing and straight-on alignment. Remove baked directional lighting. Make this look like a flat scanned printed texture, not a lit sculpted object: metal has matte material colour with wear but NO white specular streaks and NO dark cast-shadow strips beneath it; bone is evenly illuminated aged ivory; leather has uniform overall illumination. Remove shadow gutters around horizontal bands while retaining their outlines, seams, shallow raised-band cues and material texture. No vignetting or darkened outer border. Preserve design contrast and fine detail, no blur or washed-out colours. No new features, lettering, pages, perspective, spine silhouette or background. Every pixel remains material. Preserve the returned canvas extent; do not introduce margins to chase the requested dimensions.",
+      "requested_size": [
+        256,
+        1536
+      ],
+      "selected": true,
+      "reason": "Selected correction preserves the full-bleed black/red vine pattern, small star seal, silver bands and red cabochons with flatter red inlay; no lettering, pages or outside background.",
+      "inputs": [
+        {
+          "path": "item209_icon_x8.png",
+          "sha256": "ce7ecd8eb2a150c58545e408d98588da3434b342ac2a8d0495fb9d16e4d7013a"
+        },
+        {
+          "path": "item209_cover_attempt_01.png",
+          "sha256": "6fbbc1e46a60d57e9065a51d0c30f913f92f23f4cc7a34aecf86cd66812460d6"
+        },
+        {
+          "path": "item209_spine_attempt_01.png",
+          "sha256": "f410efa30d132c8a76c86a7e79c4cc759b62b2069ae1bcb7deceefe3e45b4115"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "item209_spine.png",
+          "sha256": "497345ba0b3fb4b92ea6e4da77a49cfde791a7abb1d5e09f0f2022dd2444f18b",
+          "size": [
+            1024,
+            1536
+          ],
+          "mode": "RGB",
+          "tool_original": "/home/pjasicek/.codex/generated_images/01a14602-2ea7-7743-9834-ff211a99bade/exec-604fba7b-0cde-49e4-872c-ca281303519f.png",
+          "resized": false
+        }
+      ],
+      "size_matches_request": false,
+      "limitations": [
+        "Returned 1024 x 1536 rather than 256 x 1536; retained unresized.",
+        "Local silver-edge and gemstone highlights and band shadows remain; correction cap reached."
+      ]
+    }
+  ],
+  "summary": {
+    "books": 6,
+    "selected_textures": 12,
+    "tool_calls": 23,
+    "corrective_regenerations": 11,
+    "maximum_regenerations_per_image": 1,
+    "all_selected_dimensions": [
+      1024,
+      1536
+    ],
+    "spine_dimension_deviation": "All six requested 256 x 1536 spines returned 1024 x 1536; kept unresized as instructed.",
+    "visual_review": "All selected images were visually inspected. Front covers and spines fill the frame, are straight-on and contain no lettering or page edges. Some local relief lighting persists despite bounded corrections. The item208 skull retains pointed canine-like teeth differing from the source. See per-run limitations.",
+    "scope": "Image generation and provenance only; no builds, runtime integration, or edits outside books_hd by filesystem commands."
+  },
+  "validation": {
+    "passed": true,
+    "input_and_output_sha256_verified": true,
+    "original_tool_bytes_preserved": true,
+    "one_selected_output_per_deliverable": true,
+    "regeneration_cap_verified": true,
+    "images": [
+      {
+        "path": "book4_cover.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "item207_cover.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "item208_cover.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "item210_cover.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "item210_spine.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "book4_spine.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "book5_cover.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "book5_spine.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "item207_spine.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "item208_spine.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "item209_cover.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      },
+      {
+        "path": "item209_spine.png",
+        "size": [
+          1024,
+          1536
+        ],
+        "opaque": true,
+        "magenta_background_pixels": 0,
+        "sha256_verified": true,
+        "unchanged_tool_return": true
+      }
+    ]
+  }
+}

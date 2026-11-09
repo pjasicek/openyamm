@@ -1,0 +1,51 @@
+"""Re-bake the forearm/upper-arm twist bone keys (twist_bones.py rule: forearm twist = FA x the hand's twist relative to
+the forearm, upper-arm twist = -UA x the upper arm's own twist) for the listed actions only, after a later step changed
+the hand (sword_clear.py on the timed clips). Weights are not touched. Args: -- <in blend> <out blend> <Action> ..."""
+import bpy, sys, os, math
+from mathutils import Quaternion, Vector
+a = sys.argv[sys.argv.index('--') + 1:]
+src, out, acts = a[0], a[1], a[2:]
+FA = float(os.environ.get('FA', '0.6')); UA = 0.5
+bpy.ops.wm.open_mainfile(filepath=os.path.abspath(src))
+rig = bpy.data.objects['Rig']
+rig.animation_data_create()
+
+
+def twist_about(q, axis):
+    v = Vector((q.x, q.y, q.z)); a = 2 * math.atan2(v.dot(axis), q.w)
+    return (a + math.pi) % (2 * math.pi) - math.pi
+
+
+def bake_twist(act):
+    rig.animation_data.action = act
+    if getattr(act, 'slots', None) is not None and len(act.slots):
+        rig.animation_data.action_slot = act.slots[0]
+    f0, f1 = (int(x) for x in act.frame_range)
+    for f in range(f0, f1 + 1):
+        bpy.context.scene.frame_set(f)
+        for s in ('L', 'R'):
+            # forearm twist: the hand's rotation relative to the forearm, twist part about the forearm axis (Y of the
+            # twist bone = forearm frame, so local Y is not the segment; use the segment in the forearm's local frame)
+            fb, hb = rig.data.bones[f'B_{s}_Forearm'], rig.data.bones[f'B_{s}_Hand']
+            seg_local = (fb.matrix_local.inverted() @ hb.head_local).normalized()
+            rel = (rig.pose.bones[f'B_{s}_Forearm'].matrix.inverted() @ rig.pose.bones[f'B_{s}_Hand'].matrix).to_quaternion()
+            rest_rel = (fb.matrix_local.inverted() @ hb.matrix_local).to_quaternion()
+            dq = rel @ rest_rel.inverted()
+            tw = twist_about(dq, seg_local) * FA
+            p = rig.pose.bones[f'B_{s}_ForearmTwist']; p.rotation_mode = 'QUATERNION'
+            p.rotation_quaternion = Quaternion(seg_local, tw)
+            p.keyframe_insert('rotation_quaternion', frame=f)
+            # upper arm counter twist near the shoulder
+            ub = rig.data.bones[f'B_{s}_UpperArm']
+            useg = (ub.matrix_local.inverted() @ rig.data.bones[f'B_{s}_Forearm'].head_local).normalized()
+            uq = rig.pose.bones[f'B_{s}_UpperArm'].matrix_basis.to_quaternion()
+            p = rig.pose.bones[f'B_{s}_UpperArmTwist']; p.rotation_mode = 'QUATERNION'
+            p.rotation_quaternion = Quaternion(useg, -UA * twist_about(uq, useg))
+            p.keyframe_insert('rotation_quaternion', frame=f)
+    rig.animation_data.action = None
+
+
+for n in acts:
+    bake_twist(bpy.data.actions[n])
+    print('TWIST rebaked', n)
+bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(out))

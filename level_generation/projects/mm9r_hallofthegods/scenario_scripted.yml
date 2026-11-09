@@ -1,0 +1,185 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.hallofthegods_scripted
+title: Hall of the Gods (native BLV) - the bill of sale; the end of the game (WinMan.scr Part2)
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: hallofthegods.blv
+- note:
+    text: 'Prop3 (BookLetter.scr ''480 Letter 1''): a real click shows the bill of sale.'
+- set_pose:
+    map: hallofthegods.blv
+    x: -1614
+    y: 4707
+    z: 1
+    yaw: -2.0054
+    pitch: -1.0456
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: Without key 109 the cinema's gods stay hidden and Krohn sits on his throne.
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 6
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 7
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 8
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 9
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: false
+- note:
+    text: 'Njam beaten (key 109): on arrival the gods gather (Hanndl at his mark, the Wyrdes, Krohn and Skraelos), Krohn0
+      leaves his throne; after the cinema the Writ of Fate is given.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90109
+    value: true
+- load_map:
+    map: hallofthegods.blv
+- advance_runtime:
+    seconds: 2
+- console:
+    line: cinematic list
+    expect_contains: playing gods_epilogue
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 6
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 7
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 8
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 9
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: true
+- note:
+    text: 'Hanndl walks to his mark, stopping 75 LT short as MM9''s WalkTo (the cinematic gods_epilogue, cinematics_hall.py:
+      12.7 s).'
+- advance_runtime:
+    seconds: 14
+- assert:
+    actor_visible:
+      actor_index: 3
+      near:
+        x: 4096
+        y: 3195
+        max_distance: 232.0
+- advance_runtime:
+    seconds: 91.559
+- assert:
+    state_dump_named_map_var:
+      name: CinemaDone
+      value: 1
+- assert:
+    inventory_any_member:
+    - item_id: 10394
+      count: 1
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 6
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 7
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 8
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 9
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: false
+- note:
+    text: With the Writ held the cinema does not run again.
+- load_map:
+    map: hallofthegods.blv
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 6
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 7
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 8
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 9
+      hidden: true

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Party Creation C2</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* Approach C, revision 2 (Discord feedback, 1 November 2026): no large portrait (the roster portrait is the one to
+   change), attributes before racial traits, only the skills the class can learn, mastery as name colour, no party
+   markers on the sheet (they live in the Party board, which also holds Plan mode). */
+/* Best mastery as game rarity tiers: Normal grey, Expert white, Master turquoise, Grandmaster gold. */
+:root { --x1: #9c9e92; --x2: #f0ece2; --x3: #8fd8cc; --x4: #f2c94c; }
+.rail { position: absolute; left: 58px; top: 100px; width: 206px; height: 694px; display: flex; flex-direction: column; gap: 7px; }
+.mcard { position: relative; height: 130px; display: flex; gap: 8px; padding: 7px; text-align: left; border: 1px solid #434c40; background: #0d1715d0; }
+.mcard.sel { border-color: #e1c58d; background: linear-gradient(90deg, #3e3824e0, #121a17e0); box-shadow: 0 0 18px #d6bb8230; }
+.mcard.sel::after { content: ""; position: absolute; right: -10px; top: 50%; margin-top: -9px; border: 9px solid transparent; border-left-color: #e1c58d; }
+.mcard .portrait { position: relative; width: 82px; height: 114px; flex: none; }
+.mcard.sel .portrait { cursor: pointer; outline: 1px solid #e1c58d80; }
+.mcard.sel .portrait .chg { position: absolute; left: 0; right: 0; bottom: 0; padding: 3px 0 2px; text-align: center; font: 13px var(--small); color: #f1e3c2; background: #0b100ecc; opacity: 0; transition: opacity .12s; }
+.mouse .mcard.sel .portrait:hover .chg, body:not(.mouse) .mcard.sel .portrait .chg { opacity: 1; }
+.mouse .mcard.sel .portrait:hover { outline-color: #fff0c0; }
+.mcard .mi { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding-top: 2px; }
+.mcard .nm { font: 20px var(--body); color: #f1e3c2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 24px; }
+.mcard .cl { display: flex; align-items: center; gap: 4px; font: 17px var(--action); color: #e1c994; white-space: nowrap; }
+.mcard .cl img { width: 20px; height: 20px; }
+.mcard .rc { font: 13px var(--small); color: #aeb39a; }
+.mcard .stt { margin-top: auto; font: 13px var(--small); color: var(--warn); }
+.mcard .stt.ok { color: var(--ok); }
+.mcard .rm { position: absolute; right: 4px; top: 4px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border: 1px solid #5b5a4a; background: #0e1614e6; color: #b8b09a; font: 20px/1 var(--body); }
+.mouse .mcard .rm:hover { border-color: #ee8275; color: #ee8275; }
+.mcard.add { align-items: center; justify-content: center; font: 24px var(--action); color: #b6ae93; border-style: dashed; height: 70px; }
+
+.sheet { position: absolute; left: 278px; top: 100px; width: 896px; height: 262px; display: grid; grid-template-columns: 282px 296px 1fr; gap: 14px; }
+.ident { display: flex; flex-direction: column; gap: 6px; }
+.ident .field { height: 38px; font-size: 23px; }
+.ident .flabel { display: block; margin-bottom: 1px; font: 12px/14px var(--small); letter-spacing: 1.5px; text-transform: uppercase; color: #93977f; }
+.clsbtn { display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; padding: 0 10px; border: 1px solid #a48d5d; background: #1d251ecc; font: 27px var(--action); color: #ecd5a6; text-align: left; }
+.clsbtn img { width: 36px; height: 36px; }
+.clsbtn .chev { margin-left: auto; font-size: 15px; color: #b9a27a; }
+.voicecard { padding: 6px 10px; border: 1px solid #535b4d; background: #101917; }
+.voicecard .vt { display: flex; align-items: baseline; gap: 8px; width: 100%; padding: 0 2px; text-align: left; }
+.voicecard .vt .chev { margin-left: auto; font-size: 15px; color: #b9a27a; }
+.mouse .voicecard .vt:hover .vn, .mouse .voicecard .vt:hover .chev { color: #fff0c0; }
+.voicecard .vn { font: 22px var(--action); color: #ead3a3; }
+.voicecard .lines .line { min-height: 32px; font-size: 15px; }
+.idbtns { display: flex; gap: 8px; justify-content: center; }
+.attrs .sh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+.attrs .pts { font: 18px var(--small); color: #e9cf91; }
+.attrs .pts.zero { color: var(--ok); }
+.attrs .stat { height: 34px; font-size: 21px; gap: 6px; }
+.attrs .stat .sq { width: 44px; height: 31px; font-size: 24px; }
+.attrs .stat .sv { width: 40px; font-size: 23px; }
+.attrs .stat .sn { min-width: 0; overflow: hidden; }
+.racecard { padding: 5px 12px; border: 1px solid #5d6b4c; background: linear-gradient(#1b2a1ce0, #0f1714e0); font: 14px/1.3 var(--small); color: #cdd3b4; overflow: hidden; }
+.racecard .rt { display: flex; align-items: baseline; gap: 10px; }
+.racecard .rt .h2 { color: #d9e7b7; font-size: 26px; }
+.racecard .rl { margin: 6px 0 0; padding: 0; list-style: none; }
+.racecard .rl li { display: flex; gap: 6px; padding: 1px 0; border-top: 1px solid #ffffff0e; }
+.racecard .rl li .k { width: 16px; text-align: center; flex: none; }
+.racecard .strong { color: #a8dc87; } .racecard .weak { color: #f0a08b; } .racecard .skill { color: #b7d38a; } .racecard .note { color: #9fcfe0; }
+
+.skills { position: absolute; left: 278px; top: 374px; width: 896px; height: 420px; padding: 6px 12px 8px; }
+.skills .sh { display: flex; align-items: center; gap: 10px; height: 34px; white-space: nowrap; }
+.skills .sh .h2 { font-size: 25px; }
+.legend { display: flex; gap: 10px; align-items: center; font: 13px var(--small); color: #a9ab9a; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend .key b { font-weight: normal; }
+.slist { column-count: 3; column-gap: 16px; column-fill: balance; height: 368px; margin-top: 4px; }
+.gstart { break-inside: avoid; }
+.sgrp { font: 12px/19px var(--small); letter-spacing: 1.5px; text-transform: uppercase; color: #93977f; border-bottom: 1px solid #ffffff1a; height: 20px; }
+.srow { break-inside: avoid; display: flex; align-items: center; gap: 6px; width: 100%; height: 34px; padding: 0 8px; border: 1px solid transparent; border-bottom-color: #ffffff0b; text-align: left; font: 19px var(--body); }
+.slist.dense .srow { height: 28px; font-size: 17.5px; }
+.slist.denser .srow { height: 25px; font-size: 16.5px; }
+.slist.denser .sgrp { height: 18px; line-height: 17px; }
+.srow .nm { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.srow .mk { width: 16px; flex: none; text-align: center; font-size: 14px; color: #d8bf86; }
+/* The skill card (shared with A and B) uses the same colour code here, and no mastery letters. */
+.mc1, .ml .now[data-c="1"] { color: var(--x1); } .mc2, .ml .now[data-c="2"] { color: var(--x2); }
+.mc3, .ml .now[data-c="3"] { color: var(--x3); } .mc4, .ml .now[data-c="4"] { color: var(--x4); }
+#card .ct .ml { display: none; }
+#card td.av .mc2, #card td.av .mc3, #card td.av .mc4 { color: #e8e2d0; }
+/* A level this class line can never reach: the whole row in the game's penalty red (GameplayUiSkin::Penalty). */
+#card tr.never td, #card tr.never td .dim { color: #ee8275; }
+.srow.x1 .nm { color: var(--x1); } .srow.x2 .nm { color: var(--x2); } .srow.x3 .nm { color: var(--x3); } .srow.x4 .nm { color: var(--x4); }
+.srow.fixed { background: linear-gradient(90deg, #4a3f27, #1a1b13 80%); }
+.srow.chosen { background: linear-gradient(90deg, #3f3d2e, #151c19 80%); border-color: #e6d29e; }
+.srow.option { border-color: #5a5b48; }
+.mouse .srow.option:hover, .mouse .srow.chosen:hover { border-color: #fff0c0; }
+.mouse .srow:hover { background-color: #ffffff08; }
+.srow.focus { box-shadow: 0 0 0 2px #ffe3a0; }
+.dollcol { position: absolute; left: 1190px; top: 100px; width: 352px; height: 694px; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 12px 0; }
+.dollbox { position: relative; width: 294px; height: 635px; border: 1px solid #5d5a47; overflow: hidden; cursor: pointer; }
+.mouse .dollbox:hover { border-color: #e1c58d; }
+.doll { position: absolute; left: 0; top: 0; width: 350px; height: 756px; transform: scale(0.84); transform-origin: 0 0; }
+.doll img { position: absolute; }
+.dollbox .chg { position: absolute; left: 0; right: 0; bottom: 0; padding: 5px 0 4px; text-align: center; font: 15px var(--small); color: #f1e3c2; background: #0b100ecc; opacity: 0; transition: opacity .12s; }
+.mouse .dollbox:hover .chg, body:not(.mouse) .dollbox .chg { opacity: 1; }
+.picks { font: 15px var(--small); color: #e9cf91; }
+.picks.done { color: var(--ok); }
+</style>
+</head>
+<body>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script src="board.js"></script>
+<script>
+const MASTERY_COLOUR_NAMES = ['', 'Normal', 'Expert', 'Master', 'Grandmaster'];
+
+function railHtml() {
+  let out = App.members.map((m, i) => {
+    const p = portraitById(m.portrait);
+    const left = pool(m), need = Math.min(2, optionalSkills(m).length) - m.chosen.length;
+    const status = ready(m) ? '<span class="stt ok">✓ ready</span>'
+      : `<span class="stt">${[left ? `${left} pts` : '', need > 0 ? `${need} skill${need > 1 ? 's' : ''}` : ''].filter(Boolean).join(' · ')} to go</span>`;
+    // The selected card's portrait is the portrait control: click opens the portrait grid.
+    const portrait = i === App.sel
+      ? `<span class="portrait" data-portrait="${i}" title="Change portrait">${portraitImg(p)}<span class="chg">change</span></span>`
+      : `<span class="portrait">${portraitImg(p)}</span>`;
+    // Corner "−" removes this character (needs at least one left).
+    const remove = App.members.length > 1 ? `<span class="rm" data-remove="${i}" role="button" title="Remove ${esc(m.name)}">−</span>` : '';
+    return `<button class="mcard${i === App.sel ? ' sel' : ''}" data-select="${i}">${remove}${portrait}
+      <span class="mi"><span class="nm">${esc(m.name)}</span><span class="cl"><img src="${classIcon(m.cls)}" alt="">${esc(className(m.cls))}</span>
+      <span class="rc">${esc(race(m).name)} · ${p.sex ? 'female' : 'male'}</span>${status}</span></button>`;
+  }).join('');
+  if (App.members.length < 5) out += `<button class="mcard add" data-add>+ Add adventurer</button>`;
+  return `<div class="rail">${out}</div>`;
+}
+
+function raceCardHtml(m) {
+  const r = race(m);
+  const items = [];
+  // Attributes with the same start, maximum and cost share one line.
+  const statGroups = new Map();
+  r.stats.forEach((s, i) => {
+    const t = statTrait(m, i);
+    if (!t.cls) return;
+    const k = `${t.cls}|${t.text}|${s[0]}|${s[1]}`;
+    if (!statGroups.has(k)) statGroups.set(k, {t, s, names: []});
+    statGroups.get(k).names.push(D.statNames[i]);
+  });
+  for (const {t, s, names} of statGroups.values())
+    items.push(`<li class="${t.cls}"><span class="k">${t.mark}</span>${names.join(', ')} ${s[0]} · ${t.text} · max ${s[1]}</li>`);
+  for (const g of raceRuleGroups(r)) items.push(`<li class="skill"><span class="k">★</span>${esc(g.effect)}: ${esc(g.names.join(', '))}</li>`);
+  for (const note of r.notes || []) items.push(`<li class="note"><span class="k">✦</span>${esc(note)}</li>`);
+  if (!r.stats.some((s, i) => statTrait(m, i).cls)) items.unshift(`<li class="dim"><span class="k">=</span>Even attributes: ${r.stats[0][0]} each, max ${r.stats[0][1]}</li>`);
+  return `<div class="racecard"><div class="rt"><span class="h2">${esc(r.name)}</span></div><ul class="rl">${items.join('')}</ul></div>`;
+}
+
+function sheetHtml() {
+  const i = App.sel, m = App.members[i], p = portraitById(m.portrait);
+  const left = pool(m);
+  const v = voicesById()[m.voice];
+  return `<div class="sheet" data-member="${i}">
+    <div class="ident">
+      <label><span class="flabel">Name</span><input class="field" data-name="${i}" value="${esc(m.name)}" maxlength="15"></label>
+      <div><span class="flabel">Class</span><button class="clsbtn" data-class="${i}"><img src="${classIcon(m.cls)}" alt="">${esc(className(m.cls))}<span class="chev">▼</span></button></div>
+      <div class="voicecard"><button class="vt" data-voice="${i}" title="Choose another voice"><span class="vn">${voiceLabel(m.voice)}</span><span class="chev">▼</span></button>
+        <div class="lines">${voiceButtons(m, ['ChooseMe', 'Hello', 'Yes'])}</div></div>
+    </div>
+    <div class="attrs"><div class="sh"><span class="caption">Attributes</span><span class="pts${left === 0 ? ' zero' : ''}">${left} bonus point${left === 1 ? '' : 's'} left</span></div>
+      ${D.statNames.map((n, si) => {
+        const t = statTrait(m, si), r = statRule(m, si), val = m.stats[si];
+        return `<div class="stat"><span class="sn" title="${t.cls ? esc(t.text) : ''}">${n}</span><span class="tr ${t.cls}">${t.mark}</span>
+          <button class="btn sq" data-dec="${i}:${si}" ${canDec(m, si) ? '' : 'disabled'}>−</button><span class="sv${val > r.base ? ' up' : val < r.base ? ' down' : ''}">${val}</span>
+          <button class="btn sq" data-inc="${i}:${si}" ${canInc(m, si) ? '' : 'disabled'}>+</button></div>`;
+      }).join('')}</div>
+    ${raceCardHtml(m)}
+  </div>`;
+}
+
+// The creation paperdoll, composited like NewGameScreen::buildCreationPreviewDollPixels (icons_x2 art is 2x, so
+// layer positions are doubled); clicking it opens the portrait grid.
+function dollHtml() {
+  const i = App.sel, m = App.members[i], d = portraitById(m.portrait).doll, t = D.dollTypes[d.type] || {lh: [0, 0], rh: [0, 0]};
+  const layer = (img, x, y) => img ? `<img src="${ICON}${img}" style="left:${2 * x}px;top:${2 * y}px" alt="" draggable="false">` : '';
+  return `<div class="dollcol stone"><div class="dollbox" data-portrait="${i}" title="Change portrait"><div class="doll">
+      ${layer(d.bg, 0, 0)}${layer(d.body, d.bx, d.by)}${layer(d.lh, t.lh[0], t.lh[1])}${layer(d.rh, t.rh[0], t.rh[1])}</div>
+      <span class="chg">change portrait</span></div>
+    <div class="idbtns"><button class="btn tiny" data-portrait="${i}">Change portrait</button><button class="btn tiny quiet" data-reset="${i}">Default</button><button class="btn tiny quiet" data-remove="${i}" ${App.members.length < 2 ? 'disabled' : ''}>Remove</button></div></div>`;
+}
+
+// Only skills this class line can ever learn; the name colour is the best mastery it reaches (with promotions).
+function skillsHtml() {
+  const i = App.sel, m = App.members[i];
+  let list = '', shown = 0;
+  for (const [group, skills] of skillGroups()) {
+    const learnable = skills.filter(s => skillState(m, s) !== 'none');
+    if (!learnable.length) continue;
+    list += `<div class="gstart"><div class="sgrp">${group}</div>`;
+    for (const [k, s] of learnable.entries()) {
+      const st = skillState(m, s);
+      const focus = App.focus && App.focus.m === i && App.focus.skill === s;
+      const mark = st === 'fixed' ? '◆' : st === 'chosen' ? '✓' : st === 'option' ? '○' : '';
+      list += `<button class="srow ${st} x${capBest(m, s)}${focus ? ' focus' : ''}" data-skill="${s}" data-m="${i}">
+        <span class="mk">${mark}</span><span class="nm">${esc(skillName(s))}${raceMarks(m, s)}</span></button>${k === 0 ? '</div>' : ''}`;
+      shown++;
+    }
+  }
+  const picks = Math.min(2, optionalSkills(m).length);
+  const key = [1, 2, 3, 4].map(l => `<b style="color:var(--x${l})">${MASTERY_COLOUR_NAMES[l]}</b>`).join(' ');
+  return `<div class="skills stone" data-member="${i}"><div class="sh"><span class="h2">Skills</span>
+    <span class="picks${m.chosen.length === picks ? ' done' : ''}">${m.chosen.length} of ${picks} picked</span>
+    <span class="legend"><span>◆ starting</span><span>○ can pick</span><span class="key" title="Best mastery this class line reaches, with promotions">${key}</span></span>
+    <span style="flex:1"></span><button class="btn tiny quiet" data-table="${i}">Mastery table</button><button class="btn tiny" data-board>Party board</button></div>
+    <div class="slist${shown > 30 ? ' denser' : shown > 25 ? ' dense' : ''}">${list}</div></div>`;
+}
+
+// The party skill board (approach B) as an overlay: the whole party's skills and coverage. No planner in C2.
+function openBoard() {
+  const dlg = openModal(`<div class="dlg-head"><span class="h2">Party skills</span><span class="caption bsum-c"></span>
+    <span style="flex:1"></span><button class="btn small quiet" data-close>Close</button></div><div class="body boardwrap"></div>`, [56, 26, 1488, 848]);
+  dlg.querySelector('[data-close]').onclick = closeModal;
+  drawBoard();
+}
+function drawBoard() {
+  const wrap = el('#modal .boardwrap');
+  wrap.innerHTML = boardHtml();
+  el('#modal .bsum-c').innerHTML = boardSummary();
+  wireCommon(wrap);
+}
+function render() {
+  el('#screen').innerHTML = headHtml(`<span class="sub">${boardSummary()}</span>`) + railHtml() + sheetHtml() + skillsHtml() + dollHtml() + footHtml();
+  wireCommon(el('#screen'));
+  el('#screen [data-board]').onclick = e => { e.stopPropagation(); openBoard(); };
+  if (el('#modal .boardwrap')) drawBoard();
+}
+App.planning = false;
+boot('c2', render);
+</script>
+</body>
+</html>

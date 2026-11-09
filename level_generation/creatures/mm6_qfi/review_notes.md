@@ -1,0 +1,7 @@
+# Demon Queen visual acceptance
+
+24 unique native images, one palette 834, four generated action sheets. All native/raw sheets, final all-frame dark/light contacts, zero-mask contact and worst-edge contact inspected. Offline attack and corpse captures confirm composite alcove anchoring. The entire irregular rock alcove is native sprite content and is retained; the queen remains small within it. Front-only standing/walk/fidget reuse, attack gestures, hit twists, five-step fall and separate corpse remain native. No invented side views.
+
+Corrected the generated corpse alcove's excessive height deterministically to its own native width/height and origin, not equal bounds for every pose. Rechecked corpse side-by-side in the viewer. This correction and source crop are recorded in registration.json/process.py. Gain .90. Single palette uses exact base bypass and matching empty R8 mask atlas; no unnecessary palette generation. Zero spill candidates; no extraction clipping; source and generation hashes, exact crop/atlas reconstruction, placement and native sequences pass. Decoded padded RGBA base + R8 mask: 60,607,275 bytes (57.80 MiB). Physical 2x, generated rock about 480 pixels wide and central actor approximately 250 pixels tall.
+
+Visible limits: clearer/larger rock folds and slightly rounder queen face; rock surface details vary subtly between sheets as the original composite moves. Offline ordered-sequence and selected pose review is not GPU performance testing. Staged only, no native overwrites or gameplay installation.

@@ -1,0 +1,310 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "best_available_raw_returns_saved; strict_brief_requirements_not_met",
+  "requested_output_size": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "postprocessing": "None. PNG files are byte-for-byte copies of tool returns.",
+  "limitations": [
+    "The built-in tool returned 1254x1254 despite repeated explicit 1024x1024 requests; its available interface has no output-size control.",
+    "Exact silhouette, interior edge alignment, and guide alpha were not preserved.",
+    "Flat albedo lighting remains imperfect; dark creases and face-dependent shading persist.",
+    "No further regenerations were made because the brief permits at most one correction per view."
+  ],
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for an existing game prop.\nThe FIRST input is the edit target: a 1024 x 1024 transparent grey model guide. The SECOND input, design_reference.png, is the approved design, colour and material authority ONLY. The THIRD input, concept_crop.png, is the original concept for supporting material context.\nPaint the target guide IN PLACE; retain its exact existing camera, silhouette, size, position, every shape edge, opening and detail. This is surface painting of that exact model, not a new drawing or a new model. Do not borrow the perspective or geometry from the design reference. Keep every visible modeled ridge, sheet, strand, clasp and claw in exactly its guide position, including angular and imperfect shapes. Keep the guide alpha silhouette pixel-identical. Do not add any geometry beyond the guide silhouette or fill its openings.\nMaterials: dull black-violet Kreegan resin sheets and strands with fine ridges, low contrast purple-black marbling and subtle sparse orange-coloured hairline seams consistent with the approved design. The modeled hanging claw is pale ivory bone; its modeled ring attachment is worn gold. Follow the actual guide contours of the claw and ring, do not replace them by the curved three-quarter reference shapes. Keep the reference material identities and restrained palette.\nLIGHTING: TEXTURE SOURCE (albedo), even flat shadowless viewer illumination. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Recesses and overlapping layers retain the same evenly lit local material colour; distinguish their boundaries by restrained colour and painted fine texture, not lighting. Any orange seams are their glowing colour only, with no emitted light, halo or bloom on surrounding materials.\nOutput one 1024 x 1024 RGBA PNG with genuine transparent background, original full-frame scale, no cropping, no resizing, no background, no floor, no text or labels. Retain all transparent padding of the guide.\nDeliverable: paint_left.png, the decoration seen from the LEFT. Use guide_left.png as the exact fixed target. Its visible silhouette bounding box is x=66..957 and y=325..698 on the 1024 square canvas. The tall pointed ridge at upper RIGHT, layered curling forms at LEFT, central hanging claw, lower sheet edges and notches must stay exactly as in this guide.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "role": "exact geometry, framing and silhouette edit target",
+          "sha256": "824787e5705065633f31afea62850a2163a80143b4bf1ad64b416f79b48ad750"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original concept material reference",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ad7-9fb9-7d41-9c71-4d9c22fabe5f/exec-4af9d775-9708-499b-9ba0-212921156fd6.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the single corrective attempt: wrong native canvas size, altered claw and shape edges, pronounced surface highlights and shaded creases.",
+      "visual_checks": {
+        "materials_and_colours": "Broadly matches black-violet resin, ivory bone and gold attachment; resin reads more like fractured stone than the reference's folded sheets.",
+        "internal_geometry": "Not exact: claw length/shape and some sheet edges are reinterpreted.",
+        "flat_even_light": "Visible highlights and dark creases. Fails strict shadowless albedo requirement.",
+        "background": "No illustrated backdrop, floor or cast shadow. RGBA alpha will be checked separately."
+      },
+      "output_sha256": "45b2927ab5e06d4cc7016b089f3eb0fbe5e8cccbc935ed98fb9be8b22aa96e24",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "expected_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1227010,
+        "nonzero_alpha_bbox": [
+          0,
+          39,
+          1192,
+          1254
+        ],
+        "alpha_over_127_bbox": [
+          79,
+          397,
+          1175,
+          856
+        ],
+        "guide_nonzero_alpha_bbox": [
+          66,
+          325,
+          958,
+          699
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_unmodified_return": true,
+        "strict_brief_pass": false,
+        "exact_silhouette": "Fails: output canvas dimensions differ from the guide; alpha is not identical. No resizing or mask replacement performed."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE GENERATION, the final allowed correction for this view.\nOutput specification: ONE PNG, exactly 1024 pixels wide by 1024 pixels high, genuine RGBA transparency. Keep that exact native output canvas. Do not produce 1254x1254 or any other size.\nInput 1 is the 1024x1024 edit target grey orthographic guide: it alone fixes EVERY pixel location, silhouette, edge, opening, scale and camera. Recolour the existing guide surfaces directly in place. Preserve its original alpha mask exactly, with fully opaque object interiors and fully transparent empty areas. There must be no stray visible or semitransparent background pixels. Keep the guide's substantial transparent upper and lower margins.\nInput 2 is the approved HD design reference: use ONLY its surface material identities and colours. Input 3 is the original concept: supporting material reference only. Never copy either reference's view or geometrical shapes.\nPaint dull black-violet Kreegan resin sheets and strands, with fine ridges, restrained purple surface variation and a few fine orange seams. The original modeled narrow hanging claw is matte pale ivory bone; only its ring attachment is dull warm gold. Keep the existing guide's angular ring and exact hanging claw shape. Do not make the claw longer, rounder or more curved. No new cracks splitting the geometry, no added shapes, holes or points, no moved edges.\nThis is a flat ALBEDO source texture. Remove directional shading from the grey guide: uniformly lit local colours even in folds and recesses, no black occlusion shading, no cast shadows, no bright specular edge lines, no reflections, no rim light. Match the design palette without copying its studio lighting. Orange seams are painted orange, not lights. No floor, no backdrop, no glow halo, no labels.\nPrevious attempt failed native canvas size, exact contours, and flat-lighting requirements. Correct those while keeping the intended resin/bone/gold materials. Do not reinterpret the model.\n\nView: LEFT. Exact edit target: guide_left.png. Required deliverable: paint_left.png. Tall pointed ridge on upper RIGHT and curled layered forms on LEFT; narrow central hanging claw. On the unchanged 1024x1024 canvas, guide alpha bounds are (66,325) inclusive to (958,699) exclusive. Preserve every boundary and all interior shape edges.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "role": "exact geometry, framing and silhouette edit target",
+          "sha256": "824787e5705065633f31afea62850a2163a80143b4bf1ad64b416f79b48ad750"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original concept material reference",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ad7-9fb9-7d41-9c71-4d9c22fabe5f/exec-e896fed4-2597-455e-a3d8-cbae11cdc562.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available of the two permitted attempts: straighter claw closer to the guide, reduced specular emphasis, and the requested resin/bone/gold material identities. Selected for delivery only, not accepted as brief-compliant: native resolution, exact geometry and flat albedo requirements remain unmet.",
+      "visual_checks": {
+        "materials_and_colours": "Broadly matches black-violet resin, ivory bone and gold attachment; resin reads more like fractured stone than the reference's folded sheets.",
+        "internal_geometry": "Not exact: claw length/shape and some sheet edges are reinterpreted.",
+        "flat_even_light": "Reduced highlights, but dark folds and face-dependent shading remain. Fails strict shadowless albedo requirement.",
+        "background": "No illustrated backdrop, floor or cast shadow. RGBA alpha will be checked separately."
+      },
+      "output_sha256": "275e3e596c421ffa58e5ce73713700bed67addceeb13798b2c6f805e185a2cec",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "expected_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1230987,
+        "nonzero_alpha_bbox": [
+          0,
+          164,
+          1190,
+          1158
+        ],
+        "alpha_over_127_bbox": [
+          80,
+          398,
+          1173,
+          856
+        ],
+        "guide_nonzero_alpha_bbox": [
+          66,
+          325,
+          958,
+          699
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_unmodified_return": true,
+        "strict_brief_pass": false,
+        "exact_silhouette": "Fails: output canvas dimensions differ from the guide; alpha is not identical. No resizing or mask replacement performed."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Create a native 1024x1024-pixel PNG, exactly the same 1024x1024 canvas as input 1. This exact output resolution is required.\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture source for an existing game prop.\nThe FIRST input is the edit target: a 1024 x 1024 transparent grey model guide. The SECOND input, design_reference.png, is the approved design, colour and material authority ONLY. The THIRD input, concept_crop.png, is the original concept for supporting material context.\nPaint the target guide IN PLACE; retain its exact existing camera, silhouette, size, position, every shape edge, opening and detail. This is surface painting of that exact model, not a new drawing or a new model. Do not borrow the perspective or geometry from the design reference. Keep every visible modeled ridge, sheet, strand, clasp and claw in exactly its guide position, including angular and imperfect shapes. Keep the guide alpha silhouette pixel-identical. Do not add any geometry beyond the guide silhouette or fill its openings.\nMaterials: dull black-violet Kreegan resin sheets and strands with fine ridges, low contrast purple-black marbling and subtle sparse orange-coloured hairline seams consistent with the approved design. The modeled hanging claw is pale ivory bone; its modeled ring attachment is worn gold. Follow the actual guide contours of the claw and ring, do not replace them by the curved three-quarter reference shapes. Keep the reference material identities and restrained palette.\nLIGHTING: TEXTURE SOURCE (albedo), even flat shadowless viewer illumination. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Recesses and overlapping layers retain the same evenly lit local material colour; distinguish their boundaries by restrained colour and painted fine texture, not lighting. Any orange seams are their glowing colour only, with no emitted light, halo or bloom on surrounding materials.\nOutput one 1024 x 1024 RGBA PNG with genuine transparent background, original full-frame scale, no cropping, no resizing, no background, no floor, no text or labels. Retain all transparent padding of the guide.\nDeliverable: paint_right.png, the decoration seen from the RIGHT. Use guide_right.png as the exact fixed edit target. Its visible silhouette bounding box is x=66..957 and y=325..698 on the 1024 square canvas. Preserve its upper LEFT pointed ridge, upper RIGHT rounded ridge, lower sheet perimeter and central narrow downward hanging claw. All are fixed, do not straighten, curve or move any shape. Apply material colour directly on the guide while eliminating the grey render's directional shading. Keep the broad upper and lower planes an even dull dark violet, with no white edge strokes or black shadow gradients. The ivory and gold areas are small and follow only the modeled claw and ring. Return exactly 1024x1024, not an enlarged image.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "exact geometry, framing and silhouette edit target",
+          "sha256": "01d0a14ffb9d1f279828abef6ca4c90f12908336b6daa7aa7cda58ec23eac51a"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original concept material reference",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ad7-9fb9-7d41-9c71-4d9c22fabe5f/exec-804850e0-8bb4-4a74-ae22-309f4b92f532.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the single corrective attempt: wrong native canvas size, altered claw and shape edges, pronounced surface highlights and shaded creases.",
+      "visual_checks": {
+        "materials_and_colours": "Broadly matches black-violet resin, ivory bone and gold attachment; resin reads more like fractured stone than the reference's folded sheets.",
+        "internal_geometry": "Not exact: claw length/shape and some sheet edges are reinterpreted.",
+        "flat_even_light": "Visible highlights and dark creases. Fails strict shadowless albedo requirement.",
+        "background": "No illustrated backdrop, floor or cast shadow. RGBA alpha will be checked separately."
+      },
+      "output_sha256": "02693c0d27adbf9d22992e2b854042dbad08b63b01e42453b561682bd30a3551",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "expected_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1230091,
+        "nonzero_alpha_bbox": [
+          41,
+          31,
+          1226,
+          1189
+        ],
+        "alpha_over_127_bbox": [
+          80,
+          399,
+          1175,
+          856
+        ],
+        "guide_nonzero_alpha_bbox": [
+          66,
+          325,
+          958,
+          699
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_unmodified_return": true,
+        "strict_brief_pass": false,
+        "exact_silhouette": "Fails: output canvas dimensions differ from the guide; alpha is not identical. No resizing or mask replacement performed."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE GENERATION, the final allowed correction for this view.\nOutput specification: ONE PNG, exactly 1024 pixels wide by 1024 pixels high, genuine RGBA transparency. Keep that exact native output canvas. Do not produce 1254x1254 or any other size.\nInput 1 is the 1024x1024 edit target grey orthographic guide: it alone fixes EVERY pixel location, silhouette, edge, opening, scale and camera. Recolour the existing guide surfaces directly in place. Preserve its original alpha mask exactly, with fully opaque object interiors and fully transparent empty areas. There must be no stray visible or semitransparent background pixels. Keep the guide's substantial transparent upper and lower margins.\nInput 2 is the approved HD design reference: use ONLY its surface material identities and colours. Input 3 is the original concept: supporting material reference only. Never copy either reference's view or geometrical shapes.\nPaint dull black-violet Kreegan resin sheets and strands, with fine ridges, restrained purple surface variation and a few fine orange seams. The original modeled narrow hanging claw is matte pale ivory bone; only its ring attachment is dull warm gold. Keep the existing guide's angular ring and exact hanging claw shape. Do not make the claw longer, rounder or more curved. No new cracks splitting the geometry, no added shapes, holes or points, no moved edges.\nThis is a flat ALBEDO source texture. Remove directional shading from the grey guide: uniformly lit local colours even in folds and recesses, no black occlusion shading, no cast shadows, no bright specular edge lines, no reflections, no rim light. Match the design palette without copying its studio lighting. Orange seams are painted orange, not lights. No floor, no backdrop, no glow halo, no labels.\nPrevious attempt failed native canvas size, exact contours, and flat-lighting requirements. Correct those while keeping the intended resin/bone/gold materials. Do not reinterpret the model.\n\nView: RIGHT. Exact edit target: guide_right.png. Required deliverable: paint_right.png. Tall pointed ridge on upper LEFT and rounded layered ridge on upper RIGHT; narrow central hanging claw. On the unchanged 1024x1024 canvas, guide alpha bounds are (66,325) inclusive to (958,699) exclusive. Preserve every boundary and all interior shape edges.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "exact geometry, framing and silhouette edit target",
+          "sha256": "01d0a14ffb9d1f279828abef6ca4c90f12908336b6daa7aa7cda58ec23eac51a"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original concept material reference",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ad7-9fb9-7d41-9c71-4d9c22fabe5f/exec-d2ae95f6-857b-4fe3-b6d4-a09208682127.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available of the two permitted attempts: straighter claw closer to the guide, reduced specular emphasis, and the requested resin/bone/gold material identities. Selected for delivery only, not accepted as brief-compliant: native resolution, exact geometry and flat albedo requirements remain unmet.",
+      "visual_checks": {
+        "materials_and_colours": "Broadly matches black-violet resin, ivory bone and gold attachment; resin reads more like fractured stone than the reference's folded sheets.",
+        "internal_geometry": "Not exact: claw length/shape and some sheet edges are reinterpreted.",
+        "flat_even_light": "Reduced highlights, but dark folds and face-dependent shading remain. Fails strict shadowless albedo requirement.",
+        "background": "No illustrated backdrop, floor or cast shadow. RGBA alpha will be checked separately."
+      },
+      "output_sha256": "7718d7e4b34329a7ac9e0e09e571d2d6d4e45b7dd2a3006744fa2468dc9eb8f1",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "expected_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1230091,
+        "nonzero_alpha_bbox": [
+          0,
+          47,
+          1210,
+          1214
+        ],
+        "alpha_over_127_bbox": [
+          81,
+          398,
+          1175,
+          856
+        ],
+        "guide_nonzero_alpha_bbox": [
+          66,
+          325,
+          958,
+          699
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_unmodified_return": true,
+        "strict_brief_pass": false,
+        "exact_silhouette": "Fails: output canvas dimensions differ from the guide; alpha is not identical. No resizing or mask replacement performed."
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/textures_x4/audit/mm9_shots/pilot_x4/lichlab
+settle_seconds: 2.0
+exit: true
+shots:
+- name: verdrahook-d13-closed-front
+  position:
+  - 2867
+  - 5532
+  - 1311
+  yaw: -1.5708
+  pitch: 0.139
+- name: verdrahook-d13-joint-graze
+  position:
+  - 2747
+  - 5424
+  - 1311
+  yaw: -0.9273
+  pitch: 0.15
+- name: verdrahook-d13-closed-back
+  position:
+  - 2867
+  - 4806
+  - 1311
+  yaw: 1.5708
+  pitch: 0.139
+- name: verdrahook-d13-open-front
+  position:
+  - 2867
+  - 5532
+  - 1311
+  yaw: -1.5708
+  pitch: 0.139
+  commands:
+  - event 101
+  settle_seconds: 5.0

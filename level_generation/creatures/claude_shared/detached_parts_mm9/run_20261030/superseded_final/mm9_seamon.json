@@ -1,0 +1,106 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_seamon.glb",
+  "components": 41,
+  "body": 0,
+  "size": 7.379337310791016,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "17": {
+    "joint": "Bone07",
+    "where": "above, +z",
+    "triangles": 28,
+    "extent": 0.2905,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01948,
+    "worst": {
+     "gap": 0.0106,
+     "to_body_cluster": 0.0106,
+     "clip": "Hit",
+     "frame": 14,
+     "time": 0.4667,
+     "part_point": [
+      0.98738,
+      1.83936,
+      0.70233
+     ],
+     "attached_point": [
+      0.98805,
+      1.82768,
+      0.64505
+     ],
+     "kind": "parted",
+     "against": "Bone07"
+    },
+    "detached_poses": 3,
+    "poses": 328,
+    "clips": {
+     "Hit": {
+      "max_gap": 0.0106,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 3
+     }
+    },
+    "shallowest": {
+     "depth": 0.01458,
+     "on": "Bone07",
+     "clip": "Hit",
+     "frame": 24,
+     "time": 0.8
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.06104,
+     "on": "Bone07",
+     "clip": "AttackRanged",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final/crops/mm9_seamon_part17.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 41,
+   "attached_in_every_pose": 39
+  },
+  "concealed": {},
+  "shallow": {},
+  "root_lift": {
+   "20": {
+    "joint": "Bone02",
+    "where": "-z",
+    "triangles": 23,
+    "extent": 0.2363,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0253,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 328,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.01423,
+     "on": "Bone07",
+     "clip": "Walking",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00916,
+     "on": "Bone07",
+     "clip": "Walking",
+     "frame": 2,
+     "time": 0.0667
+    }
+   }
+  }
+ }
+]

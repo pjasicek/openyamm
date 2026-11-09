@@ -1,0 +1,35 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png, using design_reference.png as the approved material and detail reference and icon_x8.png as the original colour reference (magenta is background, never paint magenta). Produce ONE transparent PNG 1536x2048, 3:4 canvas.\nThe guide is the edit target: three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\nPaint the grey objects only; never redraw, enlarge, move or redesign them. Each object must have exactly the same position, size, outline, gaps and openings as its grey guide. Maintain the large empty spacing. No perspective views.\nRows 1-2 (PAINT): unlit base colour of source-faithful closed Verhoffin's Book. Brown leather, aged parchment page edges, gold/brass metal scrollwork and clasp, central amber/brown stone. Facets, engravings, scrollwork and inner swirls follow design_reference.png, scaled to each view. Top cover in row2 column2 uses the reference ornate scrollwork and right-side clasp painted INSIDE the rectangular guide shape. Do not extend the silhouette.\nRows 3-4 (MATERIAL MASK): the same five silhouettes with exactly corresponding material regions filled with FLAT pure colours ONLY, no shading, texture, outlines or antialiased colour blends inside: pure green #00FF00 every leather part (straps, padding, hide, suede) and fur; pure blue #0000FF every cloth part (tabards, quilting, linings, cords, ribbons) and hair; pure red #FF0000 every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass); pure yellow #FFFF00 every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax). Every pixel of each silhouette gets exactly one of these colours; nothing outside silhouettes. Classify the leather cover green, metal scrollwork/clasp/border/studs red, stone and paper yellow.\nKeep every gap and opening exactly as in guide fully transparent. Unlit base colour only: no lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles or aura, ground, outlines or text. Empty cells column3 row2 and row4 remain fully transparent. Background must be actual alpha transparency, not black or checkerboard. Preserve geometry and layout above all.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0d-89d8-7dd3-8553-8fbae8ef8f6f/exec-778bf3d7-c72b-484f-bb59-a72d0021d10d.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10242/paint_mask_raw_v1.png",
+  "corrective_prompt": "Edit the supplied paint_mask_guide.png, using design_reference.png as the approved material and detail reference and icon_x8.png as the original colour reference (magenta is background, never paint magenta). Produce ONE transparent PNG 1536x2048, 3:4 canvas.\nThe guide is the edit target: three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\nPaint the grey objects only; never redraw, enlarge, move or redesign them. Each object must have exactly the same position, size, outline, gaps and openings as its grey guide. Maintain the large empty spacing. No perspective views.\nRows 1-2 (PAINT): unlit base colour of source-faithful closed Verhoffin's Book. Brown leather, aged parchment page edges, gold/brass metal scrollwork and clasp, central amber/brown stone. Facets, engravings, scrollwork and inner swirls follow design_reference.png, scaled to each view. Top cover in row2 column2 uses the reference ornate scrollwork and right-side clasp painted INSIDE the rectangular guide shape. Do not extend the silhouette.\nRows 3-4 (MATERIAL MASK): the same five silhouettes with exactly corresponding material regions filled with FLAT pure colours ONLY, no shading, texture, outlines or antialiased colour blends inside: pure green #00FF00 every leather part (straps, padding, hide, suede) and fur; pure blue #0000FF every cloth part (tabards, quilting, linings, cords, ribbons) and hair; pure red #FF0000 every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass); pure yellow #FFFF00 every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax). Every pixel of each silhouette gets exactly one of these colours; nothing outside silhouettes. Classify the leather cover green, metal scrollwork/clasp/border/studs red, stone and paper yellow.\nKeep every gap and opening exactly as in guide fully transparent. Unlit base colour only: no lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles or aura, ground, outlines or text. Empty cells column3 row2 and row4 remain fully transparent. Background must be actual alpha transparency, not black or checkerboard. Preserve geometry and layout above all.\nCORRECTION: The preceding attempt had stray green/red/yellow flecks, halos and smears outside the silhouettes, and shaded yellow mask interiors. These are unacceptable. Use the original grey guide alpha silhouettes strictly: clean edges and fully transparent outside, NO scattered pixels whatsoever. Masks must be perfectly solid exact RGB colour fields without gradients. Output canvas 1536x2048 or nearest 3:4, never change aspect ratio. Preserve original guide locations exactly.",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0d-89d8-7dd3-8553-8fbae8ef8f6f/exec-5d1a0044-22c9-49be-840b-dc79f883dd1a.png",
+  "tool": "built-in image_gen",
+  "validation": {
+    "status": "does_not_fully_meet_brief",
+    "issues": [
+      "Stray coloured pixels outside silhouettes",
+      "Mask interiors contain colour variation"
+    ],
+    "selection_reason": "Initial result preserves 3:4 canvas and guide layout more closely; corrective output has incorrect 1:2 aspect ratio."
+  },
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10242/paint_mask_guide.png",
+      "sha256": "1ddcfa20dee68e42ce41d68183e19001340d90c4cbde5d6bad4910f31f2f1c94"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10242/design_reference.png",
+      "sha256": "79bb9c16de8cb93ade3b4d8e6566d2f0026d3f89151d4c901425ef717fa40502"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10242/icon_x8.png",
+      "sha256": "2b8e756a0c287a4dacb37e600329014d0940548cc4ea9d691e4b0da2bcb98d54"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

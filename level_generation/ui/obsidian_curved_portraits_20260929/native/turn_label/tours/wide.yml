@@ -1,0 +1,10 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/turn_label/images
+exit: true
+steps:
+- wait: 2
+- action: combat
+- wait: 0.25
+- capture: phase-wide
+- action: pass
+- wait: 0.25
+- capture: next-phase-wide

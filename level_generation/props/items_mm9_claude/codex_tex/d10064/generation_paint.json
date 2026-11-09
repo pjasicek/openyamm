@@ -1,0 +1,29 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit target: paint_mask_guide.png (input 1). Material/detail reference: design_reference.png (input 2). Original colour reference: icon_x8.png (input 3; magenta is background). Produce ONE transparent PNG 1536x2048, 3:4 canvas. Preserve the guide's exact object positions, sizes, outlines, gaps and layout: three columns and FOUR rows of 512x512 cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those same five views. These unusual edge-on views must remain edge-on, never replaced with face-on views. Paint the grey objects only; never redraw, enlarge, move or redesign them. Item: Regimental Halberd, used by the Mercantile Regiment formed when highwaymen were taking off with much of the Trade Merchant's profits. Tall, heavy, deadly. Rows 1-2 PAINT: unlit base colour matching approved design and original icon: silver steel asymmetric halberd head with facets, long silver metal shaft and narrow rings, small blue band and gold butt cap. Facets, engravings, scrollwork and inner swirls follow design reference, scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections. Rows 3-4 MATERIAL MASK: identical silhouettes filled with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. #FF0000 every metal including steel and gold; #00FF00 leather/fur; #0000FF cloth/cord/hair; #FFFF00 wood/bone/horn/stone/paper/wax; #000000 gemstone/crystal/glass/pearl/enamel/liquid. Classify the small blue enamel band black, metal shaft, rings, head and gold butt red. Every silhouette pixel exactly one class colour. Nothing outside silhouettes. Preserve every gap and opening fully transparent. Empty column 3 of rows 2 and 4 stays transparent. No ground, text, labels, outlines, halo, sparkles or aura. Output is the guide sheet painted in place, NOT a single enlarged weapon.\nCRITICAL CORRECTION: Preserve the input guide alpha silhouettes exactly, including its very slender shafts. Do not thicken any part. Do not add any pixels, protrusions, outlines or flecks outside the original grey silhouettes. The output must be a clean in-place recolouring of the guide. Keep flat paint without directional shading. Material mask areas must be solid flat class colours, absolutely no black contour lines or internal texture on red metal. Keep all ten views exactly aligned with the input guide, with the same proportions.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac61-5cd7-7dc1-8764-e7f86d7f33af/exec-8d2475e2-c6d8-42b1-89b3-52960e43ea94.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10064/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10064/paint_mask_guide.png",
+      "sha256": "bb96be3592a323bc805fc2f90e535af0cff8ff5108cb927e9340109d27414967"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10064/design_reference.png",
+      "sha256": "a9cc206c17f99d554d407f19486ab90d2d00f7dba5872a22510559c94f828190"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10064/icon_x8.png",
+      "sha256": "ff3c200405f04fcef79a4dcf5d386266f721de713c316a5c3973972cd5e1de9e"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "note": "Layout retained; generated edges and mask colours are not pixel-exact. One permitted corrective generation used."
+  }
+}

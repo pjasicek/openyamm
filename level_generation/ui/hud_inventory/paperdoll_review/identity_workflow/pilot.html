@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC01 portrait-linked paperdoll pilot</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #162125; color: #e9f1ee; }
+    body { margin: 0 auto; max-width: 1480px; padding: 20px; }
+    a { color: #9ce4d3; }
+    h1 { margin: 0 0 6px; }
+    .warn { color: #ffc4ac; font-weight: 700; }
+    .grid { display: grid; grid-template-columns: minmax(170px, 240px) 1fr; gap: 16px; }
+    figure { margin: 0 0 22px; padding: 12px; border: 1px solid #526667; border-radius: 8px; background: #223137; }
+    figure img { display: block; max-width: 100%; height: auto; image-rendering: auto; }
+    figcaption { margin-top: 8px; color: #c2d3cf; }
+    .portrait img { width: 236px; image-rendering: pixelated; }
+    .poses img { width: 100%; }
+    .hand img { width: 528px; max-width: 100%; image-rendering: pixelated; }
+    @media (max-width: 720px) { .grid { display: block; } }
+  </style>
+</head>
+<body>
+  <p><a href="../index.html?doll=1">← Return to the full paperdoll review</a> ·
+    <a href="in_situ_preview.html">View the in-place arm trial</a></p>
+  <h1>PC01 portrait-linked restoration pilot</h1>
+  <p class="warn">Both imagegen attempts are rejected. These images are comparison evidence, not accepted art.</p>
+  <p>The original assigned portrait is the identity source. Poses use the character table's original hand offsets;
+    all images below are displayed on the same four-pose canvas.</p>
+  <div class="grid">
+    <figure class="portrait"><img src="prepared/doll_01/assigned_portrait_original_x4.png" alt="Original assigned PC01 portrait">
+      <figcaption>Assigned original avatar: <code>pc01-01</code></figcaption></figure>
+    <div>
+      <figure class="poses"><img src="prepared/doll_01/assembled_native_poses_x2.png" alt="Four native PC01 poses">
+        <figcaption>Original body and limbs: empty, one-hand, two-hand, shield</figcaption></figure>
+      <figure class="poses"><img src="prepared/doll_01/pilot_v1/assembled_pilot_v1.png" alt="Four poses from rejected imagegen sheet">
+        <figcaption>First edit: face matches better; all six cells fail registration and the grip/fingers drift.</figcaption></figure>
+      <figure class="poses"><img src="prepared/doll_01/assembled_grip_v2_geometry_locked_preview.png" alt="Rejected hand-only geometry diagnostic">
+        <figcaption>Focused hand edit: diagnostic forced alignment of changed silhouette. Still rejected.</figcaption></figure>
+      <figure class="hand"><img src="prepared/doll_01/right_grip_hand_target_x16.png" alt="Large original grip-hand target">
+        <figcaption>Original grip-hand geometry supplied to the second edit</figcaption></figure>
+      <figure class="hand"><img src="prepared/doll_01/raw_grip_v2.png" alt="Raw second imagegen grip hand">
+        <figcaption>Second raw return has true alpha but changes the silhouette ratio from 2.00 to 2.64.</figcaption></figure>
+    </div>
+  </div>
+  <p><a href="README.md">Method and measurements</a></p>
+</body>
+</html>

@@ -1,0 +1,177 @@
+{
+ "sprite": "6tree17",
+ "output": "mm6_deco_tree17.glb",
+ "height_m": 5.39,
+ "note": "Autumn broadleaf: round crown from about a quarter of the height in mixed tan, orange, russet and olive leaves, single grey-brown trunk with a low side limb.",
+ "sapling": {
+  "scale": 3.81,
+  "baseSplits": 0,
+  "baseSize": 0.3,
+  "splitHeight": 0.3,
+  "seed": 131,
+  "ratio": 0.06,
+  "attractUp": [
+   0,
+   0.6,
+   0.35,
+   0
+  ],
+  "rootFlare": 1.6
+ },
+ "crown": {
+  "canopy_low": 0.25,
+  "centre": 0.6,
+  "clumps": 82,
+  "inner_clumps": 15
+ },
+ "bark": {
+  "target_srgb": [
+   108,
+   84,
+   74
+  ],
+  "root_reach": 0.2,
+  "root_radius": 0.7,
+  "roots": 0
+ },
+ "leaves": {
+  "target_srgb": [
+   200,
+   150,
+   95
+  ],
+  "palette": [
+   [
+    [
+     [
+      232,
+      198,
+      146
+     ],
+     0.6
+    ],
+    [
+     [
+      228,
+      168,
+      112
+     ],
+     0.3
+    ],
+    [
+     [
+      140,
+      140,
+      72
+     ],
+     0.1
+    ]
+   ],
+   [
+    [
+     [
+      226,
+      170,
+      112
+     ],
+     0.45
+    ],
+    [
+     [
+      232,
+      196,
+      140
+     ],
+     0.35
+    ],
+    [
+     [
+      184,
+      106,
+      62
+     ],
+     0.2
+    ]
+   ],
+   [
+    [
+     [
+      130,
+      134,
+      68
+     ],
+     0.5
+    ],
+    [
+     [
+      186,
+      116,
+      66
+     ],
+     0.3
+    ],
+    [
+     [
+      96,
+      112,
+      54
+     ],
+     0.2
+    ]
+   ],
+   [
+    [
+     [
+      62,
+      98,
+      50
+     ],
+     0.6
+    ],
+    [
+     [
+      96,
+      110,
+      52
+     ],
+     0.3
+    ],
+    [
+     [
+      150,
+      120,
+      70
+     ],
+     0.1
+    ]
+   ]
+  ],
+  "seeds": [
+   131,
+   149,
+   163,
+   181
+  ],
+  "value": [
+   0.8,
+   1.4
+  ]
+ },
+ "lod": {
+  "tone": [
+   1.0,
+   0.92,
+   [
+    1.146,
+    1.133,
+    1.071
+   ]
+  ]
+ },
+ "impostor_tone": [
+  0.833,
+  0.828,
+  0.921
+ ],
+ "transparent_bounces": 64
+}

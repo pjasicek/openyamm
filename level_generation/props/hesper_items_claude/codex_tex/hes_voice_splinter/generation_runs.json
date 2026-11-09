@@ -1,0 +1,493 @@
+[
+  {
+    "view": "front",
+    "prompt": "Use case: precise-object-edit. Create a production game-texture projection source, a painted version of the FIRST input guide. Output exactly 1024 x 1024 with actual transparent RGBA background.\nInput roles: Image 1 is the EDIT TARGET and absolute geometry/registration authority, a white orthographic render of the exact model. Image 2 is the approved design_reference.png and is the colour/material authority ONLY. Any additional image is a supporting top-view geometry reference, never the target view.\nCRITICAL: Paint only the existing surfaces in image 1. Preserve its alpha silhouette, every protrusion and notch, its exact position and occupied size, every part boundary, occlusion and orthographic viewpoint. Preserve the entire 1024 square canvas and its large transparent margins. Do not enlarge, recenter, rotate, straighten, reinterpret or repair the model. Do not use the outline or camera from image 2. Return one view only, no contact sheet.\nSubject: the Hesper Voice Splinter relic implant. Apply the approved reference's ivory-white ceramic casing with subtle fine wear, warm brushed gold structural web/rims and connector prongs, dark black-violet amethyst/crystal or resin exposed in the web openings, and fine branching orange light fissures in the crystal. Connector light insets are orange with pale bright centres. Follow existing sculpted divisions to place those materials; crystal remains very dark purple with subdued violet planar differences and fine fracture texture; ceramic is softly warm ivory with delicate wear lines; metal is its warm gold base colour with only a faint sheen. Unseen surfaces plausibly continue the SAME casing, gold framing and dark purple crystal. No extra materials or attachments.\nLIGHTING IS ALBEDO: completely even, flat, shadowless illumination from the viewer. Remove the guide's baked shading and shadows while retaining its geometry through colour boundaries. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional light gradients, no bright specular spots, no reflections, no rim light. Render gold as base gold pigment, not shiny rendered metal. Glowing fissures and insets are painted bright orange/pale light-colour lines only, without bloom or light spilling onto other parts or transparent background. No background, floor, scenery, text, letters, symbols, labels, watermark, UI, or border.\nVIEW-SPECIFIC INVARIANTS:\nFRONT guide: keep the wide, horizontally foreshortened end view in the middle of the square. Overall alpha bounds are x=183..840, y=335..688. The three existing raised narrow connector/teardrop forms are across the middle, facing the viewer: preserve all three at their original exact locations and shapes, with gold surfaces and orange inset centres. The surrounding casing is ivory ceramic with gold framing; exposed angular crystal at the far upper edge uses black-violet crystal. Do not turn it into the upright diagonal design-reference view.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "298d9c3752ab04c8e9db0a3ff71bd34ad4164b1a203510ff98f66d5aefcbc9c3"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "326b612e820d57d534c983e32d59ddbf11214d8aaffb20104a5399107cb82eaa"
+      }
+    ],
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected for closer guide silhouette among the two attempts. The return is 1254 x 1254, preserved byte-for-byte and unresized as instructed. Exact guide silhouette and fully shadowless albedo checks remain unmet; faint stray alpha is present outside the main object. One permitted corrective regeneration exhausted.",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-60083a9f-23a1-49c1-b89b-db3edcfeef9d.png",
+    "output_sha256": "1931e2ea9d3bbba419861a3b60079850348b304921d20b92496c2a15704194bd",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        20,
+        1224,
+        1230
+      ],
+      "normalized_mask_iou": 0.886461743180306,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    },
+    "retained_attempt_output": "paint_front_attempt1.png"
+  },
+  {
+    "view": "back",
+    "prompt": "Use case: precise-object-edit. Create a production game-texture projection source, a painted version of the FIRST input guide. Output exactly 1024 x 1024 with actual transparent RGBA background.\nInput roles: Image 1 is the EDIT TARGET and absolute geometry/registration authority, a white orthographic render of the exact model. Image 2 is the approved design_reference.png and is the colour/material authority ONLY. Any additional image is a supporting top-view geometry reference, never the target view.\nCRITICAL: Paint only the existing surfaces in image 1. Preserve its alpha silhouette, every protrusion and notch, its exact position and occupied size, every part boundary, occlusion and orthographic viewpoint. Preserve the entire 1024 square canvas and its large transparent margins. Do not enlarge, recenter, rotate, straighten, reinterpret or repair the model. Do not use the outline or camera from image 2. Return one view only, no contact sheet.\nSubject: the Hesper Voice Splinter relic implant. Apply the approved reference's ivory-white ceramic casing with subtle fine wear, warm brushed gold structural web/rims and connector prongs, dark black-violet amethyst/crystal or resin exposed in the web openings, and fine branching orange light fissures in the crystal. Connector light insets are orange with pale bright centres. Follow existing sculpted divisions to place those materials; crystal remains very dark purple with subdued violet planar differences and fine fracture texture; ceramic is softly warm ivory with delicate wear lines; metal is its warm gold base colour with only a faint sheen. Unseen surfaces plausibly continue the SAME casing, gold framing and dark purple crystal. No extra materials or attachments.\nLIGHTING IS ALBEDO: completely even, flat, shadowless illumination from the viewer. Remove the guide's baked shading and shadows while retaining its geometry through colour boundaries. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional light gradients, no bright specular spots, no reflections, no rim light. Render gold as base gold pigment, not shiny rendered metal. Glowing fissures and insets are painted bright orange/pale light-colour lines only, without bloom or light spilling onto other parts or transparent background. No background, floor, scenery, text, letters, symbols, labels, watermark, UI, or border.\nVIEW-SPECIFIC INVARIANTS:\nBACK guide: keep the wide horizontally foreshortened rear/end view in the middle of the square. Overall alpha bounds are x=183..840, y=335..688. Preserve the asymmetric angular edges, the small existing raised pieces and the broad planar fields exactly. Continue the exposed dark violet crystal through the angular central/rear surfaces, with ivory ceramic and warm gold only on the casing/frame surfaces that continue the approved construction. This is the opposite end from the connector-facing front guide: do not invent connector prongs or new holes, panels or geometry.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "2e83befaf4334701821cd81a91cc2160b2fdb44c1e8aab7f1f160c972db96862"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "326b612e820d57d534c983e32d59ddbf11214d8aaffb20104a5399107cb82eaa"
+      }
+    ],
+    "output": "paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Not selected: poorer guide silhouette alignment than the selected attempt. Retained unresized for provenance.",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-ec76ef91-33a4-44f2-84f1-f7d1001421da.png",
+    "output_sha256": "0074c0ab9d7fcd37955bdbee232a9888d97e07a716e30ef87150dacefe2b73ed",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        29,
+        1224,
+        1254
+      ],
+      "normalized_mask_iou": 0.6340853465896763,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    }
+  },
+  {
+    "view": "left",
+    "prompt": "Use case: precise-object-edit. Create a production game-texture projection source, a painted version of the FIRST input guide. Output exactly 1024 x 1024 with actual transparent RGBA background.\nInput roles: Image 1 is the EDIT TARGET and absolute geometry/registration authority, a white orthographic render of the exact model. Image 2 is the approved design_reference.png and is the colour/material authority ONLY. Any additional image is a supporting top-view geometry reference, never the target view.\nCRITICAL: Paint only the existing surfaces in image 1. Preserve its alpha silhouette, every protrusion and notch, its exact position and occupied size, every part boundary, occlusion and orthographic viewpoint. Preserve the entire 1024 square canvas and its large transparent margins. Do not enlarge, recenter, rotate, straighten, reinterpret or repair the model. Do not use the outline or camera from image 2. Return one view only, no contact sheet.\nSubject: the Hesper Voice Splinter relic implant. Apply the approved reference's ivory-white ceramic casing with subtle fine wear, warm brushed gold structural web/rims and connector prongs, dark black-violet amethyst/crystal or resin exposed in the web openings, and fine branching orange light fissures in the crystal. Connector light insets are orange with pale bright centres. Follow existing sculpted divisions to place those materials; crystal remains very dark purple with subdued violet planar differences and fine fracture texture; ceramic is softly warm ivory with delicate wear lines; metal is its warm gold base colour with only a faint sheen. Unseen surfaces plausibly continue the SAME casing, gold framing and dark purple crystal. No extra materials or attachments.\nLIGHTING IS ALBEDO: completely even, flat, shadowless illumination from the viewer. Remove the guide's baked shading and shadows while retaining its geometry through colour boundaries. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional light gradients, no bright specular spots, no reflections, no rim light. Render gold as base gold pigment, not shiny rendered metal. Glowing fissures and insets are painted bright orange/pale light-colour lines only, without bloom or light spilling onto other parts or transparent background. No background, floor, scenery, text, letters, symbols, labels, watermark, UI, or border.\nVIEW-SPECIFIC INVARIANTS:\nLEFT guide: keep the long horizontal side profile exactly, alpha bounds x=66..957, y=335..688. The crystal tip points LEFT and the small existing connector projects RIGHT. Preserve the large rounded/oval side casing area at the right, all faceted left crystal planes, jagged upper/lower outlines, and the precise rightmost short prong shape. Exposed left crystal is dark black-violet with fine orange fissures; right casing is ivory ceramic with warm gold rim/frame where sculpted. Do not rotate into a vertical artifact.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "79799e0fc4e392ce94859954beeacef884c9b33bab9712c976257d0bfa2f494d"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "326b612e820d57d534c983e32d59ddbf11214d8aaffb20104a5399107cb82eaa"
+      }
+    ],
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected for closer guide silhouette among the two attempts. The return is 1254 x 1254, preserved byte-for-byte and unresized as instructed. Exact guide silhouette and fully shadowless albedo checks remain unmet; faint stray alpha is present outside the main object. One permitted corrective regeneration exhausted.",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-f6c7fe5f-ec94-452f-9260-aac20bf7f5cf.png",
+    "output_sha256": "6b5a644e6d971b7afcbbed07bead0d4287034ed170f6a5951d217190667c6fe2",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        55,
+        32,
+        1234,
+        1230
+      ],
+      "normalized_mask_iou": 0.9885964956057831,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    },
+    "retained_attempt_output": "paint_left_attempt1.png"
+  },
+  {
+    "view": "right",
+    "prompt": "Use case: precise-object-edit. Create a production game-texture projection source, a painted version of the FIRST input guide. Output exactly 1024 x 1024 with actual transparent RGBA background.\nInput roles: Image 1 is the EDIT TARGET and absolute geometry/registration authority, a white orthographic render of the exact model. Image 2 is the approved design_reference.png and is the colour/material authority ONLY. Any additional image is a supporting top-view geometry reference, never the target view.\nCRITICAL: Paint only the existing surfaces in image 1. Preserve its alpha silhouette, every protrusion and notch, its exact position and occupied size, every part boundary, occlusion and orthographic viewpoint. Preserve the entire 1024 square canvas and its large transparent margins. Do not enlarge, recenter, rotate, straighten, reinterpret or repair the model. Do not use the outline or camera from image 2. Return one view only, no contact sheet.\nSubject: the Hesper Voice Splinter relic implant. Apply the approved reference's ivory-white ceramic casing with subtle fine wear, warm brushed gold structural web/rims and connector prongs, dark black-violet amethyst/crystal or resin exposed in the web openings, and fine branching orange light fissures in the crystal. Connector light insets are orange with pale bright centres. Follow existing sculpted divisions to place those materials; crystal remains very dark purple with subdued violet planar differences and fine fracture texture; ceramic is softly warm ivory with delicate wear lines; metal is its warm gold base colour with only a faint sheen. Unseen surfaces plausibly continue the SAME casing, gold framing and dark purple crystal. No extra materials or attachments.\nLIGHTING IS ALBEDO: completely even, flat, shadowless illumination from the viewer. Remove the guide's baked shading and shadows while retaining its geometry through colour boundaries. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional light gradients, no bright specular spots, no reflections, no rim light. Render gold as base gold pigment, not shiny rendered metal. Glowing fissures and insets are painted bright orange/pale light-colour lines only, without bloom or light spilling onto other parts or transparent background. No background, floor, scenery, text, letters, symbols, labels, watermark, UI, or border.\nVIEW-SPECIFIC INVARIANTS:\nRIGHT guide: keep the long horizontal opposite-side profile exactly, alpha bounds x=66..957, y=335..688. The crystal tip points RIGHT and the existing foreshortened connector projects LEFT. Preserve the large left/central casing field, every existing narrow raised ridge on the left, the right crystal facets, notches and projection positions. Exposed right crystal is black-violet with fine orange fissures; left casing is ivory ceramic with warm gold framing and gold connector. Do not mirror the edit target or rotate it.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "e98646b6d3b8ca101f40fe30fc71b509cd590aaa85d1c915234c9d0581d5affa"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      },
+      {
+        "path": "guide_top.png",
+        "sha256": "326b612e820d57d534c983e32d59ddbf11214d8aaffb20104a5399107cb82eaa"
+      }
+    ],
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected for closer guide silhouette among the two attempts. The return is 1254 x 1254, preserved byte-for-byte and unresized as instructed. Exact guide silhouette and fully shadowless albedo checks remain unmet; faint stray alpha is present outside the main object. One permitted corrective regeneration exhausted.",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-8c4f1135-29ab-4fff-be1c-e11274caad0d.png",
+    "output_sha256": "17b03025a1ce59f38dd36efae81cabc52d12f62853033359850b550ccf3b3324",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        37,
+        1206,
+        1228
+      ],
+      "normalized_mask_iou": 0.9848266183613344,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    },
+    "retained_attempt_output": "paint_right_attempt1.png"
+  },
+  {
+    "view": "top",
+    "prompt": "Use case: precise-object-edit. Create a production game-texture projection source, a painted version of the FIRST input guide. Output exactly 1024 x 1024 with actual transparent RGBA background.\nInput roles: Image 1 is the EDIT TARGET and absolute geometry/registration authority, a white orthographic render of the exact model. Image 2 is the approved design_reference.png and is the colour/material authority ONLY. Any additional image is a supporting top-view geometry reference, never the target view.\nCRITICAL: Paint only the existing surfaces in image 1. Preserve its alpha silhouette, every protrusion and notch, its exact position and occupied size, every part boundary, occlusion and orthographic viewpoint. Preserve the entire 1024 square canvas and its large transparent margins. Do not enlarge, recenter, rotate, straighten, reinterpret or repair the model. Do not use the outline or camera from image 2. Return one view only, no contact sheet.\nSubject: the Hesper Voice Splinter relic implant. Apply the approved reference's ivory-white ceramic casing with subtle fine wear, warm brushed gold structural web/rims and connector prongs, dark black-violet amethyst/crystal or resin exposed in the web openings, and fine branching orange light fissures in the crystal. Connector light insets are orange with pale bright centres. Follow existing sculpted divisions to place those materials; crystal remains very dark purple with subdued violet planar differences and fine fracture texture; ceramic is softly warm ivory with delicate wear lines; metal is its warm gold base colour with only a faint sheen. Unseen surfaces plausibly continue the SAME casing, gold framing and dark purple crystal. No extra materials or attachments.\nLIGHTING IS ALBEDO: completely even, flat, shadowless illumination from the viewer. Remove the guide's baked shading and shadows while retaining its geometry through colour boundaries. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional light gradients, no bright specular spots, no reflections, no rim light. Render gold as base gold pigment, not shiny rendered metal. Glowing fissures and insets are painted bright orange/pale light-colour lines only, without bloom or light spilling onto other parts or transparent background. No background, floor, scenery, text, letters, symbols, labels, watermark, UI, or border.\nVIEW-SPECIFIC INVARIANTS:\nTOP guide: keep the long diagonal top-down view exactly, alpha bounds x=183..840, y=66..957. The faceted crystal tip occupies the upper LEFT; the curved open gold web wraps the exposed violet crystal; the ceramic case flares at the lower/right base and three existing slim connectors project toward the lower edge. Paint those exact three connectors gold with small orange light insets. Keep every crystal facet edge, casing/window boundary, gold-web curve and connector edge where the guide has it. The design reference shows similar material placement but is NOT the geometry or camera authority.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "326b612e820d57d534c983e32d59ddbf11214d8aaffb20104a5399107cb82eaa"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      }
+    ],
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Not selected: stronger specular highlights than the corrective attempt at similar silhouette overlap. Retained unresized for provenance.",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-f7889725-d240-4d13-a619-570f77886e4e.png",
+    "output_sha256": "ed03561f0fa61e23a86875ec1a4dd2d9158dea85f4fa36a1628ccdd816e17d2e",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        23,
+        1242,
+        1214
+      ],
+      "normalized_mask_iou": 0.8286064917371273,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    }
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "298d9c3752ab04c8e9db0a3ff71bd34ad4164b1a203510ff98f66d5aefcbc9c3"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      }
+    ],
+    "output": "paint_front_attempt2.png",
+    "selected": false,
+    "reason": "Not selected: poorer guide silhouette alignment than the selected attempt. Retained unresized for provenance.",
+    "prompt": "Use case: precise-object-edit. This is the one corrective regeneration of the FRONT texture source.\nEDIT IMAGE 1 DIRECTLY. Its 1024 x 1024 canvas is the required output canvas. Retain image 1's exact alpha mask and every existing edge, in-place at the identical pixel coordinates. Recolour the white model only. Do not redraw its form. Image 2 is ONLY a colour swatch and material-design reference; do not import its shape, proportions, scale, lighting or background artifacts.\nPaint a FLAT UNLIT BASE-COLOUR TEXTURE onto the exact image-1 model surfaces: warm ivory ceramic with fine restrained wear, ochre-gold brushed metal, very dark violet crystal with subtle fine fractures, thin orange luminous cracks and orange-white connector insets. Use the existing raised frame/trim as gold and the broad casing panels as ivory; exposed crystal remains purple. Continue these materials plausibly on unseen surfaces.\nThe previous attempt failed because it shifted the silhouette and rendered directional shading and shiny metal. Correct those issues. A diffuse-only/albedo pass: use uniform material colour, fine surface detail, no shading at all. No light-to-dark shading gradients across a panel, no cast/contact shadows or ambient occlusion. No bright bevel glints, white reflections, rim lights, gloss, bloom, volumetric glow or shiny crystal reflections. Gold should look like matte ochre-gold paint. Ceramic should look even warm ivory. Violet facets use only subtle colour differences, never pale illuminated faces. The object is still finely detailed but completely unlit.\nPreserve the GUIDE'S outline rather than the design-reference outline: all jagged edges, prongs, tips, notches and interior part locations must stay exactly in place, including the original large empty margins. Outside image 1's silhouette: every pixel fully transparent alpha zero, no specks or halo. Do not add shapes, symbols, text or letters. One image, no layout or annotations. Transparent PNG, requested size 1024 x 1024.\nFRONT guide: keep the wide, horizontally foreshortened end view in the middle of the square. Overall alpha bounds are x=183..840, y=335..688. The three existing raised narrow connector/teardrop forms are across the middle, facing the viewer: preserve all three at their original exact locations and shapes, with gold surfaces and orange inset centres. The surrounding casing is ivory ceramic with gold framing; exposed angular crystal at the far upper edge uses black-violet crystal. Do not turn it into the upright diagonal design-reference view.",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-14c9a08d-5069-4341-a490-dd214ac8a106.png",
+    "output_sha256": "c44a7cd8427d17d94b0ada9916b7fe086f944c9046eaabf45145aaac23e067e2",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        23,
+        1214,
+        1221
+      ],
+      "normalized_mask_iou": 0.7779292825522536,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "2e83befaf4334701821cd81a91cc2160b2fdb44c1e8aab7f1f160c972db96862"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      }
+    ],
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected for closer guide silhouette among the two attempts. The return is 1254 x 1254, preserved byte-for-byte and unresized as instructed. Exact guide silhouette and fully shadowless albedo checks remain unmet; faint stray alpha is present outside the main object. One permitted corrective regeneration exhausted.",
+    "prompt": "Use case: precise-object-edit. This is the one corrective regeneration of the BACK texture source.\nEDIT IMAGE 1 DIRECTLY. Its 1024 x 1024 canvas is the required output canvas. Retain image 1's exact alpha mask and every existing edge, in-place at the identical pixel coordinates. Recolour the white model only. Do not redraw its form. Image 2 is ONLY a colour swatch and material-design reference; do not import its shape, proportions, scale, lighting or background artifacts.\nPaint a FLAT UNLIT BASE-COLOUR TEXTURE onto the exact image-1 model surfaces: warm ivory ceramic with fine restrained wear, ochre-gold brushed metal, very dark violet crystal with subtle fine fractures, thin orange luminous cracks and orange-white connector insets. Use the existing raised frame/trim as gold and the broad casing panels as ivory; exposed crystal remains purple. Continue these materials plausibly on unseen surfaces.\nThe previous attempt failed because it shifted the silhouette and rendered directional shading and shiny metal. Correct those issues. A diffuse-only/albedo pass: use uniform material colour, fine surface detail, no shading at all. No light-to-dark shading gradients across a panel, no cast/contact shadows or ambient occlusion. No bright bevel glints, white reflections, rim lights, gloss, bloom, volumetric glow or shiny crystal reflections. Gold should look like matte ochre-gold paint. Ceramic should look even warm ivory. Violet facets use only subtle colour differences, never pale illuminated faces. The object is still finely detailed but completely unlit.\nPreserve the GUIDE'S outline rather than the design-reference outline: all jagged edges, prongs, tips, notches and interior part locations must stay exactly in place, including the original large empty margins. Outside image 1's silhouette: every pixel fully transparent alpha zero, no specks or halo. Do not add shapes, symbols, text or letters. One image, no layout or annotations. Transparent PNG, requested size 1024 x 1024.\nBACK guide: keep the wide horizontally foreshortened rear/end view in the middle of the square. Overall alpha bounds are x=183..840, y=335..688. Preserve the asymmetric angular edges, the small existing raised pieces and the broad planar fields exactly. Continue the exposed dark violet crystal through the angular central/rear surfaces, with ivory ceramic and warm gold only on the casing/frame surfaces that continue the approved construction. This is the opposite end from the connector-facing front guide: do not invent connector prongs or new holes, panels or geometry.",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-5aeb77bf-234a-4d03-9b07-4963037bb669.png",
+    "output_sha256": "fa2f05e4cf6dd995204faa87365c6240b4a1a8594d1d3b3ee86e5897ff754002",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        39,
+        1232,
+        1244
+      ],
+      "normalized_mask_iou": 0.7478328402698905,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    },
+    "retained_attempt_output": "paint_back_attempt2.png"
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "79799e0fc4e392ce94859954beeacef884c9b33bab9712c976257d0bfa2f494d"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      }
+    ],
+    "output": "paint_left_attempt2.png",
+    "selected": false,
+    "reason": "Not selected: poorer guide silhouette alignment than the selected attempt. Retained unresized for provenance.",
+    "prompt": "Use case: precise-object-edit. This is the one corrective regeneration of the LEFT texture source.\nEDIT IMAGE 1 DIRECTLY. Its 1024 x 1024 canvas is the required output canvas. Retain image 1's exact alpha mask and every existing edge, in-place at the identical pixel coordinates. Recolour the white model only. Do not redraw its form. Image 2 is ONLY a colour swatch and material-design reference; do not import its shape, proportions, scale, lighting or background artifacts.\nPaint a FLAT UNLIT BASE-COLOUR TEXTURE onto the exact image-1 model surfaces: warm ivory ceramic with fine restrained wear, ochre-gold brushed metal, very dark violet crystal with subtle fine fractures, thin orange luminous cracks and orange-white connector insets. Use the existing raised frame/trim as gold and the broad casing panels as ivory; exposed crystal remains purple. Continue these materials plausibly on unseen surfaces.\nThe previous attempt failed because it shifted the silhouette and rendered directional shading and shiny metal. Correct those issues. A diffuse-only/albedo pass: use uniform material colour, fine surface detail, no shading at all. No light-to-dark shading gradients across a panel, no cast/contact shadows or ambient occlusion. No bright bevel glints, white reflections, rim lights, gloss, bloom, volumetric glow or shiny crystal reflections. Gold should look like matte ochre-gold paint. Ceramic should look even warm ivory. Violet facets use only subtle colour differences, never pale illuminated faces. The object is still finely detailed but completely unlit.\nPreserve the GUIDE'S outline rather than the design-reference outline: all jagged edges, prongs, tips, notches and interior part locations must stay exactly in place, including the original large empty margins. Outside image 1's silhouette: every pixel fully transparent alpha zero, no specks or halo. Do not add shapes, symbols, text or letters. One image, no layout or annotations. Transparent PNG, requested size 1024 x 1024.\nLEFT guide: keep the long horizontal side profile exactly, alpha bounds x=66..957, y=335..688. The crystal tip points LEFT and the small existing connector projects RIGHT. Preserve the large rounded/oval side casing area at the right, all faceted left crystal planes, jagged upper/lower outlines, and the precise rightmost short prong shape. Exposed left crystal is dark black-violet with fine orange fissures; right casing is ivory ceramic with warm gold rim/frame where sculpted. Do not rotate into a vertical artifact.",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-25e9bd0c-7e46-4f90-b254-e5fe1f7592a5.png",
+    "output_sha256": "5fdcc58fd8ed637f7e477a68bbf4d7d7e746ba514b8a90c30f2ca2c7fba2c736",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        48,
+        1220,
+        1164
+      ],
+      "normalized_mask_iou": 0.905001559833373,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "e98646b6d3b8ca101f40fe30fc71b509cd590aaa85d1c915234c9d0581d5affa"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      }
+    ],
+    "output": "paint_right_attempt2.png",
+    "selected": false,
+    "reason": "Not selected: poorer guide silhouette alignment than the selected attempt. Retained unresized for provenance.",
+    "prompt": "Use case: precise-object-edit. This is the one corrective regeneration of the RIGHT texture source.\nEDIT IMAGE 1 DIRECTLY. Its 1024 x 1024 canvas is the required output canvas. Retain image 1's exact alpha mask and every existing edge, in-place at the identical pixel coordinates. Recolour the white model only. Do not redraw its form. Image 2 is ONLY a colour swatch and material-design reference; do not import its shape, proportions, scale, lighting or background artifacts.\nPaint a FLAT UNLIT BASE-COLOUR TEXTURE onto the exact image-1 model surfaces: warm ivory ceramic with fine restrained wear, ochre-gold brushed metal, very dark violet crystal with subtle fine fractures, thin orange luminous cracks and orange-white connector insets. Use the existing raised frame/trim as gold and the broad casing panels as ivory; exposed crystal remains purple. Continue these materials plausibly on unseen surfaces.\nThe previous attempt failed because it shifted the silhouette and rendered directional shading and shiny metal. Correct those issues. A diffuse-only/albedo pass: use uniform material colour, fine surface detail, no shading at all. No light-to-dark shading gradients across a panel, no cast/contact shadows or ambient occlusion. No bright bevel glints, white reflections, rim lights, gloss, bloom, volumetric glow or shiny crystal reflections. Gold should look like matte ochre-gold paint. Ceramic should look even warm ivory. Violet facets use only subtle colour differences, never pale illuminated faces. The object is still finely detailed but completely unlit.\nPreserve the GUIDE'S outline rather than the design-reference outline: all jagged edges, prongs, tips, notches and interior part locations must stay exactly in place, including the original large empty margins. Outside image 1's silhouette: every pixel fully transparent alpha zero, no specks or halo. Do not add shapes, symbols, text or letters. One image, no layout or annotations. Transparent PNG, requested size 1024 x 1024.\nRIGHT guide: keep the long horizontal opposite-side profile exactly, alpha bounds x=66..957, y=335..688. The crystal tip points RIGHT and the existing foreshortened connector projects LEFT. Preserve the large left/central casing field, every existing narrow raised ridge on the left, the right crystal facets, notches and projection positions. Exposed right crystal is black-violet with fine orange fissures; left casing is ivory ceramic with warm gold framing and gold connector. Do not mirror the edit target or rotate it.",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-ac415065-9ac4-4672-9089-2d2db9adc36b.png",
+    "output_sha256": "be1767ca114a270a8d52573c0e783361ee02f9584640ac5d6295a1988f080326",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        39,
+        71,
+        1234,
+        1238
+      ],
+      "normalized_mask_iou": 0.886205107778385,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "326b612e820d57d534c983e32d59ddbf11214d8aaffb20104a5399107cb82eaa"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "faa4a1f6649150eeb5ef78913448573701fca9096b50842a3569f2a57921a46b"
+      }
+    ],
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected for flatter lighting with essentially unchanged silhouette overlap. The return is 1254 x 1254, preserved byte-for-byte and unresized as instructed. Exact guide silhouette and fully shadowless albedo checks remain unmet; faint stray alpha is present outside the main object. One permitted corrective regeneration exhausted.",
+    "prompt": "Use case: precise-object-edit. This is the one corrective regeneration of the TOP texture source.\nEDIT IMAGE 1 DIRECTLY. Its 1024 x 1024 canvas is the required output canvas. Retain image 1's exact alpha mask and every existing edge, in-place at the identical pixel coordinates. Recolour the white model only. Do not redraw its form. Image 2 is ONLY a colour swatch and material-design reference; do not import its shape, proportions, scale, lighting or background artifacts.\nPaint a FLAT UNLIT BASE-COLOUR TEXTURE onto the exact image-1 model surfaces: warm ivory ceramic with fine restrained wear, ochre-gold brushed metal, very dark violet crystal with subtle fine fractures, thin orange luminous cracks and orange-white connector insets. Use the existing raised frame/trim as gold and the broad casing panels as ivory; exposed crystal remains purple. Continue these materials plausibly on unseen surfaces.\nThe previous attempt failed because it shifted the silhouette and rendered directional shading and shiny metal. Correct those issues. A diffuse-only/albedo pass: use uniform material colour, fine surface detail, no shading at all. No light-to-dark shading gradients across a panel, no cast/contact shadows or ambient occlusion. No bright bevel glints, white reflections, rim lights, gloss, bloom, volumetric glow or shiny crystal reflections. Gold should look like matte ochre-gold paint. Ceramic should look even warm ivory. Violet facets use only subtle colour differences, never pale illuminated faces. The object is still finely detailed but completely unlit.\nPreserve the GUIDE'S outline rather than the design-reference outline: all jagged edges, prongs, tips, notches and interior part locations must stay exactly in place, including the original large empty margins. Outside image 1's silhouette: every pixel fully transparent alpha zero, no specks or halo. Do not add shapes, symbols, text or letters. One image, no layout or annotations. Transparent PNG, requested size 1024 x 1024.\nTOP guide: keep the long diagonal top-down view exactly, alpha bounds x=183..840, y=66..957. The faceted crystal tip occupies the upper LEFT; the curved open gold web wraps the exposed violet crystal; the ceramic case flares at the lower/right base and three existing slim connectors project toward the lower edge. Paint those exact three connectors gold with small orange light insets. Keep every crystal facet edge, casing/window boundary, gold-web curve and connector edge where the guide has it. The design reference shows similar material placement but is NOT the geometry or camera authority.",
+    "source_output": "/home/pjasicek/.codex/generated_images/01a16e8c-9a93-7961-b128-269cf9347700/exec-c31a0221-78f6-46a8-a046-616743f0dea6.png",
+    "output_sha256": "1e74ee15f39cd7e5ed7f34f461b1ac77de9fe007d75a78494d9668638c59c6b5",
+    "checks": {
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "guide_size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1240,
+        1254
+      ],
+      "normalized_mask_iou": 0.8286426639621366,
+      "silhouette_pixel_identical": false,
+      "materials_match": true,
+      "flat_shadowless_light": false,
+      "no_text_or_letters": true,
+      "unresized": true,
+      "meets_all_brief_checks": false,
+      "normalized_mask_iou_method": "Read-only comparison: sample output alpha at normalized guide pixel centres; alpha threshold 128. No output pixels altered."
+    },
+    "retained_attempt_output": "paint_top_attempt2.png"
+  }
+]

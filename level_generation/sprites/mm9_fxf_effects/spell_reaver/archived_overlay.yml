@@ -1,0 +1,157 @@
+schema: openyamm.mm9EffectRestorations.v1
+review: level_generation/sprites/mm9_fxf_effects/spell_reaver/review.json
+textures:
+- resource: mm9:effect-texture/bluering
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/bluering/export/00.png
+  sha256: 7fd657a01b5d831d0f2721785f8285ba7b7e3bbc291bf2ed348a3b47d34ec9ec
+  native_source_sha256: 82d5f6cb552cd8cc6590ab933874f6b623b77abc76972b084c415f21d07cb969
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/particles/flare0000
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/00.png
+  sha256: 347083a1d71fb33fca20ffa420d7660a5f80a91ddd0e1f7d9748b1e1df11836d
+  native_source_sha256: d6984105c915fdbac0e566a98b48dc4804c7d09008d2e7005b9b8a0953a8b737
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0003
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/01.png
+  sha256: 0ad124752b25372b4a5381cb140ced0213098715583d81bd2ccdc0b5db61425a
+  native_source_sha256: 729a6d4ea8c868e1a88a887694573575cdf67da2ca006a07030269f7c53fd19a
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0006
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/02.png
+  sha256: b0e5102a646b864c8264b4bf6492d7f5c9f426ced227cdb859c8dac3ffae76f9
+  native_source_sha256: 1ddb053050432623818fd38b46775681c49389df07e64f584acf6ffd135d2afb
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0009
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/03.png
+  sha256: 24cbc5430ca7a40a154e8bf05ce8c59f3fd04d171c6822aa4537ec66dd466999
+  native_source_sha256: ff4f8f22064224586ca49938047359d2983ed52787816115ac923f9822dea15c
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0012
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/04.png
+  sha256: 6077f6de1f40090c8524023d61d241d1f0cf82a69542dafc9f93d0271be10c90
+  native_source_sha256: f4df6b1514fa43d7781fd33ef82bc736494ecd8af5e42667c0b1bb7614614513
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0015
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/05.png
+  sha256: e2d24cfce43d4aa8073a1227e9597f3775545fb90c8157e3a6b5f9d0aff1e0a1
+  native_source_sha256: b3c9d692cffa522ba4f8470a373e7e06dff4875966fc42f7183dcdcacdf1223b
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0018
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/06.png
+  sha256: 4e5e2f4198244f61c8657c40d085f6924520cda7f8fb2a037670df5e5adefb5d
+  native_source_sha256: dc5b81c18c338ae845ac4312381eca69339f83b40fa75b49e56782a695d9f7e1
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0021
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/07.png
+  sha256: aa589604438e8571fa429b2e29d31a5129ef3a6b957a1ca1c1f78491aa823a50
+  native_source_sha256: 7ba85b1bcd5bd6d3c3f10072518098556772a264e9e57e3d77e2779a6492f276
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0024
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/08.png
+  sha256: a40fc7f11de6e141ae31ab78d8a5c1fab35717c3f88389f0c50612cf5409ff24
+  native_source_sha256: aa263e45ed7615ffc0f3998ced620ae6e1391d5efbfff3ad0c54d651579a1e1d
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/particles/flare0027
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/flareparticle/export/09.png
+  sha256: 6e82c509cd6fa3a91e3deaae87eba978736c23ff7e1d10d7f7cb83383ea2b6b6
+  native_source_sha256: 08ffc038efea908106863783d90bdd769a6a997dfc5069070543184e68385ac6
+  native_size:
+  - 32
+  - 32
+- resource: mm9:effect-texture/sparks/ringexplodeblue
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/ringexplodeblue/export/00.png
+  sha256: c56b3ad79e9ccbe10c929ab53466fb0373bc663ed94db7495ee13fd7a6f12204
+  native_source_sha256: 6eca0aafaa52c274e1925431620248362a8634e4e4094738d30b90445f2393b3
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0000
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/00.png
+  sha256: f0b29aee62eeeb895872603536e48bd903a1f0d2b86d66187fa0969f4cbf0e33
+  native_source_sha256: 372a5a18a3fde7130f3cbba1607d37499d137f33ca6be48ab256f7d0586fbca6
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0001
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/01.png
+  sha256: 528920b43322413c2183f4306bb5b5bc49f0215b0070d691d19721bc4eeb8bfa
+  native_source_sha256: 76e73649f1b06bd8357af07ed8e39aee8dfb1dda4f24bff2047750958aa6b07d
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0002
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/02.png
+  sha256: 683ebe8d44397c2b2710374e106aa8a18ef99ae21ed00910699c30414eb8d6fa
+  native_source_sha256: 780ce0eb9361620cec09f55cc86f64a814f1ca3d8da7d74247c56c3ab900a8a6
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0003
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/03.png
+  sha256: 78ac59705b82234b9db78f1b18725303649d7f0aff8fdcd8cd9ba14c06483537
+  native_source_sha256: aa80eff914d20371687f7bd7018899a4ca6f6ce28a4bdf8916fd0e9a48795105
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0004
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/04.png
+  sha256: 8eadf7881591b9d164c8748e5c8c82203b2ae4ed9d11509cccf72321d0e8fb82
+  native_source_sha256: 98087466f13ac2bf24a9d48e34770b27184cb968e56030652bff1a01af81a95b
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0005
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/05.png
+  sha256: 37a100b7b15bce260372ccd9dde65da33afd8aa312e8ba9618d7615da363ca91
+  native_source_sha256: 4846db2626fe2d5cdb5c8af01abd258a893cfd9a4d5bd84c6a4adff884127dbf
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0006
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/06.png
+  sha256: b89de8f91eda66d3d27a1f4eba667c69ce819427cc2eef51a014c75cae9cb1c9
+  native_source_sha256: cddd049c458bba34ca8a19bc143ee206399ba56f047a981fbb288cd9ad44c293
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0007
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/07.png
+  sha256: de8f9f3c239cd4bdb54769057795982dce47333f08439e8ecb9169e6d9f23b96
+  native_source_sha256: 796645e980239bf808fc27b20d915005a3909d7fb994caec56333b9c3401ce85
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0008
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/08.png
+  sha256: 8decb3c2693ea094ec5f58e90a2a562df23471aa927f87c1ba6cfbcdde6cca8c
+  native_source_sha256: 5a5e021bbdefd0b6109e60f7c187a328902b856dfba7f0190a733cc5e7f40bb9
+  native_size:
+  - 64
+  - 64
+- resource: mm9:effect-texture/smokeeffects/smokenoise/smoke_noise0009
+  artwork: level_generation/sprites/mm9_fxf_effects/spell_reaver/smokenoise/export/09.png
+  sha256: bbc183719bb5f9198ca6f15f9d004eb58b2cd977a0d6ed95590bd8411793370a
+  native_source_sha256: 104c4980278880de89ee87c39008f5a108baefb16398cd74ea915ad350988baa
+  native_size:
+  - 64
+  - 64

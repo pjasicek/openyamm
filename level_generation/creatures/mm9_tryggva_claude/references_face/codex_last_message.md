@@ -1,0 +1,3 @@
+Saved [out_face.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_tryggva_claude/references_face/out_face.png) at 1254×1254 using built-in image generation. Saved `review.png` and `generation_runs.json` with prompts and input hashes alongside it.
+
+Stopped after the one permitted correction. The result still violates exact pixel preservation, eye positioning, and reflection requirements; it is not ready for pixel-perfect projection.

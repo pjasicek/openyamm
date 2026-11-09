@@ -1,0 +1,67 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_1000terrors/review/ml_old
+settle_seconds: 1.5
+exit: true
+shots:
+- name: m05_sorc_west
+  position:
+  - 6272
+  - -9298
+  - -142
+  yaw: 3.1416
+  pitch: 0.0
+- name: m11_east_tomb
+  position:
+  - 17664
+  - -11520
+  - -127
+  yaw: 0.8961
+  pitch: 0.0
+- name: m13_coffin_octagon
+  position:
+  - 15360
+  - -16896
+  - -127
+  yaw: -0.7378
+  pitch: 0.0
+- name: m08_water_hall_east
+  position:
+  - 11392
+  - -12196
+  - -127
+  yaw: 0.0
+  pitch: 0.0
+- name: l06_genie
+  position:
+  - -1792
+  - -13107
+  - -2569
+  yaw: 3.1416
+  pitch: -0.1745
+- name: u02_foyer_south_doors
+  position:
+  - 768
+  - -16768
+  - 2254
+  yaw: -1.6902
+  pitch: 0.0
+- name: u03_demon_statues
+  position:
+  - 3604
+  - -12800
+  - 2254
+  yaw: 1.5708
+  pitch: 0.0
+- name: u04_njam_hall
+  position:
+  - 6912
+  - -11776
+  - 2735
+  yaw: 0.0
+  pitch: 0.0
+- name: l04_skull_head
+  position:
+  - 8315
+  - -9344
+  - -2078
+  yaw: -1.5708
+  pitch: 0.0

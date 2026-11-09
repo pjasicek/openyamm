@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon spill audit</title>
+<style>
+:root{color-scheme:dark;--toolbar-height:250px}
+body{background:#20252a;color:#eee;font:15px system-ui;margin:24px}a{color:#9bd0ff}
+select,input,button,textarea{font:inherit;padding:6px;margin:3px;border:1px solid #62717c;border-radius:4px}
+button{cursor:pointer}button:disabled{opacity:.4;cursor:default}button[aria-pressed=true]{background:#734828;border-color:#ffa65b}
+article{border:2px solid #45505a;border-radius:6px;padding:14px;margin:16px 0;scroll-margin-top:var(--toolbar-height)}
+article.selected{border-color:#7fc8ff;background:#27323c;outline:1px solid #7fc8ff}
+article.flagged .flag-label{color:#ffbb71}article img{max-width:100%;display:block;margin:8px 0}
+article .standalone{max-height:400px;background:repeating-conic-gradient(#404040 0% 25%,#555 0% 50%) 0/20px 20px}
+article p{margin:8px 0}article a{overflow-wrap:anywhere}small{color:#bbc6cc}pre{white-space:pre-wrap;overflow-wrap:anywhere}
+header{position:sticky;top:0;z-index:2;background:#20252af5;padding:10px;border-bottom:1px solid #82929f}
+.row{display:flex;align-items:center;flex-wrap:wrap;gap:4px}#selectedName{overflow-wrap:anywhere}
+#notes{width:min(600px,95%);height:38px;resize:vertical}#saveState{color:#add7b0}#saveState.error{color:#ff9c9c}
+#selection{margin:7px 0}kbd{background:#3c4650;border-radius:3px;padding:1px 4px}#summary{max-height:400px;overflow:auto}
+</style>
+<h1>Icon spill audit</h1>
+<p>Orange marks suspected spill. Flag images for repair with a reason; artwork and existing acceptance stay unchanged.</p>
+<p><a href="../spill_repairs_20260927/review/index.html">Review staged spill repairs and original/master key evidence</a></p>
+<details><summary>Coverage and counts</summary><pre id="summary"></pre></details>
+<header>
+  <div class="row">
+    <label>Scope <select id="scope"><option value="accepted_x2">Accepted x2</option><option value="linked_master">Linked masters</option>
+      <option value="retained_master">Other retained masters</option><option value="">All scopes</option></select></label>
+    <label>Scan <select id="status"><option value="likely_spill">Likely spill</option><option value="color_material_review">Color / material review</option>
+      <option value="trace">Trace</option><option value="no_spill_detected">No spill detected</option><option value="">All statuses</option></select></label>
+    <label>Color <select id="color"><option value="">All colors</option><option>magenta</option><option>green</option><option>cyan</option></select></label>
+    <label>Review <select id="reviewFilter"><option value="">All items</option><option value="flagged">Flagged</option><option value="unflagged">Unflagged</option></select></label>
+    <input id="search" aria-label="Search items" placeholder="Name, target, or path">
+    <span id="count"></span>
+  </div>
+  <div id="selection" aria-live="polite"><span id="position"></span> <strong id="selectedName"></strong></div>
+  <div class="row" id="reasons" role="group" aria-label="Flag reason"></div>
+  <div class="row">
+    <button id="previous">↑ Previous</button><button id="next">↓ Next</button>
+    <button id="flag">Space · Flag / update reason</button><button id="unflag">Remove flag</button>
+    <button id="export">Export flags</button><span id="flagCount"></span>
+  </div>
+  <div class="row"><textarea id="notes" aria-label="Optional notes" placeholder="Optional notes (especially for Other)"></textarea>
+    <small><kbd>↑</kbd>/<kbd>↓</kbd> item · <kbd>←</kbd>/<kbd>→</kbd> reason · <kbd>Space</kbd> flag<br>
+    Shortcuts pause while typing or using filters. Space keeps the item selected.</small></div>
+  <div id="saveState" role="status">Flags save in this browser. Export them to hand off your feedback.</div>
+</header>
+<main aria-label="Spill review items"></main>
+<button id="more">Show next 40</button>
+<script src="report.js"></script><script src="review.js?v=20260927-keyboard-1"></script>
+</html>

@@ -1,0 +1,136 @@
+{
+ "sprite": "6tree25",
+ "output": "mm6_deco_tree25.glb",
+ "height_m": 3.51,
+ "note": "Small narrow, irregular, pointed crown, widest in its lower third, starting low on a slim trunk that forks low into leaders.",
+ "sapling": {
+  "scale": 2.48,
+  "baseSplits": 2,
+  "splitHeight": 0.15,
+  "splitAngle": [
+   18,
+   15,
+   15,
+   0
+  ],
+  "baseSize": 0.2,
+  "attractUp": [
+   0,
+   0.6,
+   0.4,
+   0
+  ],
+  "downAngle": [
+   90,
+   38,
+   40,
+   45
+  ],
+  "seed": 101,
+  "ratio": 0.03,
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "rootFlare": 1.15,
+  "segSplits": [
+   0,
+   0.2,
+   0.3,
+   0
+  ],
+  "branches": [
+   0,
+   40,
+   12,
+   8
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.15,
+  "centre": 0.42,
+  "clumps": 140,
+  "inner_clumps": 10,
+  "outer_radius": [
+   0.18,
+   0.34
+  ],
+  "inner_radius": [
+   0.18,
+   0.28
+  ],
+  "card": [
+   0.26,
+   0.34
+  ],
+  "gap": 0.85,
+  "radius_by_width": 0.25,
+  "lobes": {
+   "fraction": 0.4,
+   "slack": 1.35
+  },
+  "spire": [
+   0.3,
+   1.8
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   125,
+   104,
+   98
+  ],
+  "min_thickness": [
+   0.01,
+   0.025,
+   0.045
+  ],
+  "root_reach": 0.12,
+  "roots": 0
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "lod2_card_scale": 1.0,
+  "tone": [
+   1.0,
+   0.92,
+   [
+    1.18,
+    1.31,
+    1.27
+   ]
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   72,
+   185,
+   105
+  ],
+  "jitter_blue": [
+   0.9,
+   1.2
+  ],
+  "seeds": [
+   7,
+   37,
+   71,
+   97
+  ],
+  "value": [
+   0.8,
+   1.5
+  ]
+ },
+ "impostor_tone": [
+  0.94,
+  0.96,
+  1.0
+ ]
+}

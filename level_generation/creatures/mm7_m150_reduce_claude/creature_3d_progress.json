@@ -1,0 +1,17 @@
+{
+ "creature_3d_identity": "mm7:m150-reduce",
+ "scope": "batch G Angel triangle reduction (no retexture, not installed)",
+ "meshy": {
+  "credit_limit": 1,
+  "jobs": {}
+ },
+ "status": "reduced body exported (not installed): LOD0 9,916 -> 7,828; props unchanged; no Meshy credits",
+ "exports": {
+  "body": "export/mm7_m150.glb",
+  "rollback": "work/mm7_m150_source_pre_reduce.glb"
+ },
+ "next_action": {
+  "owner": "user",
+  "action": "review the reduced body in the viewer; install with the README commands when wanted"
+ }
+}

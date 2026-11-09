@@ -1,0 +1,258 @@
+{
+  "status": "complete",
+  "examined_icons": 18,
+  "replaced": 9,
+  "retained": 9,
+  "deferred": 0,
+  "triangles": 22892,
+  "models_with_lod": 6,
+  "mesh_route": "Blender closed curled sheets, separate rollers/fittings, folded envelope and real wax seal",
+  "texture_route": "Built-in Imagegen parchment atlas plus retained Imagegen fitting materials; PBR + normal maps",
+  "new_meshy_credits": 0,
+  "shared_bindings_modified": false,
+  "length_changes": [],
+  "bounds_proposals": [
+    {
+      "icon": "item264",
+      "model": "engine/world_items/models/item_item264.glb",
+      "length": 60.3,
+      "current_bounds": [
+        -30.2,
+        -27.1,
+        0,
+        30.2,
+        27.1,
+        9.7
+      ],
+      "proposed_bounds": [
+        -27.4,
+        -30.2,
+        0.0,
+        27.4,
+        30.2,
+        7.4
+      ],
+      "runtime_sha256": "dc0dcd19d1d4a9d746236789347bb984cdace14d8b07606db212fa23d9a3f6dd"
+    },
+    {
+      "icon": "item265",
+      "model": "engine/world_items/models/item_item265.glb",
+      "length": 59.4,
+      "current_bounds": [
+        -29.7,
+        -28.3,
+        0,
+        29.7,
+        28.3,
+        9.8
+      ],
+      "proposed_bounds": [
+        -25.7,
+        -29.7,
+        0.0,
+        25.7,
+        29.7,
+        7.2
+      ],
+      "runtime_sha256": "4f21d5b31e865f1e45ee41328a6e15264706c8913766ce2f6a748d5f7cd4172b"
+    },
+    {
+      "icon": "7item251",
+      "model": "engine/world_items/models/item_7item251.glb",
+      "length": 54.9,
+      "current_bounds": [
+        -27.4,
+        -22.4,
+        0,
+        27.4,
+        22.4,
+        9.8
+      ],
+      "proposed_bounds": [
+        -21.4,
+        -27.4,
+        0.0,
+        21.4,
+        27.4,
+        4.4
+      ],
+      "runtime_sha256": "d2991dc00c403941827a7475545e76663d3799eee1c407cc820ac07991bc9e72"
+    },
+    {
+      "icon": "7item182",
+      "model": "engine/world_items/models/item_7item182.glb",
+      "length": 56.7,
+      "current_bounds": [
+        -28.4,
+        -13.5,
+        0,
+        28.4,
+        13.5,
+        9.1
+      ],
+      "proposed_bounds": [
+        -9.5,
+        -28.4,
+        0.0,
+        9.5,
+        28.4,
+        12.1
+      ],
+      "runtime_sha256": "de11c97d1ab0d84a9e0855c5af89a74706b1f87c3ec05f6667d282cf8ed37029"
+    },
+    {
+      "icon": "scroll1",
+      "model": "engine/world_items/models/item_scroll1.glb",
+      "length": 60.3,
+      "current_bounds": [
+        -30.2,
+        -17.5,
+        0,
+        30.2,
+        17.5,
+        9.4
+      ],
+      "proposed_bounds": [
+        -11.7,
+        -30.2,
+        0.0,
+        11.7,
+        30.2,
+        9.4
+      ],
+      "runtime_sha256": "d81a9d20d5d0d3f1f44473e1ccff7018783710ff1abf4aaae55bde5707d5e042"
+    },
+    {
+      "icon": "scroll2",
+      "model": "engine/world_items/models/item_scroll2.glb",
+      "length": 59.0,
+      "current_bounds": [
+        -29.5,
+        -17.9,
+        0,
+        29.5,
+        17.9,
+        9.5
+      ],
+      "proposed_bounds": [
+        -11.4,
+        -29.5,
+        0.0,
+        11.4,
+        29.5,
+        9.2
+      ],
+      "runtime_sha256": "4d125b25cbd0287ee53da15454000c595f5e10e9ec275ddfae8521a4761918ed"
+    },
+    {
+      "icon": "scroll3",
+      "model": "engine/world_items/models/item_scroll3.glb",
+      "length": 63.0,
+      "current_bounds": [
+        -31.5,
+        -17,
+        0,
+        31.5,
+        17,
+        9.6
+      ],
+      "proposed_bounds": [
+        -12.2,
+        -31.5,
+        0.0,
+        12.2,
+        31.5,
+        9.8
+      ],
+      "runtime_sha256": "e97909a72f5ca353fd0fe0d409cd14d8e374818fc4be12d3af76e68ac89495f9"
+    },
+    {
+      "icon": "scroll4",
+      "model": "engine/world_items/models/item_scroll4.glb",
+      "length": 64.4,
+      "current_bounds": [
+        -32.2,
+        -16.5,
+        0,
+        32.2,
+        16.5,
+        9.6
+      ],
+      "proposed_bounds": [
+        -12.5,
+        -32.2,
+        0.0,
+        12.5,
+        32.2,
+        10.0
+      ],
+      "runtime_sha256": "d78b03472017a2b51e65e34e962a02d3c6bb87cd4a50fe17d508e45707ad1053"
+    },
+    {
+      "icon": "scroll5",
+      "model": "engine/world_items/models/item_scroll5.glb",
+      "length": 64.4,
+      "current_bounds": [
+        -32.2,
+        -16.1,
+        0,
+        32.2,
+        16.1,
+        9.6
+      ],
+      "proposed_bounds": [
+        -12.8,
+        -32.2,
+        0.0,
+        12.8,
+        32.2,
+        10.7
+      ],
+      "runtime_sha256": "a350a3943dc9e0416ae57cba73246fdea3ead89d049a7887fcf24e1669cfb538"
+    }
+  ],
+  "native_review": {
+    "status": "passed",
+    "cases": [
+      {
+        "scene": "outdoor_letters",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/outdoor_letters/run.json",
+        "screenshot": "review/native_outdoor_letters/outdoor_letters.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "visual_review": "passed",
+        "model_load_errors": 0
+      },
+      {
+        "scene": "outdoor_scrolls_a",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/outdoor_scrolls_a/run.json",
+        "screenshot": "review/native_outdoor_scrolls_a/outdoor_scrolls_a.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "visual_review": "passed",
+        "model_load_errors": 0
+      },
+      {
+        "scene": "outdoor_scrolls_b",
+        "map": "out10.odm",
+        "run": "receipts/native_runs/outdoor_scrolls_b/run.json",
+        "screenshot": "review/native_outdoor_scrolls_b/outdoor_scrolls_b.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "visual_review": "passed",
+        "model_load_errors": 0
+      },
+      {
+        "scene": "indoor",
+        "map": "6d19.blv",
+        "run": "receipts/native_runs/indoor/run.json",
+        "screenshot": "review/native_indoor/indoor.png",
+        "renderer": "NVIDIA / OpenGL 3.3 / Wayland",
+        "visual_review": "passed",
+        "model_load_errors": 0
+      }
+    ],
+    "note": "Visual checks only, minimized windows; no performance comparison."
+  },
+  "original_save_sha256": "795fffeb87a7d95962e0e4e5af72b166ca9b6986400f43ad96c0d95edbe2fffa",
+  "release": "Development WIP only; no Android/release verification or performance benchmark"
+}

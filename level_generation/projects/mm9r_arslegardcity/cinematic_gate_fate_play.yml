@@ -1,0 +1,28 @@
+# gate_fate (FateMan.scr, arslegardcity.cinematics.yml) played through from its real trigger: the first arrival
+# without key 98 starts it at the third arrival poll (about 2-3 s); key 98 at once, no save while it plays, the
+# peephole (Door0, mover 8) opens at 14.1 s and closes at 69.2 s, the move to the Dark Passageway at 71.2 s.
+# README "Cinematics".
+id: mm9r.arslegardcity.cinematic_gate_fate_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: arslegardcity.blv}
+- console: {line: cinematic list, expect_contains: gate_fate}
+- assert: {qbit_clear: [90098]}
+- advance_runtime: {seconds: 4}
+- note: {text: "the third poll started it: key 98 (step 1 at 0 s)"}
+- console: {line: cinematic list, expect_contains: playing gate_fate}
+- assert: {qbit_set: [90098]}
+- assert: {mechanism: {id: 8, state: closed}}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 14}
+- note: {text: "Scene4 (14.1 s): the peephole opened"}
+- assert: {mechanism: {id: 8, state: open}}
+- console: {line: cinematic list, expect_contains: playing gate_fate}
+- advance_runtime: {seconds: 48}
+- note: {text: "Hanndl's last line (Speak15 at 61.7 s): still playing, the peephole open"}
+- console: {line: cinematic list, expect_contains: playing gate_fate}
+- assert: {mechanism: {id: 8, state: open}}
+- advance_runtime: {seconds: 10, follow_map_move: true}
+- note: {text: "ExitIN (71.2 s): ExitTrigger2 to the Dark Passageway"}
+- assert: {map_arrived: {map: darkpassageway.blv}}

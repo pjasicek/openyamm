@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise texture paint atlas. Use design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact 3 columns x 4 rows cell layout, positions, sizes, silhouettes, camera views, all gaps and openings. Paint only existing grey objects; never redraw, enlarge, move, or redesign. The guide is authoritative over the reference pose.\nRows 1-2: unlit base colour views of Broderick's Gloves, silver steel chainmail with blue cuff matching the references. Fine interlocking mail detail scaled to each view, blue cuff material texture following reference. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Retain exact model geometry.\nRows 3-4: exact duplicate silhouettes as MATERIAL MASK, flat pure colours ONLY: #FF0000 all metal including all chainmail; #00FF00 all leather including blue leather cuff, padding/hide/suede and fur; #0000FF cloth/linings/cords/ribbons/hair; #000000 gems/crystal/glass/pearl/enamel/liquids. Every silhouette pixel assigned exactly one material colour. No shading, texture, outlines or interior antialiased colour blends. Cuff blue in paint rows, green material mask where leather; chainmail red in mask.\nBoth sets have FRONT, BACK, LEFT in their first row and RIGHT, TOP, empty in their second row, precisely as guide. Column 3 rows 2 and 4 stay fully transparent. All outside-silhouette areas transparent. Preserve guide openings precisely. Do not add additional gloves or change pose based on description 'source-faithful pair vertical cuffs-down'; reproduce the guide exactly.\nCRITICAL correction: The prior attempt had stray red/green pixels far outside mask silhouettes and shading inside masks. Generate clean exact silhouette edges from original guide, absolutely NO scatter, speckles, halos, detached marks, or colour outside objects. Material masks must be uniform solid #FF0000 and #00FF00 with zero shading, no finger separation drawn in dark lines. Match original guide silhouette and layout exactly. Transparent empty areas must have alpha zero.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10227/paint_mask_guide.png",
+      "sha256": "4ce24b90d1dc0d93b650b71aee2dd9df1099265755ebb3c621f3f32cac2af98c"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10227/design_reference.png",
+      "sha256": "d5dd4ecd8bdaf3dbd2a73c97f0450f9a69f86149ab17e32e051ea419bcb4033f"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10227/icon_x8.png",
+      "sha256": "5dd0814de53e8e038990a5c42aeccd8cb50ba2fc89dff78b626860b7824d868f"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2d-4b7c-7190-92fe-5c5233fd2dfb/exec-de47d3ea-d5c5-4c65-b38e-2d5dcfbfe2a3.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10227/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Raw generated image preserved. Mask has visible stray pixels outside silhouettes and nonuniform colours; exact brief compliance was not achieved."
+}

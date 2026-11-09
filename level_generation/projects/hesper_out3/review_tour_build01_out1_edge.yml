@@ -1,0 +1,18 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out3/review/build01_out1_edge
+settle_seconds: 2.5
+exit: true
+shots:
+- name: pass_from_starport_reach
+  position:
+  - 288
+  - 21300
+  - 1300
+  yaw: 1.5708
+  pitch: 0.05
+- name: pass_edge_from_starport_reach_close
+  position:
+  - 288
+  - 22300
+  - 1260
+  yaw: 1.5708
+  pitch: 0.0

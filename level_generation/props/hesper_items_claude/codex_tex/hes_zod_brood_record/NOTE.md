@@ -1,0 +1,1 @@
+Meshy built this shape from the icon, and its rest pose put the icon side face down: paint_bottom.png is the approved icon painting (design_reference.png) projected from below (guide_bottom.png), and the bake turns the model over (meshy_rest.json flip).

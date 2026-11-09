@@ -1,0 +1,34 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d13/review/gloamers
+settle_seconds: 2
+exit: true
+shots:
+- name: deep_veins
+  position:
+  - 9550
+  - 3600
+  - 0
+  yaw: 0
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true
+- name: collapse_route
+  position:
+  - 6750
+  - 6000
+  - 512
+  yaw: 0
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true
+- name: elder_front
+  position:
+  - 10600
+  - 3650
+  - 0
+  yaw: 3.14159265
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true

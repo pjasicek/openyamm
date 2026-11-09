@@ -1,0 +1,37 @@
+{
+  "material": "rock",
+  "status": "candidate_visual_review_required",
+  "method": "Native-scale crop plus smooth periodic boundary-component removal; no detail-strip averaging",
+  "raw_sha256": "47c391ca5b0577401042e764ee93983a2686a0ea71fec5e2bc208d1528a64683",
+  "prompt_sha256": "ed938bc8101da6e41fba67be4e464aa0bdefbd2fb395b7b50bf1f80194d359b6",
+  "native_sha256": "f70ee39a485efe55f7d3db78341fa3f571fd16a08c80a549d88ab3004885d4de",
+  "authoring_sha256": "7067e62b80c208e4c6c47be53ef764bf071f40dec917ec9efa695fa328f17a62",
+  "runtime_sha256": "ff5f4c74d171bef4a1047812129138dfd69bfcd02d4c9a9b914da8f4d92c13f9",
+  "native_mean_rgb": [
+    69.33790969848633,
+    61.91269302368164,
+    55.9952278137207
+  ],
+  "runtime_mean_rgb": [
+    69.34077453613281,
+    61.9114990234375,
+    55.99900817871094
+  ],
+  "seams": {
+    "E": {
+      "boundary_p95": 1.1438177663366071,
+      "boundary_max": 1.2723511680202049,
+      "interior_p95": 1.4878388847226987,
+      "interior_p999": 2.0180468678126138,
+      "passed": true
+    },
+    "S": {
+      "boundary_p95": 1.3116386391382893,
+      "boundary_max": 1.4741480677590597,
+      "interior_p95": 1.5227720753761584,
+      "interior_p999": 2.2106530339881174,
+      "passed": true
+    }
+  },
+  "source_framing": "Resize raw768, retain top-left512; restores native feature scale"
+}

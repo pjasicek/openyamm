@@ -1,0 +1,263 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dookscastle/review/v03_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: c01_gate
+  position:
+  - 0
+  - 1434
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: c02_entrance_stair
+  position:
+  - 0
+  - 1664
+  - 21
+  yaw: 1.5708
+  pitch: 0.1396
+- name: c03_entrance_hall_side
+  position:
+  - 819
+  - 2944
+  - 411
+  yaw: -2.6277
+  pitch: 0.0
+- name: c04_neck
+  position:
+  - 0
+  - 3200
+  - 411
+  yaw: 1.5708
+  pitch: 0.0
+- name: c05_corridor_north
+  position:
+  - 0
+  - 4096
+  - 411
+  yaw: 1.5708
+  pitch: 0.0
+- name: c06_corridor_south
+  position:
+  - 0
+  - 9088
+  - 411
+  yaw: -1.5708
+  pitch: 0.0
+- name: c07_cross_corridor_west
+  position:
+  - -384
+  - 6912
+  - 411
+  yaw: 3.1416
+  pitch: 0.0
+- name: c08_throne_doors
+  position:
+  - -2540
+  - 6912
+  - 411
+  yaw: 1.5708
+  pitch: 0.0
+- name: c09_throne_room
+  position:
+  - -2540
+  - 8448
+  - 413
+  yaw: 1.5708
+  pitch: 0.0
+- name: c10_throne_side
+  position:
+  - -3584
+  - 8832
+  - 411
+  yaw: 0.6202
+  pitch: 0.0
+- name: c11_armory
+  position:
+  - -589
+  - 5248
+  - 411
+  yaw: -3.0231
+  pitch: 0.0
+- name: c12_office
+  position:
+  - -2816
+  - 5632
+  - 411
+  yaw: -1.3927
+  pitch: 0.0
+- name: c13_bedroom
+  position:
+  - -3840
+  - 4915
+  - 413
+  yaw: 3.1416
+  pitch: 0.0
+- name: c14_barracks
+  position:
+  - 589
+  - 6144
+  - 411
+  yaw: 0.0
+  pitch: 0.0
+- name: c15_barracks_far
+  position:
+  - 2432
+  - 6272
+  - 411
+  yaw: -2.9305
+  pitch: 0.0
+- name: c16_shield_room
+  position:
+  - 1152
+  - 7680
+  - 411
+  yaw: 0.7023
+  pitch: 0.0
+- name: c17_shield_button
+  position:
+  - 2621
+  - 8704
+  - 411
+  yaw: 1.5708
+  pitch: 0.0873
+- name: c18_secret_door
+  position:
+  - 1664
+  - 7578
+  - 411
+  yaw: 3.1416
+  pitch: 0.0
+- name: c19_stair_down
+  position:
+  - 512
+  - 7578
+  - 411
+  yaw: 1.5708
+  pitch: -0.2618
+- name: k01_tunnel_west
+  position:
+  - 512
+  - 8704
+  - -81
+  yaw: 0.8961
+  pitch: 0.0
+- name: k02_tunnel_mid
+  position:
+  - 2560
+  - 8448
+  - -750
+  yaw: 0.1244
+  pitch: 0.0
+- name: k03_junction
+  position:
+  - 5632
+  - 8960
+  - -1030
+  yaw: -0.7854
+  pitch: 0.0
+- name: k04_south_branch
+  position:
+  - 6144
+  - 7424
+  - -1190
+  yaw: -2.3562
+  pitch: 0.0
+- name: k05_south_c
+  position:
+  - 3584
+  - 4864
+  - -1630
+  yaw: -1.249
+  pitch: 0.0
+- name: k06_lake_west_tunnel
+  position:
+  - 6144
+  - 4352
+  - -2635
+  yaw: 0.0
+  pitch: 0.0
+- name: k07_lake_from_west
+  position:
+  - 6656
+  - 4352
+  - -2759
+  yaw: -0.0997
+  pitch: 0.0
+- name: k08_island
+  position:
+  - 9728
+  - 3840
+  - -3235
+  yaw: 0.4636
+  pitch: 0.0
+- name: k09_ladder_top
+  position:
+  - 9267
+  - 2944
+  - -3102
+  yaw: 2.3114
+  pitch: 0.0
+- name: k10_north_landing
+  position:
+  - 9728
+  - 6400
+  - -2764
+  yaw: -1.4464
+  pitch: -0.1745
+- name: k11_east_bridge
+  position:
+  - 12288
+  - 4864
+  - -2743
+  yaw: -2.8966
+  pitch: 0.0
+- name: k12_north_tunnel
+  position:
+  - 9728
+  - 7296
+  - -2719
+  yaw: -1.5708
+  pitch: 0.0
+- name: k13_trellborg_cave
+  position:
+  - 12288
+  - 8960
+  - -3500
+  yaw: 0.0
+  pitch: 0.0
+- name: k14_north_caves_west
+  position:
+  - 9216
+  - 10496
+  - -3138
+  yaw: -2.3562
+  pitch: 0.0
+- name: k15_east_tunnel
+  position:
+  - 11264
+  - 9472
+  - -2134
+  yaw: -1.1071
+  pitch: 0.0
+- name: k16_scurry_slope
+  position:
+  - 11776
+  - 8448
+  - -2483
+  yaw: 2.0344
+  pitch: 0.0
+- name: k17_far_east
+  position:
+  - 12800
+  - 11520
+  - -2486
+  yaw: -0.3805
+  pitch: 0.0
+- name: k18_lake_water
+  position:
+  - 9728
+  - 3840
+  - -3235
+  yaw: -0.4636
+  pitch: -0.6109

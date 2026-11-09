@@ -1,0 +1,1 @@
+Built-in pixel_steps repair. Process --adjust 0.98 0 0, run restore_native_tone.py with pooled six-frame native target, then queue check. Refresh before_tone backups when reprocessing. All six light/dark proofs and motion contact inspected; native timing remains in groups.json.

@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Approved Obsidian · staged assets</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101711;color:#e5dcc7;font:15px/1.6 system-ui,sans-serif}
+main{max-width:1240px;margin:auto;padding:45px 32px}h1,h2{color:#e4c793;font-weight:500}h1{margin:5px 0 12px;font-size:34px}
+h2{margin:32px 0 12px;font-size:22px}p{max-width:880px}a{color:#b4d3fa}nav{display:flex;gap:24px;flex-wrap:wrap}
+.eyebrow{font-size:12px;letter-spacing:2px;color:#8ebcfa}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+figure{margin:0;padding:12px;border:1px solid #77674a;background:#172018}figure img{max-width:100%;height:auto;max-height:190px;object-fit:contain}
+figcaption{font-size:12px;overflow-wrap:anywhere;color:#bdb6a2}.alpha{background:repeating-conic-gradient(#253127 0 25%,#162019 0 50%) 0/20px 20px}
+.buffs{display:flex;flex-wrap:wrap;gap:12px}.buffs img{width:64px;height:64px}.button-states{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+.button-states figure{border:0;padding:0;background:transparent}.button-states img{width:150px}
+.frame{position:relative;width:min(100%,770px);height:290px;isolation:isolate;margin:20px 0}
+.frame:before{content:'';position:absolute;inset:17px;background:url(engine/icons_x2/obsidian_reading_surface.png) 0 0/1280px 960px;z-index:-1}
+.frame p{padding:70px 65px;margin:0;font-size:19px}.frame i{position:absolute;background-size:100% 100%}
+.tl,.tr,.bl,.br{width:62px;height:62px}.tl{left:0;top:0;background-image:url(engine/icons_x2/obsidian_frame_tl.png)}
+.tr{right:0;top:0;background-image:url(engine/icons_x2/obsidian_frame_tr.png)}.bl{left:0;bottom:0;background-image:url(engine/icons_x2/obsidian_frame_bl.png)}
+.br{right:0;bottom:0;background-image:url(engine/icons_x2/obsidian_frame_br.png)}
+.frame .top,.frame .bottom{left:62px;right:62px;height:62px;background-size:96.78px 62px;background-repeat:repeat-x}
+.top{top:0;background-image:url(engine/icons_x2/obsidian_frame_top.png)}.bottom{bottom:0;background-image:url(engine/icons_x2/obsidian_frame_bottom.png)}
+.frame .left,.frame .right{top:62px;bottom:62px;width:62px;background-size:62px 96.78px;background-repeat:repeat-y}
+.left{left:0;background-image:url(engine/icons_x2/obsidian_frame_left.png)}.right{right:0;background-image:url(engine/icons_x2/obsidian_frame_right.png)}
+</style>
+<main><div class="eyebrow">APPROVED 28 SEPTEMBER 2026 · OVERLAYS REVISION 03</div>
+<h1>Carved Obsidian — staged for integration</h1>
+<p>Approved artwork, content-free skins and layout drafts. The files below are the staged PNGs themselves.
+The game still uses its current UI; font registration and renderer wiring are recorded in the handoff.</p>
+<nav><a href="../index.html">Interactive approved screens</a><a href="README.md">Package guide</a>
+<a href="INTEGRATION.md">Integration notes</a><a href="manifest.json">Manifest</a><a href="validation.json">Validation</a></nav>
+<p><a href="../../obsidian_journal_20260928/staging/index.html">Approved companion package: map, quests, story and autonotes →</a></p>
+<p id="status">Loading package manifest…</p>
+<h2>Shared border and separate reading surface</h2><div class="frame">
+<i class="top"></i><i class="bottom"></i><i class="left"></i><i class="right"></i><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+<p>Fixed corners and repeating edge pieces. The dark grain underneath is a separate texture, cropped at its drawing scale.</p></div>
+<h2>Button plates · live text added by the renderer</h2><div id="buttons" class="button-states"></div>
+<h2>Uniform buff illustrations · timers remain separate</h2><div id="buffs" class="buffs alpha"></div>
+<h2>Pages and shared chrome</h2><div id="pages" class="grid"></div>
+<h2>Icons, banners and plain aggro diamonds</h2><div id="icons" class="grid"></div>
+</main>
+<script>
+const figure=f=>{const el=document.createElement('figure');const img=document.createElement('img');img.src=f.path;img.alt=f.path.split('/').pop();
+const cap=document.createElement('figcaption');cap.textContent=img.alt+' · '+f.pixels.join('×');el.append(img,cap);return el;};
+Promise.all([fetch('manifest.json').then(r=>r.json()),fetch('validation.json').then(r=>r.json())]).then(([m,v])=>{
+document.querySelector('#status').textContent=`${v.totals.layouts} YAML drafts · ${v.totals.pngs} PNGs · ${v.totals.buffs} buff illustrations · validation ${v.result}`;
+for(const f of m.files.filter(f=>f.path.endsWith('.png'))){
+if(f.path.includes('obsidian_buff_')){const im=document.createElement('img');im.src=f.path;im.alt=f.path;document.querySelector('#buffs').append(im);}
+else if(f.path.includes('button_tab_'))document.querySelector('#buttons').append(figure(f));
+else if(/_(surface|basebar|topbar|left_edge|house_sidebar)\.png$/.test(f.path))document.querySelector('#pages').append(figure(f));
+else if(!f.path.includes('button_')&&!f.path.includes('frame_')&&!f.path.includes('divider'))document.querySelector('#icons').append(figure(f));
+}}).catch(e=>{document.querySelector('#status').textContent='Open through the local review server to load the manifest.';console.error(e);});
+</script></html>

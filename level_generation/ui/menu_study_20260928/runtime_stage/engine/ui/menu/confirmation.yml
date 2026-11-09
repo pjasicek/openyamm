@@ -1,0 +1,132 @@
+screen: MenuConfirmation
+elements:
+- id: MenuConfirmationRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: 'Integration draft. Fit the complete 16:9 canvas; see contracts/theme.yml. The current menu resolver does
+    not yet honor this reference width. Modal is a reusable measured quit variant: relayout and expand for longer
+    text, timer or third action.'
+  children:
+  - id: MenuConfirmationVeil
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 100
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_modal_veil
+  - id: MenuConfirmationPanel
+    anchor: top_left
+    offset_x: 244.8
+    offset_y: 145.0165
+    width: 363.7333
+    height: 189.9669
+    z_index: 101
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_modal
+  - id: MenuConfirmationSeal
+    anchor: top_left
+    offset_x: 411.7333
+    offset_y: 174.8832
+    width: 29.8667
+    height: 29.8667
+    z_index: 102
+    visible: true
+    interactive: false
+    asset:
+      default: omenu_seal
+  - id: MenuConfirmationTitle
+    anchor: top_left
+    offset_x: 276.2667
+    offset_y: 217.0165
+    width: 300.8
+    height: 22.4
+    z_index: 103
+    visible: true
+    interactive: false
+    text:
+      value: '{confirmation_title}'
+      font: fondamento
+      color: '#e6d1a8'
+      align_x: center
+      align_y: middle
+      scale: 0.58333
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: MenuConfirmationBody
+    anchor: top_left
+    offset_x: 276.2667
+    offset_y: 250.0832
+    width: 300.8
+    height: 18.7669
+    z_index: 103
+    visible: true
+    interactive: false
+    text:
+      value: '{confirmation_body}'
+      font: arrus
+      color: '#d0ceb7'
+      align_x: center
+      align_y: middle
+      scale: 0.74105
+      pad_x: 0.0
+    notes: Controller supplies live text; braces are draft placeholders.
+  - id: MenuConfirmationCancelButton
+    anchor: top_left
+    offset_x: 362.8667
+    offset_y: 281.6501
+    width: 66.1333
+    height: 26.1333
+    z_index: 103
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_quiet_default
+      highlighted: omenu_button_quiet_hover
+      pressed: omenu_button_quiet_pressed
+    text:
+      value: '{cancel_label}'
+      font: fondamento
+      color: '#cbc5af'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml. Controller supplies live
+      text; braces are draft placeholders.'
+  - id: MenuConfirmationConfirmButton
+    anchor: top_left
+    offset_x: 435.4
+    offset_y: 281.6501
+    width: 55.0581
+    height: 26.1333
+    z_index: 103
+    visible: true
+    interactive: true
+    asset:
+      default: omenu_button_danger_default
+      highlighted: omenu_button_danger_hover
+      pressed: omenu_button_danger_pressed
+    text:
+      value: '{confirm_label}'
+      font: fondamento
+      color: '#edc0aa'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: contracts/theme.yml. Controller supplies live
+      text; braces are draft placeholders.'

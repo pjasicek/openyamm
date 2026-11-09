@@ -1,0 +1,179 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_jak1.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_jak1.glb",
+ "assignments": [
+  {
+   "match": "=Jackalman_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_jak1_codex/textures/jak1_body_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_jak1_codex/textures/jak1_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "body_metal_rough_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Jackalman_A",
+    "Jackalman_B",
+    "Jackalman_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      1056,
+      0,
+      2080,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 1,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 459996,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.4896,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_jak1_codex/textures/jak1_body_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.5736,
+      "cloth": 0.172,
+      "metal": 0.2544
+     }
+    },
+    "head": {
+     "uv_covered_texels": 541535,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.432,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_jak1_codex/textures/jak1_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.305,
+      "cloth": 0.206,
+      "metal": 0.489
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.4284,
+    "cloth": 0.1904,
+    "metal": 0.3813
+   },
+   "kept_classes": [
+    "skin"
+   ],
+   "kept_texels": 429029,
+   "old_specular_mean_by_class": {
+    "skin": 0.09,
+    "cloth": 0.038,
+    "metal": 0.602
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.09,
+    "cloth": 0.3,
+    "metal": 1.0
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.808,
+    "cloth": 0.751,
+    "metal": 0.378
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Jackalman_A": {
+     "median_srgb": [
+      180,
+      120,
+      30
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      70,
+      132,
+      163
+     ],
+     "share_below_srgb_30": 0.0226,
+     "share_below_srgb_90": 0.1683,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Jackalman_B": {
+     "median_srgb": [
+      180,
+      120,
+      30
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      70,
+      132,
+      163
+     ],
+     "share_below_srgb_30": 0.023,
+     "share_below_srgb_90": 0.1686,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    },
+    "Jackalman_C": {
+     "median_srgb": [
+      180,
+      120,
+      30
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      70,
+      132,
+      163
+     ],
+     "share_below_srgb_30": 0.023,
+     "share_below_srgb_90": 0.1686,
+     "flag": null,
+     "verdict": "below the Khronos metal range (about sRGB 180-250)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 122.7
+    },
+    "G": {
+     "min": 0,
+     "max": 255,
+     "mean": 145.8
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 98.3
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

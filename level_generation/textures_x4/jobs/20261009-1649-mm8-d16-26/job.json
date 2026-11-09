@@ -1,0 +1,735 @@
+{
+ "id": "20261009-1649-mm8-d16-26",
+ "world": "mm8",
+ "maps": [
+  "d16.blv",
+  "elemw.odm",
+  "pbp.odm",
+  "d34.blv",
+  "d30.blv",
+  "d06.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/gtrlwal2",
+  "mm8/gtrlrf2",
+  "mm8/gtrltrm2",
+  "mm8/t1bed",
+  "mm8/t65b14v",
+  "mm8/btrimc1",
+  "mm8/plrctyl",
+  "mm8/plrctylx",
+  "mm8/stormclds",
+  "mm8/t66e01s2",
+  "mm8/t66e01s3",
+  "mm8/t66e01ph",
+  "mm8/t66e01r2",
+  "mm8/t66e01s4",
+  "mm8/gcstwal4",
+  "mm8/gcsteg2r",
+  "mm8/gcsteg2l",
+  "mm8/grceil",
+  "mm8/grflr",
+  "mm8/t66d01",
+  "mm8/t66d01l",
+  "mm8/t66d01m",
+  "mm8/t66d01j",
+  "mm8/t66d01i",
+  "mm8/t66d01f",
+  "mm8/t66d01h"
+ ],
+ "requests": {
+  "mm8/gtrlwal2": {
+   "name": "gtrlwal2",
+   "versions": [
+    1
+   ],
+   "material": "dark grey rough stone wall with deep dark holes and pitted crumbling surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gtrlwal1"
+     ],
+     "fraction": 0.526
+    }
+   }
+  },
+  "mm8/gtrlrf2": {
+   "name": "gtrlrf2",
+   "versions": [
+    1
+   ],
+   "material": "reddish-brown wooden roof planks with heavier rounded beams and diagonal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gtrltrm2": {
+   "name": "gtrltrm2",
+   "versions": [
+    1
+   ],
+   "material": "small dark grey rough stone blocks in a row",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1bed": {
+   "name": "t1bed",
+   "versions": [
+    1
+   ],
+   "material": "carved dark oak bed headboard panel with a raised border and a curved interlace carving",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b14v": {
+   "name": "t65b14v",
+   "versions": [
+    1
+   ],
+   "material": "horizontal strip of grey-brown rough stone with crumbly texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/btrimc1": {
+   "name": "btrimc1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "golden-orange oak board photographed in sharp focus: crisp continuous fine vertical grain lines, subtle figure and pores",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/plrctyl": {
+   "name": "plrctyl",
+   "versions": [
+    1
+   ],
+   "material": "polished reddish-orange wood with swirling burl grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/plrctylx": {
+   "name": "plrctylx",
+   "versions": [
+    1
+   ],
+   "material": "polished reddish-orange wood with swirling burl grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/stormclds": {
+   "name": "stormclds",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dense blue-grey storm clouds, soft and billowing",
+   "notes": {
+    "2": "continue the clouds seamlessly across every edge of the finished area; no straight lines, rectangles or brightness steps in the sky"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ]
+   }
+  },
+  "mm8/t66e01s2": {
+   "name": "t66e01s2",
+   "versions": [
+    1
+   ],
+   "material": "smooth warm tan-brown stained plaster with faint mottling, a thin brass rivet strip along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66e01s1"
+     ],
+     "fraction": 0.934
+    }
+   }
+  },
+  "mm8/t66e01s3": {
+   "name": "t66e01s3",
+   "versions": [
+    1
+   ],
+   "material": "smooth warm tan-brown stained plaster with a small square brass porthole plate with rivets in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66e01s1"
+     ],
+     "fraction": 0.578
+    }
+   }
+  },
+  "mm8/t66e01ph": {
+   "name": "t66e01ph",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "round brass porthole with a glowing pale cream glass lens in a riveted copper frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66e01r2": {
+   "name": "t66e01r2",
+   "versions": [
+    1
+   ],
+   "material": "narrow vertical brown wooden strip with small brass studs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66e01s4": {
+   "name": "t66e01s4",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth warm tan-brown stained plaster with a thin brass rivet strip along the right edge",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcstwal4": {
+   "name": "gcstwal4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale pink-grey granite ashlar blocks with dark mortar beside a stone pilaster edge with a small carved ornament at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gcstwal1"
+     ],
+     "fraction": 0.513
+    },
+    "2": {
+     "sources": [
+      "mm8/gcstwal1"
+     ],
+     "fraction": 0.513
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm8/gcsteg2r": {
+   "name": "gcsteg2r",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "material": "pale pink-grey granite ashlar blocks with dark mortar beside a stone pilaster edge",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "9": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "10": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gcsteg1r",
+      "mm8/gcsteg2l"
+     ],
+     "fraction": 0.976
+    },
+    "2": {
+     "sources": [
+      "mm8/gcsteg1r",
+      "mm8/gcsteg2l"
+     ],
+     "fraction": 0.976
+    },
+    "3": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.927
+    },
+    "4": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.927
+    },
+    "5": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.927
+    },
+    "6": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.927
+    },
+    "7": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.927
+    },
+    "8": {
+     "sources": [
+      "mm8/gcstwal1",
+      "mm8/gcstwal4"
+     ],
+     "fraction": 0.927
+    },
+    "9": {
+     "sources": [
+      "mm8/gcsteg1l",
+      "mm8/gcstwal1",
+      "mm8/gcsteg1r"
+     ],
+     "fraction": 0.943
+    },
+    "10": {
+     "sources": [
+      "mm8/gcsteg1l",
+      "mm8/gcstwal1",
+      "mm8/gcsteg1r"
+     ],
+     "fraction": 0.943
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {},
+    "10": {}
+   }
+  },
+  "mm8/gcsteg2l": {
+   "name": "gcsteg2l",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale pink-grey granite ashlar blocks with dark mortar beside a stone pilaster edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gcsteg1l"
+     ],
+     "fraction": 0.958
+    },
+    "2": {
+     "sources": [
+      "mm8/gcsteg1l"
+     ],
+     "fraction": 0.958
+    }
+   }
+  },
+  "mm8/grceil": {
+   "name": "grceil",
+   "versions": [
+    1
+   ],
+   "material": "carved tan stone ceiling tile with a circular relief of a heraldic griffin inside a square interlaced border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/grflr": {
+   "name": "grflr",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone floor of four square slabs, two of them carved with faint griffin reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66d01": {
+   "name": "t66d01",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01d",
+      "mm8/t66d01e",
+      "mm8/t66d01b",
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.809
+    },
+    "3": {
+     "sources": [
+      "mm8/t66d01d",
+      "mm8/t66d01e",
+      "mm8/t66d01b",
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.809
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t66d01e"
+    },
+    "3": {
+     "right": "mm8/t66d01e"
+    }
+   }
+  },
+  "mm8/t66d01l": {
+   "name": "t66d01l",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with a dark wooden bookcase full of old leather-bound books between carved posts with golden finials",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01"
+     ],
+     "fraction": 0.22
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01j",
+      "mm8/t66d01"
+     ],
+     "fraction": 0.252
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm8/t66d01m": {
+   "name": "t66d01m",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "only the thin carved cornice at the very top; below it plain speckled plaster runs all the way to the bottom edge, no rail, band or wainscot at the bottom"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01"
+     ],
+     "fraction": 0.934
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   }
+  },
+  "mm8/t66d01j": {
+   "name": "t66d01j",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark wooden bookcase full of old leather-bound books under a carved reddish wooden cornice, above a carved wainscot",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01"
+     ],
+     "fraction": 0.39
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01l"
+     ],
+     "fraction": 0.238
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t66d01m"
+    }
+   }
+  },
+  "mm8/t66d01i": {
+   "name": "t66d01i",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark wooden bookcase full of old leather-bound books under a carved reddish wooden cornice, above a carved wainscot",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01j"
+     ],
+     "fraction": 0.862
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01l",
+      "mm8/t66d01j"
+     ],
+     "fraction": 0.832
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm8/t66d01f": {
+   "name": "t66d01f",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "",
+   "notes": {}
+  },
+  "mm8/t66d01h": {
+   "name": "t66d01h",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  }
+ }
+}

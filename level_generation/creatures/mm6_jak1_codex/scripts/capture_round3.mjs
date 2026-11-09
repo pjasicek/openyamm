@@ -1,0 +1,82 @@
+// Load a three.js creature review viewer in headless Chrome (software WebGL) and wait until it is ready or fails.
+// Usage: node check_viewer.mjs <url> [timeout_seconds]
+// Prints the viewer's ready flag, the #error text, the readout, the clip list and console errors, then switches to
+// every tier and clip; exit 0 only when everything loads without an error. --dump-dom with a virtual time budget
+// does not wait for the GLB fetch, so it cannot tell a working viewer from a broken one; this polls the live page over
+// the DevTools protocol instead.
+import { spawn } from 'node:child_process';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+const url = process.argv[2];
+const timeout = Number(process.argv[3] || 60) * 1000;
+if (!url) { console.error('usage: node check_viewer.mjs <url> [timeout_seconds]'); process.exit(2); }
+const profile = mkdtempSync(join(tmpdir(), 'viewer-check-'));
+const port = 9300 + Math.floor(Math.random() * 500);
+const chrome = spawn('google-chrome', ['--headless=new', '--no-sandbox', '--use-angle=swiftshader',
+  '--enable-unsafe-swiftshader', `--user-data-dir=${profile}`, `--remote-debugging-port=${port}`, 'about:blank'],
+  { stdio: 'ignore' });
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const finish = code => { chrome.kill('SIGKILL'); try { rmSync(profile, { recursive: true, force: true }); } catch {} process.exit(code); };
+
+let target;
+for (let i = 0; i < 50 && !target; i++) {
+  await sleep(200);
+  try {
+    const list = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
+    target = list.find(t => t.type === 'page');
+  } catch {}
+}
+if (!target) { console.error('Chrome did not start'); finish(2); }
+const ws = new WebSocket(target.webSocketDebuggerUrl);
+await new Promise((resolve, reject) => { ws.onopen = resolve; ws.onerror = reject; });
+let id = 0; const pending = new Map(); const consoleErrors = [];
+ws.onmessage = event => {
+  const msg = JSON.parse(event.data);
+  if (msg.id && pending.has(msg.id)) { pending.get(msg.id)(msg.result); pending.delete(msg.id); }
+  if (msg.method === 'Runtime.exceptionThrown') consoleErrors.push(msg.params.exceptionDetails.exception?.description
+    || msg.params.exceptionDetails.text);
+  if (msg.method === 'Runtime.consoleAPICalled' && msg.params.type === 'error')
+    consoleErrors.push(msg.params.args.map(a => a.value ?? a.description).join(' '));
+  if (msg.method === 'Log.entryAdded' && msg.params.entry.level === 'error') consoleErrors.push(msg.params.entry.text + ' ' + (msg.params.entry.url || ''));
+};
+const send = (method, params = {}) => new Promise(r => { const n = ++id; pending.set(n, r); ws.send(JSON.stringify({ id: n, method, params })); });
+await send('Runtime.enable'); await send('Log.enable');
+await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1300,deviceScaleFactor:1,mobile:false});
+await send('Page.navigate', { url });
+const probe = `JSON.stringify({ready: document.body && document.body.dataset.ready,
+  error: (document.getElementById('error') || {}).textContent,
+  errorHidden: (document.getElementById('error') || {}).hidden,
+  readout: (document.getElementById('readout') || {}).textContent,
+  clips: [...document.querySelectorAll('#clip option')].map(o => o.value)})`;
+const start = Date.now(); let state = {};
+while (Date.now() - start < timeout) {
+  await sleep(1000);
+  const r = await send('Runtime.evaluate', { expression: probe, returnByValue: true });
+  try { state = JSON.parse(r.result.value); } catch { continue; }
+  if (state.ready === 'true' || (state.error && /could not load/i.test(state.error))) break;
+}
+const shots=[];
+if(state.ready==='true'){
+ for(const round of ['round1','round2','round3']){
+  await send('Runtime.evaluate',{expression:`(()=>{let s=document.getElementById('modelRevision');s.value=${JSON.stringify(round)};s.dispatchEvent(new Event('change'));})()`});
+  await sleep(600);
+  let active;
+  for(let i=0;i<40;i++){
+   const r=await send('Runtime.evaluate',{expression:probe,returnByValue:true});active=JSON.parse(r.result.value);
+   if(active.ready==='true'&&active.errorHidden)break;
+   await sleep(250);
+  }
+  if(active.ready!=='true'||!active.errorHidden){consoleErrors.push(JSON.stringify(active));break;}
+  await send('Runtime.evaluate',{expression:"(()=>{document.getElementById('restart').click();document.querySelector('[data-view=front]').click();})()"});
+  await sleep(300);
+  const rect=await send('Runtime.evaluate',{expression:"(()=>{const r=document.getElementById('stage').getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,scale:1};})()",returnByValue:true});
+  const shot=await send('Page.captureScreenshot',{format:'png',clip:rect.result.value});
+  writeFileSync(new URL(`../review/round3/${round}_front.png`,import.meta.url),Buffer.from(shot.data,'base64'));
+  shots.push({round,view:'front',clip:'Standing',time_seconds:0,lighting:'unchanged shared viewer: ACES, exposure 1.15, hemisphere 2; directionals 3/1.3/2'});
+ }
+}
+writeFileSync(new URL('../review/round3/comparison_capture.json',import.meta.url),JSON.stringify({shots,consoleErrors},null,2));
+console.log(JSON.stringify({shots,consoleErrors},null,2));
+finish(shots.length===3&&consoleErrors.length===0?0:1);

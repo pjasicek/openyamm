@@ -1,0 +1,631 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "brief": "CODEX_BRIEF.md",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the exact existing Colonial dock boots 3D model.\nInput image 1 is the EDIT TARGET: the untextured geometry guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOR REFERENCE ONLY.\nPaint ONLY the visible surfaces inside image 1, transferring the design reference's materials. Retain image 1's exact outer silhouette/alpha mask, part outlines, size, position, spacing, camera angle and every protrusion. Do not copy the reference composition or change the model geometry. Trace the guide exactly, including its faceted edges.\nMaterials: aged warm ivory white ceramic armor with fine worn speckling and hairline cracks; restrained brushed ochre gold trim and hardware with fine scratches; very dark charcoal black-violet padded leather/resin, fine grain, subdued beige stitches and panel seams; dark charcoal segmented rubber soles. Existing circular ankle modules have gold housings, dark insets and pale blue-white light centers. Existing shin light slots and sole light strips use blue-white color without bloom. Follow the design reference, with no orange lights if absent there. Continue unseen surfaces plausibly with the same material vocabulary. Paint detail within existing geometry, never add physical protrusions.\nLighting: FLAT ALBEDO ONLY, uniform shadowless light directly from viewer. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional gradients, no specular hot spots, no environment reflections, no rim light. Gold is its ochre-gold base color with only a faint sheen. Light elements are their bright light color with no halo. Cavities retain readable material color without painted deep shadows.\nOutput: one 1024 x 1024 RGBA PNG, true transparent background, no floor or background color, no checkerboard painted in, no lettering/text/logos/watermark, no cropping. Preserve original pixels' framing and the entire guide silhouette. Do not beautify or reposition the geometry.\nView: FRONT. Two separate boots face straight toward the viewer exactly as in guide_front.png, with the left image boot slightly lower than the right image boot. Keep their slightly different shapes and heights. The full opaque guide bounding box is x=73..950, y=180..843 on a 1024-square canvas; preserve the substantial blank margin above and below. Tall shin fronts are warm ivory ceramic framed by gold; the wide ankle straps gold; the instep is black-violet padded leather with stitched seams; toe armor ivory; the chunky sole charcoal. Paint the narrow vertical blue-white shin light within each existing front plate, following the design. Keep the actual guide part edges and top cuff openings.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-ce9fc38e-a045-4e05-b52f-5db6292691c3.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: lower guide silhouette overlap than the corrective pass, with stronger illustration lighting and geometry drift. Initial return; inspecting exact guide registration and flat albedo.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "cec40d49dd5ef9136c9fbaa66943639b858c0241f714ffca3b138012f294a4dd"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "ffc5503f0ff729c0aa751cc31b71ad52c690622fdb72d5710b85577c5d20eaeb"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          12,
+          1236,
+          1254
+        ],
+        "opaque_bbox": [
+          89,
+          193,
+          1171,
+          1068
+        ],
+        "guide_bbox": [
+          73,
+          180,
+          951,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.876069,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Initial return; inspecting exact guide registration and flat albedo."
+        }
+      },
+      "output_sha256": "176e6e37906c6f8b069af6ace12e0bb484b8567f5cccc0bdd8161a53ca1590e4"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the exact existing Colonial dock boots 3D model.\nInput image 1 is design_reference.png, MATERIAL AND COLOR REFERENCE ONLY. Input image 2 is guide_front.png, the EDIT TARGET and exact 1024 x 1024 canvas.\nPaint ONLY the visible surfaces inside image 2, transferring the design reference's materials. Retain image 2's exact outer silhouette/alpha mask, part outlines, size, position, spacing, camera angle and every protrusion. Do not copy the reference composition or change the model geometry. Trace the guide exactly, including its faceted edges.\nMaterials: aged warm ivory white ceramic armor with fine worn speckling and hairline cracks; restrained brushed ochre gold trim and hardware with fine scratches; very dark charcoal black-violet padded leather/resin, fine grain, subdued beige stitches and panel seams; dark charcoal segmented rubber soles. Existing circular ankle modules have gold housings, dark insets and pale blue-white light centers. Existing shin light slots and sole light strips use blue-white color without bloom. Follow the design reference, with no orange lights if absent there. Continue unseen surfaces plausibly with the same material vocabulary. Paint detail within existing geometry, never add physical protrusions.\nLighting: FLAT ALBEDO ONLY, uniform shadowless light directly from viewer. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional gradients, no specular hot spots, no environment reflections, no rim light. Gold is its ochre-gold base color with only a faint sheen. Light elements are their bright light color with no halo. Cavities retain readable material color without painted deep shadows.\nOutput: one 1024 x 1024 RGBA PNG, true transparent background, no floor or background color, no checkerboard painted in, no lettering/text/logos/watermark, no cropping. Preserve original pixels' framing and the entire guide silhouette. Do not beautify or reposition the geometry.\nView: FRONT. Two separate boots face straight toward the viewer exactly as in guide_front.png, with the left image boot slightly lower than the right image boot. Keep their slightly different shapes and heights. The full opaque guide bounding box is x=73..950, y=180..843 on a 1024-square canvas; preserve the substantial blank margin above and below. Tall shin fronts are warm ivory ceramic framed by gold; the wide ankle straps gold; the instep is black-violet padded leather with stitched seams; toe armor ivory; the chunky sole charcoal. Paint the narrow vertical blue-white shin light within each existing front plate, following the design. Keep the actual guide part edges and top cuff openings.\nCORRECTIVE PASS, registration is the priority: An earlier result drifted from the guide and used the reference's 1254-pixel size. Work directly on the SECOND image, the 1024-square gray front guide, at its ORIGINAL RESOLUTION. Leave every transparent pixel, external edge and part edge unchanged. Preserve the simple flat front profile of each sole, the relative width of the shafts, the existing faceted shin panels, and the exact cuff positions. Recolor the guide surfaces rather than redrawing boots. The guide's topmost pixel is y=180 and bottommost y=843; do not enlarge or raise either boot. Keep plain flat base colors over the geometry, with only fine material grain, stitches and hairline wear. Flatten the reference's gold highlights and the leather shading. Output exactly 1024 by 1024, not 1254.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-1b32a050-1eee-4d68-b8cf-d5c0ae4379a6.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected the closer guide match within the one-correction limit. Reference palette preserved. Corrective pass improves outer silhouette overlap, but shin, toe and ankle detail still drifts. Gold/ceramic highlights and cavity/padding shadows remain. Preserved the raw 1254 x 1254 return; exact silhouette and completely shadowless lighting requirements are not fully met.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "ffc5503f0ff729c0aa751cc31b71ad52c690622fdb72d5710b85577c5d20eaeb"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "cec40d49dd5ef9136c9fbaa66943639b858c0241f714ffca3b138012f294a4dd"
+        }
+      ],
+      "output_sha256": "7014e008b390ddf56a66ac2c8ebd83ad65f821c80bd41d8c30aca3abc1be9760",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1208,
+          1254
+        ],
+        "opaque_bbox": [
+          92,
+          217,
+          1165,
+          1078
+        ],
+        "guide_bbox": [
+          73,
+          180,
+          951,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.909089,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Reference palette preserved. Corrective pass improves outer silhouette overlap, but shin, toe and ankle detail still drifts. Gold/ceramic highlights and cavity/padding shadows remain."
+        }
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the exact existing Colonial dock boots 3D model.\nInput image 1 is the EDIT TARGET: the untextured geometry guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOR REFERENCE ONLY.\nPaint ONLY the visible surfaces inside image 1, transferring the design reference's materials. Retain image 1's exact outer silhouette/alpha mask, part outlines, size, position, spacing, camera angle and every protrusion. Do not copy the reference composition or change the model geometry. Trace the guide exactly, including its faceted edges.\nMaterials: aged warm ivory white ceramic armor with fine worn speckling and hairline cracks; restrained brushed ochre gold trim and hardware with fine scratches; very dark charcoal black-violet padded leather/resin, fine grain, subdued beige stitches and panel seams; dark charcoal segmented rubber soles. Existing circular ankle modules have gold housings, dark insets and pale blue-white light centers. Existing shin light slots and sole light strips use blue-white color without bloom. Follow the design reference, with no orange lights if absent there. Continue unseen surfaces plausibly with the same material vocabulary. Paint detail within existing geometry, never add physical protrusions.\nLighting: FLAT ALBEDO ONLY, uniform shadowless light directly from viewer. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional gradients, no specular hot spots, no environment reflections, no rim light. Gold is its ochre-gold base color with only a faint sheen. Light elements are their bright light color with no halo. Cavities retain readable material color without painted deep shadows.\nOutput: one 1024 x 1024 RGBA PNG, true transparent background, no floor or background color, no checkerboard painted in, no lettering/text/logos/watermark, no cropping. Preserve original pixels' framing and the entire guide silhouette. Do not beautify or reposition the geometry.\nView: BACK. Two separate boots viewed directly from behind exactly as guide_back.png; no toe fronts or front shin plates visible. Preserve the slight height difference, all strap protrusions, the broad heels and existing two rear shaft bands. The full opaque guide bounding box is x=73..950, y=180..843 on a 1024-square canvas. Continue dark black-violet stitched leather around the back shafts, gold/ivory trim for the existing upper and middle bands matching their continuation from the design, ivory heel side armor on the existing rear heel shells, charcoal segmented soles. Side ankle module edges stay where the guide has them. No invented rear vertical shin lights. Keep the guide's exact rear silhouette and part divisions.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-2d5612ad-af26-4b1a-bf0f-cd6135285c9b.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: lower guide silhouette overlap than the corrective pass, with stronger illustration lighting and geometry drift. Correct rear view and palette, but geometry drifts and gold retains highlights; corrective pass required.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "17e0c11e3c1e815f8890487de35cc00cdb2aaea71e0fd2d78093a0cf08aa381e"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "ffc5503f0ff729c0aa751cc31b71ad52c690622fdb72d5710b85577c5d20eaeb"
+        }
+      ],
+      "output_sha256": "a40c0ff5205ec8472837d265c1817842ce598b6f04d4dc4c5c363e8a15f3ae38",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1230,
+          1254
+        ],
+        "opaque_bbox": [
+          85,
+          193,
+          1177,
+          1018
+        ],
+        "guide_bbox": [
+          73,
+          180,
+          951,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.889072,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Correct rear view and palette, but geometry drifts and gold retains highlights; corrective pass required."
+        }
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Precisely recolor this 1024 x 1024 RGBA image. This image is the exact orthographic BACK geometry guide for a pair of Colonial dock boots and must be preserved pixel-for-pixel in its silhouette and ALL part edges. Keep the original 1024-square canvas. Only replace the white and gray surface colors with ALBEDO TEXTURES. Do not rerender or reshape anything. Keep transparent pixels transparent.\nUse these approved design materials: ivory ceramic (#dbd0b8) with sparse tan fine wear and very fine hairline cracks; brushed ochre gold (#ad833d) with fine scratches and absolutely NO bright highlight streaks; charcoal black-violet leather (#34323e) with fine leather grain and subdued beige stitches; dark charcoal rubber soles (#29282c). These are flat colored diffuse texture surfaces, zero ambient occlusion or shading and zero reflections.\nBACK surface assignment: the two main vertical rear shafts are black-violet stitched leather. The highest broad rear band is ivory ceramic with narrow gold edges. The middle shaft band is muted gold. Preserve both broad band silhouettes precisely. The two wide lower heel shells are ivory ceramic. The bottom-most chunky outsole bands are charcoal rubber with the guide's exact flat shapes. Preserve the side ankle modules' faceted geometry, paint their housings gold, their small visible light centers blue-white (#d7f7ff) without halos. Continue these materials plausibly around the visible rear surfaces. No toe caps or front shin plates in this rear view.\nMost important: exact original outline, screen positions and scale; exact existing facet edges; no added shapes; no increased boot height; no geometry beauty pass. The guide silhouette bounds are x=73..950, y=180..843. Keep the image-left boot slightly higher than image-right boot exactly as shown. Preserve all space above, below and between the boots.\nOutput ONE 1024 by 1024 transparent RGBA PNG. No text, no labels, no letters, no scenery, no floor, no ground shadow, no glossy highlights, no gradient lighting, no glow spill. This is a material color paintover for texture projection, not a lit illustration.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-46836c39-4454-4d98-9e51-afb8cecbb7f2.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected the closer guide match within the one-correction limit. Corrective pass follows rear guide more closely and preserves plausible reference materials. Residual gold, heel and sole shading remains. Preserved the raw 1254 x 1254 return; exact silhouette and completely shadowless lighting requirements are not fully met.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "17e0c11e3c1e815f8890487de35cc00cdb2aaea71e0fd2d78093a0cf08aa381e"
+        }
+      ],
+      "output_sha256": "04264189c331f0c4937b487a9fb10a86672b6b13afabc5e7d0c1c939e1ac42df",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          9,
+          1240,
+          1230
+        ],
+        "opaque_bbox": [
+          88,
+          220,
+          1168,
+          1035
+        ],
+        "guide_bbox": [
+          73,
+          180,
+          951,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.981447,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Corrective pass follows rear guide more closely and preserves plausible reference materials. Residual gold, heel and sole shading remains."
+        }
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the exact existing Colonial dock boots 3D model.\nInput image 1 is the EDIT TARGET: the untextured geometry guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOR REFERENCE ONLY.\nPaint ONLY the visible surfaces inside image 1, transferring the design reference's materials. Retain image 1's exact outer silhouette/alpha mask, part outlines, size, position, spacing, camera angle and every protrusion. Do not copy the reference composition or change the model geometry. Trace the guide exactly, including its faceted edges.\nMaterials: aged warm ivory white ceramic armor with fine worn speckling and hairline cracks; restrained brushed ochre gold trim and hardware with fine scratches; very dark charcoal black-violet padded leather/resin, fine grain, subdued beige stitches and panel seams; dark charcoal segmented rubber soles. Existing circular ankle modules have gold housings, dark insets and pale blue-white light centers. Existing shin light slots and sole light strips use blue-white color without bloom. Follow the design reference, with no orange lights if absent there. Continue unseen surfaces plausibly with the same material vocabulary. Paint detail within existing geometry, never add physical protrusions.\nLighting: FLAT ALBEDO ONLY, uniform shadowless light directly from viewer. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional gradients, no specular hot spots, no environment reflections, no rim light. Gold is its ochre-gold base color with only a faint sheen. Light elements are their bright light color with no halo. Cavities retain readable material color without painted deep shadows.\nOutput: one 1024 x 1024 RGBA PNG, true transparent background, no floor or background color, no checkerboard painted in, no lettering/text/logos/watermark, no cropping. Preserve original pixels' framing and the entire guide silhouette. Do not beautify or reposition the geometry.\nView: LEFT SIDE. Exactly the single overlapping boot profile visible in guide_left.png, toes point RIGHT and heel LEFT. Do not separate boots or add a second visible boot. The full opaque guide bounding box is x=66..957, y=180..843 on a 1024-square canvas. Preserve the front shin armor on the RIGHT of the shaft, two projecting rear straps to LEFT, circular ankle module in the exact center, heel armor LEFT, low toe RIGHT and chunky tread notches below. Front shin and toe and heel armor ivory with gold trim; shaft/instep black-violet stitched leather; ankle strap and concentric module gold with blue-white center; soles dark charcoal with the design's blue-white side light strips painted within the sole. Follow every existing contour.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-2b3fc775-a496-4da7-8591-b38e19533f02.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: lower guide silhouette overlap than the corrective pass, with stronger illustration lighting and geometry drift. Reference materials captured; perspective, shin edge and tread registration need a guide-driven corrective pass.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "1c992d94315bbc06a2ea1c9dd1737c63ce23fc62dae182f5ac87807998b497de"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "ffc5503f0ff729c0aa751cc31b71ad52c690622fdb72d5710b85577c5d20eaeb"
+        }
+      ],
+      "output_sha256": "4fb36dc70b8e3fe38d9b9d0554ab8485677db62a5ab61769d17dd6cb00fdc50a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1202,
+          1230
+        ],
+        "opaque_bbox": [
+          74,
+          209,
+          1197,
+          1043
+        ],
+        "guide_bbox": [
+          66,
+          180,
+          958,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.917166,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Reference materials captured; perspective, shin edge and tread registration need a guide-driven corrective pass."
+        }
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Precisely recolor this 1024 x 1024 RGBA geometry guide without redrawing it. This is an ALBEDO texture projection source for the exact existing Colonial dock boot model. Preserve the transparent background, original canvas, every outline, part edge, facet, tread notch and every screen-space location EXACTLY. Only replace its white/gray surface colors with material textures; no new geometry.\nApproved materials from design_reference.png: warm ivory ceramic with sparse tan wear and tiny hairline cracks; muted brushed ochre-gold trim and metal hardware; charcoal black-violet padded leather with fine grain, subtle beige stitches and seams; dark charcoal rubber sole; small pale blue-white light elements. Flat uniform material colors under completely even frontal light. No shading, no ambient occlusion, no highlights, no cast shadows, no gloss or reflections. Use fine material detail only, no gradients across panels. Do not copy illustration lighting. Gold is muted base color #ad833d, ceramic #dbd0b8, leather #34323e, rubber #29282c. Light centers #d7f7ff have no halo.\nExisting front shin plate, heel shell and toe shell: ivory ceramic, narrow gold borders just INSIDE their existing edges. Shaft and instep: black-violet leather with stitched padding painted into the same contour. The two existing rear bands: ivory with thin gold edging. Existing ankle strap: gold. Existing faceted circular ankle unit: gold housing, charcoal inset ring, blue-white disk. Existing whole outsole: charcoal rubber, with small blue-white horizontal inserts painted on the side near heel and forefoot. No invented additional side armor plate or additional straps. Preserve the guide's simple smooth planes.\nThe guide's bounds are x=66..957 and y=180..843. Preserve all this surrounding blank space and do not enlarge the boot. Keep the exact part borders; preserve the original guide alpha and silhouette. Output one 1024 by 1024 transparent RGBA PNG. No text or letters, no labels, no floor or scenery. This is a surface color paintover, not a lit product rendering.\nLEFT SIDE correction. Toes point RIGHT, heel LEFT. The LEFT rear of the shaft has two projecting bands, the RIGHT front of the shaft the tapered ceramic shin plate. Exactly one overlapping profile as in the guide. The circular ankle unit must keep the guide's exact flattened polygon footprint. The sole must keep every notch and its long flat bottom. Keep the front of the toe the same low height. No perspective, no enlarged shin, no new raised toe or sole blocks.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-a2faf86d-8a9d-48ca-887c-322e9960e7fa.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected the closer guide match within the one-correction limit. Corrective pass closely follows the guide and substantially flattens material lighting. Some seam/edge shading remains; sole light shapes differ from the design reference. Preserved the raw 1254 x 1254 return; exact silhouette and completely shadowless lighting requirements are not fully met.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "1c992d94315bbc06a2ea1c9dd1737c63ce23fc62dae182f5ac87807998b497de"
+        }
+      ],
+      "output_sha256": "5a1bb6ede864b50927e78898f3e2409717374f8ab70187f61031bd3f9f1b417a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          55,
+          1181,
+          1221
+        ],
+        "opaque_bbox": [
+          79,
+          222,
+          1176,
+          1034
+        ],
+        "guide_bbox": [
+          66,
+          180,
+          958,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.991748,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Corrective pass closely follows the guide and substantially flattens material lighting. Some seam/edge shading remains; sole light shapes differ from the design reference."
+        }
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the exact existing Colonial dock boots 3D model.\nInput image 1 is the EDIT TARGET: the untextured geometry guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOR REFERENCE ONLY.\nPaint ONLY the visible surfaces inside image 1, transferring the design reference's materials. Retain image 1's exact outer silhouette/alpha mask, part outlines, size, position, spacing, camera angle and every protrusion. Do not copy the reference composition or change the model geometry. Trace the guide exactly, including its faceted edges.\nMaterials: aged warm ivory white ceramic armor with fine worn speckling and hairline cracks; restrained brushed ochre gold trim and hardware with fine scratches; very dark charcoal black-violet padded leather/resin, fine grain, subdued beige stitches and panel seams; dark charcoal segmented rubber soles. Existing circular ankle modules have gold housings, dark insets and pale blue-white light centers. Existing shin light slots and sole light strips use blue-white color without bloom. Follow the design reference, with no orange lights if absent there. Continue unseen surfaces plausibly with the same material vocabulary. Paint detail within existing geometry, never add physical protrusions.\nLighting: FLAT ALBEDO ONLY, uniform shadowless light directly from viewer. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional gradients, no specular hot spots, no environment reflections, no rim light. Gold is its ochre-gold base color with only a faint sheen. Light elements are their bright light color with no halo. Cavities retain readable material color without painted deep shadows.\nOutput: one 1024 x 1024 RGBA PNG, true transparent background, no floor or background color, no checkerboard painted in, no lettering/text/logos/watermark, no cropping. Preserve original pixels' framing and the entire guide silhouette. Do not beautify or reposition the geometry.\nView: RIGHT SIDE. Exactly the single overlapping boot profile visible in guide_right.png, toes point LEFT and heel RIGHT. Do not separate boots or add a second visible boot. The full opaque guide bounding box is x=66..957, y=180..843 on a 1024-square canvas. Preserve the front shin armor on the LEFT of the shaft, two projecting rear straps to RIGHT, circular ankle module in the exact center, heel armor RIGHT, low toe LEFT and chunky tread notches below. Front shin and toe and heel armor ivory with gold trim; shaft/instep black-violet stitched leather; ankle strap and concentric module gold with blue-white center; soles dark charcoal with the design's blue-white side light strips painted within the sole. Follow every existing contour.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-ac90db93-8bd1-4dc2-bbdf-38b2224221d5.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: lower guide silhouette overlap than the corrective pass, with stronger illustration lighting and geometry drift. Reference design and orientation captured; shin contour, additional side armor and tread differ from model and lighting remains too strong.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "6d73de054ebf0e43e56ce13103381777615075486cb0788b4b82b78ff403f614"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "ffc5503f0ff729c0aa751cc31b71ad52c690622fdb72d5710b85577c5d20eaeb"
+        }
+      ],
+      "output_sha256": "eb370db9d135200c9a6138085e705c8d9fef83b7565f28bf59caa10783bf426b",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          101,
+          1240,
+          1210
+        ],
+        "opaque_bbox": [
+          69,
+          209,
+          1188,
+          1028
+        ],
+        "guide_bbox": [
+          66,
+          180,
+          958,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.927706,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Reference design and orientation captured; shin contour, additional side armor and tread differ from model and lighting remains too strong."
+        }
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Precisely recolor this 1024 x 1024 RGBA geometry guide without redrawing it. This is an ALBEDO texture projection source for the exact existing Colonial dock boot model. Preserve the transparent background, original canvas, every outline, part edge, facet, tread notch and every screen-space location EXACTLY. Only replace its white/gray surface colors with material textures; no new geometry.\nApproved materials from design_reference.png: warm ivory ceramic with sparse tan wear and tiny hairline cracks; muted brushed ochre-gold trim and metal hardware; charcoal black-violet padded leather with fine grain, subtle beige stitches and seams; dark charcoal rubber sole; small pale blue-white light elements. Flat uniform material colors under completely even frontal light. No shading, no ambient occlusion, no highlights, no cast shadows, no gloss or reflections. Use fine material detail only, no gradients across panels. Do not copy illustration lighting. Gold is muted base color #ad833d, ceramic #dbd0b8, leather #34323e, rubber #29282c. Light centers #d7f7ff have no halo.\nExisting front shin plate, heel shell and toe shell: ivory ceramic, narrow gold borders just INSIDE their existing edges. Shaft and instep: black-violet leather with stitched padding painted into the same contour. The two existing rear bands: ivory with thin gold edging. Existing ankle strap: gold. Existing faceted circular ankle unit: gold housing, charcoal inset ring, blue-white disk. Existing whole outsole: charcoal rubber, with small blue-white horizontal inserts painted on the side near heel and forefoot. No invented additional side armor plate or additional straps. Preserve the guide's simple smooth planes.\nThe guide's bounds are x=66..957 and y=180..843. Preserve all this surrounding blank space and do not enlarge the boot. Keep the exact part borders; preserve the original guide alpha and silhouette. Output one 1024 by 1024 transparent RGBA PNG. No text or letters, no labels, no floor or scenery. This is a surface color paintover, not a lit product rendering.\nRIGHT SIDE correction. Toes point LEFT, heel RIGHT. The RIGHT rear of the shaft has two projecting bands, the LEFT front of the shaft the tapered ceramic shin plate. Exactly one overlapping profile as in the guide. The circular ankle unit must keep the guide's exact flattened polygon footprint. The sole must keep every notch and its long flat bottom. Keep the front of the toe the same low height. No perspective, no enlarged shin, no new raised toe or sole blocks. Preserve the asymmetric shin corners and tiny faceted projections. The sole light inserts are small horizontal bars, never letters or symbols.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-505f5f72-c6bc-4506-b60b-8abcb63b28fd.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected the closer guide match within the one-correction limit. Corrective pass closely follows the guide and substantially flattens material lighting. Some seam/edge shading remains. Preserved the raw 1254 x 1254 return; exact silhouette and completely shadowless lighting requirements are not fully met.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "6d73de054ebf0e43e56ce13103381777615075486cb0788b4b82b78ff403f614"
+        }
+      ],
+      "output_sha256": "e090735719a94c069ae4e817b4bf2537b215312c5ac263e4e534bc736146032c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          23,
+          1208,
+          1230
+        ],
+        "opaque_bbox": [
+          80,
+          221,
+          1176,
+          1035
+        ],
+        "guide_bbox": [
+          66,
+          180,
+          958,
+          844
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.988979,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Corrective pass closely follows the guide and substantially flattens material lighting. Some seam/edge shading remains."
+        }
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the exact existing Colonial dock boots 3D model.\nInput image 1 is the EDIT TARGET: the untextured geometry guide. Input image 2 is the approved design_reference.png, MATERIAL AND COLOR REFERENCE ONLY.\nPaint ONLY the visible surfaces inside image 1, transferring the design reference's materials. Retain image 1's exact outer silhouette/alpha mask, part outlines, size, position, spacing, camera angle and every protrusion. Do not copy the reference composition or change the model geometry. Trace the guide exactly, including its faceted edges.\nMaterials: aged warm ivory white ceramic armor with fine worn speckling and hairline cracks; restrained brushed ochre gold trim and hardware with fine scratches; very dark charcoal black-violet padded leather/resin, fine grain, subdued beige stitches and panel seams; dark charcoal segmented rubber soles. Existing circular ankle modules have gold housings, dark insets and pale blue-white light centers. Existing shin light slots and sole light strips use blue-white color without bloom. Follow the design reference, with no orange lights if absent there. Continue unseen surfaces plausibly with the same material vocabulary. Paint detail within existing geometry, never add physical protrusions.\nLighting: FLAT ALBEDO ONLY, uniform shadowless light directly from viewer. No cast shadows, no contact shadows, no ambient-occlusion darkening, no directional gradients, no specular hot spots, no environment reflections, no rim light. Gold is its ochre-gold base color with only a faint sheen. Light elements are their bright light color with no halo. Cavities retain readable material color without painted deep shadows.\nOutput: one 1024 x 1024 RGBA PNG, true transparent background, no floor or background color, no checkerboard painted in, no lettering/text/logos/watermark, no cropping. Preserve original pixels' framing and the entire guide silhouette. Do not beautify or reposition the geometry.\nView: TOP. Two separate boots seen vertically from directly above exactly as guide_top.png. Their toes point toward the BOTTOM edge; the back rims toward the TOP. Keep the exact two large opening shapes, the inner lining surfaces and filled inset bottoms in the guide, and the visible toe and instep silhouette. The full opaque guide bounding box is x=73..950, y=66..957 on a 1024-square canvas. Cuff lining is dark muted brown woven textile, cuff rims charcoal leather with fine stitches and thin gold armor edges, insteps black-violet leather and toes warm ivory ceramic with fine wear and gold edge accents. The gray filled interiors of the guide must remain opaque colored lining, not become transparent holes. Preserve the asymmetric facets and every overlap exactly; do not introduce a front or perspective view.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-e274f4ad-a21e-4798-9b4a-fb71e0515869.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: lower guide silhouette overlap than the corrective pass, with stronger illustration lighting and geometry drift. Top orientation and materials captured, but openings, toe borders and angle drift, and highlights/shadows remain; corrective pass required.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "4473252786d77e743bdfe151a926406781b372770d511a53f97e128fdbc90fc0"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "ffc5503f0ff729c0aa751cc31b71ad52c690622fdb72d5710b85577c5d20eaeb"
+        }
+      ],
+      "output_sha256": "32e1525e1b6b4c464c087233d42fa7696f91e8f92e17d80de86e61d77e3df4b6",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          37,
+          1234,
+          1254
+        ],
+        "opaque_bbox": [
+          98,
+          71,
+          1165,
+          1195
+        ],
+        "guide_bbox": [
+          73,
+          66,
+          951,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.913272,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Top orientation and materials captured, but openings, toe borders and angle drift, and highlights/shadows remain; corrective pass required."
+        }
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Precisely recolor this 1024 x 1024 RGBA geometry guide without redrawing it. This is an ALBEDO texture projection source for the exact existing pair of Colonial dock boots. Preserve the transparent background, original canvas, every outline, all internal part edges, facets, openings, overlaps and every screen-space location EXACTLY. Only replace white and gray surface colors with material textures. The attached guide is the exact shape authority. NO new geometry.\nView: DIRECTLY OVERHEAD, orthographic TOP. Both toes point toward BOTTOM of image, back cuff rims toward TOP. There must be NO angled front view. Preserve each polygon of the irregular oval cuff openings and their opaque recessed bottom. Do not invent visible ankle straps or sole sidewalls where the guide does not show them. The two large center gray regions are opaque inner fabric/insole surfaces, NOT holes in the image and NOT deep black shadow.\nApproved design materials: warm ivory ceramic (#dbd0b8) with sparse tan wear and fine hairline cracks on the visible toes and exposed armor rims; narrow subdued brushed ochre gold (#ad833d) trim just inside existing armor edges; charcoal black-violet leather (#34323e) with fine grain, subtle beige stitching on the insteps and padded upper cuff edges; muted dark brown woven textile (#453832) for the cuff lining, inner walls and inset bottom. Dark charcoal rubber (#29282c) on the very narrow visible sole edge. Continue these materials plausibly exactly within the guide's parts. No gold bands across the instep that are absent from the guide. No added buckles. Tiny exposed side module edges gold.\nThe image is a flat COLOR MAP, not a lit object. The same base color has the SAME BRIGHTNESS everywhere, including inner walls and the inset bottom. NO cast shadows, NO ambient occlusion, NO specular highlights, NO reflections, NO gradient lighting. Replace the gray guide's large diagonal light/shadow pattern with uniform leather material. Fine grain and fine wear only; no dimensional shading. Keep existing asymmetric shapes and tiny triangular projections.\nThe silhouette bounds are x=73..950 and y=66..957. Do not move, rotate, enlarge or simplify either boot. All transparent background pixels must remain transparent. No text, letters, labels, logos, background or floor. Output ONE 1024 by 1024 transparent RGBA PNG. Preserve the original guide alpha mask exactly.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2a-926d-7cd2-8f9b-03848dcbc3a3/exec-f66d5f19-548b-406a-a5aa-18c554c848a6.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected the closer guide match within the one-correction limit. Corrective pass restores the direct overhead geometry and closely follows the guide. Interior shading and toe tonal gradients remain. Preserved the raw 1254 x 1254 return; exact silhouette and completely shadowless lighting requirements are not fully met.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "4473252786d77e743bdfe151a926406781b372770d511a53f97e128fdbc90fc0"
+        }
+      ],
+      "output_sha256": "64e2e7569c6bd5ebc718b741d4f5f42963b2b8446cc40e950ec3e30f42f09b72",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1192,
+          1254
+        ],
+        "opaque_bbox": [
+          91,
+          80,
+          1166,
+          1179
+        ],
+        "guide_bbox": [
+          73,
+          66,
+          951,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.987821,
+        "unresized_return": true,
+        "visual_review": {
+          "reference_material_palette_matches": true,
+          "no_text_or_letters": true,
+          "transparent_background_present": true,
+          "exact_guide_silhouette": false,
+          "fully_flat_shadowless_albedo": false,
+          "notes": "Corrective pass restores the direct overhead geometry and closely follows the guide. Interior shading and toe tonal gradients remain."
+        }
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "file": "design_reference.png",
+      "sha256": "ffc5503f0ff729c0aa751cc31b71ad52c690622fdb72d5710b85577c5d20eaeb"
+    },
+    {
+      "file": "guide_front.png",
+      "sha256": "cec40d49dd5ef9136c9fbaa66943639b858c0241f714ffca3b138012f294a4dd"
+    },
+    {
+      "file": "guide_back.png",
+      "sha256": "17e0c11e3c1e815f8890487de35cc00cdb2aaea71e0fd2d78093a0cf08aa381e"
+    },
+    {
+      "file": "guide_left.png",
+      "sha256": "1c992d94315bbc06a2ea1c9dd1737c63ce23fc62dae182f5ac87807998b497de"
+    },
+    {
+      "file": "guide_right.png",
+      "sha256": "6d73de054ebf0e43e56ce13103381777615075486cb0788b4b82b78ff403f614"
+    },
+    {
+      "file": "guide_top.png",
+      "sha256": "4473252786d77e743bdfe151a926406781b372770d511a53f97e128fdbc90fc0"
+    }
+  ],
+  "status": "Five best raw tool returns saved; not fully compliant with exact silhouette and flat-albedo requirements.",
+  "selection_policy": "One initial generation and one corrective regeneration per view; selected the better guide registration after visual review. Selection does not indicate full brief acceptance.",
+  "size_deviation": "All ten tool returns were 1254 x 1254 despite requesting 1024 x 1024. Returns were preserved unresized as instructed.",
+  "metric_definition": "normalized_mask_iou compares alpha >= 128 at guide pixel centers after coordinate normalization for measurement only. No output image was resized, warped, cropped, masked, repainted or otherwise postprocessed. Exact alpha equality fails for every return, and raw alpha fringes remain.",
+  "outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ]
+}

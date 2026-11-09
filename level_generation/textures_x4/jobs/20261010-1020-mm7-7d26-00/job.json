@@ -1,0 +1,51 @@
+{
+ "id": "20261010-1020-mm7-7d26-00",
+ "world": "mm7",
+ "maps": [
+  "7d26.blv"
+ ],
+ "created": "2026-10-10T08:20:38+00:00",
+ "textures": [
+  "mm7/hnrdr",
+  "mm7/hnrdl"
+ ],
+ "requests": {
+  "mm7/hnrdr": {
+   "name": "hnrdr",
+   "versions": [
+    1
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other: a golden-ochre rough stucco plaster wall under one straight carved golden-brown wooden cornice of horizontal moulding bands that runs across the whole width at one constant height and thickness, with a carved golden-brown wooden skirting moulding along the bottom; in the centre a wide arched double door of riveted dark wooden planks, each leaf with a barred window, an iron ring handle and a carved skull near the bottom; two carved horned demon head shields hang just below the cornice above the door; copy the composition exactly",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrer",
+      "mm7/hnrerw",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.372
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnrelw",
+     "right": "mm7/hnrerw"
+    }
+   }
+  },
+  "mm7/hnrdl": {
+   "name": "hnrdl",
+   "versions": [],
+   "material": "",
+   "notes": {}
+  }
+ }
+}

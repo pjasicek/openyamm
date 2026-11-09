@@ -1,0 +1,1 @@
+Default process registration, then restore_native_tone.py and queue.py check. RGB-only native grade preserves alpha and opaque hollow interior. Refresh before_tone backups after any registration change.

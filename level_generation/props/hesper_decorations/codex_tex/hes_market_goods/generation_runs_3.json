@@ -1,0 +1,148 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "generated outputs retained; exact brief requirements not achieved",
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic game-model albedo texture-source painting.\nEdit image 1 (guide_left.png) by painting its existing surfaces. Image 2 (design_reference.png) is ONLY the approved material/colour/design reference, never the camera or layout.\nDeliver ONE 1024 x 1024 PNG with actual transparent background. Preserve image 1's exact alpha silhouette, pixel position, size, orthographic left camera, all geometry edges, openings, overlap order and individual shapes. Do not recenter, enlarge, rotate, crop, change geometry or add objects. Keep the substantial empty transparent margins exactly as guide.\nGuide layout: three broad horizontal sacks stacked in the centre, an exposed clay jar with flat lid and its existing vertical handle shape peeking out on the far left, and the existing root ends and cord forms protruding on the right. Preserve every polygonal contour and gap; do not substitute the reference's three-quarter composition.\nPaint the reference materials onto the corresponding surfaces: coarse ochre/tan sackcloth, small weathered blue-grey and rusty-red sewn patches where appropriate as surface markings, tan cord ties, dried brown roots, red-brown fired clay with pale wear speckling, dull dented grey tin, weathered salvage wood and steel, dust. Do not add relief or silhouette details.\nLIGHTING: pure albedo texture source, flat even shadowless light from viewer, consistent material brightness across surfaces. No cast shadows, no ambient occlusion darkening in creases or between objects, no strong specular highlights or reflections, no rim light, no floor, no background. Retain material texture and colour only. No text or watermark. Return at exactly 1024 x 1024, no resizing.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a1d009b01538ed19de8fa67be327377be172696196ffef10f2ce39b56aef28af"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a157e4-797b-79b2-8d8f-b371777cbd41/exec-dec7680b-6368-436d-b4fa-3abc4b218de0.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a157e4-797b-79b2-8d8f-b371777cbd41/exec-dec7680b-6368-436d-b4fa-3abc4b218de0.png",
+      "selected": false,
+      "reason": "Initial return rejected: wrong dimensions, silhouette drift and retained shading.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours_match": "broadly; visual inspection",
+        "flat_even_light": false,
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_pixels": 1200621,
+        "partial_alpha_pixels": 371378,
+        "transparent_background_present": true,
+        "unresized_return": true
+      },
+      "output_sha256": "0d5408bc6bf421969ea9853f6290c6cb0167bebe878b1d66fd7bdded442f632b"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective generation for paint_left.png. Output exactly 1024x1024 pixels, native resolution, RGBA transparent PNG.\nPaint directly on the FIRST input image guide_left.png, keeping its exact existing alpha boundary and internal shape edges pixel for pixel. It is a locked geometry template, not an approximate sketch. SECOND input design_reference.png supplies surface materials only. Do not reproduce its shadows or perspective.\nThe previous attempt changed the silhouette and returned 1254x1254 instead of 1024x1024. Correct those issues: the output must match the 1024x1024 first input canvas without scaling, and every outline and opening must remain in exactly the same pixel locations. No geometry embellishment. The first input's sack stack, jar, lid, hanging strip and right-hand roots must keep every low-poly edge. Keep its original large transparent margins.\nPaint coarse ochre and tan woven sackcloth, tan cord ties, dried brown roots and red-brown speckled fired clay on the corresponding shapes, with the approved design's weathering. Any visible metal is dull grey tin/steel; any visible wood is worn ochre-brown salvage wood.\nUse flat evenly coloured unlit ALBEDO materials with fine material texture only. Remove all directional light, cast shadows, contact shadows, ambient occlusion, light-to-dark form gradients, specular highlights, reflections and rim lighting. The sacks' undersides should have the same tan albedo as their tops. No background, no floor, no text. True transparent pixels everywhere outside the original guide silhouette.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a1d009b01538ed19de8fa67be327377be172696196ffef10f2ce39b56aef28af"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "paint_left.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a157e4-797b-79b2-8d8f-b371777cbd41/exec-d3e5c90f-f2d8-4942-99b0-97c828ff782a.png",
+      "selected": true,
+      "reason": "Selected corrective return; retained unresized. Materials broadly match the design, but exact guide silhouette and flat albedo lighting still fail visual inspection. Not a fully compliant deliverable.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours_match": "broadly; visual inspection",
+        "flat_even_light": false,
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_pixels": 1213194,
+        "partial_alpha_pixels": 358991,
+        "transparent_background_present": true,
+        "unresized_return": true
+      },
+      "output_sha256": "2faa4f079c25b6e1337d64da640804e1a3754f5c9ab051bfe0980d2dbf8351cf"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Paint a game-model orthographic RIGHT view for an albedo texture source.\nImage 1 guide_right.png is the edit target: preserve its complete geometry, silhouette and alpha mask EXACTLY at native 1024 x 1024 canvas. Image 2 design_reference.png is ONLY colour and material authority. Do not use its perspective, composition, lighting or object layout.\nOUTPUT REQUIRED: ONE 1024 x 1024 RGBA PNG, genuine transparent background, native unresized 1024-pixel square. Keep the guide's position and scale; object approximately x=105..919 and y=320..704 with large transparent margins. Do not enlarge it to fill the canvas.\nPaint only the guide's existing surfaces with the reference materials. This view has stacked tan coarse sackcloth bags at back upper left, brown root bundle at lower left, a weathered salvage wooden crate and its existing contents at lower centre, two red-brown terracotta jars on the right with clay lids and existing ties. Tin cans, cups and metal utensils are dull dented grey tin and steel. Cord is tan hemp; clay has the reference's pale speckled wear; wood is dusty ochre brown. Preserve exactly every edge, opening, piece of geometry, occlusion and outline. No added geometry; no reference-composition substitution.\nTexture-source ALBEDO ONLY: even flat shadowless frontal light, no gradients from directional illumination, no cast shadow or ambient occlusion darkening anywhere, no shiny highlights, reflections or rim light. Keep material colours uniform over curved forms while retaining fine weave, grain, wear and dust texture. Transparent background, no floor, no text, no watermark.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "66d8b9a109fef7b5577a7d1019edd0e5ac6efb6db00c6a76b94bb5b1bdcc0a92"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a157e4-797b-79b2-8d8f-b371777cbd41/exec-c8266b0f-e667-45d7-a332-0b36acfd1516.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a157e4-797b-79b2-8d8f-b371777cbd41/exec-c8266b0f-e667-45d7-a332-0b36acfd1516.png",
+      "selected": false,
+      "reason": "Initial return rejected: wrong dimensions, silhouette drift and retained shading.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours_match": "broadly; visual inspection",
+        "flat_even_light": false,
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_pixels": 1214168,
+        "partial_alpha_pixels": 357990,
+        "transparent_background_present": true,
+        "unresized_return": true
+      },
+      "output_sha256": "7aaaf9bc81c0312e079e8eb16b438931102949cd468100d028eaf131b109b601"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective generation for paint_right.png. Return ONE native 1024x1024 RGBA PNG with true transparency.\nFIRST input guide_right.png is a locked image template to paint over. Preserve its alpha silhouette and all internal edges in exactly the original pixel locations on the 1024x1024 canvas. SECOND input design_reference.png supplies the material colours and textures only.\nCorrect the earlier output's resolution, outline drift, changed individual root contours and lighting. Do not scale, shift or recenter anything. Keep the grey guide's precise polygonal geometry and every opening, gap, lid edge, jar contour, sack edge, hanging tie, root tip, crate board and utensil. No added objects or relief; paint existing surfaces only.\nMaterial mapping: background sacks coarse ochre/tan burlap; cord ties tan hemp; lower-left roots dried brown wood; lower-centre crate weathered salvage wood; crate contents dented dull grey tin and steel with brown wooden handles; both right-side jars red-brown fired clay with pale worn speckles. Match the approved reference's palette, wear and dust.\nPure ALBEDO / unlit diffuse surface colours: absolutely flat even frontal illumination, uniform material brightness regardless of orientation, no shaded undersides, no contact shadows or ambient occlusion, no cast shadows, no reflections, specular highlights, rim light or floor. Fine material texture only. Keep all pixels outside the original guide silhouette fully transparent, including holes between objects. No text, no watermark. EXACT output dimensions 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "66d8b9a109fef7b5577a7d1019edd0e5ac6efb6db00c6a76b94bb5b1bdcc0a92"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "paint_right.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a157e4-797b-79b2-8d8f-b371777cbd41/exec-89b92d1a-653e-4856-9a7e-7e2f22cf97e6.png",
+      "selected": true,
+      "reason": "Selected corrective return; retained unresized. Materials broadly match the design, but exact guide silhouette and flat albedo lighting still fail visual inspection. Not a fully compliant deliverable.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours_match": "broadly; visual inspection",
+        "flat_even_light": false,
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_pixels": 1220469,
+        "partial_alpha_pixels": 351660,
+        "transparent_background_present": true,
+        "unresized_return": true
+      },
+      "output_sha256": "82c72a93609d354a000ea3e9a216ce606a3257abc92fe46d45d712e3c25004f3"
+    }
+  ]
+}

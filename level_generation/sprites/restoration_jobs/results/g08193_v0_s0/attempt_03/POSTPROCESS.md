@@ -1,0 +1,1 @@
+Built-in imagegen pixel_steps repair; exact submitted prompt stored with this attempt. Process --adjust 0.98 0 2, run restore_native_tone.py (refresh before_tone backups if reprocessing), then queue check. Branch/planter regional grade preserves alpha. Both final proofs inspected.

@@ -1,0 +1,26 @@
+{
+  "prompt": "# Black's Heart: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10180/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the extremely narrow pale-bronze blade, upward-curling silver guard, black banded grip, and large vivid purple orb pommel. Render one complete vertical Black's Heart on genuine transparent alpha without generic substitution or redesign..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: Faithfully repaint the binding original MM9 PCX in MM6-MM8 inventory style. Preserve the extremely narrow pale-bronze blade, upward-curling silver guard, black banded grip, and large vivid purple orb pommel. Render one complete vertical Black's Heart on genuine transparent alpha without generic substitution or redesign.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10180/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nUse case: precise-object-edit. Input order: image 1 design_reference.png material reference; image 2 icon_x8.png colour reference; image 3 paint_mask_guide.png exact edit target. Preserve the guide's entire 3-column FOUR-row atlas, including tiny end-on views. Do not turn this into a single hero sword. Black leather grip is GREEN in material masks; purple glass orb is BLACK; blade, guards and metal grip bands RED. Output transparent PNG.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad02-91e4-7df2-ad17-49b3d19b98ca/exec-1b764e81-f727-4c97-a049-e8e8ec1ca9d9.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10180/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "selection_note": "First output retained: correction introduced larger stray coloured regions. Raw output has silhouette drift and non-flat mask edge pixels.",
+  "size": [
+    1086,
+    1448
+  ],
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10180/design_reference.png",
+      "sha256": "e7353c1c1d9f1ac1a81a37e786960a40a20f44419eecc2fa617e69f5afbf12ba"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10180/icon_x8.png",
+      "sha256": "77466877cfd09f8e44a48b4e63546e4af4d8ce2121891ad1d3057d7e76364ece"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10180/paint_mask_guide.png",
+      "sha256": "72db468d74fba31c6f877d48aa854ca10b14ff3cb6e0e6af19f49b6454b54970"
+    }
+  ]
+}

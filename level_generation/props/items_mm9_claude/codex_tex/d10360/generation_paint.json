@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background). Output ONE transparent PNG at 1536x2048 or nearest 3:4 canvas. Preserve the guide's exact silhouettes, positions, sizes and layout. Three columns, FOUR rows of square cells: FRONT, BACK, LEFT / RIGHT, TOP, empty / FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey objects only; never redraw, enlarge, move or redesign them. Object: source-faithful Chunk of Elemental Thjorad ore chunk. Rows 1-2 PAINT: unlit base colour, muted green-grey stone with pale grey fractured facets and ochre gold metallic veins matching references, scaled across each orthographic view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Rows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only: yellow #FFFF00 for matte stone, red #FF0000 for gold/metal veins matching painted regions above. Other materials if present only: green #00FF00 leather/fur, blue #0000FF cloth/hair, black #000000 gemstone/crystal/glass. Every silhouette pixel gets exactly one of these colours; no shading, texture, outlines or antialiased colour blends inside masks. Nothing outside silhouettes. Keep all gaps/openings fully transparent. Column 3 rows 2 and 4 stay empty and transparent. Preserve the guide exactly, including its low wide side profiles and central top views.\nCORRECTION: Previous attempt had stray red/yellow speckles and expanded mask edges outside the guide. Strictly clip all paint and masks to the original guide alpha silhouettes. Outside must be completely transparent with absolutely no speckles or fringe. Lower silhouettes must match upper silhouettes exactly. Material masks must be uniform solid pure yellow and pure red regions, no gradients or outline. Follow original guide geometry pixel precisely.",
+  "initial_prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background). Output ONE transparent PNG at 1536x2048 or nearest 3:4 canvas. Preserve the guide's exact silhouettes, positions, sizes and layout. Three columns, FOUR rows of square cells: FRONT, BACK, LEFT / RIGHT, TOP, empty / FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey objects only; never redraw, enlarge, move or redesign them. Object: source-faithful Chunk of Elemental Thjorad ore chunk. Rows 1-2 PAINT: unlit base colour, muted green-grey stone with pale grey fractured facets and ochre gold metallic veins matching references, scaled across each orthographic view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Rows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only: yellow #FFFF00 for matte stone, red #FF0000 for gold/metal veins matching painted regions above. Other materials if present only: green #00FF00 leather/fur, blue #0000FF cloth/hair, black #000000 gemstone/crystal/glass. Every silhouette pixel gets exactly one of these colours; no shading, texture, outlines or antialiased colour blends inside masks. Nothing outside silhouettes. Keep all gaps/openings fully transparent. Column 3 rows 2 and 4 stay empty and transparent. Preserve the guide exactly, including its low wide side profiles and central top views.",
+  "tool": "built-in image_gen",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad10-35f5-7860-b4d9-56de315d082f/exec-4489a1a4-0bce-4ca7-bd25-91bd433cb8aa.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10360/paint_mask_raw_v1.png",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained; visible stray mask pixels remain outside silhouettes after permitted correction. Raw tool output preserved without modification.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10360/paint_mask_guide.png",
+      "sha256": "602697946f88b50c023d59154b828eea1109832439b522079044b9c091a9a4a7"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10360/design_reference.png",
+      "sha256": "28a88a380910627489029801c2152b5ff6dee76069f625cde9f1bc8a2ed31cb8"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10360/icon_x8.png",
+      "sha256": "31f39aaa4ad012a088107b474b56dc1c8cbc6eb7c5bc6842f5ec4c04ee439ad7"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

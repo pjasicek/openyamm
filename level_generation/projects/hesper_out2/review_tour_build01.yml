@@ -1,0 +1,287 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/review/build01",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "signature_sw_gate",
+   "position": [
+    -3917,
+    806,
+    2504
+   ],
+   "yaw": 0.8373,
+   "pitch": -0.3903
+  },
+  {
+   "name": "west_edge_arrival",
+   "position": [
+    -22406,
+    -2592,
+    1288
+   ],
+   "yaw": -0.1368,
+   "pitch": 0.0577
+  },
+  {
+   "name": "scouts_camp",
+   "position": [
+    -19469,
+    576,
+    1320
+   ],
+   "yaw": 0.9273,
+   "pitch": -0.0434
+  },
+  {
+   "name": "tunnel_mouth",
+   "position": [
+    -20121,
+    8064,
+    1352
+   ],
+   "yaw": 3.1416,
+   "pitch": -0.0122
+  },
+  {
+   "name": "thrix_cave",
+   "position": [
+    -19699,
+    17280,
+    1468
+   ],
+   "yaw": 1.6496,
+   "pitch": -0.0319
+  },
+  {
+   "name": "wreck",
+   "position": [
+    -10368,
+    12384,
+    2220
+   ],
+   "yaw": 2.5036,
+   "pitch": -0.0361
+  },
+  {
+   "name": "d3_gate",
+   "position": [
+    -11150,
+    -403,
+    2952
+   ],
+   "yaw": 3.1416,
+   "pitch": -0.0471
+  },
+  {
+   "name": "d3_mesa_from_road",
+   "position": [
+    -9504,
+    -5472,
+    1736
+   ],
+   "yaw": 2.2938,
+   "pitch": 0.2713
+  },
+  {
+   "name": "camp1",
+   "position": [
+    -6080,
+    14851,
+    1864
+   ],
+   "yaw": -2.9672,
+   "pitch": 0.0668
+  },
+  {
+   "name": "camp2",
+   "position": [
+    11800,
+    8352,
+    1928
+   ],
+   "yaw": 0.0,
+   "pitch": -0.105
+  },
+  {
+   "name": "camp3",
+   "position": [
+    3094,
+    -460,
+    2696
+   ],
+   "yaw": -1.3964,
+   "pitch": -0.0298
+  },
+  {
+   "name": "camp4",
+   "position": [
+    11669,
+    -7463,
+    1768
+   ],
+   "yaw": -0.3489,
+   "pitch": 0.0054
+  },
+  {
+   "name": "camp5",
+   "position": [
+    -14518,
+    -13055,
+    2600
+   ],
+   "yaw": -1.4837,
+   "pitch": -0.037
+  },
+  {
+   "name": "d4_pens_from_rim",
+   "position": [
+    2419,
+    -7488,
+    1724
+   ],
+   "yaw": -1.2252,
+   "pitch": -0.4093
+  },
+  {
+   "name": "d4_door",
+   "position": [
+    3456,
+    -10138,
+    1096
+   ],
+   "yaw": -1.5708,
+   "pitch": -0.0866
+  },
+  {
+   "name": "d4_door_bay",
+   "position": [
+    3456,
+    -9214,
+    1096
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.1194
+  },
+  {
+   "name": "depot",
+   "position": [
+    16128,
+    -10080,
+    1818
+   ],
+   "yaw": -0.4993,
+   "pitch": -0.0366
+  },
+  {
+   "name": "foundry_slag_gate",
+   "position": [
+    14112,
+    15313,
+    2684
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.3253
+  },
+  {
+   "name": "slag_river",
+   "position": [
+    6912,
+    13248,
+    2892
+   ],
+   "yaw": 0.8288,
+   "pitch": -0.1669
+  },
+  {
+   "name": "kreegan_road_cut",
+   "position": [
+    2880,
+    14400,
+    2280
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.0822
+  },
+  {
+   "name": "north_edge",
+   "position": [
+    2880,
+    21024,
+    3112
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.1705
+  },
+  {
+   "name": "conveyor_under",
+   "position": [
+    1152,
+    -8064,
+    1780
+   ],
+   "yaw": 1.7197,
+   "pitch": 0.3381
+  },
+  {
+   "name": "pit_floor_harvester",
+   "position": [
+    -1728,
+    5472,
+    698
+   ],
+   "yaw": 0.0,
+   "pitch": -0.0881
+  },
+  {
+   "name": "aerial_pit",
+   "position": [
+    288,
+    -3456,
+    6600
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.75
+  },
+  {
+   "name": "aerial_camps_south",
+   "position": [
+    8640,
+    -19584,
+    6736
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.6
+  },
+  {
+   "name": "aerial_north",
+   "position": [
+    5760,
+    4032,
+    7272
+   ],
+   "yaw": 1.3156,
+   "pitch": -0.55
+  },
+  {
+   "name": "aerial_west",
+   "position": [
+    -10368,
+    -8640,
+    6536
+   ],
+   "yaw": 1.8925,
+   "pitch": -0.55
+  },
+  {
+   "name": "top_down_pit",
+   "position": [
+    288,
+    5472,
+    9000
+   ],
+   "yaw": 1.5708,
+   "pitch": -1.55
+  }
+ ]
+}

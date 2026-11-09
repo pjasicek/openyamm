@@ -1,0 +1,125 @@
+{
+  "runtime_assets": {
+    "grass_tuft.png": "81279840b2c14fda4711dec530a583f69a8455a9e79f4bdd38c72f6141d44d93",
+    "masks/6grdrte.png": "e0cc107f4235da0629123f635dab86a3c83ffd620dd621403dd02130dd359f3b",
+    "masks/6grdrtn.png": "b49fb2132c7207d76f16c2d01092d7ac7aac1f18b83b7add41c18f1700e9c716",
+    "masks/6grdrtne.png": "1dc19471683530369f05a35460f87499276b2cb3e0547412eded906dda5a9b9e",
+    "masks/6grdrtnw.png": "b6364181628e401dd87592f27eae271157bc2d37e344e077cbf5fb7b1a921c47",
+    "masks/6grdrts.png": "d86a7ab345eb9f47b4d43bb293e2f19aec1947aa3b31befb7aa516549c35d2fc",
+    "masks/6grdrtse.png": "e1338f3230a4701880b0522577aa136ebca08a1da9b6f705d8b95f279da77314",
+    "masks/6grdrtsw.png": "9e758f501e9274d348e01cd7aa9a74a3ab4996c09b99d733a5cb1e58e0a8c59f",
+    "masks/6grdrtw.png": "210e19f07d49513324a2cfe5397b413ba1bef859edd99a4dadb1569910c1e73d",
+    "masks/6grdrtxne.png": "b40421426d5f4d4729e88bdce97b59d93709ba07fda95dda90768bcf4f7df958",
+    "masks/6grdrtxnw.png": "a5737c3699ffaccc191261174ac21349bd685943c903c07c97965a28eaf75a87",
+    "masks/6grdrtxse.png": "f52da6dcb1b3b542360f62dc2394d46c249228c4372d770c0df3afc9a1b26a5a",
+    "masks/6grdrtxsw.png": "bdd2e8bf965ad3f15928a0eaa2e79fc38732e4a9515576cb238b1a32b4fe64c4",
+    "oute3.yml": "c9bbb7ea647a0d438c5ccfa9a8bd9b178a6cb2d0d8ffb7a5f9e7ee602f94f43d"
+  },
+  "enabled": {
+    "name": "ground_cover_final_on",
+    "world": "mm6",
+    "map": "oute3.odm",
+    "pose": [
+      -10000.0,
+      -12200.0,
+      161.0,
+      0.0,
+      -0.35
+    ],
+    "screenshot": "ground_cover_final_on.png",
+    "look_left": 0,
+    "look_down": 0,
+    "diagnostic_flying": false,
+    "warmup_seconds": 1.0,
+    "actions": "level_generation/terrain/mm6_ground_cover/review/walk.json",
+    "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+    "performance_sample": true,
+    "display": ":105",
+    "resolution": [
+      1600,
+      1200
+    ],
+    "vsync": false,
+    "measurement_seconds": 2.0,
+    "fps_samples": [
+      37.6396,
+      37.9903
+    ],
+    "median_fps": 37.814949999999996,
+    "binary_sha256": "6b5b571507f81ed06e07065ba43ce01539b0484b442a1e74206d7b1e90faa037",
+    "settings_sha256": "f7bf2a00b5d80b7fd1d48ef7c90e06cdce9a1508e3f22456714a74d327130a69",
+    "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+    "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+  },
+  "disabled": {
+    "name": "ground_cover_final_off",
+    "world": "mm6",
+    "map": "oute3.odm",
+    "pose": [
+      -10000.0,
+      -12200.0,
+      161.0,
+      0.0,
+      -0.35
+    ],
+    "screenshot": "ground_cover_final_off.png",
+    "look_left": 0,
+    "look_down": 0,
+    "diagnostic_flying": false,
+    "warmup_seconds": 1.0,
+    "actions": null,
+    "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+    "performance_sample": true,
+    "display": ":103",
+    "resolution": [
+      1600,
+      1200
+    ],
+    "vsync": false,
+    "measurement_seconds": 2.0,
+    "fps_samples": [
+      31.3999,
+      31.7559
+    ],
+    "median_fps": 31.5779,
+    "binary_sha256": "6b5b571507f81ed06e07065ba43ce01539b0484b442a1e74206d7b1e90faa037",
+    "settings_sha256": "be8e86c26fb49572eaa1ecdb6de1344a6488a9264e1f80c543163844638e4167",
+    "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+    "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+  },
+  "town": {
+    "name": "ground_cover_final_town",
+    "world": "mm6",
+    "map": "oute3.odm",
+    "pose": null,
+    "screenshot": "ground_cover_final_town.png",
+    "look_left": 0,
+    "look_down": 0,
+    "diagnostic_flying": false,
+    "warmup_seconds": 1.0,
+    "actions": null,
+    "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+    "performance_sample": true,
+    "display": ":106",
+    "resolution": [
+      1600,
+      1200
+    ],
+    "vsync": false,
+    "measurement_seconds": 2.0,
+    "fps_samples": [
+      31.3963,
+      31.1016
+    ],
+    "median_fps": 31.24895,
+    "binary_sha256": "6b5b571507f81ed06e07065ba43ce01539b0484b442a1e74206d7b1e90faa037",
+    "settings_sha256": "f7bf2a00b5d80b7fd1d48ef7c90e06cdce9a1508e3f22456714a74d327130a69",
+    "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+    "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+  },
+  "software_capture_only": true,
+  "shaders": {
+    "build/runtime/shaders/glsl/fs_terrain_decoration.bin": "d3d6ef1229bd0a9e8d2b4125dea84de722185329b6d82ad56941977aae854066",
+    "build/runtime/shaders/glsl/vs_terrain_decoration.bin": "3a5202a946e6c169cb3ae750de587e3814c53938d6fbbb7810fd213fb3718e21"
+  }
+}

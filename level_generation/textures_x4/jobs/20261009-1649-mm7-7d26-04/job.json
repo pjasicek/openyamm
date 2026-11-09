@@ -1,0 +1,622 @@
+{
+ "id": "20261009-1649-mm7-7d26-04",
+ "world": "mm7",
+ "maps": [
+  "7d26.blv",
+  "d02.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/7sgbank",
+  "mm7/7sgtrain",
+  "mm7/7sgtvrn",
+  "mm7/7tfb1",
+  "mm7/7tfb11",
+  "mm7/7tws1f",
+  "mm7/hhp2rf",
+  "mm7/sgdark",
+  "mm7/sgearth",
+  "mm7/sgmagi",
+  "mm7/sgweapon",
+  "mm7/t2d1",
+  "mm7/tfb06",
+  "mm7/tfb07",
+  "mm7/tfb09",
+  "mm7/trim3_32",
+  "mm7/trim6_16a",
+  "mm7/trim6_32",
+  "mm7/ceb1s",
+  "mm7/ceb1sa",
+  "mm7/ceb1ws",
+  "mm7/ceb1wsa",
+  "mm7/t5s1b",
+  "mm7/t5s1el"
+ ],
+ "requests": {
+  "mm7/7sgbank": {
+   "name": "7sgbank",
+   "versions": [
+    1
+   ],
+   "material": "square shop sign of dark wood boards in a riveted iron-cornered wooden frame, painted with a heap of gold coins; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7sgtrain": {
+   "name": "7sgtrain",
+   "versions": [
+    1
+   ],
+   "material": "square shop sign of dark wood boards in a riveted iron-cornered wooden frame, painted with a red and black archery target pierced by arrows; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7sgtvrn": {
+   "name": "7sgtvrn",
+   "versions": [
+    1
+   ],
+   "material": "square shop sign of dark wood boards in a riveted iron-cornered wooden frame, painted with a pewter tankard of foaming ale; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7tfb1": {
+   "name": "7tfb1",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown sandstone blocks in alternating large and small courses, pitted and chipped, with dark recessed mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7tfb11": {
+   "name": "7tfb11",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered dark grey-green stone blocks in alternating large and small courses, pitted and chipped, with dark recessed mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm7/hdr1b",
+     "top": "mm7/t2bs",
+     "left": "mm7/7t1books1",
+     "right": "mm7/7t1books1"
+    }
+   }
+  },
+  "mm7/7tws1f": {
+   "name": "7tws1f",
+   "versions": [
+    1
+   ],
+   "material": "pale pinkish-beige marble slab veined with a network of fine dark cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp2rf": {
+   "name": "hhp2rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of overlapping rows of weathered split-wood shakes, brown and grey, with dark gaps between rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgdark": {
+   "name": "sgdark",
+   "versions": [
+    1
+   ],
+   "material": "square shop sign of dark wood boards in a riveted wooden frame, painted with a black open hand bearing a blue eye in the palm; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgearth": {
+   "name": "sgearth",
+   "versions": [
+    1
+   ],
+   "material": "square shop sign of dark wood boards in a riveted wooden frame, painted with a grey rocky mountain with a blue eye at its heart; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgmagi": {
+   "name": "sgmagi",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "square shop sign of brown wood boards inside a blue enamelled frame, painted with a pale open hand with red gems at the fingertips; copy the composition exactly",
+   "notes": {
+    "2": "the inner board is brown wood planks like the other shop signs; only the outer frame is blue enamel; keep the hand and red gems exactly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sgweapon": {
+   "name": "sgweapon",
+   "versions": [
+    1
+   ],
+   "material": "square shop sign of dark wood boards in a riveted wooden frame, painted with a crossed steel battle axe and sword; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t2d1": {
+   "name": "t2d1",
+   "versions": [
+    1
+   ],
+   "material": "carved weathered grey-green stone door slab with a pointed gothic arch frame and a central interlaced knotwork panel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb06": {
+   "name": "tfb06",
+   "versions": [
+    1
+   ],
+   "material": "grey-green lichen-speckled stone blocks in mixed courses with deep black mortar gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tfb07": {
+   "name": "tfb07",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered dark brown-mauve stone blocks in mixed courses with dark recessed mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm7/cwb1",
+     "bottom": "mm7/twb1a",
+     "left": "mm7/tfb06"
+    }
+   }
+  },
+  "mm7/tfb09": {
+   "name": "tfb09",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered dark olive-green stone blocks in mixed courses with dark recessed mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/tfb09b-g",
+     "left": "mm7/tfb09f-g",
+     "top": "mm7/tfb09d-g",
+     "bottom": "mm7/7tfb1"
+    }
+   }
+  },
+  "mm7/trim3_32": {
+   "name": "trim3_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of vertical-grain brown wood plank",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim6_16a": {
+   "name": "trim6_16a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "single uninterrupted strip of horizontal-grain brown wood board",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/trim6_16",
+    "k": 3
+   }
+  },
+  "mm7/trim6_32": {
+   "name": "trim6_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of vertical-grain dark reddish-brown wood plank",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ceb1s": {
+   "name": "ceb1s",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, under a band of rough mossy rubble coping along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.861
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/ceb1sa": {
+   "name": "ceb1sa",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale grey-green squared limestone blocks with dark recessed mortar, under a band of rough mossy rubble coping along the top edge",
+   "notes": {
+    "3": "the topmost rows of the texture are the pale stone of the top course at full brightness, as in the native; no dark mortar line or shadow along the very top edge",
+    "4": "the dark mortar joint lies only at the bottom edge; the topmost pixel rows are already pale stone of the top course (the native's first row is bright), with no dark band at the top edge at all"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.861
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.861
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.871
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.871
+    }
+   }
+  },
+  "mm7/ceb1ws": {
+   "name": "ceb1ws",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, under a band of rough mossy rubble coping along the top edge, with an arched window opening lined by rough brown stone voussoirs and a stone sill around a black void",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.619
+    }
+   }
+  },
+  "mm7/ceb1wsa": {
+   "name": "ceb1wsa",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale grey-green squared limestone blocks with dark recessed mortar, under a band of rough mossy rubble coping along the top edge, with an arched window opening lined by rough brown stone voussoirs and a stone sill around a black void",
+   "notes": {
+    "2": "the very top rows are pale stone at full brightness (the native's first row is bright); the dark mortar joint belongs only at the bottom edge, never along the top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1ws",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.871
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1ws",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.871
+    }
+   }
+  },
+  "mm7/t5s1b": {
+   "name": "t5s1b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with one hairline vertical joint in the panel exactly as thin as in the reference",
+   "notes": {
+    "4": "the bottom moulding ends in a thin near-black groove directly against the tan top band of the next repeat; keep that groove exactly as dark and as thick as in the reference",
+    "5": "keep every band exactly at the reference's rows; the bottom tan band ends in a near-black groove that runs right down to the bottom edge, so the very last rows are near-black, never grey or tan; the granite is fine natural speckle, not cells",
+    "6": "keep every band, the zigzag reliefs and the single hairline joint exactly at the reference's rows and columns, nothing shifted; the thin near-black groove under the bottom band is followed directly by a bright pale highlight line at the top of the upper tan band; the granite is fine natural speckle, not cells",
+    "7": "keep every band exactly at the reference's rows; the near-black groove under the bottom tan band fills the bottom rows right down to the bottom edge, so the last rows of the image are near-black; the top edge starts directly with a bright pale highlight line on the upper tan band; the granite is fine natural speckle, not cells"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {}
+   },
+   "roll": {
+    "4": [
+     0,
+     64
+    ],
+    "6": [
+     0,
+     64
+    ]
+   }
+  },
+  "mm7/t5s1el": {
+   "name": "t5s1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with a carved golden-tan zigzag-lattice pilaster along the left edge; copy the composition exactly",
+   "notes": {
+    "3": "the grey granite panel is plain and unbroken between the zigzag and the sharp areas: no vertical groove, bar, dark streak or line anywhere in the granite; continue the sharp granite exactly",
+    "4": "the grey granite panel is plain and unbroken between the zigzag and the sharp areas: no vertical groove, bar, dark streak or line anywhere in the granite; continue the sharp granite exactly",
+    "5": "the grey speckled granite panel is one even tone across its whole width: no darker vertical stripe, streak, seam or line anywhere in the granite",
+    "6": "the narrow soft vertical strip in the middle of the granite panel is filled with exactly the same granite as the sharp granite on both sides of it: same brightness, grain and colour, so that no stripe, seam or line is visible there; the granite panel is one even slab",
+    "7": "the soft vertical strip between the sharp granite areas is the SAME granite at the SAME brightness as both sides: as light as the surrounding granite, no darker band, shadow, seam or line",
+    "8": "the grey speckled granite panel is one even slab of uniform brightness from the sawtooth to the right edge: no darker vertical band, stripe, seam or line anywhere in the granite"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.753
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.753
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.753
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.753
+    },
+    "5": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.753
+    },
+    "6": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.753
+    },
+    "7": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.753
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "4": {
+     "right": "mm7/t5s1b"
+    },
+    "5": {
+     "right": "mm7/t5s1b"
+    },
+    "6": {
+     "right": "mm7/t5s1b"
+    },
+    "7": {
+     "right": "mm7/t5s1b"
+    },
+    "8": {
+     "right": "mm7/t5s1b"
+    }
+   },
+   "standalone": true,
+   "match_neighbor": true
+  }
+ }
+}

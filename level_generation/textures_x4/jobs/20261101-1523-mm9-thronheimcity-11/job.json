@@ -1,0 +1,466 @@
+{
+ "id": "20261101-1523-mm9-thronheimcity-11",
+ "world": "mm9",
+ "maps": [
+  "thronheimcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/drangvi8ss",
+  "mm9/throb5l1e0",
+  "mm9/thjo8om175",
+  "mm9/drana5s9ii",
+  "mm9/ashwc9k8kr",
+  "mm9/thjoco2z9g",
+  "mm9/thjo2vlg4n",
+  "mm9/thjo8x5sx0",
+  "mm9/ashw2e0adw",
+  "mm9/thjonywk4u",
+  "mm9/thjonvvcq6",
+  "mm9/thjo8kibbg",
+  "mm9/ashfyuwmhi",
+  "mm9/rock722eoz",
+  "mm9/throguqhp1",
+  "mm9/thjoiit68s",
+  "mm9/thjo8uf184",
+  "mm9/thjof1gtgx",
+  "mm9/thjo44ztom",
+  "mm9/thjoft37ie",
+  "mm9/thro0ykl5g",
+  "mm9/dran3iqfq4",
+  "mm9/thjojvgc3m",
+  "mm9/ashfsl6iry"
+ ],
+ "requests": {
+  "mm9/drangvi8ss": {
+   "name": "drangvi8ss",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown stone wall of long rectangular blocks in staggered courses with dark joints and weathered greenish staining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/throb5l1e0": {
+   "name": "throb5l1e0",
+   "versions": [
+    1
+   ],
+   "material": "a round-arched pair of dark wooden door leaves in a teal-green iron frame with rivets, horizontal wooden panels above and a diamond iron lattice grille across the lower half, set in a grey-brown stone wall",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo8om175": {
+   "name": "thjo8om175",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: on the left a grey iron door with a curved strap across the top, a hook handle and a Celtic knotwork shield engraved below; on the right a dark brown plank door with three horizontal battens and a small ring pull",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/drana5s9ii": {
+   "name": "drana5s9ii",
+   "versions": [
+    1
+   ],
+   "material": "a weathered olive-brown wooden column surface with horizontal grain streaks and darker brown bands, rough and dusty",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashwc9k8kr": {
+   "name": "ashwc9k8kr",
+   "versions": [
+    1
+   ],
+   "material": "pale pinkish-grey stone wall of rectangular dressed blocks in staggered courses with thin dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoco2z9g": {
+   "name": "thjoco2z9g",
+   "versions": [
+    1
+   ],
+   "material": "a leaded window of pale blue-grey frosted glass in a dark brown frame, diagonal diamond panes across the top third and square panes in two rows below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo2vlg4n": {
+   "name": "thjo2vlg4n",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden wall of short stacked board ends divided into four panels by a thin grey-green cross of beams, one vertical and one horizontal",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo8x5sx0": {
+   "name": "thjo8x5sx0",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "a lattice of thin dark brown lead cames forming a diagonal diamond grid over pale grey frosted glass, nearly colourless with only a faint cool tint",
+   "notes": {
+    "2": "pale whitish-lavender glass as in the native, not saturated periwinkle blue, with the diamond leading spaced as in the native and the glass kept translucent (PNG alpha) like the native",
+    "3": "very pale whitish-lavender glass with only a faint cool tint (almost colourless), dark lead diamond lattice; no saturated blue or periwinkle",
+    "4": "glass colour is pale neutral grey, not blue; keep the diamond spacing exactly as in the native"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm9/ashw2e0adw": {
+   "name": "ashw2e0adw",
+   "versions": [
+    1
+   ],
+   "material": "grey stone wall of rectangular rough blocks in staggered courses, smaller flatter stones in the top rows and larger blocks below, with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjonywk4u": {
+   "name": "thjonywk4u",
+   "versions": [
+    1
+   ],
+   "material": "weathered tan and greenish wooden shingles in overlapping staggered rows with streaked vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjonvvcq6": {
+   "name": "thjonvvcq6",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: on the left a reddish wooden door with a raised border panel, two black wrought-iron fleur-de-lis hinge straps and a black iron handle; on the right a pair of grey-brown plank leaves with crossed X braces and two brass pull handles at the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo8kibbg": {
+   "name": "thjo8kibbg",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: on the left a grey-brown wooden door with a small rectangular panel at the top, carved corners at the bottom and a black iron ring knocker; on the right a brown plank door with an arched barred grille window at the top, horizontal rails and an iron latch handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashfyuwmhi": {
+   "name": "ashfyuwmhi",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown wooden wall of vertical planks with dark grain, cracks and a few nail heads",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/rock722eoz": {
+   "name": "rock722eoz",
+   "versions": [
+    1
+   ],
+   "material": "pale tan wall of small thin rectangular bricks in tight staggered courses with fine darker joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/throguqhp1": {
+   "name": "throguqhp1",
+   "versions": [
+    1
+   ],
+   "material": "a round-arched dark brown wooden door of vertical planks framed by a dark carved stone arch, two horizontal iron bands with round bosses, a heavy log beam across the bottom above a strip of green grass, grey-green wall behind",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoiit68s": {
+   "name": "thjoiit68s",
+   "versions": [
+    1
+   ],
+   "material": "a pair of brown wooden door leaves in a carved wooden frame, a rounded arch moulding in the upper left, dark burled wood panels in the upper and lower halves, and a gold handle on each leaf",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo8uf184": {
+   "name": "thjo8uf184",
+   "versions": [
+    1
+   ],
+   "material": "a pair of dark red-brown wooden door leaves divided into rows of recessed panels, small square panels with diamond carvings at the top and tall panels with lozenge carvings below, two gold cross-shaped handles at the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjof1gtgx": {
+   "name": "thjof1gtgx",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden frame of broad rough beams around a central inset panel of grey-brown stone bricks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo44ztom": {
+   "name": "thjo44ztom",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: on the left a grey weathered plank door with horizontal battens; on the right a brown plank door with a diagonal Z brace, a horizontal top rail and a small brass knob",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoft37ie": {
+   "name": "thjoft37ie",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: on the left a rust-brown wooden door carved with a grid of octagonal and square panels inset with dark red stones; on the right a brown vertical plank door with a diagonal brace, two black iron hinge straps and a brass handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thro0ykl5g": {
+   "name": "thro0ykl5g",
+   "versions": [
+    1
+   ],
+   "material": "grey-beige marble floor of irregular squares and rectangles of varying shades with faint white veining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dran3iqfq4": {
+   "name": "dran3iqfq4",
+   "versions": [
+    1
+   ],
+   "material": "olive-grey stone cornice with layered horizontal mouldings: a plain band at the top, a row of dentil blocks in the middle and a carved twisted rope or leaf garland band lower down",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjojvgc3m": {
+   "name": "thjojvgc3m",
+   "versions": [
+    1
+   ],
+   "material": "vertical bands side by side: a brown wooden pillar strip on the left, a broad dark blue-grey speckled stone band, a thin pale metal rod, and a copper-brown metallic panel with faint engraved bands on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashfsl6iry": {
+   "name": "ashfsl6iry",
+   "versions": [
+    1
+   ],
+   "material": "dark blue-grey rough stone wall of irregular rectangular blocks in uneven courses with deep dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

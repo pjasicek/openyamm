@@ -1,0 +1,261 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.frosgardcity_scripted
+title: Frosgard City (native BLV) - location key, shop hours, a letter, the altar, the maypole, the ice, the dockmaster, Tryggva's
+  reward, the battle
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: frosgardcity.blv
+- note:
+    text: 'ForadWorld.scr: the location key 1029 on load; shops close (5017) from 20:00 to 06:00.'
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    qbit_set:
+    - 91029
+- advance_game_time:
+    hours: 12
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_set:
+    - 95017
+- advance_game_time:
+    hours: 12
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    qbit_clear:
+    - 95017
+- note:
+    text: 'BookLetter.scr: Prop6 shows its text.'
+- execute_event:
+    id: 332
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'NPC190.scr: with the maypole task (267) and 500 gold, the dialogue''s close pays for the new maypole (268).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90267
+    value: true
+- console:
+    line: gold set 1000
+- interact_actor:
+    actor_index: 16
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 190
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1.2
+- assert:
+    qbit_set:
+    - 90268
+- note:
+    text: 'BreakIce.scr: with the quest (71) and the powder delivered (1022), the barrel on the ice goes off; its cinematic
+      (break_ice, 16.3 s) drops the floes in MM9''s waves and the quest is done (72).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90071
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 91022
+    value: true
+- assert:
+    mechanism:
+      id: 39
+      state: closed
+- execute_event:
+    id: 232
+- advance_runtime:
+    seconds: 17
+- assert:
+    qbit_set:
+    - 90072
+- assert:
+    mechanism:
+      id: 39
+      state: open
+- assert:
+    mechanism:
+      id: 61
+      state: open
+- note:
+    text: 'NPC209.scr: the dockmaster gives the dock schedule (378) once the docks are free.'
+- interact_actor:
+    actor_index: 8
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 209
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1.2
+- assert:
+    qbit_set:
+    - 90378
+- note:
+    text: 'NPC180.scr: Jarl Tryggva''s reward for the ice (73 -> 175).'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90073
+    value: true
+- interact_actor:
+    actor_index: 5
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      source_id: 180
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1.2
+- assert:
+    qbit_set:
+    - 90175
+- note:
+    text: 'BattleMan.scr: entering on key 104 starts the Battle of Frosgard (377): the Horde and the clan soldiers come, Forad
+      Darre and Tamur Leng appear.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90104
+    value: true
+- load_map:
+    map: frosgardcity.blv
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    qbit_set:
+    - 90377
+- note:
+    text: 'Forad.scr :OnAppear: after the battle starts Forad talks by himself when the party comes within 16 LT of him (no
+      click); closing it with 104 turns him on the party.'
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: false
+- set_pose:
+    map: frosgardcity.blv
+    x: -1319
+    y: -1556
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- assert:
+    dialog:
+      active: false
+- set_pose:
+    map: frosgardcity.blv
+    x: -929
+    y: -1556
+    z: 2
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.6
+    present_dialogs: true
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 2
+- assert:
+    dialog:
+      active: true
+      source_id: 2
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    actor_visible:
+      actor_index: 0
+      hostile_to_party: true
+- note:
+    text: 'TownPortal.scr: TownPortal0 stands dirty (490 shown, its clean twin 491 hidden); the click cleanses it: key 5015,
+      the dirty altar hides, the clean one shows.'
+- assert:
+    qbit_clear:
+    - 95015
+    sprite_shown:
+    - 490
+    sprite_hidden:
+    - 491
+- execute_event:
+    id: 330
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 95015
+    sprite_hidden:
+    - 490
+    sprite_shown:
+    - 491
+- note:
+    text: 'TownPortal.scr :Init (FixCheck): the map loaded again with key 5015 shows the clean altar.'
+- load_map:
+    map: frosgardcity.blv
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    qbit_set:
+    - 95015
+    sprite_hidden:
+    - 490
+    sprite_shown:
+    - 491
+- note:
+    text: 'NPC378.scr :OnFound: with key 83 Thorolf runs up to the party that he sees and talks (RUDE 378); the other copy
+      goes.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90083
+    value: true
+- load_map:
+    map: frosgardcity.blv
+- advance_runtime:
+    seconds: 1.0
+- set_pose:
+    map: frosgardcity.blv
+    x: 7820
+    y: 4014
+    z: -4
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 6.0
+    present_dialogs: true
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 378
+- assert:
+    dialog:
+      active: true
+      source_id: 378
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: true

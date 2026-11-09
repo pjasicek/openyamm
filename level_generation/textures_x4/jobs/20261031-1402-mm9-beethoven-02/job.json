@@ -1,0 +1,539 @@
+{
+ "id": "20261031-1402-mm9-beethoven-02",
+ "world": "mm9",
+ "maps": [
+  "beethoven.blv",
+  "yanmirsfort.blv",
+  "tasaracademy.blv"
+ ],
+ "created": "2026-10-31T13:02:09+00:00",
+ "textures": [
+  "mm9/sturs4z7pm",
+  "mm9/grbrfhshi0",
+  "mm9/meta70rntj",
+  "mm9/runeeyvlij",
+  "mm9/steekffksj",
+  "mm9/stur6vev4j",
+  "mm9/browp291is",
+  "mm9/sturwqt3jw",
+  "mm9/doorati45y",
+  "mm9/yanmdqw5xs",
+  "mm9/yanm29w4jz",
+  "mm9/yanm7qvkuw",
+  "mm9/yanmuj86hr",
+  "mm9/yanmc6oec9",
+  "mm9/yanmleoxzq",
+  "mm9/ruin5x58q0",
+  "mm9/regm4xxwm8",
+  "mm9/burl3ibj7r",
+  "mm9/soli76nocc",
+  "mm9/dung728ogg",
+  "mm9/dungt9pp96",
+  "mm9/tasaxbie6r",
+  "mm9/tasa9e789m",
+  "mm9/tasaz7phf7"
+ ],
+ "requests": {
+  "mm9/sturs4z7pm": {
+   "name": "sturs4z7pm",
+   "versions": [
+    1
+   ],
+   "material": "pale blue-grey smooth stone floor with soft cloudy mottling and faint worn scuffs, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/grbrfhshi0": {
+   "name": "grbrfhshi0",
+   "versions": [
+    1
+   ],
+   "material": "weathered vertical wooden planks, dark grey-brown with green mossy damp streaks and lichen, cracked grain and dark gaps between planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/meta70rntj": {
+   "name": "meta70rntj",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a small square of dull grey-brown riveted iron plate with a round rivet at each corner, fine scratches and mottled tarnish",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     35
+    ]
+   }
+  },
+  "mm9/runeeyvlij": {
+   "name": "runeeyvlij",
+   "versions": [
+    1
+   ],
+   "material": "a narrow pale beige carved stone trim band with a row of engraved angular runes between two thin raised mouldings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/steekffksj": {
+   "name": "steekffksj",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "two horizontal round polished steel ladder rungs with soft metallic highlights, evenly spaced across a plain black background",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     32
+    ]
+   }
+  },
+  "mm9/stur6vev4j": {
+   "name": "stur6vev4j",
+   "versions": [
+    1
+   ],
+   "material": "a cobblestone floor of irregular rounded grey, slate and brown-pink stones set in dark mortar, worn smooth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/browp291is": {
+   "name": "browp291is",
+   "versions": [
+    1
+   ],
+   "material": "a narrow strip of coarse orange-brown woven burlap fabric with a dark frayed edge along the top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturwqt3jw": {
+   "name": "sturwqt3jw",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale grey stone wall with faint greenish damp mottling, a carved moulded cornice band of small brackets along the top, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/doorati45y": {
+   "name": "doorati45y",
+   "versions": [
+    1
+   ],
+   "material": "a pair of heavy dark brown oak plank door leaves with black iron straps and studs: the left leaf with a small rectangular sliding peephole and a latch, the right leaf with a small barred window and ornate black iron scroll hinges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/yanmdqw5xs": {
+   "name": "yanmdqw5xs",
+   "versions": [
+    1
+   ],
+   "material": "a wall of translucent pale blue glacier ice with soft cloudy white streaks and faint cracks, slightly brighter frosted bands along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/yanm29w4jz": {
+   "name": "yanm29w4jz",
+   "versions": [
+    1
+   ],
+   "material": "rough frosted pale blue snow-ice with fine sparkling white crystals and soft cloudy texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/yanm7qvkuw": {
+   "name": "yanm7qvkuw",
+   "versions": [
+    1
+   ],
+   "material": "pale blue ice ceiling with a network of faint darker blue cracks and raised ice ridges, frosted surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/yanmuj86hr": {
+   "name": "yanmuj86hr",
+   "versions": [
+    1
+   ],
+   "material": "pale blue glacier ice tile with soft cloudy white patches and faint smooth undulations, a gentle bright glow near the bottom centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/yanmc6oec9": {
+   "name": "yanmc6oec9",
+   "versions": [
+    1
+   ],
+   "material": "a pale blue ice column surface with horizontal bulging rounded segments, glossy frozen highlights and cloudy white streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/yanmleoxzq": {
+   "name": "yanmleoxzq",
+   "versions": [
+    1
+   ],
+   "material": "deep blue solid glacier ice with soft cloudy lighter patches and a faint frosted top edge, smooth glossy surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ruin5x58q0": {
+   "name": "ruin5x58q0",
+   "versions": [
+    1
+   ],
+   "material": "dark rough bark-like weathered wood of vertical cracked fibres and deep crevices, dark brown with grey highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/regm4xxwm8": {
+   "name": "regm4xxwm8",
+   "versions": [
+    1
+   ],
+   "material": "dark brown-grey weathered metal plate with fine horizontal brushed streaks and mottled grime, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/burl3ibj7r": {
+   "name": "burl3ibj7r",
+   "versions": [
+    1
+   ],
+   "material": "a coarse dark brown woven burlap curtain with vertical folds, frayed fibres, a ragged hem along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/soli76nocc": {
+   "name": "soli76nocc",
+   "versions": [
+    1
+   ],
+   "material": "pale blue glacier ice with soft cloudy white patches and faint smooth undulations",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung728ogg": {
+   "name": "dung728ogg",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a row of old leather-bound books standing on a shelf: tall green, grey, brown and red spines with faded gold titles and bands, dark gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     33,
+     0
+    ]
+   }
+  },
+  "mm9/dungt9pp96": {
+   "name": "dungt9pp96",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a row of old leather-bound books standing on a shelf: tall green, grey, red and blue spines with faded gold lettering and bands, dark gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     65,
+     0
+    ]
+   }
+  },
+  "mm9/tasaxbie6r": {
+   "name": "tasaxbie6r",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pale ochre stone academy wall: a top band of carved horizontal stone mouldings, below it tall vertical fluted stone panels separated by narrow pilasters, a plain moulded base, weathered warm sandstone colour",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     32
+    ]
+   }
+  },
+  "mm9/tasa9e789m": {
+   "name": "tasa9e789m",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "a sandstone wall panel: a pointed stepped stone arch frame enclosing a recessed panel; just under the arch's springing line a horizontal carved Greek-key meander frieze band (interlocking square spirals) runs across the full width of the panel; below that frieze, vertical wooden-looking planks",
+   "notes": {
+    "2": "keep the native's carved Greek-key (meander) frieze band running across under the pointed arch, above the vertical planks",
+    "3": "the Greek-key meander band is mandatory: a clearly carved row of square spiral hooks, the same height and position as in the native",
+    "4": "the reference is sharp on purpose: copy the thin carved Greek-key meander frieze under the arch exactly as it appears, a continuous row of small interlocking square spirals"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/tasaxbie6r"
+     ],
+     "fraction": 0.671
+    },
+    "2": {
+     "sources": [
+      "mm9/tasaxbie6r"
+     ],
+     "fraction": 0.671
+    },
+    "3": {
+     "sources": [
+      "mm9/tasaxbie6r"
+     ],
+     "fraction": 0.671
+    },
+    "4": {
+     "sources": [
+      "mm9/tasaxbie6r"
+     ],
+     "fraction": 0.671
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {}
+   },
+   "ref_blur": {
+    "4": 0.0
+   }
+  },
+  "mm9/tasaz7phf7": {
+   "name": "tasaz7phf7",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale yellow-beige plaster wall with soft mottled stains and fine trowel texture, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

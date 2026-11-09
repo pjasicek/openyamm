@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit ONLY image 1, the exact mesh-guide atlas. Image 2 is the authentic inventory icon, for colour/material reference. Preserve the EXACT 3:4 portrait canvas, THREE equal columns and FOUR equal rows, every object silhouette, position, size, opening and internal shape edge. Do not redesign geometry or add/cut holes. TOP TWO ROWS: paint UNLIT realistic base colour on the five grey views: row 1 FRONT/BACK/LEFT, row 2 RIGHT/TOP/EMPTY. Identity: Traveller's Hat: soft warm tan linen/velvet beret with crumpled sloping crown, curved folded brim and a small tan fabric-covered round top button. Fine restrained woven grain, continuous cloth at folds, tan fabric lining. No metal, no gems, no extra ornaments. Flat shadowless even illumination: NO cast shadows, ambient-occlusion darkening, reflections, specular highlights or rim lighting. All solid guide surfaces remain opaque. BOTTOM TWO ROWS: exact corresponding flat material-ID masks with no texture or shading. EVERY part of this hat, including button, brim and interior, is pure BLUE #0000ff. No red, green, yellow or black material regions. The masks must align precisely to the painted surfaces above and use pure solid class colours, without gradients or darkened areas. Preserve transparency around every view, inside true openings and in both empty right-hand cells. No haze, text, labels, borders or floor. Output ONE 1536x2048 transparent PNG. Exact guide registration is mandatory.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-1aefd3ba-1941-4656-94a1-417bac99ed07.png",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_7item095/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/7item095.png"
+  ],
+  "selected": false,
+  "reason": "Awaiting registration, bake and culling review",
+  "raw_sha256": "198ac0bfacc8bd5d61a3f4912f0a06d79a854993acf1f538e10684008f98a7d5",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_7item095/paint_mask_guide.png": "53c423c3a392a7fa6baf54065db6f90020112240aea3f77a300ecae293f4f037",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/7item095.png": "5083761baaabb10feb9785dfe9204f5ed511c44adb4179500c5c352effbf6e0d"
+  },
+  "prepared_scene_sha256": "6f273e18de13722490c5340b6b02dbb52e0356c1ad7b04f6bd5ef8ed3e7f47a1"
+}

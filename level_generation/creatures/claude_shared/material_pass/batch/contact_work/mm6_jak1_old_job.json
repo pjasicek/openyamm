@@ -1,0 +1,27 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_jak1_old.glb",
+ "patch_materials": {
+  "Jackalman_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Jackalman_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Jackalman_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_jak1_old",
+ "size": 300,
+ "front": "-y"
+}

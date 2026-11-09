@@ -1,0 +1,140 @@
+{
+ "sprite": "6tree18",
+ "output": "mm6_deco_tree18.glb",
+ "height_m": 3.07,
+ "note": "Dark dense columnar conifer: ragged grey-green needle crown from a quarter of the height, straight slim trunk.",
+ "sapling": {
+  "scale": 2.17,
+  "shape": "3",
+  "baseSplits": 0,
+  "baseSize": 0.22,
+  "splitHeight": 0.5,
+  "seed": 141,
+  "ratio": 0.03,
+  "segSplits": [
+   0,
+   0.1,
+   0.2,
+   0
+  ],
+  "branches": [
+   0,
+   60,
+   10,
+   8
+  ],
+  "downAngle": [
+   90,
+   70,
+   45,
+   45
+  ],
+  "attractUp": [
+   0,
+   0.25,
+   0.3,
+   0
+  ],
+  "length": [
+   1.0,
+   0.25,
+   0.35,
+   0.3
+  ],
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "rootFlare": 1.2
+ },
+ "crown": {
+  "canopy_low": 0.13,
+  "centre": 0.55,
+  "clumps": 260,
+  "inner_clumps": 30,
+  "outer_radius": [
+   0.12,
+   0.2
+  ],
+  "inner_radius": [
+   0.11,
+   0.16
+  ],
+  "card": [
+   0.22,
+   0.3
+  ],
+  "gap": 0.9,
+  "radius_by_width": 0.35,
+  "lobes": {
+   "fraction": 0.45,
+   "slack": 1.35
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   96,
+   86,
+   78
+  ],
+  "min_thickness": [
+   0.01,
+   0.025,
+   0.045
+  ],
+  "root_reach": 0.12,
+  "roots": 0,
+  "clip_below_crown": true
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "lod2_card_scale": 0.9,
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    1.05,
+    1.05,
+    1.05
+   ]
+  ]
+ },
+ "leaves": {
+  "kind": "needles",
+  "target_srgb": [
+   120,
+   150,
+   112
+  ],
+  "seeds": [
+   141,
+   157,
+   173,
+   191
+  ],
+  "value": [
+   0.85,
+   1.6
+  ],
+  "jitter_blue": [
+   0.9,
+   1.2
+  ]
+ },
+ "impostor_tone": [
+  0.936,
+  0.926,
+  0.956
+ ],
+ "transparent_bounces": 64
+}

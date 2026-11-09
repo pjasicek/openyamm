@@ -1,0 +1,107 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "town_terraces",
+        "target": [
+          -11500,
+          13500,
+          450
+        ],
+        "span": 16000
+      },
+      "image": "level_generation/evidence/mm7/7out02_decor_town_terraces.png",
+      "camera_position": [
+        -4255.59326171875,
+        -988.8134765625,
+        18158.55078125
+      ],
+      "highlighted": [
+        {
+          "index": 237,
+          "name": "7tree13",
+          "position": [
+            -10864,
+            13488,
+            129
+          ]
+        },
+        {
+          "index": 93,
+          "name": "flower01",
+          "position": [
+            -12480,
+            12032,
+            0
+          ]
+        },
+        {
+          "index": 30,
+          "name": "7rock09",
+          "position": [
+            -12864,
+            16208,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "terrain_enclosure",
+        "target": [
+          0,
+          0,
+          1300
+        ],
+        "span": 85000
+      },
+      "image": "level_generation/evidence/mm7/7out02_decor_terrain_enclosure.png",
+      "camera_position": [
+        38485.9140625,
+        -76971.828125,
+        95376.6875
+      ],
+      "highlighted": [
+        {
+          "index": 548,
+          "name": "7tree16",
+          "position": [
+            1408,
+            -864,
+            142
+          ]
+        },
+        {
+          "index": 209,
+          "name": "flower06",
+          "position": [
+            -8448,
+            4320,
+            2256
+          ]
+        },
+        {
+          "index": 215,
+          "name": "7rock08",
+          "position": [
+            -9472,
+            -6784,
+            0
+          ]
+        },
+        {
+          "index": 566,
+          "name": "dec24x",
+          "position": [
+            784,
+            -20760,
+            640
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

@@ -1,0 +1,1726 @@
+{
+  "status": "Frontage revision built, visually reviewed and packaged; see FRONTAGE_REVISION.md",
+  "map": "lg01.odm",
+  "name": "Brackenford",
+  "reference": "mm8/out02.odm",
+  "units": "native MM8 units; XY design points, Z sampled from authored heightfield",
+  "terrain": {
+    "format": "128x128 native heightfield",
+    "cell_spacing": 512,
+    "height_quantum": 32,
+    "biome": "MM8 grassland",
+    "town_height_target": "576\u2013704 streets; temple pad 1088; manor plateau 1536, graded approaches",
+    "castle_height_target": 1536,
+    "cave_hill_height_target": 1280,
+    "river_centerline": [
+      [
+        4096,
+        -22528
+      ],
+      [
+        3072,
+        -12288
+      ],
+      [
+        4096,
+        -6144
+      ],
+      [
+        5120,
+        0
+      ],
+      [
+        4096,
+        7680
+      ],
+      [
+        5632,
+        15360
+      ],
+      [
+        4096,
+        22528
+      ]
+    ],
+    "river_width_cells": 2,
+    "bridge_center": [
+      5120,
+      0
+    ],
+    "bridge_clear_width": 1024,
+    "tile_policy": "reuse validated MM8 grass/dirt/road/river bank transition families; derive adjacency, inspect tile map",
+    "composition": "Driver sketch: irregular loop with slanted west edge and smaller southern lane; raised manor north of town and rotated temple inside loop.",
+    "ponds": [
+      {
+        "id": "north_meadow_pond",
+        "xy": [
+          -512,
+          17920
+        ],
+        "radii": [
+          1408,
+          1024
+        ],
+        "water_z": 512,
+        "role": "quiet irregular grassland pond below northern ridge"
+      }
+    ],
+    "bridge": {
+      "deck_z": 1152,
+      "span": [
+        3072,
+        7680
+      ],
+      "width_y": [
+        -256,
+        768
+      ],
+      "terrain_clearance": 64,
+      "bank_approaches": "graded to the full-width native deck; inspect cross-sections, not only bank anchors"
+    },
+    "soil_patches": [
+      {
+        "xy": [
+          -3584,
+          4096
+        ],
+        "radii": [
+          1152,
+          896
+        ]
+      },
+      {
+        "xy": [
+          -512,
+          8192
+        ],
+        "radii": [
+          896,
+          768
+        ]
+      },
+      {
+        "xy": [
+          -512,
+          -3072
+        ],
+        "radii": [
+          768,
+          1152
+        ]
+      },
+      {
+        "xy": [
+          -5120,
+          -9728
+        ],
+        "radii": [
+          1024,
+          768
+        ]
+      },
+      {
+        "xy": [
+          -11264,
+          -11776
+        ],
+        "radii": [
+          896,
+          1280
+        ]
+      },
+      {
+        "xy": [
+          -17408,
+          -11776
+        ],
+        "radii": [
+          1152,
+          768
+        ]
+      },
+      {
+        "xy": [
+          -9728,
+          10240
+        ],
+        "radii": [
+          1024,
+          768
+        ]
+      },
+      {
+        "xy": [
+          10240,
+          5632
+        ],
+        "radii": [
+          896,
+          768
+        ]
+      },
+      {
+        "xy": [
+          10240,
+          -4096
+        ],
+        "radii": [
+          768,
+          1152
+        ]
+      },
+      {
+        "xy": [
+          14848,
+          -23040
+        ],
+        "radii": [
+          896,
+          768
+        ]
+      },
+      {
+        "xy": [
+          -6656,
+          20480
+        ],
+        "radii": [
+          1024,
+          768
+        ]
+      }
+    ]
+  },
+  "buildings": [
+    {
+      "id": "stables",
+      "xy": [
+        -6208,
+        -4096
+      ],
+      "reference_house_profile": 452,
+      "target_footprint": [
+        768,
+        1536
+      ],
+      "form": "barn",
+      "local_footprint": [
+        1536,
+        768
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": 0,
+      "service_sign": "SGstabl",
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "weapon_shop",
+      "xy": [
+        -10048,
+        -6080
+      ],
+      "reference_house_profile": 2,
+      "target_footprint": [
+        768,
+        768
+      ],
+      "form": "shop_bay",
+      "local_footprint": [
+        768,
+        768
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "service_sign": "sgWeap",
+      "shared_block": "smiths_row",
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "armor_shop",
+      "xy": [
+        -10816,
+        -6080
+      ],
+      "reference_house_profile": 37,
+      "target_footprint": [
+        768,
+        768
+      ],
+      "form": "shop_bay",
+      "local_footprint": [
+        768,
+        768
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "service_sign": "sgArm",
+      "shared_block": "smiths_row",
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "magic_shop",
+      "xy": [
+        -8192,
+        -3456
+      ],
+      "reference_house_profile": 77,
+      "target_footprint": [
+        768,
+        640
+      ],
+      "form": "turret_house",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "service_sign": "sgMAGIC",
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "civic_hall",
+      "xy": [
+        -14592,
+        7936
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        4352,
+        1792
+      ],
+      "form": "manor",
+      "local_footprint": [
+        4352,
+        1792
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "elevation": 1536,
+      "approach_kind": "dedicated_lane"
+    },
+    {
+      "id": "tavern",
+      "xy": [
+        -9984,
+        960
+      ],
+      "reference_house_profile": 229,
+      "target_footprint": [
+        1280,
+        896
+      ],
+      "form": "inn",
+      "local_footprint": [
+        1280,
+        896
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "service_sign": "sgTvrn",
+      "approach_kind": "dedicated_lane"
+    },
+    {
+      "id": "temple",
+      "xy": [
+        -13782,
+        1066
+      ],
+      "reference_house_profile": 304,
+      "target_footprint": [
+        2172,
+        2172
+      ],
+      "form": "chapel",
+      "local_footprint": [
+        1536,
+        1536
+      ],
+      "rotation_degrees": 135,
+      "door_offset_x": 0,
+      "elevation": 1088,
+      "approach_kind": "dedicated_lane"
+    },
+    {
+      "id": "training",
+      "xy": [
+        -6080,
+        -768
+      ],
+      "reference_house_profile": 1568,
+      "target_footprint": [
+        1024,
+        1280
+      ],
+      "form": "courtyard",
+      "local_footprint": [
+        1280,
+        1024
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": -384,
+      "service_sign": "sgTrain",
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "alchemist",
+      "xy": [
+        -6272,
+        1792
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": 0,
+      "service_sign": "sgAlch",
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "teacher_1",
+      "xy": [
+        -15872,
+        4032
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "gable",
+      "local_footprint": [
+        640,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "teacher_2",
+      "xy": [
+        -13312,
+        3904
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        512
+      ],
+      "form": "flat",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "teacher_3",
+      "xy": [
+        -11264,
+        4032
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        768,
+        640
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "teacher_4",
+      "xy": [
+        -9216,
+        3008
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "gable",
+      "local_footprint": [
+        640,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "resident_1",
+      "xy": [
+        -7680,
+        2880
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        512
+      ],
+      "form": "flat",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "resident_2",
+      "xy": [
+        -18304,
+        2816
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "turret_house",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "resident_3",
+      "xy": [
+        -18368,
+        1280
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        768,
+        640
+      ],
+      "form": "gable",
+      "local_footprint": [
+        640,
+        768
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "resident_4",
+      "xy": [
+        -17232,
+        -1088
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        996,
+        996
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 135,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "resident_5",
+      "xy": [
+        -15760,
+        -2464
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        815,
+        815
+      ],
+      "form": "flat",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 135,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "resident_6",
+      "xy": [
+        -14720,
+        -4352
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "warehouse_1",
+      "xy": [
+        -12288,
+        -4672
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        1024,
+        768
+      ],
+      "form": "barn",
+      "local_footprint": [
+        1024,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "warehouse_2",
+      "xy": [
+        -7936,
+        -4672
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        1024,
+        768
+      ],
+      "form": "barn",
+      "local_footprint": [
+        1024,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "residence_7",
+      "xy": [
+        -12800,
+        -5952
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        512
+      ],
+      "form": "flat",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "residence_8",
+      "xy": [
+        -6912,
+        -6080
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "gable",
+      "local_footprint": [
+        640,
+        768
+      ],
+      "rotation_degrees": 180,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "residence_9",
+      "xy": [
+        -10624,
+        -640
+      ],
+      "reference_house_profile": null,
+      "target_footprint": [
+        640,
+        768
+      ],
+      "form": "hipped",
+      "local_footprint": [
+        768,
+        640
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage"
+    },
+    {
+      "id": "well_lane_cottage",
+      "xy": [
+        -10624,
+        -1920
+      ],
+      "reference_house_profile": null,
+      "form": "gable",
+      "local_footprint": [
+        640,
+        640
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        640,
+        640
+      ]
+    },
+    {
+      "id": "court_west_long",
+      "xy": [
+        -9280,
+        -1472
+      ],
+      "reference_house_profile": null,
+      "form": "barn",
+      "local_footprint": [
+        1024,
+        768
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        768,
+        1024
+      ]
+    },
+    {
+      "id": "court_west_small",
+      "xy": [
+        -9344,
+        -128
+      ],
+      "reference_house_profile": null,
+      "form": "flat",
+      "local_footprint": [
+        640,
+        640
+      ],
+      "rotation_degrees": 270,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        640,
+        640
+      ]
+    },
+    {
+      "id": "court_south_long",
+      "xy": [
+        -7936,
+        -2112
+      ],
+      "reference_house_profile": null,
+      "form": "hipped",
+      "local_footprint": [
+        1024,
+        768
+      ],
+      "rotation_degrees": 0,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        1024,
+        768
+      ]
+    },
+    {
+      "id": "court_east_small",
+      "xy": [
+        -7552,
+        -1024
+      ],
+      "reference_house_profile": null,
+      "form": "gable",
+      "local_footprint": [
+        640,
+        512
+      ],
+      "rotation_degrees": 90,
+      "door_offset_x": 0,
+      "approach_kind": "street_frontage",
+      "target_footprint": [
+        512,
+        640
+      ]
+    }
+  ],
+  "roads": {
+    "main": [
+      [
+        -24320,
+        -1280
+      ],
+      [
+        -19200,
+        -1280
+      ],
+      [
+        -17664,
+        256
+      ]
+    ],
+    "branches": "Sketch-driven unequal loop, diagonal west flank, short inn lane, southern residential loop, separate manor and temple ascents.",
+    "town_square": [
+      -8192,
+      256
+    ],
+    "street_spines": [
+      {
+        "id": "upper_loop",
+        "points": [
+          [
+            -17664,
+            256
+          ],
+          [
+            -17664,
+            3328
+          ],
+          [
+            -9984,
+            3328
+          ],
+          [
+            -9984,
+            2304
+          ],
+          [
+            -6912,
+            2304
+          ],
+          [
+            -6912,
+            -2816
+          ],
+          [
+            -14080,
+            -2816
+          ]
+        ]
+      },
+      {
+        "id": "southern_lane",
+        "points": [
+          [
+            -14080,
+            -2816
+          ],
+          [
+            -14080,
+            -5376
+          ],
+          [
+            -6912,
+            -5376
+          ],
+          [
+            -6912,
+            -2816
+          ]
+        ]
+      },
+      {
+        "id": "manor_ascent",
+        "points": [
+          [
+            -14592,
+            3328
+          ],
+          [
+            -14592,
+            6400
+          ]
+        ]
+      },
+      {
+        "id": "temple_ascent",
+        "points": [
+          [
+            -12032,
+            3328
+          ],
+          [
+            -12032,
+            2304
+          ],
+          [
+            -13056,
+            1792
+          ]
+        ]
+      },
+      {
+        "id": "inn_lane",
+        "points": [
+          [
+            -9984,
+            -2816
+          ],
+          [
+            -9984,
+            256
+          ]
+        ]
+      },
+      {
+        "id": "bridge_link",
+        "points": [
+          [
+            -6912,
+            256
+          ],
+          [
+            2816,
+            256
+          ],
+          [
+            7936,
+            256
+          ],
+          [
+            12544,
+            3840
+          ]
+        ]
+      }
+    ],
+    "diagonal": {
+      "first_cell": [
+        63,
+        30
+      ],
+      "length": 6,
+      "description": "Native NE1/NE2 pairs form southwest slanted street from west loop to lower junction"
+    },
+    "purpose_policy": "Roads serve the town, castle and regional connections. The natural cave, ogre camps and wilderness treasure remain off-road; do not draw a road to every point of interest."
+  },
+  "population": {
+    "guards": 9,
+    "villagers": 20,
+    "ambient_house_residents_min": 6,
+    "existing_mm8_teachers": 4
+  },
+  "encounters": [
+    {
+      "id": "eastern_ogres",
+      "xy": [
+        20480,
+        3584
+      ],
+      "monster_ids": [
+        32,
+        32,
+        33,
+        32,
+        33,
+        107,
+        108
+      ],
+      "offsets": [
+        [
+          -1152,
+          -256
+        ],
+        [
+          -768,
+          768
+        ],
+        [
+          0,
+          1152
+        ],
+        [
+          896,
+          768
+        ],
+        [
+          1024,
+          -512
+        ],
+        [
+          -256,
+          -1024
+        ],
+        [
+          384,
+          0
+        ]
+      ],
+      "ally": 11,
+      "role": "guard loot clearing"
+    },
+    {
+      "id": "southern_ogres",
+      "xy": [
+        10240,
+        -20736
+      ],
+      "monster_ids": [
+        32,
+        32,
+        33,
+        32,
+        33,
+        107,
+        108
+      ],
+      "offsets": [
+        [
+          -1152,
+          -256
+        ],
+        [
+          -768,
+          768
+        ],
+        [
+          0,
+          1152
+        ],
+        [
+          896,
+          768
+        ],
+        [
+          1024,
+          -512
+        ],
+        [
+          -256,
+          -1024
+        ],
+        [
+          384,
+          0
+        ]
+      ],
+      "ally": 11,
+      "role": "guard loot clearing"
+    },
+    {
+      "id": "northwood_hollow",
+      "xy": [
+        -15000,
+        20500
+      ],
+      "extent": [
+        850,
+        650
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "wolf hollow off the northern route"
+    },
+    {
+      "id": "northwood_ridge",
+      "xy": [
+        -9500,
+        19200
+      ],
+      "extent": [
+        1150,
+        550
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "separate wooded ridge"
+    },
+    {
+      "id": "northwood_edge",
+      "xy": [
+        -5000,
+        22000
+      ],
+      "extent": [
+        650,
+        1000
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "woodland edge; clear ground towards pond"
+    },
+    {
+      "id": "southwood_hollow",
+      "xy": [
+        -16500,
+        -20500
+      ],
+      "extent": [
+        750,
+        850
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "southern woodland hollow"
+    },
+    {
+      "id": "southwood_slope",
+      "xy": [
+        -11000,
+        -18000
+      ],
+      "extent": [
+        1200,
+        650
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "southern slope; leave town departure quiet"
+    },
+    {
+      "id": "southwood_edge",
+      "xy": [
+        -4500,
+        -21700
+      ],
+      "extent": [
+        750,
+        850
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "separate southeast woodland edge"
+    },
+    {
+      "id": "east_ridge_patrol",
+      "xy": [
+        21500,
+        10500
+      ],
+      "extent": [
+        1000,
+        1700
+      ],
+      "monster_ids": [
+        100,
+        101,
+        101,
+        101,
+        102,
+        102
+      ],
+      "ally": 0,
+      "role": "loose centaur patrol beyond castle approach"
+    },
+    {
+      "id": "east_lowland_patrol",
+      "xy": [
+        22500,
+        -6500
+      ],
+      "extent": [
+        750,
+        1500
+      ],
+      "monster_ids": [
+        100,
+        101,
+        101,
+        102,
+        102
+      ],
+      "ally": 0,
+      "role": "loose centaur patrol between distant ogre camps"
+    },
+    {
+      "id": "den_wolves",
+      "xy": [
+        16500,
+        -19100
+      ],
+      "extent": [
+        950,
+        700
+      ],
+      "monster_ids": [
+        85,
+        86,
+        86,
+        86,
+        87,
+        87
+      ],
+      "ally": 0,
+      "role": "guard cave approach and nearby chest"
+    },
+    {
+      "id": "east_mages_01",
+      "xy": [
+        23700,
+        12500
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_02",
+      "xy": [
+        17000,
+        10000
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_03",
+      "xy": [
+        17200,
+        5500
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_04",
+      "xy": [
+        17700,
+        -3000
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_05",
+      "xy": [
+        23500,
+        -2500
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_06",
+      "xy": [
+        17800,
+        -8800
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    },
+    {
+      "id": "east_mages_07",
+      "xy": [
+        23100,
+        -11200
+      ],
+      "extent": [
+        650,
+        550
+      ],
+      "monster_ids": [
+        904,
+        905,
+        906
+      ],
+      "ally": 34,
+      "role": "Restored MM6 mage trio near eastern centaur territory; native attacks, allied with centaurs, hostile to party"
+    }
+  ],
+  "loot_sites": [
+    {
+      "id": "east_cache",
+      "xy": [
+        21504,
+        3584
+      ],
+      "chests": 2,
+      "loose_items": 3,
+      "guard_encounter": "eastern_ogres"
+    },
+    {
+      "id": "south_cache",
+      "xy": [
+        10240,
+        -22528
+      ],
+      "chests": 1,
+      "loose_items": 2,
+      "guard_encounter": "southern_ogres"
+    },
+    {
+      "id": "den_cache",
+      "xy": [
+        14848,
+        -18432
+      ],
+      "chests": 1,
+      "loose_items": 0,
+      "guard_encounter": "den_wolves"
+    }
+  ],
+  "treasure_level": 6,
+  "landmarks": [
+    {
+      "id": "castle",
+      "xy": [
+        15360,
+        17920
+      ],
+      "footprint": [
+        5120,
+        4096
+      ],
+      "construction": "original tower/gate/curtain composition using MM8 textures",
+      "destination": "lg02:castle"
+    },
+    {
+      "id": "cave",
+      "xy": [
+        16384,
+        -15872
+      ],
+      "construction": "new rough mouth at hillside edge; no exposed heightfield across mouth",
+      "destination": "lg02:cave"
+    },
+    {
+      "id": "obelisk",
+      "xy": [
+        -18432,
+        15360
+      ],
+      "state": "isolated local discovery; existing MM8 inscription"
+    },
+    {
+      "id": "well",
+      "xy": [
+        -12800,
+        -1792
+      ],
+      "state": "existing temporary Might well"
+    },
+    {
+      "id": "well_south",
+      "xy": [
+        -10240,
+        -3584
+      ],
+      "state": "refreshing village well"
+    },
+    {
+      "id": "fountain",
+      "xy": [
+        -8192,
+        256
+      ],
+      "state": "selected character +15 HP and +15 SP, 40 shared uses per game day"
+    }
+  ],
+  "arrivals": [
+    {
+      "id": "default",
+      "xy": [
+        -19456,
+        -1536
+      ]
+    },
+    {
+      "id": "stable",
+      "xy": [
+        -6656,
+        -4096
+      ]
+    },
+    {
+      "id": "castle_door",
+      "xy": [
+        15360,
+        14848
+      ]
+    },
+    {
+      "id": "cave_door",
+      "xy": [
+        15360,
+        -17408
+      ]
+    },
+    {
+      "id": "west_region",
+      "xy": [
+        -22016,
+        -1536
+      ]
+    },
+    {
+      "id": "north_region",
+      "xy": [
+        -18432,
+        23296
+      ]
+    }
+  ],
+  "open_work": [],
+  "building_policy": "29 interactive houses in 28 structures; five ordinary repeated forms. Direct street frontage for ordinary houses, dedicated approaches for manor, temple and inn.",
+  "decoration_policy": {
+    "reference": "mm8/out02 plus contrasting MM6/MM7/MM8 cases in POPULATION_AND_COMPOSITION.md",
+    "town": "Authored garden patches and street accents, clear door approaches",
+    "countryside": "Mixed temperate tree groups, rock and plant accents, route/loot clearings",
+    "terrain": "Ground on quantized native triangles; restrict steep faces; preserve approach/actor clearance"
+  },
+  "settlement_density": {
+    "reference": "../../SETTLEMENT_DENSITY.md",
+    "physical_buildings": 28,
+    "logical_houses": 29,
+    "target_nearest_envelope_gap_median": [
+      450,
+      950
+    ],
+    "layout": "Unequal main-loop edges, diagonal west street, southern lane, separate manor/temple ascents; sketch controls composition."
+  },
+  "stat_barrels": [
+    {
+      "id": "manor_west_1",
+      "xy": [
+        -16960,
+        7808
+      ]
+    },
+    {
+      "id": "manor_west_2",
+      "xy": [
+        -16960,
+        7168
+      ]
+    },
+    {
+      "id": "temple_west",
+      "xy": [
+        -14848,
+        1280
+      ]
+    },
+    {
+      "id": "temple_south",
+      "xy": [
+        -13312,
+        -256
+      ]
+    }
+  ],
+  "sketch_reference": "test_img/1221.png",
+  "fountain_policy": {
+    "hp_per_use": 15,
+    "mana_per_use": 15,
+    "daily_uses": 40,
+    "target": "selected character",
+    "supply": "shared party",
+    "reset": "game-day boundary",
+    "full_resources_consume_use": true
+  },
+  "frontage_policy": {
+    "reference_screenshots": [
+      "test_img/1222.png",
+      "test_img/1223.png",
+      "test_img/1224.png",
+      "test_img/1225.png",
+      "test_img/1226.png",
+      "test_img/1227.png",
+      "test_img/1228.png",
+      "test_img/1229.png",
+      "test_img/1230.png"
+    ],
+    "ordinary_door_to_street_center_units": [
+      280,
+      430
+    ],
+    "ordinary_paved_spurs": false,
+    "lane_door_lateral_error_max_units": 64,
+    "court": "Five additional inhabited houses frame the fountain and well lane; preserve an open fountain clearing."
+  },
+  "encounter_policy": {
+    "reference": "../../WILDERNESS_CALIBRATION.md",
+    "authored_areas": 18,
+    "fixed_hostiles": 94,
+    "minimum_town_buffer": 8192,
+    "quiet_areas": [
+      "town and immediate departure corridors",
+      "pond clearing",
+      "obelisk approach",
+      "castle forecourt"
+    ],
+    "note": "Authored fixed actors; no random encounter duplication. Different shapes/counts and deliberate gaps. Initial separation is not an AI aggro guarantee.",
+    "mage_addition": "Seven three-variant groups; native MM6 mage combat stats, local centaur ally type 34. Keep original centaur patrols and quiet western town."
+  },
+  "native_scenery_landmarks": [
+    {
+      "id": "earth_resistance_pedestal",
+      "name": "dec45",
+      "xy": [
+        -2048,
+        4096
+      ],
+      "role": "Earth Resistance pedestal at town-side meadow",
+      "category": "lights",
+      "native_global_event": 532
+    },
+    {
+      "id": "day_of_gods_pedestal",
+      "name": "dec46",
+      "xy": [
+        -4096,
+        -5376
+      ],
+      "role": "Day of the Gods pedestal on southern departure",
+      "category": "lights",
+      "native_global_event": 533
+    },
+    {
+      "id": "hill_challenge",
+      "name": "dec43",
+      "xy": [
+        -2048,
+        10752
+      ],
+      "role": "Native stat challenge on raised meadow",
+      "category": "lights",
+      "native_global_event_range": [
+        564,
+        570
+      ]
+    },
+    {
+      "id": "east_camp_fire",
+      "name": "dec25",
+      "xy": [
+        20544,
+        1920
+      ],
+      "role": "Ogre camp cooking area",
+      "category": "lights"
+    },
+    {
+      "id": "east_camp_cauldron",
+      "name": "dec26",
+      "xy": [
+        20864,
+        1920
+      ],
+      "role": "Ogre camp cauldron",
+      "category": "lights"
+    },
+    {
+      "id": "south_camp_fire",
+      "name": "dec24",
+      "xy": [
+        11904,
+        -21888
+      ],
+      "role": "Southern ogre campfire",
+      "category": "lights"
+    }
+  ],
+  "regional_exit_scenery": [
+    {
+      "id": "west",
+      "destination": "out02.odm",
+      "trigger_axis": "x",
+      "trigger": -24576,
+      "floor_z": 576,
+      "edge_floor_z": 960,
+      "cells": [
+        [
+          66,
+          14
+        ],
+        [
+          66,
+          12
+        ],
+        [
+          62,
+          12
+        ],
+        [
+          62,
+          7
+        ],
+        [
+          66,
+          7
+        ],
+        [
+          66,
+          0
+        ]
+      ],
+      "style": "Road continues through a bent rock cut to the western mesh edge; ridge hides the far ending at walking height."
+    },
+    {
+      "id": "north",
+      "destination": "out03.odm",
+      "trigger_axis": "y",
+      "trigger": 24576,
+      "floor_z": 960,
+      "edge_floor_z": 1280,
+      "cells": [
+        [
+          14,
+          28
+        ],
+        [
+          12,
+          28
+        ],
+        [
+          12,
+          32
+        ],
+        [
+          7,
+          32
+        ],
+        [
+          7,
+          28
+        ],
+        [
+          0,
+          28
+        ]
+      ],
+      "style": "S-bend through the northern ridge beyond the travel trigger; continuous road to the northern mesh edge."
+    }
+  ]
+}

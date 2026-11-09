@@ -1,0 +1,439 @@
+{
+ "maw_gem01": {
+  "title": "Lunar Shard",
+  "icon": "maw_craft_gem01",
+  "identity": "an irregular rough chunk of moonstone crystal: frosty milky white with pale blue tints, translucent, broken flat fracture faces and sharp edges, a natural uncut lump. It lies on the ground.",
+  "materials": "frosty translucent milky-white moonstone with pale blue tints and bright fracture edges",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 20
+ },
+ "maw_gem11": {
+  "title": "Ascended Lunar Shard",
+  "icon": "maw_craft_gem11",
+  "identity": "the same stone as the plain Lunar Shard (an irregular rough chunk of moonstone crystal: frosty milky white with pale blue tints, translucent, broken flat fracture faces and sharp edges, a natural uncut lump), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "frosty translucent milky-white moonstone with pale blue tints and bright fracture edges; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 22
+ },
+ "maw_gem02": {
+  "title": "Fire Topaz",
+  "icon": "maw_craft_gem02",
+  "identity": "an oval cushion-cut gemstone with many facets: fiery orange-red at the rim glowing yellow-orange in the middle; flat table facet on top, pointed faceted underside. It lies on the ground.",
+  "materials": "fiery orange-red faceted topaz, yellow-orange glow in the middle of every facet",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 20,
+  "geometry": {
+   "cut": "oval"
+  },
+  "smooth_angle": 0
+ },
+ "maw_gem12": {
+  "title": "Ascended Fire Topaz",
+  "icon": "maw_craft_gem12",
+  "identity": "the same stone as the plain Fire Topaz (an oval cushion-cut gemstone with many facets: fiery orange-red at the rim glowing yellow-orange in the middle; flat table facet on top, pointed faceted underside), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "fiery orange-red faceted topaz, yellow-orange glow in the middle of every facet; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 22
+ },
+ "maw_gem03": {
+  "title": "Amethyst Chunk",
+  "icon": "maw_craft_gem03",
+  "identity": "a natural cluster of six to eight pointed violet amethyst crystal prisms of different lengths growing from one small pale crystalline base, spreading upward and outward. It lies on the ground.",
+  "materials": "violet to lilac amethyst crystal prisms with paler tips, a pale whitish base",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 22
+ },
+ "maw_gem13": {
+  "title": "Ascended Amethyst Chunk",
+  "icon": "maw_craft_gem13",
+  "identity": "the same stone as the plain Amethyst Chunk (a natural cluster of six to eight pointed violet amethyst crystal prisms of different lengths growing from one small pale crystalline base, spreading upward and outward), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "violet to lilac amethyst crystal prisms with paler tips, a pale whitish base; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 24
+ },
+ "maw_gem04": {
+  "title": "Amber Droplet",
+  "icon": "maw_craft_gem04",
+  "identity": "a polished teardrop-shaped amber cabochon: smooth domed top, pointed tip at one end, flat underside; translucent honey-orange with a small dark leaf inclusion inside. It lies on the ground.",
+  "materials": "polished translucent honey-orange amber, deeper orange at the rim, a small brown leaf inclusion",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 20,
+  "geometry": {
+   "cut": "cabochon"
+  },
+  "smooth_angle": 180
+ },
+ "maw_gem14": {
+  "title": "Ascended Amber Droplet",
+  "icon": "maw_craft_gem14",
+  "identity": "the same stone as the plain Amber Droplet (a polished teardrop-shaped amber cabochon: smooth domed top, pointed tip at one end, flat underside; translucent honey-orange with a small dark leaf inclusion inside), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "polished translucent honey-orange amber, deeper orange at the rim, a small brown leaf inclusion; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 22,
+  "master_note": "Show the item LYING FLAT on its back, as it rests on the ground: the stone's face points straight up and the gold filigree setting runs all the way around its rim and under it. Camera raised about 45 degrees above the ground (not 25), turned about 35 degrees.",
+  "meshy_version": "v2",
+  "rest": "pca_front"
+ },
+ "maw_gem05": {
+  "title": "Royal Amethyst",
+  "icon": "maw_craft_gem05",
+  "identity": "a round brilliant-cut gemstone: flat octagonal table on top, a ring of crown facets, pointed faceted pavilion below; deep royal purple. It lies on the ground.",
+  "materials": "deep royal purple faceted amethyst, lighter violet facets toward the table",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 20,
+  "geometry": {
+   "cut": "brilliant"
+  },
+  "smooth_angle": 0
+ },
+ "maw_gem15": {
+  "title": "Ascended Royal Amethyst",
+  "icon": "maw_craft_gem15",
+  "identity": "the same stone as the plain Royal Amethyst (a round brilliant-cut gemstone: flat octagonal table on top, a ring of crown facets, pointed faceted pavilion below; deep royal purple), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "deep royal purple faceted amethyst, lighter violet facets toward the table; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 22
+ },
+ "maw_gem06": {
+  "title": "Gemcutter's Ruby",
+  "icon": "maw_craft_gem06",
+  "identity": "a round brilliant-cut ruby with a flat table, crown facets and pointed pavilion; deep blood red. It lies on the ground.",
+  "materials": "deep blood-red faceted ruby, brighter crimson facets near the table",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 20,
+  "geometry": {
+   "cut": "brilliant"
+  },
+  "smooth_angle": 0
+ },
+ "maw_gem16": {
+  "title": "Ascended Gemcutter's Ruby",
+  "icon": "maw_craft_gem16",
+  "identity": "the same stone as the plain Gemcutter's Ruby (a round brilliant-cut ruby with a flat table, crown facets and pointed pavilion; deep blood red), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "deep blood-red faceted ruby, brighter crimson facets near the table; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 22
+ },
+ "maw_gem07": {
+  "title": "Solarstone",
+  "icon": "maw_craft_gem07",
+  "identity": "a round brilliant-cut gemstone with a flat table, crown facets and pointed pavilion; warm golden yellow like the sun. It lies on the ground.",
+  "materials": "warm golden-yellow faceted gem, bright yellow centre, amber facets at the rim",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 20,
+  "geometry": {
+   "cut": "brilliant"
+  },
+  "smooth_angle": 0
+ },
+ "maw_gem17": {
+  "title": "Ascended Solarstone",
+  "icon": "maw_craft_gem17",
+  "identity": "the same stone as the plain Solarstone (a round brilliant-cut gemstone with a flat table, crown facets and pointed pavilion; warm golden yellow like the sun), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "warm golden-yellow faceted gem, bright yellow centre, amber facets at the rim; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 22,
+  "master_note": "Show the item LYING FLAT on its back, as it rests on the ground: the stone's face points straight up and the gold filigree setting runs all the way around its rim and under it. Camera raised about 45 degrees above the ground (not 25), turned about 35 degrees.",
+  "meshy_version": "v2",
+  "rest": "pca_front"
+ },
+ "maw_gem08": {
+  "title": "Erudite Crystal",
+  "icon": "maw_craft_gem08",
+  "identity": "a single elongated hexagonal crystal prism with pointed faceted terminations at both ends, lying on its side; clear turquoise-cyan. It lies on the ground.",
+  "materials": "clear turquoise-cyan crystal with pale aqua edges",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 24,
+  "geometry": {
+   "cut": "prism",
+   "aspect": 1.6
+  },
+  "smooth_angle": 0
+ },
+ "maw_gem18": {
+  "title": "Ascended Erudite Crystal",
+  "icon": "maw_craft_gem18",
+  "identity": "the same stone as the plain Erudite Crystal (a single elongated hexagonal crystal prism with pointed faceted terminations at both ends, lying on its side; clear turquoise-cyan), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "clear turquoise-cyan crystal with pale aqua edges; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 26
+ },
+ "maw_gem09": {
+  "title": "Erathian Sapphire",
+  "icon": "maw_craft_gem09",
+  "identity": "a cushion-cut sapphire: rounded square outline, flat table, many crown facets, faceted pavilion below; deep royal blue. It lies on the ground.",
+  "materials": "deep royal-blue faceted sapphire, brighter blue facets toward the middle",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 20,
+  "geometry": {
+   "cut": "cushion"
+  },
+  "smooth_angle": 0
+ },
+ "maw_gem19": {
+  "title": "Ascended Erathian Sapphire",
+  "icon": "maw_craft_gem19",
+  "identity": "the same stone as the plain Erathian Sapphire (a cushion-cut sapphire: rounded square outline, flat table, many crown facets, faceted pavilion below; deep royal blue), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "deep royal-blue faceted sapphire, brighter blue facets toward the middle; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 22
+ },
+ "maw_gem10": {
+  "title": "Queen's Diamond",
+  "icon": "maw_craft_gem10",
+  "identity": "a round brilliant-cut diamond with a flat table, crown facets and a pointed pavilion; clear colourless white with faint grey facets. It lies on the ground.",
+  "materials": "clear colourless diamond: white and pale grey facets with faint cool blue tints",
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "tris": 1500,
+  "normal": 1.0,
+  "length": 20,
+  "geometry": {
+   "cut": "brilliant"
+  },
+  "smooth_angle": 0
+ },
+ "maw_gem20": {
+  "title": "Ascended Queen's Diamond",
+  "icon": "maw_craft_gem20",
+  "identity": "the same stone as the plain Queen's Diamond (a round brilliant-cut diamond with a flat table, crown facets and a pointed pavilion; clear colourless white with faint grey facets), now held in an ornate polished gold filigree setting: a low open gold cradle of curling scrollwork and small prongs wrapping the stone's lower half and rim, the stone's upper part free. It lies on the ground on its setting.",
+  "materials": "clear colourless diamond: white and pale grey facets with faint cool blue tints; polished warm yellow gold filigree with darker gold in its recesses",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 22,
+  "master_note": "Show the item LYING FLAT on its back, as it rests on the ground: the stone's face points straight up and the gold filigree setting runs all the way around its rim and under it. Camera raised about 45 degrees above the ground (not 25), turned about 35 degrees.",
+  "meshy_version": "v2",
+  "rest": "pca_front"
+ },
+ "maw_emerald_of_power": {
+  "title": "Emerald of Power",
+  "icon": "maw_craft_emerald_of_power",
+  "identity": "a long slender hexagonal emerald crystal prism with pointed faceted terminations at both ends, vivid saturated green with lighter green edges; it lies on its side on the ground.",
+  "materials": "vivid saturated green emerald crystal, lighter green facet edges, deep green core",
+  "tris": 1500,
+  "normal": 1.2,
+  "length": 36,
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "geometry": {
+   "cut": "prism",
+   "aspect": 3.2
+  },
+  "smooth_angle": 0
+ },
+ "maw_pearl_of_memory": {
+  "title": "Pearl of Memory",
+  "icon": "maw_craft_pearl_of_memory",
+  "identity": "a large perfectly round lustrous pearl, pearly white with soft iridescent pale blue-grey mist swirling inside it; it rests on the ground.",
+  "materials": "lustrous pearly white with soft iridescent pale blue-grey swirls",
+  "tris": 1500,
+  "normal": 1.2,
+  "length": 24,
+  "surface_material": "gem",
+  "unseen_material": "gem",
+  "geometry": {
+   "cut": "sphere"
+  },
+  "smooth_angle": 180
+ },
+ "maw_endless_potion": {
+  "title": "Endless Potion",
+  "icon": "maw_craft_endless_potion",
+  "identity": "a tall slender ornate potion bottle standing upright: a teardrop-shaped clear glass body with a long narrow neck, filled with swirling ribbons of blue and white liquid light; a small round gold foot, a gold collar on the neck and a tall pointed gold spire stopper.",
+  "materials": "clear glass with swirling blue and white liquid inside; polished warm gold foot, collar and spire stopper",
+  "tris": 3000,
+  "normal": 1.2,
+  "length": 18,
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal"
+ },
+ "maw_eye_of_void": {
+  "title": "Eye of Void",
+  "icon": "maw_craft_eye_of_void",
+  "identity": "a dark glossy sphere with a swirling purple-violet vortex and a black hole at its centre, held in a cage of four curved dark silver claws or talons that wrap around it from below and the sides; it rests on the claws.",
+  "materials": "dark violet-black glossy sphere with a glowing purple swirl and a black centre; dark polished silver-steel claws",
+  "tris": 3000,
+  "normal": 1.2,
+  "length": 36,
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal"
+ },
+ "maw_hourglass": {
+  "title": "Creator's Hourglass",
+  "icon": "maw_craft_hourglass",
+  "identity": "an upright ornate hourglass: two clear glass bulbs joined at a narrow waist, golden sand in the lower bulb and a little left in the upper one, held between a round ornate gold top plate and base plate by four turned gold pillars.",
+  "materials": "polished warm gold plates and pillars with darker gold in recesses; clear glass bulbs; golden sand",
+  "tris": 3000,
+  "normal": 1.2,
+  "length": 24,
+  "material_classes": [
+   "metal",
+   "gem",
+   "horn"
+  ],
+  "unseen_material": "metal"
+ },
+ "maw_mirror": {
+  "title": "Archibald's Mirror",
+  "icon": "maw_craft_mirror",
+  "identity": "an ornate hand mirror lying flat face up: a round mirror glass of pale silvery blue with swirling mist, a wide ornate silver frame with gold star points and small ornaments around the rim, and a long ornate silver-and-gold handle.",
+  "materials": "pale silvery-blue mirror glass with soft swirling mist; polished silver frame; warm gold star points, ornaments and handle bands",
+  "tris": 3000,
+  "normal": 1.2,
+  "length": 50,
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal"
+ },
+ "maw_orb_of_creation": {
+  "title": "Orb of Creation",
+  "icon": "maw_craft_orb_of_creation",
+  "identity": "a large clear glass sphere holding a swirling golden galaxy of light, sitting in a gold crown-shaped base of upward pointing gold petals or claws on a round gold foot.",
+  "materials": "clear glass sphere with golden-orange swirling galaxy light inside; polished warm gold crown base",
+  "tris": 3000,
+  "normal": 1.2,
+  "length": 36,
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal"
+ },
+ "maw_pandoras_cube": {
+  "title": "Pandora's Cube",
+  "icon": "maw_craft_pandoras_cube",
+  "identity": "a small cube-shaped box of dark aged bronze, every face covered with intricate engraved geometric and runic patterns and inlaid with small glowing blue gem lines and dots; it rests on one face.",
+  "materials": "dark aged bronze with intricate engraving, darker in the grooves; small glowing blue gem inlays",
+  "tris": 2400,
+  "normal": 1.2,
+  "length": 24,
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal"
+ },
+ "maw_celestial_orb": {
+  "title": "Celestial Orb",
+  "icon": "maw_craft_celestial_orb",
+  "identity": "an armillary sphere standing upright: a dark blue starry globe inside crossing gold meridian rings, with an orbit ring carrying small spheres, held on an ornate gold pedestal with a round foot and a blue gem on the stem.",
+  "materials": "deep blue starry globe with tiny white stars; polished warm gold rings, pedestal and foot; a blue gem",
+  "tris": 3200,
+  "normal": 1.2,
+  "length": 34,
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "metal"
+ },
+ "maw_crafting_cube": {
+  "title": "Crafting Cube",
+  "icon": "maw_craft_crafting_cube",
+  "identity": "a cube assembled from three by three by three blocks: dark grey-black stone blocks with gold edges and frames, a glowing orange-amber diamond-shaped gem in the middle of each visible face and small gold studs; it rests on one face.",
+  "materials": "dark grey-black stone blocks; polished gold edges, frames and studs; glowing orange-amber gems",
+  "tris": 3000,
+  "normal": 1.2,
+  "length": 28,
+  "material_classes": [
+   "metal",
+   "gem",
+   "horn"
+  ],
+  "unseen_material": "metal"
+ }
+}

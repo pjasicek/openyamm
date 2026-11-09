@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png, the exact geometry and layout target. Use design_reference.png as material/detail reference and icon_x8.png as original colour reference (magenta is background). Produce ONE transparent PNG, 1536x2048 (3:4), preserving the guide's exact positions, sizes, outlines, gaps and openings. Three columns and FOUR rows of 512x512 cells: FRONT, BACK, LEFT / RIGHT, TOP, empty; repeated in lower half. Paint grey objects only. Do not redraw, enlarge, move or redesign them.\nObject: source-faithful manuscript sheet, worn warm ochre leather cover and ivory parchment pages, reference leather tie and brass binding only where existing guide geometry permits. Facets, engravings, scrollwork and inner swirls follow reference scaled to each view. No invented text.\nRows 1-2 PAINT: unlit base colour of item on each view. Source-faithful colours, material details. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT PURE colours only. #00FF00 green for every leather part (straps, padding, hide, suede) and fur; #0000FF blue for cloth (tabards, quilting, linings, cords, ribbons) and hair; #FF0000 red for all metal (including brass); #FFFF00 yellow for matte non-metal solids including parchment/paper/wood/wax. Every silhouette pixel exactly one of these colours, no shading, texture, outlines or antialiased colour blends inside. Cover leather green, parchment pages yellow, any brass red. Nothing outside silhouettes.\nEmpty cells column 3 rows 2 and 4 remain fully transparent. Keep every gap/opening exactly as guide and fully transparent. The guide outline and placement are absolute constraints; do not reproduce the perspective composition of the design reference.\nCORRECTION: Keep the original grey guide's silhouettes strictly unchanged. No tie or cord may project outside the guide. Absolutely no stray pixels, speckles, coloured fringe, haze, or noise outside any shape. Bottom material masks must be clean solid flat regions with zero texture or shading. Match the original guide exactly, including top-view flat sheet contour. Use the guide as edit canvas; change surface colours only.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0e-7617-7773-aa7d-b532c02a65c5/exec-0f8b289c-06c4-4493-bf97-82f008e3fc2c.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10248/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10248/paint_mask_guide.png",
+      "sha256": "de1cea0106755b1a402cdc5cdba78a3f3ae6906c4e66d796fc632f1a2b59a2a2"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10248/design_reference.png",
+      "sha256": "546c647b3fe680470bc24113ccd7a9e18f660fe59766512d8018e12dc53e242f"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10248/icon_x8.png",
+      "sha256": "68054d08a219cd729b74517dfa7afb57bfc1b420973feb7ec690d015545c04cc"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "validation": "Visual inspection: layout retained, but stray pixels and non-flat mask colours remain after the one permitted correction. Raw tool output preserved without modification."
+}

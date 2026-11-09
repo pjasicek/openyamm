@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png atlas following this brief exactly. Image 1 design_reference.png is material/detail reference; image 2 icon_x8.png is colour reference (ignore magenta background); image 3 paint_mask_guide.png is the edit target and absolute geometry/layout authority.\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. Three columns by FOUR rows of equal cells. Rows 1-2 and 3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve EXACT positions, sizes, outlines, gaps, openings and thin chains from image 3. Paint grey pixels only; never redraw, enlarge, move or redesign. In particular keep the filled pendant disk in the guide filled, do not replace it with the ring silhouette of the design reference.\nRows 1-2: unlit base colour of source-faithful upright pendant. Gold metal, twisted engraved/swirl motifs following the design reference scaled to each view, red gemstone where appropriate. Preserve guide geometry. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4: identical five silhouettes but MATERIAL MASK ONLY. Every metal pixel pure red #FF0000; gemstone/crystal/glass/pearl/enamel/liquid pure black #000000; cloth/cord/ribbon/hair pure blue #0000FF. Flat pure colours only, no shading, texture, outlines or antialiased colour blends inside. Chain and pendant gold are metal and therefore red. Every silhouette pixel has exactly one of these colours. Nothing outside silhouettes.\nKeep all background and guide openings fully transparent. Column 3 of rows 2 and 4 stays empty transparent. Geometry and atlas alignment take precedence over reference silhouette.\nCORRECTION: The prior attempt produced stray red pixels, oversized chains and ragged silhouettes. Strictly trace the original guide alpha, preserving thin individual chain links and all transparent holes. No pixels beyond original silhouettes, no red fringe on painted rows, no speckles anywhere. Lower masks must be solid flat pure red within the original exact guide shapes, no noise or gradients. Match original guide contours exactly.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0a-f1db-7c93-ae96-0b1a24c232b0/exec-b4c7d3a7-fb55-407d-a881-ddbb5f6642b6.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10217/design_reference.png",
+      "sha256": "6d5ecdaa74b5514bb4d437dc98113fc2c685433ebca6e2cf854396abf3c07f8b"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10217/icon_x8.png",
+      "sha256": "92ef8846f9ce0c7bf2dd769330d54d52487c7a08b1a2b248faab63698ec53c53"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10217/paint_mask_guide.png",
+      "sha256": "4aa46ad369cc5ea6081ec036a7665adce792d2a4bc15cfb2b0e457d5c24c471e"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10217/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained; residual fringe pixels, silhouette drift and painted highlights remain after the one permitted correction. Raw output copied without modification."
+}

@@ -1,0 +1,976 @@
+status: Integration contract, not engine font descriptors or UiLayoutManager input
+design: Carved Obsidian menus r03, approved 2026-09-28
+canvas:
+  browser_pixels:
+  - 1600
+  - 900
+  logical_units:
+  - 853.3333
+  - 480
+  pixel_to_logical: 0.5333333333333333
+  fit: min(screenWidth / 853.333333, screenHeight / 480); center; same transform for input.
+  aspect: Keep content visible at 4:3 and ultrawide; extend the background beyond fitted canvas.
+fonts:
+  fondamento:
+    file: engine/fonts/truetype/fondamento_regular.ttf
+    role: Actions, headings, wordmark
+    proposed_layout_cell_height: 32
+    requires: Standalone TrueType loading/metrics. Current FontAsset replacement requires legacy FNT metrics.
+  arrus:
+    file: engine/fonts/truetype/openyamm_arrus_faithful.ttf
+    role: Body, values, skills, save names
+    existing_descriptor: arrus.yml
+    logical_height: 19
+    baseline: 14
+    browser_size_adjust: 1.2
+  lucida:
+    file: engine/fonts/truetype/openyamm_lucida_faithful.ttf
+    role: Metadata, help, keys, form labels
+    existing_descriptor: lucida.yml
+    logical_height: 17
+    baseline: 13
+    browser_size_adjust: 1.2
+live_text: All labels and the wordmark remain text. Preserve per-face advance widths; no bitmap-label fallback.
+wordmark:
+  gradient:
+  - '#fff0c9'
+  - '#ceb483'
+  - '#8d754e'
+  - '#ebd9ad'
+  fallback_solid: '#e9d4a6'
+text_states:
+  normal: '#e8d1a4'
+  primary: '#ffe4ac'
+  hover: '#fff0c0'
+  disabled_opacity: 0.34
+  pressed_offset_browser_pixels:
+  - 0
+  - 1
+focus: Gold 2px outline, offset 4px. Preserve keyboard navigation/focus separately from selected state.
+button_drawing: Element rect is the hit/text content box. Expand image destination by recorded padding and retain
+  corner/edge sizes with nine-slice; convert image pixels by pixel_to_logical.
+panel_drawing: Panel elements already include image padding; do not expand twice. Reference-size exports can draw
+  as one quad. Modal resizing uses source border slices, not stretched carved corners.
+source_panel_slices:
+  file: source/stone-panel.png
+  source_pixels_trbl:
+  - 72
+  - 65
+  - 75
+  - 65
+  target_browser_pixels: 23
+range_controls:
+  track: '#0d1713'
+  track_border: '#766747'
+  fill: '#ac935c'
+  thumb: '#d8ba7b'
+  instruction: Draw native range/scroll primitives at the measured rectangles.
+surfaces:
+- file: engine/icons_x2/omenu_title_backdrop.png
+  key: omenu_title_backdrop
+  kind: background
+  state: default
+  imageSize:
+  - 1600
+  - 900
+  contentSize:
+  - 1600
+  - 900
+  padding: 0
+  nineSliceInsets: null
+  source:
+    screen: main
+    selector: '#backdrop'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_seal.png
+  key: omenu_seal
+  kind: emblem
+  state: default
+  imageSize:
+  - 90
+  - 90
+  contentSize:
+  - 90
+  - 90
+  padding: 0
+  nineSliceInsets: null
+  source:
+    screen: main
+    selector: .title-brand .seal
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_frame.png
+  key: omenu_frame
+  kind: panel
+  state: default
+  imageSize:
+  - 1364
+  - 782
+  contentSize:
+  - 1332
+  - 750
+  padding: 16
+  nineSliceInsets: null
+  source:
+    screen: load
+    selector: .frame
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_party_frame.png
+  key: omenu_party_frame
+  kind: panel
+  state: default
+  imageSize:
+  - 1592
+  - 892
+  contentSize:
+  - 1560
+  - 860
+  padding: 16
+  nineSliceInsets: null
+  source:
+    screen: creation
+    selector: .frame
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_title_panel.png
+  key: omenu_title_panel
+  kind: panel
+  state: default
+  imageSize:
+  - 434
+  - 447
+  contentSize:
+  - 402
+  - 414.296875
+  padding: 16
+  nineSliceInsets: null
+  source:
+    screen: main
+    selector: .title-actions
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_pause_panel.png
+  key: omenu_pause_panel
+  kind: panel
+  state: default
+  imageSize:
+  - 594
+  - 667
+  contentSize:
+  - 562
+  - 634.578125
+  padding: 16
+  nineSliceInsets: null
+  source:
+    screen: pause
+    selector: .pause-panel
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_default.png
+  key: omenu_button_default
+  kind: button
+  state: default
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: main
+    selector: '[data-action="new-game"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_hover.png
+  key: omenu_button_hover
+  kind: button
+  state: hover
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: main
+    selector: '[data-action="new-game"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_pressed.png
+  key: omenu_button_pressed
+  kind: button
+  state: pressed
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: main
+    selector: '[data-action="new-game"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_disabled.png
+  key: omenu_button_disabled
+  kind: button
+  state: disabled
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: main
+    selector: '[data-action="new-game"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_primary_default.png
+  key: omenu_button_primary_default
+  kind: button
+  state: default
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: main
+    selector: '[data-action="continue"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_primary_hover.png
+  key: omenu_button_primary_hover
+  kind: button
+  state: hover
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: main
+    selector: '[data-action="continue"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_primary_pressed.png
+  key: omenu_button_primary_pressed
+  kind: button
+  state: pressed
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: main
+    selector: '[data-action="continue"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_primary_disabled.png
+  key: omenu_button_primary_disabled
+  kind: button
+  state: disabled
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: main
+    selector: '[data-action="continue"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_quiet_default.png
+  key: omenu_button_quiet_default
+  kind: button
+  state: default
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: load
+    selector: '[data-action="back"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_quiet_hover.png
+  key: omenu_button_quiet_hover
+  kind: button
+  state: hover
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: load
+    selector: '[data-action="back"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_quiet_pressed.png
+  key: omenu_button_quiet_pressed
+  kind: button
+  state: pressed
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: load
+    selector: '[data-action="back"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_quiet_disabled.png
+  key: omenu_button_quiet_disabled
+  kind: button
+  state: disabled
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: load
+    selector: '[data-action="back"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_danger_default.png
+  key: omenu_button_danger_default
+  kind: button
+  state: default
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: pause
+    selector: '[data-action="quit"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_danger_hover.png
+  key: omenu_button_danger_hover
+  kind: button
+  state: hover
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: pause
+    selector: '[data-action="quit"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_danger_pressed.png
+  key: omenu_button_danger_pressed
+  kind: button
+  state: pressed
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: pause
+    selector: '[data-action="quit"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_danger_disabled.png
+  key: omenu_button_danger_disabled
+  kind: button
+  state: disabled
+  imageSize:
+  - 252
+  - 66
+  contentSize:
+  - 240
+  - 54
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: pause
+    selector: '[data-action="quit"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_small_default.png
+  key: omenu_button_small_default
+  kind: button
+  state: default
+  imageSize:
+  - 172
+  - 50
+  contentSize:
+  - 160
+  - 38
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: gameplay
+    selector: '[data-action="defaults"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_small_hover.png
+  key: omenu_button_small_hover
+  kind: button
+  state: hover
+  imageSize:
+  - 172
+  - 50
+  contentSize:
+  - 160
+  - 38
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: gameplay
+    selector: '[data-action="defaults"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_small_pressed.png
+  key: omenu_button_small_pressed
+  kind: button
+  state: pressed
+  imageSize:
+  - 172
+  - 50
+  contentSize:
+  - 160
+  - 38
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: gameplay
+    selector: '[data-action="defaults"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_small_disabled.png
+  key: omenu_button_small_disabled
+  kind: button
+  state: disabled
+  imageSize:
+  - 172
+  - 50
+  contentSize:
+  - 160
+  - 38
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: gameplay
+    selector: '[data-action="defaults"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_square_default.png
+  key: omenu_button_square_default
+  kind: button
+  state: default
+  imageSize:
+  - 45
+  - 43
+  contentSize:
+  - 33
+  - 31
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: creation
+    selector: '[data-action="portrait-next"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_square_hover.png
+  key: omenu_button_square_hover
+  kind: button
+  state: hover
+  imageSize:
+  - 45
+  - 43
+  contentSize:
+  - 33
+  - 31
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: creation
+    selector: '[data-action="portrait-next"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_square_pressed.png
+  key: omenu_button_square_pressed
+  kind: button
+  state: pressed
+  imageSize:
+  - 45
+  - 43
+  contentSize:
+  - 33
+  - 31
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: creation
+    selector: '[data-action="portrait-next"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_button_square_disabled.png
+  key: omenu_button_square_disabled
+  kind: button
+  state: disabled
+  imageSize:
+  - 45
+  - 43
+  contentSize:
+  - 33
+  - 31
+  padding: 6
+  nineSliceInsets:
+  - 14
+  - 18
+  - 14
+  - 18
+  source:
+    screen: creation
+    selector: '[data-action="portrait-next"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_assigned_skill.png
+  key: omenu_assigned_skill
+  kind: widget
+  state: default
+  imageSize:
+  - 262
+  - 60
+  contentSize:
+  - 262
+  - 60
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: creation
+    selector: .assigned-skill
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_skill.png
+  key: omenu_skill
+  kind: widget
+  state: default
+  imageSize:
+  - 262
+  - 48
+  contentSize:
+  - 262
+  - 48
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: creation
+    selector: .skill-choice
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_save_row.png
+  key: omenu_save_row
+  kind: widget
+  state: default
+  imageSize:
+  - 593
+  - 84
+  contentSize:
+  - 593
+  - 84
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: load
+    selector: .save-row:not([aria-pressed="true"])
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_save_row_selected.png
+  key: omenu_save_row_selected
+  kind: widget
+  state: default
+  imageSize:
+  - 593
+  - 84
+  contentSize:
+  - 593
+  - 84
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: load
+    selector: .save-row[aria-pressed="true"]
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_tab.png
+  key: omenu_tab
+  kind: widget
+  state: default
+  imageSize:
+  - 183
+  - 64
+  contentSize:
+  - 183
+  - 64
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: gameplay
+    selector: .nav-tab:not([aria-current])
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_tab_selected.png
+  key: omenu_tab_selected
+  kind: widget
+  state: default
+  imageSize:
+  - 183
+  - 64
+  contentSize:
+  - 183
+  - 64
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: gameplay
+    selector: .nav-tab[aria-current]
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_toggle_off.png
+  key: omenu_toggle_off
+  kind: widget
+  state: default
+  imageSize:
+  - 96
+  - 38
+  contentSize:
+  - 96
+  - 38
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: gameplay
+    selector: '[data-setting="bolster_monsters"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_toggle_on.png
+  key: omenu_toggle_on
+  kind: widget
+  state: default
+  imageSize:
+  - 96
+  - 38
+  contentSize:
+  - 96
+  - 38
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: gameplay
+    selector: '[data-setting="quest_markers"]'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_keycap.png
+  key: omenu_keycap
+  kind: widget
+  state: default
+  imageSize:
+  - 110
+  - 38
+  contentSize:
+  - 110
+  - 38
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: keyboard
+    selector: button.key
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_text_field.png
+  key: omenu_text_field
+  kind: widget
+  state: default
+  imageSize:
+  - 257
+  - 42
+  contentSize:
+  - 257
+  - 42
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: creation
+    selector: '#hero-name'
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_world_card.png
+  key: omenu_world_card
+  kind: widget
+  state: default
+  imageSize:
+  - 404
+  - 483
+  contentSize:
+  - 403.328125
+  - 482.21875
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: worlds
+    selector: .world-card[aria-pressed="false"]
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_world_card_selected.png
+  key: omenu_world_card_selected
+  kind: widget
+  state: default
+  imageSize:
+  - 404
+  - 483
+  contentSize:
+  - 403.328125
+  - 482.21875
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: worlds
+    selector: .world-card[aria-pressed="true"]
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_skill_selected.png
+  key: omenu_skill_selected
+  kind: widget
+  state: default
+  imageSize:
+  - 262
+  - 48
+  contentSize:
+  - 262
+  - 48
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: creation
+    selector: .skill-choice[aria-pressed="true"]
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_party_slot.png
+  key: omenu_party_slot
+  kind: widget
+  state: default
+  imageSize:
+  - 72
+  - 77
+  contentSize:
+  - 72
+  - 77
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: creation
+    selector: .party-slot.add
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_party_slot_selected.png
+  key: omenu_party_slot_selected
+  kind: widget
+  state: default
+  imageSize:
+  - 72
+  - 77
+  contentSize:
+  - 72
+  - 77
+  padding: 0
+  nineSliceInsets:
+  - 8
+  - 8
+  - 8
+  - 8
+  source:
+    screen: creation
+    selector: .party-slot[aria-pressed="true"]
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_modal.png
+  key: omenu_modal
+  kind: panel
+  state: default
+  imageSize:
+  - 682
+  - 357
+  contentSize:
+  - 650
+  - 324.1875
+  padding: 16
+  nineSliceInsets: null
+  source:
+    screen: main
+    selector: .modal
+    operation: Browser rasterization of approved UI styling; all labels excluded.
+- file: engine/icons_x2/omenu_modal_veil.png
+  key: omenu_modal_veil
+  kind: veil
+  state: default
+  imageSize:
+  - 1600
+  - 900
+  contentSize:
+  - 1600
+  - 900
+  padding: 0
+  nineSliceInsets: null
+  source:
+    screen: main
+    selector: .modal-veil
+    operation: Browser rasterization of approved UI styling; all labels excluded.

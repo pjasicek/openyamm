@@ -1,0 +1,546 @@
+{
+ "id": "20261009-1628-mm6-6d06-17",
+ "world": "mm6",
+ "maps": [
+  "6d06.blv",
+  "oracle.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/cvwl8re",
+  "mm6/d8wlele",
+  "mm6/d8wlere",
+  "mm6/cvwl8le",
+  "mm6/d8wlesp1",
+  "mm6/d8wlbsp7",
+  "mm6/d8wlcsp3",
+  "mm6/cvceil1",
+  "mm6/cvceil3",
+  "mm6/cvflor1",
+  "mm6/cvwl6",
+  "mm6/d8ceilb",
+  "mm6/d8ceilc",
+  "mm6/d8flora",
+  "mm6/d8florb",
+  "mm6/d8florc",
+  "mm6/d8flore",
+  "mm6/d8wldtrm",
+  "mm6/d8wletrn1",
+  "mm6/gset03",
+  "mm6/orfyrlgb",
+  "mm6/orwtrlga",
+  "mm6/orwtrlgb",
+  "mm6/orwtr64b"
+ ],
+ "requests": {
+  "mm6/cvwl8re": {
+   "name": "cvwl8re",
+   "versions": [
+    1
+   ],
+   "material": "vertically streaked rust-orange cave rock wall with a pale cream dripping flowstone formation on the left side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cvwl8"
+     ],
+     "fraction": 0.528
+    }
+   }
+  },
+  "mm6/d8wlele": {
+   "name": "d8wlele",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mine wall of dark packed earth held by horizontal rusty riveted iron strap bands under a heavy brown timber beam at the top, with a round wooden post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wle",
+      "mm6/d8wletrn",
+      "mm6/d8wlesp2"
+     ],
+     "fraction": 0.356
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wle",
+      "mm6/d8wletrn",
+      "mm6/d8wlesp2"
+     ],
+     "fraction": 0.355
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/d8wle",
+     "top": "mm6/d8wle"
+    }
+   }
+  },
+  "mm6/d8wlere": {
+   "name": "d8wlere",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mine wall of dark packed earth held by horizontal rusty riveted iron strap bands under a heavy brown timber beam at the top, with a round wooden post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wle",
+      "mm6/d8wletrn",
+      "mm6/d8wlesp2",
+      "mm6/d8wlele"
+     ],
+     "fraction": 0.371
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wle",
+      "mm6/d8wletrn",
+      "mm6/d8wlesp2",
+      "mm6/d8wlele"
+     ],
+     "fraction": 0.365
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d8wle",
+     "top": "mm6/d8wle",
+     "right": "mm6/d1wlec"
+    }
+   }
+  },
+  "mm6/cvwl8le": {
+   "name": "cvwl8le",
+   "versions": [
+    1
+   ],
+   "material": "vertically streaked rust-orange cave rock wall with a pale cream dripping flowstone formation on the right side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cvwl8"
+     ],
+     "fraction": 0.509
+    }
+   }
+  },
+  "mm6/d8wlesp1": {
+   "name": "d8wlesp1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mine wall of dark packed earth held by horizontal rusty riveted iron strap bands under a heavy brown timber beam at the top, with a round wooden post left of centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wle",
+      "mm6/d8wlele",
+      "mm6/d8wlere"
+     ],
+     "fraction": 0.36
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wle",
+      "mm6/d8wlele",
+      "mm6/d8wlere"
+     ],
+     "fraction": 0.36
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm6/d8wle",
+     "right": "mm6/d8wlere",
+     "left": "mm6/d8wlele"
+    }
+   }
+  },
+  "mm6/d8wlbsp7": {
+   "name": "d8wlbsp7",
+   "versions": [
+    1
+   ],
+   "material": "dark grey stone wall with a carved arched relief panel of a standing armoured warrior figure; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlbsp6",
+      "mm6/d8wlbsp5",
+      "mm6/d8wlbsp4"
+     ],
+     "fraction": 0.318
+    }
+   }
+  },
+  "mm6/d8wlcsp3": {
+   "name": "d8wlcsp3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-blue rough fieldstone wall of irregular stacked stones with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlc"
+     ],
+     "fraction": 0.337
+    },
+    "2": {
+     "sources": [
+      "mm6/d8wlc"
+     ],
+     "fraction": 0.337
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/d8wlcspl",
+     "right": "mm6/d8wlcspr"
+    }
+   }
+  },
+  "mm6/cvceil1": {
+   "name": "cvceil1",
+   "versions": [
+    1
+   ],
+   "material": "grey-blue lumpy cave rock ceiling with soft rounded bumps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cvceil3": {
+   "name": "cvceil3",
+   "versions": [
+    1
+   ],
+   "material": "black cave rock streaked with glowing orange fiery mineral veins",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cvflor1": {
+   "name": "cvflor1",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-beige mottled cave stone floor with brown dirt patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/cvwl6": {
+   "name": "cvwl6",
+   "versions": [
+    1
+   ],
+   "material": "golden-orange dripping flowstone cave wall with vertical stalactite ridges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8ceilb": {
+   "name": "d8ceilb",
+   "versions": [
+    1
+   ],
+   "material": "ceiling tile of a dark brown stone diamond set in a pink-red mottled stone square with brown inlaid border lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8ceilc": {
+   "name": "d8ceilc",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ceiling tile of a pink-red stone lozenge outlined in dark brown set in a grey stone square with dark corner bands",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the pattern must tile seamlessly top to bottom and left to right."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8flora": {
+   "name": "d8flora",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown pebbly packed earth floor",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8florb": {
+   "name": "d8florb",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown pebbly packed earth floor",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8florc": {
+   "name": "d8florc",
+   "versions": [
+    1
+   ],
+   "material": "cobbled floor of large rounded dark brown stones set in tan sandy mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8flore": {
+   "name": "d8flore",
+   "versions": [
+    1
+   ],
+   "material": "pale tan rounded brick cobbles laid in staggered rows with dark grey mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wldtrm": {
+   "name": "d8wldtrm",
+   "versions": [
+    1
+   ],
+   "material": "plain brown stone ledge strip with a row of dark square dentil notches along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wletrn1": {
+   "name": "d8wletrn1",
+   "versions": [
+    1
+   ],
+   "material": "mine wall of dark packed earth held by horizontal rusty riveted iron strap bands under a heavy brown timber beam at the top, the bent strap ends giving way to grey cracked flagstone wall on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gset03": {
+   "name": "gset03",
+   "versions": [
+    1
+   ],
+   "material": "pale cream irregular flagstone cobble pavement with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orfyrlgb": {
+   "name": "orfyrlgb",
+   "versions": [
+    1
+   ],
+   "material": "bright red-orange swirling molten lava with yellow hot streaks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/orfyrlga"
+     ],
+     "fraction": 0.869
+    }
+   }
+  },
+  "mm6/orwtrlga": {
+   "name": "orwtrlga",
+   "versions": [
+    1
+   ],
+   "material": "turquoise rippling water with pale caustic highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orwtrlgb": {
+   "name": "orwtrlgb",
+   "versions": [
+    1
+   ],
+   "material": "turquoise rippling water with pale caustic highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/orwtrlga"
+     ],
+     "fraction": 0.84
+    }
+   }
+  },
+  "mm6/orwtr64b": {
+   "name": "orwtr64b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "turquoise water-worn stone tile with a carved recessed U-shaped arc in the upper centre",
+   "notes": {
+    "2": "No bright highlight line along the top edge: the top rows continue the plain turquoise stone, and the dark joint stays only along the bottom edge as in the reference.",
+    "3": "No bright highlight line along the top edge: the top rows continue the plain turquoise stone, and the dark joint stays only along the bottom edge as in the reference.",
+    "4": "Keep the background marble and bevelled border identical in style and colour to the plain tile; add only the sunken arc symbol; the top and bottom rows must continue seamlessly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/orwtr64"
+     ],
+     "fraction": 0.891
+    },
+    "2": {
+     "sources": [
+      "mm6/orwtr64"
+     ],
+     "fraction": 0.891
+    },
+    "3": {
+     "sources": [
+      "mm6/orwtr64"
+     ],
+     "fraction": 0.829
+    },
+    "4": {
+     "sources": [
+      "mm6/orwtr64"
+     ],
+     "fraction": 0.829
+    }
+   },
+   "pad": {
+    "3": [
+     8,
+     32
+    ],
+    "4": [
+     8,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "top": "mm6/orwtr64"
+    },
+    "4": {
+     "top": "mm6/orwtr64"
+    }
+   }
+  }
+ }
+}

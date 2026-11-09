@@ -1,0 +1,22 @@
+{
+  "family": "lzd",
+  "title": "MM6 Lizard Archer",
+  "descriptor_ids": [
+    571,
+    572,
+    573
+  ],
+  "base_palette": 767,
+  "mask_kind": "red",
+  "description": "MM6 upright green-scaled lizard archer, broad angular toothy reptile face, muscular green scaly arms and legs, muted rust-orange short-sleeved tunic with long front waist flap, brown diagonal leather strap and belt with gold buckles, brown wrist bracers, blue-gray metal shoulder caps and segmented knee/shin guards, green clawed feet. Holds a slim dark brown curved bow in the left hand (viewer right), arrows and quiver on the back. Preserve native scaly head, compact body, thin bow and exact hand positions. No new armor, horns, wings, modern redesign or extra weapons.",
+  "regions": "Base tunic is muted rust-orange. Green skin, blue-gray armor, brown leather and bow, gold buckles stay protected.",
+  "variant_names": {
+    "767": "Lizard Archer 1",
+    "766": "Lizard Archer 2",
+    "768": "Lizard Archer 3"
+  },
+  "material_mask_channels": 1,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py"
+}

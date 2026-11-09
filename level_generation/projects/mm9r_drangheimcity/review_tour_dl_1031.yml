@@ -1,0 +1,30 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_drangheimcity/review/dl_1031
+settle_seconds: 2.0
+exit: true
+shots:
+- name: s01_west_gate_start_1200
+  position: &id001
+  - 10240
+  - -4178
+  - 1002
+  yaw: 0.0
+  pitch: 0.0
+  time: '12:00'
+- name: s02_tower_ladder1_1200
+  position: &id002
+  - 16700
+  - -7650
+  - 1454
+  yaw: -1.02
+  pitch: 0.3
+  time: '12:00'
+- name: s01_west_gate_start_2330
+  position: *id001
+  yaw: 0.0
+  pitch: 0.0
+  time: '23:30'
+- name: s02_tower_ladder1_2330
+  position: *id002
+  yaw: -1.02
+  pitch: 0.3
+  time: '23:30'

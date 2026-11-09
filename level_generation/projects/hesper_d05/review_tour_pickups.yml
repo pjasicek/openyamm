@@ -1,0 +1,18 @@
+# Integrator capture: party-foot coordinates; minimized, shared engine and stage locks.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d05/review/pickups/captures
+settle_seconds: 1.5
+exit: true
+shots:
+- name: storeroom_armoury
+  position: [1835, 1700, 1024]
+  yaw: 1.57079633
+  pitch: -0.2
+  commands: [config set immortal 1, config set invisible 1]
+- name: bundle_root_gallery
+  position: [1700, 2160, 0]
+  yaw: 1.57079633
+  pitch: -0.4
+- name: bundle_weaver
+  position: [5200, 1760, 2048]
+  yaw: -1.57079633
+  pitch: -0.4

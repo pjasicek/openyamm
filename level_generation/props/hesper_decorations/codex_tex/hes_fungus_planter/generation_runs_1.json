@@ -1,0 +1,239 @@
+{
+  "tool": "built-in image_gen",
+  "status": "generated_but_not_brief_compliant",
+  "note": "Both views used their maximum one corrective regeneration. Raw returns preserved without resizing, masking or retouching. Selected means best available, not accepted against all brief checks. No builds or runtime integration.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: sketch-to-render. Paint an albedo texture source over the EXACT supplied grey orthographic front-view model guide (image 1). Image 2 is the approved design reference, ONLY the material and colour authority, never the composition. Output a single 1024 x 1024 RGBA PNG, transparent background, at the guide's original resolution and framing. Do not resize or recenter the object. Keep the guide's silhouette EXACTLY: identical outline, size and position in the frame, every edge, opening, mushroom and pipe detail in exactly its existing location. The guide occupies x=66..957, y=361..662 within the 1024-square canvas; preserve the large transparent margins. Front view, absolutely no perspective or top-down reinterpretation. Paint only the existing model surfaces: dark slate grey-green composite planter panels with a horizontal ochre band, ochre corner uprights as in the design, dark soil where visible, pale cream and violet mushrooms, thin grey pipe. Match the design's fine worn material detail without inventing shapes, added mushrooms or extra geometry. Every mushroom retains the guide shape, scale and position. LIGHTING: this is a TEXTURE SOURCE (albedo), even flat shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint material colours directly, no baked lighting or tonal gradients from illumination. No text or labels. Preserve true transparency outside the exact guide silhouette. Return only this one front painting.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-a3a0-74e1-8ea7-b7c44c094b16/exec-a061e708-5f7a-402b-bd1d-547708f18411.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Closest front placement of the two allowed returns; material palette matches. Not compliant: incorrect native resolution, changed silhouette/details, residual shading and background alpha specks.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d9329451162088d3dc5bbf225ae4d82b561f1fd3f7c74d91cfe820836f4e7caf"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output_sha256": "69c5837a6b0ad22bfe0c8dcab22a667fa3bb29af37bec3ad3246971a9a7678be",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          20,
+          1189,
+          1222
+        ],
+        "solid_alpha_bbox": [
+          77,
+          442,
+          1177,
+          814
+        ],
+        "guide_alpha_bbox": [
+          66,
+          361,
+          958,
+          663
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Visually matches slate grey-green, ochre, cream/violet, soil and grey pipe palette.",
+        "flat_even_light": "Partial; residual shading and edge highlights remain.",
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha pixels remain outside object."
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: sketch-to-render. Paint an albedo texture source over the EXACT supplied grey orthographic front-view model guide (image 1). Image 2 is the approved design reference, ONLY the material and colour authority, never the composition. Output a single 1024 x 1024 RGBA PNG, transparent background, at the guide's original resolution and framing. Do not resize or recenter the object. Keep the guide's silhouette EXACTLY: identical outline, size and position in the frame, every edge, opening, mushroom and pipe detail in exactly its existing location. The guide occupies x=66..957, y=361..662 within the 1024-square canvas; preserve the large transparent margins. Front view, absolutely no perspective or top-down reinterpretation. Paint only the existing model surfaces: dark slate grey-green composite planter panels with a horizontal ochre band, ochre corner uprights as in the design, dark soil where visible, pale cream and violet mushrooms, thin grey pipe. Match the design's fine worn material detail without inventing shapes, added mushrooms or extra geometry. Every mushroom retains the guide shape, scale and position. LIGHTING: this is a TEXTURE SOURCE (albedo), even flat shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint material colours directly, no baked lighting or tonal gradients from illumination. No text or labels. Preserve true transparency outside the exact guide silhouette. Return only this one front painting.\nCORRECTIVE REGENERATION (the only correction allowed): the previous return was incorrectly 1254 x 1254 and changed the outline. The output MUST be exactly 1024 x 1024 pixels, not any other resolution. Use the supplied guide_front image as the actual edit canvas, retaining its alpha mask and all pixels' positions exactly. Only replace the grey surface colours with albedo materials. Preserve every original mushroom boundary, panel boundary and feet opening. Never recreate or beautify the silhouette. Do not add bolts absent from the guide. Preserve perfectly clear alpha=0 in the background, no floating pixels or edge contamination. Flat colour texture with material detail, no black shadow seams or bright highlights.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-a3a0-74e1-8ea7-b7c44c094b16/exec-974858a3-53c7-41f9-ba02-d2d7195add2d.png",
+      "output": "paint_front_correction_unselected.png",
+      "selected": false,
+      "reason": "Only allowed corrective regeneration. Still wrong native resolution; object moved upward farther from guide; added mushrooms and altered edges. Original selected as closer.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d9329451162088d3dc5bbf225ae4d82b561f1fd3f7c74d91cfe820836f4e7caf"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output_sha256": "df4db98c361848733bc155334590598edeac7b3a7e1682f64c4a81224371bf1f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          49,
+          47,
+          1226,
+          1224
+        ],
+        "solid_alpha_bbox": [
+          80,
+          404,
+          1176,
+          777
+        ],
+        "guide_alpha_bbox": [
+          66,
+          361,
+          958,
+          663
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Visually matches slate grey-green, ochre, cream/violet, soil and grey pipe palette.",
+        "flat_even_light": "Partial; residual shading and edge highlights remain.",
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha pixels remain outside object."
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: sketch-to-render. Edit image 1, guide_top.png, as the actual canvas: paint the existing grey orthographic TOP-VIEW mesh surfaces with albedo materials. Image 2, design_reference.png, is ONLY the approved material and colour reference; do not borrow its camera, silhouette or mushroom arrangement. Deliver one 1024 x 1024 RGBA PNG, exactly the original guide resolution, UNRESIZED, with transparent background. Keep the guide's alpha silhouette EXACTLY: same outline, size and position in the frame, every edge, opening, mushroom shape and detail in exactly its original place. Object occupies x=66..957,y=337..686 within the 1024 x 1024 square, retain these transparent margins exactly. Camera looks vertically down, no perspective. Paint the existing model: dark slate grey-green composite frame, ochre painted corner uprights, dark brown soil, pale cream mushroom caps with subtle violet details, thin grey pipes along the long edges. Preserve every guide mushroom's size, position and overlap, do not add mushrooms, gills outside shapes, extra geometry or new objects. Detailed worn material colours as the design. LIGHTING: texture-source albedo, even flat shadowless viewer light, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Caps are cream material, not grey shaded bowls. No text or labels. Preserve exact alpha from the guide, no floating opaque pixels. Return only this single top painting at exactly 1024 x 1024.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-a3a0-74e1-8ea7-b7c44c094b16/exec-90db0dfc-5a96-44a9-9c6d-733810f7a905.png",
+      "output": "paint_top_initial_unselected.png",
+      "selected": false,
+      "reason": "Wrong native resolution, altered guide details, stronger dark shading and bright edges than correction.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "eacedfb9ca9ecdd95661c5a33edc8352167d10bb54d21232a2ee89aa4348ce86"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output_sha256": "59a7e229bee7e1319fa2b7ad003a1584527b065fc0f477a276c517b5aeccb894",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          23,
+          1220,
+          1230
+        ],
+        "solid_alpha_bbox": [
+          78,
+          411,
+          1178,
+          840
+        ],
+        "guide_alpha_bbox": [
+          66,
+          337,
+          958,
+          687
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Visually matches slate grey-green, ochre, cream/violet, soil and grey pipe palette.",
+        "flat_even_light": "Partial; residual shading and edge highlights remain.",
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha pixels remain outside object."
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: sketch-to-render. Edit image 1, guide_top.png, as the actual canvas: paint the existing grey orthographic TOP-VIEW mesh surfaces with albedo materials. Image 2, design_reference.png, is ONLY the approved material and colour reference; do not borrow its camera, silhouette or mushroom arrangement. Deliver one 1024 x 1024 RGBA PNG, exactly the original guide resolution, UNRESIZED, with transparent background. Keep the guide's alpha silhouette EXACTLY: same outline, size and position in the frame, every edge, opening, mushroom shape and detail in exactly its original place. Object occupies x=66..957,y=337..686 within the 1024 x 1024 square, retain these transparent margins exactly. Camera looks vertically down, no perspective. Paint the existing model: dark slate grey-green composite frame, ochre painted corner uprights, dark brown soil, pale cream mushroom caps with subtle violet details, thin grey pipes along the long edges. Preserve every guide mushroom's size, position and overlap, do not add mushrooms, gills outside shapes, extra geometry or new objects. Detailed worn material colours as the design. LIGHTING: texture-source albedo, even flat shadowless viewer light, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Caps are cream material, not grey shaded bowls. No text or labels. Preserve exact alpha from the guide, no floating opaque pixels. Return only this single top painting at exactly 1024 x 1024.\nCORRECTIVE REGENERATION, only correction permitted: Previous output incorrectly had 1254 x 1254 pixels. Deliver EXACTLY 1024 x 1024 pixels. Edit the guide directly retaining its original alpha channel and original edge pixels. The outline must be pixel-identical to guide_top.png. Do not change corner post shapes, frame widths, cap silhouettes or locations. No additional mushrooms. Remove all lighting gradients and dark occlusion shadows under mushroom edges; the image must show flat diffuse base colours only. Background must be completely transparent, no floating low-alpha specks. The guide's silhouette and native 1024 x 1024 resolution override all other aesthetic preferences.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-a3a0-74e1-8ea7-b7c44c094b16/exec-5affc418-48e0-457f-88a7-fcb676735d37.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Only allowed corrective regeneration; closer flat material treatment. Not compliant: incorrect native resolution, silhouette/details not identical, residual shading and background alpha specks.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "eacedfb9ca9ecdd95661c5a33edc8352167d10bb54d21232a2ee89aa4348ce86"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output_sha256": "e59536d50d1b20936a500271aa6e08de4f9138e0e5c208611d7230c719229d03",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          47,
+          21,
+          1234,
+          1232
+        ],
+        "solid_alpha_bbox": [
+          78,
+          415,
+          1176,
+          839
+        ],
+        "guide_alpha_bbox": [
+          66,
+          337,
+          958,
+          687
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Visually matches slate grey-green, ochre, cream/violet, soil and grey pipe palette.",
+        "flat_even_light": "Partial; residual shading and edge highlights remain.",
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha pixels remain outside object."
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+output_dir: ../replay/settings
+exit: true
+steps:
+- click: &id003
+  - 327.0
+  - 669.9999374999999
+- click: &id004
+  - 263.4999375
+  - 597.59390625
+- click:
+  - 850
+  - 405
+- capture: binding-capture
+- key: Escape
+- capture: binding-cancel
+- click:
+  - 850
+  - 405
+- key: S
+- capture: binding-conflict
+- click:
+  - 948
+  - 550
+- capture: binding-swapped
+- click:
+  - 1319.6794687499998
+  - 801.4999687499999
+- click:
+  - 805.00003125
+  - 307.78096875000006
+- text: attack
+- capture: binding-search
+- key: Escape
+- click:
+  - 263.4999375
+  - 339.59390625
+- click: &id001
+  - 1347.9999375
+  - 505.7339062500001
+- click: &id002
+  - 1319.6794687499998
+  - 801.4999687499999
+- capture: display-confirm
+- wait: 16
+- capture: display-rollback
+- click: *id001
+- click: *id002
+- click:
+  - 948
+  - 550
+- click:
+  - 263.4999375
+  - 265.59403125
+- click:
+  - 1347.9999375
+  - 488.74996875
+- key: Escape
+- capture: settings-unsaved
+- click:
+  - 800
+  - 550
+- click: *id003
+- click: *id004
+- capture: binding-persisted

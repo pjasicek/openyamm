@@ -1,0 +1,24 @@
+{
+  "status": "prepared_and_reviewed_candidate",
+  "user_artistic_approval": "not assumed",
+  "tool": "built-in imagegen",
+  "water": "Blue/turquoise painted ripples; fewer yellow highlights than original; deliberately retains MM6 vocabulary",
+  "shore": "Accepted dirt master, no independently generated bank earth",
+  "visual_checks": [
+    "12 native shore contexts",
+    "3x3 water repetition",
+    "14 frame sheet",
+    "native pool and island",
+    "matched original/new coastline",
+    "close oblique shoreline",
+    "sampled native animation"
+  ],
+  "structural_report": "validation_v1.json",
+  "animation_report": "native_animation_check.json",
+  "capture_manifest": "capture_manifest.json",
+  "limits": [
+    "Single-master repetition remains possible",
+    "Sampled animation is not full-frame-rate certification",
+    "The optional12-cell map correction resolves source material-layout conflicts; geometry and gameplay state are unchanged"
+  ]
+}

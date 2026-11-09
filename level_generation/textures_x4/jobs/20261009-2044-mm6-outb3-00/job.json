@@ -1,0 +1,1081 @@
+{
+ "id": "20261009-2044-mm6-outb3-00",
+ "world": "mm6",
+ "maps": [
+  "outb3.odm",
+  "oracle.blv",
+  "hive.blv",
+  "6d12.blv",
+  "6d08.blv",
+  "6t3.blv",
+  "zddb10.blv",
+  "znwc.blv",
+  "outb1.odm",
+  "6d09.blv",
+  "6d18.blv",
+  "outa1.odm",
+  "outa2.odm",
+  "6d01.blv",
+  "outc1.odm",
+  "outd1.odm",
+  "6t1.blv"
+ ],
+ "created": "2026-10-09T18:44:35+00:00",
+ "textures": [
+  "mm6/t1trima",
+  "mm6/swrdk",
+  "mm6/d5trimc",
+  "mm6/d5dorsmb",
+  "mm6/t3s1off",
+  "mm6/bemsv16c",
+  "mm6/t3dr2",
+  "mm6/dkwre",
+  "mm6/bmsctr",
+  "mm6/bmsctr1",
+  "mm6/cedhwal",
+  "mm6/blksmmid",
+  "mm6/armorpor",
+  "mm6/d7wl3ctr",
+  "mm6/d7wl2ctr",
+  "mm6/vlctrm3",
+  "mm6/pgstrlew",
+  "mm6/armorrch",
+  "mm6/t3wsbtr",
+  "mm6/swhz3dk",
+  "mm6/armormid",
+  "mm6/plgre1",
+  "mm6/t1wl9spd",
+  "mm6/t1d4"
+ ],
+ "requests": {
+  "mm6/t1trima": {
+   "name": "t1trima",
+   "versions": [
+    1
+   ],
+   "material": "plain pale pink-white veined marble trim tile with a bevelled edge",
+   "notes": {},
+   "roll": {
+    "1": [
+     0,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swrdk": {
+   "name": "swrdk",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark teal riveted metal frame holding vertical steel bars over a red and black striped glowing grille; copy the composition exactly",
+   "notes": {
+    "1": "Invent new fine metal detail; do not copy the pixel pattern of the reference.",
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     72
+    ]
+   }
+  },
+  "mm6/d5trimc": {
+   "name": "d5trimc",
+   "versions": [
+    1
+   ],
+   "material": "mossy grey-green rough fieldstone wall with two rows of rounded stones and a dark gap holding brown boulders",
+   "notes": {},
+   "roll": {
+    "1": [
+     0,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walas1",
+      "mm6/d5trima"
+     ],
+     "fraction": 0.593
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/d5dorsmb": {
+   "name": "d5dorsmb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "narrow olive-green stone door with three carved round glyph medallions, a carved Mesoamerican glyph lintel at the top and dark stone block jambs; copy the composition exactly",
+   "notes": {
+    "1": "Copy the composition exactly at the native positions.",
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly."
+   },
+   "roll": {
+    "1": [
+     83,
+     0
+    ],
+    "2": [
+     83,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5trimb"
+     ],
+     "fraction": 0.205
+    },
+    "2": {
+     "sources": [
+      "mm6/d5trimb"
+     ],
+     "fraction": 0.205
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/t3s1off": {
+   "name": "t3s1off",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small grey stone wall switch with an unlit dark red round button in a bevelled frame",
+   "notes": {
+    "2": "Copy the composition exactly: one smooth round dark red button with a soft highlight centred in the bevelled grey stone frame; nothing below the button, no crescent or second shape."
+   },
+   "roll": {
+    "1": [
+     0,
+     22
+    ],
+    "2": [
+     0,
+     22
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm6/t3s1on"
+     ],
+     "fraction": 0.704
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/bemsv16c": {
+   "name": "bemsv16c",
+   "versions": [
+    1
+   ],
+   "material": "plain red-brown wood beam with long straight grain",
+   "notes": {
+    "1": "Plain strip only: one continuous board, no joints, no end caps; crisp straight grain."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemv32a",
+      "mm6/bemsv32c"
+     ],
+     "fraction": 0.779
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/t3dr2": {
+   "name": "t3dr2",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown vertical plank door under a dark wooden dentil cornice band, a round copper medallion with crossed swords and a skull in the centre, copy the composition exactly",
+   "notes": {
+    "1": "Copy the medallion and its lettering exactly."
+   },
+   "roll": {
+    "1": [
+     173,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/dkwre": {
+   "name": "dkwre",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered vertical wooden planks with green moss staining inside an orange-brown wooden frame, frame post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/dkwle"
+     ],
+     "fraction": 0.359
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/dkwwn"
+    }
+   }
+  },
+  "mm6/bmsctr": {
+   "name": "bmsctr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly."
+   },
+   "roll": {
+    "1": [
+     63,
+     0
+    ],
+    "2": [
+     63,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsre",
+      "mm6/bmsle1",
+      "mm6/bmsle"
+     ],
+     "fraction": 0.99
+    },
+    "2": {
+     "sources": [
+      "mm6/bmsre",
+      "mm6/bmsle1",
+      "mm6/bmsle"
+     ],
+     "fraction": 0.99
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/bmsctr1": {
+   "name": "bmsctr1",
+   "versions": [
+    1
+   ],
+   "material": "tan-yellow rough cut sandstone block wall with dark mortar joints and green moss streaks",
+   "notes": {},
+   "roll": {
+    "1": [
+     63,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmsctr",
+      "mm6/bmsre1",
+      "mm6/bmsle1"
+     ],
+     "fraction": 0.985
+    }
+   },
+   "context": {
+    "1": {
+     "bottom": "mm6/bmsctr"
+    }
+   }
+  },
+  "mm6/cedhwal": {
+   "name": "cedhwal",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown cedar wooden planks laid horizontally with visible grain, knots and dark seams",
+   "notes": {},
+   "roll": {
+    "1": [
+     0,
+     72
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/blksmmid": {
+   "name": "blksmmid",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "blacksmith shop sign: dark iron anvil painted on orange-brown horizontal wooden boards with an iron-riveted brass frame; copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "No dark or light hairline along the bottom edge: the frame continues to the border at even brightness."
+   },
+   "roll": {
+    "1": [
+     0,
+     25
+    ],
+    "2": [
+     0,
+     25
+    ],
+    "3": [
+     0,
+     25
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/armorpor": {
+   "name": "armorpor",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "armoury shop sign: green steel knight helmet painted on brown vertical wooden planks with an iron-riveted frame; copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "No dark or light hairline along the bottom or left edge: the frame continues to the border at even brightness.",
+    "4": "The riveted grey iron band at the bottom runs to the bottom border at its own grey brightness: no dark line beneath it. No dark line along the left edge."
+   },
+   "roll": {
+    "1": [
+     47,
+     43
+    ],
+    "2": [
+     47,
+     43
+    ],
+    "3": [
+     47,
+     43
+    ],
+    "4": [
+     47,
+     43
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/d7wl3ctr": {
+   "name": "d7wl3ctr",
+   "versions": [
+    1
+   ],
+   "material": "weathered tan-orange stucco wall with pitted stains, a band of carved tan stone relief blocks with Mayan-style glyph faces along the top",
+   "notes": {
+    "1": "Natural pitted stucco with irregular grain: no mosaic of cells."
+   },
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7wl3ctr2"
+     ],
+     "fraction": 0.249
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/d7wl2ctr": {
+   "name": "d7wl2ctr",
+   "versions": [
+    1
+   ],
+   "material": "weathered tan-orange plaster wall with flaking and stained patches, a band of rough tan stone blocks along the top",
+   "notes": {
+    "1": "Natural flaking plaster with irregular grain: no mosaic of cells or stepped patches."
+   },
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/vlctrm3": {
+   "name": "vlctrm3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey carved stone square panel with a bevelled frame and three rows of raised weathered runic glyphs; copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly."
+   },
+   "roll": {
+    "1": [
+     63,
+     44
+    ],
+    "2": [
+     63,
+     44
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/pgstrlew": {
+   "name": "pgstrlew",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale cream-green cracked plaster wall in a dark red-brown timber frame with an X-braced timber lower panel, a vertical timber post on the left edge and a small red lattice window",
+   "notes": {
+    "3": "Keep the native's flaked plaster holes with exposed lath and brick at the upper-left corner and at lower right inside the cross-brace bay; no large flat tan discoloured patch."
+   },
+   "roll": {
+    "1": [
+     32,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pgstrle",
+      "mm6/pgwino",
+      "mm6/pgstrst11",
+      "mm6/pgstrrew"
+     ],
+     "fraction": 0.626
+    },
+    "2": {
+     "sources": [
+      "mm6/pgstrle",
+      "mm6/pgwino",
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.614
+    },
+    "3": {
+     "sources": [
+      "mm6/pgstrle",
+      "mm6/pgwino",
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.614
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/armorrch": {
+   "name": "armorrch",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "armoury shop sign: a gilded horned great helm on orange-brown vertical wooden boards between riveted gold trim bands, copy the composition exactly",
+   "notes": {
+    "1": "Keep the gold colour of the helm.",
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Keep the helm the pale muted gold of the reference, not saturated yellow. No dark hairline along the bottom edge.",
+    "4": "The riveted gold band at the top runs straight to the top border at its own bright gold brightness: no dark hairline or shadow above it. Keep the helm the pale muted gold of the reference."
+   },
+   "roll": {
+    "1": [
+     0,
+     36
+    ],
+    "2": [
+     0,
+     36
+    ],
+    "3": [
+     0,
+     36
+    ],
+    "4": [
+     0,
+     36
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/t3wsbtr": {
+   "name": "t3wsbtr",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grey-brown rough stone block wall with bright red blood dripping from the mortar joints, with a dark wooden post on the right edge bearing a carved ivory bone skeleton relief with red-eyed skull at the middle; copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Rebuilt on the corrected relative. The stone blocks reach the left border at full brightness: no dark line or shadow along the left edge.",
+    "4": "Rebuilt on the corrected relative. The stone blocks reach the left border at full brightness: no dark line or shadow along the left edge."
+   },
+   "roll": {
+    "1": [
+     90,
+     0
+    ],
+    "2": [
+     90,
+     0
+    ],
+    "3": [
+     90,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsptr",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.714
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsptr",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.714
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wsptr",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.714
+    },
+    "4": {
+     "sources": [
+      "mm6/t3wsptr",
+      "mm6/t3wsp"
+     ],
+     "fraction": 0.707
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/swhz3dk": {
+   "name": "swhz3dk",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "small dark green mottled stone tile with dark bevelled border and a raised round green dome in the centre",
+   "notes": {
+    "2": "Copy the composition exactly: one flat carved circle a little above and left of the centre inside a square bevelled frame, a short diagonal bevel at the bottom-right corner, dark frame lines along the right and bottom; nothing below the circle. No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Copy the composition exactly: a square tile with a bevelled border on all four sides and one raised round green dome a little above and left of the centre, fully inside the border; no dark outline at the canvas edge.",
+    "4": "Copy the composition exactly: a square tile with a bevelled border on all four sides and one raised round green dome a little above and left of the centre, fully inside the border; no dark outline at the canvas edge."
+   },
+   "roll": {
+    "1": [
+     0,
+     15
+    ],
+    "2": [
+     0,
+     15
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {
+     "right": "mm6/swhz4",
+     "left": "mm6/swhz4"
+    }
+   },
+   "pad": {
+    "4": [
+     16,
+     4
+    ]
+   }
+  },
+  "mm6/armormid": {
+   "name": "armormid",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "shop sign of a brown wooden plank board in a riveted frame showing a steel winged knight helmet, copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "No dark or light hairline along the top or left edge: the frame continues to the border at even brightness.",
+    "4": "Copy the composition exactly: the orange riveted trim band along the top and bottom as in the reference, reaching the borders at its own brightness; no dark hairline along the top or left edge.",
+    "5": "Copy the frame exactly: an orange riveted metal band along the full top edge and another along the full bottom edge, as in the reference, running to the canvas border at full brightness; no dark line along the top or left edge.",
+    "6": "Copy the frame exactly: an orange riveted metal band along the full top edge and another along the full bottom edge, as in the reference. Nothing under the helmet: no drips or fragments on the planks.",
+    "7": "Bottom edge: the rusted iron strap continues to the outermost row as bright as the reference; no dark rim or shadow along the bottom.",
+    "8": "Bottom edge: the rusted iron strap continues to the outermost row as bright as the reference; no dark rim or shadow along the bottom."
+   },
+   "roll": {
+    "1": [
+     20,
+     47
+    ],
+    "2": [
+     20,
+     47
+    ],
+    "3": [
+     20,
+     47
+    ],
+    "4": [
+     20,
+     47
+    ],
+    "5": [
+     20,
+     47
+    ],
+    "6": [
+     20,
+     0
+    ],
+    "7": [
+     0,
+     47
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   }
+  },
+  "mm6/plgre1": {
+   "name": "plgre1",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "half-timbered house facade with cream-white rough plaster panels and dark red-brown timber framing, a horizontal sill beam and an inverted triangle brace in the lower panel, with a timber corner post on the right edge",
+   "notes": {
+    "1": "One continuous plaster surface between the timbers; no patches.",
+    "3": "The dark middle rail runs straight and level all the way to the right post with no plaster notch, at the same height as the neighbouring wall pieces.",
+    "4": "The top of the dark middle rail is straight and level all the way to the right post with no notch; plain even plaster above it with no lighter rectangular patch and no faint horizontal line.",
+    "5": "The top of the dark middle rail is dead straight at one height from the left edge into the right post with no plaster pocket; the bottom rail is one solid beam down to the bottom edge; plain plaster with no faint horizontal line."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/plgre1w",
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.997
+    },
+    "2": {
+     "sources": [
+      "mm6/plgre1w",
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.997
+    },
+    "3": {
+     "sources": [
+      "mm6/plgre1w",
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.997
+    },
+    "4": {
+     "sources": [
+      "mm6/plgre1w",
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.997
+    },
+    "5": {
+     "sources": [
+      "mm6/plgre1w",
+      "mm6/plgctr1"
+     ],
+     "fraction": 0.997
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm6/t1wl9spd": {
+   "name": "t1wl9spd",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale cream-pink veined marble ashlar wall of flush bevelled blocks with dark joints under a teal-green Greek key meander frieze at the top, with a recessed dark niche holding a bronze statue group of three figures struggling with serpents, all fully clothed in long draped robes; copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Rebuilt on the corrected relative: no line or rim at the edges."
+   },
+   "roll": {
+    "1": [
+     0,
+     71
+    ],
+    "2": [
+     0,
+     71
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9cts"
+     ],
+     "fraction": 0.578
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9ctl"
+     ],
+     "fraction": 0.578
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9ctl"
+     ],
+     "fraction": 0.578
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/t1d4": {
+   "name": "t1d4",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "pale pink-white marble door: a bevelled marble frame with pyramid-faceted square blocks at all four corners, enclosing two deep dark recessed panels one above the other, each divided by a marble cross into four shadowed panes",
+   "notes": {
+    "1": "Keep the dark recessed window panes as in the reference.",
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "No dark or pale hairline along the top or right edge: the bevelled marble frame continues to the border exactly as in the reference.",
+    "4": "Copy the composition exactly at the same positions: corner blocks exactly in the four corners, top and bottom frame bars touching the top and bottom borders, the panes dark and deeply recessed as in the reference; no shift.",
+    "5": "Keep the dark shadow outline of the marble frame along the bottom and right edges exactly as in the reference, dark and full length to the canvas border; no pale marble or light hairline in the outermost bottom rows or right columns.",
+    "6": "The reference has a dark shadow outline along the full bottom edge and the full right edge of the door; keep it dark to the canvas border. Corner blocks exactly in the four corners as in the reference.",
+    "7": "Right edge: the marble frame continues exactly to the outermost column as in the reference; no pale or dark hairline along the right side."
+   },
+   "roll": {
+    "1": [
+     51,
+     118
+    ],
+    "2": [
+     51,
+     118
+    ],
+    "3": [
+     51,
+     118
+    ],
+    "4": [
+     51,
+     118
+    ],
+    "5": [
+     51,
+     118
+    ],
+    "7": [
+     51,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {}
+   }
+  }
+ }
+}

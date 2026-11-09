@@ -1,0 +1,132 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated candidates saved; exact brief requirements not met",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Create a painted texture-source edit of the supplied grey orthographic guide, at exactly 1024 x 1024 pixels with genuine transparent background. Image 1 is the exact geometry/edit target; Image 2 is the approved design reference, only for surface colours and materials.\nThe guide is absolute authority for every silhouette pixel, outline, internal shape edge, opening, object position, scale, framing, camera and overlap. Do not redesign, rotate, enlarge, shrink or reposition anything. Paint directly onto the guide's existing surfaces; preserve the guide's alpha silhouette exactly. Do not copy the three-quarter composition of the design reference.\nMaterials: pale cream fungus flesh with subtle warm speckles and fine longitudinal fibres; muted violet gills radiating along the visible undersides and flowing toward the stems; white prefab composite planter with a horizontal ochre band, restrained wear and panel fasteners as surface paint; dark soil only where visible in the guide; the existing lamp, where visible, is dark aged metal with a little brass and a warm-coloured lens. All detailing is surface paint within the supplied geometry.\nThis is albedo, NOT a beauty render: flat, even, shadowless frontal illumination, no cast shadows, no ambient occlusion or darkening in crevices, no strong specular highlights or reflections, no rim light. Gills have violet pigment with evenly lit detail, not deep black shadows. Any luminous material is painted its local glowing colour only, with no cast light.\nNo background, no floor, no text, no labels, no added shapes, no crop. Return only the single painted 1024 x 1024 image, maintaining the exact guide alignment.\nView: LEFT. The lamp is occluded in this guide; do not add a lamp. Preserve precisely the sloping large upper cap and the front-facing medium stem/cap arrangement in image 1.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/guide_left.png",
+          "sha256": "877f9f875f9632bd4f210338725e4f2f1c44b4e565e0f7bbb91e97ca3955289e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1604d-d0a3-7180-9196-bc8d5beec557/exec-8cf7a864-da3a-437d-ab71-cf0799947860.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1604d-d0a3-7180-9196-bc8d5beec557/exec-8cf7a864-da3a-437d-ab71-cf0799947860.png",
+      "selected": false,
+      "reason": "Initial return changes the planter profile; corrective return has a straighter planter bottom.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "materials_and_colours": "Cream flesh, violet gills, white planter and ochre band match reference palette; metal present in right view.",
+        "flat_even_light": "Not fully met: visible tonal shading in gills and stems."
+      },
+      "output_sha256": "e95a4fb29754524186993d2dd08124267312230b8995419dd612737a388621a3"
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Create a painted texture-source edit of the supplied grey orthographic guide, at exactly 1024 x 1024 pixels with genuine transparent background. Image 1 is the exact geometry/edit target; Image 2 is the approved design reference, only for surface colours and materials.\nThe guide is absolute authority for every silhouette pixel, outline, internal shape edge, opening, object position, scale, framing, camera and overlap. Do not redesign, rotate, enlarge, shrink or reposition anything. Paint directly onto the guide's existing surfaces; preserve the guide's alpha silhouette exactly. Do not copy the three-quarter composition of the design reference.\nMaterials: pale cream fungus flesh with subtle warm speckles and fine longitudinal fibres; muted violet gills radiating along the visible undersides and flowing toward the stems; white prefab composite planter with a horizontal ochre band, restrained wear and panel fasteners as surface paint; dark soil only where visible in the guide; the existing lamp, where visible, is dark aged metal with a little brass and a warm-coloured lens. All detailing is surface paint within the supplied geometry.\nThis is albedo, NOT a beauty render: flat, even, shadowless frontal illumination, no cast shadows, no ambient occlusion or darkening in crevices, no strong specular highlights or reflections, no rim light. Gills have violet pigment with evenly lit detail, not deep black shadows. Any luminous material is painted its local glowing colour only, with no cast light.\nNo background, no floor, no text, no labels, no added shapes, no crop. Return only the single painted 1024 x 1024 image, maintaining the exact guide alignment.\nView: LEFT. The lamp is occluded in this guide; do not add a lamp. Preserve precisely the sloping large upper cap and the front-facing medium stem/cap arrangement in image 1.\nCORRECTIVE GENERATION: The previous attempt failed by returning 1254 x 1254 pixels and changing the outline. Required native output resolution is 1024 x 1024, not 1254 or any other size. Preserve image 1 as the exact canvas and alpha mask: object extends x=171..852, y=66..957. The planter has a straight horizontal lower edge at y=957, its side walls x=249..803, and its top is near y=813. Do not round the lower edge into a perspective ellipse. Upper cap, stems and the smaller caps must trace the grey guide contours exactly; do not sculpt new ripples or change cap thickness. Only paint colours and fine surface material into the existing geometry. Flat shadowless albedo.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/guide_left.png",
+          "sha256": "877f9f875f9632bd4f210338725e4f2f1c44b4e565e0f7bbb91e97ca3955289e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/paint_left.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1604d-d0a3-7180-9196-bc8d5beec557/exec-a2b60718-5d0a-47d6-bc72-26b30a49bfa8.png",
+      "selected": true,
+      "reason": "Selected for straighter planter base and closer orthographic structure. Still fails exact dimensions and silhouette; some gill shading remains.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "materials_and_colours": "Cream flesh, violet gills, white planter and ochre band match reference palette; metal present in right view.",
+        "flat_even_light": "Not fully met: visible tonal shading in gills and stems."
+      },
+      "output_sha256": "bc2c5dbe3eab2a932c4afdfa434e4925250dcddbcce89457da860a8d3b428f7b"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Create a painted texture-source edit of the supplied grey orthographic guide, at exactly 1024 x 1024 pixels with genuine transparent background. Image 1 is the exact geometry/edit target; Image 2 is the approved design reference, only for surface colours and materials.\nThe guide is absolute authority for every silhouette pixel, outline, internal shape edge, opening, object position, scale, framing, camera and overlap. Do not redesign, rotate, enlarge, shrink or reposition anything. Paint directly onto the guide's existing surfaces; preserve the guide's alpha silhouette exactly. Do not copy the three-quarter composition of the design reference.\nMaterials: pale cream fungus flesh with subtle warm speckles and fine longitudinal fibres; muted violet gills radiating along the visible undersides and flowing toward the stems; white prefab composite planter with a horizontal ochre band, restrained wear and panel fasteners as surface paint; dark soil only where visible in the guide; the existing lamp, where visible, is dark aged metal with a little brass and a warm-coloured lens. All detailing is surface paint within the supplied geometry.\nThis is albedo, NOT a beauty render: flat, even, shadowless frontal illumination, no cast shadows, no ambient occlusion or darkening in crevices, no strong specular highlights or reflections, no rim light. Gills have violet pigment with evenly lit detail, not deep black shadows. Any luminous material is painted its local glowing colour only, with no cast light.\nNo background, no floor, no text, no labels, no added shapes, no crop. Return only the single painted 1024 x 1024 image, maintaining the exact guide alignment.\nView: RIGHT. Image 1 is the right-side orthographic guide, with the lamp pole visibly in front of the central stems and its curved head overlapping the middle cap. Keep that lamp exactly in place. Preserve the big upper cap sloping upward to the right, all three caps and their original guide contours. The planter bottom must remain straight horizontal, not a perspective ellipse. Native output dimensions must be exactly 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/guide_right.png",
+          "sha256": "d45ab0ee481aba91d6f238aca83c97ba875e949ba0ad0187c017895ff4a1779f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/paint_right.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1604d-d0a3-7180-9196-bc8d5beec557/exec-14125990-c31a-4ef8-8761-90f2ff32dfee.png",
+      "selected": true,
+      "reason": "Selected for closer overall scale and guide placement than the corrective return. Still fails exact dimensions and silhouette; some gill shading and lamp highlights remain.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "materials_and_colours": "Cream flesh, violet gills, white planter and ochre band match reference palette; metal present in right view.",
+        "flat_even_light": "Not fully met: visible tonal shading in gills and stems."
+      },
+      "output_sha256": "83a6fbf00b6a16870b867697ade3591e6cf5314e970a194ac519bf5dc3a388a5"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Create a painted texture-source edit of the supplied grey orthographic guide, at exactly 1024 x 1024 pixels with genuine transparent background. Image 1 is the exact geometry/edit target; Image 2 is the approved design reference, only for surface colours and materials.\nThe guide is absolute authority for every silhouette pixel, outline, internal shape edge, opening, object position, scale, framing, camera and overlap. Do not redesign, rotate, enlarge, shrink or reposition anything. Paint directly onto the guide's existing surfaces; preserve the guide's alpha silhouette exactly. Do not copy the three-quarter composition of the design reference.\nMaterials: pale cream fungus flesh with subtle warm speckles and fine longitudinal fibres; muted violet gills radiating along the visible undersides and flowing toward the stems; white prefab composite planter with a horizontal ochre band, restrained wear and panel fasteners as surface paint; dark soil only where visible in the guide; the existing lamp, where visible, is dark aged metal with a little brass and a warm-coloured lens. All detailing is surface paint within the supplied geometry.\nThis is albedo, NOT a beauty render: flat, even, shadowless frontal illumination, no cast shadows, no ambient occlusion or darkening in crevices, no strong specular highlights or reflections, no rim light. Gills have violet pigment with evenly lit detail, not deep black shadows. Any luminous material is painted its local glowing colour only, with no cast light.\nNo background, no floor, no text, no labels, no added shapes, no crop. Return only the single painted 1024 x 1024 image, maintaining the exact guide alignment.\nView: RIGHT. Image 1 is the right-side orthographic guide, with the lamp pole visibly in front of the central stems and its curved head overlapping the middle cap. Keep that lamp exactly in place. Preserve the big upper cap sloping upward to the right, all three caps and their original guide contours. The planter bottom must remain straight horizontal, not a perspective ellipse. Native output dimensions must be exactly 1024 x 1024.\nCORRECTIVE GENERATION: Return at native resolution 1024 x 1024 pixels. Previous output incorrectly returned 1254 x 1254. Use the exact input guide canvas and alpha outline unchanged. This is pixel-aligned surface painting, not reinterpreting the geometry. Keep all outer and internal edges identical to image 1, including the angular cap rims, planter straight bottom, narrow lamp pole and head orientation. Flatten the lighting: remove shadows from the gills and stems, remove metallic glints from the lamp. Use evenly illuminated local pigment detail only.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/guide_right.png",
+          "sha256": "d45ab0ee481aba91d6f238aca83c97ba875e949ba0ad0187c017895ff4a1779f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_tree/design_reference.png",
+          "sha256": "624269454b159d5a08a83cca2db287997b234c8db30d10594106bab2b781a002"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1604d-d0a3-7180-9196-bc8d5beec557/exec-840e52aa-eb35-4006-93c7-1711ccabae50.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a1604d-d0a3-7180-9196-bc8d5beec557/exec-840e52aa-eb35-4006-93c7-1711ccabae50.png",
+      "selected": false,
+      "reason": "Corrective return reduces some highlights but changes scale, lamp placement and outline further; exact resolution request remains unmet.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "materials_and_colours": "Cream flesh, violet gills, white planter and ochre band match reference palette; metal present in right view.",
+        "flat_even_light": "Not fully met: visible tonal shading in gills and stems."
+      },
+      "output_sha256": "af9d0460878974f75ec95629885f30132624b6542115f86a911e7da5b946e9c4"
+    }
+  ]
+}

@@ -1,0 +1,632 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "raw_returns_unresized": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the EDIT TARGET: a transparent 1024 x 1024 orthographic gray mesh guide. Image 2 is the approved design reference and is the authority for materials, colors and small surface details ONLY, not camera, shape or geometry.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 1. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: FRONT view, looking squarely at the face, strictly matching guide_front.png. Keep all paired parts and geometry where the guide places them. Crown and central respirator surfaces are black-violet resin; the wide V brow and long cheek guards are ivory ceramic with gold trim; visor-slot surfaces are orange; existing lateral sensor apertures are blue-white in gold surrounds. Keep every transparent gap in the original guide transparent.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_front.png",
+          "sha256": "0d2751057de9c48a3defcc25b1d51c0bed313382b845d5eff5be19bbbc224825"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: normalized silhouette overlap improved from 92.10% to 99.15%; initial raw return retained.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-2445d127-5b0e-488a-8a07-913ccf6fad4d.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "ed13d4ade37241487f7fdd095624ef7976cf6c78542047ba849b7df5c83e499f",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          0,
+          17,
+          1176,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          78,
+          93,
+          946,
+          930
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.921007,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 14,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.522771
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: BACK view, looking squarely at the back of the helmet, strictly matching guide_back.png. This must remain a rear view: no face or forward-facing visor added. Continue the black-violet segmented resin crown and rear shell, ivory ceramic side guards and the existing swept lower rim with restrained brushed-gold borders, and dark connector surfaces. Follow every modeled rear plate and side-pod edge. Continue sensor housing materials plausibly on their rear faces; no invented lenses on the rear shell. Preserve original cutouts.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_back.png",
+          "sha256": "ce6761cff12047383604d64fae42687122230babfb99a0972d72be4b9a6f0df0"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: normalized silhouette overlap improved from 92.49% to 97.99%; initial raw return retained.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-f8a1713a-1a79-4a38-9d86-ca0193b40686.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "a900cffe37e55ab9c1675570b145bb6f4e1107c72438c3f0cf7d2ade3764c1c4",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          65,
+          17,
+          1214,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          78,
+          94,
+          946,
+          930
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.9249,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 52,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.520196
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: LEFT orthographic profile, strictly matching guide_left.png. In this guide the face and pointed brow look RIGHT in the image; keep that orientation exactly. Crown and muzzle are black-violet resin; existing brow and long cheek ribs are ivory ceramic with gold trim; the existing large round side sensor and existing smaller round sensor apertures have blue-white glass, gold bezels and dark resin sockets. Side housing ceramic is ivory, bounded by the guide's existing geometry. Orange is confined to existing visor-slot surfaces. Preserve the guide's open gaps, even where the reference looks sealed.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_left.png",
+          "sha256": "2fa3f1dc711c9b2dae8448c91af7ce8c1e3d5736dfda72331d03f4c780fedc74"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: normalized silhouette overlap improved from 88.50% to 95.57%; initial raw return retained.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-90118ffb-71a6-43ad-886c-04bd688ef21c.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "5c2d899f199f1ebd74415724790dccecd02c25b3cea2a7bcf02bae2361ae357a",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          0,
+          4,
+          1254,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          94,
+          958,
+          930
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.884962,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 70,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.507735
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: RIGHT orthographic profile, strictly matching guide_right.png. In this guide the face and pointed brow look LEFT in the image; keep that orientation exactly. Crown and muzzle are black-violet resin; existing brow and long cheek ribs are ivory ceramic with gold trim; the existing large round side sensor and existing smaller round sensor apertures have blue-white glass, gold bezels and dark resin sockets. Side housing ceramic is ivory, bounded by the guide's existing geometry. Orange is confined to existing visor-slot surfaces. Preserve the guide's open gaps, even where the reference looks sealed.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_right.png",
+          "sha256": "5939d9a235711c3eb2805546697030d27f01f7b913585eecf2b98d2049c2ccb6"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: normalized silhouette overlap improved from 96.31% to 97.56%; initial raw return retained.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-d9614841-9706-477c-829d-4a7e9a074579.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "54cb8da8017b8f8e75279dbc4b88ee2b2ada08d8a2428c7239168b1d0d9d051d",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": true,
+        "alpha_bbox": [
+          74,
+          71,
+          1180,
+          1226
+        ],
+        "guide_alpha_bbox": [
+          66,
+          94,
+          958,
+          930
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.963122,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 0,
+        "max_border_alpha": 0,
+        "fully_transparent_pixel_fraction": 0.515995
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: TOP view, looking vertically straight down, strictly matching guide_top.png. The front pointed brow is at the BOTTOM of the image and the rear is at the TOP. Keep this exact overhead projection. The long segmented crown plates are black-violet resin with subtle fine wear and seams. Existing narrow trim and the front brow are ivory ceramic with restrained gold borders, and the existing side sensor housing surfaces continue matching ivory ceramic and gold. Do not add a face or frontal eyes to this overhead view. Preserve every part outline and all openings.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_top.png",
+          "sha256": "a4e863a071e23ed6c9463c5a8ad16b1f7f711e4f8be08dea9cf369b172d32b85"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective regeneration: normalized silhouette overlap improved from 96.18% to 98.30%; initial raw return retained.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-35498662-f6b2-45af-8ba7-d404c017a9bd.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "c2bf5ad89899cea485781e9640453a7344482932a6b98332d63b91c9f97a2926",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          0,
+          19,
+          1236,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          78,
+          66,
+          946,
+          958
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.961843,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 43,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.507294
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: FRONT view, looking squarely at the face, strictly matching guide_front.png. Keep all paired parts and geometry where the guide places them. Crown and central respirator surfaces are black-violet resin; the wide V brow and long cheek guards are ivory ceramic with gold trim; visor-slot surfaces are orange; existing lateral sensor apertures are blue-white in gold surrounds. Keep every transparent gap in the original guide transparent.\nCORRECTIVE REGENERATION (the only one allowed): The previous attempt redesigned the silhouette and introduced dark directional shading, so redo directly on the supplied gray guide. Treat the gray guide as an immutable pixel stencil. Output its exact 1024 x 1024 canvas, retaining all its margins, its crown tip at y=93, brow vertex at approximately (512,590), chin tip at y=930, side wings at x=78 and x=945. Do not lift the brow, stretch the chin, enlarge the sensors or shift any part. Retain the small transparent triangular guide opening near (416,554) and every other opening. Only replace gray pixels with flat material color and subtle surface texture. Guide shading is not albedo: remove all lighting shadow/ambient occlusion. No bevel highlights; no sculpted render lighting; no fake cracks with relief. Leave the alpha untouched.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_front.png",
+          "sha256": "0d2751057de9c48a3defcc25b1d51c0bed313382b845d5eff5be19bbbc224825"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Closest of the two allowed returns: normalized silhouette overlap 99.15% versus 92.10%. Palette and view direction match. Exact silhouette, fully flat lighting, clean alpha and cross-view material registration still fail the strict brief; correction allowance exhausted.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-1b2d9ba8-78cb-4a1f-afb7-9751e0269f74.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "cd88d7434bcd0d4a11fc8519a6629afbefd235d6b1419fa51d2188f17f8e3d2c",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          0,
+          53,
+          1234,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          78,
+          93,
+          946,
+          930
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.991464,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 17,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.525549
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: BACK view, looking squarely at the back of the helmet, strictly matching guide_back.png. This must remain a rear view: no face or forward-facing visor added. Continue the black-violet segmented resin crown and rear shell, ivory ceramic side guards and the existing swept lower rim with restrained brushed-gold borders, and dark connector surfaces. Follow every modeled rear plate and side-pod edge. Continue sensor housing materials plausibly on their rear faces; no invented lenses on the rear shell. Preserve original cutouts.\nCORRECTIVE REGENERATION: Preserve the target guide as an immutable pixel stencil. The previous attempt followed the design art too much and changed geometry and lighting. Repaint Image 2 directly. Match every outer and inner edge; no freehand reinterpretation, no extra surface layers. Keep the original 1024 x 1024 canvas. Back: full object alpha bounding box x=78..945, y=94..929 on the 1024 canvas. Keep the tiny crown tip near (512,94), the broad side projections near (78,326) and (945,326), the central rear plates and swept lower rim at their original positions. Preserve the small triangular transparent opening around (606,555). Do not turn the lower central pointed plate into a front respirator.\nFlatten illumination to basecolor: ivory-white ceramic must be approximately the same off-white on every face; gold is uniform ochre-gold, not bright metallic highlight bands; resin is flat dark violet-brown with subtle colored surface wear. All plane sides use their same material base color, without darkening recesses or lightening raised edges. Show joins as thin material boundary lines only. Lamps are uniform bright orange or pale blue/cyan, without white specular hot spots. This is an unlit diffuse texture paint-over, not an illuminated product rendering. Keep fine surface detail subdued; no invented marbling or strong cracks.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_back.png",
+          "sha256": "ce6761cff12047383604d64fae42687122230babfb99a0972d72be4b9a6f0df0"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Closest of the two allowed returns: normalized silhouette overlap 97.99% versus 92.49%. Palette and view direction match. Exact silhouette, fully flat lighting, clean alpha and cross-view material registration still fail the strict brief; correction allowance exhausted.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-656db21b-b3b5-45d5-875a-ae6e109098ce.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "3ff3e3dd558f5870ea1fb7dec92265b02fc1bc70f84f7d48f902c07af2914fbb",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          0,
+          23,
+          1216,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          78,
+          94,
+          946,
+          930
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.979877,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 8,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.518405
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: LEFT orthographic profile, strictly matching guide_left.png. In this guide the face and pointed brow look RIGHT in the image; keep that orientation exactly. Crown and muzzle are black-violet resin; existing brow and long cheek ribs are ivory ceramic with gold trim; the existing large round side sensor and existing smaller round sensor apertures have blue-white glass, gold bezels and dark resin sockets. Side housing ceramic is ivory, bounded by the guide's existing geometry. Orange is confined to existing visor-slot surfaces. Preserve the guide's open gaps, even where the reference looks sealed.\nCORRECTIVE REGENERATION: Preserve the target guide as an immutable pixel stencil. The previous attempt followed the design art too much and changed geometry and lighting. Repaint Image 2 directly. Match every outer and inner edge; no freehand reinterpretation, no extra surface layers. Keep the original 1024 x 1024 canvas. Left: face points RIGHT. Alpha bounding box x=66..957, y=94..929. Keep the crown fin at (458,94), rear fin near (294,110), the foremost brow tip near (938,587), and the chin tip near (928,929). Keep the existing large round side sensor disk centered approximately (300,495), with its size unchanged. Preserve the large opening underneath the brow, all open holes around the side disk, and the large triangular gap in the lower neck brace. Do not add another layer of face armor or fill any cutout.\nFlatten illumination to basecolor: ivory-white ceramic must be approximately the same off-white on every face; gold is uniform ochre-gold, not bright metallic highlight bands; resin is flat dark violet-brown with subtle colored surface wear. All plane sides use their same material base color, without darkening recesses or lightening raised edges. Show joins as thin material boundary lines only. Lamps are uniform bright orange or pale blue/cyan, without white specular hot spots. This is an unlit diffuse texture paint-over, not an illuminated product rendering. Keep fine surface detail subdued; no invented marbling or strong cracks.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_left.png",
+          "sha256": "2fa3f1dc711c9b2dae8448c91af7ce8c1e3d5736dfda72331d03f4c780fedc74"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Closest of the two allowed returns: normalized silhouette overlap 95.57% versus 88.50%. Palette and view direction match. Exact silhouette, fully flat lighting, clean alpha and cross-view material registration still fail the strict brief; correction allowance exhausted.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-82671347-c59d-4f63-b093-c89557ba15c2.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "872bca1d172ff6a2c90d630be03bbff374275f2e4f5032563ac17e9767d5bc34",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          0,
+          25,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          94,
+          958,
+          930
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.955719,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 22,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.507938
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: RIGHT orthographic profile, strictly matching guide_right.png. In this guide the face and pointed brow look LEFT in the image; keep that orientation exactly. Crown and muzzle are black-violet resin; existing brow and long cheek ribs are ivory ceramic with gold trim; the existing large round side sensor and existing smaller round sensor apertures have blue-white glass, gold bezels and dark resin sockets. Side housing ceramic is ivory, bounded by the guide's existing geometry. Orange is confined to existing visor-slot surfaces. Preserve the guide's open gaps, even where the reference looks sealed.\nCORRECTIVE REGENERATION: Preserve the target guide as an immutable pixel stencil. The previous attempt followed the design art too much and changed geometry and lighting. Repaint Image 2 directly. Match every outer and inner edge; no freehand reinterpretation, no extra surface layers. Keep the original 1024 x 1024 canvas. Right: face points LEFT. Alpha bounding box x=66..957, y=94..929. Keep the crown fin near (567,94), rear fin near (730,110), the foremost brow tip near (87,587), and the chin tip near (96,929). Keep the existing large round side sensor disk centered approximately (722,495), with its size unchanged. Preserve the large opening underneath the brow, all open holes around the side disk, and the large triangular gap in the lower neck brace. Do not add another layer of face armor or fill any cutout.\nFlatten illumination to basecolor: ivory-white ceramic must be approximately the same off-white on every face; gold is uniform ochre-gold, not bright metallic highlight bands; resin is flat dark violet-brown with subtle colored surface wear. All plane sides use their same material base color, without darkening recesses or lightening raised edges. Show joins as thin material boundary lines only. Lamps are uniform bright orange or pale blue/cyan, without white specular hot spots. This is an unlit diffuse texture paint-over, not an illuminated product rendering. Keep fine surface detail subdued; no invented marbling or strong cracks.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_right.png",
+          "sha256": "5939d9a235711c3eb2805546697030d27f01f7b913585eecf2b98d2049c2ccb6"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Closest of the two allowed returns: normalized silhouette overlap 97.56% versus 96.31%. Palette and view direction match. Exact silhouette, fully flat lighting, clean alpha and cross-view material registration still fail the strict brief; correction allowance exhausted.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-7e24f8c7-61bd-4fec-a96b-77644d62dc1d.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "642b5d711a92c11c9e671a0bc56997973d93e854f40969659e86d90412871b5b",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          49,
+          33,
+          1206,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          94,
+          958,
+          930
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.975583,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 1,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.52233
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: an albedo texture projection source for the existing Hesper sensor helm 3D mesh.\nImage 1 is the approved design reference: authority for material base colors and surface pattern ONLY. Image 2 is the EDIT TARGET: the 1024 x 1024 transparent gray orthographic mesh guide. PAINT IMAGE 2, preserving Image 2's pixel geometry; do not recompose Image 1.\nPaint the target guide's existing surfaces, leaving its geometry and alpha mask exactly untouched. Output ONE 1024 x 1024 PNG, transparent background, identical framing, scale, position, outline, internal cutouts and every part edge to Image 2. This is an aligned paint-over, not a redesigned or re-rendered helmet. Preserve every facet's location, every opening, and every projecting piece. Do not fill guide holes or extend glow past guide edges.\nMatch the reference's black-violet resin armor plates with fine restrained wear and seams, worn ivory-white ceramic inlays, brushed warm gold trim, dark flexible connectors, orange luminous slots and blue-white glass/crystal sensors. Continue the same materials plausibly on surfaces not visible in the design. Translate details onto the EXISTING shapes of the mesh; do not add shapes from the reference that are absent from the guide.\nLIGHTING: FLAT SHADOWLESS ALBEDO. Paint material base colors evenly, with no cast shadows, NO ambient occlusion or shaded creases, no directional light, no gradient darkening across faces, no rim light, no hot specular highlights or scene reflections. Gold is its base ochre-gold color with at most faint sheen. Resin stays black-violet as its own material color, not illumination shadow. Use subtle surface-color wear, fine seams, engravings and panel joins. Glowing parts are bright orange or blue-white colored surfaces, without illumination spill, bloom or a halo. No floor, background, labels, text, letters, numbers, watermark or presentation sheet.\nVIEW-SPECIFIC PAINT PLACEMENT: TOP view, looking vertically straight down, strictly matching guide_top.png. The front pointed brow is at the BOTTOM of the image and the rear is at the TOP. Keep this exact overhead projection. The long segmented crown plates are black-violet resin with subtle fine wear and seams. Existing narrow trim and the front brow are ivory ceramic with restrained gold borders, and the existing side sensor housing surfaces continue matching ivory ceramic and gold. Do not add a face or frontal eyes to this overhead view. Preserve every part outline and all openings.\nCORRECTIVE REGENERATION: Preserve the target guide as an immutable pixel stencil. The previous attempt followed the design art too much and changed geometry and lighting. Repaint Image 2 directly. Match every outer and inner edge; no freehand reinterpretation, no extra surface layers. Keep the original 1024 x 1024 canvas. Top: strict overhead; front is DOWN. Alpha bounding box x=78..945, y=66..957. Keep the rounded rear crown top at y=66, side housings at their exact guide shapes, and the blunt lowest front portion ending at y=957. Follow all longitudinal crown ridges exactly. In particular, preserve the broad central plate surfaces and the guide's exact lower brow edge. Do not lengthen the front into a new pointed face, do not enlarge the sensor pods, and do not invent side lenses where the guide has only blank housing surfaces.\nFlatten illumination to basecolor: ivory-white ceramic must be approximately the same off-white on every face; gold is uniform ochre-gold, not bright metallic highlight bands; resin is flat dark violet-brown with subtle colored surface wear. All plane sides use their same material base color, without darkening recesses or lightening raised edges. Show joins as thin material boundary lines only. Lamps are uniform bright orange or pale blue/cyan, without white specular hot spots. This is an unlit diffuse texture paint-over, not an illuminated product rendering. Keep fine surface detail subdued; no invented marbling or strong cracks.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/design_reference.png",
+          "sha256": "0f3d6287ea6a295f2754803b836f60721c97875476c8adfa99c0c35fc61ccf08"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_sensor_helm/guide_top.png",
+          "sha256": "a4e863a071e23ed6c9463c5a8ad16b1f7f711e4f8be08dea9cf369b172d32b85"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Closest of the two allowed returns: normalized silhouette overlap 98.30% versus 96.18%. Palette and view direction match. Exact silhouette, fully flat lighting, clean alpha and cross-view material registration still fail the strict brief; correction allowance exhausted.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e1f-e3e6-7af2-be9b-7b7e42f06aba/exec-82a9ff66-3e0a-4dfe-abf3-b24223f8bd01.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "output_sha256": "abb960d1daeca4167a8330a56c495292183854a5d60813317211565d08d9fdf3",
+      "checks": {
+        "transparent_background": true,
+        "transparent_border": false,
+        "alpha_bbox": [
+          0,
+          31,
+          1234,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          78,
+          66,
+          946,
+          958
+        ],
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.982957,
+        "normalized_iou_method": "In-memory nearest-coordinate alpha comparison at guide dimensions; no image files resized or modified.",
+        "palette_materials_match": true,
+        "material_note": "Overall palette matches reference; exact material placement and fine details vary among projections.",
+        "flat_shadowless_lighting": false,
+        "lighting_note": "Bevel highlights, shaded facets and recess darkening remain; not a strict shadowless albedo source.",
+        "no_text_or_letters": true,
+        "size_requested": [
+          1024,
+          1024
+        ],
+        "size_returned": [
+          1254,
+          1254
+        ],
+        "unresized_raw_return": true,
+        "nonzero_border_alpha_pixels": 18,
+        "max_border_alpha": 1,
+        "fully_transparent_pixel_fraction": 0.487867
+      }
+    }
+  ],
+  "brief_sha256": "fb442801446ea2a49a6f13a131f62e793a6b4a8f833733fb0ab2ea08b5e69796",
+  "validation_status": "does_not_fully_meet_brief",
+  "deviations": [
+    "All raw tool returns are 1254 x 1254 instead of 1024 x 1024; retained unresized as directed.",
+    "No return preserves the guide alpha mask exactly. Selected normalized silhouette overlap ranges from 95.57% to 99.15%; this diagnostic does not establish exact part-edge registration.",
+    "Shaded facets, bevel highlights and recess darkening remain, so these are not fully shadowless albedo sources.",
+    "Fine surface details and material placement are not fully consistent between opposing projections.",
+    "Transparent backgrounds contain stray nonzero alpha pixels reaching the canvas borders; raw returns preserved without cleanup."
+  ],
+  "selection_policy": "Select the closer silhouette from the two allowed raw returns per view. Preserve all returned image bytes; no resize, recoloring, alpha replacement or compositing.",
+  "scope_note": "Image generation and local image checks only; no build, texture bake or game integration."
+}

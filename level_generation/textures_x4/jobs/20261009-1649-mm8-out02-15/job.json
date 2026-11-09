@@ -1,0 +1,418 @@
+{
+ "id": "20261009-1649-mm8-out02-15",
+ "world": "mm8",
+ "maps": [
+  "out02.odm",
+  "elemf.odm",
+  "d29.blv",
+  "d31.blv",
+  "d27.blv",
+  "out03.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t06a11",
+  "mm8/t14a05",
+  "mm8/t14abcd11",
+  "mm8/t14d05",
+  "mm8/gnecwal4",
+  "mm8/gnecwalb",
+  "mm8/gnecwalt",
+  "mm8/gnecwtrb",
+  "mm8/gnecwtlb",
+  "mm8/gnecstpf",
+  "mm8/gnectr2h",
+  "mm8/gnectr2v",
+  "mm8/gstyl",
+  "mm8/gtrlwal1",
+  "mm8/gcstdoor",
+  "mm8/gkp2ceil",
+  "mm8/gkp4-bs",
+  "mm8/gnecclg2",
+  "mm8/t66flr2",
+  "mm8/tws1fa",
+  "mm8/tfb1",
+  "mm8/t05b07b",
+  "mm8/t05c01",
+  "mm8/t05c04b"
+ ],
+ "requests": {
+  "mm8/t06a11": {
+   "name": "t06a11",
+   "versions": [
+    1
+   ],
+   "material": "small dark carved wooden band tile with a triangle pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t14a05": {
+   "name": "t14a05",
+   "versions": [
+    1
+   ],
+   "material": "dry tan-brown sandy ground with faint wavy texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t14abcd11": {
+   "name": "t14abcd11",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered brown wood grain, horizontal",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t14d05": {
+   "name": "t14d05",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale tan sand with faint windswept texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecwal4": {
+   "name": "gnecwal4",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark charcoal rough rock wall with fine crackled pale veins under a gilded bronze frieze of carved dragon reliefs and brass mouldings",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gnecwal1"
+     ],
+     "fraction": 0.579
+    },
+    "2": {
+     "sources": [
+      "mm8/gnecwal1"
+     ],
+     "fraction": 0.579
+    },
+    "3": {
+     "sources": [
+      "mm8/gnecwal1"
+     ],
+     "fraction": 0.579
+    }
+   }
+  },
+  "mm8/gnecwalb": {
+   "name": "gnecwalb",
+   "versions": [],
+   "material": "dark charcoal rough rock wall with fine crackled pale veins above a brass moulding",
+   "notes": {}
+  },
+  "mm8/gnecwalt": {
+   "name": "gnecwalt",
+   "versions": [],
+   "material": "dark charcoal rough rock wall with fine crackled pale veins under a gilded bronze frieze of carved dragon reliefs and brass mouldings",
+   "notes": {}
+  },
+  "mm8/gnecwtrb": {
+   "name": "gnecwtrb",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal rough rock wall with fine crackled pale veins under a gilded bronze frieze of carved dragon reliefs and brass mouldings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gnecwal4"
+     ],
+     "fraction": 0.976
+    }
+   }
+  },
+  "mm8/gnecwtlb": {
+   "name": "gnecwtlb",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal rough rock wall with fine crackled pale veins under a gilded bronze frieze of carved dragon reliefs, with a riveted iron strip along one edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gnecwal4"
+     ],
+     "fraction": 0.964
+    }
+   }
+  },
+  "mm8/gnecstpf": {
+   "name": "gnecstpf",
+   "versions": [
+    1
+   ],
+   "material": "dark grey rough stone step front of small flat stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnectr2h": {
+   "name": "gnectr2h",
+   "versions": [
+    1
+   ],
+   "material": "horizontal pale brass trim strip with parallel mouldings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnectr2v": {
+   "name": "gnectr2v",
+   "versions": [
+    1
+   ],
+   "material": "vertical pale brass trim strip with parallel mouldings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gstyl": {
+   "name": "gstyl",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal grey cracked rock ground with deep crevices",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gtrlwal1": {
+   "name": "gtrlwal1",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-green rough stone blocks with crumbling joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcstdoor": {
+   "name": "gcstdoor",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey brushed steel door with a dark rune glyph and a narrow slot handle inside a dark frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gcst2-bs",
+     "right": "mm8/gcst1-rt"
+    }
+   }
+  },
+  "mm8/gkp2ceil": {
+   "name": "gkp2ceil",
+   "versions": [
+    1
+   ],
+   "material": "rusty brown riveted iron plates in a grid",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gkp4-bs": {
+   "name": "gkp4-bs",
+   "versions": [
+    1
+   ],
+   "material": "rounded tan pebble cobblestones with pale grey mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecclg2": {
+   "name": "gnecclg2",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale grey stone with fine mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66flr2": {
+   "name": "t66flr2",
+   "versions": [
+    1
+   ],
+   "material": "irregular grey-tan flagstones with dark cracked joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/tws1fa": {
+   "name": "tws1fa",
+   "versions": [
+    1
+   ],
+   "material": "horizontal strip of pale cream marble with dark brown crackle veins",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/tfb1": {
+   "name": "tfb1",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone floor of large rectangular slabs with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t05b07b": {
+   "name": "t05b07b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall with a jagged edge of exposed dark brown bricks along one side",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05b01c"
+     ],
+     "fraction": 0.315
+    },
+    "2": {
+     "sources": [
+      "mm8/t05c01",
+      "mm8/t05a01"
+     ],
+     "fraction": 0.315
+    }
+   }
+  },
+  "mm8/t05c01": {
+   "name": "t05c01",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall above a base of dark brown stone bricks",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.713
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a01",
+      "mm8/t05a07c"
+     ],
+     "fraction": 0.713
+    }
+   }
+  },
+  "mm8/t05c04b": {
+   "name": "t05c04b",
+   "versions": [],
+   "material": "smooth reddish-brown adobe plaster wall with a tall pointed-arch window of glowing yellow-green glass, above a dark brick base",
+   "notes": {}
+  }
+ }
+}

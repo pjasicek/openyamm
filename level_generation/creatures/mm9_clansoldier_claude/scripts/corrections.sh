@@ -1,0 +1,1 @@
+Q "$G" scripts/arm_hold.py work/clan_clips1.glb work/clan_clips1d.glb Walking:R:13 Backpedal:R:13 BackpedalRun:R:13 Running:R:6 Fidget:R:9:1.1:2.4:0.3 Sleep:R:10:0:2.0:0.3 Block:R:5:0.1:0.7:0.15 Death:L:-9:0.5:3.0:0.3 Dead:L:-9 Fidget2:L:5:1.9:3.0:0.4 | tail -1

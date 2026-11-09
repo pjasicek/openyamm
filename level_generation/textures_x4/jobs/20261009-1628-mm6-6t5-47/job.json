@@ -1,0 +1,349 @@
+{
+ "id": "20261009-1628-mm6-6t5-47",
+ "world": "mm6",
+ "maps": [
+  "6t5.blv",
+  "sci-fi.blv"
+ ],
+ "created": "2026-10-09T14:28:28+00:00",
+ "textures": [
+  "mm6/t4f1",
+  "mm6/t4f2",
+  "mm6/t4f3",
+  "mm6/t4ww9",
+  "mm6/swaled",
+  "mm6/swared",
+  "mm6/swtrdk",
+  "mm6/ch5frle",
+  "mm6/ch5frnt",
+  "mm6/ch5frre",
+  "mm6/ch5side",
+  "mm6/ch5top",
+  "mm6/ch5topb",
+  "mm6/ch5toplb",
+  "mm6/ch5tople",
+  "mm6/ch5toprb",
+  "mm6/ch5topre",
+  "mm6/swall4",
+  "mm6/swdoorb",
+  "mm6/swdoorc",
+  "mm6/swfloor6",
+  "mm6/swflora",
+  "mm6/swflorc",
+  "mm6/swhor4dk"
+ ],
+ "requests": {
+  "mm6/t4f1": {
+   "name": "t4f1",
+   "versions": [
+    1
+   ],
+   "material": "dark brown vertical wooden floor planks with wavy grain and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4f2": {
+   "name": "t4f2",
+   "versions": [
+    1
+   ],
+   "material": "brown cracked rough stone cobbles with dark crevices",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4f3": {
+   "name": "t4f3",
+   "versions": [
+    1
+   ],
+   "material": "tan-brown irregular flagstones with pale grey mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4ww9": {
+   "name": "t4ww9",
+   "versions": [
+    1
+   ],
+   "material": "dark brown gnarled tree bark and twisted root wall with vertical fibres",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swaled": {
+   "name": "swaled",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one dark teal-grey alien machinery wall panel inside a heavy riveted metal frame: blue glass orb at upper left and red glass orb at upper right, two tall black ribbed segmented coil columns in the middle, rust-red clamps and copper pipes, round port lower right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/swared": {
+   "name": "swared",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark teal-grey alien machinery wall panel with pipes, ribbed coils, a copper tube and a red glass orb at upper right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swaled"
+     ],
+     "fraction": 0.194
+    }
+   }
+  },
+  "mm6/swtrdk": {
+   "name": "swtrdk",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark teal steel wall panel with X-crossed pipes around a central grey insect-like mechanical device and round hatches; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swared"
+     ],
+     "fraction": 0.165
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/ch5frle": {
+   "name": "ch5frle",
+   "versions": [],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges, left edge strip of the front",
+   "notes": {}
+  },
+  "mm6/ch5frnt": {
+   "name": "ch5frnt",
+   "versions": [
+    1
+   ],
+   "material": "one complete front face of a bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges: a large recessed rectangular panel with a red round lock button at top and a small green-lit indicator plate; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch5frre": {
+   "name": "ch5frre",
+   "versions": [],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges, right edge strip of the front",
+   "notes": {}
+  },
+  "mm6/ch5side": {
+   "name": "ch5side",
+   "versions": [
+    1
+   ],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges side with a recessed rectangular slot vent with dark grille",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch5top": {
+   "name": "ch5top",
+   "versions": [
+    1
+   ],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges lid with a small raised rectangular panel left of centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch5topb": {
+   "name": "ch5topb",
+   "versions": [
+    1
+   ],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges lid with a small raised rectangular panel in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch5toplb": {
+   "name": "ch5toplb",
+   "versions": [],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges, left edge strip of the lid",
+   "notes": {}
+  },
+  "mm6/ch5tople": {
+   "name": "ch5tople",
+   "versions": [],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges, top-left corner strip of the lid",
+   "notes": {}
+  },
+  "mm6/ch5toprb": {
+   "name": "ch5toprb",
+   "versions": [],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges, right edge strip of the lid",
+   "notes": {}
+  },
+  "mm6/ch5topre": {
+   "name": "ch5topre",
+   "versions": [],
+   "material": "bright orange painted metal chest with recessed dark orange panel seams and lighter bevelled edges, top-right corner strip of the lid",
+   "notes": {}
+  },
+  "mm6/swall4": {
+   "name": "swall4",
+   "versions": [
+    1
+   ],
+   "material": "dark teal steel wall with diagonal crisscross lattice girders over a rust-red frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swdoorb": {
+   "name": "swdoorb",
+   "versions": [
+    1
+   ],
+   "material": "square dark teal and rust-red metal door with a cross of red bars, a central round boss and a keypad panel on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swdoorc": {
+   "name": "swdoorc",
+   "versions": [
+    1
+   ],
+   "material": "dark teal metal door with a diagonal diamond lattice of thin bars over a central round bolt; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swfloor6": {
+   "name": "swfloor6",
+   "versions": [
+    1
+   ],
+   "material": "metal floor grate of red square grid tiles in a dark iron frame with a central teal diamond plate; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swflora": {
+   "name": "swflora",
+   "versions": [
+    1
+   ],
+   "material": "dark iron lattice floor grate with glowing green diamond panes in a teal frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swflorc": {
+   "name": "swflorc",
+   "versions": [
+    1
+   ],
+   "material": "plain grey mottled concrete floor",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swhor4dk": {
+   "name": "swhor4dk",
+   "versions": [
+    1
+   ],
+   "material": "dark teal metal panel with diagonal chevron vent slats and a rust-red rim",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

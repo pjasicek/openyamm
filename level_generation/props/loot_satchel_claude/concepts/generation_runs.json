@@ -1,0 +1,343 @@
+{
+  "generator": "built-in image_gen",
+  "brief": "level_generation/props/loot_satchel_claude/concepts/CODEX_BRIEF.md",
+  "reference_inputs": [
+    {
+      "path": "level_generation/props/loot_satchel_claude/concepts/mm9_bags.png",
+      "sha256": "08391c910257c35cbc32f283bcf4ebe3e62d25efd21b9e66f2d1eebd33f623ef",
+      "role": "Readability reference only; do not copy the ugly crude forms."
+    },
+    {
+      "path": "level_generation/props/loot_satchel_claude/concepts/current_tiers.png",
+      "sha256": "847f2fbce99fc36f044d5b8a672b6062c2fadebc84c8a88a45511dda8578fe1e",
+      "role": "Failure reference: avoid similar brown/red tiers and all spilled coins."
+    },
+    {
+      "path": "level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+      "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b",
+      "role": "Authority for warm saturated semi-realistic prerendered MM6 materials and lighting only; exclude coins and magenta."
+    }
+  ],
+  "runs": [
+    {
+      "id": "exec-8f4d4629-c17c-4d77-925f-befa4b43ba51",
+      "sheet": "A",
+      "prompt": "Use case: stylized-concept.\nAsset type: loot-container tier concept sheet for a Might and Magic VI style low-poly game prop.\nCreate ONE landscape sheet, exactly 1536 x 1024 pixels.\nReference inputs, in original attached order:\nImage 1 (mm9_bags.png): only the at-a-glance fabric/tier readability is a reference. Do not copy these crude low-poly shapes.\nImage 2 (current_tiers.png): failure reference, its similar brown/red tiers and dominant spilled coins are the problems to solve. Do not copy its coin spills.\nImage 3 (native_gold_piles.png): visual authority for the warm saturated semi-realistic fully three-dimensional prerendered look of MM6 (1998). Use that warmth and material richness, not its coins or magenta background.\nComposition: exactly TWELVE container objects total in two horizontal rows of SIX, tier order 1 through 6 left to right in both rows. No side panels, inset views or extra objects. Six regular evenly spaced columns. All objects fully visible with clear empty gaps.\nTop row: the six main containers rest on one uniform plain mid-grey-green ground with no scenery. Each object's width grows gently: approximately 115, 138, 161, 184, 207, 230 pixels, so tier 6 is about twice tier 1. Same three-quarter camera for every object, camera approximately 30 degrees above the ground; all face the same way. Align ground contact on a shared baseline around y=610. Render rich visible cloth weave, leather grain, stitching and worn metals while keeping strong simple silhouettes buildable in 400-1,800 triangles.\nSecond row: a distance readability test near y=850, on one continuous horizontal patch of SHORT green grass. Repeat the SAME six designs, materials, lighting, poses, camera and tier order, but each container is exactly about ONE SIXTH the linear width and height of its corresponding top-row object (about 19, 23, 27, 31, 35, 38 pixels wide). Six visibly separate tiny containers, side by side. Grass is short enough to leave every entire base visible. This row should visibly simulate viewing the bags from 2-15 metres away; every neighbouring tier must still read differently by broad hue/value or silhouette alone. Do NOT enlarge these tiny objects to fill the row.\nLighting: consistent soft overhead illumination, warm natural saturated material colours, fully 3D volumes. Small faint contact shadows only, never a black shadow that conceals the base.\nText: only the exact specified sheet title once, centred near the top, and a small tier number \"1\" \"2\" \"3\" \"4\" \"5\" \"6\" underneath each object in each row. No other words at all, including no \"distance test\" label. Simple understated legible dark lettering.\nHard constraints: no spilled coins, no loose coins, no exposed hoards, no scattered treasure, no hands, no people, no extra props, no logos/watermarks, no cropped objects, no painting-like flat bags, no outlines, no heavy floor shadows. Closed containers. All six main objects and all six distance objects must be distinct and in the correct order.\nSheet title (verbatim): \"A: material ladder\".\nDesign direction: One simple tied drawstring-sack silhouette and identical construction for all six, gently increasing size. The dominant BODY material tells the tier. Tier 1: light coarse undyed natural burlap, oatmeal beige. Tier 2: patched moss-green wool, visibly green and darker than tier 1. Tier 3: tanned warm medium brown leather. Tier 4: deep blue dyed leather with brass fittings, unmistakably blue rather than brown. Tier 5: rich bright ivory brocade embroidered with burgundy and antique-gold patterns, the broad pale body strongly contrasts with the deep blue of tier 4. Tier 6: royal deep crimson velvet with gold embroidery and a gold drawstring cord, contrasting strongly with tier 5 in both hue and value. ALL SIX keep the same rounded drawstring sack outline, tied gathered neck, no satchel flaps or chest shapes. Use bold broad material colour fields so tiers remain distinct in the tiny grass row.",
+      "inputs": [
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/mm9_bags.png",
+          "sha256": "08391c910257c35cbc32f283bcf4ebe3e62d25efd21b9e66f2d1eebd33f623ef",
+          "role": "Readability reference only; do not copy the ugly crude forms."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/current_tiers.png",
+          "sha256": "847f2fbce99fc36f044d5b8a672b6062c2fadebc84c8a88a45511dda8578fe1e",
+          "role": "Failure reference: avoid similar brown/red tiers and all spilled coins."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+          "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b",
+          "role": "Authority for warm saturated semi-realistic prerendered MM6 materials and lighting only; exclude coins and magenta."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-8f4d4629-c17c-4d77-925f-befa4b43ba51.png",
+      "selected": false,
+      "reason": "Rejected: distance-row objects are approximately one third of their top-row counterparts, larger than the brief's approximately one-sixth scale.",
+      "output_sha256": "04f67d14f5f8d52649124f36ee9aee2be26557ba15154cda222152ae04ce4ef5"
+    },
+    {
+      "id": "exec-c3c6799a-f3b7-4eda-8dad-05379a60a631",
+      "sheet": "A",
+      "prompt": "Use case: precise-object-edit. Correct this concept sheet's DISTANCE ROW SCALE only.\nKeep the existing exact 1536x1024 canvas, title \"A: material ladder\", entire upper row of six containers, top-row numbers, material designs, colours, camera and soft lighting exactly unchanged.\nReplace the bottom grass-row container images with the SAME SIX designs at exactly HALF their CURRENT linear width and height. Current bottom bags are too large (one third of upper-row counterparts). The corrected bottom bags must be about ONE SIXTH the size of the upper-row bag: target widths about 29, 33, 38, 40, 43, 49 pixels respectively on this 1536px-wide canvas. They should look truly tiny, including the red sixth bag which must not remain larger than 49px wide. Keep their left-to-right order 1,2,3,4,5,6 and their existing horizontal centres. Align the bottoms near y=870 and retain the existing lower-row numbers below them. Preserve the short grass patch with no grass obscuring the tiny bases.\nDo not just zoom the whole image or crop. Shrink only the six bottom-row objects, preserving their correct proportions and making neighbouring materials distinguishable: pale burlap, dark green wool, brown leather, blue leather, pale brocade, red velvet.\nExactly six main objects plus six miniature objects, twelve total. No spilled coins, no extra objects, no extra text, no cropped containers. Preserve original upper-row title and numbers.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-8f4d4629-c17c-4d77-925f-befa4b43ba51.png",
+          "sha256": "04f67d14f5f8d52649124f36ee9aee2be26557ba15154cda222152ae04ce4ef5",
+          "role": "Edit target: first generated material-ladder sheet."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-c3c6799a-f3b7-4eda-8dad-05379a60a631.png",
+      "selected": false,
+      "reason": "Rejected: miniature row improved, but remains approximately one fifth to one quarter of the main row rather than approximately one sixth.",
+      "output_sha256": "48cf58e116bd050bc1a7fb88669d7d613ae1af2778bd85f836004f99153cb506"
+    },
+    {
+      "id": "exec-2d90504d-c2ad-4348-b1a1-aed1d955de33",
+      "sheet": "A",
+      "prompt": "Precise edit of the supplied 1536x1024 concept sheet. Preserve everything except the SIX miniature containers in the lower grass row. Preserve title \"A: material ladder\", all SIX large upper-row bags and their numbers, background, camera, materials, light, lower-row numbers and grass.\nThe lower-row bags are STILL TOO LARGE. Shrink each of these SIX LOWER bags to 70% of its CURRENT width AND 70% of its CURRENT height. Do not change the upper bags at all. The resulting six lower bags should be only approximately 30, 34, 38, 40, 44, 49 PIXELS WIDE respectively in the 1536 pixel wide image, i.e. approximately ONE SIXTH their corresponding upper bags. Treat this as a tiny distant-prop readability test, not another presentation lineup. Keep the centres and bottom ground contact at the existing positions; extend grass naturally into the vacated space. Six small separate, still legible silhouettes and colours: oatmeal beige burlap; dark moss green wool; brown leather; blue leather; pale brocade; red velvet. Their current textures and tied-neck construction remain. Keep every lower-row number below its tiny object. Exactly twelve objects total, no coins, no additional text, no cropping, no extra props.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-c3c6799a-f3b7-4eda-8dad-05379a60a631.png",
+          "sha256": "48cf58e116bd050bc1a7fb88669d7d613ae1af2778bd85f836004f99153cb506",
+          "role": "Edit target: previous material-ladder sheet, reducing miniature row only."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-2d90504d-c2ad-4348-b1a1-aed1d955de33.png",
+      "generated_source_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-2d90504d-c2ad-4348-b1a1-aed1d955de33.png",
+      "selected": false,
+      "reason": "Superseded after final stacked review: designs and miniature scale pass, but title has a middle dot instead of the required colon.",
+      "output_sha256": "8a058dcbac930361814b632d5f48031ac3ac5dd3e3f4aa95ed9499841832a2fe"
+    },
+    {
+      "id": "exec-e2ee9d7a-6f28-4f8f-a12b-880787e9d16e",
+      "sheet": "B",
+      "prompt": "Use case: stylized-concept.\nAsset type: loot-container tier concept sheet for a Might and Magic VI style low-poly game prop.\nCreate ONE landscape sheet, exactly 1536 x 1024 pixels.\nReference inputs, in original attached order:\nImage 1 (mm9_bags.png): only the at-a-glance fabric/tier readability is a reference. Do not copy these crude low-poly shapes.\nImage 2 (current_tiers.png): failure reference, its similar brown/red tiers and dominant spilled coins are the problems to solve. Do not copy its coin spills.\nImage 3 (native_gold_piles.png): visual authority for the warm saturated semi-realistic fully three-dimensional prerendered look of MM6 (1998). Use that warmth and material richness, not its coins or magenta background.\nComposition: exactly TWELVE container objects total in two horizontal rows of SIX, tier order 1 through 6 left to right in both rows. No side panels, inset views or extra objects. Six regular evenly spaced columns. All objects fully visible with clear empty gaps.\nTop row: the six main containers rest on one uniform plain mid-grey-green ground with no scenery. Each object's width grows gently: approximately 115, 138, 161, 184, 207, 230 pixels, so tier 6 is about twice tier 1. Same three-quarter camera for every object, camera approximately 30 degrees above the ground; all face the same way. Align ground contact on a shared baseline around y=610. Render rich visible cloth weave, leather grain, stitching and worn metals while keeping strong simple silhouettes buildable in 400-1,800 triangles.\nSecond row: a distance readability test near y=850, on one continuous horizontal patch of SHORT green grass. Repeat the SAME six designs, materials, lighting, poses, camera and tier order, but each container is exactly about ONE SIXTH the linear width and height of its corresponding top-row object (about 19, 23, 27, 31, 35, 38 pixels wide). Six visibly separate tiny containers, side by side. Grass is short enough to leave every entire base visible. This row should visibly simulate viewing the bags from 2-15 metres away; every neighbouring tier must still read differently by broad hue/value or silhouette alone. Do NOT enlarge these tiny objects to fill the row.\nLighting: consistent soft overhead illumination, warm natural saturated material colours, fully 3D volumes. Small faint contact shadows only, never a black shadow that conceals the base.\nText: only the exact specified sheet title once, centred near the top, and a small tier number \"1\" \"2\" \"3\" \"4\" \"5\" \"6\" underneath each object in each row. No other words at all, including no \"distance test\" label. Simple understated legible dark lettering.\nHard constraints: no spilled coins, no loose coins, no exposed hoards, no scattered treasure, no hands, no people, no extra props, no logos/watermarks, no cropped objects, no painting-like flat bags, no outlines, no heavy floor shadows. Closed containers. All six main objects and all six distance objects must be distinct and in the correct order.\nSheet title (verbatim): \"B: rarity colours\".\nDesign direction: Same simple plain warm brown leather drawstring sack body silhouette for all six; only gentle tier-size progression. Every tier has a BROAD solid coloured cloth band around its gathered neck, thick/wide enough to remain a legible horizontal block of colour when reduced to one sixth size. Also one matching coloured wax seal OR tassel hanging from that band. Tier 1 band and matching seal/tassel: grey. Tier 2: green. Tier 3: blue. Tier 4: purple. Tier 5: saturated orange, with metal corner fittings. Tier 6: luminous warm gold, with metal corner fittings. The leather body MUST remain the same brown material family for all six; do not recolour the entire sack. Make green/blue/purple bands bold and separate hues, and orange clearly darker and more orange than bright gold. Tiers 5-6 corner fittings are attached hardware, never separate floor props.\nFourth input image: the approved \"A: material ladder\" sheet is a COMPOSITION TEMPLATE. Use its same 1536x1024 layout, title font/position, top-row graded sizes, gentle ground shading, camera, light and short grass strip. Replace the title with \"B: rarity colours\" and replace BOTH rows' container designs with the B designs above. Preserve the extremely tiny miniature row scale from image 4; do not enlarge it. The bottom-row bands must still be distinguishable as grey, green, blue, purple, orange, gold at that tiny size. Neck bands should be broad continuous blocks of cloth covering the gathered neck and upper shoulder, not a thin cord or mere tiny tag. Do not carry over the material colours or embroidery of A; all six brown leather bodies are PLAIN and share the same brown.",
+      "inputs": [
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/mm9_bags.png",
+          "sha256": "08391c910257c35cbc32f283bcf4ebe3e62d25efd21b9e66f2d1eebd33f623ef",
+          "role": "Readability reference only; do not copy the ugly crude forms."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/current_tiers.png",
+          "sha256": "847f2fbce99fc36f044d5b8a672b6062c2fadebc84c8a88a45511dda8578fe1e",
+          "role": "Failure reference: avoid similar brown/red tiers and all spilled coins."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+          "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b",
+          "role": "Authority for warm saturated semi-realistic prerendered MM6 materials and lighting only; exclude coins and magenta."
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-2d90504d-c2ad-4348-b1a1-aed1d955de33.png",
+          "sha256": "8a058dcbac930361814b632d5f48031ac3ac5dd3e3f4aa95ed9499841832a2fe",
+          "role": "Approved A sheet used only as composition and miniature-scale template."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-e2ee9d7a-6f28-4f8f-a12b-880787e9d16e.png",
+      "selected": false,
+      "reason": "Rejected: all six neck-band colours read distinctly, but the distance-row bags are still too large compared with their main-row counterparts.",
+      "output_sha256": "336ad5ea7dab4cf63f544bfa07fa80382f48d598c12bab068a53c7cb6dd4d2de"
+    },
+    {
+      "id": "exec-427cb660-22e8-4be4-8a1e-570f410b973a",
+      "sheet": "B",
+      "prompt": "Use case: precise-object-edit. Keep this 1536x1024 \"B: rarity colours\" sheet exactly as it is, except make all SIX LOWER GRASS-ROW BAGS drastically smaller. The top row of six brown leather bags, broad grey / green / blue / purple / orange / gold neck bands, matching tassels and seals, fittings, numbers, title, camera, soft light and background MUST remain unchanged.\nIn the bottom row, replace each existing little bag with a much tinier copy, approximately ONE SIXTH of its corresponding upper-row bag. Exact target miniature widths in this 1536px canvas: tier1 25px; tier2 33px; tier3 35px; tier4 40px; tier5 43px; tier6 52px. Keep proportions. These are extremely tiny distant props, not medium-size thumbnail bags. Reduce the current lower bags by about HALF in linear dimensions, especially the leftmost one. Do NOT move or resize the top row or text.\nKeep all lower bags' existing horizontal centres, all on a shared ground baseline around y=870, keep the tier numbers below. Naturally extend the short green grass where the larger current bag outlines were. Preserve each tiny grey, green, blue, purple, orange and gold neck band and matching tassel so neighbour colours remain readable even at tiny size. Exactly twelve bags total, no coins, no extra text or additional objects.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-e2ee9d7a-6f28-4f8f-a12b-880787e9d16e.png",
+          "sha256": "336ad5ea7dab4cf63f544bfa07fa80382f48d598c12bab068a53c7cb6dd4d2de",
+          "role": "Edit target: first rarity-colour sheet."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-427cb660-22e8-4be4-8a1e-570f410b973a.png",
+      "selected": false,
+      "reason": "Rejected: distance tiers 2-6 are near the requested scale, but the first miniature remains proportionally too large.",
+      "output_sha256": "a151923d262f3bed3c295ba8711ac0f1e21ebaf0d7f5349f45ff56bbae540ea3"
+    },
+    {
+      "id": "exec-47752468-b74f-4ba9-af71-390a95b3ec1e",
+      "sheet": "B",
+      "prompt": "Precision edit: preserve this \"B: rarity colours\" sheet completely, except the FIRST tiny grey-banded bag in the LOWER grass row, the miniature immediately above the lower \"1\".\nMake only that miniature tier1 30% smaller in BOTH width and height, targeting 25px wide by about 29px high. Current first miniature is too large relative to its upper counterpart and later miniatures. Keep it centred at the same x position and its bottom touching the same grass baseline. Preserve its brown leather, broad grey neck band and matching grey tassel.\nDo not change any of the other eleven bags, any text, title, grass, light, camera, materials, proportions, positions or 1536x1024 image dimensions. Extend the grass naturally where the old first-miniature outline stood. All six lower tiers remain distinguishable: grey, green, blue, purple, orange, gold. No added objects, no coins, no new text.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-427cb660-22e8-4be4-8a1e-570f410b973a.png",
+          "sha256": "a151923d262f3bed3c295ba8711ac0f1e21ebaf0d7f5349f45ff56bbae540ea3",
+          "role": "Edit target: previous rarity-colour sheet, correcting first-miniature size only."
+        }
+      ],
+      "output_path": "level_generation/props/loot_satchel_claude/concepts/B_rarity_colours.png",
+      "generated_source_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-47752468-b74f-4ba9-af71-390a95b3ec1e.png",
+      "selected": true,
+      "reason": "Selected after visual review: six full objects in each row, neighbouring broad grey/green/blue/purple/orange/gold bands distinguishable at approximately one-sixth scale, matching brown leather bodies, metal fittings on tiers 5-6, consistent camera/light, no coins or extra text.",
+      "output_sha256": "488c0b459f04a68f325fbc7fc9610200f2562de93867e075cb19256e0a07b8ac"
+    },
+    {
+      "id": "exec-1e6d3c01-e7de-4eb6-a9c1-e810296297c4",
+      "sheet": "C",
+      "prompt": "Use case: stylized-concept.\nAsset type: loot-container tier concept sheet for a Might and Magic VI style low-poly game prop.\nCreate ONE landscape sheet, exactly 1536 x 1024 pixels.\nReference inputs, in original attached order:\nImage 1 (mm9_bags.png): only the at-a-glance fabric/tier readability is a reference. Do not copy these crude low-poly shapes.\nImage 2 (current_tiers.png): failure reference, its similar brown/red tiers and dominant spilled coins are the problems to solve. Do not copy its coin spills.\nImage 3 (native_gold_piles.png): visual authority for the warm saturated semi-realistic fully three-dimensional prerendered look of MM6 (1998). Use that warmth and material richness, not its coins or magenta background.\nComposition: exactly TWELVE container objects total in two horizontal rows of SIX, tier order 1 through 6 left to right in both rows. No side panels, inset views or extra objects. Six regular evenly spaced columns. All objects fully visible with clear empty gaps.\nTop row: the six main containers rest on one uniform plain mid-grey-green ground with no scenery. Each object's width grows gently: approximately 115, 138, 161, 184, 207, 230 pixels, so tier 6 is about twice tier 1. Same three-quarter camera for every object, camera approximately 30 degrees above the ground; all face the same way. Align ground contact on a shared baseline around y=610. Render rich visible cloth weave, leather grain, stitching and worn metals while keeping strong simple silhouettes buildable in 400-1,800 triangles.\nSecond row: a distance readability test near y=850, on one continuous horizontal patch of SHORT green grass. Repeat the SAME six designs, materials, lighting, poses, camera and tier order, but each container is exactly about ONE SIXTH the linear width and height of its corresponding top-row object (about 19, 23, 27, 31, 35, 38 pixels wide). Six visibly separate tiny containers, side by side. Grass is short enough to leave every entire base visible. This row should visibly simulate viewing the bags from 2-15 metres away; every neighbouring tier must still read differently by broad hue/value or silhouette alone. Do NOT enlarge these tiny objects to fill the row.\nLighting: consistent soft overhead illumination, warm natural saturated material colours, fully 3D volumes. Small faint contact shadows only, never a black shadow that conceals the base.\nText: only the exact specified sheet title once, centred near the top, and a small tier number \"1\" \"2\" \"3\" \"4\" \"5\" \"6\" underneath each object in each row. No other words at all, including no \"distance test\" label. Simple understated legible dark lettering.\nHard constraints: no spilled coins, no loose coins, no exposed hoards, no scattered treasure, no hands, no people, no extra props, no logos/watermarks, no cropped objects, no painting-like flat bags, no outlines, no heavy floor shadows. Closed containers. All six main objects and all six distance objects must be distinct and in the correct order.\nSheet title (verbatim): \"C: container ladder\".\nDesign direction: Silhouette itself is the tier signal, each container visibly different. Tier 1: small closed rounded coin purse with tied neck. Tier 2: belt pouch with a structured foldover flap and compact belt attachment. Tier 3: rectangular shoulder satchel with a flap and shoulder strap resting neatly attached alongside the bag. Tier 4: large full bulging upright drawstring sack. Tier 5: compact small coffer, closed box shape, iron bands. Tier 6: ornate gilded reliquary chest, closed, with a distinctive raised architectural lid silhouette. All are semi-realistic medieval fantasy containers with strong simplified silhouettes, warm materials, suitable for 400-1,800 triangle props. Across the row footprints grow gently; tier 6 is about twice tier 1 width despite the word small for the coffer. At tiny distance size, purse / belt pouch / satchel / bulging sack / iron coffer / ornate reliquary must remain visibly different neighbours. No contents visible.\nFourth input image: the accepted \"B: rarity colours\" sheet is ONLY a composition template. Preserve its canvas, font and title position, six columns, plain mid-grey-green ground, camera, soft overhead light, short grass strip and extremely tiny miniature row. Replace the title verbatim with \"C: container ladder\". Completely REPLACE its sack designs and coloured neck bands with the SIX DIFFERENT CONTAINERS specified for C above, in BOTH rows. Do not leave all six as sacks. Preserve the approximate width progression of the template main row (150,200,210,240,255,310px) and distance row approximately one-sixth (25,33,35,40,43,52px); tier6 about twice tier1. All miniatures must be tiny but recognizable by silhouette: coin purse / flap belt pouch / rectangular shoulder satchel / tall bulging sack / low iron-banded coffer / raised ornate gilded reliquary chest. Use especially clear differences in height and lid/closure silhouette; the coffer has a low plain lid while the reliquary has a higher ornate architectural lid. No bag-like purse silhouette for the chests. Closed containers with no exposed treasure.",
+      "inputs": [
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/mm9_bags.png",
+          "sha256": "08391c910257c35cbc32f283bcf4ebe3e62d25efd21b9e66f2d1eebd33f623ef",
+          "role": "Readability reference only; do not copy the ugly crude forms."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/current_tiers.png",
+          "sha256": "847f2fbce99fc36f044d5b8a672b6062c2fadebc84c8a88a45511dda8578fe1e",
+          "role": "Failure reference: avoid similar brown/red tiers and all spilled coins."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+          "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b",
+          "role": "Authority for warm saturated semi-realistic prerendered MM6 materials and lighting only; exclude coins and magenta."
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-47752468-b74f-4ba9-af71-390a95b3ec1e.png",
+          "sha256": "488c0b459f04a68f325fbc7fc9610200f2562de93867e075cb19256e0a07b8ac",
+          "role": "Approved B sheet used only as layout and miniature-scale template."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-1e6d3c01-e7de-4eb6-a9c1-e810296297c4.png",
+      "selected": false,
+      "reason": "Rejected: all six container silhouettes are clear and ordered, but the miniature row was generated at roughly one third scale instead of approximately one sixth.",
+      "output_sha256": "d755de5275b1858ae61314df8ac7bcd6a15c46ab5d97e80199142e6b946861db"
+    },
+    {
+      "id": "exec-4a10930a-868b-4732-8a48-2b2117aca2b9",
+      "sheet": "C",
+      "prompt": "Use case: precise-object-edit. First image is the \"C: container ladder\" sheet to correct. Second image \"B: rarity colours\" is only a reference for HOW TINY the lower-row objects should be.\nPreserve the first image's exact 1536x1024 canvas, title, upper row of six containers, all twelve tier numbers, grey-green ground, short grass, camera and light. Change ONLY the SIX containers in the lower grass row, making them dramatically smaller. Their current thumbnail size is incorrect.\nEach lower container must be approximately ONE SIXTH the LINEAR width and height of its own upper-row counterpart, and visibly as tiny as the miniature examples in image 2. Reduce the current C lower-row container widths AND heights by about 60%, to leave only about 40% of their current size. Target widths on the 1536px image: tier1 purse 22px; tier2 belt pouch 31px; tier3 shoulder satchel 42px; tier4 tall sack 43px; tier5 iron coffer 40px; tier6 gilded reliquary 54px. Preserve the containers' original shape and details, scaled proportionally. No enlarging them for clarity.\nKeep their existing horizontal centres and shared bottom baseline around y=860; naturally fill vacated areas with short grass. Still six miniatures, distinct neighbours by silhouette and broad material colour, in exactly the same order, all full objects. Keep the upper row EXACTLY as in image1. Do not copy B's sacks or neck bands into C. No coins, no extra text, no extra objects.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-1e6d3c01-e7de-4eb6-a9c1-e810296297c4.png",
+          "sha256": "d755de5275b1858ae61314df8ac7bcd6a15c46ab5d97e80199142e6b946861db",
+          "role": "Edit target: first container-ladder sheet."
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-47752468-b74f-4ba9-af71-390a95b3ec1e.png",
+          "sha256": "488c0b459f04a68f325fbc7fc9610200f2562de93867e075cb19256e0a07b8ac",
+          "role": "Approved B miniature row used as scale reference."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-4a10930a-868b-4732-8a48-2b2117aca2b9.png",
+      "selected": false,
+      "reason": "Rejected: distance row is smaller but the first two containers remain proportionally larger than approximately one-sixth scale.",
+      "output_sha256": "28cb8ece8cb69429cc2c4a0216f675aad7b2e76ce702f9cd3b63a6ba8f1dffaf"
+    },
+    {
+      "id": "exec-1ad45476-e55f-4e7c-afc4-6d854d115914",
+      "sheet": "C",
+      "prompt": "Precision correction of LOWER ROW SIZE only. Preserve this 1536x1024 \"C: container ladder\" concept sheet: title, all six LARGE top containers, all tier numbers, ground, camera, light and short grass unchanged.\nThe six lower-row miniature containers should be even TINIER: reduce each lower object to HALF its CURRENT width and HALF its CURRENT height, while keeping its same horizontal centre and ground contact. Do NOT shrink the top row or the tier numbers.\nEspecially shrink the first miniature purse and the second belt pouch, so their tiny footprints are only about 22px and 30px wide. Remaining miniature widths should be about 40px satchel, 41px tall sack, 39px coffer and 51px reliquary chest. Keep all six original container shapes and broad material colours, just tiny enough for a true one-sixth-size distance test. Fill their vacated outlines naturally with grass, no visible editing marks. Exactly six complete large containers and six complete tiny counterparts, ordered 1-6 in each row, no extra props or text, no coins.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-4a10930a-868b-4732-8a48-2b2117aca2b9.png",
+          "sha256": "28cb8ece8cb69429cc2c4a0216f675aad7b2e76ce702f9cd3b63a6ba8f1dffaf",
+          "role": "Edit target: previous container-ladder sheet, reducing miniature row only."
+        }
+      ],
+      "output_path": "level_generation/props/loot_satchel_claude/concepts/C_container_ladder.png",
+      "generated_source_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-1ad45476-e55f-4e7c-afc4-6d854d115914.png",
+      "selected": true,
+      "reason": "Selected after visual review: purse, belt pouch, satchel, tall sack, iron coffer and gilded reliquary remain distinct at approximately one-sixth distance scale; six full ordered containers in both rows, no coins or extra text, consistent camera and light.",
+      "output_sha256": "90ba57efdb50beb04658b22ed5fee201f745ce2e79b2d2406fd8a05c0d9b503a"
+    },
+    {
+      "id": "exec-4c7ddacd-7c35-4a38-a82a-581a85ed0f4c",
+      "sheet": "D",
+      "prompt": "Use case: stylized-concept.\nAsset type: loot-container tier concept sheet for a Might and Magic VI style low-poly game prop.\nCreate ONE landscape sheet, exactly 1536 x 1024 pixels.\nReference inputs, in original attached order:\nImage 1 (mm9_bags.png): only the at-a-glance fabric/tier readability is a reference. Do not copy these crude low-poly shapes.\nImage 2 (current_tiers.png): failure reference, its similar brown/red tiers and dominant spilled coins are the problems to solve. Do not copy its coin spills.\nImage 3 (native_gold_piles.png): visual authority for the warm saturated semi-realistic fully three-dimensional prerendered look of MM6 (1998). Use that warmth and material richness, not its coins or magenta background.\nComposition: exactly TWELVE container objects total in two horizontal rows of SIX, tier order 1 through 6 left to right in both rows. No side panels, inset views or extra objects. Six regular evenly spaced columns. All objects fully visible with clear empty gaps.\nTop row: the six main containers rest on one uniform plain mid-grey-green ground with no scenery. Each object's width grows gently: approximately 115, 138, 161, 184, 207, 230 pixels, so tier 6 is about twice tier 1. Same three-quarter camera for every object, camera approximately 30 degrees above the ground; all face the same way. Align ground contact on a shared baseline around y=610. Render rich visible cloth weave, leather grain, stitching and worn metals while keeping strong simple silhouettes buildable in 400-1,800 triangles.\nSecond row: a distance readability test near y=850, on one continuous horizontal patch of SHORT green grass. Repeat the SAME six designs, materials, lighting, poses, camera and tier order, but each container is exactly about ONE SIXTH the linear width and height of its corresponding top-row object (about 19, 23, 27, 31, 35, 38 pixels wide). Six visibly separate tiny containers, side by side. Grass is short enough to leave every entire base visible. This row should visibly simulate viewing the bags from 2-15 metres away; every neighbouring tier must still read differently by broad hue/value or silhouette alone. Do NOT enlarge these tiny objects to fill the row.\nLighting: consistent soft overhead illumination, warm natural saturated material colours, fully 3D volumes. Small faint contact shadows only, never a black shadow that conceals the base.\nText: only the exact specified sheet title once, centred near the top, and a small tier number \"1\" \"2\" \"3\" \"4\" \"5\" \"6\" underneath each object in each row. No other words at all, including no \"distance test\" label. Simple understated legible dark lettering.\nHard constraints: no spilled coins, no loose coins, no exposed hoards, no scattered treasure, no hands, no people, no extra props, no logos/watermarks, no cropped objects, no painting-like flat bags, no outlines, no heavy floor shadows. Closed containers. All six main objects and all six distance objects must be distinct and in the correct order.\nSheet title (verbatim): \"D: fittings and fullness\".\nDesign direction: All six are simple sacks in ONE consistent dark warm brown leather material family. Each tier grows visibly fuller and taller as well as gently wider; tier 1 is a small squat sack, tier 6 a tall fully bulging sack with about twice tier 1 width. Attachments progress exactly: tier 1 plain cord tie; tier 2 broad leather closure strap; tier 3 brass buckle; tier 4 brass clasp with attached studs; tier 5 broad silver filigree straps; tier 6 broad gold filigree straps with one large gemstone clasp. Keep metal silhouettes simple and the silver/gold straps broad enough to read at distance. Fullness/height must provide unmistakable silhouette changes for the first four tiers even when tiny; do not make tiers 1-4 equal-shaped identical brown bags. No extra metal floor props. All six are leather sacks, never rigid boxes.\nFourth input image: the accepted \"B: rarity colours\" sheet is a composition template ONLY. Preserve its landscape canvas, title typography/position, six columns, grey-green ground, short grass strip, consistent camera and soft overhead light. Change the exact title to \"D: fittings and fullness\", sized to fit fully. Replace BOTH rows' designs with the D leather-fullness and hardware progression above; remove ALL B coloured neck cloth, seals and tassels.\nThe FIRST FOUR tiers MUST be distinguishable by fullness/HEIGHT silhouette in the tiny grass row, because all use the same dark leather. Tier1 is a very squat low flattened small sack with plain cord tie; tier2 a somewhat fuller/taller squat sack with a broad leather strap; tier3 a half-full medium-height rounded sack with brass buckle; tier4 a full upright tall sack with brass clasp and studs; tier5 a taller bulging sack with BROAD SILVER FILIGREE STRAPS wrapping down its body; tier6 the tallest fullest sack with BROAD GOLD FILIGREE STRAPS and a LARGE gemstone clasp.\nAll six retain simple sack construction in the SAME dark warm brown leather. The brass closure must not become gold straps on tier3-4. The silver and gold straps must be visibly broad at distance. Example main silhouettes approximately width x height: 150x95,175x140,200x185,230x230,260x290,300x340px, sharing their ground-contact baseline. Thus tier6 is about twice tier1 width and clearly taller/fullest. Distance-row counterparts must be truly TINY at about ONE SIXTH those linear sizes: 25x16,29x23,33x31,38x38,43x48,50x57px. No extra miniatures, no enlarged thumbnails.",
+      "inputs": [
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/mm9_bags.png",
+          "sha256": "08391c910257c35cbc32f283bcf4ebe3e62d25efd21b9e66f2d1eebd33f623ef",
+          "role": "Readability reference only; do not copy the ugly crude forms."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/current_tiers.png",
+          "sha256": "847f2fbce99fc36f044d5b8a672b6062c2fadebc84c8a88a45511dda8578fe1e",
+          "role": "Failure reference: avoid similar brown/red tiers and all spilled coins."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+          "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b",
+          "role": "Authority for warm saturated semi-realistic prerendered MM6 materials and lighting only; exclude coins and magenta."
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-47752468-b74f-4ba9-af71-390a95b3ec1e.png",
+          "sha256": "488c0b459f04a68f325fbc7fc9610200f2562de93867e075cb19256e0a07b8ac",
+          "role": "Approved B composition template; all designs replaced by dark-leather fullness and fittings progression."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-4c7ddacd-7c35-4a38-a82a-581a85ed0f4c.png",
+      "selected": false,
+      "reason": "Rejected: hardware and fullness progression are correct, but the distance-row bags are approximately one third scale, too large for the specified distance test.",
+      "output_sha256": "18d14990da856f189faa1481f3bc6d3fa62497a7041cfacb437970716749f552"
+    },
+    {
+      "id": "exec-c6c0c03e-d75c-4579-abf1-371f964730e7",
+      "sheet": "D",
+      "prompt": "Use case: precise-object-edit. Correct only the scale of the SIX LOWER GRASS-ROW SACKS in this 1536x1024 \"D: fittings and fullness\" concept sheet.\nPreserve the whole TOP ROW of six leather sacks, their progressively taller/fullness shapes, exact brown leather, cord/strap/buckle/clasp/silver/gold hardware, camera, soft light, all numbers, title, ground and grass.\nThe lower bags are too big. Shrink each lower bag by about 55% in BOTH width and height, leaving about 45% of its current linear size. They must be genuinely TINY distant objects, approximately ONE SIXTH the linear size of the corresponding large bag. Target miniature footprints about: tier1 29x20px; tier2 34x26px; tier3 35x37px; tier4 39x47px; tier5 44x58px; tier6 51x69px. Preserve every original sack's proportions and attached fittings. First two miniatures need to be especially small, not oversized relative to their top-row counterparts.\nKeep existing lower-row horizontal centres and ground-contact baseline around y=865; naturally fill their old larger outlines with short grass. Keep all lower-row numbers below them. The tiny silhouettes must retain the increasing height/fullness, tiers 5 and 6 broad silver and gold straps and tier6 red gem. No added text, no coins, no other objects, no cropped bags. Only shrink the lower objects; everything else stays.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-4c7ddacd-7c35-4a38-a82a-581a85ed0f4c.png",
+          "sha256": "18d14990da856f189faa1481f3bc6d3fa62497a7041cfacb437970716749f552",
+          "role": "Edit target: first fittings-and-fullness sheet."
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-c6c0c03e-d75c-4579-abf1-371f964730e7.png",
+      "selected": false,
+      "reason": "Rejected: miniatures retain the hardware/fullness progression but remain approximately one quarter scale; another reduction is needed.",
+      "output_sha256": "5197526740ecbbd5ae8071ac4af8cc82968886839938d77fc8055923aa26d896"
+    },
+    {
+      "id": "exec-acf9f35c-7e07-4c33-a87f-2124679cb812",
+      "sheet": "D",
+      "prompt": "Precision edit: shrink ONLY the SIX miniature sacks in the LOWER grass row of this \"D: fittings and fullness\" 1536x1024 sheet. Leave the entire top row and all text and background exactly unchanged.\nThe lower miniatures are still oversized, about one quarter scale. Make each lower miniature HALF its current width AND HALF its current height, with the same proportions, dark brown leather, cord/strap/buckle/clasp/silver straps/gold straps and gem. Keep each centred on its current x coordinate with bottom touching the same shared grass baseline. Fill the vacated outlines naturally with short grass.\nThe resulting distant sack sizes should be approximately ONE SIXTH the corresponding upper-row size, only about 29,34,35,39,44,51 pixels wide on this 1536px canvas. They must be tiny, not another large row of product thumbnails. Retain the clear increasing height/fullness silhouettes, broad silver/gold straps and red gem, six correctly ordered miniatures above the existing 1-6 lower labels. Preserve the six large bags, title, numbers, camera and lighting. No extra text, no coins, no additional objects.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-c6c0c03e-d75c-4579-abf1-371f964730e7.png",
+          "sha256": "5197526740ecbbd5ae8071ac4af8cc82968886839938d77fc8055923aa26d896",
+          "role": "Edit target: previous fittings-and-fullness sheet, reducing miniature row only."
+        }
+      ],
+      "output_path": "level_generation/props/loot_satchel_claude/concepts/D_fittings_and_fullness.png",
+      "generated_source_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-acf9f35c-7e07-4c33-a87f-2124679cb812.png",
+      "selected": true,
+      "reason": "Selected after visual review: all six sacks retain the same dark leather family; neighbouring tiers differ through increasing fullness/height and broad hardware, silver/gold separate artifact tiers at approximately one-sixth scale; six full ordered objects in each row, no coins or extra text, consistent camera/light.",
+      "output_sha256": "83a946d01c2aa06b38afa70db65392abf4c79da65f5b926ce5258dd0aa2dbea3"
+    },
+    {
+      "id": "exec-1ec62019-5da0-4984-8ca0-76a88ce50f8f",
+      "sheet": "E",
+      "prompt": "Use case: stylized-concept.\nAsset type: loot-container tier concept sheet for a Might and Magic VI style low-poly game prop.\nCreate ONE landscape sheet, exactly 1536 x 1024 pixels.\nReference inputs, in original attached order:\nImage 1 (mm9_bags.png): only the at-a-glance fabric/tier readability is a reference. Do not copy these crude low-poly shapes.\nImage 2 (current_tiers.png): failure reference, its similar brown/red tiers and dominant spilled coins are the problems to solve. Do not copy its coin spills.\nImage 3 (native_gold_piles.png): visual authority for the warm saturated semi-realistic fully three-dimensional prerendered look of MM6 (1998). Use that warmth and material richness, not its coins or magenta background.\nComposition: exactly TWELVE container objects total in two horizontal rows of SIX, tier order 1 through 6 left to right in both rows. No side panels, inset views or extra objects. Six regular evenly spaced columns. All objects fully visible with clear empty gaps.\nTop row: the six main containers rest on one uniform plain mid-grey-green ground with no scenery. Each object's width grows gently: approximately 115, 138, 161, 184, 207, 230 pixels, so tier 6 is about twice tier 1. Same three-quarter camera for every object, camera approximately 30 degrees above the ground; all face the same way. Align ground contact on a shared baseline around y=610. Render rich visible cloth weave, leather grain, stitching and worn metals while keeping strong simple silhouettes buildable in 400-1,800 triangles.\nSecond row: a distance readability test near y=850, on one continuous horizontal patch of SHORT green grass. Repeat the SAME six designs, materials, lighting, poses, camera and tier order, but each container is exactly about ONE SIXTH the linear width and height of its corresponding top-row object (about 19, 23, 27, 31, 35, 38 pixels wide). Six visibly separate tiny containers, side by side. Grass is short enough to leave every entire base visible. This row should visibly simulate viewing the bags from 2-15 metres away; every neighbouring tier must still read differently by broad hue/value or silhouette alone. Do NOT enlarge these tiny objects to fill the row.\nLighting: consistent soft overhead illumination, warm natural saturated material colours, fully 3D volumes. Small faint contact shadows only, never a black shadow that conceals the base.\nText: only the exact specified sheet title once, centred near the top, and a small tier number \"1\" \"2\" \"3\" \"4\" \"5\" \"6\" underneath each object in each row. No other words at all, including no \"distance test\" label. Simple understated legible dark lettering.\nHard constraints: no spilled coins, no loose coins, no exposed hoards, no scattered treasure, no hands, no people, no extra props, no logos/watermarks, no cropped objects, no painting-like flat bags, no outlines, no heavy floor shadows. Closed containers. All six main objects and all six distance objects must be distinct and in the correct order.\nSheet title (verbatim): \"E: material plus glow\".\nDesign direction: One simple drawstring-sack shape across all six with gentle size progression. Tiers 1-4 material ladder: tier 1 coarse undyed pale burlap; tier 2 patched green wool; tier 3 tanned warm brown leather; tier 4 deep blue dyed leather with brass fittings. Tier 5: deep emerald-green jewel-toned velvet with gold embroidery and a faint magical glow emitted by a rune or gem ON the clasp. Tier 6: royal-purple jewel-toned velvet with gold embroidery and a stronger soft magical glow emitted by a rune or gem ON the clasp. Tiers 5 and 6 have strong emerald and purple body colour fields, highly visible against the ground and distinct from the green wool and blue leather. Glow is local and soft, attached to the clasp, no large aura that changes silhouettes or fills the whole scene, no lettering rune that reads as extra text. Glows remain visible on the tiny duplicate objects to signal artifact tiers in night/dungeon use, while keeping this sheet's same soft overhead light for all six.\nFourth input image is the accepted \"A: material ladder\" sheet. Use it as the PRECISE EDIT TARGET and preserve its 1536x1024 canvas, composition, size progression, title typography, grey-green background, short grass, all tier numbers, camera and soft light. Change its title to \"E: material plus glow\". Preserve its tier1 burlap, tier2 green wool, tier3 brown leather and tier4 blue dyed leather EXACTLY in BOTH ROWS, including their tiny bottom-row sizes.\nChange ONLY tiers5 and 6 material/closure in BOTH rows: tier5 becomes deep EMERALD GREEN velvet with GOLD embroidery and one clasp-mounted gem glowing very faintly; tier6 becomes ROYAL PURPLE velvet with GOLD embroidery and one clasp-mounted gem emitting a visibly stronger but still soft LOCAL magical glow. The gold embroidery remains embroidery, not a metallic body. Keep the same sack silhouettes and gathered drawstring necks. The clasp with glowing gem is at the neck/front closure. Soft glow is close to the gem, without enormous aura, floating particles, additional floor props or extra text. Tier5 faint and tier6 stronger must be clear even in the tiny grass row. Preserve miniature objects at exactly the tiny size in image4; DO NOT enlarge tier5/6 miniatures to showcase the glow.\nAll six materials must remain distinct at distance: pale beige burlap / dark moss wool / brown leather / blue leather / emerald velvet with gold / royal purple velvet with gold. Only title and the last TWO sack designs per row change from A; all other parts remain.",
+      "inputs": [
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/mm9_bags.png",
+          "sha256": "08391c910257c35cbc32f283bcf4ebe3e62d25efd21b9e66f2d1eebd33f623ef",
+          "role": "Readability reference only; do not copy the ugly crude forms."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/concepts/current_tiers.png",
+          "sha256": "847f2fbce99fc36f044d5b8a672b6062c2fadebc84c8a88a45511dda8578fe1e",
+          "role": "Failure reference: avoid similar brown/red tiers and all spilled coins."
+        },
+        {
+          "path": "level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+          "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b",
+          "role": "Authority for warm saturated semi-realistic prerendered MM6 materials and lighting only; exclude coins and magenta."
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-2d90504d-c2ad-4348-b1a1-aed1d955de33.png",
+          "sha256": "8a058dcbac930361814b632d5f48031ac3ac5dd3e3f4aa95ed9499841832a2fe",
+          "role": "Approved A composition/edit target; first four tiers preserved and last two changed to emerald/purple velvet with clasp glows."
+        }
+      ],
+      "output_path": "level_generation/props/loot_satchel_claude/concepts/E_material_plus_glow.png",
+      "generated_source_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-1ec62019-5da0-4984-8ca0-76a88ce50f8f.png",
+      "selected": true,
+      "reason": "Selected after visual review: six complete ordered containers per row, distinct neighbouring material colours at approximately one-sixth scale, emerald/purple velvet with gold embroidery and faint/stronger clasp glows, no coins or extra text, consistent camera and light.",
+      "output_sha256": "d215638c89aa1425c766c5a29c1e4e512263e723c7025d53a688c7240e621e97"
+    },
+    {
+      "id": "exec-713f0048-85f5-4741-9123-7bb70a4bc223",
+      "sheet": "A",
+      "prompt": "Use case: text-localization / precise typography edit. Correct ONLY the title punctuation of this 1536x1024 sheet.\nThe current title incorrectly uses ONE middle dot after A. Replace that punctuation with a proper COLON, TWO SMALL VERTICALLY STACKED DOTS. The title must read exactly:\n\"A: material ladder\"\nCharacter sequence is capital A, colon (:), space, material, space, ladder. The colon must clearly show both an upper dot and a lower dot, not a bullet, middle dot, comma or semicolon. Use the current same serif font, colour, size, placement and baseline for the rest of the title.\nKeep ALL SIX LARGE sacks, ALL SIX TINY grass-row sacks, their materials, exact sizes, all twelve tier numbers, background, grass, lighting and camera EXACTLY unchanged. No design or layout changes. Only replace the existing single title dot with two stacked colon dots. No additional text, no coins, no new objects.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-2d90504d-c2ad-4348-b1a1-aed1d955de33.png",
+          "sha256": "8a058dcbac930361814b632d5f48031ac3ac5dd3e3f4aa95ed9499841832a2fe",
+          "role": "Edit target: accepted material-ladder designs and miniature scale, correcting title punctuation."
+        }
+      ],
+      "output_path": "level_generation/props/loot_satchel_claude/concepts/A_material_ladder.png",
+      "generated_source_path": "/home/pjasicek/.codex/generated_images/01a1206c-59ce-74b3-9e3f-e27b48695013/exec-713f0048-85f5-4741-9123-7bb70a4bc223.png",
+      "selected": true,
+      "reason": "Selected after final visual review: exact title with colon, six complete ordered sacks in each row, distinct neighbouring material colours at approximately one-sixth scale, consistent camera/light, no coins, cropped objects or extra text.",
+      "output_sha256": "6cc9278f161ac92162d7d6001dc3a799ca81a3251f9733d7de15602150ddec5b"
+    }
+  ],
+  "review": {
+    "output_path": "level_generation/props/loot_satchel_claude/concepts/concepts_review.png",
+    "size": [
+      1536,
+      5120
+    ],
+    "sheet_order": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "sha256": "f794555a6894e20a6eb6ec99445c8d1d049840f71f329f1f86558a53431220db"
+  }
+}

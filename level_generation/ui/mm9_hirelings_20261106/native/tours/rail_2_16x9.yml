@@ -1,0 +1,12 @@
+output_dir: ../captures/16x9_2
+exit: true
+steps:
+- wait: 4
+- console: hireling add 42
+- console: hireling add 44
+- console: hireling buff 42
+- console: hireling hp 42 82
+- console: hireling hp 44 28
+- console: hireling recovery 44 10
+- wait: 5
+- capture: rail

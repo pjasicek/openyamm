@@ -1,0 +1,6 @@
+# The Brood Spires' actor behaviours (merged by hesper_stage/stage.py into worlds/hesper/behaviors.yml). Both are bound
+# per actor by the map's load event (evt.SetActorBehavior), not per monster: the egg fields' clusters keep the world's
+# hes_egg_cluster (D9's, bound to 10045), and Overseer Primes on other maps keep theirs.
+behaviors:
+  hes_egg_cluster_hatchery: worlds/hesper/behaviors/hes_egg_cluster_hatchery.lua
+  hes_overseer_prime: worlds/hesper/behaviors/hes_overseer_prime.lua

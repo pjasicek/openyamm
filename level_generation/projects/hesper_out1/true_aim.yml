@@ -1,0 +1,46 @@
+# True aim on Starport Reach (engine: devdocs/MONSTER_MODIFIERS.md; data: the design's monster_modifiers.yml, staged as
+# worlds/hesper/modifiers.yml). Run from output/hesper_stage/scenario_run:
+#   ../../../build/game/openyamm --headless-run-scenario ../../../level_generation/projects/hesper_out1/true_aim.yml
+# A Starport Turret (10054, true_aim: 720 degrees a second for 3 s) west of the lander's crew ramp (BMODEL_crew_ramp,
+# x -8760..-8094, y -13081..-12442) fires at the party in the open north of it; no monster spawns within 5 000 of the
+# crew door (spawns.yml `quiet`), so only the turret shoots. "last" is the turret
+# a spawn_actor step has just summoned. fire_actor_projectile fires through the AI shot's path (damage 1).
+id: hesper.out1.true_aim
+world: hesper
+mode: faithful
+steps:
+- load_map: {map: hes_out1.odm}
+- set_pose: {map: hes_out1.odm, x: -9660, y: -11261, z: 1400, yaw: -1.5708, pitch: 0}
+- advance_runtime: {seconds: 1}
+- assert: {party_health: {full: true}}
+- spawn_actor: {monster_id: 10054, x: -9660, y: -12761, z: 1380}
+- note: {text: "Blocked: the shot leaves for the party, which steps behind the hangar; the shot turns after it and the
+    hangar stops it."}
+- fire_actor_projectile: {actor_index: last, damage: 1}
+- set_pose: {map: hes_out1.odm, x: -7844, y: -12761, z: 1400, yaw: 3.14159, pitch: 0}
+- advance_runtime: {seconds: 0.1}
+- assert: {projectiles: {source_monster_id: 10054, min_count: 1, max_count: 1, homing: true, report: true}}
+- advance_runtime: {seconds: 2}
+- assert: {projectiles: {source_monster_id: 10054, max_count: 0}}
+- assert: {homing_ends: {source_monster_id: 10054, hit: world, min_count: 1, max_count: 1, report: true}}
+- assert: {homing_ends: {source_monster_id: 10054, hit: party, max_count: 0}}
+- assert: {party_health: {full: true}}
+- note: {text: "Followed: the turret is replaced by a fresh one (no shot of its own for its first second, while it
+    turns), which fires at the party in the open; the party strafes while the shot flies, so a straight shot would
+    miss; the shot turns onto it and hits the party (an armour roll may still make it miss its member)."}
+- damage_actor: {actor_index: last, amount: 1000, tier: physical}
+- damage_actor: {actor_index: last, amount: 1000, tier: physical}
+- assert: {actor_visible: {actor_index: last, report_state: true, hp: 0}}
+- set_pose: {map: hes_out1.odm, x: -9660, y: -11261, z: 1232, yaw: -1.5708, pitch: 0}
+- spawn_actor: {monster_id: 10054, x: -9660, y: -12761, z: 1380}
+- fire_actor_projectile: {actor_index: last, damage: 1}
+- movement_segment:
+    input: strafe_right
+    duration_ms: 400
+    start: {x: -9660, y: -11261, z: 1232, map: hes_out1.odm, yaw: -1.5708, pitch: 0}
+    expect_stop: {x: -9400, y: -11261, z: 1232, map: hes_out1.odm, yaw: -1.5708, pitch: 0}
+    tolerance_xy: 600
+    tolerance_z: 300
+    loose_tolerance: true
+- assert: {projectiles: {source_monster_id: 10054, max_count: 0}}
+- assert: {homing_ends: {source_monster_id: 10054, hit: party, min_count: 1, report: true}}

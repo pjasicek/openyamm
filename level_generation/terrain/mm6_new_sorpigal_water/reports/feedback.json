@@ -1,0 +1,6 @@
+[
+  {
+    "issue": "Initial native fixtures fell into water because current runtime disables saved flight without an active Fly effect or debug flight override. Initial lake view also fell below the intended camera height.",
+    "action": "Enable existing debug.start_flying only in isolated review stages, preserving saved reference poses. Recapture all native checks in v1_flight; initial views rejected as validation."
+  }
+]

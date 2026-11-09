@@ -1,0 +1,176 @@
+# APPROVED VISUAL DESIGN / RUNTIME DRAFT. Not mounted. See staging/INTEGRATION.md.
+# Keep existing IDs, actions and dynamic content. New bindings are explicitly noted.
+screen: CharacterInspect
+elements:
+- id: CharacterInspectRoot
+  anchor: top_left
+  width: 425
+  height: 200
+  z_index: 520
+  visible: false
+  asset:
+    default: obsidian_reading_surface
+  children:
+  - id: CharacterInspectTitle
+    anchor: top_center
+    offset_x: 0
+    offset_y: 12
+    width: 232
+    height: 22
+    text:
+      value: '{title}'
+      font: Create
+      color: '#e4c793'
+      align_x: center
+      align_y: middle
+  - id: CharacterInspectBody
+    anchor: top_left
+    offset_x: 20
+    offset_y: 42
+    width: 385
+    height: 82
+    text:
+      value: '{body}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: top
+  - id: CharacterInspectNormal
+    anchor: top_left
+    offset_x: 20
+    offset_y: 130
+    width: 385
+    height: 16
+    text:
+      value: '{normal}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+  - id: CharacterInspectExpert
+    anchor: top_left
+    offset_x: 20
+    offset_y: 150
+    width: 385
+    height: 16
+    text:
+      value: '{expert}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+  - id: CharacterInspectMaster
+    anchor: top_left
+    offset_x: 20
+    offset_y: 170
+    width: 385
+    height: 16
+    text:
+      value: '{master}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+  - id: CharacterInspectGrandmaster
+    anchor: top_left
+    offset_x: 20
+    offset_y: 190
+    width: 385
+    height: 16
+    text:
+      value: '{grandmaster}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+  - id: CharacterInspectSkillBonus
+    anchor: top_left
+    offset_x: 20
+    offset_y: 210
+    width: 385
+    height: 16
+    text:
+      value: '{skill_bonus}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+  - id: CharacterInspectCorner_UR
+    anchor: top_right
+    offset_x: 0
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    asset:
+      default: obsidian_frame_tr
+    offset_y: 0
+  - id: CharacterInspectCorner_UL
+    anchor: top_left
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    asset:
+      default: obsidian_frame_tl
+    offset_x: 0
+    offset_y: 0
+  - id: CharacterInspectCorner_LR
+    anchor: bottom_right
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    offset_x: 0
+    offset_y: 0
+    asset:
+      default: obsidian_frame_br
+  - id: CharacterInspectCorner_LL
+    anchor: bottom_left
+    width: 30.933333
+    height: 30.933333
+    z_index: 580
+    offset_y: 0
+    asset:
+      default: obsidian_frame_bl
+    offset_x: 0
+  - id: CharacterInspectCorner_TopEdge
+    anchor: top_left
+    width: 363.133333
+    height: 30.933333
+    z_index: 570
+    asset:
+      default: obsidian_frame_top
+    offset_x: 30.933333
+    offset_y: 0
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: CharacterInspectCorner_BottomEdge
+    anchor: bottom_left
+    offset_y: 0
+    width: 363.133333
+    height: 30.933333
+    z_index: 570
+    asset:
+      default: obsidian_frame_bottom
+    offset_x: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: CharacterInspectCorner_LeftEdge
+    anchor: top_left
+    width: 30.933333
+    height: 138.133333
+    z_index: 570
+    asset:
+      default: obsidian_frame_left
+    offset_x: 0
+    offset_y: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  - id: CharacterInspectCorner_RightEdge
+    anchor: top_right
+    offset_x: 0
+    width: 30.933333
+    height: 138.133333
+    z_index: 570
+    asset:
+      default: obsidian_frame_right
+    offset_y: 30.933333
+    notes: Draft edge bounds; repeat at 48.286179 logical length, recompute for actual root height.
+  notes: Approved r03 skin draft. Surface must be sampled/cropped at fixed scale and inset 8.533333 logical units;
+    do not stretch this texture. Frame edges repeat, with a clipped final tile. Dynamic height remains runtime-owned.
+    See design/frame.yml.

@@ -1,0 +1,165 @@
+# Integrator review tour (2026-10-23): every room, set piece and the boss arena; party-foot positions, radians.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d09/review/build01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: arrival
+  position: [8200, 1800, 0]
+  yaw: 3.142
+  pitch: 0.0
+- name: descent_cache
+  position: [7200, 1500, 0]
+  yaw: 0.94
+  pitch: -0.1
+- name: descent_inner_membrane
+  position: [7700, 2100, 0]
+  yaw: 3.4
+  pitch: -0.05
+- name: east_ledge
+  position: [5500, 1300, 0]
+  yaw: 1.571
+  pitch: -0.1
+- name: galleries
+  position: [5500, 3900, 0]
+  yaw: 3.93
+  pitch: -0.44
+- name: north_ledge_west
+  position: [2000, 3900, 0]
+  yaw: 0.0
+  pitch: -0.1
+- name: west_ledge
+  position: [2100, 3100, 0]
+  yaw: -1.571
+  pitch: -0.1
+- name: south_rim
+  position: [1900, 640, 0]
+  yaw: 0.0
+  pitch: 0.0
+- name: west_ramp_head
+  position: [2964, 800, 0]
+  yaw: 1.571
+  pitch: -0.35
+- name: hatchery
+  position: [2300, 4600, 0]
+  yaw: 0.3
+  pitch: 0.0
+- name: creche
+  position: [5600, 5400, 0]
+  yaw: 3.6
+  pitch: -0.2
+- name: molt_hall
+  position: [1300, 1300, 0]
+  yaw: 2.6
+  pitch: -0.05
+- name: molt_hall_west
+  position: [-700, 1200, 0]
+  yaw: 0.55
+  pitch: -0.15
+- name: vats
+  position: [6300, 2900, 0]
+  yaw: 1.2
+  pitch: 0.09
+- name: vats_chest_a_lift_well
+  position: [6250, 4250, 0]
+  yaw: -0.35
+  pitch: -0.3
+- name: well_overview
+  position: [3800, 3480, 0]
+  yaw: -1.571
+  pitch: -0.55
+- name: well_from_south_rim
+  position: [3800, 700, 0]
+  yaw: 1.571
+  pitch: -0.5
+- name: lower_ring
+  position: [4636, 1200, -768]
+  yaw: 1.57
+  pitch: 0.17
+- name: lower_north
+  position: [2900, 3036, -768]
+  yaw: 0.0
+  pitch: 0.0
+- name: lower_west
+  position: [2900, 1150, -768]
+  yaw: 1.571
+  pitch: 0.3
+- name: south_egg_wall_stair
+  position: [3800, 1100, -768]
+  yaw: 1.571
+  pitch: -0.3
+- name: larder
+  position: [2400, 1500, -768]
+  yaw: 3.6
+  pitch: -0.05
+- name: ponds
+  position: [2900, 1200, -1536]
+  yaw: 0.8
+  pitch: -0.17
+- name: ponds_east
+  position: [5300, 3100, -1536]
+  yaw: 3.6
+  pitch: -0.1
+- name: ponds_well_up
+  position: [3800, 2100, -1536]
+  yaw: -1.571
+  pitch: 0.9
+- name: acid_sump
+  position: [5800, 1100, -1536]
+  yaw: -0.3
+  pitch: -0.15
+- name: acid_cistern
+  position: [7200, 1100, -1536]
+  yaw: 0.0
+  pitch: -0.15
+- name: spawning_pool
+  position: [5800, 2100, -1536]
+  yaw: 1.2
+  pitch: -0.15
+- name: barracks
+  position: [2400, 3100, -1536]
+  yaw: 3.142
+  pitch: 0.0
+- name: barracks_tunnel_head
+  position: [300, 2600, -1536]
+  yaw: -1.571
+  pitch: -0.3
+- name: royal_tunnels
+  position: [300, 200, -2944]
+  yaw: 1.57
+  pitch: 0.26
+- name: root_throat
+  position: [900, 100, -2944]
+  yaw: 0.0
+  pitch: 0.0
+- name: royal_gallery
+  position: [900, 1000, -2944]
+  yaw: 0.5
+  pitch: 0.0
+- name: mother
+  position: [2900, 300, -2944]
+  yaw: 0.8
+  pitch: 0.17
+- name: mother_cradle
+  position: [4300, 1300, -2944]
+  yaw: 1.571
+  pitch: 0.15
+- name: birth_pits
+  position: [2900, 3664, -2944]
+  yaw: 0.0
+  pitch: -0.35
+- name: ovipositor_passage
+  position: [6650, 2964, -2944]
+  yaw: 3.142
+  pitch: 0.0
+- name: shaft
+  position: [7200, 2900, -2944]
+  yaw: 1.57
+  pitch: 1.05
+- name: shaft_lift
+  position: [7000, 2750, -2944]
+  yaw: 0.9
+  pitch: -0.2
+- name: shaft_chest_b
+  position: [7250, 3000, -2944]
+  yaw: 1.571
+  pitch: -0.2

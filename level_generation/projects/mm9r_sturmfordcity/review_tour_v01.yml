@@ -1,0 +1,228 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_sturmfordcity/review/v01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_docks_start
+  position:
+  - 2089
+  - -973
+  - 19723
+  yaw: 1.5708
+  pitch: 0.0
+- name: s02_docks_plaza_west
+  position:
+  - 3328
+  - 256
+  - 19728
+  yaw: 3.1416
+  pitch: 0.0
+- name: s03_docks_lane_north
+  position:
+  - 6144
+  - 1536
+  - 19723
+  yaw: 1.5708
+  pitch: 0.0
+- name: s04_palace_ring_south
+  position:
+  - 2560
+  - 3584
+  - 19764
+  yaw: 0.0
+  pitch: 0.0
+- name: s05_palace_ring_west
+  position:
+  - 1024
+  - 5888
+  - 19723
+  yaw: 1.5708
+  pitch: 0.0
+- name: s06_palace_front
+  position:
+  - 4864
+  - 6144
+  - 19723
+  yaw: 1.5708
+  pitch: 0.1396
+- name: s07_palace_ring_east
+  position:
+  - 8448
+  - 5120
+  - 19723
+  yaw: 1.5708
+  pitch: 0.0
+- name: s08_palace_ring_north
+  position:
+  - 8192
+  - 10752
+  - 19785
+  yaw: 3.1416
+  pitch: 0.0
+- name: s09_town_gate
+  position:
+  - 4352
+  - 11264
+  - 19723
+  yaw: 1.5708
+  pitch: 0.0
+- name: s10_temple_square
+  position:
+  - -512
+  - 12032
+  - 19723
+  yaw: 2.7611
+  pitch: 0.0
+- name: s11_temple_front
+  position:
+  - -1024
+  - 13440
+  - 19723
+  yaw: 3.1416
+  pitch: 0.1745
+- name: s12_north_street
+  position:
+  - 2560
+  - 14080
+  - 19723
+  yaw: 0.1853
+  pitch: 0.0
+- name: s13_well_square
+  position:
+  - 6656
+  - 15872
+  - 19723
+  yaw: 2.4981
+  pitch: 0.0
+- name: s14_north_lane_west
+  position:
+  - 3584
+  - 17664
+  - 19744
+  yaw: 3.1416
+  pitch: 0.0
+- name: s15_northwest_corner
+  position:
+  - -2304
+  - 17920
+  - 19744
+  yaw: -1.5708
+  pitch: 0.0
+- name: s16_shops_row
+  position:
+  - 1536
+  - 18816
+  - 19744
+  yaw: 0.0
+  pitch: 0.0
+- name: s17_east_street
+  position:
+  - 8192
+  - 18176
+  - 19723
+  yaw: 0.0
+  pitch: 0.0
+- name: s18_market
+  position:
+  - 12032
+  - 18176
+  - 19723
+  yaw: -0.2915
+  pitch: 0.0
+- name: s19_north_gate_plaza
+  position:
+  - 9216
+  - 14336
+  - 19723
+  yaw: 0.0624
+  pitch: 0.0
+- name: s20_roofs_from_ring
+  position:
+  - 3072
+  - 5888
+  - 19723
+  yaw: 0.6435
+  pitch: 0.4363
+- name: i01_tavern
+  position:
+  - -384
+  - 256
+  - 19757
+  yaw: 2.5536
+  pitch: 0.0
+- name: i02_tavern_bar
+  position:
+  - -640
+  - -512
+  - 19757
+  yaw: 1.7249
+  pitch: 0.0
+- name: i03_general_store
+  position:
+  - 9472
+  - 4352
+  - 19754
+  yaw: -1.2663
+  pitch: 0.0
+- name: i04_town_hall
+  position:
+  - 4736
+  - 4608
+  - 19744
+  yaw: 0.0
+  pitch: 0.0
+- name: i05_library
+  position:
+  - 9728
+  - 6656
+  - 19805
+  yaw: -1.5708
+  pitch: 0.0
+- name: i06_bank
+  position:
+  - 9600
+  - 8704
+  - 19846
+  yaw: -1.6815
+  pitch: 0.0
+- name: i07_palace_hall
+  position:
+  - 3328
+  - 8192
+  - 19723
+  yaw: 0.0
+  pitch: 0.0
+- name: i08_church
+  position:
+  - -2048
+  - 13440
+  - 19764
+  yaw: 3.1416
+  pitch: 0.0
+- name: i09_armorer
+  position:
+  - 768
+  - 18381
+  - 19744
+  yaw: -3.0981
+  pitch: 0.0
+- name: i10_blacksmith
+  position:
+  - 1434
+  - 18944
+  - 19744
+  yaw: 1.4645
+  pitch: 0.0
+- name: i11_magic_shop
+  position:
+  - 4608
+  - 18688
+  - 19744
+  yaw: 1.5975
+  pitch: 0.0
+- name: i12_house_ludwig
+  position:
+  - 3840
+  - 2304
+  - 19744
+  yaw: 0.2058
+  pitch: 0.0

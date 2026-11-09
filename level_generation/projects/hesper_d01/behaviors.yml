@@ -1,0 +1,6 @@
+# D1's actor behaviour (merged by hesper_stage/stage.py into worlds/hesper/behaviors.yml): the Custodian's one
+# announcement (source/custodian.lua, copied into the runtime tree by build_d01.py). It is the only 10100.
+behaviors:
+  hesper/bosses/custodian: worlds/hesper/behaviors/bosses/custodian.lua
+monsters:
+  10100: hesper/bosses/custodian

@@ -1,0 +1,75 @@
+# Hand-drafted (MM9 object lifecycle, devdocs/mm9_rework/scr_audit/README.md "Implicit engine semantics"); actor and
+# door ids from the R3 build (work/content.json, work/doors.json): recheck them after a reconversion.
+id: mm9r.lichlab_lifecycle
+title: Lich Lab (native BLV) - a dead summoner takes no startup and raises no ghost; a dead caged critter leaves its
+  cage standing while the living ones break theirs
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: lichlab.blv
+- note:
+    text: 'Summoner.scr: TriggerLich sends startup to the LichSummoner (actor 137). Killed first, it takes no message:
+      no Specter rises from the ghost pools.'
+- damage_actor:
+    actor_index: 137
+    amount: 1000000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    actor_visible:
+      actor_index: 137
+      dead: true
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    state_dump_named_map_var:
+      name: Summoner
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: GhostsRaised
+      value: 0
+- note:
+    text: 'KingKong.scr: TriggerExplodeL sends ForceBreak to each critter, which destroys its own cage. ExplodeGhast (actor
+      139, cage DB1/breakwindow1 = CageGhast, doors 1-3) is killed first: its cage stays closed and ExplodeSmoke3 unlit;
+      ExplodeRevenant (138) still breaks RotatingDoor168 (CageRevenant, door 4).'
+- damage_actor:
+    actor_index: 139
+    amount: 1000000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    actor_visible:
+      actor_index: 139
+      dead: true
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    state_dump_named_map_var:
+      name: CagesBroken
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: BrokenCageGhast
+      value: 0
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: BrokenCageRevenant
+      value: 1
+- assert:
+    mechanism:
+      id: 4
+      state: open

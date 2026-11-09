@@ -1,0 +1,655 @@
+{
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG, the FRONT texture-source painting paint_front.png of the Hesper bastion emitter.\nINPUT 1 guide_front.png is the EDIT TARGET and absolute geometry/alpha authority. INPUT 2 design_reference.png is ONLY the approved material, colour and surface-detail reference.\nPaint directly onto the visible model in INPUT 1. Keep its exact orthographic low FRONT camera, every polygon/part edge, silhouette, holes, scale and pixel position. The object is a low broad flattened domed guard emitter lying horizontally: its complete bounds are x=66..957, y=335..688 on the 1024-square canvas, with broad empty transparent margins above and below. KEEP those bounds and margins. Do not rotate upright into the reference's hero view. Do not inflate the dome, change framing, move or remodel any part, or add the front-facing circular core from the reference where it is hidden by the guide's low camera. Respect the small central fin, central foreground plate and the two curved foreground housings exactly as drawn in the guide.\nTransfer the approved surfaces onto the corresponding guide parts: warm ivory-white ceramic plates and curved ribs with fine hairline wear and faint tan mineral grain; restrained brushed warm gold brackets and trim; black-violet resin structural chassis with fine violet surface marbling; orange/amber luminous inset cells in the existing recesses. Match the reference's restrained engraved lines, seams, panel joins and unlettered small markings. Hidden sides continue these same materials plausibly. Do not invent blue lights, extra components, text or letters.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE for projection onto the existing mesh, not a lit beauty render. Flat even shadowless viewer lighting on every surface, including lower and recessed faces. No cast shadows, no ambient occlusion darkening, no directional gradients, no hot specular highlights, no strong reflections, no rim light. Gold should be its medium gold base colour with only the faintest sheen. Luminous orange parts use their bright orange/yellow base colour with NO bloom or light spill.\nPreserve the guide's exact transparency mask and all internal holes. Background genuinely transparent alpha, not black, white or checkerboard. No floor, no scenery, no text, labels, letters or watermark. Return the painted guide only, unresized 1024 x 1024.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "bde103ef12cedd3190674e17d65a1f33e1dcab7c03a075fbcad45a5ccc016b7c"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-b467b733-0f14-4e34-a50f-c5c9fa758668.png",
+      "output": "runs/front_01.png",
+      "selected": false,
+      "reason": "Not selected: more pronounced illumination and rounded/redesigned guide parts than the corrective return.",
+      "output_sha256": "c09defe7908f3741301ac594326f8024a40f6728e132547b7cccbc52ca48e616",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1210146,
+        "opaque_pixels": 278,
+        "alpha_bbox": [
+          0,
+          19,
+          1234,
+          1254
+        ],
+        "alpha_128_bbox": [
+          49,
+          403,
+          1205,
+          852
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "materials_match": "Ivory ceramic, gold, violet resin and orange cells present.",
+        "flat_lighting": "Fail: visible shaded bevels, recess darkening and specular accents.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit. Paint the white clay geometry in the SECOND input image with the approved materials from the FIRST input image. ONE 1024 x 1024 RGBA PNG, genuinely transparent background.\nINPUT 2 is the exact orthographic model guide and EDIT TARGET. Keep its original 1024 x 1024 canvas and its precise alpha contour, pixel placement, every individual part edge and all transparent holes. Only recolour the existing surfaces. Do not change the geometry, redesign any shape, smooth the polygon contour, alter the camera, rotate or recenter or enlarge the object. The first input is only a material reference and must not supply its camera, outline or composition.\nMATERIALS: ivory-white worn ceramic plates and curved ribs, fine hairline tan wear; muted brushed medium gold fittings and narrow trim; matte black-violet resin structural chassis with fine violet marbling; bright orange/amber inset power cells in the existing recesses. Reference seams, engraved lines, panel joins and small abstract unlettered markings only. Continue the same materials plausibly onto surfaces hidden in the reference.\nStrict ALBEDO texture source, not an illustration with lighting: no shading from light direction, no ambient occlusion, no cast/contact shadows, no darkening on lower or recessed surfaces, no edge highlights, no hot gold reflections, no white specular glints, no rim light, no bloom. Every same-material surface has the same even base colour regardless of its orientation, with subtle painted material grain only. Gold base colour is muted ochre-gold with the faintest sheen. Orange light is painted bright orange/yellow colour without illuminating other parts.\nKeep the exact guide silhouette and transparent gaps. No floor, backdrop, text, letters, labels or watermarks. Return only the single painted view, unresized, requested 1024 x 1024.\nSpecific locked view for paint_back.png: BACK view. This guide shows the low broad edge of a flattened dome, not the face of an upright shield. On the 1024-square canvas the complete object occupies exactly x=66..957 and y=335..688; keep the large transparent top/bottom margins. Respect the broad central downward-pointing plate, curved plates to either side, short outer foreground prongs, exact outer ring segments and bottom notches. The circular top core is obscured from this low camera; do not add a frontal central orange disk.\nInput 1 design_reference.png: colour/material authority only. Input 2 guide_back.png: edit this exact image, keep its original 1024 x 1024 dimensions and transparent alpha.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "14cc8afdd9025ef1b212aed2961bd1d423228b29f7cc8da47a8bf8e77d31bfda"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-7e08c44f-28de-4248-8731-6771df9ed4dc.png",
+      "output": "runs/back_01.png",
+      "selected": false,
+      "reason": "Not selected: more pronounced illumination and rounded/redesigned guide parts than the corrective return.",
+      "output_sha256": "aa5c9c91d48bc9fb55c2fa25b7eec1988e7dcec0aba72399a6f6ed08f0d210e3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1240511,
+        "opaque_pixels": 424,
+        "alpha_bbox": [
+          31,
+          21,
+          1210,
+          1254
+        ],
+        "alpha_128_bbox": [
+          77,
+          411,
+          1178,
+          845
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "materials_match": "Ivory ceramic, gold, violet resin and orange cells present.",
+        "flat_lighting": "Fail: visible shaded bevels, recess darkening and specular accents.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit. Paint the white clay geometry in the SECOND input image with the approved materials from the FIRST input image. ONE 1024 x 1024 RGBA PNG, genuinely transparent background.\nINPUT 2 is the exact orthographic model guide and EDIT TARGET. Keep its original 1024 x 1024 canvas and its precise alpha contour, pixel placement, every individual part edge and all transparent holes. Only recolour the existing surfaces. Do not change the geometry, redesign any shape, smooth the polygon contour, alter the camera, rotate or recenter or enlarge the object. The first input is only a material reference and must not supply its camera, outline or composition.\nMATERIALS: ivory-white worn ceramic plates and curved ribs, fine hairline tan wear; muted brushed medium gold fittings and narrow trim; matte black-violet resin structural chassis with fine violet marbling; bright orange/amber inset power cells in the existing recesses. Reference seams, engraved lines, panel joins and small abstract unlettered markings only. Continue the same materials plausibly onto surfaces hidden in the reference.\nStrict ALBEDO texture source, not an illustration with lighting: no shading from light direction, no ambient occlusion, no cast/contact shadows, no darkening on lower or recessed surfaces, no edge highlights, no hot gold reflections, no white specular glints, no rim light, no bloom. Every same-material surface has the same even base colour regardless of its orientation, with subtle painted material grain only. Gold base colour is muted ochre-gold with the faintest sheen. Orange light is painted bright orange/yellow colour without illuminating other parts.\nKeep the exact guide silhouette and transparent gaps. No floor, backdrop, text, letters, labels or watermarks. Return only the single painted view, unresized, requested 1024 x 1024.\nSpecific locked view for paint_left.png: LEFT view. This is a very low broad side profile of a flattened dome. Bounds on the original 1024-square canvas are x=66..957, y=335..688; keep the large transparent top/bottom margins. Preserve the long diagonal outer rib at far LEFT, horizontal rails across the middle, hanging centre plate, curved housings at far RIGHT, and the exact thin transparent openings low down. Do not mirror this view or add a face-on core disk.\nInput 1 design_reference.png: colour/material authority only. Input 2 guide_left.png: edit this exact image, keep its original 1024 x 1024 dimensions and transparent alpha.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "a10b51f70f3970ca853cfa174ccb669e86385fdc2609d31d4da217e7039a33d2"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-d79d3b45-9f53-4471-9cdd-1f0fa80db612.png",
+      "output": "runs/left_01.png",
+      "selected": false,
+      "reason": "Not selected: more pronounced illumination and rounded/redesigned guide parts than the corrective return.",
+      "output_sha256": "cfa7f584fb4b81a54e4a1b07642ffd5744c360535d72296634e36f09a908d28d",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1192917,
+        "opaque_pixels": 339,
+        "alpha_bbox": [
+          45,
+          133,
+          1224,
+          1204
+        ],
+        "alpha_128_bbox": [
+          48,
+          399,
+          1221,
+          863
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "materials_match": "Ivory ceramic, gold, violet resin and orange cells present.",
+        "flat_lighting": "Fail: visible shaded bevels, recess darkening and specular accents.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit. Paint the white clay geometry in the SECOND input image with the approved materials from the FIRST input image. ONE 1024 x 1024 RGBA PNG, genuinely transparent background.\nINPUT 2 is the exact orthographic model guide and EDIT TARGET. Keep its original 1024 x 1024 canvas and its precise alpha contour, pixel placement, every individual part edge and all transparent holes. Only recolour the existing surfaces. Do not change the geometry, redesign any shape, smooth the polygon contour, alter the camera, rotate or recenter or enlarge the object. The first input is only a material reference and must not supply its camera, outline or composition.\nMATERIALS: ivory-white worn ceramic plates and curved ribs, fine hairline tan wear; muted brushed medium gold fittings and narrow trim; matte black-violet resin structural chassis with fine violet marbling; bright orange/amber inset power cells in the existing recesses. Reference seams, engraved lines, panel joins and small abstract unlettered markings only. Continue the same materials plausibly onto surfaces hidden in the reference.\nStrict ALBEDO texture source, not an illustration with lighting: no shading from light direction, no ambient occlusion, no cast/contact shadows, no darkening on lower or recessed surfaces, no edge highlights, no hot gold reflections, no white specular glints, no rim light, no bloom. Every same-material surface has the same even base colour regardless of its orientation, with subtle painted material grain only. Gold base colour is muted ochre-gold with the faintest sheen. Orange light is painted bright orange/yellow colour without illuminating other parts.\nKeep the exact guide silhouette and transparent gaps. No floor, backdrop, text, letters, labels or watermarks. Return only the single painted view, unresized, requested 1024 x 1024.\nSpecific locked view for paint_right.png: RIGHT view. This is a very low broad side profile of a flattened dome. Bounds on the original 1024-square canvas are x=66..957, y=335..688; keep the large transparent top/bottom margins. Preserve the long diagonal outer rib at far RIGHT, horizontal rails across the middle, hanging centre plate, curved housings at far LEFT, and the exact thin transparent openings low down. Do not mirror this view or add a face-on core disk.\nInput 1 design_reference.png: colour/material authority only. Input 2 guide_right.png: edit this exact image, keep its original 1024 x 1024 dimensions and transparent alpha.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "a880bad94980479fa6a296cbb99819ec10060ff50fe4be7c5b523efd9c69f915"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-fae2c541-3161-4358-8f44-e7b1a65266f0.png",
+      "output": "runs/right_01.png",
+      "selected": false,
+      "reason": "Not selected: more pronounced illumination and rounded/redesigned guide parts than the corrective return.",
+      "output_sha256": "80ccf5a0f3dfb9191b86c03defdcfe9c71dc84551490246f1f02f62f7f763b36",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1238646,
+        "opaque_pixels": 320,
+        "alpha_bbox": [
+          0,
+          35,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          81,
+          423,
+          1178,
+          854
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "materials_match": "Ivory ceramic, gold, violet resin and orange cells present.",
+        "flat_lighting": "Fail: visible shaded bevels, recess darkening and specular accents.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "prompt": "Use case: precise-object-edit. Paint the white clay geometry in the SECOND input image with the approved materials from the FIRST input image. ONE 1024 x 1024 RGBA PNG, genuinely transparent background.\nINPUT 2 is the exact orthographic model guide and EDIT TARGET. Keep its original 1024 x 1024 canvas and its precise alpha contour, pixel placement, every individual part edge and all transparent holes. Only recolour the existing surfaces. Do not change the geometry, redesign any shape, smooth the polygon contour, alter the camera, rotate or recenter or enlarge the object. The first input is only a material reference and must not supply its camera, outline or composition.\nMATERIALS: ivory-white worn ceramic plates and curved ribs, fine hairline tan wear; muted brushed medium gold fittings and narrow trim; matte black-violet resin structural chassis with fine violet marbling; bright orange/amber inset power cells in the existing recesses. Reference seams, engraved lines, panel joins and small abstract unlettered markings only. Continue the same materials plausibly onto surfaces hidden in the reference.\nStrict ALBEDO texture source, not an illustration with lighting: no shading from light direction, no ambient occlusion, no cast/contact shadows, no darkening on lower or recessed surfaces, no edge highlights, no hot gold reflections, no white specular glints, no rim light, no bloom. Every same-material surface has the same even base colour regardless of its orientation, with subtle painted material grain only. Gold base colour is muted ochre-gold with the faintest sheen. Orange light is painted bright orange/yellow colour without illuminating other parts.\nKeep the exact guide silhouette and transparent gaps. No floor, backdrop, text, letters, labels or watermarks. Return only the single painted view, unresized, requested 1024 x 1024.\nSpecific locked view for paint_top.png: TOP view from directly above. Keep the guide's vertical oval outline, precise size and placement with complete bounds x=66..957 and y=66..957 on the 1024-square canvas. The long narrow upper central plate points to the top, the shorter central lower plate points to the bottom, and twin curved ribs enclose the left and right edges. Preserve the exact uneven faceted seams and asymmetric details of the model. Paint the existing circular central recessed area bright amber-orange with its EXISTING gold cross fittings, surrounding ceramic plates and violet resin seams; do not change any fitting or panel edge to match the perspective reference.\nInput 1 design_reference.png: colour/material authority only. Input 2 guide_top.png: edit this exact image, keep its original 1024 x 1024 dimensions and transparent alpha.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "ec5528c78765054503b33600c72c12db7b55736a15ec6bad4e29ddc5b6fa8d68"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-105acddf-b46a-4c03-bf6b-739748cef100.png",
+      "output": "runs/top_01.png",
+      "selected": false,
+      "reason": "Not selected: more pronounced illumination and rounded/redesigned guide parts than the corrective return.",
+      "output_sha256": "ebe148eb23057e7467d264f7718039f384ab5fbb5f9496c0836410b1ae63313a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 765231,
+        "opaque_pixels": 779,
+        "alpha_bbox": [
+          49,
+          20,
+          1176,
+          1180
+        ],
+        "alpha_128_bbox": [
+          76,
+          81,
+          1172,
+          1176
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "materials_match": "Ivory ceramic, gold, violet resin and orange cells present.",
+        "flat_lighting": "Fail: visible shaded bevels, recess darkening and specular accents.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "EDIT THE ATTACHED 1024 x 1024 guide_front.png IN PLACE. This is the single corrective generation for paint_front.png. Output 1024 x 1024 RGBA, same canvas and precisely same alpha and part boundaries. This guide is the ONLY shape and camera authority. Recolour its white/grey surfaces, without moving a single edge. Keep the deliberately angular low-poly shapes, including every notch, spike and hole. The occupied bounds are x=66..957, y=335..688; the vast empty transparent upper and lower margins are intentional. Do not enlarge, reframe, redraw the geometry or round off its polygon corners.\nObject: Hesper bastion emitter, a noble's guard emitter, a broad low domed personal shield lying flat, seen from the guide's very low FRONT view. Preserve the little top centre fin, narrow vertical centre fitting, long central downward ceramic plate, pair of arch-shaped ceramic foreground housings and two outer curved ribs exactly as the guide shows them.\nPaint the already established approved material design onto the corresponding surfaces:\n- warm ivory-white ceramic, base near #e9dfcd, for the big plates and curved arch/rib surfaces, with delicate sparse tan hairline wear and tiny irregular cream flecks;\n- restrained medium ochre gold, near #b59049, for existing narrow fittings, clasps, panel trim and the small central fin;\n- black-violet resin, near #3a2b3b, for the chassis underneath and structural seams, with subtle mottled purple grain;\n- bright orange #ff8617 and amber #ffc347 light colour in the visible recessed cells, separated by muted violet structural bars.\nThe large circular face core is hidden from this camera and must not be invented. Plausibly continue these same materials on surfaces not seen in the approved art. Fine engraved seams and tiny abstract marks are allowed, but no text, letters, digits or symbols.\nCRITICAL CORRECTION: completely flat UNLIT ALBEDO / base-colour texture painting. NO painted illumination: no top-to-bottom shading, no darkened lower faces, no darkened recesses, no ambient occlusion, no shadows, no bright edges on ceramic, no reflective strips or hot highlights on gold, no directional lighting, no rim light. All faces of a material share its base colour with only low-contrast grain/wear. Bright orange is surface colour only: no bloom, glow halo or light spill.\nAll solid surface interiors must be fully opaque. The original empty pixels and holes must stay fully transparent, with antialiasing only along the original guide edges. Do not paint a background, floor, checkerboard or shadow. Preserve the guide's exact outline and individual part edges. Return ONLY the recoloured guide at its original 1024 x 1024 size.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "bde103ef12cedd3190674e17d65a1f33e1dcab7c03a075fbcad45a5ccc016b7c"
+        }
+      ],
+      "material_authority": {
+        "file": "design_reference.png",
+        "usage": "Approved reference inspected and used in initial generation; its materials described textually for this corrective guide-only call.",
+        "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-b39488b8-5d43-4118-b263-d0e727e1eb3f.png",
+      "output": "runs/front_02.png",
+      "selected": true,
+      "selected_output": "paint_front.png",
+      "reason": "Selected for closer geometry and flatter albedo than attempt 1; not fully compliant. Closer guide-like angular arches, centre plate and notches; flatter ivory and gold. Some face shading and coloured alpha fringes remain.",
+      "visual_review": {
+        "materials_match": "Partial. Closer guide-like angular arches, centre plate and notches; flatter ivory and gold. Some face shading and coloured alpha fringes remain.",
+        "flat_lighting": "Improved but not fully shadowless: some shaded facets remain.",
+        "transparent_background": "RGBA transparent background; coloured semitransparent edge/fringe artifacts remain.",
+        "no_text_or_letters": true,
+        "silhouette_identical": false
+      },
+      "output_sha256": "e68c925d532da051bcf91e61428a4599aa8360c6d7d69a56a4747eb62880e495",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1239696,
+        "opaque_pixels": 425,
+        "alpha_bbox": [
+          31,
+          47,
+          1224,
+          1222
+        ],
+        "alpha_128_bbox": [
+          79,
+          408,
+          1173,
+          844
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "EDIT THE ATTACHED 1024 x 1024 guide_back.png IN PLACE. This is the single corrective generation for paint_back.png. Output 1024 x 1024 RGBA with the same canvas and precisely the same alpha, object placement, silhouette, holes and part boundaries. This guide is the ONLY shape and camera authority. Recolour its white/grey surfaces without moving a single edge. Keep the deliberately angular low-poly shapes, including every notch, spike, joint and opening. Do not enlarge, reframe, redraw the geometry or round off polygon corners.\nObject: Hesper bastion emitter, a noble's guard emitter, a flattened domed personal shield. BACK view. This guide shows the low broad edge of a flattened dome, not the face of an upright shield. On the 1024-square canvas the complete object occupies exactly x=66..957 and y=335..688; keep the large transparent top/bottom margins. Respect the broad central downward-pointing plate, curved plates to either side, short outer foreground prongs, exact outer ring segments and bottom notches. The circular top core is obscured from this low camera; do not add a frontal central orange disk.\nPaint the established approved design's materials onto the corresponding guide surfaces:\n- Warm ivory-white ceramic plates and curved ribs, base near #e9dfcd, with delicate sparse tan hairline wear, fine cream mineral grain, a few shallow engraved seams and small abstract unlettered surface marks.\n- Restrained brushed medium ochre gold, near #b59049, on the existing narrow fittings, clasps, trim, ring/cross fittings and small fins.\n- Matte black-violet resin, near #3a2b3b, for the underlying chassis and structural seams, with subtle fine mottled purple marbling.\n- Bright orange #ff8617 and amber #ffc347 base colour on the recessed power cells, separated by muted violet structural bars. On the top view the central circular cell uses this orange colour behind the EXISTING gold cross fittings.\nKeep the ceramic ribs, ceramic segmented armour plates, violet structural framework and gold trim consistent across the whole item; continue the same materials plausibly on surfaces hidden in the approved art. Preserve the guide's count, shape and location of every piece. No extra parts, faces, invented windows, text, letters, digits or symbols.\nCRITICAL CORRECTION: completely flat UNLIT ALBEDO / base-colour texture source. NO painted illumination: no directional shading or gradients, no darkened lower faces or recesses, no ambient occlusion, no cast/contact shadows, no bright ceramic edges, no reflective strips or hot gold highlights, no rim light. Every face of a material shares its base colour with only low-contrast grain and wear. Gold has only the faintest sheen. Bright orange is painted surface colour only: no bloom, halo or light spill.\nAll solid surface interiors must be fully opaque. The original empty pixels and holes must stay fully transparent, with antialiasing only along the original guide edges; no stray semitransparent coloured fringes outside the silhouette. No background, floor, checkerboard or shadow. Return ONLY the painted guide, original 1024 x 1024 canvas, no resizing.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "14cc8afdd9025ef1b212aed2961bd1d423228b29f7cc8da47a8bf8e77d31bfda"
+        }
+      ],
+      "material_authority": {
+        "file": "design_reference.png",
+        "usage": "Approved reference inspected and used in initial generation; its materials described textually for this corrective guide-only call.",
+        "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-0dfa51e7-19ee-44f7-96f0-68fbfdfa1812.png",
+      "output": "runs/back_02.png",
+      "selected": true,
+      "selected_output": "paint_back.png",
+      "reason": "Selected for closer geometry and flatter albedo than attempt 1; not fully compliant. Closer guide-like centre plate, flanking plates and bottom notches; flatter materials. Some face shading, changed material allocation and coloured alpha fringes remain.",
+      "visual_review": {
+        "materials_match": "Partial. Closer guide-like centre plate, flanking plates and bottom notches; flatter materials. Some face shading, changed material allocation and coloured alpha fringes remain.",
+        "flat_lighting": "Improved but not fully shadowless: some shaded facets remain.",
+        "transparent_background": "RGBA transparent background; coloured semitransparent edge/fringe artifacts remain.",
+        "no_text_or_letters": true,
+        "silhouette_identical": false
+      },
+      "output_sha256": "f1a41318d19feffc956d663da3c24d95436addf18cccfcff744567750156eaf9",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1236809,
+        "opaque_pixels": 420,
+        "alpha_bbox": [
+          33,
+          21,
+          1226,
+          1222
+        ],
+        "alpha_128_bbox": [
+          79,
+          408,
+          1176,
+          846
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "EDIT THE ATTACHED 1024 x 1024 guide_left.png IN PLACE. This is the single corrective generation for paint_left.png. Output 1024 x 1024 RGBA with the same canvas and precisely the same alpha, object placement, silhouette, holes and part boundaries. This guide is the ONLY shape and camera authority. Recolour its white/grey surfaces without moving a single edge. Keep the deliberately angular low-poly shapes, including every notch, spike, joint and opening. Do not enlarge, reframe, redraw the geometry or round off polygon corners.\nObject: Hesper bastion emitter, a noble's guard emitter, a flattened domed personal shield. LEFT view. This is a very low broad side profile of a flattened dome. Bounds on the original 1024-square canvas are x=66..957, y=335..688; keep the large transparent top/bottom margins. Preserve the long diagonal outer rib at far LEFT, horizontal rails across the middle, hanging centre plate, curved housings at far RIGHT, and the exact thin transparent openings low down. Do not mirror this view or add a face-on core disk.\nPaint the established approved design's materials onto the corresponding guide surfaces:\n- Warm ivory-white ceramic plates and curved ribs, base near #e9dfcd, with delicate sparse tan hairline wear, fine cream mineral grain, a few shallow engraved seams and small abstract unlettered surface marks.\n- Restrained brushed medium ochre gold, near #b59049, on the existing narrow fittings, clasps, trim, ring/cross fittings and small fins.\n- Matte black-violet resin, near #3a2b3b, for the underlying chassis and structural seams, with subtle fine mottled purple marbling.\n- Bright orange #ff8617 and amber #ffc347 base colour on the recessed power cells, separated by muted violet structural bars. On the top view the central circular cell uses this orange colour behind the EXISTING gold cross fittings.\nKeep the ceramic ribs, ceramic segmented armour plates, violet structural framework and gold trim consistent across the whole item; continue the same materials plausibly on surfaces hidden in the approved art. Preserve the guide's count, shape and location of every piece. No extra parts, faces, invented windows, text, letters, digits or symbols.\nCRITICAL CORRECTION: completely flat UNLIT ALBEDO / base-colour texture source. NO painted illumination: no directional shading or gradients, no darkened lower faces or recesses, no ambient occlusion, no cast/contact shadows, no bright ceramic edges, no reflective strips or hot gold highlights, no rim light. Every face of a material shares its base colour with only low-contrast grain and wear. Gold has only the faintest sheen. Bright orange is painted surface colour only: no bloom, halo or light spill.\nAll solid surface interiors must be fully opaque. The original empty pixels and holes must stay fully transparent, with antialiasing only along the original guide edges; no stray semitransparent coloured fringes outside the silhouette. No background, floor, checkerboard or shadow. Return ONLY the painted guide, original 1024 x 1024 canvas, no resizing.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "a10b51f70f3970ca853cfa174ccb669e86385fdc2609d31d4da217e7039a33d2"
+        }
+      ],
+      "material_authority": {
+        "file": "design_reference.png",
+        "usage": "Approved reference inspected and used in initial generation; its materials described textually for this corrective guide-only call.",
+        "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-1598d44c-26bb-4f11-a562-82405e99f3db.png",
+      "output": "runs/left_02.png",
+      "selected": true,
+      "selected_output": "paint_left.png",
+      "reason": "Selected for closer geometry and flatter albedo than attempt 1; not fully compliant. Closer guide-like rails, long outer rib, centre hanging plate and thin lower openings; flatter materials. Gold/ivory allocation and orange cell extent vary from reference; some face shading and coloured fringes remain.",
+      "visual_review": {
+        "materials_match": "Partial. Closer guide-like rails, long outer rib, centre hanging plate and thin lower openings; flatter materials. Gold/ivory allocation and orange cell extent vary from reference; some face shading and coloured fringes remain.",
+        "flat_lighting": "Improved but not fully shadowless: some shaded facets remain.",
+        "transparent_background": "RGBA transparent background; coloured semitransparent edge/fringe artifacts remain.",
+        "no_text_or_letters": true,
+        "silhouette_identical": false
+      },
+      "output_sha256": "2268508d181bfcfdafb5877d902e97ac74ee758eca2af9040873af0f7a471923",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1237585,
+        "opaque_pixels": 508,
+        "alpha_bbox": [
+          23,
+          20,
+          1198,
+          1236
+        ],
+        "alpha_128_bbox": [
+          80,
+          409,
+          1174,
+          845
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "EDIT THE ATTACHED 1024 x 1024 guide_right.png IN PLACE. This is the single corrective generation for paint_right.png. Output 1024 x 1024 RGBA with the same canvas and precisely the same alpha, object placement, silhouette, holes and part boundaries. This guide is the ONLY shape and camera authority. Recolour its white/grey surfaces without moving a single edge. Keep the deliberately angular low-poly shapes, including every notch, spike, joint and opening. Do not enlarge, reframe, redraw the geometry or round off polygon corners.\nObject: Hesper bastion emitter, a noble's guard emitter, a flattened domed personal shield. RIGHT view. This is a very low broad side profile of a flattened dome. Bounds on the original 1024-square canvas are x=66..957, y=335..688; keep the large transparent top/bottom margins. Preserve the long diagonal outer rib at far RIGHT, horizontal rails across the middle, hanging centre plate, curved housings at far LEFT, and the exact thin transparent openings low down. Do not mirror this view or add a face-on core disk.\nPaint the established approved design's materials onto the corresponding guide surfaces:\n- Warm ivory-white ceramic plates and curved ribs, base near #e9dfcd, with delicate sparse tan hairline wear, fine cream mineral grain, a few shallow engraved seams and small abstract unlettered surface marks.\n- Restrained brushed medium ochre gold, near #b59049, on the existing narrow fittings, clasps, trim, ring/cross fittings and small fins.\n- Matte black-violet resin, near #3a2b3b, for the underlying chassis and structural seams, with subtle fine mottled purple marbling.\n- Bright orange #ff8617 and amber #ffc347 base colour on the recessed power cells, separated by muted violet structural bars. On the top view the central circular cell uses this orange colour behind the EXISTING gold cross fittings.\nKeep the ceramic ribs, ceramic segmented armour plates, violet structural framework and gold trim consistent across the whole item; continue the same materials plausibly on surfaces hidden in the approved art. Preserve the guide's count, shape and location of every piece. No extra parts, faces, invented windows, text, letters, digits or symbols.\nCRITICAL CORRECTION: completely flat UNLIT ALBEDO / base-colour texture source. NO painted illumination: no directional shading or gradients, no darkened lower faces or recesses, no ambient occlusion, no cast/contact shadows, no bright ceramic edges, no reflective strips or hot gold highlights, no rim light. Every face of a material shares its base colour with only low-contrast grain and wear. Gold has only the faintest sheen. Bright orange is painted surface colour only: no bloom, halo or light spill.\nAll solid surface interiors must be fully opaque. The original empty pixels and holes must stay fully transparent, with antialiasing only along the original guide edges; no stray semitransparent coloured fringes outside the silhouette. No background, floor, checkerboard or shadow. Return ONLY the painted guide, original 1024 x 1024 canvas, no resizing.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "a880bad94980479fa6a296cbb99819ec10060ff50fe4be7c5b523efd9c69f915"
+        }
+      ],
+      "material_authority": {
+        "file": "design_reference.png",
+        "usage": "Approved reference inspected and used in initial generation; its materials described textually for this corrective guide-only call.",
+        "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-a1268b2e-11f9-4046-8b4d-abe881223a2f.png",
+      "output": "runs/right_02.png",
+      "selected": true,
+      "selected_output": "paint_right.png",
+      "reason": "Selected for closer geometry and flatter albedo than attempt 1; not fully compliant. Closer guide-like rails, long outer rib and lower opening; flatter materials. Centre hanging plate is gold rather than ivory as in the left view, and orange cell extent varies; face shading and coloured fringes remain.",
+      "visual_review": {
+        "materials_match": "Partial. Closer guide-like rails, long outer rib and lower opening; flatter materials. Centre hanging plate is gold rather than ivory as in the left view, and orange cell extent varies; face shading and coloured fringes remain.",
+        "flat_lighting": "Improved but not fully shadowless: some shaded facets remain.",
+        "transparent_background": "RGBA transparent background; coloured semitransparent edge/fringe artifacts remain.",
+        "no_text_or_letters": true,
+        "silhouette_identical": false
+      },
+      "output_sha256": "b7047ced4174c6899d42da67812649e1700e352d52fdc90841c716cfc8ba63bc",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1234959,
+        "opaque_pixels": 614,
+        "alpha_bbox": [
+          0,
+          21,
+          1216,
+          1230
+        ],
+        "alpha_128_bbox": [
+          80,
+          410,
+          1174,
+          846
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "prompt": "EDIT THE ATTACHED 1024 x 1024 guide_top.png IN PLACE. This is the single corrective generation for paint_top.png. Output 1024 x 1024 RGBA with the same canvas and precisely the same alpha, object placement, silhouette, holes and part boundaries. This guide is the ONLY shape and camera authority. Recolour its white/grey surfaces without moving a single edge. Keep the deliberately angular low-poly shapes, including every notch, spike, joint and opening. Do not enlarge, reframe, redraw the geometry or round off polygon corners.\nObject: Hesper bastion emitter, a noble's guard emitter, a flattened domed personal shield. TOP view from directly above. Keep the guide's vertical oval outline, precise size and placement with complete bounds x=66..957 and y=66..957 on the 1024-square canvas. The long narrow upper central plate points to the top, the shorter central lower plate points to the bottom, and twin curved ribs enclose the left and right edges. Preserve the exact uneven faceted seams and asymmetric details of the model. Paint the existing circular central recessed area bright amber-orange with its EXISTING gold cross fittings, surrounding ceramic plates and violet resin seams; do not change any fitting or panel edge to match the perspective reference.\nPaint the established approved design's materials onto the corresponding guide surfaces:\n- Warm ivory-white ceramic plates and curved ribs, base near #e9dfcd, with delicate sparse tan hairline wear, fine cream mineral grain, a few shallow engraved seams and small abstract unlettered surface marks.\n- Restrained brushed medium ochre gold, near #b59049, on the existing narrow fittings, clasps, trim, ring/cross fittings and small fins.\n- Matte black-violet resin, near #3a2b3b, for the underlying chassis and structural seams, with subtle fine mottled purple marbling.\n- Bright orange #ff8617 and amber #ffc347 base colour on the recessed power cells, separated by muted violet structural bars. On the top view the central circular cell uses this orange colour behind the EXISTING gold cross fittings.\nKeep the ceramic ribs, ceramic segmented armour plates, violet structural framework and gold trim consistent across the whole item; continue the same materials plausibly on surfaces hidden in the approved art. Preserve the guide's count, shape and location of every piece. No extra parts, faces, invented windows, text, letters, digits or symbols.\nCRITICAL CORRECTION: completely flat UNLIT ALBEDO / base-colour texture source. NO painted illumination: no directional shading or gradients, no darkened lower faces or recesses, no ambient occlusion, no cast/contact shadows, no bright ceramic edges, no reflective strips or hot gold highlights, no rim light. Every face of a material shares its base colour with only low-contrast grain and wear. Gold has only the faintest sheen. Bright orange is painted surface colour only: no bloom, halo or light spill.\nAll solid surface interiors must be fully opaque. The original empty pixels and holes must stay fully transparent, with antialiasing only along the original guide edges; no stray semitransparent coloured fringes outside the silhouette. No background, floor, checkerboard or shadow. Return ONLY the painted guide, original 1024 x 1024 canvas, no resizing.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "ec5528c78765054503b33600c72c12db7b55736a15ec6bad4e29ddc5b6fa8d68"
+        }
+      ],
+      "material_authority": {
+        "file": "design_reference.png",
+        "usage": "Approved reference inspected and used in initial generation; its materials described textually for this corrective guide-only call.",
+        "sha256": "7792cf825bc9ba30858cba7574aa5e74815b3bc1ced057c4fd5b4f8b9a47c8b8"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e3a-58eb-7ac2-a0fa-b88a2317359a/exec-53bd19de-9ba2-4299-8625-6e78a8d5e260.png",
+      "output": "runs/top_02.png",
+      "selected": true,
+      "selected_output": "paint_top.png",
+      "reason": "Selected for closer geometry and flatter albedo than attempt 1; not fully compliant. Closer guide-like central cross and faceted panel arrangement; flatter materials. Outer outline still differs; long central end plates are gold instead of reference ivory and peripheral orange cells are missing; face shading and coloured fringes remain.",
+      "visual_review": {
+        "materials_match": "Partial. Closer guide-like central cross and faceted panel arrangement; flatter materials. Outer outline still differs; long central end plates are gold instead of reference ivory and peripheral orange cells are missing; face shading and coloured fringes remain.",
+        "flat_lighting": "Improved but not fully shadowless: some shaded facets remain.",
+        "transparent_background": "RGBA transparent background; coloured semitransparent edge/fringe artifacts remain.",
+        "no_text_or_letters": true,
+        "silhouette_identical": false
+      },
+      "output_sha256": "75b3b6226ea031d5a42cda30025170ac65fbdf0ad22eaf683bc0b23db07d8407",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 731812,
+        "opaque_pixels": 891,
+        "alpha_bbox": [
+          0,
+          17,
+          1248,
+          1216
+        ],
+        "alpha_128_bbox": [
+          70,
+          59,
+          1184,
+          1183
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "exact_guide_alpha": false,
+        "silhouette_identical": false,
+        "size_matches_request": false,
+        "unresized_return": true
+      }
+    }
+  ],
+  "status": "generated_with_unresolved_checks",
+  "selection_policy": "Selected denotes the closest of the two unmodified tool returns for the view, not a claim that all strict brief checks passed.",
+  "correction_limit_per_view": 1,
+  "processing": "Byte-for-byte copies only; no image resizing, masking, compositing, alpha cleanup or repainting.",
+  "deliverables": [
+    {
+      "view": "front",
+      "file": "paint_front.png",
+      "sha256": "e68c925d532da051bcf91e61428a4599aa8360c6d7d69a56a4747eb62880e495",
+      "size": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    },
+    {
+      "view": "back",
+      "file": "paint_back.png",
+      "sha256": "f1a41318d19feffc956d663da3c24d95436addf18cccfcff744567750156eaf9",
+      "size": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    },
+    {
+      "view": "left",
+      "file": "paint_left.png",
+      "sha256": "2268508d181bfcfdafb5877d902e97ac74ee758eca2af9040873af0f7a471923",
+      "size": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    },
+    {
+      "view": "right",
+      "file": "paint_right.png",
+      "sha256": "b7047ced4174c6899d42da67812649e1700e352d52fdc90841c716cfc8ba63bc",
+      "size": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    },
+    {
+      "view": "top",
+      "file": "paint_top.png",
+      "sha256": "75b3b6226ea031d5a42cda30025170ac65fbdf0ad22eaf683bc0b23db07d8407",
+      "size": [
+        1254,
+        1254
+      ],
+      "all_brief_checks_passed": false
+    }
+  ]
+}

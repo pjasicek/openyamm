@@ -1,0 +1,319 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_drg1.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_drg1.glb",
+ "assignments": [
+  {
+   "match": "=DrakeBody_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drg1_claude/textures/drg1_body_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drg1_claude/textures/drg1_head_material_classes.png"
+  },
+  {
+   "match": "=DrakeHead_A",
+   "body": null,
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drg1_claude/textures/drg1_head_material_classes.png"
+  },
+  {
+   "match": "=DrakeWings_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drg1_claude/textures/drg1_wings_material_classes.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "drg1_body_metal_rough_2k",
+   "size": [
+    2048,
+    2048
+   ],
+   "materials": [
+    "DrakeBody_A",
+    "DrakeBody_B",
+    "DrakeBody_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      2048,
+      2048
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 1231312,
+     "uv_covered_without_class": 0.0217,
+     "uv_covered_without_class_far": 0.003,
+     "class_texels_outside_uv": 0.0393,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drg1_claude/textures/drg1_body_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.9713,
+      "claw": 0.0287
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.9713,
+    "claw": 0.0287
+   },
+   "kept_classes": [
+    "skin"
+   ],
+   "kept_texels": 1195982,
+   "old_specular_mean_by_class": {
+    "skin": 0.145,
+    "claw": 0.298
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.145,
+    "claw": 1.0
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.82,
+    "claw": 0.45
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "DrakeBody_A": null,
+    "DrakeBody_B": null,
+    "DrakeBody_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 14,
+     "max": 255,
+     "mean": 47.2
+    },
+    "G": {
+     "min": 115,
+     "max": 209,
+     "mean": 204.7
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "drg1_head_metal_rough_2k",
+   "size": [
+    2048,
+    2048
+   ],
+   "materials": [
+    "DrakeHead_A",
+    "DrakeHead_B",
+    "DrakeHead_C"
+   ],
+   "layout": [
+    {
+     "part": "head",
+     "box": [
+      0,
+      0,
+      2048,
+      2048
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "head": {
+     "uv_covered_texels": 898627,
+     "uv_covered_without_class": 0.0195,
+     "uv_covered_without_class_far": 0.0019,
+     "class_texels_outside_uv": 0.0663,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drg1_claude/textures/drg1_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.9352,
+      "claw": 0.0003,
+      "tooth": 0.0,
+      "mouth": 0.0645
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.9352,
+    "claw": 0.0003,
+    "tooth": 0.0,
+    "mouth": 0.0645
+   },
+   "kept_classes": [
+    "skin"
+   ],
+   "kept_texels": 840416,
+   "old_specular_mean_by_class": {
+    "skin": 0.136,
+    "claw": 0.282,
+    "tooth": 0.394,
+    "mouth": 0.119
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.136,
+    "claw": 1.0,
+    "tooth": 1.0,
+    "mouth": 0.5
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.82,
+    "claw": 0.45,
+    "tooth": 0.35,
+    "mouth": 0.45
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "DrakeHead_A": null,
+    "DrakeHead_B": null,
+    "DrakeHead_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 14,
+     "max": 255,
+     "mean": 40.7
+    },
+    "G": {
+     "min": 89,
+     "max": 209,
+     "mean": 204.1
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "drg1_wings_metal_rough_2k",
+   "size": [
+    2048,
+    2048
+   ],
+   "materials": [
+    "DrakeWings_A",
+    "DrakeWings_B",
+    "DrakeWings_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      2048,
+      2048
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 1446660,
+     "uv_covered_without_class": 0.0062,
+     "uv_covered_without_class_far": 0.0005,
+     "class_texels_outside_uv": 0.0119,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_drg1_claude/textures/drg1_wings_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.041,
+      "membrane": 0.959,
+      "claw": 0.0
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.041,
+    "membrane": 0.959,
+    "claw": 0.0
+   },
+   "kept_classes": [
+    "skin"
+   ],
+   "kept_texels": 59277,
+   "old_specular_mean_by_class": {
+    "skin": 0.135,
+    "membrane": 0.123,
+    "claw": 0.322
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.135,
+    "membrane": 0.3,
+    "claw": 1.0
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.82,
+    "membrane": 0.85,
+    "claw": 0.45
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "DrakeWings_A": null,
+    "DrakeWings_B": null,
+    "DrakeWings_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 14,
+     "max": 255,
+     "mean": 73.6
+    },
+    "G": {
+     "min": 115,
+     "max": 217,
+     "mean": 216.3
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

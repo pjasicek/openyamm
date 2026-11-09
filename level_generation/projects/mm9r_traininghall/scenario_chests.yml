@@ -1,0 +1,94 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.traininghall_chests
+title: 'Training Hall (native BLV): the crate''s back board breaks and the Blackbox opens; the four other chests open from
+  in front of them'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: traininghall.blv
+- note:
+    text: 'DestructableBrush8, the crate''s south board: a click breaks it (crateopentrigger: PerceptionBrush8 off).'
+- set_pose:
+    map: traininghall.blv
+    x: -3564
+    y: -3266
+    z: 1
+    yaw: 1.5708
+    pitch: 0.0341
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: BrokenDestructableBrush8
+      value: 1
+- note:
+    text: 'Headless picking does not follow a moved board (playbook): the Blackbox opens by its event.'
+- execute_event:
+    id: 41
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: traininghall.blv
+    x: -686
+    y: -685
+    z: 1107
+    yaw: 0.7714
+    pitch: -1.0888
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: traininghall.blv
+    x: 594
+    y: 3228
+    z: 3442
+    yaw: 1.5708
+    pitch: -0.7274
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: traininghall.blv
+    x: 655
+    y: -8368
+    z: -1842
+    yaw: -1.5708
+    pitch: -0.728
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: traininghall.blv
+    x: 5241
+    y: -5681
+    z: -1474
+    yaw: 1.5568
+    pitch: -0.7267
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog

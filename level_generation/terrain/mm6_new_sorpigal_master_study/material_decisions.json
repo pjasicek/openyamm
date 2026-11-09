@@ -1,0 +1,65 @@
+{
+  "grass": {
+    "version": "v1",
+    "status": "accepted_by_user",
+    "master_png": "generated/v1/grass_512.png",
+    "raw_png": "generated/v1/grass_raw.png",
+    "master_sha256": "919c91dfa242557cc898229ad5582c32ead3d7025dc22ee5e081a3cf0ecfa37b",
+    "role": "base_material"
+  },
+  "cobbles": {
+    "version": "v1",
+    "status": "accepted_by_user",
+    "role": "masked_overlay_material",
+    "underlying_material": "dirt",
+    "mask": "33-mask transition project includes nine generated road coverage masks",
+    "full_tile_replacement": false,
+    "note": "User clarified cobbles cover only the road mask over another base tile; full-tile paving in previous captures is a diagnostic swatch only.",
+    "master_png": "generated/v1/cobbles_512.png",
+    "raw_png": "generated/v1/cobbles_raw.png",
+    "master_sha256": "e51154975e5de53bbb579bff2444853b6fc1ed158f7476a3ef11d594e318ec08"
+  },
+  "volcano": {
+    "version": "v2",
+    "status": "tentative",
+    "note": "User notes original was lighter; current version may be okay.",
+    "master_png": "generated/v2/volcano_512.png",
+    "raw_png": "generated/v2/volcano_raw.png",
+    "master_sha256": "6bee53e395a867cedf455bc50c2aeaee034b06fefd3d33d39bcc5a41c9ae21b1",
+    "role": "base_material"
+  },
+  "dirt": {
+    "version": "v6",
+    "status": "accepted_by_user",
+    "style_reference_version": "v1",
+    "note": "User superseded v4: darker original brown feeling and reduced repeat artifacts, reference test_img/1263.png. AI redo v6 follows v5 texture redistribution. User accepted this direction before requesting examination of dark material-edge treatment in test_img/1264.png.",
+    "master_png": "generated/v6/dirt_512.png",
+    "raw_png": "generated/v6/dirt_raw.png",
+    "master_sha256": "80007862a6330f3e1c5f1acbe011fe6e159c9f91c7cf31f30d9004063e9d9811",
+    "role": "base_material"
+  },
+  "resolution_policy": {
+    "runtime_tier": "x2",
+    "runtime_size": [
+      256,
+      256
+    ],
+    "authoring_size": [
+      512,
+      512
+    ],
+    "status": "accepted_by_user",
+    "export_manifest": "runtime_x2/manifest.json",
+    "composition": "Compose materials and masks at 512px, then downsample each completed tile to 256px."
+  },
+  "reference_screenshot": "test_img/1263.png",
+  "next_phase": "Generated land composites and native flat/map review in ../mm6_new_sorpigal_transitions",
+  "road_composition": {
+    "base": "dirt",
+    "overlay": "cobbles",
+    "mask_white": "cobbles visible",
+    "mask_black": "underlying dirt visible",
+    "blend": "output = dirt * (1 - road_mask) + cobbles * road_mask",
+    "note": "Use each native road shape/orientation for its mask, including turns, junctions and ends; master texture is not a road-shaped tile."
+  }
+}

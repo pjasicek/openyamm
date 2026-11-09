@@ -1,0 +1,80 @@
+{
+  "tool": "built-in image_gen",
+  "status": "requirements_not_fully_met",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Create a texture-source/albedo surface painting of the Settler hand cart. Output exactly 1024 x 1024, transparent background, unresized native return. Input 1 design_reference.png is the approved material and colour authority ONLY; do not use its camera or geometry. Input 2 guide_back.png is the exact edit target and absolute geometry authority. Paint directly over input 2, keeping its silhouette EXACTLY: identical outline, size and position in the 1024-square frame, every shape edge, opening, wheel, hub, crate, rope, attachment and handle in exactly its original place. Keep its orthographic back-side camera and the handle projecting to the right. Do not rotate, reframe, move, add, remove or reshape any component. Nothing outside the silhouette; nothing cropped. Surface materials: weathered white prefab composite with teal and orange bands, dark grey rubber tyres, brushed steel axle and hardware, ochre and white crates with black stencils, red cloth, matching the approved reference's design and material colours. Keep weathering and painted wear as material colour details. LIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Do not copy the design reference's lighting, floor, shadow or background. Any glowing parts are painted their glowing colour without casting light. Preserve guide geometry and alpha boundary with maximum precision; apply materials only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "c6c25ef213af3b8455fb65831988de3a962a19fd02a7fd790696af5518045363"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "output_sha256": "6c88dbfee3a6a4064418599c636acffcf511cf129540713bfb118b9e1777f27a",
+      "selected": false,
+      "reason": "Rejected: wrong dimensions, altered geometry and residual lighting.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "White composite, teal/orange bands, dark rubber and red cloth represented; exact reference and black stencil compliance incomplete.",
+        "flat_light": "Residual shading and darkening remain; not strictly flat albedo."
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Corrective generation for paint_back.png. EDIT INPUT 1 guide_back.png IN PLACE, on its original EXACT 1024 x 1024 transparent canvas. Return 1024 x 1024 pixels, not 1254 x 1254. The entire alpha silhouette and every geometric edge of this grey model must remain precisely fixed. Its nontransparent bounding box is x=66..957, y=295..728 on a 1024 x 1024 canvas. Do not enlarge, reposition, rotate, round off the low-poly shape, or add geometry. The wheel, faceted hub, crate outlines, ropes, attachment shapes and right-pointing shaft must remain precisely as input 1. Only replace grey surface colours with material paint. INPUT 2 design_reference.png is MATERIAL/COLOUR REFERENCE ONLY, never geometry or camera. Paint weathered white prefab composite with teal and orange bands, dark grey rubber tyres, brushed steel axle, ochre and white crates with black stencils, red cloth, where those surfaces already exist in the grey guide. Do not add reference hardware, extra crates, rolls or decorations. Use flat even shadowless viewer-facing light: this is ALBEDO TEXTURE SOURCE, no directional shading, no cast shadows, no ambient occlusion darkening, no highlights/reflections, no rim light. No background or floor. Actual transparent alpha everywhere outside the original guide, including openings. Keep the grey guide's exact silhouette, framing and size. The previous attempt failed by changing outlines and output dimensions; prioritize pixel-aligned geometry and correct 1024-square canvas over decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "c6c25ef213af3b8455fb65831988de3a962a19fd02a7fd790696af5518045363"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "b6276c3a9c431ebdf7abb045c402fcc0da06dbfb6448a1757be387b5d8bc288f",
+      "selected": true,
+      "reason": "Best available corrective return; preserved unresized as required, but fails exact dimensions and silhouette. Not production-approved.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "White composite, teal/orange bands, dark rubber and red cloth represented; exact reference and black stencil compliance incomplete.",
+        "flat_light": "Residual shading and darkening remain; not strictly flat albedo."
+      }
+    }
+  ]
+}

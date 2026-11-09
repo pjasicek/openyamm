@@ -1,0 +1,188 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Best available returns saved; exact brief checks failed. One corrective regeneration per view exhausted.",
+  "postprocessing": "None; all images are byte-for-byte unresized native tool returns.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting.\nEdit target: guide_front.png (first input). Supporting design/material reference: design_reference.png (second input).\nProduce exactly one 1024 x 1024 PNG with genuine transparent background, retaining the target's full original square canvas.\nPaint the FRONT view of the intact Founder statue by changing only the grey surface colours/materials of the guide. The guide is the EXACT 3D model and fixes every pixel of silhouette, object scale, frame position, pose, orthographic camera, shape edge, opening, and surface detail. Keep those EXACTLY. Do not rotate into the reference's three-quarter view. Do not redesign the model, alter folds, fill openings, move hands, enlarge the head, reposition the plinth, recenter, crop, or extend outside the guide's silhouette. Keep the guide's alpha outline unchanged.\nApply the approved design's polished white-and-bone ceramic stone, clean and smooth, subtle ivory mineral grain; bright gold trim along the existing robe hem, sash/belt, and plinth top edge. Use the reference's gold collar, sleeve borders and existing chest ornament where those shapes occur in the guide. Face, hands and hair are carved ceramic stone, not living skin or colored hair. Preserve all existing geometry; render surface materials only.\nLIGHTING: albedo texture source, even flat shadowless illumination from the viewer. Remove the guide's cast shadows and ambient-occlusion darkening rather than baking them into the paint. No directional shading, no cast shadows, no AO, no strong specular highlights, no reflections, no rim light, no floor, no background, no text, no labels. Gold has a clear bright gold base colour without baked white glare. All openings/outside pixels remain genuinely transparent. Return the original 1024-square framing unresized.",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: returned at the wrong native dimensions, introduced extra geometric details and folds, and retained shading. One corrective regeneration requested.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/guide_front.png",
+          "sha256": "630b63114a19aabbcf1e4a88bce93062bc24d04adc7e8c184f76912d792105dc"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/design_reference.png",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "source_return": "/home/pjasicek/.codex/generated_images/01a157dc-89e2-7492-9683-3bd57e1ad02b/exec-12b899a2-53ab-4742-9ab8-49557b48bf63.png",
+      "output_sha256": "061d48ba23d22ab611488975a89a8f04417ae46a180bc68855a108f89e445b8e",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_bbox": [
+          0,
+          31,
+          1230,
+          1238
+        ],
+        "silhouette_identical_pass": false,
+        "silhouette_note": "Native dimensions differ from guide; visual inspection also shows changed shape edges and details.",
+        "materials_match": "White-and-bone ceramic stone and gold palette present; some gold looks shaded or reflective.",
+        "flat_even_light_pass": false,
+        "lighting_note": "Residual surface shading, crevice darkening and gold highlights remain.",
+        "unresized_return_pass": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint ONLY the surfaces of input 1, guide_front.png. Input 2, design_reference.png, supplies material colours only.\nCORRECTION: the previous attempt returned 1254 x 1254 and redesigned robe folds and hair. Deliver a native 1024 x 1024 image. Do not upscale or resize the guide. Preserve guide_front.png's EXACT canvas, camera, silhouette, every shape edge and opening. Pixel registration is essential for texture projection. The guide's opaque object has bounding box x=301..722, y=66..957 on the 1024 square; the front plinth is horizontal at y=845..957, head starts y=66. Do not make the object larger or smaller, recenter it, add stray pixels, or move any edges. Keep the coarse existing geometric shapes, including the asymmetric sleeves, hands, broad smooth chest, layered collar, small chest ornament, diagonal robe panel and folds, hair shape, feet and stepped rectangular plinth. This is surface recolouring of the exact grey mesh, not a new sculpture.\nPaint polished white-and-bone ceramic stone, clean and smooth, with restrained ivory mineral texture matching the approved design. Bright gold on the existing robe hem, sash/belt, collar/sleeve trim and plinth top edge. Face, hands, hair remain pale carved ceramic stone. Keep the design consistent without importing new geometry or folds from the reference.\nALBEDO ONLY: perfectly even, flat, shadowless viewer lighting. No ambient occlusion, cast shadows, dark crevice shading, specular highlights, reflections, or rim light. Paint gold as bright gold base colour. No scene, floor, text or labels. Genuine transparent background, clean alpha with no stray speckles. The silhouette and frame position must remain identical to input 1. Return one native 1024x1024 PNG unresized.",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two permitted returns: simpler geometry follows the guide more closely. Still fails the exact brief: native dimensions differ, silhouette/details drift, and residual shading remains. Saved byte-for-byte without resizing or other image edits.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/guide_front.png",
+          "sha256": "630b63114a19aabbcf1e4a88bce93062bc24d04adc7e8c184f76912d792105dc"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/design_reference.png",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "source_return": "/home/pjasicek/.codex/generated_images/01a157dc-89e2-7492-9683-3bd57e1ad02b/exec-db709ba6-c7ed-4da1-89f0-88a3f4101956.png",
+      "output_sha256": "724d7bab05b9caf5f900a39ce8a16493d1fe32bcd4b0644a579bb2e1ce5915dc",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_bbox": [
+          21,
+          30,
+          1240,
+          1198
+        ],
+        "silhouette_identical_pass": false,
+        "silhouette_note": "Native dimensions differ from guide; visual inspection also shows changed shape edges and details.",
+        "materials_match": "White-and-bone ceramic stone and gold palette present; some gold looks shaded or reflective.",
+        "flat_even_light_pass": false,
+        "lighting_note": "Residual surface shading, crevice darkening and gold highlights remain.",
+        "unresized_return_pass": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting, TOP view.\nEdit target: first input, guide_top.png. Design/material authority only: second input, design_reference.png.\nReturn ONE native 1024 x 1024 transparent PNG, retaining the guide's original full square canvas, unresized.\nPaint ONLY the grey surfaces of guide_top.png. This is the EXACT 3D model seen from directly overhead, not a request to recompose or rotate the approved three-quarter reference. Keep every guide silhouette edge, opening, visible surface edge, shape, orientation, position and scale EXACTLY unchanged. The guide's silhouette occupies x=301..722, y=325..698 on the 1024 canvas. The square horizontal plinth lies x=328..713, y=325..698. The crown of the head is near x=518,y=461, collar surrounds it, shoulders spread horizontally, and robe/cape lies over the plinth below it. Preserve every asymmetry and occlusion exactly as the guide. Do not expand the object to fill the image or recenter it. No frontal face visible from this strictly overhead camera; keep the guide's view.\nPaint the approved design's polished white-and-bone ceramic stone, clean and smooth, subtle ivory mineral grain. Face/head/hair/hands are carved ceramic stone, not living skin. Bright gold trim on existing robe hem, sash, collar and plinth top edge where visible from above. Preserve the guide's geometry: surface materials only.\nLIGHTING: pure albedo texture source. Even flat shadowless illumination from the viewer, no cast shadow, no AO darkening, no dark occlusion on the plinth below the body, no directional shading, no strong specular highlights, reflections or rim light. All visible white stone surfaces have consistent pale base colour, including the plinth. Gold uses bright gold base colour without baked glare. No background, floor, labels or text. Keep outside silhouette and openings genuinely transparent with clean alpha. Preserve original 1024x1024 pixel registration; return unresized.",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: returned at the wrong native dimensions, introduced extra geometric details and folds, and retained shading. One corrective regeneration requested.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/guide_top.png",
+          "sha256": "a6f63fe4fdbfade96d46fd9af1c03afffdcd74dc80f6656d946ff4883f3bcd7b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/design_reference.png",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "source_return": "/home/pjasicek/.codex/generated_images/01a157dc-89e2-7492-9683-3bd57e1ad02b/exec-17614fc5-eaad-43e3-b73f-981bc2b6dcb9.png",
+      "output_sha256": "0d2e4e18e3afd586d7e8fcf392ac12567112125aef07fbaeaa5f92a8e31adf71",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_bbox": [
+          0,
+          28,
+          1254,
+          1254
+        ],
+        "silhouette_identical_pass": false,
+        "silhouette_note": "Native dimensions differ from guide; visual inspection also shows changed shape edges and details.",
+        "materials_match": "White-and-bone ceramic stone and gold palette present; some gold looks shaded or reflective.",
+        "flat_even_light_pass": false,
+        "lighting_note": "Residual surface shading, crevice darkening and gold highlights remain.",
+        "unresized_return_pass": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. TOP-view albedo material repaint of guide_top.png, input 1. Input 2 is design_reference.png for material colours ONLY.\nCorrect the previous generation's size, invented folds and directional shadows. Output precisely 1024 by 1024 pixels at native resolution, not 1254 by 1254. Keep input 1's original complete square canvas unchanged and unresized.\nThe grey guide is the authoritative EXACT mesh. RECOLOUR IT IN PLACE without changing even a single shape edge, opening, silhouette, framing or view. Keep the crown of the head as the existing smooth rounded shape, broad simplified collar ring, existing shoulder forms, asymmetric arm/cape shapes, simplified robe panels, and the exact square plinth. Add surface colour, not new geometry. Do not invent curls, folds, sleeve bulges, openings, jewellery or plinth bevels. Maintain the exact orthographic overhead camera, original position and scale: all opaque geometry is inside x=301..722,y=325..698 on the 1024 canvas. Original plinth footprint x=328..713,y=325..698. Crown near (518,461). Keep the extensive transparent margins exactly as input 1.\nPaint clean smooth polished white-and-bone ceramic stone in the reference palette, restrained subtle ivory mineral grain. Paint bright gold trim on existing robe hem, sash, collar and plinth top edge as visible from this view. Head, hair and hands are pale carved stone. The design reference gives colour and materials, never camera or geometry.\nStrict FLAT ALBEDO: all stone has uniform pale base colour independent of face direction or overlap. REMOVE guide shadows and ambient occlusion. No shaded folds, dark crevices, head/collar occlusion, shadows on the plinth, directional light, specular glare, reflections, rim light, or floor. Gold is an even bright gold base colour. No background, text or labels. Genuine transparent outside pixels and openings; clean alpha without speckles or fringe. Preserve exact guide silhouette and every edge. One native 1024x1024 PNG, unresized.",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two permitted returns: simpler geometry follows the guide more closely. Still fails the exact brief: native dimensions differ, silhouette/details drift, and residual shading remains. Saved byte-for-byte without resizing or other image edits.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/guide_top.png",
+          "sha256": "a6f63fe4fdbfade96d46fd9af1c03afffdcd74dc80f6656d946ff4883f3bcd7b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_founder_intact/design_reference.png",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "source_return": "/home/pjasicek/.codex/generated_images/01a157dc-89e2-7492-9683-3bd57e1ad02b/exec-3d78c1d1-aa73-4c37-aecb-6fc24e1fd105.png",
+      "output_sha256": "aadb419c98e6c2a0bc7701f3baa3ab482049ef747b545e163ae70c96a4c7b32a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_bbox": [
+          25,
+          23,
+          1234,
+          1228
+        ],
+        "silhouette_identical_pass": false,
+        "silhouette_note": "Native dimensions differ from guide; visual inspection also shows changed shape edges and details.",
+        "materials_match": "White-and-bone ceramic stone and gold palette present; some gold looks shaded or reflective.",
+        "flat_even_light_pass": false,
+        "lighting_note": "Residual surface shading, crevice darkening and gold highlights remain.",
+        "unresized_return_pass": true
+      }
+    }
+  ]
+}

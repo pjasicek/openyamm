@@ -1,0 +1,30 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png into one transparent PNG texture atlas, canvas 1536x2048 (3:4). Use case: precise-object-edit. The guide is the EDIT TARGET; design_reference.png is the approved material/detail reference and icon_x8.png is the original colour reference (magenta is background).\nStrictly preserve the guide's exact positions, sizes, silhouettes, gaps and openings. It is three columns by FOUR rows of 512x512 cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly those five views. These are orthographic views of a flat heart pendant; several views appear as extremely thin horizontal strips: KEEP THEM as thin horizontal strips, do not turn them into front-facing pendants. The large face-on silhouette is in column 2 row 2, repeated in column 2 row 4. Preserve the chain and its holes.\nPaint grey objects ONLY; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour for source-faithful upright heart jewel, red heart gemstone within gold hand/prong-like surround, gold lower pointed setting and gold chain. Match reference details and colours. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. Unlit base colour only, no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only. Pure red #FF0000 for ALL metal including gold setting and chain; pure black #000000 for all gemstone/crystal/glass/pearl/enamel/liquid; pure blue #0000FF for cloth/cords/ribbons/hair if any. Every pixel within silhouettes must be one of those exact colours. No shading, texture, outlines, or antialiased colour blends inside. Assign materials consistently with upper painted views.\nKeep ALL background and all gaps/openings fully transparent. Column 3 rows 2 and 4 remain empty transparent. Output ONE PNG, no labels, exact guide layout.\nCORRECTION PRIORITY: Match the original guide alpha silhouettes exactly. Thin chain links must stay thin, with clean empty openings. No stray pixels, coloured fringe, red halos, extra protrusions or marks anywhere. Do not thicken chain or add raised red parts to narrow edge views. Keep paint matte and unlit, no shiny highlights. Preserve original geometry above all.",
+  "initial_prompt": "Edit the supplied paint_mask_guide.png into one transparent PNG texture atlas, canvas 1536x2048 (3:4). Use case: precise-object-edit. The guide is the EDIT TARGET; design_reference.png is the approved material/detail reference and icon_x8.png is the original colour reference (magenta is background).\nStrictly preserve the guide's exact positions, sizes, silhouettes, gaps and openings. It is three columns by FOUR rows of 512x512 cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly those five views. These are orthographic views of a flat heart pendant; several views appear as extremely thin horizontal strips: KEEP THEM as thin horizontal strips, do not turn them into front-facing pendants. The large face-on silhouette is in column 2 row 2, repeated in column 2 row 4. Preserve the chain and its holes.\nPaint grey objects ONLY; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour for source-faithful upright heart jewel, red heart gemstone within gold hand/prong-like surround, gold lower pointed setting and gold chain. Match reference details and colours. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each view. Unlit base colour only, no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only. Pure red #FF0000 for ALL metal including gold setting and chain; pure black #000000 for all gemstone/crystal/glass/pearl/enamel/liquid; pure blue #0000FF for cloth/cords/ribbons/hair if any. Every pixel within silhouettes must be one of those exact colours. No shading, texture, outlines, or antialiased colour blends inside. Assign materials consistently with upper painted views.\nKeep ALL background and all gaps/openings fully transparent. Column 3 rows 2 and 4 remain empty transparent. Output ONE PNG, no labels, exact guide layout.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0b-44b0-71d3-9363-10794072ca33/exec-096966b1-29a3-42fd-a575-5bc637af1419.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10218/paint_mask_raw_v1.png",
+  "mode": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10218/paint_mask_guide.png",
+      "sha256": "73d6192c946d2ec92fcc0d35fa2d7cb347d61646ae3ea90e86ae7c5a3b62950d"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10218/design_reference.png",
+      "sha256": "62c375335408b8f4b43b9a87f28dd8f24ec184c11f3ec553893f628dfcd6fe6a"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10218/icon_x8.png",
+      "sha256": "4b966e5338fc336d4d10fbc6cedeb21b47cf731d6711419c850b8f17005777b1"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": "Visible fringes and chain silhouette deviations remain after the single permitted correction; exact mask colours and pixel alignment are not guaranteed."
+  }
+}

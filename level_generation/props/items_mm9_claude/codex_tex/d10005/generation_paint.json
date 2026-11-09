@@ -1,0 +1,34 @@
+{
+  "prompt": "Edit paint_mask_guide.png, using design_reference.png as the material/detail reference and icon_x8.png as the original colour reference (magenta is background). Output one transparent PNG at 1536x2048, 3:4 aspect. This is a precise-object-edit texture atlas, NOT a new single-sword illustration.\nPreserve EXACT guide layout, silhouettes, positions, sizes, orientations, gaps and openings. Three columns, FOUR rows of 512x512 cells. Each half has five views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Actual guide shows two small end-on views and horizontal blade-left side view in first row; horizontal blade-right side view and upright broad blade in second row. Repeat those exact guide silhouettes in lower two rows. Empty rightmost cells in rows 2 and 4 remain transparent. Paint grey pixels only; never enlarge, move or redesign.\nRows 1\u20132 PAINT: unlit base colour faithfully matching MM9 Shaba Couta references, grounded late-1990s pre-rendered MM6\u2013MM8 RPG inventory art with restrained detail. Broad slightly leaf-shaped pale steel blade, short asymmetric yellow-gold guard one branch curling up and other down, short dark-brown leather grip with diagonal wrapping, small solid round yellow-gold pommel. Preserve reference relative colours and model proportions. Details, facets and inner swirls follow reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No glow, halo, sparkles, aura, ground, outlines or text.\nRows 3\u20134 MATERIAL MASK: all five exact repeated guide silhouettes filled FLAT pure material colours with no shading, texture, outlines or antialiased internal blends. Every metal part including steel blade, gold guard and gold pommel pure red #FF0000. Every leather grip part pure green #00FF00. Cloth/hair if any pure blue #0000FF; matte non-metal solids if any pure yellow #FFFF00; gemstones/glass/enamel if any pure black #000000. This sword uses red metal and green leather. Every silhouette pixel classified, nothing outside. All background and gaps fully transparent.\nFollow the supplied guide over any generic instruction to render a single sword: this output must contain the ten existing guide silhouettes, five painted above and five flat material masks below.\nCRITICAL CORRECTION: Preserve the guide alpha silhouettes exactly. Clean, solid silhouettes only. Absolutely no stray red/green/gold pixels, speckles, ragged fringe or paint outside the guide boundaries. The thin edge-on blades must remain as thin as the guide, and the upright blade and guard must not broaden. Use the guide as the immutable outline. Mask regions must be solid flat red and green with clean boundaries, no noise.",
+  "initial_prompt": "Edit paint_mask_guide.png, using design_reference.png as the material/detail reference and icon_x8.png as the original colour reference (magenta is background). Output one transparent PNG at 1536x2048, 3:4 aspect. This is a precise-object-edit texture atlas, NOT a new single-sword illustration.\nPreserve EXACT guide layout, silhouettes, positions, sizes, orientations, gaps and openings. Three columns, FOUR rows of 512x512 cells. Each half has five views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Actual guide shows two small end-on views and horizontal blade-left side view in first row; horizontal blade-right side view and upright broad blade in second row. Repeat those exact guide silhouettes in lower two rows. Empty rightmost cells in rows 2 and 4 remain transparent. Paint grey pixels only; never enlarge, move or redesign.\nRows 1\u20132 PAINT: unlit base colour faithfully matching MM9 Shaba Couta references, grounded late-1990s pre-rendered MM6\u2013MM8 RPG inventory art with restrained detail. Broad slightly leaf-shaped pale steel blade, short asymmetric yellow-gold guard one branch curling up and other down, short dark-brown leather grip with diagonal wrapping, small solid round yellow-gold pommel. Preserve reference relative colours and model proportions. Details, facets and inner swirls follow reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No glow, halo, sparkles, aura, ground, outlines or text.\nRows 3\u20134 MATERIAL MASK: all five exact repeated guide silhouettes filled FLAT pure material colours with no shading, texture, outlines or antialiased internal blends. Every metal part including steel blade, gold guard and gold pommel pure red #FF0000. Every leather grip part pure green #00FF00. Cloth/hair if any pure blue #0000FF; matte non-metal solids if any pure yellow #FFFF00; gemstones/glass/enamel if any pure black #000000. This sword uses red metal and green leather. Every silhouette pixel classified, nothing outside. All background and gaps fully transparent.\nFollow the supplied guide over any generic instruction to render a single sword: this output must contain the ten existing guide silhouettes, five painted above and five flat material masks below.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac43-c817-7c33-a0f3-fc160e2b7894/exec-cb3893d1-eb7e-40a0-a1bd-97cedd1f6baa.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10005/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10005/paint_mask_guide.png",
+      "sha256": "9b400e7100ec8d4042a9b64b4a40f586d671b9e22cb5c03811ff64bf3f158680"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10005/design_reference.png",
+      "sha256": "329861972667fa9595bbd6cb7c770252f36f2173ae28ead603661ecbb9c12139"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10005/icon_x8.png",
+      "sha256": "7abb9d91c330ad218426314663015b477b5dcbc8097903e07677d9df70600767"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visual_limitations": "Residual edge fringe and silhouette drift remain after the one permitted correction; raw tool output preserved without alteration."
+  }
+}

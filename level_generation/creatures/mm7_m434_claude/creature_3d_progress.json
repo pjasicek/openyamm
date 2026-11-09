@@ -1,0 +1,39 @@
+{
+  "creature_3d_identity": "mm7:m434",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 0
+  },
+  "scope": "BATCH_M model 9: MM7 copy of an installed MM8 model, no install (batch rule)",
+  "native_family": "mm7:m434",
+  "descriptor_ids": [
+    424,
+    425,
+    426
+  ],
+  "decision": "Same render, other colours.",
+  "reuse_source": [
+    {
+      "path": "assets_source/worlds/mm8/models/mm8_m560.glb",
+      "sha256": "3f032e2782592f475dc0b4accc5dab0b967521ef1b79448ac45a50fa339f9de0"
+    }
+  ],
+  "selected_artifacts": {
+    "export_0": {
+      "path": "export/mm7_m434.glb",
+      "sha256": "837cd3f637c2609d2ca1014e5bcd08721a77eded461a0c14e5547326cd01ee69"
+    },
+    "ramps": {
+      "path": "textures/m434_ramps.json",
+      "sha256": "7e9554a9a32cbdf3ffa9a75e72bd33a720554d54b23f883bb1700f18b914e7d2"
+    }
+  },
+  "credits_spent": 0,
+  "current_stage": "exported",
+  "current_substep": "awaiting user review / install decision",
+  "next_action": {
+    "owner": "user",
+    "action": "review tiers; decide install (own GLB vs binding the MM8 model)"
+  },
+  "user_artistic_acceptance": "pending"
+}

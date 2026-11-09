@@ -1,0 +1,201 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generation attempted; selected returns do not satisfy exact size, silhouette and flat-light requirements.",
+  "selection_meaning": "Selected for preservation only, not approved for texture projection.",
+  "corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a 1024 x 1024 transparent RGBA texture-source image, an unresized return. Image 1 is the plain grey orthographic guide and the edit target. Image 2 is design_reference.png, material and colour authority ONLY; do not adopt its perspective or lighting. Keep the guide's silhouette EXACTLY: same outline, size, position, all shape edges, openings, and detail. Keep the complete 1024-square canvas and large transparent margins. The guide object occupies x=337..686, y=361..662; do not enlarge or recenter it. Paint ONLY inside the exact existing guide alpha silhouette, preserving that alpha coverage. This is a narrow end-on orthographic view of a rectangular fungus planter, NOT the long side or a three-quarter view.\nPaint the surface materials from the approved design: dark slate grey-green composite planter, horizontal ochre band, ochre corner uprights, restrained worn metal detailing, dark soil where visible, pale cream and violet mushrooms with cream cap edges and violet gills, thin grey pipe where present in the guide. Preserve exact mushroom shapes and overlaps of the guide, do not add or remove geometry or mushrooms to imitate the reference. Preserve every edge of the box, posts, and bottom foot.\nLIGHTING: TEXTURE SOURCE / ALBEDO. Even flat shadowless light from viewer, no cast shadows, no ambient occlusion darkening, no strong specular highlights/reflections, no rim light, no background, no floor. Paint material colour and small surface texture only. Glowing parts, if present, are painted in their glowing colour without light spill. No text or labels.\nDeliverable: paint_left.png, decoration seen from the LEFT. Precisely paint over guide_left.png (image 1).",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted correction; incorrect dimensions, changed silhouette, residual shading and stray alpha.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/guide_left.png",
+          "sha256": "6e06b470164299530d0dea5016badc7b7233424fa49c35ad2e55255e1ebbf631"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output_sha256": "8415ba1d181dbd3a284a8ada24bb73430c597d56e888a89ec10dbf3fa1ae8228",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          43,
+          44,
+          1192,
+          1190
+        ],
+        "guide_alpha_bbox": [
+          337,
+          361,
+          687,
+          663
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match slate grey-green, ochre, cream and violet reference palette.",
+        "flat_even_light": "Fail: residual dimensional shading and highlights.",
+        "transparent_background": "RGBA transparency present; fail exact clean background due to stray nonzero alpha.",
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint a 1024 x 1024 transparent RGBA texture-source image, an unresized return. Image 1 is the plain grey orthographic guide and the edit target. Image 2 is design_reference.png, material and colour authority ONLY; do not adopt its perspective or lighting. Keep the guide's silhouette EXACTLY: same outline, size, position, all shape edges, openings, and detail. Keep the complete 1024-square canvas and large transparent margins. The guide object occupies x=337..686, y=361..662; do not enlarge or recenter it. Paint ONLY inside the exact existing guide alpha silhouette, preserving that alpha coverage. This is a narrow end-on orthographic view of a rectangular fungus planter, NOT the long side or a three-quarter view.\nPaint the surface materials from the approved design: dark slate grey-green composite planter, horizontal ochre band, ochre corner uprights, restrained worn metal detailing, dark soil where visible, pale cream and violet mushrooms with cream cap edges and violet gills, thin grey pipe where present in the guide. Preserve exact mushroom shapes and overlaps of the guide, do not add or remove geometry or mushrooms to imitate the reference. Preserve every edge of the box, posts, and bottom foot.\nLIGHTING: TEXTURE SOURCE / ALBEDO. Even flat shadowless light from viewer, no cast shadows, no ambient occlusion darkening, no strong specular highlights/reflections, no rim light, no background, no floor. Paint material colour and small surface texture only. Glowing parts, if present, are painted in their glowing colour without light spill. No text or labels.\nDeliverable: paint_left.png, decoration seen from the LEFT. Precisely paint over guide_left.png (image 1).\nCORRECTIVE GENERATION (only allowed retry): The previous attempt returned 1254 x 1254 and changed the silhouette. This is unacceptable for projection. Return exactly 1024 x 1024 pixels natively. Edit the supplied ORIGINAL guide in place: preserve the guide's original alpha channel exactly, including antialiased pixels. Object must occupy x=337..686 and y=361..662 in the 1024-square output, with ALL other pixels fully transparent alpha zero. No stray opaque or partly opaque pixels anywhere in the blank margins. Preserve the broad continuous bottom rail, exact corner-post widths, and exact angular mushroom geometry. Flat material colour only; no shaded underside gradients or metallic gleams. Do not resize, reframe, reinterpret, smooth, or improve geometry.",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/paint_left.png",
+      "selected": true,
+      "reason": "Best retained unresized return after the permitted correction; more continuous bottom rail. Not compliant: incorrect dimensions, changed silhouette, stray alpha and residual shading.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/guide_left.png",
+          "sha256": "6e06b470164299530d0dea5016badc7b7233424fa49c35ad2e55255e1ebbf631"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output_sha256": "d514f7d7ee30e1ae11a12e07755c4176201be2f5bcf7a2ebb6a5f12cc3374ea3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          49,
+          44,
+          1182,
+          1158
+        ],
+        "guide_alpha_bbox": [
+          337,
+          361,
+          687,
+          663
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match slate grey-green, ochre, cream and violet reference palette.",
+        "flat_even_light": "Fail: residual dimensional shading and highlights.",
+        "transparent_background": "RGBA transparency present; fail exact clean background due to stray nonzero alpha.",
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a 1024 x 1024 transparent RGBA texture-source image, an unresized return. Image 1 is the plain grey orthographic guide and the edit target. Image 2 is design_reference.png, material and colour authority ONLY; do not adopt its perspective or lighting. Keep the guide's silhouette EXACTLY: same outline, size, position, all shape edges, openings, and detail. Keep the complete 1024-square canvas and large transparent margins. The guide object occupies x=337..686, y=361..662; do not enlarge or recenter it. Paint ONLY inside the exact existing guide alpha silhouette, preserving that alpha coverage. This is a narrow end-on orthographic view of a rectangular fungus planter, NOT the long side or a three-quarter view.\nPaint the surface materials from the approved design: dark slate grey-green composite planter, horizontal ochre band, ochre corner uprights, restrained worn metal detailing, dark soil where visible, pale cream and violet mushrooms with cream cap edges and violet gills, thin grey pipe where present in the guide. Preserve exact mushroom shapes and overlaps of the guide, do not add or remove geometry or mushrooms to imitate the reference. Preserve every edge of the box, posts, and bottom foot.\nLIGHTING: TEXTURE SOURCE / ALBEDO. Even flat shadowless light from viewer, no cast shadows, no ambient occlusion darkening, no strong specular highlights/reflections, no rim light, no background, no floor. Paint material colour and small surface texture only. Glowing parts, if present, are painted in their glowing colour without light spill. No text or labels.\nDeliverable: paint_right.png, decoration seen from the RIGHT. Precisely paint over guide_right.png (image 1). Mandatory exact 1024 x 1024 native output dimensions.",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted correction; incorrect dimensions, changed silhouette, residual shading and stray alpha.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/guide_right.png",
+          "sha256": "586a40927a22475ed34f928362fbb72286d3531ef6deaac4ce35c2bb190a9050"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output_sha256": "1b760512c86ff1197722f8502e3b1202596ba19a98c5fbfb72297e2b6d632c82",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          25,
+          32,
+          1210,
+          1228
+        ],
+        "guide_alpha_bbox": [
+          337,
+          361,
+          687,
+          663
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match slate grey-green, ochre, cream and violet reference palette.",
+        "flat_even_light": "Fail: residual dimensional shading and highlights.",
+        "transparent_background": "RGBA transparency present; fail exact clean background due to stray nonzero alpha.",
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint a 1024 x 1024 transparent RGBA texture-source image, an unresized return. Image 1 is the plain grey orthographic guide and the edit target. Image 2 is design_reference.png, material and colour authority ONLY; do not adopt its perspective or lighting. Keep the guide's silhouette EXACTLY: same outline, size, position, all shape edges, openings, and detail. Keep the complete 1024-square canvas and large transparent margins. The guide object occupies x=337..686, y=361..662; do not enlarge or recenter it. Paint ONLY inside the exact existing guide alpha silhouette, preserving that alpha coverage. This is a narrow end-on orthographic view of a rectangular fungus planter, NOT the long side or a three-quarter view.\nPaint the surface materials from the approved design: dark slate grey-green composite planter, horizontal ochre band, ochre corner uprights, restrained worn metal detailing, dark soil where visible, pale cream and violet mushrooms with cream cap edges and violet gills, thin grey pipe where present in the guide. Preserve exact mushroom shapes and overlaps of the guide, do not add or remove geometry or mushrooms to imitate the reference. Preserve every edge of the box, posts, and bottom foot.\nLIGHTING: TEXTURE SOURCE / ALBEDO. Even flat shadowless light from viewer, no cast shadows, no ambient occlusion darkening, no strong specular highlights/reflections, no rim light, no background, no floor. Paint material colour and small surface texture only. Glowing parts, if present, are painted in their glowing colour without light spill. No text or labels.\nDeliverable: paint_right.png, decoration seen from the RIGHT. Precisely paint over guide_right.png (image 1). Mandatory exact 1024 x 1024 native output dimensions.\nCORRECTIVE GENERATION (only allowed retry): The previous attempt incorrectly returned 1254 x 1254 and altered the guide silhouette. Output must be EXACTLY 1024 x 1024 pixels. Preserve the input guide image dimensions and alpha channel pixel for pixel. All margins outside the guide silhouette must be completely transparent with alpha=0, no stray pixels or fringe. Object's original alpha bounding box is [337,361,687,663] (exclusive right/bottom). Lock the original guide geometry including the bottom rail, flat vertical posts, and angular mushroom shapes. Recolour existing surfaces only with the approved materials. Do not redesign the shape. Remove directional lighting, shadows, metallic shine and gill shadows: use cream and violet pigment detail under perfectly flat even front illumination.",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/paint_right.png",
+      "selected": true,
+      "reason": "Best retained unresized return after the permitted correction; flatter painted front. Not compliant: incorrect dimensions, changed silhouette, stray alpha and residual shading.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/guide_right.png",
+          "sha256": "586a40927a22475ed34f928362fbb72286d3531ef6deaac4ce35c2bb190a9050"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_fungus_planter/design_reference.png",
+          "sha256": "620b735ff219b3f7ed2706839ff6bc36adb52959689333bf73d2c292d70ef6b0"
+        }
+      ],
+      "output_sha256": "5482b54580f756413c0b2eab73827794e4755ae773cf1813ab82c9b956fed52a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          71,
+          21,
+          1234,
+          1182
+        ],
+        "guide_alpha_bbox": [
+          337,
+          361,
+          687,
+          663
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match slate grey-green, ochre, cream and violet reference palette.",
+        "flat_even_light": "Fail: residual dimensional shading and highlights.",
+        "transparent_background": "RGBA transparency present; fail exact clean background due to stray nonzero alpha.",
+        "unresized_return": true
+      }
+    }
+  ]
+}

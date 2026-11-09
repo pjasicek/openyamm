@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_peasantdm4_claude/references_hd/00_three_quarter.png), unresized at 1536×1024, using built-in image generation. Both raw attempts and prompts/input hashes are recorded in `generation_runs.json`.
+
+Stopped after run 1. Residual issue: the preview shows a halo; alpha exists but never reaches full opacity, despite the allowed corrective attempt.

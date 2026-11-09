@@ -1,0 +1,523 @@
+{
+  "item": "hes_thrixs_token",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "resized": false,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: albedo texture projection source for the existing 3D quest item hes_thrixs_token.\nInput image 1 (guide_front.png) is the EXACT edit target and geometry authority. Input image 2 (design_reference.png) is ONLY the colour, surface design and material reference.\nProduce ONE 1024 x 1024 RGBA transparent PNG: paint_front.png. Paint directly over image 1, preserving its alpha silhouette, pixel position, size, camera, all edges, every protrusion, opening, overlapping part and visible facet EXACTLY. Do not redesign, straighten, rotate or enlarge the model. Keep the broad low horizontal FRONT profile exactly as in image 1: object bounds x=130..893, y=328..695 on the 1024 square canvas, with the same large empty transparent margins. The apex is at about (497,328). Do not adopt the tall portrait composition or the perspective of image 2.\nTransfer image 2's materials to the corresponding surfaces: dark black-violet resin/chitin structural body, fine subtle purple marbling and wear; curved off-white ivory ceramic claw plates with fine worn pores, small shallow recessed ovals and restrained hairline cracks; thin brushed antique gold trim following the existing ridges; rich bright orange amber faceted crystal on the exposed central gemstone and small orange insets. Preserve existing geometry and part borders while adding only surface details inside them. Continue the same materials plausibly onto the exposed front edge and lower surfaces. No added shapes, no extra appendages, no blue light, no leather, cloth or paper because this reference shows none.\nLIGHTING IS ALBEDO: flat even shadowless frontal illumination across EVERY surface, including undersides and crevices. Do not reproduce the guide's gray shading or reference's dramatic lighting. No cast shadows, no ambient occlusion darkening, no directional shading gradients, no strong specular highlights, no white reflection streaks, no rim lighting. Gold is its muted ochre-gold base colour with at most a faint sheen. Crystal facets use orange/amber base colour variations, with the luminous areas bright orange, no white hotspots and no glow spilling beyond the object. Ceramic is off-white with fine beige wear, never shiny.\nBackground genuinely transparent with the guide's exact empty space and alpha contour retained. No floor, scene, background colour, checkerboard graphic, labels, text, letters, watermark or collage. Output only the single painted front guide, unresized.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "23c96aa13ef44e135e4df5c71b36d67acddd5ba5a8b8f5b11ec916746b8d84dd",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-de4362f2-bd4b-4e84-bc76-8a7c4e2e5f33.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette: normalized mask IoU 0.899799 versus 0.767039 for the correction. Reference palette retained, but exact alignment and flat albedo remain failed; selection is not approval for projection.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          63,
+          1240,
+          1228
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8997987260833814,
+        "normalized_excess_pixels": 13128,
+        "normalized_missing_pixels": 3201,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Ivory ceramic, antique gold, black-violet resin and orange amber match the palette; some details are invented.",
+        "visual_flat_albedo": false,
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 16606,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "ef245886b4b448c303e8824efdf58873ffd8e501dc5a913420a5539cd3e73c20",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Paint ONE albedo texture-source image for hes_thrixs_token.\nINPUT 1 design_reference.png: material/colour/detail reference ONLY, never its camera or silhouette.\nINPUT 2 guide_back.png: the EDIT TARGET and absolute geometry authority.\nOUTPUT: one transparent RGBA 1024 x 1024 PNG, paint_back.png. Retain INPUT 2's exact canvas, alpha mask, silhouette, framing, part edges and positions. Only replace the white/gray surface colour with painted materials. Do not reconstruct, remodel, reframe, rotate, expand, center again or change any geometry.\nVIEW: BACK orthographic profile. Preserve the broad low horizontal shape, with the apex at about (528,328), the large projecting central plate tapering to (610,692), and the right-hand curved prong. Bounds x=130..893, y=328..695. Keep the large transparent margins.\nMATERIALS: Match input 1's black-violet resin body with delicate purple marbling; off-white ivory ceramic curved claw plates with tiny beige pores and fine wear; narrow muted brushed antique gold borders on the existing raised trims; bright orange amber crystal on the existing central faceted gem and the small recessed orange accents. Place each material on its corresponding visible part in the guide, following all guide part boundaries. Continue these same materials plausibly on unseen sides. No additional cutouts or holes in the alpha mask; pores and engraved lines are painted surface details only. Do not add ornament geometry. No blue, leather, cloth or paper.\nALBEDO ONLY: completely flat, even, shadowless viewer-facing illumination. Paint dark resin as its intrinsic purple base colour, ceramic as even ivory, gold as even ochre-gold base colour with only the faintest sheen, crystal as orange base colour with restrained facet colours. No baked highlights, no glossy white streaks, no white hotspots, no mirror reflections, no light/dark gradients from illumination, no cast shadows, no ambient occlusion, no rim light. Do not copy the reference's highlights or the guide's gray lighting. Luminous regions are simply bright orange paint without bloom or spill. Fine material markings are allowed; physically lit shading is not.\nGenuinely transparent background outside exactly the guide silhouette, including its holes. No floor, background, checkerboard pattern, writing, letters, text, watermark, extra objects, or contact sheet. Keep the original guide's shape and canvas pixel-for-pixel. Return only this one painted back view, at 1024 x 1024, unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "1d87e65d3ad98282b0ff2b3a821e961fb7700381b56018974e863fa24d56943d",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-f82fc2a4-9dfd-4744-857b-16a1e4c5f958.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette: normalized mask IoU 0.975848 versus 0.895410 for the correction. Reference palette retained, but exact alignment and flat albedo remain failed; selection is not approval for projection.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          37,
+          1168,
+          1230
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9758478663225671,
+        "normalized_excess_pixels": 3612,
+        "normalized_missing_pixels": 94,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Ivory ceramic, antique gold, black-violet resin and orange amber match the palette; some details are invented.",
+        "visual_flat_albedo": false,
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 8435,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "1d5bb2adc46f2a8cb01c63bf9d88c32b1d2abbcac1f0558009d3ab133eab1252",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Paint ONE albedo texture-source image for hes_thrixs_token.\nINPUT 1 design_reference.png: material/colour/detail reference ONLY, never its camera or silhouette.\nINPUT 2 guide_left.png: the EDIT TARGET and absolute geometry authority.\nOUTPUT: one transparent RGBA 1024 x 1024 PNG, paint_left.png. Retain INPUT 2's exact canvas, alpha mask, silhouette, framing, part edges and positions. Only replace the white/gray surface colour with painted materials. Do not reconstruct, remodel, reframe, rotate, expand, center again or change any geometry.\nVIEW: LEFT orthographic profile. Preserve the wide, low horizontal side silhouette: left tip near (79,690), central peak at (521,328), and right tip near (944,602). Bounds x=66..957, y=328..695. Keep the large transparent margins.\nMATERIALS: Match input 1's black-violet resin body with delicate purple marbling; off-white ivory ceramic curved claw plates with tiny beige pores and fine wear; narrow muted brushed antique gold borders on the existing raised trims; bright orange amber crystal on the existing central faceted gem and the small recessed orange accents. Place each material on its corresponding visible part in the guide, following all guide part boundaries. Continue these same materials plausibly on unseen sides. No additional cutouts or holes in the alpha mask; pores and engraved lines are painted surface details only. Do not add ornament geometry. No blue, leather, cloth or paper.\nALBEDO ONLY: completely flat, even, shadowless viewer-facing illumination. Paint dark resin as its intrinsic purple base colour, ceramic as even ivory, gold as even ochre-gold base colour with only the faintest sheen, crystal as orange base colour with restrained facet colours. No baked highlights, no glossy white streaks, no white hotspots, no mirror reflections, no light/dark gradients from illumination, no cast shadows, no ambient occlusion, no rim light. Do not copy the reference's highlights or the guide's gray lighting. Luminous regions are simply bright orange paint without bloom or spill. Fine material markings are allowed; physically lit shading is not.\nGenuinely transparent background outside exactly the guide silhouette, including its holes. No floor, background, checkerboard pattern, writing, letters, text, watermark, extra objects, or contact sheet. Keep the original guide's shape and canvas pixel-for-pixel. Return only this one painted left view, at 1024 x 1024, unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "6371b6de4978c4184a51742c57a5188ef0ca3bd0b91366cb51ca10b8cc56c96b",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-1b7bb98b-bf69-45f5-a53a-cb27e9b2adac.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette: normalized mask IoU 0.977011 versus 0.918003 for the correction. Reference palette retained, but exact alignment and flat albedo remain failed; selection is not approval for projection.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1216,
+          1222
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9770114942528736,
+        "normalized_excess_pixels": 3939,
+        "normalized_missing_pixels": 177,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Ivory ceramic, antique gold, black-violet resin and orange amber match the palette; some details are invented.",
+        "visual_flat_albedo": false,
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 9461,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "03c0683d2c71e5bcc4ff9666bd73a93ec64934752232918b5a424699f91efb64",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Paint ONE albedo texture-source image for hes_thrixs_token.\nINPUT 1 design_reference.png: material/colour/detail reference ONLY, never its camera or silhouette.\nINPUT 2 guide_right.png: the EDIT TARGET and absolute geometry authority.\nOUTPUT: one transparent RGBA 1024 x 1024 PNG, paint_right.png. Retain INPUT 2's exact canvas, alpha mask, silhouette, framing, part edges and positions. Only replace the white/gray surface colour with painted materials. Do not reconstruct, remodel, reframe, rotate, expand, center again or change any geometry.\nVIEW: RIGHT orthographic profile. Preserve the wide, low horizontal side silhouette: left tip near (80,602), central peak at (502,328), and right tip near (944,690). Bounds x=66..957, y=328..695. Keep the large transparent margins.\nMATERIALS: Match input 1's black-violet resin body with delicate purple marbling; off-white ivory ceramic curved claw plates with tiny beige pores and fine wear; narrow muted brushed antique gold borders on the existing raised trims; bright orange amber crystal on the existing central faceted gem and the small recessed orange accents. Place each material on its corresponding visible part in the guide, following all guide part boundaries. Continue these same materials plausibly on unseen sides. No additional cutouts or holes in the alpha mask; pores and engraved lines are painted surface details only. Do not add ornament geometry. No blue, leather, cloth or paper.\nALBEDO ONLY: completely flat, even, shadowless viewer-facing illumination. Paint dark resin as its intrinsic purple base colour, ceramic as even ivory, gold as even ochre-gold base colour with only the faintest sheen, crystal as orange base colour with restrained facet colours. No baked highlights, no glossy white streaks, no white hotspots, no mirror reflections, no light/dark gradients from illumination, no cast shadows, no ambient occlusion, no rim light. Do not copy the reference's highlights or the guide's gray lighting. Luminous regions are simply bright orange paint without bloom or spill. Fine material markings are allowed; physically lit shading is not.\nGenuinely transparent background outside exactly the guide silhouette, including its holes. No floor, background, checkerboard pattern, writing, letters, text, watermark, extra objects, or contact sheet. Keep the original guide's shape and canvas pixel-for-pixel. Return only this one painted right view, at 1024 x 1024, unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "d9fbeb83be92dc703d84ed810b7f3cac31553fa3a5f95868a71a0ceed7d7a11a",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-94297bf2-12a3-4284-86fa-73451119d0f1.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette: normalized mask IoU 0.976785 versus 0.804733 for the correction. Reference palette retained, but exact alignment and flat albedo remain failed; selection is not approval for projection.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          52,
+          21,
+          1224,
+          1196
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9767854127975688,
+        "normalized_excess_pixels": 2587,
+        "normalized_missing_pixels": 1538,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Ivory ceramic, antique gold, black-violet resin and orange amber match the palette; some details are invented.",
+        "visual_flat_albedo": false,
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 6287,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "3570929665f23e9fc5ff9369a796d4b066684cc9307f90be632b4956150f8a57",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Paint ONE albedo texture-source image for hes_thrixs_token.\nINPUT 1 design_reference.png: material/colour/detail reference ONLY, never its camera or silhouette.\nINPUT 2 guide_top.png: the EDIT TARGET and absolute geometry authority.\nOUTPUT: one transparent RGBA 1024 x 1024 PNG, paint_top.png. Retain INPUT 2's exact canvas, alpha mask, silhouette, framing, part edges and positions. Only replace the white/gray surface colour with painted materials. Do not reconstruct, remodel, reframe, rotate, expand, center again or change any geometry.\nVIEW: TOP orthographic view, directly above. Preserve the tall shield-shaped silhouette with upper tip near (418,66), left side near (130,415), right side near (893,370) and bottom tip near (571,957). Bounds x=130..893, y=66..957. Preserve the exact central faceted gemstone polygon and every overlapping hooked ceramic plate.\nMATERIALS: Match input 1's black-violet resin body with delicate purple marbling; off-white ivory ceramic curved claw plates with tiny beige pores and fine wear; narrow muted brushed antique gold borders on the existing raised trims; bright orange amber crystal on the existing central faceted gem and the small recessed orange accents. Place each material on its corresponding visible part in the guide, following all guide part boundaries. Continue these same materials plausibly on unseen sides. No additional cutouts or holes in the alpha mask; pores and engraved lines are painted surface details only. Do not add ornament geometry. No blue, leather, cloth or paper.\nALBEDO ONLY: completely flat, even, shadowless viewer-facing illumination. Paint dark resin as its intrinsic purple base colour, ceramic as even ivory, gold as even ochre-gold base colour with only the faintest sheen, crystal as orange base colour with restrained facet colours. No baked highlights, no glossy white streaks, no white hotspots, no mirror reflections, no light/dark gradients from illumination, no cast shadows, no ambient occlusion, no rim light. Do not copy the reference's highlights or the guide's gray lighting. Luminous regions are simply bright orange paint without bloom or spill. Fine material markings are allowed; physically lit shading is not.\nGenuinely transparent background outside exactly the guide silhouette, including its holes. No floor, background, checkerboard pattern, writing, letters, text, watermark, extra objects, or contact sheet. Keep the original guide's shape and canvas pixel-for-pixel. Return only this one painted top view, at 1024 x 1024, unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "c8f268078e135d983964ce09b5a0ade8b26596fadcfab62e8cbc8d1f0614ea3a",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-d421410d-ed29-4cb3-8826-cc5ec0182dac.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette: normalized mask IoU 0.939886 versus 0.907950 for the correction. Reference palette retained, but exact alignment and flat albedo remain failed; selection is not approval for projection.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          53,
+          1236,
+          1230
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9398864367703725,
+        "normalized_excess_pixels": 4331,
+        "normalized_missing_pixels": 17806,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Ivory ceramic, antique gold, black-violet resin and orange amber match the palette; some details are invented.",
+        "visual_flat_albedo": false,
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 5471,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "5a61cec251f6a4f5d7cb80439ffbe9135bde1a95d2ce9cd098ac60019e391873",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE PASS 1 OF 1. Use case: precise-object-edit. Image 1 is guide_front.png, the only geometry and composition authority. Image 2 is design_reference.png, the material palette authority only.\nProduce paint_front.png, ONE 1024x1024 RGBA image on a truly transparent background. This is painting the guide for ALBEDO PROJECTION, not a rendered beauty shot. The prior attempt drifted in silhouette and included lit highlights: fix both. Start with image 1 and preserve its alpha coverage, every contour point, internal part edge, geometry, orthographic view, position and scale exactly. DO NOT render a redesigned object resembling the reference.\nFRONT: a low broad horizontal profile, x=130..893 and y=328..695 on the guide's 1024 canvas. The raised crystal apex is (497,328), with no ceramic decoration newly covering that crystal facet. Keep the lower edge's exact irregular angular notches, the right and left tip widths, and all sculpted ridge boundaries.\nPaint only the inside of the guide. Keep its angular geometry angular, keep every protrusion and hole exactly, and keep the original margins. No painted pixel, fringe, speckle, glow or haze outside the guide's alpha. Do not crop or recenter. Leave the alpha mask unchanged.\nUse the reference's material assignment: black-violet resin structural body, warm ivory ceramic curved hooked plates, narrow antique gold borders following existing ridges, and orange amber crystal on the existing faceted centerpiece and small resin insets. The gemstone uses the guide's facets exactly. Surface pores, fine ceramic wear, fine gold brushing and subdued violet resin veins remain very subtle; do not introduce additional geometric plates, seams, jewels or holes.\nCRITICAL CORRECTION: output an UNLIT BASE-COLOR TEXTURE PASS. Ignore ALL lighting in BOTH inputs. Set each material to its intrinsic colour regardless of face orientation: resin dark plum (#302334 to #493449) with restrained fine veins; ceramic warm ivory (#e7ddc4) with light tan wear; gold muted antique ochre (#b79552) with fine colour variation; amber orange (#f27c13) and burnt-orange facets. These are approximate palette anchors, matching the reference. No shading on lower edges or occluded parts, no black recess shadows, no bright edge highlights, no shiny bevel strokes, no specular glints or white facets, no reflections, no rim light, no ambient occlusion or cast shadow. Gold is muted matte base colour, resin is matte, ceramic is matte. Amber luminosity is a bright orange albedo colour only, without reflections or bloom. Present material colours evenly and flatly. Do not paint volume with light.\nTransparent background, no floor, no checkerboard graphic, no text, no lettering, no labels, no watermark. Return one unresized painted guide only. The output canvas should be the guide's 1024x1024, not the reference's 1254x1254.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "23c96aa13ef44e135e4df5c71b36d67acddd5ba5a8b8f5b11ec916746b8d84dd",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-76dd305d-c026-402f-9f3e-630fb8fa1350.png",
+      "output": "paint_front_run2.png",
+      "selected": false,
+      "reason": "Not selected: corrective pass reduced some highlights but worsened silhouette agreement (normalized mask IoU 0.767039 versus 0.899799). No further generation is permitted by this brief.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          35,
+          1224,
+          1181
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.7670390685291939,
+        "normalized_excess_pixels": 43237,
+        "normalized_missing_pixels": 1741,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Reference palette retained; ceramic and resin decoration is partly reinterpreted.",
+        "visual_flat_albedo": false,
+        "visual_lighting_note": "Reduced specular highlights; baked shading and edge highlights remain.",
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 47562,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "7bd16bfce3430b4f783b06c1cd2a04a2b26e10196e723a30980a37a555437748",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, one painted back view of hes_thrixs_token for an ALBEDO texture projection.\nImage 1: guide_back.png, exact target to colour, authoritative geometry and alpha.\nImage 2: design_reference.png, only a guide to materials and colour, not lighting or pose.\nReturn ONE 1024x1024 transparent RGBA PNG. Keep image 1's silhouette and every internal edge EXACTLY, at precisely the same size and position. Do not enlarge the subject to fill the canvas. Keep its polygonal surface layout and asymmetry. Every component stays within its guide boundary. There must be no new ornament geometry, no changed tip shapes, no extra holes, no moved borders.\nBACK low orthographic profile. The object occupies x=130..893, y=328..695 of the 1024 canvas. Preserve the apex (528,328), center ceramic plate ending (610,692), right curved prong and exact negative-space notches. The large central projecting plate is solid ivory ceramic as in the guide, NOT a new inset crystal. Keep all parts where the guide puts them.\nPaint the reference's material palette onto the guide: warm off-white ceramic claw panels with tiny beige pores and fine wear, antique brushed gold edging, very dark muted violet resin body with restrained purple veins, vivid orange amber for the existing gemstone and small inset lights. Carry the same materials onto faces unseen in the reference. Only painted material markings may be added, inside the guide contours. No letters or text.\nThe prior attempt looked like a lit glossy render. CORRECT this to a raw UNLIT BASE COLOUR PASS. All surfaces have even, flat, shadowless illumination from the viewer regardless of orientation. No cast or contact shadows, no ambient occlusion between panels or in recesses, no gradients of illumination, no glossy white streaks, no bright outlining along bevels, no rim light, no reflected environment. Render gold as muted ochre base colour with fine brushing and only the faintest sheen. Render ceramic as matte ivory of uniform value, with small beige wear marks. Render resin as matte dark plum with subtle veins, with no reflective streaks. Render crystal as bright orange base colour with only modest facet-colour differences, no white reflections, no fiery illumination, no bloom or spill. Suppress lighting from both inputs completely.\nPreserve the guide's exact alpha coverage. No stray pixels, fragments or low-opacity residue outside its original silhouette. The large empty canvas regions must be fully transparent. No scene, background, floor or checkerboard artwork. Do not rotate, reframe or crop. Use the guide's 1024x1024 canvas rather than the reference's size. Output only the unresized painted guide.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "1d87e65d3ad98282b0ff2b3a821e961fb7700381b56018974e863fa24d56943d",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-71f4845e-4e9f-428b-9845-d053e7e50341.png",
+      "output": "paint_back_run2.png",
+      "selected": false,
+      "reason": "Not selected: corrective pass reduced some highlights but worsened silhouette agreement (normalized mask IoU 0.895410 versus 0.975848). No further generation is permitted by this brief.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1200,
+          1198
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8954102233418106,
+        "normalized_excess_pixels": 16102,
+        "normalized_missing_pixels": 1253,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Reference palette retained; ceramic and resin decoration is partly reinterpreted.",
+        "visual_flat_albedo": false,
+        "visual_lighting_note": "Reduced specular highlights; baked shading and edge highlights remain.",
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 20269,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "75b25ed4febc94e6d4074c6ebdc31f113187e7a13a357899e5a2d75a8b77e920",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, one painted left view of hes_thrixs_token for an ALBEDO texture projection.\nImage 1: guide_left.png, exact target to colour, authoritative geometry and alpha.\nImage 2: design_reference.png, only a guide to materials and colour, not lighting or pose.\nReturn ONE 1024x1024 transparent RGBA PNG. Keep image 1's silhouette and every internal edge EXACTLY, at precisely the same size and position. Do not enlarge the subject to fill the canvas. Keep its polygonal surface layout and asymmetry. Every component stays within its guide boundary. There must be no new ornament geometry, no changed tip shapes, no extra holes, no moved borders.\nLEFT low orthographic side profile. The object occupies x=66..957, y=328..695 of the 1024 canvas. The left end curves down to (79,690), the peak sits at (521,328), and the right end reaches (944,602). Keep all angular notches along the lower edge and all upper prong openings exactly. The existing central raised gemstone is orange crystal, the long hooked raised plates ivory ceramic, the thin trims gold and the surrounding shell black-violet.\nPaint the reference's material palette onto the guide: warm off-white ceramic claw panels with tiny beige pores and fine wear, antique brushed gold edging, very dark muted violet resin body with restrained purple veins, vivid orange amber for the existing gemstone and small inset lights. Carry the same materials onto faces unseen in the reference. Only painted material markings may be added, inside the guide contours. No letters or text.\nThe prior attempt looked like a lit glossy render. CORRECT this to a raw UNLIT BASE COLOUR PASS. All surfaces have even, flat, shadowless illumination from the viewer regardless of orientation. No cast or contact shadows, no ambient occlusion between panels or in recesses, no gradients of illumination, no glossy white streaks, no bright outlining along bevels, no rim light, no reflected environment. Render gold as muted ochre base colour with fine brushing and only the faintest sheen. Render ceramic as matte ivory of uniform value, with small beige wear marks. Render resin as matte dark plum with subtle veins, with no reflective streaks. Render crystal as bright orange base colour with only modest facet-colour differences, no white reflections, no fiery illumination, no bloom or spill. Suppress lighting from both inputs completely.\nPreserve the guide's exact alpha coverage. No stray pixels, fragments or low-opacity residue outside its original silhouette. The large empty canvas regions must be fully transparent. No scene, background, floor or checkerboard artwork. Do not rotate, reframe or crop. Use the guide's 1024x1024 canvas rather than the reference's size. Output only the unresized painted guide.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "6371b6de4978c4184a51742c57a5188ef0ca3bd0b91366cb51ca10b8cc56c96b",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-d5ae0c14-f21c-441f-b2e2-cb1597e7bab1.png",
+      "output": "paint_left_run2.png",
+      "selected": false,
+      "reason": "Not selected: corrective pass reduced some highlights but worsened silhouette agreement (normalized mask IoU 0.918003 versus 0.977011). No further generation is permitted by this brief.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          79,
+          19,
+          1198,
+          1212
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9180032262094212,
+        "normalized_excess_pixels": 9010,
+        "normalized_missing_pixels": 6087,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Reference palette retained; ceramic and resin decoration is partly reinterpreted.",
+        "visual_flat_albedo": false,
+        "visual_lighting_note": "Reduced specular highlights; baked shading and edge highlights remain.",
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 12554,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "4b802bb756536cf96a3f72617ffeca76424497827bd9625c3efb42552ca9752b",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE REGENERATION, one painted right view of hes_thrixs_token for an ALBEDO texture projection.\nImage 1: guide_right.png, exact target to colour, authoritative geometry and alpha.\nImage 2: design_reference.png, only a guide to materials and colour, not lighting or pose.\nReturn ONE 1024x1024 transparent RGBA PNG. Keep image 1's silhouette and every internal edge EXACTLY, at precisely the same size and position. Do not enlarge the subject to fill the canvas. Keep its polygonal surface layout and asymmetry. Every component stays within its guide boundary. There must be no new ornament geometry, no changed tip shapes, no extra holes, no moved borders.\nRIGHT low orthographic side profile. The object occupies x=66..957, y=328..695 of the 1024 canvas. The left end reaches (80,602), peak is (502,328), and the right end curves down to (944,690). Keep all angular notches along the lower edge and all upper prong openings exactly. The existing central raised gemstone is orange crystal, the long hooked raised plates ivory ceramic, the thin trims gold and the surrounding shell black-violet.\nPaint the reference's material palette onto the guide: warm off-white ceramic claw panels with tiny beige pores and fine wear, antique brushed gold edging, very dark muted violet resin body with restrained purple veins, vivid orange amber for the existing gemstone and small inset lights. Carry the same materials onto faces unseen in the reference. Only painted material markings may be added, inside the guide contours. No letters or text.\nThe prior attempt looked like a lit glossy render. CORRECT this to a raw UNLIT BASE COLOUR PASS. All surfaces have even, flat, shadowless illumination from the viewer regardless of orientation. No cast or contact shadows, no ambient occlusion between panels or in recesses, no gradients of illumination, no glossy white streaks, no bright outlining along bevels, no rim light, no reflected environment. Render gold as muted ochre base colour with fine brushing and only the faintest sheen. Render ceramic as matte ivory of uniform value, with small beige wear marks. Render resin as matte dark plum with subtle veins, with no reflective streaks. Render crystal as bright orange base colour with only modest facet-colour differences, no white reflections, no fiery illumination, no bloom or spill. Suppress lighting from both inputs completely.\nPreserve the guide's exact alpha coverage. No stray pixels, fragments or low-opacity residue outside its original silhouette. The large empty canvas regions must be fully transparent. No scene, background, floor or checkerboard artwork. Do not rotate, reframe or crop. Use the guide's 1024x1024 canvas rather than the reference's size. Output only the unresized painted guide.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d9fbeb83be92dc703d84ed810b7f3cac31553fa3a5f95868a71a0ceed7d7a11a",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-df730949-fd4d-411d-8177-0fc3e5394e30.png",
+      "output": "paint_right_run2.png",
+      "selected": false,
+      "reason": "Not selected: corrective pass reduced some highlights but worsened silhouette agreement (normalized mask IoU 0.804733 versus 0.976785). No further generation is permitted by this brief.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          94,
+          25,
+          1214,
+          1254
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8047326505027596,
+        "normalized_excess_pixels": 17136,
+        "normalized_missing_pixels": 20402,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Reference palette retained; ceramic and resin decoration is partly reinterpreted.",
+        "visual_flat_albedo": false,
+        "visual_lighting_note": "Reduced specular highlights; baked shading and edge highlights remain.",
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 19111,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "584847228c6bf248793ae52971fd34e53edf0df96cf7280fc46cae493d146981",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "CORRECTIVE PASS 1 OF 1. Use case: precise-object-edit. Image 1 is guide_top.png, the only geometry and composition authority. Image 2 is design_reference.png, the material palette authority only.\nProduce paint_top.png, ONE 1024x1024 RGBA image on a truly transparent background. This is painting the guide for ALBEDO PROJECTION, not a rendered beauty shot. The prior attempt drifted in silhouette and included lit highlights: fix both. Start with image 1 and preserve its alpha coverage, every contour point, internal part edge, geometry, orthographic view, position and scale exactly. DO NOT render a redesigned object resembling the reference.\nTOP: direct overhead, x=130..893 and y=66..957 on the guide's 1024 canvas. Keep the exact broad blunt upper tip and its contour, the angular left tip at (130,415), the right tip at (893,370), the lower tip at (571,957), and the central gem's exact existing straight facet boundaries.\nPaint only the inside of the guide. Keep its angular geometry angular, keep every protrusion and hole exactly, and keep the original margins. No painted pixel, fringe, speckle, glow or haze outside the guide's alpha. Do not crop or recenter. Leave the alpha mask unchanged.\nUse the reference's material assignment: black-violet resin structural body, warm ivory ceramic curved hooked plates, narrow antique gold borders following existing ridges, and orange amber crystal on the existing faceted centerpiece and small resin insets. The gemstone uses the guide's facets exactly. Surface pores, fine ceramic wear, fine gold brushing and subdued violet resin veins remain very subtle; do not introduce additional geometric plates, seams, jewels or holes.\nCRITICAL CORRECTION: output an UNLIT BASE-COLOR TEXTURE PASS. Ignore ALL lighting in BOTH inputs. Set each material to its intrinsic colour regardless of face orientation: resin dark plum (#302334 to #493449) with restrained fine veins; ceramic warm ivory (#e7ddc4) with light tan wear; gold muted antique ochre (#b79552) with fine colour variation; amber orange (#f27c13) and burnt-orange facets. These are approximate palette anchors, matching the reference. No shading on lower edges or occluded parts, no black recess shadows, no bright edge highlights, no shiny bevel strokes, no specular glints or white facets, no reflections, no rim light, no ambient occlusion or cast shadow. Gold is muted matte base colour, resin is matte, ceramic is matte. Amber luminosity is a bright orange albedo colour only, without reflections or bloom. Present material colours evenly and flatly. Do not paint volume with light.\nTransparent background, no floor, no checkerboard graphic, no text, no lettering, no labels, no watermark. Return one unresized painted guide only. The output canvas should be the guide's 1024x1024, not the reference's 1254x1254.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "c8f268078e135d983964ce09b5a0ade8b26596fadcfab62e8cbc8d1f0614ea3a",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "14b75ba1406e3d28ba8261b144a56cc236b7d7af75ba2ab98a43b7d097afaad3",
+          "role": "design, colour and material authority"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ea4-d082-75a2-a254-a5a16155fd34/exec-7f9eccce-86cf-47dd-a0f6-487fc5df8cb3.png",
+      "output": "paint_top_run2.png",
+      "selected": false,
+      "reason": "Not selected: corrective pass reduced some highlights but worsened silhouette agreement (normalized mask IoU 0.907950 versus 0.939886). No further generation is permitted by this brief.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          66,
+          1226,
+          1254
+        ],
+        "native_silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9079495439050099,
+        "normalized_excess_pixels": 8917,
+        "normalized_missing_pixels": 25403,
+        "comparison_note": "Only a transient mask was scaled for normalized measurement; no image file was resized or edited.",
+        "visual_material_match": "Reference palette retained; ceramic and resin decoration is partly reinterpreted.",
+        "visual_flat_albedo": false,
+        "visual_lighting_note": "Reduced specular highlights; baked shading and edge highlights remain.",
+        "visual_no_text_or_letters": true,
+        "fully_transparent_outside_normalized_guide": false,
+        "normalized_outside_guide_nonzero_alpha_pixels": 10965,
+        "native_alpha_identical": false
+      },
+      "output_sha256": "b8822240c5d5657566ad1b0bde219218321f2fc9c82908999498740d83d3915d",
+      "meets_all_brief_checks": false
+    }
+  ],
+  "status": "Generated and saved; exact silhouette and flat albedo checks failed after the permitted corrective pass.",
+  "tool": "built-in image_gen",
+  "returned_sizes": [
+    [
+      1254,
+      1254
+    ]
+  ],
+  "corrective_regenerations_per_view": 1,
+  "postprocessing": "None. All PNGs are byte-for-byte original tool returns; selected files were renamed without resizing, cropping or changing alpha.",
+  "selection_policy": "Prefer guide silhouette agreement when neither candidate passes all checks.",
+  "limitations": [
+    "All returns are 1254x1254 instead of the requested 1024x1024; retained unresized as required.",
+    "No view exactly preserves its guide silhouette; some internal part edges and surface details also differ.",
+    "Baked shading and edge highlights remain, so these are not validated flat albedo sources.",
+    "Transparent backgrounds contain low-opacity residue outside the guide contours."
+  ]
+}

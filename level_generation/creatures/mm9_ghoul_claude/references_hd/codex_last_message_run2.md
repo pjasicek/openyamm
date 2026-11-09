@@ -1,0 +1,3 @@
+Saved run 2’s `01_front.png`–`04_right.png` at 1024×1536 using built-in image generation, plus raw returns, prompts/hashes in `generation_runs.json`, and the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_ghoul_claude/references_hd/selected_views_review.png).
+
+One correction per view used. Residual faults: soft halos persist and profiles remain slightly oblique, so the outputs do not fully meet the brief. No builds or Meshy calls performed.

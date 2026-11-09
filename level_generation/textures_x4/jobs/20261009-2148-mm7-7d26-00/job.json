@@ -1,0 +1,53 @@
+{
+ "id": "20261009-2148-mm7-7d26-00",
+ "world": "mm7",
+ "maps": [
+  "7d26.blv"
+ ],
+ "created": "2026-10-09T19:48:11+00:00",
+ "textures": [
+  "mm7/hnm1el"
+ ],
+ "requests": {
+  "mm7/hnm1el": {
+   "name": "hnm1el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs; along the left edge runs the right half of a dark timber post, whose left half lies beyond the picture border, and a small horned skull with glowing green eyes hangs at the upper left; copy the composition exactly",
+   "notes": {
+    "1": "the left edge is the second half of the same dark timber post that the neighbouring piece shows on its right: continue that post at exactly its brightness and grain right up to the edge, with no groove, gap or dark line between the two halves",
+    "2": "the post half at the left edge is solid dark wood from its first pixel column on, with no groove, gap or line inside it"
+   },
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnm1er"
+    },
+    "2": {
+     "left": "mm7/hnm1er"
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   }
+  }
+ }
+}

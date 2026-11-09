@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d15/review/build02/before
+settle_seconds: 1.5
+exit: true
+shots:
+- name: dark_landing
+  position:
+  - 600
+  - 400
+  - 512
+  yaw: 0.0
+  pitch: 0
+- name: dark_line
+  position:
+  - 3000
+  - 1100
+  - 0
+  yaw: 0.0
+  pitch: -0.05
+- name: dark_platform_west_before
+  position:
+  - 8000
+  - 1400
+  - 0
+  yaw: 0.0
+  pitch: 0

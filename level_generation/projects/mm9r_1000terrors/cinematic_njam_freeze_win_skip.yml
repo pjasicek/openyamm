@@ -1,0 +1,17 @@
+# njam_freeze_win skipped at 3 s: its remaining steps (the lightball, the lightning, key 109 and the change of level)
+# still run.
+id: mm9r.1000terrors.cinematic_njam_freeze_win_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: 1000terrors.blv}
+- set_pose: {map: 1000terrors.blv, x: 8929, y: -9150, z: 2776, yaw: -1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90108}
+- execute_event: {id: 370}
+- advance_runtime: {seconds: 3.0}
+- console: {line: cinematic list, expect_contains: playing njam_freeze_win}
+- assert: {qbit_clear: [90109]}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5, follow_map_move: true}
+- assert: {qbit_set: [90109]}
+- assert: {map_arrived: {map: hallofthegods.blv}}

@@ -1,0 +1,524 @@
+{
+  "brief": "CODEX_BRIEF.md",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is a very thin horizontal EDGE-ON projection, NOT the broad side in the design reference. The muzzle is at LEFT; the stock at RIGHT. Occupied bounding box is x=66..957, y=478..545 on the 1024 square canvas. Three paired bumps on the narrow left barrel continue the blue-white crystals in brushed gold sockets; white ceramic and gold barrel strips; black-violet resin and ivory ceramic over the wider middle-right receiver with small orange energy seams; the far-right stock continues these materials. Keep this narrow thickness; do not reveal a broadside silhouette.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "de2e6de53a05e5b358147a00b22f67998ed895c574e66039a5d9ee2dbab30030"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": "paint_front.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Only completed candidate; the corrective attempt was blocked. Material palette and thin framing retained, but silhouette and flat-albedo checks fail.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e7f-d531-7642-b195-b8c7f8b7f686/exec-df771d04-8ac1-4f05-9bd8-26e2e033cd93.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          41,
+          176,
+          1218,
+          1228
+        ],
+        "opaque_bbox": [
+          83,
+          585,
+          1173,
+          665
+        ],
+        "transparent_background": true,
+        "silhouette_iou_normalized": 0.8594110639565185,
+        "silhouette_pixel_identical": false,
+        "no_text_or_letters": true,
+        "reference_material_palette": true,
+        "flat_shadowless_albedo": false,
+        "transparent_pixel_fraction": 0.9598751300463716,
+        "fully_clean_alpha_boundary": false
+      },
+      "retained_candidate": "paint_front_attempt1.png",
+      "sha256": "2b935769edc2fc84f8e94e13ae9371659d09d8fc423e1c8af23e0a99a598889e",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is a very thin horizontal opposite EDGE-ON projection, NOT the broad side in the design reference. The stock is at LEFT; the muzzle at RIGHT. Occupied bounding box is x=66..957, y=478..545 on the 1024 square canvas. Three paired bumps on the narrow right barrel continue the blue-white crystals in brushed gold sockets; white ceramic and gold barrel strips; black-violet resin and ivory ceramic over the wider middle-left receiver with small orange energy seams. Continue the unseen reverse surfaces plausibly. Keep this narrow thickness; do not reveal a broadside silhouette.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "cc35fe02075be2e55a50833cb3f5959ecd3bad0b172f96c629ebb241b8a42001"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Material palette matches, but rendered highlights and dark recesses remain; outline needs correction.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e7f-d531-7642-b195-b8c7f8b7f686/exec-fa88477a-00e6-4532-890c-fb45bbc0e32b.png",
+      "sha256": "fcde38e8eaabd27f136cf06a84dbaaad75fbf5953a6bc989150e159d912ec27c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          41,
+          30,
+          1232,
+          1198
+        ],
+        "opaque_bbox": [
+          80,
+          586,
+          1176,
+          667
+        ],
+        "transparent_background": true,
+        "nonzero_alpha_pixels": 66055,
+        "silhouette_iou_normalized": 0.9449433814916048,
+        "silhouette_pixel_identical": false,
+        "no_text_or_letters": true,
+        "reference_material_palette": true,
+        "flat_shadowless_albedo": false,
+        "transparent_pixel_fraction": 0.9579940681048714,
+        "fully_clean_alpha_boundary": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is a small END-ON projection, NOT a long side view. Occupied bounding box is x=411..612, y=478..545 on the 1024 square canvas. Keep the object tiny at the exact centre, with all the surrounding empty canvas. The wider pointed/lobed silhouette is on the left and the smaller lobe on the right, exactly as the guide. Paint the visible end faces and narrow depth surfaces with the reference ivory ceramic, muted brushed gold trim, black-violet resin and tiny appropriate blue-white/orange energy details. Infer the end surfaces from the design; do not turn the object or show a long rifle.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "09141aa62b3776e7272a122cb90a5a25f16d74947208075278764fcc8b6342c3"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Object enlarged relative to guide; glossy highlights and dark recesses remain. Requires corrective pass.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e7f-d531-7642-b195-b8c7f8b7f686/exec-f16400b4-7948-42c6-b43c-6b80e58798f0.png",
+      "sha256": "eaab9703bef87448e34c3082cd58b58fc9f0effb0cb6051732a6ffeb14a204be",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          103,
+          119,
+          1039,
+          1198
+        ],
+        "opaque_bbox": [
+          449,
+          551,
+          805,
+          692
+        ],
+        "transparent_background": true,
+        "nonzero_alpha_pixels": 31388,
+        "silhouette_iou_normalized": 0.4405944105546886,
+        "silhouette_pixel_identical": false,
+        "no_text_or_letters": true,
+        "reference_material_palette": true,
+        "flat_shadowless_albedo": false,
+        "transparent_pixel_fraction": 0.9800396307573341,
+        "fully_clean_alpha_boundary": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is the opposite small END-ON projection, NOT a long side view. Occupied bounding box is x=411..612, y=478..545 on the 1024 square canvas. Keep the object tiny at the exact centre, with all the surrounding empty canvas. The smaller rounded lobe is on the left and the larger pointed/lobed silhouette on the right, exactly as the guide. Paint the visible end faces and narrow depth surfaces with the reference ivory ceramic, muted brushed gold trim, black-violet resin and tiny appropriate blue-white/orange energy details. Infer the end surfaces from the design; do not turn the object or show a long rifle.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "24f28280370201e235584bd3e33d5b6fc0591741509a5ef8fb69bb1dcf39b9dc"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "End-on framing is close; local outline drift, bright reflective highlights and dark recesses remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e7f-d531-7642-b195-b8c7f8b7f686/exec-aff61b1b-b5db-45c6-89fa-d6270a225f79.png",
+      "sha256": "68146e0dd1f1c9bc5b8996b8e539b5db7c9b42a98cf923d2540c0cbc0393dad8",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          25,
+          69,
+          1077,
+          1215
+        ],
+        "opaque_bbox": [
+          503,
+          584,
+          751,
+          669
+        ],
+        "transparent_background": true,
+        "nonzero_alpha_pixels": 16596,
+        "silhouette_iou_normalized": 0.9103655850829541,
+        "silhouette_pixel_identical": false,
+        "no_text_or_letters": true,
+        "reference_material_palette": true,
+        "flat_shadowless_albedo": false,
+        "transparent_pixel_fraction": 0.9894462123119891,
+        "fully_clean_alpha_boundary": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is the broad profile-like TOP projection in this model coordinate system, with the muzzle at LEFT and stock at RIGHT, opposite the design reference orientation. Occupied bounding box is x=66..957, y=411..612 on the 1024 square canvas. The open rails and three barrel nodes are on the LEFT; the receiver, downward grip and open stock loop are on the RIGHT. Match every guide hole and spike. Apply the design reference to these exact corresponding parts: white ceramic barrel with fine wear and thin brushed gold inlays, three blue-white crystal nodes in gold rings, black-violet organic resin receiver and stock with ivory ceramic plates/spines, orange energy slots in receiver and stock. Keep all guide openings transparent.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "7404e9282f9ac12baeaa2f089d6eb7fd7536c55ee6225174b13016f00c9b8778"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": "paint_top.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Only completed candidate; the corrective attempt was blocked. Reference materials and overall profile retained, but silhouette and flat-albedo checks fail.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e7f-d531-7642-b195-b8c7f8b7f686/exec-10d8d10a-3334-4069-9ee7-00f26b570a4c.png",
+      "sha256": "a1ed9263c1410c558ab15664afa1caf76c3598b65f5193f2a72d336fde4b3ad8",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          0,
+          1238,
+          1198
+        ],
+        "opaque_bbox": [
+          79,
+          504,
+          1176,
+          753
+        ],
+        "transparent_background": true,
+        "nonzero_alpha_pixels": 131501,
+        "silhouette_iou_normalized": 0.8583056034363564,
+        "silhouette_pixel_identical": false,
+        "no_text_or_letters": true,
+        "reference_material_palette": true,
+        "flat_shadowless_albedo": false,
+        "transparent_pixel_fraction": 0.916375413668287,
+        "fully_clean_alpha_boundary": false
+      },
+      "retained_candidate": "paint_top_attempt1.png",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is a very thin horizontal EDGE-ON projection, NOT the broad side in the design reference. The muzzle is at LEFT; the stock at RIGHT. Occupied bounding box is x=66..957, y=478..545 on the 1024 square canvas. Three paired bumps on the narrow left barrel continue the blue-white crystals in brushed gold sockets; white ceramic and gold barrel strips; black-violet resin and ivory ceramic over the wider middle-right receiver with small orange energy seams; the far-right stock continues these materials. Keep this narrow thickness; do not reveal a broadside silhouette.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.\nCORRECTIVE PASS: The prior attempt changed the guide edge profile and used too much glossy lighting. Trace the FIRST input's alpha outline and every bump exactly; paint within that boundary only. Do not substitute the design reference's circular muzzle or rings for the guide geometry. Match the 1024x1024 input canvas exactly. Keep the same narrow 892-pixel-wide by 68-pixel-high footprint at (66,478), including the guide's pointed left tip, bumps and subtle irregular body contours. Use much flatter matte colour values: ivory/off-white ceramic, warm gold base colour and a readable medium-dark violet resin, with no black shadow pockets or bright reflective highlights. Blue and orange insets are flat saturated colour without radial glare or bloom. Every background pixel must be alpha zero, including far from the object; no stray translucent haze. This is a precise mesh paintover, not an attractive product render.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "de2e6de53a05e5b358147a00b22f67998ed895c574e66039a5d9ee2dbab30030"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": null,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Tool rejected the corrective generation: HTTP 400 moderation_blocked, input safety_violations=[violence]. No image returned.",
+      "error_request_id": "9f9b0f6c-6402-4388-8a22-7177dfbbb7bf"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is a very thin horizontal opposite EDGE-ON projection, NOT the broad side in the design reference. The stock is at LEFT; the muzzle at RIGHT. Occupied bounding box is x=66..957, y=478..545 on the 1024 square canvas. Three paired bumps on the narrow right barrel continue the blue-white crystals in brushed gold sockets; white ceramic and gold barrel strips; black-violet resin and ivory ceramic over the wider middle-left receiver with small orange energy seams. Continue the unseen reverse surfaces plausibly. Keep this narrow thickness; do not reveal a broadside silhouette.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.\nCORRECTIVE PASS: Preserve the guide's thin silhouette including every bump and tapered end; do not redraw shapes from the reference. Keep its exact width and thickness. Use only FLAT DIFFUSE BASE COLOUR: ivory ceramic, ochre-gold metal, medium dark violet resin and flat light-blue/orange energy insets. Eliminate metallic bright highlight streaks, white glints, dark illumination gradients and ambient-occlusion shadows. Preserve fine engraved detail as subtle albedo marks. Do not emulate the reference's studio lighting. Keep every background pixel truly transparent without stray translucent specks. Return 1024 x 1024, with unchanged guide scale, position and transparent silhouette.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "cc35fe02075be2e55a50833cb3f5959ecd3bad0b172f96c629ebb241b8a42001"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": "paint_back.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Selected correction for reduced glare and clearer diffuse material areas; normalized silhouette overlap remains about 94%. Exact outline and shadowless-albedo checks still fail.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e7f-d531-7642-b195-b8c7f8b7f686/exec-7626fc11-cc8b-459a-8665-433707662fd7.png",
+      "sha256": "339708a68a7a67f672009da379b8123881d218dfb35812e9ac5400d3ee8c52f2",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          73,
+          103,
+          1222,
+          1150
+        ],
+        "opaque_bbox": [
+          81,
+          586,
+          1173,
+          668
+        ],
+        "transparent_background": true,
+        "nonzero_alpha_pixels": 63872,
+        "silhouette_iou_normalized": 0.9406925435644304,
+        "silhouette_pixel_identical": false,
+        "no_text_or_letters": true,
+        "reference_material_palette": true,
+        "flat_shadowless_albedo": false,
+        "transparent_pixel_fraction": 0.9593822892740042,
+        "fully_clean_alpha_boundary": false
+      },
+      "retained_candidate": "paint_back_attempt2.png",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is a small END-ON projection, NOT a long side view. Occupied bounding box is x=411..612, y=478..545 on the 1024 square canvas. Keep the object tiny at the exact centre, with all the surrounding empty canvas. The wider pointed/lobed silhouette is on the left and the smaller lobe on the right, exactly as the guide. Paint the visible end faces and narrow depth surfaces with the reference ivory ceramic, muted brushed gold trim, black-violet resin and tiny appropriate blue-white/orange energy details. Infer the end surfaces from the design; do not turn the object or show a long rifle.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.\nCORRECTIVE PASS: Critical correction: do NOT enlarge the object for readability. It must occupy ONLY 19.7% of canvas width and 6.6% of canvas height, centered at (50%,50%). Its outline is precisely the guide's small uneven lobe at x411..612 and y478..545 on a 1024 square canvas. The larger left lobe is NOT a regular diamond and has NO tall symmetrical spikes. Trace the actual irregular silhouette and small right lobe, no added protrusions. Use only FLAT DIFFUSE BASE COLOUR: ivory ceramic, ochre-gold metal, medium dark violet resin and flat light-blue/orange energy insets. Eliminate metallic bright highlight streaks, white glints, dark illumination gradients and ambient-occlusion shadows. Preserve fine engraved detail as subtle albedo marks. Do not emulate the reference's studio lighting. Keep every background pixel truly transparent without stray translucent specks. Return 1024 x 1024, with unchanged guide scale, position and transparent silhouette.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "09141aa62b3776e7272a122cb90a5a25f16d74947208075278764fcc8b6342c3"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": "paint_left.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Selected correction because it restores the guide footprint; normalized silhouette overlap improves from about 44% to 96%. Exact outline and shadowless-albedo checks still fail.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e7f-d531-7642-b195-b8c7f8b7f686/exec-a47761e2-e5d0-48ef-8163-fecf2b4406ba.png",
+      "sha256": "a0749fd5d9063dd4d37f759626ddce81b22abbba4c64c0e20bfa4e884f62fc7e",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          500,
+          583,
+          846,
+          788
+        ],
+        "opaque_bbox": [
+          505,
+          589,
+          749,
+          668
+        ],
+        "transparent_background": true,
+        "nonzero_alpha_pixels": 14713,
+        "silhouette_iou_normalized": 0.9584583794029379,
+        "silhouette_pixel_identical": false,
+        "no_text_or_letters": true,
+        "reference_material_palette": true,
+        "flat_shadowless_albedo": false,
+        "transparent_pixel_fraction": 0.9906436564079475,
+        "fully_clean_alpha_boundary": false
+      },
+      "retained_candidate": "paint_left_attempt2.png",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is the opposite small END-ON projection, NOT a long side view. Occupied bounding box is x=411..612, y=478..545 on the 1024 square canvas. Keep the object tiny at the exact centre, with all the surrounding empty canvas. The smaller rounded lobe is on the left and the larger pointed/lobed silhouette on the right, exactly as the guide. Paint the visible end faces and narrow depth surfaces with the reference ivory ceramic, muted brushed gold trim, black-violet resin and tiny appropriate blue-white/orange energy details. Infer the end surfaces from the design; do not turn the object or show a long rifle.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.\nCORRECTIVE PASS: Keep the exact guide outline of the small left lobe and larger right lobe, with the original uneven contours. Preserve its 19.7% canvas width and 6.6% canvas height; no added peaks or spikes. Use only FLAT DIFFUSE BASE COLOUR: ivory ceramic, ochre-gold metal, medium dark violet resin and flat light-blue/orange energy insets. Eliminate metallic bright highlight streaks, white glints, dark illumination gradients and ambient-occlusion shadows. Preserve fine engraved detail as subtle albedo marks. Do not emulate the reference's studio lighting. Keep every background pixel truly transparent without stray translucent specks. Return 1024 x 1024, with unchanged guide scale, position and transparent silhouette.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "24f28280370201e235584bd3e33d5b6fc0591741509a5ef8fb69bb1dcf39b9dc"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": "paint_right.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Selected correction for closer contour agreement and reduced glare; normalized silhouette overlap improves from about 91% to 93%. Exact outline and shadowless-albedo checks still fail.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e7f-d531-7642-b195-b8c7f8b7f686/exec-928a6fc1-7d53-4f3e-a8cc-e1e6c431a274.png",
+      "sha256": "17a34c063cb42c90a66604228e5fcc53077436356bee1a0323e0d308906d61f1",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          371,
+          214,
+          1095,
+          1166
+        ],
+        "opaque_bbox": [
+          501,
+          586,
+          754,
+          669
+        ],
+        "transparent_background": true,
+        "nonzero_alpha_pixels": 15739,
+        "silhouette_iou_normalized": 0.9338849191425348,
+        "silhouette_pixel_identical": false,
+        "no_text_or_letters": true,
+        "reference_material_palette": true,
+        "flat_shadowless_albedo": false,
+        "transparent_pixel_fraction": 0.9899911988176909,
+        "fully_clean_alpha_boundary": false
+      },
+      "retained_candidate": "paint_right_attempt2.png",
+      "meets_all_brief_checks": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for the Hesper arc rifle 3D model.\nInput image 1 is the exact geometry guide and EDIT TARGET. Input image 2 is design_reference.png, the authority ONLY for design, colour and materials.\nPaint the existing guide in place, preserving its alpha silhouette, exact projection, part edges, scale, position and empty margins. Output a single 1024 x 1024 RGBA PNG with real transparent background. Do not crop, zoom, reframe, rotate or beautify the geometry. No new geometry outside the guide; no missing parts.\nThe guide is the broad profile-like TOP projection in this model coordinate system, with the muzzle at LEFT and stock at RIGHT, opposite the design reference orientation. Occupied bounding box is x=66..957, y=411..612 on the 1024 square canvas. The open rails and three barrel nodes are on the LEFT; the receiver, downward grip and open stock loop are on the RIGHT. Match every guide hole and spike. Apply the design reference to these exact corresponding parts: white ceramic barrel with fine wear and thin brushed gold inlays, three blue-white crystal nodes in gold rings, black-violet organic resin receiver and stock with ivory ceramic plates/spines, orange energy slots in receiver and stock. Keep all guide openings transparent.\nUse the design reference's white ceramic with fine wear, muted brushed gold, black-violet resin, bright blue-white crystals and orange energy seams, engraved lines and panel joins where the actual visible surfaces permit. Continue unseen surfaces plausibly. Paint material colours and fine texture only, with even flat shadowless illumination from the viewer. This is albedo: no cast shadows, no ambient occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Metal has its base colour with only a faint sheen. Energy is bright local colour, without glow spill or halos beyond the silhouette. No floor, background, checkerboard pixels, captions, text, letters or watermark. Preserve the exact guide footprint even when it occupies only a small thin strip of the square canvas.\nCORRECTIVE PASS: Keep all guide spikes, the three node positions and the exact negative spaces in the stock, trigger area and rails. Do not replace the geometry with the more ornate reference silhouette. Use only FLAT DIFFUSE BASE COLOUR: ivory ceramic, ochre-gold metal, medium dark violet resin and flat light-blue/orange energy insets. Eliminate metallic bright highlight streaks, white glints, dark illumination gradients and ambient-occlusion shadows. Preserve fine engraved detail as subtle albedo marks. Do not emulate the reference's studio lighting. Keep every background pixel truly transparent without stray translucent specks. Return 1024 x 1024, with unchanged guide scale, position and transparent silhouette.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "7404e9282f9ac12baeaa2f089d6eb7fd7536c55ee6225174b13016f00c9b8778"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_reference",
+          "sha256": "04ca60b9a301455782b1779e8c6ca6402fa8b3255ee17eea01b93cb79b95ff69"
+        }
+      ],
+      "output": null,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Tool rejected the corrective generation: HTTP 400 moderation_blocked, input safety_violations=[violence]. No image returned.",
+      "error_request_id": "271c4134-4c61-4aa9-b759-5cee4aa90ee2"
+    }
+  ],
+  "status": "All five requested filenames saved; strict silhouette and flat-albedo requirements not achieved within the corrective-generation limit.",
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "tool": "built-in image_gen",
+  "output_handling": "All image files copied byte-for-byte from built-in tool returns; no resizing, cropping, compositing, masking or pixel edits.",
+  "checks_method": "Visual inspection of generated images plus alpha/size checks. IoU compares alpha >= 128 after scaling only the guide mask in memory to the returned dimensions for diagnostic comparison; image files are not resized.",
+  "limitations": [
+    "All returned images are 1254x1254 rather than the requested 1024x1024, retained unresized as required.",
+    "Exact guide silhouettes and fully flat shadowless albedo were not achieved.",
+    "Low-alpha stray pixels remain outside the object in tool returns.",
+    "Front and top corrective attempts were rejected by the image tool violence safety filter; no further retries made."
+  ],
+  "original_inputs_verified_unchanged": true
+}

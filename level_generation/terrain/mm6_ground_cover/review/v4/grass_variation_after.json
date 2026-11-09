@@ -1,0 +1,33 @@
+{
+  "name": "grass_variation_after",
+  "world": "mm6",
+  "map": "oute3.odm",
+  "pose": [
+    -9728.0,
+    -11319.0,
+    161.0,
+    4.758,
+    -0.109502449
+  ],
+  "screenshot": "grass_variation_after.png",
+  "look_left": 0,
+  "look_down": 0,
+  "diagnostic_flying": false,
+  "warmup_seconds": 1.0,
+  "actions": "level_generation/terrain/mm6_ground_cover/review/performance/cached_motion_actions.json",
+  "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+  "performance_sample": false,
+  "display": ":103",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "vsync": false,
+  "measurement_seconds": 0.0,
+  "fps_samples": [],
+  "median_fps": null,
+  "binary_sha256": "e31fdb34e68ccbf15d7b6cc3bbd0e837311f1809c9f14ef55d4d5824bdeca8e9",
+  "settings_sha256": "c4654cd450c2dd6d4fb43c245c2e4b8980a7bf69e9a220077c728f5e216ee6e5",
+  "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+  "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+}

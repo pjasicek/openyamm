@@ -1,0 +1,547 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for an existing game item. Produce ONE 1024 x 1024 RGBA PNG with a genuinely transparent background.\nImage 1 is the EDIT TARGET, a 1024 x 1024 orthographic geometry guide. Image 2 is the approved DESIGN REFERENCE, solely the colour/material/surface design authority. Repaint image 1 IN PLACE. Retain its original alpha mask pixel for pixel, exact silhouette, exact position, size, projection, every component boundary and all empty transparent margins. Do not copy image 2's pose, perspective, silhouette or proportions. Do not zoom, crop, center differently, rotate, enlarge, shrink, reshape, add parts or remove parts.\nPaint only surfaces inside the guide. Apply the reference's warm off-white/ivory ceramic with fine wear and restrained hairline imperfections, brushed warm gold with fine grain, narrow dark recessed seams and slots, and, where the guide has the large pale cyan chamber, clear glass containing luminous lime-green medicinal liquid with a few subtle bubbles. The actual design reference is authoritative: green liquid, NOT cyan, blue or orange. Guide tints only distinguish parts and are not target colours. Continue unseen surfaces plausibly using the same materials. Keep decorative detail restrained and small, with no writing or letters.\nCRITICAL LIGHTING: this is an ALBEDO painting, not a beauty render. Completely flat, even frontal illumination. No cast shadows, no ambient occlusion darkening, no directional gradients, no rim light, no strong specular highlights, no white reflective streaks or scene reflections. Gold is its medium warm golden base colour with only a faint sheen. Glass/liquid is its green base colour, with subtle material definition but no hot highlights. No background, no floor, no labels, no text, no border, no extra views.\nFRONT: retain the small concentric, faceted circular end view centered at (512,512); its entire nontransparent bounding box is x=386..637, y=389..634. Most of the canvas MUST stay empty transparent. It is only about 252 pixels wide and 246 pixels high: do NOT enlarge it to fill the square. Follow every nested edge of the guide's concentric gold annuli and small central ivory ceramic round nozzle, centered approximately (512,512), diameter approximately 88. The side body and liquid chamber are hidden in this axial projection and must NOT be exposed.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "21806de78811350c19a55182506c6a7376486c42ca0064d97c41e1ee06cfc36e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: returned 1254 x 1254, with changed framing and visible lighting; one corrective generation requested.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-bcb0c245-746c-4899-bc91-9958ffd1d1ba.png",
+      "output_sha256": "4ff5d67a900950cab765498c1abc25348d4fd654f1b0a530b577521a9ffd412a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          54,
+          1214,
+          1182
+        ],
+        "opaque_bbox": [
+          488,
+          482,
+          763,
+          755
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.823081,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Fail: reflected highlights, directional shading or darkened joins are visible.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for an existing game item. Produce ONE 1024 x 1024 RGBA PNG with a genuinely transparent background.\nImage 1 is the approved DESIGN REFERENCE, solely the colour/material/surface design authority. Image 2 (the LAST image) is the EDIT TARGET: a 1024 x 1024 orthographic geometry guide. EDIT AND REPAINT IMAGE 2 IN PLACE on its ORIGINAL 1024 x 1024 canvas. Retain its original alpha mask pixel for pixel, exact silhouette, exact position, size, projection, every component boundary and all empty transparent margins. Do not copy image 1's pose, perspective, silhouette or proportions. Do not zoom, crop, center differently, rotate, enlarge, shrink, reshape, add parts or remove parts.\nPaint only surfaces inside the guide. Apply the reference's warm off-white/ivory ceramic with fine wear and restrained hairline imperfections, brushed warm gold with fine grain, narrow dark recessed seams and slots, and, where the guide has the large pale cyan chamber, clear glass containing luminous lime-green medicinal liquid with a few subtle bubbles. The actual design reference is authoritative: green liquid, NOT cyan, blue or orange. Guide tints only distinguish parts and are not target colours. Continue unseen surfaces plausibly using the same materials. Keep decorative detail restrained and small, with no writing or letters.\nCRITICAL LIGHTING: this is an ALBEDO painting, not a beauty render. Completely flat, even frontal illumination. No cast shadows, no ambient occlusion darkening, no directional gradients, no rim light, no strong specular highlights, no white reflective streaks or scene reflections. Gold is its medium warm golden base colour with only a faint sheen. Glass/liquid is its green base colour, with subtle material definition but no hot highlights. No background, no floor, no labels, no text, no border, no extra views.\nBACK: retain the small faceted circular plunger end view centered at (512,512); its entire nontransparent bounding box is x=386..637, y=389..634. Most of the canvas MUST stay empty transparent. It is only about 252 pixels wide and 246 pixels high: do NOT enlarge it to fill the square. The large central circular face is warm ivory ceramic, with a narrow warm gold perimeter and its exact faceted perimeter preserved. The side body and liquid chamber are hidden and must NOT be exposed.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "1c60abe8b701e2aaac7ea81c45c43783a229a8a29ff21381467bf981a91acaad"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return reduces lighting and follows guide component boundaries more closely. This first return has strong highlights/shading and altered geometry.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-ac163032-0367-4e13-849b-0b8142cb5fa8.png",
+      "output_sha256": "b683716adf22d4570fc00c1f5bce550c397bccf1ab26a1f3d408f90cea057dc7",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          54,
+          1208,
+          1228
+        ],
+        "opaque_bbox": [
+          473,
+          478,
+          781,
+          774
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.986922,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Fail: reflected highlights, directional shading or darkened joins are visible.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for an existing game item. Produce ONE 1024 x 1024 RGBA PNG with a genuinely transparent background.\nImage 1 is the approved DESIGN REFERENCE, solely the colour/material/surface design authority. Image 2 (the LAST image) is the EDIT TARGET: a 1024 x 1024 orthographic geometry guide. EDIT AND REPAINT IMAGE 2 IN PLACE on its ORIGINAL 1024 x 1024 canvas. Retain its original alpha mask pixel for pixel, exact silhouette, exact position, size, projection, every component boundary and all empty transparent margins. Do not copy image 1's pose, perspective, silhouette or proportions. Do not zoom, crop, center differently, rotate, enlarge, shrink, reshape, add parts or remove parts.\nPaint only surfaces inside the guide. Apply the reference's warm off-white/ivory ceramic with fine wear and restrained hairline imperfections, brushed warm gold with fine grain, narrow dark recessed seams and slots, and, where the guide has the large pale cyan chamber, clear glass containing luminous lime-green medicinal liquid with a few subtle bubbles. The actual design reference is authoritative: green liquid, NOT cyan, blue or orange. Guide tints only distinguish parts and are not target colours. Continue unseen surfaces plausibly using the same materials. Keep decorative detail restrained and small, with no writing or letters.\nCRITICAL LIGHTING: this is an ALBEDO painting, not a beauty render. Completely flat, even frontal illumination. No cast shadows, no ambient occlusion darkening, no directional gradients, no rim light, no strong specular highlights, no white reflective streaks or scene reflections. Gold is its medium warm golden base colour with only a faint sheen. Glass/liquid is its green base colour, with subtle material definition but no hot highlights. No background, no floor, no labels, no text, no border, no extra views.\nLEFT: retain the horizontal side profile in the middle of the square. Exact nontransparent bounding box x=66..957, y=389..634. Plunger disk at LEFT, narrow stem to its right, ceramic upper body left of the center glass chamber, gold rings at x~427 and x~726, lower ceramic tapered body and gold collar to the RIGHT, tiny nozzle at far RIGHT. Preserve every outline including the stepped plunger, tapered nozzle and the guide's mildly faceted edges. The large pale cyan middle rectangle between the rings becomes the reference's green glass/liquid chamber. Keep guide-defined material boundaries; do not invent a new body outline or add rods over the chamber. Paint the surface seams and small dark slots on the existing gold/ceramic as seen in the reference.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "ff99b9c228d291a73cd8286478ad746dfee1a75fde2f83e97a0e21e040b16156"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return reduces lighting and follows guide component boundaries more closely. This first return has strong highlights/shading and altered geometry.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-e96aa86f-08b3-48cf-8899-5c3f1761fcc2.png",
+      "output_sha256": "d3bf2d1cb7e275281e831411a8753938cb702d96aece075bc1a7db42f45d1add",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          39,
+          53,
+          1222,
+          1214
+        ],
+        "opaque_bbox": [
+          74,
+          485,
+          1195,
+          767
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.887793,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Fail: reflected highlights, directional shading or darkened joins are visible.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for an existing game item. Produce ONE 1024 x 1024 RGBA PNG with a genuinely transparent background.\nImage 1 is the approved DESIGN REFERENCE, solely the colour/material/surface design authority. Image 2 (the LAST image) is the EDIT TARGET: a 1024 x 1024 orthographic geometry guide. EDIT AND REPAINT IMAGE 2 IN PLACE on its ORIGINAL 1024 x 1024 canvas. Retain its original alpha mask pixel for pixel, exact silhouette, exact position, size, projection, every component boundary and all empty transparent margins. Do not copy image 1's pose, perspective, silhouette or proportions. Do not zoom, crop, center differently, rotate, enlarge, shrink, reshape, add parts or remove parts.\nPaint only surfaces inside the guide. Apply the reference's warm off-white/ivory ceramic with fine wear and restrained hairline imperfections, brushed warm gold with fine grain, narrow dark recessed seams and slots, and, where the guide has the large pale cyan chamber, clear glass containing luminous lime-green medicinal liquid with a few subtle bubbles. The actual design reference is authoritative: green liquid, NOT cyan, blue or orange. Guide tints only distinguish parts and are not target colours. Continue unseen surfaces plausibly using the same materials. Keep decorative detail restrained and small, with no writing or letters.\nCRITICAL LIGHTING: this is an ALBEDO painting, not a beauty render. Completely flat, even frontal illumination. No cast shadows, no ambient occlusion darkening, no directional gradients, no rim light, no strong specular highlights, no white reflective streaks or scene reflections. Gold is its medium warm golden base colour with only a faint sheen. Glass/liquid is its green base colour, with subtle material definition but no hot highlights. No background, no floor, no labels, no text, no border, no extra views.\nRIGHT: retain the horizontal side profile in the middle of the square. Exact nontransparent bounding box x=66..957, y=389..634. Tiny nozzle at far LEFT, tapered ceramic body and gold collar on the LEFT, gold rings at x~297 and x~596, green glass/liquid chamber between those rings, ceramic upper body to its right, narrow stem, and plunger disk at far RIGHT. Preserve every outline including the stepped plunger, tapered nozzle and the guide's mildly faceted edges. The large pale cyan middle rectangle between the rings becomes the reference's green glass/liquid chamber. Keep guide-defined material boundaries; do not invent a new body outline or add rods over the chamber. Paint the surface seams and small dark slots on the existing gold/ceramic as seen in the reference.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "1c18e8792bbb661510f7403a160bda91dd557aff0477e273fcd1d83d33c2b24a"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return reduces lighting and follows guide component boundaries more closely. This first return has strong highlights/shading and altered geometry.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-b57dd9d6-4506-45a2-8c9c-a4b3c5d5a6af.png",
+      "output_sha256": "1d6852476b8bf16f9281ab1b5c209a37953759ee5805a5936423fdfa90589fe0",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          39,
+          21,
+          1222,
+          1214
+        ],
+        "opaque_bbox": [
+          46,
+          477,
+          1201,
+          762
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.869709,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Fail: reflected highlights, directional shading or darkened joins are visible.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for an existing game item. Produce ONE 1024 x 1024 RGBA PNG with a genuinely transparent background.\nImage 1 is the approved DESIGN REFERENCE, solely the colour/material/surface design authority. Image 2 (the LAST image) is the EDIT TARGET: a 1024 x 1024 orthographic geometry guide. EDIT AND REPAINT IMAGE 2 IN PLACE on its ORIGINAL 1024 x 1024 canvas. Retain its original alpha mask pixel for pixel, exact silhouette, exact position, size, projection, every component boundary and all empty transparent margins. Do not copy image 1's pose, perspective, silhouette or proportions. Do not zoom, crop, center differently, rotate, enlarge, shrink, reshape, add parts or remove parts.\nPaint only surfaces inside the guide. Apply the reference's warm off-white/ivory ceramic with fine wear and restrained hairline imperfections, brushed warm gold with fine grain, narrow dark recessed seams and slots, and, where the guide has the large pale cyan chamber, clear glass containing luminous lime-green medicinal liquid with a few subtle bubbles. The actual design reference is authoritative: green liquid, NOT cyan, blue or orange. Guide tints only distinguish parts and are not target colours. Continue unseen surfaces plausibly using the same materials. Keep decorative detail restrained and small, with no writing or letters.\nCRITICAL LIGHTING: this is an ALBEDO painting, not a beauty render. Completely flat, even frontal illumination. No cast shadows, no ambient occlusion darkening, no directional gradients, no rim light, no strong specular highlights, no white reflective streaks or scene reflections. Gold is its medium warm golden base colour with only a faint sheen. Glass/liquid is its green base colour, with subtle material definition but no hot highlights. No background, no floor, no labels, no text, no border, no extra views.\nTOP: retain the long vertical orthographic profile centered on x=512. Exact nontransparent bounding box x=386..637, y=66..957. Plunger disk at TOP, narrow stem below, ceramic upper body below stem, gold ring at y~427, green glass/liquid chamber y~440..713, gold ring at y~726, tapered ceramic lower body, gold collar y~861..941, tiny ceramic nozzle at the BOTTOM. Preserve every outline, the exact steps, facets, and component boundaries of the guide. The large pale cyan center becomes the reference's green glass/liquid chamber. Keep guide-defined material boundaries; do not invent a new body outline or add rods over the chamber. Paint the surface seams and small dark slots on existing gold/ceramic as in the reference.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "1ed9a12cf06c1482bf8562b002ba82a79ceb38cbc97857005f09f87256cc6ffa"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return reduces lighting and follows guide component boundaries more closely. This first return has strong highlights/shading and altered geometry.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-4c067404-040e-439a-bd67-4bf5f192c5e4.png",
+      "output_sha256": "486bce36b9b2862a9f5e4cefa54cb66aa24db331c31f9b12125162d3a5a3709e",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          73,
+          25,
+          1176,
+          1230
+        ],
+        "opaque_bbox": [
+          480,
+          79,
+          773,
+          1189
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.948812,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Fail: reflected highlights, directional shading or darkened joins are visible.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting for an existing game item. Produce ONE 1024 x 1024 RGBA PNG with a genuinely transparent background.\nImage 1 is the approved DESIGN REFERENCE, solely the colour/material/surface design authority. Image 2 (the LAST image) is the EDIT TARGET: a 1024 x 1024 orthographic geometry guide. EDIT AND REPAINT IMAGE 2 IN PLACE on its ORIGINAL 1024 x 1024 canvas. Retain its original alpha mask pixel for pixel, exact silhouette, exact position, size, projection, every component boundary and all empty transparent margins. Do not copy image 1's pose, perspective, silhouette or proportions. Do not zoom, crop, center differently, rotate, enlarge, shrink, reshape, add parts or remove parts.\nPaint only surfaces inside the guide. Apply the reference's warm off-white/ivory ceramic with fine wear and restrained hairline imperfections, brushed warm gold with fine grain, narrow dark recessed seams and slots, and, where the guide has the large pale cyan chamber, clear glass containing luminous lime-green medicinal liquid with a few subtle bubbles. The actual design reference is authoritative: green liquid, NOT cyan, blue or orange. Guide tints only distinguish parts and are not target colours. Continue unseen surfaces plausibly using the same materials. Keep decorative detail restrained and small, with no writing or letters.\nCRITICAL LIGHTING: this is an ALBEDO painting, not a beauty render. Completely flat, even frontal illumination. No cast shadows, no ambient occlusion darkening, no directional gradients, no rim light, no strong specular highlights, no white reflective streaks or scene reflections. Gold is its medium warm golden base colour with only a faint sheen. Glass/liquid is its green base colour, with subtle material definition but no hot highlights. No background, no floor, no labels, no text, no border, no extra views.\nFRONT: retain the small concentric, faceted circular end view centered at (512,512); its entire nontransparent bounding box is x=386..637, y=389..634. Most of the canvas MUST stay empty transparent. It is only about 252 pixels wide and 246 pixels high: do NOT enlarge it to fill the square. Follow every nested edge of the guide's concentric gold annuli and small central ivory ceramic round nozzle, centered approximately (512,512), diameter approximately 88. The side body and liquid chamber are hidden in this axial projection and must NOT be exposed.\nCORRECTIVE GENERATION, the only allowed retry: the first result changed the canvas to 1254 x 1254 and changed the framing. This time edit the LAST image (guide_front.png), on its exact 1024 x 1024 canvas. Preserve every original transparent pixel and its alpha; paint only the existing opaque pixels, with no tiny stray opaque pixels anywhere outside the exact original guide silhouette. Eliminate lighting gradients and any dark shading; gold annuli remain even gold base colour throughout. Keep the central ceramic disk and the surrounding concentric part edges exactly as in the guide.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "21806de78811350c19a55182506c6a7376486c42ca0064d97c41e1ee06cfc36e"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected the only corrective return: closer normalized outline and material placement than attempt 1. Returned 1254 x 1254; exact guide silhouette/alpha not preserved. Retained unresized, with residual sheen.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-41b39697-633a-4eb1-93da-8f114765087e.png",
+      "output_sha256": "929f02bdf5aa570087f52fe5da0ee9cf611824343376ab37a53cac97b3ecdc0f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          31,
+          87,
+          1095,
+          1131
+        ],
+        "opaque_bbox": [
+          476,
+          477,
+          775,
+          770
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.958728,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Fail: residual metallic sheen and dark bevel/slot edges remain.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make ONE 1024 x 1024 transparent PNG: a flat painted ALBEDO TEXTURE SOURCE.\nThe single attached image is the exact orthographic model guide and the EDIT TARGET. Perform a pixel-registered SURFACE COLOUR EDIT on this original canvas. Retain the input alpha channel unchanged. Retain every component's edge and the faceted silhouette exactly. Do not redraw the object, reshape anything, enlarge, shift, rotate, crop, add perspective or change the camera. No visible pixels anywhere outside the existing input silhouette.\nApply the approved Hesper stim-injector design materials, described here: warm off-white ivory ceramic with very fine worn cream hairlines and a few subtle scuffs; warm yellow-gold brushed metal; tiny dark graphite inset seams and narrow rounded vent slots; the central pale-cyan chamber, IF VISIBLE IN THIS GUIDE, is clear green glass containing bright lime-green medicine, with just a few small quiet bubbles. The rest of the object stays ceramic and gold. No letters, symbols or writing. Keep the guide's part locations and material regions, including its broad rectangular chamber; no new frame, structural rails or narrowed window may replace it. The pale guide colours are material labels, not colours to copy.\nCRUCIAL CORRECTION: previous generations looked too much like lit product renders and changed the outline. Paint FLAT MATERIAL COLOURS, evenly illuminated, without any lighting information. Remove ALL shadows and directional shading from the guide as you recolour it. Ceramic is even warm ivory, metal is even mid-value ochre gold with fine brushed grain and only the faintest sheen, green chamber is even green with restrained fine detail. No darkening near joins, no ambient occlusion, no edge bevel shadows, no reflected white bars, no bright highlights on gold or glass, no rim light, no cast shadows. Any fine seams or vent slots are dark painted material, not shadow. All surfaces have the same exposure across the entire object. This is for projection onto a 3D model, not a beauty shot.\nGenuinely transparent background; no floor, no background colour, no vignette, no stray coloured pixels. Keep the canvas 1024 x 1024 and object in exactly the guide's footprint.\nBACK: retain the small faceted circular plunger end view centered at (512,512); its entire nontransparent bounding box is x=386..637, y=389..634. Most of the canvas MUST stay empty transparent. It is only about 252 pixels wide and 246 pixels high: do NOT enlarge it to fill the square. The large central circular face is warm ivory ceramic, with a narrow warm gold perimeter and its exact faceted perimeter preserved. The side body and liquid chamber are hidden and must NOT be exposed.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "1c60abe8b701e2aaac7ea81c45c43783a229a8a29ff21381467bf981a91acaad"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8",
+        "usage": "Reviewed visual design, conveyed as material descriptions in this corrective prompt; not reattached."
+      },
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter lighting and closer guide component boundaries. Raw return retained unresized. Exact silhouette/alpha check still fails; visible edge fringes remain.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-2a5d87da-cf54-4336-b468-2585ceba8b48.png",
+      "output_sha256": "a38b4d7bc46b137ef22e629cf3921e186257a6d3d5449ccfae76b30f2b0fd210",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          39,
+          1224,
+          1149
+        ],
+        "opaque_bbox": [
+          473,
+          477,
+          780,
+          777
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.987789,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Pass by visual review: broadly even ivory and gold with restrained wear and no hot highlights.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make ONE 1024 x 1024 transparent PNG: a flat painted ALBEDO TEXTURE SOURCE.\nThe single attached image is the exact orthographic model guide and the EDIT TARGET. Perform a pixel-registered SURFACE COLOUR EDIT on this original canvas. Retain the input alpha channel unchanged. Retain every component's edge and the faceted silhouette exactly. Do not redraw the object, reshape anything, enlarge, shift, rotate, crop, add perspective or change the camera. No visible pixels anywhere outside the existing input silhouette.\nApply the approved Hesper stim-injector design materials, described here: warm off-white ivory ceramic with very fine worn cream hairlines and a few subtle scuffs; warm yellow-gold brushed metal; tiny dark graphite inset seams and narrow rounded vent slots; the central pale-cyan chamber, IF VISIBLE IN THIS GUIDE, is clear green glass containing bright lime-green medicine, with just a few small quiet bubbles. The rest of the object stays ceramic and gold. No letters, symbols or writing. Keep the guide's part locations and material regions, including its broad rectangular chamber; no new frame, structural rails or narrowed window may replace it. The pale guide colours are material labels, not colours to copy.\nCRUCIAL CORRECTION: previous generations looked too much like lit product renders and changed the outline. Paint FLAT MATERIAL COLOURS, evenly illuminated, without any lighting information. Remove ALL shadows and directional shading from the guide as you recolour it. Ceramic is even warm ivory, metal is even mid-value ochre gold with fine brushed grain and only the faintest sheen, green chamber is even green with restrained fine detail. No darkening near joins, no ambient occlusion, no edge bevel shadows, no reflected white bars, no bright highlights on gold or glass, no rim light, no cast shadows. Any fine seams or vent slots are dark painted material, not shadow. All surfaces have the same exposure across the entire object. This is for projection onto a 3D model, not a beauty shot.\nGenuinely transparent background; no floor, no background colour, no vignette, no stray coloured pixels. Keep the canvas 1024 x 1024 and object in exactly the guide's footprint.\nLEFT: retain the horizontal side profile in the middle of the square. Exact nontransparent bounding box x=66..957, y=389..634. Plunger disk at LEFT, narrow stem to its right, ceramic upper body left of the center glass chamber, gold rings at x~427 and x~726, lower ceramic tapered body and gold collar to the RIGHT, tiny nozzle at far RIGHT. Preserve every outline including the stepped plunger, tapered nozzle and the guide's mildly faceted edges. The large pale cyan middle rectangle between the rings becomes the reference's green glass/liquid chamber. Keep guide-defined material boundaries; do not invent a new body outline or add rods over the chamber. Paint the surface seams and small dark slots on the existing gold/ceramic as seen in the reference.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "ff99b9c228d291a73cd8286478ad746dfee1a75fde2f83e97a0e21e040b16156"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8",
+        "usage": "Reviewed visual design, conveyed as material descriptions in this corrective prompt; not reattached."
+      },
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter lighting and closer guide component boundaries. Raw return retained unresized. Exact silhouette/alpha check still fails; visible edge fringes remain.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-dff87458-a89e-454c-8ea1-ac9922b60dce.png",
+      "output_sha256": "433741af01a40b73b4eb5a4f85365da4281db63c30f3fc609c2dd3c09cce0987",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          24,
+          79,
+          1208,
+          1245
+        ],
+        "opaque_bbox": [
+          79,
+          476,
+          1175,
+          777
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.985679,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Improved but not fully flat: residual glass-edge darkening, metal sheen and ceramic shading.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make ONE 1024 x 1024 transparent PNG: a flat painted ALBEDO TEXTURE SOURCE.\nThe single attached image is the exact orthographic model guide and the EDIT TARGET. Perform a pixel-registered SURFACE COLOUR EDIT on this original canvas. Retain the input alpha channel unchanged. Retain every component's edge and the faceted silhouette exactly. Do not redraw the object, reshape anything, enlarge, shift, rotate, crop, add perspective or change the camera. No visible pixels anywhere outside the existing input silhouette.\nApply the approved Hesper stim-injector design materials, described here: warm off-white ivory ceramic with very fine worn cream hairlines and a few subtle scuffs; warm yellow-gold brushed metal; tiny dark graphite inset seams and narrow rounded vent slots; the central pale-cyan chamber, IF VISIBLE IN THIS GUIDE, is clear green glass containing bright lime-green medicine, with just a few small quiet bubbles. The rest of the object stays ceramic and gold. No letters, symbols or writing. Keep the guide's part locations and material regions, including its broad rectangular chamber; no new frame, structural rails or narrowed window may replace it. The pale guide colours are material labels, not colours to copy.\nCRUCIAL CORRECTION: previous generations looked too much like lit product renders and changed the outline. Paint FLAT MATERIAL COLOURS, evenly illuminated, without any lighting information. Remove ALL shadows and directional shading from the guide as you recolour it. Ceramic is even warm ivory, metal is even mid-value ochre gold with fine brushed grain and only the faintest sheen, green chamber is even green with restrained fine detail. No darkening near joins, no ambient occlusion, no edge bevel shadows, no reflected white bars, no bright highlights on gold or glass, no rim light, no cast shadows. Any fine seams or vent slots are dark painted material, not shadow. All surfaces have the same exposure across the entire object. This is for projection onto a 3D model, not a beauty shot.\nGenuinely transparent background; no floor, no background colour, no vignette, no stray coloured pixels. Keep the canvas 1024 x 1024 and object in exactly the guide's footprint.\nRIGHT: retain the horizontal side profile in the middle of the square. Exact nontransparent bounding box x=66..957, y=389..634. Tiny nozzle at far LEFT, tapered ceramic body and gold collar on the LEFT, gold rings at x~297 and x~596, green glass/liquid chamber between those rings, ceramic upper body to its right, narrow stem, and plunger disk at far RIGHT. Preserve every outline including the stepped plunger, tapered nozzle and the guide's mildly faceted edges. The large pale cyan middle rectangle between the rings becomes the reference's green glass/liquid chamber. Keep guide-defined material boundaries; do not invent a new body outline or add rods over the chamber. Paint the surface seams and small dark slots on the existing gold/ceramic as seen in the reference.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1c18e8792bbb661510f7403a160bda91dd557aff0477e273fcd1d83d33c2b24a"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8",
+        "usage": "Reviewed visual design, conveyed as material descriptions in this corrective prompt; not reattached."
+      },
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter lighting and closer guide component boundaries. Raw return retained unresized. Exact silhouette/alpha check still fails; visible edge fringes remain.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-b2810052-d57a-4e1d-a70c-bf49848ed8e6.png",
+      "output_sha256": "6f3049d7f1257ee4c5caa68fce44c12e05a94ecdbfc82035affbdaa33b3c08ef",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          41,
+          20,
+          1204,
+          1230
+        ],
+        "opaque_bbox": [
+          80,
+          478,
+          1175,
+          776
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.98009,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Improved but not fully flat: bright glass bands, edge darkening and metal sheen remain.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make ONE 1024 x 1024 transparent PNG: a flat painted ALBEDO TEXTURE SOURCE.\nThe single attached image is the exact orthographic model guide and the EDIT TARGET. Perform a pixel-registered SURFACE COLOUR EDIT on this original canvas. Retain the input alpha channel unchanged. Retain every component's edge and the faceted silhouette exactly. Do not redraw the object, reshape anything, enlarge, shift, rotate, crop, add perspective or change the camera. No visible pixels anywhere outside the existing input silhouette.\nApply the approved Hesper stim-injector design materials, described here: warm off-white ivory ceramic with very fine worn cream hairlines and a few subtle scuffs; warm yellow-gold brushed metal; tiny dark graphite inset seams and narrow rounded vent slots; the central pale-cyan chamber, IF VISIBLE IN THIS GUIDE, is clear green glass containing bright lime-green medicine, with just a few small quiet bubbles. The rest of the object stays ceramic and gold. No letters, symbols or writing. Keep the guide's part locations and material regions, including its broad rectangular chamber; no new frame, structural rails or narrowed window may replace it. The pale guide colours are material labels, not colours to copy.\nCRUCIAL CORRECTION: previous generations looked too much like lit product renders and changed the outline. Paint FLAT MATERIAL COLOURS, evenly illuminated, without any lighting information. Remove ALL shadows and directional shading from the guide as you recolour it. Ceramic is even warm ivory, metal is even mid-value ochre gold with fine brushed grain and only the faintest sheen, green chamber is even green with restrained fine detail. No darkening near joins, no ambient occlusion, no edge bevel shadows, no reflected white bars, no bright highlights on gold or glass, no rim light, no cast shadows. Any fine seams or vent slots are dark painted material, not shadow. All surfaces have the same exposure across the entire object. This is for projection onto a 3D model, not a beauty shot.\nGenuinely transparent background; no floor, no background colour, no vignette, no stray coloured pixels. Keep the canvas 1024 x 1024 and object in exactly the guide's footprint.\nTOP: retain the long vertical orthographic profile centered on x=512. Exact nontransparent bounding box x=386..637, y=66..957. Plunger disk at TOP, narrow stem below, ceramic upper body below stem, gold ring at y~427, green glass/liquid chamber y~440..713, gold ring at y~726, tapered ceramic lower body, gold collar y~861..941, tiny ceramic nozzle at the BOTTOM. Preserve every outline, the exact steps, facets, and component boundaries of the guide. The large pale cyan center becomes the reference's green glass/liquid chamber. Keep guide-defined material boundaries; do not invent a new body outline or add rods over the chamber. Paint the surface seams and small dark slots on existing gold/ceramic as in the reference.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "1ed9a12cf06c1482bf8562b002ba82a79ceb38cbc97857005f09f87256cc6ffa"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "10e180358b42e05ed7b77d342cb15a4e76db3113510529eb7b75021bba8188b8",
+        "usage": "Reviewed visual design, conveyed as material descriptions in this corrective prompt; not reattached."
+      },
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter lighting and closer guide component boundaries. Raw return retained unresized. Exact silhouette/alpha check still fails; visible edge fringes remain.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16e04-975b-7121-b6f6-3a328bfbe35a/exec-ceab1be8-c3f2-4507-a7c6-eb3451913ac2.png",
+      "output_sha256": "645e9a41a531d4a0a50e198605a55046bbed290f8baf7ac836a96d0c1c09115f",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          18,
+          1240,
+          1220
+        ],
+        "opaque_bbox": [
+          474,
+          79,
+          781,
+          1178
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha128": 0.980886,
+        "normalized_iou_method": "Nearest guide-mask sampling at output pixel centers; numerical comparison only, images unchanged.",
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory ceramic, warm gold and (in side/top views) green glass/liquid palette retained; detailed placements vary from the reference.",
+        "flat_even_light": "Improved but not fully flat: glass bands and edge darkening, gold sheen and ceramic facet shading remain.",
+        "edge_fringe": "Visible stray coloured or pale edge pixels remain; not masked or cleaned.",
+        "unresized_unedited_return": true,
+        "strict_brief_checks_passed": false
+      }
+    }
+  ],
+  "status": "Five requested output files saved; exact silhouette/alpha and fully flat-light requirements were not achieved.",
+  "summary": {
+    "selected_outputs": [
+      "paint_front.png",
+      "paint_back.png",
+      "paint_left.png",
+      "paint_right.png",
+      "paint_top.png"
+    ],
+    "actual_sizes": [
+      [
+        1254,
+        1254
+      ]
+    ],
+    "corrective_regenerations_per_view": {
+      "front": 1,
+      "back": 1,
+      "left": 1,
+      "right": 1,
+      "top": 1
+    },
+    "prompts_and_input_sha256_recorded": true,
+    "raw_returns_preserved_byte_for_byte": true,
+    "runtime_or_build_checks": "Not run; image-generation-only scope.",
+    "limitations": [
+      "Every generated return was 1254 x 1254 instead of requested 1024 x 1024; retained unresized as directed.",
+      "No selected return exactly preserves its guide alpha/silhouette; edge fringes and minor geometric differences remain.",
+      "Some reflected or directional lighting remains, chiefly on gold and glass.",
+      "Selected means the preferred available attempt, not strict brief acceptance."
+    ]
+  }
+}

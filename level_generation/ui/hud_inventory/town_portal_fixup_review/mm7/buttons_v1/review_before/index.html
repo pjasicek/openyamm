@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MM7 Town Portal — artwork review</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #16191d; color: #eee9df; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1360px; margin: auto; padding: 24px; }
+    h1 { font-size: 25px; margin: 0 0 8px; font-weight: 650; }
+    p { margin: 8px 0 18px; color: #bfc3c7; line-height: 1.5; }
+    a { color: #e4c787; }
+    .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 14px; }
+    fieldset { display: flex; flex-wrap: wrap; gap: 6px; border: 0; padding: 0; margin: 0; }
+    legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .mode { position: relative; cursor: pointer; }
+    .mode input { position: absolute; opacity: 0; }
+    .mode span, select { display: block; border: 1px solid #444b53; border-radius: 6px;
+      padding: 9px 13px; background: #242930; font: inherit; color: inherit; }
+    .mode input:checked + span { background: #594a30; border-color: #d6b670; }
+    .mode input:focus-visible + span, select:focus-visible, input[type=range]:focus-visible {
+      outline: 2px solid #e4c787; outline-offset: 3px; }
+    .size { display: flex; align-items: center; gap: 8px; color: #bfc3c7; }
+    .wipe { display: flex; align-items: center; gap: 14px; margin: 6px 0 14px; }
+    .wipe input { width: min(600px, 70vw); accent-color: #d6b670; }
+    [hidden] { display: none !important; }
+    .viewport { overflow: auto; border: 1px solid #45403a; background: #0c0e11; border-radius: 3px; }
+    .stage { position: relative; width: min(100%, 1280px); aspect-ratio: 4 / 3; margin: auto; }
+    .stage[data-size=game] { width: 640px; }
+    .stage[data-size=actual] { width: 1280px; }
+    .stage img { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+    .stage.native img { image-rendering: pixelated; }
+    #before { clip-path: inset(0 50% 0 0); }
+    #divider { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+      background: #fff4d0; box-shadow: 0 0 5px #000; pointer-events: none; }
+    .corner { position: absolute; top: 12px; padding: 5px 9px; border-radius: 4px;
+      background: #15191de6; color: #fff3d7; font-size: 13px; pointer-events: none; }
+    .left { left: 12px; } .right { right: 12px; }
+    footer { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 15px; font-size: 14px; color: #bfc3c7; }
+    @media (max-width: 700px) { main { padding: 16px; } h1 { font-size: 22px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>MM7 Town Portal</h1>
+  <p>Cleaner painted detail with the same map composition. Compare the new candidate with the current artwork
+    or the original game screen.</p>
+  <div class="controls">
+    <fieldset id="modes">
+      <legend>Artwork version</legend>
+      <label class="mode"><input type="radio" name="mode" value="candidate" checked><span>Regenerated</span></label>
+      <label class="mode"><input type="radio" name="mode" value="current"><span>Current</span></label>
+      <label class="mode"><input type="radio" name="mode" value="original"><span>Original</span></label>
+      <label class="mode"><input type="radio" name="mode" value="compare"><span>Compare slider</span></label>
+    </fieldset>
+    <label class="size">Size
+      <select id="size">
+        <option value="fit">Fit window</option>
+        <option value="game">Game size · 640 × 480</option>
+        <option value="actual">x2 pixels · 1280 × 960</option>
+      </select>
+    </label>
+  </div>
+  <label class="wipe" id="wipe" hidden>Current
+    <input id="split" type="range" min="0" max="100" value="50" aria-label="Current artwork coverage">
+    Regenerated
+  </label>
+  <div class="viewport">
+    <div class="stage" id="stage" data-size="fit">
+      <img id="art" src="attempt_01/antagrich.png" alt="Regenerated MM7 Town Portal map">
+      <img id="before" src="attempt_01/inputs/current.png" alt="Current installed MM7 map" hidden>
+      <div id="divider" hidden></div>
+      <span class="corner left" id="left-label" hidden>Current</span>
+      <span class="corner right" id="right-label" hidden>Regenerated</span>
+    </div>
+  </div>
+  <footer>
+    <span>Review candidate · not installed</span>
+    <a href="attempt_01/antagrich.png">Open x2 PNG</a>
+    <a href="attempt_01/raw.png">Full generated image</a>
+    <a href="../">MM6 review</a>
+  </footer>
+</main>
+<script>
+  const images = {
+    candidate: ['attempt_01/antagrich.png', 'Regenerated MM7 Town Portal map'],
+    current: ['attempt_01/inputs/current.png', 'Current installed MM7 Town Portal map'],
+    original: ['attempt_01/inputs/original.png', 'Original MM7 Town Portal map']
+  };
+  const query = new URLSearchParams(location.search);
+  const art = document.getElementById('art');
+  const stage = document.getElementById('stage');
+  const size = document.getElementById('size');
+  const split = document.getElementById('split');
+  const before = document.getElementById('before');
+  const divider = document.getElementById('divider');
+  function showMode(mode) {
+    const compare = mode === 'compare';
+    [art.src, art.alt] = images[compare ? 'candidate' : mode];
+    stage.classList.toggle('native', mode === 'original');
+    for (const id of ['before', 'divider', 'wipe', 'left-label', 'right-label']) {
+      document.getElementById(id).hidden = !compare;
+    }
+  }
+  function showSplit() {
+    before.style.clipPath = `inset(0 ${100 - Number(split.value)}% 0 0)`;
+    divider.style.left = `${split.value}%`;
+  }
+  document.getElementById('modes').addEventListener('change', event => showMode(event.target.value));
+  size.addEventListener('change', () => { stage.dataset.size = size.value; });
+  split.addEventListener('input', showSplit);
+  const mode = [...document.querySelectorAll('input[name=mode]')]
+    .find(input => input.value === query.get('mode'));
+  if (mode) mode.checked = true;
+  if (['fit', 'game', 'actual'].includes(query.get('size'))) size.value = query.get('size');
+  stage.dataset.size = size.value;
+  showMode(mode ? mode.value : 'candidate');
+  showSplit();
+</script>
+</body>
+</html>

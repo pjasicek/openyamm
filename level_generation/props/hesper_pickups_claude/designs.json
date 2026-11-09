@@ -1,0 +1,58 @@
+{
+ "hes_stim_canister": {
+  "title": "Stim canister",
+  "concept": "level_generation/props/hesper_pickups_claude/concepts/pickups_candidate_1.png",
+  "crop": [70, 20, 305, 500],
+  "identity": "A waist-high colony stim canister: an upright cylinder of bone-white ceramic plates with gold bands and gold window frames, a deep-blue livery stripe down its front, standing on a low round stepped foot. Three tall rounded glass windows round its middle show a glowing red stim fluid filling it nearly to the top. Above the windows a small round panel with one blue-white light. On top a short neck with a gold hand-wheel valve. About one metre tall.",
+  "materials": "bone-white ceramic plates with fine chips and grey grime, polished gold bands, frames, rivets and the valve wheel, a deep-blue painted livery stripe, clear glass windows with the glowing red stim fluid behind them (bright, saturated red, evenly lit from inside), a small blue-white light",
+  "tris": 2500, "metallic": 0.1, "rough": [0.8, 0.45], "normal": 1.4, "height_m": 1.0
+ },
+ "hes_serum_vat": {
+  "title": "Graft-serum vat",
+  "concept": "level_generation/props/hesper_pickups_claude/concepts/pickups_candidate_2.png",
+  "crop": [720, 110, 1130, 555],
+  "identity": "A squat Kreegan graft-serum vat, grown not built: a round barrel-shaped vat of black-violet ribbed resin, a few thick ribs with big oval gaps between them through which the glowing green serum shows, a taut translucent glowing green membrane lid over the top, curved pale bone claws gripping the rim and standing up round it, and short splayed resin root feet with bone claw tips. About 0.8 metres tall and 1.1 metres across.",
+  "materials": "glossy black-violet Kreegan resin with fine ridges and faint orange seams, pale ivory bone claws, the glowing green serum and membrane (bright saturated green, evenly lit from inside, with darker green veins)",
+  "tris": 3000, "metallic": 0.0, "rough": [0.75, 0.35], "normal": 1.6, "height_m": 0.85
+ },
+ "hes_serum_vat_empty": {
+  "title": "Graft-serum vat, empty",
+  "concept": "level_generation/props/hesper_pickups_claude/concepts/pickups_candidate_2.png",
+  "crop": [1135, 110, 1530, 555],
+  "identity": "The same squat Kreegan graft-serum vat, spent: black-violet ribbed resin barrel with big oval gaps between thick ribs, now dark and hollow inside, its membrane lid torn open with ragged grey-violet flaps hanging inward from the rim, curved pale bone claws gripping the rim, short splayed resin root feet with bone claw tips. No glow anywhere. About 0.8 metres tall and 1.1 metres across.",
+  "materials": "dull black-violet Kreegan resin with fine ridges, pale ivory bone claws, torn dry grey-violet membrane flaps, a dark dry hollow inside",
+  "tris": 3000, "metallic": 0.0, "rough": [0.85, 0.5], "normal": 1.6, "height_m": 0.85
+ },
+ "hes_colony_satchel": {
+  "title": "Colony satchel",
+  "concept": "level_generation/props/hesper_pickups_claude/concepts/pickups_candidate_2.png",
+  "crop": [10, 590, 375, 915],
+  "identity": "A stuffed colony supply satchel lying on the floor: a bulging canvas bag of faded deep blue with a sand-coloured canvas flap closed over the top, a red livery band down the flap carrying a small gold ring-and-stem sigil (a picture, no letters), two tan leather straps with brass buckles over the flap, a carrying strap at one end. About half a metre long.",
+  "materials": "worn faded deep-blue canvas and sand canvas with stitching and dust, a red cloth band with a gold embroidered sigil, tan leather straps, brass buckles",
+  "tris": 1600, "metallic": 0.0, "rough": [0.95, 0.75], "normal": 1.8, "height_m": 0.3
+ },
+ "hes_colony_satchel_open": {
+  "title": "Colony satchel, opened",
+  "concept": "level_generation/props/hesper_pickups_claude/concepts/pickups_candidate_2.png",
+  "crop": [378, 590, 765, 935],
+  "identity": "The same colony supply satchel opened and emptied, lying flat: the sand canvas flap thrown back with its red band and gold sigil, the faded deep-blue canvas body collapsed and creased with its mouth open and nothing inside, the tan leather straps hanging loose with their brass buckles. About half a metre long, low.",
+  "materials": "worn faded deep-blue canvas and sand canvas with stitching and dust, the pale sand lining inside, a red cloth band with a gold embroidered sigil, tan leather straps, brass buckles",
+  "tris": 1600, "metallic": 0.0, "rough": [0.95, 0.75], "normal": 1.8, "height_m": 0.2
+ },
+ "hes_scrap_bundle": {
+  "title": "Kreegan scrap bundle",
+  "concept": "level_generation/props/hesper_pickups_claude/concepts/pickups_candidate_2.png",
+  "crop": [770, 590, 1140, 935],
+  "identity": "A compact bundle of looted colony scrap lying on the floor: a bone-white ceramic cylinder with gold fittings, a dark hose and a small blue-lit panel, tightly wrapped in strands of black-violet Kreegan resin with faint orange glowing seams, closed with a curved pale bone claw hooked through a gold ring clasp. About 0.6 metres long.",
+  "materials": "black-violet Kreegan resin wraps with faint orange glowing seams, bone-white ceramic and polished gold on the wrapped scrap, a dark rubber hose, a pale ivory bone claw clasp with a gold ring",
+  "tris": 2000, "metallic": 0.05, "rough": [0.8, 0.4], "normal": 1.6, "height_m": 0.32
+ },
+ "hes_scrap_bundle_open": {
+  "title": "Kreegan scrap bundle, opened",
+  "concept": "level_generation/props/hesper_pickups_claude/concepts/pickups_candidate_2.png",
+  "crop": [1140, 585, 1532, 925],
+  "identity": "The same Kreegan resin wrap split open and flattened on the floor, empty: a shallow torn nest of black-violet resin strands and sheets, nothing inside, the pale bone claw clasp undone and hanging from its gold ring at one edge. No glow. About 0.6 metres long, low.",
+  "materials": "dull black-violet Kreegan resin sheets and strands with fine ridges, a pale ivory bone claw with a gold ring",
+  "tris": 1600, "metallic": 0.0, "rough": [0.85, 0.5], "normal": 1.6, "height_m": 0.22
+ }
+}

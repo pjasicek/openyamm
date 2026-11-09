@@ -1,0 +1,21 @@
+{
+  "family": "cle",
+  "title": "MM6 Cleric",
+  "descriptor_ids": [
+    490,
+    491,
+    492
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 675,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Original MM6 cleric B: adult fair-skinned human man with short light brown/blond hair and clean-shaven narrow face. Medium-blue long-sleeved belted tunic extending to the knees with original asymmetric draped folds, dark blue trousers and boots. Pale silver-grey shoulder mantle with thin dark edge and small dark ankh emblem, attached to a long grey cloak with very dark shaded interior/back. Original golden ornamental belt with short central pendant, gold wrist cuffs. Holds tall slender gold staff in his LEFT hand (image right), with original small round loop/ankh-like finial. Keep source anatomy, unglamorous native face, hair length, hand/foot pose, cloak length and staff dimensions. Muted darker blue fabric and original soft painted lighting, no new embroidery, armor, beard, hood, jewelry or extra weapons.",
+  "regions": "Generate ONLY base B: BLUE tunic, DARK BLUE legs/boots, GREY shoulder mantle and cloak. These are separate materials; keep gold staff/belt/cuffs and natural skin/hair protected. Preserve the small mantle emblem. Do not generate any other palette color.",
+  "variant_names": {
+    "674": "Cleric A / green and rust",
+    "675": "Cleric B / blue and grey",
+    "676": "Cleric C / tan and red"
+  },
+  "material_module": "materials.py"
+}

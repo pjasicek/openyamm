@@ -1,0 +1,4947 @@
+[
+  {
+    "icon": "7item142",
+    "name": "Mushroom",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Real stem and shaped cap; source-specific colours and cap painting.",
+    "length": 27.0,
+    "length_changed": false,
+    "triangles": 576,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item142_above.png",
+    "low": "review/revised/7item142_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item142_export.glb",
+    "validation": {
+      "sha256": "3e41e182faefd996cc2e7d8d4057ead18fa13959533ce7fde76366bb6be42e19",
+      "triangles": 576,
+      "vertices": 477,
+      "bounds_gltf": [
+        [
+          -0.3199999928474426,
+          0.0,
+          -0.3871999979019165
+        ],
+        [
+          0.3199999928474426,
+          0.5799999833106995,
+          0.3871999979019165
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item148",
+    "name": "Meteorite Fragment",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular stone or a glassy faceted shard cluster matching its icon kind.",
+    "length": 36.0,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item148_above.png",
+    "low": "review/revised/7item148_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item148_export.glb",
+    "validation": {
+      "sha256": "c19fa6d730b013d2b3de24f4b4b7841c767dd707d1d92658982b36881f430900",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.48586344718933105,
+          0.0,
+          -0.5102269649505615
+        ],
+        [
+          0.48586344718933105,
+          0.62615966796875,
+          0.5102269649505615
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item150",
+    "name": "Moonstone",
+    "family": "lumps",
+    "status": "keep",
+    "reason": "Thin mounted Moonstone relief preserves the gold setting and blue cabochon.",
+    "length": 30.6,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/baseline/7item150_above.png",
+    "low": "review/baseline/7item150_low.png"
+  },
+  {
+    "icon": "7item151",
+    "name": "Elvish Toadstool",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Real stem and shaped cap; source-specific colours and cap painting.",
+    "length": 33.8,
+    "length_changed": false,
+    "triangles": 192,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item151_above.png",
+    "low": "review/revised/7item151_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item151_export.glb",
+    "validation": {
+      "sha256": "03fde19eadb5910a7c63e0ec68020aae0562d16a1363b425b192536c5f167b18",
+      "triangles": 192,
+      "vertices": 159,
+      "bounds_gltf": [
+        [
+          -0.3199999928474426,
+          0.0,
+          -0.3199999928474426
+        ],
+        [
+          0.3199999928474426,
+          0.5799999833106995,
+          0.3199999928474426
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item152",
+    "name": "Fae Dust",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Actual vessel, separate material parts and appropriate closures/contents.",
+    "length": 50.4,
+    "length_changed": false,
+    "triangles": 312,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item152_above.png",
+    "low": "review/revised/7item152_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item152_export.glb",
+    "validation": {
+      "sha256": "acde225eca535027b1941fe7f8a26c0f2a95a692e71be834432853b8b634aa53",
+      "triangles": 312,
+      "vertices": 291,
+      "bounds_gltf": [
+        [
+          -0.25,
+          0.0,
+          -0.46000003814697266
+        ],
+        [
+          0.25,
+          0.5000000596046448,
+          0.46000000834465027
+        ]
+      ],
+      "materials": 3,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item153",
+    "name": "Sulfur",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Icon-specific constructed geometry and painted material parts.",
+    "length": 31.5,
+    "length_changed": false,
+    "triangles": 824,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item153_above.png",
+    "low": "review/revised/7item153_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item153_export.glb",
+    "validation": {
+      "sha256": "066c553cd2c723bc605e65c980ec9afc7d860ec7277de844280fca0a92d7d843",
+      "triangles": 824,
+      "vertices": 905,
+      "bounds_gltf": [
+        [
+          -0.28999999165534973,
+          0.0,
+          -0.3456445038318634
+        ],
+        [
+          0.28999999165534973,
+          0.5687878727912903,
+          0.3456445038318634
+        ]
+      ],
+      "materials": 3,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item156",
+    "name": "Obsidian",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular stone or a glassy faceted shard cluster matching its icon kind.",
+    "length": 36.0,
+    "length_changed": false,
+    "triangles": 180,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item156_above.png",
+    "low": "review/revised/7item156_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item156_export.glb",
+    "validation": {
+      "sha256": "e394e4c165e137696713ce89ea516259eea1b80689fc401e91ea9620b29f4ad1",
+      "triangles": 180,
+      "vertices": 359,
+      "bounds_gltf": [
+        [
+          -0.288723349571228,
+          0.0,
+          -0.2969200611114502
+        ],
+        [
+          0.288723349571228,
+          0.5580277442932129,
+          0.2969200611114502
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item158",
+    "name": "Mercury",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Actual vessel, separate material parts and appropriate closures/contents.",
+    "length": 59.4,
+    "length_changed": false,
+    "triangles": 284,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item158_above.png",
+    "low": "review/revised/7item158_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item158_export.glb",
+    "validation": {
+      "sha256": "10301d19fb56d20bd25ac36cfa876e3ad815b16d091f1d6efb11fd13d4e9ce69",
+      "triangles": 284,
+      "vertices": 242,
+      "bounds_gltf": [
+        [
+          -0.2199999988079071,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.2199999988079071,
+          0.4399999976158142,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 3,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item159",
+    "name": "Philosopher's Stone",
+    "family": "lumps",
+    "status": "keep",
+    "reason": "Thin mounted Philosopher stone relief preserves crossed gold wires and stone face.",
+    "length": 30.6,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/baseline/7item159_above.png",
+    "low": "review/baseline/7item159_low.png"
+  },
+  {
+    "icon": "7item200",
+    "name": "Ruby",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Real faceted gemstone cut; dielectric material, no unnecessary texture.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 44,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item200_above.png",
+    "low": "review/revised/7item200_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item200_export.glb",
+    "validation": {
+      "sha256": "33161ac290bb6d4be9501b2d5f720d968f4e3f063bd2987013cb3dbe134ec09a",
+      "triangles": 44,
+      "vertices": 84,
+      "bounds_gltf": [
+        [
+          -0.21477431058883667,
+          0.0,
+          -0.5663999915122986
+        ],
+        [
+          0.21477431058883667,
+          0.2484000027179718,
+          0.5663999915122986
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item201",
+    "name": "Garnet",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Real faceted gemstone cut; dielectric material, no unnecessary texture.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 60,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item201_above.png",
+    "low": "review/revised/7item201_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item201_export.glb",
+    "validation": {
+      "sha256": "d75a1c41b193975a8a7e394402c170e2e1a3ac281f64175958267dd059c1808a",
+      "triangles": 60,
+      "vertices": 112,
+      "bounds_gltf": [
+        [
+          -0.23999999463558197,
+          0.0,
+          -0.47999998927116394
+        ],
+        [
+          0.23999999463558197,
+          0.3400000035762787,
+          0.47999998927116394
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item353",
+    "name": "Iron-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item353_above.png",
+    "low": "review/revised/7item353_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item353_export.glb",
+    "validation": {
+      "sha256": "110893f176518b292e1c9039fc2ad27493b21aae13e5eb88f6afd93c964495dd",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.41306012868881226,
+          0.0,
+          -0.5103415846824646
+        ],
+        [
+          0.41306012868881226,
+          0.7724244594573975,
+          0.5103415846824646
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item354",
+    "name": "Siertal-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item354_above.png",
+    "low": "review/revised/7item354_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item354_export.glb",
+    "validation": {
+      "sha256": "0628590f3ff65381e4c1d2abc9d727a6ca142d40dbb844caa91203f580e05569",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.4349970519542694,
+          0.0,
+          -0.4854734539985657
+        ],
+        [
+          0.4349970519542694,
+          0.7148492336273193,
+          0.4854734539985657
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item355",
+    "name": "Phylt-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item355_above.png",
+    "low": "review/revised/7item355_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item355_export.glb",
+    "validation": {
+      "sha256": "2a3f96642cffac0962975aa730f3cd9f360b382265d01aef79ddc335e01d1638",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.4680835008621216,
+          0.0,
+          -0.5117526650428772
+        ],
+        [
+          0.4680835008621216,
+          0.6959054470062256,
+          0.5117526650428772
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item356",
+    "name": "Kergar-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item356_above.png",
+    "low": "review/revised/7item356_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item356_export.glb",
+    "validation": {
+      "sha256": "7e312aa3bce88398b7f24eee05c4440f30e8b82dd769203bca2687151fdfb530",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.446138858795166,
+          0.0,
+          -0.48499929904937744
+        ],
+        [
+          0.446138858795166,
+          0.7124221920967102,
+          0.48499929904937744
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item357",
+    "name": "Erudine-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 27.9,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item357_above.png",
+    "low": "review/revised/7item357_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item357_export.glb",
+    "validation": {
+      "sha256": "4b17b60bf312696e56e967f1039ee09703e678cf060a9a1e5894806125223656",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.4234774708747864,
+          0.0,
+          -0.5618084669113159
+        ],
+        [
+          0.4234774708747864,
+          0.7299830913543701,
+          0.5618084669113159
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item358",
+    "name": "Stalt-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/7item358_above.png",
+    "low": "review/revised/7item358_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item358_export.glb",
+    "validation": {
+      "sha256": "cfd00a6559b56638c306efdc0b20d792875512fe7fbecd71ce58715ab250602c",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.42432594299316406,
+          0.0,
+          -0.47404319047927856
+        ],
+        [
+          0.42432594299316406,
+          0.7384315729141235,
+          0.47404319047927856
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item159",
+    "name": "Mushroom",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Real stem and shaped cap; source-specific colours and cap painting.",
+    "length": 25.2,
+    "length_changed": false,
+    "triangles": 192,
+    "comparison": "review/comparison_01.jpg",
+    "above": "review/revised/item159_above.png",
+    "low": "review/revised/item159_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item159_export.glb",
+    "validation": {
+      "sha256": "1212d2b4017204399a74f6294ee7e543bfccaafbbc3832feac4055695f8c4390",
+      "triangles": 192,
+      "vertices": 159,
+      "bounds_gltf": [
+        [
+          -0.3199999928474426,
+          0.0,
+          -0.3199999928474426
+        ],
+        [
+          0.3199999928474426,
+          0.5799999833106995,
+          0.3199999928474426
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item160",
+    "name": "Poppy Pod",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Full fruit/pod shape with appropriate surface, stalk or leaves.",
+    "length": 25.7,
+    "length_changed": false,
+    "triangles": 420,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item160_above.png",
+    "low": "review/revised/item160_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item160_export.glb",
+    "validation": {
+      "sha256": "edcc82c36271874cde76d859219057647be778bdf2c7ba4672455a094052e4c9",
+      "triangles": 420,
+      "vertices": 302,
+      "bounds_gltf": [
+        [
+          -0.29828760027885437,
+          0.0,
+          -0.43721359968185425
+        ],
+        [
+          0.29828760027885437,
+          0.2799685001373291,
+          0.43721359968185425
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item163",
+    "name": "Ruby",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Real faceted gemstone cut; dielectric material, no unnecessary texture.",
+    "length": 22.9,
+    "length_changed": false,
+    "triangles": 44,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item163_above.png",
+    "low": "review/revised/item163_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item163_export.glb",
+    "validation": {
+      "sha256": "1f0d79b1216402b6a6bb2819df89818d5fe0f4e2c7eb791399a84615ddb70584",
+      "triangles": 44,
+      "vertices": 84,
+      "bounds_gltf": [
+        [
+          -0.3810511827468872,
+          0.0,
+          -0.3840000033378601
+        ],
+        [
+          0.3810511827468872,
+          0.2484000027179718,
+          0.3840000033378601
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item165",
+    "name": "Meteor Fragment",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular stone or a glassy faceted shard cluster matching its icon kind.",
+    "length": 22.5,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item165_above.png",
+    "low": "review/revised/item165_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item165_export.glb",
+    "validation": {
+      "sha256": "d5c31640d5f7dd8f23619201a90e0f3e4715be488109329170057e3a989d2c25",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.4741818904876709,
+          0.0,
+          -0.4762856364250183
+        ],
+        [
+          0.4741818904876709,
+          0.5999221801757812,
+          0.4762856364250183
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item166",
+    "name": "Will O' Wisp Heart",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 27.0,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item166_above.png",
+    "low": "review/revised/item166_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item166_export.glb",
+    "validation": {
+      "sha256": "39a043d7f0e6996d6c88ca73e4e6b5fcd21b7d6e17ac11d75f57c6911f5d1aa6",
+      "triangles": 524,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.44999998807907104,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.44999998807907104,
+          0.8998987674713135,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item168",
+    "name": "Dragon Turtle Fang",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Tapered horn with spiral ridge, or curved purple fang with barbs.",
+    "length": 42.8,
+    "length_changed": false,
+    "triangles": 124,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item168_above.png",
+    "low": "review/revised/item168_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item168_export.glb",
+    "validation": {
+      "sha256": "78ca0d35d08f10763068dcdc19c814414f08d2eae8490be0567cf0b9bd041e80",
+      "triangles": 124,
+      "vertices": 149,
+      "bounds_gltf": [
+        [
+          -0.1555415242910385,
+          0.0,
+          -0.5002121925354004
+        ],
+        [
+          0.1555415242910385,
+          0.26422473788261414,
+          0.5002121925354004
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item170",
+    "name": "Sulfur",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Hollow mortar, powder and angled pestle.",
+    "length": 26.1,
+    "length_changed": false,
+    "triangles": 592,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item170_above.png",
+    "low": "review/revised/item170_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item170_export.glb",
+    "validation": {
+      "sha256": "e5cc2af673f58f1628cd432db4b9a659f82014d5feb29323576804e44decf096",
+      "triangles": 592,
+      "vertices": 420,
+      "bounds_gltf": [
+        [
+          -0.36000001430511475,
+          0.0,
+          -0.36000001430511475
+        ],
+        [
+          0.36000001430511475,
+          0.6464895606040955,
+          0.36000001430511475
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item171",
+    "name": "Garnet",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Real faceted gemstone cut; dielectric material, no unnecessary texture.",
+    "length": 25.2,
+    "length_changed": false,
+    "triangles": 60,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item171_above.png",
+    "low": "review/revised/item171_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item171_export.glb",
+    "validation": {
+      "sha256": "4a260bce0c2f554230d7d14ffee990a5ac51ac7e3e32d453f76f63e1207be701",
+      "triangles": 60,
+      "vertices": 112,
+      "bounds_gltf": [
+        [
+          -0.4000000059604645,
+          0.0,
+          -0.47999998927116394
+        ],
+        [
+          0.4000000059604645,
+          0.2484000027179718,
+          0.47999998927116394
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item172",
+    "name": "Unicorn Horn",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Tapered horn with spiral ridge, or curved purple fang with barbs.",
+    "length": 54.9,
+    "length_changed": false,
+    "triangles": 944,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item172_above.png",
+    "low": "review/revised/item172_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item172_export.glb",
+    "validation": {
+      "sha256": "2b6a39fa1dfce5a1434027139fd3d42b59cdd7b9335d7e07b53ae1040a4efd35",
+      "triangles": 944,
+      "vertices": 620,
+      "bounds_gltf": [
+        [
+          -0.09331321716308594,
+          0.0,
+          -0.5048860907554626
+        ],
+        [
+          0.09331321716308594,
+          0.18250417709350586,
+          0.5048860907554626
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item173",
+    "name": "Obsidian",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular stone or a glassy faceted shard cluster matching its icon kind.",
+    "length": 27.0,
+    "length_changed": false,
+    "triangles": 180,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item173_above.png",
+    "low": "review/revised/item173_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item173_export.glb",
+    "validation": {
+      "sha256": "d1e9e07a23ead7033ea89bcc757fc5382fce3c0c60fca9b1a23987f7ba131ca9",
+      "triangles": 180,
+      "vertices": 354,
+      "bounds_gltf": [
+        [
+          -0.2744445502758026,
+          0.0,
+          -0.28450343012809753
+        ],
+        [
+          0.2744445502758026,
+          0.29588234424591064,
+          0.28450343012809753
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item175",
+    "name": "Mercury",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Flattened reflective metal puddle plus separate droplet.",
+    "length": 25.2,
+    "length_changed": false,
+    "triangles": 872,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item175_above.png",
+    "low": "review/revised/item175_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item175_export.glb",
+    "validation": {
+      "sha256": "c38ed2d26d1ab79f743549125e1209594a9d0d4481c7c52e87813781929c07a6",
+      "triangles": 872,
+      "vertices": 542,
+      "bounds_gltf": [
+        [
+          -0.3799999952316284,
+          0.0,
+          -0.5549999475479126
+        ],
+        [
+          0.3799999952316284,
+          0.12998537719249725,
+          0.5549999475479126
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item176",
+    "name": "Philosopher's Stone",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular stone or a glassy faceted shard cluster matching its icon kind.",
+    "length": 27.0,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item176_above.png",
+    "low": "review/revised/item176_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item176_export.glb",
+    "validation": {
+      "sha256": "89ae189023a20649e7a730de7932a45e149d456a3569acdd4843ccf1be33b191",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.47759076952934265,
+          0.0,
+          -0.478194922208786
+        ],
+        [
+          0.47759076952934265,
+          0.5588207244873047,
+          0.478194922208786
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item323",
+    "name": "Wheel of Frelandeau",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Actual cut cheese wheel or rounded flour-dusted bread log.",
+    "length": 60.8,
+    "length_changed": false,
+    "triangles": 84,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item323_above.png",
+    "low": "review/revised/item323_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item323_export.glb",
+    "validation": {
+      "sha256": "f30397d4719dad8a4ae56354655cae88d172ae44444879342b25afcb6da0a740",
+      "triangles": 84,
+      "vertices": 132,
+      "bounds_gltf": [
+        [
+          -0.4267767071723938,
+          0.0,
+          -0.4984586536884308
+        ],
+        [
+          0.4267767071723938,
+          0.30000001192092896,
+          0.4984586536884308
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item324",
+    "name": "Log of Eldenbrie",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Actual cut cheese wheel or rounded flour-dusted bread log.",
+    "length": 61.2,
+    "length_changed": false,
+    "triangles": 124,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item324_above.png",
+    "low": "review/revised/item324_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item324_export.glb",
+    "validation": {
+      "sha256": "2112f20ff955e67fc2a28fdd722ae7541ca879bf2ed032e2e1f207742e4a6e03",
+      "triangles": 124,
+      "vertices": 100,
+      "bounds_gltf": [
+        [
+          -0.18000000715255737,
+          0.0,
+          -0.5
+        ],
+        [
+          0.18000000715255737,
+          0.36000001430511475,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item325",
+    "name": "Ball of Dunduck",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 34.2,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item325_above.png",
+    "low": "review/revised/item325_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item325_export.glb",
+    "validation": {
+      "sha256": "ba2dea1702bd82f1fd6e792fcb0fe229122c4602c4304f94f3ec00e0742a7b0c",
+      "triangles": 524,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.44999998807907104,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.44999998807907104,
+          0.8998987674713135,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item353",
+    "name": "Iron-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item353_above.png",
+    "low": "review/revised/item353_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item353_export.glb",
+    "validation": {
+      "sha256": "5ed375a695a36322ac70c2a3edf6e57046eac760c63c0389f54801a537d97ac9",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.42137378454208374,
+          0.0,
+          -0.4824276566505432
+        ],
+        [
+          0.42137378454208374,
+          0.7540473341941833,
+          0.4824276566505432
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item354",
+    "name": "Siertal-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item354_above.png",
+    "low": "review/revised/item354_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item354_export.glb",
+    "validation": {
+      "sha256": "db93ad67445fdaf03078473bda6e341e308b42c4794a3de55f61669ab3b1bb61",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.4559987187385559,
+          0.0,
+          -0.49792414903640747
+        ],
+        [
+          0.4559987187385559,
+          0.6574430465698242,
+          0.49792414903640747
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item355",
+    "name": "Phylt-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item355_above.png",
+    "low": "review/revised/item355_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item355_export.glb",
+    "validation": {
+      "sha256": "e7802f302b4da98ccae9295ebf4ac34d8a6cc76506b299aed9089bf188088c46",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.45552682876586914,
+          0.0,
+          -0.49272555112838745
+        ],
+        [
+          0.45552682876586914,
+          0.691445529460907,
+          0.49272555112838745
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item356",
+    "name": "Kergar-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_02.jpg",
+    "above": "review/revised/item356_above.png",
+    "low": "review/revised/item356_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item356_export.glb",
+    "validation": {
+      "sha256": "32b53efb1ec28e8e908560f358f3ad98b5896a70b82ded78f29b1607efa2f74c",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.4099801778793335,
+          0.0,
+          -0.5470749735832214
+        ],
+        [
+          0.4099801778793335,
+          0.7700825333595276,
+          0.5470749735832214
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item357",
+    "name": "Erudine-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 27.9,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/item357_above.png",
+    "low": "review/revised/item357_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item357_export.glb",
+    "validation": {
+      "sha256": "788665a63e95cb91ac2a36fedd24908f6e36ea3bce33491270add69c441a8380",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.4470140337944031,
+          0.0,
+          -0.5306264162063599
+        ],
+        [
+          0.4470140337944031,
+          0.7916108965873718,
+          0.5306264162063599
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item358",
+    "name": "Stalt-laced ore",
+    "family": "lumps",
+    "status": "replaced",
+    "reason": "Irregular low-poly ore volume with the assigned mineral-vein painting.",
+    "length": 28.8,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/item358_above.png",
+    "low": "review/revised/item358_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item358_export.glb",
+    "validation": {
+      "sha256": "f0350e12d27b37d6edc3296f6d834836ddee795597d1c4ed407fa623737883f6",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.4278099536895752,
+          0.0,
+          -0.48857831954956055
+        ],
+        [
+          0.4278099536895752,
+          0.759958028793335,
+          0.48857831954956055
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "6hglass",
+    "name": "Hourglass of Time",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Individual lantern, candelabrum, chime, brazier or framed hourglass construction.",
+    "length": 73.8,
+    "length_changed": false,
+    "triangles": 692,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/6hglass_above.png",
+    "low": "review/revised/6hglass_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_6hglass_export.glb",
+    "validation": {
+      "sha256": "ea19d1a155da95cb0afb7ca2991fb77b19abded140a19d1631d168b25def27e5",
+      "triangles": 692,
+      "vertices": 877,
+      "bounds_gltf": [
+        [
+          -0.26499998569488525,
+          0.0,
+          -0.3149999976158142
+        ],
+        [
+          0.26499998569488525,
+          0.9650000333786011,
+          0.3149999976158142
+        ]
+      ],
+      "materials": 4,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item260",
+    "name": "Genie Lamp",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Turned reservoir, curved spout and loop handle.",
+    "length": 50.4,
+    "length_changed": false,
+    "triangles": 496,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item260_above.png",
+    "low": "review/revised/7item260_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item260_export.glb",
+    "validation": {
+      "sha256": "0f80d6e82c296ea78fd14ce57f1cf55de27cebc59f4b05b0a481437614cb52a0",
+      "triangles": 496,
+      "vertices": 400,
+      "bounds_gltf": [
+        [
+          -0.3400000035762787,
+          0.0,
+          -0.7073676586151123
+        ],
+        [
+          0.3400000035762787,
+          0.4300000071525574,
+          0.7073676586151123
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item268",
+    "name": "Vase",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Hollow turned vessel with visible interior and rim.",
+    "length": 47.7,
+    "length_changed": false,
+    "triangles": 436,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item268_above.png",
+    "low": "review/revised/7item268_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item268_export.glb",
+    "validation": {
+      "sha256": "3e31a90c3cbd8db76e87cbbfe898adf85c51a81d7c9e467a96e3823826de459f",
+      "triangles": 436,
+      "vertices": 271,
+      "bounds_gltf": [
+        [
+          -0.25,
+          0.0,
+          -0.4099999964237213
+        ],
+        [
+          0.25,
+          0.5,
+          0.4099999964237213
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item274",
+    "name": "Red Apple",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Full fruit/pod shape with appropriate surface, stalk or leaves.",
+    "length": 25.2,
+    "length_changed": false,
+    "triangles": 208,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item274_above.png",
+    "low": "review/revised/7item274_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item274_export.glb",
+    "validation": {
+      "sha256": "d4054de27333ac48850bdfd351505f311d6817dff76f60af32cf2712ccde2e78",
+      "triangles": 208,
+      "vertices": 166,
+      "bounds_gltf": [
+        [
+          -0.4099999964237213,
+          0.0,
+          -0.4099999964237213
+        ],
+        [
+          0.4099999964237213,
+          0.683570384979248,
+          0.4099999964237213
+        ]
+      ],
+      "materials": 2,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item276",
+    "name": "Faerie Pipes",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual pipes/shaft with separate metal bindings and dark finger holes.",
+    "length": 54.0,
+    "length_changed": false,
+    "triangles": 1504,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item276_above.png",
+    "low": "review/revised/7item276_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item276_export.glb",
+    "validation": {
+      "sha256": "6162c5a39e2d0653dfeb233d7908baaf4d65880cdbdf31f7ddda954befd08d53",
+      "triangles": 1504,
+      "vertices": 1302,
+      "bounds_gltf": [
+        [
+          -0.375,
+          0.0,
+          -0.484499990940094
+        ],
+        [
+          0.375,
+          0.12999999523162842,
+          0.484499990940094
+        ]
+      ],
+      "materials": 3,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item277",
+    "name": "Lute",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Icon-specific constructed geometry and painted material parts.",
+    "length": 113.4,
+    "length_changed": false,
+    "triangles": 1224,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item277_above.png",
+    "low": "review/revised/7item277_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item277_export.glb",
+    "validation": {
+      "sha256": "f25fc9da53d1a7283aa5709e7c84b1d6445ce1bbe4180a33ca052c0bd7747e17",
+      "triangles": 1224,
+      "vertices": 1118,
+      "bounds_gltf": [
+        [
+          -0.30000001192092896,
+          0.0,
+          -0.6775000095367432
+        ],
+        [
+          0.30000001192092896,
+          0.3184799253940582,
+          0.6775000095367432
+        ]
+      ],
+      "materials": 6,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item278",
+    "name": "Gryphonheart's Trumpet",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Hollow flared bell and shaft with attached red/ivory banner.",
+    "length": 85.0,
+    "length_changed": false,
+    "triangles": 652,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item278_above.png",
+    "low": "review/revised/7item278_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item278_export.glb",
+    "validation": {
+      "sha256": "1eb90d8cc7c098a89537a31f3c1b0cda2f1533a678d07c80de321eac8a1d2959",
+      "triangles": 652,
+      "vertices": 676,
+      "bounds_gltf": [
+        [
+          -0.23500001430511475,
+          0.0,
+          -0.5600000023841858
+        ],
+        [
+          0.23500001430511475,
+          0.2800000011920929,
+          0.5600000023841858
+        ]
+      ],
+      "materials": 3,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item280",
+    "name": "Floor Tile (w/ moon insignia)",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Icon-specific constructed geometry and painted material parts.",
+    "length": 54.5,
+    "length_changed": false,
+    "triangles": 468,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item280_above.png",
+    "low": "review/revised/7item280_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item280_export.glb",
+    "validation": {
+      "sha256": "0b4a62aa542970858ee22af7bd63100a79be6b80e43cadf719d1b0fd696ff75b",
+      "triangles": 468,
+      "vertices": 406,
+      "bounds_gltf": [
+        [
+          -0.5,
+          0.0,
+          -0.5
+        ],
+        [
+          0.5,
+          0.07699999958276749,
+          0.5
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item288",
+    "name": "Temple in a Bottle",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual vessel, separate material parts and appropriate closures/contents.",
+    "length": 54.5,
+    "length_changed": false,
+    "triangles": 628,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item288_above.png",
+    "low": "review/revised/7item288_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item288_export.glb",
+    "validation": {
+      "sha256": "3e5e3c428d5590d00c4334d7455163baaa813a200e84de1c19b9e671a4a30a2d",
+      "triangles": 628,
+      "vertices": 781,
+      "bounds_gltf": [
+        [
+          -0.28999999165534973,
+          0.0,
+          -0.48500004410743713
+        ],
+        [
+          0.28999999165534973,
+          0.5800000429153442,
+          0.48500001430511475
+        ]
+      ],
+      "materials": 5,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item290",
+    "name": "Horseshoe",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual open/closed metal loop; horseshoes have flat stock and nail holes.",
+    "length": 35.1,
+    "length_changed": false,
+    "triangles": 324,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item290_above.png",
+    "low": "review/revised/7item290_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item290_export.glb",
+    "validation": {
+      "sha256": "f0fc0753352951e80f39d476e8460ff8cee4ee72b1fe92781d6aad559b8f9d5d",
+      "triangles": 324,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.3546455502510071,
+          0.0,
+          -0.47921621799468994
+        ],
+        [
+          0.3546455502510071,
+          0.03463999927043915,
+          0.47921621799468994
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item292",
+    "name": "Lantern of Light",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Individual lantern, candelabrum, chime, brazier or framed hourglass construction.",
+    "length": 54.9,
+    "length_changed": false,
+    "triangles": 620,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item292_above.png",
+    "low": "review/revised/7item292_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item292_export.glb",
+    "validation": {
+      "sha256": "ca2660ddc589ffe11e05ec47322c56d78ec1069e7e2b7d02b824a2097eb70c94",
+      "triangles": 620,
+      "vertices": 562,
+      "bounds_gltf": [
+        [
+          -0.25,
+          0.0,
+          -0.25
+        ],
+        [
+          0.25,
+          0.9199999570846558,
+          0.25
+        ]
+      ],
+      "materials": 3,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item293",
+    "name": "Worn Belt",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Three-strand twisted hemp coils, not a flat rope painting.",
+    "length": 52.2,
+    "length_changed": false,
+    "triangles": 3116,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item293_above.png",
+    "low": "review/revised/7item293_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item293_export.glb",
+    "validation": {
+      "sha256": "4a577e08203f612c95428689021069d22b5ef26c63d349d608576dc9b4161f33",
+      "triangles": 3116,
+      "vertices": 2026,
+      "bounds_gltf": [
+        [
+          -0.40935271978378296,
+          0.0,
+          -0.4832218885421753
+        ],
+        [
+          0.40935271978378296,
+          0.34700000286102295,
+          0.4832218885421753
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item295",
+    "name": "Arcomage Deck",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Separate overlapping cards with painted face/back panels.",
+    "length": 35.1,
+    "length_changed": false,
+    "triangles": 138,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item295_above.png",
+    "low": "review/revised/7item295_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item295_export.glb",
+    "validation": {
+      "sha256": "cb637bca46dc62f6a77e4b7442c537ffbeccaf2919336a8abb443ab2009204bf",
+      "triangles": 138,
+      "vertices": 308,
+      "bounds_gltf": [
+        [
+          -0.37423020601272583,
+          0.0,
+          -0.4727270305156708
+        ],
+        [
+          0.37423020601272583,
+          0.0729999989271164,
+          0.4727270305156708
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item351",
+    "name": "Case of Soul Jars",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Regular manufactured prop with separate parts and UV-painted material detail.",
+    "length": 105.8,
+    "length_changed": false,
+    "triangles": 1068,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item351_above.png",
+    "low": "review/revised/7item351_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item351_export.glb",
+    "validation": {
+      "sha256": "02969e3fe93d2d4d4529ef48565a1637ae80a44ef53d0debca799be7b312d3c5",
+      "triangles": 1068,
+      "vertices": 1044,
+      "bounds_gltf": [
+        [
+          -0.42250001430511475,
+          0.0,
+          -0.4749999940395355
+        ],
+        [
+          0.42250001430511475,
+          0.5299999713897705,
+          0.4749999940395355
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item361",
+    "name": "Control Cube",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Regular manufactured prop with separate parts and UV-painted material detail.",
+    "length": 35.1,
+    "length_changed": false,
+    "triangles": 572,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item361_above.png",
+    "low": "review/revised/7item361_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item361_export.glb",
+    "validation": {
+      "sha256": "eddf5badf02de4e8d5ee4117c13c2fa7735c1ecc2782b3b7e553551b8df83a16",
+      "triangles": 572,
+      "vertices": 1248,
+      "bounds_gltf": [
+        [
+          -0.3725000023841858,
+          0.0,
+          -0.3725000023841858
+        ],
+        [
+          0.3725000023841858,
+          0.7450000047683716,
+          0.3725000023841858
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item362",
+    "name": "Oscillation Overthruster",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Real faceted gemstone cut; dielectric material, no unnecessary texture.",
+    "length": 62.1,
+    "length_changed": false,
+    "triangles": 8,
+    "comparison": "review/comparison_03.jpg",
+    "above": "review/revised/7item362_above.png",
+    "low": "review/revised/7item362_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item362_export.glb",
+    "validation": {
+      "sha256": "199dfc12319e93470c1b2b25b153c7694808e27c7bf4072044989be17cdda104",
+      "triangles": 8,
+      "vertices": 24,
+      "bounds_gltf": [
+        [
+          -0.23999999463558197,
+          0.0,
+          -0.550000011920929
+        ],
+        [
+          0.23999999463558197,
+          0.47999998927116394,
+          0.550000011920929
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item363",
+    "name": "Altar Piece",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Shallow shaped altar fragment already reads as the source geometry.",
+    "length": 51.3,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/baseline/7item363_above.png",
+    "low": "review/baseline/7item363_low.png"
+  },
+  {
+    "icon": "7item364",
+    "name": "Altar Piece",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Shallow shaped altar fragment already reads as the source geometry.",
+    "length": 55.8,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/baseline/7item364_above.png",
+    "low": "review/baseline/7item364_low.png"
+  },
+  {
+    "icon": "7item365",
+    "name": "Big Tapestry",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Regular manufactured prop with separate parts and UV-painted material detail.",
+    "length": 195.3,
+    "length_changed": false,
+    "triangles": 104,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item365_above.png",
+    "low": "review/revised/7item365_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item365_export.glb",
+    "validation": {
+      "sha256": "d2eec3e23abcf8743d6c9a486cbe25d676d6b2f9dd159b6c1036e74262258c59",
+      "triangles": 104,
+      "vertices": 162,
+      "bounds_gltf": [
+        [
+          -0.18000000715255737,
+          0.0,
+          -0.5
+        ],
+        [
+          0.18000000715255737,
+          0.22000004351139069,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item368",
+    "name": "Golem chest",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 90.5,
+    "length_changed": false,
+    "triangles": 3199,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item368_above.png",
+    "low": "review/revised/7item368_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item368_export.glb",
+    "validation": {
+      "sha256": "7c3ef81ca018b484bc707cdebffc74ee9c5f933763ba215fdefcc975b679aafb",
+      "triangles": 3199,
+      "vertices": 4376,
+      "bounds_gltf": [
+        [
+          -0.3268401622772217,
+          0.0,
+          -0.5000768899917603
+        ],
+        [
+          0.3268401622772217,
+          0.606124997138977,
+          0.5000768899917603
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "7item371",
+    "name": "Golem left leg",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 121.5,
+    "length_changed": false,
+    "triangles": 3029,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item371_above.png",
+    "low": "review/revised/7item371_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item371_export.glb",
+    "validation": {
+      "sha256": "6419dd49d88c51bafe6120204def46b3dad73bdae928d1dcef450d06dfedcdbb",
+      "triangles": 3029,
+      "vertices": 2546,
+      "bounds_gltf": [
+        [
+          -0.10485939681529999,
+          0.0,
+          -0.5
+        ],
+        [
+          0.10485939681529999,
+          0.21628205478191376,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "7item372",
+    "name": "Golem right leg",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 120.6,
+    "length_changed": false,
+    "triangles": 3174,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item372_above.png",
+    "low": "review/revised/7item372_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item372_export.glb",
+    "validation": {
+      "sha256": "160815a3887a4bfc3d596be86ecaeb3088599c41ca7795d33da00e7171f8ae7e",
+      "triangles": 3174,
+      "vertices": 2945,
+      "bounds_gltf": [
+        [
+          -0.08840000629425049,
+          0.0,
+          -0.5
+        ],
+        [
+          0.08840000629425049,
+          0.3281162679195404,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "7item373",
+    "name": "Golem right arm",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 83.2,
+    "length_changed": false,
+    "triangles": 3189,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item373_above.png",
+    "low": "review/revised/7item373_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item373_export.glb",
+    "validation": {
+      "sha256": "27418bce23049146f186ae962e0a014deef5219971cfa14fb10bf60374abc588",
+      "triangles": 3189,
+      "vertices": 3700,
+      "bounds_gltf": [
+        [
+          -0.15448683500289917,
+          0.0,
+          -0.5
+        ],
+        [
+          0.15448683500289917,
+          0.23320943117141724,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "7item374",
+    "name": "Golem left arm",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 89.1,
+    "length_changed": false,
+    "triangles": 3200,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item374_above.png",
+    "low": "review/revised/7item374_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item374_export.glb",
+    "validation": {
+      "sha256": "e07fc024c4a153b323fcc709a2d11b3718f63990bb9494c95851bee451518481",
+      "triangles": 3200,
+      "vertices": 3541,
+      "bounds_gltf": [
+        [
+          -0.10038042068481445,
+          0.0,
+          -0.5
+        ],
+        [
+          0.10038042068481445,
+          0.3157932460308075,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "7item400",
+    "name": "Crate of Arrowheads",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 121.5,
+    "length_changed": false,
+    "triangles": 1324,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item400_above.png",
+    "low": "review/revised/7item400_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item400_export.glb",
+    "validation": {
+      "sha256": "7b3fcf818673d8bb86a7b1fe30f9bf15b06cfe4bbc483aced485e88c1ca75a77",
+      "triangles": 1324,
+      "vertices": 2888,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.8075000047683716,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 4,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item401",
+    "name": "Crate of Griffin Feathers",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 121.5,
+    "length_changed": false,
+    "triangles": 1324,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item401_above.png",
+    "low": "review/revised/7item401_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item401_export.glb",
+    "validation": {
+      "sha256": "21212f5512ab5dba333a86edd6565aa5e94ef542ead69065de8f2f366b7c7525",
+      "triangles": 1324,
+      "vertices": 2888,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.8075000047683716,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 4,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item402",
+    "name": "Crate of Tularean Wood",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 121.0,
+    "length_changed": false,
+    "triangles": 1324,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item402_above.png",
+    "low": "review/revised/7item402_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item402_export.glb",
+    "validation": {
+      "sha256": "a8a941aebe2e6b2ab136e280f31d0c47449e4cbd56087c8e81a8938ecbacfc0d",
+      "triangles": 1324,
+      "vertices": 2888,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.8075000047683716,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 4,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item403",
+    "name": "Crate of Sand",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 121.5,
+    "length_changed": false,
+    "triangles": 1324,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item403_above.png",
+    "low": "review/revised/7item403_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item403_export.glb",
+    "validation": {
+      "sha256": "1bb04197f4cdabee8861f5c31ef6dcb3ae9a13ac92ebd9260ffff2ce1c57561d",
+      "triangles": 1324,
+      "vertices": 2888,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.8075000047683716,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 4,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item404",
+    "name": "Crate of Glass Bottles",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 121.5,
+    "length_changed": false,
+    "triangles": 1324,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item404_above.png",
+    "low": "review/revised/7item404_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item404_export.glb",
+    "validation": {
+      "sha256": "37478a4ac9956f68a3774558242ab8d13a2492f581fb73baf54240f66975a818",
+      "triangles": 1324,
+      "vertices": 2888,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.8075000047683716,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 4,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item405",
+    "name": "Crate of Enrothian Wine",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 121.5,
+    "length_changed": false,
+    "triangles": 1324,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/7item405_above.png",
+    "low": "review/revised/7item405_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item405_export.glb",
+    "validation": {
+      "sha256": "4eb8d3f3539d6ad0dba8c28c193b3eb960df4b22b91b3c02c379899d3a206964",
+      "triangles": 1324,
+      "vertices": 2888,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.8075000047683716,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 4,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "aladnlmp",
+    "name": "Magic Lamp",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Turned reservoir, curved spout and loop handle.",
+    "length": 41.4,
+    "length_changed": false,
+    "triangles": 496,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/aladnlmp_above.png",
+    "low": "review/revised/aladnlmp_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_aladnlmp_export.glb",
+    "validation": {
+      "sha256": "d415c4304a127dc917bf0081d5eb897e17833590cabe93edbbb366ec164ffd20",
+      "triangles": 496,
+      "vertices": 400,
+      "bounds_gltf": [
+        [
+          -0.3400000035762787,
+          0.0,
+          -0.7073676586151123
+        ],
+        [
+          0.3400000035762787,
+          0.4300000071525574,
+          0.7073676586151123
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "amber",
+    "name": "Amber",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 64.8,
+    "length_changed": false,
+    "triangles": 3200,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/amber_above.png",
+    "low": "review/revised/amber_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_amber_export.glb",
+    "validation": {
+      "sha256": "cc4976d409fe150f377f5405d26de5821e3ba5fbbbd963f4015121992e84b5a0",
+      "triangles": 3200,
+      "vertices": 2215,
+      "bounds_gltf": [
+        [
+          -0.16860172152519226,
+          0.0,
+          -0.5
+        ],
+        [
+          0.16860172152519226,
+          0.29782533645629883,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "ankh",
+    "name": "Ankh",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Flat metal ankh; retain its actual outline and loop.",
+    "length": 49.5,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/baseline/ankh_above.png",
+    "low": "review/baseline/ankh_low.png"
+  },
+  {
+    "icon": "apple",
+    "name": "Apple",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Full fruit/pod shape with appropriate surface, stalk or leaves.",
+    "length": 33.8,
+    "length_changed": false,
+    "triangles": 208,
+    "comparison": "review/comparison_04.jpg",
+    "above": "review/revised/apple_above.png",
+    "low": "review/revised/apple_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_apple_export.glb",
+    "validation": {
+      "sha256": "ea4bdea371c9d9855ed50340ddd2510e707c0d6f909d7611377ba1d199b9bac9",
+      "triangles": 208,
+      "vertices": 166,
+      "bounds_gltf": [
+        [
+          -0.4099999964237213,
+          0.0,
+          -0.4099999964237213
+        ],
+        [
+          0.4099999964237213,
+          0.683570384979248,
+          0.4099999964237213
+        ]
+      ],
+      "materials": 2,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "bell",
+    "name": "Tanir's Bell",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Hollow turned vessel with visible interior and rim.",
+    "length": 45.9,
+    "length_changed": false,
+    "triangles": 1000,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/bell_above.png",
+    "low": "review/revised/bell_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_bell_export.glb",
+    "validation": {
+      "sha256": "e326a4a37295360e74274f7698643af02065115226cf271187f70f254bf232bc",
+      "triangles": 1000,
+      "vertices": 622,
+      "bounds_gltf": [
+        [
+          -0.3499999940395355,
+          0.0,
+          -0.38600003719329834
+        ],
+        [
+          0.3499999940395355,
+          0.699999988079071,
+          0.38600000739097595
+        ]
+      ],
+      "materials": 3,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "blkperl",
+    "name": "Pearl of Putrescence",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 32.4,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/blkperl_above.png",
+    "low": "review/revised/blkperl_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_blkperl_export.glb",
+    "validation": {
+      "sha256": "5f6b24b7a31727cb330570b77730ca43b4b52765db42532c2dae72cd9ccb122a",
+      "triangles": 524,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.44999998807907104,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.44999998807907104,
+          0.8998987674713135,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "chalice",
+    "name": "Sacred Chalice",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Hollow turned vessel with visible interior and rim.",
+    "length": 37.8,
+    "length_changed": false,
+    "triangles": 436,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/chalice_above.png",
+    "low": "review/revised/chalice_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_chalice_export.glb",
+    "validation": {
+      "sha256": "f3da70148590af7956ca51e226c71873d23a5cbe8bc1ac1354091db52f5ccc2c",
+      "triangles": 436,
+      "vertices": 271,
+      "bounds_gltf": [
+        [
+          -0.3499999940395355,
+          0.0,
+          -0.3499999940395355
+        ],
+        [
+          0.3499999940395355,
+          0.6899999976158142,
+          0.3499999940395355
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "chime",
+    "name": "Chime of Harmony",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Individual lantern, candelabrum, chime, brazier or framed hourglass construction.",
+    "length": 65.7,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/chime_above.png",
+    "low": "review/revised/chime_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_chime_export.glb",
+    "validation": {
+      "sha256": "9b6b883ddc7e876ba22b17035d4ae2f623a9da22a07f139074d4b988d6c1f373",
+      "triangles": 524,
+      "vertices": 580,
+      "bounds_gltf": [
+        [
+          -0.30000001192092896,
+          0.0,
+          -0.30000001192092896
+        ],
+        [
+          0.30000001192092896,
+          0.9670000672340393,
+          0.30000001192092896
+        ]
+      ],
+      "materials": 4,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "cndlabra",
+    "name": "Candelabra",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Individual lantern, candelabrum, chime, brazier or framed hourglass construction.",
+    "length": 64.8,
+    "length_changed": false,
+    "triangles": 588,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/cndlabra_above.png",
+    "low": "review/revised/cndlabra_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_cndlabra_export.glb",
+    "validation": {
+      "sha256": "cd86f8e34fea1bb80b31c1faad53c1c6af142a673838ce963ef5b5344fb0d1d2",
+      "triangles": 588,
+      "vertices": 556,
+      "bounds_gltf": [
+        [
+          -0.23999999463558197,
+          0.0,
+          -0.46000000834465027
+        ],
+        [
+          0.23999999463558197,
+          0.8700000047683716,
+          0.46000000834465027
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "crysball",
+    "name": "The Third Eye",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 42.3,
+    "length_changed": false,
+    "triangles": 648,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/crysball_above.png",
+    "low": "review/revised/crysball_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_crysball_export.glb",
+    "validation": {
+      "sha256": "8731560e1f7f8124b3d68d5db38c468f04986fee8bfe3e49408048bc9ed448e5",
+      "triangles": 648,
+      "vertices": 423,
+      "bounds_gltf": [
+        [
+          -0.44999998807907104,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.44999998807907104,
+          0.9999493956565857,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "cube",
+    "name": "Control Cube",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Regular manufactured prop with separate parts and UV-painted material detail.",
+    "length": 35.1,
+    "length_changed": false,
+    "triangles": 572,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/cube_above.png",
+    "low": "review/revised/cube_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_cube_export.glb",
+    "validation": {
+      "sha256": "7e4ac05a2ffea8a60a8c6b62953e89b9975aefe88d1ea40b09c1a9e80883ea11",
+      "triangles": 572,
+      "vertices": 1248,
+      "bounds_gltf": [
+        [
+          -0.3725000023841858,
+          0.0,
+          -0.3725000023841858
+        ],
+        [
+          0.3725000023841858,
+          0.7450000047683716,
+          0.3725000023841858
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "egg",
+    "name": "Cobra Egg",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 46.8,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/egg_above.png",
+    "low": "review/revised/egg_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_egg_export.glb",
+    "validation": {
+      "sha256": "c92b30d1b838127895864a30979b858d62102b6dca00fd34296b5a86fbc66f3f",
+      "triangles": 524,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.46000000834465027,
+          0.0,
+          -0.550000011920929
+        ],
+        [
+          0.46000000834465027,
+          0.6399279832839966,
+          0.550000011920929
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "flute",
+    "name": "Flute",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual pipes/shaft with separate metal bindings and dark finger holes.",
+    "length": 64.8,
+    "length_changed": false,
+    "triangles": 1116,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/flute_above.png",
+    "low": "review/revised/flute_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_flute_export.glb",
+    "validation": {
+      "sha256": "6c2184d9ddf52e9e7c49cdef49752e7b6b0fbacab8cb973c5bdc44e6c728df27",
+      "triangles": 1116,
+      "vertices": 789,
+      "bounds_gltf": [
+        [
+          -0.0560000017285347,
+          0.0,
+          -0.5
+        ],
+        [
+          0.0560000017285347,
+          0.1120000034570694,
+          0.5
+        ]
+      ],
+      "materials": 3,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "gong",
+    "name": "Temple Gong",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Icon-specific constructed geometry and painted material parts.",
+    "length": 69.3,
+    "length_changed": false,
+    "triangles": 2216,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/gong_above.png",
+    "low": "review/revised/gong_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_gong_export.glb",
+    "validation": {
+      "sha256": "be3246169c2dbb84a3398198ba05f102dd8989bd8695dc1a90936cdad824d39f",
+      "triangles": 2216,
+      "vertices": 1694,
+      "bounds_gltf": [
+        [
+          -0.4899999797344208,
+          0.0,
+          -0.5699999928474426
+        ],
+        [
+          0.4899999797344208,
+          0.13998425006866455,
+          0.5699999928474426
+        ]
+      ],
+      "materials": 4,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "harp",
+    "name": "Harp",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 63.0,
+    "length_changed": false,
+    "triangles": 3199,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/harp_above.png",
+    "low": "review/revised/harp_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_harp_export.glb",
+    "validation": {
+      "sha256": "d201e1374d937d57864059f62a4713dece19995a7957fbba58a3c395a7619401",
+      "triangles": 3199,
+      "vertices": 4969,
+      "bounds_gltf": [
+        [
+          -0.46228229999542236,
+          0.0,
+          -0.5001413822174072
+        ],
+        [
+          0.46228229999542236,
+          0.28540632128715515,
+          0.5001413822174072
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "horn",
+    "name": "Horn of Ros",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 56.2,
+    "length_changed": false,
+    "triangles": 3200,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/horn_above.png",
+    "low": "review/revised/horn_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_horn_export.glb",
+    "validation": {
+      "sha256": "3f5344bd8fa83190cc69a4cd181189e7d4542b4641748a1c6933daf3859ef20d",
+      "triangles": 3200,
+      "vertices": 3697,
+      "bounds_gltf": [
+        [
+          -0.14852353930473328,
+          0.0,
+          -0.5
+        ],
+        [
+          0.14852353930473328,
+          0.3044493496417999,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "horsshu",
+    "name": "Horseshoe",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual open/closed metal loop; horseshoes have flat stock and nail holes.",
+    "length": 40.1,
+    "length_changed": false,
+    "triangles": 324,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/horsshu_above.png",
+    "low": "review/revised/horsshu_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_horsshu_export.glb",
+    "validation": {
+      "sha256": "c600516e7e35f63182292e715c783f00fd7d9398ed6fe1c43efdf059b3e8fc8e",
+      "triangles": 324,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.3546455502510071,
+          0.0,
+          -0.47921621799468994
+        ],
+        [
+          0.3546455502510071,
+          0.03463999927043915,
+          0.47921621799468994
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "infrod",
+    "name": "Infused Metal Rod",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Icon-specific constructed geometry and painted material parts.",
+    "length": 63.0,
+    "length_changed": false,
+    "triangles": 44,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/infrod_above.png",
+    "low": "review/revised/infrod_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_infrod_export.glb",
+    "validation": {
+      "sha256": "2b99faed0ead8afc8979d128d6bcfe253e2f7d1390ef0a0d32990f19526bded7",
+      "triangles": 44,
+      "vertices": 68,
+      "bounds_gltf": [
+        [
+          -0.054999999701976776,
+          0.0,
+          -0.5
+        ],
+        [
+          0.054999999701976776,
+          0.10999999940395355,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item263",
+    "name": "Telelocator",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Narrow decorative telelocator rod; retain skull head identity.",
+    "length": 113.0,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/baseline/item263_above.png",
+    "low": "review/baseline/item263_low.png"
+  },
+  {
+    "icon": "item267",
+    "name": "Urn of Ashes",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 57.6,
+    "length_changed": false,
+    "triangles": 3200,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/item267_above.png",
+    "low": "review/revised/item267_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item267_export.glb",
+    "validation": {
+      "sha256": "525c1557b313c2ce5cdb0c3f4217a1c7cbe479be972d9fa8305176952e33598b",
+      "triangles": 3200,
+      "vertices": 4083,
+      "bounds_gltf": [
+        [
+          -0.3056522607803345,
+          0.0,
+          -0.4451049566268921
+        ],
+        [
+          0.3056522607803345,
+          1.0,
+          0.4451049566268921
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "item268",
+    "name": "Nightshade Brazier",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Individual lantern, candelabrum, chime, brazier or framed hourglass construction.",
+    "length": 59.4,
+    "length_changed": false,
+    "triangles": 1408,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/item268_above.png",
+    "low": "review/revised/item268_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item268_export.glb",
+    "validation": {
+      "sha256": "0461881d425dba82d58e67d62ef14c9a023cbf6851c3e3fe5b96ccaec7f8299e",
+      "triangles": 1408,
+      "vertices": 1524,
+      "bounds_gltf": [
+        [
+          -0.33000001311302185,
+          0.0,
+          -0.341657817363739
+        ],
+        [
+          0.33000001311302185,
+          0.5766486525535583,
+          0.341657817363739
+        ]
+      ],
+      "materials": 3,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item269",
+    "name": "Dragon Leader's Egg",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 31.5,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_05.jpg",
+    "above": "review/revised/item269_above.png",
+    "low": "review/revised/item269_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item269_export.glb",
+    "validation": {
+      "sha256": "488223854e1a90063ba3c127c9748b558a64d433f7b6b204acaf39b6060bd1b3",
+      "triangles": 524,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.46000000834465027,
+          0.0,
+          -0.550000011920929
+        ],
+        [
+          0.46000000834465027,
+          0.6399279832839966,
+          0.550000011920929
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item275",
+    "name": "Lost Book of Kehl",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Cover boards, page block, spine and painted horned-skull cover.",
+    "length": 66.6,
+    "length_changed": false,
+    "triangles": 178,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item275_above.png",
+    "low": "review/revised/item275_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item275_export.glb",
+    "validation": {
+      "sha256": "5bc166771f167f2a7fd9e46cd221fca80314a1abd8d7d2fa6d3e0d2998315eaf",
+      "triangles": 178,
+      "vertices": 388,
+      "bounds_gltf": [
+        [
+          -0.3824999928474426,
+          0.0,
+          -0.5
+        ],
+        [
+          0.3824999928474426,
+          0.281000018119812,
+          0.5
+        ]
+      ],
+      "materials": 3,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item276",
+    "name": "Sarcophagus of Korbu",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 393.3,
+    "length_changed": false,
+    "triangles": 3151,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item276_above.png",
+    "low": "review/revised/item276_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item276_export.glb",
+    "validation": {
+      "sha256": "131c9f191c92e4819e5728a8ab2afcf18125e930359067565e19202e56d4fcac",
+      "triangles": 3151,
+      "vertices": 4482,
+      "bounds_gltf": [
+        [
+          -0.23118650913238525,
+          0.0,
+          -0.5
+        ],
+        [
+          0.23118650913238525,
+          0.2608315944671631,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "item277",
+    "name": "Puzzle Box",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Regular manufactured prop with separate parts and UV-painted material detail.",
+    "length": 35.1,
+    "length_changed": false,
+    "triangles": 572,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item277_above.png",
+    "low": "review/revised/item277_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item277_export.glb",
+    "validation": {
+      "sha256": "ea8d2219d0999becb74972c1612db84e631f01aba3160a82231566203b508ff7",
+      "triangles": 572,
+      "vertices": 1248,
+      "bounds_gltf": [
+        [
+          -0.3725000023841858,
+          0.0,
+          -0.3725000023841858
+        ],
+        [
+          0.3725000023841858,
+          0.7450000047683716,
+          0.3725000023841858
+        ]
+      ],
+      "materials": 2,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item279",
+    "name": "Drum of Victory",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Full drum with skin heads, painted shell, tension rods and sticks.",
+    "length": 63.9,
+    "length_changed": false,
+    "triangles": 1420,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item279_above.png",
+    "low": "review/revised/item279_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item279_export.glb",
+    "validation": {
+      "sha256": "5b0649eb133cab28f393ddd46ecfbd5a72965f35b96775d669cbeed4b7093d96",
+      "triangles": 1420,
+      "vertices": 1242,
+      "bounds_gltf": [
+        [
+          -0.4580000042915344,
+          0.0,
+          -0.4580000042915344
+        ],
+        [
+          0.4580000042915344,
+          0.5209903717041016,
+          0.4580000042915344
+        ]
+      ],
+      "materials": 5,
+      "textures": 4,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item281",
+    "name": "Power Stone",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Icon-specific constructed geometry and painted material parts.",
+    "length": 27.0,
+    "length_changed": false,
+    "triangles": 608,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item281_above.png",
+    "low": "review/revised/item281_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item281_export.glb",
+    "validation": {
+      "sha256": "f673ac01b55edf0eefecc63ad48a566b95cdc9f8b03a5fe8763d42303752bed3",
+      "triangles": 608,
+      "vertices": 491,
+      "bounds_gltf": [
+        [
+          -0.3499999940395355,
+          0.0,
+          -0.3499999940395355
+        ],
+        [
+          0.3499999940395355,
+          0.5399729609489441,
+          0.3499999940395355
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item282",
+    "name": "Charged connector stone",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 32.4,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item282_above.png",
+    "low": "review/revised/item282_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item282_export.glb",
+    "validation": {
+      "sha256": "ab2aa3b1fcfdc5672ee663716542a374f59a12befded33a91a2fb70772f2ee29",
+      "triangles": 524,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.44999998807907104,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.44999998807907104,
+          0.8998987674713135,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item283",
+    "name": "Connector stone",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 32.4,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item283_above.png",
+    "low": "review/revised/item283_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item283_export.glb",
+    "validation": {
+      "sha256": "d1041b64511233fc9f1d78f2b78e117d3fd92c334a1e7c3623e04b82f3eac28f",
+      "triangles": 524,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.44999998807907104,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.44999998807907104,
+          0.8998987674713135,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item295",
+    "name": "Ring of Keys",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Flat bunch of decorated keys; retain distinct key silhouettes.",
+    "length": 63.9,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/baseline/item295_above.png",
+    "low": "review/baseline/item295_low.png"
+  },
+  {
+    "icon": "item297",
+    "name": "Power Stone",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Real faceted gemstone cut; dielectric material, no unnecessary texture.",
+    "length": 27.0,
+    "length_changed": false,
+    "triangles": 8,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item297_above.png",
+    "low": "review/revised/item297_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item297_export.glb",
+    "validation": {
+      "sha256": "f7171963700a474212bc97eab5885f765a6899c796ad69d74fe7d9fb2908684f",
+      "triangles": 8,
+      "vertices": 24,
+      "bounds_gltf": [
+        [
+          -0.3199999928474426,
+          0.0,
+          -0.3199999928474426
+        ],
+        [
+          0.3199999928474426,
+          0.47999998927116394,
+          0.3199999928474426
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item299",
+    "name": "Big Brass Ring",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual open/closed metal loop; horseshoes have flat stock and nail holes.",
+    "length": 52.2,
+    "length_changed": false,
+    "triangles": 512,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item299_above.png",
+    "low": "review/revised/item299_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item299_export.glb",
+    "validation": {
+      "sha256": "dec775048d2e0765ae5dc0b6d2ad6d44fa0caeb8ea0df99a122a1584d7919415",
+      "triangles": 512,
+      "vertices": 297,
+      "bounds_gltf": [
+        [
+          -0.4749999940395355,
+          0.0,
+          -0.4749999940395355
+        ],
+        [
+          0.4749999940395355,
+          0.1899999976158142,
+          0.4749999940395355
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item302",
+    "name": "Flute",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual pipes/shaft with separate metal bindings and dark finger holes.",
+    "length": 64.8,
+    "length_changed": false,
+    "triangles": 1116,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item302_above.png",
+    "low": "review/revised/item302_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item302_export.glb",
+    "validation": {
+      "sha256": "b39f69339294a23e1e3cebd799325a73b73307281f8b03ff8c1f84a7503ccc5a",
+      "triangles": 1116,
+      "vertices": 789,
+      "bounds_gltf": [
+        [
+          -0.0560000017285347,
+          0.0,
+          -0.5
+        ],
+        [
+          0.0560000017285347,
+          0.1120000034570694,
+          0.5
+        ]
+      ],
+      "materials": 3,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item306",
+    "name": "Druid Circlet of Power",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Icon-specific constructed geometry and painted material parts.",
+    "length": 60.3,
+    "length_changed": false,
+    "triangles": 2428,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item306_above.png",
+    "low": "review/revised/item306_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item306_export.glb",
+    "validation": {
+      "sha256": "cf8bfd689bdb47ade65377a670e80a3709c9be2711fd0081f3f57c47391d684e",
+      "triangles": 2428,
+      "vertices": 1653,
+      "bounds_gltf": [
+        [
+          -0.41499999165534973,
+          0.0,
+          -0.41999998688697815
+        ],
+        [
+          0.41499999165534973,
+          0.30000001192092896,
+          0.41999998688697815
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item311",
+    "name": "Tobersk Fruit",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Full fruit/pod shape with appropriate surface, stalk or leaves.",
+    "length": 63.5,
+    "length_changed": false,
+    "triangles": 300,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item311_above.png",
+    "low": "review/revised/item311_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item311_export.glb",
+    "validation": {
+      "sha256": "12d2c43c1059539f6c819311d25284b0d975b4e52cd6ded148be35bc17634c72",
+      "triangles": 300,
+      "vertices": 378,
+      "bounds_gltf": [
+        [
+          -0.28700000047683716,
+          0.0,
+          -0.4000000059604645
+        ],
+        [
+          0.28700000047683716,
+          0.9585268497467041,
+          0.4000000059604645
+        ]
+      ],
+      "materials": 3,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item312",
+    "name": "Tobersk Pulp",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual vessel, separate material parts and appropriate closures/contents.",
+    "length": 63.0,
+    "length_changed": false,
+    "triangles": 1100,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item312_above.png",
+    "low": "review/revised/item312_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item312_export.glb",
+    "validation": {
+      "sha256": "ba1f890fbeb442f9210f83bbd7774ba48cef1597eaa1f7f5bb740a330307f8d2",
+      "triangles": 1100,
+      "vertices": 803,
+      "bounds_gltf": [
+        [
+          -0.2547212541103363,
+          0.0,
+          -0.48500001430511475
+        ],
+        [
+          0.2547212541103363,
+          0.5050640106201172,
+          0.48500001430511475
+        ]
+      ],
+      "materials": 3,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item313",
+    "name": "Tobersk Brandy",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual vessel, separate material parts and appropriate closures/contents.",
+    "length": 63.0,
+    "length_changed": false,
+    "triangles": 1160,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item313_above.png",
+    "low": "review/revised/item313_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item313_export.glb",
+    "validation": {
+      "sha256": "6c50998c2b25beb673ff0222b99e6a1a245b77926124eac755eba4e3668d5774",
+      "triangles": 1160,
+      "vertices": 865,
+      "bounds_gltf": [
+        [
+          -0.294562965631485,
+          0.0,
+          -0.42500001192092896
+        ],
+        [
+          0.294562965631485,
+          0.5050640106201172,
+          0.42500001192092896
+        ]
+      ],
+      "materials": 3,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item315",
+    "name": "Flawed Amulets",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 116.1,
+    "length_changed": false,
+    "triangles": 2628,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item315_above.png",
+    "low": "review/revised/item315_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item315_export.glb",
+    "validation": {
+      "sha256": "cbf1afb59f676079dc254186d06877790104f64726a91efc47de09084a801a93",
+      "triangles": 2628,
+      "vertices": 3497,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.7999999523162842,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 6,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item317",
+    "name": "Silver Dust of the Sea",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 116.1,
+    "length_changed": false,
+    "triangles": 1276,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item317_above.png",
+    "low": "review/revised/item317_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item317_export.glb",
+    "validation": {
+      "sha256": "947e6655d341480eba1231628217d366da43a6a04e72b46e645780f4f35575d4",
+      "triangles": 1276,
+      "vertices": 2655,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.8907495737075806,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 5,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item319",
+    "name": "Ground Wyvern Horn",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual boarded box; matching painted stencil or distinct open contents.",
+    "length": 116.1,
+    "length_changed": false,
+    "triangles": 1704,
+    "comparison": "review/comparison_06.jpg",
+    "above": "review/revised/item319_above.png",
+    "low": "review/revised/item319_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item319_export.glb",
+    "validation": {
+      "sha256": "4c64e5363a7b0ca41287e9cfa840dad876645cd34e56e57005a9f121d0cd2185",
+      "triangles": 1704,
+      "vertices": 3026,
+      "bounds_gltf": [
+        [
+          -0.39750000834465027,
+          0.0,
+          -0.4975000023841858
+        ],
+        [
+          0.39750000834465027,
+          0.9299999475479126,
+          0.4975000023841858
+        ]
+      ],
+      "materials": 5,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item326",
+    "name": "Horseshoe",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Actual open/closed metal loop; horseshoes have flat stock and nail holes.",
+    "length": 36.9,
+    "length_changed": false,
+    "triangles": 324,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/item326_above.png",
+    "low": "review/revised/item326_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item326_export.glb",
+    "validation": {
+      "sha256": "4026d74c252ba54e62c37f7f3d2745794a7ad9df15ecbaffcfcf963329b4270c",
+      "triangles": 324,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.3546455502510071,
+          0.0,
+          -0.47921621799468994
+        ],
+        [
+          0.3546455502510071,
+          0.03463999927043915,
+          0.47921621799468994
+        ]
+      ],
+      "materials": 2,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item327",
+    "name": "Enchanted Amulet",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Thin jewel-set amulet; retain the source setting and stone arrangement.",
+    "length": 49.5,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/baseline/item327_above.png",
+    "low": "review/baseline/item327_low.png"
+  },
+  {
+    "icon": "item329",
+    "name": "Green Apple",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Full fruit/pod shape with appropriate surface, stalk or leaves.",
+    "length": 25.7,
+    "length_changed": false,
+    "triangles": 208,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/item329_above.png",
+    "low": "review/revised/item329_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item329_export.glb",
+    "validation": {
+      "sha256": "04eca9636353942ff224dedb8f2d982646c4b3471e4b002c583972bf94802d01",
+      "triangles": 208,
+      "vertices": 166,
+      "bounds_gltf": [
+        [
+          -0.4099999964237213,
+          0.0,
+          -0.4099999964237213
+        ],
+        [
+          0.4099999964237213,
+          0.683570384979248,
+          0.4099999964237213
+        ]
+      ],
+      "materials": 2,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item366",
+    "name": "Gem of Restoration",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Real faceted gemstone cut; dielectric material, no unnecessary texture.",
+    "length": 27.0,
+    "length_changed": false,
+    "triangles": 8,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/item366_above.png",
+    "low": "review/revised/item366_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item366_export.glb",
+    "validation": {
+      "sha256": "3f089ccde20de71df83123712d9eefc0679894830002ca00a4634f4d9841f0e8",
+      "triangles": 8,
+      "vertices": 24,
+      "bounds_gltf": [
+        [
+          -0.3199999928474426,
+          0.0,
+          -0.3199999928474426
+        ],
+        [
+          0.3199999928474426,
+          0.47999998927116394,
+          0.3199999928474426
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item376",
+    "name": "Cannonball of Dominion",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 57.6,
+    "length_changed": false,
+    "triangles": 964,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/item376_above.png",
+    "low": "review/revised/item376_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item376_export.glb",
+    "validation": {
+      "sha256": "1bdcb2fc43c74fac2446b40815965decadc8fe5f0d1e6f049cf25692939734a6",
+      "triangles": 964,
+      "vertices": 608,
+      "bounds_gltf": [
+        [
+          -0.44999998807907104,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.44999998807907104,
+          0.9089493751525879,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "jewelegg",
+    "name": "Jeweled Egg",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 45.0,
+    "length_changed": false,
+    "triangles": 584,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/jewelegg_above.png",
+    "low": "review/revised/jewelegg_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_jewelegg_export.glb",
+    "validation": {
+      "sha256": "115bb5a2d63d5a0cb83f89511fbbc9c8d7218b0cfade57dc8202b69bbc2ccb26",
+      "triangles": 584,
+      "vertices": 401,
+      "bounds_gltf": [
+        [
+          -0.46000000834465027,
+          0.0,
+          -0.550000011920929
+        ],
+        [
+          0.46000000834465027,
+          0.6579639911651611,
+          0.550000011920929
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "keg",
+    "name": "Keg of Wine",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Barrel volume, separate hoops/end faces and tap.",
+    "length": 70.7,
+    "length_changed": false,
+    "triangles": 1352,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/keg_above.png",
+    "low": "review/revised/keg_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_keg_export.glb",
+    "validation": {
+      "sha256": "9d1eaa915bec94276087d962c26292ab3bb46d4499ce151359aaea9b09a09fb8",
+      "triangles": 1352,
+      "vertices": 929,
+      "bounds_gltf": [
+        [
+          -0.41499999165534973,
+          0.0,
+          -0.6021267771720886
+        ],
+        [
+          0.41499999165534973,
+          0.8299999833106995,
+          0.6021267771720886
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "keyring",
+    "name": "Dragon Tower Keys",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Flat spread of distinct keys and loop; retain identity.",
+    "length": 67.5,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/baseline/keyring_above.png",
+    "low": "review/baseline/keyring_low.png"
+  },
+  {
+    "icon": "keys2",
+    "name": "Key to Snergle's Chambers",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Flat key with distinctive bit and bow; retain outline.",
+    "length": 39.6,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/baseline/keys2_above.png",
+    "low": "review/baseline/keys2_low.png"
+  },
+  {
+    "icon": "lockpick",
+    "name": "Lock Pick",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 83.7,
+    "length_changed": false,
+    "triangles": 3199,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/lockpick_above.png",
+    "low": "review/revised/lockpick_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_lockpick_export.glb",
+    "validation": {
+      "sha256": "1cd927a6ff807f1d010e59bd7880a56bddf984bd46d6290171d70db8a1e9468c",
+      "triangles": 3199,
+      "vertices": 4211,
+      "bounds_gltf": [
+        [
+          -0.2808193564414978,
+          0.0,
+          -0.5
+        ],
+        [
+          0.2808193564414978,
+          0.42766273021698,
+          0.5
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "memcryst",
+    "name": "Memory Crystal Alpha",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "HD master, Meshy Smart Topology, six painted views baked into PBR maps; sculptural identity retained.",
+    "length": 62.6,
+    "length_changed": false,
+    "triangles": 3200,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/memcryst_above.png",
+    "low": "review/revised/memcryst_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_memcryst_export.glb",
+    "validation": {
+      "sha256": "b42b565523b4d64b7f049bb1d8f02e9132e17edb160117ecbd13f2633100f362",
+      "triangles": 3200,
+      "vertices": 2857,
+      "bounds_gltf": [
+        [
+          -0.4888930320739746,
+          0.0,
+          -0.49975067377090454
+        ],
+        [
+          0.4888930320739746,
+          0.6836557388305664,
+          0.49975067377090454
+        ]
+      ],
+      "materials": 1,
+      "textures": 3,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    },
+    "route": "HD master + Meshy Smart Topology + painted-view PBR",
+    "meshy_credits": 5
+  },
+  {
+    "icon": "pyramid",
+    "name": "Golden Pyramid",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Regular manufactured prop with separate parts and UV-painted material detail.",
+    "length": 58.5,
+    "length_changed": false,
+    "triangles": 78,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/pyramid_above.png",
+    "low": "review/revised/pyramid_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_pyramid_export.glb",
+    "validation": {
+      "sha256": "56b28026b19a684bf1aa49764e6622735ba48fa95d06184708ae205dace7667e",
+      "triangles": 78,
+      "vertices": 160,
+      "bounds_gltf": [
+        [
+          -0.5,
+          0.0,
+          -0.5
+        ],
+        [
+          0.5,
+          0.6499999761581421,
+          0.5
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "rope",
+    "name": "Rope",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Three-strand twisted hemp coils, not a flat rope painting.",
+    "length": 55.8,
+    "length_changed": false,
+    "triangles": 2348,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/rope_above.png",
+    "low": "review/revised/rope_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_rope_export.glb",
+    "validation": {
+      "sha256": "86fd0f55a626c99d3566f2bf149867ca0d57b90b9d604f6c9975271bffd3788b",
+      "triangles": 2348,
+      "vertices": 1516,
+      "bounds_gltf": [
+        [
+          -0.40935271978378296,
+          0.0,
+          -0.4832218885421753
+        ],
+        [
+          0.40935271978378296,
+          0.1770000010728836,
+          0.4832218885421753
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "shard",
+    "name": "Crystal of Terrax",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Real faceted gemstone cut; dielectric material, no unnecessary texture.",
+    "length": 35.1,
+    "length_changed": false,
+    "triangles": 8,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/shard_above.png",
+    "low": "review/revised/shard_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_shard_export.glb",
+    "validation": {
+      "sha256": "bed57bf4fc2d12af3ff6350601537ccefc3c1fd857d148475428efcfc537ef1a",
+      "triangles": 8,
+      "vertices": 24,
+      "bounds_gltf": [
+        [
+          -0.23999999463558197,
+          0.0,
+          -0.550000011920929
+        ],
+        [
+          0.23999999463558197,
+          0.47999998927116394,
+          0.550000011920929
+        ]
+      ],
+      "materials": 1,
+      "textures": 0,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "shovel",
+    "name": "Shovel",
+    "family": "misc",
+    "status": "keep",
+    "reason": "Thin blade with narrow shaft already reads as a ground tool.",
+    "length": 96.8,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/baseline/shovel_above.png",
+    "low": "review/baseline/shovel_low.png"
+  },
+  {
+    "icon": "stone",
+    "name": "Lodestone",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Irregular stone or a glassy faceted shard cluster matching its icon kind.",
+    "length": 56.7,
+    "length_changed": false,
+    "triangles": 80,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/stone_above.png",
+    "low": "review/revised/stone_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_stone_export.glb",
+    "validation": {
+      "sha256": "83e9fb01d43ca32c74e3912b67430fcf61d729ffdac562666d76e9f124cc069a",
+      "triangles": 80,
+      "vertices": 240,
+      "bounds_gltf": [
+        [
+          -0.44843876361846924,
+          0.0,
+          -0.5058383941650391
+        ],
+        [
+          0.44843876361846924,
+          0.612678050994873,
+          0.5058383941650391
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "tarot",
+    "name": "Deck of Fate",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Separate overlapping cards with painted face/back panels.",
+    "length": 46.8,
+    "length_changed": false,
+    "triangles": 138,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/tarot_above.png",
+    "low": "review/revised/tarot_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_tarot_export.glb",
+    "validation": {
+      "sha256": "6657b613eba4db5fa15048734ac9574347583ef7d9cee300a335b769d160b7d8",
+      "triangles": 138,
+      "vertices": 308,
+      "bounds_gltf": [
+        [
+          -0.37423020601272583,
+          0.0,
+          -0.4727270305156708
+        ],
+        [
+          0.37423020601272583,
+          0.0729999989271164,
+          0.4727270305156708
+        ]
+      ],
+      "materials": 2,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "wytprl",
+    "name": "Large Round Crystal",
+    "family": "misc",
+    "status": "replaced",
+    "reason": "Rounded full volume, with material painting where the source calls for it.",
+    "length": 32.4,
+    "length_changed": false,
+    "triangles": 524,
+    "comparison": "review/comparison_07.jpg",
+    "above": "review/revised/wytprl_above.png",
+    "low": "review/revised/wytprl_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_wytprl_export.glb",
+    "validation": {
+      "sha256": "ebec74defe5570b8f561ca44c093607db865f67611b7d2433958d30ff2a7c0e1",
+      "triangles": 524,
+      "vertices": 323,
+      "bounds_gltf": [
+        [
+          -0.44999998807907104,
+          0.0,
+          -0.44999998807907104
+        ],
+        [
+          0.44999998807907104,
+          0.8998987674713135,
+          0.44999998807907104
+        ]
+      ],
+      "materials": 1,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item183",
+    "name": "Incinerate",
+    "family": "scrolls",
+    "status": "replaced",
+    "reason": "Rolled parchment, end spirals, band/tails, per-icon end furniture.",
+    "length": 57.6,
+    "length_changed": false,
+    "triangles": 1996,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/revised/7item183_above.png",
+    "low": "review/revised/7item183_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item183_export.glb",
+    "validation": {
+      "sha256": "47eb30cd48b25f3caf30180762f5c42122e2763eaaa9bdd6b7582a17ad622da2",
+      "triangles": 1996,
+      "vertices": 1641,
+      "bounds_gltf": [
+        [
+          -0.12399999797344208,
+          0.0,
+          -0.6282787919044495
+        ],
+        [
+          0.12399999797344208,
+          0.26799798011779785,
+          0.6282787919044495
+        ]
+      ],
+      "materials": 5,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item184",
+    "name": "Torch Light",
+    "family": "scrolls",
+    "status": "replaced",
+    "reason": "Rolled parchment, end spirals, band/tails, per-icon end furniture.",
+    "length": 57.1,
+    "length_changed": false,
+    "triangles": 1868,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/revised/7item184_above.png",
+    "low": "review/revised/7item184_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item184_export.glb",
+    "validation": {
+      "sha256": "1e2596e80ad7485653c275ef7419ecacdefba65424c792ed2c5a670b7d3406c2",
+      "triangles": 1868,
+      "vertices": 1441,
+      "bounds_gltf": [
+        [
+          -0.12399999797344208,
+          0.0,
+          -0.5239999890327454
+        ],
+        [
+          0.12399999797344208,
+          0.26799798011779785,
+          0.5239999890327454
+        ]
+      ],
+      "materials": 3,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item185",
+    "name": "Haste",
+    "family": "scrolls",
+    "status": "replaced",
+    "reason": "Rolled parchment, end spirals, band/tails, per-icon end furniture.",
+    "length": 57.6,
+    "length_changed": false,
+    "triangles": 1996,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/revised/7item185_above.png",
+    "low": "review/revised/7item185_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item185_export.glb",
+    "validation": {
+      "sha256": "3e89928d6307965ffc9409018be9b4594ad3f424854ac752d0d634ad2fa8c9c4",
+      "triangles": 1996,
+      "vertices": 1641,
+      "bounds_gltf": [
+        [
+          -0.12399999797344208,
+          0.0,
+          -0.6282787919044495
+        ],
+        [
+          0.12399999797344208,
+          0.26799798011779785,
+          0.6282787919044495
+        ]
+      ],
+      "materials": 4,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item186",
+    "name": "Immolation",
+    "family": "scrolls",
+    "status": "replaced",
+    "reason": "Rolled parchment, end spirals, band/tails, per-icon end furniture.",
+    "length": 57.6,
+    "length_changed": false,
+    "triangles": 1996,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/revised/7item186_above.png",
+    "low": "review/revised/7item186_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_7item186_export.glb",
+    "validation": {
+      "sha256": "5d26014555269ef68d675d5f5f49e44fe44aa0197f32d14fb0e9ce6f5b221bcc",
+      "triangles": 1996,
+      "vertices": 1641,
+      "bounds_gltf": [
+        [
+          -0.12399999797344208,
+          0.0,
+          -0.6282787919044495
+        ],
+        [
+          0.12399999797344208,
+          0.26799798011779785,
+          0.6282787919044495
+        ]
+      ],
+      "materials": 5,
+      "textures": 2,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "7item251",
+    "name": "Letter for YOU.",
+    "family": "scrolls",
+    "status": "keep",
+    "reason": "Suitable thin parchment/letter relief; source ink, curled edges or seal retained.",
+    "length": 54.9,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/baseline/7item251_above.png",
+    "low": "review/baseline/7item251_low.png"
+  },
+  {
+    "icon": "item199",
+    "name": "Torch Light",
+    "family": "scrolls",
+    "status": "replaced",
+    "reason": "Rolled parchment, end spirals, band/tails, per-icon end furniture.",
+    "length": 62.6,
+    "length_changed": false,
+    "triangles": 1868,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/revised/item199_above.png",
+    "low": "review/revised/item199_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item199_export.glb",
+    "validation": {
+      "sha256": "d88add42448d9801bfddf5e76f2551f1d98d586967530fd51e793c7b990e91a5",
+      "triangles": 1868,
+      "vertices": 1441,
+      "bounds_gltf": [
+        [
+          -0.12399999797344208,
+          0.0,
+          -0.5239999890327454
+        ],
+        [
+          0.12399999797344208,
+          0.26799798011779785,
+          0.5239999890327454
+        ]
+      ],
+      "materials": 4,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item200",
+    "name": "Haste",
+    "family": "scrolls",
+    "status": "replaced",
+    "reason": "Rolled parchment, end spirals, band/tails, per-icon end furniture.",
+    "length": 61.6,
+    "length_changed": false,
+    "triangles": 2016,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/revised/item200_above.png",
+    "low": "review/revised/item200_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item200_export.glb",
+    "validation": {
+      "sha256": "aee61e082f2b5920e5973028332a08ed759b49390078de2636ef23f13fb381e7",
+      "triangles": 2016,
+      "vertices": 1663,
+      "bounds_gltf": [
+        [
+          -0.12399999797344208,
+          0.0,
+          -0.6282787919044495
+        ],
+        [
+          0.12399999797344208,
+          0.28299999237060547,
+          0.6282787919044495
+        ]
+      ],
+      "materials": 5,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item201",
+    "name": "Incinerate",
+    "family": "scrolls",
+    "status": "replaced",
+    "reason": "Rolled parchment, end spirals, band/tails, per-icon end furniture.",
+    "length": 59.9,
+    "length_changed": false,
+    "triangles": 2036,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/revised/item201_above.png",
+    "low": "review/revised/item201_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item201_export.glb",
+    "validation": {
+      "sha256": "a25f3f49ba9c895a04e90a149efe499a0a83955cf1b35c29b0d0c40817f50392",
+      "triangles": 2036,
+      "vertices": 1705,
+      "bounds_gltf": [
+        [
+          -0.12399999797344208,
+          0.0,
+          -0.6282787919044495
+        ],
+        [
+          0.12399999797344208,
+          0.26799798011779785,
+          0.6282787919044495
+        ]
+      ],
+      "materials": 4,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item202",
+    "name": "Immolation",
+    "family": "scrolls",
+    "status": "replaced",
+    "reason": "Rolled parchment, end spirals, band/tails, per-icon end furniture.",
+    "length": 62.1,
+    "length_changed": false,
+    "triangles": 2016,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/revised/item202_above.png",
+    "low": "review/revised/item202_low.png",
+    "export": "level_generation/props/items_wip_props/work/exports/props_item202_export.glb",
+    "validation": {
+      "sha256": "6c608ee0cb246fa4c88dd221118f88a5cc5bd0efa0a55f1c58e77d3c794f6cff",
+      "triangles": 2016,
+      "vertices": 1663,
+      "bounds_gltf": [
+        [
+          -0.12399999797344208,
+          0.0,
+          -0.6282787919044495
+        ],
+        [
+          0.12399999797344208,
+          0.28299999237060547,
+          0.6282787919044495
+        ]
+      ],
+      "materials": 5,
+      "textures": 1,
+      "winding_inverted": 0,
+      "uv_range_valid": true,
+      "grounded_centred": true,
+      "triangles_degenerate": 0,
+      "texture_references_valid": true
+    }
+  },
+  {
+    "icon": "item264",
+    "name": "Dadeross' Letter to Fellmoon",
+    "family": "scrolls",
+    "status": "keep",
+    "reason": "Suitable thin parchment/letter relief; source ink, curled edges or seal retained.",
+    "length": 60.3,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/baseline/item264_above.png",
+    "low": "review/baseline/item264_low.png"
+  },
+  {
+    "icon": "item265",
+    "name": "Blackmail Letter",
+    "family": "scrolls",
+    "status": "keep",
+    "reason": "Suitable thin parchment/letter relief; source ink, curled edges or seal retained.",
+    "length": 59.4,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/baseline/item265_above.png",
+    "low": "review/baseline/item265_low.png"
+  },
+  {
+    "icon": "scroll1",
+    "name": "Torch Light",
+    "family": "scrolls",
+    "status": "keep",
+    "reason": "Suitable thin parchment/letter relief; source ink, curled edges or seal retained.",
+    "length": 60.3,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/baseline/scroll1_above.png",
+    "low": "review/baseline/scroll1_low.png"
+  },
+  {
+    "icon": "scroll2",
+    "name": "Fire Resistance",
+    "family": "scrolls",
+    "status": "keep",
+    "reason": "Suitable thin parchment/letter relief; source ink, curled edges or seal retained.",
+    "length": 59.0,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/baseline/scroll2_above.png",
+    "low": "review/baseline/scroll2_low.png"
+  },
+  {
+    "icon": "scroll3",
+    "name": "Haste",
+    "family": "scrolls",
+    "status": "keep",
+    "reason": "Suitable thin parchment/letter relief; source ink, curled edges or seal retained.",
+    "length": 63.0,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/baseline/scroll3_above.png",
+    "low": "review/baseline/scroll3_low.png"
+  },
+  {
+    "icon": "scroll4",
+    "name": "Immolation",
+    "family": "scrolls",
+    "status": "keep",
+    "reason": "Suitable thin parchment/letter relief; source ink, curled edges or seal retained.",
+    "length": 64.4,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/baseline/scroll4_above.png",
+    "low": "review/baseline/scroll4_low.png"
+  },
+  {
+    "icon": "scroll5",
+    "name": "Name of Message",
+    "family": "scrolls",
+    "status": "keep",
+    "reason": "Suitable thin parchment/letter relief; source ink, curled edges or seal retained.",
+    "length": 64.4,
+    "length_changed": false,
+    "triangles": null,
+    "comparison": "review/comparison_08.jpg",
+    "above": "review/baseline/scroll5_above.png",
+    "low": "review/baseline/scroll5_low.png"
+  }
+]

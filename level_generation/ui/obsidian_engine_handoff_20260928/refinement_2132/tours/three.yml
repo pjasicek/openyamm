@@ -1,0 +1,26 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_engine_handoff_20260928/refinement_party_basebar/images
+exit: true
+steps:
+- wait: 2
+- right_down:
+  - 1575
+  - 298
+- click:
+  - 1575
+  - 298
+- right_up:
+  - 1575
+  - 298
+- capture: three-gameplay
+- wait: 0.5
+- right_down:
+  - 252
+  - 112
+- capture: levitate-inspect
+- wait: 0.5
+- right_up:
+  - 252
+  - 112
+- action: quest
+- capture: three-inventory
+- wait: 0.5

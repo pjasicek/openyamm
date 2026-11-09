@@ -1,0 +1,23 @@
+{
+  "terrain_size": 512,
+  "terrain_tier": "x4",
+  "other_asset_tiers": "x1",
+  "stage": "/tmp/openyamm-sorpigal-terrain-master-study/v1",
+  "replacements": {
+    "6grastyl": "grass",
+    "6dirttyl": "dirt",
+    "6voltyl": "volcano",
+    "6drsrecap": "cobbles",
+    "6drsrew": "cobbles",
+    "6drsrew_s": "cobbles",
+    "6drsrn_e": "cobbles",
+    "6drsrn_w": "cobbles",
+    "6drsrns": "cobbles",
+    "6drsrs_e": "cobbles",
+    "6drsrs_w": "cobbles",
+    "6drsrwcap": "cobbles"
+  },
+  "road_status": "Full-tile paving swatches: original road boundaries are NOT reconstructed.",
+  "mixed_tiles": "Original native artwork, nearest resized; masks deferred.",
+  "water": "Original x1 frame appearance, nearest resized; no generated water."
+}

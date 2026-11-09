@@ -1,0 +1,169 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "noncompliant_returns_preserved_unmodified",
+  "accepted": false,
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Produce exactly one 1024 x 1024 RGBA transparent PNG, a FRONT orthographic albedo texture-source painting for the Wire scrub thicket. Input 1 guide_front.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is ONLY the colour/material reference, never geometry or camera reference. Paint directly over the exact grey guide surfaces: preserve its pixel silhouette, alpha outline, all openings, every angular shape edge, placement, size, and front orthographic camera EXACTLY. Keep all existing broad triangular ribbon-like faces, spikes and overlaps in their original positions; do not replace the mesh geometry with round branches from the reference. Nothing may be added outside the guide silhouette, nothing cropped or moved, no new holes. Apply matte charcoal-black woody wire-stem surface material, subtle dark wood grain, rust-red thorn tips, and grey ash tufts and ash at the foot wherever supported by the guide surfaces. The material identity and restrained colours must match design_reference.png. This is ALBEDO: even flat shadowless viewer lighting, no cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Use material colour to distinguish surfaces, without shaded recesses. No orange glowing sacs or new objects; those are not present in this reference. Fully transparent background, no floor, no backdrop, no text. Retain the guide's exact 1024x1024 framing and pixel occupancy (object bounds approximately x66..957, y259..764). Return the image at 1024x1024 without reframing or resizing.",
+      "selected": false,
+      "reason": "Superseded by sole corrective regeneration: wrong native dimensions, guide alpha not preserved, excessive rusty orange edging.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c2f760e4b4fa5ff8a1df23fddeb4674118b16de745c07945a8925f9f906d4308"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        }
+      ],
+      "original_output": "/home/pjasicek/.codex/generated_images/01a1604a-4468-79a3-926a-cfa2054efff9/exec-f86c157e-7721-4d20-88dd-1f5d7cb8a3ef.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1604a-4468-79a3-926a-cfa2054efff9/exec-f86c157e-7721-4d20-88dd-1f5d7cb8a3ef.png",
+      "output_sha256": "18dc6d37dc72a60fe58d4d724d78cc7ee2943d2ffc9812d1ef5f677f99ac1887",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          20,
+          1234,
+          1254
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_pass": false,
+        "materials_visual": "Charcoal wood grain, rust-red tips/edges and grey ash markings present; rust extends onto some broad faces.",
+        "flat_light_visual": "No cast floor shadow or strong specular highlights; residual dark separation between overlapping faces remains.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Edit ONLY the surface colour of the attached guide_top.png. Output a native 1024 x 1024 PNG with true transparent background; no resizing, no margin changes. Use case: precise-object-edit. Input 1 is the exact TOP orthographic geometry guide and edit target; Input 2 design_reference.png supplies only materials and colours. Preserve the guide exactly pixel-for-pixel in silhouette and geometry: every outer edge, opening, angular triangular face, overlapping ribbon and spike, with identical size, position and orthographic top-down camera. Keep the broad polygonal shapes; do not reconstruct the round branches of the design image. Texture the guide's existing surfaces with matte charcoal-black woody wire-stem material and restrained rust-red thorn tips; grey ash tufts and ash where supported by surfaces at the foot. No added geometry, no new branches or holes, no external ash tufts, no crop. This is an albedo texture source: evenly lit, flat shadowless viewer illumination, no ambient occlusion, no cast shadows, no dark shading at intersections, no specular highlights, reflections or rim light. Painted material colours only. No floor, no background, no text or border. The object's exact original bounds are x66..957 and y79..943 on the fixed 1024x1024 guide. Preserve the original transparent alpha mask, even at the smallest shape edges and internal holes. Do not borrow the reference's lighting or camera.",
+      "selected": false,
+      "reason": "Superseded by sole corrective regeneration: wrong native dimensions, guide alpha not preserved, excessive rust coverage.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "66cbb971918e88f03921f31b73d5c59286cc536c17423ea1e331869dbd967982"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        }
+      ],
+      "original_output": "/home/pjasicek/.codex/generated_images/01a1604a-4468-79a3-926a-cfa2054efff9/exec-a22afdef-9830-4b91-a538-c8057f41f692.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1604a-4468-79a3-926a-cfa2054efff9/exec-a22afdef-9830-4b91-a538-c8057f41f692.png",
+      "output_sha256": "2aea962c9fddfe73e9299748d280d4c01ef82741dfc7d0fda906cb0cb4ddded0",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          9,
+          1238,
+          1254
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_pass": false,
+        "materials_visual": "Charcoal wood grain, rust-red tips/edges and grey ash markings present; rust extends onto some broad faces.",
+        "flat_light_visual": "No cast floor shadow or strong specular highlights; residual dark separation between overlapping faces remains.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Produce exactly one 1024 x 1024 RGBA transparent PNG, a FRONT orthographic albedo texture-source painting for the Wire scrub thicket. Input 1 guide_front.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is ONLY the colour/material reference, never geometry or camera reference. Paint directly over the exact grey guide surfaces: preserve its pixel silhouette, alpha outline, all openings, every angular shape edge, placement, size, and front orthographic camera EXACTLY. Keep all existing broad triangular ribbon-like faces, spikes and overlaps in their original positions; do not replace the mesh geometry with round branches from the reference. Nothing may be added outside the guide silhouette, nothing cropped or moved, no new holes. Apply matte charcoal-black woody wire-stem surface material, subtle dark wood grain, rust-red thorn tips, and grey ash tufts and ash at the foot wherever supported by the guide surfaces. The material identity and restrained colours must match design_reference.png. This is ALBEDO: even flat shadowless viewer lighting, no cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Use material colour to distinguish surfaces, without shaded recesses. No orange glowing sacs or new objects; those are not present in this reference. Fully transparent background, no floor, no backdrop, no text. Retain the guide's exact 1024x1024 framing and pixel occupancy (object bounds approximately x66..957, y259..764). Return the image at 1024x1024 without reframing or resizing.\nCORRECTIVE REGENERATION (the sole correction allowed): The previous return was incorrectly 1254x1254 and did not retain the exact guide alpha. Required actual output file dimensions are 1024x1024, not merely a square composition. Start from the attached 1024x1024 guide_front.png, keep its canvas and its alpha channel untouched, and replace only RGB inside the existing visible surfaces. No alpha outside the guide whatsoever. Match all silhouette pixels and interior openings exactly. The first image is the authoritative edit target. Tone down bright rusty orange edges to muted rust-red tips only; matte surface, no glowing edging. Preserve angular geometry exactly. Do not upscale the output.",
+      "selected": true,
+      "reason": "Best available front return, improved muted materials. Saved unchanged as requested, but fails exact dimensions and silhouette requirements; correction allowance exhausted.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c2f760e4b4fa5ff8a1df23fddeb4674118b16de745c07945a8925f9f906d4308"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        }
+      ],
+      "original_output": "/home/pjasicek/.codex/generated_images/01a1604a-4468-79a3-926a-cfa2054efff9/exec-f33039e7-f6da-4f29-af6f-923ce8e6475a.png",
+      "output": "paint_front.png",
+      "output_sha256": "b96bcbbb1fa8075f75eea15401c62395d7698be8152e84c5c5b8ee1bb5af294c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          31,
+          31,
+          1234,
+          1220
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_pass": false,
+        "materials_visual": "Charcoal wood grain, rust-red tips/edges and grey ash markings present; rust extends onto some broad faces.",
+        "flat_light_visual": "No cast floor shadow or strong specular highlights; residual dark separation between overlapping faces remains.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Edit ONLY the surface colour of the attached guide_top.png. Output a native 1024 x 1024 PNG with true transparent background; no resizing, no margin changes. Use case: precise-object-edit. Input 1 is the exact TOP orthographic geometry guide and edit target; Input 2 design_reference.png supplies only materials and colours. Preserve the guide exactly pixel-for-pixel in silhouette and geometry: every outer edge, opening, angular triangular face, overlapping ribbon and spike, with identical size, position and orthographic top-down camera. Keep the broad polygonal shapes; do not reconstruct the round branches of the design image. Texture the guide's existing surfaces with matte charcoal-black woody wire-stem material and restrained rust-red thorn tips; grey ash tufts and ash where supported by surfaces at the foot. No added geometry, no new branches or holes, no external ash tufts, no crop. This is an albedo texture source: evenly lit, flat shadowless viewer illumination, no ambient occlusion, no cast shadows, no dark shading at intersections, no specular highlights, reflections or rim light. Painted material colours only. No floor, no background, no text or border. The object's exact original bounds are x66..957 and y79..943 on the fixed 1024x1024 guide. Preserve the original transparent alpha mask, even at the smallest shape edges and internal holes. Do not borrow the reference's lighting or camera.\nCORRECTIVE REGENERATION (the sole correction allowed): Prior output was 1254x1254, which is wrong. The actual native PNG must be 1024x1024 pixels. Edit the supplied 1024x1024 guide_top.png in place, keeping its canvas and original alpha exactly, painting RGB only. Pixel-exact guide edges and internal holes are mandatory; no faint alpha noise outside the guide. Preserve all broad flat angular mesh faces and their locations, no invented branches. Muted rust-red thorn tips only, reduce orange saturation and coverage on large faces. Matte charcoal black wood and ash-grey tuft markings, flat even albedo with no lighting gradients, no shadows between layers, no rim highlights. Do not upscale or reframe.",
+      "selected": true,
+      "reason": "Best available top return, reduced saturated rust and improved ash markings. Saved unchanged as requested, but fails exact dimensions and silhouette requirements; correction allowance exhausted.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "66cbb971918e88f03921f31b73d5c59286cc536c17423ea1e331869dbd967982"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e190e0ad54c5ad80f40889919cbead1e40547524dff5134f337757071796d42d"
+        }
+      ],
+      "original_output": "/home/pjasicek/.codex/generated_images/01a1604a-4468-79a3-926a-cfa2054efff9/exec-f96dee0c-4e0b-4149-94c9-632838fd3fdd.png",
+      "output": "paint_top.png",
+      "output_sha256": "3da50422c5c959da6fe70ee1eb857b4391cac142a73e78b6e6ae09db93a530fc",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          17,
+          1240,
+          1234
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_pass": false,
+        "materials_visual": "Charcoal wood grain, rust-red tips/edges and grey ash markings present; rust extends onto some broad faces.",
+        "flat_light_visual": "No cast floor shadow or strong specular highlights; residual dark separation between overlapping faces remains.",
+        "accepted": false
+      }
+    }
+  ]
+}

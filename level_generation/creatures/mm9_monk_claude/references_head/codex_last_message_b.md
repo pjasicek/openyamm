@@ -1,0 +1,3 @@
+Saved all five tier B PNGs in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_monk_claude/references_head), with raw attempts in `raw/` and prompts/checks in `generation_runs_b.json`. Used the built-in image tool; all returns are unresized, transparent 1254×1254.
+
+**Limitation:** geometry still drifts after one correction per view, so the pixel-for-pixel requirement is unmet. No builds, Meshy, or projection checks performed.

@@ -1,0 +1,373 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen.imagegen",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "transparent_background_requested": true,
+  "status": "generation_finished_with_failed_validation",
+  "brief_compliant": false,
+  "selection_meaning": "Selected means the preferred available raw return, not acceptance as brief-compliant.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "postprocessing": "None. All four returned PNG files were copied byte-for-byte without resizing, cropping, alpha replacement or other edits.",
+  "limitation": "All four native returns are 1254x1254 despite repeated explicit 1024x1024 requests. Exact guide silhouettes and fully flat lighting were not achieved within the permitted attempts.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "corrective": false,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 1024 x 1024 transparent texture-source albedo painting for a 3D decoration, LEFT orthographic view.\nInput 1 guide_left.png is the EDIT TARGET and the absolute geometry/layout authority. Input 2 design_reference.png is the approved material/color/design reference ONLY; its camera, silhouette, lighting and background must not transfer. Input 3 concept_crop.png is supporting original concept ONLY.\n\nPaint the surface materials onto the existing gray object in Input 1, keeping its original 1024 x 1024 canvas. Do not redraw, rearrange or recompose the geometry. Retain EXACTLY the target's alpha silhouette, outline, size, position, every shape edge, point, opening and detail. Its existing object occupies x=66 through 957 and y=232 through 791 inclusive; preserve all original transparent margins. Every existing jagged lower edge is part of the fixed mesh. No new shapes, protrusions, branches, thorns or floating debris. Nothing added outside the silhouette, nothing cropped. Camera remains the guide's LEFT orthographic side view.\n\nApply the approved reference's chipped ivory-white ceramic blocks with gold edges, dark narrow mechanical joints, glossy black-violet resin and bright orange veins/sacs within the existing shapes. Broad solid block faces are ivory ceramic with gold exposed chipped edges; the guide's branching angular structures are black-violet resin. Surface cracks may be painted within the faces without moving geometry. The existing top socket is flat dark resin. Translate the reference materials to this exact side of the exact model; do not show the turret above the mount.\n\nLIGHTING IS STRICTLY ALBEDO: even, flat, shadowless illumination directly from the viewer. Uniform readable material colors across faces. No cast shadows, no ambient-occlusion darkening, no directional gradients, no strong specular highlights or reflections, no rim light. Express resin through its deep black-violet material color and restrained texture, without baking dramatic gloss lighting. Paint glowing orange sacs and veins at bright orange emissive color, with no bloom, halos or light cast on nearby materials. No background, no floor, no ground plane, no shadow catcher, no text.\nReturn one PNG at exactly 1024 x 1024 with a genuinely transparent background and the guide's original alpha silhouette. Do not resize the return.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/guide_left.png",
+          "role": "edit target and exact geometry authority",
+          "sha256": "3212f60458819289322972488662983c1a59b984861a9bf563d812064c03deaf"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/design_reference.png",
+          "role": "approved material and color reference",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/concept_crop.png",
+          "role": "original concept reference",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a168ac-56d8-7fa3-9991-29397bec1143/exec-1efb5276-e028-42a5-94a0-038c9028d4f3.png",
+      "output_sha256": "ceffcb5758d9b4ebf9539d55a5b8eb831662b163c87fc4d6904cc5cd4f083a56",
+      "selected": false,
+      "reason": "Rejected in favor of the corrective attempt: wrong native size, altered guide edges and strong gloss highlights.",
+      "brief_compliant": false,
+      "checks": {
+        "size": {
+          "pass": false,
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette": {
+          "pass": false,
+          "guide_alpha_bbox": [
+            66,
+            232,
+            958,
+            792
+          ],
+          "output_alpha_bbox": [
+            31,
+            19,
+            1234,
+            1254
+          ],
+          "output_alpha_ge_128_bbox": [
+            79,
+            279,
+            1174,
+            973
+          ],
+          "reason": "Output canvas differs from the guide; original pixel silhouette cannot be identical. Visual inspection also shows changed shape edges and low-alpha stray pixels beyond the main object."
+        },
+        "materials_and_colours": {
+          "pass": true,
+          "method": "Visual inspection",
+          "note": "Ivory ceramic, gold edges, black-violet resin and orange veins/sacs are present. Geometry and lighting checks fail separately."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "method": "Visual inspection",
+          "note": "Strong highlights and dark shading remain; not flat albedo."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "note": "Actual RGBA transparency is present; background is not a baked solid color. Low-alpha stray pixels and silhouette mismatch are recorded under silhouette."
+        },
+        "unresized_return": {
+          "pass": true,
+          "method": "Byte-for-byte equality verified between tool return and saved PNG."
+        }
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "EDIT INPUT IMAGE 1 IN PLACE. Output exactly 1024x1024 pixels, native resolution, matching this input canvas. This is a texture albedo painting operation, not a new concept illustration.\n\nInput 1: guide_left.png, the exact 1024x1024 edit target. Its original transparency, camera, layout and ALL geometric features must remain fixed.\nInput 2: design_reference.png, a material COLOR reference only.\nInput 3: concept_crop.png, supporting concept only.\nInput 4: prior generated LEFT painting, a rejected attempt. It was the wrong pixel dimensions, changed shape edges, and used shiny highlights. Use it only to understand the materials to flatten; do not inherit its size, geometry, highlights or shading.\n\nCORRECTIVE REQUEST: Paint directly on Input 1's gray pixels, preserving its original alpha mask pixel for pixel. Keep the precise outline and all existing internal geometry of Input 1. No smoothing or remodeling of the angular guide shapes. Original canvas 1024x1024, original object bounds x=66..957, y=232..791, original margins. Do not scale, center differently, change camera or raise the object. Nothing added outside the existing silhouette. No new holes, branches, spikes, debris or shapes.\n\nMaterials: chipped ivory-white ceramic panels with yellow-gold edges, dark metal joints; the existing branching angular structures are deep black-violet resin with orange seams and sacs. Flat dark resin socket on top. Follow Input 2's palette but NOT its presentation, camera, gloss lighting, floor or shadows. Retain every shape edge and opening of the guide. Do not add the upper turret.\n\nStrict unlit ALBEDO finish: uniformly colored, evenly lit from viewer, shadowless. All white panels remain ivory, no yellow illumination. All gold areas have flat gold material color, without metallic flashes or reflections. All resin has rich dark violet material color with visible purple local variation but NO white gloss streaks or specular dots. Orange parts use flat saturated orange/yellow-orange emissive color with no bloom and no light on nearby material. No cast shadows, no ambient occlusion, no edge darkening, no strong highlights, no reflections, no rim light. Preserve detail using material-color boundaries and surface texture rather than light/shade.\n\nReturn one 1024x1024 PNG, genuinely transparent background, using the exact alpha silhouette of Input 1. No floor, background, drop shadow, text or watermark. The unresized native return MUST be 1024x1024.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/guide_left.png",
+          "role": "edit target and exact geometry authority",
+          "sha256": "3212f60458819289322972488662983c1a59b984861a9bf563d812064c03deaf"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/design_reference.png",
+          "role": "approved material and color reference",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/concept_crop.png",
+          "role": "original concept reference",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097"
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a168ac-56d8-7fa3-9991-29397bec1143/exec-1efb5276-e028-42a5-94a0-038c9028d4f3.png",
+          "role": "rejected prior painting for correction",
+          "sha256": "ceffcb5758d9b4ebf9539d55a5b8eb831662b163c87fc4d6904cc5cd4f083a56"
+        }
+      ],
+      "output": "paint_left.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a168ac-56d8-7fa3-9991-29397bec1143/exec-d641f666-9c0e-46e7-984a-71882d3d0b7c.png",
+      "output_sha256": "23b51d44e93d68f4e1529f51dbe45d766f82a6e1b0a94f664522d6ac6367a055",
+      "selected": true,
+      "reason": "Preferred of the two allowed left-view attempts for flatter lighting. Saved as an unchanged raw return, but it fails the required size and exact silhouette checks and is not brief-compliant.",
+      "brief_compliant": false,
+      "checks": {
+        "size": {
+          "pass": false,
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette": {
+          "pass": false,
+          "guide_alpha_bbox": [
+            66,
+            232,
+            958,
+            792
+          ],
+          "output_alpha_bbox": [
+            23,
+            32,
+            1250,
+            1254
+          ],
+          "output_alpha_ge_128_bbox": [
+            78,
+            272,
+            1178,
+            968
+          ],
+          "reason": "Output canvas differs from the guide; original pixel silhouette cannot be identical. Visual inspection also shows changed shape edges and low-alpha stray pixels beyond the main object."
+        },
+        "materials_and_colours": {
+          "pass": true,
+          "method": "Visual inspection",
+          "note": "Ivory ceramic, gold edges, black-violet resin and orange veins/sacs are present. Geometry and lighting checks fail separately."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "method": "Visual inspection",
+          "note": "Flatter than attempt 1, but visible resin highlights and dark recessed shading remain."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "note": "Actual RGBA transparency is present; background is not a baked solid color. Low-alpha stray pixels and silhouette mismatch are recorded under silhouette."
+        },
+        "unresized_return": {
+          "pass": true,
+          "method": "Byte-for-byte equality verified between tool return and saved PNG."
+        }
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "corrective": false,
+      "prompt": "EDIT INPUT IMAGE 1 IN PLACE. Output exactly 1024x1024 pixels, native resolution, matching this input canvas. This is a texture albedo painting operation, not a new concept illustration.\n\nInput 1: guide_right.png, the exact 1024x1024 edit target. Its original transparency, RIGHT orthographic side camera, layout and ALL geometric features must remain fixed. This guide's tall central thorn is near x=506, above the interwoven resin on the right side of the mount. Preserve this side's distinct arrangement exactly. Do not mirror or reuse a painting from another side.\nInput 2: design_reference.png, a material COLOR reference only.\nInput 3: concept_crop.png, supporting concept only.\n\nPrimary request: Paint directly on Input 1's gray pixels, preserving its original alpha mask pixel for pixel. Keep the precise outline and all existing internal geometry of Input 1. No smoothing or remodeling of the angular guide shapes. Original canvas 1024x1024, original object bounds x=66..957, y=232..791, original margins. Do not scale, center differently, change camera or raise the object. Nothing added outside the existing silhouette. No new holes, branches, spikes, debris or shapes.\n\nMaterials: chipped ivory-white ceramic panels with yellow-gold edges, dark metal joints; the existing branching angular structures are deep black-violet resin with orange seams and sacs. Flat dark resin socket on top. Follow Input 2's palette but NOT its presentation, camera, gloss lighting, floor or shadows. Retain every shape edge and opening of the guide. Do not add the upper turret.\n\nStrict unlit ALBEDO finish: uniformly colored, evenly lit from viewer, shadowless. All white panels remain ivory, no yellow illumination. All gold areas have flat gold material color, without metallic flashes or reflections. All resin has rich dark violet material color with visible purple local variation but NO white gloss streaks or specular dots. Orange parts use flat saturated orange/yellow-orange emissive color with no bloom and no light on nearby material. No cast shadows, no ambient occlusion, no edge darkening, no strong highlights, no reflections, no rim light. Preserve detail using material-color boundaries and surface texture rather than light/shade.\n\nReturn one 1024x1024 PNG, genuinely transparent background, using the exact alpha silhouette of Input 1. No floor, background, drop shadow, text or watermark. The unresized native return MUST be 1024x1024.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/guide_right.png",
+          "role": "edit target and exact geometry authority",
+          "sha256": "b5f0460f8eb0718cecca96a314c68f3fbf4889fce3ae4cd51080b58b2f646eb6"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/design_reference.png",
+          "role": "approved material and color reference",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/concept_crop.png",
+          "role": "original concept reference",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a168ac-56d8-7fa3-9991-29397bec1143/exec-4db790f6-0088-491d-a63a-a03028f0b9e2.png",
+      "output_sha256": "bc42a0327595f407540647c9211382547eb3f1b0357f025f4199f0b2a143646c",
+      "selected": false,
+      "reason": "Rejected in favor of the corrective attempt: wrong native size, altered guide edges and visible specular highlights.",
+      "brief_compliant": false,
+      "checks": {
+        "size": {
+          "pass": false,
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette": {
+          "pass": false,
+          "guide_alpha_bbox": [
+            66,
+            232,
+            958,
+            792
+          ],
+          "output_alpha_bbox": [
+            0,
+            31,
+            1238,
+            1254
+          ],
+          "output_alpha_ge_128_bbox": [
+            80,
+            280,
+            1175,
+            972
+          ],
+          "reason": "Output canvas differs from the guide; original pixel silhouette cannot be identical. Visual inspection also shows changed shape edges and low-alpha stray pixels beyond the main object."
+        },
+        "materials_and_colours": {
+          "pass": true,
+          "method": "Visual inspection",
+          "note": "Ivory ceramic, gold edges, black-violet resin and orange veins/sacs are present. Geometry and lighting checks fail separately."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "method": "Visual inspection",
+          "note": "Specular streaks on resin and shading in recesses remain; not flat albedo."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "note": "Actual RGBA transparency is present; background is not a baked solid color. Low-alpha stray pixels and silhouette mismatch are recorded under silhouette."
+        },
+        "unresized_return": {
+          "pass": true,
+          "method": "Byte-for-byte equality verified between tool return and saved PNG."
+        }
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "Use case: precise-object-edit. Corrective regeneration, RIGHT orthographic view.\nProduce the native output at 1024 by 1024 pixels. This exact native size is mandatory; do not output at 1254 by 1254. No resampling after generation is allowed.\n\nInput 1 guide_right.png is the 1024x1024 edit target. Use its alpha mask and its exact geometry. Input 2 design_reference.png supplies only the color and material design. Input 3 concept_crop.png supplies original concept context. A prior attempt changed the silhouette and baked specular reflections into the resin. Correct those errors by painting the original gray guide directly.\n\nApply flat unlit diffuse material colors to the surfaces already in guide_right.png. Do not reconstruct or reinterpret the object. Preserve every original shape edge, opening, spike, planar facet, ceramic panel, block and position. Do not create extra twigs, thorns, holes or rubble. Keep the exact transparent margins, silhouette, apparent scale and camera: the target is RIGHT orthographic, object alpha bounds x 66–957, y 232–791 on a 1024 square. The tall central thorn apex is exactly where it is in the guide, near x 506 and y 232. Keep the resin's polygonal guide edges rather than rounding or reshaping them.\n\nMaterials in flat color: chipped ivory-white ceramic blocks, ochre-yellow gold edges, dark metal joints, very dark black-violet resin, orange veins and sacs, flat dark resin top socket. Only add painted color texture inside existing geometry. Do not add the upper turret.\nRender this as an UNLIT ALBEDO MATERIAL PASS, not a lit beauty render. Even, flat, shadowless light from viewer, no cast shadows and no ambient-occlusion darkening. Absolutely no white, pink or yellow specular glints or highlight strokes on resin. Gold stays a flat gold hue without reflections. Keep the reference's material identity through local color and surface texture only. Orange veins and sacs are colored orange with no halo, bloom or surrounding illumination. The white ceramic remains white even next to orange areas. No rim light, floor, environment, vignette or text.\nOutput a single transparent PNG at exactly 1024x1024; all pixels outside the original guide's exact alpha silhouette must be fully transparent. Preserve the original guide's size and position pixel-for-pixel.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/guide_right.png",
+          "role": "edit target and exact geometry authority",
+          "sha256": "b5f0460f8eb0718cecca96a314c68f3fbf4889fce3ae4cd51080b58b2f646eb6"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/design_reference.png",
+          "role": "approved material and color reference",
+          "sha256": "42185eed1d97180a7a3277b1ae896eefc627791431e0aec12289c98b7125ecdd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_turret_mount_k/concept_crop.png",
+          "role": "original concept reference",
+          "sha256": "6b11c1ce6d227d04c9e1362450f058b36267285acb1469361e14758d53e0e097"
+        }
+      ],
+      "output": "paint_right.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a168ac-56d8-7fa3-9991-29397bec1143/exec-2953c26b-125f-4bbb-85ff-3cc3d5e683a2.png",
+      "output_sha256": "ab19e219e6fe9022f6598eb49b6042899a83761a8d46d9144c75eab09cbca122",
+      "selected": true,
+      "reason": "Preferred of the two allowed right-view attempts for more angular guide-like forms and reduced specular lighting. Saved as an unchanged raw return, but it fails the required size and exact silhouette checks and is not brief-compliant.",
+      "brief_compliant": false,
+      "checks": {
+        "size": {
+          "pass": false,
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ]
+        },
+        "silhouette": {
+          "pass": false,
+          "guide_alpha_bbox": [
+            66,
+            232,
+            958,
+            792
+          ],
+          "output_alpha_bbox": [
+            33,
+            21,
+            1206,
+            1230
+          ],
+          "output_alpha_ge_128_bbox": [
+            80,
+            276,
+            1175,
+            971
+          ],
+          "reason": "Output canvas differs from the guide; original pixel silhouette cannot be identical. Visual inspection also shows changed shape edges and low-alpha stray pixels beyond the main object."
+        },
+        "materials_and_colours": {
+          "pass": true,
+          "method": "Visual inspection",
+          "note": "Ivory ceramic, gold edges, black-violet resin and orange veins/sacs are present. Geometry and lighting checks fail separately."
+        },
+        "flat_even_light": {
+          "pass": false,
+          "method": "Visual inspection",
+          "note": "Reduced reflections, but painted highlights and face/recess shading remain; not fully flat albedo."
+        },
+        "transparent_background": {
+          "pass": true,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "note": "Actual RGBA transparency is present; background is not a baked solid color. Low-alpha stray pixels and silhouette mismatch are recorded under silhouette."
+        },
+        "unresized_return": {
+          "pass": true,
+          "method": "Byte-for-byte equality verified between tool return and saved PNG."
+        }
+      }
+    }
+  ]
+}

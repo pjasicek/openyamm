@@ -1,0 +1,63 @@
+{
+  "creature_3d_identity": "mm7:m390",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 30
+  },
+  "scope": "BATCH_H model 1: complete project export, no install (batch rule)",
+  "native_family": "mm7:m390",
+  "descriptor_ids": [
+    391,
+    392,
+    393
+  ],
+  "palette_ids": [
+    553,
+    554,
+    555
+  ],
+  "decision": "Reuse MM8 Thunderbird body (identical render and palettes); MM7 ramps only. 0 Meshy credits.",
+  "reuse_source": {
+    "path": "assets_source/worlds/mm8/models/mm8_m552.glb",
+    "sha256": "88dab93c60274e0e0ffbbb2e1a50db9fdf676b4d7fd70caaf7a49f487c8a54fe"
+  },
+  "required_components": [
+    {
+      "id": "body",
+      "artifact_role": "body",
+      "required": true,
+      "status": "reused from mm8_m552"
+    }
+  ],
+  "selected_artifacts": {
+    "export": {
+      "path": "export/mm7_m390.glb",
+      "sha256": "c3edef37a8aa2a8b106e02a6aed4fc424eb1b59ad99e2d72ea5b223fb27945e5"
+    },
+    "ramps": {
+      "path": "textures/m390_ramps.json",
+      "sha256": "33d93fee7306ad7ec137de3a8558716ac88cbfa5889678109f332522806b9442"
+    }
+  },
+  "credits_spent": 0,
+  "current_stage": "exported",
+  "current_substep": "awaiting user review / install decision",
+  "furthest_produced": "export/mm7_m390.glb with MM7 variants; viewer checked",
+  "earliest_unresolved": "user artistic acceptance; install",
+  "next_action": {
+    "owner": "user",
+    "action": "review tiers, decide install (own GLB vs variants in mm8_m552.glb)"
+  },
+  "user_artistic_acceptance": "accepted 2026-10-21 (user: all 3 are good)",
+  "reduced_export": {
+    "path": "../mm7_m390_reduce_claude/export/mm7_m390.glb",
+    "sha256": "25f54029de84ca912cb4b705ad1b7a8d745bc70ce6deae60b00fb8b8f818ecfd",
+    "lod_tris": [
+      6237,
+      3118,
+      1542,
+      742
+    ],
+    "note": "install this instead; this project export is the rollback"
+  }
+}

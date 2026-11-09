@@ -1,0 +1,5 @@
+import bpy,runpy,subprocess,json
+from pathlib import Path
+P=Path(__file__).resolve().parents[1];ctx=runpy.run_path(str(P/'scripts/round1_reduction_curve.py'),init_globals={'LEVELS':[]});render=ctx['render'];R=P/'review/round1/reduction';ref=R/'L3_runtime_reference';bpy.ops.wm.open_mainfile(filepath=str(P/'work/round1_high.blend'));render(ref,'Combined',3);report=[]
+for name in ['L3_contour_100','L3_outline_fit_6','L3_outline_fit_10','L3_direct_10']:
+ bpy.ops.wm.open_mainfile(filepath=str(P/'work/reduction'/f'{name}.blend'));folder=R/(name+'_runtime');camera=render(folder,'Combined',3,directory=P/'textures/round1_rebaked');subprocess.run(['/usr/bin/python3',str(P/'scripts/round1_reduce_metric.py'),str(ref),str(folder),str(folder/'metrics.json')],check=True);v=json.loads((folder/'metrics.json').read_text());report.append({'blend':'work/reduction/'+name+'.blend','camera':camera,'pooled_iou':v['pooled_iou'],'min_ssim':v['min_ssim'],'pass':v['pooled_iou']>=.97});(R/'runtime_lod3.json').write_text(json.dumps(report,indent=2));print('RUNTIME LOD3',report[-1],flush=True)

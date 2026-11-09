@@ -1,0 +1,131 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_jak1_staff.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_jak1_staff.glb",
+ "assignments": [
+  {
+   "match": "=HookedStaff_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_jak1_codex/textures/staff/material_classes_1k.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "Staff_round4_metal_rough",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "HookedStaff_A",
+    "HookedStaff_A",
+    "HookedStaff_A"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 80299,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.8979,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_jak1_codex/textures/staff/material_classes_1k.png",
+     "class_share_in_uv": {
+      "cloth": 0.1577,
+      "metal": 0.2658,
+      "wood": 0.548,
+      "other": 0.0284
+     }
+    }
+   },
+   "class_share_total": {
+    "cloth": 0.1577,
+    "metal": 0.2658,
+    "wood": 0.548,
+    "other": 0.0284
+   },
+   "kept_classes": [
+    "cloth"
+   ],
+   "kept_texels": 12667,
+   "old_specular_mean_by_class": {
+    "cloth": 0.483,
+    "metal": 0.161,
+    "wood": 0.376,
+    "other": 0.65
+   },
+   "new_specular_mean_by_class": {
+    "cloth": 0.483,
+    "metal": 1.0,
+    "wood": 0.3,
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "cloth": 0.537,
+    "metal": 0.382,
+    "wood": 0.7,
+    "other": 0.695
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "HookedStaff_A": {
+     "median_srgb": [
+      34,
+      30,
+      28
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      17,
+      31,
+      144
+     ],
+     "share_below_srgb_30": 0.489,
+     "share_below_srgb_90": 0.6929,
+     "flag": "very dark",
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 166.5
+    },
+    "G": {
+     "min": 0,
+     "max": 204,
+     "mean": 110.9
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 137.8
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

@@ -1,0 +1,44 @@
+# Hand-written (2026-11-06, scr_audit G4): Mary's sheep. MarySheep.scr :OnUse: a click on the ewe makes it follow the
+# party; within 512 LT of Mary (NPC312.scr :RuntoMe) key 466, and her "Here's your sheep" row (467) pays on the exit.
+id: mm9r.yorwick_sheep
+title: 'Yorwick (native BLV): Mary''s sheep (MarySheep.scr, NPC312.scr)'
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, draft]
+steps:
+- load_map:
+    map: yorwick.blv
+- set_pose: {map: yorwick.blv, x: -22300, y: -20185, z: 1051, yaw: 3.1416, pitch: 0.0}
+- advance_runtime: {seconds: 0.5}
+- note:
+    text: 'The click: the ewe follows (map var EweFollow 1).'
+- interact_actor: {actor_index: 73}
+- advance_runtime: {seconds: 0.6}
+- assert:
+    state_dump_named_map_var: {name: EweFollow, value: 1}
+- note:
+    text: 'The party walks to Mary (placed beside her): the ewe follows; near her, key 466 and it runs to her.'
+- set_pose: {map: yorwick.blv, x: -15700, y: -19571, z: 1040, yaw: 0.0, pitch: 0.0}
+- advance_runtime: {seconds: 45}
+- assert:
+    qbit_set: [90466]
+- assert:
+    state_dump_named_map_var: {name: EweFollow, value: 2}
+- assert:
+    actor_visible:
+      actor_index: 73
+      near: {x: -15300, y: -19571, max_distance: 1400}
+- note:
+    text: 'Mary: "Here''s your sheep." (requires 466, gives 467); the exit pays 2 gold and the experience (468).'
+- interact_actor: {actor_index: 50}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    dialog: {active: true, source_id: 312}
+- select_topic: {action_id: 14, match_label: "Here's your sheep."}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    qbit_set: [90467]
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 1.0}
+- assert:
+    qbit_set: [90468]

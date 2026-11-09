@@ -1,0 +1,612 @@
+{
+ "id": "20261031-1455-mm9-dragonstadium-00",
+ "world": "mm9",
+ "maps": [
+  "dragonstadium.blv",
+  "thearena.blv",
+  "bathhouse.blv"
+ ],
+ "created": "2026-10-31T13:55:38+00:00",
+ "textures": [
+  "mm9/rouglu1wpl",
+  "mm9/arenrv8run",
+  "mm9/aren8ubscy",
+  "mm9/arenktmm54",
+  "mm9/aren2oma14",
+  "mm9/arenv1yii0",
+  "mm9/arenrdj70c",
+  "mm9/aren99m5rw",
+  "mm9/arenvn3eay",
+  "mm9/arenck1twx",
+  "mm9/meta8rctzy",
+  "mm9/karpepvvl3",
+  "mm9/karhr7p8sz",
+  "mm9/karhut3p57",
+  "mm9/karhcc90ij",
+  "mm9/karpifxzjy",
+  "mm9/karpwmlw5v",
+  "mm9/karhlxlqwq",
+  "mm9/karh2engru",
+  "mm9/karhzi3p7p",
+  "mm9/karhm0sk0u",
+  "mm9/karslxvxnk",
+  "mm9/karheo6oei",
+  "mm9/karha5r44e"
+ ],
+ "requests": {
+  "mm9/rouglu1wpl": {
+   "name": "rouglu1wpl",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "rough dark blue-grey cliff rock with deep cracks, jagged facets and darker crevices, cold slate tones",
+   "notes": {
+    "2": "soft mottled blue-grey rock like the native: broad tonal blotches, only a few thin faint cracks, no network of dark lines forming cells or scales",
+    "3": "soft mottled blue-grey cliff rock like the native: broad faceted planes and soft tonal blotches with fine natural granular grain; no small cells, crackle, scales, mosaic or tile pattern anywhere, only a few thin faint cracks",
+    "4": "soft mottled blue-grey cliff rock like the native: broad faceted planes and soft tonal blotches with fine natural granular grain; no small cells, crackle, scales, mosaic or tile pattern anywhere, only a few thin faint cracks",
+    "5": "soft mottled blue-grey cliff rock like the native: broad smooth weathered rock planes with soft tonal blotches and a fine sandy matte surface; a few thin faint cracks; absolutely no pebbles, cells, crackle glaze, scales, mosaic or tile pattern"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ],
+    "4": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ],
+    "3": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ],
+    "5": [
+     [
+      0,
+      0,
+      272,
+      272
+     ],
+     [
+      260,
+      0,
+      544,
+      272
+     ],
+     [
+      0,
+      260,
+      272,
+      544
+     ],
+     [
+      260,
+      260,
+      544,
+      544
+     ]
+    ]
+   },
+   "ref_blur": {
+    "4": 2.5,
+    "5": 2.5
+   }
+  },
+  "mm9/arenrv8run": {
+   "name": "arenrv8run",
+   "versions": [
+    1
+   ],
+   "material": "a grey stone arena wall: plain cracked grey stone below, a moulded stone cornice band near the top with a carved fan-shaped palmette ornament in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/aren8ubscy": {
+   "name": "aren8ubscy",
+   "versions": [
+    1
+   ],
+   "material": "smooth grey-beige stone stair surface with fine granular speckle and soft mottling, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/arenktmm54": {
+   "name": "arenktmm54",
+   "versions": [
+    1
+   ],
+   "material": "painted arena spectators: three seated people in robes (one in orange-red, one in ochre, one in blue and purple), stylised faces, on plain black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/aren2oma14": {
+   "name": "aren2oma14",
+   "versions": [
+    1
+   ],
+   "material": "painted arena spectators: a row of five seated people in coloured robes (blue, pink, purple, green, white), stylised faces, on plain black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/arenv1yii0": {
+   "name": "arenv1yii0",
+   "versions": [
+    1
+   ],
+   "material": "painted arena spectators: a row of four seated people in robes (red and blue, purple, green, white), stylised faces, on plain black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/arenrdj70c": {
+   "name": "arenrdj70c",
+   "versions": [
+    1
+   ],
+   "material": "a grey stone balcony box front with two recessed dark grey panels, a golden-yellow fabric swag draped across the top with gold tassels",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/aren99m5rw": {
+   "name": "aren99m5rw",
+   "versions": [
+    1
+   ],
+   "material": "a pair of arched heavy wooden double doors of vertical brown planks with dark iron studded bands, under a round arch with a decorative black iron lattice grille, set in a grey stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/arenvn3eay": {
+   "name": "arenvn3eay",
+   "versions": [
+    1
+   ],
+   "material": "a beige-brown woven fabric with fine diagonal twill texture and soft mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/arenck1twx": {
+   "name": "arenck1twx",
+   "versions": [
+    1
+   ],
+   "material": "a pair of carved pale grey stone door leaves under a pointed arch with a radiating palm-leaf relief, small square panels below, a raised stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/meta8rctzy": {
+   "name": "meta8rctzy",
+   "versions": [
+    1
+   ],
+   "material": "a narrow vertical round grey metal bar with a soft cylindrical highlight, on black at both sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karpepvvl3": {
+   "name": "karpepvvl3",
+   "versions": [
+    1
+   ],
+   "material": "a grey stone wall of large cut blocks with a tall carved pale stone column in the middle decorated with interlaced Celtic knotwork",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karpv1kzjj"
+     ],
+     "fraction": 0.693
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhr7p8sz": {
+   "name": "karhr7p8sz",
+   "versions": [
+    1
+   ],
+   "material": "pale blue-grey rough stucco wall with a heavy bumpy plaster texture and soft cool shading, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhut3p57": {
+   "name": "karhut3p57",
+   "versions": [
+    1
+   ],
+   "material": "pale blue-grey rough stucco wall with a heavy bumpy plaster texture, with a large rounded arch niche moulding outlined in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karhr7p8sz"
+     ],
+     "fraction": 0.203
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhcc90ij": {
+   "name": "karhcc90ij",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey-white plaster wall with fine stucco texture, along the top a carved white plaster band of interlaced Celtic knotwork",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karh3v44vq"
+     ],
+     "fraction": 0.703
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karpifxzjy": {
+   "name": "karpifxzjy",
+   "versions": [
+    1
+   ],
+   "material": "a grey stone wall of large cut blocks with a carved pale stone column in the middle decorated with interlaced Celtic knotwork",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karpwmlw5v": {
+   "name": "karpwmlw5v",
+   "versions": [
+    1
+   ],
+   "material": "a grey stone wall of large cut blocks with two carved pale stone columns decorated with interlaced Celtic knotwork, one at each side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/karpifxzjy"
+     ],
+     "fraction": 0.696
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhlxlqwq": {
+   "name": "karhlxlqwq",
+   "versions": [
+    1
+   ],
+   "material": "a floor mosaic of small coloured stone tesserae in concentric fan-shaped arcs of blue, pink, red, green and white",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karh2engru": {
+   "name": "karh2engru",
+   "versions": [
+    1
+   ],
+   "material": "pale grey and rust-stained marble floor tiles, a central tile with a carved square Celtic knot in a diamond frame, worn chipped surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhzi3p7p": {
+   "name": "karhzi3p7p",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey stone floor of rectangular slabs laid diagonally, deep black joints, rough granular surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karhm0sk0u": {
+   "name": "karhm0sk0u",
+   "versions": [
+    1
+   ],
+   "material": "rough pale blue-grey stone with a bumpy granular texture and cool tones, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karslxvxnk": {
+   "name": "karslxvxnk",
+   "versions": [
+    1
+   ],
+   "material": "a dark charcoal-grey stone wall with fine diagonal scratches and cracks and a grainy surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karheo6oei": {
+   "name": "karheo6oei",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rectangular pale blue-grey stone blocks with rounded edges and dark grey joints, frosty mottled surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karha5r44e": {
+   "name": "karha5r44e",
+   "versions": [
+    1
+   ],
+   "material": "pale blue-grey stone door with a carved symmetrical chevron of feather-like grooves sweeping down from the top centre, frosty mottled surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

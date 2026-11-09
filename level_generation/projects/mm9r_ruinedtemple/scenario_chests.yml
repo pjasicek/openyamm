@@ -1,0 +1,51 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.ruinedtemple_chests
+title: 'Ruined Temple (native BLV): the three MM9 chests open from in front of them'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: ruinedtemple.blv
+- set_pose:
+    map: ruinedtemple.blv
+    x: 901
+    y: 4046
+    z: -2272
+    yaw: 1.5708
+    pitch: -0.7277
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: ruinedtemple.blv
+    x: 1167
+    y: 4046
+    z: -2272
+    yaw: 1.5708
+    pitch: -0.7277
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: ruinedtemple.blv
+    x: 1413
+    y: 4046
+    z: -2272
+    yaw: 1.5708
+    pitch: -0.7277
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog

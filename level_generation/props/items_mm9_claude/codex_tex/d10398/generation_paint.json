@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png (input 1), using design_reference.png (input 2) for material/detail and icon_x8.png (input 3) for colour only. Produce ONE transparent PNG, 1536x2048, 3:4 canvas. Preserve EXACTLY the guide's object positions, sizes, silhouettes, geometry and gaps. Three columns and FOUR rows of 512x512 cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those exact five views for material masks. Paint grey objects only; never redraw, enlarge, move or redesign. Empty cells row 2 column 3 and row 4 column 3 fully transparent.\nObject: Broken Slag Extractor, upright damaged machine part. Upper dome, flange, irregular damaged metal cage bars and lower tapered cup are worn muted silver/steel. Interior crystal clusters are rich dark cobalt blue, as references. Respect the guide's broad back metal plate and all its original bars. Reference facets and surface details scaled to each view.\nRows 1-2 PAINT: unlit base colour only, source-faithful. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No glow halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes, FLAT pure colours only: #FF0000 every metal part; #00FF00 leather/fur; #0000FF cloth/hair; #FFFF00 matte nonmetal solid; #000000 gemstone/crystal/glass/pearl/enamel/liquid. This item uses RED for all metal and BLACK for blue crystals. Black crystal regions must be opaque black, not transparency. Every silhouette pixel exactly one class colour, no shading, texture, outlines or antialiased colour blends inside. Nothing outside silhouettes. All original gaps fully transparent. Preserve the guide layout exactly.\nCORRECTION: The previous attempt had extensive red and white speckled pixels outside silhouettes. This is unacceptable. Use original grey guide as exact alpha stencil. Absolutely clean transparent outside edges, no scattered pixels, no noise outside, no red fringe or spray. Keep each silhouette at exact guide position and scale. Flat masks with clean boundaries. Paint should be diffuse colour without baked highlights.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad12-547e-77b2-9f7a-51e4e974495c/exec-af10b5fc-37e3-4355-8455-21b5425af49f.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10398/paint_mask_guide.png",
+      "sha256": "cd36c9982e567934631e7a085b631cbf7f236e3f46fc29d6a80a97a77a6c706c"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10398/design_reference.png",
+      "sha256": "f393863f7d381a194c349bdf046f7b13406ef719491531532882ae503acd7250"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10398/icon_x8.png",
+      "sha256": "5deb3f15efb54110b692503a1b8e0770135a4d08ed9b7d3ac80bda1b9df00f57"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10398/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Remaining stray red pixels outside mask silhouettes; not fully compliant with exact silhouette and flat mask requirements. Raw output preserved without editing."
+}

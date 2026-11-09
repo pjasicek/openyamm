@@ -1,0 +1,72 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.traininghall_swim_check
+title: 'Training Hall (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in their
+  water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: traininghall.blv
+- note:
+    text: 'BlueWater1: on its bed at -31, 26 under its top -5.1'
+- set_pose:
+    map: traininghall.blv
+    x: -344
+    y: -229
+    z: -30
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: -18.7
+- note:
+    text: 'BlueWater0: on its bed at 246, 266 under its top 512.0'
+- set_pose:
+    map: traininghall.blv
+    x: -590
+    y: 1951
+    z: 247
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: 257.8
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: traininghall.blv
+      x: -590
+      y: 1951
+      z: 247
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: traininghall.blv
+      x: -590
+      y: 1951
+      z: 379
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99

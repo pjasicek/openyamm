@@ -1,0 +1,504 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "resized": false,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper Founder's Repeater game item.\nEDIT INPUT IMAGE 1 (guide_front.png) IN PLACE. Input image 2 (design_reference.png) is the approved design, colour and material reference ONLY.\nPrimary request: paint the guide's existing white model surfaces with the reference rifle materials, keeping the guide's exact alpha silhouette, every edge, part position, scale, orientation, camera and 1024 x 1024 canvas unchanged. This is a surface-colour edit of image 1.\nThe edit target is an extremely thin horizontal edge view: muzzle at the LEFT, buttstock at the RIGHT. Its occupied alpha bounding box is x=66..957 and y=481..542 on the 1024-square canvas. Keep the thin edge view, about 62 pixels high. Central receiver is around x=530..735. Do not turn this into the broad side view of the style reference.\nSubject: the colony guard's last rifle, kept in the Archive's armoury. Shots chain to two more targets and never lose damage to Light shields. This is context only; show just the existing rifle, no shooting, effects, scenery or targets.\nMaterials: off-white ceramic plates with very fine wear, muted brushed antique gold framing and narrow gold seams, black-violet/dark navy resin inset sections and grip, and blue-white bright energy/glass/crystal surfaces where the approved design has them. Match the design's engraved lines, seams, panel joins and small non-letter markings. The receiver's circular inset is blue-white inside a gold ring. Continue these materials plausibly on faces absent from the reference. Only blue-white light is shown in this design; no arbitrary orange additions. Do not copy the red/yellow fringe artifacts around the reference silhouette.\nLighting: flat, even, shadowless viewer-facing albedo lighting. Metal is its base gold colour with only a faint sheen. Glowing components are painted as their bright light colour, with zero bloom or halo beyond the guide alpha. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, gradients from directional lighting, background or floor.\nHard constraints: preserve input image 1's exact existing alpha mask, holes, outline and anti-aliased edge coverage. Do not invent or move geometry. Do not expand the occupied area or recenter/zoom/crop/rotate the object. Keep all untouched transparent pixels fully transparent. Real RGBA transparent background, no black backdrop and no checkerboard drawn into the image. No text, letters, labels or watermark. Return ONE unresized 1024 x 1024 PNG of this one view.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1b102b05442d55e603e69d219fd73d1d192fff378a6078cd4beff930e35cbb01",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+          "role": "design, colour and material reference"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected. Correction has slightly closer normalized silhouette overlap and flatter lighting; selected as the better available raw return. Edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-4cd57961-a07e-4a99-9a39-4839ebff3359.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c14dd13ecfa8f86bb018372c09e068996804801492b0e590162cc9d884c4ba40",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.939903,
+        "alpha_bbox": [
+          55,
+          55,
+          1177,
+          1214
+        ],
+        "visual_materials": "Reference palette present, with coloured edge artifacts",
+        "visual_lighting": "Residual highlight and shading",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 6656,
+        "outside_normalized_guide_alpha128_pixels": 1398
+      },
+      "artifact_path": "paint_front_attempt1.png",
+      "status": "not_selected"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper Founder's Repeater game item.\nEDIT INPUT IMAGE 1 (guide_back.png) IN PLACE. Input image 2 (design_reference.png) is the approved design, colour and material reference ONLY.\nPrimary request: paint the guide's existing white model surfaces with the reference rifle materials, keeping the guide's exact alpha silhouette, every edge, part position, scale, orientation, camera and 1024 x 1024 canvas unchanged. This is a surface-colour edit of image 1.\nThe edit target is an extremely thin horizontal opposite edge view: buttstock at the LEFT, muzzle at the RIGHT. Its occupied alpha bounding box is x=66..957 and y=481..542 on the 1024-square canvas. Keep the thin edge view, about 62 pixels high. Receiver is around x=290..500. Do not turn this into the broad side view of the style reference.\nSubject: the colony guard's last rifle, kept in the Archive's armoury. Shots chain to two more targets and never lose damage to Light shields. This is context only; show just the existing rifle, no shooting, effects, scenery or targets.\nMaterials: off-white ceramic plates with very fine wear, muted brushed antique gold framing and narrow gold seams, black-violet/dark navy resin inset sections and grip, and blue-white bright energy/glass/crystal surfaces where the approved design has them. Match the design's engraved lines, seams, panel joins and small non-letter markings. The receiver's circular inset is blue-white inside a gold ring. Continue these materials plausibly on faces absent from the reference. Only blue-white light is shown in this design; no arbitrary orange additions. Do not copy the red/yellow fringe artifacts around the reference silhouette.\nLighting: flat, even, shadowless viewer-facing albedo lighting. Metal is its base gold colour with only a faint sheen. Glowing components are painted as their bright light colour, with zero bloom or halo beyond the guide alpha. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, gradients from directional lighting, background or floor.\nHard constraints: preserve input image 1's exact existing alpha mask, holes, outline and anti-aliased edge coverage. Do not invent or move geometry. Do not expand the occupied area or recenter/zoom/crop/rotate the object. Keep all untouched transparent pixels fully transparent. Real RGBA transparent background, no black backdrop and no checkerboard drawn into the image. No text, letters, labels or watermark. Return ONE unresized 1024 x 1024 PNG of this one view.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "b1c2043ac2bfd897b9789581dc1641b94c27911e41bc2fe027b971b2c0600abf",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+          "role": "design, colour and material reference"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected. Correction improves normalized silhouette overlap and reduces the side-medallion treatment. Edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-7083b699-67e9-4e0d-9fde-3815a098d912.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "db0291cbf3de9cba79c4c4e831f5e81a3cd238ff6bdc6430972fa3223e436073",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.896054,
+        "alpha_bbox": [
+          0,
+          69,
+          1202,
+          1033
+        ],
+        "visual_materials": "Reference palette present, with coloured edge artifacts",
+        "visual_lighting": "Residual highlight and shading",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 9016,
+        "outside_normalized_guide_alpha128_pixels": 1117
+      },
+      "artifact_path": "paint_back_attempt1.png",
+      "status": "not_selected"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper Founder's Repeater game item.\nEDIT INPUT IMAGE 1 (guide_left.png) IN PLACE. Input image 2 (design_reference.png) is the approved design, colour and material reference ONLY.\nPrimary request: paint the guide's existing white model surfaces with the reference rifle materials, keeping the guide's exact alpha silhouette, every edge, part position, scale, orientation, camera and 1024 x 1024 canvas unchanged. This is a surface-colour edit of image 1.\nThe edit target is a SMALL end-on view at the exact center of a large transparent canvas. Its occupied alpha bounding box is x=424..599 and y=481..542 on the 1024-square canvas (only 176 by 62 pixels). Preserve this SMALL size. At left is a tiny protrusion, in the middle-left the rounded barrel-end structure, and at right the foreshortened stock/receiver shape. Paint the existing surfaces only. Do not enlarge it, zoom in, rotate it, or draw a side-view rifle.\nSubject: the colony guard's last rifle, kept in the Archive's armoury. Shots chain to two more targets and never lose damage to Light shields. This is context only; show just the existing rifle, no shooting, effects, scenery or targets.\nMaterials: off-white ceramic plates with very fine wear, muted brushed antique gold framing and narrow gold seams, black-violet/dark navy resin inset sections and grip, and blue-white bright energy/glass/crystal surfaces where the approved design has them. Match the design's engraved lines, seams, panel joins and small non-letter markings. The receiver's circular inset is blue-white inside a gold ring. Continue these materials plausibly on faces absent from the reference. Only blue-white light is shown in this design; no arbitrary orange additions. Do not copy the red/yellow fringe artifacts around the reference silhouette.\nLighting: flat, even, shadowless viewer-facing albedo lighting. Metal is its base gold colour with only a faint sheen. Glowing components are painted as their bright light colour, with zero bloom or halo beyond the guide alpha. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, gradients from directional lighting, background or floor.\nHard constraints: preserve input image 1's exact existing alpha mask, holes, outline and anti-aliased edge coverage. Do not invent or move geometry. Do not expand the occupied area or recenter/zoom/crop/rotate the object. Keep all untouched transparent pixels fully transparent. Real RGBA transparent background, no black backdrop and no checkerboard drawn into the image. No text, letters, labels or watermark. Return ONE unresized 1024 x 1024 PNG of this one view.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "027bf8c615ed3e83a1849b34bacef306fa8b1454e3b65e683dd5eaab811858d2",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+          "role": "design, colour and material reference"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected. Correction has slightly closer normalized silhouette overlap and flatter materials. Edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-67910732-d55c-4191-baf4-12e8e90a7738.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "4286469966b1fea0ed7d6d14a196ffd6d0f40323a191d8b750c7c9965abf4d47",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.928819,
+        "alpha_bbox": [
+          218,
+          359,
+          1200,
+          764
+        ],
+        "visual_materials": "Reference palette present, with coloured edge artifacts",
+        "visual_lighting": "Residual highlight and shading",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 3516,
+        "outside_normalized_guide_alpha128_pixels": 642
+      },
+      "artifact_path": "paint_left_attempt1.png",
+      "status": "not_selected"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper Founder's Repeater game item.\nEDIT INPUT IMAGE 1 (guide_right.png) IN PLACE. Input image 2 (design_reference.png) is the approved design, colour and material reference ONLY.\nPrimary request: paint the guide's existing white model surfaces with the reference rifle materials, keeping the guide's exact alpha silhouette, every edge, part position, scale, orientation, camera and 1024 x 1024 canvas unchanged. This is a surface-colour edit of image 1.\nThe edit target is a SMALL opposite end-on view at the exact center of a large transparent canvas. Its occupied alpha bounding box is x=424..599 and y=481..542 on the 1024-square canvas (only 176 by 62 pixels). Preserve this SMALL size. The broad butt-end shape extends left from the rounded central-right structure and a tiny point extends right. Paint the existing surfaces only. Do not enlarge it, zoom in, rotate it, or draw a side-view rifle.\nSubject: the colony guard's last rifle, kept in the Archive's armoury. Shots chain to two more targets and never lose damage to Light shields. This is context only; show just the existing rifle, no shooting, effects, scenery or targets.\nMaterials: off-white ceramic plates with very fine wear, muted brushed antique gold framing and narrow gold seams, black-violet/dark navy resin inset sections and grip, and blue-white bright energy/glass/crystal surfaces where the approved design has them. Match the design's engraved lines, seams, panel joins and small non-letter markings. The receiver's circular inset is blue-white inside a gold ring. Continue these materials plausibly on faces absent from the reference. Only blue-white light is shown in this design; no arbitrary orange additions. Do not copy the red/yellow fringe artifacts around the reference silhouette.\nLighting: flat, even, shadowless viewer-facing albedo lighting. Metal is its base gold colour with only a faint sheen. Glowing components are painted as their bright light colour, with zero bloom or halo beyond the guide alpha. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, gradients from directional lighting, background or floor.\nHard constraints: preserve input image 1's exact existing alpha mask, holes, outline and anti-aliased edge coverage. Do not invent or move geometry. Do not expand the occupied area or recenter/zoom/crop/rotate the object. Keep all untouched transparent pixels fully transparent. Real RGBA transparent background, no black backdrop and no checkerboard drawn into the image. No text, letters, labels or watermark. Return ONE unresized 1024 x 1024 PNG of this one view.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "309a0d79a18d46fe234a8cd40f93eee330b9ffdb6ae929f62da94e5c3392d110",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+          "role": "design, colour and material reference"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Initial return retains closer scale and normalized silhouette overlap than the oversized correction. Side-like details, edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-6adde5b3-cb74-4f7b-b6d2-ea0e58c46f66.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "838bd487cfe1f9f49b19ad6a1956ceebc183e2e11ec8ddfcacc576ef9242f851",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.781182,
+        "alpha_bbox": [
+          435,
+          409,
+          860,
+          875
+        ],
+        "visual_materials": "Reference palette present, with coloured edge artifacts",
+        "visual_lighting": "Residual highlight and shading",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 1800,
+        "outside_normalized_guide_alpha128_pixels": 713
+      },
+      "artifact_path": "paint_right_attempt1.png",
+      "status": "selected_with_failed_checks"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper Founder's Repeater game item.\nEDIT INPUT IMAGE 1 (guide_top.png) IN PLACE. Input image 2 (design_reference.png) is the approved design, colour and material reference ONLY.\nPrimary request: paint the guide's existing white model surfaces with the reference rifle materials, keeping the guide's exact alpha silhouette, every edge, part position, scale, orientation, camera and 1024 x 1024 canvas unchanged. This is a surface-colour edit of image 1.\nThe edit target shows the broad profile of this actual model as rendered from directly above: muzzle points LEFT, buttstock is at RIGHT, trigger and grip below, thin raised rail above. Its occupied alpha bounding box is x=66..957 and y=424..599 on the 1024-square canvas. Copy the guide exactly, including the hollow stock and trigger-guard openings. The design reference points the other direction; transfer its materials to the corresponding parts in the GUIDE orientation without mirroring the guide.\nSubject: the colony guard's last rifle, kept in the Archive's armoury. Shots chain to two more targets and never lose damage to Light shields. This is context only; show just the existing rifle, no shooting, effects, scenery or targets.\nMaterials: off-white ceramic plates with very fine wear, muted brushed antique gold framing and narrow gold seams, black-violet/dark navy resin inset sections and grip, and blue-white bright energy/glass/crystal surfaces where the approved design has them. Match the design's engraved lines, seams, panel joins and small non-letter markings. The receiver's circular inset is blue-white inside a gold ring. Continue these materials plausibly on faces absent from the reference. Only blue-white light is shown in this design; no arbitrary orange additions. Do not copy the red/yellow fringe artifacts around the reference silhouette.\nLighting: flat, even, shadowless viewer-facing albedo lighting. Metal is its base gold colour with only a faint sheen. Glowing components are painted as their bright light colour, with zero bloom or halo beyond the guide alpha. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, gradients from directional lighting, background or floor.\nHard constraints: preserve input image 1's exact existing alpha mask, holes, outline and anti-aliased edge coverage. Do not invent or move geometry. Do not expand the occupied area or recenter/zoom/crop/rotate the object. Keep all untouched transparent pixels fully transparent. Real RGBA transparent background, no black backdrop and no checkerboard drawn into the image. No text, letters, labels or watermark. Return ONE unresized 1024 x 1024 PNG of this one view.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b096cb498f284f13fad1045227c7664760185ed02664f8675643ed08b31776a9",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+          "role": "design, colour and material reference"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Only successful return: the single permitted correction was rejected by the image tool safety system. Edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-01135834-cfd5-494c-8126-55a3b9960d83.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9f0605f28032fdd926fea95bdb87658d79dfe5624390b547b2acc7112bc4ed5e",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.833941,
+        "alpha_bbox": [
+          27,
+          132,
+          1186,
+          1206
+        ],
+        "visual_materials": "Reference palette present, with coloured edge artifacts",
+        "visual_lighting": "Residual highlight and shading",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 23769,
+        "outside_normalized_guide_alpha128_pixels": 14626
+      },
+      "artifact_path": "paint_top_attempt1.png",
+      "status": "selected_with_failed_checks"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective albedo painting of guide_front.png, the single attached exact orthographic geometry target. Recolour ONLY the existing white model pixels in this guide. Preserve its original alpha mask and every silhouette edge. Output ONE 1024 x 1024 transparent RGBA PNG with the same canvas, placement, scale and camera.\nKeep the thin horizontal top-edge geometry exactly, muzzle LEFT and buttstock RIGHT, occupying x66\u2013957 and y481\u2013542. Paint the narrow visible ceramic/gold/resin edge surfaces; the thin upper receiver and rail remain edge-on. A side-facing circular medallion must not be turned to face this camera.\nPaint the approved Hesper Founder's Repeater materials: fine-worn warm ivory ceramic, muted brushed golden brass seams and frames, very dark navy/black-violet resin insets, and bright pale ice-blue/blue-white light in existing energy components. The design authority is the previously supplied approved design_reference.png; use its material language on the guide's actual surfaces. Fine engraved lines, panel joins and subtle wear, no letters.\nThis correction must fix the earlier return's coloured fringe, invented side-facing details and excessive lighting. Use the plain guide as the sole image input to avoid copying the reference's contaminated edge. KEEP ITS EXACT SILHOUETTE; do not redraw, resize, recenter, crop, rotate or inflate it. Paint material colours as flat diffuse albedo with fine texture detail. Eliminate directional light, bright specular streaks, cast shadows, ambient occlusion, reflections, rim highlights and bloom. Brass is a muted base gold with only faint sheen. Blue areas are bright flat colours, no radiating glow. Absolutely no red, yellow, green or white fringe outside the existing alpha; every background pixel stays fully transparent, including all gaps. No background, floor, text, lettering, labels or watermark. Preserve all the generous empty space of this exact guide.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1b102b05442d55e603e69d219fd73d1d192fff378a6078cd4beff930e35cbb01",
+          "role": "edit target; exact geometry and alpha"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+        "role": "design, colour and material reference",
+        "provided_to_tool_in_this_attempt": false,
+        "note": "Observed approved design supplies material descriptions; omitted as an image input on correction to prevent repeated fringe transfer."
+      },
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Correction has slightly closer normalized silhouette overlap and flatter lighting; selected as the better available raw return. Edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-d9e5fb8e-7401-46ad-873c-efb97abaa3b6.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3ae0f35d52d8a9e8bce95558baf9ae9fb960301fd5217af2e08f8ff3cea2cb99",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.946857,
+        "alpha_bbox": [
+          49,
+          79,
+          1192,
+          1115
+        ],
+        "visual_materials": "Ivory ceramic, gold, dark resin and pale blue retained; edge artifacts remain",
+        "visual_lighting": "Flatter than initial return, with residual relief shading and highlights",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 9019,
+        "outside_normalized_guide_alpha128_pixels": 1857
+      },
+      "artifact_path": "paint_front_attempt2.png",
+      "status": "selected_with_failed_checks"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective albedo painting of guide_back.png, the single attached exact orthographic geometry target. Recolour ONLY the existing white model pixels in this guide. Preserve its original alpha mask and every silhouette edge. Output ONE 1024 x 1024 transparent RGBA PNG with the same canvas, placement, scale and camera.\nKeep the thin horizontal underside-edge geometry exactly, buttstock LEFT and muzzle RIGHT, occupying x66\u2013957 and y481\u2013542. Continue white ceramic, gold seams and dark resin on the underside. Do not flatten a side illustration into this strip or turn a side medallion toward this camera.\nPaint the approved Hesper Founder's Repeater materials: fine-worn warm ivory ceramic, muted brushed golden brass seams and frames, very dark navy/black-violet resin insets, and bright pale ice-blue/blue-white light in existing energy components. The design authority is the previously supplied approved design_reference.png; use its material language on the guide's actual surfaces. Fine engraved lines, panel joins and subtle wear, no letters.\nThis correction must fix the earlier return's coloured fringe, invented side-facing details and excessive lighting. Use the plain guide as the sole image input to avoid copying the reference's contaminated edge. KEEP ITS EXACT SILHOUETTE; do not redraw, resize, recenter, crop, rotate or inflate it. Paint material colours as flat diffuse albedo with fine texture detail. Eliminate directional light, bright specular streaks, cast shadows, ambient occlusion, reflections, rim highlights and bloom. Brass is a muted base gold with only faint sheen. Blue areas are bright flat colours, no radiating glow. Absolutely no red, yellow, green or white fringe outside the existing alpha; every background pixel stays fully transparent, including all gaps. No background, floor, text, lettering, labels or watermark. Preserve all the generous empty space of this exact guide.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "b1c2043ac2bfd897b9789581dc1641b94c27911e41bc2fe027b971b2c0600abf",
+          "role": "edit target; exact geometry and alpha"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+        "role": "design, colour and material reference",
+        "provided_to_tool_in_this_attempt": false,
+        "note": "Observed approved design supplies material descriptions; omitted as an image input on correction to prevent repeated fringe transfer."
+      },
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Correction improves normalized silhouette overlap and reduces the side-medallion treatment. Edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-3eac606d-1bf5-4afe-8374-b143fdc62ecc.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "79064aa818d8223e9c6c05f228b77a808e55cba8f0932f6aa9c1783379cb29d3",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.927463,
+        "alpha_bbox": [
+          0,
+          101,
+          1224,
+          1174
+        ],
+        "visual_materials": "Ivory ceramic, gold, dark resin and pale blue retained; edge artifacts remain",
+        "visual_lighting": "Flatter than initial return, with residual relief shading and highlights",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 11143,
+        "outside_normalized_guide_alpha128_pixels": 1909
+      },
+      "artifact_path": "paint_back_attempt2.png",
+      "status": "selected_with_failed_checks"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective albedo painting of guide_left.png, the single attached exact orthographic geometry target. Recolour ONLY the existing white model pixels in this guide. Preserve its original alpha mask and every silhouette edge. Output ONE 1024 x 1024 transparent RGBA PNG with the same canvas, placement, scale and camera.\nKeep the tiny end-on silhouette exactly, x424\u2013599 and y481\u2013542. The muzzle structures in the rounded left-central part can have small blue-white end faces in gold sockets; continue gold, ceramic and dark resin on the actual foreshortened surfaces. Do not paste a side-view receiver medallion on the muzzle.\nPaint the approved Hesper Founder's Repeater materials: fine-worn warm ivory ceramic, muted brushed golden brass seams and frames, very dark navy/black-violet resin insets, and bright pale ice-blue/blue-white light in existing energy components. The design authority is the previously supplied approved design_reference.png; use its material language on the guide's actual surfaces. Fine engraved lines, panel joins and subtle wear, no letters.\nThis correction must fix the earlier return's coloured fringe, invented side-facing details and excessive lighting. Use the plain guide as the sole image input to avoid copying the reference's contaminated edge. KEEP ITS EXACT SILHOUETTE; do not redraw, resize, recenter, crop, rotate or inflate it. Paint material colours as flat diffuse albedo with fine texture detail. Eliminate directional light, bright specular streaks, cast shadows, ambient occlusion, reflections, rim highlights and bloom. Brass is a muted base gold with only faint sheen. Blue areas are bright flat colours, no radiating glow. Absolutely no red, yellow, green or white fringe outside the existing alpha; every background pixel stays fully transparent, including all gaps. No background, floor, text, lettering, labels or watermark. Preserve all the generous empty space of this exact guide.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "027bf8c615ed3e83a1849b34bacef306fa8b1454e3b65e683dd5eaab811858d2",
+          "role": "edit target; exact geometry and alpha"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+        "role": "design, colour and material reference",
+        "provided_to_tool_in_this_attempt": false,
+        "note": "Observed approved design supplies material descriptions; omitted as an image input on correction to prevent repeated fringe transfer."
+      },
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Correction has slightly closer normalized silhouette overlap and flatter materials. Edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-004653e4-4e60-422a-8959-d4c133c55c59.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e1fde81b55abb3deb7e422ceab2eb1bbf3b674df0f879a390d3f42e649703139",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.93564,
+        "alpha_bbox": [
+          0,
+          0,
+          1234,
+          956
+        ],
+        "visual_materials": "Ivory ceramic, gold, dark resin and pale blue retained; edge artifacts remain",
+        "visual_lighting": "Flatter than initial return, with residual relief shading and highlights",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 2699,
+        "outside_normalized_guide_alpha128_pixels": 595
+      },
+      "artifact_path": "paint_left_attempt2.png",
+      "status": "selected_with_failed_checks"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective albedo painting of guide_right.png, the single attached exact orthographic geometry target. Recolour ONLY the existing white model pixels in this guide. Preserve its original alpha mask and every silhouette edge. Output ONE 1024 x 1024 transparent RGBA PNG with the same canvas, placement, scale and camera.\nKeep the tiny butt-end silhouette exactly, x424\u2013599 and y481\u2013542. The long rounded butt-end surface at left is dark black-violet resin inset within a thin gold/ivory ceramic rim. Continue ceramic and gold on the rounded structure to its right; preserve its small top bulge and very small right-hand protrusion. This view has no face-on blue receiver medallion. It is an END VIEW, never a compressed side view.\nPaint the approved Hesper Founder's Repeater materials: fine-worn warm ivory ceramic, muted brushed golden brass seams and frames, very dark navy/black-violet resin insets, and bright pale ice-blue/blue-white light in existing energy components. The design authority is the previously supplied approved design_reference.png; use its material language on the guide's actual surfaces. Fine engraved lines, panel joins and subtle wear, no letters.\nThis correction must fix the earlier return's coloured fringe, invented side-facing details and excessive lighting. Use the plain guide as the sole image input to avoid copying the reference's contaminated edge. KEEP ITS EXACT SILHOUETTE; do not redraw, resize, recenter, crop, rotate or inflate it. Paint material colours as flat diffuse albedo with fine texture detail. Eliminate directional light, bright specular streaks, cast shadows, ambient occlusion, reflections, rim highlights and bloom. Brass is a muted base gold with only faint sheen. Blue areas are bright flat colours, no radiating glow. Absolutely no red, yellow, green or white fringe outside the existing alpha; every background pixel stays fully transparent, including all gaps. No background, floor, text, lettering, labels or watermark. Preserve all the generous empty space of this exact guide.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "309a0d79a18d46fe234a8cd40f93eee330b9ffdb6ae929f62da94e5c3392d110",
+          "role": "edit target; exact geometry and alpha"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+        "role": "design, colour and material reference",
+        "provided_to_tool_in_this_attempt": false,
+        "note": "Observed approved design supplies material descriptions; omitted as an image input on correction to prevent repeated fringe transfer."
+      },
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Not selected. Initial return retains closer scale and normalized silhouette overlap than the oversized correction. Side-like details, edge artifacts, residual shading and silhouette mismatch remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16e89-22ed-7440-aedc-58525898491a/exec-24199db5-70c4-4daa-8d84-ae2cc8ebdeb2.png",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "0ac440cedce870da04d09edf832168ca23adea87a1130e6b95bb9e8326867d0c",
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.642976,
+        "alpha_bbox": [
+          47,
+          135,
+          1162,
+          1188
+        ],
+        "visual_materials": "Ivory ceramic, gold, dark resin and pale blue retained; edge artifacts remain",
+        "visual_lighting": "Flatter than initial return, with residual relief shading and highlights",
+        "no_text_or_letters": true,
+        "flat_shadowless_albedo": false,
+        "clean_transparent_background": false,
+        "strict_brief_pass": false,
+        "outside_normalized_guide_alpha_nonzero_pixels": 6023,
+        "outside_normalized_guide_alpha128_pixels": 4933
+      },
+      "artifact_path": "paint_right_attempt2.png",
+      "status": "not_selected"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Corrective albedo painting of guide_top.png, the single attached exact orthographic geometry target. Recolour ONLY the existing white model pixels in this guide. Preserve its original alpha mask and every silhouette edge. Output ONE 1024 x 1024 transparent RGBA PNG with the same canvas, placement, scale and camera.\nKeep this broad rifle profile exactly, x66\u2013957 and y424\u2013599, muzzle LEFT and buttstock RIGHT. Paint the twin open barrel channels at left as blue-white energy surfaces separated by their existing thin geometry. Gold metal barrel tips/collar/rail/trim. Ivory ceramic receiver and open stock, dark resin recessed grip and buttplate, a pale icy blue circular receiver inset enclosed by gold at its existing location. Preserve both long barrel gaps, trigger-guard hole and large stock hole in the GUIDE shapes.\nPaint the approved Hesper Founder's Repeater materials: fine-worn warm ivory ceramic, muted brushed golden brass seams and frames, very dark navy/black-violet resin insets, and bright pale ice-blue/blue-white light in existing energy components. The design authority is the previously supplied approved design_reference.png; use its material language on the guide's actual surfaces. Fine engraved lines, panel joins and subtle wear, no letters.\nThis correction must fix the earlier return's coloured fringe, invented side-facing details and excessive lighting. Use the plain guide as the sole image input to avoid copying the reference's contaminated edge. KEEP ITS EXACT SILHOUETTE; do not redraw, resize, recenter, crop, rotate or inflate it. Paint material colours as flat diffuse albedo with fine texture detail. Eliminate directional light, bright specular streaks, cast shadows, ambient occlusion, reflections, rim highlights and bloom. Brass is a muted base gold with only faint sheen. Blue areas are bright flat colours, no radiating glow. Absolutely no red, yellow, green or white fringe outside the existing alpha; every background pixel stays fully transparent, including all gaps. No background, floor, text, lettering, labels or watermark. Preserve all the generous empty space of this exact guide.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b096cb498f284f13fad1045227c7664760185ed02664f8675643ed08b31776a9",
+          "role": "edit target; exact geometry and alpha"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "363937b061582aeb86723545c55bbe1ab4e2bf0483f67252d23bc18dc1280881",
+        "role": "design, colour and material reference",
+        "provided_to_tool_in_this_attempt": false,
+        "note": "Observed approved design supplies material descriptions; omitted as an image input on correction to prevent repeated fringe transfer."
+      },
+      "output": null,
+      "selected": false,
+      "reason": "The image generation tool rejected the corrective request with moderation_blocked, category violence. No corrected image returned; no further retry under the one-correction limit.",
+      "status": "failed",
+      "error": {
+        "type": "image_generation_user_error",
+        "code": "moderation_blocked",
+        "category": "violence",
+        "request_id": "37f8ff6c-75d8-42fc-b481-e69626a368c9"
+      }
+    }
+  ],
+  "summary": {
+    "selected_outputs": [
+      "paint_front.png",
+      "paint_back.png",
+      "paint_left.png",
+      "paint_right.png",
+      "paint_top.png"
+    ],
+    "actual_size_all_selected": [
+      1254,
+      1254
+    ],
+    "resized": false,
+    "corrective_attempts_per_view": 1,
+    "strict_brief_pass": false,
+    "ready_for_projection": false,
+    "limitations": [
+      "Every selected image differs from the guide alpha silhouette.",
+      "Coloured fringe and stray partial-alpha pixels remain outside the guide silhouette.",
+      "Residual shading/highlights prevent a strict flat-albedo pass.",
+      "Top correction rejected by image tool safety system; initial return retained."
+    ],
+    "validation": "Visual inspection plus RGBA, dimensions, immutable input/output SHA-256 and alpha comparison. Normalized IoU uses coordinate sampling for analysis only; files are unmodified tool returns.",
+    "scope": "Only this requested item directory was written by local file operations. No builds, integration, resizing, masking or image post-processing."
+  }
+}

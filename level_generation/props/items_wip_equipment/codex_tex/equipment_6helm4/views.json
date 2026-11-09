@@ -1,0 +1,48 @@
+{
+  "centre": [
+    0.0,
+    0.0,
+    0.48307159543037415
+  ],
+  "scale": 1.15080047249794,
+  "size": 1024,
+  "views": {
+    "front": [
+      0,
+      -1,
+      0
+    ],
+    "back": [
+      0,
+      1,
+      0
+    ],
+    "left": [
+      -1,
+      0,
+      0
+    ],
+    "right": [
+      1,
+      0,
+      0
+    ],
+    "top": [
+      0,
+      0,
+      1
+    ]
+  },
+  "paint_layout": "atlas_3x2",
+  "atlas_views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    null
+  ],
+  "mask_layout": "individual",
+  "mask_authoring": "Reviewed mesh-part materials; exact geometry silhouettes",
+  "material_classes_file": "geometry_material_ids.json"
+}

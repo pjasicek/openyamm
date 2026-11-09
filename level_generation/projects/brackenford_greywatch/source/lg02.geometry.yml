@@ -1,0 +1,1414 @@
+{
+  "format_version": 2,
+  "kind": "indoor_geometry",
+  "map_file": "lg02.blv",
+  "source": {
+    "authoring_file": "lg02.blend",
+    "asset_path": "lg02.glb",
+    "coordinate_system": "blender_z_up",
+    "unit_scale": 128,
+    "import": {
+      "source_format": "glb",
+      "reserve_sector_zero": true,
+      "merge_coplanar_faces": true,
+      "generate_bsp": true,
+      "generate_outlines": true
+    }
+  },
+  "materials": [
+    {
+      "id": "GSton1WL",
+      "source_material": "LG_GSton1WL",
+      "texture": "GSton1WL",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "GStn1BOT",
+      "source_material": "LG_GStn1BOT",
+      "texture": "GStn1BOT",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "GStn1TP1",
+      "source_material": "LG_GStn1TP1",
+      "texture": "GStn1TP1",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "GSton1FL",
+      "source_material": "LG_GSton1FL",
+      "texture": "GSton1FL",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "TFB11",
+      "source_material": "LG_TFB11",
+      "texture": "TFB11",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "GCav1flr",
+      "source_material": "LG_GCav1flr",
+      "texture": "GCav1flr",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "GCav1wal",
+      "source_material": "LG_GCav1wal",
+      "texture": "GCav1wal",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "gt002a",
+      "source_material": "LG_gt002a",
+      "texture": "gt002a",
+      "texture_width": 64,
+      "texture_height": 64
+    },
+    {
+      "id": "gt002b",
+      "source_material": "LG_gt002b",
+      "texture": "gt002b",
+      "texture_width": 64,
+      "texture_height": 64
+    },
+    {
+      "id": "gt002g",
+      "source_material": "LG_gt002g",
+      "texture": "gt002g",
+      "texture_width": 64,
+      "texture_height": 64
+    },
+    {
+      "id": "gt003a",
+      "source_material": "LG_gt003a",
+      "texture": "gt003a",
+      "texture_width": 64,
+      "texture_height": 64
+    },
+    {
+      "id": "solid01",
+      "source_material": "LG_solid01",
+      "texture": "solid01",
+      "texture_width": 16,
+      "texture_height": 16
+    },
+    {
+      "id": "T1butt",
+      "source_material": "LG_T1butt",
+      "texture": "T1butt",
+      "texture_width": 32,
+      "texture_height": 32
+    }
+  ],
+  "rooms": [
+    {
+      "id": "room_castle_arrival",
+      "source_nodes": [
+        "ROOM_castle_arrival",
+        "TRIGGER_castle_exit",
+        "TRIGGER_shortcut_castle_control",
+        "STATIC_arrival_bench_west",
+        "STATIC_arrival_bench_east",
+        "DECOR_torch_castle_arrival_west",
+        "LIGHT_castle_arrival_west",
+        "DECOR_torch_castle_arrival_east",
+        "LIGHT_castle_arrival_east"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_watch_hall",
+      "source_nodes": [
+        "ROOM_watch_hall",
+        "DECOR_torch_watch_hall_west",
+        "LIGHT_watch_hall_west",
+        "DECOR_torch_watch_hall_east",
+        "LIGHT_watch_hall_east",
+        "DECOR_watch_supply_1",
+        "DECOR_watch_supply_2"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_armory",
+      "source_nodes": [
+        "ROOM_armory",
+        "TRIGGER_armory_chest",
+        "STATIC_armory_storage_rack",
+        "DECOR_torch_armory_west",
+        "LIGHT_armory_west",
+        "DECOR_torch_armory_east",
+        "LIGHT_armory_east",
+        "DECOR_armory_supply_1",
+        "DECOR_armory_supply_2"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_stair_gallery",
+      "source_nodes": [
+        "ROOM_stair_gallery",
+        "TRIGGER_gallery_plate",
+        "DECOR_torch_stair_gallery_west",
+        "LIGHT_stair_gallery_west",
+        "DECOR_torch_stair_gallery_east",
+        "LIGHT_stair_gallery_east"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_records",
+      "source_nodes": [
+        "ROOM_records",
+        "MECH_records_south_door",
+        "TRIGGER_lift_gate_button",
+        "TRIGGER_records_south_inside_control",
+        "STATIC_records_desk",
+        "DECOR_torch_records_west",
+        "LIGHT_records_west",
+        "DECOR_torch_records_east",
+        "LIGHT_records_east"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_barracks",
+      "source_nodes": [
+        "ROOM_barracks",
+        "TRIGGER_barracks_chest",
+        "STATIC_barracks_mess_west",
+        "STATIC_barracks_mess_east",
+        "DECOR_torch_barracks_west",
+        "LIGHT_barracks_west",
+        "DECOR_torch_barracks_east",
+        "LIGHT_barracks_east",
+        "DECOR_barracks_supply_1",
+        "DECOR_barracks_supply_2"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_secret",
+      "source_nodes": [
+        "ROOM_secret",
+        "TRIGGER_secret_inside_control",
+        "TRIGGER_secret_chest",
+        "DECOR_torch_secret_west",
+        "LIGHT_secret_west",
+        "DECOR_torch_secret_east",
+        "LIGHT_secret_east",
+        "DECOR_secret_supply_1",
+        "DECOR_secret_supply_2"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_upper_landing",
+      "source_nodes": [
+        "ROOM_upper_landing",
+        "DECOR_torch_upper_landing_west",
+        "LIGHT_upper_landing_west",
+        "DECOR_torch_upper_landing_east",
+        "LIGHT_upper_landing_east"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_vault",
+      "source_nodes": [
+        "ROOM_vault",
+        "TRIGGER_vault_chest",
+        "DECOR_torch_vault_west",
+        "LIGHT_vault_west",
+        "DECOR_torch_vault_east",
+        "LIGHT_vault_east"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_lower_passage",
+      "source_nodes": [
+        "ROOM_lower_passage",
+        "DECOR_torch_lower_passage_west",
+        "LIGHT_lower_passage_west",
+        "DECOR_torch_lower_passage_east",
+        "LIGHT_lower_passage_east"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_cave_arrival",
+      "source_nodes": [
+        "ROOM_cave_arrival",
+        "TRIGGER_cave_exit",
+        "DECOR_torch_cave_arrival_west",
+        "LIGHT_cave_arrival_west",
+        "DECOR_torch_cave_arrival_east",
+        "LIGHT_cave_arrival_east",
+        "DECOR_cave_bones_1",
+        "DECOR_cave_bones_2",
+        "DECOR_cave_rock_1",
+        "DECOR_cave_rock_2"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_vault_bend",
+      "source_nodes": [
+        "ROOM_vault_bend"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_castle_arrival_watch_hall",
+      "source_nodes": [
+        "ROOM_link_castle_arrival_watch_hall",
+        "MECH_watch_left",
+        "MECH_watch_right",
+        "TRIGGER_watch_south_control",
+        "TRIGGER_watch_north_control"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_watch_hall_armory",
+      "source_nodes": [
+        "ROOM_link_watch_hall_armory",
+        "TRIGGER_armory_plate"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_watch_hall_stair_gallery",
+      "source_nodes": [
+        "ROOM_link_watch_hall_stair_gallery"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_stair_gallery_records",
+      "source_nodes": [
+        "ROOM_link_stair_gallery_records"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_records_barracks",
+      "source_nodes": [
+        "ROOM_link_records_barracks",
+        "MECH_barracks_door",
+        "TRIGGER_barracks_west_control",
+        "TRIGGER_barracks_east_control"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_barracks_secret",
+      "source_nodes": [
+        "ROOM_link_barracks_secret",
+        "MECH_secret_wall"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_records_upper_landing",
+      "source_nodes": [
+        "ROOM_link_records_upper_landing",
+        "MECH_lift_gate",
+        "MECH_lift_platform",
+        "TRIGGER_lift_lower_button",
+        "TRIGGER_lift_upper_button"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_upper_landing_vault_bend",
+      "source_nodes": [
+        "ROOM_link_upper_landing_vault_bend"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_vault_bend_vault",
+      "source_nodes": [
+        "ROOM_link_vault_bend_vault"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_records_lower_passage",
+      "source_nodes": [
+        "ROOM_link_records_lower_passage",
+        "TRIGGER_records_south_passage_control"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_lower_passage_cave_arrival",
+      "source_nodes": [
+        "ROOM_link_lower_passage_cave_arrival"
+      ],
+      "min_ambient_light_level": 22
+    },
+    {
+      "id": "room_link_lower_passage_castle_arrival",
+      "source_nodes": [
+        "ROOM_link_lower_passage_castle_arrival",
+        "MECH_shortcut",
+        "TRIGGER_shortcut_passage_control"
+      ],
+      "min_ambient_light_level": 22
+    }
+  ],
+  "portals": [
+    {
+      "id": "link_castle_arrival_watch_hall_a",
+      "source_node": "PORTAL_link_castle_arrival_watch_hall_a",
+      "front_room": "room_link_castle_arrival_watch_hall",
+      "back_room": "room_castle_arrival"
+    },
+    {
+      "id": "link_castle_arrival_watch_hall_b",
+      "source_node": "PORTAL_link_castle_arrival_watch_hall_b",
+      "front_room": "room_link_castle_arrival_watch_hall",
+      "back_room": "room_watch_hall"
+    },
+    {
+      "id": "link_watch_hall_armory_a",
+      "source_node": "PORTAL_link_watch_hall_armory_a",
+      "front_room": "room_link_watch_hall_armory",
+      "back_room": "room_watch_hall"
+    },
+    {
+      "id": "link_watch_hall_armory_b",
+      "source_node": "PORTAL_link_watch_hall_armory_b",
+      "front_room": "room_link_watch_hall_armory",
+      "back_room": "room_armory"
+    },
+    {
+      "id": "link_watch_hall_stair_gallery_a",
+      "source_node": "PORTAL_link_watch_hall_stair_gallery_a",
+      "front_room": "room_link_watch_hall_stair_gallery",
+      "back_room": "room_watch_hall"
+    },
+    {
+      "id": "link_watch_hall_stair_gallery_b",
+      "source_node": "PORTAL_link_watch_hall_stair_gallery_b",
+      "front_room": "room_link_watch_hall_stair_gallery",
+      "back_room": "room_stair_gallery"
+    },
+    {
+      "id": "link_stair_gallery_records_a",
+      "source_node": "PORTAL_link_stair_gallery_records_a",
+      "front_room": "room_link_stair_gallery_records",
+      "back_room": "room_stair_gallery"
+    },
+    {
+      "id": "link_stair_gallery_records_b",
+      "source_node": "PORTAL_link_stair_gallery_records_b",
+      "front_room": "room_link_stair_gallery_records",
+      "back_room": "room_records"
+    },
+    {
+      "id": "link_records_barracks_a",
+      "source_node": "PORTAL_link_records_barracks_a",
+      "front_room": "room_link_records_barracks",
+      "back_room": "room_records"
+    },
+    {
+      "id": "link_records_barracks_b",
+      "source_node": "PORTAL_link_records_barracks_b",
+      "front_room": "room_link_records_barracks",
+      "back_room": "room_barracks"
+    },
+    {
+      "id": "link_barracks_secret_a",
+      "source_node": "PORTAL_link_barracks_secret_a",
+      "front_room": "room_link_barracks_secret",
+      "back_room": "room_barracks"
+    },
+    {
+      "id": "link_barracks_secret_b",
+      "source_node": "PORTAL_link_barracks_secret_b",
+      "front_room": "room_link_barracks_secret",
+      "back_room": "room_secret"
+    },
+    {
+      "id": "link_records_upper_landing_a",
+      "source_node": "PORTAL_link_records_upper_landing_a",
+      "front_room": "room_link_records_upper_landing",
+      "back_room": "room_records"
+    },
+    {
+      "id": "link_records_upper_landing_b",
+      "source_node": "PORTAL_link_records_upper_landing_b",
+      "front_room": "room_link_records_upper_landing",
+      "back_room": "room_upper_landing"
+    },
+    {
+      "id": "link_upper_landing_vault_bend_a",
+      "source_node": "PORTAL_link_upper_landing_vault_bend_a",
+      "front_room": "room_link_upper_landing_vault_bend",
+      "back_room": "room_upper_landing"
+    },
+    {
+      "id": "link_upper_landing_vault_bend_b",
+      "source_node": "PORTAL_link_upper_landing_vault_bend_b",
+      "front_room": "room_link_upper_landing_vault_bend",
+      "back_room": "room_vault_bend"
+    },
+    {
+      "id": "link_vault_bend_vault_a",
+      "source_node": "PORTAL_link_vault_bend_vault_a",
+      "front_room": "room_link_vault_bend_vault",
+      "back_room": "room_vault_bend"
+    },
+    {
+      "id": "link_vault_bend_vault_b",
+      "source_node": "PORTAL_link_vault_bend_vault_b",
+      "front_room": "room_link_vault_bend_vault",
+      "back_room": "room_vault"
+    },
+    {
+      "id": "link_records_lower_passage_a",
+      "source_node": "PORTAL_link_records_lower_passage_a",
+      "front_room": "room_link_records_lower_passage",
+      "back_room": "room_records"
+    },
+    {
+      "id": "link_records_lower_passage_b",
+      "source_node": "PORTAL_link_records_lower_passage_b",
+      "front_room": "room_link_records_lower_passage",
+      "back_room": "room_lower_passage"
+    },
+    {
+      "id": "link_lower_passage_cave_arrival_a",
+      "source_node": "PORTAL_link_lower_passage_cave_arrival_a",
+      "front_room": "room_link_lower_passage_cave_arrival",
+      "back_room": "room_lower_passage"
+    },
+    {
+      "id": "link_lower_passage_cave_arrival_b",
+      "source_node": "PORTAL_link_lower_passage_cave_arrival_b",
+      "front_room": "room_link_lower_passage_cave_arrival",
+      "back_room": "room_cave_arrival"
+    },
+    {
+      "id": "link_lower_passage_castle_arrival_a",
+      "source_node": "PORTAL_link_lower_passage_castle_arrival_a",
+      "front_room": "room_link_lower_passage_castle_arrival",
+      "back_room": "room_lower_passage"
+    },
+    {
+      "id": "link_lower_passage_castle_arrival_b",
+      "source_node": "PORTAL_link_lower_passage_castle_arrival_b",
+      "front_room": "room_link_lower_passage_castle_arrival",
+      "back_room": "room_castle_arrival"
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "watch_left",
+      "source_node": "MECH_watch_left",
+      "flags": [
+        "texture_move_by_door"
+      ],
+      "trigger": {
+        "event_id": 101,
+        "type": "click"
+      }
+    },
+    {
+      "id": "watch_right",
+      "source_node": "MECH_watch_right",
+      "flags": [
+        "texture_move_by_door"
+      ],
+      "trigger": {
+        "event_id": 101,
+        "type": "click"
+      }
+    },
+    {
+      "id": "secret_wall",
+      "source_node": "MECH_secret_wall",
+      "flags": [
+        "texture_move_by_door",
+        "secret"
+      ],
+      "trigger": {
+        "event_id": 103,
+        "type": "click"
+      }
+    },
+    {
+      "id": "shortcut",
+      "source_node": "MECH_shortcut",
+      "flags": [
+        "texture_move_by_door"
+      ],
+      "trigger": {
+        "event_id": 104,
+        "type": "click"
+      }
+    },
+    {
+      "id": "records_south_door",
+      "source_node": "MECH_records_south_door",
+      "flags": [
+        "texture_move_by_door"
+      ],
+      "trigger": {
+        "event_id": 107,
+        "type": "click"
+      }
+    },
+    {
+      "id": "barracks_door",
+      "source_node": "MECH_barracks_door",
+      "flags": [
+        "texture_move_by_door"
+      ],
+      "trigger": {
+        "event_id": 108,
+        "type": "click"
+      }
+    },
+    {
+      "id": "castle_exit",
+      "source_node": "TRIGGER_castle_exit",
+      "flags": [],
+      "trigger": {
+        "event_id": 1,
+        "type": "click"
+      }
+    },
+    {
+      "id": "cave_exit",
+      "source_node": "TRIGGER_cave_exit",
+      "flags": [],
+      "trigger": {
+        "event_id": 2,
+        "type": "click"
+      }
+    },
+    {
+      "id": "watch_south_control",
+      "source_node": "TRIGGER_watch_south_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 101,
+        "type": "click"
+      }
+    },
+    {
+      "id": "watch_north_control",
+      "source_node": "TRIGGER_watch_north_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 101,
+        "type": "click"
+      }
+    },
+    {
+      "id": "secret_inside_control",
+      "source_node": "TRIGGER_secret_inside_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 103,
+        "type": "click"
+      }
+    },
+    {
+      "id": "shortcut_castle_control",
+      "source_node": "TRIGGER_shortcut_castle_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 104,
+        "type": "click"
+      }
+    },
+    {
+      "id": "shortcut_passage_control",
+      "source_node": "TRIGGER_shortcut_passage_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 104,
+        "type": "click"
+      }
+    },
+    {
+      "id": "lift_gate_button",
+      "source_node": "TRIGGER_lift_gate_button",
+      "flags": [],
+      "trigger": {
+        "event_id": 102,
+        "type": "click"
+      }
+    },
+    {
+      "id": "lift_lower_button",
+      "source_node": "TRIGGER_lift_lower_button",
+      "flags": [],
+      "trigger": {
+        "event_id": 105,
+        "type": "click"
+      }
+    },
+    {
+      "id": "lift_upper_button",
+      "source_node": "TRIGGER_lift_upper_button",
+      "flags": [],
+      "trigger": {
+        "event_id": 106,
+        "type": "click"
+      }
+    },
+    {
+      "id": "lift_boarding_plate",
+      "source_node": "MECH_lift_platform",
+      "flags": [
+        "texture_move_by_door"
+      ],
+      "trigger": {
+        "event_id": 105,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "records_south_inside_control",
+      "source_node": "TRIGGER_records_south_inside_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 107,
+        "type": "click"
+      }
+    },
+    {
+      "id": "records_south_passage_control",
+      "source_node": "TRIGGER_records_south_passage_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 107,
+        "type": "click"
+      }
+    },
+    {
+      "id": "barracks_west_control",
+      "source_node": "TRIGGER_barracks_west_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 108,
+        "type": "click"
+      }
+    },
+    {
+      "id": "barracks_east_control",
+      "source_node": "TRIGGER_barracks_east_control",
+      "flags": [],
+      "trigger": {
+        "event_id": 108,
+        "type": "click"
+      }
+    },
+    {
+      "id": "armory_chest",
+      "source_node": "TRIGGER_armory_chest",
+      "flags": [],
+      "trigger": {
+        "event_id": 201,
+        "type": "click"
+      }
+    },
+    {
+      "id": "secret_chest",
+      "source_node": "TRIGGER_secret_chest",
+      "flags": [],
+      "trigger": {
+        "event_id": 202,
+        "type": "click"
+      }
+    },
+    {
+      "id": "barracks_chest",
+      "source_node": "TRIGGER_barracks_chest",
+      "flags": [],
+      "trigger": {
+        "event_id": 203,
+        "type": "click"
+      }
+    },
+    {
+      "id": "vault_chest",
+      "source_node": "TRIGGER_vault_chest",
+      "flags": [],
+      "trigger": {
+        "event_id": 204,
+        "type": "click"
+      }
+    },
+    {
+      "id": "gallery_plate",
+      "source_node": "TRIGGER_gallery_plate",
+      "flags": [
+        "secret"
+      ],
+      "trigger": {
+        "event_id": 301,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "armory_plate",
+      "source_node": "TRIGGER_armory_plate",
+      "flags": [],
+      "trigger": {
+        "event_id": 302,
+        "type": "pressure_plate"
+      }
+    }
+  ],
+  "mechanisms": [
+    {
+      "id": "watch_left",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_watch_left"
+      ],
+      "door": {
+        "door_id": 1,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          1,
+          0,
+          0
+        ],
+        "move_length": 256,
+        "open_speed": 128,
+        "close_speed": 128
+      }
+    },
+    {
+      "id": "watch_right",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_watch_right"
+      ],
+      "door": {
+        "door_id": 2,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          -1,
+          0,
+          0
+        ],
+        "move_length": 256,
+        "open_speed": 128,
+        "close_speed": 128
+      }
+    },
+    {
+      "id": "lift_gate",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_lift_gate"
+      ],
+      "door": {
+        "door_id": 3,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 512,
+        "open_speed": 128,
+        "close_speed": 128
+      }
+    },
+    {
+      "id": "secret_wall",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_secret_wall"
+      ],
+      "door": {
+        "door_id": 4,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 512,
+        "open_speed": 128,
+        "close_speed": 128
+      }
+    },
+    {
+      "id": "shortcut",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_shortcut"
+      ],
+      "door": {
+        "door_id": 5,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 512,
+        "open_speed": 128,
+        "close_speed": 128
+      }
+    },
+    {
+      "id": "lift_platform",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_lift_platform"
+      ],
+      "door": {
+        "door_id": 6,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 128,
+        "close_speed": 128
+      }
+    },
+    {
+      "id": "records_south_door",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_records_south_door"
+      ],
+      "door": {
+        "door_id": 7,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 512,
+        "open_speed": 128,
+        "close_speed": 128
+      }
+    },
+    {
+      "id": "barracks_door",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_barracks_door"
+      ],
+      "door": {
+        "door_id": 8,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 512,
+        "open_speed": 128,
+        "close_speed": 128
+      }
+    }
+  ],
+  "entities": [
+    {
+      "id": "torch_castle_arrival_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_castle_arrival_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_castle_arrival_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_castle_arrival_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_watch_hall_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_watch_hall_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_watch_hall_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_watch_hall_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_armory_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_armory_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_armory_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_armory_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_stair_gallery_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_stair_gallery_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_stair_gallery_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_stair_gallery_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_records_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_records_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_records_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_records_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_barracks_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_barracks_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_barracks_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_barracks_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_secret_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_secret_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_secret_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_secret_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_upper_landing_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_upper_landing_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_upper_landing_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_upper_landing_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_vault_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_vault_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_vault_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_vault_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_lower_passage_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_lower_passage_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_lower_passage_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_lower_passage_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_cave_arrival_west",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_cave_arrival_west",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "torch_cave_arrival_east",
+      "kind": "decoration",
+      "source_node": "DECOR_torch_cave_arrival_east",
+      "decoration_list_id": 298
+    },
+    {
+      "id": "watch_supply_1",
+      "kind": "decoration",
+      "source_node": "DECOR_watch_supply_1",
+      "decoration_list_id": 229
+    },
+    {
+      "id": "watch_supply_2",
+      "kind": "decoration",
+      "source_node": "DECOR_watch_supply_2",
+      "decoration_list_id": 229
+    },
+    {
+      "id": "armory_supply_1",
+      "kind": "decoration",
+      "source_node": "DECOR_armory_supply_1",
+      "decoration_list_id": 229
+    },
+    {
+      "id": "armory_supply_2",
+      "kind": "decoration",
+      "source_node": "DECOR_armory_supply_2",
+      "decoration_list_id": 229
+    },
+    {
+      "id": "barracks_supply_1",
+      "kind": "decoration",
+      "source_node": "DECOR_barracks_supply_1",
+      "decoration_list_id": 229
+    },
+    {
+      "id": "barracks_supply_2",
+      "kind": "decoration",
+      "source_node": "DECOR_barracks_supply_2",
+      "decoration_list_id": 229
+    },
+    {
+      "id": "secret_supply_1",
+      "kind": "decoration",
+      "source_node": "DECOR_secret_supply_1",
+      "decoration_list_id": 229
+    },
+    {
+      "id": "secret_supply_2",
+      "kind": "decoration",
+      "source_node": "DECOR_secret_supply_2",
+      "decoration_list_id": 229
+    },
+    {
+      "id": "cave_bones_1",
+      "kind": "decoration",
+      "source_node": "DECOR_cave_bones_1",
+      "decoration_list_id": 269
+    },
+    {
+      "id": "cave_bones_2",
+      "kind": "decoration",
+      "source_node": "DECOR_cave_bones_2",
+      "decoration_list_id": 269
+    },
+    {
+      "id": "cave_rock_1",
+      "kind": "decoration",
+      "source_node": "DECOR_cave_rock_1",
+      "decoration_list_id": 352
+    },
+    {
+      "id": "cave_rock_2",
+      "kind": "decoration",
+      "source_node": "DECOR_cave_rock_2",
+      "decoration_list_id": 360
+    }
+  ],
+  "lights": [
+    {
+      "id": "castle_arrival_west",
+      "source_node": "LIGHT_castle_arrival_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "castle_arrival_east",
+      "source_node": "LIGHT_castle_arrival_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "watch_hall_west",
+      "source_node": "LIGHT_watch_hall_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "watch_hall_east",
+      "source_node": "LIGHT_watch_hall_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "armory_west",
+      "source_node": "LIGHT_armory_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "armory_east",
+      "source_node": "LIGHT_armory_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "stair_gallery_west",
+      "source_node": "LIGHT_stair_gallery_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "stair_gallery_east",
+      "source_node": "LIGHT_stair_gallery_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "records_west",
+      "source_node": "LIGHT_records_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "records_east",
+      "source_node": "LIGHT_records_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "barracks_west",
+      "source_node": "LIGHT_barracks_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "barracks_east",
+      "source_node": "LIGHT_barracks_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "secret_west",
+      "source_node": "LIGHT_secret_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "secret_east",
+      "source_node": "LIGHT_secret_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "upper_landing_west",
+      "source_node": "LIGHT_upper_landing_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "upper_landing_east",
+      "source_node": "LIGHT_upper_landing_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "vault_west",
+      "source_node": "LIGHT_vault_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "vault_east",
+      "source_node": "LIGHT_vault_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "lower_passage_west",
+      "source_node": "LIGHT_lower_passage_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "lower_passage_east",
+      "source_node": "LIGHT_lower_passage_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "cave_arrival_west",
+      "source_node": "LIGHT_cave_arrival_west",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "cave_arrival_east",
+      "source_node": "LIGHT_cave_arrival_east",
+      "color": [
+        192,
+        176,
+        144
+      ],
+      "radius": 640,
+      "brightness": 31,
+      "type": "point"
+    }
+  ],
+  "spawns": []
+}

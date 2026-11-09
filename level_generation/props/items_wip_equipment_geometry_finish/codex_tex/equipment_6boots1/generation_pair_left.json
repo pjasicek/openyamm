@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit image 1, exact gray orthographic left view duplicated in two stacked squares; image 2 only original item appearance reference. Keep EXACT 1:2 portrait canvas. Keep BOTH object silhouettes, outlines, position, size and every opening EXACTLY as gray guide. No enlarging/shrinking. TOP SQUARE: realistic finely textured UNLIT BASE COLOUR, no directional light, highlights, ambient occlusion, shadow, floor or text. BOTTOM SQUARE: exactly same object, flat pure material IDs without shading or texture. Old Leather Boots: warm cognac brown leather boots, dark brown leather interior and sole/heel, tiny brass square buckle. Material IDs: all leather GREEN #00ff00; ONLY brass buckle METAL RED #ff0000. Preserve all gray solid surfaces opaque, gaps transparent. Completely transparent background; NO coloured fringe or speckles. It is an exact geometry colourization, not a new illustration. Output transparent 1024x2048 PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots1/guide_pair_left.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots1.png"
+  ],
+  "icon": "6boots1",
+  "view": "left",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-51d1b405-3f35-4177-aa4a-df6aaf3b41ab.png",
+  "raw_sha256": "75b2218a97462101c62bda213d11f2fb6c8a2be7fdb825b9640ad0dbea005cb4",
+  "dimensions": [
+    887,
+    1774
+  ],
+  "derivation": "Unresized top/bottom square extraction",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots1/guide_pair_left.png": "9eef537100c7997ae5a56a46120056422b61758394660e6effd6a4c570f30c5b",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots1.png": "aab29ec55f00b281df426138279d2b256af2daca73a414cbf1620c18fab41950"
+  },
+  "selected": true,
+  "reason": "Accepted views are explicitly listed in final_view_sources.json; final GLB hash is in the acceptance receipt."
+}

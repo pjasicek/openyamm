@@ -1,0 +1,25 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png precisely, using design_reference.png for stone detail and icon_x8.png for color (magenta is only icon background). Produce ONE transparent PNG at 1536x2048 or nearest 3:4 portrait size. Preserve the guide's entire 3-column by 4-row grid, object positions, sizes, silhouettes and empty spaces exactly. Do not redraw, enlarge, move or redesign the shapes.\nRows 1-2 are PAINT: five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint only these grey silhouettes with unlit base color of the reference stone: weathered grey stone with a slight green tint, subtle mineral mottling, facets and the reference's engraved rune-like markings scaled to the appropriate views, especially TOP. Preserve the low domed side profiles, flat bases and broad top outline. No directional lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground or outlines.\nRows 3-4 are MATERIAL MASK: same five silhouettes, same arrangement FRONT, BACK, LEFT / RIGHT, TOP, empty. The entire object is matte stone: fill EVERY silhouette pixel with flat pure yellow #FFFF00, no texture, no shading, no internal antialiased color blends, no engraving details in masks. Nothing outside silhouettes.\nAll background and gaps fully transparent. Column 3 row 2 and column 3 row 4 remain fully empty and transparent. No labels, text, grid lines or extra objects. The shape guide is authoritative; the two reference pictures only supply surface appearance, never their composition or silhouette.\nCORRECTION: The previous attempt had severe stray yellow splatter outside the masks. Start from the clean input guide again. All ten shapes must have perfectly clean exact guide boundaries with zero splatter, no speckles, no colored fringe and no other pixels outside. Lower five shapes must be completely uniform solid RGB(255,255,0), no thin dark contour, no gradient. Copy the guide silhouette shapes faithfully. The side views are true orthographic low profiles, not tilted views of the top.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0d-3f90-7972-a370-9e213c28b0b4/exec-d4f3828a-8643-4b73-8e7a-ac00bb56ef5d.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10239/paint_mask_raw_v1.png",
+  "validation": "One corrective regeneration used. Visible stray pixels and colored fringes remain outside silhouettes; exact mask and silhouette requirements not met.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10239/paint_mask_guide.png",
+      "sha256": "aec95f9d60867c872fd8b0a0b0847aa034e8f110e61eeef6f779f5ad0eff2445"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10239/design_reference.png",
+      "sha256": "cb7ce69d0b6c7c129b454c97737e8ae1b749f21dcb97fcd865854934058a8bd1"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10239/icon_x8.png",
+      "sha256": "1fe171a60698cef0a6385de797346f2475e8b417499eabd755f8a9d69226c185"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

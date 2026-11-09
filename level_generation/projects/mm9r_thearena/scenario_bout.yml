@@ -1,0 +1,160 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thearena_bout
+title: 'The Arena (native BLV) - a bet: the wager, a betting slip, the bout, the winnings'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thearena.blv
+- console:
+    line: gold set 1000
+- set_pose:
+    map: thearena.blv
+    x: -98
+    y: -3441
+    z: 1
+    yaw: 3.1416
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 430
+- select_topic:
+    action_id: 5
+    match_label: We'd like to place a bet.
+- select_topic:
+    action_id: 2
+    match_label: We'd like to wager 50 gold
+- assert:
+    qbit_set:
+    - 91017
+    - 91012
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'Arena.scr :OnBet2: the 50 gold are taken, the doors locked.'
+- assert:
+    gold: 950
+- assert:
+    named_map_var_changed:
+      name: BetAmount
+      current: 50
+- note:
+    text: 'A real click on the slip at Marker3 (ArenaMini.scr :OnUse): the bet is on monster A; after 3 s Arena.scr :OnWatch
+      spawns A in the east pen and B in the west pen.'
+- set_pose:
+    map: thearena.blv
+    x: -105
+    y: -3318
+    z: 1
+    yaw: 3.1416
+    pitch: -0.2915
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 91019
+- assert:
+    named_map_var_changed:
+      name: BetOn
+      current: 1
+- note:
+    text: Up to the stands to watch ("Go up the stairs behind you to reach the viewing area").
+- set_pose:
+    map: thearena.blv
+    x: 410
+    y: -2089
+    z: 656
+    yaw: 1.5708
+    pitch: -0.3
+- advance_runtime:
+    seconds: 9
+- assert:
+    named_map_var_changed:
+      name: BoutGroupA
+      current: 101
+- assert:
+    named_map_var_changed:
+      name: BoutGroupB
+      current: 102
+- assert:
+    actor_visible:
+      actor_index: 5
+      hostile_to_party: false
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 6
+      hostile_to_party: false
+      report_state: true
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- advance_runtime:
+    seconds: 10
+- assert:
+    actor_visible:
+      actor_index: 5
+      report_state: true
+- assert:
+    actor_visible:
+      actor_index: 6
+      report_state: true
+- note:
+    text: 'B falls (here by a hit): A wins, the bet on A pays (key 1018); after 20 s the winner leaves and the next pair is
+      drawn.'
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 91018
+- advance_runtime:
+    seconds: 26
+- assert:
+    named_map_var_changed:
+      name: Bouts
+      current: 2
+- assert:
+    qbit_clear:
+    - 91011
+    - 91010
+- set_pose:
+    map: thearena.blv
+    x: -98
+    y: -3441
+    z: 1
+    yaw: 3.1416
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 430
+- select_topic:
+    action_id: 16
+    match_label: We won!
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_clear:
+    - 91018
+- console:
+    line: gold get

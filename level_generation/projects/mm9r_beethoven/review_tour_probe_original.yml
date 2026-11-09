@@ -1,0 +1,74 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_beethoven/review/probe_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a01_south_arrival
+  position:
+  - -9805
+  - 543
+  - 533
+  yaw: 0.0
+  pitch: 0.0
+- name: a02_west_arrival
+  position:
+  - -16435
+  - 13107
+  - 533
+  yaw: 0.0
+  pitch: 0.0
+- name: a03_grate_landing
+  position:
+  - -1720
+  - 2867
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: a04_east_door
+  position:
+  - 4096
+  - 17572
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: a05_shaft_rim
+  position:
+  - -1720
+  - -1792
+  - 1
+  yaw: -1.5708
+  pitch: -0.3142
+- name: a06_hub
+  position:
+  - -1720
+  - -1229
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: a07_caldarium
+  position:
+  - -3932
+  - 5632
+  - -1637
+  yaw: 1.5708
+  pitch: 0.0
+- name: a08_well
+  position:
+  - -12032
+  - -24658
+  - -3563
+  yaw: 3.1416
+  pitch: 0.0
+- name: a09_manuscript
+  position:
+  - -8525
+  - -6912
+  - -3112
+  yaw: -1.5708
+  pitch: 0.0
+- name: a10_great_door
+  position:
+  - -12800
+  - -18688
+  - -3563
+  yaw: -1.5708
+  pitch: 0.0

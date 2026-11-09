@@ -1,0 +1,60 @@
+# Real clicks at authored pickup positions; shared loot/stat rules are tested in hesper_pickups_test.
+id: hesper.d16.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d16.blv
+    party:
+      members:
+      - name: Pickup tester
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.Rolled
+      value: 1
+- set_pose:
+    map: hes_d16.blv
+    x: 4430
+    y: 430
+    z: 0
+    yaw: -1.5707963267948966
+    pitch: -0.6
+- press_interact:
+    expect:
+      event_primary: 750
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.750
+      value: 1
+- set_pose:
+    map: hes_d16.blv
+    x: 4990
+    y: 450
+    z: 0
+    yaw: 0
+    pitch: -0.6
+- press_interact:
+    expect:
+      event_primary: 751
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.751
+      value: 1
+- set_pose:
+    map: hes_d16.blv
+    x: 3500
+    y: 2890
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: -0.6
+- press_interact:
+    expect:
+      event_primary: 754
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.754
+      value: 1

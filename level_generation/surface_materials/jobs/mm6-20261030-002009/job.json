@@ -1,0 +1,75 @@
+{
+ "id": "mm6-20261030-002009",
+ "world": "mm6",
+ "created": "2026-10-30T00:20:10",
+ "textures": [
+  "mm6/cbeam2",
+  "mm6/elem-all",
+  "mm6/self-all",
+  "mm6/t1swbd",
+  "mm6/rblst1",
+  "mm6/sidert32"
+ ],
+ "requests": {
+  "mm6/cbeam2": {
+   "name": "cbeam2",
+   "copies": 4,
+   "axis": "rows",
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/elem-all": {
+   "name": "elem-all",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/self-all": {
+   "name": "self-all",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/t1swbd": {
+   "name": "t1swbd",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/rblst1": {
+   "name": "rblst1",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/sidert32": {
+   "name": "sidert32",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  }
+ }
+}

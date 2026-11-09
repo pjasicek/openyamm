@@ -1,0 +1,50 @@
+{
+  "creature_3d_identity": "mm7:m342_reduce",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 1
+  },
+  "creature": "MM7 Peasant Human1 Female m342 reduction (batch K)",
+  "status": "installed_2026-10-20_reduced",
+  "source": {
+    "path": "work/mm7_m342_source_pre_reduce.glb",
+    "sha256": "c3254f6cb15df1565b235b008ffc11fe5e55214a7b68e77365e55f8fb5c17800"
+  },
+  "export": {
+    "path": "export/mm7_m342.glb",
+    "sha256": "8c8808ee9bd9c6eada98f080918adc1275ab2360c11079bfc2ca311c64a9e369"
+  },
+  "lods": {
+    "production": [
+      9920,
+      4957,
+      1778,
+      585
+    ],
+    "reduced": [
+      8683,
+      4337,
+      1556,
+      512
+    ]
+  },
+  "pick": {
+    "ladder": "f",
+    "cand": "Cand_86",
+    "p99_mm": 4.14,
+    "max_mm": 24.24,
+    "iou": 0.999,
+    "ssim": 0.995
+  },
+  "viewer": "72 switches, no console errors",
+  "meshy_credits": 0,
+  "last_update_utc": "2026-10-20",
+  "next_action": {
+    "owner": "user",
+    "action": "review; install export/mm7_m342.glb in place of the production export (README)"
+  },
+  "installed": {
+    "source": "assets_source/worlds/mm7/models/mm7_m342.glb",
+    "binding": "assets_dev/worlds/mm7/models/actors.yml"
+  }
+}

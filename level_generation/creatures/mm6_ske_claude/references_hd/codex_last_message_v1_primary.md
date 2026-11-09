@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ske_claude/references_hd/00_three_quarter.png), generated with built-in imagegen: unresized 1024 × 1536 RGBA. Both raw returns, prompts and hashes are recorded in `generation_runs.json`.
+
+Stopped after the one permitted correction. Remaining limitations: shallower camera angle and uncertain finger count on the foreshortened hand.

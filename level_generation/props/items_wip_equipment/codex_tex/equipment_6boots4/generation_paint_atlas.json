@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Sterling Boots (6boots4). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Pair of dark silver articulated steel boots, rounded plated toes, overlapping horizontal shin plates, dark leather joints and soles. This is a genuine geometry variant; match the attached 6boots4 icon colours and ornament instead of copying the master variant colours. Exact material boundaries: Steel plates RED; leather joints, flexible backs, soles and linings GREEN. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6boots4/inputs/guide_paint.png",
+  "input_guide_sha256": "4ed7a06b84ab38ec43b5549c6b43572efee6827e4625112d87cd6bec0871c632",
+  "revision": 1,
+  "input_icon": "6boots4",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-608e36da-f0a7-4b99-8804-fe0490a3c475.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "14aa0720e4e2f150d377440eff805cceb045fc87f48a35110294e986f6df2cbd",
+  "input_icon_path": "assets_dev/engine/icons_x2/6boots4.png",
+  "input_icon_sha256": "ce2ce916f486b4630d1d795a994cfc68571dd0f0c65351b8de73cefc71bc043a",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

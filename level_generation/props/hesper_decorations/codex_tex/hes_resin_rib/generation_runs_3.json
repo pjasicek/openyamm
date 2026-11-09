@@ -1,0 +1,176 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generation_complete_validation_failed",
+  "note": "Selected means best raw attempt saved at the requested filename, not accepted as brief-compliant. Each view used one initial generation and exactly one corrective regeneration. No resizing, masking or pixel editing was performed.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic 3D-model texture-source painting, LEFT view, exactly 1024 x 1024 pixels, transparent RGBA.\nInput 1 guide_left.png is the EDIT TARGET and sole geometry authority. Input 2 design_reference.png is ONLY the color/material design reference, never its camera or curved silhouette.\nPaint directly over the supplied plain grey left orthographic render. Keep the target's exact pixel-space silhouette, size, position and all shape edges, openings, protrusions, spurs and recesses. Preserve the narrow upright end-on rib, its top near (512,66), broad splayed base near y=958, and complete outline spanning x=220..803. Do not rotate, bend, reframe, enlarge, shrink or invent geometry. All grey surface areas must be painted, including the tip and base. Keep all original transparent pixels transparent.\nMaterials from the design reference: black-violet resin and chitin, fine irregular organic striations and thin saturated orange veins following the existing recesses; a few fused chipped ivory-white ceramic fragments with worn gold edges on existing lower-base plate surfaces. Preserve the guide's distinct LEFT-view topology and base details. Material detail is painted on the existing surfaces, never new holes or silhouette changes.\nThis is ALBEDO for later projection onto the mesh: use flat even shadowless viewer-facing illumination. Express the glossy resin material through its surface color and fine texture, without baked bright specular spots, reflections, directional gradients, rim lights, cast shadows or ambient-occlusion blackening. Orange seams are painted saturated orange, with no bloom, halo, spill or illumination on neighbors. Match the black-violet, orange, chipped ivory and gold palette of the design reference but remove its dramatic studio lighting.\nOutput one single unchanged-canvas 1024x1024 transparent PNG. No background, no floor, no text, no labels, no border. Exact guide silhouette and internal geometry take priority over decorative detail.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1583c-1bf3-7163-bae0-95438d50adff/exec-18332260-fda7-4076-8605-2cf7270e0734.png",
+      "output": "paint_left_run1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions; guide outline and internal geometry drift; strong specular highlights and recess shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a392acbf2a399964ca1f74b4222ab331e25f5c715280f90c1c6df2ea0d35557d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+        }
+      ],
+      "output_sha256": "cbad1ec9fbde6f103aed9ca0ed2c2655e2a0f8d10fcbeb83b1c7c052bbf1a646",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          32,
+          1228,
+          1182
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_design_reference": true,
+        "materials_check_method": "visual inspection of tool return",
+        "flat_even_shadowless_albedo": false,
+        "lighting_note": "Visible edge highlights and dark recess shading remain.",
+        "unresized_unedited_return": true,
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION, LEFT VIEW. Output image dimensions MUST be exactly 1024 by 1024 pixels, a square transparent RGBA PNG. Preserve the input guide canvas at native resolution. Do not output 1254x1254 or any other resolution. Do not scale or reframe the subject.\nUse case: style-transfer. Paint a flat diffuse ALBEDO texture onto image 1 guide_left.png. Image 2 design_reference.png supplies ONLY the material palette, not lighting and not geometry.\nTreat image 1 as an immutable geometry stencil. Every original guide alpha pixel, silhouette edge, hole, protrusion, internal ridge and surface boundary must stay in precisely its original pixel position. Paint only existing grey surface pixels. The outline must match the guide exactly, including top y=66, bottom y=957, left x=220 and right x=803. The long narrow rib, stepped pointed tiers and wide splayed feet retain exactly the guide proportions and placement. Do not redesign it. No extra organic apertures.\nReplace grey with finely textured black-violet resin/chitin, sparse thin saturated orange vein lines following existing channels, and a few chipped off-white ceramic fragments edged in worn gold on the existing lower-base plates. Keep all shape edges and openings of the LEFT guide unchanged.\nCRITICAL LIGHTING CORRECTION: make this a shadowless, reflection-free, flat-lit color painting for use as a base-color texture, not a glossy beauty render. The material is physically glossy but this image must contain NO specular highlights, no white glints, no metallic glints, no rim light, no reflections, no directional shading, no ambient occlusion, no cast shadow. The violet surfaces should have even muted dark-purple diffuse color with subtle color mottling and fine striations. Orange veins are flat orange pigment/emission color without bloom or cast glow. Off-white ceramic has painted chips; gold is flat ochre-gold without light catches.\nSingle exact 1024x1024 unresized transparent image, no background, floor, text, watermark, border or lighting effects. Preserve original alpha and all guide geometry.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1583c-1bf3-7163-bae0-95438d50adff/exec-8fa1879d-131a-47bf-80f6-e3342edb0899.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available raw left return after the one permitted correction: reduced highlights and suitable palette, but not accepted as brief-compliant; native dimensions, exact silhouette/internal geometry and shadowless albedo requirements still fail.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a392acbf2a399964ca1f74b4222ab331e25f5c715280f90c1c6df2ea0d35557d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+        }
+      ],
+      "output_sha256": "710bd74b6c64521cdb9afa2cf007338243b8ecf3471c6a6f4b40739ec637a6ca",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          19,
+          1240,
+          1254
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_design_reference": true,
+        "materials_check_method": "visual inspection of tool return",
+        "flat_even_shadowless_albedo": false,
+        "lighting_note": "Visible edge highlights and dark recess shading remain.",
+        "unresized_unedited_return": true,
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic 3D-model texture-source painting, RIGHT view, exactly 1024 x 1024 pixels, transparent RGBA.\nInput 1 guide_right.png is the EDIT TARGET and sole geometry authority. Input 2 design_reference.png is ONLY the color/material design reference, never its camera or curved silhouette.\nPaint directly over the supplied plain grey right orthographic render. Keep the target's exact pixel-space silhouette, size, position and all shape edges, openings, protrusions, spurs and recesses. Preserve the narrow upright end-on rib, its top near (512,66), broad splayed base near y=958, and complete outline spanning x=220..803. Do not rotate, bend, reframe, enlarge, shrink or invent geometry. All grey surface areas must be painted, including the tip and base. Keep all original transparent pixels transparent.\nMaterials from the design reference: black-violet resin and chitin, fine irregular organic striations and thin saturated orange veins following the existing recesses; a few fused chipped ivory-white ceramic fragments with worn gold edges on existing lower-base plate surfaces. Preserve the guide's distinct RIGHT-view topology, its long central ridges and channels and its base details. Material detail is painted on the existing surfaces, never new holes or silhouette changes.\nThis is ALBEDO for later projection onto the mesh: use flat even shadowless viewer-facing illumination. Express the glossy resin material through its surface color and fine texture, without baked bright specular spots, reflections, directional gradients, rim lights, cast shadows or ambient-occlusion blackening. Orange seams are painted saturated orange, with no bloom, halo, spill or illumination on neighbors. Match the black-violet, orange, chipped ivory and gold palette of the design reference but remove its dramatic studio lighting.\nOutput one single unchanged-canvas 1024x1024 transparent PNG. No background, no floor, no text, no labels, no border. Exact guide silhouette and internal geometry take priority over decorative detail.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1583c-1bf3-7163-bae0-95438d50adff/exec-f835f288-16a7-4d08-8133-6b94c3e5af9a.png",
+      "output": "paint_right_run1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions; guide outline and internal geometry drift; strong specular highlights and recess shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "151ce493801a0f56582659fb39923bc60e6792b68544e5253f70308cfd3a9836"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+        }
+      ],
+      "output_sha256": "5434868e172bf2cd2376bfe4428079557fdaa9f1359f1bb4453594c211c1f1a7",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1240,
+          1230
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_design_reference": true,
+        "materials_check_method": "visual inspection of tool return",
+        "flat_even_shadowless_albedo": false,
+        "lighting_note": "Visible edge highlights and dark recess shading remain.",
+        "unresized_unedited_return": true,
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION, RIGHT VIEW. Output image dimensions MUST be exactly 1024 by 1024 pixels, a square transparent RGBA PNG. Preserve the input guide canvas at native resolution. Do not output 1254x1254 or any other resolution. Do not scale or reframe the subject.\nUse case: style-transfer. Paint a flat diffuse ALBEDO texture onto image 1 guide_right.png. Image 2 design_reference.png supplies ONLY the material palette, not lighting and not geometry.\nTreat image 1 as an immutable geometry stencil. Every original guide alpha pixel, silhouette edge, hole, protrusion, internal ridge and surface boundary must stay in precisely its original pixel position. Paint only existing grey surface pixels. The outline must match the guide exactly, including top y=66, bottom y=957, left x=220 and right x=803. The long narrow rib, stepped pointed tiers and wide splayed feet retain exactly the guide proportions and placement. Do not redesign it. No extra organic apertures. Retain the specific long ridges and channels of the RIGHT guide.\nReplace grey with finely textured black-violet resin/chitin, sparse thin saturated orange vein lines following existing channels, and a few chipped off-white ceramic fragments edged in worn gold on the existing lower-base plates. Keep all shape edges and openings of the RIGHT guide unchanged.\nCRITICAL LIGHTING CORRECTION: make this a shadowless, reflection-free, flat-lit color painting for use as a base-color texture, not a glossy beauty render. The material is physically glossy but this image must contain NO specular highlights, no white glints, no metallic glints, no rim light, no reflections, no directional shading, no ambient occlusion, no cast shadow. The violet surfaces should have even muted dark-purple diffuse color with subtle color mottling and fine striations. Orange veins are flat orange pigment/emission color without bloom or cast glow. Off-white ceramic has painted chips; gold is flat ochre-gold without light catches.\nSingle exact 1024x1024 unresized transparent image, no background, floor, text, watermark, border or lighting effects. Preserve original alpha and all guide geometry.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1583c-1bf3-7163-bae0-95438d50adff/exec-0f0e3859-0828-4ae5-bc67-ed1548ec6a7a.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available raw right return after the one permitted correction: reduced highlights and suitable palette, but not accepted as brief-compliant; native dimensions, exact silhouette/internal geometry and shadowless albedo requirements still fail.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "151ce493801a0f56582659fb39923bc60e6792b68544e5253f70308cfd3a9836"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+        }
+      ],
+      "output_sha256": "80652c95e3e7831e21235d197b8a46f602df9e0d2074fdca7d9cb820c846029a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1232,
+          1230
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_design_reference": true,
+        "materials_check_method": "visual inspection of tool return",
+        "flat_even_shadowless_albedo": false,
+        "lighting_note": "Visible edge highlights and dark recess shading remain.",
+        "unresized_unedited_return": true,
+        "accepted_as_brief_compliant": false
+      }
+    }
+  ]
+}

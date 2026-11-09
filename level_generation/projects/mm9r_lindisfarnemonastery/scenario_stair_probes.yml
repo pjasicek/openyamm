@@ -1,0 +1,233 @@
+id: lmroll.lindisfarnemonastery_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: lindisfarnemonastery.blv
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: lindisfarnemonastery.blv
+      x: -1229
+      y: -1393
+      z: 103
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: lindisfarnemonastery.blv
+      x: -1367
+      y: -1393
+      z: 349
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: lindisfarnemonastery.blv
+      x: 942
+      y: -1393
+      z: 103
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id004
+      map: lindisfarnemonastery.blv
+      x: 804
+      y: -1393
+      z: 349
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop: *id004
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id005
+      map: lindisfarnemonastery.blv
+      x: 4526
+      y: 5914
+      z: 83
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop: *id005
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start: &id006
+      map: lindisfarnemonastery.blv
+      x: 4367
+      y: 5914
+      z: 83
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop: *id006
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id007
+      map: lindisfarnemonastery.blv
+      x: 430
+      y: 6881
+      z: 2295
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id007
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id008
+      map: lindisfarnemonastery.blv
+      x: -1987
+      y: 6881
+      z: 2295
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id008
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id009
+      map: lindisfarnemonastery.blv
+      x: -512
+      y: 9134
+      z: 2297
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id009
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id010
+      map: lindisfarnemonastery.blv
+      x: -2355
+      y: 6881
+      z: 981
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id010
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id011
+      map: lindisfarnemonastery.blv
+      x: 5407
+      y: 3523
+      z: 411
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id011
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id012
+      map: lindisfarnemonastery.blv
+      x: 3502
+      y: 963
+      z: 413
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id012
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id013
+      map: lindisfarnemonastery.blv
+      x: -512
+      y: 0
+      z: 4
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id013
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id014
+      map: lindisfarnemonastery.blv
+      x: 937
+      y: 954
+      z: 370
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id014
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

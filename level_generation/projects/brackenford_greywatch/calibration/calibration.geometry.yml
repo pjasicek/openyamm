@@ -1,0 +1,84 @@
+{
+  "format_version": 2,
+  "kind": "indoor_geometry",
+  "map_file": "calibration.blv",
+  "source": {
+    "authoring_file": "calibration.blend",
+    "asset_path": "calibration.glb",
+    "coordinate_system": "blender_z_up",
+    "unit_scale": 128,
+    "import": {
+      "source_format": "glb",
+      "reserve_sector_zero": true,
+      "merge_coplanar_faces": true,
+      "generate_bsp": true,
+      "generate_outlines": true
+    }
+  },
+  "materials": [
+    {
+      "id": "GSton1WL",
+      "source_material": "GSton1WL",
+      "texture": "GSton1WL",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "GSton1FL",
+      "source_material": "GSton1FL",
+      "texture": "GSton1FL",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "TFB11",
+      "source_material": "TFB11",
+      "texture": "TFB11",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "gt002b",
+      "source_material": "gt002b",
+      "texture": "gt002b",
+      "texture_width": 64,
+      "texture_height": 64
+    }
+  ],
+  "portals": [
+    {
+      "id": "entry_gallery",
+      "source_node": "PORTAL_entry_gallery",
+      "front_room": "room_entry",
+      "back_room": "room_gallery"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "room_entry",
+      "source_nodes": [
+        "ROOM_entry"
+      ]
+    },
+    {
+      "id": "room_gallery",
+      "source_nodes": [
+        "ROOM_gallery"
+      ]
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "uv_panel",
+      "source_node": "TRIGGER_uv_panel",
+      "trigger": {
+        "event_id": 101,
+        "type": "click"
+      }
+    }
+  ],
+  "mechanisms": [],
+  "entities": [],
+  "lights": [],
+  "spawns": []
+}

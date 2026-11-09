@@ -1,0 +1,62 @@
+[
+  {
+    "view": "front",
+    "source_scale": [
+      1.00374531835206,
+      1.0092165898617511
+    ],
+    "aligned_silhouette_iou": 0.9950364848029425,
+    "output": "codex_tex/organic_item321/paint_front.png",
+    "output_sha256": "ebaffae70c7ceae8998824053a6b23ce6152912d5ae9cc1dc7b2493d5395db59"
+  },
+  {
+    "view": "back",
+    "source_scale": [
+      1.0074906367041199,
+      1.0
+    ],
+    "aligned_silhouette_iou": 0.9945740104968234,
+    "output": "codex_tex/organic_item321/paint_back.png",
+    "output_sha256": "8c374fb77e15adfe6e1791fb97c4d318ef77019be4043f64e70912c2b5a2d65f"
+  },
+  {
+    "view": "left",
+    "source_scale": [
+      1.002247191011236,
+      1.0046082949308757
+    ],
+    "aligned_silhouette_iou": 0.995337854201986,
+    "output": "codex_tex/organic_item321/paint_left.png",
+    "output_sha256": "950cf0e22f945f4a2b1de064505fd40d471213e760f0a57ebdb6f8feb45b49a2"
+  },
+  {
+    "view": "right",
+    "source_scale": [
+      1.0,
+      1.0046082949308757
+    ],
+    "aligned_silhouette_iou": 0.9933059762017165,
+    "output": "codex_tex/organic_item321/paint_right.png",
+    "output_sha256": "6696a720fd5811145b5c8d909d3fc5fd541ef26a0946f1d5771cc7b977826709"
+  },
+  {
+    "view": "top",
+    "source_scale": [
+      1.0,
+      1.0
+    ],
+    "aligned_silhouette_iou": 0.9907422502736567,
+    "output": "codex_tex/organic_item321/paint_top.png",
+    "output_sha256": "c463e369a73f1cfe47eff553578b9faf0b3e67c6a864c5ccf9801638b3c95024"
+  },
+  {
+    "view": "bottom",
+    "source_scale": [
+      0.9962546816479401,
+      1.0
+    ],
+    "aligned_silhouette_iou": 0.9892425701785942,
+    "output": "codex_tex/organic_item321/paint_bottom.png",
+    "output_sha256": "aa4a1485a09f7a09cdeeed330161f32f7e5c8b2ffd6ddb6778da6e2ee3757a67"
+  }
+]

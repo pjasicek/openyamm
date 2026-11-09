@@ -1,0 +1,586 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized": true,
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: style-transfer.\nAsset type: a single orthographic painted view for a 3D item's albedo texture source.\nEdit the FIRST input image (the geometry guide). The SECOND input image is only the approved surface/material design reference. Return ONE 1024 x 1024 PNG with a genuinely transparent background, not a sheet.\nNONNEGOTIABLE GEOMETRY: keep the FIRST image's exact canvas, silhouette, pixel position, scale, camera, orientation, every component edge, visible overlaps and internal transparent holes. Paint within the existing shape only. No reposing, recentering, zoom, cropping, rounding off the polygonal outline, added geometry or invention of parts. The second image's three-quarter camera and elaborate shape must NOT replace the first image's geometry.\nItem: hes_xiths_sight, Kreegan lord jewelry. A thick black-violet resin ring with a broad brushed gold setting enclosing a single oval ice-blue lens, with two tiny gold sighting notches in the design reference. Follow the exact modeled parts in the guide; any reference detail must stay inside an existing surface without moving its edge. No eye illustration.\nMATERIAL TRANSFER: the guide's pale cream parts become warm worn brushed gold, with fine close-grained scuffs and restrained shallow seam/engraving detail drawn from the reference; the guide's gray-lavender parts become very dark black-violet resin with sparse fine violet mineral veins and fine wear, continuing plausibly around the inner band; the guide's pale-blue part, only where visible, becomes icy blue crystalline lens glass with delicate internal crystalline threads and specks. Use the reference's material hues and surface character, not the guide's placeholder tints. Use only materials actually present in this reference: gold, resin, glass. Do not invent ceramic, leather, fabric, paper or orange light. Continue hidden-reference faces plausibly in these same materials.\nALBEDO LIGHTING: even flat shadowless light from the viewer, with uniform material base colors across every visible face. NO cast shadows, NO ambient occlusion or darkening at joins/interiors, NO directional shading, NO bright specular highlights, NO reflected studio shapes, NO rim light. Gold has only a faint subdued sheen. Lens is painted its bright icy blue-white material color with no bloom or spill outside it. The ring's dark color must come from its black-violet resin material, not shadows. Surface grain is color detail, not dramatic lighting.\nBACKGROUND: preserve true transparent alpha outside the exact guide silhouette and through all holes. No background, floor, black fill, checkerboard artwork, text, letters, labels, watermark or border.\n\nVIEW-SPECIFIC GEOMETRY:\nFRONT view as guide_front.png, even though its view label may sound counterintuitive: retain the wide horizontal band in the foreground, its upper elliptical gold rim and lower gold trim. Retain the visible resin inner band and the small crescent-shaped transparent opening. The reverse side of the raised gold setting is visible behind at the upper center; there is NO visible blue lens in this guide, so do not add one. Preserve guide extent approximately x=139..884, y=152..871, on the unchanged 1024-square canvas.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "b587face3c2897a39e2c19986bf2f6528f32cb23b250d7904c313e9be58aba93"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-794ae634-f8f0-4170-8541-ea2f4fa302ea.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: strong metallic shading and only 87.26% normalized silhouette overlap; correction improves both.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "56fd1a02c75b217f7a18f50311d7e60fe677b6f2b097e6658fb56a9f51548e90",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.6498655657557697,
+        "alpha_bbox": [
+          0,
+          20,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          185,
+          189,
+          1069,
+          1022
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.8725597019421961,
+        "soft_alpha_pixels": 16050,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Residual directional shading and strong specular bands.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer.\nAsset type: a single orthographic painted view for a 3D item's albedo texture source.\nEdit the FIRST input image (the geometry guide). The SECOND input image is only the approved surface/material design reference. Return ONE 1024 x 1024 PNG with a genuinely transparent background, not a sheet.\nNONNEGOTIABLE GEOMETRY: keep the FIRST image's exact canvas, silhouette, pixel position, scale, camera, orientation, every component edge, visible overlaps and internal transparent holes. Paint within the existing shape only. No reposing, recentering, zoom, cropping, rounding off the polygonal outline, added geometry or invention of parts. The second image's three-quarter camera and elaborate shape must NOT replace the first image's geometry.\nItem: hes_xiths_sight, Kreegan lord jewelry. A thick black-violet resin ring with a broad brushed gold setting enclosing a single oval ice-blue lens, with two tiny gold sighting notches in the design reference. Follow the exact modeled parts in the guide; any reference detail must stay inside an existing surface without moving its edge. No eye illustration.\nMATERIAL TRANSFER: the guide's pale cream parts become warm worn brushed gold, with fine close-grained scuffs and restrained shallow seam/engraving detail drawn from the reference; the guide's gray-lavender parts become very dark black-violet resin with sparse fine violet mineral veins and fine wear, continuing plausibly around the inner band; the guide's pale-blue part, only where visible, becomes icy blue crystalline lens glass with delicate internal crystalline threads and specks. Use the reference's material hues and surface character, not the guide's placeholder tints. Use only materials actually present in this reference: gold, resin, glass. Do not invent ceramic, leather, fabric, paper or orange light. Continue hidden-reference faces plausibly in these same materials.\nALBEDO LIGHTING: even flat shadowless light from the viewer, with uniform material base colors across every visible face. NO cast shadows, NO ambient occlusion or darkening at joins/interiors, NO directional shading, NO bright specular highlights, NO reflected studio shapes, NO rim light. Gold has only a faint subdued sheen. Lens is painted its bright icy blue-white material color with no bloom or spill outside it. The ring's dark color must come from its black-violet resin material, not shadows. Surface grain is color detail, not dramatic lighting.\nBACKGROUND: preserve true transparent alpha outside the exact guide silhouette and through all holes. No background, floor, black fill, checkerboard artwork, text, letters, labels, watermark or border.\n\nVIEW-SPECIFIC GEOMETRY:\nBACK view as guide_back.png: preserve the centered oval blue lens and its thick gold cylindrical setting at the upper center, above the wide ring band. Preserve the small crescent-shaped transparent opening immediately below the setting, and the broad foreground inner/outer band exactly as shown. Preserve guide extent approximately x=139..884, y=152..871.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "ab736900aa96c7ee6669de1bd34ddcd5bd940b34a21b63e99140ff3841b3d9f1"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-7d4169fb-ce8c-49b3-8b50-6cdd1245f3a6.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: specular bands and 84.61% normalized silhouette overlap; correction is flatter with 88.42% overlap.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "13d977f7b31f04d64ebd7f7ef1493a5cf2992e77bb3195ceb9dc5394815c2aa5",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.639455496796217,
+        "alpha_bbox": [
+          0,
+          17,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          187,
+          176,
+          1068,
+          1021
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.8461455199372203,
+        "soft_alpha_pixels": 25459,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Residual directional shading and strong specular bands.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer.\nAsset type: a single orthographic painted view for a 3D item's albedo texture source.\nEdit the FIRST input image (the geometry guide). The SECOND input image is only the approved surface/material design reference. Return ONE 1024 x 1024 PNG with a genuinely transparent background, not a sheet.\nNONNEGOTIABLE GEOMETRY: keep the FIRST image's exact canvas, silhouette, pixel position, scale, camera, orientation, every component edge, visible overlaps and internal transparent holes. Paint within the existing shape only. No reposing, recentering, zoom, cropping, rounding off the polygonal outline, added geometry or invention of parts. The second image's three-quarter camera and elaborate shape must NOT replace the first image's geometry.\nItem: hes_xiths_sight, Kreegan lord jewelry. A thick black-violet resin ring with a broad brushed gold setting enclosing a single oval ice-blue lens, with two tiny gold sighting notches in the design reference. Follow the exact modeled parts in the guide; any reference detail must stay inside an existing surface without moving its edge. No eye illustration.\nMATERIAL TRANSFER: the guide's pale cream parts become warm worn brushed gold, with fine close-grained scuffs and restrained shallow seam/engraving detail drawn from the reference; the guide's gray-lavender parts become very dark black-violet resin with sparse fine violet mineral veins and fine wear, continuing plausibly around the inner band; the guide's pale-blue part, only where visible, becomes icy blue crystalline lens glass with delicate internal crystalline threads and specks. Use the reference's material hues and surface character, not the guide's placeholder tints. Use only materials actually present in this reference: gold, resin, glass. Do not invent ceramic, leather, fabric, paper or orange light. Continue hidden-reference faces plausibly in these same materials.\nALBEDO LIGHTING: even flat shadowless light from the viewer, with uniform material base colors across every visible face. NO cast shadows, NO ambient occlusion or darkening at joins/interiors, NO directional shading, NO bright specular highlights, NO reflected studio shapes, NO rim light. Gold has only a faint subdued sheen. Lens is painted its bright icy blue-white material color with no bloom or spill outside it. The ring's dark color must come from its black-violet resin material, not shadows. Surface grain is color detail, not dramatic lighting.\nBACKGROUND: preserve true transparent alpha outside the exact guide silhouette and through all holes. No background, floor, black fill, checkerboard artwork, text, letters, labels, watermark or border.\n\nVIEW-SPECIFIC GEOMETRY:\nLEFT view as guide_left.png: preserve the long narrow diagonal side profile running from the large gold lens setting at the upper LEFT down to the ring band at the lower RIGHT. The visible blue glass is the exact thin convex portion LEFT of the gold setting; the wide gray-lavender diagonal strip becomes black-violet resin with both narrow gold edge strips unchanged in width. There is NO visible ring hole in this view. Preserve guide extent approximately x=66..957, y=152..871.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "91902e737a78d71202bbfeb683ca9e309dc913543d5b12882753d6683c9edc72"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-c1ab8f8b-5ca1-4af0-8f45-8a3556fbe385.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: stronger metallic highlights and an added setting seam; correction is substantially flatter with only a small overlap tradeoff (93.24% to 92.06%).",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "430a97590a7d9ac01f0d9132a3fe83a5b9f780d3beea59452a8a55ef61246dbe",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.7556921519399484,
+        "alpha_bbox": [
+          0,
+          29,
+          1254,
+          1254
+        ],
+        "opaque_bbox": [
+          85,
+          181,
+          1169,
+          1077
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.9324442978907774,
+        "soft_alpha_pixels": 12516,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Residual directional shading and strong specular bands.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer.\nAsset type: a single orthographic painted view for a 3D item's albedo texture source.\nEdit the FIRST input image (the geometry guide). The SECOND input image is only the approved surface/material design reference. Return ONE 1024 x 1024 PNG with a genuinely transparent background, not a sheet.\nNONNEGOTIABLE GEOMETRY: keep the FIRST image's exact canvas, silhouette, pixel position, scale, camera, orientation, every component edge, visible overlaps and internal transparent holes. Paint within the existing shape only. No reposing, recentering, zoom, cropping, rounding off the polygonal outline, added geometry or invention of parts. The second image's three-quarter camera and elaborate shape must NOT replace the first image's geometry.\nItem: hes_xiths_sight, Kreegan lord jewelry. A thick black-violet resin ring with a broad brushed gold setting enclosing a single oval ice-blue lens, with two tiny gold sighting notches in the design reference. Follow the exact modeled parts in the guide; any reference detail must stay inside an existing surface without moving its edge. No eye illustration.\nMATERIAL TRANSFER: the guide's pale cream parts become warm worn brushed gold, with fine close-grained scuffs and restrained shallow seam/engraving detail drawn from the reference; the guide's gray-lavender parts become very dark black-violet resin with sparse fine violet mineral veins and fine wear, continuing plausibly around the inner band; the guide's pale-blue part, only where visible, becomes icy blue crystalline lens glass with delicate internal crystalline threads and specks. Use the reference's material hues and surface character, not the guide's placeholder tints. Use only materials actually present in this reference: gold, resin, glass. Do not invent ceramic, leather, fabric, paper or orange light. Continue hidden-reference faces plausibly in these same materials.\nALBEDO LIGHTING: even flat shadowless light from the viewer, with uniform material base colors across every visible face. NO cast shadows, NO ambient occlusion or darkening at joins/interiors, NO directional shading, NO bright specular highlights, NO reflected studio shapes, NO rim light. Gold has only a faint subdued sheen. Lens is painted its bright icy blue-white material color with no bloom or spill outside it. The ring's dark color must come from its black-violet resin material, not shadows. Surface grain is color detail, not dramatic lighting.\nBACKGROUND: preserve true transparent alpha outside the exact guide silhouette and through all holes. No background, floor, black fill, checkerboard artwork, text, letters, labels, watermark or border.\n\nVIEW-SPECIFIC GEOMETRY:\nRIGHT view as guide_right.png: preserve the long narrow diagonal side profile running from the ring band at the lower LEFT to the large gold lens setting at the upper RIGHT. The visible blue glass is the exact thin convex portion RIGHT of the gold setting; the wide gray-lavender diagonal strip becomes black-violet resin with both narrow gold edge strips unchanged in width. There is NO visible ring hole in this view. Preserve guide extent approximately x=66..957, y=152..871.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d18fd656fcc58e0f7c74e6eb8678dce6a3a712385401a1000bf6a404fa62d147"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-ae7ff3c1-35e1-4eb3-93e1-f9cbffcfae86.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the better available contour match: 94.01% overlap versus 82.55% for the correction. Residual specular bands and surface shading remain; not a full brief-compliance pass.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "c6ea32a22ca3af2446d2d5f60e7a647734e6bc894f84cdb3f06efdd1d6367391",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.741354618967311,
+        "alpha_bbox": [
+          0,
+          53,
+          1198,
+          1254
+        ],
+        "opaque_bbox": [
+          86,
+          180,
+          1193,
+          1078
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.9401251017011144,
+        "soft_alpha_pixels": 11302,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Residual directional shading and strong specular bands.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: style-transfer.\nAsset type: a single orthographic painted view for a 3D item's albedo texture source.\nEdit the FIRST input image (the geometry guide). The SECOND input image is only the approved surface/material design reference. Return ONE 1024 x 1024 PNG with a genuinely transparent background, not a sheet.\nNONNEGOTIABLE GEOMETRY: keep the FIRST image's exact canvas, silhouette, pixel position, scale, camera, orientation, every component edge, visible overlaps and internal transparent holes. Paint within the existing shape only. No reposing, recentering, zoom, cropping, rounding off the polygonal outline, added geometry or invention of parts. The second image's three-quarter camera and elaborate shape must NOT replace the first image's geometry.\nItem: hes_xiths_sight, Kreegan lord jewelry. A thick black-violet resin ring with a broad brushed gold setting enclosing a single oval ice-blue lens, with two tiny gold sighting notches in the design reference. Follow the exact modeled parts in the guide; any reference detail must stay inside an existing surface without moving its edge. No eye illustration.\nMATERIAL TRANSFER: the guide's pale cream parts become warm worn brushed gold, with fine close-grained scuffs and restrained shallow seam/engraving detail drawn from the reference; the guide's gray-lavender parts become very dark black-violet resin with sparse fine violet mineral veins and fine wear, continuing plausibly around the inner band; the guide's pale-blue part, only where visible, becomes icy blue crystalline lens glass with delicate internal crystalline threads and specks. Use the reference's material hues and surface character, not the guide's placeholder tints. Use only materials actually present in this reference: gold, resin, glass. Do not invent ceramic, leather, fabric, paper or orange light. Continue hidden-reference faces plausibly in these same materials.\nALBEDO LIGHTING: even flat shadowless light from the viewer, with uniform material base colors across every visible face. NO cast shadows, NO ambient occlusion or darkening at joins/interiors, NO directional shading, NO bright specular highlights, NO reflected studio shapes, NO rim light. Gold has only a faint subdued sheen. Lens is painted its bright icy blue-white material color with no bloom or spill outside it. The ring's dark color must come from its black-violet resin material, not shadows. Surface grain is color detail, not dramatic lighting.\nBACKGROUND: preserve true transparent alpha outside the exact guide silhouette and through all holes. No background, floor, black fill, checkerboard artwork, text, letters, labels, watermark or border.\n\nVIEW-SPECIFIC GEOMETRY:\nTOP view as guide_top.png: preserve the large open ring hole at the center, the circular black-violet band with narrow gold edge rims, and the thick gold cylindrical setting and visible blue lens centered above it. Preserve precisely the guide's opening, outer ring contour and component intersections. Preserve guide extent approximately x=139..884, y=66..957.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "13146334a44dcb9670b46cb9ae35786641d7b792f433c0b2e08dacae7c1df3c6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        }
+      ],
+      "attempt": 1,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-d98a0e3b-5c54-42f5-bc7a-57b362562434.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: added setting seam, strong sheen and only 87.51% normalized silhouette overlap; correction improves both shape and lighting.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "8a27ffc7ac3e8337f4b5a94207ff357fe18fd084f097fb1ad24c8e40f08c4d54",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.650294178246835,
+        "alpha_bbox": [
+          0,
+          29,
+          1253,
+          1254
+        ],
+        "opaque_bbox": [
+          188,
+          84,
+          1069,
+          1151
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.8750672495834443,
+        "soft_alpha_pixels": 23511,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Residual directional shading and strong specular bands.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: style-transfer. Corrective regeneration, front albedo painting.\nIMAGE 1 (design_reference.png) is MATERIAL REFERENCE ONLY.\nIMAGE 2 (guide_front.png) is the EDIT TARGET and immutable shape template. Output its exact 1024 x 1024 composition and alpha mask. Paint its existing surfaces in place.\nThe previous painting changed contours, added metallic reflections and returned the wrong size. Correct these errors. The target must look like a flat painted texture source, with the design reference's surface coloration but NONE of its dramatic illumination.\nKeep all of IMAGE 2's edges, polygonal silhouette, precise position, scale, holes, part boundaries, and orientation. No added mesh detail, grooves, new trim, tabs, or geometry. Do not copy the design reference camera or silhouette. Do not smooth/reconstruct/recenter the shape. Every transparent pixel in the guide must remain fully transparent; no stray semi-transparent flecks or halo.\nReplace guide material colors as follows:\nCream -> matte warm ochre-gold base color, subtle fine brushed grain and fine wear. Even color on all faces, including rims and underside. No reflected white light, shiny edge strips, dark seams, specular bands, lighting gradients or glitter.\nGray-purple -> nearly black deep violet resin with understated fine violet mineral threads. Flat even color without shaded interiors or bright streaks.\nPale blue -> bright icy blue glass base color with fine subtle blue-white crystalline threads; no reflected environment, white hotspot or bloom.\nUse only gold, black-violet resin and ice-blue glass as in IMAGE 1. No eye imagery, text, lettering, symbols or extra ornament.\nThe FRONT guide hides the lens: do not show any blue glass. Rear gold setting at top; broad resin band across bottom; elliptical gold rim and small crescent transparent hole stay exactly as drawn.\nLighting: flat evenly illuminated unlit diffuse albedo, with NO shadows, ambient occlusion, directional lighting, reflections, rim light or strong specular highlights anywhere. Material detail remains fine and low contrast.\nReturn ONE 1024-square transparent RGBA painting only. No background, floor, checkerboard, captions, collage or framing. Keep the exact guide silhouette.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "b587face3c2897a39e2c19986bf2f6528f32cb23b250d7904c313e9be58aba93"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-f8ad85ca-39ea-4275-ab5b-c0eeadbe6be7.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected: much flatter surfaces and 99.08% normalized silhouette overlap, the closer of the two returns. Pixel-exact silhouette was not achieved.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "5895a8909be4ff588992fde285e0738c5399a2a6f1b4ab47b5fece0118724a35",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.6121883656509696,
+        "alpha_bbox": [
+          0,
+          0,
+          1234,
+          1254
+        ],
+        "opaque_bbox": [
+          170,
+          183,
+          1085,
+          1068
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.9908315478220154,
+        "soft_alpha_pixels": 20522,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Reduced highlights, but mild directional shading remains; not strictly unlit albedo.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Corrective regeneration, back albedo painting.\nIMAGE 1 (design_reference.png) is MATERIAL REFERENCE ONLY.\nIMAGE 2 (guide_back.png) is the EDIT TARGET and immutable shape template. Output its exact 1024 x 1024 composition and alpha mask. Paint its existing surfaces in place.\nThe previous painting changed contours, added metallic reflections and returned the wrong size. Correct these errors. The target must look like a flat painted texture source, with the design reference's surface coloration but NONE of its dramatic illumination.\nKeep all of IMAGE 2's edges, polygonal silhouette, precise position, scale, holes, part boundaries, and orientation. No added mesh detail, grooves, new trim, tabs, or geometry. Do not copy the design reference camera or silhouette. Do not smooth/reconstruct/recenter the shape. Every transparent pixel in the guide must remain fully transparent; no stray semi-transparent flecks or halo.\nReplace guide material colors as follows:\nCream -> matte warm ochre-gold base color, subtle fine brushed grain and fine wear. Even color on all faces, including rims and underside. No reflected white light, shiny edge strips, dark seams, specular bands, lighting gradients or glitter.\nGray-purple -> nearly black deep violet resin with understated fine violet mineral threads. Flat even color without shaded interiors or bright streaks.\nPale blue -> bright icy blue glass base color with fine subtle blue-white crystalline threads; no reflected environment, white hotspot or bloom.\nUse only gold, black-violet resin and ice-blue glass as in IMAGE 1. No eye imagery, text, lettering, symbols or extra ornament.\nThe BACK guide shows the blue lens high in the frame above its thick gold setting; retain the exact small crescent transparent hole below, and the wide bottom band. Do not add an inner gold trim inside that transparent opening.\nLighting: flat evenly illuminated unlit diffuse albedo, with NO shadows, ambient occlusion, directional lighting, reflections, rim light or strong specular highlights anywhere. Material detail remains fine and low contrast.\nReturn ONE 1024-square transparent RGBA painting only. No background, floor, checkerboard, captions, collage or framing. Keep the exact guide silhouette.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "ab736900aa96c7ee6669de1bd34ddcd5bd940b34a21b63e99140ff3841b3d9f1"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-50bf003e-68e1-426b-b50f-6878183f4d18.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected: reduced metallic highlights and improved overlap (88.42%). The model is oversized relative to the guide and retains an extra inner gold edge and mild shading.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "206c99597fbc8307895a9fc9e3f5d4a11b901ff70420ad2ef4f5ff1d63a3f35d",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.577149612468172,
+        "alpha_bbox": [
+          0,
+          19,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          149,
+          155,
+          1102,
+          1091
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.8841652088913128,
+        "soft_alpha_pixels": 26194,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Reduced highlights, but mild directional shading remains; not strictly unlit albedo.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Corrective regeneration, left albedo painting.\nIMAGE 1 (design_reference.png) is MATERIAL REFERENCE ONLY.\nIMAGE 2 (guide_left.png) is the EDIT TARGET and immutable shape template. Output its exact 1024 x 1024 composition and alpha mask. Paint its existing surfaces in place.\nThe previous painting changed contours, added metallic reflections and returned the wrong size. Correct these errors. The target must look like a flat painted texture source, with the design reference's surface coloration but NONE of its dramatic illumination.\nKeep all of IMAGE 2's edges, polygonal silhouette, precise position, scale, holes, part boundaries, and orientation. No added mesh detail, grooves, new trim, tabs, or geometry. Do not copy the design reference camera or silhouette. Do not smooth/reconstruct/recenter the shape. Every transparent pixel in the guide must remain fully transparent; no stray semi-transparent flecks or halo.\nReplace guide material colors as follows:\nCream -> matte warm ochre-gold base color, subtle fine brushed grain and fine wear. Even color on all faces, including rims and underside. No reflected white light, shiny edge strips, dark seams, specular bands, lighting gradients or glitter.\nGray-purple -> nearly black deep violet resin with understated fine violet mineral threads. Flat even color without shaded interiors or bright streaks.\nPale blue -> bright icy blue glass base color with fine subtle blue-white crystalline threads; no reflected environment, white hotspot or bloom.\nUse only gold, black-violet resin and ice-blue glass as in IMAGE 1. No eye imagery, text, lettering, symbols or extra ornament.\nLEFT guide: lens setting at UPPER LEFT, band slopes to LOWER RIGHT; no visible ring hole. Preserve the two straight narrow trim strips, diagonal angle, length, thickness, and each polygonal corner.\nLighting: flat evenly illuminated unlit diffuse albedo, with NO shadows, ambient occlusion, directional lighting, reflections, rim light or strong specular highlights anywhere. Material detail remains fine and low contrast.\nReturn ONE 1024-square transparent RGBA painting only. No background, floor, checkerboard, captions, collage or framing. Keep the exact guide silhouette.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "91902e737a78d71202bbfeb683ca9e309dc913543d5b12882753d6683c9edc72"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-17a0914e-44b6-44e6-8a50-ad76f86dc2c9.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected: flatter albedo and simpler setting, with 92.06% overlap. Some contour/placement drift and residual surface shading remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "50ce78041063b1ab724649f349d010e4df58afe479cde91e74cc4007c1836131",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.747806699582071,
+        "alpha_bbox": [
+          33,
+          20,
+          1230,
+          1254
+        ],
+        "opaque_bbox": [
+          83,
+          192,
+          1166,
+          1100
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.9205512098123165,
+        "soft_alpha_pixels": 14526,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Reduced highlights, but mild directional shading remains; not strictly unlit albedo.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Corrective regeneration, right albedo painting.\nIMAGE 1 (design_reference.png) is MATERIAL REFERENCE ONLY.\nIMAGE 2 (guide_right.png) is the EDIT TARGET and immutable shape template. Output its exact 1024 x 1024 composition and alpha mask. Paint its existing surfaces in place.\nThe previous painting changed contours, added metallic reflections and returned the wrong size. Correct these errors. The target must look like a flat painted texture source, with the design reference's surface coloration but NONE of its dramatic illumination.\nKeep all of IMAGE 2's edges, polygonal silhouette, precise position, scale, holes, part boundaries, and orientation. No added mesh detail, grooves, new trim, tabs, or geometry. Do not copy the design reference camera or silhouette. Do not smooth/reconstruct/recenter the shape. Every transparent pixel in the guide must remain fully transparent; no stray semi-transparent flecks or halo.\nReplace guide material colors as follows:\nCream -> matte warm ochre-gold base color, subtle fine brushed grain and fine wear. Even color on all faces, including rims and underside. No reflected white light, shiny edge strips, dark seams, specular bands, lighting gradients or glitter.\nGray-purple -> nearly black deep violet resin with understated fine violet mineral threads. Flat even color without shaded interiors or bright streaks.\nPale blue -> bright icy blue glass base color with fine subtle blue-white crystalline threads; no reflected environment, white hotspot or bloom.\nUse only gold, black-violet resin and ice-blue glass as in IMAGE 1. No eye imagery, text, lettering, symbols or extra ornament.\nRIGHT guide: lens setting at UPPER RIGHT, band slopes to LOWER LEFT; no visible ring hole. Preserve the two straight narrow trim strips, diagonal angle, length, thickness, and each polygonal corner.\nLighting: flat evenly illuminated unlit diffuse albedo, with NO shadows, ambient occlusion, directional lighting, reflections, rim light or strong specular highlights anywhere. Material detail remains fine and low contrast.\nReturn ONE 1024-square transparent RGBA painting only. No background, floor, checkerboard, captions, collage or framing. Keep the exact guide silhouette.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "d18fd656fcc58e0f7c74e6eb8678dce6a3a712385401a1000bf6a404fa62d147"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-d45ecc17-d575-4b43-b2e1-a37506fef7ff.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: although flatter, the enlarged and shifted geometry reduces normalized silhouette overlap to 82.55%.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "9e28c83f0b95f51334d231c35093ca959c7e5d0ef3d63004f099afa290ef9361",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.7234272974011076,
+        "alpha_bbox": [
+          0,
+          17,
+          1232,
+          1236
+        ],
+        "opaque_bbox": [
+          84,
+          180,
+          1225,
+          1099
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.8254704812079079,
+        "soft_alpha_pixels": 12626,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Reduced highlights, but mild directional shading remains; not strictly unlit albedo.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: style-transfer. Corrective regeneration, top albedo painting.\nIMAGE 1 (design_reference.png) is MATERIAL REFERENCE ONLY.\nIMAGE 2 (guide_top.png) is the EDIT TARGET and immutable shape template. Output its exact 1024 x 1024 composition and alpha mask. Paint its existing surfaces in place.\nThe previous painting changed contours, added metallic reflections and returned the wrong size. Correct these errors. The target must look like a flat painted texture source, with the design reference's surface coloration but NONE of its dramatic illumination.\nKeep all of IMAGE 2's edges, polygonal silhouette, precise position, scale, holes, part boundaries, and orientation. No added mesh detail, grooves, new trim, tabs, or geometry. Do not copy the design reference camera or silhouette. Do not smooth/reconstruct/recenter the shape. Every transparent pixel in the guide must remain fully transparent; no stray semi-transparent flecks or halo.\nReplace guide material colors as follows:\nCream -> matte warm ochre-gold base color, subtle fine brushed grain and fine wear. Even color on all faces, including rims and underside. No reflected white light, shiny edge strips, dark seams, specular bands, lighting gradients or glitter.\nGray-purple -> nearly black deep violet resin with understated fine violet mineral threads. Flat even color without shaded interiors or bright streaks.\nPale blue -> bright icy blue glass base color with fine subtle blue-white crystalline threads; no reflected environment, white hotspot or bloom.\nUse only gold, black-violet resin and ice-blue glass as in IMAGE 1. No eye imagery, text, lettering, symbols or extra ornament.\nTOP guide: lens and cylinder at top, big transparent ring hole below. Preserve the exact size of the opening and both band outlines. Do not add gold inside the opening.\nLighting: flat evenly illuminated unlit diffuse albedo, with NO shadows, ambient occlusion, directional lighting, reflections, rim light or strong specular highlights anywhere. Material detail remains fine and low contrast.\nReturn ONE 1024-square transparent RGBA painting only. No background, floor, checkerboard, captions, collage or framing. Keep the exact guide silhouette.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "ae719740036c3503e57449a782ad42388844246e82c1d523313bdc8487bd9268"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "13146334a44dcb9670b46cb9ae35786641d7b792f433c0b2e08dacae7c1df3c6"
+        }
+      ],
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0f-5559-7681-97c3-8b8d791f5535/exec-908c48cd-fa4f-4250-976f-7a776d91b691.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected: reduced sheen, simpler setting and 98.82% normalized silhouette overlap. Pixel-exact silhouette was not achieved; a thin inner gold edge and mild shading remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "a1753551a3152968db1cd12fc751d58e005708bbc306180f4af84869e3c0625f",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_fraction": 0.6322612933668084,
+        "alpha_bbox": [
+          0,
+          25,
+          1240,
+          1226
+        ],
+        "opaque_bbox": [
+          171,
+          80,
+          1083,
+          1175
+        ],
+        "exact_guide_size": false,
+        "exact_alpha_mask": false,
+        "normalized_mask_iou": 0.9881501236274118,
+        "soft_alpha_pixels": 23845,
+        "resized": false,
+        "silhouette_identical_to_guide": false,
+        "material_palette_matches_reference": "Visual match to gold, black-violet resin, and ice-blue glass where visible.",
+        "lighting": "Reduced highlights, but mild directional shading remains; not strictly unlit albedo.",
+        "transparent_background": true,
+        "alpha_note": "RGBA transparency present, but low-alpha stray pixels outside the object remain in the unmodified tool return.",
+        "text_or_letters": "None seen on visual inspection.",
+        "strict_brief_pass": false
+      }
+    }
+  ],
+  "mask_comparison_method": "For inspection only, sample returned alpha at guide-grid normalized pixel centers, threshold alpha >=128, and measure intersection over union. No image files were resized or modified.",
+  "status": "Five paintings delivered with documented deviations; strict silhouette/albedo checks did not fully pass.",
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "back": 1,
+    "left": 1,
+    "right": 1,
+    "top": 1
+  },
+  "postprocessing": "None. All selected images are byte-identical to built-in image-generation returns; no resizing, cropping, masking, recoloring or compositing.",
+  "limitations": [
+    "Every return is 1254 x 1254 rather than requested 1024 x 1024, preserved unresized as instructed.",
+    "Exact silhouette and every part-edge preservation were not achieved by the tool; normalized overlap metrics and selection tradeoffs are recorded per view.",
+    "Residual shading remains, especially in the selected right view; transparent returns contain low-alpha fringe or stray pixels.",
+    "The brief allows at most one corrective regeneration per view; that limit has been reached for all views."
+  ]
+}

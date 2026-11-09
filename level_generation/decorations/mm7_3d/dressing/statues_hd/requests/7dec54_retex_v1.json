@@ -1,0 +1,13 @@
+{
+  "model_url": "@file:7dec54/upload.glb",
+  "ai_model": "meshy-7",
+  "enable_original_uv": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "target_formats": ["glb"],
+  "multiview_image_urls": [
+    "@file:7dec54/references_hd/01_front.png",
+    "@file:7dec54/references_hd/03_side.png",
+    "@file:7dec54/references_hd/02_back.png"
+  ]
+}

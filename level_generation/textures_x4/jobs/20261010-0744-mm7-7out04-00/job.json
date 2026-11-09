@@ -1,0 +1,117 @@
+{
+ "id": "20261010-0744-mm7-7out04-00",
+ "world": "mm7",
+ "maps": [
+  "7out04.odm"
+ ],
+ "created": "2026-10-10T05:44:37+00:00",
+ "textures": [
+  "mm7/her1erb",
+  "mm7/her1le"
+ ],
+ "requests": {
+  "mm7/her1erb": {
+   "name": "her1erb",
+   "versions": [],
+   "material": "",
+   "notes": {}
+  },
+  "mm7/her1le": {
+   "name": "her1le",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "elven timber-framed wall: dark brown curved timber frame with a speckled grey-brown plaster triangle at the top, a middle band of diagonal golden-yellow painted planks and a bottom band of dark stones behind curved timber braces, with a green ivy vine climbing the centre post, a small dark red hanging ornament on the right and a timber post on the left edge",
+   "notes": {
+    "3": "the dark timber post fills the very left edge with no yellow strip beside it; on the right the yellow diagonal planks and timber frame run straight out to the right edge at full brightness, with no dark line",
+    "4": "the dark timber post fills the very left edge with no yellow strip beside it; the yellow diagonal planks on the right are evenly lit right up to the right edge: no shadow, darkening or line on the planks anywhere, the post casts no shadow",
+    "5": "the dark timber post fills the very left edge with no yellow strip beside it; the yellow diagonal planks on the right are evenly lit right up to the right edge: no shadow, darkening or line on the planks anywhere, the post casts no shadow",
+    "6": "the timber post on the left edge is solid evenly lit wood right up to the very first pixel column, with no dark line, crack or gap along the outermost columns; at the top right the pointed timber arch continues into the sharp arch in the right margin, with no extra vertical stick at the right edge",
+    "7": "the dark timber post fills the very left edge with no yellow strip beside it; the yellow diagonal planks are evenly lit everywhere: no shadow, darkening, groove or line on the planks next to any post or beam; the posts cast no shadow"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/her1elw"
+     ],
+     "fraction": 0.531
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/her1bw"
+    },
+    "2": {
+     "right": "mm7/her1bw"
+    },
+    "3": {},
+    "4": {},
+    "5": {
+     "right": "mm7/her1bw",
+     "bottom": "mm7/her1b"
+    },
+    "6": {
+     "right": "mm7/her1bw",
+     "bottom": "mm7/her1b"
+    },
+    "7": {
+     "bottom": "mm7/her1b"
+    }
+   },
+   "roll": {
+    "3": [
+     47,
+     0
+    ],
+    "4": [
+     47,
+     0
+    ],
+    "7": [
+     47,
+     0
+    ]
+   },
+   "pad": {
+    "5": [
+     32,
+     32
+    ],
+    "6": [
+     32,
+     32
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,242 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_ruinedtemple/review/v02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: e01_start
+  position:
+  - 0
+  - -858
+  - -1719
+  yaw: -1.5708
+  pitch: 0.0
+- name: e02_skylight_box
+  position:
+  - 179
+  - -1075
+  - -1719
+  yaw: -1.8158
+  pitch: -0.2618
+- name: e03_lower_hall
+  position:
+  - 0
+  - -2304
+  - -2395
+  yaw: 1.5708
+  pitch: 0.0
+- name: e04_hole_from_below
+  position:
+  - 154
+  - -1229
+  - -2416
+  yaw: -1.837
+  pitch: 0.6981
+- name: e05_updoor
+  position:
+  - -307
+  - -1792
+  - -2416
+  yaw: 3.1059
+  pitch: 0.0
+- name: e06_south_stairs
+  position:
+  - 0
+  - -2099
+  - -2416
+  yaw: -1.5708
+  pitch: 0.0
+- name: e07_south_corridor
+  position:
+  - -1536
+  - -3482
+  - -1846
+  yaw: 0.0
+  pitch: 0.0
+- name: e08_altar_stair
+  position:
+  - 0
+  - -1434
+  - -2416
+  yaw: 1.5708
+  pitch: 0.0
+- name: t01_temple
+  position:
+  - 0
+  - -102
+  - -2293
+  yaw: 1.5708
+  pitch: 0.0
+- name: t02_temple_diagonal
+  position:
+  - 589
+  - 102
+  - -2293
+  yaw: 2.3996
+  pitch: 0.0
+- name: t03_lamp
+  position:
+  - 0
+  - 307
+  - -2416
+  yaw: 1.5708
+  pitch: -0.3491
+- name: t04_gallery_leftdoor
+  position:
+  - 768
+  - 1229
+  - -1719
+  yaw: 0.0
+  pitch: 0.0
+- name: t05_west_ramp
+  position:
+  - -1393
+  - -435
+  - -2006
+  yaw: 1.5708
+  pitch: 0.0
+- name: t06_temple_north
+  position:
+  - 0
+  - 1331
+  - -2293
+  yaw: 1.5708
+  pitch: 0.0
+- name: s01_room3
+  position:
+  - 1587
+  - 768
+  - -1719
+  yaw: 0.7328
+  pitch: 0.0
+- name: s02_hiddendoor2
+  position:
+  - 1802
+  - 1152
+  - -1719
+  yaw: 1.5708
+  pitch: 0.0
+- name: s03_spiral
+  position:
+  - 2048
+  - 1946
+  - -2248
+  yaw: 2.4805
+  pitch: 0.0
+- name: s04_cavein_b
+  position:
+  - 2150
+  - 1946
+  - -2203
+  yaw: 2.4127
+  pitch: 0.0
+- name: s05_chest_room
+  position:
+  - 1152
+  - 3635
+  - -2272
+  yaw: 1.5708
+  pitch: 0.0
+- name: s06_hiddendoor3
+  position:
+  - 1516
+  - 2662
+  - -2272
+  yaw: 1.5708
+  pitch: 0.0
+- name: n01_diagonal_corridor
+  position:
+  - 0
+  - 1664
+  - -2293
+  yaw: 1.5708
+  pitch: 0.0
+- name: n02_cavein_a
+  position:
+  - -128
+  - 3328
+  - -2313
+  yaw: 3.1416
+  pitch: 0.0
+- name: n03_pews
+  position:
+  - -1152
+  - 3328
+  - -2293
+  yaw: 3.1416
+  pitch: 0.0
+- name: n04_podium
+  position:
+  - -1997
+  - 3712
+  - -2293
+  yaw: -2.715
+  pitch: 0.0
+- name: n05_hiddendoor
+  position:
+  - -2212
+  - 3712
+  - -2293
+  yaw: 1.5708
+  pitch: 0.0
+- name: n06_buttons
+  position:
+  - -2253
+  - 4352
+  - -2293
+  yaw: 1.5708
+  pitch: 0.0
+- name: c01_lift_foot
+  position:
+  - -1587
+  - 4634
+  - -2866
+  yaw: 3.1416
+  pitch: 0.0
+- name: c02_prison_corridor
+  position:
+  - -1946
+  - 4634
+  - -2866
+  yaw: 0.0
+  pitch: 0.0
+- name: c03_crypt_hall
+  position:
+  - 640
+  - 4736
+  - -2866
+  yaw: 2.0344
+  pitch: 0.0
+- name: c04_cell
+  position:
+  - 246
+  - 5504
+  - -2866
+  yaw: 1.5708
+  pitch: 0.0
+- name: c05_ladder
+  position:
+  - 998
+  - 4864
+  - -2866
+  yaw: -1.5708
+  pitch: 0.3491
+- name: d01_shaft_bottom
+  position:
+  - 256
+  - 5760
+  - -4627
+  yaw: 1.222
+  pitch: 0.0
+- name: d02_ramps
+  position:
+  - -154
+  - 6707
+  - -4259
+  yaw: 0.0
+  pitch: 0.1745
+- name: d03_tunnel
+  position:
+  - 256
+  - 6323
+  - -2928
+  yaw: -2.3086
+  pitch: 0.0

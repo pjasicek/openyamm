@@ -1,0 +1,657 @@
+{
+  "tool": "built-in image_gen",
+  "status": "generation_finished_with_unmet_brief_checks",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "outputs_unresized": true,
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the Hesper Forgemaster's Hammer.\nInput 1 is the exact white clay guide and EDIT TARGET. Input 2 is design_reference.png, used ONLY as the material, colour and surface-detail authority.\nPaint only the existing opaque object pixels of Input 1. Preserve its full 1024 x 1024 canvas, exact alpha silhouette, position, scale, camera, every part's boundary and occlusion, and all empty transparent space. Do not enlarge, shrink, move, rotate, reframe, add geometry, or reveal hidden parts. Output ONE 1024 x 1024 RGBA PNG with true transparent background.\nTransfer the reference's aged ivory-white bone-like ceramic armor with fine wear, warm brushed antique-gold fittings and rims, black-violet textured resin/forged dark body and wrapped grip, and vivid orange ember slots. Use only materials actually shown in the reference. Fine scratches, engraved grooves, seams, panel joins and small non-letter markings stay within existing surfaces. Unseen surfaces continue these materials plausibly.\nLighting: unlit albedo/base-colour painting, even flat shadowless illumination from the viewer. Remove the clay guide's lighting gradients. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim lighting. Gold is a muted warm gold base colour with at most a faint sheen; dark material is readable black-violet. Orange openings are painted bright orange, without glow halos or light spilling onto adjacent surfaces. No background, floor, text, letters, symbols resembling writing, border, or watermark.\nThe geometry of Input 1 overrides the design reference's geometry and framing. Preserve the guide's alpha outline pixel for pixel.\n\nFRONT view: the guide is strongly foreshortened, showing only the compact hammer head centered in the large square canvas, occupying x=329..694 and y=388..635. The rounded armored thorny end is on the LEFT, the broad flared striking block on the RIGHT, with a narrow riveted collar between. The shaft is occluded by this camera: do not add any visible handle. Follow the exact overlapping forms in the clay guide. Ivory ceramic on existing left armor, dark violet body in the spaces, orange seams/vents and antique gold collar. The flared right block is dark forged black-violet with a gold lip at its far-right rim.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_front.png",
+          "role": "edit_target",
+          "sha256": "bf9a787a9e8eaa007b252819fe236b4b9ff089b1ea078db905573d0c2de796fb"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-fac026cf-b2bf-4a9c-91b8-e598b7c8f384.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected for the closest silhouette alignment (normalized IoU 0.982140). The corrective return enlarged and displaced the head. Material palette matches, but baked shading and highlights remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          81,
+          36,
+          1224,
+          1198
+        ],
+        "opaque_bbox": [
+          403,
+          479,
+          851,
+          775
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.98214,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 378
+      },
+      "output_sha256": "4183a984cc79890601918ba29d4415c124196278feb769adc22c1b899e6a2e55",
+      "generated_output": "paint_front_attempt1.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the Hesper Forgemaster's Hammer.\nInput 1 is the exact white clay guide and EDIT TARGET. Input 2 is design_reference.png, used ONLY as the material, colour and surface-detail authority.\nPaint only the existing opaque object pixels of Input 1. Preserve its full 1024 x 1024 canvas, exact alpha silhouette, position, scale, camera, every part's boundary and occlusion, and all empty transparent space. Do not enlarge, shrink, move, rotate, reframe, add geometry, or reveal hidden parts. Output ONE 1024 x 1024 RGBA PNG with true transparent background.\nTransfer the reference's aged ivory-white bone-like ceramic armor with fine wear, warm brushed antique-gold fittings and rims, black-violet textured resin/forged dark body and wrapped grip, and vivid orange ember slots. Use only materials actually shown in the reference. Fine scratches, engraved grooves, seams, panel joins and small non-letter markings stay within existing surfaces. Unseen surfaces continue these materials plausibly.\nLighting: unlit albedo/base-colour painting, even flat shadowless illumination from the viewer. Remove the clay guide's lighting gradients. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim lighting. Gold is a muted warm gold base colour with at most a faint sheen; dark material is readable black-violet. Orange openings are painted bright orange, without glow halos or light spilling onto adjacent surfaces. No background, floor, text, letters, symbols resembling writing, border, or watermark.\nThe geometry of Input 1 overrides the design reference's geometry and framing. Preserve the guide's alpha outline pixel for pixel.\n\nBACK view: the guide is strongly foreshortened, showing only the compact hammer head centered in the large square canvas, occupying x=329..694 and y=388..635. The broad flared striking block is on the LEFT, the rounded armored end on the RIGHT, and a narrow riveted collar in between. The shaft is occluded by this camera: do not add any visible handle. The left flare is dark forged black-violet with a gold lip on its far-left rim. Use gold on the central riveted ring, ivory ceramic on the existing rounded right armor, and dark violet resin with orange vents in the spaces. Preserve the asymmetrical overlaps exactly.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_back.png",
+          "role": "edit_target",
+          "sha256": "4c79b32855cdf1299b21a075e97929addc3a939d8474b9907d01535e27ae8c07"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-a69a84f5-5d73-4053-95b1-dd521ebfdbe9.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected for the closest silhouette alignment (normalized IoU 0.976150). The corrective return enlarged and displaced the head. Material palette matches, but baked shading and highlights remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          400,
+          230,
+          1079,
+          1077
+        ],
+        "opaque_bbox": [
+          404,
+          474,
+          851,
+          777
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.97615,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 716
+      },
+      "output_sha256": "bfde600ba680cf0a2b293a6d4ebef2af7d4dcd293803ecaf0e4daf61c63daeb9",
+      "generated_output": "paint_back_attempt1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the Hesper Forgemaster's Hammer.\nInput 1 is the exact white clay guide and EDIT TARGET. Input 2 is design_reference.png, used ONLY as the material, colour and surface-detail authority.\nPaint only the existing opaque object pixels of Input 1. Preserve its full 1024 x 1024 canvas, exact alpha silhouette, position, scale, camera, every part's boundary and occlusion, and all empty transparent space. Do not enlarge, shrink, move, rotate, reframe, add geometry, or reveal hidden parts. Output ONE 1024 x 1024 RGBA PNG with true transparent background.\nTransfer the reference's aged ivory-white bone-like ceramic armor with fine wear, warm brushed antique-gold fittings and rims, black-violet textured resin/forged dark body and wrapped grip, and vivid orange ember slots. Use only materials actually shown in the reference. Fine scratches, engraved grooves, seams, panel joins and small non-letter markings stay within existing surfaces. Unseen surfaces continue these materials plausibly.\nLighting: unlit albedo/base-colour painting, even flat shadowless illumination from the viewer. Remove the clay guide's lighting gradients. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim lighting. Gold is a muted warm gold base colour with at most a faint sheen; dark material is readable black-violet. Orange openings are painted bright orange, without glow halos or light spilling onto adjacent surfaces. No background, floor, text, letters, symbols resembling writing, border, or watermark.\nThe geometry of Input 1 overrides the design reference's geometry and framing. Preserve the guide's alpha outline pixel for pixel.\n\nLEFT view: the full hammer lies HORIZONTALLY along y=512, with the hammer head at the LEFT and the pointed pommel at the RIGHT. Exact full object bounds x=66..957 and y=388..634. Do not turn it upright. The head is seen end-on: retain the existing spiky outer profile and round ribbed central detail. Paint existing head armor ivory, recessed body black-violet and visible inner vent fields bright orange, with restrained gold fittings. Existing narrow shaft from about x=300 to x=835 is dark violet twisted wrapping/resin with fine orange slits. Existing shaft collars are ivory ceramic with gold trim. Existing far-right pointed pommel has ivory blade-shaped ceramic covers, a dark violet core and thin orange seams. Every part stays at the guide position.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_left.png",
+          "role": "edit_target",
+          "sha256": "dcc429424a89f993af6bea7919c9f3806e271ada989505e96bedf2d9b9606e53"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-460ffc88-7a3d-4d94-b79c-56c905e14019.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favor of the correction, which has less gloss and slightly better silhouette alignment.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          30,
+          1210,
+          1212
+        ],
+        "opaque_bbox": [
+          77,
+          474,
+          1176,
+          780
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.958749,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 542
+      },
+      "output_sha256": "deca5dc07d988662dc11369b1df5ab86dd2333f0d1b5dbab760c60696f405856",
+      "generated_output": "paint_left_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the Hesper Forgemaster's Hammer.\nInput 1 is the exact white clay guide and EDIT TARGET. Input 2 is design_reference.png, used ONLY as the material, colour and surface-detail authority.\nPaint only the existing opaque object pixels of Input 1. Preserve its full 1024 x 1024 canvas, exact alpha silhouette, position, scale, camera, every part's boundary and occlusion, and all empty transparent space. Do not enlarge, shrink, move, rotate, reframe, add geometry, or reveal hidden parts. Output ONE 1024 x 1024 RGBA PNG with true transparent background.\nTransfer the reference's aged ivory-white bone-like ceramic armor with fine wear, warm brushed antique-gold fittings and rims, black-violet textured resin/forged dark body and wrapped grip, and vivid orange ember slots. Use only materials actually shown in the reference. Fine scratches, engraved grooves, seams, panel joins and small non-letter markings stay within existing surfaces. Unseen surfaces continue these materials plausibly.\nLighting: unlit albedo/base-colour painting, even flat shadowless illumination from the viewer. Remove the clay guide's lighting gradients. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim lighting. Gold is a muted warm gold base colour with at most a faint sheen; dark material is readable black-violet. Orange openings are painted bright orange, without glow halos or light spilling onto adjacent surfaces. No background, floor, text, letters, symbols resembling writing, border, or watermark.\nThe geometry of Input 1 overrides the design reference's geometry and framing. Preserve the guide's alpha outline pixel for pixel.\n\nRIGHT view: the full hammer lies HORIZONTALLY along y=512, with the pointed pommel at the LEFT and large broad striking face at the RIGHT. Exact full object bounds x=66..957 and y=388..634. Do not turn it upright. The large right end-on striking face stays flat, broad and closed, dark charcoal-black-violet forged material with fine cracks and subtle wear, bordered by a narrow warm gold rim inside the existing outline. Preserve the irregular polygon outline. The long existing shaft is black-violet twisted wrapping/resin with fine orange slits; the existing shaft collars are ivory ceramic and gold. The far-left pommel has ivory ceramic blade-shaped covers over a dark violet core with orange seams. Do not replace the broad striking face with the other side's ornamental round vent.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_right.png",
+          "role": "edit_target",
+          "sha256": "4a0d5a996da6985128f7b6cdf1538989d78e38a8356aeecdbe735039f1e0408d"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-0ed8468d-d567-43e5-9d35-9117b54177ff.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: the head was rendered at a three-quarter angle instead of the guide end-on view; normalized silhouette IoU 0.685948.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          15,
+          1224,
+          1229
+        ],
+        "opaque_bbox": [
+          58,
+          479,
+          1216,
+          797
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.685948,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 328
+      },
+      "output_sha256": "6cc23abe979b53ac5c4b04e9cd391cfa8e184406d96fb37fe81c3c7244189065",
+      "generated_output": "paint_right_attempt1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for the Hesper Forgemaster's Hammer.\nInput 1 is the exact white clay guide and EDIT TARGET. Input 2 is design_reference.png, used ONLY as the material, colour and surface-detail authority.\nPaint only the existing opaque object pixels of Input 1. Preserve its full 1024 x 1024 canvas, exact alpha silhouette, position, scale, camera, every part's boundary and occlusion, and all empty transparent space. Do not enlarge, shrink, move, rotate, reframe, add geometry, or reveal hidden parts. Output ONE 1024 x 1024 RGBA PNG with true transparent background.\nTransfer the reference's aged ivory-white bone-like ceramic armor with fine wear, warm brushed antique-gold fittings and rims, black-violet textured resin/forged dark body and wrapped grip, and vivid orange ember slots. Use only materials actually shown in the reference. Fine scratches, engraved grooves, seams, panel joins and small non-letter markings stay within existing surfaces. Unseen surfaces continue these materials plausibly.\nLighting: unlit albedo/base-colour painting, even flat shadowless illumination from the viewer. Remove the clay guide's lighting gradients. No cast shadows, no ambient occlusion, no directional shading, no strong specular highlights or reflections, no rim lighting. Gold is a muted warm gold base colour with at most a faint sheen; dark material is readable black-violet. Orange openings are painted bright orange, without glow halos or light spilling onto adjacent surfaces. No background, floor, text, letters, symbols resembling writing, border, or watermark.\nThe geometry of Input 1 overrides the design reference's geometry and framing. Preserve the guide's alpha outline pixel for pixel.\n\nTOP view: the guide shows the full hammer UPRIGHT. Exact object bounds x=329..694 and y=66..957. Head runs across the top, thorned ceramic armored end on the LEFT, flared dark striking block on the RIGHT; the shaft extends straight down around x=522 to the pointed pommel at y=957. Match the exact head width, handle width, collars and all part edges. Ivory ceramic on existing jagged left head armor and the neck/collars/pommel blades; muted gold on the central riveted head ring, striking-rim trim and collar trim; black-violet forged resin body and twisted wrapped grip; orange ember vents and thin shaft seams matching the reference. The long shaft and pointed pommel must remain exactly aligned to the guide.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_top.png",
+          "role": "edit_target",
+          "sha256": "6b4d3b67c0b3555f72370a813cb548d84c14ddc2e97e2621bc7ff476ff4d8755"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-d50ada10-7ffb-42a9-9f72-f5d64df9c7e9.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favor of the correction, which reduces specular highlights and improves silhouette alignment.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          41,
+          1232,
+          1222
+        ],
+        "opaque_bbox": [
+          403,
+          79,
+          851,
+          1174
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.955952,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 973
+      },
+      "output_sha256": "7b3db74fcc02fe3933f6a109bf73493e3b8475d94d7e880eedc9916c385f4235",
+      "generated_output": "paint_top_attempt1.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit. This is the ONE corrective regeneration of an albedo texture-source paint-over.\nINPUT 1 = original 1024x1024 white guide: the ONLY authority for camera, geometry, every part edge, canvas placement and alpha.\nINPUT 2 = approved design reference: colour/material pattern authority ONLY; ignore its photographic lighting and perspective.\nINPUT 3 = failed previous paint: useful surface colours, but it has excessive gloss, shadows and imperfect edge alignment. Correct those failures.\n\nOutput exactly 1024 x 1024 pixels, transparent RGBA, one image. Edit INPUT 1 directly, replacing only its RGB material colour while retaining its exact alpha silhouette. Do not reconstruct a new hammer illustration. Keep every boundary and the full transparent margins at precisely the guide coordinates. Nothing outside its mask, including faint specks. No resizing, cropping or reframing.\n\nCRITICAL ALBEDO CORRECTION: this must look like a FLAT UNLIT BASE-COLOUR TEXTURE, not a lit 3D render. No shaded edges, darkened recess shadows, specular glints, white scratches that read as highlights, bright edge lighting, material reflections or directional gradients. All faces of a material have the same average base colour regardless of their angle. Fine irregular material colour/wear is allowed, but no baked lighting. Retain aged ivory ceramic, muted ochre-gold metal, readable charcoal-violet resin and wrapping, with flat vivid orange vent interiors. Preserve reference seams, ceramic shapes and subtle wear. Gold has matte golden-ochre colour with at most the faintest sheen. Orange is flat bright colour, with no halo or light spill.\nNo text, letters, watermark, background, ground or cast shadow.\n\nFRONT view: the guide is strongly foreshortened, showing only the compact hammer head centered in the large square canvas, occupying x=329..694 and y=388..635. The rounded armored thorny end is on the LEFT, the broad flared striking block on the RIGHT, with a narrow riveted collar between. The shaft is occluded by this camera: do not add any visible handle. Follow the exact overlapping forms in the clay guide. Ivory ceramic on existing left armor, dark violet body in the spaces, orange seams/vents and antique gold collar. The flared right block is dark forged black-violet with a gold lip at its far-right rim.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_front.png",
+          "role": "edit_target",
+          "sha256": "bf9a787a9e8eaa007b252819fe236b4b9ff089b1ea078db905573d0c2de796fb"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/paint_front_attempt1.png",
+          "role": "previous_attempt_for_correction",
+          "sha256": "4183a984cc79890601918ba29d4415c124196278feb769adc22c1b899e6a2e55"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-52a2ece5-1d77-47fc-9ab9-0b3c0a5a45f4.png",
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: despite flatter orange vents, the correction enlarged and displaced the head, reducing normalized silhouette IoU to 0.398646.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          43,
+          71,
+          1111,
+          1220
+        ],
+        "opaque_bbox": [
+          385,
+          523,
+          912,
+          877
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.398646,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 942
+      },
+      "output_sha256": "f75f70e6355f53eedb49f1669a2862cfeba833e4d53ba3001be1588a917778cb",
+      "generated_output": "paint_front_attempt2.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit. This is the ONE corrective regeneration of an albedo texture-source paint-over.\nINPUT 1 = original 1024x1024 white guide: the ONLY authority for camera, geometry, every part edge, canvas placement and alpha.\nINPUT 2 = approved design reference: colour/material pattern authority ONLY; ignore its photographic lighting and perspective.\nINPUT 3 = failed previous paint: useful surface colours, but it has excessive gloss, shadows and imperfect edge alignment. Correct those failures.\n\nOutput exactly 1024 x 1024 pixels, transparent RGBA, one image. Edit INPUT 1 directly, replacing only its RGB material colour while retaining its exact alpha silhouette. Do not reconstruct a new hammer illustration. Keep every boundary and the full transparent margins at precisely the guide coordinates. Nothing outside its mask, including faint specks. No resizing, cropping or reframing.\n\nCRITICAL ALBEDO CORRECTION: this must look like a FLAT UNLIT BASE-COLOUR TEXTURE, not a lit 3D render. No shaded edges, darkened recess shadows, specular glints, white scratches that read as highlights, bright edge lighting, material reflections or directional gradients. All faces of a material have the same average base colour regardless of their angle. Fine irregular material colour/wear is allowed, but no baked lighting. Retain aged ivory ceramic, muted ochre-gold metal, readable charcoal-violet resin and wrapping, with flat vivid orange vent interiors. Preserve reference seams, ceramic shapes and subtle wear. Gold has matte golden-ochre colour with at most the faintest sheen. Orange is flat bright colour, with no halo or light spill.\nNo text, letters, watermark, background, ground or cast shadow.\n\nBACK view: the guide is strongly foreshortened, showing only the compact hammer head centered in the large square canvas, occupying x=329..694 and y=388..635. The broad flared striking block is on the LEFT, the rounded armored end on the RIGHT, and a narrow riveted collar in between. The shaft is occluded by this camera: do not add any visible handle. The left flare is dark forged black-violet with a gold lip on its far-left rim. Use gold on the central riveted ring, ivory ceramic on the existing rounded right armor, and dark violet resin with orange vents in the spaces. Preserve the asymmetrical overlaps exactly.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_back.png",
+          "role": "edit_target",
+          "sha256": "4c79b32855cdf1299b21a075e97929addc3a939d8474b9907d01535e27ae8c07"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/paint_back_attempt1.png",
+          "role": "previous_attempt_for_correction",
+          "sha256": "bfde600ba680cf0a2b293a6d4ebef2af7d4dcd293803ecaf0e4daf61c63daeb9"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-cfaabe51-506f-4e27-ae29-e7afd63508ec.png",
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: despite flatter orange vents, the correction enlarged and displaced the head, reducing normalized silhouette IoU to 0.585063.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          31,
+          29,
+          1198,
+          1198
+        ],
+        "opaque_bbox": [
+          387,
+          487,
+          917,
+          849
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.585063,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 1114
+      },
+      "output_sha256": "10a37a6886aec66329f8551bc30066d881480cb8fbe86d9a5b98490f93253676",
+      "generated_output": "paint_back_attempt2.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit. This is the ONE corrective regeneration of an albedo texture-source paint-over.\nINPUT 1 = original 1024x1024 white guide: the ONLY authority for camera, geometry, every part edge, canvas placement and alpha.\nINPUT 2 = approved design reference: colour/material pattern authority ONLY; ignore its photographic lighting and perspective.\nThe previous attempt had excessive gloss, shadows and imperfect edge alignment. Repaint from the original guide to correct those failures.\n\nOutput exactly 1024 x 1024 pixels, transparent RGBA, one image. Edit INPUT 1 directly, replacing only its RGB material colour while retaining its exact alpha silhouette. Do not reconstruct a new hammer illustration. Keep every boundary and the full transparent margins at precisely the guide coordinates. Nothing outside its mask, including faint specks. No resizing, cropping or reframing.\n\nCRITICAL ALBEDO CORRECTION: this must look like a FLAT UNLIT BASE-COLOUR TEXTURE, not a lit 3D render. No shaded edges, darkened recess shadows, specular glints, white scratches that read as highlights, bright edge lighting, material reflections or directional gradients. All faces of a material have the same average base colour regardless of their angle. Fine irregular material colour/wear is allowed, but no baked lighting. Retain aged ivory ceramic, muted ochre-gold metal, readable charcoal-violet resin and wrapping, with flat vivid orange vent interiors. Preserve reference seams, ceramic shapes and subtle wear. Gold has matte golden-ochre colour with at most the faintest sheen. Orange is flat bright colour, with no halo or light spill.\nNo text, letters, watermark, background, ground or cast shadow.\n\nLEFT view: the full hammer lies HORIZONTALLY along y=512, with the hammer head at the LEFT and the pointed pommel at the RIGHT. Exact full object bounds x=66..957 and y=388..634. Do not turn it upright. The head is seen end-on: retain the existing spiky outer profile and round ribbed central detail. Paint existing head armor ivory, recessed body black-violet and visible inner vent fields bright orange, with restrained gold fittings. Existing narrow shaft from about x=300 to x=835 is dark violet twisted wrapping/resin with fine orange slits. Existing shaft collars are ivory ceramic with gold trim. Existing far-right pointed pommel has ivory blade-shaped ceramic covers, a dark violet core and thin orange seams. Every part stays at the guide position.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_left.png",
+          "role": "edit_target",
+          "sha256": "dcc429424a89f993af6bea7919c9f3806e271ada989505e96bedf2d9b9606e53"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-dd3958d8-c1cc-4b1e-9bb4-a536d870e4e3.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected: flatter material colours and orange vent fields, with improved normalized silhouette IoU 0.966851. Some surface shading and minor edge drift remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          27,
+          20,
+          1178,
+          1191
+        ],
+        "opaque_bbox": [
+          79,
+          476,
+          1175,
+          777
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.966851,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 420
+      },
+      "output_sha256": "60a0b16f1a4197f31be7aa1006d2b6c597d0332a494700f71e556e276533d4fa",
+      "generated_output": "paint_left_attempt2.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit. This is the ONE corrective regeneration of an albedo texture-source paint-over.\nINPUT 1 = original 1024x1024 white guide: the ONLY authority for camera, geometry, every part edge, canvas placement and alpha.\nINPUT 2 = approved design reference: colour/material pattern authority ONLY; ignore its photographic lighting and perspective.\nThe previous attempt had excessive gloss, shadows and imperfect edge alignment. Repaint from the original guide to correct those failures.\n\nOutput exactly 1024 x 1024 pixels, transparent RGBA, one image. Edit INPUT 1 directly, replacing only its RGB material colour while retaining its exact alpha silhouette. Do not reconstruct a new hammer illustration. Keep every boundary and the full transparent margins at precisely the guide coordinates. Nothing outside its mask, including faint specks. No resizing, cropping or reframing.\n\nCRITICAL ALBEDO CORRECTION: this must look like a FLAT UNLIT BASE-COLOUR TEXTURE, not a lit 3D render. No shaded edges, darkened recess shadows, specular glints, white scratches that read as highlights, bright edge lighting, material reflections or directional gradients. All faces of a material have the same average base colour regardless of their angle. Fine irregular material colour/wear is allowed, but no baked lighting. Retain aged ivory ceramic, muted ochre-gold metal, readable charcoal-violet resin and wrapping, with flat vivid orange vent interiors. Preserve reference seams, ceramic shapes and subtle wear. Gold has matte golden-ochre colour with at most the faintest sheen. Orange is flat bright colour, with no halo or light spill.\nNo text, letters, watermark, background, ground or cast shadow.\n\nRIGHT view: the full hammer lies HORIZONTALLY along y=512, with the pointed pommel at the LEFT and large broad striking face at the RIGHT. Exact full object bounds x=66..957 and y=388..634. Do not turn it upright. The large right end-on striking face stays flat, broad and closed, dark charcoal-black-violet forged material with fine cracks and subtle wear, bordered by a narrow warm gold rim inside the existing outline. Preserve the irregular polygon outline. The long existing shaft is black-violet twisted wrapping/resin with fine orange slits; the existing shaft collars are ivory ceramic and gold. The far-left pommel has ivory ceramic blade-shaped covers over a dark violet core with orange seams. Do not replace the broad striking face with the other side's ornamental round vent.\nCRITICAL CAMERA CORRECTION: the entire huge right-hand face from approximately x=720..943, y=389..634 is seen STRAIGHT ON, as one broad closed polygon. Fill that WHOLE face with dark charcoal-violet hammer striking-surface material, with only a narrow gold perimeter trim. It has no ceramic side panels or orange side vents on its face, and no visible three-quarter bevel planes. The original guide's narrow far-right tip may remain. Never angle the head or show its side.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_right.png",
+          "role": "edit_target",
+          "sha256": "4a0d5a996da6985128f7b6cdf1538989d78e38a8356aeecdbe735039f1e0408d"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-999d6b9c-16be-47ab-94dd-7b015ea550bc.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected: corrected the head to a broad, closed end-on striking face and improved normalized silhouette IoU to 0.803252. The outline and shaft placement still differ materially from the guide.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          49,
+          47,
+          1232,
+          1230
+        ],
+        "opaque_bbox": [
+          69,
+          464,
+          1188,
+          770
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.803252,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 860
+      },
+      "output_sha256": "bd059d627ceeca90e2ceba0f6b3371a0960d412b985205cd616953cc05f62b15",
+      "generated_output": "paint_right_attempt2.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "image_gen",
+      "prompt": "Use case: precise-object-edit. This is the ONE corrective regeneration of an albedo texture-source paint-over.\nINPUT 1 = original 1024x1024 white guide: the ONLY authority for camera, geometry, every part edge, canvas placement and alpha.\nINPUT 2 = approved design reference: colour/material pattern authority ONLY; ignore its photographic lighting and perspective.\nThe previous attempt had excessive gloss, shadows and imperfect edge alignment. Repaint from the original guide to correct those failures.\n\nOutput exactly 1024 x 1024 pixels, transparent RGBA, one image. Edit INPUT 1 directly, replacing only its RGB material colour while retaining its exact alpha silhouette. Do not reconstruct a new hammer illustration. Keep every boundary and the full transparent margins at precisely the guide coordinates. Nothing outside its mask, including faint specks. No resizing, cropping or reframing.\n\nCRITICAL ALBEDO CORRECTION: this must look like a FLAT UNLIT BASE-COLOUR TEXTURE, not a lit 3D render. No shaded edges, darkened recess shadows, specular glints, white scratches that read as highlights, bright edge lighting, material reflections or directional gradients. All faces of a material have the same average base colour regardless of their angle. Fine irregular material colour/wear is allowed, but no baked lighting. Retain aged ivory ceramic, muted ochre-gold metal, readable charcoal-violet resin and wrapping, with flat vivid orange vent interiors. Preserve reference seams, ceramic shapes and subtle wear. Gold has matte golden-ochre colour with at most the faintest sheen. Orange is flat bright colour, with no halo or light spill.\nNo text, letters, watermark, background, ground or cast shadow.\n\nTOP view: the guide shows the full hammer UPRIGHT. Exact object bounds x=329..694 and y=66..957. Head runs across the top, thorned ceramic armored end on the LEFT, flared dark striking block on the RIGHT; the shaft extends straight down around x=522 to the pointed pommel at y=957. Match the exact head width, handle width, collars and all part edges. Ivory ceramic on existing jagged left head armor and the neck/collars/pommel blades; muted gold on the central riveted head ring, striking-rim trim and collar trim; black-violet forged resin body and twisted wrapped grip; orange ember vents and thin shaft seams matching the reference. The long shaft and pointed pommel must remain exactly aligned to the guide.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/guide_top.png",
+          "role": "edit_target",
+          "sha256": "6b4d3b67c0b3555f72370a813cb548d84c14ddc2e97e2621bc7ff476ff4d8755"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_forgemasters_hammer/design_reference.png",
+          "role": "design_reference",
+          "sha256": "2c39aae2dce958d7c4159233466cdaf76a20064c68ceb7293de744c6e93a66ea"
+        }
+      ],
+      "raw_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d3-7cf1-b601-39f286d2f567/exec-f8047a10-de51-451d-bd82-a166cbd7a80d.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected: flatter material colours and orange vent fields, with improved normalized silhouette IoU 0.964997. Some surface shading and minor edge drift remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          113,
+          69,
+          1230,
+          1232
+        ],
+        "opaque_bbox": [
+          404,
+          79,
+          851,
+          1174
+        ],
+        "requested_size_match": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.964997,
+        "unresized_raw_return": true,
+        "visual_palette_matches_reference": true,
+        "visual_no_text_or_letters": true,
+        "visual_flat_shadowless_albedo": "not_met_residual_baked_shading",
+        "visual_no_background_scene_or_floor": true,
+        "strict_brief_compliance": false,
+        "nonzero_alpha_pixels_outside_opaque_bbox": 570
+      },
+      "output_sha256": "ddfb64e2a09ba7ef7132473336bac87d8bfeb3e410b1901e30e33ba9c2260def",
+      "generated_output": "paint_top_attempt2.png"
+    }
+  ],
+  "selection_meaning": "Best available raw return within the one-correction-per-view limit; selected does not imply exact brief compliance.",
+  "validation_method": "Read-only PNG inspection, visual review, SHA-256 verification, and alpha-mask comparison. Normalized silhouette IoU samples the returned alpha onto the guide coordinate grid for measurement only; no output pixels were modified.",
+  "limitations": [
+    "All raw tool returns are 1254 x 1254 rather than the requested 1024 x 1024; retained unresized as the brief requires.",
+    "No selected return has a pixel-identical guide silhouette. The right view has the largest remaining misalignment.",
+    "The selected front and back returns retain strong baked shading/highlights; other selected views reduce these but are not completely unlit albedo.",
+    "PNG backgrounds have real alpha transparency, but faint stray nonzero alpha pixels remain outside the main object."
+  ],
+  "deliverables": [
+    {
+      "view": "front",
+      "path": "paint_front.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "4183a984cc79890601918ba29d4415c124196278feb769adc22c1b899e6a2e55",
+      "strict_brief_compliance": false
+    },
+    {
+      "view": "back",
+      "path": "paint_back.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "bfde600ba680cf0a2b293a6d4ebef2af7d4dcd293803ecaf0e4daf61c63daeb9",
+      "strict_brief_compliance": false
+    },
+    {
+      "view": "left",
+      "path": "paint_left.png",
+      "selected_attempt": 2,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "60a0b16f1a4197f31be7aa1006d2b6c597d0332a494700f71e556e276533d4fa",
+      "strict_brief_compliance": false
+    },
+    {
+      "view": "right",
+      "path": "paint_right.png",
+      "selected_attempt": 2,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "bd059d627ceeca90e2ceba0f6b3371a0960d412b985205cd616953cc05f62b15",
+      "strict_brief_compliance": false
+    },
+    {
+      "view": "top",
+      "path": "paint_top.png",
+      "selected_attempt": 2,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "ddfb64e2a09ba7ef7132473336bac87d8bfeb3e410b1901e30e33ba9c2260def",
+      "strict_brief_compliance": false
+    }
+  ]
+}

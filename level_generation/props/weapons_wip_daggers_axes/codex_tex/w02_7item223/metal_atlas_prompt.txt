@@ -1,0 +1,12 @@
+Use case: precise-object-edit. Technical material-classification mask of ONE six-view weapon atlas.
+Image 1 is the painted atlas of Splitter and is the edit target. Preserve the exact canvas, all six views,
+their silhouettes, positions, scales and openings. Outside each object must be truly transparent.
+Classify every opaque surface with one flat solid colour: PURE WHITE for all actual METAL (steel, iron, silver,
+gold, bronze, brass, metal binding and metal ornament); PURE BLACK for WOOD, LEATHER, CLOTH and painted ENAMEL;
+PURE GREEN #00ff00 for GEMS, PEARLS and CRYSTAL; PURE BLUE #0000ff for IVORY or BONE.
+Blackened iron is WHITE because it is metal. A gold/black handle spiral has WHITE gold and BLACK leather.
+Subject materials: Gold pierced filigree head and collars, reddish-brown wooden haft.
+No grey, gradients, lighting, highlights, outlines, labels or added shapes. No opaque background. Every nonmetal
+object pixel remains opaque black, green or blue as appropriate, and holes remain transparent. Keep all six views
+in the identical two-column three-row arrangement. This is material data for metallic and roughness maps.
+

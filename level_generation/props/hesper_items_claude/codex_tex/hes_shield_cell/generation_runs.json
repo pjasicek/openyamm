@@ -1,0 +1,659 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "None; preserve unresized tool returns.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper shield-cell 3D model.\nInput 1 (design_reference.png): MATERIAL, COLOUR AND SURFACE-DESIGN REFERENCE ONLY. Do not copy its camera, silhouette, proportions, layout or lighting.\nInput 2: THE EDIT TARGET AND ABSOLUTE GEOMETRY AUTHORITY. Paint directly on this guide. Preserve its original 1024 x 1024 canvas, original alpha silhouette, exact object position and scale, every existing part boundary, all straight edges and low-poly bevels, and the exact orthographic camera. This is surface painting only. No remodelling, reposing, camera tilt, cropping, scaling, or additional geometry. Keep every pixel outside the guide's silhouette fully transparent.\nPaint only the materials present in the design reference onto their corresponding guide parts: warm white ceramic with fine restrained wear and subtle panel seams; brushed rich yellow-gold metal with fine abrasion grain; thin dark charcoal-black/violet resin seals where parts meet; blue glass/crystal energy windows with bright blue-white light colour inside. Guide tints merely identify materials and must be replaced. Maintain the reference's small engraved lines and panel-join character as surface details, without text or letters. Continue the same materials plausibly on surfaces unseen in the design reference.\nLighting: an ALBEDO TEXTURE SOURCE, evenly illuminated from the viewer, flat and shadowless. Remove the guide's baked shading and cast shadows. All like materials have consistent base colour, independent of face orientation. Gold uses base colour and at most a faint sheen. No strong specular highlights, reflection stripes, directional shading, ambient occlusion, cast shadows, rim light, bloom or glow spill. Paint energy as its bright light colour, not as a lighting effect on surrounding surfaces.\nOutput: ONE separate 1024 x 1024 RGBA PNG painting on genuine transparent background. No floor, background colour, checkerboard pixels, labels, text, letters, watermark, border, sheet or other views. Preserve the guide silhouette EXACTLY.\nView: FRONT, exact orthographic front elevation. Edit guide_front.png. Outer silhouette occupies x=211..812, y=66..957 on the unchanged 1024 square canvas. Preserve the broad ceramic upper and lower caps, the rectangular gold frame, the straight central vertical gold strut and the two large blue window areas to its left and right, all at the guide's exact boundaries. Preserve the TWO visible gold terminal posts at x approximately 375..464 and 559..648, y=66..151. Do not replace the central gold strut with the reference's single central window. Do not introduce visible top surfaces or round the guide's straight bevel outline. ",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856"
+        },
+        {
+          "file": "guide_front.png",
+          "role": "edit target and exact geometry",
+          "sha256": "90a91ddd41dab725c7871b7067b7fb6c85d850bfdc6d90e794920ddc1182f3ee"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closest front silhouette (97.42% normalized overlap); approved ceramic/gold/blue palette is recognizable. Residual metallic highlights, bevel shading, added terminal-collar detail and silhouette drift violate the strict albedo/geometry requirements.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-b09e3d95-8ef4-40a9-aaf6-c6e155643985.png",
+      "output_sha256": "e102e7546965e1200754ebd1dfa094d55bbc283f75407d8bc0d30f482dc87ae2",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 818796,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1253,
+          1254
+        ],
+        "opaque_bbox": [
+          256,
+          80,
+          998,
+          1180
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.97415840066082,
+        "normalized_outside_guide_pixels": 18416,
+        "normalized_missing_guide_pixels": 292,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_front_attempt1.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper shield-cell 3D model.\nInput 2 (design_reference.png): MATERIAL, COLOUR AND SURFACE-DESIGN REFERENCE ONLY. Do not copy its camera, silhouette, proportions, layout or lighting.\nInput 1: THE EDIT TARGET AND ABSOLUTE GEOMETRY AUTHORITY. Paint directly on this guide. Preserve its original 1024 x 1024 canvas, original alpha silhouette, exact object position and scale, every existing part boundary, all straight edges and low-poly bevels, and the exact orthographic camera. This is surface painting only. No remodelling, reposing, camera tilt, cropping, scaling, or additional geometry. Keep every pixel outside the guide's silhouette fully transparent.\nPaint only the materials present in the design reference onto their corresponding guide parts: warm white ceramic with fine restrained wear and subtle panel seams; brushed rich yellow-gold metal with fine abrasion grain; thin dark charcoal-black/violet resin seals where parts meet; blue glass/crystal energy windows with bright blue-white light colour inside. Guide tints merely identify materials and must be replaced. Maintain the reference's small engraved lines and panel-join character as surface details, without text or letters. Continue the same materials plausibly on surfaces unseen in the design reference.\nLighting: an ALBEDO TEXTURE SOURCE, evenly illuminated from the viewer, flat and shadowless. Remove the guide's baked shading and cast shadows. All like materials have consistent base colour, independent of face orientation. Gold uses base colour and at most a faint sheen. No strong specular highlights, reflection stripes, directional shading, ambient occlusion, cast shadows, rim light, bloom or glow spill. Paint energy as its bright light colour, not as a lighting effect on surrounding surfaces.\nOutput: ONE separate 1024 x 1024 RGBA PNG painting on genuine transparent background. No floor, background colour, checkerboard pixels, labels, text, letters, watermark, border, sheet or other views. Preserve the guide silhouette EXACTLY.\nView: BACK, exact orthographic back elevation. Edit guide_back.png. Outer silhouette occupies x=211..812, y=66..957 on the unchanged 1024 square canvas. Preserve the broad ceramic upper and lower caps, the rectangular gold frame, the straight central vertical gold strut and the two large blue window areas to its left and right, all at the guide's exact boundaries. Preserve the TWO visible gold terminal posts at x approximately 375..464 and 559..648, y=66..151. Do not replace the central gold strut with the reference's single central window. Do not introduce visible top surfaces or round the guide's straight bevel outline. This unseen back continues the reference's same ceramic, gold, dark resin seals and blue-white energy materials plausibly.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "role": "edit target and exact geometry",
+          "sha256": "38ae17f90cdae4bd760a14e140db3e7b703878904c7ba28066be0563ef66cf04"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: greater silhouette drift (92.72% normalized overlap) and stronger highlights/shading than the correction.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-08bfd17d-0d8c-498d-b59e-c42690ed3e4c.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d33ec8d4e5965bc8071d0a2287ba2946f9401e95e1f09bea9cc0773acc3bfd7a",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 885477,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          17,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          273,
+          72,
+          981,
+          1149
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.9271557914104923,
+        "normalized_outside_guide_pixels": 7523,
+        "normalized_missing_guide_pixels": 44419,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_back_attempt1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper shield-cell 3D model.\nInput 2 (design_reference.png): MATERIAL, COLOUR AND SURFACE-DESIGN REFERENCE ONLY. Do not copy its camera, silhouette, proportions, layout or lighting.\nInput 1: THE EDIT TARGET AND ABSOLUTE GEOMETRY AUTHORITY. Paint directly on this guide. Preserve its original 1024 x 1024 canvas, original alpha silhouette, exact object position and scale, every existing part boundary, all straight edges and low-poly bevels, and the exact orthographic camera. This is surface painting only. No remodelling, reposing, camera tilt, cropping, scaling, or additional geometry. Keep every pixel outside the guide's silhouette fully transparent.\nPaint only the materials present in the design reference onto their corresponding guide parts: warm white ceramic with fine restrained wear and subtle panel seams; brushed rich yellow-gold metal with fine abrasion grain; thin dark charcoal-black/violet resin seals where parts meet; blue glass/crystal energy windows with bright blue-white light colour inside. Guide tints merely identify materials and must be replaced. Maintain the reference's small engraved lines and panel-join character as surface details, without text or letters. Continue the same materials plausibly on surfaces unseen in the design reference.\nLighting: an ALBEDO TEXTURE SOURCE, evenly illuminated from the viewer, flat and shadowless. Remove the guide's baked shading and cast shadows. All like materials have consistent base colour, independent of face orientation. Gold uses base colour and at most a faint sheen. No strong specular highlights, reflection stripes, directional shading, ambient occlusion, cast shadows, rim light, bloom or glow spill. Paint energy as its bright light colour, not as a lighting effect on surrounding surfaces.\nOutput: ONE separate 1024 x 1024 RGBA PNG painting on genuine transparent background. No floor, background colour, checkerboard pixels, labels, text, letters, watermark, border, sheet or other views. Preserve the guide silhouette EXACTLY.\nView: LEFT, exact orthographic left elevation. Edit guide_left.png. Outer silhouette occupies x=211..812, y=66..957 on the unchanged 1024 square canvas. Preserve the broad ceramic upper and lower caps, the rectangular gold frame, the straight central vertical gold strut and the two large blue window areas to its left and right, all at the guide's exact boundaries. Preserve the SINGLE visible central gold terminal-post silhouette at x approximately 465..558, y=66..151; the other terminal is occluded by this exact side view. Do not replace the central gold strut with the reference's single central window. Do not introduce visible top surfaces or round the guide's straight bevel outline. ",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "role": "edit target and exact geometry",
+          "sha256": "c2d2ae050da5e3d903deaf5d6a518f32832fed69c8dc756cdbeff63ab4f065f0"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: greater silhouette drift (90.85% normalized overlap), metallic hot highlights and dark bevels.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-427b52a8-7174-46d6-918b-be719fbb7d32.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9ff6964092e21b5a665555ca6cf13f15613dded31febce7e9e68c0534bbe282b",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 893349,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          41,
+          1240,
+          1228
+        ],
+        "opaque_bbox": [
+          279,
+          67,
+          974,
+          1150
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.9084595157194867,
+        "normalized_outside_guide_pixels": 13384,
+        "normalized_missing_guide_pixels": 51436,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_left_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper shield-cell 3D model.\nInput 2 (design_reference.png): MATERIAL, COLOUR AND SURFACE-DESIGN REFERENCE ONLY. Do not copy its camera, silhouette, proportions, layout or lighting.\nInput 1: THE EDIT TARGET AND ABSOLUTE GEOMETRY AUTHORITY. Paint directly on this guide. Preserve its original 1024 x 1024 canvas, original alpha silhouette, exact object position and scale, every existing part boundary, all straight edges and low-poly bevels, and the exact orthographic camera. This is surface painting only. No remodelling, reposing, camera tilt, cropping, scaling, or additional geometry. Keep every pixel outside the guide's silhouette fully transparent.\nPaint only the materials present in the design reference onto their corresponding guide parts: warm white ceramic with fine restrained wear and subtle panel seams; brushed rich yellow-gold metal with fine abrasion grain; thin dark charcoal-black/violet resin seals where parts meet; blue glass/crystal energy windows with bright blue-white light colour inside. Guide tints merely identify materials and must be replaced. Maintain the reference's small engraved lines and panel-join character as surface details, without text or letters. Continue the same materials plausibly on surfaces unseen in the design reference.\nLighting: an ALBEDO TEXTURE SOURCE, evenly illuminated from the viewer, flat and shadowless. Remove the guide's baked shading and cast shadows. All like materials have consistent base colour, independent of face orientation. Gold uses base colour and at most a faint sheen. No strong specular highlights, reflection stripes, directional shading, ambient occlusion, cast shadows, rim light, bloom or glow spill. Paint energy as its bright light colour, not as a lighting effect on surrounding surfaces.\nOutput: ONE separate 1024 x 1024 RGBA PNG painting on genuine transparent background. No floor, background colour, checkerboard pixels, labels, text, letters, watermark, border, sheet or other views. Preserve the guide silhouette EXACTLY.\nView: RIGHT, exact orthographic right elevation. Edit guide_right.png. Outer silhouette occupies x=211..812, y=66..957 on the unchanged 1024 square canvas. Preserve the broad ceramic upper and lower caps, the rectangular gold frame, the straight central vertical gold strut and the two large blue window areas to its left and right, all at the guide's exact boundaries. Preserve the SINGLE visible central gold terminal-post silhouette at x approximately 465..558, y=66..151; the other terminal is occluded by this exact side view. Do not replace the central gold strut with the reference's single central window. Do not introduce visible top surfaces or round the guide's straight bevel outline. ",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "edit target and exact geometry",
+          "sha256": "990200c193c8edca4af6b5f6f47bf559c0fa96a545c2c4cfc0a8d569e79d55b3"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: greater silhouette drift (96.29% normalized overlap), metallic hot highlights and embellished window borders.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-88d99849-c1a3-4c0a-b730-d0a5b3dab57e.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "154eaacbea78b7698e4710fd6f24a7be9997693c34c30c517c0831fd462fad32",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 869868,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          23,
+          1240,
+          1223
+        ],
+        "opaque_bbox": [
+          261,
+          73,
+          994,
+          1156
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.9629304104321064,
+        "normalized_outside_guide_pixels": 8416,
+        "normalized_missing_guide_pixels": 17649,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_right_attempt1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper shield-cell 3D model.\nInput 2 (design_reference.png): MATERIAL, COLOUR AND SURFACE-DESIGN REFERENCE ONLY. Do not copy its camera, silhouette, proportions, layout or lighting.\nInput 1: THE EDIT TARGET AND ABSOLUTE GEOMETRY AUTHORITY. Paint directly on this guide. Preserve its original 1024 x 1024 canvas, original alpha silhouette, exact object position and scale, every existing part boundary, all straight edges and low-poly bevels, and the exact orthographic camera. This is surface painting only. No remodelling, reposing, camera tilt, cropping, scaling, or additional geometry. Keep every pixel outside the guide's silhouette fully transparent.\nPaint only the materials present in the design reference onto their corresponding guide parts: warm white ceramic with fine restrained wear and subtle panel seams; brushed rich yellow-gold metal with fine abrasion grain; thin dark charcoal-black/violet resin seals where parts meet; blue glass/crystal energy windows with bright blue-white light colour inside. Guide tints merely identify materials and must be replaced. Maintain the reference's small engraved lines and panel-join character as surface details, without text or letters. Continue the same materials plausibly on surfaces unseen in the design reference.\nLighting: an ALBEDO TEXTURE SOURCE, evenly illuminated from the viewer, flat and shadowless. Remove the guide's baked shading and cast shadows. All like materials have consistent base colour, independent of face orientation. Gold uses base colour and at most a faint sheen. No strong specular highlights, reflection stripes, directional shading, ambient occlusion, cast shadows, rim light, bloom or glow spill. Paint energy as its bright light colour, not as a lighting effect on surrounding surfaces.\nOutput: ONE separate 1024 x 1024 RGBA PNG painting on genuine transparent background. No floor, background colour, checkerboard pixels, labels, text, letters, watermark, border, sheet or other views. Preserve the guide silhouette EXACTLY.\nView: TOP, directly above. Edit guide_top.png. Preserve the faceted circular body centred at (512,512), its four small cardinal gold tabs and two terminal disks centred approximately (420,512) and (604,512). Outer silhouette occupies x=211..812 and y=211..812. The broad top cap is ceramic; perimeter rim, cardinal tabs and the two terminal disks are gold, with subtle dark resin seal details confined within existing parts. Remove the diagonal terminal shadows from the guide. Keep the overhead disk view: do not reveal the canister sides or shift the terminal disks.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "edit target and exact geometry",
+          "sha256": "9686f9f7239d2d80202b22d0b8903f49a07c12c8d1a4b02138703c05b9e283a5"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: gold terminals match the design better, but the oversized, displaced silhouette has only 81.62% normalized overlap and strong highlights remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-061b8ce5-1820-4939-9111-10e31a4a7a6d.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "41093903d32587ec0df50fb39a29a4e095a272f5ae75be729bc1b11dba0d9a94",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 1109016,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1246,
+          1229
+        ],
+        "opaque_bbox": [
+          223,
+          194,
+          1032,
+          1021
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.816166915711993,
+        "normalized_outside_guide_pixels": 83042,
+        "normalized_missing_guide_pixels": 0,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_top_attempt1.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Hesper shield-cell 3D model.\nInput 2 (design_reference.png): MATERIAL, COLOUR AND SURFACE-DESIGN REFERENCE ONLY. Do not copy its camera, silhouette, proportions, layout or lighting.\nInput 1: THE EDIT TARGET AND ABSOLUTE GEOMETRY AUTHORITY. Paint directly on this guide. Preserve its original 1024 x 1024 canvas, original alpha silhouette, exact object position and scale, every existing part boundary, all straight edges and low-poly bevels, and the exact orthographic camera. This is surface painting only. No remodelling, reposing, camera tilt, cropping, scaling, or additional geometry. Keep every pixel outside the guide's silhouette fully transparent.\nPaint only the materials present in the design reference onto their corresponding guide parts: warm white ceramic with fine restrained wear and subtle panel seams; brushed rich yellow-gold metal with fine abrasion grain; thin dark charcoal-black/violet resin seals where parts meet; blue glass/crystal energy windows with bright blue-white light colour inside. Guide tints merely identify materials and must be replaced. Maintain the reference's small engraved lines and panel-join character as surface details, without text or letters. Continue the same materials plausibly on surfaces unseen in the design reference.\nLighting: an ALBEDO TEXTURE SOURCE, evenly illuminated from the viewer, flat and shadowless. Remove the guide's baked shading and cast shadows. All like materials have consistent base colour, independent of face orientation. Gold uses base colour and at most a faint sheen. No strong specular highlights, reflection stripes, directional shading, ambient occlusion, cast shadows, rim light, bloom or glow spill. Paint energy as its bright light colour, not as a lighting effect on surrounding surfaces.\nOutput: ONE separate 1024 x 1024 RGBA PNG painting on genuine transparent background. No floor, background colour, checkerboard pixels, labels, text, letters, watermark, border, sheet or other views. Preserve the guide silhouette EXACTLY.\nView: FRONT, exact orthographic front elevation. Edit guide_front.png. Outer silhouette occupies x=211..812, y=66..957 on the unchanged 1024 square canvas. Preserve the broad ceramic upper and lower caps, the rectangular gold frame, the straight central vertical gold strut and the two large blue window areas to its left and right, all at the guide's exact boundaries. Preserve the TWO visible gold terminal posts at x approximately 375..464 and 559..648, y=66..151. Do not replace the central gold strut with the reference's single central window. Do not introduce visible top surfaces or round the guide's straight bevel outline. \nCORRECTIVE PASS: The previous attempt used the reference's 1254 canvas and introduced outline drift and metallic highlights. Start afresh from INPUT 1, the 1024 x 1024 guide. Return EXACTLY 1024 x 1024. The guide's alpha is a locked stencil: change only RGB within its existing opaque pixels; preserve all transparent pixels and edge coverage. Trace every boundary without deviation. Do not add collars outside the existing post boundaries, change the cap bevels, thicken the frame, or move either window. Paint gold in a uniform matte ochre-gold base colour with very fine brushed texture; eliminate bright metallic streaks and shaded bevels. Ceramic should be near-uniform warm white with fine wear. Blue-white windows should be uniformly luminous cyan with subtle crystalline texture. No lighting gradients or halo fringes. Keep genuine transparent alpha.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "role": "edit target and exact geometry",
+          "sha256": "90a91ddd41dab725c7871b7067b7fb6c85d850bfdc6d90e794920ddc1182f3ee"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "material/design reference",
+          "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856"
+        }
+      ],
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: somewhat flatter energy windows and simpler posts, but worse normalized silhouette overlap (94.79%) than attempt 1; gold highlights and bevel shading remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-7b99a711-4490-43cb-8e97-553eb17d0cec.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "4f948c7d4b08689c5d65b194c148fee8ffead27ac05b873810ef52d92e402056",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 854385,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          47,
+          1228,
+          1254
+        ],
+        "opaque_bbox": [
+          266,
+          66,
+          989,
+          1156
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.9478778168646164,
+        "normalized_outside_guide_pixels": 12242,
+        "normalized_missing_guide_pixels": 25170,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_front_attempt2.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE ALBEDO PAINTING.\nEdit ONLY the supplied 1024 x 1024 guide_back.png. Return ONE image on the SAME 1024 x 1024 canvas, with genuine transparent background.\nThis input is a precise orthographic stencil. Preserve the input alpha channel, position, proportions, outlines and every material-region boundary pixel for pixel. Paint RGB inside its existing silhouette only. Do not regenerate the shape, recenter, enlarge, shrink, round the polygon edges, tilt the camera, invent bevels, or change the spacing or footprint of parts.\nReplace the guide's temporary colours and illumination with this material appearance derived from the approved Hesper shield-cell design_reference.png: ceramic is lightly warm white with extremely fine pale beige wear/scratches; metal is rich yellow brushed gold with fine surface grain; seals are thin charcoal-black with a faint violet tint; energy windows are clear cyan-blue crystal containing bright blue-white light. Paint only materials on the model's existing regions, without geometric additions. Seams are thin surface lines, not deep black shaded grooves. No orange, leather, cloth, paper or added objects. No text, letters, digits, logos or symbols.\nCRITICAL LIGHTING CORRECTION: this is a flat base-colour/albedo painting, never a beauty render. Use uniform shadowless illumination. Remove ALL guide cast shadows and directional shading. Gold is nearly uniform ochre yellow-gold, with extremely subtle brushed grain and no bright white/yellow highlight streaks, no dark bevel faces, no glossy reflection. White ceramic keeps the same near-white base colour across all faces. Blue-white glow is a painted bright colour only; no bloom, halo or emitted lighting on gold. No ambient occlusion, shadow gradients, specular hotspots, rim lighting, floor or background.\nView: BACK, exact orthographic back elevation. Edit guide_back.png. Outer silhouette occupies x=211..812, y=66..957 on the unchanged 1024 square canvas. Preserve the broad ceramic upper and lower caps, the rectangular gold frame, the straight central vertical gold strut and the two large blue window areas to its left and right, all at the guide's exact boundaries. Preserve the TWO visible gold terminal posts at x approximately 375..464 and 559..648, y=66..151. Do not replace the central gold strut with the reference's single central window. Do not introduce visible top surfaces or round the guide's straight bevel outline. This unseen back continues the reference's same ceramic, gold, dark resin seals and blue-white energy materials plausibly.\nThe former attempt drifted in silhouette and came back at 1254 x 1254. Use the exact 1024-square guide canvas and stencil above, not the dimensions or camera of the design reference. Outside the exact original silhouette must stay alpha=0 with no stray semitransparent pixels.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "role": "edit target and exact geometry",
+          "sha256": "38ae17f90cdae4bd760a14e140db3e7b703878904c7ba28066be0563ef66cf04"
+        }
+      ],
+      "design_material_source": {
+        "file": "design_reference.png",
+        "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856",
+        "usage": "Material specification derived from the already inspected design reference; corrective tool input is the 1024-square guide only."
+      },
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected: improved normalized silhouette overlap (99.37%) and flatter ceramic and gold. Residual bevel shading, terminal sheen and alpha fringe prevent strict compliance.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-82767d26-8d7d-4a13-b9cc-06fed37ebbd4.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7aca552983c8a737a7ff906368d49bc3bd0c58adf9e6e74c6a3881ae5d6487cd",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 842543,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          29,
+          1240,
+          1224
+        ],
+        "opaque_bbox": [
+          259,
+          79,
+          995,
+          1175
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.9936932874936595,
+        "normalized_outside_guide_pixels": 4187,
+        "normalized_missing_guide_pixels": 289,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_back_attempt2.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE ALBEDO PAINTING.\nEdit ONLY the supplied 1024 x 1024 guide_left.png. Return ONE image on the SAME 1024 x 1024 canvas, with genuine transparent background.\nThis input is a precise orthographic stencil. Preserve the input alpha channel, position, proportions, outlines and every material-region boundary pixel for pixel. Paint RGB inside its existing silhouette only. Do not regenerate the shape, recenter, enlarge, shrink, round the polygon edges, tilt the camera, invent bevels, or change the spacing or footprint of parts.\nReplace the guide's temporary colours and illumination with this material appearance derived from the approved Hesper shield-cell design_reference.png: ceramic is lightly warm white with extremely fine pale beige wear/scratches; metal is rich yellow brushed gold with fine surface grain; seals are thin charcoal-black with a faint violet tint; energy windows are clear cyan-blue crystal containing bright blue-white light. Paint only materials on the model's existing regions, without geometric additions. Seams are thin surface lines, not deep black shaded grooves. No orange, leather, cloth, paper or added objects. No text, letters, digits, logos or symbols.\nCRITICAL LIGHTING CORRECTION: this is a flat base-colour/albedo painting, never a beauty render. Use uniform shadowless illumination. Remove ALL guide cast shadows and directional shading. Gold is nearly uniform ochre yellow-gold, with extremely subtle brushed grain and no bright white/yellow highlight streaks, no dark bevel faces, no glossy reflection. White ceramic keeps the same near-white base colour across all faces. Blue-white glow is a painted bright colour only; no bloom, halo or emitted lighting on gold. No ambient occlusion, shadow gradients, specular hotspots, rim lighting, floor or background.\nView: LEFT, exact orthographic left elevation. Edit guide_left.png. Outer silhouette occupies x=211..812, y=66..957 on the unchanged 1024 square canvas. Preserve the broad ceramic upper and lower caps, the rectangular gold frame, the straight central vertical gold strut and the two large blue window areas to its left and right, all at the guide's exact boundaries. Preserve the SINGLE visible central gold terminal-post silhouette at x approximately 465..558, y=66..151; the other terminal is occluded by this exact side view. Do not replace the central gold strut with the reference's single central window. Do not introduce visible top surfaces or round the guide's straight bevel outline. \nThe former attempt drifted in silhouette and came back at 1254 x 1254. Use the exact 1024-square guide canvas and stencil above, not the dimensions or camera of the design reference. Outside the exact original silhouette must stay alpha=0 with no stray semitransparent pixels.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "role": "edit target and exact geometry",
+          "sha256": "c2d2ae050da5e3d903deaf5d6a518f32832fed69c8dc756cdbeff63ab4f065f0"
+        }
+      ],
+      "design_material_source": {
+        "file": "design_reference.png",
+        "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856",
+        "usage": "Material specification derived from the already inspected design reference; corrective tool input is the 1024-square guide only."
+      },
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected: improved normalized silhouette overlap (98.91%) and flatter materials. Gold bevel shading, subtle energy gradients and alpha fringe remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-cab8003a-54fb-4139-bc39-ff4337a0a5bb.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "88053d70a34376128e05a1d1e2d02c53dc50d9a0e5b405dc166b5ca0b7b849da",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 851410,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          57,
+          1220,
+          1254
+        ],
+        "opaque_bbox": [
+          258,
+          78,
+          996,
+          1176
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.9891361920003645,
+        "normalized_outside_guide_pixels": 7614,
+        "normalized_missing_guide_pixels": 16,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_left_attempt2.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE ALBEDO PAINTING.\nEdit ONLY the supplied 1024 x 1024 guide_right.png. Return ONE image on the SAME 1024 x 1024 canvas, with genuine transparent background.\nThis input is a precise orthographic stencil. Preserve the input alpha channel, position, proportions, outlines and every material-region boundary pixel for pixel. Paint RGB inside its existing silhouette only. Do not regenerate the shape, recenter, enlarge, shrink, round the polygon edges, tilt the camera, invent bevels, or change the spacing or footprint of parts.\nReplace the guide's temporary colours and illumination with this material appearance derived from the approved Hesper shield-cell design_reference.png: ceramic is lightly warm white with extremely fine pale beige wear/scratches; metal is rich yellow brushed gold with fine surface grain; seals are thin charcoal-black with a faint violet tint; energy windows are clear cyan-blue crystal containing bright blue-white light. Paint only materials on the model's existing regions, without geometric additions. Seams are thin surface lines, not deep black shaded grooves. No orange, leather, cloth, paper or added objects. No text, letters, digits, logos or symbols.\nCRITICAL LIGHTING CORRECTION: this is a flat base-colour/albedo painting, never a beauty render. Use uniform shadowless illumination. Remove ALL guide cast shadows and directional shading. Gold is nearly uniform ochre yellow-gold, with extremely subtle brushed grain and no bright white/yellow highlight streaks, no dark bevel faces, no glossy reflection. White ceramic keeps the same near-white base colour across all faces. Blue-white glow is a painted bright colour only; no bloom, halo or emitted lighting on gold. No ambient occlusion, shadow gradients, specular hotspots, rim lighting, floor or background.\nView: RIGHT, exact orthographic right elevation. Edit guide_right.png. Outer silhouette occupies x=211..812, y=66..957 on the unchanged 1024 square canvas. Preserve the broad ceramic upper and lower caps, the rectangular gold frame, the straight central vertical gold strut and the two large blue window areas to its left and right, all at the guide's exact boundaries. Preserve the SINGLE visible central gold terminal-post silhouette at x approximately 465..558, y=66..151; the other terminal is occluded by this exact side view. Do not replace the central gold strut with the reference's single central window. Do not introduce visible top surfaces or round the guide's straight bevel outline. \nThe former attempt drifted in silhouette and came back at 1254 x 1254. Use the exact 1024-square guide canvas and stencil above, not the dimensions or camera of the design reference. Outside the exact original silhouette must stay alpha=0 with no stray semitransparent pixels.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "role": "edit target and exact geometry",
+          "sha256": "990200c193c8edca4af6b5f6f47bf559c0fa96a545c2c4cfc0a8d569e79d55b3"
+        }
+      ],
+      "design_material_source": {
+        "file": "design_reference.png",
+        "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856",
+        "usage": "Material specification derived from the already inspected design reference; corrective tool input is the 1024-square guide only."
+      },
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected: improved normalized silhouette overlap (99.19%) and flatter materials. Gold bevel shading, subtle energy gradients and alpha fringe remain.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-2a719874-cf0a-4722-bc79-9387ef783782.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "fc4cde52736b7cbfaef6dc8777e2889a8276cde63464bcf53cb307999a158158",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 854868,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          9,
+          1224,
+          1254
+        ],
+        "opaque_bbox": [
+          258,
+          81,
+          996,
+          1175
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.9919387084797076,
+        "normalized_outside_guide_pixels": 5539,
+        "normalized_missing_guide_pixels": 106,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "reference palette recognizable; see reason for details",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_right_attempt2.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE ALBEDO PAINTING.\nEdit ONLY the supplied 1024 x 1024 guide_top.png. Return ONE image on the SAME 1024 x 1024 canvas, with genuine transparent background.\nThis input is a precise orthographic stencil. Preserve the input alpha channel, position, proportions, outlines and every material-region boundary pixel for pixel. Paint RGB inside its existing silhouette only. Do not regenerate the shape, recenter, enlarge, shrink, round the polygon edges, tilt the camera, invent bevels, or change the spacing or footprint of parts.\nReplace the guide's temporary colours and illumination with this material appearance derived from the approved Hesper shield-cell design_reference.png: ceramic is lightly warm white with extremely fine pale beige wear/scratches; metal is rich yellow brushed gold with fine surface grain; seals are thin charcoal-black with a faint violet tint; energy windows are clear cyan-blue crystal containing bright blue-white light. Paint only materials on the model's existing regions, without geometric additions. Seams are thin surface lines, not deep black shaded grooves. No orange, leather, cloth, paper or added objects. No text, letters, digits, logos or symbols.\nCRITICAL LIGHTING CORRECTION: this is a flat base-colour/albedo painting, never a beauty render. Use uniform shadowless illumination. Remove ALL guide cast shadows and directional shading. Gold is nearly uniform ochre yellow-gold, with extremely subtle brushed grain and no bright white/yellow highlight streaks, no dark bevel faces, no glossy reflection. White ceramic keeps the same near-white base colour across all faces. Blue-white glow is a painted bright colour only; no bloom, halo or emitted lighting on gold. No ambient occlusion, shadow gradients, specular hotspots, rim lighting, floor or background.\nView: TOP, directly above. Edit guide_top.png. Preserve the faceted circular body centred at (512,512), its four small cardinal gold tabs and two terminal disks centred approximately (420,512) and (604,512). Outer silhouette occupies x=211..812 and y=211..812. The broad top cap is ceramic; perimeter rim, cardinal tabs and the two terminal disks are gold, with subtle dark resin seal details confined within existing parts. Remove the diagonal terminal shadows from the guide. Keep the overhead disk view: do not reveal the canister sides or shift the terminal disks.\nThe former attempt drifted in silhouette and came back at 1254 x 1254. Use the exact 1024-square guide canvas and stencil above, not the dimensions or camera of the design reference. Outside the exact original silhouette must stay alpha=0 with no stray semitransparent pixels.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "edit target and exact geometry",
+          "sha256": "9686f9f7239d2d80202b22d0b8903f49a07c12c8d1a4b02138703c05b9e283a5"
+        }
+      ],
+      "design_material_source": {
+        "file": "design_reference.png",
+        "sha256": "37016e246bedc966b67ff9bbf137e47a64648b202f75140c90736c94c829e856",
+        "usage": "Material specification derived from the already inspected design reference; corrective tool input is the 1024-square guide only."
+      },
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected for the much closer guide silhouette (98.97% normalized overlap) and flatter surface painting. However the tool incorrectly painted the two terminal faces cyan-blue rather than gold; this is a material failure. Residual edge sheen, outline drift and alpha fringe remain. The allowed corrective-pass budget is exhausted.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-76b3-9b16-443c055c0637/exec-84184014-106b-40c7-ad6a-a9df47404a74.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "1b110323d11006d24b138f23c8c7336229e20617776987286e8f7f9099966b40",
+      "checks": {
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "transparent_pixels": 1196600,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          51,
+          1202,
+          1230
+        ],
+        "opaque_bbox": [
+          258,
+          256,
+          996,
+          996
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.9896921147650861,
+        "normalized_outside_guide_pixels": 1325,
+        "normalized_missing_guide_pixels": 2489,
+        "requested_dimensions_match": false,
+        "unresized_raw_return": true,
+        "materials_visual_check": "fail: terminal faces are blue instead of gold",
+        "flat_shadowless_albedo_visual_check": "fail: residual bevel shading and/or highlights",
+        "transparent_background_present": true,
+        "background_alpha_clean": false,
+        "text_or_letters_visible": false,
+        "strict_brief_pass": false
+      },
+      "raw_return": "paint_top_attempt2.png"
+    }
+  ],
+  "status": "Five best-available unresized paintings saved; strict silhouette, lighting and top-terminal material requirements remain unmet after the allowed corrections.",
+  "correction_limit_per_view": 1,
+  "generation_count": 10,
+  "all_returns_size": [
+    1254,
+    1254
+  ],
+  "all_returns_preserved_unresized": true,
+  "selection_is_not_acceptance": true,
+  "silhouette_metric_method": "For read-only comparison, sample the guide alpha at normalized output coordinates and compare masks at alpha >= 128. No image file is resized or edited. IoU measures silhouette intersection divided by union; exact_alpha_match additionally requires the original dimensions and alpha values.",
+  "limitations": [
+    "Every tool return is 1254x1254 despite requesting 1024x1024; retained unresized as the brief directs.",
+    "No return has the exact guide alpha mask; faint semitransparent background pixels and irregular edge fringes remain.",
+    "Residual shading/highlights prevent strict flat-albedo compliance.",
+    "Selected top painting incorrectly uses blue terminal faces instead of gold.",
+    "No further regeneration was performed after the one-correction-per-view limit.",
+    "No builds, image resizing, compositing, alpha replacement, source-input edits or runtime installation performed."
+  ]
+}

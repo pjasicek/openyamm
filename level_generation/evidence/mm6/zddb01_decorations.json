@@ -1,0 +1,578 @@
+{
+  "world": "mm6",
+  "map": "zddb01.blv",
+  "kind": "indoor",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm6/maps/zddb01.blv",
+      "sha256": "81a88338bb3469d972e2666b3ac1a6e2ff220b03fa7af33cfc718714b71e047e"
+    },
+    {
+      "path": "assets_dev/worlds/mm6/maps/zddb01.scene.yml",
+      "sha256": "d75e1e5f49a7f8c726b5a8d9f4d06c4035377ba11daca2ab5b70b991255d4ae2"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/decoration_data.txt",
+      "sha256": "0ad51cc583a71f2e4255211fb79be965e2adb1a51f7baeb0d603f777073bca7f"
+    },
+    {
+      "path": "assets_dev/engine/rendering/sprite_frame_data_common.yml",
+      "sha256": "197b5a71379e4d38b08f2ab2c31f74aea0de38e4dc6b724e7bb4beeba953726b"
+    }
+  ],
+  "records": [
+    {
+      "index": 0,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        1656,
+        -280,
+        120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 1,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        1656,
+        728,
+        120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 2,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        -200,
+        1912,
+        120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 3,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        944,
+        1832,
+        168
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 4,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        280,
+        2536,
+        168
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 5,
+      "source_name": "dec04",
+      "id": 231,
+      "name": "dec04",
+      "hint": "campfire",
+      "radius": 16,
+      "height": 0,
+      "light_radius": 128,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 173,
+      "category": "lights",
+      "position": [
+        260,
+        1348,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/dec04a.bmp",
+        "pixels": [
+          171,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 8,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/dec04.png",
+        "palette_path": "assets_dev/worlds/mm8/textures/pal008.act"
+      }
+    },
+    {
+      "index": 6,
+      "source_name": "dec04",
+      "id": 231,
+      "name": "dec04",
+      "hint": "campfire",
+      "radius": 16,
+      "height": 0,
+      "light_radius": 128,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 173,
+      "category": "lights",
+      "position": [
+        304,
+        -612,
+        0
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/dec04a.bmp",
+        "pixels": [
+          171,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 8,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/dec04.png",
+        "palette_path": "assets_dev/worlds/mm8/textures/pal008.act"
+      }
+    },
+    {
+      "index": 7,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        1168,
+        -1584,
+        72
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 8,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        -176,
+        -1192,
+        120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 9,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        -760,
+        -248,
+        120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    },
+    {
+      "index": 10,
+      "source_name": "6torch01",
+      "id": 160,
+      "name": "6torch01",
+      "hint": "torch",
+      "radius": 8,
+      "height": 52,
+      "light_radius": 256,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "FlickerAverage",
+      "sprite_id": 17733,
+      "category": "lights",
+      "position": [
+        -640,
+        784,
+        120
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 1,
+      "preview": {
+        "path": "assets_dev/engine/sprites/torch01.bmp",
+        "pixels": [
+          64,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 546,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          255,
+          255
+        ],
+        "decoded_path": "level_generation/evidence/mm6/decoration_frames/6torch01.png",
+        "palette_path": "assets_dev/worlds/mm6/textures/pal546.act"
+      }
+    }
+  ],
+  "missing_sprites": [],
+  "models": [],
+  "counts": {
+    "native": 11,
+    "visible": 11,
+    "categories": {
+      "lights": 11
+    },
+    "palette": {
+      "6torch01": 9,
+      "dec04": 2
+    },
+    "light_emitters": 11
+  }
+}

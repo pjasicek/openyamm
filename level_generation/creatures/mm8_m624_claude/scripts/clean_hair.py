@@ -1,0 +1,4 @@
+"""Remove detached Meshy hair shards, retaining the continuous waist-length hair shell."""
+import bpy,bmesh,json
+from pathlib import Path
+P=Path(__file__).resolve().parents[1];bpy.ops.wm.open_mainfile(filepath=str(P/'work/textured_master.blend'));body=bpy.data.objects['Body'];bm=bmesh.new();bm.from_mesh(body.data);layer=bm.verts.layers.int['part'];keep={0,1,2,3,4,5,6,7,8,9,11,13,15,16,20,21,22,25,26,31,100,101,102};remove=[v for v in bm.verts if v[layer]not in keep];count=len(remove);bmesh.ops.delete(bm,geom=remove,context='VERTS');bm.to_mesh(body.data);bm.free();bpy.ops.wm.save_as_mainfile(filepath=str(P/'work/textured_master.blend'));(P/'work/hair_cleanup.json').write_text(json.dumps({'removed_detached_hair_vertices':count,'retained':'Continuous part-5 hair shell, full scalp and all jewelry. Geometry, UVs and weights on retained vertices unchanged.'},indent=2));print('REMOVED HAIR SHARDS',count)

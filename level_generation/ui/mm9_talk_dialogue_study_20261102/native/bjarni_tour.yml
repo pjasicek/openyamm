@@ -1,0 +1,29 @@
+output_dir: shots
+exit: true
+steps:
+  - wait: 3
+  - console: player add Knight Aslaug
+  - console: player add Cleric Hrafn
+  - console: player add Sorcerer Sigrun
+  - console: event 308
+  - wait: 1.5
+  - pointer_move: [1500, 120]
+  - wait: 0.3
+  - capture: 01_entry_plain
+  - key: Escape
+  - wait: 1.0
+  - console: qbit set 90020 90196 90023 90039 90084 90089
+  - console: event 308
+  - wait: 1.5
+  - capture: 02_entry_eight
+  - key: Down
+  - key: Down
+  - wait: 0.3
+  - capture: 03_keyboard_selection
+  - key: 1
+  - wait: 1.0
+  - capture: 04_after_choice_1
+  - key: 1
+  - wait: 1.0
+  - capture: 05_after_choice_again
+  - wait: 1

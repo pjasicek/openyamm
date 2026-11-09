@@ -1,0 +1,3 @@
+Saved the unresized 1024×1536 [primary image](level_generation/creatures/mm6_kni_reduce_claude/references_hd/00_three_quarter.png) using built-in image generation. Prompts and input hashes are in [generation_runs.json](level_generation/creatures/mm6_kni_reduce_claude/references_hd/generation_runs.json).
+
+Stopped after the permitted retry. The full brief failed to transmit due to my prompt-extraction error; background and armour fidelity remain imperfect, so this is not fully compliant.

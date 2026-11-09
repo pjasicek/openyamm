@@ -1,0 +1,26 @@
+{
+  "prompt": "Paint the supplied paint_mask_guide.png exactly according to this brief. Input roles: paint_mask_guide.png is the edit target and immutable silhouette/layout guide; design_reference.png is material/detail reference; icon_x8.png is original colour reference (magenta is background, never paint it). Output one transparent PNG 1536x2048 (3:4). Three columns and FOUR rows of 512x512 cells. Same five orthographic views repeated in each half: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object's exact position, size, straight triangular outline and square top-view outline. Do not redraw, move, enlarge or redesign shapes. Paint inside grey silhouettes only.\nRows 1-2: unlit base colour of source-faithful upright stepped Capstone of Order. Four triangular elevation views have pale warm silver metal tip, broad charcoal dark oxidized metal middle band, narrow pale silver dividing seam, broad pale silver metal bottom band, matching reference proportions. Subtle fine worn metal texture from approved reference, but no directional lighting, reflections, hot highlights, shadows or ambient occlusion. Top orthographic square shows the corresponding concentric square metal bands around the central apex, respecting the guide's facets. Do not add invented ornament.\nRows 3-4: material classification masks of the same five silhouettes. This reference capstone is metal including its dark oxidized band: fill each entire triangle and square with uniform pure red #FF0000, absolutely flat no texture, shading, outlines or internal antialiased colour blends. Classification if applicable: leather/fur pure green #00FF00, cloth/hair pure blue #0000FF, matte nonmetal solid pure yellow #FFFF00, gemstone/glass/enamel/liquid pure black #000000. Nothing outside silhouettes. Empty cells row 2 column 3 and row 4 column 3 fully transparent. All gaps/background genuinely transparent. No text, ground, glow, aura or sparkles.\nCRITICAL CORRECTION: Previous attempt had ragged paint splatter outside silhouettes, which is unacceptable. Use the ORIGINAL supplied grey guide as strict alpha stencil. Perfectly clean straight triangle and square edges, no stray pixels, no splatter, no fringe, no painted background. All five lower silhouettes are solid pure #FF0000 geometric fills, with perfectly transparent space separating them. Preserve the generous original margins and gaps, do not expand silhouettes. Exact original 3:4 guide layout.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10396/paint_mask_guide.png",
+      "sha256": "d7990b384065800224290c32f6f40071e3c503fa066b6dfc8fbaee23d73d209f"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10396/design_reference.png",
+      "sha256": "3ddb2b429519a31dd389be414012c55932889112edb6be1c96cd76be6d77e747"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10396/icon_x8.png",
+      "sha256": "cb1eb055aaa0e95db9d6b90d4e14d8bdd0b236cc0041a8b4f618eeadb40ac0ce"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad12-2970-7a61-9ff5-ca71623a6afe/exec-b272290d-d1bb-4783-847b-dc805f31cdcb.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10396/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout present; visible stray colour outside silhouettes remains after permitted correction. Raw tool output preserved without editing."
+}

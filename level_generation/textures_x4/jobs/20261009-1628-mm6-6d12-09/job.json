@@ -1,0 +1,715 @@
+{
+ "id": "20261009-1628-mm6-6d12-09",
+ "world": "mm6",
+ "maps": [
+  "6d12.blv",
+  "6t1.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/chairtop",
+  "mm6/d3ll5",
+  "mm6/d5ceild",
+  "mm6/t1wl9ctl",
+  "mm6/t1w15a",
+  "mm6/t1wl9ctb",
+  "mm6/t1wl7ctb",
+  "mm6/t1wl7lea",
+  "mm6/t1wl7leb",
+  "mm6/t1wl7rea",
+  "mm6/t1wl7reb",
+  "mm6/t1wl5ctl",
+  "mm6/t1wl7ctc",
+  "mm6/orair256b",
+  "mm6/t1wl7cta",
+  "mm6/orairlg",
+  "mm6/orairlgb",
+  "mm6/t1wl4spa",
+  "mm6/t1wl4cts",
+  "mm6/t1wl4leb",
+  "mm6/t1wl5ct",
+  "mm6/t1wl9cts",
+  "mm6/t1ww9rec",
+  "mm6/t1wl9reb"
+ ],
+ "requests": {
+  "mm6/chairtop": {
+   "name": "chairtop",
+   "versions": [
+    1
+   ],
+   "material": "narrow red-orange lacquered wooden chair top rail strip with a dark band of small carved repeating motifs and dark edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d3ll5": {
+   "name": "d3ll5",
+   "versions": [
+    1
+   ],
+   "material": "rust-orange and brown rough crumbly earth and rock surface with dark pits and pale specks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5ceild": {
+   "name": "d5ceild",
+   "versions": [
+    1
+   ],
+   "material": "olive-tan carved stone ceiling panel with a deep stepped meander spiral relief in Mesoamerican style, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1wl9ctl": {
+   "name": "t1wl9ctl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale pink-cream marble block wall with soft veining and dark bevelled joints, with a grey-green Greek key meander frieze along the top and a fluted grey marble column standing left of centre",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/t1w15a": {
+   "name": "t1w15a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, blocks laid in staggered courses",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "Polished pink-cream marble with soft continuous flowing veins and smooth fine natural grain: no mosaic of small cells, scales or diamond lattice, no crackle network, no stair-stepped patches."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl4ctl"
+     ],
+     "fraction": 0.703
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.0,
+    "3": 3.0
+   }
+  },
+  "mm6/t1wl9ctb": {
+   "name": "t1wl9ctb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale pink-cream marble block wall with soft veining and dark bevelled joints, with a grey-green Greek key meander frieze along the top and fluted grey marble columns along both side edges",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "3": "Rebuild on the accepted column wall: keep its exact pixels; no dark or light line along the bottom or top edge, the outermost pixels continue the marble and joints exactly as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9ctl"
+     ],
+     "fraction": 0.855
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9ctl"
+     ],
+     "fraction": 0.855
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl9ctl"
+     ],
+     "fraction": 0.855
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "3": [
+     0,
+     141
+    ]
+   }
+  },
+  "mm6/t1wl7ctb": {
+   "name": "t1wl7ctb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a stepped diagonal band of dark green white-veined marble blocks",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "Polished pink-cream marble with soft continuous flowing veins and smooth fine natural grain: no mosaic of small cells, scales or diamond lattice, no crackle network, no stair-stepped patches. No bright or dark line along the bottom edge; the outermost rows keep the same brightness as the interior."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.0,
+    "3": 3.0
+   }
+  },
+  "mm6/t1wl7lea": {
+   "name": "t1wl7lea",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a stepped diagonal band of dark green white-veined marble blocks, toothed small bricks along the top and left edge",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge; the outermost rows and columns keep the same brightness as the interior.",
+    "3": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.662
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.662
+    },
+    "3": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.662
+    }
+   },
+   "ref_blur": {
+    "3": 2.0
+   }
+  },
+  "mm6/t1wl7leb": {
+   "name": "t1wl7leb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a stepped diagonal band of dark green white-veined marble blocks, toothed small bricks along the top and left edge",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous flowing veins and smooth fine natural grain: no mosaic of small cells, scales or diamond lattice, no crackle network, no stair-stepped patches."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl7ctb",
+      "mm6/t1wl7lea",
+      "mm6/t1wl7spa"
+     ],
+     "fraction": 0.972
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.822
+    }
+   },
+   "ref_blur": {
+    "2": 3.0
+   }
+  },
+  "mm6/t1wl7rea": {
+   "name": "t1wl7rea",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a stepped diagonal band of dark green white-veined marble blocks, toothed small bricks along the top and right edge",
+   "notes": {
+    "2": "No dark outline or shadow along the right edge: the toothed small marble bricks reach the right edge with the same brightness as the interior, as in the reference. Natural marble with flowing veins: no mosaic of small cells or scales."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl7ctb",
+      "mm6/t1wl7lea",
+      "mm6/t1wl7spa"
+     ],
+     "fraction": 0.832
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl7ctb"
+     ],
+     "fraction": 0.642
+    }
+   }
+  },
+  "mm6/t1wl7reb": {
+   "name": "t1wl7reb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a stepped diagonal band of dark green white-veined marble blocks, toothed small bricks along the top and right edge",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl7ctb",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.958
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl7ctb",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.958
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     153
+    ]
+   }
+  },
+  "mm6/t1wl5ctl": {
+   "name": "t1wl5ctl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a toothed row of small marble bricks along the top edge",
+   "notes": {
+    "2": "No pale or dark hairline along the bottom edge: the marble blocks and joints continue to the bottom border exactly as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl2ctl",
+      "mm6/t1wl7ctc",
+      "mm6/t1wl7ctb",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.523
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl2ctl",
+      "mm6/t1wl7ctc",
+      "mm6/t1wl7ctb",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.523
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     151
+    ]
+   }
+  },
+  "mm6/t1wl7ctc": {
+   "name": "t1wl7ctc",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a stepped diagonal band of dark green white-veined marble blocks",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous flowing veins and smooth fine natural grain: no mosaic of small cells, scales or diamond lattice, no crackle network, no stair-stepped patches."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl7ctb",
+      "mm6/t1wl7lea"
+     ],
+     "fraction": 0.786
+    }
+   },
+   "ref_blur": {
+    "2": 3.0
+   }
+  },
+  "mm6/orair256b": {
+   "name": "orair256b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale sky-blue and white wispy cloud mist with soft swirling streaks",
+   "notes": {
+    "2": "Keep the thin smooth slightly darker vertical band along the left and right edges as in the reference; no speckled or noisy strip along the right edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/orair256"
+     ],
+     "fraction": 0.872
+    },
+    "2": {
+     "sources": [
+      "mm6/orair256"
+     ],
+     "fraction": 0.872
+    }
+   }
+  },
+  "mm6/t1wl7cta": {
+   "name": "t1wl7cta",
+   "versions": [
+    1
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a stepped diagonal band of dark green white-veined marble blocks and a toothed row of small bricks along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl7ctc",
+      "mm6/t1wl7rea"
+     ],
+     "fraction": 0.825
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/orairlg": {
+   "name": "orairlg",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale sky-blue and white wispy cloud mist with soft swirling streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm6/orair256"
+    }
+   }
+  },
+  "mm6/orairlgb": {
+   "name": "orairlgb",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale sky-blue and white wispy cloud mist with soft swirling streaks",
+   "notes": {
+    "3": "Plain darker-teal bevel strips of equal width on the left and right edges; pale soft blue marble with faint veins, not saturated.",
+    "4": "Both side bevel strips are the same width and the same darker teal; the marble between them is pale, soft, low-contrast blue with faint veins."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/orairlg"
+     ],
+     "fraction": 0.871
+    },
+    "2": {
+     "sources": [
+      "mm6/orairlg"
+     ],
+     "fraction": 0.858
+    },
+    "3": {
+     "sources": [
+      "mm6/orairlg"
+     ],
+     "fraction": 0.858
+    },
+    "4": {
+     "sources": [
+      "mm6/orairlg"
+     ],
+     "fraction": 0.858
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/t1wl4spa": {
+   "name": "t1wl4spa",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with an arched dark niche holding a grey stone statue of a struggling figure over draped cloth; copy the composition exactly",
+   "notes": {
+    "3": "Clean polished pink and cream marble blocks with soft continuous veins and crisp dark joints; copy the niche/statue composition exactly; no patches or rectangles."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1spcl1",
+      "mm6/t1w15a",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl4cts"
+     ],
+     "fraction": 0.575
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "standalone": true
+  },
+  "mm6/t1wl4cts": {
+   "name": "t1wl4cts",
+   "versions": [
+    1
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, blocks laid in staggered courses",
+   "notes": {
+    "1": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches."
+   },
+   "ref_blur": {
+    "1": 2.0
+   }
+  },
+  "mm6/t1wl4leb": {
+   "name": "t1wl4leb",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a toothed column of small marble bricks along the left edge",
+   "notes": {
+    "2": "Polished pink-cream marble with soft continuous veins and fine natural grain: no mosaic of small cells or scales, no stair-stepped patches.",
+    "3": "No dark outline or shadow along any outer edge.",
+    "4": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl7lea"
+     ],
+     "fraction": 0.909
+    },
+    "2": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl7leb",
+      "mm6/t1wl7lea"
+     ],
+     "fraction": 0.909
+    },
+    "3": {
+     "sources": [
+      "mm6/t1w15a",
+      "mm6/t1wl4ctl",
+      "mm6/t1wl7leb",
+      "mm6/t1wl7lea"
+     ],
+     "fraction": 0.909
+    },
+    "4": {
+     "sources": [
+      "mm6/t1w15b",
+      "mm6/t1wl7leb",
+      "mm6/t1wl7lea"
+     ],
+     "fraction": 0.916
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   },
+   "roll": {
+    "3": [
+     50,
+     0
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/t1wl5ct": {
+   "name": "t1wl5ct",
+   "versions": [],
+   "material": "pink-cream and salmon marble block wall with red-brown veining and dark bevelled joints, with a toothed row of small marble bricks along the top edge",
+   "notes": {}
+  },
+  "mm6/t1wl9cts": {
+   "name": "t1wl9cts",
+   "versions": [],
+   "material": "pale pink-cream marble block wall with soft veining and dark bevelled joints, with a grey-green Greek key meander frieze along the top",
+   "notes": {
+    "1": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material.",
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill_from": [
+    "mm6/t1wl9ctl"
+   ]
+  },
+  "mm6/t1ww9rec": {
+   "name": "t1ww9rec",
+   "versions": [
+    1
+   ],
+   "material": "pale pink-cream marble block wall with soft veining and dark bevelled joints, with a grey-green Greek key meander frieze along the top and a fluted grey marble column in the centre",
+   "notes": {
+    "1": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   }
+  },
+  "mm6/t1wl9reb": {
+   "name": "t1wl9reb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale pink-cream marble block wall with soft veining and dark bevelled joints, with a grey-green Greek key meander frieze along the top and a fluted grey marble column along the right edge",
+   "notes": {
+    "1": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "pad": {
+    "1": [
+     32,
+     16
+    ],
+    "2": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl9ctb"
+     ],
+     "fraction": 0.984
+    },
+    "2": {
+     "sources": [
+      "mm6/t1wl9ctb"
+     ],
+     "fraction": 0.984
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1wl9ctb"
+    },
+    "2": {
+     "left": "mm6/t1wl9ctl",
+     "right": "mm6/t1wl9ctb"
+    }
+   }
+  }
+ }
+}

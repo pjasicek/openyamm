@@ -1,0 +1,24 @@
+{
+  "label": "Dragonfly A",
+  "creature": "dragonfly",
+  "base_palette": 187,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m186wa0",
+    "m186wa1",
+    "m186wa2",
+    "m186wa3",
+    "m186wa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The original serpentine fantasy dragonfly: a long thin S-curved segmented brown-gray armored insect body hanging vertically in flight, with pale beige belly plates edged dark reddish brown, bright green narrow spines along the back of the upper body, and a small hooked insect head with large round orange-red compound eyes. Dark pointed snout and small pale silver-white mandibles, fine ochre whisker-like mouth bristles. The tail ends in paired long narrow tan-gold pointed prongs and small pale silver hooked side spurs. Thin paired translucent-looking pale gray wings with dark red-brown veins attach near the upper curved body and sweep horizontally in the native flight pose; preserve the native wing count and exact projected width and angle. Wings may appear edge-on or hidden in profile. Keep the original narrow silhouette, dark segment shadows, light plate highlights and small head. No legs, arms, human face, bat wings, clothing, ornaments, glow, cast shadow or invented appendages. Native palette variants will be derived offline; keep spine, shell, wing, eye and jaw material boundaries clear."
+}

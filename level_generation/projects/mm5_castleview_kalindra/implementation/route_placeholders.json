@@ -1,0 +1,87 @@
+{
+  "routes": [
+    {
+      "id": "sw_sc",
+      "point": [
+        24576,
+        5376
+      ],
+      "arrival": [
+        23040,
+        5376
+      ],
+      "kind": "road",
+      "days": null,
+      "semanticId": "mm5:sw/route/sw_sc",
+      "label": "Eastern road travel",
+      "eventId": 4000,
+      "bounds": [
+        24064,
+        4608,
+        24576,
+        6144
+      ],
+      "frontOrigin": [
+        0,
+        0
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "padHeight": 0,
+      "behavior": "status-only on grounded route-floor entry; no map transition",
+      "legacyAttributes": 67117056,
+      "groundOffset": 1,
+      "bmodelIndex": 324,
+      "faces": 6
+    },
+    {
+      "id": "sw_nw",
+      "point": [
+        -11520,
+        24576
+      ],
+      "arrival": [
+        -11520,
+        23040
+      ],
+      "kind": "off-road",
+      "days": null,
+      "semanticId": "mm5:sw/route/sw_nw",
+      "label": "Northern overland travel",
+      "eventId": 4001,
+      "bounds": [
+        -12288,
+        24064,
+        -10752,
+        24576
+      ],
+      "frontOrigin": [
+        0,
+        0
+      ],
+      "frontTangent": [
+        1,
+        0
+      ],
+      "frontOutward": [
+        0,
+        -1
+      ],
+      "padHeight": 0,
+      "behavior": "status-only on grounded route-floor entry; no map transition",
+      "legacyAttributes": 67117056,
+      "groundOffset": 1,
+      "bmodelIndex": 325,
+      "faces": 6
+    }
+  ],
+  "heightSha256": "3a1825801fe748eb071d13b9d7e700fba3c17f7e256ad7dc188f414dc4826551",
+  "status": "Source authored; native movement and visual review required",
+  "policy": "No travel target/duration, reward, timer or persistent state. Returning remains ordinary walking."
+}

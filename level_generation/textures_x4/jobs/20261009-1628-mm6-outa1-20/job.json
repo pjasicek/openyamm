@@ -1,0 +1,447 @@
+{
+ "id": "20261009-1628-mm6-outa1-20",
+ "world": "mm6",
+ "maps": [
+  "outa1.odm",
+  "6d08.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/pg128bl",
+  "mm6/desrt1",
+  "mm6/desdr1a",
+  "mm6/deswin1",
+  "mm6/bemsv16a",
+  "mm6/cstyl",
+  "mm6/gbrf",
+  "mm6/hvflorf",
+  "mm6/pgstrdr",
+  "mm6/pl128bl",
+  "mm6/pxshings",
+  "mm6/storepor",
+  "mm6/swfloor2b",
+  "mm6/tavrich",
+  "mm6/vh1trima",
+  "mm6/d5walb",
+  "mm6/t1wl8ctc",
+  "mm6/t1wl8ctb",
+  "mm6/t1wl8rea",
+  "mm6/t1wl8lea",
+  "mm6/d5trime",
+  "mm6/t3s1off",
+  "mm6/t3s1on",
+  "mm6/d5ceila"
+ ],
+ "requests": {
+  "mm6/pg128bl": {
+   "name": "pg128bl",
+   "versions": [
+    1
+   ],
+   "material": "pale olive-green rough plaster stucco house wall with faint trowel marks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pgstrst11"
+     ],
+     "fraction": 0.76
+    }
+   }
+  },
+  "mm6/desrt1": {
+   "name": "desrt1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade of rough reddish-brown rubble stone and brick masonry with a dark vertical recessed groove right of centre",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge. No shading at the right edge; stone continues evenly to the border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/deswin1b"
+     ],
+     "fraction": 0.246
+    },
+    "2": {
+     "sources": [
+      "mm6/deswin1b"
+     ],
+     "fraction": 0.246
+    }
+   }
+  },
+  "mm6/desdr1a": {
+   "name": "desdr1a",
+   "versions": [
+    1
+   ],
+   "material": "house facade of rough reddish-brown rubble stone and brick masonry around a weathered brown plank double door with dark iron fittings; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/deswin1": {
+   "name": "deswin1",
+   "versions": [
+    1
+   ],
+   "material": "house facade of rough reddish-brown rubble stone and brick masonry with a small dark green wooden shuttered window; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/desdr1a"
+     ],
+     "fraction": 0.275
+    }
+   }
+  },
+  "mm6/bemsv16a": {
+   "name": "bemsv16a",
+   "versions": [
+    1
+   ],
+   "material": "plain dark red-brown wooden timber beam strip with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemv32c"
+     ],
+     "fraction": 0.938
+    }
+   }
+  },
+  "mm6/cstyl": {
+   "name": "cstyl",
+   "versions": [
+    1
+   ],
+   "material": "grey rough sand-cast stucco wall",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gbrf": {
+   "name": "gbrf",
+   "versions": [
+    1
+   ],
+   "material": "tarnished gold-brass roof plate with an embossed lattice of diagonal ribs and round rivets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/hvflorf": {
+   "name": "hvflorf",
+   "versions": [
+    1
+   ],
+   "material": "crumbling dark brown and tan rocky earth",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pgstrdr": {
+   "name": "pgstrdr",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wooden house door with four recessed panels and a round knob under a red lattice transom window in a wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pl128bl": {
+   "name": "pl128bl",
+   "versions": [
+    1
+   ],
+   "material": "pale olive-green rough plaster stucco house wall with faint trowel marks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pxshings": {
+   "name": "pxshings",
+   "versions": [
+    1
+   ],
+   "material": "weathered red-brown wooden roof shingles in overlapping staggered rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/storepor": {
+   "name": "storepor",
+   "versions": [
+    1
+   ],
+   "material": "shop sign of a dark wooden barrel with brass hoops on orange horizontal planks between riveted blue-grey metal side strips; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swfloor2b": {
+   "name": "swfloor2b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain dark olive-grey rough concrete",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavrich": {
+   "name": "tavrich",
+   "versions": [
+    1
+   ],
+   "material": "tavern sign of a dark pewter tankard with yellow foam on golden wooden planks with riveted dark edges; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vh1trima": {
+   "name": "vh1trima",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "black granite speckled with white and grey flecks",
+   "notes": {
+    "2": "Natural material with irregular grain: no mosaic of cells, no grid. Near-black stone with sparse white flecks, as dark as the reference."
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "2": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5walb": {
+   "name": "d5walb",
+   "versions": [
+    1
+   ],
+   "material": "mossy brown cobblestone wall with rounded green moss-covered stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5walba"
+     ],
+     "fraction": 0.671
+    }
+   }
+  },
+  "mm6/t1wl8ctc": {
+   "name": "t1wl8ctc",
+   "versions": [
+    1
+   ],
+   "material": "pale ice-blue marble ashlar wall of bevelled blocks with dark teal joints, with a row of raised white marble blocks along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1wl8ctb": {
+   "name": "t1wl8ctb",
+   "versions": [
+    1
+   ],
+   "material": "pale ice-blue marble ashlar wall of bevelled blocks with dark teal joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl8ctc"
+     ],
+     "fraction": 0.842
+    }
+   }
+  },
+  "mm6/t1wl8rea": {
+   "name": "t1wl8rea",
+   "versions": [
+    1
+   ],
+   "material": "pale ice-blue marble ashlar wall of bevelled blocks with dark teal joints, with a row of raised white marble blocks along the top and a column of raised white marble quoins near the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl8ctc"
+     ],
+     "fraction": 0.611
+    }
+   }
+  },
+  "mm6/t1wl8lea": {
+   "name": "t1wl8lea",
+   "versions": [
+    1
+   ],
+   "material": "pale ice-blue marble ashlar wall of bevelled blocks with dark teal joints, with a row of raised white marble blocks along the top and a column of raised white marble quoins on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t1wl8ctc"
+     ],
+     "fraction": 0.586
+    }
+   }
+  },
+  "mm6/d5trime": {
+   "name": "d5trime",
+   "versions": [
+    1
+   ],
+   "material": "golden-olive carved stone relief tile of a Mayan glyph with curled scroll forms; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d5trimb"
+     ],
+     "fraction": 0.878
+    }
+   }
+  },
+  "mm6/t3s1off": {
+   "name": "t3s1off",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "small grey stone wall switch with an unlit dark red round button in a bevelled frame",
+   "notes": {
+    "2": "Copy the composition exactly: the red button fills most of the tile in a dark grey stone socket; no extra outer frame, no pink stone. No dark outline or shadow along any outer edge.",
+    "3": "Copy the native composition: a light grey stone lintel strip across the top, rough crumbling dark grey stone around the button, dark sides; no square bevelled frame. The red button is large with a bright orange highlight at upper left as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     22
+    ]
+   }
+  },
+  "mm6/t3s1on": {
+   "name": "t3s1on",
+   "versions": [
+    1
+   ],
+   "material": "small grey stone wall switch with a lit green round button in a bevelled frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d5ceila": {
+   "name": "d5ceila",
+   "versions": [
+    1
+   ],
+   "material": "olive-brown carved stone relief of Mayan stepped fret and glyph patterns; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

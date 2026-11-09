@@ -1,0 +1,3 @@
+Saved all four named images in `references_hd/v2/`, plus raw returns, prompts/log, and [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_skeleton_claude/references_hd/v2/selected_views_review.png). Used built-in image generation with each matching clay as the edit base.
+
+Stopped at one correction per view. Results still fail exact silhouette and smooth-bone requirements; stray alpha remains. No builds or Meshy work performed.

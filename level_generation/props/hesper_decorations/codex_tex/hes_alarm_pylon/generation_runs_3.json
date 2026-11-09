@@ -1,0 +1,203 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated candidates; strict brief checks not all satisfied",
+  "postprocessing": "None. Selected outputs copied byte-for-byte, unresized.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint the attached grey orthographic LEFT view as an albedo texture source, keeping its geometry pixel-aligned. Output one 1024 x 1024 RGBA image with actual transparent background, unresized.\nInput 1 guide_left.png is the EDIT TARGET and absolute authority for silhouette, position, scale, every shape edge, opening and detail. Keep its outline EXACTLY, including the slender central top spike, small hooked prongs, long narrow shaft, side rods and angular base rubble. Do not change the camera or turn this into a three-quarter view. Nothing added outside the guide silhouette, nothing cropped.\nInput 2 design_reference.png is the approved design, colour and material authority ONLY, not a geometry reference. Input 3 concept_crop.png is the original concept reference.\nPaint the surface materials of the design reference onto the existing guide shapes: glossy black-violet resin and chitin, a glowing orange-red core, black glass rubble. Convey these materials in their base colours and fine surface texture, without specular lighting. Paint orange-red core areas and seams as saturated glowing colour bounded by the existing shape details.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No glow outside the silhouette. No added chains, drapery, spikes or ornaments absent from the guide. No text.\nCritical checks: identical silhouette to guide; design-reference materials and colours; flat even lighting; true transparent background.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "c118e073c18a0db9a4d2237f881775d65bae6da170e3d7086c5176d7ce996b0f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a15d9f-d1c3-7bf1-b499-c4d7ab3ba489/exec-0a93c2f0-9544-4cf8-93d3-58323b2f1297.png",
+      "saved_output": null,
+      "selected": false,
+      "reason": "Superseded by the one permitted correction: geometry deviations and reflective edge detailing.",
+      "visual_checks": {
+        "materials_and_colours": "Black-violet resin/chitin and black glass with orange-red core match the reference palette.",
+        "flat_even_light": "Partial failure: visible bright edge accents and shading remain.",
+        "silhouette_identical": "Failed: shape details differ; native dimensions checked separately.",
+        "transparent_background": "Checked programmatically below."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_pass": true,
+        "exact_guide_alpha_pass": false,
+        "unresized": true
+      },
+      "output_sha256": "1024d2935629177e6f89e6de44f84bc1af05d5f6a4b2c8c784e29a135414ba54"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Paint the attached grey orthographic LEFT view as an albedo texture source, keeping its geometry pixel-aligned. Output one 1024 x 1024 RGBA image with actual transparent background, unresized.\nInput 1 guide_left.png is the EDIT TARGET and absolute authority for silhouette, position, scale, every shape edge, opening and detail. Keep its outline EXACTLY, including the slender central top spike, small hooked prongs, long narrow shaft, side rods and angular base rubble. Do not change the camera or turn this into a three-quarter view. Nothing added outside the guide silhouette, nothing cropped.\nInput 2 design_reference.png is the approved design, colour and material authority ONLY, not a geometry reference. Input 3 concept_crop.png is the original concept reference.\nPaint the surface materials of the design reference onto the existing guide shapes: glossy black-violet resin and chitin, a glowing orange-red core, black glass rubble. Convey these materials in their base colours and fine surface texture, without specular lighting. Paint orange-red core areas and seams as saturated glowing colour bounded by the existing shape details.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No glow outside the silhouette. No added chains, drapery, spikes or ornaments absent from the guide. No text.\nCritical checks: identical silhouette to guide; design-reference materials and colours; flat even lighting; true transparent background.\nCORRECTIVE ATTEMPT: The previous return was incorrectly 1254 x 1254, with changed edges and bright highlights. Required native output size is EXACTLY 1024 x 1024 pixels. Work directly over the 1024 x 1024 guide; keep its alpha mask and every geometric face boundary unchanged. Guide bounding box and alignment must remain exactly as supplied. Do not enlarge or recenter. Paint existing surfaces only, no invented architectural openings or extra shapes. Suppress the reference's bright white edge reflections and dark shading; use evenly readable muted black-violet chitin base colour with fine texture, pure orange-red core colour, no illuminated edges. This is flat albedo, not a beauty render.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "c118e073c18a0db9a4d2237f881775d65bae6da170e3d7086c5176d7ce996b0f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a15d9f-d1c3-7bf1-b499-c4d7ab3ba489/exec-b65d7384-e198-4888-a6fd-6ce4b5b5ed6e.png",
+      "saved_output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return: reduced reflective detailing and closer use of guide faces. Still does not satisfy exact silhouette, native size and completely flat albedo requirements.",
+      "visual_checks": {
+        "materials_and_colours": "Black-violet resin/chitin and black glass with orange-red core match the reference palette.",
+        "flat_even_light": "Partial failure: visible bright edge accents and shading remain.",
+        "silhouette_identical": "Failed: shape details differ; native dimensions checked separately.",
+        "transparent_background": "Checked programmatically below."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_pass": true,
+        "exact_guide_alpha_pass": false,
+        "unresized": true
+      },
+      "output_sha256": "af54fa4fc4ef8f54be34ff8713e00b26d7c629987fcba1c867731cf736942da6"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint the attached grey orthographic RIGHT view as an albedo texture source, keeping its geometry pixel-aligned. Output one 1024 x 1024 RGBA image with actual transparent background, unresized.\nInput 1 guide_right.png is the EDIT TARGET and absolute authority for silhouette, position, scale, every shape edge, opening and detail. Keep its outline EXACTLY, including the slender central top spike, small hooked prongs, long narrow shaft, side rods and angular base rubble. Do not change the camera or turn this into a three-quarter view. Nothing added outside the guide silhouette, nothing cropped.\nInput 2 design_reference.png is the approved design, colour and material authority ONLY, not a geometry reference. Input 3 concept_crop.png is the original concept reference.\nPaint the surface materials of the design reference onto the existing guide shapes: glossy black-violet resin and chitin, a glowing orange-red core, black glass rubble. Convey these materials in their base colours and fine surface texture, without specular lighting. Paint orange-red core areas and seams as saturated glowing colour bounded by the existing shape details.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No glow outside the silhouette. No added chains, drapery, spikes or ornaments absent from the guide. No text.\nCritical checks: identical silhouette to guide; design-reference materials and colours; flat even lighting; true transparent background.\nRequired native canvas is EXACTLY 1024 x 1024 pixels, matching input 1. Preserve its alpha mask. No bright edge reflections; no painted lighting gradients. Keep all existing face boundaries in place.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0c457eff426242ddf89b8361b5abb9d022ab206683ad40314d2bca95f90dfe13"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a15d9f-d1c3-7bf1-b499-c4d7ab3ba489/exec-a6bbcab4-6ab6-47ce-94ee-9f3bc0c08696.png",
+      "saved_output": null,
+      "selected": false,
+      "reason": "Superseded by the one permitted correction: geometry deviations and reflective edge detailing.",
+      "visual_checks": {
+        "materials_and_colours": "Black-violet resin/chitin and black glass with orange-red core match the reference palette.",
+        "flat_even_light": "Partial failure: visible bright edge accents and shading remain.",
+        "silhouette_identical": "Failed: shape details differ; native dimensions checked separately.",
+        "transparent_background": "Checked programmatically below."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_pass": true,
+        "exact_guide_alpha_pass": false,
+        "unresized": true
+      },
+      "output_sha256": "965fa8d82a6d3d16193cae7f9cf5b74afc6474f6d33ba0583521bc42b2ab1fb6"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Paint the attached grey orthographic RIGHT view as an albedo texture source, keeping its geometry pixel-aligned. Output one 1024 x 1024 RGBA image with actual transparent background, unresized.\nInput 1 guide_right.png is the EDIT TARGET and absolute authority for silhouette, position, scale, every shape edge, opening and detail. Keep its outline EXACTLY, including the slender central top spike, small hooked prongs, long narrow shaft, side rods and angular base rubble. Do not change the camera or turn this into a three-quarter view. Nothing added outside the guide silhouette, nothing cropped.\nInput 2 design_reference.png is the approved design, colour and material authority ONLY, not a geometry reference. Input 3 concept_crop.png is the original concept reference.\nPaint the surface materials of the design reference onto the existing guide shapes: glossy black-violet resin and chitin, a glowing orange-red core, black glass rubble. Convey these materials in their base colours and fine surface texture, without specular lighting. Paint orange-red core areas and seams as saturated glowing colour bounded by the existing shape details.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No glow outside the silhouette. No added chains, drapery, spikes or ornaments absent from the guide. No text.\nCritical checks: identical silhouette to guide; design-reference materials and colours; flat even lighting; true transparent background.\nRequired native canvas is EXACTLY 1024 x 1024 pixels, matching input 1. Preserve its alpha mask. No bright edge reflections; no painted lighting gradients. Keep all existing face boundaries in place.\nCORRECTIVE ATTEMPT: Output exactly 1024x1024 at native size. Preserve the guide's original pixel positions and alpha silhouette without any change. Transfer ONLY material colour onto the original grey faces. All geometric boundaries must match the guide. Remove bright reflective white/lavender edge strokes, orange light spill and deep directional shading. Broad faces should have uniform dark violet-black base colours with subtle fine chitin texture. Orange-red core areas must have bounded saturated albedo colour without lighting adjacent black glass or resin. Do not treat the grey guide as inspiration for a newly designed pylon: it is an exact shape constraint.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0c457eff426242ddf89b8361b5abb9d022ab206683ad40314d2bca95f90dfe13"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "ed13539045cec55e7387f7b01166151a3f1f733783c55747fbae6bae46a712db"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "3390f79184ab165498c817dca681e30377ca2e0818d807afa3f115bf8b6b0768"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a15d9f-d1c3-7bf1-b499-c4d7ab3ba489/exec-342dcaee-6d51-4c55-82b8-9b11ec5c5e1c.png",
+      "saved_output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: reduced reflective detailing and closer use of guide faces. Still does not satisfy exact silhouette, native size and completely flat albedo requirements.",
+      "visual_checks": {
+        "materials_and_colours": "Black-violet resin/chitin and black glass with orange-red core match the reference palette.",
+        "flat_even_light": "Partial failure: visible bright edge accents and shading remain.",
+        "silhouette_identical": "Failed: shape details differ; native dimensions checked separately.",
+        "transparent_background": "Checked programmatically below."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_pass": true,
+        "exact_guide_alpha_pass": false,
+        "unresized": true
+      },
+      "output_sha256": "315f6b639395d71ba60dbdba5ea981d2af3e7323e16fe8ffc2784f8c89cf6d82"
+    }
+  ]
+}

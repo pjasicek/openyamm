@@ -1,0 +1,1 @@
+Built-in imagegen targeted foliage repair; exact prompt archived. Delivered alpha preserved. Common .98,0,0 registration; registration_checks.json retained. restore_native_tone.py followed by trunk_tone.py restores native cool green foliage and dark gray exposed bark without changing alpha. Intermediate pixels and scripts retained. Final light/dark proofs reviewed.

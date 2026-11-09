@@ -1,0 +1,18 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/arc_smoothing/images
+exit: true
+steps:
+- wait: 2
+- action: combat
+- wait: 0.25
+- capture: attack-small
+- &id001
+  action: pass
+- *id001
+- *id001
+- *id001
+- wait: 0.25
+- capture: movement-small
+- action: combat
+- action: quest
+- wait: 0.25
+- capture: inventory-small

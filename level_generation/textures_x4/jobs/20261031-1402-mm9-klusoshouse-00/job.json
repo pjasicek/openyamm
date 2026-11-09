@@ -1,0 +1,474 @@
+{
+ "id": "20261031-1402-mm9-klusoshouse-00",
+ "world": "mm9",
+ "maps": [
+  "klusoshouse.blv",
+  "beethoven.blv"
+ ],
+ "created": "2026-10-31T13:02:09+00:00",
+ "textures": [
+  "mm9/rwoombh4kx",
+  "mm9/wainqcu65o",
+  "mm9/waini1oyds",
+  "mm9/wainjld1bn",
+  "mm9/dook9r0f95",
+  "mm9/fire6ytklq",
+  "mm9/thjo01nj31",
+  "mm9/klusgcf6m3",
+  "mm9/thjohdlfej",
+  "mm9/thjo5yiz06",
+  "mm9/taper3r4we",
+  "mm9/bricn6pcio",
+  "mm9/dookyy3c4i",
+  "mm9/stuckthhyo",
+  "mm9/darkixxmfx",
+  "mm9/chaif3vq5b",
+  "mm9/sturau4gdg",
+  "mm9/book6ur60o",
+  "mm9/thjoxaa44b",
+  "mm9/cobb31cz27",
+  "mm9/chas4nvu6x",
+  "mm9/xeenf0606e",
+  "mm9/gril2fj7qi",
+  "mm9/pris2g3jfp"
+ ],
+ "requests": {
+  "mm9/rwoombh4kx": {
+   "name": "rwoombh4kx",
+   "versions": [
+    1
+   ],
+   "material": "three horizontal round wooden ladder rungs of worn brown wood with fine grain, evenly spaced across a plain black background",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wainqcu65o": {
+   "name": "wainqcu65o",
+   "versions": [
+    1
+   ],
+   "material": "an interior wall: upper part warm tan-brown painted plaster with soft mottling under a thin dark carved wooden cornice at the top; lower part dark reddish-brown carved wooden wainscot panelling with a moulded rail and a row of turned wooden brackets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/waini1oyds": {
+   "name": "waini1oyds",
+   "versions": [
+    1
+   ],
+   "material": "an interior wall: upper part warm tan-brown painted plaster with soft mottling under a thin dark carved wooden cornice at the top, with a tall ornate gilded brass wall sconce bracket in the middle; lower part dark reddish-brown carved wooden wainscot panelling with a moulded rail and a turned wooden bracket",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/wainqcu65o"
+     ],
+     "fraction": 0.796
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wainjld1bn": {
+   "name": "wainjld1bn",
+   "versions": [
+    1
+   ],
+   "material": "an interior wall lined with a dark wooden bookcase: shelves full of old leather-bound books in red, brown and green under a thin dark carved wooden cornice; lower part dark reddish-brown carved wooden wainscot panelling with a moulded rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/wainqcu65o"
+     ],
+     "fraction": 0.422
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dook9r0f95": {
+   "name": "dook9r0f95",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth pale grey-green plaster wall with soft mottled stains, a narrow dark carved ornamental wooden frieze along the top and a thin pale stone skirting strip along the bottom, matte",
+   "notes": {
+    "3": "under the carved leaf frieze keep the native's row of small square dentil blocks with dark gaps between them, then the darker moulding band"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     79
+    ]
+   }
+  },
+  "mm9/fire6ytklq": {
+   "name": "fire6ytklq",
+   "versions": [],
+   "material": "",
+   "notes": {}
+  },
+  "mm9/thjo01nj31": {
+   "name": "thjo01nj31",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wood grain, close straight fibres with soft darker streaks, matte oiled timber",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/klusgcf6m3": {
+   "name": "klusgcf6m3",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale grey-green plaster ceiling with soft faint mottling, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjohdlfej": {
+   "name": "thjohdlfej",
+   "versions": [
+    1
+   ],
+   "material": "grey slate floor slabs in a square grid with fine mottled grain, separated by narrow raised pale grey stone strips along the joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo5yiz06": {
+   "name": "thjo5yiz06",
+   "versions": [
+    1
+   ],
+   "material": "two vertical wooden wall planks side by side: on the left a warm reddish-brown plank with strong straight grain, on the right a weathered grey-brown plank with fine cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/taper3r4we": {
+   "name": "taper3r4we",
+   "versions": [
+    1
+   ],
+   "material": "a small woven tapestry of linen-textured cream fabric with scattered dark red roses and olive-green leaves, a narrow dark olive border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bricn6pcio": {
+   "name": "bricn6pcio",
+   "versions": [
+    1
+   ],
+   "material": "a pale grey stone floor pattern: interlocking T-shaped and square cut stone blocks with small diamond inlays, separated by dark narrow joints, worn chipped edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dookyy3c4i": {
+   "name": "dookyy3c4i",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pair of ornate wooden double doors in a dark olive-gold frame: each leaf with three tall raised panels of finely carved dark green-grey lattice and small rosettes, gilt beading around each panel, a narrow dark gap down the middle",
+   "notes": {
+    "2": "the two door leaves are exactly the same width and the narrow dark gap between them lies exactly on the vertical centre line of the canvas, as in the reference; keep the outer frame of each leaf a beaded olive-gold border like the reference, warm brown wooden boards and olive-gold panel frames"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/stuckthhyo": {
+   "name": "stuckthhyo",
+   "versions": [
+    1
+   ],
+   "material": "a light beige stucco wall panel framed by broad orange-brown timber beams along the edges, with a timber Y-shaped brace rising from the bottom centre to the top corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/darkixxmfx": {
+   "name": "darkixxmfx",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown wood grain with long straight fibres and soft streaks, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/chaif3vq5b": {
+   "name": "chaif3vq5b",
+   "versions": [
+    1
+   ],
+   "material": "a single thick grey iron chain link with a rounded oval loop, dull tarnished metal with small pits, on black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturau4gdg": {
+   "name": "sturau4gdg",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered wooden floorboards laid horizontally in staggered lengths, dark brown grain with worn lighter edges and narrow dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/book6ur60o": {
+   "name": "book6ur60o",
+   "versions": [
+    1
+   ],
+   "material": "vertical orange-brown polished wood grain of a bookcase side, long straight fibres, warm glossy-matte finish",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjoxaa44b": {
+   "name": "thjoxaa44b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "vertical brown wooden porch boards with strong flowing grain and knots, warm mid-brown, worn matte surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/cobb31cz27": {
+   "name": "cobb31cz27",
+   "versions": [
+    1
+   ],
+   "material": "a floor of rounded irregular cobblestones in grey-blue and slate tones, set in dark mortar, worn smooth tops",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/chas4nvu6x": {
+   "name": "chas4nvu6x",
+   "versions": [
+    1
+   ],
+   "material": "a rough cavern rock wall of layered olive-green and grey-brown stone ledges with mossy damp patches and dark crevices",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/xeenf0606e": {
+   "name": "xeenf0606e",
+   "versions": [
+    1
+   ],
+   "material": "three horizontal round wooden ladder rungs of worn brown wood with fine grain, evenly spaced across a plain black background",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/rwoombh4kx"
+     ],
+     "fraction": 0.963
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/gril2fj7qi": {
+   "name": "gril2fj7qi",
+   "versions": [
+    1
+   ],
+   "material": "a square lattice grille of rusty brown-orange iron bars crossing in a regular grid, on black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/pris2g3jfp": {
+   "name": "pris2g3jfp",
+   "versions": [
+    1
+   ],
+   "material": "a dark grey-green rough stone block wall with mossy damp stains, and near the bottom a small dark iron drain grate with vertical bars set into a stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

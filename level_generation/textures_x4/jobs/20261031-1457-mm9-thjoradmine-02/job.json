@@ -1,0 +1,512 @@
+{
+ "id": "20261031-1457-mm9-thjoradmine-02",
+ "world": "mm9",
+ "maps": [
+  "thjoradmine.blv",
+  "hallofthegods.blv"
+ ],
+ "created": "2026-10-31T13:57:38+00:00",
+ "textures": [
+  "mm9/refic16abx",
+  "mm9/refidok9h3",
+  "mm9/dirtvwogx1",
+  "mm9/refiwirzic",
+  "mm9/rustjlf2n5",
+  "mm9/thjojtiuqf",
+  "mm9/refil4lm4w",
+  "mm9/thjoj5hw88",
+  "mm9/stonda9qbi",
+  "mm9/ston6favlb",
+  "mm9/wooducf9h6",
+  "mm9/pill37pwlv",
+  "mm9/blokumns8d",
+  "mm9/pillx0v9xm",
+  "mm9/flooxhh652",
+  "mm9/bloklyyz1d",
+  "mm9/karh1pp156",
+  "mm9/bricwsjo7y",
+  "mm9/armyktneaj",
+  "mm9/tapelvchq2",
+  "mm9/goldfsv4d0",
+  "mm9/floodz85qz",
+  "mm9/spik67hfer",
+  "mm9/clanv18f6u"
+ ],
+ "requests": {
+  "mm9/refic16abx": {
+   "name": "refic16abx",
+   "versions": [
+    1
+   ],
+   "material": "a heavy dark bronze-grey metal sliding door panel with raised riveted borders, conduit pipes along the edges and a small green glowing display plate with a downward arrow symbol near the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refidok9h3": {
+   "name": "refidok9h3",
+   "versions": [
+    1
+   ],
+   "material": "a dark bronze-grey metal pillar panel with three vertical ribbed pipes inside a riveted recessed frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dirtvwogx1": {
+   "name": "dirtvwogx1",
+   "versions": [
+    1
+   ],
+   "material": "cracked dry ochre-brown dirt ground with fine fissures and clumps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refiwirzic": {
+   "name": "refiwirzic",
+   "versions": [
+    1
+   ],
+   "material": "a pair of dark bronze-grey metal door leaves with a cog-shaped emblem at the top and a heavy horizontal latch bar with handles across the middle, riveted borders",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/rustjlf2n5": {
+   "name": "rustjlf2n5",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark reddish-brown rusty metal with fine horizontal streaks and mottled corrosion",
+   "notes": {
+    "2": "even brightness from top to bottom: the native's darker band is a seam to remove; one uniform tone of rusted iron"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     84
+    ]
+   }
+  },
+  "mm9/thjojtiuqf": {
+   "name": "thjojtiuqf",
+   "versions": [
+    1
+   ],
+   "material": "a dark wooden door of vertical planks crossed by two riveted dark iron straps with a vertical iron handle in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refil4lm4w": {
+   "name": "refil4lm4w",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a dark bronze-grey metal panel with a round porthole hatch in the middle, a thick round metal ring and a dark glass window with a vertical bar, riveted borders",
+   "notes": {
+    "2": "transparent background: keep exactly the native's cut-out silhouette; every bar, rim and knob sits exactly where the native has it, nothing painted in the transparent areas"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/thjoj5hw88": {
+   "name": "thjoj5hw88",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a rough brown dirt cave wall with fine cracks and scattered small gold ore nuggets glinting in it",
+   "notes": {
+    "2": "even brightness from top to bottom: the native's darker lower part is a seam to remove; one uniform tone of dirt with the gold nuggets"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     73
+    ]
+   }
+  },
+  "mm9/stonda9qbi": {
+   "name": "stonda9qbi",
+   "versions": [
+    1
+   ],
+   "material": "four pale blue-grey and white marble floor tiles in a grid, mottled stone surface with soft stains, narrow joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ston6favlb": {
+   "name": "ston6favlb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark charcoal grey stone with fine speckled grain, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/wooducf9h6": {
+   "name": "wooducf9h6",
+   "versions": [
+    1
+   ],
+   "material": "dark brown vertical wooden planks with long straight grain, a dark gap between the planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/pill37pwlv": {
+   "name": "pill37pwlv",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rough tan-grey sandstone blocks in irregular courses, pitted weathered faces, with a carved round column in the middle twisted with red and gold spiral bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/blokumns8d": {
+   "name": "blokumns8d",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rough tan-grey sandstone blocks in irregular courses, pitted weathered faces, two flat vertical stone pilasters of smoother blocks in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pill37pwlv"
+     ],
+     "fraction": 0.747
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/pillx0v9xm": {
+   "name": "pillx0v9xm",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rough tan-grey sandstone blocks in irregular courses, pitted weathered faces, with a carved round column in the middle twisted with red and gold spiral bands, an ornate gilded capital at the top and a round red and blue carved base at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/pill37pwlv"
+     ],
+     "fraction": 0.725
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/flooxhh652": {
+   "name": "flooxhh652",
+   "versions": [
+    1
+   ],
+   "material": "a narrow floor border band: a pale grey-green stone strip between two thin dark green-teal edge lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bloklyyz1d": {
+   "name": "bloklyyz1d",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rough tan-grey sandstone blocks in irregular courses, pitted weathered faces, with a band of red, gold and blue painted ornament along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/karh1pp156": {
+   "name": "karh1pp156",
+   "versions": [
+    1
+   ],
+   "material": "a square pale blue-grey stone floor tile carved with an interlaced Celtic knot circle inside a raised knotwork border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bricwsjo7y": {
+   "name": "bricwsjo7y",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rough grey-blue stone bricks in irregular courses with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/armyktneaj": {
+   "name": "armyktneaj",
+   "versions": [
+    1
+   ],
+   "material": "a tall carved stone arch panel: at the top a painted mural of a figure in a colourful ornate niche with red, blue and gold decoration, below it two carved round columns twisted with red and gold spiral bands on tan sandstone blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      288,
+      272
+     ],
+     [
+      0,
+      260,
+      288,
+      544
+     ]
+    ]
+   }
+  },
+  "mm9/tapelvchq2": {
+   "name": "tapelvchq2",
+   "versions": [
+    1
+   ],
+   "material": "a woven tapestry of muted mauve and pink cloth with a diamond trellis of brown cords, an ornate dark red border of brown scrollwork",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/goldfsv4d0": {
+   "name": "goldfsv4d0",
+   "versions": [
+    1
+   ],
+   "material": "a narrow ornate gilded trim band of carved golden scrollwork between thin dark red lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/floodz85qz": {
+   "name": "floodz85qz",
+   "versions": [
+    1
+   ],
+   "material": "a square floor tile of pale blue-grey marble inside a wide dark reddish-brown speckled stone border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/spik67hfer": {
+   "name": "spik67hfer",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a black iron fence post: a vertical iron bar with a round spiked finial on top and a curved iron ring brace near the bottom, on black",
+   "notes": {
+    "2": "transparent background: keep exactly the native's cut-out silhouette; every bar, rim and knob sits exactly where the native has it, nothing painted in the transparent areas"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/clanv18f6u": {
+   "name": "clanv18f6u",
+   "versions": [
+    1
+   ],
+   "material": "a wall of evenly spaced vertical grey stone pillars with dark recessed brown panels between them, each panel lined with small horizontal rungs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

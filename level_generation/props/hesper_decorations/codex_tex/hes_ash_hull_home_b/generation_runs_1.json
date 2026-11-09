@@ -1,0 +1,130 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated returns saved unresized; strict brief checks failed. Selected means best available, not accepted as compliant.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Paint materials onto the supplied grey orthographic model render as a texture-source albedo image. Output exactly 1024 x 1024 pixels, genuine transparent background, unresized. Input 1 is the EDIT TARGET and absolute geometry authority. Input 2 is a supporting MATERIAL AND COLOUR reference only, not composition. Keep input 1's silhouette EXACTLY: same outline, size, position, camera, all shape edges, openings and details. Preserve all transparent holes and margins. Do not add geometry or details outside the existing shapes; nothing cropped. Paint chipped white ceramic shell with gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables and the existing warm lantern where present. Use the approved design reference's material placement as far as consistent with the guide. LIGHTING: flat evenly lit albedo, shadowless frontal light, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Warm glowing parts painted their intrinsic warm colour without light spill. Preserve the guide rather than borrowing the reference's perspective or fine geometry. No text. View: FRONT. Edit guide_front.png; maintain the exact small, centrally placed front orthographic projection, its chimney at upper left, circular front shell/door, left awning poles and right-side rectangular structure. Keep every geometry boundary in place; texture only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2c2-7171-9f83-f0be94757704/exec-1bdb6157-b31b-4e67-87d6-62ab1c638a36.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: wrong canvas size, enlarged silhouette, changed curtain geometry, strong highlights and shading.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d3f35267133dcb01613cbb104a88851f4f37d2831c66e184650a6e0ea43243b8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "output_sha256": "972debb97eb30576a1aba087023a0d9ef65e9292633c6ebb9def63c89e9c1c65",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Requested palette present; placement has differences from guide/design.",
+        "flat_even_light": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Paint materials onto the supplied grey orthographic model render as a texture-source albedo image. Output exactly 1024 x 1024 pixels, genuine transparent background, unresized. Input 1 is the EDIT TARGET and absolute geometry authority. Input 2 is a supporting MATERIAL AND COLOUR reference only, not composition. Keep input 1's silhouette EXACTLY: same outline, size, position, camera, all shape edges, openings and details. Preserve all transparent holes and margins. Do not add geometry or details outside the existing shapes; nothing cropped. Paint chipped white ceramic shell with gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables and the existing warm lantern where present. Use the approved design reference's material placement as far as consistent with the guide. LIGHTING: flat evenly lit albedo, shadowless frontal light, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Warm glowing parts painted their intrinsic warm colour without light spill. Preserve the guide rather than borrowing the reference's perspective or fine geometry. No text. View: FRONT. Edit guide_front.png; maintain the exact small, centrally placed front orthographic projection, its chimney at upper left, circular front shell/door, left awning poles and right-side rectangular structure. Keep every geometry boundary in place; texture only.\nCORRECTION: The previous attempt was invalid because it enlarged the object, changed shapes, used shiny shaded rendering and returned 1254 x 1254. Start afresh from input 1, NOT from the design composition. REQUIRED canvas 1024 x 1024. Original object's bounding box is x=221 through 802, y=264 through 759. Retain the large transparent margins exactly. Do NOT zoom to fill. This is a pixel-registered texture painting of the grey mesh: leave the geometry and alpha silhouette untouched. Door cloth is the shape along the RIGHT side of the circular opening shown in the guide, not a new central curtain. All existing blank front surfaces must receive materials without changing boundaries. Paint matte intrinsic colours with NO shiny highlights, dark crevice shading or lantern light spill. Preserve original guide alpha.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2c2-7171-9f83-f0be94757704/exec-8d2b6c12-ac88-4163-a832-319384f91658.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available front return after the one permitted correction; curtain placement improved. Not compliant: wrong canvas size, silhouette and geometry differences, residual highlights and shading.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d3f35267133dcb01613cbb104a88851f4f37d2831c66e184650a6e0ea43243b8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "output_sha256": "9750178c3b375cbc2314427ef0fe3b090083446c28bf3c6445d3b52a891961fd",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Requested palette present; placement has differences from guide/design.",
+        "flat_even_light": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Paint materials onto the supplied grey orthographic model render as a texture-source albedo image. Output exactly 1024 x 1024 pixels, genuine transparent background, unresized. Input 1 is the EDIT TARGET and absolute geometry authority. Input 2 is a supporting MATERIAL AND COLOUR reference only, not composition. Keep input 1's silhouette EXACTLY: same outline, size, position, camera, all shape edges, openings and details. Preserve all transparent holes and margins. Do not add geometry or details outside the existing shapes; nothing cropped. Paint chipped white ceramic shell with gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables and the existing warm lantern where present. Use the approved design reference's material placement as far as consistent with the guide. LIGHTING: flat evenly lit albedo, shadowless frontal light, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Warm glowing parts painted their intrinsic warm colour without light spill. Preserve the guide rather than borrowing the reference's perspective or fine geometry. No text. View: TOP. Edit guide_top.png in place, true overhead orthographic projection, long hull runs vertically, awning on LEFT, rectangular appendages on RIGHT. Preserve the exact silhouette and every shape position from this top guide; do not rotate, tilt, zoom or reinterpret. Output 1024 x 1024; preserve the full guide canvas and its margins. Paint surfaces only. Very flat matte albedo, not a lit beauty render. White ceramic shell, gold seams, rusted steel repairs, faded red awning, black cables in the guide's existing positions. No added objects.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2c2-7171-9f83-f0be94757704/exec-84d86c36-8b32-4613-b886-4ac8e41673cd.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: wrong canvas size, invented openings and surface geometry, residual lighting.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "60df4966f9b6a2f19956972bf5ac6e97627d8f57c52c2316c84e0a6a52f08c81"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "output_sha256": "13de35fc4685e2c2cef27a7a198c7d1745c8fd828755e07d22166f5e49a5129e",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Requested palette present; placement has differences from guide/design.",
+        "flat_even_light": false,
+        "unresized_return": true
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Paint materials onto the supplied grey orthographic model render as a texture-source albedo image. Output exactly 1024 x 1024 pixels, genuine transparent background, unresized. Input 1 is the EDIT TARGET and absolute geometry authority. Input 2 is a supporting MATERIAL AND COLOUR reference only, not composition. Keep input 1's silhouette EXACTLY: same outline, size, position, camera, all shape edges, openings and details. Preserve all transparent holes and margins. Do not add geometry or details outside the existing shapes; nothing cropped. Paint chipped white ceramic shell with gold seams, rust-brown corrugated and riveted steel patches, faded red-brown tarp, black cables and the existing warm lantern where present. Use the approved design reference's material placement as far as consistent with the guide. LIGHTING: flat evenly lit albedo, shadowless frontal light, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Warm glowing parts painted their intrinsic warm colour without light spill. Preserve the guide rather than borrowing the reference's perspective or fine geometry. No text. View: TOP. Edit guide_top.png in place, true overhead orthographic projection, long hull runs vertically, awning on LEFT, rectangular appendages on RIGHT. Preserve the exact silhouette and every shape position from this top guide; do not rotate, tilt, zoom or reinterpret. Output 1024 x 1024; preserve the full guide canvas and its margins. Paint surfaces only. Very flat matte albedo, not a lit beauty render. White ceramic shell, gold seams, rusted steel repairs, faded red awning, black cables in the guide's existing positions. No added objects.\nCORRECTIVE REGENERATION: Return a 1024-by-1024 PNG, not 1254-by-1254. Copy the geometry and transparency mask from guide_top.png exactly. Object bounds in the 1024 square canvas: x=221..803 and y=66..957. The white model is the ONLY shape source. Do not invent tarp holes or additional protrusions. Material painting must be truly diffuse flat albedo: remove all lighting, edge shine, reflections, crevice shadows and ambient occlusion. Gold is matte ochre-gold, black cable is uniform charcoal, white ceramic is chipped warm off-white, steel is matte rusty brown/grey, tarp is faded red-brown; use the design reference for surface colour patterns only. Pixel registration with the first input is more important than beauty. Leave guide edges and alpha exactly unchanged.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d89-c2c2-7171-9f83-f0be94757704/exec-8ca97576-df60-43db-9b2e-b783d2e4624e.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available top return after the one permitted correction; flatter materials and fewer invented holes. Not compliant: wrong canvas size, silhouette and detail differences, residual shading.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "60df4966f9b6a2f19956972bf5ac6e97627d8f57c52c2316c84e0a6a52f08c81"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "353e96e22d906ad878056613fed2545dd917d077e69a6073bccc5b3270d50192"
+        }
+      ],
+      "output_sha256": "23aa6d52b6bd61822f44a32f4eb1c263cde4f729860d048245197d4a3a7a96b0",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Requested palette present; placement has differences from guide/design.",
+        "flat_even_light": false,
+        "unresized_return": true
+      }
+    }
+  ]
+}

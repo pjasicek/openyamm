@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MM6 Town Portal review</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #161b20; color: #f1e9d8; font: 16px/1.5 system-ui, sans-serif; }
+  main { max-width: 1440px; margin: auto; padding: 22px; }
+  h1 { font-size: 25px; margin: 0 0 5px; }
+  p { color: #c6bfae; margin: 5px 0 14px; }
+  nav, .options, aside { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 14px; }
+  nav button, .link { border: 1px solid #706754; border-radius: 6px; background: #262b30;
+    color: inherit; padding: 8px 13px; font: inherit; cursor: pointer; text-decoration: none; }
+  nav button[aria-pressed="true"] { color: #171d20; background: #e3c787; border-color: #e3c787; }
+  nav button:hover, .link:hover { border-color: #f1deb3; }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #92caff; outline-offset: 2px; }
+  .options { color: #c6bfae; gap: 22px; font-size: 14px; }
+  .options label { cursor: pointer; }
+  #stage { position: relative; max-width: 1280px; margin: auto; }
+  #map { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; background: #111; }
+  #destinations { position: absolute; inset: 0; }
+  .destination { position: absolute; border: 0; padding: 0; border-radius: 0; background: transparent;
+    cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .destination:hover { background: transparent; }
+  #stage.show-areas .destination { outline: 1px dashed #ffecab; outline-offset: -1px; }
+  #stage .destination:focus-visible { outline: 2px solid #92caff; outline-offset: -2px; }
+  #status { min-height: 26px; color: #e3c787; margin-top: 10px; }
+  #caption { font-size: 14px; }
+  #validation { background: #223128; padding: 8px 12px; white-space: pre-wrap;
+    overflow-wrap: anywhere; font-size: 13px; }
+  a { color: #e3c787; }
+  aside { margin-top: 14px; font-size: 14px; }
+  @media (max-width: 640px) { main { padding: 12px; } nav button { padding: 7px 10px; font-size: 14px; } }
+</style>
+<main>
+  <h1>MM6 Town Portal</h1>
+  <p>Accepted and installed · map and six hover buttons</p>
+  <p>Hover or tap a destination to preview its highlight. All six destinations are enabled for review.</p>
+  <nav aria-label="Map version">
+    <button data-view="candidate" aria-pressed="true">Accepted · installed</button>
+    <button data-view="previous" aria-pressed="false">Before terrain repair</button>
+    <button data-view="installed" aria-pressed="false">Previous installation</button>
+    <button data-view="original" aria-pressed="false">Original</button>
+  </nav>
+  <div class="options">
+    <label><input id="showAll" type="checkbox"> Show all highlights</label>
+    <label><input id="showAreas" type="checkbox"> Show click areas</label>
+    <span>Click to preview a selection · Tab to move between destinations</span>
+  </div>
+  <div id="stage">
+    <canvas id="map" width="1280" height="960" role="img" aria-label="MM6 Town Portal map"></canvas>
+    <div id="destinations" role="group" aria-label="Teleport destinations"></div>
+  </div>
+  <p id="status" role="status" aria-live="polite">Loading map…</p>
+  <p id="caption">Accepted MM6 map + matching hover · installed</p>
+  <pre id="validation" hidden></pre>
+  <aside>
+    <a class="link" href="../town_portal_acceptance_20260927/accepted/engine/icons_x2/tpenroth.png"
+       target="_blank" rel="noopener">Accepted map PNG</a>
+    <a href="mm6/buttons_v1/evidence/buttons.png" target="_blank" rel="noopener">Button comparisons</a>
+    <a href="mm6/creature_fixup_v3/master.png" target="_blank" rel="noopener">Full-resolution master</a>
+    <a href="mm6/attempt_05/inputs/gargoyle.png" target="_blank" rel="noopener">Gargoyle reference</a>
+    <a href="mm6/attempt_07/prompt.txt" target="_blank" rel="noopener">Terrain repair prompt</a>
+    <a href="../town_portal_acceptance_20260927/accepted.json" target="_blank" rel="noopener">Acceptance receipt</a>
+  </aside>
+</main>
+<script src="data.js"></script>
+<script src="review.js"></script>
+</html>

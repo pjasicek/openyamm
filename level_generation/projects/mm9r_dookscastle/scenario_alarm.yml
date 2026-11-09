@@ -1,0 +1,33 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dookscastle_alarm
+title: 'Dook''s Castle (native BLV) - hurting a guard rings the alarm: every guard turns hostile'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dookscastle.blv
+- assert:
+    named_map_var_changed:
+      name: Hostile
+      current: 0
+- assert:
+    actor_visible:
+      actor_index: 3
+      hostile_to_party: false
+- damage_actor:
+    actor_index: 2
+    amount: 10
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Hostile
+      current: 1
+- assert:
+    actor_visible:
+      actor_index: 3
+      hostile_to_party: true

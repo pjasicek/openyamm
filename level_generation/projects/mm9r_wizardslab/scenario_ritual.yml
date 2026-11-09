@@ -1,0 +1,143 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.wizardslab_ritual
+title: 'Wizard''s Lab (native BLV): the summoning in the tower top'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: wizardslab.blv
+- note:
+    text: The first arrival at DestinationPurple (the tower top) starts the summoning (WizardLabCamera.scr; the cinematic
+      summoning runs its ticks).
+- set_pose:
+    map: wizardslab.blv
+    x: -7864
+    y: 15043
+    z: 1477
+    yaw: 4.71238875
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 1
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 2
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 3
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 4
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 5
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 6
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 7
+- note:
+    text: The master conjures (meteor, town portal, column of fire), then summons the Greater Demon.
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 8
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: RitualStep
+      value: 9
+- assert:
+    state_dump_named_map_var:
+      name: DemonUp
+      value: 1
+- assert:
+    actor_count:
+      monster_id: 9242
+      min: 1
+- note:
+    text: 'The demon kills the six apprentices (any hit now counts as its): each dying apprentice tells the master; at six
+      he banishes the demon (WizardMaster.scr :BanishDemon), then passes out.'
+- damage_actor:
+    actor_index: 46
+    amount: 50
+    skip_dead: true
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: 52
+    amount: 50
+    skip_dead: true
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: 47
+    amount: 50
+    skip_dead: true
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: 51
+    amount: 50
+    skip_dead: true
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: 48
+    amount: 50
+    skip_dead: true
+- advance_runtime:
+    seconds: 0.5
+- damage_actor:
+    actor_index: 50
+    amount: 50
+    skip_dead: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Finished
+      value: 6
+- assert:
+    state_dump_named_map_var:
+      name: Banishing
+      value: 1
+- advance_runtime:
+    seconds: 6.5
+- assert:
+    state_dump_named_map_var:
+      name: DemonGone
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Betrayed
+      value: 0

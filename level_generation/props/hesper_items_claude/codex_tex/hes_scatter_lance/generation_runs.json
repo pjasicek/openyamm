@@ -1,0 +1,566 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: FRONT, exactly as guide_front.png. The guide is a VERY THIN horizontal edge-on view, stock at left, muzzle at right. Its alpha bounding box in the 1024-square canvas is x=66 through 957, y=468 through 555, only 88 pixels tall. Keep this thin outline; do not turn it into the taller side profile in the design reference. Follow the foreshortened overlapping guide parts, including the small central shapes and muzzle projections. No pistol grip sticking below the thin guide.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "b68e34293bdec2bf2ef98df5db42f44f8da6fe1f78cf3fb1adbd41764112ba7b"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected initial return: corrective request was blocked by the image tool, leaving this as the only returned candidate. Exact silhouette and flat-lighting requirements remain unmet.",
+      "tool_return_path": "/home/pjasicek/.codex/generated_images/01a16e83-b59c-7a40-8c71-f8448b6b59a3/exec-4c175887-c587-48ca-80e3-45ef46a71e20.png",
+      "output_sha256": "ff81d822cf927b7bc61f4b4722455057ff57a279f11295a5d67847ce40202f2a",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          29,
+          1180,
+          1168
+        ],
+        "alpha_128_bbox": [
+          81,
+          571,
+          1175,
+          682
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.9523435489768557,
+        "comparison_method": "Guide alpha resampled with nearest-neighbor for measurement only; generated file kept byte-for-byte unchanged.",
+        "no_text_or_letters": "pass (visual)",
+        "materials": "Reference palette present (visual).",
+        "flat_even_lighting": "Not fully met: baked highlights and cavity shading remain (visual).",
+        "transparent_background": true,
+        "outside_guide_nonzero_alpha_pixels": 9241,
+        "outside_guide_alpha_at_least_128_pixels": 132
+      },
+      "status": "generated",
+      "retained_attempt_output": "runs/paint_front_attempt1.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: BACK, exactly as guide_back.png. A VERY THIN horizontal opposite edge-on view, muzzle at left, stock at right. The alpha bounding box is x=66 through 957, y=468 through 555, only 88 pixels tall on the 1024-square canvas. Match the existing guide's shapes and asymmetry precisely; do not substitute or mirror the design reference side profile. Apply white ceramic to the central rib bands and exposed shell plates, gold to hardware, black-violet resin with orange insets to the remaining framework, continuing hidden materials plausibly. No pistol grip protruding outside this thin silhouette.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "6724873e5e80f380e39257bd56037af46f7049682e2bb1f1c34ca4e8af085af3"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected initial return: corrective request was blocked by the image tool, leaving this as the only returned candidate. Exact silhouette and flat-lighting requirements remain unmet.",
+      "tool_return_path": "/home/pjasicek/.codex/generated_images/01a16e83-b59c-7a40-8c71-f8448b6b59a3/exec-a2d42f89-d29b-42bf-bd45-b4c9d14b35ae.png",
+      "output_sha256": "425c90b236d6ba0f1b19011da3db309dc7a7bf571f9bfc7e8fc3efe96e1955ff",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          41,
+          1234,
+          1198
+        ],
+        "alpha_128_bbox": [
+          81,
+          574,
+          1173,
+          682
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.9684238947013162,
+        "comparison_method": "Guide alpha resampled with nearest-neighbor for measurement only; generated file kept byte-for-byte unchanged.",
+        "no_text_or_letters": "pass (visual)",
+        "materials": "Reference palette present (visual).",
+        "flat_even_lighting": "Not fully met: baked highlights and cavity shading remain (visual).",
+        "transparent_background": true,
+        "outside_guide_nonzero_alpha_pixels": 9671,
+        "outside_guide_alpha_at_least_128_pixels": 36
+      },
+      "status": "generated",
+      "retained_attempt_output": "runs/paint_back_attempt1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: LEFT, exactly as guide_left.png. This is the tiny end-on butt/stock view in the center of a large 1024-square transparent canvas. Its alpha bounding box is x=411 through 613, y=468 through 555, just 203 by 88 pixels. Keep that tiny scale. The long horizontal oval-like buttplate occupies the right side of this little shape, with overlapping body protrusions at its left. Paint that buttplate warm white ceramic with fine gold perimeter trim and fine wear; continue black-violet resin, ivory shell and gold onto the smaller occluded parts. Preserve the guide angle and outline. No blue muzzle holes on the buttplate. Do not generate a long side-view weapon or enlarge the object.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "d3d4cad330c957e8fa4d011356c497f0b1711d583bbf21ff52964dd4b62b024a"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected initial return: closer normalized guide silhouette than the corrective return; materials retained. Exact silhouette and flat-lighting requirements remain unmet.",
+      "tool_return_path": "/home/pjasicek/.codex/generated_images/01a16e83-b59c-7a40-8c71-f8448b6b59a3/exec-928cb486-fe7a-4803-b8ec-60f17baf867c.png",
+      "output_sha256": "96ede630142cc809c2f5e6bcdc40bcfda75875acc67431b8e70859f8d52a26e3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          178,
+          53,
+          1031,
+          933
+        ],
+        "alpha_128_bbox": [
+          492,
+          573,
+          763,
+          684
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.8885478921014376,
+        "comparison_method": "Guide alpha resampled with nearest-neighbor for measurement only; generated file kept byte-for-byte unchanged.",
+        "no_text_or_letters": "pass (visual)",
+        "materials": "Reference palette present (visual).",
+        "flat_even_lighting": "Not fully met: baked highlights and cavity shading remain (visual).",
+        "transparent_background": true,
+        "outside_guide_nonzero_alpha_pixels": 4211,
+        "outside_guide_alpha_at_least_128_pixels": 1346
+      },
+      "status": "generated",
+      "retained_attempt_output": "runs/paint_left_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: RIGHT, exactly as guide_right.png. This is the tiny end-on muzzle view centered within a large 1024-square transparent canvas. Its alpha bounding box is x=410 through 612, y=468 through 555, just 203 by 88 pixels. Keep that tiny scale and the entire guide silhouette. Retain every circular barrel opening exactly where and as large as the guide places it. Paint the existing lens disks bright blue-white within muted brushed-gold rims; surround them with white ceramic shell, black-violet resin seams and orange energy channels where exposed. Paint the foreshortened portion extending left using the same materials. Do not change the number, position or size of visible openings, do not add barrels, and do not replace this with a long side profile.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "bd49d723b5e683a8defd720143426f254da59bd9125795333162b6138a04e7c2"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected initial return: corrective request was blocked by the image tool, leaving this as the only returned candidate. Exact silhouette and flat-lighting requirements remain unmet.",
+      "tool_return_path": "/home/pjasicek/.codex/generated_images/01a16e83-b59c-7a40-8c71-f8448b6b59a3/exec-0be0815f-806c-4c09-9bab-ff26fd2af206.png",
+      "output_sha256": "18e221ae56a8de9605542b669bb28ff513a2938470fd0464f6a0f199adb45dc2",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          182,
+          1208,
+          1083
+        ],
+        "alpha_128_bbox": [
+          504,
+          574,
+          750,
+          681
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.978243837762912,
+        "comparison_method": "Guide alpha resampled with nearest-neighbor for measurement only; generated file kept byte-for-byte unchanged.",
+        "no_text_or_letters": "pass (visual)",
+        "materials": "Reference palette present (visual).",
+        "flat_even_lighting": "Not fully met: baked highlights and cavity shading remain (visual).",
+        "transparent_background": true,
+        "outside_guide_nonzero_alpha_pixels": 1286,
+        "outside_guide_alpha_at_least_128_pixels": 0
+      },
+      "status": "generated",
+      "retained_attempt_output": "runs/paint_right_attempt1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: TOP, exactly as guide_top.png. Despite the file name, preserve the displayed broad horizontal weapon profile: stock at left, muzzle at right, pistol grip below center-left, trigger opening, small spines along the upper edge. Its alpha bounding box is x=66 through 957, y=411 through 612 on the 1024-square canvas. Follow every edge and part position of this particular white guide, including its short grip and broad muzzle. Paint the reference palette and ornament onto those fixed parts: ivory ceramic/bone ribs, receiver plates and grip frame; antique gold butt trim, trigger and fittings; black-violet ribbed resin body and grip with bright orange energy channels; existing visible muzzle ends blue-white. Do not copy the larger design reference silhouette, add spikes, extend the grip, change barrel thickness or fill the transparent trigger opening.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "2c2ae9723eab798797800724903ef2d9c4099c34aeb9197b307e7669ba88fb56"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected initial return: closer normalized guide silhouette than the corrective return; materials retained. Exact silhouette and flat-lighting requirements remain unmet.",
+      "tool_return_path": "/home/pjasicek/.codex/generated_images/01a16e83-b59c-7a40-8c71-f8448b6b59a3/exec-f9096dce-752c-4f9e-bf5b-a89fdecc86b3.png",
+      "output_sha256": "a523c627fc24118f168e21b9aeefe9aefcf217651f34353e3ffb583eb7097b59",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          76,
+          134,
+          1240,
+          1198
+        ],
+        "alpha_128_bbox": [
+          80,
+          504,
+          1179,
+          751
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.9663116682006107,
+        "comparison_method": "Guide alpha resampled with nearest-neighbor for measurement only; generated file kept byte-for-byte unchanged.",
+        "no_text_or_letters": "pass (visual)",
+        "materials": "Reference palette present (visual).",
+        "flat_even_lighting": "Not fully met: baked highlights and cavity shading remain (visual).",
+        "transparent_background": true,
+        "outside_guide_nonzero_alpha_pixels": 15865,
+        "outside_guide_alpha_at_least_128_pixels": 1155
+      },
+      "status": "generated",
+      "retained_attempt_output": "runs/paint_top_attempt1.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: FRONT, exactly as guide_front.png. The guide is a VERY THIN horizontal edge-on view, stock at left, muzzle at right. Its alpha bounding box in the 1024-square canvas is x=66 through 957, y=468 through 555, only 88 pixels tall. Keep this thin outline; do not turn it into the taller side profile in the design reference. Follow the foreshortened overlapping guide parts, including the small central shapes and muzzle projections. No pistol grip sticking below the thin guide.\n\nCORRECTIVE PASS \u2014 the previous paint has slightly changed the contour and has too much rendered lighting.\nRepaint the ORIGINAL GUIDE (Input 1), not the previous image's geometry. Input 2 is the design/color reference. Input 3 is the previous paint for material continuity only.\nThe essential corrections are a strict guide silhouette and genuinely FLAT ALBEDO. Preserve Input 1's alpha mask exactly, including all small corner shapes. Everything outside that mask must be completely transparent alpha=0: no faint stray dots, colored halos or glow. The model interior is opaque. Generate exactly 1024 by 1024 pixels.\nStrip all baked highlight streaks, shiny white edges, dark ambient occlusion, dark edge vignettes, and directional light/shadow from the previous paint. Color each surface evenly: warm off-white ceramic with fine subtle wear, muted ochre-gold brushed metal, dark purple-black resin with visible base color. Orange energy insets and blue-white lens disks are bright surface colors without hot white specular blobs, reflections, cast light or bloom. Surface seams may be thin pigment lines but must not become deep shaded crevices. Retain the material arrangement and details of the design reference with a diffuse color-only paint treatment. No text.\nMatch the original thin edge-on outline, smooth stock taper, central overlapping forms and broad muzzle precisely. No new protrusions at the top of the muzzle or small spine peaks.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "b68e34293bdec2bf2ef98df5db42f44f8da6fe1f78cf3fb1adbd41764112ba7b"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        },
+        {
+          "path": "runs/paint_front_attempt1.png",
+          "role": "previous_paint_for_material_continuity_only",
+          "sha256": "ff81d822cf927b7bc61f4b4722455057ff57a279f11295a5d67847ce40202f2a"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "The image generation safety system rejected this corrective request (violence). No image returned; no further request made under the one-correction limit.",
+      "status": "failed",
+      "error": {
+        "http_status": 400,
+        "code": "moderation_blocked",
+        "category": "violence",
+        "stage": "input",
+        "request_id": "70820ced-0fae-4bd1-bb5d-eaabead30ab0"
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: BACK, exactly as guide_back.png. A VERY THIN horizontal opposite edge-on view, muzzle at left, stock at right. The alpha bounding box is x=66 through 957, y=468 through 555, only 88 pixels tall on the 1024-square canvas. Match the existing guide's shapes and asymmetry precisely; do not substitute or mirror the design reference side profile. Apply white ceramic to the central rib bands and exposed shell plates, gold to hardware, black-violet resin with orange insets to the remaining framework, continuing hidden materials plausibly. No pistol grip protruding outside this thin silhouette.\n\nCORRECTIVE PASS \u2014 the previous paint has slightly changed the contour and has too much rendered lighting.\nRepaint the ORIGINAL GUIDE (Input 1), not the previous image's geometry. Input 2 is the design/color reference. Input 3 is the previous paint for material continuity only.\nThe essential corrections are a strict guide silhouette and genuinely FLAT ALBEDO. Preserve Input 1's alpha mask exactly, including all small corner shapes. Everything outside that mask must be completely transparent alpha=0: no faint stray dots, colored halos or glow. The model interior is opaque. Generate exactly 1024 by 1024 pixels.\nStrip all baked highlight streaks, shiny white edges, dark ambient occlusion, dark edge vignettes, and directional light/shadow from the previous paint. Color each surface evenly: warm off-white ceramic with fine subtle wear, muted ochre-gold brushed metal, dark purple-black resin with visible base color. Orange energy insets and blue-white lens disks are bright surface colors without hot white specular blobs, reflections, cast light or bloom. Surface seams may be thin pigment lines but must not become deep shaded crevices. Retain the material arrangement and details of the design reference with a diffuse color-only paint treatment. No text.\nMatch the original thin reverse view outline with muzzle at left and stock at right. Preserve the central bands' positions and widths and the narrow tapered stock.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit_target",
+          "sha256": "6724873e5e80f380e39257bd56037af46f7049682e2bb1f1c34ca4e8af085af3"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        },
+        {
+          "path": "runs/paint_back_attempt1.png",
+          "role": "previous_paint_for_material_continuity_only",
+          "sha256": "425c90b236d6ba0f1b19011da3db309dc7a7bf571f9bfc7e8fc3efe96e1955ff"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "The image generation safety system rejected this corrective request (violence). No image returned; no further request made under the one-correction limit.",
+      "status": "failed",
+      "error": {
+        "http_status": 400,
+        "code": "moderation_blocked",
+        "category": "violence",
+        "stage": "input",
+        "request_id": "c981222f-1783-4ce4-9748-611f6bc8fa7a"
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: LEFT, exactly as guide_left.png. This is the tiny end-on butt/stock view in the center of a large 1024-square transparent canvas. Its alpha bounding box is x=411 through 613, y=468 through 555, just 203 by 88 pixels. Keep that tiny scale. The long horizontal oval-like buttplate occupies the right side of this little shape, with overlapping body protrusions at its left. Paint that buttplate warm white ceramic with fine gold perimeter trim and fine wear; continue black-violet resin, ivory shell and gold onto the smaller occluded parts. Preserve the guide angle and outline. No blue muzzle holes on the buttplate. Do not generate a long side-view weapon or enlarge the object.\n\nCORRECTIVE PASS \u2014 the previous paint has slightly changed the contour and has too much rendered lighting.\nRepaint the ORIGINAL GUIDE (Input 1), not the previous image's geometry. Input 2 is the design/color reference. Input 3 is the previous paint for material continuity only.\nThe essential corrections are a strict guide silhouette and genuinely FLAT ALBEDO. Preserve Input 1's alpha mask exactly, including all small corner shapes. Everything outside that mask must be completely transparent alpha=0: no faint stray dots, colored halos or glow. The model interior is opaque. Generate exactly 1024 by 1024 pixels.\nStrip all baked highlight streaks, shiny white edges, dark ambient occlusion, dark edge vignettes, and directional light/shadow from the previous paint. Color each surface evenly: warm off-white ceramic with fine subtle wear, muted ochre-gold brushed metal, dark purple-black resin with visible base color. Orange energy insets and blue-white lens disks are bright surface colors without hot white specular blobs, reflections, cast light or bloom. Surface seams may be thin pigment lines but must not become deep shaded crevices. Retain the material arrangement and details of the design reference with a diffuse color-only paint treatment. No text.\nThe previous paint enlarged the silhouette and added a sharp left-pointing spike. The original guide's tiny 203-by-88 footprint and smooth oval buttplate are mandatory. Restore the original guide's plain left contour, without extra spikes or extended gold rims; keep the whole oval plate on the right the same size and position as the guide. Reduce heavy sculpted ornament that displaces the original broad oval.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit_target",
+          "sha256": "d3d4cad330c957e8fa4d011356c497f0b1711d583bbf21ff52964dd4b62b024a"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        },
+        {
+          "path": "runs/paint_left_attempt1.png",
+          "role": "previous_paint_for_material_continuity_only",
+          "sha256": "96ede630142cc809c2f5e6bcdc40bcfda75875acc67431b8e70859f8d52a26e3"
+        }
+      ],
+      "output": "runs/paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: corrective return worsened normalized silhouette overlap and retained baked shading.",
+      "status": "generated",
+      "tool_return_path": "/home/pjasicek/.codex/generated_images/01a16e83-b59c-7a40-8c71-f8448b6b59a3/exec-62ec6c61-30f9-4044-8bce-84030bef74ab.png",
+      "output_sha256": "7827bb0f8e6fe9079079d5cfc6695d5aaf4f950881017edd0143aa06f698f93b",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          306,
+          216,
+          1079,
+          907
+        ],
+        "alpha_128_bbox": [
+          510,
+          583,
+          744,
+          678
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.8148572117122544,
+        "comparison_method": "Guide alpha resampled with nearest-neighbor for measurement only; generated file kept byte-for-byte unchanged.",
+        "no_text_or_letters": "pass (visual)",
+        "materials": "Reference palette present (visual).",
+        "flat_even_lighting": "Not fully met: baked highlights and cavity shading remain despite the corrective prompt (visual)."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: RIGHT, exactly as guide_right.png. This is the tiny end-on muzzle view centered within a large 1024-square transparent canvas. Its alpha bounding box is x=410 through 612, y=468 through 555, just 203 by 88 pixels. Keep that tiny scale and the entire guide silhouette. Retain every circular barrel opening exactly where and as large as the guide places it. Paint the existing lens disks bright blue-white within muted brushed-gold rims; surround them with white ceramic shell, black-violet resin seams and orange energy channels where exposed. Paint the foreshortened portion extending left using the same materials. Do not change the number, position or size of visible openings, do not add barrels, and do not replace this with a long side profile.\n\nCORRECTIVE PASS \u2014 the previous paint has slightly changed the contour and has too much rendered lighting.\nRepaint the ORIGINAL GUIDE (Input 1), not the previous image's geometry. Input 2 is the design/color reference. Input 3 is the previous paint for material continuity only.\nThe essential corrections are a strict guide silhouette and genuinely FLAT ALBEDO. Preserve Input 1's alpha mask exactly, including all small corner shapes. Everything outside that mask must be completely transparent alpha=0: no faint stray dots, colored halos or glow. The model interior is opaque. Generate exactly 1024 by 1024 pixels.\nStrip all baked highlight streaks, shiny white edges, dark ambient occlusion, dark edge vignettes, and directional light/shadow from the previous paint. Color each surface evenly: warm off-white ceramic with fine subtle wear, muted ochre-gold brushed metal, dark purple-black resin with visible base color. Orange energy insets and blue-white lens disks are bright surface colors without hot white specular blobs, reflections, cast light or bloom. Surface seams may be thin pigment lines but must not become deep shaded crevices. Retain the material arrangement and details of the design reference with a diffuse color-only paint treatment. No text.\nPreserve all guide muzzle aperture centers and sizes, the exact left extension and the smooth shell perimeter. Use evenly colored pale blue-white lens disks with blue rims, without star highlights or painted reflections.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit_target",
+          "sha256": "bd49d723b5e683a8defd720143426f254da59bd9125795333162b6138a04e7c2"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        },
+        {
+          "path": "runs/paint_right_attempt1.png",
+          "role": "previous_paint_for_material_continuity_only",
+          "sha256": "18e221ae56a8de9605542b669bb28ff513a2938470fd0464f6a0f199adb45dc2"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "The image generation safety system rejected this corrective request (violence). No image returned; no further request made under the one-correction limit.",
+      "status": "failed",
+      "error": {
+        "http_status": 400,
+        "code": "moderation_blocked",
+        "category": "violence",
+        "stage": "input",
+        "request_id": "562288e8-7be5-49e9-a2be-8f3916c5c519"
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the existing Hesper scatter lance 3D model.\nInput 1 is the EDIT TARGET: the plain white orthographic guide. Input 2 is the DESIGN REFERENCE: use it only for colors, materials and surface ornament; never adopt its camera, silhouette, size or composition.\nPrimary request: paint ONLY the existing white model pixels in Input 1, keeping its exact alpha silhouette, every boundary and every part in exactly the same image coordinates. This is a surface-color edit, not a new illustration of a gun.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background. Retain the whole square canvas and all its large empty transparent margins. Do not zoom, crop, rotate, reposition, enlarge, reproject, reshape, or add silhouette detail. Preserve the guide's original alpha mask pixel for pixel, including internal cutouts.\nMaterials: match the reference's warm white ceramic/bone shell with fine wear, brushed antique gold fittings and seams, black-violet organic resin framework, bright orange energy insets and blue-white crystal/glass muzzle lenses wherever those features are visible in the guide. Continue unseen surfaces plausibly with the same materials. Paint engraved lines, seams, panel joins, subtle scratches and non-letter small markings in place on the existing shapes. Existing bony ribs are ivory ceramic, dark framework is black-violet resin; gold has its muted base color and only a faint sheen.\nLighting: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no environment reflections, no directional gradients, no rim light. Energy is painted its bright orange or blue-white light color, without bloom or emitted glow outside the silhouette. No floor, scenery, background color, checkerboard pixels, text, letters, numbers, labels, watermark or diagram.\nThe guide geometry and pixel placement take precedence over all reference design details. Nothing outside the guide silhouette.\nView: TOP, exactly as guide_top.png. Despite the file name, preserve the displayed broad horizontal weapon profile: stock at left, muzzle at right, pistol grip below center-left, trigger opening, small spines along the upper edge. Its alpha bounding box is x=66 through 957, y=411 through 612 on the 1024-square canvas. Follow every edge and part position of this particular white guide, including its short grip and broad muzzle. Paint the reference palette and ornament onto those fixed parts: ivory ceramic/bone ribs, receiver plates and grip frame; antique gold butt trim, trigger and fittings; black-violet ribbed resin body and grip with bright orange energy channels; existing visible muzzle ends blue-white. Do not copy the larger design reference silhouette, add spikes, extend the grip, change barrel thickness or fill the transparent trigger opening.\n\nCORRECTIVE PASS \u2014 the previous paint has slightly changed the contour and has too much rendered lighting.\nRepaint the ORIGINAL GUIDE (Input 1), not the previous image's geometry. Input 2 is the design/color reference. Input 3 is the previous paint for material continuity only.\nThe essential corrections are a strict guide silhouette and genuinely FLAT ALBEDO. Preserve Input 1's alpha mask exactly, including all small corner shapes. Everything outside that mask must be completely transparent alpha=0: no faint stray dots, colored halos or glow. The model interior is opaque. Generate exactly 1024 by 1024 pixels.\nStrip all baked highlight streaks, shiny white edges, dark ambient occlusion, dark edge vignettes, and directional light/shadow from the previous paint. Color each surface evenly: warm off-white ceramic with fine subtle wear, muted ochre-gold brushed metal, dark purple-black resin with visible base color. Orange energy insets and blue-white lens disks are bright surface colors without hot white specular blobs, reflections, cast light or bloom. Surface seams may be thin pigment lines but must not become deep shaded crevices. Retain the material arrangement and details of the design reference with a diffuse color-only paint treatment. No text.\nPreserve every original guide edge and the internal trigger opening, the exact grip tip, stock edge and muzzle edge. Bone and resin surface decoration must be inside the original parts, never modifying their contours.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "2c2ae9723eab798797800724903ef2d9c4099c34aeb9197b307e7669ba88fb56"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design_reference",
+          "sha256": "245ae2d5d1ed1493f0563749f313ecd1772b48b9cb6d85524d9916f2ff24edf5"
+        },
+        {
+          "path": "runs/paint_top_attempt1.png",
+          "role": "previous_paint_for_material_continuity_only",
+          "sha256": "a523c627fc24118f168e21b9aeefe9aefcf217651f34353e3ffb583eb7097b59"
+        }
+      ],
+      "output": "runs/paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Not selected: corrective return worsened normalized silhouette overlap and retained baked shading.",
+      "status": "generated",
+      "tool_return_path": "/home/pjasicek/.codex/generated_images/01a16e83-b59c-7a40-8c71-f8448b6b59a3/exec-94621e3b-94c7-423c-860c-5e080a3d0cea.png",
+      "output_sha256": "ae9ef51e9ccd5117be803ff8a23380a74658790927f6f960369246979aee06d2",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          96,
+          1213,
+          1125
+        ],
+        "alpha_128_bbox": [
+          51,
+          494,
+          1209,
+          776
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.780864438427224,
+        "comparison_method": "Guide alpha resampled with nearest-neighbor for measurement only; generated file kept byte-for-byte unchanged.",
+        "no_text_or_letters": "pass (visual)",
+        "materials": "Reference palette present (visual).",
+        "flat_even_lighting": "Not fully met: baked highlights and cavity shading remain despite the corrective prompt (visual)."
+      }
+    }
+  ],
+  "status": "completed_with_deviations",
+  "brief_fully_satisfied": false,
+  "notes": [
+    "All five named deliverables are byte-for-byte copies of built-in image generation returns. No resizing, recoloring, masking or other pixel edits were applied.",
+    "The tool returned 1254 x 1254 for every generated image despite the 1024 x 1024 prompt. Native dimensions are retained as the brief directs.",
+    "Exact guide silhouettes were not achieved; normalized alpha-mask overlap is reported as a diagnostic, not as acceptance of pixel identity.",
+    "RGBA backgrounds have transparency, but faint stray alpha pixels remain outside the guide silhouette.",
+    "Materials match the reference palette, but some specular highlights and cavity shading remain; these are not fully flat albedo sources.",
+    "One corrective request was made per view. Front, back and right corrective requests were blocked by the tool safety system. Left and top corrections worsened silhouette alignment, so their initial returns were selected.",
+    "No builds, engine integration or runtime checks were performed; scope was image generation only."
+  ],
+  "deliverables": [
+    {
+      "view": "front",
+      "path": "paint_front.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "selected_attempt": 1,
+      "sha256": "ff81d822cf927b7bc61f4b4722455057ff57a279f11295a5d67847ce40202f2a"
+    },
+    {
+      "view": "back",
+      "path": "paint_back.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "selected_attempt": 1,
+      "sha256": "425c90b236d6ba0f1b19011da3db309dc7a7bf571f9bfc7e8fc3efe96e1955ff"
+    },
+    {
+      "view": "left",
+      "path": "paint_left.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "selected_attempt": 1,
+      "sha256": "96ede630142cc809c2f5e6bcdc40bcfda75875acc67431b8e70859f8d52a26e3"
+    },
+    {
+      "view": "right",
+      "path": "paint_right.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "selected_attempt": 1,
+      "sha256": "18e221ae56a8de9605542b669bb28ff513a2938470fd0464f6a0f199adb45dc2"
+    },
+    {
+      "view": "top",
+      "path": "paint_top.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "selected_attempt": 1,
+      "sha256": "a523c627fc24118f168e21b9aeefe9aefcf217651f34353e3ffb583eb7097b59"
+    }
+  ]
+}

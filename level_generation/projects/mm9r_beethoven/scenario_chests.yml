@@ -1,0 +1,155 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.beethoven_chests
+title: Beethoven (native BLV) - the eleven MM9 treasure chests open from in front of their models
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: beethoven.blv
+- set_pose:
+    map: beethoven.blv
+    x: -4508
+    y: -1789
+    z: -1924
+    yaw: 1.5568
+    pitch: -0.5539
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -3912
+    y: 7934
+    z: -1678
+    yaw: -1.5708
+    pitch: -0.5528
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -15143
+    y: -25311
+    z: -3563
+    yaw: -0.0122
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -9667
+    y: -25572
+    z: -3563
+    yaw: -1.5708
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -10428
+    y: -25977
+    z: -3563
+    yaw: -2.2829
+    pitch: -0.7268
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -16384
+    y: -4492
+    z: -1883
+    yaw: 1.5708
+    pitch: -0.7333
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -17038
+    y: -3262
+    z: -1883
+    yaw: 1.5708
+    pitch: -0.7333
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -1148
+    y: -8124
+    z: -1883
+    yaw: -1.5708
+    pitch: -0.7333
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 7
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -1148
+    y: -6978
+    z: -1883
+    yaw: -1.5708
+    pitch: -0.7333
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 8
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -6962
+    y: 6896
+    z: -1883
+    yaw: 1.5708
+    pitch: -0.7333
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 9
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: beethoven.blv
+    x: -8438
+    y: 6896
+    z: -1883
+    yaw: 1.5708
+    pitch: -0.7333
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 10
+- press_action:
+    action: cancel_dialog

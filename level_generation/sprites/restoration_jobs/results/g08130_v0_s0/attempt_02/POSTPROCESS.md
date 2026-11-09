@@ -1,0 +1,1 @@
+Process with default registration. Run restore_native_tone.py then queue.py check g08130_v0_s0. Script preserves ungraded output as .before_tone.png and matches native opaque RGB means with channel gamma while leaving alpha unchanged. Refresh backup after reprocessing. Existing cyan master retained; extracted edges reviewed on both backgrounds.

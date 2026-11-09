@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m422_claude/references_hd/00_three_quarter.png), unresized at 1024 × 1536, using built-in image generation.
+
+Selected the better of two permitted returns. Residual faults include a coloured halo, insufficient A-pose separation and a shallower camera angle. Both raw returns, exact prompts and checks are recorded in [generation_runs.json](level_generation/creatures/mm7_m422_claude/references_hd/generation_runs.json).

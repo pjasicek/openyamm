@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "maps": 27,
+  "images": 167,
+  "url": "http://127.0.0.1:8899/level_generation/minimaps/esrgan_study_20260928/",
+  "checks": [
+    "All candidates and baselines decode at exact canvas sizes",
+    "Recommended default",
+    "Nine-method trial dropdown",
+    "1020-pixel MM8 height",
+    "Shared zoom",
+    "Blink and restore",
+    "Model selection",
+    "Keyboard map navigation",
+    "No browser exceptions"
+  ]
+}

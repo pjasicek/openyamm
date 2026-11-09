@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Elven Helm (7item091). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Tall pointed silver conical helmet, riveted gold-silver central spine and brow band, hanging silver chainmail curtains at the sides and back. Exact material boundaries: Use the icon and identity; red only for actual metal fittings, keep leather, horn and fabric in their own classes. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item091/inputs/guide_paint.png",
+  "input_guide_sha256": "c7ebf72746a9eea872b7b78fa28943bc15732abef7865564da78e3b42a19d663",
+  "revision": 1,
+  "input_icon": "7item091",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-b4bc5fba-4c65-4f54-9008-f7f949ae841f.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "6c6978fb3f3abc0582e1e7bba2c63ef6639f85e439d984d90cd73ae621c3cfba",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item091.png",
+  "input_icon_sha256": "818f7a982123aa56766c006b29a3a27483d60be4ccd1e3649682d7a972942120",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

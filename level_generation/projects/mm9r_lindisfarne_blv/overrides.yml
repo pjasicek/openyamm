@@ -1,0 +1,77 @@
+# Lindisfarne as a BLV open to the sky (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md; template: Sturmford).
+# First draft by ../mm9r_common/outdoor_blv_draft.py --overrides; read by the shared converter.
+map:
+  stem: lindisfarne
+  display_name: Lindisfarne
+  starts: [StartPoint0, LindisfarneExit, TasarExit, DragonStatiumExit]   # the old map's party_start_points order
+  monster_classes: [ThrallMaster, Magreeb2, EvilSorcerer, Magreeb3, EvilApprentice]
+  swim: true                          # the sea is swum, as on the Isle of Ashes
+  painted_minimap: true
+  generate_bsp: false
+  offset: [-9059, 23, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # the outdoor view's haze
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  DestructableBrush: static
+  BlueWater: skip
+  PerceptionBrush: skip
+  Rain: skip
+  Snow: skip
+models:
+  Terrain0: static   # Terrain
+  TOD_Sky0: skip   # TOD_Sky
+  SkyBox0: skip   # DemoSkyWorldModel
+  Ocean: static   # WorldObject
+  BlacksmithDoor1: {group: BlacksmithDoor1, motion: rotate}   # RotatingDoor
+  BlacksmithDoor2: {group: BlacksmithDoor2, motion: rotate}   # RotatingDoor
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate}   # RotatingDoor
+  RotatingDoor1: {group: RotatingDoor1, motion: rotate}   # RotatingDoor
+  RotatingDoor2: {group: RotatingDoor2, motion: rotate}   # RotatingDoor
+  RotatingDoor3: {group: RotatingDoor3, motion: rotate}   # RotatingDoor
+  InnDoor1: {group: InnDoor1, motion: rotate}   # RotatingDoor
+  RotatingDoor8: {group: RotatingDoor8, motion: rotate}   # RotatingDoor
+  RotatingDoor9: {group: RotatingDoor9, motion: rotate}   # RotatingDoor
+  TempleDoubleDoor2: {group: TempleDoubleDoor2, motion: rotate}   # RotatingDoor
+  TempleDoubleDoor1: {group: TempleDoubleDoor2, motion: rotate}   # RotatingDoor
+  Tavernzone: skip   # PortalZone (helper volume)
+  Tavernwindow: static   # WorldObject
+  OutfitterDoor1: {group: OutfitterDoor1, motion: rotate}   # RotatingDoor
+  OutfitterDoor2: {group: OutfitterDoor1, motion: rotate}   # RotatingDoor
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+  'textures\leveltextures\misc\invisible.dtx': {alias: INVIZVJN7N, width: 64, height: 64}   # the AIBarriers' faces
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false
+outdoor:
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py LINDISFARNE): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    mountaindirt: dirt              # 81 %: dark brown earth
+    abndfortgrass: grass             # 19 %: olive grass
+    sturmfordcliff: cliff
+  slope: cliff
+# MM9's Ladder volumes (dungeon/rotation.py ladder_records; facing_lt: (x, z) toward the rungs, surface_lt: the rung
+# face along it, top_exit_lt: where the climber steps off), measured against the static geometry (2026-11-05).
+ladders:
+  Ladder0: {facing_lt: [1, 0], surface_lt: -9485, top_exit_lt: [-9500, 301, -3322]}   # to the landing under Ladder1 (WorldObject1)
+  Ladder1: {facing_lt: [1, 0], surface_lt: -9485, top_exit_lt: [-9540, 397, -3272]}   # to the upper floor (WorldObject0)
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  themed_near: [Cookpot0, Cookpot1]

@@ -1,0 +1,526 @@
+{
+  "creature_3d_identity": "hesper:brood_mother",
+  "meshy": {
+    "jobs": {
+      "brood_mother_geometry_v2": {
+        "kind": "image-to-3d",
+        "request": {
+          "image_url": "@file:references_hd/cradle_only/00_three_quarter.png",
+          "ai_model": "meshy-t2",
+          "model_type": "smart-topology",
+          "topology": "triangle",
+          "target_polycount": 15000,
+          "should_texture": false,
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "references_hd/cradle_only/00_three_quarter.png",
+            "sha256": "935d42e52e2c0e58fb2157ec3c45de919ed97d65139e3d605aa47375967d6118"
+          }
+        ],
+        "fingerprint": "45ff008eecc6ff99dee17556964a12d119cc788fe7f2c1ca5b98bc7ac1e68014",
+        "account": "backup",
+        "reserved_credits": 5,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-23T19:21:34.250402+00:00",
+        "task_id": "01a16a36-20dd-714c-8f34-6b10d5b6660d",
+        "consumed_credits": 5,
+        "task": {
+          "id": "01a16a36-20dd-714c-8f34-6b10d5b6660d",
+          "type": "image-to-3d",
+          "name": "",
+          "art_style": "",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "status": "SUCCEEDED",
+          "created_at": 1792783296767,
+          "progress": 100,
+          "started_at": 1792783296772,
+          "finished_at": 1792783300899,
+          "expires_at": 1793042500899,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a36-20dd-714c-8f34-6b10d5b6660d/output/model.glb?Expires=1793042500&Signature=jJcY-EZvg3hVlPIVDeDwzuMIQ3orp~CoG5dDF3pZr2acUSYGQ1qjrauxyjFBTE3SUZhcMts-Lm5MM3M9DuZZxKzg8T0U4obSkFVzrGW7~FPZnK691RUR5UGJ9TbWFxg22PHZQx0qNvyCRVVhj4QXCjjU0D4EReXutYYHhoyhcwtv9dyixqSZyrUqTnTmHikEae5eJQrswJNs6BNKqR8BNZBHXMX-LOnsjgLfDou84Rg5nbL~0x~Ghdz~Z0Qt3ibV50-khqQ53nXWN7~jneZgmz3xC-EnTJGcfuYHq8hgcLmDG89eAAqkiKpW2jKrcoG9xqEAJ9iHsUuJRK0kQF4iLA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a36-20dd-714c-8f34-6b10d5b6660d/output/model.glb?Expires=1793042500&Signature=jJcY-EZvg3hVlPIVDeDwzuMIQ3orp~CoG5dDF3pZr2acUSYGQ1qjrauxyjFBTE3SUZhcMts-Lm5MM3M9DuZZxKzg8T0U4obSkFVzrGW7~FPZnK691RUR5UGJ9TbWFxg22PHZQx0qNvyCRVVhj4QXCjjU0D4EReXutYYHhoyhcwtv9dyixqSZyrUqTnTmHikEae5eJQrswJNs6BNKqR8BNZBHXMX-LOnsjgLfDou84Rg5nbL~0x~Ghdz~Z0Qt3ibV50-khqQ53nXWN7~jneZgmz3xC-EnTJGcfuYHq8hgcLmDG89eAAqkiKpW2jKrcoG9xqEAJ9iHsUuJRK0kQF4iLA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a36-20dd-714c-8f34-6b10d5b6660d/output/preview.png?Expires=1793042500&Signature=p-JukgIGeH3pWoHpE383n5y-KDJ0C3-kii-j4c8F8hwSrw1ttZ5LR~ZrxMmtgAro9FzkZHqNSuZQWQY9X47rPfPMISsLUHw3tE2iZhi4wtT2Jo28u2tBqtg~u0cyNe3ZdS3ihqS6ueTtBUrPXBvQUaKv6~4VLP-VWo57qK5148~ZVkPS~mcDFyJ1v1u~0QkZHNkBQy6Ng8yZWKXxJjTG8lXqHi4OQmUhzoXqui0bEr7rwbDNT~Ycdn6GiTh6GFFdClrK33ZfQR8aU6aa0b0Vk1FdtuVYvra~W4GlPfBeBvwffe20J38oWMuof6QG67GXduTZF4q1zdjmFkePIEoNhA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [],
+          "consumed_credits": 5
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/brood_mother_geometry_v2/model_urls_glb.glb",
+            "sha256": "45c1027d5a66529236009fdba2f011ad2ad167a33704f33ae6e33f5e8a678cc6"
+          },
+          "thumbnail_url": {
+            "path": "meshy/brood_mother_geometry_v2/thumbnail_url.png",
+            "sha256": "7318c17129faea19d66d2b8f2d2779f2915bb95826768337caa49125c357c7b4"
+          }
+        }
+      },
+      "brood_mother_texture_v2": {
+        "kind": "retexture",
+        "request": {
+          "model_url": "@file:texturing/brood_mother_upload.glb",
+          "ai_model": "meshy-7",
+          "enable_original_uv": false,
+          "enable_pbr": true,
+          "texture_resolution": "2k",
+          "multiview_image_urls": [
+            "@file:references_hd/cradle_only/01_front.png",
+            "@file:references_hd/cradle_only/03_left.png",
+            "@file:references_hd/cradle_only/02_back.png",
+            "@file:references_hd/cradle_only/04_right.png"
+          ],
+          "target_formats": [
+            "glb"
+          ]
+        },
+        "inputs": [
+          {
+            "path": "texturing/brood_mother_upload.glb",
+            "sha256": "957e4adb18ba9b9c871fa19afb702c4bac37637a708e50e1fcda4e0de4f83683"
+          },
+          {
+            "path": "references_hd/cradle_only/01_front.png",
+            "sha256": "8f4392957bfe2c5ab62bfb304f744819964d7b1d5c3f4b60c7b93b8730146280"
+          },
+          {
+            "path": "references_hd/cradle_only/03_left.png",
+            "sha256": "4ca1cc7d0bd1aaa985a26fdd9fe6aadb5000bcb1330e3ca8d87af7d78b607c89"
+          },
+          {
+            "path": "references_hd/cradle_only/02_back.png",
+            "sha256": "22ba155a2295e1dd04ab2754fa76a327151ec562b71f382c5cac8b579f31c7fa"
+          },
+          {
+            "path": "references_hd/cradle_only/04_right.png",
+            "sha256": "0355cbe3cc85a4fb8e706e052fc06f1c4be91cdca8f1c37d5a8e40a24bf546f5"
+          }
+        ],
+        "fingerprint": "83bdddbc2afa11a845d7a7f76296d6541947e457d282a7655f487bd1dd181e24",
+        "account": "backup",
+        "reserved_credits": 10,
+        "status": "SUCCEEDED",
+        "submitted_at": "2026-10-23T20:50:05.596201+00:00",
+        "task_id": "01a16a87-2ce5-7531-9a91-2e581e2253c6",
+        "consumed_credits": 10,
+        "task": {
+          "id": "01a16a87-2ce5-7531-9a91-2e581e2253c6",
+          "type": "retexture",
+          "name": "",
+          "art_style": "realistic",
+          "object_prompt": "",
+          "style_prompt": "",
+          "negative_prompt": "",
+          "texture_prompt": "",
+          "texture_image_url": "",
+          "text_style_prompt": "",
+          "image_style_url": "",
+          "multiview_image_urls": [
+            "https://assets.meshy.ai/uploads/0_01a16a87-2ce5-7531-9a91-2e581e2253c6.png?Expires=1793047867&Signature=BsKuApQX0D6s37EbkbgyYWhtnK6MjuuGM44u6UJzgEqyM~lPyjbKsMiAZt1UJtiFpKo8gh89TmYajm0ysKQVX5D61gFQ2JV~osolGLm1t6VojJSksQ534efGnfVaz7dWyeij9uupcrlbKnNpGqsMsHY0nv5nMneSYgLXf~~5fimrj8nUfMYiwBC-6jbpY3OupiS0BLgKnWUFdyd0bsp8gz1rspVs8Ob00qp-5Qn4eF6o99Y2uY01zmhC5axr5ambhqDmKRYoSefg2lGu-eIfFIYbxuIeBI-dCL6MA4uq3N8VeNF0oRn1x-UBRKLnEYELzUpAvRPNnHYO8WYmuHGSqQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+            "https://assets.meshy.ai/uploads/1_01a16a87-2ce5-7531-9a91-2e581e2253c6.png?Expires=1793047867&Signature=kOK4a5LeocH3wL~4F-tDxbtORp6ppa-IUaZdwEizQ4d55QYlnj9ZueDr8-NXC~k373bk56I94n3w~5jg0QZyo1omS0JsQC09chZdMVhnkpdHDsjAQEUDDshYcHau6jqB2D-doFmeeZ0grAa~bQpZZWyq~EEBXjNqGK0ZrN5~gA7pEHBHqPRPTsIuArjbf2tew0I8vOw97etXz0-5fvxTy58Vq3jQdOPysoDMJffS58zIXmI90h0d-Dt14aKpptSxztd3tDcfXVNkY3jn9oANuFymva4EkvIW12oNcd~3QfqEbirWBv5YsWTJ1pX-pIho7d1Paf1wOI4lY9D14Fq17A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+            "https://assets.meshy.ai/uploads/2_01a16a87-2ce5-7531-9a91-2e581e2253c6.png?Expires=1793047867&Signature=RAVLL-Pq84DXm8BbPlJPnrK0urCOqcQt23mbmrqPv-yDYc1O6zYvou6sOvyfUEIRpQnQ8AJnqIXL9AS6lTGCKtxImoGul~dQLNVTmzu2WwQQYfIlUeFB-NZ4XTRlJuhSbiHYxTUO3-1CaGpt2Ici6Q2yaELC44wMPxsyKCF6CoyXGpLjUGGkwQFVdm8t14fN~h-oCu8X1UjIdw-gg7Wf-SyTYELbA1y0jkTrMCAhA9VlGiqE6tfSbiGmEHdlGyBmnVjD9LJ04fq9C24TAMTwN5ab5OdN0mD5peWTtszZfMl4eWaKKSx0T-mFWkFKpnw3v5~UKFpyUmuDD5E6YxX9oQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+            "https://assets.meshy.ai/uploads/3_01a16a87-2ce5-7531-9a91-2e581e2253c6.png?Expires=1793047867&Signature=SY7E1NeQMIe8CT90bwJGDVYvkgz1IbUivrO4-xMtrMW6KBRwGKP6NTB53z7qdk84HmBwzq5JWYxXrxhJ5vcpTdGwaHxJ2mjp16j-naqZq0n4s8Qzaj3iU6iwaCC8HcqGZfu6lDGRwKRoYLWjyNzTqpLFiUi4sstfguP46WsjHUMxI7dYMV-P-6F8tQ4P3rLlFjeM8f0MtEDlUI-3nuh36tk2FIiJbr~Z7Ylra-Jm2jYD-aXO6IzjIM9T6qwnyHygRdRD0zXpWsTOrtWyIDvNn9WCznUsEFagptWcMEx1lelRGV5zxlmedQk0lyrlhKWcXx64d0BFl64oKvrf4I9kUQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          ],
+          "status": "SUCCEEDED",
+          "created_at": 1792788610341,
+          "progress": 100,
+          "started_at": 1792788610348,
+          "finished_at": 1792788667223,
+          "expires_at": 1793047867223,
+          "task_error": null,
+          "model_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a87-2ce5-7531-9a91-2e581e2253c6/output/model.glb?Expires=1793047867&Signature=O5xVEWgFrvg0n1HPKRZMvCtDixzyJltYeHKox~xrXL5sue9BIPBL8nG9HuiHtXgo43W8DavrdkcEtbma~vEfMLAIi3ZQlA34rihzE9BHlV54F17iseJK0GHmCZJK7bK9nYNuyRSr~~-zQhZDk7u6AWvuyVber0bbycows0mdnQ3h-O9SaUc~7DXtV8iLwbuISq4sUjMVCoqRF1QDgWyiBniz72p9lZEOhydBBpR1J4~4zr~yN8ArFZC07fkkx6BTjNlN6QDvTVgdOwFD~aO-kYlImj5ntFFYkGMNLJizDPbAlHlBNfHd25CMFWHyO80EHBo72mn2pw2phuCDINBtTw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "model_urls": {
+            "glb": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a87-2ce5-7531-9a91-2e581e2253c6/output/model.glb?Expires=1793047867&Signature=O5xVEWgFrvg0n1HPKRZMvCtDixzyJltYeHKox~xrXL5sue9BIPBL8nG9HuiHtXgo43W8DavrdkcEtbma~vEfMLAIi3ZQlA34rihzE9BHlV54F17iseJK0GHmCZJK7bK9nYNuyRSr~~-zQhZDk7u6AWvuyVber0bbycows0mdnQ3h-O9SaUc~7DXtV8iLwbuISq4sUjMVCoqRF1QDgWyiBniz72p9lZEOhydBBpR1J4~4zr~yN8ArFZC07fkkx6BTjNlN6QDvTVgdOwFD~aO-kYlImj5ntFFYkGMNLJizDPbAlHlBNfHd25CMFWHyO80EHBo72mn2pw2phuCDINBtTw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+          },
+          "thumbnail_url": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a87-2ce5-7531-9a91-2e581e2253c6/output/preview.png?Expires=1793047867&Signature=fGWQwr4mxnSywOw-U4FjoSS89Un6uT3WiclZ86TVOhPa4kdvy2MCgWzk37gigi0Wl5PclncgXqsJckXANR5QVnH5wOf~uk~4qE3USvG9gCELNStkpULdnYYKWXMg2~K~mRumiTJ5bOAkkz59nbP5t~JcsuXBJ7s2oMNXduo79qp-asFz-L0YZ3e-aHpsrA3~6rGVd8JPlmMHi8R1ZoXzIg-syFMhm35F0wNc1W~LqGtOoX-E2kiLReaKZrDjqiVKIQ3hcLHnf1yX5DA6GESuxc8d7jX73Ne96fojcMtcwFreXGpvtFBy1M9wkKmWymHZCzHICI96gLNdwhXh~GMKUA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+          "texture_urls": [
+            {
+              "base_color": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a87-2ce5-7531-9a91-2e581e2253c6/output/texture_0.png?Expires=1793047867&Signature=azWlm~V--DkPWPobYP2jBvW9fFCYaTSjS4D4ohBhWJomL1jD4-sefeSgn7pCM2YIXtD~Ym5FOaES5Sn4AUArnqY4dqOXJnQxAid~r~95JptJtChsWH~Uod7ncB7JMhByXT907NikCmT6mLMVqtcegg0ad5bkdhydbp46X3kC5IYCEEwALWAd9KTHEFeQrRnJuiO24X3zVDz7VZr-pVw7sEBXtxUin8OwmkostzHmeCxRmM5V~ySsdhkStLFkARCCnkPhdBatLJiE4Tc~JXscwSaQI~UN0~EMtmM-4VV7iHamuSL8wUvZnM7YRNzbQ-QhVaew8R1lESS7C~~-fm0EUw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "metallic": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a87-2ce5-7531-9a91-2e581e2253c6/output/texture_0_metallic.png?Expires=1793047867&Signature=nz~2pg~loPs5f24mG6ORDwoXQLpe7TGgsnogb-vYce0GXhc~CVoyvfhvqqa5XoWXcrazNsKD5LKgmahFleBJ0Wo6GuvXPrKoFhsCXnraf9D6f2k6bBUFSFTKzeo58A6PLJ5-DW7hPVL9vhpundXywNcnqAd9rPm6~UcYJRHW3izguYiaXJ7uyTJa2JDsCNU07MqjhzAuzFfiYaw96J-0~xcRU0ffanO1PH~XXHg8f8oaJX9UquX2-bg~C~bOSE0-a1uxyJKUmR1N7K-CMxthLh0ZxTK9m0omWC7kaJCP6Cs0E9SznVCwRJn3YpHBBHBCHWqtdRwNKwv1~iqH1e~Xpg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "roughness": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a87-2ce5-7531-9a91-2e581e2253c6/output/texture_0_roughness.png?Expires=1793047867&Signature=RQ669CoXxbcLc88kdTM-7UdJJSXxfkecFZ~nj69OiwST56Pms4BXSW7sPvjaNwyD3FwZrkLTugmWCUF8P00rJp1~hqI6WRO2QRoAN~qO4bTX60OEZv5H-FojAtsKPGNjOnlSrc5xokGB6TWif7w2ZME1VAAnHfqcIWjRQHAQkt4YoIWyyb2HNGtrytKqg~LNgEiPYOglRkibeFwVnae4~914yckTqr9gXWB5SEhmvip5KHAZgg8pv5PG3vW6e8O9G9YRPFEB1G-81ofNdgrGt9KUFiY3vok7PAPw4XoSYzNcToN2Ajvpgiv5V~1Hez8nO~Akp1ezLQzGvNkohtmmVQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+              "normal": "https://assets.meshy.ai/92acc433-0255-4138-9cef-f6c140b99a3a/tasks/01a16a87-2ce5-7531-9a91-2e581e2253c6/output/texture_0_normal.png?Expires=1793047867&Signature=PesAHt5JY02oLZSnH56BKmb9N5nojt2vxtEFI6sgmdAweBj7xSvOwfVT9O0vKct6GM4PQHeqM0Qi1~P8-s~IMG1vSb~NswvotQtgRgHJAynqGQ9lm~vcjpZJq16ONJ~R6~VkmPKdxmv~XtbRglgONxZAOb8CMFLd-I-mzzNNiucT-W9eJV9OLZnoO8bfHmd0pdO1BpcoWcNaM3vhcWvE~n7goRiwty1Ja83iTc5GXOjhDFlCfIjRMwpqHrXtm2D7BcnKPtCU6SAewzEQy7mZRqO9KO8JyTcg5K37YSVurhzJU6z9SCzfeTD09DO6X-j82UkoflUuy9YrNMav3Qopag__&Key-Pair-Id=K1VGYTHIYLM9UM"
+            }
+          ],
+          "consumed_credits": 10
+        },
+        "downloads": {
+          "model_urls_glb": {
+            "path": "meshy/brood_mother_texture_v2/model_urls_glb.glb",
+            "sha256": "aef35f38e4b5263299af783a5496d16cf74186ab05643294d89a8b6563e1e24e"
+          },
+          "texture_urls_0_base_color": {
+            "path": "meshy/brood_mother_texture_v2/texture_urls_0_base_color.png",
+            "sha256": "1b77ef4c4f594086631156fdcea33322d8a1654cc7a28334f0c456df77ae6adb"
+          },
+          "texture_urls_0_metallic": {
+            "path": "meshy/brood_mother_texture_v2/texture_urls_0_metallic.png",
+            "sha256": "0bbd1aef54f7711105fc3b64b591990cc2365bac69ee33152b7809cbf4abc8ab"
+          },
+          "texture_urls_0_roughness": {
+            "path": "meshy/brood_mother_texture_v2/texture_urls_0_roughness.png",
+            "sha256": "1a357e8136193865f2e61b7f78b96eb1c840151abbabe5a507400ec37b4ff027"
+          },
+          "texture_urls_0_normal": {
+            "path": "meshy/brood_mother_texture_v2/texture_urls_0_normal.png",
+            "sha256": "6c0e37b34795c867b12faac35f36ae2c9e5a8b3218d5b5b2698f8abb70ba3228"
+          },
+          "thumbnail_url": {
+            "path": "meshy/brood_mother_texture_v2/thumbnail_url.png",
+            "sha256": "b0f48f411056e8a2bb04367788e7471bd3f1af9cad952297cb8b8d8fa86bdd8e"
+          }
+        }
+      }
+    },
+    "credit_limit": 60
+  },
+  "schema_version": 1,
+  "creature": "The Brood Mother",
+  "world": "hesper",
+  "monster_ids": [
+    10111
+  ],
+  "requested_scope": "Round 2 Brood Mother, rules 1-10, with P2/user 2026-10-23 correction: queen and resin cradle only, three empty flat-topped stalk sockets; separate 10130 actors unchanged.",
+  "last_updated": "2026-10-23",
+  "current_stage": "integrator_review",
+  "current_substep": "textured_staged_awaiting_visual_acceptance",
+  "status": "awaiting_external",
+  "selected_artifacts": [
+    {
+      "role": "approved_concept",
+      "path": "references_hd/concept.png",
+      "sha256": "8440283e52eda99d635d818f9833ec1e8cf639a356e7058ac6b8f1d346558883"
+    },
+    {
+      "role": "reference_three_quarter",
+      "path": "references_hd/cradle_only/00_three_quarter.png",
+      "sha256": "935d42e52e2c0e58fb2157ec3c45de919ed97d65139e3d605aa47375967d6118"
+    },
+    {
+      "role": "reference_front",
+      "path": "references_hd/cradle_only/01_front.png",
+      "sha256": "8f4392957bfe2c5ab62bfb304f744819964d7b1d5c3f4b60c7b93b8730146280"
+    },
+    {
+      "role": "reference_back",
+      "path": "references_hd/cradle_only/02_back.png",
+      "sha256": "22ba155a2295e1dd04ab2754fa76a327151ec562b71f382c5cac8b579f31c7fa"
+    },
+    {
+      "role": "reference_left",
+      "path": "references_hd/cradle_only/03_left.png",
+      "sha256": "4ca1cc7d0bd1aaa985a26fdd9fe6aadb5000bcb1330e3ca8d87af7d78b607c89"
+    },
+    {
+      "role": "reference_right",
+      "path": "references_hd/cradle_only/04_right.png",
+      "sha256": "0355cbe3cc85a4fb8e706e052fc06f1c4be91cdca8f1c37d5a8e40a24bf546f5"
+    },
+    {
+      "role": "animated_preview",
+      "path": "work/texture_ready.glb",
+      "sha256": "c0e1d2856366e614df581fb24f26aeb6cd2196a4cb528f1c0ed36442b016e5ff"
+    },
+    {
+      "role": "editable_rig",
+      "path": "work/texture_ready.blend",
+      "sha256": "70d2906c60e5f98f0275cc95befbcf80018a87009f4f52a73b8c383d300edb33"
+    },
+    {
+      "role": "static_texture_upload",
+      "path": "texturing/brood_mother_upload.glb",
+      "sha256": "957e4adb18ba9b9c871fa19afb702c4bac37637a708e50e1fcda4e0de4f83683"
+    },
+    {
+      "role": "runtime_model",
+      "path": "export/hes_brood_mother.glb",
+      "sha256": "55586f84cebc71502b4f50af59d20d7ba3732a6e8f783d3599832435ff144bde"
+    },
+    {
+      "role": "textured_editable_rig",
+      "path": "export/hes_brood_mother.blend",
+      "sha256": "5b5f0787bb28708e3f567ea57f49f7a10b2cc34fd4a8bed97443d85c943b9a84"
+    },
+    {
+      "role": "textured_viewer",
+      "path": "review/viewer/hes_brood_mother.glb",
+      "sha256": "c55df9a3cd11354a791ae7fef430ed29b527e818a85e95884e47148a24cc7f32"
+    }
+  ],
+  "required_components": [
+    {
+      "id": "queen_upper_body_arms_head_horns",
+      "artifact_role": "queen_cradle",
+      "required": true,
+      "status": "built_and_staged",
+      "evidence": "export/hes_brood_mother.glb; review/delivery_checks.json; review/staged_checks.json"
+    },
+    {
+      "id": "static_segmented_belly",
+      "artifact_role": "queen_cradle",
+      "required": true,
+      "status": "built_and_staged",
+      "evidence": "export/hes_brood_mother.glb; review/delivery_checks.json; review/staged_checks.json"
+    },
+    {
+      "id": "static_resin_bone_cradle",
+      "artifact_role": "queen_cradle",
+      "required": true,
+      "status": "built_and_staged",
+      "evidence": "export/hes_brood_mother.glb; review/delivery_checks.json; review/staged_checks.json"
+    },
+    {
+      "id": "three_static_empty_flat_topped_stalk_sockets",
+      "artifact_role": "queen_cradle",
+      "required": true,
+      "status": "built_and_staged",
+      "evidence": "export/hes_brood_mother.glb; review/delivery_checks.json; review/staged_checks.json"
+    }
+  ],
+  "stages": {
+    "references": {
+      "status": "complete",
+      "selected_views": [
+        "cradle_only/00_three_quarter",
+        "cradle_only/01_front",
+        "cradle_only/02_back",
+        "cradle_only/03_left",
+        "cradle_only/04_right"
+      ],
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "rgba": true,
+      "review": "Five revised queen/cradle-only views inspected. No eggs, clear empty pads. Side views show one eye/near chest plate. Form references only; exact socket layout requires fitting/measurement after Meshy."
+    },
+    "motion_plan": {
+      "status": "complete",
+      "path": "ANIMATION_PLAN.md",
+      "inventory": "review/motion_candidates.json",
+      "note": "Target clips selected/adapted; see ANIMATION_PLAN.md and final numeric report."
+    },
+    "mesh": {
+      "status": "complete",
+      "job": "brood_mother_geometry_v2",
+      "triangles": 12043,
+      "note": "Original preserved. Fitted empty pads, belly backing, restored left little claw, measured socket clearances."
+    },
+    "rig_and_animation": {
+      "status": "numeric_checks_complete_visual_acceptance_pending",
+      "numeric_gates": "review/texture_ready_gates.json",
+      "clips": {
+        "Attack": 1.5,
+        "Dead": 1.0,
+        "Death": 2.5,
+        "Fidget": 4.4666666984558105,
+        "Hit": 1.0,
+        "Standing": 9.933333396911621
+      },
+      "note": "Six clips at 60 Hz including half frames. Head/horn ownership checked. Offline clay poses inspected; no browser playback.",
+      "delivered_equivalence": "review/delivery_checks.json"
+    },
+    "textures_and_lods": {
+      "status": "complete",
+      "job": "brood_mother_texture_v2",
+      "evidence": [
+        "review/uv_transfer.json",
+        "textures/material_report.json",
+        "review/delivery_checks.json"
+      ],
+      "lod_triangles": [
+        12043,
+        6019,
+        3010,
+        1505
+      ]
+    },
+    "viewer": {
+      "status": "ready_for_integrator_check",
+      "path": "review/viewer/",
+      "note": "Final textured model, hash and six clips; local dependency/JS checks pass. Browser playback/capture not run under rule 9."
+    },
+    "staging": {
+      "status": "complete",
+      "rows_staged": [
+        10111
+      ],
+      "evidence": [
+        "review/stage.log",
+        "review/staged_checks.json"
+      ]
+    },
+    "scenarios_and_capture": {
+      "status": "headless_complete_native_review_pending",
+      "scenarios_passed": 76,
+      "runner_exit": 0,
+      "evidence": "review/scenarios_summary.json",
+      "desktop": "Headless setup passed; graphical launch blocked by SDL_Init failed: No available video device; browser/native review remains with integrator."
+    },
+    "socket_fit": {
+      "status": "complete",
+      "layout": "socket_layout.json",
+      "note": "Measured export and both-model all-clip envelope pass.",
+      "evidence": "review/texture_ready_sockets.json"
+    }
+  },
+  "planned_meshy_jobs": [
+    {
+      "name": "brood_mother_geometry_v2",
+      "kind": "image-to-3d",
+      "request": "requests/brood_mother_geometry_v2.json",
+      "input": "references_hd/cradle_only/00_three_quarter.png",
+      "output": "meshy/brood_mother_geometry_v2/model_urls_glb.glb",
+      "estimated_credits": 5,
+      "status": "complete"
+    },
+    {
+      "name": "brood_mother_texture_v2",
+      "kind": "retexture",
+      "request": "requests/brood_mother_texture_v2.json",
+      "input": "texturing/brood_mother_upload.glb",
+      "output": "meshy/brood_mother_texture_v2/model_urls_glb.glb",
+      "estimated_credits": 10,
+      "status": "complete"
+    }
+  ],
+  "budget_summary": {
+    "limit_credits": 60,
+    "spent_credits": 15,
+    "reserved_credits": 0,
+    "planned_credits": 0
+  },
+  "findings": [
+    {
+      "id": "profiles",
+      "status": "resolved",
+      "detail": "Old integrated-sac branch superseded by user-directed cradle-only assembly. New left/right views selected; old correction failures preserved in generation_runs.json."
+    },
+    {
+      "id": "meshy_handoff",
+      "status": "resolved",
+      "detail": "Texture v2 received; UVs/maps transferred, rig retained, LODs completed. 15/60 credits spent."
+    },
+    {
+      "id": "attached_vs_map_sacs",
+      "status": "resolved",
+      "detail": "No eggs in queen export. Three measured empty sockets; D9 owner applies final facing/translation and preserves actor height."
+    },
+    {
+      "id": "existing_sac_appearance",
+      "status": "reported",
+      "detail": "Existing orange/dark egg with simple plum tripod legs and thin pale braces reads less ornate than concept bone cup. Unchanged per ruling; all-clip base radius measured 0.579 m, target cap radius 0.64 m."
+    },
+    {
+      "id": "sac_relocation",
+      "status": "external_action_required",
+      "detail": "D9 owns three separate 10130 placements. README gives world positions for fixed east; no map edit here."
+    },
+    {
+      "id": "native_review",
+      "status": "external_action_required",
+      "detail": "Browser playback per rule 9; native smoke blocked by SDL video-device access. Logs in review/desktop_smoke."
+    }
+  ],
+  "user_acceptance": {
+    "status": "accepted",
+    "scope": "Original concept sheet only",
+    "source": "CREATURE_BUILDS.md opening approval record, 2026-10-23; generated masters and model not user-approved."
+  },
+  "next_action": {
+    "owner": "integrator_and_D9_owner",
+    "action": "Run all six clips in existing viewer, native model smoke/captures and artistic review; move the existing separate 10130 sacs to README socket positions, preserving elevated Z and mechanics."
+  },
+  "correction_ledger": [
+    {
+      "finding": "Side cameras oblique",
+      "action": "One camera correction per side",
+      "result": "Both rejected by image service; originals preserved, neither profile selected."
+    },
+    {
+      "finding": "Egg ownership clarified by integrator/user",
+      "action": "Generated five cradle-only views; archived v1 requests; v2 requests and socket layout supplied.",
+      "result": "Reference preparation complete; real mesh and measured final socket positions await integrator geometry job."
+    },
+    {
+      "finding": "Stalk tops obstructed and sockets overlapped arm/crown space",
+      "action": "Fitted closed level pads, moved right/rear outward, trimmed hidden stalk tops",
+      "result": "Final exported coordinates and conservative all-sac-pose clearance pass."
+    },
+    {
+      "finding": "Plate cracks and missing left little finger",
+      "action": "Inset closed belly backing and local fifth claw, fitted rest hands clear of belly",
+      "result": "Actual belly/cradle/torso contact gates pass."
+    },
+    {
+      "finding": "Standing backward death unsuitable for fixed cradle",
+      "action": "Rejected library fall; authored constrained seated settle and head slump",
+      "result": "Six selected clips pass at 60 Hz; Dead equals Death endpoint."
+    },
+    {
+      "finding": "Final ownership view exposed low horn tip on Base",
+      "action": "Rigidly assigned full measured horn arc to Head, reran reduction/export and gates",
+      "result": "Horn ownership assertion and upper-body stretch/contact checks pass."
+    }
+  ],
+  "checks": {
+    "handoff_files": {
+      "status": "complete",
+      "evidence": "review/handoff_checks.json"
+    },
+    "viewer_js_syntax": {
+      "status": "complete",
+      "command": "node --check review/viewer/review.js",
+      "note": "Local model URL and vendor imports also checked; browser not run."
+    },
+    "reference_gate": {
+      "status": "complete"
+    },
+    "mesh_rig_winding_lods_runtime": {
+      "status": "local_checks_complete_external_visual_review_pending",
+      "evidence": [
+        "review/delivery_checks.json",
+        "review/staged_checks.json",
+        "review/viewer_static_check.json"
+      ],
+      "pending": [
+        "full browser playback",
+        "native model load/draw",
+        "artistic acceptance"
+      ]
+    },
+    "upload": {
+      "status": "complete",
+      "evidence": "review/upload_manifest.json"
+    },
+    "offline_visual": {
+      "status": "complete",
+      "evidence": "review/textured_inspection.json",
+      "scope": "Offline Blender textured stills: Standing all sides/top and Attack release upper front. No browser playback or native captures."
+    },
+    "scenario_sweep": {
+      "status": "complete",
+      "evidence": "review/scenarios_summary.json"
+    }
+  },
+  "design_decisions": [
+    {
+      "date": "2026-10-23",
+      "source": "P2 egg-sac integrator answer and user follow-up",
+      "decision": "Queen/cradle only, flat empty stalk sockets; separate 10130 actors; D9 owner moves placements after final export measurements."
+    },
+    {
+      "decision": "Fixed east facing via existing fixed_yaw_degrees: 0, matching current D9 actor placement; no extra head look",
+      "source": "D9 runtime scene actor 77, existing WorldFxSystem/ModelAsset placement contract"
+    }
+  ]
+}

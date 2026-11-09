@@ -1,0 +1,46 @@
+{
+  "status": "both_launcher_modes_verified_desktop_completed",
+  "runs": {
+    "enhanced": {
+      "files": {
+        "reports/launcher/enhanced/settings.ini": "ab83fd6dbd9951910fde64c57c7cc3112c94d7741cab1cab5ff91f0095479068",
+        "reports/launcher/enhanced/prepare.log": "d239f3345ea540360d3abaca7c1bcc27dfdbf6dc8e4ff8f335ca49b4ee1d7ad1",
+        "reports/launcher/enhanced/launch-settings.ini": "ab83fd6dbd9951910fde64c57c7cc3112c94d7741cab1cab5ff91f0095479068",
+        "reports/launcher/enhanced/run.json": "4f83e33fcb9460b28a9c33abffb4bba47657ee337d1ddf9edb95870b3633d3ed"
+      },
+      "status": "prepared",
+      "terrain": "x2"
+    },
+    "original": {
+      "files": {
+        "reports/launcher/original/settings.ini": "8954dd4bde36a2ea3bd9794c8b63b4f9f951046460f44cf6b882365b7fc1e517",
+        "reports/launcher/original/prepare.log": "42e051189e5709f276e438876bbc350b6cfb1ae2230bce619d3a6fd4ea956d17",
+        "reports/launcher/original/launch-settings.ini": "8954dd4bde36a2ea3bd9794c8b63b4f9f951046460f44cf6b882365b7fc1e517",
+        "reports/launcher/original/run.json": "7dd6244864fbffc87c5d00afa8cfabc639caffab686e5405f52224f56fb32087"
+      },
+      "status": "prepared",
+      "terrain": "x1"
+    },
+    "desktop": {
+      "files": {
+        "reports/launcher/desktop/settings.ini": "752faa27995ecd235d033e44c24653205e62bda80b65fa29ee1c03936992abd6",
+        "reports/launcher/desktop/prepare.log": "d239f3345ea540360d3abaca7c1bcc27dfdbf6dc8e4ff8f335ca49b4ee1d7ad1",
+        "reports/launcher/desktop/launch-settings.ini": "a1e709bb1c17e9bf49e520a14b1649c8d287f3b99f0242714671e3c0a6038947",
+        "reports/launcher/desktop/renderer-info.txt": "9d3b39e17c415f475f73fd7a9d9323559b50429022a74d6133fc6bd9dff51179",
+        "reports/launcher/desktop/game.log": "86b4623bfdc77190abf091abe65db99c653132c70d1fb4fe44c4dc9945965c53",
+        "reports/launcher/desktop/run.json": "899e941fee2ef8fc1fe2ce95b26db5aa9bf0b048a09662ea9476b34dbfdb9e17"
+      },
+      "status": "completed",
+      "terrain": "x2"
+    }
+  },
+  "desktop_gpu": "NVIDIA GeForce RTX3060 Ti, OpenGL",
+  "scope": "Launcher modes preserve other quality settings. Installed x2 pack loaded out04 on desktop and exited0; no performance benchmark claim.",
+  "diagonal_v5_installed_run": {
+    "record": "roads/v5/desktop/run.json",
+    "record_sha256": "a9ea6a62ae6ddf845d63d6984cd9fce3f14eb887b5fd36eafe232a5c65b2d9c1",
+    "manifest_sha256": "55424e90025565677045b335814d7bee31a98c7002835643cfd655eeb6089bc7",
+    "settings_sha256": "dbb529c6be9a0a937ee975b3d3e46c4f551dfa9ca647d91231283f4ce0639063",
+    "renderer_sha256": "2c297be81a505175f6f6bec8077fb521905f3908ff84fb0168db9a8551c0379c"
+  }
+}

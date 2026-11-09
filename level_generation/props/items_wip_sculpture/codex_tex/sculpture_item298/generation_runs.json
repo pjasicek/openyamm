@@ -1,0 +1,14 @@
+[
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case precise-object-edit. Paint Image 1 exact gray six-view geometry atlas as FLAT DIFFUSE ALBEDO. Preserve every silhouette, gap, view direction, cell placement and size EXACTLY. 1536x1024 atlas THREE columns TWO rows: FRONT BACK LEFT / RIGHT TOP BOTTOM. Some named front views show a lateral view; do not rotate them. Image 2 only defines design and material; IGNORE its lighting. Material: muted yellow GOLD (#b9923e) S-shaped serpent sculpture, gold halo and gold base/prongs. The sphere inside the lower coil is rich ruby RED (#ae2026) nonmetal mineral with subtle fine grain. Tiny mouth interior dark reddish, fangs gold. Preserve the unusual loop and all narrow prongs; no shine. All six views use identical material colours. Fine pigment detail only. No shading, reflections, specular shine, white highlights, AO, cast shadows, gradients, glow, halo, floor, labels or new ornament. Exact guide scale and position in every cell. True transparent empty background. Return one 3:2 atlas.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-45b084d7-657b-443e-ac57-42a2e2ca2af7.png",
+    "raw_sha256": "d04eee3a158eb21558808c1be5eb3ea7ec90cafed659ecee824a5201791879fa",
+    "selected_atlas_sha256": "d04eee3a158eb21558808c1be5eb3ea7ec90cafed659ecee824a5201791879fa",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_item298/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "73e3627968c7cfe07178d69a861c8688e8ee089ed38f323c7f54e0338c950ec6",
+    "exact_guide_input": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/codex_tex/sculpture_item298/paint_input_atlas.png",
+    "exact_guide_input_sha256": "556d71a71db587bb49e0131ce3ccb270544c77b314ed61d10cc76a984dab3930"
+  }
+]

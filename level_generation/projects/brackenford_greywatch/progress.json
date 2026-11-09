@@ -1,0 +1,249 @@
+{
+  "status": "complete",
+  "phase": "Cave and ogre camps made off-road; visual/native checks complete and God playtest frozen",
+  "objective": "GOAL.md",
+  "maps": {
+    "outdoor": "lg01.odm",
+    "indoor": "lg02.blv"
+  },
+  "completed": [
+    "33 reference map studies with native decoration inventories and highlighted contextual captures",
+    "Original native terrain/town with varied buildings, fitting population, ridges, roads, river, bridge, castle and cave",
+    "Original three-elevation mercenary vault with native sectors/portals/BSP, furnishings, ambient/light pools and complete events",
+    "Working scoped MM8 services, four teachers, resident topics, regional and scheduled travel",
+    "344-second normal town safety observation plus active wilderness and indoor combat/clearance checks",
+    "Both dungeon entrances/returns, secret, traps/Perception, automatic/button lift, stairs and shortcut persistence",
+    "All eight chest rewards/generation/cursor/inventory/save/revisit, loose pickup, refill and well/obelisk checks",
+    "Required compiler/runtime support built and focused tests/original MM6-MM7-MM8 regressions passed",
+    "Native gameplay visual review and same-settings reference performance samples",
+    "Verified runtime ZIP, fresh installation, independently reopened packed Blender files, copied executable and ordinary starting saves",
+    "Current acceptance checklist and exact rebuild/install/launch instructions",
+    "Ravenshore/Ravage Roaming/Shadowspire wilderness calibration; 11 authored encounter areas, broader scenery, native pond, timber bridge and smaller embedded cave collar; quick readback and player-height captures",
+    "Bridge full-span terrain contact and nonoverlapping landings; sparse native ground variants; town-side scenery infill, refuse/camps, two native buff pedestals and one challenge; Ravenshore/Alvar local density heatmaps and quick checks",
+    "Six Ravenshore/Alvar regional exit studies; separate travel/terrain bounds, continuing native roads, screened bends, quick continuity/grade/seam checks and both actual travel-prompt screenshots",
+    "Removed cave/east-cache/south-cache roads and restored ground tiles; preserved all remaining paths, heights, BModels, encounters/loot and arrivals; updated native minimap and road-purpose guidance"
+  ],
+  "pending": [],
+  "next_actions": [],
+  "evidence": {
+    "acceptance": "ACCEPTANCE.md",
+    "rebuild": "REBUILD.md",
+    "review_history": "REVIEW_LOG.md",
+    "historical_progress": "review/progress_history.json",
+    "package": "dist/brackenford_greywatch_content.zip",
+    "package_manifest": "dist/brackenford_greywatch_content.manifest.json",
+    "package_checks": "review/package_install_checks.json",
+    "package_integrity": "review/package_validation.json",
+    "playtest": "review/playtest_snapshot.json",
+    "performance": "review/performance.json",
+    "remaining_routes": "review/remaining_routes.json",
+    "references": "../../POPULATION_AND_COMPOSITION.md",
+    "current_outdoor_revision": "ROAD_PURPOSE_REVISION.md",
+    "wilderness": "review/wilderness_revision/wilderness_check.json",
+    "landscape": "review/landscape_revision/landscape_check.json",
+    "landscape_package": "review/landscape_revision/artifacts.json",
+    "transitions": "review/transition_revision/transition_check.json",
+    "transition_package": "review/transition_revision/artifacts.json",
+    "road_purpose": "review/road_purpose_revision/road_check.json",
+    "road_package": "review/road_purpose_revision/artifacts.json"
+  },
+  "native_sha256": {
+    "lg01.odm": "1042e98eda5e9cce9feda806ef469ee0f7c9a9e9fed304b7ad30288768df51a5",
+    "lg02.blv": "b227608891142f1982f2cd6039124eaab2310775b6760760a8570baff8679fec"
+  },
+  "binary_sha256": "27e70c9d748a13309d09aab9d2e65771e79388a8d826e717f90044817520859e",
+  "package_sha256": "8504475bea327477cb74e1771706d938f264fc20b2ce70461ab13229f8b0787c",
+  "known_limits": [
+    "Final combat balance is reserved for the driver; segmented functional checks are not a continuous victory claim.",
+    "Short software-display FPS samples compare visible workloads, not isolated terrain cost or driver GPU performance.",
+    "The package requires this matching base/engine; full scoped registration-table overrides install into an isolated test mount.",
+    "MM8 shop profiles retain merged-base stock selection; authored chest equipment uses explicit audited MM8 pools.",
+    "Native indoor save viewing yaw/pitch reset is an existing shared-engine limitation; mouse look remains usable.",
+    "See ACCEPTANCE.md for exact scope of town safety, torch/Perception diagnostics and superseded historical failures."
+  ],
+  "active_playtest_snapshots": [
+    {
+      "directory": "/tmp/openyamm-brackenford-playtest-final",
+      "status": "frozen and verified",
+      "launcher": "/tmp/openyamm-brackenford-playtest-final/play.sh",
+      "modes": [
+        "outdoor",
+        "indoor"
+      ],
+      "party": "Load Game -> Scenario; five ordinary level25 characters",
+      "persistence": "/tmp may be removed on reboot; rebuild from the checked archive using a new directory."
+    },
+    "/tmp/openyamm-brackenford-playtest-density",
+    "/tmp/openyamm-brackenford-playtest-sketch",
+    "/tmp/openyamm-brackenford-playtest-frontage",
+    "/tmp/openyamm-brackenford-playtest-wilderness",
+    {
+      "directory": "/tmp/openyamm-brackenford-playtest-landscape",
+      "status": "frozen and verified",
+      "launcher": "/tmp/openyamm-brackenford-playtest-landscape/play.sh",
+      "modes": [
+        "outdoor",
+        "indoor"
+      ],
+      "party": "Load Game -> Scenario; God level100 Lich",
+      "persistence": "/tmp may be removed on reboot"
+    },
+    {
+      "directory": "/tmp/openyamm-brackenford-playtest-transitions",
+      "status": "frozen and verified",
+      "launcher": "/tmp/openyamm-brackenford-playtest-transitions/play.sh",
+      "modes": [
+        "outdoor",
+        "indoor"
+      ],
+      "party": "Load Game -> Scenario; God level100 Lich",
+      "persistence": "/tmp may be removed on reboot"
+    },
+    {
+      "directory": "/tmp/openyamm-brackenford-playtest-offroad",
+      "status": "frozen and verified",
+      "launcher": "/tmp/openyamm-brackenford-playtest-offroad/play.sh",
+      "modes": [
+        "outdoor",
+        "indoor"
+      ],
+      "party": "Load Game -> Scenario; God level100 Lich",
+      "persistence": "/tmp may be removed on reboot"
+    }
+  ],
+  "owned_code_files": [
+    "editor/document/IndoorGeometryMetadata.h",
+    "editor/document/IndoorGeometryMetadata.cpp",
+    "editor/import/IndoorSourceGeometryCompiler.cpp",
+    "tools/CMakeLists.txt",
+    "editor/CMakeLists.txt",
+    "tests/IndoorSourceGeometryCompilerTests.cpp",
+    "editor/app/main.cpp",
+    "editor/headless/EditorHeadlessDiagnostics.h",
+    "editor/headless/EditorHeadlessDiagnostics.cpp",
+    "editor/import/IndoorDerivedGeometry.h",
+    "editor/import/IndoorDerivedGeometry.cpp",
+    "game/scenario/ScenarioRuntimeDriver.cpp",
+    "editor/document/EditorDocument.cpp",
+    "editor/document/OutdoorGeometryMetadata.h",
+    "editor/document/OutdoorGeometryMetadata.cpp",
+    "game/scenario/ScenarioRunner.cpp",
+    "game/scenario/ScenarioRuntimeDriver.h",
+    "game/maps/MapItemSourceData.h",
+    "game/maps/MapItemSourceYml.cpp",
+    "game/gameplay/LootContainerRuntime.cpp",
+    "tests/MapItemSourceTests.cpp",
+    "tools/levelgen_inspect_save_main.cpp"
+  ],
+  "driver_clarification": "2026-09-06: use reference-based best-guess density/placement; driver handles final balance; continue functional gameplay and map completion gates",
+  "outdoor_facade_revision": {
+    "status": "complete",
+    "report": "FACADE_REVISION.md",
+    "playtest": "/tmp/openyamm-brackenford-playtest-calibrated",
+    "native_sha256": "4cdea10ca7805011d5a48bbe11b02c03c878e11f94f23638dbdaaa283dcf0b94"
+  },
+  "outdoor_density_revision": {
+    "status": "complete",
+    "driver_feedback": "Approved house art; tighten settlement spacing using native Ravenshore/Garrote district measurements.",
+    "report": "DENSITY_REVISION.md",
+    "reference_guidance": "../../SETTLEMENT_DENSITY.md",
+    "native_sha256": "942c7de0c83741dbc922070dad0348141aedd3764fe3b72783e36f60d23f7da9",
+    "indoor_unchanged_sha256": "b227608891142f1982f2cd6039124eaab2310775b6760760a8570baff8679fec",
+    "package_sha256": "7a73ffa91630fa4f1c775df474fb1598c6a8eda6c29f503d5520040179b70ba5",
+    "snapshot": "/tmp/openyamm-brackenford-playtest-density",
+    "metrics": {
+      "buildings": 23,
+      "nearest_envelope_gap_p25_median_p75": [
+        704.0,
+        832.0,
+        912.0
+      ],
+      "nearest_center_p25_median_p75": [
+        1548.1,
+        1664.7,
+        1853.1
+      ],
+      "settlement_envelope_area": 91985920,
+      "building_envelope_coverage_percent": 20.8,
+      "building_base_z_range": [
+        512,
+        640
+      ]
+    },
+    "checks": "Native writer readback, quick static binding/placement check, game/Blender images, fresh God save reloads; no broad scenario suite."
+  },
+  "outdoor_sketch_revision": {
+    "status": "complete",
+    "report": "SKETCH_REVISION.md",
+    "snapshot": "/tmp/openyamm-brackenford-playtest-sketch",
+    "native_sha256": {
+      "lg01.odm": "8e7550c46a7c8c6b3b9dedfa5172b0e96354c8c224957f9e108376ccd531fd56",
+      "lg02.blv": "b227608891142f1982f2cd6039124eaab2310775b6760760a8570baff8679fec"
+    },
+    "package_sha256": "cb7f9e3e474aa1a7cb64405b1e6a97725065230aa715efceb2e0ec28e3434de7",
+    "fountain": {
+      "hp": 15,
+      "mana": 15,
+      "daily_shared_uses": 40
+    },
+    "stat_barrels": 4,
+    "checks": "Native readback, quick bindings/rotated footprints/prop anchors, direct Lua fountain limit/reset check, native and game visuals, fresh God starts reloaded."
+  },
+  "outdoor_frontage_revision": {
+    "status": "complete",
+    "report": "FRONTAGE_REVISION.md",
+    "snapshot": "/tmp/openyamm-brackenford-playtest-frontage",
+    "native_sha256": {
+      "lg01.odm": "a894ff9e6a4de0da3c85326b4ea1c7c4fa4eba7659fbaa9e37a78a1138fa2b5a",
+      "lg02.blv": "b227608891142f1982f2cd6039124eaab2310775b6760760a8570baff8679fec"
+    },
+    "package_sha256": "f5fd4594d4247da141ff3ad88abce21bb80b9463bb2c85fefd09b3d029b9aad3",
+    "houses": 29,
+    "structures": 28,
+    "decorations": 729,
+    "shared_street_median_before": 688.2,
+    "shared_street_median_after": 370.6,
+    "native_corner_seam_errors": 0,
+    "checks": "Native arrays, face/registry IDs, bitmap corner seams, rotated road clearance, aligned lane doors, three native views and two game captures; packed Blender reopen and fresh God save reloads."
+  },
+  "outdoor_landscape_revision": {
+    "status": "complete",
+    "report": "LANDSCAPE_REVISION.md",
+    "snapshot": "/tmp/openyamm-brackenford-playtest-landscape",
+    "native_sha256": {
+      "lg01.odm": "b33d797d47b29e80c83ce53a78e9f7d0fff93be139ed8e3085e9b830efd56fa2",
+      "lg02.blv": "b227608891142f1982f2cd6039124eaab2310775b6760760a8570baff8679fec"
+    },
+    "package_sha256": "0f3be09546f887c36f424ef4ff23649567b423b02938e982691334b952f4e795",
+    "decorations": 1166,
+    "bridge_deck_z": 1152,
+    "minimum_bridge_ground_clearance": 64,
+    "native_corner_seam_errors": 0,
+    "checks": "Quick native arrays/geometry/bindings/frontage, six native Blender views, three normal-game captures; packed Blender reopen and fresh God save reloads."
+  },
+  "outdoor_transition_revision": {
+    "status": "complete",
+    "report": "TRANSITION_REVISION.md",
+    "snapshot": "/tmp/openyamm-brackenford-playtest-transitions",
+    "native_sha256": {
+      "lg01.odm": "4a76ed6d49ca0e49ea929246f289d860572ace10ed01439af0bb5b3758b1607b",
+      "lg02.blv": "b227608891142f1982f2cd6039124eaab2310775b6760760a8570baff8679fec"
+    },
+    "package_sha256": "992ff79f32b3911c89e9701d4a307c79c1c3dbd37b8e7d01880ab32f6d82d7c7",
+    "scenic_road_extension_before": 1024,
+    "scenic_road_extension_after": 8192,
+    "checks": "Native continuation/tile/grade/sightline and preserved inner geometry/entities; three native views and two ordinary-game prompt captures; editable Blender reopen and both God save reloads."
+  },
+  "outdoor_road_purpose_revision": {
+    "status": "complete",
+    "report": "ROAD_PURPOSE_REVISION.md",
+    "snapshot": "/tmp/openyamm-brackenford-playtest-offroad",
+    "native_sha256": {
+      "lg01.odm": "1042e98eda5e9cce9feda806ef469ee0f7c9a9e9fed304b7ad30288768df51a5",
+      "lg02.blv": "b227608891142f1982f2cd6039124eaab2310775b6760760a8570baff8679fec"
+    },
+    "package_sha256": "8504475bea327477cb74e1771706d938f264fc20b2ce70461ab13229f8b0787c",
+    "removed_road_cells": 82,
+    "checks": "Quick native/source comparisons, tile seams, minimap/two native views, packed Blender reopen and both God save reloads."
+  }
+}

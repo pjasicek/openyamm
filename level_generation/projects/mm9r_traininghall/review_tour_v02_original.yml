@@ -1,0 +1,263 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_traininghall/review/v02_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: r01_roof_start
+  position:
+  - 0
+  - 384
+  - 1639
+  yaw: -1.5708
+  pitch: 0.0
+- name: r02_roof_exit_hut
+  position:
+  - -307
+  - 0
+  - 1639
+  yaw: 0.0
+  pitch: 0.0
+- name: r03_roof_hole
+  position:
+  - 0
+  - 333
+  - 1639
+  yaw: -1.5708
+  pitch: -0.8727
+- name: l01_lobby_south
+  position:
+  - 0
+  - -1024
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: l02_lobby_northwest
+  position:
+  - -896
+  - 768
+  - 42
+  yaw: -0.7454
+  pitch: 0.0
+- name: l03_lobby_east_door
+  position:
+  - -768
+  - 0
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: l04_lobby_chandelier
+  position:
+  - -512
+  - -973
+  - 1
+  yaw: 1.0863
+  pitch: 0.4363
+- name: l05_crows_nest
+  position:
+  - -640
+  - -640
+  - 1107
+  yaw: 0.7854
+  pitch: -0.2618
+- name: p01_dragon_door
+  position:
+  - 0
+  - 1075
+  - 390
+  yaw: 1.5708
+  pitch: 0.1745
+- name: p02_pole_room
+  position:
+  - 0
+  - 1766
+  - 554
+  yaw: 1.5708
+  pitch: 0.2618
+- name: p03_pole_room_up
+  position:
+  - 0
+  - 1766
+  - 554
+  yaw: 1.3772
+  pitch: 0.7854
+- name: p04_platform_736
+  position:
+  - 256
+  - 2816
+  - 247
+  yaw: -2.3562
+  pitch: 0.0
+- name: p05_ledge_1344
+  position:
+  - 594
+  - 2560
+  - 3442
+  yaw: -2.7346
+  pitch: -0.5236
+- name: p06_beam_480
+  position:
+  - 589
+  - 2519
+  - 1230
+  yaw: 2.3876
+  pitch: 0.0
+- name: c01_east_corridor
+  position:
+  - 1408
+  - 0
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: c02_east_leg
+  position:
+  - 2785
+  - 0
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: c03_west_corridor
+  position:
+  - -1408
+  - 0
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: c04_east_stair
+  position:
+  - 1884
+  - -256
+  - -19
+  yaw: -1.5708
+  pitch: -0.3491
+- name: j01_lower_cross
+  position:
+  - -1536
+  - -1792
+  - -695
+  yaw: 0.0
+  pitch: 0.0
+- name: j02_joust_hall_west
+  position:
+  - -1920
+  - -2816
+  - -695
+  yaw: -0.5042
+  pitch: 0.0
+- name: j03_joust_lane2
+  position:
+  - -1408
+  - -3840
+  - -695
+  yaw: 0.0887
+  pitch: 0.0
+- name: j04_joust_lane4
+  position:
+  - -1408
+  - -4352
+  - -695
+  yaw: -0.096
+  pitch: 0.0
+- name: j05_joust_from_east
+  position:
+  - 1792
+  - -4096
+  - -695
+  yaw: 2.8633
+  pitch: 0.0
+- name: t01_training_room
+  position:
+  - 0
+  - -1792
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: t02_end_door
+  position:
+  - 0
+  - -3200
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: t03_training_room_west
+  position:
+  - 640
+  - -2304
+  - 1
+  yaw: -2.7928
+  pitch: 0.0
+- name: a01_range_north
+  position:
+  - 2744
+  - -1792
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: a02_range_targets
+  position:
+  - 2744
+  - -2944
+  - 185
+  yaw: -1.6811
+  pitch: 0.0
+- name: a03_range_counters
+  position:
+  - 1792
+  - -2560
+  - 1
+  yaw: -0.245
+  pitch: 0.0
+- name: x01_crate_room
+  position:
+  - -2816
+  - -1792
+  - 1
+  yaw: -2.1112
+  pitch: 0.0
+- name: x02_crate
+  position:
+  - -3200
+  - -2944
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: d01_debris_room
+  position:
+  - 2317
+  - -4669
+  - -695
+  yaw: -0.6826
+  pitch: 0.0
+- name: s01_cave_south
+  position:
+  - 2662
+  - -5120
+  - -770
+  yaw: -1.593
+  pitch: 0.0
+- name: s02_cave_middle
+  position:
+  - 1382
+  - -6267
+  - -1305
+  yaw: 2.9083
+  pitch: 0.0
+- name: s03_cave_bottom
+  position:
+  - 384
+  - -7424
+  - -1808
+  yaw: -1.3734
+  pitch: 0.0
+- name: e01_cave_east
+  position:
+  - 2826
+  - -3748
+  - -679
+  yaw: 0.0
+  pitch: 0.0
+- name: e02_cave_chest
+  position:
+  - 4854
+  - -6513
+  - -1584
+  yaw: 1.1939
+  pitch: 0.0

@@ -1,0 +1,483 @@
+{
+ "id": "20261101-1523-mm9-arslegardcity-00",
+ "world": "mm9",
+ "maps": [
+  "arslegardcity.blv"
+ ],
+ "created": "2026-11-01T14:23:55+00:00",
+ "textures": [
+  "mm9/grchnijyj9",
+  "mm9/grchjzo7z3",
+  "mm9/grch2o628c",
+  "mm9/wainvrfwnz",
+  "mm9/dark1zba1z",
+  "mm9/darktbtf2z",
+  "mm9/woodokospj",
+  "mm9/bwalb3b2td",
+  "mm9/bricxbsdpf",
+  "mm9/brici1611c",
+  "mm9/bricqnokcb",
+  "mm9/stuc9gowui",
+  "mm9/stucqqjvm2",
+  "mm9/bric5nzae2",
+  "mm9/briccyidcs",
+  "mm9/dbla196kyo",
+  "mm9/chatonqhf0",
+  "mm9/oldpqpujbe",
+  "mm9/oldpva8da8",
+  "mm9/blok1l7cgj",
+  "mm9/floonv1js4",
+  "mm9/floouz41lm",
+  "mm9/bric3n6w9u",
+  "mm9/bric84khj2"
+ ],
+ "requests": {
+  "mm9/grchnijyj9": {
+   "name": "grchnijyj9",
+   "versions": [
+    1
+   ],
+   "material": "pale grey stuccoed plaster wall with a tall round arch outline of grey dressed stone voussoirs rising from the bottom left and right corners, the arch crown near the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/grchjzo7z3": {
+   "name": "grchjzo7z3",
+   "versions": [
+    1
+   ],
+   "material": "pale grey plaster panel between two reddish-brown carved wooden pilasters at left and right, a carved wooden arch with bracket corners at the top, under a white carved scrollwork frieze along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/grchnijyj9"
+     ],
+     "fraction": 0.291
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/grch2o628c": {
+   "name": "grch2o628c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale grey stuccoed plaster wall under a white carved scrollwork frieze along the top edge, with a thin reddish-brown carved wooden beam just below the frieze",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/grchnijyj9",
+      "mm9/grchjzo7z3"
+     ],
+     "fraction": 0.953
+    },
+    "2": {
+     "sources": [
+      "mm9/grchjzo7z3"
+     ],
+     "fraction": 0.786
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "prefill_from": [
+    "mm9/grchjzo7z3"
+   ]
+  },
+  "mm9/wainvrfwnz": {
+   "name": "wainvrfwnz",
+   "versions": [
+    1
+   ],
+   "material": "a tall dark mahogany bookcase with carved finials and pilasters, three shelves of old leather-bound books in the upper part and a panelled cabinet base with turned feet at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/wainpci52v"
+     ],
+     "fraction": 0.634
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dark1zba1z": {
+   "name": "dark1zba1z",
+   "versions": [
+    1
+   ],
+   "material": "dark brown vertical wood planks at the left, joined to a gold frame band of Celtic knotwork that runs along the top, bottom and left edges of a flat plain pure-white rectangle at the right (keep that rectangle solid white, empty)",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/darktbtf2z": {
+   "name": "darktbtf2z",
+   "versions": [],
+   "material": "dark brown vertical wood planks at the left, joined to a wide gold frame band of Celtic interlace knotwork running down the right side beside a flat plain pure-white rectangle (keep that rectangle solid white, empty)",
+   "notes": {}
+  },
+  "mm9/woodokospj": {
+   "name": "woodokospj",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown wooden boards running vertically in four planks with dark gaps between them, visible grain and knots",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/wood9zi2qf"
+     ],
+     "fraction": 0.463
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bwalb3b2td": {
+   "name": "bwalb3b2td",
+   "versions": [
+    1
+   ],
+   "material": "mottled dark blue-green and grey plaster wall with a row of dark green-grey stone blocks forming a coping band along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bwalucal4h",
+      "mm9/bwal6z6qn8"
+     ],
+     "fraction": 0.894
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bricxbsdpf": {
+   "name": "bricxbsdpf",
+   "versions": [
+    1
+   ],
+   "material": "grey-green and ochre rough stone block wall of irregular coursed blocks with dark mortar, a rust-orange wooden beam along the top edge with small dark wooden brackets beneath it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bricwsjo7y"
+     ],
+     "fraction": 0.711
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/brici1611c": {
+   "name": "brici1611c",
+   "versions": [
+    1
+   ],
+   "material": "grey-green and ochre rough stone block wall of irregular coursed blocks with dark mortar, a small arched window with a grey stone surround, a sill and dark diamond-leaded glass in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bricwsjo7y"
+     ],
+     "fraction": 0.829
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bricqnokcb": {
+   "name": "bricqnokcb",
+   "versions": [
+    1
+   ],
+   "material": "grey-green and ochre rough stone block wall of irregular coursed blocks with dark mortar, three dark grey stone corbels projecting along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bricwsjo7y"
+     ],
+     "fraction": 0.806
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stuc9gowui": {
+   "name": "stuc9gowui",
+   "versions": [
+    1
+   ],
+   "material": "mottled beige and tan stucco wall with faint grey-blue patches, a rust-orange wooden beam along the top edge with small dark wooden brackets beneath it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/extw6tm3x3"
+     ],
+     "fraction": 0.599
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stucqqjvm2": {
+   "name": "stucqqjvm2",
+   "versions": [
+    1
+   ],
+   "material": "mottled beige and tan stucco panel framed by rust-orange wooden beams along the top, left and right edges, with three small dark wooden brackets under the top beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/stuc9gowui",
+      "mm9/extw6tm3x3"
+     ],
+     "fraction": 0.759
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bric5nzae2": {
+   "name": "bric5nzae2",
+   "versions": [
+    1
+   ],
+   "material": "wall of pinkish-tan and grey rough-cut stone blocks in irregular courses with dark mortar, a tan stone cornice with small dentil blocks along the top and a band of grey patterned carved tiles along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/briccyidcs": {
+   "name": "briccyidcs",
+   "versions": [
+    1
+   ],
+   "material": "wall of pinkish-tan and grey rough-cut stone blocks laid in irregular horizontal courses with dark recessed mortar joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bric5nzae2"
+     ],
+     "fraction": 0.649
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dbla196kyo": {
+   "name": "dbla196kyo",
+   "versions": [
+    1
+   ],
+   "material": "mottled golden-ochre stucco wall with a tan stone ledge along the top edge, a dark shadowed recess beneath it and small stone brackets hanging under the ledge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/dbla1le2lc"
+     ],
+     "fraction": 0.62
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/chatonqhf0": {
+   "name": "chatonqhf0",
+   "versions": [
+    1
+   ],
+   "material": "mottled golden-ochre stucco wall with a pale cream carved cornice of egg-and-dart moulding along the top edge and a thin cream moulding strip along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/dbla1le2lc"
+     ],
+     "fraction": 0.59
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/oldpqpujbe": {
+   "name": "oldpqpujbe",
+   "versions": [
+    1
+   ],
+   "material": "old weathered olive-grey and brown plaster wall with cracks and darker stains, greenish damp at the bottom and a thin dark wooden strip along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/oldpva8da8": {
+   "name": "oldpva8da8",
+   "versions": [
+    1
+   ],
+   "material": "old weathered olive-grey plaster wall with greenish damp at the bottom, a tall narrow round-topped window in a grey stone frame in the centre with dark glass and a small sill",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/oldpqpujbe"
+     ],
+     "fraction": 0.534
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/blok1l7cgj": {
+   "name": "blok1l7cgj",
+   "versions": [
+    1
+   ],
+   "material": "wall of irregular sandy-tan stone blocks with rough pitted faces and pale raised mortar joints between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bloklyyz1d"
+     ],
+     "fraction": 0.259
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/floonv1js4": {
+   "name": "floonv1js4",
+   "versions": [
+    1
+   ],
+   "material": "floor of large sandy-tan stone slabs in staggered rectangles, worn surfaces with faint scratched geometric diamond markings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/floouz41lm": {
+   "name": "floouz41lm",
+   "versions": [
+    1
+   ],
+   "material": "sandy-tan stone slab floor with a horizontal band of raised Greek-key meander carving across the middle, dark stain below the band, and plain slabs above and below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/floonv1js4"
+     ],
+     "fraction": 0.509
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bric3n6w9u": {
+   "name": "bric3n6w9u",
+   "versions": [
+    1
+   ],
+   "material": "grey-blue and ochre rough stone block wall with dark mortar, a heavy rounded grey stone moulding running along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bricwsjo7y"
+     ],
+     "fraction": 0.42
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bric84khj2": {
+   "name": "bric84khj2",
+   "versions": [
+    1
+   ],
+   "material": "grey-blue and ochre rough stone block wall with a tall round-arched dark doorway opening in a grey stone surround in the centre, a small iron rail across its foot",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/bricwsjo7y"
+     ],
+     "fraction": 0.398
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

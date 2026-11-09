@@ -1,0 +1,49 @@
+output_dir: ../replay/new-game
+exit: true
+steps:
+- click:
+  - 327.0
+  - 536.0000625
+- click:
+  - 374
+  - 500
+- capture: party
+- click:
+  - 186.49996875
+  - 484.59403125
+- capture: class-choice
+- key: Escape
+- click: &id001
+  - 645.5000625
+  - 220.7810625
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click: *id001
+- click:
+  - 645.5000625
+  - 275.781
+- click:
+  - 866.99990625
+  - 347.9690625
+- click:
+  - 1138.99996875
+  - 347.9690625
+- capture: party-ready
+- click:
+  - 1425.27346875
+  - 824.5000312499999
+- wait: 3
+- key: Escape
+- wait: 12
+- key: Escape
+- capture: new-party-started

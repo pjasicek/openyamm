@@ -1,0 +1,62 @@
+id: mm6.ships.outc2.windrunner
+title: Windrunner boarding and cabin
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: outc2.odm
+- movement_segment:
+    start:
+      map: outc2.odm
+      x: 14848
+      y: 13336
+      z: 177
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: outc2.odm
+      x: 14848
+      y: 13816
+      z: 105
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- movement_segment:
+    start:
+      map: outc2.odm
+      x: 14848
+      y: 13816
+      z: 105
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: outc2.odm
+      x: 14848
+      y: 13431
+      z: 177
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- press_interact:
+    pose:
+      map: outc2.odm
+      x: 15072
+      y: 13968
+      z: 105
+      yaw: 0.0
+      pitch: 0
+    expect:
+      can_activate: true
+      target_index: 129
+      face_index: 42
+      triggered_event: 18

@@ -1,0 +1,479 @@
+[
+  {
+    "id": "wolf_three_quarter_v1",
+    "family": "wolf",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Wolf Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE LANDSCAPE 1536 x 1024 PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 gold statuette sprite, cropped and enlarged 8x with nearest neighbour. This is the design, pose, proportions and silhouette authority. Magenta is background, not material. The grey strip along the bottom is the top of its pedestal and is NOT part of the statuette.\nInput 2: whole ORIGINAL native sprite enlarged 3x, for contextual confirmation of the COMPLETE statuette, including all four feet and tail. Its marble pedestal must be omitted entirely. Both sprites show the animal's LEFT side with its head toward the left of the image.\n\nONE statuette, centred, generous transparent margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text. The feet and tail tip end on an invisible flat ground plane. Even soft neutral studio light, no dramatic light, so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting. All sculpted features including the eyes are the same solid gold, with natural metallic shading, not painted.\n\nIdentity (from the native sprite): a wolf standing alert on all four straight legs, deep chest, head held high on a raised neck, long pointed muzzle, tall pointed upright ears, bushy tail hanging down and back toward the ground. Keep the sprite's proportions and pose exactly: elongated horizontal torso, raised neck, deep chest, relatively slender supporting legs, broad hindquarters, and the long lowered tail. Sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal. Reconstruct clear sculpted detail without redesigning or exaggerating the coat. All four feet rest in the fixed standing pose, not walking, running or sitting.\n\nCamera for this PRIMARY view: FRONT-LEFT THREE-QUARTER, camera turned exactly 40 degrees from the original sprite's LEFT SIDE toward the animal's face (50 degrees away from straight front), slightly above the body at about 20 degrees. Show its left flank and front chest together, with clear body depth and naturally foreshortened far legs. Head and body face diagonally toward SCREEN-LEFT and toward the camera. Rotate the camera around the entire fixed statuette, not just its head. Whole figure, both ears, full muzzle, all four legs and paws, and complete hanging bushy tail inside the frame with generous margins.\n\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it.\nGenuine alpha transparency: every pixel outside the statuette silhouette must be alpha 0 except narrow natural edge antialiasing. No painted checkerboard, opaque backdrop, grey studio background, haze, cast shadow, glow, magenta spill or floor. Studio lighting illuminates only the gold object.\nChecks: one statuette, native pose and proportions, complete and separated visible legs and tail as drawn, no supports, transparent background, nothing cropped. This primary establishes the SAME statuette and fixed pose for the later side and front reference views.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png"
+    ],
+    "reason": "Superseded: camera is too close to left profile rather than the required 40-degree orbit toward the face; tight top/bottom margins. Correct 1536 x 1024 RGBA return with genuine alpha.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-c4d76f6b-a8a8-40d6-aad5-1e6c9f960a9b.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_three_quarter_v1.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_three_quarter_v1.png",
+    "supersedes": [],
+    "superseded_by": "wolf_three_quarter_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+        "sha256": "ed413768dece627a753807b6d3ae6d6f906d600caeed59dbf94a71b1072cfb06"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+        "sha256": "e1e47739c69c50b37f00e61dfde9d893f0e6a48ef1ab37315b9ce453ac29e92a"
+      }
+    ],
+    "raw_sha256": "cfa711b8babe08439500c9103c967fab8e28c4a929bedaa47991ef7c5024ba44",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      193,
+      29,
+      1392,
+      978
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "wolf_three_quarter_v2",
+    "family": "wolf",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Wolf Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE LANDSCAPE 1536 x 1024 PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 gold statuette sprite, cropped and enlarged 8x with nearest neighbour. This is the design, pose, proportions and silhouette authority. Magenta is background, not material. The grey strip along the bottom is the top of its pedestal and is NOT part of the statuette.\nInput 2: whole ORIGINAL native sprite enlarged 3x, for contextual confirmation of the COMPLETE statuette, including all four feet and tail. Its marble pedestal must be omitted entirely. Both sprites show the animal's LEFT side with its head toward the left of the image.\n\nONE statuette, centred, generous transparent margins, near-orthographic camera, transparent background, NO base, NO plinth, NO pedestal, NO floor, NO shadow, no text. The feet and tail tip end on an invisible flat ground plane. Even soft neutral studio light, no dramatic light, so the form reads clearly; polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting. All sculpted features including the eyes are the same solid gold, with natural metallic shading, not painted.\n\nIdentity (from the native sprite): a wolf standing alert on all four straight legs, deep chest, head held high on a raised neck, long pointed muzzle, tall pointed upright ears, bushy tail hanging down and back toward the ground. Keep the sprite's proportions and pose exactly: elongated horizontal torso, raised neck, deep chest, relatively slender supporting legs, broad hindquarters, and the long lowered tail. Sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal. Reconstruct clear sculpted detail without redesigning or exaggerating the coat. All four feet rest in the fixed standing pose, not walking, running or sitting.\n\nCamera for this PRIMARY view: FRONT-LEFT THREE-QUARTER, camera turned exactly 40 degrees from the original sprite's LEFT SIDE toward the animal's face (50 degrees away from straight front), slightly above the body at about 20 degrees. Show its left flank and front chest together, with clear body depth and naturally foreshortened far legs. Head and body face diagonally toward SCREEN-LEFT and toward the camera. Rotate the camera around the entire fixed statuette, not just its head. Whole figure, both ears, full muzzle, all four legs and paws, and complete hanging bushy tail inside the frame with generous margins.\n\nDo NOT: add a base, a pedestal, a stand, gems, armour, saddle, text, extra limbs or animals; do not change the pose; do not colour it other than gold; do not crop it.\nGenuine alpha transparency: every pixel outside the statuette silhouette must be alpha 0 except narrow natural edge antialiasing. No painted checkerboard, opaque backdrop, grey studio background, haze, cast shadow, glow, magenta spill or floor. Studio lighting illuminates only the gold object.\nChecks: one statuette, native pose and proportions, complete and separated visible legs and tail as drawn, no supports, transparent background, nothing cropped. This primary establishes the SAME statuette and fixed pose for the later side and front reference views.\nCRITICAL CAMERA/FRAMING REQUIREMENT: unmistakable FRONT-LEFT THREE-QUARTER view of the WHOLE fixed animal, exactly 40 degrees orbited away from side profile toward its muzzle, at 20 degrees elevation. The front-facing chest surface, two foreleg fronts, near and far shoulder depth, and muzzle front must visibly read in three dimensions; do not return a side profile or just turn the head. The torso must have clear foreshortening as the camera moves toward the head. Preserve the original small cast statuette's exact native standing proportions. Show the long bushy tail descending back almost to the invisible ground, without curling its tip upward. Keep at least 80 pixels of genuine transparent margin around the full gold silhouette on every edge of the 1536 x 1024 LANDSCAPE canvas; zoom the camera out. Smooth sculpted cast-gold forms with modest fine surface wear, rather than deeply hammered texture.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png"
+    ],
+    "reason": "Superseded: three-quarter camera remains too shallow and top/bottom transparent margins remain tight; complete gold figurine and four feet are present.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-292b06ef-3ca9-4454-adb3-5551af21a32d.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_three_quarter_v2.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_three_quarter_v2.png",
+    "supersedes": [
+      "wolf_three_quarter_v1"
+    ],
+    "superseded_by": "wolf_three_quarter_v3",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+        "sha256": "ed413768dece627a753807b6d3ae6d6f906d600caeed59dbf94a71b1072cfb06"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+        "sha256": "e1e47739c69c50b37f00e61dfde9d893f0e6a48ef1ab37315b9ce453ac29e92a"
+      }
+    ],
+    "raw_sha256": "7c6526b4facc9b741639a5eb310180f5dd82af41011916a17f5b9f5736da6239",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      218,
+      37,
+      1343,
+      972
+    ],
+    "alpha_zero_fraction": 0.7602831522623698,
+    "border_max_alpha": 1,
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "wolf_three_quarter_v3",
+    "family": "wolf",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Wolf Statuette\", a small solid cast-gold animal figurine, as a 3D modelling reference. Not a new design.\nUse case: identity-preserve / faithful 3D modelling reference.\nReturn exactly ONE LANDSCAPE 1536 x 1024 genuine transparent PNG, unresized native return.\n\nInput 1: ORIGINAL native MM6 gold animal sprite, nearest-neighbour enlarged 8x; design, silhouette, standing pose and proportions authority. Magenta is only background; the bottom grey strip is pedestal, not animal.\nInput 2: original whole statuette/pedestal sprite, enlarged 3x, confirming its complete legs, paws and lowered tail. Ignore and omit the entire pedestal.\nInput 3: current HD gold figurine, identity/material reference. Preserve this SAME figurine and native fixed standing pose. Change the CAMERA and FRAMING only.\n\nCamera: front-left three-quarter, camera orbited 40 degrees from LEFT SIDE PROFILE toward the animal's FACE, i.e. 50 degrees from straight front, elevated 20 degrees. The head and the entire body must share this camera angle. This must show a substantial front surface of the chest BETWEEN the two forelegs, the front of the long muzzle, and visibly foreshorten the elongated torso. Near and far shoulders, forelegs and hips have clear depth. Do not return a broadside profile. This is the PRIMARY 3D modelling view.\nFraming: zoom out substantially. Fit the whole statuette inside the central 75 percent of canvas HEIGHT, leaving about 125 transparent pixels ABOVE the ears and BELOW the paws. Centre it with ample left/right space as well. Entire ears, muzzle, FOUR supporting legs and paws, and full hanging bushy tail remain inside frame.\n\nIdentity: a wolf standing alert on all four straight legs, deep chest, head held high on a raised neck, long pointed muzzle, tall pointed upright ears, elongated horizontal torso, bushy tail hanging down and back toward the invisible ground. Sculpted, slightly stylised cast figurine, not a living-animal photo. All four feet retain the same native stance; the long tail must hang down and back, without an upward hook.\nMaterial: polished, slightly worn yellow gold with crisp sculpted detail, as a museum bronze-casting. Entire figurine, including eyes, is solid gold. Even soft neutral studio light, no dramatic light.\n\nONE animal only. NO base, plinth, pedestal, stand, floor, shadow, text, gems, armour, saddle or extra limbs. Feet and tail tip end on an invisible flat ground plane. Do not change the pose, proportions, animal identity or gold colour; do not crop it.\nTRANSPARENCY: outside the gold silhouette alpha is 0 with only natural narrow edge antialiasing. No painted checkerboard, visible studio backdrop, haze, glow, magenta spill or cast shadow.\nChecks: complete native standing silhouette, FOUR legs present with visible paws naturally separated by the camera, complete lowered tail, no supports, genuine alpha, generous margins.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-292b06ef-3ca9-4454-adb3-5551af21a32d.png"
+    ],
+    "reason": "Superseded: front-left three-quarter camera is now clear and the four paws and tail are complete, but top/bottom margins remain tight; a framing-only pass is required.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-1def29f6-42a6-4697-97b1-92df5239bde5.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_three_quarter_v3.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_three_quarter_v3.png",
+    "supersedes": [
+      "wolf_three_quarter_v2"
+    ],
+    "superseded_by": "wolf_three_quarter_v4",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+        "sha256": "ed413768dece627a753807b6d3ae6d6f906d600caeed59dbf94a71b1072cfb06"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+        "sha256": "e1e47739c69c50b37f00e61dfde9d893f0e6a48ef1ab37315b9ce453ac29e92a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-292b06ef-3ca9-4454-adb3-5551af21a32d.png",
+        "sha256": "7c6526b4facc9b741639a5eb310180f5dd82af41011916a17f5b9f5736da6239"
+      }
+    ],
+    "raw_sha256": "e37f759cf428766dc99711568bb3e2a2d09ff4ac560429d1a733d2ad2f252f56",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      300,
+      43,
+      1317,
+      976
+    ],
+    "alpha_zero_fraction": 0.7638657887776693,
+    "border_max_alpha": 0,
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "wolf_three_quarter_v4",
+    "family": "wolf",
+    "role": "primary",
+    "selected": true,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION. Faithful HD reference of the EXISTING Might and Magic VI quest item \"Wolf Statuette\"; not a new design.\nUse case: identity-preserve.\nOutput ONE LANDSCAPE 1536 x 1024 PNG with genuine transparent background, unresized native return.\n\nInput 1: original native gold statuette enlarged 8x, design/pose/proportion authority. Magenta is background and bottom grey strip is pedestal, neither is animal.\nInput 2: original whole sprite enlarged 3x for complete-foot and tail context; omit its pedestal.\nInput 3: HD statuette to preserve exactly. It has the correct front-left three-quarter view, camera 40 degrees from left profile toward the animal's face, about 20 degrees above the body.\n\nMake ONLY a FRAMING correction to input 3. ZOOM OUT by about 25 percent while preserving the exact statuette, its cast-gold material, silhouette, all four-legged standing pose, ears, long muzzle, lowered bushy tail, proportions, sculpted details, camera direction and elevation, and even neutral studio light.\nThe complete animal should occupy only 70 percent of the canvas HEIGHT. Its ears should begin around y=155 and paws end around y=870 on the 1024-pixel-tall canvas. Centre the animal on the canvas. Large empty transparent border on all four sides. This is a distant full-object catalogue reference rather than a close-up.\nPreserve the SAME standing alert wolf: four straight supporting legs, deep chest, high head on a raised neck, long pointed muzzle, tall upright pointed ears, elongated horizontal torso, bushy tail down and back toward the invisible ground. Solid polished slightly worn yellow gold throughout, including eyes; sculpted slightly stylised casting, not a real animal.\nOne figure, complete muzzle/ears/feet/tail, generous margins, near-orthographic. NO base, plinth, pedestal, stand, floor, shadow, gems, armour, saddle, text, extra animals or limbs. Do not change pose, design or colour. Feet and tail tip end on an invisible flat ground plane.\nTrue alpha: every exterior pixel alpha 0, except narrow natural silhouette antialiasing. No visible glow, haze, backdrop, painted checkerboard or magenta spill.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-1def29f6-42a6-4697-97b1-92df5239bde5.png"
+    ],
+    "reason": "Selected: clear front-left three-quarter view, approximately 40 degrees from the native left profile toward the face with slight elevation; complete alert standing wolf, four separated paws, raised neck, upright ears, elongated torso and lowered bushy tail; generous margins, cast-gold material, no pedestal or shadow, genuine alpha.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-197c7ef8-51e1-4a69-9f36-ac50a6bda228.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_three_quarter_v4.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png",
+    "supersedes": [
+      "wolf_three_quarter_v1",
+      "wolf_three_quarter_v2",
+      "wolf_three_quarter_v3"
+    ],
+    "superseded_by": null,
+    "review": {
+      "method": "Visual comparison to native sprites plus light/dark alpha composites, exact dimensions and byte-identity checks.",
+      "complete_silhouette": true,
+      "native_standing_pose": true,
+      "all_four_legs_present": true,
+      "separated_visible_paws": true,
+      "complete_lowered_tail": true,
+      "cast_gold_only": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "camera": "Front-left three-quarter, slight elevation; numeric angle is requested in the prompt and assessed visually.",
+      "contact_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/selected_views_review.png",
+      "light_background": "Complete gold silhouette and natural internal openings; no pedestal, floor or cast shadow.",
+      "dark_background": "Clean gold silhouette and edges; no visible halo, magenta spill or background haze.",
+      "matching_primary_identity_pose_proportions": true
+    },
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+        "sha256": "ed413768dece627a753807b6d3ae6d6f906d600caeed59dbf94a71b1072cfb06"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+        "sha256": "e1e47739c69c50b37f00e61dfde9d893f0e6a48ef1ab37315b9ce453ac29e92a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-1def29f6-42a6-4697-97b1-92df5239bde5.png",
+        "sha256": "e37f759cf428766dc99711568bb3e2a2d09ff4ac560429d1a733d2ad2f252f56"
+      }
+    ],
+    "raw_sha256": "9199ab006a3bdf96a6d901315c9393567f974c23f204b90180342bcc1e619d58",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      380,
+      144,
+      1226,
+      896
+    ],
+    "alpha_zero_fraction": 0.843163808186849,
+    "border_max_alpha": 0,
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_sha256": "9199ab006a3bdf96a6d901315c9393567f974c23f204b90180342bcc1e619d58"
+  },
+  {
+    "id": "wolf_left_v1",
+    "family": "wolf",
+    "role": "left",
+    "selected": false,
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Wolf Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: identity-preserve / faithful 3D modelling reference.\nOutput exactly ONE LANDSCAPE 1536 x 1024 genuine transparent PNG, unresized native return.\n\nInput 1: ORIGINAL native gold statuette sprite, cropped and enlarged 8x nearest-neighbour. It is the design, pose, proportions and silhouette authority. Magenta is background; the grey bottom strip is pedestal, not statuette.\nInput 2: whole ORIGINAL sprite enlarged 3x, for complete feet and tail context. Its marble pedestal must be omitted entirely. These two sprites show the animal's LEFT side, head to screen-left.\nInput 3: SELECTED HD primary front-left three-quarter reference, the exact SAME statuette identity and fixed standing pose to preserve. Match its sculpted anatomy, facial features, pointed ears, proportions, four paws, lowered bushy tail, detail and polished slightly worn yellow-gold casting material. Only rotate/lower the camera for this new view; do not re-pose or redesign the animal.\n\nIdentity from the native sprite: wolf standing alert on all four straight legs, deep chest, head held high on a raised neck, long pointed muzzle, tall pointed upright ears, elongated horizontal torso, bushy tail hanging down and back toward the ground. Sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal. All features including eyes are solid gold, with natural metallic shading, not painted. Crisp sculpted detail, as a museum bronze-casting; even soft neutral studio light, no dramatic light.\n\nONE statuette, centred, near-orthographic camera, generous margins; zoom out so the complete animal occupies around 70–75 percent of canvas HEIGHT, matching the primary's comfortable framing. Whole figure in frame including both ears, complete muzzle, FOUR legs and paws, and entire lowered tail. Preserve the native fixed stance and let natural occlusion occur where physically appropriate; do not move legs or tail just to reveal them.\nGenuine transparent background: exterior pixels alpha 0 except narrow natural edge antialiasing. NO base, plinth, pedestal, stand, floor, shadow, visible glow, haze, studio backdrop, painted checkerboard, magenta spill or text. Feet and tail tip end on an invisible flat ground plane.\nDo NOT add gems, armour, saddle, extra limbs or animals; do not change pose or gold colour; do not crop.\nChecks: same statuette and pose as primary; native silhouette and proportions; complete limbs/paws/tail with natural view-dependent separation; transparent background, generous margins, no supports.\nCAMERA FOR THIS VIEW: EXACT LEFT SIDE PROFILE, camera level with the middle of the body, at zero elevation, near-orthographic. Optical axis is perpendicular to the wolf's longitudinal body axis. Entire animal, including its head, is seen from its LEFT anatomical side, face and long muzzle pointing horizontally SCREEN-LEFT, tail to SCREEN-RIGHT, as in the original native sprite. No three-quarter angle and no elevated view. Show the raised neck, deep chest, elongated torso and descending bushy tail in the original native broadside silhouette. Do not move the feet; far-side limbs may naturally overlap the near-side limbs while all four legs remain part of this same figurine.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: matching gold figurine in left profile, but top/bottom margins are tight; requires framing-only correction.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-cec5ddac-bf26-42ec-90a7-e2597778ff0d.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_left_v1.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_left_v1.png",
+    "supersedes": [],
+    "superseded_by": "wolf_left_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+        "sha256": "ed413768dece627a753807b6d3ae6d6f906d600caeed59dbf94a71b1072cfb06"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+        "sha256": "e1e47739c69c50b37f00e61dfde9d893f0e6a48ef1ab37315b9ce453ac29e92a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png",
+        "sha256": "9199ab006a3bdf96a6d901315c9393567f974c23f204b90180342bcc1e619d58"
+      }
+    ],
+    "raw_sha256": "e6c55931f8024873aad40b5a074156bdab1f24f8fb9ab673067e33ab727deaec",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      91,
+      41,
+      1466,
+      983
+    ],
+    "alpha_zero_fraction": 0.7115732828776041,
+    "border_max_alpha": 1,
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "wolf_front_v1",
+    "family": "wolf",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "02_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI quest item \"Wolf Statuette\", a small solid cast-gold animal figurine, from the supplied original sprite, as a 3D modelling reference. Not a new design.\nUse case: identity-preserve / faithful 3D modelling reference.\nOutput exactly ONE LANDSCAPE 1536 x 1024 genuine transparent PNG, unresized native return.\n\nInput 1: ORIGINAL native gold statuette sprite, cropped and enlarged 8x nearest-neighbour. It is the design, pose, proportions and silhouette authority. Magenta is background; the grey bottom strip is pedestal, not statuette.\nInput 2: whole ORIGINAL sprite enlarged 3x, for complete feet and tail context. Its marble pedestal must be omitted entirely. These two sprites show the animal's LEFT side, head to screen-left.\nInput 3: SELECTED HD primary front-left three-quarter reference, the exact SAME statuette identity and fixed standing pose to preserve. Match its sculpted anatomy, facial features, pointed ears, proportions, four paws, lowered bushy tail, detail and polished slightly worn yellow-gold casting material. Only rotate/lower the camera for this new view; do not re-pose or redesign the animal.\n\nIdentity from the native sprite: wolf standing alert on all four straight legs, deep chest, head held high on a raised neck, long pointed muzzle, tall pointed upright ears, elongated horizontal torso, bushy tail hanging down and back toward the ground. Sculpted, slightly stylised forms like a cast figurine, not a photo of a real animal. All features including eyes are solid gold, with natural metallic shading, not painted. Crisp sculpted detail, as a museum bronze-casting; even soft neutral studio light, no dramatic light.\n\nONE statuette, centred, near-orthographic camera, generous margins; zoom out so the complete animal occupies around 70–75 percent of canvas HEIGHT, matching the primary's comfortable framing. Whole figure in frame including both ears, complete muzzle, FOUR legs and paws, and entire lowered tail. Preserve the native fixed stance and let natural occlusion occur where physically appropriate; do not move legs or tail just to reveal them.\nGenuine transparent background: exterior pixels alpha 0 except narrow natural edge antialiasing. NO base, plinth, pedestal, stand, floor, shadow, visible glow, haze, studio backdrop, painted checkerboard, magenta spill or text. Feet and tail tip end on an invisible flat ground plane.\nDo NOT add gems, armour, saddle, extra limbs or animals; do not change pose or gold colour; do not crop.\nChecks: same statuette and pose as primary; native silhouette and proportions; complete limbs/paws/tail with natural view-dependent separation; transparent background, generous margins, no supports.\nCAMERA FOR THIS VIEW: STRAIGHT FRONT, camera level with the middle of the body, at zero elevation, near-orthographic. The face and entire chest point directly toward the camera on the central vertical axis; bilateral frontal view with BOTH eyes and ears. No three-quarter body and no head turned aside. The torso extends away from the camera behind the chest; preserve its full length and fixed stance from input 3 despite natural frontal foreshortening. Show both straight forelegs, and the hind legs/paws and lowered tail wherever naturally visible behind them; preserve all FOUR legs without fanning them out or moving the tail sideways. Keep the same high head, long muzzle, deep chest, shoulders, ears and gold surface details. Retain LANDSCAPE canvas and generous empty space around the narrower frontal silhouette rather than zooming in or switching to portrait.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png"
+    ],
+    "reason": "Superseded: head faces front but torso/hindquarters remain angled, exposing a flank rather than straight axial front; top/bottom margins are also tight.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-97667fec-0613-4470-a570-25535c1fc749.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_front_v1.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_front_v1.png",
+    "supersedes": [],
+    "superseded_by": "wolf_front_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+        "sha256": "ed413768dece627a753807b6d3ae6d6f906d600caeed59dbf94a71b1072cfb06"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+        "sha256": "e1e47739c69c50b37f00e61dfde9d893f0e6a48ef1ab37315b9ce453ac29e92a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png",
+        "sha256": "9199ab006a3bdf96a6d901315c9393567f974c23f204b90180342bcc1e619d58"
+      }
+    ],
+    "raw_sha256": "4a9d0220c0eaea8a858df4eb2243b9383a3db96814bf38b9c0d7b1d41d311bbe",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      503,
+      48,
+      1060,
+      963
+    ],
+    "alpha_zero_fraction": 0.8210856119791666,
+    "border_max_alpha": 0,
+    "export_resize_or_padding": "None; byte-identical copy of actual return."
+  },
+  {
+    "id": "wolf_left_v2",
+    "family": "wolf",
+    "role": "left",
+    "selected": true,
+    "selected_filename": "01_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI \"Wolf Statuette\", small solid cast-gold animal figurine. Not a new design.\nUse case: identity-preserve. Return ONE LANDSCAPE 1536 x 1024 genuine transparent PNG, unresized native return.\nInput 1: ORIGINAL native 8x gold statuette crop; native design/pose/proportion authority. Magenta is background; grey bottom strip is pedestal, not animal.\nInput 2: original whole 3x sprite confirms feet/tail and pedestal context; omit pedestal entirely.\nInput 3: SELECTED primary reference; preserve the exact SAME figurine and fixed standing pose/material.\nInput 4: current LEFT profile; preserve this matching view and anatomy but correct FRAMING.\n\nZOOM OUT by 25 percent from input 4. Complete animal should occupy ONLY 70 percent of canvas HEIGHT, centred with ears near y=155 and paws near y=870 on the 1024-pixel-tall canvas. Large genuinely transparent empty borders above, below, left and right. Show the entire muzzle, ears, all four legs/paws and complete lowered bushy tail.\n\nExact LEFT SIDE PROFILE, camera level with the middle of the body, near-orthographic, entire head and body broadside, head/muzzle toward SCREEN-LEFT and tail toward SCREEN-RIGHT, as in the original sprite. Preserve the primary's four-legged alert stationary stance. Native high head/raised neck, long pointed muzzle, tall upright pointed ears, deep chest, elongated horizontal torso, bushy tail hanging down and back toward the invisible ground. Slightly stylised cast sculpt, not a real animal. Do not move the legs or tail to reveal them; retain native near/far-leg overlap and natural separation.\nPolished, slightly worn yellow gold with crisp sculpted detail as a museum bronze-casting. Same cast surface detail as primary; eyes also gold. Even soft neutral studio light.\nONE figure only. NO base/plinth/pedestal/stand/floor/shadow/gems/armour/saddle/text/extra limbs/animals. No cropping, no pose or colour changes. Feet and tail tip end on an invisible flat ground plane.\nTrue alpha: exterior pixels alpha 0 except narrow natural silhouette antialiasing. No visible backdrop, glow, haze, magenta spill or painted checkerboard.\nChecks: SAME statuette and pose as primary, exact native left profile, complete legs and lowered tail, transparent background, generous margins.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-cec5ddac-bf26-42ec-90a7-e2597778ff0d.png"
+    ],
+    "reason": "Selected: complete left broadside profile with head toward screen-left, raised neck, deep chest, elongated torso, four legs/paws with natural overlap and complete lowered tail; same cast-gold statuette as primary, generous margins, genuine alpha, no pedestal or shadow.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-547f5f10-b74a-4bfb-97c5-2f3f4944d571.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_left_v2.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/01_left.png",
+    "supersedes": [
+      "wolf_left_v1"
+    ],
+    "superseded_by": null,
+    "review": {
+      "method": "Visual comparison with native sprites and selected primary; exact dimensions, alpha and byte-identity checks, light/dark contact-sheet review.",
+      "complete_silhouette": true,
+      "native_standing_pose": true,
+      "all_four_legs_present": true,
+      "leg_separation": "Visible legs and paws present with natural view-dependent overlap.",
+      "complete_lowered_tail": true,
+      "cast_gold_only": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "matching_primary_identity_pose_proportions": true,
+      "camera": "Left profile, body-level camera.",
+      "contact_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/selected_views_review.png",
+      "light_background": "Complete gold silhouette and natural internal openings; no pedestal, floor or cast shadow.",
+      "dark_background": "Clean gold silhouette and edges; no visible halo, magenta spill or background haze."
+    },
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+        "sha256": "ed413768dece627a753807b6d3ae6d6f906d600caeed59dbf94a71b1072cfb06"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+        "sha256": "e1e47739c69c50b37f00e61dfde9d893f0e6a48ef1ab37315b9ce453ac29e92a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png",
+        "sha256": "9199ab006a3bdf96a6d901315c9393567f974c23f204b90180342bcc1e619d58"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-cec5ddac-bf26-42ec-90a7-e2597778ff0d.png",
+        "sha256": "e6c55931f8024873aad40b5a074156bdab1f24f8fb9ab673067e33ab727deaec"
+      }
+    ],
+    "raw_sha256": "9492d3a17cb81a4f52898c0d4d47d351203683d68182ecd1da236fb89ac1f3aa",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      186,
+      104,
+      1377,
+      930
+    ],
+    "alpha_zero_fraction": 0.7797330220540365,
+    "border_max_alpha": 0,
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_sha256": "9492d3a17cb81a4f52898c0d4d47d351203683d68182ecd1da236fb89ac1f3aa"
+  },
+  {
+    "id": "wolf_front_v2",
+    "family": "wolf",
+    "role": "front",
+    "selected": true,
+    "selected_filename": "02_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the EXISTING Might and Magic VI \"Wolf Statuette\", small solid cast-gold animal figurine. Not a new design.\nUse case: identity-preserve. Return ONE LANDSCAPE 1536 x 1024 genuine transparent PNG, unresized native return.\nInput 1: ORIGINAL native 8x gold statuette crop, native design/pose/proportion authority. Magenta is background; grey strip is pedestal, not animal.\nInput 2: original whole 3x sprite confirms full legs/paws/tail; omit its entire pedestal.\nInput 3: SELECTED primary reference, the exact SAME gold statuette identity and fixed four-legged standing pose to preserve.\nInput 4: current near-front draft. Its HEAD faces front, but its BODY is still angled and its framing too tight. Correct CAMERA ALIGNMENT and FRAMING only.\n\nTRUE AXIAL STRAIGHT FRONT OF THE WHOLE ANIMAL: camera lies exactly on the animal's longitudinal centreline, directly in front of its nose and chest, level with the middle of its body, near-orthographic. Zero yaw and zero elevation. Nose, sternum, belly centreline, rump centreline and hanging tail lie behind one another on the canvas vertical centre at x=768. The chest and hips are square to the camera. The torso extends straight away from the camera, NOT diagonally off to either side. BOTH sides of the shoulders and hips appear balanced in a true frontal projection. Do NOT merely turn the head front while leaving the body three-quarter.\nSame fixed stance as input 3: two straight forelegs in front, two hind legs behind, tail hanging behind the body. Preserve all FOUR legs and let natural overlap happen. Hind paws can be partially visible beside/behind the forelegs if geometry permits; never move or splay legs or swing the tail sideways just to expose them. The lowered bushy tail may be naturally hidden behind the torso or show centrally through the leg gap.\nZOOM OUT about 25 percent. Complete figure occupies ONLY 70 percent of canvas HEIGHT, ears near y=155 and paws near y=870. Centre on the LANDSCAPE canvas with large truly transparent borders, rather than zooming in on its narrow frontal silhouette.\n\nSame native wolf with high head on a raised neck, long pointed muzzle, tall upright pointed ears, deep chest, elongated torso and lowered bushy tail. Sculpted slightly stylised cast figurine, not a real animal. Preserve primary's facial sculpt and exact polished slightly worn yellow-gold material, crisp detail as museum bronze-casting; eyes are also gold. Even soft neutral studio light.\nONE figure. NO base/plinth/pedestal/stand/floor/shadow/gems/armour/saddle/text/extra limbs/animals. No pose/design/colour change or cropping. Feet and tail tip end on an invisible flat ground plane.\nExterior alpha 0 except narrow natural silhouette antialiasing. No visible backdrop, glow, haze, magenta spill or painted checkerboard.\nChecks: true straight whole-body front; SAME statuette and standing pose as primary, complete silhouette, natural limb occlusion, genuine alpha, generous margins.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-97667fec-0613-4470-a570-25535c1fc749.png"
+    ],
+    "reason": "Selected: true axial straight front of head and whole body with balanced ears/eyes/shoulders, two forelegs and both hind paws naturally visible behind, tail centrally behind the leg gap; matching primary gold casting and fixed stance, complete silhouette and generous margins, genuine alpha, no supports or shadow.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-8be342b3-1b09-403f-963a-03cd45180ead.png",
+    "raw_file": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/raw/wolf_front_v2.png",
+    "output_path": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/02_front.png",
+    "supersedes": [
+      "wolf_front_v1"
+    ],
+    "superseded_by": null,
+    "review": {
+      "method": "Visual comparison with native sprites and selected primary; exact dimensions, alpha and byte-identity checks, light/dark contact-sheet review.",
+      "complete_silhouette": true,
+      "native_standing_pose": true,
+      "all_four_legs_present": true,
+      "leg_separation": "Visible legs and paws present with natural view-dependent overlap.",
+      "complete_lowered_tail": true,
+      "cast_gold_only": true,
+      "genuine_alpha": true,
+      "no_base_pedestal_floor_or_shadow": true,
+      "matching_primary_identity_pose_proportions": true,
+      "camera": "Straight axial front, body-level camera.",
+      "contact_sheet": "level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/selected_views_review.png",
+      "light_background": "Complete gold silhouette and natural internal openings; no pedestal, floor or cast shadow.",
+      "dark_background": "Clean gold silhouette and edges; no visible halo, magenta spill or background haze."
+    },
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_statuette_x8.png",
+        "sha256": "ed413768dece627a753807b6d3ae6d6f906d600caeed59dbf94a71b1072cfb06"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/native_full_x3.png",
+        "sha256": "e1e47739c69c50b37f00e61dfde9d893f0e6a48ef1ab37315b9ce453ac29e92a"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_new_sorpigal_3d/statuettes/wolf/references_hd/00_three_quarter.png",
+        "sha256": "9199ab006a3bdf96a6d901315c9393567f974c23f204b90180342bcc1e619d58"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12101-4da4-7dd0-90af-6b966a467d65/exec-97667fec-0613-4470-a570-25535c1fc749.png",
+        "sha256": "4a9d0220c0eaea8a858df4eb2243b9383a3db96814bf38b9c0d7b1d41d311bbe"
+      }
+    ],
+    "raw_sha256": "ee4ea2e4ea8bf4ac46c6ee3e41ca3468c85028be3d380402a546ef77d98ff64b",
+    "actual_sampling_size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      606,
+      78,
+      931,
+      950
+    ],
+    "alpha_zero_fraction": 0.8724600474039713,
+    "border_max_alpha": 0,
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "output_sha256": "ee4ea2e4ea8bf4ac46c6ee3e41ca3468c85028be3d380402a546ef77d98ff64b"
+  }
+]

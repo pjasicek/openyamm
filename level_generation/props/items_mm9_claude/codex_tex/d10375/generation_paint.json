@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise-object-edit texture atlas. The other inputs design_reference.png and icon_x8.png are appearance and colour references only. Output ONE transparent PNG at 1536x2048 (3:4). Preserve the guide's exact silhouettes, object positions, scale, outlines and gaps. It is a 3-column by FOUR-row grid of 512x512 cells. Rows 1-2 and 3-4 repeat the SAME five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Critically the guide's FRONT and BACK are thin curved strips; LEFT and RIGHT are long thin side strips; TOP is the full shield face in the middle cell of row 2, repeated row 4. Do NOT reinterpret view names or replace thin edge views with full shields. Keep empty row2 col3 and row4 col3 transparent.\nRows 1-2 PAINT: paint ONLY existing grey shapes as unlit base colour of source-faithful upright point-down Kira's Shield. Match blue-grey worn metal face, broad weathered silver steel rim with subdued warm wear, and central dark rune from reference. Scale details to the existing views; preserve geometry exactly. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, halo, sparkles, aura, ground, outlines or text. Reference highlight is not to be copied as lighting.\nRows 3-4 MATERIAL MASK: same five silhouettes filled in FLAT pure colours ONLY, no shading, texture, outlines or antialiased interior colour blends. Pure red #FF0000 every metal (steel/iron/gold/silver/bronze/copper/brass); pure green #00FF00 leather/padding/hide/suede/fur; pure yellow #FFFF00 matte nonmetal wood/bone/horn/stone/parchment/paper/wax; pure black #000000 gemstones/crystal/glass/pearl/enamel/liquid through glass. Shield is a metal shield: metal face and rim should be solid pure red in these lower views, not blue or textured. Every silhouette pixel gets exactly one material colour. Nothing outside silhouettes. Preserve full transparency outside and all gaps. Paint grey objects only; never redraw, enlarge, move or redesign them.\nStrict silhouette correction: output clean, solid silhouettes matching the original grey guide exactly, with completely transparent pixels everywhere else. No scattered pixels, speckling, red flecks, ragged overspray or fragmented edges around any object. Lower-half masks must be uniform pure #FF0000 without any texture or tonal variation. Preserve original polygonal outline of the full shield, not a newly rounded outline. Use original guide as the exact shape stencil.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10375/paint_mask_guide.png",
+      "sha256": "92cd706542d2c4d826c5689c09cbabffcaa89665552f8ceffb23998ef047a438"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10375/design_reference.png",
+      "sha256": "69ae6fb9906126e0fa33e97f933b23885497f4f8e956672f0bba515f2cda2d57"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10375/icon_x8.png",
+      "sha256": "1ccb02856aba526607c5180064b4cd79228cd7ee87bbfccd9eb633d54adcaafb"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad11-6628-7263-939e-9216b1cfe127/exec-989b3c0d-d1ed-4c57-9b2d-c4608eb40d97.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10375/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained; stray pixels and mask colour variation remain after the permitted corrective generation. Raw output preserved without postprocessing."
+}

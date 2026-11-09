@@ -1,0 +1,270 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_guberlandcity/review/v01_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_gate_start
+  position:
+  - -655
+  - -384
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s02_north_avenue
+  position:
+  - -635
+  - -1044
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s03_north_avenue_south
+  position:
+  - -655
+  - -3584
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s04_plaza_east
+  position:
+  - 3072
+  - -7680
+  - 1
+  yaw: -2.7703
+  pitch: 0.0
+- name: s05_well
+  position:
+  - 1664
+  - -8448
+  - 1
+  yaw: -2.517
+  pitch: 0.0
+- name: s06_palace_front
+  position:
+  - 256
+  - -9175
+  - 1
+  yaw: 3.1416
+  pitch: 0.0873
+- name: s07_east_arm_gates
+  position:
+  - 3072
+  - -9175
+  - -9
+  yaw: 0.0
+  pitch: 0.0
+- name: s08_west_arm
+  position:
+  - -4608
+  - -9175
+  - -9
+  yaw: 3.1416
+  pitch: 0.0
+- name: s09_west_gates
+  position:
+  - -7025
+  - -9236
+  - -9
+  yaw: 0.0
+  pitch: 0.0
+- name: s10_south_avenue
+  position:
+  - -635
+  - -11530
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s11_south_square
+  position:
+  - -635
+  - -15360
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s12_south_square_east
+  position:
+  - 758
+  - -18166
+  - -9
+  yaw: 2.6181
+  pitch: 0.0
+- name: s13_nw_quarter
+  position:
+  - -4321
+  - -5263
+  - -9
+  yaw: 1.5708
+  pitch: 0.0
+- name: s14_nw_quarter_north
+  position:
+  - -4280
+  - -2109
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s15_nw_quarter_west
+  position:
+  - -7475
+  - -5263
+  - -9
+  yaw: 0.0
+  pitch: 0.0
+- name: s16_ne_quarter
+  position:
+  - 2560
+  - -3256
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s17_ne_quarter_north
+  position:
+  - 1618
+  - -1577
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s18_ne_quarter_south
+  position:
+  - 1864
+  - -5919
+  - -9
+  yaw: 0.0
+  pitch: 0.0
+- name: s19_se_quarter
+  position:
+  - 1331
+  - -14520
+  - -9
+  yaw: 1.5708
+  pitch: 0.0
+- name: s20_se_quarter_east
+  position:
+  - 4936
+  - -9984
+  - -9
+  yaw: -1.5708
+  pitch: 0.0
+- name: s21_sw_quarter
+  position:
+  - -4895
+  - -15012
+  - -9
+  yaw: 0.0
+  pitch: 0.0
+- name: s22_sw_quarter_north
+  position:
+  - -3871
+  - -11448
+  - -9
+  yaw: 0.0
+  pitch: 0.0
+- name: s23_sw_quarter_west
+  position:
+  - -6738
+  - -11284
+  - 1
+  yaw: 2.8799
+  pitch: 0.0
+- name: s24_roofs_from_street
+  position:
+  - 2560
+  - -3256
+  - -9
+  yaw: -0.8082
+  pitch: 0.4363
+- name: i01_tavern_audience
+  position:
+  - -2944
+  - -4864
+  - 1
+  yaw: 1.3239
+  pitch: 0.0
+- name: i02_tavern_bar
+  position:
+  - -2432
+  - -4864
+  - 1
+  yaw: 0.4242
+  pitch: 0.0
+- name: i03_temple
+  position:
+  - -5898
+  - -7680
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: i04_palace_hall
+  position:
+  - -896
+  - -9175
+  - 4
+  yaw: 3.1416
+  pitch: 0.0
+- name: i05_throne_room
+  position:
+  - -2176
+  - -9175
+  - 4
+  yaw: 3.1416
+  pitch: 0.0
+- name: i06_bank
+  position:
+  - 896
+  - -4424
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: i07_magic_shop
+  position:
+  - 2621
+  - -2432
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: i08_smithy
+  position:
+  - -2560
+  - -12928
+  - 1
+  yaw: -2.7611
+  pitch: 0.0
+- name: i09_weapon_shop
+  position:
+  - -2944
+  - -12928
+  - 1
+  yaw: -0.588
+  pitch: 0.0
+- name: i10_apothecary_hall
+  position:
+  - 2048
+  - -12288
+  - 1
+  yaw: -1.4289
+  pitch: 0.0
+- name: i11_book_shop
+  position:
+  - 1920
+  - -12800
+  - 93
+  yaw: 0.588
+  pitch: 0.0
+- name: i12_portal_house
+  position:
+  - 5504
+  - -12800
+  - 1
+  yaw: -1.4056
+  pitch: 0.0
+- name: i13_retainer_room
+  position:
+  - -4224
+  - -12452
+  - -9
+  yaw: 3.1416
+  pitch: 0.0
+- name: i14_sickroom
+  position:
+  - -307
+  - -8192
+  - 1
+  yaw: 2.7367
+  pitch: 0.0

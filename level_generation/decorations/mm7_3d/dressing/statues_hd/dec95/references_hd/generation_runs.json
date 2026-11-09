@@ -1,0 +1,247 @@
+{
+  "tool": "image_gen.imagegen",
+  "runs": [
+    {
+      "id": "dec95_00_primary",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 is the original native sprite and sole DESIGN AUTHORITY for shape, pose, proportions and parts; cyan and black border are background. Input 2 is for stone surface material only, never design.\nThe object is a carved STONE SCULPTURE (one solid piece of weathered stone: speckled warm grey granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light; Meshy bakes light into albedo).\nIdentity: a stone statue of a knight in full plate armour standing upright: a ROUNDED great helm (a barrel or bucket helm with a domed top, a slight brow ridge and one narrow horizontal eye slit cut into the front), smooth rounded pauldrons, a plain breastplate, a short fauld over the hips, plate arms with gauntlets, plate legs and sabatons. His RIGHT hand rests on the pommel of a straight cross-hilted longsword standing upright beside his right foot, its point on the plinth. His LEFT arm hangs at his side. He stands on a sloped stone plinth: a low truncated pyramid (wider at the bottom) about one fifth of the total statue height.\nDo NOT add spikes, crest, plume, shield, cape or an open visor; do not make the helm flat-topped or cubic; do not crop any part; do not add a floor, backdrop, second figure or text. One statue only. Deliver a 1024 x 1536 PORTRAIT image with actual alpha transparency.\nVIEW: front-left three-quarter (the statue's own front turned about 35 degrees toward the image's RIGHT), camera a little above chest height. This is the primary reference.",
+      "inputs": [
+        {
+          "path": "native_views_x12.png",
+          "sha256": "ce4bf842bd8bea933db663bf6e1795527a3a7ff12374a78bf56dd2b84ed8a607"
+        },
+        {
+          "path": "x2_surface_only.png",
+          "sha256": "0dba650bc18bf6beaa3f4dc73c815ce347b66b7a52581ddab2d1baa48765e0bf"
+        }
+      ],
+      "output_path": "00_three_quarter_superseded.png",
+      "selected": false,
+      "reason": "Rejected pointed helmet, T-shaped slit, hooked guard and wrong viewing direction; alpha later confirmed genuine.",
+      "superseded_runs": [],
+      "output_sha256": "95fd2aa75556543758039ef0add7ea77d5fbe2786c831846a95ed3494aa72725",
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "alpha_bbox": [
+          0,
+          22,
+          1010,
+          1536
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "dec95_00_corrected",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 is the original native sprite and sole DESIGN AUTHORITY for shape, pose, proportions and parts; cyan and black border are background. Input 2 is for stone surface material only, never design.\nThe object is a carved STONE SCULPTURE (one solid piece of weathered stone: speckled warm grey granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light; Meshy bakes light into albedo).\nIdentity: a stone statue of a knight in full plate armour standing upright: a ROUNDED great helm (a barrel or bucket helm with a domed top, a slight brow ridge and one narrow horizontal eye slit cut into the front), smooth rounded pauldrons, a plain breastplate, a short fauld over the hips, plate arms with gauntlets, plate legs and sabatons. His RIGHT hand rests on the pommel of a straight cross-hilted longsword standing upright beside his right foot, its point on the plinth. His LEFT arm hangs at his side. He stands on a sloped stone plinth: a low truncated pyramid (wider at the bottom) about one fifth of the total statue height.\nDo NOT add spikes, crest, plume, shield, cape or an open visor; do not make the helm flat-topped or cubic; do not crop any part; do not add a floor, backdrop, second figure or text. One statue only. Deliver a 1024 x 1536 PORTRAIT image with actual alpha transparency.\nPRIMARY VIEW: front-left three-quarter, front of knight turned 35 degrees toward IMAGE RIGHT (nose/face points RIGHT, not left). Camera slightly above chest. STRICT: smoothly DOMED rounded helmet top, NO pointed tip, NO cone. Only ONE NARROW HORIZONTAL eye slit; solid stone below it, NO vertical slit or T-shaped opening. Straight simple crossbar sword guard, NO downturned hooks. Fully transparent alpha background, no gradient glow or backdrop. Statue occupies 80% image height with generous empty margins. Match original native silhouette and plinth.",
+      "inputs": [
+        {
+          "path": "native_views_x12.png",
+          "sha256": "ce4bf842bd8bea933db663bf6e1795527a3a7ff12374a78bf56dd2b84ed8a607"
+        },
+        {
+          "path": "x2_surface_only.png",
+          "sha256": "0dba650bc18bf6beaa3f4dc73c815ce347b66b7a52581ddab2d1baa48765e0bf"
+        }
+      ],
+      "output_path": "00_three_quarter.png",
+      "selected": true,
+      "reason": "Selected corrected rounded helm and horizontal slit; view is shallower than requested 35 degrees, framing exceeds 80% height, guard end details persist.",
+      "superseded_runs": [
+        "dec95_00_primary"
+      ],
+      "output_sha256": "c5f17ff060f3459ffa806c7f2b6f4db91357aff1abe85ca559f79dacb97e9ea3",
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "alpha_bbox": [
+          0,
+          33,
+          996,
+          1536
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "dec95_01_front",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 is the original native sprite and sole DESIGN AUTHORITY for shape, pose, proportions and parts; cyan and black border are background. Input 2 is for stone surface material only, never design.\nThe object is a carved STONE SCULPTURE (one solid piece of weathered stone: speckled warm grey granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light; Meshy bakes light into albedo).\nIdentity: a stone statue of a knight in full plate armour standing upright: a ROUNDED great helm (a barrel or bucket helm with a domed top, a slight brow ridge and one narrow horizontal eye slit cut into the front), smooth rounded pauldrons, a plain breastplate, a short fauld over the hips, plate arms with gauntlets, plate legs and sabatons. His RIGHT hand rests on the pommel of a straight cross-hilted longsword standing upright beside his right foot, its point on the plinth. His LEFT arm hangs at his side. He stands on a sloped stone plinth: a low truncated pyramid (wider at the bottom) about one fifth of the total statue height.\nDo NOT add spikes, crest, plume, shield, cape or an open visor; do not make the helm flat-topped or cubic; do not crop any part; do not add a floor, backdrop, second figure or text. One statue only. Deliver a 1024 x 1536 PORTRAIT image with actual alpha transparency.\nInput 3 is the SELECTED PRIMARY: keep exactly this same statue, material, proportions, armour components and pose. Change ONLY camera to STRAIGHT FRONT, symmetric front view, sword at IMAGE LEFT in knight's right hand. Rounded dome helmet and horizontal-only eye slit. Remove ALL background: alpha=0 outside sculpture, no halo, no gradient. Whole statue 80% height. 1024x1536.",
+      "inputs": [
+        {
+          "path": "native_views_x12.png",
+          "sha256": "ce4bf842bd8bea933db663bf6e1795527a3a7ff12374a78bf56dd2b84ed8a607"
+        },
+        {
+          "path": "x2_surface_only.png",
+          "sha256": "0dba650bc18bf6beaa3f4dc73c815ce347b66b7a52581ddab2d1baa48765e0bf"
+        },
+        {
+          "path": "00_three_quarter.png",
+          "sha256": "c5f17ff060f3459ffa806c7f2b6f4db91357aff1abe85ca559f79dacb97e9ea3"
+        }
+      ],
+      "output_path": "01_front.png",
+      "selected": true,
+      "reason": "Selected straight front, matching primary armour and pose; framing exceeds requested 80% height.",
+      "superseded_runs": [],
+      "output_sha256": "2ad2e584f02e61d3c3dd1b46d2eb784f671a82550d4a6f70d144019ee0829d12",
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "alpha_bbox": [
+          0,
+          30,
+          997,
+          1508
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "dec95_03_side",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 is the original native sprite and sole DESIGN AUTHORITY for shape, pose, proportions and parts; cyan and black border are background. Input 2 is for stone surface material only, never design.\nThe object is a carved STONE SCULPTURE (one solid piece of weathered stone: speckled warm grey granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light; Meshy bakes light into albedo).\nIdentity: a stone statue of a knight in full plate armour standing upright: a ROUNDED great helm (a barrel or bucket helm with a domed top, a slight brow ridge and one narrow horizontal eye slit cut into the front), smooth rounded pauldrons, a plain breastplate, a short fauld over the hips, plate arms with gauntlets, plate legs and sabatons. His RIGHT hand rests on the pommel of a straight cross-hilted longsword standing upright beside his right foot, its point on the plinth. His LEFT arm hangs at his side. He stands on a sloped stone plinth: a low truncated pyramid (wider at the bottom) about one fifth of the total statue height.\nDo NOT add spikes, crest, plume, shield, cape or an open visor; do not make the helm flat-topped or cubic; do not crop any part; do not add a floor, backdrop, second figure or text. One statue only. Deliver a 1024 x 1536 PORTRAIT image with actual alpha transparency.\nInput 3 defines exactly the SAME statue, armour, stone, proportions and fixed limb pose. Change ONLY camera: TRUE RIGHT SIDE PROFILE of statue, front facing IMAGE LEFT. Right arm and upright sword visible on near side; left arm on far side. Do not rotate head separately or move limbs. Rounded dome and single horizontal eye slit. Entire sloped plinth visible. Real alpha transparency outside statue, NO halo or gradient backdrop. 1024x1536 portrait.",
+      "inputs": [
+        {
+          "path": "native_views_x12.png",
+          "sha256": "ce4bf842bd8bea933db663bf6e1795527a3a7ff12374a78bf56dd2b84ed8a607"
+        },
+        {
+          "path": "x2_surface_only.png",
+          "sha256": "0dba650bc18bf6beaa3f4dc73c815ce347b66b7a52581ddab2d1baa48765e0bf"
+        },
+        {
+          "path": "00_three_quarter.png",
+          "sha256": "c5f17ff060f3459ffa806c7f2b6f4db91357aff1abe85ca559f79dacb97e9ea3"
+        }
+      ],
+      "output_path": "03_side_superseded.png",
+      "selected": false,
+      "reason": "Wrong visible arm: hanging left arm foreground rather than bent right arm.",
+      "superseded_runs": [],
+      "output_sha256": "128de0e8cbc4c3df674113239572192e8f6b81a60e59bbccae728c46b5844654",
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1012,
+          1492
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "dec95_03_side_corrected",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 is the original native sprite and sole DESIGN AUTHORITY for shape, pose, proportions and parts; cyan and black border are background. Input 2 is for stone surface material only, never design.\nThe object is a carved STONE SCULPTURE (one solid piece of weathered stone: speckled warm grey granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light; Meshy bakes light into albedo).\nIdentity: a stone statue of a knight in full plate armour standing upright: a ROUNDED great helm (a barrel or bucket helm with a domed top, a slight brow ridge and one narrow horizontal eye slit cut into the front), smooth rounded pauldrons, a plain breastplate, a short fauld over the hips, plate arms with gauntlets, plate legs and sabatons. His RIGHT hand rests on the pommel of a straight cross-hilted longsword standing upright beside his right foot, its point on the plinth. His LEFT arm hangs at his side. He stands on a sloped stone plinth: a low truncated pyramid (wider at the bottom) about one fifth of the total statue height.\nDo NOT add spikes, crest, plume, shield, cape or an open visor; do not make the helm flat-topped or cubic; do not crop any part; do not add a floor, backdrop, second figure or text. One statue only. Deliver a 1024 x 1536 PORTRAIT image with actual alpha transparency.\nInput 3 defines exactly the SAME statue, armour, stone, proportions and fixed limb pose. Change ONLY camera: TRUE RIGHT SIDE PROFILE of statue, front facing IMAGE LEFT. Right arm and upright sword visible on near side; left arm on far side. Do not rotate head separately or move limbs. Rounded dome and single horizontal eye slit. Entire sloped plinth visible. Real alpha transparency outside statue, NO halo or gradient backdrop. 1024x1536 portrait.\nCRITICAL ANATOMY: camera is on KNIGHT'S RIGHT. The NEAR arm (clearly visible shoulder) must bend at elbow and extend FORWARD TO IMAGE LEFT to rest on sword pommel. The hanging LEFT arm is behind torso, mostly hidden. Do NOT put hanging arm in foreground. EXACT 90-degree profile, not 3/4. Sword guard edge-on. Both feet point left.",
+      "inputs": [
+        {
+          "path": "native_views_x12.png",
+          "sha256": "ce4bf842bd8bea933db663bf6e1795527a3a7ff12374a78bf56dd2b84ed8a607"
+        },
+        {
+          "path": "x2_surface_only.png",
+          "sha256": "0dba650bc18bf6beaa3f4dc73c815ce347b66b7a52581ddab2d1baa48765e0bf"
+        },
+        {
+          "path": "00_three_quarter.png",
+          "sha256": "c5f17ff060f3459ffa806c7f2b6f4db91357aff1abe85ca559f79dacb97e9ea3"
+        }
+      ],
+      "output_path": "03_side.png",
+      "selected": true,
+      "reason": "Selected after one allowed correction; unresolved right-side mismatch: hanging arm remains foreground. Material grain also differs from primary. Not a fully compliant right-side reference.",
+      "superseded_runs": [
+        "dec95_03_side"
+      ],
+      "output_sha256": "3cad09e83a3ba71603f635faf89afb15888383f550574a63d8aa8133e0b2a7ea",
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "alpha_bbox": [
+          41,
+          17,
+          1006,
+          1524
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "dec95_02_back",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 is the original native sprite and sole DESIGN AUTHORITY for shape, pose, proportions and parts; cyan and black border are background. Input 2 is for stone surface material only, never design.\nThe object is a carved STONE SCULPTURE (one solid piece of weathered stone: speckled warm grey granite), matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera, true transparent background, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light; Meshy bakes light into albedo).\nIdentity: a stone statue of a knight in full plate armour standing upright: a ROUNDED great helm (a barrel or bucket helm with a domed top, a slight brow ridge and one narrow horizontal eye slit cut into the front), smooth rounded pauldrons, a plain breastplate, a short fauld over the hips, plate arms with gauntlets, plate legs and sabatons. His RIGHT hand rests on the pommel of a straight cross-hilted longsword standing upright beside his right foot, its point on the plinth. His LEFT arm hangs at his side. He stands on a sloped stone plinth: a low truncated pyramid (wider at the bottom) about one fifth of the total statue height.\nDo NOT add spikes, crest, plume, shield, cape or an open visor; do not make the helm flat-topped or cubic; do not crop any part; do not add a floor, backdrop, second figure or text. One statue only. Deliver a 1024 x 1536 PORTRAIT image with actual alpha transparency.\nInput 3 defines the SAME statue, fixed pose, material, components and proportions. Change only camera to STRAIGHT BACK, exactly 180 degrees from front. Rear helmet is solid rounded stone with NO eye slit on back. Plain backplate, back fauld, rear legs. Knight's RIGHT arm and sword now at IMAGE RIGHT, bent arm resting on pommel, LEFT arm hangs at IMAGE LEFT. No cape or extra adornments. Whole statue and plinth visible. True alpha transparency without backdrop. 1024 x 1536.",
+      "inputs": [
+        {
+          "path": "native_views_x12.png",
+          "sha256": "ce4bf842bd8bea933db663bf6e1795527a3a7ff12374a78bf56dd2b84ed8a607"
+        },
+        {
+          "path": "x2_surface_only.png",
+          "sha256": "0dba650bc18bf6beaa3f4dc73c815ce347b66b7a52581ddab2d1baa48765e0bf"
+        },
+        {
+          "path": "00_three_quarter.png",
+          "sha256": "c5f17ff060f3459ffa806c7f2b6f4db91357aff1abe85ca559f79dacb97e9ea3"
+        }
+      ],
+      "output_path": "02_back.png",
+      "selected": true,
+      "reason": "Selected straight rear with correct sword side and matching general armour; minor generated detail and foot-angle differences.",
+      "superseded_runs": [],
+      "output_sha256": "81c5d047400c2f73e398162b8606da091cfea7d904efb5e7ec314bcdee4e4489",
+      "validation": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "alpha_bbox": [
+          0,
+          39,
+          966,
+          1536
+        ],
+        "unresized": true
+      }
+    }
+  ]
+}

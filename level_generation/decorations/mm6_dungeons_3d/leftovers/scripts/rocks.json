@@ -1,0 +1,373 @@
+{
+ "rock01": {
+  "name": "Boulder01",
+  "height": 71,
+  "targets": [
+   2400,
+   960,
+   290,
+   96
+  ],
+  "ao_strength": 0.7,
+  "parts": [
+   {
+    "scan": "nb06",
+    "yaw": 90,
+    "scale": [
+     1,
+     1,
+     1.3
+    ],
+    "share": 0.8
+   },
+   {
+    "scan": "nbs01a",
+    "yaw": 30,
+    "size": 0.26,
+    "at": [
+     -0.62,
+     -0.3
+    ],
+    "sink": 0.2,
+    "share": 0.07,
+    "drop": 3
+   },
+   {
+    "scan": "nbs01b",
+    "yaw": 160,
+    "size": 0.22,
+    "at": [
+     0.62,
+     -0.25
+    ],
+    "sink": 0.2,
+    "share": 0.07,
+    "drop": 3
+   },
+   {
+    "scan": "nbs01a",
+    "yaw": 250,
+    "size": 0.18,
+    "at": [
+     -0.2,
+     -0.5
+    ],
+    "sink": 0.25,
+    "share": 0.06,
+    "drop": 3
+   }
+  ],
+  "grade": {
+   "saturation": 0.55,
+   "gain": [
+    1.075,
+    0.927,
+    0.661
+   ]
+  },
+  "moss": {
+   "colour": [
+    92,
+    107,
+    40
+   ],
+   "height": 0.75,
+   "up": 0.15,
+   "crevice": 0.6
+  }
+ },
+ "rock02": {
+  "name": "Boulder02",
+  "height": 39,
+  "targets": [
+   2400,
+   960,
+   290,
+   96
+  ],
+  "ao_strength": 0.7,
+  "parts": [
+   {
+    "scan": "nb05",
+    "yaw": 0,
+    "scale": [
+     1,
+     1,
+     1.0
+    ],
+    "share": 0.8
+   },
+   {
+    "scan": "nbs01a",
+    "yaw": 60,
+    "size": 0.3,
+    "at": [
+     -1.3,
+     -0.4
+    ],
+    "sink": 0.2,
+    "share": 0.07,
+    "drop": 3
+   },
+   {
+    "scan": "nbs01b",
+    "yaw": 200,
+    "size": 0.33,
+    "at": [
+     0.3,
+     -0.45
+    ],
+    "sink": 0.2,
+    "share": 0.07,
+    "drop": 3
+   },
+   {
+    "scan": "nbs01a",
+    "yaw": 300,
+    "size": 0.25,
+    "at": [
+     1.15,
+     -0.35
+    ],
+    "sink": 0.2,
+    "share": 0.06,
+    "drop": 3
+   }
+  ],
+  "grade": {
+   "saturation": 0.45,
+   "gain": [
+    0.46,
+    0.417,
+    0.246
+   ],
+   "contrast": 1.3
+  },
+  "moss": {
+   "colour": [
+    73,
+    92,
+    33
+   ],
+   "height": 0.3,
+   "up": 0.0,
+   "crevice": 0.2,
+   "amount": 0.8
+  }
+ },
+ "rock03": {
+  "name": "Boulder03",
+  "height": 104,
+  "targets": [
+   2400,
+   960,
+   290,
+   96
+  ],
+  "ao_strength": 0.7,
+  "parts": [
+   {
+    "scan": "nb05",
+    "yaw": 0,
+    "scale": [
+     1.2,
+     1,
+     2.6
+    ],
+    "ramp": {
+     "start": 0.3,
+     "end": 0.12
+    }
+   }
+  ],
+  "grade": {
+   "saturation": 0.5,
+   "gain": [
+    0.432,
+    0.401,
+    0.268
+   ]
+  },
+  "moss": {
+   "colour": [
+    75,
+    87,
+    44
+   ],
+   "height": 0.25,
+   "up": 0.35,
+   "crevice": 0.5,
+   "amount": 0.7
+  }
+ },
+ "rock10": {
+  "name": "Boulder10",
+  "height": 102,
+  "targets": [
+   2400,
+   960,
+   290,
+   96
+  ],
+  "ao_strength": 0.7,
+  "parts": [
+   {
+    "scan": "nb05",
+    "yaw": 0,
+    "scale": [
+     1.2,
+     1,
+     2.6
+    ],
+    "ramp": {
+     "start": 0.3,
+     "end": 0.12
+    }
+   }
+  ],
+  "grade": {
+   "saturation": 0.6,
+   "gain": [
+    0.641,
+    0.616,
+    0.528
+   ]
+  }
+ },
+ "rock11": {
+  "name": "Boulder11",
+  "height": 53,
+  "targets": [
+   2400,
+   960,
+   290,
+   96
+  ],
+  "ao_strength": 0.7,
+  "parts": [
+   {
+    "scan": "nb05",
+    "yaw": 0,
+    "scale": [
+     1.15,
+     1,
+     1.3
+    ],
+    "ramp": {
+     "start": 0.25,
+     "end": 0.15
+    }
+   }
+  ],
+  "grade": {
+   "saturation": 0.6,
+   "gain": [
+    0.902,
+    0.84,
+    0.615
+   ]
+  }
+ },
+ "rock06": {
+  "name": "Boulder06",
+  "height": 16,
+  "targets": [
+   1500,
+   600,
+   240,
+   100
+  ],
+  "ao_strength": 0.6,
+  "parts": [
+   {
+    "scan": "nb06",
+    "yaw": 20,
+    "scale": [
+     1,
+     1,
+     1.0
+    ],
+    "share": 1.0
+   },
+   {
+    "scan": "nb03",
+    "yaw": 140,
+    "size": 0.8,
+    "at": [
+     -2.2,
+     0.3
+    ],
+    "share": 0.8
+   },
+   {
+    "scan": "nb06",
+    "yaw": 250,
+    "size": 0.75,
+    "at": [
+     -1.1,
+     -0.4
+    ],
+    "share": 0.8
+   },
+   {
+    "scan": "nb03",
+    "yaw": 300,
+    "size": 0.9,
+    "at": [
+     1.9,
+     -0.25
+    ],
+    "share": 0.8
+   },
+   {
+    "scan": "nb04",
+    "yaw": 90,
+    "size": 0.6,
+    "at": [
+     0.9,
+     0.7
+    ],
+    "share": 0.5,
+    "drop": 2
+   }
+  ],
+  "grade": {
+   "saturation": 0.5,
+   "gain": [
+    1.837,
+    1.928,
+    1.563
+   ]
+  }
+ },
+ "6rock02": {
+  "name": "Rock02",
+  "height": 115,
+  "targets": [
+   2400,
+   960,
+   290,
+   96
+  ],
+  "ao_strength": 0.7,
+  "parts": [
+   {
+    "scan": "nb06",
+    "yaw": -45,
+    "scale": [
+     1.1,
+     1,
+     1.1
+    ]
+   }
+  ],
+  "grade": {
+   "saturation": 0.6,
+   "gain": [
+    1.939,
+    1.993,
+    1.508
+   ]
+  }
+ }
+}

@@ -1,0 +1,100 @@
+{
+  "swordboulder": {
+    "source": "../../rock/source/namaqualand_boulder_04/namaqualand_boulder_04_2k.gltf",
+    "name": "Boulder",
+    "mode": "decimate",
+    "yaw_deg": 110,
+    "scale": [
+      1.0,
+      1.0,
+      0.85
+    ],
+    "targets": [
+      2600,
+      1000,
+      240,
+      80
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 0.6,
+      "gain": [
+        1.07,
+        0.88,
+        1.13
+      ]
+    }
+  },
+  "surfrock_a": {
+    "source": "../../rock/source/namaqualand_boulder_04/namaqualand_boulder_04_2k.gltf",
+    "name": "SurfRockA",
+    "mode": "decimate",
+    "yaw_deg": 90,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "targets": [
+      2300,
+      900,
+      260,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 0.8,
+      "gain": [
+        2.09,
+        1.52,
+        0.92
+      ]
+    },
+    "peak": {
+      "x": -0.4,
+      "y": 0.0,
+      "width": 0.7,
+      "base": 0.3,
+      "lift": 0.4
+    }
+  },
+  "surfrock_b": {
+    "source": "../../rock/source/namaqualand_boulder_04/namaqualand_boulder_04_2k.gltf",
+    "name": "SurfRockB",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "targets": [
+      2300,
+      900,
+      260,
+      90
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 0.35,
+      "gain": [
+        0.99,
+        1.275,
+        1.08
+      ]
+    },
+    "peak": {
+      "x": 0.05,
+      "y": 0.0,
+      "width": 0.5,
+      "base": 0.36,
+      "lift": 0.6
+    }
+  }
+}

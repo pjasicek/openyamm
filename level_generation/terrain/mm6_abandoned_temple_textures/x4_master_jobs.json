@@ -1,0 +1,19 @@
+[
+  {
+    "name": "stain512",
+    "prompt": "Use case: precise-object-edit. Asset: MM6 Abandoned Temple floor texture, full 4x native-resolution master. Return a true 2048x2048 PNG image with newly drawn high-definition stone detail throughout; the required pixel dimensions are 2048 by 2048, not a smaller preview. Image 1 is the original bitmap and authoritative layout; image 2 is the approved 2x-family restoration and palette reference. Re-create exactly the same checkerboard count, alternating ivory grey and dark brown stone squares, straight registered grid, thin mortar lines and the same pale irregular stain silhouette and location. Preserve every major division at identical fractional coordinates, all edges full bleed and opaque. Render fine natural stone pores, subtle mineral grain and wear with clean smooth detail, not magnified pixel clusters, blocky dithering, gritty sharpening or dense speckle noise. Neutral flat diffuse albedo, no new light sources, perspective, added motifs, labels, text, borders or watermark. This is fresh high-resolution artwork, not interpolation of a low-resolution bitmap. Preserve the restrained original contrast; stain has organic irregular edges, no pixel staircase. Keep all native edge-contact positions unchanged. Output only the single square master.",
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/stain512_native.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/stain512_full_v1.png"
+    ],
+    "transparent": false
+  },
+  {
+    "name": "beamplnh",
+    "prompt": "Use case: precise-object-edit. Asset: one continuous cap/body/cap master of dark warm oak wood for MM6 dungeon trim at native 4x export. Image 1 is the previous material/detail reference. Redraw the long wood strip as clean fine natural wood fibres with subdued cracks, continuous diffuse brown palette. Canvas should be a high-resolution 2:1 landscape RGBA PNG, at least 2048x1024 pixels. CRITICAL CROP LAYOUT: only ONE full repeating body occupies the middle 80% of the strip width (x=0.10..0.90); short attached end regions occupy x=0..0.10 and x=0.90..1.00. The opaque strip spans the canvas width, centred vertically, and is 12.5% as tall as the canvas. Its middle body must contain at least 1024x128 real pixels. Do not fit three periods into the canvas. Make the middle body's left/right grain phase and colours match seamlessly when tiled, while separate caps stay outside that repeat interval. Whole strip is painted continuously as a shared master, no separators or registration marks. No perspective, rounded outer ends, cast shadows, chunky facets, enlarged native pixels, blocky dither, harsh embossed ridges or sharpening. REAL PNG transparency alpha=0 everywhere outside the rectangular strip; no painted black/white/checkerboard backdrop, interior fully opaque. Texture fills its registered rectangular footprint. Fine fresh HD fibres, not an upscale. Output one master only.",
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/beamplnh_extended_v1.png"
+    ],
+    "transparent": true
+  }
+]

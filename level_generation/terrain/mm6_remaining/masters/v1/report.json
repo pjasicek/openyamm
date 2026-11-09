@@ -1,0 +1,247 @@
+{
+  "method": "Built-in imagegen; original material and accepted grass fidelity reference. 512px authors, cyclic minimum-error quilting, wrapped-gutter Lanczos to 256px runtime.",
+  "status": "Prepared masters for visual review; transitions not generated and enhanced not modified.",
+  "materials": [
+    {
+      "material": "sand",
+      "tile": "6sandtyl",
+      "source": "raw/sand.png",
+      "source_sha256": "1ade479c769d4a41a80880a902e57bf8e1dcccfd1a8cf1d347f43e57a296b600",
+      "original": "mm6_remaining/references/6sandtyl.png",
+      "original_sha256": "c0207f9ca0a9f0ec3cef67a088ed1610613b5408c7ab4a0304318fd971ba1efb",
+      "prompt": "prompts/sand.txt",
+      "master": "materials/sand.png",
+      "master_sha256": "36536334356035ee02ca94790d2b6f233f5903dd339f48203012f1fa9bf59608",
+      "runtime": "runtime_x2/worlds/mm6/terrain_x2/6sandtyl.png",
+      "runtime_sha256": "d8f59143fc7a415cc857b79826797dde1d48e0a9fc30b064ef6cb386fa042b9d",
+      "central_384_square_unchanged": true,
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.359577898102969,
+          "edge_max": 1.3840080009038565,
+          "interior_p95": 1.3761508634419768,
+          "interior_p999": 2.1610769483887404,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.6130715116004883,
+          "edge_max": 1.8006405655732847,
+          "interior_p95": 1.3680257028559304,
+          "interior_p999": 1.6812634909287927,
+          "pass": true
+        }
+      ],
+      "border_detail": 0.9692979184386378,
+      "original_mean_rgb": [
+        211.6319580078125,
+        173.1192626953125,
+        99.73846435546875
+      ],
+      "runtime_mean_rgb": [
+        218.52655029296875,
+        171.0569305419922,
+        88.97308349609375
+      ],
+      "prompt_history": [
+        "prompts/sand.txt"
+      ]
+    },
+    {
+      "material": "snow",
+      "tile": "snotyl",
+      "source": "raw/snow.png",
+      "source_sha256": "8c5f482d46259523097c6c0919b3113f6f0f93aa795c616f20a538a734cf1c51",
+      "original": "mm6_remaining/references/snotyl.png",
+      "original_sha256": "931daab92ba1b5e1439c192dbac05d39184c47abee0b0987ede322de92d82246",
+      "prompt": "prompts/snow.txt",
+      "master": "materials/snow.png",
+      "master_sha256": "fee4e235fe57d9abd65a8b1c8dacc3d75f823e42a8d71fc9986dfb902698b905",
+      "runtime": "runtime_x2/worlds/mm6/terrain_x2/snotyl.png",
+      "runtime_sha256": "75fc613db138e1bbfef55551a175c0984d1221dad3db73452d842b8f37d0e59f",
+      "central_384_square_unchanged": true,
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.4220174708745084,
+          "edge_max": 1.9037277397837369,
+          "interior_p95": 1.385490871353691,
+          "interior_p999": 2.013414022197562,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.317780007706692,
+          "edge_max": 1.4067330972981327,
+          "interior_p95": 1.3640303591916556,
+          "interior_p999": 1.6574946417934553,
+          "pass": true
+        }
+      ],
+      "border_detail": 0.9374498019299822,
+      "original_mean_rgb": [
+        240.9373779296875,
+        246.73553466796875,
+        248.01629638671875
+      ],
+      "runtime_mean_rgb": [
+        240.69064331054688,
+        247.96627807617188,
+        250.82296752929688
+      ],
+      "prompt_history": [
+        "prompts/snow.txt"
+      ]
+    },
+    {
+      "material": "cracked",
+      "tile": "crktyl",
+      "source": "raw/cracked.png",
+      "source_sha256": "33dddef7d5bad640ade07cc0825d4592d5d585b38287ebca6c20b42b9d37d8a7",
+      "original": "mm6_remaining/references/crktyl.png",
+      "original_sha256": "b398d20f1b34af85ff79d55baa35c17abe24ec690d022ec649314297348aca17",
+      "prompt": "prompts/cracked.txt",
+      "master": "materials/cracked.png",
+      "master_sha256": "13d82b0726f64d252bd2b8b69eadb1346b7a01e85d7bba5d882290715e84b314",
+      "runtime": "runtime_x2/worlds/mm6/terrain_x2/crktyl.png",
+      "runtime_sha256": "a6d9bffe4930b28b24eef1719370d1f51afdcdf5fed43e757be7ea249979a54b",
+      "central_384_square_unchanged": true,
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.3957614056065135,
+          "edge_max": 1.4983167719453168,
+          "interior_p95": 1.4550549723726778,
+          "interior_p999": 1.825662916007929,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.1879693644756426,
+          "edge_max": 1.4573518554536855,
+          "interior_p95": 1.4835513381486043,
+          "interior_p999": 1.946976046447178,
+          "pass": true
+        }
+      ],
+      "border_detail": 0.9469008698168927,
+      "original_mean_rgb": [
+        146.2584228515625,
+        107.00213623046875,
+        79.4158935546875
+      ],
+      "runtime_mean_rgb": [
+        149.64849853515625,
+        107.111083984375,
+        71.81367492675781
+      ],
+      "prompt_history": [
+        "prompts/cracked.txt"
+      ]
+    },
+    {
+      "material": "tropical",
+      "tile": "troptyl",
+      "source": "raw/tropical.png",
+      "source_sha256": "3ef3714dcc4311a5d6672bd7534337517391be0898a982c72d134de4b9fffaf9",
+      "original": "mm6_remaining/references/troptyl.png",
+      "original_sha256": "5e65822aa152ca45c611c015edbbb13287c3d81e4a7dae3a448d9be6fd10a6ab",
+      "prompt": "prompts/tropical.txt",
+      "master": "materials/tropical.png",
+      "master_sha256": "8d215662d6e90ccf439714f5d5b37b92fc2bd4d80ca91b501298444c57371c0f",
+      "runtime": "runtime_x2/worlds/mm6/terrain_x2/troptyl.png",
+      "runtime_sha256": "1f318ef90cb9822700da61646c97af8e199b35ad973cbfc0a11f4f0cdc0844d4",
+      "central_384_square_unchanged": true,
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.5453744949911894,
+          "edge_max": 1.712276776365245,
+          "interior_p95": 1.494206749215617,
+          "interior_p999": 2.1576983966013006,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.4399302264643394,
+          "edge_max": 1.9015916614978905,
+          "interior_p95": 1.460301898455447,
+          "interior_p999": 1.9068883006626076,
+          "pass": true
+        }
+      ],
+      "border_detail": 1.007457737560631,
+      "original_mean_rgb": [
+        103.7705078125,
+        127.83441162109375,
+        59.8001708984375
+      ],
+      "runtime_mean_rgb": [
+        102.28523254394531,
+        126.41497802734375,
+        58.45013427734375
+      ],
+      "prompt_history": [
+        "prompts/tropical.txt",
+        "prompts/tropical_fix.txt"
+      ]
+    },
+    {
+      "material": "swamp",
+      "tile": "swmtyl",
+      "source": "raw/swamp.png",
+      "source_sha256": "c0bd7c9c2dd2867b2d959f216376cc824fc87b75ada910120b69b2ba336693bb",
+      "original": "mm6_remaining/references/swmtyl.png",
+      "original_sha256": "0f15422b368f5b02e93af866a446b26845c594cd6f4d0d1ba64cad01a1d95e21",
+      "prompt": "prompts/swamp.txt",
+      "master": "materials/swamp.png",
+      "master_sha256": "22c5b0373a1b077cb54dc0ca8c2ddfa263b998c763c669b08a17bb439d5ea7ab",
+      "runtime": "runtime_x2/worlds/mm6/terrain_x2/swmtyl.png",
+      "runtime_sha256": "d73093b703a1c1b21a49eeaf073357e1e1d54a73a8e583104b2a5d46c7e05137",
+      "central_384_square_unchanged": true,
+      "edge_checks": [
+        {
+          "axis": 0,
+          "edge_p95": 1.379290689916251,
+          "edge_max": 1.4285020181091486,
+          "interior_p95": 1.426916737925634,
+          "interior_p999": 1.8789920284161257,
+          "pass": true
+        },
+        {
+          "axis": 1,
+          "edge_p95": 1.4789367841475485,
+          "edge_max": 1.5634821645241939,
+          "interior_p95": 1.4262176516761076,
+          "interior_p999": 1.8926032764206784,
+          "pass": true
+        }
+      ],
+      "border_detail": 0.9779888395919649,
+      "original_mean_rgb": [
+        61.9854736328125,
+        87.49224853515625,
+        51.63104248046875
+      ],
+      "runtime_mean_rgb": [
+        55.73638916015625,
+        85.29731750488281,
+        42.33561706542969
+      ],
+      "prompt_history": [
+        "prompts/swamp.txt"
+      ]
+    }
+  ],
+  "failures": [],
+  "visual_review": {
+    "passed": true,
+    "views": [
+      "original vs runtime",
+      "3x3 repeats",
+      "half-tile offsets"
+    ],
+    "notes": "All retain original material motifs. Sand/snow broad ridges visibly recur; this is a single repeating tile, not non-repeating terrain. Tropical first output rejected for internal line and palette; selected output is the second edit."
+  }
+}

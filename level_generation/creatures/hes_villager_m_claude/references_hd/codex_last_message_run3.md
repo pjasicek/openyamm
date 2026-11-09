@@ -1,0 +1,3 @@
+Saved Run 3’s four 1254×1254 RGBA views, [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_villager_m_claude/references_head/selected_views_review.png), and [generation records with prompts](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_villager_m_claude/references_head/generation_runs.json). Used built-in imagegen; transparency verified.
+
+Stopped after Run 3. Profile retains slight angular bias after its one correction; minor edge fringe is recorded.

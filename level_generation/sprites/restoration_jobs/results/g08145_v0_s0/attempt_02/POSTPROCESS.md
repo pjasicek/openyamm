@@ -1,0 +1,1 @@
+Default registration. Save ungraded a_*.png as matching .before_tone.png, run restore_native_tone.py (separate foliage and bark RGB matching), then queue.py check. Alpha preserved. Refresh backups after any registration change.

@@ -1,0 +1,126 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d15/review/walkability/captures
+settle_seconds: 1.5
+exit: true
+shots:
+- name: service-stair-shallow-flight
+  position:
+  - 2540
+  - 600
+  - 0
+  yaw: 3.141592653589793
+  pitch: 0.2
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+- name: west-line-shallow-bed
+  position:
+  - 2900
+  - 300
+  - -24
+  yaw: 1.5707963267948966
+  pitch: -0.15
+- name: platform-gate-flush-thresholds
+  position:
+  - 7400
+  - 300
+  - -24
+  yaw: 0.0
+  pitch: -0.15
+- name: maintenance-threshold
+  position:
+  - 4728
+  - 140
+  - -24
+  yaw: -1.5707963267948966
+  pitch: -0.15
+- name: west-tram-track-pocket
+  position:
+  - 8392
+  - 300
+  - -24
+  yaw: 1.5707963267948966
+  pitch: -0.15
+- name: east-tram-track-pocket
+  position:
+  - 13304
+  - 300
+  - -24
+  yaw: 1.5707963267948966
+  pitch: -0.15
+- name: west-tram-boarding-steps
+  position:
+  - 9092
+  - 700
+  - 0
+  yaw: -1.5707963267948966
+  pitch: -0.2
+- name: east-tram-boarding-steps
+  position:
+  - 14092
+  - 700
+  - 0
+  yaw: -1.5707963267948966
+  pitch: -0.2
+- name: flooded-cut-stair
+  position:
+  - 14292
+  - 3160
+  - -512
+  yaw: -1.5707963267948966
+  pitch: 0.2
+- name: junction-stair
+  position:
+  - 14292
+  - 7900
+  - -512
+  yaw: 1.5707963267948966
+  pitch: 0.2
+- name: west-rampart-approach
+  position:
+  - 14600
+  - 10556
+  - 0
+  yaw: 3.141592653589793
+  pitch: -0.15
+- name: north-rampart-approach
+  position:
+  - 15400
+  - 10750
+  - 0
+  yaw: 1.5707963267948966
+  pitch: -0.15
+- name: south-rampart-approach
+  position:
+  - 14750
+  - 10800
+  - 0
+  yaw: -1.0541011880326194
+  pitch: 0.05
+- name: cleared-sentinel-emplacement
+  position:
+  - 13880
+  - 11200
+  - 0
+  yaw: -2.5
+  pitch: 0.25
+- name: chamfered-junction
+  position:
+  - 14400
+  - 11400
+  - 0
+  yaw: 3.5
+  pitch: 0.2
+- name: hipped-breach
+  position:
+  - 12000
+  - 5900
+  - -512
+  yaw: 4.0
+  pitch: 0.2
+- name: hipped-burrow
+  position:
+  - 9000
+  - 5500
+  - -512
+  yaw: 2.8
+  pitch: 0.2

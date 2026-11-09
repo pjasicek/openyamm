@@ -1,0 +1,59 @@
+# MM9's object lifecycle (devdocs/mm9_rework/scr_audit/README.md "Implicit engine semantics"): a dead AI takes no
+# message. TriggerStarters makes the LichSummoner (actor 19) summon two Skeletoids (Isle_Summoner.scr); the Lich is
+# killed, then the Skeletoids: their OnDeath 'spawn' (Isle_SpawnCreature.scr :OnDeath) reaches a corpse and nothing
+# more comes. Isle.LichGone (the map Lua's own end of the Lich) is cleared after the kill, so only the shared rule
+# (MM9.receives in regionlua.py's lichSpawn) stops the summons. Actor numbers are this build's (isleofashes.lua LICH).
+# Run: ./build/game/openyamm --asset-root "$PWD/output/mm9_rework/isleofashes_blv_root" \
+#   --headless-run-scenario level_generation/projects/mm9r_isleofashes_blv/scenario_lifecycle.yml --scenario-no-color
+id: mm9r.isleofashes.lifecycle
+title: Isle of Ashes - the slain LichSummoner takes no more 'spawn' (a dead AI takes no message)
+world: mm9
+mode: hybrid
+tags:
+- mm9
+- mm9_rework
+steps:
+- new_game_flow:
+    start_map: isleofashes.blv
+# a Lua event needs the runtime map, which a pose loads
+- set_pose:
+    map: isleofashes.blv
+    x: 2011
+    y: -7506
+    z: 147
+    yaw: 0.0
+    pitch: 0.0
+- lua_event:
+    source: |
+      assert(not evt.IsMapActorDead(19), "the LichSummoner (19) lives")
+- set_pose:
+    map: isleofashes.blv
+    x: 3482
+    y: -3584
+    z: 489
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 3
+- note:
+    text: 'TriggerStarters: two spawn messages, two Skeletoids; then the Lich dies'
+- lua_event:
+    source: |
+      assert(evt.GetMapVar("Isle.SummonCount", 0) == 2, "summons before " .. evt.GetMapVar("Isle.SummonCount", 0))
+      assert(evt.KillMapActor(19), "the Lich dies")
+- advance_runtime:
+    seconds: 3
+- note:
+    text: 'The Skeletoids die: each OnDeath sends spawn to the dead Lich; nothing more is summoned'
+- lua_event:
+    source: |
+      assert(evt.IsMapActorDead(19), "the Lich is dead")
+      evt.SetMapVar("Isle.LichGone", 0)
+      for slot = 1, evt.GetMapVar("Isle.SummonCount", 0) do
+        evt.KillMapActor(evt.GetMapVar("Isle.Skeletoid." .. slot, 0) - 1)
+      end
+- advance_runtime:
+    seconds: 3
+- lua_event:
+    source: |
+      assert(evt.GetMapVar("Isle.SummonCount", 0) == 2, "summons after " .. evt.GetMapVar("Isle.SummonCount", 0))

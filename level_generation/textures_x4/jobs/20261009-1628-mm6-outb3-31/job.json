@@ -1,0 +1,494 @@
+{
+ "id": "20261009-1628-mm6-outb3-31",
+ "world": "mm6",
+ "maps": [
+  "outb3.odm",
+  "zarena.blv"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/crflr2",
+  "mm6/egybigb",
+  "mm6/egydrlgl",
+  "mm6/egyflorf",
+  "mm6/egymedb",
+  "mm6/egytrmc",
+  "mm6/egywalg1",
+  "mm6/egywalhb",
+  "mm6/egywla",
+  "mm6/egywlb",
+  "mm6/egywlbl",
+  "mm6/egywlbr",
+  "mm6/egywld",
+  "mm6/stc2dr",
+  "mm6/stc2wdw",
+  "mm6/tentdor1",
+  "mm6/tentdor2",
+  "mm6/tentrf1",
+  "mm6/tentrf2",
+  "mm6/tentrf3",
+  "mm6/tentwal1",
+  "mm6/tentwal2",
+  "mm6/d7trim1",
+  "mm6/d7trim7"
+ ],
+ "requests": {
+  "mm6/crflr2": {
+   "name": "crflr2",
+   "versions": [
+    1
+   ],
+   "material": "grey-beige gravel of small pale pebbles and flakes",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egybigb": {
+   "name": "egybigb",
+   "versions": [
+    1
+   ],
+   "material": "golden sandstone block wall of rounded irregular blocks with dark ochre joints, large blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egydrlgl": {
+   "name": "egydrlgl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "Egyptian painted door panel of a seated pharaoh in red and gold on a throne beneath sun rays on a yellow ground, in a gilded hieroglyph frame with a round bronze boss on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "top": "mm6/d5trima",
+     "right": "mm6/egydrlgr",
+     "left": "mm6/egywlh"
+    }
+   }
+  },
+  "mm6/egyflorf": {
+   "name": "egyflorf",
+   "versions": [
+    1
+   ],
+   "material": "fine golden sand",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egymedb": {
+   "name": "egymedb",
+   "versions": [
+    1
+   ],
+   "material": "golden sandstone block wall of rounded irregular blocks with dark ochre joints, medium blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egytrmc": {
+   "name": "egytrmc",
+   "versions": [
+    1
+   ],
+   "material": "golden sandstone tile with dark carved hieroglyph columns; copy every glyph shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywalg1": {
+   "name": "egywalg1",
+   "versions": [
+    1
+   ],
+   "material": "golden sandstone block wall of rounded irregular blocks with dark ochre joints, small blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywalhb": {
+   "name": "egywalhb",
+   "versions": [
+    1
+   ],
+   "material": "smooth ochre-brown sandstone with faint wavy cracks and weathering",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywla": {
+   "name": "egywla",
+   "versions": [
+    1
+   ],
+   "material": "golden sandstone block wall of rounded irregular blocks with dark ochre joints, small blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywlb": {
+   "name": "egywlb",
+   "versions": [
+    1
+   ],
+   "material": "golden sandstone block wall framed by a border of small carved hieroglyph bricks along the top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywlbl": {
+   "name": "egywlbl",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "golden sandstone block wall framed by a border of small carved hieroglyph bricks along the top, bottom and left with mitred corners",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywlbr": {
+   "name": "egywlbr",
+   "versions": [
+    1
+   ],
+   "material": "golden sandstone block wall framed by a border of small carved hieroglyph bricks along the top, bottom and right with mitred corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywld": {
+   "name": "egywld",
+   "versions": [
+    1
+   ],
+   "material": "terracotta-orange stone wall carved with vertical columns of hieroglyphs and cartouches; copy every glyph shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/stc2dr": {
+   "name": "stc2dr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough tan adobe stucco house facade with two round carved terracotta medallions near the top, with a weathered dark brown plank door with iron bands; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/stc2rea",
+     "left": "mm6/stc2wdw"
+    }
+   }
+  },
+  "mm6/stc2wdw": {
+   "name": "stc2wdw",
+   "versions": [
+    1
+   ],
+   "material": "rough tan adobe stucco house facade with two round carved terracotta medallions near the top, with a small dark arched window with vertical wooden bars; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentdor1": {
+   "name": "tentdor1",
+   "versions": [
+    1
+   ],
+   "material": "tent entrance of grey and white striped canvas drapes tied back with brown cords around a black opening, under an orange scalloped valance with brass studs; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentdor2": {
+   "name": "tentdor2",
+   "versions": [
+    1
+   ],
+   "material": "tent entrance of orange and white striped canvas drapes tied back with brown cords around a black opening, under an orange scalloped valance with brass studs; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentrf1": {
+   "name": "tentrf1",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-white woven canvas tent fabric under an orange scalloped valance with brass studs, with an orange fabric band along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentrf2": {
+   "name": "tentrf2",
+   "versions": [
+    1
+   ],
+   "material": "orange and white vertically striped canvas tent fabric under an orange scalloped valance with brass studs, with an orange fabric band along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentrf3": {
+   "name": "tentrf3",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-white woven canvas tent fabric under a blue and white scalloped valance, with a blue fabric band along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentwal1": {
+   "name": "tentwal1",
+   "versions": [
+    1
+   ],
+   "material": "grey and white vertically striped canvas tent wall fabric with soft folds",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tentwal2": {
+   "name": "tentwal2",
+   "versions": [
+    1
+   ],
+   "material": "orange and white vertically striped canvas tent wall fabric with soft folds",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7trim1": {
+   "name": "d7trim1",
+   "versions": [
+    1
+   ],
+   "material": "small carved copper-brown stone grotesque face with a grinning open mouth; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7colum"
+     ],
+     "fraction": 0.99
+    }
+   }
+  },
+  "mm6/d7trim7": {
+   "name": "d7trim7",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "small carved copper-brown stone demon face with horns and a moustache; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, shadow or hairline along any outer edge; the outermost rows and columns continue the surface at the same brightness as the reference. Keep the carved face exactly as in the reference.",
+    "3": "No dark outline or shadow along any outer edge, especially the top: the wooden blocks continue right to the top border. Keep the warm orange-brown wood tone of the reference.",
+    "5": "No dark ledge, outline or shadow along the top edge: the stone surface continues to the top border at the same brightness. Keep the carved face exactly as in the reference.",
+    "6": "The top edge starts directly with light sandstone at full brightness: no dark ledge or line in the top rows. The dark joint of the bottom edge ends exactly at the bottom border. Keep the carved face exactly as now.",
+    "7": "The top rows continue the warm orange-brown carved wood at full brightness: no dark ledge, shadow or hairline along the top edge. Keep the carved face exactly as now.",
+    "8": "The top rows continue the warm orange-brown carved wood at full brightness: no dark ledge, shadow or hairline along the top edge. Keep the carved face exactly as now."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7wl4re"
+     ],
+     "fraction": 0.802
+    },
+    "2": {
+     "sources": [
+      "mm6/d7wl4re"
+     ],
+     "fraction": 0.802
+    },
+    "3": {
+     "sources": [
+      "mm6/d7wl4re"
+     ],
+     "fraction": 0.802
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [
+      "mm6/d7wl4re"
+     ],
+     "fraction": 0.802
+    },
+    "7": {
+     "sources": [
+      "mm6/d7wl4re"
+     ],
+     "fraction": 0.802
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     44
+    ],
+    "5": [
+     0,
+     44
+    ],
+    "6": [
+     0,
+     44
+    ],
+    "7": [
+     0,
+     44
+    ]
+   },
+   "context": {
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   }
+  }
+ }
+}

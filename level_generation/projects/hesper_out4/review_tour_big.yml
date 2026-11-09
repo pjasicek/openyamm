@@ -1,0 +1,77 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/big",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "plaza_signature",
+   "position": [
+    3700,
+    -15800,
+    1088
+   ],
+   "yaw": 1.8008,
+   "pitch": 0.077
+  },
+  {
+   "name": "kreegan_road_notch",
+   "position": [
+    2880,
+    -21800,
+    1216
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.0303
+  },
+  {
+   "name": "west_run",
+   "position": [
+    -12000,
+    0,
+    1088
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0237
+  },
+  {
+   "name": "spire_gate",
+   "position": [
+    0,
+    -7800,
+    1088
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.5112
+  },
+  {
+   "name": "aerial_citadel",
+   "position": [
+    0,
+    -14000,
+    7620
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.2637
+  },
+  {
+   "name": "aerial_killing_ground",
+   "position": [
+    -12000,
+    -12000,
+    7088
+   ],
+   "yaw": 0.7854,
+   "pitch": -0.3423
+  },
+  {
+   "name": "top_down",
+   "position": [
+    0,
+    -2500,
+    15000
+   ],
+   "yaw": 1.5708,
+   "pitch": -1.4
+  }
+ ]
+}

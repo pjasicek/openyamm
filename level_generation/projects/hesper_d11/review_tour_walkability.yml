@@ -1,0 +1,145 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d11/review/walkability/capture
+settle_seconds: 3
+exit: true
+shots:
+- name: 01_arrival
+  position:
+  - 300
+  - 2800
+  - 160
+  yaw: 0.0
+  pitch: 0.0
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+- name: 02_breach
+  position:
+  - 1850
+  - 3300
+  - 0
+  yaw: 5.5
+  pitch: 0.15
+- name: 03_gestation
+  position:
+  - 850
+  - 650
+  - 0
+  yaw: 0.1
+  pitch: 0.12
+- name: 04_rib_corridor
+  position:
+  - 320
+  - 4000
+  - 160
+  yaw: 1.57
+  pitch: 0.0
+- name: 05_brain
+  position:
+  - 1800
+  - 4100
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0.92
+- name: 06_gangway
+  position:
+  - 1800
+  - 6900
+  - 1440
+  yaw: 4.71
+  pitch: -0.3490658503988659
+- name: 07_noble_hall
+  position:
+  - 300
+  - 7700
+  - 1440
+  yaw: 0.8
+  pitch: 0.0
+- name: 08_trophies
+  position:
+  - 300
+  - 10000
+  - 1440
+  yaw: 0.8
+  pitch: 0.0
+- name: 09_spine
+  position:
+  - 320
+  - 3500
+  - 2720
+  yaw: 1.57
+  pitch: 0.0
+- name: 10_duel
+  position:
+  - 1800
+  - 2700
+  - 2560
+  yaw: 4.71238898038469
+  pitch: -0.05
+- name: 11_vault
+  position:
+  - 800
+  - 1150
+  - 1280
+  yaw: -0.5028432109278608
+  pitch: 0
+- name: port_stair
+  position:
+  - 320
+  - 9700
+  - 1280
+  yaw: -1.6077026381854214
+  pitch: 0.15
+- name: starboard_stair
+  position:
+  - 3280
+  - 9700
+  - 1280
+  yaw: -1.6077026381854214
+  pitch: 0.15
+- name: breach_stair
+  position:
+  - 3300
+  - 3790
+  - 1280
+  yaw: -1.6202405308714933
+  pitch: 0.15
+- name: gilded_stair
+  position:
+  - 1000
+  - 7650
+  - 2560
+  yaw: 1.6169174428094077
+  pitch: 0.15
+- name: vault_stair_hatch
+  position:
+  - 3200
+  - 1450
+  - 2560
+  yaw: 3.141592653589793
+  pitch: 0.15
+  commands:
+  - qbit set 100031
+  - event 52
+- name: vault_dais
+  position:
+  - 1800
+  - 450
+  - 1480
+  yaw: 1.7015528511468894
+  pitch: 0.15
+- name: sensorium_passage
+  position:
+  - 1800
+  - 10450
+  - 2560
+  yaw: -1.6506263125071339
+  pitch: 0.15
+  commands:
+  - event 222
+- name: gallery_diagonal
+  position:
+  - 3280
+  - 4400
+  - 1280
+  yaw: -1.5707963267948966
+  pitch: 0

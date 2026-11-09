@@ -1,0 +1,3 @@
+Saved [raw_B.png](level_generation/ui/hud_inventory/mm9_pc_portraits/pc02/raw_B.png): 1536×1024 RGBA, 28 portraits, verified transparency. Exact prompts and hashes are in [generation_B.json](level_generation/ui/hud_inventory/mm9_pc_portraits/pc02/generation_B.json).
+
+Used the built-in tool and one corrective generation. Remaining deviations include some expressions and jewellery-like ear details; no runtime checks performed.

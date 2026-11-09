@@ -1,0 +1,306 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "best_available_unresized_returns_saved; brief_not_fully_satisfied",
+  "selected_means": "Selected for the requested output filename, not approved as compliant.",
+  "limits": "One initial generation and one corrective regeneration per view; no additional generation.",
+  "unresolved": "The tool returned 1254x1254 images despite 1024x1024 prompts. Exact silhouette and fully flat albedo requirements also remain unmet. No resizing, alpha replacement, colour editing or other postprocessing was performed.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "selected": false,
+      "reason": "Rejected in favour of the correction: wrong native resolution, edge/opening differences, and strong gold highlights.",
+      "prompt": "Use case: precise-object-edit.\nCreate paint_front.png: a 1024 x 1024 RGBA texture-source painting of the provided FRONT orthographic guide, with actual transparent background.\n\nINPUT ROLES, IN ORDER:\n1. guide_front.png \u2014 the EDIT TARGET, absolute authority for geometry, silhouette, every opening, camera, size and placement.\n2. design_reference.png \u2014 approved colour and surface-material reference ONLY. Do not copy its three-quarter camera, its lighting, or change the guide to its geometry.\n3. concept_crop.png \u2014 original concept for context only; do not include the creature or setting.\n\nChange only the grey surface colours of image 1. Treat its alpha mask and every model edge as locked. Keep its exact 1024 x 1024 canvas and existing margins: overall object spans x=262..761 and y=66..957. Do not rescale, crop, rotate, shift, reframe, straighten, symmetrize, or remodel anything. Reproduce the original irregular shapes exactly. The frontal ladder stays at the same central-left position, with the same thin rails, the same rungs and every transparent gap. The two apparent front pylons, splayed root feet, curved internal braces, solid upper under-deck panel, top spikes, and edge-on platform all stay exactly as in the guide. Do not invent extra openings in the solid panel or fill any existing opening. Empty pixels including between braces and rungs must remain alpha zero.\n\nPaint the reference materials onto the existing surfaces: black-violet resin struts, braces, roots and ladder rails with restrained worn gold edging; aged white ceramic pylons with fine cracks and brushed gold bands; ivory bone ladder ribs and top spikes; a narrow saturated orange light strip on the existing pylon surface and orange inset sacs/seams where the reference's material language applies; dark worn alloy deck plates. Fine cracks, scuffs and material markings are colour detail only, not new geometry. Do not add any rubble outside the guide silhouette.\n\nLIGHTING IS ALBEDO ONLY: flat, even, shadowless illumination from the viewer, equal exposure on all surfaces. No cast shadows, ambient occlusion, darkened creases from lighting, directional shading, strong specular highlights, reflections, rim light or bloom. Orange elements are painted orange with luminous-colour centers, with NO light spill onto nearby surfaces. Match the reference's material colours, not its studio lighting. No background, floor, ground shadow, vignette, text, labels, watermark, creature or scenic objects. Return one unresized 1024 x 1024 transparent PNG. Exact guide silhouette and holes take precedence over decorative detail.",
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a1690b-2075-7e72-94d1-73b4146c7ffe/exec-692973a0-ffb4-452a-8d44-dcdd70496769.png",
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background_requested": true,
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/guide_front.png",
+          "role": "edit target; exact geometry and alpha authority",
+          "sha256": "a0b9e9d986fcb12854b481c88e9db2fdf41b9c77375e2a9a5a75b1c8339005fd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/design_reference.png",
+          "role": "approved material and colour reference",
+          "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/concept_crop.png",
+          "role": "original concept context",
+          "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1690b-2075-7e72-94d1-73b4146c7ffe/exec-692973a0-ffb4-452a-8d44-dcdd70496769.png",
+      "output_sha256": "5871ecf32f3a250815e074de9ee302639b4683997bc5e6adf8f9e667a77365f9",
+      "postprocessing": "none; original generated PNG bytes preserved",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "resolution_pass": false,
+        "mode": "RGBA",
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1254537,
+        "alpha_bbox": [
+          33,
+          19,
+          1234,
+          1221
+        ],
+        "alpha_128_bbox": [
+          319,
+          79,
+          935,
+          1171
+        ],
+        "guide_alpha_bbox": [
+          262,
+          66,
+          762,
+          958
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_identical_to_guide": false,
+        "silhouette_visual_review": "Outline and internal-edge differences remain; exact guide preservation failed.",
+        "materials_and_colours": "Visually consistent with the requested black-violet resin, off-white ceramic, ivory bone, gold, orange and dark alloy palette.",
+        "flat_even_light_pass": false,
+        "flat_even_light_review": "Baked shading and strong gold edge highlights remain.",
+        "transparent_background_review": "RGBA with transparent background pixels, but visible edge fringes and low-alpha stray pixels remain.",
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "selected": true,
+      "reason": "Best of the two permitted returns: flatter material treatment. Saved for review only; still fails the exact resolution, silhouette, and fully flat-lighting requirements.",
+      "prompt": "CORRECTIVE REGENERATION \u2014 FRONT VIEW. Produce an edited copy of the FIRST input at exactly 1024 x 1024 pixels, retaining its original canvas, full alpha silhouette, object placement and every hole. Required native output resolution: 1024x1024. Do not output 1254x1254 or any other resolution.\n\nUse case: precise-object-edit. Texture-source ALBEDO, not a shaded illustration.\nInputs: image 1 guide_front.png is the exact edit target and geometric authority; image 2 design_reference.png is colour/material reference only; image 3 concept_crop.png is context only, not geometry or scene content.\n\nPaint directly over every existing grey surface in image 1, without redrawing or modifying its shapes. Preserve the transparent background and all transparent internal holes exactly. Keep the silhouette within x=262..761, y=66..957 of the 1024 square canvas, including the irregular splayed foot outlines. Keep the original ladder rail widths, curved rung shapes, rung count, rung spacing, and openings. Keep the small gap between the two feet. Preserve the asymmetry of the two visible pylons and braces. Keep the upper solid panel opaque and its lower edge in exactly the same place. Retain the platform edge, top horn contours, all cross braces and dangling brace tips. NO new cutouts or ornaments changing any edge. No perspective, shift, resize, recentering or cropping.\n\nMaterial colours from image 2: off-white aged ceramic pylons with fine brown cracks; matte brushed-gold bands; ivory bone ladder rungs and spikes; black-violet resin bracework, thin ladder rails and root-shaped feet with subtle gold wear; narrow orange strip painted into the existing right pylon surface and small orange inset details; dark worn alloy on the platform and upper solid panel. These are surface colour changes inside the existing guide only. Retain all guide shapes even where the design reference differs.\n\nCORRECTION PRIORITIES: preserve the guide's pixel geometry and exact 1024-square canvas, then remove the strong gold edge highlights and baked shading of a beauty render. Use FLAT, EVEN, SHADOWLESS frontal exposure, matte albedo appearance. Uniform base colour across differently oriented faces; fine material texture may vary naturally. NO ambient occlusion, cast shadows, dark side shading, specular highlights, reflections, rim light, halo or bloom. The orange light strip and sacs are saturated orange pigment-like emission colour, never light spilling onto other material. No floor, scenic rubble, background, checkerboard, labels, text, creatures or extra objects. Actual RGBA transparency; preserve the original transparent canvas without stray opaque pixels. Return ONE unresized 1024x1024 PNG.",
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a1690b-2075-7e72-94d1-73b4146c7ffe/exec-c5b7bfba-49dd-4501-9b71-1737c3d81078.png",
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background_requested": true,
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/guide_front.png",
+          "role": "edit target; exact geometry and alpha authority",
+          "sha256": "a0b9e9d986fcb12854b481c88e9db2fdf41b9c77375e2a9a5a75b1c8339005fd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/design_reference.png",
+          "role": "approved material and colour reference",
+          "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/concept_crop.png",
+          "role": "original concept context",
+          "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/paint_front.png",
+      "output_sha256": "29169ab1a60618dc65ec20c7598c36322bfdcfb9dcf18e3c26c227e74f061020",
+      "postprocessing": "none; original generated PNG bytes preserved",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "resolution_pass": false,
+        "mode": "RGBA",
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1257836,
+        "alpha_bbox": [
+          0,
+          0,
+          1235,
+          1197
+        ],
+        "alpha_128_bbox": [
+          318,
+          76,
+          936,
+          1172
+        ],
+        "guide_alpha_bbox": [
+          262,
+          66,
+          762,
+          958
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_identical_to_guide": false,
+        "silhouette_visual_review": "Outline and internal-edge differences remain; exact guide preservation failed.",
+        "materials_and_colours": "Visually consistent with the requested black-violet resin, off-white ceramic, ivory bone, gold, orange and dark alloy palette.",
+        "flat_even_light_pass": false,
+        "flat_even_light_review": "Residual baked shading and edge highlights remain; correction is flatter than the initial return.",
+        "transparent_background_review": "RGBA with transparent background pixels, but visible edge fringes and low-alpha stray pixels remain.",
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "selected": false,
+      "reason": "Rejected in favour of the correction: object enlarged relative to the guide, wrong native resolution, silhouette differences, and strong edge highlights.",
+      "prompt": "Use case: precise-object-edit.\nEdit the FIRST input guide_top.png into paint_top.png, a texture-source ALBEDO painting. Required output: a single native 1024 x 1024 RGBA PNG, transparent background, unresized. Keep the first input's exact canvas resolution.\n\nINPUTS IN ORDER:\n1. guide_top.png \u2014 the edit target and absolute authority for every silhouette edge, position, scale, angle, opening, and visible model shape.\n2. design_reference.png \u2014 authority for colour and materials ONLY, not camera or geometry.\n3. concept_crop.png \u2014 original concept context only, not subjects or scenery to add.\n\nPaint the grey surfaces of image 1 without changing the model. Preserve its exact top-down orthographic view, the slight in-plane rotation, and its large transparent margins. Entire object bounds are x=261..762, y=262..761 on the 1024 square canvas. The deck is the small central rotated square, surrounded by the existing irregular four pylon/root-foot clusters visible from above. All outlines and every visible small piece must remain exactly as in image 1. Do not zoom in to fill the canvas. No cropping, recentering, rotation, straightening, camera tilt, new geometry, new props, new holes, or new rubble. Preserve every transparent gap and the irregular outline of each root-foot cluster. Do not replace the guide with a three-quarter view.\n\nSURFACE MATERIALS: Paint the deck as dark worn alloy plates with subtle warm-metal wear and thin panel divisions, following the material design of image 2. Border/railing and root struts are black-violet resin with restrained brushed gold edges and bands. Existing horn/spike/pylon surfaces are warm ivory bone and aged off-white ceramic with fine hairline cracks. Small inset sacs/seams are saturated glowing orange colour only, where visible within existing surfaces. The visible root-foot areas retain the exact guide shapes and use black-violet resin roots, white ceramic pylon portions, gold bands and sparse rust-red stone colour where existing model pieces correspond to stones. All decoration is colour within the guide's existing outline.\n\nFLAT ALBEDO LIGHTING: even shadowless illumination from the viewer across the whole object. No cast shadows under the railing or horns, no ambient occlusion, no directional shading, no strong specular highlights, no reflections, no rim light, no glow halo, no vignette. Orange inset colours do not illuminate surrounding surfaces. This is surface colour for texture projection, not a lit beauty render. No background, floor, ground plane, checkerboard, creature, environment, labels, text or watermark. Every background pixel and hole must be genuinely transparent. Exact silhouette and placement outrank decorative detail. Return ONE 1024x1024 PNG.",
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a1690b-2075-7e72-94d1-73b4146c7ffe/exec-7d1efec6-f2b7-49ce-ab55-6c5b5ad8574a.png",
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background_requested": true,
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/guide_top.png",
+          "role": "edit target; exact geometry and alpha authority",
+          "sha256": "fd5067f3d7a3b97e884d749bcf09def2cc45dbb24b9b7ba92e8a4cbd8910541f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/design_reference.png",
+          "role": "approved material and colour reference",
+          "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/concept_crop.png",
+          "role": "original concept context",
+          "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1690b-2075-7e72-94d1-73b4146c7ffe/exec-7d1efec6-f2b7-49ce-ab55-6c5b5ad8574a.png",
+      "output_sha256": "a7fa3b5709ea24612d52b968432e86ee5718495522ba4722c0691b9be0f0d4e4",
+      "postprocessing": "none; original generated PNG bytes preserved",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "resolution_pass": false,
+        "mode": "RGBA",
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1200105,
+        "alpha_bbox": [
+          0,
+          21,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          287,
+          302,
+          998,
+          1007
+        ],
+        "guide_alpha_bbox": [
+          261,
+          262,
+          763,
+          762
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_identical_to_guide": false,
+        "silhouette_visual_review": "Outline and internal-edge differences remain; exact guide preservation failed.",
+        "materials_and_colours": "Visually consistent with the requested black-violet resin, off-white ceramic, ivory bone, gold, orange and dark alloy palette.",
+        "flat_even_light_pass": false,
+        "flat_even_light_review": "Baked shading and strong gold edge highlights remain.",
+        "transparent_background_review": "RGBA with transparent background pixels, but visible edge fringes and low-alpha stray pixels remain.",
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "selected": true,
+      "reason": "Best of the two permitted returns: closer guide-relative scale and flatter materials. Saved for review only; still fails the exact resolution, silhouette, and fully flat-lighting requirements.",
+      "prompt": "CORRECTIVE REGENERATION, TOP VIEW. Edit image 1 directly; preserve its exact 1024x1024 native pixel canvas. Output ONE 1024x1024 RGBA transparent PNG, not 1254x1254.\n\nInputs in order:\n1 guide_top.png: locked geometry and alpha-mask EDIT TARGET.\n2 design_reference.png: surface colours/materials only.\n3 concept_crop.png: contextual reference only.\n\nPRIMARY CORRECTION: the previous painting enlarged the object and modified the irregular root-foot outlines. Copy the entire geometry and transparent margin layout of image 1 exactly, then recolour its existing grey surfaces. Do not reinterpret it. The object occupies only the central roughly 500 by 500 pixels of the 1024 by 1024 canvas. Its exact bounding rectangle is x=261..762, y=262..761. The far left and right and upper and lower quarters of the canvas are transparent empty space. Do not zoom in. Preserve every bump, angular root-foot edge, overlap, spike, thin rail and every transparent opening from the guide. Keep the same slightly rotated square top deck, same border posts, same four surrounding irregular foot clusters and same occlusions. Do not add raised three-dimensional ornament, new stones or new openings. Existing shapes take precedence over the prettier reference.\n\nUse case: precise-object-edit, texture-source albedo painting.\nPaint only surface colour: dark worn alloy deck plates with restrained warm gold scuffs and panel seams; black-violet resin border rails and root struts; warm ivory bone horns and ribs; off-white ceramic visible pylon areas with fine hairline cracks and brushed gold bands. Small existing inset regions can have saturated orange sac/seam colours, with no light spill. Use the reference colour palette while strictly fitting the grey model.\n\nSECONDARY CORRECTION: eliminate the gold highlights, dark edge shading and ambient occlusion. FLAT, EVEN, SHADOWLESS frontal lighting everywhere. This is matte base-colour texture data, not a rendered beauty image. No dark shading under the rails, no shaded facet gradients, no specular glints, rim light, cast shadows, reflections, bloom or orange illumination. Fine colour wear is allowed. Do not bake lighting into the albedo.\n\nReal transparency on the entire empty background and every hole, clean edges with no coloured fringe or stray background pixels. Model surfaces should be opaque. No floor, backdrop, checkerboard, scene, demon, text or watermark. Preserve the original 1024x1024 pixel canvas and the guide's EXACT outline and position.",
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a1690b-2075-7e72-94d1-73b4146c7ffe/exec-d6c1bec8-2eaf-4ef5-9e67-5efb33e57431.png",
+      "tool": "built-in image_gen.imagegen",
+      "transparent_background_requested": true,
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/guide_top.png",
+          "role": "edit target; exact geometry and alpha authority",
+          "sha256": "fd5067f3d7a3b97e884d749bcf09def2cc45dbb24b9b7ba92e8a4cbd8910541f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/design_reference.png",
+          "role": "approved material and colour reference",
+          "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/concept_crop.png",
+          "role": "original concept context",
+          "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734"
+        }
+      ],
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_overseer_perch/paint_top.png",
+      "output_sha256": "fd2839c31a710d73a20a1699509d075f061bc46f12abfa768381f069e50f01c9",
+      "postprocessing": "none; original generated PNG bytes preserved",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "resolution_pass": false,
+        "mode": "RGBA",
+        "has_alpha": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixel_count": 1284902,
+        "alpha_bbox": [
+          25,
+          23,
+          1232,
+          1254
+        ],
+        "alpha_128_bbox": [
+          320,
+          320,
+          935,
+          933
+        ],
+        "guide_alpha_bbox": [
+          261,
+          262,
+          763,
+          762
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_identical_to_guide": false,
+        "silhouette_visual_review": "Outline and internal-edge differences remain; exact guide preservation failed.",
+        "materials_and_colours": "Visually consistent with the requested black-violet resin, off-white ceramic, ivory bone, gold, orange and dark alloy palette.",
+        "flat_even_light_pass": false,
+        "flat_even_light_review": "Residual baked shading and edge highlights remain; correction is flatter than the initial return.",
+        "transparent_background_review": "RGBA with transparent background pixels, but visible edge fringes and low-alpha stray pixels remain.",
+        "brief_pass": false
+      }
+    }
+  ]
+}

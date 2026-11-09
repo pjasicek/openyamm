@@ -1,0 +1,597 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "preserve_unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture projection source for the exact Hesper pulse pistol 3D model.\nInputs: Image 1 (design_reference.png) is the approved COLOR AND MATERIAL reference only. Image 2 is the white orthographic model render and is the EDIT TARGET and absolute authority for silhouette, camera, part boundaries, size, orientation, and position.\nProduce one 1024 x 1024 RGBA PNG with genuinely transparent background. PAINT DIRECTLY OVER IMAGE 2, keeping the entire canvas, every opaque shape, all transparent negative space, and every part edge exactly where they are. Keep the guide's alpha silhouette pixel-aligned. Do not turn, rearrange, reframe, zoom, enlarge, recenter, crop, mirror, or redesign the object. The guide's unusual camera is intentional. No parts may be added outside its outline. This is texture painting of the existing geometry, not a new rendering of the reference silhouette.\nItem: A Trooper's sidearm, an Ancient pulse emitter in a grown resin grip, light and quick.\nPaint the reference's materials onto the matching visible model parts: warm ivory-white ceramic with fine wear and subtle mottling; brushed antique gold trim and seams; black-violet grown resin with fine organic grain; ivory bone-like ridges; orange energy in the resin recesses; blue-white emitter glass/crystal within its gold/ceramic housing. Engraved lines, panel joins and tiny non-letter wear markings only. Continue unseen faces plausibly in the same materials. Do not add leather, cloth or paper where the actual design has none.\nLIGHTING IS ALBEDO ONLY: even, flat, shadowless light from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light. Metal is its base color with only a faint sheen. Glowing parts are painted their bright orange or blue-white light colors with no bloom, no spill, and no halo outside the silhouette. Avoid copying the reference's baked highlights and shadows. No background, floor, checkerboard pixels, text, letters, numbers, logo, labels, or watermark.\nTarget: guide_front.png. This view is an extremely narrow horizontal edge-on projection, NOT a pistol profile. Its exact occupied bounds on the 1024 square are x=66..957 and y=447..576. Preserve the huge transparent margins. The ceramic emitter is on the LEFT from x about 66 to 453; the narrow central joint is at x about 454..529; the resin frame and foreshortened grip are on the RIGHT through x=957. Preserve the existing bulges and thin rail in the middle. Do not expose a hanging handle or trigger-loop profile that the guide does not show.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "fa5a240fdf97d75a440119291ca68f7be59b5d3c41c8a757b056e3a121e73851"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Corrective generation required: visible directional shading, specular highlights and geometric edge drift.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-ef02aa5d-b769-4f7f-9147-dde9873187a9.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          71,
+          25,
+          1240,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          66,
+          447,
+          958,
+          577
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9735786659161272,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "flat_albedo": "fail: baked highlights and shading",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "opaque_bbox_alpha_128": [
+          80,
+          547,
+          1175,
+          708
+        ],
+        "normalized_extra_opaque_pixels": 1706,
+        "normalized_missing_opaque_pixels": 547
+      },
+      "output_sha256": "d16319a75639fde752fba21dc5fc961c64df63f7af35360ef6a0689ccb3cd636"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture projection source for the exact Hesper pulse pistol 3D model.\nInputs: Image 1 (design_reference.png) is the approved COLOR AND MATERIAL reference only. Image 2 is the white orthographic model render and is the EDIT TARGET and absolute authority for silhouette, camera, part boundaries, size, orientation, and position.\nProduce one 1024 x 1024 RGBA PNG with genuinely transparent background. PAINT DIRECTLY OVER IMAGE 2, keeping the entire canvas, every opaque shape, all transparent negative space, and every part edge exactly where they are. Keep the guide's alpha silhouette pixel-aligned. Do not turn, rearrange, reframe, zoom, enlarge, recenter, crop, mirror, or redesign the object. The guide's unusual camera is intentional. No parts may be added outside its outline. This is texture painting of the existing geometry, not a new rendering of the reference silhouette.\nItem: A Trooper's sidearm, an Ancient pulse emitter in a grown resin grip, light and quick.\nPaint the reference's materials onto the matching visible model parts: warm ivory-white ceramic with fine wear and subtle mottling; brushed antique gold trim and seams; black-violet grown resin with fine organic grain; ivory bone-like ridges; orange energy in the resin recesses; blue-white emitter glass/crystal within its gold/ceramic housing. Engraved lines, panel joins and tiny non-letter wear markings only. Continue unseen faces plausibly in the same materials. Do not add leather, cloth or paper where the actual design has none.\nLIGHTING IS ALBEDO ONLY: even, flat, shadowless light from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light. Metal is its base color with only a faint sheen. Glowing parts are painted their bright orange or blue-white light colors with no bloom, no spill, and no halo outside the silhouette. Avoid copying the reference's baked highlights and shadows. No background, floor, checkerboard pixels, text, letters, numbers, logo, labels, or watermark.\nTarget: guide_back.png. This view is an extremely narrow horizontal edge-on projection, NOT a pistol profile. Its exact occupied bounds on the 1024 square are x=66..957 and y=447..576. Preserve the huge transparent margins. The grown resin frame and grip are on the LEFT through x about 560; the gold connector is near x=530..570; the ceramic emitter casing is on the RIGHT from x about 571 to 957. Paint the existing ivory ridge facets and dark organic surfaces exactly over the matching guide shapes. Do not expose a hanging handle or trigger-loop profile that the guide does not show.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "444dfea1b493fa2c22939f5bc5969a79b10da33d459f5b17f21aa0bad3c121ae"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Corrective generation required: visible directional shading, specular highlights and geometric edge drift.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-5a2b0995-da6c-4d7d-ae4a-e42084141350.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          63,
+          1181,
+          1222
+        ],
+        "guide_alpha_bbox": [
+          66,
+          447,
+          958,
+          577
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9547729938791392,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "flat_albedo": "fail: baked highlights and shading",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "opaque_bbox_alpha_128": [
+          79,
+          550,
+          1176,
+          709
+        ],
+        "normalized_extra_opaque_pixels": 2535,
+        "normalized_missing_opaque_pixels": 1359
+      },
+      "output_sha256": "79ee79d366fdd5ced6b68aeffbaeec1181667f801306cb4419a94504fc6d2c49"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture projection source for the exact Hesper pulse pistol 3D model.\nInputs: Image 1 (design_reference.png) is the approved COLOR AND MATERIAL reference only. Image 2 is the white orthographic model render and is the EDIT TARGET and absolute authority for silhouette, camera, part boundaries, size, orientation, and position.\nProduce one 1024 x 1024 RGBA PNG with genuinely transparent background. PAINT DIRECTLY OVER IMAGE 2, keeping the entire canvas, every opaque shape, all transparent negative space, and every part edge exactly where they are. Keep the guide's alpha silhouette pixel-aligned. Do not turn, rearrange, reframe, zoom, enlarge, recenter, crop, mirror, or redesign the object. The guide's unusual camera is intentional. No parts may be added outside its outline. This is texture painting of the existing geometry, not a new rendering of the reference silhouette.\nItem: A Trooper's sidearm, an Ancient pulse emitter in a grown resin grip, light and quick.\nPaint the reference's materials onto the matching visible model parts: warm ivory-white ceramic with fine wear and subtle mottling; brushed antique gold trim and seams; black-violet grown resin with fine organic grain; ivory bone-like ridges; orange energy in the resin recesses; blue-white emitter glass/crystal within its gold/ceramic housing. Engraved lines, panel joins and tiny non-letter wear markings only. Continue unseen faces plausibly in the same materials. Do not add leather, cloth or paper where the actual design has none.\nLIGHTING IS ALBEDO ONLY: even, flat, shadowless light from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light. Metal is its base color with only a faint sheen. Glowing parts are painted their bright orange or blue-white light colors with no bloom, no spill, and no halo outside the silhouette. Avoid copying the reference's baked highlights and shadows. No background, floor, checkerboard pixels, text, letters, numbers, logo, labels, or watermark.\nTarget: guide_left.png. This is a compact end-on orthographic projection, NOT a pistol profile. Exact occupied bounds on the 1024 square are x=294..729 and y=447..576. Preserve the huge transparent margins and small subject. The circular muzzle/emitter faces the viewer near x=398,y=511 with a blue-white glass center, gold ring and ivory ceramic outer housing. A foreshortened resin structure extends toward the RIGHT with the grip-end shape near x=670. Follow every existing edge and facet in the guide. Do not expand it into a side-profile gun.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "bf4100eb31343dc14ec649850d0d283dcbc8434eb999afb73dca17d5f4c80587"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Corrective generation required: visible directional shading, specular highlights and geometric edge drift.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-3af8a64e-12b1-4b96-9839-fdd2a453689e.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          97,
+          54,
+          1192,
+          1166
+        ],
+        "guide_alpha_bbox": [
+          294,
+          447,
+          730,
+          577
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9645135075233334,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "flat_albedo": "fail: baked highlights and shading",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "opaque_bbox_alpha_128": [
+          360,
+          547,
+          894,
+          707
+        ],
+        "normalized_extra_opaque_pixels": 1439,
+        "normalized_missing_opaque_pixels": 2
+      },
+      "output_sha256": "6e1c710afb78da83c8c713cbdf7cc1fa403d5cef5a9f4c881f2d563ef24e9ed0"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture projection source for the exact Hesper pulse pistol 3D model.\nInputs: Image 1 (design_reference.png) is the approved COLOR AND MATERIAL reference only. Image 2 is the white orthographic model render and is the EDIT TARGET and absolute authority for silhouette, camera, part boundaries, size, orientation, and position.\nProduce one 1024 x 1024 RGBA PNG with genuinely transparent background. PAINT DIRECTLY OVER IMAGE 2, keeping the entire canvas, every opaque shape, all transparent negative space, and every part edge exactly where they are. Keep the guide's alpha silhouette pixel-aligned. Do not turn, rearrange, reframe, zoom, enlarge, recenter, crop, mirror, or redesign the object. The guide's unusual camera is intentional. No parts may be added outside its outline. This is texture painting of the existing geometry, not a new rendering of the reference silhouette.\nItem: A Trooper's sidearm, an Ancient pulse emitter in a grown resin grip, light and quick.\nPaint the reference's materials onto the matching visible model parts: warm ivory-white ceramic with fine wear and subtle mottling; brushed antique gold trim and seams; black-violet grown resin with fine organic grain; ivory bone-like ridges; orange energy in the resin recesses; blue-white emitter glass/crystal within its gold/ceramic housing. Engraved lines, panel joins and tiny non-letter wear markings only. Continue unseen faces plausibly in the same materials. Do not add leather, cloth or paper where the actual design has none.\nLIGHTING IS ALBEDO ONLY: even, flat, shadowless light from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light. Metal is its base color with only a faint sheen. Glowing parts are painted their bright orange or blue-white light colors with no bloom, no spill, and no halo outside the silhouette. Avoid copying the reference's baked highlights and shadows. No background, floor, checkerboard pixels, text, letters, numbers, logo, labels, or watermark.\nTarget: guide_right.png. This is the compact opposite end-on orthographic projection, NOT a pistol profile. Exact occupied bounds on the 1024 square are x=294..729 and y=447..576. Preserve the huge transparent margins and small subject. This sees the back of the grown black-violet resin assembly with ivory ridges, modest gold edging and orange inset energy where appropriate; the broad faceted resin cap is on the RIGHT and the narrower grip end is on the LEFT. Follow the guide's occlusion and exact part boundaries. Do not invent a visible muzzle aperture through the back of the object and do not expand it into a side-profile gun.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "c37a4ab88e3f8ce4f2f7e2af748559df4793d8d9a06c33c4f057ca56b2b98111"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Corrective generation required: visible directional shading, specular highlights and geometric edge drift.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-f70a66f2-8c54-4644-8a86-d8e316ea9054.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          328,
+          142,
+          1224,
+          1068
+        ],
+        "guide_alpha_bbox": [
+          294,
+          447,
+          730,
+          577
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9513006728036725,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "flat_albedo": "fail: baked highlights and shading",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "opaque_bbox_alpha_128": [
+          358,
+          544,
+          896,
+          707
+        ],
+        "normalized_extra_opaque_pixels": 2003,
+        "normalized_missing_opaque_pixels": 2
+      },
+      "output_sha256": "7c6d8d52309705ec4675ad6fecbce9e8e0d5cef66fc29f37bad6d8ff69fba440"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture projection source for the exact Hesper pulse pistol 3D model.\nInputs: Image 1 (design_reference.png) is the approved COLOR AND MATERIAL reference only. Image 2 is the white orthographic model render and is the EDIT TARGET and absolute authority for silhouette, camera, part boundaries, size, orientation, and position.\nProduce one 1024 x 1024 RGBA PNG with genuinely transparent background. PAINT DIRECTLY OVER IMAGE 2, keeping the entire canvas, every opaque shape, all transparent negative space, and every part edge exactly where they are. Keep the guide's alpha silhouette pixel-aligned. Do not turn, rearrange, reframe, zoom, enlarge, recenter, crop, mirror, or redesign the object. The guide's unusual camera is intentional. No parts may be added outside its outline. This is texture painting of the existing geometry, not a new rendering of the reference silhouette.\nItem: A Trooper's sidearm, an Ancient pulse emitter in a grown resin grip, light and quick.\nPaint the reference's materials onto the matching visible model parts: warm ivory-white ceramic with fine wear and subtle mottling; brushed antique gold trim and seams; black-violet grown resin with fine organic grain; ivory bone-like ridges; orange energy in the resin recesses; blue-white emitter glass/crystal within its gold/ceramic housing. Engraved lines, panel joins and tiny non-letter wear markings only. Continue unseen faces plausibly in the same materials. Do not add leather, cloth or paper where the actual design has none.\nLIGHTING IS ALBEDO ONLY: even, flat, shadowless light from the viewer. No cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light. Metal is its base color with only a faint sheen. Glowing parts are painted their bright orange or blue-white light colors with no bloom, no spill, and no halo outside the silhouette. Avoid copying the reference's baked highlights and shadows. No background, floor, checkerboard pixels, text, letters, numbers, logo, labels, or watermark.\nTarget: guide_top.png. This guide's directly-above model camera produces the pistol PROFILE: barrel pointing LEFT and the grip angling down to the RIGHT. Exact occupied bounds on the 1024 square are x=66..957 and y=294..729. Follow this geometry rather than the opposite orientation in the color reference. Ivory ceramic barrel occupies the LEFT, outlined in muted brushed gold with the existing long recess painted blue-white; orange energy core and gold joint near x=470..520; black-violet resin frame and grip on the RIGHT with ivory ridges and orange recesses. The trigger loop around x=530..675,y=442..548 must retain its exact clear hole and the ivory curved trigger. Keep the original low-poly outline, spike tips, width, grip angle and all spacing. Do not replace the model with the reference silhouette.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "f1d55576a34f3432ace55a0692ba5b11f37e0b32ae3791ae2fbecf60c03ce468"
+        }
+      ],
+      "output": null,
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": false,
+      "reason": "Tool returned no image: moderation_blocked, violence; request ID 6e9057c5-1789-4859-ac2c-59aef743ee65.",
+      "status": "tool_rejected"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Paint Image 1 itself as a flat, unlit albedo texture source for a fictional fantasy videogame inventory prop. This is purely decorative object artwork, without people, action, injury, or instructions.\nImage 1 is guide_front.png: the exact orthographic model guide to paint. Image 2 is design_reference.png: use its material colors, ornament placement and wear only.\nCRITICAL CORRECTION: preserve Image 1's alpha mask, every contour and part boundary, its exact size and position on its original 1024 x 1024 canvas. Keep the large empty margins. Do not add or remove geometry, change camera, change scale, crop, or recenter. Every pixel outside Image 1's silhouette must be alpha zero, with no stray specks or halos.\nPaint warm white ceramic with fine wear, muted brushed gold, black-violet grown resin, ivory ridges, bright orange insets and blue-white emitter glass as in Image 2. Continue the same materials on unseen surfaces. Preserve engraved lines and seams as subtle color detail. No lettering.\nCRITICAL LIGHTING CORRECTION: output the BASE COLOR/ALBEDO pass with all lighting disabled. Remove all specular white glints, reflected highlights, directional shading, dark crease/occlusion shading, cast shadows and rim lights from the color reference. All sides of each material have the same base brightness. Fine material grain and wear remain, but do not render glossy metal or plastic. Gold is muted ochre-gold with only a faint sheen; resin is matte black-violet. Orange and blue-white light areas are flat bright pigment colors without gradients to black, bloom or light spill.\nTarget: guide_front.png. This view is an extremely narrow horizontal edge-on projection, NOT a pistol profile. Its exact occupied bounds on the 1024 square are x=66..957 and y=447..576. Preserve the huge transparent margins. The ceramic emitter is on the LEFT from x about 66 to 453; the narrow central joint is at x about 454..529; the resin frame and foreshortened grip are on the RIGHT through x=957. Preserve the existing bulges and thin rail in the middle. Do not expose a hanging handle or trigger-loop profile that the guide does not show.\nReturn one transparent-background RGBA PNG, requested 1024 x 1024, one view only, no text, labels, numbers, floor or background.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "fa5a240fdf97d75a440119291ca68f7be59b5d3c41c8a757b056e3a121e73851"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        }
+      ],
+      "output": "paint_front.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Selected corrective return for flatter illumination and closer correspondence to the guide's visible facets. Exact silhouette and fully flat albedo checks remain unmet. One corrective regeneration used.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-95153ca3-6731-49ea-b32a-f86b8c0aeb99.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "17795acf873e6253edf72963c8c5b7e8fefb4b009bafb78a23137dfac9a7de53",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          37,
+          1216,
+          1222
+        ],
+        "opaque_bbox_alpha_128": [
+          79,
+          550,
+          1175,
+          707
+        ],
+        "guide_alpha_bbox": [
+          66,
+          447,
+          958,
+          577
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9782329288855873,
+        "normalized_extra_opaque_pixels": 1241,
+        "normalized_missing_opaque_pixels": 605,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "flat_albedo": "Improved versus first returns, but not fully flat: residual edge highlights and cavity shading remain.",
+        "exact_brief_compliance": false,
+        "remaining_limitations": [
+          "Native tool size is 1254 x 1254 rather than 1024 x 1024; preserved unresized as instructed.",
+          "Guide outline and alpha are not pixel-identical; small edge drift and stray low-alpha pixels remain.",
+          "Residual shading/highlights prevent strict unlit albedo compliance."
+        ]
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Paint Image 1 itself as a flat, unlit albedo texture source for a fictional fantasy videogame inventory prop. This is purely decorative object artwork, without people, action, injury, or instructions.\nImage 1 is guide_back.png: the exact orthographic model guide to paint. Image 2 is design_reference.png: use its material colors, ornament placement and wear only.\nCRITICAL CORRECTION: preserve Image 1's alpha mask, every contour and part boundary, its exact size and position on its original 1024 x 1024 canvas. Keep the large empty margins. Do not add or remove geometry, change camera, change scale, crop, or recenter. Every pixel outside Image 1's silhouette must be alpha zero, with no stray specks or halos.\nPaint warm white ceramic with fine wear, muted brushed gold, black-violet grown resin, ivory ridges, bright orange insets and blue-white emitter glass as in Image 2. Continue the same materials on unseen surfaces. Preserve engraved lines and seams as subtle color detail. No lettering.\nCRITICAL LIGHTING CORRECTION: output the BASE COLOR/ALBEDO pass with all lighting disabled. Remove all specular white glints, reflected highlights, directional shading, dark crease/occlusion shading, cast shadows and rim lights from the color reference. All sides of each material have the same base brightness. Fine material grain and wear remain, but do not render glossy metal or plastic. Gold is muted ochre-gold with only a faint sheen; resin is matte black-violet. Orange and blue-white light areas are flat bright pigment colors without gradients to black, bloom or light spill.\nTarget: guide_back.png. This view is an extremely narrow horizontal edge-on projection, NOT a pistol profile. Its exact occupied bounds on the 1024 square are x=66..957 and y=447..576. Preserve the huge transparent margins. The grown resin frame and grip are on the LEFT through x about 560; the gold connector is near x=530..570; the ceramic emitter casing is on the RIGHT from x about 571 to 957. Paint the existing ivory ridge facets and dark organic surfaces exactly over the matching guide shapes. Do not expose a hanging handle or trigger-loop profile that the guide does not show.\nReturn one transparent-background RGBA PNG, requested 1024 x 1024, one view only, no text, labels, numbers, floor or background.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "444dfea1b493fa2c22939f5bc5969a79b10da33d459f5b17f21aa0bad3c121ae"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        }
+      ],
+      "output": "paint_back.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Selected corrective return for flatter illumination and closer correspondence to the guide's visible facets. Exact silhouette and fully flat albedo checks remain unmet. One corrective regeneration used.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-eba01769-62b0-412b-82fd-548bbda9e06b.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "2c88c6cf6622972f14f4813f47244d9e961f05ef9ae62e0790ce0cf928284734",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          23,
+          53,
+          1248,
+          1230
+        ],
+        "opaque_bbox_alpha_128": [
+          80,
+          547,
+          1174,
+          707
+        ],
+        "guide_alpha_bbox": [
+          66,
+          447,
+          958,
+          577
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9760176562924147,
+        "normalized_extra_opaque_pixels": 1165,
+        "normalized_missing_opaque_pixels": 867,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "flat_albedo": "Improved versus first returns, but not fully flat: residual edge highlights and cavity shading remain.",
+        "exact_brief_compliance": false,
+        "remaining_limitations": [
+          "Native tool size is 1254 x 1254 rather than 1024 x 1024; preserved unresized as instructed.",
+          "Guide outline and alpha are not pixel-identical; small edge drift and stray low-alpha pixels remain.",
+          "Residual shading/highlights prevent strict unlit albedo compliance."
+        ]
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Paint Image 1 itself as a flat, unlit albedo texture source for a fictional fantasy videogame inventory prop. This is purely decorative object artwork, without people, action, injury, or instructions.\nImage 1 is guide_left.png: the exact orthographic model guide to paint. Image 2 is design_reference.png: use its material colors, ornament placement and wear only.\nCRITICAL CORRECTION: preserve Image 1's alpha mask, every contour and part boundary, its exact size and position on its original 1024 x 1024 canvas. Keep the large empty margins. Do not add or remove geometry, change camera, change scale, crop, or recenter. Every pixel outside Image 1's silhouette must be alpha zero, with no stray specks or halos.\nPaint warm white ceramic with fine wear, muted brushed gold, black-violet grown resin, ivory ridges, bright orange insets and blue-white emitter glass as in Image 2. Continue the same materials on unseen surfaces. Preserve engraved lines and seams as subtle color detail. No lettering.\nCRITICAL LIGHTING CORRECTION: output the BASE COLOR/ALBEDO pass with all lighting disabled. Remove all specular white glints, reflected highlights, directional shading, dark crease/occlusion shading, cast shadows and rim lights from the color reference. All sides of each material have the same base brightness. Fine material grain and wear remain, but do not render glossy metal or plastic. Gold is muted ochre-gold with only a faint sheen; resin is matte black-violet. Orange and blue-white light areas are flat bright pigment colors without gradients to black, bloom or light spill.\nTarget: guide_left.png. This is a compact end-on orthographic projection, NOT a pistol profile. Exact occupied bounds on the 1024 square are x=294..729 and y=447..576. Preserve the huge transparent margins and small subject. The circular muzzle/emitter faces the viewer near x=398,y=511 with a blue-white glass center, gold ring and ivory ceramic outer housing. A foreshortened resin structure extends toward the RIGHT with the grip-end shape near x=670. Follow every existing edge and facet in the guide. Do not expand it into a side-profile gun.\nReturn one transparent-background RGBA PNG, requested 1024 x 1024, one view only, no text, labels, numbers, floor or background.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "bf4100eb31343dc14ec649850d0d283dcbc8434eb999afb73dca17d5f4c80587"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        }
+      ],
+      "output": "paint_left.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Selected corrective return for flatter illumination and closer correspondence to the guide's visible facets. Exact silhouette and fully flat albedo checks remain unmet. One corrective regeneration used.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-96d205d4-f68c-463a-839a-bb40809a005f.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "a63bd7ad8730531bc0751f4eb8500e5ea8bda6c4d6e5744a8eae276a6db28401",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          258,
+          39,
+          1232,
+          1005
+        ],
+        "opaque_bbox_alpha_128": [
+          360,
+          547,
+          893,
+          707
+        ],
+        "guide_alpha_bbox": [
+          294,
+          447,
+          730,
+          577
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9786483986298973,
+        "normalized_extra_opaque_pixels": 829,
+        "normalized_missing_opaque_pixels": 25,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "flat_albedo": "Improved versus first returns, but not fully flat: residual edge highlights and cavity shading remain.",
+        "exact_brief_compliance": false,
+        "remaining_limitations": [
+          "Native tool size is 1254 x 1254 rather than 1024 x 1024; preserved unresized as instructed.",
+          "Guide outline and alpha are not pixel-identical; small edge drift and stray low-alpha pixels remain.",
+          "Residual shading/highlights prevent strict unlit albedo compliance."
+        ]
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Paint Image 1 itself as a flat, unlit albedo texture source for a fictional fantasy videogame inventory prop. This is purely decorative object artwork, without people, action, injury, or instructions.\nImage 1 is guide_right.png: the exact orthographic model guide to paint. Image 2 is design_reference.png: use its material colors, ornament placement and wear only.\nCRITICAL CORRECTION: preserve Image 1's alpha mask, every contour and part boundary, its exact size and position on its original 1024 x 1024 canvas. Keep the large empty margins. Do not add or remove geometry, change camera, change scale, crop, or recenter. Every pixel outside Image 1's silhouette must be alpha zero, with no stray specks or halos.\nPaint warm white ceramic with fine wear, muted brushed gold, black-violet grown resin, ivory ridges, bright orange insets and blue-white emitter glass as in Image 2. Continue the same materials on unseen surfaces. Preserve engraved lines and seams as subtle color detail. No lettering.\nCRITICAL LIGHTING CORRECTION: output the BASE COLOR/ALBEDO pass with all lighting disabled. Remove all specular white glints, reflected highlights, directional shading, dark crease/occlusion shading, cast shadows and rim lights from the color reference. All sides of each material have the same base brightness. Fine material grain and wear remain, but do not render glossy metal or plastic. Gold is muted ochre-gold with only a faint sheen; resin is matte black-violet. Orange and blue-white light areas are flat bright pigment colors without gradients to black, bloom or light spill.\nTarget: guide_right.png. This is the compact opposite end-on orthographic projection, NOT a pistol profile. Exact occupied bounds on the 1024 square are x=294..729 and y=447..576. Preserve the huge transparent margins and small subject. This sees the back of the grown black-violet resin assembly with ivory ridges, modest gold edging and orange inset energy where appropriate; the broad faceted resin cap is on the RIGHT and the narrower grip end is on the LEFT. Follow the guide's occlusion and exact part boundaries. Do not invent a visible muzzle aperture through the back of the object and do not expand it into a side-profile gun.\nReturn one transparent-background RGBA PNG, requested 1024 x 1024, one view only, no text, labels, numbers, floor or background.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "c37a4ab88e3f8ce4f2f7e2af748559df4793d8d9a06c33c4f057ca56b2b98111"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        }
+      ],
+      "output": "paint_right.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Selected corrective return for flatter illumination and closer correspondence to the guide's visible facets. Exact silhouette and fully flat albedo checks remain unmet. One corrective regeneration used.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-993e95c0-d84c-4a6e-9e84-c1d9f5817885.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "feb38958a462eb33a04ab5848828625722d7f9024667527fc1a565333fc82854",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          49,
+          45,
+          1230,
+          1222
+        ],
+        "opaque_bbox_alpha_128": [
+          360,
+          546,
+          894,
+          708
+        ],
+        "guide_alpha_bbox": [
+          294,
+          447,
+          730,
+          577
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9701429668723209,
+        "normalized_extra_opaque_pixels": 1191,
+        "normalized_missing_opaque_pixels": 14,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "flat_albedo": "Improved versus first returns, but not fully flat: residual edge highlights and cavity shading remain.",
+        "exact_brief_compliance": false,
+        "remaining_limitations": [
+          "Native tool size is 1254 x 1254 rather than 1024 x 1024; preserved unresized as instructed.",
+          "Guide outline and alpha are not pixel-identical; small edge drift and stray low-alpha pixels remain.",
+          "Residual shading/highlights prevent strict unlit albedo compliance."
+        ]
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Paint Image 1 itself as a flat, unlit albedo texture source for a fictional fantasy videogame inventory prop. This is purely decorative object artwork, without people, action, injury, or instructions.\nImage 1 is guide_top.png: the exact orthographic model guide to paint. Image 2 is design_reference.png: use its material colors, ornament placement and wear only.\nCRITICAL CORRECTION: preserve Image 1's alpha mask, every contour and part boundary, its exact size and position on its original 1024 x 1024 canvas. Keep the large empty margins. Do not add or remove geometry, change camera, change scale, crop, or recenter. Every pixel outside Image 1's silhouette must be alpha zero, with no stray specks or halos.\nPaint warm white ceramic with fine wear, muted brushed gold, black-violet grown resin, ivory ridges, bright orange insets and blue-white emitter glass as in Image 2. Continue the same materials on unseen surfaces. Preserve engraved lines and seams as subtle color detail. No lettering.\nCRITICAL LIGHTING CORRECTION: output the BASE COLOR/ALBEDO pass with all lighting disabled. Remove all specular white glints, reflected highlights, directional shading, dark crease/occlusion shading, cast shadows and rim lights from the color reference. All sides of each material have the same base brightness. Fine material grain and wear remain, but do not render glossy metal or plastic. Gold is muted ochre-gold with only a faint sheen; resin is matte black-violet. Orange and blue-white light areas are flat bright pigment colors without gradients to black, bloom or light spill.\nTarget: guide_top.png. This guide's directly-above model camera produces the pistol PROFILE: barrel pointing LEFT and the grip angling down to the RIGHT. Exact occupied bounds on the 1024 square are x=66..957 and y=294..729. Follow this geometry rather than the opposite orientation in the color reference. Ivory ceramic barrel occupies the LEFT, outlined in muted brushed gold with the existing long recess painted blue-white; orange energy core and gold joint near x=470..520; black-violet resin frame and grip on the RIGHT with ivory ridges and orange recesses. The trigger loop around x=530..675,y=442..548 must retain its exact clear hole and the ivory curved trigger. Keep the original low-poly outline, spike tips, width, grip angle and all spacing. Do not replace the model with the reference silhouette.\nReturn one transparent-background RGBA PNG, requested 1024 x 1024, one view only, no text, labels, numbers, floor or background.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f1d55576a34f3432ace55a0692ba5b11f37e0b32ae3791ae2fbecf60c03ce468"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2eb59e66e04f3420865dcf07974d1218d3ee702f78b372959e160bd8df9dc296"
+        }
+      ],
+      "output": "paint_top.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "selected": true,
+      "reason": "Selected sole successful top-view return. Palette, orientation and main framing match; exact silhouette and fully flat albedo checks remain unmet. No further generation under the two-attempt limit.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e73-9aa6-72d0-aa5e-d26dc58a1e91/exec-0eafd0c1-fd4a-4434-916e-557691ee23af.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "8d28f32dc5ba1a090d5f54c0997a61f88fd4af8216828f68b16130110527824d",
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          73,
+          60,
+          1238,
+          1212
+        ],
+        "opaque_bbox_alpha_128": [
+          80,
+          363,
+          1179,
+          892
+        ],
+        "guide_alpha_bbox": [
+          66,
+          294,
+          958,
+          730
+        ],
+        "silhouette_alpha_exact": false,
+        "normalized_silhouette_iou": 0.9697095764491461,
+        "normalized_extra_opaque_pixels": 2304,
+        "normalized_missing_opaque_pixels": 2283,
+        "materials_match": "Reference palette matches visually; unseen surfaces inferred.",
+        "no_text": "Visual pass: no letters, labels or text.",
+        "flat_albedo": "Improved versus first returns, but not fully flat: residual edge highlights and cavity shading remain.",
+        "exact_brief_compliance": false,
+        "remaining_limitations": [
+          "Native tool size is 1254 x 1254 rather than 1024 x 1024; preserved unresized as instructed.",
+          "Guide outline and alpha are not pixel-identical; small edge drift and stray low-alpha pixels remain.",
+          "Residual shading/highlights prevent strict unlit albedo compliance."
+        ]
+      }
+    }
+  ],
+  "status": "All five named image deliverables saved; strict silhouette and unlit-albedo requirements not fully achieved within the allowed correction limit.",
+  "validation": "Input hashes and byte-identical copies verified. Each output visually inspected; native dimensions, RGBA transparency and normalized guide-mask overlap checked. Images were not resized, composited, masked or retouched after generation."
+}

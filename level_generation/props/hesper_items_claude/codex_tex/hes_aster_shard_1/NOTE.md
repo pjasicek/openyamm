@@ -1,0 +1,1 @@
+Meshy (batch 4) made a block with the crystal on its narrow sides. The shard is a Blender slab in its icon's outline (build_hesper.py), paint_top.png the approved icon painting projected from above, the edges the nearest painted colour. The Meshy result and its Codex paintings are in superseded_meshy/.

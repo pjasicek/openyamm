@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m290_claude/references_hd/00_three_quarter.png) using built-in image generation: native 1024 × 1536 RGBA, unresized.
+
+Both raw returns and exact prompts are recorded in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m290_claude/references_hd/generation_runs.json). Selected the correction; residual faults include narrow sleeve gaps, tight margins and a faint halo.

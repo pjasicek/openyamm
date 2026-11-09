@@ -1,0 +1,75 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_hyd_new.glb",
+ "patch_materials": {
+  "Hydra_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Hydra_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Hydra_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HydraB_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HydraB_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HydraB_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsA_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsA_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsA_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsB_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsB_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsB_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsC_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsC_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HeadsC_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_hyd_new",
+ "size": 300,
+ "front": "-y"
+}

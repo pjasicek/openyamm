@@ -1,0 +1,52 @@
+# Where the doll holds each Hesper weapon and emitter: the item's Equip X / Equip Y (items.txt columns 15-16), a point
+# in the inventory icon's logical pixels (half its x2 size) that the engine puts on the doll's hand (main hand: the
+# right hand's fingers; an emitter, as a shield: the left hand plus the doll's shield offset). The draft rows have
+# 0,0, which hangs the icon's top-left corner from the hand. stage.py writes these into the staged item rows.
+# Bows need none: the engine centres a bow on the doll's bow point.
+#
+# Melee grips: on the icon's own shaft at MM's median grip height for the weapon type (measured over every MM6-MM8
+# weapon: sword 0.85 of the height, dagger 0.81, axe and mace 0.80, spear 0.48, staff 0.40); emitters at their
+# centre, as MM's shields.
+#
+# Guns are held as MM6 and MM7 hold their blasters (the engine draws a held weapon as its inventory icon, and
+# Hesper's guns lie horizontal, muzzle right, which points across the doll's body):
+# - `up`, the long guns: stood muzzle-up with the grip and stock toward the body, as MM6's and MM7's Blaster Rifles
+#   (a quarter turn counter-clockwise), held at mid-length on the barrel line as they are (MM6 0.50 and MM7 0.56 of
+#   the gun from the muzzle; here 0.53, the barrel line read at the muzzle). Points below are on the horizontal icon.
+# - `out`, the pistols: horizontal, muzzle pointing away from the body, held by the handle, as MM7's Blaster (the icon
+#   mirrored). The stage installs the turned or mirrored icon (a turned gun also stands upright in the pack, as MM's
+#   rifles do) and turns the grip with it.
+grips:
+  11000: [6, 21, out]      # Pulse Pistol
+  11001: [6, 21, out]      # Noble Sidearm
+  11002: [50, 10, up]     # Ion Carbine
+  11003: [58, 11, up]     # Lancer Carbine
+  11004: [57, 11, up]     # Arc Rifle
+  11005: [58, 9, up]     # Storm Rifle
+  11006: [51, 16, up]     # Scatter Lance
+  11007: [49, 12, up]     # Breaker Lance
+  11008: [73, 27, up]    # Disruptor Cannon
+  11020: [9, 49]      # Vibro Knife
+  11021: [7, 49]      # Noble Fang
+  11022: [6, 79]      # Plasma Saber
+  11023: [9, 106]     # Plasma Longblade
+  11024: [27, 74]     # Arc Maul
+  11025: [29, 100]    # Thunder Maul
+  11026: [25, 100]    # Phase Axe
+  11027: [22, 100]    # Phase Cleaver
+  11028: [6, 75]      # Ion Pike
+  11029: [11, 67]     # Lattice Halberd
+  11030: [14, 62]     # Overseer's Rod
+  11031: [10, 62]     # Lattice Staff
+  11130: [29, 30]     # Buckler Emitter
+  11131: [29, 30]     # Bastion Emitter
+  11420: [58, 9, up]     # Founder's Repeater
+  11421: [6, 79]      # Vhorrax's Courtesy
+  11422: [13, 75]     # Coil Spear
+  11423: [24, 100]    # Forgemaster's Hammer
+  11424: [11, 62]     # Conductor's Baton
+  11425: [8, 49]      # Ssekh's Fang
+  11426: [33, 100]    # Mraal's Cleaver
+  11428: [28, 30]     # Last Light of Hesper
+  11438: [5, 62]      # Vreth's First Cut: the warglaive's centre grip (half height), not the sword's 0.85
+  11439: [24, 62]     # Vreth's Last Cut (the mirrored icon)

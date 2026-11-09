@@ -1,0 +1,29 @@
+# Scandlan and Broccan's new-game talk (newgame_talk, guberland.cinematics.yml; NPC150.scr/NPC151.scr): an ambient
+# cinematic (no cameras, letterbox or input lock). Far from Scandlan nothing starts; when he first perceives the party
+# (MM9's OnFoundPlayer, event 56047) key 5020 at once; the twelve lines play (78.7 s with the last wav), no save
+# meanwhile; at 69.8 s Broccan walks off to Mata; then it is over and never starts again. README "Cinematics".
+id: mm9r.guberland_blv.cinematic_newgame_talk_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: guberland.blv}
+- note: {text: "StartPoint0, far from Scandlan: nothing starts"}
+- console: {line: cinematic list, expect_contains: newgame_talk}
+- advance_runtime: {seconds: 2.5}
+- assert: {qbit_clear: [95020]}
+- set_pose: {map: guberland.blv, x: 12300, y: 14435, z: 121, yaw: -1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 2.5}
+- note: {text: "Scandlan hears the party behind him: the talk starts, key 5020"}
+- console: {line: cinematic list, expect_contains: playing newgame_talk}
+- assert: {qbit_set: [95020]}
+- save_game: {name: mid_talk, expect_failure: true}
+- advance_runtime: {seconds: 60}
+- console: {line: cinematic list, expect_contains: playing newgame_talk}
+- note: {text: "the party walks on meanwhile (no input lock)"}
+- set_pose: {map: guberland.blv, x: 12300, y: 14735, z: 121, yaw: 1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 6}
+- console: {line: cinematic list, expect_contains: playing newgame_talk}
+- note: {text: ":Trigger12 (69.8 s) Broccan walks off toward Mata; Scandlan's 12 at 70.8 s, the last cue"}
+- advance_runtime: {seconds: 4}
+- note: {text: "over after Scandlan's 12 (70.8 s, the last cue): a save works again"}
+- save_game: {name: after_talk}

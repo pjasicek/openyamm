@@ -1,0 +1,99 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.connectingtunnels_scripted
+title: Connecting Tunnels (native BLV) - the coffin unlocks the chest inside it
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: connectingtunnels.blv
+- note:
+    text: 'TreasureChest1 (Locked 1) in the coffin: shut, a click on the coffin is not a chest.'
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- execute_event:
+    id: 41
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    chest_opened:
+      absent: true
+- note:
+    text: A real click on the lids swings both open (coffin door right's OpenTrigger 'unlock').
+- set_pose:
+    map: connectingtunnels.blv
+    x: -1094
+    y: -13269
+    z: -880
+    yaw: -0.0087
+    pitch: -0.7631
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- assert:
+    mechanism:
+      id: 2
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: CoffinOpen
+      value: 1
+- note:
+    text: 'The chest inside now opens (by its event: headless picking does not follow the lids'' swing, playbook gotcha; the
+      desktop check clicks it).'
+- set_pose:
+    map: connectingtunnels.blv
+    x: -944
+    y: -13140
+    z: -767
+    yaw: -1.5708
+    pitch: -1.1376
+- advance_runtime:
+    seconds: 0.2
+- execute_event:
+    id: 41
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- note:
+    text: Closing the coffin (its event) locks the chest again (CloseTrigger 'lock').
+- set_pose:
+    map: connectingtunnels.blv
+    x: -944
+    y: -12850
+    z: -900
+    yaw: -1.5708
+    pitch: 0.0
+- execute_event:
+    id: 60
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: CoffinOpen
+      value: 0

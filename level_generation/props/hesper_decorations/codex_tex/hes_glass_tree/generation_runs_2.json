@@ -1,0 +1,83 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "Generated outputs retained unresized; exact-size and silhouette requirements not met after one corrective generation.",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Create exactly one 1024 x 1024 RGBA image with transparent background, an unresized texture-source painting of the BACK of this glass tree.\nInput 1 design_reference.png is ONLY the approved material/colour authority, not geometry or camera. Input 2 guide_back.png is the edit target and the absolute geometry authority: a grey orthographic BACK view of the exact 3D mesh.\nPaint the visible surface of input 2. Preserve its silhouette EXACTLY pixel for pixel, same outline, size, position, every shape edge, root, branch, opening and detail in precisely the same locations. Preserve the guide's alpha coverage. Do not rotate, reframe, enlarge, crop, add branches, invent holes, or borrow the front/three-quarter silhouette of input 1.\nMaterials: glossy black obsidian glass with a faint violet sheen, rough bubbly grey-black glass at the foot, pale grey ash crust around the base. Match the approved design's material character and colours, adapted to the back-facing geometry. Any orange seams present are painted only as their local orange colour, never casting light.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless illumination from the viewer, uniform exposure over the whole object. No cast shadows, no ambient occlusion or directional darkening, no strong specular highlights or reflections, no rim light. Express the glass material through restrained local surface colour and delicate texture, not baked shiny lighting. No background, no floor, no text. Output only the painted back view on true transparent alpha, 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "41a13e18453b4b3ab60fd5469df73cf025c592adae11cd5f570b282a6bd2134a"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-285c-7810-a3e5-849e0a614caa/exec-6d6b29a5-e7b7-444b-8de3-6d156ec02595.png",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: incorrect returned dimensions, shifted and enlarged silhouette, excessive silver specular highlights.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Black glass and rough base present, excessive bright silver reflections.",
+        "flat_even_light": false,
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          22,
+          1240,
+          1254
+        ],
+        "unresized": true
+      },
+      "output_sha256": "41633fad0e9d9bde20133250278194d132b0e9b2ad2ec9504997bba794ed789c"
+    },
+    {
+      "view": "back",
+      "prompt": "Corrective generation, use case style-transfer, texture-source albedo painting. REQUIRED OUTPUT SIZE: exactly 1024 by 1024 pixels. Do not return 1254 by 1254. Transparent RGBA PNG.\nImage 1 is guide_back.png, the canvas to EDIT IN PLACE. Keep its original 1024x1024 canvas and exact alpha mask unchanged. The visible object bounds are x=192..831, y=66..957. Keep these bounds and all empty margins. Paint only inside the existing opaque guide surface. Every twig, root, branch, gap and shape edge stays fixed at precisely its current coordinates. Do not grow the object, recenter it, reorient it, change any shape or invent holes. This is the BACK view.\nImage 2 design_reference.png is ONLY a material palette reference. Do NOT copy its framing, geometry, photographic illumination, chrome highlights, reflection patterns, or holes.\nReplace the grey guide surface colour with black obsidian glass with subtle violet local colour; at the foot use rough bubbly grey-black glass and pale grey ash crust around the base. Retain the exact guide's solid geometry. Tiny warm amber/orange material seams may match the palette but must not cast light.\nCRITICAL lighting correction: flat EVEN SHADOWLESS ALBEDO. No shiny white reflection streaks, no bright highlights, no silver/chrome surfaces, no rim lighting, no cast shadows, no ambient occlusion, no directional shading, no studio-light reflections. The design's glossy material will be provided by a game shader later; this image supplies its dark local surface colours only. All sides of the model are equally illuminated. No background or floor. No text. Output the full original guide canvas, exactly 1024x1024, with the guide silhouette and alpha preserved.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "41a13e18453b4b3ab60fd5469df73cf025c592adae11cd5f570b282a6bd2134a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-285c-7810-a3e5-849e0a614caa/exec-c43d6f15-7994-4e19-a3ef-69493590e820.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best of the two allowed returns: darker violet-black glass, less reflective lighting and pale grey rough base. Selected for delivery only; not accepted as brief-compliant because dimensions and exact silhouette still fail. Retained without resizing or mask editing as required.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Violet-black glass and rough grey ash base present; painted cavities and amber detail exceed the guide's surface geometry.",
+        "flat_even_light": "Improved, but residual directional highlights and dark cavities remain.",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          17,
+          1240,
+          1230
+        ],
+        "unresized": true
+      },
+      "output_sha256": "4dc3f51065fbda56483f92befbb64e562cac887d5546457cb56095f020184863"
+    }
+  ]
+}

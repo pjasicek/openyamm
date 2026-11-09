@@ -1,0 +1,37 @@
+id: hesper.out1.crew_ramp_round_trip
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d00.blv
+- assert:
+    map: hes_d00.blv
+- set_pose:
+    map: hes_d00.blv
+    x: 7600
+    y: 3700
+    z: 452
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: hes_out1.odm
+- set_pose:
+    map: hes_out1.odm
+    x: -8716
+    y: -13193
+    z: 1230
+    yaw: 0.9796
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d00.blv

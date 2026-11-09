@@ -1,0 +1,96 @@
+# Hesper's terrain materials, merged into the Hesper stage's engine/terrain_materials/library.yml by stage.py
+# and cooked into the stage (tools/terrain_materials.py cook --output). Sources: assets_source/engine/
+# terrain_materials/<id> (sources.yml). Not in assets_dev: the Hesper world is staged, not installed.
+version: 1
+materials:
+  ceramic_plating:
+    albedo_height: ceramic_plating/albedo_height.oytex
+    normal_ao_rough: ceramic_plating/normal_ao_rough.oytex
+    mean_color:
+    - 0.8506
+    - 0.706
+    - 0.5545
+    physical_size_m: 2.0
+    license: CC0 1.0
+    origin: https://ambientcg.com/view?id=Tiles142
+  creep_resin:
+    albedo_height: creep_resin/albedo_height.oytex
+    normal_ao_rough: creep_resin/normal_ao_rough.oytex
+    mean_color:
+    - 0.2918
+    - 0.2199
+    - 0.2336
+    physical_size_m: 2.0
+    license: CC0 1.0
+    origin: https://ambientcg.com/view?id=Lava001
+    # The creep's veins glow orange (STARPORT_REACH.md, Ground): texels of the untinted photoscan warmer than the
+    # threshold (red minus blue) add color times their albedo, by day and night alike.
+    emissive:
+      color: [1.1, 0.55, 0.22]
+      threshold: 0.2
+  glass_obsidian:
+    albedo_height: glass_obsidian/albedo_height.oytex
+    normal_ao_rough: glass_obsidian/normal_ao_rough.oytex
+    mean_color:
+    - 0.0615
+    - 0.1019
+    - 0.1146
+    physical_size_m: 2.0
+    license: CC0 1.0
+    origin: https://ambientcg.com/view?id=Rock035
+  # The Scour (hes_out2; THE_SCOUR.md, Ground): the slag crust and the molten seams through it, whose orange veins
+  # glow (the crust texels stay dark: red minus blue below the threshold).
+  slag_crust:
+    albedo_height: slag_crust/albedo_height.oytex
+    normal_ao_rough: slag_crust/normal_ao_rough.oytex
+    mean_color: [0.1276, 0.1081, 0.0909]
+    physical_size_m: 2.42
+    license: CC0 1.0
+    origin: https://polyhaven.com/a/dark_rock
+    specular: 0.6
+  slag_molten:
+    albedo_height: slag_molten/albedo_height.oytex
+    normal_ao_rough: slag_molten/normal_ao_rough.oytex
+    mean_color: [0.4854, 0.253, 0.2349]
+    physical_size_m: 2.0
+    license: CC0 1.0
+    origin: https://ambientcg.com/view?id=Lava005
+    emissive:
+      color: [1.6, 0.75, 0.25]
+      threshold: 0.35
+  # The Crown (hes_out4; THE_CROWN.md section 8): resin paving, Poly Haven slate_floor turned violet-black with its
+  # joints painted violet into the albedo (level_generation/projects/hesper_out4/prepare_resin_paving.py); no emissive.
+  resin_paving:
+    albedo_height: resin_paving/albedo_height.oytex
+    normal_ao_rough: resin_paving/normal_ao_rough.oytex
+    mean_color: [0.2902, 0.2467, 0.378]
+    physical_size_m: 2.29
+    license: CC0 1.0
+    origin: https://polyhaven.com/a/slate_floor
+    specular: 0.6
+  # The Brood Spires (hes_out3; BROOD_SPIRES.md section 8), packed by level_generation/projects/hesper_out3/
+  # import_terrain_materials.py: the wet creep (fresh glossy resin and the Kreegan resin roads, its brighter veins
+  # glowing as creep_resin's) and the egg membrane (a scaled hide, tinted violet in the map's slot file; no glow).
+  creep_wet:
+    albedo_height: creep_wet/albedo_height.oytex
+    normal_ao_rough: creep_wet/normal_ao_rough.oytex
+    mean_color:
+    - 0.3065
+    - 0.2166
+    - 0.2355
+    physical_size_m: 2.0
+    license: CC0 1.0
+    origin: https://ambientcg.com/view?id=Lava003
+    emissive:
+      color: [1.2, 0.6, 0.25]
+      threshold: 0.25
+  brood_membrane:
+    albedo_height: brood_membrane/albedo_height.oytex
+    normal_ao_rough: brood_membrane/normal_ao_rough.oytex
+    mean_color:
+    - 0.1987
+    - 0.1894
+    - 0.188
+    physical_size_m: 1.0
+    license: CC0 1.0
+    origin: https://ambientcg.com/view?id=Leather008

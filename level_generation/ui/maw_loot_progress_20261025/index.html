@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loot Filter and Progress</title>
+<!--
+  Browser study for MAW H.6 (devdocs/maw/GAPS.md §11 D.16): a rule-based loot filter and a progression panel, drawn
+  over 1600x900 native captures with the Carved Obsidian graphics and fonts. Nothing here is wired into the game.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #9fa594; --gold: #e3c185; --brass: #8c815f;
+  --amount: #ffe66b; --good: #8fe08a; --warn: #f2c35a; --bad: #e66a5a;
+  --common: #c8c7a7; --uncommon: #7fd36b; --rare: #6aa9ff; --epic: #c77dff; --ancient: #ff9f43; --primordial: #ff5a5a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 12px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review span { color: #9aa597; }
+#wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: top left;
+  overflow: hidden; background: #071012; }
+.abs { position: absolute; }
+.hidden { display: none !important; }
+.chip { display: inline-flex; align-items: center; height: 26px; padding: 0 12px; margin-right: 6px;
+  font: 14px Lucida, sans-serif; color: #c8c7a7; border: 1px solid #5d6449; background: #0d1716cc; cursor: pointer;
+  user-select: none; }
+.chip.on { border-color: #d6bb80; color: #ffe4ac; background: #2b2a1acc; }
+.bar { position: relative; height: 10px; background: #26302a; border: 1px solid #00000080; }
+.bar > i { position: absolute; left: 0; top: 0; bottom: 0; }
+
+/* ---------- A: loot filter, a modal over play opened from the Rules tab ---------- */
+#filter { inset: 0; background: url(gameplay_backdrop.jpg) 0 0 / 100% 100%; }
+#filter .veil { inset: 0; background: #000a; }
+#modal { left: 150px; top: 60px; width: 1300px; height: 780px;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_modal.png) 0 0 / 100% 100% no-repeat; }
+#modal h2 { position: absolute; left: 66px; top: 44px; margin: 0; font: 36px Fondamento, serif; color: var(--ivory);
+  text-shadow: 0 2px #000; }
+#modal .sub { position: absolute; left: 68px; top: 94px; width: 760px; color: var(--muted); font-size: 14px; }
+#modal .master { position: absolute; right: 70px; top: 56px; display: flex; gap: 10px; align-items: center;
+  font-size: 16px; color: var(--body); }
+.toggle { width: 112px; height: 40px; background: url(../../../assets_dev/engine/hud_x2/menus/omenu_toggle_on.png) 0 0 / 100% 100%;
+  display: flex; align-items: center; justify-content: flex-end; padding-right: 22px; cursor: pointer; }
+.toggle.off { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_toggle_off.png); }
+#modal .rule-line { position: absolute; left: 60px; right: 60px; height: 1px; background: #b5a47755; }
+#rules { position: absolute; left: 60px; top: 140px; width: 700px; height: 440px; }
+#rules h4, #editor h4, #recent h4 { margin: 0 0 8px; font: 22px Fondamento, serif; color: var(--label); }
+.rule { display: grid; grid-template-columns: 30px 1fr 180px 70px; align-items: center; height: 46px;
+  padding: 0 10px; margin-bottom: 4px; font-size: 15px; color: var(--body); cursor: pointer;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row.png) 0 0 / 100% 100%; }
+.rule.on { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row_selected.png); }
+.rule.disabled { opacity: .45; }
+.rule .n { color: var(--muted); }
+.rule .act { text-align: right; }
+.rule .act.gold { color: var(--amount); }
+.rule .act.keep { color: var(--good); }
+.rule .act.mark { color: #9ec3e6; }
+.rule .ctl { text-align: right; color: var(--muted); letter-spacing: 6px; }
+.rule.fixed { cursor: default; }
+.r-common { color: var(--common); } .r-uncommon { color: var(--uncommon); } .r-rare { color: var(--rare); }
+.r-epic { color: var(--epic); } .r-ancient { color: var(--ancient); } .r-primordial { color: var(--primordial); }
+#addrule { margin-top: 8px; }
+#editor { position: absolute; left: 790px; top: 140px; width: 450px; height: 440px; padding: 4px 18px;
+  border-left: 2px solid #ac9663; background: #bbab6112; }
+#editor .field { margin: 10px 0 4px; color: var(--muted); font-size: 13px; }
+#editor .row { display: flex; flex-wrap: wrap; gap: 6px; }
+#editor .row .chip { margin-right: 0; }
+#editor .note { margin-top: 14px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+#recent { position: absolute; left: 72px; right: 72px; top: 596px; height: 130px; }
+#recent .drops { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 30px; font-size: 14px; color: var(--body); }
+#recent .drops div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#recent .drops .why { color: var(--muted); font-size: 12px; }
+
+/* ---------- A: loot filter, presets first ---------- */
+#filter, #advanced { inset: 0; background: url(gameplay_backdrop.jpg) 0 0 / 100% 100%; }
+#smodal { left: 150px; top: 60px; width: 1300px; height: 780px;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_modal.png) 0 0 / 100% 100% no-repeat; }
+#smodal h2 { position: absolute; left: 66px; top: 44px; margin: 0; font: 36px Fondamento, serif; color: var(--ivory);
+  text-shadow: 0 2px #000; }
+#smodal .sub { position: absolute; left: 68px; top: 94px; width: 1000px; color: var(--muted); font-size: 14px; }
+#smodal .rule-line { position: absolute; left: 60px; right: 60px; height: 1px; background: #b5a47755; }
+#presets { position: absolute; left: 60px; top: 140px; width: 400px; }
+#presets h4, #matrixBox h4, #keepBox h4, #preview h4 { margin: 0 0 8px; font: 22px Fondamento, serif; color: var(--label); }
+.preset { position: relative; padding: 6px 14px 7px 40px; margin-bottom: 5px; cursor: pointer; min-height: 50px;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row.png) 0 0 / 100% 100%; }
+.preset.on { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row_selected.png); }
+.preset b { display: block; font: 19px Fondamento, serif; color: var(--ivory); font-weight: normal; }
+.preset span { display: block; font-size: 13px; line-height: 1.35; color: var(--muted); }
+.preset .pip { position: absolute; left: 13px; top: 15px; width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid #8c815f; }
+.preset.on .pip { background: radial-gradient(#ffe7b0, #c9a25c); border-color: #e3c185; }
+.preset .lvl { position: absolute; right: 14px; top: 10px; display: flex; gap: 3px; }
+.preset .lvl i { width: 7px; height: 14px; background: #3b4438; }
+.preset .lvl i.f { background: #c9a25c; }
+#matrixBox { position: absolute; left: 490px; top: 140px; width: 750px; }
+#matrix { display: grid; grid-template-columns: 120px repeat(3, 1fr); gap: 3px; font-size: 13px; }
+#matrix .h { color: var(--muted); text-align: center; padding: 4px 2px; line-height: 1.2; }
+#matrix .rh { padding: 5px 8px; }
+#matrix .c { text-align: center; padding: 5px 2px; border: 1px solid #00000066; line-height: 1.15; }
+#matrix .keep { background: #2d4a2c88; color: #a9d99a; }
+#matrix .gold { background: #5d4a1b99; color: var(--amount); }
+#matrix .lvl { background: #4a3a1c88; color: #f2c35a; }
+#matrix .always { background: #26302a; color: #6f786c; }
+#matrixBox .note { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+#keepBox { position: absolute; left: 490px; top: 486px; width: 750px; }
+#keepBox .row { display: flex; flex-wrap: wrap; gap: 6px; }
+#keepBox .row .chip { margin-right: 0; }
+#keepBox .always { margin-top: 10px; color: var(--muted); font-size: 13px; }
+#keepBox .then { margin-top: 12px; display: flex; gap: 6px; align-items: center; color: var(--muted); font-size: 13px; }
+#preview { position: absolute; left: 72px; right: 260px; top: 624px; }
+#preview .sum { font-size: 16px; color: var(--body); }
+#preview .sum b { color: var(--amount); font-weight: normal; }
+#preview .sum i { color: var(--good); font-style: normal; }
+#customize { position: absolute; right: 70px; top: 650px; height: 44px; padding: 0 22px; display: flex;
+  align-items: center; font: 20px Fondamento, serif; color: var(--ivory); cursor: pointer;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_default.png) 0 0 / 100% 100%; }
+#back { position: absolute; right: 70px; top: 58px; }
+#modal .master { right: 220px; }
+
+/* ---------- B: progress, a fifth journal tab ---------- */
+#progress { inset: 0; background: url(journal_backdrop.jpg) 0 0 / 100% 100%; }
+#progress .cover { left: 232px; top: 30px; width: 1008px; height: 858px; background: #19241e; }
+#progress .tabcover { left: 1244px; top: 24px; width: 142px; height: 760px; background: #1e2a25; }
+#progress .tabs { left: 1250px; top: 40px; width: 128px; }
+.jtab { position: relative; width: 128px; height: 128px; margin-bottom: 18px; cursor: pointer;
+  background: 0 0 / 100% 100% no-repeat; }
+.jtab.made { background: #23302a; border: 1px solid #5a5a48; box-shadow: inset 0 0 0 2px #000a; display: flex;
+  flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 14px;
+  font: 25px Fondamento, serif; color: var(--ivory); text-shadow: 0 2px #000; }
+.jtab.sel { background-color: #3d3a2c; border-color: #c9ad74; }
+.jtab .ic { width: 52px; height: 52px; margin-bottom: 10px; }
+#ptitle { left: 260px; top: 52px; width: 960px; text-align: center; font: 44px Fondamento, serif; color: var(--gold);
+  text-shadow: 0 2px #000; }
+#psub { left: 260px; top: 112px; width: 960px; text-align: center; color: var(--body); font-size: 15px; }
+#psub b { color: var(--ivory); font-weight: normal; }
+#continents { left: 270px; top: 152px; width: 940px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.cont { padding: 10px 14px 12px; background: #0d1716cc; border: 1px solid #5d6449; cursor: pointer; }
+.cont.on { border-color: #d6bb80; background: #2b2a1a99; }
+.cont h5 { margin: 0 0 6px; font: 21px Fondamento, serif; color: var(--label); display: flex;
+  justify-content: space-between; align-items: baseline; }
+.cont h5 small { font: 13px Lucida, sans-serif; color: var(--muted); }
+.cont .kv { display: flex; justify-content: space-between; font-size: 14px; color: var(--body); margin: 3px 0; }
+.cont .kv b { color: var(--ivory); font-weight: normal; }
+.cont .bank { color: var(--amount) !important; }
+#maps { left: 270px; top: 304px; width: 620px; height: 510px; }
+#maps .filters { margin-bottom: 8px; }
+.mrow { display: grid; grid-template-columns: 1fr 70px 150px 60px; gap: 10px; align-items: center; height: 31px;
+  padding: 0 8px; font-size: 14px; color: var(--body); cursor: pointer; border-bottom: 1px solid #ffffff0d; }
+.mrow:hover, .mrow.on { background: #c9b07a1f; }
+.mrow .lv { color: var(--muted); text-align: right; }
+.mrow .done { text-align: right; }
+.mrow.head { cursor: default; color: var(--muted); font-size: 12px; height: 22px; background: none; }
+#mdetail { left: 910px; top: 304px; width: 300px; height: 510px; padding: 4px 16px; border-left: 2px solid #ac9663;
+  background: #bbab6112; font-size: 14px; color: var(--body); }
+#mdetail h4 { margin: 0 0 8px; font: 23px Fondamento, serif; color: var(--label); }
+#mdetail .kv { display: flex; justify-content: space-between; margin: 4px 0; }
+#mdetail .kv b { color: var(--ivory); font-weight: normal; }
+#mdetail .aff { margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+#dim { left: 270px; top: 832px; width: 940px; font-size: 14px; color: var(--body); display: flex; gap: 34px; }
+#dim b { color: var(--ivory); font-weight: normal; }
+#dim .lab { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="review">
+  <button data-view="filter" aria-pressed="true">A · Loot filter (presets)</button>
+  <button data-view="advanced" aria-pressed="false">A2 · Custom rules</button>
+  <button data-view="progress" aria-pressed="false">B · Progress (journal tab)</button>
+  <span>Click rules, chips, continents and map rows. Nothing here is wired into the game.</span>
+</div>
+<div id="wrap"><div id="stage">
+
+  <!-- A: Loot filter, presets first -->
+  <div id="filter" class="abs">
+    <div class="veil abs"></div>
+    <div id="smodal" class="abs">
+      <h2>Loot filter</h2>
+      <div class="sub">Drops you would rather not carry turn into gold (40 % of their value). The levels follow your
+        party, so a preset stays right as you grow.</div>
+      <div class="rule-line" style="top:128px"></div>
+      <div id="presets"><h4>Strictness</h4><div id="presetList"></div></div>
+      <div id="matrixBox"><h4>What it filters</h4><div id="matrix"></div>
+        <div class="note" id="matrixNote"></div></div>
+      <div id="keepBox"><h4>Items without rarity: turn into gold</h4><div class="row" id="keepRow"></div>
+        <div class="always">Always kept: legendary, Celestial and set items, artifacts, quest items, spellbooks.</div>
+        <div class="then">Filtered items <span class="chip on" id="thenGold">turn into gold</span>
+          <span class="chip" id="thenGround">stay on the ground, greyed</span></div></div>
+      <div class="rule-line" style="top:612px"></div>
+      <div id="preview"><h4>Your last 50 drops with this filter</h4><div class="sum" id="previewSum"></div></div>
+      <div id="customize">Customize rules…</div>
+    </div>
+  </div>
+
+  <!-- A2: the same filter as rules (Customize) -->
+  <div id="advanced" class="abs hidden">
+    <div class="veil abs"></div>
+    <div id="modal" class="abs">
+      <h2>Loot filter · rules</h2>
+      <span class="chip" id="back">← Presets</span>
+      <div class="sub">Started from the Regular preset. Every drop is checked against these rules from the top; the
+        first rule that fits decides. Quest items are never filtered.</div>
+      <div class="master">Filter <div class="toggle" id="master">On</div></div>
+      <div class="rule-line" style="top:128px"></div>
+
+      <div id="rules">
+        <h4>Rules</h4>
+        <div id="ruleList"></div>
+        <span class="chip" id="addrule">+ Add rule</span>
+      </div>
+
+      <div id="editor">
+        <h4 id="edTitle">Rule 2</h4>
+        <div class="field">Rarity at most</div>
+        <div class="row" id="edRarity"></div>
+        <div class="field">Item types</div>
+        <div class="row" id="edTypes"></div>
+        <div class="field">Item level</div>
+        <div class="row" id="edLevel"></div>
+        <div class="field">Then</div>
+        <div class="row" id="edAction"></div>
+        <div class="note" id="edNote"></div>
+      </div>
+
+      <div class="rule-line" style="top:588px"></div>
+      <div id="recent">
+        <h4>Recent drops</h4>
+        <div class="drops" id="drops"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: Progress, the journal's fifth tab -->
+  <div id="progress" class="abs hidden">
+    <div class="cover abs"></div>
+    <div class="tabcover abs"></div>
+    <div class="tabs abs">
+      <div class="jtab" style="background-image:url(tab_map.png)"></div>
+      <div class="jtab" style="background-image:url(tab_quests.png)"></div>
+      <div class="jtab" style="background-image:url(tab_story.png)"></div>
+      <div class="jtab" style="background-image:url(tab_notes.png)"></div>
+      <div class="jtab made sel">
+        <svg class="ic" viewBox="0 0 52 52"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f3dca0"/><stop offset="1" stop-color="#a8823f"/></linearGradient></defs>
+          <path d="M8 6h36v30l-18 12L8 36z" fill="#5a1e18" stroke="url(#g)" stroke-width="3"/>
+          <path d="M16 30l6-8 5 5 9-13" fill="none" stroke="url(#g)" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="36" cy="14" r="3" fill="url(#g)"/></svg>Progress</div>
+    </div>
+    <div id="ptitle" class="abs">Progress</div>
+    <div id="psub" class="abs"><b>MAW difficulty</b> · <b>Horizontal progression</b> · total level <b>142</b> ·
+      challenge mode <b>none</b></div>
+    <div id="continents" class="abs"></div>
+    <div id="maps" class="abs">
+      <div class="filters" id="mapFilters"></div>
+      <div class="mrow head"><span>Map</span><span class="lv">Levels</span><span>Cleared</span><span class="done">Resets</span></div>
+      <div id="mapList"></div>
+    </div>
+    <div id="mdetail" class="abs"></div>
+    <div id="dim" class="abs"></div>
+  </div>
+
+</div></div>
+<script>
+const stage = document.getElementById('stage');
+const wrap = document.getElementById('wrap');
+const fit = () => { stage.style.transform = `scale(${wrap.clientWidth / 1600})`; };
+addEventListener('resize', fit); fit();
+
+const views = { filter: document.getElementById('filter'), advanced: document.getElementById('advanced'),
+  progress: document.getElementById('progress') };
+function show(view) {
+  for (const [name, el] of Object.entries(views)) el.classList.toggle('hidden', name !== view);
+  document.querySelectorAll('.review button').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === view));
+}
+document.querySelectorAll('.review button').forEach(b => b.onclick = () => show(b.dataset.view));
+
+/* ---------- A: loot filter ---------- */
+const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Ancient', 'Primordial'];
+const TYPES = ['Weapons', 'Armour', 'Jewellery', 'Wands', 'Scrolls & books', 'Potions', 'Reagents', 'Gems', 'Other'];
+const LEVELS = ['Any level', 'Below party − 10', 'Below party − 20', 'Below party − 40'];
+const ACTIONS = { keep: 'Keep', gold: 'Turn into gold', mark: 'Leave on the ground' };
+const rules = [
+  { fixed: 'top', text: 'Legendary, Celestial or artifact', action: 'keep',
+    note: 'Always first, so a filter never eats a legendary affix, a Celestial item or an artifact. It can be switched off but not moved.' },
+  { rarity: 1, types: ['Weapons', 'Armour'], level: 0, action: 'gold' },
+  { rarity: 2, types: ['Weapons', 'Armour', 'Jewellery'], level: 2, action: 'gold' },
+  { rarity: 0, types: ['Scrolls & books'], level: 0, action: 'mark' },
+  { rarity: 5, types: ['Potions', 'Reagents', 'Gems'], level: 0, action: 'keep' },
+  { fixed: 'last', text: 'Everything else', action: 'keep', note: 'The last rule; only its action can change.' },
+];
+let selected = 1, filterOn = true;
+function ruleText(r) {
+  if (r.fixed) return r.text;
+  const rar = `<span class="r-${RARITIES[r.rarity].toLowerCase()}">${RARITIES[r.rarity]}</span>`;
+  const lv = r.level ? `, ${LEVELS[r.level].toLowerCase()}` : '';
+  return `${rar} or below · ${r.types.join(', ')}${lv}`;
+}
+function renderRules() {
+  const list = document.getElementById('ruleList');
+  list.innerHTML = '';
+  rules.forEach((r, i) => {
+    const row = document.createElement('div');
+    row.className = 'rule' + (i === selected ? ' on' : '') + (r.fixed ? ' fixed' : '') + (filterOn ? '' : ' disabled');
+    row.innerHTML = `<span class="n">${i + 1}</span><span>${ruleText(r)}</span>` +
+      `<span class="act ${r.action}">${ACTIONS[r.action]}</span><span class="ctl">${r.fixed ? '' : '▲▼✕'}</span>`;
+    row.onclick = () => { selected = i; renderRules(); renderEditor(); };
+    list.appendChild(row);
+  });
+}
+function chips(el, items, isOn, onClick) {
+  el.innerHTML = '';
+  items.forEach((label, i) => {
+    const c = document.createElement('span');
+    c.className = 'chip' + (isOn(label, i) ? ' on' : '');
+    c.innerHTML = label;
+    c.onclick = () => { onClick(label, i); renderRules(); renderEditor(); };
+    el.appendChild(c);
+  });
+}
+function renderEditor() {
+  const r = rules[selected];
+  document.getElementById('edTitle').textContent = `Rule ${selected + 1}`;
+  const editable = !r.fixed;
+  document.querySelectorAll('#editor .field').forEach((f, i) => f.classList.toggle('hidden', !editable && i < 3));
+  ['edRarity', 'edTypes', 'edLevel'].forEach(id => document.getElementById(id).classList.toggle('hidden', !editable));
+  if (editable) {
+    chips(document.getElementById('edRarity'),
+      RARITIES.map(n => `<span class="r-${n.toLowerCase()}">${n}</span>`), (l, i) => i === r.rarity, (l, i) => r.rarity = i);
+    chips(document.getElementById('edTypes'), TYPES, l => r.types.includes(l),
+      l => { r.types = r.types.includes(l) ? r.types.filter(t => t !== l) : [...r.types, l]; });
+    chips(document.getElementById('edLevel'), LEVELS, (l, i) => i === r.level, (l, i) => r.level = i);
+  }
+  chips(document.getElementById('edAction'), Object.values(ACTIONS), l => ACTIONS[r.action] === l,
+    l => r.action = Object.keys(ACTIONS).find(k => ACTIONS[k] === l));
+  document.getElementById('edNote').innerHTML = r.note ||
+    'Turn into gold pays 40 % of the item\'s value (MAW\'s loot filter) and says so in the combat log. Leave on ' +
+    'the ground drops it beside the corpse with a grey outline instead of the rarity glow, so it can still be picked up.';
+}
+document.getElementById('master').onclick = e => {
+  filterOn = !filterOn; e.target.classList.toggle('off', !filterOn); e.target.textContent = filterOn ? 'On' : 'Off';
+  renderRules();
+};
+document.getElementById('addrule').onclick = () => {
+  rules.splice(rules.length - 1, 0, { rarity: 0, types: ['Other'], level: 0, action: 'gold' });
+  selected = rules.length - 2; renderRules(); renderEditor();
+};
+const DROPS = [
+  ['<span class="r-uncommon">Uncommon</span> Longsword', '→ <span style="color:var(--amount)">312 gold</span>', 'rule 2'],
+  ['<span class="r-epic">Epic</span> Ring of the Lion', 'kept', 'rule 6'],
+  ['<span class="r-rare">Rare</span> Chain Mail (level 31)', '→ <span style="color:var(--amount)">1,140 gold</span>', 'rule 3'],
+  ['<span class="r-common">Common</span> Scroll of Fire Bolt', 'left on the ground', 'rule 4'],
+  ['<span class="r-ancient">Ancient</span> Sword, legendary Thorns', 'kept', 'rule 1'],
+  ['Cure Wounds potion (power 40)', 'kept', 'rule 5'],
+];
+document.getElementById('drops').innerHTML = DROPS.map(d =>
+  `<div>${d[0]} ${d[1]} <span class="why">· ${d[2]}</span></div>`).join('');
+renderRules(); renderEditor();
+
+/* ---------- A: presets ---------- */
+// Only weapons, armour and jewellery have a rarity (the MAW author, 2026-10-25): they get the rarity grid; the kinds
+// without one are plain checkmarks.
+const GROUPS = ['Weapons', 'Armour', 'Jewellery'];
+const KINDS = ['Wands', 'Scrolls', 'Potions', 'Reagents', 'Gems'];
+// Per preset and group: the highest rarity turned into gold, and the rarity above it turned into gold once it is
+// this many levels below the party (0: never); and the kinds without rarity it turns into gold.
+const PRESETS = [
+  { id: 'off', name: 'Off', desc: 'Every drop stays an item.', level: 0,
+    groups: [[-1, 0], [-1, 0], [-1, 0]], kinds: [], drops: [0, 0] },
+  { id: 'soft', name: 'Soft', desc: 'Plain Common weapons and armour only. A first game.', level: 1,
+    groups: [[0, 30], [0, 30], [-1, 0]], kinds: [], drops: [14, 860] },
+  { id: 'regular', name: 'Regular', desc: 'Common and Uncommon gear; Rare once 20 levels behind.', level: 2,
+    groups: [[1, 20], [1, 20], [0, 20]], kinds: [], drops: [27, 2410] },
+  { id: 'strict', name: 'Strict', desc: 'Gear up to Rare, Epic once 20 levels behind; scrolls too.', level: 3,
+    groups: [[2, 20], [2, 20], [1, 20]], kinds: ['Scrolls'], drops: [38, 5920] },
+  { id: 'vstrict', name: 'Very strict', desc: 'Only Ancient and Primordial gear stays; wands and scrolls go. Late game.',
+    level: 4, groups: [[3, 30], [3, 30], [2, 20]], kinds: ['Wands', 'Scrolls'], drops: [44, 9310] },
+  { id: 'custom', name: 'Custom', desc: 'Your own rules, from the preset you had.', level: -1 },
+];
+let preset = 'regular';
+let kinds = new Set();
+function renderPresets() {
+  const list = document.getElementById('presetList');
+  list.innerHTML = '';
+  for (const p of PRESETS) {
+    const d = document.createElement('div');
+    d.className = 'preset' + (p.id === preset ? ' on' : '');
+    const pips = p.level >= 0 ? `<span class="lvl">${[0, 1, 2, 3].map(i =>
+      `<i class="${i < p.level ? 'f' : ''}"></i>`).join('')}</span>` : '';
+    d.innerHTML = `<span class="pip"></span>${pips}<b>${p.name}</b><span>${p.desc}</span>`;
+    d.onclick = () => {
+      if (p.id === 'custom') { show('advanced'); return; }
+      preset = p.id; kinds = new Set(p.kinds); renderFilter();
+    };
+    list.appendChild(d);
+  }
+}
+function renderMatrix() {
+  const p = PRESETS.find(x => x.id === preset);
+  const m = document.getElementById('matrix');
+  let html = '<div class="h"></div>' + GROUPS.map(g => `<div class="h">${g}</div>`).join('');
+  RARITIES.forEach((rar, r) => {
+    html += `<div class="rh r-${rar.toLowerCase()}">${rar}</div>`;
+    GROUPS.forEach((g, gi) => {
+      const [top, below] = p.groups[gi];
+      let cls = 'keep', text = 'keep';
+      if (r <= top) { cls = 'gold'; text = 'gold'; }
+      else if (r === top + 1 && below) { cls = 'lvl'; text = `gold if ${below}+ levels below`; }
+      html += `<div class="c ${cls}">${text}</div>`;
+    });
+  });
+  m.innerHTML = html;
+  document.getElementById('matrixNote').innerHTML = preset === 'off' ? 'Nothing is filtered.' :
+    '"Gold if 20+ levels below": only once its level is 20 or more below the party\'s, so older gear goes as you grow.';
+}
+function renderKeep() {
+  const row = document.getElementById('keepRow');
+  row.innerHTML = '';
+  for (const k of KINDS) {
+    const c = document.createElement('span');
+    c.className = 'chip' + (kinds.has(k) ? ' on' : '');
+    c.innerHTML = (kinds.has(k) ? '☑ ' : '☐ ') + k;
+    c.onclick = () => { kinds.has(k) ? kinds.delete(k) : kinds.add(k); renderFilter(); };
+    row.appendChild(c);
+  }
+}
+function renderFilter() {
+  renderPresets(); renderMatrix(); renderKeep();
+  const p = PRESETS.find(x => x.id === preset);
+  document.getElementById('previewSum').innerHTML = preset === 'off' ? 'All 50 kept.' :
+    `<b>${p.drops[0]} turned into ${p.drops[1].toLocaleString('en')} gold</b>, <i>${50 - p.drops[0]} kept</i>. ` +
+    'Try a preset here before choosing it.';
+}
+for (const [id, other] of [['thenGold', 'thenGround'], ['thenGround', 'thenGold']]) {
+  document.getElementById(id).onclick = () => {
+    document.getElementById(id).classList.add('on'); document.getElementById(other).classList.remove('on');
+  };
+}
+document.getElementById('customize').onclick = () => show('advanced');
+document.getElementById('back').onclick = () => show('filter');
+kinds = new Set(PRESETS.find(x => x.id === preset).kinds);
+renderFilter();
+
+/* ---------- B: progress ---------- */
+const CONTINENTS = [
+  { name: 'Enroth', world: 'MM6', band: '34 – 61', bank: 12, cleared: 21, total: 64 },
+  { name: 'Antagarich', world: 'MM7', band: '18 – 40', bank: 37, cleared: 6, total: 58 },
+  { name: 'Jadame', world: 'MM8', band: '10 – 28', bank: 54, cleared: 2, total: 49 },
+];
+const MAPS = {
+  Enroth: [
+    ['New Sorpigal', '34', 100, true, 0], ['Goblinwatch', '36', 100, true, 1], ['Abandoned Temple', '38', 100, false, 0],
+    ['Castle Ironfist', '41', 100, true, 0], ['Shadow Guild Hideout', '44', 63, false, 0],
+    ['Dragoons\' Caverns', '47', 100, true, 2], ['Free Haven', '48', 12, false, 0], ['Silver Helm Outpost', '52', 0, false, 0],
+    ['Snergle\'s Caverns', '55', 0, false, 0], ['Temple of Baa', '61', 0, false, 0],
+  ],
+  Antagarich: [
+    ['Harmondale', '18', 100, true, 0], ['Castle Harmondale', '20', 100, true, 0], ['Erathia', '24', 74, false, 0],
+    ['The Barrow Downs', '27', 30, false, 0], ['Tatalia', '33', 0, false, 0], ['Avlee', '40', 0, false, 0],
+  ],
+  Jadame: [
+    ['Dagger Wound Island', '10', 100, true, 0], ['Ravenshore', '14', 41, false, 0], ['Alvar', '20', 0, false, 0],
+    ['Garrote Gorge', '28', 0, false, 0],
+  ],
+};
+let continent = 'Enroth', mapFilter = 'All', selectedMap = 'Dragoons\' Caverns';
+function renderContinents() {
+  const el = document.getElementById('continents');
+  el.innerHTML = '';
+  for (const c of CONTINENTS) {
+    const d = document.createElement('div');
+    d.className = 'cont' + (c.name === continent ? ' on' : '');
+    const pct = Math.round(c.cleared / c.total * 100);
+    d.innerHTML = `<h5>${c.name} <small>${c.world}</small></h5>` +
+      `<div class="kv"><span>Monster levels</span><b>${c.band}</b></div>` +
+      `<div class="kv"><span>Levels banked here</span><b class="bank">+${c.bank}</b></div>` +
+      `<div class="kv"><span>Maps cleared</span><b>${c.cleared} / ${c.total}</b></div>` +
+      `<div class="bar"><i style="width:${pct}%;background:linear-gradient(#d9bf88,#a88b55)"></i></div>`;
+    d.onclick = () => { continent = c.name; selectedMap = MAPS[c.name][0][0]; renderProgress(); };
+    el.appendChild(d);
+  }
+}
+function colour(p) { return p >= 100 ? 'var(--good)' : p >= 50 ? 'var(--warn)' : p > 0 ? 'var(--bad)' : '#3a4038'; }
+function renderProgress() {
+  renderContinents();
+  const filters = ['All', 'Cleared', 'In progress', 'Not visited'];
+  const fe = document.getElementById('mapFilters');
+  fe.innerHTML = '';
+  for (const f of filters) {
+    const c = document.createElement('span');
+    c.className = 'chip' + (f === mapFilter ? ' on' : '');
+    c.textContent = f;
+    c.onclick = () => { mapFilter = f; renderProgress(); };
+    fe.appendChild(c);
+  }
+  const list = document.getElementById('mapList');
+  list.innerHTML = '';
+  for (const m of MAPS[continent]) {
+    const [name, lv, pct, cleared, resets] = m;
+    if (mapFilter === 'Cleared' && pct < 100) continue;
+    if (mapFilter === 'In progress' && (pct === 0 || pct >= 100)) continue;
+    if (mapFilter === 'Not visited' && pct > 0) continue;
+    const r = document.createElement('div');
+    r.className = 'mrow' + (name === selectedMap ? ' on' : '');
+    r.innerHTML = `<span>${name}</span><span class="lv">${lv}</span>` +
+      `<span class="bar"><i style="width:${pct}%;background:${colour(pct)}"></i></span>` +
+      `<span class="done">${resets || ''}</span>`;
+    r.onmouseenter = r.onclick = () => { selectedMap = name; renderDetail(); list.querySelectorAll('.mrow').forEach(x =>
+      x.classList.toggle('on', x === r)); };
+    list.appendChild(r);
+  }
+  renderDetail();
+}
+function renderDetail() {
+  const m = MAPS[continent].find(x => x[0] === selectedMap) || MAPS[continent][0];
+  const [name, lv, pct, cleared, resets] = m;
+  const state = pct >= 100 ? (cleared ? 'Cleared since its refill' : 'Completed once, refilled since') :
+    pct > 0 ? `${pct} % of its monsters slain` : 'Not visited';
+  document.getElementById('mdetail').innerHTML = `<h4>${name}</h4>` +
+    `<div class="kv"><span>Monster level</span><b>${lv}${resets ? ` (+${20 * resets} from resets)` : ''}</b></div>` +
+    `<div class="kv"><span>State</span><b>${pct}%</b></div><div style="color:var(--muted);font-size:13px">${state}</div>` +
+    `<div class="kv"><span>Completion reward</span><b>${pct >= 100 ? 'claimed' : 'waiting'}</b></div>` +
+    `<div class="kv"><span>Resets</span><b>${resets}</b></div>` +
+    `<div class="kv"><span>Refills in</span><b>${pct >= 100 ? '9 days' : '—'}</b></div>` +
+    `<div class="aff">${pct >= 100 && cleared ? 'The town hall offers a reset: every monster comes back 20 levels ' +
+      'stronger, with no second completion reward.' : 'Clearing it banks experience on this continent and adds it to ' +
+      'the dimension map pool.'}</div>`;
+}
+document.getElementById('dim').innerHTML =
+  '<span><span class="lab">Dimension quest</span> <b>tier 3, given</b></span>' +
+  '<span><span class="lab">Dimension runs</span> <b>14 cleared</b></span>' +
+  '<span><span class="lab">Current run</span> <b>none</b></span>' +
+  '<span><span class="lab">Bounties</span> <b>9 claimed</b></span>';
+renderProgress();
+
+const params = new URLSearchParams(location.search);
+if (params.get('view')) show(params.get('view'));
+if (params.get('export')) { document.querySelector('.review').classList.add('hidden'); fit(); }
+</script>
+</body>
+</html>

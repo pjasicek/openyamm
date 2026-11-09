@@ -1,0 +1,5 @@
+# MM6 Genie motion
+
+Native authority: source/standing.png, attack.png, walk_2.png, hit.png, fidget.png, death_corpse.png. Standing: upright floating, arms loosely down, dark vortex taper behind. Locomotion: body leans into travel with delayed tail sway. Attack: both hands rise toward party, palms forward; white star flashes intensify then arms recover. Cast: distinct role using same dual-palm intent, longer preparation. Hit: recoil. Fidget: native upper-body idle gesture. Death: lean backward, invert/collapse and shrink away; detached gold arm ornaments settle as remains.
+
+Local G1 preview: UnarmedCastDualAttack2 selected for upper-body basis; AOE2 raises hands overhead and Summon1 is overhead/asymmetric, rejected for native attack. Source data retained at30Hz in work/source_motion.json, frames in review/. Floating torso and native disappearance need custom motion; no ground gait or humanoid Meshy auto-rig. Hands use fitted chains with fingers open at release. Exact hidden depth and final ornament positions are interpretations.

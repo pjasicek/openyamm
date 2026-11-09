@@ -1,0 +1,205 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_lobberpod.glb",
+  "components": 6,
+  "body": 2,
+  "size": 0.8413492441177368,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "1": {
+    "joint": "Xclaw",
+    "where": "above, -x side, -z",
+    "triangles": 764,
+    "extent": 0.4947,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0143,
+    "worst": {
+     "gap": 0.02192,
+     "to_body_cluster": 0.02192,
+     "clip": "AttackMelee",
+     "frame": 7,
+     "time": 0.2333,
+     "part_point": [
+      -0.08188,
+      0.62457,
+      -0.15976
+     ],
+     "attached_point": [
+      -0.07607,
+      0.61694,
+      -0.14159
+     ],
+     "kind": "parted",
+     "against": "XCENTER"
+    },
+    "detached_poses": 80,
+    "poses": 261,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.02192,
+      "frame": 7,
+      "time": 0.2333,
+      "frames": 12
+     },
+     "AttackRanged": {
+      "max_gap": 0.00854,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 4
+     },
+     "Dead": {
+      "max_gap": 0.01401,
+      "frame": 30,
+      "time": 1.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.01591,
+      "frame": 16,
+      "time": 0.5333,
+      "frames": 26
+     },
+     "Hit": {
+      "max_gap": 0.02083,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 7
+     }
+    },
+    "shallowest": {
+     "depth": 0.01273,
+     "on": "XCENTER",
+     "clip": "Hit",
+     "frame": 12,
+     "time": 0.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 1,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobberpod_part1.png"
+   },
+   "3": {
+    "joint": "Xblegpiv",
+    "where": "below",
+    "triangles": 131,
+    "extent": 0.1802,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04954,
+    "worst": {
+     "gap": 0.01196,
+     "to_body_cluster": 0.01196,
+     "clip": "Death",
+     "frame": 13,
+     "time": 0.4333,
+     "part_point": [
+      0.04376,
+      0.35047,
+      0.10524
+     ],
+     "attached_point": [
+      0.04033,
+      0.35239,
+      0.1034
+     ],
+     "kind": "parted",
+     "against": "XCENTER"
+    },
+    "detached_poses": 1,
+    "poses": 261,
+    "clips": {
+     "Death": {
+      "max_gap": 0.01196,
+      "frame": 13,
+      "time": 0.4333,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": -0.00306,
+     "on": "Xclaw",
+     "clip": "Running",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 10,
+    "worst_concealed": {
+     "gap": 0.04008,
+     "clip": "Death",
+     "frame": 14,
+     "time": 0.4667
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobberpod_part3.png"
+   },
+   "5": {
+    "joint": "Xclaw01",
+    "where": "above, +x side, -z",
+    "triangles": 768,
+    "extent": 0.4934,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02188,
+    "worst": {
+     "gap": 0.02922,
+     "to_body_cluster": 0.02922,
+     "clip": "Death",
+     "frame": 20,
+     "time": 0.6667,
+     "part_point": [
+      0.05619,
+      0.04606,
+      -0.19111
+     ],
+     "attached_point": [
+      0.05012,
+      0.07109,
+      -0.18596
+     ],
+     "kind": "parted",
+     "against": "XCENTER"
+    },
+    "detached_poses": 61,
+    "poses": 261,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.01801,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 11
+     },
+     "Dead": {
+      "max_gap": 0.02258,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.02922,
+      "frame": 20,
+      "time": 0.6667,
+      "frames": 19
+     }
+    },
+    "shallowest": {
+     "depth": 0.02083,
+     "on": "XCENTER",
+     "clip": "Fidget",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_lobberpod_part5.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 6,
+   "attached_in_every_pose": 2
+  },
+  "concealed": {},
+  "shallow": {}
+ }
+]

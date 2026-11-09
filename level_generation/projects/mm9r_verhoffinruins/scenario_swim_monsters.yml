@@ -1,0 +1,48 @@
+# Hand-written (not make_scenarios.py): the MM9 monster rules in water (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md
+# "Status"). A Jellyspore (Fly cell YS: an AISwimFly swimmer) spawned in the crevasse's BlueWater1 and hit by the party
+# on the rim runs from it, a target out of the water (BaseSwim.inc ShouldRunAway), and stays in its water, held at the
+# surface; a Bandit (a walker) spawned over the water sinks and walks the bed under the party.
+# Spawned actors follow the scene's 42 placed actors (MM9's 30 plus the density pass's copies, work/density.json).
+id: mm9r.verhoffinruins_swim_monsters
+title: Verhoffin Ruins (native BLV) - a swimmer stays in its water, a walker walks the bed
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map: {map: verhoffinruins.blv}
+- set_pose: {map: verhoffinruins.blv, x: -4347, y: -560, z: -328, yaw: -1.5708, pitch: -0.3}
+- spawn_actor: {monster_id: 9168, x: -4347, y: -1100, z: -600}
+- spawn_actor: {monster_id: 9101, x: -4000, y: -1100, z: -500}
+- advance_runtime: {seconds: 0.1}
+- damage_actor: {actor_index: 42, amount: 1}
+- damage_actor: {actor_index: 43, amount: 1}
+- advance_runtime: {seconds: 10}
+- assert:
+    actor_visible:
+      actor_index: 42
+      report_state: true
+      near: {x: -2900, y: -2600, max_distance: 2000, min_z: -540}
+      far: {x: -4347, y: -560, min_distance: 1000}
+- assert:
+    actor_visible:
+      actor_index: 43
+      report_state: true
+      near: {x: -4347, y: -650, max_distance: 300}
+- assert: {water: {state: dry}}
+- note:
+    text: 'A Sea Monster (Fly S, a walker elsewhere) spawned in the open east crevasse swims to a party at the surface and
+      stays in the water: its centre held 1 under the surface (feet -543.6 for its 179 height).'
+- set_pose: {map: verhoffinruins.blv, x: 2000, y: -4200, z: -586, yaw: 3.14, pitch: 0}
+- spawn_actor: {monster_id: 9177, x: 800, y: -4200, z: -620}
+- advance_runtime: {seconds: 0.1}
+- damage_actor: {actor_index: 44, amount: 1}
+- advance_runtime: {seconds: 5}
+- assert:
+    actor_visible:
+      actor_index: 44
+      report_state: true
+      near: {x: 1800, y: -4380, max_distance: 400, min_z: -560}
+- assert: {water: {state: surface}}

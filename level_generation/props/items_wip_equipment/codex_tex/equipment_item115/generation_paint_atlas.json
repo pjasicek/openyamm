@@ -1,0 +1,25 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Lucky Hat (item115). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Soft tall navy-blue velvet cap drooping to the right, gold brim band and a broad crimson feather at the left. Exact material boundaries: Navy blue velvet body and crimson feather BLUE. Gold brim band RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item115/inputs/guide_paint.png",
+  "input_guide_sha256": "cc29e8f72bb60705b6d0431595fff873a4e46b005706350ef68adfd2b8bc8764",
+  "revision": 1,
+  "input_icon": "item115",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-5154a642-bc9a-4b04-9e4e-495ce6201b46.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Only original front/back cells retained; other views repainted individually.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "b9af26aefe92b5ddda4cb05c7576a35a07b1da012fb78dfc85a3e729db59bf8b",
+  "input_icon_path": "assets_dev/engine/icons_x2/item115.png",
+  "input_icon_sha256": "966d1f264f4861ea63a2c8e1bcd1f5739ef25bae41b932ba349bf8f1bd6f2eaf",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "selected_views": [
+    "front",
+    "back"
+  ]
+}

@@ -1,0 +1,573 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "policy": "Unresized, unmodified tool returns; at most one corrective regeneration per view.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 RGBA image, a flat albedo texture-source painting of the Hesper Nightglass Amulet, FRONT orthographic view.\nINPUT 1 is guide_front.png, the EDIT TARGET and absolute authority for all pixels of geometry, placement, scale, outline, part boundaries, and transparency. INPUT 2 is design_reference.png, MATERIAL AND COLOUR REFERENCE ONLY; never copy its geometry, camera, framing, highlights or shadows.\nChange ONLY the surface colours and fine material markings within input 1's existing object. Lock its alpha silhouette and empty pixels exactly. Do not enlarge, crop, recenter, rotate, round off, reshape or add geometry.\nFRONT guide: keep the small object only inside x=321..702, y=400..623 on the full 1024 square. It is an edge-on projection, NOT an upright pendant. A broad flattened glass dome is centered above two short angular pale bone prongs; chain links are seen edge-on as a narrow horizontal strip below, and a tiny gold point hangs at the bottom. Match all occlusion, boundaries, and holes exactly.\nMaterials: replace the guide's pale blue glass with smoky black-violet glass/resin, subtle violet internal wisps and fine purple fissures, with a small faint blue-white light deep inside. Keep it dark violet, never light blue overall. Replace the guide's white/light-grey prongs with warm ivory-white bone/ceramic carrying fine golden-beige hairline wear, as in the design. Replace cream/yellow chain, bail and metal fittings with rich warm brushed antique gold, fine scratches and delicate incised lines. The reference's gold binding motif may be painted onto existing prong surfaces, but must never change their geometry or occlude additional glass. Continue the same materials plausibly on hidden/reverse surfaces. Solid valuable Kreegan noble jewellery.\nLIGHTING IS STRICTLY FLAT ALBEDO: even shadowless viewer-facing illumination across all surfaces, no cast shadows, no ambient occlusion, no directional shading, no shiny white streaks, no hot specular highlights, no reflections, no rim light. Gold is its ochre-gold base colour with only a very faint sheen. Glass depth is communicated by colour pattern, not reflected lighting. Paint the tiny inner light as pale blue-white colour with no bloom beyond the glass.\nPreserve the full original canvas and every transparent hole. True transparent background (alpha zero), no backdrop, floor, checkerboard, text, labels, letters, watermark, or added items. The result must be the guide with materials painted on it, exactly registered for projection onto the existing 3D model.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "75478a7197b7debcc54bbd46e5e201316de2ce88c6b672126bc29a16e2d8155e",
+          "role": "edit target; geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+          "role": "material and colour reference"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Initial return preserves the general view but has visible gloss/shading and geometry drift. Corrective generation requested; native return is 1254 x 1254.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-15faecd8-ec59-4f4b-8f05-64f216a35402.png",
+      "output_sha256": "4ff3380d1592af5e4e29fd709a05729a267f8469a3c042294f91b6417592229c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          381,
+          498,
+          874,
+          794
+        ],
+        "alpha_nonzero_bbox": [
+          25,
+          53,
+          1240,
+          1164
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.708154319711983,
+        "background_alpha_zero_fraction": 0.984041570854532,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. A precise texture-source paint-over. Return ONE image, exactly 1024 x 1024 pixels, BACK orthographic view.\nImage 1 (design_reference.png) is ONLY the source of material colours and fine markings.\nImage 2 (guide_back.png) is the EXACT IMAGE TO EDIT. Copy this second image's full square canvas, scale, position, faceted object outline, inner boundaries, and transparent alpha pixel for pixel. Do not change its shapes. Keep the transparent margins.\nMaterials: replace the guide's pale blue glass with smoky black-violet glass/resin, subtle violet internal wisps and fine purple fissures, with a small faint blue-white light deep inside. Keep it dark violet, never light blue overall. Replace the guide's white/light-grey prongs with warm ivory-white bone/ceramic carrying fine golden-beige hairline wear, as in the design. Replace cream/yellow chain, bail and metal fittings with rich warm brushed antique gold, fine scratches and delicate incised lines. The reference's gold binding motif may be painted onto existing prong surfaces, but must never change their geometry or occlude additional glass. Continue the same materials plausibly on hidden/reverse surfaces. Solid valuable Kreegan noble jewellery.\nRecolour the existing pale blue glass to dark smoky black-violet glass/resin with subtle purple grain, sparse fine purple fissures and a SMALL faint pale blue-white core. Recolour the existing angular white/light-grey prongs to pale warm ivory bone/ceramic with fine beige hairline wear. Recolour the existing cream chain, bail, collar and metal fittings to brushed muted ochre gold with fine scratches and delicate incised lines. Paint restrained gold binding markings onto the existing ivory surfaces as in the reference. Continue materials plausibly on reverse surfaces. Do not add any geometry from Image 1.\nThis is an UNLIT ALBEDO PAINTING for texture projection, not a beauty render. Completely flat, even, shadowless illumination from viewer. NO shine, reflective streaks, directional light, cast shadows, occlusion shadows, black crevice lighting, bright metallic highlights or edge lights. Gold must be a warm ochre mid-tone, not yellow-white highlight against dark brown shadow; only the faintest surface sheen. Bone is evenly ivory across all its faces. Violet glass stays the same overall dark violet value across all its facets, with internal purple grain and the small blue-white light represented as painted colours. No shading to show volume, no bloom.\nPreserve the original guide's EXACT polygonal contour, not smoother, larger, rounder or more decorative. Preserve every chain link hole and all gaps between parts. Every original empty pixel stays alpha=0: no dust, speckles, glow, background, floor or faint residue anywhere outside the object. True transparent background. No text, letters, labels or watermark. Do not rotate, crop, resize, recenter or reframe the object. Paint ONLY the existing pixels of Image 2.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+          "role": "material and colour reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "b85acdfc44da358b06a870927a9aa165ea9735b28ab9a053dc5e52b44800e106",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: tool enlarged the object substantially and added pronounced metallic edge highlights and face shading.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-cbecb852-815f-44c4-8ad3-73fa2e6958b9.png",
+      "output_sha256": "4eba14d966cfdf20c4716ec30597a6bc667e9534198f6ac8cd724aefd6d5a1aa",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          137,
+          340,
+          1117,
+          938
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          20,
+          1222,
+          1212
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.21830746709230986,
+        "background_alpha_zero_fraction": 0.8116976500292354,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. A precise texture-source paint-over. Return ONE image, exactly 1024 x 1024 pixels, LEFT orthographic view.\nImage 1 (design_reference.png) is ONLY the source of material colours and fine markings.\nImage 2 (guide_left.png) is the EXACT IMAGE TO EDIT. Copy this second image's full square canvas, scale, position, faceted object outline, inner boundaries, and transparent alpha pixel for pixel. Do not change its shapes. Keep the transparent margins.\nMaterials: replace the guide's pale blue glass with smoky black-violet glass/resin, subtle violet internal wisps and fine purple fissures, with a small faint blue-white light deep inside. Keep it dark violet, never light blue overall. Replace the guide's white/light-grey prongs with warm ivory-white bone/ceramic carrying fine golden-beige hairline wear, as in the design. Replace cream/yellow chain, bail and metal fittings with rich warm brushed antique gold, fine scratches and delicate incised lines. The reference's gold binding motif may be painted onto existing prong surfaces, but must never change their geometry or occlude additional glass. Continue the same materials plausibly on hidden/reverse surfaces. Solid valuable Kreegan noble jewellery.\nLEFT guide: keep the horizontal object only inside x=66..957, y=400..623 on the full 1024 square. It is 87% of the canvas width and only 22% of the canvas height. Chain stretches from far left to the circular bail near x=440; the gold collar is near x=500; the long side profile of the glass extends from there to x=957 at right. A narrow angled pale bone prong follows the middle of the glass. Match the guide's exact faceted perimeter, every part boundary, chain holes, and their occlusion.\nThis is an UNLIT ALBEDO PAINTING for texture projection, not a beauty render. Completely flat, even, shadowless illumination from viewer. NO shine, reflective streaks, directional light, cast shadows, occlusion shadows, black crevice lighting, bright metallic highlights or edge lights. Gold must be a warm ochre mid-tone, not yellow-white highlight against dark brown shadow; only the faintest surface sheen. Bone is evenly ivory across all its faces. Violet glass stays the same overall dark violet value across all its facets, with internal purple grain and the small blue-white light represented as painted colours. No shading to show volume, no bloom.\nPreserve the original guide's EXACT polygonal contour, not smoother, larger, rounder or more decorative. Preserve every chain link hole and all gaps between parts. Every original empty pixel stays alpha=0: no dust, speckles, glow, background, floor or faint residue anywhere outside the object. True transparent background. No text, letters, labels or watermark. Do not rotate, crop, resize, recenter or reframe the object. Paint ONLY the existing pixels of Image 2.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+          "role": "material and colour reference"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "f7669df8a6408ee31fe77989ca814a5ed9688fddaf2b9e52df72b2eea8706538",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Initial side view follows the main geometry and palette, but has metallic highlights and face shading; awaiting checks.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-95480d5f-4685-4299-8919-358b783de8d6.png",
+      "output_sha256": "7039adf584b4457c4d78c2475ade9000c3687a1b5ce49966494a1605ca679eb7",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          80,
+          488,
+          1178,
+          765
+        ],
+        "alpha_nonzero_bbox": [
+          25,
+          49,
+          1224,
+          1183
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.9397011121408712,
+        "background_alpha_zero_fraction": 0.9856435246364249,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. A precise texture-source paint-over. Return ONE image, exactly 1024 x 1024 pixels, RIGHT orthographic view.\nImage 1 (design_reference.png) is ONLY the source of material colours and fine markings.\nImage 2 (guide_right.png) is the EXACT IMAGE TO EDIT. Copy this second image's full square canvas, scale, position, faceted object outline, inner boundaries, and transparent alpha pixel for pixel. Do not change its shapes. Keep the transparent margins.\nMaterials: replace the guide's pale blue glass with smoky black-violet glass/resin, subtle violet internal wisps and fine purple fissures, with a small faint blue-white light deep inside. Keep it dark violet, never light blue overall. Replace the guide's white/light-grey prongs with warm ivory-white bone/ceramic carrying fine golden-beige hairline wear, as in the design. Replace cream/yellow chain, bail and metal fittings with rich warm brushed antique gold, fine scratches and delicate incised lines. The reference's gold binding motif may be painted onto existing prong surfaces, but must never change their geometry or occlude additional glass. Continue the same materials plausibly on hidden/reverse surfaces. Solid valuable Kreegan noble jewellery.\nRIGHT guide: keep the horizontal object only inside x=66..957, y=400..623 on the full 1024 square. It is 87% of the canvas width and only 22% of the canvas height. The long side profile of the glass is at left, pointing toward x=66; the gold collar is near x=520; the circular bail is near x=580; chain stretches toward x=957 at far right. A narrow angled pale bone prong follows the middle of the glass. Match the guide's exact faceted perimeter, every part boundary, chain holes, and their occlusion.\nThis is an UNLIT ALBEDO PAINTING for texture projection, not a beauty render. Completely flat, even, shadowless illumination from viewer. NO shine, reflective streaks, directional light, cast shadows, occlusion shadows, black crevice lighting, bright metallic highlights or edge lights. Gold must be a warm ochre mid-tone, not yellow-white highlight against dark brown shadow; only the faintest surface sheen. Bone is evenly ivory across all its faces. Violet glass stays the same overall dark violet value across all its facets, with internal purple grain and the small blue-white light represented as painted colours. No shading to show volume, no bloom.\nPreserve the original guide's EXACT polygonal contour, not smoother, larger, rounder or more decorative. Preserve every chain link hole and all gaps between parts. Every original empty pixel stays alpha=0: no dust, speckles, glow, background, floor or faint residue anywhere outside the object. True transparent background. No text, letters, labels or watermark. Do not rotate, crop, resize, recenter or reframe the object. Paint ONLY the existing pixels of Image 2.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+          "role": "material and colour reference"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "d97cd524cf1233e17fc06bfe020b84611d340d0e42b5f96384ac9589867712cd",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Initial return: correct overall side and footprint; prong boundary drift, extra gold at glass tip, and metallic highlights require correction.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-b14c60da-986a-4750-b377-429ef0f6d2dd.png",
+      "output_sha256": "237c9101bcfcb7b3673be15d02f4b208fbab0a41e1ce9050a0ed1b1db5ab1ea9",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          78,
+          486,
+          1175,
+          767
+        ],
+        "alpha_nonzero_bbox": [
+          25,
+          35,
+          1231,
+          1214
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.9437185099529198,
+        "background_alpha_zero_fraction": 0.9869106375157986,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. A precise texture-source paint-over. Return ONE image, exactly 1024 x 1024 pixels, TOP orthographic view.\nImage 1 (design_reference.png) is ONLY the source of material colours and fine markings.\nImage 2 (guide_top.png) is the EXACT IMAGE TO EDIT. Copy this second image's full square canvas, scale, position, faceted object outline, inner boundaries, and transparent alpha pixel for pixel. Do not change its shapes. Keep the transparent margins.\nMaterials: replace the guide's pale blue glass with smoky black-violet glass/resin, subtle violet internal wisps and fine purple fissures, with a small faint blue-white light deep inside. Keep it dark violet, never light blue overall. Replace the guide's white/light-grey prongs with warm ivory-white bone/ceramic carrying fine golden-beige hairline wear, as in the design. Replace cream/yellow chain, bail and metal fittings with rich warm brushed antique gold, fine scratches and delicate incised lines. The reference's gold binding motif may be painted onto existing prong surfaces, but must never change their geometry or occlude additional glass. Continue the same materials plausibly on hidden/reverse surfaces. Solid valuable Kreegan noble jewellery.\nTOP guide: keep the upright object only inside x=321..702, y=66..957 on the full 1024 square. It is only 37% of canvas width and 87% of canvas height. The wide polygonal loop of separated gold chain links occupies the upper half with a large transparent hole, connecting through a narrow vertical bail and blocklike gold collar to the pendant in the lower half. Two angular pale bone prongs frame the elongated glass, which points downward. This geometry and chain loop differ from the design reference: copy the GUIDE geometry exactly. Match every faceted perimeter, part boundary, gap, and hole.\nThis is an UNLIT ALBEDO PAINTING for texture projection, not a beauty render. Completely flat, even, shadowless illumination from viewer. NO shine, reflective streaks, directional light, cast shadows, occlusion shadows, black crevice lighting, bright metallic highlights or edge lights. Gold must be a warm ochre mid-tone, not yellow-white highlight against dark brown shadow; only the faintest surface sheen. Bone is evenly ivory across all its faces. Violet glass stays the same overall dark violet value across all its facets, with internal purple grain and the small blue-white light represented as painted colours. No shading to show volume, no bloom.\nPreserve the original guide's EXACT polygonal contour, not smoother, larger, rounder or more decorative. Preserve every chain link hole and all gaps between parts. Every original empty pixel stays alpha=0: no dust, speckles, glow, background, floor or faint residue anywhere outside the object. True transparent background. No text, letters, labels or watermark. Do not rotate, crop, resize, recenter or reframe the object. Paint ONLY the existing pixels of Image 2.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+          "role": "material and colour reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "eb10ea734b39ef93adacb609b937be8a1fa32964f9495fe61068af414469b322",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial top view preserves the main layout but uses strong gem facet shading and metal highlights. Corrective pass needed.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-2145c5d0-1bfd-4866-82b4-961310a935d8.png",
+      "output_sha256": "7bb4001c1da41d296239dde4bb0a4f3e5b343d7c5faf47124d650bc51e48ed5e",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          395,
+          82,
+          860,
+          1172
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          0,
+          1232,
+          1254
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.9698072468689654,
+        "background_alpha_zero_fraction": 0.9755932512843846,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. A precise texture-source paint-over. Return exactly 1024 x 1024 pixels.\nImage 1 (design_reference.png) is ONLY the source of material colours and fine markings.\nImage 2 (guide_front.png) is the EXACT IMAGE TO EDIT. Copy this second image's full square canvas, scale, position, faceted object outline, inner boundaries, and transparent alpha pixel for pixel. Do not change its shapes. Keep its enormous transparent margins. The object must remain only x=321 through 702 and y=400 through 623 on a 1024 square. It is a very small, low, wide edge-on object in the middle. No geometry from Image 1.\nRecolour the existing blue dome to dark smoky black-violet glass with fine sparse purple fissures and a SMALL faint pale blue-white core. Recolour the two existing angular white prongs to pale warm ivory bone with fine beige hairline wear. Recolour the existing cream chain, rings and little bottom point to brushed muted ochre gold. Add restrained gold binding markings on the ivory, flat on the existing geometry. Use the reference only for these material colours.\nCRITICAL CORRECTION: this is an UNLIT ALBEDO PAINTING, not a beauty render. Remove all shine, reflective streaks, directional light, shadows, occlusion shadows, black crevice lighting, bright metallic highlights and edge lights. Gold must be a mid-tone warm ochre colour, not yellow-white highlight against dark brown shadow. Bone is evenly ivory across all its faces. Violet glass stays the same overall dark violet value across all its facets, with the reference's internal purple grain and small light represented as painted colours. No shading to show volume.\nPreserve the original guide's exact polygonal contour, not smoother, larger, rounder or more decorative. Preserve holes in chain links. Every original empty pixel stays alpha=0: no dust, speckles, glow, background, floor or faint residue anywhere outside the object. True transparency. No text or letters. Paint ONLY the existing pixels of Image 2. Output a single image, not a sheet.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+          "role": "material and colour reference"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "75478a7197b7debcc54bbd46e5e201316de2ce88c6b672126bc29a16e2d8155e",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: normalized mask overlap improves from 70.82% to 96.27%, with flatter materials. Fine edge deviations, stray alpha and residual face shading remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-a2451497-b194-4ee1-9a2f-1eef410a73c3.png",
+      "output_sha256": "cfa5836f39219305270eb3c99059f89eaba17aeff3410a9c7a37e7845179432b",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          395,
+          490,
+          862,
+          764
+        ],
+        "alpha_nonzero_bbox": [
+          32,
+          39,
+          1232,
+          1142
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.9626774253681659,
+        "background_alpha_zero_fraction": 0.9930995261674636,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. A precise texture-source paint-over. Return ONE image, exactly 1024 x 1024 pixels, BACK orthographic view.\nImage 1 (design_reference.png) is ONLY the source of material colours and fine markings.\nImage 2 (guide_back.png) is the EXACT IMAGE TO EDIT. Copy this second image's full square canvas, scale, position, faceted object outline, inner boundaries, and transparent alpha pixel for pixel. Do not change its shapes. Keep the transparent margins.\nMaterials: replace the guide's pale blue glass with smoky black-violet glass/resin, subtle violet internal wisps and fine purple fissures, with a small faint blue-white light deep inside. Keep it dark violet, never light blue overall. Replace the guide's white/light-grey prongs with warm ivory-white bone/ceramic carrying fine golden-beige hairline wear, as in the design. Replace cream/yellow chain, bail and metal fittings with rich warm brushed antique gold, fine scratches and delicate incised lines. The reference's gold binding motif may be painted onto existing prong surfaces, but must never change their geometry or occlude additional glass. Continue the same materials plausibly on hidden/reverse surfaces. Solid valuable Kreegan noble jewellery.\nBACK guide: keep the small object only inside x=321..702, y=400..623 on the full 1024 square. The object must occupy only 37% of canvas width and 22% of canvas height, centered; leave all margins intact. It is an edge-on projection, NOT an upright pendant. A flattened glass dome is behind a long horizontal angular pale bone brace. A central gold circular fitting has a thin gold stem down to the edge-on chain strip below, ending in a small gold point. Continue reference materials plausibly on these reverse surfaces. Match all occlusion, boundaries, and holes exactly.\nThis is an UNLIT ALBEDO PAINTING for texture projection, not a beauty render. Completely flat, even, shadowless illumination from viewer. NO shine, reflective streaks, directional light, cast shadows, occlusion shadows, black crevice lighting, bright metallic highlights or edge lights. Gold must be a warm ochre mid-tone, not yellow-white highlight against dark brown shadow; only the faintest surface sheen. Bone is evenly ivory across all its faces. Violet glass stays the same overall dark violet value across all its facets, with internal purple grain and the small blue-white light represented as painted colours. No shading to show volume, no bloom.\nPreserve the original guide's EXACT polygonal contour, not smoother, larger, rounder or more decorative. Preserve every chain link hole and all gaps between parts. Every original empty pixel stays alpha=0: no dust, speckles, glow, background, floor or faint residue anywhere outside the object. True transparent background. No text, letters, labels or watermark. Do not rotate, crop, resize, recenter or reframe the object. Paint ONLY the existing pixels of Image 2.\nCRITICAL: retain the TINY object centered on a mostly EMPTY 1024 square, 382 pixels wide and 224 pixels high, never expand it to fill the image. The previous attempt enlarged it; do not repeat that. Keep every polygon face at the same albedo value instead of shading the undersides. No gold highlight edging.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+          "role": "material and colour reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "b85acdfc44da358b06a870927a9aa165ea9735b28ab9a053dc5e52b44800e106",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return: restores the small centered footprint; normalized mask overlap improves from 21.83% to 95.49%. Edge deviations, stray alpha and metal face shading remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-5d727c37-6c3c-4d00-a8fa-0c4f9994fa88.png",
+      "output_sha256": "fae385d1778bc0203ccc33bed8cfd3852a89ee6f6dbf0944f39f13b9222d9515",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          393,
+          489,
+          861,
+          766
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          0,
+          1188,
+          1117
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.9548548335637562,
+        "background_alpha_zero_fraction": 0.9936962085911576,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Edit this exact orthographic guide image, keeping the entire original 1024 x 1024 canvas and exact alpha silhouette. This is the LEFT view of a Nightglass Amulet. Produce ONE RGBA paint-over for texture projection.\nLEFT guide: keep the horizontal object only inside x=66..957, y=400..623 on the full 1024 square. It is 87% of the canvas width and only 22% of the canvas height. Chain stretches from far left to the circular bail near x=440; the gold collar is near x=500; the long side profile of the glass extends from there to x=957 at right. A narrow angled pale bone prong follows the middle of the glass. Match the guide's exact faceted perimeter, every part boundary, chain holes, and their occlusion.\nThe approved material design has already been inspected: smoky black-violet glass, pale ivory bone prongs, warm brushed gold chain and fittings, with a faint tiny blue-white light deep within the glass.\nONLY RECOLOUR EXISTING OBJECT PIXELS. Preserve each part's exact shape and boundary, chain holes, scale and position. Keep all originally transparent pixels completely transparent; no haze, edge glow or stray residue. Do not add bands, collars or tips outside the guide's existing parts. Do not round off the angular white prongs.\nPaint every glass pixel in a dark near-black violet base with restrained fine purple marbling and sparse thin lavender fissures, a subtle smoky pattern, and just one small pale blue-white internal light. This is smooth smoky glass, not a cut faceted jewel: NO bright crystal faces, shiny patches, highlights, black shadowed bottom, or reflection streaks.\nPaint the white prong pixels in even warm ivory, with tiny worn beige hairlines and thin ochre binding markings confined within the same white shape. NO dark underside, light upper side, bevel highlight or contact shadows.\nPaint all cream/yellow chain, bail and fittings in an EVEN rich gold-ochre base colour, subtle brushed grain and restrained fine scratches. All faces of each gold part have the SAME brightness. NO bright gold rims, no black/brown shaded edge bands, no shiny metal glints. Gold is represented by its base colour, not metallic lighting.\nCRITICAL CORRECTIVE PASS: remove baked illumination entirely. Uniform shadowless unlit diffuse albedo. No ambient occlusion, cast shadows, depth shading, directional shading, specular highlights, rim light, reflections or bloom. Fine material texture only. No outlines added around the parts. No text, labels, watermark, background, checkerboard, floor or other objects. The guide geometry and empty margins must remain identical; do not make a new jewelry composition. Output exactly 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "f7669df8a6408ee31fe77989ca814a5ed9688fddaf2b9e52df72b2eea8706538",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+        "role": "material and colour reference",
+        "use": "Previously inspected material reference; its materials are specified in this corrective prompt, without feeding its glossy lighting back into this edit."
+      },
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction: much flatter gold and glass, small restrained blue-white light, closer guide-shaped prong. Some face shading and alpha residue remain; not an exact silhouette match.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-a655cb04-d9fa-4346-9d2e-5ce211d06a7d.png",
+      "output_sha256": "d816d9354244e4b5332acb815de717f7d7613026ec6344fb8fa400a3378b9584",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          80,
+          490,
+          1174,
+          765
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          25,
+          1236,
+          1254
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.9647077759799395,
+        "background_alpha_zero_fraction": 0.983780988830957,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Edit this exact orthographic guide image, keeping the entire original 1024 x 1024 canvas and exact alpha silhouette. This is the RIGHT view of a Nightglass Amulet. Produce ONE RGBA paint-over for texture projection.\nRIGHT guide: keep the horizontal object only inside x=66..957, y=400..623 on the full 1024 square. It is 87% of the canvas width and only 22% of the canvas height. The long side profile of the glass is at left, pointing toward x=66; the gold collar is near x=520; the circular bail is near x=580; chain stretches toward x=957 at far right. A narrow angled pale bone prong follows the middle of the glass. Match the guide's exact faceted perimeter, every part boundary, chain holes, and their occlusion.\nThe approved material design has already been inspected: smoky black-violet glass, pale ivory bone prongs, warm brushed gold chain and fittings, with a faint tiny blue-white light deep within the glass.\nONLY RECOLOUR EXISTING OBJECT PIXELS. Preserve each part's exact shape and boundary, chain holes, scale and position. Keep all originally transparent pixels completely transparent; no haze, edge glow or stray residue. Do not add bands, collars or tips outside the guide's existing parts. Do not round off the angular white prongs.\nPaint every glass pixel in a dark near-black violet base with restrained fine purple marbling and sparse thin lavender fissures, a subtle smoky pattern, and just one small pale blue-white internal light. This is smooth smoky glass, not a cut faceted jewel: NO bright crystal faces, shiny patches, highlights, black shadowed bottom, or reflection streaks.\nPaint the white prong pixels in even warm ivory, with tiny worn beige hairlines and thin ochre binding markings confined within the same white shape. NO dark underside, light upper side, bevel highlight or contact shadows.\nPaint all cream/yellow chain, bail and fittings in an EVEN rich gold-ochre base colour, subtle brushed grain and restrained fine scratches. All faces of each gold part have the SAME brightness. NO bright gold rims, no black/brown shaded edge bands, no shiny metal glints. Gold is represented by its base colour, not metallic lighting.\nCRITICAL CORRECTIVE PASS: remove baked illumination entirely. Uniform shadowless unlit diffuse albedo. No ambient occlusion, cast shadows, depth shading, directional shading, specular highlights, rim light, reflections or bloom. Fine material texture only. No outlines added around the parts. No text, labels, watermark, background, checkerboard, floor or other objects. The guide geometry and empty margins must remain identical; do not make a new jewelry composition. Output exactly 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d97cd524cf1233e17fc06bfe020b84611d340d0e42b5f96384ac9589867712cd",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+        "role": "material and colour reference",
+        "use": "Previously inspected material reference; its materials are specified in this corrective prompt, without feeding its glossy lighting back into this edit."
+      },
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction: removes extra gold tip, reduces specular lighting, and follows guide prong shape more closely. Remaining edge/alpha deviations and mild face shading are retained in raw return.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-542fdcde-31ae-4b75-b3a3-cce5c5cf7ca7.png",
+      "output_sha256": "1d0653f7692fd93a99fa44d41d33f6763163f153ee13120bb4d73ac33cf6bae3",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          80,
+          489,
+          1173,
+          766
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          21,
+          1226,
+          1254
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.9679200542005421,
+        "background_alpha_zero_fraction": 0.9836360681302448,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Edit this exact orthographic guide image, keeping the entire original 1024 x 1024 canvas and exact alpha silhouette. This is the TOP view of a Nightglass Amulet. Produce ONE RGBA paint-over for texture projection.\nTOP guide: keep the upright object only inside x=321..702, y=66..957 on the full 1024 square. It is only 37% of canvas width and 87% of canvas height. The wide polygonal loop of separated gold chain links occupies the upper half with a large transparent hole, connecting through a narrow vertical bail and blocklike gold collar to the pendant in the lower half. Two angular pale bone prongs frame the elongated glass, which points downward. This geometry and chain loop differ from the design reference: copy the GUIDE geometry exactly. Match every faceted perimeter, part boundary, gap, and hole.\nThe approved material design has already been inspected: smoky black-violet glass, pale ivory bone prongs, warm brushed gold chain and fittings, with a faint tiny blue-white light deep within the glass.\nONLY RECOLOUR EXISTING OBJECT PIXELS. Preserve each part's exact shape and boundary, chain holes, scale and position. Keep all originally transparent pixels completely transparent; no haze, edge glow or stray residue. Do not add bands, collars or tips outside the guide's existing parts. Do not round off the angular white prongs.\nPaint every glass pixel in a dark near-black violet base with restrained fine purple marbling and sparse thin lavender fissures, a subtle smoky pattern, and just one small pale blue-white internal light. This is smooth smoky glass, not a cut faceted jewel: NO bright crystal faces, shiny patches, highlights, black shadowed bottom, or reflection streaks.\nPaint the white prong pixels in even warm ivory, with tiny worn beige hairlines and thin ochre binding markings confined within the same white shape. NO dark underside, light upper side, bevel highlight or contact shadows.\nPaint all cream/yellow chain, bail and fittings in an EVEN rich gold-ochre base colour, subtle brushed grain and restrained fine scratches. All faces of each gold part have the SAME brightness. NO bright gold rims, no black/brown shaded edge bands, no shiny metal glints. Gold is represented by its base colour, not metallic lighting.\nCRITICAL CORRECTIVE PASS: remove baked illumination entirely. Uniform shadowless unlit diffuse albedo. No ambient occlusion, cast shadows, depth shading, directional shading, specular highlights, rim light, reflections or bloom. Fine material texture only. No outlines added around the parts. No text, labels, watermark, background, checkerboard, floor or other objects. The guide geometry and empty margins must remain identical; do not make a new jewelry composition. Output exactly 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "eb10ea734b39ef93adacb609b937be8a1fa32964f9495fe61068af414469b322",
+          "role": "edit target; geometry authority"
+        }
+      ],
+      "design_authority": {
+        "path": "design_reference.png",
+        "sha256": "5320ae4625f3409fb73f359b4a8a17102040177d02bcf634db4c360f52b0c38c",
+        "role": "material and colour reference",
+        "use": "Previously inspected material reference; its materials are specified in this corrective prompt, without feeding its glossy lighting back into this edit."
+      },
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction: removes bright cut-gem faces and metallic highlight bands; better flat texture-source materials. Fine contour drift, residual alpha and some surface-value shading remain.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16de5-e8e0-7371-82a0-11a1f39861f0/exec-202b74db-5969-4d12-9530-a0f4bd049acd.png",
+      "output_sha256": "d930e384cfc8eab00bb5829fbb9d3fd81533a50ae317752ab2ffd700d354458e",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox": [
+          393,
+          80,
+          860,
+          1174
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          23,
+          1240,
+          1254
+        ],
+        "exact_guide_alpha": false,
+        "normalized_mask_iou": 0.9717505551256177,
+        "background_alpha_zero_fraction": 0.9766937901064531,
+        "unresized_unmodified": true,
+        "no_text_or_letters": "pass: visual inspection",
+        "silhouette_identical": "fail: native dimensions differ and normalized alpha masks are not identical",
+        "materials_and_colours": "pass: visually contains smoky black-violet glass, ivory bone/ceramic, warm gold and blue-white inner light",
+        "flat_even_light": "partial: corrective returns reduce highlights; face-value shading remains, especially on front/back gold",
+        "transparent_background": "partial: RGBA with alpha zero background; stray nonzero alpha and edge residue remain",
+        "brief_fully_satisfied": false
+      }
+    }
+  ],
+  "status": "generation_finished_with_deviations",
+  "selection_policy": "Selected means the preferred raw return within the two-attempt limit, not certification that every strict requirement passed.",
+  "validation_method": "Visual review of every returned image plus native PNG dimensions, alpha, SHA256 and byte-for-byte copy verification. Normalized mask IoU compares alpha >= 128 against guide coordinates mapped to output dimensions in memory only; no image files were resized or edited.",
+  "limitations": [
+    "All tool returns are 1254 x 1254 rather than requested 1024 x 1024; preserved unresized as instructed.",
+    "Exact guide silhouettes were not achieved. Normalized mask overlaps are recorded, but do not certify internal part-edge registration.",
+    "RGBA transparency is present, but raw returns retain some stray nonzero alpha outside the expected silhouette.",
+    "Corrective passes reduce baked lighting; residual face shading remains, especially on the front/back metal. The strict shadowless albedo requirement is not fully met.",
+    "One corrective generation was used per view. No further generation, postprocessing, model edits, builds or runtime integration were performed."
+  ]
+}

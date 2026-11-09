@@ -1,0 +1,897 @@
+[
+ {
+  "source_object": 48,
+  "source_name": "Horse6",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_Mount.ABC",
+  "source_skin": "Skins\\Props\\Training_Mount.dtx",
+  "prop": "trainingmount",
+  "decoration": "mm9_trainingmount",
+  "x": 1548.0,
+  "y": -3846.5,
+  "z": -697.0,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.51
+ },
+ {
+  "source_object": 49,
+  "source_name": "Dummy6",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_StrawDummy1.ABC",
+  "source_skin": "Skins\\Props\\Training_StrawDummy1.dtx",
+  "prop": "strawdummy",
+  "decoration": "mm9_strawdummy",
+  "x": -327.0,
+  "y": -2682.0,
+  "z": -694.9,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.56
+ },
+ {
+  "source_object": 50,
+  "source_name": "Dummy7",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_StrawDummy1.ABC",
+  "source_skin": "Skins\\Props\\Training_StrawDummy1.dtx",
+  "prop": "strawdummy",
+  "decoration": "mm9_strawdummy",
+  "x": 329.0,
+  "y": -2682.0,
+  "z": -694.9,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.56
+ },
+ {
+  "source_object": 51,
+  "source_name": "Horse7",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_Mount.ABC",
+  "source_skin": "Skins\\Props\\Training_Mount.dtx",
+  "prop": "trainingmount",
+  "decoration": "mm9_trainingmount",
+  "x": 1548.0,
+  "y": -4420.5,
+  "z": -697.0,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.51
+ },
+ {
+  "source_object": 69,
+  "source_name": "Prop0",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Debris\\LumberDebris02.ABC",
+  "source_skin": "Skins\\Props\\Debris\\LumberDebris.dtx",
+  "prop": "lumberdebris02",
+  "decoration": "mm9_lumberdebris02",
+  "x": 2622.5,
+  "y": -4428.0,
+  "z": -737.0,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.63
+ },
+ {
+  "source_object": 70,
+  "source_name": "Prop1",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Debris\\LumberDebris03.ABC",
+  "source_skin": "Skins\\Props\\Debris\\LumberDebris.dtx",
+  "prop": "lumberdebris03",
+  "decoration": "mm9_lumberdebris03",
+  "x": 2726.0,
+  "y": -4583.5,
+  "z": -738.2,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.54
+ },
+ {
+  "source_object": 71,
+  "source_name": "Prop2",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Debris\\LumberDebris05.ABC",
+  "source_skin": "Skins\\Props\\Debris\\LumberDebris.dtx",
+  "prop": "lumberdebris05",
+  "decoration": "mm9_lumberdebris05",
+  "x": 2721.5,
+  "y": -4752.5,
+  "z": -717.2,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.46
+ },
+ {
+  "source_object": 72,
+  "source_name": "Prop3",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Debris\\LumberStoneDebris02.ABC",
+  "source_skin": "Skins\\Props\\Debris\\LumberStoneDebris.dtx",
+  "prop": "lumberstone02",
+  "decoration": "mm9_lumberstone02",
+  "x": 2542.0,
+  "y": -4922.0,
+  "z": -736.2,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.52
+ },
+ {
+  "source_object": 73,
+  "source_name": "Prop4",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Debris\\LumberDebris02.ABC",
+  "source_skin": "Skins\\Props\\Debris\\LumberDebris.dtx",
+  "prop": "lumberdebris02",
+  "decoration": "mm9_lumberdebris02",
+  "x": 2688.5,
+  "y": -4882.3,
+  "z": -737.0,
+  "yaw_degrees": 227.3,
+  "fit_median_units": 0.61
+ },
+ {
+  "source_object": 74,
+  "source_name": "Prop5",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Debris\\LumberStoneDebris02.ABC",
+  "source_skin": "Skins\\Props\\Debris\\LumberStoneDebris.dtx",
+  "prop": "lumberstone02",
+  "decoration": "mm9_lumberstone02",
+  "x": 2512.5,
+  "y": -4418.1,
+  "z": -736.2,
+  "yaw_degrees": 132.0,
+  "fit_median_units": 0.72
+ },
+ {
+  "source_object": 76,
+  "source_name": "WallTorch0",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": -2098.9,
+  "y": -3748.2,
+  "z": -486.1,
+  "yaw_degrees": 269.4,
+  "fit_median_units": 0.59,
+  "light": {
+   "name": "Light17",
+   "distance": 1,
+   "radius": 1152,
+   "colour": [
+    254,
+    235,
+    171
+   ]
+  }
+ },
+ {
+  "source_object": 77,
+  "source_name": "WallTorch2",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": -1700.0,
+  "y": -5222.0,
+  "z": -486.1,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.55,
+  "light": {
+   "name": "Light18",
+   "distance": 1,
+   "radius": 1152,
+   "colour": [
+    254,
+    235,
+    171
+   ]
+  }
+ },
+ {
+  "source_object": 78,
+  "source_name": "WallTorch3",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": 1587.0,
+  "y": -5212.0,
+  "z": -486.1,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.55,
+  "light": {
+   "name": "Light19",
+   "distance": 1,
+   "radius": 1152,
+   "colour": [
+    254,
+    235,
+    171
+   ]
+  }
+ },
+ {
+  "source_object": 79,
+  "source_name": "WallTorch4",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": -41.0,
+  "y": -5212.0,
+  "z": -486.1,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.55,
+  "light": {
+   "name": "Light20",
+   "distance": 0,
+   "radius": 1152,
+   "colour": [
+    254,
+    235,
+    171
+   ]
+  }
+ },
+ {
+  "source_object": 80,
+  "source_name": "WallTorch5",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": 2098.9,
+  "y": -3747.8,
+  "z": -486.1,
+  "yaw_degrees": 89.3,
+  "fit_median_units": 0.61,
+  "light": {
+   "name": "Light21",
+   "distance": 1,
+   "radius": 1152,
+   "colour": [
+    254,
+    235,
+    171
+   ]
+  }
+ },
+ {
+  "source_object": 81,
+  "source_name": "WallTorch6",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": 655.0,
+  "y": -2652.0,
+  "z": -486.1,
+  "yaw_degrees": 179.9,
+  "fit_median_units": 0.56,
+  "light": {
+   "name": "Light22",
+   "distance": 1,
+   "radius": 1152,
+   "colour": [
+    254,
+    235,
+    171
+   ]
+  }
+ },
+ {
+  "source_object": 82,
+  "source_name": "WallTorch7",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": -655.0,
+  "y": -2652.0,
+  "z": -486.1,
+  "yaw_degrees": 179.9,
+  "fit_median_units": 0.56,
+  "light": {
+   "name": "Light23",
+   "distance": 1,
+   "radius": 1152,
+   "colour": [
+    254,
+    235,
+    171
+   ]
+  }
+ },
+ {
+  "source_object": 83,
+  "source_name": "Brazier0",
+  "class": "Brazier",
+  "kind": "torch",
+  "source_model": "models\\props\\Brazier.abc",
+  "source_skin": "skins\\props\\Brazier.dtx",
+  "prop": "brazier",
+  "decoration": "mm9_brazier",
+  "x": -2007.0,
+  "y": -1932.0,
+  "z": -696.6,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.5,
+  "light": {
+   "name": "Light24",
+   "distance": 164,
+   "radius": 704,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 84,
+  "source_name": "Brazier1",
+  "class": "Brazier",
+  "kind": "torch",
+  "source_model": "models\\props\\Brazier.abc",
+  "source_skin": "skins\\props\\Brazier.dtx",
+  "prop": "brazier",
+  "decoration": "mm9_brazier",
+  "x": 2007.0,
+  "y": -1932.0,
+  "z": -696.6,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.5,
+  "light": {
+   "name": "Light37",
+   "distance": 164,
+   "radius": 704,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 85,
+  "source_name": "Brazier2",
+  "class": "Brazier",
+  "kind": "torch",
+  "source_model": "models\\props\\Brazier.abc",
+  "source_skin": "skins\\props\\Brazier.dtx",
+  "prop": "brazier",
+  "decoration": "mm9_brazier",
+  "x": 963.0,
+  "y": -1932.0,
+  "z": -696.6,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.5,
+  "light": {
+   "name": "Light36",
+   "distance": 159,
+   "radius": 704,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 86,
+  "source_name": "Brazier3",
+  "class": "Brazier",
+  "kind": "torch",
+  "source_model": "models\\props\\Brazier.abc",
+  "source_skin": "skins\\props\\Brazier.dtx",
+  "prop": "brazier",
+  "decoration": "mm9_brazier",
+  "x": -983.0,
+  "y": -1932.0,
+  "z": -696.6,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.5,
+  "light": {
+   "name": "Light25",
+   "distance": 159,
+   "radius": 704,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 87,
+  "source_name": "Brazier4",
+  "class": "Brazier",
+  "kind": "torch",
+  "source_model": "models\\props\\Brazier.abc",
+  "source_skin": "skins\\props\\Brazier.dtx",
+  "prop": "brazier",
+  "decoration": "mm9_brazier",
+  "x": 20.0,
+  "y": -1932.0,
+  "z": -696.6,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.5,
+  "light": {
+   "name": "Light35",
+   "distance": 159,
+   "radius": 704,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 101,
+  "source_name": "WallTorch10",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": 1178.0,
+  "y": -2284.0,
+  "z": -486.1,
+  "yaw_degrees": 269.9,
+  "fit_median_units": 0.56,
+  "light": {
+   "name": "Light29",
+   "distance": 1,
+   "radius": 768,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 102,
+  "source_name": "WallTorch11",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": -1178.0,
+  "y": -2284.0,
+  "z": -486.1,
+  "yaw_degrees": 89.9,
+  "fit_median_units": 0.56,
+  "light": {
+   "name": "Light30",
+   "distance": 1,
+   "radius": 768,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 142,
+  "source_name": "hangingtorch2",
+  "class": "Torch",
+  "kind": "torch",
+  "source_model": "models\\props\\HangingBrazierBowl.abc",
+  "source_skin": "skins\\props\\HangingBrazierBowl.dtx",
+  "prop": "hangingbowl1",
+  "decoration": "mm9_hangingbowl1_x100",
+  "x": 1229.0,
+  "y": -2621.0,
+  "z": 614.8,
+  "yaw_degrees": 269.4,
+  "fit_median_units": 0.59,
+  "light": {
+   "name": "Light29",
+   "distance": 1158,
+   "radius": 768,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 150,
+  "source_name": "hangingtorch7",
+  "class": "Torch",
+  "kind": "torch",
+  "source_model": "models\\props\\HangingBrazierBowl.abc",
+  "source_skin": "skins\\props\\HangingBrazierBowl.dtx",
+  "prop": "hangingbowl1",
+  "decoration": "mm9_hangingbowl1_x100",
+  "x": 2734.0,
+  "y": -2550.0,
+  "z": 614.8,
+  "yaw_degrees": 269.4,
+  "fit_median_units": 0.59,
+  "light": {
+   "name": "Light63",
+   "distance": 0,
+   "radius": 1280,
+   "colour": [
+    253,
+    188,
+    91
+   ]
+  }
+ },
+ {
+  "source_object": 194,
+  "source_name": "WallTorch8",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": -1884.0,
+  "y": -2652.0,
+  "z": -486.1,
+  "yaw_degrees": 179.9,
+  "fit_median_units": 0.56,
+  "light": {
+   "name": "Light24",
+   "distance": 773,
+   "radius": 704,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 195,
+  "source_name": "WallTorch9",
+  "class": "WallTorch",
+  "kind": "torch",
+  "source_model": "models\\props\\walltorch.abc",
+  "source_skin": "skins\\props\\walltorch.dtx",
+  "prop": "walltorch",
+  "decoration": "mm9_walltorch",
+  "x": 1864.0,
+  "y": -2652.0,
+  "z": -486.1,
+  "yaw_degrees": 179.9,
+  "fit_median_units": 0.56,
+  "light": {
+   "name": "Light37",
+   "distance": 775,
+   "radius": 704,
+   "colour": [
+    254,
+    224,
+    122
+   ]
+  }
+ },
+ {
+  "source_object": 196,
+  "source_name": "hangingtorch3",
+  "class": "Torch",
+  "kind": "torch",
+  "source_model": "models\\props\\HangingBrazierBowl.abc",
+  "source_skin": "skins\\props\\HangingBrazierBowl.dtx",
+  "prop": "hangingbowl1",
+  "decoration": "mm9_hangingbowl1_x100",
+  "x": -2785.0,
+  "y": -799.0,
+  "z": 614.8,
+  "yaw_degrees": 269.4,
+  "fit_median_units": 0.59,
+  "light": {
+   "name": "Light10",
+   "distance": 1,
+   "radius": 1280,
+   "colour": [
+    253,
+    188,
+    91
+   ]
+  }
+ },
+ {
+  "source_object": 197,
+  "source_name": "hangingtorch4",
+  "class": "Torch",
+  "kind": "torch",
+  "source_model": "models\\props\\HangingBrazierBowl.abc",
+  "source_skin": "skins\\props\\HangingBrazierBowl.dtx",
+  "prop": "hangingbowl1",
+  "decoration": "mm9_hangingbowl1_x100",
+  "x": -1884.0,
+  "y": 0.0,
+  "z": 614.8,
+  "yaw_degrees": 269.4,
+  "fit_median_units": 0.59,
+  "light": {
+   "name": "Light11",
+   "distance": 0,
+   "radius": 1280,
+   "colour": [
+    253,
+    188,
+    91
+   ]
+  }
+ },
+ {
+  "source_object": 198,
+  "source_name": "hangingtorch5",
+  "class": "Torch",
+  "kind": "torch",
+  "source_model": "models\\props\\HangingBrazierBowl.abc",
+  "source_skin": "skins\\props\\HangingBrazierBowl.dtx",
+  "prop": "hangingbowl1",
+  "decoration": "mm9_hangingbowl1_x100",
+  "x": 1884.0,
+  "y": 0.0,
+  "z": 614.8,
+  "yaw_degrees": 269.4,
+  "fit_median_units": 0.59,
+  "light": {
+   "name": "Light45",
+   "distance": 0,
+   "radius": 1280,
+   "colour": [
+    253,
+    188,
+    91
+   ]
+  }
+ },
+ {
+  "source_object": 199,
+  "source_name": "hangingtorch6",
+  "class": "Torch",
+  "kind": "torch",
+  "source_model": "models\\props\\HangingBrazierBowl.abc",
+  "source_skin": "skins\\props\\HangingBrazierBowl.dtx",
+  "prop": "hangingbowl1",
+  "decoration": "mm9_hangingbowl1_x100",
+  "x": 2785.0,
+  "y": -860.0,
+  "z": 614.8,
+  "yaw_degrees": 269.4,
+  "fit_median_units": 0.59,
+  "light": {
+   "name": "Light47",
+   "distance": 0,
+   "radius": 1280,
+   "colour": [
+    253,
+    188,
+    91
+   ]
+  }
+ },
+ {
+  "source_object": 377,
+  "source_name": "Blackbox",
+  "class": "TreasureChest",
+  "kind": "chest",
+  "source_model": "models\\Props\\BlackChest.ABC",
+  "source_skin": "Skins\\Props\\BlackChest.dtx",
+  "prop": "blackchest",
+  "decoration": "mm9_blackchest",
+  "x": -3522.5,
+  "y": -2949.0,
+  "z": 10.1,
+  "yaw_degrees": 150.0,
+  "fit_median_units": 0.73
+ },
+ {
+  "source_object": 378,
+  "source_name": "TreasureChest0",
+  "class": "TreasureChest",
+  "kind": "chest",
+  "source_model": "models\\Props\\Chest1.ABC",
+  "source_skin": "skins\\props\\Chest1.dtx",
+  "prop": "chest1",
+  "decoration": "mm9_chest1_x100",
+  "x": 594.0,
+  "y": 3377.5,
+  "z": 3442.1,
+  "yaw_degrees": 180.0,
+  "fit_median_units": 0.43
+ },
+ {
+  "source_object": 379,
+  "source_name": "TreasureChest1",
+  "class": "TreasureChest",
+  "kind": "chest",
+  "source_model": "models\\Props\\Chest1.ABC",
+  "source_skin": "skins\\props\\Chest1.dtx",
+  "prop": "chest1",
+  "decoration": "mm9_chest1_x100",
+  "x": -636.1,
+  "y": -636.1,
+  "z": 1107.1,
+  "yaw_degrees": 134.2,
+  "fit_median_units": 0.61
+ },
+ {
+  "source_object": 380,
+  "source_name": "TreasureChest3",
+  "class": "TreasureChest",
+  "kind": "chest",
+  "source_model": "models\\Props\\Chest1.ABC",
+  "source_skin": "skins\\props\\Chest1.dtx",
+  "prop": "chest1",
+  "decoration": "mm9_chest1_x100",
+  "x": 655.0,
+  "y": -8518.5,
+  "z": -1841.9,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.43
+ },
+ {
+  "source_object": 381,
+  "source_name": "TreasureChest4",
+  "class": "TreasureChest",
+  "kind": "chest",
+  "source_model": "models\\Props\\Chest1.ABC",
+  "source_skin": "skins\\props\\Chest1.dtx",
+  "prop": "chest1",
+  "decoration": "mm9_chest1_x100",
+  "x": 5243.0,
+  "y": -5531.3,
+  "z": -1472.9,
+  "yaw_degrees": 179.2,
+  "fit_median_units": 0.59
+ },
+ {
+  "source_object": 382,
+  "source_name": "Dummy0",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_StrawDummy1.ABC",
+  "source_skin": "Skins\\Props\\Training_StrawDummy1.dtx",
+  "prop": "strawdummy",
+  "decoration": "mm9_strawdummy",
+  "x": -491.0,
+  "y": -3440.0,
+  "z": 1.1,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.56
+ },
+ {
+  "source_object": 383,
+  "source_name": "Dummy1",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_StrawDummy1.ABC",
+  "source_skin": "Skins\\Props\\Training_StrawDummy1.dtx",
+  "prop": "strawdummy",
+  "decoration": "mm9_strawdummy",
+  "x": 493.0,
+  "y": -3440.0,
+  "z": 1.1,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.56
+ },
+ {
+  "source_object": 384,
+  "source_name": "Spindummy0",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_SpinDummy1.ABC",
+  "source_skin": "Skins\\Props\\Training_SpinDummy1.dtx",
+  "prop": "spindummy",
+  "decoration": "mm9_spindummy",
+  "x": -494.8,
+  "y": -1908.0,
+  "z": -0.4,
+  "yaw_degrees": 180.0,
+  "fit_median_units": 0.58
+ },
+ {
+  "source_object": 385,
+  "source_name": "Spindummy1",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_SpinDummy1.ABC",
+  "source_skin": "Skins\\Props\\Training_SpinDummy1.dtx",
+  "prop": "spindummy",
+  "decoration": "mm9_spindummy",
+  "x": -166.8,
+  "y": -1908.0,
+  "z": -0.4,
+  "yaw_degrees": 180.0,
+  "fit_median_units": 0.58
+ },
+ {
+  "source_object": 386,
+  "source_name": "Spindummy2",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_SpinDummy1.ABC",
+  "source_skin": "Skins\\Props\\Training_SpinDummy1.dtx",
+  "prop": "spindummy",
+  "decoration": "mm9_spindummy",
+  "x": 161.2,
+  "y": -1908.0,
+  "z": -0.4,
+  "yaw_degrees": 180.0,
+  "fit_median_units": 0.58
+ },
+ {
+  "source_object": 387,
+  "source_name": "Spindummy3",
+  "class": "Prop",
+  "kind": "prop",
+  "source_model": "models\\Props\\Training_SpinDummy1.ABC",
+  "source_skin": "Skins\\Props\\Training_SpinDummy1.dtx",
+  "prop": "spindummy",
+  "decoration": "mm9_spindummy",
+  "x": 489.2,
+  "y": -1908.0,
+  "z": -0.4,
+  "yaw_degrees": 180.0,
+  "fit_median_units": 0.58
+ },
+ {
+  "source_object": 388,
+  "source_name": "Barrel0",
+  "class": "Barrel",
+  "kind": "prop",
+  "source_model": "models\\Props\\Barrel03.ABC",
+  "source_skin": "skins\\props\\barrel03.dtx",
+  "prop": "barrel03",
+  "decoration": "mm9_barrel03_x100",
+  "x": -2867.0,
+  "y": -3072.0,
+  "z": 0.0,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.48
+ },
+ {
+  "source_object": 389,
+  "source_name": "Barrel1",
+  "class": "Barrel",
+  "kind": "prop",
+  "source_model": "models\\Props\\Barrel03.ABC",
+  "source_skin": "skins\\props\\barrel03.dtx",
+  "prop": "barrel03",
+  "decoration": "mm9_barrel03_x100",
+  "x": -1700.0,
+  "y": -1679.0,
+  "z": 0.0,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.48
+ }
+]

@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Mogred Gauntlets (7item114). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single green scaled glove with straight fingers, gold-edged narrow cuff and two oval red gems along its back. Exact material boundaries: Green dragon-hide hand and fingers are LEATHER GREEN. Gold gem settings and rim are METAL RED. Two red jewels are GEM BLACK. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item114/inputs/guide_mask.png",
+  "input_guide_sha256": "82f9b07968acb89b3fdec4270d7a2848a53248930890be73e37b12deee8f7391",
+  "revision": 1,
+  "input_icon": "7item114",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-cb1dbc16-2796-45d7-942b-d20af4eef3e3.png",
+  "output": "mask_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "mask_raw_v1.png",
+  "output_sha256": "99f75c56ad2240e81db18c89dc34e702985177a0e66313b913294db958518f97",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item114.png",
+  "input_icon_sha256": "6b7a5bf5c28a2d44971602a0e880010cfa8e9fec20eab406edd7bf0a0a23178f",
+  "active_bytes_match": false,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

@@ -51,8 +51,7 @@ __pycache__/
 /mm9/
 /assets_dev/worlds/mm9/
 
-# Historical generation projects and outputs remain local; reusable code lives in tools/.
-/level_generation/
+# Generation projects: level_generation/.gitignore tracks only their docs, scripts and small hand-written data.
 # Local animation source library (humanoid set, Mixamo and Meshy clips); only its README is tracked.
 /anim_library/*
 !/anim_library/README.md

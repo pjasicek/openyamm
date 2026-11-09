@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/levers_mm8
+settle_seconds: 2.0
+exit: true
+shots:
+- name: lever_ev13
+  position:
+  - 933
+  - -1378
+  - -2239
+  yaw: 1.178
+  pitch: -0.027
+- name: lever_ev14
+  position:
+  - 738
+  - -1101
+  - -2239
+  yaw: 3.142
+  pitch: -0.032
+- name: letter_panel_ev11
+  position:
+  - 352
+  - -869
+  - -703
+  yaw: 5.498
+  pitch: -0.036

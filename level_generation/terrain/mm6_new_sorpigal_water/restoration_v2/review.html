@@ -1,0 +1,24 @@
+<!doctype html><meta charset="utf-8"><title>New Sorpigal: faithful water restoration</title>
+<style>body{background:#192329;color:#eee7db;font:16px/1.5 system-ui;max-width:1400px;margin:24px auto;padding:0 20px}
+a{color:#9ad4ff}img{max-width:100%}.compare{position:relative;aspect-ratio:1600/836}.compare img{position:absolute;width:100%}
+input{width:350px}.loops{display:flex;gap:12px}.loops img{width:49%}</style>
+<h1>Original water, with more definition</h1>
+<p>Restoration v2 follows the original fourteen frames: dark navy troughs, warm green-yellow ridges and the original
+large irregular ripple pattern. Built-in imagegen supplied a detail restoration; the export retains native broad
+colour and shading and adds only registered fine detail. The land and shared-dirt shore overlays are unchanged.</p>
+<p>Original water ← <input id="split" type="range" min="0" max="100" value="50" aria-label="Before after split"> → Restored water</p>
+<div class="compare"><img src="restored.png" alt="Restored water"><img id="before" src="original.png" alt="Original water"></div>
+<p>Both runs use the same saved pose: (1717.875, −8219.900, 838.091), yaw 0.302, pitch −27.932°.
+The baseline uses the original 128px runtime water; the restoration uses 256px. Both use identical enhanced land and shoreline
+assets so water is the only asset difference. Animation phase can differ between captures.</p>
+<h2>Native source and restored frames</h2><img src="comparison.png" alt="Repeated native and restored water tiles">
+<div class="loops"><img src="native_loop.webp" alt="Original fourteen-frame animation"><img src="restored_loop.webp" alt="Restored fourteen-frame animation"></div>
+<p>14 frames × 15/128 seconds = 1.640625 seconds per loop. No replacement deformation animation.</p>
+<h2>In-game animation</h2><img src="native_animation.webp" alt="Sampled in-game animation">
+<h2>Shoreline contexts</h2><img src="shore_contexts.png" alt="All twelve shoreline contexts">
+<p><a href="validation.json">332 joins across 14 frames</a> · <a href="report.json">Colour and source checks</a> ·
+<a href="temporal_validation.json">Motion consistency checks</a> · <a href="native_animation.json">Native samples</a> ·
+<a href="prompt.txt">Imagegen prompt</a> · <a href="new_sorpigal_terrain_x2.zip">Combined runtime ZIP</a></p>
+<p>Restart <code>./level_generation/creatures/mm6_peasants/play.sh enhanced</code> and load your usual save.</p>
+<script>const s=document.querySelector('#split'),b=document.querySelector('#before');
+function update(){b.style.clipPath='inset(0 '+(100-s.value)+'% 0 0)'}s.oninput=update;update();</script>

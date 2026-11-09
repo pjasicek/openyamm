@@ -1,0 +1,801 @@
+{
+ "id": "20261009-1649-mm7-out10-26",
+ "world": "mm7",
+ "maps": [
+  "out10.odm"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/hkm2els",
+  "mm7/hkm2erw",
+  "mm7/hkm3erw",
+  "mm7/hkm3elw",
+  "mm7/hkm3er",
+  "mm7/hkm2ers",
+  "mm7/hkm2elw",
+  "mm7/hkm3el",
+  "mm7/hkm2b",
+  "mm7/hkm3b",
+  "mm7/hkm1b1s",
+  "mm7/hkr1bs",
+  "mm7/hkr1rew",
+  "mm7/hkp2bs",
+  "mm7/hkp1b",
+  "mm7/hkp1bws",
+  "mm7/hkm2d",
+  "mm7/hkm1dr",
+  "mm7/hkp1el",
+  "mm7/hkp2d",
+  "mm7/hkp1bw",
+  "mm7/hkp2el",
+  "mm7/hkp2er",
+  "mm7/hkr1d",
+  "mm7/hkp1d"
+ ],
+ "requests": {
+  "mm7/hkm2els": {
+   "name": "hkm2els",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark grey-brown rubble cobblestone wall framed by dark carved timber posts, a carved wooden lintel with small skull ornaments along the top, with a carved wooden skeleton totem figure with a skull head in the centre and a timber corner post on the left edge; copy the composition exactly",
+   "notes": {
+    "2": "keep the outermost left column as bright as the reference: the left edge is the rust-brown twisted wooden post, not a dark shadow or dark rim",
+    "3": "keep the outermost left column as bright as the reference: the left edge is the rust-brown twisted wooden post, not a dark shadow or dark rim"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm2bs"
+     ],
+     "fraction": 0.822
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm2bs"
+     ],
+     "fraction": 0.822
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm2bs"
+     ],
+     "fraction": 0.822
+    }
+   }
+  },
+  "mm7/hkm2erw": {
+   "name": "hkm2erw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown rubble cobblestone wall framed by dark carved timber posts, a carved wooden lintel with small skull ornaments along the top, with crossed diagonal timbers forming an X around a green diamond panel and a timber corner post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm2bw"
+     ],
+     "fraction": 0.783
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm2bw",
+      "mm7/hkm2elw",
+      "mm7/hkm2b"
+     ],
+     "fraction": 0.798
+    }
+   }
+  },
+  "mm7/hkm3erw": {
+   "name": "hkm3erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber frame with a carved wooden lintel and small skull ornaments along the top, with an arched window of yellow-green leaded glass under a carved horned stone skull head and a timber post on the right edge",
+   "notes": {
+    "2": "keep the topmost rows as bright as the reference: the top edge is the carved blue-grey wooden lintel with small skulls, with no dark rim or shadow along the top edge",
+    "3": "keep the topmost rows as bright as the reference: the top edge is the carved blue-grey wooden lintel with small skulls, with no dark rim or shadow along the top edge",
+    "4": "keep every element at exactly the reference's position and size (no vertical drift): the very top rows are a light tan wooden plank strip as bright as the reference, then the blue-grey skull frieze with its two skulls at the reference positions, then the brown beam; the arch, horned skull, window, sill and bone heap stay where the reference has them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkm3elw": {
+   "name": "hkm3elw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber frame with a carved wooden lintel and small skull ornaments along the top, with an arched window of yellow-green leaded glass under a carved horned stone skull head and a timber post on the left edge",
+   "notes": {
+    "2": "keep the topmost rows and the outermost left column as bright as the reference: the top edge is the carved blue-grey wooden lintel with small skulls and the left edge is the brown timber post, with no dark rim or shadow on either edge",
+    "3": "the very top edge of the texture is a thin pale grey-white highlight line along the top of the lintel, the brightest row of the image; keep it on the outermost top row, and keep the left edge as bright as the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.258
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.258
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.258
+    }
+   }
+  },
+  "mm7/hkm3er": {
+   "name": "hkm3er",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber frame with a carved wooden lintel and small skull ornaments along the top, with a timber post on the right edge",
+   "notes": {
+    "3": "plain wall with no window: the flat stone courses run straight and level from the bones up to the beam and continue the sharp stones exactly; no arch, dome, curved stone or ghost outline anywhere in the stonework"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.538
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.538
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.538
+    }
+   }
+  },
+  "mm7/hkm2ers": {
+   "name": "hkm2ers",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rubble cobblestone wall framed by dark carved timber posts, a carved wooden lintel with small skull ornaments along the top, with a carved wooden skeleton totem figure with a skull head in the centre and a timber corner post on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm2bs"
+     ],
+     "fraction": 0.808
+    }
+   }
+  },
+  "mm7/hkm2elw": {
+   "name": "hkm2elw",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rubble cobblestone wall framed by dark carved timber posts, a carved wooden lintel with small skull ornaments along the top, with crossed diagonal timbers forming an X around a green diamond panel and a timber corner post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm2bw"
+     ],
+     "fraction": 0.758
+    }
+   }
+  },
+  "mm7/hkm3el": {
+   "name": "hkm3el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber frame with a carved wooden lintel and small skull ornaments along the top, with a timber post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm3er"
+     ],
+     "fraction": 0.097
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm3elw"
+     ],
+     "fraction": 0.533
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm3elw"
+     ],
+     "fraction": 0.533
+    },
+    "4": {
+     "sources": [
+      "mm7/hkm3elw"
+     ],
+     "fraction": 0.533
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hkm3er",
+     "left": "mm7/hkm3erw"
+    },
+    "4": {
+     "right": "mm7/hkm3er",
+     "left": "mm7/hkm3erw"
+    }
+   }
+  },
+  "mm7/hkm2b": {
+   "name": "hkm2b",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rubble cobblestone wall framed by dark carved timber posts, a carved wooden lintel with small skull ornaments along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm2bw",
+      "mm7/hkm2bs"
+     ],
+     "fraction": 0.681
+    }
+   }
+  },
+  "mm7/hkm3b": {
+   "name": "hkm3b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber frame with a carved wooden lintel and small skull ornaments along the top",
+   "notes": {
+    "2": "the slate stones continue straight across the left and right edges with no frame, post or thin brown line along either side edge; the wall repeats horizontally without a visible border"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm3er",
+      "mm7/hkm3el"
+     ],
+     "fraction": 0.668
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm3er",
+      "mm7/hkm3el"
+     ],
+     "fraction": 0.668
+    }
+   }
+  },
+  "mm7/hkm1b1s": {
+   "name": "hkm1b1s",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with a grey stone pilaster carved with a column of small runes down the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1er"
+     ],
+     "fraction": 0.728
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1b1"
+     ],
+     "fraction": 0.71
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1erw"
+     ],
+     "fraction": 0.728
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hkm1bw",
+     "left": "mm7/hkm1bw"
+    }
+   }
+  },
+  "mm7/hkr1bs": {
+   "name": "hkr1bs",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-green mottled rough plaster wall, gritty and weathered, with a carved dark wooden pilaster with scroll brackets at top and bottom down the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkr1b"
+     ],
+     "fraction": 0.624
+    }
+   }
+  },
+  "mm7/hkr1rew": {
+   "name": "hkr1rew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-green mottled rough plaster wall, gritty and weathered, with a carved dark wooden window frame with spoked round shutter and carved wooden scroll brackets in the right corners",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkr1re",
+      "mm7/hkr1bw"
+     ],
+     "fraction": 0.597
+    },
+    "2": {
+     "sources": [
+      "mm7/hkr1re",
+      "mm7/hkr1bw"
+     ],
+     "fraction": 0.597
+    }
+   }
+  },
+  "mm7/hkp2bs": {
+   "name": "hkp2bs",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow-green cracked weathered plaster wall with a heap of grey rubble stones along the base, with a broken dark wooden beam and faint scratched marks in the plaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkp1b": {
+   "name": "hkp1b",
+   "versions": [
+    1
+   ],
+   "material": "grey-green cracked weathered plaster wall between heavy dark brown horizontal timber beams at top and bottom, short timber posts below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hkp1bws": {
+   "name": "hkp1bws",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: grey-green cracked weathered plaster wall between heavy dark brown horizontal timber beams at top and bottom, short timber posts below, with a small closed dark wooden hatch in the upper plaster - right part: dark weathered vertical plank door with iron hinges and a dark iron ring, under a carved timber frame with a green carved face mask at the top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkp1b"
+     ],
+     "fraction": 0.307
+    },
+    "2": {
+     "sources": [
+      "mm7/hkp1b",
+      "mm7/hkp1el",
+      "mm7/hkp1bw"
+     ],
+     "fraction": 0.166
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hkp1b",
+     "right": "mm7/hkp1b"
+    }
+   }
+  },
+  "mm7/hkm2d": {
+   "name": "hkm2d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown rubble cobblestone wall framed by dark carved timber posts, a carved wooden lintel with small skull ornaments along the top, with a weathered grey herringbone plank door with iron studs and a small green leaf emblem; copy the composition exactly",
+   "notes": {
+    "2": "keep the bottom rows as bright as the reference: the bottom edge is the weathered grey door planks and stone sill, with no dark threshold, shadow or dark rim along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm2bw",
+      "mm7/hkm2bs"
+     ],
+     "fraction": 0.339
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm2b",
+      "mm7/hkm2bw",
+      "mm7/hkm2bs",
+      "mm7/hkm2elw"
+     ],
+     "fraction": 0.357
+    }
+   }
+  },
+  "mm7/hkm1dr": {
+   "name": "hkm1dr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "manor wall of tan-grey cut sandstone blocks with thin mortar joints, a grey carved stone scalloped arch frieze along the top under a dark stone cornice, with an ornate dark carved wooden door with silver iron scrollwork hinges and a ring knocker; copy the composition exactly",
+   "notes": {
+    "3": "the leftmost columns are the door's riveted grey iron frame band, as bright as in the reference right up to the left edge, with no dark rim or shadow line along the left edge",
+    "4": "keep every element at exactly the reference's position and size: the door's riveted iron frame starts right at the left edge (bright grey iron there, no dark rim line along the left edge), the door's top and bottom edges, the ring knocker and the iron scrollwork sit at the reference heights; below the door the reference's brown wooden sill strip runs along the bottom edge",
+    "5": "keep every element at exactly the reference's position and size: the door's riveted iron frame starts right at the left edge (bright grey iron there, no dark rim line along the left edge), the door's top and bottom edges, the ring knocker and the iron scrollwork sit at the reference heights; below the door the reference's brown wooden sill strip runs along the bottom edge",
+    "6": "keep every element at exactly the reference's position and size: the door's riveted iron frame starts right at the left edge (bright grey iron there, no dark rim line along the left edge), the door's top and bottom edges, the ring knocker and the iron scrollwork sit at the reference heights; below the door the reference's brown wooden sill strip runs along the bottom edge",
+    "7": "this is the right leaf of a double door; the left edge is the centre gap between the leaves: the leftmost columns are the dark shadowed gap continuing the sharp left neighbour's dark edge, then the riveted iron frame strip; no pale line, highlight or bevel on the left edge; keep the lintel, door top and bottom at the reference's exact rows",
+    "8": "this is the right leaf of a double door; the left edge is the centre gap between the leaves and continues the sharp left neighbour's edge exactly: the leftmost columns are the dark shadowed gap, then the riveted iron frame strip; no pale line, highlight or bevel on the left edge; keep the lintel, door top and bottom at the reference's exact rows",
+    "9": "continue the sharp left neighbour across the left edge exactly: the outermost left columns are the same dim grey-brown strip as the neighbour's last columns (the meeting edges of the two door leaves, mid-dark, never black), then a narrow near-black gap, then the riveted iron frame strip; keep the lintel, door top and bottom at the reference's exact rows"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1d"
+     ],
+     "fraction": 0.324
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1d"
+     ],
+     "fraction": 0.324
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1d"
+     ],
+     "fraction": 0.324
+    },
+    "4": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1d"
+     ],
+     "fraction": 0.324
+    },
+    "5": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1dl"
+     ],
+     "fraction": 0.323
+    },
+    "6": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1dl"
+     ],
+     "fraction": 0.323
+    },
+    "7": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1dl"
+     ],
+     "fraction": 0.323
+    },
+    "8": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1dl"
+     ],
+     "fraction": 0.323
+    },
+    "9": {
+     "sources": [
+      "mm7/hkm1b1",
+      "mm7/hkm1dl"
+     ],
+     "fraction": 0.323
+    }
+   },
+   "context": {
+    "5": {
+     "left": "mm7/hkm1dl"
+    },
+    "6": {
+     "left": "mm7/hkm1dl",
+     "right": "mm7/hkm1er"
+    },
+    "7": {
+     "left": "mm7/hkm1dl",
+     "right": "mm7/hkm1er"
+    },
+    "8": {
+     "left": "mm7/hkm1dl",
+     "right": "mm7/hkm1er"
+    },
+    "9": {
+     "left": "mm7/hkm1dl",
+     "right": "mm7/hkm1er"
+    }
+   }
+  },
+  "mm7/hkp1el": {
+   "name": "hkp1el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-green cracked weathered plaster wall between heavy dark brown horizontal timber beams at top and bottom, short timber posts below, with a timber post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkp1b",
+      "mm7/hkp1bws"
+     ],
+     "fraction": 0.221
+    },
+    "2": {
+     "sources": [
+      "mm7/hkp1b"
+     ],
+     "fraction": 0.201
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/hkp2d": {
+   "name": "hkp2d",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow-green cracked weathered plaster wall with a heap of grey rubble stones along the base, with a dark wooden plank door with iron bands set in a timber frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkp2bs"
+     ],
+     "fraction": 0.271
+    }
+   }
+  },
+  "mm7/hkp1bw": {
+   "name": "hkp1bw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-green cracked weathered plaster wall between heavy dark brown horizontal timber beams at top and bottom, short timber posts below, with a small dark wooden shutter with a diamond cut-out",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkp1b",
+      "mm7/hkp1bws"
+     ],
+     "fraction": 0.215
+    },
+    "2": {
+     "sources": [
+      "mm7/hkp1b",
+      "mm7/hkp1el"
+     ],
+     "fraction": 0.184
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hkp1b",
+     "right": "mm7/hkp1b"
+    }
+   }
+  },
+  "mm7/hkp2el": {
+   "name": "hkp2el",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale yellow-green cracked weathered plaster wall with a heap of grey rubble stones along the base, with crumbling broken plaster and a timber edge on the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkp2bs"
+     ],
+     "fraction": 0.251
+    },
+    "2": {
+     "sources": [
+      "mm7/hkp2bs",
+      "mm7/hkp2d"
+     ],
+     "fraction": 0.257
+    }
+   }
+  },
+  "mm7/hkp2er": {
+   "name": "hkp2er",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "pale yellow-green cracked weathered plaster wall with faint rows of scratched runic lettering near the top and lower middle, a heap of grey rubble stones along the base with a dark blue-grey human skull and a smaller skull in the rubble, crumbling broken plaster sloping down to the right, a vertical weathered timber post near the right edge with a thin strip of pale weathered wood beyond it at the very edge, and a splintered timber beam across the top; copy the composition exactly",
+   "notes": {
+    "4": "the post's right side and the pale strip continue right up to the right edge with no dark line along it",
+    "5": "keep this composition; the timber post's grain runs straight off the right edge with no groove, crack, outline or dark line within the last few pixels of the right edge; the outermost right columns are as pale as the wood beside them",
+    "6": "keep this composition; the timber post's right side is its palest weathered face: the rightmost columns of the image are pale silvery grey-brown wood, brighter than the middle of the post, continuing straight off the right edge; never a shadow, crack, outline or dark line along the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkp2bs"
+     ],
+     "fraction": 0.233
+    },
+    "2": {
+     "sources": [
+      "mm7/hkp2bs",
+      "mm7/hkp2d"
+     ],
+     "fraction": 0.239
+    },
+    "3": {
+     "sources": [
+      "mm7/hkp2bs",
+      "mm7/hkp2d"
+     ],
+     "fraction": 0.239
+    },
+    "4": {
+     "sources": [
+      "mm7/hkp2bs",
+      "mm7/hkp2d"
+     ],
+     "fraction": 0.239
+    },
+    "5": {
+     "sources": [
+      "mm7/hkp2bs",
+      "mm7/hkp2d"
+     ],
+     "fraction": 0.239
+    },
+    "6": {
+     "sources": [
+      "mm7/hkp2bs",
+      "mm7/hkp2d"
+     ],
+     "fraction": 0.239
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm7/hkp2bs"
+    },
+    "4": {
+     "left": "mm7/hkp2bs"
+    },
+    "5": {
+     "left": "mm7/hkp2bs"
+    },
+    "6": {
+     "left": "mm7/hkp2bs"
+    }
+   }
+  },
+  "mm7/hkr1d": {
+   "name": "hkr1d",
+   "versions": [
+    1
+   ],
+   "material": "pointed-arch double door of carved dark brown wood with two iron ring knockers, set in a dark grey stone arch; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkr1b"
+     ],
+     "fraction": 0.194
+    }
+   }
+  },
+  "mm7/hkp1d": {
+   "name": "hkp1d",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  }
+ }
+}

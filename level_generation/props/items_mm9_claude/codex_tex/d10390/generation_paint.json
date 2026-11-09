@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png as the exact target; design_reference.png is the material/detail reference and icon_x8.png is the original colour reference (magenta background is not material). Produce ONE transparent PNG 1536x2048 (3:4). The guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat five exact orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object's exact position, size, silhouette, geometry and gaps. Paint grey objects only; never redraw, enlarge, move or redesign.\n\nRows 1-2 PAINT: unlit base colour source-faithful upright Crona Kiga crown. Warm aged gold metal base band, rims, vertical fingers and arches, rich purple cloth dome, small muted reddish and dark gemstones in base band following reference. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. Damaged dark cloth markings in source should remain faithful; bright green artifacts in HD reference are not green material: follow original icon's dark/purple cloth. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text.\n\nRows 3-4 MATERIAL MASK: identical corresponding silhouettes and material boundaries, filled FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Every metal part gold/steel/iron/silver/bronze/copper/brass is pure RED #FF0000. Every leather/fur part pure GREEN #00FF00. Every cloth part including purple dome and linings is pure BLUE #0000FF. Every matte nonmetal solid wood/bone/horn/stone/paper/wax pure YELLOW #FFFF00. Every gemstone/crystal/glass/pearl/enamel/liquid through glass pure BLACK #000000. Every silhouette pixel exactly one category colour. Crown gold framework should be RED, cloth dome BLUE, small gems BLACK. No pixels outside silhouettes.\n\nKeep every guide opening/gap transparent. Column 3 row 2 and column 3 row 4 remain empty transparent. Exact guide layout and silhouettes are mandatory.\nCORRECTION: The preceding attempt had widespread red speckling outside crown silhouettes, which is unacceptable. Start from the CLEAN original grey guide provided here. Use its alpha silhouettes as strict clipping boundaries. All exterior pixels must be fully transparent, perfectly clean edges, absolutely no coloured dust, speckles, splatter or stray pixels. Preserve original exact positions and outline shapes in all ten views. Strict flat unlit paint above; exact solid category RGB fills below. This is the sole corrective regeneration.",
+  "tool": "built-in image_gen",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad11-fb51-7653-95be-413a1635c669/exec-a652c4ab-ccec-44e0-aa1c-bbf8df48d433.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10390/paint_mask_raw_v1.png",
+  "corrective_regenerations": 1,
+  "validation_notes": "Generated output retains stray coloured pixels outside silhouettes and shading; strict brief compliance not achieved.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10390/paint_mask_guide.png",
+      "sha256": "95b124f7b5a57c1337ce0e52ed1a67c2a1552e69e3e7cb24ca9739551fd3d551"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10390/design_reference.png",
+      "sha256": "2e54d18a46688a26631b00b30e628018e830798580432217d91472b73ffd0251"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10390/icon_x8.png",
+      "sha256": "a90083daa1150dd16bd9b4eeaa2ce8164a21d83933567707a73ef8f8cebe71c9"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

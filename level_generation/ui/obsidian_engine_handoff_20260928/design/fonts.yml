@@ -1,0 +1,28 @@
+# Consolidated font bindings take precedence over filenames in historical contracts.
+buttons:
+  face: Fondamento
+  descriptor: engine/fonts/truetype/fondamento.yml
+  binary: engine/fonts/truetype/fondamento_regular.ttf
+  license: engine/fonts/truetype/fondamento_ofl.txt
+  metrics: freetype
+  cell_height: 32
+  baseline: 25
+  sizing: requested_logical_height / 32
+  styles: Use the frozen five-state button theme; no synthetic bold/italic.
+reading:
+  binary_policy: Current recreated MM fonts, never replace with the older browser preview revision.
+  metrics_policy: Keep authoritative native FNT advances, cell height and baseline.
+  default_color: '#e5dcc7'
+  arrus: {cell_height: 19, roles: [dialogue, item_title, quick_reference, awards]}
+  create: {cell_height: 18, roles: [character_heading, inspector_heading, rest, map_text, dialogue_fallback]}
+  lucida: {cell_height: 17, roles: [stats, skills, status, gameplay_labels]}
+  comic: {cell_height: 19, roles: [item_type, item_details, item_value]}
+  smallnum: {cell_height: 14, roles: [item_description, page_count, compact_counters]}
+  book2: {cell_height: 30, roles: [journal_title]}
+  autonote: {cell_height: 18, scale: 0.9, presentation: tintable, roles: [journal_body]}
+old_filenames:
+  fondamento-regular.ttf: fondamento_regular.ttf
+  fondamento-ofl.txt: fondamento_ofl.txt
+version_decisions: ../font_resolution.json
+implementation: Reuse Engine::loadTrueTypeFontAtlas for independent faces in the shared gameplay font loader;
+  keep the faithful legacy path for the MM faces. Recheck text wrapping with final native advances.

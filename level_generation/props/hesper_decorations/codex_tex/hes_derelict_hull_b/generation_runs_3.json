@@ -1,0 +1,281 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "generated_with_unmet_constraints",
+  "selection_note": "Selected means best available raw return for the requested filename; it does not mean the brief checks passed.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "postprocessing": "None. PNG returns copied byte-for-byte; no resizing, cropping, masking or colour modification.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D model of a derelict swarmship's stern half.\nImage 1 is the edit target: the plain grey orthographic model guide. Image 2 is design_reference.png, the approved authority for colour and surface materials ONLY. Image 3 is concept_crop.png, supporting original concept reference.\nPaint ONLY the existing surfaces in image 1. Keep its silhouette EXACTLY: identical 1024 x 1024 canvas, alpha silhouette, outline, position, scale, all geometry edges, openings, protrusions and visible details at the same pixels. Keep the large transparent margins; the object occupies x=259..764 and y=229..793. Nothing outside this silhouette, nothing cropped. Do not rotate, zoom, recenter, reinterpret geometry or adopt the reference's three-quarter composition. Do not replace angular model shapes with new shapes.\nMaterials: weathered grey-brown chitin and bone plates, darker spines, black-violet resin webbing in the existing openings, and dust, matching image 2. Fine material weathering may be painted within the guide shapes, but preserve every shape boundary. Restrained colour; do not turn grey-brown plates into shiny gold.\nLIGHTING: this is ALBEDO, not a lit beauty render. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no vignette. The dark violet is intrinsic resin colour, not a shadow. Any existing glowing parts (orange sacs or seams) are painted at their glowing colour only, with no surrounding light cast. No invented glowing parts.\nOutput: exactly one 1024 x 1024 PNG with a genuine transparent background. No background, floor, scene, labels, border or text. Preserve the guide's transparent regions, including its openings. Return at native 1024 x 1024, without cropping or resizing.\nRequested view: left. Paint directly over guide_left.png, retaining this precise left-side orthographic projection.\nThe guide has a tall central truncated spine and a broad jagged broken end beneath it; keep every overlapping angular shard exactly in place.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "8f49a37557e5952979c1743b34e4499aafff3227141584c0cafd22acaad80de9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "output_sha256": "edc013d42c0cff88b7612f1824b520b2174f31d51016a926f42352cf4fe8065c",
+      "source": "/home/pjasicek/.codex/generated_images/01a16918-c021-7a43-9cfb-1b5f3486c720/exec-268ba033-b5b7-4484-8c75-149cbdead11e.png",
+      "selected": false,
+      "reason": "Rejected: wrong native size, enlarged/repositioned silhouette, pronounced bright edges and shaded recesses.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "expected_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1213997,
+        "faint_alpha_pixel_count": 18037,
+        "alpha_bbox": [
+          0,
+          21,
+          1230,
+          1254
+        ],
+        "visible_bbox_alpha_at_least_128": [
+          247,
+          237,
+          1008,
+          1067
+        ],
+        "guide_alpha_bbox": [
+          259,
+          229,
+          765,
+          794
+        ],
+        "exact_guide_alpha_pass": false,
+        "silhouette_identical_pass": false,
+        "normalized_visible_mask_iou": 0.6582827520875728,
+        "normalized_metric_note": "Diagnostic only: the output alpha mask was sampled to guide dimensions in memory for comparison. The saved PNG is the unresized, byte-identical tool return.",
+        "materials_and_colours": "Weathered grey-brown plates and black-violet resin match the main reference palette; some edge tones are too bright.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "No floor or cast scene shadow; bright edge accents and shaded recesses remain, so strict flat shadowless albedo is not met.",
+        "alpha_notes": "Genuine alpha transparency is present, but faint nonzero-alpha noise extends beyond the visible object and the guide mask is not preserved.",
+        "unresized_unmodified_return": true,
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D model of a derelict swarmship's stern half.\nImage 1 is the edit target: the plain grey orthographic model guide. Image 2 is design_reference.png, the approved authority for colour and surface materials ONLY. Image 3 is concept_crop.png, supporting original concept reference.\nPaint ONLY the existing surfaces in image 1. Keep its silhouette EXACTLY: identical 1024 x 1024 canvas, alpha silhouette, outline, position, scale, all geometry edges, openings, protrusions and visible details at the same pixels. Keep the large transparent margins; the object occupies x=259..764 and y=229..793. Nothing outside this silhouette, nothing cropped. Do not rotate, zoom, recenter, reinterpret geometry or adopt the reference's three-quarter composition. Do not replace angular model shapes with new shapes.\nMaterials: weathered grey-brown chitin and bone plates, darker spines, black-violet resin webbing in the existing openings, and dust, matching image 2. Fine material weathering may be painted within the guide shapes, but preserve every shape boundary. Restrained colour; do not turn grey-brown plates into shiny gold.\nLIGHTING: this is ALBEDO, not a lit beauty render. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no vignette. The dark violet is intrinsic resin colour, not a shadow. Any existing glowing parts (orange sacs or seams) are painted at their glowing colour only, with no surrounding light cast. No invented glowing parts.\nOutput: exactly one 1024 x 1024 PNG with a genuine transparent background. No background, floor, scene, labels, border or text. Preserve the guide's transparent regions, including its openings. Return at native 1024 x 1024, without cropping or resizing.\nRequested view: right. Paint directly over guide_right.png, retaining this precise right-side orthographic projection.\nThe guide has a tall central tapered spine with nested long curved ridges and a broader curved outer shell; keep every visible ridge and angular shard exactly in place.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ed92ad0b288773478f94335145aa1ce8c24b586fc7074edcf6d1280570057f91"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "paint_right.png",
+      "output_sha256": "112ffedd6d663f6d8990fa08031f84ec07d6f1d510112e24233b7ca30ece9c5c",
+      "source": "/home/pjasicek/.codex/generated_images/01a16918-c021-7a43-9cfb-1b5f3486c720/exec-f9c804d5-84a2-46b1-9f06-b843207b494a.png",
+      "selected": true,
+      "reason": "Best available right return: substantially closer guide framing than the correction (normalized visible-mask IoU about 0.980 versus 0.690). Still fails native 1024 dimensions, exact alpha/geometry and strict shadowless albedo; selected is not an acceptance.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "expected_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1321479,
+        "faint_alpha_pixel_count": 19996,
+        "alpha_bbox": [
+          25,
+          7,
+          1230,
+          1254
+        ],
+        "visible_bbox_alpha_at_least_128": [
+          319,
+          277,
+          935,
+          975
+        ],
+        "guide_alpha_bbox": [
+          259,
+          229,
+          765,
+          794
+        ],
+        "exact_guide_alpha_pass": false,
+        "silhouette_identical_pass": false,
+        "normalized_visible_mask_iou": 0.9798389451621904,
+        "normalized_metric_note": "Diagnostic only: the output alpha mask was sampled to guide dimensions in memory for comparison. The saved PNG is the unresized, byte-identical tool return.",
+        "materials_and_colours": "Weathered grey-brown plates and black-violet resin match the main reference palette; some edge tones are too bright.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "No floor or cast scene shadow; bright edge accents and shaded recesses remain, so strict flat shadowless albedo is not met.",
+        "alpha_notes": "Genuine alpha transparency is present, but faint nonzero-alpha noise extends beyond the visible object and the guide mask is not preserved.",
+        "unresized_unmodified_return": true,
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D model of a derelict swarmship's stern half.\nImage 1 is the edit target: the plain grey orthographic model guide. Image 2 is design_reference.png, the approved authority for colour and surface materials ONLY. Image 3 is concept_crop.png, supporting original concept reference.\nPaint ONLY the existing surfaces in image 1. Keep its silhouette EXACTLY: identical 1024 x 1024 canvas, alpha silhouette, outline, position, scale, all geometry edges, openings, protrusions and visible details at the same pixels. Keep the large transparent margins; the object occupies x=259..764 and y=229..793. Nothing outside this silhouette, nothing cropped. Do not rotate, zoom, recenter, reinterpret geometry or adopt the reference's three-quarter composition. Do not replace angular model shapes with new shapes.\nMaterials: weathered grey-brown chitin and bone plates, darker spines, black-violet resin webbing in the existing openings, and dust, matching image 2. Fine material weathering may be painted within the guide shapes, but preserve every shape boundary. Restrained colour; do not turn grey-brown plates into shiny gold.\nLIGHTING: this is ALBEDO, not a lit beauty render. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no vignette. The dark violet is intrinsic resin colour, not a shadow. Any existing glowing parts (orange sacs or seams) are painted at their glowing colour only, with no surrounding light cast. No invented glowing parts.\nOutput: exactly one 1024 x 1024 PNG with a genuine transparent background. No background, floor, scene, labels, border or text. Preserve the guide's transparent regions, including its openings. Return at native 1024 x 1024, without cropping or resizing.\nRequested view: left. Paint directly over guide_left.png, retaining this precise left-side orthographic projection.\nThe guide has a tall central truncated spine and a broad jagged broken end beneath it; keep every overlapping angular shard exactly in place.\nCORRECTIVE GENERATION \u2014 the previous attempt failed because it returned 1254 x 1254 pixels, changed the silhouette/scale and added shiny bright edge lighting. Correct those defects in this attempt. The deliverable MUST be native 1024 x 1024 pixels. Treat image 1 as an immutable, pixel-registered underpainting, including its alpha mask: preserve its exact original 1024-square canvas and alpha channel, and replace ONLY RGB surface colour inside that mask. Do not fit the object to the canvas. Do not enlarge the object. Its silhouette bounding rectangle is [259,229,765,794) on the 1024 canvas. The truncated central spine top begins at y=229, the object base ends at y=793, and the center remains at x=512. Preserve the blunt top, all side spikes and the irregular flat bottom from the grey guide exactly. No new holes or cracks that change geometry. Paint low-contrast matte grey-brown bone/chitin with dark violet resin on the existing inner surfaces. Suppress bright rim/specular edge lines and deep shading; light every visible surface evenly. All pixels outside the guide's original alpha must be fully transparent, including the wide margins. Native 1024 x 1024 PNG is required, not 1254, 1280 or 1536.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "8f49a37557e5952979c1743b34e4499aafff3227141584c0cafd22acaad80de9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "paint_left.png",
+      "output_sha256": "7970ad8e56a095d4f1e65f421d1e2d04d71db6fe204c345f415fdcf1145f1937",
+      "source": "/home/pjasicek/.codex/generated_images/01a16918-c021-7a43-9cfb-1b5f3486c720/exec-83ff96ea-b817-4ae8-a568-ff0d81457784.png",
+      "selected": true,
+      "reason": "Best available left return after the one permitted correction: somewhat flatter material treatment and marginally closer framing. Still fails native 1024 dimensions, exact silhouette and strict shadowless albedo; selected is not an acceptance.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "expected_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1228201,
+        "faint_alpha_pixel_count": 20103,
+        "alpha_bbox": [
+          0,
+          20,
+          1242,
+          1254
+        ],
+        "visible_bbox_alpha_at_least_128": [
+          260,
+          245,
+          996,
+          1062
+        ],
+        "guide_alpha_bbox": [
+          259,
+          229,
+          765,
+          794
+        ],
+        "exact_guide_alpha_pass": false,
+        "silhouette_identical_pass": false,
+        "normalized_visible_mask_iou": 0.6794175219069571,
+        "normalized_metric_note": "Diagnostic only: the output alpha mask was sampled to guide dimensions in memory for comparison. The saved PNG is the unresized, byte-identical tool return.",
+        "materials_and_colours": "Weathered grey-brown plates and black-violet resin match the main reference palette; some edge tones are too bright.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "No floor or cast scene shadow; bright edge accents and shaded recesses remain, so strict flat shadowless albedo is not met.",
+        "alpha_notes": "Genuine alpha transparency is present, but faint nonzero-alpha noise extends beyond the visible object and the guide mask is not preserved.",
+        "unresized_unmodified_return": true,
+        "overall_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the exact existing 3D model of a derelict swarmship's stern half.\nImage 1 is the edit target: the plain grey orthographic model guide. Image 2 is design_reference.png, the approved authority for colour and surface materials ONLY. Image 3 is concept_crop.png, supporting original concept reference.\nPaint ONLY the existing surfaces in image 1. Keep its silhouette EXACTLY: identical 1024 x 1024 canvas, alpha silhouette, outline, position, scale, all geometry edges, openings, protrusions and visible details at the same pixels. Keep the large transparent margins; the object occupies x=259..764 and y=229..793. Nothing outside this silhouette, nothing cropped. Do not rotate, zoom, recenter, reinterpret geometry or adopt the reference's three-quarter composition. Do not replace angular model shapes with new shapes.\nMaterials: weathered grey-brown chitin and bone plates, darker spines, black-violet resin webbing in the existing openings, and dust, matching image 2. Fine material weathering may be painted within the guide shapes, but preserve every shape boundary. Restrained colour; do not turn grey-brown plates into shiny gold.\nLIGHTING: this is ALBEDO, not a lit beauty render. Even, flat, shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no vignette. The dark violet is intrinsic resin colour, not a shadow. Any existing glowing parts (orange sacs or seams) are painted at their glowing colour only, with no surrounding light cast. No invented glowing parts.\nOutput: exactly one 1024 x 1024 PNG with a genuine transparent background. No background, floor, scene, labels, border or text. Preserve the guide's transparent regions, including its openings. Return at native 1024 x 1024, without cropping or resizing.\nRequested view: right. Paint directly over guide_right.png, retaining this precise right-side orthographic projection.\nThe guide has a tall central tapered spine with nested long curved ridges and a broader curved outer shell; keep every visible ridge and angular shard exactly in place.\nCORRECTIVE GENERATION \u2014 the previous attempt failed because it returned 1254 x 1254 pixels, changed the silhouette/scale and added shiny bright edge lighting. Correct those defects in this attempt. The deliverable MUST be native 1024 x 1024 pixels. Treat image 1 as an immutable, pixel-registered underpainting, including its alpha mask: preserve its exact original 1024-square canvas and alpha channel, and replace ONLY RGB surface colour inside that mask. Do not fit the object to the canvas. Do not enlarge the object. Its silhouette bounding rectangle is [259,229,765,794) on the 1024 canvas. The truncated central spine top begins at y=229, the object base ends at y=793, and the center remains at x=512. Preserve the blunt top, all side spikes and the irregular flat bottom from the grey guide exactly. No new holes or cracks that change geometry. Paint low-contrast matte grey-brown bone/chitin with dark violet resin on the existing inner surfaces. Suppress bright rim/specular edge lines and deep shading; light every visible surface evenly. All pixels outside the guide's original alpha must be fully transparent, including the wide margins. Native 1024 x 1024 PNG is required, not 1254, 1280 or 1536.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ed92ad0b288773478f94335145aa1ce8c24b586fc7074edcf6d1280570057f91"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c5905db7fb90f0e8da27b330b6dee558f207583400b32061e94a7028bd889321"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc5e7703ecacbbd610386dad4cf0697ab2b9d7f100249b107475a36c93dcb901"
+        }
+      ],
+      "output": "paint_right_attempt_2.png",
+      "output_sha256": "4643c68cc1ba4c111e1858818071eeffc91293f4142f7fe15f08c6a0aad75073",
+      "source": "/home/pjasicek/.codex/generated_images/01a16918-c021-7a43-9cfb-1b5f3486c720/exec-cfeaf617-185a-4163-99bf-8fdb120e75e2.png",
+      "selected": false,
+      "reason": "Rejected: correction enlarged/repositioned the object and did not fix native dimensions; first return preserves framing more closely.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "expected_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "transparent_pixel_count": 1232797,
+        "faint_alpha_pixel_count": 20238,
+        "alpha_bbox": [
+          0,
+          13,
+          1240,
+          1244
+        ],
+        "visible_bbox_alpha_at_least_128": [
+          266,
+          240,
+          989,
+          1061
+        ],
+        "guide_alpha_bbox": [
+          259,
+          229,
+          765,
+          794
+        ],
+        "exact_guide_alpha_pass": false,
+        "silhouette_identical_pass": false,
+        "normalized_visible_mask_iou": 0.6899173001420098,
+        "normalized_metric_note": "Diagnostic only: the output alpha mask was sampled to guide dimensions in memory for comparison. The saved PNG is the unresized, byte-identical tool return.",
+        "materials_and_colours": "Weathered grey-brown plates and black-violet resin match the main reference palette; some edge tones are too bright.",
+        "flat_even_light_pass": false,
+        "lighting_notes": "No floor or cast scene shadow; bright edge accents and shaded recesses remain, so strict flat shadowless albedo is not met.",
+        "alpha_notes": "Genuine alpha transparency is present, but faint nonzero-alpha noise extends beyond the visible object and the guide mask is not preserved.",
+        "unresized_unmodified_return": true,
+        "overall_brief_pass": false
+      }
+    }
+  ]
+}

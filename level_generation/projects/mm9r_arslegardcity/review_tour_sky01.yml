@@ -1,0 +1,70 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_arslegardcity/review/sky01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: 0630_street
+  position:
+  - 11264
+  - 1056
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+  time: 06:30
+  commands:
+  - qbit set 90098
+- name: 0630_gate
+  position:
+  - 14400
+  - 1696
+  - -491
+  yaw: 1.5708
+  pitch: 0.2094
+  time: 06:30
+- name: 1200_street
+  position:
+  - 11264
+  - 1056
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+  time: '12:00'
+- name: 1200_gate
+  position:
+  - 14400
+  - 1696
+  - -491
+  yaw: 1.5708
+  pitch: 0.2094
+  time: '12:00'
+- name: 1930_street
+  position:
+  - 11264
+  - 1056
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+  time: '19:30'
+- name: 1930_gate
+  position:
+  - 14400
+  - 1696
+  - -491
+  yaw: 1.5708
+  pitch: 0.2094
+  time: '19:30'
+- name: 2330_street
+  position:
+  - 11264
+  - 1056
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+  time: '23:30'
+- name: 2330_gate
+  position:
+  - 14400
+  - 1696
+  - -491
+  yaw: 1.5708
+  pitch: 0.2094
+  time: '23:30'

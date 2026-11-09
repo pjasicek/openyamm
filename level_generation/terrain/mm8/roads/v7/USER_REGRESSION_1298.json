@@ -1,0 +1,11 @@
+{
+  "status": "v7_visually_rejected_at_1298",
+  "screenshot": "test_img/1298.png",
+  "screenshot_sha256": "3b4836d5a3995d65e962626e8132ca6034de100fab39200763fc0310e6732e49",
+  "findings": [
+    "Repeated road-edge protrusions remain; corrected border colours did not solve the road footprint",
+    "Warped/reconstructed stones have drifted from original art"
+  ],
+  "next_approach": "Start from native drsrne1/ne2 and drsrnw1/nw2 footprints and original stone layout; retain contact shading separately. Review both connected diagonal paths before reconstruction or installation.",
+  "installed_textures_changed": false
+}

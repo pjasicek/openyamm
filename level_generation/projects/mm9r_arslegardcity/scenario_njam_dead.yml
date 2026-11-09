@@ -1,0 +1,24 @@
+# Hand-written (2026-11-06, scr_audit "Implicit engine semantics"): a dead AI takes no message (object.lto
+# 0x10019e90). Njam killed before the chase was on (no key 108, so his OnDamage Chase did nothing): Trigger0's Chase
+# later, with key 108, reaches a corpse and is dropped (MM9.receives): no key 470, no experience, his door stays locked.
+id: mm9r.arslegardcity_njam_dead
+title: 'Arslegard City (native BLV): a dead Njam takes no Chase (NjamChase.scr, MM9.receives)'
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, draft]
+steps:
+- load_map:
+    map: arslegardcity.blv
+- setup_shortcut: {kind: set_qbit, id: 90098, value: true}
+- set_pose: {map: arslegardcity.blv, x: 7326, y: -9026, z: -486, yaw: 0.0, pitch: 0.0}
+- advance_runtime: {seconds: 0.5}
+- lua_event: {source: 'assert(evt.KillMapActor(34), "Njam dies")'}   # CanDamage FALSE: no blow hurts him
+- advance_runtime: {seconds: 1.0}
+- assert:
+    actor_visible: {actor_index: 34, dead: true}
+    qbit_clear: [90470]
+- setup_shortcut: {kind: set_qbit, id: 90108, value: true}
+- execute_event: {id: 240}
+- advance_runtime: {seconds: 0.5}
+- assert:
+    qbit_clear: [90470]

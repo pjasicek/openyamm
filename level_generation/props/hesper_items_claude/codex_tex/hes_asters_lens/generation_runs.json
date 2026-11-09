@@ -1,0 +1,397 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "status": "generation_complete_with_validation_failures",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper item 3D model hes_asters_lens.\nPrimary request: Paint ONLY the existing surfaces of the FIRST input image, the named gray guide, with the materials of the SECOND input image, design_reference.png. The first image is the edit target and is the absolute authority for geometry, view, exact silhouette, position, scale, and every part boundary. The second image is ONLY the approved color and material reference, NEVER a camera or silhouette reference.\nOutput: one 1024 x 1024 PNG with a genuinely transparent background. Preserve the guide's alpha outline pixel for pixel, including its faceted edges, holes, tips, and margins. Do not move, resize, smooth, re-center, rotate, add, remove, round off, or reshape any part. Retain every existing geometric edge. No perspective change. No beauty-shot recomposition.\nSubject: Aster's Lens, a relic implant of finely worn warm white ceramic, restrained brushed golden metal borders and fittings, dark black-violet resin in structural insets, and sapphire-blue crystal optics. Fine ceramic hairline wear, delicate engraved non-letter lines and panel seams follow the existing geometry. Use only the materials actually supported by the approved art; no leather, cloth, paper, orange additions, or new hardware. Continue unseen faces plausibly using the same ceramic, gold, dark resin and blue crystal.\nLighting: this is FLAT ALBEDO, not a lit product render. Even shadowless illumination directly from the viewer. Remove the guide's gray lighting/shading. Ceramic remains evenly ivory-white, gold is an even warm muted gold base color with only a faint brushed sheen, dark resin is its actual dark violet-black base color. No cast shadows, ambient occlusion, contact darkening, rim light, directional gradients, strong specular highlights, reflected surroundings, or bright metallic gleams. Blue-white light is painted as a bright local surface color, without bloom or light spill. Transparent background, no floor, no text, letters, numbers, labels, watermark, border or layout. One view only.\nVIEW: guide_front.png, exact horizontal edge-on FRONT view. The item spans x=66..957 and y=276..747 in the 1024 canvas, centered at (512,512). The connector points LEFT and the broad crescent body tapers to its existing tip at the RIGHT. Preserve the two vertically stacked open/recessed oval shapes at the left of the body and the thin horizontal midline. Paint the broad curved shell surfaces ivory ceramic with slim gold trims; the visible optical dome/cap above the central shell is blue crystal. Keep the hidden face-on circular optic hidden: do not put a large round lens on these side surfaces. Retain the guide's overlaps and foreshortened connector exactly.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "81c25514fd25a954c3ee9a91aca4891a9a54f1f58bac089f9fca178c7d879ddd",
+          "role": "geometry_guide"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+          "role": "design_and_material_authority"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-ac214c34-dc41-4de3-a9a1-64b0f6350bf9.png",
+      "selected": false,
+      "reason": "First return has visible specular reflections, shaded lower faces, and outline drift. Use the single allowed corrective generation.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "output_sha256": "7a9c06232d9d3b5905cd4f5f8fdfbb1cebb1e270fed37ecbbfce0fc287a1b486",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9357740640757525,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper item 3D model hes_asters_lens.\nPrimary request: Paint ONLY the existing surfaces of the SECOND input image, the named gray guide, with the materials of the FIRST input image, design_reference.png. The second image is the edit target and is the absolute authority for geometry, view, exact silhouette, position, scale, and every part boundary. The first image is ONLY the approved color and material reference, NEVER a camera or silhouette reference.\nOutput: one 1024 x 1024 PNG with a genuinely transparent background. Preserve the guide's alpha outline pixel for pixel, including its faceted edges, holes, tips, and margins. Do not move, resize, smooth, re-center, rotate, add, remove, round off, or reshape any part. Retain every existing geometric edge. No perspective change. No beauty-shot recomposition.\nSubject: Aster's Lens, a relic implant of finely worn warm white ceramic, restrained brushed golden metal borders and fittings, dark black-violet resin in structural insets, and sapphire-blue crystal optics. Fine ceramic hairline wear, delicate engraved non-letter lines and panel seams follow the existing geometry. Use only the materials actually supported by the approved art; no leather, cloth, paper, orange additions, or new hardware. Continue unseen faces plausibly using the same ceramic, gold, dark resin and blue crystal.\nLighting: this is FLAT ALBEDO, not a lit product render. Even shadowless illumination directly from the viewer. Remove the guide's gray lighting/shading. Ceramic remains evenly ivory-white, gold is an even warm muted gold base color with only a faint brushed sheen, dark resin is its actual dark violet-black base color. No cast shadows, ambient occlusion, contact darkening, rim light, directional gradients, strong specular highlights, reflected surroundings, or bright metallic gleams. Blue-white light is painted as a bright local surface color, without bloom or light spill. Transparent background, no floor, no text, letters, numbers, labels, watermark, border or layout. One view only.\nVIEW: guide_back.png, exact horizontal edge-on BACK view. The item spans x=66..957 and y=276..747 in the 1024 canvas, centered at (512,512). The single overlapping connector tip projects RIGHT; the broad body tapers at the LEFT. Preserve all guide panels, overlaps, curved shells and the thin horizontal midline. Continue the backside with worn ivory ceramic, fine brushed gold edges and black-violet resin only in existing inset channels. The small exposed optical dome above the shell may be blue crystal as its visible geometry supports. Do not invent a face-on round optic on a hidden side.\nCRITICAL DELIVERABLE: Copy the SECOND image's 1024 x 1024 canvas and alpha mask exactly. Paint it as an UNLIT BASE-COLOR PASS for texture baking. All ceramic panels, including lower and underside faces, have the same ivory base brightness. Gold must have no bright edge glints or shaded bevels, just its uniformly colored fine brushing. Crystal must have NO white reflections, white sparkle spots, environmental reflections or broad glossy highlights. Bright cyan-white is reserved for the central core only when the core is actually visible. DO NOT imitate the dramatic lighting of the design reference. A flat painted color pass with tiny surface grain and fine seams, no light-and-shadow modeling. The output must be one square transparent 1024 x 1024 image using exactly the guide's composition.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+          "role": "design_and_material_authority"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "67fc47f72ddca4e212f3cebbd301faa11448728fc80f74982fc9080c99945bca",
+          "role": "geometry_guide"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-04293628-4755-4288-8cbc-dbaea42c3960.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "First return retains shading and deviates from the guide silhouette; use one corrective generation.",
+      "unresized": true,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "58eec408d9a78ab2c51b60a342a6bea4b87fa2bc450ba9ae495c9d5089066e0d",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9682076813655761,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper item 3D model hes_asters_lens.\nPrimary request: Paint ONLY the existing surfaces of the SECOND input image, the named gray guide, with the materials of the FIRST input image, design_reference.png. The second image is the edit target and is the absolute authority for geometry, view, exact silhouette, position, scale, and every part boundary. The first image is ONLY the approved color and material reference, NEVER a camera or silhouette reference.\nOutput: one 1024 x 1024 PNG with a genuinely transparent background. Preserve the guide's alpha outline pixel for pixel, including its faceted edges, holes, tips, and margins. Do not move, resize, smooth, re-center, rotate, add, remove, round off, or reshape any part. Retain every existing geometric edge. No perspective change. No beauty-shot recomposition.\nSubject: Aster's Lens, a relic implant of finely worn warm white ceramic, restrained brushed golden metal borders and fittings, dark black-violet resin in structural insets, and sapphire-blue crystal optics. Fine ceramic hairline wear, delicate engraved non-letter lines and panel seams follow the existing geometry. Use only the materials actually supported by the approved art; no leather, cloth, paper, orange additions, or new hardware. Continue unseen faces plausibly using the same ceramic, gold, dark resin and blue crystal.\nLighting: this is FLAT ALBEDO, not a lit product render. Even shadowless illumination directly from the viewer. Remove the guide's gray lighting/shading. Ceramic remains evenly ivory-white, gold is an even warm muted gold base color with only a faint brushed sheen, dark resin is its actual dark violet-black base color. No cast shadows, ambient occlusion, contact darkening, rim light, directional gradients, strong specular highlights, reflected surroundings, or bright metallic gleams. Blue-white light is painted as a bright local surface color, without bloom or light spill. Transparent background, no floor, no text, letters, numbers, labels, watermark, border or layout. One view only.\nVIEW: guide_left.png, exact horizontal edge-on LEFT view. The item spans x=66..957 and y=276..747 in the 1024 canvas, centered at (512,512). Keep the exact three foreshortened gold connector studs in the central oval mount, the stacked oval cutouts toward the RIGHT, and the broad curved ceramic shell toward the LEFT. The existing exposed upper optical cap can be blue crystal; most large side shell surfaces are ivory ceramic bounded by brushed gold. Existing inset channels are black-violet resin. Preserve every stud position and every cutout, with no new prongs or face-on lens.\nCRITICAL DELIVERABLE: Copy the SECOND image's 1024 x 1024 canvas and alpha mask exactly. Paint it as an UNLIT BASE-COLOR PASS for texture baking. All ceramic panels, including lower and underside faces, have the same ivory base brightness. Gold must have no bright edge glints or shaded bevels, just its uniformly colored fine brushing. Crystal must have NO white reflections, white sparkle spots, environmental reflections or broad glossy highlights. Bright cyan-white is reserved for the central core only when the core is actually visible. DO NOT imitate the dramatic lighting of the design reference. A flat painted color pass with tiny surface grain and fine seams, no light-and-shadow modeling. The output must be one square transparent 1024 x 1024 image using exactly the guide's composition.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+          "role": "design_and_material_authority"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "c910ed949b784cdea6f8fcd660a84b1c5955fecb4d340a57a219949de926a5e3",
+          "role": "geometry_guide"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-ee493357-698e-4a6b-b0d4-421a0ecafc08.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "First return retains shading and deviates from the guide silhouette; use one corrective generation.",
+      "unresized": true,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3db3e0c39515ce19627dd95fed4b1b821cd913b033d7acf8a543ac19905abf6b",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9286634239464429,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper item 3D model hes_asters_lens.\nPrimary request: Paint ONLY the existing surfaces of the SECOND input image, the named gray guide, with the materials of the FIRST input image, design_reference.png. The second image is the edit target and is the absolute authority for geometry, view, exact silhouette, position, scale, and every part boundary. The first image is ONLY the approved color and material reference, NEVER a camera or silhouette reference.\nOutput: one 1024 x 1024 PNG with a genuinely transparent background. Preserve the guide's alpha outline pixel for pixel, including its faceted edges, holes, tips, and margins. Do not move, resize, smooth, re-center, rotate, add, remove, round off, or reshape any part. Retain every existing geometric edge. No perspective change. No beauty-shot recomposition.\nSubject: Aster's Lens, a relic implant of finely worn warm white ceramic, restrained brushed golden metal borders and fittings, dark black-violet resin in structural insets, and sapphire-blue crystal optics. Fine ceramic hairline wear, delicate engraved non-letter lines and panel seams follow the existing geometry. Use only the materials actually supported by the approved art; no leather, cloth, paper, orange additions, or new hardware. Continue unseen faces plausibly using the same ceramic, gold, dark resin and blue crystal.\nLighting: this is FLAT ALBEDO, not a lit product render. Even shadowless illumination directly from the viewer. Remove the guide's gray lighting/shading. Ceramic remains evenly ivory-white, gold is an even warm muted gold base color with only a faint brushed sheen, dark resin is its actual dark violet-black base color. No cast shadows, ambient occlusion, contact darkening, rim light, directional gradients, strong specular highlights, reflected surroundings, or bright metallic gleams. Blue-white light is painted as a bright local surface color, without bloom or light spill. Transparent background, no floor, no text, letters, numbers, labels, watermark, border or layout. One view only.\nVIEW: guide_right.png, exact horizontal edge-on RIGHT view. The item spans x=66..957 and y=276..747 in the 1024 canvas, centered at (512,512). This side hides the connector studs. Keep the broad overlapping curved shell plates, existing thin horizontal midline, visible bands on the right and the recess inside the far-right rim. Paint the large plates ivory ceramic, trim them with restrained brushed gold along their actual edges, and use black-violet resin in the actual recessed channels. The exposed upper optical dome is blue crystal. No invented ports, protrusions or face-on circular optic.\nCRITICAL DELIVERABLE: Copy the SECOND image's 1024 x 1024 canvas and alpha mask exactly. Paint it as an UNLIT BASE-COLOR PASS for texture baking. All ceramic panels, including lower and underside faces, have the same ivory base brightness. Gold must have no bright edge glints or shaded bevels, just its uniformly colored fine brushing. Crystal must have NO white reflections, white sparkle spots, environmental reflections or broad glossy highlights. Bright cyan-white is reserved for the central core only when the core is actually visible. DO NOT imitate the dramatic lighting of the design reference. A flat painted color pass with tiny surface grain and fine seams, no light-and-shadow modeling. The output must be one square transparent 1024 x 1024 image using exactly the guide's composition.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+          "role": "design_and_material_authority"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "1880cb117d099eb5fa2009c069fcb76338ab951323c2e40fe276b13b55170520",
+          "role": "geometry_guide"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-8439dd39-7edd-437f-8fd5-fb54d5b72197.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "First return retains shading and deviates from the guide silhouette; use one corrective generation.",
+      "unresized": true,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "f4a008eaabf80f779fa815fcdf0f29c7de5a2028e4cae534f4ad0f49da2d6ae3",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9736852118985599,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper item 3D model hes_asters_lens.\nPrimary request: Paint ONLY the existing surfaces of the SECOND input image, the named gray guide, with the materials of the FIRST input image, design_reference.png. The second image is the edit target and is the absolute authority for geometry, view, exact silhouette, position, scale, and every part boundary. The first image is ONLY the approved color and material reference, NEVER a camera or silhouette reference.\nOutput: one 1024 x 1024 PNG with a genuinely transparent background. Preserve the guide's alpha outline pixel for pixel, including its faceted edges, holes, tips, and margins. Do not move, resize, smooth, re-center, rotate, add, remove, round off, or reshape any part. Retain every existing geometric edge. No perspective change. No beauty-shot recomposition.\nSubject: Aster's Lens, a relic implant of finely worn warm white ceramic, restrained brushed golden metal borders and fittings, dark black-violet resin in structural insets, and sapphire-blue crystal optics. Fine ceramic hairline wear, delicate engraved non-letter lines and panel seams follow the existing geometry. Use only the materials actually supported by the approved art; no leather, cloth, paper, orange additions, or new hardware. Continue unseen faces plausibly using the same ceramic, gold, dark resin and blue crystal.\nLighting: this is FLAT ALBEDO, not a lit product render. Even shadowless illumination directly from the viewer. Remove the guide's gray lighting/shading. Ceramic remains evenly ivory-white, gold is an even warm muted gold base color with only a faint brushed sheen, dark resin is its actual dark violet-black base color. No cast shadows, ambient occlusion, contact darkening, rim light, directional gradients, strong specular highlights, reflected surroundings, or bright metallic gleams. Blue-white light is painted as a bright local surface color, without bloom or light spill. Transparent background, no floor, no text, letters, numbers, labels, watermark, border or layout. One view only.\nVIEW: guide_top.png, exact directly-above TOP view. The item spans x=66..957 and y=66..957 in the 1024 canvas. Keep the big nearly circular optic at its actual position in the right-center, the three connector prongs pointing LEFT, the upper-left sweeping crescent that ends at the top, and the lower-right crescent that ends at the bottom. Paint the round central optic as sapphire blue crystal with concentric dark-blue optical rings and delicate radial cyan-blue iris engraving around a blue-white core, all constrained within the guide's circular optical surface, with flat local colors and no specular glare. Paint the sweeping outer crescents ivory ceramic with slim brushed gold borders exactly following guide edges, the prongs gold with ivory collars, and recessed structural surfaces black-violet resin. Preserve the exact open negative spaces, every tip, and the faceted silhouette.\nCRITICAL DELIVERABLE: Copy the SECOND image's 1024 x 1024 canvas and alpha mask exactly. Paint it as an UNLIT BASE-COLOR PASS for texture baking. All ceramic panels, including lower and underside faces, have the same ivory base brightness. Gold must have no bright edge glints or shaded bevels, just its uniformly colored fine brushing. Crystal must have NO white reflections, white sparkle spots, environmental reflections or broad glossy highlights. Bright cyan-white is reserved for the central core only when the core is actually visible. DO NOT imitate the dramatic lighting of the design reference. A flat painted color pass with tiny surface grain and fine seams, no light-and-shadow modeling. The output must be one square transparent 1024 x 1024 image using exactly the guide's composition.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+          "role": "design_and_material_authority"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "fb51c5fa4dfad5e9b999ccd7b2d4681329bf060b2548dde3726f052fa74ce0f7",
+          "role": "geometry_guide"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-9dedc3d1-8020-4f8a-88e5-87bd33167827.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "First return retains shading and deviates from the guide silhouette; use one corrective generation.",
+      "unresized": true,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "bb701ebeb0ab0158000b1cd2675310499b2e7a257cb5987546dc63d2df0a9f37",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9232862877341937,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for front.\nThe attached image guide_front.png is the EDIT TARGET. Paint directly on this exact 1024 x 1024 image. Preserve its entire original alpha silhouette, coordinates, framing, orthographic camera, all faceted edges, panel boundaries and every part's position. Color existing surfaces only. Do not redraw or reinterpret the shape. Do not smooth or round any polygon corner.\nUse the already established Aster's Lens design materials: warm off-white ceramic with very fine hairline wear, muted brushed gold narrow fittings and edge trims, dark violet-black resin in existing structural recesses, sapphire-blue crystal optics. Approximate flat base colors: ceramic #e5e0d5, gold #b49a5d, resin #292532, blue crystal #245a9e. These are base colors, not shaded metallic colors. No new materials, mechanical parts, motifs or protrusions.\nKeep the horizontal front profile exactly: connector to the left, two stacked oval recesses left of center, large ceramic shell tapering right. Only the exposed upper lens cap is blue; the lower bulb and side plates are ivory.\nThis must look like an UNLIT ALBEDO MAP projected onto the given silhouette: uniform flat brightness on all faces, with fine surface grain and seams only. Remove all gray lighting gradients from the guide. No lower-side shading, no bevel shadows, no ambient occlusion, no specular shine or white reflections on gold or crystal, no dark edges due to lighting. Metal has only a faint brushed texture in a narrow color range. No glow spill. No text, letters, labels, symbols, watermark, floor or background. Return one 1024 x 1024 PNG with genuine transparent background. Do not enlarge the canvas or change the guide silhouette.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "geometry_guide_and_edit_target",
+          "sha256": "81c25514fd25a954c3ee9a91aca4891a9a54f1f58bac089f9fca178c7d879ddd"
+        }
+      ],
+      "design_authority": "design_reference.png",
+      "design_authority_note": "Approved design inspected and used in the first generation; corrective tool input is the guide alone to reduce composition drift. Its materials are carried into the corrective prompt.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-4fa00483-700b-4f70-be0d-6da16ff86546.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return for closer faceted guide geometry and flatter surface colors; strict brief checks still have failures recorded below.",
+      "unresized": true,
+      "design_authority_sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d6530e9ef7bb2d595d3cbfa95eb9290330f69ac6711c6f8ddd80901da0dbfa2c",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9930030285966488,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true,
+        "exact_material_placement_matches_reference": false,
+        "strict_brief_pass": false,
+        "notes": "Substantially flatter ceramic and more faithful polygon edges than attempt 1. The generator colors two inset bars blue and leaves the connector tip partly ceramic; these diverge from the approved gold hardware. Some facet shading and alpha-edge fringe remain."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for back.\nThe attached image guide_back.png is the EDIT TARGET. Paint directly on this exact 1024 x 1024 image. Preserve its entire original alpha silhouette, coordinates, framing, orthographic camera, all faceted edges, panel boundaries and every part's position. Color existing surfaces only. Do not redraw or reinterpret the shape. Do not smooth or round any polygon corner.\nUse the already established Aster's Lens design materials: warm off-white ceramic with very fine hairline wear, muted brushed gold narrow fittings and edge trims, dark violet-black resin in existing structural recesses, sapphire-blue crystal optics. Approximate flat base colors: ceramic #e5e0d5, gold #b49a5d, resin #292532, blue crystal #245a9e. These are base colors, not shaded metallic colors. No new materials, mechanical parts, motifs or protrusions.\nKeep the horizontal rear profile exactly: connector to the right, pointed body on the left, all original overlapping shell plates. Only the exposed upper lens cap is blue; lower bulb and side panels are ivory.\nThis must look like an UNLIT ALBEDO MAP projected onto the given silhouette: uniform flat brightness on all faces, with fine surface grain and seams only. Remove all gray lighting gradients from the guide. No lower-side shading, no bevel shadows, no ambient occlusion, no specular shine or white reflections on gold or crystal, no dark edges due to lighting. Metal has only a faint brushed texture in a narrow color range. No glow spill. No text, letters, labels, symbols, watermark, floor or background. Return one 1024 x 1024 PNG with genuine transparent background. Do not enlarge the canvas or change the guide silhouette.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "geometry_guide_and_edit_target",
+          "sha256": "67fc47f72ddca4e212f3cebbd301faa11448728fc80f74982fc9080c99945bca"
+        }
+      ],
+      "design_authority": "design_reference.png",
+      "design_authority_note": "Approved design inspected and used in the first generation; corrective tool input is the guide alone to reduce composition drift. Its materials are carried into the corrective prompt.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-df187444-00f1-48bd-a7ab-572cfb150d7c.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return for closer faceted guide geometry and flatter surface colors; strict brief checks still have failures recorded below.",
+      "unresized": true,
+      "design_authority_sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "cc451de3476ec1b3074fa0b1475dbec1f6d62596bd6cbe2c33a664f4759a5cbe",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9913176963207551,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true,
+        "exact_material_placement_matches_reference": false,
+        "strict_brief_pass": false,
+        "notes": "Closer shell boundaries and flatter ceramic than attempt 1. Residual blue facet shading, a faint metallic brightness gradient, and alpha-edge fringe remain. Connector tip is partly ceramic instead of entirely gold."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for left.\nThe attached image guide_left.png is the EDIT TARGET. Paint directly on this exact 1024 x 1024 image. Preserve its entire original alpha silhouette, coordinates, framing, orthographic camera, all faceted edges, panel boundaries and every part's position. Color existing surfaces only. Do not redraw or reinterpret the shape. Do not smooth or round any polygon corner.\nUse the already established Aster's Lens design materials: warm off-white ceramic with very fine hairline wear, muted brushed gold narrow fittings and edge trims, dark violet-black resin in existing structural recesses, sapphire-blue crystal optics. Approximate flat base colors: ceramic #e5e0d5, gold #b49a5d, resin #292532, blue crystal #245a9e. These are base colors, not shaded metallic colors. No new materials, mechanical parts, motifs or protrusions.\nKeep the exact horizontal left profile: three foreshortened studs in the central oval mount, stacked recesses to the right, broad ceramic shell to the left. Paint the three studs gold and their collars ivory. Do not alter their foreshortening or size.\nThis must look like an UNLIT ALBEDO MAP projected onto the given silhouette: uniform flat brightness on all faces, with fine surface grain and seams only. Remove all gray lighting gradients from the guide. No lower-side shading, no bevel shadows, no ambient occlusion, no specular shine or white reflections on gold or crystal, no dark edges due to lighting. Metal has only a faint brushed texture in a narrow color range. No glow spill. No text, letters, labels, symbols, watermark, floor or background. Return one 1024 x 1024 PNG with genuine transparent background. Do not enlarge the canvas or change the guide silhouette.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "geometry_guide_and_edit_target",
+          "sha256": "c910ed949b784cdea6f8fcd660a84b1c5955fecb4d340a57a219949de926a5e3"
+        }
+      ],
+      "design_authority": "design_reference.png",
+      "design_authority_note": "Approved design inspected and used in the first generation; corrective tool input is the guide alone to reduce composition drift. Its materials are carried into the corrective prompt.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-b45438c6-7204-4df4-a56d-a30ac1ebd3c6.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return for closer faceted guide geometry and flatter surface colors; strict brief checks still have failures recorded below.",
+      "unresized": true,
+      "design_authority_sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e3d30893a6f7cd4249358a1a3642f409be1e2bc881e55d93e85529076a03889d",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9923190887980582,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true,
+        "exact_material_placement_matches_reference": false,
+        "strict_brief_pass": false,
+        "notes": "Preserves the three faceted stud positions and guide recesses more closely than attempt 1. Recesses contain blue crystal coloration and the studs retain facet shading. Fine alpha-edge fringe remains."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for right.\nThe attached image guide_right.png is the EDIT TARGET. Paint directly on this exact 1024 x 1024 image. Preserve its entire original alpha silhouette, coordinates, framing, orthographic camera, all faceted edges, panel boundaries and every part's position. Color existing surfaces only. Do not redraw or reinterpret the shape. Do not smooth or round any polygon corner.\nUse the already established Aster's Lens design materials: warm off-white ceramic with very fine hairline wear, muted brushed gold narrow fittings and edge trims, dark violet-black resin in existing structural recesses, sapphire-blue crystal optics. Approximate flat base colors: ceramic #e5e0d5, gold #b49a5d, resin #292532, blue crystal #245a9e. These are base colors, not shaded metallic colors. No new materials, mechanical parts, motifs or protrusions.\nKeep the exact horizontal right profile, including the wide ivory side plates, exposed bands toward the right, and the existing far-right rim and recess. Only the exposed upper lens cap is blue; the lower bulb and large shell plates are ivory.\nThis must look like an UNLIT ALBEDO MAP projected onto the given silhouette: uniform flat brightness on all faces, with fine surface grain and seams only. Remove all gray lighting gradients from the guide. No lower-side shading, no bevel shadows, no ambient occlusion, no specular shine or white reflections on gold or crystal, no dark edges due to lighting. Metal has only a faint brushed texture in a narrow color range. No glow spill. No text, letters, labels, symbols, watermark, floor or background. Return one 1024 x 1024 PNG with genuine transparent background. Do not enlarge the canvas or change the guide silhouette.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "geometry_guide_and_edit_target",
+          "sha256": "1880cb117d099eb5fa2009c069fcb76338ab951323c2e40fe276b13b55170520"
+        }
+      ],
+      "design_authority": "design_reference.png",
+      "design_authority_note": "Approved design inspected and used in the first generation; corrective tool input is the guide alone to reduce composition drift. Its materials are carried into the corrective prompt.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-aeee4b8c-3761-4284-9aa7-806bbaeef469.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return for closer faceted guide geometry and flatter surface colors; strict brief checks still have failures recorded below.",
+      "unresized": true,
+      "design_authority_sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "402fda2c32edc438d8a0fe0b505e5c34dfbb36ca289ec0164c650b1c6b62e626",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9940671224667874,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true,
+        "exact_material_placement_matches_reference": null,
+        "strict_brief_pass": false,
+        "notes": "Closer guide panel geometry and substantially reduced reflections versus attempt 1. Small residual brightness differences between faces and alpha-edge fringe remain."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for top.\nThe attached image guide_top.png is the EDIT TARGET. Paint directly on this exact 1024 x 1024 image. Preserve its entire original alpha silhouette, coordinates, framing, orthographic camera, all faceted edges, panel boundaries and every part's position. Color existing surfaces only. Do not redraw or reinterpret the shape. Do not smooth or round any polygon corner.\nUse the already established Aster's Lens design materials: warm off-white ceramic with very fine hairline wear, muted brushed gold narrow fittings and edge trims, dark violet-black resin in existing structural recesses, sapphire-blue crystal optics. Approximate flat base colors: ceramic #e5e0d5, gold #b49a5d, resin #292532, blue crystal #245a9e. These are base colors, not shaded metallic colors. No new materials, mechanical parts, motifs or protrusions.\nKeep the exact overhead projection. The large central circular lens MUST remain a circle in the exact guide location and extent; do not make it an oblique ellipse. Fill that lens with concentric sapphire-blue optical rings, fine cyan radial iris striations and a small bright blue-white center. Preserve the exact angular top and bottom crescent tips, the two ivory crescent shells, and the three gold prongs pointing left.\nThis must look like an UNLIT ALBEDO MAP projected onto the given silhouette: uniform flat brightness on all faces, with fine surface grain and seams only. Remove all gray lighting gradients from the guide. No lower-side shading, no bevel shadows, no ambient occlusion, no specular shine or white reflections on gold or crystal, no dark edges due to lighting. Metal has only a faint brushed texture in a narrow color range. No glow spill. No text, letters, labels, symbols, watermark, floor or background. Return one 1024 x 1024 PNG with genuine transparent background. Do not enlarge the canvas or change the guide silhouette.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "geometry_guide_and_edit_target",
+          "sha256": "fb51c5fa4dfad5e9b999ccd7b2d4681329bf060b2548dde3726f052fa74ce0f7"
+        }
+      ],
+      "design_authority": "design_reference.png",
+      "design_authority_note": "Approved design inspected and used in the first generation; corrective tool input is the guide alone to reduce composition drift. Its materials are carried into the corrective prompt.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e73-6744-70b0-aa8d-07f7c28da4e6/exec-d3187cd6-c4e7-494b-8bcf-f70fea53202f.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return for closer faceted guide geometry and flatter surface colors; strict brief checks still have failures recorded below.",
+      "unresized": true,
+      "design_authority_sha256": "9928a6ef70e59531fac96af149e9f0f983e88a3e0c87421aa9f84a138e892cbd",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output_sha256": "fc596dc5988aa3164126c6d33a41965ea7aafa546500ab2526814874fc91f9d5",
+      "checks": {
+        "transparent_background": true,
+        "exact_guide_alpha_identical": false,
+        "normalized_alpha_mask_iou": 0.9880068208480705,
+        "normalization_note": "Read-only mask comparison at guide resolution; saved output is not resized.",
+        "flat_shadowless_light": false,
+        "no_text_or_letters": true,
+        "palette_matches_reference": true,
+        "exact_material_placement_matches_reference": null,
+        "strict_brief_pass": false,
+        "notes": "Keeps the faceted overhead silhouette and pointed crescent ends more closely than attempt 1; retains the blue radial optic and ceramic/gold palette. Residual facet brightness differences and alpha-edge fringe remain; the iris detail and seams are a plausible continuation, not an exact copy."
+      }
+    }
+  ],
+  "generation_count": 10,
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "limitations": [
+    "All returned images are 1254 x 1254 rather than the requested 1024 x 1024; all are kept unresized and byte-identical to their tool returns.",
+    "Exact silhouette equality was not achieved. Read-only normalized alpha-mask overlap scores quantify the remaining outline differences.",
+    "Corrective returns improve flatness and geometry, but residual face shading, alpha-edge fringing, and some material placement differences remain.",
+    "Each view used exactly one initial generation and one corrective generation. No further regeneration is authorized by the brief."
+  ],
+  "validation_methods": [
+    "Visual review of each tool-returned image against its guide and approved material reference.",
+    "PNG mode, dimensions and alpha-channel extrema inspected with Pillow.",
+    "Pixel equality and normalized binary-alpha IoU measured with NumPy. Normalization is in-memory analysis only.",
+    "Copied outputs verified byte-identical to original generated PNGs with SHA-256."
+  ]
+}

@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_ruinedtemple/review/props_old31
+settle_seconds: 1.5
+exit: true
+shots:
+- name: e03_lower_hall
+  position:
+  - 0
+  - -2304
+  - -2395
+  yaw: 1.5708
+  pitch: 0.0
+- name: t03_lamp
+  position:
+  - 0
+  - 307
+  - -2416
+  yaw: 1.5708
+  pitch: -0.3491
+- name: s05_chest_room
+  position:
+  - 1152
+  - 3635
+  - -2272
+  yaw: 1.5708
+  pitch: 0.0
+- name: s06_hiddendoor3
+  position:
+  - 1516
+  - 2662
+  - -2272
+  yaw: 1.5708
+  pitch: 0.0
+- name: n03_pews
+  position:
+  - -1152
+  - 3328
+  - -2293
+  yaw: 3.1416
+  pitch: 0.0
+- name: n04_podium
+  position:
+  - -1997
+  - 3712
+  - -2293
+  yaw: -2.715
+  pitch: 0.0
+- name: c03_crypt_hall
+  position:
+  - 640
+  - 4736
+  - -2866
+  yaw: 2.0344
+  pitch: 0.0

@@ -1,0 +1,117 @@
+{
+  "format_version": 2,
+  "kind": "indoor_geometry",
+  "map_file": "hes_walk_test.blv",
+  "source": {
+    "authoring_file": "hes_walk_test.blend",
+    "asset_path": "hes_walk_test.glb",
+    "coordinate_system": "blender_z_up",
+    "unit_scale": 128,
+    "import": {
+      "source_format": "glb",
+      "reserve_sector_zero": true,
+      "merge_coplanar_faces": false,
+      "generate_bsp": true,
+      "generate_outlines": true
+    }
+  },
+  "materials": [
+    {
+      "id": "hcceiling",
+      "source_material": "hes_walk_test_hcceiling",
+      "texture": "hcceiling",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcconsole",
+      "source_material": "hes_walk_test_hcconsole",
+      "texture": "hcconsole",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcfloor",
+      "source_material": "hes_walk_test_hcfloor",
+      "texture": "hcfloor",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcpanel",
+      "source_material": "hes_walk_test_hcpanel",
+      "texture": "hcpanel",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hcstripd",
+      "source_material": "hes_walk_test_hcstripd",
+      "texture": "hcstripd",
+      "texture_width": 128,
+      "texture_height": 32
+    },
+    {
+      "id": "hctrim",
+      "source_material": "hes_walk_test_hctrim",
+      "texture": "hctrim",
+      "texture_width": 128,
+      "texture_height": 32
+    }
+  ],
+  "rooms": [
+    {
+      "id": "room_hall",
+      "source_nodes": [
+        "ROOM_hall",
+        "TRIGGER_platform",
+        "TRIGGER_ramp",
+        "LIGHT_hall_a",
+        "LIGHT_hall_b"
+      ],
+      "min_ambient_light_level": 8
+    }
+  ],
+  "portals": [],
+  "surfaces": [
+    {
+      "id": "platform",
+      "source_node": "TRIGGER_platform",
+      "flags": []
+    },
+    {
+      "id": "ramp",
+      "source_node": "TRIGGER_ramp",
+      "flags": []
+    }
+  ],
+  "mechanisms": [],
+  "entities": [],
+  "lights": [
+    {
+      "id": "hall_a",
+      "source_node": "LIGHT_hall_a",
+      "color": [
+        225,
+        235,
+        255
+      ],
+      "radius": 1400,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "hall_b",
+      "source_node": "LIGHT_hall_b",
+      "color": [
+        225,
+        235,
+        255
+      ],
+      "radius": 1400,
+      "brightness": 31,
+      "type": "point"
+    }
+  ],
+  "spawns": []
+}

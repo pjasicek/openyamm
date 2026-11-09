@@ -1,0 +1,166 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_lzd_bow.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_lzd_bow.glb",
+ "assignments": [
+  {
+   "match": "=LizardBow_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_lzd_codex/textures/bow/material_classes_1k.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "metal_rough_bow",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "LizardBow_A",
+    "LizardBow_B",
+    "LizardBow_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 76597,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.8955,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_lzd_codex/textures/bow/material_classes_1k.png",
+     "class_share_in_uv": {
+      "claw": 0.0055,
+      "cloth": 0.1321,
+      "metal": 0.0171,
+      "wood": 0.8173,
+      "other": 0.0281
+     }
+    }
+   },
+   "class_share_total": {
+    "claw": 0.0055,
+    "cloth": 0.1321,
+    "metal": 0.0171,
+    "wood": 0.8173,
+    "other": 0.0281
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "claw": 0.039,
+    "cloth": 0.039,
+    "metal": 0.039,
+    "wood": 0.039,
+    "other": 0.039
+   },
+   "new_specular_mean_by_class": {
+    "claw": 1.0,
+    "cloth": 0.3,
+    "metal": 1.0,
+    "wood": 0.3,
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "claw": 0.45,
+    "cloth": 0.75,
+    "metal": 0.38,
+    "wood": 0.7,
+    "other": 0.7
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "LizardBow_A": {
+     "median_srgb": [
+      68,
+      47,
+      34
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      44,
+      51,
+      68
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.9595,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "LizardBow_B": {
+     "median_srgb": [
+      68,
+      47,
+      34
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      44,
+      51,
+      68
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.9595,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "LizardBow_C": {
+     "median_srgb": [
+      68,
+      47,
+      34
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      44,
+      51,
+      68
+     ],
+     "share_below_srgb_30": 0.0,
+     "share_below_srgb_90": 0.9595,
+     "flag": null,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 255,
+     "mean": 81.7
+    },
+    "G": {
+     "min": 77,
+     "max": 217,
+     "mean": 180.2
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 3.4
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

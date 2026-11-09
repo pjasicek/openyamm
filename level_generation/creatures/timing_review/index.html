@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Attack Timing Review</title>
+<link rel="icon" href="data:,">
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;--bg:#16191e;--panel:#1f242b;--line:#3a424d;--text:#e8ecf1;--dim:#a9b3bf;
+  --ok:#5cc28a;--warn:#e5b04d;--bad:#ef6a5e;--info:#78aee8;--marker:#ff9b3d;--proposed:#4fd6e8;background:var(--bg);color:var(--text)}
+*{box-sizing:border-box}body{margin:0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+header{display:flex;gap:16px;align-items:center;padding:8px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+h1{font-size:17px;margin:0}header .summary{color:var(--dim);font-size:13px}
+button,select,input,textarea{font:inherit;font-size:13px;color:inherit;background:#2a3038;border:1px solid #525c69;border-radius:5px;padding:4px 8px}
+button{cursor:pointer}button:hover{background:#38414d}button.active{background:#2f5d89;border-color:#9ccfff}button:disabled{opacity:.4;cursor:default}
+main{flex:1;display:grid;grid-template-columns:250px minmax(0,1fr) 400px;min-height:0}
+#list{border-right:1px solid var(--line);overflow:auto;min-height:0}
+#list .item{padding:6px 10px;border-bottom:1px solid #2a3038;cursor:pointer;font-size:13px}
+#list .item:hover{background:#252b33}#list .item.selected{background:#2b3f55}
+#list .name{display:flex;justify-content:space-between;gap:6px}#list .tiers{color:var(--dim);font-size:11px;margin-top:2px}
+.chips{display:flex;gap:3px;margin-top:3px;flex-wrap:wrap}
+.chip{font-size:10px;padding:1px 5px;border-radius:8px;border:1px solid currentColor;white-space:nowrap}
+.sev-ok{color:var(--ok)}.sev-warn{color:var(--warn)}.sev-bad{color:var(--bad)}.sev-info{color:var(--info)}.sev-off{color:#6c7581}
+.done{color:var(--ok);font-weight:700}
+#center{display:flex;flex-direction:column;min-height:0;min-width:0;padding:8px;gap:6px}
+#stage{flex:1;position:relative;background:#4d5156;border-radius:7px;overflow:hidden;min-height:240px}
+#stage canvas#model{display:block;width:100%;height:100%;touch-action:none}
+#spritebox{position:absolute;right:8px;top:8px;width:30%;max-width:280px;aspect-ratio:1;background:#3b3f44ee;border-radius:6px;
+  border:1px solid #6b737d}
+#spritebox canvas{width:100%;height:100%;display:block}
+#spritebox span{position:absolute;left:6px;top:4px;font-size:11px;color:#d7dde4}
+#badge{position:absolute;left:10px;bottom:8px;background:#11151add;border-radius:5px;padding:6px 8px;font:12px ui-monospace,monospace;white-space:pre;pointer-events:none}
+#flash{position:absolute;left:50%;top:14px;transform:translateX(-50%);font:700 22px system-ui;color:#fff;background:#d9483bcc;
+  padding:2px 14px;border-radius:6px;opacity:0;transition:opacity .25s;pointer-events:none}
+#flash.show{opacity:1;transition:none}
+#error{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#20262ee8;white-space:pre-wrap;text-align:center;padding:20px}
+#error[hidden]{display:none}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.row label{font-size:13px;color:var(--dim);display:flex;gap:4px;align-items:center}
+#timeline{width:100%;height:232px;display:block;background:#1b1f25;border-radius:6px;cursor:ew-resize}
+.hint{font-size:11px;color:var(--dim)}
+aside{border-left:1px solid var(--line);overflow:auto;padding:10px 12px;min-height:0}
+aside h2{font-size:16px;margin:2px 0 4px}aside h3{font-size:13px;margin:12px 0 5px;color:#cdd6e0;text-transform:uppercase;letter-spacing:.04em}
+aside p{margin:4px 0;font-size:12.5px;line-height:1.4;color:#cbd3dc}
+table{border-collapse:collapse;width:100%;font-size:12px}th,td{padding:3px 4px;border-bottom:1px solid #2e353e;text-align:right}
+th:first-child,td:first-child{text-align:left}th{color:var(--dim);font-weight:500}tr.selected td{background:#26364a}
+.warnbox{border-left:3px solid var(--bad);background:#3a2426;padding:5px 8px;font-size:12px;margin:6px 0;border-radius:3px}
+.notebox{border-left:3px solid var(--info);background:#1f2b39;padding:5px 8px;font-size:12px;margin:6px 0;border-radius:3px}
+.metric{display:grid;grid-template-columns:150px 1fr;font-size:12.5px;gap:2px 8px}.metric span:nth-child(odd){color:var(--dim)}
+#suggestions{list-style:none;padding:0;margin:0}
+#suggestions li{font-size:12.5px;line-height:1.4;padding:6px 8px;margin-bottom:5px;border-radius:4px;background:#232a32;border-left:3px solid}
+#suggestions li.bad{border-color:var(--bad)}#suggestions li.warn{border-color:var(--warn)}#suggestions li.ok{border-color:var(--ok)}#suggestions li.info{border-color:var(--info)}
+#suggestions .tag{font-size:10px;padding:0 5px;border-radius:7px;margin-right:4px;background:#3a4450;color:#d5dde6;text-transform:uppercase}
+#suggestions button{font-size:11px;padding:1px 6px;margin-left:4px}
+.marker{color:var(--marker)}.proposed{color:var(--proposed)}
+#impactInput{width:90px}textarea{width:100%;resize:vertical}
+#actions label{display:block;font-size:12.5px;margin:2px 0}
+#saveState{font-size:12px;color:var(--dim)}
+.film{display:flex;gap:4px;overflow-x:auto;padding:2px 0 6px}
+.film .frame{flex:0 0 auto;width:57px;padding:3px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  background:#262c34;border:2px solid #3d4550}
+.film .frame canvas{width:49px;height:72px;display:block}
+.film .frame span{font-size:10px;color:var(--dim);white-space:nowrap}
+.film .frame.selected{border-color:#ff5a4a;background:#3a2a2c}.film .frame.selected span{color:#ffb3aa}
+.film .frame:disabled{opacity:.45;cursor:default}
+details summary{cursor:pointer;margin-top:8px}
+@media (max-width:1200px){main{grid-template-columns:200px minmax(0,1fr) 340px}}
+</style>
+<header>
+  <h1>Attack timing review</h1>
+  <span class="summary" id="summary">Loading…</span>
+  <label class="hint">Show <select id="filter"><option value="all">all models</option><option value="attention">needing attention</option><option value="open">not yet decided</option></select></label>
+  <label class="hint" title="Hide the models whose every tier has Wimp AI (peasants): they never attack"><input type="checkbox" id="hideWimps" checked> Hide wimps</label>
+  <input id="search" placeholder="Search model or tier" size="18">
+</header>
+<main>
+  <nav id="list" aria-label="Models"></nav>
+  <section id="center">
+    <div id="stage">
+      <canvas id="model"></canvas>
+      <div id="spritebox"><canvas id="sprite"></canvas><span>Billboard (native frames)</span></div>
+      <div id="badge"></div><div id="flash"></div>
+      <div id="error">Select a model.</div>
+    </div>
+    <div class="row">
+      <span id="roles" class="row"></span>
+      <label>Tier <select id="tier"></select></label>
+      <label>Mode <select id="mode"><option value="game">In game (fitted to native)</option><option value="raw">Raw clip (source speed)</option></select></label>
+      <label title="After the release the AI walks: legs walk, the upper body finishes the follow-through"><input type="checkbox" id="walk"> Walk after release</label>
+    </div>
+    <div class="row">
+      <button id="play">Play</button><button id="prev">◀</button><button id="next">▶</button>
+      <label>Speed <select id="speed"><option value="1">1×</option><option value="0.5">½×</option><option value="0.25">¼×</option><option value="0.1">⅒×</option></select></label>
+      <label><input type="checkbox" id="loop" checked> Loop</label>
+      <label><input type="checkbox" id="sound" checked> Attack sound</label>
+      <label>Track <select id="track"></select></label>
+      <label title="Charge sockets: glow sockets in the charge colour, the release as a red ring"><input type="checkbox" id="showSockets" checked> Sockets</label>
+      <span class="row" id="views"></span>
+    </div>
+    <canvas id="timeline"></canvas>
+    <div class="hint">Top: the clip at its own speed, with the tracked point's speed (blue) and reach from the body (amber); S = peak speed, R = farthest reach, 95 = 95 % of the reach. Bottom: the attack in game: wind-up stretched to the native action, release, follow-through, earliest next attack; the Sound lane below it is the attack sound on the same clock (green on the clip row). Click or drag either row to scrub · Space plays · ←/→ step · I sets the impact at the playhead.</div>
+  </section>
+  <aside id="panel"><p>Select a model.</p></aside>
+</main>
+<script type="importmap">{"imports":{"three":"../mm6_goblin/review_20261006/vendor/build/three.module.js","three/addons/":"../mm6_goblin/review_20261006/vendor/addons/"}}</script>
+<script type="module" src="review.js"></script>
+</html>

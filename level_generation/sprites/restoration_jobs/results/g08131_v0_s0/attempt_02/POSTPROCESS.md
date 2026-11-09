@@ -1,0 +1,1 @@
+Process with --adjust 0.94 0 24. Save fresh ungraded output as .before_tone.png, run restore_native_tone.py, then queue.py check g08131_v0_s0. Foliage and bark are matched separately to native opaque RGB means, alpha unchanged. Refresh backup after reprocessing. Earlier scale0.975 dy10 trial retained height drift and was replaced.

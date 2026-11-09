@@ -1,0 +1,580 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "selection_note": "Selected means best available return within the brief's one-correction-per-view limit, not a claim that every validation requirement passed.",
+  "status": "generation_complete_with_validation_deviations",
+  "postprocessing": "None. PNG returns copied byte-for-byte; not resized, composited, masked, or repainted.",
+  "runs": [
+    {
+      "view": "front",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 1 is the exact guide and edit target. Image 2 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 1. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nFRONT VIEW: Keep the long horizontal edge-on object at exactly x=66..957 and y=447..576 on the 1024-square canvas. The two broad end collars, thin central bar, narrow cyan top channel, small raised gold pieces slightly right of centre, and the narrow pins at both ends remain exactly as in guide_front.png. Large transparent margins above and below are mandatory. The zigzag is mostly hidden in this edge-on view: do not invent a face-on zigzag.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "f815305db736e2b1f98959e3022d985592df5cc096a59d87905b6d712f2fd849"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        }
+      ],
+      "output": "run_front_1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-281bdb2b-64f3-421a-ae8c-90ccf82d8192.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return, which has closer normalized silhouette overlap and less elaborate highlights and seams.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "resized": false,
+      "output_sha256": "e0cdd3463208b1558fa56fb3fc72c15a65896762a73161863f897f0689bb4429",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          47,
+          37,
+          1205,
+          1214
+        ],
+        "alpha128_bbox": [
+          57,
+          558,
+          1198,
+          718
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.813029,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "front",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nFRONT VIEW: Keep the long horizontal edge-on object at exactly x=66..957 and y=447..576 on the 1024-square canvas. The two broad end collars, thin central bar, narrow cyan top channel, small raised gold pieces slightly right of centre, and the narrow pins at both ends remain exactly as in guide_front.png. Large transparent margins above and below are mandatory. The zigzag is mostly hidden in this edge-on view: do not invent a face-on zigzag.\nCORRECTIVE PASS (one permitted): The previous generation changed the outline and made the gold too shiny. Use the 1024 x 1024 guide (image 2) as the pixel-registered canvas, retain its alpha exactly. Do not render a new photograph of the device. Apply only detailed MATTE BASE-COLOUR PAINT within its existing pixels. Gold is evenly ochre-yellow with very fine brush scratches, never bright white highlight lines, dark reflective bands, cast shadows, or bevel lighting. Preserve the guide's outlines, including collar bevels and small pin width. Ceramic detail must be delicate, not large or dense marble veins. Keep the exact front-view arrangement of the gold pieces. No ghost pixels, glow, or colour outside the original alpha mask.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-5d17e9ed-feee-4ef6-a1fc-cef94fbed7f3.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer normalized silhouette overlap and simpler surface joins. Exact silhouette and flat lighting are still not achieved.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "f815305db736e2b1f98959e3022d985592df5cc096a59d87905b6d712f2fd849"
+        }
+      ],
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "6595390e171c92d34acf964362f55bc043fa41f8f4e1b5af4b87f5915610d86b",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          24,
+          1238,
+          1216
+        ],
+        "alpha128_bbox": [
+          80,
+          556,
+          1175,
+          704
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.924729,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "back",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nBACK VIEW: Keep the long horizontal edge-on object at exactly x=66..957 and y=447..576 on the 1024-square canvas. Follow guide_back.png's own internal part positions: its raised central gold pieces are slightly left of centre. Keep both broad ceramic end collars, thin central bar, narrow cyan top channel, and narrow gold pins at both ends. Large transparent margins above and below are mandatory. Do not use the front view's arrangement or invent a face-on zigzag.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-fe2bba5e-ec3a-448a-a958-473204bc367a.png",
+      "output": "run_back_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return, which better preserves guide parts and/or reduces baked shading. See selected run for residual limitations.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "641ae347f277d96dc3fe77919ae1eed07f0ea7f4ce2f2ceaee16683741e6c8c3"
+        }
+      ],
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "dfdb4dbb2c487bec94bf22cf584360ca42860454f2488f577b4de1aa9fb4bb01",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          25,
+          1226,
+          1214
+        ],
+        "alpha128_bbox": [
+          68,
+          556,
+          1186,
+          713
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.897148,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "left",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nLEFT VIEW: Retain the very SMALL end-on object in guide_left.png, exactly x=346..677 and y=447..576 on the 1024-square canvas. Do not enlarge it to fill the canvas. Keep the left polygonal ceramic collar, gold pieces and thin cyan strip through the middle, and the right polygonal end face with its two existing gold-tipped prongs, at their exact guide positions. Preserve the large transparent margins on all four sides.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-c4e0e048-b4f3-48e9-b0c2-b6f1e4b079c2.png",
+      "output": "run_left_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return, which better preserves guide parts and/or reduces baked shading. See selected run for residual limitations.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "53d123f2c4b20daafc9f6e0890255e980478e449bdd80c0c401b4d8c9bac4078"
+        }
+      ],
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "27ced06033a47cfc7d6490fd0515af15948e019b15111fe597278aa8ac9863d1",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          87,
+          37,
+          1234,
+          1166
+        ],
+        "alpha128_bbox": [
+          424,
+          545,
+          831,
+          707
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.95424,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nRIGHT VIEW: Retain the very SMALL end-on object in guide_right.png, exactly x=346..677 and y=447..576 on the 1024-square canvas. Do not enlarge it to fill the canvas. Follow this right guide's own edges and overlaps. Keep its left polygonal ceramic collar, gold pieces and thin cyan strip through the middle, and right polygonal end face with its two existing gold-tipped prongs. Preserve the large transparent margins on all four sides.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-f6b1dfb2-c0cf-45ad-a523-c92b34ad9362.png",
+      "output": "run_right_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return, which better preserves guide parts and/or reduces baked shading. See selected run for residual limitations.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "7464c7ff6f2a26dc9ad1110acb8511017fb9829af782d49c50f783841c850a55"
+        }
+      ],
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "81819331e4f72978ca3d1156fa534477748097d3fe6318a7a30176a57e2c4634",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          73,
+          31,
+          1222,
+          1214
+        ],
+        "alpha128_bbox": [
+          424,
+          547,
+          830,
+          707
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.962193,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "top",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nTOP VIEW: Directly above, identical to guide_top.png. Keep the object exactly x=66..957 and y=346..677 on the 1024-square canvas. Preserve the lower-left ceramic connector with two left-pointing pins, upper-right ceramic connector with two right-pointing pins, the existing zigzag ceramic body and cyan channel, and BOTH diamond-shaped gold caps at their exact guide positions, including the narrow diagonal connection between them. Paint thin gold edging beside the existing cyan channel inside the guide shapes. Do not replace the guide zigzag by the reference's curved body. Large transparent margins remain above and below.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-eeacc6b0-6dca-4c72-b607-e83a0c7a0e89.png",
+      "output": "run_top_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return, which better preserves guide parts and/or reduces baked shading. See selected run for residual limitations.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "c501186380adaa0876ae2665c13a38512868ffac45b6288a8d04f30480049458"
+        }
+      ],
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9a7e416e6cbfa6f4c8d4efff04c27891a71b4453f2c3254064096d18ffa7794d",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          37,
+          19,
+          1224,
+          1230
+        ],
+        "alpha128_bbox": [
+          72,
+          426,
+          1197,
+          840
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.762059,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "back",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nBACK VIEW: Keep the long horizontal edge-on object at exactly x=66..957 and y=447..576 on the 1024-square canvas. Follow guide_back.png's own internal part positions: its raised central gold pieces are slightly left of centre. Keep both broad ceramic end collars, thin central bar, narrow cyan top channel, and narrow gold pins at both ends. Large transparent margins above and below are mandatory. Do not use the front view's arrangement or invent a face-on zigzag.\nSINGLE CORRECTIVE REGENERATION: Make this a flat UNLIT BASE COLOR texture pass, not a beauty render. The previous result had baked shadows, dark metallic reflections, white specular streaks, and shape drift; remove those. White ceramic should have the SAME pale ivory base value on every face, including underside-facing bevels, with only fine hairline wear, microscopic flecks, and thin panel joins. Gold is uniform medium warm gold with very fine low-contrast brushed scratches, no dark/bright bands and no white shine. Cyan is solid bright cyan with a narrow blue-white centre, no bloom. Keep surface detail, never blank solid fills. Use the guide as an immutable stencil and paint every visible part within its existing outline, same scale and position. Keep alpha edges exactly, no fringe pixels outside the stencil. Respect the guide, even where its geometry differs from the design reference. Canvas 1024 x 1024. The wide middle bar is white ceramic throughout; do not add the previous return's broad diagonal gold strap across its middle. The existing raised central plates are gold, with identical lengths, thicknesses and placement to the back guide. The left and right end collars retain their exact original silhouettes.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "641ae347f277d96dc3fe77919ae1eed07f0ea7f4ce2f2ceaee16683741e6c8c3"
+        }
+      ],
+      "output": "paint_back.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-0ff11b08-ddc0-437a-84e6-604ea4d19c97.png",
+      "selected": true,
+      "reason": "Selected correction removes the invented broad diagonal gold strap and reduces contrast; residual shading and imperfect silhouette remain.",
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "5a8763feb211d028fb3be5d40a81b7a80da3b11093d2def5f5b2764b02344511",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1216,
+          1254
+        ],
+        "alpha128_bbox": [
+          80,
+          548,
+          1174,
+          706
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.941032,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "left",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nLEFT VIEW: Retain the very SMALL end-on object in guide_left.png, exactly x=346..677 and y=447..576 on the 1024-square canvas. Do not enlarge it to fill the canvas. Keep the left polygonal ceramic collar, gold pieces and thin cyan strip through the middle, and the right polygonal end face with its two existing gold-tipped prongs, at their exact guide positions. Preserve the large transparent margins on all four sides.\nSINGLE CORRECTIVE REGENERATION: Make this a flat UNLIT BASE COLOR texture pass, not a beauty render. The previous result had baked shadows, dark metallic reflections, white specular streaks, and shape drift; remove those. White ceramic should have the SAME pale ivory base value on every face, including underside-facing bevels, with only fine hairline wear, microscopic flecks, and thin panel joins. Gold is uniform medium warm gold with very fine low-contrast brushed scratches, no dark/bright bands and no white shine. Cyan is solid bright cyan with a narrow blue-white centre, no bloom. Keep surface detail, never blank solid fills. Use the guide as an immutable stencil and paint every visible part within its existing outline, same scale and position. Keep alpha edges exactly, no fringe pixels outside the stencil. Respect the guide, even where its geometry differs from the design reference. Canvas 1024 x 1024. Keep the guide's existing pale-yellow upper parts FLAT and FACETED, not redesigned into rounded tubes. Preserve the two right-end prongs, right-end collar polygon, left collar polygon, and cyan line, precisely as drawn. Object remains tiny and centred at x346..677,y447..576, with surrounding empty canvas unchanged.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "53d123f2c4b20daafc9f6e0890255e980478e449bdd80c0c401b4d8c9bac4078"
+        }
+      ],
+      "output": "paint_left.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-f9b284dc-5485-48a5-8959-d43ec520ef74.png",
+      "selected": true,
+      "reason": "Selected correction restores faceted upper gold pieces and reduces the gold border; residual shading and imperfect silhouette remain.",
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d85d881a320c686980aa495f9885d221ce257c66a125e33f9f22717927036d81",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          73,
+          196,
+          1198,
+          1198
+        ],
+        "alpha128_bbox": [
+          424,
+          546,
+          830,
+          707
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.977067,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "right",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nRIGHT VIEW: Retain the very SMALL end-on object in guide_right.png, exactly x=346..677 and y=447..576 on the 1024-square canvas. Do not enlarge it to fill the canvas. Follow this right guide's own edges and overlaps. Keep its left polygonal ceramic collar, gold pieces and thin cyan strip through the middle, and right polygonal end face with its two existing gold-tipped prongs. Preserve the large transparent margins on all four sides.\nSINGLE CORRECTIVE REGENERATION: Make this a flat UNLIT BASE COLOR texture pass, not a beauty render. The previous result had baked shadows, dark metallic reflections, white specular streaks, and shape drift; remove those. White ceramic should have the SAME pale ivory base value on every face, including underside-facing bevels, with only fine hairline wear, microscopic flecks, and thin panel joins. Gold is uniform medium warm gold with very fine low-contrast brushed scratches, no dark/bright bands and no white shine. Cyan is solid bright cyan with a narrow blue-white centre, no bloom. Keep surface detail, never blank solid fills. Use the guide as an immutable stencil and paint every visible part within its existing outline, same scale and position. Keep alpha edges exactly, no fringe pixels outside the stencil. Respect the guide, even where its geometry differs from the design reference. Canvas 1024 x 1024. Remove cast shadows below the gold pieces. Keep every ceramic face evenly pale ivory, including the right polygon face and its bevels. Preserve every part and prong boundary of the right guide; do not enlarge gold rims outside the ceramic silhouette. Object remains tiny and centred at x346..677,y447..576.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "7464c7ff6f2a26dc9ad1110acb8511017fb9829af782d49c50f783841c850a55"
+        }
+      ],
+      "output": "paint_right.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-74f41cca-2622-4538-8bdb-9f19e6a90693.png",
+      "selected": true,
+      "reason": "Selected correction reduces the broad gold border and retains fine ceramic wear; residual shading and imperfect silhouette remain.",
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "609dddebaf6859624341790ed33bd7bb9aa183d02d00656d730e8fb6f4f1dc87",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          109,
+          1214,
+          1220
+        ],
+        "alpha128_bbox": [
+          424,
+          549,
+          830,
+          704
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.967501,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    },
+    {
+      "view": "top",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for Hesper item hes_coupler_3.\nINPUT ROLES: Image 2 is the exact guide and edit target. Image 1 is design_reference.png, the authority for surface colour, material, and detail ONLY. The reference's diagonal shape, perspective, lighting, and proportions must NOT replace the guide.\nPaint directly over the guide in image 2. Output one 1024 x 1024 RGBA PNG with a truly transparent background. Preserve the guide's exact alpha silhouette, canvas placement, scale, viewpoint, shape, every part edge and overlap. All empty space stays transparent. Do not zoom, crop, rotate, reframe, move parts, invent parts, thicken the body, or borrow the reference's silhouette.\nPaint the FULL SURFACE DETAIL of the design reference, NOT blank colour fills: warm worn ivory-white ceramic with subtle fine hairline cracks, minute scuffs, restrained speckled glaze variation, panel seams and fine joins; rich brushed antique yellow-gold rims and trims with fine directional scratches and thin engraved non-letter lines; vivid cyan-blue energy channel with blue-white core and narrow gold edging. The guide's light grey parts are ceramic, pale yellow parts are gold, pale cyan strips are the energy channel. Guide tints merely identify materials. Continue materials plausibly on faces unseen in the reference. Retain all guide geometry; surface detail is painted within the existing shapes only.\nLIGHTING: flat, even, shadowless frontal illumination suitable for an ALBEDO map. Remove the guide's cast shadows and geometric lighting gradients. Ceramic stays light on all faces. Metal is its base gold colour with only a faint sheen, never black metallic reflections or bright hotspots. Fine texture and seams remain legible. No cast shadows, no ambient occlusion darkening, no directional shading, no specular highlights, no reflections, no rim light, no bloom or glow outside the part. Energy is painted in its bright colour.\nNo background, no floor, no text, no letters, no numbers, no labels, no watermark. Return a single painted view, not a sheet.\nTOP VIEW: Directly above, identical to guide_top.png. Keep the object exactly x=66..957 and y=346..677 on the 1024-square canvas. Preserve the lower-left ceramic connector with two left-pointing pins, upper-right ceramic connector with two right-pointing pins, the existing zigzag ceramic body and cyan channel, and BOTH diamond-shaped gold caps at their exact guide positions, including the narrow diagonal connection between them. Paint thin gold edging beside the existing cyan channel inside the guide shapes. Do not replace the guide zigzag by the reference's curved body. Large transparent margins remain above and below.\nSINGLE CORRECTIVE REGENERATION: Make this a flat UNLIT BASE COLOR texture pass, not a beauty render. The previous result had baked shadows, dark metallic reflections, white specular streaks, and shape drift; remove those. White ceramic should have the SAME pale ivory base value on every face, including underside-facing bevels, with only fine hairline wear, microscopic flecks, and thin panel joins. Gold is uniform medium warm gold with very fine low-contrast brushed scratches, no dark/bright bands and no white shine. Cyan is solid bright cyan with a narrow blue-white centre, no bloom. Keep surface detail, never blank solid fills. Use the guide as an immutable stencil and paint every visible part within its existing outline, same scale and position. Keep alpha edges exactly, no fringe pixels outside the stencil. Respect the guide, even where its geometry differs from the design reference. Canvas 1024 x 1024. Correct the top view's misplaced contours: absolutely trace image 2, including the exact left and right connector widths, the point where each joins the zigzag, both diamond plates and their diagonal link. Preserve the broad ceramic sections as the guide shows them; paint only a narrow gold rim along the existing cyan strip, without widening or changing the path. Avoid the previous image's bulky raised gold bezel around each diamond. All faces are flat evenly coloured ceramic/gold, no shaded lower halves. The exact guide footprint is x66..957,y346..677.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "a95c8c30670b58ae836194875c941d7bb465c6c5cf69c63d8ee56f6fa1585093"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "c501186380adaa0876ae2665c13a38512868ffac45b6288a8d04f30480049458"
+        }
+      ],
+      "output": "paint_top.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7260-af71-51990351cf06/exec-f8efe4cc-c5b0-4ba7-b21b-96fb8a20ed64.png",
+      "selected": true,
+      "reason": "Selected correction reduces the bulky bezels and better follows the guide's zigzag and plate placement; residual shading and imperfect silhouette remain.",
+      "resized": false,
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "1dcb9467fc10df61651f52b0fafec8b54780708eb40dadfc7b64f2e4bc10ab2f",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          37,
+          1238,
+          1198
+        ],
+        "alpha128_bbox": [
+          71,
+          428,
+          1185,
+          833
+        ],
+        "requested_size_met": false,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.880365,
+        "normalized_silhouette_comparison": "Alpha >=128; guide sampled at normalized coordinates for analysis only, files unmodified.",
+        "materials_match_reference": true,
+        "surface_detail_present": true,
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": true,
+        "visual_notes": "Fine ceramic cracks, seams, gold texture and cyan channel are present. Residual face shading, gold highlights and some edge fringe remain; exact geometry is not preserved.",
+        "byte_identical_to_tool_return": true
+      }
+    }
+  ],
+  "validation_summary": {
+    "all_five_deliverables_saved": true,
+    "all_returns_unresized": true,
+    "all_have_alpha_transparency": true,
+    "all_have_reference_material_detail": true,
+    "all_no_text_or_letters_visual_check": true,
+    "all_exact_silhouette_checks_pass": false,
+    "all_flat_light_checks_pass": false,
+    "returned_sizes": [
+      [
+        1254,
+        1254
+      ]
+    ],
+    "corrective_regenerations_per_view": 1,
+    "builds_or_runtime_checks_run": false
+  }
+}

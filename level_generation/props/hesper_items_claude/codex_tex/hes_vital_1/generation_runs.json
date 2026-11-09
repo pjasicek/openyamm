@@ -1,0 +1,348 @@
+{
+  "item": "hes_vital_1",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "status": "deliverables_saved_with_failed_checks",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: FRONT target: this guide happens to show the plain reverse/underside face, with both claw attachments in the UPPER corners, central tip at (512,163), and a broad lower shield ending around y=860. Keep these positions. Its central face has no exposed oval crystal socket: continue ivory ceramic panels, the gold-edged upper chevron ridge, black-violet recessed understructure and narrow red-orange seams plausibly onto this underside; do not add a central gem, socket or change the ridges. The inward claw prongs are at the upper corners, as in the guide.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-48ef33aa-c2f0-4e0c-8369-b4e49eab0dd4.png",
+      "output": "runs/front_01.png",
+      "selected": false,
+      "reason": "Not selected: the corrective return has flatter material colors. This initial return also fails exact silhouette and flat-light checks.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "8d9035c8f4ec1d5e661d6c3cfcbc13ac287f478d8e10b60e2330b1fc0771dbf2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "2f80d3c4dca1b97d53f8837b63fa400f44f8f51e864bd493556f000769f20c88",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.828848,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: BACK target: this guide has both claws in the UPPER corners and the oval crystal setting on the upper middle of the central shield, around (512,420). Paint the existing oval as crimson crystal with fine orange internal veins, its existing bezel and long vertical lower spine as brushed gold, the adjacent shell panels ivory ceramic, and the exposed joint shafts black-violet with fine segment seams. Follow this exact up/down orientation; do not move the arms down. Preserve each prong and notch.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-4c1b62be-032c-436f-9124-f90a19004942.png",
+      "output": "runs/back_01.png",
+      "selected": false,
+      "reason": "Not selected: the corrective return has flatter material colors. This initial return also fails exact silhouette and flat-light checks.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "c995c209b0cad9c02ae86bcd0ded50fdb7c09f6b122e4b9132b2d31e1c187986"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "0191566bbd5a44bf4d0485683b1456f02219a3f4a5bfd7ed68b2dbc9a4174645",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.874457,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: LEFT target: preserve the exact diagonal profile running from the low LEFT tip around (100,800) to the high RIGHT claw around (900,250). Do not rotate this to vertical or show a broad front face. Paint the existing narrow raised face trim gold, shell panels ivory, thick rounded underside black-violet resin with restrained segment seams, the visible joint dark violet with its gold collar, claw covers ivory with gold edges and prongs. Use narrow red-orange seams only on existing joins. The oval face crystal is mostly hidden in this side projection; do not invent a frontal oval on the underside.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-d8d0b0c6-5047-4afd-b641-9b1ea9d24d36.png",
+      "output": "runs/left_01.png",
+      "selected": false,
+      "reason": "Not selected: the corrective return has flatter material colors. This initial return also fails exact silhouette and flat-light checks.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1e72536d0cc61dc3b036fc2e464219c85cef25ccb716010175bd191cdf798ec0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "f735a75456973267554019b72fff56718310b0a2596fa7213088c03030316350",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.905584,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: RIGHT target: preserve the exact diagonal profile running from the high LEFT claw around (100,250) to the low RIGHT tip around (920,800). Do not rotate this to vertical or show a broad front face. Paint the existing narrow raised face trim gold, shell panels ivory, thick rounded underside black-violet resin with restrained segment seams, the visible joint dark violet with its gold collar, claw covers ivory with gold edges and prongs. Use narrow red-orange seams only on existing joins. The oval face crystal is mostly hidden in this side projection; do not invent a frontal oval on the underside.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-c3076417-595f-4e0d-a88a-0a1c0200492f.png",
+      "output": "runs/right_01.png",
+      "selected": false,
+      "reason": "Not selected: the corrective return has flatter material colors. This initial return also fails exact silhouette and flat-light checks.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "a92c1585eb81172b7b83feea5ec1fa00b36ea29f26051fa94cbd6b44206bc88d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "ff7de243708c8641c62363422434dd170495af84316d954fcc808704e85ff798",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.785587,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: TOP target: preserve the direct overhead orthographic view, with a flat-ended central spine reaching y=77 and both claw attachments in the LOWER corners reaching y=946. The existing oval crystal setting is around (512,420). Paint that oval crimson with fine orange internal veins, its bezel and central spines brushed gold, main shell panels ivory ceramic, exposed outer understructure and ribbed joint shafts black-violet. Paint the existing claw covers ivory with gold edging and gold prongs; narrow red-orange inserts follow existing joins. Preserve every panel border and claw notch exactly. Do not tilt the camera.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-70610808-4d2e-4a24-a3d9-f9703fe2b866.png",
+      "output": "runs/top_01.png",
+      "selected": false,
+      "reason": "Not selected: the corrective return has flatter material colors. This initial return also fails exact silhouette and flat-light checks.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "52a50a4323522d14edabdf32f377a53f24840a5896fbf5384f31f85c7076c54f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "7305544650d0db230654d1d4ce771ab7652c5283f53ae8a1bc1c77ce7f7a3d16",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.934746,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: FRONT target: this guide happens to show the plain reverse/underside face, with both claw attachments in the UPPER corners, central tip at (512,163), and a broad lower shield ending around y=860. Keep these positions. Its central face has no exposed oval crystal socket: continue ivory ceramic panels, the gold-edged upper chevron ridge, black-violet recessed understructure and narrow red-orange seams plausibly onto this underside; do not add a central gem, socket or change the ridges. The inward claw prongs are at the upper corners, as in the guide.\nCORRECTIVE REGENERATION, the only allowed correction for this view: the previous attempt looked like a lit glossy 3D illustration and altered the guide's contour. Start afresh from the ORIGINAL GRAY GUIDE, using precisely that canvas and pixel outline. The result must look like a matte diffuse/base-color pass with detailed surface pigment, not a beauty render. Every gold face has the SAME base gold brightness regardless of its angle; every ceramic face the SAME ivory brightness, every resin face the SAME violet-black brightness. No bevel highlights, bright edge lines, dark edge shading, metallic reflections, cavity darkness, gradients across whole panels, glass reflections or glossy white shine. Keep only subtle pigment wear, fine cracks and thin material-colored seams; red light slots are solid bright red-orange and the ruby is flat crimson with fine orange veins. Absolutely preserve the target's existing angular low-poly perimeter, original small prongs and notches, part boundaries and internal gap shapes. Do not round off corners or widen parts. Do not use the design reference's 1254-pixel canvas: edit the guide's 1024 x 1024 canvas at its original location and scale. Genuine alpha transparency.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-ee46c338-f562-46c9-a6ce-bf28f90e6323.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "8d9035c8f4ec1d5e661d6c3cfcbc13ac287f478d8e10b60e2330b1fc0771dbf2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "2566f84f540700337bdb9e874387b7c8ad2b70c233762aff925f06e6f3adf854",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.856736,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      },
+      "reason": "Selected as the better available texture source after the single permitted correction; this is not a compliance approval. Reduced specular intensity and more angular claw covers, but silhouette, panel boundaries and bevel shading still deviate.",
+      "raw_output": "runs/front_02.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: BACK target: this guide has both claws in the UPPER corners and the oval crystal setting on the upper middle of the central shield, around (512,420). Paint the existing oval as crimson crystal with fine orange internal veins, its existing bezel and long vertical lower spine as brushed gold, the adjacent shell panels ivory ceramic, and the exposed joint shafts black-violet with fine segment seams. Follow this exact up/down orientation; do not move the arms down. Preserve each prong and notch.\nCORRECTIVE REGENERATION, the only allowed correction for this view: the previous attempt looked like a lit glossy 3D illustration and altered the guide's contour. Start afresh from the ORIGINAL GRAY GUIDE, using precisely that canvas and pixel outline. The result must look like a matte diffuse/base-color pass with detailed surface pigment, not a beauty render. Every gold face has the SAME base gold brightness regardless of its angle; every ceramic face the SAME ivory brightness, every resin face the SAME violet-black brightness. No bevel highlights, bright edge lines, dark edge shading, metallic reflections, cavity darkness, gradients across whole panels, glass reflections or glossy white shine. Keep only subtle pigment wear, fine cracks and thin material-colored seams; red light slots are solid bright red-orange and the ruby is flat crimson with fine orange veins. Absolutely preserve the target's existing angular low-poly perimeter, original small prongs and notches, part boundaries and internal gap shapes. Do not round off corners or widen parts. Do not use the design reference's 1254-pixel canvas: edit the guide's 1024 x 1024 canvas at its original location and scale. Genuine alpha transparency.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-73364905-4a48-4a5c-bba3-400b4481b939.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "c995c209b0cad9c02ae86bcd0ded50fdb7c09f6b122e4b9132b2d31e1c187986"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "8e782b14915a96f806e39bb22e7c399d0ed0f561c671971690b17f647e1f89fb",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.874472,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      },
+      "reason": "Selected as the better available texture source after the single permitted correction; this is not a compliance approval. Reduced specular intensity and flatter red inserts, but silhouette, panel boundaries and bevel shading still deviate.",
+      "raw_output": "runs/back_02.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: LEFT target: preserve the exact diagonal profile running from the low LEFT tip around (100,800) to the high RIGHT claw around (900,250). Do not rotate this to vertical or show a broad front face. Paint the existing narrow raised face trim gold, shell panels ivory, thick rounded underside black-violet resin with restrained segment seams, the visible joint dark violet with its gold collar, claw covers ivory with gold edges and prongs. Use narrow red-orange seams only on existing joins. The oval face crystal is mostly hidden in this side projection; do not invent a frontal oval on the underside.\nCORRECTIVE REGENERATION, the only allowed correction for this view: the previous attempt looked like a lit glossy 3D illustration and altered the guide's contour. Start afresh from the ORIGINAL GRAY GUIDE, using precisely that canvas and pixel outline. The result must look like a matte diffuse/base-color pass with detailed surface pigment, not a beauty render. Every gold face has the SAME base gold brightness regardless of its angle; every ceramic face the SAME ivory brightness, every resin face the SAME violet-black brightness. No bevel highlights, bright edge lines, dark edge shading, metallic reflections, cavity darkness, gradients across whole panels, glass reflections or glossy white shine. Keep only subtle pigment wear, fine cracks and thin material-colored seams; red light slots are solid bright red-orange and the ruby is flat crimson with fine orange veins. Absolutely preserve the target's existing angular low-poly perimeter, original small prongs and notches, part boundaries and internal gap shapes. Do not round off corners or widen parts. Do not use the design reference's 1254-pixel canvas: edit the guide's 1024 x 1024 canvas at its original location and scale. Genuine alpha transparency.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-d358b4d5-837b-4168-9d08-68444c92b00f.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1e72536d0cc61dc3b036fc2e464219c85cef25ccb716010175bd191cdf798ec0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "52f35e679a398acd0f2353c408064b31894d7f9a909ddea0239e53898f5def93",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.949728,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      },
+      "reason": "Selected as the better available texture source after the single permitted correction; this is not a compliance approval. Flatter materials and removed the large invented crystal bulge, but profile, panel boundaries and bevel shading still deviate.",
+      "raw_output": "runs/left_02.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: RIGHT target: preserve the exact diagonal profile running from the high LEFT claw around (100,250) to the low RIGHT tip around (920,800). Do not rotate this to vertical or show a broad front face. Paint the existing narrow raised face trim gold, shell panels ivory, thick rounded underside black-violet resin with restrained segment seams, the visible joint dark violet with its gold collar, claw covers ivory with gold edges and prongs. Use narrow red-orange seams only on existing joins. The oval face crystal is mostly hidden in this side projection; do not invent a frontal oval on the underside.\nCORRECTIVE REGENERATION, the only allowed correction for this view: the previous attempt looked like a lit glossy 3D illustration and altered the guide's contour. Start afresh from the ORIGINAL GRAY GUIDE, using precisely that canvas and pixel outline. The result must look like a matte diffuse/base-color pass with detailed surface pigment, not a beauty render. Every gold face has the SAME base gold brightness regardless of its angle; every ceramic face the SAME ivory brightness, every resin face the SAME violet-black brightness. No bevel highlights, bright edge lines, dark edge shading, metallic reflections, cavity darkness, gradients across whole panels, glass reflections or glossy white shine. Keep only subtle pigment wear, fine cracks and thin material-colored seams; red light slots are solid bright red-orange and the ruby is flat crimson with fine orange veins. Absolutely preserve the target's existing angular low-poly perimeter, original small prongs and notches, part boundaries and internal gap shapes. Do not round off corners or widen parts. Do not use the design reference's 1254-pixel canvas: edit the guide's 1024 x 1024 canvas at its original location and scale. Genuine alpha transparency.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-c8d4de2c-f6c4-4e0d-98c5-f7fa7783f0bd.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "a92c1585eb81172b7b83feea5ec1fa00b36ea29f26051fa94cbd6b44206bc88d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "0cdc5c7d8e700597ab6e3faf94dc8015699f83ebbcd42e62e0847b8008ad0c37",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.801574,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      },
+      "reason": "Selected as the better available texture source after the single permitted correction; this is not a compliance approval. Flatter materials and reduced highlights, but profile still includes an altered claw and visible crystal bulge; bevel shading remains.",
+      "raw_output": "runs/right_02.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the Hesper +50 hit points item hes_vital_1.\nImage 1 is the EDIT TARGET, an exact 1024 x 1024 orthographic render of the existing mesh. Image 2 is the approved DESIGN REFERENCE, used ONLY for colors and surface materials.\nPaint directly over Image 1. Lock its entire alpha silhouette, every edge, hole, notch, part position, scale, angle, projection and framing pixel-for-pixel. Keep the existing low-poly geometric shape exactly; no remodeling, no new pieces, no pose change, no rotation, no zoom, no recentering. Preserve the transparent margin and all empty gaps. Do not copy the design reference's camera or silhouette.\nTransfer the reference's warm ivory-white ceramic armor with sparse fine tan wear and delicate hairline cracks, restrained brushed ochre-gold trim, black-violet resin understructure and ribbed joint coverings, crimson-red crystal and bright red-orange light inserts only where appropriate to the target's visible parts. Match the material distribution to the target geometry. Preserve panel joins, incised non-letter lines and seams. For unseen faces, plausibly continue these materials. Do not invent blue lights, paper, cloth or leather absent from the reference.\nLIGHTING IS STRICTLY FLAT ALBEDO: uniform shadowless illumination from the viewer, no directional shading, no cast shadows, no ambient-occlusion darkening, no contact shading, no black cavity shadows, no rim light, no vignette, no photographic lighting. Gold shows its ochre-gold base color with only a faint broad sheen, no hot metallic highlights or reflections. Crystal shows crimson base color and fine orange internal veins without white specular glints; emissive inserts are their bright flat red-orange color without bloom or cast light. The guide's gray lighting is only for understanding shape; remove that lighting from the paint.\nOutput one 1024 x 1024 RGBA PNG on a genuinely transparent background, NOT a checkerboard drawing, no black backdrop, no floor. No text, letters, labels, watermark or contact sheet. Paint all and only the existing opaque target shape.\nVIEW-SPECIFIC GEOMETRY: TOP target: preserve the direct overhead orthographic view, with a flat-ended central spine reaching y=77 and both claw attachments in the LOWER corners reaching y=946. The existing oval crystal setting is around (512,420). Paint that oval crimson with fine orange internal veins, its bezel and central spines brushed gold, main shell panels ivory ceramic, exposed outer understructure and ribbed joint shafts black-violet. Paint the existing claw covers ivory with gold edging and gold prongs; narrow red-orange inserts follow existing joins. Preserve every panel border and claw notch exactly. Do not tilt the camera.\nCORRECTIVE REGENERATION, the only allowed correction for this view: the previous attempt looked like a lit glossy 3D illustration and altered the guide's contour. Start afresh from the ORIGINAL GRAY GUIDE, using precisely that canvas and pixel outline. The result must look like a matte diffuse/base-color pass with detailed surface pigment, not a beauty render. Every gold face has the SAME base gold brightness regardless of its angle; every ceramic face the SAME ivory brightness, every resin face the SAME violet-black brightness. No bevel highlights, bright edge lines, dark edge shading, metallic reflections, cavity darkness, gradients across whole panels, glass reflections or glossy white shine. Keep only subtle pigment wear, fine cracks and thin material-colored seams; red light slots are solid bright red-orange and the ruby is flat crimson with fine orange veins. Absolutely preserve the target's existing angular low-poly perimeter, original small prongs and notches, part boundaries and internal gap shapes. Do not round off corners or widen parts. Do not use the design reference's 1254-pixel canvas: edit the guide's 1024 x 1024 canvas at its original location and scale. Genuine alpha transparency.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e5d-2568-71f3-9614-a6befa0afcec/exec-1234d955-3a6e-4890-8eca-1d29115b784d.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "52a50a4323522d14edabdf32f377a53f24840a5896fbf5384f31f85c7076c54f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "069e3d8f5c7083d5b922acde41da7b5aaa1dc4accb1120570a0d116756977ad9"
+        }
+      ],
+      "output_sha256": "cbcd6d261c96f299a7ca31890bf62656e806e4558c2958bff15b3eb4a369c133",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.922596,
+        "materials_match_reference": true,
+        "flat_shadowless_lighting": false,
+        "no_text_or_letters": true
+      },
+      "reason": "Selected as the better available texture source after the single permitted correction; this is not a compliance approval. Reduced crystal highlights and flatter red inserts, but silhouette, claw shapes, panel boundaries and bevel shading still deviate.",
+      "raw_output": "runs/top_02.png"
+    }
+  ],
+  "brief_compliant": false,
+  "selection_is_compliance_approval": false,
+  "corrections_per_view": 1,
+  "output_size_note": "All returns are 1254 x 1254, preserved byte-for-byte without resizing, as required for non-1024 tool returns.",
+  "validation_method": "PNG dimensions, alpha presence and input/output SHA-256 checked programmatically; material, lighting and no-text checks are visual. Normalized silhouette IoU samples the returned alpha at normalized guide pixel centers for diagnostics only; no image file was resized or edited.",
+  "remaining_limitations": [
+    "Exact guide silhouettes and all internal part boundaries were not preserved.",
+    "Residual highlights and shading remain; these are not fully flat albedo sources.",
+    "Right-side crystal visibility and several claw shapes differ from their guides."
+  ],
+  "scope": "Image generation only. Authored files are confined to this directory. No builds, runtime integration or image postprocessing."
+}

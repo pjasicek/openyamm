@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png exactly following this brief. Input image roles: paint_mask_guide.png is the edit target and authoritative pixel layout/silhouette; design_reference.png is material/detail reference; icon_x8.png is colour reference only (ignore magenta background).\nOutput ONE transparent PNG, 3:4 canvas, 1536x2048 or nearest 3:4 size. Preserve all ten silhouettes' exact relative position, size, outline and view orientation. Three columns by FOUR rows of equal square cells: FRONT, BACK, LEFT / RIGHT, TOP, EMPTY / FRONT, BACK, LEFT / RIGHT, TOP, EMPTY. Do not move, enlarge, redraw or redesign the objects. Keep all gaps/openings transparent and both empty cells transparent.\nRows 1\u20132 PAINT: unlit base colour of a rounded bronze-brown STEEL skullcap with broad steel brow band, two crossing steel bands over dome with rivets, small knob at top and straight steel nasal bar. Follow approved design reference material details and original icon colours, fit to exact guide geometry. Dome is dark bronze-brown steel, bands/rivets/knob/nasal are worn silver-grey steel. Fine surface wear and mottling as reference. No illumination gradients, cast shadows, ambient occlusion, hot highlights/reflections. No added ornament.\nRows 3\u20134 MATERIAL MASK: all five silhouettes must be filled entirely FLAT PURE RED #FF0000 because EVERY part of this helmet is METAL including the bronze-brown dome. Solid uniformly red silhouettes, absolutely no internal detail, shading, texture, outlines or antialiased colour blends inside. Material rules if needed: metal red #FF0000; leather/fur green #00FF00; cloth/hair blue #0000FF; gemstone/glass/enamel/liquid black #000000; matte non-metal solids yellow #FFFF00. This helmet has only metal so use only pure red throughout the lower five silhouettes.\nNo background, ground, text, labels, borders, glow, sparkles or aura. Preserve alpha outside silhouettes. Paint grey objects only.\nCRITICAL CORRECTION: The previous attempt had red splatter/noise outside the bottom silhouettes. Absolutely no scattered pixels, splatter, clouds, texture or red outside shapes. Lower half must contain exactly FIVE CLEAN solid flat-red shapes with crisp boundaries matching the guide, surrounded by completely transparent empty space. Preserve the guide silhouettes exactly. Upper five painted views stay within their exact guide silhouettes as well. Canvas must be exactly 3:4.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad28-e9dc-78e3-b3cb-f4b65df88eb7/exec-92cadf10-2efa-4359-8f87-179c74d64e88.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10117/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Corrective output still has visible stray red pixels outside mask silhouettes; retained raw unchanged as requested.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10117/paint_mask_guide.png",
+      "sha256": "998cb60ad85504a626161b79a5bb9bf6b3d8fe7737909f0cd885f2d993fa91df"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10117/design_reference.png",
+      "sha256": "524107802de3071ad50046585f4f2fbb7140f3ea7fd1b355282827f0eef8e217"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10117/icon_x8.png",
+      "sha256": "fb8030bf7f90a0cbfcdfddc965fbf576fd4dd56a8013517a9fcf3e67b2df63b5"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ]
+}

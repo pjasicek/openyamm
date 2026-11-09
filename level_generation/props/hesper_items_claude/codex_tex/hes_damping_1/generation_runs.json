@@ -1,0 +1,620 @@
+{
+  "status": "Five selected raw paintings saved; strict silhouette/alpha and lighting requirements not fully met after the maximum allowed one correction per view.",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "postprocessing": "none; all returns copied byte-for-byte, including alpha and original dimensions",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper energy-damping item.\nInput image 1 is the exact orthographic guide to repaint; input image 2 is the approved design_reference.png, used ONLY for surface colours, materials and markings.\nOutput one 1024 x 1024 RGBA PNG with a genuinely transparent background. Paint directly inside image 1's existing alpha silhouette, retaining every opaque pixel's position, scale, outline and every part's edge exactly. The full square canvas, large empty margins and orthographic camera are mandatory. Never crop, recenter, enlarge, rotate, tilt or reshape the object. Do not copy image 2's perspective or silhouette.\nTransfer the design reference's materials onto corresponding guide parts: softly worn warm white ceramic on light-grey ceramic pieces, muted brushed antique gold on the pale-yellow gold body and contacts, black-violet/brown resin-leather on the beige central pad, bright cyan-white crystal on the pale-cyan indicator. Fine restrained engraving, seams, panel joins, scratches and wear should match the design reference. Where this view shows unseen side/underside surfaces, continue the same materials plausibly.\nLIGHTING: unlit/albedo texture source, even flat shadowless viewer light. Remove all cast shadows from the guide. No ambient occlusion, directional gradients, darkened bevels, strong specular highlights, reflections, rim light, glow bloom, floor or background. Metal is its base colour with only faint sheen. Bright glowing parts are painted light colour without spill. No text, letters, numbers, labels or watermark. Surface details stay entirely inside their assigned part boundaries; add no geometry.\nVIEW: FRONT, exactly the thin edge-on horizontal band of guide_front.png. Geometry bounds are x=97..926 and y=430..593 on the 1024 square. The gold body occupies x\u2248143..880,y\u2248466..593; ceramic caps at the two ends of the upper edge; thin dark resin/leather strip between them at y\u2248430..466. The four small contact tips at x\u2248427,483,539,595 and y\u2248544 remain exactly where the guide has them, viewed end-on; do not extend them downward and do not add a fifth. Do not reveal the top face and do not add a blue indicator on this front view.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "4fc5779bcc3b6b6f70b99ab48da1f43bd1ddbb81f4c016ee39ea315469af0421"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "7f84c14af0f9e4d47fea0b4c353b7c6bcf4438294d70200d321fb590297d6b3b"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-afb6a030-9aaa-4a91-8242-af6269e2ca77.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return improves guide coverage or flat albedo. Original retained without modification.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "cc114287a0a90409ac606e9d3c5772afae74414fe4453830065da50e8136e777",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          43,
+          41,
+          1170,
+          1230
+        ],
+        "opaque_bbox": [
+          125,
+          541,
+          1130,
+          722
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.8698729427816151,
+        "opaque_pixels_outside_normalized_guide": 2030,
+        "guide_pixels_missing_normalized": 22386,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 3482,
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper energy-damping item.\nInput image 1 is the approved design_reference.png, used ONLY for surface colours, materials and markings. Input image 2, the LAST IMAGE, is the exact 1024x1024 orthographic guide to repaint.\nOutput one 1024 x 1024 RGBA PNG with a genuinely transparent background. Paint directly inside image 2's existing alpha silhouette, retaining every opaque pixel's position, scale, outline and every part's edge exactly. The full square canvas, large empty margins and orthographic camera are mandatory. Never crop, recenter, enlarge, rotate, tilt or reshape the object. Do not copy image 1's perspective, silhouette or 1254x1254 canvas size.\nTransfer the design reference's materials onto corresponding guide parts: softly worn warm white ceramic on light-grey ceramic pieces, muted brushed antique gold on the pale-yellow gold body and contacts, black-violet/brown resin-leather on the beige central pad, bright cyan-white crystal on the pale-cyan indicator. Fine restrained engraving, seams, panel joins, scratches and wear should match the design reference. Where this view shows unseen side/underside surfaces, continue the same materials plausibly.\nLIGHTING: unlit/albedo texture source, even flat shadowless viewer light. Remove all cast shadows from the guide. No ambient occlusion, directional gradients, darkened bevels, strong specular highlights, reflections, rim light, glow bloom, floor or background. Metal is its base colour with only faint sheen. Bright glowing parts are painted light colour without spill. No text, letters, numbers, labels or watermark. Surface details stay entirely inside their assigned part boundaries; add no geometry.\nVIEW: FRONT. Repaint image 2, guide_front.png, not image 1. The image is 1024 pixels square with the object restricted to the thin horizontal band at x=97..926 and y=430..593. Retain the broad transparent margins above and below. Gold side body x\u2248143..880, y\u2248466..593; white ceramic upper end caps; thin black-violet resin/leather strip at y\u2248430..466; four end-on gold contact tips at x\u2248427,483,539,595, y\u2248544, staying inside the body outline. No top-face view, no blue light on this face.\nCORRECTION PRIORITY: exact guide registration and FLAT ALBEDO. All parts must be precisely traced from the last input, including the original straight flat bottom edge, sharp angular cap edges and asymmetric widths. Uniform subdued ochre-gold base colour, barely visible fine brushing and modest wear; NO yellow-white highlights, bright edge outlines, glossy gold reflections or darkened lower bevels. Ceramic is uniform warm off-white without lower-edge shadow. Contact ends have the same albedo as their sides. Entirely remove the guide's diagonal cast shadows. All original transparent pixels must stay fully transparent; no speckles or distant alpha residue. Output 1024x1024.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7f84c14af0f9e4d47fea0b4c353b7c6bcf4438294d70200d321fb590297d6b3b"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "4fc5779bcc3b6b6f70b99ab48da1f43bd1ddbb81f4c016ee39ea315469af0421"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-121f57fd-db47-4216-88e0-755bbb6835bb.png",
+      "output": "paint_front_attempt2.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for closer normalized guide silhouette (90.76% overlap versus 86.99%) and reduced broad metallic glare. It still enlarges the silhouette, extends contact tips, retains bevel highlights/shading, and is not a strict albedo or silhouette pass.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "8374832f10abb5f0f3b5b9274e825ea731b9fff71b28d91156d0502a01455fa7",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          22,
+          1226,
+          1214
+        ],
+        "opaque_bbox": [
+          98,
+          519,
+          1158,
+          736
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.9076425022495207,
+        "opaque_pixels_outside_normalized_guide": 18886,
+        "guide_pixels_missing_normalized": 0,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 32610,
+        "strict_brief_pass": false
+      },
+      "selected_output": "paint_front.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper energy-damping item.\nInput image 1 is the approved design_reference.png, used ONLY for surface colours, materials and markings. Input image 2, the LAST IMAGE, is the exact 1024x1024 orthographic guide to repaint.\nOutput one 1024 x 1024 RGBA PNG with a genuinely transparent background. Paint directly inside image 2's existing alpha silhouette, retaining every opaque pixel's position, scale, outline and every part's edge exactly. The full square canvas, large empty margins and orthographic camera are mandatory. Never crop, recenter, enlarge, rotate, tilt or reshape the object. Do not copy image 1's perspective, silhouette or 1254x1254 canvas size.\nTransfer the design reference's materials onto corresponding guide parts: softly worn warm white ceramic on light-grey ceramic pieces, muted brushed antique gold on the pale-yellow gold body and contacts, black-violet/brown resin-leather on the beige central pad, bright cyan-white crystal on the pale-cyan indicator. Fine restrained engraving, seams, panel joins, scratches and wear should match the design reference. Where this view shows unseen side/underside surfaces, continue the same materials plausibly.\nLIGHTING: unlit/albedo texture source, even flat shadowless viewer light. Remove all cast shadows from the guide. No ambient occlusion, directional gradients, darkened bevels, strong specular highlights, reflections, rim light, glow bloom, floor or background. Metal is its base colour with only faint sheen. Bright glowing parts are painted light colour without spill. No text, letters, numbers, labels or watermark. Surface details stay entirely inside their assigned part boundaries; add no geometry.\nVIEW: BACK, strictly the thin edge-on horizontal band of guide_back.png, no top face exposed. Preserve x=97..926, y=430..593 within the 1024x1024 canvas. Gold body x\u2248143..880,y\u2248466..593. Thin dark resin/leather upper strip between the white ceramic end caps. The one pale-cyan rectangle at x\u2248249..354,y\u2248463..512 is the blue-white crystal indicator, and it MUST stay at that left-of-center position with exactly that rectangular shape. Do not center, enlarge or relocate it. No contact pins in this back view. Faint etched seams and wear only, flat matte gold base colour, uniformly off-white ceramic; no hot highlights, cast shadows or darkened bevels. Keep guide registration pixel-perfect.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7f84c14af0f9e4d47fea0b4c353b7c6bcf4438294d70200d321fb590297d6b3b"
+        },
+        {
+          "file": "guide_back.png",
+          "sha256": "611c944f3b17daf5f7057519d4293c51970e67b65ea8d06ae0210756430eaf53"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-413c8456-81ba-4e4b-9966-cf5dde6d0849.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return improves guide coverage or flat albedo. Original retained without modification.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "e1da07b5856554b63b6d86fc42c5d50052bcb86a1b65da77156e79493fafb4fc",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          51,
+          89,
+          1186,
+          1150
+        ],
+        "opaque_bbox": [
+          114,
+          554,
+          1140,
+          729
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.8223830964970258,
+        "opaque_pixels_outside_normalized_guide": 8062,
+        "guide_pixels_missing_normalized": 26336,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 17978,
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Repaint the supplied 1024x1024 guide in place as a FLAT UNLIT ALBEDO texture source for hes_damping_1. This is the single corrective pass. Output one 1024x1024 PNG with actual transparency.\nThe attached guide is the edit target and absolute geometry authority. KEEP ITS EXACT ALPHA MASK, absolute coordinates, overall scale, every part boundary and outline. Keep the square canvas and all its empty transparent margins unchanged. NO reframing, zoom, camera change, perspective, edge rounding, enlarged parts or extra geometry. Change ONLY surface colours and material patterns.\nApproved design materials: white ceramic with fine warm hairline wear; subdued brushed antique gold; near-black violet/brown resin-leather with fine worn brown grain; cyan-blue white glass/crystal for the small light indicator. In the guide, light-grey pieces are white ceramic, pale-yellow pieces are GOLD, the beige central area is dark resin/leather, and pale-cyan is the light indicator. The pale guide colours are labels, not colours to copy.\nCRITICAL LIGHTING CORRECTION: produce a DIFFUSE BASE-COLOUR PASS, not a beauty render. Gold is a uniform middle ochre-yellow base with faint fine brushing. White ceramic is uniformly soft ivory. Dark resin stays a consistent dark violet-brown. Remove EVERY cast shadow and ambient-occlusion region in the guide. Same base colour on front and bevel faces; no lower-face darkening, shiny edges, metallic glare, rim light, gradients, bloom or reflections. Shallow engraved lines and fine wear are painted subtle pigment variations only. No fake depth shadows. Transparent pixels stay exactly transparent, no background speckles. No text, symbols, letters, numbers or labels.\nBACK view. Copy the supplied narrow horizontal silhouette exactly at x=97..926,y=430..593. Its long gold side plate, thin dark upper strip and two ivory end caps remain exactly fixed. The small cyan-white indicator rectangle stays at x=249..354,y=463..512; no bevel frame outside that rectangle. No pins. Invisible faces continue the same materials. No face is moved or enlarged. Do not reveal the top surface.",
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "611c944f3b17daf5f7057519d4293c51970e67b65ea8d06ae0210756430eaf53"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-d0a563fd-34f8-4540-9b74-6c5125dd0939.png",
+      "output": "paint_back_attempt2.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter albedo and closer guide layout. Kept unresized. Exact silhouette/alpha fidelity is not achieved.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Substantially flatter albedo with no strong metallic glare; faint bevel/edge shading remains.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "41c02940206db20b92f42ccd67a940ac51e1f2d5c2e42a68f7f8d94944a831a2",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          57,
+          96,
+          1168,
+          1188
+        ],
+        "opaque_bbox": [
+          118,
+          527,
+          1136,
+          727
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.9895588117543438,
+        "opaque_pixels_outside_normalized_guide": 1733,
+        "guide_pixels_missing_normalized": 223,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Substantially flatter albedo with no strong metallic glare; faint bevel/edge shading remains.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 16595,
+        "strict_brief_pass": false
+      },
+      "selected_output": "paint_back.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper energy-damping item.\nInput image 1 is the approved design_reference.png, used ONLY for surface colours, materials and markings. Input image 2, the LAST IMAGE, is the exact 1024x1024 orthographic guide to repaint.\nOutput one 1024 x 1024 RGBA PNG with a genuinely transparent background. Paint directly inside image 2's existing alpha silhouette, retaining every opaque pixel's position, scale, outline and every part's edge exactly. The full square canvas, large empty margins and orthographic camera are mandatory. Never crop, recenter, enlarge, rotate, tilt or reshape the object. Do not copy image 1's perspective, silhouette or 1254x1254 canvas size.\nTransfer the design reference's materials onto corresponding guide parts: softly worn warm white ceramic on light-grey ceramic pieces, muted brushed antique gold on the pale-yellow gold body and contacts, black-violet/brown resin-leather on the beige central pad, bright cyan-white crystal on the pale-cyan indicator. Fine restrained engraving, seams, panel joins, scratches and wear should match the design reference. Where this view shows unseen side/underside surfaces, continue the same materials plausibly.\nLIGHTING: unlit/albedo texture source, even flat shadowless viewer light. Remove all cast shadows from the guide. No ambient occlusion, directional gradients, darkened bevels, strong specular highlights, reflections, rim light, glow bloom, floor or background. Metal is its base colour with only faint sheen. Bright glowing parts are painted light colour without spill. No text, letters, numbers, labels or watermark. Surface details stay entirely inside their assigned part boundaries; add no geometry.\nVIEW: LEFT, strictly the thin edge-on horizontal band of guide_left.png, no top face exposed. Preserve x=66..957, y=430..593 within the 1024x1024 canvas. Gold body x\u2248112..848,y\u2248466..593; ceramic upper-left cap x\u224866..264 and upper-right cap x\u2248752..896, central thin black-violet resin/leather strip. The pale-gold horizontal contact projects to the RIGHT at x\u2248848..957,y\u2248526..560; preserve exactly that single overlapping-contact silhouette. Tiny cyan indicator peeks out at the LEFT at x\u224898..111,y\u2248488..512. No other protrusions. Faint etched seams and wear only, flat matte gold base colour, uniformly off-white ceramic; no hot highlights, cast shadows or darkened bevels. Keep guide registration pixel-perfect.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7f84c14af0f9e4d47fea0b4c353b7c6bcf4438294d70200d321fb590297d6b3b"
+        },
+        {
+          "file": "guide_left.png",
+          "sha256": "8dee95c5bc859e499878a97cc0495168825273afdb91a5bc358b2358a4e5a9d4"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-3b9edd6c-04a2-4ef1-8fec-65de7a6999dd.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return improves guide coverage or flat albedo. Original retained without modification.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "e41d299efbd9689ed8a7cf758ce7538c8297b2048c0c0141b6decffa11f10d51",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1224,
+          1254
+        ],
+        "opaque_bbox": [
+          84,
+          531,
+          1170,
+          723
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.9245186441379025,
+        "opaque_pixels_outside_normalized_guide": 2269,
+        "guide_pixels_missing_normalized": 12330,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 3798,
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Repaint the supplied 1024x1024 guide in place as a FLAT UNLIT ALBEDO texture source for hes_damping_1. This is the single corrective pass. Output one 1024x1024 PNG with actual transparency.\nThe attached guide is the edit target and absolute geometry authority. KEEP ITS EXACT ALPHA MASK, absolute coordinates, overall scale, every part boundary and outline. Keep the square canvas and all its empty transparent margins unchanged. NO reframing, zoom, camera change, perspective, edge rounding, enlarged parts or extra geometry. Change ONLY surface colours and material patterns.\nApproved design materials: white ceramic with fine warm hairline wear; subdued brushed antique gold; near-black violet/brown resin-leather with fine worn brown grain; cyan-blue white glass/crystal for the small light indicator. In the guide, light-grey pieces are white ceramic, pale-yellow pieces are GOLD, the beige central area is dark resin/leather, and pale-cyan is the light indicator. The pale guide colours are labels, not colours to copy.\nCRITICAL LIGHTING CORRECTION: produce a DIFFUSE BASE-COLOUR PASS, not a beauty render. Gold is a uniform middle ochre-yellow base with faint fine brushing. White ceramic is uniformly soft ivory. Dark resin stays a consistent dark violet-brown. Remove EVERY cast shadow and ambient-occlusion region in the guide. Same base colour on front and bevel faces; no lower-face darkening, shiny edges, metallic glare, rim light, gradients, bloom or reflections. Shallow engraved lines and fine wear are painted subtle pigment variations only. No fake depth shadows. Transparent pixels stay exactly transparent, no background speckles. No text, symbols, letters, numbers or labels.\nLEFT view. Copy the supplied narrow horizontal silhouette exactly at x=66..957,y=430..593. Its gold body x=112..848,y=466..593, dark top strip, two ivory upper caps, small RIGHT-projecting gold contact x=848..957,y=526..560 and tiny LEFT cyan light remain precisely fixed. No inset vent or other added geometry; only fine surface grain and subtle seams. Do not reveal the top surface.",
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "8dee95c5bc859e499878a97cc0495168825273afdb91a5bc358b2358a4e5a9d4"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-4c6feda4-cecc-400f-99f5-229f7f0c33c9.png",
+      "output": "paint_left_attempt2.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter albedo and closer guide layout. Kept unresized. Exact silhouette/alpha fidelity is not achieved.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Substantially flatter albedo with no strong metallic glare; faint bevel/edge shading remains.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "15b6848a649c4197a98525b070af9213f704f98e730335efec94f85fbe2499bd",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          47,
+          1184,
+          1222
+        ],
+        "opaque_bbox": [
+          80,
+          526,
+          1174,
+          727
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.9838177541472152,
+        "opaque_pixels_outside_normalized_guide": 3144,
+        "guide_pixels_missing_normalized": 0,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Substantially flatter albedo with no strong metallic glare; faint bevel/edge shading remains.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 16168,
+        "strict_brief_pass": false
+      },
+      "selected_output": "paint_left.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper energy-damping item.\nInput image 1 is the approved design_reference.png, used ONLY for surface colours, materials and markings. Input image 2, the LAST IMAGE, is the exact 1024x1024 orthographic guide to repaint.\nOutput one 1024 x 1024 RGBA PNG with a genuinely transparent background. Paint directly inside image 2's existing alpha silhouette, retaining every opaque pixel's position, scale, outline and every part's edge exactly. The full square canvas, large empty margins and orthographic camera are mandatory. Never crop, recenter, enlarge, rotate, tilt or reshape the object. Do not copy image 1's perspective, silhouette or 1254x1254 canvas size.\nTransfer the design reference's materials onto corresponding guide parts: softly worn warm white ceramic on light-grey ceramic pieces, muted brushed antique gold on the pale-yellow gold body and contacts, black-violet/brown resin-leather on the beige central pad, bright cyan-white crystal on the pale-cyan indicator. Fine restrained engraving, seams, panel joins, scratches and wear should match the design reference. Where this view shows unseen side/underside surfaces, continue the same materials plausibly.\nLIGHTING: unlit/albedo texture source, even flat shadowless viewer light. Remove all cast shadows from the guide. No ambient occlusion, directional gradients, darkened bevels, strong specular highlights, reflections, rim light, glow bloom, floor or background. Metal is its base colour with only faint sheen. Bright glowing parts are painted light colour without spill. No text, letters, numbers, labels or watermark. Surface details stay entirely inside their assigned part boundaries; add no geometry.\nVIEW: RIGHT, strictly the thin edge-on horizontal band of guide_right.png, no top face exposed. Preserve x=66..957, y=430..593 within the 1024x1024 canvas. Gold body x\u2248174..910,y\u2248466..593; ceramic upper-left cap x\u2248127..326 and upper-right cap x\u2248814..957, central thin black-violet resin/leather strip. The pale-gold horizontal contact projects to the LEFT at x\u224866..174,y\u2248526..560; preserve exactly that single overlapping-contact silhouette. Tiny cyan indicator peeks out at the RIGHT at x\u2248911..925,y\u2248467..512. No other protrusions. Faint etched seams and wear only, flat matte gold base colour, uniformly off-white ceramic; no hot highlights, cast shadows or darkened bevels. Keep guide registration pixel-perfect.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7f84c14af0f9e4d47fea0b4c353b7c6bcf4438294d70200d321fb590297d6b3b"
+        },
+        {
+          "file": "guide_right.png",
+          "sha256": "81dc1007d599e58fcbb6542ea5e04ac3078c4ef00a1ece20a612706416dd13da"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-181758a5-e366-4752-8817-e82c5991b41b.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return improves guide coverage or flat albedo. Original retained without modification.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "bdb4d02511b0e141a0effae12639ded78d2184e8bdf3ceaf54de0810adc67c88",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          33,
+          21,
+          1238,
+          1207
+        ],
+        "opaque_bbox": [
+          79,
+          527,
+          1175,
+          727
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.9819218274529156,
+        "opaque_pixels_outside_normalized_guide": 3401,
+        "guide_pixels_missing_normalized": 116,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 11785,
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Repaint the supplied 1024x1024 guide in place as a FLAT UNLIT ALBEDO texture source for hes_damping_1. This is the single corrective pass. Output one 1024x1024 PNG with actual transparency.\nThe attached guide is the edit target and absolute geometry authority. KEEP ITS EXACT ALPHA MASK, absolute coordinates, overall scale, every part boundary and outline. Keep the square canvas and all its empty transparent margins unchanged. NO reframing, zoom, camera change, perspective, edge rounding, enlarged parts or extra geometry. Change ONLY surface colours and material patterns.\nApproved design materials: white ceramic with fine warm hairline wear; subdued brushed antique gold; near-black violet/brown resin-leather with fine worn brown grain; cyan-blue white glass/crystal for the small light indicator. In the guide, light-grey pieces are white ceramic, pale-yellow pieces are GOLD, the beige central area is dark resin/leather, and pale-cyan is the light indicator. The pale guide colours are labels, not colours to copy.\nCRITICAL LIGHTING CORRECTION: produce a DIFFUSE BASE-COLOUR PASS, not a beauty render. Gold is a uniform middle ochre-yellow base with faint fine brushing. White ceramic is uniformly soft ivory. Dark resin stays a consistent dark violet-brown. Remove EVERY cast shadow and ambient-occlusion region in the guide. Same base colour on front and bevel faces; no lower-face darkening, shiny edges, metallic glare, rim light, gradients, bloom or reflections. Shallow engraved lines and fine wear are painted subtle pigment variations only. No fake depth shadows. Transparent pixels stay exactly transparent, no background speckles. No text, symbols, letters, numbers or labels.\nRIGHT view. Copy the supplied narrow horizontal silhouette exactly at x=66..957,y=430..593. Its gold body x=174..910,y=466..593, dark top strip, two ivory upper caps, small LEFT-projecting gold contact x=66..174,y=526..560 and tiny RIGHT cyan light remain precisely fixed. No added geometry; only fine surface grain and subtle seams. Do not reveal the top surface.",
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "81dc1007d599e58fcbb6542ea5e04ac3078c4ef00a1ece20a612706416dd13da"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-719179bd-faaa-40a9-b6af-f33e449dc70e.png",
+      "output": "paint_right_attempt2.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter albedo and closer guide layout. Kept unresized. Exact silhouette/alpha fidelity is not achieved.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Substantially flatter albedo with no strong metallic glare; faint bevel/edge shading remains.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "30e806467572e53bb9c6c1560a7ddc3bc179e1fcadebd9395fd9b6d2afbd4011",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          31,
+          1220,
+          1221
+        ],
+        "opaque_bbox": [
+          80,
+          527,
+          1174,
+          725
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.9853365446870225,
+        "opaque_pixels_outside_normalized_guide": 1922,
+        "guide_pixels_missing_normalized": 909,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Substantially flatter albedo with no strong metallic glare; faint bevel/edge shading remains.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 15754,
+        "strict_brief_pass": false
+      },
+      "selected_output": "paint_right.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the Hesper energy-damping item.\nInput image 1 is the approved design_reference.png, used ONLY for surface colours, materials and markings. Input image 2, the LAST IMAGE, is the exact 1024x1024 orthographic guide to repaint.\nOutput one 1024 x 1024 RGBA PNG with a genuinely transparent background. Paint directly inside image 2's existing alpha silhouette, retaining every opaque pixel's position, scale, outline and every part's edge exactly. The full square canvas, large empty margins and orthographic camera are mandatory. Never crop, recenter, enlarge, rotate, tilt or reshape the object. Do not copy image 1's perspective, silhouette or 1254x1254 canvas size.\nTransfer the design reference's materials onto corresponding guide parts: softly worn warm white ceramic on light-grey ceramic pieces, muted brushed antique gold on the pale-yellow gold body and contacts, black-violet/brown resin-leather on the beige central pad, bright cyan-white crystal on the pale-cyan indicator. Fine restrained engraving, seams, panel joins, scratches and wear should match the design reference. Where this view shows unseen side/underside surfaces, continue the same materials plausibly.\nLIGHTING: unlit/albedo texture source, even flat shadowless viewer light. Remove all cast shadows from the guide. No ambient occlusion, directional gradients, darkened bevels, strong specular highlights, reflections, rim light, glow bloom, floor or background. Metal is its base colour with only faint sheen. Bright glowing parts are painted light colour without spill. No text, letters, numbers, labels or watermark. Surface details stay entirely inside their assigned part boundaries; add no geometry.\nVIEW: TOP, looking straight down, strictly the orthographic guide_top.png. Preserve all edges and layout exactly within the 1024x1024 canvas: silhouette bounds x=97..926,y=66..957; flat gold rounded-square frame x\u2248143..880,y\u2248112..850; beige central rounded square x\u2248240..783,y\u2248210..752 becomes the reference's black-violet/brown overlapping broad resin/leather bands, with thin orange energy seams painted between the bands, entirely inside that rounded-square boundary. Surface pattern only, never raise or alter the central pad geometry. White ceramic diagonal cap at upper-left x\u224897..295,y\u224866..264 and matching diagonal cap at lower-right x\u2248728..926,y\u2248697..896: preserve exactly TWO ceramic caps. Do not add extra caps or long white side rails from the design illustration. Pale-cyan rectangular indicator x\u2248669..775,y\u224898..141 becomes bright cyan-white glass without glow spill. EXACTLY FOUR gold contact fingers point downward from the bottom at x\u2248414..441,470..497,526..553,582..609, y\u2248850..957. Preserve their count, shape, size and spacing, despite the differing illustration. Paint faint panel/engraving marks on existing gold frame only, restrained wear on ceramic. Absolutely no perspective, projected shadows from caps or contacts, ambient occlusion around the center, rim highlights, metallic glare or luminous spill. The orange seams are flat bright orange albedo.",
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "7f84c14af0f9e4d47fea0b4c353b7c6bcf4438294d70200d321fb590297d6b3b"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "1cc87012095655672079f2ef3f1d3d777dafc9dddd0a75d58c87fd19918fd3a5"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-14a45a1f-dbfa-4839-af15-6aa512db8429.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: the sole corrective return improves guide coverage or flat albedo. Original retained without modification.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "lighting": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "8091c5ae1b6173f696bb073b3f546ee622bd58500524388b2349ce43d7115581",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1253,
+          1254
+        ],
+        "opaque_bbox": [
+          115,
+          78,
+          1142,
+          1178
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.9724490855593377,
+        "opaque_pixels_outside_normalized_guide": 23706,
+        "guide_pixels_missing_normalized": 171,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Fails strict flat albedo: bevel highlights, darkened edges and shading remain.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown resin/leather and visible-view indicator colours agree with the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 44482,
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Repaint the supplied 1024x1024 guide in place as a FLAT UNLIT ALBEDO texture source for hes_damping_1. This is the single corrective pass. Output one 1024x1024 PNG with actual transparency.\nThe attached guide is the edit target and absolute geometry authority. KEEP ITS EXACT ALPHA MASK, absolute coordinates, overall scale, every part boundary and outline. Keep the square canvas and all its empty transparent margins unchanged. NO reframing, zoom, camera change, perspective, edge rounding, enlarged parts or extra geometry. Change ONLY surface colours and material patterns.\nApproved design materials: white ceramic with fine warm hairline wear; subdued brushed antique gold; near-black violet/brown resin-leather with fine worn brown grain; cyan-blue white glass/crystal for the small light indicator. In the guide, light-grey pieces are white ceramic, pale-yellow pieces are GOLD, the beige central area is dark resin/leather, and pale-cyan is the light indicator. The pale guide colours are labels, not colours to copy.\nCRITICAL LIGHTING CORRECTION: produce a DIFFUSE BASE-COLOUR PASS, not a beauty render. Gold is a uniform middle ochre-yellow base with faint fine brushing. White ceramic is uniformly soft ivory. Dark resin stays a consistent dark violet-brown. Remove EVERY cast shadow and ambient-occlusion region in the guide. Same base colour on front and bevel faces; no lower-face darkening, shiny edges, metallic glare, rim light, gradients, bloom or reflections. Shallow engraved lines and fine wear are painted subtle pigment variations only. No fake depth shadows. Transparent pixels stay exactly transparent, no background speckles. No text, symbols, letters, numbers or labels.\nTOP view. Copy the supplied top-down silhouette exactly at x=97..926,y=66..957. Keep gold frame x=143..880,y=112..850; EXACTLY TWO ivory diagonal corner caps upper left and lower right; small cyan light x=669..775,y=98..141; EXACTLY FOUR downward gold contact fingers at x=414..441,470..497,526..553,582..609,y=850..957. Repaint the beige central rounded square x=240..783,y=210..752 with broad overlapping diagonal black-violet/brown resin-leather bands like crisscrossed broad straps, with fine parallel incised lines and restrained brown wear. Narrow flat orange energy seams show BETWEEN bands; orange pigment only, no bright centers, bloom, reflection or illumination of neighboring material. Band pattern confined inside the existing rounded square, without modifying its boundary or adding shadows/depth. All gold, ceramic and contact faces are evenly coloured without shaded bevels. Absolutely remove the guide's cap/contact cast shadows and bottom-edge darkening.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "1cc87012095655672079f2ef3f1d3d777dafc9dddd0a75d58c87fd19918fd3a5"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dbb-be20-74e1-bfba-f3618b414095/exec-f7147f19-2a41-4c2e-9c2d-455f0bf8b131.png",
+      "output": "paint_top_attempt2.png",
+      "selected": true,
+      "reason": "Selected the sole corrective return for flatter albedo and closer guide layout. Kept unresized. Exact silhouette/alpha fidelity is not achieved.",
+      "visual_checks": {
+        "materials": "Gold, white ceramic, dark violet-brown bands, cyan indicator and orange seams preserved; woven pattern simplified relative to the design reference.",
+        "lighting": "Substantially flatter albedo with no strong metallic glare; faint bevel/edge shading remains.",
+        "text_or_letters": "None observed.",
+        "silhouette": "Not identical; inspect recorded alpha and normalized silhouette metrics.",
+        "transparency": "RGBA transparent background present; nonzero edge residue is retained in the unmodified return."
+      },
+      "output_sha256": "2247f5c54e7b62018c0117b9e4ad60a88e571e80175ca739917c1dba3ace8ba2",
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "rgba": true,
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          2,
+          1176,
+          1230
+        ],
+        "opaque_bbox": [
+          117,
+          78,
+          1137,
+          1175
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "matches_requested_size": false,
+        "alpha_identical_to_guide": false,
+        "silhouette_iou_normalized_to_return_size": 0.9904857697807744,
+        "opaque_pixels_outside_normalized_guide": 8097,
+        "guide_pixels_missing_normalized": 0,
+        "text_or_letters_visual_check": "None observed.",
+        "flat_shadowless_albedo_visual_check": "Substantially flatter albedo with no strong metallic glare; faint bevel/edge shading remains.",
+        "materials_visual_check": "Gold, white ceramic, dark violet-brown bands, cyan indicator and orange seams preserved; woven pattern simplified relative to the design reference.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 37572,
+        "strict_brief_pass": false
+      },
+      "selected_output": "paint_top.png"
+    }
+  ]
+}

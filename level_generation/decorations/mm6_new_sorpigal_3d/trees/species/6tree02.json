@@ -1,0 +1,68 @@
+{
+ "sprite": "6tree02",
+ "output": "mm6_deco_tree02.glb",
+ "height_m": 8.1,
+ "note": "103 placements. Tall, dense rounded crown reaching low, frosty yellow-green highlights, short trunk.",
+ "sapling": {
+  "scale": 5.73,
+  "baseSize": 0.1,
+  "splitHeight": 0.28,
+  "attractUp": [
+   0,
+   0.8,
+   0.4,
+   0
+  ],
+  "downAngle": [
+   90,
+   40,
+   40,
+   45
+  ],
+  "seed": 21,
+  "ratio": 0.045
+ },
+ "crown": {
+  "canopy_low": 0.17,
+  "centre": 0.525,
+  "clumps": 163,
+  "inner_clumps": 29,
+  "card": [
+   0.42,
+   0.52
+  ],
+  "gap": 0.68
+ },
+ "bark": {
+  "target_srgb": [
+   91,
+   69,
+   49
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   121,
+   186,
+   84
+  ],
+  "jitter_red": [
+   0.85,
+   1.25
+  ],
+  "jitter_blue": [
+   0.8,
+   1.2
+  ],
+  "value": [
+   0.8,
+   1.45
+  ],
+  "seeds": [
+   61,
+   73,
+   87,
+   92
+  ]
+ }
+}

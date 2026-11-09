@@ -1,0 +1,49 @@
+- descriptor: D3 Krav stand-in
+  model: worlds/hesper/models/hes_kreegan_trooper.glb
+  skin: hkr_a
+  scale: 136.32103108
+  yaw_offset: -1.570796327
+  animation:
+    cast: Carbine_Attack
+    run: Carbine_Running
+    stride_length: 1.217
+    run_stride_length: 2.946
+    upper_body_root: B_Spine
+    look:
+      nodes:
+      - B_Neck
+      - B_Head
+      max_yaw_degrees: 45
+      max_pitch_degrees: 25
+    sockets:
+      muzzle: Socket_Muzzle
+    events:
+      attack_melee:
+        impact: 0.367
+      attack_ranged:
+        impact: 0.367
+        release: muzzle
+  clips:
+    standing: Carbine_Standing
+    walking: Carbine_Walking
+    attack_melee: Carbine_Attack
+    attack_ranged: Carbine_Attack
+    hit: Carbine_Hit
+    dying: Carbine_Death
+    dead: Carbine_Dead
+    fidget: Carbine_Fidget
+  attachments:
+  - model: worlds/hesper/models/hes_kreegan_crest.glb
+    node: B_Head
+  - model: worlds/hesper/models/hes_kreegan_pauldron_l.glb
+    node: B_L_Pauldron
+  - model: worlds/hesper/models/hes_kreegan_spikes_l.glb
+    node: B_L_Spikes
+  - model: worlds/hesper/models/hes_kreegan_pauldron_r.glb
+    node: B_R_Pauldron
+  - model: worlds/hesper/models/hes_kreegan_spikes_r.glb
+    node: B_R_Spikes
+  - model: worlds/hesper/models/hes_kreegan_buckler.glb
+    node: B_L_Buckler
+  - model: worlds/hesper/models/hes_kreegan_carbine.glb
+    node: Rifle

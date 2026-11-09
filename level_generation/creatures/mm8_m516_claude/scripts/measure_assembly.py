@@ -1,0 +1,3 @@
+import bpy,json,numpy as np
+from pathlib import Path
+P=Path(__file__).resolve().parents[1];bpy.ops.wm.open_mainfile(filepath=str(P/'export/mm8_m516.blend'));r=bpy.data.objects['Rig'];b=bpy.data.objects['Body'];r.animation_data.action=bpy.data.actions['Standing'];bpy.context.scene.frame_set(1);ev=b.evaluated_get(bpy.context.evaluated_depsgraph_get());me=ev.to_mesh();co=np.array([ev.matrix_world@v.co for v in me.vertices]);ev.to_mesh_clear();d={'standing_body_height_m':float(np.ptp(co[:,2])),'standing_bounds_m':[co.min(0).tolist(),co.max(0).tolist()],'bones':len(r.data.bones),'triangles':len(b.data.polygons)};(P/'review/checks/assembly.json').write_text(json.dumps(d,indent=2)+'\n');print(d)

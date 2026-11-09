@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. This is a precise texture projection atlas, not a presentation illustration.\nThe guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 contain five grey orthographic renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat the exact same five views. Keep EVERY object in exactly the same position, size, outline and camera orientation as the grey guide. Paint grey objects only. Never redraw, enlarge, move, rotate or redesign them. Most views are thin edge-on curved strips with a boss sticking up: keep them thin and edge-on. Only the middle cell of row 2 and of row 4 is a broad oval view.\nRows 1-2 PAINT: unlit base colour, upright oval shield with alternating yellow-red curved quadrants, studded metal rim and blue-gray metal boss matching reference. Fine surface details follow reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. Preserve gaps and openings and make them fully transparent.\nRows 3-4 MATERIAL MASK: identical silhouettes filled with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 every metal part, including rim, studs and boss; pure green #00FF00 every leather part, padding, hide, suede or fur; pure yellow #FFFF00 every matte non-metal solid including painted wooden shield body; pure black #000000 gemstone, crystal, glass, pearl, enamel or liquid through glass. Every silhouette pixel exactly one material colour. Nothing outside silhouettes.\nEmpty cells column 3 row 2 and row 4 remain fully transparent. No ground, outlines, text, glow, halo, sparkles, aura or background. Preserve exact guide silhouette and placement throughout.\nCORRECTION PRIORITY: The prior attempt had stray red specks outside silhouettes and wrongly copied heraldic red paint into material labels. Start from the supplied clean grey guide geometry, keep silhouette edges absolutely clean with no detached pixels or overspray. In the lower half the ENTIRE wooden face must be solid #FFFF00 regardless of its heraldic painted colour. Only metal rim, studs and boss are #FF0000. No red heraldic quadrants in the material mask. No circles drawn around the boss, no stud outlines, no texture, no speckling. Keep top half unlit, no bright reflected highlights.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10207/paint_mask_guide.png",
+      "sha256": "38bf18e0cfef5302aaea0d42941ddeb3af68cf9586d019726a9054d69255b217"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10207/design_reference.png",
+      "sha256": "f34c470462e62e7d52d102490c1bc59c1d95392f3ac65d8023f829deb6cdcee7"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10207/icon_x8.png",
+      "sha256": "844a6845c3485304badea0c26965cca12f49f8d29c115b26801afdc848477236"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3d-da75-7d51-b57f-263333c819c0/exec-1a708ba8-3440-4d32-9d8d-6ec72298aee9.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10207/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained; visible stray mask pixels and non-flat mask colours remain after the single permitted correction."
+}

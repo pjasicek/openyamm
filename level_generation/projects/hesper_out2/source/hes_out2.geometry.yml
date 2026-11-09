@@ -1,0 +1,357 @@
+{
+ "version": 1,
+ "map_file": "hes_out2.odm",
+ "bmodels": [
+  {
+   "geometry_id": "hes_out2:conveyor",
+   "runtime_bmodel_index": 0,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/conveyor.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hmbelt",
+    "remaps": {
+     "hmbelt": "hmbelt",
+     "hmbeltsd": "hmbeltsd",
+     "hmgantry": "hmgantry",
+     "hmwall": "hmwall",
+     "hokspine": "hokspine",
+     "hompier": "hompier"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:stacks",
+   "runtime_bmodel_index": 1,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/stacks.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hmgantry",
+    "remaps": {
+     "hmgantry": "hmgantry",
+     "hokwall": "hokwall",
+     "homstack": "homstack"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:foundry",
+   "runtime_bmodel_index": 2,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/foundry.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hmgantry",
+    "remaps": {
+     "hmgantry": "hmgantry",
+     "hmgate": "hmgate",
+     "hokspine": "hokspine",
+     "hokwall": "hokwall",
+     "homroof": "homroof",
+     "homshed": "homshed"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:depot_shed_0",
+   "runtime_bmodel_index": 3,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/depot_shed_0.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hokwall",
+    "remaps": {
+     "hokwall": "hokwall",
+     "homdoor": "homdoor",
+     "homroof": "homroof",
+     "homshed": "homshed",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:depot_shed_1",
+   "runtime_bmodel_index": 4,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/depot_shed_1.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hokwall",
+    "remaps": {
+     "hokwall": "hokwall",
+     "homdoor": "homdoor",
+     "homroof": "homroof",
+     "homshed": "homshed",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:d03_wall",
+   "runtime_bmodel_index": 5,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/d03_wall.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hkblast",
+    "remaps": {
+     "hkblast": "hkblast",
+     "hkrib": "hkrib",
+     "hokspine": "hokspine",
+     "hokwall": "hokwall"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:d04_door",
+   "runtime_bmodel_index": 6,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/d04_door.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hkdoor",
+    "remaps": {
+     "hkdoor": "hkdoor",
+     "hkrib": "hkrib",
+     "hktrim": "hktrim",
+     "hokspine": "hokspine",
+     "hokwall": "hokwall"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:d04_cages",
+   "runtime_bmodel_index": 7,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/d04_cages.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hkcage",
+    "remaps": {
+     "hkcage": "hkcage",
+     "hkrib": "hkrib"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:camp_1",
+   "runtime_bmodel_index": 8,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/camp_1.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhkeptdr",
+    "remaps": {
+     "hhkeptdr": "hhkeptdr",
+     "hhkeptrf": "hhkeptrf",
+     "hhkeptw": "hhkeptw",
+     "hkrib": "hkrib",
+     "hokspine": "hokspine",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:camp_2",
+   "runtime_bmodel_index": 9,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/camp_2.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhkeptdr",
+    "remaps": {
+     "hhkeptdr": "hhkeptdr",
+     "hhkeptrf": "hhkeptrf",
+     "hhkeptw": "hhkeptw",
+     "hkrib": "hkrib",
+     "hokspine": "hokspine",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:camp_3",
+   "runtime_bmodel_index": 10,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/camp_3.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhkeptdr",
+    "remaps": {
+     "hhkeptdr": "hhkeptdr",
+     "hhkeptrf": "hhkeptrf",
+     "hhkeptw": "hhkeptw",
+     "hkrib": "hkrib",
+     "hokspine": "hokspine",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:camp_4",
+   "runtime_bmodel_index": 11,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/camp_4.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhkeptdr",
+    "remaps": {
+     "hhkeptdr": "hhkeptdr",
+     "hhkeptrf": "hhkeptrf",
+     "hhkeptw": "hhkeptw",
+     "hkrib": "hkrib",
+     "hokspine": "hokspine",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:camp_5",
+   "runtime_bmodel_index": 12,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/camp_5.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhkeptdr",
+    "remaps": {
+     "hhkeptdr": "hhkeptdr",
+     "hhkeptrf": "hhkeptrf",
+     "hhkeptw": "hhkeptw",
+     "hkrib": "hkrib",
+     "hokspine": "hokspine",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:thrix_stall",
+   "runtime_bmodel_index": 13,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/thrix_stall.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hkrib",
+    "remaps": {
+     "hkrib": "hkrib",
+     "hmplate": "hmplate",
+     "hoaresin": "hoaresin",
+     "hosalvage": "hosalvage"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:thrix_cave",
+   "runtime_bmodel_index": 14,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/thrix_cave.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhcliffdt",
+    "remaps": {
+     "hhcliffdt": "hhcliffdt",
+     "hhrock": "hhrock"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:tarro_lean_to",
+   "runtime_bmodel_index": 15,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/tarro_lean_to.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hhprefab",
+    "remaps": {
+     "hhprefab": "hhprefab",
+     "hhprefdk": "hhprefdk",
+     "hhprefrf": "hhprefrf",
+     "hoplate": "hoplate"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:tunnel_portal",
+   "runtime_bmodel_index": 16,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/tunnel_portal.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hcshutter",
+    "remaps": {
+     "hcshutter": "hcshutter",
+     "hcstripw": "hcstripw",
+     "hctrim": "hctrim",
+     "hoterm": "hoterm"
+    }
+   }
+  },
+  {
+   "geometry_id": "hes_out2:colliders",
+   "runtime_bmodel_index": 17,
+   "source": {
+    "asset_path": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out2/source/models/colliders.obj",
+    "scale": 128,
+    "merge_coplanar_faces": false,
+    "preserve_source_winding": true
+   },
+   "materials": {
+    "default_texture": "hoplate",
+    "remaps": {
+     "hoplate": "hoplate"
+    }
+   }
+  }
+ ]
+}

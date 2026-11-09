@@ -1,0 +1,301 @@
+[
+  {
+    "name": "gsn",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-ba41f1f6-ae36-423c-8ab0-de4baa4f6366.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsn.png",
+    "raw_sha256": "0d7076ebbe3479a11e8f69cdd649ee3d9a3218a5ac5e013a5a273e45c6cc17de",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsn.txt",
+    "prompt_sha256": "ffd8cd4bfd6b00841d43d087a1130166316d3d4906805fc51c4d0c413b7dd407",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsn_native.png",
+        "sha256": "9048892a0fe4acd0957f542edec199dd606e255002f8d23861bc234210f480c6"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gse",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-8d19cf54-bdc5-446f-abbf-217f19a7a4a0.png",
+    "raw": "transitions/grey_fringe_ai/raw/gse.png",
+    "raw_sha256": "7bb115d994e73cc3c85861919b3a2bb5ca65a1fc7fab4aca66012d6ef428935a",
+    "prompt": "transitions/grey_fringe_ai/prompts/gse.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gse_native.png",
+        "sha256": "bceb9f867636e78bce4346a2950288236c6949695a634d25dfee787115879061"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gsne",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-e29fc2c3-0e00-499f-90dd-0cad13c94d8a.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsne.png",
+    "raw_sha256": "0e972cfdca8b6cb219ca53877c142a0dec0c7db3b47fd3e210b010112b5379c8",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsne.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsne_native.png",
+        "sha256": "d47857e5fb4f3191ce92a4e01f516703f5efbc4f8eabaf57a2ed038c57401836"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gsnw",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-e38aa7a7-57f0-471c-8b1b-5abb47fb2634.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsnw.png",
+    "raw_sha256": "0d8bafed2b9803901fb7e1052b4b23530f779668f4905d012141b4668b1060f0",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsnw.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsnw_native.png",
+        "sha256": "a8282d3cfb7cd62beb2d17ac2c2d54be76098ceebc48bec7c4cb7315d490debf"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gss",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-1d0f9419-2d05-4af3-b537-7a5303ff7ae6.png",
+    "raw": "transitions/grey_fringe_ai/raw/gss.png",
+    "raw_sha256": "a16dd71e1f92561f16a0facd9c075b6e60e3dc1179ece4df84e475563da8d839",
+    "prompt": "transitions/grey_fringe_ai/prompts/gss.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gss_native.png",
+        "sha256": "389fb21239324f338d5321f4cccf86c65206209ff20eb908f05a7d1b9ff3a464"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gsse",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-c3504f61-f981-4a82-8c7e-4a652f33572c.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsse.png",
+    "raw_sha256": "84116f9cc18e877cb5ce5a5d298f26a85e0d2e17eebec88fba49cc17ac7838ed",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsse.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsse_native.png",
+        "sha256": "84c27b693167ab398e1d51508b10206d6121046f5f542f9fbb9efca32d4552c8"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gssw",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-a5acfeb3-2dfa-49ad-b859-8f0330205fd6.png",
+    "raw": "transitions/grey_fringe_ai/raw/gssw.png",
+    "raw_sha256": "6facfc968fd8d31fd35a67eba7c1f098ae7eff44da7edb9751ab470ec9882518",
+    "prompt": "transitions/grey_fringe_ai/prompts/gssw.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gssw_native.png",
+        "sha256": "d11661d64a253b0e909b933f5fdd259633c6e2cde8a93ec9cc60d3a2cf88ef75"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gstylx",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-1cdc3c5b-283e-4105-be44-1212d1487644.png",
+    "raw": "transitions/grey_fringe_ai/raw/gstylx.png",
+    "raw_sha256": "e93d55b8870f605bfcdcb0ace1cfa6f037677488180b42fe4fdb4efbf1f07630",
+    "prompt": "transitions/grey_fringe_ai/prompts/gstylx.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gstylx_native.png",
+        "sha256": "acb6fc4ac309cd2067f69b615af73b4279325bf6536a1e8964cfc5368b30aafb"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gsw",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-b83734b1-2474-4fae-a196-d7090f986d4f.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsw.png",
+    "raw_sha256": "bc9e8bbdda450027a7013f35289796ebcfcb6c95692b707f22ec147ebcde2afa",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsw.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsw_native.png",
+        "sha256": "d7e9f2fe2de30852532c9cd83b2855994bbfea16b4893bb1e35302483be98f12"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gsxne",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-7f9d09ef-a63b-4f3d-8f9b-bf7e081b5580.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsxne.png",
+    "raw_sha256": "77b23a5066ff36c9bfe0a7dd0e16c486a98feeb92da16af00e7c5b69ee7b40f2",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsxne.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsxne_native.png",
+        "sha256": "c43c260df43dcd292a360ecf5a5bbbb489def64eb4dff6e098312dff591b668b"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gsxnw",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-438b5d1c-616c-41b9-8114-a6b1f76d2c96.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsxnw.png",
+    "raw_sha256": "84707fc0d20ee78864bb93e8a2d7d76e34abfa96d30ea2a95f1991edb45940b0",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsxnw.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsxnw_native.png",
+        "sha256": "a4f9e0fb952d4bc5a6e11455d73836533751f5dd9c00c8229991289667ce3852"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gsxse",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-e99522b4-aa8a-41f6-ad34-fcb06595d47e.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsxse.png",
+    "raw_sha256": "320004df9faec35d16419f33b5a2a4b6fffd11554712ca80ec4786197a4996a2",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsxse.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsxse_native.png",
+        "sha256": "8fef77ec163f80badd3059e1825116df48a843624d14275d642f95b3ddfe44f8"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  },
+  {
+    "name": "gsxsw",
+    "tool": "built-in image_gen",
+    "source_cache": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-4a38bc97-9b72-4184-b241-cfed18fbe5a7.png",
+    "raw": "transitions/grey_fringe_ai/raw/gsxsw.png",
+    "raw_sha256": "1b1976a6de09db7cb51d6233208079e090e24a13b29a6e1c64c98d182aad58ef",
+    "prompt": "transitions/grey_fringe_ai/prompts/gsxsw.txt",
+    "prompt_sha256": "6e18c583ec2267ca2c42782f465740097a84d280b07c8700de10cb828ba2d06a",
+    "referenced_inputs": [
+      {
+        "path": "transitions/grey_fringe_ai/inputs/gsxsw_native.png",
+        "sha256": "aa5f107976bc8f764c5e1993fbe18cf952e66e2dec83618cdc7af95fd44337d3"
+      },
+      {
+        "path": "masters/v1/materials/grey_stone.png",
+        "sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224"
+      },
+      {
+        "path": "masters/v1/materials/grey_dirt.png",
+        "sha256": "13d139559af548c0f3a626e295a69ef409c060353ca63bc105ecb7e7bc3693d0"
+      }
+    ]
+  }
+]

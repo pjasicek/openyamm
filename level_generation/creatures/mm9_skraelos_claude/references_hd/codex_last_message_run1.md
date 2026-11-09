@@ -1,0 +1,3 @@
+Saved run 1’s selected image as [00_three_quarter.png](level_generation/creatures/mm9_skraelos_claude/references_hd/00_three_quarter.png), unresized at 1536×1024 using built-in image generation. Both raw attempts and prompts/input hashes are recorded in [generation_runs.json](level_generation/creatures/mm9_skraelos_claude/references_hd/generation_runs.json).
+
+Stopped before run 2. Residual faults: halo despite alpha, overlapping fingers, and bent wrists; the one corrective regeneration is exhausted.

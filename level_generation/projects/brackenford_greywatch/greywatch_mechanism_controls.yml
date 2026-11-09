@@ -1,0 +1,314 @@
+id: levelgen.greywatch.mechanism_controls
+title: Accessible door controls, shortcut unlock and native state persistence
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg02.blv
+- set_pose:
+    map: lg02.blv
+    x: -64
+    y: 1152
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.25
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- assert_mechanism:
+    id: 2
+    state: open
+- set_pose:
+    map: lg02.blv
+    x: -64
+    y: 1472
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.25
+    assert:
+      mechanism:
+        id: 1
+        state: closed
+- assert_mechanism:
+    id: 2
+    state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 0
+      y: 1536
+      z: 768
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 0
+      y: 1357
+      z: 768
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: -64
+    y: 1152
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 2.25
+    assert:
+      mechanism:
+        id: 1
+        state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 0
+      y: 1056
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 0
+      y: 1376
+      z: 768
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 0.4166666666666667
+    input: forward
+- new_game_flow:
+    start_map: lg02.blv
+- set_pose:
+    map: lg02.blv
+    x: 8704
+    y: 3776
+    z: 384
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 4
+        state: open
+- set_pose:
+    map: lg02.blv
+    x: 9088
+    y: 4928
+    z: 384
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 4
+        state: closed
+- save_game: greywatch_secret_closed
+- load_game: greywatch_secret_closed
+- assert_mechanism:
+    id: 4
+    state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 8704
+      y: 4224
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 8704
+      y: 4069
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 9088
+    y: 4928
+    z: 384
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 4
+        state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 8704
+      y: 4224
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 8704
+      y: 3904
+      z: 384
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.4166666666666667
+    input: forward
+- new_game_flow:
+    start_map: lg02.blv
+- set_pose:
+    map: lg02.blv
+    x: 832
+    y: 384
+    z: 768
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- assert_mechanism:
+    id: 5
+    state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 850
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 1003
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 6464
+    y: 3584
+    z: 384
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 3
+        state: open
+- set_pose:
+    map: lg02.blv
+    x: 832
+    y: 384
+    z: 768
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 5
+        state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 850
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 1152
+      y: 0
+      z: 768
+      yaw: 0
+      pitch: 0
+    seconds: 0.3932291666666667
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 1216
+    y: 64
+    z: 736
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 5
+        state: closed
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 1280
+      y: 0
+      z: 736
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 1141
+      y: 0
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 0.5
+    input: forward
+- set_pose:
+    map: lg02.blv
+    x: 1216
+    y: 64
+    z: 736
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- wait_until:
+    timeout_runtime_seconds: 4.25
+    assert:
+      mechanism:
+        id: 5
+        state: open
+- save_game: greywatch_shortcut_open
+- load_game: greywatch_shortcut_open
+- assert_mechanism:
+    id: 5
+    state: open
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 1280
+      y: 0
+      z: 736
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 896
+      y: 0
+      z: 768
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 0.5
+    input: forward

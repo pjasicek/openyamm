@@ -1,0 +1,16 @@
+{
+  "before": {
+    "boundary_p95": 2.0945556274725536,
+    "boundary_max": 4.200255848331738,
+    "interior_p95": 1.4202815158825584,
+    "interior_p999": 2.1069908856575723
+  },
+  "after": {
+    "boundary_p95": 1.5218154362205392,
+    "boundary_max": 2.192221888318695,
+    "interior_p95": 1.4067322741506092,
+    "interior_p999": 2.0951639932036463
+  },
+  "pass": true,
+  "method": "16-pixel windows; boundary p95 and maximum must be within 1.25x interior p95 and p99.9."
+}

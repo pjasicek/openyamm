@@ -1,0 +1,67 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_undervault/review/thick_walls",
+ "settle_seconds": 2.0,
+ "exit": true,
+ "shots": [
+  {
+   "name": "refuge_arch",
+   "position": [
+    750,
+    900,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.05
+  },
+  {
+   "name": "works_arch",
+   "position": [
+    8250,
+    900,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.05
+  },
+  {
+   "name": "liftgate_from_hall",
+   "position": [
+    4500,
+    900,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.05
+  },
+  {
+   "name": "deep_door",
+   "position": [
+    4300,
+    -500,
+    0
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.0
+  },
+  {
+   "name": "chapel_from_steps",
+   "position": [
+    4500,
+    6500,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.15
+  },
+  {
+   "name": "chapel_arch",
+   "position": [
+    4500,
+    7000,
+    352
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.0
+  }
+ ]
+}

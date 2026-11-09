@@ -1,0 +1,307 @@
+# Brightness A: integrator capture; build01/build02 remain untouched.
+# D5 fixes: integrator capture; original 43-shot tour and sheet are preserved.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d05/review/build03
+settle_seconds: 1.5
+exit: true
+shots:
+- name: arrival
+  position:
+  - 5500
+  - 3200
+  - 0
+  yaw: 3.14
+  pitch: 0.0
+- name: blast-door
+  position:
+  - 5250
+  - 3350
+  - 0
+  yaw: -0.2
+  pitch: 0.0
+- name: root-hall
+  position:
+  - 4900
+  - 4600
+  - 0
+  yaw: 3.14
+  pitch: -0.087
+- name: root-hall-relay
+  position:
+  - 1000
+  - 4400
+  - 0
+  yaw: 0.25
+  pitch: 0.0
+- name: root-hall-arch
+  position:
+  - 3200
+  - 4300
+  - 0
+  yaw: -1.57
+  pitch: 0.0
+- name: terminus
+  position:
+  - 3200
+  - 5700
+  - 0
+  yaw: 1.57
+  pitch: 0.0
+- name: root-gallery
+  position:
+  - 5300
+  - 1800
+  - 0
+  yaw: 3.14
+  pitch: -0.05
+- name: root-stair-well
+  position:
+  - 1350
+  - 2560
+  - 0
+  yaw: 3.6
+  pitch: -0.7
+- name: spine-lift
+  position:
+  - 1750
+  - 3450
+  - 0
+  yaw: -2.6
+  pitch: -0.15
+- name: shaft-from-ring1
+  position:
+  - 3200
+  - 3500
+  - 1024
+  yaw: -1.57
+  pitch: 0.0
+- name: coolant-roots
+  position:
+  - 1450
+  - 750
+  - -1024
+  yaw: 0.35
+  pitch: 0.0
+- name: coolant-roots-east
+  position:
+  - 5650
+  - 2100
+  - -1024
+  yaw: 3.5
+  pitch: 0.0
+- name: root-stair-foot
+  position:
+  - 900
+  - 730
+  - -992
+  yaw: 1.57
+  pitch: 0.3
+- name: root-heart
+  position:
+  - 3200
+  - 2500
+  - -1024
+  yaw: 1.57
+  pitch: 0.17
+- name: lift-landing
+  position:
+  - 2400
+  - 3200
+  - 1024
+  yaw: 3.14
+  pitch: -0.1
+- name: armoury
+  position:
+  - 1650
+  - 1650
+  - 1024
+  yaw: 3.93
+  pitch: -0.45
+- name: barracks
+  position:
+  - 1300
+  - 4500
+  - 1024
+  yaw: 0.0
+  pitch: 0.0
+- name: barracks-east
+  position:
+  - 5000
+  - 4500
+  - 1024
+  yaw: 3.14
+  pitch: 0.0
+- name: drill-floor
+  position:
+  - 3000
+  - 2400
+  - 1024
+  yaw: -0.2
+  pitch: -0.05
+- name: ledge-gate
+  position:
+  - 4000
+  - 3200
+  - 1024
+  yaw: 0.0
+  pitch: 0.0
+- name: storm-ledge
+  position:
+  - 5764
+  - 3100
+  - 1024
+  yaw: 1.57
+  pitch: 0.26
+- name: storm-ledge-top
+  position:
+  - 5764
+  - 5300
+  - 2048
+  yaw: -1.57
+  pitch: -0.35
+- name: storm-ledge-ceiling
+  position:
+  - 5764
+  - 4900
+  - 2048
+  yaw: -1.57
+  pitch: 0.35
+- name: looms
+  position:
+  - 3150
+  - 3900
+  - 2048
+  yaw: 2.2
+  pitch: 0.0
+- name: looms-console
+  position:
+  - 3300
+  - 4700
+  - 2048
+  yaw: 1.57
+  pitch: -0.1
+- name: loom-control
+  position:
+  - 1850
+  - 1850
+  - 2048
+  yaw: 3.93
+  pitch: -0.45
+- name: upper-lift-landing
+  position:
+  - 2350
+  - 3200
+  - 2048
+  yaw: 3.14
+  pitch: -0.45
+- name: weavers-walk
+  position:
+  - 3000
+  - 1500
+  - 2048
+  yaw: 0.3
+  pitch: 0.0
+- name: coil-gallery
+  position:
+  - 4000
+  - 3200
+  - 2048
+  yaw: 0.0
+  pitch: 0.0
+- name: lift-head
+  position:
+  - 2350
+  - 3200
+  - 3072
+  yaw: 3.14
+  pitch: -0.45
+- name: nests-north
+  position:
+  - 1600
+  - 4500
+  - 3072
+  yaw: 0.0
+  pitch: 0.087
+- name: nests-south
+  position:
+  - 5200
+  - 2000
+  - 3072
+  yaw: 3.14
+  pitch: 0.05
+- name: roost-gate
+  position:
+  - 3900
+  - 3500
+  - 3072
+  yaw: -0.3
+  pitch: 0.0
+- name: storm-stair
+  position:
+  - 5764
+  - 2900
+  - 3072
+  yaw: 1.57
+  pitch: 0.26
+- name: storm-stair-top
+  position:
+  - 5900
+  - 5150
+  - 4096
+  yaw: -2.0
+  pitch: -0.2
+- name: crown
+  position:
+  - 5200
+  - 2400
+  - 4096
+  yaw: 2.9
+  pitch: 0.0
+- name: crown-ne-perch
+  position:
+  - 2700
+  - 2400
+  - 4096
+  yaw: 0.74
+  pitch: 0.1
+- name: vhorrax
+  position:
+  - 4300
+  - 3800
+  - 4096
+  yaw: 0.785
+  pitch: 0.25
+- name: crown-dome
+  position:
+  - 3200
+  - 2000
+  - 4096
+  yaw: 1.57
+  pitch: 0.9
+- name: crown-shaft-mouth
+  position:
+  - 3200
+  - 2350
+  - 4500
+  yaw: 1.57
+  pitch: -0.7
+- name: cradle-seal
+  position:
+  - 3200
+  - 4400
+  - 4096
+  yaw: 1.57
+  pitch: 0.087
+- name: cradle-inside
+  position:
+  - 3200
+  - 4950
+  - 4224
+  yaw: 1.57
+  pitch: 0.0
+- name: cradle-stalk
+  position:
+  - 3650
+  - 5700
+  - 4224
+  yaw: -2.5
+  pitch: 0.0

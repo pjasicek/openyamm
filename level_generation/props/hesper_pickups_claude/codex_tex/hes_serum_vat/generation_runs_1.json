@@ -1,0 +1,236 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background_requested": true,
+  "postprocessing": "None. All PNGs copied byte-for-byte from built-in tool outputs. No resizing, masking, colour edits or compositing.",
+  "selection_meaning": "Selected means the better available raw return, not acceptance as brief-compliant.",
+  "brief_satisfied": false,
+  "status": "Generation completed within one corrective regeneration per view; exact raster dimensions, silhouette and fully flat albedo were not achieved.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nCreate exactly ONE 1024 x 1024 transparent RGBA PNG: paint_front.png, a flat albedo texture-source painting of the Graft-serum vat, using the attached FRONT grey orthographic guide as the exact edit target.\n\nINPUT ROLES:\nImage 1 = guide_front.png: immutable geometry, silhouette, alpha mask, position, scale, camera and every shape edge. Paint directly over THIS image.\nImage 2 = design_reference.png: approved colour and material authority ONLY. Its three-quarter camera, proportions and lighting must NOT replace the front guide.\nImage 3 = concept_crop.png: supporting original material concept ONLY.\n\nKeep every single silhouette pixel, opening, plate boundary, claw tip, overlapping edge and existing shape in Image 1 in the exact same place. Preserve the 1024x1024 framing and orthographic front camera. The front guide's alpha bounds are x=66..957 and y=139..884; leave the surrounding area genuinely transparent. Do not enlarge, recenter, rotate, crop, round off, smooth away, invent, remove or redesign any shape. In particular retain the long central downward-pointing upper claw over the central membrane, the paired upper side claws, the polygonal oval resin frames, and the existing lower feet and central downward-pointing foot.\n\nChange ONLY the grey surface colouring into the design-reference materials:\n- black-violet Kreegan resin/chitin on the cage, rim, structural ribs and basal supports, fine organic ridges and faint thin orange seams;\n- pale warm ivory bone on the existing claw blades and claw/foot tips, with subtle bone grain and fine hairline cracks as in the approved design;\n- bright saturated luminous green serum/membrane inside all existing openings and the visible top surface, evenly coloured from within, with darker green branching veins and subtle small suspended bubbles.\nAll material boundaries follow the guide exactly. The green areas are opaque coloured membrane/serum; only the empty background is transparent.\n\nLIGHTING IS CRITICAL: this is a base-colour/albedo texture source, NOT a beauty render. Use completely even flat shadowless viewer-facing illumination. Remove the grey guide's baked shading. Convey glossy resin through its inherent colour and fine surface texture ONLY, without bright specular patches. No cast shadows, no ambient occlusion or black contact shading, no strong highlights or reflections, no white shine, no directional brightness gradient, no rim light. Paint orange seams at their own glowing orange colour without illuminating adjacent resin or bone. Green membrane is uniformly bright with darker green veins, no hotspot and no edge darkening. No floor, background, text, labels, watermark, added objects or outside glow.\n\nReturn a single native 1024x1024 unresized transparent image. Highest priority: exact guide geometry and silhouette, then faithful material palette, with flat shadowless albedo.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c57707020a05bc5536a754e4c56edf73972da19e1c039d0f0b6be4711391dd02"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16abd-40e6-7f40-ae2b-5600170a74ed/exec-79e47d38-72ab-4b6d-98b3-dc2f4346e04b.png",
+      "selected": false,
+      "reason": "Not selected: central oval structural frame was painted ivory instead of black-violet resin; native size is 1254x1254, not 1024x1024; exact guide silhouette and flat albedo requirements fail.",
+      "checks": {
+        "materials_and_colours": "fail",
+        "flat_even_light": "fail",
+        "visual_notes": "Not selected: central oval structural frame was painted ivory instead of black-violet resin; native size is 1254x1254, not 1024x1024; exact guide silhouette and flat albedo requirements fail.",
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 753989,
+        "transparent_background": true,
+        "alpha_128_bounds": [
+          80,
+          170,
+          1173,
+          1083
+        ],
+        "guide_alpha_128_bounds": [
+          67,
+          140,
+          957,
+          884
+        ],
+        "silhouette_identical_to_guide": false,
+        "unresized_raw_return": true
+      },
+      "output_sha256": "6b40320d793e736ea21cc38d62b4b0c293a70b7e6c4f6dc63cc2f37f0c9f365d"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE FRONT PAINTOVER \u2014 final permitted attempt. Return ONE PNG with native dimensions exactly 1024x1024 pixels, RGBA transparent. The prior attempt wrongly returned 1254x1254 and turned the central structural oval frame ivory. Correct these issues.\n\nUse case: style-transfer. Image 1 (guide_front.png) is the 1024x1024 edit target. Preserve its entire exact alpha mask and all geometry edges pixel-for-pixel. Images 2 (design_reference.png) and 3 (concept_crop.png) supply material colour only; ignore their camera and lighting.\nPaint in place on the existing 1024x1024 guide canvas. No scaling or reframing. Silhouette bounds remain x=66..957, y=139..884. Same orthographic FRONT view, same front opening, side openings, upper rim, claw tips and feet, all exact shapes and sizes as image 1.\n\nMATERIAL ASSIGNMENT: Every structural oval frame around the green membranes, including both broad angular curved pieces surrounding the large central front oval, MUST be BLACK-VIOLET resin, never ivory. All cage ribs, rim and base supports are dark black-violet Kreegan resin with fine ridges and sparse faint orange hairline seams. Pale warm ivory bone belongs only on the claw blades hanging from the top rim (including the long centre blade) and the existing pointed feet. Match bone colour and restrained fine cracks from the approved design. Paint the existing membrane openings and visible top serum surface bright saturated green with DARKER GREEN thin branching veins. Green is evenly lit from within, with small understated bubbles.\n\nBASE-COLOUR TEXTURE, strictly unlit: apply flat local material colours and fine texture only. No bright glossy reflection streaks, no white specular shine, no highlights on edges, no rim light, no ambient occlusion, no cast shadows or dark outlines beneath claws, no gradient toward edges. Resin colour stays equally visible in recesses. Ivory stays pale and even on all faces. Orange seams are faint orange colour without emitting light onto surrounding surfaces. Green membrane stays equally bright across each opening; darker green veins, not a network of white or yellow lightning. Materials retain the design's identity without copying its baked lighting.\n\nPreserve the guide's polygonal edges and silhouette EXACTLY. No new shape, no omitted detail, no smoothed outline, no exterior glow, no floor/background, no text. Transparency must match the guide. Native returned raster must be 1024 pixels wide and 1024 pixels high; do not return 1254 or 1536.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c57707020a05bc5536a754e4c56edf73972da19e1c039d0f0b6be4711391dd02"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7"
+        }
+      ],
+      "output": "paint_front.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16abd-40e6-7f40-ae2b-5600170a74ed/exec-cb24ed9e-3d81-4867-a8a6-8c390835b95b.png",
+      "selected": true,
+      "reason": "Selected as the better returned front candidate: corrected central frame to black-violet resin. NOT fully compliant: still 1254x1254 with non-identical guide silhouette, residual facet/contact shading, bright veins and highlights. Corrective regeneration limit reached; preserved the raw return without resizing or masking.",
+      "checks": {
+        "materials_and_colours": "partial",
+        "flat_even_light": "fail",
+        "visual_notes": "Selected as the better returned front candidate: corrected central frame to black-violet resin. NOT fully compliant: still 1254x1254 with non-identical guide silhouette, residual facet/contact shading, bright veins and highlights. Corrective regeneration limit reached; preserved the raw return without resizing or masking.",
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 750230,
+        "transparent_background": true,
+        "alpha_128_bounds": [
+          79,
+          167,
+          1174,
+          1084
+        ],
+        "guide_alpha_128_bounds": [
+          67,
+          140,
+          957,
+          884
+        ],
+        "silhouette_identical_to_guide": false,
+        "unresized_raw_return": true
+      },
+      "output_sha256": "8b1c3aa2ff175b9781ae307b3d4f3d6524cd806a967119e86be0c31e7404600f"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Edit image 1 directly in place. Output MUST use image 1's exact native pixel dimensions: WIDTH 1024, HEIGHT 1024. One 1024x1024 RGBA PNG only, transparent background. Do not choose a different output resolution.\n\nUse case: style-transfer. Asset: paint_top.png, flat base-colour/albedo texture source for an existing 3D Graft-serum vat.\nInput 1, guide_top.png, is the EDIT TARGET and absolutely authoritative for every geometry edge, silhouette pixel, alpha coverage, framing, rotation, position and scale.\nInput 2, design_reference.png, supplies the approved colours and surface materials ONLY.\nInput 3, concept_crop.png, is supplementary material reference ONLY.\nRetain the top guide's exact straight-down orthographic view. Do not follow the three-quarter reference camera. Copy the top guide's alpha contour without changes: bounds x=66..957, y=66..957. The broad central circular membrane, rim, each projecting blade and each support must keep the guide's precise shape and coordinates. No added geometry, no cropping, no rearrangement, no softening polygonal edges, no perspective tilt.\n\nPaint ONLY the surfaces of the grey guide:\nThe large central circular pool/membrane is bright saturated acid green, uniformly luminous from within, with darker green branching veins and restrained tiny green suspended bubbles. Keep green BRIGHT, not muddy/dark, but paint the VEINS DARKER GREEN than the surrounding green membrane.\nThe enclosing structural rim, support roots and cage are black-violet Kreegan resin with fine organic ridges and sparse faint orange seams. The structural rim stays dark violet, never ivory.\nOnly the existing distinct claw/blade tips are pale warm ivory bone with fine cracks and subtle bone grain, consistent with the approved design. Preserve every guide edge separating these shapes. All visible surfaces are opaque material; empty area outside the guide silhouette is genuine alpha transparency.\n\nFLAT ALBEDO LIGHTING: completely even shadowless illumination from the viewer. Remove all grey-guide shading. No cast shadows including beneath claws, no ambient occlusion/contact darkening, no directional lighting gradient, no rim light, no strong specular highlights or reflections, no white shine. Resin has its approved dark violet colour and surface detail, WITHOUT baked glossy highlight streaks. Green serum is evenly lit with no edge shadows or hotspots. Orange seams are faint self-coloured strokes only, never lighting their surroundings. No backdrop, floor, glow outside the silhouette, labels, text or watermark.\n\nNative output canvas 1024 by 1024 pixels, unresized, exact same silhouette/position as guide_top.png.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "cc2e5e43bce561aade58b45af45b6ebf89395a19cc512037b619e7b3eccae718"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16abd-40e6-7f40-ae2b-5600170a74ed/exec-49cb48a2-5e9f-4e9c-9cae-c2b64b4cb0c7.png",
+      "selected": false,
+      "reason": "Not selected: excessive large-cell membrane pattern and brighter highlights; native size is 1254x1254, not 1024x1024; exact guide silhouette and flat albedo requirements fail.",
+      "checks": {
+        "materials_and_colours": "partial",
+        "flat_even_light": "fail",
+        "visual_notes": "Not selected: excessive large-cell membrane pattern and brighter highlights; native size is 1254x1254, not 1024x1024; exact guide silhouette and flat albedo requirements fail.",
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 676688,
+        "transparent_background": true,
+        "alpha_128_bounds": [
+          79,
+          79,
+          1175,
+          1175
+        ],
+        "guide_alpha_128_bounds": [
+          67,
+          67,
+          957,
+          957
+        ],
+        "silhouette_identical_to_guide": false,
+        "unresized_raw_return": true
+      },
+      "output_sha256": "cb5de0ab1d1a097a0aaf928f60e7611e06882f47aecdd3b56b8286b138b988e3"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "FINAL CORRECTIVE TOP PAINTOVER. Make one transparent 1024x1024 RGBA image. The previous return was incorrectly 1254x1254 and retained shadows, highlights and excessive luminous veins. Native output dimensions MUST be 1024x1024. Paint into image 1 without changing its canvas, alpha, silhouette or geometry.\n\nInput 1: guide_top.png, immutable 1024x1024 TOP orthographic edit target. Use EXACTLY this top-down silhouette and every existing shape edge, opening, protrusion, polygon and overlap at exactly the same pixel coordinates. Its outer bounds are x=66..957 and y=66..957. Preserve empty space and transparent margin exactly.\nInput 2: design_reference.png, approved colour/material authority only.\nInput 3: concept_crop.png, original concept material reference only.\nUse case: style-transfer; asset: paint_top.png, unlit albedo texture source for the exact 3D model. NOT a finished lit illustration.\n\nPaint the broad central circular membrane bright saturated green of the approved serum, with fine DARKER green branching organic veins and a few small subdued bubbles. Do not divide it into newly invented giant cells. Keep the interior evenly bright green all the way to its perimeter. No dark edge vignette, no luminous yellow/white lightning network, no reflections.\nPaint the structural circular rim and projecting support roots deep black-violet Kreegan resin with delicate organic ridges and sparse FAINT thin orange seams. Paint only the guide's discrete ivory claw/blade surfaces pale warm ivory bone with subtle fine cracks. The structural rim and support roots stay black-violet, NOT ivory. Material assignments match the approved reference while every geometric edge remains the guide's.\n\nCORRECT THE LIGHTING: flat base colour, completely even diffuse viewer-facing illumination on ALL surfaces, no shading based on face direction. Remove ALL cast shadows, including shadows from the claws onto the membrane. Remove black ambient-occlusion outlines and dark contact creases. No shiny highlight patches, no white edge highlights, no specular reflections, no rim light. Describe glossy resin only through material colour and fine texture; no baked shine. The orange seams are faint orange pigment/emission colour only, never a source of light cast onto nearby resin or bone. Match the approved material palette while removing its lighting.\n\nNo new shapes, no smoothing or redesign, no repositioning, no rotation or perspective, no floor/background, no exterior glow, no labels/watermark. Genuine transparency exactly outside the original guide silhouette. Single native 1024 by 1024 PNG, never 1254 or 1536; preserve image 1's existing resolution and alpha mask.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "cc2e5e43bce561aade58b45af45b6ebf89395a19cc512037b619e7b3eccae718"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1509f2af8726d8bacdcfe1e841ccffb046b54a5ca83895607aa7bfb9e634b1cd"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "d1278eba9ce6050b0547b2fced4de0c6f523c75a14bcb6fb55ddf416e00ea7f7"
+        }
+      ],
+      "output": "paint_top.png",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16abd-40e6-7f40-ae2b-5600170a74ed/exec-d3b8f8dc-4f84-4204-bb1b-16c63a75d281.png",
+      "selected": true,
+      "reason": "Selected as the better returned top candidate: finer membrane pattern, reduced specular highlights and orange seams. NOT fully compliant: still 1254x1254 with non-identical guide silhouette, residual facet/contact shading and lighter rather than darker green veins. Corrective regeneration limit reached; preserved the raw return without resizing or masking.",
+      "checks": {
+        "materials_and_colours": "partial",
+        "flat_even_light": "fail",
+        "visual_notes": "Selected as the better returned top candidate: finer membrane pattern, reduced specular highlights and orange seams. NOT fully compliant: still 1254x1254 with non-identical guide silhouette, residual facet/contact shading and lighter rather than darker green veins. Corrective regeneration limit reached; preserved the raw return without resizing or masking.",
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_1024x1024": false,
+        "rgba": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_pixels": 673600,
+        "transparent_background": true,
+        "alpha_128_bounds": [
+          79,
+          78,
+          1175,
+          1175
+        ],
+        "guide_alpha_128_bounds": [
+          67,
+          67,
+          957,
+          957
+        ],
+        "silhouette_identical_to_guide": false,
+        "unresized_raw_return": true
+      },
+      "output_sha256": "7e6c7d8ac6d2e29f3431e6025084920e15ee6baa3e319c32f86b803a88355556"
+    }
+  ],
+  "brief_sha256": "44db8af0d3b7c6b3352fa94b31e06069c1efb9452c4dba0eedaa2a29cd8f6de4"
+}

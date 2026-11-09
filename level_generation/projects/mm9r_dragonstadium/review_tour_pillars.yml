@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dragonstadium/review/pillars
+settle_seconds: 1.5
+exit: true
+shots:
+- name: b01_arena_south
+  position:
+  - 3328
+  - -2816
+  - -163
+  yaw: 1.8281
+  pitch: 0.0
+- name: b07_arena_northwest
+  position:
+  - -1792
+  - 4864
+  - 385
+  yaw: -0.765
+  pitch: 0.0
+- name: c01_p1_south
+  position:
+  - 492
+  - -3456
+  - -25
+  yaw: 1.5708
+  pitch: 0.3142
+- name: c02_p1_east
+  position:
+  - 2432
+  - -1434
+  - -163
+  yaw: 3.1416
+  pitch: 0.2618
+- name: c03_p2_south
+  position:
+  - 256
+  - 1408
+  - -163
+  yaw: 1.617
+  pitch: 0.3142
+- name: c04_p2_east
+  position:
+  - 2432
+  - 3400
+  - -163
+  yaw: 3.1416
+  pitch: 0.2618

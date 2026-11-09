@@ -1,0 +1,453 @@
+{
+ "id": "20261009-1847-mm7-out11-01",
+ "world": "mm7",
+ "maps": [
+  "out11.odm",
+  "7d26.blv",
+  "7d33.blv",
+  "7out05.odm",
+  "7d20.blv",
+  "mdt05.blv",
+  "mdk03.blv"
+ ],
+ "created": "2026-10-09T16:47:56+00:00",
+ "textures": [
+  "mm7/hdm1bw",
+  "mm7/hnm1er",
+  "mm7/hnm2d",
+  "mm7/tfb1r3h",
+  "mm7/ch001b",
+  "mm7/ch001f",
+  "mm7/ch001c",
+  "mm7/hnp1er",
+  "mm7/hnp1el",
+  "mm7/cnb1sel",
+  "mm7/ch003c",
+  "mm7/7ch002i",
+  "mm7/7ch002j",
+  "mm7/ch003g",
+  "mm7/ch003e",
+  "mm7/ch003a",
+  "mm7/hnm1el"
+ ],
+ "requests": {
+  "mm7/hdm1bw": {
+   "name": "hdm1bw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a small round-arched window with carved wooden shutters under a carved stone arch with a rosette ornament and a stone sill; copy the composition exactly",
+   "notes": {
+    "2": "the wall repeats sideways: the grey-brown stone runs right through the left and right edges at full tone, with no dark vertical line, groove or shadow in the outermost columns on either side"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1er"
+     ],
+     "fraction": 0.264
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm1er"
+     ],
+     "fraction": 0.264
+    }
+   }
+  },
+  "mm7/hnm1er": {
+   "name": "hnm1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs, with a dark timber post on the right edge and a small horned skull with glowing green eyes hanging at the upper right - right part: house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs; along the left edge runs the right half of a dark timber post, whose left half lies beyond the picture border, and a small horned skull with glowing green eyes hangs at the upper left; copy the composition exactly",
+   "notes": {
+    "2": "copy the ornaments exactly: from the top beam near the right post hangs a small bronze skull pendant with two glowing green eyes on a curved bronze hook; the right curved brace sweeps down to the post without any extra horizontal beam across the middle",
+    "3": "copy the ornaments exactly: from the top beam near the right post hangs a small bronze skull pendant with two glowing green eyes on a curved bronze hook; the right curved brace sweeps down to the post without any extra horizontal beam across the middle",
+    "4": "copy the ornaments exactly: from the top beam near the right post hangs a small bronze skull pendant with two glowing green eyes on a curved bronze hook; the right curved brace sweeps down to the post without any extra horizontal beam across the middle",
+    "5": "copy the ornaments exactly: from the top beam near the right post hangs a small bronze skull pendant with two glowing green eyes on a curved bronze hook; the right curved brace sweeps down to the post without any extra horizontal beam across the middle"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1w",
+      "mm7/hnm1el"
+     ],
+     "fraction": 0.472
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1w",
+      "mm7/hnm1el"
+     ],
+     "fraction": 0.472
+    },
+    "3": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1w",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.471
+    },
+    "4": {
+     "sources": [
+      "mm7/hnm1b"
+     ],
+     "fraction": 0.459
+    },
+    "5": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1w",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.398
+    }
+   },
+   "context": {
+    "4": {},
+    "5": {
+     "right": "mm7/hnm1w",
+     "left": "mm7/hnm1w"
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/hnm2d": {
+   "name": "hnm2d",
+   "versions": [
+    1
+   ],
+   "material": "house facade: dark weathered wooden plank band and beam across the top, pale greenish-beige rough plaster panel in the middle, dark wooden sill beam, and dark grey irregular fieldstone wall below, with an arched riveted wooden door carved as a mask face with a round bronze emblem and an iron ring knocker; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm2bw"
+     ],
+     "fraction": 0.4
+    }
+   }
+  },
+  "mm7/tfb1r3h": {
+   "name": "tfb1r3h",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a red field patterned in small gold floral crosses and a red, cream and gold floral border, laid on grey-brown stone flagstones; this piece shows the carpet's upper edge with stone above; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r3a",
+      "mm7/tfb1r3g"
+     ],
+     "fraction": 0.198
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb1r3a",
+      "mm7/tfb1r3g"
+     ],
+     "fraction": 0.198
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/tfb1r3m"
+    }
+   }
+  },
+  "mm7/ch001b": {
+   "name": "ch001b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-brown varnished wooden chest panel of horizontal planks with fine wood grain, plain",
+   "notes": {
+    "2": "only plain horizontal planks: every plank and joint runs straight across the full width from the left edge to the right edge and continues the sharp planks exactly; no frame, border, inset panel, raised square or shadow line anywhere",
+    "3": "align every plank joint exactly with the joints of the sharp planks, including in the centre and along the outer border, so no square patch or ring shows; same orange-brown tone everywhere"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.506
+    },
+    "2": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.506
+    },
+    "3": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.506
+    }
+   }
+  },
+  "mm7/ch001f": {
+   "name": "ch001f",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown varnished wooden chest panel of horizontal planks with fine wood grain, with two small dark iron keyhole plates at the top centre and bottom centre edges; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.389
+    }
+   }
+  },
+  "mm7/ch001c": {
+   "name": "ch001c",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown varnished wooden chest panel of horizontal planks with fine wood grain, plain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch001d"
+     ],
+     "fraction": 0.665
+    }
+   }
+  },
+  "mm7/hnp1er": {
+   "name": "hnp1er",
+   "versions": [
+    1
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, with a column of dark rough rubble stone along the right edge; one even plaster tone with no square patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    }
+   }
+  },
+  "mm7/hnp1el": {
+   "name": "hnp1el",
+   "versions": [
+    1
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, with a column of dark rough rubble stone along the left edge; one even plaster tone with no square patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.611
+    }
+   }
+  },
+  "mm7/cnb1sel": {
+   "name": "cnb1sel",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, under a band of pale tan stone along the top, with a column of large tan sandstone corner blocks along the left edge",
+   "notes": {
+    "2": "keep every block exactly where it is in the reference at the same scale: the large tan sandstone corner blocks along the left edge sit directly against the grey blocks with one normal mortar joint, no narrow column of thin grey stones between them; the pale tan band stays along the top"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb"
+     ],
+     "fraction": 0.756
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb1s"
+     ],
+     "fraction": 0.756
+    }
+   }
+  },
+  "mm7/ch003c": {
+   "name": "ch003c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mottled blue-grey slate chest panel with dark riveted rusty iron strips along the left and right edges, round domed rivets in a vertical row on each; copy the composition exactly",
+   "notes": {
+    "2": "the dark rusty iron strips at the left and right edges carry a vertical row of about eight small round rivets each, small whole rivet heads centred in the strip, freshly drawn with real metal detail; no large half-cut domes",
+    "3": "each iron strip is a straight band whose small round rivets sit whole in the middle of the band, never cut by the texture edge; the slate panel has no horizontal line near the top"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.782
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.782
+    },
+    "3": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.782
+    }
+   }
+  },
+  "mm7/7ch002i": {
+   "name": "7ch002i",
+   "versions": [
+    1
+   ],
+   "material": "weathered brown oak chest planks with dark seams, plain vertical planks only, five boards running straight from top to bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7ch002j": {
+   "name": "7ch002j",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered brown oak chest planks with dark seams, vertical planks with a studded dark iron band along the top edge; copy the composition exactly",
+   "notes": {
+    "2": "copy both iron bands exactly: a dark iron band across the very top edge and another across the very bottom edge, each about one eighth of the height, with a row of evenly spaced round bright rivet heads along each band",
+    "3": "the top iron band is as tall as the bottom band and carries the same row of round rivet heads, evenly spaced across the full width; both bands reach the very top and bottom edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7ch002i"
+     ],
+     "fraction": 0.78
+    },
+    "2": {
+     "sources": [
+      "mm7/7ch002i"
+     ],
+     "fraction": 0.78
+    },
+    "3": {
+     "sources": [
+      "mm7/7ch002i"
+     ],
+     "fraction": 0.78
+    }
+   }
+  },
+  "mm7/ch003g": {
+   "name": "ch003g",
+   "versions": [
+    1
+   ],
+   "material": "mottled blue-grey slate chest panel inside a frame of dark riveted rusty iron bands along all four edges; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.759
+    }
+   }
+  },
+  "mm7/ch003e": {
+   "name": "ch003e",
+   "versions": [
+    1
+   ],
+   "material": "mottled blue-grey slate chest panel, plain, with a small dark rusty iron keyhole lock plate at the bottom centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.44
+    }
+   }
+  },
+  "mm7/ch003a": {
+   "name": "ch003a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mottled blue-grey slate chest panel inside a narrow dark grey steel frame studded with a row of small round rivets on all four sides",
+   "notes": {
+    "2": "the narrow dark steel frame carries a row of evenly spaced round dark rivets on every one of the four sides: about eight along the top edge, eight along the bottom edge, eight down the left edge and eight down the right edge, as in the reference",
+    "3": "rivets on the top, bottom, left and right frame bands alike, about eight per side; the slate inside the frame is one even tone right up to the frame, no lighter inner rectangle"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.699
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.699
+    },
+    "3": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.699
+    }
+   }
+  },
+  "mm7/hnm1el": {
+   "name": "hnm1el",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  }
+ }
+}

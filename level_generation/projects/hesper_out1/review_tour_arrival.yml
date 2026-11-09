@@ -1,0 +1,87 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/arrival",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "start_view",
+   "position": [
+    -8868,
+    -12404,
+    1246
+   ],
+   "yaw": 4.2935,
+   "pitch": -0.12
+  },
+  {
+   "name": "start_turned_to_wreck",
+   "position": [
+    -8868,
+    -12404,
+    1216
+   ],
+   "yaw": 1.4205,
+   "pitch": -0.1126
+  },
+  {
+   "name": "wreck_close",
+   "position": [
+    -9171,
+    -12705,
+    1432
+   ],
+   "yaw": 1.1704,
+   "pitch": -0.229
+  },
+  {
+   "name": "debris_trail",
+   "position": [
+    -5124,
+    -9180,
+    634
+   ],
+   "yaw": -2.5263,
+   "pitch": 0.1133
+  },
+  {
+   "name": "wreck_far",
+   "position": [
+    -3124,
+    -7880,
+    1460
+   ],
+   "yaw": -2.5399,
+   "pitch": -0.0464
+  },
+  {
+   "name": "crater_from_east_gate_road",
+   "position": [
+    -9300,
+    -14000,
+    1184
+   ],
+   "yaw": 1.3388,
+   "pitch": 0.0468
+  },
+  {
+   "name": "east_gate_guard",
+   "position": [
+    -9150,
+    -15950,
+    1088
+   ],
+   "yaw": 2.9247,
+   "pitch": 0.4313
+  },
+  {
+   "name": "wardens_post",
+   "position": [
+    -14700,
+    -16700,
+    1472
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.1326
+  }
+ ]
+}

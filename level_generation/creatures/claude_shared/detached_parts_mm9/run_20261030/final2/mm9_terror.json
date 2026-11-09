@@ -1,0 +1,108 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_terror.glb",
+  "components": 18,
+  "body": 0,
+  "size": 3.2199268341064453,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 18,
+   "attached_in_every_pose": 17
+  },
+  "concealed": {},
+  "shallow": {},
+  "root_lift": {
+   "5": {
+    "joint": "Bone37",
+    "where": "above, +z",
+    "triangles": 40,
+    "extent": 0.2014,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0299,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 346,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.01079,
+     "on": "Bip01 Head",
+     "clip": "Walking",
+     "frame": 32,
+     "time": 1.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02601,
+     "on": "Bip01 Head",
+     "clip": "Walking",
+     "frame": 13,
+     "time": 0.4333
+    }
+   },
+   "7": {
+    "joint": "Bone35",
+    "where": "above, +z",
+    "triangles": 42,
+    "extent": 0.2016,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04105,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 346,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.03023,
+     "on": "Bip01 Head",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00821,
+     "on": "Bip01 Head",
+     "clip": "Death",
+     "frame": 38,
+     "time": 1.2667
+    }
+   },
+   "8": {
+    "joint": "Bone37",
+    "where": "above, +z",
+    "triangles": 44,
+    "extent": 0.2096,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02708,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 346,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.02068,
+     "on": "Bip01 Head",
+     "clip": "Walking",
+     "frame": 32,
+     "time": 1.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01426,
+     "on": "Bip01 Head",
+     "clip": "Walking",
+     "frame": 24,
+     "time": 0.8
+    }
+   }
+  }
+ }
+]

@@ -1,0 +1,127 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d02/review/redress01",
+ "settle_seconds": 2.0,
+ "exit": true,
+ "shots": [
+  {
+   "name": "gate",
+   "position": [
+    200,
+    1848,
+    0
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0
+  },
+  {
+   "name": "gallery_w",
+   "position": [
+    1124,
+    700,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.05
+  },
+  {
+   "name": "over_cistern",
+   "position": [
+    1124,
+    1848,
+    0
+   ],
+   "yaw": 0.0,
+   "pitch": -0.35
+  },
+  {
+   "name": "valve_1",
+   "position": [
+    1150,
+    2700,
+    0
+   ],
+   "yaw": 3.1416,
+   "pitch": -0.1
+  },
+  {
+   "name": "gallery_n",
+   "position": [
+    1600,
+    2972,
+    0
+   ],
+   "yaw": 0.0,
+   "pitch": -0.05
+  },
+  {
+   "name": "stair_top",
+   "position": [
+    1476,
+    2700,
+    0
+   ],
+   "yaw": -1.5708,
+   "pitch": -0.55
+  },
+  {
+   "name": "pump_from_steps",
+   "position": [
+    5050,
+    1300,
+    -256
+   ],
+   "yaw": 0.75,
+   "pitch": 0.05
+  },
+  {
+   "name": "pump_row",
+   "position": [
+    6500,
+    1200,
+    -256
+   ],
+   "yaw": 2.2,
+   "pitch": 0.1
+  },
+  {
+   "name": "manifold",
+   "position": [
+    5600,
+    2560,
+    -256
+   ],
+   "yaw": 0.0,
+   "pitch": 0.15
+  },
+  {
+   "name": "tool_wall",
+   "position": [
+    5400,
+    1500,
+    -256
+   ],
+   "yaw": -1.5708,
+   "pitch": -0.05
+  },
+  {
+   "name": "filters",
+   "position": [
+    7050,
+    1000,
+    -256
+   ],
+   "yaw": 0.75,
+   "pitch": 0.0
+  },
+  {
+   "name": "works",
+   "position": [
+    6000,
+    700,
+    -256
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.0
+  }
+ ]
+}

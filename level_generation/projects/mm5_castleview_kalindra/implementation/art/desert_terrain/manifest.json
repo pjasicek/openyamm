@@ -1,0 +1,78 @@
+{
+  "status": "shader-baked material assets; native map requires separate terrain build",
+  "donors": {
+    "sand": {
+      "path": "assets_dev/worlds/mm7/textures/7sand.bmp",
+      "sha256": "5037f97744aa5ebdcc1a813bf00f6ee053a2522b934430d8dc31f51de3d6ab63"
+    },
+    "dirt": {
+      "path": "assets_dev/worlds/mm8/textures/DIRTtyl.bmp",
+      "sha256": "c69a5ccb5ffcf56e5b6930e936aea354747c21faa9e1b223c28c206e52030e98"
+    }
+  },
+  "variants": {
+    "0": {
+      "path": "mm5sd00.png",
+      "sha256": "4a6b1c98302c7195b954b07043d26caa2380689e4ebac1f71d825dd95a695cab"
+    },
+    "1": {
+      "path": "mm5sd01.png",
+      "sha256": "603c96c6289a4d61946ec65123515db87951e07be54071d7f7656b166d9f28b6"
+    },
+    "2": {
+      "path": "mm5sd02.png",
+      "sha256": "bd9642e69aeab5e01bd132bd30ba5534d484ad8fce40928be212cc1666a1024b"
+    },
+    "3": {
+      "path": "mm5sd03.png",
+      "sha256": "79d4dcbd1a41f1f5840134ea3d8e69d65db374d024f583f8328d942be0390529"
+    },
+    "4": {
+      "path": "mm5sd04.png",
+      "sha256": "e35a25671d43b5b9f60c1a14974788ea4d744ff2a4a88f3e0f1a6a16a5531187"
+    },
+    "5": {
+      "path": "mm5sd05.png",
+      "sha256": "30f734503a5224d7faf2eeda938de11fef95cf635bc88c8a67c3efb04f2d0323"
+    },
+    "7": {
+      "path": "mm5sd07.png",
+      "sha256": "bf91f900c8285d8f21aafb23b5382f56803ab8e9a609472fec8980dac8e144ac"
+    },
+    "8": {
+      "path": "mm5sd08.png",
+      "sha256": "0cc438bbec1770a5a5566731833b7327ba5bbccf3987be3fbfc33243f05bde2f"
+    },
+    "10": {
+      "path": "mm5sd10.png",
+      "sha256": "3e3bd103cc7e492269f21180378c886fd8f72965b0fd4f8723fed3f1bac29396"
+    },
+    "11": {
+      "path": "mm5sd11.png",
+      "sha256": "73e34e4fe1222a2a1623ea6336326869c37ecf3e94c22715c7b9ed7c8511ecdf"
+    },
+    "12": {
+      "path": "mm5sd12.png",
+      "sha256": "ee33d5edbd04cdd6af8718288e5d26b6e7cd93c8f700ea435f119f93a5a80169"
+    },
+    "13": {
+      "path": "mm5sd13.png",
+      "sha256": "46ab476619a2faad137e39e2dedb9da3bc7bc900567ad7f608e3e064e1a61736"
+    },
+    "14": {
+      "path": "mm5sd14.png",
+      "sha256": "4fa94bb732e703385b1771ca00f64ca737f5738f2bfb920a246a2c42eeb21428"
+    },
+    "15": {
+      "path": "mm5sd15.png",
+      "sha256": "b53cbc39bbfc9a25c9dee996328a54f58ba55c0d922880f9d2d4524167e591f1"
+    }
+  },
+  "bits": "NW=1 NE=2 SW=4 SE=8 indicate dark dirt",
+  "method": "periodic 4D noise perturbing bilinear corner field, native texture RGB mixed in linear light",
+  "render": "128x128, emission, Standard/None, closest donor sampling; no lighting or upscaling",
+  "review": "review/desert_materials_v2/native_review.json",
+  "reviewPending": [
+    "repeat affected artwork and native views if material parameters change"
+  ]
+}

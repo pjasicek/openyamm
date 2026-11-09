@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM paperdoll equipment review</title>
+  <link rel="stylesheet" href="style.css?v=jewelry-inventory-20260926">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">OpenYAMM · icon restoration</p>
+      <h1>Paperdoll equipment review</h1>
+      <p id="repairPassSummary" class="subtle"></p>
+      <p class="intro">Compare original and restored equipment. Accept each image separately and save placement adjustments for later table updates.</p>
+    </div>
+    <div class="header-actions">
+      <a class="button" href="inventory_prepared/index.html">Weapon / shield candidates</a>
+      <span id="progress" class="progress"></span>
+      <button id="exportDecisions" type="button">Export review JSON</button>
+      <label class="button file-button">Import JSON<input id="importDecisions" type="file" accept="application/json,.json"></label>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="controls panel">
+      <section>
+        <h2>Doll</h2>
+        <div id="typeShortcuts" class="type-shortcuts" aria-label="Quick body type"></div>
+        <div class="stepper">
+          <button id="prevDoll" type="button" aria-label="Previous doll">←</button>
+          <select id="dollSelect" aria-label="Character doll"></select>
+          <button id="nextDoll" type="button" aria-label="Next doll">→</button>
+        </div>
+        <p id="dollMeta" class="subtle"></p>
+        <div id="portraitReference" class="portrait-reference" aria-label="Assigned character portrait"></div>
+        <div class="switch-row"><label><input id="showBackground" type="checkbox" checked> Show this doll’s background</label></div>
+        <div class="switch-row"><label><input id="showJewelry" type="checkbox"> Show jewelry overlay</label></div>
+        <div class="switch-row"><label><input id="originalDoll" type="checkbox"> Use original doll (body + hands)</label></div>
+        <p class="subtle">Original doll keeps the native body and hand sprites. Choose equipment candidates separately below.</p>
+        <div class="field-row"><label for="artMode">Artwork</label><select id="artMode"><option value="candidate">2× candidates, native fallback</option><option value="accepted">Accepted 2× only, native fallback</option><option value="native">Native originals only</option></select></div>
+        <p class="subtle">Real-ESRGAN bodies and limbs accepted for all 75 available dolls. Original canvases and offsets retained.</p>
+        <div class="field-row"><label for="zoom">Display size</label><select id="zoom"><option value="1">1×</option><option value="1.5">1.5×</option><option value="2" selected>2×</option><option value="3">3×</option></select></div>
+        <div class="field-row"><label for="spearMastery">Spear mastery</label><select id="spearMastery"><option value="low">Below Master</option><option value="master">Master or higher</option></select></div>
+      </section>
+
+      <section>
+        <h2>Hands</h2>
+        <div class="field-row"><label for="poseSelect">Pose</label><select id="poseSelect"><option value="empty">Empty hands</option><option value="one">One-hand weapon</option><option value="two">Two-hand weapon</option></select></div>
+        <div id="handControls"></div>
+      </section>
+
+      <section>
+        <h2>Shared equipment</h2>
+        <p class="subtle">Armor switches to its alternate art when the main hand is empty. Changing a hand item selects its pose.</p>
+        <div id="sharedControls"></div>
+      </section>
+
+      <section class="jewelry-controls">
+        <h2>Jewelry overlay items</h2>
+        <p class="subtle">Selecting gloves, an amulet or a ring opens the overlay. Choose its Selection mode for Space / Shift+Space.</p>
+        <div id="jewelryControls"></div>
+      </section>
+    </aside>
+
+    <section class="stage">
+      <div class="stage-head">
+        <div>
+          <h2 id="stageTitle">Doll</h2>
+          <p id="stageNote" class="subtle"></p>
+        </div>
+        <div class="legend"><span class="swatch candidate"></span>exact-2× file <span class="swatch native"></span>native 1× enlarged <span class="swatch forced"></span>forced preview</div>
+      </div>
+      <section class="keyboard-toolbar panel" aria-label="Review keyboard shortcuts">
+        <label for="keyboardMode">Selection mode</label> <select id="keyboardMode"></select>
+        <span id="keyboardStatus" class="subtle" aria-live="polite"></span>
+        <p id="jewelryProgress" class="subtle" hidden></p>
+        <div class="switch-row"><label><input id="hideAccepted" type="checkbox"> Hide accepted / staged</label></div>
+        <p class="subtle">Filters the queue and item lists; Space and item arrows skip accepted images. Changed repairs remain visible.</p>
+        <p class="subtle">Arrows: move 1 game pixel · Tab: next body type · Space: next item · Shift+Space: accept current.
+          While editing notes or dropdowns, press Esc to resume shortcuts.</p>
+      </section>
+      <div class="comparison-workspace">
+        <div id="poseGrid" class="pose-grid"></div>
+        <section class="equipment-review panel">
+          <h2>Equipment acceptance &amp; placement</h2>
+          <p class="subtle">Accept only the named image. Armor types and pose variants are separate.
+            Moves are 1 game pixel = 2 pixels at 2×. Original view stays fixed.</p>
+          <p class="subtle">Saved locally in this browser. Export review JSON to hand off decisions and table proposals.</p>
+          <div id="inventoryPreview" class="inventory-preview" hidden></div>
+          <div id="equipmentReview"></div>
+          <p id="placementSummary" class="subtle" aria-live="polite"></p>
+        </section>
+      </div>
+      <div id="missingAssets" class="missing-assets" hidden></div>
+      <section class="layer-section panel">
+        <h2>Visible layers</h2>
+        <p class="subtle">Select a layer to inspect its image, placement, and review decision.</p>
+        <div id="layerList" class="layer-list"></div>
+      </section>
+    </section>
+
+    <aside class="review panel">
+      <section>
+        <h2>Remaining asset queue</h2>
+        <div class="field-row"><label for="targetSearch">Find</label><input id="targetSearch" type="search" placeholder="Name, item, target id"></div>
+        <div class="field-row"><label for="targetScope">Scope</label><select id="targetScope"><option value="pending">Active, not approved</option><option value="resolver">Resolver-selected pending</option><option value="manual">Manual or head-only pending</option><option value="active">All active</option><option value="all">All engine variants and parts</option></select></div>
+        <div class="field-row"><label for="decisionFilter">Review</label><select id="decisionFilter"><option value="all">All decisions</option><option value="jewelry">Gloves / amulets / rings</option><option value="held">Held-weapon armor to review</option><option value="main">Remaining main equipment</option><option value="latest">Latest feedback repairs</option><option value="repairs">All repairs to re-review</option><option value="staged">Original staged approvals</option><option value="unreviewed">Unreviewed</option><option value="flag">Flagged (manual + auto)</option><option value="magenta">Auto: magenta spill</option><option value="purple">Auto: purple material check</option><option value="clean">No magenta detected</option><option value="approve">Accepted here</option><option value="candidate">Has 2× candidate</option><option value="native">Native fallback</option></select></div>
+        <div class="queue-actions"><button id="prevTarget" type="button">← Previous</button><button id="nextTarget" type="button">Next →</button></div>
+        <p id="queueCount" class="subtle"></p>
+        <div id="targetList" class="target-list"></div>
+      </section>
+
+      <section id="selectedInspector" class="inspector">
+        <h2>Selected asset</h2>
+        <p class="subtle">Choose a target or visible layer.</p>
+      </section>
+    </aside>
+  </main>
+
+  <script src="catalog.js?v=runtime-installed-20260926"></script>
+  <script src="placement.js?v=equipment-keyboard-20260925"></script>
+  <script src="magenta_scan/report.js?v=20260925"></script>
+  <script src="jewelry_prepared/magenta_scan/report.js?v=20260926"></script>
+  <script src="../runtime_install_20260926/review.js?v=20260926"></script>
+  <script src="../runtime_install_20260926/inventory_fit.js?v=20260926"></script>
+  <script src="jewelry_inventory_20260926/approval_snapshot_sync.js?v=20260926"></script>
+  <script src="app.js?v=canonical-equipment-20260926"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Fine Leather Cloak (7item105). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Compact irregular stack of folded dark brown leather cloak, three thick rolled soft layers, a diagonal upper flap and curled edge corners; no clasp. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item105/guide_atlas.png",
+  "input_icon": "7item105",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-acdbad27-29fb-4452-bfad-9bb54ccc91b1.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "c3d9fa621d318a5ab1c4f80040c6de326d0976cbae7014acdcdea1b01a5a8c55",
+  "revision": 1,
+  "input_icon_path": "assets_dev/engine/icons_x2/7item105.png",
+  "input_icon_sha256": "dcfbfe6ff05be1b426a0eb9ee7d1fd0d3d8340a1b1bff6d3bd52b96b57fb777d",
+  "retained_guide": "codex_tex/equipment_7item105/guide_atlas.png",
+  "retained_guide_sha256": "cca632efdd1b2367944a02e48b5b7942d6db187320e522a98af8300c8d268984",
+  "guide_hash_note": "Retained guide hashed retrospectively; original receipt omitted input hash.",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

@@ -1,0 +1,150 @@
+# Explicit conversion choices for MM9's Frosgard City (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon and the city module ../mm9r_common/city; a rerun keeps them). Rules and keys:
+# ../mm9r_common/DUNGEON_PLAYBOOK.md and ../mm9r_common/CITY_PLAYBOOK.md.
+map:
+  fog: lithtech                      # MM9's own fog model and its WeatherMan night fog (CITY_PLAYBOOK "Daylight and fog")
+  sky_fog: true                      # the open sky in the fog colour where MM9's fog covers its sky box (INDOOR_FOG.md)
+  bright_scale_lights: true          # BLV light colour x MM9's BrightScale, as its lightmaps (CITY_PLAYBOOK "Street lights")
+  stem: frosgardcity
+  display_name: Frosgard City
+  # start index = the old map's: 0 FallingStart (thrown out of Yanmir's Fort: MM9 drops the party from 2 560 LT into
+  # the harbour; here on the surface under it), 1 the north gate (from the Frosgard wilderness), 2 the docks,
+  # 3 Town Portal
+  starts: [FallingStart, FrosgardCityStart, StartPoint0, TownPortal]
+  monster_classes: [TownElfMaleA, TownElfFemaleA, ShopkeeperHuman2FemaleA, ShopkeeperHuman2MaleB, ShopkeeperElfMaleB,
+                    CommonerHumanMaleB, TownElfMaleB, TownHuman2FemaleB, TownHuman2MaleA, ShopkeeperElfMaleA,
+                    TownHumanMaleA, CommonerHumanMaleA, TownHuman2MaleB, CommonerHuman2MaleA, TownElfFemaleB,
+                    CommonerHuman2MaleB, ForadDarre, TamurLeng, TryggvaRavenlocks]
+  painted_minimap: true               # MM9's painted city map (catalog entry kept); no outline pass (CITY_PLAYBOOK.md)
+  offset: [0, 0, 0]                   # the old map's frame; geometry past the int16 frame is clipped (convert.py)
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+# FallingStart hangs 2 560 LT over the harbour, outside the voxel box (convert.py NEAR_BOX): its column is seeded on
+# the ice below instead
+seed_exclude: [FallingStart]
+seeds:
+  - [-4544, -100, -3840]             # under FallingStart, over the ocean surface
+# Light0: MM9's white fill over the whole bay (LightRadius 15 000 LT = 38 400 native at 2 752 LT over the harbour, a
+# stand-in sun); a BLV light's radius is 16-bit, and the open sky's daylight is the sky pass's job (README)
+skip_lights: [Light0]
+plan_levels:
+  harbour: [-200, 40]
+  street: [-20, 140]
+  upper: [140, 700]
+model_patterns:
+  Snow: skip                          # weather volumes (greenscreen boxes): MM9's snowfall, no geometry
+  WorldObject: static                 # hanging chains (ChainLink in invisible boxes), ice slabs
+  Carpet: static                      # carpets (CarpetOld03, AmazingTrim1b)
+models:
+  SkyBox0: skip                       # DemoSkyWorldModel: MM9's sky box (SnowMtns_*), drawn by the sky, not geometry
+  TOD_Sky0: skip                      # TOD_Sky: the night starfield shell
+  BlueWater0: skip                    # the harbour's water volume (Visible 0, ShowSurface 0): the Ocean brush is its top
+  Ocean: static                       # the harbour's surface (Ocean4.spr, Alpha 0.8, non-solid): swum over its bed (convert.py)
+  Terrain0: static                    # the mountains and shore round the town (4 133 polygons)
+  ToothTerrain: static                # the ice tooth in the harbour's south-west
+  InvisibleBrush0: static             # the invisible wall behind the north exit
+  InvisibleBrush1: static             # the harbour's fence (Firethrough): the party stays on the ice and the docks
+  DestructableBrush12: static         # the magic shop's two window panes (frosgardwindow2, translucent): glass
+  DestructableBrush13: static
+  Bankwindow: static                  # a Door with no MoveDir (a 16 x 8 LT grille over the bank's hatch): never moves
+  # --- the harbour's ice floes (DestructableBrush, frosgardice 16 LT thick at -136): BreakIce.scr breaks them (the
+  # dockmaster's cannon); here each sinks to rest on what lies under it (citylua.py), one mover each: the harbour's
+  # bed (PhysicsBSP at -528 LT, Terrain0's slopes) or, for 27, 34 and 35, the sunken frosgardwood crib (top -192);
+  # move_lt = the highest floor under the floe's footprint (9 x 9 samples) + 2 - its bottom (-144), rounded up
+  DestructableBrush6: {group: Ice6, motion: slide, move_lt: [0, -377, 0], speed: 256}
+  DestructableBrush7: {group: Ice7, motion: slide, move_lt: [0, -377, 0], speed: 256}
+  DestructableBrush8: {group: Ice8, motion: slide, move_lt: [0, -378, 0], speed: 256}
+  DestructableBrush9: {group: Ice9, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush14: {group: Ice14, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush15: {group: Ice15, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush16: {group: Ice16, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush17: {group: Ice17, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush18: {group: Ice18, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush19: {group: Ice19, motion: slide, move_lt: [0, -374, 0], speed: 256}
+  DestructableBrush20: {group: Ice20, motion: slide, move_lt: [0, -364, 0], speed: 256}
+  DestructableBrush21: {group: Ice21, motion: slide, move_lt: [0, -314, 0], speed: 256}
+  DestructableBrush22: {group: Ice22, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush23: {group: Ice23, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush24: {group: Ice24, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush25: {group: Ice25, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush26: {group: Ice26, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush27: {group: Ice27, motion: slide, move_lt: [0, -46, 0], speed: 256}
+  DestructableBrush28: {group: Ice28, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush29: {group: Ice29, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush30: {group: Ice30, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush31: {group: Ice31, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush32: {group: Ice32, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush33: {group: Ice33, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush34: {group: Ice34, motion: slide, move_lt: [0, -46, 0], speed: 256}
+  DestructableBrush35: {group: Ice35, motion: slide, move_lt: [0, -46, 0], speed: 256}
+  DestructableBrush36: {group: Ice36, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush37: {group: Ice37, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush38: {group: Ice38, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush39: {group: Ice39, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush40: {group: Ice40, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush41: {group: Ice41, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush42: {group: Ice42, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush43: {group: Ice43, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush44: {group: Ice44, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush45: {group: Ice45, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  DestructableBrush46: {group: Ice46, motion: slide, move_lt: [0, -382, 0], speed: 256}
+  # --- doors (work/draft_rules.py, edited): every swing door is a doorway
+  Trainingdoor: {group: Trainingdoor, motion: rotate, doorway: true, portal: Trainingportal}
+  Taverndoor: {group: Taverndoor, motion: rotate, doorway: true, portal: Tavernportal}
+  Apothdoor: {group: Apothdoor, motion: rotate, doorway: true, portal: Apothportal}
+  WAdoorL: {group: WAdoorL, motion: rotate, doorway: true, portal: WAportal}
+  WAdoorR: {group: WAdoorL, motion: rotate, doorway: true, portal: WAportal}
+  TownhallR: {group: TownhallL, motion: rotate, doorway: true, portal: Townhallportal}
+  TownhallL: {group: TownhallL, motion: rotate, doorway: true, portal: Townhallportal}
+  RDoor0: {group: RDoor0, motion: rotate, doorway: true, portal: RDoor0portal}
+  Door7: {group: Door7, motion: rotate, doorway: true, portal: Door7portal}
+  Door13: {group: Door13, motion: rotate, doorway: true, portal: Door13portal}
+  TempledoorL: {group: TempledoorL, motion: rotate, doorway: true, portal: Templeportal}
+  TempledoorR: {group: TempledoorL, motion: rotate, doorway: true, portal: Templeportal}
+  Magidoor: {group: Magidoor, motion: rotate, doorway: true}   # a single leaf in a wall opening: its leaves' rectangle is the doorway portal
+  # The bank's counter hatch (Door, MoveDir -x, MoveDist 14, Sticky; its OpenTrigger sends the banker "bank", which
+  # opens his dialogue 206): a click opens it and the banker's dialogue (citylua.py)
+  Bankdoor: {group: Bankdoor, motion: dat}
+  Door0: {group: Door0, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door1: {group: Door1, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door2: {group: Door2, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door4: {group: Door4, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door5: {group: Door5, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door6: {group: Door6, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door8: {group: Door8, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door9: {group: Door9, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door10: {group: Door10, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door11: {group: Door11, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door12: {group: Door12, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door14: {group: Door14, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door15: {group: Door15, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door16: {group: Door16, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door17: {group: Door17, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door18: {group: Door18, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door19: {group: Door19, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door20: {group: Door20, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door21: {group: Door21, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door22: {group: Door22, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+  Door23: {group: Door23, motion: dat, move_dist_lt: 2}   # locked, MoveDist 0: a facade door that never opens (click: locked)
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}   # the sky shell: IndoorSky faces (scene override)
+  # greenscreen: 10 solid polygons (two small boxes on the western mountain, MM9's renderer zones); dropped in convert.py
+  'textures\leveltextures\misc\greenscreen.dtx': {alias: sky04, width: 512, height: 512}
+# MM9's window panes (the magic shop's: Invisible boxes with one translucent pane, flag 0x8; convert.py keeps glass to
+# translucent faces: frosgardwindow2 also paints 12 opaque facade windows)
+glass:
+  frosgardwindow2.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# The city settings (../mm9r_common/city): no street structure here (convert.py FrosgardCity.extra_portals: the town
+# has no wall and no corridor streets; the open air is one room), the sky and the half steps.
+city:
+  weather: snow                    # the outdoor weather over the open sky (MM9's Snow brushes fill its streets; city.hooks.apply_weather)
+  merged_top_portals: true          # no roof line here (one open-air room): no effect; set as in every city
+  daylight: true                     # sun and sky light on the sectors open to the sky (CITY_PLAYBOOK "Daylight and fog")
+  sky_texture: plansky3              # the old import's sky: legacy_plansky3 preset
+  half_steps: true                   # invisible half steps onto standable raised floors 50-66 high (CITY_PLAYBOOK "Raised floors")
+# The cinematics' camera gate (mm9r_common/camera_gate.py): cameras checked by eye that it cannot pass.
+cinematics_gate:
+  "break_ice shot 4": "Camera2 hangs high over the harbour at the map's edge (two level rays leave the map); its view looks inward over the floes (captures_break_ice/05-camera2-waves.png)"

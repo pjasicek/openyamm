@@ -1,0 +1,43 @@
+{
+  "prompt": "Edit the attached guide_atlas.png ONLY, using design_reference.png as approved material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta). Produce ONE 1536x1024 PNG with genuine transparent background. Paint-only view atlas for Pearl of Memory. Preserve exactly the guide's three columns by two rows of 512x512 cells: row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, EMPTY. Five round pearl silhouettes centered at (256,256), (768,256), (1280,256), (256,768), (768,768), each matching the guide's exact position, size and outline. Paint only grey objects; never redraw, enlarge, move or redesign them. Bottom right cell fully transparent. Preserve every gap and opening transparent.\nPaint unlit base colour: lustrous pearly white with soft iridescent pale blue-grey mist swirling inside, using the approved master for the swirling nacre detail scaled to each view and original icon for colour. Same pearl in five orthographic views, consistent material. Smooth perfectly round pearl; no added engravings or invented facets. Remove the guide's lighting and express nacre through subtle pigment variation only. Unlit albedo only: NO lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles or aura outside silhouette, ground, outlines, text or labels. Do not reproduce the reference's white specular highlight. Maintain delicate pearly ivory and pale blue-grey flowing swirls across all five silhouettes. Exact guide composition, transparent remaining canvas.\nCORRECTION, STRICT ALPHA MASK: The previous attempt wrongly filled the background with haze. Copy the guide atlas alpha silhouette precisely: all pixels outside the five guide objects must be alpha=0, including the entire sixth cell. The objects themselves are opaque. No semi-transparent fog anywhere. No rim outline. Exact original guide shape and placement; use guide as the edit target. Flat diffuse colour only, no bright white specular areas or shading.",
+  "initial_prompt": "Edit the attached guide_atlas.png ONLY, using design_reference.png as approved material/detail reference and icon_x8.png as colour reference (magenta is background, never paint magenta). Produce ONE 1536x1024 PNG with genuine transparent background. Paint-only view atlas for Pearl of Memory. Preserve exactly the guide's three columns by two rows of 512x512 cells: row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, EMPTY. Five round pearl silhouettes centered at (256,256), (768,256), (1280,256), (256,768), (768,768), each matching the guide's exact position, size and outline. Paint only grey objects; never redraw, enlarge, move or redesign them. Bottom right cell fully transparent. Preserve every gap and opening transparent.\nPaint unlit base colour: lustrous pearly white with soft iridescent pale blue-grey mist swirling inside, using the approved master for the swirling nacre detail scaled to each view and original icon for colour. Same pearl in five orthographic views, consistent material. Smooth perfectly round pearl; no added engravings or invented facets. Remove the guide's lighting and express nacre through subtle pigment variation only. Unlit albedo only: NO lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles or aura outside silhouette, ground, outlines, text or labels. Do not reproduce the reference's white specular highlight. Maintain delicate pearly ivory and pale blue-grey flowing swirls across all five silhouettes. Exact guide composition, transparent remaining canvas.",
+  "tool": "built-in image_gen",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce9-dd57-7361-8dd8-de25fc7ce418/exec-71438680-01bd-4c75-a063-5c4fa45c37b2.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_pearl_of_memory/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_pearl_of_memory/guide_atlas.png",
+      "sha256": "e9e5bdf4984498b4d4ae93734acd311bc84971964715df8b46859eec7d5b122a"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_pearl_of_memory/design_reference.png",
+      "sha256": "eee206b97bf4d074cc6e88550820547fc42232381940d4937649db5d44d2a01d"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_pearl_of_memory/icon_x8.png",
+      "sha256": "15bd2ac3ca11e66a616a42d2c9cd7447b62d02f99e055e47e311fcdc9080de52"
+    }
+  ],
+  "validation": {
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "empty_cell_alpha_bbox": [
+      0,
+      0,
+      432,
+      472
+    ],
+    "limitations": "Generated result retains background haze and highlights; strict transparent silhouette/unlit requirements not met after the one allowed correction. Raw tool output preserved without alteration."
+  }
+}

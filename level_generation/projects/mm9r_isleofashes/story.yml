@@ -1,0 +1,430 @@
+# The Isle of Ashes story chain on the remade map. Written by make_story_scenario.py.
+id: mm9r.isleofashes.story
+world: mm9
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: isleofashes.odm
+- set_pose:
+    map: isleofashes.odm
+    x: 2011
+    y: -7506
+    z: 146
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Forad Darre: the crash, Yrsa''s name (477); OnRudeExit 368 + 4000 xp'
+- interact_actor:
+    actor_index: 13
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 4
+- select_topic:
+    action_id: 14
+- select_topic:
+    action_id: 1
+- assert:
+    qbit_set:
+    - 90480
+    - 90477
+    - 90368
+    qbit_clear:
+    - 90029
+- set_pose:
+    map: isleofashes.odm
+    x: 2706
+    y: -16475
+    z: 410
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Yrsa: the dragonfly task (7)'
+- interact_actor:
+    actor_index: 12
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 20
+- select_topic:
+    action_id: 9
+- assert:
+    qbit_set:
+    - 90365
+    - 90007
+    qbit_clear:
+    - 90027
+- set_pose:
+    map: isleofashes.odm
+    x: -3262
+    y: -18166
+    z: 1448
+    yaw: 0.0
+    pitch: 0.0
+- damage_actor:
+    actor_index: 0
+    amount: 30000
+- damage_actor:
+    actor_index: 1
+    amount: 30000
+- damage_actor:
+    actor_index: 2
+    amount: 30000
+- damage_actor:
+    actor_index: 3
+    amount: 30000
+- damage_actor:
+    actor_index: 4
+    amount: 30000
+- damage_actor:
+    actor_index: 5
+    amount: 30000
+- damage_actor:
+    actor_index: 6
+    amount: 30000
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_clear:
+    - 90027
+- damage_actor:
+    actor_index: 7
+    amount: 30000
+- advance_runtime:
+    seconds: 1
+- note:
+    text: the eighth OneDown gives key 27
+- assert:
+    qbit_set:
+    - 90027
+- set_pose:
+    map: isleofashes.odm
+    x: 2706
+    y: -16475
+    z: 410
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Yrsa: destiny (1); OnRudeExit dragonfly 366 and mainline 367'
+- interact_actor:
+    actor_index: 12
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 5
+- select_topic:
+    action_id: 10
+- select_topic:
+    action_id: 6
+- select_topic:
+    action_id: 7
+- select_topic:
+    action_id: 0
+- select_topic:
+    action_id: 1
+- select_topic:
+    action_id: 2
+- select_topic:
+    action_id: 3
+- assert:
+    qbit_set:
+    - 90001
+    - 90366
+    - 90367
+- set_pose:
+    map: isleofashes.odm
+    x: -1014
+    y: 4540
+    z: 21
+    yaw: 1.5708
+    pitch: -0.015
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 900498
+      state: closed
+- set_pose:
+    map: isleofashes.odm
+    x: 2011
+    y: -7506
+    z: 146
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Forad Darre joins: hire row grants 29 and 371'
+- interact_actor:
+    actor_index: 13
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 4
+- select_topic:
+    action_id: 7
+- select_topic:
+    action_id: 2
+- select_topic:
+    action_id: 15
+- select_topic:
+    action_id: 10
+- select_topic:
+    action_id: 11
+- select_topic:
+    action_id: 12
+- press_action:
+    action: cancel_dialog
+- assert:
+    qbit_set:
+    - 90029
+    - 90371
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: true
+- set_pose:
+    map: isleofashes.odm
+    x: 2706
+    y: -16475
+    z: 410
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Yrsa: the Turret Key (469, item 568)'
+- interact_actor:
+    actor_index: 12
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 24
+- select_topic:
+    action_id: 9
+- assert:
+    qbit_set:
+    - 90469
+    held_item:
+      active: true
+      item_id: 10568
+- assert:
+    held_item:
+      active: false
+      item_id: 10568
+- assert:
+    inventory_any_member:
+    - item_id: 10568
+- set_pose:
+    map: isleofashes.odm
+    x: -1014
+    y: 4540
+    z: 21
+    yaw: 1.5708
+    pitch: -0.015
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 900498
+      state: open
+- assert:
+    mechanism:
+      id: 900499
+      state: open
+- assert:
+    inventory_any_member:
+    - item_id: 10568
+      count: 0
+- set_pose:
+    map: isleofashes.odm
+    x: -942
+    y: 5287
+    z: 0
+    yaw: 1.5708
+    pitch: -0.4288
+- execute_event:
+    id: 30496
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- assert:
+    qbit_clear:
+    - 90028
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- note:
+    text: 'OnSink (4.5 s): key 28, 5200 xp'
+- assert:
+    qbit_set:
+    - 90028
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- execute_event:
+    id: 31000
+- note:
+    text: 'FadeOut2 (17 s): ExitTrigger1 to Sturmford'
+- assert:
+    map_arrived:
+      map: sturmford.odm
+- load_map:
+    map: isleofashes.odm
+- assert:
+    actor_visible:
+      actor_index: 14
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 12
+      hidden: true
+- set_pose:
+    map: isleofashes.odm
+    x: 3240
+    y: 6328
+    z: 246
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Annud Redeye: passage to Sturmford (transport_routes.txt dock 138)'
+- interact_actor:
+    actor_index: 14
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 2
+- select_topic:
+    action_id: 4
+- assert:
+    map_arrived:
+      map: sturmford.odm

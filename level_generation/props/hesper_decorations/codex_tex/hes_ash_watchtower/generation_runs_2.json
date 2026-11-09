@@ -1,0 +1,83 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "compliant": false,
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 RGBA transparent PNG, paint_back.png, an albedo texture-source painting of the BACK view of the Ashrunner watchtower.\nInput 1 guide_back.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is only the approved material and colour reference. Input 3 concept_crop.png is secondary concept reference only.\nPaint the surfaces of Input 1 in place; preserve its EXACT silhouette, pixel position, scale, orthographic back camera and all shape edges, negative spaces, structural beam crossings, rear panels, tarp edges, supports and rock footing shapes. Do not adopt the three-quarter camera or geometry of Input 2. Do not add ladder, people, ropes, holes or geometry absent in the grey guide. Nothing added outside the silhouette, nothing cropped; retain all transparent openings. The image must align directly with guide_back.png at 1024 x 1024 without resizing.\nMaterials: rust-brown and dark grey salvaged steel girders and sheets with worn oxidized mottling, faded red-brown tarp canopy and hanging fabric, dusty grey-brown stones at the existing feet. Paint the small existing lantern on the upper right warm amber, without casting light. Derive the material colours and surface wear from design_reference.png, but remove its directional illumination.\nLIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. All visible faces should retain clearly readable evenly lit material colour including rear and under-platform members. Glowing parts painted in their glowing colour, never light cast on surroundings. No text, labels or watermark. Preserve the guide alpha/silhouette exactly; change only the surface colours/material painting.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/guide_back.png",
+          "sha256": "5400894b351759e1b0badaf0827037d0ad2fca137334adcc7f6348ebcfc426c2"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, shifted edges, added holes and stronger shading.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Rust-brown and dark grey steel, faded red-brown tarp, amber lantern match requested palette visually.",
+        "flat_light": "Residual contact darkening and facet shading remain; not strictly shadowless albedo.",
+        "unresized_return": true
+      },
+      "sha256": "227e1c1fed62d3ccd73e9f038a8102e81821882352594054ab208e04139fd13a"
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 RGBA transparent PNG, paint_back.png, an albedo texture-source painting of the BACK view of the Ashrunner watchtower.\nInput 1 guide_back.png is the EDIT TARGET and absolute geometry authority. Input 2 design_reference.png is only the approved material and colour reference. Input 3 concept_crop.png is secondary concept reference only.\nPaint the surfaces of Input 1 in place; preserve its EXACT silhouette, pixel position, scale, orthographic back camera and all shape edges, negative spaces, structural beam crossings, rear panels, tarp edges, supports and rock footing shapes. Do not adopt the three-quarter camera or geometry of Input 2. Do not add ladder, people, ropes, holes or geometry absent in the grey guide. Nothing added outside the silhouette, nothing cropped; retain all transparent openings. The image must align directly with guide_back.png at 1024 x 1024 without resizing.\nMaterials: rust-brown and dark grey salvaged steel girders and sheets with worn oxidized mottling, faded red-brown tarp canopy and hanging fabric, dusty grey-brown stones at the existing feet. Paint the small existing lantern on the upper right warm amber, without casting light. Derive the material colours and surface wear from design_reference.png, but remove its directional illumination.\nLIGHTING: TEXTURE SOURCE (albedo). Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. All visible faces should retain clearly readable evenly lit material colour including rear and under-platform members. Glowing parts painted in their glowing colour, never light cast on surroundings. No text, labels or watermark. Preserve the guide alpha/silhouette exactly; change only the surface colours/material painting.\nCORRECTIVE REGENERATION, final permitted attempt: The previous return was incorrectly 1254 x 1254 with changed shape edges. Return exactly 1024 x 1024 native pixels. Treat guide_back.png as a locked image to recolour, not a composition to reconstruct. Keep its alpha channel unchanged, all edge pixels unchanged. Its opaque object occupies approximately x=150..873, y=66..957 in the 1024 square; match these placements and every internal opening. Do not create holes in fabric or round holes in steel, do not add rope loops or protrusions, and do not reshape the existing rock feet. Keep the guide's planar panel boundaries, existing diagonal braces and small lantern shape. Paint rust and cloth texture inside the existing geometry only. Use flatter diffuse albedo colours than the previous return: no dark contact shadows beneath canopy or platform and no metallic highlight edging. Only the supplied guide fixes shapes; the design reference fixes surface colour. Native output resolution must be 1024 x 1024, transparent.",
+      "inputs": [
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/guide_back.png",
+          "sha256": "5400894b351759e1b0badaf0827037d0ad2fca137334adcc7f6348ebcfc426c2"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/paint_back.png",
+      "selected": true,
+      "reason": "Best of the two permitted attempts: reduced added details and highlights. Selected for delivery only; fails exact 1024 dimensions and identical silhouette, with residual shading. Preserved unresized per brief.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Rust-brown and dark grey steel, faded red-brown tarp, amber lantern match requested palette visually.",
+        "flat_light": "Residual contact darkening and facet shading remain; not strictly shadowless albedo.",
+        "unresized_return": true
+      },
+      "sha256": "d2fa5e2fcb024041450b78f0c43b71f2b533f31d9508d873ae9239996f7c1a96"
+    }
+  ]
+}

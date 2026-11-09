@@ -1,0 +1,284 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "generated_but_not_fully_compliant",
+  "requirements": {
+    "size": [
+      1024,
+      1024
+    ],
+    "transparent_background": true,
+    "unresized_returns": true,
+    "exact_guide_silhouette": true,
+    "flat_albedo_lighting": true,
+    "max_corrective_regenerations_per_view": 1
+  },
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate paint_front.png: one 1024 x 1024 RGBA PNG, transparent background, a front orthographic albedo texture-source painting of the opened Colony satchel.\nINPUT ROLES: Image 1, guide_front.png, is the edit target and absolute authority for geometry, camera, composition and alpha silhouette. Image 2, design_reference.png, is the approved authority for design, colours and materials ONLY. Image 3, concept_crop.png, is supporting original concept reference.\nEdit Image 1 in place by painting materials onto its existing grey surfaces. Preserve its EXACT pixel-space outline, dimensions, position, visible polygon edges, folds, straps, buckle openings and all other shape edges. Retain the low, broad, asymmetric front view of the guide, not the three-quarter view of the references. The guide's nontransparent bounding box is x=66..957, y=319..705 in the full 1024-square canvas: preserve this placement and all surrounding transparent space. Never enlarge, recenter, rotate, reshape, inflate, smooth the silhouette or crop the target. Leave every existing hole transparent.\nMATERIALS: Worn faded deep-blue canvas exterior, sandy off-white canvas on the existing folded-back upper flap, pale sand-coloured lining on the interior surfaces, dusty fabric weave, restrained stitching and wear. On the upper flap place the reference's red cloth band, narrow gold borders and simple gold embroidered ring-with-short-stem sigil. Existing straps are tan leather; existing buckles and hardware are muted brass. Follow the approved reference's material boundaries as they map onto this exact guide, keeping all physical details in their guide locations. Do not invent extra geometry or hanging straps; texture detail stays within existing surfaces.\nLIGHTING: flat unlit albedo, uniform even shadowless light from the viewer. Preserve surface material colour even inside the cavity; no ambient-occlusion darkening, no dark recess shading, no cast shadows, no directional shading, no bright specular highlights, no reflections, no rim light. Show wear and fabric grain as colour texture, not baked lighting. Brass is a muted brass base colour, not shiny rendered metal.\nOUTPUT: only the painted object, actual alpha transparency in all background pixels and openings. No background, floor, gradient, glow, checkerboard pixels, text, labels or watermark. Return native 1024 x 1024 without resizing. Geometry and alpha matching to Image 1 take priority over prettifying the object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/guide_front.png",
+          "sha256": "9188bcc33a50e21bd63356197dbbdab384b47d0fe1b15192ccd6b8618a8b232e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16acb-29d5-75f1-b171-eca3abbd03c5/exec-3491be37-4622-4c03-b894-706347ca0762.png",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254 x 1254 instead of 1024 x 1024; silhouette/alpha differs from guide; cavity shading and hardware highlights violate flat albedo lighting.",
+      "output_sha256": "e8a491d953af6c85534ecb1684f222678d3e13c5cfe06a2530ee8813ec2e272a",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          17,
+          31,
+          1248,
+          1254
+        ],
+        "alpha_at_least_128_bbox": [
+          80,
+          391,
+          1173,
+          865
+        ],
+        "guide_alpha_nonzero_bbox": [
+          66,
+          319,
+          958,
+          706
+        ],
+        "fully_transparent_pixels": 1177245,
+        "partially_transparent_pixels": 394900,
+        "exact_guide_alpha_pass": false,
+        "exact_guide_silhouette_pass": false,
+        "material_colours_visual_check": "Requested deep-blue canvas, sand fabric/lining, red and gold emblem, tan leather and brass present; generated surface details vary from reference.",
+        "flat_even_lighting_pass": false,
+        "lighting_visual_check": "Cavity/fold darkening and brass edge highlights remain; corrective return has lighter lining.",
+        "transparent_background_check": "RGBA with fully transparent background pixels, but stray/partial alpha beyond the guide silhouette remains.",
+        "unresized_byte_identical_copy": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE EDIT. Required image size: exactly 1024 by 1024 pixels, square PNG RGBA. Use the 1024 x 1024 canvas of Image 1 unchanged.\nImage 1 = guide_front.png, the exact edit target and pixel-space geometry/alpha authority.\nImage 2 = design_reference.png, the approved material/colour reference.\nImage 3 = concept_crop.png, original supporting reference.\nImage 4 = previous front painting, material reference only. It failed because it is 1254 x 1254, has stray alpha outside the object, has baked shadow/highlights, and changes geometry. Correct these failures; do not reuse its canvas or silhouette.\nPaint only the grey object in Image 1, without redrawing, smoothing, moving or resizing any geometry. Preserve EVERY silhouette pixel, every polygon edge and opening, every strap/buckle location and every interior fold from Image 1. Keep the broad low orthographic front view, not the design reference camera. The guide object occupies x=66..957 and y=319..705 in the 1024 x 1024 canvas, with transparent margins above and below. All pixels outside the original guide silhouette must have alpha=0, without stray particles, haze, fringe or glow. All original buckle holes remain transparent.\nTransfer only materials: faded deep-blue dusty canvas exterior; pale sand canvas upper flap and sand lining; reference red cloth band with thin gold borders and gold ring-with-short-stem embroidered sigil on upper flap; tan leather on existing straps; muted matte brass on existing hardware. Keep the reference's specific design and colours, light wear, weave, leather grain and stitching as flat colour texture. Add no physical details or objects.\nUNLIT BASE COLOUR PASS: uniform flat front illumination. Interior lining must be pale sand, not darkened by occlusion. No directional or cavity shading, cast shadows, contact shadows, ambient occlusion, shiny highlights, reflections, edge glow or rim light. Brass is flat ochre brass colour. Creases stay in their guide positions through subtle texture boundaries, not deep shadow.\nReturn ONE native 1024 x 1024 image, genuine transparent background, no floor, no lettering, no watermark. Exact Image 1 geometry and 1024-square canvas are mandatory.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/guide_front.png",
+          "sha256": "9188bcc33a50e21bd63356197dbbdab384b47d0fe1b15192ccd6b8618a8b232e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a16acb-29d5-75f1-b171-eca3abbd03c5/exec-3491be37-4622-4c03-b894-706347ca0762.png",
+          "sha256": "e8a491d953af6c85534ecb1684f222678d3e13c5cfe06a2530ee8813ec2e272a"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16acb-29d5-75f1-b171-eca3abbd03c5/exec-16a44fd1-e764-4249-a329-4fbf31bfcb92.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the best available unresized return after the single permitted correction: lighter lining and reduced shading. Not compliant with the full brief: native return remains 1254 x 1254, silhouette/alpha is not identical to the guide, and baked shading/highlights remain.",
+      "output_sha256": "904df5fc6a0f33a44aa9ee2e88fa9c03b412dd4d7e8c039116396b2acca50c4b",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          25,
+          31,
+          1234,
+          1222
+        ],
+        "alpha_at_least_128_bbox": [
+          80,
+          389,
+          1177,
+          865
+        ],
+        "guide_alpha_nonzero_bbox": [
+          66,
+          319,
+          958,
+          706
+        ],
+        "fully_transparent_pixels": 1180929,
+        "partially_transparent_pixels": 391182,
+        "exact_guide_alpha_pass": false,
+        "exact_guide_silhouette_pass": false,
+        "material_colours_visual_check": "Requested deep-blue canvas, sand fabric/lining, red and gold emblem, tan leather and brass present; generated surface details vary from reference.",
+        "flat_even_lighting_pass": false,
+        "lighting_visual_check": "Cavity/fold darkening and brass edge highlights remain; corrective return has lighter lining.",
+        "transparent_background_check": "RGBA with fully transparent background pixels, but stray/partial alpha beyond the guide silhouette remains.",
+        "unresized_byte_identical_copy": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nOUTPUT SIZE: 1024 x 1024 pixels. Paint the existing 1024-square guide image in place and return the full same-size PNG RGBA canvas. Deliverable paint_top.png, an unlit albedo texture source with genuine transparent background.\nInput 1 guide_top.png is the edit target: its exact camera, geometry, silhouette, pixel locations, all boundaries and transparency are immutable.\nInput 2 design_reference.png is the approved colour/material/design reference only.\nInput 3 concept_crop.png is the original supporting concept.\nApply the material colours to the grey target in Image 1 without changing a single shape or boundary. Keep its true top-down orthographic view and full original canvas. Object bounds are x=66..957, y=105..918 on the 1024-square canvas. Keep the two buckle-ended front straps extending toward the bottom of the image in exactly their guide locations, the side loops and tabs in exactly their guide locations, and every folded edge and opening unchanged. Do not generate the reference's three-quarter camera. Keep the target's asymmetric low-poly geometry; do not smooth, inflate or redesign it.\nPaint the satchel materials: faded deep-blue worn canvas on the outer sides/body; pale sand/off-white canvas on the folded flap across the upper portion and on the interior lining. The upper flap has the approved red cloth band with thin gold borders and gold embroidered circular ring with a short stem. Existing leather straps and edging are dusty tan; existing buckles and hardware are muted brass. Fine woven texture, stitching and subtle dusty wear match the reference, confined to existing surfaces. No added physical details, extra straps or objects.\nLighting is absolutely flat, uniform, shadowless, unlit base colour. Do not transfer lighting from either reference or the guide. Interior sand lining stays pale sand even in creases. No ambient-occlusion darkness, no directional shading, no cast or contact shadow, no metal glare or reflection, no bright edge highlights, no rim light. Brass has diffuse muted ochre base colour only. Any glowing surfaces would be painted colour only, with no cast light.\nThe transparent background must remain fully clear (alpha zero) everywhere outside the guide silhouette, including all strap/buckle holes. No floor, background gradient, checkerboard pixels, glow, labels, lettering or watermark. Preserve the exact source outline and all internal geometry. Return one native 1024 x 1024 image; do not resize the canvas.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/guide_top.png",
+          "sha256": "f5705fe541ff442623254c477642e0fe5af28d5738269b651002bc9e3e850021"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16acb-29d5-75f1-b171-eca3abbd03c5/exec-8aa98bcc-80ab-4fea-a987-4d6fe1238e16.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254 x 1254 instead of 1024 x 1024; silhouette/alpha differs from guide; cavity shading and hardware highlights violate flat albedo lighting.",
+      "output_sha256": "a611406bb4109dbaf35a0a703361889b6679fc2273ad2b358ed9020daed2e7fa",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          8,
+          1216,
+          1222
+        ],
+        "alpha_at_least_128_bbox": [
+          80,
+          128,
+          1174,
+          1129
+        ],
+        "guide_alpha_nonzero_bbox": [
+          66,
+          105,
+          958,
+          919
+        ],
+        "fully_transparent_pixels": 823463,
+        "partially_transparent_pixels": 747879,
+        "exact_guide_alpha_pass": false,
+        "exact_guide_silhouette_pass": false,
+        "material_colours_visual_check": "Requested deep-blue canvas, sand fabric/lining, red and gold emblem, tan leather and brass present; generated surface details vary from reference.",
+        "flat_even_lighting_pass": false,
+        "lighting_visual_check": "Cavity/fold darkening and brass edge highlights remain; corrective return has lighter lining.",
+        "transparent_background_check": "RGBA with fully transparent background pixels, but stray/partial alpha beyond the guide silhouette remains.",
+        "unresized_byte_identical_copy": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective edit for paint_top.png. Return a 1024 x 1024 PNG with transparency, using exactly the canvas of Image 1.\nImage 1 guide_top.png: unchanged 1024 x 1024 edit target and authoritative geometry/alpha mask.\nImage 2 design_reference.png: approved colours and materials.\nImage 3 concept_crop.png: original concept.\nImage 4 previous top painting: material placement reference only; its 1254 x 1254 output size, fringe pixels and baked shadows are errors to correct.\nRepaint Image 1 in place as a FLAT UNLIT ALBEDO PASS, preserving its EXACT pixel-space silhouette, every internal shape edge, fold, strap, opening, side tab and buckle. Preserve source alpha verbatim. Original object spans x66..957, y105..918 in the original 1024 x 1024 canvas. Do not copy Image 4's dimensions or modified geometry. Do not shift, scale, smooth, redesign or crop anything.\nKeep this strict overhead orthographic view, both buckle-ended straps toward the image bottom, all existing straps/loops and their holes in their exact guide locations. The model is asymmetrical and angular; keep that geometry.\nApply the approved worn faded deep-blue canvas to the outer satchel, pale sand/off-white canvas to the upper flap and ALL interior lining, the red band and gold embroidered ring-with-short-stem sigil with thin gold borders across the upper flap, dusty tan leather to existing straps and binding, muted brass base colour to existing buckles/hardware. Reference-style fine grain, cloth weave, stitching and dust remain confined to the guide surfaces. No added geometry.\nThe main visual correction is removal of ALL lighting from Image 4: the whole pale sand lining must keep the same material brightness, even beneath the flap and inside folds; no dark cavity, no occlusion, no contact shadow, no directional light, no specular shine, no reflection or gold rim highlights. Paint creases only as subtle material/texture boundaries. This is texture-baking source art, not a lit product photograph.\nOutside the exact original guide silhouette and inside its holes, alpha must be exactly zero. No fringe, isolated pixels, glow, floor, background, baked checkerboard, labels or watermark. Native output is exactly 1024 pixels wide and 1024 pixels high, RGBA PNG.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/guide_top.png",
+          "sha256": "f5705fe541ff442623254c477642e0fe5af28d5738269b651002bc9e3e850021"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/design_reference.png",
+          "sha256": "1e015135c95a797bdf11b86260ca8883850420eaf7d79c6f3f700a27cbf5a00e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_pickups_claude/codex_tex/hes_colony_satchel_open/concept_crop.png",
+          "sha256": "526e76b89944f27ffe0be5f06aa5e3afa7fc11659879100a5a6b2d86f9c67848"
+        },
+        {
+          "path": "/home/pjasicek/.codex/generated_images/01a16acb-29d5-75f1-b171-eca3abbd03c5/exec-8aa98bcc-80ab-4fea-a987-4d6fe1238e16.png",
+          "sha256": "a611406bb4109dbaf35a0a703361889b6679fc2273ad2b358ed9020daed2e7fa"
+        }
+      ],
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16acb-29d5-75f1-b171-eca3abbd03c5/exec-0adb41c3-b0b3-48fb-82c9-d261805b4f51.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the best available unresized return after the single permitted correction: lighter lining and reduced shading. Not compliant with the full brief: native return remains 1254 x 1254, silhouette/alpha is not identical to the guide, and baked shading/highlights remain.",
+      "output_sha256": "91447eba75087c430f5e622ed203acb8c58b1e94201d2244f052612989d19538",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "required_size_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          9,
+          1222,
+          1216
+        ],
+        "alpha_at_least_128_bbox": [
+          75,
+          121,
+          1179,
+          1126
+        ],
+        "guide_alpha_nonzero_bbox": [
+          66,
+          105,
+          958,
+          919
+        ],
+        "fully_transparent_pixels": 829326,
+        "partially_transparent_pixels": 741975,
+        "exact_guide_alpha_pass": false,
+        "exact_guide_silhouette_pass": false,
+        "material_colours_visual_check": "Requested deep-blue canvas, sand fabric/lining, red and gold emblem, tan leather and brass present; generated surface details vary from reference.",
+        "flat_even_lighting_pass": false,
+        "lighting_visual_check": "Cavity/fold darkening and brass edge highlights remain; corrective return has lighter lining.",
+        "transparent_background_check": "RGBA with fully transparent background pixels, but stray/partial alpha beyond the guide silhouette remains.",
+        "unresized_byte_identical_copy": true,
+        "brief_compliant": false
+      }
+    }
+  ],
+  "brief_sha256": "feb62024281b22198a282da43f6eca75344c60a255bdc3debbd50b55c588c2aa",
+  "note": "No resizing, alpha replacement, repainting or other postprocessing was performed. One initial generation and one corrective generation per view. Selected denotes the best available saved return, not approval or full compliance."
+}

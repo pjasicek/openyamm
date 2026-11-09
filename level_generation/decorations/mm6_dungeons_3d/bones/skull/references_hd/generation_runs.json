@@ -1,0 +1,719 @@
+[
+  {
+    "id": "skull_three_quarter_v1",
+    "family": "skull",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skull painted in the EXISTING Might and Magic VI decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1024 SQUARE PNG, genuine transparent background, unresized native return. No multi-view sheet.\nInput 1: ORIGINAL native MM6 torskul0 skull torch, enlarged with nearest neighbour. This is the skull SHAPE authority: high rounded domed cranium, long human face, deep sockets, lower jaw present, mouth closed. Its orange colour is firelight; ignore it. Reconstruct only ONE skull, without the torch, fire cup, post or other skulls.\nInput 2: ORIGINAL native MM6 sklplrev skull pile upper portion, enlarged with nearest neighbour. This is the BONE COLOUR authority, and shows front and three-quarter human faces. Magenta in inputs 1 and 2 is background only.\nInput 3: restored 2x skull pile, for BONE SURFACE MATERIAL ONLY; do not let it override native skull shape or colour.\n\nONE complete adult human skull with its lower jaw (mandible) attached and the mouth closed, upright and looking straight ahead (Frankfort plane level), centred, filling about 70% of the frame, near-orthographic camera, transparent background, no stand, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light), sharp fine detail: sutures, pores, small chips, worn teeth.\nIdentity: anatomically correct human skull, a little heavy-browed as in the sprites: high smooth rounded cranium, deep round eye sockets (near black inside), triangular nasal opening, prominent cheekbones, full upper and lower rows of worn teeth meeting in natural closed-mouth occlusion, strong lower jaw. Retain the long human face without elongating the whole skull.\nColour from input 2: aged bone, warm cream to pale yellowish ivory on the dome, brow and cheekbones, darkening to dusky olive-grey and brown-grey in the sutures, temples, under the cheekbones and round the teeth. Matte, slightly waxy, old and dry; no flesh, no blood.\nDo NOT: add horns, cracks that split the skull, gold teeth, glowing eyes, candles, a stand or a spine; do not make it cartoonish, elongated or alien; do not colour it orange, white or brown; do not crop it. Do not paint a checkerboard or backdrop.\nCorrect anatomy: sockets, nasal opening, cheekbones, naturally meeting upper/lower teeth rows, attached complete mandible, mastoid processes; foramen magnum is visible only from below and must not appear on the back or side of the cranium.\nGenuine alpha: exterior pixels completely transparent, except a narrow antialias edge; solid bone opaque, anatomical openings naturally dark or transparent where genuinely open. No backdrop, haze, vignette, glow or drop shadow. Soft neutral studio light illuminates the skull only.\nCamera for this PRIMARY view: FRONT-RIGHT THREE-QUARTER, camera orbited 45 degrees to the skull's own anatomical RIGHT from straight front, and SLIGHTLY ABOVE the eye sockets. Show the front and right side together, with the nose pointing diagonally SCREEN-LEFT. The skull itself stays upright, Frankfort plane level. Clearly show the high rounded dome, both sockets with natural foreshortening of the far socket, nasal opening, cheekbones, closed worn teeth rows and entire attached lower jaw. This establishes the one skull identity for all subsequent camera rotations.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png"
+    ],
+    "reason": "Superseded: 1254 x 1254 native return violates requested dimensions, and skull fills 96% of the frame rather than about 70%.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-c42e895a-a669-41cd-bf3f-694b6fba0588.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v1.png",
+    "supersedes": [],
+    "superseded_by": "skull_three_quarter_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+        "sha256": "74dba3aa9fc1fee286efaf96f3612985883e72600494055ac387322eaf25d16c"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+        "sha256": "f9dc03f392657e4a4d834d6359b32089acf0b01843178e0fd409978d3d3a10c3"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      }
+    ],
+    "raw_sha256": "c09be7215f7ac269f42e4c9f366dbb3c53664df94b22e32d57f31a9b48ca6584",
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha": {
+      "extrema": [
+        0,
+        255
+      ],
+      "zero_pixels": 729087,
+      "opaque_pixels": 391,
+      "partial_pixels": 843038,
+      "bbox": [
+        0,
+        13,
+        1253,
+        1254
+      ],
+      "visible_bbox_alpha_128": [
+        172,
+        22,
+        1119,
+        1230
+      ]
+    },
+    "export_resize_or_padding": "None; raw is a byte-identical copy of actual return.",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v1.png",
+    "superseded_runs": []
+  },
+  {
+    "id": "skull_three_quarter_v2",
+    "family": "skull",
+    "role": "primary",
+    "selected": true,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skull painted in the EXISTING Might and Magic VI decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1024 SQUARE PNG, genuine transparent background, unresized native return. No multi-view sheet.\nInput 1: ORIGINAL native MM6 torskul0 skull torch, enlarged with nearest neighbour. This is the skull SHAPE authority: high rounded domed cranium, long human face, deep sockets, lower jaw present, mouth closed. Its orange colour is firelight; ignore it. Reconstruct only ONE skull, without the torch, fire cup, post or other skulls.\nInput 2: ORIGINAL native MM6 sklplrev skull pile upper portion, enlarged with nearest neighbour. This is the BONE COLOUR authority, and shows front and three-quarter human faces. Magenta in inputs 1 and 2 is background only.\nInput 3: restored 2x skull pile, for BONE SURFACE MATERIAL ONLY; do not let it override native skull shape or colour.\n\nONE complete adult human skull with its lower jaw (mandible) attached and the mouth closed, upright and looking straight ahead (Frankfort plane level), centred, filling about 70% of the frame, near-orthographic camera, transparent background, no stand, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light), sharp fine detail: sutures, pores, small chips, worn teeth.\nIdentity: anatomically correct human skull, a little heavy-browed as in the sprites: high smooth rounded cranium, deep round eye sockets (near black inside), triangular nasal opening, prominent cheekbones, full upper and lower rows of worn teeth meeting in natural closed-mouth occlusion, strong lower jaw. Retain the long human face without elongating the whole skull.\nColour from input 2: aged bone, warm cream to pale yellowish ivory on the dome, brow and cheekbones, darkening to dusky olive-grey and brown-grey in the sutures, temples, under the cheekbones and round the teeth. Matte, slightly waxy, old and dry; no flesh, no blood.\nDo NOT: add horns, cracks that split the skull, gold teeth, glowing eyes, candles, a stand or a spine; do not make it cartoonish, elongated or alien; do not colour it orange, white or brown; do not crop it. Do not paint a checkerboard or backdrop.\nCorrect anatomy: sockets, nasal opening, cheekbones, naturally meeting upper/lower teeth rows, attached complete mandible, mastoid processes; foramen magnum is visible only from below and must not appear on the back or side of the cranium.\nGenuine alpha: exterior pixels completely transparent, except a narrow antialias edge; solid bone opaque, anatomical openings naturally dark or transparent where genuinely open. No backdrop, haze, vignette, glow or drop shadow. Soft neutral studio light illuminates the skull only.\nSTRICT OUTPUT CORRECTION: the previous return was 1254 x 1254 and too close to the edges. This output must be natively sampled at EXACTLY 1024 x 1024 pixels, not 1254 or another size. Zoom the camera out: the skull's complete silhouette should occupy only about 716 pixels in height on the 1024 canvas, leaving approximately 154 pixels of fully transparent space ABOVE and BELOW. Centre it with equally generous left and right space. No cropping, resizing, padding or resampling of a larger return. Compose at the requested native 1024 x 1024 output size.\nInput 4: previous skull primary, for skull identity; keep this same skull anatomy and bone material while correcting only native output size and camera framing. Bone is opaque with alpha 255 except the narrow natural antialias silhouette edge; exterior background alpha 0, not a translucent wash.\nCamera: FRONT-RIGHT THREE-QUARTER, camera orbited 45 degrees toward the skull's anatomical RIGHT, SLIGHTLY ABOVE eye sockets. The upright skull's nose points diagonally SCREEN-LEFT, Frankfort plane level, front and right side both visible. Preserve high rounded dome, deep near-black round sockets, triangular nose opening, cheekbones, full closed upper/lower worn tooth rows and whole attached mandible. Little heavy brow, anatomically human. No stand, floor, shadow, torch, flame, scenery or text.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+      "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-c42e895a-a669-41cd-bf3f-694b6fba0588.png"
+    ],
+    "reason": "Selected primary: complete closed-jaw human skull, high rounded dome, front-right three-quarter camera slightly above the eyes, warm cream bone and grey-olive hollows. Better framing than v1. Native return is 1254 x 1254; the exact 1024 x 1024 requirement is unmet.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-a6ea1f92-516f-4b01-81e0-b378cec483d4.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+    "supersedes": [
+      "skull_three_quarter_v1"
+    ],
+    "superseded_by": null,
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+        "sha256": "74dba3aa9fc1fee286efaf96f3612985883e72600494055ac387322eaf25d16c"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+        "sha256": "f9dc03f392657e4a4d834d6359b32089acf0b01843178e0fd409978d3d3a10c3"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-c42e895a-a669-41cd-bf3f-694b6fba0588.png",
+        "sha256": "c09be7215f7ac269f42e4c9f366dbb3c53664df94b22e32d57f31a9b48ca6584"
+      }
+    ],
+    "raw_sha256": "e4df0ce8118e320adafc535982524f69aecbe04236e3af9ead263de7f50e9aaa",
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha": {
+      "extrema": [
+        0,
+        255
+      ],
+      "zero_pixels": 1060775,
+      "opaque_pixels": 621,
+      "partial_pixels": 511120,
+      "bbox": [
+        0,
+        9,
+        1250,
+        1254
+      ],
+      "visible_bbox_alpha_128": [
+        289,
+        171,
+        1014,
+        1124
+      ],
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foreground_height_fraction": 0.7599681020733652
+    },
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of the actual 1254 x 1254 native return.",
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/00_three_quarter.png",
+    "output_sha256": "e4df0ce8118e320adafc535982524f69aecbe04236e3af9ead263de7f50e9aaa",
+    "superseded_runs": [
+      "skull_three_quarter_v1"
+    ],
+    "review": {
+      "method": "Visual comparison to native references and primary, light/dark alpha contact sheet, actual dimensions, silhouette margins, input/output SHA256 and byte-identity checks.",
+      "one_complete_human_skull_with_attached_mandible": true,
+      "mouth_closed": true,
+      "cream_bone_with_grey_olive_hollows": true,
+      "major_anatomy_and_material_agree_with_primary": true,
+      "foramen_magnum_hidden_at_requested_camera": true,
+      "genuine_alpha": true,
+      "uncropped_visible_silhouette": true,
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_match_brief": false,
+      "strict_brief_compliant": false,
+      "known_deviations": [
+        "Built-in tool returned 1254 x 1254 for every attempt despite explicit 1024 x 1024 native-output prompts; no size parameter is exposed. Returns preserved unresized.",
+        "Framing varies between views; foreground height fractions are recorded in alpha.foreground_height_fraction."
+      ]
+    }
+  },
+  {
+    "id": "skull_front_v1",
+    "family": "skull",
+    "role": "front",
+    "selected": true,
+    "selected_filename": "01_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skull painted in the EXISTING Might and Magic VI decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1024 SQUARE PNG, genuine transparent background, unresized native return. No multi-view sheet.\nInput 1: ORIGINAL native MM6 torskul0 skull torch, enlarged with nearest neighbour. This is the skull SHAPE authority: high rounded domed cranium, long human face, deep sockets, lower jaw present, mouth closed. Its orange colour is firelight; ignore it. Reconstruct only ONE skull, without the torch, fire cup, post or other skulls.\nInput 2: ORIGINAL native MM6 sklplrev skull pile upper portion, enlarged with nearest neighbour. This is the BONE COLOUR authority, and shows front and three-quarter human faces. Magenta in inputs 1 and 2 is background only.\nInput 3: restored 2x skull pile, for BONE SURFACE MATERIAL ONLY; do not let it override native skull shape or colour.\n\nONE complete adult human skull with its lower jaw (mandible) attached and the mouth closed, upright and looking straight ahead (Frankfort plane level), centred, filling about 70% of the frame, near-orthographic camera, transparent background, no stand, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light), sharp fine detail: sutures, pores, small chips, worn teeth.\nIdentity: anatomically correct human skull, a little heavy-browed as in the sprites: high smooth rounded cranium, deep round eye sockets (near black inside), triangular nasal opening, prominent cheekbones, full upper and lower rows of worn teeth meeting in natural closed-mouth occlusion, strong lower jaw. Retain the long human face without elongating the whole skull.\nColour from input 2: aged bone, warm cream to pale yellowish ivory on the dome, brow and cheekbones, darkening to dusky olive-grey and brown-grey in the sutures, temples, under the cheekbones and round the teeth. Matte, slightly waxy, old and dry; no flesh, no blood.\nDo NOT: add horns, cracks that split the skull, gold teeth, glowing eyes, candles, a stand or a spine; do not make it cartoonish, elongated or alien; do not colour it orange, white or brown; do not crop it. Do not paint a checkerboard or backdrop.\nCorrect anatomy: sockets, nasal opening, cheekbones, naturally meeting upper/lower teeth rows, attached complete mandible, mastoid processes; foramen magnum is visible only from below and must not appear on the back or side of the cranium.\nGenuine alpha: exterior pixels completely transparent, except a narrow antialias edge; solid bone opaque, anatomical openings naturally dark or transparent where genuinely open. No backdrop, haze, vignette, glow or drop shadow. Soft neutral studio light illuminates the skull only.\nInput 4: the generated PRIMARY front-right three-quarter skull. This is the SAME SKULL identity anchor; preserve its high rounded dome, brow shape, long human face, orbital proportions, nose shape, cheekbone projection, attached strong mandible, closed-mouth dental occlusion, worn tooth shapes, sutures and cream/grey-olive material. Change ONLY the camera view.\nCamera for this view: STRAIGHT FRONT, camera level with the eye sockets, directly centred on the facial midline. Frankfort plane level, skull upright and facing directly toward the viewer. Both sockets and cheekbones naturally symmetric, nasal opening centred, full upper and lower worn tooth rows naturally meeting, whole attached mandible visible. Near-orthographic, no head tilt or oblique yaw; no elevated camera.\nEntire skull centred and occupying ABOUT 70% OF IMAGE HEIGHT, with approximately 15% fully transparent space above and below and generous space on both sides. Native output EXACTLY 1024 x 1024 square pixels, not a different sampling size. No resize or padding. Genuine transparent RGBA background; no floor, stand, shadow, text or extra object.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png"
+    ],
+    "reason": "Selected front: centred frontal midline, deep sockets, full meeting worn teeth rows, complete attached mandible, same major cranial proportions and aged bone palette as the primary. Native 1254 x 1254 dimensions and closer framing depart from the brief.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-1b0f65ac-1e15-4ad5-bf83-a24f6e6b474f.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_front_v1.png",
+    "supersedes": [],
+    "superseded_by": null,
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+        "sha256": "74dba3aa9fc1fee286efaf96f3612985883e72600494055ac387322eaf25d16c"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+        "sha256": "f9dc03f392657e4a4d834d6359b32089acf0b01843178e0fd409978d3d3a10c3"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+        "sha256": "e4df0ce8118e320adafc535982524f69aecbe04236e3af9ead263de7f50e9aaa"
+      }
+    ],
+    "raw_sha256": "233c6e7cf9980fb02f8d2f162490a3ca1d271de3c77a9b3b583336bd7551ad2f",
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha": {
+      "extrema": [
+        0,
+        255
+      ],
+      "zero_pixels": 960516,
+      "opaque_pixels": 679,
+      "partial_pixels": 611321,
+      "bbox": [
+        0,
+        23,
+        1214,
+        1170
+      ],
+      "visible_bbox_alpha_128": [
+        260,
+        110,
+        994,
+        1164
+      ],
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foreground_height_fraction": 0.8405103668261563
+    },
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of the actual 1254 x 1254 native return.",
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/01_front.png",
+    "output_sha256": "233c6e7cf9980fb02f8d2f162490a3ca1d271de3c77a9b3b583336bd7551ad2f",
+    "superseded_runs": [],
+    "review": {
+      "method": "Visual comparison to native references and primary, light/dark alpha contact sheet, actual dimensions, silhouette margins, input/output SHA256 and byte-identity checks.",
+      "one_complete_human_skull_with_attached_mandible": true,
+      "mouth_closed": true,
+      "cream_bone_with_grey_olive_hollows": true,
+      "major_anatomy_and_material_agree_with_primary": true,
+      "foramen_magnum_hidden_at_requested_camera": true,
+      "genuine_alpha": true,
+      "uncropped_visible_silhouette": true,
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_match_brief": false,
+      "strict_brief_compliant": false,
+      "known_deviations": [
+        "Built-in tool returned 1254 x 1254 for every attempt despite explicit 1024 x 1024 native-output prompts; no size parameter is exposed. Returns preserved unresized.",
+        "Framing varies between views; foreground height fractions are recorded in alpha.foreground_height_fraction."
+      ]
+    }
+  },
+  {
+    "id": "skull_back_v1",
+    "family": "skull",
+    "role": "back",
+    "selected": true,
+    "selected_filename": "02_back.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skull painted in the EXISTING Might and Magic VI decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1024 SQUARE PNG, genuine transparent background, unresized native return. No multi-view sheet.\nInput 1: ORIGINAL native MM6 torskul0 skull torch, enlarged with nearest neighbour. This is the skull SHAPE authority: high rounded domed cranium, long human face, deep sockets, lower jaw present, mouth closed. Its orange colour is firelight; ignore it. Reconstruct only ONE skull, without the torch, fire cup, post or other skulls.\nInput 2: ORIGINAL native MM6 sklplrev skull pile upper portion, enlarged with nearest neighbour. This is the BONE COLOUR authority, and shows front and three-quarter human faces. Magenta in inputs 1 and 2 is background only.\nInput 3: restored 2x skull pile, for BONE SURFACE MATERIAL ONLY; do not let it override native skull shape or colour.\n\nONE complete adult human skull with its lower jaw (mandible) attached and the mouth closed, upright and looking straight ahead (Frankfort plane level), centred, filling about 70% of the frame, near-orthographic camera, transparent background, no stand, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light), sharp fine detail: sutures, pores, small chips, worn teeth.\nIdentity: anatomically correct human skull, a little heavy-browed as in the sprites: high smooth rounded cranium, deep round eye sockets (near black inside), triangular nasal opening, prominent cheekbones, full upper and lower rows of worn teeth meeting in natural closed-mouth occlusion, strong lower jaw. Retain the long human face without elongating the whole skull.\nColour from input 2: aged bone, warm cream to pale yellowish ivory on the dome, brow and cheekbones, darkening to dusky olive-grey and brown-grey in the sutures, temples, under the cheekbones and round the teeth. Matte, slightly waxy, old and dry; no flesh, no blood.\nDo NOT: add horns, cracks that split the skull, gold teeth, glowing eyes, candles, a stand or a spine; do not make it cartoonish, elongated or alien; do not colour it orange, white or brown; do not crop it. Do not paint a checkerboard or backdrop.\nCorrect anatomy: sockets, nasal opening, cheekbones, naturally meeting upper/lower teeth rows, attached complete mandible, mastoid processes; foramen magnum is visible only from below and must not appear on the back or side of the cranium.\nGenuine alpha: exterior pixels completely transparent, except a narrow antialias edge; solid bone opaque, anatomical openings naturally dark or transparent where genuinely open. No backdrop, haze, vignette, glow or drop shadow. Soft neutral studio light illuminates the skull only.\nInput 4: the generated PRIMARY skull. Preserve exactly that same skull identity, anatomical proportions, high rounded cranial dome, little heavy brow, full strong attached mandible, worn closed dental occlusion, sutures, small surface wear and cream/grey-olive material. Change ONLY camera azimuth and lower it to eye-socket height.\nCamera for this view: STRAIGHT BACK, camera orbited exactly 180 degrees from straight front, LEVEL WITH THE EYE SOCKETS, near-orthographic. Skull upright, Frankfort plane level. View the outside posterior occipital/parietal bone of the high rounded cranium, anatomically plausible lambdoid and sagittal sutures, the mastoid processes at the lower sides and the rear surfaces of both mandibular rami below them. The lower jaw remains attached, mouth closed, and correctly positioned in front of the cranium so its rear/side lower margins show naturally. Front eye sockets, nasal opening and front teeth are hidden by the skull, not painted on its back.\nCRITICAL ANATOMY: this is a LEVEL REAR VIEW, NOT a bottom view. NO foramen magnum or large hole on the back of the skull; that opening is on the underside and occluded at this camera angle. No vertebrae, neck or spine, no loose or missing jaw.\nEntire single skull centred, silhouette occupying ABOUT 70% of the canvas height with 15% transparent top/bottom margins. EXACTLY 1024 x 1024 native square output. True transparent RGBA backdrop; even soft neutral studio lighting, no floor, stand, shadow, text or extra objects.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png"
+    ],
+    "reason": "Selected back: posterior rounded cranium, sagittal/lambdoid sutures, mastoids and attached jaw; no rear facial features or visible foramen magnum. Material agrees with primary. Native 1254 x 1254 dimensions and closer framing depart from the brief.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-ea2cf48e-8fbc-4fc0-96d0-cb75b1f530d6.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_back_v1.png",
+    "supersedes": [],
+    "superseded_by": null,
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+        "sha256": "74dba3aa9fc1fee286efaf96f3612985883e72600494055ac387322eaf25d16c"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+        "sha256": "f9dc03f392657e4a4d834d6359b32089acf0b01843178e0fd409978d3d3a10c3"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+        "sha256": "e4df0ce8118e320adafc535982524f69aecbe04236e3af9ead263de7f50e9aaa"
+      }
+    ],
+    "raw_sha256": "e1b1ce3476c143d07c483be7f94758d7c66482e29615b1d1a94ecbfd142ee7f0",
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha": {
+      "extrema": [
+        0,
+        255
+      ],
+      "zero_pixels": 876230,
+      "opaque_pixels": 513,
+      "partial_pixels": 695773,
+      "bbox": [
+        0,
+        0,
+        1253,
+        1254
+      ],
+      "visible_bbox_alpha_128": [
+        213,
+        98,
+        1040,
+        1157
+      ],
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foreground_height_fraction": 0.8444976076555024
+    },
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of the actual 1254 x 1254 native return.",
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/02_back.png",
+    "output_sha256": "e1b1ce3476c143d07c483be7f94758d7c66482e29615b1d1a94ecbfd142ee7f0",
+    "superseded_runs": [],
+    "review": {
+      "method": "Visual comparison to native references and primary, light/dark alpha contact sheet, actual dimensions, silhouette margins, input/output SHA256 and byte-identity checks.",
+      "one_complete_human_skull_with_attached_mandible": true,
+      "mouth_closed": true,
+      "cream_bone_with_grey_olive_hollows": true,
+      "major_anatomy_and_material_agree_with_primary": true,
+      "foramen_magnum_hidden_at_requested_camera": true,
+      "genuine_alpha": true,
+      "uncropped_visible_silhouette": true,
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_match_brief": false,
+      "strict_brief_compliant": false,
+      "known_deviations": [
+        "Built-in tool returned 1254 x 1254 for every attempt despite explicit 1024 x 1024 native-output prompts; no size parameter is exposed. Returns preserved unresized.",
+        "Framing varies between views; foreground height fractions are recorded in alpha.foreground_height_fraction."
+      ]
+    }
+  },
+  {
+    "id": "skull_left_v1",
+    "family": "skull",
+    "role": "left",
+    "selected": false,
+    "selected_filename": "03_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skull painted in the EXISTING Might and Magic VI decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1024 SQUARE PNG, genuine transparent background, unresized native return. No multi-view sheet.\nInput 1: ORIGINAL native MM6 torskul0 skull torch, enlarged with nearest neighbour. This is the skull SHAPE authority: high rounded domed cranium, long human face, deep sockets, lower jaw present, mouth closed. Its orange colour is firelight; ignore it. Reconstruct only ONE skull, without the torch, fire cup, post or other skulls.\nInput 2: ORIGINAL native MM6 sklplrev skull pile upper portion, enlarged with nearest neighbour. This is the BONE COLOUR authority, and shows front and three-quarter human faces. Magenta in inputs 1 and 2 is background only.\nInput 3: restored 2x skull pile, for BONE SURFACE MATERIAL ONLY; do not let it override native skull shape or colour.\n\nONE complete adult human skull with its lower jaw (mandible) attached and the mouth closed, upright and looking straight ahead (Frankfort plane level), centred, filling about 70% of the frame, near-orthographic camera, transparent background, no stand, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light), sharp fine detail: sutures, pores, small chips, worn teeth.\nIdentity: anatomically correct human skull, a little heavy-browed as in the sprites: high smooth rounded cranium, deep round eye sockets (near black inside), triangular nasal opening, prominent cheekbones, full upper and lower rows of worn teeth meeting in natural closed-mouth occlusion, strong lower jaw. Retain the long human face without elongating the whole skull.\nColour from input 2: aged bone, warm cream to pale yellowish ivory on the dome, brow and cheekbones, darkening to dusky olive-grey and brown-grey in the sutures, temples, under the cheekbones and round the teeth. Matte, slightly waxy, old and dry; no flesh, no blood.\nDo NOT: add horns, cracks that split the skull, gold teeth, glowing eyes, candles, a stand or a spine; do not make it cartoonish, elongated or alien; do not colour it orange, white or brown; do not crop it. Do not paint a checkerboard or backdrop.\nCorrect anatomy: sockets, nasal opening, cheekbones, naturally meeting upper/lower teeth rows, attached complete mandible, mastoid processes; foramen magnum is visible only from below and must not appear on the back or side of the cranium.\nGenuine alpha: exterior pixels completely transparent, except a narrow antialias edge; solid bone opaque, anatomical openings naturally dark or transparent where genuinely open. No backdrop, haze, vignette, glow or drop shadow. Soft neutral studio light illuminates the skull only.\nInput 4: generated PRIMARY front-right three-quarter skull. Preserve this SAME skull identity, shape, proportions, surface character, worn closed teeth, whole attached strong mandible and cream/grey-olive material. Change ONLY the camera.\nCamera for this view: exact 90-degree LEFT PROFILE, camera on the skull's OWN ANATOMICAL LEFT side and LEVEL WITH THE EYE SOCKETS. The skull's nose points SCREEN-RIGHT, with the back of the rounded cranium SCREEN-LEFT. This is the opposite anatomical side from the primary. Near-orthographic, no three-quarter turn, no camera elevation, no head tilt; Frankfort plane level, skull upright.\nClearly show the human rounded cranial vault, left temple with plausible sutures, left outer orbital rim and cheekbone/zygomatic arch, triangular nose opening seen in profile, anatomically natural overlapping upper and lower tooth rows with the mouth CLOSED, full attached left mandibular ramus and body, ear-canal opening and mastoid process. No foramen magnum visible from this level side view.\nMatch primary anatomy and proportions: do not stretch the muzzle, shorten the face, change the high dome, add an ape-like projecting jaw or remove the mandible. Bone colour warm cream/pale ivory with dusky olive-grey/brown-grey in hollows.\nEntire single skull centred, generous margins: about 70% frame occupancy, at least 15% fully transparent margin above and below, similar magnification to primary. EXACTLY 1024 x 1024 native square output. Genuine alpha background, even soft neutral lighting, no floor, stand, shadow, spine, text or extra objects.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png"
+    ],
+    "reason": "Superseded: left camera remained too oblique; regenerated toward an exact lateral elevation.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-705bba17-36bb-42db-b039-25693f4600fe.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_left_v1.png",
+    "supersedes": [],
+    "superseded_by": "skull_left_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+        "sha256": "74dba3aa9fc1fee286efaf96f3612985883e72600494055ac387322eaf25d16c"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+        "sha256": "f9dc03f392657e4a4d834d6359b32089acf0b01843178e0fd409978d3d3a10c3"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+        "sha256": "e4df0ce8118e320adafc535982524f69aecbe04236e3af9ead263de7f50e9aaa"
+      }
+    ],
+    "raw_sha256": "1fafc8599b0e1b1318fc6a10e1f10d7d301a85e8b3ae0726ae34eb588ac9891c",
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha": {
+      "extrema": [
+        0,
+        255
+      ],
+      "zero_pixels": 839410,
+      "opaque_pixels": 512,
+      "partial_pixels": 732594,
+      "bbox": [
+        0,
+        21,
+        1250,
+        1254
+      ],
+      "visible_bbox_alpha_128": [
+        129,
+        110,
+        1097,
+        1161
+      ],
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foreground_height_fraction": 0.8381180223285486
+    },
+    "export_resize_or_padding": "None; raw is a byte-identical copy of actual return.",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_left_v1.png",
+    "superseded_runs": []
+  },
+  {
+    "id": "skull_right_v1",
+    "family": "skull",
+    "role": "right",
+    "selected": false,
+    "selected_filename": "04_right.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skull painted in the EXISTING Might and Magic VI decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1024 SQUARE PNG, genuine transparent background, unresized native return. No multi-view sheet.\nInput 1: ORIGINAL native MM6 torskul0 skull torch, enlarged with nearest neighbour. This is the skull SHAPE authority: high rounded domed cranium, long human face, deep sockets, lower jaw present, mouth closed. Its orange colour is firelight; ignore it. Reconstruct only ONE skull, without the torch, fire cup, post or other skulls.\nInput 2: ORIGINAL native MM6 sklplrev skull pile upper portion, enlarged with nearest neighbour. This is the BONE COLOUR authority, and shows front and three-quarter human faces. Magenta in inputs 1 and 2 is background only.\nInput 3: restored 2x skull pile, for BONE SURFACE MATERIAL ONLY; do not let it override native skull shape or colour.\n\nONE complete adult human skull with its lower jaw (mandible) attached and the mouth closed, upright and looking straight ahead (Frankfort plane level), centred, filling about 70% of the frame, near-orthographic camera, transparent background, no stand, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light), sharp fine detail: sutures, pores, small chips, worn teeth.\nIdentity: anatomically correct human skull, a little heavy-browed as in the sprites: high smooth rounded cranium, deep round eye sockets (near black inside), triangular nasal opening, prominent cheekbones, full upper and lower rows of worn teeth meeting in natural closed-mouth occlusion, strong lower jaw. Retain the long human face without elongating the whole skull.\nColour from input 2: aged bone, warm cream to pale yellowish ivory on the dome, brow and cheekbones, darkening to dusky olive-grey and brown-grey in the sutures, temples, under the cheekbones and round the teeth. Matte, slightly waxy, old and dry; no flesh, no blood.\nDo NOT: add horns, cracks that split the skull, gold teeth, glowing eyes, candles, a stand or a spine; do not make it cartoonish, elongated or alien; do not colour it orange, white or brown; do not crop it. Do not paint a checkerboard or backdrop.\nCorrect anatomy: sockets, nasal opening, cheekbones, naturally meeting upper/lower teeth rows, attached complete mandible, mastoid processes; foramen magnum is visible only from below and must not appear on the back or side of the cranium.\nGenuine alpha: exterior pixels completely transparent, except a narrow antialias edge; solid bone opaque, anatomical openings naturally dark or transparent where genuinely open. No backdrop, haze, vignette, glow or drop shadow. Soft neutral studio light illuminates the skull only.\nInput 4: generated PRIMARY front-right three-quarter skull. Preserve this SAME skull identity, high rounded dome, brow, human face proportions, surface wear, worn naturally meeting teeth, attached strong mandible and cream/grey-olive material. Change ONLY the camera.\nCamera for this view: exact 90-degree RIGHT PROFILE, camera on the skull's OWN ANATOMICAL RIGHT side and LEVEL WITH THE EYE SOCKETS. Nose points SCREEN-LEFT; rounded back of the cranium is SCREEN-RIGHT. The right side is the same anatomical side seen obliquely in the primary, now shown squarely from the side. Near-orthographic, no three-quarter turn, no elevated camera or head tilt; Frankfort plane level, skull upright.\nShow the right temple with anatomically plausible sutures, right outer orbital rim and cheekbone/zygomatic arch, the nose in profile, natural side view of the CLOSED upper and lower worn teeth rows, complete attached right mandibular ramus and body, right ear canal opening and mastoid. No foramen magnum visible at this level angle.\nThe opposing side views must agree with the front and primary in cranial height, brow projection, jaw size, tooth occlusion and aged bone colour. Render the actual right side; do not invent a different skull or add large cracks. Do not elongate the muzzle or remove the jaw.\nEntire skull centred and filling about 70% of the frame with generous fully transparent margins, at least 15% above and below, similar magnification to primary. EXACTLY 1024 x 1024 native square output. Genuine alpha RGBA background, soft even neutral light, no stand, floor, shadow, spine, torch, text or extra objects.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png"
+    ],
+    "reason": "Superseded: right camera was oblique, with a far orbital sliver and overly frontal nasal aperture. Regenerated a more lateral view.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-3d742b63-dbea-45e6-9091-70ab93e4f518.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_right_v1.png",
+    "supersedes": [],
+    "superseded_by": "skull_right_v2",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+        "sha256": "74dba3aa9fc1fee286efaf96f3612985883e72600494055ac387322eaf25d16c"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+        "sha256": "f9dc03f392657e4a4d834d6359b32089acf0b01843178e0fd409978d3d3a10c3"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+        "sha256": "e4df0ce8118e320adafc535982524f69aecbe04236e3af9ead263de7f50e9aaa"
+      }
+    ],
+    "raw_sha256": "0dc7286784e919f29966a48255b27d7fdc6c62dc3e95e2ce0a1e6d9713f81902",
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha": {
+      "extrema": [
+        0,
+        255
+      ],
+      "zero_pixels": 852026,
+      "opaque_pixels": 647,
+      "partial_pixels": 719843,
+      "bbox": [
+        0,
+        21,
+        1236,
+        1240
+      ],
+      "visible_bbox_alpha_128": [
+        187,
+        111,
+        1124,
+        1159
+      ],
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foreground_height_fraction": 0.835725677830941
+    },
+    "export_resize_or_padding": "None; raw is a byte-identical copy of actual return.",
+    "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_right_v1.png",
+    "superseded_runs": []
+  },
+  {
+    "id": "skull_left_v2",
+    "family": "skull",
+    "role": "left",
+    "selected": true,
+    "selected_filename": "03_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skull painted in the EXISTING Might and Magic VI decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1024 SQUARE PNG, genuine transparent background, unresized native return. No multi-view sheet.\nInput 1: ORIGINAL native MM6 torskul0 skull torch, enlarged with nearest neighbour. This is the skull SHAPE authority: high rounded domed cranium, long human face, deep sockets, lower jaw present, mouth closed. Its orange colour is firelight; ignore it. Reconstruct only ONE skull, without the torch, fire cup, post or other skulls.\nInput 2: ORIGINAL native MM6 sklplrev skull pile upper portion, enlarged with nearest neighbour. This is the BONE COLOUR authority, and shows front and three-quarter human faces. Magenta in inputs 1 and 2 is background only.\nInput 3: restored 2x skull pile, for BONE SURFACE MATERIAL ONLY; do not let it override native skull shape or colour.\n\nONE complete adult human skull with its lower jaw (mandible) attached and the mouth closed, upright and looking straight ahead (Frankfort plane level), centred, filling about 70% of the frame, near-orthographic camera, transparent background, no stand, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light), sharp fine detail: sutures, pores, small chips, worn teeth.\nIdentity: anatomically correct human skull, a little heavy-browed as in the sprites: high smooth rounded cranium, deep round eye sockets (near black inside), triangular nasal opening, prominent cheekbones, full upper and lower rows of worn teeth meeting in natural closed-mouth occlusion, strong lower jaw. Retain the long human face without elongating the whole skull.\nColour from input 2: aged bone, warm cream to pale yellowish ivory on the dome, brow and cheekbones, darkening to dusky olive-grey and brown-grey in the sutures, temples, under the cheekbones and round the teeth. Matte, slightly waxy, old and dry; no flesh, no blood.\nDo NOT: add horns, cracks that split the skull, gold teeth, glowing eyes, candles, a stand or a spine; do not make it cartoonish, elongated or alien; do not colour it orange, white or brown; do not crop it. Do not paint a checkerboard or backdrop.\nCorrect anatomy: sockets, nasal opening, cheekbones, naturally meeting upper/lower teeth rows, attached complete mandible, mastoid processes; foramen magnum is visible only from below and must not appear on the back or side of the cranium.\nGenuine alpha: exterior pixels completely transparent, except a narrow antialias edge; solid bone opaque, anatomical openings naturally dark or transparent where genuinely open. No backdrop, haze, vignette, glow or drop shadow. Soft neutral studio light illuminates the skull only.\nInput 4: PRIMARY skull, identity authority for this reconstructed skull. Input 5: previous LEFT view, the same skull but camera is too oblique. Correct ONLY the camera to an exact side elevation. Keep this skull's anatomy, closed teeth, attached mandible, bone colour and matte pore/suture material.\nSTRICT CAMERA CORRECTION: EXACT LEFT LATERAL ORTHOGRAPHIC ELEVATION of the skull's OWN LEFT side. 90 degrees from the frontal facial midline, camera level with the eye sockets, no yaw toward the front. The viewing rays are parallel to the transverse left-right axis of the skull. Skull upright, Frankfort plane level, nasal tip and chin point directly SCREEN-RIGHT. This is a medical/anatomical lateral skull reference camera, not a portrait three-quarter camera.\nShow ONLY the left-side surfaces. The forehead, bridge of the nose, maxilla and chin read as their side contours at the rightmost outline. The triangular nasal aperture faces forward toward SCREEN-RIGHT and is seen EDGE-ON; do not show the full front opening or septum facing the viewer. The far right orbit and far right facial surface are fully hidden. The visible left orbital cavity is naturally foreshortened by the exact side angle. Show left temporal fossa, zygomatic arch, left ear canal and mastoid, whole attached left mandible, both tooth rows meeting naturally. No foramen magnum from this level side camera.\nUse the same high rounded cranial dome and long but anatomically human face as the primary. Do not stretch or flatten the skull to fake a profile. Skull centred, complete outline uncropped, approximately 70% frame occupancy with generous transparent margins. EXACT 1024 x 1024 native square PNG; genuine alpha background. Neutral even soft light; no stand, floor, shadow, spine, text or extra object.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_left_v1.png"
+    ],
+    "reason": "Selected left: skull's own left side, nose screen-right, far orbit hidden and nasal opening more edge-on than v1; complete closed jaw, temporal fossa, zygomatic arch, ear canal and mastoid. Major anatomy and material agree with primary. Native 1254 x 1254 dimensions and closer framing depart from the brief.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-21aeaa74-2dbc-4e0d-9ef3-81fd1419505f.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_left_v2.png",
+    "supersedes": [
+      "skull_left_v1"
+    ],
+    "superseded_by": null,
+    "superseded_reason": "Superseded: left camera remained too oblique; regenerated toward an exact lateral elevation.",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+        "sha256": "74dba3aa9fc1fee286efaf96f3612985883e72600494055ac387322eaf25d16c"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+        "sha256": "f9dc03f392657e4a4d834d6359b32089acf0b01843178e0fd409978d3d3a10c3"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+        "sha256": "e4df0ce8118e320adafc535982524f69aecbe04236e3af9ead263de7f50e9aaa"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_left_v1.png",
+        "sha256": "1fafc8599b0e1b1318fc6a10e1f10d7d301a85e8b3ae0726ae34eb588ac9891c"
+      }
+    ],
+    "raw_sha256": "ed77bb19919b9c39dc0aabff51fb9214c15d15522c92d5d8dcfbdb71a7c5ec5b",
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha": {
+      "extrema": [
+        0,
+        255
+      ],
+      "zero_pixels": 761787,
+      "opaque_pixels": 769,
+      "partial_pixels": 809960,
+      "bbox": [
+        0,
+        17,
+        1234,
+        1254
+      ],
+      "visible_bbox_alpha_128": [
+        125,
+        89,
+        1137,
+        1191
+      ],
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foreground_height_fraction": 0.8787878787878788
+    },
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of the actual 1254 x 1254 native return.",
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/03_left.png",
+    "output_sha256": "ed77bb19919b9c39dc0aabff51fb9214c15d15522c92d5d8dcfbdb71a7c5ec5b",
+    "superseded_runs": [
+      "skull_left_v1"
+    ],
+    "review": {
+      "method": "Visual comparison to native references and primary, light/dark alpha contact sheet, actual dimensions, silhouette margins, input/output SHA256 and byte-identity checks.",
+      "one_complete_human_skull_with_attached_mandible": true,
+      "mouth_closed": true,
+      "cream_bone_with_grey_olive_hollows": true,
+      "major_anatomy_and_material_agree_with_primary": true,
+      "foramen_magnum_hidden_at_requested_camera": true,
+      "genuine_alpha": true,
+      "uncropped_visible_silhouette": true,
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_match_brief": false,
+      "strict_brief_compliant": false,
+      "known_deviations": [
+        "Built-in tool returned 1254 x 1254 for every attempt despite explicit 1024 x 1024 native-output prompts; no size parameter is exposed. Returns preserved unresized.",
+        "Framing varies between views; foreground height fractions are recorded in alpha.foreground_height_fraction."
+      ]
+    }
+  },
+  {
+    "id": "skull_right_v2",
+    "family": "skull",
+    "role": "right",
+    "selected": true,
+    "selected_filename": "04_right.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skull painted in the EXISTING Might and Magic VI decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1024 SQUARE PNG, genuine transparent background, unresized native return. No multi-view sheet.\nInput 1: ORIGINAL native MM6 torskul0 skull torch, enlarged with nearest neighbour. This is the skull SHAPE authority: high rounded domed cranium, long human face, deep sockets, lower jaw present, mouth closed. Its orange colour is firelight; ignore it. Reconstruct only ONE skull, without the torch, fire cup, post or other skulls.\nInput 2: ORIGINAL native MM6 sklplrev skull pile upper portion, enlarged with nearest neighbour. This is the BONE COLOUR authority, and shows front and three-quarter human faces. Magenta in inputs 1 and 2 is background only.\nInput 3: restored 2x skull pile, for BONE SURFACE MATERIAL ONLY; do not let it override native skull shape or colour.\n\nONE complete adult human skull with its lower jaw (mandible) attached and the mouth closed, upright and looking straight ahead (Frankfort plane level), centred, filling about 70% of the frame, near-orthographic camera, transparent background, no stand, no floor, no cast shadow, no text. Even soft neutral studio light (no dramatic light), sharp fine detail: sutures, pores, small chips, worn teeth.\nIdentity: anatomically correct human skull, a little heavy-browed as in the sprites: high smooth rounded cranium, deep round eye sockets (near black inside), triangular nasal opening, prominent cheekbones, full upper and lower rows of worn teeth meeting in natural closed-mouth occlusion, strong lower jaw. Retain the long human face without elongating the whole skull.\nColour from input 2: aged bone, warm cream to pale yellowish ivory on the dome, brow and cheekbones, darkening to dusky olive-grey and brown-grey in the sutures, temples, under the cheekbones and round the teeth. Matte, slightly waxy, old and dry; no flesh, no blood.\nDo NOT: add horns, cracks that split the skull, gold teeth, glowing eyes, candles, a stand or a spine; do not make it cartoonish, elongated or alien; do not colour it orange, white or brown; do not crop it. Do not paint a checkerboard or backdrop.\nCorrect anatomy: sockets, nasal opening, cheekbones, naturally meeting upper/lower teeth rows, attached complete mandible, mastoid processes; foramen magnum is visible only from below and must not appear on the back or side of the cranium.\nGenuine alpha: exterior pixels completely transparent, except a narrow antialias edge; solid bone opaque, anatomical openings naturally dark or transparent where genuinely open. No backdrop, haze, vignette, glow or drop shadow. Soft neutral studio light illuminates the skull only.\nInput 4: PRIMARY skull, reconstructed identity authority. Input 5: revised LEFT lateral view, for the required side-camera geometry and agreement of overall anatomy, not for copying or mirroring its side-specific surface details. Generate the SAME skull seen from its OPPOSITE, OWN RIGHT SIDE. Preserve primary right-side sutures and wear, high rounded dome, brow, human face proportions, complete attached strong mandible, both closed worn tooth rows and cream/grey-olive bone material.\nSTRICT CAMERA: EXACT RIGHT LATERAL ORTHOGRAPHIC ELEVATION, exactly 90 degrees around to the skull's anatomical RIGHT from straight front, LEVEL WITH THE EYE SOCKETS. Parallel viewing rays along the transverse right-left skull axis. Skull upright and Frankfort plane level. Nose and chin point directly SCREEN-LEFT, rounded back of cranium SCREEN-RIGHT. No yaw toward the face, no three-quarter portrait and no elevated camera.\nOnly right-side surfaces visible. Forehead, nasal bridge, maxilla and chin are their side contours at the leftmost outline. The nasal aperture faces SCREEN-LEFT and is EDGE-ON; do not show a triangular front opening or front-facing septum. The far left orbital rim and far left face are completely occluded. The near right orbit is foreshortened naturally by the exact side camera. Show right temporal fossa, zygomatic arch, ear canal, mastoid, attached right mandibular ramus and body, teeth meeting with the mouth closed. No foramen magnum visible.\nFRAMING: zoom out. The skull must occupy only about 70% of the frame, with approximately 15% fully transparent top margin and 15% fully transparent bottom margin, never touching any edge. Match the generous framing of PRIMARY input 4, not the closer framing of input 5.\nExactly ONE 1024 x 1024 native square transparent RGBA PNG. Even soft neutral studio lighting; no stand, floor, shadow, spine, text, torch or extra objects.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_left_v2.png"
+    ],
+    "reason": "Selected right: skull's own right side, nose screen-left, far orbit hidden and facial openings more foreshortened than v1; complete attached closed jaw and matching rounded cranium/material. Native return is 1254 x 1254; exact 1024 x 1024 requirement remains unmet.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-73e1-7292-bea2-b302e92ac1ee/exec-87c5eeb8-fbc6-402d-8c2c-12be23ef8484.png",
+    "raw_file": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_right_v2.png",
+    "supersedes": [
+      "skull_right_v1"
+    ],
+    "superseded_by": null,
+    "superseded_reason": "Superseded: right camera was oblique, with a far orbital sliver and overly frontal nasal aperture. Regenerated a more lateral view.",
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_torskul0_x4.png",
+        "sha256": "74dba3aa9fc1fee286efaf96f3612985883e72600494055ac387322eaf25d16c"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/native_pile_skulls_x5.png",
+        "sha256": "f9dc03f392657e4a4d834d6359b32089acf0b01843178e0fd409978d3d3a10c3"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/x2_pile_surface_only.png",
+        "sha256": "1f043d725b71195e3902ede1b9ad9e2cebfc3bb5cbcdd69fafaed2fba4c029e1"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_three_quarter_v2.png",
+        "sha256": "e4df0ce8118e320adafc535982524f69aecbe04236e3af9ead263de7f50e9aaa"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/raw/skull_left_v2.png",
+        "sha256": "ed77bb19919b9c39dc0aabff51fb9214c15d15522c92d5d8dcfbdb71a7c5ec5b"
+      }
+    ],
+    "raw_sha256": "12274237c124823daf9671f9e6e6adc07de709216c416103101aa7e54f327e34",
+    "actual_sampling_size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha": {
+      "extrema": [
+        0,
+        255
+      ],
+      "zero_pixels": 936027,
+      "opaque_pixels": 366,
+      "partial_pixels": 636123,
+      "bbox": [
+        0,
+        0,
+        1245,
+        1254
+      ],
+      "visible_bbox_alpha_128": [
+        218,
+        161,
+        1115,
+        1122
+      ],
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foreground_height_fraction": 0.766347687400319
+    },
+    "export_resize_or_padding": "None; selected PNG is a byte-identical copy of the actual 1254 x 1254 native return.",
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/04_right.png",
+    "output_sha256": "12274237c124823daf9671f9e6e6adc07de709216c416103101aa7e54f327e34",
+    "superseded_runs": [
+      "skull_right_v1"
+    ],
+    "review": {
+      "method": "Visual comparison to native references and primary, light/dark alpha contact sheet, actual dimensions, silhouette margins, input/output SHA256 and byte-identity checks.",
+      "one_complete_human_skull_with_attached_mandible": true,
+      "mouth_closed": true,
+      "cream_bone_with_grey_olive_hollows": true,
+      "major_anatomy_and_material_agree_with_primary": true,
+      "foramen_magnum_hidden_at_requested_camera": true,
+      "genuine_alpha": true,
+      "uncropped_visible_silhouette": true,
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "dimensions_match_brief": false,
+      "strict_brief_compliant": false,
+      "known_deviations": [
+        "Built-in tool returned 1254 x 1254 for every attempt despite explicit 1024 x 1024 native-output prompts; no size parameter is exposed. Returns preserved unresized.",
+        "Framing varies between views; foreground height fractions are recorded in alpha.foreground_height_fraction."
+      ]
+    }
+  }
+]

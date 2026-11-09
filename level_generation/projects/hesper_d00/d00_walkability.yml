@@ -1,0 +1,434 @@
+# Fresh melee fights across the reactor plinth, pilot seat and complete Control Stair.
+id: hesper.d00.walkability
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d00.blv
+    party:
+      members:
+      - name: Hangar walk tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 9
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 10
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 11
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 12
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 13
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 14
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 15
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 17
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 18
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 19
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 20
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 21
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d00.blv
+    x: -794
+    y: 2600
+    z: 0
+    yaw: -1.6506263125071339
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: -890
+    y: 1400
+    z: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_visible:
+      actor_index: 22
+      dead: false
+      report_state: true
+      near:
+        x: -794
+        y: 2600
+        max_distance: 400
+- new_game_flow:
+    start_map: hes_d00.blv
+    party:
+      members:
+      - name: Hangar walk tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 9
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 10
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 11
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 12
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 13
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 14
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 15
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 17
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 18
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 19
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 20
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 21
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d00.blv
+    x: 2550
+    y: 1570
+    z: 0
+    yaw: 3.141592653589793
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 1590
+    y: 1570
+    z: 64
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_visible:
+      actor_index: 22
+      dead: false
+      report_state: true
+      near:
+        x: 2550
+        y: 1570
+        max_distance: 400
+- new_game_flow:
+    start_map: hes_d00.blv
+    party:
+      members:
+      - name: Hangar walk tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 9
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 10
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 11
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 12
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 13
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 14
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 15
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 17
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 18
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 19
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 20
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 21
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 16
+    amount: 1000000
+    tier: kreegan_energy
+- execute_event:
+    id: 27
+- execute_event:
+    id: 28
+- press_action:
+    action: cancel_dialog
+- wait_until:
+    timeout_runtime_seconds: 5
+    assert:
+      mechanism:
+        id: 7
+        state: open
+- set_pose:
+    map: hes_d00.blv
+    x: -400
+    y: 3382
+    z: 336
+    yaw: 3.141592653589793
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: -1280
+    y: 3382
+    z: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_visible:
+      actor_index: 22
+      dead: false
+      report_state: true
+      near:
+        x: -400
+        y: 3382
+        max_distance: 400
+- set_pose:
+    map: hes_d00.blv
+    x: 800
+    y: 3382
+    z: 640
+    yaw: 3.141592653589793
+    pitch: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_visible:
+      actor_index: 22
+      dead: false
+      report_state: true
+      near:
+        x: 800
+        y: 3382
+        max_distance: 400

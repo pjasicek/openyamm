@@ -1,0 +1,151 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thearena_doors_exits
+title: The Arena (native BLV) - the front door, the arena door, the pens
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thearena.blv
+- note:
+    text: 'ExitTrigger0 (DAT object 7): the front door to Thjorgard City, just south of the start.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thearena.blv
+      x: 0
+      y: -3686
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: thearena.blv
+      x: 0
+      y: -3986
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 7
+- load_map:
+    map: thearena.blv
+- note:
+    text: The arena's double door (RotatingDoor0/1) is shut and stops the party; a real click opens both leaves; the party
+      walks into the arena.
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thearena.blv
+      x: 0
+      y: -2000
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: thearena.blv
+      x: 0
+      y: -1596
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 20
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: -1786
+    z: 1
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- assert:
+    mechanism:
+      id: 2
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.4
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thearena.blv
+      x: 0
+      y: -2000
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: thearena.blv
+      x: 0
+      y: -930
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 160
+    tolerance_z: 20
+- note:
+    text: 'The pens (RotatingDoor2/3 west, 4/5 east): shut, a real click slides each pair apart.'
+- assert:
+    mechanism:
+      id: 5
+      state: closed
+- set_pose:
+    map: thearena.blv
+    x: -1200
+    y: 0
+    z: 1
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 5
+      state: open
+- set_pose:
+    map: thearena.blv
+    x: 1200
+    y: 0
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 3
+      state: open

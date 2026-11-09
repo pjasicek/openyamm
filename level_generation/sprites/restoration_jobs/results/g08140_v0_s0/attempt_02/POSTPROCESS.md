@@ -1,0 +1,1 @@
+Reused existing master; default registration, then restore_native_tone.py matches opaque native RGB tonal weight while retaining alpha. Run queue.py check after grading. Preserve before_tone backups; refresh them if registration is rerun.

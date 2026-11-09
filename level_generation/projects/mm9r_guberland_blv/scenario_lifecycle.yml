@@ -1,0 +1,44 @@
+# MM9's object lifecycle (devdocs/mm9_rework/scr_audit/README.md "Implicit engine semantics"): a dead AI's OnXxx
+# callbacks do not fire. atlipromo.scr :OnLeave is the late guard's OnFoundPlayer: with key 376 (his 2:45-3:15 watch)
+# and Atli's job (125) he gives key 197 and leaves. Slain first, he sees nobody: no 197, so no bandits and no Atli
+# (the Mercenary promotion stays shut, as in MM9). regionlua.py atliWatch gates the relief with MM9.actorAlive.
+# AtliGuard is actor 56 in this build (DAT object 87; guberland.scene.yml mm9_source_object_index). Draft, not run.
+# Run: ./build/game/openyamm --headless-run-scenario level_generation/projects/mm9r_guberland_blv/scenario_lifecycle.yml
+id: mm9r.guberland_lifecycle
+title: 'Guberland (native BLV): a slain late guard gives no relief (key 197; a dead AI''s OnFoundPlayer)'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: guberland.blv
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'From 9:00 to 2:50 the next night: inside the guard''s watch (atlipromo.scr @m 2:45 key 376)'
+- advance_game_time:
+    minutes: 1070
+- lua_event:
+    source: |
+      local minute = math.floor(evt.CurrentGameMinutes()) % 1440
+      assert(minute >= 165 and minute < 195, "not in the 2:45-3:15 watch: " .. minute)
+      assert(not evt.IsMapActorDead(56), "the late guard (56) lives")
+      assert(evt.KillMapActor(56), "the late guard dies")
+- setup_shortcut: {kind: set_qbit, id: 90125, value: true}
+- note:
+    text: 'Atli''s job held, the party at the guard''s post: his corpse sees nobody'
+- set_pose: {map: guberland.blv, x: 18116, y: 4860, z: -122, yaw: 0.0, pitch: 0.0}
+- execute_event: {id: 600}
+- advance_runtime:
+    seconds: 4
+- assert:
+    qbit_set: [90376]
+- assert:
+    qbit_clear: [90197]
+- lua_event:
+    source: |
+      assert(evt.IsMapActorDead(56), "the late guard is dead")
+      assert(evt.GetMapVar("BanditsSent", 0) == 0, "no bandits without key 197")

@@ -1,0 +1,29 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png precisely. Use case: precise-object-edit. Output ONE transparent PNG, 1536x2048 (3:4). Image 1 design_reference.png is material/detail reference, Image 2 icon_x8.png is color reference (ignore magenta background), Image 3 paint_mask_guide.png is the exact edit target. Preserve the guide's full canvas, every silhouette, position, scale, orientation, gap and opening. Three columns FOUR rows of 512-square cells. Rows 1-2 contain five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly the five views. Do not reinterpret the views or add a pair: paint only the existing grey objects. Top two rows: unlit base colour for Magreeb Gauntlets, source-faithful worn grey steel segmented claw gauntlet, subdued tan leather padding visible through plate openings, reference plate details and rivets; facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. NO lighting, shadows, AO, hot highlights, reflections. Bottom two rows: same silhouettes and geometry as guide, MATERIAL MASK only: every metal surface pure red #FF0000; every leather/padding/hide/suede/fur surface pure green #00FF00; every cloth/quilting/lining/cord/ribbon/hair surface pure blue #0000FF; gemstone/crystal/glass/pearl/enamel/liquid pure black #000000. Absolutely flat solid mask colors without shading, texture, outlines or antialiased internal color blends. Every silhouette pixel exactly one material color. Keep all exterior space and existing gaps fully transparent, including column 3 rows 2 and 4. Never redraw, enlarge, move, redesign the objects. No ground, text, halo, sparkle, aura or added outlines. The guide geometry and placement take priority over reference framing.\nCORRECTIVE GENERATION: The previous attempt had scattered red pixels beyond the mask silhouettes and dark drawn lines in the material mask. Strictly preserve the ORIGINAL guide silhouettes with clean alpha, no stray pixels outside. Bottom half must be completely flat red/green material regions, no dark outlines or internal geometry lines whatsoever. Top half must be diffuse unlit grey and tan, without specular highlights. Use the original guide as exact layout.",
+  "initial_prompt": "Edit the attached paint_mask_guide.png precisely. Use case: precise-object-edit. Output ONE transparent PNG, 1536x2048 (3:4). Image 1 design_reference.png is material/detail reference, Image 2 icon_x8.png is color reference (ignore magenta background), Image 3 paint_mask_guide.png is the exact edit target. Preserve the guide's full canvas, every silhouette, position, scale, orientation, gap and opening. Three columns FOUR rows of 512-square cells. Rows 1-2 contain five views FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly the five views. Do not reinterpret the views or add a pair: paint only the existing grey objects. Top two rows: unlit base colour for Magreeb Gauntlets, source-faithful worn grey steel segmented claw gauntlet, subdued tan leather padding visible through plate openings, reference plate details and rivets; facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. NO lighting, shadows, AO, hot highlights, reflections. Bottom two rows: same silhouettes and geometry as guide, MATERIAL MASK only: every metal surface pure red #FF0000; every leather/padding/hide/suede/fur surface pure green #00FF00; every cloth/quilting/lining/cord/ribbon/hair surface pure blue #0000FF; gemstone/crystal/glass/pearl/enamel/liquid pure black #000000. Absolutely flat solid mask colors without shading, texture, outlines or antialiased internal color blends. Every silhouette pixel exactly one material color. Keep all exterior space and existing gaps fully transparent, including column 3 rows 2 and 4. Never redraw, enlarge, move, redesign the objects. No ground, text, halo, sparkle, aura or added outlines. The guide geometry and placement take priority over reference framing.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-e997-7f62-abda-e722c4d3f25f/exec-c0d8fb38-72d7-43d5-b5a7-b9a3a3555ae1.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10141/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "limitations": [
+    "Mask retains stray exterior pixels and non-flat internal colors; paint retains shading."
+  ],
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10141/design_reference.png",
+      "sha256": "b420c77ac97b5b7e9ed36eb88fe3a4ec17f06f6023e50f3c2cabc85bb7a3d098"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10141/icon_x8.png",
+      "sha256": "568534367930dc72a6da223c78b026b300705e7e367abeb8f11fd4250ffbd795"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10141/paint_mask_guide.png",
+      "sha256": "76e68074cb6a0c1ebe077c529311b58f62ffe93d8b35f76f7cecbeba766cd24b"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ]
+}

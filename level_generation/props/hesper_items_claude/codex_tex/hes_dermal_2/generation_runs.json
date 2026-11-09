@@ -1,0 +1,604 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: style-transfer. Asset: a painted orthographic albedo texture source for the Hesper dermal armour module hes_dermal_2 (+40 armour class).\nInput image 1 is the EDIT TARGET: the exact 1024 x 1024 orthographic geometry guide. Input image 2 is the approved DESIGN AND MATERIAL REFERENCE only; never copy its oblique camera, framing, silhouette, lighting or cast shadows.\nPaint directly onto image 1, preserving its complete pixel-positioned silhouette, size, placement, view, proportions and every part boundary. Maintain its exact original alpha outline including antialiasing. The empty space remains genuinely transparent. Do not recenter, enlarge, zoom, crop, rotate, reshape or add any geometry.\nUse the reference's warm white/ivory ceramic with subtle fine wear, restrained warm brushed gold detailing and engraved lines, black-violet resin, and neutral steel. The guide's pastel material coding is NOT the final palette. Continue unseen surfaces plausibly. Preserve seams and small non-letter markings, no text.\nThis is an ALBEDO texture source: flat uniform shadowless front-facing illumination. No cast shadows (remove those in the guide), no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim light. Metal has its base colour with only faint sheen. Any light source is its bright cyan/blue-white base colour without bloom. Surface grain, wear, engraved seams and material colours supply detail, not baked lighting. No background, floor, scenery, labels, letters or watermark.\nOutput exactly one 1024 x 1024 RGBA transparent PNG, the same full canvas as the guide. Do not fit the object to a new frame.\nVIEW-SPECIFIC INSTRUCTIONS:\nFRONT VIEW. Keep the very thin horizontal side profile exactly as the guide: extents approximately x77..946, y442..581. The raised central steel panel appears only as its narrow top-edge strip from x272..751, y442..464; do not reveal its broad top face. Ivory ceramic main side wall, gold seams, black-violet resin corner pieces occupying the two existing faceted diamond silhouettes. Four existing gold connector pin ends remain at precisely their guide locations across the central lower wall. Do not add visible pins outside the outline. Keep these pins clean and remove their cast shadows.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d550217d57ac16c27ff1ad792f3d1bb8f8cb37cb3ca8169f50619fda7d1d336d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb"
+        }
+      ],
+      "attempt": 1,
+      "output": "paint_front.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "selected": true,
+      "reason": "Selected over correction: closer normalized silhouette (0.93775 versus 0.90926) and more restrained resin rendering. Still has displaced part edges, baked shading, and alpha contamination.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-89448099-27bd-473e-b3d8-ca6fec6433df.png",
+      "output_sha256": "373ce40beedd0fbaf79cf21389a98b57bba225d660e408fdd3cba9d035ec8323",
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 1402559,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          41,
+          85,
+          1173,
+          1229
+        ],
+        "alpha_bbox_over_127": [
+          84,
+          539,
+          1169,
+          712
+        ],
+        "guide_alpha_bbox_any": [
+          77,
+          443,
+          947,
+          581
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.9377533458995001,
+        "pixels_outside_normalized_guide_over_127": 9837,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset: a painted orthographic albedo texture source for the Hesper dermal armour module hes_dermal_2 (+40 armour class).\nInput image 2 is the EDIT TARGET: the exact 1024 x 1024 orthographic geometry guide. Input image 1 is the approved DESIGN AND MATERIAL REFERENCE only; never copy its oblique camera, framing, silhouette, lighting or cast shadows.\nPaint directly onto image 2, preserving its complete pixel-positioned silhouette, size, placement, view, proportions and every part boundary. Maintain its exact original alpha outline including antialiasing. The empty space remains genuinely transparent. Do not recenter, enlarge, zoom, crop, rotate, reshape or add any geometry.\nUse the reference's warm white/ivory ceramic with subtle fine wear, restrained warm brushed gold detailing and engraved lines, black-violet resin, and neutral steel. The guide's pastel material coding is NOT the final palette. Continue unseen surfaces plausibly. Preserve seams and small non-letter markings, no text.\nThis is an ALBEDO texture source: flat uniform shadowless front-facing illumination. No cast shadows (remove those in the guide), no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim light. Metal has its base colour with only faint sheen. Any light source is its bright cyan/blue-white base colour without bloom. Surface grain, wear, engraved seams and material colours supply detail, not baked lighting. No background, floor, scenery, labels, letters or watermark.\nOutput exactly one 1024 x 1024 RGBA transparent PNG, the same full canvas as the guide. Do not fit the object to a new frame.\nUse the SECOND input's 1024x1024 canvas and alpha, not the first input's 1254x1254 canvas. The reference has contaminated red/yellow edge pixels: ignore those; do not reproduce red/yellow edge fringes or stray pixels. The guide is the ONLY geometry authority.\nVIEW-SPECIFIC INSTRUCTIONS:\nFRONT VIEW. Keep the very thin horizontal side profile exactly as the guide: extents approximately x77..946, y442..581. The raised central steel panel appears only as its narrow top-edge strip from x272..751, y442..464; do not reveal its broad top face. Ivory ceramic main side wall, gold seams, black-violet resin corner pieces occupying the two existing faceted diamond silhouettes. Four existing gold connector pin ends remain at precisely their guide locations across the central lower wall. Do not add visible pins outside the outline. Keep these pins clean and remove their cast shadows.\nCORRECTIVE PASS (only permitted regeneration): the prior result wrongly adopted the design reference's 1254x1254 canvas, moved/scaled the side profile, added colored stray edge specks and baked shadows. Restart from the SECOND image, the untouched 1024x1024 front guide, preserving its exact silhouette and every part edge. Paint albedo only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "d550217d57ac16c27ff1ad792f3d1bb8f8cb37cb3ca8169f50619fda7d1d336d"
+        }
+      ],
+      "output": "unselected/paint_front_attempt2.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 1395990,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          33,
+          48,
+          1224,
+          1178
+        ],
+        "alpha_bbox_over_127": [
+          78,
+          539,
+          1177,
+          717
+        ],
+        "guide_alpha_bbox_any": [
+          77,
+          443,
+          947,
+          581
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.9092575730724338,
+        "pixels_outside_normalized_guide_over_127": 14849,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      },
+      "selected": false,
+      "reason": "Not selected: correction worsened normalized silhouette and retained glossy resin and highlights.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-96c891ca-e7d7-4045-b58b-4faaceda3c3e.png",
+      "output_sha256": "a26dd39d1d73bc5950685ae9afaf76da453c5848a6ebdca579cc1795079d5147"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset: a painted orthographic albedo texture source for the Hesper dermal armour module hes_dermal_2 (+40 armour class).\nInput image 2 is the EDIT TARGET: the exact 1024 x 1024 orthographic geometry guide. Input image 1 is the approved DESIGN AND MATERIAL REFERENCE only; never copy its oblique camera, framing, silhouette, lighting or cast shadows.\nPaint directly onto image 2, preserving its complete pixel-positioned silhouette, size, placement, view, proportions and every part boundary. Maintain its exact original alpha outline including antialiasing. The empty space remains genuinely transparent. Do not recenter, enlarge, zoom, crop, rotate, reshape or add any geometry.\nUse the reference's warm white/ivory ceramic with subtle fine wear, restrained warm brushed gold detailing and engraved lines, black-violet resin, and neutral steel. The guide's pastel material coding is NOT the final palette. Continue unseen surfaces plausibly. Preserve seams and small non-letter markings, no text.\nThis is an ALBEDO texture source: flat uniform shadowless front-facing illumination. No cast shadows (remove those in the guide), no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim light. Metal has its base colour with only faint sheen. Any light source is its bright cyan/blue-white base colour without bloom. Surface grain, wear, engraved seams and material colours supply detail, not baked lighting. No background, floor, scenery, labels, letters or watermark.\nOutput exactly one 1024 x 1024 RGBA transparent PNG, the same full canvas as the guide. Do not fit the object to a new frame.\nUse the SECOND input's 1024x1024 canvas and alpha, not the first input's 1254x1254 canvas. The reference has contaminated red/yellow edge pixels: ignore those; do not reproduce red/yellow edge fringes or stray pixels. The guide is the ONLY geometry authority.\nVIEW-SPECIFIC INSTRUCTIONS:\nBACK VIEW. Keep the very thin horizontal side profile exactly as the guide: extents approximately x77..946, y442..581. The raised central steel panel appears only as its narrow top-edge strip x272..751,y442..464; do not reveal its broad top face. Ivory ceramic main side wall with restrained gold borders and seams. Both existing faceted diamond corner silhouettes become black-violet resin with subtle reference-inspired striations. The existing small pale-cyan rectangle near x239..341,y471..526 is the blue-white/cyan indicator, painted bright and flat without bloom or shadow. There are no front connector pins visible from this view.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "cb3a1344cfe2d33a0e113f81db62084af3937c5fc77f0b2a8946334d9fda3f78"
+        }
+      ],
+      "output": "unselected/paint_back_attempt1.png",
+      "size": [
+        1774,
+        887
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 1223111,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          90,
+          45,
+          1752,
+          863
+        ],
+        "alpha_bbox_over_127": [
+          105,
+          342,
+          1669,
+          592
+        ],
+        "guide_alpha_bbox_any": [
+          77,
+          443,
+          947,
+          581
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.44593154520003614,
+        "pixels_outside_normalized_guide_over_127": 183799,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      },
+      "selected": false,
+      "reason": "Not selected: wide 1774x887 canvas changes framing and scale; glossy highlights and edge contamination.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-4039d809-c21d-46d0-8865-d2e78d1cb807.png",
+      "output_sha256": "fc25b66e71e8386231f01880eafda453ca5ff28be8a3e7d41b0c27bda33c4392"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Paint ONLY surface colour on this exact attached 1024 x 1024 RGBA geometry guide. This is the sole edit target and geometry authority. Return a SQUARE 1024 x 1024 image. Keep its full transparent canvas and every original alpha pixel unchanged. Keep object position, scale, silhouette, part boundaries and camera exactly as given. Do not crop the large empty margins.\nMaterial reference, already inspected: Hesper dermal armour module with worn warm ivory ceramic plates, muted brushed brass-gold thin trims and engraved seams, dark black-violet resin corner inserts, neutral medium grey steel, and bright cyan-white indicator glass where indicated. Transfer only those colours and subtle wear patterns. No letters, words, labels or watermark.\nCRITICAL CORRECTION: output an UNLIT base-colour/albedo map, not a beauty render. Make every face equally lit. Remove all shading and cast shadows from the guide. No white specular edge streaks, no reflections, no darkened lower halves, no cast shadows under pins, no ambient occlusion behind trim. Gold is a muted ochre base colour with fine brushing, NOT gleaming metal. Resin is black-violet with fine muted striations, NOT glossy crystal. Ceramic is warm white with very fine worn grain. Engraved seams should be thin local colour details rather than thick black shadow bevels. Cyan panels are flat bright cyan-white, no bloom. No red or yellow edge specks, no stray alpha outside the guide, no backdrop or floor.\nThis is the only permitted corrective attempt; prioritize exact guide geometry, genuinely transparent background and flat even albedo over illustrative lighting.\n\nVIEW:\nBACK VIEW. Keep the very thin horizontal side profile exactly as the guide: extents approximately x77..946, y442..581. The raised central steel panel appears only as its narrow top-edge strip x272..751,y442..464; do not reveal its broad top face. Ivory ceramic main side wall with restrained gold borders and seams. Both existing faceted diamond corner silhouettes become black-violet resin with subtle reference-inspired striations. The existing small pale-cyan rectangle near x239..341,y471..526 is the blue-white/cyan indicator, painted bright and flat without bloom or shadow. There are no front connector pins visible from this view.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "cb3a1344cfe2d33a0e113f81db62084af3937c5fc77f0b2a8946334d9fda3f78"
+        }
+      ],
+      "material_authority": {
+        "path": "design_reference.png",
+        "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb",
+        "use": "Inspected visually; palette and materials carried in prompt. Not attached on corrective pass to prioritize guide canvas."
+      },
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected: square canvas, substantially closer normalized silhouette, and flatter ceramic/gold/indicator colours. Facet shading, stray alpha, and outline deviations remain.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-242b2784-e6b4-480e-ac2f-07186ad33422.png",
+      "output_sha256": "0e77cc0d06e36b9e753455be715b1eef4dbe9c47d9316149348f5f7536adc1f1",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 1407377,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          0,
+          25,
+          1182,
+          1180
+        ],
+        "alpha_bbox_over_127": [
+          94,
+          541,
+          1160,
+          713
+        ],
+        "guide_alpha_bbox_any": [
+          77,
+          443,
+          947,
+          581
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.9684577082045107,
+        "pixels_outside_normalized_guide_over_127": 4845,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset: a painted orthographic albedo texture source for the Hesper dermal armour module hes_dermal_2 (+40 armour class).\nInput image 2 is the EDIT TARGET: the exact 1024 x 1024 orthographic geometry guide. Input image 1 is the approved DESIGN AND MATERIAL REFERENCE only; never copy its oblique camera, framing, silhouette, lighting or cast shadows.\nPaint directly onto image 2, preserving its complete pixel-positioned silhouette, size, placement, view, proportions and every part boundary. Maintain its exact original alpha outline including antialiasing. The empty space remains genuinely transparent. Do not recenter, enlarge, zoom, crop, rotate, reshape or add any geometry.\nUse the reference's warm white/ivory ceramic with subtle fine wear, restrained warm brushed gold detailing and engraved lines, black-violet resin, and neutral steel. The guide's pastel material coding is NOT the final palette. Continue unseen surfaces plausibly. Preserve seams and small non-letter markings, no text.\nThis is an ALBEDO texture source: flat uniform shadowless front-facing illumination. No cast shadows (remove those in the guide), no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim light. Metal has its base colour with only faint sheen. Any light source is its bright cyan/blue-white base colour without bloom. Surface grain, wear, engraved seams and material colours supply detail, not baked lighting. No background, floor, scenery, labels, letters or watermark.\nOutput exactly one 1024 x 1024 RGBA transparent PNG, the same full canvas as the guide. Do not fit the object to a new frame.\nUse the SECOND input's 1024x1024 canvas and alpha, not the first input's 1254x1254 canvas. The reference has contaminated red/yellow edge pixels: ignore those; do not reproduce red/yellow edge fringes or stray pixels. The guide is the ONLY geometry authority.\nVIEW-SPECIFIC INSTRUCTIONS:\nLEFT VIEW. Keep the very thin horizontal side profile exactly as the guide: extents approximately x65..958,y442..581. The raised central steel panel appears only as the narrow top-edge strip x261..740,y442..464; do not reveal its broad top face. Ivory ceramic main side wall, restrained brushed gold borders and seams, black-violet resin at the exact two existing faceted diamond corners. The short existing rectangular gold connector projection at the FAR RIGHT (x899..958 around y516..549) stays exactly there. Do not invent a cyan panel on this side.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "1b3bb88bfcd9f6baa175686a1bf3cae8a4fc3e0fa429541058d125be416ba05d"
+        }
+      ],
+      "output": "unselected/paint_left_attempt1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 1405194,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          25,
+          89,
+          1177,
+          1222
+        ],
+        "alpha_bbox_over_127": [
+          89,
+          543,
+          1174,
+          715
+        ],
+        "guide_alpha_bbox_any": [
+          66,
+          443,
+          958,
+          581
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.969897515164898,
+        "pixels_outside_normalized_guide_over_127": 3424,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      },
+      "selected": false,
+      "reason": "Not selected: slightly closer normalized silhouette than correction, but substantially stronger baked highlights and bevel shading.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-94b953ce-78f1-45c3-8581-dd0e761ca6aa.png",
+      "output_sha256": "df7bf5557a0c24f130a507b7920f5cbc9834cfa0be7a8c85c7d5ab64acc88c8e"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Paint ONLY surface colour on this exact attached 1024 x 1024 RGBA geometry guide. This is the sole edit target and geometry authority. Return a SQUARE 1024 x 1024 image. Keep its full transparent canvas and every original alpha pixel unchanged. Keep object position, scale, silhouette, part boundaries and camera exactly as given. Do not crop the large empty margins.\nMaterial reference, already inspected: Hesper dermal armour module with worn warm ivory ceramic plates, muted brushed brass-gold thin trims and engraved seams, dark black-violet resin corner inserts, neutral medium grey steel, and bright cyan-white indicator glass where indicated. Transfer only those colours and subtle wear patterns. No letters, words, labels or watermark.\nCRITICAL CORRECTION: output an UNLIT base-colour/albedo map, not a beauty render. Make every face equally lit. Remove all shading and cast shadows from the guide. No white specular edge streaks, no reflections, no darkened lower halves, no cast shadows under pins, no ambient occlusion behind trim. Gold is a muted ochre base colour with fine brushing, NOT gleaming metal. Resin is black-violet with fine muted striations, NOT glossy crystal. Ceramic is warm white with very fine worn grain. Engraved seams should be thin local colour details rather than thick black shadow bevels. Cyan panels are flat bright cyan-white, no bloom. No red or yellow edge specks, no stray alpha outside the guide, no backdrop or floor.\nThis is the only permitted corrective attempt; prioritize exact guide geometry, genuinely transparent background and flat even albedo over illustrative lighting.\n\nVIEW:\nLEFT VIEW. Keep the very thin horizontal side profile exactly as the guide: extents approximately x65..958,y442..581. The raised central steel panel appears only as the narrow top-edge strip x261..740,y442..464; do not reveal its broad top face. Ivory ceramic main side wall, restrained brushed gold borders and seams, black-violet resin at the exact two existing faceted diamond corners. The short existing rectangular gold connector projection at the FAR RIGHT (x899..958 around y516..549) stays exactly there. Do not invent a cyan panel on this side.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1b3bb88bfcd9f6baa175686a1bf3cae8a4fc3e0fa429541058d125be416ba05d"
+        }
+      ],
+      "material_authority": {
+        "path": "design_reference.png",
+        "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb",
+        "use": "Inspected visually; palette and materials carried in prompt. Not attached on corrective pass to prioritize guide canvas."
+      },
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected for flatter materials with nearly matching normalized geometry. Remaining dark lower facets, edge specks, and outline drift prevent full compliance.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-fd698bd9-da55-4a71-ab9d-386acdeb3f53.png",
+      "output_sha256": "f8a7d21ccf5829206424819a43811e78708a610c687cd9d612ff4bf3b4caa99f",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 1400514,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          0,
+          15,
+          1232,
+          1182
+        ],
+        "alpha_bbox_over_127": [
+          79,
+          541,
+          1176,
+          714
+        ],
+        "guide_alpha_bbox_any": [
+          66,
+          443,
+          958,
+          581
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.9585514027628148,
+        "pixels_outside_normalized_guide_over_127": 6319,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset: a painted orthographic albedo texture source for the Hesper dermal armour module hes_dermal_2 (+40 armour class).\nInput image 2 is the EDIT TARGET: the exact 1024 x 1024 orthographic geometry guide. Input image 1 is the approved DESIGN AND MATERIAL REFERENCE only; never copy its oblique camera, framing, silhouette, lighting or cast shadows.\nPaint directly onto image 2, preserving its complete pixel-positioned silhouette, size, placement, view, proportions and every part boundary. Maintain its exact original alpha outline including antialiasing. The empty space remains genuinely transparent. Do not recenter, enlarge, zoom, crop, rotate, reshape or add any geometry.\nUse the reference's warm white/ivory ceramic with subtle fine wear, restrained warm brushed gold detailing and engraved lines, black-violet resin, and neutral steel. The guide's pastel material coding is NOT the final palette. Continue unseen surfaces plausibly. Preserve seams and small non-letter markings, no text.\nThis is an ALBEDO texture source: flat uniform shadowless front-facing illumination. No cast shadows (remove those in the guide), no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim light. Metal has its base colour with only faint sheen. Any light source is its bright cyan/blue-white base colour without bloom. Surface grain, wear, engraved seams and material colours supply detail, not baked lighting. No background, floor, scenery, labels, letters or watermark.\nOutput exactly one 1024 x 1024 RGBA transparent PNG, the same full canvas as the guide. Do not fit the object to a new frame.\nUse the SECOND input's 1024x1024 canvas and alpha, not the first input's 1254x1254 canvas. The reference has contaminated red/yellow edge pixels: ignore those; do not reproduce red/yellow edge fringes or stray pixels. The guide is the ONLY geometry authority.\nVIEW-SPECIFIC INSTRUCTIONS:\nRIGHT VIEW. Keep the very thin horizontal side profile exactly as the guide: extents approximately x65..958,y442..581. The raised central steel panel appears only as the narrow top-edge strip x283..762,y442..464; do not reveal its broad top face. Ivory ceramic main side wall, restrained brushed gold borders and seams, black-violet resin at the exact two existing faceted diamond corners. The short existing rectangular gold connector projection at the FAR LEFT (x65..125 around y516..549) stays exactly there. Do not invent a cyan panel on this side.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "e0c9fb235e4414e77f731db9e7eb3f224c8a90cba5613101c082c1d910ee330c"
+        }
+      ],
+      "output": "unselected/paint_right_attempt1.png",
+      "size": [
+        1774,
+        887
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 1280886,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          47,
+          170,
+          1744,
+          855
+        ],
+        "alpha_bbox_over_127": [
+          113,
+          348,
+          1619,
+          566
+        ],
+        "guide_alpha_bbox_any": [
+          66,
+          443,
+          958,
+          581
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.5235593135752122,
+        "pixels_outside_normalized_guide_over_127": 130364,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      },
+      "selected": false,
+      "reason": "Not selected: wide 1774x887 canvas, shifted scale and framing, strong specular highlights.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-310a6b12-4b8b-4952-af16-6c0096583bae.png",
+      "output_sha256": "805827303d7c4f55e0849dd9c47385d9a381570c5ac2eae4bed1186863325e44"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Paint ONLY surface colour on this exact attached 1024 x 1024 RGBA geometry guide. This is the sole edit target and geometry authority. Return a SQUARE 1024 x 1024 image. Keep its full transparent canvas and every original alpha pixel unchanged. Keep object position, scale, silhouette, part boundaries and camera exactly as given. Do not crop the large empty margins.\nMaterial reference, already inspected: Hesper dermal armour module with worn warm ivory ceramic plates, muted brushed brass-gold thin trims and engraved seams, dark black-violet resin corner inserts, neutral medium grey steel, and bright cyan-white indicator glass where indicated. Transfer only those colours and subtle wear patterns. No letters, words, labels or watermark.\nCRITICAL CORRECTION: output an UNLIT base-colour/albedo map, not a beauty render. Make every face equally lit. Remove all shading and cast shadows from the guide. No white specular edge streaks, no reflections, no darkened lower halves, no cast shadows under pins, no ambient occlusion behind trim. Gold is a muted ochre base colour with fine brushing, NOT gleaming metal. Resin is black-violet with fine muted striations, NOT glossy crystal. Ceramic is warm white with very fine worn grain. Engraved seams should be thin local colour details rather than thick black shadow bevels. Cyan panels are flat bright cyan-white, no bloom. No red or yellow edge specks, no stray alpha outside the guide, no backdrop or floor.\nThis is the only permitted corrective attempt; prioritize exact guide geometry, genuinely transparent background and flat even albedo over illustrative lighting.\n\nVIEW:\nRIGHT VIEW. Keep the very thin horizontal side profile exactly as the guide: extents approximately x65..958,y442..581. The raised central steel panel appears only as the narrow top-edge strip x283..762,y442..464; do not reveal its broad top face. Ivory ceramic main side wall, restrained brushed gold borders and seams, black-violet resin at the exact two existing faceted diamond corners. The short existing rectangular gold connector projection at the FAR LEFT (x65..125 around y516..549) stays exactly there. Do not invent a cyan panel on this side.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "e0c9fb235e4414e77f731db9e7eb3f224c8a90cba5613101c082c1d910ee330c"
+        }
+      ],
+      "material_authority": {
+        "path": "design_reference.png",
+        "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb",
+        "use": "Inspected visually; palette and materials carried in prompt. Not attached on corrective pass to prioritize guide canvas."
+      },
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected: square canvas, much closer normalized geometry, and flatter materials. Remaining facet shading, edge specks, and outline drift prevent full compliance.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-9ecc9695-2164-4bfc-a679-ea39b3f6103b.png",
+      "output_sha256": "9c5a2f3ac1bcce4f03ef110e19155fbf814c609bc64d0148340f5a3fc75f65f1",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 1401708,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          25,
+          72,
+          1232,
+          1254
+        ],
+        "alpha_bbox_over_127": [
+          80,
+          541,
+          1175,
+          714
+        ],
+        "guide_alpha_bbox_any": [
+          66,
+          443,
+          958,
+          581
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.9586719486408682,
+        "pixels_outside_normalized_guide_over_127": 6466,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset: a painted orthographic albedo texture source for the Hesper dermal armour module hes_dermal_2 (+40 armour class).\nInput image 2 is the EDIT TARGET: the exact 1024 x 1024 orthographic geometry guide. Input image 1 is the approved DESIGN AND MATERIAL REFERENCE only; never copy its oblique camera, framing, silhouette, lighting or cast shadows.\nPaint directly onto image 2, preserving its complete pixel-positioned silhouette, size, placement, view, proportions and every part boundary. Maintain its exact original alpha outline including antialiasing. The empty space remains genuinely transparent. Do not recenter, enlarge, zoom, crop, rotate, reshape or add any geometry.\nUse the reference's warm white/ivory ceramic with subtle fine wear, restrained warm brushed gold detailing and engraved lines, black-violet resin, and neutral steel. The guide's pastel material coding is NOT the final palette. Continue unseen surfaces plausibly. Preserve seams and small non-letter markings, no text.\nThis is an ALBEDO texture source: flat uniform shadowless front-facing illumination. No cast shadows (remove those in the guide), no ambient occlusion, no directional gradients, no strong specular highlights, no reflections, no rim light. Metal has its base colour with only faint sheen. Any light source is its bright cyan/blue-white base colour without bloom. Surface grain, wear, engraved seams and material colours supply detail, not baked lighting. No background, floor, scenery, labels, letters or watermark.\nOutput exactly one 1024 x 1024 RGBA transparent PNG, the same full canvas as the guide. Do not fit the object to a new frame.\nUse the SECOND input's 1024x1024 canvas and alpha, not the first input's 1254x1254 canvas. The reference has contaminated red/yellow edge pixels: ignore those; do not reproduce red/yellow edge fringes or stray pixels. The guide is the ONLY geometry authority.\nVIEW-SPECIFIC INSTRUCTIONS:\nTOP VIEW, exactly overhead orthographic. Preserve the guide's four pointed faceted corner silhouettes, square ivory ceramic body with clipped/bevelled corners, central rounded-square panel, four separate gold connector prongs at the bottom, and the small cyan rectangle along the upper-right edge. No perspective tilt. The central panel is a dense woven mesh of neutral steel and restrained gold interlaced narrow strips over dark resin, like the design reference but painted flat as albedo, without directional highlights or occlusion shadows. It fills only the exact existing central rounded-square panel, approximately x268..751,y262..751. Outer frame is worn ivory ceramic with restrained gold edge trims, fine engraved inset lines, and black-violet resin cable-like grooves within the four existing pointed corner pieces. Do not blunt, round off or reposition those pointed corners. Four connector prongs remain distinct at their exact guide locations x416..609,y847..958. Cyan upper-right indicator remains at x681..784,y150..190. The outline is approximately x77..946,y65..958, identical to the guide.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "4fc1d055d5edce9eed53bd40c397dc6bf97d89ebf51d7c566098cd6990da800f"
+        }
+      ],
+      "output": "unselected/paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: more glossy metal, darker occlusion behind woven strips, and greater normalized silhouette mismatch.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-3cf28ac4-d959-47e4-ab15-4ab213797cc2.png",
+      "output_sha256": "52bf37904c85c8a78801a0b9fe4893e0dc96b42993234f321af26a42bf8bb952",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 736663,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          0,
+          10,
+          1242,
+          1254
+        ],
+        "alpha_bbox_over_127": [
+          87,
+          77,
+          1167,
+          1175
+        ],
+        "guide_alpha_bbox_any": [
+          77,
+          66,
+          947,
+          958
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.9556116624275269,
+        "pixels_outside_normalized_guide_over_127": 34919,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Paint ONLY surface colour on this exact attached 1024 x 1024 RGBA geometry guide. This is the sole edit target and geometry authority. Return a SQUARE 1024 x 1024 image. Keep its full transparent canvas and every original alpha pixel unchanged. Keep object position, scale, silhouette, part boundaries and camera exactly as given. Do not crop the large empty margins.\nMaterial reference, already inspected: Hesper dermal armour module with worn warm ivory ceramic plates, muted brushed brass-gold thin trims and engraved seams, dark black-violet resin corner inserts, neutral medium grey steel, and bright cyan-white indicator glass where indicated. Transfer only those colours and subtle wear patterns. No letters, words, labels or watermark.\nCRITICAL CORRECTION: output an UNLIT base-colour/albedo map, not a beauty render. Make every face equally lit. Remove all shading and cast shadows from the guide. No white specular edge streaks, no reflections, no darkened lower halves, no cast shadows under pins, no ambient occlusion behind trim. Gold is a muted ochre base colour with fine brushing, NOT gleaming metal. Resin is black-violet with fine muted striations, NOT glossy crystal. Ceramic is warm white with very fine worn grain. Engraved seams should be thin local colour details rather than thick black shadow bevels. Cyan panels are flat bright cyan-white, no bloom. No red or yellow edge specks, no stray alpha outside the guide, no backdrop or floor.\nThis is the only permitted corrective attempt; prioritize exact guide geometry, genuinely transparent background and flat even albedo over illustrative lighting.\n\nVIEW:\nTOP VIEW, exactly overhead orthographic. Preserve the guide's four pointed faceted corner silhouettes, square ivory ceramic body with clipped/bevelled corners, central rounded-square panel, four separate gold connector prongs at the bottom, and the small cyan rectangle along the upper-right edge. No perspective tilt. The central panel is a dense woven mesh of neutral steel and restrained gold interlaced narrow strips over dark resin, like the design reference but painted flat as albedo, without directional highlights or occlusion shadows. It fills only the exact existing central rounded-square panel, approximately x268..751,y262..751. Outer frame is worn ivory ceramic with restrained gold edge trims, fine engraved inset lines, and black-violet resin cable-like grooves within the four existing pointed corner pieces. Do not blunt, round off or reposition those pointed corners. Four connector prongs remain distinct at their exact guide locations x416..609,y847..958. Cyan upper-right indicator remains at x681..784,y150..190. The outline is approximately x77..946,y65..958, identical to the guide.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "4fc1d055d5edce9eed53bd40c397dc6bf97d89ebf51d7c566098cd6990da800f"
+        }
+      ],
+      "material_authority": {
+        "path": "design_reference.png",
+        "sha256": "9dbbdf88772910939b9574df4fb11180f17a44d49807f00e00e67c81d58ffddb",
+        "use": "Inspected visually; palette and materials carried in prompt. Not attached on corrective pass to prioritize guide canvas."
+      },
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected: closer normalized silhouette and substantially flatter woven metal and ceramic. Coarser weave, residual depth shading, shifted part edges, and coloured alpha fringes remain.",
+      "raw_tool_output": "/home/pjasicek/.codex/generated_images/01a16dc4-b4ba-7db1-a876-a6b94a1948a4/exec-d07fd144-1b62-4d49-b329-4d594f410c1e.png",
+      "output_sha256": "eabd1406e3c9ce96e27c2e15db85aa1acf147a0d257988d2530a83fdeb727d60",
+      "size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "unresized_byte_identical_return": true,
+        "transparent_pixels": 744252,
+        "transparent_background_present": true,
+        "clean_transparent_edges": false,
+        "alpha_bbox_any": [
+          0,
+          2,
+          1253,
+          1254
+        ],
+        "alpha_bbox_over_127": [
+          94,
+          79,
+          1161,
+          1176
+        ],
+        "guide_alpha_bbox_any": [
+          77,
+          66,
+          947,
+          958
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_over_127": 0.9806813786870996,
+        "pixels_outside_normalized_guide_over_127": 15131,
+        "colours_and_materials_match": "broad palette matches; details differ",
+        "flat_even_shadowless_light": false,
+        "no_text_or_letters": true,
+        "visual_review": "Inspected built-in tool return; see selection reason and limitations.",
+        "full_brief_pass": false
+      }
+    }
+  ],
+  "status": "generated_with_unresolved_brief_failures",
+  "selection_policy": "One initial generation and at most one corrective generation per view; best available raw return selected, not accepted as fully compliant.",
+  "returned_size_policy": "All PNGs copied byte-for-byte. No resizing, cropping, alpha replacement, compositing, or other postprocessing.",
+  "normalised_check_method": "Diagnostic only: compare output alpha >127 to guide alpha >127 sampled at normalized pixel-centre coordinates. No PNG was changed. Normalized IoU does not establish exact silhouette equality.",
+  "limitations": [
+    "Every selected return is 1254x1254 rather than the requested 1024x1024; preserved unresized as directed.",
+    "No return has a pixel-identical guide silhouette; internal boundaries also drift.",
+    "Transparent PNGs contain stray low-alpha pixels and coloured edge contamination.",
+    "Residual facet shading and highlights fail the strictly flat albedo requirement; front has the strongest remaining lighting.",
+    "Materials broadly follow the approved palette, but fine markings and weave scale do not exactly reproduce the reference."
+  ]
+}

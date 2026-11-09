@@ -1,0 +1,31 @@
+# Engine checks of monster movement in the walkability test room (README.md). Run from output/hesper_stage/scenario_run:
+#   ../../../build/game/openyamm --world hesper --headless-run-scenario \
+#       ../../../level_generation/projects/hesper_walk_test/walk_test.yml
+# The pursuit detour: the party on the platform (z 96, north of y 1 300) and a Drudge (10000) below the sheer edge in
+# front of it; the only way up is the ramp at the east end (x 2 560-3 072). It must reach melee by the ramp.
+id: hesper.walk_test
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_walk_test.blv
+    party:
+      members:
+      - {name: Walk tester, class: Knight, level: 1000, equipment: {}, skills: [{name: Sword, level: 1, mastery: 1}]}
+- set_pose: {map: hes_walk_test.blv, x: 1000, y: 1600, z: 96, yaw: -1.5707963, pitch: 0}
+- spawn_actor: {monster_id: 10000, count: 1, x: 1000, y: 900, z: 0}
+- advance_runtime: {seconds: 30}
+- assert: {actor_visible: {actor_index: last, report_state: true, near: {x: 1000, y: 1600, max_distance: 450, min_z: 90}}}
+- note: {text: "Out of reach below the edge: a Drudge just below the platform's edge, within the flat melee distance
+    of the party above it, must not strike up 96 (half its height is less) but go round by the ramp."}
+- new_game_flow:
+    start_map: hes_walk_test.blv
+    party:
+      members:
+      - {name: Walk tester, class: Knight, level: 1000, equipment: {}, skills: [{name: Sword, level: 1, mastery: 1}]}
+- set_pose: {map: hes_walk_test.blv, x: 1000, y: 1450, z: 96, yaw: -1.5707963, pitch: 0}
+- spawn_actor: {monster_id: 10000, count: 1, x: 1000, y: 1200, z: 0}
+- advance_runtime: {seconds: 2}
+- assert: {party_health: {full: true}}
+- advance_runtime: {seconds: 28}
+- assert: {actor_visible: {actor_index: last, report_state: true, near: {x: 1000, y: 1450, max_distance: 450, min_z: 90}}}

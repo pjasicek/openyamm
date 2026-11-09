@@ -1,0 +1,100 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          -7896.0,
+          13504.0,
+          112.0
+        ],
+        "span": 12500
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm7/7out06_decor_settlement.png",
+      "camera_position": [
+        -2236.30712890625,
+        2184.6142578125,
+        13946.806640625
+      ],
+      "highlighted": [
+        {
+          "index": 203,
+          "name": "bush10",
+          "position": [
+            -4832,
+            13312,
+            0
+          ]
+        },
+        {
+          "index": 228,
+          "name": "7rock09",
+          "position": [
+            -5920,
+            11200,
+            0
+          ]
+        },
+        {
+          "index": 263,
+          "name": "dec67",
+          "position": [
+            -7376,
+            12976,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "landscape",
+        "target": [
+          4224,
+          -1408,
+          800
+        ],
+        "span": 13000
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm7/7out06_decor_landscape.png",
+      "camera_position": [
+        10110.080078125,
+        -13180.1611328125,
+        15188.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 106,
+          "name": "bush13",
+          "position": [
+            4224,
+            -1408,
+            800
+          ]
+        },
+        {
+          "index": 76,
+          "name": "bush14",
+          "position": [
+            2688,
+            -4992,
+            800
+          ]
+        },
+        {
+          "index": 184,
+          "name": "bush10",
+          "position": [
+            5216,
+            2304,
+            22
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

@@ -1,0 +1,1316 @@
+{
+  "pickups": [
+    [
+      "storage_0_0",
+      701,
+      4150,
+      -150,
+      -1536,
+      270
+    ],
+    [
+      "storage_0_0",
+      702,
+      4330,
+      -150,
+      -1536,
+      270
+    ],
+    [
+      "storage_0_0",
+      703,
+      4510,
+      -150,
+      -1536,
+      270
+    ],
+    [
+      "storage_0_0",
+      704,
+      4690,
+      -150,
+      -1536,
+      270
+    ],
+    [
+      "barracks_1_0",
+      705,
+      4400,
+      4150,
+      -768,
+      180
+    ],
+    [
+      "barracks_1_0",
+      706,
+      4400,
+      4330,
+      -768,
+      180
+    ],
+    [
+      "signal",
+      707,
+      1700,
+      4900,
+      0,
+      180
+    ],
+    [
+      "signal",
+      708,
+      1700,
+      5100,
+      0,
+      180
+    ],
+    [
+      "gatehouse",
+      751,
+      8020,
+      3080,
+      0,
+      240
+    ],
+    [
+      "gallery",
+      752,
+      6650,
+      3100,
+      0,
+      230
+    ],
+    [
+      "gallery",
+      753,
+      6650,
+      2120,
+      0,
+      100
+    ],
+    [
+      "yard_0_0",
+      754,
+      2750,
+      1120,
+      -768,
+      20
+    ],
+    [
+      "yard_0_1",
+      755,
+      3400,
+      3450,
+      -768,
+      140
+    ],
+    [
+      "yard_1_1",
+      756,
+      5000,
+      3450,
+      -768,
+      220
+    ],
+    [
+      "yard_0_1",
+      757,
+      2320,
+      2900,
+      -768,
+      30
+    ],
+    [
+      "barracks_1_0",
+      758,
+      4600,
+      3850,
+      -768,
+      60
+    ],
+    [
+      "barracks_1_0",
+      759,
+      3950,
+      4800,
+      -768,
+      180
+    ],
+    [
+      "mess",
+      760,
+      6200,
+      4200,
+      -768,
+      70
+    ],
+    [
+      "mess",
+      761,
+      6200,
+      4750,
+      -768,
+      210
+    ],
+    [
+      "storage_0_0",
+      762,
+      3950,
+      -850,
+      -1536,
+      20
+    ],
+    [
+      "storage_1_0",
+      763,
+      6050,
+      -1250,
+      -1536,
+      140
+    ],
+    [
+      "crusher_0_0",
+      764,
+      1500,
+      -1300,
+      -1536,
+      30
+    ],
+    [
+      "crusher_0_0",
+      765,
+      1450,
+      150,
+      -1536,
+      240
+    ],
+    [
+      "lab",
+      766,
+      6400,
+      -350,
+      -1536,
+      180
+    ],
+    [
+      "quarry_0_0",
+      767,
+      1450,
+      -1650,
+      -1536,
+      140
+    ],
+    [
+      "quarry_1_0",
+      768,
+      3500,
+      -1700,
+      -1536,
+      210
+    ],
+    [
+      "niche",
+      769,
+      4400,
+      -2900,
+      -1536,
+      40
+    ],
+    [
+      "signal",
+      770,
+      500,
+      4500,
+      0,
+      45
+    ]
+  ],
+  "arrivals": {
+    "d03_outer_gate": {
+      "position": [
+        8100,
+        2614,
+        0
+      ],
+      "direction_degrees": 180
+    }
+  },
+  "door_ids": {
+    "door_51": 51,
+    "door_52": 52,
+    "door_53": 53,
+    "door_54": 54,
+    "door_55": 55,
+    "door_58": 58,
+    "lift_56": 56,
+    "lift_57": 57
+  },
+  "chest_events": {
+    "36": 0,
+    "30": 1,
+    "31": 2,
+    "32": 3,
+    "33": 4,
+    "34": 5,
+    "35": 6
+  },
+  "actors": [
+    {
+      "monster": 10055,
+      "position": [
+        7060,
+        2100,
+        160
+      ],
+      "group": 10,
+      "posted": true,
+      "yaw_degrees": 180,
+      "name": "",
+      "sector": 8
+    },
+    {
+      "monster": 10055,
+      "position": [
+        7060,
+        3130,
+        160
+      ],
+      "group": 10,
+      "posted": true,
+      "yaw_degrees": 180,
+      "name": "",
+      "sector": 8
+    },
+    {
+      "monster": 10010,
+      "position": [
+        5700,
+        2400,
+        0
+      ],
+      "group": 25,
+      "posted": true,
+      "yaw_degrees": 180,
+      "name": "",
+      "sector": 7
+    },
+    {
+      "monster": 10010,
+      "position": [
+        5700,
+        2650,
+        0
+      ],
+      "group": 25,
+      "posted": true,
+      "yaw_degrees": 180,
+      "name": "",
+      "sector": 7
+    },
+    {
+      "monster": 10010,
+      "position": [
+        2720,
+        2965,
+        -768
+      ],
+      "group": 26,
+      "posted": true,
+      "yaw_degrees": -31.62229970963713,
+      "name": "",
+      "sector": 23
+    },
+    {
+      "monster": 10010,
+      "position": [
+        2900,
+        3070,
+        -768
+      ],
+      "group": 26,
+      "posted": true,
+      "yaw_degrees": -40.548825997113426,
+      "name": "",
+      "sector": 23
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3100,
+        2985,
+        -768
+      ],
+      "group": 26,
+      "posted": true,
+      "yaw_degrees": -44.379492352166054,
+      "name": "",
+      "sector": 23
+    },
+    {
+      "monster": 10010,
+      "position": [
+        4515,
+        1790,
+        -768
+      ],
+      "group": 27,
+      "posted": true,
+      "yaw_degrees": 144.50024131533732,
+      "name": "",
+      "sector": 24
+    },
+    {
+      "monster": 10010,
+      "position": [
+        4725,
+        1940,
+        -768
+      ],
+      "group": 27,
+      "posted": true,
+      "yaw_degrees": 158.73455036709373,
+      "name": "",
+      "sector": 24
+    },
+    {
+      "monster": 10010,
+      "position": [
+        4915,
+        1815,
+        -768
+      ],
+      "group": 27,
+      "posted": true,
+      "yaw_degrees": 156.49204003334455,
+      "name": "",
+      "sector": 24
+    },
+    {
+      "monster": 10010,
+      "position": [
+        2970,
+        4200,
+        -768
+      ],
+      "group": 20,
+      "posted": false,
+      "yaw_degrees": 16.85839876773828,
+      "name": "",
+      "sector": 1
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3150,
+        4460,
+        -768
+      ],
+      "group": 20,
+      "posted": false,
+      "yaw_degrees": -46.8476102659946,
+      "name": "",
+      "sector": 1
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3410,
+        4160,
+        -768
+      ],
+      "group": 20,
+      "posted": false,
+      "yaw_degrees": 128.15722658736905,
+      "name": "",
+      "sector": 1
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3635,
+        4390,
+        -768
+      ],
+      "group": 20,
+      "posted": false,
+      "yaw_degrees": -164.96218409641776,
+      "name": "",
+      "sector": 2
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3360,
+        4490,
+        -768
+      ],
+      "group": 20,
+      "posted": false,
+      "yaw_degrees": -107.52556837372288,
+      "name": "",
+      "sector": 1
+    },
+    {
+      "monster": 10010,
+      "position": [
+        5280,
+        4200,
+        -768
+      ],
+      "group": 21,
+      "posted": false,
+      "yaw_degrees": 17.35402463626132,
+      "name": "",
+      "sector": 11
+    },
+    {
+      "monster": 10010,
+      "position": [
+        5430,
+        4450,
+        -768
+      ],
+      "group": 21,
+      "posted": false,
+      "yaw_degrees": -41.423665625002656,
+      "name": "",
+      "sector": 11
+    },
+    {
+      "monster": 10010,
+      "position": [
+        5780,
+        4420,
+        -768
+      ],
+      "group": 21,
+      "posted": false,
+      "yaw_degrees": -146.30993247402023,
+      "name": "",
+      "sector": 11
+    },
+    {
+      "monster": 10010,
+      "position": [
+        5930,
+        4150,
+        -768
+      ],
+      "group": 21,
+      "posted": false,
+      "yaw_degrees": 155.55604521958347,
+      "name": "",
+      "sector": 11
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3150,
+        510,
+        -768
+      ],
+      "group": 40,
+      "posted": false,
+      "yaw_degrees": 70.04259817781698,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3310,
+        680,
+        -768
+      ],
+      "group": 40,
+      "posted": false,
+      "yaw_degrees": 73.17105416636025,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3490,
+        530,
+        -768
+      ],
+      "group": 40,
+      "posted": false,
+      "yaw_degrees": 80.06590252964344,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3650,
+        660,
+        -768
+      ],
+      "group": 40,
+      "posted": false,
+      "yaw_degrees": 84.77407259103323,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10010,
+      "position": [
+        3960,
+        660,
+        -768
+      ],
+      "group": 41,
+      "posted": false,
+      "yaw_degrees": 95.5721978039638,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10010,
+      "position": [
+        4130,
+        520,
+        -768
+      ],
+      "group": 41,
+      "posted": false,
+      "yaw_degrees": 100.50300301891784,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10010,
+      "position": [
+        4310,
+        690,
+        -768
+      ],
+      "group": 41,
+      "posted": false,
+      "yaw_degrees": 107.5766492928905,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10010,
+      "position": [
+        4450,
+        535,
+        -768
+      ],
+      "group": 41,
+      "posted": false,
+      "yaw_degrees": 110.21733733858781,
+      "name": "",
+      "sector": 13
+    },
+    {
+      "monster": 10000,
+      "position": [
+        4480,
+        -800,
+        -1536
+      ],
+      "group": 22,
+      "posted": false,
+      "yaw_degrees": -121.89079180184572,
+      "name": "",
+      "sector": 20
+    },
+    {
+      "monster": 10000,
+      "position": [
+        4700,
+        -580,
+        -1536
+      ],
+      "group": 22,
+      "posted": false,
+      "yaw_degrees": -73.37924308610795,
+      "name": "",
+      "sector": 20
+    },
+    {
+      "monster": 10000,
+      "position": [
+        5010,
+        -860,
+        -1536
+      ],
+      "group": 22,
+      "posted": false,
+      "yaw_degrees": -105.75117366345303,
+      "name": "",
+      "sector": 21
+    },
+    {
+      "monster": 10000,
+      "position": [
+        5170,
+        -600,
+        -1536
+      ],
+      "group": 22,
+      "posted": false,
+      "yaw_degrees": -112.55724663470566,
+      "name": "",
+      "sector": 21
+    },
+    {
+      "monster": 10000,
+      "position": [
+        4870,
+        -400,
+        -1536
+      ],
+      "group": 22,
+      "posted": false,
+      "yaw_degrees": -87.97863505964398,
+      "name": "",
+      "sector": 20
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2020,
+        -990,
+        -1536
+      ],
+      "group": 23,
+      "posted": false,
+      "yaw_degrees": 42.20729763428672,
+      "name": "",
+      "sector": 4
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2230,
+        -760,
+        -1536
+      ],
+      "group": 23,
+      "posted": false,
+      "yaw_degrees": 36.02737338510361,
+      "name": "",
+      "sector": 4
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2480,
+        -1050,
+        -1536
+      ],
+      "group": 23,
+      "posted": false,
+      "yaw_degrees": 93.81407483429037,
+      "name": "",
+      "sector": 4
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2750,
+        -850,
+        -1536
+      ],
+      "group": 23,
+      "posted": false,
+      "yaw_degrees": 140.19442890773482,
+      "name": "",
+      "sector": 5
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2130,
+        -1220,
+        -1536
+      ],
+      "group": 23,
+      "posted": false,
+      "yaw_degrees": 62.7004277886672,
+      "name": "",
+      "sector": 4
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2630,
+        -1240,
+        -1536
+      ],
+      "group": 23,
+      "posted": false,
+      "yaw_degrees": 105.70863782901574,
+      "name": "",
+      "sector": 5
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2230,
+        -2390,
+        -1536
+      ],
+      "group": 24,
+      "posted": false,
+      "yaw_degrees": -47.93567344642118,
+      "name": "",
+      "sector": 14
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2420,
+        -2140,
+        -1536
+      ],
+      "group": 24,
+      "posted": false,
+      "yaw_degrees": -74.74488129694222,
+      "name": "",
+      "sector": 14
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2640,
+        -2420,
+        -1536
+      ],
+      "group": 24,
+      "posted": false,
+      "yaw_degrees": -96.00900595749452,
+      "name": "",
+      "sector": 14
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2930,
+        -2230,
+        -1536
+      ],
+      "group": 24,
+      "posted": false,
+      "yaw_degrees": -120.06858282186246,
+      "name": "",
+      "sector": 15
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2280,
+        -2100,
+        -1536
+      ],
+      "group": 24,
+      "posted": false,
+      "yaw_degrees": -65.4328286793987,
+      "name": "",
+      "sector": 14
+    },
+    {
+      "monster": 10000,
+      "position": [
+        2770,
+        -2080,
+        -1536
+      ],
+      "group": 24,
+      "posted": false,
+      "yaw_degrees": -103.2848664849022,
+      "name": "",
+      "sector": 15
+    },
+    {
+      "monster": 10102,
+      "position": [
+        1100,
+        3300,
+        448
+      ],
+      "group": 30,
+      "posted": false,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 17
+    },
+    {
+      "monster": 10010,
+      "position": [
+        1700,
+        3300,
+        0
+      ],
+      "group": 31,
+      "posted": true,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 17
+    },
+    {
+      "monster": 10010,
+      "position": [
+        1400,
+        3776,
+        0
+      ],
+      "group": 31,
+      "posted": true,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 17
+    },
+    {
+      "monster": 10010,
+      "position": [
+        800,
+        3776,
+        0
+      ],
+      "group": 31,
+      "posted": true,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 17
+    },
+    {
+      "monster": 10010,
+      "position": [
+        500,
+        3300,
+        0
+      ],
+      "group": 31,
+      "posted": true,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 17
+    },
+    {
+      "monster": 10010,
+      "position": [
+        800,
+        2824,
+        0
+      ],
+      "group": 31,
+      "posted": true,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 16
+    },
+    {
+      "monster": 10010,
+      "position": [
+        1400,
+        2824,
+        0
+      ],
+      "group": 31,
+      "posted": true,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 16
+    },
+    {
+      "monster": 10000,
+      "position": [
+        380,
+        2560,
+        0
+      ],
+      "group": 32,
+      "posted": false,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 16
+    },
+    {
+      "monster": 10000,
+      "position": [
+        380,
+        2840,
+        0
+      ],
+      "group": 32,
+      "posted": false,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 16
+    },
+    {
+      "monster": 10000,
+      "position": [
+        380,
+        3160,
+        0
+      ],
+      "group": 33,
+      "posted": false,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 16
+    },
+    {
+      "monster": 10000,
+      "position": [
+        380,
+        3440,
+        0
+      ],
+      "group": 33,
+      "posted": false,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 17
+    },
+    {
+      "monster": 10000,
+      "position": [
+        380,
+        3760,
+        0
+      ],
+      "group": 34,
+      "posted": false,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 17
+    },
+    {
+      "monster": 10000,
+      "position": [
+        380,
+        4040,
+        0
+      ],
+      "group": 34,
+      "posted": false,
+      "yaw_degrees": 0,
+      "name": "",
+      "sector": 17
+    },
+    {
+      "monster": 10055,
+      "position": [
+        6800,
+        -600,
+        -1376
+      ],
+      "group": 11,
+      "posted": true,
+      "yaw_degrees": 180,
+      "name": "",
+      "sector": 9
+    },
+    {
+      "monster": 10055,
+      "position": [
+        7400,
+        -600,
+        -1376
+      ],
+      "group": 11,
+      "posted": true,
+      "yaw_degrees": 180,
+      "name": "",
+      "sector": 9
+    },
+    {
+      "monster": 10310,
+      "position": [
+        1820,
+        -2440,
+        -1536
+      ],
+      "group": 150,
+      "posted": false,
+      "yaw_degrees": 90,
+      "name": "Ashkite Quarry Face flock 1",
+      "sector": 14
+    },
+    {
+      "monster": 10310,
+      "position": [
+        2180,
+        -2440,
+        -1536
+      ],
+      "group": 150,
+      "posted": false,
+      "yaw_degrees": 90,
+      "name": "Ashkite Quarry Face flock 1",
+      "sector": 14
+    },
+    {
+      "monster": 10310,
+      "position": [
+        1820,
+        -2160,
+        -1536
+      ],
+      "group": 150,
+      "posted": false,
+      "yaw_degrees": 90,
+      "name": "Ashkite Quarry Face flock 1",
+      "sector": 14
+    },
+    {
+      "monster": 10310,
+      "position": [
+        2180,
+        -2160,
+        -1536
+      ],
+      "group": 150,
+      "posted": false,
+      "yaw_degrees": 90,
+      "name": "Ashkite Quarry Face flock 1",
+      "sector": 14
+    },
+    {
+      "monster": 10310,
+      "position": [
+        2920,
+        -2440,
+        -1536
+      ],
+      "group": 151,
+      "posted": false,
+      "yaw_degrees": 90,
+      "name": "Ashkite Quarry Face flock 2",
+      "sector": 15
+    },
+    {
+      "monster": 10310,
+      "position": [
+        3280,
+        -2440,
+        -1536
+      ],
+      "group": 151,
+      "posted": false,
+      "yaw_degrees": 90,
+      "name": "Ashkite Quarry Face flock 2",
+      "sector": 15
+    },
+    {
+      "monster": 10310,
+      "position": [
+        2920,
+        -2160,
+        -1536
+      ],
+      "group": 151,
+      "posted": false,
+      "yaw_degrees": 90,
+      "name": "Ashkite Quarry Face flock 2",
+      "sector": 15
+    },
+    {
+      "monster": 10310,
+      "position": [
+        3280,
+        -2160,
+        -1536
+      ],
+      "group": 151,
+      "posted": false,
+      "yaw_degrees": 90,
+      "name": "Ashkite Quarry Face flock 2",
+      "sector": 15
+    }
+  ],
+  "boss_index": 44,
+  "barracks_indices": [
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "monster_packs": [
+    {
+      "kind": "monster",
+      "floor": "Rim (z 0)",
+      "x": 7000,
+      "y": 2100,
+      "label": "Sentinel Turrets \u00d72 on the inner wall (console-linked)",
+      "count": 2
+    },
+    {
+      "kind": "monster",
+      "floor": "Rim (z 0)",
+      "x": 5700,
+      "y": 2500,
+      "label": "Troopers \u00d72 at the parapet, watching the Yard (post)",
+      "count": 2
+    },
+    {
+      "kind": "monster",
+      "floor": "Yard (z -768)",
+      "x": 2900,
+      "y": 2900,
+      "label": "Trooper fire team \u00d73, north cover lane (post)",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Yard (z -768)",
+      "x": 4700,
+      "y": 1750,
+      "label": "Trooper fire team \u00d73, south cover lane, beside the crate stack (post)",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Yard (z -768)",
+      "x": 3300,
+      "y": 4300,
+      "label": "Troopers \u00d75 resting between the bunk rows (not hostile until hit or the alarm)",
+      "count": 5
+    },
+    {
+      "kind": "monster",
+      "floor": "Yard (z -768)",
+      "x": 5600,
+      "y": 4300,
+      "label": "Troopers \u00d74 at the mess",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Yard (z -768)",
+      "x": 3400,
+      "y": 580,
+      "label": "Drop pods, wave 1: Troopers \u00d74 (hidden until the alarm)",
+      "count": 0
+    },
+    {
+      "kind": "monster",
+      "floor": "Yard (z -768)",
+      "x": 4200,
+      "y": 580,
+      "label": "Drop pods, wave 2: Troopers \u00d74 (hidden; 20 s after wave 1)",
+      "count": 0
+    },
+    {
+      "kind": "boss",
+      "floor": "Rim (z 0)",
+      "x": 1100,
+      "y": 3300,
+      "label": "Overseer Krav (10102) with Troopers \u00d76",
+      "count": 7
+    },
+    {
+      "kind": "monster",
+      "floor": "Rim (z 0)",
+      "x": 600,
+      "y": 3900,
+      "label": "Krav's three Drudge pens: Drudges \u00d76 (hidden; two every 20 s)",
+      "count": 0
+    },
+    {
+      "kind": "monster",
+      "floor": "Lower Workings (z -1536)",
+      "x": 4800,
+      "y": -700,
+      "label": "Drudges \u00d75 moving ore",
+      "count": 5
+    },
+    {
+      "kind": "monster",
+      "floor": "Lower Workings (z -1536)",
+      "x": 2400,
+      "y": -500,
+      "label": "Drudges \u00d76 feeding the crusher",
+      "count": 6
+    },
+    {
+      "kind": "monster",
+      "floor": "Lower Workings (z -1536)",
+      "x": 2600,
+      "y": -2600,
+      "label": "Drudges \u00d76 at the working face",
+      "count": 6
+    },
+    {
+      "kind": "monster",
+      "floor": "Lower Workings (z -1536)",
+      "x": 7100,
+      "y": -600,
+      "label": "Sentinel Turrets \u00d72 (console-linked)",
+      "count": 2
+    }
+  ],
+  "map": "hes_d03.blv",
+  "events": {
+    "80": "mouth_yard_estair",
+    "150": "mouth_rstair_roost",
+    "51": "door_51",
+    "52": "door_52",
+    "53": "door_53",
+    "54": "door_54",
+    "55": "door_55",
+    "58": "door_58",
+    "50": "outer_gate",
+    "71": "gate_console",
+    "10": "watch_glyph",
+    "77": "yard_floor_2200_1600",
+    "70": "pylon_(0, 1, 0)",
+    "36": "cache",
+    "74": "control_74",
+    "75": "control_75",
+    "78": "control_78",
+    "79": "chute_top_control",
+    "11": "barracks_glyph",
+    "12": "roost_glyph",
+    "76": "loom",
+    "73": "foreman_console",
+    "72": "lab_console"
+  },
+  "decorations": 80,
+  "sectors": [
+    "room_gatehouse",
+    "room_gallery",
+    "room_roost_0_0",
+    "room_roost_0_1",
+    "room_signal",
+    "room_yard_0_0",
+    "room_yard_1_0",
+    "room_yard_0_1",
+    "room_yard_1_1",
+    "room_estair",
+    "room_barracks_0_0",
+    "room_barracks_1_0",
+    "room_mess",
+    "room_podbay",
+    "room_liftop",
+    "room_rstair",
+    "room_storage_0_0",
+    "room_storage_1_0",
+    "room_crusher_0_0",
+    "room_crusher_1_0",
+    "room_chute",
+    "room_lab",
+    "room_quarry_0_0",
+    "room_quarry_1_0",
+    "room_niche"
+  ],
+  "doors": {
+    "door_51": 51,
+    "door_52": 52,
+    "door_53": 53,
+    "door_54": 54,
+    "door_55": 55,
+    "door_58": 58,
+    "lift_56": 56,
+    "lift_57": 57
+  }
+}

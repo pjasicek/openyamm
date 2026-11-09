@@ -1,0 +1,1001 @@
+{
+ "mm6": {
+  "sectors": 2465,
+  "area_percentiles_m": [
+   0.12,
+   0.26,
+   0.51,
+   1.18,
+   2.58,
+   30.72
+  ],
+  "over_2m": 340,
+  "over_4m": 146,
+  "over_8m": 75,
+  "maps_with_over_8m": 20,
+  "classes": {
+   "small": 793,
+   "corridor": 1145,
+   "room": 384,
+   "huge": 75,
+   "hall": 68
+  },
+  "per_class": {
+   "small": {
+    "count": 793,
+    "median_w_x_d": [
+     768.0,
+     512.0
+    ],
+    "median_height": 256.0,
+    "multi_level_share": 0.21,
+    "with_water_share": 0.02,
+    "median_inner_vertical_faces": 0.0,
+    "no_decoration_share": 0.38
+   },
+   "room": {
+    "count": 384,
+    "median_w_x_d": [
+     1792.0,
+     1280.0
+    ],
+    "median_height": 406.5,
+    "multi_level_share": 0.41,
+    "with_water_share": 0.09,
+    "median_inner_vertical_faces": 0.0,
+    "no_decoration_share": 0.16
+   },
+   "hall": {
+    "count": 68,
+    "median_w_x_d": [
+     3712.0,
+     2096.0
+    ],
+    "median_height": 519.0,
+    "multi_level_share": 0.51,
+    "with_water_share": 0.09,
+    "median_inner_vertical_faces": 3.5,
+    "no_decoration_share": 0.15
+   },
+   "huge": {
+    "count": 75,
+    "median_w_x_d": [
+     6373.0,
+     3840.0
+    ],
+    "median_height": 1100.0,
+    "multi_level_share": 0.57,
+    "with_water_share": 0.12,
+    "median_inner_vertical_faces": 12.0,
+    "no_decoration_share": 0.13
+   }
+  },
+  "corridor_width_percentiles": [
+   154.8,
+   256.0,
+   272.0,
+   372.0,
+   461.0
+  ],
+  "corridor_height_median": 272.0,
+  "biggest": [
+   {
+    "map": "pyramid.blv",
+    "sector": 1,
+    "area_m": 253.5,
+    "w": 24576,
+    "d": 9937,
+    "h": 5428,
+    "levels": 4,
+    "water": 0.22,
+    "inner_faces": 81,
+    "decos": 34,
+    "top": [
+     "d5florc",
+     "egybigb",
+     "egybiga"
+    ]
+   },
+   {
+    "map": "pyramid.blv",
+    "sector": 172,
+    "area_m": 230.3,
+    "w": 24576,
+    "d": 8681,
+    "h": 3255,
+    "levels": 9,
+    "water": 0.0,
+    "inner_faces": 2,
+    "decos": 2,
+    "top": [
+     "egybigb",
+     "d5florc",
+     "egywalhb"
+    ]
+   },
+   {
+    "map": "pyramid.blv",
+    "sector": 175,
+    "area_m": 208.7,
+    "w": 25328,
+    "d": 10642,
+    "h": 5492,
+    "levels": 1,
+    "water": 0.94,
+    "inner_faces": 50,
+    "decos": 24,
+    "top": [
+     "egybigb",
+     "d5florc",
+     "orwtrtyl"
+    ]
+   },
+   {
+    "map": "cd2.blv",
+    "sector": 72,
+    "area_m": 92.8,
+    "w": 8254,
+    "d": 19200,
+    "h": 1350,
+    "levels": 3,
+    "water": 0.0,
+    "inner_faces": 6,
+    "decos": 14,
+    "top": [
+     "d2ceil3",
+     "crdrf2",
+     "d2wctra"
+    ]
+   },
+   {
+    "map": "6t1.blv",
+    "sector": 20,
+    "area_m": 82.8,
+    "w": 11536,
+    "d": 9938,
+    "h": 2335,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 13,
+    "decos": 32,
+    "top": [
+     "d2ceil3",
+     "t3oor3",
+     "d2ceil4"
+    ]
+   },
+   {
+    "map": "6t7.blv",
+    "sector": 70,
+    "area_m": 79.8,
+    "w": 5888,
+    "d": 14080,
+    "h": 640,
+    "levels": 4,
+    "water": 0.06,
+    "inner_faces": 95,
+    "decos": 20,
+    "top": [
+     "d2flor5",
+     "t3c1",
+     "t3wspp"
+    ]
+   },
+   {
+    "map": "zddb09.blv",
+    "sector": 1,
+    "area_m": 78.4,
+    "w": 8704,
+    "d": 8640,
+    "h": 1216,
+    "levels": 5,
+    "water": 0.0,
+    "inner_faces": 57,
+    "decos": 31,
+    "top": [
+     "bemob1b",
+     "d7flor3",
+     "sky_clo1"
+    ]
+   },
+   {
+    "map": "zarena.blv",
+    "sector": 1,
+    "area_m": 77.8,
+    "w": 8704,
+    "d": 8640,
+    "h": 1216,
+    "levels": 5,
+    "water": 0.0,
+    "inner_faces": 57,
+    "decos": 31,
+    "top": [
+     "bemob1b",
+     "d7flor3",
+     "sky_clo1"
+    ]
+   },
+   {
+    "map": "cd2.blv",
+    "sector": 73,
+    "area_m": 70.3,
+    "w": 16895,
+    "d": 5343,
+    "h": 1350,
+    "levels": 3,
+    "water": 0.0,
+    "inner_faces": 20,
+    "decos": 15,
+    "top": [
+     "d2ceil3",
+     "crdrf2",
+     "d2wlactr"
+    ]
+   },
+   {
+    "map": "pyramid.blv",
+    "sector": 174,
+    "area_m": 66.6,
+    "w": 7552,
+    "d": 9207,
+    "h": 3255,
+    "levels": 6,
+    "water": 0.0,
+    "inner_faces": 4,
+    "decos": 3,
+    "top": [
+     "egybigb",
+     "d5florc",
+     "egywalhb"
+    ]
+   },
+   {
+    "map": "cd2.blv",
+    "sector": 71,
+    "area_m": 64.7,
+    "w": 17471,
+    "d": 8256,
+    "h": 1350,
+    "levels": 3,
+    "water": 0.0,
+    "inner_faces": 3,
+    "decos": 8,
+    "top": [
+     "d2ceil3",
+     "crdrf2",
+     "d2wctra"
+    ]
+   },
+   {
+    "map": "6t1.blv",
+    "sector": 45,
+    "area_m": 64.4,
+    "w": 9567,
+    "d": 8627,
+    "h": 2335,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 10,
+    "decos": 25,
+    "top": [
+     "d2ceil3",
+     "t3oor3"
+    ]
+   },
+   {
+    "map": "6t1.blv",
+    "sector": 19,
+    "area_m": 64.2,
+    "w": 9567,
+    "d": 8627,
+    "h": 2335,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 11,
+    "decos": 26,
+    "top": [
+     "d2ceil3",
+     "t3oor3"
+    ]
+   },
+   {
+    "map": "6t1.blv",
+    "sector": 26,
+    "area_m": 62.5,
+    "w": 8448,
+    "d": 8192,
+    "h": 768,
+    "levels": 2,
+    "water": 0.0,
+    "inner_faces": 94,
+    "decos": 22,
+    "top": [
+     "t1c2",
+     "orwtrrf",
+     "t1wl7ctb"
+    ]
+   },
+   {
+    "map": "6t1.blv",
+    "sector": 21,
+    "area_m": 58.0,
+    "w": 9590,
+    "d": 7292,
+    "h": 2335,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 7,
+    "decos": 34,
+    "top": [
+     "d2ceil3",
+     "t3oor3"
+    ]
+   }
+  ]
+ },
+ "mm7": {
+  "sectors": 1570,
+  "area_percentiles_m": [
+   0.2,
+   0.52,
+   1.26,
+   2.76,
+   5.88,
+   24.49
+  ],
+  "over_2m": 532,
+  "over_4m": 262,
+  "over_8m": 109,
+  "maps_with_over_8m": 27,
+  "classes": {
+   "huge": 109,
+   "corridor": 370,
+   "hall": 150,
+   "room": 518,
+   "small": 423
+  },
+  "per_class": {
+   "small": {
+    "count": 423,
+    "median_w_x_d": [
+     768.0,
+     512.0
+    ],
+    "median_height": 416.0,
+    "multi_level_share": 0.43,
+    "with_water_share": 0.04,
+    "median_inner_vertical_faces": 0.0,
+    "no_decoration_share": 0.71
+   },
+   "room": {
+    "count": 518,
+    "median_w_x_d": [
+     2048.0,
+     1344.0
+    ],
+    "median_height": 640.0,
+    "multi_level_share": 0.48,
+    "with_water_share": 0.07,
+    "median_inner_vertical_faces": 4.0,
+    "no_decoration_share": 0.54
+   },
+   "hall": {
+    "count": 150,
+    "median_w_x_d": [
+     3280.0,
+     2164.5
+    ],
+    "median_height": 768.0,
+    "multi_level_share": 0.55,
+    "with_water_share": 0.11,
+    "median_inner_vertical_faces": 18.5,
+    "no_decoration_share": 0.57
+   },
+   "huge": {
+    "count": 109,
+    "median_w_x_d": [
+     4928.0,
+     3328.0
+    ],
+    "median_height": 1280.0,
+    "multi_level_share": 0.75,
+    "with_water_share": 0.3,
+    "median_inner_vertical_faces": 49.0,
+    "no_decoration_share": 0.43
+   }
+  },
+  "corridor_width_percentiles": [
+   190.89999999999998,
+   288.5,
+   451.5,
+   513.0,
+   579.1
+  ],
+  "corridor_height_median": 512.0,
+  "biggest": [
+   {
+    "map": "mdt09.blv",
+    "sector": 1,
+    "area_m": 221.4,
+    "w": 22784,
+    "d": 16384,
+    "h": 2560,
+    "levels": 3,
+    "water": 0.08,
+    "inner_faces": 70,
+    "decos": 0,
+    "top": [
+     "c2b",
+     "7c1fl",
+     "c2bs1"
+    ]
+   },
+   {
+    "map": "7d11.blv",
+    "sector": 14,
+    "area_m": 199.1,
+    "w": 12288,
+    "d": 15872,
+    "h": 4096,
+    "levels": 2,
+    "water": 0.0,
+    "inner_faces": 107,
+    "decos": 8,
+    "top": [
+     "c2b",
+     "cfb1",
+     "twb1a"
+    ]
+   },
+   {
+    "map": "7d05.blv",
+    "sector": 1,
+    "area_m": 77.8,
+    "w": 8704,
+    "d": 8640,
+    "h": 1216,
+    "levels": 5,
+    "water": 0.0,
+    "inner_faces": 95,
+    "decos": 0,
+    "top": [
+     "t5bs",
+     "t5s1b",
+     "7plansky1"
+    ]
+   },
+   {
+    "map": "7d26.blv",
+    "sector": 21,
+    "area_m": 60.0,
+    "w": 7360,
+    "d": 8256,
+    "h": 3048,
+    "levels": 3,
+    "water": 0.0,
+    "inner_faces": 113,
+    "decos": 12,
+    "top": [
+     "cwb1",
+     "cnb",
+     "cfb1"
+    ]
+   },
+   {
+    "map": "d03.blv",
+    "sector": 2,
+    "area_m": 60.0,
+    "w": 7360,
+    "d": 8256,
+    "h": 3048,
+    "levels": 3,
+    "water": 0.07,
+    "inner_faces": 136,
+    "decos": 14,
+    "top": [
+     "cwb1",
+     "cnb",
+     "cfb1"
+    ]
+   },
+   {
+    "map": "7d15.blv",
+    "sector": 5,
+    "area_m": 54.6,
+    "w": 10240,
+    "d": 10240,
+    "h": 1360,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 122,
+    "decos": 16,
+    "top": [
+     "cnb",
+     "7tfb11",
+     "t3s2fl"
+    ]
+   },
+   {
+    "map": "7d11.blv",
+    "sector": 1,
+    "area_m": 46.3,
+    "w": 7680,
+    "d": 7168,
+    "h": 1120,
+    "levels": 2,
+    "water": 0.0,
+    "inner_faces": 109,
+    "decos": 14,
+    "top": [
+     "cfb1",
+     "twb1a",
+     "wall"
+    ]
+   },
+   {
+    "map": "7d11.blv",
+    "sector": 5,
+    "area_m": 41.5,
+    "w": 6400,
+    "d": 6592,
+    "h": 2464,
+    "levels": 2,
+    "water": 0.0,
+    "inner_faces": 66,
+    "decos": 12,
+    "top": [
+     "twb1a",
+     "7tfb1",
+     "cfb1"
+    ]
+   },
+   {
+    "map": "7d09.blv",
+    "sector": 33,
+    "area_m": 38.2,
+    "w": 6144,
+    "d": 6240,
+    "h": 1344,
+    "levels": 3,
+    "water": 0.0,
+    "inner_faces": 86,
+    "decos": 13,
+    "top": [
+     "t3s2b1",
+     "tfb09",
+     "tfb08"
+    ]
+   },
+   {
+    "map": "7d26.blv",
+    "sector": 30,
+    "area_m": 37.0,
+    "w": 9344,
+    "d": 4896,
+    "h": 1024,
+    "levels": 2,
+    "water": 0.66,
+    "inner_faces": 109,
+    "decos": 0,
+    "top": [
+     "cwb1",
+     "lava",
+     "tfb07"
+    ]
+   },
+   {
+    "map": "7d36.blv",
+    "sector": 66,
+    "area_m": 35.4,
+    "w": 7953,
+    "d": 8460,
+    "h": 1224,
+    "levels": 2,
+    "water": 0.0,
+    "inner_faces": 99,
+    "decos": 0,
+    "top": [
+     "cwb1",
+     "cfb1"
+    ]
+   },
+   {
+    "map": "7d09.blv",
+    "sector": 1,
+    "area_m": 33.2,
+    "w": 6912,
+    "d": 4800,
+    "h": 2688,
+    "levels": 2,
+    "water": 0.0,
+    "inner_faces": 48,
+    "decos": 7,
+    "top": [
+     "t3s2b1",
+     "tfb08",
+     "tfb09"
+    ]
+   },
+   {
+    "map": "7d26.blv",
+    "sector": 36,
+    "area_m": 27.0,
+    "w": 7872,
+    "d": 4608,
+    "h": 896,
+    "levels": 2,
+    "water": 0.61,
+    "inner_faces": 155,
+    "decos": 0,
+    "top": [
+     "cwb1",
+     "lava",
+     "tfb07"
+    ]
+   },
+   {
+    "map": "7d17.blv",
+    "sector": 5,
+    "area_m": 27.0,
+    "w": 4992,
+    "d": 5984,
+    "h": 1844,
+    "levels": 4,
+    "water": 0.0,
+    "inner_faces": 86,
+    "decos": 17,
+    "top": [
+     "c2b",
+     "cfb1",
+     "7trimda"
+    ]
+   },
+   {
+    "map": "7d26.blv",
+    "sector": 2,
+    "area_m": 24.8,
+    "w": 4640,
+    "d": 5408,
+    "h": 1264,
+    "levels": 7,
+    "water": 0.0,
+    "inner_faces": 100,
+    "decos": 0,
+    "top": [
+     "cwb1",
+     "cwb",
+     "cfb1"
+    ]
+   }
+  ]
+ },
+ "mm8": {
+  "sectors": 734,
+  "area_percentiles_m": [
+   0.29,
+   0.63,
+   1.19,
+   2.32,
+   4.16,
+   17.77
+  ],
+  "over_2m": 220,
+  "over_4m": 79,
+  "over_8m": 29,
+  "maps_with_over_8m": 14,
+  "classes": {
+   "room": 280,
+   "corridor": 186,
+   "small": 191,
+   "hall": 48,
+   "huge": 29
+  },
+  "per_class": {
+   "small": {
+    "count": 191,
+    "median_w_x_d": [
+     832.0,
+     640.0
+    ],
+    "median_height": 400.0,
+    "multi_level_share": 0.45,
+    "with_water_share": 0.01,
+    "median_inner_vertical_faces": 0.0,
+    "no_decoration_share": 0.69
+   },
+   "room": {
+    "count": 280,
+    "median_w_x_d": [
+     1864.0,
+     1408.0
+    ],
+    "median_height": 512.0,
+    "multi_level_share": 0.52,
+    "with_water_share": 0.09,
+    "median_inner_vertical_faces": 8.0,
+    "no_decoration_share": 0.72
+   },
+   "hall": {
+    "count": 48,
+    "median_w_x_d": [
+     3188.0,
+     2284.5
+    ],
+    "median_height": 768.0,
+    "multi_level_share": 0.62,
+    "with_water_share": 0.06,
+    "median_inner_vertical_faces": 31.0,
+    "no_decoration_share": 0.65
+   },
+   "huge": {
+    "count": 29,
+    "median_w_x_d": [
+     5760.0,
+     4224.0
+    ],
+    "median_height": 1488.0,
+    "multi_level_share": 0.55,
+    "with_water_share": 0.0,
+    "median_inner_vertical_faces": 22.0,
+    "no_decoration_share": 0.86
+   }
+  },
+  "corridor_width_percentiles": [
+   285.5,
+   333.25,
+   423.0,
+   528.0,
+   596.5
+  ],
+  "corridor_height_median": 512.0,
+  "biggest": [
+   {
+    "map": "d42.blv",
+    "sector": 1,
+    "area_m": 77.8,
+    "w": 8704,
+    "d": 8640,
+    "h": 1216,
+    "levels": 5,
+    "water": 0.0,
+    "inner_faces": 95,
+    "decos": 0,
+    "top": [
+     "gcst2flr",
+     "gcst2-bs",
+     "gcst2cel"
+    ]
+   },
+   {
+    "map": "d49.blv",
+    "sector": 1,
+    "area_m": 70.7,
+    "w": 10048,
+    "d": 9556,
+    "h": 1416,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 51,
+    "decos": 0,
+    "top": [
+     "gcav1wal",
+     "gcav1flr",
+     "solid01"
+    ]
+   },
+   {
+    "map": "d48.blv",
+    "sector": 1,
+    "area_m": 60.1,
+    "w": 10228,
+    "d": 6964,
+    "h": 2456,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 22,
+    "decos": 0,
+    "top": [
+     "gcav1wal",
+     "gcav1flr",
+     "solid01"
+    ]
+   },
+   {
+    "map": "d17.blv",
+    "sector": 3,
+    "area_m": 33.1,
+    "w": 6272,
+    "d": 7168,
+    "h": 1808,
+    "levels": 5,
+    "water": 0.0,
+    "inner_faces": 0,
+    "decos": 0,
+    "top": [
+     "t68a02b",
+     "t68a02a"
+    ]
+   },
+   {
+    "map": "d07.blv",
+    "sector": 9,
+    "area_m": 24.1,
+    "w": 5096,
+    "d": 7384,
+    "h": 656,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 57,
+    "decos": 7,
+    "top": [
+     "gwspinwl",
+     "dirt1",
+     "solid01"
+    ]
+   },
+   {
+    "map": "d48.blv",
+    "sector": 2,
+    "area_m": 24.1,
+    "w": 4136,
+    "d": 10552,
+    "h": 1756,
+    "levels": 4,
+    "water": 0.0,
+    "inner_faces": 51,
+    "decos": 0,
+    "top": [
+     "gcav1wal",
+     "gcav1flr"
+    ]
+   },
+   {
+    "map": "d19.blv",
+    "sector": 26,
+    "area_m": 20.1,
+    "w": 5760,
+    "d": 5376,
+    "h": 736,
+    "levels": 2,
+    "water": 0.0,
+    "inner_faces": 7,
+    "decos": 0,
+    "top": [
+     "t68a02a",
+     "t68a03a"
+    ]
+   },
+   {
+    "map": "d17.blv",
+    "sector": 2,
+    "area_m": 18.3,
+    "w": 4864,
+    "d": 5632,
+    "h": 1536,
+    "levels": 2,
+    "water": 0.0,
+    "inner_faces": 0,
+    "decos": 0,
+    "top": [
+     "t68a02b",
+     "t68a02a"
+    ]
+   },
+   {
+    "map": "d48.blv",
+    "sector": 3,
+    "area_m": 16.7,
+    "w": 5660,
+    "d": 4914,
+    "h": 2592,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 34,
+    "decos": 0,
+    "top": [
+     "gcav1wal",
+     "gcav1flr",
+     "solid01"
+    ]
+   },
+   {
+    "map": "d17.blv",
+    "sector": 9,
+    "area_m": 14.4,
+    "w": 4352,
+    "d": 9216,
+    "h": 3307,
+    "levels": 7,
+    "water": 0.0,
+    "inner_faces": 8,
+    "decos": 0,
+    "top": [
+     "t68a02b",
+     "t68a02a"
+    ]
+   },
+   {
+    "map": "d36.blv",
+    "sector": 1,
+    "area_m": 13.9,
+    "w": 4224,
+    "d": 4224,
+    "h": 1928,
+    "levels": 3,
+    "water": 0.0,
+    "inner_faces": 20,
+    "decos": 0,
+    "top": [
+     "voltyl",
+     "c1fl"
+    ]
+   },
+   {
+    "map": "d05.blv",
+    "sector": 15,
+    "area_m": 13.6,
+    "w": 2624,
+    "d": 4608,
+    "h": 1872,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 88,
+    "decos": 0,
+    "top": [
+     "t65c02",
+     "t65c03",
+     "t6502"
+    ]
+   },
+   {
+    "map": "d17.blv",
+    "sector": 1,
+    "area_m": 13.2,
+    "w": 5376,
+    "d": 3840,
+    "h": 1664,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 17,
+    "decos": 0,
+    "top": [
+     "t68a02b",
+     "t68a02a",
+     "solid01"
+    ]
+   },
+   {
+    "map": "d17.blv",
+    "sector": 8,
+    "area_m": 13.1,
+    "w": 4096,
+    "d": 7296,
+    "h": 2859,
+    "levels": 4,
+    "water": 0.0,
+    "inner_faces": 1,
+    "decos": 0,
+    "top": [
+     "t68a02b",
+     "t68a02a"
+    ]
+   },
+   {
+    "map": "d07.blv",
+    "sector": 16,
+    "area_m": 12.9,
+    "w": 5725,
+    "d": 3095,
+    "h": 638,
+    "levels": 1,
+    "water": 0.0,
+    "inner_faces": 4,
+    "decos": 4,
+    "top": [
+     "gwspinwl",
+     "dirt1"
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,207 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated returns saved without resizing or image postprocessing; strict brief checks failed.",
+  "corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Create paint_front.png, one 1024 x 1024 RGBA image with truly transparent background, an unresized texture-source painting. Input 1 guide_front.png is the edit target and absolute geometry authority. Input 2 design_reference.png is ONLY the material and color authority, NOT the camera or silhouette. Paint directly over the exact grey front orthographic render: retain its exact pixel silhouette, scale, placement, every shape edge, all spikes, posts, rails, braces, bags, rubble, openings and internal gaps. Keep its generous empty transparent margins and its front orthographic camera. Do not reshape, reposition, reconstruct, expand or crop anything. Keep the opening below the middle rail and every gap transparent, exactly where the guide shows them. Apply reference materials to existing geometry: chipped warm white ceramic plates with worn gold edges, rust-brown and grey steel sheets and girders, dull grey ash bags, chipped ceramic and rusted steel debris. Material detail only, no added geometry. This is ALBEDO for projection onto the exact model: flat even shadowless viewer lighting, no cast shadows, no ambient occlusion, no shaded crevices, no strong specular highlights, reflections, rim light or directional gradient. Do not copy the reference's lighting, three-quarter perspective, ground or backdrop. No floor, background, text or labels. Preserve every edge and the exact alpha silhouette of the guide. Output exactly 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "fd12538d26bafa3fbf780ff852c100a0887444e971a7c1867428da17e438211f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9a-963d-7e40-81fb-a7c56143707f/exec-ec5aa355-9bcc-458b-9aba-98aac27434a8.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Initial attempt: wrong native dimensions, altered internal geometry, residual shading.",
+      "output_sha256": "3e36ec649ea12d547ff04248ce5be5b6c6d587842e35d40bd0bfb82753eef753",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          35,
+          19,
+          1232,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          66,
+          292,
+          958,
+          733
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visual match: chipped white ceramic, gold borders, rust-brown and grey steel, dull grey bags.",
+        "flat_even_light": "FAIL: residual crevice darkening and highlights visible.",
+        "exact_geometry": "FAIL: internal edges and details differ from guide.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Create paint_front.png, one 1024 x 1024 RGBA image with truly transparent background, an unresized texture-source painting. Input 1 guide_front.png is the edit target and absolute geometry authority. Input 2 design_reference.png is ONLY the material and color authority, NOT the camera or silhouette. Paint directly over the exact grey front orthographic render: retain its exact pixel silhouette, scale, placement, every shape edge, all spikes, posts, rails, braces, bags, rubble, openings and internal gaps. Keep its generous empty transparent margins and its front orthographic camera. Do not reshape, reposition, reconstruct, expand or crop anything. Keep the opening below the middle rail and every gap transparent, exactly where the guide shows them. Apply reference materials to existing geometry: chipped warm white ceramic plates with worn gold edges, rust-brown and grey steel sheets and girders, dull grey ash bags, chipped ceramic and rusted steel debris. Material detail only, no added geometry. This is ALBEDO for projection onto the exact model: flat even shadowless viewer lighting, no cast shadows, no ambient occlusion, no shaded crevices, no strong specular highlights, reflections, rim light or directional gradient. Do not copy the reference's lighting, three-quarter perspective, ground or backdrop. No floor, background, text or labels. Preserve every edge and the exact alpha silhouette of the guide. Output exactly 1024 x 1024.\nCORRECTIVE GENERATION, final allowed attempt: The previous attempt was invalid because it returned 1254 x 1254 and changed internal geometry. Render natively at EXACTLY 1024 x 1024 pixels. Treat input 1 as a fixed image to color, not a design to recreate. Its foreground spans x=66..957, y=292..732 in the 1024 square. Preserve that bounding box and each original alpha pixel. Do not introduce tiny stray alpha outside the object. Retain the guide's actual panels, braces, bags and spikes, even where they differ from the design reference. Use matte unlit material colors; remove all ambient occlusion and shiny rivet highlights. Preserve the guide's openings without filling them.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "fd12538d26bafa3fbf780ff852c100a0887444e971a7c1867428da17e438211f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9a-963d-7e40-81fb-a7c56143707f/exec-cf6a5cac-79f2-495a-9557-423988f0f0a5.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return; materials match, but exact geometry, native dimensions and fully flat lighting remain noncompliant.",
+      "output_sha256": "78d315fd89f6544cfc52b88de674e5488170fc7eea8be90d412c1eded8a6dd30",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1218,
+          1240
+        ],
+        "guide_alpha_bbox": [
+          66,
+          292,
+          958,
+          733
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visual match: chipped white ceramic, gold borders, rust-brown and grey steel, dull grey bags.",
+        "flat_even_light": "FAIL: residual crevice darkening and highlights visible.",
+        "exact_geometry": "FAIL: internal edges and details differ from guide.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Output one native 1024 x 1024 transparent RGBA PNG: paint_top.png, the TOP orthographic albedo texture-source view of the Lowfolk salvage palisade. Input 1 guide_top.png is the edit target and absolute geometry authority: color this exact grey image without moving any pixels or edges. Input 2 design_reference.png is only the material/color reference. Maintain the top-down camera, every shape, exact silhouette, scale, position, openings, details and empty transparent margins from guide_top.png. Do not turn the structure upright or use a front or three-quarter camera. The top-down guide shows both post caps near the ends of the middle rail, narrow spike/plate tops along the middle, bags and debris above it in the frame, and the irregular structure below it. Paint only those existing shapes. Materials: chipped white ceramic plates with worn gold edges; rust-brown and grey steel sheets, spikes and girders; dull grey ash bags; steel and ceramic rubble. Match the approved design's colors and material wear but absolutely not its geometry, perspective or lighting. Keep every opening transparent exactly as in the guide. This is pure albedo: flat, even shadowless viewer lighting, no cast shadows, no ambient occlusion or crevice darkening, no strong specular highlights, no reflections, rim light, background or floor. No text. Do not add or remove shapes, crop, enlarge or recenter. Preserve original guide alpha pixel-for-pixel. Native output exactly 1024 x 1024, not 1254 or 1536; no resizing afterwards.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b117bda8731154575ed7d1fdc4b3ffa96b918b164d2d7605aa89789bd5cf42ac"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9a-963d-7e40-81fb-a7c56143707f/exec-bc65cdfe-ddf2-4a43-b99f-00b2aae4ef8a.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: incorrectly made the broad lower solid surface transparent; wrong native dimensions and residual shading.",
+      "output_sha256": "91fb7519a9a203d8afbfbfebaac88eb844991c9ec33ff77dd7702faf179202ec",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          17,
+          15,
+          1238,
+          1240
+        ],
+        "guide_alpha_bbox": [
+          66,
+          337,
+          958,
+          687
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visual match: chipped white ceramic, gold borders, rust-brown and grey steel, dull grey bags.",
+        "flat_even_light": "FAIL: residual crevice darkening and highlights visible.",
+        "exact_geometry": "FAIL: internal edges and details differ from guide.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Output one native 1024 x 1024 transparent RGBA PNG: paint_top.png, the TOP orthographic albedo texture-source view of the Lowfolk salvage palisade. Input 1 guide_top.png is the edit target and absolute geometry authority: color this exact grey image without moving any pixels or edges. Input 2 design_reference.png is only the material/color reference. Maintain the top-down camera, every shape, exact silhouette, scale, position, openings, details and empty transparent margins from guide_top.png. Do not turn the structure upright or use a front or three-quarter camera. The top-down guide shows both post caps near the ends of the middle rail, narrow spike/plate tops along the middle, bags and debris above it in the frame, and the irregular structure below it. Paint only those existing shapes. Materials: chipped white ceramic plates with worn gold edges; rust-brown and grey steel sheets, spikes and girders; dull grey ash bags; steel and ceramic rubble. Match the approved design's colors and material wear but absolutely not its geometry, perspective or lighting. Keep every opening transparent exactly as in the guide. This is pure albedo: flat, even shadowless viewer lighting, no cast shadows, no ambient occlusion or crevice darkening, no strong specular highlights, no reflections, rim light, background or floor. No text. Do not add or remove shapes, crop, enlarge or recenter. Preserve original guide alpha pixel-for-pixel. Native output exactly 1024 x 1024, not 1254 or 1536; no resizing afterwards.\nCORRECTION, only allowed retry: Do not hollow out the lower half of the guide. In the guide the broad grey area below the central rail, approximately y=540..645, is SOLID VISIBLE MODEL SURFACE and MUST be painted opaque rust-grey/rust-brown steel, with any existing ceramic surfaces in warm chipped white with gold trim. It is NOT empty background. Only the exact black/transparent holes in the guide may be transparent. Copy the whole guide alpha exactly, including all solid large areas beneath the rail and the irregular lower boundary. Preserve its top-down geometry without reinterpretation. Reduce shaded crevices and specular highlights to achieve flat albedo. Return exactly 1024 x 1024 native pixels.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b117bda8731154575ed7d1fdc4b3ffa96b918b164d2d7605aa89789bd5cf42ac"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a15d9a-963d-7e40-81fb-a7c56143707f/exec-190e2fb8-f86f-4290-88d4-de87dbbe46b6.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction restores the solid lower surface and matching materials, but exact geometry, native dimensions and fully flat lighting remain noncompliant.",
+      "output_sha256": "f80f5062993c05ddaf1a76e6ba2826236e4c11b5182f5c433eb413a0b391c50d",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1230,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          337,
+          958,
+          687
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visual match: chipped white ceramic, gold borders, rust-brown and grey steel, dull grey bags.",
+        "flat_even_light": "FAIL: residual crevice darkening and highlights visible.",
+        "exact_geometry": "FAIL: internal edges and details differ from guide.",
+        "brief_compliant": false
+      }
+    }
+  ]
+}

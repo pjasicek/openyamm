@@ -1,0 +1,44 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "room",
+        "target": [
+          5304,
+          8352,
+          -48
+        ],
+        "span": 6500
+      },
+      "section_top_z": 464,
+      "image": "level_generation/evidence/mm7/7d34_decor_room.png",
+      "camera_position": [
+        8247.0400390625,
+        2465.91943359375,
+        7146.0986328125
+      ],
+      "highlighted": [
+        {
+          "index": 216,
+          "name": "torch07",
+          "position": [
+            5384,
+            10456,
+            -928
+          ]
+        },
+        {
+          "index": 4,
+          "name": "7dec55",
+          "position": [
+            4892,
+            8968,
+            -128
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

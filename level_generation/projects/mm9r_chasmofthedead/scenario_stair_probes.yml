@@ -1,0 +1,57 @@
+id: lmroll.chasmofthedead_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: chasmofthedead.blv
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: chasmofthedead.blv
+      x: 6216
+      y: 14316
+      z: -3849
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: chasmofthedead.blv
+      x: 6216
+      y: 13660
+      z: -3849
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: chasmofthedead.blv
+      x: 2724
+      y: -17695
+      z: -5447
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

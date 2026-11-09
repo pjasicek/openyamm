@@ -1,0 +1,59 @@
+{
+  "world": "mm6",
+  "reference_map": "oute3.odm",
+  "terrain_tier": "x2",
+  "runtime_size": [
+    256,
+    256
+  ],
+  "authoring_size": [
+    512,
+    512
+  ],
+  "resampling": "Lanczos; no repainting or colour correction",
+  "source_paths_relative_to": "parent directory of runtime_x2",
+  "materials": {
+    "grass": {
+      "version": "v1",
+      "role": "base_material",
+      "source": "generated/v1/grass_512.png",
+      "source_sha256": "919c91dfa242557cc898229ad5582c32ead3d7025dc22ee5e081a3cf0ecfa37b",
+      "png": "materials/grass.png",
+      "sha256": "0ba1c916f01eced1e67bc6a0311f68560cee0357ded0ec935ef748f7b5691e03",
+      "native_override": "overrides/worlds/mm6/terrain_x2/6grastyl.png"
+    },
+    "dirt": {
+      "version": "v6",
+      "role": "base_material",
+      "source": "generated/v6/dirt_512.png",
+      "source_sha256": "80007862a6330f3e1c5f1acbe011fe6e159c9f91c7cf31f30d9004063e9d9811",
+      "png": "materials/dirt.png",
+      "sha256": "53e108009739cd42c05f8400c86266cd9edec166dbb8050ced114d410bd9aaa5",
+      "native_override": "overrides/worlds/mm6/terrain_x2/6dirttyl.png"
+    },
+    "cobbles": {
+      "version": "v1",
+      "role": "masked_overlay_material",
+      "source": "generated/v1/cobbles_512.png",
+      "source_sha256": "e51154975e5de53bbb579bff2444853b6fc1ed158f7476a3ef11d594e318ec08",
+      "png": "materials/cobbles.png",
+      "sha256": "92e95706f637c433d3f633136584ca1b740a9b7bdfb2220b70a924b8faa6ace7",
+      "underlying_material": "dirt",
+      "usage": "Cobble material for road-mask composition only; never replace a full road tile with it."
+    },
+    "volcano": {
+      "version": "v2",
+      "role": "base_material",
+      "source": "generated/v2/volcano_512.png",
+      "source_sha256": "6bee53e395a867cedf455bc50c2aeaee034b06fefd3d33d39bcc5a41c9ae21b1",
+      "png": "materials/volcano.png",
+      "sha256": "0705154f1efbc7838122759ba5e300de15e56b29aae7c223dee0fdd824360c9a",
+      "native_override": "overrides/worlds/mm6/terrain_x2/6voltyl.png"
+    }
+  },
+  "composition": "Compose mixed tiles and road masks at 512px, then downsample each finished tile to 256px.",
+  "scope": "Master-only export; complete connected land pack lives in ../mm6_new_sorpigal_transitions/runtime_x2",
+  "incomplete": [
+    "Water/shore work"
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "tool": "built-in imagegen",
+  "source": "/home/pjasicek/.codex/generated_images/01a14de2-b151-7590-9890-726d2905cefd/exec-fd3faee2-21ff-40e7-9908-d1a48d1f2141.png",
+  "saved": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_props/codex_tex/props_7item368/metal_atlas_v1.png",
+  "sha256": "2dbdb1e5afec4ba59ea70294b7a2af69622843fa79dd0a1907cd068e94d970be",
+  "kind": "metal",
+  "prompt": "level_generation/props/items_wip_props/codex_tex/props_7item368/metal_atlas_prompt_v2.txt",
+  "cells": {
+    "front": {
+      "crop": [
+        0,
+        113,
+        512,
+        400
+      ],
+      "size": [
+        512,
+        287
+      ]
+    },
+    "back": {
+      "crop": [
+        512,
+        114,
+        1024,
+        399
+      ],
+      "size": [
+        512,
+        285
+      ]
+    },
+    "left": {
+      "crop": [
+        0,
+        597,
+        512,
+        882
+      ],
+      "size": [
+        512,
+        285
+      ]
+    },
+    "right": {
+      "crop": [
+        512,
+        596,
+        1024,
+        882
+      ],
+      "size": [
+        512,
+        286
+      ]
+    },
+    "top": {
+      "crop": [
+        0,
+        986,
+        512,
+        1450
+      ],
+      "size": [
+        512,
+        464
+      ]
+    },
+    "bottom": {
+      "crop": [
+        512,
+        986,
+        1024,
+        1450
+      ],
+      "size": [
+        512,
+        464
+      ]
+    }
+  },
+  "guide_sha256": "cd668e82218b9b937f6d908e69eca444a2f016b601ac158afe105e26c0d8a081",
+  "rejected": "metal_atlas_rejected_v1.png",
+  "correction": "Bronze muscles and blackened iron must classify as metal; only blue cloth is nonmetal."
+}

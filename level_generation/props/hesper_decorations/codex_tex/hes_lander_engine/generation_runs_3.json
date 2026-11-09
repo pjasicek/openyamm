@@ -1,0 +1,182 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated returns saved; strict brief checks failed. No resizing, masking or postprocessing. One corrective regeneration per view used.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Paint a precise orthographic albedo texture-source view of the lander's torn-off engine nacelle. Output exactly 1024 x 1024 pixels with genuine transparent background, one view only.\nINPUT 1 is the grey orthographic guide: the absolute authority for camera, silhouette, placement, size, geometry, every edge, hole, opening, cable and broken plate. Edit that guide in place by painting surface colours ONLY. Preserve its exact alpha silhouette and all internal shape boundaries. Do not add, remove, rotate, enlarge, move, crop, or reshape any geometry. Keep the full 1024 square canvas and the guide's large empty transparent margins. Object occupies x=66..957, y=290..733.\nINPUT 2 is the approved design reference: authority for design, colours and materials ONLY, never its camera, shape or lighting. Apply chipped white ceramic plates, broad gold circumferential rings, dark steel exhaust nozzle with a gold turbine ring, black soot and scorch near the torn end, black cables, restrained worn brass fittings. Use panel seams and chips painted on the existing surfaces without changing their geometry.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless illumination from viewer. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim light, background or floor. Keep dark steel and black cables dark by material colour, not shading. Glowing parts, if present, are painted their glowing colour without casting light. No text or labels.\nVIEW: LEFT. Match guide_left.png exactly: dark flared exhaust at the LEFT, rounded ceramic main cylinder across the middle, torn plates and exposed cables at the RIGHT. The broken-end outline is asymmetric: preserve each guide contour. Paint only inside the guide silhouette. Return this exact left guide with the specified materials.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16569-6a17-7921-8551-a2d2d3f691a6/exec-bcbb2dd3-6a1b-4e1b-a98e-119df21ded2d.png",
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective attempt. Incorrect resolution, changed silhouette and directional shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a275381778ad7e180f0c4f8c9ff908950b83c64d1603329761259bdf60527858"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output_sha256": "f73c3e275bae2ec26349281855e16dd2977f853d51dfd4e24e0d71eee8762a94",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          20,
+          1236,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broadly match white ceramic, gold, dark steel, scorch and black cables; visual review.",
+        "flat_even_light": false,
+        "lighting_notes": "Residual highlights and cavity shading remain.",
+        "unresized": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Paint a precise orthographic albedo texture-source view of the lander's torn-off engine nacelle. Output exactly 1024 x 1024 pixels with genuine transparent background, one view only.\nINPUT 1 is the grey orthographic guide: the absolute authority for camera, silhouette, placement, size, geometry, every edge, hole, opening, cable and broken plate. Edit that guide in place by painting surface colours ONLY. Preserve its exact alpha silhouette and all internal shape boundaries. Do not add, remove, rotate, enlarge, move, crop, or reshape any geometry. Keep the full 1024 square canvas and the guide's large empty transparent margins. Object occupies x=66..957, y=290..733.\nINPUT 2 is the approved design reference: authority for design, colours and materials ONLY, never its camera, shape or lighting. Apply chipped white ceramic plates, broad gold circumferential rings, dark steel exhaust nozzle with a gold turbine ring, black soot and scorch near the torn end, black cables, restrained worn brass fittings. Use panel seams and chips painted on the existing surfaces without changing their geometry.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless illumination from viewer. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim light, background or floor. Keep dark steel and black cables dark by material colour, not shading. Glowing parts, if present, are painted their glowing colour without casting light. No text or labels.\nVIEW: LEFT. Match guide_left.png exactly: dark flared exhaust at the LEFT, rounded ceramic main cylinder across the middle, torn plates and exposed cables at the RIGHT. The broken-end outline is asymmetric: preserve each guide contour. Paint only inside the guide silhouette. Return this exact left guide with the specified materials.\nCORRECTIVE ATTEMPT: The previous attempt failed by returning 1254x1254 and inventing geometry/lighting. Start from INPUT 1 guide_left.png as an immutable image, not a suggested silhouette. Return exactly its original 1024x1024 pixel dimensions. Preserve every alpha pixel, including transparent holes between the damaged components, with NO stray opaque pixels in empty background. Never enlarge to 1254 or 1536. Body, nozzle and all wires must stay exactly on the grey guide's geometry. Paint flat white, muted gold, charcoal and black material colours without gradients from lighting or glossy highlights. Do not copy the design reference's dramatic shaded rendering. This is a flat albedo paint-over for projection onto the exact original mesh.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16569-6a17-7921-8551-a2d2d3f691a6/exec-d348d0a3-d2d8-413e-b514-63262ee03f8b.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return for delivery, not acceptance: materials match broadly, but exact guide silhouette, 1024x1024 dimensions and flat albedo requirements remain unmet.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a275381778ad7e180f0c4f8c9ff908950b83c64d1603329761259bdf60527858"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output_sha256": "c9c55262527ab97bce8e761220fbb4fc6bd28d1a9c412db79bd09f53a153eb61",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          39,
+          1238,
+          1217
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broadly match white ceramic, gold, dark steel, scorch and black cables; visual review.",
+        "flat_even_light": false,
+        "lighting_notes": "Residual highlights and cavity shading remain.",
+        "unresized": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Paint a precise orthographic albedo texture-source view of the lander's torn-off engine nacelle. Output exactly 1024 x 1024 pixels with genuine transparent background, one view only.\nINPUT 1 is the grey orthographic guide: the absolute authority for camera, silhouette, placement, size, geometry, every edge, hole, opening, cable and broken plate. Edit that guide in place by painting surface colours ONLY. Preserve its exact alpha silhouette and all internal shape boundaries. Do not add, remove, rotate, enlarge, move, crop, or reshape any geometry. Keep the full 1024 square canvas and the guide's large empty transparent margins. Object occupies x=66..957, y=290..733.\nINPUT 2 is the approved design reference: authority for design, colours and materials ONLY, never its camera, shape or lighting. Apply chipped white ceramic plates, broad gold circumferential rings, dark steel exhaust nozzle with a gold turbine ring, black soot and scorch near the torn end, black cables, restrained worn brass fittings. Use panel seams and chips painted on the existing surfaces without changing their geometry.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless illumination from viewer. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim light, background or floor. Keep dark steel and black cables dark by material colour, not shading. Glowing parts, if present, are painted their glowing colour without casting light. No text or labels.\nVIEW: RIGHT. Match guide_right.png exactly: torn plates and exposed black cables at the LEFT, rounded ceramic main cylinder across the middle, dark flared exhaust nozzle at the RIGHT. This is the opposite side from the left guide, with its own distinct broken contours. Keep every existing contour and hole unchanged. Paint only inside the guide silhouette. Output must be 1024x1024, not any larger size.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16569-6a17-7921-8551-a2d2d3f691a6/exec-0eeae929-8b45-4554-bade-e27de3c61fab.png",
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Superseded by the one permitted corrective attempt. Incorrect resolution, changed silhouette and directional shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "4e0d3a5841bb16f922372a3cedfb3ece33e27bc87912907432e5ca2308d5a024"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output_sha256": "77c7b3526cfcb9401b66000a5278c06e5c5fa59dbe3dc72310987d544a3d46a1",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          25,
+          1232,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broadly match white ceramic, gold, dark steel, scorch and black cables; visual review.",
+        "flat_even_light": false,
+        "lighting_notes": "Residual highlights and cavity shading remain.",
+        "unresized": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Paint a precise orthographic albedo texture-source view of the lander's torn-off engine nacelle. Output exactly 1024 x 1024 pixels with genuine transparent background, one view only.\nINPUT 1 is the grey orthographic guide: the absolute authority for camera, silhouette, placement, size, geometry, every edge, hole, opening, cable and broken plate. Edit that guide in place by painting surface colours ONLY. Preserve its exact alpha silhouette and all internal shape boundaries. Do not add, remove, rotate, enlarge, move, crop, or reshape any geometry. Keep the full 1024 square canvas and the guide's large empty transparent margins. Object occupies x=66..957, y=290..733.\nINPUT 2 is the approved design reference: authority for design, colours and materials ONLY, never its camera, shape or lighting. Apply chipped white ceramic plates, broad gold circumferential rings, dark steel exhaust nozzle with a gold turbine ring, black soot and scorch near the torn end, black cables, restrained worn brass fittings. Use panel seams and chips painted on the existing surfaces without changing their geometry.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless illumination from viewer. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim light, background or floor. Keep dark steel and black cables dark by material colour, not shading. Glowing parts, if present, are painted their glowing colour without casting light. No text or labels.\nVIEW: RIGHT. Match guide_right.png exactly: torn plates and exposed black cables at the LEFT, rounded ceramic main cylinder across the middle, dark flared exhaust nozzle at the RIGHT. This is the opposite side from the left guide, with its own distinct broken contours. Keep every existing contour and hole unchanged. Paint only inside the guide silhouette. Output must be 1024x1024, not any larger size.\nCORRECTIVE ATTEMPT: The previous attempt changed the silhouette, added extra mechanical shapes, glossy highlights, and returned the wrong resolution. Use INPUT 1 as an immutable 1024x1024 pixel stencil. Replace only the grey surface colour with the design reference's flat matte material colours. Exact silhouette, position, shape boundaries and alpha of guide_right.png are mandatory. Preserve original transparent gaps and each existing cable path. No invented wires, contours or protrusions. No shaded three-quarter appearance. Remove directional shading, occlusion and gold specular highlights; paint gold as flat muted ochre brass and white ceramic as even off-white. Export exactly 1024x1024 PNG with transparent background. Do not upscale the guide or render at 1254x1254.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16569-6a17-7921-8551-a2d2d3f691a6/exec-a5fbbfc7-96a6-4afc-b550-3385a048df8c.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return for delivery, not acceptance: materials match broadly, but exact guide silhouette, 1024x1024 dimensions and flat albedo requirements remain unmet.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "4e0d3a5841bb16f922372a3cedfb3ece33e27bc87912907432e5ca2308d5a024"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "464565d99c21ab6445ab783a99d2397891a230f5698c5f13b200b42dc2cb4068"
+        }
+      ],
+      "output_sha256": "f4e76363824f03fd88b6e351d81a1ec3d0e5d081fe1bb1f895ad13d80dc7c466",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_match": false,
+        "has_transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          19,
+          23,
+          1240,
+          1220
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broadly match white ceramic, gold, dark steel, scorch and black cables; visual review.",
+        "flat_even_light": false,
+        "lighting_notes": "Residual highlights and cavity shading remain.",
+        "unresized": true,
+        "accepted": false
+      }
+    }
+  ]
+}

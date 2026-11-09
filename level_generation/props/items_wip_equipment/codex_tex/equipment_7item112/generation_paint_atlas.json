@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Silver Mesh Gauntlets (7item112). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single silver chain-mesh glove, four straight fingers and a side thumb, flared gold-edged cuff bearing a large gold star. Exact material boundaries: Chainmail on hand and fingers, gold bands and gold diamond are METAL RED. Only inner cuff lining and exposed underglove are LEATHER GREEN. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item112/inputs/guide_paint.png",
+  "input_guide_sha256": "f19c5ab025587b64569716c2788a0f1fd19904a378f304eef070b37ea8b33605",
+  "revision": 1,
+  "input_icon": "7item112",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-56dfb055-dad5-4fad-863a-43f292dface3.png",
+  "output": "paint_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "ed934105fc505fa9e11270af0416b11e3741f0d489e2369c335d3726d50d453a",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item112.png",
+  "input_icon_sha256": "d52b40bffd7010036fe7118156588ff2c7899d41db8974e3c84f7b554f163bd6",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

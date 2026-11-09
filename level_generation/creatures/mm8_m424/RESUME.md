@@ -1,0 +1,7 @@
+# Resume m424
+
+Only `native_f_v3` remains: `m424fa3`, `m424fb3`, `m424fc3`, `m424fd3`. Image-service output moderation rejected requests `b145c251-0d1c-4a55-b519-369b12cfd32e` and `06591cfa-e028-42cb-ab9e-6b45ca3d6326`. No output exists. Full records and prompts are in `review/generation_failures.json` and `prompts/`. Resolve the service rejection through support using those IDs before resubmission; do not route around moderation or synthesize missing poses.
+
+Reuse `checkpoints/identity_layout_v1.png` and all 25 selected raw sheets. Preserve their accepted calibrations. After the service issue is resolved, inspect `references/native_f_v3_matte.png`, use the built-in imagegen tool with the retained prompt and identity, save a versioned raw output, then run `process.py native_f_v3 <raw> <prompt> --identity checkpoints/identity_layout_v1.png` from this project’s script path. Run `calibrate.py`, review only changed registration, freeze the batch transform, then run `tone.py`, `materials.py`, `package.py` without `--partial`, and `review_evidence.py`. The existing detached-dagger protection already names the first three missing fidget frames.
+
+Review new variants, native playback and worst edges; run the approved browser checker, renew review evidence and `review/decision.json`, then run `finalize.py` and `../inventory_remaining.py`. Full completion requires all 140 source frames, unchanged source tables/palettes, native animation equality and renewed acceptance. Keep original assets and gameplay installation unchanged.

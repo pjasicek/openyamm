@@ -1,0 +1,990 @@
+{
+ "id": "20261009-1649-mm8-d28-28",
+ "world": "mm8",
+ "maps": [
+  "d28.blv",
+  "d24.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/gtempe2r",
+  "mm8/gtempw1",
+  "mm8/gtempw2",
+  "mm8/gtempw3",
+  "mm8/gtempe1l",
+  "mm8/gtempe1r",
+  "mm8/gtempw4",
+  "mm8/gnecclg1",
+  "mm8/gtempdor1",
+  "mm8/gtempflr",
+  "mm8/gtemprf",
+  "mm8/t31a01",
+  "mm8/t31a06",
+  "mm8/t31a07",
+  "mm8/t31a03",
+  "mm8/t31b03a",
+  "mm8/t31b03b",
+  "mm8/alphanumb",
+  "mm8/alphanumk",
+  "mm8/alphanumh",
+  "mm8/alphanumd",
+  "mm8/alphanuma",
+  "mm8/alphanumg",
+  "mm8/alphanum2"
+ ],
+ "requests": {
+  "mm8/gtempe2r": {
+   "name": "gtempe2r",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale icy blue-white frosted marble with crystalline veining with a carved grey-blue stone border and a carved scroll ornament at the base",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gtempe2l"
+     ],
+     "fraction": 0.481
+    },
+    "2": {
+     "sources": [
+      "mm8/gtempw3",
+      "mm8/gtempw2",
+      "mm8/gtempw4"
+     ],
+     "fraction": 0.982
+    },
+    "3": {
+     "sources": [
+      "mm8/gtempw3",
+      "mm8/gtempw2",
+      "mm8/gtempw4"
+     ],
+     "fraction": 0.982
+    },
+    "4": {
+     "sources": [
+      "mm8/gtempw3",
+      "mm8/gtempw2",
+      "mm8/gtempw4"
+     ],
+     "fraction": 0.982
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gtempw3"
+    },
+    "3": {
+     "left": "mm8/gtempw3"
+    },
+    "4": {
+     "left": "mm8/gtempw3"
+    }
+   }
+  },
+  "mm8/gtempw1": {
+   "name": "gtempw1",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale icy blue-white frosted marble with crystalline veining",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gtempe2r",
+      "mm8/gtempe2l"
+     ],
+     "fraction": 0.82
+    },
+    "2": {
+     "sources": [
+      "mm8/gtempw3"
+     ],
+     "fraction": 0.82
+    },
+    "3": {
+     "sources": [
+      "mm8/gtempw3"
+     ],
+     "fraction": 0.82
+    },
+    "4": {
+     "sources": [
+      "mm8/gtempw3"
+     ],
+     "fraction": 0.82
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/gtempdor2",
+     "left": "mm8/gtempdor2",
+     "right": "mm8/gtempdor2"
+    },
+    "3": {
+     "bottom": "mm8/gtempdor2",
+     "left": "mm8/gtempdor2",
+     "right": "mm8/gtempdor2"
+    },
+    "4": {
+     "bottom": "mm8/gtempdor2",
+     "left": "mm8/gtempdor2",
+     "right": "mm8/gtempdor2"
+    }
+   }
+  },
+  "mm8/gtempw2": {
+   "name": "gtempw2",
+   "versions": [
+    1
+   ],
+   "material": "pale icy blue-white frosted marble with crystalline veining inside a carved grey-blue stone frame with scroll ornaments at the top and base",
+   "notes": {},
+   "pad": {
+    "1": [
+     16,
+     32
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gtempw3"
+     ],
+     "fraction": 0.481
+    }
+   },
+   "context": {
+    "1": {
+     "bottom": "mm8/gtempflr"
+    }
+   }
+  },
+  "mm8/gtempw3": {
+   "name": "gtempw3",
+   "versions": [
+    1
+   ],
+   "material": "pale icy blue-white frosted marble with crystalline veining with a thin carved grey-blue stone border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm8/gtempe1l": {
+   "name": "gtempe1l",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "pale icy blue-white frosted marble with crystalline veining beside a carved grey-blue stone pilaster",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gtempw1"
+     ],
+     "fraction": 0.773
+    },
+    "2": {
+     "sources": [
+      "mm8/gtempw1"
+     ],
+     "fraction": 0.773
+    },
+    "3": {
+     "sources": [
+      "mm8/gtempw1"
+     ],
+     "fraction": 0.773
+    },
+    "4": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe2l"
+     ],
+     "fraction": 0.771
+    },
+    "5": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe2l"
+     ],
+     "fraction": 0.771
+    },
+    "6": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe2l"
+     ],
+     "fraction": 0.771
+    }
+   },
+   "context": {
+    "4": {},
+    "5": {},
+    "6": {}
+   },
+   "roll": {
+    "5": [
+     0,
+     106
+    ]
+   }
+  },
+  "mm8/gtempe1r": {
+   "name": "gtempe1r",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "pale icy blue-white frosted marble with crystalline veining beside a carved grey-blue stone pilaster",
+   "notes": {
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe1l"
+     ],
+     "fraction": 0.895
+    },
+    "2": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe1l"
+     ],
+     "fraction": 0.895
+    },
+    "3": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe2r",
+      "mm8/gtempe1l"
+     ],
+     "fraction": 0.893
+    },
+    "4": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe2r",
+      "mm8/gtempe1l"
+     ],
+     "fraction": 0.893
+    },
+    "5": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe2r",
+      "mm8/gtempe1l"
+     ],
+     "fraction": 0.893
+    },
+    "6": {
+     "sources": [
+      "mm8/gtempw1",
+      "mm8/gtempe2r",
+      "mm8/gtempe1l"
+     ],
+     "fraction": 0.893
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/gtempw1"
+    },
+    "4": {
+     "left": "mm8/gtempw1"
+    },
+    "5": {
+     "left": "mm8/gtempw1"
+    },
+    "6": {
+     "left": "mm8/gtempw1"
+    }
+   },
+   "roll": {
+    "4": [
+     0,
+     67
+    ],
+    "6": [
+     0,
+     67
+    ]
+   }
+  },
+  "mm8/gtempw4": {
+   "name": "gtempw4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale icy blue-white frosted marble with crystalline veining divided by a central carved grey-blue stone column with scroll ornaments",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gtempe2r",
+      "mm8/gtempe2l"
+     ],
+     "fraction": 0.736
+    },
+    "2": {
+     "sources": [
+      "mm8/gtempw3",
+      "mm8/gtempw2"
+     ],
+     "fraction": 0.712
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/gtempw3",
+     "left": "mm8/gtempw3",
+     "bottom": "mm8/gtempflr"
+    }
+   }
+  },
+  "mm8/gnecclg1": {
+   "name": "gnecclg1",
+   "versions": [
+    1
+   ],
+   "material": "pale grey stone with a vertical band of gilded copper and red-gold ornamental relief in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gtempdor1": {
+   "name": "gtempdor1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "glowing bright cyan crystal door panel with a carved spiral emblem in the upper half, a band of small cross marks and a plain lower panel, dark blue frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/gtempw1",
+     "right": "mm8/gtempw1",
+     "left": "mm8/gtempw1"
+    },
+    "3": {
+     "top": "mm8/gtempw1",
+     "right": "mm8/gtempw1",
+     "left": "mm8/gtempw1"
+    }
+   }
+  },
+  "mm8/gtempflr": {
+   "name": "gtempflr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "blue-grey stone floor bricks in staggered courses with dark joints",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ],
+    "3": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/gtempw2"
+    },
+    "3": {
+     "top": "mm8/gtempw2"
+    }
+   }
+  },
+  "mm8/gtemprf": {
+   "name": "gtemprf",
+   "versions": [
+    1
+   ],
+   "material": "carved blue-grey stone ceiling panel with a golden celtic interlace square in the centre inside a decorated border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t31a01": {
+   "name": "t31a01",
+   "versions": [
+    1
+   ],
+   "material": "warm tan-brown flat fieldstone bricks in irregular courses with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t31a06": {
+   "name": "t31a06",
+   "versions": [
+    1
+   ],
+   "material": "warm tan-brown flat fieldstone bricks in irregular courses beside a dark wooden post",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t31a01"
+     ],
+     "fraction": 0.58
+    }
+   }
+  },
+  "mm8/t31a07": {
+   "name": "t31a07",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "warm tan-brown flat fieldstone bricks in irregular courses beside a dark wooden post",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t31a01",
+      "mm8/t31a06"
+     ],
+     "fraction": 0.686
+    },
+    "2": {
+     "sources": [
+      "mm8/t31a01",
+      "mm8/t31a06"
+     ],
+     "fraction": 0.686
+    },
+    "3": {
+     "sources": [
+      "mm8/t31a01",
+      "mm8/t31a06"
+     ],
+     "fraction": 0.686
+    }
+   }
+  },
+  "mm8/t31a03": {
+   "name": "t31a03",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark weathered oak plank door with a carved wooden lintel ornament, inside a dark wooden frame",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t31a07",
+     "left": "mm8/t31a06"
+    },
+    "3": {
+     "right": "mm8/t31a07",
+     "left": "mm8/t31a06"
+    }
+   }
+  },
+  "mm8/t31b03a": {
+   "name": "t31b03a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream stone slab door with dark carved corner brackets and a small bronze ring handle, inside a dark wooden frame",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    },
+    "2": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    },
+    "3": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    },
+    "4": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.185
+    }
+   }
+  },
+  "mm8/t31b03b": {
+   "name": "t31b03b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream stone slab door with dark carved corner brackets and a small bronze ring handle, inside a dark wooden frame",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "4": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.175
+    },
+    "2": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.175
+    },
+    "3": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.175
+    },
+    "4": {
+     "sources": [
+      "mm8/t31a03"
+     ],
+     "fraction": 0.175
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t31b03a"
+    },
+    "4": {
+     "left": "mm8/t31b03a"
+    }
+   }
+  },
+  "mm8/alphanumb": {
+   "name": "alphanumb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter B, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "only the single engraved glyph is cut into the plate; no extra dashes, ticks, ghost strokes or partial outlines anywhere else on the plate; clean smooth edges",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.753
+    },
+    "2": {
+     "sources": [
+      "mm8/alphanumk"
+     ],
+     "fraction": 0.745
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanumk": {
+   "name": "alphanumk",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter K, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.774
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanumh": {
+   "name": "alphanumh",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter H, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "keep the plate's thin bright pale highlight along the very top edge and the bevel brightness at every edge exactly as in the reference; clean smooth glyph edges",
+    "3": "keep the plate's thin bright pale highlight along the very top edge and the bevel brightness at every edge exactly as in the reference; clean smooth glyph edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanumd": {
+   "name": "alphanumd",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter D, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumk",
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.835
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanuma": {
+   "name": "alphanuma",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter A, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "only the single engraved glyph is cut into the plate; no extra dashes, ticks, ghost strokes or partial outlines anywhere else on the plate; clean smooth edges",
+    "3": "only the single engraved glyph is cut into the plate; no extra dashes, ticks, ghost strokes or partial outlines anywhere else on the plate; clean smooth edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.8
+    },
+    "2": {
+     "sources": [
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.8
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanumg": {
+   "name": "alphanumg",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter G, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.775
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum2": {
+   "name": "alphanum2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 2, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "only the single engraved glyph is cut into the plate; no extra dashes, ticks, ghost strokes or partial outlines anywhere else on the plate; clean smooth edges",
+    "3": "keep the plate's thin bright pale highlight along the very top edge and the bevel brightness at every edge exactly as in the reference; clean smooth glyph edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanum1"
+     ],
+     "fraction": 0.738
+    },
+    "2": {
+     "sources": [
+      "mm8/alphanum1"
+     ],
+     "fraction": 0.738
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

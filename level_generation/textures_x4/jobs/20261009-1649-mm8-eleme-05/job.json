@@ -1,0 +1,552 @@
+{
+ "id": "20261009-1649-mm8-eleme-05",
+ "world": "mm8",
+ "maps": [
+  "eleme.blv",
+  "d44.blv",
+  "d14.blv"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/gnecwal3",
+  "mm8/t68a02a",
+  "mm8/gcst1bs1",
+  "mm8/t01a12c",
+  "mm8/gcs12b",
+  "mm8/gcst1-rt",
+  "mm8/gcst1-lft",
+  "mm8/gcs05a",
+  "mm8/gcs05b",
+  "mm8/ch002a",
+  "mm8/gcst1cel",
+  "mm8/gcst1flr",
+  "mm8/slimywtr",
+  "mm8/t1beds",
+  "mm8/t1beds1",
+  "mm8/t1beds2",
+  "mm8/t1books",
+  "mm8/t1butts",
+  "mm8/t1cab",
+  "mm8/tfb11",
+  "mm8/tws1f",
+  "mm8/winerack",
+  "mm8/gcav1wal",
+  "mm8/gcst2flr"
+ ],
+ "requests": {
+  "mm8/gnecwal3": {
+   "name": "gnecwal3",
+   "versions": [
+    1
+   ],
+   "material": "black glossy lumpy volcanic rock with dark blue-grey highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t68a02a": {
+   "name": "t68a02a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-black rough volcanic rock with pale grey mineral streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm8/gcst1bs1": {
+   "name": "gcst1bs1",
+   "versions": [
+    1
+   ],
+   "material": "pale cream limestone ashlar blocks with grey-brown weathering and dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t01a12c": {
+   "name": "t01a12c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey stone block wall heavily overgrown with green ivy and yellow-green leaves hanging down",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcs12b": {
+   "name": "gcs12b",
+   "versions": [
+    1
+   ],
+   "material": "pale cream limestone ashlar blocks with grey-brown weathering around a narrow pointed gothic window in a dark wooden frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gcst1bs1"
+     ],
+     "fraction": 0.718
+    }
+   }
+  },
+  "mm8/gcst1-rt": {
+   "name": "gcst1-rt",
+   "versions": [
+    1
+   ],
+   "material": "pale cream limestone ashlar blocks with grey-brown weathering ending in a vertical stone pilaster edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gcst1bs1"
+     ],
+     "fraction": 0.635
+    }
+   }
+  },
+  "mm8/gcst1-lft": {
+   "name": "gcst1-lft",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream limestone ashlar blocks with grey-brown weathering ending in a vertical stone pilaster edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gcst1bs1"
+     ],
+     "fraction": 0.625
+    },
+    "2": {
+     "sources": [
+      "mm8/gcst1bs1"
+     ],
+     "fraction": 0.625
+    }
+   }
+  },
+  "mm8/gcs05a": {
+   "name": "gcs05a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-tan leather-covered wooden door with small dark nail studs and a small black iron lock plate",
+   "notes": {
+    "3": "the leather door fills the whole canvas edge to edge; the finished wall in the border stays outside it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gcst1bs1",
+     "top": "mm8/gcst1bs1",
+     "right": "mm8/gcst1-rt"
+    },
+    "3": {
+     "left": "mm8/gcst1bs1",
+     "top": "mm8/gcst1bs1",
+     "right": "mm8/gcst1-rt"
+    }
+   }
+  },
+  "mm8/gcs05b": {
+   "name": "gcs05b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "orange-tan leather-covered wooden door with small dark nail studs and a small black iron lock plate",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gcs05a"
+     ],
+     "fraction": 0.034
+    },
+    "2": {
+     "sources": [
+      "mm8/gcs05a"
+     ],
+     "fraction": 0.034
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gcs05a",
+     "right": "mm8/gcst1-lft"
+    }
+   }
+  },
+  "mm8/ch002a": {
+   "name": "ch002a",
+   "versions": [
+    1
+   ],
+   "material": "wooden chest panel of brown vertical planks inside a dark plank frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcst1cel": {
+   "name": "gcst1cel",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "carved tan sandstone ceiling panel with a circular celtic knot medallion inside a square interlaced border",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ],
+    "3": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/gcst1bs1"
+    },
+    "3": {
+     "top": "mm8/gcst1bs1"
+    }
+   }
+  },
+  "mm8/gcst1flr": {
+   "name": "gcst1flr",
+   "versions": [
+    1
+   ],
+   "material": "pale cream marble floor tiles with grey-brown weathering and a carved diamond knot inlay in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/slimywtr": {
+   "name": "slimywtr",
+   "versions": [
+    1
+   ],
+   "material": "murky dark olive-green swamp water with slimy mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1beds": {
+   "name": "t1beds",
+   "versions": [
+    1
+   ],
+   "material": "horizontal golden-brown oak wooden beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1beds1": {
+   "name": "t1beds1",
+   "versions": [
+    1
+   ],
+   "material": "thin horizontal carved oak bed rail strip with a small rope moulding",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1beds2": {
+   "name": "t1beds2",
+   "versions": [
+    1
+   ],
+   "material": "pale beige linen bed cloth with fine vertical weave",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1books": {
+   "name": "t1books",
+   "versions": [
+    1
+   ],
+   "material": "dark wooden bookshelf with rows of old leather-bound books in brown, green and red",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1butts": {
+   "name": "t1butts",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough brown-grey stucco plaster photographed in sharp focus: crisp trowel ridges, fine grit and tiny pits",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t1cab": {
+   "name": "t1cab",
+   "versions": [
+    1
+   ],
+   "material": "golden oak cabinet front with four carved drawers, each with a dark iron ring pull",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/tfb11": {
+   "name": "tfb11",
+   "versions": [
+    1
+   ],
+   "material": "dark grey slate floor slabs with thin black joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/tws1f": {
+   "name": "tws1f",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale cream marble with dark brown crackle veins",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gn_mtl03",
+     "top": "mm8/gn_mtl03",
+     "right": "mm8/gn_mtl03",
+     "bottom": "mm8/gn_mtl03"
+    },
+    "3": {
+     "left": "mm8/gn_mtl03",
+     "top": "mm8/gn_mtl03",
+     "right": "mm8/gn_mtl03",
+     "bottom": "mm8/gn_mtl03"
+    }
+   }
+  },
+  "mm8/winerack": {
+   "name": "winerack",
+   "versions": [
+    1
+   ],
+   "material": "dark wooden wine rack with rows of dark bottles lying on their sides",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gcav1wal": {
+   "name": "gcav1wal",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough reddish-brown cave rock wall, gritty",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm8/gcst2flr": {
+   "name": "gcst2flr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey carved stone tile with nested square borders and a cross relief in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t1books1",
+     "bottom": "mm8/gkp1flr",
+     "left": "mm8/gkp1flr"
+    }
+   }
+  }
+ }
+}

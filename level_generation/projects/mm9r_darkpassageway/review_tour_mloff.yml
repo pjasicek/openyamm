@@ -1,0 +1,60 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_darkpassageway/review/mloff
+settle_seconds: 1.5
+exit: true
+shots:
+- name: b02_lake_east
+  position:
+  - -18995
+  - -1126
+  - 1
+  yaw: -1.0839
+  pitch: -0.2618
+- name: c04_statue_ledge
+  position:
+  - -19456
+  - -16896
+  - 32
+  yaw: -2.1815
+  pitch: -0.1745
+- name: f01_forest_south
+  position:
+  - -15401
+  - -16768
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: f04_hidden_room
+  position:
+  - -14080
+  - -14438
+  - -327
+  yaw: -1.1273
+  pitch: 0.0
+- name: f05_forest_north
+  position:
+  - -15401
+  - -12544
+  - -327
+  yaw: 1.5708
+  pitch: 0.0
+- name: d03_gemstone
+  position:
+  - -3968
+  - -12928
+  - -494
+  yaw: -0.2537
+  pitch: 0.0
+- name: d07_desert_door
+  position:
+  - -5571
+  - -6656
+  - -427
+  yaw: 1.5708
+  pitch: 0.0
+- name: w03_wyrde_room
+  position:
+  - -1152
+  - 6323
+  - -572
+  yaw: 0.0156
+  pitch: 0.0

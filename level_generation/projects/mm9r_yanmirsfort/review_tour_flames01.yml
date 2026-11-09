@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_yanmirsfort/review/flames01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: g01_torch_side
+  position:
+  - 3200
+  - -4495
+  - 1
+  yaw: 0.0
+  pitch: 0.8378
+- name: g02_torch_front
+  position:
+  - 3430
+  - -4096
+  - 1
+  yaw: -0.7727
+  pitch: 0.7854
+- name: g03_lamp
+  position:
+  - 3604
+  - -14464
+  - -40
+  yaw: -1.5708
+  pitch: 0.4363

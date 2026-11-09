@@ -1,0 +1,132 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "view": "back",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "status": "saved_best_available_return_but_brief_checks_failed",
+  "corrective_regenerations_used": 1,
+  "postprocessing": "None. Both PNGs copied byte-for-byte from the built-in tool; no resizing, cropping, recolouring or alpha edits.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset: paint_back.png, a 1024 x 1024 transparent RGBA albedo texture-source painting for the BACK of an existing Stim canister 3D model.\n\nINPUT ROLES:\nImage 1 guide_back.png is the EDIT TARGET and absolute geometry/alpha authority: a grey orthographic back view. Paint the existing pixels of this exact view. Preserve the guide's 1024 x 1024 canvas, pixel registration, outline, scale, position, every shape edge, opening and detail. Do not redesign or re-render the geometry.\nImage 2 design_reference.png is ONLY the approved design, colour and material reference.\nImage 3 concept_crop.png is the original concept, a secondary appearance reference.\nThe two coloured references are three-quarter illustrations; NEVER copy their camera, silhouette or dramatic lighting.\n\nPRIMARY REQUEST:\nPaint the materials of the approved design onto the exact grey back-view guide. Bone-white ceramic plates with fine chips and grey grime; polished gold bands, window frames, rivets and valve wheel; deep-blue painted livery stripe; clear glass windows filled with bright saturated red stim fluid, evenly lit from within; small blue-white light in the existing circular fitting. Keep the crisp material separations and restrained fine wear from the approved design. Paint glowing parts at their glowing colour without casting glow onto surrounding parts.\n\nLOCKED GEOMETRY:\nMaintain all existing guide geometry and all transparent areas, with no pixels or details added beyond the silhouette, no cropping, no repositioning, no resizing.\nGuide bounds are x=303 through 720, y=66 through 957 on the 1024 square canvas.\nThe top wheel is seen strictly edge-on as the thin horizontal bar already in the guide, around x=389..640, y=66..98; keep its edge-on silhouette, NEVER open it into an elliptical top view.\nRetain its narrow central stem and collar. Retain the rounded shoulder, the upper horizontal band and its centered circular/octagonal light bezel exactly where shown. Retain the two long existing rounded rectangular window shapes on the left and right, with the center body strip between them. Preserve the bottom band, side clamps, narrow lower shaft, all gaps and the wide flared base exactly as the guide. Keep the polygonal edges of the actual model. Transfer only surface colour/material artwork; no perspective change, no new openings or protrusions.\n\nLIGHTING IS ALBEDO:\nEven, flat, shadowless frontal illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no dark side shading, no strong specular highlights or reflections, no rim light, no lighting gradient across the canister. Gold should read through its gold base colour and fine surface variation, not bright white gloss or baked shading. Glass should reveal the saturated red fluid with restrained fluid/bubble colour detail, without white reflection streaks. The red and blue-white elements do not illuminate their surroundings.\n\nOUTPUT:\nExactly ONE image, 1024 x 1024, actual transparent background preserving the guide alpha and holes. No background, no floor, no checkerboard painted into the image, no text, no labels, no borders. Raw full-resolution image suitable for direct projection onto the existing mesh.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "339b2761ddea2aa55c5dce1303109c3d13261aa1420157d9cfffb07799a88941"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "output_sha256": "82692785759d7fbd07e7bc46befbd38e0fa60efc316db8e3d81452916e20f4f9",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a16ab9-ed41-75a2-9c03-814e26f0fe16/exec-9ae9c05d-ac5b-4c35-97af-aee9ab116a6c.png",
+      "selected": false,
+      "reason": "Not selected: incorrect native dimensions (1254 x 1254 rather than 1024 x 1024), nonidentical guide silhouette, strong specular highlights and baked shading.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_met": false,
+        "rgba": true,
+        "transparent_background": true,
+        "input_guide_alpha_bbox": [
+          303,
+          66,
+          721,
+          958
+        ],
+        "output_alpha_bbox": [
+          73,
+          69,
+          1228,
+          1228
+        ],
+        "output_alpha_128_bbox": [
+          372,
+          81,
+          885,
+          1177
+        ],
+        "silhouette_identical_to_guide": false,
+        "all_shape_edges_preserved": false,
+        "materials_and_palette": "Bone-white ceramic, gold metal, deep-blue stripe, bright red fluid, blue-white light visually match the specified palette.",
+        "flat_even_shadowless_lighting": false,
+        "lighting_review": "Strong metal and glass highlights; dark recess and bevel shading.",
+        "unresized_unmodified_return": true,
+        "source_copy_sha256_verified": true,
+        "passes_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective generation for paint_back.png. Produce one native 1024 x 1024 RGBA PNG. The previous attempt failed by returning 1254 x 1254 and glossy shaded artwork. This is the single permitted correction.\n\nEDIT IMAGE 1 (guide_back.png) DIRECTLY IN PLACE. Preserve its original 1024-by-1024 pixel canvas and its exact alpha channel. Do not make a new composition, rescale, zoom, rotate, move, reconstruct or smooth the object. Apply colours to the existing grey surfaces while retaining every geometry boundary pixel. The guide is the back orthographic view, absolutely authoritative over all other references.\nImage 2 design_reference.png is only the approved colour/material authority. Image 3 concept_crop.png is a secondary original-concept colour reference. Their three-quarter camera and their illumination must NOT transfer.\n\nThe EXACT input guide must remain recognizable at identical pixel coordinates, with a different surface paint treatment:\n- Overall guide alpha bounds: left x=303, top y=66, right x=720, bottom y=957 on a 1024-square canvas.\n- Thin edge-on horizontal valve wheel x=389..640, y=66..98, with its exact angular geometry. Paint gold; do not round or enlarge it.\n- Keep stem, collar, shoulder contour, upper horizontal band and the circular/octagonal blue-white lamp bezel exactly as in the grey guide.\n- Keep both long window frames exactly following the existing left and right shape edges and angular rounded corners, in their original positions. Colour the existing frames gold; fill the windows with uniformly saturated red stim fluid behind clear glass, with a little subtle red bubble detail.\n- Bone-white ceramic main body, restrained fine chips and grey grime, deep-blue vertical livery stripe in the central body region, gold bands, gold frames and small rivet colours where appropriate.\n- Keep lower clamps, bottom horizontal band, lower support shaft, all gaps, flared base and every existing detail at their exact original edges.\n- Nothing outside the original alpha silhouette. No invented openings. Preserve all transparent background pixels and gaps.\n\nCRITICAL: FLAT ALBEDO MATERIAL PAINTING, NOT A BEAUTY RENDER. Shadowless even viewer-facing illumination. Use base colours and subtle material wear only. Polished gold is represented with an even rich gold base colour, without shiny white lines, gloss, metal reflection gradients, or dark bevel shading. No cast shadows, no ambient occlusion, no side darkening, no rim light. Glass has no bright white streaks or reflections. Red fluid is bright saturated red evenly from inside, without dramatic white-hot streaks. Small blue-white light is painted blue-white without blooming or casting light. No cast glow of any colour onto ceramic, gold, or background. No floor, no background, no text, no checkerboard graphic.\n\nNative output dimensions MUST be 1024 x 1024, same as image 1; preserve the input alpha and registration exactly. Return only the transparent image.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "339b2761ddea2aa55c5dce1303109c3d13261aa1420157d9cfffb07799a88941"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "a0f257ccfb7868f8ad78b2089f5b3725f65f20167bb3e9ace3b766e0387c2d5b",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a16ab9-ed41-75a2-9c03-814e26f0fe16/exec-5397dfd5-7b79-49a3-9c59-ba022333c560.png",
+      "selected": true,
+      "reason": "Selected only as the best available raw return after the single permitted correction: highlights reduced and materials match the reference palette, but this is not a compliant final texture source. Native dimensions remain 1254 x 1254, geometry/placement differ from the guide, residual shading/reflections and low-alpha edge artifacts remain.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_met": false,
+        "rgba": true,
+        "transparent_background": true,
+        "input_guide_alpha_bbox": [
+          303,
+          66,
+          721,
+          958
+        ],
+        "output_alpha_bbox": [
+          0,
+          27,
+          1242,
+          1254
+        ],
+        "output_alpha_128_bbox": [
+          373,
+          79,
+          881,
+          1135
+        ],
+        "silhouette_identical_to_guide": false,
+        "all_shape_edges_preserved": false,
+        "materials_and_palette": "Bone-white ceramic, gold metal, deep-blue stripe, bright red fluid, blue-white light visually match the specified palette.",
+        "flat_even_shadowless_lighting": false,
+        "lighting_review": "Reduced highlights relative to attempt 1; residual highlights, glass reflection streaks, bevel/recess shading remain.",
+        "unresized_unmodified_return": true,
+        "source_copy_sha256_verified": true,
+        "passes_all_brief_checks": false
+      }
+    }
+  ]
+}

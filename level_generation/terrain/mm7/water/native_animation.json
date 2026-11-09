@@ -1,0 +1,319 @@
+{
+  "sample_count": 60,
+  "elapsed_seconds": 4.148423812002875,
+  "distinct_water_states": 60,
+  "water_changes": 59,
+  "stationary_land_max_channel_difference": 0.0,
+  "recurrences": [],
+  "water_roi": [
+    850,
+    340,
+    1200,
+    420
+  ],
+  "land_roi": [
+    300,
+    750,
+    800,
+    850
+  ],
+  "capture_json_sha256": "6011511f3fffc5869cc4dec4f56a066481fe04e4fc72074ac9f82e381c458804",
+  "frame_hashes": {
+    "mm7_water_animation_cycle_000.png": "a874cbdc49298739e521c39c504c47f76f89814f7015758f59553b932d37e77e",
+    "mm7_water_animation_cycle_001.png": "7e0a39dbb5fe51b9e8d40b1332081bbc7a7e0d677ad36767e3a1fd435cdc2b24",
+    "mm7_water_animation_cycle_002.png": "c500f2e89d2ae983ced48338a66dc07ac5c2307af63738a1933e97a018033dd3",
+    "mm7_water_animation_cycle_003.png": "c7557bb17fa080a65e55caef2ccfaa51a69a9e3dd679851a3e5ec84f7878dd4b",
+    "mm7_water_animation_cycle_004.png": "ce3c20b8a6f65e2b5aff0290f00591345633eb7014236a281425a8991b310c9e",
+    "mm7_water_animation_cycle_005.png": "0d70a98d6ebca98bacf76f3c90e48d184c95a026247f032f4402f91340b888c4",
+    "mm7_water_animation_cycle_006.png": "4ba45ca398b76b115fff96f01e70685f7cb4d14b3162526178ed48ab2a14eddc",
+    "mm7_water_animation_cycle_007.png": "02e071b6ebdd0e0b3555b18ecef100022140d7a519107fa1e099021f9121cad2",
+    "mm7_water_animation_cycle_008.png": "2b099b2856492304e4882a7dbf793b7607a980cbf8449b619a23afdf12d1a4bb",
+    "mm7_water_animation_cycle_009.png": "1039c2def3cc7a5d3ce0b3e989440eec369b3e44a10375a5080602222c9cdb68",
+    "mm7_water_animation_cycle_010.png": "a93dfa099075b749e194a85485bd6b66476b0538e66575a2c3425ebeb9e5524d",
+    "mm7_water_animation_cycle_011.png": "71d7431083d0973371d9034f82382d2c3fe02ce0233235cd2c1b0d1ac931d35b",
+    "mm7_water_animation_cycle_012.png": "618f510578f6ebce422d2cec457d29791adced62521956e2b0ee7e7de65d1f49",
+    "mm7_water_animation_cycle_013.png": "a7f44c7c2ab57c4d0f93a6a05982abb5df8e606e26fdbdfdadf0318b4fb3ae07",
+    "mm7_water_animation_cycle_014.png": "5e076ee03bccc4e106a1806a4e5144f8cfdbd168bf766e88b1dc881130dfc236",
+    "mm7_water_animation_cycle_015.png": "99623be8a48485d23456707103865b1fb70506ebb1d78812fb8599e6ba693270",
+    "mm7_water_animation_cycle_016.png": "fb677dc2c00a2930ed1da111804cc47bcdea3d4da3cfa2f800f6119fe03c42c4",
+    "mm7_water_animation_cycle_017.png": "c85621a8e114273d48976412752ad8294ae07d399c915bdc5cd02354312a1a7a",
+    "mm7_water_animation_cycle_018.png": "05de78028d35671b3a6612b876833943c969b7d5787cd564254acda0ae71fd0c",
+    "mm7_water_animation_cycle_019.png": "1c98be9ea09b74a21bfa83b744c2c69b148c5f85b693ded8b24127a0df97f764",
+    "mm7_water_animation_cycle_020.png": "7ede7ceb95d702dbce0dc0edf3682d4f9846d6f75c4036e2efb932a7b18603ec",
+    "mm7_water_animation_cycle_021.png": "b3fd18cb912d3f1cca5e99612f5898f6b833df2316d0e8b6cc135650504bfa46",
+    "mm7_water_animation_cycle_022.png": "3142eea7faba8905acc8bc68a453e5d2350848a0998a226507c62e5031cc84d0",
+    "mm7_water_animation_cycle_023.png": "af4ccd254e76fc4abd83b0f15cdd887540f982b9d3e86b9fa371e3f51f21c961",
+    "mm7_water_animation_cycle_024.png": "9230d65d2d0b50fb761d7184daeb5ae2c78e3eb11437324c72f5fdbf9f5810cc",
+    "mm7_water_animation_cycle_025.png": "4935105729956b911be16406033efb231604d70375f1052109332b947cb7c638",
+    "mm7_water_animation_cycle_026.png": "11de976bbfafece1e9edf9214ca420b1b9db779574666ae72de92abc7ada032d",
+    "mm7_water_animation_cycle_027.png": "be713cfeade09319dfe6551aed24460d3ae86209ee214d866103d75abc4ac166",
+    "mm7_water_animation_cycle_028.png": "f679f9d7c8184fe356c3643a9b2f91552c2fb896f6a1ef7c5e00b6f09023d1be",
+    "mm7_water_animation_cycle_029.png": "71fa9c03152bb355d6bdba182abff0059c345e28fac9a92b5977d31780b687e7",
+    "mm7_water_animation_cycle_030.png": "61e992056ba87466a302326b9fcd93ab4fff9dee31d8df253d8a4c0fbff928c9",
+    "mm7_water_animation_cycle_031.png": "e7b53f1164c44314ff6cec5d6968441f37e57287951cfe8f8aae208e5a76976f",
+    "mm7_water_animation_cycle_032.png": "51adefa019e379ad4ca8ddef1b415e4f87b0468bb531f984bdf466485bd4f6d6",
+    "mm7_water_animation_cycle_033.png": "7d9aaed96b9bda2656d98596333ad9a65c7b27f902771620b51073c81e050ab2",
+    "mm7_water_animation_cycle_034.png": "a72361c5617baee20f0cbc2c163be8e406e139d73f0ebc62d2a5e6f88b49e5b8",
+    "mm7_water_animation_cycle_035.png": "4ba414bd70800be0085be8866a77c8e6ab054eeb44f2d0ad8106d86f1b4b9013",
+    "mm7_water_animation_cycle_036.png": "89520686af99a638f9983ab9ba2d8202bbcdf62eb02b0c0497ff550b23e3e5f7",
+    "mm7_water_animation_cycle_037.png": "32ed62d822b5c51fa80d6ccedb6ad5d14ad90b0b1e16069d5cf658af819024df",
+    "mm7_water_animation_cycle_038.png": "f7a32b15e4bd6fbe7f48c45b7e0361436d81a5e26f2eddf4b7449e1401a19bd2",
+    "mm7_water_animation_cycle_039.png": "7cf272dbe6c58f27b7055298e4cf3e58e19d524113eecebb2e13edfa631a9a96",
+    "mm7_water_animation_cycle_040.png": "b76e9076dfe3c43e41482f54dd94a7deee33149669d8df4eb6031a8d381b371e",
+    "mm7_water_animation_cycle_041.png": "f5a89a914a7a28d06e6f11427e2c3a0867920f621e4470896c51679046a675d0",
+    "mm7_water_animation_cycle_042.png": "a3f3f76164abcd9158569c38c40dc3014dd180fe92636db31b12e364347d680a",
+    "mm7_water_animation_cycle_043.png": "e218445e67c615bc35c935327da84a60e4c76f7e45469a962435eb72b7ec2d26",
+    "mm7_water_animation_cycle_044.png": "21050a5f544cf7b03ea3ec8245410e31cfde326902b7e550e5fb7d4ccefedd7e",
+    "mm7_water_animation_cycle_045.png": "610e1020cf704af7621a7c7c0c56588b9a0c64c28385a85d196847cb07eb2f58",
+    "mm7_water_animation_cycle_046.png": "863c370931d43189ce5288a2166bab5d3c382311a28cefe8af9e88558d9a5fbb",
+    "mm7_water_animation_cycle_047.png": "eefc57aa1caa555d5132267ad347131dd1befb0ab3d4526289d7da7358bf15c2",
+    "mm7_water_animation_cycle_048.png": "d8619a2d5cbf2ba837e22db5f1b3a20f13ada826a0146f12ce2e7aec84d411e4",
+    "mm7_water_animation_cycle_049.png": "d836bd8ee1e2c67ae56311c2303257c5738a2ade52ff441104b8a699b34d7378",
+    "mm7_water_animation_cycle_050.png": "58f6077b862259803ed43f80b4792b5f76a10606e0a98a15de8960f1a0a323c0",
+    "mm7_water_animation_cycle_051.png": "dc931ff6ab1744a284dca90ce0253fda485392569fe5ad1ae11e938d5ad4cd72",
+    "mm7_water_animation_cycle_052.png": "bb174083253262cf55a7a95929082e9df28822253c694418c1ae974f1d408314",
+    "mm7_water_animation_cycle_053.png": "4331277b7247fe659e0e3a2535660d32d4b566d80e182e00cf3a962fb23dc43b",
+    "mm7_water_animation_cycle_054.png": "a2a9335935ad0e0dcbd008bf455b7896ba42c7999cc1cb0e0ee50e6bc84faaa5",
+    "mm7_water_animation_cycle_055.png": "529e13c475dd115da09b9f4b5293c0a1bf3da135245dfa3b7c4a89d5556a48c1",
+    "mm7_water_animation_cycle_056.png": "1129b1fca6a58664fe7e7e31419e531aacce44db5b4ca086784b022807bc4596",
+    "mm7_water_animation_cycle_057.png": "4107ceab17f2d90769c962a9620b666ad8cb7f858aed6a198e04826870372ed6",
+    "mm7_water_animation_cycle_058.png": "588ee25c14b0895a0f6f643416093e57175eb83c35f7d5838d2b268551dcb8ae",
+    "mm7_water_animation_cycle_059.png": "0f7e7ad71e9f358268409e6f2bae0eba5bae674212508220312d1fe77058b50a"
+  },
+  "rendered_frame_clusters": 14,
+  "expected_period_seconds": 1.640625,
+  "cycle_matches": [
+    {
+      "a": 0,
+      "b": 22,
+      "seconds": 1.5216109850152861,
+      "mae": 0.27182142857142855
+    },
+    {
+      "a": 1,
+      "b": 24,
+      "seconds": 1.603577761008637,
+      "mae": 0.27508333333333335
+    },
+    {
+      "a": 2,
+      "b": 26,
+      "seconds": 1.6790775480039883,
+      "mae": 0.2388809523809524
+    },
+    {
+      "a": 3,
+      "b": 26,
+      "seconds": 1.615266395994695,
+      "mae": 0.22451190476190477
+    },
+    {
+      "a": 4,
+      "b": 27,
+      "seconds": 1.6081687980040442,
+      "mae": 0.2588809523809524
+    },
+    {
+      "a": 5,
+      "b": 27,
+      "seconds": 1.5531154049967881,
+      "mae": 0.24978571428571428
+    },
+    {
+      "a": 6,
+      "b": 29,
+      "seconds": 1.6057188379927538,
+      "mae": 0.24930952380952381
+    },
+    {
+      "a": 7,
+      "b": 31,
+      "seconds": 1.695231337012956,
+      "mae": 0.28877380952380954
+    },
+    {
+      "a": 8,
+      "b": 31,
+      "seconds": 1.6258371070143767,
+      "mae": 0.2804285714285714
+    },
+    {
+      "a": 9,
+      "b": 33,
+      "seconds": 1.6821490149886813,
+      "mae": 0.24941666666666668
+    },
+    {
+      "a": 10,
+      "b": 33,
+      "seconds": 1.622470964997774,
+      "mae": 0.24326190476190476
+    },
+    {
+      "a": 11,
+      "b": 34,
+      "seconds": 1.614402645995142,
+      "mae": 0.2529642857142857
+    },
+    {
+      "a": 12,
+      "b": 36,
+      "seconds": 1.6819162419997156,
+      "mae": 0.2692380952380952
+    },
+    {
+      "a": 13,
+      "b": 36,
+      "seconds": 1.6102440629911143,
+      "mae": 0.2648214285714286
+    },
+    {
+      "a": 14,
+      "b": 38,
+      "seconds": 1.6787985529808793,
+      "mae": 0.32185714285714284
+    },
+    {
+      "a": 15,
+      "b": 38,
+      "seconds": 1.5993900389876217,
+      "mae": 0.31625
+    },
+    {
+      "a": 16,
+      "b": 39,
+      "seconds": 1.6079139650100842,
+      "mae": 0.27413095238095236
+    },
+    {
+      "a": 17,
+      "b": 41,
+      "seconds": 1.685967942001298,
+      "mae": 0.32811904761904764
+    },
+    {
+      "a": 18,
+      "b": 41,
+      "seconds": 1.6169505860016216,
+      "mae": 0.3208452380952381
+    },
+    {
+      "a": 19,
+      "b": 43,
+      "seconds": 1.685879050026415,
+      "mae": 0.3131547619047619
+    },
+    {
+      "a": 20,
+      "b": 43,
+      "seconds": 1.6218455970229115,
+      "mae": 0.3042738095238095
+    },
+    {
+      "a": 21,
+      "b": 44,
+      "seconds": 1.6221670100057963,
+      "mae": 0.3373809523809524
+    },
+    {
+      "a": 22,
+      "b": 46,
+      "seconds": 1.6962095079943538,
+      "mae": 0.336702380952381
+    },
+    {
+      "a": 23,
+      "b": 46,
+      "seconds": 1.6283820369862951,
+      "mae": 0.32966666666666666
+    },
+    {
+      "a": 24,
+      "b": 48,
+      "seconds": 1.6831913770001847,
+      "mae": 0.3669047619047619
+    },
+    {
+      "a": 25,
+      "b": 48,
+      "seconds": 1.6087657540047076,
+      "mae": 0.35786904761904764
+    },
+    {
+      "a": 26,
+      "b": 49,
+      "seconds": 1.620346947980579,
+      "mae": 0.31323809523809526
+    },
+    {
+      "a": 27,
+      "b": 51,
+      "seconds": 1.6707175329793245,
+      "mae": 0.3646785714285714
+    },
+    {
+      "a": 28,
+      "b": 51,
+      "seconds": 1.6101292419771198,
+      "mae": 0.3562619047619048
+    },
+    {
+      "a": 29,
+      "b": 53,
+      "seconds": 1.6850014489900786,
+      "mae": 0.3760952380952381
+    },
+    {
+      "a": 30,
+      "b": 53,
+      "seconds": 1.609088678000262,
+      "mae": 0.3651785714285714
+    },
+    {
+      "a": 31,
+      "b": 54,
+      "seconds": 1.5979068299930077,
+      "mae": 0.41623809523809524
+    },
+    {
+      "a": 32,
+      "b": 54,
+      "seconds": 1.5404083780013025,
+      "mae": 0.4101309523809524
+    },
+    {
+      "a": 33,
+      "b": 56,
+      "seconds": 1.592127587995492,
+      "mae": 0.3934285714285714
+    },
+    {
+      "a": 34,
+      "b": 57,
+      "seconds": 1.609373801999027,
+      "mae": 0.4472380952380952
+    },
+    {
+      "a": 35,
+      "b": 57,
+      "seconds": 1.5333469799952582,
+      "mae": 0.43265476190476193
+    },
+    {
+      "a": 36,
+      "b": 59,
+      "seconds": 1.6124628410034347,
+      "mae": 0.4468452380952381
+    },
+    {
+      "a": 37,
+      "b": 59,
+      "seconds": 1.546513192995917,
+      "mae": 0.43191666666666667
+    }
+  ],
+  "cycle_mean_error": 0.32311152882205507,
+  "cycle_to_motion_ratio": 0.04984501367510474,
+  "shader_note": "Native frames are discrete; outdoor_textured_fog.sh adds time-dependent UV distortion with 6/8/10-second periods. Pixel hashes therefore do not repeat at the 1.640625-second frame cycle.",
+  "passed": true
+}

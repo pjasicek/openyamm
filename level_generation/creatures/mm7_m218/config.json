@@ -1,0 +1,36 @@
+{
+  "label": "Elf Spearman A",
+  "creature": "elf_spearman",
+  "base_palette": 220,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m218sa0",
+    "m218sa1",
+    "m218sa2",
+    "m218sa3",
+    "m218sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original adult male woodland elf spearman: tall slender lightly muscular build, long slim legs, pale gray-pink skin, narrow stern angular face, pointed ears and dark brown-black hair swept back to the nape. Two thin branching green leafy sprigs rise from either side of the head, forming the native small asymmetric foliage crown. Bright green leafy vines wind diagonally around the bare chest, shoulders, arms and legs; preserve each native leaf cluster and yellow-green highlights. A short dark blue-violet loincloth of narrow pointed overlapping fabric tabs hangs from a thin brown waist belt, with green vines crossing the waist above it. Brown leather forearm bracers with green vine accents. Bare feet. He carries the exact native long thin dark ochre-brown wooden spear, with small pale silver pointed tip and subtle green-brown accents; copy its length, direction and hand grip from every native frame. Preserve the native diagonal shaft visible behind the back and its exact occlusion. No bowstring, bow, shield, cape, armor, extra weapons, added jewelry or glow. Preserve native sparse foliage coverage, long limbs, dark hair, pale skin, cool deep shadows and slender silhouette. Keep blue-violet loincloth clearly separate from green vine foliage for deterministic offline palette variants.",
+  "connected_owner_rectangles": {
+    "death_corpse": {
+      "m218dd0": [
+        [
+          360,
+          640,
+          568,
+          775
+        ]
+      ]
+    }
+  }
+}

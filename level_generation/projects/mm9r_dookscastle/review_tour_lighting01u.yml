@@ -1,0 +1,109 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_dookscastle/review/lighting01u
+settle_seconds: 1.5
+exit: true
+shots:
+- name: c02_entrance_stair
+  position:
+  - 0
+  - 1664
+  - 21
+  yaw: 1.5708
+  pitch: 0.1396
+- name: c05_corridor_north
+  position:
+  - 0
+  - 4096
+  - 411
+  yaw: 1.5708
+  pitch: 0.0
+- name: c09_throne_room
+  position:
+  - -2540
+  - 8448
+  - 413
+  yaw: 1.5708
+  pitch: 0.0
+- name: c11_armory
+  position:
+  - -589
+  - 5248
+  - 411
+  yaw: -3.0231
+  pitch: 0.0
+- name: c12_office
+  position:
+  - -2816
+  - 5632
+  - 411
+  yaw: -1.3927
+  pitch: 0.0
+- name: c13_bedroom
+  position:
+  - -3840
+  - 4915
+  - 413
+  yaw: 3.1416
+  pitch: 0.0
+- name: c14_barracks
+  position:
+  - 589
+  - 6144
+  - 411
+  yaw: 0.0
+  pitch: 0.0
+- name: c16_shield_room
+  position:
+  - 1152
+  - 7680
+  - 411
+  yaw: 0.7023
+  pitch: 0.0
+- name: k02_tunnel_mid
+  position:
+  - 2560
+  - 8448
+  - -750
+  yaw: 0.1244
+  pitch: 0.0
+- name: k03_junction
+  position:
+  - 5632
+  - 8960
+  - -1030
+  yaw: -0.7854
+  pitch: 0.0
+- name: k07_lake_from_west
+  position:
+  - 6656
+  - 4352
+  - -2759
+  yaw: -0.0997
+  pitch: 0.0
+- name: k08_island
+  position:
+  - 9728
+  - 3840
+  - -3235
+  yaw: 0.4636
+  pitch: 0.0
+- name: k13_trellborg_cave
+  position:
+  - 12288
+  - 8960
+  - -3500
+  yaw: 0.0
+  pitch: 0.0
+- name: k16_scurry_slope
+  position:
+  - 11776
+  - 8448
+  - -2483
+  yaw: 2.0344
+  pitch: 0.0
+- name: k18_lake_water
+  position:
+  - 9728
+  - 3840
+  - -3235
+  yaw: -0.4636
+  pitch: -0.6109

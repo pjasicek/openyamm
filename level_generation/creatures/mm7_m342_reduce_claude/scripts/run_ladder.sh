@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# One ladder configuration on the already dumped mesh (work/mesh_in.npz): decimate, ladder, compare; results kept as
+# work/ladder_<label>.blend and work/selection_<label>.json. Usage: [REA_PROTECT_* env] run_ladder.sh <label> <ratios>
+set -euo pipefail
+label=$1; R=$2; cd "$(dirname "$0")/.."
+VENV="${REA_VENV:-/tmp/claude-1000/-home-pjasicek-github-OpenYAMM/6c989378-2e79-40e5-813f-c8f9516b1135/scratchpad/k/m342r_venv/bin/python} -I"   # a venv with pymeshlab, numpy, scipy
+$VENV scripts/decimate_tex.py work $R > work/decimate_$label.log; cat work/decimate_$label.log
+REA_INFLUENCES=${REA_INFLUENCES:-8} REA_METHOD=texture REA_RATIOS=$R blender -b -P scripts/reduce_ladder.py > work/ladder_$label.log 2>&1
+REA_HEIGHT_M=${REA_HEIGHT_M:-1.7} python3 scripts/compare_ladder.py > work/compare_$label.log
+cp work/ladder.blend work/ladder_$label.blend; cp work/selection.json work/selection_$label.json
+python3 - "$label" <<'PY'
+import json, sys; d = json.load(open(f'work/selection_{sys.argv[1]}.json'))
+for t, c in d['ladder'].items(): print(' ', t, c['tris'], 'p99', c['p99_mm'], 'max', c['max_mm'], c.get('worst_at'), 'IoU', c['iou_min'], 'SSIM', c['ssim_mean'], 'PASS' if c['pass'] else 'fail')
+PY

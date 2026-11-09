@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Pendragon (6cape6). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Low folded rectangular cloak with angular pale metallic piping and an ornamental central clasp, real fabric layers and folded edge thickness. Match THIS source icon for cloth, trim and clasp colours; do not inherit master variant colours. Exact material boundaries: Correction: every solid grey guide pixel gets a flat class colour. Preserve each exact silhouette, especially front tile height; do not enlarge. Fabric BLUE, actual piping/clasp RED. No shaded palette. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Make a technical flat material-ID map, not an illustration. Fill every existing solid grey pixel with one opaque flat class colour: RED #ff0000 exposed steel/gold/iron, GREEN #00ff00 leather, BLUE #0000ff cloth/fur, YELLOW #ffff00 horn/wood, BLACK #000000 gems. No shading, outlines, texture, glow, gradients or new holes. Assign each surface by the specific icon and material notes. Do not assume all fingers or toes have one material. Preserve holes in buckle frames and keep leather visible within them GREEN. All solid mesh surfaces remain opaque, including linings. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_6cape6/inputs/guide_mask_v2.png",
+  "input_guide_sha256": "e9bf0978b2ffdb0d880a9976207dd0964e5ef5afba10ee1be4c34839a50fcd5b",
+  "revision": 2,
+  "input_icon": "6cape6",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-784ee43d-0523-41b6-9a97-b5321a9dfcac.png",
+  "output": "mask_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "mask_raw_v2.png",
+  "output_sha256": "79854297b158f2010a7ebb131caf2e4caa673a69430dcf5c0ffd280894050905",
+  "input_icon_path": "assets_dev/engine/icons_x2/6cape6.png",
+  "input_icon_sha256": "35d0093a94aaa3af37997955698db343df0e158e0e6c65ebf18c1ed221729088",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

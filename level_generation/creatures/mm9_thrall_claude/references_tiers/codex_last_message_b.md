@@ -1,0 +1,3 @@
+Saved tier B’s four unresized 1024×1536 RGBA images, raw returns, [generation log](level_generation/creatures/mm9_thrall_claude/references_tiers/generation_runs_b.json), and [review sheet](level_generation/creatures/mm9_thrall_claude/references_tiers/selected_views_review_b.png). Used built-in image generation; prompts and input hashes are logged.
+
+No builds or Meshy work. Exact pixel-for-pixel geometry preservation is not guaranteed.

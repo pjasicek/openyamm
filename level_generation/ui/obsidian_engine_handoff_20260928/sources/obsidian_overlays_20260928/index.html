@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM · Obsidian overlays</title>
+  <link rel="stylesheet" href="../hud_overlay_study_20260927/button-theme.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
+  <script src="../hud_concepts_20260927/buffs.js?v=2" defer></script>
+  <script src="buff-art.js?v=1" defer></script>
+  <script src="content.js?v=2" defer></script>
+  <script src="app.js?v=4" defer></script>
+</head>
+<body>
+  <header><a href="../hud_overlay_study_20260927/index.html">OPEN<span>YAMM</span></a>
+    <span>CARVED OBSIDIAN / OVERLAY COLLECTION</span><a href="README.md" class="reference">Design notes &amp; sources ↗</a></header>
+  <main>
+    <div class="intro"><div><p class="eyebrow">CARVED OBSIDIAN · APPROVED REVISION 03 · <a href="staging/index.html">STAGED ASSETS</a></p>
+      <h1>Familiar layouts, carved in obsidian.</h1></div>
+      <p>Dark reading surfaces, soft ivory and the recreated MM fonts. Original content and interactions,
+        with Fondamento on buttons.</p></div>
+    <nav id="screen-tabs" aria-label="Overlay screen"></nav>
+    <div class="controls">
+      <label>Reading fonts <select id="fonts"><option value="native">Recreated MM fonts · selected</option>
+        <option value="refined">Earlier Source-font comparison</option></select></label>
+      <label>Stone text <select id="palette"><option value="ivory">Soft ivory</option><option value="white">White comparison</option></select></label>
+      <label>Reading surface <select id="surface"><option value="stone">Dark obsidian · selected</option><option value="vellum">Earlier vellum comparison</option></select></label>
+      <label>Party <select id="party"><option value="1">1 member</option><option value="5">5 members</option></select></label>
+      <button id="fullscreen">Full screen ↗</button>
+    </div>
+    <div class="controls contextual" id="context-controls"></div>
+    <div class="custom-copy" id="custom-copy" hidden><label>Dialogue text
+      <textarea id="custom-text" rows="3">There are old paths through the hills, traveller. Follow the river until you reach the broken bridge.</textarea></label></div>
+    <div id="stage-host" class="stage-host"><section id="stage" class="stage button-theme font-fondamento" aria-label="Interactive overlay mockup">
+      <iframe id="base-frame" class="base-frame" title="Existing approved HUD and frame" tabindex="-1"></iframe>
+      <div id="screen-layer"></div><div id="modal-layer"></div>
+    </section></div>
+    <div class="caption"><span id="caption"></span><span>Interactive visual study · illustrative party and content</span></div>
+    <p class="feedback" id="feedback" role="status"></p>
+    <div class="explanation"><article><p class="eyebrow" id="note-label"></p><h2 id="note-title"></h2><p id="note-body"></p></article>
+      <article><p class="eyebrow">ORIGINAL CONTENT</p><h2>The layout carries through.</h2>
+        <p>Centred inspector titles, original Type and Value lines, the familiar stat groups, award colours,
+          rest actions and quick-reference footer. Hold RMB to inspect an inventory item; release to close.</p></article>
+      <article><p class="eyebrow">TYPE &amp; COLOUR</p><h2>Keep the original font roles.</h2>
+        <p>Arrus, Create, Lucida, Comic and Smallnum retain their existing jobs. Fondamento stays on buttons.
+          Ivory for ordinary text; blue for upgradeable skills; green for bonuses and available points;
+          coral for penalties; amber for low HP/SP.</p></article></div>
+    <details><summary>What is real, what is proposed, and what has been preserved</summary>
+      <p>The full-screen base reuses the accepted Carved Obsidian frame. The gameplay base reuses the approved Obsidian
+        HUD. Item art, paperdoll, portraits, rest sky, hourglass and spell illustrations come from real project assets.
+        The goblin is an existing restored sprite. Values and sample interactions are illustrative.</p>
+      <p>The inventory uses its authoritative 14 × 9 grid at offset (7, 32), size 448 × 288 in the 640 × 480
+        composition. The prototype restyles cells inside that rectangle. Its item arrangement is a visual fixture.
+        Character pages retain the equipment column and lower navigation. Quick reference retains all fourteen data rows.</p>
+      <p>The shared border and comparison vellum were generated with built-in imagegen in proposal 01. Buff illustrations are unmodified installed
+        PNGs, shown through per-icon clipping paths which exclude lettering, then fitted into equal icon boxes.
+        Runtime code, mounted assets and saves are unchanged.</p>
+      <p><a href="README.md">Detailed findings / runtime approach</a> · <a href="frame_slices.json">Border slices</a> ·
+        <a href="generated_prompts.json">Artwork prompts</a> · <a href="asset_sources.json">Real asset sources</a> ·
+        <a href="../hud_overlay_study_20260927/buttons.html">Accepted button type study</a></p>
+    </details>
+  </main>
+</body>
+</html>

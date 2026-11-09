@@ -1,0 +1,182 @@
+[
+  {
+    "icon": "7item064",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 866,
+        "name": "Blaster"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item064",
+      "model": "engine/world_items/models/item_7item064.glb",
+      "length": 54.9
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "7item064",
+      "name": "Blaster",
+      "id": 866,
+      "triangles": 211,
+      "runtime_triangles": 211,
+      "thickness_pct_length": 19.29,
+      "zero_thickness_triangles": 3,
+      "zero_thickness_area_pct": 1.58,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item064.png"
+  },
+  {
+    "icon": "7item065",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 867,
+        "name": "Blaster Rifle"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item065",
+      "model": "engine/world_items/models/item_7item065.glb",
+      "length": 111.6
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "7item065",
+      "name": "Blaster Rifle",
+      "id": 867,
+      "triangles": 521,
+      "runtime_triangles": 521,
+      "thickness_pct_length": 6.22,
+      "zero_thickness_triangles": 25,
+      "zero_thickness_area_pct": 3.29,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item065.png"
+  },
+  {
+    "icon": "blastsg",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 2201,
+        "name": "Blaster Shotgun"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "blastsg",
+      "model": "engine/world_items/models/item_blastsg.glb",
+      "length": 167.4
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "blastsg",
+      "name": "Blaster Shotgun",
+      "id": 2201,
+      "triangles": 1278,
+      "runtime_triangles": 1278,
+      "thickness_pct_length": 5.48,
+      "zero_thickness_triangles": 28,
+      "zero_thickness_area_pct": 2.1,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/blastsg.png"
+  },
+  {
+    "icon": "raygun1",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 1666,
+        "name": "Blaster"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "raygun1",
+      "model": "engine/world_items/models/item_raygun1.glb",
+      "length": 92.7
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "raygun1",
+      "name": "Blaster",
+      "id": 1666,
+      "triangles": 320,
+      "runtime_triangles": 320,
+      "thickness_pct_length": 6.52,
+      "zero_thickness_triangles": 36,
+      "zero_thickness_area_pct": 8.05,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/raygun1.png"
+  },
+  {
+    "icon": "raygun2",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 1667,
+        "name": "Blaster Rifle"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "raygun2",
+      "model": "engine/world_items/models/item_raygun2.glb",
+      "length": 211.5
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "raygun2",
+      "name": "Blaster Rifle",
+      "id": 1667,
+      "triangles": 1270,
+      "runtime_triangles": 1270,
+      "thickness_pct_length": 2.98,
+      "zero_thickness_triangles": 20,
+      "zero_thickness_area_pct": 0.75,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/raygun2.png"
+  }
+]

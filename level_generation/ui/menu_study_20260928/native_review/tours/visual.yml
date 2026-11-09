@@ -1,0 +1,54 @@
+output_dir: ../replay/visual
+exit: true
+steps:
+- wait: 0.7
+- capture: 01-main-menu
+- click:
+  - 327.0
+  - 669.9999374999999
+- wait: 0.7
+- capture: 02-settings-gameplay
+- click:
+  - 263.4999375
+  - 339.59390625
+- wait: 0.7
+- capture: settings-video
+- click:
+  - 263.4999375
+  - 413.59396875
+- wait: 0.7
+- capture: settings-audio
+- click:
+  - 263.4999375
+  - 505.59403125
+- wait: 0.7
+- capture: settings-controls
+- click:
+  - 263.4999375
+  - 597.59390625
+- wait: 0.7
+- capture: settings-keyboard
+- click:
+  - 620
+  - 430
+- wheel: -30
+- capture: keyboard-all-actions
+- key: Tab
+- capture: keyboard-focus-scroll
+- key: Escape
+- click:
+  - 238.5
+  - 738.6485625
+- wait: 0.7
+- capture: credits
+- key: Escape
+- click:
+  - 327.0
+  - 536.0000625
+- wait: 0.7
+- capture: continent
+- click:
+  - 374
+  - 500
+- wait: 0.7
+- capture: party

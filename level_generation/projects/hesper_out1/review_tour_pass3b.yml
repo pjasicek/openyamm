@@ -1,0 +1,67 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/pass3b",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "hw_west",
+   "position": [
+    -6624,
+    8928,
+    1108
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0131
+  },
+  {
+   "name": "hw_sw_close",
+   "position": [
+    -5472,
+    6624,
+    1172
+   ],
+   "yaw": 1.0122,
+   "pitch": -0.011
+  },
+  {
+   "name": "he_east",
+   "position": [
+    -115,
+    8928,
+    1332
+   ],
+   "yaw": 3.1416,
+   "pitch": -0.0414
+  },
+  {
+   "name": "camp_inside2",
+   "position": [
+    -14400,
+    6048,
+    1328
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.0347
+  },
+  {
+   "name": "lowfolk_inside2",
+   "position": [
+    3168,
+    -3456,
+    1296
+   ],
+   "yaw": 1.7258,
+   "pitch": -0.0482
+  },
+  {
+   "name": "lowfolk_north_gate",
+   "position": [
+    2592,
+    -115,
+    1332
+   ],
+   "yaw": -1.3258,
+   "pitch": -0.0756
+  }
+ ]
+}

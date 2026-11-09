@@ -1,0 +1,22 @@
+{
+ "format_version": 1,
+ "kind": "outdoor_map_package",
+ "package_id": "hesper:the_crown",
+ "display_name": "The Crown",
+ "map_file": "hes_out4.odm",
+ "scene_file": "hes_out4.scene.yml",
+ "geometry_metadata_file": "hes_out4.geometry.yml",
+ "terrain_metadata_file": "hes_out4.terrain.yml",
+ "script_module": "maps/hes_out4.lua",
+ "map_stats_id": 9130,
+ "redbook_track": 0,
+ "environment_name": "grassland",
+ "is_top_level_area": true,
+ "outdoor_bounds": {
+  "enabled": true,
+  "min_x": -23040,
+  "max_x": 23040,
+  "min_y": -23040,
+  "max_y": 23040
+ }
+}

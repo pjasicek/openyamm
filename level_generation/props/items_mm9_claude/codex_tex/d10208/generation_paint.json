@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png as the exact geometry and layout target. Use design_reference.png for material ornament details and icon_x8.png for colors only (magenta is not part of the item).\nProduce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Keep exact positions, sizes, outlines, gaps and openings of every grey object. Three columns by FOUR rows of square cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat precisely those five views as material masks. Do not redraw, enlarge, move or redesign the guide geometry.\nRows 1-2 PAINT: unlit base color of a broad dark-red leather belt with ornate gold fittings: large round gold medallion clasp at the front on a gold plate, small square gold studs beside it, gold scrollwork ornaments at the sides. Facets, engravings, scrollwork and inner swirls follow the approved design reference, scaled to each view. Apply those surface designs within the guide outlines only. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: identical silhouettes and corresponding material regions, filled ONLY with flat pure colors: metal including all gold #FF0000; leather and fur #00FF00; cloth and hair #0000FF; gemstones, glass, crystal, pearl, enamel and liquid #000000. Every silhouette pixel gets exactly one material color. No shading, texture, outlines, or antialiased color blends inside. This belt's gold fittings are pure red and leather pure green. Nothing outside silhouettes.\nAll background and all openings fully transparent. Column 3 of rows 2 and 4 completely empty transparent. Preserve the thin elliptical TOP view rings and thin strap profiles exactly; never fill the ring holes. The first input guide controls all composition, not the standalone belt reference.\nCORRECTION: Match the guide alpha silhouettes strictly. No stray pixels, speckles, brush marks or noise outside any object, especially inside the lower elliptical ring. Lower masks must be perfectly clean solid pure red and pure green regions without engraved outlines or shading. Keep each view at the exact guide size and center. Do not enlarge the clasp or change strap edges. Use flat unlit albedo in upper views, not illuminated metal.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad07-e31a-7150-845a-a471fc473177/exec-eb369102-c480-4017-a753-6c54c2b301dc.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Visual inspection: layout retained, but stray mask pixels and shading remain; exact silhouette and pure-color requirements are not fully met.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10208/paint_mask_guide.png",
+      "sha256": "8d1b6378660824533785723934c14e7be57f402c209a64090373ee1f701adc04"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10208/design_reference.png",
+      "sha256": "881c0586b2210973b5b6c1a599a79bf565566e60116ed94acf9422937ae3d376"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10208/icon_x8.png",
+      "sha256": "ad39c4ea7a0f49df94cdf64802e3648e9a0585de8184f80f1bc741f9e4bde46a"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10208/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

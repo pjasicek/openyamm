@@ -1,0 +1,127 @@
+# Native clicks at every authored pickup; shared mechanics are covered by hesper_pickups_test/pickups.yml.
+id: hesper.d08.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d08.blv
+    party:
+      members:
+      - {name: Ada, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Bram, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Cyra, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+      - {name: Dana, class: Knight, level: 200, endurance: 500, skills: [], equipment: {}}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}
+# 701: Arming Bay
+- set_pose: {"map": "hes_d08.blv", "x": 10570, "y": 8700, "z": 768, "yaw": 0, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 68}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+# 702: Arming Bay
+- set_pose: {"map": "hes_d08.blv", "x": 10570, "y": 8920, "z": 768, "yaw": 0, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 69}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.702, value: 8}}
+# 703: Arming Bay
+- set_pose: {"map": "hes_d08.blv", "x": 10570, "y": 9140, "z": 768, "yaw": 0, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 70}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.703, value: 8}}
+# 704: Arming Bay
+- set_pose: {"map": "hes_d08.blv", "x": 10570, "y": 9360, "z": 768, "yaw": 0, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 71}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.704, value: 8}}
+# 705: Arming Bay
+- set_pose: {"map": "hes_d08.blv", "x": 10570, "y": 9580, "z": 768, "yaw": 0, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 72}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+# 706: Coolant Gallery
+- set_pose: {"map": "hes_d08.blv", "x": 7800, "y": 4560, "z": 0, "yaw": 3.14159265, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 73}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.706, value: 8}}
+# 707: Coolant Gallery
+- set_pose: {"map": "hes_d08.blv", "x": 7800, "y": 4760, "z": 0, "yaw": 3.14159265, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 74}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+# 708: Coolant Gallery
+- set_pose: {"map": "hes_d08.blv", "x": 7620, "y": 4780, "z": 0, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 75}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.708, value: 8}}
+# 709: Coolant Plant
+- set_pose: {"map": "hes_d08.blv", "x": 7830, "y": 1100, "z": -768, "yaw": 3.14159265, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 76}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.709, value: 8}}
+# 710: Coolant Plant
+- set_pose: {"map": "hes_d08.blv", "x": 7870, "y": 920, "z": -768, "yaw": 1.57079633, "pitch": -0.4}
+- press_interact: {expect: {name: Serum vat, target_index: 77}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.710, value: 8}}
+# 751: Slag Gate Hall
+- set_pose: {"map": "hes_d08.blv", "x": 4380, "y": 250, "z": 0, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 48}}
+# 752: Smelting Floor
+- set_pose: {"map": "hes_d08.blv", "x": 6980, "y": 2750, "z": 0, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 49}}
+# 753: Smelting Floor
+- set_pose: {"map": "hes_d08.blv", "x": 6820, "y": 4500, "z": 0, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 50}}
+# 754: Furnace Bank
+- set_pose: {"map": "hes_d08.blv", "x": 780, "y": 4750, "z": 0, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 51}}
+# 755: Furnace Bank
+- set_pose: {"map": "hes_d08.blv", "x": 1920, "y": 1900, "z": 0, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 52}}
+# 756: Coolant Gallery
+- set_pose: {"map": "hes_d08.blv", "x": 8290, "y": 1820, "z": 0, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 53}}
+# 757: Coolant Gallery
+- set_pose: {"map": "hes_d08.blv", "x": 8280, "y": 4720, "z": 0, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 54}}
+# 758: Coolant Plant
+- set_pose: {"map": "hes_d08.blv", "x": 9460, "y": 1150, "z": -768, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 55}}
+# 759: Coolant Plant
+- set_pose: {"map": "hes_d08.blv", "x": 8200, "y": 1020, "z": -768, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 56}}
+# 760: Slag Sump
+- set_pose: {"map": "hes_d08.blv", "x": 620, "y": -820, "z": -768, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 57}}
+# 761: Slag Sump
+- set_pose: {"map": "hes_d08.blv", "x": 3570, "y": -1020, "z": -768, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 58}}
+# 762: Slag Niche
+- set_pose: {"map": "hes_d08.blv", "x": 4100, "y": -800, "z": -768, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 59}}
+# 763: Conveyor Maze
+- set_pose: {"map": "hes_d08.blv", "x": 2760, "y": 6150, "z": 768, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 60}}
+# 764: Conveyor Maze
+- set_pose: {"map": "hes_d08.blv", "x": 5620, "y": 7610, "z": 768, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 61}}
+# 765: Fab Line A
+- set_pose: {"map": "hes_d08.blv", "x": 6450, "y": 6470, "z": 768, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 62}}
+# 766: Fab Line B
+- set_pose: {"map": "hes_d08.blv", "x": 6250, "y": 7220, "z": 768, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 63}}
+# 767: Mould Shop
+- set_pose: {"map": "hes_d08.blv", "x": 10570, "y": 5800, "z": 768, "yaw": 0, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 64}}
+# 768: Arming Bay
+- set_pose: {"map": "hes_d08.blv", "x": 9480, "y": 9650, "z": 768, "yaw": 3.14159265, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 65}}
+# 769: Testing Range
+- set_pose: {"map": "hes_d08.blv", "x": 3500, "y": 8080, "z": 768, "yaw": -1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 66}}
+# 770: Plate Stores
+- set_pose: {"map": "hes_d08.blv", "x": 6250, "y": 11800, "z": 0, "yaw": 1.57079633, "pitch": -0.6}
+- press_interact: {expect: {name: Scrap bundle, target_index: 67}}
+- save_game: d08_pickups
+- load_game: d08_pickups
+- assert: {state_dump_named_map_var: {name: HesperPickups.701, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.702, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.703, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.704, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.705, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.706, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.707, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.708, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.709, value: 8}}
+- assert: {state_dump_named_map_var: {name: HesperPickups.710, value: 8}}

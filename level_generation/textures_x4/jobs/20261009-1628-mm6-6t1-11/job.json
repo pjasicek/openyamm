@@ -1,0 +1,546 @@
+{
+ "id": "20261009-1628-mm6-6t1-11",
+ "world": "mm6",
+ "maps": [
+  "6t1.blv",
+  "6t3.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/t1d4",
+  "mm6/t1f2",
+  "mm6/t1wl6reb",
+  "mm6/t3dwal1",
+  "mm6/t3dwall",
+  "mm6/t3ulwall",
+  "mm6/t3ique1",
+  "mm6/t3ll4",
+  "mm6/t3ate2",
+  "mm6/t3ate1",
+  "mm6/t3ll4re",
+  "mm6/t3ll5re",
+  "mm6/t3wsbtb",
+  "mm6/t3ll6re",
+  "mm6/t3ll5le",
+  "mm6/t3ll6le",
+  "mm6/t3of3",
+  "mm6/t3t4",
+  "mm6/t3t3",
+  "mm6/bemsv16c",
+  "mm6/6t3d1",
+  "mm6/cedvwal2",
+  "mm6/t3d2abs",
+  "mm6/t3dr2"
+ ],
+ "requests": {
+  "mm6/t1d4": {
+   "name": "t1d4",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale pink-white marble door with a bevelled frame and two tall recessed panels each divided into a six-pane grid, copy the composition exactly",
+   "notes": {
+    "2": "Copy the shading exactly: the eight recessed window panes are deep dark red-brown, much darker than the pale marble frame, as in the reference. The bottom edge keeps the native brightness, no light rim.",
+    "3": "Copy the reference exactly: the pale marble frame runs out to all four edges at native brightness; no dark rim along the right edge and no white rim along the bottom edge. The eight recessed panes stay deep dark red-brown."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     51,
+     118
+    ]
+   }
+  },
+  "mm6/t1f2": {
+   "name": "t1f2",
+   "versions": [
+    1
+   ],
+   "material": "marble floor tile with a central tan-gold marble diamond surrounded by alternating rose-pink and dark green marble triangles, outlined in pale grey bands, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t1wl6reb": {
+   "name": "t1wl6reb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pink-cream marble block wall with pale mortar and a carved dark steel-grey ornamental pilaster strip on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/t1w15b"
+    }
+   }
+  },
+  "mm6/t3dwal1": {
+   "name": "t3dwal1",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with fine orange root and crack veins",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll6"
+     ],
+     "fraction": 0.867
+    }
+   }
+  },
+  "mm6/t3dwall": {
+   "name": "t3dwall",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with two pale orange dried fleshy splatters embedded in it, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll6"
+     ],
+     "fraction": 0.769
+    }
+   }
+  },
+  "mm6/t3ulwall": {
+   "name": "t3ulwall",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with a crumpled skeleton and a small skull embedded in the dirt, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll5"
+     ],
+     "fraction": 0.731
+    }
+   }
+  },
+  "mm6/t3ique1": {
+   "name": "t3ique1",
+   "versions": [
+    1
+   ],
+   "material": "rough dark red-brown packed earth cave wall with a pale fossil skeleton of a reptile skull and ribcage embedded in it, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll6"
+     ],
+     "fraction": 0.655
+    }
+   }
+  },
+  "mm6/t3ll4": {
+   "name": "t3ll4",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall framed by heavy dark brown timber mine supports, a top beam, side posts and stacked horizontal planks in the lower half",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3ate2": {
+   "name": "t3ate2",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with a dark iron diamond-lattice grate window set in a wooden frame, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll5"
+     ],
+     "fraction": 0.569
+    }
+   }
+  },
+  "mm6/t3ate1": {
+   "name": "t3ate1",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with a rusty iron square-bar grate opening, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll6"
+     ],
+     "fraction": 0.455
+    }
+   }
+  },
+  "mm6/t3ll4re": {
+   "name": "t3ll4re",
+   "versions": [
+    1
+   ],
+   "material": "heavy dark brown timber mine support frame with iron nails, stacked horizontal planks and an iron ring handle, right-hand piece over red-brown packed earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll4"
+     ],
+     "fraction": 0.774
+    }
+   }
+  },
+  "mm6/t3ll5re": {
+   "name": "t3ll5re",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with a vertical dark brown wooden post on the right held by iron straps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll5"
+     ],
+     "fraction": 0.405
+    }
+   }
+  },
+  "mm6/t3wsbtb": {
+   "name": "t3wsbtb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey stone block wall with dark red blood dripping from the joints, a row of pale bone and fangs along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wsmtb",
+      "mm6/t3wsp",
+      "mm6/t3wsbp",
+      "mm6/t3wsbtbl"
+     ],
+     "fraction": 0.479
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wsmtb",
+      "mm6/t3wsp",
+      "mm6/t3wsbp"
+     ],
+     "fraction": 0.476
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wsmtb",
+      "mm6/t3wsp",
+      "mm6/t3wsbp"
+     ],
+     "fraction": 0.476
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/t3ll6re": {
+   "name": "t3ll6re",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough red-brown packed earth cave wall with a vertical dark brown wooden post on the right held by an iron strap and a black iron vent plate at the top",
+   "notes": {
+    "2": "No dark outline or shadow along the right or left edge: the outermost columns keep the same brightness as the wood plank and the stone beside them, as in the reference.",
+    "3": "No dark outline, shadow or hairline along any outer edge; the material continues straight to the canvas border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll6",
+      "mm6/t3ll5re"
+     ],
+     "fraction": 0.503
+    },
+    "2": {
+     "sources": [
+      "mm6/t3ll6",
+      "mm6/t3ll5re"
+     ],
+     "fraction": 0.503
+    },
+    "3": {
+     "sources": [
+      "mm6/t3ll6",
+      "mm6/t3ll5re"
+     ],
+     "fraction": 0.503
+    }
+   }
+  },
+  "mm6/t3ll5le": {
+   "name": "t3ll5le",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with a vertical dark brown wooden post on the left held by iron straps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll5"
+     ],
+     "fraction": 0.402
+    }
+   }
+  },
+  "mm6/t3ll6le": {
+   "name": "t3ll6le",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with a vertical dark brown wooden post on the left held by an iron strap and a black iron vent plate at the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll6"
+     ],
+     "fraction": 0.325
+    }
+   }
+  },
+  "mm6/t3of3": {
+   "name": "t3of3",
+   "versions": [
+    1
+   ],
+   "material": "rough red-brown packed earth cave wall with a heavy dark brown timber lintel beam across the top fastened with round iron bolts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3ll5",
+      "mm6/t3ll4"
+     ],
+     "fraction": 0.667
+    }
+   }
+  },
+  "mm6/t3t4": {
+   "name": "t3t4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark red-brown square wooden blocks in a row above dark gaps and a grey stone course, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbst"
+     ],
+     "fraction": 0.669
+    },
+    "2": {
+     "sources": [
+      "mm6/t3wbst"
+     ],
+     "fraction": 0.669
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/t3t3": {
+   "name": "t3t3",
+   "versions": [
+    1
+   ],
+   "material": "grey stone block course above a row of curved bone-white fangs on a dark ground, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.297
+    }
+   }
+  },
+  "mm6/bemsv16c": {
+   "name": "bemsv16c",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain red-brown wood beam with long straight grain",
+   "notes": {
+    "2": "Plain vertical wood strip aligned to the reference; seamless wrap on both axes: grain and tone continue across the top/bottom edge, no lighter or darker column at the left/right edges, no step halfway.",
+    "3": "One continuous plank from top to bottom: no horizontal line, step or tone change anywhere along its length; grain runs straight vertically and tone is even across the full width."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemv32a",
+      "mm6/bemsv32c"
+     ],
+     "fraction": 0.779
+    },
+    "2": {
+     "sources": [
+      "mm6/bemv32a",
+      "mm6/bemsv32c"
+     ],
+     "fraction": 0.779
+    },
+    "3": {
+     "sources": [
+      "mm6/bemv32a",
+      "mm6/bemsv32c"
+     ],
+     "fraction": 0.779
+    }
+   }
+  },
+  "mm6/6t3d1": {
+   "name": "6t3d1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown wooden plank door in a pale grey stone frame with green moss and slime dripping from the lintel and crossbars, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/cedvwal2": {
+   "name": "cedvwal2",
+   "versions": [
+    1
+   ],
+   "material": "orange-red weathered vertical cedar planks with dark knots and nail holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3d2abs": {
+   "name": "t3d2abs",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow weathered dark brown wooden plank strip with a few nail holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t3dr2": {
+   "name": "t3dr2",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered grey-brown vertical plank door under a dark wooden dentil cornice band, a round copper medallion with crossed swords and a skull in the centre, copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: the round copper medallion keeps the reference's emblem, two crossed staves with a small domed oval on top, a round boss below, leafy sprigs left and right and four rivets; no skull. The top cornice keeps its pale top row at native brightness: no dark rim along the top or left edge.",
+    "3": "No dark outline, shadow or hairline along any outer edge; the material continues straight to the canvas border.",
+    "4": "Copy the medallion exactly: crossed blades forming an X, an oval emblem between the blade tips at the top, a round boss at the bottom and carved rune marks along the left and right of the rim, as in the reference; no skull."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     173,
+     0
+    ]
+   }
+  }
+ }
+}

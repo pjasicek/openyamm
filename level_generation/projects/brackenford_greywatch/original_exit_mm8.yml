@@ -1,0 +1,22 @@
+id: levelgen.original_exit.mm8
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: d18.blv
+- set_pose:
+    map: d18.blv
+    x: -513.0
+    y: -1472.0
+    z: -64.0
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 0
+    kind: map_transition_confirm
+    expect_before:
+      dialog:
+        active: true
+- assert:
+    map: out05.odm

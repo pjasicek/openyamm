@@ -1,0 +1,24 @@
+output_dir: ../replay/continue
+exit: true
+steps:
+- capture: main-with-save
+- click:
+  - 327.0
+  - 434.0000625
+- wait: 6
+- key: Escape
+- capture: continue-loaded
+- click:
+  - 799.99996875
+  - 557.6019375
+- capture: pause-new-confirm
+- key: Right
+- key: Return
+- capture: pause-new-continent
+- click:
+  - 374
+  - 500
+- click:
+  - 119.99990625
+  - 824.5000312499999
+- capture: cancel-party-main

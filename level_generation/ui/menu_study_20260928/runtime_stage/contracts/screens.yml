@@ -1,0 +1,532 @@
+status: Integration handoff; these contracts are not parsed by current UI code
+layouts:
+- file: engine/ui/menu/main_menu.yml
+  screen: MainMenu
+  source_screen: main
+  root: MainMenuRoot
+- file: engine/ui/gameplay/menu.yml
+  screen: Menu
+  source_screen: pause
+  root: MenuRoot
+- file: engine/ui/gameplay/load_game.yml
+  screen: LoadGame
+  source_screen: load
+  root: LoadGameRoot
+- file: engine/ui/gameplay/save_game.yml
+  screen: SaveGame
+  source_screen: save
+  root: SaveGameRoot
+- file: engine/ui/gameplay/continent_selection.yml
+  screen: ContinentSelection
+  source_screen: worlds
+  root: ContinentSelectionRoot
+- file: engine/ui/gameplay/character_creation.yml
+  screen: CharacterCreation
+  source_screen: creation
+  root: CharacterCreationRoot
+- file: engine/ui/gameplay/settings_gameplay.yml
+  screen: SettingsGameplay
+  source_screen: gameplay
+  root: SettingsGameplayRoot
+- file: engine/ui/gameplay/settings_video.yml
+  screen: SettingsVideo
+  source_screen: video
+  root: SettingsVideoRoot
+- file: engine/ui/gameplay/settings_audio.yml
+  screen: SettingsAudio
+  source_screen: audio
+  root: SettingsAudioRoot
+- file: engine/ui/gameplay/settings_controls.yml
+  screen: SettingsControls
+  source_screen: controls
+  root: SettingsControlsRoot
+- file: engine/ui/gameplay/settings_keyboard.yml
+  screen: SettingsKeyboard
+  source_screen: keyboard
+  root: SettingsKeyboardRoot
+- file: engine/ui/menu/credits.yml
+  screen: Credits
+  source_screen: credits
+  root: CreditsRoot
+- file: engine/ui/menu/confirmation.yml
+  screen: MenuConfirmation
+  source_screen: confirmation
+  root: MenuConfirmationRoot
+actions:
+- element: MainMenuContinueButton
+  screen: MainMenu
+  action: continue
+  skin: omenu_button_primary
+  arguments: {}
+- element: MainMenuNewGameButton
+  screen: MainMenu
+  action: new-game
+  skin: omenu_button
+  arguments: {}
+- element: MainMenuLoadGameButton
+  screen: MainMenu
+  action: load
+  skin: omenu_button
+  arguments: {}
+- element: MainMenuSettingsButton
+  screen: MainMenu
+  action: settings
+  skin: omenu_button
+  arguments: {}
+- element: MainMenuCreditsButton
+  screen: MainMenu
+  action: credits
+  skin: omenu_button_quiet
+  arguments: {}
+- element: MainMenuQuitButton
+  screen: MainMenu
+  action: quit
+  skin: omenu_button_quiet
+  arguments: {}
+- element: MenuButtonReturn
+  screen: Menu
+  action: resume
+  skin: omenu_button_primary
+  arguments: {}
+- element: MenuButtonSaveGame
+  screen: Menu
+  action: save
+  skin: omenu_button
+  arguments: {}
+- element: MenuButtonLoadGame
+  screen: Menu
+  action: load
+  skin: omenu_button
+  arguments: {}
+- element: MenuButtonSettings
+  screen: Menu
+  action: settings
+  skin: omenu_button
+  arguments: {}
+- element: MenuButtonNewGame
+  screen: Menu
+  action: new-game
+  skin: omenu_button
+  arguments: {}
+- element: MenuButtonMainMenu
+  screen: Menu
+  action: main-menu
+  skin: omenu_button_quiet
+  arguments: {}
+- element: MenuButtonQuit
+  screen: Menu
+  action: quit
+  skin: omenu_button_danger
+  arguments: {}
+- element: LoadGameCancelButton
+  screen: LoadGame
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: LoadGameConfirmButton
+  screen: LoadGame
+  action: commit-load
+  skin: omenu_button_primary
+  arguments: {}
+- element: SaveGameCancelButton
+  screen: SaveGame
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SaveGameConfirmButton
+  screen: SaveGame
+  action: commit-save
+  skin: omenu_button_primary
+  arguments: {}
+- element: ContinentSelectionCancelButton
+  screen: ContinentSelection
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: ContinentSelectionConfirmButton
+  screen: ContinentSelection
+  action: create-party
+  skin: omenu_button_primary
+  arguments: {}
+- element: CharacterCreationPortraitLeftButton
+  screen: CharacterCreation
+  action: portrait-prev
+  skin: omenu_button_square
+  arguments: {}
+- element: CharacterCreationPortraitRightButton
+  screen: CharacterCreation
+  action: portrait-next
+  skin: omenu_button_square
+  arguments: {}
+- element: CharacterCreationVoiceLeftButton
+  screen: CharacterCreation
+  action: voice-prev
+  skin: omenu_button_square
+  arguments: {}
+- element: CharacterCreationVoiceRightButton
+  screen: CharacterCreation
+  action: voice-next
+  skin: omenu_button_square
+  arguments: {}
+- element: CharacterCreationResetCharacterButton
+  screen: CharacterCreation
+  action: hero-default
+  skin: omenu_button_small
+  arguments: {}
+- element: CharacterCreationRemoveCharacterButton
+  screen: CharacterCreation
+  action: remove-hero
+  skin: omenu_button_small
+  arguments: {}
+- element: CharacterCreationMightMinusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '0'
+    delta: '-1'
+- element: CharacterCreationMightPlusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '0'
+    delta: '1'
+- element: CharacterCreationIntellectMinusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '1'
+    delta: '-1'
+- element: CharacterCreationIntellectPlusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '1'
+    delta: '1'
+- element: CharacterCreationPersonalityMinusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '2'
+    delta: '-1'
+- element: CharacterCreationPersonalityPlusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '2'
+    delta: '1'
+- element: CharacterCreationEnduranceMinusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '3'
+    delta: '-1'
+- element: CharacterCreationEndurancePlusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '3'
+    delta: '1'
+- element: CharacterCreationAccuracyMinusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '4'
+    delta: '-1'
+- element: CharacterCreationAccuracyPlusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '4'
+    delta: '1'
+- element: CharacterCreationSpeedMinusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '5'
+    delta: '-1'
+- element: CharacterCreationSpeedPlusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '5'
+    delta: '1'
+- element: CharacterCreationLuckMinusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '6'
+    delta: '-1'
+- element: CharacterCreationLuckPlusButton
+  screen: CharacterCreation
+  action: stat
+  skin: omenu_button_square
+  arguments:
+    stat: '6'
+    delta: '1'
+- element: CharacterCreationCancelButton
+  screen: CharacterCreation
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: CharacterCreationConfirmButton
+  screen: CharacterCreation
+  action: begin
+  skin: omenu_button_primary
+  arguments: {}
+- element: SettingsGameplayDefaultsButton
+  screen: SettingsGameplay
+  action: defaults
+  skin: omenu_button_small
+  arguments: {}
+- element: SettingsGameplayBackButton
+  screen: SettingsGameplay
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsGameplayRevertButton
+  screen: SettingsGameplay
+  action: revert
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsGameplayApplyButton
+  screen: SettingsGameplay
+  action: apply
+  skin: omenu_button_primary
+  arguments: {}
+- element: SettingsVideoDefaultsButton
+  screen: SettingsVideo
+  action: defaults
+  skin: omenu_button_small
+  arguments: {}
+- element: SettingsVideoBackButton
+  screen: SettingsVideo
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsVideoRevertButton
+  screen: SettingsVideo
+  action: revert
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsVideoApplyButton
+  screen: SettingsVideo
+  action: apply
+  skin: omenu_button_primary
+  arguments: {}
+- element: SettingsAudioDefaultsButton
+  screen: SettingsAudio
+  action: defaults
+  skin: omenu_button_small
+  arguments: {}
+- element: SettingsAudioBackButton
+  screen: SettingsAudio
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsAudioRevertButton
+  screen: SettingsAudio
+  action: revert
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsAudioApplyButton
+  screen: SettingsAudio
+  action: apply
+  skin: omenu_button_primary
+  arguments: {}
+- element: SettingsControlsDefaultsButton
+  screen: SettingsControls
+  action: defaults
+  skin: omenu_button_small
+  arguments: {}
+- element: SettingsControlsBackButton
+  screen: SettingsControls
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsControlsRevertButton
+  screen: SettingsControls
+  action: revert
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsControlsApplyButton
+  screen: SettingsControls
+  action: apply
+  skin: omenu_button_primary
+  arguments: {}
+- element: SettingsControlsKeyboardButton
+  screen: SettingsControls
+  action: keyboard
+  skin: omenu_button_small
+  arguments: {}
+- element: SettingsKeyboardDefaultsButton
+  screen: SettingsKeyboard
+  action: defaults
+  skin: omenu_button_small
+  arguments: {}
+- element: SettingsKeyboardBackButton
+  screen: SettingsKeyboard
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsKeyboardRevertButton
+  screen: SettingsKeyboard
+  action: revert
+  skin: omenu_button_quiet
+  arguments: {}
+- element: SettingsKeyboardApplyButton
+  screen: SettingsKeyboard
+  action: apply
+  skin: omenu_button_primary
+  arguments: {}
+- element: CreditsBackButton
+  screen: Credits
+  action: back
+  skin: omenu_button_quiet
+  arguments: {}
+- element: MenuConfirmationCancelButton
+  screen: MenuConfirmation
+  action: cancel-modal
+  skin: omenu_button_quiet
+  arguments:
+    modal: '0'
+- element: MenuConfirmationConfirmButton
+  screen: MenuConfirmation
+  action: confirm-modal
+  skin: omenu_button_danger
+  arguments:
+    modal: '1'
+scroll_regions:
+- element: LoadGameListViewport
+  screen: LoadGame
+  viewport:
+  - 91.7333
+  - 124.5835
+  - 326.9333
+  - 269.5499
+  content_height: 299.7333
+  wheel: vertical
+  keyboard: keep focused row visible
+  clip_input: true
+- element: SaveGameListViewport
+  screen: SaveGame
+  viewport:
+  - 91.7333
+  - 124.5835
+  - 326.9333
+  - 269.5499
+  content_height: 269.3333
+  wheel: vertical
+  keyboard: keep focused row visible
+  clip_input: true
+- element: SettingsGameplayScrollViewport
+  screen: SettingsGameplay
+  viewport:
+  - 220.8
+  - 152.4165
+  - 540.8
+  - 241.7168
+  content_height: 451.2
+  wheel: vertical
+  keyboard: keep focused row visible
+  clip_input: true
+- element: SettingsVideoScrollViewport
+  screen: SettingsVideo
+  viewport:
+  - 220.8
+  - 152.4165
+  - 540.8
+  - 241.7168
+  content_height: 597.3333
+  wheel: vertical
+  keyboard: keep focused row visible
+  clip_input: true
+- element: SettingsAudioScrollViewport
+  screen: SettingsAudio
+  viewport:
+  - 220.8
+  - 152.4165
+  - 540.8
+  - 241.7168
+  content_height: 241.6
+  wheel: vertical
+  keyboard: keep focused row visible
+  clip_input: true
+- element: SettingsControlsScrollViewport
+  screen: SettingsControls
+  viewport:
+  - 220.8
+  - 152.4165
+  - 540.8
+  - 241.7168
+  content_height: 326.9333
+  wheel: vertical
+  keyboard: keep focused row visible
+  clip_input: true
+- element: SettingsKeyboardScrollViewport
+  screen: SettingsKeyboard
+  viewport:
+  - 220.8
+  - 200.9499
+  - 540.8
+  - 193.1835
+  content_height: 469.8667
+  wheel: vertical
+  keyboard: keep focused row visible
+  clip_input: true
+navigation:
+  main:
+  - continue
+  - new-game
+  - load
+  - settings
+  - credits
+  - quit
+  pause:
+  - resume
+  - save
+  - load
+  - settings
+  - new-game
+  - main-menu
+  - quit
+  settings_back: Return to entry origin; dirty draft prompts Apply / Discard / Stay.
+  creation_cancel: Return to Main Menu, including when entered from Pause.
+  creation_complete: Begin Adventure directly; no review step.
+  escape: Close modal first; cancel key capture; otherwise use current screen Back/Resume semantics.
+saves:
+  continue: Most recent valid save; Continue and Load disabled when none are loadable.
+  load: All compatible saves; single select, double-click load; confirm if replacing an active session.
+  save: New Save sentinel plus manual saves. Protect auto/quick slots and reserved names. Confirm overwrite.
+  rows: Measured visible row pool is not storage capacity; recycle under viewport clipping.
+  details: Actual save metadata, calendar, texture preview; missing preview uses matching continent art.
+party:
+  authority: NewGameScreen plus merged class/race/skill/character tables; not source/data.js mock logic.
+  slots: Engine party capacity; one occupied slot minimum, dynamic native portraits and doll layers.
+  skills: Prominent fixed skills; optional choices in two columns without scrolling for reviewed classes.
+  validation: Use native point costs, pool, class/race/voice availability, limits and readiness.
+  footer: Roster summary follows current occupied slots; five slot anchors are supplied for the maximum state.
+confirmations:
+- overwrite
+- load active session
+- new game from pause
+- return to main menu
+- quit to desktop
+- dirty settings
+- restore defaults
+- key capture
+- binding conflict
+- display keep/revert countdown
+credits_url: https://github.com/pjasicek/OpenYAMM

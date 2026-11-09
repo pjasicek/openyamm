@@ -1,0 +1,77 @@
+{
+  "tool": "built-in image_gen",
+  "accepted": false,
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Produce exactly one 1024 x 1024 RGBA image, transparent background: paint_back.png, a flat albedo texture-source painting of the BACK of the Lowfolk salvage palisade. Input 1 design_reference.png is ONLY the material and colour authority, NOT camera or geometry. Input 2 guide_back.png is the edit target and absolute geometry authority. Paint directly over the guide_back image without moving, resizing, reframing, rotating, adding, removing or redesigning ANY geometry. Preserve EXACTLY its full pixel silhouette, position, scale, all spike shapes and spacing, every girder, horizontal and diagonal brace, panel edge, opening (including the central holes), bag and rubble piece, and transparent negative spaces. Keep the same square canvas and large empty margins as the guide. The guide depicts the BACK, retain its exact orthographic back view; do not turn it into the reference three-quarter front view. Apply the design's chipped ivory-white ceramic plates with worn gold edges, rust-brown and grey steel sheets and girders, and dull grey ash bags to the existing shapes. Paint surface rust, chips and cracks in the material colours without inventing structural details or changing edges. LIGHTING: strictly even flat shadowless light from the viewer for albedo baking. Remove the guide's shadows; no cast shadows, no ambient occlusion darkening, no strong specular highlights, no reflections, no rim light. No background, no floor, no vignette, no text. All non-object pixels must have actual alpha transparency. Return at native 1024x1024 unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "090dcd942f259d2ed63e99995a68c9382884faf011a54c11794c1d525f7c5a20"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a15d9a-fe99-76c3-b921-16983fb9dc40/exec-fb0a8ee8-2fb3-45ad-b552-9ec07e0da7b8.png",
+      "selected": false,
+      "reason": "Wrong dimensions (1254x1254), changed geometry including an added transparent hole, visible baked shading.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually consistent with reference",
+        "flat_even_light": false,
+        "transparent_background": "RGBA transparency present; faint nonzero alpha extends outside main object"
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Corrective generation, precise-object-edit. Output MUST be exactly 1024 by 1024 pixels, native unresized PNG RGBA. Image 1 is guide_back.png: the target image to colour. Image 2 is design_reference.png: materials reference only. Retain image 1's exact canvas, alpha mask and geometry. This is a BACK orthographic view texture-source/albedo, not a new model render. The opaque object bounding box is x=66..957, y=292..732 on the 1024 square canvas. Keep it at precisely this size and position, with untouched transparent margins. Keep every guide spike's exact shape and count, all gaps between spikes, all pillar openings, each beam, brace, panel contour, rubble and bags. Critically the left recess below the main crossbeam has a solid grey visible surface in the guide: it must stay an opaque painted surface, not become a transparent hole. Preserve the genuine central transparent opening and all guide alpha exactly. Do not redesign shapes, enlarge or recenter the object, introduce new shapes or additional details outside the guide surfaces. Apply chipped ivory-white ceramic with worn gold edges to appropriate plates, rust-brown and grey steel to panels, beams, braces, spikes and posts, dull grey ash fabric to bags, using the second image as the material colour reference. Use flat even diffuse albedo colours and fine material texture. Remove ALL lighting baked into the guide: no ambient occlusion, no cast or contact shadows, no darkening beside beams and rivets, no specular, no directional shading, no rim light. Even shadowless front lighting. Transparent empty background with exactly the guide's alpha, no floor, no labels. The previous attempt failed dimensions, added a hole, changed geometry and baked in dark shadows. Correct those failures. Return ONE 1024x1024 image.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "090dcd942f259d2ed63e99995a68c9382884faf011a54c11794c1d525f7c5a20"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2920fa047c5501b9c5f2343f9b0a8aa5c1261760a987d0d37260b3d4e3042993"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d9a-fe99-76c3-b921-16983fb9dc40/exec-db9d8cad-bb1e-491c-87c6-a5b8b58cb03d.png",
+      "selected": true,
+      "reason": "Selected as the better of the two allowed attempts: restores opaque left recess and pillar openings. Still fails strict brief: wrong dimensions, changed geometry and residual shading. Saved byte-for-byte unresized; not accepted as compliant.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually consistent ivory ceramic, gold trim, rusted steel and grey bags",
+        "flat_even_light": false,
+        "transparent_background": "RGBA transparency present; faint nonzero alpha extends outside main object",
+        "alpha_bbox": [
+          39,
+          19,
+          1228,
+          1254
+        ],
+        "alpha_128_bbox": [
+          81,
+          358,
+          1176,
+          898
+        ]
+      }
+    }
+  ]
+}

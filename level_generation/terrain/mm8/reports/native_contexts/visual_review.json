@@ -1,0 +1,39 @@
+{
+  "status": "reviewed_native_placement_discontinuities",
+  "index_sha256": "e822892f741e7d773f2b7a5103d01594d30e359e1febdb067acbd0d046999a0a",
+  "reviewed_pages": {
+    "page_00.png": "77a9b8bfcb0d0d741618376ed6201afe7847f99800ace3f98f700a81788ef787",
+    "page_01.png": "2fe1110ad27378afd8155a39aaabf29f32e5bb9f7509acb94983ca5451f8ebc0",
+    "page_02.png": "a805160264cd34b1028cc0ae9efb649a7c1afc754b33f0240a831d4de50b3f4a",
+    "page_03.png": "02808842384ffadfebf0b7ebcb31ff1ee815c694a5182b8182e21a5793e907ad",
+    "page_04.png": "6a43bda37e0b4fdbc53e94f88be68cec4f47030ec4f8079d2461bf2de3660d4f",
+    "page_05.png": "2eeb7738a5e39275ade26e02be9deb7bffcd1de24be2a6da1cc73b51b52f3859",
+    "page_06.png": "b709eb08f175ac558d9b68e9b2c55e153fed26590313016351b20c7253ca5c3f",
+    "page_07.png": "caad5d51a2f9a36cc2849d18498b1c0b89c2481aa290a4bd3be3c0968f284dcf",
+    "page_08.png": "9b092d28887ea082159937c2a4d69afd1052877431364e7aa4fea64943313e74",
+    "page_09.png": "4bd2ee3ea70a996d8a7a4fcf4547ee4a8468eb619121b7b9d1920e44e1c528cb",
+    "page_10.png": "3c7e37111613cb5bd01a8131e117d1956f605d4d09b723d3b3e018e19709bdb1",
+    "page_11.png": "e316c5f77400822b1d593a856feaaa44cae4bbed4d867668bcbbc5f36f51be3d",
+    "page_12.png": "cc3eb8e7ce8c3684857909f987294ec3e5fa260917a8db79779f559a8e4f60a8",
+    "page_13.png": "d8a6a1bd017b1d7ceadb656260d7efe4c9e02a6c4a3d66a39c2b441d879927cb",
+    "page_14.png": "1b32e089eb511ff8692e4ebd59d32625287da321c39d823bab381bcc34d9a382",
+    "page_15.png": "8d3fa414b6218306e6969082a461207c223b8326c4b112547251c01942bd023b",
+    "page_16.png": "e91070b22945dcf20219d3b61c2e30169e7a1d7ecc1c4dfda958de040f61cd19",
+    "page_17.png": "143ba2cf0f6b35d85b91cfb8f146ff2e6127be52b31030753f3cf50b8e2229fe",
+    "page_18.png": "a091058c92f240117e184d7d201c2064cd36500dd7a11c33c0b7965ab8cd1f69",
+    "page_19.png": "32db8506b2e7ec6fa3fce19a8ca65d4c67aaa48b30f01ec7272158f1a72cf5ee",
+    "page_20.png": "cf2af019524cf9fbd72b21a6eabebbff02778e398c7f7484bfb19de240436be3",
+    "page_21.png": "2ad1c74dcf940b5aa7f188f7f2f4e159b08ef4074f2083440d415f75a16fd0bb",
+    "page_22.png": "6a2d5be82489ba050c2259c1d00018497920d304e208d1397f75c6ec8b1ba175",
+    "page_23.png": "155faddbafff32f57266cc1177a10a0a55ffe3b60855205cf0e321c493074c1c"
+  },
+  "reviewed_cases": 286,
+  "replacement_defects_requiring_repair": [],
+  "observations": [
+    "Inspected all24 original/enhanced context pages, all286 metric-failing pair types. Native placement discontinuities are visible in each original example; enhanced layouts retain their locations and material identities.",
+    "Cases include road openings terminating in plain soil, reversed/misaligned grass and rock corners, isolated transition tiles inside uniform masters, mismatched sand corners, and clipped water/lava/tar fringes.",
+    "Current voltylx removes the previously introduced dirt frame. Its remaining encounter with volxsw is a native mixed-edge placement. The one newly failing metric type volxse S voltyl also has the corner discontinuity in original art.",
+    "No additional texture repair is warranted by these specific failures. Do not alter correct shared textures to hide a map-specific incompatible placement.",
+    "Scope: phase0 offline map-layout triage at3x3 context, one retained example per unique pair; numerical all-phase compatible checks and native camera/animation/movement review are separate gates."
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png precisely, using design_reference.png as material/detail reference and icon_x8.png as color reference (magenta is background). Output one transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's 3 columns by FOUR rows of square cells and every object's exact position, size, silhouette, orientation, holes and gaps. Paint grey objects only; never redraw, enlarge, move or redesign them. Rows 1-2 and rows 3-4 contain the same five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Empty column 3 of rows 2 and 4 must remain transparent.\nRows 1-2 PAINT: unlit base color of MM9 Excala Banna decorative prop in restrained late-1990s MM6-MM8 inventory-sprite realism. Faithfully preserve yellow-gold flat metal blade, simple vivid yellow-green wing guard, yellow metal grip and unmistakable hollow ring pommel. Design follows references exactly, scaled to each guide view. All parts are metal. No invented ornament or redesign. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. Subtle material detail only.\nRows 3-4 MATERIAL MASK: same five silhouettes filled entirely FLAT pure red #FF0000 because all parts are metal. No shading, texture, outlines or interior antialiased color blends. Every silhouette pixel exactly one material color, nothing outside silhouettes. Palette specification for any actual nonmetal reference part only: leather/fur green #00FF00; cloth/hair blue #0000FF; matte wood/bone/horn/stone/paper/wax yellow #FFFF00; gemstone/glass/enamel/liquid black #000000. Do not invent such parts.\nKeep every opening exactly as guide, fully transparent, including hollow ring pommels. No solid pommel, ornate guard, text, glow, shadow, frame, scenery, hands, watermark, aura, sparkles or ground. Strict texture-sheet edit; geometry and placement from guide take precedence over reference composition.\nCORRECTIVE GENERATION: Previous result deformed silhouettes and introduced ragged paint outside edges. Work directly from the ORIGINAL grey guide supplied as first image. Preserve all extra small guard projections visible underneath the main wings. Ring pommel holes must stay fully open and transparent with exact guide diameter. Do not shrink the holes or fill them. Both painted and red-mask copies must have the exact smooth original silhouettes, without red/yellow fringe, speckles or stray pixels. Use flat diffuse colors on upper half, avoiding reflective highlights. Exact guide geometry is mandatory.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2b-019d-75c2-b7a2-fe97657b5de2/exec-ccf03f01-d978-4947-8fa3-f118a1e8b589.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10176/paint_mask_guide.png",
+      "sha256": "f36352aaaf8c9e7cafa4cc1c0b781d17df7bf7e094030bfb99dba956e5c1d22a"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10176/design_reference.png",
+      "sha256": "59a6892511d957d64b6d343abb9f56567d15f3115c80c8eb2c27c0ee949224c2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10176/icon_x8.png",
+      "sha256": "2111fca0e19ba5ccccc61b4a825960044942fa50454b258ba8b705fb9f326acd"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10176/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "corrective_regenerations": 1,
+  "validation_notes": "Layout retained; visible edge artifacts and silhouette deviations remain after the one permitted correction."
+}

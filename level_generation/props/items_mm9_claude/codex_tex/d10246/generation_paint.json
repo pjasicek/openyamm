@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png exactly, using design_reference.png for material and detail and icon_x8.png for colour. Output ONE transparent PNG 1536x2048 (3:4).\nThe guide is the immutable edit target: 3 columns x 4 rows, 512 square cells. Each object must retain EXACT position, scale, outline and gaps. Rows 1-2 show FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those identical five views as material masks. Do not redraw, enlarge, move or redesign any silhouette.\nObject: Elixir of Defedation, source-faithful upright silver-grey metal jar with aged brass-gold lid and a dark skull marking on its FRONT as in the reference. Paint only the guide objects.\nRows 1-2 PAINT: unlit base colour, fine metal surface wear and reference-faithful skull detail, with consistent materials across views. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text. Reference lighting must NOT be baked into the base colour. Back and sides preserve the same jar materials.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT PURE categorical colours, no texture, shading, outlines or antialiased internal colour blends. Pure red #FF0000 for every metal part (including silver jar and brass lid); pure black #000000 for gemstones, crystal, glass, pearl, enamel or liquid seen through glass; pure yellow #FFFF00 for matte non-metal solids (wood, bone, horn, stone, parchment, paper, wax); pure blue #0000FF for cloth and hair. The depicted jar and cap are metal, so their material silhouettes are solid pure red; the skull marking is not a separate bone object. Every silhouette pixel gets exactly one material colour.\nEverything outside silhouettes remains truly transparent including empty cells row2 column3 and row4 column3. Preserve all guide gaps and openings. No captions or cell borders.\nCORRECTION: The previous attempt failed because it scattered red pixels and noise OUTSIDE the silhouettes. Start again from the original grey guide. STRICT clean alpha boundary identical to guide; absolutely NO stray pixels, speckles, red clouds or spill outside any object. The bottom five shapes are clean solid #FF0000 graphic silhouettes. Preserve the original exact grid positions and outlines. Upper paint must be flat unlit colour without specular highlights or dark edge lighting.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0e-7214-7553-83ce-d08c34414b49/exec-7ce79837-dc2d-4199-9d64-48f437c8efe6.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10246/paint_mask_guide.png",
+      "sha256": "33ac001b218f293833e4cbc4946757e8e5c15069d48bd7ccf1d58b55ec70a6f8"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10246/design_reference.png",
+      "sha256": "c800608347c572c1790636bc2d02a843a6a139299836c7226a0d58dbd1808799"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10246/icon_x8.png",
+      "sha256": "212078b9ecb6f38864a15bbd3e8eb096b090a43e2905e58ffe3dc34fd1166f2b"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10246/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained, but stray red pixels outside material silhouettes and baked highlights persist after the permitted correction; not production-ready."
+}

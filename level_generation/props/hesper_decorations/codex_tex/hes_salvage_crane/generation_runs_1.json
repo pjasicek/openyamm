@@ -1,0 +1,234 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated returns saved unmodified; acceptance checks failed; one corrective generation used per view.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 RGBA transparent PNG texture-source painting. Image 1 (guide_front.png) is the EDIT TARGET and exact geometry authority. Image 2 (design_reference.png) is ONLY the colour/material design reference. Paint the grey pixels of image 1 with the materials of image 2 while keeping image 1's exact orthographic front view, silhouette, alpha outline, pixel placement, scale, every shape edge and opening. Do not copy image 2's perspective or geometry. Keep the entire 1024-square canvas and original margins, no crop or reframing. White worn ceramic and steel lattice; aged gold joints, collars and mechanical fittings; subtle rust; existing winding resin shapes painted glossy black-violet with thin glowing orange veins; dark steel chain and claw with gold fittings; the held scrap is weathered white ceramic with broken dark resin edges. Match all existing shapes in the grey guide, including rectangular left counterweight, upright tower, angled feet, long horizontal open truss, pulley, individual chain links and hanging claw/scrap. No new geometry or surface projections, no filled truss holes. Texture albedo only: even flat shadowless viewer-facing illumination, NO cast shadows, NO ambient occlusion, NO directional shading, NO strong specular highlights, NO reflections, NO rim light. Convey materials through local pigment and texture; orange veins are orange pigment/emission colour only, no light spill or bloom. Background genuinely transparent, including internal openings; no floor, no text. Preserve guide silhouette EXACTLY; change only surface colours/materials.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit target; geometry authority",
+          "sha256": "da6284d9374f72450fa4cf919bf97f63c484c9f60c5ca9ed242e520cfa355943"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material and colour reference",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d95-ef71-7cc3-92ed-0a37435d0187/exec-f5889f5f-b908-4117-9b8e-5a469072ea99.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded: corrective pass is closer to guide framing; this attempt changes silhouette and canvas size.",
+      "output_sha256": "af302201436793f1eaf52dde9359e7f16606580d4f23833e2453a9738aff3354",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1238,
+          1254
+        ],
+        "opaque_bbox": [
+          58,
+          158,
+          1214,
+          1087
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches; geometry and some material placement differ.",
+        "flat_even_light": false,
+        "lighting_notes": "Visible highlights and dark crevices remain.",
+        "unresized_return": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 RGBA transparent PNG texture-source painting. Image 1 (guide_front.png) is the EDIT TARGET and exact geometry authority. Image 2 (design_reference.png) is ONLY the colour/material design reference. Paint the grey pixels of image 1 with the materials of image 2 while keeping image 1's exact orthographic front view, silhouette, alpha outline, pixel placement, scale, every shape edge and opening. Do not copy image 2's perspective or geometry. Keep the entire 1024-square canvas and original margins, no crop or reframing. White worn ceramic and steel lattice; aged gold joints, collars and mechanical fittings; subtle rust; existing winding resin shapes painted glossy black-violet with thin glowing orange veins; dark steel chain and claw with gold fittings; the held scrap is weathered white ceramic with broken dark resin edges. Match all existing shapes in the grey guide, including rectangular left counterweight, upright tower, angled feet, long horizontal open truss, pulley, individual chain links and hanging claw/scrap. No new geometry or surface projections, no filled truss holes. Texture albedo only: even flat shadowless viewer-facing illumination, NO cast shadows, NO ambient occlusion, NO directional shading, NO strong specular highlights, NO reflections, NO rim light. Convey materials through local pigment and texture; orange veins are orange pigment/emission colour only, no light spill or bloom. Background genuinely transparent, including internal openings; no floor, no text. Preserve guide silhouette EXACTLY; change only surface colours/materials.\nCORRECTIVE PASS: The previous attempt changed the canvas to 1254 square and altered the geometry. Required output is EXACTLY 1024 x 1024, not 1254, 1280 or 1536. Work directly on the original guide, retaining its alpha channel and all shape boundaries. Its object bounding box is x=66..957, y=152..871 on a 1024-square canvas. The tower peak is at (311,153); foot baseline at y=870; pulley centre at (871,334). Keep these exact coordinates. Keep original untextured grey shape geometry, even when simpler than the design. Merely recolour its pixels with flat material texture. No added parts, metallic highlights or shading.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit target; geometry authority",
+          "sha256": "da6284d9374f72450fa4cf919bf97f63c484c9f60c5ca9ed242e520cfa355943"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material and colour reference",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d95-ef71-7cc3-92ed-0a37435d0187/exec-fcb9d4d2-2a0f-414d-8224-554b26d7112d.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available front return after the permitted correction; retains material palette and closer framing, but does not pass exact geometry, 1024-square or flat-light requirements.",
+      "output_sha256": "beba02d00c4d0f5b42e6cb4eacd1f799f77e5e3cf5dbd07e802f2d63bc0bb4b8",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          39,
+          17,
+          1240,
+          1254
+        ],
+        "opaque_bbox": [
+          80,
+          185,
+          1174,
+          1067
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches; geometry and some material placement differ.",
+        "flat_even_light": false,
+        "lighting_notes": "Visible highlights and dark crevices remain.",
+        "unresized_return": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Output ONE image exactly 1024 x 1024 pixels, RGBA transparent background. Paint ONLY the grey surfaces of input image 1 (guide_top.png), which is the exact EDIT TARGET, retaining its original 1024 x 1024 canvas unchanged. Image 2 (design_reference.png) supplies material colours ONLY. This is the orthographic view looking straight DOWN on a crane, not a front view or perspective view. Keep every silhouette pixel and every internal edge and hole exactly in image 1's positions. The very wide narrow object occupies x=66..957 and y=360..663; preserve those margins and all that empty transparent space. No enlargement, no centering adjustments, no added geometry. The cross-shaped crane feet and circular mechanism remain overlapped at the left, the parallel long boom rails run horizontally to the right, the narrow counterweights remain at far left, and the seen-from-above claw and scrap remain at far right exactly as in the guide. White ceramic and steel structural lattice with aged gold joints/collars/fittings, rust and worn ceramic cracks; the guide's existing resin forms are glossy black-violet in colour with thin orange glowing veins, dark steel chain and claw with gold fittings, white ceramic scrap with dark broken resin edges. Flat albedo texture source: uniform shadowless frontal illumination, no cast shadows, ambient occlusion, strong specular highlights, reflections, directional shading or rim light. Orange emission stays local colour, no illumination spill or bloom. True transparency outside silhouette and in openings. No floor, text or backdrop. Priority: EXACT guide geometry, placement and 1024-square canvas over additional design details.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit target; geometry authority",
+          "sha256": "4dbb89e99a2ff795f98f6f2769ca7b9e0f2a9144777d71f7f3d8018928293bf4"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material and colour reference",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d95-ef71-7cc3-92ed-0a37435d0187/exec-316f2259-f3c2-4650-9c52-8b2c02f2788b.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Closer to the guide's upper-left component silhouettes than the corrective return. Best available top return, but does not pass exact geometry, 1024-square or flat-light requirements.",
+      "output_sha256": "b715236fc856743d66b968b261d3bc34641c5eafdd2b9c8f9aaf8b3336baec97",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          27,
+          19,
+          1230,
+          1230
+        ],
+        "opaque_bbox": [
+          80,
+          440,
+          1175,
+          813
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches; geometry and some material placement differ.",
+        "flat_even_light": false,
+        "lighting_notes": "Visible highlights and dark crevices remain.",
+        "unresized_return": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Output ONE image exactly 1024 x 1024 pixels, RGBA transparent background. Paint ONLY the grey surfaces of input image 1 (guide_top.png), which is the exact EDIT TARGET, retaining its original 1024 x 1024 canvas unchanged. Image 2 (design_reference.png) supplies material colours ONLY. This is the orthographic view looking straight DOWN on a crane, not a front view or perspective view. Keep every silhouette pixel and every internal edge and hole exactly in image 1's positions. The very wide narrow object occupies x=66..957 and y=360..663; preserve those margins and all that empty transparent space. No enlargement, no centering adjustments, no added geometry. The cross-shaped crane feet and circular mechanism remain overlapped at the left, the parallel long boom rails run horizontally to the right, the narrow counterweights remain at far left, and the seen-from-above claw and scrap remain at far right exactly as in the guide. White ceramic and steel structural lattice with aged gold joints/collars/fittings, rust and worn ceramic cracks; the guide's existing resin forms are glossy black-violet in colour with thin orange glowing veins, dark steel chain and claw with gold fittings, white ceramic scrap with dark broken resin edges. Flat albedo texture source: uniform shadowless frontal illumination, no cast shadows, ambient occlusion, strong specular highlights, reflections, directional shading or rim light. Orange emission stays local colour, no illumination spill or bloom. True transparency outside silhouette and in openings. No floor, text or backdrop. Priority: EXACT guide geometry, placement and 1024-square canvas over additional design details.\nCORRECTIVE PASS: Keep the exact original guide pixels and geometry; apply colour only. The previous result incorrectly enlarged the canvas and added deep shading and bright metallic highlights. Deliver EXACTLY 1024 x 1024 pixels. Keep the original alpha, silhouette and all holes unchanged, and original image coordinates x66..957 y360..663. Remove all shading/highlights: use flat white ceramic, flat ochre gold, flat black-violet resin with orange lines. This is a shadowless albedo projection for texture baking, not a lit beauty render. Do not add details that change shape boundaries.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "role": "edit target; geometry authority",
+          "sha256": "4dbb89e99a2ff795f98f6f2769ca7b9e0f2a9144777d71f7f3d8018928293bf4"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material and colour reference",
+          "sha256": "2c159df94391167fb39e6f068ebbd47f90d889045775686a28a1ef292c305a6a"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d95-ef71-7cc3-92ed-0a37435d0187/exec-826ce198-635a-4aab-b6d3-2f756a2efdc4.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Flatter colours, but removes guide shapes above the circular mechanism; original return preserves those shapes more closely.",
+      "output_sha256": "3e82b2c689855ff3e8bd5a90dd3c53cc57f103b04281559927f40ff9abb13ce5",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          23,
+          29,
+          1208,
+          1254
+        ],
+        "opaque_bbox": [
+          80,
+          439,
+          1175,
+          813
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broad palette matches; geometry and some material placement differ.",
+        "flat_even_light": false,
+        "lighting_notes": "Visible highlights and dark crevices remain.",
+        "unresized_return": true,
+        "accepted": false
+      }
+    }
+  ]
+}

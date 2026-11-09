@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m170_claude/references_hd/00_three_quarter.png), an unresized 1024 × 1536 PNG with transparent alpha, using built-in image generation.
+
+Selected the better of two permitted attempts. Raw returns, exact prompts, input hashes and residual camera/pose/framing faults are recorded in [generation_runs.json](level_generation/creatures/mm7_m170_claude/references_hd/generation_runs.json).

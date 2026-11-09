@@ -1,0 +1,98 @@
+{
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: precise-object-edit. Create exactly one 1024 x 1024 RGBA PNG texture-source painting, transparent background, unresized output.\nInput roles: guide_back.png is the EDIT TARGET and exact geometry/camera/silhouette authority. design_reference.png is the approved design, colour and material authority only (NOT camera or composition). concept_crop.png is supporting original concept reference only.\nPaint the Lowfolk shelter seen strictly from the BACK, over the supplied grey orthographic guide. Keep the guide silhouette EXACTLY, pixel for pixel: same outline, size, position, every shape edge, pole, opening and detail where the guide has them. Nothing outside that silhouette, nothing cropped. Preserve the large transparent margins above and below; do not enlarge or recenter. Do not turn to the front or three-quarter view. The guide's large rear wall occludes the shelter interior; do not add front-facing furnishings, flames or other details through it.\nPaint the reference surface materials onto the guide's existing shapes: chipped white ceramic slab with gold stripe where visible, black glass rubble and jagged stone, pale stained canvas tarp, weathered wood and steel poles, rope ties, and warm candle only if actually visible in this rear guide. Back surfaces must plausibly match the approved design materials. Keep physical cracks/chips as colour details, never extra silhouette protrusions or holes.\nLIGHTING: this is albedo, not a beauty render. Even, flat, shadowless light from viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights/reflections, no rim light. Any glowing parts painted their local glowing colour without light spill. No background, floor, backdrop, ground plane, labels or text. Preserve all existing shape boundaries and true transparent background.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "aefdb3fb02fd9a0167113e8fd270c0df5798bb52451271ca4b59b543c77fce53"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "output": "paint_back_run1.png",
+      "selected": false,
+      "reason": "Rejected: invented rear canvas drape, silhouette changed and wrong dimensions.",
+      "tool": "built-in image_gen",
+      "sha256": "3db4b70df7ab94513d6992fa9bd9409ca9613a61f2b02aca5c5f956e214cdabb",
+      "checks": {
+        "size": [
+          1263,
+          1246
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bounds": [
+          0,
+          38,
+          1247,
+          1246
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Reference palette represented; exact rear material placement unverified.",
+        "flat_even_light": "Residual shading and highlights remain; not strictly shadowless albedo.",
+        "unresized_return": true,
+        "fully_compliant": false
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Corrective generation, exact image edit. Output MUST be exactly 1024 x 1024 pixels with true transparent background. Do not return any other resolution. Use guide_back.png as the fixed edit canvas: preserve its alpha silhouette exactly, including the antialiased boundary. Only replace grey RGB surface colours with painted material albedo. Do not redesign geometry. The guide alpha bounds are x=66..957, y=246..777 on the 1024 square canvas. Retain every transparent pixel and every opaque pixel of the guide; retain the flat bottom at y=777 and exact jagged top and side outline. DO NOT create fabric tears, new holes, fringe, extra ropes or any new objects. Keep the original rear orthographic view, not the front.\nInput 1 guide_back.png: absolute geometry, position, camera and mask authority. Input 2 design_reference.png: colour/material reference only. Input 3 concept_crop.png: original concept supporting reference only.\nPaint the surfaces of this back view of the Lowfolk shelter with the reference materials. Large rear wall is predominantly dark charcoal black glass rock, chipped and fractured, with any visible ceramic slab surface ivory white and aged gold stripe. Existing exposed thin supports use weathered wood, steel and rope. Apply pale stained canvas only to existing canvas surfaces; do not invent a drape across the rear wall. The interior and warm candle are occluded in the rear view and must not be invented.\nAlbedo texture source, perfectly flat evenly lit material colours. Eliminate ALL baked shadows, ambient occlusion, directional shading, shiny highlights and reflections. Dark rock is dark because of its material colour, not lighting. Preserve readable reference material detail and restrained colours. No ground plane, background, floor, text or labels. Exactly 1024x1024, unchanged guide geometry and alpha, transparent background.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "aefdb3fb02fd9a0167113e8fd270c0df5798bb52451271ca4b59b543c77fce53"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a9c5b9700725f4d4839dcc7befc6609454bd1629029fa53345b281369a87d254"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "eb12436ba5b7f25eec23bc1b320655568d836ec754a261111a167843ced66eae"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Closest permitted return; rear canvas invention removed. Selected for delivery only, not compliant: dimensions and exact silhouette requirements failed. Corrective regeneration limit reached.",
+      "tool": "built-in image_gen",
+      "sha256": "81754cef0b985f6ee52c2f41e5d47b0b39e99151cd70e882714e6823d7fca5ad",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bounds": [
+          25,
+          39,
+          1208,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Reference palette represented; exact rear material placement unverified.",
+        "flat_even_light": "Residual shading and highlights remain; not strictly shadowless albedo.",
+        "unresized_return": true,
+        "fully_compliant": false
+      }
+    }
+  ]
+}

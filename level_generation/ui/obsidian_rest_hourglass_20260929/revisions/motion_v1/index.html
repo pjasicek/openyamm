@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obsidian rest — consistent hourglass study</title>
+<link rel="stylesheet" href="style.css">
+<main>
+  <p class="eyebrow">2136 follow-up · Animation proof · 29 September 2026</p>
+  <h1>One hourglass. The sand moves; the shape stays consistent.</h1>
+  <p class="intro">A working motion and placement study for the rest screen. The new vector drawing demonstrates fixed
+    geometry, flowing sand and a smooth turn. It is a prototype, not the final painted artwork or a native game capture.</p>
+  <div class="controls">
+    <button id="play" type="button">Pause</button>
+    <label>Cycle <input id="phase" type="range" min="0" max="1" step="0.001" value="0.2"></label>
+    <label>Backdrop <select id="backdrop"><option value="obsidian">Obsidian</option>
+      <option value="light">Light alpha check</option></select></label>
+    <span id="state" aria-live="polite">Sand falling</span>
+  </div>
+  <div id="stage-wrap"><div id="stage">
+    <img class="native-bottom" src="../../../test_img/2136.png" alt="Existing native portrait bar">
+    <div class="workspace">
+      <img class="sky" src="../../../assets_dev/engine/icons_x2/terra0091.png" alt="Rest panorama">
+      <div class="actions block">
+        <div class="rest-button">Rest &amp; Heal 8 Hours <img src="../../../assets_dev/engine/icons_x2/scorebg_food.png" alt="Food"><span>2</span></div>
+        <div class="wait block"><div class="wait-heading">Wait</div><div class="wait-button">Wait until Dawn</div>
+          <div class="wait-button">Wait 1 Hour</div><div class="wait-button">Wait 5 Minutes</div></div>
+      </div>
+      <div class="calendar block"><div class="hourglass-target in-scene"></div><div class="date">
+        <div class="time">9:26 am</div><div class="date-row"><span>Day</span><span>1</span></div>
+        <div class="date-row"><span>Month</span><span>1</span></div><div class="date-row"><span>Year</span><span>1168</span></div>
+      </div></div>
+      <div class="exit-button">Exit Rest</div>
+    </div>
+  </div></div>
+  <p class="caption">A wider calendar block gives the hourglass room to turn. Date text keeps the recreated MM font;
+    the exit button is centred below that block. Above: a browser reconstruction using real UI assets.</p>
+  <section class="comparison">
+    <article><h2>Original frames</h2><div class="asset-stage"><img id="legacy" alt="Original hourglass animation"></div>
+      <p>The old background is baked into the image, including the glass. These are the untouched native BMPs.</p></article>
+    <article><h2>Restored frames</h2><div class="asset-stage"><img id="restored" alt="Restored hourglass animation"></div>
+      <p>The wooden frame, glass and sand vary between frames. Matching the canvas size cannot correct that.</p></article>
+    <article><h2>One model, animated sand</h2><div class="asset-stage"><div class="hourglass-target enlarged"></div></div>
+      <p>The same frame and glass are used at every instant. Scrub the cycle to inspect the shape and turnaround.</p></article>
+    <article><h2>Existing Obsidian art reference</h2><div class="asset-stage"><img class="story" src="../../../assets_dev/engine/icons_x2/obsidian_journal_icon_story.png" alt="Existing Obsidian Story hourglass icon"></div>
+      <p>The Story icon supplies a fitting material direction. A production version needs empty glass and separate sand layers.</p></article>
+  </section>
+  <p class="caption">Legacy playback: <select id="legacy-range"><option value="full">Complete 001–120 cycle</option>
+    <option value="old">Previously used 060–119 subset</option></select> <span id="legacy-frame"></span>.
+    The old subset jumps from a partly turned hourglass straight back to upright, adding another visible pop.</p>
+  <table>
+    <thead><tr><th>Approach</th><th>What stays consistent</th><th>Tradeoff</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Layered 2D — recommended</strong></td><td>One painted frame/glass; separate sand level and stream.</td>
+        <td>Small shared UI addition. Can be exported as fixed-size alpha frames if preferred.</td></tr>
+      <tr><td>One 3D model, rendered offline</td><td>One mesh, camera and light setup for every animation frame.</td>
+        <td>Best for the original tumble/perspective motion; more asset-authoring work. Runtime remains ordinary 2D sprites.</td></tr>
+      <tr><td>Recover the original sequence</td><td>Original motion, after careful background and glass reconstruction.</td>
+        <td>Upscaling alone retains the panel. Removing the exterior still leaves the old panel through the glass.</td></tr>
+    </tbody>
+  </table>
+  <p><a href="README.md">Findings and implementation notes</a></p>
+</main>
+<script src="app.js"></script>
+</html>

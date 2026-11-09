@@ -1,0 +1,28 @@
+# Hrolf and Alfrigg's quarrel (dwarves_and_humans, drangheimcity.cinematics.yml; NPC110.scr/NPC109.scr): no cameras or
+# letterbox. Hrolf's FoundPlayer (56326) starts it when he first perceives the party: key 5010 at once, his seven
+# lines with Alfrigg (37.8 s), no save meanwhile; then the two fight (the step `fight`: their rows' relations) until
+# one of them dies, which ends it (the kill hook 36020). README "Cinematics".
+id: mm9r.drangheimcity.cinematic_dwarves_and_humans_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: drangheimcity.blv}
+- set_pose: {map: drangheimcity.blv, x: 16784, y: -3789, z: 431, yaw: 3.1416, pitch: 0.0}
+- console: {line: cinematic list, expect_contains: dwarves_and_humans}
+- assert: {qbit_clear: [95010]}
+- advance_runtime: {seconds: 2.5}
+- note: {text: "Hrolf perceives the party (MM9's OnFoundPlayer, searched once a second): the quarrel starts, key 5010"}
+- console: {line: cinematic list, expect_contains: playing dwarves_and_humans}
+- assert: {qbit_set: [95010]}
+- save_game: {name: mid_quarrel, expect_failure: true}
+- advance_runtime: {seconds: 30}
+- console: {line: cinematic list, expect_contains: playing dwarves_and_humans}
+- assert: {actor_count: {monster_id: 9008, min: 3, max: 3, hurt: false}}
+- assert: {actor_count: {monster_id: 9051, min: 2, max: 2, hurt: false}}
+- advance_runtime: {seconds: 8}
+- note: {text: ":Trigger8 (37.8 s): the cinematic is over (a save works again) and they fight"}
+- save_game: {name: after_quarrel}
+- advance_runtime: {seconds: 40}
+- note: {text: "the fight: Alfrigg (3 hit points) falls, Hrolf is hurt"}
+- assert: {actor_count: {monster_id: 9008, min: 2, max: 2}}
+- assert: {actor_count: {monster_id: 9051, hurt: true, min: 1, max: 1}}

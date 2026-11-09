@@ -1,0 +1,23 @@
+{
+  "family": "gar",
+  "title": "MM6 Gargoyle",
+  "descriptor_ids": [
+    541,
+    542,
+    543
+  ],
+  "base_palette": 736,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "MM6 living stone gargoyle: dark charcoal gray stony hide, slim humanoid torso, long bent digitigrade legs with splayed clawed feet, small clawed hands, long angular goat-like muzzle with fangs and tiny dark red tongue, two short swept-back head horns and small bright red eyes. Enormous thin pointed bat wings rise above the head with silver-gray ribs and grainy dark membrane. No clothing, weapons, extra tail or muscular redesign. Preserve the exact long-wing silhouette and native claw and snout anatomy. In the native death sequence the entire stone creature breaks into separate angular rock pieces and collapses into a rubble pile; retain each stage and empty gaps, not a flesh corpse.",
+  "regions": "Stone body and wings recolor to native green or ochre stone. Tiny red eyes have their own native color change; preserve black mouth and fine tooth detail.",
+  "variant_names": {
+    "736": "Gargoyle 1",
+    "737": "Gargoyle 2",
+    "738": "Gargoyle 3"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4,
+  "standing_reference_frame": 0
+}

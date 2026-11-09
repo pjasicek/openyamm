@@ -1,0 +1,7 @@
+[
+  {"burst": {"count": 60, "interval": 0.07, "prefix": "cycle"}},
+  {"hold": {"key": "w", "seconds": 1.5}},
+  {"screenshot": "moving_closer"},
+  {"hold": {"key": "Right", "seconds": 0.6}},
+  {"screenshot": "oblique"}
+]

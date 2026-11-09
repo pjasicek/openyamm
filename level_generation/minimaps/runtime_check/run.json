@@ -1,0 +1,57 @@
+{
+  "request": {
+    "name": "minimap-light-mm6",
+    "world": "mm6",
+    "map": "oute3.odm",
+    "save": null,
+    "position": null,
+    "yaw_radians": null,
+    "pitch_degrees": null,
+    "settings": "/home/pjasicek/github/OpenYAMM/settings.ini",
+    "binary": "/home/pjasicek/github/OpenYAMM/build/game/openyamm",
+    "assets": null,
+    "set": [
+      "debug.screenshot_path=/home/pjasicek/github/OpenYAMM/level_generation/minimaps/runtime_mm6.png",
+      "debug.screenshot_delay_seconds=4"
+    ],
+    "seconds": 8.0,
+    "warmup": 5.0,
+    "prepare_only": false
+  },
+  "run_directory": "/tmp/openyamm-desktop-minimap-light-mm6-murp6bio",
+  "status": "completed",
+  "timing_note": "FPS log samples include ordinary simulation/rendering; these are not GPU timer results.",
+  "binary_sha256": "24f6f2da6be0c50da31b004f6ffbea8cf490cbf3dc2ce30d11f5498589826811",
+  "settings_sha256": "58c85d5c00ec24b9c3131f9f48151ef912afb7e36aa963ebf167ea6191e10a22",
+  "save_sha256": "510979a7411ee7e3bd013314c92a19c52e47fe58b7622778ccd7ab42c99aaf6c",
+  "assets": "/home/pjasicek/github/OpenYAMM/assets_dev",
+  "display": ":0",
+  "command": [
+    "/home/pjasicek/github/OpenYAMM/build/game/openyamm",
+    "--world",
+    "mm6"
+  ],
+  "pid": 1193458,
+  "loaded_camera": {
+    "x": -9728.0,
+    "y": -11319.0,
+    "z": 161.0,
+    "yaw_radians": 2.6529,
+    "pitch_radians": -0.15
+  },
+  "loaded_map": "oute3.odm",
+  "startup_seconds": 4.204039564996492,
+  "measurement_seconds": 8.005867191997822,
+  "fps_samples": [
+    2448.76,
+    2381.1,
+    2243.6,
+    2246.21,
+    2311.96,
+    2263.95,
+    2345.9,
+    2471.19
+  ],
+  "median_fps": 2328.9300000000003,
+  "exit_code": 0
+}

@@ -1,0 +1,33 @@
+# njam_freeze_win (WinMan.scr :OnUse with key 108; cinematics_1000t.py) played through: no save while it plays, the
+# OnUse step (experience, DestroyMonsters) at 0, the lightball at 10.7 s, the lightning at 12.9 s, key 109 and the
+# change of level to the Hall of the Gods at 36.7 s. See README "Cinematics".
+id: mm9r.1000terrors.cinematic_njam_freeze_win_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: 1000terrors.blv}
+- set_pose: {map: 1000terrors.blv, x: 8929, y: -9150, z: 2776, yaw: -1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90108}
+- console: {line: cinematic list, expect_contains: njam_freeze_win}
+- note: {text: "the win switch's Use (WinMan, event 370) starts the cinematic"}
+- execute_event: {id: 370}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing njam_freeze_win}
+- assert: {state_dump_named_map_var: {name: Cinema.njam_freeze_win.step.win, value: 1}}
+- assert: {qbit_clear: [90109]}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 10}
+- assert: {state_dump_named_map_var: {name: Cinema.njam_freeze_win.step.ball, value: 0}}
+- advance_runtime: {seconds: 0.5}
+- note: {text: "njam_wingame StartBall (10.7 s): the lightball"}
+- assert: {state_dump_named_map_var: {name: Cinema.njam_freeze_win.step.ball, value: 1}}
+- advance_runtime: {seconds: 2.5}
+- note: {text: "njam_wingame Lightning (12.9 s): Lightning1/2"}
+- assert: {state_dump_named_map_var: {name: Cinema.njam_freeze_win.step.lightning, value: 1}}
+- advance_runtime: {seconds: 22}
+- console: {line: cinematic list, expect_contains: playing njam_freeze_win}
+- assert: {qbit_clear: [90109]}
+- advance_runtime: {seconds: 2, follow_map_move: true}
+- note: {text: ":ChangeLevel (36.7 s): key 109, ExitTrigger1 to the Hall of the Gods"}
+- assert: {qbit_set: [90109]}
+- assert: {map_arrived: {map: hallofthegods.blv}}

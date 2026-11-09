@@ -1,0 +1,1 @@
+Superseded candidate before preserving source UV interpolation through reduction. Background sprite render was stopped after confirming that the revised UV handling restores fine torso detail. Partial frames are not deliverables. The connected authoring GUI was preserved.

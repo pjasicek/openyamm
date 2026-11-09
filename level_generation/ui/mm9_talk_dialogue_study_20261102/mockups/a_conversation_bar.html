@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MM9 talk A - conversation bar</title>
+<!-- Proposal A: an in-world Obsidian conversation bar that stands on the party basebar and grows upward.
+     ?state=typical|many|long|service&w=1600|1200|1950&touch=1 -->
+<link rel="stylesheet" href="common.css">
+<style>
+/* A soft floor shadow keeps the text legible over bright scenes without pausing the view into a modal. */
+#shade { position: absolute; left: 0; right: 0; bottom: 0; height: 520px; pointer-events: none;
+  background: linear-gradient(#0000, #0004 40%, #000a); }
+#bar { position: absolute; bottom: 186px; width: 1000px; padding: 2px 14px 6px 14px; }
+#bar .head { position: relative; display: flex; align-items: flex-end; gap: 16px; padding-left: 112px; min-height: 40px; }
+#bar .head .portrait { position: absolute; left: -20px; top: -74px; }
+#bar .head .place { margin-left: 4px; }
+#bar .head .hint { margin-left: auto; align-self: center; }
+#bar .rule { margin: 6px 0 8px 0; }
+#bar .echo { margin: 0 0 6px 2px; }
+#bar .speech { padding: 0 4px; }
+#bar .choices { display: grid; grid-template-columns: 1fr; gap: 2px; margin-top: 2px; }
+#bar .choices.two { grid-template-columns: 1fr 1fr; column-gap: 12px; }
+#bar .choices.two .choice { font-size: 20px; }
+#bar .choices .exit { margin-top: 4px; }
+#bar .choices.two .exit { grid-column: 1 / -1; justify-self: start; min-width: 50%; }
+body.touch #bar .choices.two { grid-template-columns: 1fr 1fr; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="shade"></div>
+  <div id="bar" class="obsidian"></div>
+</div>
+<script src="data.js"></script>
+<script>
+const stage = setupStage();
+const bar = document.getElementById('bar');
+// Seven or more choices use two columns and a wider bar, so the NPC above stays in view.
+const twoColumns = state.choices.length > 6;
+const width = twoColumns ? Math.min(1160, stageWidth - 60) : Math.min(1000, stageWidth - 120);
+bar.style.width = width + 'px';
+bar.style.left = Math.round((stageWidth - width) / 2) + 'px';
+const choices = state.choices.map((choice, index) => choiceHtml(choice, index, state.hot)).join('');
+bar.innerHTML = `
+  <div class="head">${portraitHtml()}<span class="name">${state.npc}</span><span class="place">${state.place}</span>
+    <span class="hint keys"><b>1-${Math.min(9, state.choices.length - 1)}</b> choose · <b>Esc</b> leave</span></div>
+  <div class="rule"></div>
+  ${state.echo ? `<div class="echo">${clean(state.echo)}</div>` : ''}
+  <div class="speech">${clean(state.text)}</div>
+  <div class="rule"></div>
+  <div class="choices ${twoColumns ? 'two' : ''}">${choices}</div>`;
+</script>
+</body>
+</html>

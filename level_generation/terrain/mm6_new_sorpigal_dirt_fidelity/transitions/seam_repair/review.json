@@ -1,0 +1,119 @@
+{
+  "status": "reviewed_v2_separate_trial",
+  "reason": "V1 mirrored and averaged material borders produced softened grid bands despite identical edge pixels.",
+  "method": "Shared periodic quilting of accepted master borders; unchanged v1 AI fringe/shading deltas; wrapped material export gutters. No new imagegen generation.",
+  "visual_checks": [
+    "Shifted v1/v2 comparisons and 2x2 repeats of dirt, grass, rock and the straight road.",
+    "All 211 compatible joins on six overview sheets.",
+    "32 windows with the highest local join gradient ratios.",
+    "Six complete legal grass/rock island/hole and road loop/branch layouts.",
+    "Eight game captures: three top views, two directional road views plus one linear-filter comparison, New Sorpigal overview and supplied dirt viewpoint."
+  ],
+  "assessment": "The softened straight bands are removed from the inspected repeats and captures. The accepted clod scale and natural material boundary treatments remain.",
+  "limits": [
+    "Material pattern repetition remains visible, particularly in large flat test layouts.",
+    "Known incompatible original map placements are not repaired by this asset change.",
+    "Flat fixture outer pad edges are deliberate hard cuts.",
+    "Game review uses still captures; no new temporal shimmer qualification."
+  ],
+  "checks": "local_joins.json",
+  "asset_hashes": {
+    "6dirttyl.png": "584a2aa035830313528dea4d27b06db293ca701aeda759bce24d6732748a939a",
+    "6drsrecap.png": "01bde54fe658ca4b164e76998ed108389d81e0595d0ffad7b99408cec2873fa4",
+    "6drsrew.png": "9c77a02713baf48246a4366d496c17fc4d381f6e8ec4d3a1f5cb45fc63c45fd5",
+    "6drsrew_s.png": "2ef902e14a6b8d924646faaf65f862219423dba0074b06b3c0ef26d83cca5cdf",
+    "6drsrn_e.png": "530334786327e9b88a0960552da3c10915573da420e8c068fe526d52142b88d0",
+    "6drsrn_w.png": "75bd3ff565d73c259734bf7d7727b4e3be886ea0444e895e0083e4c5dc0ac830",
+    "6drsrns.png": "f411d5a06947e5eb3705c9d6ad8a645b7aa21d267496e2317510b44d36850f14",
+    "6drsrs_e.png": "e17f40f4f516c408125e68ef611115d3bf5499732ec6df4b837df584543fe8f1",
+    "6drsrs_w.png": "74743ddadced2a75e6b57794ee04c5f48e8df03f0ad89a44823e2c83436faef4",
+    "6drsrwcap.png": "2847bad8ac8cd74bb283a87db440381a382222a55762cf62c201042e3e08a2b2",
+    "6grastyl.png": "284d25135da6cf053e84e7f9298c27316bca40b4106d0756e2cf105854d4d11b",
+    "6grdrte.png": "da3ffb5472b95aedefb6717317077ac2631baa3248221715a82e8440e3f17de9",
+    "6grdrtn.png": "d6f18fec8e02ec49ec06feb09f26db86e7ff7647cdc233280167732e1c37aec2",
+    "6grdrtne.png": "c61aff3400a2e019e99e45dba682b5150bba4bdc9dbdaeb3441e92581c480442",
+    "6grdrtnw.png": "5b64404213ad3dc783839acc0f1f12b8d62befbe02f8cbd2f18b68608fc2eb7f",
+    "6grdrts.png": "e6a85b3826c9bb7a8c2e09ed6c10eae521adbef7b9dbcaa61d9149fd5f928c29",
+    "6grdrtse.png": "0a6d74e951391a35d4b64c905893808f2c9786af5b722397c549a0f584680b7d",
+    "6grdrtsw.png": "a63a8fc307a1c715f65fe1a1980c45e17f1afaa0436ca2e682d28cfec4920a09",
+    "6grdrtw.png": "14257190f95432117ff6baef5c88e5fde7f468b07e8cc8702da0f3cdb8e3bb62",
+    "6grdrtxne.png": "86fdacbb98e78c9b58db9366b2922c4b9910d2658de392cd342db0aea976fb21",
+    "6grdrtxnw.png": "0c2e23cad9f34435f9848540812b59578827658048b2d24d46b3c5c04124a06d",
+    "6grdrtxse.png": "1ed0ed6268a2e34b871470d3101929e5fd71f9fb948446069096ffa8737c2dbe",
+    "6grdrtxsw.png": "e59358e91fc656cb6bd7b4e304a6bc78917f8e56b539dad168c9e84d638060a3",
+    "6voltyl.png": "19781fc97db5c9bb3eb23d95c8a53b9947e07235f33c965c8c298fc65ef8b380",
+    "voldrte.png": "812762ef62f9c742a896ab33cdc5b2dfaccaf06f0de40145c71c8151032a4cf3",
+    "voldrtn.png": "1411a1b78bd6ee40a71704497622399d2006da029b12e432f5b573efeaeb72b0",
+    "voldrtne.png": "b0fdb24d48ffebb7408ae74f075c88dda73d28592b99b1424474f40fde68b4a5",
+    "voldrtnw.png": "a39f329edc4470e4e43a42587ca3a677d1f6dd2016c80c619727fbf320fb550a",
+    "voldrts.png": "128929b4f6472c6faf76c0717e82a77b0dd433165f27afb41b8603781c0ff31c",
+    "voldrtse.png": "9c0995b53219345af075fba4cbf39eaea6cf21ab0165ac3cdc139bd59daec10d",
+    "voldrtsw.png": "7a28baf4c7ad835dc2e1dfa4d54a89aef098400f8384a8b0f66f54474e326062",
+    "voldrtw.png": "7a74d93cf5163c9441b9acde4777a80ea8738e2acbb232d3105cc51904496a2b",
+    "voldrtxne.png": "4d2c5dd2bb5ef379d8eab1807d4cec566aaa90381cc857ba66ffac735305e546",
+    "voldrtxnw.png": "a620fee205e9af26fdc151da04bb3250940e0c9684625c8567578be31de48acb",
+    "voldrtxse.png": "b592e96067dbe14b0a40d503adfb7f9b23bd922be3575ac75b787c2e55eb735d",
+    "voldrtxsw.png": "fd26c5055c2c68a995c106fbf9856f2688b0fbb94fe7c975e6a3e1cb7a1209b4"
+  },
+  "captures": [
+    {
+      "metadata": "captures/v2/dirt_v2_flat_grass_dirt_island_top.json",
+      "screenshot_sha256": "534c84484a75519d545b5e50e5586ab52b21c627bdb3d1e7a6a8db5e6065af72",
+      "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+      "settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055"
+    },
+    {
+      "metadata": "captures/v2/dirt_v2_flat_road_east_near.json",
+      "screenshot_sha256": "0c322f84926f9b64d82129e6922b1177cb62e8a08a3504ab9f8dcee2836ca0b3",
+      "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+      "settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055"
+    },
+    {
+      "metadata": "captures/v2/dirt_v2_flat_road_east_near_linear.json",
+      "screenshot_sha256": "9a7caa89880524cab80f1bbebebe9a8b2b7dda4642170d2f72174750cbaccf72",
+      "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+      "settings_sha256": "533dd387f07549e129573b70f882c07678b2b83ee81ab17bd78d9bec606940db",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055"
+    },
+    {
+      "metadata": "captures/v2/dirt_v2_flat_road_loop_top.json",
+      "screenshot_sha256": "07ca444ebce65d0d3e8430ca12b35e08b36ac0aa95797ccaa6f8e3775a82604e",
+      "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+      "settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055"
+    },
+    {
+      "metadata": "captures/v2/dirt_v2_flat_road_north_far.json",
+      "screenshot_sha256": "d10f50c59e3d4f6d172323287c6011b03df9163f10c743a8fa86822c1efb28f3",
+      "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+      "settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055"
+    },
+    {
+      "metadata": "captures/v2/dirt_v2_flat_rock_dirt_island_top.json",
+      "screenshot_sha256": "30a69e9e0c7751fbebd6e896855defcd89ec7dd9093921705b655a54dc19fcff",
+      "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+      "settings_sha256": "abde9c6bea567a1204c1f23f50af981193fe55acc71c401051f1aa4abeb60bd4",
+      "native_sha256": "d4cb9276fd35ced8f08b028e1366f8081eb1967117a29eae1f36377dd1c1c055"
+    },
+    {
+      "metadata": "captures/v2/dirt_v2_map_overview.json",
+      "screenshot_sha256": "b8b21ac960ce8b05a72f19deb36381e538f19cee7d76dbea96c11f1568009eb3",
+      "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+      "settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725"
+    },
+    {
+      "metadata": "captures/v2/dirt_v2_map_user_dirt.json",
+      "screenshot_sha256": "0e5890b058e12c19625bab70bcefe002ece636330d52c5f19a4d7bbf8a3b3ad6",
+      "binary_sha256": "9e80acc3dc081833ca39661259312c6eb4a638ac007f776cea5eda5e73fb19ca",
+      "settings_sha256": "cfc5ec6456a6c2b50139c602ed6bbc812a9039b72025f64f10bf7c1d83abd8e4",
+      "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725"
+    }
+  ],
+  "play_command": "./level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/play.sh transitions",
+  "save_title": "Terrain camera reference",
+  "peasants_enhanced_modified_by_this_repair": false
+}

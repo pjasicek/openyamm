@@ -1,0 +1,30 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png exactly. It is the authoritative layout/edit target; design_reference.png is material/detail reference ONLY and icon_x8.png colour reference ONLY (magenta is background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve every guide object's exact position, scale, outline, geometry, gaps and openings. Do not redraw, enlarge, move or redesign shapes. Three columns by FOUR rows of equal 512x512 cells. Row 1 FRONT BACK LEFT; row 2 RIGHT TOP EMPTY; row 3 FRONT BACK LEFT; row 4 RIGHT TOP EMPTY. All ten guide silhouettes must remain.\n\nRows 1-2 PAINT: unlit base colour: deep blood-red faceted ruby, brighter crimson facets near table; polished warm yellow gold filigree with darker gold recesses. Same stone as plain Gemcutter's Ruby: round brilliant-cut ruby with flat table, crown facets and pointed pavilion, now held in ornate polished gold filigree: low open gold cradle of curling scrollwork and small prongs around lower half and rim, upper stone free. It lies on setting. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each guide view. Preserve exact guide geometry rather than adopting the reference's camera or silhouette.\n\nRows 3-4 MATERIAL MASK: same five guide silhouettes filled ONLY with FLAT pure red #FF0000 for EVERY metal part and FLAT pure black #000000 for EVERY gemstone part. Black gem areas are opaque black, not transparent. No shading, texture, outlines or antialiased colour blends inside masks. Every silhouette pixel gets exactly one of the two colours, nothing outside silhouettes.\n\nKeep all original gaps and openings fully transparent. Empty cells column 3 rows 2 and 4 remain fully transparent. Unlit base colour only, NO lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines, text. Genuine alpha transparency background. Preserve exact sheet layout; paint grey objects only.\nCORRECTION, CRITICAL: Trace the ORIGINAL grey guide precisely, including its angular zigzag crown silhouette, flat-bottom pavilion silhouette, angular thin scrollwork with open gaps, and actual individual prongs. Do not replace it with smoother ornate shapes from the beauty reference. The grey guide's polygon boundaries and alpha silhouette are locked. Recolour the existing grey pixels with matte diffuse base colours, without shiny white highlights. The mask uses the identical original geometry, not simplified ornaments or solid red triangular panels. Preserve all 10 original guide silhouettes at their precise original normalized locations. Output 1536x2048.",
+  "initial_prompt": "Edit the supplied paint_mask_guide.png exactly. It is the authoritative layout/edit target; design_reference.png is material/detail reference ONLY and icon_x8.png colour reference ONLY (magenta is background). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve every guide object's exact position, scale, outline, geometry, gaps and openings. Do not redraw, enlarge, move or redesign shapes. Three columns by FOUR rows of equal 512x512 cells. Row 1 FRONT BACK LEFT; row 2 RIGHT TOP EMPTY; row 3 FRONT BACK LEFT; row 4 RIGHT TOP EMPTY. All ten guide silhouettes must remain.\n\nRows 1-2 PAINT: unlit base colour: deep blood-red faceted ruby, brighter crimson facets near table; polished warm yellow gold filigree with darker gold recesses. Same stone as plain Gemcutter's Ruby: round brilliant-cut ruby with flat table, crown facets and pointed pavilion, now held in ornate polished gold filigree: low open gold cradle of curling scrollwork and small prongs around lower half and rim, upper stone free. It lies on setting. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each guide view. Preserve exact guide geometry rather than adopting the reference's camera or silhouette.\n\nRows 3-4 MATERIAL MASK: same five guide silhouettes filled ONLY with FLAT pure red #FF0000 for EVERY metal part and FLAT pure black #000000 for EVERY gemstone part. Black gem areas are opaque black, not transparent. No shading, texture, outlines or antialiased colour blends inside masks. Every silhouette pixel gets exactly one of the two colours, nothing outside silhouettes.\n\nKeep all original gaps and openings fully transparent. Empty cells column 3 rows 2 and 4 remain fully transparent. Unlit base colour only, NO lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines, text. Genuine alpha transparency background. Preserve exact sheet layout; paint grey objects only.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce7-c770-71f2-be14-89e6c587389d/exec-e600582c-7591-4240-bff5-a5e3dd68ff36.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem16/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": [
+    "Generated result retains layout but is not an exact geometry/material match: lower pavilion is painted as metal; highlights and stray edge pixels remain. Raw tool output preserved without edits."
+  ],
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem16/paint_mask_guide.png",
+      "sha256": "1aede0217d5dc5096549cde15cd198bd5846617489a60331494aed1aa12a4c8a"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem16/design_reference.png",
+      "sha256": "bcf22173f7aa76a14beab2af4dc63b58338f8aaa1da8f60ae560c8a1a0467c7c"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem16/icon_x8.png",
+      "sha256": "3d3c8047773a4a3ffbc262db3fc867dd045b2dbc0b6364db9532c9d252b1e1f8"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

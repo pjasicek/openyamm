@@ -1,0 +1,442 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 PNG with a genuinely transparent background, a texture-source/albedo painting of the Hesper quest item hes_aster_shard_1, a piece of Aster's memory.\nInput image 1 is the EXACT orthographic clay guide to repaint. It alone controls the output camera, silhouette, shape, scale, canvas position, every part boundary, raised strip, inset and seam. Repaint its existing pixels only; preserve its alpha silhouette exactly. Do not reinterpret this guide as a perspective concept illustration. Do not rotate, shift, resize, crop, straighten, smooth or remodel anything. Preserve the guide's full 1024-square canvas and transparent margins.\nInput image 2 is design_reference.png: material/color/design authority ONLY, NOT a camera or silhouette reference. Transfer its blue crystal, antique brushed gold and worn warm-white ceramic faithfully onto the geometry of image 1. The crystal is deep cool blue with pale ice-blue fracture lines and blue-white branching memory filaments, with small bright star nodes. Paint the glowing features as bright color only, without bloom, halos or light spill. Frame trims are aged gold base color with fine scratches; the inset ceramic is warm ivory with fine wear. Small inset gems, where present in the guide, are icy blue. Use only the materials the reference actually shows; do not invent orange lights, leather, cloth, writing or new ornaments. Faces not shown in the design continue these same materials plausibly.\nLighting is strictly flat, even, shadowless frontal illumination suitable for ALBEDO projection onto a 3D model: no cast shadows, no ambient occlusion or dark crevices from lighting, no directional gradients, no strong specular highlights, no reflected scenery, no rim light. Gold has only a faint diffuse sheen. Crystal fracture detail is intrinsic texture, not glossy reflections. Do not copy the dramatic lighting of the design reference or the clay guide's shading.\nTransparent outside the original guide silhouette, no background, no floor, no scene, no text, no letters, no labels, no watermark. This is one view only, never a sheet.\nView FRONT: image 1 is guide_front.png. Retain its exact broad horizontal oval/polygon silhouette and the small raised tabs at the left. The broad smooth inset facing the camera is the underside/base of the setting: continue the design with fine-worn warm ivory ceramic, its existing inset seam and aged-gold perimeter and raised frame strips. Preserve the guide's part layout exactly; do not substitute the upright triangular crystal hero view. Bounding extent approximately x=66..957, y=215..808.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_front.png",
+          "sha256": "fdef76139c399e7c0e18048e5fb001245e589cff50cc4db32b712ebe0462e262"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/design_reference.png",
+          "sha256": "bb36ce876cb074dc2632cccf99d31e6d5801f7a83f1fd0ee31aed368438fa796"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-c97c202e-03e8-430f-b0f0-937f95d9c426.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Initial return is 1254 x 1254 and expands the silhouette relative to the guide; gold has too much highlight contrast. Preserve raw return and use the one allowed correction.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "422b1e5d74ce3d9ff19001dbaf6ab3769cc418bfd07b13992ae36e7552e694a1",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.565219050235419,
+        "opaque_bbox": [
+          54,
+          267,
+          1200,
+          1009
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9218857968465356,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Excessive highlight/glow contrast for strict albedo.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 PNG with a genuinely transparent background, a texture-source/albedo painting of the Hesper quest item hes_aster_shard_1, a piece of Aster's memory.\nInput image 2 (the LAST input) is the EXACT orthographic clay guide to repaint. It alone controls the output camera, silhouette, shape, scale, canvas position, every part boundary, raised strip, inset and seam. Repaint its existing pixels only; preserve its alpha silhouette exactly. Do not reinterpret this guide as a perspective concept illustration. Do not rotate, shift, resize, crop, straighten, smooth or remodel anything. Preserve the guide's full 1024-square canvas and transparent margins.\nInput image 1 is design_reference.png: material/color/design authority ONLY, NOT a camera or silhouette reference. Transfer its blue crystal, antique brushed gold and worn warm-white ceramic faithfully onto the geometry of image 2. The crystal is deep cool blue with pale ice-blue fracture lines and blue-white branching memory filaments, with small bright star nodes. Paint the glowing features as bright color only, without bloom, halos or light spill. Frame trims are aged gold base color with fine scratches; the inset ceramic is warm ivory with fine wear. Small inset gems, where present in the guide, are icy blue. Use only the materials the reference actually shows; do not invent orange lights, leather, cloth, writing or new ornaments. Faces not shown in the design continue these same materials plausibly.\nLighting is strictly flat, even, shadowless frontal illumination suitable for ALBEDO projection onto a 3D model: no cast shadows, no ambient occlusion or dark crevices from lighting, no directional gradients, no strong specular highlights, no reflected scenery, no rim light. Gold has only a faint diffuse sheen. Crystal fracture detail is intrinsic texture, not glossy reflections. Do not copy the dramatic lighting of the design reference or the clay guide's shading.\nTransparent outside the original guide silhouette, no background, no floor, no scene, no text, no letters, no labels, no watermark. This is one view only, never a sheet.\nView BACK: image 2 is guide_back.png. Retain its exact broad horizontal irregular oval/polygon silhouette. This view faces the fractured crystal edge: continue the blue crystal over the large angular central facets, with delicate pale icy fracture networks and restrained blue-white memory filaments seen within it. Existing narrow setting/frame edges continue the antique gold, and any ceramic setting faces continue warm ivory. Do not invent additional frame bands over the crystal. Preserve all angular facet boundaries and the small raised structure toward upper right. Bounding extent approximately x=66..957, y=215..808.\nFINAL OUTPUT: use the LAST input's exact 1024 x 1024 canvas, original alpha mask and placement. Keep the entire original transparent margin. Treat this as coloring that guide in place, without changing a single edge.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/design_reference.png",
+          "sha256": "bb36ce876cb074dc2632cccf99d31e6d5801f7a83f1fd0ee31aed368438fa796"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_back.png",
+          "sha256": "d610fed803b9da8348e6502f9106c0554167ae99e60e9571dff8275c61742808"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-a6b05e90-d75b-4c8d-a28a-961e663e3a5b.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Initial return preserves the general view and material palette but needs closer guide geometry and flatter albedo lighting. Use one allowed corrective regeneration.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9998ff50cbb3ef784f34548993f7f5b220da77da92aa03a11c8ff71f475b27ba",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.5983811929417571,
+        "opaque_bbox": [
+          80,
+          265,
+          1174,
+          990
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9941881996974281,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Excessive highlight/glow contrast for strict albedo.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 PNG with a genuinely transparent background, a texture-source/albedo painting of the Hesper quest item hes_aster_shard_1, a piece of Aster's memory.\nInput image 2 (the LAST input) is the EXACT orthographic clay guide to repaint. It alone controls the output camera, silhouette, shape, scale, canvas position, every part boundary, raised strip, inset and seam. Repaint its existing pixels only; preserve its alpha silhouette exactly. Do not reinterpret this guide as a perspective concept illustration. Do not rotate, shift, resize, crop, straighten, smooth or remodel anything. Preserve the guide's full 1024-square canvas and transparent margins.\nInput image 1 is design_reference.png: material/color/design authority ONLY, NOT a camera or silhouette reference. Transfer its blue crystal, antique brushed gold and worn warm-white ceramic faithfully onto the geometry of image 2. The crystal is deep cool blue with pale ice-blue fracture lines and blue-white branching memory filaments, with small bright star nodes. Paint the glowing features as bright color only, without bloom, halos or light spill. Frame trims are aged gold base color with fine scratches; the inset ceramic is warm ivory with fine wear. Small inset gems, where present in the guide, are icy blue. Use only the materials the reference actually shows; do not invent orange lights, leather, cloth, writing or new ornaments. Faces not shown in the design continue these same materials plausibly.\nLighting is strictly flat, even, shadowless frontal illumination suitable for ALBEDO projection onto a 3D model: no cast shadows, no ambient occlusion or dark crevices from lighting, no directional gradients, no strong specular highlights, no reflected scenery, no rim light. Gold has only a faint diffuse sheen. Crystal fracture detail is intrinsic texture, not glossy reflections. Do not copy the dramatic lighting of the design reference or the clay guide's shading.\nTransparent outside the original guide silhouette, no background, no floor, no scene, no text, no letters, no labels, no watermark. This is one view only, never a sheet.\nView LEFT: image 2 is guide_left.png. Retain its horizontal wedge, narrow flat tip at left, tall flat framed edge at right, central seam and raised setting pieces at upper and lower right. Paint exposed shard surfaces blue crystal with delicate blue-white internal branching filaments and pale fracture lines. The existing raised upper and lower setting/clasp pieces are warm ivory ceramic within antique gold trim, and their existing circular insets contain pale blue gems with a gold setting. Do not move or enlarge either inset or add parts. Rightmost narrow outer frame is antique gold. Bounding extent approximately x=106..917, y=215..808.\nFINAL OUTPUT: use the LAST input's exact 1024 x 1024 canvas, original alpha mask and placement. Keep the entire original transparent margin. Treat this as coloring that guide in place, without changing a single edge.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/design_reference.png",
+          "sha256": "bb36ce876cb074dc2632cccf99d31e6d5801f7a83f1fd0ee31aed368438fa796"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_left.png",
+          "sha256": "39349f3861b326728a16646fc87094b620c785f13dd352533bfc9e4e22a813c0"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-2ba6520f-d88f-4d38-8ec8-a9bf56e35b59.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Initial return preserves the general view and material palette but needs closer guide geometry and flatter albedo lighting. Use one allowed corrective regeneration.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "abbb9a675b964c021f304254ed328ef620d8e110524034733de2dceafb4e3400",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.684955192824747,
+        "opaque_bbox": [
+          134,
+          264,
+          1123,
+          992
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9871451345882641,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Excessive highlight/glow contrast for strict albedo.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 PNG with a genuinely transparent background, a texture-source/albedo painting of the Hesper quest item hes_aster_shard_1, a piece of Aster's memory.\nInput image 2 (the LAST input) is the EXACT orthographic clay guide to repaint. It alone controls the output camera, silhouette, shape, scale, canvas position, every part boundary, raised strip, inset and seam. Repaint its existing pixels only; preserve its alpha silhouette exactly. Do not reinterpret this guide as a perspective concept illustration. Do not rotate, shift, resize, crop, straighten, smooth or remodel anything. Preserve the guide's full 1024-square canvas and transparent margins.\nInput image 1 is design_reference.png: material/color/design authority ONLY, NOT a camera or silhouette reference. Transfer its blue crystal, antique brushed gold and worn warm-white ceramic faithfully onto the geometry of image 2. The crystal is deep cool blue with pale ice-blue fracture lines and blue-white branching memory filaments, with small bright star nodes. Paint the glowing features as bright color only, without bloom, halos or light spill. Frame trims are aged gold base color with fine scratches; the inset ceramic is warm ivory with fine wear. Small inset gems, where present in the guide, are icy blue. Use only the materials the reference actually shows; do not invent orange lights, leather, cloth, writing or new ornaments. Faces not shown in the design continue these same materials plausibly.\nLighting is strictly flat, even, shadowless frontal illumination suitable for ALBEDO projection onto a 3D model: no cast shadows, no ambient occlusion or dark crevices from lighting, no directional gradients, no strong specular highlights, no reflected scenery, no rim light. Gold has only a faint diffuse sheen. Crystal fracture detail is intrinsic texture, not glossy reflections. Do not copy the dramatic lighting of the design reference or the clay guide's shading.\nTransparent outside the original guide silhouette, no background, no floor, no scene, no text, no letters, no labels, no watermark. This is one view only, never a sheet.\nView RIGHT: image 2 is guide_right.png. Retain its horizontal wedge with the broad tall framed end at left and narrow blunt crystal tip at right. Preserve the existing long curved boundary at the left and the original angular facets in the right half. The large exposed shard is blue crystal, continuing the reference's fine icy fracture lines and delicate blue-white internal branching memory filaments; existing setting at the left is aged gold with warm ivory inset where the guide provides one. The back of the setting may be simpler than its decorated face, with no invented medallions. Bounding extent approximately x=106..917, y=215..808.\nFINAL OUTPUT: use the LAST input's exact 1024 x 1024 canvas, original alpha mask and placement. Keep the entire original transparent margin. Treat this as coloring that guide in place, without changing a single edge.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/design_reference.png",
+          "sha256": "bb36ce876cb074dc2632cccf99d31e6d5801f7a83f1fd0ee31aed368438fa796"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_right.png",
+          "sha256": "f03ec35079d6667fd66618f712b86e8115aa1a7197676674167428f2233da09c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-9464499a-c669-41d6-bb0a-8baaa53e58cb.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Initial return preserves the general view and material palette but needs closer guide geometry and flatter albedo lighting. Use one allowed corrective regeneration.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "94a3bf7f32f6ce04202c83154678d40ee95bfd01501f4aa684491a73e4962b08",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.6809952967092227,
+        "opaque_bbox": [
+          131,
+          254,
+          1123,
+          992
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9872693659393762,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Excessive highlight/glow contrast for strict albedo.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate ONE 1024 x 1024 PNG with a genuinely transparent background, a texture-source/albedo painting of the Hesper quest item hes_aster_shard_1, a piece of Aster's memory.\nInput image 2 (the LAST input) is the EXACT orthographic clay guide to repaint. It alone controls the output camera, silhouette, shape, scale, canvas position, every part boundary, raised strip, inset and seam. Repaint its existing pixels only; preserve its alpha silhouette exactly. Do not reinterpret this guide as a perspective concept illustration. Do not rotate, shift, resize, crop, straighten, smooth or remodel anything. Preserve the guide's full 1024-square canvas and transparent margins.\nInput image 1 is design_reference.png: material/color/design authority ONLY, NOT a camera or silhouette reference. Transfer its blue crystal, antique brushed gold and worn warm-white ceramic faithfully onto the geometry of image 2. The crystal is deep cool blue with pale ice-blue fracture lines and blue-white branching memory filaments, with small bright star nodes. Paint the glowing features as bright color only, without bloom, halos or light spill. Frame trims are aged gold base color with fine scratches; the inset ceramic is warm ivory with fine wear. Small inset gems, where present in the guide, are icy blue. Use only the materials the reference actually shows; do not invent orange lights, leather, cloth, writing or new ornaments. Faces not shown in the design continue these same materials plausibly.\nLighting is strictly flat, even, shadowless frontal illumination suitable for ALBEDO projection onto a 3D model: no cast shadows, no ambient occlusion or dark crevices from lighting, no directional gradients, no strong specular highlights, no reflected scenery, no rim light. Gold has only a faint diffuse sheen. Crystal fracture detail is intrinsic texture, not glossy reflections. Do not copy the dramatic lighting of the design reference or the clay guide's shading.\nTransparent outside the original guide silhouette, no background, no floor, no scene, no text, no letters, no labels, no watermark. This is one view only, never a sheet.\nView TOP: image 2 is guide_top.png. This orthographic guide shows the broad main shard face: tall straight edge at left, jagged broken diagonal crest descending toward right, bottom gold-and-ivory setting and the existing medallion at lower left. Repaint these exact parts. Large upper central shard face is deep cool blue crystal with pale fractures and a delicate blue-white branching tree of memory filaments spreading upward from near its lower edge with small star nodes. Existing lower-left ceramic clasp and long bottom ceramic inset are warm ivory bounded by aged gold. Existing round inset at lower left contains icy-blue crystal divided by the existing gold bar. Leftmost thin upright rim is gold. Preserve the jagged crest exactly; no perspective or new bevels. Bounding extent approximately x=66..957, y=107..917.\nFINAL OUTPUT: use the LAST input's exact 1024 x 1024 canvas, original alpha mask and placement. Keep the entire original transparent margin. Treat this as coloring that guide in place, without changing a single edge.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/design_reference.png",
+          "sha256": "bb36ce876cb074dc2632cccf99d31e6d5801f7a83f1fd0ee31aed368438fa796"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_top.png",
+          "sha256": "30b2e03fb951a45dbeb3da156a5bb2f62ab5ed3e148bf7ab0e6c6d1681312190"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-fd8f2c5f-50b8-43f0-9346-ae68674e6361.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial return preserves the general view and material palette but needs closer guide geometry and flatter albedo lighting. Use one allowed corrective regeneration.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ee1775a4e5a886ecc9e3e575ec243ed678595a651ab2f7856040d701cbd92500",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.5298210002314762,
+        "opaque_bbox": [
+          80,
+          131,
+          1190,
+          1115
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9763230572791097,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Excessive highlight/glow contrast for strict albedo.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, attempt 2 of 2, of paint_front.png.\nUse case: precise-object-edit. Edit the ONE attached 1024 x 1024 image IN PLACE. It is the exact orthographic clay guide for a texture-source projection. Return exactly its 1024 x 1024 canvas, exact existing silhouette and alpha, exact geometry edges, exact original scale and position. Do not fit the object to the canvas anew. The opaque object spans x=66..957 and y=215..808. All pixels outside its existing silhouette remain transparent.\nPaint only the existing surfaces, using this material specification taken from the approved Aster memory shard design: finely worn warm-white ivory ceramic; antique golden metal with fine subtle brushing; occasional pale cool blue crystal only in the existing small inset on the upper-left clasp. This front view shows the setting's broad underside: the entire large central smooth inset is ivory ceramic. Its existing surrounding frame and raised edge strips are gold. The existing raised small tabs at left contain ivory inset panels where the clay has broad faces. Do not add decorative panels, seams, jewels, trim bands, cracks, protrusions or any geometry absent in the clay.\nCRITICAL CORRECTION: The previous painting was enlarged and had shiny metallic highlights. This must be a FLAT ALBEDO MAP, NOT A BEAUTY RENDER. Discard the gray guide's light/shadow gradients. Each material has even base-color illumination across its entire area. Gold should be a medium ochre/gold base color with faint intrinsic fine wear, NO bright edge streaks, NO white highlights and NO black crevice shadows. Ivory is even soft ivory with delicate intrinsic speckles and fine scratches, not gritty or dirty. No ambient occlusion, no directional lighting, no cast shadows, no specular reflection, no rim light, no gradients suggesting lighting. Keep material edges legible through their base colors alone. Small existing blue inset is pale blue without bloom.\nNo background, no floor, no text, no letters, no labels. One image only. Preserve the guide shape EXACTLY and provide the direct unresized 1024-square result.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_front.png",
+          "sha256": "fdef76139c399e7c0e18048e5fb001245e589cff50cc4db32b712ebe0462e262"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-788d2261-fdc6-44a5-9c52-1d0a0b9c7f26.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected correction: much closer guide proportions, simpler original part layout and reduced metallic highlights. Still not pixel-identical to the guide; the tool returned 1254 x 1254.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "48f4b83b8db767c87151674db534bf5da03de6cf622012e520e63f88b38121ea",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.5979265075840245,
+        "opaque_bbox": [
+          80,
+          263,
+          1173,
+          990
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9954477765536278,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Flatter than first attempt, with reduced glare/bloom; residual local shading and facet-tone contrast remain.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true,
+        "normalized_opaque_pixels_outside_guide": 1744,
+        "normalized_missing_opaque_guide_pixels": 136
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, attempt 2 of 2.\nUse case: precise-object-edit. Edit the ONE attached 1024 x 1024 orthographic clay guide IN PLACE as a texture-source/albedo painting of Aster's memory shard. This guide alone fixes every shape, boundary, part, scale, position and camera. Preserve its silhouette and alpha EXACTLY, with original transparent margins; no rotation, reframing, resizing, extra geometry or changed edges. Return its 1024 x 1024 canvas.\nThe material specification from the approved design is: medium-to-deep cool-blue crystal, fine pale ice-blue internal fracture lines, delicate branching blue-white memory filaments with tiny bright nodes; finely worn soft warm ivory ceramic in the existing setting panels; antique gold framing with fine subtle brushing, no added ornaments. The memory branches are thin intrinsic bright colored lines, not light sources: no bloom, halo, illumination spill or white hotspot. Blue crystal remains substantially opaque to make a usable albedo image, except the background transparency. Do not introduce any material or engraving absent from this specification.\nCRITICAL CORRECTION: Flat ALBEDO colors rather than rendered shiny materials. Each surface is evenly lit regardless of its angle, with only intrinsic material color and fine wear. IGNORE ALL SHADOWS IN THE CLAY GUIDE. Gold is a uniform medium golden-ochre base color with a faint sheen, no white streaks or black grooves. Ivory is even cream-white with fine speckled wear. Blue crystal has consistent medium/deep blue base color, pale fracture texture and delicate blue-white memory branches, no reflected scenery or glare. Keep facets legible through fine intrinsic fracture lines, not alternating bright/dark lighting. No cast shadows, ambient occlusion, darkened crevices, directional gradients, strong specular highlights, reflections or rim light. Do not render a studio photograph. No scene, background, floor, lettering, text, symbols, labels or watermark.\n\nBACK view, guide_back.png: preserve the broad horizontal irregular oval shape, full extents x=66..957, y=215..808. The central large angular faces and the entire lower half are fractured BLUE CRYSTAL. Preserve their existing exact large facet borders. Only the EXISTING thin raised upper perimeter and upper-right raised strips are gold/ivory setting; do not add a gold bottom band, a lower-left medallion, or anything covering the large blue crystal area. Fine blue-white memory branches can continue within the crystal, subdued and without bloom.\nPreserve the original guide's exact pixel silhouette and its full 1024-square transparent canvas.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_back.png",
+          "sha256": "d610fed803b9da8348e6502f9106c0554167ae99e60e9571dff8275c61742808"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-bbc3f730-db7d-4ce0-87a5-5c04151c5591.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction: removes the invented lower setting and medallion, continues crystal across the guide's lower facets, and reduces glow/specular contrast. Some facet contrast and geometry drift remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "46cec4e65682820181e288faa5989d66814b25c9271e1e48ce06442f94b6ff24",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.596935738650672,
+        "opaque_bbox": [
+          81,
+          264,
+          1173,
+          991
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9943797399783315,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Flatter than first attempt, with reduced glare/bloom; residual local shading and facet-tone contrast remain.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true,
+        "normalized_opaque_pixels_outside_guide": 2258,
+        "normalized_missing_opaque_guide_pixels": 66
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, attempt 2 of 2.\nUse case: precise-object-edit. Edit the ONE attached 1024 x 1024 orthographic clay guide IN PLACE as a texture-source/albedo painting of Aster's memory shard. This guide alone fixes every shape, boundary, part, scale, position and camera. Preserve its silhouette and alpha EXACTLY, with original transparent margins; no rotation, reframing, resizing, extra geometry or changed edges. Return its 1024 x 1024 canvas.\nThe material specification from the approved design is: medium-to-deep cool-blue crystal, fine pale ice-blue internal fracture lines, delicate branching blue-white memory filaments with tiny bright nodes; finely worn soft warm ivory ceramic in the existing setting panels; antique gold framing with fine subtle brushing, no added ornaments. The memory branches are thin intrinsic bright colored lines, not light sources: no bloom, halo, illumination spill or white hotspot. Blue crystal remains substantially opaque to make a usable albedo image, except the background transparency. Do not introduce any material or engraving absent from this specification.\nCRITICAL CORRECTION: Flat ALBEDO colors rather than rendered shiny materials. Each surface is evenly lit regardless of its angle, with only intrinsic material color and fine wear. IGNORE ALL SHADOWS IN THE CLAY GUIDE. Gold is a uniform medium golden-ochre base color with a faint sheen, no white streaks or black grooves. Ivory is even cream-white with fine speckled wear. Blue crystal has consistent medium/deep blue base color, pale fracture texture and delicate blue-white memory branches, no reflected scenery or glare. Keep facets legible through fine intrinsic fracture lines, not alternating bright/dark lighting. No cast shadows, ambient occlusion, darkened crevices, directional gradients, strong specular highlights, reflections or rim light. Do not render a studio photograph. No scene, background, floor, lettering, text, symbols, labels or watermark.\n\nLEFT view, guide_left.png: preserve the horizontal wedge, full extents x=106..917, y=215..808: narrow blunt point at left, broad tall base at right. Existing top-right and bottom-right raised clasp plates are ivory with their existing edges in gold; existing round upper and lower insets are pale blue gems in gold rims, preserving their exact size and shape. Existing vertical far-right edge is gold. The entire remaining shard area is blue crystal with delicate pale fracture networks and blue-white memory filaments. Preserve the central vertical facet seam. Do not enlarge the bottom clasp or add a continuous thick gold frame around the crystal.\nPreserve the original guide's exact pixel silhouette and its full 1024-square transparent canvas.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_left.png",
+          "sha256": "39349f3861b326728a16646fc87094b620c785f13dd352533bfc9e4e22a813c0"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-241b2786-9efe-4684-adae-69d6d20f4d5a.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction: flatter materials, restrained memory filaments and less invented frame trim. Some clasp boundaries and crystal facets still differ from the guide.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c993f6bb92de08fc74efd737bf68964ef85a8e38693b7b9f94e7f440dd9abaf2",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.6827288243808012,
+        "opaque_bbox": [
+          131,
+          263,
+          1124,
+          992
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9750498242838235,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Flatter than first attempt, with reduced glare/bloom; residual local shading and facet-tone contrast remain.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true,
+        "normalized_opaque_pixels_outside_guide": 4133,
+        "normalized_missing_opaque_guide_pixels": 4067
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, attempt 2 of 2.\nUse case: precise-object-edit. Edit the ONE attached 1024 x 1024 orthographic clay guide IN PLACE as a texture-source/albedo painting of Aster's memory shard. This guide alone fixes every shape, boundary, part, scale, position and camera. Preserve its silhouette and alpha EXACTLY, with original transparent margins; no rotation, reframing, resizing, extra geometry or changed edges. Return its 1024 x 1024 canvas.\nThe material specification from the approved design is: medium-to-deep cool-blue crystal, fine pale ice-blue internal fracture lines, delicate branching blue-white memory filaments with tiny bright nodes; finely worn soft warm ivory ceramic in the existing setting panels; antique gold framing with fine subtle brushing, no added ornaments. The memory branches are thin intrinsic bright colored lines, not light sources: no bloom, halo, illumination spill or white hotspot. Blue crystal remains substantially opaque to make a usable albedo image, except the background transparency. Do not introduce any material or engraving absent from this specification.\nCRITICAL CORRECTION: Flat ALBEDO colors rather than rendered shiny materials. Each surface is evenly lit regardless of its angle, with only intrinsic material color and fine wear. IGNORE ALL SHADOWS IN THE CLAY GUIDE. Gold is a uniform medium golden-ochre base color with a faint sheen, no white streaks or black grooves. Ivory is even cream-white with fine speckled wear. Blue crystal has consistent medium/deep blue base color, pale fracture texture and delicate blue-white memory branches, no reflected scenery or glare. Keep facets legible through fine intrinsic fracture lines, not alternating bright/dark lighting. No cast shadows, ambient occlusion, darkened crevices, directional gradients, strong specular highlights, reflections or rim light. Do not render a studio photograph. No scene, background, floor, lettering, text, symbols, labels or watermark.\n\nRIGHT view, guide_right.png: preserve horizontal wedge, full extents x=106..917, y=215..808: tall broad base at left, narrow blunt tip at right. Existing broad left outer rim is gold, with only the existing inset at the left continued as ivory ceramic. Existing long curved inside boundary stays exactly in place. All remaining large central and right-hand facets are blue crystal with fine pale intrinsic fracture networks and restrained branching blue-white memory veins. Keep the existing jagged internal facet edges, do not add new broad facets, new bevels, inset medallions or ornaments.\nPreserve the original guide's exact pixel silhouette and its full 1024-square transparent canvas.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_right.png",
+          "sha256": "f03ec35079d6667fd66618f712b86e8115aa1a7197676674167428f2233da09c"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-fa5e50a0-8ba7-43af-b61e-7ea20a5dfa30.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction: less glare and simpler setting with the reference palette. Facet color contrast and small contour differences remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "05d19e1b1c1bc0f1f16b69d08b78e133c47812559b1209fa5a0ccf28ec64a879",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.6784439713173029,
+        "opaque_bbox": [
+          131,
+          263,
+          1123,
+          991
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9947576565805205,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Flatter than first attempt, with reduced glare/bloom; residual local shading and facet-tone contrast remain.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true,
+        "normalized_opaque_pixels_outside_guide": 1688,
+        "normalized_missing_opaque_guide_pixels": 22
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, attempt 2 of 2.\nUse case: precise-object-edit. Edit the ONE attached 1024 x 1024 orthographic clay guide IN PLACE as a texture-source/albedo painting of Aster's memory shard. This guide alone fixes every shape, boundary, part, scale, position and camera. Preserve its silhouette and alpha EXACTLY, with original transparent margins; no rotation, reframing, resizing, extra geometry or changed edges. Return its 1024 x 1024 canvas.\nThe material specification from the approved design is: medium-to-deep cool-blue crystal, fine pale ice-blue internal fracture lines, delicate branching blue-white memory filaments with tiny bright nodes; finely worn soft warm ivory ceramic in the existing setting panels; antique gold framing with fine subtle brushing, no added ornaments. The memory branches are thin intrinsic bright colored lines, not light sources: no bloom, halo, illumination spill or white hotspot. Blue crystal remains substantially opaque to make a usable albedo image, except the background transparency. Do not introduce any material or engraving absent from this specification.\nCRITICAL CORRECTION: Flat ALBEDO colors rather than rendered shiny materials. Each surface is evenly lit regardless of its angle, with only intrinsic material color and fine wear. IGNORE ALL SHADOWS IN THE CLAY GUIDE. Gold is a uniform medium golden-ochre base color with a faint sheen, no white streaks or black grooves. Ivory is even cream-white with fine speckled wear. Blue crystal has consistent medium/deep blue base color, pale fracture texture and delicate blue-white memory branches, no reflected scenery or glare. Keep facets legible through fine intrinsic fracture lines, not alternating bright/dark lighting. No cast shadows, ambient occlusion, darkened crevices, directional gradients, strong specular highlights, reflections or rim light. Do not render a studio photograph. No scene, background, floor, lettering, text, symbols, labels or watermark.\n\nTOP view, guide_top.png: preserve its exact broad triangular shard face, extents x=66..957, y=107..917. Tall left edge, descending broken jagged top, blunt rounded right edge and flat bottom remain exactly where the guide shows. Existing lower-left clasp panel and long bottom inset are ivory with gold borders; existing round inset at lower left is icy blue divided by the existing gold bar; leftmost thin upright strip is gold. Large upper face is cool-blue crystal with delicate pale fracture lines and a branching blue-white tree of memory spreading upward from near the lower edge. Keep star nodes small and flat colored. Do not turn the view into a perspective hero render, thicken borders, invent new panel seams, or change any contour.\nPreserve the original guide's exact pixel silhouette and its full 1024-square transparent canvas.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/guide_top.png",
+          "sha256": "30b2e03fb951a45dbeb3da156a5bb2f62ab5ed3e148bf7ab0e6c6d1681312190"
+        }
+      ],
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16ea7-5bfb-7b13-8b19-90af3c9b89c2/exec-8b8b7443-b96f-4889-a95b-6211561b665f.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction: much flatter materials and closer original panel arrangement; memory branches are painted bright colors without bloom. Some contour and internal edge drift remain.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "18242537ab5ff7214f5c327861e102c27bb0b150602c3996b273b49c21a09561",
+      "unresized": true,
+      "checks": {
+        "has_alpha": true,
+        "transparent_fraction": 0.5252455300931755,
+        "opaque_bbox": [
+          80,
+          129,
+          1174,
+          1121
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_mask_iou": 0.9945340706173418,
+        "normalization_for_analysis_only": true,
+        "no_text_or_letters_visual": true,
+        "palette_visual": "Ivory ceramic, aged gold, blue crystal and blue-white memory filaments are consistent with the design; exact material boundaries are approximate.",
+        "lighting_visual": "Flatter than first attempt, with reduced glare/bloom; residual local shading and facet-tone contrast remain.",
+        "strict_flat_shadowless_albedo": false,
+        "no_floor_or_cast_shadow_visual": true,
+        "normalized_opaque_pixels_outside_guide": 2197,
+        "normalized_missing_opaque_guide_pixels": 463
+      }
+    }
+  ],
+  "appearance_reference": {
+    "path": "level_generation/props/hesper_items_claude/codex_tex/hes_aster_shard_1/design_reference.png",
+    "sha256": "bb36ce876cb074dc2632cccf99d31e6d5801f7a83f1fd0ee31aed368438fa796"
+  },
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "all_outputs_kept_unresized": true,
+  "corrective_regenerations_per_view": 1,
+  "fully_meets_brief": false,
+  "limitations": [
+    "The built-in tool returned 1254 x 1254 for all attempts; preserved unresized as instructed.",
+    "No selected return has pixel-identical guide alpha. Normalized silhouette overlap is measured for inspection only; no saved output was resized or masked.",
+    "Corrective returns reduce highlights and bloom, but residual facet tone contrast, small edge artifacts and local shading remain. Strict shadowless albedo and exact part boundaries are not fully achieved.",
+    "One corrective regeneration per view used; no further generations or post-processing performed."
+  ]
+}

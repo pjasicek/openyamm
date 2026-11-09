@@ -1,0 +1,283 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_natf_shield.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_natf_shield.glb",
+ "assignments": [
+  {
+   "match": "=LeafShield_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natf_codex/textures/natf_shield_material_classes.png",
+   "head": null
+  },
+  {
+   "match": "=LeafShield_L1_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natf_codex/textures/natf_shield_material_classes.png",
+   "head": null
+  },
+  {
+   "match": "=LeafShield_L3_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natf_codex/textures/natf_shield_material_classes.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "LeafShield_l0_r0.6000_natf_shield_metal_rough_leafshield",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "LeafShield_A",
+    "LeafShield_B",
+    "LeafShield_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "unknown_steps",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 394446,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.5684,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natf_codex/textures/natf_shield_material_classes.png",
+     "class_share_in_uv": {
+      "cloth": 1.0
+     }
+    }
+   },
+   "class_share_total": {
+    "cloth": 1.0
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "cloth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "cloth": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "cloth": 0.751
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "LeafShield_A": null,
+    "LeafShield_B": null,
+    "LeafShield_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 77,
+     "mean": 77.0
+    },
+    "G": {
+     "min": 166,
+     "max": 217,
+     "mean": 191.5
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "LeafShield_l1_r0.2500_natf_shield_metal_rough_leafshield",
+   "size": [
+    960,
+    1024
+   ],
+   "materials": [
+    "LeafShield_L1_A",
+    "LeafShield_L1_B",
+    "LeafShield_L1_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      960,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "unknown_steps",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 516822,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.413,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natf_codex/textures/natf_shield_material_classes.png",
+     "class_share_in_uv": {
+      "cloth": 1.0
+     }
+    }
+   },
+   "class_share_total": {
+    "cloth": 1.0
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "cloth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "cloth": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "cloth": 0.751
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "LeafShield_L1_A": null,
+    "LeafShield_L1_B": null,
+    "LeafShield_L1_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 77,
+     "mean": 77.0
+    },
+    "G": {
+     "min": 166,
+     "max": 217,
+     "mean": 191.7
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "LeafShield_natf_shield_metal_rough_leafshield",
+   "size": [
+    192,
+    256
+   ],
+   "materials": [
+    "LeafShield_L3_A",
+    "LeafShield_L3_B",
+    "LeafShield_L3_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      192,
+      256
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "unknown_steps",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 27967,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.3606,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_natf_codex/textures/natf_shield_material_classes.png",
+     "class_share_in_uv": {
+      "cloth": 1.0
+     }
+    }
+   },
+   "class_share_total": {
+    "cloth": 1.0
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "cloth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "cloth": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "cloth": 0.75
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "LeafShield_L3_A": null,
+    "LeafShield_L3_B": null,
+    "LeafShield_L3_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 77,
+     "mean": 77.0
+    },
+    "G": {
+     "min": 166,
+     "max": 217,
+     "mean": 191.2
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

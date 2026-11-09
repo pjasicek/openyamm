@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png (input 1), using design_reference.png (input 2) for details and icon_x8.png (input 3) for colours. Produce ONE transparent PNG at 1536x2048, 3:4.\nStrictly preserve the guide's exact object positions, sizes, silhouettes, gaps and orthographic views. Three columns and FOUR rows of 512x512 cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat the same five views as material segmentation. No labels.\nBook: Verhoffin's Book, ancient locked scholars' mystery book. Paint only existing grey objects, never move, enlarge, redraw or redesign their shapes. The reference has aged parchment pages, reddish russet leather covers, ornate gold metal scrollwork and borders with bosses, pale silver inset ornament, gold metal locking clasp on the cover right edge. Adapt these details to each exact guide view. Broad upright rectangle in row 2 column 2 is the ornate cover seen orthographically, with matching mask in row 4 column 2. Thin side views preserve the guide shapes.\nRows 1-2 PAINT: unlit base colour only. Engravings, scrollwork and inner swirls follow approved design scaled to views. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text. Magenta in original icon is background, never paint magenta.\nRows 3-4 MATERIAL MASK: exact same five silhouettes and material regions as upper views, but FLAT pure colours only: #00FF00 green every leather/fur part; #0000FF blue cloth/hair; #FF0000 red every metal part including gold/silver and clasp/scrollwork/borders/bosses; #FFFF00 yellow every matte nonmetal solid including parchment/paper. Every silhouette pixel gets exactly one of these colours, no shading, no texture, no outlines, no antialiased colour blends inside. Match metal scrollwork regions accurately in the cover mask.\nEverything outside guide silhouettes is fully transparent alpha, including all gaps/openings. Row 2 column 3 and row 4 column 3 remain empty transparent. Preserve layout exactly.\nCORRECTION: The prior attempt had scattered red/yellow pixels and ragged halos outside shapes. Eliminate ALL such stray pixels. Treat the guide alpha as a strict stencil: outside it alpha is exactly zero. Clean straight edges matching original guide. No dark outlines or shading in masks; pure flat RGB regions only. Keep original guide's full 3:4 canvas, no cropping.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0d-befd-7063-9f9d-155c199a6377/exec-e2e523b2-5bec-4652-9e78-d6826955cd2c.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Residual stray edge pixels and non-flat mask colours remain after the single permitted corrective generation. Raw tool output preserved without editing.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10243/paint_mask_guide.png",
+      "sha256": "1ddcfa20dee68e42ce41d68183e19001340d90c4cbde5d6bad4910f31f2f1c94"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10243/design_reference.png",
+      "sha256": "7ef012ea91a4923aae34bb1b7135362a226af533ab217502f070968fb3636bb8"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10243/icon_x8.png",
+      "sha256": "e5d3532f13ecfa868965eab9a5f8dddb16f50e20e56426cd88828683bb5a5e2c"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10243/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

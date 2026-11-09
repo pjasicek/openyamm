@@ -1,0 +1,24 @@
+{
+  "label": "Spider A",
+  "creature": "spider",
+  "base_palette": 66,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m402sa0",
+    "m402sa1",
+    "m402sa2",
+    "m402sa3",
+    "m402sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The original low broad fantasy spider: eight long angular jointed near-black charcoal legs with narrow gray upper-surface highlights, deep crimson-red distal segments, small black downward serrations on those red segments, and tiny pale ivory hooked tips. Preserve each native leg position and projection, including raised forward legs. Small black rough-textured head and thorax with clustered bright yellow eyes, short red mouth details and dark pointed mandibles. A large smooth rounded glossy very dark emerald-green abdomen sits behind the head, with the native broad pale silver-white upper highlight and deep teal underside shadows. Preserve the compact body and long thin limbs, heavy near-black tonal weight, original material colors and all occluded leg projections. No human features, clothing, armor, accessories, web, glow, cast shadow, extra legs or invented markings. Only native abdomen palette variants will be derived offline; preserve distinct shell, black legs, crimson lower legs, ivory tips and eyes."
+}

@@ -1,0 +1,22 @@
+{
+  "family": "ttn1",
+  "title": "MM6 Titan",
+  "descriptor_ids": [
+    640,
+    641,
+    642
+  ],
+  "base_palette": 828,
+  "mask_kind": "blue",
+  "description": "MM6 towering adult male titan with gray stone-like skin, stern clean-shaven face and pale glowing eyes, muscular build. Violet-blue metallic ancient Greek/Roman cuirass, rounded shoulder plates, layered armored skirt, forearm bracers and shin guards with fine gold borders. Gold belt and gold helmet trim, tall red bristle crest on the helmet. Bare gray hands, upper arms, knees and feet. Empty hands in native idle/walk, no added weapon. Preserve exact original body proportions, plate shape, red crest silhouette and pose.",
+  "regions": "Violet armor, gold trim and red helmet plume change separately by native palette. Gray skin and eyes protected.",
+  "variant_names": {
+    "828": "Titan / violet armor",
+    "829": "Titan / black armor",
+    "830": "Titan / blue trim"
+  },
+  "material_mask_channels": 4,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py"
+}

@@ -1,0 +1,24 @@
+# Hand-written (2026-11-06, scr_audit monsters_ai #4): NjamChase.scr :OnChase -> :Chase (Target the player): the map's
+# chase sends Njam's behaviour (njam.lua, njamchase.scr mode) "Chase", so he hunts the party, not only turns hostile.
+id: mm9r.arslegardcity_njam
+title: 'Arslegard City (native BLV): Njam chases the party (NjamChase.scr)'
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, draft]
+steps:
+- load_map:
+    map: arslegardcity.blv
+- setup_shortcut: {kind: set_qbit, id: 90098, value: true}
+- setup_shortcut: {kind: set_qbit, id: 90108, value: true}
+- set_pose: {map: arslegardcity.blv, x: 7326, y: -9026, z: -486, yaw: 0.0, pitch: 0.0}
+- advance_runtime: {seconds: 0.5}
+- assert:
+    actor_visible: {actor_index: 34, hidden: false, hostile_to_party: false}
+- execute_event: {id: 240}
+- assert:
+    qbit_set: [90470]
+# He walks out through Njamdoor, which the chase opens: until it has swung open his way to the party is closed
+# (MM9's CanReachTarget wait), so give him the door's time too.
+- advance_runtime: {seconds: 6.0}
+- assert:
+    actor_visible: {actor_index: 34, hostile_to_party: true, combat_targeting_party: true}

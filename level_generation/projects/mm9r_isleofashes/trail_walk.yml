@@ -1,0 +1,717 @@
+id: mm9r.isleofashes.trail_walk
+title: Walk MM9's trails on the isle
+world: mm9
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: isleofashes.odm
+- note:
+    text: yrsa_hut_climb
+- movement_segment:
+    input: forward
+    seconds: 0.69
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 2208
+      y: -15584
+      z: 448
+      yaw_degrees: 51.3
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 2464
+      y: -15264
+      z: 0
+      yaw_degrees: 51.3
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.75
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 2464
+      y: -15264
+      z: 832
+      yaw_degrees: 45.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 2784
+      y: -14944
+      z: 0
+      yaw_degrees: 45.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.68
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 2784
+      y: -14944
+      z: 832
+      yaw_degrees: 71.6
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 2912
+      y: -14560
+      z: 0
+      yaw_degrees: 71.6
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.75
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 2912
+      y: -14560
+      z: 832
+      yaw_degrees: 45.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 3232
+      y: -14240
+      z: 0
+      yaw_degrees: 45.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.75
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 3232
+      y: -14240
+      z: 672
+      yaw_degrees: 45.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 3552
+      y: -13920
+      z: 0
+      yaw_degrees: 45.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.68
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 3552
+      y: -13920
+      z: 672
+      yaw_degrees: 18.4
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 3936
+      y: -13792
+      z: 0
+      yaw_degrees: 18.4
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.75
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 3936
+      y: -13792
+      z: 928
+      yaw_degrees: 45.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 4256
+      y: -13472
+      z: 0
+      yaw_degrees: 45.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.69
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 4256
+      y: -13472
+      z: 608
+      yaw_degrees: 38.7
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 4576
+      y: -13216
+      z: 0
+      yaw_degrees: 38.7
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- note:
+    text: ring_south
+- movement_segment:
+    input: forward
+    seconds: 0.66
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 4576
+      y: -13216
+      z: 608
+      yaw_degrees: 9.5
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 4960
+      y: -13152
+      z: 0
+      yaw_degrees: 9.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.71
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 4960
+      y: -13152
+      z: 832
+      yaw_degrees: 26.6
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 5344
+      y: -12960
+      z: 0
+      yaw_degrees: 26.6
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.66
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 5344
+      y: -12960
+      z: 832
+      yaw_degrees: 9.5
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 5728
+      y: -12896
+      z: 0
+      yaw_degrees: 9.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.66
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 5728
+      y: -12896
+      z: 672
+      yaw_degrees: 9.5
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 6112
+      y: -12832
+      z: 0
+      yaw_degrees: 9.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.69
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 6112
+      y: -12832
+      z: 672
+      yaw_degrees: 51.3
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 6368
+      y: -12512
+      z: 0
+      yaw_degrees: 51.3
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.66
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 6368
+      y: -12512
+      z: 288
+      yaw_degrees: 80.5
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 6432
+      y: -12128
+      z: 0
+      yaw_degrees: 80.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.75
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 6432
+      y: -12128
+      z: 512
+      yaw_degrees: 45.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 6752
+      y: -11808
+      z: 0
+      yaw_degrees: 45.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.75
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 6752
+      y: -11808
+      z: 256
+      yaw_degrees: 45.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7072
+      y: -11488
+      z: 0
+      yaw_degrees: 45.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.69
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7072
+      y: -11488
+      z: 256
+      yaw_degrees: 51.3
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7328
+      y: -11168
+      z: 0
+      yaw_degrees: 51.3
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.63
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7328
+      y: -11168
+      z: 320
+      yaw_degrees: 59.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7520
+      y: -10848
+      z: 0
+      yaw_degrees: 59.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.63
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7520
+      y: -10848
+      z: 320
+      yaw_degrees: 59.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7712
+      y: -10528
+      z: 0
+      yaw_degrees: 59.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.48
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7712
+      y: -10528
+      z: 224
+      yaw_degrees: -14.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7968
+      y: -10592
+      z: 0
+      yaw_degrees: -14.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- note:
+    text: ring_north
+- movement_segment:
+    input: forward
+    seconds: 0.68
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7968
+      y: -10592
+      z: 224
+      yaw_degrees: 108.4
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7840
+      y: -10208
+      z: 0
+      yaw_degrees: 108.4
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.71
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7840
+      y: -10208
+      z: 256
+      yaw_degrees: 116.6
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7648
+      y: -9824
+      z: 0
+      yaw_degrees: 116.6
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.75
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7648
+      y: -9824
+      z: 416
+      yaw_degrees: 135.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7328
+      y: -9504
+      z: 0
+      yaw_degrees: 135.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.63
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7328
+      y: -9504
+      z: 416
+      yaw_degrees: 149.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 7008
+      y: -9312
+      z: 0
+      yaw_degrees: 149.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.68
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 7008
+      y: -9312
+      z: 736
+      yaw_degrees: 161.6
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 6624
+      y: -9184
+      z: 0
+      yaw_degrees: 161.6
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.65
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 6624
+      y: -9184
+      z: 640
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 6240
+      y: -9184
+      z: 0
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.66
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 6240
+      y: -9184
+      z: 640
+      yaw_degrees: -170.5
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 5856
+      y: -9248
+      z: 0
+      yaw_degrees: -170.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.66
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 5856
+      y: -9248
+      z: 1792
+      yaw_degrees: 170.5
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 5472
+      y: -9184
+      z: 0
+      yaw_degrees: 170.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.66
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 5472
+      y: -9184
+      z: 608
+      yaw_degrees: 170.5
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 5088
+      y: -9120
+      z: 0
+      yaw_degrees: 170.5
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.65
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 5088
+      y: -9120
+      z: 544
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 4704
+      y: -9120
+      z: 0
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.71
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 4704
+      y: -9120
+      z: 544
+      yaw_degrees: -153.4
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 4320
+      y: -9312
+      z: 0
+      yaw_degrees: -153.4
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.36
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: isleofashes.odm
+      x: 4320
+      y: -9312
+      z: 384
+      yaw_degrees: -135.0
+      pitch: 0
+    expect_stop:
+      map: isleofashes.odm
+      x: 4192
+      y: -9440
+      z: 0
+      yaw_degrees: -135.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

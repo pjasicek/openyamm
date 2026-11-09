@@ -1,0 +1,27 @@
+# The temple's quakes and dust (README "Camera shake"; shakes_pilot.py writes the map Lua into the scratch root): each
+# handler that shakes the view runs through to the state it sets after the evt.CameraShake / evt.SpawnWorldEffect calls
+# (a Lua error there would leave the variable unset). Run from output/mm9_rework/cinematics_pilot_run.
+id: mm9r.ruinedtemple_shakes
+world: mm9
+mode: faithful
+steps:
+- load_map: {map: ruinedtemple.blv}
+- note: {text: "PrisonButton2: the counterbalance breaks the crypt lid; DB_Crypt0's death fires TriggerHostile0 (dust 0, DBQuakeObject0)"}
+- set_pose: {map: ruinedtemple.blv, x: 451, y: 5517, z: -2866, yaw: 1.5708, pitch: -0.3}
+- execute_event: {id: 220}
+- advance_runtime: {seconds: 1.5}
+- assert: {state_dump_named_map_var: {name: Hostile0Fired, value: 1}}
+- assert: {state_dump_named_map_var: {name: CryptOpen, value: 1}}
+- note: {text: "TriggerCaveIn0: QuakeObject0 at once, the rails' DBEffectsTrigger1 twice (0.5 s, 1 s)"}
+- set_pose: {map: ruinedtemple.blv, x: -2212, y: 4178, z: -2293, yaw: 1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 2.0}
+- assert: {state_dump_named_map_var: {name: CaveIn0Done, value: 1}}
+- assert: {mechanism: {id: 3, state: open}}
+- note: {text: "The Tree of Life arms TriggerCaveIn1: QuakeObject2, the ceiling's DBEffectsTrigger2 twice"}
+- execute_event: {id: 240}
+- advance_runtime: {seconds: 0.3}
+- assert: {state_dump_named_map_var: {name: CaveIn1Armed, value: 1}}
+- set_pose: {map: ruinedtemple.blv, x: 1874, y: 1946, z: -2272, yaw: 0.0, pitch: 0.0}
+- advance_runtime: {seconds: 2.0}
+- assert: {state_dump_named_map_var: {name: CaveIn1Done, value: 1}}
+- assert: {mechanism: {id: 9, state: open}}

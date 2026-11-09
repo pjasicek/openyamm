@@ -1,0 +1,677 @@
+{
+ "id": "20261009-1649-mm7-7out13-13",
+ "world": "mm7",
+ "maps": [
+  "7out13.odm"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/hhm3el2",
+  "mm7/hwm1er2",
+  "mm7/hhp1bs",
+  "mm7/hwm2erw",
+  "mm7/hhm1b3",
+  "mm7/hhm1b1",
+  "mm7/hhm2elw",
+  "mm7/hhm1els",
+  "mm7/hhm2elw2",
+  "mm7/hwm2wall",
+  "mm7/hhm3bs",
+  "mm7/hhp1er",
+  "mm7/hhp1el",
+  "mm7/hwm1b",
+  "mm7/hhp1bw",
+  "mm7/hhm3el2a",
+  "mm7/hhp2el",
+  "mm7/hhp2els",
+  "mm7/hhm1bw",
+  "mm7/hhp1erw",
+  "mm7/hwm1bwall",
+  "mm7/hhm1d",
+  "mm7/7hhr1d",
+  "mm7/hhp1elw"
+ ],
+ "requests": {
+  "mm7/hhm3el2": {
+   "name": "hhm3el2",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of rough grey-brown weathered stucco framed by dark brown timber posts, with a diagonal timber brace",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm3er",
+      "mm7/hhm3bwr2"
+     ],
+     "fraction": 0.319
+    }
+   }
+  },
+  "mm7/hwm1er2": {
+   "name": "hwm1er2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "timber house wall of golden-brown horizontal wooden boards above, carved wooden panels with ornate leaf relief below, framed by dark brown timber beams, with a carved diagonal wooden bracket in the upper left corner and a dark post on the left edge; copy the composition exactly",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: the dark joint on the top edge stays on the very first pixel row; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.312
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.312
+    },
+    "3": {
+     "sources": [
+      "mm7/hwm1bs1"
+     ],
+     "fraction": 0.312
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hwm1el2"
+    }
+   }
+  },
+  "mm7/hhp1bs": {
+   "name": "hhp1bs",
+   "versions": [
+    1
+   ],
+   "material": "plain rough grey weathered stucco plaster, with a few patches where the plaster has flaked off",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp1b"
+     ],
+     "fraction": 0.725
+    }
+   }
+  },
+  "mm7/hwm2erw": {
+   "name": "hwm2erw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of rounded grey fieldstones with dark recessed mortar and dark grey carved stone trim bands, with a square window of carved four-petal wooden lattice and a dressed stone pilaster on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm2er"
+     ],
+     "fraction": 0.74
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm2er"
+     ],
+     "fraction": 0.74
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm7/hwm2bw"
+    }
+   }
+  },
+  "mm7/hhm1b3": {
+   "name": "hhm1b3",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall in a dark brown timber frame: upper panel of dark brown wattle and clay, lower part of grey weathered vertical wooden planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm1b2"
+     ],
+     "fraction": 0.337
+    }
+   }
+  },
+  "mm7/hhm1b1": {
+   "name": "hhm1b1",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall in a dark brown timber frame: upper panel of dark brown wattle and clay crossed by a diagonal timber brace, lower part of grey weathered vertical wooden planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm1b3",
+      "mm7/hhm1b2"
+     ],
+     "fraction": 0.612
+    }
+   }
+  },
+  "mm7/hhm2elw": {
+   "name": "hhm2elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace, with a small arched shuttered wooden window, end piece",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: the dark band along the bottom edge stays dark down to the very last pixel row; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2el",
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.628
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2el",
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.628
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hhm2b1"
+    }
+   }
+  },
+  "mm7/hhm1els": {
+   "name": "hhm1els",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall in a dark brown timber frame: upper panel of dark brown wattle and clay crossed by a diagonal timber brace, lower part of grey weathered vertical wooden planks, end piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm1b2le"
+     ],
+     "fraction": 0.629
+    }
+   }
+  },
+  "mm7/hhm2elw2": {
+   "name": "hhm2elw2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered wall in dark brown timber beams: upper panel of smooth straw-yellow plaster, lower panel of dark brown daub crossed by a diagonal timber brace, with a small lattice vent window, end piece",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: the dark band along the bottom edge stays dark down to the very last pixel row; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2el"
+     ],
+     "fraction": 0.623
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2el"
+     ],
+     "fraction": 0.623
+    },
+    "3": {
+     "sources": [
+      "mm7/hhm2el"
+     ],
+     "fraction": 0.623
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hhm2b2"
+    }
+   }
+  },
+  "mm7/hwm2wall": {
+   "name": "hwm2wall",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wall of rounded grey fieldstones with dark recessed mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.623
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm2b"
+     ],
+     "fraction": 0.623
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hwm2d",
+     "left": "mm7/cwb",
+     "bottom": "mm7/hwm2bs1"
+    }
+   }
+  },
+  "mm7/hhm3bs": {
+   "name": "hhm3bs",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall of rough grey-brown weathered stucco framed by dark brown timber posts, with a small slit vent near the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm3bw"
+     ],
+     "fraction": 0.607
+    }
+   }
+  },
+  "mm7/hhp1er": {
+   "name": "hhp1er",
+   "versions": [
+    1
+   ],
+   "material": "plain rough grey weathered stucco plaster, with patches where the plaster has fallen away exposing dark stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp1b"
+     ],
+     "fraction": 0.385
+    }
+   }
+  },
+  "mm7/hhp1el": {
+   "name": "hhp1el",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough grey weathered stucco plaster with a dark weathered timber post along the left edge and patches near the bottom where the plaster has fallen away exposing dark stone",
+   "notes": {
+    "3": "the plaster continues to the very bottom edge at its full grey tone and meets the timber beam of the next storey there: no dark line, shadow or gap along the bottom edge or the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp1b"
+     ],
+     "fraction": 0.383
+    },
+    "2": {
+     "sources": [
+      "mm7/hhp1b"
+     ],
+     "fraction": 0.383
+    },
+    "3": {
+     "sources": [
+      "mm7/hhp1b"
+     ],
+     "fraction": 0.383
+    }
+   }
+  },
+  "mm7/hwm1b": {
+   "name": "hwm1b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "timber house wall of golden-brown horizontal wooden boards above, three carved wooden panels with ornate leaf relief below, framed by dark brown timber beams",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: the dark joint on the top edge stays on the very first pixel row; no pale or dark line along any edge",
+    "4": "copy the layout exactly: the lower band holds three carved wooden panels separated by narrow black gaps, with a narrow black gap at the very left edge, each panel at the same position and width as in the reference; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "5": "copy the layout exactly: the lower band holds three carved wooden panels separated by narrow black gaps, with a narrow black gap at the very left edge, each panel at the same position and width as in the reference; every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.257
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.257
+    },
+    "3": {
+     "sources": [
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.257
+    },
+    "4": {
+     "sources": [
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.257
+    },
+    "5": {
+     "sources": [
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.257
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hwm1el2"
+    },
+    "4": {
+     "right": "mm7/hwm1el2"
+    },
+    "5": {
+     "right": "mm7/hwm1bs1",
+     "left": "mm7/hwm1bs1"
+    }
+   },
+   "pad": {
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/hhp1bw": {
+   "name": "hhp1bw",
+   "versions": [
+    1
+   ],
+   "material": "plain rough grey weathered stucco plaster, with a small window boarded with rough wooden slats",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp1b"
+     ],
+     "fraction": 0.461
+    }
+   }
+  },
+  "mm7/hhm3el2a": {
+   "name": "hhm3el2a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered wall of rough grey-brown weathered stucco framed by dark brown timber posts, with a diagonal timber brace",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm3el2"
+     ],
+     "fraction": 0.453
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm3el2"
+     ],
+     "fraction": 0.453
+    },
+    "3": {
+     "sources": [
+      "mm7/hhm3el2"
+     ],
+     "fraction": 0.453
+    }
+   },
+   "roll": {
+    "3": [
+     57,
+     0
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   },
+   "joint_tone": true
+  },
+  "mm7/hhp2el": {
+   "name": "hhp2el",
+   "versions": [
+    1
+   ],
+   "material": "ramshackle wall of dark rough rubble stone and crumbling grey clay plaster with rough weathered wooden boards and posts, with a broken boarded window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp2els": {
+   "name": "hhp2els",
+   "versions": [
+    1
+   ],
+   "material": "ramshackle wall of dark rough rubble stone and crumbling grey clay plaster with rough weathered wooden boards and posts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp2el"
+     ],
+     "fraction": 0.454
+    }
+   }
+  },
+  "mm7/hhm1bw": {
+   "name": "hhm1bw",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall in a dark brown timber frame: upper panel with a diamond lattice window in a wooden frame, lower part of grey weathered vertical wooden planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm1b3",
+      "mm7/hhm1b2"
+     ],
+     "fraction": 0.349
+    }
+   }
+  },
+  "mm7/hhp1erw": {
+   "name": "hhp1erw",
+   "versions": [
+    1
+   ],
+   "material": "plain rough grey weathered stucco plaster, with a small window boarded with rough wooden slats",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp1b",
+      "mm7/hhp1er"
+     ],
+     "fraction": 0.366
+    }
+   }
+  },
+  "mm7/hwm1bwall": {
+   "name": "hwm1bwall",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "golden-brown horizontal wooden boards with staggered butt joints and small nail heads, no beams or panels",
+   "notes": {
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: the dark joint on the top edge stays on the very first pixel row; no pale or dark line along any edge",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: the dark joint on the top edge stays on the very first pixel row; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwm1b",
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.333
+    },
+    "2": {
+     "sources": [
+      "mm7/hwm1b",
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.333
+    },
+    "3": {
+     "sources": [
+      "mm7/hwm1b",
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.333
+    },
+    "4": {
+     "sources": [
+      "mm7/hwm1b",
+      "mm7/hwm1er2"
+     ],
+     "fraction": 0.333
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {
+     "left": "mm7/hwm1bs1",
+     "right": "mm7/hwm1bs1"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/hhm1d": {
+   "name": "hhm1d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "door of grey weathered vertical oak planks with a horizontal middle rail and diagonal cross braces above and below, in a dark timber frame, with small iron latch plates on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm1b2"
+     ],
+     "fraction": 0.191
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm1b2"
+     ],
+     "fraction": 0.191
+    }
+   }
+  },
+  "mm7/7hhr1d": {
+   "name": "7hhr1d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house wall of smooth cream-tan lime plaster framed by dark brown oak beams, carved timber trim along the top, with a reddish-brown chevron-planked door with large ornate brass strap fittings and a brass lock plate, between dark marble jambs under a small gabled timber pediment; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7hhr1bw2"
+     ],
+     "fraction": 0.185
+    },
+    "2": {
+     "sources": [
+      "mm7/7hhr1bw2"
+     ],
+     "fraction": 0.185
+    }
+   }
+  },
+  "mm7/hhp1elw": {
+   "name": "hhp1elw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain rough grey weathered stucco plaster, with a small window boarded with rough wooden slats",
+   "notes": {
+    "2": "the timber beam along the top reaches the very top edge with its lit upper face, as bright as in the reference; no dark line along the top edge",
+    "3": "the grey plaster continues right up to the right edge and the top beam reaches the very top edge, both as bright as in the reference; no dark rim, shadow or frame line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp1el"
+     ],
+     "fraction": 0.162
+    },
+    "2": {
+     "sources": [
+      "mm7/hhp1el"
+     ],
+     "fraction": 0.162
+    },
+    "3": {
+     "sources": [
+      "mm7/hhp1el"
+     ],
+     "fraction": 0.162
+    }
+   }
+  }
+ }
+}

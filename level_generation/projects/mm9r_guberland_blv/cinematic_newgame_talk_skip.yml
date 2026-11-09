@@ -1,0 +1,21 @@
+# The new-game talk (newgame_talk) skipped at 2 s (evt.SkipCinematic: an ambient cinematic takes no skip keys): its
+# remaining step (Broccan's walk to Mata) still runs, and Scandlan's FoundPlayer never starts it again (README
+# "Cinematics").
+id: mm9r.guberland_blv.cinematic_newgame_talk_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: guberland.blv}
+- set_pose: {map: guberland.blv, x: 12300, y: 14435, z: 121, yaw: -1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 2.5}
+- console: {line: cinematic list, expect_contains: playing newgame_talk}
+- assert: {qbit_set: [95020]}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- note: {text: "over: a save works again"}
+- save_game: {name: after_skip}
+- note: {text: "a second visit: Scandlan perceives the party again, nothing starts (key 5020)"}
+- load_map: {map: guberland.blv}
+- set_pose: {map: guberland.blv, x: 12300, y: 14435, z: 121, yaw: -1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 2.5}
+- save_game: {name: second_visit}

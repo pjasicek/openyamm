@@ -1,0 +1,3 @@
+Saved four 1254×1254 RGBA heads in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm7_m182_claude/references_head), with all built-in generation prompts, hashes and reviews in `generation_runs.json`.
+
+Stopped at the correction limit. Remaining deviations: oversized crest spikes and faint alpha pixels within margins; the three-quarter view also has tight vertical margins.

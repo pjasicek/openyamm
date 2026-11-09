@@ -1,0 +1,652 @@
+{
+  "brief": "CODEX_BRIEF.md",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item, Hesper ion carbine.\nInput image 1 is the EDIT TARGET, a plain white orthographic guide. It alone determines every pixel of geometry, silhouette, part boundary, camera, orientation, scale, and placement. Input image 2 is design_reference.png, the approved colour/material/design authority only; do not copy its camera angle or its different silhouette.\nPaint ONLY the opaque object pixels of image 1. Preserve the guide's exact alpha silhouette, all tiny outline details, empty holes, large transparent margins, every part edge and position. Return a single 1024 x 1024 RGBA PNG with a truly transparent background. Do not crop, enlarge, recenter, rotate, mirror, reframe or change any geometry. Retain the square canvas and guide's small object occupancy exactly. No contact sheet.\nTransfer the approved design onto the existing guide surfaces: warm white ceramic with fine worn grain and fine seams; restrained brushed antique-gold edging and fittings; black-violet organic resin with sculpted branching grooves; small orange light-coloured insets among the resin; blue-white light-coloured ion channels at the barrel and muzzle. Ceramic rib bands remain ceramic, resin remains dark violet-black, energy and glass retain their reference colours. Continue unseen surfaces plausibly using these same materials. Engraved lines, seams and small non-letter markings only where the design supports them. Do not invent additional equipment or surfaces.\nLighting is flat, even and shadowless from the viewer. This is ALBEDO, with NO baked cast shadows, NO ambient-occlusion darkening, NO bright specular highlights, NO reflections, NO rim light, NO directional shading gradients. Metals have their base colour with at most a faint sheen. Glowing parts are painted their bright blue-white or orange base colour, with no bloom or light spill beyond their boundaries. No background, floor, text, letters, numbers, labels, logos or watermark.\nThe white guide is geometry, not the intended material. Replace its white clay shading with the approved surface colours while preserving the original silhouette exactly.\nTarget view is guide_front.png. Preserve this extremely thin horizontal edge-on projection exactly. Muzzle is LEFT, stock is RIGHT. Object occupies x=66..957 and y=448..575 on the 1024 square. Do not show the broad side profile from the design reference. Ceramic curved rib edges occupy the central-right raised/lowered projections around x=583..674. The long straight barrel at x=200..328 receives blue-white ion channels with gold rails; the left muzzle has white ceramic collar and dark violet claw tips. Continue receiver and stock materials over the visible narrow surfaces.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "ebd5765394e8f8119ee765821ed518efcabdb76052e735b7c30fbe02bd004614"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected initial return: normalized silhouette IoU 0.958 versus 0.501 for correction. Correct orientation and material family; shaded relief and nonidentical alpha remain.",
+      "tool": "built-in image_gen",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a16e7d-f03b-7c00-bfe3-718c569306c7/exec-1ee09202-da30-49d6-87e5-1d6e6d0f72b3.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          0,
+          1210,
+          1222
+        ],
+        "guide_alpha_bbox": [
+          66,
+          448,
+          958,
+          576
+        ],
+        "exact_alpha_match": false,
+        "silhouette_iou_normalized": 0.9575413646930124,
+        "silhouette_outside_pixels": 2227,
+        "silhouette_missing_pixels": 878,
+        "comparison_note": "Binary alpha threshold 128; guide sampled to returned dimensions for measurement only; output was not edited or resized.",
+        "output_sha256": "468a3df0ab9c7a122fec12874ffe586832a3001aece0fbc6db98fb476fe41543",
+        "corner_alpha_zero": false,
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha and silhouette differences remain",
+        "transparent_pixels": 1486175,
+        "nonzero_alpha_outside_normalized_guide": 15495,
+        "faint_alpha_outside_normalized_guide": 13268,
+        "opaque_bbox": [
+          81,
+          550,
+          1174,
+          706
+        ],
+        "visual_review": {
+          "guide_orientation_and_framing": "Overall orientation and normalized framing retained; exact silhouette fails",
+          "materials": "White ceramic, antique gold, dark-violet resin and coloured energy consistent with reference palette; unseen surfaces inferred",
+          "lighting": "Noticeable painted relief, dark creases and bright gold/energy highlights; strict flat-albedo check fails",
+          "no_text_or_letters": true,
+          "strict_brief_checks_pass": false
+        }
+      },
+      "raw_output": "paint_front_attempt1.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item, Hesper ion carbine.\nInput image 1 is the EDIT TARGET, a plain white orthographic guide. It alone determines every pixel of geometry, silhouette, part boundary, camera, orientation, scale, and placement. Input image 2 is design_reference.png, the approved colour/material/design authority only; do not copy its camera angle or its different silhouette.\nPaint ONLY the opaque object pixels of image 1. Preserve the guide's exact alpha silhouette, all tiny outline details, empty holes, large transparent margins, every part edge and position. Return a single 1024 x 1024 RGBA PNG with a truly transparent background. Do not crop, enlarge, recenter, rotate, mirror, reframe or change any geometry. Retain the square canvas and guide's small object occupancy exactly. No contact sheet.\nTransfer the approved design onto the existing guide surfaces: warm white ceramic with fine worn grain and fine seams; restrained brushed antique-gold edging and fittings; black-violet organic resin with sculpted branching grooves; small orange light-coloured insets among the resin; blue-white light-coloured ion channels at the barrel and muzzle. Ceramic rib bands remain ceramic, resin remains dark violet-black, energy and glass retain their reference colours. Continue unseen surfaces plausibly using these same materials. Engraved lines, seams and small non-letter markings only where the design supports them. Do not invent additional equipment or surfaces.\nLighting is flat, even and shadowless from the viewer. This is ALBEDO, with NO baked cast shadows, NO ambient-occlusion darkening, NO bright specular highlights, NO reflections, NO rim light, NO directional shading gradients. Metals have their base colour with at most a faint sheen. Glowing parts are painted their bright blue-white or orange base colour, with no bloom or light spill beyond their boundaries. No background, floor, text, letters, numbers, labels, logos or watermark.\nThe white guide is geometry, not the intended material. Replace its white clay shading with the approved surface colours while preserving the original silhouette exactly.\nTarget view is guide_front.png. Preserve this extremely thin horizontal edge-on projection exactly. Muzzle is LEFT, stock is RIGHT. Object occupies x=66..957 and y=448..575 on the 1024 square. Do not show the broad side profile from the design reference. Ceramic curved rib edges occupy the central-right raised/lowered projections around x=583..674. The long straight barrel at x=200..328 receives blue-white ion channels with gold rails; the left muzzle has white ceramic collar and dark violet claw tips. Continue receiver and stock materials over the visible narrow surfaces.\nCORRECTIVE GENERATION (one allowed): input image 3 is the previous painted attempt, supplied ONLY to show what needs correction. It had too much shaded relief, gold highlights, opaque stray pixels in transparent margins and some edge drift. Start from input image 1's alpha mask and geometry, NOT image 3's silhouette. Match the guide's silhouette pixel for pixel. All canvas outside that exact mask must have alpha 0, including every corner and all isolated flecks. Preserve the guide's part boundaries. Keep the same approved material distribution but make it a flat, unlit base-colour painting: remove the apparent drop shadow under every rib, dark occlusion around panels and gold specular highlights. No bright edge lighting, no glossy 3D rendering. Internal organic grooves should be subtle dark-violet pigment lines, with no black occlusion halos. Request output 1024 x 1024 at the exact framing of input image 1.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "ebd5765394e8f8119ee765821ed518efcabdb76052e735b7c30fbe02bd004614"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        },
+        {
+          "path": "paint_front_attempt1.png",
+          "sha256": "468a3df0ab9c7a122fec12874ffe586832a3001aece0fbc6db98fb476fe41543"
+        }
+      ],
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: correction moved and enlarged the object, reducing normalized silhouette IoU to 0.501.",
+      "tool": "built-in image_gen",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a16e7d-f03b-7c00-bfe3-718c569306c7/exec-ecc39ecf-44ce-4d4e-b429-b1c5af30c528.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          51,
+          53,
+          1232,
+          1164
+        ],
+        "guide_alpha_bbox": [
+          66,
+          448,
+          958,
+          576
+        ],
+        "exact_alpha_match": false,
+        "silhouette_iou_normalized": 0.5014569754630916,
+        "silhouette_outside_pixels": 26216,
+        "silhouette_missing_pixels": 22202,
+        "comparison_note": "Binary alpha threshold 128; guide sampled to returned dimensions for measurement only; output was not edited or resized.",
+        "output_sha256": "6fe938a73d5e4d7ce7708f568b5e7d8d8544b68109975a0ab67470af01f553eb",
+        "corner_alpha_zero": true,
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha and silhouette differences remain",
+        "transparent_pixels": 1485729,
+        "nonzero_alpha_outside_normalized_guide": 33482,
+        "faint_alpha_outside_normalized_guide": 7266,
+        "opaque_bbox": [
+          59,
+          571,
+          1192,
+          730
+        ],
+        "visual_review": {
+          "guide_orientation_and_framing": "Incorrect framing in front correction",
+          "materials": "White ceramic, antique gold, dark-violet resin and coloured energy consistent with reference palette; unseen surfaces inferred",
+          "lighting": "Flatter pigment treatment, but some shading remains",
+          "no_text_or_letters": true,
+          "strict_brief_checks_pass": false
+        }
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item, Hesper ion carbine.\nInput image 1 is the EDIT TARGET, a plain white orthographic guide. It alone determines every pixel of geometry, silhouette, part boundary, camera, orientation, scale, and placement. Input image 2 is design_reference.png, the approved colour/material/design authority only; do not copy its camera angle or its different silhouette.\nPaint ONLY the opaque object pixels of image 1. Preserve the guide's exact alpha silhouette, all tiny outline details, empty holes, large transparent margins, every part edge and position. Return a single 1024 x 1024 RGBA PNG with a truly transparent background. Do not crop, enlarge, recenter, rotate, mirror, reframe or change any geometry. Retain the square canvas and guide's small object occupancy exactly. No contact sheet.\nTransfer the approved design onto the existing guide surfaces: warm white ceramic with fine worn grain and fine seams; restrained brushed antique-gold edging and fittings; black-violet organic resin with sculpted branching grooves; small orange light-coloured insets among the resin; blue-white light-coloured ion channels at the barrel and muzzle. Ceramic rib bands remain ceramic, resin remains dark violet-black, energy and glass retain their reference colours. Continue unseen surfaces plausibly using these same materials. Engraved lines, seams and small non-letter markings only where the design supports them. Do not invent additional equipment or surfaces.\nLighting is flat, even and shadowless from the viewer. This is ALBEDO, with NO baked cast shadows, NO ambient-occlusion darkening, NO bright specular highlights, NO reflections, NO rim light, NO directional shading gradients. Metals have their base colour with at most a faint sheen. Glowing parts are painted their bright blue-white or orange base colour, with no bloom or light spill beyond their boundaries. No background, floor, text, letters, numbers, labels, logos or watermark.\nThe white guide is geometry, not the intended material. Replace its white clay shading with the approved surface colours while preserving the original silhouette exactly.\nTarget view is guide_back.png. Preserve this extremely thin horizontal opposite edge-on projection exactly. Stock is LEFT, muzzle is RIGHT. Object occupies x=66..957 and y=448..575 on the 1024 square. Do not show the broad side profile from the design reference. Ceramic rib edges project around x=350..440, barrel runs toward the right at x=695..825, and the right muzzle receives ceramic and dark-violet claws. Continue unseen rear/under surfaces using the same material families.\nKeep every canvas corner and all margins completely transparent (alpha 0). Paint a base-colour/albedo pass, not a lit beauty render: muted gold base pigment, no dark occlusion around raised edges, ceramic consistently light from edge to centre. Exact original guide silhouette takes precedence over attractive composition.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "d8163c0ca233840265a2b2768fe2305a5781b8900053dfdb8369184d3d12d25b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by corrective return with flatter albedo colours.",
+      "tool": "built-in image_gen",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a16e7d-f03b-7c00-bfe3-718c569306c7/exec-66e1cd24-145f-4962-b950-f899951ee0c0.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          0,
+          157,
+          1253,
+          1182
+        ],
+        "guide_alpha_bbox": [
+          66,
+          448,
+          958,
+          576
+        ],
+        "exact_alpha_match": false,
+        "silhouette_iou_normalized": 0.9571559670725527,
+        "silhouette_outside_pixels": 2106,
+        "silhouette_missing_pixels": 1022,
+        "comparison_note": "Binary alpha threshold 128; guide sampled to returned dimensions for measurement only; output was not edited or resized.",
+        "output_sha256": "6cc3183276e1ad0b79875fb5fc1dd51acdccf7f6d39f8488eb6c5c34cc6ac6ab",
+        "corner_alpha_zero": true,
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha and silhouette differences remain",
+        "transparent_pixels": 1486851,
+        "nonzero_alpha_outside_normalized_guide": 14926,
+        "faint_alpha_outside_normalized_guide": 12820,
+        "opaque_bbox": [
+          81,
+          550,
+          1174,
+          704
+        ],
+        "visual_review": {
+          "guide_orientation_and_framing": "Overall orientation and normalized framing retained; exact silhouette fails",
+          "materials": "White ceramic, antique gold, dark-violet resin and coloured energy consistent with reference palette; unseen surfaces inferred",
+          "lighting": "Noticeable painted relief, dark creases and bright gold/energy highlights; strict flat-albedo check fails",
+          "no_text_or_letters": true,
+          "strict_brief_checks_pass": false
+        }
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item, Hesper ion carbine.\nInput image 1 is the EDIT TARGET, a plain white orthographic guide. It alone determines every pixel of geometry, silhouette, part boundary, camera, orientation, scale, and placement. Input image 2 is design_reference.png, the approved colour/material/design authority only; do not copy its camera angle or its different silhouette.\nPaint ONLY the opaque object pixels of image 1. Preserve the guide's exact alpha silhouette, all tiny outline details, empty holes, large transparent margins, every part edge and position. Return a single 1024 x 1024 RGBA PNG with a truly transparent background. Do not crop, enlarge, recenter, rotate, mirror, reframe or change any geometry. Retain the square canvas and guide's small object occupancy exactly. No contact sheet.\nTransfer the approved design onto the existing guide surfaces: warm white ceramic with fine worn grain and fine seams; restrained brushed antique-gold edging and fittings; black-violet organic resin with sculpted branching grooves; small orange light-coloured insets among the resin; blue-white light-coloured ion channels at the barrel and muzzle. Ceramic rib bands remain ceramic, resin remains dark violet-black, energy and glass retain their reference colours. Continue unseen surfaces plausibly using these same materials. Engraved lines, seams and small non-letter markings only where the design supports them. Do not invent additional equipment or surfaces.\nLighting is flat, even and shadowless from the viewer. This is ALBEDO, with NO baked cast shadows, NO ambient-occlusion darkening, NO bright specular highlights, NO reflections, NO rim light, NO directional shading gradients. Metals have their base colour with at most a faint sheen. Glowing parts are painted their bright blue-white or orange base colour, with no bloom or light spill beyond their boundaries. No background, floor, text, letters, numbers, labels, logos or watermark.\nThe white guide is geometry, not the intended material. Replace its white clay shading with the approved surface colours while preserving the original silhouette exactly.\nTarget view is guide_left.png. Preserve the tiny foreshortened end-on projection exactly. Object occupies ONLY x=393..630 and y=448..575 on the 1024 square, surrounded by huge transparent margins. Do not enlarge it. Preserve the white guide's silhouette and its exact viewing angle; the broad rifle profile from the design reference must NOT appear. Continue the visible foreshortened receiver, rib edges and rightward grip/stock projection using the approved ceramic, gold, dark-violet resin, and energy colours. The guide's long horizontal projection points RIGHT. Do not add any side-profile barrel.\nKeep every canvas corner and all margins completely transparent (alpha 0). Paint a base-colour/albedo pass, not a lit beauty render: muted gold base pigment, no dark occlusion around raised edges, ceramic consistently light from edge to centre. Exact original guide silhouette takes precedence over attractive composition.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "2127b84cab5dc0c525df9da602b3a58c379fa844e39990f082fa22a7a41027b8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: projected grip was incorrectly painted as a blue-white energy tube.",
+      "tool": "built-in image_gen",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a16e7d-f03b-7c00-bfe3-718c569306c7/exec-5c1706d5-895d-417f-9de3-77e09cc04d8f.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          105,
+          136,
+          1176,
+          1190
+        ],
+        "guide_alpha_bbox": [
+          393,
+          448,
+          631,
+          576
+        ],
+        "exact_alpha_match": false,
+        "silhouette_iou_normalized": 0.9538581180333535,
+        "silhouette_outside_pixels": 943,
+        "silhouette_missing_pixels": 125,
+        "comparison_note": "Binary alpha threshold 128; guide sampled to returned dimensions for measurement only; output was not edited or resized.",
+        "output_sha256": "fac5ac8dde8b3deb652441e465b6b0cc22ad88d4af9dd05ab0db84b06fcac97c",
+        "corner_alpha_zero": true,
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha and silhouette differences remain",
+        "transparent_pixels": 1546032,
+        "nonzero_alpha_outside_normalized_guide": 4308,
+        "faint_alpha_outside_normalized_guide": 3365,
+        "opaque_bbox": [
+          482,
+          549,
+          772,
+          705
+        ],
+        "visual_review": {
+          "guide_orientation_and_framing": "Overall orientation and normalized framing retained; exact silhouette fails",
+          "materials": "Incorrect blue barrel-like grip",
+          "lighting": "Noticeable painted relief, dark creases and bright gold/energy highlights; strict flat-albedo check fails",
+          "no_text_or_letters": true,
+          "strict_brief_checks_pass": false
+        }
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item, Hesper ion carbine.\nInput image 1 is the EDIT TARGET, a plain white orthographic guide. It alone determines every pixel of geometry, silhouette, part boundary, camera, orientation, scale, and placement. Input image 2 is design_reference.png, the approved colour/material/design authority only; do not copy its camera angle or its different silhouette.\nPaint ONLY the opaque object pixels of image 1. Preserve the guide's exact alpha silhouette, all tiny outline details, empty holes, large transparent margins, every part edge and position. Return a single 1024 x 1024 RGBA PNG with a truly transparent background. Do not crop, enlarge, recenter, rotate, mirror, reframe or change any geometry. Retain the square canvas and guide's small object occupancy exactly. No contact sheet.\nTransfer the approved design onto the existing guide surfaces: warm white ceramic with fine worn grain and fine seams; restrained brushed antique-gold edging and fittings; black-violet organic resin with sculpted branching grooves; small orange light-coloured insets among the resin; blue-white light-coloured ion channels at the barrel and muzzle. Ceramic rib bands remain ceramic, resin remains dark violet-black, energy and glass retain their reference colours. Continue unseen surfaces plausibly using these same materials. Engraved lines, seams and small non-letter markings only where the design supports them. Do not invent additional equipment or surfaces.\nLighting is flat, even and shadowless from the viewer. This is ALBEDO, with NO baked cast shadows, NO ambient-occlusion darkening, NO bright specular highlights, NO reflections, NO rim light, NO directional shading gradients. Metals have their base colour with at most a faint sheen. Glowing parts are painted their bright blue-white or orange base colour, with no bloom or light spill beyond their boundaries. No background, floor, text, letters, numbers, labels, logos or watermark.\nThe white guide is geometry, not the intended material. Replace its white clay shading with the approved surface colours while preserving the original silhouette exactly.\nTarget view is guide_right.png. Preserve the tiny opposite foreshortened end-on projection exactly. Object occupies ONLY x=393..630 and y=448..575 on the 1024 square, surrounded by huge transparent margins. Do not enlarge it. Preserve the white guide's silhouette and exact viewing angle; the broad rifle profile from the design reference must NOT appear. Continue the visible foreshortened receiver, rib edges and leftward grip/stock projection using the approved ceramic, gold, dark-violet resin, and energy colours. The guide's long horizontal projection points LEFT. Do not add any side-profile barrel.\nKeep every canvas corner and all margins completely transparent (alpha 0). Paint a base-colour/albedo pass, not a lit beauty render: muted gold base pigment, no dark occlusion around raised edges, ceramic consistently light from edge to centre. Exact original guide silhouette takes precedence over attractive composition.\nAnatomical/material mapping: the long leftward projection in this end-on view is the PISTOL GRIP seen edge-on. Paint it warm ivory ceramic with narrow black-violet resin borders and a dull brushed-gold heel cap, exactly like the reference's grip. It is not an ion chamber: no blue stripe, tube or glowing section on that projection. The central foreshortened receiver has ceramic rib edges over dark-violet resin, with restrained orange insets only where plausible.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "041ca0581550101d01014d8fe2eba1bb8f45f7ee0c7b1cfac2bdff71269ff8d2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected initial return because the only corrective call was rejected. Correct ceramic grip and material family; shaded relief and nonidentical alpha remain.",
+      "tool": "built-in image_gen",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a16e7d-f03b-7c00-bfe3-718c569306c7/exec-c28296a6-69b9-48f1-a8bf-f625d1be17eb.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          43,
+          45,
+          1184,
+          1166
+        ],
+        "guide_alpha_bbox": [
+          393,
+          448,
+          631,
+          576
+        ],
+        "exact_alpha_match": false,
+        "silhouette_iou_normalized": 0.945419602818706,
+        "silhouette_outside_pixels": 1212,
+        "silhouette_missing_pixels": 66,
+        "comparison_note": "Binary alpha threshold 128; guide sampled to returned dimensions for measurement only; output was not edited or resized.",
+        "output_sha256": "93d98063b1fbf1b7faa4bbe3102ff9aafa70d952d24c3b0386814c18e9d11bbd",
+        "corner_alpha_zero": true,
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha and silhouette differences remain",
+        "transparent_pixels": 1546588,
+        "nonzero_alpha_outside_normalized_guide": 3732,
+        "faint_alpha_outside_normalized_guide": 2520,
+        "opaque_bbox": [
+          481,
+          549,
+          773,
+          705
+        ],
+        "visual_review": {
+          "guide_orientation_and_framing": "Overall orientation and normalized framing retained; exact silhouette fails",
+          "materials": "White ceramic, antique gold, dark-violet resin and coloured energy consistent with reference palette; unseen surfaces inferred",
+          "lighting": "Noticeable painted relief, dark creases and bright gold/energy highlights; strict flat-albedo check fails",
+          "no_text_or_letters": true,
+          "strict_brief_checks_pass": false
+        }
+      },
+      "raw_output": "paint_right_attempt1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D game item, Hesper ion carbine.\nInput image 1 is the EDIT TARGET, a plain white orthographic guide. It alone determines every pixel of geometry, silhouette, part boundary, camera, orientation, scale, and placement. Input image 2 is design_reference.png, the approved colour/material/design authority only; do not copy its camera angle or its different silhouette.\nPaint ONLY the opaque object pixels of image 1. Preserve the guide's exact alpha silhouette, all tiny outline details, empty holes, large transparent margins, every part edge and position. Return a single 1024 x 1024 RGBA PNG with a truly transparent background. Do not crop, enlarge, recenter, rotate, mirror, reframe or change any geometry. Retain the square canvas and guide's small object occupancy exactly. No contact sheet.\nTransfer the approved design onto the existing guide surfaces: warm white ceramic with fine worn grain and fine seams; restrained brushed antique-gold edging and fittings; black-violet organic resin with sculpted branching grooves; small orange light-coloured insets among the resin; blue-white light-coloured ion channels at the barrel and muzzle. Ceramic rib bands remain ceramic, resin remains dark violet-black, energy and glass retain their reference colours. Continue unseen surfaces plausibly using these same materials. Engraved lines, seams and small non-letter markings only where the design supports them. Do not invent additional equipment or surfaces.\nLighting is flat, even and shadowless from the viewer. This is ALBEDO, with NO baked cast shadows, NO ambient-occlusion darkening, NO bright specular highlights, NO reflections, NO rim light, NO directional shading gradients. Metals have their base colour with at most a faint sheen. Glowing parts are painted their bright blue-white or orange base colour, with no bloom or light spill beyond their boundaries. No background, floor, text, letters, numbers, labels, logos or watermark.\nThe white guide is geometry, not the intended material. Replace its white clay shading with the approved surface colours while preserving the original silhouette exactly.\nTarget view is guide_top.png. This model's directly-above orthographic guide shows its broad rifle profile: muzzle LEFT, stock RIGHT, grip pointing DOWN. Preserve this actual projection even though the design reference faces the opposite direction. Object occupies x=66..957 and y=393..630 on the 1024 square. Preserve all stock holes, trigger-guard opening, ceramic rib boundaries, spikes, barrel rails and muzzle prongs exactly. Map dark-violet resin and orange insets to receiver/stock, white ceramic to grip insert, rib cage bands, upper receiver and muzzle collar, brushed gold to borders/fittings, and blue-white to the straight barrel ion chamber and muzzle core. Do not introduce the design reference's larger silhouette or extra ribs.\nKeep every canvas corner and all margins completely transparent (alpha 0). Paint a base-colour/albedo pass, not a lit beauty render: muted gold base pigment, no dark occlusion around raised edges, ceramic consistently light from edge to centre. Exact original guide silhouette takes precedence over attractive composition.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "2c19a6bb41b505d982eeef9ba2d99dce25a72dc94d9a007e541ff41a81a723c9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected initial return because the only corrective call was rejected. Reference materials and broad-profile guide projection retained; shaded relief, minor hole/outline drift and nonidentical alpha remain.",
+      "tool": "built-in image_gen",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a16e7d-f03b-7c00-bfe3-718c569306c7/exec-c3661af2-6ae5-49f8-8d67-14a65070f090.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          49,
+          37,
+          1202,
+          1214
+        ],
+        "guide_alpha_bbox": [
+          66,
+          393,
+          958,
+          631
+        ],
+        "exact_alpha_match": false,
+        "silhouette_iou_normalized": 0.9613086770981508,
+        "silhouette_outside_pixels": 4074,
+        "silhouette_missing_pixels": 550,
+        "comparison_note": "Binary alpha threshold 128; guide sampled to returned dimensions for measurement only; output was not edited or resized.",
+        "output_sha256": "e5fbe22378716e46c71f60f19f86c6ad38f979d4eb04d11c23bdbd4e6b8c88ae",
+        "corner_alpha_zero": true,
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha and silhouette differences remain",
+        "transparent_pixels": 1437909,
+        "nonzero_alpha_outside_normalized_guide": 19200,
+        "faint_alpha_outside_normalized_guide": 15126,
+        "opaque_bbox": [
+          79,
+          481,
+          1175,
+          774
+        ],
+        "visual_review": {
+          "guide_orientation_and_framing": "Overall orientation and normalized framing retained; exact silhouette fails",
+          "materials": "White ceramic, antique gold, dark-violet resin and coloured energy consistent with reference palette; unseen surfaces inferred",
+          "lighting": "Noticeable painted relief, dark creases and bright gold/energy highlights; strict flat-albedo check fails",
+          "no_text_or_letters": true,
+          "strict_brief_checks_pass": false
+        }
+      },
+      "raw_output": "paint_top_attempt1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective repaint for a 3D model ALBEDO texture source, NOT a shaded illustration. Return one transparent 1024 x 1024 PNG.\nImage 1 is the exact white orthographic guide to PAINT OVER. Lock its geometry, alpha silhouette, part edges, framing, scale and transparent margins. Change only surface colours within its exact existing opaque pixels. Keep all holes transparent. Every pixel outside its original alpha mask must remain alpha 0, including corners. No silhouette embellishments.\nImage 2 is the approved colour/material reference ONLY. Ignore its camera angle and ignore ALL its lighting, reflections and shading.\nUse flat warm ivory white for ceramic with subtle fine worn grain; flat muted ochre gold for metal trim with very faint brush grain; flat dark-violet black for resin with restrained pigment grooves; solid pale blue-white for ion channels; solid orange for small energy insets. Seams and engraved lines are fine pigment details, not shadows.\nUse uniform base colours across each material surface, including curved areas. NO shading under ribs, NO ambient-occlusion dark outlines, NO specular white strips, NO reflected light, NO bloom, NO edge highlights. No light/dark gradient to model form. No text or letters, background or floor.\nThe previous result had edge drift and too much glossy shaded relief. This is the one permitted correction: prioritize exact guide alpha and unlit flat materials over visual drama.\n\nTarget view is guide_left.png. Preserve the tiny foreshortened end-on projection exactly. Object occupies ONLY x=393..630 and y=448..575 on the 1024 square, surrounded by huge transparent margins. Do not enlarge it. Preserve the white guide's silhouette and its exact viewing angle; the broad rifle profile from the design reference must NOT appear. Continue the visible foreshortened receiver, rib edges and rightward grip/stock projection using the approved ceramic, gold, dark-violet resin, and energy colours. The guide's long horizontal projection points RIGHT. Do not add any side-profile barrel.\nCritical correction: the short rightward projection is the PISTOL GRIP seen end-on, NOT the barrel or energy tube. Paint that projection plain warm ivory ceramic, edged narrowly in dark-violet resin, and a muted gold heel cap at its extreme right. No blue stripe, glowing channel, glass or rails on the grip. Its contour must remain the same as the guide. Receiver stays small and foreshortened, with ivory rib edges and dark resin. Do not interpret the central geometry as a face, skull or mask.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "2127b84cab5dc0c525df9da602b3a58c379fa844e39990f082fa22a7a41027b8"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction: fixes the erroneous blue energy tube on the grip to ceramic/resin/gold, flattens lighting, and improves normalized silhouette IoU to 0.958. Some shaded relief and alpha drift remain.",
+      "tool": "built-in image_gen",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a16e7d-f03b-7c00-bfe3-718c569306c7/exec-302de963-f3b2-419f-a837-6218b910a1f4.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          57,
+          134,
+          1063,
+          1085
+        ],
+        "guide_alpha_bbox": [
+          393,
+          448,
+          631,
+          576
+        ],
+        "exact_alpha_match": false,
+        "silhouette_iou_normalized": 0.958065784300878,
+        "silhouette_outside_pixels": 690,
+        "silhouette_missing_pixels": 270,
+        "comparison_note": "Binary alpha threshold 128; guide sampled to returned dimensions for measurement only; output was not edited or resized.",
+        "output_sha256": "9126e41293559e07a44049a71782fd50bea7e7aa81a79476568cf40803a96cb5",
+        "corner_alpha_zero": true,
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha and silhouette differences remain",
+        "transparent_pixels": 1547074,
+        "nonzero_alpha_outside_normalized_guide": 3292,
+        "faint_alpha_outside_normalized_guide": 2602,
+        "opaque_bbox": [
+          483,
+          551,
+          772,
+          703
+        ],
+        "visual_review": {
+          "guide_orientation_and_framing": "Overall orientation and normalized framing retained; exact silhouette fails",
+          "materials": "White ceramic, antique gold, dark-violet resin and coloured energy consistent with reference palette; unseen surfaces inferred",
+          "lighting": "Flatter pigment treatment, but some shading remains",
+          "no_text_or_letters": true,
+          "strict_brief_checks_pass": false
+        }
+      },
+      "raw_output": "paint_left_attempt2.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective repaint for a 3D model ALBEDO texture source, NOT a shaded illustration. Return one transparent 1024 x 1024 PNG.\nImage 1 is the exact white orthographic guide to PAINT OVER. Lock its geometry, alpha silhouette, part edges, framing, scale and transparent margins. Change only surface colours within its exact existing opaque pixels. Keep all holes transparent. Every pixel outside its original alpha mask must remain alpha 0, including corners. No silhouette embellishments.\nImage 2 is the approved colour/material reference ONLY. Ignore its camera angle and ignore ALL its lighting, reflections and shading.\nUse flat warm ivory white for ceramic with subtle fine worn grain; flat muted ochre gold for metal trim with very faint brush grain; flat dark-violet black for resin with restrained pigment grooves; solid pale blue-white for ion channels; solid orange for small energy insets. Seams and engraved lines are fine pigment details, not shadows.\nUse uniform base colours across each material surface, including curved areas. NO shading under ribs, NO ambient-occlusion dark outlines, NO specular white strips, NO reflected light, NO bloom, NO edge highlights. No light/dark gradient to model form. No text or letters, background or floor.\nThe previous result had edge drift and too much glossy shaded relief. This is the one permitted correction: prioritize exact guide alpha and unlit flat materials over visual drama.\n\nTarget view is guide_back.png. Preserve this extremely thin horizontal opposite edge-on projection exactly. Stock is LEFT, muzzle is RIGHT. Object occupies x=66..957 and y=448..575 on the 1024 square. Do not show the broad side profile from the design reference. Ceramic rib edges project around x=350..440, barrel runs toward the right at x=695..825, and the right muzzle receives ceramic and dark-violet claws. Continue unseen rear/under surfaces using the same material families.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "d8163c0ca233840265a2b2768fe2305a5781b8900053dfdb8369184d3d12d25b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction: substantially flatter metal and energy colours; normalized silhouette IoU 0.955 remains similar to initial 0.957. Some rib shading and alpha drift remain.",
+      "tool": "built-in image_gen",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a16e7d-f03b-7c00-bfe3-718c569306c7/exec-710711c0-49aa-41ba-8f7d-0206a5d17715.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "unresized_return": true,
+        "rgba": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_bbox": [
+          71,
+          57,
+          1179,
+          1198
+        ],
+        "guide_alpha_bbox": [
+          66,
+          448,
+          958,
+          576
+        ],
+        "exact_alpha_match": false,
+        "silhouette_iou_normalized": 0.9547646787872219,
+        "silhouette_outside_pixels": 2911,
+        "silhouette_missing_pixels": 428,
+        "comparison_note": "Binary alpha threshold 128; guide sampled to returned dimensions for measurement only; output was not edited or resized.",
+        "output_sha256": "b1aeb6bb70e499656c1740a7af19140b60ba7bd01df3f798e5c69911119250d5",
+        "corner_alpha_zero": true,
+        "transparent_background": "RGBA transparency present, but stray nonzero alpha and silhouette differences remain",
+        "transparent_pixels": 1486967,
+        "nonzero_alpha_outside_normalized_guide": 14651,
+        "faint_alpha_outside_normalized_guide": 11740,
+        "opaque_bbox": [
+          80,
+          550,
+          1176,
+          705
+        ],
+        "visual_review": {
+          "guide_orientation_and_framing": "Overall orientation and normalized framing retained; exact silhouette fails",
+          "materials": "White ceramic, antique gold, dark-violet resin and coloured energy consistent with reference palette; unseen surfaces inferred",
+          "lighting": "Flatter pigment treatment, but some shading remains",
+          "no_text_or_letters": true,
+          "strict_brief_checks_pass": false
+        }
+      },
+      "raw_output": "paint_back_attempt2.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Corrective repaint for a 3D model ALBEDO texture source, NOT a shaded illustration. Return one transparent 1024 x 1024 PNG.\nImage 1 is the exact white orthographic guide to PAINT OVER. Lock its geometry, alpha silhouette, part edges, framing, scale and transparent margins. Change only surface colours within its exact existing opaque pixels. Keep all holes transparent. Every pixel outside its original alpha mask must remain alpha 0, including corners. No silhouette embellishments.\nImage 2 is the approved colour/material reference ONLY. Ignore its camera angle and ignore ALL its lighting, reflections and shading.\nUse flat warm ivory white for ceramic with subtle fine worn grain; flat muted ochre gold for metal trim with very faint brush grain; flat dark-violet black for resin with restrained pigment grooves; solid pale blue-white for ion channels; solid orange for small energy insets. Seams and engraved lines are fine pigment details, not shadows.\nUse uniform base colours across each material surface, including curved areas. NO shading under ribs, NO ambient-occlusion dark outlines, NO specular white strips, NO reflected light, NO bloom, NO edge highlights. No light/dark gradient to model form. No text or letters, background or floor.\nThe previous result had edge drift and too much glossy shaded relief. This is the one permitted correction: prioritize exact guide alpha and unlit flat materials over visual drama.\n\nTarget view is guide_right.png. Preserve the tiny opposite foreshortened end-on projection exactly. Object occupies ONLY x=393..630 and y=448..575 on the 1024 square, surrounded by huge transparent margins. Do not enlarge it. Preserve the white guide's silhouette and exact viewing angle; the broad rifle profile from the design reference must NOT appear. Continue the visible foreshortened receiver, rib edges and leftward grip/stock projection using the approved ceramic, gold, dark-violet resin, and energy colours. The guide's long horizontal projection points LEFT. Do not add any side-profile barrel.\nPreserve the leftward grip extension as matte warm ivory ceramic bordered narrowly by dark resin with a muted ochre-gold end cap. It is not the barrel. Foreshortened rib edges are ivory, central resin is dark violet, small energy recesses orange. Avoid adding a bright white specular point at the extreme right, or dark shadow bands underneath ceramic bands.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "041ca0581550101d01014d8fe2eba1bb8f45f7ee0c7b1cfac2bdff71269ff8d2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "The image tool rejected the correction (HTTP 400 moderation_blocked, category violence). No image returned; no retry.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "request_id": "62fc1a6c-64b1-4ec7-bba0-9a8363bdf816"
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective repaint for a 3D model ALBEDO texture source, NOT a shaded illustration. Return one transparent 1024 x 1024 PNG.\nImage 1 is the exact white orthographic guide to PAINT OVER. Lock its geometry, alpha silhouette, part edges, framing, scale and transparent margins. Change only surface colours within its exact existing opaque pixels. Keep all holes transparent. Every pixel outside its original alpha mask must remain alpha 0, including corners. No silhouette embellishments.\nImage 2 is the approved colour/material reference ONLY. Ignore its camera angle and ignore ALL its lighting, reflections and shading.\nUse flat warm ivory white for ceramic with subtle fine worn grain; flat muted ochre gold for metal trim with very faint brush grain; flat dark-violet black for resin with restrained pigment grooves; solid pale blue-white for ion channels; solid orange for small energy insets. Seams and engraved lines are fine pigment details, not shadows.\nUse uniform base colours across each material surface, including curved areas. NO shading under ribs, NO ambient-occlusion dark outlines, NO specular white strips, NO reflected light, NO bloom, NO edge highlights. No light/dark gradient to model form. No text or letters, background or floor.\nThe previous result had edge drift and too much glossy shaded relief. This is the one permitted correction: prioritize exact guide alpha and unlit flat materials over visual drama.\n\nTarget view is guide_top.png. This model's directly-above orthographic guide shows its broad rifle profile: muzzle LEFT, stock RIGHT, grip pointing DOWN. Preserve this actual projection even though the design reference faces the opposite direction. Object occupies x=66..957 and y=393..630 on the 1024 square. Preserve all stock holes, trigger-guard opening, ceramic rib boundaries, spikes, barrel rails and muzzle prongs exactly. Map dark-violet resin and orange insets to receiver/stock, white ceramic to grip insert, rib cage bands, upper receiver and muzzle collar, brushed gold to borders/fittings, and blue-white to the straight barrel ion chamber and muzzle core. Do not introduce the design reference's larger silhouette or extra ribs.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "2c19a6bb41b505d982eeef9ba2d99dce25a72dc94d9a007e541ff41a81a723c9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "01ba2885bc3106fcfd42fe7655ee88bfba8722e636e83e65f5cfed09936932eb"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "output": null,
+      "selected": false,
+      "reason": "The image tool rejected the correction (HTTP 400 moderation_blocked, category violence). No image returned; no retry.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "request_id": "36420fe5-f698-45ba-a929-40659e3f5ee4"
+      }
+    }
+  ],
+  "status": "completed_bounded_generation_with_failed_strict_checks",
+  "summary": {
+    "tool": "built-in image_gen",
+    "requested_size": [
+      1024,
+      1024
+    ],
+    "returned_sizes": [
+      [
+        1254,
+        1254
+      ]
+    ],
+    "returns_preserved_unresized_and_unedited": true,
+    "corrective_calls_per_view": 1,
+    "failed_corrective_views": [
+      "right",
+      "top"
+    ],
+    "all_requested_output_files_written": true,
+    "strict_brief_checks_pass": false,
+    "limitations": [
+      "No selected alpha silhouette is pixel-identical to its guide.",
+      "All returns contain faint stray alpha outside the intended object.",
+      "Painted shading and some bright highlights remain; these are not fully flat albedo maps.",
+      "The tool returned 1254 x 1254 instead of 1024 x 1024; all returns were preserved unresized as instructed.",
+      "Right and top corrective calls were rejected by the tool; their initial returns were retained."
+    ],
+    "builds_or_runtime_checks_performed": false
+  }
+}

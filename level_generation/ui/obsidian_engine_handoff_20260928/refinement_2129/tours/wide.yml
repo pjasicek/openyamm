@@ -1,0 +1,86 @@
+output_dir: /tmp/obsidian-2129-wide
+exit: true
+steps:
+- wait: 2
+- capture: gameplay
+- right_down:
+  - 1545
+  - 192
+- click:
+  - 1545
+  - 192
+- capture: zoom-in
+- click:
+  - 1367
+  - 192
+- capture: zoom-out
+- right_up:
+  - 1367
+  - 192
+- right_down:
+  - 64
+  - 104
+- capture: hero-inspect
+- right_up:
+  - 64
+  - 104
+- capture: inspect-released
+- right_down:
+  - 146
+  - 104
+- capture: skull-inspect
+- right_up:
+  - 146
+  - 104
+- action: combat
+- capture: turn-based
+- action: combat
+- right_down:
+  - 324
+  - 49
+- click:
+  - 324
+  - 49
+- right_up:
+  - 324
+  - 49
+- capture: books
+- key: Escape
+- right_down:
+  - 381
+  - 49
+- click:
+  - 381
+  - 49
+- right_up:
+  - 381
+  - 49
+- capture: party
+- key: Escape
+- right_down:
+  - 437
+  - 49
+- click:
+  - 437
+  - 49
+- right_up:
+  - 437
+  - 49
+- capture: rest
+- key: Escape
+- right_down:
+  - 493
+  - 49
+- click:
+  - 493
+  - 49
+- right_up:
+  - 493
+  - 49
+- capture: options
+- key: Escape
+- action: quest
+- capture: inventory
+- key: Escape
+- action: map_book
+- capture: full-map

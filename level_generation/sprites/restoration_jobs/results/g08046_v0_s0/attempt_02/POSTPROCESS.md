@@ -1,0 +1,1 @@
+Retained original detailed cyan-backed master. Reproduce with queue.py process g08046_v0_s0 --adjust 1 0 14. Common vertical shift restores both stalk bases; no component resizing. Final solid bounds delta [0.5,0,0,0], no warnings. Both contrast proofs inspected.

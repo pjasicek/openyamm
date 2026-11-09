@@ -1,0 +1,25 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Make a precise production registration correction to IMAGE 1, keeping its exact transparent 3:4 canvas and 3-column/4-row layout. IMAGE 2 is the immutable gray geometry guide that each silhouette should match; image 3 original icon reference. Only the TOP view (middle tile of rows 2 and 4): reduce object width and height by 5%. Other views unchanged. Do not enlarge remaining objects. No material, detail or colour changes: keep existing realistic unlit base colours in top two rows and flat pure material ID masks in bottom two rows. No new objects, shadow, floor, letters, outlines, noise or background. Preserve openings and solid surfaces from gray guides. Last slot of rows 2 and 4 stays transparent. This is a technical size-only edit, not redesign or new lighting. Output a transparent 1536x2048 PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/paint_mask_raw_v1.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots5.png"
+  ],
+  "revision": 2,
+  "selected": false,
+  "reason": "Generated trial not selected. Original paintings and masks register after restoring source pair proportions; see reused_original_views.json.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-73dc7896-3467-4076-8253-fb6562b9834d.png",
+  "raw_sha256": "4b606c8ecb1ec546d472dfb06c14491e0db57dafaefc93dc5d8af754e47c2f69",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/paint_mask_raw_v1.png": "f56e568ad0f31f6452843a5b10b05c64c04854cd39e7b2109ff818d8122dd99c",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots5/paint_mask_guide.png": "34c454a81805aed9bb2320fc1655200e253d70bae6514f774d4b40d91b5b9fb2",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots5.png": "b2b8e5e1400143b06da8954c93112c41874aeee4205fac2f202189ab29b5aa69"
+  },
+  "prepared_scene_sha256": "2b379efd77da4356f1df337ef0359b9a3568cfd549af843ce28b0f8bd91410db"
+}

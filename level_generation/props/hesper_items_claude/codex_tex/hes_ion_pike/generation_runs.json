@@ -1,0 +1,557 @@
+{
+  "tool": "built-in image_gen",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "outputs_unresized": true,
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for the existing Hesper ion pike 3D model.\nEdit Image 1 (the guide) only. Image 2 is design_reference.png, the colour/material/design reference, NOT a composition reference.\nOutput one 1024 x 1024 PNG with genuine transparent background. Preserve Image 1's original alpha silhouette, exact size, position, outline, every component edge and every hole. Paint only inside the existing guide silhouette. Do not enlarge, recenter, rotate, reshape, add geometry, crop or reframe. Empty transparent space is intentional and must stay empty. Keep the exact camera and foreshortening of Image 1.\nTransfer the reference's surface appearance onto the existing guide parts: warm white ceramic with fine wear, fine engraved non-letter lines, seams and panel joins; brushed muted antique gold at existing collars; black-violet resin shaft with fine diagonal leather-like wrapping/seam pattern; blue-white ion crystal/light along the existing head's central surface and small orange light in recessed existing head details. Paint lights as their bright albedo colour contained inside the silhouette, without glow halos. Where the reference does not show a face, continue its materials plausibly. Guide tints identify parts only; do not copy them as finished colours. Do not add rings, ornaments, holes or outlines absent from the guide.\nLIGHTING: flat, even, shadowless frontal illumination for an albedo texture. No cast shadows, no ambient occlusion darkening, no specular hot spots, no reflected environment, no rim light, no dramatic shading. Metal is its base colour with at most a faint sheen; material wear is restrained. No floor, background, checkerboard baked into pixels, text, letters, labels or watermarks.\nThe target guide's geometry and placement win over the design reference's shape.\n\nFRONT VIEW: this is the end-on projection looking along the pike, NOT the upright design illustration. The entire visible silhouette occupies only x=485..538 and y=480..543 in a 1024-square canvas, centered at (512,512), 54 pixels wide by 64 pixels tall including edge antialiasing. It MUST stay this tiny. It is the small pointed ceramic shape and flanking shapes in Image 1, with the forward-facing central round end surface at the exact current location. Do not expose a shaft or full-length blade that is hidden in this end-on guide. Paint the central pale gold round face muted brushed gold, the surrounding existing shell warm white ceramic, and only existing visible recesses with the corresponding reference colours. Preserve all geometry exactly.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c432e383a26bfdc5c8dc9d55502b15c7f4feec4bf9fd52448b6b498b814d939b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "attempt": 1,
+      "output": "paint_front_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-eb40c8bd-5171-447b-aa5a-3c2e2fa0cf14.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return: poorer silhouette registration and/or stronger baked lighting. Original unresized return retained for audit.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          49,
+          21,
+          1216,
+          1165
+        ],
+        "opaque_bbox": [
+          560,
+          565,
+          693,
+          726
+        ],
+        "guide_alpha_bbox": [
+          485,
+          480,
+          539,
+          544
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1558311,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.207984,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 11033,
+        "opaque_pixels_outside_normalized_guide": 9528,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "9ca27929d654b6fcae44735ff401a49c2049a65b10a32af084f829c94e48c2b2"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1. Edit the FIRST image, guide_front.png, as a pixel-registered texture paintover. Return a 1024 x 1024 RGBA image. The second image is only a MATERIAL COLOUR reference.\nCRITICAL: the previous attempt incorrectly enlarged this tiny end-on object. KEEP THE FIRST IMAGE'S EXACT COMPOSITION AND ALPHA. The guide shape is only 54 pixels wide and 64 pixels tall, centered at (512,512) on the 1024 x 1024 canvas, within x=485..538 and y=480..543. Its width is only 5.27% of the canvas and its height only 6.25% of the canvas. All the vast empty surrounding space is fully transparent. Do not enlarge it for legibility. Trace the supplied guide boundary exactly; preserve every little shape and boundary, including the circular central face. Do not add or remove geometry.\nColour the existing shell warm white ceramic with subtle fine wear and panel seams, central round face muted brushed gold, tiny existing details blue-white and orange to continue the second image's appearance plausibly. All texture must remain entirely INSIDE the guide's exact existing silhouette. This is an END-ON view: do not draw a shaft or a full-length weapon.\nFlat even shadowless viewer lighting, albedo only, no ambient occlusion, no dark shading, no hot highlights or reflections, faint sheen at most. Bright light colours only, no glow or coloured fringe outside edges. No text, lettering, floor, background, shadow or visible checkerboard. Keep all transparent pixels fully alpha zero. The silhouette and tiny original scale are more important than detail.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c432e383a26bfdc5c8dc9d55502b15c7f4feec4bf9fd52448b6b498b814d939b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-e2cad6a6-9506-4f80-bb1c-a5b6c87116d9.png",
+      "selected": true,
+      "reason": "Selected corrective return: normalized silhouette overlap improved from 0.208 to 0.724. Tiny end-on scale is closer, but outline drift and metallic highlight/shadow remain; not an exact albedo paintover.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          39,
+          55,
+          1216,
+          1181
+        ],
+        "opaque_bbox": [
+          592,
+          584,
+          662,
+          669
+        ],
+        "guide_alpha_bbox": [
+          485,
+          480,
+          539,
+          544
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1567994,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.7235,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 1350,
+        "opaque_pixels_outside_normalized_guide": 484,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "a0ce5e0531e63202d4e8b5c2ae52e9feb3dc29bb900bd1cfa2125da25e57118f"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for the existing Hesper ion pike 3D model.\nEdit Image 1 (the guide) only. Image 2 is design_reference.png, the colour/material/design reference, NOT a composition reference.\nOutput one 1024 x 1024 PNG with genuine transparent background. Preserve Image 1's original alpha silhouette, exact size, position, outline, every component edge and every hole. Paint only inside the existing guide silhouette. Do not enlarge, recenter, rotate, reshape, add geometry, crop or reframe. Empty transparent space is intentional and must stay empty. Keep the exact camera and foreshortening of Image 1.\nTransfer the reference's surface appearance onto the existing guide parts: warm white ceramic with fine wear, fine engraved non-letter lines, seams and panel joins; brushed muted antique gold at existing collars; black-violet resin shaft with fine diagonal leather-like wrapping/seam pattern; blue-white ion crystal/light along the existing head's central surface and small orange light in recessed existing head details. Paint lights as their bright albedo colour contained inside the silhouette, without glow halos. Where the reference does not show a face, continue its materials plausibly. Guide tints identify parts only; do not copy them as finished colours. Do not add rings, ornaments, holes or outlines absent from the guide.\nLIGHTING: flat, even, shadowless frontal illumination for an albedo texture. No cast shadows, no ambient occlusion darkening, no specular hot spots, no reflected environment, no rim light, no dramatic shading. Metal is its base colour with at most a faint sheen; material wear is restrained. No floor, background, checkerboard baked into pixels, text, letters, labels or watermarks.\nThe target guide's geometry and placement win over the design reference's shape.\n\nBACK VIEW: this is the opposite end-on projection looking along the pike, NOT the upright design illustration. The entire visible silhouette occupies only x=485..538 and y=480..543 in a 1024-square canvas, centered at (512,512), 54 pixels wide by 64 pixels tall including edge antialiasing. It MUST stay this tiny. Preserve this pointed ceramic cap with its two small flanking shapes exactly. Paint plausible reverse white ceramic surfaces continuing the reference's fine seams and restrained wear. Only the existing visible recesses may carry narrow orange or blue-white design accents; no new elements. Do not expose any shaft or full-length blade hidden in this end-on guide.\nThe shape's width is only 5.27% of the whole canvas and its height only 6.25%. Keep that exact tiny size. The broad transparent margins are mandatory. All empty pixels must have alpha exactly zero. Preserve Image 1 as a texture paintover; never replace it with a new composition.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "7edd1f91bea67033af20f912dd7a22a0e8160c995278a389ba4f0cf45715e591"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": "paint_back_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-0e5141aa-743d-4900-a31c-8da986211a94.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return: poorer silhouette registration and/or stronger baked lighting. Original unresized return retained for audit.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          587,
+          201,
+          1085,
+          680
+        ],
+        "opaque_bbox": [
+          591,
+          584,
+          662,
+          676
+        ],
+        "guide_alpha_bbox": [
+          485,
+          480,
+          539,
+          544
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1568062,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.714112,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 1283,
+        "opaque_pixels_outside_normalized_guide": 549,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "6c867066597ec74e57405302b3c17363ceb55e3764ff4661a6e10fb9b7f7f3d1"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for the existing Hesper ion pike 3D model.\nEdit Image 1 (the guide) only. Image 2 is design_reference.png, the colour/material/design reference, NOT a composition reference.\nOutput one 1024 x 1024 PNG with genuine transparent background. Preserve Image 1's original alpha silhouette, exact size, position, outline, every component edge and every hole. Paint only inside the existing guide silhouette. Do not enlarge, recenter, rotate, reshape, add geometry, crop or reframe. Empty transparent space is intentional and must stay empty. Keep the exact camera and foreshortening of Image 1.\nTransfer the reference's surface appearance onto the existing guide parts: warm white ceramic with fine wear, fine engraved non-letter lines, seams and panel joins; brushed muted antique gold at existing collars; black-violet resin shaft with fine diagonal leather-like wrapping/seam pattern; blue-white ion crystal/light along the existing head's central surface and small orange light in recessed existing head details. Paint lights as their bright albedo colour contained inside the silhouette, without glow halos. Where the reference does not show a face, continue its materials plausibly. Guide tints identify parts only; do not copy them as finished colours. Do not add rings, ornaments, holes or outlines absent from the guide.\nLIGHTING: flat, even, shadowless frontal illumination for an albedo texture. No cast shadows, no ambient occlusion darkening, no specular hot spots, no reflected environment, no rim light, no dramatic shading. Metal is its base colour with at most a faint sheen; material wear is restrained. No floor, background, checkerboard baked into pixels, text, letters, labels or watermarks.\nThe target guide's geometry and placement win over the design reference's shape.\n\nLEFT VIEW: keep the complete long pike horizontal at the exact guide placement. Its head points LEFT, tip at x=66, y about 522; its far gold butt is at x=958, y about 512. Whole silhouette stays inside x=66..957, y=480..543, with shaft centered on y=512. The white head occupies the leftmost section through approximately x=239; the dark shaft runs from about x=237 to x=921. Keep all three existing gold shaft collars at exactly the guide's positions (centers about x=408,579,750). Keep the guide's simple pointed gold butt exactly as shaped. Use ceramic and narrow ion-blue white central blade surface on the existing head, tiny orange recessed accents, black-violet wrapped resin shaft, and muted brushed gold on the existing collars. No extra neck shapes, extra rings or elongated blade.\nKeep the shape exactly 87.11% of the canvas width and only 6.25% of the canvas height. Never thicken or enlarge the weapon. Absolute top priority is precise registration with the first image.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "51455a55f6b4811ea61dbadffb12b2471edc3e08bac90724e0632043dec85ffe"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": "paint_left_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-8b8f3dd4-969d-4201-a565-5552665dda8f.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return: poorer silhouette registration and/or stronger baked lighting. Original unresized return retained for audit.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          78,
+          51,
+          1208,
+          1197
+        ],
+        "opaque_bbox": [
+          81,
+          589,
+          1174,
+          662
+        ],
+        "guide_alpha_bbox": [
+          66,
+          480,
+          958,
+          544
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1530958,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.861982,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 5891,
+        "opaque_pixels_outside_normalized_guide": 1459,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "89333feae86206ad5abf83ac5e1c10a72d5affe90becefadf2b958013f53c581"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for the existing Hesper ion pike 3D model.\nEdit Image 1 (the guide) only. Image 2 is design_reference.png, the colour/material/design reference, NOT a composition reference.\nOutput one 1024 x 1024 PNG with genuine transparent background. Preserve Image 1's original alpha silhouette, exact size, position, outline, every component edge and every hole. Paint only inside the existing guide silhouette. Do not enlarge, recenter, rotate, reshape, add geometry, crop or reframe. Empty transparent space is intentional and must stay empty. Keep the exact camera and foreshortening of Image 1.\nTransfer the reference's surface appearance onto the existing guide parts: warm white ceramic with fine wear, fine engraved non-letter lines, seams and panel joins; brushed muted antique gold at existing collars; black-violet resin shaft with fine diagonal leather-like wrapping/seam pattern; blue-white ion crystal/light along the existing head's central surface and small orange light in recessed existing head details. Paint lights as their bright albedo colour contained inside the silhouette, without glow halos. Where the reference does not show a face, continue its materials plausibly. Guide tints identify parts only; do not copy them as finished colours. Do not add rings, ornaments, holes or outlines absent from the guide.\nLIGHTING: flat, even, shadowless frontal illumination for an albedo texture. No cast shadows, no ambient occlusion darkening, no specular hot spots, no reflected environment, no rim light, no dramatic shading. Metal is its base colour with at most a faint sheen; material wear is restrained. No floor, background, checkerboard baked into pixels, text, letters, labels or watermarks.\nThe target guide's geometry and placement win over the design reference's shape.\n\nRIGHT VIEW: keep the complete long pike horizontal at the exact guide placement. Its head points RIGHT, tip at x=958, y about 522; its far gold butt is at x=66, y about 512. Whole silhouette stays inside x=66..957, y=480..543, with shaft centered on y=512. The white head occupies the rightmost section from approximately x=785; the dark shaft runs from about x=102 to x=788. Keep all three existing gold shaft collars at exactly the guide's positions (centers about x=274,445,616). Keep the guide's simple pointed gold butt exactly as shaped. Use ceramic and narrow ion-blue white central blade surface on the existing head, tiny orange recessed accents, black-violet wrapped resin shaft, and muted brushed gold on the existing collars. No extra neck shapes, extra rings or elongated blade.\nPixel registration is mandatory. Keep the exact narrow original geometry and all the empty transparent margins. Paint materials in flat diffuse base colours as an unlit albedo pass, with fine surface patterns but NO 3D light-and-shadow gradients and NO metallic bright specular streaks.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1d2d8c916eb80259720d3a21c88a29533028c76b395f0e7f2cc457f7c6fc0a26"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": "paint_right.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-1c8d64f2-5d8d-4465-a5f2-ead2fbd80a7a.png",
+      "selected": true,
+      "reason": "Selected initial return: normalized silhouette overlap is 0.951. The sole corrective request was rejected by the tool safety filter (violence); no further retry. Fine contour differences and strong material highlights/shading remain.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          73,
+          148,
+          1240,
+          1214
+        ],
+        "opaque_bbox": [
+          81,
+          588,
+          1172,
+          666
+        ],
+        "guide_alpha_bbox": [
+          66,
+          480,
+          958,
+          544
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1530699,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.950917,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 5746,
+        "opaque_pixels_outside_normalized_guide": 567,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "7b792c164880495955962f5186eee3d08d9c87d60e4461b88baf54c198e59033"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic painted albedo texture source for the existing Hesper ion pike 3D model.\nEdit Image 1 (the guide) only. Image 2 is design_reference.png, the colour/material/design reference, NOT a composition reference.\nOutput one 1024 x 1024 PNG with genuine transparent background. Preserve Image 1's original alpha silhouette, exact size, position, outline, every component edge and every hole. Paint only inside the existing guide silhouette. Do not enlarge, recenter, rotate, reshape, add geometry, crop or reframe. Empty transparent space is intentional and must stay empty. Keep the exact camera and foreshortening of Image 1.\nTransfer the reference's surface appearance onto the existing guide parts: warm white ceramic with fine wear, fine engraved non-letter lines, seams and panel joins; brushed muted antique gold at existing collars; black-violet resin shaft with fine diagonal leather-like wrapping/seam pattern; blue-white ion crystal/light along the existing head's central surface and small orange light in recessed existing head details. Paint lights as their bright albedo colour contained inside the silhouette, without glow halos. Where the reference does not show a face, continue its materials plausibly. Guide tints identify parts only; do not copy them as finished colours. Do not add rings, ornaments, holes or outlines absent from the guide.\nLIGHTING: flat, even, shadowless frontal illumination for an albedo texture. No cast shadows, no ambient occlusion darkening, no specular hot spots, no reflected environment, no rim light, no dramatic shading. Metal is its base colour with at most a faint sheen; material wear is restrained. No floor, background, checkerboard baked into pixels, text, letters, labels or watermarks.\nThe target guide's geometry and placement win over the design reference's shape.\n\nTOP VIEW: keep the complete pike VERTICAL at the exact guide placement, head pointing UP. Its tip is at about (512,66) and its gold butt ends at y=958. Whole silhouette stays inside x=485..538, y=66..957. The head occupies approximately y=66..239, with black-violet shaft below to y=921. Keep the three existing gold shaft collars at exactly y about 408,579,750. Keep the guide's simple pointed gold butt exactly as shaped. Paint the existing head shell white ceramic with the long thin central ion-blue white accent fitting its existing ridges; fine orange light only in existing recesses. Dark black-violet wrapped resin shaft and muted brushed gold collars. No extra neck shapes, extra rings or elongated blade.\nPixel registration is mandatory. Keep the exact narrow original geometry and all the empty transparent margins. Paint materials in flat diffuse base colours as an unlit albedo pass, with fine surface patterns but NO 3D light-and-shadow gradients and NO metallic bright specular streaks.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "db38becad102d33b7ac0157c5e5a7513cced76e3a4134067f12a7500ce84c8f7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": "paint_top_run1.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-8fc52645-3541-4dd5-b5af-a816a036d130.png",
+      "selected": false,
+      "reason": "Rejected in favour of the corrective return: poorer silhouette registration and/or stronger baked lighting. Original unresized return retained for audit.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          186,
+          21,
+          1121,
+          1182
+        ],
+        "opaque_bbox": [
+          596,
+          79,
+          659,
+          1177
+        ],
+        "guide_alpha_bbox": [
+          485,
+          66,
+          539,
+          958
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1533101,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.880405,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 5069,
+        "opaque_pixels_outside_normalized_guide": 918,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "9417f0749233eb34326491c11651deba84418db31925aa89128622b9ca1e5257"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1. Make a registered albedo PAINTOVER of Image 1, guide_back.png. Image 2 supplies material colours only. Return a 1024 x 1024 PNG with real alpha transparency.\nKeep the original guide EXACTLY: tiny end-on object at canvas center, visible only within x=485..538, y=480..543 (54 x 64 pixels, 5.27% of canvas width and 6.25% of height). The previous attempt was slightly enlarged and too tall; do not enlarge or lengthen the tiny object. Copy the guide's outline, each pointed ceramic panel and side nub, all holes and occlusion, without changing position or size. Leave the surrounding 99% of canvas fully transparent. Do not draw a full pike, shaft, jewellery or a medallion.\nPaint its existing surfaces with the second image's warm white ceramic and very fine seams and gentle wear; narrow pale blue-white light colour along the existing center ridge and small orange colour only inside existing visible recesses. Continue the reference's unseen back plausibly. Do not add a gold collar or any new geometry absent from Image 1.\nThis is a pure unlit diffuse BASE-COLOUR map. Use matte solid material base colours with slight pigment/texture variation, not 3D shading. No shiny highlights, reflective streaks, dark bevel shadows or directional shadows. No ambient occlusion, rim light, bloom, glow halos, floor, background, text or letters. Entirely zero alpha everywhere outside the guide's original contour; no stray semitransparent pixels.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "7edd1f91bea67033af20f912dd7a22a0e8160c995278a389ba4f0cf45715e591"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": "paint_back.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-450c8171-58ed-44d3-9402-7314cbfe8846.png",
+      "selected": true,
+      "reason": "Selected corrective return: normalized silhouette overlap improved from 0.714 to 0.793; end-on shape is closer and lower extension reduced. Remaining contour drift and shaded recesses prevent strict acceptance.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          475,
+          134,
+          1146,
+          673
+        ],
+        "opaque_bbox": [
+          593,
+          585,
+          661,
+          669
+        ],
+        "guide_alpha_bbox": [
+          485,
+          480,
+          539,
+          544
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1568280,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.793184,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 1095,
+        "opaque_pixels_outside_normalized_guide": 190,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "b7918fd879c8e933b12dae7fc3178d3ccb900c387f40c7861a267523e654fa9a"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1. Make a registered albedo PAINTOVER of Image 1, guide_left.png. Image 2 supplies material colours only. Return a 1024 x 1024 PNG with real alpha transparency.\nPriority 1: copy guide geometry exactly. Keep the long thin pike horizontal, blade pointing LEFT, at the exact original pixel placement. Preserve the asymmetric head contour and its holes. The outer box is x=66..957, y=480..543. Blade tip is near (66,522), below the shaft centerline y=512. Do not move the tip upward onto the shaft centerline. The head ends at x about 239; the shaft extends to x about 921; existing collars stay centered at x about 408,579,750, and the existing gold butt ends at x=958. Preserve every part boundary. Never thicken the weapon, add bands, change holes, or copy the design reference's silhouette.\nPriority 2: PAINT FLAT ALBEDO ONLY. The previous return was too shiny, with dark 3D shading. Paint the existing head warm white ceramic with fine worn seams, a thin flat blue-white ion-colour strip on its existing central surface, small orange patches inside existing recesses. Existing shaft is black-violet resin with subtle diagonal wrapping seams, existing collars and butt muted brushed gold base colour. These colours and patterns continue Image 2, but without its lighting.\nMatte diffuse material base colours under absolutely even viewer lighting. No bright specular spots or streaks, no edge shine, no bevel shadows, no ambient occlusion, no dark underside shading, no reflections, no directional gradient. The blue-white and orange lights are flat pigment colours with no bloom. No floor, shadow, background, text, lettering, or labels. Keep the exact guide alpha mask; fully alpha-zero outside its contour.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "51455a55f6b4811ea61dbadffb12b2471edc3e08bac90724e0632043dec85ffe"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": "paint_left.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-cfc387b4-7634-4326-94d6-f83f3f9a3726.png",
+      "selected": true,
+      "reason": "Selected corrective return: normalized silhouette overlap improved from 0.862 to 0.970, blade tip position improved, and material shading was reduced. Fine silhouette differences and residual shading remain.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          61,
+          53,
+          1234,
+          1230
+        ],
+        "opaque_bbox": [
+          84,
+          589,
+          1173,
+          665
+        ],
+        "guide_alpha_bbox": [
+          66,
+          480,
+          958,
+          544
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1531705,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.970164,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 4717,
+        "opaque_pixels_outside_normalized_guide": 176,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "b7605bf3a7fb058596717265b8f74779e95a8dd66d235cccd1d2043d4245dcf7"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1. Make an exact registered albedo PAINTOVER of Image 1, guide_top.png. Image 2 supplies material colours only. Return a 1024 x 1024 PNG with real alpha transparency.\nThe target geometry is entirely Image 1. Keep the long thin pike VERTICAL at x=512, head pointing UP; total contour within x=485..538 and y=66..957. Preserve the exact head contour and holes from tip (512,66) to y about 239, shaft to y about 921, three collars at y about 408,579,750, and the original plain gold flared butt to y=958. Do not extend, widen or redesign any component, do not add collars, do not copy the design reference's outer shape.\nThe initial return was too glossy, especially its shaft and fittings. Paint a FLAT DIFFUSE ALBEDO ONLY: warm white ceramic with restrained fine wear and subtle panel seams; a thin pale blue-white central ion colour strip fitting the existing head center ridge; tiny orange base-colour areas only in existing recesses; black-violet resin shaft with subtle diagonal wrapping seams; muted brushed gold base colours for exactly the original collars and butt. Continue Image 2's materials onto existing geometry.\nAbsolutely even shadowless viewer lighting, matte material base colours with slight texture variation, NO 3D directional gradient, NO hot specular highlights, NO bright edge glints, NO dark underside shading or bevel shadows, NO ambient occlusion, NO reflections. Faint sheen at most. Light parts use bright colour without bloom or halos. No text, letters, floor, background or shadows. Keep every pixel outside the guide's original contour fully alpha zero. Keep original narrow scale and broad transparent margins.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "db38becad102d33b7ac0157c5e5a7513cced76e3a4134067f12a7500ce84c8f7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": "paint_top.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16eb2-8c17-7a73-b072-3ce797759676/exec-1fadf235-8d8f-46c5-baa3-96778e936d9c.png",
+      "selected": true,
+      "reason": "Selected corrective return: normalized silhouette overlap improved slightly from 0.880 to 0.882 and shaft finish is less glossy. Head contour and material shading still differ from the strict guide/albedo requirements.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          65,
+          77,
+          1089,
+          1237
+        ],
+        "opaque_bbox": [
+          596,
+          81,
+          658,
+          1176
+        ],
+        "guide_alpha_bbox": [
+          485,
+          66,
+          539,
+          958
+        ],
+        "resized": false,
+        "fully_transparent_pixels": 1532340,
+        "total_pixels": 1572516,
+        "silhouette_exact": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.881995,
+        "no_text_or_letters": true,
+        "nonzero_alpha_pixels_outside_normalized_guide": 5798,
+        "opaque_pixels_outside_normalized_guide": 469,
+        "transparent_background": true,
+        "flat_shadowless_albedo_strict_pass": false,
+        "reference_material_palette_present": true,
+        "strict_brief_pass": false
+      },
+      "output_sha256": "81bc18dc3d128cceda25656b1575ab36fcf1ce28a7049e50fb6c90855a3cecaf"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective regeneration 1 of 1. Make an exact registered albedo PAINTOVER of Image 1, guide_right.png. Image 2 supplies material colours only. Return a 1024 x 1024 PNG with real alpha transparency.\nCopy the original guide's alpha silhouette, every part edge and hole exactly. Complete thin pike lies horizontally at y=512, blade points RIGHT. Whole contour stays inside x=66..957, y=480..543. Butt at x=66, shaft from x about 102 through x about 788, head from x about 785 to tip near (958,522), tip slightly below shaft centerline. Three gold collars at x about 274,445,616. Do not move the tip to the centerline, change the width of any part, add bands, or alter the head outline.\nThe initial paint had too much 3D light shading, shiny gold and dark seams. Correct this into a PURE DIFFUSE ALBEDO SOURCE: warm white ceramic on existing head surfaces with fine gentle wear and understated panel joins; narrow flat blue-white ion colour inside the existing central blade ridge; small flat orange accents only inside existing recesses; black-violet resin shaft with quiet diagonal wrapping seams; muted brushed gold base colour on the three original collars and simple butt. Do not copy the reference's lighting or change the guide's shape.\nMaterial colours are evenly and flatly illuminated, no dark underside shading, no black edge shadows, no ambient occlusion, no hot highlights or reflections, no bright metallic edge streaks, no rim lights. Faint sheen at most. No bloom around bright colours. No text, letters, floor, background, shadows or checkerboard. Fully transparent alpha-zero pixels everywhere outside the guide's exact original contour. Preserve the large blank margins.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1d2d8c916eb80259720d3a21c88a29533028c76b395f0e7f2cc457f7c6fc0a26"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "cc4555fe061f80d25bc328ca238e9ebd619bb79198785d07f535a2deb41b697d"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "The sole corrective request was rejected by the image tool; no image returned. Retain initial right view. No further retry made.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "request_id": "10e82966-846f-4461-ac2e-4ed12fe67bda"
+      }
+    }
+  ],
+  "status": "Five unresized transparent selections saved; strict silhouette and albedo checks failed. Correction budget exhausted (one right correction rejected without an image).",
+  "selection_note": "selected means the closest available tool return under the brief retry limit; it does not mean approved for texture projection.",
+  "checks_method": "PNG size/mode/alpha and hashes measured with Pillow/numpy; normalized silhouette IoU uses alpha >127 and read-only nearest-coordinate sampling, without resizing or modifying any file. Material, lighting and text checks are visual.",
+  "limitations": [
+    "All nine successful tool returns are 1254 x 1254 despite requesting 1024 x 1024. Preserved byte-for-byte, as the brief requires for alternate returned sizes.",
+    "None preserves the exact guide alpha silhouette; low-alpha stray pixels also occur outside the intended contour.",
+    "Some baked material shading and highlights remain despite the flat-albedo prompts.",
+    "The right-view corrective call was rejected by the tool safety filter, category violence, request ID 10e82966-846f-4461-ac2e-4ed12fe67bda.",
+    "No resizing, masking, compositing, alpha cleanup, builds, model edits or runtime integration performed."
+  ]
+}

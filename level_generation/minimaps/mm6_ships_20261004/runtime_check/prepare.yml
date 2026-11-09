@@ -1,0 +1,25 @@
+{
+  "id": "desktop_launch",
+  "world": "mm6",
+  "mode": "faithful",
+  "steps": [
+    {
+      "new_game_flow": {
+        "start_map": "oute3.odm"
+      }
+    },
+    {
+      "set_pose": {
+        "x": 1408.0,
+        "y": -10208.0,
+        "z": 161.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "map": "oute3.odm"
+      }
+    },
+    {
+      "save_game": "desktop"
+    }
+  ]
+}

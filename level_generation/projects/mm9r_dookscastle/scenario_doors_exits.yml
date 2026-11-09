@@ -1,0 +1,378 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dookscastle_doors_exits
+title: Dook's Castle (native BLV) - the gate, every double door by a click, the lake ladder
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dookscastle.blv
+- note:
+    text: 'ExitTrigger0 (DAT object 384): the gate, south of StartPoint0.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dookscastle.blv
+      x: 0
+      y: 1393
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: dookscastle.blv
+      x: 0
+      y: 1143
+      z: 1
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 384
+- load_map:
+    map: dookscastle.blv
+- note:
+    text: 'door03: the shut door stops a walk from 56, 5243; opened by a click, the party walks through; MM9''s CloseWaitTime
+      3 s shuts it again.'
+- assert:
+    mechanism:
+      id: 6
+      state: closed
+- assert:
+    mechanism:
+      id: 7
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dookscastle.blv
+      x: 56
+      y: 5243
+      z: 411
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: dookscastle.blv
+      x: 246
+      y: 5243
+      z: 411
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 50
+    tolerance_z: 20
+- set_pose:
+    map: dookscastle.blv
+    x: 56
+    y: 5243
+    z: 411
+    yaw: 0.0
+    pitch: -0.0254
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 6
+      state: open
+- assert:
+    mechanism:
+      id: 7
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.7
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dookscastle.blv
+      x: 56
+      y: 5243
+      z: 411
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: dookscastle.blv
+      x: 550
+      y: 5243
+      z: 411
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 90
+    tolerance_z: 20
+- advance_runtime:
+    seconds: 8
+- assert:
+    mechanism:
+      id: 6
+      state: closed
+- assert:
+    mechanism:
+      id: 7
+      state: closed
+- note:
+    text: 'door01 (doors [2, 3]): shut, a click from -169, 5243 opens both leaves.'
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- assert:
+    mechanism:
+      id: 3
+      state: closed
+- set_pose:
+    map: dookscastle.blv
+    x: -169
+    y: 5243
+    z: 411
+    yaw: 3.1416
+    pitch: -0.0388
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 2
+      state: open
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- note:
+    text: 'door02 (doors [4, 5]): shut, a click from 486, 6922 opens both leaves.'
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 4
+      state: closed
+- assert:
+    mechanism:
+      id: 5
+      state: closed
+- set_pose:
+    map: dookscastle.blv
+    x: 486
+    y: 6922
+    z: 411
+    yaw: 3.1416
+    pitch: -0.0388
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 4
+      state: open
+- assert:
+    mechanism:
+      id: 5
+      state: open
+- note:
+    text: 'door03 (doors [6, 7]): shut, a click from 486, 5243 opens both leaves.'
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 6
+      state: closed
+- assert:
+    mechanism:
+      id: 7
+      state: closed
+- set_pose:
+    map: dookscastle.blv
+    x: 486
+    y: 5243
+    z: 411
+    yaw: 3.1416
+    pitch: -0.0388
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 6
+      state: open
+- assert:
+    mechanism:
+      id: 7
+      state: open
+- note:
+    text: 'door04 (doors [8, 9]): shut, a click from 486, 9093 opens both leaves.'
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 8
+      state: closed
+- assert:
+    mechanism:
+      id: 9
+      state: closed
+- set_pose:
+    map: dookscastle.blv
+    x: 486
+    y: 9093
+    z: 411
+    yaw: 3.1416
+    pitch: -0.0388
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 8
+      state: open
+- assert:
+    mechanism:
+      id: 9
+      state: open
+- note:
+    text: 'door05 (doors [10, 11]): shut, a click from -2540, 8228 opens both leaves.'
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 10
+      state: closed
+- assert:
+    mechanism:
+      id: 11
+      state: closed
+- set_pose:
+    map: dookscastle.blv
+    x: -2540
+    y: 8228
+    z: 413
+    yaw: -1.5708
+    pitch: -0.0538
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 10
+      state: open
+- assert:
+    mechanism:
+      id: 11
+      state: open
+- note:
+    text: 'door06 (doors [12, 13]): shut, a click from -2540, 6098 opens both leaves.'
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 12
+      state: closed
+- assert:
+    mechanism:
+      id: 13
+      state: closed
+- set_pose:
+    map: dookscastle.blv
+    x: -2540
+    y: 6098
+    z: 411
+    yaw: -1.5708
+    pitch: -0.0388
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 12
+      state: open
+- assert:
+    mechanism:
+      id: 13
+      state: open
+- note:
+    text: 'door07 (doors [14, 15]): shut, a click from -3077, 4915 opens both leaves.'
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 14
+      state: closed
+- assert:
+    mechanism:
+      id: 15
+      state: closed
+- set_pose:
+    map: dookscastle.blv
+    x: -3077
+    y: 4915
+    z: 411
+    yaw: 3.1416
+    pitch: -0.0388
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 14
+      state: open
+- assert:
+    mechanism:
+      id: 15
+      state: open
+- note:
+    text: 'Ladder0: from the lake water, its foot under the surface, up the rungs to the bridge''s platform (MM9: the way
+      out of the water).'
+- load_map:
+    map: dookscastle.blv
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dookscastle.blv
+      x: 9040
+      y: 2929
+      z: -4009
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: dookscastle.blv
+      x: 9242
+      y: 2944
+      z: -3102
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 60

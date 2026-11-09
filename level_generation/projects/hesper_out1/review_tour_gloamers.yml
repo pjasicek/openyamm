@@ -1,0 +1,24 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/gloamers
+settle_seconds: 2
+exit: true
+shots:
+- name: canyon_cave
+  position:
+  - 15100
+  - -10080
+  - 1400
+  yaw: 0
+  pitch: 0
+  commands:
+  - config set immortal true
+  - config set invisible true
+- name: canyon_den
+  position:
+  - 15900
+  - -10080
+  - 1400
+  yaw: 0
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true

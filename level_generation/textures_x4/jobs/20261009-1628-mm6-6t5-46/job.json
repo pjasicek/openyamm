@@ -1,0 +1,413 @@
+{
+ "id": "20261009-1628-mm6-6t5-46",
+ "world": "mm6",
+ "maps": [
+  "6t5.blv"
+ ],
+ "created": "2026-10-09T14:28:28+00:00",
+ "textures": [
+  "mm6/t4ws3",
+  "mm6/t4ws1",
+  "mm6/t4wb3",
+  "mm6/t4wb2",
+  "mm6/t4wb5",
+  "mm6/t4ws4",
+  "mm6/t4ws7",
+  "mm6/t4ws5",
+  "mm6/t4ww1",
+  "mm6/t4ww7",
+  "mm6/t4ww5",
+  "mm6/t4ww6",
+  "mm6/t4wb7",
+  "mm6/t4f4",
+  "mm6/t4c4",
+  "mm6/t4ww2",
+  "mm6/t4c2",
+  "mm6/t4c3",
+  "mm6/sign1",
+  "mm6/t4c1",
+  "mm6/t4c5",
+  "mm6/t4d3",
+  "mm6/t4d4",
+  "mm6/t4d5"
+ ],
+ "requests": {
+  "mm6/t4ws3": {
+   "name": "t4ws3",
+   "versions": [
+    1
+   ],
+   "material": "thick gnarled red-brown tree roots twisting over dark lumpy pebbled earth, with a rough red-brown rubble stone border along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4ws1": {
+   "name": "t4ws1",
+   "versions": [
+    1
+   ],
+   "material": "thick gnarled red-brown tree roots twisting over dark lumpy pebbled earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4ws2",
+      "mm6/t4ws3"
+     ],
+     "fraction": 0.525
+    }
+   }
+  },
+  "mm6/t4wb3": {
+   "name": "t4wb3",
+   "versions": [
+    1
+   ],
+   "material": "dense mesh of thin red-brown roots over brown pebble gravel earth, with exposed pebbles along the left and right edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4wb4"
+     ],
+     "fraction": 0.596
+    }
+   }
+  },
+  "mm6/t4wb2": {
+   "name": "t4wb2",
+   "versions": [
+    1
+   ],
+   "material": "dense mesh of thin red-brown roots over brown pebble gravel earth, with exposed pebbles along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4wb5": {
+   "name": "t4wb5",
+   "versions": [
+    1
+   ],
+   "material": "dense mesh of thin red-brown roots over brown pebble gravel earth, with exposed pebbles along the top, left and right edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4wb2"
+     ],
+     "fraction": 0.621
+    }
+   }
+  },
+  "mm6/t4ws4": {
+   "name": "t4ws4",
+   "versions": [
+    1
+   ],
+   "material": "thick gnarled red-brown tree roots twisting over dark lumpy pebbled earth, with a rough red-brown rubble stone border along the top and left edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4ws3"
+     ],
+     "fraction": 0.571
+    }
+   }
+  },
+  "mm6/t4ws7": {
+   "name": "t4ws7",
+   "versions": [
+    1
+   ],
+   "material": "thick gnarled red-brown tree roots twisting over dark lumpy pebbled earth, with a rough red-brown rubble stone border along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4ws1",
+      "mm6/t4ws2",
+      "mm6/t4ws3"
+     ],
+     "fraction": 0.383
+    }
+   }
+  },
+  "mm6/t4ws5": {
+   "name": "t4ws5",
+   "versions": [
+    1
+   ],
+   "material": "thick gnarled red-brown tree roots twisting over dark lumpy pebbled earth, with a rough red-brown rubble stone border along the top and right edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4ws2",
+      "mm6/t4ws7"
+     ],
+     "fraction": 0.461
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/t4ws7"
+    }
+   }
+  },
+  "mm6/t4ww1": {
+   "name": "t4ww1",
+   "versions": [
+    1
+   ],
+   "material": "wall of vertical twisted red-brown tree trunks and roots bound with tan rope lashings, with a thick vertical lashed log post on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4ww7": {
+   "name": "t4ww7",
+   "versions": [
+    1
+   ],
+   "material": "wall of vertical twisted red-brown tree trunks and roots bound with tan rope lashings, with a horizontal lashed log beam along the top and a vertical log post",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4ww1"
+     ],
+     "fraction": 0.366
+    }
+   }
+  },
+  "mm6/t4ww5": {
+   "name": "t4ww5",
+   "versions": [
+    1
+   ],
+   "material": "wall of vertical twisted red-brown tree trunks and roots bound with tan rope lashings, with a horizontal lashed log beam along the top and a vertical log post on the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4ww6": {
+   "name": "t4ww6",
+   "versions": [
+    1
+   ],
+   "material": "wall of vertical twisted red-brown tree trunks and roots bound with tan rope lashings, with a thick vertical lashed log post left of centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4ww5"
+     ],
+     "fraction": 0.262
+    }
+   }
+  },
+  "mm6/t4wb7": {
+   "name": "t4wb7",
+   "versions": [
+    1
+   ],
+   "material": "brown and olive pebble gravel earth wall with small rounded stones",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4f4": {
+   "name": "t4f4",
+   "versions": [
+    1
+   ],
+   "material": "brown earthen floor of packed pebbles and small rounded stones",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4wb7"
+     ],
+     "fraction": 0.732
+    }
+   }
+  },
+  "mm6/t4c4": {
+   "name": "t4c4",
+   "versions": [
+    1
+   ],
+   "material": "dense tangle of thin red-brown roots over dark earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4wb1",
+      "mm6/t4wb6"
+     ],
+     "fraction": 0.564
+    }
+   }
+  },
+  "mm6/t4ww2": {
+   "name": "t4ww2",
+   "versions": [
+    1
+   ],
+   "material": "wall of vertical twisted red-brown tree trunks and roots bound with tan rope lashings, with a horizontal lashed log beam along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4ww5",
+      "mm6/t4ww6"
+     ],
+     "fraction": 0.146
+    }
+   }
+  },
+  "mm6/t4c2": {
+   "name": "t4c2",
+   "versions": [
+    1
+   ],
+   "material": "golden-orange dry straw thatch of short tangled fibres",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4c3": {
+   "name": "t4c3",
+   "versions": [
+    1
+   ],
+   "material": "golden-orange dry straw thatch of short tangled fibres overlaid with a diagonal lattice of braided brown straw bands",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4c2"
+     ],
+     "fraction": 0.153
+    }
+   }
+  },
+  "mm6/sign1": {
+   "name": "sign1",
+   "versions": [
+    1
+   ],
+   "material": "small tan wooden plaque with a carved scroll-and-swirl relief and dark border bands; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4c1": {
+   "name": "t4c1",
+   "versions": [
+    1
+   ],
+   "material": "woven basketwork of broad tan and brown wicker strips in an over-under weave",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4c5": {
+   "name": "t4c5",
+   "versions": [
+    1
+   ],
+   "material": "dark brown root-covered earth overgrown with green ivy leaves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4d3": {
+   "name": "t4d3",
+   "versions": [
+    1
+   ],
+   "material": "double door framed in lashed red-brown logs and roots, two tall dark woven root panels separated by a carved post, coiled root handle on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4d4": {
+   "name": "t4d4",
+   "versions": [
+    1
+   ],
+   "material": "double door framed in lashed red-brown logs and roots, two tall dark woven root panels separated by a carved post, coiled root handle on the left; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4d5": {
+   "name": "t4d5",
+   "versions": [
+    1
+   ],
+   "material": "tall arched door of dark carved wood with a braided rope frame, a recessed arched panel of interwoven roots and a small brass knob on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,504 @@
+{
+ "id": "20261030-0047-mm9-anskramkeep-00",
+ "world": "mm9",
+ "maps": [
+  "anskramkeep.blv"
+ ],
+ "created": "2026-10-29T23:47:17+00:00",
+ "textures": [
+  "mm9/ansks302ur",
+  "mm9/anskg1vvmu",
+  "mm9/ansk57va3o",
+  "mm9/ansk57va3o-lattice",
+  "mm9/anskez7lsw",
+  "mm9/anskkxdel2",
+  "mm9/ansktwhusw",
+  "mm9/ansk7tndqm",
+  "mm9/thjogdrt3q",
+  "mm9/ansk8hz857",
+  "mm9/ansk9ja1jm",
+  "mm9/carp461vw7",
+  "mm9/versslvjy0",
+  "mm9/anskjrfvb9",
+  "mm9/abndjb2u80",
+  "mm9/stonafkens",
+  "mm9/diamvn1moq",
+  "mm9/tablykizbr",
+  "mm9/refixbtk8r",
+  "mm9/stre4efqoh",
+  "mm9/amazr3thbz",
+  "mm9/bric1ofves"
+ ],
+ "requests": {
+  "mm9/ansks302ur": {
+   "name": "ansks302ur",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey rough-hewn stone bricks laid in regular running-bond courses, uneven chipped faces with fine pits, thin dark recessed mortar joints, cool grey with a faint green tint, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/anskg1vvmu": {
+   "name": "anskg1vvmu",
+   "versions": [
+    1
+   ],
+   "material": "large square-cut flagstones of mottled dark grey-brown granite in a staggered grid, fine speckled crystalline grain, narrow dark joints, worn flat surface, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ansk57va3o": {
+   "name": "ansk57va3o",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark blue-grey carved stone openwork grille, a repeating quatrefoil lattice of rounded bars with deep black recesses; over it two dark brown weathered timber beams crossing as a large X from corner to corner, wood grain running along each beam, worn rounded edges and a thin shadow line where the beams meet the grille",
+   "notes": {
+    "2": "where the two beams cross, keep the round wooden boss (a flat round peg head) at the centre of the crossing exactly as in the reference; the two beams meet flush at it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/ansk57va3o-lattice"
+     ],
+     "fraction": 0.455
+    },
+    "2": {
+     "sources": [
+      "mm9/ansk57va3o-lattice"
+     ],
+     "fraction": 0.455
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/ansk57va3o-lattice": {
+   "name": "ansk57va3o-lattice",
+   "versions": [
+    1
+   ],
+   "material": "dark blue-grey carved stone openwork grille, a repeating quatrefoil lattice of rounded bars with deep black recesses between them, slightly weathered stone, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/anskez7lsw": {
+   "name": "anskez7lsw",
+   "versions": [
+    1
+   ],
+   "material": "light grey dressed limestone wall surface with fine mottled grain and faint horizontal tooling streaks, and along the bottom a carved stone frieze band of interlaced knotwork quatrefoils with dark recesses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/anskkxdel2": {
+   "name": "anskkxdel2",
+   "versions": [
+    1
+   ],
+   "material": "a dark brown timber frame (beams along the top, the left side and the bottom, a round wooden peg at the top left) enclosing a shadowed stone niche painted in perspective: an ornamental dark stone lattice on the back wall and worn grey stone shelves below",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ansktwhusw": {
+   "name": "ansktwhusw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "pale grey dressed limestone ashlar blocks with chipped faces and thin dark cracks, a row of small dark grey stones along the top, and a horizontal cracked limestone ledge band across the lower half, matte",
+   "notes": {
+    "3": "the joint between the light cracked ledge band and the row of small dark stones is only a thin mid-grey line, as light as the reference; no deep black groove there",
+    "4": "the thin dark line along the top edge is the joint under the row of small dark stones: keep it thin and mid-grey exactly as in the reference, and keep the bottom edge rows light cracked stone like the reference, no dark groove along the bottom",
+    "5": "there is exactly one row of small dark stones (at the top of the original texture); the dark horizontal line lower down is only a thin crack line under a ledge, not a row of stones; the joint between the light cracked ledge band and the dark stone row is a thin mid-grey line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     62
+    ],
+    "3": [
+     0,
+     62
+    ],
+    "5": [
+     0,
+     62
+    ]
+   },
+   "ref_blur": {
+    "4": 0.8,
+    "5": 0.8
+   }
+  },
+  "mm9/ansk7tndqm": {
+   "name": "ansk7tndqm",
+   "versions": [
+    1
+   ],
+   "material": "dark brown weathered vertical timber planks with deep cracked wood grain, small knots and worn edges, narrow dark gaps between planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjogdrt3q": {
+   "name": "thjogdrt3q",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one wooden door of vertical reddish-brown planks with fine straight grain, black wrought iron scroll hinges on the left, a studded dark iron border along the edges",
+   "notes": {
+    "2": "keep the colours of the reference: muted reddish-brown planks and a dull purple-grey iron border, not orange"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/ansk8hz857": {
+   "name": "ansk8hz857",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a pair of ornate double doors: hammered bronze-gold metal panels in dark bronze borders, a dark four-pointed star-shaped iron fitting with short arms at each of the four corners, and in the centre a vertical dark iron lock plate with two straight vertical bar handles side by side (no rings)",
+   "notes": {
+    "2": "keep the thin dark border along every edge exactly as in the reference; copy the corner fittings and the two bar handles from the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/ansk9ja1jm": {
+   "name": "ansk9ja1jm",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey rough-hewn stone bricks laid in regular running-bond courses, uneven chipped faces with fine pits, thin dark recessed mortar joints, cool grey with a faint green tint, matte; a broken patch in the middle where bricks have crumbled into a ragged black hole with loose rubble and fine pale cracks running out through the neighbouring bricks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/ansks302ur"
+     ],
+     "fraction": 0.473
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/carp461vw7": {
+   "name": "carp461vw7",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "worn faded red-brown woven carpet with a lighter beige diamond trellis pattern, soft fabric pile, a few lighter worn areas",
+   "notes": {
+    "2": "keep the colours of the reference: faded dusty pinkish red-brown woven fabric and pale beige squares, not rust or orange; soft textile fibres"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/versslvjy0": {
+   "name": "versslvjy0",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rough eroded rock surface, deeply pitted and lumpy natural stone, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/anskjrfvb9": {
+   "name": "anskjrfvb9",
+   "versions": [
+    1
+   ],
+   "material": "an ornate double door inside an octagonal dark iron frame: hammered gold-bronze panels, riveted iron strap hinges on both sides and two pull handles in the centre, on a plain dark brown surround",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/abndjb2u80": {
+   "name": "abndjb2u80",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown vertical wooden floorboards with long straight grain, fine cracks and narrow dark gaps between boards",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonafkens": {
+   "name": "stonafkens",
+   "versions": [
+    1
+   ],
+   "material": "worn cut-stone trim: a central column of small irregular olive-grey fieldstones in dark mortar, flanked on each side by a column of pale grey rough-cut stone blocks, separated by dark grooves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/diamvn1moq": {
+   "name": "diamvn1moq",
+   "versions": [
+    1
+   ],
+   "material": "beige and light tan diamond tiles in a harlequin pattern, mottled leathery worn surface, thin darker brown joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tablykizbr": {
+   "name": "tablykizbr",
+   "versions": [
+    1
+   ],
+   "material": "texture atlas of a round wooden table, keep every panel exactly where it is: polished reddish-brown wood grain panels in several tones, a large curved dark wooden edge, a small light tan wooden block at the top left",
+   "notes": {},
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refixbtk8r": {
+   "name": "refixbtk8r",
+   "versions": [
+    1
+   ],
+   "material": "dull brown-grey oxidised metal plate with smooth mottled rust blotches, no features",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stre4efqoh": {
+   "name": "stre4efqoh",
+   "versions": [
+    1
+   ],
+   "material": "pale grey speckled granite paving slabs in irregular rows with dark cracked joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/amazr3thbz": {
+   "name": "amazr3thbz",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a dark red-brown painted wooden panel strip with a vertical gilt brass moulding and a black groove at each side",
+   "notes": {
+    "2": "keep the colours of the reference: a warm brownish dark red panel, not purple or violet"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/bric1ofves": {
+   "name": "bric1ofves",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown rough wall of flat stacked fieldstones with dark gaps, standing on a strip of sandy beige paving at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

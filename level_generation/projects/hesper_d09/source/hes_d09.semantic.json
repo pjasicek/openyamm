@@ -1,0 +1,1669 @@
+{
+  "actor_positions": {
+    "29": [
+      6300,
+      3000,
+      0
+    ],
+    "30": [
+      6500,
+      2900,
+      0
+    ],
+    "31": [
+      6650,
+      3760,
+      0
+    ],
+    "32": [
+      6400,
+      3760,
+      0
+    ],
+    "33": [
+      6250,
+      3450,
+      0
+    ],
+    "45": [
+      4100,
+      3120,
+      -1536
+    ],
+    "46": [
+      4400,
+      3120,
+      -1536
+    ],
+    "47": [
+      3850,
+      3170,
+      -1536
+    ],
+    "48": [
+      3650,
+      3170,
+      -1536
+    ],
+    "49": [
+      3400,
+      3120,
+      -1536
+    ],
+    "52": [
+      6300,
+      2600,
+      -1536
+    ],
+    "53": [
+      6050,
+      2630,
+      -1536
+    ],
+    "55": [
+      3200,
+      1250,
+      -1536
+    ],
+    "56": [
+      2920,
+      1800,
+      -1536
+    ],
+    "57": [
+      2900,
+      2200,
+      -1536
+    ],
+    "58": [
+      4500,
+      2200,
+      -1536
+    ],
+    "59": [
+      4800,
+      2200,
+      -1536
+    ],
+    "60": [
+      5100,
+      2200,
+      -1536
+    ],
+    "61": [
+      5800,
+      1000,
+      -1536
+    ],
+    "62": [
+      5800,
+      1350,
+      -1536
+    ],
+    "93": [
+      7520,
+      1000,
+      -1536
+    ],
+    "94": [
+      7840,
+      1050,
+      -1536
+    ],
+    "95": [
+      8180,
+      1250,
+      -1536
+    ]
+  },
+  "footprints": {
+    "descent": [
+      [
+        6064,
+        1180
+      ],
+      [
+        6244,
+        1000
+      ],
+      [
+        8220,
+        1000
+      ],
+      [
+        8400,
+        1180
+      ],
+      [
+        8400,
+        2420
+      ],
+      [
+        8220,
+        2600
+      ],
+      [
+        6244,
+        2600
+      ],
+      [
+        6064,
+        2420
+      ]
+    ],
+    "east_ledge": [
+      [
+        5000,
+        1000
+      ],
+      [
+        5820,
+        1000
+      ],
+      [
+        6000,
+        1180
+      ],
+      [
+        6000,
+        3196
+      ],
+      [
+        5860,
+        3336
+      ],
+      [
+        5000,
+        3336
+      ]
+    ],
+    "north_ledge": [
+      [
+        1600,
+        3400
+      ],
+      [
+        6000,
+        3400
+      ],
+      [
+        6000,
+        4220
+      ],
+      [
+        5820,
+        4400
+      ],
+      [
+        1780,
+        4400
+      ],
+      [
+        1600,
+        4220
+      ]
+    ],
+    "west_ledge": [
+      [
+        1600,
+        1140
+      ],
+      [
+        1740,
+        1000
+      ],
+      [
+        2600,
+        1000
+      ],
+      [
+        2600,
+        3336
+      ],
+      [
+        1740,
+        3336
+      ],
+      [
+        1600,
+        3196
+      ]
+    ],
+    "hatchery": [
+      [
+        2200,
+        4624
+      ],
+      [
+        2360,
+        4464
+      ],
+      [
+        3440,
+        4464
+      ],
+      [
+        3600,
+        4624
+      ],
+      [
+        3600,
+        5240
+      ],
+      [
+        3440,
+        5400
+      ],
+      [
+        2360,
+        5400
+      ],
+      [
+        2200,
+        5240
+      ]
+    ],
+    "vats": [
+      [
+        6064,
+        2804
+      ],
+      [
+        6204,
+        2664
+      ],
+      [
+        7600,
+        2664
+      ],
+      [
+        7600,
+        4400
+      ],
+      [
+        6144,
+        4400
+      ],
+      [
+        6064,
+        4320
+      ]
+    ],
+    "molt": [
+      [
+        -900,
+        1400
+      ],
+      [
+        -500,
+        1000
+      ],
+      [
+        1136,
+        1000
+      ],
+      [
+        1536,
+        1400
+      ],
+      [
+        1536,
+        2200
+      ],
+      [
+        1136,
+        2600
+      ],
+      [
+        -500,
+        2600
+      ],
+      [
+        -900,
+        2200
+      ]
+    ],
+    "creche": [
+      [
+        3664,
+        4644
+      ],
+      [
+        3844,
+        4464
+      ],
+      [
+        5620,
+        4464
+      ],
+      [
+        5800,
+        4644
+      ],
+      [
+        5800,
+        5420
+      ],
+      [
+        5620,
+        5600
+      ],
+      [
+        3844,
+        5600
+      ],
+      [
+        3664,
+        5420
+      ]
+    ],
+    "rim": [
+      [
+        1600,
+        496
+      ],
+      [
+        1760,
+        336
+      ],
+      [
+        5840,
+        336
+      ],
+      [
+        6000,
+        496
+      ],
+      [
+        6000,
+        936
+      ],
+      [
+        1600,
+        936
+      ]
+    ],
+    "larder": [
+      [
+        1536,
+        820
+      ],
+      [
+        1656,
+        700
+      ],
+      [
+        2480,
+        700
+      ],
+      [
+        2600,
+        820
+      ],
+      [
+        2600,
+        1716
+      ],
+      [
+        2480,
+        1836
+      ],
+      [
+        1656,
+        1836
+      ],
+      [
+        1536,
+        1716
+      ]
+    ],
+    "ponds": [
+      [
+        2664,
+        1180
+      ],
+      [
+        2844,
+        1000
+      ],
+      [
+        5420,
+        1000
+      ],
+      [
+        5600,
+        1180
+      ],
+      [
+        5600,
+        3156
+      ],
+      [
+        5420,
+        3336
+      ],
+      [
+        2744,
+        3336
+      ],
+      [
+        2664,
+        3256
+      ]
+    ],
+    "sump": [
+      [
+        5664,
+        520
+      ],
+      [
+        5784,
+        400
+      ],
+      [
+        6880,
+        400
+      ],
+      [
+        7000,
+        520
+      ],
+      [
+        7000,
+        1680
+      ],
+      [
+        6880,
+        1800
+      ],
+      [
+        5784,
+        1800
+      ],
+      [
+        5664,
+        1680
+      ]
+    ],
+    "cistern": [
+      [
+        7064,
+        520
+      ],
+      [
+        7184,
+        400
+      ],
+      [
+        8280,
+        400
+      ],
+      [
+        8400,
+        520
+      ],
+      [
+        8400,
+        1680
+      ],
+      [
+        8280,
+        1800
+      ],
+      [
+        7184,
+        1800
+      ],
+      [
+        7064,
+        1680
+      ]
+    ],
+    "spawn": [
+      [
+        5664,
+        2004
+      ],
+      [
+        5804,
+        1864
+      ],
+      [
+        6596,
+        1864
+      ],
+      [
+        6736,
+        2004
+      ],
+      [
+        6736,
+        3660
+      ],
+      [
+        6596,
+        3800
+      ],
+      [
+        5804,
+        3800
+      ],
+      [
+        5664,
+        3660
+      ]
+    ],
+    "barracks": [
+      [
+        0,
+        2400
+      ],
+      [
+        2420,
+        2400
+      ],
+      [
+        2600,
+        2580
+      ],
+      [
+        2600,
+        3620
+      ],
+      [
+        2420,
+        3800
+      ],
+      [
+        180,
+        3800
+      ],
+      [
+        0,
+        3620
+      ]
+    ],
+    "throat": [
+      [
+        664,
+        -500
+      ],
+      [
+        2440,
+        -500
+      ],
+      [
+        2600,
+        -340
+      ],
+      [
+        2600,
+        540
+      ],
+      [
+        2440,
+        700
+      ],
+      [
+        664,
+        700
+      ]
+    ],
+    "royal_hall": [
+      [
+        664,
+        964
+      ],
+      [
+        864,
+        764
+      ],
+      [
+        2400,
+        764
+      ],
+      [
+        2600,
+        964
+      ],
+      [
+        2600,
+        2100
+      ],
+      [
+        2400,
+        2300
+      ],
+      [
+        864,
+        2300
+      ],
+      [
+        664,
+        2100
+      ]
+    ],
+    "mother": [
+      [
+        2664,
+        -220
+      ],
+      [
+        2844,
+        -400
+      ],
+      [
+        5820,
+        -400
+      ],
+      [
+        6000,
+        -220
+      ],
+      [
+        6000,
+        3000
+      ],
+      [
+        2844,
+        3000
+      ],
+      [
+        2664,
+        2820
+      ]
+    ]
+  },
+  "pickups": [
+    {
+      "model": "hes_serum_vat",
+      "event": 701,
+      "room": "barracks",
+      "position": [
+        1600,
+        2540,
+        -1536
+      ]
+    },
+    {
+      "model": "hes_serum_vat",
+      "event": 702,
+      "room": "barracks",
+      "position": [
+        1800,
+        2540,
+        -1536
+      ]
+    },
+    {
+      "model": "hes_serum_vat",
+      "event": 703,
+      "room": "barracks",
+      "position": [
+        2000,
+        2540,
+        -1536
+      ]
+    },
+    {
+      "model": "hes_serum_vat",
+      "event": 704,
+      "room": "barracks",
+      "position": [
+        2200,
+        2540,
+        -1536
+      ]
+    },
+    {
+      "model": "hes_serum_vat",
+      "event": 705,
+      "room": "larder",
+      "position": [
+        2420,
+        850,
+        -768
+      ]
+    },
+    {
+      "model": "hes_serum_vat",
+      "event": 706,
+      "room": "larder",
+      "position": [
+        2420,
+        1050,
+        -768
+      ]
+    },
+    {
+      "model": "hes_serum_vat",
+      "event": 707,
+      "room": "north_ledge",
+      "position": [
+        4480,
+        4250,
+        0
+      ]
+    },
+    {
+      "model": "hes_serum_vat",
+      "event": 708,
+      "room": "north_ledge",
+      "position": [
+        4700,
+        4250,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 751,
+      "room": "descent",
+      "position": [
+        8110,
+        1200,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 752,
+      "room": "descent",
+      "position": [
+        6250,
+        2400,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 753,
+      "room": "east_ledge",
+      "position": [
+        5810,
+        1200,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 754,
+      "room": "north_ledge",
+      "position": [
+        5700,
+        4210,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 755,
+      "room": "west_ledge",
+      "position": [
+        1770,
+        3000,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 756,
+      "room": "molt",
+      "position": [
+        -700,
+        1500,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 757,
+      "room": "molt",
+      "position": [
+        1300,
+        1500,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 758,
+      "room": "hatchery",
+      "position": [
+        2380,
+        5200,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 759,
+      "room": "creche",
+      "position": [
+        5510,
+        5400,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 760,
+      "room": "creche",
+      "position": [
+        3800,
+        5050,
+        0
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 761,
+      "room": "larder",
+      "position": [
+        1850,
+        1420,
+        -768
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 762,
+      "room": "low_north",
+      "position": [
+        4750,
+        3190,
+        -768
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 763,
+      "room": "low_west",
+      "position": [
+        2800,
+        2550,
+        -768
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 764,
+      "room": "low_east",
+      "position": [
+        4800,
+        2550,
+        -768
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 765,
+      "room": "sump",
+      "position": [
+        5850,
+        580,
+        -1536
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 766,
+      "room": "cistern",
+      "position": [
+        8200,
+        580,
+        -1536
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 767,
+      "room": "barracks",
+      "position": [
+        1100,
+        2590,
+        -1536
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 768,
+      "room": "throat",
+      "position": [
+        2380,
+        500,
+        -2944
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 769,
+      "room": "royal_hall",
+      "position": [
+        900,
+        2080,
+        -2944
+      ]
+    },
+    {
+      "model": "hes_scrap_bundle",
+      "event": 770,
+      "room": "royal_hall",
+      "position": [
+        2390,
+        950,
+        -2944
+      ]
+    }
+  ],
+  "arrivals": {
+    "from_hes_out3": {
+      "position": [
+        8200,
+        1800,
+        0
+      ],
+      "direction_degrees": 180
+    }
+  },
+  "door_ids": {
+    "membrane_53": 53,
+    "membrane_54": 54,
+    "membrane_55": 55,
+    "membrane_56": 56,
+    "membrane_57": 57,
+    "membrane_58": 58,
+    "membrane_59": 59,
+    "membrane_60": 60,
+    "membrane_61": 61,
+    "membrane_62": 62,
+    "membrane_63": 63,
+    "membrane_64": 64,
+    "membrane_65": 65,
+    "membrane_66": 66,
+    "membrane_67": 67,
+    "membrane_51": 51,
+    "egg_lift": 52
+  },
+  "chest_events": {
+    "30": 0,
+    "31": 1,
+    "32": 2,
+    "33": 3,
+    "34": 4,
+    "35": 5,
+    "36": 6,
+    "37": 7
+  },
+  "monster_packs": [
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 6800,
+      "y": 1800,
+      "label": "Veteran Troopers \u00d73 hold the Descent",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 5500,
+      "y": 2400,
+      "label": "Egg Clusters \u00d73 on the East Ledge's rim (field 230)",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 4200,
+      "y": 3900,
+      "label": "Overseer Prime \u00d71, Hatchlings \u00d73 over the North Ledge",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 300,
+      "y": 1800,
+      "label": "Drudge Brutes \u00d73 among their shed carapaces",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 4700,
+      "y": 5000,
+      "label": "Hatchlings \u00d74 in the Cr\u00e8che",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 2700,
+      "y": 3900,
+      "label": "Egg Clusters \u00d73 on the North Ledge (field 231)",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 2100,
+      "y": 2200,
+      "label": "Drudges \u00d74 on the West Ledge",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 2900,
+      "y": 4900,
+      "label": "Egg Clusters \u00d74, a Drudge Brute (field 232)",
+      "count": 5
+    },
+    {
+      "kind": "monster",
+      "floor": "Upper galleries (z 0)",
+      "x": 6800,
+      "y": 3500,
+      "label": "Drudge Brutes \u00d73, Drudges \u00d72 at the vats",
+      "count": 5
+    },
+    {
+      "kind": "monster",
+      "floor": "Lower galleries (z -768)",
+      "x": 3800,
+      "y": 3036,
+      "label": "Drudges \u00d73 on the Lower North Tier",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Lower galleries (z -768)",
+      "x": 3800,
+      "y": 1250,
+      "label": "Egg Clusters \u00d72 in the South Egg Wall (field 234)",
+      "count": 2
+    },
+    {
+      "kind": "monster",
+      "floor": "Lower galleries (z -768)",
+      "x": 4636,
+      "y": 1500,
+      "label": "Overseer Prime \u00d71, Hatchlings \u00d73",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Lower galleries (z -768)",
+      "x": 2964,
+      "y": 1500,
+      "label": "Drudges \u00d72",
+      "count": 2
+    },
+    {
+      "kind": "monster",
+      "floor": "Nursery Ponds (z -1536)",
+      "x": 3800,
+      "y": 2900,
+      "label": "Overseer Primes \u00d72 over the ponds, Hatchlings \u00d73",
+      "count": 5
+    },
+    {
+      "kind": "monster",
+      "floor": "Nursery Ponds (z -1536)",
+      "x": 6200,
+      "y": 2800,
+      "label": "Overseer Prime \u00d71, Hatchlings \u00d73 at the Spawning Pool",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Nursery Ponds (z -1536)",
+      "x": 3000,
+      "y": 1400,
+      "label": "Egg Clusters \u00d74 at the ponds' edges (field 235)",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Nursery Ponds (z -1536)",
+      "x": 4800,
+      "y": 1600,
+      "label": "Drudges \u00d73 on the causeways",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Nursery Ponds (z -1536)",
+      "x": 6300,
+      "y": 1100,
+      "label": "Drudge Brutes \u00d72 in the sump",
+      "count": 2
+    },
+    {
+      "kind": "monster",
+      "floor": "Nursery Ponds (z -1536)",
+      "x": 900,
+      "y": 3100,
+      "label": "Veteran Troopers \u00d74 in their den",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Mother's level (z -2944)",
+      "x": 300,
+      "y": 1000,
+      "label": "Drudge Brutes \u00d73 in the Royal Tunnels",
+      "count": 3
+    },
+    {
+      "kind": "monster",
+      "floor": "Mother's level (z -2944)",
+      "x": 1600,
+      "y": 100,
+      "label": "Veteran Troopers \u00d72, Drudge Brutes \u00d72: the royal guard",
+      "count": 4
+    },
+    {
+      "kind": "monster",
+      "floor": "Mother's level (z -2944)",
+      "x": 1600,
+      "y": 1500,
+      "label": "Veteran Troopers \u00d73 in the Royal Gallery",
+      "count": 3
+    },
+    {
+      "kind": "boss",
+      "floor": "Mother's level (z -2944)",
+      "x": 4300,
+      "y": 2300,
+      "label": "The Brood Mother (10111) in her cradle",
+      "count": 1
+    },
+    {
+      "kind": "monster",
+      "floor": "Mother's level (z -2944)",
+      "x": 3900,
+      "y": 2300,
+      "label": "Brood Sac 1 (10130), 400 west of her",
+      "count": 1
+    },
+    {
+      "kind": "monster",
+      "floor": "Mother's level (z -2944)",
+      "x": 4300,
+      "y": 2700,
+      "label": "Brood Sac 2 (10130), 400 north of her",
+      "count": 1
+    },
+    {
+      "kind": "monster",
+      "floor": "Mother's level (z -2944)",
+      "x": 4700,
+      "y": 2300,
+      "label": "Brood Sac 3 (10130), 400 east of her",
+      "count": 1
+    },
+    {
+      "kind": "monster",
+      "floor": "Mother's level (z -2944)",
+      "x": 4300,
+      "y": 3700,
+      "label": "Three hidden waves in the Birth Pits: Drudges \u00d73 and a Brute (one per sac)",
+      "count": 12
+    },
+    {
+      "kind": "monster",
+      "floor": "Nursery Ponds (z -1536)",
+      "x": 7700,
+      "y": 1100,
+      "label": "Drudges \u00d73 dredging the Acid Cistern",
+      "count": 3
+    }
+  ],
+  "room_bounds": {
+    "hatchery": [
+      2200,
+      4464,
+      3600,
+      5400,
+      -1,
+      448
+    ],
+    "creche": [
+      3664,
+      4464,
+      5800,
+      5600,
+      -1,
+      512
+    ],
+    "rim": [
+      1600,
+      336,
+      6000,
+      936,
+      -1,
+      768
+    ],
+    "well1": [
+      2664,
+      1000,
+      4936,
+      3336,
+      -1,
+      768
+    ],
+    "low_north": [
+      2664,
+      2736,
+      4936,
+      3336,
+      -769,
+      0
+    ],
+    "low_west": [
+      2664,
+      1000,
+      3264,
+      2672,
+      -769,
+      0
+    ],
+    "low_east": [
+      4336,
+      1000,
+      4936,
+      2672,
+      -769,
+      0
+    ],
+    "low_south": [
+      3328,
+      1000,
+      4272,
+      1536,
+      -769,
+      0
+    ],
+    "larder": [
+      1536,
+      700,
+      2600,
+      1836,
+      -769,
+      -320
+    ],
+    "well2": [
+      3328,
+      1600,
+      4272,
+      2672,
+      -833,
+      0
+    ],
+    "sump": [
+      5664,
+      400,
+      7000,
+      1800,
+      -1793,
+      -1088
+    ],
+    "cistern": [
+      7064,
+      400,
+      8400,
+      1800,
+      -1793,
+      -1088
+    ],
+    "spawn": [
+      5664,
+      1864,
+      6736,
+      3800,
+      -1537,
+      -1024
+    ],
+    "royal": [
+      0,
+      -500,
+      600,
+      2336,
+      -2945,
+      -1088
+    ],
+    "throat": [
+      664,
+      -500,
+      2600,
+      700,
+      -2945,
+      -2432
+    ],
+    "royal_hall": [
+      664,
+      764,
+      2600,
+      2300,
+      -2945,
+      -2432
+    ],
+    "passage": [
+      6064,
+      2664,
+      6736,
+      3264,
+      -2945,
+      -2496
+    ],
+    "shaft": [
+      6800,
+      2664,
+      7600,
+      3864,
+      -2945,
+      0
+    ],
+    "descent_0_0": [
+      6064,
+      1000,
+      7200,
+      2600,
+      -257,
+      512
+    ],
+    "descent_1_0": [
+      7200,
+      1000,
+      8400,
+      2600,
+      -257,
+      512
+    ],
+    "east_ledge_0_0": [
+      5000,
+      1000,
+      6000,
+      2200,
+      -1,
+      768
+    ],
+    "east_ledge_0_1": [
+      5000,
+      2200,
+      6000,
+      3336,
+      -1,
+      768
+    ],
+    "west_ledge_0_0": [
+      1600,
+      1000,
+      2600,
+      2200,
+      -1,
+      768
+    ],
+    "west_ledge_0_1": [
+      1600,
+      2200,
+      2600,
+      3336,
+      -1,
+      768
+    ],
+    "north_ledge_0_0": [
+      1600,
+      3400,
+      3800,
+      4400,
+      -1,
+      768
+    ],
+    "north_ledge_1_0": [
+      3800,
+      3400,
+      6000,
+      4400,
+      -1,
+      768
+    ],
+    "vats_0_0": [
+      6064,
+      2664,
+      7600,
+      3500,
+      -257,
+      640
+    ],
+    "vats_0_1": [
+      6064,
+      3500,
+      7600,
+      4400,
+      -257,
+      640
+    ],
+    "molt_0_0": [
+      -900,
+      1000,
+      300,
+      2600,
+      -1,
+      512
+    ],
+    "molt_1_0": [
+      300,
+      1000,
+      1536,
+      2600,
+      -1,
+      512
+    ],
+    "ponds_0_0": [
+      2664,
+      1000,
+      4100,
+      2200,
+      -1793,
+      -832
+    ],
+    "ponds_1_0": [
+      4100,
+      1000,
+      5600,
+      2200,
+      -1793,
+      -832
+    ],
+    "ponds_0_1": [
+      2664,
+      2200,
+      4100,
+      3336,
+      -1793,
+      -832
+    ],
+    "ponds_1_1": [
+      4100,
+      2200,
+      5600,
+      3336,
+      -1793,
+      -832
+    ],
+    "barracks_0_0": [
+      0,
+      2400,
+      1300,
+      3800,
+      -1537,
+      -1024
+    ],
+    "barracks_1_0": [
+      1300,
+      2400,
+      2600,
+      3800,
+      -1537,
+      -1024
+    ],
+    "mother_0_0": [
+      2664,
+      -400,
+      4332,
+      1300,
+      -3201,
+      -1856
+    ],
+    "mother_1_0": [
+      4332,
+      -400,
+      6000,
+      1300,
+      -3201,
+      -1856
+    ],
+    "mother_0_1": [
+      2664,
+      1300,
+      4332,
+      3000,
+      -3201,
+      -1856
+    ],
+    "mother_1_1": [
+      4332,
+      1300,
+      6000,
+      3000,
+      -3201,
+      -1856
+    ],
+    "pits_0_0": [
+      2664,
+      3064,
+      4300,
+      4264,
+      -3201,
+      -2304
+    ],
+    "pits_1_0": [
+      4300,
+      3064,
+      6000,
+      4264,
+      -3201,
+      -2304
+    ]
+  },
+  "plan_budget": {
+    "map": "d09_brood_pits",
+    "extent": [
+      9300,
+      6100
+    ],
+    "floor_area_m_units": 70.9,
+    "floors": 4,
+    "rooms": 26,
+    "sectors": 40,
+    "doors": 17,
+    "monsters": 96,
+    "chests": 8,
+    "interactables": 7,
+    "houses": 0,
+    "lights": 57,
+    "max_lights_at_a_point": 3
+  },
+  "map": "hes_d09.blv",
+  "events": {
+    "53": "membrane_53",
+    "54": "membrane_54",
+    "55": "membrane_55",
+    "56": "membrane_56",
+    "57": "membrane_57",
+    "58": "membrane_58",
+    "59": "membrane_59",
+    "60": "membrane_60",
+    "61": "membrane_61",
+    "62": "membrane_62",
+    "63": "membrane_63",
+    "64": "membrane_64",
+    "65": "membrane_65",
+    "51": "membrane_51",
+    "70": "vat_1",
+    "71": "vat_2",
+    "72": "vat_3",
+    "73": "egg_lift",
+    "74": "lift_plate_74",
+    "50": "membrane_mouth",
+    "11": "null_field",
+    "10": "scouts_note"
+  },
+  "decorations": 36,
+  "sectors": [
+    "room_hatchery",
+    "room_creche",
+    "room_rim",
+    "room_well1",
+    "room_low_north",
+    "room_low_west",
+    "room_low_east",
+    "room_low_south",
+    "room_larder",
+    "room_well2",
+    "room_sump",
+    "room_cistern",
+    "room_spawn",
+    "room_royal",
+    "room_throat",
+    "room_royal_hall",
+    "room_passage",
+    "room_shaft",
+    "room_descent_0_0",
+    "room_descent_1_0",
+    "room_east_ledge_0_0",
+    "room_east_ledge_0_1",
+    "room_west_ledge_0_0",
+    "room_west_ledge_0_1",
+    "room_north_ledge_0_0",
+    "room_north_ledge_1_0",
+    "room_vats_0_0",
+    "room_vats_0_1",
+    "room_molt_0_0",
+    "room_molt_1_0",
+    "room_ponds_0_0",
+    "room_ponds_1_0",
+    "room_ponds_0_1",
+    "room_ponds_1_1",
+    "room_barracks_0_0",
+    "room_barracks_1_0",
+    "room_mother_0_0",
+    "room_mother_1_0",
+    "room_mother_0_1",
+    "room_mother_1_1",
+    "room_pits_0_0",
+    "room_pits_1_0"
+  ],
+  "doors": {
+    "membrane_53": 53,
+    "membrane_54": 54,
+    "membrane_55": 55,
+    "membrane_56": 56,
+    "membrane_57": 57,
+    "membrane_58": 58,
+    "membrane_59": 59,
+    "membrane_60": 60,
+    "membrane_61": 61,
+    "membrane_62": 62,
+    "membrane_63": 63,
+    "membrane_64": 64,
+    "membrane_65": 65,
+    "membrane_66": 66,
+    "membrane_67": 67,
+    "membrane_51": 51,
+    "egg_lift": 52
+  }
+}

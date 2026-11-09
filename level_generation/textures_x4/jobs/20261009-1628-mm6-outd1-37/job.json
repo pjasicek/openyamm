@@ -1,0 +1,671 @@
+{
+ "id": "20261009-1628-mm6-outd1-37",
+ "world": "mm6",
+ "maps": [
+  "outd1.odm",
+  "oute2.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/rhdr1",
+  "mm6/rhdr2",
+  "mm6/self-all",
+  "mm6/tavldyle",
+  "mm6/tavldyre",
+  "mm6/tavpoor2",
+  "mm6/yinlite",
+  "mm6/csde256",
+  "mm6/cswl256",
+  "mm6/csdearo",
+  "mm6/cswndw",
+  "mm6/csdwndw",
+  "mm6/csre128",
+  "mm6/cswl128",
+  "mm6/csle128",
+  "mm6/csre128w",
+  "mm6/csle128w",
+  "mm6/csaro128",
+  "mm6/mswinm3",
+  "mm6/mswinm2",
+  "mm6/mswinr1",
+  "mm6/smalldr",
+  "mm6/cstr256",
+  "mm6/bemv16c"
+ ],
+ "requests": {
+  "mm6/rhdr1": {
+   "name": "rhdr1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house door of dark red-brown vertical planks with two small square glazed windows at the top in a red wooden frame, iron handle; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: keep the window transom and the rail below it at the same heights as in the reference, keep the carved spirals low on the side posts; no dark line near the bottom edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/rhdr2": {
+   "name": "rhdr2",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "large arched double door of dark red-brown wooden planks with iron ring handles and hinges in a red wooden arch frame; copy the composition exactly",
+   "notes": {
+    "3": "Run the dark left pillar straight to the left edge with no pale bead and no dark line, exactly like the right side; keep the reference's concentric spiral carvings, not flower rosettes.",
+    "4": "The left pillar is dark red-brown straight to the very edge: no lighter bead and no black hairline at the left edge. Keep the concentric spirals on the lower sides; the top-left and top-right spandrels are six-point star rosettes as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/rhctrw",
+     "right": "mm6/rhctrw"
+    },
+    "3": {
+     "left": "mm6/rhctrw",
+     "right": "mm6/rhctrw"
+    },
+    "4": {
+     "left": "mm6/rhctrw",
+     "right": "mm6/rhctrw"
+    }
+   }
+  },
+  "mm6/self-all": {
+   "name": "self-all",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "shop sign of a Vitruvian man figure in orange on a green disc ringed in purple, on brown planks between riveted blue-grey metal side strips; copy the composition exactly",
+   "notes": {
+    "2": "The figure is a stylised diagram silhouette, fully clothed in a long robe; no bare skin, no anatomy detail."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavldyle": {
+   "name": "tavldyle",
+   "versions": [
+    1
+   ],
+   "material": "carved tan sandstone relief of a kneeling figure drinking from a cup, facing right, set in rough stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavldyre": {
+   "name": "tavldyre",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved tan sandstone relief of a kneeling figure drinking from a cup, facing left, set in rough stone; copy the composition exactly",
+   "notes": {
+    "2": "Carved sandstone relief; the figure wears a long draped robe, fully clothed; no bare skin. Otherwise copy the composition exactly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavpoor2": {
+   "name": "tavpoor2",
+   "versions": [
+    1
+   ],
+   "material": "tavern sign of a blue glass tankard with a pewter rim on pale wooden planks between riveted dark iron bands; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/yinlite": {
+   "name": "yinlite",
+   "versions": [
+    1
+   ],
+   "material": "shop sign of a black and white yin-yang symbol on brown planks between riveted blue-grey metal side strips; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/csde256": {
+   "name": "csde256",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with paler quoin blocks along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csbr128"
+     ],
+     "fraction": 0.147
+    }
+   }
+  },
+  "mm6/cswl256": {
+   "name": "cswl256",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csde256",
+      "mm6/csbr128"
+     ],
+     "fraction": 0.729
+    }
+   }
+  },
+  "mm6/csdearo": {
+   "name": "csdearo",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with a narrow dark arrow slit in a stone surround and paler quoins along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csde256"
+     ],
+     "fraction": 0.839
+    }
+   }
+  },
+  "mm6/cswndw": {
+   "name": "cswndw",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with a tall pointed Gothic window of mauve stained glass and stone tracery; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cswl256",
+      "mm6/csdearo"
+     ],
+     "fraction": 0.651
+    }
+   }
+  },
+  "mm6/csdwndw": {
+   "name": "csdwndw",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with a pair of tall pointed Gothic windows of mauve stained glass and stone tracery; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cswl256"
+     ],
+     "fraction": 0.488
+    }
+   }
+  },
+  "mm6/csre128": {
+   "name": "csre128",
+   "versions": [],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with paler quoin blocks along the right edge",
+   "notes": {}
+  },
+  "mm6/cswl128": {
+   "name": "cswl128",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cswl256"
+     ],
+     "fraction": 0.956
+    }
+   }
+  },
+  "mm6/csle128": {
+   "name": "csle128",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with paler quoin blocks along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csde256"
+     ],
+     "fraction": 0.965
+    }
+   }
+  },
+  "mm6/csre128w": {
+   "name": "csre128w",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with a narrow dark arrow slit in a stone surround and paler quoins along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csde256",
+      "mm6/csdearo"
+     ],
+     "fraction": 0.806
+    }
+   }
+  },
+  "mm6/csle128w": {
+   "name": "csle128w",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with a narrow dark arrow slit in a stone surround and paler quoins along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csde256",
+      "mm6/csdearo"
+     ],
+     "fraction": 0.772
+    }
+   }
+  },
+  "mm6/csaro128": {
+   "name": "csaro128",
+   "versions": [
+    1
+   ],
+   "material": "castle wall of grey-mauve rough-faced ashlar blocks with dark joints under a pale grey stone coping course, with a narrow dark arrow slit in a stone surround",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cswl256",
+      "mm6/csle128"
+     ],
+     "fraction": 0.626
+    }
+   }
+  },
+  "mm6/mswinm3": {
+   "name": "mswinm3",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "mage guild facade of cream plaster between carved tan stone pilasters with rosettes and orange-gold friezes at top and bottom on both sides, with a rectangular blue stained glass window showing a green dragon; copy the composition exactly",
+   "notes": {
+    "2": "Copy the friezes exactly: keep the carved lower frieze band at the reference height near the bottom, and the top frieze; plain stucco between them.",
+    "3": "Copy the reference composition exactly, including the lower frieze at the reference height: thin dark line, orange-gold stripe, a grey-lavender band with lavender scrollwork, then a dark line and the orange stripe; plain even taupe stucco elsewhere, no blocky patches and no hairlines at the edges.",
+    "4": "Copy the reference exactly: on the left the carved stone pilaster (bronze bud finial, rosette block, plain panel base); right of it a rectangular wooden-framed stained glass window showing a green dragon standing upright facing right, exactly as drawn in the reference, on a background of round pale-blue glass roundels only (no fleur-de-lis bands, no extra ornament rows); the top frieze is one continuous band across the whole width; lower frieze at the reference height.",
+    "5": "Copy the reference exactly: on the left the carved stone pilaster; right of it a rectangular stained glass window in a thick dark carved wooden frame with a raised inner moulding, showing a green dragon standing upright with its head at the upper right, exactly as drawn in the reference, on a background of round pale-blue glass roundels only; one continuous top frieze; lower frieze at the reference height with a grey-lavender band carved with lavender scrollwork; plain even taupe stucco, a soft shadow below the top frieze with no blocky patches."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswalll",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.126
+    },
+    "2": {
+     "sources": [
+      "mm6/mswalll",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.126
+    },
+    "3": {
+     "sources": [
+      "mm6/mswalll",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.126
+    },
+    "4": {
+     "sources": [
+      "mm6/mswalll",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.126
+    },
+    "5": {
+     "sources": [
+      "mm6/mswinr1",
+      "mm6/mswalll"
+     ],
+     "fraction": 0.446
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   }
+  },
+  "mm6/mswinm2": {
+   "name": "mswinm2",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "mage guild facade of cream plaster between carved tan stone pilasters with rosettes and orange-gold friezes at top and bottom on the right, with a rectangular blue stained glass window showing a green dragon; copy the composition exactly",
+   "notes": {
+    "2": "Right edge: the carved stone pilaster continues to the outermost column exactly as in the reference; no pale or dark hairline along the right side.",
+    "3": "Copy the friezes exactly: keep the carved lower frieze band at the reference height near the bottom, and the top frieze; plain stucco between them.",
+    "4": "Copy the reference composition exactly, including the lower frieze at the reference height: thin dark line, orange-gold stripe, a grey-lavender band with lavender scrollwork, then a dark line and the orange stripe; plain even taupe stucco elsewhere, no blocky patches and no hairlines at the edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswinr",
+      "mm6/mswinm3"
+     ],
+     "fraction": 0.447
+    },
+    "2": {
+     "sources": [
+      "mm6/mswinr",
+      "mm6/mswinm3"
+     ],
+     "fraction": 0.447
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "copy_from": {
+    "id": "mm6/mswinm3",
+    "dx": 0,
+    "dy": 0,
+    "mirror": true
+   }
+  },
+  "mm6/mswinr1": {
+   "name": "mswinr1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "mage guild facade of cream plaster between carved tan stone pilasters with rosettes and orange-gold friezes at top and bottom on the left, with a pointed arched window of blue leaded glass; copy the composition exactly",
+   "notes": {
+    "2": "Copy the friezes exactly: keep the carved lower frieze band at the reference height near the bottom, and the top frieze; plain stucco between them.",
+    "3": "Copy the reference composition exactly, including the lower frieze at the reference height: thin dark line, orange-gold stripe, a grey-lavender band with lavender scrollwork, then a dark line and the orange stripe; plain even taupe stucco elsewhere, no blocky patches and no hairlines at the edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/mswinm3",
+      "mm6/mswalld"
+     ],
+     "fraction": 0.446
+    }
+   },
+   "context": {
+    "1": {}
+   },
+   "copy_from": {
+    "id": "mm6/mswinr",
+    "dx": 0,
+    "dy": 0,
+    "mirror": true
+   }
+  },
+  "mm6/smalldr": {
+   "name": "smalldr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "arched dark brown wooden door with carved ornamental relief panels and a small brass handle; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: the door reaches the bottom edge, no stone sill or threshold. Continue the neighbouring stone wall seamlessly across the left and right edges.",
+    "3": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "5": "No dark or light hairline along the bottom edge: the door planks and frame continue to the bottom border at even brightness.",
+    "6": "Copy the bottom exactly as in the reference: a pale light-grey stone sill strip about three reference pixels tall runs along the whole bottom border beneath the door and the stone wall; no dark line at the bottom edge.",
+    "7": "Copy the bottom exactly as in the reference: a pale light-grey stone sill strip runs along the whole bottom border, and below it only a thin medium-grey stone edge, never black; no dark groove or shadow line at the bottom edge.",
+    "8": "Copy the bottom exactly as in the reference: a pale light-grey stone sill strip runs along the whole bottom border, and below it only a thin medium-grey stone edge, never black; no dark groove or shadow line at the bottom edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/cswl256"
+     ],
+     "fraction": 0.211
+    },
+    "2": {
+     "sources": [
+      "mm6/cswl128",
+      "mm6/csaro128"
+     ],
+     "fraction": 0.228
+    },
+    "3": {
+     "sources": [
+      "mm6/cswl128",
+      "mm6/csaro128"
+     ],
+     "fraction": 0.228
+    },
+    "4": {
+     "sources": [
+      "mm6/cswl128",
+      "mm6/csaro128"
+     ],
+     "fraction": 0.228
+    },
+    "5": {
+     "sources": [
+      "mm6/cswl128",
+      "mm6/csaro128"
+     ],
+     "fraction": 0.228
+    },
+    "6": {
+     "sources": [
+      "mm6/cswl128",
+      "mm6/csaro128"
+     ],
+     "fraction": 0.228
+    },
+    "7": {
+     "sources": [
+      "mm6/cswl128",
+      "mm6/csaro128"
+     ],
+     "fraction": 0.228
+    },
+    "8": {
+     "sources": [
+      "mm6/cswl128",
+      "mm6/cswl256",
+      "mm6/csdwndw",
+      "mm6/csle128w"
+     ],
+     "fraction": 0.221
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     69
+    ],
+    "3": [
+     0,
+     69
+    ],
+    "4": [
+     0,
+     69
+    ],
+    "5": [
+     0,
+     69
+    ],
+    "6": [
+     0,
+     69
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {
+     "left": "mm6/csle128",
+     "right": "mm6/csre128"
+    },
+    "7": {
+     "left": "mm6/csle128",
+     "right": "mm6/csre128"
+    },
+    "8": {
+     "left": "mm6/csle128",
+     "right": "mm6/csre128",
+     "bottom": "mm6/csbr128"
+    }
+   },
+   "border": "edge",
+   "pad": {
+    "8": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/cstr256": {
+   "name": "cstr256",
+   "versions": [
+    1
+   ],
+   "material": "plain grey rough stone coping strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/csdearo",
+      "mm6/csdoor"
+     ],
+     "fraction": 0.535
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/bemv16c": {
+   "name": "bemv16c",
+   "versions": [
+    1
+   ],
+   "material": "plain red-brown wooden timber beam strip with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bemsv32b"
+     ],
+     "fraction": 0.5
+    }
+   }
+  }
+ }
+}

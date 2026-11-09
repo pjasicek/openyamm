@@ -1,0 +1,163 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated candidates; strict size, silhouette and flat-lighting requirements not met. Unresized returns preserved.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": "initial",
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA transparent PNG texture-source painting, unresized. Input 1 is the exact grey orthographic model guide and the EDIT TARGET: preserve its silhouette pixel-for-pixel, its alpha outline, position, size, camera, every existing shape edge, opening, cable and spar. Input 2 is design_reference.png, the approved material and colour reference ONLY; do not adopt its three-quarter camera or geometry. Paint materials onto the guide's existing surfaces: chipped off-white ceramic plates, aged gold trim and rivets, black soot and scorch concentrated at the torn root, dark steel spars and black cables. Respect the existing surface geometry and all holes. No extra geometry, no new silhouette details, no cropped or repositioned parts. LIGHTING: flat even shadowless frontal albedo illumination, no cast shadow, no ambient occlusion shading, no strong specular highlights, no reflections, no rim light. Dark soot is painted pigment, not lighting. No background, floor, text, labels or watermark. The transparent pixels outside the guide must remain transparent. Output one square image only. VIEW: LEFT. Use guide_left.png: the upright wingtip fin is at the LEFT, the broken root and exposed cables are at the RIGHT. Preserve these exact positions, the slender horizontal wing shape and the generous transparent margins.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16565-7488-7c41-a462-e2ecbe5e7225/exec-2e501952-5433-495f-824c-442313e16188.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "diagnostic_normalized_silhouette_iou": 0.8891126412888138,
+        "materials_and_colours": "White ceramic, gold trim, soot, steel and black cables present; visually consistent with material palette.",
+        "flat_even_light": false,
+        "lighting_notes": "Gold highlights and shaded areas remain; not strict flat albedo."
+      },
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "4a8247c1bdd254e7ae5ca3ca945004ea6cdf5a00f5118c9201b94900a7079dc3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        }
+      ],
+      "selected": true,
+      "output": "paint_left.png",
+      "reason": "Selected closest available raw return: initial has higher normalized silhouette overlap than correction. Selection does not imply brief compliance.",
+      "output_sha256": "9ef82d4fdaa2317fab8b4816b1ef1ef0c2c2826272e0e34ffc7227dca9d5cfd4",
+      "unresized_unmodified_return": true
+    },
+    {
+      "view": "left",
+      "attempt": "correction",
+      "prompt": "CORRECTIVE GENERATION, LEFT VIEW. Required native output resolution: 1024x1024, not 1254x1254. Edit input 1 guide_left.png directly: retain its EXACT alpha mask and each pixel boundary, all geometry, framing and orthographic camera. Its nontransparent bounds are x=66..957 and y=350..673 on the 1024-square canvas. Do not enlarge, shift, rotate, redesign, add damage geometry or fill gaps. Fin at left, torn root at right. Input 2 design_reference.png supplies ONLY pigment/material palette. Paint chipped white ceramic with restrained aged gold trim and rivets across the guide; soot and scorch near right torn root, dark steel on existing spars, black on existing cables. This is a FLAT ALBEDO texture source: remove directional shading, shiny golden highlights, gradient lighting and dark underside shading. All surfaces evenly lit from viewer, no ambient occlusion, reflections, shadows or rim lighting. Gold should be a matte ochre gold albedo, white ceramic an evenly bright off-white. Preserve every edge of the grey guide, including its bottom contour, raised fin and individual cables. Transparent background with strictly alpha=0 everywhere outside the original guide. No extra marks or stray translucent pixels. Return a single 1024x1024 transparent PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16565-7488-7c41-a462-e2ecbe5e7225/exec-f7d5a9c4-b861-4dd1-bfa6-c3ed5d0c92f7.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "diagnostic_normalized_silhouette_iou": 0.7783285619596948,
+        "materials_and_colours": "White ceramic, gold trim, soot, steel and black cables present; visually consistent with material palette.",
+        "flat_even_light": false,
+        "lighting_notes": "Gold highlights and shaded areas remain; not strict flat albedo."
+      },
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "4a8247c1bdd254e7ae5ca3ca945004ea6cdf5a00f5118c9201b94900a7079dc3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        }
+      ],
+      "selected": false,
+      "output": "paint_left_correction_unselected.png",
+      "reason": "Corrective generation worsened silhouette alignment; retained for provenance, not selected.",
+      "output_sha256": "526bde7287b43623b9d867e57b1dfd676d270d18b2e612f6d1c6f497997d4608",
+      "unresized_unmodified_return": true
+    },
+    {
+      "view": "right",
+      "attempt": "initial",
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA transparent PNG texture-source painting, unresized. Input 1 is the exact grey orthographic model guide and the EDIT TARGET: preserve its silhouette pixel-for-pixel, its alpha outline, position, size, camera, every existing shape edge, opening, cable and spar. Input 2 is design_reference.png, the approved material and colour reference ONLY; do not adopt its three-quarter camera or geometry. Paint materials onto the guide's existing surfaces: chipped off-white ceramic plates, aged gold trim and rivets, black soot and scorch concentrated at the torn root, dark steel spars and black cables. Respect the existing surface geometry and all holes. No extra geometry, no new silhouette details, no cropped or repositioned parts. LIGHTING: flat even shadowless frontal albedo illumination, no cast shadow, no ambient occlusion shading, no strong specular highlights, no reflections, no rim light. Dark soot is painted pigment, not lighting. No background, floor, text, labels or watermark. The transparent pixels outside the guide must remain transparent. Output one square image only. VIEW: RIGHT. Use guide_right.png: the upright wingtip fin is at the RIGHT, the broken root and exposed cables are at the LEFT. Preserve these exact positions, the slender horizontal wing shape and the generous transparent margins. Exact output canvas must be 1024 by 1024 pixels.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16565-7488-7c41-a462-e2ecbe5e7225/exec-ba6233f8-f504-4fa3-be78-b8306b66883d.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "diagnostic_normalized_silhouette_iou": 0.9742600310822266,
+        "materials_and_colours": "White ceramic, gold trim, soot, steel and black cables present; visually consistent with material palette.",
+        "flat_even_light": false,
+        "lighting_notes": "Gold highlights and shaded areas remain; not strict flat albedo."
+      },
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "79e1ed7dbc6e9d310b2e7a7e2967d6c765c3b62598b67bf5582c8096bbe78067"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        }
+      ],
+      "selected": true,
+      "output": "paint_right.png",
+      "reason": "Selected closest available raw return: initial has higher normalized silhouette overlap than correction. Selection does not imply brief compliance.",
+      "output_sha256": "11ef54075e76f2c10dd33639b199cbaf1487859d32ef6ea50ee7c56582358c75",
+      "unresized_unmodified_return": true
+    },
+    {
+      "view": "right",
+      "attempt": "correction",
+      "prompt": "CORRECTIVE GENERATION, RIGHT VIEW. Required native output resolution: 1024x1024, not 1254x1254. Edit input 1 guide_right.png directly: retain its EXACT alpha mask and each pixel boundary, all geometry, framing and orthographic camera. Its nontransparent bounds are x=66..957 and y=350..673 on the 1024-square canvas. Do not enlarge, shift, rotate, redesign, add damage geometry or fill gaps. Fin at right, torn root at left. Input 2 design_reference.png supplies ONLY pigment/material palette. Paint chipped white ceramic with restrained aged gold trim and rivets across the guide; soot and scorch near left torn root, dark steel on existing spars, black on existing cables. This is a FLAT ALBEDO texture source: remove directional shading, shiny golden highlights, gradient lighting and dark underside shading. All surfaces evenly lit from viewer, no ambient occlusion, reflections, shadows or rim lighting. Gold should be a matte ochre gold albedo, white ceramic an evenly bright off-white. Preserve every edge of the grey guide, including its bottom contour, raised fin and individual cables. Transparent background with strictly alpha=0 everywhere outside the original guide. No extra marks or stray translucent pixels. Return a single 1024x1024 transparent PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16565-7488-7c41-a462-e2ecbe5e7225/exec-a3f997ad-8ee1-4104-8ff4-61c221c71a85.png",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "diagnostic_normalized_silhouette_iou": 0.5884826833254734,
+        "materials_and_colours": "White ceramic, gold trim, soot, steel and black cables present; visually consistent with material palette.",
+        "flat_even_light": false,
+        "lighting_notes": "Gold highlights and shaded areas remain; not strict flat albedo."
+      },
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "79e1ed7dbc6e9d310b2e7a7e2967d6c765c3b62598b67bf5582c8096bbe78067"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        }
+      ],
+      "selected": false,
+      "output": "paint_right_correction_unselected.png",
+      "reason": "Corrective generation worsened silhouette alignment; retained for provenance, not selected.",
+      "output_sha256": "9ba96ed26c63799b0fd074e9b3795d4af03c4e1064179af2abf2ccb9a7bb45ae",
+      "unresized_unmodified_return": true
+    }
+  ]
+}

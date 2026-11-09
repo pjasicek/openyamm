@@ -1,0 +1,21 @@
+{
+  "family": "sor1",
+  "title": "MM6 Sorcerer",
+  "descriptor_ids": [
+    631,
+    632,
+    633
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 821,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Native MM6 male sorcerer, C variant in muted dark purple long robe. Pale adult human with short dark brown hair, moustache and short pointed beard and sharply receding hairline. Tall slim proportions, original long purple gown and sleeves with native black shadow panels, narrow vertical gold front trim, gold belt, original gold pointed collar/shoulder details. Holds a thin plain brown/gold staff in his right hand on image left, red/orange gem tip and native base cap. Brown shoes. Reconstruct the original early pre-rendered fantasy game look, subdued cloth and soft baked lighting. No redesign, new ornaments, glowing aura, enlarged staff, hat or extra accessories.",
+  "regions": "Only purple gown and sleeves recolor. Protect skin, hair, gold trim, belt, brown shoes and entire staff including red tip and base cap. Generate purple garment only; preserve native exposed hands and staff positions in each action.",
+  "variant_names": {
+    "819": "Sorcerer A / black",
+    "820": "Sorcerer B / red",
+    "821": "Sorcerer C / purple"
+  },
+  "material_module": "materials.py"
+}

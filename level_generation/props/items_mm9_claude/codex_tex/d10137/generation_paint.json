@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the attached paint_mask_guide.png, the edit target, using design_reference.png as material/detail reference and icon_x8.png as colour reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact three columns by FOUR rows layout, positions, sizes, silhouettes, poses and openings. Each cell is 512x512 at requested size. Rows 1-2 and rows 3-4 repeat the exact same five model views: FRONT, BACK, LEFT / RIGHT, TOP, empty. The unusual end-on and sideways views MUST remain exactly as the guide; do not substitute upright gloves. Paint grey objects only, never redraw, enlarge, move or redesign them. Object: Exceptional Mail Gauntlets, source-faithful pair vertical cuffs-down, interpreted only through the guide's existing geometry. TOP HALF rows 1-2: unlit base colour, dense interwoven grey steel chainmail covering hand/fingers/wrist, dark metal cuff with aged brass trim matching design and icon. Reference facets, engravings, scrollwork and inner swirls scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. BOTTOM HALF rows 3-4: same five silhouettes as FLAT PURE material ID fills, no texture, shading, outlines or antialiased colour blends inside. #FF0000 every metal including steel mail and brass cuff; #00FF00 leather/padding/hide/suede/fur; #0000FF cloth/lining/cord/hair; #000000 gemstone/glass/enamel/liquid. Every silhouette pixel exactly one of these colours. Mail is entirely solid red in masks, never draw individual chain links into mask. Keep all guide gaps/openings exactly transparent. Empty cells column 3 rows 2 and 4 remain transparent. Background true alpha transparency. No ground, text, labels, outlines, halos, sparkles or aura. Preserve exact guide layout above everything.\nCORRECTION REQUIREMENT: The previous attempt produced red spray/noise outside the lower silhouettes. Absolutely no stray pixels or red spray. Lower half must contain exactly five clean solid flat red silhouettes, with clean boundaries precisely matching the original grey guide and transparent space everywhere else. Preserve the original guide alpha and exact shape including fingers in end views. Do not create holes where the guide has visible interior surfaces.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-c2cc-7d32-bea8-b5c22462f833/exec-17a17e4d-cdd6-45db-aa01-96ca550c5bf9.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10137/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10137/paint_mask_guide.png",
+      "sha256": "8bdce767d48b7da2dce3b397ea277c0a4549f002a33404fe01ccb951c81b780f"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10137/design_reference.png",
+      "sha256": "41f85505ab6d51457779d3c2e5f76908f62d1cb8998aac265924bc587791f8a6"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10137/icon_x8.png",
+      "sha256": "94f7e8c3c4d44f407b95b0c01d5fca4cb7207fabc5a3676ccb621aea09072e08"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation_notes": "Corrective generation still contains stray red mask pixels outside silhouettes; exact mask compliance not achieved. Original tool output preserved without editing."
+}

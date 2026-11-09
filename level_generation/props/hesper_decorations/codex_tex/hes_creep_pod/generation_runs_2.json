@@ -1,0 +1,92 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "best available candidate saved; brief requirements not fully met",
+  "deliverable": "paint_back.png",
+  "postprocessing": "None. PNG returns copied byte-for-byte without resizing, masking or repainting.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer / precise-object-edit.\nAsset type: orthographic back-view albedo texture source for an existing 3D Kreegan creep pod decoration.\nOutput exactly one 1024 x 1024 RGBA PNG with genuine transparent background.\n\nINPUT ROLES (in supplied path order):\n1. guide_back.png is the EDIT TARGET and absolute geometry authority. Paint directly over this exact grey orthographic back render. Keep its entire original alpha silhouette, exact pixel placement, size and orientation. Preserve EVERY shape edge, pointed tip, opening, root, facet boundary and overlap exactly as drawn. Do not redesign or rotate the model.\n2. design_reference.png is the approved colour and material reference ONLY. Transfer its surface materials onto the guide's shapes; do not transfer its three-quarter camera, silhouette, arrangement, lighting or ground.\n3. concept_crop.png is supporting original concept colour/material reference ONLY.\n\nPrimary request: change only the grey surface colours and materials of guide_back.png. Outer curved pointed cage ribs and roots are black-violet resin/chitin with subtle purple-brown organic mottling and a faint subdued sheen. The big smooth central back egg-sac and any other exposed sac surfaces are translucent-looking vivid burnt orange/amber with dark branching vein patterns and dimmer reddish-violet membrane patches, matching the approved design. Preserve the guide's large central sac and its surrounding exact ribs; do not split or reshape the sac. Paint glowing orange sacs and seams at their intrinsic glowing colour, without illuminating surrounding chitin.\n\nComposition is LOCKED to the guide: on the 1024 square the geometry spans approximately x=65..958, y=219..804; retain those original margins. The tall left-of-centre tip ends around (452,219), the slanting right upper tip around (497,255), and the thin root platform lies near y=767 with central underside reaching y=804. These are preservation anchors, not new geometry. Preserve the uneven thin bottom flange exactly; no added rocks, ground, tendrils, spikes or details that change geometry. All empty areas including openings between cage spines remain transparent.\n\nLIGHTING: pure albedo texture painting with completely even flat shadowless frontal illumination. No directional shading, no cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no bloom, no light spill, no floor or background. Use dark intrinsic chitin colour but keep its surface evenly readable. Surface vein/mottling detail only inside existing guide surfaces; geometry stays identical. Do not make a beauty render. Nothing cropped, no text, no watermark. Preserve original 1024 x 1024 canvas and exact guide silhouette.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; silhouette and geometry authority",
+          "sha256": "3c9cb08a94237ef7d2cc9add06ae1e1e376c6fea125b6b2502245d11db483b5d"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved colour and material authority",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": true,
+      "selected_output": "paint_back.png",
+      "accepted": false,
+      "reason": "Closer of the two returns: retains the central bottom protrusion and has more subdued highlights. Materials broadly follow the approved orange sacs and black-violet chitin. Fails requested 1024 x 1024 native size and exact guide silhouette; not a compliant final texture source.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Broad colour/material match by visual inspection.",
+        "flat_even_light": "Incomplete: residual crevice darkening and sheen remain."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION: produce the single paint_back.png deliverable in EXACTLY 1024 by 1024 pixels, native output resolution. The previous attempt returned 1254 by 1254 and changed edges; that fails the brief. Do not repeat that. Do not scale the guide up. Keep the exact original 1024-square canvas and all original margins.\n\nUse case: precise-object-edit / style-transfer. Image 1, guide_back.png, is the edit target; its original RGBA alpha, silhouette and every geometric edge must remain unchanged. Treat this as painting colour into the exact existing pixels, not re-rendering or redesigning the object. Images 2 and 3 are only material references: design_reference.png (approved authority) and concept_crop.png (original concept).\n\nPaint this EXACT back-view grey model: glossy black-violet resin/chitin tendrils, cage ribs and dark roots, faint subdued material sheen, translucent-looking glowing orange egg sacs with darker branching veins and reddish-violet membrane mottling. Paint the guide's smooth central egg sac orange; keep it one sac of the same shape. Keep every existing pointed rib, root, opening and overlapping edge in exactly the guide's position. Preserve the broad low irregular bottom flange, including its underside. Never add spikes, rocks, ground, roots or geometry. Match the guide pixel for pixel at boundaries. Only the grey interior surface pixels receive painted material detail.\n\nOn this 1024 x 1024 canvas retain the existing guide extent, approximately x=66..957, y=220..803. Tallest tip at (452,220). Root platform near y=767. Central underside reaches y=803. All empty canvas and actual openings remain transparent, with no stray alpha pixels anywhere.\n\nLIGHTING IS ALBEDO: perfectly even flat frontal shadowless illumination. No cast shadows, no ambient occlusion or crevice shading, no strong specular highlights, reflections or rim light. Orange is intrinsic painted glowing colour only; no bloom or orange light cast on the chitin. A faint material sheen only. No directional bright-to-dark shading on sac or chitin. No background, floor, text or watermark.\n\nReturn one genuinely transparent 1024 x 1024 RGBA image. Maintain guide_back.png original silhouette, exact size and position. Material colours come from the other references but no geometry or dramatic lighting is borrowed from them.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; silhouette and geometry authority",
+          "sha256": "3c9cb08a94237ef7d2cc9add06ae1e1e376c6fea125b6b2502245d11db483b5d"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved colour and material authority",
+          "sha256": "ff1da405c654879332124a674026ac4c514162c1eb899c22cc956fc07f578153"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "eebcb6be98d542bb3463ad1fddf15c84e572841bb3af0e7697f4e7d9bae7a0d5"
+        }
+      ],
+      "output": "paint_back_attempt_2.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Single corrective generation. Still returned 1254 x 1254, removes the guide's bottom central protrusion and has stronger highlights/light spill. No further regeneration permitted by the brief.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Broad palette match; excessive orange accents on chitin.",
+        "flat_even_light": "Failed: noticeable highlights, crevice darkening and light spill."
+      }
+    }
+  ]
+}

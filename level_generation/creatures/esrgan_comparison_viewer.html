@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creature · native / Real-ESRGAN / installed restoration</title>
+<style>
+  :root { color-scheme: dark; font: 16px system-ui; }
+  body { margin: 20px auto; padding: 0 18px; max-width: 1800px; background: #1d2421; color: #f0f3ed; }
+  h1 { margin-bottom: 6px; font-size: 26px; }
+  p { color: #c4d0c6; line-height: 1.45; }
+  .controls { display: flex; align-items: center; gap: 12px 20px; flex-wrap: wrap; margin: 18px 0; }
+  select, button, input { font: inherit; }
+  select, button { padding: 6px 9px; }
+  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .pane { min-width: 0; }
+  .pane h2 { font-size: 17px; margin: 0 0 7px; }
+  canvas { width: 100%; height: auto; display: block; border: 1px solid #586c60; box-sizing: border-box; }
+  .frame { padding: 14px 0; border-top: 1px solid #48564d; }
+  .frame h3 { margin: 0 0 10px; }
+  .small { font-size: 13px; }
+  a { color: #b9dcef; }
+  @media (max-width: 820px) { .three { gap: 4px; } .pane h2 { font-size: 12px; } }
+</style>
+<h1 id="title">Creature · three-way comparison</h1>
+<p>All three panes use the same native bottom-center pivot, animation frames, timing, and mirrored views.
+  Real-ESRGAN is a review candidate; the right pane is the currently installed 2× goblin restoration.
+  Its static art passed review, while its animation still awaits playtest review.</p>
+<div class="controls">
+  <label>Action <select id="action"></select></label>
+  <label>View <select id="view"></select></label>
+  <button id="play">Pause</button><button id="step">Step</button><button id="restart">Restart</button>
+  <label>Zoom <input id="zoom" type="range" min="0.75" max="2" step="0.05" value="1.45"></label>
+  <label>Background <input id="bg" type="color" value="#374238"></label>
+  <label><input id="loop" type="checkbox" checked>Repeat</label>
+</div>
+<div class="three" id="animated">
+  <div class="pane"><h2>Original · native 1×</h2><canvas width="520" height="500"></canvas></div>
+  <div class="pane"><h2>Real-ESRGAN · 2×</h2><canvas width="520" height="500"></canvas></div>
+  <div class="pane"><h2>Installed restoration · 2×</h2><canvas width="520" height="500"></canvas></div>
+</div>
+<p id="status"></p>
+<h2>Scroll through the selected sequence</h2>
+<div id="gallery"></div>
+<p class="small"><a href="manifest.json">ESRGAN provenance</a> · <a href="../manifest.json">Installed restoration manifest</a></p>
+<script>
+const data=/* MANIFEST */;
+const manifest=data.package,palette=data.palette;
+const $=id=>document.getElementById(id),images=new Map();
+const modes=['native','esrgan','restored'];
+let playing=true,elapsed=0,last=performance.now(),frame=0,galleryCanvases=[];
+$('title').textContent=`${manifest.creature} · three-way comparison`;
+for(const action of Object.keys(manifest.animations))$('action').add(new Option(action,action));
+for(let view=0;view<8;view++)$('view').add(new Option(`${view}${view>4?' (mirrored)':''}`,view));
+$('action').value='standing';
+const params=new URLSearchParams(location.search);
+for(const id of ['action','view'])if(params.has(id))$(id).value=params.get(id);
+function sequence(){return manifest.animations[$('action').value].views[$('view').value]}
+function image(path){
+  if(!images.has(path)){
+    const result=new Image();images.set(path,result);result.onload=renderAll;result.src=path;
+  }
+  return images.get(path);
+}
+function draw(canvas,step,mode,zoom){
+  const ctx=canvas.getContext('2d'),pivotX=canvas.width/2,pivotY=canvas.height-26;
+  ctx.fillStyle=$('bg').value;ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle='#8ea898';ctx.beginPath();ctx.moveTo(16,pivotY);ctx.lineTo(canvas.width-16,pivotY);
+  ctx.moveTo(pivotX,pivotY-6);ctx.lineTo(pivotX,pivotY+6);ctx.stroke();
+  ctx.save();ctx.translate(pivotX,pivotY);ctx.scale(step.mirrored?-zoom:zoom,zoom);
+  ctx.imageSmoothingEnabled=mode!=='native';
+  const name=step.frame,[width,height]=manifest.logical_canvas,[nativePivotX,nativePivotY]=manifest.logical_pivot;
+  if(mode==='native'){
+    const img=image(`../native_variants/${name}_${palette}.png`);
+    if(img.complete&&img.naturalWidth)ctx.drawImage(img,-nativePivotX,-nativePivotY,width,height);
+  }else if(mode==='esrgan'){
+    const img=image(`frames/${name}.png`);
+    if(img.complete&&img.naturalWidth)ctx.drawImage(img,-nativePivotX,-nativePivotY,width,height);
+  }else{
+    const data=manifest.frames[name],page=manifest.pages[data.page];
+    const img=image(`../${page.variant_previews[palette]}`),[sx,sy,w,h]=data.atlas_xywh;
+    if(img.complete&&img.naturalWidth)
+      ctx.drawImage(img,sx,sy,w,h,data.crop_origin_px[0]/2-nativePivotX,
+        data.crop_origin_px[1]/2-nativePivotY,w/2,h/2);
+  }
+  ctx.restore();
+}
+function renderGallery(){
+  const steps=sequence();
+  if(galleryCanvases.length!==steps.length){
+    $('gallery').replaceChildren();galleryCanvases=[];
+    for(let i=0;i<steps.length;i++){
+      const row=document.createElement('section');row.className='frame';
+      const heading=document.createElement('h3');row.append(heading);
+      const panes=document.createElement('div');panes.className='three';row.append(panes);
+      const canvases=[];
+      for(const mode of modes){
+        const canvas=document.createElement('canvas');canvas.width=520;canvas.height=500;
+        panes.append(canvas);canvases.push(canvas);
+      }
+      $('gallery').append(row);galleryCanvases.push({heading,canvases});
+    }
+  }
+  steps.forEach((step,i)=>{
+    galleryCanvases[i].heading.textContent=`${i+1}. ${step.frame} · ${step.duration_ms} ms`;
+    modes.forEach((mode,j)=>draw(galleryCanvases[i].canvases[j],step,mode,1.25));
+  });
+}
+function renderAll(){
+  const step=sequence()[frame]||sequence()[0];
+  document.querySelectorAll('#animated canvas').forEach((canvas,i)=>draw(canvas,step,modes[i],+$('zoom').value));
+  renderGallery();
+}
+function reset(){elapsed=0;frame=0;galleryCanvases=[];renderAll()}
+for(const id of ['action','view'])$(id).onchange=reset;
+for(const id of ['zoom','bg'])$(id).oninput=renderAll;
+$('play').onclick=()=>{playing=!playing;$('play').textContent=playing?'Pause':'Play'};
+$('step').onclick=()=>{playing=false;$('play').textContent='Play';frame=(frame+1)%sequence().length;
+  elapsed=sequence().slice(0,frame).reduce((sum,step)=>sum+step.duration_ms,0);renderAll()};
+$('restart').onclick=reset;
+function tick(now){
+  const action=manifest.animations[$('action').value],steps=sequence(),total=steps.reduce((sum,step)=>sum+step.duration_ms,0);
+  if(playing)elapsed+=Math.min(now-last,100);last=now;
+  if(elapsed>=total)elapsed=$('loop').checked||action.playback==='loop'?elapsed%total:total-0.001;
+  let sum=0,next=steps.length-1;
+  for(let i=0;i<steps.length;i++){sum+=steps[i].duration_ms;if(elapsed<sum){next=i;break}}
+  if(next!==frame){frame=next;document.querySelectorAll('#animated canvas').forEach((canvas,i)=>
+    draw(canvas,steps[frame],modes[i],+$('zoom').value))}
+  $('status').textContent=`${steps[frame].frame} · frame ${frame+1}/${steps.length} · ${steps[frame].duration_ms} ms · ${steps[frame].mirrored?'mirrored':'stored'}`;
+  requestAnimationFrame(tick);
+}
+renderAll();requestAnimationFrame(tick);
+</script>
+</html>

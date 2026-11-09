@@ -1,0 +1,28 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact locked layout target; design_reference.png is material/detail reference and icon_x8.png colour reference only (magenta is background). Produce ONE transparent PNG, 3:4 canvas 1536x2048. Preserve all ten exact guide silhouettes, positions, sizes, outlines, and gaps. Three columns and FOUR rows of 512 square cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those identical views. These view names must NOT cause rotation or reinterpretation: most views are narrow curved edge strips, only middle cell of rows 2 and 4 is broad upright oval. Paint these existing shapes only, never replace strips with face-on shields. Rows 1-2: unlit base colours, reddish diagonal wooden planks, simple iron rim, four sparse iron rivets on broad oval view, as references. Preserve exact model geometry. Detailed wood grain without baked lighting. No new straps or decorations. Rows 3-4: material masks of corresponding painted views, completely flat pure #FF0000 every metal part, #00FF00 every leather/fur part if present, #FFFF00 every wood or other matte nonmetal solid, #000000 gemstones/glass/enamel/liquid if present. Wood face yellow with red rim and four red rivet circles. Thin edge views reflect actual visible metal/wood segmentation. Exactly one pure colour per silhouette pixel, no interior antialiased colour blends, shading, texture or outlines in masks. Everything outside guide silhouettes transparent including column 3 rows 2 and 4. No lighting, cast shadows, AO, hot highlights, reflections, halos, sparkles, ground, text or labels. Do not move, enlarge, redesign, or redraw geometry.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10143/paint_mask_guide.png",
+      "sha256": "87398042fb05c1ad40e50695bded81b30a209ea37d2aa84e172d50008340f6ee"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10143/design_reference.png",
+      "sha256": "5f58ab89062708826cf2f0d4a753df586afddfd8e4da76ce166d5244db025242"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10143/icon_x8.png",
+      "sha256": "0803ef6277489a7934320ee37108cbbcdb56bf6774a8d2a19ecd958cbe6add31"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acdf-9d98-7211-bd06-8e52314a3222/exec-50ad14d1-b9f7-4769-b4eb-ea5275d02b65.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10143/paint_mask_raw_v1.png",
+  "corrective_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png as the exact locked layout target; design_reference.png is material/detail reference and icon_x8.png colour reference only (magenta is background). Produce ONE transparent PNG, 3:4 canvas 1536x2048. Preserve all ten exact guide silhouettes, positions, sizes, outlines, and gaps. Three columns and FOUR rows of 512 square cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those identical views. These view names must NOT cause rotation or reinterpretation: most views are narrow curved edge strips, only middle cell of rows 2 and 4 is broad upright oval. Paint these existing shapes only, never replace strips with face-on shields. Rows 1-2: unlit base colours, reddish diagonal wooden planks, simple iron rim, four sparse iron rivets on broad oval view, as references. Preserve exact model geometry. Detailed wood grain without baked lighting. No new straps or decorations. Rows 3-4: material masks of corresponding painted views, completely flat pure #FF0000 every metal part, #00FF00 every leather/fur part if present, #FFFF00 every wood or other matte nonmetal solid, #000000 gemstones/glass/enamel/liquid if present. Wood face yellow with red rim and four red rivet circles. Thin edge views reflect actual visible metal/wood segmentation. Exactly one pure colour per silhouette pixel, no interior antialiased colour blends, shading, texture or outlines in masks. Everything outside guide silhouettes transparent including column 3 rows 2 and 4. No lighting, cast shadows, AO, hot highlights, reflections, halos, sparkles, ground, text or labels. Do not move, enlarge, redesign, or redraw geometry.\nCORRECTION: Strictly clean silhouettes. Previous output had scattered red/yellow flecks outside the shapes and bulging edge artifacts. Absolutely zero stray pixels or blobs outside the original guide shapes. Match original guide boundaries exactly. Mask fills must be uniform solid pure colours without noise or gradients. Preserve the original narrow strips and oval extents. Use original guide as geometry authority.",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1acdf-9d98-7211-bd06-8e52314a3222/exec-ac5c6708-85d5-4507-b861-4027fe7f8e1e.png",
+  "selection_reason": "First output retained: corrective generation has more stray mask pixels. Raw output retains edge artifacts and non-flat mask colours.",
+  "tool": "built-in image_gen",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

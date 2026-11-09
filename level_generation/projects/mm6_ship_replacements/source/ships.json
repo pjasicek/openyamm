@@ -1,0 +1,432 @@
+{
+  "donor_map": "assets_dev/worlds/mm8/maps/out02.odm",
+  "donor_sha256": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+  "donor_models": [
+    111,
+    112,
+    113,
+    114,
+    115
+  ],
+  "source_pivot": [
+    8256,
+    -14286,
+    0
+  ],
+  "door_faces": [
+    [
+      113,
+      42
+    ]
+  ],
+  "suppressed_coplanar_faces": [
+    [
+      111,
+      22
+    ],
+    [
+      111,
+      62
+    ],
+    [
+      114,
+      34
+    ],
+    [
+      114,
+      35
+    ],
+    [
+      114,
+      36
+    ]
+  ],
+  "maps": [
+    {
+      "map": "outc2.odm",
+      "location": "Free Haven",
+      "sources": {
+        "assets_dev/worlds/mm6/maps/outc2.odm": "c4f2466f0b77c1ee6a1e3565a012236902636ed6cd036df8f16c006c1e714551",
+        "assets_dev/worlds/mm6/maps/outc2.scene.yml": "f54e49fa075bcb294d76ecccc97a49afccfb0486ae4a806d2a5495d9c91665b5",
+        "assets_dev/worlds/mm6/maps/outc2.bake.json": "6ffe63d815c422f5151001abe33b7ab2e76687ab56ed9c5e8a7e633ad672b852",
+        "assets_dev/worlds/mm6/maps/outc2.lighting": "ac522adc1194516b8f789316eab76167901c07790a7aa10d4b5da03edb4c9a4d",
+        "assets_dev/worlds/mm6/events/maps/outc2.lua": "6ec3be36d6b730c124d9aa71232bcd11fbb054c23134cfbfdd7e1579a308dda3",
+        "assets_dev/worlds/mm6/events/maps/outc2_mmmerge.lua": "fa48d5e2e3597d7638e4a1b7a335351d75da0a85e9cac5ae3df0c11fb6442df5"
+      },
+      "ships": [
+        {
+          "entity": 1,
+          "service": "Windrunner",
+          "event": 18,
+          "house": 501,
+          "original_position": [
+            14816,
+            13888,
+            -60
+          ],
+          "rotation_quarters": 0,
+          "position": [
+            14576,
+            13968,
+            -88
+          ],
+          "pier_model": 92,
+          "pier_face": 27,
+          "boarding_edge": [
+            14848,
+            13568,
+            176
+          ]
+        },
+        {
+          "entity": 341,
+          "service": "Offshore scenery",
+          "event": 0,
+          "house": 0,
+          "original_position": [
+            17544,
+            14376,
+            0
+          ],
+          "rotation_quarters": 0,
+          "position": [
+            17544,
+            14376,
+            -88
+          ],
+          "pier_model": null,
+          "pier_face": null,
+          "boarding_edge": null
+        }
+      ]
+    },
+    {
+      "map": "outd1.odm",
+      "location": "Silver Cove",
+      "sources": {
+        "assets_dev/worlds/mm6/maps/outd1.odm": "af3865eb2e5281f7ad95bd8122be45937e59abfa9ea55dc0216eaae00b8690e8",
+        "assets_dev/worlds/mm6/maps/outd1.scene.yml": "694bed5970e668b66574d00493786733763b1bfb8ae3739de6314056f05bd518",
+        "assets_dev/worlds/mm6/maps/outd1.bake.json": "dc0438f6c94932238b621b3852d7c5d222e710355719283289240f7bc444d33c",
+        "assets_dev/worlds/mm6/maps/outd1.lighting": "0ccc3246b231577c5a3b658b949d021fc7703da2077938cab63f96236fe660dd",
+        "assets_dev/worlds/mm6/events/maps/outd1.lua": "ef3bc0870c8f903c608460a578110a342154de413b549aeebf65cc666359d313",
+        "assets_dev/worlds/mm6/events/maps/outd1_1.lua": "055a63104b9bf6c48dd2821362f871e65b683cd8ba4ec86c0c1e2f4b17174a13",
+        "assets_dev/worlds/mm6/events/maps/outd1_mmmerge.lua": "edd0df249899820c8bb7d72235f00ddb42bf46a95e9cda5f9210bde9ab45830a"
+      },
+      "ships": [
+        {
+          "entity": 1,
+          "service": "Barracuda",
+          "event": 32,
+          "house": 502,
+          "original_position": [
+            12784,
+            12256,
+            0
+          ],
+          "rotation_quarters": 2,
+          "position": [
+            13080,
+            12160,
+            -104
+          ],
+          "pier_model": 3,
+          "pier_face": 4,
+          "boarding_edge": [
+            12808,
+            12560,
+            160
+          ]
+        },
+        {
+          "entity": 395,
+          "service": "Cerulean Skies",
+          "event": 12,
+          "house": 500,
+          "original_position": [
+            4450,
+            -12620,
+            0
+          ],
+          "rotation_quarters": 2,
+          "position": [
+            4752,
+            -12688,
+            -88
+          ],
+          "pier_model": 1,
+          "pier_face": 28,
+          "boarding_edge": [
+            4480,
+            -12288,
+            176
+          ]
+        }
+      ]
+    },
+    {
+      "map": "outd2.odm",
+      "location": "Bootleg Bay",
+      "sources": {
+        "assets_dev/worlds/mm6/maps/outd2.odm": "f21caf147c579d0c6720383283f2a885aeee8ba4c23efefdb969e669265a2dbb",
+        "assets_dev/worlds/mm6/maps/outd2.scene.yml": "4aaa27a74469051b8cb6083a54e767ffe471a7ea6be6aed1c6b5e08857afda7a",
+        "assets_dev/worlds/mm6/maps/outd2.bake.json": "e68d7bdde783fe93960c33d483c9e850b2b4487ebed841abd036f4635fb8d255",
+        "assets_dev/worlds/mm6/maps/outd2.lighting": "609b6e9f2082d4ef77867c7fc774bdb74066ae21f0f916dd2a08b8c9c2bf7466",
+        "assets_dev/worlds/mm6/events/maps/outd2.lua": "6669159f23cdc7a0cfb1f8a7a3774e3bde7bfee964d5d555756fe2f96a7d460d"
+      },
+      "ships": [
+        {
+          "entity": 120,
+          "service": "Valkyrie",
+          "event": 16,
+          "house": 506,
+          "original_position": [
+            1680,
+            3984,
+            0
+          ],
+          "rotation_quarters": 3,
+          "position": [
+            1696,
+            4224,
+            -104
+          ],
+          "pier_model": 3,
+          "pier_face": 4,
+          "boarding_edge": [
+            1296,
+            3952,
+            160
+          ]
+        },
+        {
+          "entity": 121,
+          "service": "Tsunami",
+          "event": 17,
+          "house": 505,
+          "original_position": [
+            6940,
+            10480,
+            0
+          ],
+          "rotation_quarters": 2,
+          "position": [
+            7216,
+            10496,
+            -104
+          ],
+          "pier_model": 2,
+          "pier_face": 4,
+          "boarding_edge": [
+            6944,
+            10896,
+            160
+          ]
+        }
+      ]
+    },
+    {
+      "map": "outd3.odm",
+      "location": "Castle Ironfist",
+      "sources": {
+        "assets_dev/worlds/mm6/maps/outd3.odm": "342b8a5ce2b3bad7a905aeabb0fecf6f16188d72eed35f881e1f060375a66125",
+        "assets_dev/worlds/mm6/maps/outd3.scene.yml": "d05c3fba614250b7f2d9625e86d855715385df41bbdf2edfe865676b560ca9dd",
+        "assets_dev/worlds/mm6/maps/outd3.bake.json": "189a69b85313720c21213150e0cf783d50bdb14aa91bb482ca824b8f5411151f",
+        "assets_dev/worlds/mm6/maps/outd3.lighting": "c598ac037663d96ab5817e4668cc6b095fcf864348ce06e7cde7f706f9e1d470",
+        "assets_dev/worlds/mm6/events/maps/outd3.lua": "71632f22595192f3ceaf3167f62e365a4f68dbbb38b5fbafd005b7b897ae3221",
+        "assets_dev/worlds/mm6/events/maps/outd3_1.lua": "d7894799e9cd334e44c637b2c851d0fc342cbfc354981ffcb0a044df0743f73a",
+        "assets_dev/worlds/mm6/events/maps/outd3_mmmerge.lua": "d2b49fe1f00219d4c09933b9372235e688c6b90c607b75d5569ca5909053ffbd"
+      },
+      "ships": [
+        {
+          "entity": 125,
+          "service": "Zephyr",
+          "event": 44,
+          "house": 497,
+          "original_position": [
+            21750,
+            8180,
+            0
+          ],
+          "rotation_quarters": 3,
+          "position": [
+            21840,
+            8464,
+            -72
+          ],
+          "pier_model": 56,
+          "pier_face": 2,
+          "boarding_edge": [
+            21440,
+            8192,
+            192
+          ]
+        },
+        {
+          "entity": 126,
+          "service": "Queen Catherine",
+          "event": 45,
+          "house": 498,
+          "original_position": [
+            21750,
+            4570,
+            0
+          ],
+          "rotation_quarters": 3,
+          "position": [
+            21840,
+            4880,
+            -72
+          ],
+          "pier_model": 56,
+          "pier_face": 3,
+          "boarding_edge": [
+            21440,
+            4608,
+            192
+          ]
+        }
+      ]
+    },
+    {
+      "map": "oute1.odm",
+      "location": "Eel Infested Waters",
+      "sources": {
+        "assets_dev/worlds/mm6/maps/oute1.odm": "f7d2062dcba625e707f7f8390d4643b138a51260ff740742901e1724514bc756",
+        "assets_dev/worlds/mm6/maps/oute1.scene.yml": "a1d840cbe5fc9bf53d12e4b26f03e5cde6ce2e8ec5ec4e09c69a9e729d469656",
+        "assets_dev/worlds/mm6/maps/oute1.bake.json": "32b0260129f2171a2d6e74a4a458a788264f80661bf912826de6baa508f020e9",
+        "assets_dev/worlds/mm6/maps/oute1.lighting": "a039606c59f30740682dd56cad308fb01f84949be80e0a6457ae72d588701881",
+        "assets_dev/worlds/mm6/events/maps/oute1.lua": "4ef6ee1e9843cf3f764450a789d8b28e77dc2029a57a0883f8501399f0f5e4af"
+      },
+      "ships": [
+        {
+          "entity": 1,
+          "service": "Tigershark",
+          "event": 9,
+          "house": 504,
+          "original_position": [
+            6368,
+            7856,
+            0
+          ],
+          "rotation_quarters": 2,
+          "position": [
+            6632,
+            7800,
+            -88
+          ],
+          "pier_model": 8,
+          "pier_face": 28,
+          "boarding_edge": [
+            6360,
+            8200,
+            176
+          ]
+        },
+        {
+          "entity": 2,
+          "service": "Cirrus",
+          "event": 10,
+          "house": 503,
+          "original_position": [
+            -2816,
+            -4016,
+            0
+          ],
+          "rotation_quarters": 1,
+          "position": [
+            -2864,
+            -4272,
+            -88
+          ],
+          "pier_model": 6,
+          "pier_face": 28,
+          "boarding_edge": [
+            -2464,
+            -4000,
+            176
+          ]
+        }
+      ]
+    },
+    {
+      "map": "oute2.odm",
+      "location": "Misty Islands",
+      "sources": {
+        "assets_dev/worlds/mm6/maps/oute2.odm": "5b33c2ddc1ce1123f58bbaa91eb12cbb64805464bfb13455a4c00d0f6db3a55c",
+        "assets_dev/worlds/mm6/maps/oute2.scene.yml": "5dc2e823bde97d9e1267fa0b2a85e11850a0aa5c8a30209a8564e71711324197",
+        "assets_dev/worlds/mm6/maps/oute2.bake.json": "66776ba92f53c140177584c4dc9da2e2446c1c9d0bda725594835724ea48b9e5",
+        "assets_dev/worlds/mm6/maps/oute2.lighting": "3919b32d5e25c36b305b39b580cddb789ab7f69da90658cdf29b5e73ec91a76d",
+        "assets_dev/worlds/mm6/events/maps/oute2.lua": "fca23ddcdc29eabec4c69210711ccae8f7208348c543d3a26196152d3df4d42e",
+        "assets_dev/worlds/mm6/events/maps/oute2_1.lua": "6ac2d599d3a414c5bd08f7e9ccc168fb15682fad032847a5f02238a8bcdf66e4",
+        "assets_dev/worlds/mm6/events/maps/oute2_mmmerge.lua": "9248c32db282dff318e169af0952afed7723b01379fef433a24e4a690cd25898"
+      },
+      "ships": [
+        {
+          "entity": 1,
+          "service": "Adventure",
+          "event": 10,
+          "house": 499,
+          "original_position": [
+            -4784,
+            -14576,
+            0
+          ],
+          "rotation_quarters": 1,
+          "position": [
+            -4800,
+            -14880,
+            -88
+          ],
+          "pier_model": 0,
+          "pier_face": 3,
+          "boarding_edge": [
+            -4400,
+            -14608,
+            176
+          ]
+        }
+      ]
+    },
+    {
+      "map": "oute3.odm",
+      "location": "New Sorpigal",
+      "sources": {
+        "assets_dev/worlds/mm6/maps/oute3.odm": "f882b149aba446c0f1396d05255f4146efd5c885aa5dd2dea38740a0c1e1dbf4",
+        "assets_dev/worlds/mm6/maps/oute3.scene.yml": "d9045c85837442b60c45a955e7d20c3a0143fc0a3a4649821c6736b8a1471b89",
+        "assets_dev/worlds/mm6/maps/oute3.bake.json": "1324e49c75712fe47905becdc02529ddfaa869692c17da5b716740c6667e4086",
+        "assets_dev/worlds/mm6/maps/oute3.lighting": "9bdfc03354b513394997f753f77449dc3f2e91f98ed29ac065b13efc921a98d5",
+        "assets_dev/worlds/mm6/events/maps/oute3.lua": "f7531ecc644e2aca5330df92791b0518587d1c20218820bb3227883066f03f24",
+        "assets_dev/worlds/mm6/events/maps/oute3_1.lua": "a5a24613e4fe39ca7a5964670e7e7a4236f827359448a9a9a1822d069f1444d1",
+        "assets_dev/worlds/mm6/events/maps/oute3_intro.lua": "9202a2908f316a2757ef41c7d1ba4e65fd7962c3dbd3cc5c15c99f1138926539",
+        "assets_dev/worlds/mm6/events/maps/oute3_mmmerge.lua": "0e46fb619a4ca53cec1a577fc66263e50609806f7d8884f72a36be5bba5e6e26"
+      },
+      "ships": [
+        {
+          "entity": 477,
+          "service": "Odyssey",
+          "event": 29,
+          "house": 496,
+          "original_position": [
+            2100,
+            -10224,
+            0
+          ],
+          "rotation_quarters": 3,
+          "position": [
+            2168,
+            -9936,
+            -104
+          ],
+          "pier_model": 46,
+          "pier_face": 4,
+          "boarding_edge": [
+            1768,
+            -10208,
+            160
+          ]
+        }
+      ]
+    }
+  ],
+  "base_maps_root": "source/original_maps"
+}

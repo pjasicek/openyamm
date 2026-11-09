@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_cle_claude/references_hd/00_three_quarter.png) using built-in image generation: unresized 1024 × 1536 RGBA with transparency. Both raw returns and full prompts/input hashes are recorded in `generation_runs.json`.
+
+Stopped after one correction. Residual camera, hand, and costume-detail faults are documented; no builds or Meshy calls.

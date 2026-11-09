@@ -1,0 +1,3 @@
+Saved [00_front.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_pman_v3_claude/references_head/00_front.png) and [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_pman_v3_claude/references_head/generation_runs.json), including prompts, input hashes and correction history. Used built-in image generation; verified transparency.
+
+Views 01–04 and contact sheet omitted as requested. The tool returned **1254 × 1254**, not 1024 × 1024; preserved unresized as required.

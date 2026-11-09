@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MM9 talk B - audience frame</title>
+<!-- Proposal B: the Carved Obsidian house-dialogue frame reused for MM9 talk. A paused 4:3 screen: live view of the
+     NPC (top left), the conversation box (bottom left, grows upward), the house sidebar with portrait and Leave.
+     The party basebar stays below. ?state=typical|many|long|service&w=1600|1200|1950&touch=1 -->
+<link rel="stylesheet" href="common.css">
+<style>
+/* Paused: the world dims, the party basebar below stays bright and live. */
+#veil { position: absolute; left: 0; top: 0; right: 0; height: 722px; background: #000b; }
+#frame { position: absolute; top: 0; width: 1200px; height: 716px; }
+/* The live view: the world camera framed on the speaker (here, a crop of the same capture). */
+#view { position: absolute; left: 10px; top: 10px; width: 864px; height: 420px; overflow: hidden;
+  border: 24px solid transparent; border-image: var(--frame) 164 / 24px round; background-repeat: no-repeat; }
+#box { position: absolute; left: 10px; bottom: 6px; width: 864px; padding: 6px 16px 10px 16px; }
+#box .echo { margin: 2px 0 4px 2px; }
+#box .speech { font-size: 25px; }
+#box .rule { margin: 8px 0; }
+#box .choices { display: grid; gap: 2px; }
+#box .choices .exit { display: none; }
+#side { position: absolute; right: 10px; top: 10px; width: 310px; height: 696px;
+  background: var(--sidebar) 0 0 / 100% 100%; text-align: center; }
+#side .name { margin-top: 30px; font-size: 28px; padding: 0 20px; }
+#side .place { margin-top: 6px; }
+#side .portrait { margin: 26px auto 0; width: 176px; height: 196px; border-radius: 4px; }
+#side .portrait.mono span { font-size: 64px; }
+#side .rule { margin: 26px 30px 12px; }
+#side .leave { position: absolute; left: 22px; right: 22px; bottom: 32px; }
+#side .leave .choice { justify-content: center; border: 1px solid #5d6449; background: #0d1716cc; font-size: 18px; }
+#side .leave .mark { display: none; }
+#side .leave .hint { margin-top: 10px; }
+#side .note { margin: 0 28px; font: 15px/1.45 Lucida, sans-serif; color: var(--muted); }
+#side .note b { font-weight: normal; color: var(--heading); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="veil"></div>
+  <div id="frame">
+    <div id="view"></div>
+    <div id="box" class="obsidian thin"></div>
+    <div id="side"></div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script>
+const stage = setupStage();
+const frame = document.getElementById('frame');
+frame.style.left = Math.round((stageWidth - 1200) / 2) + 'px';
+// The live view shows the speaker large: the capture scaled 1.6x around the NPC's chest.
+const view = document.getElementById('view');
+const scale = 1.6;
+view.style.backgroundImage = `url(assets/backdrop_${stageWidth}x900.jpg)`;
+view.style.backgroundSize = `${stageWidth * scale}px ${900 * scale}px`;
+const npcX = stageWidth / 2;
+view.style.backgroundPosition = `${-(npcX * scale - 408)}px ${-(250 * scale - 190)}px`;
+
+const exitIndex = state.choices.findIndex((choice) => choice.exit);
+const listed = state.choices.map((choice, index) => choiceHtml(choice, index, state.hot)).join('');
+document.getElementById('box').innerHTML = `
+  ${state.echo ? `<div class="echo">${clean(state.echo)}</div>` : ''}
+  <div class="speech">${clean(state.text)}</div>
+  <div class="rule"></div>
+  <div class="choices">${listed}</div>`;
+const exit = exitIndex >= 0 ? state.choices[exitIndex] : {t: 'Goodbye.', exit: true};
+const services = state.choices.filter((choice) => choice.service || choice.locked).length;
+document.getElementById('side').innerHTML = `
+  <div class="name">${state.npc}</div>
+  <div class="place">${state.place}</div>
+  ${portraitHtml()}
+  <div class="rule"></div>
+  <div class="note">${services ? '<b>Trainer</b> · Meditation<br>Expert and Master' : `${state.choices.length - 1} topics`
+    + ` · <b>${state.choices.filter((choice) => choice.s === 'new').length} new</b>`}</div>
+  <div class="leave">${choiceHtml(exit, exitIndex, -1)}
+    <div class="hint keys"><b>1-${Math.min(9, state.choices.length - 1)}</b> choose · <b>Esc</b> leave</div></div>`;
+</script>
+</body>
+</html>

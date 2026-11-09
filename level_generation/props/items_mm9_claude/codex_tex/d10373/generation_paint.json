@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png as the exact fixed guide. Reference images design_reference.png (approved material/detail) and icon_x8.png (original colour; magenta is background) guide ONLY paint, not geometry.\nOutput ONE transparent PNG, 1536x2048, 3:4 canvas. Exact three columns and FOUR rows of 512x512 cells. Preserve each guide object's exact position, size, outline, facets, gaps and openings. Do not redraw, enlarge, move or redesign any silhouette.\nRows 1-2 PAINT: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint only these five grey objects with source-faithful unlit base colour of an upright woven wicker food basket. Golden brown woven wooden basket, braided wooden handle and rim, golden bread, green pears and cucumbers, red apples and small purple fruit, matching reference details scaled onto the guide views. Preserve the exact guide geometry and food arrangement. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes in same locations: FRONT, BACK, LEFT / RIGHT, TOP, empty. Fill with FLAT pure material colours only: #FF0000 metal; #00FF00 leather/fur; #0000FF cloth/cords/hair; #FFFF00 matte non-metal solids (wood, bone, horn, stone, parchment, paper, wax); #000000 gemstone/crystal/glass/pearl/enamel/liquid through glass. This basket and its solid foods are matte non-metal solids, so their silhouettes are entirely pure #FFFF00, including the woven wooden handle. No shading, texture, outlines or antialiased interior colour blends. Each silhouette pixel exactly one material colour.\nAll background, handle openings and guide gaps remain fully transparent. Column 3 row 2 and column 3 row 4 remain entirely empty transparent. Do not add cell lines or labels.\nCORRECTION: the output MUST be 3:4 width:height, NOT a tall 1:2 sheet. Directly retain the attached guide as the editing canvas: 1536 pixels wide, 2048 high. Each cell is SQUARE. Retain guide objects' angular silhouettes EXACTLY with their original margin inside each cell. No shadows, white backdrop, glow or noise: use real transparent alpha outside objects and inside handle openings. The bottom two rows must be solid exact yellow without glow. Do not reinterpret guide shapes as rounded new baskets. Paint over the existing guide geometry.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10373/paint_mask_guide.png",
+      "sha256": "1c637524cabd7ce0b086d879a0f2cb97c134a5aaa15b0723e2a2733437115bba"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10373/design_reference.png",
+      "sha256": "363deef20c794f47679dad0a2a2e2ffab9a4e06e3db589919a1bb550d9d9d986"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10373/icon_x8.png",
+      "sha256": "72f02771f49b85493d196e2b8f5c3c6b3934cee1d0132fc25654c52737092244"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad11-496b-7cd2-a3a2-82f4ee456740/exec-5334fe4d-5cbd-4cff-a26d-9a32a78541c0.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10373/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout corrected; visible stray pixels outside silhouettes and imperfect material mask remain. Raw tool output preserved without editing."
+}

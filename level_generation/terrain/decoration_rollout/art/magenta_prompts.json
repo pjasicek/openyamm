@@ -1,0 +1,20 @@
+[
+  {
+    "id": "marsh_reed",
+    "subject": "Two different small marsh sedge/reed clumps, left one with 7 narrow upright olive reed blades and two understated brown seed stems, right one a looser sedge fan with bent blades. No thick cattail sausages. Muted olive-brown with earthy dark bases; no bright green.",
+    "prompt": "Edit this two-variant plant sprite sheet. Preserve both plant silhouettes, palette, scale, layout and ground alignment. Replace ALL transparent/background pixels with a perfectly uniform opaque RGB(255,0,255) magenta background, including empty holes between leaves. No transparency and absolutely NO checkerboard, gradient, ground shadow or background texture. Plants remain olive-brown/brown and must not absorb magenta reflections. Keep clean, lightly antialiased contours against solid magenta so we can extract alpha and unmix contaminated edge colors offline. Leave both whole plants intact with clear space between them.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/decoration_rollout/art/raw/marsh_reed_transparent_initial.png"
+  },
+  {
+    "id": "tropical_low",
+    "subject": "Two different small LOW tropical broadleaf ground-cover clumps, left with 5 broad lance-shaped leaves, right with 7 slightly narrower curled leaves in an asymmetrical fan. Muted olive/yellow-green, earthy dark bases, subtle leaf veins. These are low plants, not palm trees or giant ferns.",
+    "prompt": "Edit this two-variant plant sprite sheet. Preserve both plant silhouettes, palette, scale, layout and ground alignment. Replace ALL transparent/background pixels with a perfectly uniform opaque RGB(255,0,255) magenta background, including empty holes between leaves. No transparency and absolutely NO checkerboard, gradient, ground shadow or background texture. Plants remain olive-brown/brown and must not absorb magenta reflections. Keep clean, lightly antialiased contours against solid magenta so we can extract alpha and unmix contaminated edge colors offline. Leave both whole plants intact with clear space between them.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/decoration_rollout/art/raw/tropical_low_transparent_initial.png"
+  },
+  {
+    "id": "dead_tuft",
+    "subject": "Two different small dead ground-cover clumps: broken dry stems and a few narrow curled dead leaves. Left a compact asymmetric fan, right more sparse and leaning. Subdued gray-brown/umber straw, no green, flowers, bones or skulls. Stems thick enough to read when small.",
+    "prompt": "Edit this two-variant plant sprite sheet. Preserve both plant silhouettes, palette, scale, layout and ground alignment. Replace ALL transparent/background pixels with a perfectly uniform opaque RGB(255,0,255) magenta background, including empty holes between leaves. No transparency and absolutely NO checkerboard, gradient, ground shadow or background texture. Plants remain olive-brown/brown and must not absorb magenta reflections. Keep clean, lightly antialiased contours against solid magenta so we can extract alpha and unmix contaminated edge colors offline. Leave both whole plants intact with clear space between them.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/decoration_rollout/art/raw/dead_tuft_transparent_initial.png"
+  }
+]

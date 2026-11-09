@@ -1,0 +1,39 @@
+{
+  "status": "calibration_candidate",
+  "maps": [["mm7", "out09"], ["mm8", "out02"], ["mm7", "out14"], ["mm8", "out05"]],
+  "master_size": 2048,
+  "native_key_dither_blur_master_pixels": 2,
+  "native_key_coverage_threshold": 0.45,
+  "shore_smoothing_master_pixels": 18,
+  "shore_max_shift_master_pixels": 16,
+  "shore_feather_master_pixels": 1.5,
+  "water_expansion_x2_pixels": 2,
+  "material_blend_master_pixels": 9,
+  "normal_smoothing_terrain_cells": 0.65,
+  "normal_relief_scale": 1.25,
+  "land_noise_strength": 0.06,
+  "terrain_sun_elevation": 25,
+  "terrain_sun_energy": 4.5,
+  "terrain_fill": 0.4,
+  "building_normal_relief_scale": 2.0,
+  "building_sun_elevation": 30,
+  "building_sun_energy": 5.4,
+  "building_fill": 0.5,
+  "worlds": {
+    "mm7": {
+      "land_saturation": 1.02,
+      "land_color_gain": 0.9,
+      "water_stops_x2_pixels": [[0, [31, 79, 97]], [4, [24, 91, 116]], [12, [5, 56, 105]], [30, [1, 30, 79]], [80, [1, 16, 53]]]
+    },
+    "mm8": {
+      "normal_smoothing_terrain_cells": 0.9,
+      "normal_relief_scale": 0.9,
+      "terrain_sun_elevation": 35,
+      "terrain_sun_energy": 3.8,
+      "terrain_fill": 0.75,
+      "land_saturation": 0.88,
+      "land_color_gain": 0.85,
+      "water_stops_x2_pixels": [[0, [34, 40, 62]], [2, [94, 106, 150]], [7, [95, 108, 150]], [15, [49, 61, 101]], [32, [17, 25, 55]], [60, [8, 12, 33]]]
+    }
+  }
+}

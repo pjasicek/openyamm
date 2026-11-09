@@ -1,0 +1,91 @@
+{
+  "map": "hes_undervault.blv",
+  "arrivals": {
+    "lift": {
+      "position": [
+        3200,
+        -300,
+        0
+      ],
+      "direction_degrees": 90
+    },
+    "water_works": {
+      "position": [
+        6100,
+        -900,
+        0
+      ],
+      "direction_degrees": 180
+    },
+    "deep_stair_bulkhead": {
+      "position": [
+        492,
+        -2048,
+        -1024
+      ],
+      "direction_degrees": 0
+    }
+  },
+  "cogs": {
+    "bulkhead": 9017
+  },
+  "house_events": {
+    "Salvage & Arms": 3,
+    "Emitters": 4,
+    "Provisions": 5,
+    "The Clinic": 6,
+    "The Last Lamp (inn)": 7,
+    "Bounty board": 8,
+    "Sim Hall": 9,
+    "Workshop": 10,
+    "Council Hall": 11,
+    "Archive": 12,
+    "Chapel": 13,
+    "Kept Refuge": 14
+  },
+  "events": {
+    "6": "house_6",
+    "18": "home_18",
+    "19": "home_19",
+    "20": "home_20",
+    "21": "home_21",
+    "22": "home_22",
+    "23": "home_23",
+    "24": "home_24",
+    "25": "home_25",
+    "9": "house_9",
+    "10": "house_10",
+    "11": "house_11",
+    "12": "house_12",
+    "15": "fountain",
+    "2": "lift_cage",
+    "14": "shack_tamsin",
+    "30": "shack_1",
+    "31": "shack_2",
+    "16": "works_door",
+    "13": "altar",
+    "17": "bulkhead"
+  },
+  "decorations": 89,
+  "sectors": [
+    "room_hall_00",
+    "room_hall_01",
+    "room_hall_02",
+    "room_hall_10",
+    "room_hall_11",
+    "room_hall_12",
+    "room_hall_20",
+    "room_hall_21",
+    "room_hall_22",
+    "room_liftgate",
+    "room_refuge",
+    "room_works",
+    "room_steps",
+    "room_chapel",
+    "room_deep_top",
+    "room_flight1",
+    "room_landing",
+    "room_flight2",
+    "room_bulkhead"
+  ]
+}

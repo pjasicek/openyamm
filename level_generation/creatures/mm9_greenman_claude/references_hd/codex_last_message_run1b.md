@@ -1,0 +1,3 @@
+Saved Run 1b to [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_greenman_claude/references_hd/00_three_quarter.png), using built-in image generation. Verified 1024×1536 RGBA transparency; preserved the original and recorded the prompt, hashes and raw return.
+
+No further regeneration performed. Residual fault: extra crown branch stubs remain beyond the requested five.

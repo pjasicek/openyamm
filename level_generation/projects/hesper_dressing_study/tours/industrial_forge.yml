@@ -1,0 +1,18 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/industrial_forge
+settle_seconds: 2.0
+exit: true
+shots:
+- name: forge_lava_s36
+  position:
+  - 1885
+  - -1729
+  - -2239
+  yaw: 1.963
+  pitch: -0.15
+- name: forge_lava_s36_b
+  position:
+  - 326
+  - -962
+  - -2259
+  yaw: 5.85
+  pitch: -0.15

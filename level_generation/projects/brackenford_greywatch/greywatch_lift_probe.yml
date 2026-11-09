@@ -1,0 +1,87 @@
+id: levelgen.greywatch.lift_probe
+title: Native gate button and lift carrying a stationary party in both directions
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg02.blv
+- assert_mechanism:
+    id: 3
+    state: closed
+- assert_mechanism:
+    id: 6
+    state: closed
+- set_pose:
+    map: lg02.blv
+    x: 6464
+    y: 3584
+    z: 384
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- set_pose:
+    map: lg02.blv
+    x: 5552
+    y: 4640
+    z: 384
+    yaw: -2.4009407216469607
+    pitch: 0
+- press_interact: {}
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5552
+      y: 4640
+      z: 384
+      yaw: -2.4009407216469607
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5552
+      y: 4640
+      z: 768
+      yaw: -2.4009407216469607
+      pitch: 0
+    seconds: 3.25
+    input: none
+- assert_mechanism:
+    id: 6
+    state: open
+- set_pose:
+    map: lg02.blv
+    x: 5552
+    y: 5184
+    z: 768
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact: {}
+- set_pose:
+    map: lg02.blv
+    x: 5632
+    y: 4800
+    z: 768
+    yaw: 0
+    pitch: 0
+- movement_segment:
+    start:
+      map: lg02.blv
+      x: 5632
+      y: 4800
+      z: 768
+      yaw: 0
+      pitch: 0
+    expect_stop:
+      map: lg02.blv
+      x: 5632
+      y: 4800
+      z: 384
+      yaw: 0
+      pitch: 0
+    seconds: 3.25
+    input: none
+- assert_mechanism:
+    id: 6
+    state: closed
+- assert_mechanism:
+    id: 3
+    state: open

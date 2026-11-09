@@ -1,0 +1,85 @@
+{
+  "tool": "built-in image_gen",
+  "view": "back",
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "generated; fails exact dimensions and silhouette requirements",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Asset type: 3D texture-source back-view albedo painting, not a presentation render.\nInput images in order: (1) guide_back.png = EDIT TARGET and absolute authority for all geometry and pixel placement; (2) design_reference.png = approved design, colour and material authority ONLY; (3) concept_crop.png = original concept supporting material reference ONLY.\nEdit the FIRST image, a 1024 x 1024 orthographic BACK view of a giant Kreegan skull with surrounding ribs on a thin ash mound. Paint surface materials onto the exact guide shape. Return a single 1024 x 1024 PNG with genuine transparent background, unchanged canvas and framing.\nCRITICAL INVARIANTS: preserve the first image's silhouette EXACTLY, same outline, size, position, every shape edge, opening, gap, rib, tip, rock and detail at the same pixel position. The asset spans approximately x=68..954, y=367..656, with extensive empty transparent space above and below. Do not zoom, enlarge, recenter, rotate, move parts, crop, fill openings or invent shapes. Keep the guide's rear view: the central broad back of the skull is a bone wall, not the reference's three-quarter skull face. Preserve its existing small irregular opening right of center, low central notch, top crown outline, all overlapping rib outlines. Do not add reference eye sockets or snout to the back.\nMaterials: reproduce approved design's weathered bleached old bone, pale ivory, cracked and pitted, with grey-violet ash dust in every crack and darker brown-grey bone material in existing sockets and joints. Fine cracks and weathering should be painted surface detail, never silhouette changes. Ribs are the same ancient pale ivory bone. The existing thin rubble-and-ash mound is grey-violet with dusty stones. Keep the actual geometry's boundaries between ribs, skull and ash.\nLIGHTING: pure texture-source albedo. Even, flat, shadowless light from the viewer on EVERY surface. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Darker cracks/joints are material colour only. No background, no floor beyond the guide's existing thin mound. No text. No new objects, no glow unless already present in the guide. Preserve genuine alpha transparency including every existing opening and gap. Output the back-view paint-over only, at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "ec54e3b46df6361def21516aeaab20b7e20e378ec42670eee3b02617992ecd7a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a1563a-7205-7480-89a2-9e727dc4bdaf/exec-9bf755d4-6531-4892-bf09-e961fce7fafa.png",
+      "selected": false,
+      "reason": "Rejected: returned 1254 x 1254 instead of 1024 x 1024, silhouette differs from guide, and central skull has excessive dark shading.",
+      "output_sha256": "fe23784464db914a71a41a01e026ad6ad0c239894bc59e218470c39fdaf049c6",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Pale cracked ivory bone and dusty grey-violet rubble; visually assessed.",
+        "flat_even_light": "Central skull too dark.",
+        "unresized": true
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Asset type: 3D texture-source back-view albedo painting, not a presentation render.\nInput images in order: (1) guide_back.png = EDIT TARGET and absolute authority for all geometry and pixel placement; (2) design_reference.png = approved design, colour and material authority ONLY; (3) concept_crop.png = original concept supporting material reference ONLY.\nEdit the FIRST image, a 1024 x 1024 orthographic BACK view of a giant Kreegan skull with surrounding ribs on a thin ash mound. Paint surface materials onto the exact guide shape. Return a single 1024 x 1024 PNG with genuine transparent background, unchanged canvas and framing.\nCRITICAL INVARIANTS: preserve the first image's silhouette EXACTLY, same outline, size, position, every shape edge, opening, gap, rib, tip, rock and detail at the same pixel position. The asset spans approximately x=68..954, y=367..656, with extensive empty transparent space above and below. Do not zoom, enlarge, recenter, rotate, move parts, crop, fill openings or invent shapes. Keep the guide's rear view: the central broad back of the skull is a bone wall, not the reference's three-quarter skull face. Preserve its existing small irregular opening right of center, low central notch, top crown outline, all overlapping rib outlines. Do not add reference eye sockets or snout to the back.\nMaterials: reproduce approved design's weathered bleached old bone, pale ivory, cracked and pitted, with grey-violet ash dust in every crack and darker brown-grey bone material in existing sockets and joints. Fine cracks and weathering should be painted surface detail, never silhouette changes. Ribs are the same ancient pale ivory bone. The existing thin rubble-and-ash mound is grey-violet with dusty stones. Keep the actual geometry's boundaries between ribs, skull and ash.\nLIGHTING: pure texture-source albedo. Even, flat, shadowless light from the viewer on EVERY surface. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. Darker cracks/joints are material colour only. No background, no floor beyond the guide's existing thin mound. No text. No new objects, no glow unless already present in the guide. Preserve genuine alpha transparency including every existing opening and gap. Output the back-view paint-over only, at 1024 x 1024.\nCORRECTIVE GENERATION (the only permitted correction): The prior attempt incorrectly returned 1254 x 1254, changed shape edges and baked dark shading into the central rear skull. Return EXACTLY 1024 x 1024 pixels natively, with no resizing after generation. Treat guide_back.png as a locked pixel-aligned paint-over, keeping its alpha outline and every internal opening and geometry boundary. Do not redraw geometry. The total guide alpha bounds are x=68 through 955 and y=367 through 656 on the 1024-square canvas. Bone must remain light pale ivory even on the central rear wall: remove all baked occlusion/shadow gradients, retaining only modest brown-grey material at existing joints, grey-violet dust and cracks. Transparent pixels outside the exact guide shape must remain alpha zero, with no stray coloured pixels. Preserve original scale, transparent margins, and exact back-view silhouette.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "ec54e3b46df6361def21516aeaab20b7e20e378ec42670eee3b02617992ecd7a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1563a-7205-7480-89a2-9e727dc4bdaf/exec-d9df6a79-31ad-47ae-a718-4c8a3eef9368.png",
+      "selected": true,
+      "reason": "Best of the two permitted returns: paler central bone and reduced dark shading, with suitable cracked ivory and grey-violet rubble. Saved byte-for-byte without resizing or alpha modification. Still fails exact 1024 x 1024 canvas and pixel-identical silhouette requirements; some crevice shading remains. No further generation permitted by brief.",
+      "output_sha256": "d6b113727fe6749762c94ff0e736ce8c48b21f04a89111301be47a06599c9d0d",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_match": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials": "Pale cracked ivory bone and dusty grey-violet rubble; visually assessed.",
+        "flat_even_light": "Improved in correction, but some crevice shading remains.",
+        "unresized": true
+      }
+    }
+  ]
+}

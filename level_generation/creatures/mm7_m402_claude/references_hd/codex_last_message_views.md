@@ -1,0 +1,3 @@
+Saved `01_front.png`–`04_right.png` at 1536×1024 using built-in imagegen, appended prompts and input hashes to `generation_runs.json`, and created the [five-view review sheet](level_generation/creatures/mm7_m402_claude/references_hd/selected_views_review.png). Frozen primary verified unchanged.
+
+After one correction per view, limitations remain: haze, two hidden rear-view feet, and side views still angled toward three-quarter. These are recorded in the log.

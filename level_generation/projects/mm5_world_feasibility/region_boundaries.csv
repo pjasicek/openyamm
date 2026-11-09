@@ -1,0 +1,15 @@
+source,sourceSquare,destination,destinationSquare,direction,sourceRegion,destinationRegion,roadCrossings,note
+2,A2,3,A3,south,nw,sw,[],Terrain road codes on both sides only; not a complete passability test
+5,B1,9,C1,east,nw,nc,[],Terrain road codes on both sides only; not a complete passability test
+6,B2,10,C2,east,nw,nc,[],Terrain road codes on both sides only; not a complete passability test
+6,B2,7,B3,south,nw,sw,[],Terrain road codes on both sides only; not a complete passability test
+7,B3,11,C3,east,sw,sc,[3],Terrain road codes on both sides only; not a complete passability test
+8,B4,12,C4,east,sw,sc,[],Terrain road codes on both sides only; not a complete passability test
+10,C2,11,C3,south,nc,sc,[],Terrain road codes on both sides only; not a complete passability test
+13,D1,17,E1,east,nc,ne,[],Terrain road codes on both sides only; not a complete passability test
+14,D2,18,E2,east,nc,ne,[15],Terrain road codes on both sides only; not a complete passability test
+14,D2,15,D3,south,nc,sc,[],Terrain road codes on both sides only; not a complete passability test
+15,D3,19,E3,east,sc,se,[1],Terrain road codes on both sides only; not a complete passability test
+16,D4,20,E4,east,sc,se,[],Terrain road codes on both sides only; not a complete passability test
+18,E2,19,E3,south,ne,se,[],Terrain road codes on both sides only; not a complete passability test
+22,F2,23,F3,south,ne,se,[0],Terrain road codes on both sides only; not a complete passability test

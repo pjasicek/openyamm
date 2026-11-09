@@ -1,0 +1,30 @@
+# The summoning's cinematic (summoning, wizardslab.cinematics.yml; citylua.cinematic_scenes) played through from its
+# real trigger, the first arrival at DestinationPurple: no save while it plays, the apprentices' ticks at 2 s and
+# every 2.5 s, the master's summoning at 19.5 s (the Greater Demon), the end at 21.5 s. See README "Cinematics".
+id: mm9r.wizardslab.cinematic_summoning_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: wizardslab.blv}
+- console: {line: cinematic list, expect_contains: summoning}
+- assert: {state_dump_named_map_var: {name: RitualStep, value: 0}}
+- note: {text: "the party arrives at DestinationPurple (polled every 0.25 s)"}
+- set_pose: {map: wizardslab.blv, x: -7864, y: 15043, z: 1477, yaw: 4.71238875, pitch: 0.0}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing summoning}
+- assert: {state_dump_named_map_var: {name: RitualStep, value: 1}}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 2.25}
+- note: {text: "SummoningGuy0 :ConjureSpell at 2 s (step 36001)"}
+- assert: {state_dump_named_map_var: {name: RitualStep, value: 2}}
+- assert: {state_dump_named_map_var: {name: DemonUp, value: 0}}
+- advance_runtime: {seconds: 17.5}
+- note: {text: "the master's :Summon at 19.5 s (step 36008): the Greater Demon"}
+- console: {line: cinematic list, expect_contains: playing summoning}
+- assert: {state_dump_named_map_var: {name: RitualStep, value: 9}}
+- assert: {state_dump_named_map_var: {name: DemonUp, value: 1}}
+- assert: {actor_count: {monster_id: 9242, min: 1}}
+- advance_runtime: {seconds: 2.5}
+- note: {text: "ended at 21.5 s: the done event ran (every step once), no second start on the volume"}
+- assert: {state_dump_named_map_var: {name: Cinema.summoning.started, value: 1}}
+- assert: {actor_count: {monster_id: 9242, min: 1, max: 1}}

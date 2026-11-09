@@ -1,0 +1,326 @@
+# D8 fixes: original integrator tour with the three revised chest viewpoints.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d08/review/build02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: gate
+  position:
+  - 4900
+  - 300
+  - 0
+  yaw: 1.57
+  pitch: 0
+  commands:
+  - config toggle immortal
+  - config toggle invisible
+- name: gate_inside_south
+  position:
+  - 4900
+  - 1150
+  - 0
+  yaw: -1.57
+  pitch: -0.05
+- name: smelting_floor
+  position:
+  - 4900
+  - 1700
+  - 240
+  yaw: 1.57
+  pitch: -0.2
+- name: smelt_from_southwest
+  position:
+  - 2700
+  - 1650
+  - 0
+  yaw: 0.85
+  pitch: -0.05
+- name: smelt_from_northeast
+  position:
+  - 7100
+  - 4900
+  - 0
+  yaw: -2.3
+  pitch: -0.05
+- name: smelt_high
+  position:
+  - 4900
+  - 1900
+  - 1050
+  yaw: 1.57
+  pitch: -0.75
+- name: smelt_gold_pile
+  position:
+  - 5300
+  - 3650
+  - 0
+  yaw: 0
+  pitch: -0.1
+- name: bridge_c1
+  position:
+  - 3400
+  - 1850
+  - 0
+  yaw: 1.57
+  pitch: -0.1
+- name: frozen_channel
+  position:
+  - 4900
+  - 2800
+  - 0
+  yaw: 1.57
+  pitch: -0.3
+  commands:
+  - skill set Hacking 1 B
+  - event 71
+- name: furnace_bank
+  position:
+  - 2150
+  - 3264
+  - 0
+  yaw: 3.14
+  pitch: 0
+- name: furnace_bank_south
+  position:
+  - 1400
+  - 4900
+  - 0
+  yaw: -1.57
+  pitch: -0.05
+- name: coolant_gallery
+  position:
+  - 8000
+  - 1700
+  - 0
+  yaw: 1.2
+  pitch: 0
+- name: coolant_valves
+  position:
+  - 7750
+  - 4900
+  - 0
+  yaw: -1.35
+  pitch: -0.05
+- name: coolant_cache
+  position:
+  - 8000
+  - 2700
+  - 0
+  yaw: -1.57
+  pitch: -0.15
+- name: valve_c2_close
+  position:
+  - 8150
+  - 3200
+  - 0
+  yaw: 0
+  pitch: -0.1
+- name: belt_stair_foot
+  position:
+  - 5450
+  - 5580
+  - 0
+  yaw: 3.14
+  pitch: 0.15
+- name: belt_stair_top
+  position:
+  - 3800
+  - 5580
+  - 768
+  yaw: 0
+  pitch: -0.5
+- name: maze
+  position:
+  - 2600
+  - 6900
+  - 768
+  yaw: 0
+  pitch: 0
+- name: maze_jam
+  position:
+  - 4650
+  - 6250
+  - 768
+  yaw: 0.15
+  pitch: -0.05
+- name: maze_diverters
+  position:
+  - 3700
+  - 6650
+  - 768
+  yaw: 2.9
+  pitch: -0.05
+- name: maze_overview
+  position:
+  - 2550
+  - 6150
+  - 1150
+  yaw: 0.25
+  pitch: -0.5
+- name: fab_line_a
+  position:
+  - 6300
+  - 6100
+  - 768
+  yaw: 0
+  pitch: 0
+- name: fab_line_a_chest
+  position:
+  - 8264
+  - 6428
+  - 768
+  yaw: 0
+  pitch: -0.13
+- name: fab_line_b
+  position:
+  - 6300
+  - 7600
+  - 768
+  yaw: 0
+  pitch: 0
+- name: fab_line_b_chest
+  position:
+  - 8264
+  - 7892
+  - 768
+  yaw: 0
+  pitch: -0.13
+- name: mould_shop
+  position:
+  - 9500
+  - 5650
+  - 768
+  yaw: 1.25
+  pitch: 0
+- name: arming_bay
+  position:
+  - 9450
+  - 8550
+  - 768
+  yaw: 1.1
+  pitch: 0
+- name: range
+  position:
+  - 5800
+  - 8556
+  - 768
+  yaw: 3.14
+  pitch: 0
+- name: range_sentinels
+  position:
+  - 4300
+  - 8556
+  - 768
+  yaw: 3.14
+  pitch: 0.05
+- name: range_gallery
+  position:
+  - 2750
+  - 8300
+  - 1024
+  yaw: 0.15
+  pitch: -0.05
+- name: hall_stair_top
+  position:
+  - 6550
+  - 8550
+  - 768
+  yaw: 1.57
+  pitch: -0.25
+- name: hall_stair_cache
+  position:
+  - 6300
+  - 8500
+  - 768
+  yaw: 0.45
+  pitch: -0.2
+- name: hall_stair_seal
+  position:
+  - 6550
+  - 10300
+  - 0
+  yaw: 3.14
+  pitch: 0
+- name: hall
+  position:
+  - 5800
+  - 10300
+  - 128
+  yaw: 2.6
+  pitch: -0.1
+- name: hall_from_west_edge
+  position:
+  - 2650
+  - 12350
+  - 128
+  yaw: -0.6
+  pitch: -0.1
+- name: hall_boss_floor
+  position:
+  - 4200
+  - 10050
+  - 0
+  yaw: 1.57
+  pitch: -0.05
+- name: hall_high
+  position:
+  - 5700
+  - 10000
+  - 700
+  yaw: 2.4
+  pitch: -0.55
+- name: plate_stores
+  position:
+  - 6300
+  - 10800
+  - 0
+  yaw: 0.8
+  pitch: 0
+- name: plate_stores_chest_c
+  position:
+  - 7264
+  - 11764
+  - 0
+  yaw: 0
+  pitch: -0.13
+- name: sump_stair
+  position:
+  - 1000
+  - 950
+  - -768
+  yaw: 0
+  pitch: 0.12
+- name: slag_sump
+  position:
+  - 600
+  - -1000
+  - -768
+  yaw: 0.4
+  pitch: 0
+- name: sump_crust
+  position:
+  - 2700
+  - -750
+  - -768
+  yaw: 0
+  pitch: 0
+- name: slag_niche
+  position:
+  - 4550
+  - -500
+  - -768
+  yaw: -2.4
+  pitch: -0.1
+- name: plant_stair
+  position:
+  - 9178
+  - 1600
+  - -768
+  yaw: 1.57
+  pitch: 0.15
+- name: coolant_plant
+  position:
+  - 7700
+  - 1200
+  - -768
+  yaw: -0.4
+  pitch: 0

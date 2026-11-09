@@ -1,0 +1,646 @@
+{
+  "item": "hes_colony_log_tablet",
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background_requested": true,
+  "output_policy": "All PNGs are byte-for-byte copies of built-in tool returns. No resizing, masking, cropping, recoloring or postprocessing.",
+  "maximum_corrective_regenerations_per_view": 1,
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "status": "Five paintings saved; strict guide silhouette and flat albedo requirements not fully achieved.",
+  "limitations": [
+    "The tool returned 1254x1254 for every call despite explicit 1024x1024 requests. Raw returned sizes are retained as the brief requires.",
+    "None of the selected alpha silhouettes is pixel-identical to its guide; minor stray alpha and contour differences remain.",
+    "Several views retain edge highlights or shading, especially the top view. These are not validated as strict production albedo sources.",
+    "Exactly one corrective regeneration was performed per view; no further generation or image postprocessing was performed."
+  ],
+  "runs": [
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for an existing 3D game model, Hesper colony log tablet.\nInput image 1 is the EDIT TARGET, the exact orthographic geometry guide. Input image 2 is the approved DESIGN/MATERIAL REFERENCE ONLY, not a composition reference.\nPaint only the existing parts in input image 1. Preserve its exact silhouette, alpha boundary, position, scale, every edge and part boundary pixel-for-pixel. The tinted guide is geometry, not the final colors. Do not rotate, tilt, enlarge, move, crop, add perspective, add geometry, or expand outside its alpha silhouette. Retain all transparent empty areas, even though the four edge views leave most of the canvas empty.\nRequested output: exactly 1024 x 1024 PNG with actual transparent background.\nMaterials must match the design reference: worn off-white ivory ceramic, fine scratches and scattered small worn marks, muted brushed antique gold/brass panels and thin seams, very dark blue-violet resin, dark blue glass, blue-white luminous details. Keep fine wear restrained and readable. Use no leather, cloth or paper because this design has none.\nLighting: strictly flat evenly front-lit diffuse ALBEDO, shadowless, no cast shadows, no ambient occlusion, no darkened crevices from lighting, no reflections or hot white highlights, no rim light or bloom. Gold has its muted base color and only a faint sheen. Glowing parts are painted as their bright blue-white color without illuminating neighboring surfaces. Fine cracks and seams are surface markings, not shadow gradients.\nNo text, letters, numbers, labels, logos, watermark, background, floor, cast shadow, frame or collage. One view only.\nView: directly ABOVE (TOP), exact orthographic projection as the guide. Outer clipped-round rectangle occupies x=66..957 and y=95..928 on the 1024 canvas. Keep its clipped-corner silhouette exactly as provided. The large inset rounded screen has the guide's precise boundary near x=197..823, y=215..787. Paint the broad outer surround as aged ivory ceramic with gold corner caps, gold top-center inset and the bottom-center gold three-slot device detail from the design, all entirely within the existing broad frame. Paint the inset as dark blue-black glass with the reference's branching fine gold conduits and blue-white luminous circuit pattern: a central vertical branched luminous spine, central round bright node, and small round nodes toward lower left and lower right. The outline and screen proportions are controlled entirely by the guide, with no perspective. Carry the small cracked ceramic marking onto the upper right surround, but do not break or change its silhouette. Keep the materials uniformly lit and the screen dark, using line color for luminosity instead of bloom.",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial return is 1254x1254 instead of 1024x1024; altered outline and screen proportions, metallic highlights and shading. Use the one allowed corrective pass.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-436f7943-c9e3-48b1-a1aa-e7b2a72ff716.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Fail: prominent gold highlights, bright screen bloom, modeled bevel shading, and dark lower band.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "ec434b8f0dc43e27212bd917013b43a429c11e3bd717c938e032bd524b62cc07",
+          "role": "geometry guide / edit target"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+          "role": "design and material reference"
+        }
+      ],
+      "output_sha256": "e41797118cc7c94f90c5bb5f85f8c4df29fdea25be9837486e9111948cbe7643",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          66,
+          95,
+          958,
+          929
+        ],
+        "output_alpha_bbox": [
+          0,
+          4,
+          1253,
+          1254
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.302737,
+        "normalized_mask_iou_at_alpha_128": 0.984725,
+        "normalized_alpha_128_pixels_outside_guide": 3549,
+        "normalized_alpha_128_guide_pixels_missing": 13133,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Corrective regeneration of a 3D model texture-source painting.\nINPUT ROLES: first image design_reference.png = material and motif inspiration ONLY. Second and LAST image guide_top.png = the actual 1024x1024 image to EDIT IN PLACE.\nReturn a 1024x1024 transparent PNG. Use the last image's canvas, exact outline, exact position and exact internal boundaries. Do NOT use the design reference canvas size, perspective, beveled shape, reflections or light/shadow.\nPaint the existing guide surface with diffuse base colors; do not render a new object. Preserve the guide alpha mask exactly. Outer silhouette x=66..957, y=95..928; clipped corners must remain clipped, NOT rounded. The inner screen stays exactly at its guide location approximately x=197..823, y=215..787; do not enlarge it or make the outer frame narrower.\nCopy the approved tablet's color/material vocabulary onto this fixed guide: broad worn ivory ceramic border, restrained muted brushed gold areas and corner trim, tiny surface cracks and sparse wear; dark navy blue-violet inset screen; thin curving gold circuit lines and a branching blue-white central line with one central circular node and two smaller nodes lower left and right. Top-center gold plate; bottom-center gold plate with three dark slot markings. Every feature is just flat surface pigment, fully within its part boundary.\nCRITICAL ALBEDO CORRECTION: absolutely no top-to-bottom shading, dark lower face, shadows, ambient occlusion, bright specular gold or glass, bright edge bevels, environmental reflections, rim light or blue bloom. Gold is uniformly muted ochre/brass with fine grain and faint sheen only. Ivory is evenly colored. Glass is evenly dark navy with fine worn scratches, not reflective. Blue-white circuits are uniformly bright lines with clean edges and NO light spill. The result is a FLAT DIFFUSE TEXTURE, not a lit product photograph.\nPreserve all empty transparent pixels of guide_top.png. No background, floor, added thickness, perspective, text, letters, digits, labels or watermark. One directly overhead orthographic view only.",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return: flatter circuitry and reduced gold highlights. Exact silhouette, requested size and fully flat lighting were not achieved. Retained raw and unresized; corrective budget exhausted.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-6386a892-e54d-439c-957a-0085639e5d13.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Partial: flatter circuitry and reduced highlights; visible bevel shading, dark lower band and fine bright edges remain.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+          "role": "design and material reference"
+        },
+        {
+          "file": "guide_top.png",
+          "sha256": "ec434b8f0dc43e27212bd917013b43a429c11e3bd717c938e032bd524b62cc07",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output_sha256": "f66d1f696e759749d08bc3b631f7350be93accb439fc9e6402b5291cc3910ae7",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          66,
+          95,
+          958,
+          929
+        ],
+        "output_alpha_bbox": [
+          0,
+          0,
+          1234,
+          1228
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.28641,
+        "normalized_mask_iou_at_alpha_128": 0.981046,
+        "normalized_alpha_128_pixels_outside_guide": 20636,
+        "normalized_alpha_128_guide_pixels_missing": 388,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for an existing 3D game model, Hesper colony log tablet.\nInput image 1 is the approved DESIGN/MATERIAL REFERENCE ONLY, not a composition reference. Input image 2 (the LAST image) is the EDIT TARGET: the 1024 x 1024 exact orthographic geometry guide. Edit image 2 in place.\nPaint only the existing parts in input image 2. Preserve its exact silhouette, alpha boundary, position, scale, every edge and part boundary pixel-for-pixel. The tinted guide is geometry, not the final colors. Do not rotate, tilt, enlarge, move, crop, add perspective, add geometry, or expand outside its alpha silhouette. Retain all transparent empty areas, even though the four edge views leave most of the canvas empty.\nRequested output: exactly 1024 x 1024 PNG with actual transparent background.\nMaterials must match the design reference: worn off-white ivory ceramic, fine scratches and scattered small worn marks, muted brushed antique gold/brass panels and thin seams, very dark blue-violet resin, dark blue glass, blue-white luminous details. Keep fine wear restrained and readable. Use no leather, cloth or paper because this design has none.\nLighting: strictly flat evenly front-lit diffuse ALBEDO, shadowless, no cast shadows, no ambient occlusion, no darkened crevices from lighting, no reflections or hot white highlights, no rim light or bloom. Gold has its muted base color and only a faint sheen. Glowing parts are painted as their bright blue-white color without illuminating neighboring surfaces. Fine cracks and seams are surface markings, not shadow gradients.\nNo text, letters, numbers, labels, logos, watermark, background, floor, cast shadow, frame or collage. One view only.\nView: FRONT EDGE ONLY, a very thin horizontal bar, exactly as the guide. It is NOT the broad screen face. Occupied alpha bbox is x=66..957, y=437..586. The broad body's main band begins near y=452 and the very thin screen lip sits above it near y=437..452, x=200..824. Keep these exact locations and proportions. Paint the main edge band as worn ivory ceramic with gold corner trim, a narrow dark resin lower strip and central gold connector plate bearing three vertical dark recessed-slot markings like the reference's near/front edge. Small blue-white slit accents at each end stay INSIDE the main band. The raised thin center lip is the edge of dark blue glass with a thin dull gold seam; do not show its broad top face. All panels, slots and wear are painted onto the existing single straight edge silhouette. Keep the long upper and lower outer edges exactly straight and exactly placed.",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Initial return retains strong gold highlights and surface shading; use one corrective pass.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-cf846d58-9b9b-403f-bafe-17c9d5e557dc.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Fail: strong gold specular highlights, gray lower ceramic shading, and bloom around lights.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "design_reference.png",
+          "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+          "role": "design and material reference"
+        },
+        {
+          "file": "guide_front.png",
+          "sha256": "91bd276a90fae736e847dbe0eadc426e640124e70568c62513fa46014e52e82d",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "output_sha256": "57be77cdc10e4fdc3f52363ad8ee76288f637b4ca44280f37fe0571ccfc32a97",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          66,
+          437,
+          958,
+          587
+        ],
+        "output_alpha_bbox": [
+          41,
+          32,
+          1218,
+          1230
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.870183,
+        "normalized_mask_iou_at_alpha_128": 0.934213,
+        "normalized_alpha_128_pixels_outside_guide": 6365,
+        "normalized_alpha_128_guide_pixels_missing": 6697,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nThe supplied image is the exact 1024x1024 geometry GUIDE AND EDIT TARGET. Change ONLY the colors and fine surface texture of its opaque pixels; preserve its existing ALPHA MASK PIXEL FOR PIXEL. Preserve every part boundary, exact pixel position, exact size, and all the large transparent space around it. Return 1024x1024 transparent PNG.\nThis is a FLAT ALBEDO TEXTURE SOURCE, not a product photograph or a 3D render. Paint uniform matte base colors, no lighting gradient, shadows, ambient occlusion, bevel lighting, reflections, bright specular patches, rim highlights or bloom. Gold is matte ochre-brass with faint fine grain, not shiny yellow metal. Ivory stays the same brightness across its entire band. Blue-white light accents have crisp unblurred edges and cause no light spill.\nThe approved design is an ancient technological tablet: aged ivory/off-white ceramic, muted brushed ochre antique gold/brass, almost black blue-violet resin lower edge, dark navy blue glass screen edge, fine scratches and sparse small wear marks, restrained thin panel seams, blue-white light accents. Use these observed design colors; gray/blue guide tints are only part identifiers. There is no leather, cloth or paper.\nDo NOT round the outer corners, add any thickness, show any top surface, change perspective, move, scale or crop the object. No floor, background, text, letters, numbers, watermark or labels.\nCORRECTIVE PASS: Previous generation made this edge too shiny and introduced beveled lighting. Remove that entirely, keeping only flat pigment on the guide's EXISTING straight-sided rectangle.\nView: FRONT EDGE ONLY. The opaque image is a thin horizontal bar at x=66..957, y=437..586. The body begins near y=452. A very thin centered raised lip spans x=200..824, y=437..452. Keep this lip and body exactly as shown; do not reveal the screen face or change these proportions.\nPaint the main band evenly in worn ivory ceramic with matte dull brass end-cap areas, a narrow dark blue-violet bottom stripe, and a middle gold connector plate with three flat dark vertical slot marks. A small thin horizontal blue-white light mark at each end stays inside its gold panel. Paint the thin upper lip uniformly in dark navy blue glass, with a narrow dull gold seam. Fine wear and panel joins only. NO white metal highlights, shadows, gray lower lighting bands, bevels, reflections or bloom. Preserve the original rectangular alpha silhouette exactly.",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: substantially flatter ceramic and gold. Retained unresized; exact alpha silhouette is not achieved.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-598ec1a5-530c-4010-9add-6613cec24973.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Pass by visual inspection for broad flat albedo; fine bright seam edges remain.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "91bd276a90fae736e847dbe0eadc426e640124e70568c62513fa46014e52e82d",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "design_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+        "usage": "Material description transcribed from the visually inspected design_reference.png."
+      },
+      "output_sha256": "a4c7c95f5bcd76edd34eb2299859552587e3bf2a06de67f0d06d9ae6c72562f7",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          66,
+          437,
+          958,
+          587
+        ],
+        "output_alpha_bbox": [
+          0,
+          20,
+          1222,
+          1238
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.860855,
+        "normalized_mask_iou_at_alpha_128": 0.974115,
+        "normalized_alpha_128_pixels_outside_guide": 5107,
+        "normalized_alpha_128_guide_pixels_missing": 0,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nThe supplied image is the exact 1024x1024 geometry GUIDE AND EDIT TARGET. Change ONLY the colors and fine surface texture of its opaque pixels; preserve its existing ALPHA MASK PIXEL FOR PIXEL. Preserve every part boundary, exact pixel position, exact size, and all the large transparent space around it. Return 1024x1024 transparent PNG.\nThis is a FLAT ALBEDO TEXTURE SOURCE, not a product photograph or a 3D render. Paint uniform matte base colors, no lighting gradient, shadows, ambient occlusion, bevel lighting, reflections, bright specular patches, rim highlights or bloom. Gold is matte ochre-brass with faint fine grain, not shiny yellow metal. Ivory stays the same brightness across its entire band. Blue-white light accents have crisp unblurred edges and cause no light spill.\nThe approved design is an ancient technological tablet: aged ivory/off-white ceramic, muted brushed ochre antique gold/brass, almost black blue-violet resin lower edge, dark navy blue glass screen edge, fine scratches and sparse small wear marks, restrained thin panel seams, blue-white light accents. Use these observed design colors; gray/blue guide tints are only part identifiers. There is no leather, cloth or paper.\nDo NOT round the outer corners, add any thickness, show any top surface, change perspective, move, scale or crop the object. No floor, background, text, letters, numbers, watermark or labels.\nView: BACK EDGE ONLY, a very thin horizontal bar, exactly as the guide. This is the far edge opposite the front connector, NOT a broad back surface and NOT the screen face. Occupied alpha bbox is x=66..957, y=437..586. The broad body's main band begins near y=452 and the very thin screen lip sits above it near y=437..452, x=200..824. Keep these exact locations and proportions. Continue the unseen edge plausibly in worn ivory ceramic with gold corner trim, a simple central gold panel, restrained joins and a narrow very dark blue-violet resin lower strip. Preserve the reference's worn ancient technological character. The raised thin center lip is the edge of dark blue glass with a thin dull gold seam; do not show its broad top face. All materials and lines remain inside this existing single straight edge silhouette. Keep the long upper and lower outer edges exactly straight and exactly placed.",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: retained for provenance; corrective return has flatter material treatment and reduced glow. Both attempts fail exact guide mask and requested dimensions.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-576d6eda-ecab-4f5f-bfa5-fbfd6e42b650.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Partial: broad ivory is even, but thin bright metal edges and slight lip shading remain.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "49a5e62d5405e0b320a0fd594d339cb637841132567426dffa81ad6b81b341ca",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "design_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+        "usage": "Material description transcribed from the visually inspected design_reference.png."
+      },
+      "output_sha256": "50ed68fd7c1b7a3b11c87762f63168b7f4bff44d066823be6946a9d6c59ebc75",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          66,
+          437,
+          958,
+          587
+        ],
+        "output_alpha_bbox": [
+          0,
+          39,
+          1179,
+          1198
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.868254,
+        "normalized_mask_iou_at_alpha_128": 0.970141,
+        "normalized_alpha_128_pixels_outside_guide": 5915,
+        "normalized_alpha_128_guide_pixels_missing": 0,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nThe supplied image is the exact 1024x1024 geometry GUIDE AND EDIT TARGET. Change ONLY the colors and fine surface texture of its opaque pixels; preserve its existing ALPHA MASK PIXEL FOR PIXEL. Preserve every part boundary, exact pixel position, exact size, and all the large transparent space around it. Return 1024x1024 transparent PNG.\nThis is a FLAT ALBEDO TEXTURE SOURCE, not a product photograph or a 3D render. Paint uniform matte base colors, no lighting gradient, shadows, ambient occlusion, bevel lighting, reflections, bright specular patches, rim highlights or bloom. Gold is matte ochre-brass with faint fine grain, not shiny yellow metal. Ivory stays the same brightness across its entire band. Blue-white light accents have crisp unblurred edges and cause no light spill.\nThe approved design is an ancient technological tablet: aged ivory/off-white ceramic, muted brushed ochre antique gold/brass, almost black blue-violet resin lower edge, dark navy blue glass screen edge, fine scratches and sparse small wear marks, restrained thin panel seams, blue-white light accents. Use these observed design colors; gray/blue guide tints are only part identifiers. There is no leather, cloth or paper.\nDo NOT round the outer corners, add any thickness, show any top surface, change perspective, move, scale or crop the object. No floor, background, text, letters, numbers, watermark or labels.\nView: LEFT EDGE ONLY, a very thin horizontal bar, exactly as the guide. It is NOT the broad screen face. Occupied alpha bbox is x=95..928, y=437..586. Main edge band starts near y=452; the thin raised screen lip is near x=215..780, y=437..452. Keep its slight offset exactly: do not center the lip differently. Paint this side as worn ivory ceramic, gold end cap areas, thin gold panel seams, and a narrow very dark blue-violet lower resin strip. Paint a slim horizontal blue-white inset light inside a muted gold surround onto the middle of the existing side band, continuing the reference's elongated lateral light detail without adding geometry. The lip is just the thin dark blue glass edge with a dull gold seam. Do not show the broad screen surface. Keep the long upper and lower outer edges exactly straight and exactly placed.",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: retained for provenance; corrective return has flatter material treatment and reduced glow. Both attempts fail exact guide mask and requested dimensions.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-ddb50f33-4c8e-411e-9e07-e78d16dc6fe6.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Partial: broad ivory is even, but the central light blooms and the brass surround is shaded.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "21189f913898880cb45004bdcccd1473034bee5a574d99ca2b13e58ab5c99442",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "design_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+        "usage": "Material description transcribed from the visually inspected design_reference.png."
+      },
+      "output_sha256": "58f899dcd7f3044654bb37321a8e429be9d3af2766dd499520ccae6fcf11e2d1",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          95,
+          437,
+          929,
+          587
+        ],
+        "output_alpha_bbox": [
+          81,
+          93,
+          1236,
+          1230
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.876383,
+        "normalized_mask_iou_at_alpha_128": 0.984353,
+        "normalized_alpha_128_pixels_outside_guide": 2820,
+        "normalized_alpha_128_guide_pixels_missing": 26,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nThe supplied image is the exact 1024x1024 geometry GUIDE AND EDIT TARGET. Change ONLY the colors and fine surface texture of its opaque pixels; preserve its existing ALPHA MASK PIXEL FOR PIXEL. Preserve every part boundary, exact pixel position, exact size, and all the large transparent space around it. Return 1024x1024 transparent PNG.\nThis is a FLAT ALBEDO TEXTURE SOURCE, not a product photograph or a 3D render. Paint uniform matte base colors, no lighting gradient, shadows, ambient occlusion, bevel lighting, reflections, bright specular patches, rim highlights or bloom. Gold is matte ochre-brass with faint fine grain, not shiny yellow metal. Ivory stays the same brightness across its entire band. Blue-white light accents have crisp unblurred edges and cause no light spill.\nThe approved design is an ancient technological tablet: aged ivory/off-white ceramic, muted brushed ochre antique gold/brass, almost black blue-violet resin lower edge, dark navy blue glass screen edge, fine scratches and sparse small wear marks, restrained thin panel seams, blue-white light accents. Use these observed design colors; gray/blue guide tints are only part identifiers. There is no leather, cloth or paper.\nDo NOT round the outer corners, add any thickness, show any top surface, change perspective, move, scale or crop the object. No floor, background, text, letters, numbers, watermark or labels.\nView: RIGHT EDGE ONLY, a very thin horizontal bar, exactly as the guide. It is NOT the broad screen face. Occupied alpha bbox is x=95..928, y=437..586. Main edge band starts near y=452; the thin raised screen lip is near x=244..809, y=437..452. Keep its slight offset exactly: do not center the lip differently. Paint this side as worn ivory ceramic, gold end cap areas, thin gold panel seams, and a narrow very dark blue-violet lower resin strip. Paint a slim horizontal blue-white inset light inside a muted gold surround onto the middle of the existing side band, continuing the reference's elongated lateral light detail without adding geometry. Continue the reference's small ceramic crack as a restrained painted wear detail near an end. The lip is just the thin dark blue glass edge with a dull gold seam. Do not show the broad screen surface. Keep the long upper and lower outer edges exactly straight and exactly placed.",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: retained for provenance; corrective return has flatter material treatment and reduced glow. Both attempts fail exact guide mask and requested dimensions.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-9ebccf49-2986-4d52-b739-f39d5e711e58.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Partial: broad ivory is even, but blue light bloom and minor metal-edge shading remain.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "04586b5bb395b1249de639599507c09f2d28de33405fab94999730000f96a12b",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "design_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+        "usage": "Material description transcribed from the visually inspected design_reference.png."
+      },
+      "output_sha256": "bd38354627e6a1804b1024a7108e763be0473a4a43b16e97131b33372df96607",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          95,
+          437,
+          929,
+          587
+        ],
+        "output_alpha_bbox": [
+          39,
+          79,
+          1142,
+          1125
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.877099,
+        "normalized_mask_iou_at_alpha_128": 0.980388,
+        "normalized_alpha_128_pixels_outside_guide": 3582,
+        "normalized_alpha_128_guide_pixels_missing": 0,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. One corrective regeneration for the BACK view of Hesper's colony log tablet. The supplied guide image is the ONLY geometry authority. EDIT THIS GUIDE IN PLACE, DO NOT REDRAW ITS OUTLINE.\nThe previous painting failed the exact silhouette and canvas-size checks. Return EXACTLY the supplied guide's 1024 by 1024 pixels, not 1254 by 1254. Copy the source guide's entire alpha channel unchanged; recolor only its opaque surface. ZERO nontransparent pixels outside the guide alpha mask: no tiny detached marks or colored fringes. Preserve the same rectangular shape, same lip edges, same proportions, same position.\nOpaque bbox x=66..957, y=437..586, with raised lip x=200..824, y=437..452. Do not change any straight silhouette edges or round its corners.\nPaint the far edge as continuous ivory ceramic, gold end panels and a small plain central gold plate, a narrow blue-black bottom strip, and a dark navy raised lip. No lights are needed on this far edge.\nColors from the approved design: off-white aged ivory, dull antique brass/ochre gold, dark navy glass and very dark blue-violet resin. Sparse fine wear and a few tiny nicks as surface pigment only; material seams are thin dark paint lines.\nAll is a FLAT matte ALBEDO PAINTING: no rendered depth, darkening from ambient occlusion, shading, shadows, gradients, specular highlights, reflections, bevel lighting, light bloom, edge glow or rim light. Light accents are plain bright pigment. No physical part added outside the guide. Do not show the broad screen face; this is only the narrow side edge. No text, letters, numbers, labels, floor, background or watermark. Transparent PNG, one orthographic view, full uncropped 1024x1024 guide canvas.",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter surface color and reduced glow. Exact guide alpha and 1024x1024 dimensions were not achieved; retained unresized as required. One corrective regeneration used.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-5d6a39cc-666b-4181-8c6a-f7cf7204edc9.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Partial: broad matte colors and restrained wear; bright perimeter edges and lip shading remain.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "guide_back.png",
+          "sha256": "49a5e62d5405e0b320a0fd594d339cb637841132567426dffa81ad6b81b341ca",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "design_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+        "usage": "Material description transcribed from the visually inspected design_reference.png."
+      },
+      "output_sha256": "85a9c78a5a697996141d77f4c9799ec3e0e9ea919eff8311a680866d4cede8f6",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          66,
+          437,
+          958,
+          587
+        ],
+        "output_alpha_bbox": [
+          29,
+          87,
+          1240,
+          1235
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.867391,
+        "normalized_mask_iou_at_alpha_128": 0.985216,
+        "normalized_alpha_128_pixels_outside_guide": 2884,
+        "normalized_alpha_128_guide_pixels_missing": 0,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. One corrective regeneration for the LEFT view of Hesper's colony log tablet. The supplied guide image is the ONLY geometry authority. EDIT THIS GUIDE IN PLACE, DO NOT REDRAW ITS OUTLINE.\nThe previous painting failed the exact silhouette and canvas-size checks. Return EXACTLY the supplied guide's 1024 by 1024 pixels, not 1254 by 1254. Copy the source guide's entire alpha channel unchanged; recolor only its opaque surface. ZERO nontransparent pixels outside the guide alpha mask: no tiny detached marks or colored fringes. Preserve the same rectangular shape, same lip edges, same proportions, same position.\nOpaque bbox x=95..928, y=437..586, with the body beginning at y=452. Do not change any straight silhouette edges or round its corners.\nPaint ivory ceramic with matte brass end panels, a narrow blue-black bottom strip and dark navy screen lip. A short slim horizontal blue-white marking on a muted gold panel occupies the middle of the body. Keep its blue-white fill completely solid and flat, not glowing. Left screen lip remains slightly left of center, x=215..780.\nColors from the approved design: off-white aged ivory, dull antique brass/ochre gold, dark navy glass and very dark blue-violet resin. Sparse fine wear and a few tiny nicks as surface pigment only; material seams are thin dark paint lines.\nAll is a FLAT matte ALBEDO PAINTING: no rendered depth, darkening from ambient occlusion, shading, shadows, gradients, specular highlights, reflections, bevel lighting, light bloom, edge glow or rim light. Light accents are plain bright pigment. No physical part added outside the guide. Do not show the broad screen face; this is only the narrow side edge. No text, letters, numbers, labels, floor, background or watermark. Transparent PNG, one orthographic view, full uncropped 1024x1024 guide canvas.",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter surface color and reduced glow. Exact guide alpha and 1024x1024 dimensions were not achieved; retained unresized as required. One corrective regeneration used.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-c0bb3aca-9a37-4003-b0e8-bae779155abe.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Partial: light is a flat bright fill and body is mostly even; fine rim highlights and lip shading remain.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "guide_left.png",
+          "sha256": "21189f913898880cb45004bdcccd1473034bee5a574d99ca2b13e58ab5c99442",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "design_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+        "usage": "Material description transcribed from the visually inspected design_reference.png."
+      },
+      "output_sha256": "04870df41e88e3de95f8e51a3a4644e774c084a2bbfaad7fc93160026c037c52",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          95,
+          437,
+          929,
+          587
+        ],
+        "output_alpha_bbox": [
+          0,
+          23,
+          1240,
+          1206
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.875127,
+        "normalized_mask_iou_at_alpha_128": 0.980224,
+        "normalized_alpha_128_pixels_outside_guide": 3581,
+        "normalized_alpha_128_guide_pixels_missing": 31,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. One corrective regeneration for the RIGHT view of Hesper's colony log tablet. The supplied guide image is the ONLY geometry authority. EDIT THIS GUIDE IN PLACE, DO NOT REDRAW ITS OUTLINE.\nThe previous painting failed the exact silhouette and canvas-size checks. Return EXACTLY the supplied guide's 1024 by 1024 pixels, not 1254 by 1254. Copy the source guide's entire alpha channel unchanged; recolor only its opaque surface. ZERO nontransparent pixels outside the guide alpha mask: no tiny detached marks or colored fringes. Preserve the same rectangular shape, same lip edges, same proportions, same position.\nOpaque bbox x=95..928, y=437..586, with the body beginning at y=452. Do not change any straight silhouette edges or round its corners.\nPaint ivory ceramic with matte brass end panels, a narrow blue-black bottom strip and dark navy screen lip. A short slim horizontal blue-white marking on a muted gold panel occupies the middle of the body. Keep its blue-white fill completely solid and flat, not glowing. A fine hairline crack near the left end continues the reference wear. Right screen lip remains slightly right of center, x=244..809.\nColors from the approved design: off-white aged ivory, dull antique brass/ochre gold, dark navy glass and very dark blue-violet resin. Sparse fine wear and a few tiny nicks as surface pigment only; material seams are thin dark paint lines.\nAll is a FLAT matte ALBEDO PAINTING: no rendered depth, darkening from ambient occlusion, shading, shadows, gradients, specular highlights, reflections, bevel lighting, light bloom, edge glow or rim light. Light accents are plain bright pigment. No physical part added outside the guide. Do not show the broad screen face; this is only the narrow side edge. No text, letters, numbers, labels, floor, background or watermark. Transparent PNG, one orthographic view, full uncropped 1024x1024 guide canvas.",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter surface color and reduced glow. Exact guide alpha and 1024x1024 dimensions were not achieved; retained unresized as required. One corrective regeneration used.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16d8b-5f9b-7ee0-b1ff-5fc83c3482eb/exec-5f8814cf-c27c-42e9-9db6-fd64e7e54d2b.png",
+      "visual_checks": {
+        "materials_and_colors": "Worn ivory ceramic, antique gold/brass, dark navy/blue-violet glass and resin; blue-white accents where present. Matches reference material vocabulary.",
+        "flat_even_albedo": "Partial: flatter brass and light fill; fine bright top edges and slight ceramic tonal gradient remain.",
+        "no_text_or_letters": true,
+        "method": "Visual inspection of raw image generation return."
+      },
+      "inputs": [
+        {
+          "file": "guide_right.png",
+          "sha256": "04586b5bb395b1249de639599507c09f2d28de33405fab94999730000f96a12b",
+          "role": "geometry guide / edit target"
+        }
+      ],
+      "design_reference_context": {
+        "file": "design_reference.png",
+        "sha256": "cf9fbdf05bee840c95d583fc3a0725fb452607169be0bfe3c3e2611082773c91",
+        "usage": "Material description transcribed from the visually inspected design_reference.png."
+      },
+      "output_sha256": "541228f917fe72b39fa021b34b991ce60e61ac3a3fa2a4bdbe5426e2ce37ab43",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "png_valid": true,
+        "mode": "RGBA",
+        "requested_size_met": false,
+        "unresized_raw_copy_verified": true,
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "silhouette_identical_to_guide": false,
+        "guide_alpha_bbox": [
+          95,
+          437,
+          929,
+          587
+        ],
+        "output_alpha_bbox": [
+          21,
+          20,
+          1238,
+          1214
+        ],
+        "transparent_background_present": true,
+        "fully_transparent_pixel_fraction": 0.878153,
+        "normalized_mask_iou_at_alpha_128": 0.974253,
+        "normalized_alpha_128_pixels_outside_guide": 4728,
+        "normalized_alpha_128_guide_pixels_missing": 4,
+        "normalization_note": "Read-only nearest-neighbor coordinate sampling for a diagnostic comparison across canvas sizes. No image was resized or saved by this check; normalized similarity does not establish exact silhouette compliance."
+      }
+    }
+  ],
+  "verification": {
+    "all_six_inputs_unchanged": true,
+    "all_ten_outputs_identical_to_tool_returns": true,
+    "all_five_selected_outputs_present": true,
+    "one_corrective_pass_per_view": true,
+    "all_selected_exact_silhouette_checks_pass": false
+  }
+}

@@ -1,0 +1,22 @@
+id: levelgen.original_exit.mm6
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: 6t1.blv
+- set_pose:
+    map: 6t1.blv
+    x: -15616.0
+    y: 128.0
+    z: -192.0
+    yaw: -3.141592653589793
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    action_id: 0
+    kind: map_transition_confirm
+    expect_before:
+      dialog:
+        active: true
+- assert:
+    map: outd3.odm

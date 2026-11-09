@@ -1,0 +1,116 @@
+{
+  "scope": "One accurately contextualized attempt per unresolved sampling batch; preserve original visual requirements.",
+  "maximum_calls": 10,
+  "jobs": [
+    {
+      "family": "mm7_m198",
+      "batch": "a_0_detail_0",
+      "version": "v2",
+      "prompt": "level_generation/creatures/mm7_m198/prompts/submitted/a_0_detail_0_v2.txt",
+      "references": [
+        "level_generation/creatures/mm7_m198/references/a_0_detail_0.png",
+        "level_generation/creatures/mm7_m198/raw/standing_v1.png"
+      ],
+      "result": "moderation_blocked"
+    },
+    {
+      "family": "mm7_m198",
+      "batch": "a_0_detail_1",
+      "version": "v2",
+      "prompt": "level_generation/creatures/mm7_m198/prompts/submitted/a_0_detail_1_v2.txt",
+      "references": [
+        "level_generation/creatures/mm7_m198/references/a_0_detail_1.png",
+        "level_generation/creatures/mm7_m198/raw/standing_v1.png"
+      ],
+      "result": "validated_base_sampling",
+      "exported_frames": [
+        "m198ad0",
+        "m198ae0",
+        "m198af0",
+        "m198ag0"
+      ]
+    },
+    {
+      "family": "mm7_m198",
+      "batch": "a_3_detail_0",
+      "version": "v2",
+      "prompt": "level_generation/creatures/mm7_m198/prompts/submitted/a_3_detail_0_v2.txt",
+      "references": [
+        "level_generation/creatures/mm7_m198/references/a_3_detail_0.png",
+        "level_generation/creatures/mm7_m198/raw/standing_v1.png"
+      ],
+      "result": "validated_base_sampling",
+      "exported_frames": [
+        "m198aa3",
+        "m198ab3",
+        "m198ac3"
+      ]
+    },
+    {
+      "family": "mm7_m198",
+      "batch": "a_4_detail_1",
+      "version": "v2",
+      "prompt": "level_generation/creatures/mm7_m198/prompts/submitted/a_4_detail_1_v2.txt",
+      "references": [
+        "level_generation/creatures/mm7_m198/references/a_4_detail_1.png",
+        "level_generation/creatures/mm7_m198/raw/standing_v1.png"
+      ],
+      "result": "validated_base_sampling",
+      "exported_frames": [
+        "m198ae4",
+        "m198af4",
+        "m198ag4"
+      ]
+    },
+    {
+      "family": "mm7_m222",
+      "batch": "a_2_detail_1",
+      "version": "v2",
+      "prompt": "level_generation/creatures/mm7_m222/prompts/submitted/a_2_detail_1_v2.txt",
+      "references": [
+        "level_generation/creatures/mm7_m222/references/a_2_detail_1.png",
+        "level_generation/creatures/mm7_m222/raw/standing_v1.png"
+      ],
+      "result": "validated_base_sampling",
+      "exported_frames": [
+        "m222ae2"
+      ]
+    },
+    {
+      "family": "mm7_m222",
+      "batch": "a_3_detail_1",
+      "version": "v2",
+      "prompt": "level_generation/creatures/mm7_m222/prompts/submitted/a_3_detail_1_v2.txt",
+      "references": [
+        "level_generation/creatures/mm7_m222/references/a_3_detail_1.png",
+        "level_generation/creatures/mm7_m222/raw/standing_v1.png"
+      ],
+      "result": "validated_base_sampling",
+      "exported_frames": [
+        "m222ag3",
+        "m222ah3"
+      ]
+    },
+    {
+      "family": "mm7_m198",
+      "batch": "a_0_detail_0",
+      "version": "v3",
+      "prompt": "level_generation/creatures/mm7_m198/prompts/submitted/a_0_detail_0_v3.txt",
+      "references": [
+        "level_generation/creatures/mm7_m198/references/a_0_detail_0.png",
+        "level_generation/creatures/mm7_m198/raw/standing_v1.png"
+      ],
+      "result": "validated_base_sampling",
+      "exported_frames": [
+        "m198aa0",
+        "m198ab0",
+        "m198ac0"
+      ]
+    }
+  ],
+  "calls_used": 7,
+  "newly_repaired_frames": 16,
+  "total_repaired_frames": 51,
+  "remaining_undersized_frames": [],
+  "reviewed_utc": "2026-09-14T13:09:20.317825+00:00"
+}

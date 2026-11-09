@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playthrough Statistics Mockups</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>Playthrough statistics</h1>
+  <p class="lede">Mockups for a read-only Statistics screen in the Carved Obsidian style: the quick-reference surface,
+    native Lucida, Arrus, Create and Smallnum fonts, Fondamento buttons and the shared inspect frame. Every number is
+    one consistent sample playthrough. On the live Overview, hold the right mouse button on a line to see its
+    breakdown, the way stats and skills are inspected.</p>
+  <nav class="jump">
+    <a href="#bar">Top bar</a><a href="#overview">Overview</a><a href="#party">Party</a>
+    <a href="#xp">Experience</a><a href="#kills">Kills</a><a href="#damage">Damage</a><a href="#deaths">Deaths</a>
+    <a href="#played">Time</a><a href="#partial">Older save</a>
+  </nav>
+
+  <section class="shot" id="bar">
+    <h2>1. Top bar: a fifth icon</h2>
+    <p>The command strip grows from four to five 30-unit slots (bar 268 to 298 logical wide). Hover shows the usual
+      status text with the key. Default key F1: every letter is already bound.</p>
+    <div id="shot-bar"></div>
+  </section>
+
+  <section class="shot" id="overview">
+    <h2>2. Overview (live: hold right mouse on a line)</h2>
+    <p>Seven groups, 26 lines, nothing that needs explaining. Gold marks rates and records, red marks losses. The
+      party bar's empty right panel shows this session only, since the game was started or a save was loaded.</p>
+    <div id="shot-overview"></div>
+  </section>
+
+  <section class="shot" id="party">
+    <h2>3. Party</h2>
+    <p>Per member, laid out like Quick Reference. The highest value in each row is gold; zero is a dash. Former
+      members and allies are summarised underneath so the totals still add up.</p>
+    <div id="shot-party"></div>
+  </section>
+
+  <section class="shot" id="xp">
+    <h2>4. Breakdown: Experience earned</h2>
+    <p>Monsters, quests and events, other. Main numbers are this save's timeline, so a quickload never counts a
+      replayed fight twice; the last line adds play later undone by loading, from the playthrough's lifetime file.</p>
+    <div id="shot-xp"></div>
+  </section>
+
+  <section class="shot" id="kills">
+    <h2>5. Breakdown: Monsters killed</h2>
+    <p>By method, the five most-slain kinds and the strongest foe. The full kill list per monster kind stays in the
+      file for a later bestiary page, not on this screen.</p>
+    <div id="shot-kills"></div>
+  </section>
+
+  <section class="shot" id="damage">
+    <h2>6. Breakdown: Damage dealt</h2>
+    <p>By damage school, the only breakdown that uses bars. Colours follow the magic schools.</p>
+    <div id="shot-damage"></div>
+  </section>
+
+  <section class="shot" id="deaths">
+    <h2>7. Breakdown: Deaths</h2>
+    <p>By member, deadliest causes and the last three deaths with place and game day.</p>
+    <div id="shot-deaths"></div>
+  </section>
+
+  <section class="shot" id="played">
+    <h2>8. Breakdown: Time played</h2>
+    <p>Sessions, time per continent, and real time undone by loading (lifetime minus this timeline).</p>
+    <div id="shot-played"></div>
+  </section>
+
+  <section class="shot" id="partial">
+    <h2>9. A save from before statistics</h2>
+    <p>Loading an older save starts a new record from that point and says so in the header, rather than inventing
+      a history. The playthrough identifier is written into every later save.</p>
+    <div id="shot-partial"></div>
+  </section>
+
+  <p class="legend">Study folder: <code>level_generation/ui/playthrough_stats_20261107/</code>. Engine plan:
+    <code>devdocs/PLAYTHROUGH_STATISTICS_PLAN.md</code>. The fifth icon is a Codex candidate; switch with
+    <code>?icon=candidate_b</code> or <code>candidate_c</code>.</p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

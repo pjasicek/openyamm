@@ -1,0 +1,53 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "room",
+        "target": [
+          -6256,
+          -2976,
+          -1568
+        ],
+        "span": 6500
+      },
+      "section_top_z": -1056,
+      "image": "level_generation/evidence/mm6/6d02_decor_room.png",
+      "camera_position": [
+        -3312.959716796875,
+        -8862.080078125,
+        5626.0986328125
+      ],
+      "highlighted": [
+        {
+          "index": 81,
+          "name": "brazir2f",
+          "position": [
+            -6256,
+            -2976,
+            -1568
+          ]
+        },
+        {
+          "index": 82,
+          "name": "brazir2f",
+          "position": [
+            -6912,
+            -2032,
+            -1568
+          ]
+        },
+        {
+          "index": 83,
+          "name": "brazir2f",
+          "position": [
+            -6144,
+            -768,
+            -1568
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

@@ -1,0 +1,74 @@
+# Hesper's energy shields (design/kreegan_world/COMBAT.md, "Shields: batter them down first"), staged by stage.py as
+# the world's worlds/hesper/shields.yml (engine: devdocs/ENERGY_SHIELDS_AND_RELATIONS.md). stage.py adds `monsters`:
+# one entry per staged monster (monsters.yml) from the design's draft table design/kreegan_world/data/monster_hesper.txt
+# (shield, shield_grade, shield_regen_delay_s). A monster with grade None gets an empty entry: no shield, but its body
+# is exposed (energy weapons x exposed_energy_multiplier), as every Hesper monster's is.
+schema: openyamm.shields.v1
+rules:
+  exposed_energy_multiplier: 1.5        # energy weapons against a body whose shield is down or missing
+  party:                                # the personal shields (items' personal_shield, Shield Tech)
+    regen_delay_seconds: 5              # without damage before it regenerates (Shield Tech Expert: 1 s less)
+    regen_seconds: 4                    # empty to full once it regenerates
+    shield_tech_expert_delay_reduction: 1
+    emitter_bonus_per_rank: 0.1         # an emitter's pool x (1 + Shield Tech rank x 10 %)
+    hardened_exposed_multiplier: 1.25   # Shield Tech Grandmaster
+    hit_sound: party_shield_hit
+    break_sound: party_shield_break
+    shield_cell: {points: 200, seconds: 60}   # Shield Cell (useShieldCell) on a member without a shield (ITEMS.md)
+    shield_burst: {refill_fraction: 0.5}      # Shield Burst Cell (useShieldBurst): every shield + half its pool
+  overload: {chance: 0.1, remaining_fraction: 0.5}   # Energy Blades Grandmaster: 10 % per hit to halve the shield
+  emp_grenade: {radius: 600, remaining_fraction: 0.5, machine_stun_seconds: 2}   # throwEmpGrenade, around the party
+# The shield link of a monster whose design rules say ShieldLink (the Overseers): while it lives its allies' shields
+# within the radius regenerate twice as fast; killing it breaks their raised shields (stage.py adds it as `link`).
+shield_link: {radius: 2560, regen_multiplier: 2, drop_on_death: true}
+# Machines (COMBAT.md, resistances: drones, turrets, the Custodian, the Bulwark, the Harvester, the test emplacement):
+# an EMP grenade stuns them (stage.py marks the staged ones `machine: true`).
+machines: [10050-10059, 10065-10066, 10100, 10104, 10107, 10140]
+# Placeholder sounds: drop a WAV of the name into worlds/hesper/audio (or the engine's audio) and the game plays it;
+# until then it plays the fallback (an existing sound), or nothing without one.
+sounds:
+  shield_hit_light: {fallback: 15sparks01}
+  shield_hit_standard: {fallback: 15sparks03}
+  shield_hit_noble: {fallback: 18lightningbolt01}
+  shield_break: {fallback: 32iceblast03}
+  shield_break_noble: {fallback: 32iceblast03}
+  shield_regen: {fallback: 17shield03}
+  party_shield_hit: {fallback: 15sparks01}
+  party_shield_break: {fallback: 32iceblast01}
+# The rate table (COMBAT.md; the user raised steel's rates on 2026-10-24, so no shield is immune to it): the share of
+# an attack's damage a raised shield takes. Spells and wands do nothing to a
+# raised shield; overflow beyond the remaining pool is lost. Colours are linear RGB: Kreegan pinks, deeper with rank.
+grades:
+  Light:
+    rates: {physical: 1.0, classic_blaster: 1.0, kreegan_energy: 1.0, spell: 0.0}
+    color: [1.0, 0.62, 0.82]            # 2026-10-24: pale rose, so the three grades read apart (was [1.0, 0.38, 0.72])
+    intensity: 0.7
+    rest_intensity: 0.12                # 2026-10-27: the rest strength (the user, 2026-10-23: faint at rest);
+                                        # the full intensity shows only on a hit, the raise or the break.
+                                        # Before: one intensity 0.3 (0.45 hid the caste skins, 0.7 the Custodian)
+    regen_seconds: 1.5
+    hit_sound: shield_hit_light
+    break_sound: shield_break
+    regen_sound: shield_regen
+  Standard:
+    rates: {physical: 0.5, classic_blaster: 0.5, kreegan_energy: 1.0, spell: 0.0}
+    color: [1.0, 0.12, 0.5]             # 2026-10-24: hot magenta (was [0.95, 0.22, 0.62])
+    intensity: 0.8
+    rest_intensity: 0.14                # before: one intensity 0.35 (0.55 turned the Troopers and Lancers pink)
+    regen_seconds: 2.0
+    hit_sound: shield_hit_standard
+    break_sound: shield_break
+    regen_sound: shield_regen
+  Noble:
+    rates: {physical: 0.25, classic_blaster: 0.25, kreegan_energy: 1.0, spell: 0.0}
+    color: [0.5, 0.22, 1.0]             # 2026-10-24: deep violet (was [0.78, 0.25, 1.0])
+    intensity: 0.95
+    rest_intensity: 0.16                # before: one intensity 0.4 (0.7 turned every Noble skin magenta)
+    regen_seconds: 2.5
+    hit_sound: shield_hit_noble
+    break_sound: shield_break_noble
+    regen_sound: shield_regen
+
+# D9: the unshielded sacs feed the Mother and drop her shield on death.
+monsters:
+  10130: {link: {radius: 2400, regen_multiplier: 4, drop_on_death: true}}

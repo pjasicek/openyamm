@@ -1,0 +1,22 @@
+{
+  "family": "fgt",
+  "title": "MM6 Leather Fighter",
+  "descriptor_ids": [
+    538,
+    539,
+    540
+  ],
+  "base_palette": 733,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Adult male MM6 leather fighter with short parted black hair and pale tan face, studded brown leather cuirass and short leather tassets, brown mid-calf boots and bracers, gray steel pauldrons with copper round shoulder caps, dark red-brown neck scarf and long trailing back strip, dark green cloth sleeves and trousers. Right hand holds a small black spiked mace on a thin silver shaft; a side blade stays sheathed. Preserve the native proportions, equipment and muted colors. In death the mace leaves the hand and moves through the exact native positions, then rests beside the supine fighter: preserve this loose weapon without clipping or inventing extra weapons.",
+  "regions": "Separate enhanced-pixel masks for green cloth, brown leather, and metal trim where native palettes change. Protect natural face, black hair, deep shadows and fixed scarf. Green cloth becomes navy or red in the native variants.",
+  "variant_names": {
+    "733": "Leather Fighter 1",
+    "734": "Leather Fighter 2",
+    "735": "Leather Fighter 3"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

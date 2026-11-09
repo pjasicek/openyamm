@@ -1,0 +1,335 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>New Sorpigal terrain catalogue</title><style>
+body{font:16px/1.5 system-ui,sans-serif;background:#141920;color:#e7edf5;margin:0 auto;padding:30px;max-width:1420px}
+a{color:#8cc9ff}h1{margin-bottom:8px}h2{margin-top:42px}h3{margin:0 0 12px}p{max-width:1000px}
+.controls{position:sticky;top:0;background:#141920;padding:14px 0;display:flex;gap:12px;z-index:2;flex-wrap:wrap}
+input,select{font:inherit;background:#26313f;color:white;border:1px solid #607087;padding:8px;border-radius:5px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:18px}
+article{background:#202934;border:1px solid #354456;border-radius:8px;padding:16px}.tile{text-align:center}
+.tile img{width:192px;height:192px;image-rendering:pixelated;max-width:100%;object-fit:contain}article select{width:100%;margin-top:10px}
+.links{font-size:14px}.context{width:100%;image-rendering:pixelated}.maps{display:flex;gap:20px;flex-wrap:wrap}
+.maps img{width:300px;max-width:100%}.note{background:#283747;border-left:4px solid #85b7df;padding:15px}
+[hidden]{display:none!important}summary{cursor:pointer}button{cursor:pointer}
+</style><h1>New Sorpigal — terrain reference catalogue</h1>
+<p>49 native terrain tiles · 12 exact shoreline alpha masks · 14 water animation frames. Prepared from MM6 oute3.odm for later image generation.</p>
+<p><a href="README.md">Readme</a> · <a href="catalogue.json">Full catalogue JSON</a> · <a href="tiles.csv">Tile inventory CSV</a> ·
+<a href="imagegen_briefs/jobs.json">Prepared imagegen jobs</a> · <a href="imagegen_briefs/transitions.md">Transition instructions</a></p>
+<div class="note">Grass ↔ dirt; rock ↔ dirt; road sits on dirt; shore overlays animated water.
+Only shorelines have true alpha. Opaque grass/rock/road mixtures still need reviewed material masks.
+Reference sheets are labelled; individual PNG inputs are unlabelled. No images have been regenerated.</div>
+<div class="maps"><p><a href="map/terrain_overview.png"><img src="map/terrain_overview.png" alt="Flat native terrain overview"></a><br>Native terrain, north up; no geometry or lighting.</p>
+<p><a href="map/families.png"><img src="map/families.png" alt="Terrain families"></a><br>Transitions: green grass/dirt, purple rock/dirt,<br>cyan shores, yellow roads.</p></div>
+<p>Water references: <a href="sheets/water_animation.png">14 frames</a> · <a href="sheets/shore_alpha.png">Shore alpha</a> ·
+<a href="sheets/water_openings.png">Water openings</a> · <a href="sheets/water_composites.png">Composited shores</a></p>
+<div class="controls"><input id="search" type="search" placeholder="Search texture, material or shape" aria-label="Search tiles">
+<select id="family" aria-label="Filter by family"><option value="">All families</option><option value="bases">Base tiles</option><option value="grass_dirt">Grass / dirt transitions</option><option value="rock_dirt">Rock / dirt transitions</option><option value="shoreline">Shore overlays / water openings</option><option value="roads">Roads on dirt</option></select><span id="count"></span></div><section data-family="bases" id="bases"><h2>Base tiles (4)</h2>
+<p><a href="sheets/bases.png">Family reference sheet</a> · <a href="sheets/bases_contexts.png">Context sheet</a></p>
+<div class="cards"><article data-search="6dirttyl base dirt">
+<h3>6dirttyl</h3><div class="tile"><img loading="lazy" src="source_rgb/6dirttyl.png" alt="6dirttyl"></div>
+<select aria-label="Preview for 6dirttyl" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6dirttyl.png">source</option><option value="previews/6dirttyl.png">rgba</option><option value="composited/6dirttyl.png">composite</option></select>
+<p>base · 974 map cells<br>dirt</p>
+<p class="links"><a href="original_bmp/6dirttyl.bmp">BMP</a> · <a href="source_rgb/6dirttyl.png">RGB</a> · <a href="rgba/6dirttyl.png">RGBA</a> · <a href="contexts/6dirttyl.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6dirttyl.png"><img class="context" loading="lazy" src="contexts/6dirttyl.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grastyl base grass">
+<h3>6grastyl</h3><div class="tile"><img loading="lazy" src="source_rgb/6grastyl.png" alt="6grastyl"></div>
+<select aria-label="Preview for 6grastyl" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grastyl.png">source</option><option value="previews/6grastyl.png">rgba</option><option value="composited/6grastyl.png">composite</option></select>
+<p>base · 1391 map cells<br>grass</p>
+<p class="links"><a href="original_bmp/6grastyl.bmp">BMP</a> · <a href="source_rgb/6grastyl.png">RGB</a> · <a href="rgba/6grastyl.png">RGBA</a> · <a href="contexts/6grastyl.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grastyl.png"><img class="context" loading="lazy" src="contexts/6grastyl.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6voltyl base rock">
+<h3>6voltyl</h3><div class="tile"><img loading="lazy" src="source_rgb/6voltyl.png" alt="6voltyl"></div>
+<select aria-label="Preview for 6voltyl" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6voltyl.png">source</option><option value="previews/6voltyl.png">rgba</option><option value="composited/6voltyl.png">composite</option></select>
+<p>base · 328 map cells<br>rock</p>
+<p class="links"><a href="original_bmp/6voltyl.bmp">BMP</a> · <a href="source_rgb/6voltyl.png">RGB</a> · <a href="rgba/6voltyl.png">RGBA</a> · <a href="contexts/6voltyl.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6voltyl.png"><img class="context" loading="lazy" src="contexts/6voltyl.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrtyl base water">
+<h3>6wtrtyl</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrtyl.png" alt="6wtrtyl"></div>
+<select aria-label="Preview for 6wtrtyl" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrtyl.png">source</option><option value="previews/6wtrtyl.png">rgba</option><option value="composited/6wtrtyl.png">composite</option></select>
+<p>base · 11180 map cells<br>water</p>
+<p class="links"><a href="original_bmp/6wtrtyl.bmp">BMP</a> · <a href="source_rgb/6wtrtyl.png">RGB</a> · <a href="rgba/6wtrtyl.png">RGBA</a> · <a href="contexts/6wtrtyl.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrtyl.png"><img class="context" loading="lazy" src="contexts/6wtrtyl.png" alt="Map neighbours; target in centre"></a>
+</details></article></div></section><section data-family="grass_dirt" id="grass_dirt"><h2>Grass / dirt transitions (12)</h2>
+<p><a href="sheets/grass_dirt.png">Family reference sheet</a> · <a href="sheets/grass_dirt_contexts.png">Context sheet</a></p>
+<div class="cards"><article data-search="6grdrte edge grass dirt">
+<h3>6grdrte</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrte.png" alt="6grdrte"></div>
+<select aria-label="Preview for 6grdrte" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrte.png">source</option><option value="previews/6grdrte.png">rgba</option><option value="composited/6grdrte.png">composite</option></select>
+<p>edge · 79 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrte.bmp">BMP</a> · <a href="source_rgb/6grdrte.png">RGB</a> · <a href="rgba/6grdrte.png">RGBA</a> · <a href="contexts/6grdrte.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrte.png"><img class="context" loading="lazy" src="contexts/6grdrte.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtn edge grass dirt">
+<h3>6grdrtn</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtn.png" alt="6grdrtn"></div>
+<select aria-label="Preview for 6grdrtn" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtn.png">source</option><option value="previews/6grdrtn.png">rgba</option><option value="composited/6grdrtn.png">composite</option></select>
+<p>edge · 145 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtn.bmp">BMP</a> · <a href="source_rgb/6grdrtn.png">RGB</a> · <a href="rgba/6grdrtn.png">RGBA</a> · <a href="contexts/6grdrtn.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtn.png"><img class="context" loading="lazy" src="contexts/6grdrtn.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtne corner grass dirt">
+<h3>6grdrtne</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtne.png" alt="6grdrtne"></div>
+<select aria-label="Preview for 6grdrtne" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtne.png">source</option><option value="previews/6grdrtne.png">rgba</option><option value="composited/6grdrtne.png">composite</option></select>
+<p>corner · 63 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtne.bmp">BMP</a> · <a href="source_rgb/6grdrtne.png">RGB</a> · <a href="rgba/6grdrtne.png">RGBA</a> · <a href="contexts/6grdrtne.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtne.png"><img class="context" loading="lazy" src="contexts/6grdrtne.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtnw corner grass dirt">
+<h3>6grdrtnw</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtnw.png" alt="6grdrtnw"></div>
+<select aria-label="Preview for 6grdrtnw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtnw.png">source</option><option value="previews/6grdrtnw.png">rgba</option><option value="composited/6grdrtnw.png">composite</option></select>
+<p>corner · 76 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtnw.bmp">BMP</a> · <a href="source_rgb/6grdrtnw.png">RGB</a> · <a href="rgba/6grdrtnw.png">RGBA</a> · <a href="contexts/6grdrtnw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtnw.png"><img class="context" loading="lazy" src="contexts/6grdrtnw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrts edge grass dirt">
+<h3>6grdrts</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrts.png" alt="6grdrts"></div>
+<select aria-label="Preview for 6grdrts" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrts.png">source</option><option value="previews/6grdrts.png">rgba</option><option value="composited/6grdrts.png">composite</option></select>
+<p>edge · 132 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrts.bmp">BMP</a> · <a href="source_rgb/6grdrts.png">RGB</a> · <a href="rgba/6grdrts.png">RGBA</a> · <a href="contexts/6grdrts.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrts.png"><img class="context" loading="lazy" src="contexts/6grdrts.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtse corner grass dirt">
+<h3>6grdrtse</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtse.png" alt="6grdrtse"></div>
+<select aria-label="Preview for 6grdrtse" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtse.png">source</option><option value="previews/6grdrtse.png">rgba</option><option value="composited/6grdrtse.png">composite</option></select>
+<p>corner · 81 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtse.bmp">BMP</a> · <a href="source_rgb/6grdrtse.png">RGB</a> · <a href="rgba/6grdrtse.png">RGBA</a> · <a href="contexts/6grdrtse.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtse.png"><img class="context" loading="lazy" src="contexts/6grdrtse.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtsw corner grass dirt">
+<h3>6grdrtsw</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtsw.png" alt="6grdrtsw"></div>
+<select aria-label="Preview for 6grdrtsw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtsw.png">source</option><option value="previews/6grdrtsw.png">rgba</option><option value="composited/6grdrtsw.png">composite</option></select>
+<p>corner · 70 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtsw.bmp">BMP</a> · <a href="source_rgb/6grdrtsw.png">RGB</a> · <a href="rgba/6grdrtsw.png">RGBA</a> · <a href="contexts/6grdrtsw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtsw.png"><img class="context" loading="lazy" src="contexts/6grdrtsw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtw edge grass dirt">
+<h3>6grdrtw</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtw.png" alt="6grdrtw"></div>
+<select aria-label="Preview for 6grdrtw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtw.png">source</option><option value="previews/6grdrtw.png">rgba</option><option value="composited/6grdrtw.png">composite</option></select>
+<p>edge · 62 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtw.bmp">BMP</a> · <a href="source_rgb/6grdrtw.png">RGB</a> · <a href="rgba/6grdrtw.png">RGBA</a> · <a href="contexts/6grdrtw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtw.png"><img class="context" loading="lazy" src="contexts/6grdrtw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtxne X-corner grass dirt">
+<h3>6grdrtxne</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtxne.png" alt="6grdrtxne"></div>
+<select aria-label="Preview for 6grdrtxne" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtxne.png">source</option><option value="previews/6grdrtxne.png">rgba</option><option value="composited/6grdrtxne.png">composite</option></select>
+<p>X-corner · 53 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtxne.bmp">BMP</a> · <a href="source_rgb/6grdrtxne.png">RGB</a> · <a href="rgba/6grdrtxne.png">RGBA</a> · <a href="contexts/6grdrtxne.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtxne.png"><img class="context" loading="lazy" src="contexts/6grdrtxne.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtxnw X-corner grass dirt">
+<h3>6grdrtxnw</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtxnw.png" alt="6grdrtxnw"></div>
+<select aria-label="Preview for 6grdrtxnw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtxnw.png">source</option><option value="previews/6grdrtxnw.png">rgba</option><option value="composited/6grdrtxnw.png">composite</option></select>
+<p>X-corner · 69 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtxnw.bmp">BMP</a> · <a href="source_rgb/6grdrtxnw.png">RGB</a> · <a href="rgba/6grdrtxnw.png">RGBA</a> · <a href="contexts/6grdrtxnw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtxnw.png"><img class="context" loading="lazy" src="contexts/6grdrtxnw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtxse X-corner grass dirt">
+<h3>6grdrtxse</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtxse.png" alt="6grdrtxse"></div>
+<select aria-label="Preview for 6grdrtxse" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtxse.png">source</option><option value="previews/6grdrtxse.png">rgba</option><option value="composited/6grdrtxse.png">composite</option></select>
+<p>X-corner · 72 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtxse.bmp">BMP</a> · <a href="source_rgb/6grdrtxse.png">RGB</a> · <a href="rgba/6grdrtxse.png">RGBA</a> · <a href="contexts/6grdrtxse.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtxse.png"><img class="context" loading="lazy" src="contexts/6grdrtxse.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6grdrtxsw X-corner grass dirt">
+<h3>6grdrtxsw</h3><div class="tile"><img loading="lazy" src="source_rgb/6grdrtxsw.png" alt="6grdrtxsw"></div>
+<select aria-label="Preview for 6grdrtxsw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6grdrtxsw.png">source</option><option value="previews/6grdrtxsw.png">rgba</option><option value="composited/6grdrtxsw.png">composite</option></select>
+<p>X-corner · 62 map cells<br>grass + dirt</p>
+<p class="links"><a href="original_bmp/6grdrtxsw.bmp">BMP</a> · <a href="source_rgb/6grdrtxsw.png">RGB</a> · <a href="rgba/6grdrtxsw.png">RGBA</a> · <a href="contexts/6grdrtxsw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6grdrtxsw.png"><img class="context" loading="lazy" src="contexts/6grdrtxsw.png" alt="Map neighbours; target in centre"></a>
+</details></article></div></section><section data-family="rock_dirt" id="rock_dirt"><h2>Rock / dirt transitions (12)</h2>
+<p><a href="sheets/rock_dirt.png">Family reference sheet</a> · <a href="sheets/rock_dirt_contexts.png">Context sheet</a></p>
+<div class="cards"><article data-search="voldrte edge rock dirt">
+<h3>voldrte</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrte.png" alt="voldrte"></div>
+<select aria-label="Preview for voldrte" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrte.png">source</option><option value="previews/voldrte.png">rgba</option><option value="composited/voldrte.png">composite</option></select>
+<p>edge · 20 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrte.bmp">BMP</a> · <a href="source_rgb/voldrte.png">RGB</a> · <a href="rgba/voldrte.png">RGBA</a> · <a href="contexts/voldrte.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrte.png"><img class="context" loading="lazy" src="contexts/voldrte.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtn edge rock dirt">
+<h3>voldrtn</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtn.png" alt="voldrtn"></div>
+<select aria-label="Preview for voldrtn" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtn.png">source</option><option value="previews/voldrtn.png">rgba</option><option value="composited/voldrtn.png">composite</option></select>
+<p>edge · 22 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtn.bmp">BMP</a> · <a href="source_rgb/voldrtn.png">RGB</a> · <a href="rgba/voldrtn.png">RGBA</a> · <a href="contexts/voldrtn.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtn.png"><img class="context" loading="lazy" src="contexts/voldrtn.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtne corner rock dirt">
+<h3>voldrtne</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtne.png" alt="voldrtne"></div>
+<select aria-label="Preview for voldrtne" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtne.png">source</option><option value="previews/voldrtne.png">rgba</option><option value="composited/voldrtne.png">composite</option></select>
+<p>corner · 20 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtne.bmp">BMP</a> · <a href="source_rgb/voldrtne.png">RGB</a> · <a href="rgba/voldrtne.png">RGBA</a> · <a href="contexts/voldrtne.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtne.png"><img class="context" loading="lazy" src="contexts/voldrtne.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtnw corner rock dirt">
+<h3>voldrtnw</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtnw.png" alt="voldrtnw"></div>
+<select aria-label="Preview for voldrtnw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtnw.png">source</option><option value="previews/voldrtnw.png">rgba</option><option value="composited/voldrtnw.png">composite</option></select>
+<p>corner · 13 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtnw.bmp">BMP</a> · <a href="source_rgb/voldrtnw.png">RGB</a> · <a href="rgba/voldrtnw.png">RGBA</a> · <a href="contexts/voldrtnw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtnw.png"><img class="context" loading="lazy" src="contexts/voldrtnw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrts edge rock dirt">
+<h3>voldrts</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrts.png" alt="voldrts"></div>
+<select aria-label="Preview for voldrts" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrts.png">source</option><option value="previews/voldrts.png">rgba</option><option value="composited/voldrts.png">composite</option></select>
+<p>edge · 31 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrts.bmp">BMP</a> · <a href="source_rgb/voldrts.png">RGB</a> · <a href="rgba/voldrts.png">RGBA</a> · <a href="contexts/voldrts.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrts.png"><img class="context" loading="lazy" src="contexts/voldrts.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtse corner rock dirt">
+<h3>voldrtse</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtse.png" alt="voldrtse"></div>
+<select aria-label="Preview for voldrtse" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtse.png">source</option><option value="previews/voldrtse.png">rgba</option><option value="composited/voldrtse.png">composite</option></select>
+<p>corner · 9 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtse.bmp">BMP</a> · <a href="source_rgb/voldrtse.png">RGB</a> · <a href="rgba/voldrtse.png">RGBA</a> · <a href="contexts/voldrtse.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtse.png"><img class="context" loading="lazy" src="contexts/voldrtse.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtsw corner rock dirt">
+<h3>voldrtsw</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtsw.png" alt="voldrtsw"></div>
+<select aria-label="Preview for voldrtsw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtsw.png">source</option><option value="previews/voldrtsw.png">rgba</option><option value="composited/voldrtsw.png">composite</option></select>
+<p>corner · 15 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtsw.bmp">BMP</a> · <a href="source_rgb/voldrtsw.png">RGB</a> · <a href="rgba/voldrtsw.png">RGBA</a> · <a href="contexts/voldrtsw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtsw.png"><img class="context" loading="lazy" src="contexts/voldrtsw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtw edge rock dirt">
+<h3>voldrtw</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtw.png" alt="voldrtw"></div>
+<select aria-label="Preview for voldrtw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtw.png">source</option><option value="previews/voldrtw.png">rgba</option><option value="composited/voldrtw.png">composite</option></select>
+<p>edge · 21 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtw.bmp">BMP</a> · <a href="source_rgb/voldrtw.png">RGB</a> · <a href="rgba/voldrtw.png">RGBA</a> · <a href="contexts/voldrtw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtw.png"><img class="context" loading="lazy" src="contexts/voldrtw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtxne X-corner rock dirt">
+<h3>voldrtxne</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtxne.png" alt="voldrtxne"></div>
+<select aria-label="Preview for voldrtxne" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtxne.png">source</option><option value="previews/voldrtxne.png">rgba</option><option value="composited/voldrtxne.png">composite</option></select>
+<p>X-corner · 18 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtxne.bmp">BMP</a> · <a href="source_rgb/voldrtxne.png">RGB</a> · <a href="rgba/voldrtxne.png">RGBA</a> · <a href="contexts/voldrtxne.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtxne.png"><img class="context" loading="lazy" src="contexts/voldrtxne.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtxnw X-corner rock dirt">
+<h3>voldrtxnw</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtxnw.png" alt="voldrtxnw"></div>
+<select aria-label="Preview for voldrtxnw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtxnw.png">source</option><option value="previews/voldrtxnw.png">rgba</option><option value="composited/voldrtxnw.png">composite</option></select>
+<p>X-corner · 11 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtxnw.bmp">BMP</a> · <a href="source_rgb/voldrtxnw.png">RGB</a> · <a href="rgba/voldrtxnw.png">RGBA</a> · <a href="contexts/voldrtxnw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtxnw.png"><img class="context" loading="lazy" src="contexts/voldrtxnw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtxse X-corner rock dirt">
+<h3>voldrtxse</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtxse.png" alt="voldrtxse"></div>
+<select aria-label="Preview for voldrtxse" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtxse.png">source</option><option value="previews/voldrtxse.png">rgba</option><option value="composited/voldrtxse.png">composite</option></select>
+<p>X-corner · 7 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtxse.bmp">BMP</a> · <a href="source_rgb/voldrtxse.png">RGB</a> · <a href="rgba/voldrtxse.png">RGBA</a> · <a href="contexts/voldrtxse.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtxse.png"><img class="context" loading="lazy" src="contexts/voldrtxse.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="voldrtxsw X-corner rock dirt">
+<h3>voldrtxsw</h3><div class="tile"><img loading="lazy" src="source_rgb/voldrtxsw.png" alt="voldrtxsw"></div>
+<select aria-label="Preview for voldrtxsw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/voldrtxsw.png">source</option><option value="previews/voldrtxsw.png">rgba</option><option value="composited/voldrtxsw.png">composite</option></select>
+<p>X-corner · 13 map cells<br>rock + dirt</p>
+<p class="links"><a href="original_bmp/voldrtxsw.bmp">BMP</a> · <a href="source_rgb/voldrtxsw.png">RGB</a> · <a href="rgba/voldrtxsw.png">RGBA</a> · <a href="contexts/voldrtxsw.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/voldrtxsw.png"><img class="context" loading="lazy" src="contexts/voldrtxsw.png" alt="Map neighbours; target in centre"></a>
+</details></article></div></section><section data-family="shoreline" id="shoreline"><h2>Shore overlays / water openings (12)</h2>
+<p><a href="sheets/shoreline.png">Family reference sheet</a> · <a href="sheets/shoreline_contexts.png">Context sheet</a></p>
+<div class="cards"><article data-search="6wtrdre edge dirt water">
+<h3>6wtrdre</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdre.png" alt="6wtrdre"></div>
+<select aria-label="Preview for 6wtrdre" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdre.png">source</option><option value="previews/6wtrdre.png">rgba</option><option value="composited/6wtrdre.png">composite</option><option value="alpha/shore_visible/6wtrdre.png">alpha</option><option value="alpha/water_opening/6wtrdre.png">opening</option></select>
+<p>edge · 77 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdre.bmp">BMP</a> · <a href="source_rgb/6wtrdre.png">RGB</a> · <a href="rgba/6wtrdre.png">RGBA</a> · <a href="contexts/6wtrdre.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdre.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdre.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdre.png"><img class="context" loading="lazy" src="contexts/6wtrdre.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrn edge dirt water">
+<h3>6wtrdrn</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrn.png" alt="6wtrdrn"></div>
+<select aria-label="Preview for 6wtrdrn" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrn.png">source</option><option value="previews/6wtrdrn.png">rgba</option><option value="composited/6wtrdrn.png">composite</option><option value="alpha/shore_visible/6wtrdrn.png">alpha</option><option value="alpha/water_opening/6wtrdrn.png">opening</option></select>
+<p>edge · 97 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrn.bmp">BMP</a> · <a href="source_rgb/6wtrdrn.png">RGB</a> · <a href="rgba/6wtrdrn.png">RGBA</a> · <a href="contexts/6wtrdrn.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrn.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrn.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrn.png"><img class="context" loading="lazy" src="contexts/6wtrdrn.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrne corner dirt water">
+<h3>6wtrdrne</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrne.png" alt="6wtrdrne"></div>
+<select aria-label="Preview for 6wtrdrne" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrne.png">source</option><option value="previews/6wtrdrne.png">rgba</option><option value="composited/6wtrdrne.png">composite</option><option value="alpha/shore_visible/6wtrdrne.png">alpha</option><option value="alpha/water_opening/6wtrdrne.png">opening</option></select>
+<p>corner · 64 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrne.bmp">BMP</a> · <a href="source_rgb/6wtrdrne.png">RGB</a> · <a href="rgba/6wtrdrne.png">RGBA</a> · <a href="contexts/6wtrdrne.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrne.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrne.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrne.png"><img class="context" loading="lazy" src="contexts/6wtrdrne.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrnw corner dirt water">
+<h3>6wtrdrnw</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrnw.png" alt="6wtrdrnw"></div>
+<select aria-label="Preview for 6wtrdrnw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrnw.png">source</option><option value="previews/6wtrdrnw.png">rgba</option><option value="composited/6wtrdrnw.png">composite</option><option value="alpha/shore_visible/6wtrdrnw.png">alpha</option><option value="alpha/water_opening/6wtrdrnw.png">opening</option></select>
+<p>corner · 88 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrnw.bmp">BMP</a> · <a href="source_rgb/6wtrdrnw.png">RGB</a> · <a href="rgba/6wtrdrnw.png">RGBA</a> · <a href="contexts/6wtrdrnw.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrnw.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrnw.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrnw.png"><img class="context" loading="lazy" src="contexts/6wtrdrnw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrs edge dirt water">
+<h3>6wtrdrs</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrs.png" alt="6wtrdrs"></div>
+<select aria-label="Preview for 6wtrdrs" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrs.png">source</option><option value="previews/6wtrdrs.png">rgba</option><option value="composited/6wtrdrs.png">composite</option><option value="alpha/shore_visible/6wtrdrs.png">alpha</option><option value="alpha/water_opening/6wtrdrs.png">opening</option></select>
+<p>edge · 109 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrs.bmp">BMP</a> · <a href="source_rgb/6wtrdrs.png">RGB</a> · <a href="rgba/6wtrdrs.png">RGBA</a> · <a href="contexts/6wtrdrs.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrs.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrs.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrs.png"><img class="context" loading="lazy" src="contexts/6wtrdrs.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrse corner dirt water">
+<h3>6wtrdrse</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrse.png" alt="6wtrdrse"></div>
+<select aria-label="Preview for 6wtrdrse" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrse.png">source</option><option value="previews/6wtrdrse.png">rgba</option><option value="composited/6wtrdrse.png">composite</option><option value="alpha/shore_visible/6wtrdrse.png">alpha</option><option value="alpha/water_opening/6wtrdrse.png">opening</option></select>
+<p>corner · 70 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrse.bmp">BMP</a> · <a href="source_rgb/6wtrdrse.png">RGB</a> · <a href="rgba/6wtrdrse.png">RGBA</a> · <a href="contexts/6wtrdrse.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrse.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrse.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrse.png"><img class="context" loading="lazy" src="contexts/6wtrdrse.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrsw corner dirt water">
+<h3>6wtrdrsw</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrsw.png" alt="6wtrdrsw"></div>
+<select aria-label="Preview for 6wtrdrsw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrsw.png">source</option><option value="previews/6wtrdrsw.png">rgba</option><option value="composited/6wtrdrsw.png">composite</option><option value="alpha/shore_visible/6wtrdrsw.png">alpha</option><option value="alpha/water_opening/6wtrdrsw.png">opening</option></select>
+<p>corner · 70 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrsw.bmp">BMP</a> · <a href="source_rgb/6wtrdrsw.png">RGB</a> · <a href="rgba/6wtrdrsw.png">RGBA</a> · <a href="contexts/6wtrdrsw.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrsw.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrsw.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrsw.png"><img class="context" loading="lazy" src="contexts/6wtrdrsw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrw edge dirt water">
+<h3>6wtrdrw</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrw.png" alt="6wtrdrw"></div>
+<select aria-label="Preview for 6wtrdrw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrw.png">source</option><option value="previews/6wtrdrw.png">rgba</option><option value="composited/6wtrdrw.png">composite</option><option value="alpha/shore_visible/6wtrdrw.png">alpha</option><option value="alpha/water_opening/6wtrdrw.png">opening</option></select>
+<p>edge · 95 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrw.bmp">BMP</a> · <a href="source_rgb/6wtrdrw.png">RGB</a> · <a href="rgba/6wtrdrw.png">RGBA</a> · <a href="contexts/6wtrdrw.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrw.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrw.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrw.png"><img class="context" loading="lazy" src="contexts/6wtrdrw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrxne X-corner dirt water">
+<h3>6wtrdrxne</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrxne.png" alt="6wtrdrxne"></div>
+<select aria-label="Preview for 6wtrdrxne" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrxne.png">source</option><option value="previews/6wtrdrxne.png">rgba</option><option value="composited/6wtrdrxne.png">composite</option><option value="alpha/shore_visible/6wtrdrxne.png">alpha</option><option value="alpha/water_opening/6wtrdrxne.png">opening</option></select>
+<p>X-corner · 67 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrxne.bmp">BMP</a> · <a href="source_rgb/6wtrdrxne.png">RGB</a> · <a href="rgba/6wtrdrxne.png">RGBA</a> · <a href="contexts/6wtrdrxne.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrxne.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrxne.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrxne.png"><img class="context" loading="lazy" src="contexts/6wtrdrxne.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrxnw X-corner dirt water">
+<h3>6wtrdrxnw</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrxnw.png" alt="6wtrdrxnw"></div>
+<select aria-label="Preview for 6wtrdrxnw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrxnw.png">source</option><option value="previews/6wtrdrxnw.png">rgba</option><option value="composited/6wtrdrxnw.png">composite</option><option value="alpha/shore_visible/6wtrdrxnw.png">alpha</option><option value="alpha/water_opening/6wtrdrxnw.png">opening</option></select>
+<p>X-corner · 92 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrxnw.bmp">BMP</a> · <a href="source_rgb/6wtrdrxnw.png">RGB</a> · <a href="rgba/6wtrdrxnw.png">RGBA</a> · <a href="contexts/6wtrdrxnw.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrxnw.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrxnw.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrxnw.png"><img class="context" loading="lazy" src="contexts/6wtrdrxnw.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrxse X-corner dirt water">
+<h3>6wtrdrxse</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrxse.png" alt="6wtrdrxse"></div>
+<select aria-label="Preview for 6wtrdrxse" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrxse.png">source</option><option value="previews/6wtrdrxse.png">rgba</option><option value="composited/6wtrdrxse.png">composite</option><option value="alpha/shore_visible/6wtrdrxse.png">alpha</option><option value="alpha/water_opening/6wtrdrxse.png">opening</option></select>
+<p>X-corner · 73 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrxse.bmp">BMP</a> · <a href="source_rgb/6wtrdrxse.png">RGB</a> · <a href="rgba/6wtrdrxse.png">RGBA</a> · <a href="contexts/6wtrdrxse.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrxse.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrxse.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrxse.png"><img class="context" loading="lazy" src="contexts/6wtrdrxse.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6wtrdrxsw X-corner dirt water">
+<h3>6wtrdrxsw</h3><div class="tile"><img loading="lazy" src="source_rgb/6wtrdrxsw.png" alt="6wtrdrxsw"></div>
+<select aria-label="Preview for 6wtrdrxsw" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6wtrdrxsw.png">source</option><option value="previews/6wtrdrxsw.png">rgba</option><option value="composited/6wtrdrxsw.png">composite</option><option value="alpha/shore_visible/6wtrdrxsw.png">alpha</option><option value="alpha/water_opening/6wtrdrxsw.png">opening</option></select>
+<p>X-corner · 74 map cells<br>dirt + water</p>
+<p class="links"><a href="original_bmp/6wtrdrxsw.bmp">BMP</a> · <a href="source_rgb/6wtrdrxsw.png">RGB</a> · <a href="rgba/6wtrdrxsw.png">RGBA</a> · <a href="contexts/6wtrdrxsw.png">Actual neighbours</a> · <a href="alpha/shore_visible/6wtrdrxsw.png">Shore alpha</a> · <a href="alpha/water_opening/6wtrdrxsw.png">Water mask</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6wtrdrxsw.png"><img class="context" loading="lazy" src="contexts/6wtrdrxsw.png" alt="Map neighbours; target in centre"></a>
+</details></article></div></section><section data-family="roads" id="roads"><h2>Roads on dirt (9)</h2>
+<p><a href="sheets/roads.png">Family reference sheet</a> · <a href="sheets/roads_contexts.png">Context sheet</a></p>
+<div class="cards"><article data-search="6drsrecap end cap road dirt">
+<h3>6drsrecap</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrecap.png" alt="6drsrecap"></div>
+<select aria-label="Preview for 6drsrecap" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrecap.png">source</option><option value="previews/6drsrecap.png">rgba</option><option value="composited/6drsrecap.png">composite</option></select>
+<p>end cap · 5 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrecap.bmp">BMP</a> · <a href="source_rgb/6drsrecap.png">RGB</a> · <a href="rgba/6drsrecap.png">RGBA</a> · <a href="contexts/6drsrecap.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrecap.png"><img class="context" loading="lazy" src="contexts/6drsrecap.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6drsrew straight road dirt">
+<h3>6drsrew</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrew.png" alt="6drsrew"></div>
+<select aria-label="Preview for 6drsrew" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrew.png">source</option><option value="previews/6drsrew.png">rgba</option><option value="composited/6drsrew.png">composite</option></select>
+<p>straight · 72 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrew.bmp">BMP</a> · <a href="source_rgb/6drsrew.png">RGB</a> · <a href="rgba/6drsrew.png">RGBA</a> · <a href="contexts/6drsrew.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrew.png"><img class="context" loading="lazy" src="contexts/6drsrew.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6drsrew_s junction road dirt">
+<h3>6drsrew_s</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrew_s.png" alt="6drsrew_s"></div>
+<select aria-label="Preview for 6drsrew_s" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrew_s.png">source</option><option value="previews/6drsrew_s.png">rgba</option><option value="composited/6drsrew_s.png">composite</option></select>
+<p>junction · 1 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrew_s.bmp">BMP</a> · <a href="source_rgb/6drsrew_s.png">RGB</a> · <a href="rgba/6drsrew_s.png">RGBA</a> · <a href="contexts/6drsrew_s.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrew_s.png"><img class="context" loading="lazy" src="contexts/6drsrew_s.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6drsrn_e turn road dirt">
+<h3>6drsrn_e</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrn_e.png" alt="6drsrn_e"></div>
+<select aria-label="Preview for 6drsrn_e" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrn_e.png">source</option><option value="previews/6drsrn_e.png">rgba</option><option value="composited/6drsrn_e.png">composite</option></select>
+<p>turn · 8 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrn_e.bmp">BMP</a> · <a href="source_rgb/6drsrn_e.png">RGB</a> · <a href="rgba/6drsrn_e.png">RGBA</a> · <a href="contexts/6drsrn_e.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrn_e.png"><img class="context" loading="lazy" src="contexts/6drsrn_e.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6drsrn_w turn road dirt">
+<h3>6drsrn_w</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrn_w.png" alt="6drsrn_w"></div>
+<select aria-label="Preview for 6drsrn_w" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrn_w.png">source</option><option value="previews/6drsrn_w.png">rgba</option><option value="composited/6drsrn_w.png">composite</option></select>
+<p>turn · 3 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrn_w.bmp">BMP</a> · <a href="source_rgb/6drsrn_w.png">RGB</a> · <a href="rgba/6drsrn_w.png">RGBA</a> · <a href="contexts/6drsrn_w.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrn_w.png"><img class="context" loading="lazy" src="contexts/6drsrn_w.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6drsrns straight road dirt">
+<h3>6drsrns</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrns.png" alt="6drsrns"></div>
+<select aria-label="Preview for 6drsrns" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrns.png">source</option><option value="previews/6drsrns.png">rgba</option><option value="composited/6drsrns.png">composite</option></select>
+<p>straight · 13 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrns.bmp">BMP</a> · <a href="source_rgb/6drsrns.png">RGB</a> · <a href="rgba/6drsrns.png">RGBA</a> · <a href="contexts/6drsrns.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrns.png"><img class="context" loading="lazy" src="contexts/6drsrns.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6drsrs_e turn road dirt">
+<h3>6drsrs_e</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrs_e.png" alt="6drsrs_e"></div>
+<select aria-label="Preview for 6drsrs_e" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrs_e.png">source</option><option value="previews/6drsrs_e.png">rgba</option><option value="composited/6drsrs_e.png">composite</option></select>
+<p>turn · 3 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrs_e.bmp">BMP</a> · <a href="source_rgb/6drsrs_e.png">RGB</a> · <a href="rgba/6drsrs_e.png">RGBA</a> · <a href="contexts/6drsrs_e.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrs_e.png"><img class="context" loading="lazy" src="contexts/6drsrs_e.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6drsrs_w turn road dirt">
+<h3>6drsrs_w</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrs_w.png" alt="6drsrs_w"></div>
+<select aria-label="Preview for 6drsrs_w" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrs_w.png">source</option><option value="previews/6drsrs_w.png">rgba</option><option value="composited/6drsrs_w.png">composite</option></select>
+<p>turn · 7 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrs_w.bmp">BMP</a> · <a href="source_rgb/6drsrs_w.png">RGB</a> · <a href="rgba/6drsrs_w.png">RGBA</a> · <a href="contexts/6drsrs_w.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrs_w.png"><img class="context" loading="lazy" src="contexts/6drsrs_w.png" alt="Map neighbours; target in centre"></a>
+</details></article><article data-search="6drsrwcap end cap road dirt">
+<h3>6drsrwcap</h3><div class="tile"><img loading="lazy" src="source_rgb/6drsrwcap.png" alt="6drsrwcap"></div>
+<select aria-label="Preview for 6drsrwcap" onchange="this.previousElementSibling.querySelector('img').src=this.value"><option value="source_rgb/6drsrwcap.png">source</option><option value="previews/6drsrwcap.png">rgba</option><option value="composited/6drsrwcap.png">composite</option></select>
+<p>end cap · 4 map cells<br>road + dirt</p>
+<p class="links"><a href="original_bmp/6drsrwcap.bmp">BMP</a> · <a href="source_rgb/6drsrwcap.png">RGB</a> · <a href="rgba/6drsrwcap.png">RGBA</a> · <a href="contexts/6drsrwcap.png">Actual neighbours</a></p><details><summary>Actual 3×3 map context</summary>
+<a href="contexts/6drsrwcap.png"><img class="context" loading="lazy" src="contexts/6drsrwcap.png" alt="Map neighbours; target in centre"></a>
+</details></article></div></section><script>
+const search=document.querySelector('#search'),family=document.querySelector('#family');
+function filter(){let count=0;for(const section of document.querySelectorAll('section')){let visible=0;
+for(const card of section.querySelectorAll('article')){card.hidden=Boolean((family.value&&section.dataset.family!==family.value)||!card.dataset.search.toLowerCase().includes(search.value.toLowerCase()));if(!card.hidden){visible++;count++;}}
+section.hidden=!visible;}document.querySelector('#count').textContent=count+' / 49 tiles';}
+search.addEventListener('input',filter);family.addEventListener('change',filter);filter();
+</script></html>

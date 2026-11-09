@@ -1,0 +1,31 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, keeping its exact silhouette, positions, sizes, openings and orthographic views. This is a production paint + material mask view atlas of Fre's Chain Boots.\nInputs: paint_mask_guide.png is the edit target and sole authority for geometry/layout; design_reference.png is approved material/detail reference; icon_x8.png is original colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 3:4 canvas, 1536x2048 if possible. Three columns and FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the exact same five views: FRONT (pair), BACK (pair), LEFT (one side profile) / RIGHT (opposite side profile), TOP (pair), empty. Preserve every guide object exactly. Do not redraw, enlarge, move, redesign or change camera.\nRows 1-2 PAINT ONLY: unlit base colour, tall boots of fine bronze-gold chain mail reaching up the calf, dark-green leather rim with gold band at the top, dark-green leather welt and gold band around the sole. Dark brown leather interior where guide has visible interior surfaces. Follow design reference detail scaled to views; fine chain mail covers shaft and foot. No lighting, cast shadows, ambient occlusion, hot highlights, reflections.\nRows 3-4 MATERIAL MASK ONLY: identical five silhouettes filled with flat pure colours, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 for ALL metal including chainmail and gold bands (solid red areas, no chain-link pattern). Pure green #00FF00 for all leather including green rim, welt, sole and brown inner leather. Pure blue #0000FF only for cloth/lining if cloth; pure yellow #FFFF00 only matte nonmetal solids. Every silhouette pixel gets exactly one material colour, no pixels outside silhouettes.\nAll background and existing gaps/openings remain fully transparent. Visible inner boot surfaces are surfaces, preserve their shape. Column 3 rows 2 and 4 stay completely empty transparent. No text, outlines, ground, glow, sparkles, aura, grid, labels. Paint only existing grey objects.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-1772-7880-a385-31cae5871c26/exec-4cf6584e-4633-464f-a98d-b7e358db270d.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10238/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_attempt": {
+    "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png, keeping its exact silhouette, positions, sizes, openings and orthographic views. This is a production paint + material mask view atlas of Fre's Chain Boots.\nInputs: paint_mask_guide.png is the edit target and sole authority for geometry/layout; design_reference.png is approved material/detail reference; icon_x8.png is original colour reference (magenta is background, never paint magenta).\nOutput ONE transparent PNG, 3:4 canvas, 1536x2048 if possible. Three columns and FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the exact same five views: FRONT (pair), BACK (pair), LEFT (one side profile) / RIGHT (opposite side profile), TOP (pair), empty. Preserve every guide object exactly. Do not redraw, enlarge, move, redesign or change camera.\nRows 1-2 PAINT ONLY: unlit base colour, tall boots of fine bronze-gold chain mail reaching up the calf, dark-green leather rim with gold band at the top, dark-green leather welt and gold band around the sole. Dark brown leather interior where guide has visible interior surfaces. Follow design reference detail scaled to views; fine chain mail covers shaft and foot. No lighting, cast shadows, ambient occlusion, hot highlights, reflections.\nRows 3-4 MATERIAL MASK ONLY: identical five silhouettes filled with flat pure colours, no shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 for ALL metal including chainmail and gold bands (solid red areas, no chain-link pattern). Pure green #00FF00 for all leather including green rim, welt, sole and brown inner leather. Pure blue #0000FF only for cloth/lining if cloth; pure yellow #FFFF00 only matte nonmetal solids. Every silhouette pixel gets exactly one material colour, no pixels outside silhouettes.\nAll background and existing gaps/openings remain fully transparent. Visible inner boot surfaces are surfaces, preserve their shape. Column 3 rows 2 and 4 stay completely empty transparent. No text, outlines, ground, glow, sparkles, aura, grid, labels. Paint only existing grey objects.\nCORRECTIVE REGENERATION: The previous attempt had unacceptable red/green splatter outside the bottom-half silhouettes. All silhouettes must have clean exact guide boundaries, with absolutely no speckles or paint outside them. Material mask must be truly flat pure RGB fills, without dark edge lines inside or gradients. Preserve gold bands as red metal in the mask. Use the original grey guide as exact geometry, not an approximate redraw.",
+    "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-1772-7880-a385-31cae5871c26/exec-0c164395-f71b-4424-a7dd-622a34c70de8.png",
+    "selected": false
+  },
+  "validation": "Both attempts contain stray mask pixels outside silhouettes and non-flat mask colours. First selected as cleaner raw output. Not compliant with exact mask requirements.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10238/paint_mask_guide.png",
+      "sha256": "dea70a57791ca19ab94523b9cf59d513a75008da0d538276d82ee189f23e69cd"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10238/design_reference.png",
+      "sha256": "77ebc4de36543231168a6c8c3b07095aa282f2d064c3b417207f5abb2e55ccd1"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10238/icon_x8.png",
+      "sha256": "d7baf85c0f68e1600a2d5f1bbe32ac3dc7c0f6411805da0816af6110bb8f2a3e"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

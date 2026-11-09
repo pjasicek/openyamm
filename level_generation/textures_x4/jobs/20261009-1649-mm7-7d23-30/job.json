@@ -1,0 +1,441 @@
+{
+ "id": "20261009-1649-mm7-7d23-30",
+ "world": "mm7",
+ "maps": [
+  "7d23.blv",
+  "7out15.odm",
+  "7d27.blv",
+  "mdt14.blv"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/sfw1b",
+  "mm7/a2c",
+  "mm7/sfw1a",
+  "mm7/7effpar03",
+  "mm7/a1b",
+  "mm7/a2b",
+  "mm7/a2j",
+  "mm7/a4b",
+  "mm7/a4b_k01",
+  "mm7/hive19",
+  "mm7/lightmap",
+  "mm7/sfpnloff",
+  "mm7/sfpnlon",
+  "mm7/sfw7b",
+  "mm7/7solid03",
+  "mm7/hive17",
+  "mm7/hive20",
+  "mm7/hive22",
+  "mm7/hive8",
+  "mm7/c2b1"
+ ],
+ "requests": {
+  "mm7/sfw1b": {
+   "name": "sfw1b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey starship wall of dense horizontal steel vent slats, thin pipes and conduit rails; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/sfw3"
+     ],
+     "fraction": 0.136
+    },
+    "2": {
+     "sources": [
+      "mm7/sfw3"
+     ],
+     "fraction": 0.136
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/a2c": {
+   "name": "a2c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mottled grey cast metal wall plate with grime darkening toward the bottom, under a band of ribbed segmented metal pipes and hanging dark cables along the top, with a column of curved horizontal metal fins along the left, and a short column of small vent slots beside a tall ribbed vertical metal pipe on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/a2h"
+     ],
+     "fraction": 0.2
+    },
+    "2": {
+     "sources": [
+      "mm7/a2h"
+     ],
+     "fraction": 0.2
+    }
+   }
+  },
+  "mm7/sfw1a": {
+   "name": "sfw1a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark green-tinted starship wall of dense horizontal steel vent slats, thin pipes and conduit rails; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "3": "keep every horizontal pipe, bar and dark gap at exactly the height and thickness of the reference, with the small green-lit strips where the reference has them; the top and bottom edges continue each other seamlessly; no pale or dark line along any edge",
+    "4": "keep every horizontal pipe, bar, bracket and dark gap at exactly the height and thickness of the reference; the rows are unevenly spaced exactly as in the reference, not a regular grid; the top and bottom edges continue each other seamlessly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/sfw1b"
+     ],
+     "fraction": 0.125
+    },
+    "2": {
+     "sources": [
+      "mm7/sfw1b"
+     ],
+     "fraction": 0.125
+    },
+    "3": {
+     "sources": [
+      "mm7/sfw1b"
+     ],
+     "fraction": 0.125
+    },
+    "4": {
+     "sources": [
+      "mm7/sfw1b"
+     ],
+     "fraction": 0.125
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   },
+   "ref_blur": {
+    "4": 0.8
+   }
+  },
+  "mm7/7effpar03": {
+   "name": "7effpar03",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "soft round white glow fading smoothly to black",
+   "notes": {
+    "2": "keep the glow exactly the size and centred position of the reference: a small intense pure white core at the exact centre, smooth radial falloff reaching black well inside the square, black corners and edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/a1b": {
+   "name": "a1b",
+   "versions": [
+    1
+   ],
+   "material": "alien biomechanical wall pillar of dark purple-grey steel ribs and claw-like brackets around a glowing bright green tube in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/a2b": {
+   "name": "a2b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "mottled grey cast metal wall plate with grime darkening toward the bottom, under a band of ribbed segmented metal pipes and hanging dark cables along the top, with a tall ribbed vertical metal pipe beside a short column of small vent slots on the left, and a column of curved horizontal metal fins along the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/a2j": {
+   "name": "a2j",
+   "versions": [
+    1
+   ],
+   "material": "mottled grey cast metal wall plating with faint grime stains",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/a4b": {
+   "name": "a4b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "alien biomechanical machinery of purple-grey steel ribs and armoured plates around a glowing cyan energy core, with green grille panels behind; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "the glowing cyan bar at the top edge has a crisp hard lower and upper edge with no glow halo: the dark green stone rows along the bottom edge stay dark green right to the last pixel row, with no cyan tint or light spill"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     156
+    ],
+    "4": [
+     0,
+     156
+    ]
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/a4b_k01": {
+   "name": "a4b_k01",
+   "versions": [
+    1
+   ],
+   "material": "three stacked dark charcoal steel panels with fine vertical ribs and thin bright seams between them; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive19": {
+   "name": "hive19",
+   "versions": [
+    1
+   ],
+   "material": "rough orange and salmon organic hive crust with fine wrinkles and pitted resin",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/lightmap": {
+   "name": "lightmap",
+   "versions": [
+    1
+   ],
+   "material": "large soft round white glow fading smoothly to black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sfpnloff": {
+   "name": "sfpnloff",
+   "versions": [
+    1
+   ],
+   "material": "dark steel starship wall console with a blank dark grey glass screen, a vertical slot on the left and three green buttons on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sfpnlon": {
+   "name": "sfpnlon",
+   "versions": [
+    1
+   ],
+   "material": "dark steel starship wall console with a lit green wireframe graph display, green zigzag indicators on the left and three glowing green buttons on the right; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sfw7b": {
+   "name": "sfw7b",
+   "versions": [
+    1
+   ],
+   "material": "three stacked dark green steel panels with fine vertical ribs and thin seams between them; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7solid03": {
+   "name": "7solid03",
+   "versions": [
+    1
+   ],
+   "material": "flat uniform bright green glowing panel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive17": {
+   "name": "hive17",
+   "versions": [
+    1
+   ],
+   "material": "rough tan and rusty orange organic hive crust with fine wrinkles and pitted resin",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive20": {
+   "name": "hive20",
+   "versions": [
+    1
+   ],
+   "material": "rough orange and salmon organic hive crust with fine wrinkles and pitted resin",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive22": {
+   "name": "hive22",
+   "versions": [
+    1
+   ],
+   "material": "rough orange and salmon organic hive crust with fine wrinkles and pitted resin",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hive8": {
+   "name": "hive8",
+   "versions": [
+    1
+   ],
+   "material": "dark rusty red-brown organic hive crust with fine wrinkles and pitted resin",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/c2b1": {
+   "name": "c2b1",
+   "versions": [
+    1
+   ],
+   "material": "rough dark brown and black mottled cave rock",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/c2b"
+     ],
+     "fraction": 0.386
+    }
+   }
+  }
+ }
+}

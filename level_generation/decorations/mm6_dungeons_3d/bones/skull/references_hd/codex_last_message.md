@@ -1,0 +1,4 @@
+Saved the five transparent views in [references_hd](/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd), plus the [contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/selected_views_review.png) and [prompts/hash ledger](/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skull/references_hd/generation_runs.json).
+
+The brief remains partly unmet: every built-in return was **1254 × 1254**, and framing varies. Files remain unresized.
+No builds or Meshy calls were made.

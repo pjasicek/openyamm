@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC01 original-assembly restoration trial</title>
+  <style>
+    body { margin: 0 auto; padding: 24px; max-width: 1500px; background: #172126; color: #edf2f2;
+      font: 16px/1.5 system-ui, sans-serif; }
+    h1, h2 { line-height: 1.2; }
+    a { color: #a9dfff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    figure { margin: 0; padding: 12px; background: #253137; border: 1px solid #52616a; }
+    figure img { display: block; width: 100%; height: auto; object-fit: contain; }
+    figcaption { margin-top: 10px; }
+    .portrait { max-width: 240px; }
+    .wide { max-width: 900px; }
+  </style>
+</head>
+<body>
+  <h1>PC01 restored from the assembled original</h1>
+  <p>The original body and both original empty-hand limbs were placed at the game-table offsets before
+    generation. The assigned avatar guided the face. All generated art here is a review trial.</p>
+  <div class="grid">
+    <figure><img src="original_assembled_empty_x4.png" alt="Original assembled PC01 empty-hand pose">
+      <figcaption>Original body and limbs assembled at the game offsets. This was the edit target.</figcaption></figure>
+    <figure><img src="raw_detail_repaint_v5.png" alt="New high-detail generated full PC01 doll">
+      <figcaption>New high-detail full-figure return. Complete hands and continuous bracers; still unapproved.</figcaption></figure>
+    <figure class="portrait"><img src="../assigned_portrait_original_x4.png" alt="Assigned original avatar">
+      <figcaption>Assigned original avatar used for face identity.</figcaption></figure>
+  </div>
+  <h2>Detail improvement</h2>
+  <div class="grid">
+    <figure><img src="raw_quality_refined_v4.png" alt="Previous lower-detail return">
+      <figcaption>Previous v4 still has enlarged source-pixel texture.</figcaption></figure>
+    <figure><img src="raw_detail_repaint_v5.png" alt="New detail repaint">
+      <figcaption>New v5 repaints the skin, hair, bracers, trousers and leather at finer detail.</figcaption></figure>
+  </div>
+  <figure class="wide"><img src="v4_v5_detail_comparison.png" alt="V4 and V5 upper-body detail comparison">
+    <figcaption>Equal-size detail crop: v4 on the left, v5 on the right. Open
+      <a href="raw_detail_repaint_v5.png">v5 at full resolution</a> for inspection.</figcaption></figure>
+  <h2>Fit against the current limb canvases</h2>
+  <figure class="wide"><img src="fit_original_vs_v5_boxes.png" alt="Original and V5 fitted to the game stage with sprite rectangles">
+    <figcaption>Left: original assembly. Right: diagnostic v5 fit. Red marks
+      <code>pc01rhd</code>; blue marks <code>pc01lhu</code>; olive marks the body.
+      Both limb rectangles still meet visible pixels at their lower edges, and the red rectangle
+      also meets visible pixels on its right edge. This is a preview, not a drop-in extraction.</figcaption></figure>
+  <p><a href="README.md">Method and current status</a> ·
+    <a href="raw_original_assembly_v2.png">First assembled-original return</a> ·
+    <a href="submitted_prompts.md">Submitted prompts</a></p>
+</body>
+</html>

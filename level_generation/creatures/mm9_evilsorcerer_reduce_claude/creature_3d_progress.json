@@ -1,0 +1,25 @@
+{
+  "creature_3d_identity": "mm9reduce:evilsorcerer",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 100
+  },
+  "reduction": {
+    "creature": "mm9_evilsorcerer",
+    "stage": "fix-pass candidate ready for review (chart guard, UV audit 0)",
+    "date": "2026-11-04",
+    "lod0_before": 13348,
+    "lod0_after": 9782,
+    "lods_after": [
+      4890,
+      1756,
+      578
+    ],
+    "config": "h r47 (mpqem, MP_CHART=1)",
+    "credits": 0,
+    "rollback": "before/mm9_evilsorcerer.glb",
+    "candidate": "export/mm9_evilsorcerer.glb",
+    "installed": false,
+    "previous": "f r75 (MeshLab) installed and rolled back 2026-11-04"
+  }
+}

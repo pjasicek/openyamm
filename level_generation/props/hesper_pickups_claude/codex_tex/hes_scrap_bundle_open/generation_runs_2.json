@@ -1,0 +1,133 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations": 1,
+  "status": "requirements_not_fully_met",
+  "selection_note": "paint_back.png is the best available unmodified return, not an acceptance of exact brief compliance. No resizing, alpha replacement or image postprocessing was performed.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: 1024 x 1024 transparent RGBA albedo texture-source painting of the BACK VIEW of the opened Kreegan scrap bundle.\n\nInput image 1 (guide_back.png) is the EDIT TARGET and the absolute geometry, silhouette, camera, scale, position and edge authority. Input image 2 (design_reference.png) is the approved design, colour and material authority ONLY. Input image 3 (concept_crop.png) is the original concept, a secondary material/design reference ONLY.\n\nPaint materials onto image 1 without changing its geometry. Return a native 1024 x 1024 image. Keep the guide's silhouette EXACTLY, including every angular edge, folded sheet, strand, opening and detail. Retain its transparent alpha silhouette, with the same object size and position in the full square canvas. Object bounding box in the guide is x=69..954 and y=325..698: keep this precise placement and all the large empty transparent margins. Preserve the low orthographic BACK view, NOT the three-quarter front view from the design references. Do not rotate, crop, enlarge, shrink, recenter, round off, smooth, re-sculpt, or invent any geometry. Preserve both open curled end shapes, the high thin upright tip near the upper right, the layered diagonal planes across the near back wall, the low pointed bottom edge, and the exact see-through openings along the upper middle and at both ends. All openings stay truly transparent. Paint within the provided shapes only, no added ornaments or objects.\n\nSurface materials: dull black-violet Kreegan resin sheets and strands with fine ridges, matching the dark muted purple resin in the approved design. Restrained fine orange seams/cracks as in the reference, painted at their glowing colour only with zero spill, halo or bloom. A pale ivory bone claw and warm gold ring belong only to their corresponding existing guide surfaces if visible from this back camera; do not add a front-facing claw or ring absent from this back-view geometry. Keep the broad layered resin surfaces and detailed material grain readable; use the reference's surface palette without its rendered illumination.\n\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Use even, flat, shadowless light from the viewer across every visible surface. No cast shadows, no ambient-occlusion darkening in folds or cavities, no strong specular highlights or reflections, no rim light. No directional light gradients baked across the object. Gold uses flat gold material colours and bone uses flat pale ivory, without shiny white highlights. Material variation and fine ridges only, not lighting/shading. No background, floor, pedestal, ground shadow, black matte, checkerboard, text, captions, labels or watermark. Transparent background with true alpha. Output the single painted back view, unresized, at exactly 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "3ad5ea50704ee7aaa89edf7e7adc1d2bf211079199975c85b0405e9eb7a6140a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ad4-6a12-7e22-8c46-7df98216a1d9/exec-77272e97-22a0-4644-beb2-1685607cedd1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: native return is 1254 x 1254 instead of 1024 x 1024; guide silhouette/alpha is not identical; prominent edge highlights and dark folds violate flat albedo lighting. One corrective regeneration requested.",
+      "checks": {
+        "output": "paint_back_attempt_1.png",
+        "sha256": "91d49f6b63a0f052f592e0ad712675555ef7e721015ded0e8a1ac704ea8d9ebc",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          35,
+          1222,
+          1230
+        ],
+        "alpha_128_bbox": [
+          84,
+          397,
+          1171,
+          857
+        ],
+        "fully_transparent_pixels": 1235273,
+        "fully_opaque_pixels": 752,
+        "exact_dimensions_pass": false,
+        "exact_guide_alpha_pass": false,
+        "diagnostic_normalized_silhouette_iou": 0.9726093835345526,
+        "diagnostic_note": "Only an in-memory nearest-neighbour alpha mask was normalized for comparison; the saved PNG is the unmodified, unresized tool return.",
+        "materials_and_colours": "Dark black-violet resin with fine purple surface ridges and orange seams broadly follows the reference. No front claw/ring was added to the back-view geometry.",
+        "flat_even_light_pass": false,
+        "flat_even_light_reason": "Bright edges and dark creases remain baked into the colour.",
+        "transparent_background_pass": true,
+        "transparency_caveat": "True RGBA background transparency exists, but low-alpha stray pixels outside the intended silhouette and differing edge coverage prevent exact guide-alpha compliance."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the single permitted correction. Produce one PNG at EXACTLY 1024 x 1024 pixels, native generation dimensions, true transparent alpha. The prior return was incorrectly 1254 x 1254 and too directionally shaded. Those defects must be corrected. The square canvas MUST be 1024 x 1024, matching input 1 pixel for pixel. This is a technical texture-paint edit, not a lit illustration.\n\nInput 1 guide_back.png is the edit target. Lock its entire 1024 x 1024 canvas, alpha mask, outline, cutouts, silhouette, scale, placement, camera and EVERY existing shape edge. Preserve each guide pixel's alpha exactly. Do not redraw or redesign the silhouette. Paint only the RGB material colours within this existing guide. Keep all transparent pixels fully clear; no stray semi-transparent coloured specks outside the object.\nInput 2 design_reference.png is ONLY the material and colour reference, not the camera or geometry.\nInput 3 concept_crop.png is a secondary original-design reference only.\n\nPaint the exact BACK orthographic view of the opened Kreegan scrap bundle in input 1. Retain every fold, planar sheet, strand, pointed tip and both open curled ends exactly where they are in input 1. Keep every opening transparent, especially the two central openings along the upper rim and the openings in the ends. Retain the guide's full empty top and bottom margins. Bounding box at 1024 resolution: left 69, top 325, right exclusive 955, bottom exclusive 699. Do not fill the frame, zoom, recenter, rotate, resize, round edges, invent structures, add ornaments, or switch to the design reference's three-quarter front view.\n\nTransfer dull black-violet Kreegan resin sheets and strands, muted fine purple ridges and subtle sparse orange hairline seams from the approved design onto these existing planes. Fine surface grain, restrained colours. Where the actual guide shows the corresponding detail, use pale ivory bone and flat warm gold for the claw/ring; never add a front claw or gold ring that is hidden in this back camera. No invented geometry.\n\nALBEDO ONLY: even, flat, shadowless viewer-facing illumination across ALL faces, including creases, undersides and narrow side faces. Use a consistent muted dark black-violet base colour on all resin faces. Show material grain/fine ridges with very low contrast pigment variation; not sculptural light and shade. No dark ambient-occlusion bands, blackened recesses, cast shadows, light-facing pale edges, white highlights, reflections, rim lighting or dramatic volume rendering. Orange seams are painted their own orange colour without illuminating adjacent pixels, without glow or bloom. Gold and ivory are flat material pigment colours with no specular highlights. No background, floor, ground plane, shadow, opaque matte, checkerboard, labels, text or watermark.\n\nReturn exactly one raw 1024 x 1024 RGBA PNG, preserving the guide's exact silhouette and alpha, suitable for texture projection.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "3ad5ea50704ee7aaa89edf7e7adc1d2bf211079199975c85b0405e9eb7a6140a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ad4-6a12-7e22-8c46-7df98216a1d9/exec-fce15523-34a7-4328-b813-6bc7f72ab32b.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the closer raw return: normalized silhouette IoU improves from 0.972609 to 0.981917. Still fails required native 1024 x 1024 dimensions, exact guide silhouette/alpha and fully flat albedo lighting. Saved byte-for-byte without resizing as required. The permitted single corrective regeneration is exhausted.",
+      "checks": {
+        "output": "paint_back.png",
+        "sha256": "59ef9d61667d6aa7efef8983bbec07e4c35e9679ff99187b0bc0f5975319cb72",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          85,
+          1176,
+          1214
+        ],
+        "alpha_128_bbox": [
+          83,
+          396,
+          1171,
+          855
+        ],
+        "fully_transparent_pixels": 1240253,
+        "fully_opaque_pixels": 714,
+        "exact_dimensions_pass": false,
+        "exact_guide_alpha_pass": false,
+        "diagnostic_normalized_silhouette_iou": 0.9819167484446307,
+        "diagnostic_note": "Only an in-memory nearest-neighbour alpha mask was normalized for comparison; the saved PNG is the unmodified, unresized tool return.",
+        "materials_and_colours": "Dark black-violet resin, subtle purple grain/ridges and sparse orange seams broadly match the material reference. No additional claw/ring geometry was invented.",
+        "flat_even_light_pass": false,
+        "flat_even_light_reason": "Directional facet shading, dark creases and lighter edges remain.",
+        "transparent_background_pass": true,
+        "transparency_caveat": "True RGBA background transparency exists, but low-alpha stray pixels outside the intended silhouette and differing edge coverage prevent exact guide-alpha compliance."
+      }
+    }
+  ]
+}

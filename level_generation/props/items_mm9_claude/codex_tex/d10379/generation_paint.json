@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit the provided paint_mask_guide.png exactly, using design_reference.png as material/detail reference and icon_x8.png as original colour reference (magenta is background, never paint magenta). Output ONE transparent PNG 1536x2048, 3:4 canvas. Preserve guide pixel placement, size, outlines, gaps and openings exactly. Three columns by FOUR rows of 512x512 cells. Rows 1-2 have FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat those exact five views for masks. Paint only existing guide silhouettes. Do not redraw, enlarge, move or redesign.\nObject: source-faithful upright broken glass jar, smoky grey glass, jagged broken rim, thick rounded glass bottom, worn pale bone-coloured skull emblem on front as in references. Follow reference details scaled to views. Rows 1-2: UNLIT BASE COLOUR ONLY, no lighting, cast shadows, ambient occlusion, hot highlights or reflections. Preserve glass's grey/olive colour and fine wear; front skull emblem only where appropriate, other views consistent with this same jar. No glow, sparkles, aura, ground, outlines or text. Keep all guide gaps/openings fully transparent.\nRows 3-4 MATERIAL MASK: identical five silhouettes filled with FLAT pure colours only, no shading, texture, outlines, antialiased colour blends inside. Pure red #FF0000 every metal; pure green #00FF00 leather and fur; pure blue #0000FF cloth and hair; pure yellow #FFFF00 matte nonmetal solid wood/bone/horn/stone/parchment/paper/wax; pure black #000000 every gemstone/crystal/GLASS/pearl/enamel/liquid seen through glass. This is a GLASS jar: mask glass pure opaque BLACK, including its bottom and broken rim; a painted/enamel skull on glass is also black, not actual bone. Every pixel inside silhouette exactly one material colour. Nothing outside. Empty column 3 in row 2 and row 4 fully transparent. Mask black is opaque and must remain distinguishable from transparent background. Preserve exact guide arrangement and silhouettes.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10379/paint_mask_guide.png",
+      "sha256": "119889d1cd968e936c136f2d4f3d3402d27db668cb9a056409541fb128dac174"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10379/design_reference.png",
+      "sha256": "56d60f7fd6f64e34ea9292f7118faec23163a4905bab25c881d3f97eefbccfdf"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10379/icon_x8.png",
+      "sha256": "bacdb8b91c166594a24e36fa83d2a21df64f8cb59f6e7f85d4d45fa89c15f09b"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad11-f637-7072-996a-d5659d3865ca/exec-6d31f448-b94e-4af9-a772-aec7fb3fa80e.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10379/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "notes": [
+    "Raw generated output preserved without modification. Material mask contains near-black values rather than exclusively pure black."
+  ]
+}

@@ -1,0 +1,11 @@
+# Monk acceptance — 2026-09-11
+
+Accepted for offline staging: all 57 unique native images, 56 referenced and the unused `mnk1wie0`. Native sequences retain their repeated images, timing, action bindings, stored views and mirror aliases; the unused pose is not added to playback.
+
+Reviewed every raw action/view sheet against the native references, all final base images and mask overlays, the three standing palettes, native-ordered action contacts, and light/dark edge patches. The offline viewer was captured for the red casting pose and a mirrored brown walk frame. This establishes pose/sequence/metadata checks, not tested engine installation or a claim of continuous gameplay playback.
+
+Corrections retained in provenance: the initial ornate-looking cloth was revised toward a plain dark robe before generating actions. A fixed masked lower-robe gain of 0.80 restores the original darker skirt weight. The robe coverage excludes low-saturation grey hands, rope and green casting effects. Initial palette fitting included pale highlights and produced a dull red: fitting now uses native-used saturated blue cloth colors weighted by actual native pixel counts. The resulting brown/red appearances were compared again with the originals in the viewer.
+
+All quick validations pass: source and generation hashes, 57/57 source coverage, no clipped extraction, exact crop reconstruction and atlas extraction, preserved alpha, unchanged zero-mask pixels, base bypass, native sequences and zero magenta-spill candidates above 16 at all three stages. Spell filaments and hood/hem silhouettes survive extraction; green effects occur only in the native casting poses.
+
+Limitations: cloth folds and fine weave are interpretations of low-resolution artwork, with some local texture variation between sheets. The green spell filaments are clearer/thicker than the original stippled effect; the underlying sleeve colors near green illumination are approximate. Native palette differences are approximated by one fixed cloth luminance vector per variant; pale hands and rope stay protected. Alpha is estimated from the magenta matte. See generation.json for actual raw dimensions; 2× export may include resampling. No gameplay installation or GPU-performance claim.

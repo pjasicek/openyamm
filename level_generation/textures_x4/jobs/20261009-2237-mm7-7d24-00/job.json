@@ -1,0 +1,94 @@
+{
+ "id": "20261009-2237-mm7-7d24-00",
+ "world": "mm7",
+ "maps": [
+  "7d24.blv"
+ ],
+ "created": "2026-10-09T20:37:29+00:00",
+ "textures": [
+  "mm7/hdm1d"
+ ],
+ "requests": {
+  "mm7/hdm1d": {
+   "name": "hdm1d",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a carved round stone arch with a spoked rosette ornament above an arched dark wooden plank door with carved iron bands and a small barred window; copy the composition exactly",
+   "notes": {
+    "1": "keep the door, its arch, the rosette and the window exactly at the reference's size and height: the arch tip and the rosette sit exactly where the reference has them, nothing lower or larger; the top pale stone band reaches the top edge",
+    "2": "keep the door, arch, rosette and barred window at exactly the reference's size and height, nothing moved down; the image starts at the top edge with the thin pale tan stone band, lit to the very first row, then a dark band beneath it",
+    "3": "keep the door, arch, rosette and barred window at exactly the reference's size and position; the thin pale tan stone band with a dark band beneath it is exactly where the reference shows it",
+    "4": "keep the door, arch, rosette and barred window at exactly the reference's size and position; the thin pale tan stone band with a dark band beneath it is exactly where the reference shows it",
+    "5": "keep the door, arch, rosette and barred window at exactly the reference's size and position; the thin pale tan stone band with a dark band beneath it is exactly where the reference shows it"
+   },
+   "standalone": true,
+   "match_neighbor": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hdm1b",
+     "left": "mm7/hdm1elw"
+    },
+    "2": {
+     "right": "mm7/hdm1b",
+     "left": "mm7/hdm1elw"
+    },
+    "3": {
+     "right": "mm7/hdm1b",
+     "left": "mm7/hdm1elw"
+    },
+    "4": {
+     "right": "mm7/hdm1b",
+     "left": "mm7/hdm1elw"
+    },
+    "5": {
+     "right": "mm7/hdm1b",
+     "left": "mm7/hdm1elw"
+    }
+   },
+   "border": "edge",
+   "roll": {
+    "3": [
+     0,
+     128
+    ],
+    "5": [
+     0,
+     128
+    ]
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  }
+ }
+}

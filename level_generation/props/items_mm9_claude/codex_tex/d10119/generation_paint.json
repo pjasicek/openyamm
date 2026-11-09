@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png edit target exactly following this brief. Other inputs: design_reference.png is material/detail reference; icon_x8.png is colour reference (magenta is background, never paint magenta). Output ONE transparent PNG 1536x2048 or nearest 3:4 size. Preserve the guide's three columns by FOUR rows, each original silhouette's exact position, size, outline and view. Rows 1-2 and 3-4 repeat FRONT, BACK, LEFT / RIGHT, TOP, empty. Do not redraw, enlarge, move, or redesign geometry. Rows 1-2: paint unlit base colour of a tall rounded plain polished silver steel barbute enclosing head with T-shaped face opening, two dark eye slits joined to vertical mouth slot. Use reference's silver steel colour and subtle wear detail, without its lighting: no hot highlights, reflections, shadows, ambient occlusion. Plain, no trim. Keep gaps/openings exactly as guide and fully transparent; visible interior metal surfaces remain metal. Rows 3-4: identical five silhouettes as material classification masks, FLAT pure #FF0000 for all metal including inner metal. No shading, texture, outlines or antialiased colour blends inside. If any other materials genuinely appear: leather/fur #00FF00, cloth/hair #0000FF, gem/glass/enamel/liquid #000000, matte non-metal solids #FFFF00; this helmet is plain steel so masks should be red. Nothing outside silhouettes. Column 3 of rows 2 and 4 empty transparent. No lighting, cast shadows, glow, aura, sparkles, ground, outlines or text. Preserve exact guide registration. Output raw generated PNG.\nCORRECTION: The previous attempt had red splatter outside the five lower silhouettes. Absolutely forbid any splatter/noise outside objects. Transparent background must be completely empty across all gutters and empty cells. Lower five objects must be solid uniform flat pure red cutouts, not shaded red objects. Use the original guide again for exact silhouettes. Keep only the ten precisely registered objects.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10119/paint_mask_guide.png",
+      "sha256": "f71cf2860d0c8c20f61f3b4ef9d39f584d0142a327d8cebbdad218f55f5cf721"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10119/design_reference.png",
+      "sha256": "a9929b804f1e6b41de398a67b079a5e31ed78f0aea8ab73e57704c1639b7dca9"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10119/icon_x8.png",
+      "sha256": "c8b3ec01959762fbb76f0d40f5e1748b755ff73178dddd68c11c58286d86c394"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad28-fa7d-7d61-9209-4c7a016fb83e/exec-db143c6e-5b26-4815-ab2b-b6652a7ade79.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10119/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual check failed: stray red pixels outside mask silhouettes remain after the single allowed correction. Raw tool output preserved without modification."
+}

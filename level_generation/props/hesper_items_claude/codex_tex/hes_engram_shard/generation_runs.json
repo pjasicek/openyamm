@@ -1,0 +1,532 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "maximum_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 3D game prop texture-source painting, NOT a beauty render.\nInput image 1 is the EDIT TARGET: an orthographic guide of the exact mesh, and the sole authority for its silhouette, pixel placement, size, projection, part boundaries and overlaps. Input image 2 is a MATERIAL/DESIGN REFERENCE ONLY, never a pose or composition reference.\nPaint over image 1, changing ONLY surface colour and texture inside its existing opaque silhouette. Preserve the guide's outer silhouette and alpha coverage EXACTLY, including all empty margins, pixel location and each part's edge. Output one 1024 x 1024 PNG with genuinely transparent alpha background.\nThe object is the Hesper engram shard, a colonial training memory sliver. Copy only materials that exist in the reference and guide: rich cool blue crystal with pale blue-white fine internal fractures and subtle cloudy mineral inclusions, warm brushed antique gold with fine engraved seams and light wear, and warm white ivory ceramic with tiny worn hairlines. Guide tints merely identify materials; replace them with the approved reference colours. Crystal should read blue, not retain the guide's pale flat tint. Gold stays warm golden base colour with faint surface grain. Ceramic stays ivory white. Continue unseen surfaces plausibly, with the same material palette.\nLighting is completely even, flat, shadowless viewer-facing ALBEDO. Do not copy the reference's hot reflections. No cast shadows, ambient occlusion, darkened undersides, directional shading, strong highlights, reflections, rim lighting, exterior glow or bloom. Paint luminous crystal veins as fine bright blue-white colour ONLY inside the silhouette, with restrained brightness. Facets may have subtle inherent blue colour variation but no lighting gradient. Faint metal sheen only, no white metallic glare. All reference seams and wear are surface marks; no new geometry.\nNo text, letters, runes, numbers, watermark, floor, background, outlines, props, extra ornaments or additional views. Do not crop, zoom, recenter, resize, inflate, bend, rotate, extend or redesign the guide.\n\nVIEW-SPECIFIC EXACT PLACEMENT:\nFRONT end-on view. The entire object is a TINY shape in the middle of the canvas, with bounding box x=412..611, y=429..594, only 200 pixels wide and 166 pixels tall. KEEP ALL THAT EMPTY TRANSPARENT SPACE. It is seen along its long axis: do not draw the long crystal extending out of the silhouette. The broad faceted lower body is GOLD, with the small pale CERAMIC beveled rectangular cap at the top (around x=476..548,y=429..476) and only tiny CRYSTAL slivers at its edges, exactly as the guide shows. Match every projected face and overlap.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d0d8f7e020c0955a64127d0d60f12a6481134bc929c8e9747acd92fae9aa715b",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: larger guide/framing drift and stronger rendered highlights than the corrective return.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-5b4e9f11-63a1-40d2-861c-7b2095c8d0ea.png",
+      "output_sha256": "d86930ce0231c67352b8ff01c3df804c387d2790f8d058f431cf635b885346b4",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          105,
+          55,
+          1095,
+          1223
+        ],
+        "opaque_bbox": [
+          503,
+          544,
+          755,
+          749
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.757183,
+        "nonzero_alpha_pixels_outside_normalized_guide": 7319,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 3D game prop texture-source painting, NOT a beauty render.\nInput image 1 is the EDIT TARGET: an orthographic guide of the exact mesh, and the sole authority for its silhouette, pixel placement, size, projection, part boundaries and overlaps. Input image 2 is a MATERIAL/DESIGN REFERENCE ONLY, never a pose or composition reference.\nPaint over image 1, changing ONLY surface colour and texture inside its existing opaque silhouette. Preserve the guide's outer silhouette and alpha coverage EXACTLY, including all empty margins, pixel location and each part's edge. Output one 1024 x 1024 PNG with genuinely transparent alpha background.\nThe object is the Hesper engram shard, a colonial training memory sliver. Copy only materials that exist in the reference and guide: rich cool blue crystal with pale blue-white fine internal fractures and subtle cloudy mineral inclusions, warm brushed antique gold with fine engraved seams and light wear, and warm white ivory ceramic with tiny worn hairlines. Guide tints merely identify materials; replace them with the approved reference colours. Crystal should read blue, not retain the guide's pale flat tint. Gold stays warm golden base colour with faint surface grain. Ceramic stays ivory white. Continue unseen surfaces plausibly, with the same material palette.\nLighting is completely even, flat, shadowless viewer-facing ALBEDO. Do not copy the reference's hot reflections. No cast shadows, ambient occlusion, darkened undersides, directional shading, strong highlights, reflections, rim lighting, exterior glow or bloom. Paint luminous crystal veins as fine bright blue-white colour ONLY inside the silhouette, with restrained brightness. Facets may have subtle inherent blue colour variation but no lighting gradient. Faint metal sheen only, no white metallic glare. All reference seams and wear are surface marks; no new geometry.\nNo text, letters, runes, numbers, watermark, floor, background, outlines, props, extra ornaments or additional views. Do not crop, zoom, recenter, resize, inflate, bend, rotate, extend or redesign the guide.\n\nVIEW-SPECIFIC EXACT PLACEMENT:\nBACK end-on view. The entire object is a TINY shape in the middle of the canvas, with bounding box x=412..611, y=429..594, only 200 pixels wide and 166 pixels tall. KEEP ALL THAT EMPTY TRANSPARENT SPACE. It is seen along its long axis: do not draw the long crystal extending out of the silhouette. The broad six-sided faceted central silhouette is BLUE CRYSTAL, approximately x=412..611,y=457..588, with exposed GOLD slivers behind its edges and a pale CERAMIC beveled rectangular cap at the top (around x=476..548,y=429..457). Match every projected face and overlap.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "96ace652125b15d93ae4a16c74e7ee6da3773d13c89a9ee8199b8db4cbc586f0",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: larger guide/framing drift and stronger rendered highlights than the corrective return.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-faeef4e4-7f07-41b1-a3dc-bf302337e48a.png",
+      "output_sha256": "c7cffe510dca1b129a6c3a526a9c9906ddfa09f987aaf6c793963967aa3e3fab",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1222,
+          1230
+        ],
+        "opaque_bbox": [
+          473,
+          522,
+          782,
+          788
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.591691,
+        "nonzero_alpha_pixels_outside_normalized_guide": 26274,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 3D game prop texture-source painting, NOT a beauty render.\nInput image 1 is the EDIT TARGET: an orthographic guide of the exact mesh, and the sole authority for its silhouette, pixel placement, size, projection, part boundaries and overlaps. Input image 2 is a MATERIAL/DESIGN REFERENCE ONLY, never a pose or composition reference.\nPaint over image 1, changing ONLY surface colour and texture inside its existing opaque silhouette. Preserve the guide's outer silhouette and alpha coverage EXACTLY, including all empty margins, pixel location and each part's edge. Output one 1024 x 1024 PNG with genuinely transparent alpha background.\nThe object is the Hesper engram shard, a colonial training memory sliver. Copy only materials that exist in the reference and guide: rich cool blue crystal with pale blue-white fine internal fractures and subtle cloudy mineral inclusions, warm brushed antique gold with fine engraved seams and light wear, and warm white ivory ceramic with tiny worn hairlines. Guide tints merely identify materials; replace them with the approved reference colours. Crystal should read blue, not retain the guide's pale flat tint. Gold stays warm golden base colour with faint surface grain. Ceramic stays ivory white. Continue unseen surfaces plausibly, with the same material palette.\nLighting is completely even, flat, shadowless viewer-facing ALBEDO. Do not copy the reference's hot reflections. No cast shadows, ambient occlusion, darkened undersides, directional shading, strong highlights, reflections, rim lighting, exterior glow or bloom. Paint luminous crystal veins as fine bright blue-white colour ONLY inside the silhouette, with restrained brightness. Facets may have subtle inherent blue colour variation but no lighting gradient. Faint metal sheen only, no white metallic glare. All reference seams and wear are surface marks; no new geometry.\nNo text, letters, runes, numbers, watermark, floor, background, outlines, props, extra ornaments or additional views. Do not crop, zoom, recenter, resize, inflate, bend, rotate, extend or redesign the guide.\n\nVIEW-SPECIFIC EXACT PLACEMENT:\nLEFT side orthographic view. Keep object HORIZONTAL, exactly spanning x=66..957,y=429..594. The long crystal points LEFT to (66,523); its broad side runs approximately x=276..683,y=457..588, then narrows to its mount around x=752,y=523. The GOLD mount stays on the RIGHT, x=752..957,y=453..594. Its small raised CERAMIC tab stays above it, around x=796..914,y=429..476. Preserve the crystal's central horizontal facet edge y=523 and every existing outer contour and part junction. Do not rotate the shard, change its proportions, or turn it into an upright crystal.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "e843490028d07605837fe121b1c66d53dca69e5c0d87fc7598fdb28bc0919f69",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: larger guide/framing drift and stronger rendered highlights than the corrective return.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-dd1508cf-0824-42fc-a153-36a4d6a02152.png",
+      "output_sha256": "5d7ee4715d98f3f27eb9f613d56317c9bed44fa9f06b397c56bb0795e72e8bd8",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          45,
+          1204,
+          1254
+        ],
+        "opaque_bbox": [
+          64,
+          516,
+          1196,
+          750
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.820993,
+        "nonzero_alpha_pixels_outside_normalized_guide": 37693,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 3D game prop texture-source painting, NOT a beauty render.\nInput image 1 is the EDIT TARGET: an orthographic guide of the exact mesh, and the sole authority for its silhouette, pixel placement, size, projection, part boundaries and overlaps. Input image 2 is a MATERIAL/DESIGN REFERENCE ONLY, never a pose or composition reference.\nPaint over image 1, changing ONLY surface colour and texture inside its existing opaque silhouette. Preserve the guide's outer silhouette and alpha coverage EXACTLY, including all empty margins, pixel location and each part's edge. Output one 1024 x 1024 PNG with genuinely transparent alpha background.\nThe object is the Hesper engram shard, a colonial training memory sliver. Copy only materials that exist in the reference and guide: rich cool blue crystal with pale blue-white fine internal fractures and subtle cloudy mineral inclusions, warm brushed antique gold with fine engraved seams and light wear, and warm white ivory ceramic with tiny worn hairlines. Guide tints merely identify materials; replace them with the approved reference colours. Crystal should read blue, not retain the guide's pale flat tint. Gold stays warm golden base colour with faint surface grain. Ceramic stays ivory white. Continue unseen surfaces plausibly, with the same material palette.\nLighting is completely even, flat, shadowless viewer-facing ALBEDO. Do not copy the reference's hot reflections. No cast shadows, ambient occlusion, darkened undersides, directional shading, strong highlights, reflections, rim lighting, exterior glow or bloom. Paint luminous crystal veins as fine bright blue-white colour ONLY inside the silhouette, with restrained brightness. Facets may have subtle inherent blue colour variation but no lighting gradient. Faint metal sheen only, no white metallic glare. All reference seams and wear are surface marks; no new geometry.\nNo text, letters, runes, numbers, watermark, floor, background, outlines, props, extra ornaments or additional views. Do not crop, zoom, recenter, resize, inflate, bend, rotate, extend or redesign the guide.\n\nVIEW-SPECIFIC EXACT PLACEMENT:\nRIGHT side orthographic view. Keep object HORIZONTAL, exactly spanning x=66..957,y=429..594. The long crystal points RIGHT to (957,523); its broad side runs approximately x=340..747,y=457..588, then narrows into its mount around x=272,y=523. The GOLD mount stays on the LEFT, x=66..272,y=453..594. Its small raised CERAMIC tab stays above it, around x=110..228,y=429..476. Preserve the crystal's central horizontal facet edge y=523 and every existing outer contour and part junction. Do not rotate the shard, change its proportions, or turn it into an upright crystal.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "e53126dae75d40e2889a4034ad646259f1c7b9346ae8837a88cbdd4f8a82f403",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: larger guide/framing drift and stronger rendered highlights than the corrective return.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-0d049812-5035-418f-893a-f2d40b9d48f4.png",
+      "output_sha256": "2ff3138b73b949a66db8c512363297dd398c23fed158547cfb52c67bcc2faa2c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          23,
+          1216,
+          1254
+        ],
+        "opaque_bbox": [
+          57,
+          498,
+          1204,
+          726
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.779413,
+        "nonzero_alpha_pixels_outside_normalized_guide": 43346,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 3D game prop texture-source painting, NOT a beauty render.\nInput image 1 is the EDIT TARGET: an orthographic guide of the exact mesh, and the sole authority for its silhouette, pixel placement, size, projection, part boundaries and overlaps. Input image 2 is a MATERIAL/DESIGN REFERENCE ONLY, never a pose or composition reference.\nPaint over image 1, changing ONLY surface colour and texture inside its existing opaque silhouette. Preserve the guide's outer silhouette and alpha coverage EXACTLY, including all empty margins, pixel location and each part's edge. Output one 1024 x 1024 PNG with genuinely transparent alpha background.\nThe object is the Hesper engram shard, a colonial training memory sliver. Copy only materials that exist in the reference and guide: rich cool blue crystal with pale blue-white fine internal fractures and subtle cloudy mineral inclusions, warm brushed antique gold with fine engraved seams and light wear, and warm white ivory ceramic with tiny worn hairlines. Guide tints merely identify materials; replace them with the approved reference colours. Crystal should read blue, not retain the guide's pale flat tint. Gold stays warm golden base colour with faint surface grain. Ceramic stays ivory white. Continue unseen surfaces plausibly, with the same material palette.\nLighting is completely even, flat, shadowless viewer-facing ALBEDO. Do not copy the reference's hot reflections. No cast shadows, ambient occlusion, darkened undersides, directional shading, strong highlights, reflections, rim lighting, exterior glow or bloom. Paint luminous crystal veins as fine bright blue-white colour ONLY inside the silhouette, with restrained brightness. Facets may have subtle inherent blue colour variation but no lighting gradient. Faint metal sheen only, no white metallic glare. All reference seams and wear are surface marks; no new geometry.\nNo text, letters, runes, numbers, watermark, floor, background, outlines, props, extra ornaments or additional views. Do not crop, zoom, recenter, resize, inflate, bend, rotate, extend or redesign the guide.\n\nVIEW-SPECIFIC EXACT PLACEMENT:\nTOP directly overhead orthographic view. Keep the long thin object VERTICAL centered at x=512, exactly spanning x=412..611,y=66..957. BLUE CRYSTAL point at (512,66), widening to x=412..611 at y=278, its straight long body ends around y=683 then tapers to the GOLD mount around (512,752). The GOLD mount occupies approximately x=419..606,y=752..957, with the CERAMIC elongated beveled rectangular inset at x=477..546,y=797..912. Keep the three long crystal facet strips, their exact guide boundaries and the straight outline. Do not use the diagonal pose or irregular contour of the design reference.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "6a3370e8cf469e8f1f8e1e15934af1acb24c5b262f51971975ca37d7e16bc50a",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: slightly better normalized silhouette overlap, but much stronger rendered highlights and shading than the corrective return.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-2d0ada41-eb31-46b9-819b-4c6a8f7e99cf.png",
+      "output_sha256": "91af50e2e6ab58b66abf44a09d8d1304278bd20764c9cd0e11ade181af88a605",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1242,
+          1254
+        ],
+        "opaque_bbox": [
+          503,
+          70,
+          752,
+          1174
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.923694,
+        "nonzero_alpha_pixels_outside_normalized_guide": 27790,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. One corrective attempt for an orthographic texture-source painting.\nINPUT 1: approved design reference, MATERIAL COLOURS AND SURFACE DETAIL ONLY. INPUT 2 (the LAST image): the exact 1024 x 1024 orthographic GUIDE TO EDIT.\nReturn the EDITED LAST IMAGE at its original 1024 x 1024 canvas size, with its ORIGINAL ALPHA SILHOUETTE and empty transparent margins preserved exactly. This is an in-place surface repaint. Keep all contour vertices and part edges pixel-locked to input 2. Do not reconstruct the object or use the design reference's size, silhouette, pose, relief or lighting.\nCorrect the previous attempt's silhouette drift and rendered lighting by painting restrained flat diffuse BASE COLOUR over the original guide. There must be ZERO direction-of-light cues: no upper/lower brightness split, highlights, reflection, shadow, ambient occlusion, rim lighting or bloom. Imagine an unlit material pass with no scene lights at all. Preserve face boundaries with subtle material hue variation, not bright/dark illumination. All sides of the gold must be the same mid golden-ochre base colour, with very subtle fine brushed grain and sparse fine engraved hairline seams; NO bright bevel outlines, raised frames, black grooves or brown dark lower half. Ceramic is even ivory white with sparse tiny pale ochre hairline wear, no highlight or shadow border. Crystal is saturated medium cornflower/cobalt blue, with fine pale icy blue-white internal crackle and a little cloudy mineral mottling. Crystal colour should be even across the form, with only subtle inherent hue variation, never glowing white faces or darkened lower facets. This must still match the reference's blue crystal, warm gold and ivory ceramic, only without its lighting.\nThe geometry, occlusion order and material boundaries are exactly those of INPUT 2. Only the three present materials: crystal, gold and ceramic. No added collars, prongs or ornaments. Do not increase detail by adding relief. No text, letters, runes, numbers or watermark.\nOutside the guide silhouette, alpha must be precisely ZERO: no stray translucent specks, edge halo, exterior glow, floor or background. One square transparent PNG, 1024 x 1024.\nFRONT end-on view. The entire object is a TINY shape in the middle of the canvas, with bounding box x=412..611, y=429..594, only 200 pixels wide and 166 pixels tall. KEEP ALL THAT EMPTY TRANSPARENT SPACE. It is seen along its long axis: do not draw the long crystal extending out of the silhouette. The broad faceted lower body is GOLD, with the small pale CERAMIC beveled rectangular cap at the top (around x=476..548,y=429..476) and only tiny CRYSTAL slivers at its edges, exactly as the guide shows. Match every projected face and overlap.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "d0d8f7e020c0955a64127d0d60f12a6481134bc929c8e9747acd92fae9aa715b",
+          "role": "edit_target"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide framing and reduced highlights compared with attempt 1. The permitted one corrective regeneration is exhausted. Saved byte-for-byte, unresized; not accepted as an exact silhouette or fully flat albedo match.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-69c612b5-e9d3-41b0-a2e1-75d188098199.png",
+      "output_sha256": "67e7b452e75fbf3a61c6c03242ff4bf7b9324a1c32a6a0edca1f9a5b1885957d",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          21,
+          1216,
+          1196
+        ],
+        "opaque_bbox": [
+          503,
+          523,
+          751,
+          731
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.966173,
+        "nonzero_alpha_pixels_outside_normalized_guide": 4365,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      },
+      "remaining_limitations": [
+        "Tool returned 1254 x 1254 rather than requested 1024 x 1024; retained unresized as instructed.",
+        "Silhouette is not pixel-identical to guide; scattered low-alpha pixels extend outside the intended silhouette.",
+        "Some face brightness differences and shaded gold seams remain."
+      ]
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. One corrective attempt for an orthographic texture-source painting.\nINPUT 1: approved design reference, MATERIAL COLOURS AND SURFACE DETAIL ONLY. INPUT 2 (the LAST image): the exact 1024 x 1024 orthographic GUIDE TO EDIT.\nReturn the EDITED LAST IMAGE at its original 1024 x 1024 canvas size, with its ORIGINAL ALPHA SILHOUETTE and empty transparent margins preserved exactly. This is an in-place surface repaint. Keep all contour vertices and part edges pixel-locked to input 2. Do not reconstruct the object or use the design reference's size, silhouette, pose, relief or lighting.\nCorrect the previous attempt's silhouette drift and rendered lighting by painting restrained flat diffuse BASE COLOUR over the original guide. There must be ZERO direction-of-light cues: no upper/lower brightness split, highlights, reflection, shadow, ambient occlusion, rim lighting or bloom. Imagine an unlit material pass with no scene lights at all. Preserve face boundaries with subtle material hue variation, not bright/dark illumination. All sides of the gold must be the same mid golden-ochre base colour, with very subtle fine brushed grain and sparse fine engraved hairline seams; NO bright bevel outlines, raised frames, black grooves or brown dark lower half. Ceramic is even ivory white with sparse tiny pale ochre hairline wear, no highlight or shadow border. Crystal is saturated medium cornflower/cobalt blue, with fine pale icy blue-white internal crackle and a little cloudy mineral mottling. Crystal colour should be even across the form, with only subtle inherent hue variation, never glowing white faces or darkened lower facets. This must still match the reference's blue crystal, warm gold and ivory ceramic, only without its lighting.\nThe geometry, occlusion order and material boundaries are exactly those of INPUT 2. Only the three present materials: crystal, gold and ceramic. No added collars, prongs or ornaments. Do not increase detail by adding relief. No text, letters, runes, numbers or watermark.\nOutside the guide silhouette, alpha must be precisely ZERO: no stray translucent specks, edge halo, exterior glow, floor or background. One square transparent PNG, 1024 x 1024.\nBACK end-on view. The entire object is a TINY shape in the middle of the canvas, with bounding box x=412..611, y=429..594, only 200 pixels wide and 166 pixels tall. KEEP ALL THAT EMPTY TRANSPARENT SPACE. It is seen along its long axis: do not draw the long crystal extending out of the silhouette. The broad six-sided faceted central silhouette is BLUE CRYSTAL, approximately x=412..611,y=457..588, with exposed GOLD slivers behind its edges and a pale CERAMIC beveled rectangular cap at the top (around x=476..548,y=429..457). Match every projected face and overlap.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "96ace652125b15d93ae4a16c74e7ee6da3773d13c89a9ee8199b8db4cbc586f0",
+          "role": "edit_target"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide framing and reduced highlights compared with attempt 1. The permitted one corrective regeneration is exhausted. Saved byte-for-byte, unresized; not accepted as an exact silhouette or fully flat albedo match.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-e826976e-65bb-48aa-946d-840f5c7a5ac8.png",
+      "output_sha256": "61eb907959b326f194acfff6fa3226c792a0f9e4aff10f4de9a7f8d6c5a7fa56",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          57,
+          103,
+          1216,
+          1214
+        ],
+        "opaque_bbox": [
+          504,
+          523,
+          751,
+          732
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.951187,
+        "nonzero_alpha_pixels_outside_normalized_guide": 4134,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      },
+      "remaining_limitations": [
+        "Tool returned 1254 x 1254 rather than requested 1024 x 1024; retained unresized as instructed.",
+        "Silhouette is not pixel-identical to guide; scattered low-alpha pixels extend outside the intended silhouette.",
+        "Some face brightness differences and shaded gold seams remain."
+      ]
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. One corrective attempt for an orthographic texture-source painting.\nINPUT 1: approved design reference, MATERIAL COLOURS AND SURFACE DETAIL ONLY. INPUT 2 (the LAST image): the exact 1024 x 1024 orthographic GUIDE TO EDIT.\nReturn the EDITED LAST IMAGE at its original 1024 x 1024 canvas size, with its ORIGINAL ALPHA SILHOUETTE and empty transparent margins preserved exactly. This is an in-place surface repaint. Keep all contour vertices and part edges pixel-locked to input 2. Do not reconstruct the object or use the design reference's size, silhouette, pose, relief or lighting.\nCorrect the previous attempt's silhouette drift and rendered lighting by painting restrained flat diffuse BASE COLOUR over the original guide. There must be ZERO direction-of-light cues: no upper/lower brightness split, highlights, reflection, shadow, ambient occlusion, rim lighting or bloom. Imagine an unlit material pass with no scene lights at all. Preserve face boundaries with subtle material hue variation, not bright/dark illumination. All sides of the gold must be the same mid golden-ochre base colour, with very subtle fine brushed grain and sparse fine engraved hairline seams; NO bright bevel outlines, raised frames, black grooves or brown dark lower half. Ceramic is even ivory white with sparse tiny pale ochre hairline wear, no highlight or shadow border. Crystal is saturated medium cornflower/cobalt blue, with fine pale icy blue-white internal crackle and a little cloudy mineral mottling. Crystal colour should be even across the form, with only subtle inherent hue variation, never glowing white faces or darkened lower facets. This must still match the reference's blue crystal, warm gold and ivory ceramic, only without its lighting.\nThe geometry, occlusion order and material boundaries are exactly those of INPUT 2. Only the three present materials: crystal, gold and ceramic. No added collars, prongs or ornaments. Do not increase detail by adding relief. No text, letters, runes, numbers or watermark.\nOutside the guide silhouette, alpha must be precisely ZERO: no stray translucent specks, edge halo, exterior glow, floor or background. One square transparent PNG, 1024 x 1024.\nLEFT side orthographic view. Keep object HORIZONTAL, exactly spanning x=66..957,y=429..594. The long crystal points LEFT to (66,523); its broad side runs approximately x=276..683,y=457..588, then narrows to its mount around x=752,y=523. The GOLD mount stays on the RIGHT, x=752..957,y=453..594. Its small raised CERAMIC tab stays above it, around x=796..914,y=429..476. Preserve the crystal's central horizontal facet edge y=523 and every existing outer contour and part junction. Do not rotate the shard, change its proportions, or turn it into an upright crystal.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "e843490028d07605837fe121b1c66d53dca69e5c0d87fc7598fdb28bc0919f69",
+          "role": "edit_target"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide framing and reduced highlights compared with attempt 1. The permitted one corrective regeneration is exhausted. Saved byte-for-byte, unresized; not accepted as an exact silhouette or fully flat albedo match.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-cdd40de8-f3e7-446c-908b-08b6159aa491.png",
+      "output_sha256": "efe8c17d7f99eb713a3c39925b86d11dddeafd4e360d69755393f4cf4b856361",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          39,
+          1218,
+          1234
+        ],
+        "opaque_bbox": [
+          84,
+          524,
+          1173,
+          730
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.960738,
+        "nonzero_alpha_pixels_outside_normalized_guide": 16650,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      },
+      "remaining_limitations": [
+        "Tool returned 1254 x 1254 rather than requested 1024 x 1024; retained unresized as instructed.",
+        "Silhouette is not pixel-identical to guide; scattered low-alpha pixels extend outside the intended silhouette.",
+        "Some face brightness differences and shaded gold seams remain.",
+        "Gold/crystal junction and ceramic inset boundary drift from the exact guide."
+      ]
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. One corrective attempt for an orthographic texture-source painting.\nINPUT 1: approved design reference, MATERIAL COLOURS AND SURFACE DETAIL ONLY. INPUT 2 (the LAST image): the exact 1024 x 1024 orthographic GUIDE TO EDIT.\nReturn the EDITED LAST IMAGE at its original 1024 x 1024 canvas size, with its ORIGINAL ALPHA SILHOUETTE and empty transparent margins preserved exactly. This is an in-place surface repaint. Keep all contour vertices and part edges pixel-locked to input 2. Do not reconstruct the object or use the design reference's size, silhouette, pose, relief or lighting.\nCorrect the previous attempt's silhouette drift and rendered lighting by painting restrained flat diffuse BASE COLOUR over the original guide. There must be ZERO direction-of-light cues: no upper/lower brightness split, highlights, reflection, shadow, ambient occlusion, rim lighting or bloom. Imagine an unlit material pass with no scene lights at all. Preserve face boundaries with subtle material hue variation, not bright/dark illumination. All sides of the gold must be the same mid golden-ochre base colour, with very subtle fine brushed grain and sparse fine engraved hairline seams; NO bright bevel outlines, raised frames, black grooves or brown dark lower half. Ceramic is even ivory white with sparse tiny pale ochre hairline wear, no highlight or shadow border. Crystal is saturated medium cornflower/cobalt blue, with fine pale icy blue-white internal crackle and a little cloudy mineral mottling. Crystal colour should be even across the form, with only subtle inherent hue variation, never glowing white faces or darkened lower facets. This must still match the reference's blue crystal, warm gold and ivory ceramic, only without its lighting.\nThe geometry, occlusion order and material boundaries are exactly those of INPUT 2. Only the three present materials: crystal, gold and ceramic. No added collars, prongs or ornaments. Do not increase detail by adding relief. No text, letters, runes, numbers or watermark.\nOutside the guide silhouette, alpha must be precisely ZERO: no stray translucent specks, edge halo, exterior glow, floor or background. One square transparent PNG, 1024 x 1024.\nRIGHT side orthographic view. Keep object HORIZONTAL, exactly spanning x=66..957,y=429..594. The long crystal points RIGHT to (957,523); its broad side runs approximately x=340..747,y=457..588, then narrows into its mount around x=272,y=523. The GOLD mount stays on the LEFT, x=66..272,y=453..594. Its small raised CERAMIC tab stays above it, around x=110..228,y=429..476. Preserve the crystal's central horizontal facet edge y=523 and every existing outer contour and part junction. Do not rotate the shard, change its proportions, or turn it into an upright crystal.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "e53126dae75d40e2889a4034ad646259f1c7b9346ae8837a88cbdd4f8a82f403",
+          "role": "edit_target"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide framing and reduced highlights compared with attempt 1. The permitted one corrective regeneration is exhausted. Saved byte-for-byte, unresized; not accepted as an exact silhouette or fully flat albedo match.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-80722388-727f-4f2a-b78e-9f32a0ef0e11.png",
+      "output_sha256": "eb7720eee3c4e3c7a630fbf700bc466b21b650c9e5e7d0254e40fefc6be551c9",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          39,
+          1224,
+          1176
+        ],
+        "opaque_bbox": [
+          81,
+          524,
+          1177,
+          729
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.939449,
+        "nonzero_alpha_pixels_outside_normalized_guide": 18800,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      },
+      "remaining_limitations": [
+        "Tool returned 1254 x 1254 rather than requested 1024 x 1024; retained unresized as instructed.",
+        "Silhouette is not pixel-identical to guide; scattered low-alpha pixels extend outside the intended silhouette.",
+        "Some face brightness differences and shaded gold seams remain.",
+        "Gold/crystal junction and ceramic inset boundary drift from the exact guide."
+      ]
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. One corrective attempt for an orthographic texture-source painting.\nINPUT 1: approved design reference, MATERIAL COLOURS AND SURFACE DETAIL ONLY. INPUT 2 (the LAST image): the exact 1024 x 1024 orthographic GUIDE TO EDIT.\nReturn the EDITED LAST IMAGE at its original 1024 x 1024 canvas size, with its ORIGINAL ALPHA SILHOUETTE and empty transparent margins preserved exactly. This is an in-place surface repaint. Keep all contour vertices and part edges pixel-locked to input 2. Do not reconstruct the object or use the design reference's size, silhouette, pose, relief or lighting.\nCorrect the previous attempt's silhouette drift and rendered lighting by painting restrained flat diffuse BASE COLOUR over the original guide. There must be ZERO direction-of-light cues: no upper/lower brightness split, highlights, reflection, shadow, ambient occlusion, rim lighting or bloom. Imagine an unlit material pass with no scene lights at all. Preserve face boundaries with subtle material hue variation, not bright/dark illumination. All sides of the gold must be the same mid golden-ochre base colour, with very subtle fine brushed grain and sparse fine engraved hairline seams; NO bright bevel outlines, raised frames, black grooves or brown dark lower half. Ceramic is even ivory white with sparse tiny pale ochre hairline wear, no highlight or shadow border. Crystal is saturated medium cornflower/cobalt blue, with fine pale icy blue-white internal crackle and a little cloudy mineral mottling. Crystal colour should be even across the form, with only subtle inherent hue variation, never glowing white faces or darkened lower facets. This must still match the reference's blue crystal, warm gold and ivory ceramic, only without its lighting.\nThe geometry, occlusion order and material boundaries are exactly those of INPUT 2. Only the three present materials: crystal, gold and ceramic. No added collars, prongs or ornaments. Do not increase detail by adding relief. No text, letters, runes, numbers or watermark.\nOutside the guide silhouette, alpha must be precisely ZERO: no stray translucent specks, edge halo, exterior glow, floor or background. One square transparent PNG, 1024 x 1024.\nTOP directly overhead orthographic view. Keep the long thin object VERTICAL centered at x=512, exactly spanning x=412..611,y=66..957. BLUE CRYSTAL point at (512,66), widening to x=412..611 at y=278, its straight long body ends around y=683 then tapers to the GOLD mount around (512,752). The GOLD mount occupies approximately x=419..606,y=752..957, with the CERAMIC elongated beveled rectangular inset at x=477..546,y=797..912. Keep the three long crystal facet strips, their exact guide boundaries and the straight outline. Do not use the diagonal pose or irregular contour of the design reference.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "9bf9c2bba5d3fef007660eda80e6b7bd63369de10f7e434c30fe3c14a0d64005",
+          "role": "material_design_reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "6a3370e8cf469e8f1f8e1e15934af1acb24c5b262f51971975ca37d7e16bc50a",
+          "role": "edit_target"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter lighting and fewer hot highlights. Its normalized silhouette IoU is slightly worse than attempt 1 (0.911901 versus 0.923694); neither meets exact geometry. One allowed correction exhausted; saved byte-for-byte and unresized.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16dc9-c035-7830-9579-68bcb75f56ce/exec-667dcd48-9078-4cc9-b66f-df02854b2456.png",
+      "output_sha256": "340310dd7035bb784dadda3f3a604cfd2ca28ed79a69cd051b51931018250447",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_match": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          63,
+          38,
+          1234,
+          1197
+        ],
+        "opaque_bbox": [
+          497,
+          70,
+          757,
+          1184
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.911901,
+        "nonzero_alpha_pixels_outside_normalized_guide": 27171,
+        "visual_materials_match": true,
+        "visual_flat_lighting": false,
+        "visual_no_text_or_letters": true
+      },
+      "remaining_limitations": [
+        "Tool returned 1254 x 1254 rather than requested 1024 x 1024; retained unresized as instructed.",
+        "Silhouette is not pixel-identical to guide; scattered low-alpha pixels extend outside the intended silhouette.",
+        "Some face brightness differences and shaded gold seams remain.",
+        "Gold/crystal junction and ceramic inset boundary drift from the exact guide."
+      ]
+    }
+  ],
+  "status": "Five best available paintings saved; strict silhouette and flat-lighting requirements remain unmet after the maximum allowed correction.",
+  "fully_compliant": false,
+  "checks_method": "PNG size, mode and alpha inspected directly. IoU compares alpha >=128 masks using nearest guide sample at each normalized output coordinate for analysis only; no image file was resized or edited. Visual inspection checks materials, lighting and absence of text."
+}

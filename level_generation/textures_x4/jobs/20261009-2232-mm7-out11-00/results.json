@@ -1,0 +1,68 @@
+{
+ "hdm1b_v1": {
+  "member": "mm7/hdm1b",
+  "version": 1,
+  "flags": [
+   "joint left 2.6 vs 1.6"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.758,
+    0.807,
+    0.882
+   ],
+   "line_top": 1,
+   "line_bottom": 0,
+   "line_left": 0,
+   "line_right": 0,
+   "traced": 0.002,
+   "layout_corr": 0.925,
+   "raw_size": [
+    935,
+    1681
+   ],
+   "source_scale": 5.84,
+   "seam_u": [
+    1.11,
+    1.4
+   ],
+   "seam_v": [
+    6.17,
+    11.19
+   ],
+   "edge_top": 0.73,
+   "edge_bottom": 0.96,
+   "edge_left": 1.03,
+   "edge_right": 1.03,
+   "rim_top": [
+    2.41,
+    0.68
+   ],
+   "rim_left": [
+    1.04,
+    1.03
+   ],
+   "rim_right": [
+    1.02,
+    0.98
+   ],
+   "roll": [
+    60,
+    0
+   ],
+   "joint_right": [
+    1.8,
+    1.91
+   ],
+   "joint_left": [
+    2.63,
+    1.63
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-2232-mm7-out11-00/candidates/hdm1b_v1.png"
+ }
+}

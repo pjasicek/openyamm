@@ -1,0 +1,1 @@
+paint_left.png and paint_right.png are paint_top.png turned 90 degrees either way: the image tool refused both side views twice (violence filter, 2026-10-24); the core is lathed round its length, so the side seen from above is the side seen from the left and right.

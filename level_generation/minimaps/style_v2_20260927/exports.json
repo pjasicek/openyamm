@@ -1,0 +1,121 @@
+{
+  "count": 4,
+  "records": [
+    {
+      "world": "mm7",
+      "stem": "out09",
+      "name": "Evenmorn Island",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/maps/mm7/out09",
+      "directory": "maps/mm7/out09",
+      "source_scene_sha256": "12e478aff338854d204e29c71482ac2f5e02c8b94983c183c7cfd39ea3ab0545",
+      "source_data_sha256": "0b6e9827aa560fda7a7a38ee3666fc4b7db2fc6aafd8c249e9c863847a2d404b",
+      "recipe_sha256": "07cbcff3a5d1866919653ff638f4bddf09560a06bfc674f5833c6b75360d1e8b",
+      "shoreline_changed_pixels_x2_equivalent": 6418.5,
+      "shoreline_max_boundary_distance_x2_pixels": 6.020797289396148,
+      "shoreline_allowed_signed_distance_x2_pixels": 8.0,
+      "original_art_used_as_pixels": false,
+      "outputs": {
+        "x2.png": "77a1fee91f681f703b6267f63ba3a60a5cdeb959b230d5d1488e5b784229de44",
+        "master.png": "d4fe48a6528742bfb118b88bd63e43bd4be0555038bc972ac76526be88831eae",
+        "buildings_processed.png": "857b8c0b3074d95bc51eb7d05d97d5059c1e7cf8c2d110e4380b93cd1b93ffd1",
+        "layers.ora": "1d017380f23d12815b857e9595faa968c453a118f494e1259ac24208c3a9dd8b"
+      },
+      "capture_sha256": "9e4fd95c4e655d5cec2276f59938566f32be4774913de84f10bd292638a6343e",
+      "status": "candidate_for_style_review",
+      "processed_building_alpha_unchanged": true,
+      "model_vertices_checked": 4762,
+      "max_projection_error_x2_pixels": 0.0
+    },
+    {
+      "world": "mm8",
+      "stem": "out02",
+      "name": "Ravenshore",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "source": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/maps/mm8/out02",
+      "directory": "maps/mm8/out02",
+      "source_scene_sha256": "7a838f1b1094326ddffc35a870e655cf3e57aca35e1406850834b57b81d5ea89",
+      "source_data_sha256": "8be82dfd5cd9b9ae1c91887d753f5f828e533f691b76aff9d6fd960d1771df4c",
+      "recipe_sha256": "07cbcff3a5d1866919653ff638f4bddf09560a06bfc674f5833c6b75360d1e8b",
+      "shoreline_changed_pixels_x2_equivalent": 16868.75,
+      "shoreline_max_boundary_distance_x2_pixels": 8.200609733428363,
+      "shoreline_allowed_signed_distance_x2_pixels": 8.0,
+      "original_art_used_as_pixels": false,
+      "outputs": {
+        "x2.png": "92700c36114665b490336f9032b5c2e8fe2750a7c361d71d8f8cb190d7400b22",
+        "master.png": "2591c478c391514e5d28dc37ba3158eb34903fa5c5965f715f4916fb18c7c214",
+        "buildings_processed.png": "85ed7e35e1d3664417de05417c5fa6698aef1071af74d2ee1e2d58f84a827fe2",
+        "layers.ora": "dc75c63bdca80d235f1514bf92384d1ad7b0b039c0f77e9486f7b1e5f87b73d8"
+      },
+      "capture_sha256": "e980a4c83c6e197b75f82716358cb8c18c3c730b27b0da56e434bb4e3e2e3311",
+      "status": "candidate_for_style_review",
+      "processed_building_alpha_unchanged": true,
+      "model_vertices_checked": 8700,
+      "max_projection_error_x2_pixels": 0.0
+    },
+    {
+      "world": "mm7",
+      "stem": "out14",
+      "name": "Avlee",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "source": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/maps/mm7/out14",
+      "directory": "maps/mm7/out14",
+      "source_scene_sha256": "aab25ad1c9e678faf2f1a810141d9189e7fe8d433e5657597a19009a122344d4",
+      "source_data_sha256": "8e828af4acfbaf623a973e673c78baab8800adb78a7a55a5d48e224c7ddc3d2d",
+      "recipe_sha256": "07cbcff3a5d1866919653ff638f4bddf09560a06bfc674f5833c6b75360d1e8b",
+      "shoreline_changed_pixels_x2_equivalent": 10410.0,
+      "shoreline_max_boundary_distance_x2_pixels": 6.020797289396148,
+      "shoreline_allowed_signed_distance_x2_pixels": 8.0,
+      "original_art_used_as_pixels": false,
+      "outputs": {
+        "x2.png": "25862457874dab9e6295faa50e0a80b87b2bbef0fd464c6ad26e4ea724645d04",
+        "master.png": "29b99e10bedf80b71f040f1112b8c9fa81dd09bfadd8813d8f3c0cb5e8aae700",
+        "buildings_processed.png": "0da780c8d776b281407a52a62bd59fb0ae723b99a62da4bd98ee64ec3aa646eb",
+        "layers.ora": "ace0a212ba7eacc3184b5489cc1b2b97cc4355568d4c23e2e7e3d568eca73d28"
+      },
+      "capture_sha256": "2d1a2dd5b92d447a983ca711b202e47a6922316e32378c0fd7b57d3016970a2d",
+      "status": "candidate_for_style_review",
+      "processed_building_alpha_unchanged": true,
+      "model_vertices_checked": 6526,
+      "max_projection_error_x2_pixels": 0.0
+    },
+    {
+      "world": "mm8",
+      "stem": "out05",
+      "name": "Garrote Gorge",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "source": "/home/pjasicek/github/OpenYAMM/level_generation/minimaps/maps/mm8/out05",
+      "directory": "maps/mm8/out05",
+      "source_scene_sha256": "6931c9fd5a6c848de6828f62c07306bf794c648e86f2ef6bb5c4d5a42572f521",
+      "source_data_sha256": "38e8c8d4c07b801d2a9af4be893a6a1d5747c006ddf226ab0042ba8d2120f0ab",
+      "recipe_sha256": "07cbcff3a5d1866919653ff638f4bddf09560a06bfc674f5833c6b75360d1e8b",
+      "shoreline_changed_pixels_x2_equivalent": 16052.0,
+      "shoreline_max_boundary_distance_x2_pixels": 8.139410298049853,
+      "shoreline_allowed_signed_distance_x2_pixels": 8.0,
+      "original_art_used_as_pixels": false,
+      "outputs": {
+        "x2.png": "bd908799c56849c3bdd85c0189052106bbd58862b029dd13c67e469bb3f99c40",
+        "master.png": "01aea7f9fd6b3fd9cc714b0397d74b40171247e579a1317c6cd3cc77aff3aa53",
+        "buildings_processed.png": "f77c8a100dc4b8239115cea15a6a8e3761bd57c786a747db022e42392fee0ab5",
+        "layers.ora": "33ff0b5b36d90d4c4ccd5ebd963457d926fbc68f8d99b751b1777e8171ea335a"
+      },
+      "capture_sha256": "46a9acc4baa9993ef54c33946498095e81bed1385196e791144a2c099a365381",
+      "status": "candidate_for_style_review",
+      "processed_building_alpha_unchanged": true,
+      "model_vertices_checked": 4303,
+      "max_projection_error_x2_pixels": 0.0
+    }
+  ]
+}

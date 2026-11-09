@@ -1,0 +1,492 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_jelly.glb",
+  "components": 14,
+  "body": 1,
+  "size": 1.8216168880462646,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "2": {
+    "joint": "Xbellpiv07",
+    "where": "central",
+    "triangles": 954,
+    "extent": 0.877,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.34964,
+    "worst": {
+     "gap": 0.31374,
+     "to_body_cluster": 0.31374,
+     "clip": "AttackMelee",
+     "frame": 4,
+     "time": 0.1333,
+     "part_point": [
+      0.03336,
+      1.66094,
+      -0.01557
+     ],
+     "attached_point": [
+      0.13239,
+      1.86697,
+      -0.23047
+     ],
+     "kind": "parted",
+     "against": "XbB05"
+    },
+    "detached_poses": 2,
+    "poses": 368,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.31374,
+      "frame": 4,
+      "time": 0.1333,
+      "frames": 1
+     },
+     "Walking": {
+      "max_gap": 0.31038,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": -0.00353,
+     "on": "Xarmpiv02",
+     "clip": "Standing",
+     "frame": 12,
+     "time": 0.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 100,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_jelly_part2.png"
+   },
+   "6": {
+    "joint": "XCENTER",
+    "where": "below",
+    "triangles": 204,
+    "extent": 0.1434,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02963,
+    "worst": {
+     "gap": 0.27193,
+     "to_body_cluster": 0.27193,
+     "clip": "Walking",
+     "frame": 2,
+     "time": 0.0667,
+     "part_point": [
+      0.00162,
+      1.63866,
+      -0.06856
+     ],
+     "attached_point": [
+      0.0976,
+      1.82044,
+      -0.24656
+     ],
+     "kind": "floating",
+     "against": "XbB05"
+    },
+    "detached_poses": 74,
+    "poses": 368,
+    "clips": {
+     "Dead": {
+      "max_gap": 0.15969,
+      "frame": 30,
+      "time": 1.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.16107,
+      "frame": 37,
+      "time": 1.2333,
+      "frames": 26
+     },
+     "Fidget": {
+      "max_gap": 0.2372,
+      "frame": 2,
+      "time": 0.0667,
+      "frames": 12
+     },
+     "Hit": {
+      "max_gap": 0.19101,
+      "frame": 2,
+      "time": 0.0667,
+      "frames": 2
+     },
+     "Standing": {
+      "max_gap": 0.24831,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 2
+     },
+     "Walking": {
+      "max_gap": 0.27193,
+      "frame": 2,
+      "time": 0.0667,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": 0.02887,
+     "on": "Xtailpiv",
+     "clip": "Walking",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 28,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_jelly_part6.png"
+   },
+   "9": {
+    "joint": "Xtail",
+    "where": "below",
+    "triangles": 126,
+    "extent": 1.021,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01439,
+    "worst": {
+     "gap": 0.01244,
+     "to_body_cluster": 0.01244,
+     "clip": "Death",
+     "frame": 7,
+     "time": 0.2333,
+     "part_point": [
+      -0.13961,
+      1.15053,
+      -0.03566
+     ],
+     "attached_point": [
+      -0.13536,
+      1.15697,
+      -0.04542
+     ],
+     "kind": "floating",
+     "against": "Xtail"
+    },
+    "detached_poses": 1,
+    "poses": 368,
+    "clips": {
+     "Death": {
+      "max_gap": 0.01244,
+      "frame": 7,
+      "time": 0.2333,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": -0.00398,
+     "on": "Xtail",
+     "clip": "Death",
+     "frame": 6,
+     "time": 0.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 102,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_jelly_part9.png"
+   },
+   "10": {
+    "joint": "Xtail",
+    "where": "below",
+    "triangles": 68,
+    "extent": 0.2915,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00676,
+    "worst": {
+     "gap": -0.6102,
+     "to_body_cluster": -0.6102,
+     "clip": "Fidget",
+     "frame": 41,
+     "time": 1.3667,
+     "part_point": [
+      0.0001,
+      1.39687,
+      -0.04772
+     ],
+     "attached_point": [
+      -0.19309,
+      1.93958,
+      -0.24894
+     ],
+     "kind": "floating",
+     "against": "XbB05"
+    },
+    "detached_poses": 1,
+    "poses": 368,
+    "clips": {
+     "Fidget": {
+      "max_gap": 0.0,
+      "frame": null,
+      "time": null,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": -0.00397,
+     "on": "Xtailpiv",
+     "clip": "Fidget",
+     "frame": 14,
+     "time": 0.4667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 101,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_jelly_part10.png"
+   },
+   "12": {
+    "joint": "XCENTER",
+    "where": "below",
+    "triangles": 189,
+    "extent": 0.1363,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.08437,
+    "worst": {
+     "gap": 0.31307,
+     "to_body_cluster": 0.31307,
+     "clip": "Standing",
+     "frame": 10,
+     "time": 0.3333,
+     "part_point": [
+      0.1084,
+      1.59592,
+      -0.0034
+     ],
+     "attached_point": [
+      0.32808,
+      1.8113,
+      -0.06135
+     ],
+     "kind": "floating",
+     "against": "XbB05"
+    },
+    "detached_poses": 22,
+    "poses": 368,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.29282,
+      "frame": 3,
+      "time": 0.1,
+      "frames": 3
+     },
+     "Death": {
+      "max_gap": 0.26873,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 5
+     },
+     "Fidget": {
+      "max_gap": 0.30045,
+      "frame": 4,
+      "time": 0.1333,
+      "frames": 2
+     },
+     "Hit": {
+      "max_gap": 0.24734,
+      "frame": 4,
+      "time": 0.1333,
+      "frames": 2
+     },
+     "Running": {
+      "max_gap": 0.30373,
+      "frame": 3,
+      "time": 0.1,
+      "frames": 2
+     },
+     "Standing": {
+      "max_gap": 0.31307,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 5
+     },
+     "Walking": {
+      "max_gap": 0.30053,
+      "frame": 4,
+      "time": 0.1333,
+      "frames": 3
+     }
+    },
+    "shallowest": {
+     "depth": 0.00267,
+     "on": "Xarmpiv03",
+     "clip": "AttackMelee",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 3,
+    "worst_concealed": {
+     "gap": -0.40235,
+     "clip": "Fidget",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "carried_poses": 77,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_jelly_part12.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 14,
+   "attached_in_every_pose": 8
+  },
+  "concealed": {},
+  "shallow": {
+   "0": {
+    "joint": "Xarmpiv02",
+    "where": "below, -x side",
+    "triangles": 404,
+    "extent": 0.9104,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.37577,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 368,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "Xbellpiv07",
+     "clip": "Fidget",
+     "frame": 48,
+     "time": 1.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 102
+   },
+   "3": {
+    "joint": "Xtail",
+    "where": "below",
+    "triangles": 73,
+    "extent": 0.2867,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00672,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 368,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00361,
+     "on": "Xtailpiv",
+     "clip": "Running",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 102
+   },
+   "4": {
+    "joint": "Xtail",
+    "where": "below",
+    "triangles": 77,
+    "extent": 0.2843,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00649,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 368,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00392,
+     "on": "Xtailpiv",
+     "clip": "Hit",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 102
+   },
+   "5": {
+    "joint": "Xtailpiv",
+    "where": "below",
+    "triangles": 1444,
+    "extent": 0.9718,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.40128,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 368,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00201,
+     "on": "Xbellpiv07",
+     "clip": "AttackMelee",
+     "frame": 1,
+     "time": 0.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 102
+   },
+   "7": {
+    "joint": "Xtail",
+    "where": "below",
+    "triangles": 75,
+    "extent": 0.2932,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00684,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 368,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00303,
+     "on": "Xtailpiv",
+     "clip": "AttackMelee",
+     "frame": 15,
+     "time": 0.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 102
+   },
+   "8": {
+    "joint": "Xarmpiv",
+    "where": "below, -z",
+    "triangles": 455,
+    "extent": 0.8612,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.35687,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 368,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00736,
+     "on": "Xtailpiv",
+     "clip": "Walking",
+     "frame": 1,
+     "time": 0.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 102
+   },
+   "11": {
+    "joint": "Xtail",
+    "where": "below",
+    "triangles": 72,
+    "extent": 0.2891,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00654,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 368,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0026,
+     "on": "Xtail",
+     "clip": "Hit",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 102
+   }
+  }
+ }
+]

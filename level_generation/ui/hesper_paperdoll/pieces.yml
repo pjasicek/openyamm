@@ -1,0 +1,233 @@
+# The Hesper equipment drawn on the paperdoll (paperdoll.py). Each piece is an item of
+# design/kreegan_world/data/items.txt whose fitted doll art is made here.
+#
+#   icon       the item's Pic File (its inventory icon, design/kreegan_world/art/item_icons); the doll files are
+#              <icon><suffix>.png, as MM names them
+#   slot       Armor, Helm, Boots, Belt or Cloak
+#   reference  the engine item whose fitted MM6-MM8 files own the canvas, pose, placement (its complex_item_pictures
+#              row) and silhouette; the Hesper icon owns the design
+#   coverage   armour only: the MM9 pipeline's reviewed coverage profile (short_torso, hip_length, thigh_length,
+#              full_harness; tools/mm9_import_discovery/mm9_armor_foot_exclusions.yml) that cuts the reference's
+#              legs away; `coverage_limits` overrides its logical y limit per doll type for one piece
+#   facts      the design facts the prompt names, read from the icon
+#
+# Masters: one generated image per doll type (`masters`, by default every type the slot draws). A doll type listed in
+# `shares` reuses another type's master when the reference's two files are identical (MM's helms and belts often draw
+# the human male and the dwarf alike). Armour's second arm pose is derived from the master, never generated: the
+# empty-hand file (vNa) is the master and the weapon pose (vN) is the same pixels inside the reference's weapon-pose
+# silhouette (MM cuts the sleeve away; sleeveless MM armour has identical pairs).
+# Gauntlets have no doll files (MM has none): the jewellery panel draws the icon. Hesper's are pairs, wider than the
+# panel's 40 x 72 slot, so each gets a complex_item_pictures point that centres it on the slot (icon -> item id).
+gauntlets:
+  hes_grip_gauntlets: 11108
+  hes_power_gauntlets: 11109
+  hes_load_gauntlets: 11140
+pieces:
+  hes_carapace_mail:
+    id: 11102
+    name: Carapace Mail
+    slot: Armor
+    reference: 870            # MM7 Officer's Leather (7item068): a sleeveless fitted vest to the hips on every doll
+    coverage: hip_length
+    coverage_limits: {1: 202}   # the female reference's leggings: end at her hips, not mid-thigh
+    facts: >-
+      Overlapping rows of dark purple-brown Kreegan chitin plates with worn violet highlights, edged in dark brown;
+      curved ivory-bone hooks rising from both shoulders and along both flanks; dark leather side straps with small
+      brass buckles; a narrow glowing amber-orange slit at the top of the sternum between two bone ridges; a high
+      sleeveless armhole on each side ringed by a thick bone-ivory rim; the hem ends at the hips in pointed chitin tabs.
+  hes_black_carapace:
+    id: 11103
+    name: Black Carapace
+    slot: Armor
+    reference: 870            # MM7 Officer's Leather, as Carapace Mail
+    coverage: hip_length
+    coverage_limits: {1: 202}
+    facts: >-
+      Heavy near-black Lancer chitin with cold grey highlights: a broad smooth chest plate and stacked horizontal
+      abdomen plates; curved ivory-bone hooks rising at the collar and both shoulders; rows of short bone ribs along
+      both flanks with glowing orange-amber slits between them; thick layered black shoulder plates over high
+      sleeveless armholes; a dark ribbed collar; the hem ends at the hips in heavy black plates.
+  hes_weave_suit:
+    id: 11100
+    name: Weave Suit
+    slot: Armor
+    reference: 870            # MM7 Officer's Leather: a fitted sleeveless vest
+    coverage: hip_length
+    coverage_limits: {1: 202}
+    facts: >-
+      Ancient colonial work vest of cream-ivory woven cloth with fine vertical ribs, a round ribbed collar and a dark
+      grey quilted lining; thin gold piping in long vertical lines down the front and around the armholes and hem;
+      dark grey woven side panels; a small ivory and gold chest plate at the sternum with a round glowing pale-blue
+      node and two short ivory straps with tiny blue lights running up to the shoulders; sleeveless, rounded hem at
+      the hips.
+  hes_refractor_weave:
+    id: 11101
+    name: Refractor Weave
+    slot: Armor
+    reference: 870            # MM7 Officer's Leather, as Weave Suit
+    coverage: hip_length
+    coverage_limits: {1: 202}
+    facts: >-
+      The colonial woven vest with a refractor field: cream-ivory woven cloth with steel-blue woven panels down the
+      sides of the chest and waist, separated by gold piping; thin glowing pale-blue lines running down the panels;
+      a high ivory collar with gold edging and a gold-framed glowing blue node at the throat with a blue line down the
+      centre front; small rounded ivory shoulder plates edged in gold over sleeveless armholes; a gold-edged hem at the
+      hips.
+  hes_grafted_plate:
+    id: 11104
+    name: Grafted Plate
+    slot: Armor
+    reference: 94             # MM8 Rusty Breastplate: a waist-length breastplate with shoulder plates
+    coverage: short_torso
+    coverage_limits: {1: 196}   # the female breastplate's trousers: end at her waist
+    facts: >-
+      Cracked cream-ivory Ancient hull plates bolted over a dark purple-brown organic resin harness: a large ivory
+      breast plate and an ivory plate over the stomach, both crazed with fine dark cracks and edged in worn gold;
+      ivory shoulder plates, one with a small glowing pale-blue light; between the plates, ropy dark resin tendons and
+      bone-coloured straps; small glowing orange-amber slits in the resin at the sides; a round dark resin collar.
+  hes_bastion_plate:
+    id: 11105
+    name: Bastion Plate
+    slot: Armor
+    reference: 94             # MM8 Rusty Breastplate, as Grafted Plate
+    coverage: short_torso
+    coverage_limits: {1: 196}   # the female breastplate's trousers: end at her waist
+    facts: >-
+      Heavy armour of cream-ivory Ancient plate edged in gold over a dark purple-black ribbed resin body: broad
+      rounded ivory and gold shoulder plates; ivory plates at the collar and the hips; down the chest, curved
+      bone-ivory ribs wrapping a dark resin core with glowing orange-amber vents; a large round gold-ringed capacitor
+      glowing bright blue built into the back, its blue glow and gold rim showing behind the doll's left shoulder;
+      small blue lights in the shoulder plates.
+  hes_bulwarks_shell:
+    id: 11434
+    name: Bulwark's Shell
+    slot: Armor
+    reference: 94             # MM8 Rusty Breastplate: its shoulder plates carry the Shell's large pauldrons
+    coverage: short_torso
+    coverage_limits: {1: 196}
+    facts: >-
+      A breastplate cut from a shield housing: scarred cream-white ceramic panels with fine dark scratches, framed by
+      raised gold coupling rails; large rounded white and gold shoulder plates; a round gold-ringed core glowing bright
+      blue in the centre of the chest with thin gold rails running out from it; dark grey jointed plates at the sides
+      and waist; short white and gold plates at the hem.
+# Helms: MM8 Full Helm (item111), a closed helmet on every doll; the male and dwarf files are identical, so three
+# masters. Its crown studs are taken off the outline (smooth_crown).
+  hes_rebreather_helm:
+    id: 11106
+    name: Rebreather Helm
+    slot: Helm
+    reference: 111
+    smooth_crown: 5
+    facts: >-
+      A sealed colonial work helmet: a rounded cream-ivory shell with worn gold trim bands; a wide curved glass visor
+      tinted pale blue across the eyes; below it a round gold-ringed filter canister over the mouth with a glowing
+      pale-blue slot, and a round gold-framed fitting on each cheek; small glowing blue lights at the sides; a dark
+      rubber rim at the neck.
+  hes_sensor_helm:
+    id: 11107
+    name: Sensor Helm
+    slot: Helm
+    reference: 111
+    smooth_crown: 5
+    facts: >-
+      A Kreegan officer's sealed helmet of dark purple-brown ridged chitin; curved ivory-bone fangs sweeping down both
+      sides of the faceplate; narrow glowing orange-red eye slits and a glowing orange-red grille at the mouth; on one
+      side a gold-framed cluster of round sensor lenses glowing bright blue behind small shutters.
+  hes_survey_helm:
+    id: 11142
+    name: Survey Helm
+    slot: Helm
+    reference: 111
+    smooth_crown: 5
+    facts: >-
+      A rounded cream-white ceramic helmet with gold bands over the crown; a dark glossy blue visor sweeping across
+      the whole face; gold cheek braces with round fittings; a small round survey lens above the left temple; a
+      white and gold ring around the neck.
+# Boots: MM7 Steel Plated Boots (7item116), shin-high boots; all four files differ, so four masters.
+  hes_mag_boots:
+    id: 11110
+    name: Mag Boots
+    slot: Boots
+    reference: 918
+    facts: >-
+      Colonial dock boots: dark navy-black quilted leather shafts and uppers; cream-ivory plates over the toes and the
+      front of the shins edged in gold; a gold band at the ankle with a round blue-lit fitting; thick dark grey soles
+      with small glowing pale-blue lights along their edge.
+  hes_grav_boots:
+    id: 11111
+    name: Grav Boots
+    slot: Boots
+    reference: 918
+    facts: >-
+      Cream-ivory plated boots edged in gold: smooth ivory toe caps and shin plates; a dark ribbed flexible section at
+      the ankle; a round gravity vane glowing bright blue set into the side of each heel, ringed in gold; dark soles.
+  hes_anchor_boots:
+    id: 11143
+    name: Anchor Boots
+    slot: Boots
+    reference: 918
+    facts: >-
+      Tall ceramic-plated work boots: cream-ivory plates over the shins and toes, dark brown leather between them;
+      gold heel braces with small glowing blue ankle contacts; broad thick dark grey treaded soles.
+# Belts: MM7 Strong Belt (7item102) for the leather belt with a buckle, MM8 Sturdy Belt (item118) for the belts of
+# cells; identical reference files share a master.
+  hes_utility_belt:
+    id: 11112
+    name: Utility Belt
+    slot: Belt
+    reference: 904
+    facts: >-
+      A scavenger's worn dark-brown leather belt with a square brass buckle at the front; small stitched leather
+      pouches with brass studs; a small cell pack of two cream-ivory cells with gold caps and glowing pale-blue
+      windows clipped to one side.
+  hes_capacitor_belt:
+    id: 11113
+    name: Capacitor Belt
+    slot: Belt
+    reference: 118
+    facts: >-
+      A belt made of a chain of rounded cream-ivory cell segments, each in a gold frame with a narrow glowing
+      pale-blue window; at the front a round gold-ringed node glowing bright blue; dark joints between the segments.
+  hes_reserve_belt:
+    id: 11141
+    name: Reserve Belt
+    slot: Belt
+    reference: 118
+    facts: >-
+      A broad dark leather belt with three squat cream-ivory ceramic cells clamped to it in gold brackets; at the front
+      a large rectangular gold buckle with a narrow glowing pale-blue charge window.
+# Cloaks: drawn behind the body (vNa; the minotaur and troll use v1a). MM6 Leather Cloak (6cape1) for the plain
+# hooded cloak, MM6 Cardinal Cloak (6cape4) with its standing collar for the mantles; their male and dwarf files are
+# identical, so two masters.
+  hes_ash_cloak:
+    id: 11114
+    name: Ash Cloak
+    slot: Cloak
+    reference: 1707
+    facts: >-
+      A scavenger's thick woven cloak of ash-grey and dull brown cloth with darker patched panels; a dark woven lining;
+      a hood bunched behind the neck; the ragged hem blackened by old burn marks.
+  hes_refractor_mantle:
+    id: 11115
+    name: Refractor Mantle
+    slot: Cloak
+    reference: 1710
+    facts: >-
+      A layered mantle of pearl-white cloth with a faint pale-blue shimmer and soft grey shadows; worn gold edging
+      along the hems; a high cream-ivory collar with gold trim standing behind the neck; a dark grey lining.
+  hes_insulator_cloak:
+    id: 11144
+    name: Insulator Cloak
+    slot: Cloak
+    reference: 1710
+    facts: >-
+      A slate-blue cloak with gold thread along the hem; a thick dark navy woven lining; two cream-ivory ceramic
+      shoulder clips edged in gold standing behind the neck in place of a collar.
+  hes_vreths_mantle:
+    id: 11435
+    name: Vreth's Mantle
+    slot: Cloak
+    reference: 1710
+    facts: >-
+      A ragged mantle of dark purple and black resin-cloth and hide, its hem torn into long strips; a high collar lined
+      with pale bone spikes standing behind the neck; small gold hooks at the collar; a near-black lining.

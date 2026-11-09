@@ -1,0 +1,189 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.bathhouse_doors_exits
+title: Bathhouse (native BLV) - doors, the ladder, the locked drain-room doors, the exit
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: bathhouse.blv
+- note:
+    text: 'Door0 (door 1, event 101), hall to the south-west pool: shut it stops the party; a click on it slides it aside;
+      the party walks through.'
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: 82
+      y: -2466
+      z: -242
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: 82
+      y: -2771
+      z: -242
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 24
+- set_pose:
+    map: bathhouse.blv
+    x: 82
+    y: -2686
+    z: -242
+    yaw: -1.5708
+    pitch: 0.5064
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: 82
+      y: -2666
+      z: -242
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: 82
+      y: -3356
+      z: -242
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 60
+- note:
+    text: ExitTrigger0 west of the arrival raises the transition to Arslegard City.
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: -983
+      y: -901
+      z: -281
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: -1250
+      y: -901
+      z: -281
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 60
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 199
+- load_map:
+    map: bathhouse.blv
+- note:
+    text: 'Ladder0: from the switch room''s floor up to the switch''s shelf (top exit).'
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: bathhouse.blv
+      x: 9037
+      y: 297
+      z: -1259
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: bathhouse.blv
+      x: 9277
+      y: 297
+      z: -1064
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 160
+    tolerance_z: 60
+- note:
+    text: 'Door6/7 (Locked): a click says it is locked and they stay shut.'
+- set_pose:
+    map: bathhouse.blv
+    x: 14601
+    y: -259
+    z: -818
+    yaw: 0.0
+    pitch: 0.215
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 7
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: Drained
+      value: 0
+- note:
+    text: 'Switch0 clicked from its shelf throws it: the room drains and the doors unlock.'
+- set_pose:
+    map: bathhouse.blv
+    x: 9326
+    y: 189
+    z: -1064
+    yaw: 0.0
+    pitch: -0.5693
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    state_dump_named_map_var:
+      name: Drained
+      value: 1
+- assert:
+    mechanism:
+      id: 17
+      state: closed
+- set_pose:
+    map: bathhouse.blv
+    x: 14601
+    y: -259
+    z: -818
+    yaw: 0.0
+    pitch: 0.215
+- press_interact: {}
+- advance_runtime:
+    seconds: 3
+- assert:
+    mechanism:
+      id: 7
+      state: open
+- assert:
+    mechanism:
+      id: 8
+      state: open

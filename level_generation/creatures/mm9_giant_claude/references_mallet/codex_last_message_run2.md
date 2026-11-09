@@ -1,0 +1,3 @@
+Saved `01_front.png` through `04_right.png` in [references_mallet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_giant_claude/references_mallet), using built-in image generation. All are unresized 1024×1536 RGBA. Raw returns, prompts, input hashes and measurements are recorded in `raw/` and `generation_runs.json`.
+
+No builds or Meshy calls. Proportion deviations and sparse near-transparent background pixels remain after the permitted corrections; documented in the log.

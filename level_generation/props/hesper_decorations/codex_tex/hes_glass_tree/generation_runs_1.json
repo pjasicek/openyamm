@@ -1,0 +1,208 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated within one corrective regeneration per view; saved raw unresized returns. Exact brief compliance not achieved.",
+  "postprocessing": "None; byte-for-byte copies of tool output.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 RGBA image, transparent background, an albedo texture-source painting for the Glass tree (fulgurite).\nInput 1 guide_front.png is the EDIT TARGET and absolute geometry authority: the exact plain grey orthographic front view of the 3D model. Input 2 design_reference.png is MATERIAL AND COLOUR REFERENCE ONLY; do not adopt its three-quarter camera or geometry.\nPaint directly over the guide in place. Preserve its silhouette EXACTLY pixel-for-pixel: same outline, size, position in the 1024-square frame, every edge, branch, tip, root, opening and shape detail in its original position. Preserve all transparent pixels and antialiased edge coverage of the guide. No added branches, holes or protrusions; nothing outside the guide silhouette, nothing cropped. Do not rotate, recenter, resize, enlarge or redesign anything. This is the existing FRONT orthographic view; retain all existing faceted branches and roots exactly.\nTransfer the design reference's surface materials: glossy black obsidian glass with a faint violet sheen, rough bubbly grey-black glass at the foot, pale grey ash crust around the base. Express the glass through intrinsic dark material colour and subtle surface texture, not studio reflection streaks. Follow the reference's material distribution as appropriate to this exact view.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless lighting from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not bake the reference image's dramatic lighting into the result. Any existing orange seams are painted their intrinsic orange colour, with no light spill.\nNo background, no floor, no text or labels. Genuine alpha transparency, not a painted checkerboard. Return at exactly 1024 x 1024 without resizing.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/guide_front.png",
+          "sha256": "b3486e5e4365ad049236fa72f1a65e8f883107bff33cad85fa745d448f4362d2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-28a3-7973-9539-68b121fa5745/exec-ca39c73f-1409-4513-9821-b4a03e14f2bb.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Initial result changed framing and silhouette and retained excessive reflective lighting.",
+      "output_sha256": "58716824ea275f31af2acc1a3eee686a3c3ecc65d8dac84ccaf8897c729b189f",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          23,
+          3,
+          1232,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          192,
+          66,
+          832,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "Black-violet glass, grey bubbly glass and pale ash are present; orange detail is stronger than ideal.",
+        "flat_lighting_pass": false,
+        "flat_lighting_note": "Residual facet highlights and dark recess shading remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 RGBA image, transparent background, an albedo texture-source painting for the Glass tree (fulgurite).\nInput 1 guide_front.png is the EDIT TARGET and absolute geometry authority: the exact plain grey orthographic front view of the 3D model. Input 2 design_reference.png is MATERIAL AND COLOUR REFERENCE ONLY; do not adopt its three-quarter camera or geometry.\nPaint directly over the guide in place. Preserve its silhouette EXACTLY pixel-for-pixel: same outline, size, position in the 1024-square frame, every edge, branch, tip, root, opening and shape detail in its original position. Preserve all transparent pixels and antialiased edge coverage of the guide. No added branches, holes or protrusions; nothing outside the guide silhouette, nothing cropped. Do not rotate, recenter, resize, enlarge or redesign anything. This is the existing FRONT orthographic view; retain all existing faceted branches and roots exactly.\nTransfer the design reference's surface materials: glossy black obsidian glass with a faint violet sheen, rough bubbly grey-black glass at the foot, pale grey ash crust around the base. Express the glass through intrinsic dark material colour and subtle surface texture, not studio reflection streaks. Follow the reference's material distribution as appropriate to this exact view.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless lighting from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not bake the reference image's dramatic lighting into the result. Any existing orange seams are painted their intrinsic orange colour, with no light spill.\nNo background, no floor, no text or labels. Genuine alpha transparency, not a painted checkerboard. Return at exactly 1024 x 1024 without resizing.\nCORRECTION \u2014 the previous attempt failed the required dimensions and silhouette and had excessive reflections. Output native 1024 \u00d7 1024 pixels, NOT 1254 \u00d7 1254. Treat input 1 as an immutable image canvas: recolour its existing opaque pixels ONLY. Copy its alpha unchanged. The tip remains at about (561,66), root bottom at y=958, leftmost outline x=190, rightmost x=834; preserve all the guide's empty margin. Do not imitate the design-reference outline or perforations. Keep the guide's broad solid facets, and make their surface nearly uniform dark violet-black with restrained glass texture; no silver-white reflection streaks, no bright facet edges. Only existing end openings may have muted amber intrinsic colour. Pale ash and bubbly glass at the foot. Deliver a single square 1024 \u00d7 1024 PNG.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/guide_front.png",
+          "sha256": "b3486e5e4365ad049236fa72f1a65e8f883107bff33cad85fa745d448f4362d2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-28a3-7973-9539-68b121fa5745/exec-e5aca617-0abe-45a7-8cdc-734923250c14.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/paint_front.png",
+      "selected": true,
+      "reason": "Best permitted front return: closer framing and reduced highlights. Selected for preservation, not acceptance; native resolution and exact silhouette requirements remain unmet, and residual lighting remains.",
+      "output_sha256": "bbff4d903b06699bf56e87ffa45f7fc9ced6c8b87e92e7caa9de0b2ec3c57816",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          25,
+          1208,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          192,
+          66,
+          832,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "Black-violet glass, grey bubbly glass and pale ash are present; orange detail is stronger than ideal.",
+        "flat_lighting_pass": false,
+        "flat_lighting_note": "Residual facet highlights and dark recess shading remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 RGBA image, transparent background, an albedo texture-source painting for the Glass tree (fulgurite).\nInput 1 guide_top.png is the EDIT TARGET and absolute geometry authority: the exact plain grey orthographic top view of the 3D model. Input 2 design_reference.png is MATERIAL AND COLOUR REFERENCE ONLY; do not adopt its three-quarter camera or geometry.\nPaint directly over the guide in place. Preserve its silhouette EXACTLY pixel-for-pixel: same outline, size, position in the 1024-square frame, every edge, branch, tip, root, opening and shape detail in its original position. Preserve all transparent pixels and antialiased edge coverage of the guide. No added branches, holes or protrusions; nothing outside the guide silhouette, nothing cropped. Do not rotate, recenter, resize, enlarge or redesign anything. This is the existing TOP-DOWN orthographic view, with foreshortened overlapping branches; keep it top-down exactly as the guide, not a standing tree.\nTransfer the design reference's surface materials: glossy black obsidian glass with a faint violet sheen, rough bubbly grey-black glass at the foot, pale grey ash crust around the base. Express the glass through intrinsic dark material colour and subtle surface texture, not studio reflection streaks. Follow the reference's material distribution as appropriate to this exact view.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless lighting from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not bake the reference image's dramatic lighting into the result. Any existing orange seams are painted their intrinsic orange colour, with no light spill.\nNo background, no floor, no text or labels. Genuine alpha transparency, not a painted checkerboard. Return at exactly 1024 x 1024 without resizing.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/guide_top.png",
+          "sha256": "e69d490ad0a1f610e4e12b38bdf1550626e8d0c6327e3358fa3ba1c83f76b719"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-28a3-7973-9539-68b121fa5745/exec-e795cdcd-8d1d-4bba-89d7-f50ee096d0da.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Initial result enlarged the object substantially and retained excessive reflective lighting.",
+      "output_sha256": "38f583e00241e97064ecba3ae6493643c4e6704175cbf3d4afc120be8f48e0b3",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1251,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          192,
+          271,
+          832,
+          753
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "Black-violet glass, grey bubbly glass and pale ash are present; orange detail is stronger than ideal.",
+        "flat_lighting_pass": false,
+        "flat_lighting_note": "Residual facet highlights and dark recess shading remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 RGBA image, transparent background, an albedo texture-source painting for the Glass tree (fulgurite).\nInput 1 guide_top.png is the EDIT TARGET and absolute geometry authority: the exact plain grey orthographic top view of the 3D model. Input 2 design_reference.png is MATERIAL AND COLOUR REFERENCE ONLY; do not adopt its three-quarter camera or geometry.\nPaint directly over the guide in place. Preserve its silhouette EXACTLY pixel-for-pixel: same outline, size, position in the 1024-square frame, every edge, branch, tip, root, opening and shape detail in its original position. Preserve all transparent pixels and antialiased edge coverage of the guide. No added branches, holes or protrusions; nothing outside the guide silhouette, nothing cropped. Do not rotate, recenter, resize, enlarge or redesign anything. This is the existing TOP-DOWN orthographic view, with foreshortened overlapping branches; keep it top-down exactly as the guide, not a standing tree.\nTransfer the design reference's surface materials: glossy black obsidian glass with a faint violet sheen, rough bubbly grey-black glass at the foot, pale grey ash crust around the base. Express the glass through intrinsic dark material colour and subtle surface texture, not studio reflection streaks. Follow the reference's material distribution as appropriate to this exact view.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even, flat, shadowless lighting from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not bake the reference image's dramatic lighting into the result. Any existing orange seams are painted their intrinsic orange colour, with no light spill.\nNo background, no floor, no text or labels. Genuine alpha transparency, not a painted checkerboard. Return at exactly 1024 x 1024 without resizing.\nCORRECTION: The previous attempt enlarged the object to fill the canvas and added excessive reflections. Keep the exact generous transparent margins from input 1: the object occupies only x=190 through 833 and y=271 through 752 on a 1024 \u00d7 1024 canvas. Native output MUST be 1024 \u00d7 1024 pixels, NOT 1254 \u00d7 1254. Do not zoom or reframe. Copy the input guide's alpha and positions unchanged; paint inside it as an in-place recolouring edit. Retain the broad smooth solid facets of the guide, add no new holes or cutouts. Paint nearly uniform dark violet-black obsidian albedo with subdued surface texture, grey-black bubbly glass and pale ash on base-facing portions only. Remove bright silver-white highlights and reflection streaks and dark occlusion shading. Existing orange seams may have muted intrinsic orange colour without glow spill. This is a flat unlit texture painting, not a lit beauty render. Precisely preserve the TOP-DOWN camera and each guide shape.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/guide_top.png",
+          "sha256": "e69d490ad0a1f610e4e12b38bdf1550626e8d0c6327e3358fa3ba1c83f76b719"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16049-28a3-7973-9539-68b121fa5745/exec-c10375c0-e08d-4118-be9b-4864603df0eb.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/paint_top.png",
+      "selected": true,
+      "reason": "Best permitted top return: restored relative framing and reduced highlights. Selected for preservation, not acceptance; native resolution and exact silhouette requirements remain unmet, and residual lighting remains.",
+      "output_sha256": "f02f1760dd76a80ad83914cf1ec456524e2ea5e919a12d56fb466df38ce32d36",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1246,
+          1200
+        ],
+        "guide_alpha_bbox": [
+          192,
+          271,
+          832,
+          753
+        ],
+        "silhouette_identical": false,
+        "materials_visual": "Black-violet glass, grey bubbly glass and pale ash are present; orange detail is stronger than ideal.",
+        "flat_lighting_pass": false,
+        "flat_lighting_note": "Residual facet highlights and dark recess shading remain.",
+        "accepted_as_brief_compliant": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+output_dir: ../captures/4x3_1
+exit: true
+steps:
+- wait: 4
+- console: hireling add 42
+- console: hireling buff 42
+- console: hireling hp 42 82
+- console: hireling recovery 42 10
+- wait: 5
+- capture: rail

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obsolete UI — applied cleanup</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#111b18;color:#ede5cf;font:16px system-ui,sans-serif}
+main{max-width:1560px;margin:auto;padding:30px}h1{font-size:28px;margin:0 0 12px}p{line-height:1.5;color:#c6c9bd}
+a{color:#a7cce5}header{border-bottom:1px solid #5d5c42;padding-bottom:16px}
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:22px 0}
+select,input,button{background:#20332c;color:#ede5cf;border:1px solid #737458;border-radius:4px;padding:9px;font:inherit}
+input{min-width:300px}button:disabled{opacity:.4}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+article{background:#192720;border:1px solid #3d5042;padding:12px;min-width:0}
+.art{height:142px;background:repeating-conic-gradient(#28332c 0% 25%,#1a241e 0% 50%) 50%/18px 18px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;overflow:hidden}
+.art img{max-width:100%;max-height:100%;object-fit:contain}.name{overflow-wrap:anywhere;font-weight:600}
+.path{font-size:11px;color:#9fac9d;overflow-wrap:anywhere}.badge{display:block;margin:7px 0;color:#c9bf85;font-size:12px}
+details{margin-top:8px;font-size:12px}summary{cursor:pointer}details p{margin:6px 0}.pager{display:flex;gap:14px;align-items:center;margin:24px 0}
+</style>
+<main>
+<header><h1>Obsolete UI: cleanup applied</h1>
+<p>Removed the approved 528 files / 39.0 MiB from runtime mounts. 61 further files need settings, animation-table
+or test cleanup. Artwork below links to preserved source files or the recovery archive. The Git index is unchanged.</p>
+<a href="README.md">Audit and integration notes</a> · <a href="remove-files.txt">Removal paths</a> ·
+<a href="removal_manifest.json">Hashed manifest</a> · <a href="conditional_manifest.json">Conditional batch</a>
+</header>
+<div class="tools"><label>Show <select id="filter"><option value="stage_removal">Removed files</option>
+<option value="after_">Conditional batch</option><option value="all">All candidates</option></select></label>
+<input id="search" type="search" placeholder="Filter names or paths…" aria-label="Filter file names">
+<span id="count" aria-live="polite"></span></div>
+<div class="grid" id="grid"></div><div class="pager"><button id="prev">Previous</button><span id="page"></span><button id="next">Next</button></div>
+</main>
+<script src="review-data.js"></script>
+<script>
+const items=window.cleanupReview, grid=document.getElementById('grid'), filter=document.getElementById('filter');
+const search=document.getElementById('search'); let page=0; const size=48;
+const labels={stage_removal:'Removed · source preserved',after_settings_retirement:'Requires old settings retirement',
+ after_animation_retirement:'Requires animation-table retirement',after_test_retirement:'Requires stale test migration'};
+function el(tag,text,cls){const e=document.createElement(tag);if(text)e.textContent=text;if(cls)e.className=cls;return e}
+function render(){
+ const query=search.value.toLowerCase();
+ const selected=items.filter(r=>(filter.value==='all'||r.status.startsWith(filter.value))&&r.path.toLowerCase().includes(query));
+ const pages=Math.max(1,Math.ceil(selected.length/size));page=Math.min(page,pages-1);grid.replaceChildren();
+ document.getElementById('count').textContent=`${selected.length} files · ${(selected.reduce((s,r)=>s+r.bytes,0)/1048576).toFixed(1)} MiB`;
+ for(const r of selected.slice(page*size,(page+1)*size)){
+  const card=el('article'), art=el('a',null,'art');art.target='_blank';
+  const source=r.archive_artifact||(r.status==='stage_removal'?null:r.path);
+  art.href=source?'../../../'+source:'recovery_extras.zip';
+  if(!source)art.append(el('span','Preserved in recovery archive'));
+  else if(/\.(png|bmp|jpe?g|webp)$/i.test(source)){const image=el('img');image.src=art.href;image.alt=r.name;image.loading='lazy';art.append(image)}
+  else art.append(el('span',/\.pcx$/i.test(r.path)?'PCX artwork — open file':'Layout / metadata'));
+  card.append(art,el('div',r.name,'name'),el('span',labels[r.status],'badge'),el('div',r.path,'path'));
+  const detail=el('details');detail.append(el('summary',`${(r.bytes/1024).toFixed(1)} KiB · evidence`),el('p',r.reason));
+  for(const ref of r.references){const a=el('a',`${ref.source}:${ref.line}`);a.href='../../../'+ref.source;detail.append(el('br'),a)}
+  card.append(detail);grid.append(card);
+ }
+ document.getElementById('page').textContent=`Page ${page+1} / ${pages}`;
+ document.getElementById('prev').disabled=page===0;document.getElementById('next').disabled=page===pages-1;
+}
+filter.onchange=search.oninput=()=>{page=0;render()};
+document.getElementById('prev').onclick=()=>{page--;render();window.scrollTo(0,0)};
+document.getElementById('next').onclick=()=>{page++;render();window.scrollTo(0,0)};render();
+</script>
+</html>

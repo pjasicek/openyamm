@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png exactly according to this brief. Input order: image 1 is the grey guide EDIT TARGET, image 2 design_reference.png is material/detail reference, image 3 icon_x8.png is colour reference (magenta is background, do not reproduce). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the exact guide silhouettes, positions, sizes, orientations, openings and layout. Three columns by FOUR rows: rows 1-2 five views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat those same five views. Do not redraw, enlarge, move or redesign objects. Rows 1-2 PAINT ONLY: source-faithful golden ochre brown leather gloves with dark olive green leather cuff edging, fine leather grain, seams and wrinkles following approved design reference scaled to each view. Unlit base colour only, no lighting, cast shadows, ambient occlusion, hot highlights or reflections. Interior visible leather is leather too. Rows 3-4 MATERIAL MASK ONLY: exact same five silhouettes filled with FLAT pure material colours, no texture, no shading, no outlines, no antialiased colour blends inside. Pure red #FF0000 metal; pure green #00FF00 leather and fur; pure blue #0000FF cloth and hair; pure black #000000 gemstones/glass/enamel/liquids. This item is leather including olive cuff so use pure green throughout its leather mask silhouettes. Every pixel inside a silhouette receives exactly one material colour, nothing outside. Keep gaps and openings exactly as guide and fully transparent. Column 3 row 2 and column 3 row 4 stay entirely empty transparent. No text, ground, halo, sparkles, aura or outlines. Preserve guide geometry over reference pose. Copy guide, paint its surfaces only.\nCORRECTION REQUIRED: The previous attempt had green splatters outside mask silhouettes. Avoid that completely. Bottom five shapes must be clean solid green cutouts with precisely the original guide contour, no splatter, no noise, no green pixels outside shapes, no black contour strokes. All ten shapes must retain original guide bounds. Empty surrounding pixels must be transparent. Paint top views with even unlit albedo, avoid dark lighting gradients.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-a6b8-74b0-956d-c612847f7790/exec-f1964932-579e-4f46-ac3d-a29ffb61f070.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10133/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Visual inspection: stray green pixels remain outside material mask silhouettes after the permitted correction. Raw output preserved without modifications.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10133/paint_mask_guide.png",
+      "sha256": "115a7afe50315eeb1082d912abef398b5b9dec62c00b3c0f8ee83ed61d80d01d"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10133/design_reference.png",
+      "sha256": "a0a1f8f05437ecb310e99d8f5bf632e20b9ae2c7f3591158e0f94162d787cded"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10133/icon_x8.png",
+      "sha256": "a952bb5a2e4ee3b7c6cda28c29a9426819074ee83e0c67b6583a5c6e7d56111e"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ]
+}

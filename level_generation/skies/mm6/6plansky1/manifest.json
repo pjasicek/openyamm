@@ -1,0 +1,61 @@
+{
+  "world": "mm6",
+  "texture_key": "6plansky1",
+  "identical_aliases": [
+    "6sky01"
+  ],
+  "status": "accepted",
+  "selected_version": "v3_local",
+  "user_art_acceptance": {
+    "date": "2026-09-09",
+    "quote": "OK this is fine",
+    "version": "v3_local",
+    "runtime_sha256": "41bddc20a7ab2545b53d746ff35803f1cc062aeb08d14d0462aa0c499dd8d747",
+    "scope": "Repaired pilot artwork, including the seam correction; original-game renderer/fog fidelity and production rollout remain open."
+  },
+  "agent_assessment": "Targeted tile seam repair checked in repeats, half-offset and actual-game scroll samples; original-game sky/fog presentation remains unresolved.",
+  "generation_mode": "Built-in imagegen; v3 half-offset local seam repair composited onto v2 to preserve unaffected artwork.",
+  "native_source": "assets_dev/worlds/mm6/textures/6plansky1.bmp",
+  "native_size": [
+    512,
+    512
+  ],
+  "generated_size": [
+    1254,
+    1254
+  ],
+  "runtime_size": [
+    1024,
+    1024
+  ],
+  "selected_export": "runtime_x2/6plansky1.png",
+  "runtime_sha256": "41bddc20a7ab2545b53d746ff35803f1cc062aeb08d14d0462aa0c499dd8d747",
+  "export_method": "AI half-offset seam repair, Lanczos to 1024px, local 48px cross selection with sigma-12 mask feather, composite onto v2 offset, undo 512px roll; opaque RGB. No cloud blur, palette grading, mirrored or forced matching edge strips.",
+  "imagemagick_version": "See export_tool_version.txt",
+  "project_review": "review/v3/index.html",
+  "feedback": "review/feedback.md",
+  "production_installed": false,
+  "isolated_stage": "/tmp/openyamm-mm6-6plansky1-pilot",
+  "planned_production_targets": [
+    "assets_dev/worlds/mm6/textures_x2/6plansky1.png",
+    "assets_dev/worlds/mm6/textures_x2/6sky01.png"
+  ],
+  "files": {
+    "source/6plansky1.bmp": "852560c09d25b5f468613121203dd3c24090cd334462fbd52dbdae7775e2a1c3",
+    "source/6plansky1.png": "b2f0c2edcc2b100fde9979e2ab530b4dd61fd4590722d0ea19d33a4b27bee29e",
+    "source/overhead.oysav": "2920f823e677c88982ce165ced663b1a48fb5938eea01fe49a8ab709be3ca7a8",
+    "source/horizon.oysav": "de3f1b1ddea89040462a313b21ee42594eae8b4325a5e6cc7a291a9b333fa6cc",
+    "prompts/v1.txt": "e5e461d4d8ab1c171b28bbb4b27a59c98fa049193bf8785df702f325f47c55dc",
+    "prompts/v2.txt": "26ff8038d562dee665b11f9078452b03d467f5545458b69bfa9f6aa386246899",
+    "generated/v1.png": "15ba2adb44b701f41d187e1e30c0a96ed67d392e54bb4c2607b4d42ff58e7b81",
+    "generated/v2.png": "d2a0a1b8cbb46b038dbdeb729bbf0629bc3e37d289cb308e863ed7468ee94060",
+    "runtime_x2/6plansky1.png": "41bddc20a7ab2545b53d746ff35803f1cc062aeb08d14d0462aa0c499dd8d747",
+    "runtime_x2/6sky01.png": "41bddc20a7ab2545b53d746ff35803f1cc062aeb08d14d0462aa0c499dd8d747",
+    "generated/v3_offset.png": "8d19f7ffd0132dddd2d1eef816c26edae7e903900630cc1673f5c256551b4d12",
+    "prompts/v3.txt": "83920ecb445205d8f4ac649611be55f53b5b352b30d87ddda24de9948c099ede",
+    "review/v2/6plansky1.png": "526270bc6b784382254a4ea4eb8dc85c9003ed6914fd482d56e206fe7bc543a3",
+    "review/restored_offset.png": "9433eaae7870e5bb2d5488779a6fd6529c7b4191f5904c5ed0e020d057aacacb",
+    "review/v3/repair_mask.png": "427d7c05bd9f404f9f163faa71dd289029d8ee4f0055b9bd396497faf9470729"
+  },
+  "previous_version": "review/v2/manifest.json"
+}

@@ -1,0 +1,36 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "date": "2026-10-18",
+  "meshy_credits": 0,
+  "images": [
+    {
+      "file": "jewellery_item211_cover.png",
+      "prompt": "Use case: stylized-concept. Asset type: flat albedo texture for a 3D fantasy spellbook cover. Reference image: the attached tiny purple Dimension Door book inventory icon defines its visual identity. Generate ONLY the front cover artwork as a completely straight-on orthographic rectangular painting filling the entire canvas, width:height about 0.78. Rich dark violet leather, intricate silver-violet curling corner filigree, narrow silver border, small gold corner studs, a centered diamond-shaped gold mount enclosing a purple oval gem with violet rings. Preserve the source motifs. Flat even shadowless albedo; no cast shadow, no directional sheen, no strong baked specular highlights. NO perspective, NO page edges, NO spine, NO background, NO text, NO new symbols. The cover must have four straight edges and square corners so it maps exactly to a rectangular UV surface. Fine leather grain and engraved curls, readable at small game size. Export opaque artwork.",
+      "sha256": "619c637184acb52f499f736835f2e24b9f259e0bb543c56ffbc7b7a7a02e833f",
+      "size": [
+        1105,
+        1423
+      ]
+    },
+    {
+      "file": "jewellery_leather.png",
+      "prompt": "Use case: stylized-concept. Asset type: physically based game texture, one seamless neutral leather albedo swatch. Fill the entire square with medium neutral grey tanned leather, fine irregular pores, subdued tiny creases and softly worn grain. Flat even shadowless illumination. No object, no seams, no stitching, no border, no symbols, no holes, no hardware, no dramatic stains, no directional highlights, no occlusion or vignette. Must tile seamlessly in both directions. This swatch will be tinted brown or black on correctly unwrapped medieval belt straps. Make grain modest and natural, not stone or cracked mud.",
+      "sha256": "e84503013b611571beeecf1e0c7aa7ef90ea0510ec5e787add7afccd899126fd",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "file": "jewellery_trim_painted.png",
+      "tool": "image_gen.imagegen (built-in)",
+      "purpose": "Purpose-built eight-cell trim atlas for engraved bands, plaques, medallions and scarab enamel",
+      "sha256": "2fe12392fd864dfea3109f0b3d1f0da66743ed2137a159ee9699e928f71f02a0",
+      "size": [
+        1774,
+        887
+      ],
+      "prompt_file": "trim_prompt.txt"
+    }
+  ]
+}

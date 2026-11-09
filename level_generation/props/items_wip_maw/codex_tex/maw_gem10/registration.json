@@ -1,0 +1,88 @@
+{
+  "min_iou": 0.95,
+  "max_displacement_p95": 0.04,
+  "passed": true,
+  "failures": [],
+  "views": {
+    "paint_front": {
+      "bbox_ratio": [
+        0.9832,
+        1.0459
+      ],
+      "iou_affine": 0.9391,
+      "iou_warped": 0.9963,
+      "displacement_p95": 0.0165,
+      "displacement_max": 0.0213,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "ea161c539ee70944fc4d3a92c0b75ac4828139d1c6036a63831904d0e1c84c76",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9963"
+      ]
+    },
+    "paint_back": {
+      "bbox_ratio": [
+        0.9832,
+        1.0459
+      ],
+      "iou_affine": 0.9401,
+      "iou_warped": 0.9966,
+      "displacement_p95": 0.0163,
+      "displacement_max": 0.0212,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "ea161c539ee70944fc4d3a92c0b75ac4828139d1c6036a63831904d0e1c84c76",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9966"
+      ]
+    },
+    "paint_left": {
+      "bbox_ratio": [
+        0.9832,
+        1.0459
+      ],
+      "iou_affine": 0.9393,
+      "iou_warped": 0.9966,
+      "displacement_p95": 0.0165,
+      "displacement_max": 0.0212,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "ea161c539ee70944fc4d3a92c0b75ac4828139d1c6036a63831904d0e1c84c76",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9966"
+      ]
+    },
+    "paint_right": {
+      "bbox_ratio": [
+        0.9832,
+        1.0459
+      ],
+      "iou_affine": 0.9367,
+      "iou_warped": 0.9979,
+      "displacement_p95": 0.0164,
+      "displacement_max": 0.0212,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "ea161c539ee70944fc4d3a92c0b75ac4828139d1c6036a63831904d0e1c84c76",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9979"
+      ]
+    },
+    "paint_top": {
+      "bbox_ratio": [
+        0.9663,
+        0.9753
+      ],
+      "iou_affine": 0.9883,
+      "iou_warped": 0.9985,
+      "displacement_p95": 0.0044,
+      "displacement_max": 0.0054,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "ea161c539ee70944fc4d3a92c0b75ac4828139d1c6036a63831904d0e1c84c76",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9985"
+      ]
+    }
+  }
+}

@@ -1,0 +1,499 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "scope": "Image generation only; original tool returns copied without image modification.",
+  "runs": [
+    {
+      "view": "front",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture source for the Hesper glassback heart game item.\nINPUT ROLES: Image 1 is the EXACT geometry/edit target (guide_front.png); Image 2 is design_reference.png, the approved colour and material authority ONLY.\nPaint directly over image 1. Keep its alpha silhouette, every opening, every part edge, position, scale, orientation, and orthographic projection exactly. Preserve the guide's 1024 x 1024 canvas and empty margins. Do not recompose the image to resemble image 2. Do not rotate the object upright. The geometry guide overrides the design reference for all shapes.\nMATERIALS: Map the reference's smoky black-violet crystalline/resin overlapping pointed plates to the corresponding angular plates in the guide. Fine muted plum/brown mineral marbling, restrained fine wear and subtle pale worn edge colour. Underlying organic resin is deep aubergine/plum. Exposed inner glass/crystal chambers and vessel interiors have warm orange-amber and pale golden light colour. The reference's branching ivory/champagne ceramic or bone-like framework and vessel rims are warm pale ivory with fine worn grain. Continue these materials plausibly on unseen surfaces. Add only surface detail, no new geometry, no additional plates, openings or tubes. No unrelated gold metal, cloth, leather, paper or blue light absent from the reference.\nLIGHTING: flat, evenly lit ALBEDO painting, shadowless illumination from viewer; remove grey guide shading. No cast shadows, ambient occlusion, directional shading, black crevice shading, specular hot spots, bright reflective streaks, environmental reflections, rim light, bloom or glow spill. Dark resin is its local colour, metal-like edges only faint sheen. Emissive cavities use flat bright amber/golden colour rather than lighting neighbouring surfaces. Detailed painted material, not a glossy beauty render.\nOUTPUT: one 1024 x 1024 RGBA PNG, genuinely transparent background; preserve guide transparency, internal holes and fine outer edges exactly. No backdrop, floor, shadow, labels, text, letters, watermark, layout, contact sheet or inset.\nVIEW-SPECIFIC GEOMETRY: FRONT view: preserve the nearly round foreshortened shape exactly, with broad overlapping pointed plates over the left/top/lower areas and a broad exposed rounded chamber on the right. No vessel mouths are visible in this guide; do not invent them. Original nonzero-alpha bounds approximately x=173..850, y=187..836.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "b942ff904d12695a3d501e4241374acd509f11585f75e3f6de6f1f33d2386198"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-5c89b1c9-663b-4b7f-b412-03db1142781b.png",
+      "output": "paint_front_run1.png",
+      "selected": false,
+      "reason": "Not selected: the one corrective return gives flatter material colour and/or better guide alignment. Raw return preserved for traceability.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "540ad7c85c2fb59ec63e97981fd9cffabe2c6f5a41ae077ed8eadd63df54c1ea",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1216,
+          1254
+        ],
+        "opaque_bbox": [
+          199,
+          190,
+          1091,
+          1040
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.8690994845042077,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Black-violet/plum plates and resin, warm ivory framework and amber chambers match the reference family.",
+        "lighting": "Residual baked shading and highlights; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "front",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture source for the Hesper glassback heart game item.\nINPUT ROLES: Image 1 is design_reference.png, the colour and material reference ONLY; Image 2 is guide_front.png, the EXACT geometry/edit target and output canvas.\nPaint directly over the geometry guide (image 2). Keep its alpha silhouette, every opening, every part edge, position, scale, orientation, and orthographic projection exactly. Preserve the guide's 1024 x 1024 canvas and empty margins. Do not recompose the image to resemble the design reference (image 1). Do not rotate the object upright. The geometry guide overrides the design reference for all shapes.\nMATERIALS: Map the reference's smoky black-violet crystalline/resin overlapping pointed plates to the corresponding angular plates in the guide. Fine muted plum/brown mineral marbling, restrained fine wear and subtle pale worn edge colour. Underlying organic resin is deep aubergine/plum. Exposed inner glass/crystal chambers and vessel interiors have warm orange-amber and pale golden light colour. The reference's branching ivory/champagne ceramic or bone-like framework and vessel rims are warm pale ivory with fine worn grain. Continue these materials plausibly on unseen surfaces. Add only surface detail, no new geometry, no additional plates, openings or tubes. No unrelated gold metal, cloth, leather, paper or blue light absent from the reference.\nLIGHTING: flat, evenly lit ALBEDO painting, shadowless illumination from viewer; remove grey guide shading. No cast shadows, ambient occlusion, directional shading, black crevice shading, specular hot spots, bright reflective streaks, environmental reflections, rim light, bloom or glow spill. Dark resin is its local colour, metal-like edges only faint sheen. Emissive cavities use flat bright amber/golden colour rather than lighting neighbouring surfaces. Detailed painted material, not a glossy beauty render.\nOUTPUT: one 1024 x 1024 RGBA PNG, genuinely transparent background; preserve guide transparency, internal holes and fine outer edges exactly. No backdrop, floor, shadow, labels, text, letters, watermark, layout, contact sheet or inset.\nVIEW-SPECIFIC GEOMETRY: FRONT view: preserve the nearly round foreshortened shape exactly, with broad overlapping pointed plates over the left/top/lower areas and a broad exposed rounded chamber on the right. No vessel mouths are visible in this guide; do not invent them. Original nonzero-alpha bounds approximately x=173..850, y=187..836.\nCORRECTION (only corrective regeneration for this view): The previous attempt changed canvas size and enlarged/shifted the shape and retained reflective edges. Start again from image 2 (the 1024 x 1024 guide) as the canvas. Trace its pixels, without moving or rescaling any part. Exact guide bounds x=173..850, y=187..836. Copy its entire alpha channel including transparent interior gaps. Restrict painting strictly to existing guide pixels. Keep generous empty margins exactly. Flatten all highlights and shading into material local colours; brighter orange only in exposed amber chamber, subdued grey-violet plates without metallic white highlights. Never use the square dimensions of the design reference as the output dimensions.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "b942ff904d12695a3d501e4241374acd509f11585f75e3f6de6f1f33d2386198"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-72596974-1b08-4579-9c91-d01af45d64ae.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrected front: flatter surface treatment than run 1; exact silhouette and strict albedo still not achieved.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "26072f978c74bff4d12f7378c210ee31639ed5f0d0caaed7d792db5a5ccb659f",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          71,
+          1234,
+          1214
+        ],
+        "opaque_bbox": [
+          209,
+          201,
+          1074,
+          1034
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.8937501085452619,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Black-violet/plum plates and resin, warm ivory framework and amber chambers match the reference family.",
+        "lighting": "Residual baked shading and highlights; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture source for the Hesper glassback heart game item.\nINPUT ROLES: Image 1 is design_reference.png, the colour and material reference ONLY; Image 2 is guide_back.png, the EXACT geometry/edit target and output canvas.\nPaint directly over the geometry guide (image 2). Keep its alpha silhouette, every opening, every part edge, position, scale, orientation, and orthographic projection exactly. Preserve the guide's 1024 x 1024 canvas and empty margins. Do not recompose the image to resemble the design reference (image 1). Do not rotate the object upright. The geometry guide overrides the design reference for all shapes.\nMATERIALS: Map the reference's smoky black-violet crystalline/resin overlapping pointed plates to the corresponding angular plates in the guide. Fine muted plum/brown mineral marbling, restrained fine wear and subtle pale worn edge colour. Underlying organic resin is deep aubergine/plum. Exposed inner glass/crystal chambers and vessel interiors have warm orange-amber and pale golden light colour. The reference's branching ivory/champagne ceramic or bone-like framework and vessel rims are warm pale ivory with fine worn grain. Continue these materials plausibly on unseen surfaces. Add only surface detail, no new geometry, no additional plates, openings or tubes. No unrelated gold metal, cloth, leather, paper or blue light absent from the reference.\nLIGHTING: flat, evenly lit ALBEDO painting, shadowless illumination from viewer; remove grey guide shading. No cast shadows, ambient occlusion, directional shading, black crevice shading, specular hot spots, bright reflective streaks, environmental reflections, rim light, bloom or glow spill. Dark resin is its local colour, metal-like edges only faint sheen. Emissive cavities use flat bright amber/golden colour rather than lighting neighbouring surfaces. Detailed painted material, not a glossy beauty render.\nOUTPUT: one 1024 x 1024 RGBA PNG, genuinely transparent background; preserve guide transparency, internal holes and fine outer edges exactly. No backdrop, floor, shadow, labels, text, letters, watermark, layout, contact sheet or inset.\nVIEW-SPECIFIC GEOMETRY: BACK view: preserve the nearly round foreshortened shape exactly, including the three existing polygonal vessel openings facing the viewer on the left and centre, the loop along the left outline, and long pointed plates over the right/lower perimeter. Warm ivory rims and framework around the existing openings, plum resin, amber interiors. Original nonzero-alpha bounds approximately x=173..850, y=187..836.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "6def95c0c76df80ca108fa4ff0a0dca2db085ce400b91abc459260bcae971a1d"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-ff8687e1-e826-49f8-a34e-ba2bc77fb610.png",
+      "output": "paint_back_run1.png",
+      "selected": false,
+      "reason": "Not selected: the one corrective return gives flatter material colour and/or better guide alignment. Raw return preserved for traceability.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "686643f2e3b6b2877c689bd55433ae61d358b0b0f8a826e9ee69e4ce873d0618",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1236,
+          1254
+        ],
+        "opaque_bbox": [
+          218,
+          228,
+          1046,
+          1024
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9779483503888403,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Black-violet/plum plates and resin, warm ivory framework and amber chambers match the reference family.",
+        "lighting": "Residual baked shading and highlights; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE GENERATION: Paint the attached guide_back.png with FLAT MATERIAL COLOUR. It is a 1024 x 1024 orthographic render of the EXACT low-poly model to texture. Output 1024 x 1024, not 1254, and preserve the input alpha channel exactly. Every existing edge and every grey polygon is a fixed shape and pixel location. Colourization only; retain all original geometry, framing, canvas, proportions and perspective. There must be absolutely no redesign, warping, added parts or rescaling. Keep the existing blank margins. No painted pixel outside the guide alpha. Preserve every internal transparent opening.\nThe approved glassback heart design's material palette is: overlapping dark smoky black-violet crystal/resin armour plates with soft muted plum and brown fine mineral grain; dark aubergine organic resin between those plates; a warm pale ivory/champagne ceramic/bone-like vessel framework, with fine worn grain; exposed inner glass chambers and vessel-mouth interiors in flat bright orange-amber and pale golden yellow. Assign these only to existing surfaces in the guide. Continue these same materials over hidden sides. Fine restrained grain and wear, subtle thin panel seams and worn edges. No extra ornamental lattice, no new geometry. No writing.\nThis is a BASE COLOUR / ALBEDO TEXTURE SOURCE, not a studio render. Replace ALL grey shading with flat local material colour, equally lit across the entire object. Use near-uniform base colour for each material with only fine small grain variation. NO facet-to-facet lighting gradients, NO specular highlights, NO white glints, NO bright edges, NO shiny reflections, NO cast shadows or contact shadows, NO dark ambient occlusion in cracks, NO rim light. The plate boundaries are retained by seams and material detail, NOT by dark shading. Amber is a bright local colour, without glow bloom or reflected light on other parts. No floor or background: preserve true transparent alpha.\nBACK view: preserve the nearly round foreshortened shape exactly, including the three existing polygonal vessel openings facing the viewer on the left and centre, the loop along the left outline, and long pointed plates over the right/lower perimeter. Warm ivory rims and framework around the existing openings, plum resin, amber interiors. Original nonzero-alpha bounds approximately x=173..850, y=187..836.\nThe earlier attempt matched the material family but returned 1254 square and had shadows/highlights. This is the only corrective regeneration: prioritize exact 1024 canvas and geometry-guide alignment and flat albedo. Return one image only, no labels, no letters, no border, no collage.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "6def95c0c76df80ca108fa4ff0a0dca2db085ce400b91abc459260bcae971a1d"
+        }
+      ],
+      "approved_material_reference": {
+        "path": "design_reference.png",
+        "usage": "Inspected and supplied in initial generation; palette described in corrective prompt.",
+        "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-5d194f6b-ff02-407d-b712-6eadc8d6a440.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected the one allowed corrective return: flatter material colour and more faithful existing part boundaries; exact guide silhouette and strictly shadowless albedo remain unmet.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "45bc180de2042d51e06c915f7a079015dc97314c755e669c940d888f2c65127c",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          54,
+          1182,
+          1214
+        ],
+        "opaque_bbox": [
+          212,
+          227,
+          1043,
+          1025
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9901793744695405,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Palette follows the approved violet/plum resin, warm ivory and amber. Surface response is more matte; local material allocation still differs from the reference.",
+        "lighting": "Flatter than run 1, but some facet shading, vessel-interior shading and dark joins remain; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "left",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture source for the Hesper glassback heart game item.\nINPUT ROLES: Image 1 is design_reference.png, the colour and material reference ONLY; Image 2 is guide_left.png, the EXACT geometry/edit target and output canvas.\nPaint directly over the geometry guide (image 2). Keep its alpha silhouette, every opening, every part edge, position, scale, orientation, and orthographic projection exactly. Preserve the guide's 1024 x 1024 canvas and empty margins. Do not recompose the image to resemble the design reference (image 1). Do not rotate the object upright. The geometry guide overrides the design reference for all shapes.\nMATERIALS: Map the reference's smoky black-violet crystalline/resin overlapping pointed plates to the corresponding angular plates in the guide. Fine muted plum/brown mineral marbling, restrained fine wear and subtle pale worn edge colour. Underlying organic resin is deep aubergine/plum. Exposed inner glass/crystal chambers and vessel interiors have warm orange-amber and pale golden light colour. The reference's branching ivory/champagne ceramic or bone-like framework and vessel rims are warm pale ivory with fine worn grain. Continue these materials plausibly on unseen surfaces. Add only surface detail, no new geometry, no additional plates, openings or tubes. No unrelated gold metal, cloth, leather, paper or blue light absent from the reference.\nLIGHTING: flat, evenly lit ALBEDO painting, shadowless illumination from viewer; remove grey guide shading. No cast shadows, ambient occlusion, directional shading, black crevice shading, specular hot spots, bright reflective streaks, environmental reflections, rim light, bloom or glow spill. Dark resin is its local colour, metal-like edges only faint sheen. Emissive cavities use flat bright amber/golden colour rather than lighting neighbouring surfaces. Detailed painted material, not a glossy beauty render.\nOUTPUT: one 1024 x 1024 RGBA PNG, genuinely transparent background; preserve guide transparency, internal holes and fine outer edges exactly. No backdrop, floor, shadow, labels, text, letters, watermark, layout, contact sheet or inset.\nVIEW-SPECIFIC GEOMETRY: LEFT view: preserve the horizontally lying heart exactly: vessel projection on the far LEFT, pointed taper on the RIGHT, every layered plate and narrow gap. Do not rotate upright. Original nonzero-alpha bounds approximately x=66..957, y=187..836.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "b0a88a2b0d62fa40e7fd2f03d21c6ff230548866b370ac39697c090e961e462f"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-4b9c60fb-9715-4c1f-9e0c-5b9a2cf6d2d8.png",
+      "output": "paint_left_run1.png",
+      "selected": false,
+      "reason": "Not selected: the one corrective return gives flatter material colour and/or better guide alignment. Raw return preserved for traceability.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "aa856c5891007c19f3b4603d6ea8d4a775754203b1b7122ead432e78b0f0f0ab",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          20,
+          1224,
+          1212
+        ],
+        "opaque_bbox": [
+          79,
+          227,
+          1184,
+          1030
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9831458054890747,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Black-violet/plum plates and resin, warm ivory framework and amber chambers match the reference family.",
+        "lighting": "Residual baked shading and highlights; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "left",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE GENERATION: Paint the attached guide_left.png with FLAT MATERIAL COLOUR. It is a 1024 x 1024 orthographic render of the EXACT low-poly model to texture. Output 1024 x 1024, not 1254, and preserve the input alpha channel exactly. Every existing edge and every grey polygon is a fixed shape and pixel location. Colourization only; retain all original geometry, framing, canvas, proportions and perspective. There must be absolutely no redesign, warping, added parts or rescaling. Keep the existing blank margins. No painted pixel outside the guide alpha. Preserve every internal transparent opening.\nThe approved glassback heart design's material palette is: overlapping dark smoky black-violet crystal/resin armour plates with soft muted plum and brown fine mineral grain; dark aubergine organic resin between those plates; a warm pale ivory/champagne ceramic/bone-like vessel framework, with fine worn grain; exposed inner glass chambers and vessel-mouth interiors in flat bright orange-amber and pale golden yellow. Assign these only to existing surfaces in the guide. Continue these same materials over hidden sides. Fine restrained grain and wear, subtle thin panel seams and worn edges. No extra ornamental lattice, no new geometry. No writing.\nThis is a BASE COLOUR / ALBEDO TEXTURE SOURCE, not a studio render. Replace ALL grey shading with flat local material colour, equally lit across the entire object. Use near-uniform base colour for each material with only fine small grain variation. NO facet-to-facet lighting gradients, NO specular highlights, NO white glints, NO bright edges, NO shiny reflections, NO cast shadows or contact shadows, NO dark ambient occlusion in cracks, NO rim light. The plate boundaries are retained by seams and material detail, NOT by dark shading. Amber is a bright local colour, without glow bloom or reflected light on other parts. No floor or background: preserve true transparent alpha.\nLEFT view: preserve the horizontally lying heart exactly: vessel projection on the far LEFT, pointed taper on the RIGHT, every layered plate and narrow gap. Do not rotate upright. Original nonzero-alpha bounds approximately x=66..957, y=187..836.\nThe earlier attempt matched the material family but returned 1254 square and had shadows/highlights. This is the only corrective regeneration: prioritize exact 1024 canvas and geometry-guide alignment and flat albedo. Return one image only, no labels, no letters, no border, no collage.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "b0a88a2b0d62fa40e7fd2f03d21c6ff230548866b370ac39697c090e961e462f"
+        }
+      ],
+      "approved_material_reference": {
+        "path": "design_reference.png",
+        "usage": "Inspected and supplied in initial generation; palette described in corrective prompt.",
+        "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-cc0927d3-48ec-45c2-aaab-6d778a3f8cb9.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected the one allowed corrective return: flatter material colour and more faithful existing part boundaries; exact guide silhouette and strictly shadowless albedo remain unmet.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "dd07212015846cf62ade829dc478f611dd7957909cf3160a72da12e5ef427ae3",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1214,
+          1254
+        ],
+        "opaque_bbox": [
+          80,
+          228,
+          1176,
+          1028
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9883556874105255,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Palette follows the approved violet/plum resin, warm ivory and amber. Surface response is more matte; local material allocation still differs from the reference.",
+        "lighting": "Flatter than run 1, but some facet shading, vessel-interior shading and dark joins remain; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "right",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture source for the Hesper glassback heart game item.\nINPUT ROLES: Image 1 is design_reference.png, the colour and material reference ONLY; Image 2 is guide_right.png, the EXACT geometry/edit target and output canvas.\nPaint directly over the geometry guide (image 2). Keep its alpha silhouette, every opening, every part edge, position, scale, orientation, and orthographic projection exactly. Preserve the guide's 1024 x 1024 canvas and empty margins. Do not recompose the image to resemble the design reference (image 1). Do not rotate the object upright. The geometry guide overrides the design reference for all shapes.\nMATERIALS: Map the reference's smoky black-violet crystalline/resin overlapping pointed plates to the corresponding angular plates in the guide. Fine muted plum/brown mineral marbling, restrained fine wear and subtle pale worn edge colour. Underlying organic resin is deep aubergine/plum. Exposed inner glass/crystal chambers and vessel interiors have warm orange-amber and pale golden light colour. The reference's branching ivory/champagne ceramic or bone-like framework and vessel rims are warm pale ivory with fine worn grain. Continue these materials plausibly on unseen surfaces. Add only surface detail, no new geometry, no additional plates, openings or tubes. No unrelated gold metal, cloth, leather, paper or blue light absent from the reference.\nLIGHTING: flat, evenly lit ALBEDO painting, shadowless illumination from viewer; remove grey guide shading. No cast shadows, ambient occlusion, directional shading, black crevice shading, specular hot spots, bright reflective streaks, environmental reflections, rim light, bloom or glow spill. Dark resin is its local colour, metal-like edges only faint sheen. Emissive cavities use flat bright amber/golden colour rather than lighting neighbouring surfaces. Detailed painted material, not a glossy beauty render.\nOUTPUT: one 1024 x 1024 RGBA PNG, genuinely transparent background; preserve guide transparency, internal holes and fine outer edges exactly. No backdrop, floor, shadow, labels, text, letters, watermark, layout, contact sheet or inset.\nVIEW-SPECIFIC GEOMETRY: RIGHT view: preserve the horizontally lying heart exactly: pointed taper on the LEFT, existing vessel mouths/projections on the RIGHT, every layered plate and narrow gap. Do not rotate upright or mirror. Original nonzero-alpha bounds approximately x=66..957, y=187..836.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "086153912cd79bb9aac81ca66766be8fea74d980fc3d2c80edd81759600cea19"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-187de83e-1927-45aa-b931-3afec3816733.png",
+      "output": "paint_right_run1.png",
+      "selected": false,
+      "reason": "Not selected: the one corrective return gives flatter material colour and/or better guide alignment. Raw return preserved for traceability.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c8d28a7edb1e1f55e39dd986a1eb4c07aeea9a6d56d03c3537234a0bf64836f5",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          37,
+          32,
+          1190,
+          1220
+        ],
+        "opaque_bbox": [
+          73,
+          224,
+          1185,
+          1030
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9792928215971246,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Black-violet/plum plates and resin, warm ivory framework and amber chambers match the reference family.",
+        "lighting": "Residual baked shading and highlights; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "right",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE GENERATION: Paint the attached guide_right.png with FLAT MATERIAL COLOUR. It is a 1024 x 1024 orthographic render of the EXACT low-poly model to texture. Output 1024 x 1024, not 1254, and preserve the input alpha channel exactly. Every existing edge and every grey polygon is a fixed shape and pixel location. Colourization only; retain all original geometry, framing, canvas, proportions and perspective. There must be absolutely no redesign, warping, added parts or rescaling. Keep the existing blank margins. No painted pixel outside the guide alpha. Preserve every internal transparent opening.\nThe approved glassback heart design's material palette is: overlapping dark smoky black-violet crystal/resin armour plates with soft muted plum and brown fine mineral grain; dark aubergine organic resin between those plates; a warm pale ivory/champagne ceramic/bone-like vessel framework, with fine worn grain; exposed inner glass chambers and vessel-mouth interiors in flat bright orange-amber and pale golden yellow. Assign these only to existing surfaces in the guide. Continue these same materials over hidden sides. Fine restrained grain and wear, subtle thin panel seams and worn edges. No extra ornamental lattice, no new geometry. No writing.\nThis is a BASE COLOUR / ALBEDO TEXTURE SOURCE, not a studio render. Replace ALL grey shading with flat local material colour, equally lit across the entire object. Use near-uniform base colour for each material with only fine small grain variation. NO facet-to-facet lighting gradients, NO specular highlights, NO white glints, NO bright edges, NO shiny reflections, NO cast shadows or contact shadows, NO dark ambient occlusion in cracks, NO rim light. The plate boundaries are retained by seams and material detail, NOT by dark shading. Amber is a bright local colour, without glow bloom or reflected light on other parts. No floor or background: preserve true transparent alpha.\nRIGHT view: preserve the horizontally lying heart exactly: pointed taper on the LEFT, existing vessel mouths/projections on the RIGHT, every layered plate and narrow gap. Do not rotate upright or mirror. Original nonzero-alpha bounds approximately x=66..957, y=187..836.\nThe earlier attempt matched the material family but returned 1254 square and had shadows/highlights. This is the only corrective regeneration: prioritize exact 1024 canvas and geometry-guide alignment and flat albedo. Return one image only, no labels, no letters, no border, no collage.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "086153912cd79bb9aac81ca66766be8fea74d980fc3d2c80edd81759600cea19"
+        }
+      ],
+      "approved_material_reference": {
+        "path": "design_reference.png",
+        "usage": "Inspected and supplied in initial generation; palette described in corrective prompt.",
+        "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-7dd6efde-8956-4acb-a63c-d14e89283674.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected the one allowed corrective return: flatter material colour and more faithful existing part boundaries; exact guide silhouette and strictly shadowless albedo remain unmet.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e32d62221c7a55039e61a30a78dee00f639ed9c8d252108060497e2e6f6dd984",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1224,
+          1233
+        ],
+        "opaque_bbox": [
+          80,
+          225,
+          1174,
+          1026
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9911182253081207,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Palette follows the approved violet/plum resin, warm ivory and amber. Surface response is more matte; local material allocation still differs from the reference.",
+        "lighting": "Flatter than run 1, but some facet shading, vessel-interior shading and dark joins remain; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "run": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture source for the Hesper glassback heart game item.\nINPUT ROLES: Image 1 is design_reference.png, the colour and material reference ONLY; Image 2 is guide_top.png, the EXACT geometry/edit target and output canvas.\nPaint directly over the geometry guide (image 2). Keep its alpha silhouette, every opening, every part edge, position, scale, orientation, and orthographic projection exactly. Preserve the guide's 1024 x 1024 canvas and empty margins. Do not recompose the image to resemble the design reference (image 1). Do not rotate the object upright. The geometry guide overrides the design reference for all shapes.\nMATERIALS: Map the reference's smoky black-violet crystalline/resin overlapping pointed plates to the corresponding angular plates in the guide. Fine muted plum/brown mineral marbling, restrained fine wear and subtle pale worn edge colour. Underlying organic resin is deep aubergine/plum. Exposed inner glass/crystal chambers and vessel interiors have warm orange-amber and pale golden light colour. The reference's branching ivory/champagne ceramic or bone-like framework and vessel rims are warm pale ivory with fine worn grain. Continue these materials plausibly on unseen surfaces. Add only surface detail, no new geometry, no additional plates, openings or tubes. No unrelated gold metal, cloth, leather, paper or blue light absent from the reference.\nLIGHTING: flat, evenly lit ALBEDO painting, shadowless illumination from viewer; remove grey guide shading. No cast shadows, ambient occlusion, directional shading, black crevice shading, specular hot spots, bright reflective streaks, environmental reflections, rim light, bloom or glow spill. Dark resin is its local colour, metal-like edges only faint sheen. Emissive cavities use flat bright amber/golden colour rather than lighting neighbouring surfaces. Detailed painted material, not a glossy beauty render.\nOUTPUT: one 1024 x 1024 RGBA PNG, genuinely transparent background; preserve guide transparency, internal holes and fine outer edges exactly. No backdrop, floor, shadow, labels, text, letters, watermark, layout, contact sheet or inset.\nVIEW-SPECIFIC GEOMETRY: TOP view: copy this exact projection with the elongated pointed body descending to the bottom and the existing large and smaller vessel mouths near the top. Keep all plate boundaries and existing openings. No invented three-quarter camera. Original nonzero-alpha bounds approximately x=173..850, y=66..957.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "a7ff9a683094cff361bae4aa2547c31d2a1b725e434b1499db23ce1039ddb669"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-16bbd400-b9fa-469e-a954-80cd8a832e61.png",
+      "output": "paint_top_run1.png",
+      "selected": false,
+      "reason": "Not selected: the one corrective return gives flatter material colour and/or better guide alignment. Raw return preserved for traceability.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "ba22fbede437a2455ca116b9eff21d0c8eae5f72842e0470de13d27588dcd198",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1232,
+          1254
+        ],
+        "opaque_bbox": [
+          224,
+          65,
+          1055,
+          1173
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9448901597288354,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Black-violet/plum plates and resin, warm ivory framework and amber chambers match the reference family.",
+        "lighting": "Residual baked shading and highlights; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "run": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE GENERATION: Paint the attached guide_top.png with FLAT MATERIAL COLOUR. It is a 1024 x 1024 orthographic render of the EXACT low-poly model to texture. Output 1024 x 1024, not 1254, and preserve the input alpha channel exactly. Every existing edge and every grey polygon is a fixed shape and pixel location. Colourization only; retain all original geometry, framing, canvas, proportions and perspective. There must be absolutely no redesign, warping, added parts or rescaling. Keep the existing blank margins. No painted pixel outside the guide alpha. Preserve every internal transparent opening.\nThe approved glassback heart design's material palette is: overlapping dark smoky black-violet crystal/resin armour plates with soft muted plum and brown fine mineral grain; dark aubergine organic resin between those plates; a warm pale ivory/champagne ceramic/bone-like vessel framework, with fine worn grain; exposed inner glass chambers and vessel-mouth interiors in flat bright orange-amber and pale golden yellow. Assign these only to existing surfaces in the guide. Continue these same materials over hidden sides. Fine restrained grain and wear, subtle thin panel seams and worn edges. No extra ornamental lattice, no new geometry. No writing.\nThis is a BASE COLOUR / ALBEDO TEXTURE SOURCE, not a studio render. Replace ALL grey shading with flat local material colour, equally lit across the entire object. Use near-uniform base colour for each material with only fine small grain variation. NO facet-to-facet lighting gradients, NO specular highlights, NO white glints, NO bright edges, NO shiny reflections, NO cast shadows or contact shadows, NO dark ambient occlusion in cracks, NO rim light. The plate boundaries are retained by seams and material detail, NOT by dark shading. Amber is a bright local colour, without glow bloom or reflected light on other parts. No floor or background: preserve true transparent alpha.\nTOP view: copy this exact projection with the elongated pointed body descending to the bottom and the existing large and smaller vessel mouths near the top. Keep all plate boundaries and existing openings. No invented three-quarter camera. Original nonzero-alpha bounds approximately x=173..850, y=66..957.\nThe earlier attempt matched the material family but returned 1254 square and had shadows/highlights. This is the only corrective regeneration: prioritize exact 1024 canvas and geometry-guide alignment and flat albedo. Return one image only, no labels, no letters, no border, no collage.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "a7ff9a683094cff361bae4aa2547c31d2a1b725e434b1499db23ce1039ddb669"
+        }
+      ],
+      "approved_material_reference": {
+        "path": "design_reference.png",
+        "usage": "Inspected and supplied in initial generation; palette described in corrective prompt.",
+        "sha256": "446e8e93bf5092496554a7f4b1491dc8ac8f9ac2ff434683217cf0fb4ae6790b"
+      },
+      "source": "/home/pjasicek/.codex/generated_images/01a16e9c-2ead-7671-a1d5-05ba1c231ef6/exec-e7323094-81ee-4a61-a456-d781b594c076.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected the one allowed corrective return: flatter material colour and more faithful existing part boundaries; exact guide silhouette and strictly shadowless albedo remain unmet.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "4fa76b4a4b8ccd2ab5b0ceaa24b5b4c1aff0420e96754d8d28fed5de3b0f174c",
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1253,
+          1254
+        ],
+        "opaque_bbox": [
+          212,
+          70,
+          1047,
+          1175
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.9818363171355499,
+        "normalization_note": "Nearest-neighbour alpha comparison in memory only; output file is unmodified and unresized.",
+        "materials": "Palette follows the approved violet/plum resin, warm ivory and amber. Surface response is more matte; local material allocation still differs from the reference.",
+        "lighting": "Flatter than run 1, but some facet shading, vessel-interior shading and dark joins remain; strict flat albedo criterion not fully met.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "meets_all_brief_checks": false
+      }
+    }
+  ],
+  "status": "All requested filenames saved; strict silhouette and flat-lighting acceptance checks remain unmet after the allowed correction per view.",
+  "correction_limit_per_view": 1,
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "limitations": [
+    "Every tool return is 1254 x 1254 rather than requested 1024 x 1024; all saved without resizing, as the brief requires.",
+    "No output alpha silhouette is identical to its guide; normalized mask overlap is only a diagnostic, not an acceptance substitute.",
+    "Residual baked shading remains, especially in the front view; surface detail and material allocation vary between views.",
+    "No compositing, masking, colour correction, resizing, texture baking, model installation or builds performed."
+  ]
+}

@@ -1,0 +1,274 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "generation_complete_requirements_unmet",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render.\nAsset type: orthographic albedo texture-source painting for an EXISTING 3D game decoration, the Egg-field mound.\nEDIT THE FIRST INPUT IMAGE IN PLACE. Output exactly 1024 x 1024 pixels, PNG with true transparent background. This is a surface colour replacement, not a new composition.\nInput roles: image 1 is the exact grey orthographic geometry guide and edit target; image 2 (design_reference.png) is the approved authority for design, colour and surface materials ONLY; image 3 (concept_crop.png) is the original supporting concept. Do not borrow the three-quarter camera, layout, lighting, contours, or proportions of images 2 or 3.\nLOCK the first input's original alpha silhouette pixel for pixel: identical outline, position, size, margins, every shape edge, triangular projection, opening, overlap and visible detail. Do not move, resize, round off, rearrange or redesign any egg or resin/root form. Preserve the faceted outline precisely. Nothing outside the guide silhouette; nothing cropped. The subject occupies only x=70 through 953, y=344 through 679 on the 1024 square canvas; retain the generous transparent space above and below. All fully transparent pixels remain transparent, including any openings. Paint all existing grey surfaces, leaving no grey geometry.\nMaterials: eggs have saturated translucent amber-orange shell colour, irregular golden-amber shell plates and dark maroon/black-violet branching veins as in the approved design. Paint the appearance of internal orange glow in the existing sacs and seams; use hot orange within any existing cracked egg opening, maintaining the guide's precise shape. Roots and spiky resin webbing are deep black-violet and plum organic resin, with fine violet surface variation suggesting smooth glossy material, constrained to the guide surfaces. Keep all anatomical and material details consistent with the reference and subordinate to the guide geometry.\nLIGHTING IS STRICTLY ALBEDO: even flat shadowless illumination from the viewer across all surfaces. No cast shadows, no ambient occlusion darkening, no directional gradient, no strong specular highlights or reflections, no white glossy hotspots, no rim light. The original design's dramatic studio lighting must NOT be transferred. Orange sacs and seams are painted their glowing colour without casting light or bloom onto surrounding resin. Preserve legible material colour even in crevices. No background, no floor, no ground plane, no labels, no text.\nReturn a single unresized 1024 x 1024 transparent painting.\nVIEW: LEFT side, exactly as guide_left.png (input 1). Keep the tallest narrow resin spike at x=370,y=344; the large rear egg stays at the upper centre-right; every foreground egg and root stays exactly where the guide places it. This is NOT a front view.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1913c836981f0da0664aff9e52ef264be23bc4cf15a001c3e5c2d98bf2591412"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168a1-703a-7ac3-90ad-faeff6828a49/exec-f18759c6-3b09-4cbd-a423-9112621858af.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: raw return is 1254 x 1254 instead of 1024 x 1024; silhouette and internal shape drift; excessive specular highlights and crevice shading for albedo.",
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "silhouette_identical": false,
+        "materials_colours": "Amber-orange shells and black-violet resin match the reference palette.",
+        "flat_even_light": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          41,
+          20,
+          1222,
+          1254
+        ],
+        "alpha_128_bbox": [
+          84,
+          421,
+          1171,
+          833
+        ],
+        "format": "PNG",
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou_diagnostic": 0.98191,
+        "normalized_silhouette_comparison_note": "Diagnostic masks only, sampled in normalized canvas coordinates; files were not resized. Does not establish exact registration.",
+        "overall_brief_pass": false
+      },
+      "output_sha256": "48d53e0a05f471b5d9640a97016a63add35518d68b4472c69e0be38b3c17da85",
+      "unresized_unmodified_return": true
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render.\nAsset type: orthographic albedo texture-source painting for an EXISTING 3D game decoration, the Egg-field mound.\nEDIT THE FIRST INPUT IMAGE IN PLACE. Output exactly 1024 x 1024 pixels, PNG with true transparent background. This is a surface colour replacement, not a new composition.\nInput roles: image 1 is the exact grey orthographic geometry guide and edit target; image 2 (design_reference.png) is the approved authority for design, colour and surface materials ONLY; image 3 (concept_crop.png) is the original supporting concept. Do not borrow the three-quarter camera, layout, lighting, contours, or proportions of images 2 or 3.\nLOCK the first input's original alpha silhouette pixel for pixel: identical outline, position, size, margins, every shape edge, triangular projection, opening, overlap and visible detail. Do not move, resize, round off, rearrange or redesign any egg or resin/root form. Preserve the faceted outline precisely. Nothing outside the guide silhouette; nothing cropped. The subject occupies only x=70 through 953, y=344 through 679 on the 1024 square canvas; retain the generous transparent space above and below. All fully transparent pixels remain transparent, including any openings. Paint all existing grey surfaces, leaving no grey geometry.\nMaterials: eggs have saturated translucent amber-orange shell colour, irregular golden-amber shell plates and dark maroon/black-violet branching veins as in the approved design. Paint the appearance of internal orange glow in the existing sacs and seams; use hot orange within any existing cracked egg opening, maintaining the guide's precise shape. Roots and spiky resin webbing are deep black-violet and plum organic resin, with fine violet surface variation suggesting smooth glossy material, constrained to the guide surfaces. Keep all anatomical and material details consistent with the reference and subordinate to the guide geometry.\nLIGHTING IS STRICTLY ALBEDO: even flat shadowless illumination from the viewer across all surfaces. No cast shadows, no ambient occlusion darkening, no directional gradient, no strong specular highlights or reflections, no white glossy hotspots, no rim light. The original design's dramatic studio lighting must NOT be transferred. Orange sacs and seams are painted their glowing colour without casting light or bloom onto surrounding resin. Preserve legible material colour even in crevices. No background, no floor, no ground plane, no labels, no text.\nReturn a single unresized 1024 x 1024 transparent painting.\nVIEW: RIGHT side, exactly as guide_right.png (input 1). Keep the tallest narrow resin spike at x=655,y=344; the large rear egg stays at the upper centre-left; every foreground egg and root stays exactly where the guide places it. This is NOT a front view. Do not mirror or reuse the left guide.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1ff63ff44917ad96074b888c8e56368199ee84aa2fa366cebbcdb0dfaf842443"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168a1-703a-7ac3-90ad-faeff6828a49/exec-a44632d4-f48f-4450-826e-cd43f86cf67c.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration required: raw return is 1254 x 1254 instead of 1024 x 1024; silhouette and internal shape drift; excessive specular highlights and crevice shading for albedo.",
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "silhouette_identical": false,
+        "materials_colours": "Amber-orange shells and black-violet resin match the reference palette.",
+        "flat_even_light": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          73,
+          23,
+          1184,
+          1202
+        ],
+        "alpha_128_bbox": [
+          84,
+          420,
+          1170,
+          833
+        ],
+        "format": "PNG",
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou_diagnostic": 0.98523,
+        "normalized_silhouette_comparison_note": "Diagnostic masks only, sampled in normalized canvas coordinates; files were not resized. Does not establish exact registration.",
+        "overall_brief_pass": false
+      },
+      "output_sha256": "af4d3c3fbf98d503018c0723683efe2acc352eb5161c8b6f8e8b8d0102e50579",
+      "unresized_unmodified_return": true
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION \u2014 LEFT VIEW. Use case: sketch-to-render. Make a precisely registered ALBEDO TEXTURE SOURCE by repainting image 1 IN PLACE.\nMANDATORY OUTPUT: native 1024 x 1024 PNG with real alpha transparency, the exact same canvas dimensions as image 1. Do not return 1254 x 1254. Do not resize, recrop, enlarge, reposition, reframe or rotate the guide.\n\nInput 1: guide_left.png, the authoritative geometry AND exact alpha stencil. All output geometry must be an exact tracing of this image. Input 2: design_reference.png, colour/material reference only. Input 3: concept_crop.png, supporting colour/material reference only.\nPrevious generation failed by returning 1254 x 1254, changing shape edges and adding shiny lighting. Correct those failures. Treat this as colouring the existing guide pixels, not rendering a redesigned object. Pixel registration and flat albedo take priority over decorative detail.\n\nKeep the entire image 1 alpha channel IDENTICAL, including every small outline irregularity. The subject's bounds are x=70..953, y=344..679 on the 1024 square. Keep empty canvas empty. Keep the existing flat/angular boundaries of every grey face, egg, root, spike, opening and overlapping shape exactly at their original pixel locations. Do not add holes, extra eggs, roots, tendrils, silhouettes, foreground broken eggs, or new projections. Do not turn non-egg forms into eggs. No new shapes, even within the silhouette. Keep the grey model's exact orthographic left view and every surface boundary. Paint all existing grey faces.\n\nPaint only surface colour: saturated amber-orange egg shells, golden shell-plate mottling and dark maroon branching veins from image 2; warm orange pigment inside only the existing cracked shell opening and sacs. Existing resin roots and webbing are black-violet/plum with fine subdued organic colour variation. The materials should read like the design reference, including its smooth resin and translucent amber shell character, but WITHOUT its lighting.\nFlat, evenly illuminated diffuse base-colour / albedo pass. Absolutely no white dots, specular highlights, glossy reflections, bright outlines, rim light, ambient occlusion, shaded recesses, contact shadows, cast shadows, gradient lighting or bloom. Paint emissive areas their bright orange colour without lighting nearby surfaces. Resin remains evenly legible dark plum-purple, not pitch-black shadow. No environment, no floor, no background, no text.\n\nReturn ONE unresized 1024 x 1024 RGBA image whose alpha is identical to image 1.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1913c836981f0da0664aff9e52ef264be23bc4cf15a001c3e5c2d98bf2591412"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168a1-703a-7ac3-90ad-faeff6828a49/exec-cbf5ff3e-2759-44bb-b86a-22d7e91619ac.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two permitted unmodified returns: follows the guide's faceted geometry more closely and reduces specular highlights. Selection does not mean brief acceptance; native resolution and exact registration still fail, and some baked shading remains.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours": "Reference amber-orange and black-violet palette present, but some resin facets are painted amber and the resin reads more faceted than glossy.",
+        "flat_even_light": false,
+        "lighting_review": "Reduced specular hotspots compared with attempt 1; residual facet/crevice shading and egg gradients remain.",
+        "visual_geometry_review": "Closer to guide than attempt 1, but exact outline, internal edges and openings are not preserved pixel-for-pixel.",
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "format": "PNG",
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1234,
+          1254
+        ],
+        "alpha_128_bbox": [
+          87,
+          423,
+          1168,
+          833
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou_diagnostic": 0.98903,
+        "normalized_silhouette_comparison_note": "Diagnostic masks only, sampled in normalized canvas coordinates; files were not resized. Does not establish exact registration.",
+        "overall_brief_pass": false
+      },
+      "output_sha256": "f41744fe4dabeaf71f0b81551ad578669f9f0131e4cfa7ca04a039c7829ab552",
+      "unresized_unmodified_return": true
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION \u2014 RIGHT VIEW. Use case: sketch-to-render. Make a precisely registered ALBEDO TEXTURE SOURCE by repainting image 1 IN PLACE.\nMANDATORY OUTPUT: native 1024 x 1024 PNG with real alpha transparency, the exact same canvas dimensions as image 1. Do not return 1254 x 1254. Do not resize, recrop, enlarge, reposition, reframe or rotate the guide.\n\nInput 1: guide_right.png, the authoritative geometry AND exact alpha stencil. All output geometry must be an exact tracing of this image. Input 2: design_reference.png, colour/material reference only. Input 3: concept_crop.png, supporting colour/material reference only.\nPrevious generation failed by returning 1254 x 1254, changing shape edges and adding shiny lighting. Correct those failures. Treat this as colouring the existing guide pixels, not rendering a redesigned object. Pixel registration and flat albedo take priority over decorative detail.\n\nKeep the entire image 1 alpha channel IDENTICAL, including every small outline irregularity. The subject's bounds are x=70..953, y=344..679 on the 1024 square. Keep empty canvas empty. Keep the existing flat/angular boundaries of every grey face, egg, root, spike, opening and overlapping shape exactly at their original pixel locations. Do not add holes, extra eggs, roots, tendrils, silhouettes, foreground broken eggs, or new projections. Do not turn non-egg forms into eggs. No new shapes, even within the silhouette. Keep the grey model's exact orthographic right view and every surface boundary. Paint all existing grey faces.\n\nPaint only surface colour: saturated amber-orange egg shells, golden shell-plate mottling and dark maroon branching veins from image 2; warm orange pigment inside only the existing cracked shell opening and sacs. Existing resin roots and webbing are black-violet/plum with fine subdued organic colour variation. The materials should read like the design reference, including its smooth resin and translucent amber shell character, but WITHOUT its lighting.\nFlat, evenly illuminated diffuse base-colour / albedo pass. Absolutely no white dots, specular highlights, glossy reflections, bright outlines, rim light, ambient occlusion, shaded recesses, contact shadows, cast shadows, gradient lighting or bloom. Paint emissive areas their bright orange colour without lighting nearby surfaces. Resin remains evenly legible dark plum-purple, not pitch-black shadow. No environment, no floor, no background, no text.\n\nReturn ONE unresized 1024 x 1024 RGBA image whose alpha is identical to image 1.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "1ff63ff44917ad96074b888c8e56368199ee84aa2fa366cebbcdb0dfaf842443"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a168a1-703a-7ac3-90ad-faeff6828a49/exec-a338eb92-3b7a-410d-904b-83ef3beda268.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two permitted unmodified returns: follows the guide's faceted geometry more closely and reduces specular highlights. Selection does not mean brief acceptance; native resolution and exact registration still fail, and some baked shading remains.",
+      "checks": {
+        "silhouette_identical": false,
+        "materials_colours": "Reference amber-orange and black-violet palette present; resin reads more faceted than smooth glossy material.",
+        "flat_even_light": false,
+        "lighting_review": "Reduced specular hotspots compared with attempt 1; residual facet/crevice shading and egg gradients remain.",
+        "visual_geometry_review": "Closer to guide than attempt 1, but exact outline, internal edges and openings are not preserved pixel-for-pixel.",
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "size_pass": false,
+        "format": "PNG",
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          37,
+          1254,
+          1254
+        ],
+        "alpha_128_bbox": [
+          85,
+          421,
+          1171,
+          833
+        ],
+        "alpha_identical_to_guide": false,
+        "normalized_silhouette_iou_diagnostic": 0.983134,
+        "normalized_silhouette_comparison_note": "Diagnostic masks only, sampled in normalized canvas coordinates; files were not resized. Does not establish exact registration.",
+        "overall_brief_pass": false
+      },
+      "output_sha256": "c6e1fd55f70159859a7bbdd82aa49ca681241a2a9903dd7dcaa68c696cdb2f8a",
+      "unresized_unmodified_return": true
+    }
+  ],
+  "selected_outputs": [
+    "paint_left.png",
+    "paint_right.png"
+  ],
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "limitations": [
+    "All four built-in raw returns are 1254 x 1254 despite the explicit 1024 x 1024 requests. Kept unresized as required.",
+    "Neither selected return preserves guide alpha and geometry exactly.",
+    "Albedo lighting improved but retains baked shading and material deviations.",
+    "One corrective regeneration per view exhausted; no additional generation or image processing performed."
+  ],
+  "checks_note": "Visual inspection plus PNG dimensions/alpha and diagnostic silhouette-mask comparison. No builds or runtime integration."
+}

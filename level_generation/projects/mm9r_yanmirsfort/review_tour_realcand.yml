@@ -1,0 +1,88 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_yanmirsfort/review/realcand
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s1_0
+  position:
+  - -768
+  - -1280
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: s1_1
+  position:
+  - 512
+  - -1280
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: s1_2
+  position:
+  - 1792
+  - -1280
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: s1_3
+  position:
+  - 512
+  - -2560
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: s1_4
+  position:
+  - -1536
+  - -768
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: s1_5
+  position:
+  - 2304
+  - -512
+  - 83
+  yaw: -1.5708
+  pitch: 0.0
+- name: s2_0
+  position:
+  - 3584
+  - -768
+  - 1
+  yaw: -2.3562
+  pitch: 0.0
+- name: s2_1
+  position:
+  - 2304
+  - 0
+  - 329
+  yaw: -2.3562
+  pitch: 0.0
+- name: s2_2
+  position:
+  - 3584
+  - -2560
+  - 1
+  yaw: -2.3562
+  pitch: 0.0
+- name: s2_3
+  position:
+  - 1024
+  - -1024
+  - 1
+  yaw: -2.3562
+  pitch: 0.0
+- name: s2_4
+  position:
+  - 4352
+  - -1536
+  - 1
+  yaw: -2.3562
+  pitch: 0.0
+- name: s2_5
+  position:
+  - -512
+  - 512
+  - 656
+  yaw: -2.3562
+  pitch: 0.0

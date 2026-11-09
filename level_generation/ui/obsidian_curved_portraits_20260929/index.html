@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Obsidian — curved portrait meters</title>
+<link rel="stylesheet" href="style.css">
+<main>
+  <header><p class="eyebrow">2133 · interactive design study</p><h1>Curved meters, one portrait system</h1>
+  <p>Real game portraits and Obsidian chrome, with live SVG meters. Click a portrait to select it; adjust its resources below.</p></header>
+  <nav class="variants" aria-label="Meter arrangement">
+    <button data-mode="split" aria-pressed="true">A · Split arcs <small>selected</small></button>
+    <button data-mode="nested" aria-pressed="false">B · Nested arcs</button>
+    <button data-mode="vertical" aria-pressed="false">Previous vertical tracks</button>
+  </nav>
+  <section class="toolbar" aria-label="Preview controls">
+    <label>Party <select id="party"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></label>
+    <label>View <select id="view"><option value="wide">1600 × 900</option><option value="classic">1280 × 960</option></select></label>
+    <label>Aggro <select id="aggro"><option value="explore">Green · clear</option><option value="nearby">Yellow · nearby</option><option value="combat">Red · engaged</option></select></label>
+    <label class="check"><input type="checkbox" id="recovering"> Everyone recovering</label>
+    <label class="check"><input type="checkbox" id="buffs" checked> Personal buffs</label>
+  </section>
+  <section class="stage" id="stage" aria-label="Party bar at gameplay scale"><div id="bar"></div><div class="scale-note" id="scale-note"></div></section>
+  <section class="resources">
+    <strong id="active-name">Ariel</strong>
+    <label>HP <input id="hp" type="range" min="0" max="100" value="100"><output id="hp-value">100%</output></label>
+    <label>Mana <input id="mana" type="range" min="0" max="100" value="75"><output id="mana-value">75%</output></label>
+    <label class="check"><input type="checkbox" id="no-mana"> No mana class</label>
+    <button id="damage">Take a hit</button>
+  </section>
+  <p class="note" id="mode-note"></p><div id="buff-popup" hidden></div>
+  <div class="details">
+    <section class="detail-card"><h2>Enlarged selected portrait</h2><div id="detail"></div><p id="selection-note"></p></section>
+    <section class="detail-card"><h2>Each signal has a place</h2>
+      <ol class="signals"><li><b>Resources</b><span>HP follows green → amber → red. Mana remains blue. Empty portions stay dark.</span></li>
+      <li><b>Selection</b><span>An ivory-gold inner rim and the top diamond. Both disappear when nobody can act.</span></li>
+      <li><b>Aggro + recovery</b><span>The unmarked lower-left diamond keeps its existing colours; recovery stays around that diamond.</span></li>
+      <li><b>Individual buffs</b><span>The lower-right medallion opens the character's buff list. It disappears when there are no buffs.</span></li></ol>
+      <h2>My preference</h2><p>A keeps health and mana easy to separate at gameplay size. B is denser, especially beside the selection rim. Both keep the portrait at its current size.</p>
+    </section>
+    <section class="detail-card reference"><h2>Your reference · 2133</h2><a href="../../../test_img/2133.png"><img src="../../../test_img/2133.png" alt="User's reference showing HP and mana curving around a portrait"></a><p>Use the split gauge idea with our oval portraits, muted materials and existing health colours. Keep values in inspection, rather than squeezing numbers into the arcs.</p></section>
+  </div>
+  <footer><p>Archived design preview with simulated values. A is now integrated with the fitted frame.</p><a href="native/index.html">Current native screenshots</a> · <a href="README.md">Design and implementation notes</a> · <a href="design.yml">Original geometry sketch</a></footer>
+</main>
+<script src="app.js"></script>
+</html>

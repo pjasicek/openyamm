@@ -1,0 +1,183 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated returns saved unresized; strict acceptance checks failed after maximum one correction per view.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA PNG texture-source painting, transparent background, unresized return. Input 1 is the exact grey orthographic geometry guide and EDIT TARGET. Input 2 is the approved three-quarter design reference: use ONLY its colours and surface materials, NOT its geometry, perspective, lighting or framing. Paint directly over the guide, keeping its silhouette EXACTLY: same outline, pixel position, scale, every shape edge, opening and detail. Nothing added outside the guide silhouette, nothing cropped, no repositioning, no redesign. Paint white and pale grey prefab composite, teal and orange band where appropriate, brushed steel fins, a glass gauge with blue water, dark rubber hoses, as visible in the guide and approved reference. This is ALBEDO, not a lit product photograph. Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Preserve transparent exterior and all transparent gaps. Glowing colours are surface colours only, no spill light. No text or labels. View: FRONT. The entire tall condenser remains at exactly the guide_front.png placement in the square canvas. Retain the grey guide's exact fin count, straight-on front view, legs, feet, front gauge cutout, lower funnel, faucet and collection bowl. Surface colour bands follow the design reference across the tank without changing any geometry. Paint visible metal surfaces neutral brushed steel, main shell warm off-white, wide teal stripe and thin orange stripe below it, blue water within existing gauge. Do not import the reference's three-quarter view.",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: incorrect canvas size, silhouette drift, fringe pixels and baked shading.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-446f-7c81-8179-7e81fc613682/exec-f7f4d087-1134-4632-be8d-fcc29cdc7ac6.png",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "c5f02fbc4fbe16ca8edb7506b5a2737449c8ba1f36d233e1fabbe42184c29b8c"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        }
+      ],
+      "output_sha256": "512a6164b915ab4cee7475110019d65e3a205a6cd68b0f033e86b1650e9a303e",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1186,
+          1246
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match white/pale grey composite, steel and applicable teal/orange/blue colours; detail geometry differs.",
+        "flat_even_light": false,
+        "background": "Transparent channel present, but stray alpha and edge fringes remain."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA PNG texture-source painting, transparent background, unresized return. Input 1 is the exact grey orthographic geometry guide and EDIT TARGET. Input 2 is the approved three-quarter design reference: use ONLY its colours and surface materials, NOT its geometry, perspective, lighting or framing. Paint directly over the guide, keeping its silhouette EXACTLY: same outline, pixel position, scale, every shape edge, opening and detail. Nothing added outside the guide silhouette, nothing cropped, no repositioning, no redesign. Paint white and pale grey prefab composite, teal and orange band where appropriate, brushed steel fins, a glass gauge with blue water, dark rubber hoses, as visible in the guide and approved reference. This is ALBEDO, not a lit product photograph. Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Preserve transparent exterior and all transparent gaps. Glowing colours are surface colours only, no spill light. No text or labels. View: FRONT. The entire tall condenser remains at exactly the guide_front.png placement in the square canvas. Retain the grey guide's exact fin count, straight-on front view, legs, feet, front gauge cutout, lower funnel, faucet and collection bowl. Surface colour bands follow the design reference across the tank without changing any geometry. Paint visible metal surfaces neutral brushed steel, main shell warm off-white, wide teal stripe and thin orange stripe below it, blue water within existing gauge. Do not import the reference's three-quarter view.\nCORRECTION, final allowed attempt: output canvas MUST be exactly 1024 by 1024 pixels, identical to input 1, not 1254 square. Preserve the original guide alpha mask exactly, including interior holes; ZERO alpha everywhere outside it, with no scattered pixels or edge halo. Guide front nontransparent bounds are x=343..680 and y=66..957 in the 1024 canvas. The previous attempt changed canvas size, added stray alpha pixels, moved details and baked dark shadows under fins. Correct these. Repaint input 1 itself in place, do not rescale or recreate its geometry. All fins and inner cylinder should have flat neutral steel albedo without black occlusion gradients. Keep the gauge cutout at its exact guide location and extent; do not enlarge it to fit reference hardware.",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Closest front return: gauge shape and body placement better follow guide; selected as best available only, not compliant. Canvas size, exact silhouette and flat lighting checks still fail.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-446f-7c81-8179-7e81fc613682/exec-a144f6d8-9793-41b2-a3e7-c1e4689a71c9.png",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "sha256": "c5f02fbc4fbe16ca8edb7506b5a2737449c8ba1f36d233e1fabbe42184c29b8c"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        }
+      ],
+      "output_sha256": "2bbd813df55397d9ba650183dfb09da2c76efed8668731f269a98ddd787d1041",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          41,
+          37,
+          1208,
+          1212
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match white/pale grey composite, steel and applicable teal/orange/blue colours; detail geometry differs.",
+        "flat_even_light": false,
+        "background": "Transparent channel present, but stray alpha and edge fringes remain."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA PNG texture-source painting, transparent background, unresized return. Input 1 is the exact grey orthographic geometry guide and EDIT TARGET. Input 2 is the approved three-quarter design reference: use ONLY its colours and surface materials, NOT its geometry, perspective, lighting or framing. Paint directly over the guide, keeping its silhouette EXACTLY: same outline, pixel position, scale, every shape edge, opening and detail. Nothing added outside the guide silhouette, nothing cropped, no repositioning, no redesign. Paint white and pale grey prefab composite, teal and orange band where appropriate, brushed steel fins, a glass gauge with blue water, dark rubber hoses, as visible in the guide and approved reference. This is ALBEDO, not a lit product photograph. Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Preserve transparent exterior and all transparent gaps. Glowing colours are surface colours only, no spill light. No text or labels. View: TOP, looking vertically straight down. The object remains exactly the small centered roof-and-projecting-feet silhouette of guide_top.png, with all the surrounding transparent padding unchanged. Paint the large round roof and central circular cap warm off-white/pale grey composite with restrained fine wear, metal rim/clamp/fastener details aligned to the guide, and visible projecting feet brushed steel. Preserve the exact visible guide facets, roof outline and cap location. Only paint surfaces visible in this top guide; do not invent a front-facing tank, gauge or coloured band on the roof merely because those exist on other surfaces of the design reference.",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Closest top return: fewer invented roof clamps and fewer visible stray pixels than correction; selected as best available only, not compliant. Canvas size, exact silhouette and flat lighting checks fail.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-446f-7c81-8179-7e81fc613682/exec-e1776655-ed01-4b41-8d66-176b3530aaa4.png",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "70e9b27601235e862f0d52aae323292a855b303fb1f2de6eda0d20c49c636f6e"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        }
+      ],
+      "output_sha256": "831d4cdfc1ff068605e818b238b846fcba3a964dcd709d62400c537a98186f71",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          21,
+          34,
+          1168,
+          1230
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match white/pale grey composite, steel and applicable teal/orange/blue colours; detail geometry differs.",
+        "flat_even_light": false,
+        "background": "Transparent channel present, but stray alpha and edge fringes remain."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Create a 1024 x 1024 RGBA PNG texture-source painting, transparent background, unresized return. Input 1 is the exact grey orthographic geometry guide and EDIT TARGET. Input 2 is the approved three-quarter design reference: use ONLY its colours and surface materials, NOT its geometry, perspective, lighting or framing. Paint directly over the guide, keeping its silhouette EXACTLY: same outline, pixel position, scale, every shape edge, opening and detail. Nothing added outside the guide silhouette, nothing cropped, no repositioning, no redesign. Paint white and pale grey prefab composite, teal and orange band where appropriate, brushed steel fins, a glass gauge with blue water, dark rubber hoses, as visible in the guide and approved reference. This is ALBEDO, not a lit product photograph. Even flat shadowless light from viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Preserve transparent exterior and all transparent gaps. Glowing colours are surface colours only, no spill light. No text or labels. View: TOP, looking vertically straight down. The object remains exactly the small centered roof-and-projecting-feet silhouette of guide_top.png, with all the surrounding transparent padding unchanged. Paint the large round roof and central circular cap warm off-white/pale grey composite with restrained fine wear, metal rim/clamp/fastener details aligned to the guide, and visible projecting feet brushed steel. Preserve the exact visible guide facets, roof outline and cap location. Only paint surfaces visible in this top guide; do not invent a front-facing tank, gauge or coloured band on the roof merely because those exist on other surfaces of the design reference.\nCORRECTION, final allowed attempt: output canvas MUST be exactly 1024 by 1024 pixels, identical to input 1, not 1254 square. Preserve the original guide alpha mask exactly; ZERO alpha everywhere outside it, no scattered pixels, fringe or edge halo. Guide top nontransparent bounds are x=343..680 and y=349..674 in the 1024 canvas. The previous attempt changed canvas size, introduced stray alpha and excessive dark shadows around hardware. Correct these. Repaint input 1 itself in place; do not rescale or recreate its geometry. Preserve cap circle and all facets and small clamps at precisely the original guide coordinates. Use flat even albedo colours without directional lighting, highlights or occlusion gradients.",
+      "output": "paint_top_attempt_2.png",
+      "selected": false,
+      "reason": "Rejected: incorrect canvas size persists; additional roof clamp and stray pixels, shading remains.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604a-446f-7c81-8179-7e81fc613682/exec-a59125d9-2eef-4e65-9dbf-7446c626f8e9.png",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "sha256": "70e9b27601235e862f0d52aae323292a855b303fb1f2de6eda0d20c49c636f6e"
+        },
+        {
+          "file": "design_reference.png",
+          "sha256": "2ef62cfd6ed243d8ed52fddfeddfd6d8ecdf6fcd7308b3f5a18a7df5aaa354b2"
+        }
+      ],
+      "output_sha256": "2ebd7672847f33bddd1479b5545243664659c113d0731c79318f76c200db91fa",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "mode": "RGBA",
+        "has_transparency": true,
+        "alpha_bbox": [
+          0,
+          28,
+          1230,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match white/pale grey composite, steel and applicable teal/orange/blue colours; detail geometry differs.",
+        "flat_even_light": false,
+        "background": "Transparent channel present, but stray alpha and edge fringes remain."
+      }
+    }
+  ]
+}

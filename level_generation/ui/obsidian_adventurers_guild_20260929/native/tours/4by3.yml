@@ -1,0 +1,14 @@
+output_dir: ../images
+exit: true
+steps:
+- wait: 1
+- key: P
+- wait: 1
+- capture: 4by3-roster
+- click: [162, 58]
+- click: [162, 58]
+- capture: inspect-character
+- click: [1034, 722]
+- capture: inspect-back-to-roster
+- key: Escape
+- expect: gameplay

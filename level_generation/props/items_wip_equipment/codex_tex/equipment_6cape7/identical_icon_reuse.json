@@ -1,0 +1,19 @@
+{
+  "reason": "Identical source icon pixels and genuine shared geometry; selected canonical painted views and material IDs",
+  "source_icon": "6cape5",
+  "target_icon": "6cape7",
+  "artifacts": [
+    {
+      "kind": "paint",
+      "source": "codex_tex/equipment_6cape5/paint_atlas.png",
+      "sha256": "c26272991332f96234da1846af305cdbed257b68be632c19b9ef6698845d5820",
+      "original": "paint_atlas_before_identical_reuse.png"
+    },
+    {
+      "kind": "mask",
+      "source": "codex_tex/equipment_6cape5/mask_atlas.png",
+      "sha256": "7aad273de6fef97d47d1bc8d41d2466c5986c741ba28cc80484d3fcd629dec16",
+      "original": "mask_atlas_before_identical_reuse.png"
+    }
+  ]
+}

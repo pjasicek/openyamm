@@ -1,0 +1,34 @@
+# The ice cinematic (break_ice, frosgardcity.cinematics.yml) played through from the powder barrel's click (232): no
+# save while it plays, the first floe (DestructableBrush27, door 39) down after Shooter1's bolt (4.4 s), the last
+# wave (DestructableBrush8, door 61) at :Group3 (11.96 s), key 72 and the 8 000 experience at :OnDone (13.84 s), the
+# party's view back at 16.3 s. See README "Cinematics".
+id: mm9r.frosgardcity.cinematic_break_ice_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: frosgardcity.blv}
+- set_pose: {map: frosgardcity.blv, x: 4260, y: -10486, z: 236, yaw: -1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90071}
+- setup_shortcut: {kind: set_qbit, id: 91022}
+- console: {line: cinematic list, expect_contains: break_ice}
+- assert: {mechanism: {id: 39, state: closed}}
+- note: {text: "the powder barrel's click (DestructableProp0, BreakIce.scr via Shooter0 Start) starts the cinematic"}
+- execute_event: {id: 232}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing break_ice}
+- assert: {qbit_clear: [90072]}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 7.5}
+- note: {text: "8 s: Shooter1-4's floes are down (27 at 4.4 s), the third wave's not yet (DestructableBrush8)"}
+- assert: {mechanism: {id: 39, state: open}}
+- assert: {mechanism: {id: 61, state: closed}}
+- assert: {qbit_clear: [90072]}
+- advance_runtime: {seconds: 6.5}
+- note: {text: "14.5 s: :Group3 and :OnDone have run: the ice is gone, key 72"}
+- assert: {qbit_set: [90072]}
+- assert: {qbit_clear: [90174]}
+- console: {line: cinematic list, expect_contains: playing break_ice}
+- advance_runtime: {seconds: 3}
+- note: {text: "17.5 s: over, the party's view is back (a save works again)"}
+- assert: {mechanism: {id: 61, state: open}}
+- save_game: {name: after_cinematic}

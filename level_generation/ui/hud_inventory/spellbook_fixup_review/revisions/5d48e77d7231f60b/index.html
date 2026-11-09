@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spellbook · restoration review</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="data.js"></script>
+  <script defer src="review.js"></script>
+</head>
+<body>
+  <header>
+    <div class="heading"><span class="eyebrow">OPENYAMM / ART REVIEW</span><h1>Spellbook</h1></div>
+    <div class="toolbar">
+      <div class="segmented" role="group" aria-label="Artwork comparison">
+        <button id="proposedMode" aria-pressed="true">Proposed</button>
+        <button id="installedMode" aria-pressed="false">Installed</button>
+      </div>
+      <label>School <select id="schoolSelect" aria-label="Spell school"></select></label>
+      <label>Size <select id="zoom"><option value="fit">Fit</option><option value="1">1×</option><option value="2">2×</option></select></label>
+      <button id="focusMode" title="Hide the review panel">Focus view</button>
+    </div>
+  </header>
+  <main>
+    <section class="preview" aria-label="Interactive spellbook">
+      <div class="preview-heading">
+        <span id="modeCaption">Loading artwork…</span>
+        <label class="check"><input type="checkbox" id="backgroundOnly"> Background only</label>
+      </div>
+      <div id="stageViewport">
+        <div id="bookFrame">
+          <canvas id="book" width="1280" height="960" tabindex="0"
+                  aria-label="Spellbook. Hover spells to highlight; click to select; right-click to review."></canvas>
+          <div id="closedOverlay" hidden>
+            <span id="closedMessage">Spellbook closed</span>
+            <button id="reopen">Open spellbook</button>
+          </div>
+          <div id="loading">Loading the spellbook…</div>
+        </div>
+      </div>
+      <div class="status-line"><span id="hoverStatus" role="status">Hover a spell to see its highlighted state.</span>
+        <button id="clearSelection">Clear selection</button></div>
+      <div class="assignments"><span id="quickAssignment">Quick spell: —</span><span id="attackAssignment">Attack spell: —</span></div>
+      <p class="hint">Hover to colour · Click to select · Right-click to review · B compares artwork · ← → changes school · Esc closes</p>
+    </section>
+    <aside id="reviewPanel">
+      <div class="panel-heading"><h2>Review</h2><span id="progress">0 reviewed</span></div>
+      <label class="stacked">Reviewing<select id="reviewTarget"></select></label>
+      <div class="target-heading"><h3 id="targetName">Fire background</h3><span id="decisionState" class="badge">Unreviewed</span></div>
+      <p id="targetDescription" class="muted"></p>
+      <div class="decisions" role="group" aria-label="Review decision">
+        <button id="approve">Looks good</button><button id="flag">Needs work</button>
+      </div>
+      <label class="stacked">Notes<textarea id="note" rows="5" placeholder="What feels right, or what needs fixing?"></textarea></label>
+      <div class="note-footer"><span id="saveStatus">Saved in this browser</span><button id="resetDecision" class="text-button">Clear review</button></div>
+      <div id="inspect" class="inspect">
+        <div class="inspect-title"><span>Same position, both states</span><button id="alternate">Alternate</button></div>
+        <canvas id="detail" width="520" height="360" aria-label="Selected artwork detail"></canvas>
+        <span id="detailLabel" class="muted">Normal</span>
+      </div>
+      <div class="export-row"><button id="exportReview">Export review</button><label class="import-button">Import<input id="importReview" type="file" accept="application/json,.json"></label></div>
+      <p class="hint">Notes and decisions stay in this browser. Export them to share your review.</p>
+      <p class="hint">Book backgrounds and spell icons are approved. This revision reviews the twelve school bookmarks.</p>
+      <p class="hint"><a href="evidence/bookmark_comparison.png" target="_blank" rel="noopener">Compare all twelve bookmarks</a></p>
+      <p class="hint"><a id="previousPreview" href="revisions/b7532430dadb3451/index.html">Previous preview and its saved notes</a></p>
+      <details><summary>About this preview</summary>
+        <p>All 12 schools and 111 spells are available. Positions and sizes come from the game’s spellbook layout.</p>
+        <p>The proposal shares one book and medallion frame. Default spell colours follow the installed artwork’s palette and contrast. Hover preserves the drawing and transparency.</p>
+        <p>The school tabs share one parchment bookmark and circular frame. The existing ink and coloured emblems are fitted inside it. Click a school to select it; hovering keeps its inactive appearance, as in the game.</p>
+        <p>The bottom buttons use their installed artwork and original state bindings. Quick and attack assignments are simulated here.</p>
+        <p>The new bookmarks are candidates for review. Your approved book backgrounds and spell icons are retained.</p>
+      </details>
+      <p id="revision" class="revision"></p>
+    </aside>
+  </main>
+</body>
+</html>

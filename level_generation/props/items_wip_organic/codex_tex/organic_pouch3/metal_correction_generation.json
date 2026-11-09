@@ -1,0 +1,13 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. STRICT BINARY METALLIC MASK for the EXACT six-view leather-pouch geometry in the only input. Copy the silhouette, screen position, view angle, scale and framing of every single panel EXACTLY: top row front back left, bottom row right top bottom. Recolour the ENTIRE object in every view SOLID OPAQUE BLACK. Only the SMALL DIAMOND-SHAPED METAL BUCKLE at the front flap is SOLID WHITE wherever this actual raised diamond appears in the guide. Every leather surface, strap, drawstring and stitching is black. Keep all black body pixels opaque. Never turn an edge-on view face-on. No shading, gray, textures, highlights, shadows, outlines, text or labels. Empty background remains fully transparent. One landscape 3:2 six-view mask sheet.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_pouch3/guide_sheet.png"
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_pouch3/metal_sheet_raw.png",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-cb22e72a-1c3c-4111-b54c-881d08ead5d2.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "reason": "Original mask changed several silhouettes.",
+  "selected": true,
+  "guide_sha256": "07e4dd757fe1177241855fa8b30f18532fe8d854e1fe067fd37093e3d6bf5c39",
+  "output_sha256": "3ab0c7eab3b31081a8f9c1903006e3b51db9373e331f21319ef0706d092fb26f"
+}

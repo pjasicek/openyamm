@@ -1,0 +1,1557 @@
+{
+  "world": "mm8",
+  "map": "d24.blv",
+  "kind": "indoor",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm8/maps/d24.blv",
+      "sha256": "b56fcb1177239761addd230039e37d9d2bd59316a1012b6036b12b5d96b4fb5d"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/d24.scene.yml",
+      "sha256": "a296f611c90aa6fdd6bbe15b3fe409400851c427b165141f59ece00af9ea1b16"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/decoration_data.txt",
+      "sha256": "0ad51cc583a71f2e4255211fb79be965e2adb1a51f7baeb0d603f777073bca7f"
+    },
+    {
+      "path": "assets_dev/engine/rendering/sprite_frame_data_common.yml",
+      "sha256": "197b5a71379e4d38b08f2ab2c31f74aea0de38e4dc6b724e7bb4beeba953726b"
+    }
+  ],
+  "records": [
+    {
+      "index": 0,
+      "source_name": "Party Start",
+      "id": 14,
+      "name": "party start",
+      "hint": "null",
+      "radius": 16,
+      "height": 16,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "DontDraw",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        0,
+        0,
+        32
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 0
+    },
+    {
+      "index": 1,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        592,
+        -1296,
+        -384
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/dec07a.bmp",
+        "pixels": [
+          81,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 8,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm8/decoration_frames/dec07.png",
+        "palette_path": "assets_dev/worlds/mm8/textures/pal008.act"
+      }
+    },
+    {
+      "index": 2,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        592,
+        -496,
+        -384
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/dec07a.bmp",
+        "pixels": [
+          81,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 8,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm8/decoration_frames/dec07.png",
+        "palette_path": "assets_dev/worlds/mm8/textures/pal008.act"
+      }
+    },
+    {
+      "index": 3,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -80,
+        -1296,
+        -384
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/dec07a.bmp",
+        "pixels": [
+          81,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 8,
+        "flags": [
+          "HasMore",
+          "Lit",
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm8/decoration_frames/dec07.png",
+        "palette_path": "assets_dev/worlds/mm8/textures/pal008.act"
+      }
+    },
+    {
+      "index": 4,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2112,
+        1168,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 5,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1472,
+        1168,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 6,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1472,
+        496,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 7,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2112,
+        496,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 8,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -4432,
+        -1136,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 9,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -3760,
+        -1136,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 10,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -3760,
+        -1808,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 11,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -4432,
+        -1808,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 12,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1712,
+        -7312,
+        -3464
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 13,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2384,
+        -7312,
+        -3464
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 14,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1712,
+        -6640,
+        -3464
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 15,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2384,
+        -6640,
+        -3464
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 16,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        592,
+        -7304,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 17,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -80,
+        -7304,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 18,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        592,
+        -6632,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 19,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -80,
+        -6632,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 20,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -184,
+        -6288,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 21,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -856,
+        -6288,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 22,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -184,
+        -5616,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 23,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -856,
+        -5616,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 24,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1712,
+        -5008,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 25,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2384,
+        -5008,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 26,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1712,
+        -4336,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 27,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2384,
+        -4336,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 28,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -176,
+        -3984,
+        -1160
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 29,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -848,
+        -3984,
+        -1160
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 30,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -176,
+        -3312,
+        -1160
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 31,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -848,
+        -3312,
+        -1160
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 32,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1720,
+        -2696,
+        -3456
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 33,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2392,
+        -2696,
+        -3464
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 34,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1720,
+        -2024,
+        -3456
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 35,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2392,
+        -2024,
+        -3464
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 36,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1456,
+        -1808,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 37,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2128,
+        -1808,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 38,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -1456,
+        -1136,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 39,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        -2128,
+        -1136,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 40,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        3408,
+        -1808,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 41,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        2736,
+        -1808,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 42,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        3408,
+        -1136,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 43,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        2736,
+        -1136,
+        -2696
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 44,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        1096,
+        -1816,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 45,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        424,
+        -1816,
+        -1920
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 46,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        1096,
+        -1144,
+        -1928
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 47,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        424,
+        -1144,
+        -1920
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 48,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        856,
+        -1808,
+        -2688
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 49,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        184,
+        -1808,
+        -2688
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 50,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        856,
+        -1136,
+        -2688
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 51,
+      "source_name": "dec07",
+      "id": 237,
+      "name": "dec07",
+      "hint": "lantern",
+      "radius": 16,
+      "height": 180,
+      "light_radius": 96,
+      "light_rgb": [
+        255,
+        255,
+        255
+      ],
+      "flags": "0",
+      "sprite_id": 190,
+      "category": "lights",
+      "position": [
+        184,
+        -1136,
+        -2688
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 32
+    },
+    {
+      "index": 52,
+      "source_name": "dec29",
+      "id": 269,
+      "name": "dec29",
+      "hint": "bones",
+      "radius": 16,
+      "height": 8,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "0",
+      "sprite_id": 247,
+      "category": "props",
+      "position": [
+        -708,
+        -3444,
+        -1472
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": true,
+      "initial_flags": 0,
+      "preview": {
+        "path": "assets_dev/engine/sprites/DEC29.bmp",
+        "pixels": [
+          128,
+          128
+        ],
+        "scale": 1.0,
+        "palette_id": 8,
+        "flags": [
+          "First",
+          "Image1"
+        ],
+        "transparent_rgb": [
+          0,
+          252,
+          252
+        ],
+        "decoded_path": "level_generation/evidence/mm8/decoration_frames/dec29.png",
+        "palette_path": "assets_dev/worlds/mm8/textures/pal008.act"
+      }
+    }
+  ],
+  "missing_sprites": [],
+  "models": [],
+  "counts": {
+    "native": 53,
+    "visible": 4,
+    "categories": {
+      "lights": 3,
+      "props": 1
+    },
+    "palette": {
+      "dec07": 3,
+      "dec29": 1
+    },
+    "light_emitters": 3
+  }
+}

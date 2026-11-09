@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit the paint_mask_guide.png (input 1) precisely. Input 2 design_reference.png is approved material/detail reference; input 3 icon_x8.png is original colour reference, magenta is background only.\nProduce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the exact 3-column FOUR-row guide layout, all object positions, sizes, outlines, view orientations and gaps. Paint grey objects only; never redraw, enlarge, move or redesign. Five views repeated: rows 1-2 FRONT BACK LEFT / RIGHT TOP empty; rows 3-4 same five views. Empty cells column 3 rows 2 and 4 stay completely transparent.\nObject: Midwife's Bag of Herbs, source-faithful upright tied beige fabric bags, cloth rope ties, green herb leaves and golden grain stalk. Use guide geometry as absolute constraint, references only for surface paint.\nRows 1-2 PAINT: unlit base colour. Faithful warm beige linen weave, fabric folds and rope details scaled to guide views; herbs green and grain yellow with brown stem. Reference details follow each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No glow, sparkles, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT exact pure colours only. NO shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 all metal; pure green #00FF00 leather and fur; pure blue #0000FF cloth including bag fabric, linings and rope cords and hair; pure yellow #FFFF00 matte non-metal solids including plant leaves, stalks and grain, wood bone horn stone parchment paper wax; pure black #000000 gemstone crystal glass pearl enamel liquid. For this object bags and ties are solid pure BLUE, plant parts solid pure YELLOW. Every silhouette pixel exactly one material colour. Nothing outside silhouettes. Preserve all guide gaps/openings as transparent. Do not add objects. Exact fixed guide alignment is essential.\nCORRECTIVE GENERATION (only allowed correction): The previous attempt leaked red/yellow and blue speckled paint outside the objects and changed the silhouettes. Strictly use the original grey guide alpha and silhouette boundaries. All background must have alpha zero, without ANY coloured speckle, halo, noise, cloud or spill. Especially the lower mask rows must be clean solid flat blue silhouettes with yellow plant tips, NO internal dark outlines or varying blue. Preserve every FRONT/BACK/LEFT/RIGHT/TOP view accurately from the guide; do not invent more plants or shift them. Preserve original aspect ratio 3:4.",
+  "initial_prompt": "Edit the paint_mask_guide.png (input 1) precisely. Input 2 design_reference.png is approved material/detail reference; input 3 icon_x8.png is original colour reference, magenta is background only.\nProduce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the exact 3-column FOUR-row guide layout, all object positions, sizes, outlines, view orientations and gaps. Paint grey objects only; never redraw, enlarge, move or redesign. Five views repeated: rows 1-2 FRONT BACK LEFT / RIGHT TOP empty; rows 3-4 same five views. Empty cells column 3 rows 2 and 4 stay completely transparent.\nObject: Midwife's Bag of Herbs, source-faithful upright tied beige fabric bags, cloth rope ties, green herb leaves and golden grain stalk. Use guide geometry as absolute constraint, references only for surface paint.\nRows 1-2 PAINT: unlit base colour. Faithful warm beige linen weave, fabric folds and rope details scaled to guide views; herbs green and grain yellow with brown stem. Reference details follow each view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. No glow, sparkles, ground, outlines or text.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT exact pure colours only. NO shading, texture, outlines or antialiased colour blends inside. Pure red #FF0000 all metal; pure green #00FF00 leather and fur; pure blue #0000FF cloth including bag fabric, linings and rope cords and hair; pure yellow #FFFF00 matte non-metal solids including plant leaves, stalks and grain, wood bone horn stone parchment paper wax; pure black #000000 gemstone crystal glass pearl enamel liquid. For this object bags and ties are solid pure BLUE, plant parts solid pure YELLOW. Every silhouette pixel exactly one material colour. Nothing outside silhouettes. Preserve all guide gaps/openings as transparent. Do not add objects. Exact fixed guide alignment is essential.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad11-30ca-7110-978f-26fdacb8328a/exec-de6b3718-5fe0-4d5f-a8e4-e9766e0aa305.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10372/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: residual colour spill outside silhouettes, silhouette deviations and mask artefacts remain after the single permitted corrective regeneration. Raw output preserved unchanged.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10372/paint_mask_guide.png",
+      "sha256": "70f106aab5373add3005141e60d1332b7b61bbcf121082f9ce112d0284a5ee46"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10372/design_reference.png",
+      "sha256": "268bd6a9762b4587829cd6a8c7b77217a9efdccb8b5dfb81da4a11475c1cb5ec"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10372/icon_x8.png",
+      "sha256": "e06866dbd26c2e421990978a48aa6fba58db6eb7a83c6d4adb1ce15079434f62"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

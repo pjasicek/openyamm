@@ -1,0 +1,142 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "generated_with_failed_requirements",
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Create a single 1024 x 1024 RGBA transparent PNG, an albedo texture-source painting of the Glass tree (fulgurite), left side. Input 1 guide_left.png is the EDIT TARGET and absolute geometry authority: paint directly over its grey surfaces, preserve EXACT pixel silhouette, outline, alpha coverage, position, scale, every branch, root, opening and shape edge. No viewpoint change, no redesign, no recentering or resizing. Input 2 design_reference.png is ONLY the colour and material authority, NOT a geometry/camera/lighting reference. Transfer glossy black obsidian glass with faint violet sheen, rough bubbly grey-black glass at the foot and pale grey ash crust round the base onto the guide geometry. Keep all geometry fixed; surface material detail must not add perforations or new branches. LIGHTING: albedo texture source with even flat shadowless light from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Represent the glossy glass material through its dark obsidian and subtle violet material colour without baked bright reflected lights. Any orange seams already indicated by the design are painted at their own colour with no cast glow. Transparent background, no floor, no text. Nothing outside the original guide silhouette and nothing cropped. Return only the single square painted left view, native 1024 x 1024, unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/guide_left.png",
+          "sha256": "ad84f7fefbbedf139271d8612ad3be7913eaff420a2fe3122a1d7fabbca0cfa9"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16049-2828-7633-9130-6e6351165dfb/exec-ab4ef0bd-a2a3-4684-bc59-d4a9a4a560b7.png",
+      "selected": false,
+      "reason": "Rejected: strong baked reflections and incorrect native resolution.",
+      "tool": "built-in image_gen",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "native_1024_square": false,
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "Cannot match guide pixel silhouette: output resolution differs; generated shape details also vary.",
+        "materials_and_colours": "Obsidian black/violet, rough bubbly glass and pale ash present.",
+        "flat_even_albedo": false,
+        "lighting_note": "Reflections and cavity darkening remain, reduced in correction.",
+        "unresized_return": true
+      },
+      "output_sha256": "d604cc79d7ee7bb0b93f30bd476748fdae523a22fe2528f06eb7d1b3cbc9c063"
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Create a single 1024 x 1024 RGBA transparent PNG, an albedo texture-source painting of the Glass tree (fulgurite), left side. Input 1 guide_left.png is the EDIT TARGET and absolute geometry authority: paint directly over its grey surfaces, preserve EXACT pixel silhouette, outline, alpha coverage, position, scale, every branch, root, opening and shape edge. No viewpoint change, no redesign, no recentering or resizing. Input 2 design_reference.png is ONLY the colour and material authority, NOT a geometry/camera/lighting reference. Transfer glossy black obsidian glass with faint violet sheen, rough bubbly grey-black glass at the foot and pale grey ash crust round the base onto the guide geometry. Keep all geometry fixed; surface material detail must not add perforations or new branches. LIGHTING: albedo texture source with even flat shadowless light from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Represent the glossy glass material through its dark obsidian and subtle violet material colour without baked bright reflected lights. Any orange seams already indicated by the design are painted at their own colour with no cast glow. Transparent background, no floor, no text. Nothing outside the original guide silhouette and nothing cropped. Return only the single square painted left view, native 1024 x 1024, unresized. CORRECTIVE REGENERATION: The previous attempt was incorrectly 1254 x 1254 and had strong baked silver reflections. Output must be EXACTLY 1024 x 1024 pixels natively. Use the provided 1024-square guide as the unchanged edit canvas. Preserve its original alpha mask and pixel coordinates. Paint a flat diffuse albedo, predominantly near-black charcoal with a FAINT violet tint, no bright silver or white shards of reflected studio light. Grey-white ash only at the base. Do not copy the reference's lighting. Texture colour only.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/guide_left.png",
+          "sha256": "ad84f7fefbbedf139271d8612ad3be7913eaff420a2fe3122a1d7fabbca0cfa9"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "corrective": true,
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/paint_left.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted attempts: reduced reflected highlights. Preserved raw output; does not fully satisfy exact size, silhouette or flat albedo constraints.",
+      "tool": "built-in image_gen",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "native_1024_square": false,
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "Cannot match guide pixel silhouette: output resolution differs; generated shape details also vary.",
+        "materials_and_colours": "Obsidian black/violet, rough bubbly glass and pale ash present.",
+        "flat_even_albedo": false,
+        "lighting_note": "Reflections and cavity darkening remain, reduced in correction.",
+        "unresized_return": true
+      },
+      "output_sha256": "ee9dfc9bb27ba7b47e4ba4153a4e346b6ed61349c41c34d2127af6d213544cc4",
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a16049-2828-7633-9130-6e6351165dfb/exec-e9bb4800-efea-4b59-bebb-b608aeafe5c7.png"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Create a single 1024 x 1024 RGBA transparent PNG, an albedo texture-source painting of the Glass tree (fulgurite), right side. Input 1 guide_right.png is the EDIT TARGET and absolute geometry authority: paint directly over its grey surfaces, preserve EXACT pixel silhouette, outline, alpha coverage, position, scale, every branch, root, opening and shape edge. No viewpoint change, no redesign, no recentering or resizing. Input 2 design_reference.png is ONLY the colour and material authority, NOT a geometry/camera/lighting reference. Transfer glossy black obsidian glass with faint violet sheen, rough bubbly grey-black glass at the foot and pale grey ash crust round the base onto the guide geometry. Keep all geometry fixed; surface material detail must not add perforations or new branches. LIGHTING: albedo texture source with even flat shadowless light from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Represent the glossy glass material through its dark obsidian and subtle violet material colour without baked bright reflected lights. Any orange seams already indicated by the design are painted at their own colour with no cast glow. Transparent background, no floor, no text. Nothing outside the original guide silhouette and nothing cropped. Return only the single square painted right view, native 1024 x 1024, unresized. Output must be EXACTLY 1024 x 1024 pixels natively. Use the provided 1024-square guide as the unchanged edit canvas. Preserve its original alpha mask and pixel coordinates. Paint a flat diffuse albedo, predominantly near-black charcoal with a FAINT violet tint, no bright silver or white shards of reflected studio light. Grey-white ash only at the base. Do not copy the reference's lighting. Texture colour only.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/guide_right.png",
+          "sha256": "4a5752b2871decc9c773230ee944d01d7c6c7d99c4e2b2e5647a2332d8793f81"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "output": "/home/pjasicek/.codex/generated_images/01a16049-2828-7633-9130-6e6351165dfb/exec-4b6d3db2-4fce-4976-b399-6e27f1ed85de.png",
+      "selected": false,
+      "reason": "Rejected: strong baked reflections and incorrect native resolution.",
+      "tool": "built-in image_gen",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "native_1024_square": false,
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "Cannot match guide pixel silhouette: output resolution differs; generated shape details also vary.",
+        "materials_and_colours": "Obsidian black/violet, rough bubbly glass and pale ash present.",
+        "flat_even_albedo": false,
+        "lighting_note": "Reflections and cavity darkening remain, reduced in correction.",
+        "unresized_return": true
+      },
+      "output_sha256": "d10480bc8df49e82faa196b0d11eab540a23dc584ddca2b992779d48db835285"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Create a single 1024 x 1024 RGBA transparent PNG, an albedo texture-source painting of the Glass tree (fulgurite), right side. Input 1 guide_right.png is the EDIT TARGET and absolute geometry authority: paint directly over its grey surfaces, preserve EXACT pixel silhouette, outline, alpha coverage, position, scale, every branch, root, opening and shape edge. No viewpoint change, no redesign, no recentering or resizing. Input 2 design_reference.png is ONLY the colour and material authority, NOT a geometry/camera/lighting reference. Transfer glossy black obsidian glass with faint violet sheen, rough bubbly grey-black glass at the foot and pale grey ash crust round the base onto the guide geometry. Keep all geometry fixed; surface material detail must not add perforations or new branches. LIGHTING: albedo texture source with even flat shadowless light from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Represent the glossy glass material through its dark obsidian and subtle violet material colour without baked bright reflected lights. Any orange seams already indicated by the design are painted at their own colour with no cast glow. Transparent background, no floor, no text. Nothing outside the original guide silhouette and nothing cropped. Return only the single square painted right view, native 1024 x 1024, unresized. CORRECTIVE REGENERATION: Native output resolution MUST be 1024x1024, not 1254x1254. Keep guide_right.png's 1024x1024 pixel canvas and alpha silhouette unchanged. The prior result introduced reflective crack edges and dark cavities where the grey guide has continuous surface. Change only surface colour: evenly lit charcoal-black obsidian with very subtle violet tone; rough grey-black bubbly glass and pale ash near base. Preserve guide geometry without adding cavities. Remove bright reflections, silver highlights and dark shading; paint flat diffuse base colour for texture projection. Exactly one native 1024x1024 transparent PNG.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/guide_right.png",
+          "sha256": "4a5752b2871decc9c773230ee944d01d7c6c7d99c4e2b2e5647a2332d8793f81"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/design_reference.png",
+          "sha256": "760f12c999565cc61d15232eb4cb0e5fc9866888fd46b74ea6ba5786ce7b4935"
+        }
+      ],
+      "corrective": true,
+      "output": "level_generation/props/hesper_decorations/codex_tex/hes_glass_tree/paint_right.png",
+      "selected": true,
+      "reason": "Selected as the better of the two permitted attempts: reduced reflected highlights. Preserved raw output; does not fully satisfy exact size, silhouette or flat albedo constraints.",
+      "tool": "built-in image_gen",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "native_1024_square": false,
+        "transparent_background": true,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "Cannot match guide pixel silhouette: output resolution differs; generated shape details also vary.",
+        "materials_and_colours": "Obsidian black/violet, rough bubbly glass and pale ash present.",
+        "flat_even_albedo": false,
+        "lighting_note": "Reflections and cavity darkening remain, reduced in correction.",
+        "unresized_return": true
+      },
+      "output_sha256": "1f18370e1655b832f1b22c3f118440b1d20c11e75cded0e1fac8c48a870a566f",
+      "generated_output": "/home/pjasicek/.codex/generated_images/01a16049-2828-7633-9130-6e6351165dfb/exec-a6dae46d-371e-4450-880e-52c43f12782f.png"
+    }
+  ]
+}

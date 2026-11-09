@@ -1,0 +1,242 @@
+# Item expansion: all new equipment, fixed boss drops, and save/load persistence.
+id: hesper.stage.item_expansion
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d07.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 200
+        skills:
+        - name: Plate
+          level: 1
+          mastery: 1
+        equipment:
+          armor: 11434
+          helm: 11142
+          belt: 11141
+          gauntlets: 11140
+          boots: 11143
+          cloak: 11144
+          ring1: 11120
+          ring2: 11122
+          ring3: 11123
+          ring4: 11124
+          ring5: 11436
+          amulet: 11125
+      - name: Bram
+        class: Knight
+        level: 200
+        skills:
+        - name: Plate
+          level: 1
+          mastery: 1
+        equipment:
+          cloak: 11435
+          amulet: 11126
+      - name: Cyra
+        class: Knight
+        level: 200
+        skills:
+        - name: Plate
+          level: 1
+          mastery: 1
+        equipment:
+          amulet: 11437
+      - name: Dana
+        class: Knight
+        level: 200
+        skills:
+        - name: Plate
+          level: 1
+          mastery: 1
+        equipment:
+          amulet: 11121
+- assert:
+    equipped_item: &id001
+    - item_id: 11434
+      member_index: 0
+      slot: armor
+    - item_id: 11142
+      member_index: 0
+      slot: helm
+    - item_id: 11141
+      member_index: 0
+      slot: belt
+    - item_id: 11140
+      member_index: 0
+      slot: gauntlets
+    - item_id: 11143
+      member_index: 0
+      slot: boots
+    - item_id: 11144
+      member_index: 0
+      slot: cloak
+    - item_id: 11120
+      member_index: 0
+      slot: ring1
+    - item_id: 11122
+      member_index: 0
+      slot: ring2
+    - item_id: 11123
+      member_index: 0
+      slot: ring3
+    - item_id: 11124
+      member_index: 0
+      slot: ring4
+    - item_id: 11436
+      member_index: 0
+      slot: ring5
+    - item_id: 11125
+      member_index: 0
+      slot: amulet
+    - item_id: 11435
+      member_index: 1
+      slot: cloak
+    - item_id: 11126
+      member_index: 1
+      slot: amulet
+    - item_id: 11437
+      member_index: 2
+      slot: amulet
+    - item_id: 11121
+      member_index: 3
+      slot: amulet
+- set_pose:
+    map: hes_d07.blv
+    x: 4800
+    y: 0
+    z: 0
+    yaw: 0
+    pitch: 0
+- note:
+    text: The free Bulwark, Gatekeeper and Xith use the installed guaranteed death-drop
+      rows indoors.
+- spawn_actor:
+    monster_id: 10107
+    x: 5200
+    y: 0
+    z: 0
+- damage_actor:
+    actor_index: last
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: last
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 3.2
+- assert:
+    actor_visible:
+      actor_index: last
+      dead: true
+      report_state: true
+- assert:
+    world_item_state:
+      item_id: 11434
+      present: true
+- spawn_actor:
+    monster_id: 10112
+    x: 5200
+    y: 0
+    z: 0
+- damage_actor:
+    actor_index: last
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: last
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 3.2
+- assert:
+    actor_visible:
+      actor_index: last
+      dead: true
+      report_state: true
+- assert:
+    world_item_state:
+      item_id: 11437
+      present: true
+- spawn_actor:
+    monster_id: 10115
+    x: 5200
+    y: 0
+    z: 0
+- damage_actor:
+    actor_index: last
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: last
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 3.2
+- assert:
+    actor_visible:
+      actor_index: last
+      dead: true
+      report_state: true
+- assert:
+    world_item_state:
+      item_id: 11436
+      present: true
+- save_game: hesper_item_expansion_indoor
+- load_game: hesper_item_expansion_indoor
+- assert:
+    equipped_item: *id001
+- assert:
+    world_item_state:
+      item_id: 11434
+      present: true
+- assert:
+    world_item_state:
+      item_id: 11436
+      present: true
+- assert:
+    world_item_state:
+      item_id: 11437
+      present: true
+- load_map:
+    map: hes_out4.odm
+- note:
+    text: Vreth's real placed actor drops his mantle outdoors, alongside his existing
+      Striking Lattice.
+- set_pose:
+    map: hes_out4.odm
+    x: 16700
+    y: 9400
+    z: 1088
+    yaw: 0
+    pitch: 0
+- assert:
+    actor_visible:
+      actor_index: 47
+      monster_id: 10147
+      dead: false
+- damage_actor:
+    actor_index: 47
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 47
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 3.2
+- assert:
+    world_item_state:
+      item_id: 11435
+      present: true
+- save_game: hesper_item_expansion_outdoor
+- load_game: hesper_item_expansion_outdoor
+- assert:
+    world_item_state:
+      item_id: 11435
+      present: true

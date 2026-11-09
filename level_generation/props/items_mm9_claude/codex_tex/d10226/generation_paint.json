@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png as the edit target. design_reference.png is detail/material reference; icon_x8.png is color reference, ignore its magenta background.\nOutput ONE transparent PNG, 1536x2048 (3:4). Preserve EXACT guide layout, silhouettes, sizes, positions and orthographic views. Three columns and FOUR rows of 512-square cells:\nrow 1 FRONT, BACK, LEFT\nrow 2 RIGHT, TOP, EMPTY\nrow 3 FRONT, BACK, LEFT\nrow 4 RIGHT, TOP, EMPTY.\nPaint only existing grey objects; do not redraw, enlarge, move or redesign geometry.\nRows 1-2: unlit base color of Broderick's Helm. Tall flat-topped silver steel great helm with pale-blue enamelled steel cross framing horizontal eye slit, rows of small round breathing holes on both sides below slit. Reference detail scaled to each view. Silver steel has subtle fine wear in base color, pale blue enamel cross with small worn chips. No lighting, highlights, reflections, shadows or ambient occlusion. Back and side shell silver steel; top silver steel. Preserve every guide gap/opening exactly and fully transparent.\nRows 3-4: MATERIAL MASK, same five exact silhouettes, FLAT pure colors only: metal #FF0000 red; leather/fur #00FF00 green; cloth/hair #0000FF blue; enamel/gem/glass/pearl/crystal/liquid #000000 black; matte nonmetal wood/bone/horn/stone/paper/wax #FFFF00 yellow. Helm steel shell and metal rivets are PURE RED; enamel face of cross and enamel slit trim PURE BLACK. No shading, texture, outlines or antialiased color blends inside masks. Each silhouette pixel exactly one material color.\nTransparent background and empty cells; no ground, halo, sparkle, labels or text. Preserve guide outlines and all object placement rigorously.",
+  "corrective_prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png as the edit target. design_reference.png is detail/material reference; icon_x8.png is color reference, ignore its magenta background.\nOutput ONE transparent PNG, 1536x2048 (3:4). Preserve EXACT guide layout, silhouettes, sizes, positions and orthographic views. Three columns and FOUR rows of 512-square cells:\nrow 1 FRONT, BACK, LEFT\nrow 2 RIGHT, TOP, EMPTY\nrow 3 FRONT, BACK, LEFT\nrow 4 RIGHT, TOP, EMPTY.\nPaint only existing grey objects; do not redraw, enlarge, move or redesign geometry.\nRows 1-2: unlit base color of Broderick's Helm. Tall flat-topped silver steel great helm with pale-blue enamelled steel cross framing horizontal eye slit, rows of small round breathing holes on both sides below slit. Reference detail scaled to each view. Silver steel has subtle fine wear in base color, pale blue enamel cross with small worn chips. No lighting, highlights, reflections, shadows or ambient occlusion. Back and side shell silver steel; top silver steel. Preserve every guide gap/opening exactly and fully transparent.\nRows 3-4: MATERIAL MASK, same five exact silhouettes, FLAT pure colors only: metal #FF0000 red; leather/fur #00FF00 green; cloth/hair #0000FF blue; enamel/gem/glass/pearl/crystal/liquid #000000 black; matte nonmetal wood/bone/horn/stone/paper/wax #FFFF00 yellow. Helm steel shell and metal rivets are PURE RED; enamel face of cross and enamel slit trim PURE BLACK. No shading, texture, outlines or antialiased color blends inside masks. Each silhouette pixel exactly one material color.\nTransparent background and empty cells; no ground, halo, sparkle, labels or text. Preserve guide outlines and all object placement rigorously.\nCORRECTION REQUIRED: Prior attempt spilled red speckle clouds outside lower silhouettes. Strictly clip every painted and mask pixel to the ORIGINAL grey guide alpha. Absolutely no scattered pixels or noise outside objects. Mask edges must be clean exact guide contours. Preserve the original 3:4 canvas. Keep paint flat and unlit.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2d-447d-77f0-81d2-493001921cd1/exec-695bdc99-7817-407f-bf3d-e2ce32ec9b27.png",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2d-447d-77f0-81d2-493001921cd1/exec-5c7c5f1c-e078-46a2-b870-11e3372dcfef.png",
+  "validation": "Both generations contain stray red pixels outside mask silhouettes; selected first attempt with less contamination. Raw tool output preserved without editing.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10226/paint_mask_guide.png",
+      "sha256": "dbae385912ab4f6de6d8b276d0a61436093c4d613cb6a852e8175e2d3f69b0a9"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10226/design_reference.png",
+      "sha256": "6be9ea04ea409b448b16cc2c3020b9c14ac54ca357494d68c60e8b19e05fc80b"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10226/icon_x8.png",
+      "sha256": "4e0537f6b956468bca1c3537f0be15f9ddce583102aa83b49e1e0f16edebbbfd"
+    }
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10226/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

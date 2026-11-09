@@ -1,0 +1,449 @@
+{
+ "format_version": 2,
+ "kind": "indoor_geometry",
+ "map_file": "dragonstadium.blv",
+ "source": {
+  "authoring_file": "convert.py",
+  "asset_path": "dragonstadium.glb",
+  "coordinate_system": "blender_z_up",
+  "unit_scale": 1.0,
+  "import": {
+   "source_format": "glb",
+   "reserve_sector_zero": true,
+   "merge_coplanar_faces": false,
+   "triangulate_ngons": false,
+   "generate_bsp": true,
+   "generate_outlines": true
+  }
+ },
+ "materials": [
+  {
+   "id": "ROUGLU1WPL",
+   "source_material": "ROUGLU1WPL",
+   "texture": "ROUGLU1WPL",
+   "texture_width": 512,
+   "texture_height": 512
+  },
+  {
+   "id": "CAVESMM1LP",
+   "source_material": "CAVESMM1LP",
+   "texture": "CAVESMM1LP",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "FIRE6YTKLQ",
+   "source_material": "FIRE6YTKLQ",
+   "texture": "FIRE6YTKLQ",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "sky04",
+   "source_material": "sky04",
+   "texture": "sky04",
+   "texture_width": 512,
+   "texture_height": 512
+  },
+  {
+   "id": "BLACN0DV84",
+   "source_material": "BLACN0DV84",
+   "texture": "BLACN0DV84",
+   "texture_width": 256,
+   "texture_height": 256
+  }
+ ],
+ "rooms": [
+  {
+   "id": "room_r01",
+   "source_nodes": [
+    "ROOM_r01",
+    "TRIGGER_shared_r02_r01",
+    "LIGHT_Light2"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r02",
+   "source_nodes": [
+    "ROOM_r02",
+    "TRIGGER_shared_r01_r02",
+    "TRIGGER_invisible_r02",
+    "LIGHT_Light1"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r03",
+   "source_nodes": [
+    "ROOM_r03",
+    "TRIGGER_shared_r02_r03",
+    "LIGHT_Light0",
+    "DECOR_TreasureChest0",
+    "DECOR_TreasureChest1",
+    "DECOR_Prop0",
+    "DECOR_Prop1",
+    "DECOR_Prop2",
+    "TRIGGER_pillar_p1_1",
+    "TRIGGER_pillar_p1_2",
+    "TRIGGER_pillar_p1_3",
+    "TRIGGER_pillar_p1_4",
+    "TRIGGER_pillar_p1_5",
+    "TRIGGER_pillar_p1_6",
+    "TRIGGER_pillar_p1_7",
+    "TRIGGER_pillar_p2_1",
+    "TRIGGER_pillar_p2_2",
+    "TRIGGER_pillar_p2_3",
+    "TRIGGER_pillar_p2_4",
+    "TRIGGER_pillar_p2_5",
+    "TRIGGER_pillar_p2_6",
+    "TRIGGER_pillar_p2_7",
+    "TRIGGER_pillar_p3_1",
+    "TRIGGER_pillar_p3_2",
+    "TRIGGER_pillar_p3_3",
+    "TRIGGER_pillar_p3_4",
+    "TRIGGER_pillar_p3_5",
+    "TRIGGER_pillar_p3_6",
+    "TRIGGER_pillar_p3_7"
+   ],
+   "min_ambient_light_level": 18
+  }
+ ],
+ "portals": [
+  {
+   "id": "arena_mouth",
+   "source_node": "PORTAL_arena_mouth",
+   "front_room": "room_r03",
+   "back_room": "room_r02"
+  },
+  {
+   "id": "side_tunnel",
+   "source_node": "PORTAL_side_tunnel",
+   "front_room": "room_r01",
+   "back_room": "room_r02"
+  }
+ ],
+ "surfaces": [
+  {
+   "id": "shared_r02_r01",
+   "source_node": "TRIGGER_shared_r02_r01",
+   "flags": [],
+   "back_room": "room_r02"
+  },
+  {
+   "id": "shared_r01_r02",
+   "source_node": "TRIGGER_shared_r01_r02",
+   "flags": [],
+   "back_room": "room_r01"
+  },
+  {
+   "id": "invisible_r02",
+   "source_node": "TRIGGER_invisible_r02",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r02_r03",
+   "source_node": "TRIGGER_shared_r02_r03",
+   "flags": [],
+   "back_room": "room_r02"
+  },
+  {
+   "id": "pillar_p1_1",
+   "source_node": "TRIGGER_pillar_p1_1",
+   "flags": [],
+   "cog_number": 300,
+   "trigger": {
+    "event_id": 70,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p1_2",
+   "source_node": "TRIGGER_pillar_p1_2",
+   "flags": [],
+   "cog_number": 301,
+   "trigger": {
+    "event_id": 71,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p1_3",
+   "source_node": "TRIGGER_pillar_p1_3",
+   "flags": [],
+   "cog_number": 302,
+   "trigger": {
+    "event_id": 72,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p1_4",
+   "source_node": "TRIGGER_pillar_p1_4",
+   "flags": [],
+   "cog_number": 303,
+   "trigger": {
+    "event_id": 73,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p1_5",
+   "source_node": "TRIGGER_pillar_p1_5",
+   "flags": [],
+   "cog_number": 304,
+   "trigger": {
+    "event_id": 74,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p1_6",
+   "source_node": "TRIGGER_pillar_p1_6",
+   "flags": [],
+   "cog_number": 305,
+   "trigger": {
+    "event_id": 75,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p1_7",
+   "source_node": "TRIGGER_pillar_p1_7",
+   "flags": [],
+   "cog_number": 306,
+   "trigger": {
+    "event_id": 76,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p2_1",
+   "source_node": "TRIGGER_pillar_p2_1",
+   "flags": [],
+   "cog_number": 307,
+   "trigger": {
+    "event_id": 77,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p2_2",
+   "source_node": "TRIGGER_pillar_p2_2",
+   "flags": [],
+   "cog_number": 308,
+   "trigger": {
+    "event_id": 78,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p2_3",
+   "source_node": "TRIGGER_pillar_p2_3",
+   "flags": [],
+   "cog_number": 309,
+   "trigger": {
+    "event_id": 79,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p2_4",
+   "source_node": "TRIGGER_pillar_p2_4",
+   "flags": [],
+   "cog_number": 310,
+   "trigger": {
+    "event_id": 80,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p2_5",
+   "source_node": "TRIGGER_pillar_p2_5",
+   "flags": [],
+   "cog_number": 311,
+   "trigger": {
+    "event_id": 81,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p2_6",
+   "source_node": "TRIGGER_pillar_p2_6",
+   "flags": [],
+   "cog_number": 312,
+   "trigger": {
+    "event_id": 82,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p2_7",
+   "source_node": "TRIGGER_pillar_p2_7",
+   "flags": [],
+   "cog_number": 313,
+   "trigger": {
+    "event_id": 83,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p3_1",
+   "source_node": "TRIGGER_pillar_p3_1",
+   "flags": [],
+   "cog_number": 314,
+   "trigger": {
+    "event_id": 84,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p3_2",
+   "source_node": "TRIGGER_pillar_p3_2",
+   "flags": [],
+   "cog_number": 315,
+   "trigger": {
+    "event_id": 85,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p3_3",
+   "source_node": "TRIGGER_pillar_p3_3",
+   "flags": [],
+   "cog_number": 316,
+   "trigger": {
+    "event_id": 86,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p3_4",
+   "source_node": "TRIGGER_pillar_p3_4",
+   "flags": [],
+   "cog_number": 317,
+   "trigger": {
+    "event_id": 87,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p3_5",
+   "source_node": "TRIGGER_pillar_p3_5",
+   "flags": [],
+   "cog_number": 318,
+   "trigger": {
+    "event_id": 88,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p3_6",
+   "source_node": "TRIGGER_pillar_p3_6",
+   "flags": [],
+   "cog_number": 319,
+   "trigger": {
+    "event_id": 89,
+    "type": "click"
+   }
+  },
+  {
+   "id": "pillar_p3_7",
+   "source_node": "TRIGGER_pillar_p3_7",
+   "flags": [],
+   "cog_number": 320,
+   "trigger": {
+    "event_id": 90,
+    "type": "click"
+   }
+  }
+ ],
+ "mechanisms": [],
+ "entities": [
+  {
+   "id": "TreasureChest0",
+   "kind": "decoration",
+   "source_node": "DECOR_TreasureChest0",
+   "decoration_list_id": 2077,
+   "event_id_primary": 0,
+   "event_id_secondary": 41,
+   "facing": 216
+  },
+  {
+   "id": "TreasureChest1",
+   "kind": "decoration",
+   "source_node": "DECOR_TreasureChest1",
+   "decoration_list_id": 2077,
+   "event_id_primary": 0,
+   "event_id_secondary": 42,
+   "facing": 146
+  },
+  {
+   "id": "Prop0",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop0",
+   "decoration_list_id": 2451,
+   "event_id_primary": 0,
+   "event_id_secondary": 30045
+  },
+  {
+   "id": "Prop1",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop1",
+   "decoration_list_id": 2451,
+   "event_id_primary": 0,
+   "event_id_secondary": 30046,
+   "facing": 220
+  },
+  {
+   "id": "Prop2",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop2",
+   "decoration_list_id": 2451,
+   "event_id_primary": 0,
+   "event_id_secondary": 30047,
+   "facing": 290
+  }
+ ],
+ "lights": [
+  {
+   "id": "Light1",
+   "source_node": "LIGHT_Light1",
+   "color": [
+    14,
+    20,
+    24
+   ],
+   "radius": 960,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light2",
+   "source_node": "LIGHT_Light2",
+   "color": [
+    14,
+    20,
+    24
+   ],
+   "radius": 960,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light0",
+   "source_node": "LIGHT_Light0",
+   "color": [
+    10,
+    14,
+    18
+   ],
+   "radius": 1152,
+   "brightness": 31,
+   "type": "point"
+  }
+ ],
+ "spawns": []
+}

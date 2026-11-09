@@ -1,0 +1,237 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "generated_but_exact_brief_requirements_unmet",
+  "raw_returns_unresized": true,
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Paint guide_front.png, the FIRST input image, as a 1024 x 1024 transparent albedo texture-source image. The SECOND input, design_reference.png, is ONLY the approved design, colour and material authority, NOT the camera or geometry.\nKeep the first image's silhouette EXACTLY: identical pixel position, scale, framing, outline, every shape edge, opening and detail. Retain the guide's slightly tilted side-on orthographic view, the visible large wheel at lower right, crates and canister above the rail, red roll along the near rail, and the overlapping handle projection to lower left. Do not change geometry to match the three-quarter reference; do not reveal extra hidden wheels or handles. Nothing added outside the silhouette, nothing cropped. Preserve transparent background and openings.\nPaint the surface materials of the design reference onto this exact guide shape: weathered white prefab composite with a teal and orange band, dark grey rubber tyres, brushed steel axle and fittings, ochre and white crates with black stencils, red cloth roll, tan rope. Match the reference's fine paint wear, restrained dirt, material colours and stripe designs; geometry and contours always come from the guide.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint material colour, not directional illumination. No presentation scene. Output ONE 1024 x 1024 RGBA PNG, unresized.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "0ed0c25da102927197a7aef67d3df554097e687f299abbffce3e83efa666527e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Tool rejected output with moderation_blocked / violence; no image returned. Retried the same prompt unchanged.",
+      "status": "tool_error",
+      "request_id": "0371cb34-b573-403b-ab4a-720e160bdbea"
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Paint guide_front.png, the FIRST input image, as a 1024 x 1024 transparent albedo texture-source image. The SECOND input, design_reference.png, is ONLY the approved design, colour and material authority, NOT the camera or geometry.\nKeep the first image's silhouette EXACTLY: identical pixel position, scale, framing, outline, every shape edge, opening and detail. Retain the guide's slightly tilted side-on orthographic view, the visible large wheel at lower right, crates and canister above the rail, red roll along the near rail, and the overlapping handle projection to lower left. Do not change geometry to match the three-quarter reference; do not reveal extra hidden wheels or handles. Nothing added outside the silhouette, nothing cropped. Preserve transparent background and openings.\nPaint the surface materials of the design reference onto this exact guide shape: weathered white prefab composite with a teal and orange band, dark grey rubber tyres, brushed steel axle and fittings, ochre and white crates with black stencils, red cloth roll, tan rope. Match the reference's fine paint wear, restrained dirt, material colours and stripe designs; geometry and contours always come from the guide.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint material colour, not directional illumination. No presentation scene. Output ONE 1024 x 1024 RGBA PNG, unresized.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "0ed0c25da102927197a7aef67d3df554097e687f299abbffce3e83efa666527e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604b-4fd7-7882-8847-9e9ec8e36ff7/exec-77667c9f-bc62-4f30-93c5-7c9c1d61a800.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Initial raw return: wrong dimensions, contour drift, rounded wheel and baked shading. Corrective generation requested.",
+      "output_sha256": "b0d294d09f8db13ded30a90b161bbb129e8233064c54e8e2f773486f2daaad68",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixels": 1306662,
+        "opaque_pixels": 507,
+        "alpha_bbox": [
+          39,
+          17,
+          1226,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          66,
+          295,
+          958,
+          729
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Canvas dimensions differ; visual inspection also shows changed edges and small shapes.",
+        "materials_colours": "Broad reference palette matched: weathered white, teal/orange, dark tyres, metal, red cloth; black stencils not reliably reproduced.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual occlusion and directional material shading visible.",
+        "unresized_byte_identical_to_tool_output": true
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Edit and colour ONLY the FIRST image (guide_top.png). Return exactly 1024 x 1024 pixels with a transparent background. This is an albedo texture source for projection onto an existing mesh, so preserve the guide image's exact alpha silhouette, pixel position, scale, geometry edges, holes, overlaps, orthographic overhead camera and framing. No resizing, recentering or perspective reinterpretation. The SECOND image (design_reference.png) supplies only material design and colours.\nThe exact guide has two shafts extending horizontally to the left, one wheel above the bed and one below, a horizontal crate lid in the upper-left part of the bed, a long vertical crate lid at right, small canister lid near centre, and cloth roll at lower left. Preserve all these original shapes and the slightly skewed bed outline precisely. Do not add geometry or reveal surfaces hidden in this view.\nPaint the approved design's weathered white prefab composite cart bed and shafts, teal and orange bands, dark grey rubber tyres with subdued wear, brushed steel fittings/axle, ochre and white crates with black stencils, red cloth and tan rope. Use design_reference.png for consistent materials, painted stripes and fine wear while keeping the guide's exact geometry.\nLIGHTING: flat, even, shadowless albedo colour lit uniformly from the viewer. NO cast shadows, NO ambient occlusion darkening under/between objects, NO strong specular highlights, NO reflections, NO rim light. No floor, no background, no text outside objects, no added items. Paint colour and fine material texture only. Retain transparency including all openings. One 1024 x 1024 RGBA PNG, unresized return.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "c48a1ae0ad3065e2bd1cc84911cf75ae67ff3d28b6ddbad27aadd4431b776c76"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604b-4fd7-7882-8847-9e9ec8e36ff7/exec-5df652bf-781f-4087-b8f4-03fce9309209.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial raw return: wrong dimensions, changed handle tips/canister edges and baked occlusion. Corrective generation requested.",
+      "output_sha256": "88260c43af5dc232ab843f2d1a14b49d5e140b6584b8cf01941b250b9c5fc9f1",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixels": 1101699,
+        "opaque_pixels": 733,
+        "alpha_bbox": [
+          57,
+          13,
+          1226,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          197,
+          958,
+          827
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Canvas dimensions differ; visual inspection also shows changed edges and small shapes.",
+        "materials_colours": "Broad reference palette matched: weathered white, teal/orange, dark tyres, metal, red cloth; black stencils not reliably reproduced.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual occlusion and directional material shading visible.",
+        "unresized_byte_identical_to_tool_output": true
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Paint guide_front.png, the FIRST input image, as a 1024 x 1024 transparent albedo texture-source image. The SECOND input, design_reference.png, is ONLY the approved design, colour and material authority, NOT the camera or geometry.\nKeep the first image's silhouette EXACTLY: identical pixel position, scale, framing, outline, every shape edge, opening and detail. Retain the guide's slightly tilted side-on orthographic view, the visible large wheel at lower right, crates and canister above the rail, red roll along the near rail, and the overlapping handle projection to lower left. Do not change geometry to match the three-quarter reference; do not reveal extra hidden wheels or handles. Nothing added outside the silhouette, nothing cropped. Preserve transparent background and openings.\nPaint the surface materials of the design reference onto this exact guide shape: weathered white prefab composite with a teal and orange band, dark grey rubber tyres, brushed steel axle and fittings, ochre and white crates with black stencils, red cloth roll, tan rope. Match the reference's fine paint wear, restrained dirt, material colours and stripe designs; geometry and contours always come from the guide.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Paint material colour, not directional illumination. No presentation scene. Output ONE 1024 x 1024 RGBA PNG, unresized.\nCORRECTIVE GENERATION: The previous attempt returned 1254 x 1254 rather than the required 1024 x 1024 and altered shape edges. Render at EXACTLY 1024 x 1024, retaining the FIRST guide's original pixel coordinates and alpha mask. Do not enlarge or smooth the guide's faceted wheel or change crate faces or the thin handle shape. This is texture paint on an immutable grey render, not a newly designed cart illustration. Keep material shading strictly flat: remove occlusion shadows beneath cargo, tyres, rail and fittings. Retain the reference colours and surface markings only.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "0ed0c25da102927197a7aef67d3df554097e687f299abbffce3e83efa666527e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604b-4fd7-7882-8847-9e9ec8e36ff7/exec-f6257758-d324-4370-9c6c-21728a3d9575.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available raw return after one corrective generation: more faceted wheel and reference-like markings. Selected for delivery, NOT accepted as meeting the exact brief: dimension mismatch, contour/edge drift and baked shading remain.",
+      "corrective_regeneration": true,
+      "output_sha256": "41a7b18ed11cc2ad7b8c23d16240fbcb80a76685b018ebec540ad71cca8274a0",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixels": 1305788,
+        "opaque_pixels": 680,
+        "alpha_bbox": [
+          25,
+          35,
+          1208,
+          1214
+        ],
+        "guide_alpha_bbox": [
+          66,
+          295,
+          958,
+          729
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Canvas dimensions differ; visual inspection also shows changed edges and small shapes.",
+        "materials_colours": "Broad reference palette matched: weathered white, teal/orange, dark tyres, metal, red cloth; black stencils not reliably reproduced.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual occlusion and directional material shading visible.",
+        "unresized_byte_identical_to_tool_output": true
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Edit and colour ONLY the FIRST image (guide_top.png). Return exactly 1024 x 1024 pixels with a transparent background. This is an albedo texture source for projection onto an existing mesh, so preserve the guide image's exact alpha silhouette, pixel position, scale, geometry edges, holes, overlaps, orthographic overhead camera and framing. No resizing, recentering or perspective reinterpretation. The SECOND image (design_reference.png) supplies only material design and colours.\nThe exact guide has two shafts extending horizontally to the left, one wheel above the bed and one below, a horizontal crate lid in the upper-left part of the bed, a long vertical crate lid at right, small canister lid near centre, and cloth roll at lower left. Preserve all these original shapes and the slightly skewed bed outline precisely. Do not add geometry or reveal surfaces hidden in this view.\nPaint the approved design's weathered white prefab composite cart bed and shafts, teal and orange bands, dark grey rubber tyres with subdued wear, brushed steel fittings/axle, ochre and white crates with black stencils, red cloth and tan rope. Use design_reference.png for consistent materials, painted stripes and fine wear while keeping the guide's exact geometry.\nLIGHTING: flat, even, shadowless albedo colour lit uniformly from the viewer. NO cast shadows, NO ambient occlusion darkening under/between objects, NO strong specular highlights, NO reflections, NO rim light. No floor, no background, no text outside objects, no added items. Paint colour and fine material texture only. Retain transparency including all openings. One 1024 x 1024 RGBA PNG, unresized return.\nCORRECTIVE GENERATION: The previous attempt returned 1254 x 1254 instead of 1024 x 1024 and changed the guide's shapes. Generate EXACTLY 1024 x 1024, copying the FIRST guide's alpha mask and pixel positions unchanged. Keep the guide's straight-edged thin shaft tips, faceted canister lid and rectangular crate lids at exactly their original corners. Do not invent raised handles, hardware or ropes beyond the original contour. Remove all ambient occlusion and directional shadows, especially shadows beneath the crate lids and along the bed interior. The output should read as flat painted albedo, not a shaded product rendering. Use only the approved reference's material colours, stripes and fine surface wear.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "c48a1ae0ad3065e2bd1cc84911cf75ae67ff3d28b6ddbad27aadd4431b776c76"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c9cf4013b2aeefb5d4e67bbbdb8266537aa35ed958088d9d87dfe3bfb8edc854"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1604b-4fd7-7882-8847-9e9ec8e36ff7/exec-c0820b36-130d-4a21-8530-048ff05c0d60.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best available raw return after one corrective generation: straighter shaft tips and more faceted canister lid closer to guide. Selected for delivery, NOT accepted as meeting the exact brief: dimension mismatch, contour/edge drift and baked shading remain.",
+      "corrective_regeneration": true,
+      "output_sha256": "81ec4dd9b742b4c19fb5c68bd25bf73565e7b9d4458a249aba54ce062a9fc476",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "transparent_pixels": 1096926,
+        "opaque_pixels": 521,
+        "alpha_bbox": [
+          0,
+          21,
+          1222,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          197,
+          958,
+          827
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Canvas dimensions differ; visual inspection also shows changed edges and small shapes.",
+        "materials_colours": "Broad reference palette matched: weathered white, teal/orange, dark tyres, metal, red cloth; black stencils not reliably reproduced.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual occlusion and directional material shading visible.",
+        "unresized_byte_identical_to_tool_output": true
+      }
+    }
+  ]
+}

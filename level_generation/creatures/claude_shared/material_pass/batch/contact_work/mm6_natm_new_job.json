@@ -1,0 +1,27 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_natm_new.glb",
+ "patch_materials": {
+  "Natm_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Natm_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "Natm_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_natm_new",
+ "size": 300,
+ "front": "-y"
+}

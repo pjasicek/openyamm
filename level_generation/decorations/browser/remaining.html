@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM Remaining Sprite Review</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="toolbar">
+    <div class="toolbar-title">
+      <div>
+        <h1>Remaining restored sprites</h1>
+        <p>World items, effects, projectiles and overlays. Original and restored art share matching 2× canvases.</p>
+      </div>
+      <button id="export-button" class="primary" type="button">Copy review <span id="flag-count">0</span></button>
+    </div>
+    <div class="toolbar-controls">
+      <label class="search-label">Search <input id="search" type="search" placeholder="Name, ID, or image" autocomplete="off"></label>
+      <label>Category <select id="category-filter">
+        <option value="all">All remaining</option>
+        <option value="world_items">World items</option>
+        <option value="effects_projectiles_other">Effects / projectiles</option>
+        <option value="interface_overlays">Interface overlays</option>
+      </select></label>
+      <label>Show <select id="filter"><option value="all">All</option><option value="animated">Animated / multiple views</option><option value="flagged">Flagged only</option></select></label>
+      <label>Background <select id="background"><option value="dark">Dark</option><option value="light">Light</option><option value="checker">Checker</option></select></label>
+      <label class="check-label"><input id="play-all" type="checkbox" checked> Play visible</label>
+      <label class="check-label"><input id="rotate-views" type="checkbox" checked> Rotate views</label>
+      <span id="progress" class="progress" aria-live="polite"></span>
+    </div>
+  </header>
+
+  <main>
+    <p id="empty" class="empty" hidden>No sprites match this search.</p>
+    <div id="cards" class="cards"></div>
+    <div id="load-more" class="load-more" aria-hidden="true"></div>
+  </main>
+
+  <dialog id="export-dialog">
+    <div class="dialog-heading">
+      <div><h2>Review result</h2><p>Copy this JSON and paste it into our chat when you finish. Tell me whether to accept the unflagged sprites; the JSON identifies flagged groups, views and frames.</p></div>
+      <button id="close-export" type="button" aria-label="Close">×</button>
+    </div>
+    <textarea id="export-json" readonly spellcheck="false"></textarea>
+    <div class="dialog-actions">
+      <span id="copy-status" role="status"></span>
+      <button id="download-json" type="button">Download JSON</button>
+      <button id="copy-json" class="primary" type="button">Copy JSON</button>
+    </div>
+  </dialog>
+
+  <script src="remaining_catalog.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

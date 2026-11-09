@@ -1,0 +1,152 @@
+[
+  {
+    "name": "6drsrecap",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6drsrecap. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make entire paved road surface, INCLUDING its grout solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'dirt']. White=cobbles; black=dirt. CRITICAL: extract ONE SOLID ROAD SILHOUETTE, not individual stones. FILL ALL GROUT AND CRACKS WHITE: no internal black lines or stone pattern. Preserve the road shape and native width; connections at edges: ['W']. Retain the shape of the road end/turn/junction. Only the surrounding soil is black.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6drsrecap.png"
+  },
+  {
+    "name": "6drsrew_s",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6drsrew_s. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make entire paved road surface, INCLUDING its grout solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'dirt']. White=cobbles; black=dirt. CRITICAL: extract ONE SOLID ROAD SILHOUETTE, not individual stones. FILL ALL GROUT AND CRACKS WHITE: no internal black lines or stone pattern. Preserve the road shape and native width; connections at edges: ['E', 'S', 'W']. Retain the shape of the road end/turn/junction. Only the surrounding soil is black.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6drsrew_s.png"
+  },
+  {
+    "name": "6drsrn_e",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6drsrn_e. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make entire paved road surface, INCLUDING its grout solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'dirt']. White=cobbles; black=dirt. CRITICAL: extract ONE SOLID ROAD SILHOUETTE, not individual stones. FILL ALL GROUT AND CRACKS WHITE: no internal black lines or stone pattern. Preserve the road shape and native width; connections at edges: ['N', 'E']. Retain the shape of the road end/turn/junction. Only the surrounding soil is black.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6drsrn_e.png"
+  },
+  {
+    "name": "6drsrn_w",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6drsrn_w. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make entire paved road surface, INCLUDING its grout solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'dirt']. White=cobbles; black=dirt. CRITICAL: extract ONE SOLID ROAD SILHOUETTE, not individual stones. FILL ALL GROUT AND CRACKS WHITE: no internal black lines or stone pattern. Preserve the road shape and native width; connections at edges: ['N', 'W']. Retain the shape of the road end/turn/junction. Only the surrounding soil is black.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6drsrn_w.png"
+  },
+  {
+    "name": "6drsrns",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6drsrns. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make entire paved road surface, INCLUDING its grout solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'dirt']. White=cobbles; black=dirt. CRITICAL: extract ONE SOLID ROAD SILHOUETTE, not individual stones. FILL ALL GROUT AND CRACKS WHITE: no internal black lines or stone pattern. Preserve the road shape and native width; connections at edges: ['N', 'S']. Retain the shape of the road end/turn/junction. Only the surrounding soil is black.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6drsrns.png"
+  },
+  {
+    "name": "6drsrs_e",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6drsrs_e. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make entire paved road surface, INCLUDING its grout solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'dirt']. White=cobbles; black=dirt. CRITICAL: extract ONE SOLID ROAD SILHOUETTE, not individual stones. FILL ALL GROUT AND CRACKS WHITE: no internal black lines or stone pattern. Preserve the road shape and native width; connections at edges: ['S', 'E']. Retain the shape of the road end/turn/junction. Only the surrounding soil is black.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6drsrs_e.png"
+  },
+  {
+    "name": "6drsrs_w",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6drsrs_w. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make entire paved road surface, INCLUDING its grout solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'dirt']. White=cobbles; black=dirt. CRITICAL: extract ONE SOLID ROAD SILHOUETTE, not individual stones. FILL ALL GROUT AND CRACKS WHITE: no internal black lines or stone pattern. Preserve the road shape and native width; connections at edges: ['S', 'W']. Retain the shape of the road end/turn/junction. Only the surrounding soil is black.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6drsrs_w.png"
+  },
+  {
+    "name": "6drsrwcap",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6drsrwcap. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make entire paved road surface, INCLUDING its grout solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'dirt']. White=cobbles; black=dirt. CRITICAL: extract ONE SOLID ROAD SILHOUETTE, not individual stones. FILL ALL GROUT AND CRACKS WHITE: no internal black lines or stone pattern. Preserve the road shape and native width; connections at edges: ['E']. Retain the shape of the road end/turn/junction. Only the surrounding soil is black.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6drsrwcap.png"
+  },
+  {
+    "name": "6grdrte",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrte. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['grass', 'dirt', 'dirt', 'grass']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrte.png"
+  },
+  {
+    "name": "6grdrtne",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtne. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'grass']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtne.png"
+  },
+  {
+    "name": "6grdrtnw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtnw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'grass', 'dirt']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtnw.png"
+  },
+  {
+    "name": "6grdrts",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrts. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['grass', 'grass', 'dirt', 'dirt']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrts.png"
+  },
+  {
+    "name": "6grdrtse",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtse. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['grass', 'dirt', 'dirt', 'dirt']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtse.png"
+  },
+  {
+    "name": "6grdrtsw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtsw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'grass', 'dirt', 'dirt']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtsw.png"
+  },
+  {
+    "name": "6grdrtw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'grass', 'grass', 'dirt']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtw.png"
+  },
+  {
+    "name": "6grdrtxne",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtxne. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['grass', 'dirt', 'grass', 'grass']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtxne.png"
+  },
+  {
+    "name": "6grdrtxnw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtxnw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'grass', 'grass', 'grass']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtxnw.png"
+  },
+  {
+    "name": "6grdrtxse",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtxse. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['grass', 'grass', 'dirt', 'grass']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtxse.png"
+  },
+  {
+    "name": "6grdrtxsw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile 6grdrtxsw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make green grass solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['grass', 'grass', 'grass', 'dirt']. White=grass; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/6grdrtxsw.png"
+  },
+  {
+    "name": "voldrte",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrte. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['volcano', 'dirt', 'dirt', 'volcano']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrte.png"
+  },
+  {
+    "name": "voldrtne",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtne. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'dirt', 'volcano']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtne.png"
+  },
+  {
+    "name": "voldrtnw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtnw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'dirt', 'volcano', 'dirt']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtnw.png"
+  },
+  {
+    "name": "voldrts",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrts. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['volcano', 'volcano', 'dirt', 'dirt']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrts.png"
+  },
+  {
+    "name": "voldrtse",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtse. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['volcano', 'dirt', 'dirt', 'dirt']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtse.png"
+  },
+  {
+    "name": "voldrtsw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtsw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'volcano', 'dirt', 'dirt']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtsw.png"
+  },
+  {
+    "name": "voldrtw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'volcano', 'volcano', 'dirt']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtw.png"
+  },
+  {
+    "name": "voldrtxne",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtxne. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['volcano', 'dirt', 'volcano', 'volcano']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtxne.png"
+  },
+  {
+    "name": "voldrtxnw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtxnw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['dirt', 'volcano', 'volcano', 'volcano']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtxnw.png"
+  },
+  {
+    "name": "voldrtxse",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtxse. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['volcano', 'volcano', 'dirt', 'volcano']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtxse.png"
+  },
+  {
+    "name": "voldrtxsw",
+    "prompt": "Extract the material coverage of this native MM6 terrain tile voldrtxsw. Return ONE square opaque grayscale mask, EXACT source crop/orientation and spatial registration. Make dark gray volcanic rock solid WHITE and brown dirt solid BLACK. Ignore interior shading and material texture. Preserve the original irregular outer boundary, meaningful peninsulas, indentations and separate islands. No redesign, no margins, no text, no grid. Gray only in narrow contour antialias. The four corner materials clockwise NW NE SE SW are: ['volcano', 'volcano', 'volcano', 'dirt']. White=volcano; black=dirt.",
+    "path": "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_new_sorpigal/source_rgb/voldrtxsw.png"
+  }
+]

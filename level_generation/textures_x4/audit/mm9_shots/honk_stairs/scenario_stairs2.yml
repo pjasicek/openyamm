@@ -1,0 +1,185 @@
+id: tex9.honk_stairs_probe2
+title: stair probes
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: templeofhonk.blv
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3250
+      y: 6800
+      z: -521
+      yaw_degrees: 225
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3250
+      y: 6800
+      z: -521
+      yaw_degrees: 225
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3300
+      y: 6700
+      z: -521
+      yaw_degrees: 225
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3300
+      y: 6700
+      z: -521
+      yaw_degrees: 225
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3350
+      y: 6650
+      z: -510
+      yaw_degrees: 225
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3350
+      y: 6650
+      z: -510
+      yaw_degrees: 225
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3420
+      y: 6600
+      z: -490
+      yaw_degrees: 225
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3420
+      y: 6600
+      z: -490
+      yaw_degrees: 225
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3497
+      y: 6556
+      z: -458
+      yaw_degrees: 225
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3497
+      y: 6556
+      z: -458
+      yaw_degrees: 225
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3497
+      y: 6556
+      z: -458
+      yaw_degrees: 45
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3497
+      y: 6556
+      z: -458
+      yaw_degrees: 45
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3497
+      y: 6556
+      z: -458
+      yaw_degrees: 135
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3497
+      y: 6556
+      z: -458
+      yaw_degrees: 135
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: templeofhonk.blv
+      x: -3497
+      y: 6556
+      z: -458
+      yaw_degrees: 315
+      pitch: 0
+    expect_stop:
+      map: templeofhonk.blv
+      x: -3497
+      y: 6556
+      z: -458
+      yaw_degrees: 315
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

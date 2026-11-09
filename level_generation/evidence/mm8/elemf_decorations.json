@@ -1,0 +1,870 @@
+{
+  "world": "mm8",
+  "map": "elemf.odm",
+  "kind": "outdoor",
+  "sources": [
+    {
+      "path": "assets_dev/worlds/mm8/maps/elemf.odm",
+      "sha256": "1712bd2317b23fcc7cc62da9f4d323a408052d189544e60b5753a74a33412150"
+    },
+    {
+      "path": "assets_dev/worlds/mm8/maps/elemf.scene.yml",
+      "sha256": "19aefb5323e84ec0a1b81ecfab106fd8d11bb1c1908b2849f9df2c96c7b7d01a"
+    },
+    {
+      "path": "assets_dev/engine/data_tables/decoration_data.txt",
+      "sha256": "0ad51cc583a71f2e4255211fb79be965e2adb1a51f7baeb0d603f777073bca7f"
+    },
+    {
+      "path": "assets_dev/engine/rendering/sprite_frame_data_common.yml",
+      "sha256": "197b5a71379e4d38b08f2ab2c31f74aea0de38e4dc6b724e7bb4beeba953726b"
+    }
+  ],
+  "records": [
+    {
+      "index": 0,
+      "source_name": "Party Start",
+      "id": 14,
+      "name": "party start",
+      "hint": "null",
+      "radius": 16,
+      "height": 16,
+      "light_radius": 0,
+      "light_rgb": [
+        0,
+        0,
+        0
+      ],
+      "flags": "DontDraw",
+      "sprite_id": 0,
+      "category": "props",
+      "position": [
+        88,
+        -21472,
+        3008
+      ],
+      "facing": 0,
+      "event": 0,
+      "visible": false,
+      "initial_flags": 2,
+      "ground_z": 3008.0,
+      "ground_offset": 0.0,
+      "grade": 0.0,
+      "nearest_bmodel_xy": 472.0
+    }
+  ],
+  "missing_sprites": [],
+  "models": [
+    {
+      "index": 0,
+      "name": "gw_fire_N",
+      "bounds": [
+        [
+          -160,
+          -22328,
+          3008
+        ],
+        [
+          352,
+          -21944,
+          3344
+        ]
+      ],
+      "textures": {
+        "gn_mtl03": 28,
+        "gn_mtl01": 18,
+        "LavTyl": 2,
+        "gn_mtl02": 10
+      },
+      "events": [
+        505
+      ]
+    },
+    {
+      "index": 1,
+      "name": "d29entrance_4",
+      "bounds": [
+        [
+          -14080,
+          18112,
+          3840
+        ],
+        [
+          -11776,
+          18880,
+          7168
+        ]
+      ],
+      "textures": {
+        "t09a01": 16,
+        "t09a02a": 11,
+        "t09a05": 11
+      },
+      "events": [
+        401
+      ]
+    },
+    {
+      "index": 2,
+      "name": "d29entrance",
+      "bounds": [
+        [
+          -12544,
+          17344,
+          3840
+        ],
+        [
+          -10624,
+          18880,
+          7072
+        ]
+      ],
+      "textures": {
+        "t09a01": 25,
+        "t09a02a": 16,
+        "t09a05": 21
+      },
+      "events": [
+        401
+      ]
+    },
+    {
+      "index": 3,
+      "name": "d29entrance_5",
+      "bounds": [
+        [
+          -15232,
+          16448,
+          3840
+        ],
+        [
+          -11776,
+          18880,
+          7168
+        ]
+      ],
+      "textures": {
+        "t09a01": 20,
+        "t09a02a": 19,
+        "t09a05": 25
+      },
+      "events": [
+        401
+      ]
+    },
+    {
+      "index": 4,
+      "name": "d29entrance_3",
+      "bounds": [
+        [
+          -14016,
+          16832,
+          3840
+        ],
+        [
+          -12480,
+          17536,
+          6400
+        ]
+      ],
+      "textures": {
+        "t09a01": 24,
+        "t09a05": 39
+      },
+      "events": [
+        401
+      ]
+    },
+    {
+      "index": 5,
+      "name": "d29entrance_1",
+      "bounds": [
+        [
+          -12928,
+          15808,
+          3840
+        ],
+        [
+          -12032,
+          17344,
+          6304
+        ]
+      ],
+      "textures": {
+        "t09a01": 20,
+        "t09a05": 44
+      },
+      "events": [
+        401
+      ]
+    },
+    {
+      "index": 6,
+      "name": "d29entrance_2",
+      "bounds": [
+        [
+          -14816,
+          16384,
+          3840
+        ],
+        [
+          -13056,
+          18144,
+          7040
+        ]
+      ],
+      "textures": {
+        "t09a01": 23,
+        "t09a02a": 23,
+        "t09a05": 16,
+        "solid01": 1
+      },
+      "events": [
+        401,
+        501
+      ]
+    },
+    {
+      "index": 7,
+      "name": "d30entrance",
+      "bounds": [
+        [
+          7808,
+          -9984,
+          3936
+        ],
+        [
+          10624,
+          -8320,
+          6624
+        ]
+      ],
+      "textures": {
+        "GNecWal1": 49,
+        "t09a01": 1,
+        "GNecWal3": 2,
+        "GSton1WL": 3,
+        "solid01": 7
+      },
+      "events": [
+        402
+      ]
+    },
+    {
+      "index": 8,
+      "name": "d30entrance_2",
+      "bounds": [
+        [
+          7872,
+          -11008,
+          3936
+        ],
+        [
+          10560,
+          -8512,
+          6624
+        ]
+      ],
+      "textures": {
+        "t09a01": 2,
+        "GNecWal3": 6,
+        "GNecWal1": 27,
+        "GSton1WL": 6,
+        "solid01": 2
+      },
+      "events": [
+        402
+      ]
+    },
+    {
+      "index": 9,
+      "name": "d30entrance_1",
+      "bounds": [
+        [
+          7808,
+          -11136,
+          3936
+        ],
+        [
+          10624,
+          -10656,
+          5856
+        ]
+      ],
+      "textures": {
+        "GNecWal1": 24,
+        "GNecWal3": 26,
+        "t09a01": 7,
+        "solid01": 4
+      },
+      "events": [
+        402,
+        502
+      ]
+    },
+    {
+      "index": 10,
+      "name": "Guard Tower_3",
+      "bounds": [
+        [
+          7808,
+          -7312,
+          3890
+        ],
+        [
+          8320,
+          -6800,
+          5106
+        ]
+      ],
+      "textures": {
+        "GCav1flr": 9,
+        "GCav2flr": 5,
+        "gn_mtl03": 25,
+        "GSton1WL": 4
+      },
+      "events": []
+    },
+    {
+      "index": 11,
+      "name": "Guard Tower_2",
+      "bounds": [
+        [
+          9552,
+          -7296,
+          3936
+        ],
+        [
+          10064,
+          -6784,
+          5152
+        ]
+      ],
+      "textures": {
+        "GCav1flr": 9,
+        "GCav2flr": 5,
+        "gn_mtl03": 25,
+        "GSton1WL": 4
+      },
+      "events": []
+    },
+    {
+      "index": 12,
+      "name": "Guard Tower_5",
+      "bounds": [
+        [
+          11648,
+          -9808,
+          3936
+        ],
+        [
+          12160,
+          -9296,
+          5152
+        ]
+      ],
+      "textures": {
+        "GCav1flr": 9,
+        "GCav2flr": 5,
+        "gn_mtl03": 25,
+        "GSton1WL": 4
+      },
+      "events": []
+    },
+    {
+      "index": 13,
+      "name": "Guard Tower_4",
+      "bounds": [
+        [
+          6224,
+          -9808,
+          3936
+        ],
+        [
+          6736,
+          -9296,
+          5152
+        ]
+      ],
+      "textures": {
+        "GCav1flr": 9,
+        "GCav2flr": 5,
+        "gn_mtl03": 25,
+        "GSton1WL": 4
+      },
+      "events": []
+    },
+    {
+      "index": 14,
+      "name": "Guard Tower",
+      "bounds": [
+        [
+          10688,
+          -12216,
+          3936
+        ],
+        [
+          11200,
+          -11704,
+          5152
+        ]
+      ],
+      "textures": {
+        "GCav1flr": 9,
+        "GCav2flr": 5,
+        "gn_mtl03": 25,
+        "GSton1WL": 4
+      },
+      "events": []
+    },
+    {
+      "index": 15,
+      "name": "Guard Tower_1",
+      "bounds": [
+        [
+          7792,
+          -12624,
+          3936
+        ],
+        [
+          8304,
+          -12112,
+          5152
+        ]
+      ],
+      "textures": {
+        "GCav1flr": 9,
+        "GCav2flr": 5,
+        "gn_mtl03": 25,
+        "GSton1WL": 4
+      },
+      "events": []
+    },
+    {
+      "index": 16,
+      "name": "ElemFhouse1S_1",
+      "bounds": [
+        [
+          17180,
+          -6364,
+          4640
+        ],
+        [
+          17948,
+          -5916,
+          5312
+        ]
+      ],
+      "textures": {
+        "GsTyl": 34
+      },
+      "events": [
+        12
+      ]
+    },
+    {
+      "index": 17,
+      "name": "ElemFhouse1S",
+      "bounds": [
+        [
+          17180,
+          -6684,
+          4640
+        ],
+        [
+          17948,
+          -6156,
+          5312
+        ]
+      ],
+      "textures": {
+        "GNecDr4L": 1,
+        "GsTyl": 38,
+        "LavTyl": 1
+      },
+      "events": [
+        11,
+        12
+      ]
+    },
+    {
+      "index": 18,
+      "name": "ElemFhouse2_E_2",
+      "bounds": [
+        [
+          9600,
+          11648,
+          5184
+        ],
+        [
+          10496,
+          12672,
+          6096
+        ]
+      ],
+      "textures": {
+        "LavTyl": 16,
+        "GNecWal4": 2,
+        "GNecWTRB": 1,
+        "GNecWTLB": 1,
+        "GNecTr2H": 3,
+        "GNecTr2V": 1,
+        "GNecStpF": 2,
+        "GNecWal1": 21
+      },
+      "events": [
+        16
+      ]
+    },
+    {
+      "index": 19,
+      "name": "ElemFhouse2_E_1",
+      "bounds": [
+        [
+          9600,
+          11648,
+          5184
+        ],
+        [
+          10496,
+          12288,
+          6096
+        ]
+      ],
+      "textures": {
+        "GNecWal4": 2,
+        "LavTyl": 10,
+        "GNecWTLB": 2,
+        "GNecWTRB": 2,
+        "GNecTr2V": 1,
+        "GNecStpF": 1,
+        "GNecTr2H": 1,
+        "GNecWal1": 44
+      },
+      "events": [
+        16
+      ]
+    },
+    {
+      "index": 20,
+      "name": "ElemFhouse2_E",
+      "bounds": [
+        [
+          10112,
+          11648,
+          5184
+        ],
+        [
+          10496,
+          12672,
+          6096
+        ]
+      ],
+      "textures": {
+        "LavTyl": 8,
+        "GNecDr4L": 1,
+        "GNecDr4R": 1,
+        "GNecWal4": 1,
+        "GNecWTRB": 1,
+        "GNecWTLB": 1,
+        "GNecTr2H": 2,
+        "GNecStpF": 1,
+        "GNecWal1": 21
+      },
+      "events": [
+        15,
+        16
+      ]
+    },
+    {
+      "index": 21,
+      "name": "ElemFhouse2_S_2",
+      "bounds": [
+        [
+          13696,
+          12544,
+          5184
+        ],
+        [
+          14720,
+          13440,
+          6096
+        ]
+      ],
+      "textures": {
+        "LavTyl": 16,
+        "GNecWal4": 2,
+        "GNecWTRB": 1,
+        "GNecWTLB": 1,
+        "GNecTr2H": 3,
+        "GNecTr2V": 1,
+        "GNecStpF": 2,
+        "GNecWal1": 21
+      },
+      "events": [
+        14
+      ]
+    },
+    {
+      "index": 22,
+      "name": "ElemFhouse2_S_1",
+      "bounds": [
+        [
+          13696,
+          12544,
+          5184
+        ],
+        [
+          14336,
+          13440,
+          6096
+        ]
+      ],
+      "textures": {
+        "GNecWal4": 2,
+        "LavTyl": 10,
+        "GNecWTLB": 2,
+        "GNecWTRB": 2,
+        "GNecTr2V": 1,
+        "GNecStpF": 1,
+        "GNecTr2H": 1,
+        "GNecWal1": 44
+      },
+      "events": [
+        14
+      ]
+    },
+    {
+      "index": 23,
+      "name": "ElemFhouse2_S",
+      "bounds": [
+        [
+          13696,
+          12544,
+          5184
+        ],
+        [
+          14720,
+          12928,
+          6096
+        ]
+      ],
+      "textures": {
+        "LavTyl": 8,
+        "GNecDr4L": 1,
+        "GNecDr4R": 1,
+        "GNecWal4": 1,
+        "GNecWTRB": 1,
+        "GNecWTLB": 1,
+        "GNecTr2H": 2,
+        "GNecStpF": 1,
+        "GNecWal1": 21
+      },
+      "events": [
+        13,
+        14
+      ]
+    },
+    {
+      "index": 24,
+      "name": "ElemFhouse1S_3",
+      "bounds": [
+        [
+          -8420,
+          4900,
+          4096
+        ],
+        [
+          -7652,
+          5348,
+          4768
+        ]
+      ],
+      "textures": {
+        "GsTyl": 34
+      },
+      "events": [
+        18
+      ]
+    },
+    {
+      "index": 25,
+      "name": "ElemFhouse1S_2",
+      "bounds": [
+        [
+          -8420,
+          4580,
+          4096
+        ],
+        [
+          -7652,
+          5108,
+          4768
+        ]
+      ],
+      "textures": {
+        "GNecDr4L": 1,
+        "GsTyl": 38,
+        "LavTyl": 1
+      },
+      "events": [
+        17,
+        18
+      ]
+    },
+    {
+      "index": 26,
+      "name": "ElemFhouse1E_3",
+      "bounds": [
+        [
+          -17124,
+          -13540,
+          4608
+        ],
+        [
+          -16676,
+          -12772,
+          5280
+        ]
+      ],
+      "textures": {
+        "GsTyl": 34
+      },
+      "events": [
+        20
+      ]
+    },
+    {
+      "index": 27,
+      "name": "ElemFhouse1E_2",
+      "bounds": [
+        [
+          -16884,
+          -13540,
+          4608
+        ],
+        [
+          -16356,
+          -12772,
+          5280
+        ]
+      ],
+      "textures": {
+        "GNecDr4L": 1,
+        "GsTyl": 38,
+        "LavTyl": 1
+      },
+      "events": [
+        19,
+        20
+      ]
+    },
+    {
+      "index": 28,
+      "name": "ElemFhouse1E_1",
+      "bounds": [
+        [
+          -19172,
+          6428,
+          4256
+        ],
+        [
+          -18724,
+          7196,
+          4928
+        ]
+      ],
+      "textures": {
+        "GsTyl": 34
+      },
+      "events": [
+        22
+      ]
+    },
+    {
+      "index": 29,
+      "name": "ElemFhouse1E",
+      "bounds": [
+        [
+          -18932,
+          6428,
+          4256
+        ],
+        [
+          -18404,
+          7196,
+          4928
+        ]
+      ],
+      "textures": {
+        "GNecDr4L": 1,
+        "GsTyl": 38,
+        "LavTyl": 1
+      },
+      "events": [
+        21,
+        22
+      ]
+    }
+  ],
+  "height_percentiles": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    3424.0,
+    5184.0
+  ],
+  "grade_percentiles": [
+    0.0,
+    0.0,
+    0.0,
+    3.71875,
+    7.159456159513794
+  ],
+  "counts": {
+    "native": 1,
+    "visible": 0,
+    "categories": {},
+    "palette": {},
+    "light_emitters": 0
+  },
+  "placement": {
+    "trees": {
+      "count": 0,
+      "within_1024_bmodel": 0,
+      "flat_grade_le_0125": 0,
+      "steep_grade_gt_05": 0,
+      "median_ground_offset": null
+    },
+    "plants": {
+      "count": 0,
+      "within_1024_bmodel": 0,
+      "flat_grade_le_0125": 0,
+      "steep_grade_gt_05": 0,
+      "median_ground_offset": null
+    },
+    "rocks": {
+      "count": 0,
+      "within_1024_bmodel": 0,
+      "flat_grade_le_0125": 0,
+      "steep_grade_gt_05": 0,
+      "median_ground_offset": null
+    },
+    "lights": {
+      "count": 0,
+      "within_1024_bmodel": 0,
+      "flat_grade_le_0125": 0,
+      "steep_grade_gt_05": 0,
+      "median_ground_offset": null
+    },
+    "props": {
+      "count": 0,
+      "within_1024_bmodel": 0,
+      "flat_grade_le_0125": 0,
+      "steep_grade_gt_05": 0,
+      "median_ground_offset": null
+    }
+  }
+}

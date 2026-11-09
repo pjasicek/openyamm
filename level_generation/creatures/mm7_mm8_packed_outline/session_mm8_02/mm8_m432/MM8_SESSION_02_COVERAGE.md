@@ -1,0 +1,28 @@
+All eight families are complete. Dark Elf Warrior A now has 35 of 35 complete animation/view sheets and all 160 native art files accepted.
+
+The session accepted all 276 complete sheets and all 1,285 native art files. All 276 jobs were submitted; 301 complete-sheet attempts returned. Every attempt actually attached native colour, its matching separate OUTLINE-ONLY guide and same-family detail in that order, with input roles/paths/SHA-256 and the required MM8 context recorded. No bootstrap exception was needed.
+
+| Native family | Merged IDs | Coverage | Accepted native art | Minimum actual generated sampling | Export |
+| --- | --- | --- | --- | --- | --- |
+| Dark Elf Warrior A | 25–27 | 35/35 sheets, complete | 160/160 | 1.8744× | [manifest](../mm8_m432/death4_completion/redo_2x/manifest.json) |
+| Ogre Pesant Male A | 28–30 | 35/35 sheets, complete | 160/160 | 2.2204× | [manifest](../mm8_m436/redo_2x/manifest.json) |
+| Ogre Warrior A | 31–33 | 35/35 sheets, complete | 160/160 | 1.7826× | [manifest](../mm8_m440/redo_2x/manifest.json) |
+| Wererat Human Form Male A | 34–36 | 35/35 sheets, complete | 160/160 | 2.3162× | [manifest](../mm8_m444/redo_2x/manifest.json) |
+| Wererat Ratman Form Male A | 37–39 | 31/31 sheets, complete | 165/165 | 2.0236× | [manifest](../mm8_m448/redo_2x/manifest.json) |
+| Wererat Rat Form Male A | 40–42 | 35/35 sheets, complete | 160/160 | 2.0000× | [manifest](../mm8_m452/redo_2x/manifest.json) |
+| Dragon Hunter A | 43–45 | 35/35 sheets, complete | 160/160 | 1.8030× | [manifest](../mm8_m456/redo_2x/manifest.json) |
+| Cleric (human male) A | 46–48 | 35/35 sheets, complete | 160/160 | 2.1089× | [manifest](../mm8_m460/redo_2x/manifest.json) |
+
+All physical masters are 2×. Generated sampling is measured separately from the exported tier; the table conservatively uses the lower effective axis after integer-rounded resizing. Frozen uniform anatomical scale factors differ slightly because of that rounding. Reviewed sub-2× results are retained under the complete-animation policy; no animation was split or retried solely for sampling.
+
+The complete exports contain base/mask atlas pairs, every native palette preview, original native palette images, exact original bindings and fractional placement, held frames, timing, scales, mirrors, aliases and unbound native art. The ratman’s five native XA→DE pixel aliases remain aliases. Cleric masks use RGB8 with staff in R and hair in G; other masks use R8, including the rat’s zero mask for its sole native palette 452. Byte-exact original ACT files are also staged under each family’s native_palettes directory with their own receipt.
+
+Dark Elf rear death_4_sheet attempt 7 now passes native anatomy and placement review. All six original steps were submitted and returned together with actual native colour, matching separate OUTLINE-ONLY guide and cropped same-family material detail attached. The four previously absent files m432da4, m432db4, m432dc4 and m432dd4 are included. The two held NA4/NB4 steps retain their canonical accepted hit-sheet artwork. New falling poses measure at least 2.8394× conservative effective generated sampling and export at physical 2×.
+
+Use [the completed Dark Elf manifest](death4_completion/redo_2x/manifest.json), its [full acceptance](death4_completion/redo_2x/review/acceptance.json), [six-step review](death4_completion/redo_2x/review/death_4_sheet_complete_pose_palette_detail.png), [attempt attachment audit](death4_completion/redo_2x/review/attempt_provenance_audit.json) and [exact successful prompt](redo_2x/prompts/death_4_sheet_v7.txt). The earlier accepted partial atlas and its original 2,027 frozen artifact hashes are preserved and verified unchanged; failed attempts remain recorded. The other seven packages are also unchanged. Current unused/referenced native status and playback are preserved.
+
+All ordered poses, independent placement features, physical material detail, alpha and native palette/mask poses were inspected in 100% static contacts; the resumed complete rear death cycle was additionally inspected at 100%. Dark Elf authored coverage was restored after generic re-export changed its mask rasters: it reproduces the previously reviewed visible material-mask panels byte-for-byte. Regenerated palette panels differ by at most one RGB8 code, with unchanged alpha; current attack/profile, fidget and corpse detail was rechecked. The [raster-equivalence record](redo_2x/accepted_partial/review/available_art_final_pixel_equivalence.json) and [mask authoring record](redo_2x/accepted_partial/review/restored_authored_masks.json) preserve that evidence.
+
+Native colour/outline reconstruction, every actual mandatory attachment and hash, source tables/BMP/palette hashes, exact timing/placement, atlas reconstruction, base bypass and invariant palette alpha passed local checks. Acceptance records freeze the checked files. No browser motion review is claimed. Existing older accepted projects, shared tools, skills, global ledgers and runtime assets were preserved; nothing was installed into gameplay.
+
+No jobs remain unresolved. The Dark Elf completion combines 156 byte-exact previously reviewed masters/masks/palette outputs with four newly reviewed falling poses, then repacks the full atlas and validates every extracted frame. The final R8 coverage for DB4 lower sleeve was corrected and all three native variants rechecked. Whole-cycle scale uses the generated upright silver-hair-to-foot separation; independent falling nape Y and folded boot edges are recorded. No per-pose resizing, warping or native-alpha stencil was used. Everything remains staged; nothing was installed into gameplay.

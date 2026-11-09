@@ -1,0 +1,46 @@
+{
+  "centre": [
+    0.0,
+    0.0,
+    0.18635974824428558
+  ],
+  "scale": 1.152485591173172,
+  "size": 1024,
+  "views": {
+    "front": [
+      0,
+      -1,
+      0
+    ],
+    "back": [
+      0,
+      1,
+      0
+    ],
+    "left": [
+      -1,
+      0,
+      0
+    ],
+    "right": [
+      1,
+      0,
+      0
+    ],
+    "top": [
+      0,
+      0,
+      1
+    ]
+  },
+  "paint_layout": "individual",
+  "atlas_views": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    null
+  ],
+  "mask_layout": "individual"
+}

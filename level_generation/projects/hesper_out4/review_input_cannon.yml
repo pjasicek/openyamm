@@ -1,0 +1,72 @@
+# The great cannon's lock, its wind-up (model swaps and the five charge sounds) and the release, from the plain
+# 9 500 south of the dome (event 3, a map timer: a screenshot tour holds gameplay, so an input tour). Run with
+# --set debug.menu_input_tour_path=<this file>.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/cannon_model
+exit: true
+steps:
+  - wait: 4
+  - expect: gameplay
+  - console: config set immortal true
+  - console: time set 12:00
+  # Out of reach (13 000 south): face north and look up at the dome crown.
+  - console: goto 9130 0 -13000 1088 512
+  - wait: 0.5
+  - action_down: look_up
+  - wait: 0.8
+  - action_up: look_up
+  - console: loc
+  - capture: 00-out_of_reach
+  # In reach, in sight (9 500 south): the lock, the wind-up and the release, a frame every quarter second.
+  - console: goto 9130 0 -9500 1088 512
+  - action_down: look_up
+  - wait: 0.45
+  - action_up: look_up
+  - console: loc
+  - wait: 0.25
+  - capture: 01-t0.25
+  - wait: 0.25
+  - capture: 02-t0.50
+  - wait: 0.25
+  - capture: 03-t0.75
+  - wait: 0.25
+  - capture: 04-t1.00
+  - wait: 0.25
+  - capture: 05-t1.25
+  - wait: 0.25
+  - capture: 06-t1.50
+  - wait: 0.25
+  - capture: 07-t1.75
+  - wait: 0.25
+  - capture: 08-t2.00
+  - wait: 0.25
+  - capture: 09-t2.25
+  - wait: 0.25
+  - capture: 10-t2.50
+  - wait: 0.25
+  - capture: 11-t2.75
+  - wait: 0.25
+  - capture: 12-t3.00
+  - wait: 0.25
+  - capture: 13-t3.25
+  - wait: 0.25
+  - capture: 14-t3.50
+  - wait: 0.25
+  - capture: 15-t3.75
+  - wait: 0.25
+  - capture: 16-t4.00
+  - wait: 0.25
+  - capture: 17-t4.25
+  - wait: 0.25
+  - capture: 18-t4.50
+  - wait: 0.25
+  - capture: 19-t4.75
+  - wait: 0.25
+  - capture: 20-t5.00
+  - wait: 0.25
+  - capture: 21-t5.25
+  - wait: 0.25
+  - capture: 22-t5.50
+  - wait: 0.25
+  - capture: 23-t5.75
+  - wait: 0.25
+  - capture: 24-t6.00

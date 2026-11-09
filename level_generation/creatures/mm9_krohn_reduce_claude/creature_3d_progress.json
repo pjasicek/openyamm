@@ -1,0 +1,18 @@
+{
+  "creature_3d_identity": "mm9reduce:krohn",
+  "meshy": {
+    "jobs": {},
+    "credit_limit": 0
+  },
+  "reduction": {
+    "source": "before/mm9_krohn.glb",
+    "source_sha256": "7cbdb15c12b659c1d55ba0b32c1c5d06edad0bf095b99db9cf9c14c4025e3f8f",
+    "candidate": "export/mm9_krohn.glb",
+    "candidate_sha256": "d1c4e3aa0dcc0b70e7bcf6083e38b473d769191b8e11bf31f57eec4abb30f776",
+    "lod0": [12320, 10532],
+    "lods_after": [5264, 1893, 625],
+    "step": "d r70",
+    "uv_audit_lod0_escaping": 0,
+    "installed": false
+  }
+}

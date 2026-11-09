@@ -1,0 +1,57 @@
+# Mountain Pass as a BLV open to the sky (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md; template: Sturmford).
+# First draft by ../mm9r_common/outdoor_blv_draft.py --overrides; read by the shared converter.
+map:
+  stem: mountainpass
+  display_name: Mountain Pass
+  starts: [ThronheimStart, ThjorgardStart]   # the old map's party_start_points order
+  monster_classes: [ImpElder, GreyWolf, WingedOddity, RedWolf, WingedMutant, Gezzampt, BlackWolf, Imp, WingedAberration, Imply, Bigfoot]
+  swim: true                          # the sea is swum, as on the Isle of Ashes
+  painted_minimap: true
+  generate_bsp: false
+  offset: [-2518, 3033, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # the outdoor view's haze
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  DestructableBrush: static
+  BlueWater: skip
+  PerceptionBrush: skip
+  Rain: skip
+  Snow: skip
+models:
+  TOD_Sky0: skip   # TOD_Sky
+  SkyBox0: skip   # DemoSkyWorldModel
+  PathTerrain1: static   # Terrain
+  CliffsTerrain0: static   # Terrain
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+  'textures\leveltextures\misc\invisible.dtx': {alias: INVIZVJN7N, width: 64, height: 64}   # the AIBarriers' faces
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false
+outdoor:
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py MOUNTAINPASS): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    mountaincliff: rock             # 92 %: reddish-brown rock
+    mountaindirt: dirt
+  slope: cliff
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [Bigfoot0, Imply0, Imply1]
+  themed_near: [BonePile0, BonePile1, BonePile2, BonePile3, BonePile4]

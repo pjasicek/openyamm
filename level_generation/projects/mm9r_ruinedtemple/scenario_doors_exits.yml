@@ -1,0 +1,264 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.ruinedtemple_doors_exits
+title: 'Ruined Temple (native BLV): the exit, the skylight over the hole, a door by click, LeftDoor''s lock, the ladder'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: ruinedtemple.blv
+- note:
+    text: 'ExitTrigger0 (DAT object 324) just north of the start: back to Frosgard.'
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: ruinedtemple.blv
+      x: 0
+      y: -858
+      z: -1719
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: ruinedtemple.blv
+      x: 0
+      y: -558
+      z: -1718
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 60
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 324
+- load_map:
+    map: ruinedtemple.blv
+- note:
+    text: South of the start the skylight's glass box stands over a hole in the floor; Trigger1 (the party near it) breaks
+      the glass and its wooden frame (DestructableBrush6, glass1-8).
+- assert:
+    mechanism:
+      id: 13
+      state: closed
+- advance_runtime:
+    seconds: 3.5
+- movement_segment:
+    input: forward
+    seconds: 0.85
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: ruinedtemple.blv
+      x: 70
+      y: -858
+      z: -1719
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: ruinedtemple.blv
+      x: 70
+      y: -1418
+      z: -1718
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 300
+    tolerance_z: 800
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    state_dump_named_map_var:
+      name: FloorFallen
+      value: 1
+- assert:
+    mechanism:
+      id: 13
+      state: open
+- assert:
+    mechanism:
+      id: 16
+      state: open
+- note:
+    text: The party walks into the hole and lands in the hall below (floor -2417).
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: ruinedtemple.blv
+      x: 0
+      y: -1338
+      z: -2416
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: ruinedtemple.blv
+      x: 0
+      y: -1950
+      z: -2416
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 40
+- note:
+    text: 'AltarDoor (doors 1/2, event 101): shut, it stops the party; a click opens it; the party walks through.'
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: ruinedtemple.blv
+      x: 0
+      y: -800
+      z: -2416
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: ruinedtemple.blv
+      x: 0
+      y: -380
+      z: -2293
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 80
+    tolerance_z: 30
+- set_pose:
+    map: ruinedtemple.blv
+    x: -82
+    y: -447
+    z: -2293
+    yaw: 1.5708
+    pitch: -0.1036
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: ruinedtemple.blv
+      x: 0
+      y: -800
+      z: -2416
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: ruinedtemple.blv
+      x: 0
+      y: 200
+      z: -2293
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 40
+- note:
+    text: LeftDoor (MM9 Locked) stays shut on a click; SunButton4 on HiddenDoor2 opens that door and unlocks LeftDoor (HiddenDoor2's
+      OpenTrigger), which then opens on its click.
+- set_pose:
+    map: ruinedtemple.blv
+    x: 854
+    y: 1249
+    z: -1719
+    yaw: 0.0
+    pitch: -0.228
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    mechanism:
+      id: 35
+      state: closed
+- set_pose:
+    map: ruinedtemple.blv
+    x: 1802
+    y: 1519
+    z: -1719
+    yaw: 1.5708
+    pitch: -0.2781
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    mechanism:
+      id: 33
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: LeftDoorUnlocked
+      value: 1
+- set_pose:
+    map: ruinedtemple.blv
+    x: 854
+    y: 1249
+    z: -1719
+    yaw: 0.0
+    pitch: -0.228
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    mechanism:
+      id: 35
+      state: open
+- note:
+    text: 'Ladder (DAT Ladder): forward climbs from the crypt floor through the hole onto the floor above.'
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: ruinedtemple.blv
+      x: 1004
+      y: 4545
+      z: -2866
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: ruinedtemple.blv
+      x: 819
+      y: 4557
+      z: -2273
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 40

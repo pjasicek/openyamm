@@ -1,0 +1,106 @@
+{
+  "worker": "props",
+  "date": "2026-10-18",
+  "status": "complete_wip",
+  "assigned": 142,
+  "examined": 142,
+  "replaced": 123,
+  "kept": 19,
+  "deferred": 0,
+  "paid_meshy_credits_spent": 60,
+  "requested_meshy_credits": 60,
+  "budget_approval": "approved_60_credits_no_retries",
+  "binding_length_changes": [],
+  "runtime_binding_edits": false,
+  "release_promotion": false,
+  "ledger": "ledger.csv",
+  "full_ledger": "ledger.json",
+  "validation": "review/validation.json",
+  "installed_validation": "review/installed_validation.json",
+  "generation_receipts": "generation_runs.json",
+  "install_receipts": "install_receipts.json",
+  "meshy_proposal": "meshy_batch.json",
+  "review_sheets": [
+    "review/comparison_01.jpg",
+    "review/comparison_02.jpg",
+    "review/comparison_03.jpg",
+    "review/comparison_04.jpg",
+    "review/comparison_05.jpg",
+    "review/comparison_06.jpg",
+    "review/comparison_07.jpg",
+    "review/comparison_08.jpg"
+  ],
+  "native_checks": {
+    "outdoor": {
+      "run_directory": "/tmp/openyamm-desktop-props_20261018_outdoor_final-ziax6s76",
+      "status": "completed",
+      "map": "out10.odm",
+      "exit_code": 0,
+      "renderer": [
+        "OpenGL 3.3"
+      ],
+      "gpu": [
+        "vendor=0x10de device=0x0 SDL=wayland"
+      ],
+      "item_model_load_errors": 0
+    },
+    "indoor": {
+      "run_directory": "/tmp/openyamm-desktop-props_20261018_indoor_floor-eh6ll52r",
+      "status": "completed",
+      "map": "6d19.blv",
+      "exit_code": 0,
+      "renderer": [
+        "OpenGL 3.3"
+      ],
+      "gpu": [
+        "vendor=0x10de device=0x0 SDL=wayland"
+      ],
+      "item_model_load_errors": 0
+    },
+    "meshy_indoor": {
+      "run_directory": "/tmp/openyamm-desktop-props_20261018_meshy_indoor-09n7z5qp",
+      "status": "completed",
+      "map": "6d19.blv",
+      "exit_code": 0,
+      "renderer": [
+        "OpenGL 3.3"
+      ],
+      "gpu": [
+        "vendor=0x10de device=0x0 SDL=wayland"
+      ],
+      "item_model_load_errors": 0,
+      "captures": "level_generation/props/items_wip_props/review/native_meshy_indoor"
+    },
+    "meshy_outdoor": {
+      "run_directory": "/tmp/openyamm-desktop-props_20261018_meshy_outdoor_final-ex3qpd53",
+      "status": "completed",
+      "map": "out10.odm",
+      "exit_code": 0,
+      "renderer": [
+        "OpenGL 3.3"
+      ],
+      "gpu": [
+        "vendor=0x10de device=0x0 SDL=wayland"
+      ],
+      "item_model_load_errors": 0,
+      "captures": "level_generation/props/items_wip_props/review/native_meshy_outdoor_final"
+    }
+  },
+  "notes": [
+    "All 142 assigned icons examined; 123 replacements installed/cooked and 19 satisfactory reliefs kept byte-identical.",
+    "All installations used the shared per-model lock. No global cook/build.",
+    "No shared binding/table/settings/engine/package edits. Existing lengths preserved, including the 393.3-unit sarcophagus.",
+    "12 approved Smart Topology jobs succeeded for exactly 60 credits; no paid retries. Worker claim released.",
+    "Source/above/low review, UV checker views, winding/UV/placement checks and NVIDIA native indoor/outdoor captures completed.",
+    "The all-items save has dense elevated display rows; source grounding checks and isolated indoor drops are the placement evidence.",
+    "Initial outdoor scatter capture was rejected because it crossed uneven terrain; final captures use the established save positions.",
+    "This remains development WIP pending user art review, with no Android or release-package promotion."
+  ],
+  "paid_meshy_jobs": 12,
+  "paid_meshy_jobs_succeeded": 12,
+  "paid_meshy_retries": 0,
+  "meshy_claim": "released",
+  "mesh_review": "review/meshy_final_comparison.jpg",
+  "meshy_receipts": "meshy/creature_3d_progress.json",
+  "mesh_audit": "review/meshy_geometry_audit.json"
+}

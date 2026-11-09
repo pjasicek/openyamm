@@ -1,0 +1,6248 @@
+{
+  "status": "Scenery-only terrain buffer draft; native export pending",
+  "records": [
+    {
+      "id": "mm5:sw/apron/0/52",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -5731,
+        32466,
+        774.188
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 12,
+        "y": 5,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          12,
+          37
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/0/74",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        5232,
+        32414,
+        544.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 3,
+        "y": 5,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          19,
+          37
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/0/100",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        18606,
+        32455,
+        608.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 12,
+        "y": 5,
+        "surface": 6,
+        "scenery": 11,
+        "globalCell": [
+          28,
+          37
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/0/124",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        31029,
+        32554,
+        768.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 10,
+        "x": 4,
+        "y": 5,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          36,
+          37
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/1/39",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -12582,
+        32110,
+        832.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 7,
+        "y": 4,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          7,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/1/61",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -1140,
+        32132,
+        672.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 15,
+        "y": 4,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          15,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/1/90",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        13474,
+        31872,
+        544.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 8,
+        "y": 4,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          24,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/1/116",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        27036,
+        32080,
+        736.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 10,
+        "x": 1,
+        "y": 4,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/1/126",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        31921,
+        32072,
+        768.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 10,
+        "x": 4,
+        "y": 4,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          36,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/2/42",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -11138,
+        31426,
+        851.875
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 8,
+        "y": 4,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          8,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/2/92",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        14480,
+        31488,
+        576.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 9,
+        "y": 4,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          25,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/2/99",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        18149,
+        31379,
+        613.125
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 11,
+        "y": 4,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          27,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/2/113",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        25204,
+        31459,
+        736.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 10,
+        "x": 0,
+        "y": 4,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/2/118",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        27826,
+        31601,
+        768.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 10,
+        "x": 2,
+        "y": 4,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/3/30",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -17057,
+        30914,
+        661.938
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 4,
+        "y": 4,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          4,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/3/51",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -6484,
+        31039,
+        812.062
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 11,
+        "y": 4,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          11,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/3/55",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -4249,
+        30925,
+        755.188
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 13,
+        "y": 4,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          13,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/3/65",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        655,
+        30881,
+        640.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 0,
+        "y": 4,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          16,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/3/76",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        6465,
+        31008,
+        544.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 4,
+        "y": 4,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          20,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/3/81",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        8809,
+        31099,
+        520.312
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 5,
+        "y": 4,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          21,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/3/90",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        13642,
+        30829,
+        576.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 8,
+        "y": 4,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          24,
+          36
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/4/31",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -16660,
+        30323,
+        718.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 5,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          5,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/4/33",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -15596,
+        30525,
+        785.25
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 5,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          5,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/4/62",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -707,
+        30610,
+        672.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 15,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          15,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/4/76",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        6500,
+        30375,
+        544.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 4,
+        "y": 3,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          20,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/4/83",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        9850,
+        30396,
+        544.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 6,
+        "y": 3,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          22,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/4/96",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        16586,
+        30318,
+        633.125
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 10,
+        "y": 3,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          26,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/4/99",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        18271,
+        30468,
+        645.688
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 11,
+        "y": 3,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          27,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/4/107",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        22338,
+        30346,
+        704.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 14,
+        "y": 3,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          30,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/5/33",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -15639,
+        29904,
+        801.562
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 5,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          5,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/5/48",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -7943,
+        29811,
+        864.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 10,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          10,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/5/92",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        14648,
+        29955,
+        608.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 9,
+        "y": 3,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          25,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/5/93",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        15149,
+        30052,
+        608.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 9,
+        "y": 3,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          25,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/6/32",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -16039,
+        29296,
+        804.125
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 5,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          5,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/6/44",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -10113,
+        29393,
+        914.938
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 9,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          9,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/6/50",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -6881,
+        29453,
+        847.188
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 11,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          11,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/6/51",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -6434,
+        29330,
+        854.875
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 11,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          11,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/6/64",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        252,
+        29363,
+        660.812
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 0,
+        "y": 3,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          16,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/6/70",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        3246,
+        29561,
+        597.125
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 2,
+        "y": 3,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          18,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/6/75",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        5878,
+        29546,
+        576.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 3,
+        "y": 3,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          19,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/6/116",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        26821,
+        29416,
+        768.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 10,
+        "x": 1,
+        "y": 3,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          35
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/25",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -19804,
+        28814,
+        71.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 3,
+        "y": 2,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          3,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/63",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -127,
+        28908,
+        679.938
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 15,
+        "y": 2,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          15,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/75",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        5749,
+        29003,
+        576.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 3,
+        "y": 2,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          19,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/87",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        12101,
+        28888,
+        608.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 7,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          23,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/101",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        19186,
+        28817,
+        726.938
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 12,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          28,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/111",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        24392,
+        28808,
+        768.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 15,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          31,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/119",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        28290,
+        28886,
+        800.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 10,
+        "x": 2,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/120",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        29026,
+        29025,
+        800.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 10,
+        "x": 2,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/7/122",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        29933,
+        28909,
+        800.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 10,
+        "x": 3,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/8/34",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -15070,
+        28273,
+        907.062
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 6,
+        "y": 2,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          6,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/8/46",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -8860,
+        28379,
+        946.312
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 10,
+        "y": 2,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          10,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/8/57",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -3364,
+        28537,
+        776.438
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 13,
+        "y": 2,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          13,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/8/63",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -247,
+        28334,
+        693.125
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 15,
+        "y": 2,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          15,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/8/82",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        9391,
+        28360,
+        595.5
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 6,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          22,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/8/104",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        20589,
+        28458,
+        749.375
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 13,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          29,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/42",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -10949,
+        28059,
+        998.312
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 8,
+        "y": 2,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          8,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/43",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -10355,
+        27992,
+        1002.5
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 9,
+        "y": 2,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          9,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/48",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -8022,
+        28045,
+        935.188
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 10,
+        "y": 2,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          10,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/55",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -4500,
+        27890,
+        825.25
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 13,
+        "y": 2,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          13,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/86",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        11460,
+        27804,
+        642.5
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 7,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          23,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/90",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        13491,
+        27929,
+        672.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 8,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          24,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/91",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        14038,
+        27900,
+        688.25
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 9,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          25,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/107",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        22366,
+        27876,
+        785.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 14,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          30,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/9/124",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        30838,
+        28033,
+        800.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 10,
+        "x": 4,
+        "y": 2,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          36,
+          34
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/29",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -17549,
+        27517,
+        726.562
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 4,
+        "y": 1,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          4,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/46",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -8886,
+        27309,
+        1003.375
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 10,
+        "y": 1,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          10,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/57",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -3330,
+        27353,
+        786.438
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 13,
+        "y": 1,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          13,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/68",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        2296,
+        27546,
+        656.5
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 1,
+        "y": 1,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          17,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/93",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        15182,
+        27329,
+        736.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 9,
+        "y": 1,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          25,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/99",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        18298,
+        27428,
+        781.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 11,
+        "y": 1,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          27,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/101",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        19040,
+        27324,
+        788.25
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 12,
+        "y": 1,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          28,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/108",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        22878,
+        27461,
+        811.688
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 14,
+        "y": 1,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          30,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/10/113",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        25345,
+        27282,
+        822.875
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 10,
+        "x": 0,
+        "y": 1,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/11/30",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        -17254,
+        26752,
+        811.25
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 2,
+        "x": 4,
+        "y": 1,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          4,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/11/62",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -900,
+        26958,
+        747.125
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 15,
+        "y": 1,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          15,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/11/68",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        2241,
+        26772,
+        694.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 1,
+        "y": 1,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          17,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/11/81",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        9093,
+        26960,
+        651.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 5,
+        "y": 1,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          21,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/11/97",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        17001,
+        26729,
+        793.438
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 11,
+        "y": 1,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          27,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/12/44",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -10072,
+        26239,
+        1080.062
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 9,
+        "y": 1,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          9,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/12/121",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        29453,
+        26338,
+        832.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 10,
+        "x": 3,
+        "y": 1,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          33
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/13/38",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -13212,
+        25879,
+        1123.375
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 7,
+        "y": 0,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          7,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/13/56",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        -3786,
+        25930,
+        812.625
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 2,
+        "x": 13,
+        "y": 0,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          13,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/13/92",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        14492,
+        25916,
+        812.25
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 9,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          25,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/13/93",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        14950,
+        25802,
+        825.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 9,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          25,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/13/113",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        25379,
+        25786,
+        864.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 10,
+        "x": 0,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/14/46",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -9091,
+        25316,
+        1112.188
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 10,
+        "y": 0,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          10,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/14/86",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        11660,
+        25233,
+        790.938
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 6,
+        "x": 7,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          23,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/14/100",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        18698,
+        25254,
+        917.625
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 6,
+        "x": 12,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          28,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/14/117",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        27253,
+        25302,
+        864.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 10,
+        "x": 1,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/14/120",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        28832,
+        25497,
+        838.438
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 10,
+        "x": 2,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/15/25",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        -19606,
+        24829,
+        538.875
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 2,
+        "x": 3,
+        "y": 0,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          3,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/15/89",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        12936,
+        24946,
+        849.375
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 6,
+        "x": 8,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          24,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/15/115",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        26528,
+        24836,
+        879.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 10,
+        "x": 1,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/15/118",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        27879,
+        24762,
+        864.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 10,
+        "x": 2,
+        "y": 0,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          32
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/16/112",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        24890,
+        24301,
+        940.375
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 15,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          31
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/16/118",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        28021,
+        24312,
+        872.688
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 2,
+        "y": 15,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          31
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/16/120",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        28983,
+        24260,
+        864.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 2,
+        "y": 15,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          31
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/17/121",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        29347,
+        23848,
+        864.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 15,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          31
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/18/114",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        25826,
+        23357,
+        940.188
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 15,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          31
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/18/123",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        30373,
+        23284,
+        864.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 15,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          31
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/20/121",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        29564,
+        22276,
+        879.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 14,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          30
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/20/122",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        30004,
+        22313,
+        876.75
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 14,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          30
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/22/113",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        25476,
+        21384,
+        1031.5
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 13,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          29
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/22/115",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        26401,
+        21089,
+        1005.938
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 13,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          29
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/22/117",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        27320,
+        21388,
+        948.5
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 13,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          29
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/23/112",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        24941,
+        20844,
+        1065.188
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 13,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          29
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/26/113",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        25265,
+        19179,
+        1094.25
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 12,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          28
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/26/118",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        28010,
+        19334,
+        967.625
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 2,
+        "y": 12,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          28
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/27/114",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        25763,
+        18654,
+        1077.812
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 12,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          28
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/28/117",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        27278,
+        18171,
+        1008.312
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 11,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          27
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/28/124",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        30920,
+        18256,
+        864.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 4,
+        "y": 11,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          36,
+          27
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/29/118",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        27855,
+        17769,
+        979.062
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 2,
+        "y": 11,
+        "surface": 6,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          27
+        ],
+        "outsideSourceWorld": false,
+        "classification": 5
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/33/113",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        25346,
+        15659,
+        1103.875
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 10,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          32,
+          26
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/34/124",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        30857,
+        15017,
+        802.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 4,
+        "y": 9,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          36,
+          25
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/34/125",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        31460,
+        15087,
+        800.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 4,
+        "y": 9,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          36,
+          25
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/35/113",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        25375,
+        14714,
+        1102.062
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 9,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          32,
+          25
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/35/116",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        26728,
+        14686,
+        1007.375
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 9,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          33,
+          25
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/35/123",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        30336,
+        14677,
+        824.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 9,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          25
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/37/122",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        29803,
+        13525,
+        806.625
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 8,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          35,
+          24
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/39/124",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        30958,
+        12571,
+        738.812
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 4,
+        "y": 8,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          36,
+          24
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/40/113",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        25257,
+        12028,
+        1018.625
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 7,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          32,
+          23
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/40/115",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        26278,
+        11987,
+        949.625
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 7,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          23
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/42/120",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        28922,
+        10913,
+        762.438
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 2,
+        "y": 7,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          34,
+          23
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/42/126",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        32090,
+        10957,
+        672.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 4,
+        "y": 7,
+        "surface": 1,
+        "scenery": 1,
+        "globalCell": [
+          36,
+          23
+        ],
+        "outsideSourceWorld": false,
+        "classification": 10
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/43/113",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        25284,
+        10344,
+        922.25
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          22
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/43/116",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        27002,
+        10608,
+        840.375
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          22
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/44/123",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        30476,
+        10060,
+        676.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          22
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/45/112",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        24832,
+        9397,
+        923.312
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          22
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/45/117",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        27514,
+        9562,
+        766.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          22
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/45/119",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        28379,
+        9411,
+        734.5
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 11,
+        "x": 2,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          22
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/46/116",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        26861,
+        8849,
+        762.25
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          21
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/46/121",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        29323,
+        8858,
+        649.625
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          21
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/47/112",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        24952,
+        8402,
+        853.625
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 11,
+        "x": 0,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          21
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/47/123",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        30342,
+        8394,
+        612.25
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          21
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/48/115",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        26328,
+        8059,
+        746.188
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          21
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/48/125",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        31642,
+        7786,
+        550.625
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 11,
+        "x": 4,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          21
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/50/118",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        27834,
+        6796,
+        581.875
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 11,
+        "x": 2,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          20
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/51/116",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        26901,
+        6457,
+        565.812
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          20
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/60/121",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        29403,
+        1721,
+        372.438
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 11,
+        "x": 3,
+        "y": 1,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          17
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/61/116",
+      "name": "rock02",
+      "category": "rocks",
+      "position": [
+        26929,
+        1275,
+        304.938
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 354,
+      "assetSource": "assets_dev/engine/sprites/rock02.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 0,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          16
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/63/115",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        26379,
+        206,
+        422.25
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 11,
+        "x": 1,
+        "y": 0,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          16
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/64/112",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        24755,
+        -177,
+        459.062
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 15,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          15
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/64/115",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        26457,
+        -258,
+        464.125
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 15,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          15
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/64/119",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        28328,
+        -397,
+        448.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 15,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          15
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/65/123",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        30561,
+        -887,
+        448.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 15,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          15
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/66/116",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        26995,
+        -1226,
+        512.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 15,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          15
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/67/112",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        24867,
+        -1869,
+        564.812
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 14,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          14
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/67/114",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        25995,
+        -1901,
+        551.312
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 14,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          14
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/67/119",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        28370,
+        -1889,
+        502.062
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 14,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          14
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/68/116",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        26799,
+        -2331,
+        561.688
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 14,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          14
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/69/112",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        24888,
+        -2763,
+        620.5
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 14,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          14
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/69/114",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        25996,
+        -2662,
+        582.375
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 14,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          14
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/69/117",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        27498,
+        -2844,
+        553.375
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 14,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          14
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/69/119",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        28295,
+        -2671,
+        535.562
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 14,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          14
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/70/115",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        26416,
+        -3287,
+        589.438
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 13,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          13
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/70/122",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        29933,
+        -3339,
+        512.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 13,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          13
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/71/112",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        24900,
+        -3991,
+        665.438
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 13,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          13
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/71/120",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        28865,
+        -3688,
+        531.938
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 13,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          13
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/71/124",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        31059,
+        -4000,
+        506.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 13,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          13
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/72/114",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        25925,
+        -4283,
+        651.688
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 13,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          13
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/72/119",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        28383,
+        -4324,
+        562.062
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 13,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          13
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/73/112",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        24708,
+        -4813,
+        695.75
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 12,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          12
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/73/117",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        27381,
+        -4834,
+        592.688
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 12,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          12
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/74/113",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        25489,
+        -5233,
+        678.938
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 12,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          12
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/75/115",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        26482,
+        -5816,
+        651.5
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 12,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          12
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/75/121",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        29360,
+        -5786,
+        565.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 12,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          12
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/75/125",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        31513,
+        -5894,
+        528.375
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 12,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          36,
+          12
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/76/113",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        25243,
+        -6443,
+        726.312
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 11,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          11
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/76/117",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        27242,
+        -6294,
+        640.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 11,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          11
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/76/120",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        29083,
+        -6537,
+        582.312
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 11,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          11
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/77/118",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        28043,
+        -6765,
+        615.312
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 11,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          11
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/77/125",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        31410,
+        -7046,
+        544.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 11,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          11
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/78/114",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        25716,
+        -7521,
+        728.75
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 11,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          11
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/78/121",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        29305,
+        -7510,
+        600.438
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 11,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          11
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/79/116",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        27013,
+        -7844,
+        682.25
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 10,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          10
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/79/122",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        29836,
+        -8032,
+        599.25
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 10,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          10
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/79/123",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        30586,
+        -7890,
+        576.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 10,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          10
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/80/115",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        26415,
+        -8558,
+        726.875
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 10,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          10
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/80/125",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        31529,
+        -8380,
+        576.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 10,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          10
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/81/112",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        24694,
+        -8994,
+        824.625
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 10,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          10
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/81/122",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        29888,
+        -8911,
+        620.938
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 10,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          10
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/81/124",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        30913,
+        -8818,
+        583.125
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 10,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          10
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/82/114",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        25760,
+        -9413,
+        790.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 9,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          9
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/82/125",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        31560,
+        -9392,
+        587.5
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 9,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          9
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/85/115",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        26349,
+        -10957,
+        785.188
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 8,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          8
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/85/116",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        26761,
+        -10890,
+        768.062
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 8,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          33,
+          8
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/86/114",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        25726,
+        -11574,
+        824.125
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 8,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          8
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/86/120",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        28824,
+        -11572,
+        694.5
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 8,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          8
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/87/124",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        30970,
+        -12049,
+        656.375
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 8,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          8
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/89/119",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        28325,
+        -13122,
+        736.0
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 7,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          7
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/89/124",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        31126,
+        -12985,
+        672.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 7,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          7
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/91/112",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        24773,
+        -14020,
+        915.688
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/91/114",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        25916,
+        -14175,
+        844.25
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/91/116",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        26904,
+        -14068,
+        814.5
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/91/122",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        29919,
+        -14123,
+        704.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/92/117",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        27404,
+        -14699,
+        790.688
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/92/125",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        31337,
+        -14701,
+        672.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/93/114",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        25862,
+        -15114,
+        864.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/93/119",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        28547,
+        -15080,
+        743.812
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/93/121",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        29572,
+        -15246,
+        711.75
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 6,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          6
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/94/112",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        24777,
+        -15534,
+        896.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          5
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/94/116",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        26774,
+        -15753,
+        822.625
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          5
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/94/124",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        30960,
+        -15696,
+        693.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          5
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/95/120",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        29016,
+        -16190,
+        736.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          5
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/95/122",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        30027,
+        -16258,
+        704.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          5
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/96/118",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        27972,
+        -16540,
+        768.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          5
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/96/124",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        30830,
+        -16630,
+        697.125
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 5,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          5
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/97/113",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        25255,
+        -17139,
+        853.562
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          4
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/97/115",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        26217,
+        -17183,
+        825.438
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          4
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/97/117",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        27336,
+        -17303,
+        768.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          4
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/97/121",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        29595,
+        -17257,
+        704.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          4
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/97/125",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        31483,
+        -16994,
+        672.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          4
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/99/113",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        25397,
+        -18211,
+        800.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          4
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/99/117",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        27422,
+        -18048,
+        760.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 4,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          4
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/100/118",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        27932,
+        -18823,
+        704.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 3,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          3
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/100/120",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        29033,
+        -18756,
+        672.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 3,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          3
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/100/125",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        31564,
+        -18831,
+        594.312
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 3,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          3
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/101/116",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        26738,
+        -19252,
+        716.75
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 3,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          3
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/102/112",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        24857,
+        -19627,
+        714.625
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 3,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          3
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/102/119",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        28437,
+        -19621,
+        634.062
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 3,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          3
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/102/124",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        31085,
+        -19619,
+        523.625
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 3,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          3
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/103/115",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        26354,
+        -20187,
+        644.625
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 2,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          2
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/103/121",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        29473,
+        -20200,
+        528.938
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 2,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          2
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/103/123",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        30600,
+        -20383,
+        417.188
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 2,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          35,
+          2
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/104/116",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        26841,
+        -20832,
+        564.0
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 1,
+        "y": 2,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          33,
+          2
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/104/120",
+      "name": "tree12",
+      "category": "trees",
+      "position": [
+        28771,
+        -20620,
+        520.312
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 463,
+      "assetSource": "assets_dev/engine/sprites/tree12.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 2,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          34,
+          2
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/104/125",
+      "name": "tree10",
+      "category": "trees",
+      "position": [
+        31609,
+        -20819,
+        254.5
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 457,
+      "assetSource": "assets_dev/engine/sprites/tree10.bmp",
+      "source": {
+        "map": 12,
+        "x": 4,
+        "y": 2,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          36,
+          2
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/105/114",
+      "name": "tree11",
+      "category": "trees",
+      "position": [
+        25798,
+        -21131,
+        517.938
+      ],
+      "visualRadius": 512.0,
+      "descriptorId": 460,
+      "assetSource": "assets_dev/engine/sprites/tree11.bmp",
+      "source": {
+        "map": 12,
+        "x": 0,
+        "y": 2,
+        "surface": 1,
+        "scenery": 3,
+        "globalCell": [
+          32,
+          2
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/107/122",
+      "name": "rock05",
+      "category": "rocks",
+      "position": [
+        29812,
+        -22287,
+        151.438
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 360,
+      "assetSource": "assets_dev/engine/sprites/rock05.bmp",
+      "source": {
+        "map": 12,
+        "x": 3,
+        "y": 1,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          35,
+          1
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    },
+    {
+      "id": "mm5:sw/apron/108/120",
+      "name": "rock01",
+      "category": "rocks",
+      "position": [
+        28876,
+        -22903,
+        42.812
+      ],
+      "visualRadius": 64.0,
+      "descriptorId": 352,
+      "assetSource": "assets_dev/engine/sprites/rock01.bmp",
+      "source": {
+        "map": 12,
+        "x": 2,
+        "y": 1,
+        "surface": 1,
+        "scenery": 0,
+        "globalCell": [
+          34,
+          1
+        ],
+        "outsideSourceWorld": false,
+        "classification": 2
+      },
+      "sceneryOnly": true
+    }
+  ],
+  "counts": {
+    "rocks": 135,
+    "trees": 96
+  },
+  "policy": "No NPCs, encounters, rewards, interactable props or arrival targets in the buffer.",
+  "placement": "Source forest cells receive temperate trees; dry, desert and rock cells sparse rocks. Water and void stay clear. Full native visual radii, road clearance and slopes checked."
+}

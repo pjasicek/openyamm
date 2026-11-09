@@ -1,0 +1,799 @@
+{
+ "id": "20261009-1649-mm7-d02-05",
+ "world": "mm7",
+ "maps": [
+  "d02.blv",
+  "7d29.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/t5s1er",
+  "mm7/t5bs",
+  "mm7/ceb1sel",
+  "mm7/ceb1ser",
+  "mm7/ceb1el",
+  "mm7/ceb1re",
+  "mm7/ceb2sa",
+  "mm7/t5s1c",
+  "mm7/7trimda",
+  "mm7/c1d1",
+  "mm7/eswamp",
+  "mm7/t5s1fl",
+  "mm7/trim10_32",
+  "mm7/trim12_32",
+  "mm7/trimdend",
+  "mm7/chb1sel",
+  "mm7/chb1ser",
+  "mm7/chb1s",
+  "mm7/chb1el",
+  "mm7/chb1er",
+  "mm7/chb1",
+  "mm7/t2bs",
+  "mm7/chb1p4",
+  "mm7/ch1b1s"
+ ],
+ "requests": {
+  "mm7/t5s1er": {
+   "name": "t5s1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "smooth grey speckled granite panel between carved golden-tan stone bands with a triangular zigzag relief at top and bottom, with a carved golden-tan zigzag-lattice pilaster along the right edge; copy the composition exactly",
+   "notes": {
+    "3": "the grey granite panel is plain and unbroken between the sharp areas and the zigzag: no vertical groove, tan bar, line or streak anywhere in the granite",
+    "4": "the granite between the zigzag and the sharp granite is the same even speckle, continuing seamlessly into the sharp area: no vertical streak, pale or dark line, or band anywhere in the granite"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.775
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.752
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.752
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.775
+    }
+   },
+   "ref_blur": {
+    "4": 2.5
+   }
+  },
+  "mm7/t5bs": {
+   "name": "t5bs",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth grey speckled granite panel, plain",
+   "notes": {
+    "2": "one plain continuous slab of speckled granite: no joints, seams, grooves or lines anywhere; where the sharp areas leave a gap, fill it with the same granite"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.834
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1er"
+     ],
+     "fraction": 0.834
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm7/ceb1sel": {
+   "name": "ceb1sel",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, under a band of rough mossy rubble coping along the top edge, with a column of rough mossy brown rubble stones along the left edge",
+   "notes": {
+    "2": "the rubble column on the left stays lit like the rest right to the left edge of the canvas; no dark shadow or line along the left edge",
+    "3": "the rubble column on the left stays lit like the rest right to the left edge of the canvas; no dark shadow or line along the left edge",
+    "4": "the rubble column on the left stays lit like the rest right to the left edge of the canvas; no dark shadow or line along the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.82
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1s",
+      "mm7/ceb1el"
+     ],
+     "fraction": 0.835
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.82
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.82
+    }
+   },
+   "context": {
+    "4": {
+     "right": "mm7/ceb1ws"
+    }
+   }
+  },
+  "mm7/ceb1ser": {
+   "name": "ceb1ser",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, under a band of rough mossy rubble coping along the top edge, with a column of rough mossy brown rubble stones along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.808
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.808
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.808
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm7/ceb1sel"
+    }
+   }
+  },
+  "mm7/ceb1el": {
+   "name": "ceb1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale grey-green squared limestone blocks with dark recessed mortar, with a column of rough mossy brown rubble stones along the left edge",
+   "notes": {
+    "3": "the topmost pixel rows are pale grey-green stone at full brightness, and the left and right outermost columns are stone face too; the only dark mortar joint at an edge is along the bottom; no dark line along the top, left or right edge",
+    "4": "this wall is cut from a taller continuous wall: the stone course at the top continues upward past the top edge into the margin, so the first pixel row is stone face, not a joint; no thin dark line along the top edge, and only the bottom edge carries the mortar joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.789
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1sel",
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.69
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1sel",
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.69
+    },
+    "4": {
+     "sources": [
+      "mm7/ceb1sel",
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.69
+    }
+   }
+  },
+  "mm7/ceb1re": {
+   "name": "ceb1re",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale grey-green squared limestone blocks with dark recessed mortar, with a column of rough mossy brown rubble stones along the right edge",
+   "notes": {
+    "3": "the stone blocks of the top course continue upward past the top edge, so the topmost pixel rows are pale grey-green stone face as bright as the stone below; there is no mortar joint, shadow or dark band at the top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.79
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1ser",
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.689
+    },
+    "3": {
+     "sources": [
+      "mm7/ceb1ser",
+      "mm7/ceb1s",
+      "mm7/ceb1elfb"
+     ],
+     "fraction": 0.689
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm7/ceb2sa": {
+   "name": "ceb2sa",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale grey-green squared limestone blocks with dark recessed mortar, overgrown by climbing green ivy vines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.662
+    },
+    "2": {
+     "sources": [
+      "mm7/ceb1s"
+     ],
+     "fraction": 0.551
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/t5s1c": {
+   "name": "t5s1c",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "square carved golden-tan stone frame around a grey speckled granite panel bearing a large raised golden-tan X-shaped cross emblem; copy the composition exactly",
+   "notes": {
+    "3": "copy the frame exactly: the outermost pixel rows and columns are a thin dark shadow groove on all four sides, inside it a narrow golden-tan frame with a bright bevel along its top and bottom; the lower arm of the X emblem ends cleanly with no extra notch or stub below it",
+    "4": "copy the frame exactly: the left and right edges end in plain golden-tan stone at full brightness with no dark groove or line at the edge; along the top and bottom edges a thin bright cream highlight line runs right at the edge; the X emblem keeps the reference shapes, with V notches in the top and bottom arms and arrow notches in the side arms"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.269
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.257
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.257
+    },
+    "4": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.269
+    }
+   }
+  },
+  "mm7/7trimda": {
+   "name": "7trimda",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "three horizontal weathered grey-brown wooden planks with dark gaps between them, grain and nail holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "rotate_from": {
+    "id": "mm7/7trimd",
+    "k": 3
+   }
+  },
+  "mm7/c1d1": {
+   "name": "c1d1",
+   "versions": [
+    1
+   ],
+   "material": "rusty dark iron lattice grate of crossed bars over a black void",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/eswamp": {
+   "name": "eswamp",
+   "versions": [
+    1
+   ],
+   "material": "swamp ground of green ivy leaves over reddish-brown mud and fallen dead leaves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t5s1fl": {
+   "name": "t5s1fl",
+   "versions": [
+    1
+   ],
+   "material": "floor of irregular polygonal tan sandstone flagstones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim10_32": {
+   "name": "trim10_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of vertical-grain reddish-brown wood plank",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trim12_32": {
+   "name": "trim12_32",
+   "versions": [
+    1
+   ],
+   "material": "single uninterrupted strip of vertical-grain very dark brown wood plank",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/trimdend": {
+   "name": "trimdend",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "single uninterrupted strip of pale tan pine wood with fine grain",
+   "notes": {
+    "3": "along the left edge one perfectly straight, even, near-black joint line two pixels wide runs the full height without wobble or breaks, and continues straight across the top and bottom edges; the rest is plain pine"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/chb1sel": {
+   "name": "chb1sel",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with a row of squared dressed stones along the top edge and a column of squared dressed stones along the left edge",
+   "notes": {
+    "2": "keep every cobble at the reference's exact position, size and outline: many small cobbles, not fewer larger ones; the dressed stones stay lit right to the top and left canvas edges, no dark line along any edge",
+    "3": "keep every cobble at the reference's exact position, size and outline: many small cobbles, not fewer larger ones; the dressed stones stay lit right to the top and left canvas edges, no dark line along any edge",
+    "4": "keep every cobble at the reference's exact position, size and outline: many small irregular cobbles (about seven across the width), not fewer larger ones; the squared dressed stones keep exactly the reference's height and width, with the thin dark shadow line under the top row",
+    "5": "the cobbles and pale tan mortar run evenly right down to the bottom edge: no dark horizontal line or shadow band anywhere near the bottom",
+    "6": "keep every cobble at the reference's exact position, size and outline: many small irregular cobbles, not fewer larger ones; the squared dressed stones keep exactly the reference's height and width; the lowest cobbles and pale mortar run evenly into the top row of dressed stones with no dark line, shadow or band between them",
+    "7": "keep every cobble at the reference's exact position, size and outline: many small irregular cobbles, not fewer larger ones; the squared dressed stones keep exactly the reference's height and width; the cobbles and pale mortar run evenly right down to the bottom edge, with no dark line, shadow, pale line or band within the last rows"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {}
+   },
+   "roll": {
+    "4": [
+     73,
+     143
+    ],
+    "6": [
+     73,
+     143
+    ],
+    "7": [
+     73,
+     0
+    ]
+   }
+  },
+  "mm7/chb1ser": {
+   "name": "chb1ser",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with a row of squared dressed stones along the top edge and a column of squared grey dressed stones along the right edge; copy the composition exactly",
+   "notes": {
+    "4": "keep the column of squared dressed stones along the right edge exactly as wide as in the reference, and every cobble at the reference's exact position, size and outline: many small cobbles, not fewer larger ones; cobbles and mortar run evenly to the bottom edge with no dark line",
+    "5": "the column of squared dressed stones along the right edge is as wide as in the reference, with alternate stones protruding further left into the cobbles exactly as in the reference; keep every cobble at the reference's exact position, size and outline: many small cobbles, not fewer larger ones",
+    "6": "the dressed-stone column hugs the RIGHT edge and is as wide as in the reference (about one sixth of the width), its stones alternately protruding further left into the cobbles as in the reference; the left part is all small cobbles exactly as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.563
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.563
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.563
+    },
+    "4": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.563
+    },
+    "5": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.563
+    },
+    "6": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.563
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   },
+   "roll": {
+    "5": [
+     73,
+     0
+    ]
+   }
+  },
+  "mm7/chb1s": {
+   "name": "chb1s",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with a row of squared dressed stones along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1ser",
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.901
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1ser",
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.901
+    }
+   }
+  },
+  "mm7/chb1el": {
+   "name": "chb1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with a column of squared dressed stones along the left edge",
+   "notes": {
+    "2": "the wall repeats vertically: cobbles at the bottom edge continue seamlessly into the cobbles at the top edge, with no straight horizontal line cutting through stones",
+    "3": "the wall repeats vertically: cobbles at the bottom edge continue seamlessly into the cobbles at the top edge, with no straight horizontal line cutting through stones",
+    "4": "the wall repeats vertically: cobbles at the bottom edge continue seamlessly into the cobbles at the top edge, with no straight horizontal line or dark band near the bottom or top edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.745
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.745
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.745
+    },
+    "4": {
+     "sources": [
+      "mm7/chb1sel"
+     ],
+     "fraction": 0.745
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm7/chb1er": {
+   "name": "chb1er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with a column of squared dressed stones along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1ser",
+      "mm7/chb1el",
+      "mm7/bannwc-b"
+     ],
+     "fraction": 0.888
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1ser",
+      "mm7/chb1el"
+     ],
+     "fraction": 0.848
+    }
+   }
+  },
+  "mm7/chb1": {
+   "name": "chb1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1el",
+      "mm7/chb1s",
+      "mm7/chb1er"
+     ],
+     "fraction": 0.371
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1el",
+      "mm7/bannwc-b",
+      "mm7/nechumb"
+     ],
+     "fraction": 0.361
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1el",
+      "mm7/chbw",
+      "mm7/bannwc-b"
+     ],
+     "fraction": 0.371
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm7/t2bs": {
+   "name": "t2bs",
+   "versions": [
+    1
+   ],
+   "material": "rough dark grey granite stone surface, pitted and weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/chb1p4": {
+   "name": "chb1p4",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with a hanging portrait painting of a man in a blue coat and dark hat in an ornate black-and-gold frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.585
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.585
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.585
+    }
+   },
+   "context": {
+    "3": {
+     "top": "mm7/chb1",
+     "bottom": "mm7/chb1"
+    }
+   }
+  },
+  "mm7/ch1b1s": {
+   "name": "ch1b1s",
+   "versions": [
+    1
+   ],
+   "material": "dark damp brown rubble stones in dark mortar, with a band of dark squared stones along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch1b1"
+     ],
+     "fraction": 0.315
+    }
+   }
+  }
+ }
+}

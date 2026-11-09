@@ -1,0 +1,28 @@
+{
+  "tool": "built-in imagegen",
+  "calls": 4,
+  "prompt_sha256": "d638678b35c042e9a81b1d5d2c10b546651410ccb554120de2899af1cd9989ad",
+  "material_reference_sha256": "91355a9331cbf787bbb784daffbc997961a9e00b9a61877d78cc3d1a4b9057fa",
+  "images": [
+    {
+      "name": "drsrne1",
+      "raw_sha256": "1dfee4e6ad7967584fbca5c1375a211929fc009628f4e6e7f866dba2376f8d0c",
+      "input_sha256": "d2fb9add77442a5ad0532a5a7c58ad73b7e6f5d4997d655d22bbd33d70ded601"
+    },
+    {
+      "name": "drsrne2",
+      "raw_sha256": "469ede880cf3b15bc87105fa5fd1a3e74cf706b8f560426eeb76e6b2017cb8ba",
+      "input_sha256": "69bb75418e836abba1e5a31a61c8ab289105f115f62a0c679e03c7636eb2d0c2"
+    },
+    {
+      "name": "drsrnw1",
+      "raw_sha256": "e1cd001086a86018253204e8c59d1da7f346cbfeeef90b2ade9f4716c334c786",
+      "input_sha256": "c7d9a0de42e5caf48f67d4c2e82e920e711faa5f1aa220aed24bc56ca2ad8318"
+    },
+    {
+      "name": "drsrnw2",
+      "raw_sha256": "c0fc8bc5bd9e83768ce652f00e55d49a1c8f53688711c42d5e37ba5d30279dc3",
+      "input_sha256": "3652cc93061cb2971f21d990807097f336402e3fc549982fb3e0eb9323d546ee"
+    }
+  ]
+}

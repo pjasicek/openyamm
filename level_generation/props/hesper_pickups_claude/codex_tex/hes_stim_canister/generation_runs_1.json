@@ -1,0 +1,271 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generated_best_available_returns_do_not_meet_all_brief_requirements",
+  "requested": {
+    "size": [
+      1024,
+      1024
+    ],
+    "transparent_background": true,
+    "unresized_returns": true,
+    "exact_guide_silhouette_and_shape_edges": true,
+    "flat_even_albedo": true,
+    "max_corrective_regenerations_per_view": 1
+  },
+  "selection_note": "Selected means chosen for the requested output filename, not that validation passed. No further generation is allowed by this brief. Native PNG bytes and generated alpha are preserved without resizing, masking, recolouring or other postprocessing.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit.\nCreate paint_front.png: one 1024 x 1024 RGBA texture-source painting, actual transparent background. This is a tightly registered material-paint edit of input 1, guide_front.png, NOT a new object illustration.\nINPUT ROLES:\n1. guide_front.png is the EDIT TARGET and absolute authority for pixel placement, silhouette, orthographic front camera, scale and ALL geometry edges.\n2. design_reference.png is the approved DESIGN, COLOUR and MATERIAL authority only. Its three-quarter pose and dramatic lighting must NOT be transferred.\n3. concept_crop.png is supporting original concept reference only.\n\nKeep input 1's entire alpha silhouette and every shape edge exactly, including its slight low-poly irregularities. Preserve its square 1024 canvas and unchanged transparent margins. Nontransparent bounds are x=303..720, y=66..957. DO NOT enlarge, recenter, rotate, round off, reshape, crop or tilt the object. The valve wheel at the top is seen exactly EDGE-ON as a thin horizontal bar, not an ellipse: preserve the guide's shape. Keep the central upper circular fitting, both tall recessed front window shapes, all band edges, stem shapes, protruding bottom brackets, narrow lower connector and broad stepped foot at exactly their original coordinates. Paint directly into the guide's shapes; do not move them to match the reference.\n\nSURFACE PAINT:\nBone-white ceramic body plates and foot with fine chips and sparse grey grime as in the approved design; warm polished-gold material on the existing valve wheel, bands, frames, metal fittings and rivet details. Keep crisp edges between materials. Deep-blue painted livery stripe on the central body strip between the two windows, continuing across ceramic shoulder and foot as supported by the design. Small blue-white light in the existing upper circular fitting, surrounded by gold. Both existing tall inset windows contain clear glass with bright saturated RED stim fluid evenly lit from inside, subtle red bubbles and fluid detail, absolutely no surrounding red light spill. The windows stay exactly within their guide edges. Dark neutral metal on the recessed connector parts as in the design. Surface details may be painted, but no new protrusions or altered geometry.\n\nLIGHTING IS ALBEDO ONLY: flat, even, shadowless viewer-facing light; remove the grey guide shading while preserving its geometry. No cast shadows, ambient occlusion, dark shaded sides, specular hotspots, white reflective streaks, reflections, rim light, bloom or environmental illumination. Gold is represented by its local golden colour and subtle wear, not by baked lighting. Red fluid and blue-white lamp are painted at their glowing colour, not as light cast on surroundings. No floor, background, backdrop, text, labels, watermark or checkerboard. Outside the exact guide silhouette must be fully transparent. Return only the single painted front view at native 1024 x 1024, unresized.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "677d1838ba1e51330593b9c656e4f567e9de0da44eab0ff7865fd64a5b61098e",
+          "role": "geometry_edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c",
+          "role": "design_colour_material_authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e",
+          "role": "original_concept_reference"
+        }
+      ],
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "selected": false,
+      "output": "/home/pjasicek/.codex/generated_images/01a16ab9-ed29-77c3-a5d2-eb0451c375e2/exec-3de25a3c-39c8-46a3-aa5a-473c411384de.png",
+      "metrics": {
+        "view": "front",
+        "attempt": 1,
+        "size": [
+          1254,
+          1254
+        ],
+        "bbox_alpha_128": [
+          371,
+          82,
+          880,
+          1135
+        ],
+        "normalized_silhouette_iou": 0.8925518613967492,
+        "visible_alpha_percentiles": [
+          128,
+          253,
+          255
+        ]
+      },
+      "reason": "Rejected: wrong native resolution, strong baked reflections and poorer guide alignment.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16ab9-ed29-77c3-a5d2-eb0451c375e2/exec-3de25a3c-39c8-46a3-aa5a-473c411384de.png",
+      "output_sha256": "8b146d2a115889e8de8c26801e2e21f18c00496bd3dec1ded9f008947eec12d8",
+      "checks": {
+        "size_1024x1024": false,
+        "native_size": [
+          1254,
+          1254
+        ],
+        "transparent_background": true,
+        "exact_guide_alpha": false,
+        "exact_geometry_edges": false,
+        "materials_colours": "Main gold, bone-white, deep-blue and blue-white palette matches; front includes saturated red fluid. See selection reason for limitations.",
+        "flat_even_light": false,
+        "lighting_note": "Residual baked highlights and/or shading remain.",
+        "unresized_unmodified_return": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Edit image 1 (guide_front.png) in place. OUTPUT RESOLUTION MUST BE EXACTLY 1024x1024 PIXELS, the same size as this edit target. One single square PNG with true transparent alpha. This is a corrective generation of paint_front.png, a registered albedo source for projection onto an existing model. A previous attempt was rejected for wrong output resolution, shifted geometry and baked reflections. Those are the corrections needed.\n\nLock the guide image's existing pixels and alpha: only recolour its visible surfaces. Never reconstruct, enlarge, reframe, smooth, or move its geometry. Preserve its silhouette exactly, all transparent margin, all openings, facets, and every inner feature edge. The footprint is x303 through720 and y66 through957 within the 1024x1024 canvas. The upper wheel must remain the original very thin edge-on horizontal bar, the lamp the same central polygonal circle, the two windows exactly the same existing recesses, lower brackets and base the same shape. Keep the guide's slight asymmetries.\n\nUse images2 and3 (design_reference.png and concept_crop.png) ONLY as material and colour references: bone-white ceramic plates with fine chips and sparse grey grime; gold-coloured bands, window frames, existing rivets and valve wheel; deep-blue livery along the centre of the body between the windows, shoulder and foot; the small blue-white lamp in the existing upper fitting; saturated bright red evenly luminous stim fluid behind the existing glass window panes with subtle red bubble details.\n\nAlbedo means UNLIT LOCAL COLOUR, not a beauty render: uniform golden colour on gold, uniform bone-white on ceramic and uniform saturated red across the panes. Do not transfer the reference lighting. Remove shading from the guide. NO specular highlights, bright white bars, lens glare, glass reflections, white outline, bloom, ambient occlusion, shaded panel bevels, directional brightness gradient, rim light or cast shadows. Indicate materials with colours and fine wear only. No illumination spilling from the fluid or lamp. No new shapes or fittings, no text, no ground, no opaque background. Preserve the target's actual alpha silhouette. Exact native 1024 by1024 output is mandatory.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "677d1838ba1e51330593b9c656e4f567e9de0da44eab0ff7865fd64a5b61098e",
+          "role": "geometry_edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c",
+          "role": "design_colour_material_authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e",
+          "role": "original_concept_reference"
+        }
+      ],
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "selected": true,
+      "output": "paint_front.png",
+      "metrics": {
+        "view": "front",
+        "attempt": 2,
+        "size": [
+          1254,
+          1254
+        ],
+        "bbox_alpha_128": [
+          371,
+          81,
+          882,
+          1177
+        ],
+        "normalized_silhouette_iou": 0.9779456384558969,
+        "visible_alpha_percentiles": [
+          128,
+          253,
+          255
+        ]
+      },
+      "reason": "Selected as the best available unmodified front return: flatter red panes and improved guide alignment. Not accepted as brief-compliant: native resolution is 1254x1254, exact silhouette/feature alignment is not preserved, and some bevel shading/highlights remain.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16ab9-ed29-77c3-a5d2-eb0451c375e2/exec-23b2eb38-985d-4d19-b9eb-a07d4deede60.png",
+      "output_sha256": "c4ef78db5edd64a02b0bbee96f94b2624587b146f558d7cefc469ae342302e1c",
+      "checks": {
+        "size_1024x1024": false,
+        "native_size": [
+          1254,
+          1254
+        ],
+        "transparent_background": true,
+        "exact_guide_alpha": false,
+        "exact_geometry_edges": false,
+        "materials_colours": "Main gold, bone-white, deep-blue and blue-white palette matches; front includes saturated red fluid. See selection reason for limitations.",
+        "flat_even_light": false,
+        "lighting_note": "Front correction flattens the panes, but residual bevel shading remains.",
+        "unresized_unmodified_return": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Edit input1 guide_top.png IN PLACE to make paint_top.png, a flat albedo texture source. Return exactly ONE native 1024x1024 RGBA image, transparent background, matching input1 resolution.\n\nInput1 is the exact orthographic TOP-DOWN 3D-model guide and the sole geometry authority. Input2 design_reference.png is the approved design/material/colour reference only. Input3 concept_crop.png is the supporting original concept only. Do not use either reference's angled camera or lighting.\n\nCRITICAL REGISTRATION: preserve input1 pixel-for-pixel silhouette and positioning. The whole object is a SMALL central circle occupying ONLY x303..720 and y304..719 of the 1024x1024 square, about 418 pixels in diameter, with large unchanged transparent margins on ALL sides. Do not fill the frame or enlarge the object. Remain looking straight down, no tilt or perspective. Preserve every low-poly outline, concentric contour, overlap, cutout, four thin wheel spokes at 12/3/6/9 o'clock and central hub. Do not move or replace any edge. Paint the exact visible surfaces already in input1.\n\nMATERIALS: bone-white ceramic outer shoulder/base plates, very fine chips and sparse grey grime; golden valve wheel, the four existing spokes and hub rim, existing bands, frames and metal fittings; the central small blue-white light; deep-blue livery continuing over the ceramic shoulder and foot where visible, matching the approved design; dark neutral connector metal only where present in the guide. The surfaces seen through the wheel openings remain the actual solid canister top beneath, not holes cut through the canister. The red fluid windows on the vertical body must not be invented on this top view. Fine painted rivet and wear details may follow the reference without adding geometry.\n\nUNLIT ALBEDO: even flat local colour everywhere, uniformly lit from viewer, remove the guide's lighting. No cast shadows from the wheel, no ambient occlusion under its spokes or around rings, no directional darkening, no specular hotspots or reflections, no white shine streaks, no rim light, no bloom, no floor or background. Paint gold by golden local colour and fine wear; do not bake metallic reflections. Paint the blue-white light at its luminous colour without lighting surrounding metal. No text, labels or watermark. Keep outside the guide silhouette genuinely alpha-transparent, never opaque black or a painted checkerboard. Return the single exact top view at 1024 by1024, no resizing or reframing.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f3b0cd5016f60030e1a803868a0d9cbc963dc40c9214e6dbfcad4c197a6a7c90",
+          "role": "geometry_edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c",
+          "role": "design_colour_material_authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e",
+          "role": "original_concept_reference"
+        }
+      ],
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "selected": true,
+      "output": "paint_top.png",
+      "metrics": {
+        "view": "top",
+        "attempt": 1,
+        "size": [
+          1254,
+          1254
+        ],
+        "bbox_alpha_128": [
+          370,
+          365,
+          884,
+          875
+        ],
+        "normalized_silhouette_iou": 0.9643428904089653,
+        "visible_alpha_percentiles": [
+          128,
+          253,
+          255
+        ]
+      },
+      "reason": "Selected as the best available unmodified top return: closer guide alignment than the correction and a closer material interpretation. Not accepted as brief-compliant: native resolution is 1254x1254, exact silhouette/feature alignment is not preserved, and metallic highlights/occlusion remain.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16ab9-ed29-77c3-a5d2-eb0451c375e2/exec-9c75ccc2-de7d-446c-8ced-ece7a4b3cadc.png",
+      "output_sha256": "d414b5c3cc1f7c30518bdad47cfc97581a4c0cd62cf84a46b2e5ed6cf0f719a1",
+      "checks": {
+        "size_1024x1024": false,
+        "native_size": [
+          1254,
+          1254
+        ],
+        "transparent_background": true,
+        "exact_guide_alpha": false,
+        "exact_geometry_edges": false,
+        "materials_colours": "Main gold, bone-white, deep-blue and blue-white palette matches; front includes saturated red fluid. See selection reason for limitations.",
+        "flat_even_light": false,
+        "lighting_note": "Residual baked highlights and/or shading remain.",
+        "unresized_unmodified_return": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Corrective material-paint edit. OUTPUT: one image, precisely 1024 x 1024 native pixels, RGBA with a transparent background. Keep this exact requested resolution; do not output 1254 pixels.\n\nPaint directly on input1 guide_top.png, which is the exact orthographic overhead silhouette and geometry. Keep input1 unchanged except for surface colour. Preserve every facet, notch, rim, overlap and shape boundary in place. The complete small round object must retain its original 418-pixel diameter, centred at (512,512), with the exact original bounds x303..720 y304..719 inside a 1024-pixel square. Preserve all that empty transparent margin. The central valve ring, four thin cardinal spokes and central hub remain exactly as modelled; do not redesign or round off low-poly contours.\n\nInput2 design_reference.png is ONLY the material palette and fine wear reference; input3 concept_crop.png supports it. Transfer bone-white chipped ceramic, fine grey grime, warm gold metal on the wheel/spokes/rims and existing fittings, deep-blue livery over the shoulder/foot and collar visible from above, and a small blue-white central lamp. Do not invent red windows on the top surface. Preserve the solid canister top visible through the wheel, not transparent holes through the canister.\n\nThe prior top result was rejected for wrong resolution, silhouette mismatch and baked metallic highlights. Correct these by making a strict UNLIT ALBEDO PAINTING. Material local colours only with tiny wear marks. Uniform matte golden colour on the metal; flat bone-white ceramic and deep blue paint. Remove all highlights, specular stripes, glassy reflections and gradients. Absolutely no ambient occlusion, dark seams caused by light, cast shadows from the wheel/spokes, dark outer edge shading, rim lighting, perspective, bloom or background. The tiny lamp is a flat blue-white colour, no light spill. Do not imitate the reference's dramatic render lighting. Do not smooth or enlarge the guide's original geometry. True transparent alpha only outside the exact input1 silhouette. No text, extra objects or floor. A registered 1024x1024 albedo view, not a beauty render.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "f3b0cd5016f60030e1a803868a0d9cbc963dc40c9214e6dbfcad4c197a6a7c90",
+          "role": "geometry_edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b3140d47d6c9d6bb71b68ecaef1d361c93ed373defbde75c6627cc9eaef6d08c",
+          "role": "design_colour_material_authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "53865541b158b325b4f1ebcfa4094993596d7d291a870b6f2332862f64d3446e",
+          "role": "original_concept_reference"
+        }
+      ],
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "selected": false,
+      "output": "/home/pjasicek/.codex/generated_images/01a16ab9-ed29-77c3-a5d2-eb0451c375e2/exec-b0c3020b-86d5-49eb-b966-c9741745af36.png",
+      "metrics": {
+        "view": "top",
+        "attempt": 2,
+        "size": [
+          1254,
+          1254
+        ],
+        "bbox_alpha_128": [
+          359,
+          351,
+          895,
+          891
+        ],
+        "normalized_silhouette_iou": 0.8844605766760429,
+        "visible_alpha_percentiles": [
+          128,
+          253,
+          255
+        ]
+      },
+      "reason": "Rejected: correction reduced some highlights but enlarged/changed the guide geometry further and changed the material under the wheel; still wrong native resolution.",
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16ab9-ed29-77c3-a5d2-eb0451c375e2/exec-b0c3020b-86d5-49eb-b966-c9741745af36.png",
+      "output_sha256": "1db1029f721fd5a66db1b1bfe0bf025c3fba39d0551cf4ebe247407375adaea2",
+      "checks": {
+        "size_1024x1024": false,
+        "native_size": [
+          1254,
+          1254
+        ],
+        "transparent_background": true,
+        "exact_guide_alpha": false,
+        "exact_geometry_edges": false,
+        "materials_colours": "Main gold, bone-white, deep-blue and blue-white palette matches; front includes saturated red fluid. See selection reason for limitations.",
+        "flat_even_light": false,
+        "lighting_note": "Residual baked highlights and/or shading remain.",
+        "unresized_unmodified_return": true,
+        "brief_compliant": false
+      }
+    }
+  ]
+}

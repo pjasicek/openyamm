@@ -1,0 +1,25 @@
+{
+  "family": "mnk1",
+  "title": "MM6 Monk",
+  "descriptor_ids": [
+    583,
+    584,
+    585
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 775,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "The original MM6 hooded monk: tall plain ankle-length dark navy-blue fabric robe, deep hood concealing the face in black shadow, broad folded cowl over shoulders, long sleeves, pale rope belt with hanging knotted ends. Preserve the native body mass, hem, folds, empty dark face and original hand positions. Plain muted blue cloth only, no new armor, jewelry, weapon or ornament. Keep the original dark tonal weight and simple early fantasy pre-rendered appearance. Exposed hands are the original pale grey hands; preserve the green spell energy only in the native casting poses where it is present.",
+  "regions": "Generate only the accepted dark blue robe, sleeves, cowl and hood. These cloth regions recolor together; protect the pale rope belt, exposed hands, black face shadow and any visible native footwear.",
+  "variant_names": {
+    "774": "Monk A / brown robe",
+    "775": "Monk B / blue robe",
+    "776": "Monk C / red robe"
+  },
+  "extra_native_actions": {
+    "hit": [
+      "mnk1wie0"
+    ]
+  }
+}

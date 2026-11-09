@@ -1,0 +1,19 @@
+title: MM6 Ravenshore ship replacements
+date: 2026-09-29
+scope: All twelve SHP decorations on seven MM6 outdoor maps, including the accepted New Sorpigal boat.
+prototype: ../mm6_sorpigal_ship_test
+donor: MM8 out02.odm BModels 111-115
+requirements:
+  - Preserve every original terrain, BModel, spawn and unrelated scene record.
+  - Append the accepted ship assembly and retain decoration indices by retiring only SHP slots.
+  - Align each boarding opening to its existing pier edge and floor.
+  - Bind only the cabin door to the original travel event; scenery remains noninteractive.
+  - Preserve original Lua, names, house ids, routes, schedules, travel anchors and quest logic.
+  - Prepare isolated copies and a changed-assets overlay, as for the accepted prototype.
+  - Rebuild lighting using each map's existing profile.
+delivery:
+  native_maps: build
+  isolated_assets: playtest/assets_dev
+  placement_manifest: source/ships.json
+  editable_reimport: source/mm6_ships_and_piers.blend
+  review: review

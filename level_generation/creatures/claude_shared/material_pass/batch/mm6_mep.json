@@ -1,0 +1,490 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_mep.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_mep.glb",
+ "assignments": [
+  {
+   "match": "=Mep_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_head_material_classes.png"
+  },
+  {
+   "match": "=Mep_L1_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_head_material_classes.png"
+  },
+  {
+   "match": "=Mep_L2_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_head_material_classes.png"
+  },
+  {
+   "match": "=Mep_L3_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_material_classes.png",
+   "head": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_head_material_classes.png"
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "mep_orm_head_atlas",
+   "size": [
+    2080,
+    1024
+   ],
+   "materials": [
+    "Mep_A",
+    "Mep_B",
+    "Mep_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      1056,
+      0,
+      2080,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 341,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 415165,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.509,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.2596,
+      "cloth": 0.7404
+     }
+    },
+    "head": {
+     "uv_covered_texels": 101428,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.8755,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_head_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.2818,
+      "fur": 0.4729,
+      "eye": 0.0339,
+      "cloth": 0.2114
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.264,
+    "fur": 0.0929,
+    "eye": 0.0067,
+    "cloth": 0.6365
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "fur": 0.0,
+    "eye": 0.0,
+    "cloth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.221,
+    "fur": 0.0,
+    "eye": 1.0,
+    "cloth": 0.245
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.822,
+    "fur": 0.9,
+    "eye": 0.15,
+    "cloth": 0.78
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Mep_A": null,
+    "Mep_B": null,
+    "Mep_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 37.6
+    },
+    "G": {
+     "min": 26,
+     "max": 255,
+     "mean": 200.4
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "mep_orm_head_atlas",
+   "size": [
+    1024,
+    504
+   ],
+   "materials": [
+    "Mep_L1_A",
+    "Mep_L1_B",
+    "Mep_L1_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      504,
+      504
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      520,
+      0,
+      1024,
+      504
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 0,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 1.0,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_material_classes.png",
+     "class_share_in_uv": {}
+    },
+    "head": {
+     "uv_covered_texels": 0,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 1.0,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_head_material_classes.png",
+     "class_share_in_uv": {}
+    }
+   },
+   "class_share_total": {
+    "skin": 0.2377,
+    "fur": 0.2806,
+    "eye": 0.0312,
+    "cloth": 0.4505
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "fur": 0.0,
+    "eye": 0.0,
+    "cloth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.193,
+    "fur": 0.0,
+    "eye": 1.0,
+    "cloth": 0.166
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.801,
+    "fur": 0.9,
+    "eye": 0.15,
+    "cloth": 0.751
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Mep_L1_A": null,
+    "Mep_L1_B": null,
+    "Mep_L1_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 38.9
+    },
+    "G": {
+     "min": 26,
+     "max": 255,
+     "mean": 200.5
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "mep_orm_head_atlas",
+   "size": [
+    512,
+    252
+   ],
+   "materials": [
+    "Mep_L2_A",
+    "Mep_L2_B",
+    "Mep_L2_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      252,
+      252
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      260,
+      0,
+      512,
+      252
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 0,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 1.0,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_material_classes.png",
+     "class_share_in_uv": {}
+    },
+    "head": {
+     "uv_covered_texels": 0,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 1.0,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_head_material_classes.png",
+     "class_share_in_uv": {}
+    }
+   },
+   "class_share_total": {
+    "skin": 0.2378,
+    "fur": 0.2805,
+    "eye": 0.0311,
+    "cloth": 0.4506
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "fur": 0.0,
+    "eye": 0.0,
+    "cloth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.195,
+    "fur": 0.0,
+    "eye": 1.0,
+    "cloth": 0.186
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.802,
+    "fur": 0.9,
+    "eye": 0.15,
+    "cloth": 0.753
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Mep_L2_A": null,
+    "Mep_L2_B": null,
+    "Mep_L2_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 41.2
+    },
+    "G": {
+     "min": 26,
+     "max": 255,
+     "mean": 200.8
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  },
+  {
+   "image": "mep_orm_head_atlas",
+   "size": [
+    256,
+    126
+   ],
+   "materials": [
+    "Mep_L3_A",
+    "Mep_L3_B",
+    "Mep_L3_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      126,
+      126
+     ]
+    },
+    {
+     "part": "head",
+     "box": [
+      130,
+      0,
+      256,
+      126
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 0,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 1.0,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_material_classes.png",
+     "class_share_in_uv": {}
+    },
+    "head": {
+     "uv_covered_texels": 0,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 1.0,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_mep_codex/textures/mep_head_material_classes.png",
+     "class_share_in_uv": {}
+    }
+   },
+   "class_share_total": {
+    "skin": 0.238,
+    "fur": 0.2801,
+    "eye": 0.0312,
+    "cloth": 0.4507
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "fur": 0.0,
+    "eye": 0.0,
+    "cloth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.21,
+    "fur": 0.0,
+    "eye": 1.0,
+    "cloth": 0.221
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.8,
+    "fur": 0.9,
+    "eye": 0.15,
+    "cloth": 0.75
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Mep_L3_A": null,
+    "Mep_L3_B": null,
+    "Mep_L3_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 46.2
+    },
+    "G": {
+     "min": 34,
+     "max": 239,
+     "mean": 200.3
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

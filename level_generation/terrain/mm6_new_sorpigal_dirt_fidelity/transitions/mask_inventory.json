@@ -1,0 +1,1188 @@
+{
+  "mask_count": 33,
+  "polarity": "white=foreground; black=dirt",
+  "orientation": "north up, no rotation/mirroring; edge profiles read N/S left-to-right, E/W top-to-bottom",
+  "masks": [
+    {
+      "tile": "6drsrecap",
+      "family": "roads",
+      "shape": "end cap",
+      "suffix": "ECAP",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrecap.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrecap_native.png",
+      "source_bmp_sha256": "be04478c8dfdc10cf0dbb4551a569248ac60caf598aa3f1e7f72a0b09cb7a436",
+      "used_cells": 5,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "dirt/dirt",
+        "S": "dirt/dirt",
+        "W": "road_opening"
+      },
+      "road_openings": [
+        "W"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrecap.png"
+    },
+    {
+      "tile": "6drsrew",
+      "family": "roads",
+      "shape": "straight",
+      "suffix": "EW",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrew.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrew_native.png",
+      "source_bmp_sha256": "b129e25fde68367f6d285305836dc9e1d2881aa8962478348a98e4abdd59f09a",
+      "used_cells": 72,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "road_opening",
+        "S": "dirt/dirt",
+        "W": "road_opening"
+      },
+      "road_openings": [
+        "E",
+        "W"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrew.png"
+    },
+    {
+      "tile": "6drsrew_s",
+      "family": "roads",
+      "shape": "junction",
+      "suffix": "EW_S",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrew_s.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrew_s_native.png",
+      "source_bmp_sha256": "5911d659a32f5f4870fce8c5a3420ffa815bd2d8a8a2b9517724766714ee4ae4",
+      "used_cells": 1,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "road_opening",
+        "S": "road_opening",
+        "W": "road_opening"
+      },
+      "road_openings": [
+        "E",
+        "S",
+        "W"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrew_s.png"
+    },
+    {
+      "tile": "6drsrn_e",
+      "family": "roads",
+      "shape": "turn",
+      "suffix": "N_E",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrn_e.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrn_e_native.png",
+      "source_bmp_sha256": "3f92909245610825bf5770e882dbabad3b0a4648455c69378d698cc75d57b587",
+      "used_cells": 8,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "road_opening",
+        "E": "road_opening",
+        "S": "dirt/dirt",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [
+        "N",
+        "E"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrn_e.png"
+    },
+    {
+      "tile": "6drsrn_w",
+      "family": "roads",
+      "shape": "turn",
+      "suffix": "N_W",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrn_w.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrn_w_native.png",
+      "source_bmp_sha256": "e6ff7d01ebdeebdc831fe916e6c0de39c09541a1d8ab072f37bb6eebcf277419",
+      "used_cells": 3,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "road_opening",
+        "E": "dirt/dirt",
+        "S": "dirt/dirt",
+        "W": "road_opening"
+      },
+      "road_openings": [
+        "N",
+        "W"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrn_w.png"
+    },
+    {
+      "tile": "6drsrns",
+      "family": "roads",
+      "shape": "straight",
+      "suffix": "NS",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrns.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrns_native.png",
+      "source_bmp_sha256": "bf598fe2be4d0dfd6fb7cfe19c3d4b872f9a365591308414407d4d3ce7e48355",
+      "used_cells": 13,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "road_opening",
+        "E": "dirt/dirt",
+        "S": "road_opening",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [
+        "N",
+        "S"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrns.png"
+    },
+    {
+      "tile": "6drsrs_e",
+      "family": "roads",
+      "shape": "turn",
+      "suffix": "S_E",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrs_e.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrs_e_native.png",
+      "source_bmp_sha256": "2c5a0d05a9c74a1ecd89663481abd38e0ad8e860e3c7960e6bce0aea3e261bff",
+      "used_cells": 3,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "road_opening",
+        "S": "road_opening",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [
+        "S",
+        "E"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrs_e.png"
+    },
+    {
+      "tile": "6drsrs_w",
+      "family": "roads",
+      "shape": "turn",
+      "suffix": "S_W",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrs_w.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrs_w_native.png",
+      "source_bmp_sha256": "7fed67749cfb90c7576428f462b5d09acb1fa35c00cee25a2928434f0875b961",
+      "used_cells": 7,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "dirt/dirt",
+        "S": "road_opening",
+        "W": "road_opening"
+      },
+      "road_openings": [
+        "S",
+        "W"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrs_w.png"
+    },
+    {
+      "tile": "6drsrwcap",
+      "family": "roads",
+      "shape": "end cap",
+      "suffix": "WCAP",
+      "white": "cobbles",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6drsrwcap.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6drsrwcap_native.png",
+      "source_bmp_sha256": "baf4567fbce31471a99fb48aef2bfd24aa602f40af19647a46fbcf7238f39522",
+      "used_cells": 4,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "road_opening",
+        "S": "dirt/dirt",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [
+        "E"
+      ],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6drsrwcap.png"
+    },
+    {
+      "tile": "6grdrte",
+      "family": "grass_dirt",
+      "shape": "edge",
+      "suffix": "E",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrte.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrte_native.png",
+      "source_bmp_sha256": "bb0ae4bb2eaee274acf407358268f515af12f00f88c3e96d425f0d38677161fd",
+      "used_cells": 79,
+      "corners_NW_NE_SE_SW": [
+        "grass",
+        "dirt",
+        "dirt",
+        "grass"
+      ],
+      "edge_topology": {
+        "N": "grass/dirt",
+        "E": "dirt/dirt",
+        "S": "grass/dirt",
+        "W": "grass/grass"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrte.png"
+    },
+    {
+      "tile": "6grdrtn",
+      "family": "grass_dirt",
+      "shape": "edge",
+      "suffix": "N",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtn.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtn_native.png",
+      "source_bmp_sha256": "025f60782c4efd114508d14beda0d46200d1e7ef77e9df9092e5503de56c31b0",
+      "used_cells": 145,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "grass",
+        "grass"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "dirt/grass",
+        "S": "grass/grass",
+        "W": "dirt/grass"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtn.png"
+    },
+    {
+      "tile": "6grdrtne",
+      "family": "grass_dirt",
+      "shape": "corner",
+      "suffix": "NE",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtne.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtne_native.png",
+      "source_bmp_sha256": "0cdcd12ce2fab3d310eef7231bb6c818964caf1cb872f233841372efb194583c",
+      "used_cells": 63,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "grass"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "dirt/dirt",
+        "S": "grass/dirt",
+        "W": "dirt/grass"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtne.png"
+    },
+    {
+      "tile": "6grdrtnw",
+      "family": "grass_dirt",
+      "shape": "corner",
+      "suffix": "NW",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtnw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtnw_native.png",
+      "source_bmp_sha256": "18abeb4e518386701374cd0ea9ff75d5c2f962f51376cc10d7ca57aca3999620",
+      "used_cells": 76,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "grass",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "dirt/grass",
+        "S": "dirt/grass",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtnw.png"
+    },
+    {
+      "tile": "6grdrts",
+      "family": "grass_dirt",
+      "shape": "edge",
+      "suffix": "S",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrts.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrts_native.png",
+      "source_bmp_sha256": "ab97530727d42c0523aed7af0f86b16de5321f9e1771f26b3725709bed7ab163",
+      "used_cells": 132,
+      "corners_NW_NE_SE_SW": [
+        "grass",
+        "grass",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "grass/grass",
+        "E": "grass/dirt",
+        "S": "dirt/dirt",
+        "W": "grass/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrts.png"
+    },
+    {
+      "tile": "6grdrtse",
+      "family": "grass_dirt",
+      "shape": "corner",
+      "suffix": "SE",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtse.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtse_native.png",
+      "source_bmp_sha256": "f2ba1cf16845f78733516841e1b8d649e206b86d50d5a57eaebe49a34e79e9d1",
+      "used_cells": 81,
+      "corners_NW_NE_SE_SW": [
+        "grass",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "grass/dirt",
+        "E": "dirt/dirt",
+        "S": "dirt/dirt",
+        "W": "grass/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtse.png"
+    },
+    {
+      "tile": "6grdrtsw",
+      "family": "grass_dirt",
+      "shape": "corner",
+      "suffix": "SW",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtsw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtsw_native.png",
+      "source_bmp_sha256": "c80448422e43ca2520fc1d283c31ab0b114ea1adeab6844cfb6c4cec41ae3d34",
+      "used_cells": 70,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "grass",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/grass",
+        "E": "grass/dirt",
+        "S": "dirt/dirt",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtsw.png"
+    },
+    {
+      "tile": "6grdrtw",
+      "family": "grass_dirt",
+      "shape": "edge",
+      "suffix": "W",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtw_native.png",
+      "source_bmp_sha256": "17e43daaf5827f049b67a86a846aa3a5d4c51fd8cc0cca273bd505b16436d7e1",
+      "used_cells": 62,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "grass",
+        "grass",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/grass",
+        "E": "grass/grass",
+        "S": "dirt/grass",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtw.png"
+    },
+    {
+      "tile": "6grdrtxne",
+      "family": "grass_dirt",
+      "shape": "X-corner",
+      "suffix": "XNE",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtxne.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtxne_native.png",
+      "source_bmp_sha256": "1e039d03b5fef9cb75e6e09e5b8499816a1e99718a9a70d506937caf538850a0",
+      "used_cells": 53,
+      "corners_NW_NE_SE_SW": [
+        "grass",
+        "dirt",
+        "grass",
+        "grass"
+      ],
+      "edge_topology": {
+        "N": "grass/dirt",
+        "E": "dirt/grass",
+        "S": "grass/grass",
+        "W": "grass/grass"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtxne.png"
+    },
+    {
+      "tile": "6grdrtxnw",
+      "family": "grass_dirt",
+      "shape": "X-corner",
+      "suffix": "XNW",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtxnw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtxnw_native.png",
+      "source_bmp_sha256": "1c5fdd33ea6c5d679c9acf75fb146d2ac92412e08e465aa8d154756e6edcc681",
+      "used_cells": 69,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "grass",
+        "grass",
+        "grass"
+      ],
+      "edge_topology": {
+        "N": "dirt/grass",
+        "E": "grass/grass",
+        "S": "grass/grass",
+        "W": "dirt/grass"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtxnw.png"
+    },
+    {
+      "tile": "6grdrtxse",
+      "family": "grass_dirt",
+      "shape": "X-corner",
+      "suffix": "XSE",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtxse.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtxse_native.png",
+      "source_bmp_sha256": "53b6c0406d42a098af7d8b710b48820bbf21c213932a8ec6618e4e2767257c9c",
+      "used_cells": 72,
+      "corners_NW_NE_SE_SW": [
+        "grass",
+        "grass",
+        "dirt",
+        "grass"
+      ],
+      "edge_topology": {
+        "N": "grass/grass",
+        "E": "grass/dirt",
+        "S": "grass/dirt",
+        "W": "grass/grass"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtxse.png"
+    },
+    {
+      "tile": "6grdrtxsw",
+      "family": "grass_dirt",
+      "shape": "X-corner",
+      "suffix": "XSW",
+      "white": "grass",
+      "black": "dirt",
+      "mask": "masks/connected_v4/6grdrtxsw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/6grdrtxsw_native.png",
+      "source_bmp_sha256": "1688859d17aa67383a792cef4d3c569db17791ecd3066d49675d8bd8cbece6c8",
+      "used_cells": 62,
+      "corners_NW_NE_SE_SW": [
+        "grass",
+        "grass",
+        "grass",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "grass/grass",
+        "E": "grass/grass",
+        "S": "dirt/grass",
+        "W": "grass/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/6grdrtxsw.png"
+    },
+    {
+      "tile": "voldrte",
+      "family": "rock_dirt",
+      "shape": "edge",
+      "suffix": "E",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrte.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrte_native.png",
+      "source_bmp_sha256": "6f4a0ec588f8c3fbfb6c5a07dc6c103a16a781b264467e93ab2fa546cfbdf474",
+      "used_cells": 20,
+      "corners_NW_NE_SE_SW": [
+        "volcano",
+        "dirt",
+        "dirt",
+        "volcano"
+      ],
+      "edge_topology": {
+        "N": "volcano/dirt",
+        "E": "dirt/dirt",
+        "S": "volcano/dirt",
+        "W": "volcano/volcano"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrte.png"
+    },
+    {
+      "tile": "voldrtn",
+      "family": "rock_dirt",
+      "shape": "edge",
+      "suffix": "N",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtn.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtn_native.png",
+      "source_bmp_sha256": "bc2d36cf3e1b63a9c0aeca58d455ba8d2800d49503af01b97df6c518d0f4fa1d",
+      "used_cells": 22,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "volcano",
+        "volcano"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "dirt/volcano",
+        "S": "volcano/volcano",
+        "W": "dirt/volcano"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtn.png"
+    },
+    {
+      "tile": "voldrtne",
+      "family": "rock_dirt",
+      "shape": "corner",
+      "suffix": "NE",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtne.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtne_native.png",
+      "source_bmp_sha256": "78c19a77b134a9a464d73a27dc9608d47886e2a649d15bd9b02a1291231c61c9",
+      "used_cells": 20,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "dirt",
+        "volcano"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "dirt/dirt",
+        "S": "volcano/dirt",
+        "W": "dirt/volcano"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtne.png"
+    },
+    {
+      "tile": "voldrtnw",
+      "family": "rock_dirt",
+      "shape": "corner",
+      "suffix": "NW",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtnw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtnw_native.png",
+      "source_bmp_sha256": "549d5eddd28481ac5339f30bd0fae58e6fa279a642d7c2467d8f640081a2aa61",
+      "used_cells": 13,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "dirt",
+        "volcano",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/dirt",
+        "E": "dirt/volcano",
+        "S": "dirt/volcano",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtnw.png"
+    },
+    {
+      "tile": "voldrts",
+      "family": "rock_dirt",
+      "shape": "edge",
+      "suffix": "S",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrts.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrts_native.png",
+      "source_bmp_sha256": "7eeda90da97e2c4342fc9f6940a1a4b2788c284e4da55879ec243f05d9b6ceea",
+      "used_cells": 31,
+      "corners_NW_NE_SE_SW": [
+        "volcano",
+        "volcano",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "volcano/volcano",
+        "E": "volcano/dirt",
+        "S": "dirt/dirt",
+        "W": "volcano/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrts.png"
+    },
+    {
+      "tile": "voldrtse",
+      "family": "rock_dirt",
+      "shape": "corner",
+      "suffix": "SE",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtse.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtse_native.png",
+      "source_bmp_sha256": "00f837699c949fedc8ba6a40d595b7793884730f897911dd52519783988e8ea5",
+      "used_cells": 9,
+      "corners_NW_NE_SE_SW": [
+        "volcano",
+        "dirt",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "volcano/dirt",
+        "E": "dirt/dirt",
+        "S": "dirt/dirt",
+        "W": "volcano/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtse.png"
+    },
+    {
+      "tile": "voldrtsw",
+      "family": "rock_dirt",
+      "shape": "corner",
+      "suffix": "SW",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtsw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtsw_native.png",
+      "source_bmp_sha256": "b6bc03c40df5638d64d4fbf4d62755400d7cdfc44cbcdfd617bc6cc36a1417f6",
+      "used_cells": 15,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "volcano",
+        "dirt",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/volcano",
+        "E": "volcano/dirt",
+        "S": "dirt/dirt",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtsw.png"
+    },
+    {
+      "tile": "voldrtw",
+      "family": "rock_dirt",
+      "shape": "edge",
+      "suffix": "W",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtw_native.png",
+      "source_bmp_sha256": "144ded1c0d5536d2a2fd3fa0acd8d0de3c2aea43b0a70074b11d0c9ffca22fbf",
+      "used_cells": 21,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "volcano",
+        "volcano",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "dirt/volcano",
+        "E": "volcano/volcano",
+        "S": "dirt/volcano",
+        "W": "dirt/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtw.png"
+    },
+    {
+      "tile": "voldrtxne",
+      "family": "rock_dirt",
+      "shape": "X-corner",
+      "suffix": "XNE",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtxne.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtxne_native.png",
+      "source_bmp_sha256": "16cd4b0ea403f686ae443c675c9dc663b202d65ec7491c6c15051fc9d1631e23",
+      "used_cells": 18,
+      "corners_NW_NE_SE_SW": [
+        "volcano",
+        "dirt",
+        "volcano",
+        "volcano"
+      ],
+      "edge_topology": {
+        "N": "volcano/dirt",
+        "E": "dirt/volcano",
+        "S": "volcano/volcano",
+        "W": "volcano/volcano"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtxne.png"
+    },
+    {
+      "tile": "voldrtxnw",
+      "family": "rock_dirt",
+      "shape": "X-corner",
+      "suffix": "XNW",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtxnw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtxnw_native.png",
+      "source_bmp_sha256": "1d5e7b7a74ef7538c112191058d6778f2407019c4644bd2e00a21fa70845af04",
+      "used_cells": 11,
+      "corners_NW_NE_SE_SW": [
+        "dirt",
+        "volcano",
+        "volcano",
+        "volcano"
+      ],
+      "edge_topology": {
+        "N": "dirt/volcano",
+        "E": "volcano/volcano",
+        "S": "volcano/volcano",
+        "W": "dirt/volcano"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtxnw.png"
+    },
+    {
+      "tile": "voldrtxse",
+      "family": "rock_dirt",
+      "shape": "X-corner",
+      "suffix": "XSE",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtxse.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtxse_native.png",
+      "source_bmp_sha256": "4f951cc3a2db8aab3392decd16a5b8df8fbf4e53950b3b6f77a7dc9f8abe2512",
+      "used_cells": 7,
+      "corners_NW_NE_SE_SW": [
+        "volcano",
+        "volcano",
+        "dirt",
+        "volcano"
+      ],
+      "edge_topology": {
+        "N": "volcano/volcano",
+        "E": "volcano/dirt",
+        "S": "volcano/dirt",
+        "W": "volcano/volcano"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtxse.png"
+    },
+    {
+      "tile": "voldrtxsw",
+      "family": "rock_dirt",
+      "shape": "X-corner",
+      "suffix": "XSW",
+      "white": "volcano",
+      "black": "dirt",
+      "mask": "masks/connected_v4/voldrtxsw.png",
+      "authoring_size": [
+        512,
+        512
+      ],
+      "runtime_composite_size": [
+        256,
+        256
+      ],
+      "source": "references/voldrtxsw_native.png",
+      "source_bmp_sha256": "70c7ec358d540bf5981416904460b3e88e1772896f992be7ebf71c25da1cbd7c",
+      "used_cells": 13,
+      "corners_NW_NE_SE_SW": [
+        "volcano",
+        "volcano",
+        "volcano",
+        "dirt"
+      ],
+      "edge_topology": {
+        "N": "volcano/volcano",
+        "E": "volcano/volcano",
+        "S": "dirt/volcano",
+        "W": "volcano/dirt"
+      },
+      "road_openings": [],
+      "status": "generated_connected_v4; see reports for validation",
+      "connected_mask": "masks/connected_v4/voldrtxsw.png"
+    }
+  ]
+}

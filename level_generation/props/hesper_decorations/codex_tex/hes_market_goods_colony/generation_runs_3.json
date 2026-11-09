@@ -1,0 +1,218 @@
+{
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for an existing 3D game prop.\nPaint ONLY the surface of the supplied grey guide, preserving its geometry exactly. Image 1 is the edit target and absolute authority for silhouette, camera, object placement, every shape edge and opening. Image 2 is design_reference.png, the approved authority for materials, colors and surface design only, NEVER for camera or geometry.\nReturn exactly 1024 x 1024 pixels with genuine transparent background, preserving the guide's original size and position in the frame. Do not enlarge, recenter, crop, rotate, change perspective, round off polygonal geometry, add objects, or reveal occluded objects. Keep every guide edge, detail, opening and outline at its original pixel position; nothing outside its silhouette.\nPaint the surface materials of the design reference onto that shape: white and ochre composite crates with black stencils, grey canisters with red and teal caps, a dark woven synthetic basket, pale fungi, blue glowing cells in a steel rack, black cable. Use the reference's worn ivory composite, teal and orange/ochre painted markings, dark metal guards and subtle surface wear. Add no text labels not supplied.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on their surroundings. Preserve material color consistently on all surfaces.\nTarget view: LEFT (guide_left.png). The three broad stacked crate faces dominate the center and right; only the guide's partially visible canister at far left is exposed. Preserve these exact flat side-view shapes and all empty margins. Paint only what is visible in this guide.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604d-e82f-7120-a325-3313d8252379/exec-ddbf225d-7927-45b8-8027-e4685c8ebb6a.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1604d-e82f-7120-a325-3313d8252379/exec-ddbf225d-7927-45b8-8027-e4685c8ebb6a.png",
+      "selected": false,
+      "reason": "Superseded by the single permitted corrective regeneration due to wrong dimensions, silhouette changes and residual shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a2e9ad55f3f04336edf7ccf73ea5ccfcde500b27bf6f0fc7332c21a169a9cb09"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          13,
+          1222,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          166,
+          289,
+          858,
+          735
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Reference ivory, teal, orange, grey and dark metal broadly matched; written brief black stencils/dark basket/red caps not fully matched.",
+        "flat_even_light": "Fail: residual bevel highlights and crevice shading visible.",
+        "unresized": true
+      },
+      "output_sha256": "edf58761b85c2b72045c7dadf7cf51f8706550e1a9eefe244b580198650cbb40"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for an existing 3D game prop.\nPaint ONLY the surface of the supplied grey guide, preserving its geometry exactly. Image 1 is the edit target and absolute authority for silhouette, camera, object placement, every shape edge and opening. Image 2 is design_reference.png, the approved authority for materials, colors and surface design only, NEVER for camera or geometry.\nReturn exactly 1024 x 1024 pixels with genuine transparent background, preserving the guide's original size and position in the frame. Do not enlarge, recenter, crop, rotate, change perspective, round off polygonal geometry, add objects, or reveal occluded objects. Keep every guide edge, detail, opening and outline at its original pixel position; nothing outside its silhouette.\nPaint the surface materials of the design reference onto that shape: white and ochre composite crates with black stencils, grey canisters with red and teal caps, a dark woven synthetic basket, pale fungi, blue glowing cells in a steel rack, black cable. Use the reference's worn ivory composite, teal and orange/ochre painted markings, dark metal guards and subtle surface wear. Add no text labels not supplied.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on their surroundings. Preserve material color consistently on all surfaces.\nTarget view: LEFT (guide_left.png). The three broad stacked crate faces dominate the center and right; only the guide's partially visible canister at far left is exposed. Preserve these exact flat side-view shapes and all empty margins. Paint only what is visible in this guide.\nCORRECTIVE REGENERATION, final allowed attempt: The previous return was incorrectly 1254 x 1254 and changed the silhouette. Output MUST be exactly 1024 x 1024 native pixels. Use the 1024-square grey input as a locked edit canvas. Retain its alpha mask exactly: foreground bounds x=166 through 857, y=289 through 734. ALL pixels outside the guide alpha must be fully transparent, including no faint stray pixels. Do not fit the object into a new composition. Trace the ORIGINAL guide's alpha and EVERY interior geometry edge precisely. Material painting must not reshape the canister, brackets, feet or gaps. Flatten the illumination further: remove bright bevel highlights, dark occlusion gradients and directional shading; keep intrinsic material colors and restrained wear.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604d-e82f-7120-a325-3313d8252379/exec-4a035b23-7193-4e15-bb7a-d8793250582e.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return as the best available attempt; NOT accepted as brief-compliant. Native dimensions and silhouette still fail, and residual lighting remains. Kept unresized as required.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a2e9ad55f3f04336edf7ccf73ea5ccfcde500b27bf6f0fc7332c21a169a9cb09"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1218,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          166,
+          289,
+          858,
+          735
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Reference ivory, teal, orange, grey and dark metal broadly matched; written brief black stencils/dark basket/red caps not fully matched.",
+        "flat_even_light": "Fail: residual bevel highlights and crevice shading visible.",
+        "unresized": true
+      },
+      "output_sha256": "b09c81f58560ad4fa32fafa2a5a67d608c7dee3afabe15bf23addebb31fc5c70"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for an existing 3D game prop.\nPaint ONLY the surface of the supplied grey guide, preserving its geometry exactly. Image 1 is the edit target and absolute authority for silhouette, camera, object placement, every shape edge and opening. Image 2 is design_reference.png, the approved authority for materials, colors and surface design only, NEVER for camera or geometry.\nReturn exactly 1024 x 1024 pixels with genuine transparent background, preserving the guide's original size and position in the frame. Do not enlarge, recenter, crop, rotate, change perspective, round off polygonal geometry, add objects, or reveal occluded objects. Keep every guide edge, detail, opening and outline at its original pixel position; nothing outside its silhouette.\nPaint the surface materials of the design reference onto that shape: white and ochre composite crates with black stencils, grey canisters with red and teal caps, a dark woven synthetic basket, pale fungi, blue glowing cells in a steel rack, black cable. Use the reference's worn ivory composite, teal and orange/ochre painted markings, dark metal guards and subtle surface wear. Add no text labels not supplied.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on their surroundings. Preserve material color consistently on all surfaces.\nTarget view: RIGHT (guide_right.png). Three stacked crate faces in back on the left; basket with angular pale fungus shapes in the center; partly visible black cable at lower left; steel cell rack lower center-right; tall grey canisters on far right. Follow their exact guide geometry, including the angular fungi silhouettes. Paint only what is visible in this guide. The output canvas must be 1024 x 1024, same as image 1, not a larger square.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604d-e82f-7120-a325-3313d8252379/exec-5b5c8165-9adb-44ca-9efb-418065fc61fe.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1604d-e82f-7120-a325-3313d8252379/exec-5b5c8165-9adb-44ca-9efb-418065fc61fe.png",
+      "selected": false,
+      "reason": "Superseded by the single permitted corrective regeneration due to wrong dimensions, silhouette changes and residual shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0b9ce3ba0541f0cb1616308869dbab24f7850bbd9aabfe2641c18314bf91655e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          49,
+          25,
+          1236,
+          1222
+        ],
+        "guide_alpha_bbox": [
+          166,
+          289,
+          858,
+          735
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Reference ivory, teal, orange, grey and dark metal broadly matched; written brief black stencils/dark basket/red caps not fully matched.",
+        "flat_even_light": "Fail: residual bevel highlights and crevice shading visible.",
+        "unresized": true
+      },
+      "output_sha256": "0b6be5bf76e6ef1d965c537e0be74a526fb38b430f9c1f7a9c9d23ed36f3f3ce"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture source for an existing 3D game prop.\nPaint ONLY the surface of the supplied grey guide, preserving its geometry exactly. Image 1 is the edit target and absolute authority for silhouette, camera, object placement, every shape edge and opening. Image 2 is design_reference.png, the approved authority for materials, colors and surface design only, NEVER for camera or geometry.\nReturn exactly 1024 x 1024 pixels with genuine transparent background, preserving the guide's original size and position in the frame. Do not enlarge, recenter, crop, rotate, change perspective, round off polygonal geometry, add objects, or reveal occluded objects. Keep every guide edge, detail, opening and outline at its original pixel position; nothing outside its silhouette.\nPaint the surface materials of the design reference onto that shape: white and ochre composite crates with black stencils, grey canisters with red and teal caps, a dark woven synthetic basket, pale fungi, blue glowing cells in a steel rack, black cable. Use the reference's worn ivory composite, teal and orange/ochre painted markings, dark metal guards and subtle surface wear. Add no text labels not supplied.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on their surroundings. Preserve material color consistently on all surfaces.\nTarget view: RIGHT (guide_right.png). Three stacked crate faces in back on the left; basket with angular pale fungus shapes in the center; partly visible black cable at lower left; steel cell rack lower center-right; tall grey canisters on far right. Follow their exact guide geometry, including the angular fungi silhouettes. Paint only what is visible in this guide. The output canvas must be 1024 x 1024, same as image 1, not a larger square.\nCORRECTIVE REGENERATION, final allowed attempt: The previous return was incorrectly 1254 x 1254 and changed the silhouette. Output MUST be exactly 1024 x 1024 native pixels. Use the 1024-square grey input as a locked edit canvas. Retain its alpha mask exactly: foreground bounds x=166 through 857, y=289 through 734. ALL pixels outside the guide alpha must be fully transparent, including no faint stray pixels. Do not fit the object into a new composition. Trace the ORIGINAL guide's alpha and EVERY interior geometry edge precisely. Material painting must not reshape the canisters, brackets, feet, fungi, cable, rack or gaps. Flatten the illumination further: remove bright bevel highlights, dark occlusion gradients and directional shading; keep intrinsic material colors and restrained wear.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604d-e82f-7120-a325-3313d8252379/exec-23a65c1e-ef4f-43ed-85b4-ef919d3fc3c9.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return as the best available attempt; NOT accepted as brief-compliant. Native dimensions and silhouette still fail, and residual lighting remains. Kept unresized as required.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0b9ce3ba0541f0cb1616308869dbab24f7850bbd9aabfe2641c18314bf91655e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "df29359064f29c181b875658aa445cd66c3d798a736c9e5143e0b2f387a2b8aa"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          17,
+          35,
+          1232,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          166,
+          289,
+          858,
+          735
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Reference ivory, teal, orange, grey and dark metal broadly matched; written brief black stencils/dark basket/red caps not fully matched.",
+        "flat_even_light": "Fail: residual bevel highlights and crevice shading visible.",
+        "unresized": true
+      },
+      "output_sha256": "bfcef6a01538fbe1701bee739397671607f4ed3daed86c1bc29cf7bd9a79f38c"
+    }
+  ],
+  "tool": "built-in image_gen",
+  "status": "Incomplete: saved best available unresized returns; native 1024x1024, exact silhouette and flat-albedo requirements were not achieved within the permitted attempts."
+}

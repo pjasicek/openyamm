@@ -1,0 +1,301 @@
+{
+  "family": "mcac",
+  "title": "MM6 Cactus",
+  "descriptor_ids": [
+    649
+  ],
+  "descriptor_alias_ids": [
+    650,
+    651
+  ],
+  "base_palette": 955,
+  "mask_kind": "blue",
+  "description": "Native MM6 Cactus actor: dense rounded irregular ball of radial stiff pointed leaves/spines, muted mottled olive-green and pale gray-green, dark nearly black central seam and deep occlusion between densely layered spikes. Follow original turn/expansion/folding in each frame, with exact uneven outer tips and shape. No face, eyes, limbs, pot, trunk, flowers, rocks, ground or new silhouette. Keep the original small pre-rendered fantasy plant appearance; do not turn it into a botanical photograph or a smooth ball.",
+  "regions": "Single native palette; preserve all materials.",
+  "variant_names": {
+    "955": "Cactus A/B/C shared native art"
+  },
+  "material_mask_channels": 1,
+  "material_module": "materials.py",
+  "matte": "magenta",
+  "inventory_file": "inventory.json",
+  "standing_reference_frame": 0,
+  "batch_distinct_standing": true,
+  "extra_palette_paths": {
+    "955": "assets_dev/engine/terrain/pal955.act"
+  },
+  "extra_sources": {
+    "mcacfh0": {
+      "path": "assets_dev/engine/sprites/mCACfh0.bmp"
+    },
+    "mcacwa0": {
+      "path": "assets_dev/engine/sprites/mCACwa0.bmp"
+    },
+    "mcacfn0": {
+      "path": "assets_dev/engine/sprites/mCACfn0.bmp"
+    },
+    "mcacae0": {
+      "path": "assets_dev/engine/sprites/mCACae0.bmp"
+    },
+    "mcacsl0": {
+      "path": "assets_dev/engine/sprites/mCACsl0.bmp"
+    },
+    "mcacsq0": {
+      "path": "assets_dev/engine/sprites/mCACsq0.bmp"
+    },
+    "mcacah0": {
+      "path": "assets_dev/engine/sprites/mCACah0.bmp"
+    },
+    "mcacda0": {
+      "path": "assets_dev/engine/sprites/mCACda0.bmp"
+    },
+    "mcacdi0": {
+      "path": "assets_dev/engine/sprites/mCACdi0.bmp"
+    },
+    "mcacdh0": {
+      "path": "assets_dev/engine/sprites/mCACdh0.bmp"
+    },
+    "mcacsr0": {
+      "path": "assets_dev/engine/sprites/mCACsr0.bmp"
+    },
+    "mcacau0": {
+      "path": "assets_dev/engine/sprites/mCACau0.bmp"
+    },
+    "mcacdk0": {
+      "path": "assets_dev/engine/sprites/mCACdk0.bmp"
+    },
+    "mcacwm0": {
+      "path": "assets_dev/engine/sprites/mCACwm0.bmp"
+    },
+    "mcacfl0": {
+      "path": "assets_dev/engine/sprites/mCACfl0.bmp"
+    },
+    "mcacsm0": {
+      "path": "assets_dev/engine/sprites/mCACsm0.bmp"
+    },
+    "mcacde0": {
+      "path": "assets_dev/engine/sprites/mCACde0.bmp"
+    },
+    "mcacfg0": {
+      "path": "assets_dev/engine/sprites/mCACfg0.bmp"
+    },
+    "mcacfb0": {
+      "path": "assets_dev/engine/sprites/mCACfb0.bmp"
+    },
+    "mcacsh0": {
+      "path": "assets_dev/engine/sprites/mCACsh0.bmp"
+    },
+    "mcacdf0": {
+      "path": "assets_dev/engine/sprites/mCACdf0.bmp"
+    },
+    "mcacaf0": {
+      "path": "assets_dev/engine/sprites/mCACaf0.bmp"
+    },
+    "mcacab0": {
+      "path": "assets_dev/engine/sprites/mCACab0.bmp"
+    },
+    "mcacfm0": {
+      "path": "assets_dev/engine/sprites/mCACfm0.bmp"
+    },
+    "mcacwr0": {
+      "path": "assets_dev/engine/sprites/mCACwr0.bmp"
+    },
+    "mcacza0": {
+      "path": "assets_dev/engine/sprites/mCACza0.bmp"
+    },
+    "mcacac0": {
+      "path": "assets_dev/engine/sprites/mCACac0.bmp"
+    },
+    "mcacsk0": {
+      "path": "assets_dev/engine/sprites/mCACsk0.bmp"
+    },
+    "mcacdb0": {
+      "path": "assets_dev/engine/sprites/mCACdb0.bmp"
+    },
+    "mcacwb0": {
+      "path": "assets_dev/engine/sprites/mCACwb0.bmp"
+    },
+    "mcacse0": {
+      "path": "assets_dev/engine/sprites/mCACse0.bmp"
+    },
+    "mcacfd0": {
+      "path": "assets_dev/engine/sprites/mCACfd0.bmp"
+    },
+    "mcacwq0": {
+      "path": "assets_dev/engine/sprites/mCACwq0.bmp"
+    },
+    "mcacap0": {
+      "path": "assets_dev/engine/sprites/mCACap0.bmp"
+    },
+    "mcacat0": {
+      "path": "assets_dev/engine/sprites/mCACat0.bmp"
+    },
+    "mcacsf0": {
+      "path": "assets_dev/engine/sprites/mCACsf0.bmp"
+    },
+    "mcacdd0": {
+      "path": "assets_dev/engine/sprites/mCACdd0.bmp"
+    },
+    "mcacdj0": {
+      "path": "assets_dev/engine/sprites/mCACdj0.bmp"
+    },
+    "mcacwp0": {
+      "path": "assets_dev/engine/sprites/mCACwp0.bmp"
+    },
+    "mcacdm0": {
+      "path": "assets_dev/engine/sprites/mCACdm0.bmp"
+    },
+    "mcacff0": {
+      "path": "assets_dev/engine/sprites/mCACff0.bmp"
+    },
+    "mcacwg0": {
+      "path": "assets_dev/engine/sprites/mCACwg0.bmp"
+    },
+    "mcacdg0": {
+      "path": "assets_dev/engine/sprites/mCACdg0.bmp"
+    },
+    "mcacfp0": {
+      "path": "assets_dev/engine/sprites/mCACfp0.bmp"
+    },
+    "mcacsb0": {
+      "path": "assets_dev/engine/sprites/mCACsb0.bmp"
+    },
+    "mcacfi0": {
+      "path": "assets_dev/engine/sprites/mCACfi0.bmp"
+    },
+    "mcacwe0": {
+      "path": "assets_dev/engine/sprites/mCACwe0.bmp"
+    },
+    "mcacwd0": {
+      "path": "assets_dev/engine/sprites/mCACwd0.bmp"
+    },
+    "mcacfk0": {
+      "path": "assets_dev/engine/sprites/mCACfk0.bmp"
+    },
+    "mcacwh0": {
+      "path": "assets_dev/engine/sprites/mCACwh0.bmp"
+    },
+    "mcacsi0": {
+      "path": "assets_dev/engine/sprites/mCACsi0.bmp"
+    },
+    "mcacdc0": {
+      "path": "assets_dev/engine/sprites/mCACdc0.bmp"
+    },
+    "mcacal0": {
+      "path": "assets_dev/engine/sprites/mCACal0.bmp"
+    },
+    "mcacwn0": {
+      "path": "assets_dev/engine/sprites/mCACwn0.bmp"
+    },
+    "mcacsg0": {
+      "path": "assets_dev/engine/sprites/mCACsg0.bmp"
+    },
+    "mcacsp0": {
+      "path": "assets_dev/engine/sprites/mCACsp0.bmp"
+    },
+    "mcacdq0": {
+      "path": "assets_dev/engine/sprites/mCACdq0.bmp"
+    },
+    "mcacsc0": {
+      "path": "assets_dev/engine/sprites/mCACsc0.bmp"
+    },
+    "mcacaa0": {
+      "path": "assets_dev/engine/sprites/mCACaa0.bmp"
+    },
+    "mcacdl0": {
+      "path": "assets_dev/engine/sprites/mCACdl0.bmp"
+    },
+    "mcacad0": {
+      "path": "assets_dev/engine/sprites/mCACad0.bmp"
+    },
+    "mcacas0": {
+      "path": "assets_dev/engine/sprites/mCACas0.bmp"
+    },
+    "mcacak0": {
+      "path": "assets_dev/engine/sprites/mCACak0.bmp"
+    },
+    "mcacsn0": {
+      "path": "assets_dev/engine/sprites/mCACsn0.bmp"
+    },
+    "mcacsa0": {
+      "path": "assets_dev/engine/sprites/mCACsa0.bmp"
+    },
+    "mcacan0": {
+      "path": "assets_dev/engine/sprites/mCACan0.bmp"
+    },
+    "mcacwf0": {
+      "path": "assets_dev/engine/sprites/mCACwf0.bmp"
+    },
+    "mcacfa0": {
+      "path": "assets_dev/engine/sprites/mCACfa0.bmp"
+    },
+    "mcacfj0": {
+      "path": "assets_dev/engine/sprites/mCACfj0.bmp"
+    },
+    "mcacaq0": {
+      "path": "assets_dev/engine/sprites/mCACaq0.bmp"
+    },
+    "mcacam0": {
+      "path": "assets_dev/engine/sprites/mCACam0.bmp"
+    },
+    "mcacwj0": {
+      "path": "assets_dev/engine/sprites/mCACwj0.bmp"
+    },
+    "mcacai0": {
+      "path": "assets_dev/engine/sprites/mCACai0.bmp"
+    },
+    "mcacfc0": {
+      "path": "assets_dev/engine/sprites/mCACfc0.bmp"
+    },
+    "mcacsj0": {
+      "path": "assets_dev/engine/sprites/mCACsj0.bmp"
+    },
+    "mcacwc0": {
+      "path": "assets_dev/engine/sprites/mCACwc0.bmp"
+    },
+    "mcacaj0": {
+      "path": "assets_dev/engine/sprites/mCACaj0.bmp"
+    },
+    "mcacfr0": {
+      "path": "assets_dev/engine/sprites/mCACfr0.bmp"
+    },
+    "mcacdr0": {
+      "path": "assets_dev/engine/sprites/mCACdr0.bmp"
+    },
+    "mcacdp0": {
+      "path": "assets_dev/engine/sprites/mCACdp0.bmp"
+    },
+    "mcacwl0": {
+      "path": "assets_dev/engine/sprites/mCACwl0.bmp"
+    },
+    "mcacsd0": {
+      "path": "assets_dev/engine/sprites/mCACsd0.bmp"
+    },
+    "mcacdn0": {
+      "path": "assets_dev/engine/sprites/mCACdn0.bmp"
+    },
+    "mcacwi0": {
+      "path": "assets_dev/engine/sprites/mCACwi0.bmp"
+    },
+    "mcacag0": {
+      "path": "assets_dev/engine/sprites/mCACag0.bmp"
+    },
+    "mcacfq0": {
+      "path": "assets_dev/engine/sprites/mCACfq0.bmp"
+    },
+    "mcacwk0": {
+      "path": "assets_dev/engine/sprites/mCACwk0.bmp"
+    },
+    "mcacar0": {
+      "path": "assets_dev/engine/sprites/mCACar0.bmp"
+    },
+    "mcacfe0": {
+      "path": "assets_dev/engine/sprites/mCACfe0.bmp"
+    }
+  },
+  "native_particle_endpoints": [
+    "mcacdm0",
+    "mcacdn0",
+    "mcacdp0"
+  ]
+}

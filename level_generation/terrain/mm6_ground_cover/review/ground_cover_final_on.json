@@ -1,0 +1,36 @@
+{
+  "name": "ground_cover_final_on",
+  "world": "mm6",
+  "map": "oute3.odm",
+  "pose": [
+    -10000.0,
+    -12200.0,
+    161.0,
+    0.0,
+    -0.35
+  ],
+  "screenshot": "ground_cover_final_on.png",
+  "look_left": 0,
+  "look_down": 0,
+  "diagnostic_flying": false,
+  "warmup_seconds": 1.0,
+  "actions": "level_generation/terrain/mm6_ground_cover/review/walk.json",
+  "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+  "performance_sample": true,
+  "display": ":105",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "vsync": false,
+  "measurement_seconds": 2.0,
+  "fps_samples": [
+    37.6396,
+    37.9903
+  ],
+  "median_fps": 37.814949999999996,
+  "binary_sha256": "6b5b571507f81ed06e07065ba43ce01539b0484b442a1e74206d7b1e90faa037",
+  "settings_sha256": "f7bf2a00b5d80b7fd1d48ef7c90e06cdce9a1508e3f22456714a74d327130a69",
+  "native_sha256": "5d1060787490c4bb04ea9c544d37a521cf0d1f36ecafb708c65e05b0d0247725",
+  "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+}

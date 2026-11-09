@@ -1,0 +1,115 @@
+{
+ "sprite": "tree11",
+ "note": "250 placements (Murmurwoods 136, Alvar 58, Ravenshore 56). Tall dense oval crown of mid-green maple sprays from a quarter of the height, thick straight dark trunk.",
+ "sapling": {
+  "scale": 9.6,
+  "ratio": 0.064,
+  "baseSize": 0.25,
+  "branches": [
+   0,
+   42,
+   12,
+   6
+  ],
+  "length": [
+   1.0,
+   0.4,
+   0.35,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   60,
+   40,
+   45
+  ],
+  "downAngleV": [
+   0,
+   20,
+   10,
+   10
+  ],
+  "attractUp": [
+   0,
+   0.3,
+   0.3,
+   0
+  ],
+  "curve": [
+   0,
+   -10,
+   0,
+   0
+  ],
+  "shape": "4",
+  "seed": 11,
+  "segSplits": [
+   0,
+   0.15,
+   0.25,
+   0
+  ],
+  "splitAngle": [
+   20,
+   15,
+   15,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.25,
+  "centre": 0.58,
+  "clumps": 115,
+  "underside": 0.38,
+  "low_keep": 0.7,
+  "flatten": 0.7,
+  "card_up": 0.3,
+  "gen_cards": 1831,
+  "keep": 0.414
+ },
+ "occlusion": {
+  "floor": 0.1,
+  "range": 0.9,
+  "power": 1.1,
+  "hue": [
+   1.3,
+   1.0,
+   0.95
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   188,
+   226,
+   73
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   104,
+   96,
+   84
+  ],
+  "root_reach": 0.15
+ },
+ "lod": {
+  "lod2_card_scale": 0.935,
+  "grow": [
+   1.0,
+   1.3,
+   1.6
+  ],
+  "card_frac": [
+   1.0,
+   0.9,
+   1.0
+  ],
+  "lod2_vertical": 2,
+  "lod2_capacity": 0.85,
+  "tone": [
+   1.0,
+   0.941,
+   1.451
+  ]
+ }
+}

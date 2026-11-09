@@ -1,0 +1,760 @@
+# Native mechanics, collision and Brood Spires round-trip checks.
+id: hesper.d11.seedship_sabotage
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d11.blv
+    party:
+      gold: 0
+      food: 200
+      members:
+      - name: Unsealed
+        class: Knight
+        level: 2000
+        endurance: 500
+        skills: []
+        equipment: {}
+      - name: Sealed
+        class: Knight
+        level: 2000
+        endurance: 500
+        skills: []
+        equipment:
+          helm: 11106
+- setup_shortcut:
+    kind: set_qbit
+    id: 100213
+- save_game: d11_given
+- load_game: d11_given
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      value: 10185
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 1
+      value: 10185
+- movement_segment:
+    start: &id001
+      map: hes_d11.blv
+      x: 1800
+      y: 4500
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop: *id001
+    seconds: 3.2
+    input: none
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 1.6
+    tolerance_xy: 16
+    tolerance_z: 16
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      max: 10184
+      min: 10089
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 1
+      value: 10185
+- set_pose:
+    map: hes_d11.blv
+    x: 1800
+    y: 4500
+    z: 0
+    yaw: 0
+    pitch: 0
+- damage_actor:
+    actor_index: 22
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 22
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 1.1
+- assert:
+    state_dump_map_var:
+      index: 11
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 84
+      monster_id: 10003
+      dead: false
+- save_game: d11_ganglion_1
+- damage_actor:
+    actor_index: 23
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 23
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 1.1
+- assert:
+    state_dump_map_var:
+      index: 12
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 88
+      monster_id: 10003
+      dead: false
+- save_game: d11_ganglion_2
+- damage_actor:
+    actor_index: 24
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 24
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 1.1
+- assert:
+    state_dump_map_var:
+      index: 13
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 92
+      monster_id: 10003
+      dead: false
+- save_game: d11_ganglion_3
+- damage_actor:
+    actor_index: 25
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 25
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 1.1
+- assert:
+    state_dump_map_var:
+      index: 14
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 96
+      monster_id: 10003
+      dead: false
+- save_game: d11_ganglion_4
+- assert:
+    qbit_set:
+    - 100013
+    qbit_clear:
+    - 100213
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 53
+        state: open
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 54
+        state: open
+- save_game: d11_blind
+- load_game: d11_blind
+- assert:
+    qbit_set:
+    - 100013
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 53
+        state: open
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 3280
+      y: 1850
+      z: 64
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 3280
+      y: 3796
+      z: 1280
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 8
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 320
+      y: 6900
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 320
+      y: 9764
+      z: 1280
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 6
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 3280
+      y: 6900
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 3280
+      y: 9764
+      z: 1280
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 6
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 1000
+      y: 9740
+      z: 1280
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 1000
+      y: 7564
+      z: 2560
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 5
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 750
+      y: 8200
+      z: 2560
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 36
+      y: 8200
+      z: 2560
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 1.2
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 520
+      y: 8100
+      z: 2560
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 520
+      y: 3492
+      z: 2560
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 6
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- set_pose:
+    map: hes_d11.blv
+    x: 472
+    y: 3500
+    z: 2560
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 220
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 220
+        state: open
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 472
+      y: 3400
+      z: 2560
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 472
+      y: 3246
+      z: 2560
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.2
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- assert:
+    input_prompt:
+      active: true
+# Lord Vhorrax's voiced first sight with D5 skipped (BOSS_LINES.md): the terms event plays it and sets QBit 100540.
+- assert:
+    qbit_set:
+    - 100540
+- answer_input:
+    text: Accept
+- assert:
+    qbit_set:
+    - 100029
+    qbit_clear:
+    - 100030
+- assert:
+    actor_visible:
+      actor_index: 79
+      monster_id: 10106
+      dead: false
+- damage_actor:
+    actor_index: 79
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 79
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 1.1
+- assert:
+    qbit_set:
+    - 100031
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 51
+        state: open
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 52
+        state: open
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 552
+        state: open
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      min: 1
+- set_pose:
+    map: hes_d11.blv
+    x: 1800
+    y: 1315
+    z: 2560
+    yaw: 1.5707963267948966
+    pitch: -0.65
+- press_interact: {}
+- assert:
+    runtime_event_variable:
+      id: 752353297
+      value: 1
+    note: Native event inventory count for item 11480, put in the pack when the next item came to the hand.
+- assert:
+    runtime_event_variable:
+      id: 742653969
+      value: 1
+    note: Native event inventory count for item 11332, likewise.
+- assert:
+    held_item: {active: true, item_id: 11482}
+    note: The last of the three stays in the hand (scenarios hand GiveItem items over as the game does).
+- assert:
+    gold: 50000
+- press_interact: {}
+- assert:
+    gold: 50000
+- assert:
+    state_dump_map_var:
+      index: 16
+      value: 1
+- set_pose:
+    map: hes_d11.blv
+    x: 1800
+    y: 10215
+    z: 1280
+    yaw: 1.5707963267948966
+    pitch: -0.65
+- press_interact: {}
+- assert:
+    runtime_event_variable:
+      id: 748486673
+      value: 1
+    note: Native event inventory count for item 11421, put in the pack when the next item came to the hand.
+- assert:
+    runtime_event_variable:
+      id: 742588433
+      value: 2
+    note: Native event inventory count for item 11331, put in the pack when the next item came to the hand.
+- assert:
+    held_item: {active: true, item_id: 11377}
+    note: The event's last item stays in the hand (scenarios hand GiveItem items over as the game does).
+- assert:
+    state_dump_map_var:
+      index: 15
+      value: 1
+- press_interact: {}
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 2950
+      y: 1450
+      z: 2560
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 36
+      y: 1450
+      z: 1280
+      yaw: 3.141592653589793
+      pitch: 0
+    seconds: 4.5
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 1800
+      y: 1190
+      z: 1308
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 1800
+      y: 864
+      z: 1480
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.45
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- set_pose:
+    map: hes_d11.blv
+    x: 1800
+    y: 785
+    z: 1480
+    yaw: -1.5707963267948966
+    pitch: -0.65
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- assert:
+    item_visible:
+      item_id: 11331
+      source: chest
+      chest_id: 0
+- assert:
+    item_visible:
+      item_id: 11213
+      source: chest
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- save_game: d11_before_hatch
+- set_pose:
+    map: hes_d11.blv
+    x: 1800
+    y: 500
+    z: 1280
+    yaw: -1.5707963267948966
+    pitch: -0.6
+- press_interact:
+    expect:
+      triggered_event: 223
+- assert:
+    map: hes_d11.blv
+- save_game: d11_after_hatch
+- set_pose:
+    map: hes_d11.blv
+    x: 250
+    y: 2800
+    z: 0
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 50
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: hes_out3.odm
+- save_game: d11_outdoor_return
+- set_pose:
+    map: hes_out3.odm
+    x: 7723
+    y: 10991
+    z: 1909
+    yaw: 6.03883921190038
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 52
+- assert:
+    map: hes_d11.blv
+    qbit_set:
+    - 100013
+    - 100029
+    - 100031
+    qbit_clear:
+    - 100213
+    - 100030
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 52
+        state: open
+- save_game: d11_honour_complete
+- new_game_flow:
+    start_map: hes_d11.blv
+    party:
+      gold: 0
+      food: 200
+      members:
+      - name: Unsealed
+        class: Knight
+        level: 2000
+        endurance: 500
+        skills: []
+        equipment: {}
+      - name: Sealed
+        class: Knight
+        level: 2000
+        endurance: 500
+        skills: []
+        equipment:
+          helm: 11106
+- set_pose:
+    map: hes_d11.blv
+    x: 3128
+    y: 3500
+    z: 2560
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact:
+    expect:
+      triggered_event: 221
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 221
+        state: open
+- movement_segment:
+    start:
+      map: hes_d11.blv
+      x: 3128
+      y: 3400
+      z: 2560
+      yaw: -1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d11.blv
+      x: 3128
+      y: 3246
+      z: 2560
+      yaw: -1.5707963267948966
+      pitch: 0
+    seconds: 0.2
+    input: forward
+    actor_ai: false
+    actor_collision: false
+    delta_game_minutes: 0
+    tolerance_xy: 16
+    tolerance_z: 16
+- answer_input:
+    text: Refuse
+- assert:
+    qbit_set:
+    - 100030
+    qbit_clear:
+    - 100029
+- assert:
+    actor_visible:
+      actor_index: 80
+      monster_id: 10106
+      dead: false
+- set_pose:
+    map: hes_d11.blv
+    x: 3128
+    y: 3400
+    z: 2560
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 30.5
+- assert:
+    actor_visible:
+      actor_index: last
+      monster_id: 10031
+      dead: false
+- damage_actor:
+    actor_index: 80
+    amount: 100000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 80
+    amount: 100000
+    tier: kreegan_energy
+- advance_runtime:
+    seconds: 1.1
+- assert:
+    qbit_set:
+    - 100031
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 51
+        state: open
+- wait_until:
+    timeout_runtime_seconds: 2
+    assert:
+      mechanism:
+        kind: indoor_door
+        id: 52
+        state: open
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      min: 1
+- set_pose:
+    map: hes_d11.blv
+    x: 1800
+    y: 1315
+    z: 2560
+    yaw: 1.5707963267948966
+    pitch: -0.65
+- press_interact: {}
+- assert:
+    gold: 0
+- assert:
+    runtime_event_variable:
+      id: 752353297
+      value: 1
+    note: Native event inventory count for item 11480, put in the pack when the next item came to the hand.
+- assert:
+    runtime_event_variable:
+      id: 742653969
+      value: 1
+    note: Native event inventory count for item 11332, likewise.
+- assert:
+    held_item: {active: true, item_id: 11482}
+    note: The last of the three stays in the hand (scenarios hand GiveItem items over as the game does).
+- set_pose:
+    map: hes_d11.blv
+    x: 1800
+    y: 10215
+    z: 1280
+    yaw: 1.5707963267948966
+    pitch: -0.65
+- press_interact: {}
+- assert:
+    runtime_event_variable:
+      id: 742653969
+      value: 2
+    note: Native event inventory count for item 11332, this one and the first locker's, both in the pack.
+- assert:
+    runtime_event_variable:
+      id: 742588433
+      value: 2
+    note: Native event inventory count for item 11331, put in the pack when the next item came to the hand.
+- assert:
+    held_item: {active: true, item_id: 11377}
+    note: The event's last item stays in the hand (scenarios hand GiveItem items over as the game does).
+- save_game: d11_refused_complete

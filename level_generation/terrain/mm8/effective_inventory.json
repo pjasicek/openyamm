@@ -1,0 +1,1936 @@
+{
+  "scope": "14 mounted MM8 outdoor maps including full scenes and ordered world/engine scene overlays",
+  "source_inventory_sha256": "deb5a662a158682fc155fc25f2d86dda2688ccfe56da4868aa6fe33e1d65fe76",
+  "table_sha256": "39beb3bb4c1f91e5e32ee491677b49325579cadfcbe52a34b13a019e4fce253b",
+  "maps": [
+    {
+      "id": "elema",
+      "master_tile": 0,
+      "lookup": [
+        342,
+        126,
+        162,
+        414
+      ],
+      "tiles": {
+        "rktyl": 16120,
+        "rkxse": 1,
+        "rks": 1,
+        "rkxsw": 1,
+        "rke": 1,
+        "drsrcros": 1,
+        "rkw": 1,
+        "rkxne": 1,
+        "rkn": 1,
+        "rkxnw": 1
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/elema.odm": "359c0cb0854bde3a04946263421624326698e4f89328ea4ad44b070fd17bad06",
+        "assets_dev/worlds/mm8/maps/elema.scene.yml": "f2d75a9a40a6153beb28a5382337556ec28edd36e91a0fc5b5707331d9126f9f"
+      }
+    },
+    {
+      "id": "elemf",
+      "master_tile": 0,
+      "lookup": [
+        198,
+        378,
+        198,
+        414
+      ],
+      "tiles": {
+        "lavtyl": 11937,
+        "lvdrxse": 62,
+        "lvdrs": 233,
+        "lvdrxsw": 50,
+        "lvdrse": 73,
+        "volnw": 65,
+        "voln": 254,
+        "volne": 50,
+        "lvdrsw": 60,
+        "volxnw": 76,
+        "voltyl": 1388,
+        "voltylx": 72,
+        "volxne": 61,
+        "lvdre": 175,
+        "lvdrw": 185,
+        "volw": 198,
+        "vole": 208,
+        "volxse": 70,
+        "volxsw": 63,
+        "vols": 262,
+        "volsw": 51,
+        "volse": 56,
+        "lvdrnw": 69,
+        "lvdrn": 237,
+        "lvdrne": 62,
+        "lvdrxne": 51,
+        "lvdrxnw": 57,
+        "dirttyl": 3,
+        "dirt1": 1
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/elemf.odm": "1712bd2317b23fcc7cc62da9f4d323a408052d189544e60b5753a74a33412150",
+        "assets_dev/worlds/mm8/maps/elemf.scene.yml": "19aefb5323e84ec0a1b81ecfab106fd8d11bb1c1908b2849f9df2c96c7b7d01a"
+      }
+    },
+    {
+      "id": "elemw",
+      "master_tile": 1,
+      "lookup": [
+        234,
+        234,
+        162,
+        414
+      ],
+      "tiles": {
+        "dirttyl": 16129
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/elemw.odm": "689a3661d6430096155f4bb51a4aede022ea1dfe7009916ab184ceb4f8dbc662",
+        "assets_dev/worlds/mm8/maps/elemw.scene.yml": "f98eab430f0675a3d2cf1ac61dc48f0c4584416259c9125adaf8bd680ebbbc30"
+      }
+    },
+    {
+      "id": "out01",
+      "master_tile": 0,
+      "lookup": [
+        198,
+        126,
+        90,
+        414
+      ],
+      "tiles": {
+        "wtrtyl": 11280,
+        "wtrdrxse": 100,
+        "wtrdrs": 118,
+        "wtrdrxsw": 79,
+        "wtrdrse": 89,
+        "grdrtnw": 100,
+        "grdrtn": 128,
+        "grdrtne": 76,
+        "wtrdrsw": 69,
+        "wtrdre": 147,
+        "wtrdrw": 135,
+        "grdrtxnw": 95,
+        "grdrtxse": 89,
+        "grdrts": 142,
+        "grdrtxne": 73,
+        "grdrtw": 146,
+        "grdrtse": 92,
+        "grdrtsw": 70,
+        "grdrtxsw": 67,
+        "grdrte": 142,
+        "grastyl": 1309,
+        "wtrdrnw": 85,
+        "wtrdrxnw": 95,
+        "wtrdrxne": 70,
+        "wtrdrne": 60,
+        "wtrdrn": 130,
+        "grastyl2": 72,
+        "dirttyl": 346,
+        "dirt2": 19,
+        "drsrncap": 2,
+        "drsrn_e": 4,
+        "drsrew": 44,
+        "drsrs_w": 3,
+        "dirt1": 8,
+        "drsrns": 38,
+        "drsrs_e": 3,
+        "drsrne1": 10,
+        "drsrnw1": 2,
+        "drsrns_w": 2,
+        "drsrne2": 10,
+        "drsrnw2": 2,
+        "drsrn_w": 2,
+        "drsrew_n": 2,
+        "drsrns_e": 1,
+        "drsrecap": 1,
+        "drsrcros": 2,
+        "volnw": 22,
+        "volne": 27,
+        "volsw": 24,
+        "volse": 22,
+        "volw": 21,
+        "vole": 17,
+        "volxne": 15,
+        "volxnw": 10,
+        "volxse": 9,
+        "vols": 22,
+        "voln": 20,
+        "voltyl": 345,
+        "voltylx": 5,
+        "volxsw": 11
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out01.odm": "083a2efc4b859eaed03535bc93e6d66a80737ffac86065a6fd0169688f0045e4",
+        "assets_dev/worlds/mm8/maps/out01.scene.yml": "b12ec673425135f3613f6f85ea24575055dae6783fa707c5d4edb6ea67dc8093"
+      }
+    },
+    {
+      "id": "out02",
+      "master_tile": 0,
+      "lookup": [
+        90,
+        126,
+        342,
+        414
+      ],
+      "tiles": {
+        "grastyl": 6127,
+        "grdrte": 214,
+        "rkw": 148,
+        "rktyl": 869,
+        "rke": 156,
+        "grdrtw": 230,
+        "wtrdrsw": 31,
+        "wtrdrxsw": 30,
+        "wtrtyl": 4063,
+        "wtrdrxse": 24,
+        "wtrdrse": 25,
+        "drsrncap": 5,
+        "grastyl2": 327,
+        "grdrtxse": 93,
+        "grdrtse": 99,
+        "grdrtne": 94,
+        "wtrdrw": 55,
+        "wtrdre": 53,
+        "grdrtnw": 76,
+        "grdrtxnw": 68,
+        "drsrns": 136,
+        "rknw": 38,
+        "rkxnw": 37,
+        "rkxse": 35,
+        "rkse": 36,
+        "wtrdrnw": 46,
+        "wtrdrxnw": 46,
+        "grdrtsw": 118,
+        "grdrtxsw": 121,
+        "grdrts": 203,
+        "rksw": 60,
+        "rkxsw": 65,
+        "rkxne": 52,
+        "rkne": 50,
+        "rkn": 124,
+        "grdrtxne": 83,
+        "rktylx": 27,
+        "wtrdrn": 96,
+        "wtrdrne": 71,
+        "wtrdrxne": 71,
+        "drsrnw1": 31,
+        "drsrnw2": 32,
+        "rks": 126,
+        "dirttyl": 1065,
+        "grdrtn": 141,
+        "wtrdrs": 36,
+        "drsrew": 182,
+        "drsrne1": 31,
+        "drsrne2": 29,
+        "drsrn_e": 10,
+        "drsrn_w": 6,
+        "drsrs_w": 5,
+        "drsrew_s": 8,
+        "dirt2": 53,
+        "drsrscap": 4,
+        "drsrecap": 1,
+        "drsrwcap": 4,
+        "dirt1": 37,
+        "drsrs_e": 5,
+        "drsrns_e": 7,
+        "drsrew_n": 4,
+        "drsrns_w": 10
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out02.odm": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+        "assets_dev/worlds/mm8/maps/out02.scene.yml": "0d0a2756427354fdd3f9d528f24ce0a71f0d4e90c9542543b776d57d335488b1",
+        "assets_dev/worlds/mm8/maps/out02_1.scene.yml": "3a009cdd3189af1638177d33f836e669b749465fcb7e8d451c16a0a364567f05"
+      }
+    },
+    {
+      "id": "out03",
+      "master_tile": 0,
+      "lookup": [
+        90,
+        126,
+        342,
+        414
+      ],
+      "tiles": {
+        "grastyl": 7870,
+        "grastyl2": 122,
+        "grdrtxse": 117,
+        "grdrts": 296,
+        "grdrtxsw": 70,
+        "grdrtse": 134,
+        "wtrdrnw": 60,
+        "wtrdrn": 103,
+        "wtrdrne": 44,
+        "grdrtsw": 90,
+        "wtrdrxnw": 59,
+        "wtrtyl": 1138,
+        "wtrdrxne": 43,
+        "grdrte": 162,
+        "wtrdrw": 59,
+        "wtrdre": 62,
+        "wtrdrsw": 49,
+        "wtrdrxsw": 48,
+        "grdrtxne": 61,
+        "grdrtne": 82,
+        "rknw": 96,
+        "rkn": 208,
+        "rkne": 85,
+        "grdrtw": 132,
+        "rkxnw": 96,
+        "rktyl": 1778,
+        "rke": 105,
+        "rkxne": 83,
+        "rkxse": 103,
+        "rks": 216,
+        "rkxsw": 81,
+        "rkw": 119,
+        "rktylx": 7,
+        "rkse": 92,
+        "dirttyl": 868,
+        "dirt1": 36,
+        "dirt2": 34,
+        "rksw": 79,
+        "drsrs_e": 9,
+        "drsrew": 214,
+        "drsrew_s": 4,
+        "drsrs_w": 3,
+        "drsrecap": 3,
+        "drsrns": 115,
+        "grdrtnw": 127,
+        "grdrtn": 286,
+        "drsrns_w": 4,
+        "wtrdrs": 96,
+        "drsrns_e": 6,
+        "drsrn_w": 10,
+        "drsrew_n": 4,
+        "wtrdrxse": 61,
+        "wtrdrse": 62,
+        "grdrtxnw": 98,
+        "drsrnw1": 27,
+        "drsrnw2": 25,
+        "drsrscap": 4,
+        "drsrwcap": 2,
+        "drsrne1": 39,
+        "drsrne2": 37,
+        "drsrn_e": 4,
+        "drsrncap": 2
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out03.odm": "874d31b13fcd6d628d4d5d61bf762c3f693c5c00cfd4a7efe04ea6d2e413113c",
+        "assets_dev/worlds/mm8/maps/out03.scene.yml": "cf71d8ea0aaea954780a903800c4d66f07838c8cb5721bb291ed272b7d116250",
+        "assets_dev/worlds/mm8/maps/out03_1.scene.yml": "3c47a2caf03b591404cd5c8b31c17c584377c6db7d6450f6edb4e706914554b6"
+      }
+    },
+    {
+      "id": "out04",
+      "master_tile": 0,
+      "lookup": [
+        594,
+        558,
+        450,
+        522
+      ],
+      "tiles": {
+        "plntyl": 7781,
+        "lvw": 50,
+        "lavtyl": 2725,
+        "lve": 56,
+        "plsasw": 38,
+        "plsas": 147,
+        "plsaxsw": 38,
+        "plsatyl": 4066,
+        "plsatylx": 86,
+        "lvnw": 27,
+        "lvn": 55,
+        "lvxnw": 33,
+        "lvxne": 29,
+        "lvne": 23,
+        "plsaw": 91,
+        "lvxse": 33,
+        "lvs": 52,
+        "lvxsw": 35,
+        "lvse": 28,
+        "lvsw": 30,
+        "plsanw": 80,
+        "plsaxnw": 80,
+        "plsan": 95,
+        "plsane": 35,
+        "plsae": 59,
+        "plsaxne": 34,
+        "plsase": 53,
+        "plrdnw1": 39,
+        "plrdew": 37,
+        "plrdne1": 22,
+        "plrds_e": 2,
+        "plrdnw2": 39,
+        "plrdne2": 20,
+        "plrdns": 54,
+        "plsaxse": 48,
+        "plrdn_w": 2,
+        "plrdn_e": 3,
+        "plrdwcap": 1,
+        "plrds_w": 2,
+        "plrdncap": 1
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out04.odm": "3baf59f9ac90a14e993049e0b6a9dffe247a92d60aa10303b04aa42ba61160fe",
+        "assets_dev/worlds/mm8/maps/out04.scene.yml": "829190c7e8e9650a41b52de717bde36b5a0936b1f958313345176ac244f8fe38",
+        "assets_dev/worlds/mm8/maps/out04_1.scene.yml": "0ef73d4c3f411cf7afbdfacd20f1170515767e117e1483568b7045f1df96e264"
+      }
+    },
+    {
+      "id": "out05",
+      "master_tile": 0,
+      "lookup": [
+        90,
+        126,
+        162,
+        414
+      ],
+      "tiles": {
+        "dirttyl": 9205,
+        "dirt2": 532,
+        "dirt1": 510,
+        "drsrcros": 2,
+        "drsrncap": 2,
+        "drsrns": 115,
+        "drsrnw1": 24,
+        "drsrnw2": 21,
+        "wtrdrnw": 47,
+        "wtrdrn": 87,
+        "wtrdrxnw": 47,
+        "wtrdrs": 83,
+        "wtrdrxsw": 25,
+        "wtrdrxse": 36,
+        "wtrdrse": 49,
+        "wtrdrsw": 25,
+        "wtrdrw": 56,
+        "wtrdre": 56,
+        "wtrdrne": 23,
+        "wtrdrxne": 13,
+        "drsrne2": 29,
+        "drsrne1": 30,
+        "drsrscap": 1,
+        "wtrtyl": 168,
+        "drsrs_e": 5,
+        "drsrew": 60,
+        "drsrn_w": 5,
+        "drsrecap": 1,
+        "drsrn_e": 7,
+        "drsrs_w": 6,
+        "grdrtnw": 49,
+        "grdrtn": 122,
+        "grdrtne": 58,
+        "grdrtxnw": 46,
+        "grastyl": 3968,
+        "grdrte": 79,
+        "grdrtw": 85,
+        "grdrtxne": 55,
+        "grdrtsw": 55,
+        "grdrtxsw": 61,
+        "grastyl2": 39,
+        "grdrts": 116,
+        "grdrtxse": 62,
+        "grdrtse": 58,
+        "drsrwcap": 1,
+        "drsrew_n": 3,
+        "drsrns_w": 1,
+        "rdnw": 1
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out05.odm": "a57bb57f8afdf75d72077013161979e3aa13811bd187b9aeef6e95a28543c40c",
+        "assets_dev/worlds/mm8/maps/out05.scene.yml": "2a9e21fbb4aa9e6a33289bbb3bf5c040d0f942ca875b79acde4ae689e48b7a22",
+        "assets_dev/worlds/mm8/maps/out05_1.scene.yml": "7f34232191b522c6cf7861e8284cb93669b43f254d2656e505c273ce0de35ee3"
+      }
+    },
+    {
+      "id": "out06",
+      "master_tile": 2,
+      "lookup": [
+        702,
+        738,
+        666,
+        774
+      ],
+      "tiles": {
+        "gdtyl": 9504,
+        "gdrds_e": 5,
+        "gdrdecap": 1,
+        "gsw": 186,
+        "gstyl": 2851,
+        "gse": 166,
+        "gdrdns": 113,
+        "gsnw": 82,
+        "gsn": 138,
+        "gsne": 69,
+        "gsxnw": 90,
+        "gsxne": 77,
+        "gsxsw": 92,
+        "gstylx": 121,
+        "gsxse": 83,
+        "gsse": 70,
+        "gssw": 87,
+        "gss": 143,
+        "gdrdew": 81,
+        "gdrdn_w": 4,
+        "gdrdne2": 34,
+        "gdrdne1": 34,
+        "gdrds_w": 3,
+        "trnw": 35,
+        "trn": 30,
+        "trne": 36,
+        "trxnw": 19,
+        "tartyl": 138,
+        "trxne": 20,
+        "tre": 17,
+        "trw": 16,
+        "trxse": 19,
+        "trse": 35,
+        "trsw": 38,
+        "trs": 28,
+        "trxsw": 23,
+        "gdrdnw1": 13,
+        "gdrdnw2": 15,
+        "gdrdwcap": 2,
+        "gdrdn_e": 3,
+        "wanw": 2,
+        "wan": 29,
+        "wane": 17,
+        "waxnw": 2,
+        "wtrtyl": 1489,
+        "waxne": 16,
+        "gdrdew_n": 2,
+        "wae": 18,
+        "gdrdncap": 1,
+        "gdrdew_s": 2,
+        "gdrdns_e": 1,
+        "gdrdns_w": 1,
+        "waxse": 12,
+        "wase": 12,
+        "was": 4
+      },
+      "changes": [
+        {
+          "path": "assets_dev/worlds/mm8/maps/out06_1.scene.yml",
+          "before": [
+            0,
+            [
+              702,
+              738,
+              666,
+              774
+            ]
+          ],
+          "after": [
+            2,
+            [
+              702,
+              738,
+              666,
+              774
+            ]
+          ]
+        }
+      ],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out06.odm": "8d4378e8be738a8d7046788818636378c0bd75f88af4f17db55c2aacabbe05c1",
+        "assets_dev/worlds/mm8/maps/out06.scene.yml": "d3b8d69f6ece2ef9d466692dac65555765ee12f81460cf996b0dc7b86fd0f05d",
+        "assets_dev/worlds/mm8/maps/out06_1.scene.yml": "46c972be02549c2fcc13b9ad6e0c152bafb12e1d263a9f18b0725f286d701247"
+      }
+    },
+    {
+      "id": "out07",
+      "master_tile": 0,
+      "lookup": [
+        90,
+        126,
+        162,
+        414
+      ],
+      "tiles": {
+        "grastyl": 10148,
+        "grdrtxse": 66,
+        "grdrts": 162,
+        "grdrtxsw": 65,
+        "grastyl2": 222,
+        "grdrtse": 66,
+        "dirt1": 240,
+        "dirttyl": 4299,
+        "grdrtsw": 59,
+        "grdrte": 62,
+        "grdrtxne": 40,
+        "grdrtne": 39,
+        "dirt2": 238,
+        "grdrtn": 77,
+        "grdrtw": 68,
+        "grdrtnw": 45,
+        "grdrtxnw": 44,
+        "drsrnw1": 29,
+        "drsrew": 50,
+        "drsrne1": 17,
+        "drsrnw2": 27,
+        "drsrne2": 18,
+        "drsrns": 41,
+        "drsrncap": 1,
+        "drsrn_e": 1,
+        "drsrs_e": 1,
+        "drsrns_w": 1,
+        "drsrn_w": 2,
+        "drsrs_w": 1
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out07.odm": "7291dd5648462351879b0454801a5e4b091717adfe5ee5be3483fa2f242b3237",
+        "assets_dev/worlds/mm8/maps/out07.scene.yml": "9f0758a1bfc8c86c3762556f48d45fc977af20bf12d259d9017d7c36278f5d02",
+        "assets_dev/worlds/mm8/maps/out07_1.scene.yml": "a4246916c41c27938d7800e286ce2050d1c71788c4fe683c5e404ef69d6c47a8"
+      }
+    },
+    {
+      "id": "out08",
+      "master_tile": 0,
+      "lookup": [
+        306,
+        126,
+        234,
+        414
+      ],
+      "tiles": {
+        "dirttyl": 5504,
+        "dirt2": 262,
+        "dirt1": 277,
+        "drsrncap": 2,
+        "drsrns": 98,
+        "rcnw": 83,
+        "rcn": 180,
+        "drsrne2": 13,
+        "drsrne1": 13,
+        "rcw": 180,
+        "rctyl": 5860,
+        "rcxnw": 75,
+        "rctylx": 53,
+        "rcne": 86,
+        "rce": 132,
+        "rcxne": 81,
+        "rcs": 129,
+        "rcxsw": 56,
+        "rcxse": 81,
+        "rcse": 77,
+        "wtrdrnw": 62,
+        "wtrdrn": 93,
+        "wtrdrne": 35,
+        "wtrdrw": 63,
+        "wtrtyl": 2216,
+        "wtrdre": 48,
+        "wtrdrxnw": 64,
+        "wtrdrxne": 38,
+        "wtrdrxse": 30,
+        "wtrdrse": 27,
+        "wtrdrs": 84,
+        "wtrdrxsw": 33,
+        "wtrdrsw": 30,
+        "drsrn_e": 3,
+        "drsrew": 42,
+        "drsrnw1": 7,
+        "drsrs_w": 2,
+        "drsrnw2": 8,
+        "drsrs_e": 1,
+        "drsrn_w": 1
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out08.odm": "cff5f790420e728edbbdc87e6bf03f562238c483034efcc682afafdde9b41e47",
+        "assets_dev/worlds/mm8/maps/out08.scene.yml": "0481c4a7100fa7bf1fee1ce6b7187abcc9566ba8eec4adeaa689f1ccacf76dc7",
+        "assets_dev/worlds/mm8/maps/out08_1.scene.yml": "4443ad4d03fa6528919f7a1ee47ad7508348d720f1c3c5252f85e8926ade7d0a"
+      }
+    },
+    {
+      "id": "out13",
+      "master_tile": 0,
+      "lookup": [
+        90,
+        126,
+        162,
+        414
+      ],
+      "tiles": {
+        "wtrtyl": 11813,
+        "wtrdrxse": 46,
+        "wtrdrs": 86,
+        "wtrdrxsw": 48,
+        "wtrdrse": 43,
+        "grdrtnw": 46,
+        "wtrdrsw": 45,
+        "grdrtn": 82,
+        "grdrtxnw": 44,
+        "grdrtne": 48,
+        "grastyl": 2880,
+        "grdrtxne": 46,
+        "wtrdrw": 68,
+        "grdrte": 62,
+        "grastyl2": 146,
+        "grdrtxse": 34,
+        "grdrtse": 35,
+        "grdrts": 94,
+        "wtrdrnw": 33,
+        "wtrdrxnw": 36,
+        "wtrdrn": 98,
+        "wtrdre": 59,
+        "grdrtw": 54,
+        "grdrtxsw": 44,
+        "wtrdrne": 44,
+        "grdrtsw": 47,
+        "wtrdrxne": 47,
+        "dirt2": 1
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out13.odm": "543178c55b0ab8f22409112d5839bbe913de8c32334e52ac331543db4e329028",
+        "assets_dev/worlds/mm8/maps/out13.scene.yml": "418ce3bebc0864d1d0ee5a9aaf8797ada955cbcc0a694b0583b302ea29045b13",
+        "assets_dev/worlds/mm8/maps/out13_1.scene.yml": "49c1e7d8b0c805f5bad915206ff774d8f50d8462f955924de534d39d4854e3ab"
+      }
+    },
+    {
+      "id": "out15",
+      "master_tile": 0,
+      "lookup": [
+        234,
+        234,
+        162,
+        414
+      ],
+      "tiles": {
+        "dirttyl": 16129
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/out15.odm": "fd5491d546203958a574fdec5d1d7a3f3c0d59cbdad7a546072a1bbbce22eb03",
+        "assets_dev/worlds/mm8/maps/out15.scene.yml": "f30ae26695f6cf303b4c626308f76c9322143b7a8f4c06697aeb217b380e0047"
+      }
+    },
+    {
+      "id": "pbp",
+      "master_tile": 0,
+      "lookup": [
+        378,
+        126,
+        198,
+        414
+      ],
+      "tiles": {
+        "dirttyl": 9752,
+        "dirt2": 515,
+        "dirt1": 584,
+        "wtrdrsw": 16,
+        "wtrdrs": 49,
+        "wtrdrxsw": 23,
+        "wtrtyl": 1661,
+        "wtrdre": 45,
+        "wtrdrxse": 47,
+        "wtrdrse": 41,
+        "wtrdrw": 37,
+        "wtrdrxne": 11,
+        "wtrdrne": 6,
+        "wtrdrnw": 8,
+        "wtrdrxnw": 15,
+        "wtrdrn": 49,
+        "lvdrn": 66,
+        "lvdrne": 39,
+        "lavtyl": 1454,
+        "lvdrxne": 34,
+        "lvdre": 59,
+        "volnw": 17,
+        "voln": 51,
+        "volne": 25,
+        "volw": 35,
+        "voltyl": 1019,
+        "vole": 44,
+        "lvdrnw": 24,
+        "lvdrxnw": 20,
+        "lvdrw": 34,
+        "lvdrxse": 18,
+        "lvdrse": 22,
+        "volxse": 27,
+        "lvdrsw": 26,
+        "lvdrs": 42,
+        "lvdrxsw": 23,
+        "volxnw": 21,
+        "volxne": 27,
+        "vols": 32,
+        "volxsw": 17,
+        "volse": 24,
+        "volsw": 14,
+        "voltylx": 56
+      },
+      "changes": [],
+      "sources": {
+        "assets_dev/worlds/mm8/maps/pbp.odm": "a941f1d589a6a5e8a4e7e34a84cea0f609c821f637109c1752c3ee097943dc89",
+        "assets_dev/worlds/mm8/maps/pbp.scene.yml": "120e550be834e6e50df4df74f935f2d4ba6639c0814efee85d1c7799397542e7",
+        "assets_dev/worlds/mm8/maps/pbp_1.scene.yml": "b12f2fff62d0b6aa2650e339a49b1b318df1a29db425df4d499524b2fef428c2"
+      }
+    }
+  ],
+  "used_static_count": 197,
+  "animation_frames": 42,
+  "runtime_names": [
+    "dirt1",
+    "dirt2",
+    "dirttyl",
+    "drsrcros",
+    "drsrecap",
+    "drsrew",
+    "drsrew_n",
+    "drsrew_s",
+    "drsrn_e",
+    "drsrn_w",
+    "drsrncap",
+    "drsrne1",
+    "drsrne2",
+    "drsrns",
+    "drsrns_e",
+    "drsrns_w",
+    "drsrnw1",
+    "drsrnw2",
+    "drsrs_e",
+    "drsrs_w",
+    "drsrscap",
+    "drsrwcap",
+    "gdrdecap",
+    "gdrdew",
+    "gdrdew_n",
+    "gdrdew_s",
+    "gdrdn_e",
+    "gdrdn_w",
+    "gdrdncap",
+    "gdrdne1",
+    "gdrdne2",
+    "gdrdns",
+    "gdrdns_e",
+    "gdrdns_w",
+    "gdrdnw1",
+    "gdrdnw2",
+    "gdrds_e",
+    "gdrds_w",
+    "gdrdwcap",
+    "gdtyl",
+    "grastyl",
+    "grastyl2",
+    "grdrte",
+    "grdrtn",
+    "grdrtne",
+    "grdrtnw",
+    "grdrts",
+    "grdrtse",
+    "grdrtsw",
+    "grdrtw",
+    "grdrtxne",
+    "grdrtxnw",
+    "grdrtxse",
+    "grdrtxsw",
+    "gse",
+    "gsn",
+    "gsne",
+    "gsnw",
+    "gss",
+    "gsse",
+    "gssw",
+    "gstyl",
+    "gstylx",
+    "gsw",
+    "gsxne",
+    "gsxnw",
+    "gsxse",
+    "gsxsw",
+    "hdlav000",
+    "hdlav001",
+    "hdlav002",
+    "hdlav003",
+    "hdlav004",
+    "hdlav005",
+    "hdlav006",
+    "hdlav007",
+    "hdlav008",
+    "hdlav009",
+    "hdlav010",
+    "hdlav011",
+    "hdlav012",
+    "hdlav013",
+    "hdwtr000",
+    "hdwtr001",
+    "hdwtr002",
+    "hdwtr003",
+    "hdwtr004",
+    "hdwtr005",
+    "hdwtr006",
+    "hdwtr007",
+    "hdwtr008",
+    "hdwtr009",
+    "hdwtr010",
+    "hdwtr011",
+    "hdwtr012",
+    "hdwtr013",
+    "hwoil000",
+    "hwoil001",
+    "hwoil002",
+    "hwoil003",
+    "hwoil004",
+    "hwoil005",
+    "hwoil006",
+    "hwoil007",
+    "hwoil008",
+    "hwoil009",
+    "hwoil010",
+    "hwoil011",
+    "hwoil012",
+    "hwoil013",
+    "lavtyl",
+    "lvdre",
+    "lvdrn",
+    "lvdrne",
+    "lvdrnw",
+    "lvdrs",
+    "lvdrse",
+    "lvdrsw",
+    "lvdrw",
+    "lvdrxne",
+    "lvdrxnw",
+    "lvdrxse",
+    "lvdrxsw",
+    "lve",
+    "lvn",
+    "lvne",
+    "lvnw",
+    "lvs",
+    "lvse",
+    "lvsw",
+    "lvw",
+    "lvxne",
+    "lvxnw",
+    "lvxse",
+    "lvxsw",
+    "plntyl",
+    "plrdew",
+    "plrdn_e",
+    "plrdn_w",
+    "plrdncap",
+    "plrdne1",
+    "plrdne2",
+    "plrdns",
+    "plrdnw1",
+    "plrdnw2",
+    "plrds_e",
+    "plrds_w",
+    "plrdwcap",
+    "plsae",
+    "plsan",
+    "plsane",
+    "plsanw",
+    "plsas",
+    "plsase",
+    "plsasw",
+    "plsatyl",
+    "plsatylx",
+    "plsaw",
+    "plsaxne",
+    "plsaxnw",
+    "plsaxse",
+    "plsaxsw",
+    "rce",
+    "rcn",
+    "rcne",
+    "rcnw",
+    "rcs",
+    "rcse",
+    "rctyl",
+    "rctylx",
+    "rcw",
+    "rcxne",
+    "rcxnw",
+    "rcxse",
+    "rcxsw",
+    "rdnw",
+    "rke",
+    "rkn",
+    "rkne",
+    "rknw",
+    "rks",
+    "rkse",
+    "rksw",
+    "rktyl",
+    "rktylx",
+    "rkw",
+    "rkxne",
+    "rkxnw",
+    "rkxse",
+    "rkxsw",
+    "tartyl",
+    "tre",
+    "trn",
+    "trne",
+    "trnw",
+    "trs",
+    "trse",
+    "trsw",
+    "trw",
+    "trxne",
+    "trxnw",
+    "trxse",
+    "trxsw",
+    "vole",
+    "voln",
+    "volne",
+    "volnw",
+    "vols",
+    "volse",
+    "volsw",
+    "voltyl",
+    "voltylx",
+    "volw",
+    "volxne",
+    "volxnw",
+    "volxse",
+    "volxsw",
+    "wae",
+    "wan",
+    "wane",
+    "wanw",
+    "was",
+    "wase",
+    "waxne",
+    "waxnw",
+    "waxse",
+    "wtrdre",
+    "wtrdrn",
+    "wtrdrne",
+    "wtrdrnw",
+    "wtrdrs",
+    "wtrdrse",
+    "wtrdrsw",
+    "wtrdrw",
+    "wtrdrxne",
+    "wtrdrxnw",
+    "wtrdrxse",
+    "wtrdrxsw",
+    "wtrtyl"
+  ],
+  "target_runtime_files": 239,
+  "added_names": [
+    "gdtyl"
+  ],
+  "removed_names": [],
+  "uses": {
+    "rktyl": {
+      "elema": 16120,
+      "out02": 869,
+      "out03": 1778
+    },
+    "rkxse": {
+      "elema": 1,
+      "out02": 35,
+      "out03": 103
+    },
+    "rks": {
+      "elema": 1,
+      "out02": 126,
+      "out03": 216
+    },
+    "rkxsw": {
+      "elema": 1,
+      "out02": 65,
+      "out03": 81
+    },
+    "rke": {
+      "elema": 1,
+      "out02": 156,
+      "out03": 105
+    },
+    "drsrcros": {
+      "elema": 1,
+      "out01": 2,
+      "out05": 2
+    },
+    "rkw": {
+      "elema": 1,
+      "out02": 148,
+      "out03": 119
+    },
+    "rkxne": {
+      "elema": 1,
+      "out02": 52,
+      "out03": 83
+    },
+    "rkn": {
+      "elema": 1,
+      "out02": 124,
+      "out03": 208
+    },
+    "rkxnw": {
+      "elema": 1,
+      "out02": 37,
+      "out03": 96
+    },
+    "lavtyl": {
+      "elemf": 11937,
+      "out04": 2725,
+      "pbp": 1454
+    },
+    "lvdrxse": {
+      "elemf": 62,
+      "pbp": 18
+    },
+    "lvdrs": {
+      "elemf": 233,
+      "pbp": 42
+    },
+    "lvdrxsw": {
+      "elemf": 50,
+      "pbp": 23
+    },
+    "lvdrse": {
+      "elemf": 73,
+      "pbp": 22
+    },
+    "volnw": {
+      "elemf": 65,
+      "out01": 22,
+      "pbp": 17
+    },
+    "voln": {
+      "elemf": 254,
+      "out01": 20,
+      "pbp": 51
+    },
+    "volne": {
+      "elemf": 50,
+      "out01": 27,
+      "pbp": 25
+    },
+    "lvdrsw": {
+      "elemf": 60,
+      "pbp": 26
+    },
+    "volxnw": {
+      "elemf": 76,
+      "out01": 10,
+      "pbp": 21
+    },
+    "voltyl": {
+      "elemf": 1388,
+      "out01": 345,
+      "pbp": 1019
+    },
+    "voltylx": {
+      "elemf": 72,
+      "out01": 5,
+      "pbp": 56
+    },
+    "volxne": {
+      "elemf": 61,
+      "out01": 15,
+      "pbp": 27
+    },
+    "lvdre": {
+      "elemf": 175,
+      "pbp": 59
+    },
+    "lvdrw": {
+      "elemf": 185,
+      "pbp": 34
+    },
+    "volw": {
+      "elemf": 198,
+      "out01": 21,
+      "pbp": 35
+    },
+    "vole": {
+      "elemf": 208,
+      "out01": 17,
+      "pbp": 44
+    },
+    "volxse": {
+      "elemf": 70,
+      "out01": 9,
+      "pbp": 27
+    },
+    "volxsw": {
+      "elemf": 63,
+      "out01": 11,
+      "pbp": 17
+    },
+    "vols": {
+      "elemf": 262,
+      "out01": 22,
+      "pbp": 32
+    },
+    "volsw": {
+      "elemf": 51,
+      "out01": 24,
+      "pbp": 14
+    },
+    "volse": {
+      "elemf": 56,
+      "out01": 22,
+      "pbp": 24
+    },
+    "lvdrnw": {
+      "elemf": 69,
+      "pbp": 24
+    },
+    "lvdrn": {
+      "elemf": 237,
+      "pbp": 66
+    },
+    "lvdrne": {
+      "elemf": 62,
+      "pbp": 39
+    },
+    "lvdrxne": {
+      "elemf": 51,
+      "pbp": 34
+    },
+    "lvdrxnw": {
+      "elemf": 57,
+      "pbp": 20
+    },
+    "dirttyl": {
+      "elemf": 3,
+      "elemw": 16129,
+      "out01": 346,
+      "out02": 1065,
+      "out03": 868,
+      "out05": 9205,
+      "out07": 4299,
+      "out08": 5504,
+      "out15": 16129,
+      "pbp": 9752
+    },
+    "dirt1": {
+      "elemf": 1,
+      "out01": 8,
+      "out02": 37,
+      "out03": 36,
+      "out05": 510,
+      "out07": 240,
+      "out08": 277,
+      "pbp": 584
+    },
+    "wtrtyl": {
+      "out01": 11280,
+      "out02": 4063,
+      "out03": 1138,
+      "out05": 168,
+      "out06": 1489,
+      "out08": 2216,
+      "out13": 11813,
+      "pbp": 1661
+    },
+    "wtrdrxse": {
+      "out01": 100,
+      "out02": 24,
+      "out03": 61,
+      "out05": 36,
+      "out08": 30,
+      "out13": 46,
+      "pbp": 47
+    },
+    "wtrdrs": {
+      "out01": 118,
+      "out02": 36,
+      "out03": 96,
+      "out05": 83,
+      "out08": 84,
+      "out13": 86,
+      "pbp": 49
+    },
+    "wtrdrxsw": {
+      "out01": 79,
+      "out02": 30,
+      "out03": 48,
+      "out05": 25,
+      "out08": 33,
+      "out13": 48,
+      "pbp": 23
+    },
+    "wtrdrse": {
+      "out01": 89,
+      "out02": 25,
+      "out03": 62,
+      "out05": 49,
+      "out08": 27,
+      "out13": 43,
+      "pbp": 41
+    },
+    "grdrtnw": {
+      "out01": 100,
+      "out02": 76,
+      "out03": 127,
+      "out05": 49,
+      "out07": 45,
+      "out13": 46
+    },
+    "grdrtn": {
+      "out01": 128,
+      "out02": 141,
+      "out03": 286,
+      "out05": 122,
+      "out07": 77,
+      "out13": 82
+    },
+    "grdrtne": {
+      "out01": 76,
+      "out02": 94,
+      "out03": 82,
+      "out05": 58,
+      "out07": 39,
+      "out13": 48
+    },
+    "wtrdrsw": {
+      "out01": 69,
+      "out02": 31,
+      "out03": 49,
+      "out05": 25,
+      "out08": 30,
+      "out13": 45,
+      "pbp": 16
+    },
+    "wtrdre": {
+      "out01": 147,
+      "out02": 53,
+      "out03": 62,
+      "out05": 56,
+      "out08": 48,
+      "out13": 59,
+      "pbp": 45
+    },
+    "wtrdrw": {
+      "out01": 135,
+      "out02": 55,
+      "out03": 59,
+      "out05": 56,
+      "out08": 63,
+      "out13": 68,
+      "pbp": 37
+    },
+    "grdrtxnw": {
+      "out01": 95,
+      "out02": 68,
+      "out03": 98,
+      "out05": 46,
+      "out07": 44,
+      "out13": 44
+    },
+    "grdrtxse": {
+      "out01": 89,
+      "out02": 93,
+      "out03": 117,
+      "out05": 62,
+      "out07": 66,
+      "out13": 34
+    },
+    "grdrts": {
+      "out01": 142,
+      "out02": 203,
+      "out03": 296,
+      "out05": 116,
+      "out07": 162,
+      "out13": 94
+    },
+    "grdrtxne": {
+      "out01": 73,
+      "out02": 83,
+      "out03": 61,
+      "out05": 55,
+      "out07": 40,
+      "out13": 46
+    },
+    "grdrtw": {
+      "out01": 146,
+      "out02": 230,
+      "out03": 132,
+      "out05": 85,
+      "out07": 68,
+      "out13": 54
+    },
+    "grdrtse": {
+      "out01": 92,
+      "out02": 99,
+      "out03": 134,
+      "out05": 58,
+      "out07": 66,
+      "out13": 35
+    },
+    "grdrtsw": {
+      "out01": 70,
+      "out02": 118,
+      "out03": 90,
+      "out05": 55,
+      "out07": 59,
+      "out13": 47
+    },
+    "grdrtxsw": {
+      "out01": 67,
+      "out02": 121,
+      "out03": 70,
+      "out05": 61,
+      "out07": 65,
+      "out13": 44
+    },
+    "grdrte": {
+      "out01": 142,
+      "out02": 214,
+      "out03": 162,
+      "out05": 79,
+      "out07": 62,
+      "out13": 62
+    },
+    "grastyl": {
+      "out01": 1309,
+      "out02": 6127,
+      "out03": 7870,
+      "out05": 3968,
+      "out07": 10148,
+      "out13": 2880
+    },
+    "wtrdrnw": {
+      "out01": 85,
+      "out02": 46,
+      "out03": 60,
+      "out05": 47,
+      "out08": 62,
+      "out13": 33,
+      "pbp": 8
+    },
+    "wtrdrxnw": {
+      "out01": 95,
+      "out02": 46,
+      "out03": 59,
+      "out05": 47,
+      "out08": 64,
+      "out13": 36,
+      "pbp": 15
+    },
+    "wtrdrxne": {
+      "out01": 70,
+      "out02": 71,
+      "out03": 43,
+      "out05": 13,
+      "out08": 38,
+      "out13": 47,
+      "pbp": 11
+    },
+    "wtrdrne": {
+      "out01": 60,
+      "out02": 71,
+      "out03": 44,
+      "out05": 23,
+      "out08": 35,
+      "out13": 44,
+      "pbp": 6
+    },
+    "wtrdrn": {
+      "out01": 130,
+      "out02": 96,
+      "out03": 103,
+      "out05": 87,
+      "out08": 93,
+      "out13": 98,
+      "pbp": 49
+    },
+    "grastyl2": {
+      "out01": 72,
+      "out02": 327,
+      "out03": 122,
+      "out05": 39,
+      "out07": 222,
+      "out13": 146
+    },
+    "dirt2": {
+      "out01": 19,
+      "out02": 53,
+      "out03": 34,
+      "out05": 532,
+      "out07": 238,
+      "out08": 262,
+      "out13": 1,
+      "pbp": 515
+    },
+    "drsrncap": {
+      "out01": 2,
+      "out02": 5,
+      "out03": 2,
+      "out05": 2,
+      "out07": 1,
+      "out08": 2
+    },
+    "drsrn_e": {
+      "out01": 4,
+      "out02": 10,
+      "out03": 4,
+      "out05": 7,
+      "out07": 1,
+      "out08": 3
+    },
+    "drsrew": {
+      "out01": 44,
+      "out02": 182,
+      "out03": 214,
+      "out05": 60,
+      "out07": 50,
+      "out08": 42
+    },
+    "drsrs_w": {
+      "out01": 3,
+      "out02": 5,
+      "out03": 3,
+      "out05": 6,
+      "out07": 1,
+      "out08": 2
+    },
+    "drsrns": {
+      "out01": 38,
+      "out02": 136,
+      "out03": 115,
+      "out05": 115,
+      "out07": 41,
+      "out08": 98
+    },
+    "drsrs_e": {
+      "out01": 3,
+      "out02": 5,
+      "out03": 9,
+      "out05": 5,
+      "out07": 1,
+      "out08": 1
+    },
+    "drsrne1": {
+      "out01": 10,
+      "out02": 31,
+      "out03": 39,
+      "out05": 30,
+      "out07": 17,
+      "out08": 13
+    },
+    "drsrnw1": {
+      "out01": 2,
+      "out02": 31,
+      "out03": 27,
+      "out05": 24,
+      "out07": 29,
+      "out08": 7
+    },
+    "drsrns_w": {
+      "out01": 2,
+      "out02": 10,
+      "out03": 4,
+      "out05": 1,
+      "out07": 1
+    },
+    "drsrne2": {
+      "out01": 10,
+      "out02": 29,
+      "out03": 37,
+      "out05": 29,
+      "out07": 18,
+      "out08": 13
+    },
+    "drsrnw2": {
+      "out01": 2,
+      "out02": 32,
+      "out03": 25,
+      "out05": 21,
+      "out07": 27,
+      "out08": 8
+    },
+    "drsrn_w": {
+      "out01": 2,
+      "out02": 6,
+      "out03": 10,
+      "out05": 5,
+      "out07": 2,
+      "out08": 1
+    },
+    "drsrew_n": {
+      "out01": 2,
+      "out02": 4,
+      "out03": 4,
+      "out05": 3
+    },
+    "drsrns_e": {
+      "out01": 1,
+      "out02": 7,
+      "out03": 6
+    },
+    "drsrecap": {
+      "out01": 1,
+      "out02": 1,
+      "out03": 3,
+      "out05": 1
+    },
+    "rknw": {
+      "out02": 38,
+      "out03": 96
+    },
+    "rkse": {
+      "out02": 36,
+      "out03": 92
+    },
+    "rksw": {
+      "out02": 60,
+      "out03": 79
+    },
+    "rkne": {
+      "out02": 50,
+      "out03": 85
+    },
+    "rktylx": {
+      "out02": 27,
+      "out03": 7
+    },
+    "drsrew_s": {
+      "out02": 8,
+      "out03": 4
+    },
+    "drsrscap": {
+      "out02": 4,
+      "out03": 4,
+      "out05": 1
+    },
+    "drsrwcap": {
+      "out02": 4,
+      "out03": 2,
+      "out05": 1
+    },
+    "plntyl": {
+      "out04": 7781
+    },
+    "lvw": {
+      "out04": 50
+    },
+    "lve": {
+      "out04": 56
+    },
+    "plsasw": {
+      "out04": 38
+    },
+    "plsas": {
+      "out04": 147
+    },
+    "plsaxsw": {
+      "out04": 38
+    },
+    "plsatyl": {
+      "out04": 4066
+    },
+    "plsatylx": {
+      "out04": 86
+    },
+    "lvnw": {
+      "out04": 27
+    },
+    "lvn": {
+      "out04": 55
+    },
+    "lvxnw": {
+      "out04": 33
+    },
+    "lvxne": {
+      "out04": 29
+    },
+    "lvne": {
+      "out04": 23
+    },
+    "plsaw": {
+      "out04": 91
+    },
+    "lvxse": {
+      "out04": 33
+    },
+    "lvs": {
+      "out04": 52
+    },
+    "lvxsw": {
+      "out04": 35
+    },
+    "lvse": {
+      "out04": 28
+    },
+    "lvsw": {
+      "out04": 30
+    },
+    "plsanw": {
+      "out04": 80
+    },
+    "plsaxnw": {
+      "out04": 80
+    },
+    "plsan": {
+      "out04": 95
+    },
+    "plsane": {
+      "out04": 35
+    },
+    "plsae": {
+      "out04": 59
+    },
+    "plsaxne": {
+      "out04": 34
+    },
+    "plsase": {
+      "out04": 53
+    },
+    "plrdnw1": {
+      "out04": 39
+    },
+    "plrdew": {
+      "out04": 37
+    },
+    "plrdne1": {
+      "out04": 22
+    },
+    "plrds_e": {
+      "out04": 2
+    },
+    "plrdnw2": {
+      "out04": 39
+    },
+    "plrdne2": {
+      "out04": 20
+    },
+    "plrdns": {
+      "out04": 54
+    },
+    "plsaxse": {
+      "out04": 48
+    },
+    "plrdn_w": {
+      "out04": 2
+    },
+    "plrdn_e": {
+      "out04": 3
+    },
+    "plrdwcap": {
+      "out04": 1
+    },
+    "plrds_w": {
+      "out04": 2
+    },
+    "plrdncap": {
+      "out04": 1
+    },
+    "rdnw": {
+      "out05": 1
+    },
+    "gdtyl": {
+      "out06": 9504
+    },
+    "gdrds_e": {
+      "out06": 5
+    },
+    "gdrdecap": {
+      "out06": 1
+    },
+    "gsw": {
+      "out06": 186
+    },
+    "gstyl": {
+      "out06": 2851
+    },
+    "gse": {
+      "out06": 166
+    },
+    "gdrdns": {
+      "out06": 113
+    },
+    "gsnw": {
+      "out06": 82
+    },
+    "gsn": {
+      "out06": 138
+    },
+    "gsne": {
+      "out06": 69
+    },
+    "gsxnw": {
+      "out06": 90
+    },
+    "gsxne": {
+      "out06": 77
+    },
+    "gsxsw": {
+      "out06": 92
+    },
+    "gstylx": {
+      "out06": 121
+    },
+    "gsxse": {
+      "out06": 83
+    },
+    "gsse": {
+      "out06": 70
+    },
+    "gssw": {
+      "out06": 87
+    },
+    "gss": {
+      "out06": 143
+    },
+    "gdrdew": {
+      "out06": 81
+    },
+    "gdrdn_w": {
+      "out06": 4
+    },
+    "gdrdne2": {
+      "out06": 34
+    },
+    "gdrdne1": {
+      "out06": 34
+    },
+    "gdrds_w": {
+      "out06": 3
+    },
+    "trnw": {
+      "out06": 35
+    },
+    "trn": {
+      "out06": 30
+    },
+    "trne": {
+      "out06": 36
+    },
+    "trxnw": {
+      "out06": 19
+    },
+    "tartyl": {
+      "out06": 138
+    },
+    "trxne": {
+      "out06": 20
+    },
+    "tre": {
+      "out06": 17
+    },
+    "trw": {
+      "out06": 16
+    },
+    "trxse": {
+      "out06": 19
+    },
+    "trse": {
+      "out06": 35
+    },
+    "trsw": {
+      "out06": 38
+    },
+    "trs": {
+      "out06": 28
+    },
+    "trxsw": {
+      "out06": 23
+    },
+    "gdrdnw1": {
+      "out06": 13
+    },
+    "gdrdnw2": {
+      "out06": 15
+    },
+    "gdrdwcap": {
+      "out06": 2
+    },
+    "gdrdn_e": {
+      "out06": 3
+    },
+    "wanw": {
+      "out06": 2
+    },
+    "wan": {
+      "out06": 29
+    },
+    "wane": {
+      "out06": 17
+    },
+    "waxnw": {
+      "out06": 2
+    },
+    "waxne": {
+      "out06": 16
+    },
+    "gdrdew_n": {
+      "out06": 2
+    },
+    "wae": {
+      "out06": 18
+    },
+    "gdrdncap": {
+      "out06": 1
+    },
+    "gdrdew_s": {
+      "out06": 2
+    },
+    "gdrdns_e": {
+      "out06": 1
+    },
+    "gdrdns_w": {
+      "out06": 1
+    },
+    "waxse": {
+      "out06": 12
+    },
+    "wase": {
+      "out06": 12
+    },
+    "was": {
+      "out06": 4
+    },
+    "rcnw": {
+      "out08": 83
+    },
+    "rcn": {
+      "out08": 180
+    },
+    "rcw": {
+      "out08": 180
+    },
+    "rctyl": {
+      "out08": 5860
+    },
+    "rcxnw": {
+      "out08": 75
+    },
+    "rctylx": {
+      "out08": 53
+    },
+    "rcne": {
+      "out08": 86
+    },
+    "rce": {
+      "out08": 132
+    },
+    "rcxne": {
+      "out08": 81
+    },
+    "rcs": {
+      "out08": 129
+    },
+    "rcxsw": {
+      "out08": 56
+    },
+    "rcxse": {
+      "out08": 81
+    },
+    "rcse": {
+      "out08": 77
+    }
+  }
+}

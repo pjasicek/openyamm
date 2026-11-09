@@ -1,0 +1,376 @@
+{
+  "status": "completed_installed",
+  "allowed_materials": [
+    "grass",
+    "tropical",
+    "swamp"
+  ],
+  "reed_height": 100,
+  "reed_height_multiplier": 2.5,
+  "counts": {
+    "enabled_installed": 24,
+    "disabled_by_design": 18
+  },
+  "verification": {
+    "unit_tests": {
+      "cases": 15,
+      "assertions": 135949,
+      "result": "passed"
+    },
+    "terrain_hashes_verified": 489,
+    "installed_files_verified": 510,
+    "swamp_masks_visually_reviewed": 28,
+    "previous_rollout_evidence": "baseline/WORK_STATE_initial_rollout.json",
+    "note": "Earlier captures/performance/Android evidence precede the material restriction and taller reeds. Current native scatter audit covers all 42 maps.",
+    "new_sorpigal_grass_rules_exactly_preserved": true,
+    "swamp_transition_views": {
+      "mm6": "review/swamp_tall_mm6.png",
+      "mm7": "review/swamp_tall_mm7.png",
+      "result": "passed: taller reeds grounded on swamp side, dirt and blue channels clear in sampled views"
+    },
+    "desktop_binary_sha256": "152b461cc2b7be7b49ff7eeaba767971d2a354e9752add73e18ece3963877389"
+  },
+  "maps": [
+    {
+      "world": "mm6",
+      "map": "outa1.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm6",
+      "map": "outa2.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm6",
+      "map": "outa3.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm6",
+      "map": "outb1.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm6",
+      "map": "outb2.odm",
+      "instances": 12534,
+      "instance_bytes": 802176,
+      "family_counts": {
+        "grass": 12534
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "outb3.odm",
+      "instances": 15569,
+      "instance_bytes": 996416,
+      "family_counts": {
+        "grass": 15569
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "outc1.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm6",
+      "map": "outc2.odm",
+      "instances": 20984,
+      "instance_bytes": 1342976,
+      "family_counts": {
+        "grass": 20984
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "outc3.odm",
+      "instances": 6576,
+      "instance_bytes": 420864,
+      "family_counts": {
+        "reed": 6576
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "outd1.odm",
+      "instances": 114802,
+      "instance_bytes": 7347328,
+      "family_counts": {
+        "grass": 114802
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "outd2.odm",
+      "instances": 71812,
+      "instance_bytes": 4595968,
+      "family_counts": {
+        "grass": 69266,
+        "tropical": 2546
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "outd3.odm",
+      "instances": 76154,
+      "instance_bytes": 4873856,
+      "family_counts": {
+        "grass": 74721,
+        "reed": 1433
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "oute1.odm",
+      "instances": 59469,
+      "instance_bytes": 3806016,
+      "family_counts": {
+        "grass": 59469
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "oute2.odm",
+      "instances": 60253,
+      "instance_bytes": 3856192,
+      "family_counts": {
+        "grass": 60253
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm6",
+      "map": "oute3.odm",
+      "instances": 70266,
+      "instance_bytes": 4497024,
+      "family_counts": {
+        "grass": 70266
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm7",
+      "map": "7out01.odm",
+      "instances": 20114,
+      "instance_bytes": 1287296,
+      "family_counts": {
+        "grass": 20066,
+        "reed": 48
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm7",
+      "map": "7out02.odm",
+      "instances": 119149,
+      "instance_bytes": 7625536,
+      "family_counts": {
+        "grass": 119149
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm7",
+      "map": "7out03.odm",
+      "instances": 73718,
+      "instance_bytes": 4717952,
+      "family_counts": {
+        "grass": 73718
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm7",
+      "map": "7out04.odm",
+      "instances": 63404,
+      "instance_bytes": 4057856,
+      "family_counts": {
+        "grass": 63404
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm7",
+      "map": "7out05.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm7",
+      "map": "7out06.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm7",
+      "map": "7out13.odm",
+      "instances": 4382,
+      "instance_bytes": 280448,
+      "family_counts": {
+        "reed": 4382
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm7",
+      "map": "7out15.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm7",
+      "map": "out09.odm",
+      "instances": 60117,
+      "instance_bytes": 3847488,
+      "family_counts": {
+        "grass": 60117
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm7",
+      "map": "out10.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm7",
+      "map": "out11.odm",
+      "instances": 92155,
+      "instance_bytes": 5897920,
+      "family_counts": {
+        "grass": 92155
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm7",
+      "map": "out12.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm7",
+      "map": "out14.odm",
+      "instances": 65355,
+      "instance_bytes": 4182720,
+      "family_counts": {
+        "grass": 65355
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm8",
+      "map": "elema.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "elemf.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "elemw.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "out01.odm",
+      "instances": 16761,
+      "instance_bytes": 1072704,
+      "family_counts": {
+        "tropical": 11277,
+        "grass": 5484
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm8",
+      "map": "out02.odm",
+      "instances": 110135,
+      "instance_bytes": 7048640,
+      "family_counts": {
+        "grass": 110135
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm8",
+      "map": "out03.odm",
+      "instances": 111007,
+      "instance_bytes": 7104448,
+      "family_counts": {
+        "grass": 111007
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm8",
+      "map": "out04.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "out05.odm",
+      "instances": 107390,
+      "instance_bytes": 6872960,
+      "family_counts": {
+        "grass": 107390
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm8",
+      "map": "out06.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "out07.odm",
+      "instances": 129329,
+      "instance_bytes": 8277056,
+      "family_counts": {
+        "grass": 129329
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm8",
+      "map": "out08.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "out13.odm",
+      "instances": 85540,
+      "instance_bytes": 5474560,
+      "family_counts": {
+        "grass": 85540
+      },
+      "status": "validated_installed"
+    },
+    {
+      "world": "mm8",
+      "map": "out15.odm",
+      "status": "disabled_by_design"
+    },
+    {
+      "world": "mm8",
+      "map": "pbp.odm",
+      "status": "disabled_by_design"
+    }
+  ],
+  "resume": "Edit map_design.yml and families.yml; rebuild catalogue, export, review affected masks/maps and install. Only grass, tropical and swamp are allowed. Keep the original New Sorpigal grass rules while excluding its stone rules.",
+  "source_hashes": {
+    "map_design.yml": "8eaa13956389a878b35985280d206e8e8ffce87f44155bd34c6653976de9b003",
+    "families.yml": "4aa05522f7319feba8beb4c795b81a9bf5278478e6508a9047febc6943140844",
+    "export_runtime.py": "b5db5c262cdfd2db5f35b2ca516f18e6839ca7bf4c76842f4e8e798f3fb374e0",
+    "process_art.py": "3e9c80eaaf29da5794111ef77f324768cf2994243d0ae19a6fa5f528501bc060"
+  }
+}

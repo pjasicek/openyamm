@@ -1,0 +1,35 @@
+{
+ "triangles": 3000,
+ "registration": {
+  "front": [
+   1.008,
+   1.011
+  ],
+  "back": [
+   1.007,
+   1.005
+  ],
+  "left": [
+   1.004,
+   1.027
+  ],
+  "right": [
+   0.996,
+   1.038
+  ],
+  "top": [
+   1.018,
+   1.045
+  ]
+ },
+ "classes": [
+  "auto",
+  "ceramic",
+  "gold",
+  "resin",
+  "glow"
+ ],
+ "coverage": 0.821,
+ "emissive": true,
+ "double_sided": true
+}

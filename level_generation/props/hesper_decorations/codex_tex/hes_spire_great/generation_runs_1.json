@@ -1,0 +1,231 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generation_complete_with_failed_acceptance_checks",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "unresized_returns": true,
+  "max_corrective_regenerations_per_view": 1,
+  "selected_definition": "Preferred raw return to preserve, not a claim that all brief acceptance checks passed.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: 1024 x 1024 RGBA game-model albedo texture source, front orthographic view, transparent background.\nEdit target is the FIRST image, guide_front.png: a plain grey orthographic render of the EXACT Great hive spire 3D model. Preserve this exact square image composition and ALL its geometry. The SECOND image, design_reference.png, is ONLY the approved colour/material/design reference, NOT a silhouette or camera reference. The THIRD image, concept_crop.png, is supplementary original concept.\nPaint the surface materials of the reference onto the first image's grey surfaces. Keep guide_front.png's silhouette EXACTLY: identical outline, size, position, every existing shape edge, opening, spike, branching rib and detail in the same pixels. Its occupied bounding box is x=185..838, y=66..957 on a 1024-square canvas. Keep its long narrow pointed summit, asymmetric ivory spikes, broad rooted foot and existing branching geometry exactly. Preserve the guide's transparent empty spaces and holes. Do not replace the guide with a redraw of the second or third image. Do not change perspective, scale, rotate, reposition, smooth away facets, change geometry, add protrusions or crop anything.\nMaterials/colours: black-violet resin and chitin with a faint violet sheen and subtle segmented organic surface texture; orange slit windows, sacs and fine veins painted in their hot orange glowing colour; ivory bone on existing spikes with pale tips. Match the reference material identities but represent them as ALBEDO, with restrained material variation and no baked illumination.\nLIGHTING: Even, flat, shadowless viewer-facing light. No cast shadows, no ambient occlusion or crevice darkening, no strong specular highlights, no white shine, no reflections, no rim light. The orange parts retain their bright orange colour but cast NO light on the violet resin or ivory. No bloom, halo, lighting gradient or floor.\nOutput exactly ONE unresized 1024 x 1024 PNG with actual transparent background and clean alpha. Preserve the guide's original alpha silhouette as exactly as possible, including small openings. No backdrop, black rectangle, checkerboard drawing, captions or text.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "10dbdac8f05f3e4f5a1419fe3304917508b328069caa47722dfb36f2dfd9ad87"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "approved_material_and_colour_reference",
+          "sha256": "3eb594acff8020185e8251e57524f1262193ea1f868edfcdf2ad5bc2d659623f"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original_concept_reference",
+          "sha256": "ed0bfb643a6bd31327e8dbb9febd199268b4f827bf0df9fe6147d95ccda53948"
+        }
+      ],
+      "original_output": "/home/pjasicek/.codex/generated_images/01a16922-2ef2-76b0-ad32-f833d7feb2c8/exec-6e11be67-a9f9-4dfc-9183-a3941f1fa375.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16922-2ef2-76b0-ad32-f833d7feb2c8/exec-6e11be67-a9f9-4dfc-9183-a3941f1fa375.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: wrong native dimensions, outline drift and baked highlights.",
+      "output_sha256": "0c40aa7b542995084d416acaa6cfca76950106d9914b3fc0491aa804ef2baa40",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox_xyxy": [
+          213,
+          68,
+          1036,
+          1180
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.918029,
+        "normalized_comparison_note": "Pixel-center sampling in normalized coordinates for diagnostics only; output bytes were not modified.",
+        "materials_and_colours_visual": "Black-violet resin/chitin, hot orange sacs/veins and ivory spikes are present; detailed pattern and geometry are not exact copies of the reference/guide.",
+        "flat_even_light_pass": false,
+        "lighting_visual": "Visible specular highlights and crevice darkening.",
+        "unresized": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective generation, front view. The first attempt failed because it returned 1254 x 1254 and changed the guide's outline. This is the sole allowed correction. OUTPUT MUST BE EXACTLY 1024 x 1024 pixels, same dimensions as the first input; do not output 1254, 1280, 1536 or 2048. Native unresized 1024-square RGBA PNG.\nUse case: precise-object-edit. Edit the FIRST input (guide_front.png) in place by recolouring its existing grey surfaces. Treat its alpha and shape boundaries as a locked stencil: do not regenerate, reinterpret, improve or redraw the geometry. Preserve its actual silhouette, transparent holes, every edge and faceted shape, scale and location. Original occupied box x=185..838, y=66..957. Summit tip at x=508,y=66, foot on y=957. No pixels outside original alpha. No new holes, fins, spikes, branches or missing pieces. Keep exactly the original front orthographic camera, no perspective.\nSECOND input design_reference.png supplies the approved colours and material identities ONLY. THIRD input concept_crop.png is the original appearance reference ONLY. Their silhouette, camera, lighting and background must not transfer.\nPaint the existing guide surface: black-violet organic resin/chitin, faint violet tint and subtle segmentation, hot orange slit windows/sacs and fine orange veins, ivory on the existing bone spikes with pale tips. Preserve the guide's large structural boundaries. This is flat ALBEDO surface colour for projecting onto a model, NOT a rendered beauty image.\nUniform flat shadowless illumination from the viewer. No ambient occlusion or dark crevice shadows, no cast shadows, no bright/white specular marks, reflections, rim light or directional shading. Make orange areas bright orange in colour only, with zero light spill onto neighboring material and zero halo/bloom. Glossy material identity should come from subtle organic colour texture without baked shine.\nTransparent background, preserve existing alpha and all its holes exactly. No floor, no backdrop, no text, no vignette. Exactly ONE 1024 x 1024 image.",
+      "inputs": [
+        {
+          "file": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "10dbdac8f05f3e4f5a1419fe3304917508b328069caa47722dfb36f2dfd9ad87"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "approved_material_and_colour_reference",
+          "sha256": "3eb594acff8020185e8251e57524f1262193ea1f868edfcdf2ad5bc2d659623f"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original_concept_reference",
+          "sha256": "ed0bfb643a6bd31327e8dbb9febd199268b4f827bf0df9fe6147d95ccda53948"
+        }
+      ],
+      "original_output": "/home/pjasicek/.codex/generated_images/01a16922-2ef2-76b0-ad32-f833d7feb2c8/exec-2e7c269e-cf63-408e-a8f8-cd056a738c20.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Preferred of the two front attempts for closer placement and flatter lighting; saved unresized, but not accepted as fully brief-compliant: wrong native dimensions, silhouette differences and residual shading remain.",
+      "output_sha256": "2ab74c8309014c44cd476875f30e2a09ada0040520fd283489ed32cb21d9679e",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox_xyxy": [
+          227,
+          81,
+          1028,
+          1173
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.977764,
+        "normalized_comparison_note": "Pixel-center sampling in normalized coordinates for diagnostics only; output bytes were not modified.",
+        "materials_and_colours_visual": "Black-violet resin/chitin, hot orange sacs/veins and ivory spikes are present; detailed pattern and geometry are not exact copies of the reference/guide.",
+        "flat_even_light_pass": false,
+        "lighting_visual": "Correction reduces shine, but residual facet/crevice shading remains.",
+        "unresized": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nMake ONE image, EXACTLY 1024 x 1024 pixels, native unresized RGBA PNG, actual transparent background.\nEdit target: FIRST image guide_top.png, the exact grey 1024-square TOP orthographic render of the Great hive spire. This is a direct repaint of its grey surface pixels. Keep original alpha silhouette and every original geometry edge LOCKED. This is the decoration seen directly from above, looking straight down its long axis, so its footprint is an irregular radial spiked shape, NOT a tower seen from the side. No change to camera, orientation, projection, framing, scale or silhouette. No new protrusions or holes, no rounded redraw, no symmetry correction. Preserve each jagged point, faceted web, curved root, overlap, notch and existing transparent opening exactly. Original occupied bounds x=185..838, y=164..859 on the 1024 x 1024 canvas.\nSECOND image design_reference.png: approved design, COLOUR AND MATERIAL authority only. THIRD image concept_crop.png: original concept, supporting appearance reference only. Do not copy their viewpoint, shape, silhouette, backdrop or lighting.\nPaint those reference materials onto the existing shapes of guide_top.png: black-violet organic resin and chitin with a faint violet tint/sheen, subtle segmented surface colour; hot orange slit windows/sacs and fine veins; existing spikes ivory bone with pale tips. Preserve every guide edge, opening and detail in its original location. The guide's low-poly form is fixed, material pattern is the only edit.\nThis is ALBEDO for texture projection. EVEN FLAT SHADOWLESS illumination from the viewer, including all facing directions. No ambient occlusion, crevice shadows, cast shadows, directional shading, specular highlights, reflections or rim lighting. Orange sacs/veins use their hot glowing orange colour WITHOUT casting light onto nearby violet/ivory, no glow halo or bloom. No ground, floor, backdrop, vignette, text or labels.\nThe requested file resolution is EXACTLY 1024 x 1024. Preserve the guide's empty transparent border and holes; do not fill them with black.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "e8b8b89d20d1ce8b2fabe9f4abe523e1549540baefee00498c7434859030ffa7"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "approved_material_and_colour_reference",
+          "sha256": "3eb594acff8020185e8251e57524f1262193ea1f868edfcdf2ad5bc2d659623f"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original_concept_reference",
+          "sha256": "ed0bfb643a6bd31327e8dbb9febd199268b4f827bf0df9fe6147d95ccda53948"
+        }
+      ],
+      "original_output": "/home/pjasicek/.codex/generated_images/01a16922-2ef2-76b0-ad32-f833d7feb2c8/exec-4abab824-cc09-4a0e-843a-460c05f4d899.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a16922-2ef2-76b0-ad32-f833d7feb2c8/exec-4abab824-cc09-4a0e-843a-460c05f4d899.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: wrong native dimensions, enlarged footprint, outline drift and strong baked highlights/dark crevices.",
+      "output_sha256": "796000517a9095084dc1a4c0015ec5e601f65e60c6d98502ce221fb48730afdf",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox_xyxy": [
+          193,
+          132,
+          1094,
+          1105
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.787119,
+        "normalized_comparison_note": "Pixel-center sampling in normalized coordinates for diagnostics only; output bytes were not modified.",
+        "materials_and_colours_visual": "Black-violet resin/chitin, hot orange sacs/veins and ivory spikes are present; detailed pattern and geometry are not exact copies of the reference/guide.",
+        "flat_even_light_pass": false,
+        "lighting_visual": "Visible specular highlights and crevice darkening.",
+        "unresized": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective generation, TOP view. Sole allowed correction. Return precisely 1024 x 1024 RGBA pixels, not 1254 x 1254. The last attempt failed by enlarging the object, changing its outline and applying strong shine and dark crevices.\nEDIT ONLY THE FIRST IMAGE guide_top.png, the grey orthographic top view. LOCK ITS ORIGINAL 1024 x 1024 CANVAS AND ALPHA MASK. Keep the same exact opaque and transparent pixels. Colour inside that guide without reconstructing it. The object must stay within x185..838, y164..859 in this 1024-square canvas, exactly as the input; do not enlarge to fill the frame. Keep every jagged outline vertex, internal edge, opening and overlapping faceted shape in its existing position. Do not add/remove/smooth geometry or alter its camera. This is the view from vertically ABOVE looking down the spire axis, not a side view.\nThe SECOND image is design_reference.png, approved material/colour reference ONLY. THIRD image concept_crop.png is supporting original concept ONLY. Transfer the colours of these references, never their lighting, silhouettes, viewpoints or backgrounds.\nApply nearly uniform dark black-violet resin/chitin colour to structural webs and roots with a faint violet material tint and restrained organic texture. Paint the reference's hot orange sacs/slits and fine veins as flat bright orange colour inside existing surfaces. Existing spike shapes get pale ivory bone with pale tips. Keep all geometric boundaries of the grey guide visible in the same places through material changes, not through added shadows.\nThis is a technical ALBEDO texture source. Flatten the illumination completely: uniformly viewer-lit, zero cast shadows, zero ambient-occlusion/crevice darkening, zero white/pink/purple glossy shine, zero strong specular highlights, zero reflections, zero rim light, zero bloom. Do not produce a shaded render or a dramatic presentation image. The wet/glossy resin material is described by its black-violet colour and very subtle surface texture; its actual gloss will be supplied separately by the game. Orange is colour only, no cast orange light on any surrounding surface.\nPreserve original fully transparent empty border, holes and every silhouette contour. No floor or background. No labels. ONE image, exact native 1024 x 1024, unresized.",
+      "inputs": [
+        {
+          "file": "guide_top.png",
+          "role": "edit_target",
+          "sha256": "e8b8b89d20d1ce8b2fabe9f4abe523e1549540baefee00498c7434859030ffa7"
+        },
+        {
+          "file": "design_reference.png",
+          "role": "approved_material_and_colour_reference",
+          "sha256": "3eb594acff8020185e8251e57524f1262193ea1f868edfcdf2ad5bc2d659623f"
+        },
+        {
+          "file": "concept_crop.png",
+          "role": "original_concept_reference",
+          "sha256": "ed0bfb643a6bd31327e8dbb9febd199268b4f827bf0df9fe6147d95ccda53948"
+        }
+      ],
+      "original_output": "/home/pjasicek/.codex/generated_images/01a16922-2ef2-76b0-ad32-f833d7feb2c8/exec-0fdcfd10-edf5-45f9-96d1-d381031f0034.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Preferred of the two top attempts for closer placement and reduced highlights; saved unresized, but not accepted as fully brief-compliant: wrong native dimensions, silhouette differences and residual shading remain.",
+      "output_sha256": "77eb74a9c7a8308c4c62f74261724e672bba9705872bf0a55d79e9b26619bbf9",
+      "checks": {
+        "actual_size": [
+          1254,
+          1254
+        ],
+        "requested_size_pass": false,
+        "mode": "RGBA",
+        "transparent_background_pass": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "opaque_bbox_xyxy": [
+          227,
+          199,
+          1028,
+          1054
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_at_alpha_128": 0.98123,
+        "normalized_comparison_note": "Pixel-center sampling in normalized coordinates for diagnostics only; output bytes were not modified.",
+        "materials_and_colours_visual": "Black-violet resin/chitin, hot orange sacs/veins and ivory spikes are present; detailed pattern and geometry are not exact copies of the reference/guide.",
+        "flat_even_light_pass": false,
+        "lighting_visual": "Correction reduces shine, but residual facet/crevice shading remains.",
+        "unresized": true
+      }
+    }
+  ]
+}

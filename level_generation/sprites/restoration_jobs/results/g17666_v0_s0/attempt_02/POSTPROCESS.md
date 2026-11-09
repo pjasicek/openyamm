@@ -1,0 +1,1 @@
+Preserved magenta master. Process --adjust 0.98 0 0, then native RGB tone matching via restore_native_tone.py and queue check. Alpha unchanged by grading. No solid pixels outside canvas; both final proofs reviewed.

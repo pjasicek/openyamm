@@ -1,0 +1,35 @@
+{
+  "method": "Built-in image-generation tool; native-material and source-layout references; SVG atlas composition",
+  "finalSky": "concepts/sky_minimap_v2.png",
+  "finalPlanes": "concepts/elemental_minimaps_v1.png",
+  "files": [
+    {
+      "path": "concepts/sky_minimap_v1.png",
+      "sha256": "cb63ec3d686f9edd988be28929f1cf75e28c6fe7bda8dc464fa983ad109bf7b9"
+    },
+    {
+      "path": "concepts/sky_minimap_v2.png",
+      "sha256": "742ac4f917556a1ac3aa0bf6d37c20d2bfcaacdbc5f3ae7d1bab183eced03ec1"
+    },
+    {
+      "path": "concepts/elemental_minimaps_v1.png",
+      "sha256": "67b38332e5b931e28af9152cd8e9f623430fd2cec1446c30ba53ef35eae2a97e"
+    },
+    {
+      "path": "SKY_MINIMAP_PROMPT.txt",
+      "sha256": "7b9b326dae92bcaf502807e7f74a613dd392dfb5a1fb5a33b2650d015c251804"
+    },
+    {
+      "path": "SKY_MINIMAP_REFINEMENT.txt",
+      "sha256": "10a335490a7e74d9e2879e1b80e25f879799be56328d26e0ce968172801b0782"
+    },
+    {
+      "path": "PLANE_MINIMAPS_PROMPT.txt",
+      "sha256": "3ba841d8e2479d294f0cdadfe1552b21361d7c0a3acf3c1424e51041c71539e1"
+    },
+    {
+      "path": "native_sky_references/material_reference.png",
+      "sha256": "882ca5dab3b94206805792a97b8e75eb0ec3d3e97ce8802f382a5577b0106f39"
+    }
+  ]
+}

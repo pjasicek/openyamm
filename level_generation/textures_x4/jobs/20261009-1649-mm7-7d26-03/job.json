@@ -1,0 +1,1064 @@
+{
+ "id": "20261009-1649-mm7-7d26-03",
+ "world": "mm7",
+ "maps": [
+  "7d26.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/hnm1aer",
+  "mm7/hnp2er",
+  "mm7/hnrbw",
+  "mm7/hnp2bw",
+  "mm7/hnm1w",
+  "mm7/hnp2el",
+  "mm7/hnm1er",
+  "mm7/cnbw",
+  "mm7/hnrdr",
+  "mm7/hnrdl",
+  "mm7/hnm2d",
+  "mm7/hnm1el",
+  "mm7/hnp3wre",
+  "mm7/hnm1ad",
+  "mm7/hnp3d",
+  "mm7/hnm1d",
+  "mm7/hnp1d",
+  "mm7/hnp2d",
+  "mm7/c1t1b1",
+  "mm7/cndl",
+  "mm7/cndr",
+  "mm7/7grastyl",
+  "mm7/7sgalch",
+  "mm7/7sgarm"
+ ],
+ "requests": {
+  "mm7/hnm1aer": {
+   "name": "hnm1aer",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "deep maroon-red rough stucco wall with a carved dark-red bat-wing crest and small emblem at the top centre and a band of carved runes along the bottom, with faint carved angular glyph lines on the panel and a thin dark post on the right edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1ab",
+      "mm7/hnm1aerw"
+     ],
+     "fraction": 0.841
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1ab",
+      "mm7/hnm1aerw"
+     ],
+     "fraction": 0.841
+    }
+   }
+  },
+  "mm7/hnp2er": {
+   "name": "hnp2er",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a dark wooden post on the right edge",
+   "notes": {
+    "3": "the timber post at the right edge runs straight off the right edge: its outermost pixel column is wood at the same brightness as just inside, with no black outline",
+    "4": "this facade continues into the next wall section to the right: draw the timber post so it extends past the right edge into the margin, and draw the planks so they extend past the bottom edge; nothing is outlined or shaded where the picture is cut"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2erw",
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.777
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.431
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.431
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.431
+    }
+   }
+  },
+  "mm7/hnrbw": {
+   "name": "hnrbw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "golden-ochre rough stucco plaster wall panel framed by carved golden-brown wooden moulding along the top and bottom, with a small arched double window with a dark wooden frame and a steep pointed hood in the upper centre; copy the composition exactly",
+   "notes": {
+    "3": "the cornice band along the top sits at exactly the reference height and has the same tone and carving as the cornice of the neighbouring pieces shown in the side borders; plain cornice, no brick-like patches"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrb",
+      "mm7/hnrerw",
+      "mm7/hnrel",
+      "mm7/hnrelw"
+     ],
+     "fraction": 0.537
+    },
+    "2": {
+     "sources": [
+      "mm7/hnrb",
+      "mm7/hnrerw",
+      "mm7/hnrel",
+      "mm7/hnrelw"
+     ],
+     "fraction": 0.537
+    },
+    "3": {
+     "sources": [
+      "mm7/hnrb",
+      "mm7/hnrerw",
+      "mm7/hnrel",
+      "mm7/hnrelw"
+     ],
+     "fraction": 0.537
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm7/hnrel",
+     "right": "mm7/hnrer",
+     "bottom": "mm7/hnrb"
+    }
+   }
+  },
+  "mm7/hnp2bw": {
+   "name": "hnp2bw",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a carved horned demon head with red eyes above a tattered brown cloth hanging over a small window with a wooden sill; copy the composition exactly",
+   "notes": {
+    "3": "the bottom edge keeps the reference brightness right down to the last pixel row: no dark band, shadow or line along the bottom"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2b",
+      "mm7/hnp2erw"
+     ],
+     "fraction": 0.738
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.478
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp2b",
+      "mm7/hnp2erw"
+     ],
+     "fraction": 0.738
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hnp2er"
+    }
+   }
+  },
+  "mm7/hnm1w": {
+   "name": "hnm1w",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs, with a round amber glass orb window held in a frame of bones in the centre; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1b"
+     ],
+     "fraction": 0.617
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1b"
+     ],
+     "fraction": 0.617
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/hnp2el": {
+   "name": "hnp2el",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a dark wooden post on the left edge",
+   "notes": {
+    "3": "the bottom edge keeps the reference brightness right down to the last pixel row: no dark band, shadow or line along the bottom"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2b",
+      "mm7/hnp2er"
+     ],
+     "fraction": 0.53
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.485
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp2b",
+      "mm7/hnp2er"
+     ],
+     "fraction": 0.53
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hnp2bw",
+     "left": "mm7/hnp2er"
+    }
+   }
+  },
+  "mm7/hnm1er": {
+   "name": "hnm1er",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs, with a dark timber post on the right edge",
+   "notes": {
+    "2": "the wall continues past the left and right edges into the margin with no dark border line or shadow at either side",
+    "3": "the dark timber post on the right and the wall on the left both continue past the outer edges into the margin with no dark border line or shadow at either side"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1b"
+     ],
+     "fraction": 0.459
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1w",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.471
+    },
+    "3": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1w",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.471
+    }
+   }
+  },
+  "mm7/cnbw": {
+   "name": "cnbw",
+   "versions": [
+    1
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with an arched window in a rough pale stone surround with a sill and a dark iron lattice of bars and a ring; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb",
+      "mm7/necro-b"
+     ],
+     "fraction": 0.449
+    }
+   }
+  },
+  "mm7/hnrdr": {
+   "name": "hnrdr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other: a golden-ochre rough stucco plaster wall under one straight carved golden-brown wooden cornice of horizontal moulding bands that runs across the whole width at one constant height and thickness, with a carved golden-brown wooden skirting moulding along the bottom; in the centre a wide arched double door of riveted dark wooden planks, each leaf with a barred window, an iron ring handle and a carved skull near the bottom; two carved horned demon head shields hang just below the cornice above the door; copy the composition exactly",
+   "notes": {
+    "2": "no dark rim or shadow along the right edge: the ochre plaster keeps full brightness right up to the right edge",
+    "3": "paint the plaster wall continuing past the right edge into the margin with no frame, shadow or dark border line at the right side; keep the door exactly where it is",
+    "4": "paint the plaster wall continuing past the right edge into the margin with no frame, shadow or dark border line at the right side; keep the door exactly where it is",
+    "5": "the left edge is cut through the middle of the dark timber door frame: the frame wood extends past the left edge at the same brightness, with no black line or shadow on the outermost columns",
+    "6": "the left edge is cut through the middle of the dark timber door frame: the frame wood extends past the left edge at the same brightness, with no black line or shadow on the outermost columns",
+    "7": "the wall continues straight into the sharp neighbouring wall shown in the left and right margins: at both outer edges match that plaster's tone, colour and crackle texture exactly, and keep the top wooden cornice at exactly the same moulding bands, height and dark lower edge as in those margins, so nothing changes at either outer edge",
+    "8": "the cornice is the same straight moulding as in the sharp wall shown in the left and right margins, continuing it at exactly the same height with no extra block, step or vertical line anywhere along it; the plaster matches the margins' tone and texture at both outer edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrel",
+      "mm7/hnrer"
+     ],
+     "fraction": 0.38
+    },
+    "2": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrel",
+      "mm7/hnrer"
+     ],
+     "fraction": 0.38
+    },
+    "3": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrel",
+      "mm7/hnrer"
+     ],
+     "fraction": 0.38
+    },
+    "4": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrel",
+      "mm7/hnrer"
+     ],
+     "fraction": 0.38
+    },
+    "5": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrel",
+      "mm7/hnrer"
+     ],
+     "fraction": 0.38
+    },
+    "6": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrer",
+      "mm7/hnrerw",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.372
+    },
+    "7": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrer",
+      "mm7/hnrerw",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.372
+    },
+    "8": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrer",
+      "mm7/hnrerw",
+      "mm7/hnrel"
+     ],
+     "fraction": 0.372
+    }
+   },
+   "pad": {
+    "6": [
+     32,
+     16
+    ],
+    "7": [
+     32,
+     16
+    ],
+    "8": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "6": {
+     "left": "mm7/hnrelw",
+     "right": "mm7/hnrerw"
+    },
+    "7": {
+     "left": "mm7/hnrelw",
+     "right": "mm7/hnrerw"
+    },
+    "8": {
+     "left": "mm7/hnrelw",
+     "right": "mm7/hnrerw"
+    }
+   }
+  },
+  "mm7/hnrdl": {
+   "name": "hnrdl",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "golden-ochre rough stucco plaster wall panel framed by carved golden-brown wooden moulding along the top and bottom, with the left leaf of a wide arched double door of riveted dark wooden planks that continues past the right edge, with a barred window, an iron ring handle and a carved skull near the bottom, under a carved horned demon head shield; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrer",
+      "mm7/hnrdr"
+     ],
+     "fraction": 0.416
+    },
+    "2": {
+     "sources": [
+      "mm7/hnrbs",
+      "mm7/hnrer",
+      "mm7/hnrdr"
+     ],
+     "fraction": 0.416
+    }
+   }
+  },
+  "mm7/hnm2d": {
+   "name": "hnm2d",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house facade: dark weathered wooden plank band and beam across the top, pale greenish-beige rough plaster panel in the middle, dark wooden sill beam, and dark grey irregular fieldstone wall below, with an arched riveted wooden door carved as a mask face with a round bronze emblem and an iron ring knocker; copy the composition exactly",
+   "notes": {
+    "2": "no dark rim along the bottom edge: the bottom stonework keeps full brightness right down to the bottom edge",
+    "3": "keep every element at exactly the reference position; the stonework continues down past the bottom edge into the margin with no dark border line at the bottom"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm2bw"
+     ],
+     "fraction": 0.4
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm2bw"
+     ],
+     "fraction": 0.4
+    },
+    "3": {
+     "sources": [
+      "mm7/hnm2bw"
+     ],
+     "fraction": 0.4
+    }
+   }
+  },
+  "mm7/hnm1el": {
+   "name": "hnm1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs, with a dark timber post on the left edge and a small horned skull with glowing green eyes hanging at the upper left; copy the composition exactly",
+   "notes": {
+    "2": "the timber post and wall continue past the left edge into the margin with no dark border line or shadow at the left side",
+    "3": "the timber post at the left continues past the left edge into the margin at full brightness; no dark outline, gap or shadow along the left edge",
+    "4": "the timber post at the left continues past the left edge into the margin at full brightness; no dark outline, gap or shadow along the left edge",
+    "5": "the lower edge of the top timber beam is one straight clean line exactly where the sharp copied beam has it; no stepped notches, blocky teeth or dark dashes along the beam's underside"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1b"
+     ],
+     "fraction": 0.328
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    },
+    "3": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    },
+    "4": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    },
+    "5": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    }
+   }
+  },
+  "mm7/hnp3wre": {
+   "name": "hnp3wre",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, with a dark vertical wooden post on the right edge and a jagged broken hole into black darkness in the upper stonework; copy the composition exactly",
+   "notes": {
+    "5": "the weathered wooden sill at the bottom runs evenly to the last row with no dark line or groove along or near the bottom edge",
+    "6": "the weathered wooden sill at the bottom keeps the reference brightness right down to the last row: no dark line, groove or shadow along or just above the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3w",
+      "mm7/hnp3re"
+     ],
+     "fraction": 0.353
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3wle",
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.222
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3wle",
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.222
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp3w"
+     ],
+     "fraction": 0.222
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp3w"
+     ],
+     "fraction": 0.222
+    },
+    "6": {
+     "sources": [
+      "mm7/hnp3w",
+      "mm7/hnp3re"
+     ],
+     "fraction": 0.353
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm7/hnp3b"
+    },
+    "4": {
+     "left": "mm7/hnp3b"
+    },
+    "5": {
+     "left": "mm7/hnp3b"
+    },
+    "6": {
+     "left": "mm7/hnp3b"
+    }
+   },
+   "roll": {
+    "5": [
+     0,
+     125
+    ]
+   }
+  },
+  "mm7/hnm1ad": {
+   "name": "hnm1ad",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "deep maroon-red rough stucco wall with a carved dark-red bat-wing crest and small emblem at the top centre and a band of carved runes along the bottom, with an arched dark wooden door with a carved panel, a small green glass cross window, an iron band with a skull ring knocker; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1ab"
+     ],
+     "fraction": 0.27
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1ab"
+     ],
+     "fraction": 0.27
+    }
+   }
+  },
+  "mm7/hnp3d": {
+   "name": "hnp3d",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, with a weathered grey plank door with a diagonal brace, iron studs and a brass handle in a dark frame; copy the composition exactly",
+   "notes": {
+    "5": "the weathered wooden sill at the bottom keeps the reference brightness right down to the last row: no dark line, groove or shadow along or just above the bottom edge",
+    "6": "the dark plank door runs straight down to the bottom edge: the last rows are the dark door planks and dark threshold, exactly as dark as the reference, with no pale sill or stone below the door; keep the door, its brace, bands and handle at the reference's exact positions",
+    "7": "the dark plank door runs straight down to the bottom edge: the last rows are the dark door planks and dark threshold, exactly as dark as the reference, with no pale sill or stone below the door; keep the door, its brace, bands and handle at the reference's exact positions"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3le",
+      "mm7/hnp3w"
+     ],
+     "fraction": 0.257
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3le",
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.257
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.187
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp3le",
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.257
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp3le",
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.257
+    },
+    "6": {
+     "sources": [
+      "mm7/hnp3le",
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.257
+    },
+    "7": {
+     "sources": [
+      "mm7/hnp3le",
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.257
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm7/hnp3b"
+    },
+    "4": {
+     "right": "mm7/hnp3b"
+    },
+    "5": {
+     "right": "mm7/hnp3b"
+    },
+    "6": {
+     "right": "mm7/hnp3b"
+    },
+    "7": {
+     "right": "mm7/hnp3b"
+    }
+   }
+  },
+  "mm7/hnm1d": {
+   "name": "hnm1d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs, with an arched carved golden-brown wooden door with iron strap hinges and an iron band with a skull ring, framed by gnarled bone-like branches; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1b"
+     ],
+     "fraction": 0.202
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1b"
+     ],
+     "fraction": 0.202
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm7/hnp1d": {
+   "name": "hnp1d",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, with a doorway framed in dark rough rubble stone, a tattered dusky red cloth with two small horns hanging over a wooden door bound with broad crossing planks; copy the composition exactly",
+   "notes": {
+    "4": "the pale cream plaster along the left edge continues the sharp neighbouring plaster in the left margin exactly, same brightness and tone; keep the doorway, its rubble frame and the red cloth at the reference's exact positions and sizes",
+    "5": "the pale cream plaster along the left edge continues the sharp neighbouring plaster exactly; keep the doorway, its rubble frame and the red cloth at the reference's exact positions and sizes",
+    "6": "the pale cream plaster along the left edge continues the sharp neighbouring plaster exactly; keep the doorway, its rubble frame and the red cloth at the reference's exact positions and sizes"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.16
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.16
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.16
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.16
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.16
+    },
+    "6": {
+     "sources": [
+      "mm7/hnp1b",
+      "mm7/hnp1el"
+     ],
+     "fraction": 0.159
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm7/hnp1el"
+    },
+    "4": {
+     "left": "mm7/hnp1el"
+    },
+    "5": {},
+    "6": {
+     "right": "mm7/hnp1er",
+     "left": "mm7/hnp1el"
+    }
+   },
+   "match_neighbor": true,
+   "pad": {
+    "6": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/hnp2d": {
+   "name": "hnp2d",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, almost filled by a dark red-brown vertical plank door in a dark timber frame, with a horned demon mask above it and twisted bone ornaments down its centre; copy the composition exactly",
+   "notes": {
+    "2": "no dark rim along the top edge: the top beam keeps full brightness right up to the top edge",
+    "3": "the row of claws and the top beam continue upward past the top edge into the margin with no dark border line or shadow at the top",
+    "4": "the row of claws and the top beam continue upward past the top edge into the margin with no dark border line or shadow at the top",
+    "5": "the row of claws and the top beam continue upward past the top edge into the margin with no dark border line or shadow at the top",
+    "6": "the bottom edge keeps the reference brightness right down to the last pixel row: no dark band, shadow or line along the bottom"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.168
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.168
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp2bw"
+     ],
+     "fraction": 0.168
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.168
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp2bw"
+     ],
+     "fraction": 0.168
+    },
+    "6": {
+     "sources": [
+      "mm7/hnp2bw"
+     ],
+     "fraction": 0.168
+    }
+   },
+   "context": {
+    "5": {
+     "left": "mm7/hnp2el",
+     "right": "mm7/hnp2bw"
+    },
+    "6": {
+     "right": "mm7/hnp2er",
+     "left": "mm7/hnp2el"
+    }
+   }
+  },
+  "mm7/c1t1b1": {
+   "name": "c1t1b1",
+   "versions": [
+    1
+   ],
+   "material": "dusty brown plaster wall with a crumbling dark reddish rock edge on the left and a carved grey stone frieze band of rings along the top; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/cndl": {
+   "name": "cndl",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with an arched doorway of rough pale tan stone voussoirs around a weathered grey wooden plank door with a skull-headed iron latch and iron bands at the bottom; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.157
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.157
+    }
+   }
+  },
+  "mm7/cndr": {
+   "name": "cndr",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with an arched doorway of rough pale tan stone voussoirs around a weathered grey wooden plank door with a skull-headed iron latch and iron bands at the bottom - right part: grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with an arched doorway of rough pale stone voussoirs around a dark weathered wooden door with iron hinges and a ring handle; copy the composition exactly",
+   "notes": {
+    "2": "the stone wall continues past the left edge into the margin with no dark border line or shadow at the left side",
+    "3": "no dark border line on any edge: the stone wall and arch stones reach the left and right edges at full brightness",
+    "4": "no dark border line on any edge: the stone wall and arch stones reach the left and right edges at full brightness"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.146
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.146
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.146
+    },
+    "4": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.13
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "4": {
+     "left": "mm7/cnb",
+     "right": "mm7/cnb"
+    }
+   }
+  },
+  "mm7/7grastyl": {
+   "name": "7grastyl",
+   "versions": [
+    1
+   ],
+   "material": "short dense green grass with yellowish dry patches",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7sgalch": {
+   "name": "7sgalch",
+   "versions": [
+    1
+   ],
+   "material": "shop sign in a square wooden frame showing a purple alchemy flask above bright flames; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7sgarm": {
+   "name": "7sgarm",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "shop sign in a square wooden frame showing a silver horned helmet; copy the composition exactly",
+   "notes": {
+    "3": "the rusty riveted iron frame runs right to all four edges at full brightness; no dark line on the outermost pixel column at the left or right",
+    "4": "this panel is cut from a continuous row of identical panels, so the rusty iron frame continues seamlessly into the next panel at the left and right edges; the outermost pixel columns are rusty iron at full brightness with no black outline or dark line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,30 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png exactly according to this brief. Image 1 is the edit target/geometry guide; image 2 design_reference.png is the approved material/detail reference; image 3 icon_x8.png is original colour reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Guide has three columns by FOUR rows of equal cells. Keep every object in EXACT same position, size and outline as grey guide. Never redraw, enlarge, move or redesign silhouettes. Paint grey objects only. Rows 1-2 are PAINT, five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat these exact views as MATERIAL MASK. Object: rolled parchment writ with dark brown wooden spindle ends, two purple cloth ribbons and central round gold-colored seal matching design reference. Transfer reference materials/detail onto guide's existing simple geometry without altering it. Parchment warm ivory fibrous paper, brown wood grain, purple woven ribbon, round golden seal on front. Other views physically consistent. Unlit base colour only, no lighting, cast shadows, AO, hot highlights, reflections. Rows 3-4 MATERIAL MASK: fill corresponding silhouettes with FLAT pure colours only: cloth/ribbons #0000FF; matte nonmetal wood/parchment/paper/wax #FFFF00; actual metal gold/brass #FF0000. Treat wax seal as wax (yellow mask) if wax; only actual metal red. No shading, texture, outlines or antialiased colour blends inside masks. Every silhouette pixel exactly one of these colours. Preserve all gaps/openings fully transparent. Empty cells column 3 rows 2 and 4 fully transparent. No background, ground, glow, sparkles, labels or text. Strict registration to guide dominates reference silhouette.\nCORRECTION REQUIREMENT: Previous attempt failed because of ragged paint spills outside silhouettes. Use the original guide alpha as a strict stencil: crisp straight horizontal rectangular parchment edges, short rectangular spindle ends, exact circular end views. Absolutely ZERO speckles, drips, noise or colour outside these silhouettes. The lower mask silhouettes must have precisely the SAME clean contours as the guide, not expanded painted blobs. Preserve exact guide placement. Purple ribbons continue around cylinder and must appear in TOP view too, with corresponding blue stripes in TOP mask. Do not render any shadow or directional lighting.",
+  "initial_prompt": "Use case: precise-object-edit. Paint the supplied paint_mask_guide.png exactly according to this brief. Image 1 is the edit target/geometry guide; image 2 design_reference.png is the approved material/detail reference; image 3 icon_x8.png is original colour reference (magenta is background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Guide has three columns by FOUR rows of equal cells. Keep every object in EXACT same position, size and outline as grey guide. Never redraw, enlarge, move or redesign silhouettes. Paint grey objects only. Rows 1-2 are PAINT, five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat these exact views as MATERIAL MASK. Object: rolled parchment writ with dark brown wooden spindle ends, two purple cloth ribbons and central round gold-colored seal matching design reference. Transfer reference materials/detail onto guide's existing simple geometry without altering it. Parchment warm ivory fibrous paper, brown wood grain, purple woven ribbon, round golden seal on front. Other views physically consistent. Unlit base colour only, no lighting, cast shadows, AO, hot highlights, reflections. Rows 3-4 MATERIAL MASK: fill corresponding silhouettes with FLAT pure colours only: cloth/ribbons #0000FF; matte nonmetal wood/parchment/paper/wax #FFFF00; actual metal gold/brass #FF0000. Treat wax seal as wax (yellow mask) if wax; only actual metal red. No shading, texture, outlines or antialiased colour blends inside masks. Every silhouette pixel exactly one of these colours. Preserve all gaps/openings fully transparent. Empty cells column 3 rows 2 and 4 fully transparent. No background, ground, glow, sparkles, labels or text. Strict registration to guide dominates reference silhouette.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-feec-70a0-96fc-b41281f941e9/exec-0ae5bd98-6c99-4f10-8634-e6a55b417896.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10392/paint_mask_guide.png",
+      "sha256": "dc4817e1f32a4c80be47afb5389d2fb7885b13a841d711a90307cd75ac9f2339"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10392/design_reference.png",
+      "sha256": "f218c1813a82f69dc18b10c3e0f1dd8e91efeb93cae0f65e7d256ac12f0e6da5"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10392/icon_x8.png",
+      "sha256": "928821d1da30bc9306f3fef0469ed70df35b3baf16854bb0e4b31478ec3e04fe"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10392/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "visual_limitations": "Stray edge pixels remain; material mask is not strictly flat pure colours. One permitted corrective regeneration exhausted."
+  }
+}

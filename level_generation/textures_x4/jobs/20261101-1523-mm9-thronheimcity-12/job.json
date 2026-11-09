@@ -1,0 +1,485 @@
+{
+ "id": "20261101-1523-mm9-thronheimcity-12",
+ "world": "mm9",
+ "maps": [
+  "thronheimcity.blv",
+  "drangheimcity.blv"
+ ],
+ "created": "2026-11-01T14:23:56+00:00",
+ "textures": [
+  "mm9/sturmkjyyf",
+  "mm9/thjo42urpa",
+  "mm9/floonnx79k",
+  "mm9/thro8obdrl",
+  "mm9/throh1ys90",
+  "mm9/fortgch0re",
+  "mm9/dranm8e6ur",
+  "mm9/stur1q4o93",
+  "mm9/ashwahx503",
+  "mm9/ashd3kpt9w",
+  "mm9/stur2nshj6",
+  "mm9/thjo6levxi",
+  "mm9/dran1ihbg3",
+  "mm9/thro4ooc83",
+  "mm9/throuo7m8b",
+  "mm9/dran7ksa90",
+  "mm9/thjommvubz",
+  "mm9/fros19ssr6",
+  "mm9/thjosufhki",
+  "mm9/frosufe58j",
+  "mm9/sturxvor0t",
+  "mm9/sturek2auq",
+  "mm9/thjo1hd5lw",
+  "mm9/thjo8kidno"
+ ],
+ "requests": {
+  "mm9/sturmkjyyf": {
+   "name": "sturmkjyyf",
+   "versions": [
+    1
+   ],
+   "material": "brownish-olive rough stone panel divided by thin paired incised lines into large squares, one double line running vertically near the left and another horizontally near the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo42urpa": {
+   "name": "thjo42urpa",
+   "versions": [
+    1
+   ],
+   "material": "olive-green stone brick wall in staggered courses with a vertical column of pale grey square stone quoin blocks down the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/floonnx79k": {
+   "name": "floonnx79k",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale beige and light brown wooden floor of long horizontal planks of varying lengths with staggered butt joints",
+   "notes": {
+    "2": "paint fresh natural wood grain and crisp plank edges at full resolution instead of copying the low-resolution pixels; keep the native's plank rows and end joints"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/thro8obdrl": {
+   "name": "thro8obdrl",
+   "versions": [
+    1
+   ],
+   "material": "plain olive-brown rough stone or plaster surface with fine mottled grain and no visible joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/throh1ys90": {
+   "name": "throh1ys90",
+   "versions": [
+    1
+   ],
+   "material": "two door leaves side by side: on the left a dark brown vertical plank door in a thin frame with a round iron ring knocker; on the right a golden-brown plank door in a light wooden frame with two black wrought-iron hinge straps and an iron handle between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fortgch0re": {
+   "name": "fortgch0re",
+   "versions": [
+    1
+   ],
+   "material": "a pair of grey stone or iron door leaves, each with two recessed square panels carved with a curling S-shaped scroll emblem, a central seam strip with two vertical rows of dark square studs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dranm8e6ur": {
+   "name": "dranm8e6ur",
+   "versions": [
+    1
+   ],
+   "material": "two tall dark slate-blue gothic window panels side by side, each with a pointed arch of carved trefoil tracery over three narrow lancets divided by slender pale stone mullions",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur1q4o93": {
+   "name": "stur1q4o93",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a door texture: on the left a mottled purple-grey and dark green weathered painted wood surface; on the right a door leaf of dark weathered wooden planks framed by riveted iron corner plates with a centre rail and an iron latch plate, enclosing two tall purple-grey painted wooden panels",
+   "notes": {
+    "2": "the plain purple-grey wall on the left half must run across the top/bottom edge with no dark horizontal line; only the door frame on the right half has a rail at its edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     73
+    ]
+   }
+  },
+  "mm9/ashwahx503": {
+   "name": "ashwahx503",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rough stone wall of small flat irregular stones in horizontal courses with a vertical column of pale grey square stone blocks left of centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashd3kpt9w": {
+   "name": "ashd3kpt9w",
+   "versions": [
+    1
+   ],
+   "material": "a grey weathered wooden plank door with horizontal battens, three rusty iron hinge straps along the left edge and a rusty latch plate on the right, next to a strip of vertical weathered planks on the right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur2nshj6": {
+   "name": "stur2nshj6",
+   "versions": [
+    1
+   ],
+   "material": "brownish-grey stone brick wall of small bricks in staggered courses with a band of larger square blocks across the lower part and a vertical column of larger blocks in the centre top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo6levxi": {
+   "name": "thjo6levxi",
+   "versions": [
+    1
+   ],
+   "material": "tan rust-stained riveted metal panel with vertical plates and rows of round rivets, a central oval porthole of dark grey glass with yellow-orange glints, framed by heavy bolts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dran1ihbg3": {
+   "name": "dran1ihbg3",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-black marble of irregular overlapping square slabs with faint pale veining and slight brown tints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/darkeihi2z"
+     ],
+     "fraction": 0.929
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thro4ooc83": {
+   "name": "thro4ooc83",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dense mottled green moss and grass patches mixed with brown-grey earth and rock showing through",
+   "notes": {
+    "2": "keep the native's muted grey-green moss and brown-grey rock with soft contrast, no vivid green clumps or pinkish-white rock"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/throuo7m8b": {
+   "name": "throuo7m8b",
+   "versions": [
+    1
+   ],
+   "material": "dense bright green leafy moss or ivy growth with small yellow-green highlights and dark brown patches between",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dran7ksa90": {
+   "name": "dran7ksa90",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown brick wall in staggered courses with a vertical column of pale grey-beige square stone quoin blocks down the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjommvubz": {
+   "name": "thjommvubz",
+   "versions": [
+    1
+   ],
+   "material": "grey-beige rough stone wall of large square and rectangular blocks in staggered courses with faint joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros19ssr6": {
+   "name": "fros19ssr6",
+   "versions": [
+    1
+   ],
+   "material": "dark grey and black weathered wood with dense vertical grain streaks and pale scratched highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjosufhki": {
+   "name": "thjosufhki",
+   "versions": [
+    1
+   ],
+   "material": "dark green-grey and red mixed brick wall in staggered courses framed by a dark wooden post on the left and a beam along the top, a curved wooden brace across the top-left corner",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/frosufe58j": {
+   "name": "frosufe58j",
+   "versions": [
+    1
+   ],
+   "material": "pinkish-grey rough stone wall of small irregular blocks with a dark weathered vertical wooden post left of centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturxvor0t": {
+   "name": "sturxvor0t",
+   "versions": [
+    1
+   ],
+   "material": "grey-green weathered stone wall of large rectangular blocks with dark streaks, topped by a dark grey cornice with a row of small square crenellation notches along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturek2auq": {
+   "name": "sturek2auq",
+   "versions": [
+    1
+   ],
+   "material": "brown-grey stone brick wall of rough rectangular blocks in staggered courses with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo1hd5lw": {
+   "name": "thjo1hd5lw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a round-arched pair of reddish-brown vertical plank door leaves in a dark iron frame with black wrought-iron fleur-de-lis hinge straps, two on each leaf, set in a grey stone wall with a brown brick band along the top",
+   "notes": {
+    "2": "paint the door leaves the native's darker, muted reddish brown, not light orange-brown; keep the arch, centre leaf joint and the four hinges exactly where they are"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/thjo8kidno": {
+   "name": "thjo8kidno",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown wall of rough flat irregular stones stacked in uneven horizontal courses with deep shadowed joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

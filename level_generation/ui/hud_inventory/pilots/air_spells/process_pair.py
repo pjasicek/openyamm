@@ -1,0 +1,323 @@
+"""Assemble explicitly reviewed Air spell ink pairs over accepted page pixels; never auto-approve."""
+import argparse
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+from PIL import Image, ImageDraw
+from scipy import ndimage, signal
+
+HERE = Path(__file__).resolve().parent
+HUD = HERE.parents[1]
+sys.path.insert(0, str(HUD))
+from finalize_classification import ROOT, digest, read
+from freeze_targets import rendered
+import registration
+
+spec = importlib.util.spec_from_file_location('creature_edges',
+    ROOT / 'level_generation/creatures/mm6_goblin/direct_ai_attack/clean_edges.py')
+edges = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(edges)
+
+
+SPELL_PATCHES = {
+    'sba01': {'skull_top': (67, 12, 74, 31), 'left_temple': (27, 57, 37, 76),
+        'right_temple': (155, 61, 36, 73), 'eye_iris': (78, 89, 49, 47),
+        'empty_socket': (139, 86, 45, 43), 'nose': (119, 115, 37, 46),
+        'left_cheek': (54, 125, 52, 35), 'right_cheek': (153, 122, 33, 36),
+        'teeth': (84, 159, 75, 32), 'chin': (91, 190, 69, 33),
+        'sigil_center': (116, 30, 32, 47), 'sigil_left': (90, 44, 38, 34),
+        'sigil_right': (140, 41, 37, 34), 'green_glyph': (181, 6, 67, 66),
+        'small_glyph_1': (200, 76, 29, 31), 'small_glyph_2': (199, 104, 28, 31),
+        'small_glyph_3': (198, 130, 30, 32), 'small_glyph_4': (198, 157, 32, 32)},
+    'sba11': {'top_tip': (72, 8, 32, 43), 'upper_left_tip': (21, 31, 34, 43),
+        'upper_right_tip': (125, 29, 37, 44), 'left_tip': (9, 87, 44, 39),
+        'right_tip': (130, 80, 47, 41), 'lower_left_tip': (28, 121, 40, 41),
+        'lower_right_tip': (112, 123, 40, 41), 'bottom_tip': (75, 231, 27, 53),
+        'center_star': (64, 69, 53, 55), 'green_glyph': (146, 158, 65, 67),
+        'top_glyph_left': (156, 22, 25, 28), 'top_glyph_right': (181, 21, 30, 31),
+        'second_glyph': (176, 49, 34, 30), 'third_glyph': (177, 77, 30, 29),
+        'fourth_glyph': (175, 103, 35, 31), 'fifth_glyph': (177, 129, 30, 33)},
+    'sba04': {'blade_tip': (57, 27, 38, 30), 'blade_middle': (104, 49, 47, 35),
+        'crossguard': (157, 66, 40, 39), 'pommel': (192, 90, 36, 32),
+        'wheel_left': (54, 102, 36, 68), 'wheel_bottom': (86, 182, 72, 38),
+        'wheel_boss': (133, 122, 42, 46), 'wheel_right': (164, 133, 36, 66),
+        'spark_left_arc': (12, 10, 57, 37), 'spark_right_arc': (121, 5, 51, 36),
+        'green_glyph': (101, 216, 35, 84), 'top_glyph_1': (139, 232, 27, 32),
+        'top_glyph_2': (162, 233, 27, 31), 'top_glyph_3': (189, 232, 29, 32),
+        'top_glyph_4': (218, 232, 29, 32), 'bottom_glyph_1': (133, 263, 33, 28),
+        'bottom_glyph_2': (162, 263, 27, 29), 'bottom_glyph_3': (188, 264, 28, 27),
+        'bottom_glyph_4': (215, 260, 35, 34)},
+    'sba06': {'shield_top': (78, 30, 63, 36), 'shield_left_rim': (51, 72, 29, 78),
+        'shield_bottom': (95, 169, 66, 35), 'shield_boss': (106, 92, 39, 51),
+        'upper_arrow_tail': (166, 31, 37, 39), 'lower_arrow_tail': (187, 71, 36, 39),
+        'upper_arrow_shaft': (143, 68, 40, 35), 'lower_arrow_shaft': (147, 104, 41, 32),
+        'upper_left_spoke': (73, 61, 40, 38), 'top_spoke': (94, 41, 36, 54),
+        'lower_left_spoke': (72, 119, 44, 31), 'bottom_spoke': (116, 141, 40, 42),
+        'green_glyph': (176, 150, 68, 69), 'top_glyph_left': (155, 194, 29, 31),
+        'top_glyph_right': (219, 197, 29, 31), 'bottom_glyph_1': (107, 226, 28, 28),
+        'bottom_glyph_2': (136, 223, 28, 31), 'bottom_glyph_3': (165, 225, 28, 29),
+        'bottom_glyph_4': (193, 223, 27, 31), 'bottom_glyph_5': (220, 226, 28, 28)},
+    'sba07': {'wrist': (14, 148, 40, 43), 'knuckles': (40, 136, 41, 42),
+        'upper_finger_tip': (96, 99, 39, 29), 'lower_finger_tip': (97, 116, 43, 31),
+        'thumb': (94, 143, 32, 30), 'bolt_start': (124, 102, 41, 24),
+        'bolt_lower_zig': (143, 81, 62, 32), 'bolt_upper_zig': (158, 55, 72, 31),
+        'bolt_tip': (227, 37, 51, 28), 'green_glyph': (204, 112, 77, 59),
+        'top_glyph_left': (204, 170, 30, 31), 'top_glyph_right': (235, 170, 27, 31),
+        'middle_glyph_left': (174, 200, 31, 31), 'middle_glyph_center': (204, 200, 25, 30),
+        'middle_glyph_right': (229, 200, 32, 30), 'bottom_glyph_left': (174, 227, 30, 29),
+        'bottom_glyph_center': (203, 224, 30, 32), 'bottom_glyph_right': (232, 224, 29, 32)},
+    'sba05': {'left_wing_tip': (36, 43, 37, 38), 'left_tall_wing': (73, 14, 38, 58),
+        'right_inner_wing': (128, 16, 39, 56), 'right_tall_wing': (155, 5, 35, 62),
+        'front_cuff': (91, 76, 48, 45), 'back_cuff': (149, 67, 49, 38),
+        'front_heel': (94, 150, 43, 57), 'front_toe': (124, 177, 43, 37),
+        'back_heel': (151, 132, 33, 50), 'back_toe': (181, 150, 52, 36),
+        'green_glyph': (15, 162, 58, 78), 'top_glyph_1': (75, 215, 31, 30),
+        'top_glyph_2': (110, 215, 31, 30), 'top_glyph_3': (141, 215, 32, 30),
+        'top_glyph_4': (174, 214, 31, 31), 'bottom_glyph_1': (41, 242, 33, 32),
+        'bottom_glyph_2': (75, 241, 32, 32), 'bottom_glyph_3': (111, 241, 31, 32),
+        'bottom_glyph_4': (145, 241, 25, 32), 'bottom_glyph_5': (169, 241, 30, 32),
+        'bottom_glyph_6': (202, 241, 32, 32)},
+    'sba08': {'goblet_rim': (82, 10, 47, 55), 'goblet_bowl': (103, 44, 49, 48),
+        'stem': (40, 62, 55, 43), 'foot_tip': (10, 73, 43, 48), 'foot_bottom': (44, 111, 36, 47),
+        'pour_start': (146, 54, 49, 32), 'stream_middle': (190, 100, 26, 57),
+        'stream_bottom': (188, 160, 27, 60), 'receiving_bowl': (166, 211, 90, 44),
+        'green_glyph': (37, 151, 58, 59), 'small_top_glyph': (163, 134, 29, 27),
+        'small_arch': (99, 162, 35, 27), 'small_curve': (144, 157, 22, 28),
+        'small_bar': (165, 162, 28, 26), 'small_bottom_curve': (95, 185, 32, 28),
+        'small_bottom_middle': (132, 184, 29, 28), 'small_bottom_right': (158, 185, 35, 28)},
+    'sba03': {'green_glyph': (25, 145, 72, 64), 'top_small_glyph': (40, 216, 34, 26),
+        'bottom_glyph_1': (38, 244, 36, 34), 'bottom_glyph_2': (76, 248, 34, 30),
+        'bottom_glyph_3': (111, 248, 36, 30), 'bottom_glyph_4': (147, 247, 38, 31),
+        'shield_hilt': (208, 130, 46, 40), 'shield_top': (145, 67, 52, 48)},
+    'sba02': {'green_glyph': (220, 140, 70, 72), 'top_feather': (150, 22, 50, 58),
+        'left_feather_tip': (8, 52, 64, 58), 'left_quill': (110, 107, 55, 40),
+        'bottom_feather_tip': (52, 186, 59, 49), 'small_arch_1': (182, 181, 31, 28),
+        'small_top_curve': (215, 171, 28, 30), 'small_arch_2': (216, 198, 27, 30),
+        'small_pi': (183, 213, 30, 26), 'small_bottom_curve': (186, 237, 31, 29),
+        'small_bottom_l': (215, 231, 29, 32)},
+    'sba10': {'green_glyph': (5, 195, 75, 74), 'right_tall_tip': (186, 25, 44, 64),
+        'right_middle_tip': (154, 46, 44, 64), 'right_outer_tip': (224, 60, 38, 65),
+        'left_tall_tip': (42, 35, 40, 77), 'left_wing_base': (74, 146, 58, 68),
+        'right_wing_bend': (118, 190, 62, 54), 'top_glyph_1': (75, 232, 22, 32),
+        'top_glyph_2': (94, 233, 30, 31), 'top_glyph_3': (121, 233, 33, 33),
+        'top_glyph_4': (151, 233, 29, 32), 'bottom_glyph_1': (33, 266, 25, 28),
+        'bottom_glyph_2': (57, 265, 28, 29), 'bottom_glyph_3': (83, 265, 30, 29),
+        'bottom_glyph_4': (110, 265, 32, 29), 'bottom_glyph_5': (142, 265, 34, 29)},
+    'sba09': {'implosion_center': (73, 103, 48, 50), 'top_ray': (98, 10, 40, 66),
+        'upper_left_ray': (17, 50, 58, 52), 'upper_right_ray': (151, 72, 67, 44),
+        'lower_left_ray': (17, 149, 57, 48), 'lower_right_ray': (130, 153, 60, 48),
+        'bottom_ray': (77, 170, 53, 46), 'green_glyph': (16, 210, 67, 64),
+        'top_glyph_1': (79, 211, 36, 30), 'top_glyph_2': (114, 211, 31, 30),
+        'top_glyph_3': (147, 211, 36, 30), 'bottom_glyph_1': (79, 239, 26, 31),
+        'bottom_glyph_2': (109, 239, 39, 31), 'bottom_glyph_3': (146, 239, 37, 31)},
+}
+
+
+def resize_for_layout(image, size):
+    """Model the UI's full-texture quad sampling without changing the exported native canvas contract."""
+    if image.size == tuple(size):
+        return image.copy()
+    return image.convert('RGBa').resize(tuple(size), Image.Resampling.BILINEAR).convert('RGBA')
+
+
+def page_substrate(page, rect, canvas_size):
+    x, y, w, h = rect
+    return resize_for_layout(page.crop((x, y, x + w, y + h)), canvas_size)
+
+
+def match_landmarks(native, restored, patches, radius):
+    n, r = [ndimage.gaussian_filter(np.asarray(i.convert('L'), dtype=float), .65) for i in (native, restored)]
+    r = np.pad(r, radius, mode='edge')
+    points, matches = [], []
+    for name, (x, y, w, h) in patches.items():
+        template, search = n[y:y + h, x:x + w], r[y:y + h + radius * 2, x:x + w + radius * 2]
+        z, ones = template - template.mean(), np.ones(template.shape)
+        scores = signal.correlate2d(search, z, mode='valid')
+        total = signal.correlate2d(search, ones, mode='valid')
+        squares = signal.correlate2d(search * search, ones, mode='valid')
+        scores /= np.sqrt(np.maximum(squares - total * total / template.size, 1e-8) * (z * z).sum())
+        iy, ix = np.unravel_index(scores.argmax(), scores.shape)
+        dx, dy = int(ix) - radius, int(iy) - radius
+        points.append(dict(name=name, source_xy=[(x + w / 2) / 2, (y + h / 2) / 2],
+                           restored_xy=[x + w / 2 + dx, y + h / 2 + dy]))
+        matches.append(dict(name=name, reference_patch_x2=[x, y, w, h], measured_shift_x2=[dx, dy],
+                            normalized_correlation=float(scores[iy, ix])))
+    return points, matches
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--attempt', required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--shift', type=float, nargs=2, default=[0, 0])
+    parser.add_argument('--scale', type=float, nargs=2, default=[1, 1],
+                        help='Measured shared XY scale about each native canvas origin; never fit individual features')
+    parser.add_argument('--second-shift', type=float, nargs=2)
+    parser.add_argument('--ink-opacity', type=float, default=1)
+    parser.add_argument('--repair-contour-spill', action='store_true')
+    parser.add_argument('--soft-effect-matte', action='store_true',
+                        help='Use the sprite soft-effect estimate for an inspected diffuse aura')
+    parser.add_argument('--search-radius', type=int, default=4)
+    parser.add_argument('--current-layout', action='store_true', help='Explicit deterministic crop revision of retained ink')
+    args = parser.parse_args()
+    assert 0 < args.ink_opacity <= 1
+    assert np.isfinite(args.scale).all() and min(args.scale) > 0
+    out = args.output.resolve()
+    assert not out.exists(), 'Use a fresh directory; retain reviewed evidence'
+    out.mkdir(parents=True)
+    (out / 'process_snapshot.py').write_bytes(Path(__file__).read_bytes())
+    attempt = HUD / 'checkpoint/attempts' / args.attempt
+    payload = json.loads((attempt / 'payload.json').read_text())
+    assert payload['spell_ink_matte'] and len(payload['selected_cells']) == 2
+    spell = payload['selected_cells'][0].split('--')[-1][:-5]
+    assert spell in SPELL_PATCHES and set(payload['selected_cells']) == {
+        'engine--icons--' + spell + 'a.bmp', 'engine--icons--' + spell + 'b.bmp'}, (
+        'Use explicit per-spell landmark patches and inspect the no-purple assumption before adding a spell')
+    job = next(j for j in read('jobs.json')['jobs'] if j['id'] == payload['job'])
+    targets = {t['id']: t for t in read('expected_targets.json')['targets']}
+    raw = Image.open(attempt / 'raw.png').convert('RGB')
+    cleanup_script = Path(edges.__file__)
+    if args.soft_effect_matte:
+        assert not args.repair_contour_spill, 'Do not apply the solid-ink contour clamp to a soft aura'
+        sprite_jobs = ROOT / 'level_generation/sprites/restoration_jobs'
+        sys.path.insert(0, str(sprite_jobs))
+        soft_spec = importlib.util.spec_from_file_location('hud_soft_effects', sprite_jobs / 'finish.py')
+        soft_effects = importlib.util.module_from_spec(soft_spec)
+        soft_spec.loader.exec_module(soft_effects)
+        clean, cleanup = soft_effects.clean_soft(raw, [255, 0, 255])
+        cleanup_script = sprite_jobs / 'finish.py'
+        sys.path.remove(str(sprite_jobs))
+    else:
+        clean, cleanup = edges.extract(raw)
+    clean.save(out / 'cleaned-master.png')
+    layout = payload['execution_layout']
+    clean = clean.convert('RGBa').resize(tuple(layout['canvas_size']), Image.Resampling.LANCZOS).convert('RGBA')
+    crop = payload['page_crops'][0]
+    layout_revision = None
+    if args.current_layout:
+        queue_spec = importlib.util.spec_from_file_location('hud_reassembly_queue', HUD / 'queue.py')
+        queue_module = importlib.util.module_from_spec(queue_spec)
+        queue_spec.loader.exec_module(queue_module)
+        queue = queue_module.Queue()
+        assert queue.layout, 'No explicit active preview layout revision'
+        targets = queue.targets
+        layout_revision = queue.state['layout_revision']
+        crop = dict(crop, final_draw_xywh=targets[payload['selected_cells'][0]]['page_dependencies'][0]['x2_draw_rect'])
+    page_path = Path(crop['full_page'])
+    assert digest(page_path) == crop['page_sha256'], 'Accepted page changed'
+    page = Image.open(page_path).convert('RGBA')
+    x, y, w, h = crop['final_draw_xywh']
+    cells, frames, ink_masks, displayed_substrates = [], [], [], []
+    contact_width, contact_height = w, h + 41
+    contact = Image.new('RGB', (contact_width * 4, contact_height * 2), '#555555')
+    draw = ImageDraw.Draw(contact)
+    for index, cell in enumerate(payload['selected_cells']):
+        member = next(m for m in job['members'] if m['id'] == cell)
+        target = targets[member['target']]
+        a, b, cw, ch = layout['cell_rects'][cell]
+        substrate = page_substrate(page, crop['final_draw_xywh'], (cw, ch))
+        ink = clean.crop((a, b, a + cw, b + ch))
+        shift = args.second_shift if index == 1 and args.second_shift else args.shift
+        ink = ink.convert('RGBa').transform(ink.size, Image.Transform.AFFINE,
+            (1 / args.scale[0], 0, -shift[0] / args.scale[0],
+             0, 1 / args.scale[1], -shift[1] / args.scale[1]), Image.Resampling.BICUBIC).convert('RGBA')
+        ink.putalpha(ink.getchannel('A').point(lambda value: round(value * args.ink_opacity)))
+        pixels = np.asarray(ink, dtype=float).copy()
+        band = ndimage.maximum_filter(pixels[:, :, 3] < args.ink_opacity * 255 - 1, size=5) > 0
+        excess = np.maximum(0, np.minimum(pixels[:, :, 0], pixels[:, :, 2]) - pixels[:, :, 1] - 2)
+        repair = (pixels[:, :, 3] > 0) & band & (excess > 0)
+        if args.repair_contour_spill:
+            # Observed pink specks in the resampled hatch contour; this spell has no intended purple pigment.
+            pixels[:, :, 0][repair] -= excess[repair]
+            pixels[:, :, 2][repair] -= excess[repair]
+            ink = Image.fromarray(np.clip(pixels, 0, 255).astype('uint8'))
+        ink.save(out / (target['runtime_name'] + '-ink.png'))
+        final_pixels = np.asarray(ink, dtype=float)
+        residual = np.maximum(0, np.minimum(final_pixels[:, :, 0], final_pixels[:, :, 2])
+                              - final_pixels[:, :, 1]) * final_pixels[:, :, 3] / 255
+        native = rendered(Image.open(ROOT / member['source_path']), 'hud').resize((cw, ch), Image.Resampling.NEAREST)
+        assembled = substrate.copy()
+        assembled.alpha_composite(ink)
+        # Native key rectangles reserve overlapping spell areas. They are a canvas contract, not a fitted art mask.
+        key = np.asarray(native.getchannel('A')) == 0
+        ink_a = np.asarray(ink.getchannel('A'))
+        overlap = int(((ink_a >= 16) & key).sum())
+        assembled.putalpha(native.getchannel('A'))
+        artifact = out / (target['runtime_name'] + '.png')
+        assembled.save(artifact)
+        if layout_revision:
+            assembly = dict(cell=cell, attempt=args.attempt, layout_sha256=layout_revision['sha256'],
+                page_sha256=crop['page_sha256'], final_draw_xywh=crop['final_draw_xywh'],
+                artifact_sha256=digest(artifact), kind='deterministic_retained_ink_reassembly',
+                evidence_hashes={str(p.resolve()): digest(p) for p in [attempt / 'raw.png',
+                    attempt / 'payload.json', out / 'process_snapshot.py', out / (target['runtime_name'] + '-ink.png')]})
+            (out / (target['runtime_name'] + '-reassembly.json')).write_text(json.dumps(assembly, indent=2) + '\n')
+        evidence = registration.evidence(member, target, artifact, out / 'registration')
+        native_for_matching = Image.open(ROOT / member['source_path']).convert('RGB').resize(
+            (cw, ch), Image.Resampling.BICUBIC)
+        points, matches = match_landmarks(native_for_matching, assembled, SPELL_PATCHES[spell], args.search_radius)
+        record_path = Path(evidence['registration_record'])
+        record = json.loads(record_path.read_text())
+        record.update(landmarks=points, patch_matches=matches,
+            landmark_method='Local normalized correlation of actual native bicubic x2 grayscale patches; inspect visually')
+        record_path.write_text(json.dumps(record, indent=2) + '\n')
+        full = page.copy()
+        full.alpha_composite(resize_for_layout(assembled, (w, h)), (x, y))
+        full.save(out / (target['runtime_name'] + '-page.png'))
+        frames.append(full.convert('RGB'))
+        ink_masks.append(np.asarray(resize_for_layout(ink, (w, h)).getchannel('A')))
+        displayed_substrates.append(np.asarray(resize_for_layout(substrate, (w, h)))[:, :, :3])
+        for column, (label, picture) in enumerate([('native', native), ('restored', assembled),
+                                                  ('ink on dark', ink), ('ink on light', ink)]):
+            px, py = column * contact_width, index * contact_height
+            draw.text((px, py), target['runtime_name'] + ' ' + label, fill='white')
+            bg = Image.new('RGBA', picture.size, '#222222' if column != 3 else '#eeeeee')
+            bg.alpha_composite(picture)
+            contact.paste(bg.convert('RGB'), (px, py + 24))
+        cells.append(dict(cell=cell, evidence=evidence, ink_pixels_in_native_key=overlap, shift_x2=shift,
+            canvas_size=[cw, ch], declared_draw_size=[w, h],
+            substrate_resampled_to_native_canvas=(cw, ch) != (w, h),
+            repaired_contour_pixels=int(repair.sum()) if args.repair_contour_spill else 0,
+            max_alpha_weighted_magenta_excess=float(residual.max()),
+            pixels_magenta_excess_over_8=int((residual > 8).sum()),
+            patch_matches=matches,
+            exact_page_pixels_outside_ink=bool(np.array_equal(np.asarray(assembled)[:, :, :3][ink_a == 0],
+                                                            np.asarray(substrate)[:, :, :3][ink_a == 0]))))
+    contact.save(out / 'pair-review.png')
+    unchanged = (ink_masks[0] == 0) & (ink_masks[1] == 0)
+    state_a, state_b = [np.asarray(frame)[y:y + h, x:x + w] for frame in frames]
+    state_check = dict(untouched_pixels=int(unchanged.sum()),
+        different_background_pixels=int(np.any(state_a != state_b, axis=2)[unchanged].sum()))
+    if any(c['substrate_resampled_to_native_canvas'] for c in cells):
+        # Unequal native widths are both drawn into the declared button rectangle. Compare against that
+        # explicit sampling baseline; do not call the two sampled backgrounds pixel-identical.
+        baseline_a, baseline_b = displayed_substrates
+        delta = np.abs(baseline_a.astype(int) - baseline_b.astype(int))[unchanged]
+        clean_background = ndimage.maximum_filter(~unchanged, size=3) == 0
+        state_check.update(comparison_space='declared UI rectangle at x2; bilinear sampling simulation',
+            expected_sampling_different_pixels=int(np.any(baseline_a != baseline_b, axis=2)[unchanged].sum()),
+            sampling_max_channel_difference=int(delta.max()) if delta.size else 0,
+            sampling_mean_channel_difference=float(delta.mean()) if delta.size else 0,
+            background_pixels_different_from_sampling_baseline=[
+                int(np.any(frame[:, :, :3] != baseline, axis=2)[clean_background].sum())
+                for frame, baseline in zip((state_a, state_b), displayed_substrates)])
+    frames[0].save(out / 'page-state-alternation.gif', save_all=True, append_images=frames[1:],
+                   duration=[900, 900], loop=0)
+    (out / 'process_snapshot.py').write_bytes(Path(__file__).read_bytes())
+    report = dict(attempt=args.attempt, raw_sha256=digest(attempt / 'raw.png'), cleanup=cleanup,
+        layout_revision=layout_revision, final_draw_xywh=crop['final_draw_xywh'],
+        cleanup_script_sha256=digest(cleanup_script), page_sha256=crop['page_sha256'],
+        soft_effect_matte=args.soft_effect_matte,
+        shared_scale_xy=args.scale,
+        ink_opacity=args.ink_opacity, repair_contour_spill=args.repair_contour_spill,
+        spell=spell, landmark_search_radius_x2=args.search_radius,
+        cells=cells, paired_background=state_check, status='awaiting_visual_review')
+    (out / 'processing.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(json.dumps(cells, indent=2))
+
+
+if __name__ == '__main__':
+    main()

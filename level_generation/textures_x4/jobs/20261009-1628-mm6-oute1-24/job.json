@@ -1,0 +1,501 @@
+{
+ "id": "20261009-1628-mm6-oute1-24",
+ "world": "mm6",
+ "maps": [
+  "oute1.odm",
+  "zddb08.blv",
+  "6d04.blv"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/cedvwal",
+  "mm6/gset01",
+  "mm6/gset02",
+  "mm6/gstmed",
+  "mm6/msdor2",
+  "mm6/msdord",
+  "mm6/msroof",
+  "mm6/ns8s01",
+  "mm6/ns8s02",
+  "mm6/ns8s03",
+  "mm6/ns8s09",
+  "mm6/ns8s10",
+  "mm6/ns8s11",
+  "mm6/plruf01",
+  "mm6/roof",
+  "mm6/d7spcla",
+  "mm6/crdwlmd",
+  "mm6/crdwlre",
+  "mm6/crdwlle",
+  "mm6/d7colum",
+  "mm6/d7ceil4",
+  "mm6/d7flor8",
+  "mm6/thcwd2",
+  "mm6/thawd2"
+ ],
+ "requests": {
+  "mm6/cedvwal": {
+   "name": "cedvwal",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "orange-brown cedar wooden planks standing vertically with visible grain, knots and dark seams",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Right edge continues the plank surface.",
+    "3": "No dark outline or shadow along any outer edge.",
+    "4": "Plank seams only where the reference shows them; the right edge is not a seam, the plank surface continues to the border at even brightness."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     71,
+     0
+    ],
+    "4": [
+     71,
+     0
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/gset01": {
+   "name": "gset01",
+   "versions": [
+    1
+   ],
+   "material": "pale beige rough sandstone with fine cream and tan grain",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gset02": {
+   "name": "gset02",
+   "versions": [
+    1
+   ],
+   "material": "pale beige sandstone block wall of rectangular blocks in running bond with dark recessed joints and bevelled edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/gstmed": {
+   "name": "gstmed",
+   "versions": [
+    1
+   ],
+   "material": "dark red-brown round wooden logs stacked horizontally with deep black shadow gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/msdor2": {
+   "name": "msdor2",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "narrow arched varnished wooden plank door with gothic tracery and blue glass panes at the top, between carved grey stone pilasters with rust-orange weathering; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Top row continues the stone frame.",
+    "3": "Copy the composition exactly: the pointed arch, the two blue fan lights and the carved column ornaments sit at the same heights as in the reference; the double door reaches down to the thin sill at the very bottom; no added steps or base blocks; keep the dark recess above the arch as in the reference.",
+    "4": "Copy the composition exactly: the pointed arch, the two blue fan lights and the carved column ornaments sit at the same heights as in the reference; the double door reaches down to the thin sill at the very bottom. No dark outline or hairline along the top or bottom edge.",
+    "6": "No dark or light hairline along the top edge: the stone above the arch continues to the top border at even brightness.",
+    "7": "The thin stone sill at the very bottom runs to the bottom border at even brightness: no dark or pale hairline in the bottom rows. Keep the arch, fan lights and door exactly as now.",
+    "8": "Bottom edge: keep the dark shadow row under the step along the bottom border as in the reference; no pale, orange or coloured hairline on the bottom edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   },
+   "roll": {
+    "4": [
+     0,
+     67
+    ],
+    "5": [
+     0,
+     67
+    ],
+    "6": [
+     0,
+     67
+    ],
+    "7": [
+     0,
+     67
+    ],
+    "8": [
+     0,
+     67
+    ]
+   }
+  },
+  "mm6/msdord": {
+   "name": "msdord",
+   "versions": [
+    1
+   ],
+   "material": "arched varnished wooden double door with carved panels, gothic tracery and blue glass panes at the top and brass studs, between carved grey stone pilasters with rosettes and rust-orange weathering; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/msroof": {
+   "name": "msroof",
+   "versions": [
+    1
+   ],
+   "material": "dull grey-brown roof of vertical boards with raised rounded batten seams and soft weathering",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ns8s01": {
+   "name": "ns8s01",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown wooden post of two vertical planks bound by two pale grey iron straps with round bolt heads",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Left edge continues the wood plank."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ns8s02": {
+   "name": "ns8s02",
+   "versions": [
+    1
+   ],
+   "material": "pale golden pine wood with vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ns8s03": {
+   "name": "ns8s03",
+   "versions": [
+    1
+   ],
+   "material": "pale golden pine wood with horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ns8s09": {
+   "name": "ns8s09",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wood with fine vertical grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ns8s10": {
+   "name": "ns8s10",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ns8s11": {
+   "name": "ns8s11",
+   "versions": [
+    1
+   ],
+   "material": "pale beige sandy plaster with fine tan speckles",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/plruf01": {
+   "name": "plruf01",
+   "versions": [
+    1
+   ],
+   "material": "weathered blue-grey wooden shingle roof of overlapping rectangular shakes in staggered rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/roof": {
+   "name": "roof",
+   "versions": [
+    1
+   ],
+   "material": "red-brown wooden shingle roof of overlapping rectangular shakes in staggered rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7spcla": {
+   "name": "d7spcla",
+   "versions": [
+    1
+   ],
+   "material": "carved terracotta stone archway niche with an ornate scrolled arch frame enclosing a large bearded green-man face relief with leafy hair, above a sandstone block base; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d7spclb",
+      "mm6/d7spclc"
+     ],
+     "fraction": 0.657
+    }
+   }
+  },
+  "mm6/crdwlmd": {
+   "name": "crdwlmd",
+   "versions": [
+    1
+   ],
+   "material": "black obsidian rock wall of sharp angular glassy shards with tall clear smoky quartz crystal spires rising in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/crdwlre": {
+   "name": "crdwlre",
+   "versions": [
+    1
+   ],
+   "material": "black obsidian rock wall of sharp angular glassy shards with a tall clear smoky quartz crystal spire along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/crdwlmd"
+     ],
+     "fraction": 0.621
+    }
+   }
+  },
+  "mm6/crdwlle": {
+   "name": "crdwlle",
+   "versions": [
+    1
+   ],
+   "material": "black obsidian rock wall of sharp angular glassy shards with a tall clear smoky quartz crystal spire along the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/crdwlmd"
+     ],
+     "fraction": 0.595
+    }
+   }
+  },
+  "mm6/d7colum": {
+   "name": "d7colum",
+   "versions": [
+    1
+   ],
+   "material": "carved terracotta stone column with vertical fluting and a grinning grotesque face capital at the top, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7ceil4": {
+   "name": "d7ceil4",
+   "versions": [
+    1
+   ],
+   "material": "brown wooden planks laid horizontally with a vertical wooden beam along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d7flor8": {
+   "name": "d7flor8",
+   "versions": [
+    1
+   ],
+   "material": "terracotta stone floor medallion with a carved green-man face surrounded by radiating leaves inside a circular border, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thcwd2": {
+   "name": "thcwd2",
+   "versions": [
+    1
+   ],
+   "material": "woven golden-brown wicker panel with a central diamond of basket-weave strips inside nested diamond and square wooden lath frames",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/thawd2": {
+   "name": "thawd2",
+   "versions": [
+    1
+   ],
+   "material": "woven golden-brown wicker panel with a central diamond of basket-weave strips inside nested diamond and square wooden lath frames",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/thcwd2"
+     ],
+     "fraction": 0.526
+    }
+   }
+  }
+ }
+}

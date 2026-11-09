@@ -1,0 +1,111 @@
+status: Integration contract, not UiLayoutManager input
+registry: game/app/KeyboardBindings.cpp
+bindings_per_action: 1
+actions:
+- id: forward
+  name: Forward
+  group: Movement
+- id: backward
+  name: Backward
+  group: Movement
+- id: left
+  name: Move / turn left
+  group: Movement
+- id: right
+  name: Move / turn right
+  group: Movement
+- id: jump
+  name: Jump
+  group: Movement
+- id: cast_ready
+  name: Cast quick spell
+  group: Combat
+- id: attack
+  name: Attack
+  group: Combat
+- id: trigger
+  name: Interact ahead
+  group: Interaction
+- id: cast
+  name: Open spellbook
+  group: Combat
+- id: char_cycle
+  name: Next character
+  group: Party & books
+- id: quest
+  name: Quest book
+  group: Party & books
+- id: quick_ref
+  name: Quick reference
+  group: Party & books
+- id: rest
+  name: Rest
+  group: Party & books
+- id: history
+  name: History
+  group: Party & books
+- id: use
+  name: Use / interact
+  group: Interaction
+- id: map_book
+  name: Map book
+  group: Party & books
+- id: always_run_toggle
+  name: Toggle always run
+  group: Movement
+- id: look_up
+  name: Look Up
+  group: Camera
+- id: look_down
+  name: Look Down
+  group: Camera
+- id: center_view
+  name: Centre view
+  group: Camera
+- id: zoom_in
+  name: Zoom In
+  group: Camera
+- id: zoom_out
+  name: Zoom Out
+  group: Camera
+- id: fly_up
+  name: Fly Up
+  group: Movement
+- id: fly_down
+  name: Fly Down
+  group: Movement
+- id: land
+  name: Land
+  group: Movement
+- id: double_speed
+  name: Toggle double speed
+  group: System
+fixed_shortcuts:
+- key: Escape
+  label: Open / close menu
+- key: F9
+  label: Quicksave
+- key: F10
+  label: Quickload
+- key: 1–5
+  label: Select party member
+reserved_capture:
+- Escape
+- F9
+- F10
+- '1'
+- '2'
+- '3'
+- '4'
+- '5'
+- Backquote
+capture:
+  escape: cancel
+  clear: Unbind through an explicit Clear action
+  conflict: Name both actions; offer swap or cancel
+  mouse: Current capture supports keyboard/left mouse; additional buttons need native input work.
+list: Two columns, search and group filter, no two-page limit. Reflow after filtering.
+excluded_unimplemented_registry_actions:
+- yell
+- combat
+- pass

@@ -1,0 +1,1457 @@
+[
+  {
+    "icon": "7item140",
+    "family": "lumps",
+    "names": [
+      "Phirna Root"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 28.8,
+    "model": "engine/world_items/models/item_7item140.glb",
+    "reason": "Dark green-brown thin branching root, two gnarled rootlets and a curved lance-shaped green leaf at the upper end. Irregular natural root, never humanoid.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/7item140_above.png",
+    "low_review": "review/baseline/7item140_low.png",
+    "master": "meshy/organic_7item140/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "f942fe96cd0745db864de945d14eb305aa79caf87f02318a4448a44dae9fa920",
+    "export": "work/codex_tex/organic_7item140_export.glb",
+    "triangles": 3330,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "7item140",
+      "source": "assets_source/engine/world_items/models/item_7item140.glb",
+      "source_sha256": "e3e18f9f571bf34ddf2d8e322f8a2b6536428a5f3dc48b0dcb46cea8cfc18bdd",
+      "runtime": "assets_dev/engine/world_items/models/item_7item140.glb",
+      "runtime_sha256": "6883b7c0d8204eb7fd6a1913d982af55d7c48178a3f7411c1719d2e67bdcb9fe",
+      "export": "work/codex_tex/organic_7item140_export.glb",
+      "log": "work/codex_tex/install_7item140.log"
+    },
+    "review": [
+      "review/meshy/7item140_above.png",
+      "review/meshy/7item140_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_7item140_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_7item140",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        0.45,
+        0.58,
+        0.35,
+        1
+      ],
+      "authoring_texels_per_metre": 526.1,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "e3e18f9f571bf34ddf2d8e322f8a2b6536428a5f3dc48b0dcb46cea8cfc18bdd"
+    }
+  },
+  {
+    "icon": "7item141",
+    "family": "lumps",
+    "names": [
+      "Widowsweep Berries"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 27.0,
+    "model": "engine/world_items/models/item_7item141.glb",
+    "reason": "Red smooth berry cluster on twig with green leaves.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/7item141_above.png",
+    "low_review": "review/baseline/7item141_low.png",
+    "export": "work/blender/7item141_export.glb",
+    "triangles": 2924,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/7item141_above.png",
+      "review/blender/7item141_low.png"
+    ],
+    "install_receipt": {
+      "icon": "7item141",
+      "source": "assets_source/engine/world_items/models/item_7item141.glb",
+      "source_sha256": "72d51272270688c83e3d0cf8ef909575b7db454492bfc3bdc651856dc8eeb544",
+      "export": "work/blender/7item141_export.glb",
+      "log": "work/blender/install_7item141.log",
+      "runtime": "assets_dev/engine/world_items/models/item_7item141.glb",
+      "runtime_sha256": "9e984b4b146c012ad5cc590819f15b89e0d8beee0fc1afcd4508b8a4c39409a4"
+    },
+    "baseline_sha256": "0b325cc62782ce19b651652d0e9df4b886d308382d6513261d17458376cc9e2b"
+  },
+  {
+    "icon": "7item143",
+    "family": "lumps",
+    "names": [
+      "Poppysnaps"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 27.9,
+    "model": "engine/world_items/models/item_7item143.glb",
+    "reason": "Yellow flower cluster: fine petals and leaves retain correct thin silhouette.",
+    "status": "kept",
+    "baseline_review": "review/baseline/7item143_above.png",
+    "low_review": "review/baseline/7item143_low.png",
+    "baseline_sha256": "272e69399e3e54bb9a6c2c1e3a61d41367f11b8afb5c24ee02571550d5c7862c"
+  },
+  {
+    "icon": "7item144",
+    "family": "lumps",
+    "names": [
+      "Crushed Rose Petals"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 27.0,
+    "model": "engine/world_items/models/item_7item144.glb",
+    "reason": "Scattered crushed rose petals and stem retain their identity.",
+    "status": "kept",
+    "baseline_review": "review/baseline/7item144_above.png",
+    "low_review": "review/baseline/7item144_low.png",
+    "baseline_sha256": "d936279bd9c598a34fed7ecb125448ef8966a2234147be6a238ea95e3c8f2561"
+  },
+  {
+    "icon": "7item147",
+    "family": "lumps",
+    "names": [
+      "Dragon's Eye"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 26.1,
+    "model": "engine/world_items/models/item_7item147.glb",
+    "reason": "Dragon eye is an amulet; retain its ring, loop and inset eye.",
+    "status": "kept",
+    "baseline_review": "review/baseline/7item147_above.png",
+    "low_review": "review/baseline/7item147_low.png",
+    "baseline_sha256": "04e458deaef37d741f5dc20ef63fea70a6f7770a66b25a6de44c340a3629aa27"
+  },
+  {
+    "icon": "7item149",
+    "family": "lumps",
+    "names": [
+      "Harpy Feather"
+    ],
+    "owner": "organic",
+    "decision": "improve",
+    "route": "Blender thin relief",
+    "length": 62.6,
+    "model": "engine/world_items/models/item_7item149.glb",
+    "reason": "Harpy feather: reduce inflated cross-section to a thin curved vane.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/7item149_above.png",
+    "low_review": "review/baseline/7item149_low.png",
+    "export": "work/blender/7item149_export.glb",
+    "triangles": 384,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/7item149_above.png",
+      "review/blender/7item149_low.png"
+    ],
+    "install_receipt": {
+      "icon": "7item149",
+      "source": "assets_source/engine/world_items/models/item_7item149.glb",
+      "source_sha256": "ef00d9c3f220f530f5f29e2a40c5c4d260f77409e0cafa58f7e8a3efb57400d4",
+      "export": "work/blender/7item149_export.glb",
+      "log": "work/blender/install_7item149.log",
+      "runtime": "assets_dev/engine/world_items/models/item_7item149.glb",
+      "runtime_sha256": "e94301e3e1cda1d8c8a596be055d758099e0e140236ebffc1b4214b0bb8bba18"
+    },
+    "baseline_sha256": "bef60815ea747614401e9076e3e28eece5f02fef3ef99fc4447a164ef3d06655"
+  },
+  {
+    "icon": "herb01",
+    "family": "lumps",
+    "names": [
+      "Poppysnaps"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 35.6,
+    "model": "engine/world_items/models/item_herb01.glb",
+    "reason": "Thin yellow flowers and leaf stalks retain silhouette.",
+    "status": "kept",
+    "baseline_review": "review/baseline/herb01_above.png",
+    "low_review": "review/baseline/herb01_low.png",
+    "baseline_sha256": "61a6a99784f1a740783bde7f9f9e70e6bc2854cb956515dc6e7472ee6a87ef69"
+  },
+  {
+    "icon": "herb02",
+    "family": "lumps",
+    "names": [
+      "Phirna Root"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 37.8,
+    "model": "engine/world_items/models/item_herb02.glb",
+    "reason": "Blue mandrake-like root with a tiny pointed crown, knotted torso, two long forked root legs and thin branching arm rootlets. Preserve the strange humanoid root silhouette, not a creature.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/herb02_above.png",
+    "low_review": "review/baseline/herb02_low.png",
+    "master": "meshy/organic_herb02/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "432a672b47b8e39a52e42717c5551c106dc125004f18740f7c9a91c94d1acdba",
+    "export": "work/codex_tex/organic_herb02_export.glb",
+    "triangles": 3188,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "herb02",
+      "source": "assets_source/engine/world_items/models/item_herb02.glb",
+      "source_sha256": "6c36e1b1dc6d31229f53e7dee00dee8e2b2290e714f0a4778f20e9e04178cf4b",
+      "runtime": "assets_dev/engine/world_items/models/item_herb02.glb",
+      "runtime_sha256": "f2684bef38625808e52899a5f18690aa94ab9099fe0e3c6a7be0e5c2a20ab264",
+      "export": "work/codex_tex/organic_herb02_export.glb",
+      "log": "work/codex_tex/install_herb02.log"
+    },
+    "review": [
+      "review/meshy/herb02_above.png",
+      "review/meshy/herb02_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_herb02_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_herb02",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 335.7,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "6c36e1b1dc6d31229f53e7dee00dee8e2b2290e714f0a4778f20e9e04178cf4b"
+    }
+  },
+  {
+    "icon": "herb03",
+    "family": "lumps",
+    "names": [
+      "Widoweeps Berries"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 31.5,
+    "model": "engine/world_items/models/item_herb03.glb",
+    "reason": "Pink-red raspberry-like clustered berries and green leaves.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/herb03_above.png",
+    "low_review": "review/baseline/herb03_low.png",
+    "export": "work/blender/herb03_export.glb",
+    "triangles": 1582,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/herb03_above.png",
+      "review/blender/herb03_low.png"
+    ],
+    "install_receipt": {
+      "icon": "herb03",
+      "source": "assets_source/engine/world_items/models/item_herb03.glb",
+      "source_sha256": "799903eb2677bb09637ab3f11627b3d34d1c65b33ffe2e85444f5767ef4b5418",
+      "export": "work/blender/herb03_export.glb",
+      "log": "work/blender/install_herb03.log",
+      "runtime": "assets_dev/engine/world_items/models/item_herb03.glb",
+      "runtime_sha256": "c8d6687bf6895fb470be358a66b299e7300549cdcd31fb31328bdbb1b7590cc4"
+    },
+    "baseline_sha256": "bafc067f6da88c1bdbad7c5ab8576b12f4c435255975df484a6e622a4f02fa8d"
+  },
+  {
+    "icon": "item157",
+    "family": "lumps",
+    "names": [
+      "Phima Root"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 36.9,
+    "model": "engine/world_items/models/item_item157.glb",
+    "reason": "Dark blue-grey bulbous knobbly root with a long curling narrow rootlet rising at one end and shorter twisted rootlets at the base.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item157_above.png",
+    "low_review": "review/baseline/item157_low.png",
+    "master": "meshy/organic_item157/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "17118e13ddc26bf1cd043fe12383def49bf347be29690d8bf5179c3671be479a",
+    "export": "work/codex_tex/organic_item157_export.glb",
+    "triangles": 3350,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "item157",
+      "source": "assets_source/engine/world_items/models/item_item157.glb",
+      "source_sha256": "b56a6c204e2f2e002ada3246d7b0bd1f80e6215829b8e25b5bc4c8a212278d5f",
+      "runtime": "assets_dev/engine/world_items/models/item_item157.glb",
+      "runtime_sha256": "0168b6f6da56e8d876c9850117c8a218fcbea7d5c37e1d9519ec151b36815428",
+      "export": "work/codex_tex/organic_item157_export.glb",
+      "log": "work/codex_tex/install_item157.log"
+    },
+    "review": [
+      "review/meshy/item157_above.png",
+      "review/meshy/item157_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_item157_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_item157",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        0.55,
+        0.65,
+        0.7,
+        1
+      ],
+      "authoring_texels_per_metre": 273.2,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "b56a6c204e2f2e002ada3246d7b0bd1f80e6215829b8e25b5bc4c8a212278d5f"
+    }
+  },
+  {
+    "icon": "item158",
+    "family": "lumps",
+    "names": [
+      "Widowsweep Berries"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 25.2,
+    "model": "engine/world_items/models/item_item158.glb",
+    "reason": "Two small orange-red berry clusters on thin green stems.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item158_above.png",
+    "low_review": "review/baseline/item158_low.png",
+    "export": "work/blender/item158_export.glb",
+    "triangles": 1250,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item158_above.png",
+      "review/blender/item158_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item158",
+      "source": "assets_source/engine/world_items/models/item_item158.glb",
+      "source_sha256": "7f65eba04c37bd434733b529f47ea09ab6f71cea24f4001256d703c0aae5206d",
+      "export": "work/blender/item158_export.glb",
+      "log": "work/blender/install_item158.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item158.glb",
+      "runtime_sha256": "717a49743d8de5b18a765a19d65c201db1d35e6187ca3e208cba5bcafcfe6f61"
+    },
+    "baseline_sha256": "89da76f8f894409b64cf54858079379591737ae39bd310020aad623088b3c5f7"
+  },
+  {
+    "icon": "item161",
+    "family": "lumps",
+    "names": [
+      "Wolf's Eye"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 27.0,
+    "model": "engine/world_items/models/item_item161.glb",
+    "reason": "Spherical amber-red eyeball with dark iris and cream mottled sclera.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item161_above.png",
+    "low_review": "review/baseline/item161_low.png",
+    "export": "work/blender/item161_export.glb",
+    "triangles": 1494,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item161_above.png",
+      "review/blender/item161_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item161",
+      "source": "assets_source/engine/world_items/models/item_item161.glb",
+      "source_sha256": "1d5d16b67bd68bf7525ab11d32b425226e5344c4b015acccc84932f9a88c3051",
+      "export": "work/blender/item161_export.glb",
+      "log": "work/blender/install_item161.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item161.glb",
+      "runtime_sha256": "b56cb050aaeb8fe3f86a351b5fc5e12e699924da6db266f9e23eb5f6d2a9dece"
+    },
+    "baseline_sha256": "da507af506df8551bebecc4fe22b087dcbb2eed916c26d06eaab5fd7f008a65f"
+  },
+  {
+    "icon": "item164",
+    "family": "lumps",
+    "names": [
+      "Phoenix Feather"
+    ],
+    "owner": "organic",
+    "decision": "improve",
+    "route": "Blender thin relief",
+    "length": 56.7,
+    "model": "engine/world_items/models/item_item164.glb",
+    "reason": "Phoenix feather: reduce inflated cross-section while retaining rainbow barbs.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item164_above.png",
+    "low_review": "review/baseline/item164_low.png",
+    "export": "work/blender/item164_export.glb",
+    "triangles": 95,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item164_above.png",
+      "review/blender/item164_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item164",
+      "source": "assets_source/engine/world_items/models/item_item164.glb",
+      "source_sha256": "bc0f065b044f9669e2cb4faea4a95e28ad1b32230983bee6c84e3ee950d420e9",
+      "export": "work/blender/item164_export.glb",
+      "log": "work/blender/install_item164.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item164.glb",
+      "runtime_sha256": "611081cc03ba8bf474502f056e026880f4789ec029592e167a4bf9c846045f4d"
+    },
+    "baseline_sha256": "c9a03a1b7e2102aae5da3d58a8812a4137eccd52b141ae0edc35e54d02e2c50b"
+  },
+  {
+    "icon": "item167",
+    "family": "lumps",
+    "names": [
+      "Datura"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 33.3,
+    "model": "engine/world_items/models/item_item167.glb",
+    "reason": "Thin white datura blossom and leaves.",
+    "status": "kept",
+    "baseline_review": "review/baseline/item167_above.png",
+    "low_review": "review/baseline/item167_low.png",
+    "baseline_sha256": "dd57f53e483085c4fd27f78949b5ce4e977369c2b66132cdf95a474ae885cbca"
+  },
+  {
+    "icon": "item169",
+    "family": "lumps",
+    "names": [
+      "Thornbark"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 26.1,
+    "model": "engine/world_items/models/item_item169.glb",
+    "reason": "Curved yellow-brown thorny bark segment.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item169_above.png",
+    "low_review": "review/baseline/item169_low.png",
+    "export": "work/blender/item169_export.glb",
+    "triangles": 172,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item169_above.png",
+      "review/blender/item169_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item169",
+      "source": "assets_source/engine/world_items/models/item_item169.glb",
+      "source_sha256": "6be61a2fc79761fcc00ddaf2c39b8d3e8b2e31238d393901fecc55027c546f34",
+      "export": "work/blender/item169_export.glb",
+      "log": "work/blender/install_item169.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item169.glb",
+      "runtime_sha256": "be65f6d8d77ad964e0a7d1c1bf6fe37ae9142e5f5503dbeb28f05d6a54bc0ad0"
+    },
+    "baseline_sha256": "e52543a98ba09c77a4ecc85e5bd4a8e1925427e67e2df2ecdb3ab516b19de674"
+  },
+  {
+    "icon": "item174",
+    "family": "lumps",
+    "names": [
+      "Wasp Wing"
+    ],
+    "owner": "organic",
+    "decision": "improve",
+    "route": "Blender thin relief",
+    "length": 47.7,
+    "model": "engine/world_items/models/item_item174.glb",
+    "reason": "Wasp wing: reduce inflated cross-section while retaining vein pattern.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item174_above.png",
+    "low_review": "review/baseline/item174_low.png",
+    "export": "work/blender/item174_export.glb",
+    "triangles": 320,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item174_above.png",
+      "review/blender/item174_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item174",
+      "source": "assets_source/engine/world_items/models/item_item174.glb",
+      "source_sha256": "a7c088d4944a33bb51bdf619dce29ca23d2291fd1942a54fa61637fab4af57a3",
+      "export": "work/blender/item174_export.glb",
+      "log": "work/blender/install_item174.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item174.glb",
+      "runtime_sha256": "06f298b2fcd27f2d134e9dc6d456ed64d50f21ce92e13e0a6eb4fe4c4e389dc9"
+    },
+    "baseline_sha256": "4df2cf5495fffccacb063aee3188dc26f4bf42606f81c8cc48008d1e8c3a803f"
+  },
+  {
+    "icon": "7item269",
+    "family": "misc",
+    "names": [
+      "Flower (Rose)"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 57.6,
+    "model": "engine/world_items/models/item_7item269.glb",
+    "reason": "Rose stem, leaves and petals remain readable at game distance.",
+    "status": "kept",
+    "baseline_review": "review/baseline/7item269_above.png",
+    "low_review": "review/baseline/7item269_low.png",
+    "baseline_sha256": "52e95da90fee80c4c4602a68c6c8ce713be1744556e3bf8407a64171113e5406"
+  },
+  {
+    "icon": "7item275",
+    "family": "misc",
+    "names": [
+      "Wealthy Hat"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 52.2,
+    "model": "engine/world_items/models/item_7item275.glb",
+    "reason": "Brown broad-brimmed felt hat, rounded crown, a narrow gold band and one large curved magenta-pink feather. Empty hat with real depth.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/7item275_above.png",
+    "low_review": "review/baseline/7item275_low.png",
+    "master": "meshy/organic_7item275/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "59f6b179ae9f17841ba46e58f74cbc25de55a2ef4504cd1c45db2fb019fed091",
+    "export": "work/codex_tex/organic_7item275_export.glb",
+    "triangles": 3252,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "7item275",
+      "source": "assets_source/engine/world_items/models/item_7item275.glb",
+      "source_sha256": "38720d8df2475dcac34ae8a38d5daac66494e1f23babb1751ec64f7e112482c1",
+      "runtime": "assets_dev/engine/world_items/models/item_7item275.glb",
+      "runtime_sha256": "050b639313e2b9abca0696cadf57460e80b880dc7e67d2f92af004fdf48426d4",
+      "export": "work/codex_tex/organic_7item275_export.glb",
+      "log": "work/codex_tex/install_7item275.log"
+    },
+    "review": [
+      "review/meshy/7item275_above.png",
+      "review/meshy/7item275_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_7item275_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_7item275",
+      "metallic_values": [
+        0,
+        255
+      ],
+      "metallic_white_texels": 90548,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 433.5,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "38720d8df2475dcac34ae8a38d5daac66494e1f23babb1751ec64f7e112482c1"
+    }
+  },
+  {
+    "icon": "7item279",
+    "family": "misc",
+    "names": [
+      "Seashell"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 55.4,
+    "model": "engine/world_items/models/item_7item279.glb",
+    "reason": "Fan-shaped scallop shell with radial ribs and concave inner surface.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/7item279_above.png",
+    "low_review": "review/baseline/7item279_low.png",
+    "export": "work/blender/7item279_export.glb",
+    "triangles": 920,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/7item279_above.png",
+      "review/blender/7item279_low.png"
+    ],
+    "install_receipt": {
+      "icon": "7item279",
+      "source": "assets_source/engine/world_items/models/item_7item279.glb",
+      "source_sha256": "43199b2e76f86fdc1a2923e772ed2c6931b55d325f886a4351ebf8c0cb51430b",
+      "export": "work/blender/7item279_export.glb",
+      "log": "work/blender/install_7item279.log",
+      "runtime": "assets_dev/engine/world_items/models/item_7item279.glb",
+      "runtime_sha256": "4b813025d47d8e303186385443c6647dfd8833c81724e71baabec75eb9d20986"
+    },
+    "baseline_sha256": "c02de936def8f0aa97a66066df4bad9fb8621b23da1675da2b44e4cba3fbf780"
+  },
+  {
+    "icon": "7item282",
+    "family": "misc",
+    "names": [
+      "Season's Stole"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 51.3,
+    "model": "engine/world_items/models/item_7item282.glb",
+    "reason": "Red silk stole with a gathered loose central fold and two short hanging tails with thin gold fringed edges. A soft folded cloth resting on the ground, not a cape.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/7item282_above.png",
+    "low_review": "review/baseline/7item282_low.png",
+    "master": "meshy/organic_7item282/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "aa037cfb4ae82a0fefa89c97691411b917c002b755c57b9edc7715f0b5be9f03",
+    "export": "work/codex_tex/organic_7item282_export.glb",
+    "triangles": 3172,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "7item282",
+      "source": "assets_source/engine/world_items/models/item_7item282.glb",
+      "source_sha256": "875385301ccb1929bc6f8e51adf9539896af12428e147c665ac8312c428b539f",
+      "runtime": "assets_dev/engine/world_items/models/item_7item282.glb",
+      "runtime_sha256": "f8780423316febeba47d9f52055c147d0f222a4cf6fdde0006b572beeebfc16b",
+      "export": "work/codex_tex/organic_7item282_export.glb",
+      "log": "work/codex_tex/install_7item282.log"
+    },
+    "review": [
+      "review/meshy/7item282_above.png",
+      "review/meshy/7item282_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_7item282_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_7item282",
+      "metallic_values": [
+        0,
+        255
+      ],
+      "metallic_white_texels": 246764,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 270.2,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "875385301ccb1929bc6f8e51adf9539896af12428e147c665ac8312c428b539f"
+    }
+  },
+  {
+    "icon": "7item297",
+    "family": "misc",
+    "names": [
+      "Heart of the Wood"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 28.8,
+    "model": "engine/world_items/models/item_7item297.glb",
+    "reason": "Short tapered translucent violet-white crystal relic, set into a gold circular flanged socket at its wide end; thin gold prongs along crystal edges. Preserve the short cylindrical crystal and ornate gold mounting.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/7item297_above.png",
+    "low_review": "review/baseline/7item297_low.png",
+    "master": "meshy/organic_7item297/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "21bed23a81a405148121055ea30fd9c153c54e48c372ced9d63a7ea229a37302",
+    "export": "work/codex_tex/organic_7item297_export.glb",
+    "triangles": 3251,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "7item297",
+      "source": "assets_source/engine/world_items/models/item_7item297.glb",
+      "source_sha256": "07423feaaafe7e70281445d8c78fb038c50a8f0264f0a5890d332a8adae9069b",
+      "runtime": "assets_dev/engine/world_items/models/item_7item297.glb",
+      "runtime_sha256": "73136997742ef2e3a5451f81ed98fb093ba4e407b078ef39b9e3cd48a4df916f",
+      "export": "work/codex_tex/organic_7item297_export.glb",
+      "log": "work/codex_tex/install_7item297.log"
+    },
+    "review": [
+      "review/meshy/7item297_above.png",
+      "review/meshy/7item297_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_7item297_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_7item297",
+      "metallic_values": [
+        0,
+        255
+      ],
+      "metallic_white_texels": 636927,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 314.6,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "07423feaaafe7e70281445d8c78fb038c50a8f0264f0a5890d332a8adae9069b"
+    }
+  },
+  {
+    "icon": "claw",
+    "family": "misc",
+    "names": [
+      "Dragon Claw"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 40.5,
+    "model": "engine/world_items/models/item_claw.glb",
+    "reason": "Orange scaled short cylindrical dragon-claw relic or handle, gold stepped circular cap at one end, narrow curved ivory talon at the opposite end; small orange raised scale lobes. Not an entire dragon hand.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/claw_above.png",
+    "low_review": "review/baseline/claw_low.png",
+    "master": "meshy/organic_claw/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "a1a237a171b39556b37ddce2768a986a6e20d6b03933f017f7429fa0259230ff",
+    "export": "work/codex_tex/organic_claw_export.glb",
+    "triangles": 2948,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "claw",
+      "source": "assets_source/engine/world_items/models/item_claw.glb",
+      "source_sha256": "e88a5431df5e5f4b96d6ac25b0b194e6f3fbc27fa98c9f6a5f27caab0ee8392d",
+      "runtime": "assets_dev/engine/world_items/models/item_claw.glb",
+      "runtime_sha256": "ff4031c23bc84212b67b2528c171ac59e00662ac359d95de0fa38bbd14d30f35",
+      "export": "work/codex_tex/organic_claw_export.glb",
+      "log": "work/codex_tex/install_claw.log"
+    },
+    "review": [
+      "review/meshy/claw_above.png",
+      "review/meshy/claw_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_claw_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_claw",
+      "metallic_values": [
+        0,
+        255
+      ],
+      "metallic_white_texels": 261942,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 442.9,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "e88a5431df5e5f4b96d6ac25b0b194e6f3fbc27fa98c9f6a5f27caab0ee8392d"
+    }
+  },
+  {
+    "icon": "clover",
+    "family": "misc",
+    "names": [
+      "Four Leaf Clover"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 31.9,
+    "model": "engine/world_items/models/item_clover.glb",
+    "reason": "Four distinct thin clover leaves; no added bulk.",
+    "status": "kept",
+    "baseline_review": "review/baseline/clover_above.png",
+    "low_review": "review/baseline/clover_low.png",
+    "baseline_sha256": "b0f1b91d80de8102276b1730bdfb2a3229dd90239e6e57d7643b0aa89e39b97a"
+  },
+  {
+    "icon": "heart",
+    "family": "misc",
+    "names": [
+      "Spider Queen's Heart"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 37.8,
+    "model": "engine/world_items/models/item_heart.glb",
+    "reason": "Dark blood-red anatomical heart with asymmetrical muscular lobes, surface veins, short severed vessels at the broad top, tapered rounded lower end. No gore scene or other organs.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/heart_above.png",
+    "low_review": "review/baseline/heart_low.png",
+    "master": "meshy/organic_heart/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "f196dd64270471d3ce227b943ec7690c3e0634636782e32af10df91d9fa8312e",
+    "export": "work/codex_tex/organic_heart_export.glb",
+    "triangles": 3318,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "heart",
+      "source": "assets_source/engine/world_items/models/item_heart.glb",
+      "source_sha256": "eb31611b7f5b4c9211f81048c2974ae1ae1820d79b413d8ea1c173f8954467f3",
+      "runtime": "assets_dev/engine/world_items/models/item_heart.glb",
+      "runtime_sha256": "9a6eb1beca19e423cc9bdf7153434d90e9043cea967683f48f77ad1dbb191152",
+      "export": "work/codex_tex/organic_heart_export.glb",
+      "log": "work/codex_tex/install_heart.log"
+    },
+    "review": [
+      "review/meshy/heart_above.png",
+      "review/meshy/heart_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_heart_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_heart",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        0.6,
+        0.42,
+        0.35,
+        1
+      ],
+      "authoring_texels_per_metre": 322.2,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "eb31611b7f5b4c9211f81048c2974ae1ae1820d79b413d8ea1c173f8954467f3"
+    }
+  },
+  {
+    "icon": "item300",
+    "family": "misc",
+    "names": [
+      "Naga Hide"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 104.9,
+    "model": "engine/world_items/models/item_item300.glb",
+    "reason": "Long narrow flattened orange-brown snakeskin hide, scalloped edges, round dark rimmed scales on both flanks and pale transverse belly plates in one continuous central stripe. Thick pliable skin with shallow natural folds, not armor.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item300_above.png",
+    "low_review": "review/baseline/item300_low.png",
+    "master": "meshy/organic_item300/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "b1c5e71bfc089d53d4ff3fa3734812c85178aabd22625b49ff5eb0736791c0db",
+    "export": "work/codex_tex/organic_item300_export.glb",
+    "triangles": 3093,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "item300",
+      "source": "assets_source/engine/world_items/models/item_item300.glb",
+      "source_sha256": "f67b80b17f0a7ce890626a567ced5d1ba1addff689e77853514f643f5e0204d8",
+      "runtime": "assets_dev/engine/world_items/models/item_item300.glb",
+      "runtime_sha256": "dd390806321cddce2765f860f9f44c4ca749b6cb3144515ed664f30c0aba3351",
+      "export": "work/codex_tex/organic_item300_export.glb",
+      "log": "work/codex_tex/install_item300.log"
+    },
+    "review": [
+      "review/meshy/item300_above.png",
+      "review/meshy/item300_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_item300_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_item300",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        0.65,
+        0.65,
+        0.65,
+        1
+      ],
+      "authoring_texels_per_metre": 612.7,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "f67b80b17f0a7ce890626a567ced5d1ba1addff689e77853514f643f5e0204d8"
+    }
+  },
+  {
+    "icon": "item301",
+    "family": "misc",
+    "names": [
+      "Dire Wolf Pelt"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 114.8,
+    "model": "engine/world_items/models/item_item301.glb",
+    "reason": "Grey-brown furry wolf pelt laid flat with splayed four leg stubs, broad shoulder end, tapered rear and long thin tail. Furred hide only, no live wolf or skull.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item301_above.png",
+    "low_review": "review/baseline/item301_low.png",
+    "master": "meshy/organic_item301/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "9933bd53960baae8083b3d5b45baec5c1309fdc37312b465739503dab9ec3d36",
+    "export": "work/codex_tex/organic_item301_export.glb",
+    "triangles": 3302,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "item301",
+      "source": "assets_source/engine/world_items/models/item_item301.glb",
+      "source_sha256": "65eaca91ed8a859f4db7afd45cd26e9704a05ae1dc99d1579189f53005ddd957",
+      "runtime": "assets_dev/engine/world_items/models/item_item301.glb",
+      "runtime_sha256": "ac24dad6bb23eefc1e3b3bbad55dd2460c553859d3da895f8c2933edf10b24b3",
+      "export": "work/codex_tex/organic_item301_export.glb",
+      "log": "work/codex_tex/install_item301.log"
+    },
+    "review": [
+      "review/meshy/item301_above.png",
+      "review/meshy/item301_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_item301_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_item301",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        0.6,
+        0.55,
+        0.5,
+        1
+      ],
+      "authoring_texels_per_metre": 608.9,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "65eaca91ed8a859f4db7afd45cd26e9704a05ae1dc99d1579189f53005ddd957"
+    }
+  },
+  {
+    "icon": "item303",
+    "family": "misc",
+    "names": [
+      "Royal Wasp Jelly"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 60.8,
+    "model": "engine/world_items/models/item_item303.glb",
+    "reason": "Corked clear glass jar of golden Royal Wasp Jelly; upright stable resting pose.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item303_above.png",
+    "low_review": "review/baseline/item303_low.png",
+    "export": "work/blender/item303_export.glb",
+    "triangles": 524,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item303_above.png",
+      "review/blender/item303_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item303",
+      "source": "assets_source/engine/world_items/models/item_item303.glb",
+      "source_sha256": "5927d49c50a7ba06d307d9e61ec3b8da813019db7b23b2e9e3205ca68d01180a",
+      "export": "work/blender/item303_export.glb",
+      "log": "work/blender/install_item303.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item303.glb",
+      "runtime_sha256": "e185ecf35a77685eccd157ff264e26e85b0ec4575d550722179c6af4e7c3dc58"
+    },
+    "baseline_sha256": "ce34cf4504c22b8a0cdd210c0736154beae2d0e6244b81c664771135c50a5f55"
+  },
+  {
+    "icon": "item304",
+    "family": "misc",
+    "names": [
+      "Dragonbane Flower"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 43.6,
+    "model": "engine/world_items/models/item_item304.glb",
+    "reason": "Red Dragonbane petals retain named identity.",
+    "status": "kept",
+    "baseline_review": "review/baseline/item304_above.png",
+    "low_review": "review/baseline/item304_low.png",
+    "baseline_sha256": "9ae3367678259fa9e109f9152ae155cf15c228e568d15ad888d3746e98ead0a7"
+  },
+  {
+    "icon": "item310",
+    "family": "misc",
+    "names": [
+      "Pirate Hat"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 62.6,
+    "model": "engine/world_items/models/item_item310.glb",
+    "reason": "Black tricorn pirate hat with raised curved sides, narrow red edging, small ivory skull and crossed bones centred on the front. Hollow hat with depth, no head inside.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item310_above.png",
+    "low_review": "review/baseline/item310_low.png",
+    "master": "meshy/organic_item310/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "b890302a9bb23bdbd1e3028cc1002f9b90d91fb3929f22d98dad59b99ead668d",
+    "export": "work/codex_tex/organic_item310_export.glb",
+    "triangles": 3652,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "item310",
+      "source": "assets_source/engine/world_items/models/item_item310.glb",
+      "source_sha256": "0e0d4ad28f18c366220ac226d67caea118ecae7357571a02bd752f72d34a0f3b",
+      "runtime": "assets_dev/engine/world_items/models/item_item310.glb",
+      "runtime_sha256": "dd495fc7a8c99568975fcd9ff05c95c7ba2a19c82102dfac5a4a5c43d5941efa",
+      "export": "work/codex_tex/organic_item310_export.glb",
+      "log": "work/codex_tex/install_item310.log"
+    },
+    "review": [
+      "review/meshy/item310_above.png",
+      "review/meshy/item310_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_item310_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_item310",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 373.3,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "0e0d4ad28f18c366220ac226d67caea118ecae7357571a02bd752f72d34a0f3b"
+    }
+  },
+  {
+    "icon": "item314",
+    "family": "misc",
+    "names": [
+      "Heartwood of Jadame"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 114.3,
+    "model": "engine/world_items/models/item_item314.glb",
+    "reason": "Crossed reddish Heartwood of Jadame boards including one coffin-lid-shaped plank.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item314_above.png",
+    "low_review": "review/baseline/item314_low.png",
+    "export": "work/blender/item314_export.glb",
+    "triangles": 108,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item314_above.png",
+      "review/blender/item314_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item314",
+      "source": "assets_source/engine/world_items/models/item_item314.glb",
+      "source_sha256": "73e5823aeeaeac148c454affdf9b25f6927fb5e47bdfcdfe79c156a2ada6ba1a",
+      "export": "work/blender/item314_export.glb",
+      "log": "work/blender/install_item314.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item314.glb",
+      "runtime_sha256": "bfd43744bbb39e3cd2f9c4fc20a34de67cabae3f4a8e7a0b857dde6cf3d2d249"
+    },
+    "baseline_sha256": "6ca09b9053773f47e79cb17a48abc6518e5d81b97a88f58a39a6e83b922181c3"
+  },
+  {
+    "icon": "item316",
+    "family": "misc",
+    "names": [
+      "Dried Sunfish"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 113.4,
+    "model": "engine/world_items/models/item_item316.glb",
+    "reason": "Open wooden crate holding three dried grey-green sunfish, not a loose fish.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item316_above.png",
+    "low_review": "review/baseline/item316_low.png",
+    "export": "work/blender/item316_export.glb",
+    "triangles": 2088,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item316_above.png",
+      "review/blender/item316_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item316",
+      "source": "assets_source/engine/world_items/models/item_item316.glb",
+      "source_sha256": "5b5b4f8b94c6c5db9f37a2569be88f6ba943ce131fe1c9753101c4f8c9f3b4a5",
+      "export": "work/blender/item316_export.glb",
+      "log": "work/blender/install_item316.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item316.glb",
+      "runtime_sha256": "f992bc76fdd214e2b2ffba15abc50f40c78a71ab5156ada91ac186dac7ad3796"
+    },
+    "baseline_sha256": "9fa739b7d79849a5401c9f65c337abb3171b0ab05ae01e63ad87c484b637fab7"
+  },
+  {
+    "icon": "item321",
+    "family": "misc",
+    "names": [
+      "Ogre Ear"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 34.2,
+    "model": "engine/world_items/models/item_item321.glb",
+    "reason": "Single large tan-brown severed pointed ear, curled thick outer helix, inner antihelix and deep concha, soft fleshy lobe taper at the bottom. No earrings or extra anatomy.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item321_above.png",
+    "low_review": "review/baseline/item321_low.png",
+    "master": "meshy/organic_item321/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "7e595ced505a9d0dfe6748e701f4ce7298b0922a5ede09cb632cf01ee69d342f",
+    "export": "work/codex_tex/organic_item321_export.glb",
+    "triangles": 3263,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "item321",
+      "source": "assets_source/engine/world_items/models/item_item321.glb",
+      "source_sha256": "6351fb9f0631e4193d67fff6f4ac3a63e3def7034b0fa057e4771bd884dff2be",
+      "runtime": "assets_dev/engine/world_items/models/item_item321.glb",
+      "runtime_sha256": "34a0068b6e8055841db2dbf2ad150ab507b5258f409cde2b9a7b78a5b3493625",
+      "export": "work/codex_tex/organic_item321_export.glb",
+      "log": "work/codex_tex/install_item321.log"
+    },
+    "review": [
+      "review/meshy/item321_above.png",
+      "review/meshy/item321_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_item321_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_item321",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 329.9,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "6351fb9f0631e4193d67fff6f4ac3a63e3def7034b0fa057e4771bd884dff2be"
+    }
+  },
+  {
+    "icon": "item322",
+    "family": "misc",
+    "names": [
+      "Wasp Stingers"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 56.7,
+    "model": "engine/world_items/models/item_item322.glb",
+    "reason": "Curved black and gold wasp abdomen ending in a narrow sharp stinger.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/item322_above.png",
+    "low_review": "review/baseline/item322_low.png",
+    "export": "work/blender/item322_export.glb",
+    "triangles": 220,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/item322_above.png",
+      "review/blender/item322_low.png"
+    ],
+    "install_receipt": {
+      "icon": "item322",
+      "source": "assets_source/engine/world_items/models/item_item322.glb",
+      "source_sha256": "b97774965edcd110612883689be9b6ecbc36e2bbfc3224e1163c2da7097440c9",
+      "export": "work/blender/item322_export.glb",
+      "log": "work/blender/install_item322.log",
+      "runtime": "assets_dev/engine/world_items/models/item_item322.glb",
+      "runtime_sha256": "447622f206898e1f70f7242dd449c9188e7d5bd9542addc27197dc4c23ad6e49"
+    },
+    "baseline_sha256": "531bac5b4c67859d04c09eb06b9795edcb90c58c53ade7880f23b690d64733f5"
+  },
+  {
+    "icon": "pouch1",
+    "family": "misc",
+    "names": [
+      "Leather Pouch",
+      "Pouch of Bat Guano"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 64.4,
+    "model": "engine/world_items/models/item_pouch1.glb",
+    "reason": "Golden tan rounded rectangular leather shoulder pouch with arched flap, a brass U-shaped clasp and long narrow leather strap loosely around it. Visible creased leather panels and stitched edges.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/pouch1_above.png",
+    "low_review": "review/baseline/pouch1_low.png",
+    "master": "meshy/organic_pouch1/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "d9dc880094c4b941c65f108b77339ea27d288b9666863bcac644c59749852164",
+    "export": "work/codex_tex/organic_pouch1_export.glb",
+    "triangles": 3147,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "pouch1",
+      "source": "assets_source/engine/world_items/models/item_pouch1.glb",
+      "source_sha256": "990abf4634062fa2627d983c6639e03a5104067dcb046413a3abd36dd1eea572",
+      "runtime": "assets_dev/engine/world_items/models/item_pouch1.glb",
+      "runtime_sha256": "fc0ad0c16e512ccb843a4471894e03543491a2d05fdc354c65560ffabf4a2cd2",
+      "export": "work/codex_tex/organic_pouch1_export.glb",
+      "log": "work/codex_tex/install_pouch1.log"
+    },
+    "review": [
+      "review/meshy/pouch1_above.png",
+      "review/meshy/pouch1_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_pouch1_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_pouch1",
+      "metallic_values": [
+        0,
+        255
+      ],
+      "metallic_white_texels": 62798,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 307.8,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "990abf4634062fa2627d983c6639e03a5104067dcb046413a3abd36dd1eea572"
+    }
+  },
+  {
+    "icon": "pouch2",
+    "family": "misc",
+    "names": [
+      "Leather Pouch"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 64.8,
+    "model": "engine/world_items/models/item_pouch2.glb",
+    "reason": "Dark brown soft leather tapered pouch with a red cord around its upper rim and four distinct long ivory tooth pendants hanging from small gold loops along the top front. Preserve all four teeth.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/pouch2_above.png",
+    "low_review": "review/baseline/pouch2_low.png",
+    "master": "meshy/organic_pouch2/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "3f38fc8d51ef4f37e9acdee1d10e1bce12376bddbe587ecb2fef07f893b5c9b6",
+    "export": "work/codex_tex/organic_pouch2_export.glb",
+    "triangles": 3290,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "pouch2",
+      "source": "assets_source/engine/world_items/models/item_pouch2.glb",
+      "source_sha256": "0308cc341a1901e26980b512c67239a2495fb971ddfd06783f732127fdfd7550",
+      "runtime": "assets_dev/engine/world_items/models/item_pouch2.glb",
+      "runtime_sha256": "584574c02423f983a53a0ce8e1e7c111d5b7d21cb74b0fb9cae401154586975c",
+      "export": "work/codex_tex/organic_pouch2_export.glb",
+      "log": "work/codex_tex/install_pouch2.log"
+    },
+    "review": [
+      "review/meshy/pouch2_above.png",
+      "review/meshy/pouch2_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_pouch2_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_pouch2",
+      "metallic_values": [
+        0,
+        255
+      ],
+      "metallic_white_texels": 79926,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 210.8,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "0308cc341a1901e26980b512c67239a2495fb971ddfd06783f732127fdfd7550"
+    }
+  },
+  {
+    "icon": "pouch3",
+    "family": "misc",
+    "names": [
+      "Leather Pouch"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 63.0,
+    "model": "engine/world_items/models/item_pouch3.glb",
+    "reason": "Golden brown rectangular leather pouch with drawstring gathered rim, front flap and silver diamond-shaped buckle, a loose narrow looped side strap, diamond quilting on the lower front.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/pouch3_above.png",
+    "low_review": "review/baseline/pouch3_low.png",
+    "master": "meshy/organic_pouch3/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "d87cdfe682cbff38937756a7c144f9a603b1446e3b02c73dd46e9bbaa1863c64",
+    "export": "work/codex_tex/organic_pouch3_export.glb",
+    "triangles": 3202,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "pouch3",
+      "source": "assets_source/engine/world_items/models/item_pouch3.glb",
+      "source_sha256": "9197311ffa962134097a2bd35165d983830aefdb96d766dd9d784a7cb378810b",
+      "runtime": "assets_dev/engine/world_items/models/item_pouch3.glb",
+      "runtime_sha256": "71a9cbdb15b04e8bc897fc65c17f0ea94ef37e85e497d3926edaebc4689c8cc0",
+      "export": "work/codex_tex/organic_pouch3_export.glb",
+      "log": "work/codex_tex/install_pouch3.log"
+    },
+    "review": [
+      "review/meshy/pouch3_above.png",
+      "review/meshy/pouch3_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_pouch3_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_pouch3",
+      "metallic_values": [
+        0,
+        255
+      ],
+      "metallic_white_texels": 4308,
+      "material_tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "authoring_texels_per_metre": 257.6,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "9197311ffa962134097a2bd35165d983830aefdb96d766dd9d784a7cb378810b"
+    }
+  },
+  {
+    "icon": "rose",
+    "family": "misc",
+    "names": [
+      "Rose"
+    ],
+    "owner": "organic",
+    "decision": "keep",
+    "route": "existing relief",
+    "length": 36.0,
+    "model": "engine/world_items/models/item_rose.glb",
+    "reason": "Red rose blossom with shallow petal relief.",
+    "status": "kept",
+    "baseline_review": "review/baseline/rose_above.png",
+    "low_review": "review/baseline/rose_low.png",
+    "baseline_sha256": "c1802946322a7c9843d3a1e81d0d5495c8770402375b4cd14ab2deabd5beea1b"
+  },
+  {
+    "icon": "tooth",
+    "family": "misc",
+    "names": [
+      "Tooth"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Blender",
+    "length": 37.8,
+    "model": "engine/world_items/models/item_tooth.glb",
+    "reason": "Curved ivory fang with two short forked roots and one long tapering crown.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/tooth_above.png",
+    "low_review": "review/baseline/tooth_low.png",
+    "export": "work/blender/tooth_export.glb",
+    "triangles": 396,
+    "validation": "review/validation.json",
+    "review": [
+      "review/blender/tooth_above.png",
+      "review/blender/tooth_low.png"
+    ],
+    "install_receipt": {
+      "icon": "tooth",
+      "source": "assets_source/engine/world_items/models/item_tooth.glb",
+      "source_sha256": "1716645f6cd17b5ea9608c78f48ab65fe5cf755bd480206293a08378ea08f81e",
+      "export": "work/blender/tooth_export.glb",
+      "log": "work/blender/install_tooth.log",
+      "runtime": "assets_dev/engine/world_items/models/item_tooth.glb",
+      "runtime_sha256": "fbe0fcdd33063dd27669eef41149ff7810e4d95ed2cb2dae2f2918931a2a6c01"
+    },
+    "baseline_sha256": "ac506e4f781f8c1c00fd49350eeb53d14ead017fc88bfde65328e479cd23eb43"
+  },
+  {
+    "icon": "wspwrp",
+    "family": "misc",
+    "names": [
+      "Whisp wrappings"
+    ],
+    "owner": "organic",
+    "decision": "rebuild",
+    "route": "Smart Topology",
+    "length": 55.4,
+    "model": "engine/world_items/models/item_wspwrp.glb",
+    "reason": "Low irregular flattened bundle of ochre-brown ragged cloth strips, folded and loosely wound across one another, frayed pointed ends. Keep the thin soft layered outline; no human remains or mummy.",
+    "status": "replaced",
+    "baseline_review": "review/baseline/wspwrp_above.png",
+    "low_review": "review/baseline/wspwrp_low.png",
+    "master": "meshy/organic_wspwrp/references_hd/00_three_quarter.png",
+    "remaining": "none",
+    "baseline_sha256": "352116be35857d482f09342b740dcdb8efdc8d1fcadc2bc51ac37f21f67fa2c0",
+    "export": "work/codex_tex/organic_wspwrp_export.glb",
+    "triangles": 2999,
+    "validation": "review/validation.json",
+    "install_receipt": {
+      "icon": "wspwrp",
+      "source": "assets_source/engine/world_items/models/item_wspwrp.glb",
+      "source_sha256": "7a1afa040a21deaa88a0fdf85b31132a7c23839d44494e1278a4eca21715c722",
+      "runtime": "assets_dev/engine/world_items/models/item_wspwrp.glb",
+      "runtime_sha256": "a0e60004049e21624168532b4dca25ff3eac0c5ca4ca9d9ed1f8073956af62a8",
+      "export": "work/codex_tex/organic_wspwrp_export.glb",
+      "log": "work/codex_tex/install_wspwrp.log"
+    },
+    "review": [
+      "review/meshy/wspwrp_above.png",
+      "review/meshy/wspwrp_low.png"
+    ],
+    "bake_receipt": "work/codex_tex/organic_wspwrp_bake_receipt.json",
+    "pbr_validation": {
+      "design": "organic_wspwrp",
+      "metallic_values": [
+        0
+      ],
+      "metallic_white_texels": 0,
+      "material_tint": [
+        0.55,
+        0.4,
+        0.22,
+        1
+      ],
+      "authoring_texels_per_metre": 474.3,
+      "horizontal_long_axis": "Blender Y / glTF Z",
+      "source_sha256": "7a1afa040a21deaa88a0fdf85b31132a7c23839d44494e1278a4eca21715c722"
+    }
+  }
+]

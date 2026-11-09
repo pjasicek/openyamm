@@ -1,0 +1,743 @@
+# The Undervault's people (hesper_stage/stage.py merges npcs_*.yml with npcs.yml; written by
+# level_generation/projects/hesper_undervault/gen_npcs_undervault.py, edit that script): the Council's houses and their
+# people (P4's design/kreegan_world/quests/dialogue/UNDERVAULT.md, the integrator's follow-ups 42, 43 and 36), the hall's
+# street people and the gallery residents with the shared news (npcs.yml, 9771-9790), the Refuge's freed Kept.
+# Aster (9500, npcs.yml) and Iver (9223, skills.yml) live in the Chapel (9456); Brannoc in the Sim Hall (9204,
+# skills.yml). `house`: npc.txt's 2D location; the people who come later (Ilse at M6, the camps' Kept) are moved in by
+# their doors' events (evt.MoveNPC in hesper_undervault/source/hes_undervault.handlers.lua). The street people and
+# gallery residents have one short greeting each (UNDERVAULT.md). Items not staged yet are commented in their topics.
+npcs:
+- id: 9501
+  name: Elder Maren
+  portrait: design/kreegan_world/art/portraits/x2/hes_elder_maren.png
+  greeting:
+  - "So these are the Guardian's travelers. Sit. I am Maren; I speak for the Council, which means I count what we have left and decide what to spend. You may be the first thing in years worth spending it on."
+  - "Travelers. The Council listens."
+  topics:
+  - 9660
+  - 9661
+  - 9662
+  house: 9454
+- id: 9502
+  name: Tamsin
+  portrait: design/kreegan_world/art/portraits/x2/hes_tamsin.png
+  greeting:
+  - "You found me work almost as soon as you opened my cage. Tamsin, in case we weren't properly introduced. What needs fixing?"
+  - Back? Good. I've had ideas.
+  topics:
+  - 9670
+  - 9671
+  - 9672
+  - 9673
+  house: 9457
+- id: 9503
+  name: Doctor Ilse
+  portrait: design/kreegan_world/art/portraits/x2/hes_doctor_ilse.png
+  greeting:
+  - "Sit down and let me see that wound. I'm Doctor Ilse; Neve and I keep the Clinic now. We fit what the devils grow and what the Ancients built, and we do not ask which."
+  - Sit. Where does it hurt?
+  topics:
+  - 9680
+  - 9681
+  - 9227
+- id: 9512
+  name: Neve
+  portrait: design/kreegan_world/art/portraits/x2/hes_neve.png
+  greeting:
+  - "Welcome to the Clinic. I'm Neve. I can fit what you bring me, as long as we know what it is."
+  - Back for a fitting?
+  topics:
+  - 9734
+  - 9735
+  house: 9452
+- id: 9504
+  name: Brannoc
+  portrait: design/kreegan_world/art/portraits/x2/hes_brannoc.png
+  greeting:
+  - "The training rigs are ready. You can practice here, or try the ring if you want a prize. Ask for Brannoc when you're ready."
+  - Back. Good. Warm up.
+  topics:
+  - 9685
+  - 9686
+  house: 9204
+- id: 9505
+  name: Pell
+  portrait: design/kreegan_world/art/portraits/x2/hes_pell.png
+  greeting:
+  - Visitors! From outside! Sit, sit; mind the stacks. Pell, the Archive's keeper. Have you seen anything written, out there?
+    Anything at all?
+  - Ah, you. Brought me anything to read?
+  topics:
+  - 9690
+  - 9691
+  - 9692
+  - 9694
+  - 9695
+  house: 9455
+- id: 9511
+  name: Orrin
+  portrait: design/kreegan_world/art/portraits/x2/hes_engineer.png
+  greeting:
+  - "Stand behind the line while the fabricator runs. I'm Orrin. What have you brought me?"
+  - Bring me something to fit?
+  topics:
+  - 9731
+  - 9732
+  - 9733
+  - 9757
+  - 9758
+  - 9759
+  house: 9453
+- id: 9506
+  name: Odo
+  portrait: design/kreegan_world/art/portraits/x2/hes_odo.png
+  greeting:
+  - "That puddle wasn't there this morning. I'm Odo, and keeping the pipes working is supposed to be my trade."
+  - Dry feet? Lucky you.
+  topics:
+  - 9700
+- id: 9551
+  name: Pim
+  portrait: design/kreegan_world/art/portraits/x2/hes_pim.png
+  greeting:
+  - "If a turret starts clicking, send for me. Pim. Don't try to open it yourself."
+  - "If a turret starts clicking, send for me. Pim. Don't try to open it yourself."
+  topics:
+  - 9766
+- id: 9552
+  name: Sabra
+  portrait: design/kreegan_world/art/portraits/x2/hes_sabra.png
+  greeting:
+  - Sabra. Yes, the wire in my hair is Ashrunner. My mother was. I married down.
+  - Sabra. Yes, the wire in my hair is Ashrunner. My mother was. I married down.
+  topics:
+  - 9767
+- id: 9574
+  name: Hob
+  portrait: design/kreegan_world/art/portraits/x2/hes_kept_1.png
+  greeting:
+  - Free. I keep saying it.
+  - Free. I keep saying it.
+  topics:
+  - 9830
+  house: 9457
+- id: 9575
+  name: Dree
+  portrait: design/kreegan_world/art/portraits/x2/hes_kept_2.png
+  greeting:
+  - You opened the cages. I saw you.
+  - You opened the cages. I saw you.
+  topics:
+  - 9831
+  house: 9457
+- id: 9576
+  name: Cale
+  portrait: design/kreegan_world/art/portraits/x2/hes_cale.png
+  greeting:
+  - Camp one. Cutters' camp. Not any more.
+  - Camp one. Cutters' camp. Not any more.
+  topics:
+  - 9832
+- id: 9577
+  name: Senna
+  portrait: design/kreegan_world/art/portraits/x2/hes_senna.png
+  greeting:
+  - I walked down from the stacks. All the way.
+  - I walked down from the stacks. All the way.
+  topics:
+  - 9833
+- id: 9578
+  name: Rook
+  portrait: design/kreegan_world/art/portraits/x2/hes_rook.png
+  greeting:
+  - Don't look at my neck.
+  - Don't look at my neck.
+  topics:
+  - 9834
+- id: 9579
+  name: Tibb
+  portrait: design/kreegan_world/art/portraits/x2/hes_tibb.png
+  greeting:
+  - Old Tibb. Older than the collar. Ha.
+  - Old Tibb. Older than the collar. Ha.
+  topics:
+  - 9835
+- id: 9553
+  name: Ressa
+  portrait: design/kreegan_world/art/portraits/x2/hes_townsfolk_1.png
+  greeting:
+  - "Come down from the surface? Let your eyes settle before you take the steps."
+  - "Come down from the surface? Let your eyes settle before you take the steps."
+  topics:
+  - 9771
+  - 9775
+- id: 9554
+  name: Talen
+  portrait: design/kreegan_world/art/portraits/x2/hes_townsfolk_2.png
+  greeting:
+  - "The traders are busy today. If you need salvage, try Orrin's Workshop on the south wall."
+  - "The traders are busy today. If you need salvage, try Orrin's Workshop on the south wall."
+  topics:
+  - 9772
+  - 9776
+- id: 9555
+  name: Ulla
+  portrait: design/kreegan_world/art/portraits/x2/hes_townsfolk_3.png
+  greeting:
+  - "Looking for the Guardian? Follow the steps to the blue light."
+  - "Looking for the Guardian? Follow the steps to the blue light."
+  topics:
+  - 9773
+  - 9777
+- id: 9556
+  name: Varek
+  portrait: design/kreegan_world/art/portraits/x2/hes_townsfolk_4.png
+  greeting:
+  - "I'm cleaning the fountain. You can still drink from the far side."
+  - "I'm cleaning the fountain. You can still drink from the far side."
+  topics:
+  - 9774
+  - 9778
+- id: 9557
+  name: Wyn
+  portrait: design/kreegan_world/art/portraits/x2/hes_townsfolk_5.png
+  greeting:
+  - "I know every face in this hall except yours. Stay a while; tell us about yourselves."
+  - "I know every face in this hall except yours. Stay a while; tell us about yourselves."
+  topics:
+  - 9771
+  - 9779
+- id: 9558
+  name: Yorra
+  portrait: design/kreegan_world/art/portraits/x2/hes_townsfolk_6.png
+  greeting:
+  - "My grandfather was born behind that door. I was born there too. Have you come far?"
+  - "My grandfather was born behind that door. I was born there too. Have you come far?"
+  topics:
+  - 9772
+  - 9780
+- id: 9559
+  name: Zeph
+  portrait: design/kreegan_world/art/portraits/x2/hes_townsfolk_7.png
+  greeting:
+  - "Can it wait? No? Then tell me on the way."
+  - "Can it wait? No? Then tell me on the way."
+  topics:
+  - 9773
+  - 9781
+- id: 9560
+  name: Bettan
+  portrait: design/kreegan_world/art/portraits/x2/hes_townsfolk_8.png
+  greeting:
+  - "You've brought half the surface down on your coats. There's water at the fountain if you need it."
+  - "You've brought half the surface down on your coats. There's water at the fountain if you need it."
+  topics:
+  - 9774
+  - 9782
+- id: 9561
+  name: Corvin
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_09.png
+  greeting:
+  - "Council business goes through me. Corvin. Give me your names and I'll see who has time."
+  - "Council business goes through me. Corvin. Give me your names and I'll see who has time."
+  topics:
+  - 9771
+  - 9783
+- id: 9562
+  name: Delra
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_04.png
+  greeting:
+  - "The people in the Refuge need a little quiet. Some of them only arrived today."
+  - "The people in the Refuge need a little quiet. Some of them only arrived today."
+  topics:
+  - 9772
+  - 9784
+- id: 9563
+  name: Fiora
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_06.png
+  greeting:
+  - "Are you lost? The shops are below. These galleries are where we live."
+  - "Are you lost? The shops are below. These galleries are where we live."
+  topics:
+  - 9773
+  - 9785
+- id: 9564
+  name: Gell
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_07.png
+  greeting:
+  - "Another lamp gone over the arch. I'll get to it when I've finished this one."
+  - "Another lamp gone over the arch. I'll get to it when I've finished this one."
+  topics:
+  - 9774
+  - 9786
+- id: 9565
+  name: Hanno
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_01.png
+  greeting:
+  - "Sit with me a moment. I've lived under this roof eighty years, and I still like hearing the lift arrive."
+  - "Sit with me a moment. I've lived under this roof eighty years, and I still like hearing the lift arrive."
+  topics:
+  - 9771
+  - 9787
+- id: 9566
+  name: Iola
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_10.png
+  greeting:
+  - "Has the Guardian spoken to you? I light a lamp for her, but I've never heard her voice."
+  - "Has the Guardian spoken to you? I light a lamp for her, but I've never heard her voice."
+  topics:
+  - 9772
+  - 9788
+- id: 9567
+  name: Jessa
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_04.png
+  greeting:
+  - "Welcome below. The lift leaves your knees shaking the first few times."
+  - "Welcome below. The lift leaves your knees shaking the first few times."
+  topics:
+  - 9773
+  - 9789
+- id: 9568
+  name: Kobb
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_01.png
+  greeting:
+  - "Come round to my right. I can't hear you in that ear."
+  - "Come round to my right. I can't hear you in that ear."
+  topics:
+  - 9774
+  - 9790
+- id: 9569
+  name: Lissa
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_06.png
+  greeting:
+  - "Come in if you have time. The children have been waiting to meet the people from the sky."
+  - "Come in if you have time. The children have been waiting to meet the people from the sky."
+  topics:
+  - 9771
+  - 9775
+- id: 9570
+  name: Mott
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_07.png
+  greeting:
+  - "One mark for every drum. Help me count these, would you? I keep losing my place."
+  - "One mark for every drum. Help me count these, would you? I keep losing my place."
+  topics:
+  - 9772
+  - 9776
+- id: 9571
+  name: Nara
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_10.png
+  greeting:
+  - "There's room for another lamp in the Chapel tonight, if you'd like to leave one."
+  - "There's room for another lamp in the Chapel tonight, if you'd like to leave one."
+  topics:
+  - 9773
+  - 9777
+- id: 9572
+  name: Oswin
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_09.png
+  greeting:
+  - "I've never been past the Lift Head. Is the surface as bad as the guards say?"
+  - "I've never been past the Lift Head. Is the surface as bad as the guards say?"
+  topics:
+  - 9774
+  - 9778
+- id: 9573
+  name: Rhosa
+  portrait: design/kreegan_world/art/portraits/x2/hes_street_06.png
+  greeting:
+  - "Tea? It's made from the pale fungus. Let it cool a little; it tastes better."
+  - "Tea? It's made from the pale fungus. Let it cool a little; it tastes better."
+  topics:
+  - 9771
+  - 9779
+topics:
+- id: 9660
+  title: The Council
+  lua: |
+    evt.SetMessage("Seven families sit on the Council, as the founders' seven crews did. We keep the water, the light, the Archive and the peace. Landfall keeps the walls. The Guardian keeps us. It has been enough to live on. It has not been enough to win.")
+- id: 9661
+  title: Borrowed Shields
+  show_until: 100005
+  lua: |
+    -- M5: given here (100205), Krav killed in D3 (P1's 100024), done here (100005).
+    if IsQBitSet(QBit(100024)) then
+      ClearQBit(QBit(100205))
+      SetQBit(QBit(100005))
+      AddValue(InventoryItem(11332), 11332)
+      AddValue(Experience, 20000)
+      AddValue(ReputationInCurrentLocation, -1)
+      evt.SetMessage("Krav is dead. The crews went out this morning; two of them sang. Keep the bucklers, and take this: a training core from the founders' academy, the Council's to give.")
+      return
+    end
+    if IsQBitSet(QBit(100205)) then
+      evt.SetMessage("Krav still holds the Quarry. The Scour, east of the Reach, on the mesa.")
+      return
+    end
+    SetQBit(QBit(100205))
+    evt.SetMessage("Our salvage crews go out to the old colony sites for alloy and cells; it is how we eat. For a year the devils of the Quarry Outpost, on the Scour east of the Reach, have taken them: the crews, their gear, their bucklers. Their Overseer is called Krav. Kill him, and the crews go out again. Whatever shields you find in his stores, keep them. Consider them borrowed.")
+- id: 9662
+  title: The Kept
+  show_after: 100003
+  show_until: 100006
+  lua: |
+    -- M6: given here (100206), Tamsin (100025) and Ilse (100026) freed in D4 (P1's events 72, 73), done here (100006).
+    local tamsin, ilse = IsQBitSet(QBit(100025)), IsQBitSet(QBit(100026))
+    if tamsin and ilse then
+      ClearQBit(QBit(100206))
+      SetQBit(QBit(100006))
+      AddValue(InventoryItem(11332), 11332)
+      AddValue(Experience, 20000)
+      AddValue(ReputationInCurrentLocation, -1)
+      SetAutonote(10405)
+      evt.SetMessage("They are home, both of them, and thin as wire. Tamsin is already arguing with the Refuge's pumps; Ilse has taken the Clinic. The Council owes you this: the founders' last training core.")
+      return
+    end
+    if not IsQBitSet(QBit(100206)) then
+      SetQBit(QBit(100206))
+      evt.SetMessage("The devils keep our taken in the Labor Pens, a pit on the Scour with cages round it. They call them the Kept. Two of them we need above all: Tamsin, who could mend anything the founders built, and Doctor Ilse, who could mend us. Bring them home. Free whoever else you can; the collars are worked from a control room inside.")
+    elseif tamsin then
+      evt.SetMessage("Tamsin is home. Ilse is still in that place.")
+    elseif ilse then
+      evt.SetMessage("Ilse is home. Tamsin is still in that place.")
+    else
+      evt.SetMessage("The Labor Pens, on the Scour. Tamsin and Ilse.")
+    end
+- id: 9670
+  title: The Pens
+  lua: |
+    evt.SetMessage("Four years of cutting resin for the black ones. They kept me because I could make their stolen machines run. I made them run badly, quietly, when I could. The collars sing to the Lattice. Break the song and the collar is just a ring of metal.")
+- id: 9671
+  title: Collars Off
+  lua: |
+    -- S6: given here (100226), the five camps freed on the Scour (P1's 100115-100119, all five 100106), the reward 100120.
+    if IsQBitSet(QBit(100120)) then
+      evt.SetMessage("Five free camps. The Refuge is full of names again.")
+      return
+    end
+    if IsQBitSet(QBit(100106)) then
+      ClearQBit(QBit(100226))
+      SetQBit(QBit(100120))
+      AddValue(InventoryItem(11332), 11332)
+      -- Not staged yet (hesper_stage/items.yml): the Combat Reflex II (11211), an implant: AddValue(InventoryItem(11211), 11211)
+      AddValue(Experience, 20000)
+      evt.SetMessage("All five camps free. Here, take this training core the devils were keeping, and a reflex graft I took off an Overseer's bench. And Ansel at the pit-fighters' camp says he will teach you the blade, the way he learned it. He means it kindly.")
+      return
+    end
+    if IsQBitSet(QBit(100226)) then
+      local free = 0
+      for _, bit in ipairs({100115, 100116, 100117, 100118, 100119}) do
+        if IsQBitSet(QBit(bit)) then
+          free = free + 1
+        end
+      end
+      evt.SetMessage(({[0] = "None", "One", "Two", "Three", "Four", "Five"})[free] .. " of the five camps free.")
+      return
+    end
+    SetQBit(QBit(100226))
+    SetAutonote(10406)
+    evt.SetMessage("There are five work camps on the Scour, full of people like me. Every camp has a collar node, a post the collars listen to. Open it with a hacker's hands and every collar in that camp falls off. Or kill the camp's Overseer: the collars die with him. Do it for all five.")
+- id: 9672
+  title: The Lattice
+  show_after: 100006
+  lua: |
+    -- The nodes' hearts (P3's 100009 East, 100010 West, 100014 North); the three node quests as Aster's 9633 gives them.
+    local down = 0
+    for _, bit in ipairs({100009, 100010, 100014}) do
+      if IsQBitSet(QBit(bit)) then
+        down = down + 1
+      end
+    end
+    if down == 3 then
+      evt.SetMessage("The Lattice is dead. I watched the collar-light in the Refuge go out in every scar at once.")
+    elseif down > 0 then
+      evt.SetMessage(({[0] = "None", "One", "Two", "Three", "Four", "Five"})[down] .. " down. Same trick for the rest.")
+    else
+      if not IsQBitSet(QBit(100209)) and not IsQBitSet(QBit(100210)) and not IsQBitSet(QBit(100214)) then
+        SetQBit(QBit(100209))
+        SetQBit(QBit(100210))
+        SetQBit(QBit(100214))
+        SetAutonote(10410)
+      end
+      evt.SetMessage("I grafted resin onto Node North for a year; I know how they're built. Each heart hangs on three couplings. A master hacker shuts them at their terminals and nothing knows you were there. Without one, a Breach Charge on each coupling: loud, and it wrecks the vault, but the heart dies the same.")
+    end
+- id: 9673
+  title: Node North
+  show_after: 100014
+  show_until: 100051
+  lua: |
+    AddValue(InventoryItem(11332), 11332)
+    SetQBit(QBit(100051))
+    evt.SetMessage("You took Node North. I fused cells into that thing with a collar on my neck. Here. A training core I stole off their bench the week before you came. I was saving it for something good.")
+- id: 9680
+  title: Implants
+  lua: |
+    evt.SetMessage("Four sockets in the body, if you let me cut. The Ancients made the ports; the devils grow parts that fit them, because they took the patterns from us. Two of the same family do not add up; the better one counts. I will name what you bring me, and mend it if it is cracked.")
+- id: 9681
+  title: Glass Hunt
+  show_after: 100006
+  show_until: 100104
+  lua: |
+    -- S4: given here (100224), three Glassback Hearts (11485, the Glassfields' drops) handed in at once (100104).
+    local hearts = 0
+    for _, member in ipairs(PartyMembers()) do
+      hearts = hearts + PlayerItemCount(member, 11485)
+    end
+    if hearts >= 3 then
+      RemoveItem(11485)
+      RemoveItem(11485)
+      RemoveItem(11485)
+      ClearQBit(QBit(100224))
+      SetQBit(QBit(100104))
+      -- Not staged yet (hesper_stage/items.yml): the Ablative Lattice II (11205), an implant: AddValue(InventoryItem(11205), 11205)
+      -- An Engram Core (11332; an Engram until CR-INT-1's larger supply).
+      AddValue(InventoryItem(11332), 11332)
+      AddValue(Experience, 10000)
+      AddValue(ReputationInCurrentLocation, -1)
+      evt.SetMessage("These hearts are sound. I can use them. Take this ablative lattice and an engram core I took off a Kreegan surgeon's tray.")
+      return
+    end
+    if IsQBitSet(QBit(100224)) then
+      evt.SetMessage(({[0] = "None", "One", "Two", "Three", "Four", "Five"})[hearts] .. " of three hearts.")
+      return
+    end
+    SetQBit(QBit(100224))
+    evt.SetMessage("The glassbacks in the Glassfields grow a crystal heart that takes an energy hit and spreads it thin. Three of those and I can grow you an ablative lattice: energy runs off you like rain. They shrug off your guns; take blades.")
+- id: 9734
+  title: The bay
+  show_until: 100006
+  lua: |
+    evt.SetMessage("The Ancients built this bay to fit implants. I can sell them and set them in. I cannot tell you what an unknown one does, or mend a broken one. There was a surgeon who could. The devils took her to the Pens.")
+- id: 9735
+  title: Doctor Ilse
+  show_after: 100006
+  lua: |
+    evt.SetMessage("She is back, and she has taken over, and I have never been so glad to be ordered about.")
+- id: 9685
+  title: The Sim Hall
+  lua: |
+    evt.SetMessage("The hall makes enemies out of light: they hit like the real ones and die like them, and nobody stays dead. I train your levels here, the old way. And for anyone who joins you late, the rigs teach the first steps of the four disciplines, free.")
+- id: 9686
+  title: The Ranks
+  lua: |
+    -- S8: given here (100228); the ranks won in the arena (100121 Bronze, 100122 Silver, 100123 Gold): the arena's waves
+    -- are not built yet (hesper_undervault README).
+    if IsQBitSet(QBit(100123)) then
+      evt.SetMessage("Gold. I've seen it done twice. You're the second.")
+    elseif IsQBitSet(QBit(100122)) then
+      evt.SetMessage("Silver. The masters up top will hear of it.")
+    elseif IsQBitSet(QBit(100121)) then
+      evt.SetMessage("Bronze. Not bad.")
+    else
+      if not IsQBitSet(QBit(100228)) then
+        SetQBit(QBit(100228))
+        SetAutonote(10416)
+      end
+      evt.SetMessage("Three ranks in the ring. Bronze pits you against the Reach's creatures, Silver against the Scour's, and Gold against what waits in the Crown. Each has a prize. Win Silver and the masters up top give you half-price lessons; they owe me.")
+    end
+- id: 9690
+  title: The Archive
+  lua: |
+    evt.SetMessage("The founders' records, the colony's laws, a thousand years of the Hesperians' births and deaths: all here, or most. The oldest records are in the founders' dome on the surface, sealed since the fall. And the colony's log tablets lie all over the four lands, where the colonists set them; I would give a great deal for every one.")
+- id: 9691
+  title: The Old Line
+  show_after: 100050
+  show_until: 100017
+  lua: |
+    if IsQBitSet(QBit(100217)) then
+      evt.SetMessage("The Deep Stair, behind the Lift Gate. A Grandmaster's hands.")
+      return
+    end
+    SetQBit(QBit(100217))
+    SetAutonote(10411)
+    evt.SetMessage("The founders' record names it: the Old Line, the freight line the Ancients ran under the planet, from our Deep Stair to the core of what is now the Crownspire. It is sealed with a root lock, the deepest kind. A Grandmaster's hands would open it; Iver teaches that, if the Guardian has given him the codes. At its far end, Grid Control could kill the cannons from inside.")
+- id: 9692
+  title: After the line
+  show_after: 100017
+  lua: |
+    evt.SetMessage("You rode the Old Line. The Ancients built it and we forgot it was there for a thousand years. Write it all down for me, every station.")
+- id: 9694
+  title: Dead Letters
+  show_until: 100109
+  lua: |
+    -- S9: given here (100229); every tablet carried (11360-11371) taken at once, each its bit (100124-100135) and Pell's
+    -- line (READABLES); the twelfth closes it (100109, the Old Line known 100050).
+    local lines = {
+      "The Starport, busy! I have never seen a green board in my life.",
+      "She knew. Or the other one did.",
+      "The Glassfields. I always thought they were older than that.",
+      "The Kept began on the second day. Two days.",
+      "Ilka Mar, of Sesha's line. Her name is in our families' book.",
+      "The collars, on the sixth day. Tamsin should read this.",
+      "The Brood Spires were a marsh. A marsh! With birds, the old books say.",
+      "The ninth day. Aster remembers the ninth day.",
+      "The going below. My family's book starts here.",
+      "So that is what the Crown is. It was our core. It was ours.",
+      "The Old Line! Here it is, in his own words.",
+      "Sel Ek, of Torvan Ek's line, kept this Archive before me. I know his name. Now I know what he saw."
+    }
+    local text, taken, held = "", 0, 0
+    for k = 1, 12 do
+      if not IsQBitSet(QBit(100123 + k)) and HasItem(11359 + k) then
+        RemoveItem(11359 + k)
+        SetQBit(QBit(100123 + k))
+        text = text .. lines[k] .. " "
+        taken = taken + 1
+      end
+      if IsQBitSet(QBit(100123 + k)) then
+        held = held + 1
+      end
+    end
+    if held == 12 then
+      ClearQBit(QBit(100229))
+      SetQBit(QBit(100109))
+      SetQBit(QBit(100050))
+      -- Not staged yet (hesper_stage/items.yml): the Last Light of Hesper (11428): AddValue(InventoryItem(11428), 11428)
+      AddValue(InventoryItem(11332), 11332)
+      SetAutonote(10417)
+      AddValue(Experience, 40000)
+      AddValue(ReputationInCurrentLocation, -1)
+      evt.SetMessage(text .. "All twelve. Now we know how it ended, and where the Old Line goes. Take the Last Light of Hesper from our vault, and a training core. You've brought our history home.")
+      return
+    end
+    if not IsQBitSet(QBit(100229)) then
+      SetQBit(QBit(100229))
+      if taken == 0 then
+        evt.SetMessage("The colony set log tablets on plinths across the four lands: twelve, the old inventory says. Each is a page of the colony's last year. Bring them to me as you find them; read them first, if you like. Together they tell how we fell.")
+        return
+      end
+    end
+    evt.SetMessage(text .. held .. " of twelve.")
+- id: 9695
+  title: The founder's head
+  show_after: 100301
+  lua: |
+    evt.SetMessage("You set the founder's head back on the statue. A thousand years a trophy in their palace, and now the founder looks at the Starport again. I'll put it in the record.")
+- id: 9731
+  title: The Workshop
+  lua: |
+    evt.SetMessage("The Ancients' fabricator still runs, if you feed it. I fit one mod to a weapon, a body piece, a helm, a cloak or an emitter: two kinds from the start, two more once the devils start losing. Gold and salvage, and you know what you get before I start. And I buy alloy and cells at full weight; no one up top pays you better.")
+# The Workshop's four mods (ITEMS "Workshop mods"; HesperWorkshop.fit, common/workshop.lua; the world's
+# workshop_mods table ids 1-4).
+- id: 9732
+  title: Shieldbreaker (15 000)
+  lua: |
+    HesperWorkshop.fit({id = 1, name = "Shieldbreaker", gold = 15000, salvage = 11351, count = 2,
+      salvageName = "Ion Cells", objectives = 0, what = "a weapon"})
+- id: 9733
+  title: Insulation (10 000)
+  lua: |
+    HesperWorkshop.fit({id = 2, name = "Insulation", gold = 10000, salvage = 11350, count = 2,
+      salvageName = "Kreegan Alloy", objectives = 0, what = "body armour, a helm or a cloak"})
+- id: 9757
+  title: Swift Coupling (25 000)
+  lua: |
+    HesperWorkshop.fit({id = 3, name = "Swift Coupling", gold = 25000, salvage = 11351, count = 2,
+      salvageName = "Ion Cells", objectives = 3, what = "a weapon"})
+- id: 9758
+  title: Capacitor Link (20 000)
+  lua: |
+    HesperWorkshop.fit({id = 4, name = "Capacitor Link", gold = 20000, salvage = 11351, count = 3,
+      salvageName = "Ion Cells", objectives = 3, what = "body armour or an emitter"})
+- id: 9759
+  title: Sell salvage
+  lua: |
+    HesperWorkshop.buySalvage()
+- id: 9700
+  title: Pressure
+  show_until: 100114
+  lua: |
+    -- S2: given here (100222), done in D2 (its filter console, 100102), Odo's thanks (100114).
+    if IsQBitSet(QBit(100102)) then
+      ClearQBit(QBit(100222))
+      SetQBit(QBit(100114))
+      AddValue(InventoryItem(11332), 11332)          -- an Engram Core (an Engram until CR-INT-1)
+      AddValue(Experience, 10000)
+      AddValue(ReputationInCurrentLocation, -1)
+      evt.SetMessage("Water's running! Clean as the founders drank it. Here: a training engram core my grandfather found in the pipes. Never knew what to do with it.")
+      return
+    end
+    if IsQBitSet(QBit(100222)) then
+      evt.SetMessage("Three valves, one big glassy beast, one console. The canyon south-east of your crater.")
+      return
+    end
+    SetQBit(QBit(100222))
+    evt.SetMessage("The Pumping Station in the canyon feeds us and Landfall both, and it's choked: glass growing in the filters, the cistern flooded, and something big nesting in the beds. Drain it, clear the beds, run the filter console. You'll find the old door through the Water Works opens from the far side.")
+- id: 9766
+  title: The walls
+  lua: |
+    evt.SetMessage("Four bastions on the gates, seven wards on the wall. Old guns, kept up. They don't like seekers and they don't like anything bigger either.")
+- id: 9767
+  title: Ashrunners
+  lua: |
+    if IsQBitSet(QBit(100101)) then
+      evt.SetMessage("You brought the crawler home? Then you have a camp of friends who shoot straight. Treasure that.")
+      return
+    end
+    evt.SetMessage("The camp north-west of Landfall lost a crawler to the scrapyard east of the apron. Bring it home and Garrow will call you friend. He means it, too.")
+- id: 9830
+  title: The Pens
+  lua: |
+    evt.SetMessage("They fed us once a day and the collar did the rest. If you go back there, burn it.")
+- id: 9831
+  title: Work
+  lua: |
+    evt.SetMessage("I can carry, dig and shoot straight. Pay me and I will walk behind you anywhere but back.")
+- id: 9832
+  title: The wreck
+  lua: |
+    evt.SetMessage("We cut plate off the dead ship by the road. Old bones, gray. The black ones were afraid of it.")
+- id: 9833
+  title: The Foundry
+  lua: |
+    evt.SetMessage("Every load we cut went north to the Foundry. Every gun that came back pointed at us.")
+- id: 9834
+  title: The pit
+  lua: |
+    evt.SetMessage("The Harvester ate the ground and we ate dust. When it stopped grinding I slept a whole night.")
+- id: 9835
+  title: Overseers
+  lua: |
+    evt.SetMessage("They fly, they shout, they never get tired. But they bleed like anyone. Kill the one on the perch first.")
+houses:
+- id: 9452
+  picture: 9805
+  name: The Clinic
+  map: hes_undervault.blv
+  hours:
+  - 8
+  - 20
+  teaches:
+  - Cybernetics
+  skill_price: 2
+- id: 9453
+  picture: 9800
+  name: The Workshop
+  map: hes_undervault.blv
+  hours:
+  - 8
+  - 20
+- id: 9454
+  picture: 9802
+  name: The Council Hall
+  map: hes_undervault.blv
+  hours:
+  - 8
+  - 20
+- id: 9455
+  picture: 9806
+  name: The Archive
+  map: hes_undervault.blv
+  hours:
+  - 8
+  - 20
+- id: 9456
+  picture: 9807
+  name: The Guardian's Chapel
+  map: hes_undervault.blv
+  type: Temple
+  price: 10
+- id: 9457
+  picture: 9808
+  name: The Kept Refuge
+  map: hes_undervault.blv

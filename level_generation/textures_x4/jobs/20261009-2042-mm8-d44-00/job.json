@@ -1,0 +1,1171 @@
+{
+ "id": "20261009-2042-mm8-d44-00",
+ "world": "mm8",
+ "maps": [
+  "d44.blv",
+  "d27.blv",
+  "d05.blv",
+  "d25.blv",
+  "d16.blv",
+  "d09.blv",
+  "out03.odm",
+  "d40.blv",
+  "d14.blv",
+  "out07.odm",
+  "out01.odm",
+  "out06.odm"
+ ],
+ "created": "2026-10-09T18:42:14+00:00",
+ "textures": [
+  "mm8/t68a02b",
+  "mm8/gstn1bot",
+  "mm8/t65b02m",
+  "mm8/gkp1-lb",
+  "mm8/cr_w128a",
+  "mm8/grstr1",
+  "mm8/t05a07d",
+  "mm8/t05a11",
+  "mm8/t03a10a",
+  "mm8/cdb1s",
+  "mm8/cddl",
+  "mm8/t68a13lm",
+  "mm8/t68a13lb",
+  "mm8/t68a13lt",
+  "mm8/t32a03c",
+  "mm8/t32b03l",
+  "mm8/t03a12b",
+  "mm8/t03a06b",
+  "mm8/t02b03c",
+  "mm8/t03a07a",
+  "mm8/t03a07b",
+  "mm8/t03a12c",
+  "mm8/t03a09b",
+  "mm8/t19b04a",
+  "mm8/cr_w128b",
+  "mm8/t32a03b",
+  "mm8/t32b03r"
+ ],
+ "requests": {
+  "mm8/t68a02b": {
+   "name": "t68a02b",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-black porous volcanic basalt, smooth continuous rock surface with soft pale grey mineral streaks and small pits",
+   "notes": {},
+   "ref_blur": {
+    "1": 3.0
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm8/gstn1bot": {
+   "name": "gstn1bot",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth grey-green speckled granite slabs with thin pale joints",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     0,
+     110
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gston1wl"
+     ],
+     "fraction": 0.943
+    },
+    "2": {
+     "sources": [
+      "mm8/gston1wl"
+     ],
+     "fraction": 0.943
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm8/t65b02m": {
+   "name": "t65b02m",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough brown sandstone flagstone wall of irregular rounded stones with dark joints",
+   "notes": {
+    "1": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65b02t",
+      "mm8/t65b07t",
+      "mm8/t65b06t"
+     ],
+     "fraction": 0.832
+    },
+    "2": {
+     "sources": [
+      "mm8/t65b02t",
+      "mm8/t65b07t",
+      "mm8/t65b06t"
+     ],
+     "fraction": 0.832
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     50
+    ]
+   }
+  },
+  "mm8/gkp1-lb": {
+   "name": "gkp1-lb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints beside a brown wooden post",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     40,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    },
+    "2": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    },
+    "3": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    },
+    "4": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    },
+    "5": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    },
+    "6": {
+     "sources": [
+      "mm8/gkp1-bs2",
+      "mm8/gkp1-rb"
+     ],
+     "fraction": 0.594
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "right": "mm8/gkp1-bs2"
+    },
+    "3": {
+     "right": "mm8/gkp1-bs2"
+    },
+    "4": {
+     "right": "mm8/gkp1-bs2"
+    },
+    "5": {
+     "right": "mm8/gkp1-bs2"
+    },
+    "6": {
+     "right": "mm8/gkp1-bs2"
+    }
+   },
+   "pad": {
+    "6": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm8/cr_w128a": {
+   "name": "cr_w128a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "light pine wooden crate side of horizontal planks in a plank frame with corner nails and a small painted cream label with red lettering in the lower right, copy the label exactly",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     0,
+     53
+    ],
+    "3": [
+     0,
+     53
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cr_w128b"
+     ],
+     "fraction": 0.868
+    },
+    "2": {
+     "sources": [
+      "mm8/cr_w128b"
+     ],
+     "fraction": 0.868
+    },
+    "3": {
+     "sources": [
+      "mm8/cr_w128b"
+     ],
+     "fraction": 0.868
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm8/cr_w128b"
+    },
+    "2": {
+     "right": "mm8/cr_w128b"
+    },
+    "3": {
+     "right": "mm8/cr_w128b"
+    }
+   }
+  },
+  "mm8/grstr1": {
+   "name": "grstr1",
+   "versions": [
+    1
+   ],
+   "material": "smooth light tan wooden board with a bevelled edge",
+   "notes": {},
+   "roll": {
+    "1": [
+     77,
+     9
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm8/t05a07d": {
+   "name": "t05a07d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth reddish-brown adobe plaster wall under a row of dark stone coping blocks, with a jagged edge of exposed dark brown bricks along one side and a dark stone pilaster",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     0,
+     96
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t05a07c",
+      "mm8/t05c01",
+      "mm8/t05a01f"
+     ],
+     "fraction": 0.82
+    },
+    "2": {
+     "sources": [
+      "mm8/t05a07c",
+      "mm8/t05c01",
+      "mm8/t05a01f"
+     ],
+     "fraction": 0.82
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "right": "mm8/t05c04c"
+    }
+   }
+  },
+  "mm8/t05a11": {
+   "name": "t05a11",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark reddish-brown wood board photographed in sharp focus: crisp fine horizontal grain lines that run the full width, pores and small cracks",
+   "notes": {
+    "2": "sharp photographic wood: every grain line crisp, no brushed or smeared look"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "ref_blur": {
+    "2": 2.5
+   },
+   "rotate_from": {
+    "id": "mm8/t05a10",
+    "k": 3
+   }
+  },
+  "mm8/t03a10a": {
+   "name": "t03a10a",
+   "versions": [
+    1
+   ],
+   "material": "single vertical golden bamboo pole with nodes",
+   "notes": {},
+   "roll": {
+    "1": [
+     9,
+     90
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm8/cdb1s": {
+   "name": "cdb1s",
+   "versions": [
+    1
+   ],
+   "material": "ochre-tan sandstone bricks in staggered courses with dark mortar",
+   "notes": {
+    "1": "keep the dark recessed horizontal band across the very top exactly as in the reference, above the first course of blocks"
+   }
+  },
+  "mm8/cddl": {
+   "name": "cddl",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "dark blue-grey wooden plank door with an iron ring handle and a carved animal head, inside a pale golden stone arch",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     0,
+     145
+    ],
+    "4": [
+     0,
+     145
+    ],
+    "6": [
+     0,
+     145
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.153
+    },
+    "2": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.153
+    },
+    "3": {
+     "sources": [
+      "mm8/cdb",
+      "mm8/cdb1er"
+     ],
+     "fraction": 0.137
+    },
+    "4": {
+     "sources": [
+      "mm8/cdb",
+      "mm8/cdb1er"
+     ],
+     "fraction": 0.137
+    },
+    "5": {
+     "sources": [
+      "mm8/cdb",
+      "mm8/cdb1er"
+     ],
+     "fraction": 0.137
+    },
+    "6": {
+     "sources": [
+      "mm8/cdb",
+      "mm8/cdb1er"
+     ],
+     "fraction": 0.137
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {
+     "right": "mm8/cddr"
+    },
+    "4": {
+     "right": "mm8/cddr"
+    },
+    "5": {
+     "right": "mm8/cddr"
+    },
+    "6": {
+     "right": "mm8/cddr"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm8/t68a13lm": {
+   "name": "t68a13lm",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "one complete side face of a tall dark reddish-brown wooden crate: a mitred plank frame with round iron bolt heads at the four corners around a panel of vertical planks with straight grain and dark gaps",
+   "notes": {
+    "1": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "2": "the vertical planks run continuously from top to bottom with no horizontal break, step or seam in the middle",
+    "3": "the vertical planks continue straight from the finished top border through to the finished bottom border, aligned with their gaps",
+    "4": "the vertical planks run continuously from the top frame to the bottom frame, aligned with their gaps; no horizontal breaks",
+    "5": "the vertical planks run continuously from the top frame to the bottom frame, aligned with their gaps; no horizontal breaks",
+    "6": "the vertical planks run continuously from the top frame to the bottom frame, aligned with their gaps; no horizontal breaks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      160,
+      208
+     ],
+     [
+      0,
+      196,
+      160,
+      416
+     ]
+    ],
+    "2": [
+     [
+      0,
+      0,
+      160,
+      208
+     ],
+     [
+      0,
+      196,
+      160,
+      416
+     ]
+    ],
+    "4": [
+     [
+      0,
+      0,
+      160,
+      208
+     ],
+     [
+      0,
+      196,
+      160,
+      416
+     ]
+    ]
+   },
+   "context": {
+    "3": {
+     "bottom": "mm8/t68a13lb",
+     "top": "mm8/t68a13lt"
+    },
+    "5": {},
+    "6": {}
+   }
+  },
+  "mm8/t68a13lb": {
+   "name": "t68a13lb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark reddish-brown wooden crate corner: vertical planks and a mitred horizontal frame plank with two round iron bolt heads",
+   "notes": {
+    "1": "the vertical planks run continuously from the top frame to the bottom frame, aligned with their gaps; no horizontal breaks"
+   }
+  },
+  "mm8/t68a13lt": {
+   "name": "t68a13lt",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark reddish-brown wooden crate corner: vertical planks and a mitred horizontal frame plank with two round iron bolt heads",
+   "notes": {
+    "1": "the vertical planks run continuously from the top frame to the bottom frame, aligned with their gaps; no horizontal breaks"
+   }
+  },
+  "mm8/t32a03c": {
+   "name": "t32a03c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around an ornate gothic door of dark red carved wood with a tall leaded window, in a carved stone frame with statues",
+   "notes": {
+    "1": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32b03r"
+     ],
+     "fraction": 0.93
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t32a03b"
+    },
+    "2": {}
+   }
+  },
+  "mm8/t32b03l": {
+   "name": "t32b03l",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around an ornate gothic door of dark red carved wood with a tall leaded window, in a carved stone frame with statues",
+   "notes": {
+    "1": "match the reference's dark overall brightness; keep the door exactly as tall and wide as in the reference, reaching the bottom edge",
+    "2": "match the reference's dark overall brightness; keep the door exactly as tall and wide as in the reference, reaching the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a03b"
+     ],
+     "fraction": 0.922
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm8/t32b03r"
+    }
+   }
+  },
+  "mm8/t03a12b": {
+   "name": "t03a12b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "lashed golden bamboo poles in a grid with rope bindings",
+   "notes": {
+    "1": "every bamboo pole is a smooth continuous cane with fine fibrous grain; no square patches, cells or blocks anywhere"
+   },
+   "standalone": false,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     71
+    ]
+   }
+  },
+  "mm8/t03a06b": {
+   "name": "t03a06b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "lashed golden bamboo poles in a grid with rope bindings",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "roll": {
+    "1": [
+     0,
+     73
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t03a12b"
+     ],
+     "fraction": 0.821
+    },
+    "2": {
+     "sources": [
+      "mm8/t03a12b"
+     ],
+     "fraction": 0.821
+    },
+    "3": {
+     "sources": [
+      "mm8/t03a12b"
+     ],
+     "fraction": 0.809
+    },
+    "4": {
+     "sources": [
+      "mm8/t03a12b"
+     ],
+     "fraction": 0.809
+    },
+    "5": {
+     "sources": [
+      "mm8/t03a12b"
+     ],
+     "fraction": 0.809
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {
+     "top": "mm8/t03a11b",
+     "left": "mm8/t03a04b"
+    },
+    "4": {
+     "top": "mm8/t03a11b",
+     "left": "mm8/t03a04b"
+    },
+    "5": {
+     "top": "mm8/t03a11b",
+     "left": "mm8/t03a04b"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t02b03c": {
+   "name": "t02b03c",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered green-grey vertical plank wooden door with an iron latch, set in a grey stone frame under a carved wooden lintel",
+   "notes": {
+    "1": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "keep the frieze, door top and planks at exactly the reference heights",
+    "4": "keep the frieze, door top and planks at exactly the reference heights"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t02a03c",
+      "mm8/t02a03a",
+      "mm8/t02a03b"
+     ],
+     "fraction": 0.636
+    },
+    "2": {
+     "sources": [
+      "mm8/t02a03c",
+      "mm8/t02a03a",
+      "mm8/t02a03b"
+     ],
+     "fraction": 0.636
+    },
+    "3": {
+     "sources": [
+      "mm8/t02a03c",
+      "mm8/t02a03a",
+      "mm8/t02a03b"
+     ],
+     "fraction": 0.636
+    },
+    "4": {
+     "sources": [
+      "mm8/t02a03c"
+     ],
+     "fraction": 0.351
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm8/t02a07"
+    },
+    "3": {
+     "left": "mm8/t02a07"
+    },
+    "4": {
+     "left": "mm8/t02a07"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm8/t03a07a": {
+   "name": "t03a07a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     0,
+     147
+    ],
+    "3": [
+     0,
+     147
+    ],
+    "6": [
+     0,
+     147
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t03a01b"
+     ],
+     "fraction": 0.552
+    },
+    "2": {
+     "sources": [
+      "mm8/t03a01b"
+     ],
+     "fraction": 0.552
+    },
+    "3": {
+     "sources": [
+      "mm8/t03a01b"
+     ],
+     "fraction": 0.552
+    },
+    "4": {
+     "sources": [
+      "mm8/t03a01b"
+     ],
+     "fraction": 0.552
+    },
+    "5": {
+     "sources": [
+      "mm8/t03a01b"
+     ],
+     "fraction": 0.552
+    },
+    "6": {
+     "sources": [
+      "mm8/t03a01b"
+     ],
+     "fraction": 0.552
+    },
+    "7": {
+     "sources": [
+      "mm8/t03a01b"
+     ],
+     "fraction": 0.552
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {}
+   }
+  },
+  "mm8/t03a07b": {
+   "name": "t03a07b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "lashed golden bamboo poles in a fence of vertical and horizontal poles with rope bindings over dark shadow",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "roll": {
+    "1": [
+     0,
+     69
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm8/t03a12c": {
+   "name": "t03a12c",
+   "versions": [
+    1
+   ],
+   "material": "lashed golden bamboo poles in a fence of vertical and horizontal poles with rope bindings over dark shadow",
+   "notes": {},
+   "roll": {
+    "1": [
+     0,
+     154
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm8/t03a09b": {
+   "name": "t03a09b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown woven palm-bark panel framed by lashed golden bamboo poles with a bamboo window grid",
+   "notes": {
+    "1": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     92,
+     160
+    ]
+   }
+  },
+  "mm8/t19b04a": {
+   "name": "t19b04a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey granite ashlar blocks with dark mortar around an arched stained-glass window: a pale yellow-green coiled dragon figure painted on green glass in a carved stone frame, no diamond lattice",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     16
+    ],
+    "2": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.553
+    },
+    "2": {
+     "sources": [
+      "mm8/t19b01"
+     ],
+     "fraction": 0.553
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm8/t19a12",
+     "left": "mm8/t19b07"
+    },
+    "2": {
+     "right": "mm8/t19a12",
+     "left": "mm8/t19b07"
+    }
+   }
+  },
+  "mm8/cr_w128b": {
+   "name": "cr_w128b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "one complete side of a light pine wooden crate, two halves side by side: horizontal planks in a plank frame with corner nails, a small painted cream label with red lettering in the lower right of the left half, copy the label exactly",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm8/t32a03b": {
+   "name": "t32a03b",
+   "versions": [
+    1
+   ],
+   "material": "",
+   "notes": {}
+  },
+  "mm8/t32b03r": {
+   "name": "t32b03r",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar wall around an ornate gothic double door of dark red carved wood with tall leaded windows, in a carved stone frame with statues, one picture across both halves",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a03b",
+      "mm8/t32a03c"
+     ],
+     "fraction": 0.926
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm8/t32b07",
+     "right": "mm8/t32b06b"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,1 @@
+Retained original detailed RGBA master. Applied common --adjust 0.98 0 0 to avoid slight edge clipping; registration_checks.json retains zero solid pixels outside canvas. Applied measured native opaque RGB gamma with alpha unchanged (restore_native_tone.py, tone.json). Inspected full raw, native reference and final light/dark proofs.

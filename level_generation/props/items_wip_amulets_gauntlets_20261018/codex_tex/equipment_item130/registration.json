@@ -1,0 +1,62 @@
+{
+  "paint_front": {
+    "raw_frame_scale": [
+      1.1150793650793651,
+      1.0224719101123596
+    ],
+    "registered_iou": 0.9198455725316248
+  },
+  "paint_back": {
+    "raw_frame_scale": [
+      1.0992063492063493,
+      1.0224719101123596
+    ],
+    "registered_iou": 0.916576505688338
+  },
+  "paint_left": {
+    "raw_frame_scale": [
+      1.1394230769230769,
+      1.0359550561797752
+    ],
+    "registered_iou": 0.9122415647532167
+  },
+  "paint_right": {
+    "raw_frame_scale": [
+      1.106280193236715,
+      1.0449438202247192
+    ],
+    "registered_iou": 0.934262517446775
+  },
+  "mask_front": {
+    "raw_frame_scale": [
+      1.0555555555555556,
+      1.0044943820224719
+    ],
+    "registered_iou": 0.9496316975547409,
+    "guide_edge_fill_fraction": 0.022080980915105124
+  },
+  "mask_back": {
+    "raw_frame_scale": [
+      1.0357142857142858,
+      1.0044943820224719
+    ],
+    "registered_iou": 0.9394725896348057,
+    "guide_edge_fill_fraction": 0.022013232186774742
+  },
+  "mask_left": {
+    "raw_frame_scale": [
+      1.0192307692307692,
+      1.0044943820224719
+    ],
+    "registered_iou": 0.9581473767727858,
+    "guide_edge_fill_fraction": 0.01583065074772829
+  },
+  "mask_right": {
+    "raw_frame_scale": [
+      1.0724637681159421,
+      1.006741573033708
+    ],
+    "registered_iou": 0.9721538895834173,
+    "guide_edge_fill_fraction": 0.017604988079955988
+  }
+}

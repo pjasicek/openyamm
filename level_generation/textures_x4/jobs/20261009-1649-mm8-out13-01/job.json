@@ -1,0 +1,860 @@
+{
+ "id": "20261009-1649-mm8-out13-01",
+ "world": "mm8",
+ "maps": [
+  "out13.odm"
+ ],
+ "created": "2026-10-09T14:49:40+00:00",
+ "textures": [
+  "mm8/t09c06",
+  "mm8/t09c04b",
+  "mm8/t09a07",
+  "mm8/t08a01b",
+  "mm8/t09a06",
+  "mm8/t08a07",
+  "mm8/t06b07",
+  "mm8/t08a06",
+  "mm8/t06c04",
+  "mm8/gstn1tp1",
+  "mm8/t01a12b",
+  "mm8/t06b06",
+  "mm8/t01a01a",
+  "mm8/t01a01c",
+  "mm8/t06a06",
+  "mm8/t01a07a",
+  "mm8/t01a06a",
+  "mm8/t01a04b",
+  "mm8/t06a07",
+  "mm8/gstn1cl",
+  "mm8/t01a04a",
+  "mm8/t06a02",
+  "mm8/t08a03",
+  "mm8/t01a03b"
+ ],
+ "requests": {
+  "mm8/t09c06": {
+   "name": "t09c06",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey granite ashlar bricks with dark recessed mortar under a carved stone frieze of heraldic animal reliefs, with a pale stone pilaster along the edge",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t09c01"
+     ],
+     "fraction": 0.744
+    },
+    "2": {
+     "sources": [
+      "mm8/t09c01"
+     ],
+     "fraction": 0.744
+    }
+   }
+  },
+  "mm8/t09c04b": {
+   "name": "t09c04b",
+   "versions": [
+    1
+   ],
+   "material": "grey granite ashlar bricks with dark recessed mortar under a carved stone frieze, with a tall narrow pointed-arch window in a pale wooden frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t09c01",
+      "mm8/t09a01",
+      "mm8/t09a04a"
+     ],
+     "fraction": 0.657
+    }
+   }
+  },
+  "mm8/t09a07": {
+   "name": "t09a07",
+   "versions": [
+    1
+   ],
+   "material": "grey granite ashlar bricks in staggered courses with dark recessed mortar beside a pale stone pilaster edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09c06"
+     ],
+     "fraction": 0.688
+    }
+   }
+  },
+  "mm8/t08a01b": {
+   "name": "t08a01b",
+   "versions": [
+    1
+   ],
+   "material": "dark carved oak timber frame with two arched pale plaster window panels and a carved wooden arch top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t08a07b"
+     ],
+     "fraction": 0.293
+    }
+   }
+  },
+  "mm8/t09a06": {
+   "name": "t09a06",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "grey granite wall: rows of small ashlar bricks in staggered courses with dark recessed mortar beside a pale stone pilaster edge, interrupted by one course of much larger, taller rectangular granite slabs",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "8": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.526
+    },
+    "2": {
+     "sources": [
+      "mm8/t09a01",
+      "mm8/t09a07"
+     ],
+     "fraction": 0.526
+    },
+    "3": {
+     "sources": [
+      "mm8/t09b01"
+     ],
+     "fraction": 0.623
+    },
+    "4": {
+     "sources": [
+      "mm8/t09b01"
+     ],
+     "fraction": 0.623
+    },
+    "5": {
+     "sources": [
+      "mm8/t09b01"
+     ],
+     "fraction": 0.623
+    },
+    "6": {
+     "sources": [
+      "mm8/t09b01",
+      "mm8/t09c12b"
+     ],
+     "fraction": 0.613
+    },
+    "7": {
+     "sources": [
+      "mm8/t09b01",
+      "mm8/t09c12b"
+     ],
+     "fraction": 0.613
+    },
+    "8": {
+     "sources": [
+      "mm8/t09b01",
+      "mm8/t09c12b"
+     ],
+     "fraction": 0.613
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     188
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t09a01"
+    },
+    "4": {
+     "left": "mm8/t09a01"
+    },
+    "5": {
+     "left": "mm8/t09a01"
+    },
+    "6": {
+     "left": "mm8/t09a01",
+     "top": "mm8/t09a01",
+     "bottom": "mm8/t09b11b"
+    },
+    "7": {
+     "left": "mm8/t09a01",
+     "top": "mm8/t09a01",
+     "bottom": "mm8/t09b11b"
+    },
+    "8": {
+     "left": "mm8/t09a01",
+     "top": "mm8/t09a01",
+     "bottom": "mm8/t09b11b"
+    }
+   },
+   "pad": {
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ],
+    "8": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm8/t08a07": {
+   "name": "t08a07",
+   "versions": [
+    1
+   ],
+   "material": "dark carved oak timber frame with two arched pale plaster panels, a small mullioned wooden window and a carved wooden arch top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t08a01b"
+     ],
+     "fraction": 0.851
+    }
+   }
+  },
+  "mm8/t06b07": {
+   "name": "t06b07",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rounded grey river cobblestones set in dark mortar beside a dark oak timber post, faint moss at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a09",
+      "mm8/t06a01"
+     ],
+     "fraction": 0.791
+    },
+    "2": {
+     "sources": [
+      "mm8/t06a09",
+      "mm8/t06a01"
+     ],
+     "fraction": 0.791
+    }
+   }
+  },
+  "mm8/t08a06": {
+   "name": "t08a06",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark carved oak timber frame with two arched pale plaster panels, a small mullioned wooden window and a carved wooden arch top",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t08a01",
+      "mm8/t08a12",
+      "mm8/t08a01b"
+     ],
+     "fraction": 0.802
+    },
+    "2": {
+     "sources": [
+      "mm8/t08a01",
+      "mm8/t08a12",
+      "mm8/t08a01b"
+     ],
+     "fraction": 0.802
+    },
+    "3": {
+     "sources": [
+      "mm8/t08a01",
+      "mm8/t08a12",
+      "mm8/t08a01b"
+     ],
+     "fraction": 0.802
+    },
+    "4": {
+     "sources": [
+      "mm8/t08a01",
+      "mm8/t08a12",
+      "mm8/t08a01b"
+     ],
+     "fraction": 0.802
+    }
+   }
+  },
+  "mm8/t06c04": {
+   "name": "t06c04",
+   "versions": [
+    1
+   ],
+   "material": "rounded grey river cobblestones in dark mortar around a small dark oak window frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a04"
+     ],
+     "fraction": 0.681
+    }
+   }
+  },
+  "mm8/gstn1tp1": {
+   "name": "gstn1tp1",
+   "versions": [
+    1
+   ],
+   "material": "smooth grey-green speckled granite slabs with thin pale joints under a band of blue-grey carved fish-scale stone ornament",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gston1wl"
+     ],
+     "fraction": 0.775
+    }
+   }
+  },
+  "mm8/t01a12b": {
+   "name": "t01a12b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "irregular warm brown-grey fieldstone blocks of mixed sizes with dark recessed joints, inside a carved stone border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.27
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a01a",
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.284
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a11c",
+      "mm8/t01a01a",
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.306
+    }
+   },
+   "context": {
+    "3": {
+     "bottom": "mm8/t01a12c"
+    }
+   }
+  },
+  "mm8/t06b06": {
+   "name": "t06b06",
+   "versions": [
+    1
+   ],
+   "material": "rounded grey river cobblestones set in dark mortar beside a dark oak timber post, faint moss at the base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06b08",
+      "mm8/t06a01"
+     ],
+     "fraction": 0.471
+    }
+   }
+  },
+  "mm8/t01a01a": {
+   "name": "t01a01a",
+   "versions": [
+    1
+   ],
+   "material": "irregular warm brown-grey fieldstone blocks of mixed sizes with dark recessed joints, dusty and weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.542
+    }
+   }
+  },
+  "mm8/t01a01c": {
+   "name": "t01a01c",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "irregular warm brown-grey fieldstone blocks of mixed sizes with dark recessed joints, dusty and weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a12b",
+      "mm8/t01a01a",
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.653
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a12b",
+      "mm8/t01a01a",
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.653
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a12b",
+      "mm8/t01a01a",
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.653
+    },
+    "4": {
+     "sources": [
+      "mm8/t01a12b",
+      "mm8/t01a01a",
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.645
+    }
+   },
+   "context": {
+    "3": {
+     "top": "mm8/t01a12b",
+     "bottom": "mm8/t01a12c"
+    },
+    "4": {
+     "top": "mm8/t01a12b",
+     "bottom": "mm8/t01a12c"
+    }
+   },
+   "pad": {
+    "4": [
+     16,
+     32
+    ]
+   }
+  },
+  "mm8/t06a06": {
+   "name": "t06a06",
+   "versions": [
+    1
+   ],
+   "material": "rounded grey river cobblestones set in dark mortar, weathered, faint moss",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06b06",
+      "mm8/t06a01"
+     ],
+     "fraction": 0.638
+    }
+   }
+  },
+  "mm8/t01a07a": {
+   "name": "t01a07a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "irregular warm brown-grey fieldstone blocks of mixed sizes with dark recessed joints, inside a carved stone border with a greek-key frieze",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a12a",
+      "mm8/t01a01a",
+      "mm8/t01a12b"
+     ],
+     "fraction": 0.455
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a12a",
+      "mm8/t01a01a"
+     ],
+     "fraction": 0.44
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a12a",
+      "mm8/t01a01a",
+      "mm8/t01a12b"
+     ],
+     "fraction": 0.455
+    },
+    "4": {
+     "sources": [
+      "mm8/t01a12a",
+      "mm8/t01a01a"
+     ],
+     "fraction": 0.44
+    },
+    "5": {
+     "sources": [
+      "mm8/t01a12a",
+      "mm8/t01a01a"
+     ],
+     "fraction": 0.44
+    },
+    "6": {
+     "sources": [
+      "mm8/t01a12a",
+      "mm8/t01a01a"
+     ],
+     "fraction": 0.44
+    }
+   },
+   "context": {
+    "4": {},
+    "5": {},
+    "6": {}
+   },
+   "roll": {
+    "5": [
+     0,
+     150
+    ]
+   }
+  },
+  "mm8/t01a06a": {
+   "name": "t01a06a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "irregular warm brown-grey fieldstone blocks of mixed sizes with dark recessed joints, inside a carved stone border with a greek-key frieze",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.406
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.406
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a12a",
+      "mm8/t01a12b"
+     ],
+     "fraction": 0.41
+    },
+    "4": {
+     "sources": [
+      "mm8/t01a12a"
+     ],
+     "fraction": 0.406
+    }
+   },
+   "context": {
+    "4": {}
+   }
+  },
+  "mm8/t01a04b": {
+   "name": "t01a04b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "irregular warm brown-grey fieldstone wall with an ornate carved bone-white serpentine frame around a narrow dark wooden plank window, a pale crystal at the top",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a01a",
+      "mm8/t01a12b",
+      "mm8/t01a12a",
+      "mm8/t01a07a",
+      "mm8/t01a04a"
+     ],
+     "fraction": 0.418
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a01a",
+      "mm8/t01a12b",
+      "mm8/t01a12a",
+      "mm8/t01a07a"
+     ],
+     "fraction": 0.401
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a11c",
+      "mm8/t01a01a",
+      "mm8/t01a12b",
+      "mm8/t01a12a",
+      "mm8/t01a07a"
+     ],
+     "fraction": 0.408
+    },
+    "4": {
+     "sources": [
+      "mm8/t01a12a",
+      "mm8/t01a01a",
+      "mm8/t01a12b",
+      "mm8/t01a11c",
+      "mm8/t01a04a"
+     ],
+     "fraction": 0.425
+    }
+   },
+   "context": {
+    "3": {
+     "bottom": "mm8/t01a12c",
+     "right": "mm8/t01a06a",
+     "left": "mm8/t01a07a"
+    },
+    "4": {
+     "right": "mm8/t01a06a"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm8/t06a07": {
+   "name": "t06a07",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rounded grey river cobblestones set in dark mortar, weathered, faint moss",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a01"
+     ],
+     "fraction": 0.341
+    },
+    "2": {
+     "sources": [
+      "mm8/t06a01"
+     ],
+     "fraction": 0.341
+    }
+   }
+  },
+  "mm8/gstn1cl": {
+   "name": "gstn1cl",
+   "versions": [
+    1
+   ],
+   "material": "grey-green speckled granite ceiling slabs with a faint carved scale pattern in square panels",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gston1wl"
+     ],
+     "fraction": 0.72
+    }
+   }
+  },
+  "mm8/t01a04a": {
+   "name": "t01a04a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "irregular warm brown-grey fieldstone wall with an ornate carved bone-white serpentine frame around a dark wooden plank door, a pale crystal at the base",
+   "notes": {
+    "3": "the carved stone frieze along the top is a continuous greek-key meander: interlocking square hooks and small glyphs exactly as in the reference, not panels with bow-tie or X shapes",
+    "4": "the carved stone frieze along the top is a continuous greek-key meander: interlocking square hooks and small glyphs exactly as in the reference, not panels with bow-tie or X shapes"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a12b",
+      "mm8/t01a12a",
+      "mm8/t01a01a",
+      "mm8/t01a06a"
+     ],
+     "fraction": 0.243
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a12b",
+      "mm8/t01a12a",
+      "mm8/t01a01a",
+      "mm8/t01a06a"
+     ],
+     "fraction": 0.243
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a04b",
+      "mm8/t01a12b",
+      "mm8/t01a12a",
+      "mm8/t01a01a",
+      "mm8/t01a06a"
+     ],
+     "fraction": 0.261
+    },
+    "4": {
+     "sources": [
+      "mm8/t01a11c",
+      "mm8/t01a12b",
+      "mm8/t01a12a",
+      "mm8/t01a01a",
+      "mm8/t01a06a"
+     ],
+     "fraction": 0.25
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm8/t06a02": {
+   "name": "t06a02",
+   "versions": [
+    1
+   ],
+   "material": "large rounded grey river cobblestones set in dark mortar, weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t06a01"
+     ],
+     "fraction": 0.568
+    }
+   }
+  },
+  "mm8/t08a03": {
+   "name": "t08a03",
+   "versions": [
+    1
+   ],
+   "material": "dark carved oak timber frame around a reddish-brown panelled wooden door with an iron ring handle, under a carved wooden arch top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t08a07b"
+     ],
+     "fraction": 0.289
+    }
+   }
+  },
+  "mm8/t01a03b": {
+   "name": "t01a03b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "irregular warm brown-grey fieldstone wall with part of an ornate carved bone-white serpentine frame and a pale crystal, beside a dark wooden plank door",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a12b"
+     ],
+     "fraction": 0.198
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a12b"
+     ],
+     "fraction": 0.198
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a11c",
+      "mm8/t01a12b"
+     ],
+     "fraction": 0.204
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  }
+ }
+}

@@ -1,0 +1,142 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested": {
+    "view": "back",
+    "output": "paint_back.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "transparent_background": true,
+    "unresized_return": true,
+    "max_corrective_regenerations": 1
+  },
+  "status": "Selected the closer of the two permitted raw returns; brief requirements are NOT fully satisfied.",
+  "selection_note": "selected means the saved candidate, not acceptance of all brief checks.",
+  "postprocessing": "None. Both tool returns copied byte-for-byte without resizing, masking, alpha replacement or colour edits.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "corrective_regeneration": false,
+      "prompt": "Use case: style-transfer.\nAsset type: orthographic back-view texture-source/albedo painting for an existing 3D game decoration, the Egg-field mound.\nOutput: ONE 1024 x 1024 RGBA PNG with genuine transparent background, at native resolution.\n\nINPUT ROLES:\nImage 1, guide_back.png, is the EDIT TARGET and absolute geometry authority. Paint directly over this exact grey orthographic model render. Retain its entire 1024 x 1024 canvas and exact alpha silhouette.\nImage 2, design_reference.png, is the approved design, colour and material authority only. Its three-quarter camera, arrangement and silhouette MUST NOT replace the guide.\nImage 3, concept_crop.png, is supporting original concept reference only.\n\nPRIMARY REQUEST:\nReplace the grey surfaces in image 1 with the surface materials from image 2, seen from the BACK. Keep EVERY guide shape, edge, opening, overlap and detail in its original position. This is surface painting, not redesign or a new model render. Preserve the angular mesh boundaries of the spiky roots even while painting their organic resin material. Preserve the guide's egg contours and exact visible egg regions. Keep the large upper-left egg, left small egg, central egg and right egg in exactly their guide positions, with exactly the guide's occlusions. Do not add the front-view exposed cracked egg or any hidden detail absent from this back guide.\n\nMATERIALS:\nPaint the root/spike network black-violet and deep aubergine organic resin, with violet/burgundy surface variation consistent with the design. It is a glossy resin MATERIAL, represented here by its diffuse base colour without baked reflections or shiny highlights. Paint egg surfaces translucent-looking rich amber-orange with dark purple branching veins, restrained amber shell mottling and subtle embedded dark forms matching the reference material. On any guide-visible orange sacs and cracked interior/seams use hot orange and golden-orange local colour. Keep all of these markings on the existing surface shapes only. Glowing parts are painted at their glowing colour; they cast NO light onto the roots or other surfaces.\n\nLIGHTING:\nAn albedo texture source: even flat shadowless illumination from the viewer. No cast shadows, no ambient-occlusion darkening, no directional light/shading, no strong specular highlights, no reflections, no white glints, no rim light and no bloom. Do not copy the dramatic lighting of either colour reference.\n\nIMMUTABLE GEOMETRY AND FRAMING:\nSilhouette must be IDENTICAL to image 1, including its small jagged spikes, solid root areas and all existing openings. No smoothing, rounding, stretching, repositioning or adding holes. Preserve the blank space above and below. Guide nontransparent bounding box is x=66 through 957 and y=345 through 679 on the 1024-square canvas. Keep this scale and placement exactly; do not fit the object larger to the frame, center it anew, crop, zoom or change the camera. Nothing may appear outside the original guide alpha silhouette. Every original shape must remain painted all the way to its existing edge.\nNo background, no floor, no ground plane, no contact shadow, no checkerboard pixels, no text, no labels. Transparent pixels remain transparent. Return only the finished back-view painting.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "150a1b4e9d53246733316137a5dc7851f0f156ac07e58dcb2d7042b888e9a356",
+          "role": "edit target; exact geometry, framing and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b",
+          "role": "approved design, colours and material reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32",
+          "role": "supporting original concept"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "output_sha256": "5d957514475db6f0ee04088c0a2a86b6d5330bff9663c10f467f3e31330ae64e",
+      "selected": false,
+      "reason": "Rejected: native output was 1254 x 1254; glossy highlights, porous rounded root structures and invented surface details depart from the fixed guide and flat albedo requirements.",
+      "checks": {
+        "output": "paint_back_attempt1.png",
+        "sha256": "5d957514475db6f0ee04088c0a2a86b6d5330bff9663c10f467f3e31330ae64e",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "copied_byte_for_byte": true,
+        "has_alpha": true,
+        "transparent_pixels": 1301418,
+        "opaque_pixels": 346,
+        "partial_alpha_pixels": 270752,
+        "alpha_bbox": [
+          0,
+          0,
+          1198,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          79,
+          421,
+          1175,
+          832
+        ],
+        "requested_size_pass": false,
+        "guide_silhouette_pixel_identical": false,
+        "materials_colours_match_reference": true,
+        "flat_even_light_pass": false,
+        "lighting_visual_review": "Strong resin highlights and dark crevices remain.",
+        "transparent_background_pass": true,
+        "alpha_note": "Transparent background present; alpha also contains faint nonzero pixels beyond the main object boundary.",
+        "silhouette_note": "Exact guide match fails at native dimensions; visually similar framing does not establish identical silhouette."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "corrective_regeneration": true,
+      "prompt": "Corrective regeneration, the single correction allowed for this view.\nUse case: style-transfer. Paint an albedo texture over the EXACT provided grey back-view guide.\n\nImage 1 (guide_back.png) is the original 1024 x 1024 RGBA EDIT TARGET. Image 2 (design_reference.png) supplies ONLY the amber-orange and black-violet surface material colours; image 3 (concept_crop.png) is secondary material reference.\n\nReturn a native 1024 x 1024 transparent PNG. Keep the original image 1 canvas dimensions EXACTLY. Do not generate 1254 x 1254. No resize, upscale, zoom, reframing or cropping.\n\nTreat image 1 as a fixed stencil: change its grey RGB surface colours ONLY, preserving its alpha channel, all outer and inner edges and ALL internal shape boundaries pixel-for-pixel. Preserve EVERY angular polygon, pointed spike, broad solid triangular web, egg outline, overlap, opening, exact scale and exact position. Do not remodel the faceted solid web into narrow rounded ropes. Do not invent perforations or tiny sacs. No extra geometry, no newly visible eggs or front-view cracked opening. Do not round the polygonal outer boundary of the largest egg. The guide is a BACK orthographic view, not the design reference's camera. The occupied guide pixels lie within x=66..957, y=345..679; keep that exact placement and all the large transparent margins.\n\nPaint the existing egg areas rich luminous amber-orange with dark violet branching veins and amber shell mottling matching the approved design. Preserve all egg/mesh occlusions exactly. Paint existing roots and spikes black-violet/aubergine organic resin with restrained purple-burgundy material variation. Existing visible sacs or cracks may have hot orange local colour, with no light spill.\n\nCRITICAL CORRECTION: make this a FLAT, UNLIT DIFFUSE/ALBEDO PAINTING, not a shaded 3D beauty render. Material colour must remain visible evenly across each surface. Absolutely no painted specular highlights, white glints, glossy reflections, directional lighting, rim lights, cast shadows, black ambient-occlusion crevices, bloom or illumination cast by orange parts. Glossy resin is the underlying material identity only; its gloss is NOT rendered into the albedo. Reference colour does not authorize copying reference lighting. Do not apply dark contour shading around eggs or roots.\n\nTransparent background only, no floor, no ground or contact shadow, no checkerboard drawn in the image, no text.\nOutput ONLY the single corrected back-view texture-source painting with the exact original 1024-square guide geometry and alpha, all original grey areas painted with the reference colours.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "150a1b4e9d53246733316137a5dc7851f0f156ac07e58dcb2d7042b888e9a356",
+          "role": "edit target; exact geometry, framing and alpha authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b",
+          "role": "approved design, colours and material reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32",
+          "role": "supporting original concept"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "69052e920ea63f440ccbf1cb2be3fb71d09a270899288b6445d21599616f2de4",
+      "selected": true,
+      "reason": "Selected as the closer allowed return: angular solid roots and egg arrangement track the guide more closely and specular highlights are reduced. Still nonconforming: native output is 1254 x 1254, alpha silhouette is not pixel-identical to the 1024-square guide, and some facet shading/edge highlights remain. No further generation permitted by the brief.",
+      "checks": {
+        "output": "paint_back.png",
+        "sha256": "69052e920ea63f440ccbf1cb2be3fb71d09a270899288b6445d21599616f2de4",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "copied_byte_for_byte": true,
+        "has_alpha": true,
+        "transparent_pixels": 1300643,
+        "opaque_pixels": 270,
+        "partial_alpha_pixels": 271603,
+        "alpha_bbox": [
+          33,
+          32,
+          1234,
+          1229
+        ],
+        "alpha_bbox_at_128": [
+          80,
+          421,
+          1175,
+          832
+        ],
+        "requested_size_pass": false,
+        "guide_silhouette_pixel_identical": false,
+        "materials_colours_match_reference": true,
+        "flat_even_light_pass": false,
+        "lighting_visual_review": "Much less gloss, but some facet shading and lighter edges remain; not completely flat albedo.",
+        "transparent_background_pass": true,
+        "alpha_note": "Transparent background present; alpha also contains faint nonzero pixels beyond the main object boundary.",
+        "silhouette_note": "Exact guide match fails at native dimensions; visually similar framing does not establish identical silhouette."
+      }
+    }
+  ]
+}

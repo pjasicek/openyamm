@@ -1,0 +1,486 @@
+{
+  "label": "Peasant Goblin Male A A",
+  "creature": "male goblin peasant",
+  "base_palette": 497,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "true_alpha": true,
+  "preserve_delivered_rgb": true,
+  "material_edge_hue_repair": false,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "n"
+  ],
+  "identity_frames": [
+    "7m452sa0",
+    "7m452sa1",
+    "7m452sa2",
+    "7m452sa3",
+    "7m452sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original adult male goblin peasant: slim athletic upright humanoid with medium olive-green skin, small stern narrow angular face, pointed ears, bald crown with one short thin pale silver-gray ponytail tied high at the rear and curving upward. Bare green neck and muscular arms. Close-fitting sleeveless muted rose-red brocade tunic with square neckline, intricate restrained scrolling woven motifs and narrow pale gray fur trim around armholes, neckline and split short hem. Brown leather wrist bracers with small pale studs; bare green hands. Broad dark ochre-brown leather belt with rectangular brass buckle. Fitted muted slate-blue trousers with fine vertical texture, tucked into tall brown leather boots with pointed upper fronts, curved stitched panels and short turned toes. Holds ONE native wooden-handled hooked farming tool in both hands across waist: straight honey-brown round shaft with worn gray-steel elongated narrow blade and short curved hook at its far end. Match native blade silhouette and foreshortening, wood length, grip and hand spacing exactly in all views. Preserve native slim proportions, modest head size, short ponytail, dark tonal weight, material boundaries and asymmetric poses. Tunic, trousers and ponytail recolor separately offline; green skin, pale trim, brown belt/bracers/boots, wood and steel stay unchanged. No extra weapon, shield, helmet, armor, long hair, beard, accessories, magic, added effects or redesign.",
+  "materials": {
+    "regions": [
+      {
+        "name": "rose_tunic",
+        "selector": "burgundy",
+        "thresholds": [
+          0.12,
+          0.24
+        ],
+        "maximum_green_over_blue": [
+          0.12,
+          0.27
+        ],
+        "palette_indices": [
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          247,
+          248,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.5,
+        "native_palette_spatial_support": [
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          247,
+          248,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255
+        ],
+        "support_padding": 12
+      },
+      {
+        "name": "blue_trousers",
+        "selector": "blue",
+        "thresholds": [
+          0.025,
+          0.12
+        ],
+        "palette_indices": [
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.5,
+        "native_palette_spatial_support": [
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181
+        ],
+        "support_padding": 12
+      },
+      {
+        "name": "silver_ponytail",
+        "selector": "neutral",
+        "thresholds": [
+          0.6,
+          0.85
+        ],
+        "palette_indices": [
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.4,
+        "native_palette_spatial_support": [
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197
+        ],
+        "support_padding": 8,
+        "support_components_min_pixels": 10
+      }
+    ],
+    "limitation": "Three enhanced-art masks approximate native tunic, trousers and ponytail ramps; deep neutral folds retain some base shade. Native skin, fur trim, equipment and leather are protected."
+  },
+  "extra_batch_frames": {
+    "death_corpse": [
+      "m452xa0"
+    ]
+  },
+  "reviewed_placement_translation_px": {
+    "7m452sa0": [
+      -12,
+      0
+    ],
+    "7m452sa1": [
+      -12,
+      0
+    ],
+    "7m452sa2": [
+      -30,
+      0
+    ],
+    "7m452sa3": [
+      -30,
+      0
+    ],
+    "7m452sa4": [
+      -16,
+      0
+    ],
+    "7m452wc0": [
+      -18,
+      0
+    ],
+    "7m452wd0": [
+      -42,
+      0
+    ],
+    "7m452wf0": [
+      -10,
+      0
+    ],
+    "7m452wg0": [
+      -12,
+      0
+    ],
+    "7m452wh0": [
+      -32,
+      0
+    ],
+    "7m452wa1": [
+      -6,
+      0
+    ],
+    "7m452wb1": [
+      -16,
+      0
+    ],
+    "7m452wc1": [
+      -22,
+      0
+    ],
+    "7m452wd1": [
+      -8,
+      0
+    ],
+    "7m452we1": [
+      -14,
+      0
+    ],
+    "7m452wf1": [
+      -14,
+      0
+    ],
+    "7m452wg1": [
+      -22,
+      0
+    ],
+    "7m452wh1": [
+      -18,
+      0
+    ],
+    "7m452wc2": [
+      -14,
+      0
+    ],
+    "7m452wf2": [
+      -18,
+      0
+    ],
+    "7m452wg2": [
+      -20,
+      0
+    ],
+    "7m452wh2": [
+      -50,
+      0
+    ],
+    "7m452wg3": [
+      -46,
+      0
+    ],
+    "7m452wh3": [
+      -22,
+      0
+    ],
+    "7m452wa4": [
+      -10,
+      0
+    ],
+    "7m452wb4": [
+      -8,
+      0
+    ],
+    "7m452wc4": [
+      6,
+      0
+    ],
+    "7m452wd4": [
+      8,
+      0
+    ],
+    "7m452we4": [
+      -6,
+      0
+    ],
+    "7m452wf4": [
+      -4,
+      0
+    ],
+    "7m452wg4": [
+      8,
+      0
+    ],
+    "7m452nc0": [
+      -30,
+      0
+    ],
+    "7m452ne0": [
+      -18,
+      0
+    ],
+    "7m452na1": [
+      -8,
+      0
+    ],
+    "7m452nb1": [
+      -14,
+      0
+    ],
+    "7m452nc1": [
+      -6,
+      0
+    ],
+    "7m452na2": [
+      -8,
+      0
+    ],
+    "7m452nb2": [
+      -20,
+      0
+    ],
+    "7m452nc2": [
+      -14,
+      0
+    ],
+    "7m452ne2": [
+      -14,
+      0
+    ],
+    "7m452nf2": [
+      -14,
+      0
+    ],
+    "7m452fb0": [
+      -10,
+      0
+    ],
+    "7m452fd0": [
+      -16,
+      0
+    ]
+  },
+  "clear_alpha1_border_batches": [
+    "w_0",
+    "standing",
+    "w_1_0",
+    "w_1_1",
+    "w_2_0",
+    "w_3_1",
+    "w_4",
+    "n_1",
+    "n_2",
+    "n_3",
+    "n_4",
+    "fidget",
+    "death_corpse_0"
+  ],
+  "reviewed_border_alpha_limits": {
+    "w_0": 2
+  }
+}

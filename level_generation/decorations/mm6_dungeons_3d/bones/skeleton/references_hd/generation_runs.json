@@ -1,0 +1,519 @@
+[
+  {
+    "id": "skeleton_three_quarter_v1",
+    "family": "mm6_caged_skeleton",
+    "role": "primary",
+    "selected": false,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skeleton painted in the EXISTING Might and Magic VI cage decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 hngncge2 hanging-cage sprite enlarged 3x nearest neighbour. Skeleton anatomy, lean average adult proportions and warm bone-colour authority. Black cage bars are NOT skeleton anatomy. Magenta is background.\nInput 2: ORIGINAL native MM6 bonecage seated-skeleton sprite enlarged 3x nearest neighbour; second skeleton anatomy reference. Cage bars are NOT part of the skeleton. Magenta is background.\nInput 3: restored 2x hngncge2, BONE SURFACE MATERIAL ONLY. Ignore the cage, pose, black bars and edge artifacts.\n\nONE complete adult human skeleton, whole body head to toes, centred, generous margins, near-orthographic camera, transparent background, no stand, no floor, no shadow, no text, no cage. Even soft neutral studio light (no dramatic light) that still shows form. Credible anatomical sculpt, semi-realistic game material, sharp fine detail.\n\nIdentity: anatomically correct adult human skeleton, lean, average proportions (head about one eighth of the height): skull with the lower jaw attached, mouth closed; cervical spine; collarbones and shoulder blades; a full rib cage of twelve rib pairs with clear open gaps between the ribs and a sternum; lumbar spine; a bowl-shaped pelvis; humerus, radius and ulna as separate bones; hands with exactly five clearly separate articulated bony digits each, including the thumb; femur, kneecap, tibia and fibula; feet with separate toe bones. Colour from inputs 1 and 3: aged dry bone, warm honey-tan to pale cream on the highlights, darker ochre-brown in the joints, between the ribs and in the sockets; eye sockets near black. Matte, no flesh, no sinew, no blood. Do not fill rib gaps with solid material; empty spaces between bones remain transparent.\n\nPose (identical in all five views): standing upright in a clean neutral A-pose: arms straight, about 35 degrees away from the sides, palms facing forward, fingers slightly spread and clearly separated; legs straight with a clear gap between them, feet flat, toes forward; head level, looking straight ahead. No bone touches another limb. Do not copy either source sprite's hanging or huddled pose. This skeleton will later be rigged and re-posed for the cages.\n\nPRIMARY CAMERA: FRONT-RIGHT THREE-QUARTER, camera orbited 45 degrees to the skeleton's anatomical RIGHT from straight front, at chest height and slightly above, only a small downward viewing angle. Show the front and right flank together; nose and sternum point diagonally toward SCREEN-LEFT. Rotate the camera around the whole unchanged neutral A-pose, not just the head. Keep near-orthographic proportions and both hands and both feet fully visible. Frame the complete skeleton with roughly 90–120 transparent pixels at the top and bottom and comfortable margins on both sides.\n\nDo NOT: add armour, cloth, rope, chains, a weapon, a stand, a cage, horns, glowing eyes, extra ribs or limbs; do not stylise it (no cartoon, no oversized skull); do not colour it white or grey; do not crop the feet or the hands. No cast shadow, floor, background gradient, haze, glow, opaque backdrop, painted checkerboard or magenta spill. Genuine alpha 0 outside the skeleton except narrow antialias edges.\nChecks: complete skeleton head to toes inside the frame; open rib cage with visible gaps; separate forearm bones; five fingers per hand; arms clear of the body; legs apart; warm tan bone; true transparent background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+        "sha256": "36394ec6f2b62c678d610a8997dd424def530d726bd1158dc405fb0832bee703"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+        "sha256": "e97bcd108a5204323893838693ab7aa62d28142f2dbcd11b1821dfafe4c651dd"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+        "sha256": "e3e83e135d55626f4b9c5cabf142d07df8e91a0701b81437bb4dd842612db9ee"
+      }
+    ],
+    "reason": "Superseded: upper arms are too close to the body and elbows bend; fixed straight-arm 35-degree A-pose is required. Primary camera also needs the anatomical right flank clearly established. Native 1024x1536 RGBA return has genuine transparent alpha.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-8173f095-a7a9-42c0-9a3b-b91cb973e1ca.png",
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/raw/skeleton_three_quarter_v1.png",
+    "raw_sha256": "b943c03c55d18b1c946fa7505c9e40cc078e8babeb5457af79e8d13b5c18137e",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      150,
+      51,
+      872,
+      1483
+    ],
+    "supersedes": [],
+    "superseded_by": "skeleton_three_quarter_v2"
+  },
+  {
+    "id": "skeleton_three_quarter_v2",
+    "family": "mm6_caged_skeleton",
+    "role": "primary",
+    "selected": true,
+    "selected_filename": "00_three_quarter.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skeleton painted in the EXISTING Might and Magic VI cage decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 hngncge2 hanging-cage sprite enlarged 3x nearest neighbour. Skeleton anatomy, lean average adult proportions and warm bone-colour authority. Black cage bars are NOT skeleton anatomy. Magenta is background.\nInput 2: ORIGINAL native MM6 bonecage seated-skeleton sprite enlarged 3x nearest neighbour; second skeleton anatomy reference. Cage bars are NOT part of the skeleton. Magenta is background.\nInput 3: restored 2x hngncge2, BONE SURFACE MATERIAL ONLY. Ignore the cage, pose, black bars and edge artifacts.\n\nONE complete adult human skeleton, whole body head to toes, centred, generous margins, near-orthographic camera, transparent background, no stand, no floor, no shadow, no text, no cage. Even soft neutral studio light (no dramatic light) that still shows form. Credible anatomical sculpt, semi-realistic game material, sharp fine detail.\n\nIdentity: anatomically correct adult human skeleton, lean, average proportions (head about one eighth of the height): skull with the lower jaw attached, mouth closed; cervical spine; collarbones and shoulder blades; a full rib cage of twelve rib pairs with clear open gaps between the ribs and a sternum; lumbar spine; a bowl-shaped pelvis; humerus, radius and ulna as separate bones; hands with exactly five clearly separate articulated bony digits each, including the thumb; femur, kneecap, tibia and fibula; feet with separate toe bones. Colour from inputs 1 and 3: aged dry bone, warm honey-tan to pale cream on the highlights, darker ochre-brown in the joints, between the ribs and in the sockets; eye sockets near black. Matte, no flesh, no sinew, no blood. Do not fill rib gaps with solid material; empty spaces between bones remain transparent.\n\nPose (identical in all five views): standing upright in a clean neutral A-pose: arms straight, about 35 degrees away from the sides, palms facing forward, fingers slightly spread and clearly separated; legs straight with a clear gap between them, feet flat, toes forward; head level, looking straight ahead. No bone touches another limb. Do not copy either source sprite's hanging or huddled pose. This skeleton will later be rigged and re-posed for the cages.\n\nInput 4: previous high-definition skeleton render, an identity and warm bone-surface reference. Keep the same lean adult skeleton, skull size, material and proportions, but correct its A-pose and primary viewing angle.\n\nCRITICAL FIXED A-POSE: abduct BOTH upper arms approximately 35 degrees OUTWARD from the vertical torso. Elbows completely straight, so shoulder-to-elbow-to-wrist is one straight line on each side. No elbow kink, no drooping near-vertical humerus. Palms face the skeleton's forward direction, exactly five separate articulated digits per hand, slightly spread. The hands are at upper/middle thigh height, clearly away from hips. Legs stay straight and a little apart, feet flat and pointing the SAME forward direction as the head; no staggering.\n\nPRIMARY CAMERA: FRONT-RIGHT THREE-QUARTER. Orbit the camera to the skeleton's ANATOMICAL RIGHT, so its RIGHT cheek, RIGHT shoulder, RIGHT forearm and RIGHT hip are the near side. The skeleton's right arm is the one that is on the viewer's LEFT in a straight frontal view. Here show the front and anatomical RIGHT flank together; head and sternum point diagonally toward SCREEN-RIGHT, the near right shoulder on SCREEN-LEFT, far left shoulder on SCREEN-RIGHT. Rotate the view of the entire body together; keep the head aligned with the sternum. Near-orthographic camera at chest height, slightly above with only a very small downward tilt. The head remains level.\n\nFit the whole body and both extended straight arms inside ONE 1024 x 1536 PORTRAIT canvas with generous empty margins. Zoom out to leave around 100 pixels above the crown and below the toes; do not enlarge the skull, do not compress the legs or bend arms to fit. Matte aged dry warm honey-tan bone, pale cream highlights, darker ochre-brown recesses, near-black eye sockets, soft even neutral object-only illumination. Crisp sculpted bone detail without a glossy gold/metal finish.\n\nDo NOT: add armour, cloth, rope, chains, weapon, stand, cage, horns, glowing eyes, extra ribs or limbs. No flesh, sinew, blood, cartoon or oversized skull. No white/grey palette. Do not crop any hands or feet. No floor, cast shadow, haze, glow, backdrop or painted checkerboard. Genuine transparent PNG alpha; empty spaces between bones and outside silhouette have alpha 0 apart from narrow antialiased edges.\nChecks: full body inside the frame, open rib cage of twelve pairs, visibly separate radius and ulna, five digits per hand, straight arms 35 degrees away from body, legs apart, warm tan matte bone, true transparency.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+      "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-8173f095-a7a9-42c0-9a3b-b91cb973e1ca.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+        "sha256": "36394ec6f2b62c678d610a8997dd424def530d726bd1158dc405fb0832bee703"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+        "sha256": "e97bcd108a5204323893838693ab7aa62d28142f2dbcd11b1821dfafe4c651dd"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+        "sha256": "e3e83e135d55626f4b9c5cabf142d07df8e91a0701b81437bb4dd842612db9ee"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-8173f095-a7a9-42c0-9a3b-b91cb973e1ca.png",
+        "sha256": "b943c03c55d18b1c946fa7505c9e40cc078e8babeb5457af79e8d13b5c18137e"
+      }
+    ],
+    "reason": "Selected primary: full-body anatomical front-right three-quarter view; straight, separated A-pose arms with natural three-quarter foreshortening, open rib gaps, separate radius/ulna, five visible digits per hand, straight separated legs and complete feet. Warm aged bone and near-black sockets match source palette. Genuine transparent alpha and native unresized 1024x1536 return.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-9176b703-7fab-408a-9787-d8c4ebe4e802.png",
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/raw/skeleton_three_quarter_v2.png",
+    "raw_sha256": "0521b32411c8a3b7d42f762d362ee8129f4c9edf0cf16d45551f0bc731844411",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      120,
+      42,
+      904,
+      1484
+    ],
+    "supersedes": [
+      "skeleton_three_quarter_v1"
+    ],
+    "superseded_by": null,
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+    "output_sha256": "0521b32411c8a3b7d42f762d362ee8129f4c9edf0cf16d45551f0bc731844411",
+    "alpha_pixels": {
+      "zero": 1259517,
+      "nonzero": 313347,
+      "maximum": 254
+    },
+    "review": {
+      "method": "Visual comparison against native inputs, selected primary, light/dark contact sheet and enlarged rib/hand details; native dimensions, alpha and byte-identity/hash checks.",
+      "complete_head_to_toes_and_hands": true,
+      "open_rib_cage_with_visible_gaps": true,
+      "twelve_rib_pairs": "Ten curved cage rib pairs plus two floating pairs reviewed in the clear front reference; other projections naturally occlude some ribs.",
+      "separate_radius_and_ulna": true,
+      "five_digits_per_hand": "Five separated articulated digits on each fully visible hand; far hands naturally occluded in lateral projections.",
+      "arms_clear_of_body": "Fixed neutral A-pose with straight arms approximately 35 degrees from sides in body space; projected separation foreshortens in three-quarter/side views.",
+      "legs_apart": "Straight and physically separated in body space; naturally overlap in lateral projections.",
+      "warm_tan_bone": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "native_1024x1536_unresized_return": true,
+      "byte_identical_to_tool_return": true,
+      "sampling_note": "Native returns preserved unchanged, including any sparse nearly invisible alpha-1 sampling specks. Twelve-pixel outer border has alpha 0 except such alpha-1 pixels.",
+      "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/selected_views_review.png"
+    }
+  },
+  {
+    "id": "skeleton_front_v1",
+    "family": "mm6_caged_skeleton",
+    "role": "front",
+    "selected": false,
+    "selected_filename": "01_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skeleton painted in the EXISTING Might and Magic VI cage decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 hngncge2 hanging-cage sprite enlarged 3x nearest neighbour. Skeleton anatomy, lean average adult proportions and warm bone-colour authority. Black cage bars are NOT skeleton anatomy. Magenta is background.\nInput 2: ORIGINAL native MM6 bonecage seated-skeleton sprite enlarged 3x nearest neighbour; second skeleton anatomy reference. Cage bars are NOT part of the skeleton. Magenta is background.\nInput 3: restored 2x hngncge2, BONE SURFACE MATERIAL ONLY. Ignore the cage, pose, black bars and edge artifacts.\n\nONE complete adult human skeleton, whole body head to toes, centred, generous margins, near-orthographic camera, transparent background, no stand, no floor, no shadow, no text, no cage. Even soft neutral studio light (no dramatic light) that still shows form. Credible anatomical sculpt, semi-realistic game material, sharp fine detail.\n\nIdentity: anatomically correct adult human skeleton, lean, average proportions (head about one eighth of the height): skull with the lower jaw attached, mouth closed; cervical spine; collarbones and shoulder blades; a full rib cage of twelve rib pairs with clear open gaps between the ribs and a sternum; lumbar spine; a bowl-shaped pelvis; humerus, radius and ulna as separate bones; hands with exactly five clearly separate articulated bony digits each, including the thumb; femur, kneecap, tibia and fibula; feet with separate toe bones. Colour from inputs 1 and 3: aged dry bone, warm honey-tan to pale cream on the highlights, darker ochre-brown in the joints, between the ribs and in the sockets; eye sockets near black. Matte, no flesh, no sinew, no blood. Do not fill rib gaps with solid material; empty spaces between bones remain transparent.\n\nPose (identical in all five views): standing upright in a clean neutral A-pose: arms straight, about 35 degrees away from the sides, palms facing forward, fingers slightly spread and clearly separated; legs straight with a clear gap between them, feet flat, toes forward; head level, looking straight ahead. No bone touches another limb. Do not copy either source sprite's hanging or huddled pose. This skeleton will later be rigged and re-posed for the cages.\n\nInput 4: SELECTED PRIMARY high-definition front-right three-quarter skeleton. This is the strict identity, exact fixed A-POSE, bone lengths, skull-to-height ratio, rib-cage proportions, pelvis shape and surface-material authority for this camera rotation. Render the SAME skeleton, not a new interpretation. Keep its arms straight and anatomically abducted about 35 degrees from the torso, palms toward the body's forward direction, five separated articulated digits on each hand, head level, legs straight and a little apart, feet flat and pointing forward. Rotate only the camera around the unchanged skeleton. Do not re-pose or mirror the skeleton.\n\nOutput ONE unresized native 1024 x 1536 PORTRAIT PNG, genuine transparent alpha. Complete skeleton from crown to all toes and all fingertips, centred at the same useful scale as the primary, generous transparent margins, no cropping. Warm honey-tan aged dry bone with pale cream highlights, darker ochre-brown joints and near-black eye sockets. Even soft neutral object-only studio illumination. Keep all inter-bone gaps open and transparent; no opaque fill in rib cage.\nDo NOT add a cage, stand, floor, cast shadow, backdrop, haze, glow, text, armour, cloth, rope, chains, weapon, horns, extra ribs/limbs, flesh, sinew or blood. No cartoon, oversized skull, white/grey bone, painted checkerboard, magenta spill or background gradient.\nChecks: whole body, open twelve-pair rib cage, separate forearm bones, five separate digits per visible hand, straight arms clear of torso, legs apart, warm tan bone, genuine transparency, SAME pose and proportions as primary.\nCAMERA FOR 01_FRONT: exact STRAIGHT FRONT view, near-orthographic, camera centred on the sternum at chest height, only slightly above. The skull, sternum and pelvis face directly toward the viewer; both orbital sockets visible symmetrically. Anatomical right arm on SCREEN-LEFT, anatomical left arm on SCREEN-RIGHT. Both upper arms and both forearms form straight 35-degree outward A-pose lines without elbow kinks; palms face the viewer. Both legs straight, clearly separated; both feet flat and toes toward the viewer. Show both complete five-digit hands and feet. Preserve the selected primary skeleton's exact skull/body ratio, bone lengths, rib configuration, pelvis proportions, warm matte material and fixed neutral pose. No head turn, no three-quarter angle, no re-posing.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+        "sha256": "36394ec6f2b62c678d610a8997dd424def530d726bd1158dc405fb0832bee703"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+        "sha256": "e97bcd108a5204323893838693ab7aa62d28142f2dbcd11b1821dfafe4c651dd"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+        "sha256": "e3e83e135d55626f4b9c5cabf142d07df8e91a0701b81437bb4dd842612db9ee"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+        "sha256": "0521b32411c8a3b7d42f762d362ee8129f4c9edf0cf16d45551f0bc731844411"
+      }
+    ],
+    "reason": "Superseded: exact frontal camera and matching bone material/identity, but frontal arm abduction is closer to 25 degrees than the requested approximately 35 degrees. Regenerate the frontal A-pose with more outward upper arms and generous margins.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-a0508b6f-093a-4ade-b55d-bb170229e035.png",
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/raw/skeleton_front_v1.png",
+    "raw_sha256": "63ff4fe313da610f3f5c072d0c4c90929c8db65b19743abf7fbf64a166259bec",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      70,
+      40,
+      954,
+      1473
+    ],
+    "supersedes": [],
+    "superseded_by": "skeleton_front_v2"
+  },
+  {
+    "id": "skeleton_front_v2",
+    "family": "mm6_caged_skeleton",
+    "role": "front",
+    "selected": true,
+    "selected_filename": "01_front.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition modelling/texturing reference of the existing cage-decoration skeleton. Not a new design.\nUse case: identity-preserve.\nInput 1: original native hngncge2, anatomy/proportions/palette authority; ignore cage bars and magenta.\nInput 2: original native bonecage, second anatomy reference; ignore cage bars and magenta.\nInput 3: restored hngncge2, bone surface material only.\nInput 4: selected three-quarter primary, SAME skeleton identity, proportions, warm bone material and neutral A-pose.\nInput 5: current STRAIGHT FRONT render, EDIT TARGET. Preserve its exact frontal camera, skull, mouth closed, rib cage, pelvis, all bone lengths, hands with five separate digits each, straight separated legs, feet/toes and warm bone material.\n\nCHANGE ONLY ARM ABDUCTION AND FRAMING in image 5. The straight frontal upper arms currently hang at roughly 25 degrees from the vertical. Rotate each ENTIRE STRAIGHT arm OUTWARD at its shoulder to ABOUT 35 DEGREES from the vertical body axis. Keep elbow fully extended: humerus and forearm lie on one straight shoulder-to-wrist line, no bent elbow. Hands move UP AND OUT as a result. Both palms still face the viewer. This is the same body-space A-pose as primary image 4; the primary naturally has three-quarter foreshortening. Do not change the legs or skull or overall bone proportions.\n\nZoom the camera out about 10 percent to fit the wider arm span without cropping. All fingers, toes and crown fully inside the SAME 1024 x 1536 portrait canvas, with at least about 90 transparent pixels top and bottom and comfortable side margins. Do not bend the elbows to squeeze into the canvas.\n\nONE complete lean average adult human skeleton, head about one eighth of total height, standing upright, head level straight forward, arms straight and about 35 degrees away from its sides, palms forward, fingers slightly spread, legs straight and clearly apart, feet flat with toes forward. Exact front near-orthographic camera at chest height, no body or head rotation. Open full rib cage of twelve rib pairs with visible empty gaps, sternum, collarbones, shoulder blades, spine, bowl-shaped pelvis, separate humerus/radius/ulna, five separate fingers per hand, femurs/kneecaps/separate tibia-fibula, separate toes.\nMatte aged warm honey-tan bone, pale cream highlights, ochre-brown joints/recesses, near-black eye sockets. No white/grey palette, metal or wet glossy material. Soft even neutral light that illuminates only the bones.\nOutput exactly ONE native unresized 1024 x 1536 PORTRAIT PNG with genuine transparent alpha. Outside the bones and within the rib gaps alpha 0 except narrow antialias edges. No floor, shadow, backdrop, gradient, haze, glow, text, stand, cage, armour, clothing, rope, chains, weapon, horns, extra ribs/limbs, flesh, sinew or blood. No cartoon or oversized skull. Preserve all other anatomy and surface details.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+      "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-a0508b6f-093a-4ade-b55d-bb170229e035.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+        "sha256": "36394ec6f2b62c678d610a8997dd424def530d726bd1158dc405fb0832bee703"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+        "sha256": "e97bcd108a5204323893838693ab7aa62d28142f2dbcd11b1821dfafe4c651dd"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+        "sha256": "e3e83e135d55626f4b9c5cabf142d07df8e91a0701b81437bb4dd842612db9ee"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+        "sha256": "0521b32411c8a3b7d42f762d362ee8129f4c9edf0cf16d45551f0bc731844411"
+      },
+      {
+        "supplied_path": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-a0508b6f-093a-4ade-b55d-bb170229e035.png",
+        "sha256": "63ff4fe313da610f3f5c072d0c4c90929c8db65b19743abf7fbf64a166259bec"
+      }
+    ],
+    "reason": "Selected: exact front view, corrected approximately 35-degree straight-arm A-pose matching the primary in body space; five separated digits on each hand, open rib gaps, distinct forearm bones, straight spaced legs and complete toes. Matching warm aged bone, skull/body proportions and true alpha; unresized native 1024x1536.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-993fdc7a-7d95-4319-8887-079dec20036b.png",
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/raw/skeleton_front_v2.png",
+    "raw_sha256": "aa68decf030c7e36f05b1d842e1fa72b0522c607edbe8a71c58f6b2d8c7b5256",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      40,
+      78,
+      985,
+      1449
+    ],
+    "supersedes": [
+      "skeleton_front_v1"
+    ],
+    "superseded_by": null,
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/01_front.png",
+    "output_sha256": "aa68decf030c7e36f05b1d842e1fa72b0522c607edbe8a71c58f6b2d8c7b5256",
+    "alpha_pixels": {
+      "zero": 1271168,
+      "nonzero": 301696,
+      "maximum": 254
+    },
+    "review": {
+      "method": "Visual comparison against native inputs, selected primary, light/dark contact sheet and enlarged rib/hand details; native dimensions, alpha and byte-identity/hash checks.",
+      "complete_head_to_toes_and_hands": true,
+      "open_rib_cage_with_visible_gaps": true,
+      "twelve_rib_pairs": "Ten curved cage rib pairs plus two floating pairs reviewed in the clear front reference; other projections naturally occlude some ribs.",
+      "separate_radius_and_ulna": true,
+      "five_digits_per_hand": "Five separated articulated digits on each fully visible hand; far hands naturally occluded in lateral projections.",
+      "arms_clear_of_body": "Fixed neutral A-pose with straight arms approximately 35 degrees from sides in body space; projected separation foreshortens in three-quarter/side views.",
+      "legs_apart": "Straight and physically separated in body space; naturally overlap in lateral projections.",
+      "warm_tan_bone": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "native_1024x1536_unresized_return": true,
+      "byte_identical_to_tool_return": true,
+      "sampling_note": "Native returns preserved unchanged, including any sparse nearly invisible alpha-1 sampling specks. Twelve-pixel outer border has alpha 0 except such alpha-1 pixels.",
+      "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/selected_views_review.png"
+    }
+  },
+  {
+    "id": "skeleton_back_v1",
+    "family": "mm6_caged_skeleton",
+    "role": "back",
+    "selected": true,
+    "selected_filename": "02_back.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skeleton painted in the EXISTING Might and Magic VI cage decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 hngncge2 hanging-cage sprite enlarged 3x nearest neighbour. Skeleton anatomy, lean average adult proportions and warm bone-colour authority. Black cage bars are NOT skeleton anatomy. Magenta is background.\nInput 2: ORIGINAL native MM6 bonecage seated-skeleton sprite enlarged 3x nearest neighbour; second skeleton anatomy reference. Cage bars are NOT part of the skeleton. Magenta is background.\nInput 3: restored 2x hngncge2, BONE SURFACE MATERIAL ONLY. Ignore the cage, pose, black bars and edge artifacts.\n\nONE complete adult human skeleton, whole body head to toes, centred, generous margins, near-orthographic camera, transparent background, no stand, no floor, no shadow, no text, no cage. Even soft neutral studio light (no dramatic light) that still shows form. Credible anatomical sculpt, semi-realistic game material, sharp fine detail.\n\nIdentity: anatomically correct adult human skeleton, lean, average proportions (head about one eighth of the height): skull with the lower jaw attached, mouth closed; cervical spine; collarbones and shoulder blades; a full rib cage of twelve rib pairs with clear open gaps between the ribs and a sternum; lumbar spine; a bowl-shaped pelvis; humerus, radius and ulna as separate bones; hands with exactly five clearly separate articulated bony digits each, including the thumb; femur, kneecap, tibia and fibula; feet with separate toe bones. Colour from inputs 1 and 3: aged dry bone, warm honey-tan to pale cream on the highlights, darker ochre-brown in the joints, between the ribs and in the sockets; eye sockets near black. Matte, no flesh, no sinew, no blood. Do not fill rib gaps with solid material; empty spaces between bones remain transparent.\n\nPose (identical in all five views): standing upright in a clean neutral A-pose: arms straight, about 35 degrees away from the sides, palms facing forward, fingers slightly spread and clearly separated; legs straight with a clear gap between them, feet flat, toes forward; head level, looking straight ahead. No bone touches another limb. Do not copy either source sprite's hanging or huddled pose. This skeleton will later be rigged and re-posed for the cages.\n\nInput 4: SELECTED PRIMARY high-definition front-right three-quarter skeleton. This is the strict identity, exact fixed A-POSE, bone lengths, skull-to-height ratio, rib-cage proportions, pelvis shape and surface-material authority for this camera rotation. Render the SAME skeleton, not a new interpretation. Keep its arms straight and anatomically abducted about 35 degrees from the torso, palms toward the body's forward direction, five separated articulated digits on each hand, head level, legs straight and a little apart, feet flat and pointing forward. Rotate only the camera around the unchanged skeleton. Do not re-pose or mirror the skeleton.\n\nOutput ONE unresized native 1024 x 1536 PORTRAIT PNG, genuine transparent alpha. Complete skeleton from crown to all toes and all fingertips, centred at the same useful scale as the primary, generous transparent margins, no cropping. Warm honey-tan aged dry bone with pale cream highlights, darker ochre-brown joints and near-black eye sockets. Even soft neutral object-only studio illumination. Keep all inter-bone gaps open and transparent; no opaque fill in rib cage.\nDo NOT add a cage, stand, floor, cast shadow, backdrop, haze, glow, text, armour, cloth, rope, chains, weapon, horns, extra ribs/limbs, flesh, sinew or blood. No cartoon, oversized skull, white/grey bone, painted checkerboard, magenta spill or background gradient.\nChecks: whole body, open twelve-pair rib cage, separate forearm bones, five separate digits per visible hand, straight arms clear of torso, legs apart, warm tan bone, genuine transparency, SAME pose and proportions as primary.\nInput 5: selected STRAIGHT FRONT reference of the SAME skeleton, confirming the fixed straight-arm approximately 35-degree A-pose. Use its exact pose and silhouette in body space; only orbit the camera.\n\nCAMERA FOR 02_BACK: exact STRAIGHT BACK / posterior view, near-orthographic camera at chest height, slightly above. The camera is behind the SAME upright skeleton. Show the back of skull (no front eye sockets or teeth), cervical spine, BOTH shoulder blades, ribs curving around the open cavity, thoracic/lumbar vertebrae, sacrum and posterior pelvis, backs of legs and feet. Palms still point forward, away from this rear camera, so show the BACKS of hands. Anatomical left arm is on SCREEN-LEFT and anatomical right on SCREEN-RIGHT. Both whole arms straight at about 35 degrees from the vertical torso as in front input 5, elbows extended, hands with five separated articulated digits each. Legs still straight and apart; feet point away from rear camera, not sideways or backwards. Preserve all bone lengths, skull-to-body ratio, matching warm tan material and fixed pose from primary input 4. Orbit the whole camera by 180 degrees around the unchanged body; do not turn only the head, mirror a frontal image, invent a second sternum on the back, or re-pose.\nFull skeleton crown through heels and all toes/fingers inside ONE 1024x1536 portrait PNG with generous transparent margins. Open gaps between ribs and separate radius/ulna. True transparent alpha, even neutral light, no floor or shadow.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/01_front.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+        "sha256": "36394ec6f2b62c678d610a8997dd424def530d726bd1158dc405fb0832bee703"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+        "sha256": "e97bcd108a5204323893838693ab7aa62d28142f2dbcd11b1821dfafe4c651dd"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+        "sha256": "e3e83e135d55626f4b9c5cabf142d07df8e91a0701b81437bb4dd842612db9ee"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+        "sha256": "0521b32411c8a3b7d42f762d362ee8129f4c9edf0cf16d45551f0bc731844411"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/01_front.png",
+        "sha256": "aa68decf030c7e36f05b1d842e1fa72b0522c607edbe8a71c58f6b2d8c7b5256"
+      }
+    ],
+    "reason": "Selected: posterior skull and spine, paired scapulae, open rear rib gaps and posterior pelvis; unchanged neutral A-pose with straight separated arms/legs, backs of five-digit hands and complete rear-view feet. Warm bone identity and proportions match primary and front. Genuine alpha; native unresized 1024x1536.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-5141c7db-c0f0-485b-ae8a-11224081654b.png",
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/raw/skeleton_back_v1.png",
+    "raw_sha256": "f8da91b32f46276363a07302862272e3090fe1787bc1fce2651925b52b9778a5",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      56,
+      22,
+      968,
+      1467
+    ],
+    "supersedes": [],
+    "superseded_by": null,
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/02_back.png",
+    "output_sha256": "f8da91b32f46276363a07302862272e3090fe1787bc1fce2651925b52b9778a5",
+    "alpha_pixels": {
+      "zero": 1239946,
+      "nonzero": 332918,
+      "maximum": 254
+    },
+    "review": {
+      "method": "Visual comparison against native inputs, selected primary, light/dark contact sheet and enlarged rib/hand details; native dimensions, alpha and byte-identity/hash checks.",
+      "complete_head_to_toes_and_hands": true,
+      "open_rib_cage_with_visible_gaps": true,
+      "twelve_rib_pairs": "Ten curved cage rib pairs plus two floating pairs reviewed in the clear front reference; other projections naturally occlude some ribs.",
+      "separate_radius_and_ulna": true,
+      "five_digits_per_hand": "Five separated articulated digits on each fully visible hand; far hands naturally occluded in lateral projections.",
+      "arms_clear_of_body": "Fixed neutral A-pose with straight arms approximately 35 degrees from sides in body space; projected separation foreshortens in three-quarter/side views.",
+      "legs_apart": "Straight and physically separated in body space; naturally overlap in lateral projections.",
+      "warm_tan_bone": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "native_1024x1536_unresized_return": true,
+      "byte_identical_to_tool_return": true,
+      "sampling_note": "Native returns preserved unchanged, including any sparse nearly invisible alpha-1 sampling specks. Twelve-pixel outer border has alpha 0 except such alpha-1 pixels.",
+      "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/selected_views_review.png"
+    }
+  },
+  {
+    "id": "skeleton_left_v1",
+    "family": "mm6_caged_skeleton",
+    "role": "left",
+    "selected": true,
+    "selected_filename": "03_left.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skeleton painted in the EXISTING Might and Magic VI cage decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 hngncge2 hanging-cage sprite enlarged 3x nearest neighbour. Skeleton anatomy, lean average adult proportions and warm bone-colour authority. Black cage bars are NOT skeleton anatomy. Magenta is background.\nInput 2: ORIGINAL native MM6 bonecage seated-skeleton sprite enlarged 3x nearest neighbour; second skeleton anatomy reference. Cage bars are NOT part of the skeleton. Magenta is background.\nInput 3: restored 2x hngncge2, BONE SURFACE MATERIAL ONLY. Ignore the cage, pose, black bars and edge artifacts.\n\nONE complete adult human skeleton, whole body head to toes, centred, generous margins, near-orthographic camera, transparent background, no stand, no floor, no shadow, no text, no cage. Even soft neutral studio light (no dramatic light) that still shows form. Credible anatomical sculpt, semi-realistic game material, sharp fine detail.\n\nIdentity: anatomically correct adult human skeleton, lean, average proportions (head about one eighth of the height): skull with the lower jaw attached, mouth closed; cervical spine; collarbones and shoulder blades; a full rib cage of twelve rib pairs with clear open gaps between the ribs and a sternum; lumbar spine; a bowl-shaped pelvis; humerus, radius and ulna as separate bones; hands with exactly five clearly separate articulated bony digits each, including the thumb; femur, kneecap, tibia and fibula; feet with separate toe bones. Colour from inputs 1 and 3: aged dry bone, warm honey-tan to pale cream on the highlights, darker ochre-brown in the joints, between the ribs and in the sockets; eye sockets near black. Matte, no flesh, no sinew, no blood. Do not fill rib gaps with solid material; empty spaces between bones remain transparent.\n\nPose (identical in all five views): standing upright in a clean neutral A-pose: arms straight, about 35 degrees away from the sides, palms facing forward, fingers slightly spread and clearly separated; legs straight with a clear gap between them, feet flat, toes forward; head level, looking straight ahead. No bone touches another limb. Do not copy either source sprite's hanging or huddled pose. This skeleton will later be rigged and re-posed for the cages.\n\nInput 4: SELECTED PRIMARY high-definition front-right three-quarter skeleton. This is the strict identity, exact fixed A-POSE, bone lengths, skull-to-height ratio, rib-cage proportions, pelvis shape and surface-material authority for this camera rotation. Render the SAME skeleton, not a new interpretation. Keep its arms straight and anatomically abducted about 35 degrees from the torso, palms toward the body's forward direction, five separated articulated digits on each hand, head level, legs straight and a little apart, feet flat and pointing forward. Rotate only the camera around the unchanged skeleton. Do not re-pose or mirror the skeleton.\n\nOutput ONE unresized native 1024 x 1536 PORTRAIT PNG, genuine transparent alpha. Complete skeleton from crown to all toes and all fingertips, centred at the same useful scale as the primary, generous transparent margins, no cropping. Warm honey-tan aged dry bone with pale cream highlights, darker ochre-brown joints and near-black eye sockets. Even soft neutral object-only studio illumination. Keep all inter-bone gaps open and transparent; no opaque fill in rib cage.\nDo NOT add a cage, stand, floor, cast shadow, backdrop, haze, glow, text, armour, cloth, rope, chains, weapon, horns, extra ribs/limbs, flesh, sinew or blood. No cartoon, oversized skull, white/grey bone, painted checkerboard, magenta spill or background gradient.\nChecks: whole body, open twelve-pair rib cage, separate forearm bones, five separate digits per visible hand, straight arms clear of torso, legs apart, warm tan bone, genuine transparency, SAME pose and proportions as primary.\nInput 5: selected FRONT reference of the SAME skeleton, confirming the fixed straight-arm approximately 35-degree A-pose. Use the identical pose in body space.\n\nCAMERA FOR 03_LEFT: exact LEFT SIDE / lateral profile of the skeleton's OWN ANATOMICAL LEFT. Orbit the camera 90 degrees around to the body's LEFT from front. The LEFT cheek/temple, LEFT shoulder, LEFT forearm and LEFT hip are the near side. The nose, sternum-facing direction and toes point toward SCREEN-LEFT. View the entire body from this true lateral camera, near-orthographic at chest height, only slightly above; no frontal or three-quarter torso and no head twist.\nThe SAME upright neutral A-pose remains unchanged in body space: both straight arms abducted laterally approximately 35 degrees, palms facing the body's forward direction (SCREEN-LEFT), straight separated legs, toes forward. The lateral camera naturally foreshortens the lateral arm/leg separation, so far limbs may overlap behind the near limbs in projection. Keep that physically correct occlusion; DO NOT swing an arm forward/back, spread the legs in depth, change pose, bend elbows or turn the hands just to display both sides. Skeletal limbs stay physically separated, even where projected silhouettes overlap. Include complete visible five-digit near hand, separate radius/ulna where visible, head-to-toes and both feet within the frame. Preserve the primary's bone lengths, head-about-one-eighth proportion, pelvis and warm tan dry bone material.\nONE 1024 x 1536 PORTRAIT transparent PNG, native return unresized. Center the entire lateral skeleton with generous empty margins top/bottom and sides; frame full skull and all fingertips/toes without clipping. Correct anatomical left view, not a mirrored or relabelled right view. No cage, text, floor, stand, shadow or background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/01_front.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+        "sha256": "36394ec6f2b62c678d610a8997dd424def530d726bd1158dc405fb0832bee703"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+        "sha256": "e97bcd108a5204323893838693ab7aa62d28142f2dbcd11b1821dfafe4c651dd"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+        "sha256": "e3e83e135d55626f4b9c5cabf142d07df8e91a0701b81437bb4dd842612db9ee"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+        "sha256": "0521b32411c8a3b7d42f762d362ee8129f4c9edf0cf16d45551f0bc731844411"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/01_front.png",
+        "sha256": "aa68decf030c7e36f05b1d842e1fa72b0522c607edbe8a71c58f6b2d8c7b5256"
+      }
+    ],
+    "reason": "Selected: anatomical left lateral profile facing screen-left, complete skull/hands/feet, warm aged bone matching primary, open ribs and separate visible forearm bones; fixed body-space A-pose with natural far-limb occlusion and five separated near-hand digits. Native 1024x1536 RGBA, genuine transparency, no export resize.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-09014777-666a-4efe-a5a8-9329aa53ca95.png",
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/raw/skeleton_left_v1.png",
+    "raw_sha256": "cabfc066cfd84753759893c37ee96e75c48509502ff75124e09fa5b450832211",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      388,
+      39,
+      639,
+      1476
+    ],
+    "supersedes": [],
+    "superseded_by": null,
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/03_left.png",
+    "output_sha256": "cabfc066cfd84753759893c37ee96e75c48509502ff75124e09fa5b450832211",
+    "alpha_pixels": {
+      "zero": 1361533,
+      "nonzero": 211331,
+      "maximum": 254
+    },
+    "review": {
+      "method": "Visual comparison against native inputs, selected primary, light/dark contact sheet and enlarged rib/hand details; native dimensions, alpha and byte-identity/hash checks.",
+      "complete_head_to_toes_and_hands": true,
+      "open_rib_cage_with_visible_gaps": true,
+      "twelve_rib_pairs": "Ten curved cage rib pairs plus two floating pairs reviewed in the clear front reference; other projections naturally occlude some ribs.",
+      "separate_radius_and_ulna": true,
+      "five_digits_per_hand": "Five separated articulated digits on each fully visible hand; far hands naturally occluded in lateral projections.",
+      "arms_clear_of_body": "Fixed neutral A-pose with straight arms approximately 35 degrees from sides in body space; projected separation foreshortens in three-quarter/side views.",
+      "legs_apart": "Straight and physically separated in body space; naturally overlap in lateral projections.",
+      "warm_tan_bone": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "native_1024x1536_unresized_return": true,
+      "byte_identical_to_tool_return": true,
+      "sampling_note": "Native returns preserved unchanged, including any sparse nearly invisible alpha-1 sampling specks. Twelve-pixel outer border has alpha 0 except such alpha-1 pixels.",
+      "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/selected_views_review.png"
+    }
+  },
+  {
+    "id": "skeleton_right_v1",
+    "family": "mm6_caged_skeleton",
+    "role": "right",
+    "selected": true,
+    "selected_filename": "04_right.png",
+    "prompt": "TASK CONTEXT — MM6 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the skeleton painted in the EXISTING Might and Magic VI cage decoration sprites, as a 3D modelling and texturing reference. Not a new design.\nUse case: stylized-concept / faithful 3D modelling reference.\nOutput: exactly ONE 1024 x 1536 PORTRAIT PNG, genuine transparent background, unresized native return.\n\nInput 1: ORIGINAL native MM6 hngncge2 hanging-cage sprite enlarged 3x nearest neighbour. Skeleton anatomy, lean average adult proportions and warm bone-colour authority. Black cage bars are NOT skeleton anatomy. Magenta is background.\nInput 2: ORIGINAL native MM6 bonecage seated-skeleton sprite enlarged 3x nearest neighbour; second skeleton anatomy reference. Cage bars are NOT part of the skeleton. Magenta is background.\nInput 3: restored 2x hngncge2, BONE SURFACE MATERIAL ONLY. Ignore the cage, pose, black bars and edge artifacts.\n\nONE complete adult human skeleton, whole body head to toes, centred, generous margins, near-orthographic camera, transparent background, no stand, no floor, no shadow, no text, no cage. Even soft neutral studio light (no dramatic light) that still shows form. Credible anatomical sculpt, semi-realistic game material, sharp fine detail.\n\nIdentity: anatomically correct adult human skeleton, lean, average proportions (head about one eighth of the height): skull with the lower jaw attached, mouth closed; cervical spine; collarbones and shoulder blades; a full rib cage of twelve rib pairs with clear open gaps between the ribs and a sternum; lumbar spine; a bowl-shaped pelvis; humerus, radius and ulna as separate bones; hands with exactly five clearly separate articulated bony digits each, including the thumb; femur, kneecap, tibia and fibula; feet with separate toe bones. Colour from inputs 1 and 3: aged dry bone, warm honey-tan to pale cream on the highlights, darker ochre-brown in the joints, between the ribs and in the sockets; eye sockets near black. Matte, no flesh, no sinew, no blood. Do not fill rib gaps with solid material; empty spaces between bones remain transparent.\n\nPose (identical in all five views): standing upright in a clean neutral A-pose: arms straight, about 35 degrees away from the sides, palms facing forward, fingers slightly spread and clearly separated; legs straight with a clear gap between them, feet flat, toes forward; head level, looking straight ahead. No bone touches another limb. Do not copy either source sprite's hanging or huddled pose. This skeleton will later be rigged and re-posed for the cages.\n\nInput 4: SELECTED PRIMARY high-definition front-right three-quarter skeleton. This is the strict identity, exact fixed A-POSE, bone lengths, skull-to-height ratio, rib-cage proportions, pelvis shape and surface-material authority for this camera rotation. Render the SAME skeleton, not a new interpretation. Keep its arms straight and anatomically abducted about 35 degrees from the torso, palms toward the body's forward direction, five separated articulated digits on each hand, head level, legs straight and a little apart, feet flat and pointing forward. Rotate only the camera around the unchanged skeleton. Do not re-pose or mirror the skeleton.\n\nOutput ONE unresized native 1024 x 1536 PORTRAIT PNG, genuine transparent alpha. Complete skeleton from crown to all toes and all fingertips, centred at the same useful scale as the primary, generous transparent margins, no cropping. Warm honey-tan aged dry bone with pale cream highlights, darker ochre-brown joints and near-black eye sockets. Even soft neutral object-only studio illumination. Keep all inter-bone gaps open and transparent; no opaque fill in rib cage.\nDo NOT add a cage, stand, floor, cast shadow, backdrop, haze, glow, text, armour, cloth, rope, chains, weapon, horns, extra ribs/limbs, flesh, sinew or blood. No cartoon, oversized skull, white/grey bone, painted checkerboard, magenta spill or background gradient.\nChecks: whole body, open twelve-pair rib cage, separate forearm bones, five separate digits per visible hand, straight arms clear of torso, legs apart, warm tan bone, genuine transparency, SAME pose and proportions as primary.\nInput 5: selected FRONT reference of the SAME skeleton, confirming the fixed straight-arm approximately 35-degree A-pose. Use the identical pose in body space.\n\nCAMERA FOR 04_RIGHT: exact RIGHT SIDE / lateral profile of the skeleton's OWN ANATOMICAL RIGHT. Orbit the camera 90 degrees around to the body's RIGHT from front. The RIGHT cheek/temple, RIGHT shoulder, RIGHT forearm and RIGHT hip are the near side. The nose, sternum-facing direction and toes point toward SCREEN-RIGHT. View the whole body from this true lateral camera, near-orthographic at chest height, only slightly above; no frontal or three-quarter torso and no head twist.\nThe SAME upright neutral A-pose remains unchanged in body space: both straight arms abducted laterally approximately 35 degrees, palms facing the body's forward direction (SCREEN-RIGHT), straight separated legs, toes forward. The lateral camera naturally foreshortens the lateral arm/leg separation, so far limbs may overlap behind the near limbs in projection. Keep physically correct occlusion; DO NOT swing an arm forward/back, spread legs in depth, bend elbows, turn hands or otherwise re-pose to display both sides. Keep all bones physically separated even where projected silhouettes overlap. Include the complete visible five-digit near hand, separate radius/ulna where visible, and full head-to-toes and both feet inside the frame. Preserve primary bone lengths, head-about-one-eighth ratio, pelvis and warm tan dry bone material.\nONE 1024 x 1536 PORTRAIT transparent PNG, native return unresized. Center the entire lateral skeleton with generous empty margins top/bottom and sides; full skull and all fingertips/toes without clipping. Correct anatomical right view of the SAME skeleton, not simply a flipped image of a left view. No cage, text, floor, stand, shadow or background.",
+    "inputs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/01_front.png"
+    ],
+    "input_records": [
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_hngncge2_x3.png",
+        "sha256": "36394ec6f2b62c678d610a8997dd424def530d726bd1158dc405fb0832bee703"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/native_bonecage_x3.png",
+        "sha256": "e97bcd108a5204323893838693ab7aa62d28142f2dbcd11b1821dfafe4c651dd"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/x2_hngncge2_surface_only.png",
+        "sha256": "e3e83e135d55626f4b9c5cabf142d07df8e91a0701b81437bb4dd842612db9ee"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/00_three_quarter.png",
+        "sha256": "0521b32411c8a3b7d42f762d362ee8129f4c9edf0cf16d45551f0bc731844411"
+      },
+      {
+        "supplied_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/01_front.png",
+        "sha256": "aa68decf030c7e36f05b1d842e1fa72b0522c607edbe8a71c58f6b2d8c7b5256"
+      }
+    ],
+    "reason": "Selected: anatomical right lateral profile facing screen-right, full skull and complete visible hand/feet; same warm bone identity, proportions and body-space A-pose, with natural projected far-limb occlusion. Open rib spaces, distinct visible forearm bones and five near-hand digits. Genuine alpha and native unresized 1024x1536.",
+    "tool_mode": "built-in image_gen",
+    "output": "/home/pjasicek/.codex/generated_images/01a12081-7d64-7272-a269-e15ed522104e/exec-97f86809-3336-486c-84eb-512c9a94cc96.png",
+    "raw_file": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/raw/skeleton_right_v1.png",
+    "raw_sha256": "1fdb324f8c3c35de6c5aef8acbb98d3860241a5d2dff11be921d953af677b588",
+    "actual_sampling_size": [
+      1024,
+      1536
+    ],
+    "export_resize_or_padding": "None; byte-identical copy of actual return.",
+    "alpha_range": [
+      0,
+      254
+    ],
+    "visible_bbox_alpha_128": [
+      406,
+      35,
+      665,
+      1463
+    ],
+    "supersedes": [],
+    "superseded_by": null,
+    "output_path": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/04_right.png",
+    "output_sha256": "1fdb324f8c3c35de6c5aef8acbb98d3860241a5d2dff11be921d953af677b588",
+    "alpha_pixels": {
+      "zero": 1392987,
+      "nonzero": 179877,
+      "maximum": 254
+    },
+    "review": {
+      "method": "Visual comparison against native inputs, selected primary, light/dark contact sheet and enlarged rib/hand details; native dimensions, alpha and byte-identity/hash checks.",
+      "complete_head_to_toes_and_hands": true,
+      "open_rib_cage_with_visible_gaps": true,
+      "twelve_rib_pairs": "Ten curved cage rib pairs plus two floating pairs reviewed in the clear front reference; other projections naturally occlude some ribs.",
+      "separate_radius_and_ulna": true,
+      "five_digits_per_hand": "Five separated articulated digits on each fully visible hand; far hands naturally occluded in lateral projections.",
+      "arms_clear_of_body": "Fixed neutral A-pose with straight arms approximately 35 degrees from sides in body space; projected separation foreshortens in three-quarter/side views.",
+      "legs_apart": "Straight and physically separated in body space; naturally overlap in lateral projections.",
+      "warm_tan_bone": true,
+      "genuine_alpha": true,
+      "matching_primary_identity_pose_proportions": true,
+      "native_1024x1536_unresized_return": true,
+      "byte_identical_to_tool_return": true,
+      "sampling_note": "Native returns preserved unchanged, including any sparse nearly invisible alpha-1 sampling specks. Twelve-pixel outer border has alpha 0 except such alpha-1 pixels.",
+      "contact_sheet": "level_generation/decorations/mm6_dungeons_3d/bones/skeleton/references_hd/selected_views_review.png"
+    }
+  }
+]

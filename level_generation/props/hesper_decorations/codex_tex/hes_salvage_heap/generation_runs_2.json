@@ -1,0 +1,82 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated; strict brief checks failed. No further regeneration permitted.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024 x 1024 transparent PNG: paint_back.png, a back orthographic texture-source painting of this exact salvage heap mesh.\nINPUT ROLES: Image 1 design_reference.png is ONLY the approved material/colour/design reference. Image 2 guide_back.png is the EDIT TARGET and absolute authority for geometry, alpha silhouette, camera, framing, object position, scale, every edge and opening. Paint the grey surfaces of image 2 in place; do not reproduce the perspective or composition of image 1.\nHARD GEOMETRY LOCK: Preserve EXACTLY image 2's 1024-square framing and pixel placement, low wide heap at approximately x65..959, y335..689, including its very large transparent margins. Do not enlarge, recenter, rotate, crop or redesign the heap. Keep the large irregular central shield/panel, diagonal shards at left and top, the thin upright near x407, all foreground debris, and both polygonal pipe openings at right in exactly their guide positions, shapes and sizes. Every outer jagged edge, internal object boundary and gap follows the grey guide. Add no silhouette details, bolts or objects outside the existing geometry.\nMATERIAL PAINT: Transfer image 1's chipped ivory-white ceramic with hairline cracks and tarnished muted gold edging onto the existing panels, especially the broad central panel; rust-brown and grey steel on the existing pipes and sheet fragments, black rubber on existing cable shapes, dark glass only on existing console faces, and dusty grime. Use texture details on the surfaces without changing geometry or making new openings. Exposed ceramic fracture edges have dusty beige body; gold is weathered ochre, steel is desaturated medium grey with orange-brown rust mottling. Pipes retain the exact polygonal openings from the guide.\nALBEDO LIGHTING: completely even, flat, shadowless viewer illumination. Remove grey-guide shading. No cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim lighting, lighting gradients or painted illumination. Interiors have readable material colour, not black lighting shadows. Grime is material texture only. Any glowing parts are painted their local glowing colour without light spill.\nBACKGROUND: real alpha transparency everywhere outside the exact guide silhouette and in its open gaps. No black backdrop, checkerboard painted into pixels, floor, scene, shadow, glow or text. High detail game texture source. Return unresized 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5",
+          "role": "Approved material and colour reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "502856f61a6f5de1ec2be6bb88492f4199b0b40b01e077dff9f234f85d614d61",
+          "role": "Exact silhouette, geometry, framing and camera authority"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "sha256": "b3a51699a741555281a15830ebe156745e150395053d27b9a873f389c2b52046",
+      "selected": false,
+      "reason": "Rejected for incorrect 1254 x 1254 dimensions, silhouette and internal geometry drift, contour artifacts and residual shading. Used the single permitted corrective regeneration.",
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette_identical": false,
+        "materials": "Reference palette and surface materials broadly match.",
+        "flat_even_light": "Residual darkened recesses and edge shading; not strictly shadowless albedo.",
+        "transparent_background": "RGBA alpha present, but nonzero alpha artifacts outside intended silhouette."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Edit the second input image, guide_back.png, as an exact surface recolouring. Output exactly 1024 by 1024 pixels, same canvas as guide_back.png. Transparent background. Do not resize the canvas or the object. This is an orthographic back-view ALBEDO texture source, NOT a new render or concept.\nImage 1 (design_reference.png) supplies ONLY surface materials and colour. Image 2 (guide_back.png) supplies ALL geometry and pixel placement. Strictly preserve image 2 alpha silhouette and all internal shape boundaries. Its heap occupies x66 to957 and y335 to688 within the 1024 square. Leave its large transparent upper and lower margins unchanged. Keep the exact broad central irregular polygon, each polygonal pipe opening on the right, the angular diagonals on the left and top, thin upright and every little piece of debris exactly where shown. Do not add geometry, not even edge chips, bolts, cables or extra fragments. No perspective, no zoom, no recentering.\nPaint only existing grey surfaces with the reference materials: chipped ivory ceramic with fine cracks, muted tarnished ochre gold borders, medium grey steel mottled with brown-orange rust, matte charcoal black rubber for existing cables, dark glass for any existing console face, dust and grime. Paint the broad middle panel ivory ceramic with gold trim like the reference. Preserve the geometry even if a detail in the design reference has a different shape.\nCorrect the previous attempt's size/framing drift: final image MUST be 1024x1024 without cropping or resizing; preserve the guide silhouette EXACTLY at original pixel locations. Do not add red/yellow contour fringes.\nCorrect lighting to flat uniform albedo: no shadows whatsoever, no ambient occlusion, no darkened crevices from lighting, no specular reflections or highlights, no directional or rim light. Every surface has even local material colour, including pipe interiors and fracture edges. Keep grime and rust as surface pigment. No floor, background, glow, text or shadows. True clean alpha transparency outside the exact original guide shape and through original gaps.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "db982a61fed3fd183a0dcddfbdf3f562919fb6be44d04b1bfc003cbd39518da5",
+          "role": "Approved material and colour reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "502856f61a6f5de1ec2be6bb88492f4199b0b40b01e077dff9f234f85d614d61",
+          "role": "Exact silhouette, geometry, framing and camera authority"
+        }
+      ],
+      "output": "paint_back.png",
+      "sha256": "a3488b7f96233dc50c45f5da96791d03093d6010f5fab4e62a7acf336fd5598d",
+      "selected": true,
+      "reason": "Best available return after the one permitted corrective regeneration, with improved ceramic and gold material assignment. Selected for delivery, not acceptance: still fails exact size, silhouette and fully flat lighting. Saved byte-for-byte without resizing or postprocessing to honor unresized returns.",
+      "checks": {
+        "dimensions": {
+          "expected": [
+            1024,
+            1024
+          ],
+          "actual": [
+            1254,
+            1254
+          ],
+          "pass": false
+        },
+        "silhouette_identical": false,
+        "materials": "Chipped ivory ceramic, tarnished gold, grey and rust-brown steel, black rubber and grime broadly match the reference.",
+        "flat_even_light": "Residual dark recesses and directional shading; not strictly shadowless albedo.",
+        "transparent_background": "RGBA alpha present, but colored contour fringes and low-alpha artifacts remain."
+      }
+    }
+  ]
+}

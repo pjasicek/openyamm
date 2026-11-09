@@ -1,0 +1,24 @@
+{
+  "prompt": "Paint the provided paint_mask_guide.png exactly following this specification. Image roles: paint_mask_guide.png is the EDIT TARGET and exact silhouette/layout authority. design_reference.png is material/detail reference only; icon_x8.png is original colour reference, its magenta is background only.\nOutput ONE transparent PNG, 1536x2048 or nearest 3:4 size. Keep the guide's three columns and FOUR rows, 512x512 cells at 1536x2048. Rows 1-2 and 3-4 each contain the same five orthographic views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint only existing grey object pixels. Preserve every object position, scale, outline, orientation and gap exactly. Do not turn the horizontal views upright; guide orientations govern.\nRows 1-2 PAINT: unlit base colour, faithful original MM9 PCX in MM6-MM8 inventory style. Pale organic dragon bone, thick curved blunt upper end, natural pits and mottling, crooked tapered lower shaft, narrow gold-dark metal collar. Match HD reference materials and original icon colours. Natural bone details, no generic substitution. Facets, engravings, scrollwork and inner swirls follow reference where present, scaled to each view.\nRows 3-4 MATERIAL MASK: same five silhouettes, FLAT pure colours only, NO shading, texture, outlines or antialiased colour blends inside. Bone entirety pure yellow #FFFF00; narrow gold metal collar pure red #FF0000. General material key: metal red #FF0000, leather/fur green #00FF00, cloth/hair blue #0000FF, matte non-metal solid yellow #FFFF00, gemstones/crystal/glass/pearl/enamel/liquid through glass black #000000. Every silhouette pixel gets exactly one material colour. Nothing outside silhouettes.\nKeep every gap/opening fully transparent. Empty cells column 3 rows 2 and 4 remain transparent. Genuine transparent alpha background. Unlit base colour only: no lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles, aura, ground, outlines or text. Harmless static decorative fantasy prop texture sheet.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10069/paint_mask_guide.png",
+      "sha256": "a1f139de403e8452048a57fa8728199794933e5b1d9e2fd01f9674655b10f608"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10069/design_reference.png",
+      "sha256": "810652f4d25dbe2d6a17b955d6be4a01ca19f9216fcacc85150f55ce334718df"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10069/icon_x8.png",
+      "sha256": "c48626780b51a56028fb8a1a7e6b8cd6015fd0bbe553fa081c0af48fc7b487c0"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad27-2da0-75e1-b58d-1193bd259ae1/exec-9a851be5-86e7-4570-9df2-6c1d22e52839.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10069/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen"
+}

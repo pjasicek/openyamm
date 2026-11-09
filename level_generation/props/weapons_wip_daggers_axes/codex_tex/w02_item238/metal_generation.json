@@ -1,0 +1,85 @@
+{
+  "tool": "built-in imagegen",
+  "source": "level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item238/metal_atlas_v2.png",
+  "saved": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item238/metal_atlas_v1.png",
+  "sha256": "d592ebbf1dd730c74163232496067b17a99e384d2b58c82bf52d039fe7397c3e",
+  "kind": "metal",
+  "prompt": "level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item238/metal_correction_prompt.txt",
+  "cells": {
+    "front": {
+      "crop": [
+        0,
+        206,
+        512,
+        267
+      ],
+      "size": [
+        512,
+        61
+      ]
+    },
+    "back": {
+      "crop": [
+        512,
+        207,
+        1024,
+        267
+      ],
+      "size": [
+        512,
+        60
+      ]
+    },
+    "left": {
+      "crop": [
+        0,
+        678,
+        512,
+        725
+      ],
+      "size": [
+        512,
+        47
+      ]
+    },
+    "right": {
+      "crop": [
+        512,
+        678,
+        1024,
+        725
+      ],
+      "size": [
+        512,
+        47
+      ]
+    },
+    "top": {
+      "crop": [
+        0,
+        783,
+        512,
+        1489
+      ],
+      "size": [
+        512,
+        706
+      ]
+    },
+    "bottom": {
+      "crop": [
+        512,
+        782,
+        1024,
+        1489
+      ],
+      "size": [
+        512,
+        707
+      ]
+    }
+  },
+  "guide_sha256": "9ec16b361389990b2ffd3e7e95d21b729cf92241b344c6ef3b6278bee1a3836b",
+  "rejected": "level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item238/metal_atlas_rejected_v1.png",
+  "reason": "Gold binding was classified as bone/nonmetal; corrected to metal over blue leather."
+}

@@ -1,0 +1,3 @@
+Saved all five images in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_skeleton_claude/references_head), using built-in image generation. All are unresized 1254×1254 RGBA. Raw returns, prompts, checks, and the contact sheet are included.
+
+No builds or Meshy calls. Remaining imperfections: faint alpha residue, tighter margins, and slight variation between views, documented in `generation_runs.json`.

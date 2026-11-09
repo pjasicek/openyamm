@@ -1,0 +1,22 @@
+{
+  "family": "lch",
+  "title": "MM6 Lich",
+  "descriptor_ids": [
+    568,
+    569,
+    570
+  ],
+  "base_palette": 763,
+  "mask_kind": "blue",
+  "description": "MM6 skeletal lich: very thin ivory-bone skeleton, grinning skull with red eye sockets, tall spiked gold crown with red inset, dark gray-lavender segmented metal breastplate with red bat-shaped collar ornament, ragged ochre shoulder remnants and hanging waist strips, wide dark belt with red-orange oval buckle, silver-blue forearm guards and worn tall red-brown boots. Preserve bare thin bony upper arms and thighs, long delicate skeletal fingers, native gaunt silhouette and equipment proportions. No robes, staff, weapon, glowing aura or added accessories.",
+  "regions": "Base forearm guards are silver-blue and collar ornament red. Bone, crown, gray torso armor, boots and belt remain protected.",
+  "variant_names": {
+    "763": "Lich 1",
+    "764": "Lich 2",
+    "765": "Lich 3"
+  },
+  "material_mask_channels": 1,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py"
+}

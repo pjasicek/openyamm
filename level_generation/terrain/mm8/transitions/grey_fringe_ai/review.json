@@ -1,0 +1,27 @@
+{
+  "status": "four pilots visually reviewed; not accepted for runtime",
+  "names": [
+    "gsn",
+    "gse",
+    "gsne",
+    "gsnw"
+  ],
+  "findings": [
+    "Generated art preserves rounded fringe shapes and native contact shadows.",
+    "Raw generated soil is too coarse, especially gsn; local composition keeps the accepted grey dirt outside stone neighbourhoods.",
+    "Native low-frequency palette normalization and broad-form registration preserve original feel.",
+    "Protected first16 runtime pixels retain the old chipped fringe; this requires shared finished-artwork correction before acceptance.",
+    "No production or staged terrain files changed by these experiments."
+  ],
+  "superseded": [
+    "grey_fringe_v2 native linear-colour delta amplified cracks",
+    "grey_fringe_v3 native plus bounded grain was faithful but insufficient higher-definition restoration"
+  ],
+  "next": "Prepare remaining nine native grey-stone variants, then shared finished edge artwork before full family/native review.",
+  "artifacts": {
+    "transitions/grey_fringe_ai/gsne_comparison.png": "dd70172e106acf80ab64aac95a9162d690161975a37804aeb865308080e7abc9",
+    "transitions/grey_fringe_ai/gse_comparison.png": "db3088858a25a75b02a4f3f64f25a6d5d3c44445f9db31a7c0f79755a87ef156",
+    "transitions/grey_fringe_ai/gsn_comparison.png": "5b58dee799bed069f3c14d8fe2d9302857f7a1edb83d1607dac53d5e4717c91f",
+    "transitions/grey_fringe_ai/gsnw_comparison.png": "cf905d73b5808b4798bec7923afa99f0aa7e8be434745d562aa96c815126603e"
+  }
+}

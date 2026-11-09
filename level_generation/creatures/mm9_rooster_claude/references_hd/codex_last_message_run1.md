@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_rooster_claude/references_hd/00_three_quarter.png) using built-in image generation, unresized at 1536×1024. Prompts and input hashes recorded in `generation_runs.json`.
+
+Stopped after RUN 1. The permitted correction still leaves a halo, tight margins and a more lateral camera than requested; the result is not fully compliant.

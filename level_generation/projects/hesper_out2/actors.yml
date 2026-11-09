@@ -1,0 +1,38 @@
+# The Scour's stand-in creature bindings (hesper_stage/monsters.yml `binding: {from: ..., entry: ...}`).
+# The Harvester (boss 10104): MM8's Demolisher (the Juggernaut, assets_source/worlds/mm8/models/mm8_m608.glb, staged as
+# hes_harvester_standin.glb) at three times its size in its C skin, until its own model (the Demolisher with a drill
+# head and an armoured front, design/kreegan_world/MONSTERS.md) exists. Its dig stop plays the Attack clip
+# (harvester.lua: perform{clip = "dig"}).
+- descriptor: Harvester stand-in
+  model: worlds/hesper/models/hes_harvester_standin.glb
+  scale: 1194.0
+  yaw_offset: -1.570796327
+  skin: m608_c
+  animation:
+    run: Walking
+    stride_length: 3.33
+    run_stride_length: 3.33
+    upper_body_root: Waist
+    look:
+      nodes:
+      - Head
+      max_yaw_degrees: 25
+      max_pitch_degrees: 15
+    sockets:
+      eye_left: Socket_Eye_Left
+      eye_right: Socket_Eye_Right
+      palm_left: Socket_Palm_Left
+      palm_right: Socket_Palm_Right
+    eye_color: [255, 150, 60]
+    events:
+      attack_melee: {impact: 1.0, glow: [palm_left, palm_right], glow_scale: 2.5, color: [255, 120, 40]}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Attack
+    attack_ranged: Attack
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+    dig: Attack

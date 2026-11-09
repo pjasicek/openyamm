@@ -1,0 +1,28 @@
+mm9_lobber: 45 components, body 862 tris, 10 detached in some pose
+  part 2 (XCarm01, above, -x side, +z, 182 tris): bind gap 0.0000, worst 0.0604 in Death frame 26 (0.867 s), detached 155/268 poses (and carried by a break elsewhere in 0; up to 0.0604 from the body's cluster) [parted off Xheadpiv]
+  part 41 (XBpiv, above, +x side, 297 tris): bind gap 0.0000, worst 0.0347 in Death frame 14 (0.467 s), detached 54/268 poses (and carried by a break elsewhere in 0; up to 0.0347 from the body's cluster) [parted off Xheadpiv]
+  part 1 (XBarm01, above, -x side, 299 tris): bind gap 0.0000, worst 0.0241 in AttackRanged frame 5 (0.167 s), detached 50/268 poses (and carried by a break elsewhere in 0; up to 0.0241 from the body's cluster) [parted off Xheadpiv]
+  part 0 (XApivot01, above, -x side, 340 tris): bind gap 0.0000, worst 0.0205 in Hit frame 20 (0.667 s), detached 36/268 poses (and carried by a break elsewhere in 0; up to 0.0205 from the body's cluster) [parted off Xheadpiv]
+  part 42 (XApivot, above, +x side, 356 tris): bind gap 0.0000, worst 0.0185 in Fidget frame 23 (0.767 s), detached 26/268 poses (and carried by a break elsewhere in 0; up to 0.0185 from the body's cluster) [parted off Xheadpiv]
+  part 14 (Xheadpiv, above, +z, 62 tris): bind gap 0.0000, worst 0.0160 in Cast frame 11 (0.367 s), detached 14/268 poses (and carried by a break elsewhere in 0; up to 0.0160 from the body's cluster) [floating off Xhead]
+  part 40 (Xhead, above, +z, 14 tris): bind gap 0.0000, worst 0.0131 in AttackRanged frame 11 (0.367 s), detached 12/268 poses (and carried by a break elsewhere in 0; up to 0.0131 from the body's cluster) [parted off Xheadpiv]
+  part 29 (Xheadmid, above, +z, 56 tris): bind gap 0.0000, worst 0.0103 in AttackRanged frame 18 (0.600 s), detached 19/268 poses (and carried by a break elsewhere in 3; up to 0.0103 from the body's cluster) [floating off Xheadmid]
+  part 9 (Xheadmid, above, +z, 60 tris): bind gap 0.0000, worst 0.0086 in Cast frame 15 (0.500 s), detached 13/268 poses (and carried by a break elsewhere in 0; up to 0.0086 from the body's cluster) [floating off Xchin]
+  part 37 (Xheadmid, above, +z, 10 tris): bind gap 0.0000, worst 0.0049 in AttackRanged frame 11 (0.367 s), detached 6/268 poses (and carried by a break elsewhere in 0; up to 0.0049 from the body's cluster) [floating off Xheadpiv]
+  shallow: part 4 (Xheadpiv, 1922 tris) rooted -0.0039 on Xheadmid in bind frame 0
+  shallow: part 5 (Xroot, 89 tris) rooted 0.0021 on Xroot in Standing frame 45
+  shallow: part 8 (Xjawpiv, 36 tris) rooted 0.0026 on Xheadpiv in Hit frame 19
+  shallow: part 11 (Xjawpiv, 26 tris) rooted 0.0016 on Xheadpiv in Standing frame 22
+  shallow: part 12 (Xjawpiv, 26 tris) rooted -0.0005 on Xheadpiv in Standing frame 22
+  shallow: part 16 (Xchin, 26 tris) rooted 0.0023 on Xheadpiv in AttackRanged frame 9
+  shallow: part 19 (Xjawpiv, 42 tris) rooted -0.0040 on Xpodbase in Death frame 9
+  shallow: part 21 (Xpodbase, 264 tris) rooted -0.0020 on Xroot in Hit frame 11
+  shallow: part 22 (Xheadmid, 60 tris) rooted -0.0039 on Xheadpiv in Fidget frame 36
+  shallow: part 23 (Xjawpiv, 107 tris) rooted -0.0040 on Xheadpiv in Hit frame 22
+  shallow: part 25 (Xheadpiv, 56 tris) rooted -0.0040 on Xpodbase in Hit frame 19
+  shallow: part 26 (Xchin, 22 tris) rooted 0.0025 on Xheadpiv in Death frame 62
+  shallow: part 27 (Xjawpiv, 42 tris) rooted -0.0013 on Xheadpiv in AttackRanged frame 0
+  shallow: part 30 (Xjawpiv, 30 tris) rooted 0.0026 on Xheadpiv in Standing frame 21
+  shallow: part 31 (Xjawpiv, 26 tris) rooted -0.0012 on Xheadpiv in AttackRanged frame 5
+  shallow: part 32 (Xjawpiv, 61 tris) rooted 0.0044 on Xheadpiv in Hit frame 17
+  shallow: part 33 (Xheadpiv, 40 tris) rooted -0.0028 on Xheadpiv in Cast frame 7

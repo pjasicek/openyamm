@@ -1,0 +1,13 @@
+mm9_jelly: 14 components, body 1302 tris, 5 detached in some pose
+  part 2 (Xbellpiv07, central, 954 tris): bind gap 0.0000, worst 0.3137 in AttackMelee frame 4 (0.133 s), detached 2/368 poses (and carried by a break elsewhere in 100; up to 0.3137 from the body's cluster) [parted off XbB05]
+  part 12 (XCENTER, below, 189 tris): bind gap 0.0000, worst 0.3131 in Standing frame 10 (0.333 s), detached 22/368 poses (and carried by a break elsewhere in 77; up to 0.3131 from the body's cluster) [floating off XbB05]
+  part 6 (XCENTER, below, 204 tris): bind gap 0.0000, worst 0.2719 in Walking frame 2 (0.067 s), detached 74/368 poses (and carried by a break elsewhere in 28; up to 0.2719 from the body's cluster) [floating off XbB05]
+  part 9 (Xtail, below, 126 tris): bind gap 0.0000, worst 0.0124 in Death frame 7 (0.233 s), detached 1/368 poses (and carried by a break elsewhere in 102; up to 0.0124 from the body's cluster) [floating off Xtail]
+  part 10 (Xtail, below, 68 tris): bind gap 0.0000, worst -0.6102 in Fidget frame 41 (1.367 s), detached 1/368 poses (and carried by a break elsewhere in 101; up to -0.6102 from the body's cluster) [floating off XbB05]
+  shallow: part 0 (Xarmpiv02, 404 tris) rooted -0.0040 on Xbellpiv07 in Fidget frame 48
+  shallow: part 3 (Xtail, 73 tris) rooted -0.0036 on Xtailpiv in Running frame 10
+  shallow: part 4 (Xtail, 77 tris) rooted -0.0039 on Xtailpiv in Hit frame 18
+  shallow: part 5 (Xtailpiv, 1444 tris) rooted 0.0020 on Xbellpiv07 in AttackMelee frame 1
+  shallow: part 7 (Xtail, 75 tris) rooted -0.0030 on Xtailpiv in AttackMelee frame 15
+  shallow: part 8 (Xarmpiv, 455 tris) rooted 0.0074 on Xtailpiv in Walking frame 1
+  shallow: part 11 (Xtail, 72 tris) rooted -0.0026 on Xtail in Hit frame 21

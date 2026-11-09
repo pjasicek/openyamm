@@ -1,0 +1,26 @@
+{
+  "prompt": "Paint the supplied paint_mask_guide.png as an exact registered texture-projection atlas. Input 1 is the EDIT TARGET and absolute geometry/layout authority. Input 2 design_reference.png is material/detail reference. Input 3 icon_x8.png is original colour reference, ignore magenta background.\nOutput ONE transparent PNG, 1536x2048 (3:4). Preserve exactly the guide's three columns by FOUR rows of 512px cells, every object position, size, orientation, silhouette, gap and opening. Do not redraw, enlarge, move or redesign objects. The same five views appear in each half: FRONT, BACK, LEFT / RIGHT, TOP, empty. Column 3 rows 2 and 4 remain transparent. Although the item description is \"source-faithful pair vertical cuffs-down\", do NOT replace the exact supplied model views with a pair or turn them upright.\nRows 1-2 PAINT: unlit base colour, rich red leather gloves with gold metal interlaced cuff ornament and gold rim, brown leather inner cuff, faithful to design reference and original icon. Fine leather texture, folds and engraving are colour detail only. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. Keep the exact existing cuff ornament geometry. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: identical five silhouettes and corresponding material regions, FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. Every metal part including all gold ornament and rim = pure red #FF0000. Every leather part including glove, cuff and inner leather = pure green #00FF00. Any cloth, lining made of cloth, cords or hair = pure blue #0000FF. Any gemstone, glass, enamel, crystal or liquid = pure black #000000. Every silhouette pixel exactly one of these colours. Nothing outside silhouettes.\nPreserve transparency for all background and all actual guide gaps/openings. Paint grey objects only.\nCORRECTION PRIORITY: The previous attempt produced large scattered green clouds beyond the lower silhouettes. Absolutely no speckles, clouds, feathering, outlines or stray pixels outside the original guide alpha. Use crisp exact guide silhouettes in all ten occupied cells. Material mask regions must be solid uniform pure red and green without internal shading or dark contour lines. Strictly preserve original guide framing.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2d-2910-7872-9b04-5fa03501c083/exec-cbd250b9-f660-4b36-a353-068d55c33ee2.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10206/paint_mask_guide.png",
+      "sha256": "75d7d348f6526f2abdea7b70d9cb5831f86dd3c67d573c531d259b4c356b4206"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10206/design_reference.png",
+      "sha256": "be70e99323cb2e7fa7e80add89f2b87b6e23c6a1ebbae2e6cdaa5adeae07f60e"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10206/icon_x8.png",
+      "sha256": "88b80a27bcc393460528a3dd87ba4b38b03ebd118fa84776ceb861daae59fbf8"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10206/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained; visible stray green pixels remain outside material-mask silhouettes after permitted correction. Raw tool output preserved without editing."
+}

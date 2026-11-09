@@ -1,0 +1,251 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "requested_transparent_background": true,
+  "status": "generated_but_failed_exact_brief_checks",
+  "selected_means": "Best available unmodified return, not acceptance against the brief.",
+  "postprocessing": "None. Generated PNG files copied byte-for-byte; no resize, crop, alpha replacement or repainting.",
+  "corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "kind": "initial",
+      "prompt": "Use case: sketch-to-render / exact geometry-preserving material painting.\nCreate ONE LEFT orthographic texture-source painting, 1024 x 1024 pixels, true transparent RGBA background, using the supplied grey guide as the actual edit target.\n\nINPUT ROLES, IN THIS ORDER:\n1. guide_left.png \u2014 the actual edit target and absolute authority for every visible geometric edge, silhouette, opening, scale, placement, camera and framing.\n2. design_reference.png \u2014 approved material/colour/design reference ONLY; its three-quarter camera and outline must NOT replace the guide.\n3. concept_crop.png \u2014 supporting original concept reference ONLY.\n\nPRIMARY REQUEST: Paint the surfaces of the EXACT Great hive spire model seen from its left side, directly over image 1. Retain the guide's entire silhouette and alpha outline EXACTLY, including all angular points, projecting barbs, broad base roots, tall tapering central spike, open spaces and every internal shape edge. Keep each detail at the same pixel coordinates and the same size on the 1024 square canvas. Preserve all transparent holes. Do not rotate, mirror, rescale, recenter, smooth, lengthen or shorten geometry. Nothing added beyond the existing silhouette and nothing cropped. Only replace grey surface colour with surface materials.\n\nMATERIALS: Follow the approved reference's glossy wet black-violet resin and chitin with a faint violet sheen, hot glowing orange slit windows and veins, ivory bone spikes with pale tips. Paint the existing structural ribs and roots black-violet chitin, the existing spike surfaces ivory, and orange sacs/slits/seams within existing surface regions according to the approved design. Surface detail must fit the existing shape boundaries; do not add geometry or invent holes. Preserve the rich dark-violet, ember-orange and ivory palette.\n\nLIGHTING: This is an ALBEDO TEXTURE SOURCE, not a beauty render. Even, flat, shadowless light from the viewer across the whole object. Express material identity through base colour and texture with only faint violet sheen; no strong specular highlights or reflections, no rim light, no cast shadows, no ambient-occlusion darkening, no directional shading gradients. Orange glowing parts are painted at their bright glowing colour only, with no light spilling onto nearby chitin or bone, no bloom and no halo. Do not reproduce the reference's dramatic lighting.\n\nOUTPUT: A single left view, exactly 1024 x 1024, isolated on actual transparent background, including transparent openings. No background colour, checkerboard painted into pixels, floor, environment, scene, text, captions, labels or watermark. Keep the guide's framing and exact silhouette as the highest priority.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "55e02686c901abc1c2a23a3118b8edbe5f65e20e15b9bbc0a6c709f3485bf9e9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "41c15314272cc4dc22750b61a8b11b53eedf888d9885371ebea93b57b8afa0ca"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ed0bfb643a6bd31327e8dbb9febd199268b4f827bf0df9fe6147d95ccda53948"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1686b-fac0-7562-8122-0e5ac8445a0d/exec-6641eb32-0531-4201-8757-5a529a95ec7e.png",
+      "selected": false,
+      "reason": "Rejected in favour of the correction: silhouette/internal geometry differs from the guide, return size is not 1024 x 1024, and specular highlights and recessed shading are too strong for albedo.",
+      "output_sha256": "92da29c5ba03cf86d1baba2d9df98a32f55747b1aedfd94e423e4b6cd4d90693",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "unresized_unmodified_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          16,
+          1253,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          168,
+          19,
+          1086,
+          1178
+        ],
+        "guide_alpha_bbox": [
+          151,
+          66,
+          873,
+          958
+        ],
+        "silhouette_identical_to_guide": false,
+        "geometry_visual_review": "Fail: outer contour, openings and internal shape edges are not an exact guide paint-over.",
+        "materials_and_colours_visual_review": "Black-violet chitin, hot orange windows/veins and ivory bone are present. Some chitin reads brighter purple than the reference.",
+        "flat_even_shadowless_light": false,
+        "lighting_visual_review": "Strong highlights and recessed shading remain.",
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "kind": "corrective_regeneration",
+      "prompt": "Corrective regeneration, the one allowed correction for the LEFT view.\nMake a pixel-aligned material paint-over of INPUT IMAGE 1 (guide_left.png), not a new interpretation. Output resolution MUST be exactly 1024 x 1024 pixels, identical to image 1. Keep the image canvas unchanged. True transparent RGBA background.\n\nImage 1 is the grey render to PAINT DIRECTLY OVER, preserving its original alpha and every edge. Image 2 (design_reference.png) is the material and colour authority only. Image 3 (concept_crop.png) is supplementary material reference only. Do NOT borrow either reference's geometry, detail placement, perspective, camera, shadows or highlights.\n\nThe previous attempt enlarged or altered geometry and returned the wrong resolution, and painted too many shiny highlights and recessed shadows. Correct those faults:\n- Copy image 1's original silhouette, openings and every polygon/shape boundary EXACTLY at the original pixel coordinates; no contour changes, no new holes, no smoothing its angular model into a different sculpture.\n- The original guide occupies x=151 through 872 and y=66 through 957 of a 1024x1024 canvas; preserve these bounds and the 66-pixel top/bottom margins. The top point is approximately (491,66). Do not fit the object tighter to the frame.\n- Retain every spike and base root in exactly the original location, exact length, angle and width. Retain the guide's internal arrangement. Transparent holes remain transparent and no painted area extends outside the guide's alpha.\n- No new protrusions, no extra spines or roots, no background, no floor, no shadows, no cropping, no recentering, no mirroring, no perspective changes.\n\nPaint existing rib/root surfaces black-violet resin and chitin with a faint violet sheen. Paint existing bone-spike surfaces ivory with pale tips. Paint hot orange slit windows, sacs and veins within existing surface regions, matching the approved reference's black-violet, ivory and ember-orange material palette. Do not introduce new geometry to convey detail.\n\nCRITICAL ALBEDO ONLY: Completely even frontal illumination. Flat painted surface colours with fine material texture; suppress all rendering light/shadow cues. No cast shadows, no ambient occlusion, no dark recess shading, no directional lighting, no specular streaks or white glossy reflections, no rim lighting. The wet resin identity is conveyed only by its dark violet colour and faint violet colour sheen. Orange emission is only bright orange pigment; no bloom, glow halo or light spill onto other surfaces. Keep the chitin legible evenly everywhere.\n\nDeliver just ONE 1024-by-1024 transparent PNG, with the same per-pixel silhouette and framing as guide_left.png. No labels, no text, no checkerboard pixels. Guide geometry and flat albedo requirements outrank decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "55e02686c901abc1c2a23a3118b8edbe5f65e20e15b9bbc0a6c709f3485bf9e9"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "41c15314272cc4dc22750b61a8b11b53eedf888d9885371ebea93b57b8afa0ca"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ed0bfb643a6bd31327e8dbb9febd199268b4f827bf0df9fe6147d95ccda53948"
+        }
+      ],
+      "output": "paint_left.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1686b-fac0-7562-8122-0e5ac8445a0d/exec-6281b41a-af18-4f2b-a630-97c83b78fa43.png",
+      "selected": true,
+      "reason": "Selected as the better available raw return after the single permitted correction: flatter surface treatment and reduced specular highlights. Selection does not mean brief acceptance: exact dimensions, silhouette/edge identity and fully shadowless albedo requirements remain unmet.",
+      "output_sha256": "f15f1779882b8513ec98d344a799503ff94b22e06a5397c6dc1f16a7af57286e",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "unresized_unmodified_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          23,
+          19,
+          1240,
+          1228
+        ],
+        "alpha_bbox_at_128": [
+          185,
+          82,
+          1068,
+          1171
+        ],
+        "guide_alpha_bbox": [
+          151,
+          66,
+          873,
+          958
+        ],
+        "silhouette_identical_to_guide": false,
+        "geometry_visual_review": "Fail: outer contour, openings and internal shape edges are not an exact guide paint-over.",
+        "materials_and_colours_visual_review": "Black-violet chitin, hot orange windows/veins and ivory bone are present. Some chitin reads brighter purple than the reference.",
+        "flat_even_shadowless_light": false,
+        "lighting_visual_review": "Correction reduces specular highlights; facet shading and dark recessed areas remain.",
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "kind": "initial",
+      "prompt": "Use case: sketch-to-render / exact geometry-preserving material painting.\nCreate ONE RIGHT orthographic texture-source painting, 1024 x 1024 pixels, true transparent RGBA background, using the supplied grey guide as the actual edit target.\n\nINPUT ROLES, IN THIS ORDER:\n1. guide_right.png \u2014 the actual edit target and absolute authority for every visible geometric edge, silhouette, opening, scale, placement, camera and framing.\n2. design_reference.png \u2014 approved material/colour/design reference ONLY; its three-quarter camera and outline must NOT replace the guide.\n3. concept_crop.png \u2014 supporting original concept reference ONLY.\n\nPRIMARY REQUEST: Paint the surfaces of the EXACT Great hive spire model seen from its right side, directly over image 1. Retain the guide's entire silhouette and alpha outline EXACTLY, including all angular points, projecting barbs, broad base roots, tall tapering central spike, open spaces and every internal shape edge. Keep each detail at the same pixel coordinates and the same size on the 1024 square canvas. Preserve all transparent holes. Do not rotate, mirror, rescale, recenter, smooth, lengthen or shorten geometry. Nothing added beyond the existing silhouette and nothing cropped. Only replace grey surface colour with surface materials.\n\nMATERIALS: Follow the approved reference's glossy wet black-violet resin and chitin with a faint violet sheen, hot glowing orange slit windows and veins, ivory bone spikes with pale tips. Paint the existing structural ribs and roots black-violet chitin, the existing spike surfaces ivory, and orange sacs/slits/seams within existing surface regions according to the approved design. Surface detail must fit the existing shape boundaries; do not add geometry or invent holes. Preserve the rich dark-violet, ember-orange and ivory palette.\n\nLIGHTING: This is an ALBEDO TEXTURE SOURCE, not a beauty render. Even, flat, shadowless light from the viewer across the whole object. Express material identity through base colour and texture with only faint violet sheen; no strong specular highlights or reflections, no rim light, no cast shadows, no ambient-occlusion darkening, no directional shading gradients. Orange glowing parts are painted at their bright glowing colour only, with no light spilling onto nearby chitin or bone, no bloom and no halo. Do not reproduce the reference's dramatic lighting.\n\nOUTPUT: A single right view, exactly 1024 x 1024, isolated on actual transparent background, including transparent openings. No background colour, checkerboard painted into pixels, floor, environment, scene, text, captions, labels or watermark. Keep the guide's framing and exact silhouette as the highest priority.\nSTRICT CANVAS/PLACEMENT: Keep the original 1024 by 1024 pixel guide canvas. Its occupied alpha bounding box is x=151 through 872 and y=66 through 957 (exclusive maximum x=873, y=958). The top point is at approximately (533,66). Leave the original 66-pixel transparent top margin and 66-pixel bottom margin; leave the original side margins. Do not enlarge the object to fill the square. Preserve the original angular contour without rounding it into a different model. Match image 1's alpha mask and geometry before adding material detail.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "fe7bf2e66ff58673dc5767248072dce17fe3473ac9423a7853e7e979fcf1bb64"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "41c15314272cc4dc22750b61a8b11b53eedf888d9885371ebea93b57b8afa0ca"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ed0bfb643a6bd31327e8dbb9febd199268b4f827bf0df9fe6147d95ccda53948"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1686b-fac0-7562-8122-0e5ac8445a0d/exec-15065a0e-bc7e-4a6c-b1f4-0befc5be9263.png",
+      "selected": false,
+      "reason": "Rejected in favour of the correction: silhouette/internal geometry differs from the guide, return size is not 1024 x 1024, and specular highlights and recessed shading are too strong for albedo.",
+      "output_sha256": "9a6fe052c5b8f24bf6b7781738dd9484269f2a73a352336937520c72781b1632",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "unresized_unmodified_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          35,
+          39,
+          1240,
+          1254
+        ],
+        "alpha_bbox_at_128": [
+          186,
+          82,
+          1069,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          151,
+          66,
+          873,
+          958
+        ],
+        "silhouette_identical_to_guide": false,
+        "geometry_visual_review": "Fail: outer contour, openings and internal shape edges are not an exact guide paint-over.",
+        "materials_and_colours_visual_review": "Black-violet chitin, hot orange windows/veins and ivory bone are present. Some chitin reads brighter purple than the reference.",
+        "flat_even_shadowless_light": false,
+        "lighting_visual_review": "Strong highlights and recessed shading remain.",
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "kind": "corrective_regeneration",
+      "prompt": "Corrective regeneration, the one allowed correction for the RIGHT view.\nMake a pixel-aligned material paint-over of INPUT IMAGE 1 (guide_right.png), not a new interpretation. Output resolution MUST be exactly 1024 x 1024 pixels, identical to image 1. Keep the image canvas unchanged. True transparent RGBA background.\n\nImage 1 is the grey render to PAINT DIRECTLY OVER, preserving its original alpha and every edge. Image 2 (design_reference.png) is the material and colour authority only. Image 3 (concept_crop.png) is supplementary material reference only. Do NOT borrow either reference's geometry, detail placement, perspective, camera, shadows or highlights.\n\nThe previous attempt enlarged or altered geometry and returned the wrong resolution, and painted too many shiny highlights and recessed shadows. Correct those faults:\n- Copy image 1's original silhouette, openings and every polygon/shape boundary EXACTLY at the original pixel coordinates; no contour changes, no new holes, no smoothing its angular model into a different sculpture.\n- The original guide occupies x=151 through 872 and y=66 through 957 of a 1024x1024 canvas; preserve these bounds and the 66-pixel top/bottom margins. The top point is approximately (533,66). Do not fit the object tighter to the frame.\n- Retain every spike and base root in exactly the original location, exact length, angle and width. Retain the guide's internal arrangement. Transparent holes remain transparent and no painted area extends outside the guide's alpha.\n- No new protrusions, no extra spines or roots, no background, no floor, no shadows, no cropping, no recentering, no mirroring, no perspective changes.\n\nPaint existing rib/root surfaces black-violet resin and chitin with a faint violet sheen. Paint existing bone-spike surfaces ivory with pale tips. Paint hot orange slit windows, sacs and veins within existing surface regions, matching the approved reference's black-violet, ivory and ember-orange material palette. Do not introduce new geometry to convey detail.\n\nCRITICAL ALBEDO ONLY: Completely even frontal illumination. Flat painted surface colours with fine material texture; suppress all rendering light/shadow cues. No cast shadows, no ambient occlusion, no dark recess shading, no directional lighting, no specular streaks or white glossy reflections, no rim lighting. The wet resin identity is conveyed only by its dark violet colour and faint violet colour sheen. Orange emission is only bright orange pigment; no bloom, glow halo or light spill onto other surfaces. Keep the chitin legible evenly everywhere.\n\nDeliver just ONE 1024-by-1024 transparent PNG, with the same per-pixel silhouette and framing as guide_right.png. No labels, no text, no checkerboard pixels. Guide geometry and flat albedo requirements outrank decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "fe7bf2e66ff58673dc5767248072dce17fe3473ac9423a7853e7e979fcf1bb64"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "41c15314272cc4dc22750b61a8b11b53eedf888d9885371ebea93b57b8afa0ca"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "ed0bfb643a6bd31327e8dbb9febd199268b4f827bf0df9fe6147d95ccda53948"
+        }
+      ],
+      "output": "paint_right.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1686b-fac0-7562-8122-0e5ac8445a0d/exec-991b2382-ea97-4a5f-ab0b-1109510c356b.png",
+      "selected": true,
+      "reason": "Selected as the better available raw return after the single permitted correction: flatter surface treatment and reduced specular highlights. Selection does not mean brief acceptance: exact dimensions, silhouette/edge identity and fully shadowless albedo requirements remain unmet.",
+      "output_sha256": "66040ef683f864298d484ba27ec09ac0905bf81fb1d84f60a471d3a50bebb814",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "unresized_unmodified_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1224,
+          1212
+        ],
+        "alpha_bbox_at_128": [
+          185,
+          83,
+          1068,
+          1172
+        ],
+        "guide_alpha_bbox": [
+          151,
+          66,
+          873,
+          958
+        ],
+        "silhouette_identical_to_guide": false,
+        "geometry_visual_review": "Fail: outer contour, openings and internal shape edges are not an exact guide paint-over.",
+        "materials_and_colours_visual_review": "Black-violet chitin, hot orange windows/veins and ivory bone are present. Some chitin reads brighter purple than the reference.",
+        "flat_even_shadowless_light": false,
+        "lighting_visual_review": "Correction reduces specular highlights; facet shading and dark recessed areas remain.",
+        "brief_pass": false
+      }
+    }
+  ]
+}

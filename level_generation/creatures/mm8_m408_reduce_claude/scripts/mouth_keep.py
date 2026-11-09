@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+"""Faces kept exactly around the split lip seam (MM8 Couatl): every face with a vertex within REA_MOUTH_R (default
+0.012 m) of a coincident Head/Jaw seam vertex in front of the neck (y < -0.15; this includes the two-sided oral cap).
+The fangs and eyes are separate small pieces (small_pieces.py). MeshLab collapses near the mouth corners otherwise
+build faces across the seam, and the open jaw stretches them into a box. Usage: mouth_keep.py <base keep .npy or -> <out .npy>"""
+import os, sys
+import numpy as np
+from scipy.spatial import cKDTree
+d = np.load('work/mesh_in.npz'); v, f = d['verts'], d['faces']
+keep = np.zeros(len(f), bool) if sys.argv[1] == '-' else np.load(sys.argv[1]).copy(); n0 = int(keep.sum())
+pairs = np.unique(cKDTree(v).query_pairs(1e-6, output_type='ndarray'))
+seam = pairs[v[pairs, 1] < -.15]
+near = cKDTree(v[seam]).query(v)[0] < float(os.environ.get('REA_MOUTH_R', '0.012'))
+keep |= near[f].any(1)
+np.save(sys.argv[2], keep); print('MOUTH seam vertices', len(seam), 'kept faces', n0, '->', int(keep.sum()))

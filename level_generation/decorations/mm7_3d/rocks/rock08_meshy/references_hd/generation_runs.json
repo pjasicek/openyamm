@@ -1,0 +1,257 @@
+{
+  "scope": "Frozen selected primary preserved; generated front, back, left and right with primary/native/surface inputs in that order; five selected views in contact sheet.",
+  "runs": [
+    {
+      "id": "exec-071dc4e7-9dd6-4e63-bf59-d71ae4bdedd4",
+      "prompt": "Generate ONLY the primary 00_three_quarter.png, 1536 x 1024 LANDSCAPE, true transparent RGBA background, unresized. Save the output into /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/00_three_quarter.png if possible.\n\nTask context: Fantasy-game asset restoration: a faithful high-definition reconstruction of the EXISTING Might and Magic VII outdoor decoration \"7rock08\" from the supplied original sprite, as a 3D modelling and texturing reference. It is not a new design.\nInput 1 native_front_x3.png is the ORIGINAL native MM7 sprite, enlarged nearest neighbour. It sets the design, shape, proportions and palette. Magenta is background, not part of the rock. Input 2 x2_surface_only.png is for surface material only (fine streaked grey stone), NEVER for design.\n\nView: The rock from the front, camera turned about 30 degrees to the rock's right and raised about 25 degrees, so the crown, the hollow and the depth are visible. Near-orthographic.\nONE free-standing natural rock, centred, generous margins, no ground, grass, shadow, scenery or text. Even soft neutral studio light showing the forms, no dramatic light. Credible photographic stone detail, fully reconstructed not enlarged pixel blocks.\n\nIdentity: A single solid crag of dark charcoal-grey stone, about 1.25 times as wide as tall. Body: broad, rounded, weathered mound whose lower sides bulge outward and flare onto the ground, base widest. Silhouette sides convex and lumpy.\nCrown: from upper part of SAME stone (grown out of mound, NOT separate stones placed on it) rise two thick pointed horn-like crests leaning slightly toward each other. Taller crest just right of centre is highest point; shorter crest at front left reaches about 85% of height.\nHollow: between and in front of crests a deep rounded cupped hollow is scooped into top of mound, dark inside.\nBehind crests: top is a lower rounded lobe.\nRidge: sharp curved ridge runs from tall crest down right front of mound.\nSurface: dense fine-grained dark grey stone like slate or basalt, fine parallel streaks and striations running diagonally across faces, small pale specks, a few thin cracks. Matte, slightly weather-polished ridges.\nColour: charcoal grey, mid grey on lit upper faces with faint warm olive-grey tint, darker grey sides, near-black hollow and crevices.\nDo NOT add moss, grass, lichen, snow, other rocks, pebbles, base or floor. Do NOT make crests separate stones or spikes. Do NOT make tan, brown, blue or light grey. Do NOT make a tall spire or flat slab. Do NOT crop.\nRequire one rock about 1.25:1 width to height, two crests of one stone and hollow between them, taller on right of front view, wide flared base, dark charcoal grey fine streaks. True alpha transparency, no painted checkerboard.",
+      "inputs": [
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/native_front_x3.png",
+          "sha256": "2abd41742efe1c46746bdaf1c8152342fe06a811fbb4233a1b933c3d6792b063"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/x2_surface_only.png",
+          "sha256": "0787f00579d79c510292b69e1d7729c6c9275682142605602748db13378792a2"
+        }
+      ],
+      "output_path": "/home/pjasicek/.codex/generated_images/01a14355-3376-70b3-8dd2-351a6c139a0c/exec-071dc4e7-9dd6-4e63-bf59-d71ae4bdedd4.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a14355-3376-70b3-8dd2-351a6c139a0c/exec-071dc4e7-9dd6-4e63-bf59-d71ae4bdedd4.png",
+      "output_sha256": "e8b5d53b304bb5f1b34ccae549338fe4d2b5244777453639954d1dae57327fef",
+      "selected": false,
+      "reason": "Superseded by one targeted correction for apparent halo and tight framing.",
+      "superseded_runs": [],
+      "checks": {
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 709884,
+        "alpha_bbox": [
+          0,
+          35,
+          1520,
+          1008
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "exec-d382ea9c-78d9-40e6-9e5c-cc1d824ba6b4",
+      "prompt": "Generate ONLY the primary 00_three_quarter.png, 1536 x 1024 LANDSCAPE, true transparent RGBA background, unresized. Save the output into /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/00_three_quarter.png if possible.\n\nTask context: Fantasy-game asset restoration: a faithful high-definition reconstruction of the EXISTING Might and Magic VII outdoor decoration \"7rock08\" from the supplied original sprite, as a 3D modelling and texturing reference. It is not a new design.\nInput 1 native_front_x3.png is the ORIGINAL native MM7 sprite, enlarged nearest neighbour. It sets the design, shape, proportions and palette. Magenta is background, not part of the rock. Input 2 x2_surface_only.png is for surface material only (fine streaked grey stone), NEVER for design.\n\nView: The rock from the front, camera turned about 30 degrees to the rock's right and raised about 25 degrees, so the crown, the hollow and the depth are visible. Near-orthographic.\nONE free-standing natural rock, centred, generous margins, no ground, grass, shadow, scenery or text. Even soft neutral studio light showing the forms, no dramatic light. Credible photographic stone detail, fully reconstructed not enlarged pixel blocks.\n\nIdentity: A single solid crag of dark charcoal-grey stone, about 1.25 times as wide as tall. Body: broad, rounded, weathered mound whose lower sides bulge outward and flare onto the ground, base widest. Silhouette sides convex and lumpy.\nCrown: from upper part of SAME stone (grown out of mound, NOT separate stones placed on it) rise two thick pointed horn-like crests leaning slightly toward each other. Taller crest just right of centre is highest point; shorter crest at front left reaches about 85% of height.\nHollow: between and in front of crests a deep rounded cupped hollow is scooped into top of mound, dark inside.\nBehind crests: top is a lower rounded lobe.\nRidge: sharp curved ridge runs from tall crest down right front of mound.\nSurface: dense fine-grained dark grey stone like slate or basalt, fine parallel streaks and striations running diagonally across faces, small pale specks, a few thin cracks. Matte, slightly weather-polished ridges.\nColour: charcoal grey, mid grey on lit upper faces with faint warm olive-grey tint, darker grey sides, near-black hollow and crevices.\nDo NOT add moss, grass, lichen, snow, other rocks, pebbles, base or floor. Do NOT make crests separate stones or spikes. Do NOT make tan, brown, blue or light grey. Do NOT make a tall spire or flat slab. Do NOT crop.\nRequire one rock about 1.25:1 width to height, two crests of one stone and hollow between them, taller on right of front view, wide flared base, dark charcoal grey fine streaks. True alpha transparency, no painted checkerboard.\nTARGETED CORRECTION for the previous attempt: eliminate ALL halo, glow, shadow and haze outside the rock. Empty background must have alpha exactly zero right up to the antialiased contour; solid stone must be fully opaque. Leave generous transparent margins of at least 100 pixels top and bottom by framing the rock smaller. Keep the requested design, camera, dark charcoal material, two integral crests and cupped hollow. Output 1536x1024 landscape.",
+      "inputs": [
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/native_front_x3.png",
+          "sha256": "2abd41742efe1c46746bdaf1c8152342fe06a811fbb4233a1b933c3d6792b063"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/x2_surface_only.png",
+          "sha256": "0787f00579d79c510292b69e1d7729c6c9275682142605602748db13378792a2"
+        }
+      ],
+      "output_path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/00_three_quarter.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a14355-3376-70b3-8dd2-351a6c139a0c/exec-d382ea9c-78d9-40e6-9e5c-cc1d824ba6b4.png",
+      "output_sha256": "cca6f41c998e97272ee55b75f7cc39b36af8819c6b4f62f668f1caa6b4ba01e4",
+      "selected": true,
+      "reason": "Selected primary: two integral crests, cupped hollow, flared base and detailed charcoal stone; improved framing. Alpha inspection confirms apparent background glow in tool preview is largely hidden RGB with zero alpha. Solid stone is near opaque (maximum alpha 254); retained tool output unmodified.",
+      "superseded_runs": [
+        "exec-071dc4e7-9dd6-4e63-bf59-d71ae4bdedd4"
+      ],
+      "checks": {
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 924676,
+        "alpha_bbox": [
+          25,
+          35,
+          1484,
+          1000
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "exec-8303e9a1-588a-45b4-8bcc-e2ceec71e93a",
+      "prompt": "Fantasy-game asset restoration: faithful HD reconstruction of EXISTING Might and Magic VII outdoor decoration 7rock08, for 3D modelling/texturing reference. NOT a new design. Input order: 1 frozen selected primary 00_three_quarter.png, authoritative exact rock identity; 2 original native_front_x3.png, original shape proportions palette, magenta is background; 3 x2_surface_only.png for material ONLY. Generate another camera view of the SAME solid rock from input 1, preserving physical features and proportions. Do not reproduce input 1 camera.\nONE free-standing natural crag, centered with generous transparent margins. Output exactly 1536 x 1024 LANDSCAPE unresized RGBA with true transparent background. Near orthographic, even soft neutral studio light, photographic fine stone detail. NO ground, shadow, glow, halo, scenery, text or painted checkerboard. Background alpha zero; opaque stone.\nIdentity: dark charcoal-grey crag about 1.25 wide to 1 tall, broad rounded weathered mound with convex lumpy sides bulging outward into wide flared base. Two thick pointed horn-like crests grow from SAME stone, leaning slightly inward: taller crest just right of center in FRONT view, shorter crest at front left ~85% height. Deep rounded cupped hollow between and in front of crests, dark inside. Behind crests a lower rounded lobe. Sharp curved ridge descends from taller crest down right FRONT of mound. These are fixed physical features: visibility and overlap change naturally as camera moves, never move features to retain a front composition in other views.\nDense fine-grained charcoal grey slate/basalt, diagonal fine parallel streaks/striations, small pale specks, thin cracks. Matte with weather polished edges, midgrey upper faces faint warm olive-grey tint, dark sides and nearblack hollow. Match frozen primary material. No moss grass lichen snow pebbles extra rocks base floor. No detached stones or spikes; no tan brown blue lightgrey, spire or slab. Never crop.\n\nGenerate ONLY 01_front.png: true FRONT view, camera slightly above rock midheight looking a little down as native sprite, zero horizontal rotation. Taller crest on image right, shorter on image left, cupped hollow and descending right-front ridge visible.",
+      "inputs": [
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/00_three_quarter.png",
+          "sha256": "cca6f41c998e97272ee55b75f7cc39b36af8819c6b4f62f668f1caa6b4ba01e4"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/native_front_x3.png",
+          "sha256": "2abd41742efe1c46746bdaf1c8152342fe06a811fbb4233a1b933c3d6792b063"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/x2_surface_only.png",
+          "sha256": "0787f00579d79c510292b69e1d7729c6c9275682142605602748db13378792a2"
+        }
+      ],
+      "output_path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/01_front.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a1435c-b7c5-7d83-800c-728011cd3848/exec-8303e9a1-588a-45b4-8bcc-e2ceec71e93a.png",
+      "selected": true,
+      "reason": "Front: two integral crests, taller on image right, visible hollow and right-front ridge. Selected after visual review; generated view is an interpretation, not a calibrated 3D render.",
+      "superseded_runs": [],
+      "output_sha256": "9d6893440393bd8f4be0900154c4fdc45407a82ec9476eaf6e5ec69be70a42cc",
+      "checks": {
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 757023,
+        "alpha_bbox": [
+          0,
+          25,
+          1400,
+          996
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "exec-e1288a73-14c0-4220-beb4-85c2457c55e8",
+      "prompt": "Fantasy-game asset restoration: faithful HD reconstruction of EXISTING Might and Magic VII outdoor decoration 7rock08, for 3D modelling/texturing reference. NOT a new design. Input order: 1 frozen selected primary 00_three_quarter.png, authoritative exact rock identity; 2 original native_front_x3.png, original shape proportions palette, magenta is background; 3 x2_surface_only.png for material ONLY. Generate another camera view of the SAME solid rock from input 1, preserving physical features and proportions. Do not reproduce input 1 camera.\nONE free-standing natural crag, centered with generous transparent margins. Output exactly 1536 x 1024 LANDSCAPE unresized RGBA with true transparent background. Near orthographic, even soft neutral studio light, photographic fine stone detail. NO ground, shadow, glow, halo, scenery, text or painted checkerboard. Background alpha zero; opaque stone.\nIdentity: dark charcoal-grey crag about 1.25 wide to 1 tall, broad rounded weathered mound with convex lumpy sides bulging outward into wide flared base. Two thick pointed horn-like crests grow from SAME stone, leaning slightly inward: taller crest just right of center in FRONT view, shorter crest at front left ~85% height. Deep rounded cupped hollow between and in front of crests, dark inside. Behind crests a lower rounded lobe. Sharp curved ridge descends from taller crest down right FRONT of mound. These are fixed physical features: visibility and overlap change naturally as camera moves, never move features to retain a front composition in other views.\nDense fine-grained charcoal grey slate/basalt, diagonal fine parallel streaks/striations, small pale specks, thin cracks. Matte with weather polished edges, midgrey upper faces faint warm olive-grey tint, dark sides and nearblack hollow. Match frozen primary material. No moss grass lichen snow pebbles extra rocks base floor. No detached stones or spikes; no tan brown blue lightgrey, spire or slab. Never crop.\n\nGenerate ONLY 02_back.png: true BACK view, camera rotated exactly 180 degrees around the same rock from front. Same modest camera height as front. Show rear rounded lobe and continuous rear surfaces; front cupped hollow is mostly concealed by rear mass. Taller front-right crest projects toward image LEFT from behind. This must clearly show back, not repeat front.",
+      "inputs": [
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/00_three_quarter.png",
+          "sha256": "cca6f41c998e97272ee55b75f7cc39b36af8819c6b4f62f668f1caa6b4ba01e4"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/native_front_x3.png",
+          "sha256": "2abd41742efe1c46746bdaf1c8152342fe06a811fbb4233a1b933c3d6792b063"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/x2_surface_only.png",
+          "sha256": "0787f00579d79c510292b69e1d7729c6c9275682142605602748db13378792a2"
+        }
+      ],
+      "output_path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/02_back.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a1435c-b7c5-7d83-800c-728011cd3848/exec-e1288a73-14c0-4220-beb4-85c2457c55e8.png",
+      "selected": true,
+      "reason": "Back: rear rounded lobe conceals hollow; taller crest projects to image left. Selected after visual review; generated view is an interpretation, not a calibrated 3D render.",
+      "superseded_runs": [],
+      "output_sha256": "f58a513fcbaf482fcbb42a9c5c299b5267c2ab9b93560ba5c8d6fa0416e23c00",
+      "checks": {
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 807465,
+        "alpha_bbox": [
+          0,
+          39,
+          1438,
+          1024
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "exec-00691b94-ab26-45f0-8a65-baa5e93edf65",
+      "prompt": "Fantasy-game asset restoration: faithful HD reconstruction of EXISTING Might and Magic VII outdoor decoration 7rock08, for 3D modelling/texturing reference. NOT a new design. Input order: 1 frozen selected primary 00_three_quarter.png, authoritative exact rock identity; 2 original native_front_x3.png, original shape proportions palette, magenta is background; 3 x2_surface_only.png for material ONLY. Generate another camera view of the SAME solid rock from input 1, preserving physical features and proportions. Do not reproduce input 1 camera.\nONE free-standing natural crag, centered with generous transparent margins. Output exactly 1536 x 1024 LANDSCAPE unresized RGBA with true transparent background. Near orthographic, even soft neutral studio light, photographic fine stone detail. NO ground, shadow, glow, halo, scenery, text or painted checkerboard. Background alpha zero; opaque stone.\nIdentity: dark charcoal-grey crag about 1.25 wide to 1 tall, broad rounded weathered mound with convex lumpy sides bulging outward into wide flared base. Two thick pointed horn-like crests grow from SAME stone, leaning slightly inward: taller crest just right of center in FRONT view, shorter crest at front left ~85% height. Deep rounded cupped hollow between and in front of crests, dark inside. Behind crests a lower rounded lobe. Sharp curved ridge descends from taller crest down right FRONT of mound. These are fixed physical features: visibility and overlap change naturally as camera moves, never move features to retain a front composition in other views.\nDense fine-grained charcoal grey slate/basalt, diagonal fine parallel streaks/striations, small pale specks, thin cracks. Matte with weather polished edges, midgrey upper faces faint warm olive-grey tint, dark sides and nearblack hollow. Match frozen primary material. No moss grass lichen snow pebbles extra rocks base floor. No detached stones or spikes; no tan brown blue lightgrey, spire or slab. Never crop.\n\nGenerate ONLY 03_left.png: true LEFT SIDE profile, camera rotated 90 degrees to rock's left from front, so rock's FRONT faces image RIGHT edge. Same slightly elevated camera height as front. Front shorter crest and cupped scoop toward image right, lower rear lobe toward image left. Fixed primary shape seen in side profile; no front view or mirroring.",
+      "inputs": [
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/00_three_quarter.png",
+          "sha256": "cca6f41c998e97272ee55b75f7cc39b36af8819c6b4f62f668f1caa6b4ba01e4"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/native_front_x3.png",
+          "sha256": "2abd41742efe1c46746bdaf1c8152342fe06a811fbb4233a1b933c3d6792b063"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/x2_surface_only.png",
+          "sha256": "0787f00579d79c510292b69e1d7729c6c9275682142605602748db13378792a2"
+        }
+      ],
+      "output_path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/03_left.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a1435c-b7c5-7d83-800c-728011cd3848/exec-00691b94-ab26-45f0-8a65-baa5e93edf65.png",
+      "selected": true,
+      "reason": "Left side: front hollow faces image right; rear lobe on left. Selected after visual review; generated view is an interpretation, not a calibrated 3D render.",
+      "superseded_runs": [],
+      "output_sha256": "98d75108f4bfbfe526618de09d1bfde16984ad38dfc8f9f61883676f8026b0f4",
+      "checks": {
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 773817,
+        "alpha_bbox": [
+          0,
+          22,
+          1516,
+          997
+        ],
+        "unresized": true
+      }
+    },
+    {
+      "id": "exec-7ccc4227-8839-427f-955b-45dbc999899a",
+      "prompt": "Fantasy-game asset restoration: faithful HD reconstruction of EXISTING Might and Magic VII outdoor decoration 7rock08, for 3D modelling/texturing reference. NOT a new design. Input order: 1 frozen selected primary 00_three_quarter.png, authoritative exact rock identity; 2 original native_front_x3.png, original shape proportions palette, magenta is background; 3 x2_surface_only.png for material ONLY. Generate another camera view of the SAME solid rock from input 1, preserving physical features and proportions. Do not reproduce input 1 camera.\nONE free-standing natural crag, centered with generous transparent margins. Output exactly 1536 x 1024 LANDSCAPE unresized RGBA with true transparent background. Near orthographic, even soft neutral studio light, photographic fine stone detail. NO ground, shadow, glow, halo, scenery, text or painted checkerboard. Background alpha zero; opaque stone.\nIdentity: dark charcoal-grey crag about 1.25 wide to 1 tall, broad rounded weathered mound with convex lumpy sides bulging outward into wide flared base. Two thick pointed horn-like crests grow from SAME stone, leaning slightly inward: taller crest just right of center in FRONT view, shorter crest at front left ~85% height. Deep rounded cupped hollow between and in front of crests, dark inside. Behind crests a lower rounded lobe. Sharp curved ridge descends from taller crest down right FRONT of mound. These are fixed physical features: visibility and overlap change naturally as camera moves, never move features to retain a front composition in other views.\nDense fine-grained charcoal grey slate/basalt, diagonal fine parallel streaks/striations, small pale specks, thin cracks. Matte with weather polished edges, midgrey upper faces faint warm olive-grey tint, dark sides and nearblack hollow. Match frozen primary material. No moss grass lichen snow pebbles extra rocks base floor. No detached stones or spikes; no tan brown blue lightgrey, spire or slab. Never crop.\n\nGenerate ONLY 04_right.png: true RIGHT SIDE profile, camera rotated 90 degrees to rock's right from front, so rock's FRONT faces image LEFT edge. Same slightly elevated camera height as front. Taller crest and descending right-front curved ridge on near visible face, toward image left; lower rear lobe toward image right. Fixed primary shape in side profile; no front view or mirroring.",
+      "inputs": [
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/00_three_quarter.png",
+          "sha256": "cca6f41c998e97272ee55b75f7cc39b36af8819c6b4f62f668f1caa6b4ba01e4"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/native_front_x3.png",
+          "sha256": "2abd41742efe1c46746bdaf1c8152342fe06a811fbb4233a1b933c3d6792b063"
+        },
+        {
+          "path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/x2_surface_only.png",
+          "sha256": "0787f00579d79c510292b69e1d7729c6c9275682142605602748db13378792a2"
+        }
+      ],
+      "output_path": "level_generation/decorations/mm7_3d/rocks/rock08_meshy/references_hd/04_right.png",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a1435c-b7c5-7d83-800c-728011cd3848/exec-7ccc4227-8839-427f-955b-45dbc999899a.png",
+      "selected": true,
+      "reason": "Right side: front hollow faces image left; near tall crest and descending ridge visible. Selected after visual review; generated view is an interpretation, not a calibrated 3D render.",
+      "superseded_runs": [],
+      "output_sha256": "393f374d30ccc0aef57c7d8d97dd3984a615c5eb9f30d7603d6a60b0c018dd5e",
+      "checks": {
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 800971,
+        "alpha_bbox": [
+          0,
+          27,
+          1522,
+          990
+        ],
+        "unresized": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "name": "wood_dado_x4_alpha_v1",
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wywl2_native.png"
+    ],
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Asset: a fresh high-definition medieval oak dado strip for a game wall texture, separate from all plaster. The reference is layout-only: ignore its raster grit. Render ONLY the lower wooden dado, with the narrow straight horizontal mouldings along its top and bottom, dark warm brown broad central plank field and restrained natural horizontal fine fibres. Orthographic front view, continuous smooth oak grain, matte aged wood, soft even diffuse colour; keep native moulding proportions and colour balance. Do not include the plaster above it. Landscape canvas aspect 2:1; the opaque rectangular wood strip spans the whole width and 40% of the canvas height centred vertically. True alpha=0 above and below, not a painted background or checkerboard. The usable wood strip needs at least1024x308 source pixels. LEFT and RIGHT wood pattern edges continue naturally when repeated, no vertical end caps. Clean new fine wood artwork, no pixel blocks, coarse stippling, bark/crystal fragments, sharpening halos, metallic gleam, perspective, exterior shadow, text or watermark."
+  },
+  {
+    "name": "wywt_x4_overlay_clean_v1",
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wywt_x4_foreground_native.png"
+    ],
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Asset: ONE complete medieval woodland hunting tapestry with its blue and gold decorative frame, a true-alpha overlay for a game wall. Use the attached small native tapestry ONLY for composition and palette, not surface grit. Redraw the COMPLETE design with fine continuous newly illustrated detail: same frame proportions, blue corner cartouches, gold acanthus scrolls, central top heraldic ornament; woodland with tall trunks and trees, pale clearing in upper middle, small hunters/animals in clearing and crowded riders/hounds in lower foreground. All subjects must remain in their native broad locations. Render no wall or plaster at all. Output portrait canvas aspect2:3, tapestry tightly fills the canvas with at most1% transparent margin so the artwork itself retains >=916x1404 source pixels. Real PNG alpha outside the rectangular frame, intentional painted scene and frame fully opaque; no checkerboard. Fine continuous curved gilded ornament, clean delicate branches, softly painted leaf clusters, smooth colour transitions and subtle fibre direction visible only up close; no coarse canvas/noise overlay, chunky confetti, pebble leaves, sharpened raster dither, perspective or extra text. Gentle neutral diffuse colour, no external cast shadow. Newly drawn HD historical illustration, not enlargement of original pixels."
+  },
+  {
+    "name": "stabig2_x4_overlay_clean_v1",
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/stabig2_x4_foreground_native.png"
+    ],
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Asset: the complete THREE pointed gothic stained-glass windows in their rectangular timber frame as one true-alpha overlay for a game wall. Native image defines window/lead geometry, colours and painted figurative motifs only. Re-illustrate faithfully with smooth continuous lead curves and freshly resolved glass painting, eliminating the original dither. Keep exactly three equal-spaced pointed arches, original blue/white/gold figure in left, green/red/white motifs in middle, red/white/green motifs in right, slender warm brown vertical dividers and horizontal outer frame. Dark painted glass/background remains OPAQUE; do not key out black areas or create holes in painted subjects. No surrounding plaster, no dado, no wall. Portrait canvas aspect3:4; rectangular complete frame touches left/right image bounds and fills height with at most1% transparent margin above/below. Artwork crop needs >=1024x1372 real source pixels. True PNG alpha only outside frame, not checkerboard, magenta or painted backdrop. Flat diffuse game illustration, fine crisp lead and painted curves, subtle glass variations with no reflective glare. No new motifs, extra windows, chunky speckles, coarse embossing, pixel blocks, sharpening halos, perspective, added text or watermark."
+  },
+  {
+    "name": "cekr4_x4_clean_v2",
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/cekr4_native.png"
+    ],
+    "transparent": false,
+    "prompt": "Use case: precise-object-edit. Asset: a seamless square medieval checkerboard stone floor albedo for a game. Native reference is an exact layout guide: retain FOUR BY FOUR equal square slabs, alternating pale warm grey limestone and dark brown stone, with the same corner colour and straight thin grid joints. Newly render fine smooth worn stone artwork; disregard the reference's raster dithering entirely. Matte gently polished stone faces, broad soft mineral variations, restrained sparse fine scratches and pores, smooth continuous edges, subtle softened slab corners. No noisy pebbles, coarse sand, brightly embossed bumps, pixel-art, crunchy stippling, glare or bevel shadows. Opposite horizontal/vertical edges match the checker pattern and stone colour naturally. Full-bleed opaque flat orthographic texture, neutral even diffuse colour without perspective, vignette, text or watermark. Maximum native square resolution."
+  },
+  {
+    "name": "stabig2_x4_overlay_clean_v2",
+    "prompt": "Use case: precise-object-edit. Correct the FRAMING and proportions of the second image while freshly resolving finer glass detail. First reference (native) is AUTHORITATIVE: its complete timber-framed panel is256 wide by343 high. Keep that exact width:height ratio, all three windows, native divider widths and pointed arches. Second reference is clean painted-glass treatment only; its panel was squeezed too narrow and must be redrawn wider to match reference1. Output portrait canvas aspect3:4. Entire rectangular panel must touch LEFT and RIGHT image edges: NO transparent side margin at all. Only a very thin transparent strip above and below is allowed; actual full frame crop must be at least1024 pixels wide and1372 pixels tall. Original native scene/colours and subjects faithfully recreated, exactly three arches, no surrounding plaster or dado. True alpha outside frame, fully opaque timber and painted glass including dark regions. Continuous freshly drawn lead curves, legible finely painted glass motifs, smooth colour with subtle fine glass variation, no grain filter, coarse stipple, sharpened dither, pixel blocks, black outline halo or perspective. Do not copy or enlarge the old raster pixels; redraw new high-definition artwork. Neutral diffuse colour, no text/watermark.",
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/stabig2_x4_foreground_native.png",
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/stabig2_x4_overlay_clean_v1.png"
+    ],
+    "transparent": true
+  },
+  {
+    "name": "stabig2_x4_overlay_clean_v3",
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/generated/stabig2_x4_overlay_clean_v2.png"
+    ],
+    "transparent": true,
+    "prompt": "Use case: precise-object-edit. Preserve the complete freshly drawn three-window stained-glass panel in the reference. Add a SMALL REAL TRANSPARENT MARGIN around the entire rectangular panel. This is a true-alpha extraction/framing edit; keep all three arches, figures, leadwork, colours, frame widths and overall width:height proportions unchanged. Output portrait aspect3:4 at maximum native resolution. The opaque panel occupies x=2%..98% and y=1%..99% of the canvas. Corners and margins must be RGBA alpha=0, not dark paint, checkerboard or almost-opaque tint. Panel interior, dark glass and frame must be fully opaque alpha255. Usable panel after transparent padding is removed must still exceed1024 pixels wide and1372 tall. Preserve fine clean newly drawn detail; no enlargement of raster grain or noise, no other backdrop, no surrounding wall/dado, no perspective or external shadow. Thin transparent margin only: do not shrink the artwork excessively and do not add a new frame."
+  }
+]

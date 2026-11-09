@@ -1,0 +1,493 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic game-model albedo texture projection source.\nEdit input 1, the unpainted orthographic guide, in place. Input 2 (design_reference.png) is ONLY the authority for materials, colour and fine surface detail; its perspective, lighting and outline must NOT replace the guide.\nReturn ONE 1024 x 1024 PNG with a genuinely transparent alpha background, at the exact guide canvas size. Preserve the guide's alpha silhouette pixel-for-pixel, its original object position, scale, margins, camera orientation, outer contour, every geometric facet boundary, every part edge and all holes. Do not move, widen, smooth, symmetrize, round off, add or remove any part. Paint only inside existing surfaces.\nSubject: the same Hesper colonial training engram. The huge faceted crystal is icy cyan and cobalt blue with subtle pale internal crystalline marbling and delicate fracture detail, visible bright light-blue facet seams; the elaborate angular cradle, curving prongs and thin trim are warm brushed gold; the low pedestal's panel surfaces are ivory-white ceramic with fine subtle wear and very fine pale hairline crazing. Existing narrow inset in the central gold crest is blue-white. Use only materials actually present in the approved reference. Continue these materials plausibly on unseen faces, maintaining the guide geometry.\nCRITICAL LIGHTING: flat shadowless evenly illuminated ALBEDO, not a beauty render. Remove the guide's grey shading and the reference's dramatic highlights. Gold is uniform warm golden base colour, with fine brushing and only a faint sheen. Ceramic is evenly light ivory; crystal is blue with fine restrained material detail. No cast shadows, no ambient occlusion, no dark crevice shading, no directionally shaded facets, no shiny white hot spots, no star glints, no specular reflections, no rim lighting, no bloom. Light-emitting regions use a solid bright blue-white colour without glow outside the silhouette.\nNo floor, background, checkerboard, text, letters, numerals, labels, logo or watermark. Do not draw new ornament or geometry. Every source part edge and the full exact guide silhouette must remain fixed. Transparent background.\nRequested view: FRONT. Paint guide_front.png exactly as seen. Keep its pointed crystal apex, tall side prongs, central gold crest and low flat-bottomed ceramic base at their exact guide positions. Output filename: paint_front.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_front.png",
+        "sha256": "8a87487a94373b61f8acb96e1750f295445e6a2dca7b5e5f3f5fe7b939d63412"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-e417021d-e817-4e0a-b854-f52f97333e49.png",
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Rejected: object contour and facet boundaries changed, directional shading and bright gold edges; returned 1254x1254 rather than 1024x1024.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Rejected candidate",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "59885a31030e04388d93022fe2a3e71541f80ab2c6401fb9c8f5719a2c857d96",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        21,
+        1228,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "visually consistent blue crystal, gold and ivory ceramic",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Paint a geometry-locked albedo texture over the LAST input image.\nINPUT 1 is design_reference.png: use ONLY its colour/material palette (blue crystal, brushed gold, white ceramic). Ignore its outline, perspective, ornament shapes, reflections and lighting.\nINPUT 2 is the 1024x1024 guide: it is the EDIT TARGET, and MUST determine the output pixel dimensions, every silhouette pixel, every geometry edge, viewpoint, position, scale and margins.\nMake a direct colour/material repaint of INPUT 2. Keep its exact alpha mask, holes, asymmetries, blocky low-poly shapes, straight boundaries and facet junctions. DO NOT redraw/reconstruct the object from the reference. The guide is intentionally angular: do NOT smooth, regularize, rearrange or embellish it. Do not add extra crystal facets from input 1; preserve only the exact crystal facet edges in the guide.\nApply icy medium-light cyan/cobalt crystal colour with fine restrained internal icy marbling to the guide's crystal. Paint its surrounding angular cradle and prongs in brushed warm gold. Paint the pedestal panels in off-white ceramic, with extremely fine subtle hairline wear; thin edge trims use gold. Existing narrow light inserts are pale cyan. Hidden faces continue the same materials.\nThe result is a diffuse ALBEDO SOURCE, like an unlit texture pass. All material areas have EVEN BASE COLOUR. Remove every grey lighting gradient and dark occlusion from the guide. Gold must be matte golden ochre with faint brushing, NOT shiny yellow-white reflections. No hot highlights, white gold edges, reflections, cast shadows, ambient-occlusion shadow under the rim, dark directional shading, bloom, halo or rim light. Crystal has subtle blue colour variations and fine internal grain, NO dramatic white wedges, glints or sparkle.\nReturn exactly one 1024 x 1024 RGBA image with real transparent background. No background/floor/checkerboard, letters, text, numbers, logo or watermark. Keep the entire exact original guide silhouette fixed, including the base and tips; no cropping or recentering. This is colour painting ONLY, never geometry redesign.\nView: FRONT. Use guide_front.png, the second image, as the fixed painting canvas. Its original crystal apex is at approximately (501,66); its full base spans x=67..956 and y=913..957. Preserve the original front crest and all irregular side-prong positions. Correct the previous tendency to invent extra crystal facets and reflective metallic lighting.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_front.png",
+        "sha256": "8a87487a94373b61f8acb96e1750f295445e6a2dca7b5e5f3f5fe7b939d63412"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-026643bb-57f1-4316-a7b2-b9f22a2975c9.png",
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected correction: closer guide proportions, fewer invented crystal facets and reduced reflections. Still not pixel-identical to guide; facet shading and small geometry deviations remain. Unresized return retained per brief.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Best available candidate within the one-correction limit; not fully compliant",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "4cf48b8eca5c7ff804b0151b5e37e1cdc5d23970abbfb95f0131a70616cd49bb",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        4,
+        1240,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "visually consistent blue crystal, gold and ivory ceramic",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Paint a geometry-locked albedo texture over the LAST input image.\nINPUT 1 is design_reference.png: use ONLY its colour/material palette (blue crystal, brushed gold, white ceramic). Ignore its outline, perspective, ornament shapes, reflections and lighting.\nINPUT 2 is the 1024x1024 guide: it is the EDIT TARGET, and MUST determine the output pixel dimensions, every silhouette pixel, every geometry edge, viewpoint, position, scale and margins.\nMake a direct colour/material repaint of INPUT 2. Keep its exact alpha mask, holes, asymmetries, blocky low-poly shapes, straight boundaries and facet junctions. DO NOT redraw/reconstruct the object from the reference. The guide is intentionally angular: do NOT smooth, regularize, rearrange or embellish it. Do not add extra crystal facets from input 1; preserve only the exact crystal facet edges in the guide.\nApply icy medium-light cyan/cobalt crystal colour with fine restrained internal icy marbling to the guide's crystal. Paint its surrounding angular cradle and prongs in brushed warm gold. Paint the pedestal panels in off-white ceramic, with extremely fine subtle hairline wear; thin edge trims use gold. Existing narrow light inserts are pale cyan. Hidden faces continue the same materials.\nThe result is a diffuse ALBEDO SOURCE, like an unlit texture pass. All material areas have EVEN BASE COLOUR. Remove every grey lighting gradient and dark occlusion from the guide. Gold must be matte golden ochre with faint brushing, NOT shiny yellow-white reflections. No hot highlights, white gold edges, reflections, cast shadows, ambient-occlusion shadow under the rim, dark directional shading, bloom, halo or rim light. Crystal has subtle blue colour variations and fine internal grain, NO dramatic white wedges, glints or sparkle.\nReturn exactly one 1024 x 1024 RGBA image with real transparent background. No background/floor/checkerboard, letters, text, numbers, logo or watermark. Keep the entire exact original guide silhouette fixed, including the base and tips; no cropping or recentering. This is colour painting ONLY, never geometry redesign.\nView: BACK. Repaint guide_back.png, the second input, at its exact orthographic rear camera. Do not output the reference's three-quarter view or the front view. In this rear view the crystal has few large simple planar faces, with apex at (523,66) and a descending edge to (557,253); preserve these exact facet borders. The middle tall crest and asymmetric side prongs remain exactly as in the rear guide. Output: paint_back.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_back.png",
+        "sha256": "d753f45ff3212ebdd8b80c118033c2482d1743b6bac2a308b923888b5be02059"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-e1cb5550-c882-47a7-881b-c2455fc61544.png",
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected over correction for the reference-consistent ceramic ring, blue crystal and gold support materials. Geometry remains approximate and some facet shading persists; not pixel-identical to guide. Raw size retained.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Best available candidate within the one-correction limit; not fully compliant",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "86ec193044573e77134d2644c2ac7b08dadea293188f5fddc323cb7d950c35c0",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        37,
+        1244,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "visually consistent blue crystal, gold and ivory ceramic",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Repaint this exact 1024x1024 orthographic guide in place as a flat ALBEDO texture source for a game model. Change only the colour and surface texture of visible pixels. Preserve its alpha silhouette, every boundary, every hole, all asymmetry, dimensions, every corner and facet junction pixel-for-pixel. The original grey low-poly sculpt geometry is FINAL; do not reshape, embellish or reconstruct it.\nMaterial design from the supplied approved Hesper engram reference: large crystal in icy cyan and medium cobalt blue, with subtle internal pale crystalline wisps and extremely fine fractures; ornate angular prongs/cradle in warm brushed gold; lower pedestal panels in ivory-white ceramic with barely visible fine hairline wear; narrow trim in warm gold; existing narrow central inset pale blue-white. Repeat only those materials and avoid new materials or ornament.\nPaint ONLY those materials onto the existing exact guide surfaces. Do not add new geometric facets, seams, bevels, holes, inlays or panel divisions. Keep the few large crystal faces and every part edge where they currently are.\nFlatten all lighting: this is an UNLIT ALBEDO PASS. Even base-colour surfaces with tiny material texture, no illumination gradient or white shine. Gold must be uniformly warm ochre-gold with very faint brushing and almost zero sheen. Ceramic must be uniform ivory. Crystal must be medium-light cyan-blue with delicate low-contrast internal grain, not shiny. Existing lights are flat pale cyan. No cast shadows, occlusion, darkened lower-facing surfaces, gold highlights, metallic reflections, specular hot spots, starbursts, bloom or rim light. Do not preserve the guide's grey shadows as painted shadows.\nOutput exactly one transparent RGBA PNG at the ORIGINAL GUIDE RESOLUTION OF 1024x1024. Preserve every original background alpha pixel and cutout, with no stray paint outside the mask. No background or floor, no text, letters, numbers, watermarks, logos or labels. Same scale, position, camera and silhouette; no crop, zoom or recenter.\nBACK VIEW correction. Exactly colour this rear-view guide, preserving its crystal apex at (523,66), descending seam to (557,253), large broad crystal faces, the left sweeping prong and right blocky prong with its small hole, central tall crest, and exact flat base. Do NOT paint a new cyan inlay into the lower stem or add extra crystal facets. No shiny edge highlighting. Output paint_back.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_back.png",
+        "sha256": "d753f45ff3212ebdd8b80c118033c2482d1743b6bac2a308b923888b5be02059"
+      }
+    ],
+    "reference_authority": {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+      "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+    },
+    "reference_application": "Material design described from visually inspected reference; only guide passed to corrective call to prioritize geometry.",
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-aaffbdcd-e00f-4d8d-98ff-f5a9fed6331e.png",
+    "output": "paint_back_attempt2.png",
+    "selected": false,
+    "reason": "Correction did not achieve exact geometry or requested size and changed the ceramic band to gold; retained as rejected raw return.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Rejected candidate",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "6fc86768e47f383d81c0789e9ea41a8d8d8ef3a3421e1800b2701d686c4a295a",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        22,
+        1248,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "partial: ceramic band was painted gold; rejected",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Paint a geometry-locked albedo texture over the LAST input image.\nINPUT 1 is design_reference.png: use ONLY its colour/material palette (blue crystal, brushed gold, white ceramic). Ignore its outline, perspective, ornament shapes, reflections and lighting.\nINPUT 2 is the 1024x1024 guide: it is the EDIT TARGET, and MUST determine the output pixel dimensions, every silhouette pixel, every geometry edge, viewpoint, position, scale and margins.\nMake a direct colour/material repaint of INPUT 2. Keep its exact alpha mask, holes, asymmetries, blocky low-poly shapes, straight boundaries and facet junctions. DO NOT redraw/reconstruct the object from the reference. The guide is intentionally angular: do NOT smooth, regularize, rearrange or embellish it. Do not add extra crystal facets from input 1; preserve only the exact crystal facet edges in the guide.\nApply icy medium-light cyan/cobalt crystal colour with fine restrained internal icy marbling to the guide's crystal. Paint its surrounding angular cradle and prongs in brushed warm gold. Paint the pedestal panels in off-white ceramic, with extremely fine subtle hairline wear; thin edge trims use gold. Existing narrow light inserts are pale cyan. Hidden faces continue the same materials.\nThe result is a diffuse ALBEDO SOURCE, like an unlit texture pass. All material areas have EVEN BASE COLOUR. Remove every grey lighting gradient and dark occlusion from the guide. Gold must be matte golden ochre with faint brushing, NOT shiny yellow-white reflections. No hot highlights, white gold edges, reflections, cast shadows, ambient-occlusion shadow under the rim, dark directional shading, bloom, halo or rim light. Crystal has subtle blue colour variations and fine internal grain, NO dramatic white wedges, glints or sparkle.\nReturn exactly one 1024 x 1024 RGBA image with real transparent background. No background/floor/checkerboard, letters, text, numbers, logo or watermark. Keep the entire exact original guide silhouette fixed, including the base and tips; no cropping or recentering. This is colour painting ONLY, never geometry redesign.\nView: LEFT SIDE, exactly the second input guide_left.png. Do not produce a front view. Preserve the narrow side-on crystal, left and right receding gold prongs, pointed arch of the side cradle with its large broad panel, exact ceramic foot and all dark alpha holes. The broad side panel is ivory ceramic inset with gold border as a plausible continuation of the reference's ceramic band. Preserve the side-facing structures rather than inventing a front-facing crest. Crystal apex is (517,66); the foot remains at y=958. Output paint_left.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_left.png",
+        "sha256": "2b528623fdcadf2a4be64d04a43e382063ccdbf22212d8de973fa163df7fa7d2"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-ff0b5031-770e-4dab-b861-745f8b3a2518.png",
+    "output": "paint_left_attempt1.png",
+    "selected": false,
+    "reason": "Rejected: new cyan foot inserts, extra crystal facet boundaries and reflective gold edges were invented; silhouette not exact.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Rejected candidate",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "5a8b5ba79bedd3e7285b7c9845776ea63ddc8c569e389b6c95ee5c868c6b8567",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        15,
+        1234,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "visually consistent blue crystal, gold and ivory ceramic",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Paint a geometry-locked albedo texture over the LAST input image.\nINPUT 1 is design_reference.png: use ONLY its colour/material palette (blue crystal, brushed gold, white ceramic). Ignore its outline, perspective, ornament shapes, reflections and lighting.\nINPUT 2 is the 1024x1024 guide: it is the EDIT TARGET, and MUST determine the output pixel dimensions, every silhouette pixel, every geometry edge, viewpoint, position, scale and margins.\nMake a direct colour/material repaint of INPUT 2. Keep its exact alpha mask, holes, asymmetries, blocky low-poly shapes, straight boundaries and facet junctions. DO NOT redraw/reconstruct the object from the reference. The guide is intentionally angular: do NOT smooth, regularize, rearrange or embellish it. Do not add extra crystal facets from input 1; preserve only the exact crystal facet edges in the guide.\nApply icy medium-light cyan/cobalt crystal colour with fine restrained internal icy marbling to the guide's crystal. Paint its surrounding angular cradle and prongs in brushed warm gold. Paint the pedestal panels in off-white ceramic, with extremely fine subtle hairline wear; thin edge trims use gold. Existing narrow light inserts are pale cyan. Hidden faces continue the same materials.\nThe result is a diffuse ALBEDO SOURCE, like an unlit texture pass. All material areas have EVEN BASE COLOUR. Remove every grey lighting gradient and dark occlusion from the guide. Gold must be matte golden ochre with faint brushing, NOT shiny yellow-white reflections. No hot highlights, white gold edges, reflections, cast shadows, ambient-occlusion shadow under the rim, dark directional shading, bloom, halo or rim light. Crystal has subtle blue colour variations and fine internal grain, NO dramatic white wedges, glints or sparkle.\nReturn exactly one 1024 x 1024 RGBA image with real transparent background. No background/floor/checkerboard, letters, text, numbers, logo or watermark. Keep the entire exact original guide silhouette fixed, including the base and tips; no cropping or recentering. This is colour painting ONLY, never geometry redesign.\nLEFT SIDE corrective repaint: input 2 is the exact LEFT SIDE geometry. Correct only the colour paint while keeping EVERY part's edge in the source guide. There are NO BLUE LIGHT INSERTS IN THE FEET: do not add them. There are no new crystals or inset gems in the lower structure. Keep just the guide's original FEW LARGE crystal faces with extremely subtle low-contrast internal icy detail. The broad pointed side panel is ivory ceramic with gold border; lower ceramic panels and gold supports are plain and unembellished. All tiny chips, angular irregularities, holes and gaps in the guide must stay. Reduce gold surface contrast: flat warm ochre-gold, no illuminated bevels or dark occlusion. Match the guide's 1024x1024 canvas, apex (517,66), base y=958. Save as paint_left.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_left.png",
+        "sha256": "2b528623fdcadf2a4be64d04a43e382063ccdbf22212d8de973fa163df7fa7d2"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-3838b392-4797-4a4e-ad62-77fbed22dd82.png",
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected correction removes invented blue foot inserts and reduces reflections. Reference materials remain consistent; silhouette and some internal geometry still approximate, with facet shading. Raw unresized return retained.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Best available candidate within the one-correction limit; not fully compliant",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "f00a823d326b47d162b7e89bb0f00c141734511f0a81e72e01b758b6c33e92ca",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        23,
+        1251,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "visually consistent blue crystal, gold and ivory ceramic",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Paint a geometry-locked albedo texture over the LAST input image.\nINPUT 1 is design_reference.png: use ONLY its colour/material palette (blue crystal, brushed gold, white ceramic). Ignore its outline, perspective, ornament shapes, reflections and lighting.\nINPUT 2 is the 1024x1024 guide: it is the EDIT TARGET, and MUST determine the output pixel dimensions, every silhouette pixel, every geometry edge, viewpoint, position, scale and margins.\nMake a direct colour/material repaint of INPUT 2. Keep its exact alpha mask, holes, asymmetries, blocky low-poly shapes, straight boundaries and facet junctions. DO NOT redraw/reconstruct the object from the reference. The guide is intentionally angular: do NOT smooth, regularize, rearrange or embellish it. Do not add extra crystal facets from input 1; preserve only the exact crystal facet edges in the guide.\nApply icy medium-light cyan/cobalt crystal colour with fine restrained internal icy marbling to the guide's crystal. Paint its surrounding angular cradle and prongs in brushed warm gold. Paint the pedestal panels in off-white ceramic, with extremely fine subtle hairline wear; thin edge trims use gold. Existing narrow light inserts are pale cyan. Hidden faces continue the same materials.\nThe result is a diffuse ALBEDO SOURCE, like an unlit texture pass. All material areas have EVEN BASE COLOUR. Remove every grey lighting gradient and dark occlusion from the guide. Gold must be matte golden ochre with faint brushing, NOT shiny yellow-white reflections. No hot highlights, white gold edges, reflections, cast shadows, ambient-occlusion shadow under the rim, dark directional shading, bloom, halo or rim light. Crystal has subtle blue colour variations and fine internal grain, NO dramatic white wedges, glints or sparkle.\nReturn exactly one 1024 x 1024 RGBA image with real transparent background. No background/floor/checkerboard, letters, text, numbers, logo or watermark. Keep the entire exact original guide silhouette fixed, including the base and tips; no cropping or recentering. This is colour painting ONLY, never geometry redesign.\nView: RIGHT SIDE. Paint only the second input, guide_right.png. It differs from the left view: one tall slender gold prong is viewed edge-on directly before the crystal, above the broad pointed side panel. Keep every exact occlusion and the original few large crystal facets; no added facet divisions, bevels or cyan light inserts. The broad side panel and lower foot panels are ivory-white ceramic with warm gold edging. Existing geometry has a small irregular raised angular relief on the lower base: retain its exact shape and position as subtle ceramic detail, without turning it into text or a symbol. All lower feet remain ceramic and gold without blue inserts. Keep apex (508,66), bounds x=69..954, base y=958. Output paint_right.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_right.png",
+        "sha256": "5380d019f3be19462a56a23265436090f1e79cdbb52eeaaa37c61a6502b5b425"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-e3803e96-75cb-4028-b257-85f719fb251c.png",
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected over correction because it does not invent blue lights in the lower base. Retains main guide-specific prong and lower relief with recognizable reference materials; exact silhouette and completely unlit albedo were not achieved.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Best available candidate within the one-correction limit; not fully compliant",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "fcde32018970bde4563d501b94b6fc17a68f5aeb0a338b6051ddd292403df04d",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        29,
+        1253,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "visually consistent blue crystal, gold and ivory ceramic",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Paint a geometry-locked albedo texture over the LAST input image.\nINPUT 1 is design_reference.png: use ONLY its colour/material palette (blue crystal, brushed gold, white ceramic). Ignore its outline, perspective, ornament shapes, reflections and lighting.\nINPUT 2 is the 1024x1024 guide: it is the EDIT TARGET, and MUST determine the output pixel dimensions, every silhouette pixel, every geometry edge, viewpoint, position, scale and margins.\nMake a direct colour/material repaint of INPUT 2. Keep its exact alpha mask, holes, asymmetries, blocky low-poly shapes, straight boundaries and facet junctions. DO NOT redraw/reconstruct the object from the reference. The guide is intentionally angular: do NOT smooth, regularize, rearrange or embellish it. Do not add extra crystal facets from input 1; preserve only the exact crystal facet edges in the guide.\nApply icy medium-light cyan/cobalt crystal colour with fine restrained internal icy marbling to the guide's crystal. Paint its surrounding angular cradle and prongs in brushed warm gold. Paint the pedestal panels in off-white ceramic, with extremely fine subtle hairline wear; thin edge trims use gold. Existing narrow light inserts are pale cyan. Hidden faces continue the same materials.\nThe result is a diffuse ALBEDO SOURCE, like an unlit texture pass. All material areas have EVEN BASE COLOUR. Remove every grey lighting gradient and dark occlusion from the guide. Gold must be matte golden ochre with faint brushing, NOT shiny yellow-white reflections. No hot highlights, white gold edges, reflections, cast shadows, ambient-occlusion shadow under the rim, dark directional shading, bloom, halo or rim light. Crystal has subtle blue colour variations and fine internal grain, NO dramatic white wedges, glints or sparkle.\nReturn exactly one 1024 x 1024 RGBA image with real transparent background. No background/floor/checkerboard, letters, text, numbers, logo or watermark. Keep the entire exact original guide silhouette fixed, including the base and tips; no cropping or recentering. This is colour painting ONLY, never geometry redesign.\nRIGHT SIDE correction, paint input 2 exactly. Top priority: genuinely shadowless albedo colour, WITHOUT dark underneath facets, under-rim occlusion, gold highlights or bevel highlights. Gold should be flat ochre-gold on ALL faces with only fine brushed grain; off-white ceramic should be uniformly pale. Keep the guide's broad middle ceramic plate a single continuous panel: do NOT add vertical gold strips, border seams or extra divisions inside it. Retain the existing angular relief on the lower base in ceramic and all original geometry only. The tall central prong is side-on exactly as the guide, crystal has only its original large faces, all holes and exact exterior bounds remain unchanged. Output 1024x1024, paint_right.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_right.png",
+        "sha256": "5380d019f3be19462a56a23265436090f1e79cdbb52eeaaa37c61a6502b5b425"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-67928ee2-43df-4ac6-88af-11338b292a42.png",
+    "output": "paint_right_attempt2.png",
+    "selected": false,
+    "reason": "Correction removed extra ceramic panel strips but added unsupported cyan lights to lower base; shading and geometry deviations persist.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Rejected candidate",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "4a01f890131b3d77e6e6b238e5680e49a27c732980dfaa0801652b5b49ef6f3f",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        21,
+        1254,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "visually consistent blue crystal, gold and ivory ceramic",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Paint a geometry-locked albedo texture over the LAST input image.\nINPUT 1 is design_reference.png: use ONLY its colour/material palette (blue crystal, brushed gold, white ceramic). Ignore its outline, perspective, ornament shapes, reflections and lighting.\nINPUT 2 is the 1024x1024 guide: it is the EDIT TARGET, and MUST determine the output pixel dimensions, every silhouette pixel, every geometry edge, viewpoint, position, scale and margins.\nMake a direct colour/material repaint of INPUT 2. Keep its exact alpha mask, holes, asymmetries, blocky low-poly shapes, straight boundaries and facet junctions. DO NOT redraw/reconstruct the object from the reference. The guide is intentionally angular: do NOT smooth, regularize, rearrange or embellish it. Do not add extra crystal facets from input 1; preserve only the exact crystal facet edges in the guide.\nApply icy medium-light cyan/cobalt crystal colour with fine restrained internal icy marbling to the guide's crystal. Paint its surrounding angular cradle and prongs in brushed warm gold. Paint the pedestal panels in off-white ceramic, with extremely fine subtle hairline wear; thin edge trims use gold. Existing narrow light inserts are pale cyan. Hidden faces continue the same materials.\nThe result is a diffuse ALBEDO SOURCE, like an unlit texture pass. All material areas have EVEN BASE COLOUR. Remove every grey lighting gradient and dark occlusion from the guide. Gold must be matte golden ochre with faint brushing, NOT shiny yellow-white reflections. No hot highlights, white gold edges, reflections, cast shadows, ambient-occlusion shadow under the rim, dark directional shading, bloom, halo or rim light. Crystal has subtle blue colour variations and fine internal grain, NO dramatic white wedges, glints or sparkle.\nReturn exactly one 1024 x 1024 RGBA image with real transparent background. No background/floor/checkerboard, letters, text, numbers, logo or watermark. Keep the entire exact original guide silhouette fixed, including the base and tips; no cropping or recentering. This is colour painting ONLY, never geometry redesign.\nView: TOP, straight vertically downward orthographic view, exactly input 2 guide_top.png. Do not show an upright object, front elevation or three-quarter product angle. The visible large crystal facets meet near image centre at (500,516), enclosed by an irregular elliptical overhead silhouette; front/back pedestal projections lie at image top and bottom, prongs cross in from the sides. Preserve ALL of the exact guide's projected geometry and overlapping edges. The crystal is cool cyan/cobalt; the surrounding prongs and cradle are matte warm brushed gold; the outer exposed ceramic base projections are ivory with fine wear and narrow gold trim. Only guide-defined facets and seams; add no blue inlays, extra lights or invented ornament. This is a flat albedo paintover of guide_top.png at 1024x1024 on transparent alpha. Output paint_top.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_top.png",
+        "sha256": "9089717f650495cb3c18ce3b72a84e578348d71f899b02169fb17cbf223402a5"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-4b556502-2877-4105-b7bf-967d3eda922e.png",
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected over correction because the original retains ivory ceramic on both pedestal projections. Correct overhead orientation and reference palette, but some outlines/internal edges drift and gold facet shading remains; not a fully compliant albedo source.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Best available candidate within the one-correction limit; not fully compliant",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "b3434215c592281b4999e26e97f5de914f4cfe21c2cf4591b79635727cee2278",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1200,
+        1254
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "visually consistent blue crystal, gold and ivory ceramic",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Paint a geometry-locked albedo texture over the LAST input image.\nINPUT 1 is design_reference.png: use ONLY its colour/material palette (blue crystal, brushed gold, white ceramic). Ignore its outline, perspective, ornament shapes, reflections and lighting.\nINPUT 2 is the 1024x1024 guide: it is the EDIT TARGET, and MUST determine the output pixel dimensions, every silhouette pixel, every geometry edge, viewpoint, position, scale and margins.\nMake a direct colour/material repaint of INPUT 2. Keep its exact alpha mask, holes, asymmetries, blocky low-poly shapes, straight boundaries and facet junctions. DO NOT redraw/reconstruct the object from the reference. The guide is intentionally angular: do NOT smooth, regularize, rearrange or embellish it. Do not add extra crystal facets from input 1; preserve only the exact crystal facet edges in the guide.\nApply icy medium-light cyan/cobalt crystal colour with fine restrained internal icy marbling to the guide's crystal. Paint its surrounding angular cradle and prongs in brushed warm gold. Paint the pedestal panels in off-white ceramic, with extremely fine subtle hairline wear; thin edge trims use gold. Existing narrow light inserts are pale cyan. Hidden faces continue the same materials.\nThe result is a diffuse ALBEDO SOURCE, like an unlit texture pass. All material areas have EVEN BASE COLOUR. Remove every grey lighting gradient and dark occlusion from the guide. Gold must be matte golden ochre with faint brushing, NOT shiny yellow-white reflections. No hot highlights, white gold edges, reflections, cast shadows, ambient-occlusion shadow under the rim, dark directional shading, bloom, halo or rim light. Crystal has subtle blue colour variations and fine internal grain, NO dramatic white wedges, glints or sparkle.\nReturn exactly one 1024 x 1024 RGBA image with real transparent background. No background/floor/checkerboard, letters, text, numbers, logo or watermark. Keep the entire exact original guide silhouette fixed, including the base and tips; no cropping or recentering. This is colour painting ONLY, never geometry redesign.\nTOP VIEW corrective paintover. Maintain EXACT guide_top.png bird's-eye projection with the broad crystal facets meeting at (500,516), irregular peripheral prongs, top/bottom tabs and every cutout. Do not regularize or symmetrize the outline. Every gold face must have the SAME mid-light ochre-gold base colour, without bright tops/dark sides, shiny bevels or occlusion. Every exposed ceramic face is uniformly ivory, no dark side shading. Crystal is evenly blue/cyan with faint internal grain and only the source guide's large facet boundaries. Keep material detail fine and restrained; remove invented white reflections or new facet divisions. Do not add extra gold seams/ceramic panel subdivisions. No light inserts or cyan accents on gold. Output a pure unlit material colour pass with the exact 1024x1024 original guide alpha and canvas, paint_top.png.",
+    "inputs": [
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/design_reference.png",
+        "sha256": "e26574d99edb0ef1b8e51e0e7f6f1928ae246766a26d5426f5d6226553c0d0a0"
+      },
+      {
+        "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_engram/guide_top.png",
+        "sha256": "9089717f650495cb3c18ce3b72a84e578348d71f899b02169fb17cbf223402a5"
+      }
+    ],
+    "source": "/home/pjasicek/.codex/generated_images/01a16e8f-ae6c-7961-ae82-777b04201513/exec-c3b605df-55d5-47b9-92c8-3aaf643247a8.png",
+    "output": "paint_top_attempt2.png",
+    "selected": false,
+    "reason": "Correction introduced blue crystal panels in the upper pedestal projection and did not remove directional shading; original chosen.",
+    "tool": "image_gen__imagegen (built-in)",
+    "brief_checks_passed": false,
+    "selection_status": "Rejected candidate",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "sha256": "e139c2fcd6bb6fe976322cfc2a83d4604c3698063a5e53eaeb8a55a6752438a7",
+    "unresized": true,
+    "checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size_matches_guide": false,
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        19,
+        1230,
+        1188
+      ],
+      "silhouette_identical": false,
+      "no_text_or_letters": "visually checked",
+      "flat_even_light": "partial: some facet shading remains",
+      "materials_match_reference": "partial: upper pedestal ceramic was painted blue crystal; rejected",
+      "exact_geometry": "failed: outline and internal boundaries differ from the guide",
+      "edge_quality": "raw generated alpha retained; edge fringes and stray pixels remain"
+    }
+  }
+]

@@ -1,0 +1,188 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "generated_but_not_brief_compliant",
+  "postprocessing": "None. Byte-for-byte copies of native tool returns; no resizing or alpha editing.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce one 1024 x 1024 RGBA transparent PNG texture-source painting.\nImage 1 (guide_front.png) is the EDIT TARGET and absolute geometric authority. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY; do not adopt its camera, composition, shapes, proportions, lighting or added details.\nPaint directly on Image 1, preserving its exact alpha silhouette and every geometry boundary at its original pixel position. Keep the identical orthographic front camera, framing, scale, outline, openings, occlusions and all existing shape edges. Preserve the guide's low-poly outline instead of rounding it. Do not move, enlarge, shrink or redesign any part. Output exactly 1024x1024 with object in the same pixels as Image 1. Outside its alpha silhouette must remain fully transparent; no backdrop, floor or extra objects.\nApply the approved reference's materials: pale ivory/cream fibrous fungus flesh with subtle organic golden mottling and fine sparse lavender veins; soft violet cap rims; fine radial violet/lavender gills on visible undersides; existing small bulbs blue-white in their native guide positions; planter dark slate grey-green composite with subtle worn grain and ochre horizontal band, dark soil only where visible in the guide. Do not add bulbs, hardware or features missing from the guide. Front orthographic view: preserve all three bell caps, exposed gill undersides, curving stems, small bulbs and the straight-on planter. The planter top is barely visible in this low front view; do not reveal soil by changing the camera.\nLIGHTING: flat ALBEDO texture source, even shadowless viewer-facing illumination. No cast shadows, no ambient occlusion, no directional shading or darkening under caps or between parts, no specular highlights/reflections, no rim light. Describe gills through material colour and fine lines, not deep baked shadows. Paint bulbs blue-white without bloom, halos or light spill onto surroundings. Preserve material detail and colour, not the dramatic lighting of the reference. No text, labels, watermarks or grid. One image only.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "117df4c6f5fd4085b4df0b84a486da3ecfdfcadb5b25be9e811364f69b4980c2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1606e-fbfc-7ee3-a0ac-6122f1dd7dca/exec-728fa3d8-aa41-442b-a281-ea8fdff90503.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected first return: closer to the guide's visible bulb count; corrective attempt added extra bulbs. Neither attempt satisfies exact silhouette or native size.",
+      "output_sha256": "9c3f8cddb926c1d9398e822b1a5be56ea1bdc96a011c079b2cef7afdb2f4b984",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_pixels_present": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1251,
+          1228
+        ],
+        "guide_alpha_bbox": [
+          201,
+          66,
+          823,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches ivory/cream flesh, violet rims/gills, slate grey-green planter and ochre band; top includes dark soil.",
+        "flat_even_light": "Not fully compliant: residual form shading and gill/soil darkening remain.",
+        "background": "Alpha transparency present, but stray edge/background alpha prevents exact guide silhouette."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION, final permitted attempt. The prior result failed because it returned 1254x1254 rather than 1024x1024, rounded/shifted the silhouette, left stray alpha outside the object, and retained too much shading. Return a native 1024 x 1024 image this time. EDIT THE FIRST INPUT IN PLACE: retain its exact alpha channel, polygon edges, all internal shapes and pixel coordinates, simply change the grey surface colours to the reference materials. No reframing. Nontransparent pixels must be restricted to the exact guide outline within x=201..822 and y=66..957; retain the angular bell rims, stems, bulbs and planter braces precisely. Alpha zero everywhere outside the original guide. No scattered pixels, white edge fringe, halo or backdrop. Keep all material regions flat in brightness: remove sculptural shading and occlusion shadows. This is albedo paint on an existing exact model guide, not a fresh product render.\n\nUse case: precise-object-edit. Produce one 1024 x 1024 RGBA transparent PNG texture-source painting.\nImage 1 (guide_front.png) is the EDIT TARGET and absolute geometric authority. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY; do not adopt its camera, composition, shapes, proportions, lighting or added details.\nPaint directly on Image 1, preserving its exact alpha silhouette and every geometry boundary at its original pixel position. Keep the identical orthographic front camera, framing, scale, outline, openings, occlusions and all existing shape edges. Preserve the guide's low-poly outline instead of rounding it. Do not move, enlarge, shrink or redesign any part. Output exactly 1024x1024 with object in the same pixels as Image 1. Outside its alpha silhouette must remain fully transparent; no backdrop, floor or extra objects.\nApply the approved reference's materials: pale ivory/cream fibrous fungus flesh with subtle organic golden mottling and fine sparse lavender veins; soft violet cap rims; fine radial violet/lavender gills on visible undersides; existing small bulbs blue-white in their native guide positions; planter dark slate grey-green composite with subtle worn grain and ochre horizontal band, dark soil only where visible in the guide. Do not add bulbs, hardware or features missing from the guide. Front orthographic view: preserve all three bell caps, exposed gill undersides, curving stems, small bulbs and the straight-on planter. The planter top is barely visible in this low front view; do not reveal soil by changing the camera.\nLIGHTING: flat ALBEDO texture source, even shadowless viewer-facing illumination. No cast shadows, no ambient occlusion, no directional shading or darkening under caps or between parts, no specular highlights/reflections, no rim light. Describe gills through material colour and fine lines, not deep baked shadows. Paint bulbs blue-white without bloom, halos or light spill onto surroundings. Preserve material detail and colour, not the dramatic lighting of the reference. No text, labels, watermarks or grid. One image only.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "117df4c6f5fd4085b4df0b84a486da3ecfdfcadb5b25be9e811364f69b4980c2"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1606e-fbfc-7ee3-a0ac-6122f1dd7dca/exec-250e21a4-6012-4a6d-a865-6a0e16c29503.png",
+      "output": "paint_front_attempt_2.png",
+      "selected": false,
+      "reason": "Not selected: added bulbs absent from the guide and did not solve native size or silhouette drift.",
+      "output_sha256": "1dec1db181820600a13528dfa96a9fc96a234a0f7eb9c0f2fb59415b864ec65b",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_pixels_present": true,
+        "alpha_bbox": [
+          41,
+          76,
+          1234,
+          1180
+        ],
+        "guide_alpha_bbox": [
+          201,
+          66,
+          823,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches ivory/cream flesh, violet rims/gills, slate grey-green planter and ochre band; top includes dark soil.",
+        "flat_even_light": "Not fully compliant: residual form shading and gill/soil darkening remain.",
+        "background": "Alpha transparency present, but stray edge/background alpha prevents exact guide silhouette."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Produce one 1024 x 1024 RGBA transparent PNG texture-source painting.\nImage 1 (guide_top.png) is the EDIT TARGET and absolute geometric authority. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY; do not adopt its camera, composition, shapes, proportions, lighting or added details.\nPaint directly on Image 1, preserving its exact alpha silhouette and every geometry boundary at its original pixel position. Keep the identical orthographic top camera, framing, scale, outline, openings, occlusions and all existing shape edges. Preserve the guide's low-poly outline instead of rounding it. Do not move, enlarge, shrink or redesign any part. Output exactly 1024x1024 with object in the same pixels as Image 1. Outside its alpha silhouette must remain fully transparent; no backdrop, floor or extra objects.\nApply the approved reference's materials: pale ivory/cream fibrous fungus flesh with subtle organic golden mottling and fine sparse lavender veins; soft violet cap rims; fine radial violet/lavender gills on visible undersides; existing small bulbs blue-white in their native guide positions; planter dark slate grey-green composite with subtle worn grain and ochre horizontal band, dark soil only where visible in the guide. Do not add bulbs, hardware or features missing from the guide. Top orthographic view: preserve all three overlapping cap silhouettes and their exact relative positions, the circular planter rim, its existing braces and the visible soil regions. Cap tops are mostly pale ivory with soft violet margins and fine sparse lavender veins. No invented stems or gill undersides on the visible cap tops.\nLIGHTING: flat ALBEDO texture source, even shadowless viewer-facing illumination. No cast shadows, no ambient occlusion, no directional shading or darkening under caps or between parts, no specular highlights/reflections, no rim light. Describe gills through material colour and fine lines, not deep baked shadows. Paint bulbs blue-white without bloom, halos or light spill onto surroundings. Preserve material detail and colour, not the dramatic lighting of the reference. No text, labels, watermarks or grid. One image only.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "255661fc5ef66e4b6adbd8874db3960bc81386696ae1bf6352e9dedf21022967"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1606e-fbfc-7ee3-a0ac-6122f1dd7dca/exec-84ce0e53-cf29-4ec5-afc1-aefc55b212bb.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected: invented bulbs and more pronounced cap shading; silhouette and native size failed.",
+      "output_sha256": "0df7104bcc3a4fafb80f4fb1b19ffd3e45f03fd61fb7ebb04b6c22c023378e82",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_pixels_present": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1242,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          201,
+          238,
+          823,
+          786
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches ivory/cream flesh, violet rims/gills, slate grey-green planter and ochre band; top includes dark soil.",
+        "flat_even_light": "Not fully compliant: residual form shading and gill/soil darkening remain.",
+        "background": "Alpha transparency present, but stray edge/background alpha prevents exact guide silhouette."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION, final permitted attempt. The prior result failed because it returned 1254x1254 rather than 1024x1024, rounded/shifted the silhouette, left stray alpha outside the object, and retained too much shading. Return a native 1024 x 1024 image this time. EDIT THE FIRST INPUT IN PLACE: retain its exact alpha channel, polygon edges, all internal shapes and pixel coordinates, simply change the grey surface colours to the reference materials. No reframing. Nontransparent pixels must be restricted to the exact guide outline within x=201..822 and y=238..785; retain the angular cap rims and planter outline precisely. Do not add bulbs or visible soil objects absent in the guide. Alpha zero everywhere outside the original guide. No scattered pixels, white edge fringe, halo or backdrop. Keep all material regions flat in brightness: remove sculptural shading and occlusion shadows. This is albedo paint on an existing exact model guide, not a fresh product render.\n\nUse case: precise-object-edit. Produce one 1024 x 1024 RGBA transparent PNG texture-source painting.\nImage 1 (guide_top.png) is the EDIT TARGET and absolute geometric authority. Image 2 (design_reference.png) is MATERIAL AND COLOUR REFERENCE ONLY; do not adopt its camera, composition, shapes, proportions, lighting or added details.\nPaint directly on Image 1, preserving its exact alpha silhouette and every geometry boundary at its original pixel position. Keep the identical orthographic top camera, framing, scale, outline, openings, occlusions and all existing shape edges. Preserve the guide's low-poly outline instead of rounding it. Do not move, enlarge, shrink or redesign any part. Output exactly 1024x1024 with object in the same pixels as Image 1. Outside its alpha silhouette must remain fully transparent; no backdrop, floor or extra objects.\nApply the approved reference's materials: pale ivory/cream fibrous fungus flesh with subtle organic golden mottling and fine sparse lavender veins; soft violet cap rims; fine radial violet/lavender gills on visible undersides; existing small bulbs blue-white in their native guide positions; planter dark slate grey-green composite with subtle worn grain and ochre horizontal band, dark soil only where visible in the guide. Do not add bulbs, hardware or features missing from the guide. Top orthographic view: preserve all three overlapping cap silhouettes and their exact relative positions, the circular planter rim, its existing braces and the visible soil regions. Cap tops are mostly pale ivory with soft violet margins and fine sparse lavender veins. No invented stems or gill undersides on the visible cap tops.\nLIGHTING: flat ALBEDO texture source, even shadowless viewer-facing illumination. No cast shadows, no ambient occlusion, no directional shading or darkening under caps or between parts, no specular highlights/reflections, no rim light. Describe gills through material colour and fine lines, not deep baked shadows. Paint bulbs blue-white without bloom, halos or light spill onto surroundings. Preserve material detail and colour, not the dramatic lighting of the reference. No text, labels, watermarks or grid. One image only.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "255661fc5ef66e4b6adbd8874db3960bc81386696ae1bf6352e9dedf21022967"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "a5df23656d47786d633831188ad7baec560ef71a94ac8b0273bdfa76aed89eda"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a1606e-fbfc-7ee3-a0ac-6122f1dd7dca/exec-81a9ba42-79ef-493b-8702-a48d86d0be7b.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction: flatter cap illumination and removes invented visible bulbs from the first return. Exact silhouette/native size still require validation.",
+      "output_sha256": "1198a93bfa71f3c294f0d71c23eb0313009817d8c161b1805fbc4a7f2a24ac7a",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_pixels_present": true,
+        "alpha_bbox": [
+          0,
+          28,
+          1192,
+          1230
+        ],
+        "guide_alpha_bbox": [
+          201,
+          238,
+          823,
+          786
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Visually matches ivory/cream flesh, violet rims/gills, slate grey-green planter and ochre band; top includes dark soil.",
+        "flat_even_light": "Not fully compliant: residual form shading and gill/soil darkening remain.",
+        "background": "Alpha transparency present, but stray edge/background alpha prevents exact guide silhouette."
+      }
+    }
+  ]
+}

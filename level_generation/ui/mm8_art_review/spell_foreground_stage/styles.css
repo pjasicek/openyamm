@@ -1,0 +1,52 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; background: #171b22; color: #eef1f5; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+header { padding: 24px clamp(16px, 3vw, 48px); background: #222936; border-bottom: 1px solid #465268; }
+h1 { margin: 0 0 8px; font-size: clamp(26px, 3vw, 38px); }
+.eyebrow { margin: 0 0 5px; color: #a1b5d9; text-transform: uppercase; letter-spacing: .12em; font-size: 12px; }
+header p { max-width: 900px; line-height: 1.5; color: #c9d2df; }
+.tools { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 14px; margin: 20px 0 12px; }
+.tools label { display: flex; flex-direction: column; gap: 5px; font-size: 12px; color: #cbd5e2; }
+input, select, textarea, button { font: inherit; color: #f2f5fa; background: #303b4e; border: 1px solid #63748d; border-radius: 5px; }
+input, select, button { min-height: 37px; padding: 6px 10px; }
+button { cursor: pointer; }
+button:hover { background: #405372; }
+input[type=search] { width: 165px; }
+.import-button { position: relative; padding: 9px 11px; background: #303b4e; border: 1px solid #63748d; border-radius: 5px; cursor: pointer; }
+.import-button input { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
+#summary { font-size: 13px; color: #d6e0ee; }
+main { padding: 20px clamp(12px, 2vw, 30px); }
+.pair { margin: 0 auto 20px; max-width: 1800px; background: #232b38; border: 1px solid #55647b; border-radius: 10px; overflow: hidden; }
+.pair-head { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #2d3849; }
+.pair-head h2 { font-size: 18px; margin: 0; }
+.badge { color: #d3e1ef; border: 1px solid #657b96; border-radius: 20px; padding: 3px 8px; font-size: 11px; }
+.state { padding: 14px 16px 18px; border-top: 1px solid #455367; }
+.state-head { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-bottom: 10px; }
+.state-head h3 { font-size: 15px; margin: 0; min-width: 82px; }
+.state-head small { color: #a9bad0; }
+.panes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.pane { min-width: 0; background: #1a202a; border: 1px solid #536177; border-radius: 6px; overflow: hidden; }
+.pane-title { padding: 7px 9px; font-size: 12px; color: #cedbf0; border-bottom: 1px solid #536177; }
+.canvas { min-height: 190px; max-height: 600px; overflow: auto; padding: 8px; }
+.canvas img { display: block; max-width: none; height: auto; cursor: zoom-in; image-rendering: auto; }
+.fit .canvas img { max-width: 100%; }
+body[data-backdrop=dark] .canvas, body[data-backdrop=dark] #large-content { background: #25282c; }
+body[data-backdrop=light] .canvas, body[data-backdrop=light] #large-content { background: #f0ede7; }
+body[data-backdrop=checker] .canvas, body[data-backdrop=checker] #large-content { background-color: #ddd; background-image: linear-gradient(45deg,#aaa 25%,transparent 25%),linear-gradient(-45deg,#aaa 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#aaa 75%),linear-gradient(-45deg,transparent 75%,#aaa 75%); background-position: 0 0,0 11px,11px -11px,-11px 0; background-size: 22px 22px; }
+.review { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+.review button { min-height: 30px; font-size: 12px; padding: 5px 9px; }
+.review button.selected { background: #246b50; border-color: #54c99c; }
+.review button.flag.selected { background: #8a4640; border-color: #e7a29a; }
+.review label { font-size: 12px; color: #cbd5e2; white-space: nowrap; }
+.review input { min-height: unset; margin-right: 4px; }
+.note { width: min(100%, 750px); min-height: 45px; padding: 7px; margin-top: 8px; resize: vertical; }
+.links { font-size: 12px; color: #aabbd0; margin-top: 7px; word-break: break-all; }
+a { color: #a9d5ff; }
+.more { text-align: center; margin: 0 0 28px; }
+footer { padding: 22px; text-align: center; color: #aebdd2; font-size: 12px; }
+dialog { width: min(96vw, 1700px); max-height: 94vh; background: #232b38; color: white; border: 1px solid #7f90aa; border-radius: 8px; }
+dialog::backdrop { background: #000b; }
+#close-large { float: right; margin-bottom: 8px; }
+#large-content { clear: both; display: flex; gap: 15px; overflow: auto; padding: 12px; }
+#large-content img { max-width: none; }
+@media (max-width: 800px) { .panes { grid-template-columns: 1fr; } .canvas { max-height: 420px; } }

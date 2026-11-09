@@ -1,0 +1,97 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/pass2",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "terminal_approach",
+   "position": [
+    3168,
+    2880,
+    1460
+   ],
+   "yaw": 0.0,
+   "pitch": -0.0069
+  },
+  {
+   "name": "terminal_doors",
+   "position": [
+    5299,
+    2880,
+    1460
+   ],
+   "yaw": 0.0,
+   "pitch": -0.0137
+  },
+  {
+   "name": "terminal_side",
+   "position": [
+    4896,
+    4896,
+    1460
+   ],
+   "yaw": -0.5404,
+   "pitch": -0.0089
+  },
+  {
+   "name": "scrapyard_gate",
+   "position": [
+    10656,
+    2592,
+    1524
+   ],
+   "yaw": 0.0768,
+   "pitch": -0.1014
+  },
+  {
+   "name": "scrapyard_inside",
+   "position": [
+    13536,
+    2592,
+    1172
+   ],
+   "yaw": 0.2187,
+   "pitch": -0.0113
+  },
+  {
+   "name": "scrapyard_ring",
+   "position": [
+    12672,
+    -288,
+    1656
+   ],
+   "yaw": 1.0714,
+   "pitch": -0.1415
+  },
+  {
+   "name": "station_far",
+   "position": [
+    12672,
+    -9331,
+    628
+   ],
+   "yaw": 0.245,
+   "pitch": 0.0456
+  },
+  {
+   "name": "station_near",
+   "position": [
+    14112,
+    -8755,
+    852
+   ],
+   "yaw": 0.0867,
+   "pitch": -0.0706
+  },
+  {
+   "name": "station_canyon",
+   "position": [
+    9216,
+    -7776,
+    564
+   ],
+   "yaw": -0.1489,
+   "pitch": 0.0662
+  }
+ ]
+}

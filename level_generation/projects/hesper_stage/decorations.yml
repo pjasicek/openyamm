@@ -1,0 +1,350 @@
+# The Hesper 3D decorations the stage cooks and binds (stage.py): one decoration_data row and one
+# worlds/hesper/models/decorations.yml binding each. Sources are the project exports in
+# level_generation/props/hesper_decorations/work/ (models in metres, 1 m = 100 world units: the binding's height is
+# the model's height x 100). radius: collision radius in world units (0: the party walks through it).
+# light: [radius, r, g, b] for a decoration that is also a light (the native decoration light).
+# model: the model of another entry, for a variant with its own light (the outdoor fixtures).
+# mount: wall hangs the model's back (its -z in glTF, Blender +y) on the nearest wall within 64.
+# turn_in: [degrees, seconds] turns a model into its pose when a script swaps a decoration to it.
+source_dirs:
+  - level_generation/projects/hesper_d07/standins
+  - level_generation/projects/hesper_nodes_common/standins
+  - level_generation/projects/hesper_d04/standins
+  - level_generation/creatures/hes_ion_cannon_codex/export   # the great ion cannon's seven states, over the stand-in
+  - level_generation/props/hesper_decorations/work/hard_surface
+  - level_generation/props/hesper_decorations/work/codex_tex
+  - level_generation/props/hesper_pickups_claude/work/export   # the pickups (PICKUPS.md)
+  - level_generation/projects/hesper_out3/standins           # the Brood Spires' greybox stand-ins, last
+  - level_generation/creatures/hes_machines_claude/export        # the colony turret's pedestal (D0)
+  - level_generation/creatures/hes_noble_bosses_claude/export   # the Hierarch's throne (D12)
+decorations:
+  # Starport Reach
+  - {name: hes_pylon, radius: 40}
+  - {name: hes_container, radius: 120}
+  - {name: hes_fuel_tank, radius: 120}
+  - {name: hes_gantry_segment, radius: 150}
+  - {name: hes_signpost, radius: 30}
+  - {name: hes_tablet_plinth, radius: 50}
+  - {name: hes_brazier, radius: 40, light: [600, 255, 170, 90]}
+  - {name: hes_colonial_locker, radius: 60}
+  - {name: hes_ashrunner_crate, radius: 60}
+  - {name: hes_glass_shards, radius: 50}
+  - {name: hes_glass_boulder, radius: 110}
+  - {name: hes_drone_wreck, radius: 60}
+  - {name: hes_skull_ribs, radius: 300}
+  - {name: hes_founder_statue, radius: 60}
+  - {name: hes_ashrunner_totem, radius: 30}
+  - {name: hes_creep_pod, radius: 70, light: [320, 255, 120, 40]}
+  - {name: hes_kreegan_pod_chest, radius: 60}
+  - {name: hes_salvage_heap, radius: 90}
+  - {name: hes_resin_rib, radius: 60}
+  - {name: hes_crystal_socket, radius: 0}
+  # Props of building size (Starport Reach's camps, the scrapyard crane, the outpost). radius 0 where the map gives
+  # them invisible collision boxes (level_generation/projects/hesper_out1/build_out1.py, `building`). The houses are
+  # BModels (houses.py); the Meshy house models are kept in the props project but not bound.
+  - {name: hes_ash_watchtower, radius: 260}
+  - {name: hes_low_palisade, radius: 0}
+  - {name: hes_low_gate, radius: 0}
+  - {name: hes_low_water_still, radius: 130}
+  - {name: hes_salvage_crane, radius: 90}
+  - {name: hes_kreegan_outpost, radius: 380}
+  - {name: hes_alarm_pylon, radius: 90}
+  # The zone 1 interiors
+  - {name: hes_glass_shards_blue, radius: 50}
+  - {name: hes_glass_boulder_blue, radius: 110}
+  - {name: hes_relay_post, radius: 40}
+  - {name: hes_baggage_cart, radius: 80}
+  - {name: hes_baggage_cart_over, radius: 80}
+  - {name: hes_shelf_rack, radius: 90}
+  - {name: hes_shelf_rack_tools, radius: 90}
+  - {name: hes_luggage_pile, radius: 90}
+  - {name: hes_bench, radius: 80}
+  - {name: hes_fallen_plates, radius: 0}
+  - {name: hes_hanging_lamp, radius: 0, light: [700, 255, 190, 110]}
+  - {name: hes_lamp_string, radius: 0}
+  - {name: hes_drum, radius: 30}
+  - {name: hes_bedroll, radius: 0}
+  - {name: hes_offerings, radius: 0}
+  - {name: hes_casket, radius: 70}
+  - {name: hes_lectern, radius: 30}
+  - {name: hes_corpse_colonist, radius: 0}
+  - {name: hes_founder_intact, radius: 60}
+  - {name: hes_market_goods, radius: 60}
+  - {name: hes_loader_mech, radius: 150}
+  # The Hesperians' clean colony props.
+  - {name: hes_drum_clean, radius: 30}
+  - {name: hes_brazier_clean, radius: 40, light: [600, 255, 170, 90]}
+  - {name: hes_crate_clean, radius: 50}
+  - {name: hes_energy_lamp, radius: 0}
+  - {name: hes_goods_cells, radius: 60}
+  - {name: hes_offerings_crystal, radius: 0}
+  # The colony light fixtures: the dungeons' light sources, each its own light (DUNGEON_PLAYBOOK.md, Lighting).
+  # The _off variants are the same fixture unlit, swapped in and out with evt.SetSprite.
+  - {name: hes_wall_light, radius: 0, mount: wall, light: [640, 225, 235, 255]}
+  - {name: hes_wall_light_amber, radius: 0, mount: wall, light: [640, 255, 165, 70]}
+  - {name: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_ceiling_light, radius: 0, light: [800, 225, 235, 255]}
+  - {name: hes_ceiling_light_off, radius: 0}
+  - {name: hes_light_pylon, radius: 30, light: [1000, 225, 235, 255]}
+  # The Pumping Station's drain valves: a fixed body (its lamp red, then green) and a clickable wheel in front of it,
+  # swapped with evt.SetSprite on the valve's cogs; the turned wheel turns into place (turn_in: degrees, seconds).
+  - {name: hes_valve_body, radius: 0, mount: wall}
+  - {name: hes_valve_body_open, radius: 0, mount: wall}
+  - {name: hes_valve_wheel, radius: 0, mount: wall}
+  - {name: hes_valve_wheel_turned, radius: 0, mount: wall, turn_in: [90, 1.2]}
+  # Landfall's wall turrets as whole static models; hes_out1 places the mounts below with turret actors on them.
+  - {name: hes_ward_turret, radius: 70}
+  - {name: hes_gate_bastion, radius: 100}
+  # Landfall's fountain and stat barrels (MM7's seven colours; a drunk barrel swaps to the empty one).
+  - {name: hes_fountain, radius: 180}
+  # Landfall's cultivated greenery and colony props, and the wild growths (Meshy route; STARPORT_REACH.md, Dressing).
+  # The clumps stand in beds the party walks through, as MM's flowers; the rest block.
+  - {name: hes_fungus_tree, radius: 90}
+  - {name: hes_fungus_tree_b, radius: 90}
+  - {name: hes_fungus_tree_c, radius: 90}
+  - {name: hes_fungus_planter, radius: 100}
+  - {name: hes_fungus_clump, radius: 0}
+  - {name: hes_water_condenser, radius: 50}
+  - {name: hes_hand_cart, radius: 90}
+  - {name: hes_market_goods_colony, radius: 60}
+  - {name: hes_glass_tree, radius: 60}
+  - {name: hes_wire_thicket, radius: 90}
+  - {name: hes_ash_hoodoo, radius: 110}
+  - {name: hes_stat_barrel_red, radius: 40}
+  - {name: hes_stat_barrel_orange, radius: 40}
+  - {name: hes_stat_barrel_blue, radius: 40}
+  - {name: hes_stat_barrel_yellow, radius: 40}
+  - {name: hes_stat_barrel_green, radius: 40}
+  - {name: hes_stat_barrel_purple, radius: 40}
+  - {name: hes_stat_barrel_white, radius: 40}
+  - {name: hes_stat_barrel_empty, radius: 40}
+  # The dungeon pickups (design/kreegan_world/PICKUPS.md; level_generation/props/hesper_pickups_claude): a map
+  # places the plain name (its hover hint) and the shared Lua (hesper_stage/common/pickups.lua) swaps in the
+  # rolled colour, the empty container and the opened satchel with evt.SetSprite.
+  - {name: hes_stim_canister, model: hes_stim_canister_empty, radius: 30}
+  - {name: hes_stim_canister_red, radius: 30}
+  - {name: hes_stim_canister_yellow, radius: 30}
+  - {name: hes_stim_canister_blue, radius: 30}
+  - {name: hes_stim_canister_orange, radius: 30}
+  - {name: hes_stim_canister_green, radius: 30}
+  - {name: hes_stim_canister_purple, radius: 30}
+  - {name: hes_stim_canister_white, radius: 30}
+  - {name: hes_stim_canister_empty, radius: 30}
+  - {name: hes_serum_vat, model: hes_serum_vat_empty, radius: 55}
+  - {name: hes_serum_vat_red, radius: 55}
+  - {name: hes_serum_vat_yellow, radius: 55}
+  - {name: hes_serum_vat_blue, radius: 55}
+  - {name: hes_serum_vat_orange, radius: 55}
+  - {name: hes_serum_vat_green, radius: 55}
+  - {name: hes_serum_vat_purple, radius: 55}
+  - {name: hes_serum_vat_white, radius: 55}
+  - {name: hes_serum_vat_empty, radius: 55}
+  - {name: hes_colony_satchel, radius: 0}
+  - {name: hes_colony_satchel_open, radius: 0}
+  - {name: hes_scrap_bundle, radius: 0}
+  - {name: hes_scrap_bundle_open, radius: 0}
+  # Outdoor variants of the fixtures for Landfall: MM's outdoor torches and braziers light 256-512, and outdoor
+  # decoration lights burn at full strength by day, so the town's are dimmer and shorter than the dungeons'.
+  - {name: hes_light_post_out, model: hes_light_pylon, radius: 30, light: [320, 200, 210, 230]}
+  - {name: hes_brazier_out, model: hes_brazier_clean, radius: 40, light: [320, 235, 160, 100]}
+  # The turrets' fixed mounts (the pedestal and wall plate up to the turning ring); the turret above each is a
+  # Stationary actor (monsters.yml: 10065 Ward Turret, 10066 Gate Bastion) standing on the mount's position. v2: the
+  # Meshy pedestals exported by level_generation/creatures/hes_turrets_claude/scripts/build_actor_v2.py (the hard-surface
+  # builder no longer writes them).
+  - {name: hes_ward_turret_mount, radius: 70}
+  - {name: hes_starport_turret_mount, radius: 70}            # D0's Starport Turrets (hes_machines_claude)
+  - {name: hes_gate_bastion_mount, radius: 140}
+  # Hangar Nine (hes_d00): the derelict lander's five sockets, MM6's Oracle alcoves in the Hesper style
+  # (level_generation/props/hesper_decorations/scripts/build_lander_sockets.py): each dead (unpowered), ready (the
+  # reactor on, its lamp amber) and lit (its part fitted), swapped with evt.SetSprite; and the bay's light pylon
+  # unlit until the power.
+  - {name: hes_sock_cockpit_dead, radius: 0}
+  - {name: hes_sock_cockpit_ready, radius: 0}
+  - {name: hes_sock_cockpit_lit, radius: 0}
+  - {name: hes_sock_coil_dead, radius: 0}
+  - {name: hes_sock_coil_ready, radius: 0}
+  - {name: hes_sock_coil_lit, radius: 0}
+  - {name: hes_sock_nav_dead, radius: 0}
+  - {name: hes_sock_nav_ready, radius: 0}
+  - {name: hes_sock_nav_lit, radius: 0}
+  - {name: hes_sock_engine_dead, radius: 0}
+  - {name: hes_sock_engine_ready, radius: 0}
+  - {name: hes_sock_engine_lit, radius: 0}
+  - {name: hes_sock_ring_dead, radius: 0}
+  - {name: hes_sock_ring_ready, radius: 0}
+  - {name: hes_sock_ring_lit, radius: 0}
+  - {name: hes_light_pylon_off, radius: 30}
+  # The crash site (hes_out1, README "The arrival"): the party's wrecked lander, Meshy models baked from Codex
+  # paintings (hesper_decorations designs.json). The hull has invisible collision boxes (build_out1.py `building`);
+  # the torn-off wing lies flat (walked over); the engine nacelle blocks.
+  - {name: hes_lander_wreck, radius: 0}
+  - {name: hes_lander_wing, radius: 0}
+  - {name: hes_lander_engine, radius: 110}
+
+  # D8: existing colony props stand in for the unbuilt K5/K6 fixtures and Foundry props.
+  - {name: hes_vent_glow, model: hes_wall_light_amber, radius: 0, mount: wall, light: [512, 255, 140, 60]}
+  - {name: hes_vent_glow_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_graft_light, model: hes_wall_light, radius: 0, mount: wall, light: [512, 220, 232, 255]}
+  - {name: hes_graft_light_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_fire_bowl, model: hes_brazier, radius: 0, light: [640, 255, 150, 70]}
+  - {name: hes_fire_bowl_off, model: hes_brazier, radius: 0}
+  - {name: hes_furnace_eye, model: hes_wall_light_amber, radius: 0, mount: wall, light: [768, 255, 120, 40]}
+  - {name: hes_furnace_eye_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_valve_sooted, model: hes_valve_wheel, radius: 0, mount: wall}
+  - {name: hes_valve_sooted_turned, model: hes_valve_wheel_turned, radius: 0, mount: wall, turn_in: [90, 1.2]}
+  - {name: hes_diverter, model: hes_valve_body, radius: 0}
+  - {name: hes_diverter_thrown, model: hes_valve_body_open, radius: 0}
+  - {name: hes_armour_plate, model: hes_fallen_plates, radius: 60}
+  - {name: hes_ore_sledge, model: hes_baggage_cart, radius: 90}
+  - {name: hes_slag_heap, model: hes_salvage_heap, radius: 150}
+
+  # D3 / CR-P1-7 and CR-P1-14: explicit temporary models until the K5/K6 props are made.
+  - {model: hes_kreegan_pod_chest, name: hes_drop_pod, radius: 70}
+  - {model: hes_creep_pod, name: hes_drop_pod_open, radius: 70}
+  - {model: hes_baggage_cart, name: hes_ore_cart, radius: 80}
+  - {model: hes_ashrunner_crate, name: hes_ore_crates, radius: 120}
+  - {model: hes_corpse_colonist, name: hes_corpse_kept, radius: 0}
+  - {name: hes_cell_lever, model: d04_cell_lever_idle, radius: 0}
+  - {name: hes_cell_lever_pulled, model: d04_cell_lever_pulled, radius: 0}
+
+  # D11 Seedship: temporary art bindings where production models are pending.
+  - {name: hes_nerve_node, model: hes_wall_light, radius: 0, mount: wall, light: [512, 220, 80, 210]}
+  - {name: hes_nerve_node_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_fire_bowl_gilded, model: hes_brazier, radius: 0, light: [640, 255, 150, 60]}
+  - {name: hes_fire_bowl_gilded_off, model: hes_brazier, radius: 0}
+  - {name: hes_trophy_relic, model: hes_salvage_heap, radius: 0}
+  - {name: hes_bones_litter, model: hes_skull_ribs, radius: 0}
+
+  - {name: hes_tunnel_lamp, model: hes_wall_light_amber, radius: 0, mount: wall, light: [640, 255, 165, 70]}
+  - {name: hes_tunnel_lamp_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_line_lever, model: d04_lever_idle, radius: 0}
+  - {name: hes_line_lever_thrown, model: d04_lever_pulled, radius: 0}
+
+  # D12 Crownspire: explicit stand-ins until the palace art is available.
+  - {name: hes_lattice_coil_gilded, model: hes_light_pylon, radius: 0, light: [640, 205, 175, 255]}
+  - {name: hes_lattice_coil_gilded_off, model: hes_light_pylon_off, radius: 0}
+  - {name: hes_alarm_beacon, model: hes_wall_light_amber, radius: 0, mount: wall, light: [512, 255, 40, 30]}
+  - {name: hes_alarm_beacon_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_founder_head, model: hes_offerings_crystal, radius: 52}
+  - {name: hes_palace_coffer, model: hes_kreegan_pod_chest, radius: 60}
+  - {name: hes_lattice_coil, radius: 0, light: [640, 205, 175, 255]}
+  - {name: hes_lattice_coil_off, radius: 0}
+  - {name: hes_alarm_pylon_off, radius: 90}
+  # D15: the existing pod body without an extra light beyond the 32-light plan.
+  - {name: hes_creep_pod_static, model: hes_creep_pod, radius: 70}
+  # The Scour (hes_out2; THE_SCOUR.md section 14, CR-P1-24): hard-surface models from
+  # level_generation/props/hesper_decorations/scripts/build_scour_props.py. The vents, the collar nodes and the camps'
+  # fire bowls are lights (outdoor radii, as hes_brazier_out); the hulls and perches have the map's collision boxes.
+  - {name: hes_spoil_heap, radius: 150}
+  - {name: hes_conveyor_parts, radius: 70}
+  - {name: hes_ground_vent, radius: 60, light: [320, 255, 140, 60]}
+  - {name: hes_survey_marker, radius: 30}
+  - {name: hes_collar_node, radius: 0, light: [320, 200, 40, 110]}
+  - {name: hes_collar_node_off, radius: 0}
+  - {name: hes_overseer_perch, radius: 0}
+  - {name: hes_fire_bowl_out, radius: 40, light: [320, 255, 150, 70]}
+  - {name: hes_fire_bowl_out_off, radius: 40}
+  - {name: hes_wreck_plates, radius: 120}
+  - {name: hes_duel_post, radius: 30}
+  - {name: hes_derelict_hull_a, radius: 0}
+  - {name: hes_derelict_hull_b, radius: 0}
+  - {name: hes_kcrate_chest, radius: 60}
+  # The Crown (hes_out4; THE_CROWN.md section 14, CR-P3-20): hard-surface models from
+  # level_generation/props/hesper_decorations/scripts/build_crown_props.py. The cannons stand on the bastions (their
+  # collision cylinder radius 600, BUILD-READY 4), the masts on the node blockhouses (a lit mast is the node's
+  # hes_lattice_coil light at the outdoor radius); the crawler wreck has the map's collision boxes. The great cannon is
+# the approved concept (concepts/monsters/ion_cannon.png): rest, dark and five wind-up states (c1-c5).
+  - {name: hes_great_cannon, radius: 0}        # the one great cannon on the dome (2026-10-23; out of reach)
+  - {name: hes_great_cannon_dark, radius: 0}
+  - {name: hes_great_cannon_c1, radius: 0}   # the wind-up's states, swapped by the cannon timer
+  - {name: hes_great_cannon_c2, radius: 0}
+  - {name: hes_great_cannon_c3, radius: 0}
+  - {name: hes_great_cannon_c4, radius: 0}
+  - {name: hes_great_cannon_c5, radius: 0}
+  - {name: hes_node_mast, radius: 80, light: [320, 205, 175, 255]}
+  - {name: hes_node_mast_off, radius: 80}
+  - {name: hes_glyph_plate, radius: 40}
+  - {name: hes_grafting_frame, radius: 200}
+  - {name: hes_membrane_banner, radius: 40}
+  - {name: hes_cable_spool, radius: 160}
+  - {name: hes_trophy_pile, radius: 120}
+  - {name: hes_pen_post, radius: 40}
+  - {name: hes_crawler_wreck, radius: 0}
+  - {name: hes_fire_bowl_gilded_out, model: hes_fire_bowl_gilded, radius: 40, light: [320, 255, 150, 60]}
+  # The Brood Spires (hes_out3; BROOD_SPIRES.md section 14): the hive forest's spires (collision capsules as radii; the
+  # fallen spire, the wreck, the landmarks and the spire roots by the map's invisible boxes), the mounds, the turret
+  # mounts and the causeway's dressing. Their models are the props project's designs (Meshy, hesper_decorations),
+  # greybox stand-ins from level_generation/projects/hesper_out3/standins until each is made.
+  - {name: hes_spire_great, radius: 300}
+  - {name: hes_spire_mid, radius: 200}
+  - {name: hes_spire_cluster, radius: 180}
+  - {name: hes_spire_roost, radius: 320}
+  - {name: hes_spire_fallen, radius: 0}
+  - {name: hes_hive_mound, radius: 400}
+  - {name: hes_egg_mound, radius: 0}
+  - {name: hes_nest_mound, radius: 300}
+  - {name: hes_nest_mound_dead, radius: 300}
+  - {name: hes_turret_mount_k, radius: 300}
+  - {name: hes_giant_rib, radius: 0}
+  - {name: hes_acid_shelf, radius: 0}
+  - {name: hes_trail_cairn, radius: 60}
+  - {name: hes_agflyer_wreck, radius: 0}
+  - {name: hes_hatchery_tower, radius: 0}
+  - {name: hes_relay_spire, radius: 0}
+  - {name: hes_seedship, radius: 0}
+  - {name: hes_cradle_arch, radius: 0}
+  # K7's glow sac, outdoor variant (KITS.md: radius 320, 255, 180, 90) on the hive mounds and the hatchery tower; the
+  # creep pod's model stands in for its own. The Relay Spire's cyan coils: a light at its dish crown.
+  - {name: hes_glow_sac_out, model: hes_creep_pod, radius: 0, light: [320, 255, 180, 90]}
+  - {name: hes_relay_crown_light, model: hes_crystal_socket, radius: 0, light: [320, 120, 220, 255]}
+  - {name: hes_crystal_socket_lit, model: hes_crystal_socket, radius: 0, light: [256, 140, 210, 255]}   # Starport Reach's Archive sockets, a shard restored
+  - {name: hes_kreegan_mine, radius: 0}
+  - {name: hes_kreegan_mine_spent, radius: 0}
+  - {name: hes_drone_shell, radius: 0}
+  - {name: hes_bulwark_wreck, radius: 0}
+  - {name: d07_bulwark_cable_1, radius: 0}
+  - {name: d07_bulwark_cable_2, radius: 0}
+  - {name: d07_bulwark_cable_3, radius: 0}
+  # D15 visual review: stronger pools; other maps retain the shared plan fixtures.
+  - {name: hes_d15_tunnel_lamp, model: hes_wall_light_amber, radius: 0, mount: wall, light: [960, 255, 165, 70]}
+  - {name: hes_d15_tunnel_lamp_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_d15_graft_light, model: hes_wall_light, radius: 0, mount: wall, light: [768, 220, 232, 255]}
+  - {name: hes_d15_vent_glow, model: hes_wall_light_amber, radius: 0, mount: wall, light: [768, 255, 140, 60]}
+  # D4 brightness A: only this map uses the larger fixture lights.
+  - {name: hes_d04_vent, model: hes_wall_light_amber, radius: 0, mount: wall, light: [704, 255, 140, 60]}
+  - {name: hes_d04_graft, model: hes_wall_light, radius: 0, mount: wall, light: [704, 220, 232, 255]}
+  - {name: hes_d04_fire, model: hes_brazier, radius: 0, light: [864, 255, 150, 70]}
+
+  # Brightness B: D3 only.
+  - {name: hes_d03_vent_glow, model: hes_wall_light_amber, radius: 0, mount: wall, light: [704, 255, 140, 60]}
+  - {name: hes_d03_graft_light, model: hes_wall_light, radius: 0, mount: wall, light: [704, 220, 232, 255]}
+  - {name: hes_d03_fire_bowl, model: hes_brazier, radius: 0, light: [864, 255, 150, 70]}
+
+  # Brightness B: D8 only.
+  - {name: hes_d08_vent_glow, model: hes_wall_light_amber, radius: 0, mount: wall, light: [704, 255, 140, 60]}
+  - {name: hes_d08_graft_light, model: hes_wall_light, radius: 0, mount: wall, light: [704, 220, 232, 255]}
+  - {name: hes_d08_fire_bowl, model: hes_brazier, radius: 0, light: [864, 255, 150, 70]}
+  - {name: hes_d08_furnace_eye, model: hes_wall_light_amber, radius: 0, mount: wall, light: [1024, 255, 120, 40]}
+  # D5 brightness A: these larger lamps do not alter other maps' fixture bindings.
+  - {name: hes_d05_vent, model: hes_wall_light_amber, radius: 0, mount: wall, light: [704, 255, 140, 60]}
+  - {name: hes_d05_graft, model: hes_wall_light, radius: 0, mount: wall, light: [704, 220, 232, 255]}
+  - {name: hes_d05_fire, model: hes_brazier, radius: 0, light: [864, 255, 150, 70]}
+
+  # Brightness B: D11 only, including the scripted dark state.
+  - {name: hes_d11_nerve_node, model: hes_wall_light, radius: 0, mount: wall, light: [704, 220, 80, 210]}
+  - {name: hes_d11_nerve_node_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  - {name: hes_d11_fire_bowl_gilded, model: hes_brazier, radius: 0, light: [864, 255, 150, 60]}
+
+  # Brightness B: D12 only.
+  - {name: hes_d12_wall_light, radius: 0, mount: wall, light: [864, 225, 235, 255], model: hes_wall_light}
+  - {name: hes_d12_ceiling_light, radius: 0, light: [1056, 225, 235, 255], model: hes_ceiling_light}
+  - {name: hes_d12_fire_bowl_gilded, model: hes_brazier, radius: 0, light: [864, 255, 150, 60]}
+  - {name: hes_d12_lattice_coil_gilded, model: hes_light_pylon, radius: 0, light: [864, 205, 175, 255]}
+
+# D13 brightness: map-local radii; keep existing decoration IDs stable.
+  - {name: hes_d13_tunnel_lamp, model: hes_wall_light_amber, radius: 0, mount: wall, light: [864, 255, 165, 70]}
+  - {name: hes_d13_alarm_beacon, model: hes_wall_light_amber, radius: 0, mount: wall, light: [704, 255, 40, 30]}
+  - {name: hes_d13_alarm_beacon_off, model: hes_wall_light_off, radius: 0, mount: wall}
+  # D12: the Hierarch's throne (hes_noble_bosses_claude), at the enthroned Hierarch's spot; radius 0 (he and his
+  # standing form 10120 occupy it).
+  - {name: hes_hierarch_throne_deco, radius: 0}

@@ -1,0 +1,24 @@
+id: levelgen.brackenford.wilderness_ai_control
+title: Approaching the wilderness activates the authored ogre pack
+world: mm8
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: lg01.odm
+- set_pose:
+    map: lg01.odm
+    x: 18048
+    y: 3328
+    z: 1400
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 29
+      monster_id: 32
+      dead: false
+      hostile_to_party: true
+      has_detected_party: true
+      combat_targeting_party: true

@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Edit ONLY image 1, the exact mesh-guide atlas. Image 2 is the authentic inventory icon, for colour/material reference. Preserve the EXACT 3:4 portrait canvas, THREE equal columns and FOUR equal rows, every object silhouette, position, size, opening and internal shape edge. Do not redesign geometry or add/cut holes. TOP TWO ROWS: paint UNLIT realistic base colour on the five grey views: row 1 FRONT/BACK/LEFT, row 2 RIGHT/TOP/EMPTY. Identity: Old Leather Boots: warm cognac brown worn leather boots, rounded toes with subtle stitching, leather soles and heels, leather ankle straps and small antique brass buckle frames. Both deep cuff interiors and every lining surface are brown leather. Fine leather grain and restrained wrinkles; preserve the actual physical cuff opening and buckle geometry. Flat shadowless even illumination: NO cast shadows, ambient-occlusion darkening, reflections, specular highlights or rim lighting. All solid guide surfaces remain opaque. BOTTOM TWO ROWS: exact corresponding flat material-ID masks with no texture or shading. All leather, soles, straps and BOTH deep interiors are pure GREEN #00ff00. ONLY the actual small brass buckle frames and pins are pure RED #ff0000; leather visible through buckle openings remains green. The masks must align precisely to the painted surfaces above and use pure solid class colours, without gradients or darkened areas. Preserve transparency around every view, inside true openings and in both empty right-hand cells. No haze, text, labels, borders or floor. Output ONE 1536x2048 transparent PNG. Exact guide registration is mandatory.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-b2b9d112-0a14-4b87-9797-f97c83191aa6.png",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots1/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots1.png"
+  ],
+  "selected": false,
+  "reason": "Rejected oversized earlier painting; final sources are listed separately.",
+  "raw_sha256": "09380e6317757bfaa7109717e59825a49a1d1472e268de4060ddcf904e5e63b4",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_6boots1/paint_mask_guide.png": "344399946d72a6a4d1c5d582c9b0f05628c9ff0db4c70334d8453ac2e15f581c",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/6boots1.png": "aab29ec55f00b281df426138279d2b256af2daca73a414cbf1620c18fab41950"
+  },
+  "prepared_scene_sha256": "948575324f3e5d41a993202843d61d043d5b4953b814c33f937f7772fd3f13c3"
+}

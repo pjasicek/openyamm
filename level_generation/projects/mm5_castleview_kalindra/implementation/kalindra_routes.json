@@ -1,0 +1,67 @@
+{
+  "source": "level_generation/projects/mm5_world_feasibility/inventory.json",
+  "status": "future routes only; restored exterior uses a named status stub",
+  "transfers": [
+    {
+      "source": 4,
+      "x": 5,
+      "y": 14,
+      "spatial": true,
+      "destination": 41,
+      "arrival": [
+        15,
+        7
+      ],
+      "kind": "teleport/exit",
+      "eventOffset": 833,
+      "line": 7,
+      "sourceName": "Area A4",
+      "destinationName": "Castle Kalindra Level 1",
+      "scope": "MM5"
+    },
+    {
+      "source": 41,
+      "x": 15,
+      "y": 7,
+      "spatial": true,
+      "destination": 4,
+      "arrival": [
+        6,
+        14
+      ],
+      "kind": "teleport/exit",
+      "eventOffset": 22,
+      "line": 3,
+      "sourceName": "Castle Kalindra Level 1",
+      "destinationName": "Area A4",
+      "scope": "MM5"
+    }
+  ],
+  "sourceSite": {
+    "map": 4,
+    "x": 5,
+    "y": 14,
+    "spatial": true,
+    "npcTitles": [],
+    "services": [],
+    "labels": [
+      "Castle Kalindra is out of phase and you can not enter it.",
+      "Enter Castle Kalindra?"
+    ],
+    "dialogueTextIndices": [],
+    "eventRecords": 8,
+    "transfers": [
+      {
+        "destination": 41,
+        "arrival": [
+          15,
+          7
+        ],
+        "kind": "teleport/exit",
+        "eventOffset": 833,
+        "line": 7
+      }
+    ],
+    "mapName": "Area A4"
+  }
+}

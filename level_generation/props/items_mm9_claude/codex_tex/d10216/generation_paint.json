@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the attached paint_mask_guide.png as an exact geometry-locked view atlas. Inputs: image 1 design_reference.png is material/detail reference; image 2 icon_x8.png is original colour reference (magenta is background); image 3 paint_mask_guide.png is the EDIT TARGET and sole authority for placement, outlines, gaps and size.\nOutput ONE transparent PNG, 1536x2048 (3:4). Three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 contain identical five grey orthographic renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object's exact position, size, silhouette, orientation, and every opening. The thin edge-on views must stay thin edge-on strips, NOT become upright faces. Paint only the existing grey pixels. Do not redraw, enlarge, move or redesign anything.\nRows 1-2 PAINT: unlit base colour of the source-faithful gold upright Fizbin of Misfortune amulet, gold chain, restrained green patina, blue gemstones, with facets, engravings, face scrollwork and inner swirls from design reference scaled to each existing view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections; no glow halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: exactly the same five silhouettes and surface locations as rows 1-2, filled with FLAT PURE colours ONLY: #FF0000 for ALL metal (including gold, chain, patinated metal); #000000 for EVERY gemstone, crystal, glass, pearl, enamel or liquid seen through glass; #0000FF for cloth, cords, ribbons and hair if present. Every pixel of each silhouette exactly one of these colours. No shading, texture, outlines, antialiased colour blends inside. Nothing outside silhouettes. All gaps and openings fully transparent. Empty column 3 row 2 and column 3 row 4 remain fully transparent. Preserve the guide layout exactly.\nCORRECTION / HIGHEST PRIORITY: Output aspect ratio exactly 3:4, never tall narrow. Exactly FOUR rows total, never five or six. Copy the edit target image 3 pixel layout exactly: row 1 three edge views, row 2 one horizontal edge view at left and chained pendant at middle, row 3 three RED mask edge views, row 4 RED mask horizontal view at left and RED mask chained pendant in middle. ONLY TEN objects/views total. Row 3 must be pure red metal masks, not gold. No stray pixels. Preserve original solid pendant silhouette, do not cut holes in pendant where guide is solid. The grey guide is geometry authority over reference artwork.",
+  "initial_prompt": "Use case: precise-object-edit. Paint the attached paint_mask_guide.png as an exact geometry-locked view atlas. Inputs: image 1 design_reference.png is material/detail reference; image 2 icon_x8.png is original colour reference (magenta is background); image 3 paint_mask_guide.png is the EDIT TARGET and sole authority for placement, outlines, gaps and size.\nOutput ONE transparent PNG, 1536x2048 (3:4). Three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 contain identical five grey orthographic renders: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object's exact position, size, silhouette, orientation, and every opening. The thin edge-on views must stay thin edge-on strips, NOT become upright faces. Paint only the existing grey pixels. Do not redraw, enlarge, move or redesign anything.\nRows 1-2 PAINT: unlit base colour of the source-faithful gold upright Fizbin of Misfortune amulet, gold chain, restrained green patina, blue gemstones, with facets, engravings, face scrollwork and inner swirls from design reference scaled to each existing view. No lighting, cast shadows, ambient occlusion, hot highlights or reflections; no glow halo, sparkles, aura, ground, outlines or text.\nRows 3-4 MATERIAL MASK: exactly the same five silhouettes and surface locations as rows 1-2, filled with FLAT PURE colours ONLY: #FF0000 for ALL metal (including gold, chain, patinated metal); #000000 for EVERY gemstone, crystal, glass, pearl, enamel or liquid seen through glass; #0000FF for cloth, cords, ribbons and hair if present. Every pixel of each silhouette exactly one of these colours. No shading, texture, outlines, antialiased colour blends inside. Nothing outside silhouettes. All gaps and openings fully transparent. Empty column 3 row 2 and column 3 row 4 remain fully transparent. Preserve the guide layout exactly.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0a-a9be-7b73-b14b-d1d77cb1ae6c/exec-658a66a8-a7a7-43c1-8483-571194584308.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10216/paint_mask_raw_v1.png",
+  "mode": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10216/design_reference.png",
+      "sha256": "82307a9305c5a22b7324115898478e580419054fe96acbc5bffe20b0f02eb9b2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10216/icon_x8.png",
+      "sha256": "6c96f79ebc29134355f065d7cd1b497f7590158f6fd66776f5c165501c3607b2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10216/paint_mask_guide.png",
+      "sha256": "6de04dc8295465adff2cc7ad5a47c6ccba85ffc5dcc22480db886567a1c7513c"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": "Four-row layout restored; visible silhouette drift and stray coloured pixels remain. Raw tool output preserved without edits."
+}

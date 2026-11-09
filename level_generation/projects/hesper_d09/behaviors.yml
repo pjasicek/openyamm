@@ -1,0 +1,5 @@
+behaviors:
+  hes_egg_cluster: worlds/hesper/behaviors/hes_egg_cluster.lua
+  hes_brood_mother: worlds/hesper/behaviors/hes_brood_mother.lua
+monsters:
+  10045: hes_egg_cluster

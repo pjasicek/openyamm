@@ -1,0 +1,1 @@
+Native-only prepared payload retry after gray-rock success: full raw inspected, still square mosaic rock shading and stepped foam. Deferred without acceptance; all masters retained. Do not repeat same full-sheet prompt. Next investigate isolated rock reconstruction.

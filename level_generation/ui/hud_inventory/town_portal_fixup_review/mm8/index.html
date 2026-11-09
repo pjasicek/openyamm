@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MM8 Town Portal — artwork review</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #16191d; color: #eee9df; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1360px; margin: auto; padding: 24px; }
+    h1 { font-size: 25px; margin: 0 0 8px; font-weight: 650; }
+    p { margin: 8px 0 18px; color: #bfc3c7; line-height: 1.5; }
+    a { color: #e4c787; }
+    .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 14px; }
+    fieldset { display: flex; flex-wrap: wrap; gap: 6px; border: 0; padding: 0; margin: 0; }
+    legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .mode { position: relative; cursor: pointer; }
+    .mode input { position: absolute; opacity: 0; }
+    .mode span, select { display: block; border: 1px solid #444b53; border-radius: 6px;
+      padding: 9px 13px; background: #242930; font: inherit; color: inherit; }
+    .mode input:checked + span { background: #594a30; border-color: #d6b670; }
+    .mode input:focus-visible + span, select:focus-visible, input[type=range]:focus-visible {
+      outline: 2px solid #e4c787; outline-offset: 3px; }
+    .size { display: flex; align-items: center; gap: 8px; color: #bfc3c7; }
+    .wipe { display: flex; align-items: center; gap: 14px; margin: 6px 0 14px; }
+    .wipe input { width: min(600px, 70vw); accent-color: #d6b670; }
+    [hidden] { display: none !important; }
+    .viewport { overflow: auto; border: 1px solid #45403a; background: #0c0e11; border-radius: 3px; }
+    .stage { position: relative; width: min(100%, 1280px); aspect-ratio: 4 / 3; margin: auto; }
+    .stage[data-size=game] { width: 640px; }
+    .stage[data-size=actual] { width: 1280px; }
+    .stage canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+    .stage.native canvas { image-rendering: pixelated; }
+    #destinations { position: absolute; inset: 0; pointer-events: none; }
+    .destination { position: absolute; border: 0; padding: 0; background: transparent;
+      border-radius: 0; cursor: pointer; pointer-events: auto; }
+    .destination:focus-visible { outline: 1px solid #ffe7a6; outline-offset: -1px; }
+    .show-areas .destination { box-shadow: inset 0 0 0 1px #ffe7a6; }
+    .options { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 10px 0 14px; color: #bfc3c7; }
+    .options input { accent-color: #d6b670; }
+    #status { margin: 12px 0; min-height: 24px; color: #f2d8a2; }
+    #validation { white-space: pre-wrap; overflow-wrap: anywhere; color: #abddba; font-size: 13px; }
+    #before { clip-path: inset(0 50% 0 0); }
+    #divider { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+      background: #fff4d0; box-shadow: 0 0 5px #000; pointer-events: none; }
+    .corner { position: absolute; top: 12px; padding: 5px 9px; border-radius: 4px;
+      background: #15191de6; color: #fff3d7; font-size: 13px; pointer-events: none; }
+    .left { left: 12px; } .right { right: 12px; }
+    footer { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 15px; font-size: 14px; color: #bfc3c7; }
+    @media (max-width: 700px) { main { padding: 16px; } h1 { font-size: 22px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>MM8 Town Portal</h1>
+  <p>Hover a destination to try its matching highlight. Click to preview a selection,
+    or use Tab to move between destinations.</p>
+  <div class="controls">
+    <fieldset id="modes">
+      <legend>Artwork version</legend>
+      <label class="mode"><input type="radio" name="mode" value="candidate" checked><span>Accepted</span></label>
+      <label class="mode"><input type="radio" name="mode" value="previous"><span>Before corrections</span></label>
+      <label class="mode"><input type="radio" name="mode" value="current"><span>Previous installation</span></label>
+      <label class="mode"><input type="radio" name="mode" value="original"><span>Original</span></label>
+      <label class="mode"><input type="radio" name="mode" value="reference"><span>2063 color reference</span></label>
+      <label class="mode"><input type="radio" name="mode" value="compare"><span>Compare slider</span></label>
+    </fieldset>
+    <label class="size">Size
+      <select id="size">
+        <option value="fit">Fit window</option>
+        <option value="game">Game size · 640 × 480</option>
+        <option value="actual">x2 pixels · 1280 × 960</option>
+      </select>
+    </label>
+  </div>
+  <label class="wipe" id="wipe" hidden>Before corrections
+    <input id="split" type="range" min="0" max="100" value="50" aria-label="Before corrections coverage">
+    Corrected map
+  </label>
+  <div class="options">
+    <label><input id="show-all" type="checkbox"> Show all highlights</label>
+    <label><input id="show-areas" type="checkbox"> Show click areas</label>
+  </div>
+  <div class="viewport">
+    <div class="stage" id="stage" data-size="fit">
+      <canvas id="art" width="1280" height="960" role="img" aria-label="Corrected MM8 Town Portal map"></canvas>
+      <canvas id="before" width="1280" height="960" role="img" aria-label="MM8 map before corrections" hidden></canvas>
+      <div id="destinations" role="group" aria-label="Teleport destinations"></div>
+      <div id="divider" hidden></div>
+      <span class="corner left" id="left-label" hidden>Before corrections</span>
+      <span class="corner right" id="right-label" hidden>Corrected map</span>
+    </div>
+  </div>
+  <p id="status" role="status" aria-live="polite">Loading map and buttons…</p>
+  <footer>
+    <span>Accepted and installed · MM8 map + six buttons</span>
+    <a href="../../town_portal_acceptance_20261004/accepted/engine/icons_x2/townport.png">Open x2 PNG</a>
+    <a href="details_20261004/detail_comparison.png">Detail comparisons</a>
+    <a href="details_20261004/README.md">Sources and prompts</a>
+    <a href="../">MM6 review</a>
+    <a href="../mm7/">MM7 review</a>
+  </footer>
+  <pre id="validation" hidden></pre>
+</main>
+<script src="data.js"></script>
+<script src="review.js"></script>
+</body>
+</html>

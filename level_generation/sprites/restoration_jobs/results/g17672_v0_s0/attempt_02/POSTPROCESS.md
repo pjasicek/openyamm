@@ -1,0 +1,1 @@
+Preserved delivered-alpha master; default native rectangle registration and native RGB tone matching via restore_native_tone.py. Alpha unchanged by grading. Final light/dark proofs reviewed including cap scales and thin basal blades.

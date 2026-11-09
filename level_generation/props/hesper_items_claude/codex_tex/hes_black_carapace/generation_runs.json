@@ -1,0 +1,621 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Precise material-only paint-over for a 3D game asset texture source (albedo).\nOUTPUT: one 1024 x 1024 PNG with genuine transparent background, named paint_front.png. Preserve the original square canvas and the object's existing pixel placement; no cropping, resizing, rotation, perspective change, recentering, or zoom.\nINPUT IMAGE 1: guide_front.png is the EDIT TARGET and the absolute authority for every pixel of silhouette, object position, size, camera, geometric part edge and hole. Edit ONLY the existing opaque surfaces of this guide. Preserve its alpha silhouette EXACTLY, including transparent apertures, tiny edge notches, faceted tips and internal cut-outs. No new geometry.\nINPUT IMAGE 2: design_reference.png is ONLY the material, color and surface-design authority. Do not copy its composition, perspective, silhouette, background or lighting.\nITEM: hes_black_carapace, lancer-grade chitin, black and heavy.\nVIEW: This guide looks end-on through the hollow armor. Its compact, wide ring-shaped silhouette occupies x=187..836, y=290..733 on the 1024-square canvas. Keep the central opening and all visible interior surfaces exactly as in the guide. DO NOT turn this into an upright chest view.\nPaint the guide's existing surfaces with the reference's black and very dark violet chitin/resin plates, subtle fine cracks and small worn edge marks; narrow dark-violet/brown panel rims and seams; aged warm ivory bone-colored hard trim, hornlike edges and lateral rib fasteners where the guide has these parts; dark muted brown-violet inner lining; sparse bright saturated orange/amber light within the recessed slots as shown in the reference. Keep all guide panel joins and existing relief aligned. Unseen surfaces continue the same materials plausibly. Do not introduce white body panels, gold decorations, blue light, extra horns, extra ribs or lettering absent from the reference.\nLIGHTING: pure texture-source ALBEDO under even flat shadowless illumination from the viewer. Clearly readable base colors and fine painted material detail, NO cast shadows, NO ambient-occlusion darkening, NO directional shading, NO strong specular highlights, NO reflections, NO rim light, NO gradients from lighting. At most a faint material sheen. Glowing seams are painted bright orange/amber colors, with NO bloom or spill lighting. Do not copy the dramatic lighting in the design reference.\nBACKGROUND: fully transparent outside the guide silhouette and in its existing holes. No black background, no checkerboard painted into the image, no floor, no scenery. No text, letters, labels, symbols or watermark.\nFinal check: exact guide outline, exact framing and every part edge, reference materials/colors, flat even illumination, genuine alpha transparency. Return the image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_front.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "d47efaa4c52b6a16523367d7e9352d74f81f7f60775c486664fbc5d497f83794"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected. Correction has slightly better silhouette overlap and flatter material shading.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-1a438467-533b-4f0d-9c35-87aed44f90ce.png",
+      "output_sha256": "bc41b351eb38e92ea80a6943a43ca9ba684943db6e02db3d1b8c1149637ddd1b",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1224,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          187,
+          290,
+          837,
+          734
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.982155,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "materials": "Reference palette present; some invented ivory trim and emphasized cracks.",
+        "flat_even_lighting": "Fail: visible shaded recesses and bright bevel highlights.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "opaque_bbox": [
+          228,
+          353,
+          1026,
+          899
+        ],
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Precise material-only paint-over for a 3D game asset texture source (albedo).\nOUTPUT: one 1024 x 1024 PNG with genuine transparent background, named paint_back.png. Preserve the original square canvas and the object's existing pixel placement; no cropping, resizing, rotation, perspective change, recentering, or zoom.\nINPUT IMAGE 1: guide_back.png is the EDIT TARGET and the absolute authority for every pixel of silhouette, object position, size, camera, geometric part edge and hole. Edit ONLY the existing opaque surfaces of this guide. Preserve its alpha silhouette EXACTLY, including transparent apertures, tiny edge notches, faceted tips and internal cut-outs. No new geometry.\nINPUT IMAGE 2: design_reference.png is ONLY the material, color and surface-design authority. Do not copy its composition, perspective, silhouette, background or lighting.\nITEM: hes_black_carapace, lancer-grade chitin, black and heavy.\nVIEW: This guide looks end-on through the hollow armor from the opposite end. Its compact, wide ring-shaped silhouette occupies x=187..836, y=290..733 on the 1024-square canvas. Keep the central opening and all visible interior surfaces exactly as in the guide. Continue the reference materials plausibly on unseen rear/underside faces. DO NOT turn this into an upright back or chest view.\nPaint the guide's existing surfaces with the reference's black and very dark violet chitin/resin plates, subtle fine cracks and small worn edge marks; narrow dark-violet/brown panel rims and seams; aged warm ivory bone-colored hard trim, hornlike edges and lateral rib fasteners where the guide has these parts; dark muted brown-violet inner lining; sparse bright saturated orange/amber light within the recessed slots as shown in the reference. Keep all guide panel joins and existing relief aligned. Unseen surfaces continue the same materials plausibly. Do not introduce white body panels, gold decorations, blue light, extra horns, extra ribs or lettering absent from the reference.\nLIGHTING: pure texture-source ALBEDO under even flat shadowless illumination from the viewer. Clearly readable base colors and fine painted material detail, NO cast shadows, NO ambient-occlusion darkening, NO directional shading, NO strong specular highlights, NO reflections, NO rim light, NO gradients from lighting. At most a faint material sheen. Glowing seams are painted bright orange/amber colors, with NO bloom or spill lighting. Do not copy the dramatic lighting in the design reference.\nBACKGROUND: fully transparent outside the guide silhouette and in its existing holes. No black background, no checkerboard painted into the image, no floor, no scenery. No text, letters, labels, symbols or watermark.\nFinal check: exact guide outline, exact framing and every part edge, reference materials/colors, flat even illumination, genuine alpha transparency. Return the image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_back.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "cc738c6aa3c75688449532bd9c930885b968917e3c3827b7b6ce22066899985c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected. Correction restores the original small centered framing and improves silhouette overlap from 0.506323 to 0.981820.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-cfb3b914-bf87-4d4a-ae73-e7025c16cda8.png",
+      "output_sha256": "b5648fefab1af5d8e78e249a7021b4c644867f82814e5a06171ebf543d7dd526",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          65,
+          70,
+          1216,
+          1237
+        ],
+        "guide_alpha_bbox": [
+          187,
+          290,
+          837,
+          734
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.506323,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "materials": "Reference palette present; some invented ivory trim and emphasized cracks.",
+        "flat_even_lighting": "Fail: visible shaded recesses and bright bevel highlights.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "opaque_bbox": [
+          115,
+          296,
+          1140,
+          1006
+        ],
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Precise material-only paint-over for a 3D game asset texture source (albedo).\nOUTPUT: one 1024 x 1024 PNG with genuine transparent background, named paint_left.png. Preserve the original square canvas and the object's existing pixel placement; no cropping, resizing, rotation, perspective change, recentering, or zoom.\nINPUT IMAGE 1: guide_left.png is the EDIT TARGET and the absolute authority for every pixel of silhouette, object position, size, camera, geometric part edge and hole. Edit ONLY the existing opaque surfaces of this guide. Preserve its alpha silhouette EXACTLY, including transparent apertures, tiny edge notches, faceted tips and internal cut-outs. No new geometry.\nINPUT IMAGE 2: design_reference.png is ONLY the material, color and surface-design authority. Do not copy its composition, perspective, silhouette, background or lighting.\nITEM: hes_black_carapace, lancer-grade chitin, black and heavy.\nVIEW: This guide has the armor lying HORIZONTALLY in the image: the shoulder/large circular armhole is on the LEFT and the waist edge is on the RIGHT. Preserve this exact orientation. The silhouette occupies x=66..957, y=290..733 on the 1024-square canvas. Keep the circular armhole transparent and the side ribs at their exact guide positions.\nPaint the guide's existing surfaces with the reference's black and very dark violet chitin/resin plates, subtle fine cracks and small worn edge marks; narrow dark-violet/brown panel rims and seams; aged warm ivory bone-colored hard trim, hornlike edges and lateral rib fasteners where the guide has these parts; dark muted brown-violet inner lining; sparse bright saturated orange/amber light within the recessed slots as shown in the reference. Keep all guide panel joins and existing relief aligned. Unseen surfaces continue the same materials plausibly. Do not introduce white body panels, gold decorations, blue light, extra horns, extra ribs or lettering absent from the reference.\nLIGHTING: pure texture-source ALBEDO under even flat shadowless illumination from the viewer. Clearly readable base colors and fine painted material detail, NO cast shadows, NO ambient-occlusion darkening, NO directional shading, NO strong specular highlights, NO reflections, NO rim light, NO gradients from lighting. At most a faint material sheen. Glowing seams are painted bright orange/amber colors, with NO bloom or spill lighting. Do not copy the dramatic lighting in the design reference.\nBACKGROUND: fully transparent outside the guide silhouette and in its existing holes. No black background, no checkerboard painted into the image, no floor, no scenery. No text, letters, labels, symbols or watermark.\nFinal check: exact guide outline, exact framing and every part edge, reference materials/colors, flat even illumination, genuine alpha transparency. Return the image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_left.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "272afb9c22a8c103d955357c756e375856d9d4144516c88caf58dd40aff7ce38"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected. Correction restores vertical placement and improves silhouette overlap from 0.797233 to 0.979689.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-0ef4d8fe-f8ae-4984-a3e3-73be268146f9.png",
+      "output_sha256": "abdcb443cd2d9c1999656a6231f2dc36339fd7057d3261638e6f2c886d747138",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          27,
+          27,
+          1186,
+          1215
+        ],
+        "guide_alpha_bbox": [
+          66,
+          290,
+          958,
+          734
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.797233,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "materials": "Reference palette present; some invented ivory trim and emphasized cracks.",
+        "flat_even_lighting": "Fail: visible shaded recesses and bright bevel highlights.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "opaque_bbox": [
+          78,
+          323,
+          1178,
+          871
+        ],
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Precise material-only paint-over for a 3D game asset texture source (albedo).\nOUTPUT: one 1024 x 1024 PNG with genuine transparent background, named paint_right.png. Preserve the original square canvas and the object's existing pixel placement; no cropping, resizing, rotation, perspective change, recentering, or zoom.\nINPUT IMAGE 1: guide_right.png is the EDIT TARGET and the absolute authority for every pixel of silhouette, object position, size, camera, geometric part edge and hole. Edit ONLY the existing opaque surfaces of this guide. Preserve its alpha silhouette EXACTLY, including transparent apertures, tiny edge notches, faceted tips and internal cut-outs. No new geometry.\nINPUT IMAGE 2: design_reference.png is ONLY the material, color and surface-design authority. Do not copy its composition, perspective, silhouette, background or lighting.\nITEM: hes_black_carapace, lancer-grade chitin, black and heavy.\nVIEW: This guide has the armor lying HORIZONTALLY in the image: the shoulder/large circular armhole is on the RIGHT and the waist edge is on the LEFT. Preserve this exact orientation. The silhouette occupies x=66..957, y=290..733 on the 1024-square canvas. Keep the circular armhole transparent and the side ribs at their exact guide positions.\nPaint the guide's existing surfaces with the reference's black and very dark violet chitin/resin plates, subtle fine cracks and small worn edge marks; narrow dark-violet/brown panel rims and seams; aged warm ivory bone-colored hard trim, hornlike edges and lateral rib fasteners where the guide has these parts; dark muted brown-violet inner lining; sparse bright saturated orange/amber light within the recessed slots as shown in the reference. Keep all guide panel joins and existing relief aligned. Unseen surfaces continue the same materials plausibly. Do not introduce white body panels, gold decorations, blue light, extra horns, extra ribs or lettering absent from the reference.\nLIGHTING: pure texture-source ALBEDO under even flat shadowless illumination from the viewer. Clearly readable base colors and fine painted material detail, NO cast shadows, NO ambient-occlusion darkening, NO directional shading, NO strong specular highlights, NO reflections, NO rim light, NO gradients from lighting. At most a faint material sheen. Glowing seams are painted bright orange/amber colors, with NO bloom or spill lighting. Do not copy the dramatic lighting in the design reference.\nBACKGROUND: fully transparent outside the guide silhouette and in its existing holes. No black background, no checkerboard painted into the image, no floor, no scenery. No text, letters, labels, symbols or watermark.\nFinal check: exact guide outline, exact framing and every part edge, reference materials/colors, flat even illumination, genuine alpha transparency. Return the image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_right.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "6df80ed9cd19008a49d8bef7c2ce8b153bda247de6ead267eff10e709d4a4936"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected. Correction reduces gloss and bright bevel shading with only a small overlap reduction (0.984448 to 0.980722).",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-e55e4b33-9975-4b5c-b820-ac069c0c277c.png",
+      "output_sha256": "3643aeae94584473827bded3de12f85ce702136fcc55b856f5fab0326ba74df2",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          21,
+          1178,
+          1228
+        ],
+        "guide_alpha_bbox": [
+          66,
+          290,
+          958,
+          734
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.984448,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "materials": "Reference palette present; some invented ivory trim and emphasized cracks.",
+        "flat_even_lighting": "Fail: visible shaded recesses and bright bevel highlights.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "opaque_bbox": [
+          82,
+          355,
+          1172,
+          899
+        ],
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Precise material-only paint-over for a 3D game asset texture source (albedo).\nOUTPUT: one 1024 x 1024 PNG with genuine transparent background, named paint_top.png. Preserve the original square canvas and the object's existing pixel placement; no cropping, resizing, rotation, perspective change, recentering, or zoom.\nINPUT IMAGE 1: guide_top.png is the EDIT TARGET and the absolute authority for every pixel of silhouette, object position, size, camera, geometric part edge and hole. Edit ONLY the existing opaque surfaces of this guide. Preserve its alpha silhouette EXACTLY, including transparent apertures, tiny edge notches, faceted tips and internal cut-outs. No new geometry.\nINPUT IMAGE 2: design_reference.png is ONLY the material, color and surface-design authority. Do not copy its composition, perspective, silhouette, background or lighting.\nITEM: hes_black_carapace, lancer-grade chitin, black and heavy.\nVIEW: This exact model-axis top guide shows the whole breastplate vertically on the image: collar at the top, waist at the bottom, symmetric shoulder plates, paired pectoral plates and stacked abdominal plates. Preserve the guide camera, irrespective of conventional garment view names. Silhouette occupies x=187..836, y=66..957 on the 1024-square canvas.\nPaint the guide's existing surfaces with the reference's black and very dark violet chitin/resin plates, subtle fine cracks and small worn edge marks; narrow dark-violet/brown panel rims and seams; aged warm ivory bone-colored hard trim, hornlike edges and lateral rib fasteners where the guide has these parts; dark muted brown-violet inner lining; sparse bright saturated orange/amber light within the recessed slots as shown in the reference. Keep all guide panel joins and existing relief aligned. Unseen surfaces continue the same materials plausibly. Do not introduce white body panels, gold decorations, blue light, extra horns, extra ribs or lettering absent from the reference.\nLIGHTING: pure texture-source ALBEDO under even flat shadowless illumination from the viewer. Clearly readable base colors and fine painted material detail, NO cast shadows, NO ambient-occlusion darkening, NO directional shading, NO strong specular highlights, NO reflections, NO rim light, NO gradients from lighting. At most a faint material sheen. Glowing seams are painted bright orange/amber colors, with NO bloom or spill lighting. Do not copy the dramatic lighting in the design reference.\nBACKGROUND: fully transparent outside the guide silhouette and in its existing holes. No black background, no checkerboard painted into the image, no floor, no scenery. No text, letters, labels, symbols or watermark.\nFinal check: exact guide outline, exact framing and every part edge, reference materials/colors, flat even illumination, genuine alpha transparency. Return the image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_top.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "7e77fc893d9e43342eea598be382d508b95f8ee3bd301b6540fd5826f111bdfe"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Initial return preserves the guide substantially better (0.988432 overlap versus 0.931175); correction enlarged the silhouette. Best available raw return; exact silhouette and fully shadowless albedo requirements remain unmet.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-0a8c1004-70d1-43ca-95ec-51625c466f03.png",
+      "output_sha256": "7cb3f18487da29b0007a9b34c3909d7afdc677eb79203f3620ea97ed3a0c92de",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          37,
+          1234,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          187,
+          66,
+          837,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.988432,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "materials": "Reference palette present; some invented ivory trim and emphasized cracks.",
+        "flat_even_lighting": "Fail: visible shaded recesses and bright bevel highlights.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "opaque_bbox": [
+          229,
+          79,
+          1026,
+          1175
+        ],
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      },
+      "candidate_output": "paint_top_attempt1.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Corrective material-only repaint for game texture projection.\nImage 1 is guide_front.png, the actual image to edit. Image 2 is design_reference.png, only a material/color reference.\nGenerate ONE 1024 x 1024 transparent PNG. Paint directly inside Image 1's existing shape without redrawing its structure. Copy its silhouette, all geometric edges and exact alpha mask, including internal holes and all empty margins. Every existing part must remain at its exact pixel location. Keep the wide compact end-on ring and irregular central transparent hole. Object bounds on a 1024-square canvas: x187..836, y290..733. Leave the large empty margins intact.\nCRITICAL CORRECTION: the previous result had baked-in shadows, shiny beveled edges and outline drift. This time produce FLAT BASE COLOR / ALBEDO, NOT a lit 3D render. Uniform surface brightness regardless of surface angle. No darkening at joints or inside the armor, no bright beveled edge highlights, no glints, no reflections, no cast shadows, no ambient occlusion. Fine natural material variation is okay, directional lighting is not. Remove any exterior glow, colored fringe or stray partly transparent pixels; empty background and holes must have alpha exactly zero.\nMATERIALS from Image 2: heavy near-black violet chitin plate surfaces with subtle sparse fine cracks and faint wear; dark brown-violet panel borders and inner lining; matte warm aged ivory on existing bone/horn trim and rib fasteners; narrow flat vivid orange/amber color in existing luminous slots. Keep main chest, abdomen and waist panels dark chitin, without invented ivory inlays. Cracks and wear are understated, not bright gold veins. Preserve seams and small reference details in their corresponding guide parts. Continue these materials plausibly on unseen faces.\nUse flat shadowless illumination from the viewer. Image 2's dramatic lighting is NOT to be transferred. No scene, background, floor, text, letters, labels or watermark. Genuine alpha transparency. Deliver the raw image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_front.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "d47efaa4c52b6a16523367d7e9352d74f81f7f60775c486664fbc5d497f83794"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Correction has slightly better silhouette overlap and flatter material shading. Best available raw return; exact silhouette and fully shadowless albedo requirements remain unmet.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-81baaddb-2634-4f2d-b220-ac8404e621d4.png",
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          41,
+          20,
+          1224,
+          1198
+        ],
+        "opaque_bbox": [
+          227,
+          354,
+          1027,
+          899
+        ],
+        "guide_alpha_bbox": [
+          187,
+          290,
+          837,
+          734
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.983665,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "materials": "Reference black-violet chitin, aged ivory and orange palette present; material boundaries vary from the reference.",
+        "flat_even_lighting": "Improved, but not fully compliant: residual shaded recesses and edge highlights remain.",
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      },
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3c651fbf60ff7af8c4d29162450354194ba8111e21d325fa58c77fc27b4d479b",
+      "candidate_output": "paint_front_attempt2.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Corrective material-only repaint for game texture projection.\nImage 1 is guide_back.png, the actual image to edit. Image 2 is design_reference.png, only a material/color reference.\nGenerate ONE 1024 x 1024 transparent PNG. Paint directly inside Image 1's existing shape without redrawing its structure. Copy its silhouette, all geometric edges and exact alpha mask, including internal holes and all empty margins. Every existing part must remain at its exact pixel location. The first attempt incorrectly ENLARGED the object. Match IMAGE 1's exact small centered end-on ring: width 650 pixels, height 444 pixels, x187..836 and y290..733 on a 1024-square canvas. The transparent margins above and below are each 290 pixels. Do not zoom to fill the canvas. Preserve the irregular central transparent hole.\nCRITICAL CORRECTION: the previous result had baked-in shadows, shiny beveled edges and outline drift. This time produce FLAT BASE COLOR / ALBEDO, NOT a lit 3D render. Uniform surface brightness regardless of surface angle. No darkening at joints or inside the armor, no bright beveled edge highlights, no glints, no reflections, no cast shadows, no ambient occlusion. Fine natural material variation is okay, directional lighting is not. Remove any exterior glow, colored fringe or stray partly transparent pixels; empty background and holes must have alpha exactly zero.\nMATERIALS from Image 2: heavy near-black violet chitin plate surfaces with subtle sparse fine cracks and faint wear; dark brown-violet panel borders and inner lining; matte warm aged ivory on existing bone/horn trim and rib fasteners; narrow flat vivid orange/amber color in existing luminous slots. Keep main chest, abdomen and waist panels dark chitin, without invented ivory inlays. Cracks and wear are understated, not bright gold veins. Preserve seams and small reference details in their corresponding guide parts. Continue these materials plausibly on unseen faces.\nUse flat shadowless illumination from the viewer. Image 2's dramatic lighting is NOT to be transferred. No scene, background, floor, text, letters, labels or watermark. Genuine alpha transparency. Deliver the raw image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_back.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "cc738c6aa3c75688449532bd9c930885b968917e3c3827b7b6ce22066899985c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Correction restores the original small centered framing and improves silhouette overlap from 0.506323 to 0.981820. Best available raw return; exact silhouette and fully shadowless albedo requirements remain unmet.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-40ad3593-75fb-4d3b-bbaa-0d37b5bbb0c3.png",
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          75,
+          20,
+          1198,
+          1214
+        ],
+        "opaque_bbox": [
+          228,
+          355,
+          1026,
+          900
+        ],
+        "guide_alpha_bbox": [
+          187,
+          290,
+          837,
+          734
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.98182,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "materials": "Reference black-violet chitin, aged ivory and orange palette present; material boundaries vary from the reference.",
+        "flat_even_lighting": "Improved, but not fully compliant: residual shaded recesses and edge highlights remain.",
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      },
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "b68abb8325e3b8285fe4716d98a06939318bc2a7dfad4d1550996a1f9a4e68bb",
+      "candidate_output": "paint_back_attempt2.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Corrective material-only repaint for game texture projection.\nImage 1 is guide_left.png, the actual image to edit. Image 2 is design_reference.png, only a material/color reference.\nGenerate ONE 1024 x 1024 transparent PNG. Paint directly inside Image 1's existing shape without redrawing its structure. Copy its silhouette, all geometric edges and exact alpha mask, including internal holes and all empty margins. Every existing part must remain at its exact pixel location. The first attempt shifted the object upward. Match IMAGE 1's exact centered horizontal placement: x66..957, y290..733 on a 1024-square canvas. The shoulder and armhole are on the LEFT, the waist on the RIGHT. Top and bottom margins are exactly 290 pixels each. Do not rotate or tilt.\nCRITICAL CORRECTION: the previous result had baked-in shadows, shiny beveled edges and outline drift. This time produce FLAT BASE COLOR / ALBEDO, NOT a lit 3D render. Uniform surface brightness regardless of surface angle. No darkening at joints or inside the armor, no bright beveled edge highlights, no glints, no reflections, no cast shadows, no ambient occlusion. Fine natural material variation is okay, directional lighting is not. Remove any exterior glow, colored fringe or stray partly transparent pixels; empty background and holes must have alpha exactly zero.\nMATERIALS from Image 2: heavy near-black violet chitin plate surfaces with subtle sparse fine cracks and faint wear; dark brown-violet panel borders and inner lining; matte warm aged ivory on existing bone/horn trim and rib fasteners; narrow flat vivid orange/amber color in existing luminous slots. Keep main chest, abdomen and waist panels dark chitin, without invented ivory inlays. Cracks and wear are understated, not bright gold veins. Preserve seams and small reference details in their corresponding guide parts. Continue these materials plausibly on unseen faces.\nUse flat shadowless illumination from the viewer. Image 2's dramatic lighting is NOT to be transferred. No scene, background, floor, text, letters, labels or watermark. Genuine alpha transparency. Deliver the raw image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_left.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "272afb9c22a8c103d955357c756e375856d9d4144516c88caf58dd40aff7ce38"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Correction restores vertical placement and improves silhouette overlap from 0.797233 to 0.979689. Best available raw return; exact silhouette and fully shadowless albedo requirements remain unmet.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-51605def-8ef4-48b2-bdbe-200116e27b5c.png",
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          63,
+          1226,
+          1224
+        ],
+        "opaque_bbox": [
+          82,
+          353,
+          1174,
+          902
+        ],
+        "guide_alpha_bbox": [
+          66,
+          290,
+          958,
+          734
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.979689,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "materials": "Reference black-violet chitin, aged ivory and orange palette present; material boundaries vary from the reference.",
+        "flat_even_lighting": "Improved, but not fully compliant: residual shaded recesses and edge highlights remain.",
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      },
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "389c6e8ceb0e5ce497ed8650fe83efd3570094df46c0cc430f3972f333960f84",
+      "candidate_output": "paint_left_attempt2.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Corrective material-only repaint for game texture projection.\nImage 1 is guide_right.png, the actual image to edit. Image 2 is design_reference.png, only a material/color reference.\nGenerate ONE 1024 x 1024 transparent PNG. Paint directly inside Image 1's existing shape without redrawing its structure. Copy its silhouette, all geometric edges and exact alpha mask, including internal holes and all empty margins. Every existing part must remain at its exact pixel location. Keep the exact centered HORIZONTAL guide, waist at LEFT and shoulder/armhole at RIGHT. Object bounds x66..957, y290..733 on a 1024-square canvas. Preserve the exact armhole shape and all small tips.\nCRITICAL CORRECTION: the previous result had baked-in shadows, shiny beveled edges and outline drift. This time produce FLAT BASE COLOR / ALBEDO, NOT a lit 3D render. Uniform surface brightness regardless of surface angle. No darkening at joints or inside the armor, no bright beveled edge highlights, no glints, no reflections, no cast shadows, no ambient occlusion. Fine natural material variation is okay, directional lighting is not. Remove any exterior glow, colored fringe or stray partly transparent pixels; empty background and holes must have alpha exactly zero.\nMATERIALS from Image 2: heavy near-black violet chitin plate surfaces with subtle sparse fine cracks and faint wear; dark brown-violet panel borders and inner lining; matte warm aged ivory on existing bone/horn trim and rib fasteners; narrow flat vivid orange/amber color in existing luminous slots. Keep main chest, abdomen and waist panels dark chitin, without invented ivory inlays. Cracks and wear are understated, not bright gold veins. Preserve seams and small reference details in their corresponding guide parts. Continue these materials plausibly on unseen faces.\nUse flat shadowless illumination from the viewer. Image 2's dramatic lighting is NOT to be transferred. No scene, background, floor, text, letters, labels or watermark. Genuine alpha transparency. Deliver the raw image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_right.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "6df80ed9cd19008a49d8bef7c2ce8b153bda247de6ead267eff10e709d4a4936"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Correction reduces gloss and bright bevel shading with only a small overlap reduction (0.984448 to 0.980722). Best available raw return; exact silhouette and fully shadowless albedo requirements remain unmet.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-989f98a9-32d2-43e2-8625-00d2250ef60f.png",
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          21,
+          29,
+          1218,
+          1230
+        ],
+        "opaque_bbox": [
+          81,
+          355,
+          1173,
+          899
+        ],
+        "guide_alpha_bbox": [
+          66,
+          290,
+          958,
+          734
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.980722,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "materials": "Reference black-violet chitin, aged ivory and orange palette present; material boundaries vary from the reference.",
+        "flat_even_lighting": "Improved, but not fully compliant: residual shaded recesses and edge highlights remain.",
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      },
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "6901cd096c4cb76556c84a50b675050570ff956da64c2a03fb0e44cdb386600c",
+      "candidate_output": "paint_right_attempt2.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Corrective material-only repaint for game texture projection.\nImage 1 is guide_top.png, the actual image to edit. Image 2 is design_reference.png, only a material/color reference.\nGenerate ONE 1024 x 1024 transparent PNG. Paint directly inside Image 1's existing shape without redrawing its structure. Copy its silhouette, all geometric edges and exact alpha mask, including internal holes and all empty margins. Every existing part must remain at its exact pixel location. Keep the exact vertical guide, collar at top, waist at bottom. Object bounds x187..836, y66..957 on a 1024-square canvas. Preserve its existing plate edges, side rib placements, stepped shoulders and pointed waist. Do not add new ivory pieces on the central collar, chest, abdominal or waist plates.\nCRITICAL CORRECTION: the previous result had baked-in shadows, shiny beveled edges and outline drift. This time produce FLAT BASE COLOR / ALBEDO, NOT a lit 3D render. Uniform surface brightness regardless of surface angle. No darkening at joints or inside the armor, no bright beveled edge highlights, no glints, no reflections, no cast shadows, no ambient occlusion. Fine natural material variation is okay, directional lighting is not. Remove any exterior glow, colored fringe or stray partly transparent pixels; empty background and holes must have alpha exactly zero.\nMATERIALS from Image 2: heavy near-black violet chitin plate surfaces with subtle sparse fine cracks and faint wear; dark brown-violet panel borders and inner lining; matte warm aged ivory on existing bone/horn trim and rib fasteners; narrow flat vivid orange/amber color in existing luminous slots. Keep main chest, abdomen and waist panels dark chitin, without invented ivory inlays. Cracks and wear are understated, not bright gold veins. Preserve seams and small reference details in their corresponding guide parts. Continue these materials plausibly on unseen faces.\nUse flat shadowless illumination from the viewer. Image 2's dramatic lighting is NOT to be transferred. No scene, background, floor, text, letters, labels or watermark. Genuine alpha transparency. Deliver the raw image unresized.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/guide_top.png",
+          "role": "edit target; geometry and alpha authority",
+          "sha256": "7e77fc893d9e43342eea598be382d508b95f8ee3bd301b6540fd5826f111bdfe"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_black_carapace/design_reference.png",
+          "role": "material and color reference",
+          "sha256": "e52ec735c682f72e6a355cd4dceec23dccc3353b6a554bf079be2a96d878a129"
+        }
+      ],
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Not selected. Initial return preserves the guide substantially better (0.988432 overlap versus 0.931175); correction enlarged the silhouette.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e51-9008-7d61-acff-e709854c75b1/exec-e0f0b682-0617-41d4-aab2-2104445f03b1.png",
+      "checks": {
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          47,
+          1154,
+          1230
+        ],
+        "opaque_bbox": [
+          217,
+          61,
+          1038,
+          1192
+        ],
+        "guide_alpha_bbox": [
+          187,
+          66,
+          837,
+          958
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.931175,
+        "iou_method": "Read-only alpha >127 comparison sampled at guide pixel centers in normalized canvas coordinates; files remain unresized.",
+        "no_text_or_letters": true,
+        "unresized_return": true,
+        "materials": "Reference black-violet chitin, aged ivory and orange palette present; material boundaries vary from the reference.",
+        "flat_even_lighting": "Improved, but not fully compliant: residual shaded recesses and edge highlights remain.",
+        "alpha_edge_limitation": "Some faint partially transparent stray pixels and colored fringe remain outside the intended silhouette."
+      },
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "533ef0e1d5c150c1d07ef36bc63a46a0861962a647c868da3045ccf5143b6310"
+    }
+  ],
+  "status": "Five deliverables saved; best available raw returns with documented unmet visual constraints.",
+  "limitations": [
+    "The built-in tool returned 1254 x 1254 for every attempt despite requests for 1024 x 1024. All files are byte-for-byte unresized returns, as the brief permits.",
+    "No selected return has an identical guide alpha mask. Normalized opaque silhouette intersection-over-union is approximately 97.97 to 98.84 percent; minor edge drift, faint stray alpha and colored fringe remain.",
+    "Residual shading and edge highlights remain, so these are not perfectly flat albedo sources.",
+    "Top uses the first attempt because its permitted correction enlarged the silhouette. Each other view uses its correction.",
+    "No resizing, compositing, masking, repainting, mesh changes, texture baking, runtime integration or builds were performed."
+  ],
+  "selected_outputs": [
+    "paint_top.png",
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png"
+  ]
+}

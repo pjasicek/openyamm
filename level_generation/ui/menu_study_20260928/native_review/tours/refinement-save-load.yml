@@ -1,0 +1,112 @@
+output_dir: ../replay/refinement-save-load
+exit: true
+steps:
+- wait: 6
+- key_down: Escape
+- wait: 0.3
+- key_up: Escape
+- expect: pause
+- expect: menu_cursor
+- capture: pause
+- key_down: Escape
+- wait: 0.4
+- expect: gameplay
+- key_up: Escape
+- wait: 0.6
+- key: Escape
+- expect: pause
+- click:
+  - 800
+  - 366
+- expect: text_input
+- capture: save-list
+- click:
+  - 1140
+  - 668
+- text: ' - Camp'
+- wait: 0.4
+- capture: save-name-typed
+- click:
+  - 1300
+  - 801
+- expect: gameplay
+- capture: save-created
+- key: Escape
+- expect: pause
+- click:
+  - 800
+  - 366
+- pointer_move:
+  - 400
+  - 270
+- wheel: 50
+- pointer_down:
+  - 774
+  - 270
+- pointer_move:
+  - 774
+  - 737
+- capture: save-drag-bottom
+- pointer_up:
+  - 774
+  - 737
+- pointer_down:
+  - 774
+  - 720
+- pointer_move:
+  - 774
+  - 230
+- pointer_up:
+  - 774
+  - 230
+- capture: save-drag-top
+- click:
+  - 234
+  - 801
+- click:
+  - 800
+  - 430
+- capture: load-list
+- pointer_down:
+  - 774
+  - 270
+- pointer_move:
+  - 774
+  - 737
+- capture: load-drag-bottom
+- pointer_up:
+  - 774
+  - 737
+- pointer_down:
+  - 774
+  - 720
+- pointer_move:
+  - 774
+  - 230
+- pointer_up:
+  - 774
+  - 230
+- capture: load-drag-top
+- click:
+  - 1300
+  - 801
+- click:
+  - 948
+  - 550
+- wait: 3
+- expect: gameplay
+- key: Escape
+- expect: pause
+- expect: menu_cursor
+- wait: 3
+- capture: pause-after-load
+- key_down: Escape
+- wait: 0.5
+- expect: gameplay
+- key_up: Escape
+- wait: 0.6
+- capture: resumed
+- key: Escape
+- expect: pause
+- expect: menu_cursor
+- capture: pause-again

@@ -1,0 +1,1 @@
+Reproduce using repair_extraction.py from unchanged raw. Old companion mask retained; it removed four native pixels of base and caused reddish edge. Reviewed master contains solid gray stone, no cyan material. Calibrated solid extraction restores footprint without rescaling. Replay after any plain process. Final bounds [0,-0.5,0,0], no warnings; both proofs inspected.

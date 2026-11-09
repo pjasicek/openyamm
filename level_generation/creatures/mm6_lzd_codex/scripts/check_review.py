@@ -1,0 +1,7 @@
+import subprocess,json
+from pathlib import Path
+P=Path(__file__).resolve().parents[1];release=json.loads((P/'export/export_info.json').read_text())['impact_seconds'];url='http://127.0.0.1:8919/level_generation/creatures/mm6_lzd_codex/review/viewer/'
+r=subprocess.run(['node',str(P.parent/'claude_shared/check_viewer.mjs'),url,'60'],text=True,capture_output=True,check=True);data=json.loads(r.stdout);assert data['ready']=='true'and data['switched']==27 and not data['failed']and not data['consoleErrors'];(P/'review/viewer_check.json').write_text(json.dumps(data,indent=2));print(r.stdout)
+subprocess.run(['node',str(P/'scripts/viewer_shots.mjs'),url,str(P/'review/browser'),'standing:Standing:0:quarter:body','draw:Attack:0.7:quarter:body',f'release:Attack:{release}:front:body','corpse:Dead:0:quarter:body','walking_front:Walking:0.2:front:body','walking_side:Walking:0.2:left:body','walking_hand:Walking:0.2:front:arms','walking_feet:Walking:0.2:front:feet','running_feet:Running:0.2:front:feet','running_front:Running:0.2:front:body','standing_grip:Standing:0:left:arms','cast_windup:Cast:0.5:quarter:body',f'cast_release:Cast:{release}:quarter:body',f'cast_front:Cast:{release}:front:body',f'cast_side:Cast:{release}:left:body'],check=True)
+
+subprocess.run(['node',str(P/'scripts/viewer_shots.mjs'),url+'?model=lzd_c',str(P/'review/browser'),f'wizard_cast:Cast:{release}:quarter:body',f'wizard_cast_front:Cast:{release}:front:body',f'wizard_cast_hand:Cast:{release}:quarter:arms'],check=True)

@@ -1,0 +1,142 @@
+# Written by make_cinematic_scenarios.py (yanmir_death, cutscene.py).
+id: mm9r.yanmirsfort.cinematic_yanmir_death_watch
+title: Yanmir's Fort - yanmir_death watched from the hall (no camera)
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- cinematic
+steps:
+- load_map:
+    map: yanmirsfort.blv
+- note:
+    text: 'YanmirTrap.scr: the six supports broken arm the trap'
+- execute_event:
+    id: 200
+- execute_event:
+    id: 201
+- execute_event:
+    id: 202
+- execute_event:
+    id: 203
+- execute_event:
+    id: 204
+- execute_event:
+    id: 205
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: TrapArmed
+      value: 1
+- note:
+    text: SquishTrigger0 wakes Yanmir
+- set_pose:
+    map: yanmirsfort.blv
+    x: -4455
+    y: -2458
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- set_pose:
+    map: yanmirsfort.blv
+    x: -4055
+    y: -2458
+    z: 1
+    yaw: 0.0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: YanmirAwake
+      value: 1
+- note:
+    text: Yanmir sees the party, which backs into the trap hall's north end
+- set_pose:
+    map: yanmirsfort.blv
+    x: -1792
+    y: -2304
+    z: 1
+    yaw: 3.141592653589793
+    pitch: 0
+- advance_runtime:
+    seconds: 3
+- execute_event:
+    id: 112
+- set_pose:
+    map: yanmirsfort.blv
+    x: 0
+    y: -3840
+    z: 1
+    yaw: 1.5707963267948966
+    pitch: 0
+- advance_runtime:
+    seconds: 4
+- set_pose:
+    map: yanmirsfort.blv
+    x: 492
+    y: -4864
+    z: 1
+    yaw: 1.5707963267948966
+    pitch: 0
+- advance_runtime:
+    seconds: 4
+- set_pose:
+    map: yanmirsfort.blv
+    x: 492
+    y: -6144
+    z: 1
+    yaw: 1.5707963267948966
+    pitch: 0
+- advance_runtime:
+    seconds: 4
+- note:
+    text: 'the party waits at y -10829: Yanmir chases it over the trap'
+- execute_event:
+    id: 113
+- advance_runtime:
+    seconds: 1
+- set_pose:
+    map: yanmirsfort.blv
+    x: 492
+    y: -10829
+    z: 1
+    yaw: 1.5707963267948966
+    pitch: 0
+- advance_runtime:
+    seconds: 0.25
+- advance_runtime:
+    seconds: 30.0
+- note:
+    text: 'the party on AITrk97 (UserData 555) saw the hall: no camera, the steps on T_FALL'
+- assert:
+    state_dump_named_map_var:
+      name: TrapFired
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Cinema.yanmir_death.started
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: FallStage
+      value: 4
+- assert:
+    state_dump_named_map_var:
+      name: YanmirGone
+      value: 1
+- assert:
+    qbit_set:
+    - 90173
+- assert:
+    mechanism:
+      id: 70
+      state: open
+- assert:
+    actor_visible:
+      actor_index: 71
+      hidden: true

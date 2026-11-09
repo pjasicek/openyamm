@@ -1,0 +1,101 @@
+{
+ "hnm1el_v1": {
+  "member": "mm7/hnm1el",
+  "version": 1,
+  "flags": [
+   "edge left 0.52",
+   "rim left 0.21/1.14"
+  ],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.851,
+    0.892,
+    0.925
+   ],
+   "prefilled": 0.336,
+   "edge_left": 0.52,
+   "edge_right": 1.05,
+   "rim_left": [
+    0.21,
+    1.14
+   ],
+   "rim_right": [
+    1.08,
+    1.08
+   ],
+   "line_top": 0,
+   "line_bottom": 1,
+   "line_left": 1,
+   "line_right": 0,
+   "traced": -0.002,
+   "layout_corr": 0.921,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84,
+   "neighbor_gain": [
+    0.996,
+    1.146,
+    1.315
+   ],
+   "joint_left": [
+    1.56,
+    0.07
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-2148-mm7-7d26-00/candidates/hnm1el_v1.png"
+ },
+ "hnm1el_v2": {
+  "member": "mm7/hnm1el",
+  "version": 2,
+  "flags": [],
+  "metrics": {
+   "shift_native_px": [
+    0.0,
+    0.0
+   ],
+   "gain": [
+    0.733,
+    0.717,
+    0.784
+   ],
+   "prefilled": 0.336,
+   "edge_left": 1.3,
+   "edge_right": 1.03,
+   "rim_left": [
+    1.23,
+    1.34
+   ],
+   "rim_right": [
+    1.12,
+    1.05
+   ],
+   "line_top": 1,
+   "line_bottom": 0,
+   "line_left": 2,
+   "line_right": 0,
+   "traced": -0.005,
+   "layout_corr": 0.837,
+   "raw_size": [
+    935,
+    1683
+   ],
+   "source_scale": 5.84,
+   "neighbor_gain": [
+    0.518,
+    0.623,
+    0.684
+   ],
+   "joint_left": [
+    1.92,
+    0.07
+   ]
+  },
+  "candidate": "level_generation/textures_x4/jobs/20261009-2148-mm7-7d26-00/candidates/hnm1el_v2.png"
+ }
+}

@@ -1,0 +1,252 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "status": "Generated raw candidates; exact brief requirements not satisfied.",
+  "selection_note": "selected identifies the best available raw attempt per view, not acceptance against the brief.",
+  "postprocessing": "None. Outputs copied byte-for-byte; no resizing, masking, colour edits or compositing.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Produce exactly ONE 1024 x 1024 RGBA image with a genuinely transparent background, a painted albedo texture-source view for the opened Kreegan scrap bundle.\n\nINPUTS IN ORDER:\n1. guide_front.png: EDIT TARGET and absolute geometry authority. This is the exact low-poly 3D model viewed orthographically from the FRONT.\n2. design_reference.png: approved colour and surface-material authority ONLY. Do not copy its camera, outline, layout, lighting, or background.\n3. concept_crop.png: supporting original material/concept reference ONLY.\n\nChange ONLY the target's grey surface colours into painted materials. Keep the input guide's alpha silhouette EXACTLY at the same pixel positions, including every opening and thin edge. Preserve the full 1024-square canvas, all margins, scale, placement, low-poly geometry, projected shape edges and occlusions. The visible geometry spans x=69..954, y=325..698. Do not enlarge, shift, rotate, reframe, crop, round off, remodel or invent geometry. The wide shallow bundle and the two outer curled claw/ring pieces must stay precisely where they are in the front guide. Preserve the openings in both outer pieces and the openings through the bundle.\n\nPaint the visible sheets and crossing strands dull black-violet Kreegan resin, with restrained fine ridges and subtle purple material variation matching the approved design. Bone claw parts are pale ivory, and their existing ring/mounting parts are gold, following the reference materials and the GUIDE's positions. Keep the broken layered sheet structure and every existing angular edge. Very fine warm orange seams visible in the design are local pigment colour only, never light spill. Add no objects or geometry.\n\nLIGHTING: this is ALBEDO for texture projection, not a lit beauty render. Even, flat, shadowless illumination from the viewer. No cast shadows, ambient-occlusion darkening, directional gradients, strong specular highlights, reflections, white edge highlights or rim light. Gold is flat gold-coloured material, ivory is pale ivory, resin is matte dull dark violet. Use intrinsic material colour and delicate surface texture to describe surfaces, not baked lighting. No floor, background colour, halo, vignette, checkerboard pattern, text or watermark. All pixels outside the original target silhouette and inside its openings must remain transparent. Return the 1024 x 1024 painting at native size, unresized.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "9258be4a17eefb813bc6d216641b025c5ca80bde3de8b55283af2849fcdb154e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Native return is 1254 x 1254 instead of 1024 x 1024, preventing exact pixel alignment; recessed surfaces and gold/ivory have baked shading/highlights. One corrective regeneration requested.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "flat_even_light": false,
+        "mode": "RGBA",
+        "transparent_pixel_count": 1237576,
+        "alpha_bbox": [
+          33,
+          31,
+          1175,
+          1222
+        ],
+        "alpha_above_127_bbox": [
+          83,
+          398,
+          1171,
+          856
+        ],
+        "guide_alpha_bbox": [
+          69,
+          325,
+          955,
+          699
+        ],
+        "raw_unresized_copy": true
+      },
+      "accepted": false,
+      "output_sha256": "08f77f1adff61ef0a8c5d097791486e4cb064022dc7acc2c2a6f846ce4839340",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ad3-8eac-77f0-b6c5-c8bb85e0fd1d/exec-92b1422f-4c66-43e2-9b35-10c65240ee01.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, FRONT VIEW. The previous attempt failed by returning a 1254 x 1254 image with baked shadows and highlights. Required output: EXACTLY 1024 x 1024 native pixels. Do not upscale the guide. Do not return 1254 x 1254. This is a registered texture-projection source and absolute pixel alignment is essential.\n\nEdit image 1 (guide_front.png) IN PLACE, changing its grey RGB surface material colours only. Keep its original 1024 x 1024 raster, original alpha cutout, every edge, hole and projected shape. Preserve the precise coordinates of the original geometry: visible silhouette occupies x=69..954 and y=325..698 on the 1024-square canvas. Keep the large empty margins above and below. No recentering or scaling.\n\nImage 2 (design_reference.png) supplies material colours, not geometry or lighting. Image 3 (concept_crop.png) supports those materials.\nPaint the exact grey model's existing layered sheets and strands dull black-violet Kreegan resin with restrained fine ridges; the existing bone claws are pale ivory and their ring mounts gold. Follow the guide's TWO side fittings and their openings, and every front-facing sheet, crossing strand, opening, facet and overlap. Do not adopt the reference's three-quarter view or single-fitting arrangement.\n\nMake this a FLAT ALBEDO PAINTING. Use material pigment variation only. Eliminate all baked shadows, occlusion gradients, black shaded recesses, white highlights, specular streaks, edge lights, directional illumination and reflections. The same resin material has the same base value whether facing up, down or into a recess. Pale ivory and ochre-gold surfaces have fine texture but no glossy streaks or dark sides. Fine orange seams from the reference are pigment only, with no halo or cast light. No added geometry, no background, floor, checkerboard, text or watermark. True RGBA transparency outside the guide and in all guide holes. Return ONE image with the input guide's exact alpha silhouette and EXACT 1024 x 1024 native resolution.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "9258be4a17eefb813bc6d216641b025c5ca80bde3de8b55283af2849fcdb154e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected the only corrective attempt for improved matte gold/ivory; raw output preserved. Still fails required 1024 x 1024 dimensions and identical silhouette; recessed surfaces retain some shading.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_match": "Black-violet resin, ivory claws, gold mounts; orange veins more prominent than requested.",
+        "flat_even_light": false,
+        "mode": "RGBA",
+        "transparent_pixel_count": 1236951,
+        "alpha_bbox": [
+          25,
+          67,
+          1218,
+          1228
+        ],
+        "alpha_above_127_bbox": [
+          82,
+          397,
+          1172,
+          856
+        ],
+        "guide_alpha_bbox": [
+          69,
+          325,
+          955,
+          699
+        ],
+        "raw_unresized_copy": true
+      },
+      "accepted": false,
+      "output_sha256": "5992253bcd57c0a4154268f0bc367edeecaa1657ec5b00e7a31363cd6aa24347",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ad3-8eac-77f0-b6c5-c8bb85e0fd1d/exec-488ba1e2-572c-4288-9d0c-dae90c3aa296.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. ONE native 1024 x 1024 transparent RGBA albedo painting. Edit the first input directly on its original pixel grid; preserve its exact raster dimensions.\n\nINPUT 1, guide_top.png: edit target and absolute geometry authority. This is the exact 3D scrap bundle viewed orthographically from straight ABOVE. It is 1024 x 1024. Change only surface material colours and texture. Preserve the guide's alpha mask EXACTLY, same outline, size, position, every edge, opening and internal shape. Its visible geometry spans x=69..954 and y=66..957. Keep the elongated vertical footprint, hollow/open layered interior, crossing strands, all angular sheet pieces, two small edge-on side fittings at mid-height, and every protrusion at the top and bottom. Do not enlarge those edge-on fittings into visible front-facing claws. Do not move, rotate, round, crop or add anything. No camera change.\nINPUT 2, design_reference.png: approved design, colour and material authority ONLY, not geometry or camera or lighting.\nINPUT 3, concept_crop.png: original concept for supporting material reference ONLY.\n\nPaint the guide's layered sheets and strands dull black-violet Kreegan resin with fine ridges and restrained purple surface texture. Existing bone claw portions are pale ivory, existing rings/mounts gold. Their shape and extremely narrow top-view projections must come exclusively from guide_top.png. Fine orange seams from the design are intrinsic pigment colour, never glow cast onto adjacent surfaces. Keep all guide shape edges, overlap boundaries and holes at their original pixel locations.\n\nThis is a TEXTURE SOURCE, ALBEDO. Flat, even, shadowless illumination from the viewer. No directional shading or ambient-occlusion darkening, no black shaded recesses, no cast shadows, specular highlights or reflections, white contour highlights or rim light. Use matte pigment colours and subtle texture; not a beauty render. Gold is ochre-gold pigment without bright reflective streaks, ivory is pale bone. Do not transfer the concept image's dramatic lighting. Transparent background including all holes; no floor, vignette, halo, text, checkerboard or watermark. Return EXACTLY 1024 x 1024 native pixels, same canvas and cutout as the original guide, unresized.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "bd40b0c469a4f0461d823bc5a63724f2893daba47bbc6d0be04ebeb05ebdf92a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected the first top attempt because it retains ivory side claw portions consistent with the front and material references. Corrective attempt lost ivory. Raw output preserved; dimensions, exact silhouette and flat lighting still fail the brief.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "flat_even_light": false,
+        "materials_match": "Black-violet resin, ivory claw portions, gold mounts; orange seams more prominent than requested.",
+        "mode": "RGBA",
+        "transparent_pixel_count": 834354,
+        "alpha_bbox": [
+          0,
+          23,
+          1236,
+          1236
+        ],
+        "alpha_above_127_bbox": [
+          83,
+          79,
+          1170,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          69,
+          66,
+          955,
+          958
+        ],
+        "raw_unresized_copy": true
+      },
+      "accepted": false,
+      "output_sha256": "bf83c13bd1b0abb305b636687b297983a3f9a22cf6fd8ca3f644a73cca23a16c",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ad3-8eac-77f0-b6c5-c8bb85e0fd1d/exec-48262c7e-fcad-4296-a92b-9172c48e86f3.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: TOP ALBEDO VIEW. Required native output dimensions are EXACTLY 1024 x 1024 pixels, matching image 1. Preserve image 1's original size and pixel positions; the previous 1254-square result was incorrect. This is material painting on the provided image, not generating a new composition.\n\nEDIT TARGET: image 1, guide_top.png, a 1024-square orthographic top render. Preserve its exact alpha mask, every polygon contour, opening, overlap and silhouette. Geometry spans x=69..954 and y=66..957. Every sheet, strand, side fitting and pointed protrusion remains exactly at its source pixel coordinates. Keep its vertical footprint and tiny EDGE-ON projections of side claws/mounts. Do not redraw, inflate, reposition or enlarge them.\nMATERIAL REFERENCES: image 2 design_reference.png is the approved colour/material design; image 3 concept_crop.png supports it. Do not import their camera, layout, form or dramatic illumination.\n\nPrimary correction: remove ALL lighting from the painted materials. True base-colour/albedo texture. Dull matte black-violet resin sheets and strands with fine ridges and soft intrinsic colour variation, pale ivory bone and ochre-gold ring mounts. Recessed resin surfaces must have the same base brightness as exposed resin surfaces: no occlusion shadows or dark undersides. No directional light, no reflected light, no bright metal facets, no white bone highlights, no rim highlights. Very thin, sparse orange seams are paint colour only, with no glow or spill. Retain every shape boundary through subtle material texture, never through deep black painted outlines or artificial shading. No new geometry. No floor, backdrop, checkerboard, text, border or watermark. True transparent RGBA everywhere outside image 1's exact silhouette and in its holes. Return ONE unresized native 1024 x 1024 PNG, exact original pixel grid and alpha cutout.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "bd40b0c469a4f0461d823bc5a63724f2893daba47bbc6d0be04ebeb05ebdf92a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "36288522222d709bf4b76d8e77ab9baa2a4a52b63da143732b97de6e4eae8739"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fca848cd657a817de8b0745dff6ffadf3f31ff37e99178b93b88e75b24b0346d"
+        }
+      ],
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Flatter resin than attempt 1, but bone claw portions became violet instead of pale ivory. Native return still 1254 x 1254 and not an identical guide silhouette. Maximum one corrective regeneration reached.",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_match": false,
+        "flat_even_light": false,
+        "mode": "RGBA",
+        "transparent_pixel_count": 835088,
+        "alpha_bbox": [
+          0,
+          31,
+          1240,
+          1254
+        ],
+        "alpha_above_127_bbox": [
+          83,
+          80,
+          1171,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          69,
+          66,
+          955,
+          958
+        ],
+        "raw_unresized_copy": true
+      },
+      "accepted": false,
+      "output_sha256": "ab645dc8bb01755e024b3b85ec2a8886a9fcc99e0c1958b52c645f8fb4f5cda0",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ad3-8eac-77f0-b6c5-c8bb85e0fd1d/exec-b5e9215e-e1c4-41e9-9d12-3bd107f3b838.png"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+import bpy,sys,runpy,math,json
+import numpy as np
+from pathlib import Path
+from mathutils import Vector,Quaternion
+P=Path(__file__).resolve().parents[1];sys.path.insert(0,str(P/'scripts'));import round1_fit as F
+bpy.ops.wm.open_mainfile(filepath=str(P/'work/round1_clothed.blend'));r=bpy.data.objects['Rig'];b=bpy.data.objects['Body'];sc=bpy.context.scene;F.r=r;F.body=b;F.sc=sc;stats={}
+for role in ['Attack','Cast','Hit']:
+ a=bpy.data.actions[role];rows=[];uppers={s:[] for s in 'RL'}
+ for f in range(int(a.frame_range[1])+1):
+  rows.append(F.sample(a,f))
+  for s in 'RL':uppers[s].append(F.M(f'B_{s}_UpperArm').to_quaternion())
+ result=[]
+ for f,row in enumerate(rows):
+  F.apply(row)
+  for s in 'RL':
+   sigma=7 if role!='Hit' else 5;qq=uppers[s][f];acc=np.zeros(4);total=0
+   for j in range(max(0,f-3*sigma),min(len(rows),f+3*sigma+1)):
+    q=uppers[s][j];sign=1 if q.dot(qq)>=0 else -1;w=math.exp(-.5*((j-f)/sigma)**2);acc+=np.array(q)*sign*w;total+=w
+   q=Quaternion(acc/np.linalg.norm(acc));un,fn,hn,la,lb,ru,rf,rb,axis=F.armdata[s];U=F.M(un).translation;H=F.M(hn);v=H.translation-U;dd=v.normalized();length=min(v.length,(la+lb)*.999999);cc=max(-1,min(1,(la*la+length*length-lb*lb)/(2*la*length)));direction=q@(F.restb[un].to_3x3().inverted()@ru);pole=(direction-dd*direction.dot(dd)).normalized();EL=U+dd*la*cc+pole*la*math.sqrt(1-cc*cc);up=(EL-U).normalized();fo=(H.translation-EL).normalized();bend=(fo-up*fo.dot(up)).normalized();UD=F.basis(up,bend)@rb.transposed();UR=UD@F.restb[un].to_3x3();FR=(UD@rf).rotation_difference(fo).to_matrix()@UD@F.restb[fn].to_3x3();F.setmat(un,F.transform(UR,U));F.setmat(fn,F.transform(FR,EL));F.setmat(hn,H)
+   rel=(FR.inverted()@H.to_3x3()@(F.restb[fn].to_3x3().inverted()@F.restb[hn].to_3x3()).inverted()).to_quaternion();tw=F.twist(rel,axis);r.pose.bones[f'B_{s}_ForearmTwist'].rotation_quaternion=Quaternion(axis,.6*tw);ua=(F.restb[un].inverted()@F.restb[fn].translation).normalized();ut=F.twist(r.pose.bones[un].rotation_quaternion,ua);r.pose.bones[f'B_{s}_UpperArmTwist'].rotation_quaternion=Quaternion(ua,-.5*ut);F.update()
+  result.append(F.snapshot())
+ for f,row in enumerate(result):
+  F.apply(row);r.animation_data.action=a
+  for s in 'RL':
+   for n in ['UpperArm','Forearm','Hand','UpperArmTwist','ForearmTwist']:
+    pb=r.pose.bones[f'B_{s}_{n}'];pb.keyframe_insert('rotation_quaternion',frame=f);pb.keyframe_insert('location',frame=f)
+  r.animation_data.action=None
+# Lift stays visible; the short bovine leg uses a forward swing arc instead of an exaggerated knee fold.
+for role in ['Walking','Running']:
+ a=bpy.data.actions[role];rows=[]
+ for f in range(int(a.frame_range[1])+1):
+  F.apply(F.sample(a,f));feet={s:F.M(f'B_{s}_Foot') for s in 'RL'};height={s:float(F.coords()[F.sole[s],2].min()) for s in 'RL'};swing={s:max(0,min(1,(height[s]-.01)/.09)) for s in 'RL'};pel=F.M('B_Pelvis');pel.translation.z+=.015*max(swing.values());F.setmat('B_Pelvis',pel)
+  for s in 'RL':
+   target=feet[s].translation.copy();target.z-=max(0,height[s])*.18;target.y-=.12*swing[s];F.leg(s,target,feet[s].to_3x3())
+  rows.append(F.snapshot())
+ for f,row in enumerate(rows):
+  F.apply(row);r.animation_data.action=a
+  for n in ['B_Pelvis']+[f'B_{s}_{n}' for s in 'RL' for n in ['Thigh','Calf','Foot']]:
+   pb=r.pose.bones[n];pb.keyframe_insert('rotation_quaternion',frame=f);pb.keyframe_insert('location',frame=f)
+  r.animation_data.action=None
+for a in bpy.data.actions:
+ for la in a.layers:
+  for st in la.strips:
+   for cb in st.channelbags:
+    for fc in cb.fcurves:
+     for k in fc.keyframe_points:k.interpolation='LINEAR'
+bpy.ops.wm.save_as_mainfile(filepath=str(P/'work/round1_smooth.blend'))
+runpy.run_path(str(P/'scripts/round1_cloth.py'),run_name='__main__',init_globals={'INPUT':'work/round1_smooth.blend'})
+sys.argv=['g','--','work/round1_clothed.blend'];runpy.run_path(str(P/'scripts/rig_gates_48.py'),run_name='__main__')
+runpy.run_path(str(P/'scripts/round1_precision.py'),run_name='__main__')
+runpy.run_path(str(P/'scripts/round1_motion_trace.py'),run_name='__main__')

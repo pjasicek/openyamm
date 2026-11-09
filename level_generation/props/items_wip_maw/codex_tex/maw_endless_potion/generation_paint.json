@@ -1,0 +1,33 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise-object-edit texture painting atlas. Input 1 is the edit target and authoritative geometry/layout; input 2 design_reference.png is materials/details only; input 3 icon_x8.png is colour reference only (magenta is background).\nOutput ONE transparent PNG, 1536x2048 (3:4). Keep exact guide object positions, size, outlines, gaps, orthographic views and layout. Three columns by FOUR rows of 512x512 cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat same views for material masks. Paint grey objects only; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour of a tall slender ornate potion bottle: clear glass teardrop body and long narrow neck with swirling ribbons of blue and white liquid light inside; polished warm gold foot, collar and tall pointed gold spire stopper. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view, respecting the exact guide geometry. Gold framing and blue gemstone details follow reference.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only: pure red #FF0000 every metal part (gold, silver, bronze, steel), pure black #000000 every gemstone, crystal, glass, pearl, mirror glass or liquid seen through glass. Every pixel of each silhouette gets exactly one of those colours. No shading, texture, outlines, antialiased colour blends inside masks. Black glass is opaque black, not transparency. Match material boundaries to painted views above. Spire stopper is metal red; glass body black; metal collar/foot/frame red, gemstones black.\nPreserve every gap/opening fully transparent. Empty cells column 3 rows 2 and 4 stay fully transparent. Unlit base colour only: NO lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles or aura outside silhouette, ground, outlines or text. Transparent background, not black or checkerboard. Guide is the fixed stencil; reference bottle must not replace its shape.\nCORRECTION, strict stencil registration: output must trace the original GREY GUIDE exactly, including its small top-view circles. Do not expand silhouettes with decorative details or stray pixels. All paint must be clipped inside original guide alpha. Preserve exact original relative silhouette widths/heights and locations, no additional pedestal width. Top views have the same width as the guide bottle bodies, not enlarged medallions. Remove specular lighting from paint, use base colour only. Masks must be solid pure red and opaque black with clean edges and no speckles. Use original guide as the canvas, not a newly arranged sheet.",
+  "initial_prompt": "Edit paint_mask_guide.png as a precise-object-edit texture painting atlas. Input 1 is the edit target and authoritative geometry/layout; input 2 design_reference.png is materials/details only; input 3 icon_x8.png is colour reference only (magenta is background).\nOutput ONE transparent PNG, 1536x2048 (3:4). Keep exact guide object positions, size, outlines, gaps, orthographic views and layout. Three columns by FOUR rows of 512x512 cells. Rows 1-2: FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat same views for material masks. Paint grey objects only; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour of a tall slender ornate potion bottle: clear glass teardrop body and long narrow neck with swirling ribbons of blue and white liquid light inside; polished warm gold foot, collar and tall pointed gold spire stopper. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view, respecting the exact guide geometry. Gold framing and blue gemstone details follow reference.\nRows 3-4 MATERIAL MASK: same five silhouettes filled with FLAT pure colours only: pure red #FF0000 every metal part (gold, silver, bronze, steel), pure black #000000 every gemstone, crystal, glass, pearl, mirror glass or liquid seen through glass. Every pixel of each silhouette gets exactly one of those colours. No shading, texture, outlines, antialiased colour blends inside masks. Black glass is opaque black, not transparency. Match material boundaries to painted views above. Spire stopper is metal red; glass body black; metal collar/foot/frame red, gemstones black.\nPreserve every gap/opening fully transparent. Empty cells column 3 rows 2 and 4 stay fully transparent. Unlit base colour only: NO lighting, cast shadows, ambient occlusion, hot highlights or reflections, glow halo, sparkles or aura outside silhouette, ground, outlines or text. Transparent background, not black or checkerboard. Guide is the fixed stencil; reference bottle must not replace its shape.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce2-0ee4-7d51-bc43-0080b7623326/exec-39d6be63-af16-4e64-a17d-9c579b19d8b3.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_endless_potion/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_endless_potion/paint_mask_guide.png",
+      "sha256": "eac4272c110cd5171f70019c293e7964ae5e8ac664fd2d67e1564be5aa9cc2e8"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_endless_potion/design_reference.png",
+      "sha256": "f073a834c9641af235c5888d36ca2bf42f53195ee2fcab377bde1ca30a4b4772"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_endless_potion/icon_x8.png",
+      "sha256": "dad5e6805dda45395ffecdcea33d898b2dbdd6b2b5b6b14f8420d61ca7546ed1"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": [
+      "Visible silhouette drift and edge artifacts remain.",
+      "Paint retains highlights; mask includes non-flat colours. Raw generated output preserved as requested."
+    ]
+  }
+}

@@ -1,0 +1,614 @@
+{
+  "status": "partial_candidate_road_set",
+  "tiles": [
+    {
+      "name": "drsrcros",
+      "source": "drsrcros",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "ec864a7435a0b1f84d5719cec623bdb245f2cce1783de1f68e3c879853626ad5",
+      "field_sha256": "9d60d6107bfeffcde0d85b624d0415ef506f974bad4abc8e20ff539599853f76",
+      "generation": {
+        "raw_sha256": "135e7bb90f0a8c65dcb6e47bc9a706a328c2fe75f85cff92b6940329fe529550",
+        "max_registration_pixels": 7.369002342224121
+      }
+    },
+    {
+      "name": "drsrecap",
+      "source": "drsrecap",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "b94aa04eeec1632427db3212faa3cadf671a93cee3a22d1aea18c061e0ff673d",
+      "field_sha256": "e45c09ec01c0863cd6c70aed50afabf10106e1576907636a0465e3b55dac85a9",
+      "generation": {
+        "raw_sha256": "6ce65d412a8711c9ae02ddb752aa20e7851e9387f82589e954c969c5c8930242",
+        "max_registration_pixels": 4.078650951385498
+      }
+    },
+    {
+      "name": "drsrew",
+      "source": "drsrew",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "55c182e07eb3d453a8886f9884e10a49acc6559483a0eaa068ce9ec5f2582504",
+      "field_sha256": "2b81e3cffa5abcf2225ea901848b3fc35cfede11f5090427664892d7dd8e702d",
+      "generation": {
+        "donor": true
+      }
+    },
+    {
+      "name": "drsrew_n",
+      "source": "drsrew_n",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "a2bc8ba83c7441f9db5f09c3ce31d9e958b981ae8a09684782a509524eb6051c",
+      "field_sha256": "347b05daa767156b9e361f6b4bd4cc57247eb9ba0bc189781db6486c08eab768",
+      "generation": {
+        "raw_sha256": "100cd00ccfd4c02f2b2af17bc498f15bd4271f71de93764bc2b19676471da233",
+        "max_registration_pixels": 3.5459086894989014
+      }
+    },
+    {
+      "name": "drsrew_s",
+      "source": "drsrew_s",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "d809266c8ff36ed149e2a17fba5999c2eb10b5368c46575188eeb3d41aec1a73",
+      "field_sha256": "a26fb2109f3eb7ba6e1555e823de8f9a523ed13eae30a00a439c609a4709d030",
+      "generation": {
+        "raw_sha256": "9ab3df4c8f40394b21e4ec516e12180fb981913fde95d763876e8db9e43412ea",
+        "max_registration_pixels": 4.622386455535889
+      }
+    },
+    {
+      "name": "drsrn_e",
+      "source": "drsrn_e",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "f48a69c506b502a01fdad310812cb96dbc0a7088262838b919605c3e3082ce3a",
+      "field_sha256": "441d612b69de623f3d853d2b29ae2bd6988ff36e144ef6410155bf249244484f",
+      "generation": {
+        "raw_sha256": "94fd50bdeb06836914ed113e02adb296547b7c03ecca4ef33065af32ff2acae8",
+        "max_registration_pixels": 3.445385456085205
+      }
+    },
+    {
+      "name": "drsrn_w",
+      "source": "drsrn_w",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "5a78ab5652271352f6f98f6dfa87154cf846dcd8abf3a5f20c34a44e936bf919",
+      "field_sha256": "db01a871dd95c4c232756ca58820b0144ca6a68f4e52dd17918ef3513377642d",
+      "generation": {
+        "raw_sha256": "0b662f92ac7ce720adcd340480575eddeb8215577870602c25d997be86f8c417",
+        "max_registration_pixels": 3.2195332050323486
+      }
+    },
+    {
+      "name": "drsrncap",
+      "source": "drsrncap",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "74f65d616baf935fb37335d134b6f9b90b456828cf386c0ab213568ce2300e6d",
+      "field_sha256": "be8a26a8393e0757d17cda0a66edfac2c2b256a6a044bbb9ed5ee2d738c0e797",
+      "generation": {
+        "raw_sha256": "c4114d33ba77702e31763a215cc8ad41340d8ded15906f16e1ffa10411f6de25",
+        "max_registration_pixels": 2.644529342651367
+      }
+    },
+    {
+      "name": "drsrne1",
+      "source": "drsrne1",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "d8e2b7f7c503cb9ee7cad21d9d300b8ee64f772bddd60937d900e8aa26ea55ac",
+      "field_sha256": "23a964b4d98ba98ac0a66bdc6ab44f47c09c804a01847b0e13d3406d7d23e10e",
+      "generation": {
+        "raw_sha256": "98c2ee1d862d3654b966fb301e9476ef9749714f0a9fcb4cbaf17fbe469e6097",
+        "max_registration_pixels": 2.4286160469055176
+      }
+    },
+    {
+      "name": "drsrne2",
+      "source": "drsrne2",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "f423b4a5c5f799c16da8b3a916a7da44842533082cd857c2753a19a4a18ce692",
+      "field_sha256": "eb7366dd388a0622043491c855697179c6f2ebc947e48676fd2551e3f7b6f4fc",
+      "generation": {
+        "raw_sha256": "9ade81c87e201a5c856f95dfd7dded09a5496b663577034c7479062c3e7e0bca",
+        "max_registration_pixels": 3.7155725955963135
+      }
+    },
+    {
+      "name": "drsrns",
+      "source": "drsrns",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "52b060d579298c1fbab88104824d67ff8f57682743b26ecf2d8ad434b59b4fde",
+      "field_sha256": "cd19732dbabee45cdb3ca5c25bf475f63ac86a38937f2ef4ee27947be2874c7f",
+      "generation": {
+        "donor": true
+      }
+    },
+    {
+      "name": "drsrns_e",
+      "source": "drsrns_e",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "eab22444df8abb4bdfd3c23fbd45db68d9e2487a588b021cc348370938ee4260",
+      "field_sha256": "d3dd7734a4c6dbb09cfb1e21905a6fd9011b00974d9c0fb160d58c30d3ff332b",
+      "generation": {
+        "raw_sha256": "9415fee3fabb379faf1290a3d4c0a1a452873ef684dcce6272cbef6b85ba7892",
+        "max_registration_pixels": 3.613194227218628
+      }
+    },
+    {
+      "name": "drsrns_w",
+      "source": "drsrns_w",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "89dfdad80860bed961b1a30aef46e7b2403ca9c8bab7d0caa82a5e9b6aaee196",
+      "field_sha256": "5dd31fc65ebb8901fc1b62862638c23392310750b1603027f5cf00b74f571f4f",
+      "generation": {
+        "raw_sha256": "2616f50ae4a0f4fb2ddbf396b55c6bc1310e29e8736e9ae634bbed51ecb6f3d1",
+        "max_registration_pixels": 3.2823235988616943
+      }
+    },
+    {
+      "name": "drsrnw1",
+      "source": "drsrnw1",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "f6b42c1248dae508d0aea1299d6dae906e99f3a00dac3ff27eb329030054eee4",
+      "field_sha256": "c10c305cfd53155a050e6b0447afee4dac4b3e4f59125107b54874ebc011ad6c",
+      "generation": {
+        "raw_sha256": "4ed47475a61266dc3b773d159ac4ed710f22a453e226026831aeab743ba51dd4",
+        "max_registration_pixels": 2.5363621711730957
+      }
+    },
+    {
+      "name": "drsrnw2",
+      "source": "drsrnw2",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "fc451ff6b0905b6f5758fd049d31428e72e2015099d520cb30363196d0e648b4",
+      "field_sha256": "b92df02e3278af0fae73f44101bd7770ef395b2bfac38340ba5ca07d8ee672cd",
+      "generation": {
+        "raw_sha256": "a39807bc6bec222b0af15575249aefc33ae457514d76530e351eaa9dbc84772d",
+        "max_registration_pixels": 2.975212335586548
+      }
+    },
+    {
+      "name": "drsrs_e",
+      "source": "drsrs_e",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "ff6d60e376039a239aa78775de297962fdc059132e2b908aee8d4fd9efca7e35",
+      "field_sha256": "0c1ad6681a11eee322bf12cb681941d1c163bc3800636c2e529632eb985562ec",
+      "generation": {
+        "raw_sha256": "96867ba002c434c529da2c8d6d74d03adb4e1cc0ca87c7bd48c64284117ebb92",
+        "max_registration_pixels": 3.524021625518799
+      }
+    },
+    {
+      "name": "drsrs_w",
+      "source": "drsrs_w",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "a9fff3e9a2fe0c9d54f7f964bce37f52e6bb2975990bbf4d43aece477d5da29f",
+      "field_sha256": "e82d984b52e6e702de2faf5a9a57e3decbc8e67ef36914181ea29472a36a40be",
+      "generation": {
+        "raw_sha256": "244f9ae254a4e5a7ec998bf748cb03b101f0a3d19b4a2a3ac65c094d4b8285a5",
+        "max_registration_pixels": 3.9982070922851562
+      }
+    },
+    {
+      "name": "drsrscap",
+      "source": "drsrscap",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "feb518e74d96b3b76b4bbf5fcb88c3f0240db55ee6e92c0920aa267c54359076",
+      "field_sha256": "fba6af3e3ac4d17d1c537909420ce4dc512816ba12ca2ac7dfef03e918cfa973",
+      "generation": {
+        "raw_sha256": "33309bf7aecc338dbf30984a58b9eb94d0d0e1dfe45df9474ebd0394583b5a5d",
+        "max_registration_pixels": 2.2667393684387207
+      }
+    },
+    {
+      "name": "drsrwcap",
+      "source": "drsrwcap",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_dirt",
+      "runtime_sha256": "b397e467b521cd8fa0754766693b69c644f59c2b96a4ed0c697edcfee2914215",
+      "field_sha256": "238eddf060331dcb34a4a450a7a022ee272ccb6c71d66873d149639f34dad1d1",
+      "generation": {
+        "raw_sha256": "0fec100608d3ce3e305321870ce3185a5d1178093de5ecb15e1d81ea1642bcd9",
+        "max_registration_pixels": 2.004789352416992
+      }
+    },
+    {
+      "name": "gdrdecap",
+      "source": "drsrecap",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "3356d4bd9709fceb34babb251e800f347c75e2bda845b1d322229fccb1b92504",
+      "field_sha256": "e45c09ec01c0863cd6c70aed50afabf10106e1576907636a0465e3b55dac85a9",
+      "generation": {
+        "raw_sha256": "6ce65d412a8711c9ae02ddb752aa20e7851e9387f82589e954c969c5c8930242",
+        "max_registration_pixels": 4.078650951385498
+      }
+    },
+    {
+      "name": "gdrdew",
+      "source": "drsrew",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "cbcdd0e7f1fc5cefadb2bc8558c0421db3f7c0e258f97b70802134280a70cd04",
+      "field_sha256": "2b81e3cffa5abcf2225ea901848b3fc35cfede11f5090427664892d7dd8e702d",
+      "generation": {
+        "donor": true
+      }
+    },
+    {
+      "name": "gdrdew_n",
+      "source": "drsrew_n",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "6efcdc68a5691166b4d71d12a690baae75f11f656d46d84f7b57f8611a895520",
+      "field_sha256": "347b05daa767156b9e361f6b4bd4cc57247eb9ba0bc189781db6486c08eab768",
+      "generation": {
+        "raw_sha256": "100cd00ccfd4c02f2b2af17bc498f15bd4271f71de93764bc2b19676471da233",
+        "max_registration_pixels": 3.5459086894989014
+      }
+    },
+    {
+      "name": "gdrdew_s",
+      "source": "drsrew_s",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "ea6c896e57b32aaf3fdbada9ceafc521d20f9f738d9ebe6fa268c46239776c96",
+      "field_sha256": "a26fb2109f3eb7ba6e1555e823de8f9a523ed13eae30a00a439c609a4709d030",
+      "generation": {
+        "raw_sha256": "9ab3df4c8f40394b21e4ec516e12180fb981913fde95d763876e8db9e43412ea",
+        "max_registration_pixels": 4.622386455535889
+      }
+    },
+    {
+      "name": "gdrdn_e",
+      "source": "drsrn_e",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "5103623fded6403667c0d527edcbb6572515eef6d9d0d98b6b0351b43a3eec9b",
+      "field_sha256": "441d612b69de623f3d853d2b29ae2bd6988ff36e144ef6410155bf249244484f",
+      "generation": {
+        "raw_sha256": "94fd50bdeb06836914ed113e02adb296547b7c03ecca4ef33065af32ff2acae8",
+        "max_registration_pixels": 3.445385456085205
+      }
+    },
+    {
+      "name": "gdrdn_w",
+      "source": "drsrn_w",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "27579e680c5446c138fafbcb3546debf9d79d2610af4f21d2c7ca7dfbadb2405",
+      "field_sha256": "db01a871dd95c4c232756ca58820b0144ca6a68f4e52dd17918ef3513377642d",
+      "generation": {
+        "raw_sha256": "0b662f92ac7ce720adcd340480575eddeb8215577870602c25d997be86f8c417",
+        "max_registration_pixels": 3.2195332050323486
+      }
+    },
+    {
+      "name": "gdrdncap",
+      "source": "drsrncap",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "17fd01d0e3e59816425b8f3588882a8d5de5cbbf6d81f25e4923d3c5497dc631",
+      "field_sha256": "be8a26a8393e0757d17cda0a66edfac2c2b256a6a044bbb9ed5ee2d738c0e797",
+      "generation": {
+        "raw_sha256": "c4114d33ba77702e31763a215cc8ad41340d8ded15906f16e1ffa10411f6de25",
+        "max_registration_pixels": 2.644529342651367
+      }
+    },
+    {
+      "name": "gdrdne1",
+      "source": "drsrne1",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "b29e252c5e460a2f952bb9effc0a0b48cac93ddf35338ebca809b731b966dfb9",
+      "field_sha256": "23a964b4d98ba98ac0a66bdc6ab44f47c09c804a01847b0e13d3406d7d23e10e",
+      "generation": {
+        "raw_sha256": "98c2ee1d862d3654b966fb301e9476ef9749714f0a9fcb4cbaf17fbe469e6097",
+        "max_registration_pixels": 2.4286160469055176
+      }
+    },
+    {
+      "name": "gdrdne2",
+      "source": "drsrne2",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "3f1735ddf124df29cb057a6e3fa0c4f12c1e5151e454cc5a854e26a19953cf7e",
+      "field_sha256": "eb7366dd388a0622043491c855697179c6f2ebc947e48676fd2551e3f7b6f4fc",
+      "generation": {
+        "raw_sha256": "9ade81c87e201a5c856f95dfd7dded09a5496b663577034c7479062c3e7e0bca",
+        "max_registration_pixels": 3.7155725955963135
+      }
+    },
+    {
+      "name": "gdrdns",
+      "source": "drsrns",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": false,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "751d7fac34dd343c3552088093f7336311ea8e0c97979c9c29d4cd56b38af39c",
+      "field_sha256": "cd19732dbabee45cdb3ca5c25bf475f63ac86a38937f2ef4ee27947be2874c7f",
+      "generation": {
+        "donor": true
+      }
+    },
+    {
+      "name": "gdrdns_e",
+      "source": "drsrns_e",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "a25ba1e8335bc27ad381a9902ad84c743b4ae7072315480aab468c01e7bce134",
+      "field_sha256": "d3dd7734a4c6dbb09cfb1e21905a6fd9011b00974d9c0fb160d58c30d3ff332b",
+      "generation": {
+        "raw_sha256": "9415fee3fabb379faf1290a3d4c0a1a452873ef684dcce6272cbef6b85ba7892",
+        "max_registration_pixels": 3.613194227218628
+      }
+    },
+    {
+      "name": "gdrdns_w",
+      "source": "drsrns_w",
+      "topology": {
+        "N": true,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "5787d1db54c5f11d2b9b99f97d46d898834b5f80706cae584d3462ca5ab6d039",
+      "field_sha256": "5dd31fc65ebb8901fc1b62862638c23392310750b1603027f5cf00b74f571f4f",
+      "generation": {
+        "raw_sha256": "2616f50ae4a0f4fb2ddbf396b55c6bc1310e29e8736e9ae634bbed51ecb6f3d1",
+        "max_registration_pixels": 3.2823235988616943
+      }
+    },
+    {
+      "name": "gdrdnw1",
+      "source": "drsrnw1",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "2865b118186ea9918bdf9440f3d99af574ffe552a8f099b6f7ce552f9360043b",
+      "field_sha256": "c10c305cfd53155a050e6b0447afee4dac4b3e4f59125107b54874ebc011ad6c",
+      "generation": {
+        "raw_sha256": "4ed47475a61266dc3b773d159ac4ed710f22a453e226026831aeab743ba51dd4",
+        "max_registration_pixels": 2.5363621711730957
+      }
+    },
+    {
+      "name": "gdrdnw2",
+      "source": "drsrnw2",
+      "topology": {
+        "N": true,
+        "S": false,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "c1ce1ae8ceeb87ae2e6138f3284bb6d76289335152bf186d0760eae43143de1a",
+      "field_sha256": "b92df02e3278af0fae73f44101bd7770ef395b2bfac38340ba5ca07d8ee672cd",
+      "generation": {
+        "raw_sha256": "a39807bc6bec222b0af15575249aefc33ae457514d76530e351eaa9dbc84772d",
+        "max_registration_pixels": 2.975212335586548
+      }
+    },
+    {
+      "name": "gdrds_e",
+      "source": "drsrs_e",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "cc1c72ef02662f67403e4c714ee13be869d683dd359a36e31cfcb2a30f7a203b",
+      "field_sha256": "0c1ad6681a11eee322bf12cb681941d1c163bc3800636c2e529632eb985562ec",
+      "generation": {
+        "raw_sha256": "96867ba002c434c529da2c8d6d74d03adb4e1cc0ca87c7bd48c64284117ebb92",
+        "max_registration_pixels": 3.524021625518799
+      }
+    },
+    {
+      "name": "gdrds_w",
+      "source": "drsrs_w",
+      "topology": {
+        "N": false,
+        "S": true,
+        "W": true,
+        "E": false
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "448d2aba599f2c77ebc536559e7f69ea661b7afca342f51e775f993fe9d9f3c5",
+      "field_sha256": "e82d984b52e6e702de2faf5a9a57e3decbc8e67ef36914181ea29472a36a40be",
+      "generation": {
+        "raw_sha256": "244f9ae254a4e5a7ec998bf748cb03b101f0a3d19b4a2a3ac65c094d4b8285a5",
+        "max_registration_pixels": 3.9982070922851562
+      }
+    },
+    {
+      "name": "gdrdwcap",
+      "source": "drsrwcap",
+      "topology": {
+        "N": false,
+        "S": false,
+        "W": false,
+        "E": true
+      },
+      "family": "roads_grey",
+      "runtime_sha256": "c18764e87f7a03bba8fb377dd6ec4ba15d78934f12a7d77c942a50bd473d05c1",
+      "field_sha256": "238eddf060331dcb34a4a450a7a022ee272ccb6c71d66873d149639f34dad1d1",
+      "generation": {
+        "raw_sha256": "0fec100608d3ce3e305321870ce3185a5d1178093de5ecb15e1d81ea1642bcd9",
+        "max_registration_pixels": 2.004789352416992
+      }
+    }
+  ],
+  "missing": []
+}

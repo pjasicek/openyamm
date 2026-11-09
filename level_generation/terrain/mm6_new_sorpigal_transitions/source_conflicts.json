@@ -1,0 +1,162 @@
+[
+  {
+    "a": "6grastyl",
+    "direction_from_a": "east",
+    "b": "6grdrtxnw",
+    "count": 1,
+    "id": "6grastyl:E--6grdrtxnw:W",
+    "side_a": "E",
+    "side_b": "W",
+    "profile_a": "grass/grass",
+    "profile_b": "dirt/grass",
+    "topology_conflict": true,
+    "locations": [
+      {
+        "column": 56,
+        "row": 95,
+        "world_x": -4096,
+        "world_y": -15872
+      }
+    ]
+  },
+  {
+    "a": "6grdrte",
+    "direction_from_a": "south",
+    "b": "6grdrtxsw",
+    "count": 1,
+    "id": "6grdrte:S--6grdrtxsw:N",
+    "side_a": "S",
+    "side_b": "N",
+    "profile_a": "grass/dirt",
+    "profile_b": "grass/grass",
+    "topology_conflict": true,
+    "locations": [
+      {
+        "column": 16,
+        "row": 98,
+        "world_x": -24576,
+        "world_y": -17408
+      }
+    ]
+  },
+  {
+    "a": "6grdrtn",
+    "direction_from_a": "south",
+    "b": "6grdrtse",
+    "count": 1,
+    "id": "6grdrtn:S--6grdrtse:N",
+    "side_a": "S",
+    "side_b": "N",
+    "profile_a": "grass/grass",
+    "profile_b": "grass/dirt",
+    "topology_conflict": true,
+    "locations": [
+      {
+        "column": 18,
+        "row": 85,
+        "world_x": -23552,
+        "world_y": -10752
+      }
+    ]
+  },
+  {
+    "a": "6grdrtsw",
+    "direction_from_a": "east",
+    "b": "6dirttyl",
+    "count": 1,
+    "id": "6grdrtsw:E--6dirttyl:W",
+    "side_a": "E",
+    "side_b": "W",
+    "profile_a": "grass/dirt",
+    "profile_b": "dirt/dirt",
+    "topology_conflict": true,
+    "locations": [
+      {
+        "column": 54,
+        "row": 92,
+        "world_x": -5120,
+        "world_y": -14336
+      }
+    ]
+  },
+  {
+    "a": "6grdrtw",
+    "direction_from_a": "east",
+    "b": "6dirttyl",
+    "count": 1,
+    "id": "6grdrtw:E--6dirttyl:W",
+    "side_a": "E",
+    "side_b": "W",
+    "profile_a": "grass/grass",
+    "profile_b": "dirt/dirt",
+    "topology_conflict": true,
+    "locations": [
+      {
+        "column": 54,
+        "row": 91,
+        "world_x": -5120,
+        "world_y": -13824
+      }
+    ]
+  },
+  {
+    "a": "6grdrtxnw",
+    "direction_from_a": "south",
+    "b": "6grdrtxnw",
+    "count": 1,
+    "id": "6grdrtxnw:S--6grdrtxnw:N",
+    "side_a": "S",
+    "side_b": "N",
+    "profile_a": "grass/grass",
+    "profile_b": "dirt/grass",
+    "topology_conflict": true,
+    "locations": [
+      {
+        "column": 57,
+        "row": 94,
+        "world_x": -3584,
+        "world_y": -15360
+      }
+    ]
+  },
+  {
+    "a": "6grdrtxsw",
+    "direction_from_a": "east",
+    "b": "6grdrtne",
+    "count": 1,
+    "id": "6grdrtxsw:E--6grdrtne:W",
+    "side_a": "E",
+    "side_b": "W",
+    "profile_a": "grass/grass",
+    "profile_b": "dirt/grass",
+    "topology_conflict": true,
+    "locations": [
+      {
+        "column": 16,
+        "row": 99,
+        "world_x": -24576,
+        "world_y": -17920
+      }
+    ]
+  },
+  {
+    "a": "6grdrtxsw",
+    "direction_from_a": "east",
+    "b": "6grdrts",
+    "count": 1,
+    "id": "6grdrtxsw:E--6grdrts:W",
+    "side_a": "E",
+    "side_b": "W",
+    "profile_a": "grass/grass",
+    "profile_b": "grass/dirt",
+    "topology_conflict": true,
+    "locations": [
+      {
+        "column": 54,
+        "row": 90,
+        "world_x": -5120,
+        "world_y": -13312
+      }
+    ]
+  }
+]

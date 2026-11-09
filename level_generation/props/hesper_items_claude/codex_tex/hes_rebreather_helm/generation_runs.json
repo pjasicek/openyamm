@@ -1,0 +1,471 @@
+{
+  "tool": "built-in image_gen",
+  "scope": "Image generation only; local authored outputs confined to this folder; no builds or runtime edits.",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "postprocessing": "None. Selected images are byte-for-byte copies of built-in returns; alpha is unchanged.",
+  "correction_limit": 1,
+  "selection_status": "Best available within one corrective regeneration per view. Selected does not mean all brief checks passed.",
+  "unresolved_issues": [
+    "Tool returned 1254 x 1254 rather than requested 1024 x 1024; kept unresized as required by brief.",
+    "No return has a pixel-identical guide silhouette.",
+    "Residual geometry, shading, coloured edge fringes and view-to-view material/light inconsistencies remain. These are not exact projection-ready albedo sources."
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper rebreather work helmet mesh.\nEdit image 1, the plain gray geometry guide, by painting its surfaces. Image 1 is the ONLY authority for pixel placement, silhouette, scale, camera, orientation, cropping, and every part edge. Image 2 is design_reference.png: use it ONLY for surface colours, materials and fine detail; do not copy its perspective, silhouette or studio lighting.\nProduce ONE 1024 x 1024 PNG with a genuine transparent alpha background. Preserve image 1's outline EXACTLY, with the same object size, location, part boundaries and asymmetric geometry. Retain the guide's transparent pixels and anti-aliased silhouette; no rearrangement, recentering, enlargement, new protrusions, or cropping.\nPaint the reference design: worn warm white/ivory ceramic shell panels with subtle fine scratches and tiny chips; brushed ochre-gold metal bands and trims with faint grain; near-black violet resin seals and joints; smoky blue-gray visor glass with tiny fine wear; blue-white bright light inserts. Faithful restrained material detail, seams, panel joins, engraving and unlettered small marks. The item is a colonial work helm with a sealed filter that protects against acid rain and spore gas. Only paint onto existing guide geometry. Where the reference does not show a surface, continue its materials plausibly.\nLIGHTING: flat ALBEDO ONLY, evenly illuminated shadowless viewer-facing light. Each material has consistent base colour across facing angles. No cast shadows, no ambient occlusion, no dark baked crevice gradients, no rim light, no hard specular highlights, no environmental reflections, no bright glare on the glass. Metal is base gold colour with only a faint sheen. Glass is a subdued opaque smoky blue-gray texture source, without reflected windows or white streaks. Lights are bright blue-white paint without bloom or spill. No floor, background, text, letters, numbers, logos or watermark.\nFRONT VIEW: paint guide_front.png without changing any geometry. Straight-on orthographic frontal view, centered as in the guide. Keep the crown crest, eyebrow, full visor, ear modules, two cheek filters and central round respirator precisely at the guide's positions. White ceramic dome and cheek shells, gold longitudinal crown strip and visor frame, black-violet gaskets, subdued blue-gray visor, blue-white inserts on forehead and cheek filter slots and central filter, gold rims on the central filter. Preserve every low-poly outer contour of the guide, rather than smoothing or rounding it.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1df8d2c8e464c7a732a76255aef7586090a9d4382967f273a6defc0be09fdc21"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "968fed667c3c68bdc80d2fa1b2959340f7a4f21572c22a1a31383dca920642e6"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-354b0025-201d-4091-a226-a9a615dd9e8f.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: the initial rendering changed the guide's proportions and part placement, and retained reflective shading.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "See selection reason; broad reference palette present.",
+        "flat_shadowless_lighting": "Fail: visible specular/geometric shading.",
+        "part_alignment": "Fail: see selection reason.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          37,
+          1244,
+          1254
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.89124,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "6ec27c018e17ad3b975053494db8c51b0fa31ca9767f4832186ca15f307e299e"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper rebreather work helmet mesh.\nEdit image 2, the plain gray geometry guide, by painting its surfaces. Image 2 is the ONLY authority for pixel placement, silhouette, scale, camera, orientation, cropping, and every part edge. Image 1 is design_reference.png: use it ONLY for surface colours, materials and fine detail; do not copy its perspective, silhouette or studio lighting.\nProduce ONE 1024 x 1024 PNG with a genuine transparent alpha background. Preserve image 2's outline EXACTLY, with the same object size, location, part boundaries and asymmetric geometry. Retain the guide's transparent pixels and anti-aliased silhouette; no rearrangement, recentering, enlargement, new protrusions, or cropping.\nPaint the reference design: worn warm white/ivory ceramic shell panels with subtle fine scratches and tiny chips; brushed ochre-gold metal bands and trims with faint grain; near-black violet resin seals and joints; smoky blue-gray visor glass with tiny fine wear; blue-white bright light inserts. Faithful restrained material detail, seams, panel joins, engraving and unlettered small marks. The item is a colonial work helm with a sealed filter that protects against acid rain and spore gas. Only paint onto existing guide geometry. Where the reference does not show a surface, continue its materials plausibly.\nLIGHTING: flat ALBEDO ONLY, evenly illuminated shadowless viewer-facing light. Each material has consistent base colour across facing angles. No cast shadows, no ambient occlusion, no dark baked crevice gradients, no rim light, no hard specular highlights, no environmental reflections, no bright glare on the glass. Metal is base gold colour with only a faint sheen. Glass is a subdued opaque smoky blue-gray texture source, without reflected windows or white streaks. Lights are bright blue-white paint without bloom or spill. No floor, background, text, letters, numbers, logos or watermark.\nCORRECTIVE GENERATION: prioritize geometry preservation. The previous attempt followed the design reference's proportions and was 1254 square. This output must instead be 1024 square, the exact canvas of IMAGE 2 guide_front.png. Preserve IMAGE 2 ALPHA verbatim, including polygonal edges. Helmet occupied rectangle x=123..900, y=66..957; keep all clear margins. Paint the guide itself; no redesigned interpretation. Front orthographic view. The guide's visor top reaches around y=440, cheeks around y=700, central respirator ends at y=958. Keep all these part boundaries and the original broad, low, slightly irregular respirator shape; do not substitute the reference's large projecting round filter silhouette. Existing geometry alone defines the painted part layout. Fine ivory ceramic, muted brushed gold crest/trims, dark resin gasket, smoky blue-gray glass, blue-white light accents. Flat base colors, no baked shading or reflections.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "968fed667c3c68bdc80d2fa1b2959340f7a4f21572c22a1a31383dca920642e6"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "1df8d2c8e464c7a732a76255aef7586090a9d4382967f273a6defc0be09fdc21"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-517c458b-82a8-4b92-abd0-82d32a859b30.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: much closer outline and framing while keeping the approved materials. It still changes some internal parts and retains metallic highlights and visor shading.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "Broad palette matches; front is more detailed and glossy than the other selected views.",
+        "flat_shadowless_lighting": "Fail: residual gold highlights, bevel shading and a dark band on the glass.",
+        "part_alignment": "Fail: crown and respirator internal geometry differs from the guide.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          73,
+          1178,
+          1198
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.984103,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "3d9e006f27164ac908f74fd32ad75b01b4d29c50e948d90b568f44dc1a0b9dfa"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper rebreather work helmet mesh.\nEdit image 2, the plain gray geometry guide, by painting its surfaces. Image 2 is the ONLY authority for pixel placement, silhouette, scale, camera, orientation, cropping, and every part edge. Image 1 is design_reference.png: use it ONLY for surface colours, materials and fine detail; do not copy its perspective, silhouette or studio lighting.\nProduce ONE 1024 x 1024 PNG with a genuine transparent alpha background. Preserve image 2's outline EXACTLY, with the same object size, location, part boundaries and asymmetric geometry. Retain the guide's transparent pixels and anti-aliased silhouette; no rearrangement, recentering, enlargement, new protrusions, or cropping.\nPaint the reference design: worn warm white/ivory ceramic shell panels with subtle fine scratches and tiny chips; brushed ochre-gold metal bands and trims with faint grain; near-black violet resin seals and joints; smoky blue-gray visor glass with tiny fine wear; blue-white bright light inserts. Faithful restrained material detail, seams, panel joins, engraving and unlettered small marks. The item is a colonial work helm with a sealed filter that protects against acid rain and spore gas. Only paint onto existing guide geometry. Where the reference does not show a surface, continue its materials plausibly.\nLIGHTING: flat ALBEDO ONLY, evenly illuminated shadowless viewer-facing light. Each material has consistent base colour across facing angles. No cast shadows, no ambient occlusion, no dark baked crevice gradients, no rim light, no hard specular highlights, no environmental reflections, no bright glare on the glass. Metal is base gold colour with only a faint sheen. Glass is a subdued opaque smoky blue-gray texture source, without reflected windows or white streaks. Lights are bright blue-white paint without bloom or spill. No floor, background, text, letters, numbers, logos or watermark.\nBACK VIEW: paint IMAGE 2 guide_back.png on its own 1024 x 1024 canvas. Exact alpha outline and every part boundary, helmet occupies x=123..900 y=66..957. Look directly at the rear, no face or visor is visible. Main back dome panels are worn warm ivory ceramic. The existing broad raised center strip descending from crown toward the nape is brushed gold bordered by a thin black-violet seal, continuing the front crown band. Existing side ear units use gold rims and ivory shells. Lower rear structural collar and the broad underside face at the bottom use black-violet resin with restrained gold hardware trim. Fine seams and subtle wear, no invented equipment, no added protrusions, no text. Keep guide's asymmetries and faceted edges. Paint only albedo material colors with uniform shadowless illumination and no specular shading.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "968fed667c3c68bdc80d2fa1b2959340f7a4f21572c22a1a31383dca920642e6"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "187e08501dab07affbf82dc10879a63a9f629e1f1e2f62ad98690d1afddc9a7b"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-239d7c83-ed97-4e9d-a5c7-ace9bba1b3d1.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: crown band and lower collar geometry diverged and the gold had a strong highlight.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "See selection reason; broad reference palette present.",
+        "flat_shadowless_lighting": "Fail: visible specular/geometric shading.",
+        "part_alignment": "Fail: see selection reason.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          26,
+          1222,
+          1244
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.949508,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "c5b3ed1a5736c01cbaae3177213e312e12d46897c0f3a186d7bee3d937f178bd"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective paint-over of the attached 1024 x 1024 orthographic gray mesh guide. EDIT THIS EXACT IMAGE IN PLACE. It is a locked geometry template for texture projection, not a loose shape reference. Preserve the existing alpha pixel-for-pixel, same full canvas, exact faceted silhouette, exact size and position and every internal part edge. Do not beautify, smooth, redraw, reframe, tilt or change proportions. Output one 1024 x 1024 PNG with a true transparent background.\nPaint only the existing surfaces with the approved helmet's materials: warm ivory white ceramic (#d5ccba) with subtle fine scratches and tiny beige wear; restrained brushed ochre-gold (#ae853e) bands and hardware; black-violet resin (#302d36) seals and structural collar; smoky blue-gray (#344956) visor glass; small blue-white (#b9e8ff) luminous inserts. These material assignments and colours are taken from the approved design_reference.png. Preserve the work helmet's recognizable ivory, gold, black resin and blue light design. Fine surface texture and small nonlettered seams only; no new geometric parts.\nStrictly UNLIT BASE COLOR / ALBEDO: uniform colour within each material, with only subtle surface wear; absolutely no light-direction gradients, glossy spots, bright bevel edges, cast shadows, ambient occlusion or dark recess shading. The gold is a flat muted ochre material with faint fine brushing, never yellow-white reflective shine. Glass has no environmental reflection, no diagonal bands or highlights. Lights are pale blue-white coloured slots without bloom. The guide's gray illumination must be replaced by uniformly lit material colour. No text, letters, numbers, labels or logos. No background or floor.\nThe earlier result changed geometry and baked specular lighting into the paint. Correct those faults by retaining THIS guide as the painting base and giving silhouette and internal part coordinates priority over decorative detail.\nBACK: directly rearward view. Follow the guide exactly: broad raised central strip from crown down to y~580 is brushed gold, both flanking dome surfaces are ivory ceramic, the side ear modules gold and ivory, the existing angular lower shell ivory with modest gold trim. Lower neck seal and the broad flat underside area at bottom are black-violet resin; collar rim muted gold. No front visor or respirator appears on this rear view. Continue the known design materials without inventing extra parts. Preserve the exact occupied rectangle [123,66,901,958) and every asymmetric polygonal outer edge.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "187e08501dab07affbf82dc10879a63a9f629e1f1e2f62ad98690d1afddc9a7b"
+        }
+      ],
+      "design_authority": "design_reference.png; material information carried in the prompt; original image was supplied on attempt 1",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-9c0919ea-0bf3-4aa7-81c8-9368d3e4f5f0.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer broad rear strip and collar geometry and substantially flatter gold. Residual edge/shading differences remain.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "Ivory, muted gold and black-violet resin continue the reference plausibly on hidden rear surfaces.",
+        "flat_shadowless_lighting": "Partial: much flatter main gold panel; side-facing surfaces and seams retain some shading.",
+        "part_alignment": "Closer to guide, but not an exact copy of all part boundaries.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1214,
+          1254
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.992737,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "ba0b7f033c311863da135fe37a0f551815a52d58183901cb8af8375e585188e8"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper rebreather work helmet mesh.\nEdit image 2, the plain gray geometry guide, by painting its surfaces. Image 2 is the ONLY authority for pixel placement, silhouette, scale, camera, orientation, cropping, and every part edge. Image 1 is design_reference.png: use it ONLY for surface colours, materials and fine detail; do not copy its perspective, silhouette or studio lighting.\nProduce ONE 1024 x 1024 PNG with a genuine transparent alpha background. Preserve image 2's outline EXACTLY, with the same object size, location, part boundaries and asymmetric geometry. Retain the guide's transparent pixels and anti-aliased silhouette; no rearrangement, recentering, enlargement, new protrusions, or cropping.\nPaint the reference design: worn warm white/ivory ceramic shell panels with subtle fine scratches and tiny chips; brushed ochre-gold metal bands and trims with faint grain; near-black violet resin seals and joints; smoky blue-gray visor glass with tiny fine wear; blue-white bright light inserts. Faithful restrained material detail, seams, panel joins, engraving and unlettered small marks. The item is a colonial work helm with a sealed filter that protects against acid rain and spore gas. Only paint onto existing guide geometry. Where the reference does not show a surface, continue its materials plausibly.\nLIGHTING: flat ALBEDO ONLY, evenly illuminated shadowless viewer-facing light. Each material has consistent base colour across facing angles. No cast shadows, no ambient occlusion, no dark baked crevice gradients, no rim light, no hard specular highlights, no environmental reflections, no bright glare on the glass. Metal is base gold colour with only a faint sheen. Glass is a subdued opaque smoky blue-gray texture source, without reflected windows or white streaks. Lights are bright blue-white paint without bloom or spill. No floor, background, text, letters, numbers, logos or watermark.\nLEFT VIEW: paint IMAGE 2 guide_left.png exactly. The visor and projecting respirator point to the RIGHT of the image; rear dome is at the LEFT. True orthographic side profile, preserve the guide's precise tilt, silhouette and every part edge, its ear module centered near (480,535) on its 1024-square canvas. Helmet silhouette extends x=68..955 y=66..957. Ivory ceramic dome and cheek panels, muted gold crown band and visor rim, gold ring around the side ear disc with ivory center, narrow bright blue-white ear light. Cheek filter and central respirator match approved materials. Existing rear lower collar is dark black-violet resin with muted gold trim. Keep the narrow rear strip, neck rim, angular cheek projection, and the forward respirator tips exactly as they are in the guide. No silhouette smoothing, no reshaping. Visible glass is flat smoky blue-gray; no reflections.\nTreat this as painting an unlit base-color pass: flatten all gold highlights and all geometric shading. No darkened side-facing surfaces, no bright bevel highlights; material transitions and fine wear only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "968fed667c3c68bdc80d2fa1b2959340f7a4f21572c22a1a31383dca920642e6"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "e5e6a18bc61488a35f68bd2e2ce76667d0816ea88bd4bf3a76adfc98d1e52690"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-60898da7-78f6-4678-96a1-51d0a0a8b0b5.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: changed side-disc proportions, forward projection and internal panel layout; retained specular shading.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "See selection reason; broad reference palette present.",
+        "flat_shadowless_lighting": "Fail: visible specular/geometric shading.",
+        "part_alignment": "Fail: see selection reason.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1202,
+          1254
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.955286,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "b7737fa9065dd09e8c34ecab1f81976ecc427ff41cdc21c407f920880870b300"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective paint-over of the attached 1024 x 1024 orthographic gray mesh guide. EDIT THIS EXACT IMAGE IN PLACE. It is a locked geometry template for texture projection, not a loose shape reference. Preserve the existing alpha pixel-for-pixel, same full canvas, exact faceted silhouette, exact size and position and every internal part edge. Do not beautify, smooth, redraw, reframe, tilt or change proportions. Output one 1024 x 1024 PNG with a true transparent background.\nPaint only the existing surfaces with the approved helmet's materials: warm ivory white ceramic (#d5ccba) with subtle fine scratches and tiny beige wear; restrained brushed ochre-gold (#ae853e) bands and hardware; black-violet resin (#302d36) seals and structural collar; smoky blue-gray (#344956) visor glass; small blue-white (#b9e8ff) luminous inserts. These material assignments and colours are taken from the approved design_reference.png. Preserve the work helmet's recognizable ivory, gold, black resin and blue light design. Fine surface texture and small nonlettered seams only; no new geometric parts.\nStrictly UNLIT BASE COLOR / ALBEDO: uniform colour within each material, with only subtle surface wear; absolutely no light-direction gradients, glossy spots, bright bevel edges, cast shadows, ambient occlusion or dark recess shading. The gold is a flat muted ochre material with faint fine brushing, never yellow-white reflective shine. Glass has no environmental reflection, no diagonal bands or highlights. Lights are pale blue-white coloured slots without bloom. The guide's gray illumination must be replaced by uniformly lit material colour. No text, letters, numbers, labels or logos. No background or floor.\nThe earlier result changed geometry and baked specular lighting into the paint. Correct those faults by retaining THIS guide as the painting base and giving silhouette and internal part coordinates priority over decorative detail.\nLEFT: exactly this side profile with face/visor to the RIGHT and rear dome to the LEFT, no camera rotation. Dome ivory; raised ridge running over the crown gold; side disc gold rings with an ivory center and a thin blue-white indicator at its forward edge; existing small recessed side panel gold; cheek shell ivory; narrow visible visor region smoky blue-gray; gaskets and lower collar black-violet with gold rim; forward filter white and gold with blue-white accents. Preserve the guide's round side disc center around (480,535), the precise original forward projection and low-poly lower collar contour. Exact silhouette rectangle [68,66,956,958). Do not turn the side disc into an oval or show more front visor than the guide.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "e5e6a18bc61488a35f68bd2e2ce76667d0816ea88bd4bf3a76adfc98d1e52690"
+        }
+      ],
+      "design_authority": "design_reference.png; material information carried in the prompt; original image was supplied on attempt 1",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-5373635f-2c70-47ba-8a05-e773568382a3.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer side profile and original faceted geometry; flatter materials and subdued glass. Fine reference detail is reduced.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "Core ivory/gold/resin/blue palette matches broadly; rear access plate is interpreted as gold.",
+        "flat_shadowless_lighting": "Partial: major highlights removed, residual geometric shading and bright edge lines remain.",
+        "part_alignment": "Closer guide geometry, but internal detail and material boundaries are not exact.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1214,
+          1254
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.990668,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "e827a442794b3e6ffab12ecdaf91fe9474afaca354e3dadf17b08cf13c2f9ab0"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper rebreather work helmet mesh.\nEdit image 2, the plain gray geometry guide, by painting its surfaces. Image 2 is the ONLY authority for pixel placement, silhouette, scale, camera, orientation, cropping, and every part edge. Image 1 is design_reference.png: use it ONLY for surface colours, materials and fine detail; do not copy its perspective, silhouette or studio lighting.\nProduce ONE 1024 x 1024 PNG with a genuine transparent alpha background. Preserve image 2's outline EXACTLY, with the same object size, location, part boundaries and asymmetric geometry. Retain the guide's transparent pixels and anti-aliased silhouette; no rearrangement, recentering, enlargement, new protrusions, or cropping.\nPaint the reference design: worn warm white/ivory ceramic shell panels with subtle fine scratches and tiny chips; brushed ochre-gold metal bands and trims with faint grain; near-black violet resin seals and joints; smoky blue-gray visor glass with tiny fine wear; blue-white bright light inserts. Faithful restrained material detail, seams, panel joins, engraving and unlettered small marks. The item is a colonial work helm with a sealed filter that protects against acid rain and spore gas. Only paint onto existing guide geometry. Where the reference does not show a surface, continue its materials plausibly.\nLIGHTING: flat ALBEDO ONLY, evenly illuminated shadowless viewer-facing light. Each material has consistent base colour across facing angles. No cast shadows, no ambient occlusion, no dark baked crevice gradients, no rim light, no hard specular highlights, no environmental reflections, no bright glare on the glass. Metal is base gold colour with only a faint sheen. Glass is a subdued opaque smoky blue-gray texture source, without reflected windows or white streaks. Lights are bright blue-white paint without bloom or spill. No floor, background, text, letters, numbers, logos or watermark.\nRIGHT VIEW: paint IMAGE 2 guide_right.png exactly. The visor and projecting respirator point to the LEFT of the image; rear dome is at the RIGHT. True orthographic side profile, preserve the guide's precise tilt, silhouette and every part edge, its ear module centered near (540,535) on its 1024-square canvas. Helmet silhouette extends x=68..955 y=66..957. Ivory ceramic dome and cheek panels, muted gold crown band and visor rim, gold ring around the side ear disc with ivory center, narrow bright blue-white ear light. Cheek filter and central respirator match approved materials. Existing rear lower collar is dark black-violet resin with muted gold trim. Keep the narrow rear strip, neck rim, angular cheek projection, and the forward respirator tips exactly as they are in the guide. Follow THIS guide's asymmetries instead of mirroring another guide. No silhouette smoothing, no reshaping. Visible glass is flat smoky blue-gray; no reflections.\nTreat this as painting an unlit base-color pass: flatten all gold highlights and all geometric shading. No darkened side-facing surfaces, no bright bevel highlights; material transitions and fine wear only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "968fed667c3c68bdc80d2fa1b2959340f7a4f21572c22a1a31383dca920642e6"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "6b74e1e5eddf4e5ad183569f7252ecaf1eb88043a80f448ed82e867d47305399"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-950b8e25-5f44-4eb2-a699-bda569504c92.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: altered internal panels and side geometry with gold highlights and reflected-looking visor bands.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "See selection reason; broad reference palette present.",
+        "flat_shadowless_lighting": "Fail: visible specular/geometric shading.",
+        "part_alignment": "Fail: see selection reason.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1246,
+          1222
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.979198,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "9adaaa08270b095464fa7edb613c8a79136c404f2c79a062ade96ef3cb66d060"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective paint-over of the attached 1024 x 1024 orthographic gray mesh guide. EDIT THIS EXACT IMAGE IN PLACE. It is a locked geometry template for texture projection, not a loose shape reference. Preserve the existing alpha pixel-for-pixel, same full canvas, exact faceted silhouette, exact size and position and every internal part edge. Do not beautify, smooth, redraw, reframe, tilt or change proportions. Output one 1024 x 1024 PNG with a true transparent background.\nPaint only the existing surfaces with the approved helmet's materials: warm ivory white ceramic (#d5ccba) with subtle fine scratches and tiny beige wear; restrained brushed ochre-gold (#ae853e) bands and hardware; black-violet resin (#302d36) seals and structural collar; smoky blue-gray (#344956) visor glass; small blue-white (#b9e8ff) luminous inserts. These material assignments and colours are taken from the approved design_reference.png. Preserve the work helmet's recognizable ivory, gold, black resin and blue light design. Fine surface texture and small nonlettered seams only; no new geometric parts.\nStrictly UNLIT BASE COLOR / ALBEDO: uniform colour within each material, with only subtle surface wear; absolutely no light-direction gradients, glossy spots, bright bevel edges, cast shadows, ambient occlusion or dark recess shading. The gold is a flat muted ochre material with faint fine brushing, never yellow-white reflective shine. Glass has no environmental reflection, no diagonal bands or highlights. Lights are pale blue-white coloured slots without bloom. The guide's gray illumination must be replaced by uniformly lit material colour. No text, letters, numbers, labels or logos. No background or floor.\nThe earlier result changed geometry and baked specular lighting into the paint. Correct those faults by retaining THIS guide as the painting base and giving silhouette and internal part coordinates priority over decorative detail.\nRIGHT: exactly this side profile with face/visor to the LEFT and rear dome to the RIGHT, no camera rotation. Dome ivory; raised ridge running over crown gold; rear raised rectangular access plate muted gold; side disc gold rings with an ivory center and a thin blue-white indicator at its forward/LEFT edge; existing small recessed side panel gold; cheek shell ivory; narrow visible visor region smoky blue-gray; gaskets and lower collar black-violet with gold rim; forward filter white and gold with blue-white accents. Preserve the guide's round side disc center around (540,535), the precise original forward projection and low-poly lower collar contour. Exact silhouette rectangle [68,66,956,958). Do not turn the side disc into an oval or show more front visor than the guide. Respect this guide's exact asymmetries.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "6b74e1e5eddf4e5ad183569f7252ecaf1eb88043a80f448ed82e867d47305399"
+        }
+      ],
+      "design_authority": "design_reference.png; material information carried in the prompt; original image was supplied on attempt 1",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-a91341d3-61a9-4828-8089-1e7c132506f5.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer guide geometry with flatter colors and subdued glass. Some light placements and material assignments differ from the reference and opposite side.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "Core palette matches broadly; small upper side inset and collar light differ from the opposite view/reference.",
+        "flat_shadowless_lighting": "Partial: major highlights removed; residual face-angle shading and bright edge lines remain.",
+        "part_alignment": "Closer guide geometry; small light placements and panel details remain inconsistent.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1232,
+          1238
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.994048,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "80df6e17eb361838ec03f4232f49297e9dad370709688b92658a4d980d54c372"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper rebreather work helmet mesh.\nEdit image 2, the plain gray geometry guide, by painting its surfaces. Image 2 is the ONLY authority for pixel placement, silhouette, scale, camera, orientation, cropping, and every part edge. Image 1 is design_reference.png: use it ONLY for surface colours, materials and fine detail; do not copy its perspective, silhouette or studio lighting.\nProduce ONE 1024 x 1024 PNG with a genuine transparent alpha background. Preserve image 2's outline EXACTLY, with the same object size, location, part boundaries and asymmetric geometry. Retain the guide's transparent pixels and anti-aliased silhouette; no rearrangement, recentering, enlargement, new protrusions, or cropping.\nPaint the reference design: worn warm white/ivory ceramic shell panels with subtle fine scratches and tiny chips; brushed ochre-gold metal bands and trims with faint grain; near-black violet resin seals and joints; smoky blue-gray visor glass with tiny fine wear; blue-white bright light inserts. Faithful restrained material detail, seams, panel joins, engraving and unlettered small marks. The item is a colonial work helm with a sealed filter that protects against acid rain and spore gas. Only paint onto existing guide geometry. Where the reference does not show a surface, continue its materials plausibly.\nLIGHTING: flat ALBEDO ONLY, evenly illuminated shadowless viewer-facing light. Each material has consistent base colour across facing angles. No cast shadows, no ambient occlusion, no dark baked crevice gradients, no rim light, no hard specular highlights, no environmental reflections, no bright glare on the glass. Metal is base gold colour with only a faint sheen. Glass is a subdued opaque smoky blue-gray texture source, without reflected windows or white streaks. Lights are bright blue-white paint without bloom or spill. No floor, background, text, letters, numbers, logos or watermark.\nTOP VIEW: paint IMAGE 2 guide_top.png exactly. Camera is directly above, looking straight down at the crown; rear at TOP, forehead and respirator projection at BOTTOM. Do not turn this into a front or three-quarter view. Keep exact geometry and placement, occupied rectangle x=123..900 y=68..955 on a 1024-square transparent canvas. The broad raised longitudinal crown band is muted brushed gold with fine panel seams, matching the reference's gold strip; its borders are black-violet resin. Adjacent dome panels are worn ivory ceramic, fine scratches and subdued tiny chips, with only the panel seams already consistent with the guide. Ear housings project left and right exactly where the guide has them, ivory and gold. The small low front extension is ceramic and gold at its existing position. Use blue-white paint for existing small indicator locations. Preserve guide's angular outline and asymmetrical details. No new projections, no frontal visor drawn on the crown, no lighting gradients.\nTreat this as painting an unlit base-color pass: flatten all gold highlights and all geometric shading. No darkened side-facing surfaces, no bright bevel highlights; material transitions and fine wear only.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "968fed667c3c68bdc80d2fa1b2959340f7a4f21572c22a1a31383dca920642e6"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "13ce92c08e51a71fd2437bec013b1db6db46df5fa6587d576f3b39c45c88c151"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-f115feea-ff5b-4aee-afdb-89c1ba9ec0d0.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: exposed a frontal visor and filter detail not present in the overhead guide and changed the broad crown geometry.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "See selection reason; broad reference palette present.",
+        "flat_shadowless_lighting": "Fail: visible specular/geometric shading.",
+        "part_alignment": "Fail: see selection reason.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1224,
+          1214
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.952407,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "0d929c858bd7ac0bf50ba716121406a276185dd3aeb6a482e81085eda4d6dcb7"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective paint-over of the attached 1024 x 1024 orthographic gray mesh guide. EDIT THIS EXACT IMAGE IN PLACE. It is a locked geometry template for texture projection, not a loose shape reference. Preserve the existing alpha pixel-for-pixel, same full canvas, exact faceted silhouette, exact size and position and every internal part edge. Do not beautify, smooth, redraw, reframe, tilt or change proportions. Output one 1024 x 1024 PNG with a true transparent background.\nPaint only the existing surfaces with the approved helmet's materials: warm ivory white ceramic (#d5ccba) with subtle fine scratches and tiny beige wear; restrained brushed ochre-gold (#ae853e) bands and hardware; black-violet resin (#302d36) seals and structural collar; smoky blue-gray (#344956) visor glass; small blue-white (#b9e8ff) luminous inserts. These material assignments and colours are taken from the approved design_reference.png. Preserve the work helmet's recognizable ivory, gold, black resin and blue light design. Fine surface texture and small nonlettered seams only; no new geometric parts.\nStrictly UNLIT BASE COLOR / ALBEDO: uniform colour within each material, with only subtle surface wear; absolutely no light-direction gradients, glossy spots, bright bevel edges, cast shadows, ambient occlusion or dark recess shading. The gold is a flat muted ochre material with faint fine brushing, never yellow-white reflective shine. Glass has no environmental reflection, no diagonal bands or highlights. Lights are pale blue-white coloured slots without bloom. The guide's gray illumination must be replaced by uniformly lit material colour. No text, letters, numbers, labels or logos. No background or floor.\nThe earlier result changed geometry and baked specular lighting into the paint. Correct those faults by retaining THIS guide as the painting base and giving silhouette and internal part coordinates priority over decorative detail.\nTOP: directly overhead orthographic view; rear at TOP, forehead and protruding respirator at BOTTOM. The broad raised center ridge covering x~350..670 from the top to the forehead is muted brushed gold, black-violet narrow border seams, surrounding dome ivory with delicate wear, side projecting ear modules muted gold and ivory, frontmost projecting filter white and gold. Preserve the guide's top-down geometry and asymmetric part boundaries exactly. Do not invent a visible frontal visor, face, lower cheek outlines or a front-view filter grille; only surfaces seen in this top guide are present. A blue-white narrow indicator may be painted along the forehead end of the gold crown strip, flat paint only. Exact silhouette rectangle [123,68,901,956). Preserve the flat top edge, stepped ear modules and small bottom extension precisely.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "13ce92c08e51a71fd2437bec013b1db6db46df5fa6587d576f3b39c45c88c151"
+        }
+      ],
+      "design_authority": "design_reference.png; material information carried in the prompt; original image was supplied on attempt 1",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e1f-886b-7680-8625-68bf7527cc0e/exec-9c07f771-289c-4618-b433-9c1d0049d1d9.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return: follows the broad overhead crown strip and asymmetric guide geometry more closely, with flatter color. Added light placements and slight contour changes remain.",
+      "accepted_against_all_brief_checks": false,
+      "visual_review": {
+        "materials": "Core ivory/gold/resin palette matches; some blue-white lights are invented in seams and differ from the reference.",
+        "flat_shadowless_lighting": "Partial: low-reflection surfaces; residual faceted shading remains.",
+        "part_alignment": "Closer overhead geometry; light placements and some border details differ.",
+        "no_text_or_letters": "Pass: visually inspected; no readable text or letters.",
+        "edge_quality": "Thin coloured/white fringe and low-alpha stray pixels visible in raw return."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1202,
+          1220
+        ],
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou_alpha128": 0.995102,
+        "measurement_note": "IoU samples alpha at normalized canvas coordinates for comparison only; returned images are unchanged. IoU does not validate internal part placement."
+      },
+      "output_sha256": "5565841fda5367a6beb2ac2aac195b208f1d5828158f0e7b6755d4dd29089210"
+    }
+  ],
+  "design_authority": {
+    "path": "design_reference.png",
+    "sha256": "968fed667c3c68bdc80d2fa1b2959340f7a4f21572c22a1a31383dca920642e6"
+  }
+}

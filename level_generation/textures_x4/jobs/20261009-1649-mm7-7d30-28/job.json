@@ -1,0 +1,629 @@
+{
+ "id": "20261009-1649-mm7-7d30-28",
+ "world": "mm7",
+ "maps": [
+  "7d30.blv",
+  "mdr02.blv",
+  "mdr05.blv",
+  "mdk05.blv",
+  "7d25.blv",
+  "mdk03.blv",
+  "mdt04.blv"
+ ],
+ "created": "2026-10-09T14:50:01+00:00",
+ "textures": [
+  "mm7/t3s2fl5g",
+  "mm7/t3s2fl5e",
+  "mm7/t3s2fl5f",
+  "mm7/t3s2fl5d",
+  "mm7/t3s2fl5h",
+  "mm7/t3s2fl5b",
+  "mm7/staingls",
+  "mm7/t3s2fl5i",
+  "mm7/tap6",
+  "mm7/tap9",
+  "mm7/mdk03",
+  "mm7/mdk04",
+  "mm7/mdr02",
+  "mm7/mdk02",
+  "mm7/mdt05",
+  "mm7/mdr05",
+  "mm7/mdk05",
+  "mm7/hwr1rf",
+  "mm7/sglight",
+  "mm7/ch003g",
+  "mm7/ch003e",
+  "mm7/ch003a",
+  "mm7/mdt02",
+  "mm7/mdt04"
+ ],
+ "requests": {
+  "mm7/t3s2fl5g": {
+   "name": "t3s2fl5g",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cracked flagstone floor with a border of polished violet marble strips carrying small grey cross ornaments, enclosing a gold Celtic knotwork inlay on dark teal stone; the border turns a corner here; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.169
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.169
+    }
+   }
+  },
+  "mm7/t3s2fl5e": {
+   "name": "t3s2fl5e",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey cracked flagstone floor with a border of polished violet marble strips carrying small grey cross ornaments, enclosing a gold Celtic knotwork inlay on dark teal stone; the border turns a corner here; copy the composition exactly",
+   "notes": {
+    "2": "the flagstones along the bottom edge must stay as light grey as the reference right up to the very edge: no dark rim, shadow or dark mortar line along the bottom edge",
+    "3": "the flagstones along the bottom edge must stay as light grey as the reference right up to the very edge: no dark rim, shadow or dark mortar line along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl5c",
+      "mm7/t3s2fl5g"
+     ],
+     "fraction": 0.31
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl5d",
+      "mm7/t3s2fl5g"
+     ],
+     "fraction": 0.314
+    },
+    "3": {
+     "sources": [
+      "mm7/t3s2fl5c",
+      "mm7/t3s2fl5g"
+     ],
+     "fraction": 0.31
+    }
+   }
+  },
+  "mm7/t3s2fl5f": {
+   "name": "t3s2fl5f",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "grey cracked flagstone floor with a border of polished violet marble strips carrying small grey cross ornaments, enclosing a gold Celtic knotwork inlay on dark teal stone; straight vertical run of the border; copy the composition exactly",
+   "notes": {
+    "2": "the flagstones along the right edge must stay as light grey as the reference right up to the very edge: no dark rim, shadow or dark mortar line along the right edge",
+    "3": "the rightmost column of the tile is light grey flagstone exactly as in the reference; do not place a dark mortar joint, shadow or dark rim along the right edge; the stones continue straight off the right edge",
+    "4": "the rightmost column of the tile is light grey flagstone exactly as in the reference; do not place a dark mortar joint, shadow or dark rim along the right edge; the stones continue straight off the right edge",
+    "5": "the leftmost pixel columns are the pale lilac-grey edging line of the violet strip, as light as in the reference, running straight down the whole left edge; no dark violet or dark line along the left edge; the right edge stays light grey flagstone"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl5g"
+     ],
+     "fraction": 0.207
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl5g"
+     ],
+     "fraction": 0.207
+    },
+    "3": {
+     "sources": [
+      "mm7/t3s2fl5g"
+     ],
+     "fraction": 0.207
+    },
+    "4": {
+     "sources": [
+      "mm7/t3s2fl5g"
+     ],
+     "fraction": 0.207
+    },
+    "5": {
+     "sources": [
+      "mm7/t3s2fl5g"
+     ],
+     "fraction": 0.207
+    }
+   }
+  },
+  "mm7/t3s2fl5d": {
+   "name": "t3s2fl5d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cracked flagstone floor with a border of polished violet marble strips carrying small grey cross ornaments, enclosing a gold Celtic knotwork inlay on dark teal stone; straight horizontal run of the border; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl5c"
+     ],
+     "fraction": 0.196
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl5c"
+     ],
+     "fraction": 0.196
+    }
+   }
+  },
+  "mm7/t3s2fl5h": {
+   "name": "t3s2fl5h",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grey cracked flagstone floor above a straight horizontal border of polished violet marble: a plain violet strip, a pale grey-green strip carrying a dark violet vine scroll, a thin plain violet strip, a gold Celtic knotwork inlay on dark teal stone, and a violet strip carrying a pale lilac vine scroll along the bottom; copy the composition exactly",
+   "notes": {
+    "3": "the ornamental strip above the gold knotwork is pale grey-green stone carrying a dark violet vine scroll, exactly as in the reference (not violet with a grey vine); the thin violet strip just below the flagstones is plain, with no crosses; the violet strip at the bottom runs at full brightness to the very last pixel row, with no dark line along the bottom edge",
+    "4": "no cross ornaments anywhere in this piece; the bands keep exactly the heights and positions of the reference, with the lilac vine strip fully visible along the bottom and running at full brightness to the last pixel row"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.203
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.203
+    },
+    "3": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.203
+    },
+    "4": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.203
+    }
+   }
+  },
+  "mm7/t3s2fl5b": {
+   "name": "t3s2fl5b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cracked flagstone floor with a border of polished violet marble strips carrying small grey cross ornaments, enclosing a gold Celtic knotwork inlay on dark teal stone; straight vertical run of the border; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.195
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl5a"
+     ],
+     "fraction": 0.195
+    }
+   }
+  },
+  "mm7/staingls": {
+   "name": "staingls",
+   "versions": [
+    1
+   ],
+   "material": "stained glass window of bold red, blue, green, yellow and magenta glass panes set in heavy black lead cames; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl5i": {
+   "name": "t3s2fl5i",
+   "versions": [
+    1
+   ],
+   "material": "polished deep violet marble with soft darker mottling",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap6": {
+   "name": "tap6",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven wool tapestry of a fully clothed rider in a blue cloak on a white horse with two white hounds in a flowering meadow, red and gold woven border; copy the composition exactly",
+   "notes": {
+    "2": "the gold and red woven border band along the top must stay as bright as the reference right up to the very top edge, no dark rim or shadow at any edge; keep the rider, horse and both hounds at the same positions and sizes as the reference",
+    "3": "the outermost edge of the tapestry is a thin bright pale-tan line along the very top (and a mid-tone line along the left side), with a thin dark outline just inside it, exactly as in the reference; do not let the top edge fall into shadow or a dark rim"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap9": {
+   "name": "tap9",
+   "versions": [
+    1
+   ],
+   "material": "woven wool tapestry of a fully robed dark sorcerer holding a staff beneath a black sun with a fiery orange corona, on a deep blue field with a violet knotwork border; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/mdk03": {
+   "name": "mdk03",
+   "versions": [
+    1
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved II, corner numerals XI, XIV, XIII, V carved into the stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.927
+    }
+   }
+  },
+  "mm7/mdk04": {
+   "name": "mdk04",
+   "versions": [
+    1
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved XIV, corner numerals VIII, II, XV, XII carved into the stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.892
+    }
+   }
+  },
+  "mm7/mdr02": {
+   "name": "mdr02",
+   "versions": [
+    1
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved XII, corner numerals XIV, V, IV, III carved into the stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.901
+    }
+   }
+  },
+  "mm7/mdk02": {
+   "name": "mdk02",
+   "versions": [
+    1
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved IV, corner carvings of an ankh, XII, XV, III cut into the stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr02",
+      "mm7/mdr04",
+      "mm7/mdk04",
+      "mm7/mdr03",
+      "mm7/mdt05",
+      "mm7/mdr01"
+     ],
+     "fraction": 0.948
+    }
+   }
+  },
+  "mm7/mdt05": {
+   "name": "mdt05",
+   "versions": [
+    1
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved XIII, corner numerals XI, VIII, II, VI carved into the stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.912
+    }
+   }
+  },
+  "mm7/mdr05": {
+   "name": "mdr05",
+   "versions": [
+    1
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved XV, corner numerals VIII, IV, XIV, I carved into the stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.896
+    }
+   }
+  },
+  "mm7/mdk05": {
+   "name": "mdk05",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved III, corner numerals XII, X, VIII, IV carved into the stone; copy the composition exactly",
+   "notes": {
+    "2": "the central grey stone diamond must be one continuous stone surface around the carved III: no lighter or bluish rectangular patch, ghost outline or leftover marks around or below the numeral; match the stone grain and tone of the sharp surrounding areas exactly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.907
+    },
+    "2": {
+     "sources": [
+      "mm7/mdr04",
+      "mm7/mdr02",
+      "mm7/mdk03",
+      "mm7/mdr05"
+     ],
+     "fraction": 0.918
+    }
+   }
+  },
+  "mm7/hwr1rf": {
+   "name": "hwr1rf",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rows of overlapping weathered brown wooden roof shingles with dark gaps between them",
+   "notes": {
+    "3": "the tile repeats vertically: the dark gap line appears only once, along the very top edge; the bottom edge ends on the light lower ends of the shingles with no dark line; every shingle course is one straight horizontal row across the full width with no step"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/sglight": {
+   "name": "sglight",
+   "versions": [
+    1
+   ],
+   "material": "square wooden plaque painted with an open tan hand bearing a blue eye on its palm, on a dark red ground inside a brown wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/ch003g": {
+   "name": "ch003g",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "chest panel of grey-blue slate inside a dark iron-banded wooden frame with small rivets; copy the composition exactly",
+   "notes": {
+    "2": "one continuous plain grey-blue slate surface inside the frame: no square inset, patch or raised rectangle in the centre; the iron frame band along the top carries evenly spaced round rivets like the left, right and bottom bands; same dull brightness as the reference",
+    "3": "the sharp slate areas in the reference are final: paint the blurred centre square as the same dull dark grey-blue slate with identical grain, tone and brightness so it is indistinguishable from the sharp slate around it, with no outline, bevel or edge; also do not brighten anything"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003d",
+      "mm7/ch003f"
+     ],
+     "fraction": 0.896
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003d",
+      "mm7/ch003f"
+     ],
+     "fraction": 0.896
+    },
+    "3": {
+     "sources": [
+      "mm7/ch003d",
+      "mm7/ch003f"
+     ],
+     "fraction": 0.896
+    }
+   }
+  },
+  "mm7/ch003e": {
+   "name": "ch003e",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "chest panel of grey-blue slate with a small dark iron lock plate at the bottom centre; copy the composition exactly",
+   "notes": {
+    "2": "one continuous plain grey-blue slate surface: no lighter or darker rectangular patches, inset boards or ghost outlines above or around the lock plate; keep only the small iron keyhole lock plate at the bottom centre exactly as in the reference",
+    "3": "the sharp slate areas in the reference are final: paint the blurred areas above and around the lock plate as the same dull grey-blue slate with identical grain, tone and brightness so they are indistinguishable from the sharp slate around them, with no outlines, bevels or rectangle edges"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003f",
+      "mm7/ch003d"
+     ],
+     "fraction": 0.852
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003f",
+      "mm7/ch003d"
+     ],
+     "fraction": 0.852
+    },
+    "3": {
+     "sources": [
+      "mm7/ch003f",
+      "mm7/ch003d"
+     ],
+     "fraction": 0.852
+    }
+   }
+  },
+  "mm7/ch003a": {
+   "name": "ch003a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "chest panel of grey-blue slate inside a thin dark riveted iron frame; copy the composition exactly",
+   "notes": {
+    "2": "the riveted iron frame runs along all four edges: keep the evenly spaced round rivets along the top band too, exactly like the left, right and bottom bands of the reference",
+    "3": "a plain grey-blue slate panel inside a narrow dark iron frame on all four sides; small round rivets evenly spaced along ALL four frame bands (top, bottom, left and right), about eight per side, exactly like the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.699
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.699
+    },
+    "3": {
+     "sources": [
+      "mm7/ch003i"
+     ],
+     "fraction": 0.699
+    }
+   }
+  },
+  "mm7/mdt02": {
+   "name": "mdt02",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved VI, corner carvings XIII, XI, an ankh, I cut into the stone; copy the composition exactly",
+   "notes": {
+    "2": "the central grey stone diamond must be one continuous stone surface around the carved VI: no horizontal line, step, patch edge or leftover marks above, around or below the numeral; match the stone grain and tone of the sharp surrounding areas exactly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr05",
+      "mm7/mdr03",
+      "mm7/mdr02",
+      "mm7/mdr01"
+     ],
+     "fraction": 0.929
+    },
+    "2": {
+     "sources": [
+      "mm7/mdk02",
+      "mm7/mdr05",
+      "mm7/mdr03",
+      "mm7/mdr02"
+     ],
+     "fraction": 0.93
+    }
+   }
+  },
+  "mm7/mdt04": {
+   "name": "mdt04",
+   "versions": [
+    1
+   ],
+   "material": "square pale pinkish sandstone floor slab with a raised pink granite rim, Celtic knot carvings in the corners, five dark pitted bronze diamonds, a central grey stone diamond held by four bronze rivets engraved VIII, corner numerals XIV, XV, III, XIII carved into the stone; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/mdr04"
+     ],
+     "fraction": 0.881
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png, the exact layout/geometry target. design_reference.png is material/detail reference only; icon_x8.png is colour reference only, ignore its magenta background.\nProduce ONE transparent PNG at 1536x2048 (3:4). Preserve the guide's three columns and FOUR rows of 512x512 cells, every object's exact position, size, orientation, outline, gaps and openings. Never redraw, enlarge, move or redesign geometry. The unusual orientations are intentional: follow the guide pixels, not imagined conventional views.\nRows 1-2 contain five PAINT views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint only these grey surfaces with unlit base colour: a short-sleeved long chain mail hauberk of silver-grey links with round neck and long skirt split at front. No trim or other colours. Follow the approved reference's chain links and original icon's silver-grey palette, scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections.\nRows 3-4 repeat exactly the same five silhouettes as MATERIAL MASK, not painted beauty views. Fill ALL their surfaces solid pure red #FF0000 because this entire object is metal chain mail, including visible inner surfaces. Flat pure red only: no shading, no texture, no outlines, no internal antialiased colour blends. Material code if applicable: metal red #FF0000; leather/fur green #00FF00; cloth/hair blue #0000FF; gemstone/glass/enamel/liquid black #000000. No nonmetal parts exist on this item.\nEvery gap and opening stays exactly as guide and fully transparent. Empty cells column 3 row 2 and column 3 row 4 stay transparent. Transparent background, no ground, text, grid, outlines, glow halo, sparkles, aura or anything outside silhouettes. Paint grey objects only. Preserve exact guide layout and silhouettes above all.\nCORRECTION: The previous attempt spilled red speckles broadly outside the lower silhouettes. This is forbidden. Start from the clean supplied grey guide. Lower two rows must be clean solid red cutouts with EXACTLY the guide alpha boundary and openings; absolutely zero red dust, speckles, strokes, halos or pixels outside the grey guide surfaces. Preserve the guide's visible inner sleeve and neck surfaces as red, and preserve actual transparent holes. No new holes.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acaa-c275-7b31-97b8-7ae748f38a5c/exec-ddd381e2-be7b-4ed3-98f0-59899c446608.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10101/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Visible red artifacts remain outside material-mask silhouettes after the one permitted corrective regeneration. Raw tool output preserved without modification.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10101/paint_mask_guide.png",
+      "sha256": "46559cde6253d9972d9eab3e938544b7e4615dda1fb76a444c43cc173af5896b"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10101/design_reference.png",
+      "sha256": "84b6635a413439a13c477ecc8895e1427dbb7977d91aad0bc28818c2416a1b54"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10101/icon_x8.png",
+      "sha256": "5c287de86bd18d50845e5d37f7001945faf21dc8f2b4661ed8479844709b6874"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

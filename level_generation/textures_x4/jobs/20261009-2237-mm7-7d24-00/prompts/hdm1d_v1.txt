@@ -1,0 +1,16 @@
+Use case: precise-object-edit.
+Asset: flat surface albedo texture for a 1990s first-person RPG remaster, native 128x256 pixels.
+Reference 1 is a soft enlargement of the original low-resolution texture, surrounded by a border (16 original pixels left/right, 16 top/bottom) showing a mirror of the edge; the border must continue the same layout seamlessly. The left and right border of Reference 1 is finished high-resolution artwork of the neighbouring wall piece: the texture must continue it seamlessly across that edge (same courses, planks, joints, colours and brightness). It is a guide for layout,
+colours and materials only and contains no real fine detail. Reproduce EXACTLY its layout:
+every block, plank, joint, ornament, figure and border at the same positions and proportions, the same colours,
+palette and overall brightness. Do not add, remove, move or resize anything.
+Redraw it as new clean high-definition artwork at 4x the original resolution: worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a carved round stone arch with a spoked rosette ornament above an arched dark wooden plank door with carved iron bands and a small barred window; copy the composition exactly;
+continuous crisp edges and fine natural surface detail invented anew, everything in sharp focus, even diffuse
+lighting.
+Keep the full canvas including the border, flat orthographic view, full bleed, opaque.
+No perspective, vignette, baked highlights or cast shadows, frame, text or watermark.
+Avoid enlarged pixel blocks, dithering, stippled noise, crunchy grain and sharpening halos.
+No dark outline, frame line, vignette or shadow along the outer edges of the canvas: every edge row and column keeps
+the brightness and material of the reference's edge, because the texture is tiled and its edges touch other faces.
+Any fine checkered or crosshatch dither in the reference is a palette artefact: paint smooth continuous material.
+Correction for this attempt: keep the door, its arch, the rosette and the window exactly at the reference's size and height: the arch tip and the rosette sit exactly where the reference has them, nothing lower or larger; the top pale stone band reaches the top edge

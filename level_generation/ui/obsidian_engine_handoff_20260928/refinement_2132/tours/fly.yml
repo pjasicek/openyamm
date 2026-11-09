@@ -1,0 +1,22 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_engine_handoff_20260928/refinement_party_basebar/images
+exit: true
+steps:
+- wait: 2
+- right_down:
+  - 1575
+  - 298
+- click:
+  - 1575
+  - 298
+- right_up:
+  - 1575
+  - 298
+- capture: fly-gameplay
+- wait: 0.5
+- key_down: J
+- wait: 1
+- capture: fly-active-a
+- wait: 0.19
+- capture: fly-active-b
+- wait: 0.5
+- key_up: J

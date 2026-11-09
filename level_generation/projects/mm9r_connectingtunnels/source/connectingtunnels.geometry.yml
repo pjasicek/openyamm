@@ -1,0 +1,3267 @@
+{
+ "format_version": 2,
+ "kind": "indoor_geometry",
+ "map_file": "connectingtunnels.blv",
+ "source": {
+  "authoring_file": "convert.py",
+  "asset_path": "connectingtunnels.glb",
+  "coordinate_system": "blender_z_up",
+  "unit_scale": 1.0,
+  "import": {
+   "source_format": "glb",
+   "reserve_sector_zero": true,
+   "merge_coplanar_faces": false,
+   "triangulate_ngons": false,
+   "generate_bsp": true,
+   "generate_outlines": true
+  }
+ },
+ "materials": [
+  {
+   "id": "DEFAR33VFJ",
+   "source_material": "DEFAR33VFJ",
+   "texture": "DEFAR33VFJ",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "MARB94ORUI",
+   "source_material": "MARB94ORUI",
+   "texture": "MARB94ORUI",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "LICHZDHOPQ",
+   "source_material": "LICHZDHOPQ",
+   "texture": "LICHZDHOPQ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "KARH09WB7I",
+   "source_material": "KARH09WB7I",
+   "texture": "KARH09WB7I",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "SKULBMY5A4",
+   "source_material": "SKULBMY5A4",
+   "texture": "SKULBMY5A4",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "BWALUCAL4H",
+   "source_material": "BWALUCAL4H",
+   "texture": "BWALUCAL4H",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "DUNG4M50HB",
+   "source_material": "DUNG4M50HB",
+   "texture": "DUNG4M50HB",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "CURVGLLF5C",
+   "source_material": "CURVGLLF5C",
+   "texture": "CURVGLLF5C",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "ABNDG0SW7E",
+   "source_material": "ABNDG0SW7E",
+   "texture": "ABNDG0SW7E",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "THJOVREGHO",
+   "source_material": "THJOVREGHO",
+   "texture": "THJOVREGHO",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "KARH3V44VQ",
+   "source_material": "KARH3V44VQ",
+   "texture": "KARH3V44VQ",
+   "texture_width": 128,
+   "texture_height": 256
+  },
+  {
+   "id": "TRAVD5SOFY",
+   "source_material": "TRAVD5SOFY",
+   "texture": "TRAVD5SOFY",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "YANMLEOOPQ",
+   "source_material": "YANMLEOOPQ",
+   "texture": "YANMLEOOPQ",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "AMAZR3THBZ",
+   "source_material": "AMAZR3THBZ",
+   "texture": "AMAZR3THBZ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TILENSVQNG",
+   "source_material": "TILENSVQNG",
+   "texture": "TILENSVQNG",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "HONKWPTQZM",
+   "source_material": "HONKWPTQZM",
+   "texture": "HONKWPTQZM",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "TRAIUGLI2Q",
+   "source_material": "TRAIUGLI2Q",
+   "texture": "TRAIUGLI2Q",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "NWALWN2PHM",
+   "source_material": "NWALWN2PHM",
+   "texture": "NWALWN2PHM",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "OUTSKPWIUT",
+   "source_material": "OUTSKPWIUT",
+   "texture": "OUTSKPWIUT",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "REFIKJ0CWD",
+   "source_material": "REFIKJ0CWD",
+   "texture": "REFIKJ0CWD",
+   "texture_width": 512,
+   "texture_height": 256
+  },
+  {
+   "id": "WOODXPYWKR",
+   "source_material": "WOODXPYWKR",
+   "texture": "WOODXPYWKR",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "RUNI12FRB2",
+   "source_material": "RUNI12FRB2",
+   "texture": "RUNI12FRB2",
+   "texture_width": 128,
+   "texture_height": 128
+  }
+ ],
+ "rooms": [
+  {
+   "id": "room_r01",
+   "source_nodes": [
+    "ROOM_r01",
+    "TRIGGER_invisible_r01",
+    "TRIGGER_opaque_r01",
+    "TRIGGER_shared_r03_r01",
+    "TRIGGER_shared_r02_r01",
+    "MECH_coffin door left",
+    "MECH_coffin door right",
+    "LIGHT_Light10",
+    "LIGHT_Light11",
+    "LIGHT_Light12",
+    "LIGHT_Light13",
+    "LIGHT_Light14",
+    "LIGHT_Light15",
+    "LIGHT_Light16",
+    "LIGHT_Light17",
+    "LIGHT_Light18",
+    "LIGHT_Light19",
+    "LIGHT_Light20",
+    "LIGHT_Light21",
+    "LIGHT_Light22",
+    "LIGHT_Light23",
+    "LIGHT_Light28",
+    "LIGHT_Light29",
+    "LIGHT_Light30",
+    "LIGHT_Light31",
+    "LIGHT_Light32",
+    "LIGHT_Light33",
+    "LIGHT_Light34",
+    "LIGHT_Light35",
+    "LIGHT_Light36",
+    "LIGHT_Light37",
+    "LIGHT_Light6",
+    "LIGHT_Light7",
+    "LIGHT_Light8",
+    "LIGHT_Light9",
+    "LIGHT_Light4",
+    "LIGHT_Light5",
+    "DECOR_BonePile4",
+    "DECOR_BonePile5",
+    "DECOR_BonePile6",
+    "DECOR_BonePile7",
+    "DECOR_BonePile8",
+    "DECOR_Prop32",
+    "DECOR_Prop33",
+    "DECOR_Prop34",
+    "DECOR_Prop35",
+    "DECOR_Prop36",
+    "DECOR_Prop37",
+    "DECOR_Prop38",
+    "DECOR_Prop39",
+    "DECOR_Prop40",
+    "DECOR_Prop41",
+    "DECOR_Prop42",
+    "DECOR_Prop43",
+    "DECOR_Prop44",
+    "DECOR_Prop45",
+    "DECOR_Prop46",
+    "DECOR_Prop47",
+    "DECOR_Prop48",
+    "DECOR_Prop49",
+    "DECOR_TreasureChest1",
+    "DECOR_Prop50",
+    "DECOR_Prop51",
+    "DECOR_Prop52",
+    "DECOR_Prop53",
+    "DECOR_Prop54",
+    "DECOR_Prop55",
+    "DECOR_Prop56",
+    "DECOR_Prop57",
+    "DECOR_Prop58",
+    "DECOR_Prop59"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r02",
+   "source_nodes": [
+    "ROOM_r02",
+    "TRIGGER_shared_r01_r02",
+    "TRIGGER_shared_r10_r02"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r03",
+   "source_nodes": [
+    "ROOM_r03",
+    "TRIGGER_shared_r01_r03",
+    "TRIGGER_shared_r08_r03"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r04",
+   "source_nodes": [
+    "ROOM_r04",
+    "TRIGGER_shared_r05_r04",
+    "LIGHT_lantern light28",
+    "LIGHT_lantern light29",
+    "DECOR_mine lantern28",
+    "DECOR_mine lantern29"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r05",
+   "source_nodes": [
+    "ROOM_r05",
+    "TRIGGER_shared_r04_r05",
+    "TRIGGER_shared_r12_r05",
+    "LIGHT_lantern light26",
+    "LIGHT_lantern light27",
+    "DECOR_mine lantern26",
+    "DECOR_mine lantern27"
+   ],
+   "min_ambient_light_level": 17
+  },
+  {
+   "id": "room_r06",
+   "source_nodes": [
+    "ROOM_r06",
+    "TRIGGER_shared_r12_r06",
+    "TRIGGER_shared_r07_r06",
+    "LIGHT_lantern light22",
+    "LIGHT_lantern light23",
+    "DECOR_mine lantern22",
+    "DECOR_mine lantern23"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r07",
+   "source_nodes": [
+    "ROOM_r07",
+    "TRIGGER_shared_r06_r07",
+    "TRIGGER_shared_r16_r07",
+    "LIGHT_lantern light21",
+    "DECOR_mine lantern21"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r08",
+   "source_nodes": [
+    "ROOM_r08",
+    "TRIGGER_shared_r03_r08",
+    "TRIGGER_shared_r16_r08",
+    "TRIGGER_shared_r09_r08",
+    "LIGHT_lantern light31",
+    "LIGHT_lantern light32",
+    "DECOR_mine lantern31",
+    "DECOR_mine lantern32",
+    "DECOR_BonePile0"
+   ],
+   "min_ambient_light_level": 17
+  },
+  {
+   "id": "room_r09",
+   "source_nodes": [
+    "ROOM_r09",
+    "TRIGGER_shared_r17_r09",
+    "TRIGGER_shared_r08_r09",
+    "LIGHT_lantern light33",
+    "DECOR_mine lantern33"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r10",
+   "source_nodes": [
+    "ROOM_r10",
+    "TRIGGER_shared_r18_r10",
+    "TRIGGER_shared_r02_r10",
+    "TRIGGER_shared_r17_r10",
+    "TRIGGER_shared_r13_r10",
+    "LIGHT_lantern light35",
+    "LIGHT_lantern light36",
+    "LIGHT_lantern light37",
+    "LIGHT_lantern light38",
+    "LIGHT_lantern light39",
+    "DECOR_mine lantern35",
+    "DECOR_mine lantern36",
+    "DECOR_mine lantern37",
+    "DECOR_mine lantern38",
+    "DECOR_mine lantern39",
+    "DECOR_BonePile2"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r11",
+   "source_nodes": [
+    "ROOM_r11",
+    "TRIGGER_shared_r15_r11",
+    "TRIGGER_shared_r14_r11",
+    "LIGHT_lantern light43",
+    "LIGHT_lantern light44",
+    "LIGHT_lantern light45",
+    "LIGHT_lantern light46",
+    "DECOR_mine lantern43",
+    "DECOR_mine lantern44",
+    "DECOR_mine lantern45",
+    "DECOR_mine lantern46",
+    "DECOR_BonePile3"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r12",
+   "source_nodes": [
+    "ROOM_r12",
+    "TRIGGER_shared_r06_r12",
+    "TRIGGER_shared_r05_r12",
+    "LIGHT_lantern light24",
+    "LIGHT_lantern light25",
+    "DECOR_mine lantern24",
+    "DECOR_mine lantern25"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r13",
+   "source_nodes": [
+    "ROOM_r13",
+    "TRIGGER_shared_r10_r13",
+    "TRIGGER_shared_r14_r13",
+    "LIGHT_lantern light40",
+    "DECOR_mine lantern40"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r14",
+   "source_nodes": [
+    "ROOM_r14",
+    "TRIGGER_shared_r22_r14",
+    "TRIGGER_shared_r13_r14",
+    "TRIGGER_shared_r11_r14",
+    "LIGHT_lantern light41",
+    "LIGHT_lantern light42",
+    "DECOR_mine lantern41",
+    "DECOR_mine lantern42"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r15",
+   "source_nodes": [
+    "ROOM_r15",
+    "TRIGGER_shared_r11_r15",
+    "LIGHT_lantern light47",
+    "LIGHT_lantern light48",
+    "LIGHT_lantern light49",
+    "LIGHT_lantern light50",
+    "LIGHT_lantern light51",
+    "LIGHT_lantern light52",
+    "DECOR_mine lantern47",
+    "DECOR_mine lantern48",
+    "DECOR_mine lantern49",
+    "DECOR_mine lantern50",
+    "DECOR_mine lantern51",
+    "DECOR_mine lantern52"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r16",
+   "source_nodes": [
+    "ROOM_r16",
+    "TRIGGER_shared_r07_r16",
+    "TRIGGER_shared_r08_r16",
+    "TRIGGER_shared_r19_r16",
+    "TRIGGER_cog20669_r16",
+    "LIGHT_lantern light20",
+    "LIGHT_lantern light30",
+    "DECOR_mine lantern20",
+    "DECOR_mine lantern30"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r17",
+   "source_nodes": [
+    "ROOM_r17",
+    "TRIGGER_shared_r10_r17",
+    "TRIGGER_shared_r09_r17",
+    "LIGHT_lantern light34",
+    "DECOR_mine lantern34",
+    "DECOR_BonePile1"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r18",
+   "source_nodes": [
+    "ROOM_r18",
+    "TRIGGER_shared_r10_r18",
+    "TRIGGER_shared_r20_r18"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r19",
+   "source_nodes": [
+    "ROOM_r19",
+    "TRIGGER_shared_r16_r19",
+    "TRIGGER_shared_r23_r19",
+    "TRIGGER_cog20127_r19",
+    "DECOR_Prop3",
+    "DECOR_Prop4",
+    "DECOR_Prop5",
+    "DECOR_Prop6",
+    "DECOR_Prop7",
+    "DECOR_Prop8"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r20",
+   "source_nodes": [
+    "ROOM_r20",
+    "TRIGGER_shared_r18_r20",
+    "TRIGGER_shared_r21_r20"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r21",
+   "source_nodes": [
+    "ROOM_r21",
+    "TRIGGER_shared_r20_r21",
+    "TRIGGER_shared_r24_r21"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r22",
+   "source_nodes": [
+    "ROOM_r22",
+    "TRIGGER_shared_r14_r22",
+    "TRIGGER_shared_r24_r22",
+    "LIGHT_Light1",
+    "DECOR_TreasureChest0"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r23",
+   "source_nodes": [
+    "ROOM_r23",
+    "TRIGGER_shared_r27_r23",
+    "TRIGGER_shared_r19_r23",
+    "LIGHT_lantern light16",
+    "LIGHT_lantern light17",
+    "LIGHT_lantern light18",
+    "DECOR_mine lantern16",
+    "DECOR_mine lantern17",
+    "DECOR_mine lantern18"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r24",
+   "source_nodes": [
+    "ROOM_r24",
+    "TRIGGER_shared_r21_r24",
+    "TRIGGER_shared_r22_r24"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r25",
+   "source_nodes": [
+    "ROOM_r25",
+    "TRIGGER_shared_r26_r25",
+    "TRIGGER_shared_r28_r25",
+    "LIGHT_lantern light13",
+    "LIGHT_lantern light14",
+    "DECOR_mine lantern13",
+    "DECOR_mine lantern14"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r26",
+   "source_nodes": [
+    "ROOM_r26",
+    "TRIGGER_shared_r25_r26",
+    "TRIGGER_shared_r27_r26",
+    "LIGHT_lantern light15",
+    "DECOR_mine lantern15",
+    "DECOR_Prop11",
+    "DECOR_Prop18",
+    "DECOR_Prop19",
+    "DECOR_Prop20",
+    "DECOR_Prop21",
+    "DECOR_Prop26",
+    "DECOR_Prop27",
+    "DECOR_Prop29",
+    "DECOR_Prop30",
+    "DECOR_Prop31",
+    "DECOR_Barrel2"
+   ],
+   "min_ambient_light_level": 17
+  },
+  {
+   "id": "room_r27",
+   "source_nodes": [
+    "ROOM_r27",
+    "TRIGGER_shared_r26_r27",
+    "TRIGGER_shared_r23_r27",
+    "DECOR_Prop0",
+    "DECOR_Prop1",
+    "DECOR_Prop2",
+    "DECOR_Prop9",
+    "DECOR_Prop10",
+    "DECOR_Prop12",
+    "DECOR_Prop13",
+    "DECOR_Prop14",
+    "DECOR_Prop15",
+    "DECOR_Prop16",
+    "DECOR_Prop17",
+    "DECOR_Prop22",
+    "DECOR_Prop23",
+    "DECOR_Prop24",
+    "DECOR_Prop25",
+    "DECOR_Prop28",
+    "DECOR_Barrel0",
+    "DECOR_Barrel1"
+   ],
+   "min_ambient_light_level": 17
+  },
+  {
+   "id": "room_r28",
+   "source_nodes": [
+    "ROOM_r28",
+    "TRIGGER_shared_r25_r28",
+    "TRIGGER_shared_r29_r28",
+    "LIGHT_lantern light12",
+    "DECOR_mine lantern12"
+   ],
+   "min_ambient_light_level": 14
+  },
+  {
+   "id": "room_r29",
+   "source_nodes": [
+    "ROOM_r29",
+    "TRIGGER_shared_r30_r29",
+    "TRIGGER_shared_r28_r29",
+    "LIGHT_lantern light10",
+    "LIGHT_lantern light11",
+    "DECOR_mine lantern10",
+    "DECOR_mine lantern11"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r30",
+   "source_nodes": [
+    "ROOM_r30",
+    "TRIGGER_shared_r29_r30",
+    "TRIGGER_shared_r31_r30",
+    "LIGHT_lantern light9",
+    "DECOR_mine lantern9"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r31",
+   "source_nodes": [
+    "ROOM_r31",
+    "TRIGGER_shared_r30_r31",
+    "LIGHT_lantern light7",
+    "LIGHT_lantern light8",
+    "DECOR_mine lantern7",
+    "DECOR_mine lantern8"
+   ],
+   "min_ambient_light_level": 20
+  }
+ ],
+ "portals": [
+  {
+   "id": "t00",
+   "source_node": "PORTAL_t00",
+   "front_room": "room_r15",
+   "back_room": "room_r11"
+  },
+  {
+   "id": "t01",
+   "source_node": "PORTAL_t01",
+   "front_room": "room_r11",
+   "back_room": "room_r14"
+  },
+  {
+   "id": "t02",
+   "source_node": "PORTAL_t02",
+   "front_room": "room_r14",
+   "back_room": "room_r13"
+  },
+  {
+   "id": "t03",
+   "source_node": "PORTAL_t03",
+   "front_room": "room_r22",
+   "back_room": "room_r14"
+  },
+  {
+   "id": "t04",
+   "source_node": "PORTAL_t04",
+   "front_room": "room_r13",
+   "back_room": "room_r10"
+  },
+  {
+   "id": "t06",
+   "source_node": "PORTAL_t06",
+   "front_room": "room_r22",
+   "back_room": "room_r24"
+  },
+  {
+   "id": "t07",
+   "source_node": "PORTAL_t07",
+   "front_room": "room_r10",
+   "back_room": "room_r02"
+  },
+  {
+   "id": "t09",
+   "source_node": "PORTAL_t09",
+   "front_room": "room_r10",
+   "back_room": "room_r17"
+  },
+  {
+   "id": "t10",
+   "source_node": "PORTAL_t10",
+   "front_room": "room_r02",
+   "back_room": "room_r01"
+  },
+  {
+   "id": "t11",
+   "source_node": "PORTAL_t11",
+   "front_room": "room_r24",
+   "back_room": "room_r21"
+  },
+  {
+   "id": "t12",
+   "source_node": "PORTAL_t12",
+   "front_room": "room_r18",
+   "back_room": "room_r10"
+  },
+  {
+   "id": "t13",
+   "source_node": "PORTAL_t13",
+   "front_room": "room_r17",
+   "back_room": "room_r09"
+  },
+  {
+   "id": "t14",
+   "source_node": "PORTAL_t14",
+   "front_room": "room_r20",
+   "back_room": "room_r21"
+  },
+  {
+   "id": "t15",
+   "source_node": "PORTAL_t15",
+   "front_room": "room_r20",
+   "back_room": "room_r18"
+  },
+  {
+   "id": "t16",
+   "source_node": "PORTAL_t16",
+   "front_room": "room_r09",
+   "back_room": "room_r08"
+  },
+  {
+   "id": "t17",
+   "source_node": "PORTAL_t17",
+   "front_room": "room_r01",
+   "back_room": "room_r03"
+  },
+  {
+   "id": "t18",
+   "source_node": "PORTAL_t18",
+   "front_room": "room_r08",
+   "back_room": "room_r03"
+  },
+  {
+   "id": "t19",
+   "source_node": "PORTAL_t19",
+   "front_room": "room_r08",
+   "back_room": "room_r16"
+  },
+  {
+   "id": "t20",
+   "source_node": "PORTAL_t20",
+   "front_room": "room_r16",
+   "back_room": "room_r07"
+  },
+  {
+   "id": "t21",
+   "source_node": "PORTAL_t21",
+   "front_room": "room_r19",
+   "back_room": "room_r16"
+  },
+  {
+   "id": "t22",
+   "source_node": "PORTAL_t22",
+   "front_room": "room_r07",
+   "back_room": "room_r06"
+  },
+  {
+   "id": "t23",
+   "source_node": "PORTAL_t23",
+   "front_room": "room_r19",
+   "back_room": "room_r23"
+  },
+  {
+   "id": "t24",
+   "source_node": "PORTAL_t24",
+   "front_room": "room_r12",
+   "back_room": "room_r06"
+  },
+  {
+   "id": "t25",
+   "source_node": "PORTAL_t25",
+   "front_room": "room_r12",
+   "back_room": "room_r05"
+  },
+  {
+   "id": "t26",
+   "source_node": "PORTAL_t26",
+   "front_room": "room_r27",
+   "back_room": "room_r23"
+  },
+  {
+   "id": "t27",
+   "source_node": "PORTAL_t27",
+   "front_room": "room_r05",
+   "back_room": "room_r04"
+  },
+  {
+   "id": "t28",
+   "source_node": "PORTAL_t28",
+   "front_room": "room_r27",
+   "back_room": "room_r26"
+  },
+  {
+   "id": "t29",
+   "source_node": "PORTAL_t29",
+   "front_room": "room_r26",
+   "back_room": "room_r25"
+  },
+  {
+   "id": "t30",
+   "source_node": "PORTAL_t30",
+   "front_room": "room_r28",
+   "back_room": "room_r25"
+  },
+  {
+   "id": "t31",
+   "source_node": "PORTAL_t31",
+   "front_room": "room_r29",
+   "back_room": "room_r28"
+  },
+  {
+   "id": "t32",
+   "source_node": "PORTAL_t32",
+   "front_room": "room_r30",
+   "back_room": "room_r29"
+  },
+  {
+   "id": "t33",
+   "source_node": "PORTAL_t33",
+   "front_room": "room_r31",
+   "back_room": "room_r30"
+  }
+ ],
+ "surfaces": [
+  {
+   "id": "invisible_r01",
+   "source_node": "TRIGGER_invisible_r01",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "opaque_r01",
+   "source_node": "TRIGGER_opaque_r01",
+   "flags": []
+  },
+  {
+   "id": "shared_r03_r01",
+   "source_node": "TRIGGER_shared_r03_r01",
+   "flags": [],
+   "back_room": "room_r03"
+  },
+  {
+   "id": "shared_r02_r01",
+   "source_node": "TRIGGER_shared_r02_r01",
+   "flags": [],
+   "back_room": "room_r02"
+  },
+  {
+   "id": "shared_r01_r02",
+   "source_node": "TRIGGER_shared_r01_r02",
+   "flags": [],
+   "back_room": "room_r01"
+  },
+  {
+   "id": "shared_r10_r02",
+   "source_node": "TRIGGER_shared_r10_r02",
+   "flags": [],
+   "back_room": "room_r10"
+  },
+  {
+   "id": "shared_r01_r03",
+   "source_node": "TRIGGER_shared_r01_r03",
+   "flags": [],
+   "back_room": "room_r01"
+  },
+  {
+   "id": "shared_r08_r03",
+   "source_node": "TRIGGER_shared_r08_r03",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r05_r04",
+   "source_node": "TRIGGER_shared_r05_r04",
+   "flags": [],
+   "back_room": "room_r05"
+  },
+  {
+   "id": "shared_r04_r05",
+   "source_node": "TRIGGER_shared_r04_r05",
+   "flags": [],
+   "back_room": "room_r04"
+  },
+  {
+   "id": "shared_r12_r05",
+   "source_node": "TRIGGER_shared_r12_r05",
+   "flags": [],
+   "back_room": "room_r12"
+  },
+  {
+   "id": "shared_r12_r06",
+   "source_node": "TRIGGER_shared_r12_r06",
+   "flags": [],
+   "back_room": "room_r12"
+  },
+  {
+   "id": "shared_r07_r06",
+   "source_node": "TRIGGER_shared_r07_r06",
+   "flags": [],
+   "back_room": "room_r07"
+  },
+  {
+   "id": "shared_r06_r07",
+   "source_node": "TRIGGER_shared_r06_r07",
+   "flags": [],
+   "back_room": "room_r06"
+  },
+  {
+   "id": "shared_r16_r07",
+   "source_node": "TRIGGER_shared_r16_r07",
+   "flags": [],
+   "back_room": "room_r16"
+  },
+  {
+   "id": "shared_r03_r08",
+   "source_node": "TRIGGER_shared_r03_r08",
+   "flags": [],
+   "back_room": "room_r03"
+  },
+  {
+   "id": "shared_r16_r08",
+   "source_node": "TRIGGER_shared_r16_r08",
+   "flags": [],
+   "back_room": "room_r16"
+  },
+  {
+   "id": "shared_r09_r08",
+   "source_node": "TRIGGER_shared_r09_r08",
+   "flags": [],
+   "back_room": "room_r09"
+  },
+  {
+   "id": "shared_r17_r09",
+   "source_node": "TRIGGER_shared_r17_r09",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r08_r09",
+   "source_node": "TRIGGER_shared_r08_r09",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r18_r10",
+   "source_node": "TRIGGER_shared_r18_r10",
+   "flags": [],
+   "back_room": "room_r18"
+  },
+  {
+   "id": "shared_r02_r10",
+   "source_node": "TRIGGER_shared_r02_r10",
+   "flags": [],
+   "back_room": "room_r02"
+  },
+  {
+   "id": "shared_r17_r10",
+   "source_node": "TRIGGER_shared_r17_r10",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r13_r10",
+   "source_node": "TRIGGER_shared_r13_r10",
+   "flags": [],
+   "back_room": "room_r13"
+  },
+  {
+   "id": "shared_r15_r11",
+   "source_node": "TRIGGER_shared_r15_r11",
+   "flags": [],
+   "back_room": "room_r15"
+  },
+  {
+   "id": "shared_r14_r11",
+   "source_node": "TRIGGER_shared_r14_r11",
+   "flags": [],
+   "back_room": "room_r14"
+  },
+  {
+   "id": "shared_r06_r12",
+   "source_node": "TRIGGER_shared_r06_r12",
+   "flags": [],
+   "back_room": "room_r06"
+  },
+  {
+   "id": "shared_r05_r12",
+   "source_node": "TRIGGER_shared_r05_r12",
+   "flags": [],
+   "back_room": "room_r05"
+  },
+  {
+   "id": "shared_r10_r13",
+   "source_node": "TRIGGER_shared_r10_r13",
+   "flags": [],
+   "back_room": "room_r10"
+  },
+  {
+   "id": "shared_r14_r13",
+   "source_node": "TRIGGER_shared_r14_r13",
+   "flags": [],
+   "back_room": "room_r14"
+  },
+  {
+   "id": "shared_r22_r14",
+   "source_node": "TRIGGER_shared_r22_r14",
+   "flags": [],
+   "back_room": "room_r22"
+  },
+  {
+   "id": "shared_r13_r14",
+   "source_node": "TRIGGER_shared_r13_r14",
+   "flags": [],
+   "back_room": "room_r13"
+  },
+  {
+   "id": "shared_r11_r14",
+   "source_node": "TRIGGER_shared_r11_r14",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "shared_r11_r15",
+   "source_node": "TRIGGER_shared_r11_r15",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "shared_r07_r16",
+   "source_node": "TRIGGER_shared_r07_r16",
+   "flags": [],
+   "back_room": "room_r07"
+  },
+  {
+   "id": "shared_r08_r16",
+   "source_node": "TRIGGER_shared_r08_r16",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r19_r16",
+   "source_node": "TRIGGER_shared_r19_r16",
+   "flags": [],
+   "back_room": "room_r19"
+  },
+  {
+   "id": "shared_r10_r17",
+   "source_node": "TRIGGER_shared_r10_r17",
+   "flags": [],
+   "back_room": "room_r10"
+  },
+  {
+   "id": "shared_r09_r17",
+   "source_node": "TRIGGER_shared_r09_r17",
+   "flags": [],
+   "back_room": "room_r09"
+  },
+  {
+   "id": "shared_r10_r18",
+   "source_node": "TRIGGER_shared_r10_r18",
+   "flags": [],
+   "back_room": "room_r10"
+  },
+  {
+   "id": "shared_r20_r18",
+   "source_node": "TRIGGER_shared_r20_r18",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r16_r19",
+   "source_node": "TRIGGER_shared_r16_r19",
+   "flags": [],
+   "back_room": "room_r16"
+  },
+  {
+   "id": "shared_r23_r19",
+   "source_node": "TRIGGER_shared_r23_r19",
+   "flags": [],
+   "back_room": "room_r23"
+  },
+  {
+   "id": "shared_r18_r20",
+   "source_node": "TRIGGER_shared_r18_r20",
+   "flags": [],
+   "back_room": "room_r18"
+  },
+  {
+   "id": "shared_r21_r20",
+   "source_node": "TRIGGER_shared_r21_r20",
+   "flags": [],
+   "back_room": "room_r21"
+  },
+  {
+   "id": "shared_r20_r21",
+   "source_node": "TRIGGER_shared_r20_r21",
+   "flags": [],
+   "back_room": "room_r20"
+  },
+  {
+   "id": "shared_r24_r21",
+   "source_node": "TRIGGER_shared_r24_r21",
+   "flags": [],
+   "back_room": "room_r24"
+  },
+  {
+   "id": "shared_r14_r22",
+   "source_node": "TRIGGER_shared_r14_r22",
+   "flags": [],
+   "back_room": "room_r14"
+  },
+  {
+   "id": "shared_r24_r22",
+   "source_node": "TRIGGER_shared_r24_r22",
+   "flags": [],
+   "back_room": "room_r24"
+  },
+  {
+   "id": "shared_r27_r23",
+   "source_node": "TRIGGER_shared_r27_r23",
+   "flags": [],
+   "back_room": "room_r27"
+  },
+  {
+   "id": "shared_r19_r23",
+   "source_node": "TRIGGER_shared_r19_r23",
+   "flags": [],
+   "back_room": "room_r19"
+  },
+  {
+   "id": "shared_r21_r24",
+   "source_node": "TRIGGER_shared_r21_r24",
+   "flags": [],
+   "back_room": "room_r21"
+  },
+  {
+   "id": "shared_r22_r24",
+   "source_node": "TRIGGER_shared_r22_r24",
+   "flags": [],
+   "back_room": "room_r22"
+  },
+  {
+   "id": "shared_r26_r25",
+   "source_node": "TRIGGER_shared_r26_r25",
+   "flags": [],
+   "back_room": "room_r26"
+  },
+  {
+   "id": "shared_r28_r25",
+   "source_node": "TRIGGER_shared_r28_r25",
+   "flags": [],
+   "back_room": "room_r28"
+  },
+  {
+   "id": "shared_r25_r26",
+   "source_node": "TRIGGER_shared_r25_r26",
+   "flags": [],
+   "back_room": "room_r25"
+  },
+  {
+   "id": "shared_r27_r26",
+   "source_node": "TRIGGER_shared_r27_r26",
+   "flags": [],
+   "back_room": "room_r27"
+  },
+  {
+   "id": "shared_r26_r27",
+   "source_node": "TRIGGER_shared_r26_r27",
+   "flags": [],
+   "back_room": "room_r26"
+  },
+  {
+   "id": "shared_r23_r27",
+   "source_node": "TRIGGER_shared_r23_r27",
+   "flags": [],
+   "back_room": "room_r23"
+  },
+  {
+   "id": "shared_r25_r28",
+   "source_node": "TRIGGER_shared_r25_r28",
+   "flags": [],
+   "back_room": "room_r25"
+  },
+  {
+   "id": "shared_r29_r28",
+   "source_node": "TRIGGER_shared_r29_r28",
+   "flags": [],
+   "back_room": "room_r29"
+  },
+  {
+   "id": "shared_r30_r29",
+   "source_node": "TRIGGER_shared_r30_r29",
+   "flags": [],
+   "back_room": "room_r30"
+  },
+  {
+   "id": "shared_r28_r29",
+   "source_node": "TRIGGER_shared_r28_r29",
+   "flags": [],
+   "back_room": "room_r28"
+  },
+  {
+   "id": "shared_r29_r30",
+   "source_node": "TRIGGER_shared_r29_r30",
+   "flags": [],
+   "back_room": "room_r29"
+  },
+  {
+   "id": "shared_r31_r30",
+   "source_node": "TRIGGER_shared_r31_r30",
+   "flags": [],
+   "back_room": "room_r31"
+  },
+  {
+   "id": "shared_r30_r31",
+   "source_node": "TRIGGER_shared_r30_r31",
+   "flags": [],
+   "back_room": "room_r30"
+  },
+  {
+   "id": "coffin door left",
+   "source_node": "MECH_coffin door left",
+   "flags": [],
+   "trigger": {
+    "event_id": 60,
+    "type": "click"
+   }
+  },
+  {
+   "id": "coffin door right",
+   "source_node": "MECH_coffin door right",
+   "flags": [],
+   "trigger": {
+    "event_id": 60,
+    "type": "click"
+   }
+  },
+  {
+   "id": "cog20127_r19",
+   "source_node": "TRIGGER_cog20127_r19",
+   "flags": [],
+   "cog_number": 20127,
+   "trigger": {
+    "event_id": 38127,
+    "type": "click"
+   }
+  },
+  {
+   "id": "cog20669_r16",
+   "source_node": "TRIGGER_cog20669_r16",
+   "flags": [],
+   "cog_number": 20669,
+   "trigger": {
+    "event_id": 38127,
+    "type": "click"
+   }
+  }
+ ],
+ "mechanisms": [
+  {
+   "id": "coffin door left",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_coffin door left"
+   ],
+   "door": {
+    "door_id": 1,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 150,
+    "close_speed": 150
+   }
+  },
+  {
+   "id": "coffin door right",
+   "kind": "rotating",
+   "source_nodes": [
+    "MECH_coffin door right"
+   ],
+   "door": {
+    "door_id": 2,
+    "initial_state": "closed",
+    "source_pose": "closed",
+    "direction": [
+     -0.0,
+     -0.0,
+     -0.0
+    ],
+    "move_length": 300,
+    "open_speed": 150,
+    "close_speed": 150
+   }
+  }
+ ],
+ "entities": [
+  {
+   "id": "mine lantern10",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern10",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "mine lantern11",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern11",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "mine lantern12",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern12",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "mine lantern13",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern13",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "mine lantern14",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern14",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "mine lantern15",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern15",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "mine lantern16",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern16",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "mine lantern17",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern17",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "mine lantern18",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern18",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "mine lantern20",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern20",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "mine lantern21",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern21",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "mine lantern22",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern22",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "mine lantern23",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern23",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "mine lantern24",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern24",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "mine lantern25",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern25",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "mine lantern26",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern26",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "mine lantern27",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern27",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "mine lantern28",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern28",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 280
+  },
+  {
+   "id": "mine lantern29",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern29",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "mine lantern30",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern30",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 170
+  },
+  {
+   "id": "mine lantern31",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern31",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "mine lantern32",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern32",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "mine lantern33",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern33",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "mine lantern34",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern34",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "mine lantern35",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern35",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "mine lantern36",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern36",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "mine lantern37",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern37",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 280
+  },
+  {
+   "id": "mine lantern38",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern38",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 170
+  },
+  {
+   "id": "mine lantern39",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern39",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "mine lantern40",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern40",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 35
+  },
+  {
+   "id": "mine lantern41",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern41",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "mine lantern42",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern42",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 315
+  },
+  {
+   "id": "mine lantern43",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern43",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "mine lantern44",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern44",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "mine lantern45",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern45",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "mine lantern46",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern46",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "mine lantern47",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern47",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 135
+  },
+  {
+   "id": "mine lantern48",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern48",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "mine lantern49",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern49",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 225
+  },
+  {
+   "id": "mine lantern50",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern50",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "mine lantern51",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern51",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "mine lantern52",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern52",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 345
+  },
+  {
+   "id": "mine lantern7",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern7",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 270
+  },
+  {
+   "id": "mine lantern8",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern8",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "mine lantern9",
+   "kind": "decoration",
+   "source_node": "DECOR_mine lantern9",
+   "decoration_list_id": 2417,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 45
+  },
+  {
+   "id": "Prop0",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop0",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop1",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop1",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop2",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop2",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop3",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop3",
+   "decoration_list_id": 2432,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 190
+  },
+  {
+   "id": "Prop4",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop4",
+   "decoration_list_id": 2427,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Prop5",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop5",
+   "decoration_list_id": 2429,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop6",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop6",
+   "decoration_list_id": 2431,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop7",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop7",
+   "decoration_list_id": 2433,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop8",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop8",
+   "decoration_list_id": 2430,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop9",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop9",
+   "decoration_list_id": 2425,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 73
+  },
+  {
+   "id": "Prop10",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop10",
+   "decoration_list_id": 2425,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 73
+  },
+  {
+   "id": "Prop11",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop11",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 300
+  },
+  {
+   "id": "Prop12",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop12",
+   "decoration_list_id": 2425,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 73
+  },
+  {
+   "id": "Prop13",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop13",
+   "decoration_list_id": 2424,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 89
+  },
+  {
+   "id": "Prop14",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop14",
+   "decoration_list_id": 2426,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop15",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop15",
+   "decoration_list_id": 2419,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop16",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop16",
+   "decoration_list_id": 2192,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 340
+  },
+  {
+   "id": "Prop17",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop17",
+   "decoration_list_id": 2428,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 20
+  },
+  {
+   "id": "Prop18",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop18",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop19",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop19",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop20",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop20",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop21",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop21",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 200
+  },
+  {
+   "id": "Prop22",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop22",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 280
+  },
+  {
+   "id": "Prop23",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop23",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 320
+  },
+  {
+   "id": "Prop24",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop24",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 340
+  },
+  {
+   "id": "Prop25",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop25",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop26",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop26",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop27",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop27",
+   "decoration_list_id": 2419,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 200
+  },
+  {
+   "id": "Prop28",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop28",
+   "decoration_list_id": 2192,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 140
+  },
+  {
+   "id": "Prop29",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop29",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 220
+  },
+  {
+   "id": "Prop30",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop30",
+   "decoration_list_id": 2028,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 220
+  },
+  {
+   "id": "Prop31",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop31",
+   "decoration_list_id": 2075,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "BonePile0",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile0",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30513,
+   "facing": 240
+  },
+  {
+   "id": "BonePile1",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile1",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30514,
+   "facing": 240
+  },
+  {
+   "id": "BonePile2",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile2",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30515,
+   "facing": 320
+  },
+  {
+   "id": "BonePile3",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile3",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30516,
+   "facing": 330
+  },
+  {
+   "id": "BonePile4",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile4",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30517,
+   "facing": 40
+  },
+  {
+   "id": "BonePile5",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile5",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30518,
+   "facing": 90
+  },
+  {
+   "id": "BonePile6",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile6",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30519,
+   "facing": 260
+  },
+  {
+   "id": "BonePile7",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile7",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30520,
+   "facing": 300
+  },
+  {
+   "id": "BonePile8",
+   "kind": "decoration",
+   "source_node": "DECOR_BonePile8",
+   "decoration_list_id": 2420,
+   "event_id_primary": 0,
+   "event_id_secondary": 30521,
+   "facing": 180
+  },
+  {
+   "id": "Barrel0",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel0",
+   "decoration_list_id": 2646,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barrel1",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel1",
+   "decoration_list_id": 2646,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Barrel2",
+   "kind": "decoration",
+   "source_node": "DECOR_Barrel2",
+   "decoration_list_id": 2646,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop32",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop32",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop33",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop33",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop34",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop34",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop35",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop35",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop36",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop36",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop37",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop37",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop38",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop38",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop39",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop39",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop40",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop40",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop41",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop41",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop42",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop42",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop43",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop43",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop44",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop44",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop45",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop45",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop46",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop46",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop47",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop47",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop48",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop48",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop49",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop49",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "TreasureChest1",
+   "kind": "decoration",
+   "source_node": "DECOR_TreasureChest1",
+   "decoration_list_id": 2416,
+   "event_id_primary": 0,
+   "event_id_secondary": 41,
+   "facing": 90
+  },
+  {
+   "id": "Prop50",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop50",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop51",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop51",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop52",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop52",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop53",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop53",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop54",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop54",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop55",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop55",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop56",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop56",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop57",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop57",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop58",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop58",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop59",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop59",
+   "decoration_list_id": 2305,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "TreasureChest0",
+   "kind": "decoration",
+   "source_node": "DECOR_TreasureChest0",
+   "decoration_list_id": 2054,
+   "event_id_primary": 0,
+   "event_id_secondary": 42
+  }
+ ],
+ "lights": [
+  {
+   "id": "Light10",
+   "source_node": "LIGHT_Light10",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light11",
+   "source_node": "LIGHT_Light11",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light12",
+   "source_node": "LIGHT_Light12",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light13",
+   "source_node": "LIGHT_Light13",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light14",
+   "source_node": "LIGHT_Light14",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light15",
+   "source_node": "LIGHT_Light15",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light16",
+   "source_node": "LIGHT_Light16",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light17",
+   "source_node": "LIGHT_Light17",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light18",
+   "source_node": "LIGHT_Light18",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light19",
+   "source_node": "LIGHT_Light19",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light20",
+   "source_node": "LIGHT_Light20",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light21",
+   "source_node": "LIGHT_Light21",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light22",
+   "source_node": "LIGHT_Light22",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light23",
+   "source_node": "LIGHT_Light23",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light28",
+   "source_node": "LIGHT_Light28",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light29",
+   "source_node": "LIGHT_Light29",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light30",
+   "source_node": "LIGHT_Light30",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light31",
+   "source_node": "LIGHT_Light31",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light32",
+   "source_node": "LIGHT_Light32",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light33",
+   "source_node": "LIGHT_Light33",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light34",
+   "source_node": "LIGHT_Light34",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light35",
+   "source_node": "LIGHT_Light35",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light36",
+   "source_node": "LIGHT_Light36",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light37",
+   "source_node": "LIGHT_Light37",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light6",
+   "source_node": "LIGHT_Light6",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light7",
+   "source_node": "LIGHT_Light7",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light8",
+   "source_node": "LIGHT_Light8",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light9",
+   "source_node": "LIGHT_Light9",
+   "color": [
+    47,
+    47,
+    255
+   ],
+   "radius": 115,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light4",
+   "source_node": "LIGHT_Light4",
+   "color": [
+    151,
+    255,
+    255
+   ],
+   "radius": 512,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light5",
+   "source_node": "LIGHT_Light5",
+   "color": [
+    151,
+    255,
+    255
+   ],
+   "radius": 512,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light10",
+   "source_node": "LIGHT_lantern light10",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light11",
+   "source_node": "LIGHT_lantern light11",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light12",
+   "source_node": "LIGHT_lantern light12",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light13",
+   "source_node": "LIGHT_lantern light13",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light14",
+   "source_node": "LIGHT_lantern light14",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light15",
+   "source_node": "LIGHT_lantern light15",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light16",
+   "source_node": "LIGHT_lantern light16",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light17",
+   "source_node": "LIGHT_lantern light17",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light18",
+   "source_node": "LIGHT_lantern light18",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light20",
+   "source_node": "LIGHT_lantern light20",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light21",
+   "source_node": "LIGHT_lantern light21",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light22",
+   "source_node": "LIGHT_lantern light22",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light23",
+   "source_node": "LIGHT_lantern light23",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light24",
+   "source_node": "LIGHT_lantern light24",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light25",
+   "source_node": "LIGHT_lantern light25",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light26",
+   "source_node": "LIGHT_lantern light26",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light27",
+   "source_node": "LIGHT_lantern light27",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light28",
+   "source_node": "LIGHT_lantern light28",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light29",
+   "source_node": "LIGHT_lantern light29",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light30",
+   "source_node": "LIGHT_lantern light30",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light31",
+   "source_node": "LIGHT_lantern light31",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light32",
+   "source_node": "LIGHT_lantern light32",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light33",
+   "source_node": "LIGHT_lantern light33",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light34",
+   "source_node": "LIGHT_lantern light34",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light35",
+   "source_node": "LIGHT_lantern light35",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light36",
+   "source_node": "LIGHT_lantern light36",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light37",
+   "source_node": "LIGHT_lantern light37",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light38",
+   "source_node": "LIGHT_lantern light38",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light39",
+   "source_node": "LIGHT_lantern light39",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light40",
+   "source_node": "LIGHT_lantern light40",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light41",
+   "source_node": "LIGHT_lantern light41",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light42",
+   "source_node": "LIGHT_lantern light42",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light43",
+   "source_node": "LIGHT_lantern light43",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light44",
+   "source_node": "LIGHT_lantern light44",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light45",
+   "source_node": "LIGHT_lantern light45",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light46",
+   "source_node": "LIGHT_lantern light46",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light47",
+   "source_node": "LIGHT_lantern light47",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light48",
+   "source_node": "LIGHT_lantern light48",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light49",
+   "source_node": "LIGHT_lantern light49",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light50",
+   "source_node": "LIGHT_lantern light50",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light51",
+   "source_node": "LIGHT_lantern light51",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light52",
+   "source_node": "LIGHT_lantern light52",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light7",
+   "source_node": "LIGHT_lantern light7",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light8",
+   "source_node": "LIGHT_lantern light8",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "lantern light9",
+   "source_node": "LIGHT_lantern light9",
+   "color": [
+    255,
+    215,
+    132
+   ],
+   "radius": 1536,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light1",
+   "source_node": "LIGHT_Light1",
+   "color": [
+    0,
+    63,
+    126
+   ],
+   "radius": 6400,
+   "brightness": 31,
+   "type": "point"
+  }
+ ],
+ "spawns": []
+}

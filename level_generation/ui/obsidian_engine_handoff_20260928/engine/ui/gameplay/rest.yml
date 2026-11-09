@@ -1,0 +1,279 @@
+# STAGED CANDIDATE; requires the renderer/input work in INTEGRATION.md.
+screen: Rest
+elements:
+- id: RestRoot
+  anchor: center
+  width: 640
+  height: 480
+  z_index: 430
+  visible: true
+  scale:
+    min: 1.0
+    max: 8.0
+  children:
+  - id: RestBackground
+    anchor: top_left
+    offset_x: 0
+    offset_y: 0
+    width: 640
+    height: 368
+    z_index: 0
+    asset:
+      default: obsidian_rest_surface
+  - id: RestSkyAnimation
+    anchor: top_left
+    offset_x: 96
+    offset_y: 26
+    width: 444
+    height: 108
+    z_index: 10
+    asset:
+      default: terra0000
+    notes: Preserve the live time-of-day panorama; no static review sky installed.
+  - id: RestHourglass
+    anchor: top_left
+    offset_x: 381.333333
+    offset_y: 163.0
+    width: 66.666667
+    height: 114
+    z_index: 20
+    asset:
+      default: hglas060
+    notes: Keep native upright hourglass animation 060–119; this is its initial frame only.
+  - id: RestButton8Hours
+    anchor: top_left
+    offset_x: 61
+    offset_y: 155
+    width: 272
+    height: 42
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_button_rest_normal
+      highlighted: obsidian_button_rest_hover
+      pressed: obsidian_button_rest_pressed
+      selected: obsidian_button_rest_selected
+    text:
+      value: Rest & Heal 8 Hours
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: left
+      align_y: middle
+      scale: 0.516667
+      pad_x: 8.533333333333333
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.
+      Reserve the right-hand food icon/cost area; label must fit left of it.'
+  - id: RestButtonUntilDawn
+    anchor: top_left
+    offset_x: 100
+    offset_y: 239
+    width: 188
+    height: 30
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_button_wait_normal
+      highlighted: obsidian_button_wait_hover
+      pressed: obsidian_button_wait_pressed
+      selected: obsidian_button_wait_selected
+    text:
+      value: Wait until Dawn
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.5
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+  - id: RestFoodCostText
+    anchor: top_left
+    offset_x: 305
+    offset_y: 167
+    width: 19
+    height: 20
+    z_index: 40
+    text:
+      value: '{rest_food_cost}'
+      font: Create
+      align_x: right
+      align_y: top
+      color: '#e5dcc7'
+  - id: RestButton1Hour
+    anchor: top_left
+    offset_x: 100
+    offset_y: 271
+    width: 188
+    height: 30
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_button_wait_normal
+      highlighted: obsidian_button_wait_hover
+      pressed: obsidian_button_wait_pressed
+      selected: obsidian_button_wait_selected
+    text:
+      value: Wait 1 Hour
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.5
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+  - id: RestButton5Minutes
+    anchor: top_left
+    offset_x: 100
+    offset_y: 303
+    width: 188
+    height: 30
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_button_wait_normal
+      highlighted: obsidian_button_wait_hover
+      pressed: obsidian_button_wait_pressed
+      selected: obsidian_button_wait_selected
+    text:
+      value: Wait 5 Minutes
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.5
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+  - id: RestButtonExit
+    anchor: top_left
+    offset_x: 361
+    offset_y: 299
+    width: 185
+    height: 43
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_button_rest_exit_normal
+      highlighted: obsidian_button_rest_exit_hover
+      pressed: obsidian_button_rest_exit_pressed
+      selected: obsidian_button_rest_exit_selected
+    text:
+      value: Exit Rest
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.55
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+  - id: RestTimeText
+    anchor: top_left
+    offset_x: 460.8
+    offset_y: 167.266667
+    width: 113.6
+    height: 19
+    z_index: 40
+    text:
+      value: '{time}'
+      font: Create
+      align_x: center
+      align_y: top
+      color: '#e5dcc7'
+  - id: RestDayText
+    anchor: top_left
+    offset_x: 460.8
+    offset_y: 193.2
+    width: 56
+    height: 19
+    z_index: 40
+    text:
+      value: Day
+      font: Create
+      align_x: right
+      align_y: top
+      color: '#e5dcc7'
+  - id: RestDayValueText
+    anchor: top_left
+    offset_x: 520
+    offset_y: 193.2
+    width: 54.4
+    height: 19
+    z_index: 40
+    text:
+      value: '{day_num}'
+      font: Create
+      align_x: center
+      align_y: top
+      color: '#e5dcc7'
+  - id: RestMonthText
+    anchor: top_left
+    offset_x: 460.8
+    offset_y: 225.2
+    width: 56
+    height: 19
+    z_index: 40
+    text:
+      value: Month
+      font: Create
+      align_x: right
+      align_y: top
+      color: '#e5dcc7'
+  - id: RestMonthValueText
+    anchor: top_left
+    offset_x: 520
+    offset_y: 225.2
+    width: 54.4
+    height: 19
+    z_index: 40
+    text:
+      value: '{month_num}'
+      font: Create
+      align_x: center
+      align_y: top
+      color: '#e5dcc7'
+  - id: RestYearText
+    anchor: top_left
+    offset_x: 460.8
+    offset_y: 257.2
+    width: 56
+    height: 19
+    z_index: 40
+    text:
+      value: Year
+      font: Create
+      align_x: right
+      align_y: top
+      color: '#e5dcc7'
+  - id: RestYearValueText
+    anchor: top_left
+    offset_x: 520
+    offset_y: 257.2
+    width: 54.4
+    height: 19
+    z_index: 40
+    text:
+      value: '{year_num}'
+      font: Create
+      align_x: center
+      align_y: top
+      color: '#e5dcc7'
+  - id: RestWaitHeading
+    anchor: top_left
+    offset_x: 92.26666666666667
+    offset_y: 208.53333333333333
+    width: 204.26666666666668
+    height: 24.533333333333335
+    text:
+      value: Wait
+      font: Create
+      color: '#e4c793'
+      align_x: center
+      align_y: top
+  - id: RestFoodCostIcon
+    anchor: top_left
+    offset_x: 278
+    offset_y: 166
+    width: 25.066666666666666
+    height: 18.666666666666668
+    asset:
+      default: scorebg_food
+    notes: New icon binding for the existing dynamic food cost, not carried food. No standalone Food label.

@@ -1,0 +1,3385 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_greaterdemon.glb",
+  "components": 167,
+  "body": 13,
+  "size": 4.224919363856316,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "1": {
+    "joint": "XwarmCpiv",
+    "where": "-x side, -z",
+    "triangles": 824,
+    "extent": 3.549,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02126,
+    "worst": {
+     "gap": 0.0616,
+     "to_body_cluster": 0.0616,
+     "clip": "AttackMelee",
+     "frame": 20,
+     "time": 0.6667,
+     "part_point": [
+      -0.22377,
+      1.96911,
+      -0.23336
+     ],
+     "attached_point": [
+      -0.16478,
+      1.98511,
+      -0.22567
+     ],
+     "kind": "lifted",
+     "against": "Xhead"
+    },
+    "detached_poses": 4,
+    "poses": 361,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.0616,
+      "frame": 20,
+      "time": 0.6667,
+      "frames": 3
+     },
+     "AttackRanged": {
+      "max_gap": 0.04607,
+      "frame": 31,
+      "time": 1.0333,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": 0.01809,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part1.png"
+   },
+   "57": {
+    "joint": "Xneckpiv",
+    "where": "central",
+    "triangles": 16,
+    "extent": 0.2468,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04024,
+    "worst": {
+     "gap": 0.0085,
+     "to_body_cluster": 0.0085,
+     "clip": "Death",
+     "frame": 56,
+     "time": 1.8667,
+     "part_point": [
+      -0.04421,
+      1.1503,
+      -1.41335
+     ],
+     "attached_point": [
+      -0.03882,
+      1.1439,
+      -1.41184
+     ],
+     "kind": "floating",
+     "against": "Xhead"
+    },
+    "detached_poses": 18,
+    "poses": 361,
+    "clips": {
+     "Death": {
+      "max_gap": 0.0085,
+      "frame": 56,
+      "time": 1.8667,
+      "frames": 18
+     }
+    },
+    "shallowest": {
+     "depth": -0.00391,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 69,
+     "time": 2.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part57.png"
+   },
+   "58": {
+    "joint": "Xneckpiv",
+    "where": "central",
+    "triangles": 12,
+    "extent": 0.225,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03394,
+    "worst": {
+     "gap": 0.00927,
+     "to_body_cluster": 0.00927,
+     "clip": "AttackRanged",
+     "frame": 15,
+     "time": 0.5,
+     "part_point": [
+      -0.31402,
+      2.22247,
+      0.73798
+     ],
+     "attached_point": [
+      -0.30835,
+      2.21929,
+      0.73137
+     ],
+     "kind": "floating",
+     "against": "Xneckpiv"
+    },
+    "detached_poses": 86,
+    "poses": 361,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.00871,
+      "frame": 2,
+      "time": 0.0667,
+      "frames": 6
+     },
+     "AttackRanged": {
+      "max_gap": 0.00927,
+      "frame": 15,
+      "time": 0.5,
+      "frames": 12
+     },
+     "Death": {
+      "max_gap": 0.00566,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 1
+     },
+     "Fidget": {
+      "max_gap": 0.00847,
+      "frame": 36,
+      "time": 1.2,
+      "frames": 8
+     },
+     "Hit": {
+      "max_gap": 0.00566,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 1
+     },
+     "Standing": {
+      "max_gap": 0.00611,
+      "frame": 28,
+      "time": 0.9333,
+      "frames": 58
+     }
+    },
+    "shallowest": {
+     "depth": -0.00385,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 51,
+     "time": 1.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 18,
+    "root_lift": {
+     "gap": 0.02611,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 48,
+     "time": 1.6
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part58.png"
+   },
+   "62": {
+    "joint": "Bip01 Headx",
+    "where": "central",
+    "triangles": 10,
+    "extent": 0.1177,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03637,
+    "worst": {
+     "gap": 0.00886,
+     "to_body_cluster": 0.00886,
+     "clip": "Death",
+     "frame": 53,
+     "time": 1.7667,
+     "part_point": [
+      -0.01619,
+      0.8322,
+      -1.92146
+     ],
+     "attached_point": [
+      -0.00835,
+      0.83627,
+      -1.92225
+     ],
+     "kind": "floating",
+     "against": "Xhead"
+    },
+    "detached_poses": 58,
+    "poses": 361,
+    "clips": {
+     "Dead": {
+      "max_gap": 0.00682,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.00886,
+      "frame": 53,
+      "time": 1.7667,
+      "frames": 27
+     }
+    },
+    "shallowest": {
+     "depth": -0.004,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 14,
+     "time": 0.4667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part62.png"
+   },
+   "72": {
+    "joint": "XspineA",
+    "where": "central",
+    "triangles": 20,
+    "extent": 0.3091,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02018,
+    "worst": {
+     "gap": 0.01146,
+     "to_body_cluster": 0.01146,
+     "clip": "Death",
+     "frame": 40,
+     "time": 1.3333,
+     "part_point": [
+      0.07635,
+      1.1638,
+      -0.66675
+     ],
+     "attached_point": [
+      0.07199,
+      1.1393,
+      -0.69319
+     ],
+     "kind": "parted",
+     "against": "Xhead"
+    },
+    "detached_poses": 4,
+    "poses": 361,
+    "clips": {
+     "Death": {
+      "max_gap": 0.01146,
+      "frame": 40,
+      "time": 1.3333,
+      "frames": 4
+     }
+    },
+    "shallowest": {
+     "depth": -0.00043,
+     "on": "Bip01 Spine1xx",
+     "clip": "Death",
+     "frame": 37,
+     "time": 1.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.05024,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part72.png"
+   },
+   "101": {
+    "joint": "Xlknee01",
+    "where": "below, -z",
+    "triangles": 12,
+    "extent": 0.313,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00657,
+    "worst": {
+     "gap": 0.01689,
+     "to_body_cluster": 0.01689,
+     "clip": "Running",
+     "frame": 10,
+     "time": 0.3333,
+     "part_point": [
+      0.18693,
+      1.29841,
+      0.01149
+     ],
+     "attached_point": [
+      0.20152,
+      1.30467,
+      0.00312
+     ],
+     "kind": "parted",
+     "against": "Bip01 Pelvisxx"
+    },
+    "detached_poses": 14,
+    "poses": 361,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.01035,
+      "frame": 12,
+      "time": 0.4,
+      "frames": 11
+     },
+     "Running": {
+      "max_gap": 0.01689,
+      "frame": 10,
+      "time": 0.3333,
+      "frames": 3
+     }
+    },
+    "shallowest": {
+     "depth": 0.00478,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Running",
+     "frame": 12,
+     "time": 0.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01774,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Running",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part101.png"
+   },
+   "115": {
+    "joint": "XspineB",
+    "where": "-z",
+    "triangles": 12,
+    "extent": 0.2795,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01976,
+    "worst": {
+     "gap": 0.0198,
+     "to_body_cluster": 0.0198,
+     "clip": "Death",
+     "frame": 32,
+     "time": 1.0667,
+     "part_point": [
+      0.31506,
+      1.66818,
+      -1.07148
+     ],
+     "attached_point": [
+      0.33481,
+      1.66957,
+      -1.07189
+     ],
+     "kind": "floating",
+     "against": "XwarmCpiv01"
+    },
+    "detached_poses": 2,
+    "poses": 361,
+    "clips": {
+     "Death": {
+      "max_gap": 0.0198,
+      "frame": 32,
+      "time": 1.0667,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": 0.01307,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 39,
+     "time": 1.3
+    },
+    "concealed_poses": 4,
+    "worst_concealed": {
+     "gap": 0.02109,
+     "clip": "Death",
+     "frame": 33,
+     "time": 1.1
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02397,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 31,
+     "time": 1.0333
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part115.png"
+   },
+   "116": {
+    "joint": "Xarm01",
+    "where": "central",
+    "triangles": 12,
+    "extent": 0.2454,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01621,
+    "worst": {
+     "gap": 0.01723,
+     "to_body_cluster": 0.01723,
+     "clip": "Fidget",
+     "frame": 31,
+     "time": 1.0333,
+     "part_point": [
+      0.30595,
+      3.22232,
+      0.1431
+     ],
+     "attached_point": [
+      0.30407,
+      3.21291,
+      0.09458
+     ],
+     "kind": "parted",
+     "against": "Xhead"
+    },
+    "detached_poses": 25,
+    "poses": 361,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.01407,
+      "frame": 12,
+      "time": 0.4,
+      "frames": 5
+     },
+     "Fidget": {
+      "max_gap": 0.01723,
+      "frame": 31,
+      "time": 1.0333,
+      "frames": 20
+     }
+    },
+    "shallowest": {
+     "depth": -0.00326,
+     "on": "Xneckpiv",
+     "clip": "AttackRanged",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.04604,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 30,
+     "time": 1.0
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part116.png"
+   },
+   "119": {
+    "joint": "Xneckpiv",
+    "where": "central",
+    "triangles": 12,
+    "extent": 0.2478,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03557,
+    "worst": {
+     "gap": 0.00441,
+     "to_body_cluster": 0.00441,
+     "clip": "Death",
+     "frame": 17,
+     "time": 0.5667,
+     "part_point": [
+      0.48416,
+      3.41021,
+      0.24042
+     ],
+     "attached_point": [
+      0.48081,
+      3.41049,
+      0.23757
+     ],
+     "kind": "floating",
+     "against": "Xhead"
+    },
+    "detached_poses": 2,
+    "poses": 361,
+    "clips": {
+     "Death": {
+      "max_gap": 0.00441,
+      "frame": 17,
+      "time": 0.5667,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": -0.00374,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part119.png"
+   },
+   "120": {
+    "joint": "Xneckpiv",
+    "where": "central",
+    "triangles": 12,
+    "extent": 0.2481,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04321,
+    "worst": {
+     "gap": 0.02416,
+     "to_body_cluster": 0.02416,
+     "clip": "Death",
+     "frame": 33,
+     "time": 1.1,
+     "part_point": [
+      0.2972,
+      2.60946,
+      -0.94847
+     ],
+     "attached_point": [
+      0.23397,
+      2.5644,
+      -0.9311
+     ],
+     "kind": "parted",
+     "against": "Xhead"
+    },
+    "detached_poses": 18,
+    "poses": 361,
+    "clips": {
+     "Death": {
+      "max_gap": 0.02416,
+      "frame": 33,
+      "time": 1.1,
+      "frames": 18
+     }
+    },
+    "shallowest": {
+     "depth": 0.02146,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 6,
+     "time": 0.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.06848,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 33,
+     "time": 1.1
+    },
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part120.png"
+   },
+   "126": {
+    "joint": "XwarmCpiv01",
+    "where": "+x side, -z",
+    "triangles": 824,
+    "extent": 3.5258,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02509,
+    "worst": {
+     "gap": 0.83583,
+     "to_body_cluster": 0.83583,
+     "clip": "AttackMelee",
+     "frame": 7,
+     "time": 0.2333,
+     "part_point": [
+      0.41189,
+      3.49818,
+      -0.90655
+     ],
+     "attached_point": [
+      0.04077,
+      3.08505,
+      -0.28188
+     ],
+     "kind": "lifted",
+     "against": "Xhead"
+    },
+    "detached_poses": 10,
+    "poses": 361,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.83583,
+      "frame": 7,
+      "time": 0.2333,
+      "frames": 2
+     },
+     "Death": {
+      "max_gap": 0.65192,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 1
+     },
+     "Fidget": {
+      "max_gap": 0.64291,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 5
+     },
+     "Walking": {
+      "max_gap": 0.05188,
+      "frame": 34,
+      "time": 1.1333,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": 0.02153,
+     "on": "Xhead",
+     "clip": "Hit",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 20,
+    "worst_concealed": {
+     "gap": 0.20007,
+     "clip": "Walking",
+     "frame": 8,
+     "time": 0.2667
+    },
+    "carried_poses": 0,
+    "root_lift": null,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/run_20261030/final2/crops/mm9_greaterdemon_part126.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 167,
+   "attached_in_every_pose": 155
+  },
+  "concealed": {
+   "41": {
+    "joint": "Xlkneepiv",
+    "where": "below, -x side, -z",
+    "triangles": 10,
+    "extent": 0.2781,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00035,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00096,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Hit",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 47,
+    "worst_concealed": {
+     "gap": 0.00916,
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01018,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 63,
+     "time": 2.1
+    }
+   },
+   "71": {
+    "joint": "Xneckbase",
+    "where": "above, -z",
+    "triangles": 8,
+    "extent": 0.2446,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03556,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.02913,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 14,
+     "time": 0.4667
+    },
+    "concealed_poses": 26,
+    "worst_concealed": {
+     "gap": 0.03011,
+     "clip": "AttackMelee",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03085,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "74": {
+    "joint": "Xneckbase",
+    "where": "above",
+    "triangles": 10,
+    "extent": 0.1972,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01213,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00341,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 43,
+     "time": 1.4333
+    },
+    "concealed_poses": 133,
+    "worst_concealed": {
+     "gap": 0.00917,
+     "clip": "Death",
+     "frame": 53,
+     "time": 1.7667
+    },
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "90": {
+    "joint": "Xhead",
+    "where": "above",
+    "triangles": 22,
+    "extent": 0.4191,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01222,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00331,
+     "on": "Xneckpiv",
+     "clip": "Death",
+     "frame": 51,
+     "time": 1.7
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.00691,
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01688,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    }
+   },
+   "106": {
+    "joint": "Xneckpiv",
+    "where": "above",
+    "triangles": 10,
+    "extent": 0.2005,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00151,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00294,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.00455,
+     "clip": "AttackRanged",
+     "frame": 6,
+     "time": 0.2
+    },
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "111": {
+    "joint": "Xneckbase",
+    "where": "above",
+    "triangles": 10,
+    "extent": 0.1999,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02088,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00376,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 32,
+     "time": 1.0667
+    },
+    "concealed_poses": 34,
+    "worst_concealed": {
+     "gap": 0.00887,
+     "clip": "Death",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "114": {
+    "joint": "Xneckbase",
+    "where": "above, -z",
+    "triangles": 10,
+    "extent": 0.236,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0299,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00021,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 37,
+     "time": 1.2333
+    },
+    "concealed_poses": 85,
+    "worst_concealed": {
+     "gap": 0.02576,
+     "clip": "Fidget",
+     "frame": 32,
+     "time": 1.0667
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02685,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 32,
+     "time": 1.0667
+    }
+   }
+  },
+  "shallow": {
+   "0": {
+    "joint": "Xawrist",
+    "where": "-x side",
+    "triangles": 40,
+    "extent": 0.5649,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04511,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00356,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "2": {
+    "joint": "Xwing",
+    "where": "above, -x side, -z",
+    "triangles": 544,
+    "extent": 3.2383,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00331,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00084,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 37,
+     "time": 1.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.07456,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "3": {
+    "joint": "Xarmmid",
+    "where": "-x side",
+    "triangles": 45,
+    "extent": 0.5224,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00134,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00398,
+     "on": "Xawrist",
+     "clip": "Standing",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "5": {
+    "joint": "Xarmmid",
+    "where": "-x side",
+    "triangles": 22,
+    "extent": 0.4426,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02379,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00277,
+     "on": "Xhead",
+     "clip": "Running",
+     "frame": 8,
+     "time": 0.2667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02258,
+     "on": "Xarmmid",
+     "clip": "Running",
+     "frame": 8,
+     "time": 0.2667
+    }
+   },
+   "8": {
+    "joint": "Xaelbow",
+    "where": "-x side, -z",
+    "triangles": 30,
+    "extent": 0.3687,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01394,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00445,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 31,
+     "time": 1.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01352,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 9,
+     "time": 0.3
+    }
+   },
+   "9": {
+    "joint": "Xahead",
+    "where": "below, -x side, +z",
+    "triangles": 399,
+    "extent": 0.7516,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01524,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.004,
+     "on": "Xawrist",
+     "clip": "Walking",
+     "frame": 1,
+     "time": 0.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "26": {
+    "joint": "Xaelbow",
+    "where": "-x side",
+    "triangles": 18,
+    "extent": 0.2953,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01314,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00139,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01901,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    }
+   },
+   "32": {
+    "joint": "XwarmCpiv",
+    "where": "above, -x side, -z",
+    "triangles": 96,
+    "extent": 1.2066,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0,
+     "on": "XwarmCpiv",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01221,
+     "on": "XwarmCpiv",
+     "clip": "Fidget",
+     "frame": 5,
+     "time": 0.1667
+    }
+   },
+   "34": {
+    "joint": "Xarmpiv",
+    "where": "-x side",
+    "triangles": 32,
+    "extent": 0.6167,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00723,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00158,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00944,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 18,
+     "time": 0.6
+    }
+   },
+   "37": {
+    "joint": "XwingA",
+    "where": "above, -x side, -z",
+    "triangles": 48,
+    "extent": 0.2793,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00386,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00391,
+     "on": "XwarmCpiv",
+     "clip": "AttackRanged",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "40": {
+    "joint": "Xlegmid",
+    "where": "below, -x side, -z",
+    "triangles": 14,
+    "extent": 0.3033,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00214,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0035,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01107,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Running",
+     "frame": 21,
+     "time": 0.7
+    }
+   },
+   "41": {
+    "joint": "Xlkneepiv",
+    "where": "below, -x side, -z",
+    "triangles": 10,
+    "extent": 0.2781,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00035,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00096,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Hit",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 47,
+    "worst_concealed": {
+     "gap": 0.00916,
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01018,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 63,
+     "time": 2.1
+    }
+   },
+   "43": {
+    "joint": "XwarmBpiv",
+    "where": "-x side, -z",
+    "triangles": 72,
+    "extent": 0.8671,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0,
+     "on": "XwarmCpiv",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01172,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 40,
+     "time": 1.3333
+    }
+   },
+   "44": {
+    "joint": "Xlegmid",
+    "where": "below",
+    "triangles": 18,
+    "extent": 0.5506,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00254,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 53,
+     "time": 1.7667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01635,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 64,
+     "time": 2.1333
+    }
+   },
+   "46": {
+    "joint": "Xlegmid",
+    "where": "below",
+    "triangles": 24,
+    "extent": 0.7289,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00226,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00265,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "47": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, -z",
+    "triangles": 12,
+    "extent": 0.5132,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01918,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Xaelbowpiv",
+     "clip": "Walking",
+     "frame": 24,
+     "time": 0.8
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "49": {
+    "joint": "XtailE",
+    "where": "below, -z",
+    "triangles": 42,
+    "extent": 0.3954,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00797,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00293,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Walking",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "50": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, -z",
+    "triangles": 17,
+    "extent": 0.563,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01486,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0039,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 55,
+     "time": 1.8333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "54": {
+    "joint": "Xlknee",
+    "where": "below, -z",
+    "triangles": 16,
+    "extent": 0.3233,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01609,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00785,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Running",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01469,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Hit",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "59": {
+    "joint": "Xlknee",
+    "where": "below, -z",
+    "triangles": 12,
+    "extent": 0.2933,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00615,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00083,
+     "on": "Bip01 Pelvisxx",
+     "clip": "AttackRanged",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01435,
+     "on": "Bip01 Pelvisxx",
+     "clip": "AttackRanged",
+     "frame": 12,
+     "time": 0.4
+    }
+   },
+   "61": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, -z",
+    "triangles": 65,
+    "extent": 0.9369,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0105,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "XwarmCpiv",
+     "clip": "Walking",
+     "frame": 1,
+     "time": 0.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0134,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 58,
+     "time": 1.9333
+    }
+   },
+   "63": {
+    "joint": "XspineA",
+    "where": "central",
+    "triangles": 14,
+    "extent": 0.2221,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02934,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0036,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 14,
+     "time": 0.4667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "66": {
+    "joint": "XneckA",
+    "where": "central",
+    "triangles": 12,
+    "extent": 0.2356,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0043,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0009,
+     "on": "XneckA",
+     "clip": "Death",
+     "frame": 29,
+     "time": 0.9667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03612,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 29,
+     "time": 0.9667
+    }
+   },
+   "68": {
+    "joint": "XneckA",
+    "where": "above",
+    "triangles": 10,
+    "extent": 0.2533,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01447,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00268,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01332,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 22,
+     "time": 0.7333
+    }
+   },
+   "69": {
+    "joint": "Xhead",
+    "where": "above",
+    "triangles": 12,
+    "extent": 0.2357,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01591,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00368,
+     "on": "Xhead",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01494,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 49,
+     "time": 1.6333
+    }
+   },
+   "70": {
+    "joint": "XspineB",
+    "where": "-z",
+    "triangles": 12,
+    "extent": 0.2821,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01933,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00391,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01381,
+     "on": "Xhead",
+     "clip": "Running",
+     "frame": 8,
+     "time": 0.2667
+    }
+   },
+   "77": {
+    "joint": "Bip01 Spine1xx",
+    "where": "central",
+    "triangles": 22,
+    "extent": 0.3823,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01536,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00292,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02632,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "83": {
+    "joint": "Xneckpiv",
+    "where": "above",
+    "triangles": 28,
+    "extent": 0.506,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00285,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00096,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 13,
+     "time": 0.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0093,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 19,
+     "time": 0.6333
+    }
+   },
+   "85": {
+    "joint": "Xneckpiv",
+    "where": "above",
+    "triangles": 26,
+    "extent": 0.5497,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00346,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00173,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "87": {
+    "joint": "XspineB",
+    "where": "-z",
+    "triangles": 16,
+    "extent": 0.223,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00841,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00455,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 36,
+     "time": 1.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01243,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 24,
+     "time": 0.8
+    }
+   },
+   "90": {
+    "joint": "Xhead",
+    "where": "above",
+    "triangles": 22,
+    "extent": 0.4191,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01222,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00331,
+     "on": "Xneckpiv",
+     "clip": "Death",
+     "frame": 51,
+     "time": 1.7
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.00691,
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01688,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    }
+   },
+   "94": {
+    "joint": "Bip01 Spine1xx",
+    "where": "below, -z",
+    "triangles": 14,
+    "extent": 0.3773,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00266,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 66,
+     "time": 2.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "96": {
+    "joint": "XspineA",
+    "where": "central",
+    "triangles": 16,
+    "extent": 0.2963,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03223,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00398,
+     "on": "XspineA",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.05739,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "107": {
+    "joint": "Xhead",
+    "where": "above",
+    "triangles": 14,
+    "extent": 0.2424,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01084,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00795,
+     "on": "Xhead",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "108": {
+    "joint": "XneckA",
+    "where": "above",
+    "triangles": 8,
+    "extent": 0.2539,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00253,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "Xhead",
+     "clip": "Standing",
+     "frame": 52,
+     "time": 1.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "110": {
+    "joint": "Xlegmid01",
+    "where": "below",
+    "triangles": 26,
+    "extent": 0.7156,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00033,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00366,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "112": {
+    "joint": "Xlkneepiv01",
+    "where": "below, -z",
+    "triangles": 12,
+    "extent": 0.2571,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01615,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00476,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 43,
+     "time": 1.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "114": {
+    "joint": "Xneckbase",
+    "where": "above, -z",
+    "triangles": 10,
+    "extent": 0.236,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0299,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00021,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 37,
+     "time": 1.2333
+    },
+    "concealed_poses": 85,
+    "worst_concealed": {
+     "gap": 0.02576,
+     "clip": "Fidget",
+     "frame": 32,
+     "time": 1.0667
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02685,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 32,
+     "time": 1.0667
+    }
+   },
+   "117": {
+    "joint": "XneckA",
+    "where": "central",
+    "triangles": 8,
+    "extent": 0.2415,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00744,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0004,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 15,
+     "time": 0.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01411,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 6,
+     "time": 0.2
+    }
+   },
+   "122": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, -z",
+    "triangles": 16,
+    "extent": 0.5585,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0187,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00659,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01163,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 15,
+     "time": 0.5
+    }
+   },
+   "123": {
+    "joint": "Xneckpiv",
+    "where": "central",
+    "triangles": 14,
+    "extent": 0.215,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00942,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00277,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 36,
+     "time": 1.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "124": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, +x side, -z",
+    "triangles": 14,
+    "extent": 0.5413,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01923,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00394,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Hit",
+     "frame": 15,
+     "time": 0.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "127": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, +x side",
+    "triangles": 21,
+    "extent": 0.5422,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0022,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00109,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "128": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, +x side",
+    "triangles": 12,
+    "extent": 0.5091,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01553,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00398,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 70,
+     "time": 2.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "131": {
+    "joint": "Xlheel01",
+    "where": "below, +x side, -z",
+    "triangles": 14,
+    "extent": 0.3,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00336,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00036,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 44,
+     "time": 1.4667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "134": {
+    "joint": "Xarm01",
+    "where": "+x side",
+    "triangles": 32,
+    "extent": 0.6412,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02352,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00265,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 47,
+     "time": 1.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0172,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 47,
+     "time": 1.5667
+    }
+   },
+   "141": {
+    "joint": "Xaelbow01",
+    "where": "+x side",
+    "triangles": 13,
+    "extent": 0.3558,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00813,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.004,
+     "on": "Xhead",
+     "clip": "Running",
+     "frame": 14,
+     "time": 0.4667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "158": {
+    "joint": "Xaelbowpiv01",
+    "where": "below, +x side",
+    "triangles": 24,
+    "extent": 0.4487,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01373,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00263,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 20,
+     "time": 0.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "162": {
+    "joint": "Xarmmid01",
+    "where": "+x side",
+    "triangles": 32,
+    "extent": 0.4459,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0208,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00521,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02082,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 3,
+     "time": 0.1
+    }
+   }
+  },
+  "root_lift": {
+   "2": {
+    "joint": "Xwing",
+    "where": "above, -x side, -z",
+    "triangles": 544,
+    "extent": 3.2383,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00331,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00084,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 37,
+     "time": 1.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.07456,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "5": {
+    "joint": "Xarmmid",
+    "where": "-x side",
+    "triangles": 22,
+    "extent": 0.4426,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02379,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00277,
+     "on": "Xhead",
+     "clip": "Running",
+     "frame": 8,
+     "time": 0.2667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02258,
+     "on": "Xarmmid",
+     "clip": "Running",
+     "frame": 8,
+     "time": 0.2667
+    }
+   },
+   "8": {
+    "joint": "Xaelbow",
+    "where": "-x side, -z",
+    "triangles": 30,
+    "extent": 0.3687,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01394,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00445,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 31,
+     "time": 1.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01352,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 9,
+     "time": 0.3
+    }
+   },
+   "20": {
+    "joint": "Xawrist",
+    "where": "below, -x side",
+    "triangles": 20,
+    "extent": 0.3243,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0629,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.01979,
+     "on": "Xahead",
+     "clip": "Fidget",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.04361,
+     "on": "Xawrist",
+     "clip": "Fidget",
+     "frame": 17,
+     "time": 0.5667
+    }
+   },
+   "26": {
+    "joint": "Xaelbow",
+    "where": "-x side",
+    "triangles": 18,
+    "extent": 0.2953,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01314,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00139,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01901,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    }
+   },
+   "32": {
+    "joint": "XwarmCpiv",
+    "where": "above, -x side, -z",
+    "triangles": 96,
+    "extent": 1.2066,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0,
+     "on": "XwarmCpiv",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01221,
+     "on": "XwarmCpiv",
+     "clip": "Fidget",
+     "frame": 5,
+     "time": 0.1667
+    }
+   },
+   "34": {
+    "joint": "Xarmpiv",
+    "where": "-x side",
+    "triangles": 32,
+    "extent": 0.6167,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00723,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00158,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 18,
+     "time": 0.6
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00944,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 18,
+     "time": 0.6
+    }
+   },
+   "39": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, -z",
+    "triangles": 963,
+    "extent": 3.3366,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.08454,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.07323,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02329,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 58,
+     "time": 1.9333
+    }
+   },
+   "40": {
+    "joint": "Xlegmid",
+    "where": "below, -x side, -z",
+    "triangles": 14,
+    "extent": 0.3033,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00214,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0035,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01107,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Running",
+     "frame": 21,
+     "time": 0.7
+    }
+   },
+   "41": {
+    "joint": "Xlkneepiv",
+    "where": "below, -x side, -z",
+    "triangles": 10,
+    "extent": 0.2781,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00035,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00096,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Hit",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 47,
+    "worst_concealed": {
+     "gap": 0.00916,
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01018,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 63,
+     "time": 2.1
+    }
+   },
+   "43": {
+    "joint": "XwarmBpiv",
+    "where": "-x side, -z",
+    "triangles": 72,
+    "extent": 0.8671,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0,
+     "on": "XwarmCpiv",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01172,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 40,
+     "time": 1.3333
+    }
+   },
+   "44": {
+    "joint": "Xlegmid",
+    "where": "below",
+    "triangles": 18,
+    "extent": 0.5506,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00254,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 53,
+     "time": 1.7667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01635,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Death",
+     "frame": 64,
+     "time": 2.1333
+    }
+   },
+   "54": {
+    "joint": "Xlknee",
+    "where": "below, -z",
+    "triangles": 16,
+    "extent": 0.3233,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01609,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00785,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Running",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01469,
+     "on": "Bip01 Pelvisxx",
+     "clip": "Hit",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "59": {
+    "joint": "Xlknee",
+    "where": "below, -z",
+    "triangles": 12,
+    "extent": 0.2933,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00615,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00083,
+     "on": "Bip01 Pelvisxx",
+     "clip": "AttackRanged",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01435,
+     "on": "Bip01 Pelvisxx",
+     "clip": "AttackRanged",
+     "frame": 12,
+     "time": 0.4
+    }
+   },
+   "61": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, -z",
+    "triangles": 65,
+    "extent": 0.9369,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0105,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "XwarmCpiv",
+     "clip": "Walking",
+     "frame": 1,
+     "time": 0.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0134,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 58,
+     "time": 1.9333
+    }
+   },
+   "65": {
+    "joint": "Xneckpiv",
+    "where": "central",
+    "triangles": 14,
+    "extent": 0.2005,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00705,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00124,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02014,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 19,
+     "time": 0.6333
+    }
+   },
+   "66": {
+    "joint": "XneckA",
+    "where": "central",
+    "triangles": 12,
+    "extent": 0.2356,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0043,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0009,
+     "on": "XneckA",
+     "clip": "Death",
+     "frame": 29,
+     "time": 0.9667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03612,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 29,
+     "time": 0.9667
+    }
+   },
+   "67": {
+    "joint": "XspineA",
+    "where": "central",
+    "triangles": 6,
+    "extent": 0.1429,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01469,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00343,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 28,
+     "time": 0.9333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.06263,
+     "on": "Xhead",
+     "clip": "Hit",
+     "frame": 10,
+     "time": 0.3333
+    }
+   },
+   "68": {
+    "joint": "XneckA",
+    "where": "above",
+    "triangles": 10,
+    "extent": 0.2533,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01447,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00268,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01332,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 22,
+     "time": 0.7333
+    }
+   },
+   "69": {
+    "joint": "Xhead",
+    "where": "above",
+    "triangles": 12,
+    "extent": 0.2357,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01591,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00368,
+     "on": "Xhead",
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01494,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 49,
+     "time": 1.6333
+    }
+   },
+   "70": {
+    "joint": "XspineB",
+    "where": "-z",
+    "triangles": 12,
+    "extent": 0.2821,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01933,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00391,
+     "on": "XwarmCpiv",
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01381,
+     "on": "Xhead",
+     "clip": "Running",
+     "frame": 8,
+     "time": 0.2667
+    }
+   },
+   "71": {
+    "joint": "Xneckbase",
+    "where": "above, -z",
+    "triangles": 8,
+    "extent": 0.2446,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03556,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.02913,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 14,
+     "time": 0.4667
+    },
+    "concealed_poses": 26,
+    "worst_concealed": {
+     "gap": 0.03011,
+     "clip": "AttackMelee",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03085,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "77": {
+    "joint": "Bip01 Spine1xx",
+    "where": "central",
+    "triangles": 22,
+    "extent": 0.3823,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01536,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00292,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02632,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "79": {
+    "joint": "Bip01 Headx",
+    "where": "above",
+    "triangles": 10,
+    "extent": 0.1502,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00477,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00338,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 13,
+     "time": 0.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.00968,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 43,
+     "time": 1.4333
+    }
+   },
+   "81": {
+    "joint": "Xhtongue",
+    "where": "central",
+    "triangles": 4,
+    "extent": 0.0761,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00916,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0006,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 53,
+     "time": 1.7667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01542,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 12,
+     "time": 0.4
+    }
+   },
+   "83": {
+    "joint": "Xneckpiv",
+    "where": "above",
+    "triangles": 28,
+    "extent": 0.506,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00285,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00096,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 13,
+     "time": 0.4333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0093,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 19,
+     "time": 0.6333
+    }
+   },
+   "84": {
+    "joint": "Xhtonguepiv",
+    "where": "central",
+    "triangles": 26,
+    "extent": 0.3891,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01374,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00971,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 19,
+     "time": 0.6333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0084,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 16,
+     "time": 0.5333
+    }
+   },
+   "87": {
+    "joint": "XspineB",
+    "where": "-z",
+    "triangles": 16,
+    "extent": 0.223,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00841,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00455,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 36,
+     "time": 1.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01243,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 24,
+     "time": 0.8
+    }
+   },
+   "88": {
+    "joint": "XspineB",
+    "where": "-z",
+    "triangles": 22,
+    "extent": 0.6078,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01918,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.01157,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 39,
+     "time": 1.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0156,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 5,
+     "time": 0.1667
+    }
+   },
+   "90": {
+    "joint": "Xhead",
+    "where": "above",
+    "triangles": 22,
+    "extent": 0.4191,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01222,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00331,
+     "on": "Xneckpiv",
+     "clip": "Death",
+     "frame": 51,
+     "time": 1.7
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.00691,
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01688,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 50,
+     "time": 1.6667
+    }
+   },
+   "96": {
+    "joint": "XspineA",
+    "where": "central",
+    "triangles": 16,
+    "extent": 0.2963,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03223,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00398,
+     "on": "XspineA",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.05739,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    }
+   },
+   "114": {
+    "joint": "Xneckbase",
+    "where": "above, -z",
+    "triangles": 10,
+    "extent": 0.236,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0299,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00021,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 37,
+     "time": 1.2333
+    },
+    "concealed_poses": 85,
+    "worst_concealed": {
+     "gap": 0.02576,
+     "clip": "Fidget",
+     "frame": 32,
+     "time": 1.0667
+    },
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02685,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 32,
+     "time": 1.0667
+    }
+   },
+   "117": {
+    "joint": "XneckA",
+    "where": "central",
+    "triangles": 8,
+    "extent": 0.2415,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00744,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0004,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 15,
+     "time": 0.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01411,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 6,
+     "time": 0.2
+    }
+   },
+   "122": {
+    "joint": "Bip01 Pelvisxx",
+    "where": "below, -z",
+    "triangles": 16,
+    "extent": 0.5585,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0187,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00659,
+     "on": "Xhead",
+     "clip": "AttackRanged",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01163,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 15,
+     "time": 0.5
+    }
+   },
+   "134": {
+    "joint": "Xarm01",
+    "where": "+x side",
+    "triangles": 32,
+    "extent": 0.6412,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02352,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00265,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 47,
+     "time": 1.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.0172,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 47,
+     "time": 1.5667
+    }
+   },
+   "138": {
+    "joint": "Xawrist01",
+    "where": "below, +x side",
+    "triangles": 18,
+    "extent": 0.2477,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01717,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00899,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 36,
+     "time": 1.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01307,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 0,
+     "time": 0.0
+    }
+   },
+   "140": {
+    "joint": "Xaelbowpiv01",
+    "where": "+x side",
+    "triangles": 83,
+    "extent": 0.6912,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0209,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.01892,
+     "on": "Xhead",
+     "clip": "Hit",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02573,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 40,
+     "time": 1.3333
+    }
+   },
+   "143": {
+    "joint": "Xahead01",
+    "where": "below, +x side, +z",
+    "triangles": 399,
+    "extent": 0.7516,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.06084,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.05789,
+     "on": "Xhead",
+     "clip": "Hit",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01885,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    }
+   },
+   "160": {
+    "joint": "Xawrist01",
+    "where": "+x side",
+    "triangles": 40,
+    "extent": 0.5649,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04511,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0428,
+     "on": "Xhead",
+     "clip": "Death",
+     "frame": 75,
+     "time": 2.5
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.01306,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 51,
+     "time": 1.7
+    }
+   },
+   "162": {
+    "joint": "Xarmmid01",
+    "where": "+x side",
+    "triangles": 32,
+    "extent": 0.4459,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0208,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 361,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00521,
+     "on": "Xhead",
+     "clip": "Fidget",
+     "frame": 7,
+     "time": 0.2333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.02082,
+     "on": "Xhead",
+     "clip": "AttackMelee",
+     "frame": 3,
+     "time": 0.1
+    }
+   }
+  }
+ }
+]

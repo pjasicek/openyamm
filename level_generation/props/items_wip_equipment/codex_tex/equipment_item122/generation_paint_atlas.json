@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Traveler's Cloak (item122). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Low folded dark brown coarse woven cloak, irregular rectangular layered pile, slightly frayed edges, no clasp. Exact material boundaries: Use the icon and identity; red only for actual metal fittings, keep leather, horn and fabric in their own classes. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item122/inputs/guide_paint.png",
+  "input_guide_sha256": "eae26145174f7f02e1f8ebed3d7034019796ef47ed1eb7f2b4886df350415e8e",
+  "revision": 1,
+  "input_icon": "item122",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-9ef8bc74-e962-4d69-9553-91697af087ce.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "83dd70f2f9c6794d8dbc373e4c5a6de05f2e2c2148c38e2fa05ff3abb8a4793c",
+  "input_icon_path": "assets_dev/engine/icons_x2/item122.png",
+  "input_icon_sha256": "3f4ada414f2179368595b01128b766e4bf08241ed54398d46a3cabef68d3fe56",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

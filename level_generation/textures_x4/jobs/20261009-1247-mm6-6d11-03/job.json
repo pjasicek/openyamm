@@ -1,0 +1,709 @@
+{
+ "id": "20261009-1247-mm6-6d11-03",
+ "world": "mm6",
+ "maps": [
+  "6d11.blv",
+  "cd2.blv"
+ ],
+ "created": "2026-10-09T10:48:17+00:00",
+ "textures": [
+  "mm6/ch4top",
+  "mm6/ch4bakle",
+  "mm6/ch4tople",
+  "mm6/ch4topre",
+  "mm6/ch4bakre",
+  "mm6/egywalgm",
+  "mm6/d6roofb",
+  "mm6/t3wsp",
+  "mm6/ctwl2",
+  "mm6/d2wlbpos",
+  "mm6/ctflor1",
+  "mm6/d2lgdor",
+  "mm6/t3ll5",
+  "mm6/ctflor5",
+  "mm6/bdksv16c",
+  "mm6/d1wctrb",
+  "mm6/ctwl2re",
+  "mm6/bemv32c",
+  "mm6/deskside",
+  "mm6/cttrim1",
+  "mm6/ctspcl1",
+  "mm6/ctspcl2",
+  "mm6/cttrim5",
+  "mm6/cttrim4",
+  "mm6/ch4bakb"
+ ],
+ "requests": {
+  "mm6/ch4top": {
+   "name": "ch4top",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "red lacquered wooden chest lid with dark iron bands, studs and a pale skull-and-crossbones emblem",
+   "notes": {}
+  },
+  "mm6/ch4bakle": {
+   "name": "ch4bakle",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 4,
+    "stack_axis": "u",
+    "size": [
+     576,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "red lacquered wooden chest edge piece with dark iron bands and studs",
+   "notes": {}
+  },
+  "mm6/ch4tople": {
+   "name": "ch4tople",
+   "reference": {
+    "pad": [
+     14,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     704,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "red lacquered wooden chest lid edge piece with dark iron bands and studs",
+   "notes": {}
+  },
+  "mm6/ch4topre": {
+   "name": "ch4topre",
+   "reference": {
+    "pad": [
+     14,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     704,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "red lacquered wooden chest lid edge piece with dark iron bands and studs",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   },
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ch4bakre": {
+   "name": "ch4bakre",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 2,
+    "gap": 4,
+    "stack_axis": "u",
+    "size": [
+     576,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "red lacquered wooden chest edge piece with dark iron bands and studs",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm6/ch4bakb"
+    },
+    "4": {
+     "left": "mm6/ch4bakb"
+    }
+   }
+  },
+  "mm6/egywalgm": {
+   "name": "egywalgm",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     819
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "smooth warm golden-tan sandstone plaster with faint fine cracks",
+   "notes": {}
+  },
+  "mm6/d6roofb": {
+   "name": "d6roofb",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark mossy wooden roof beams crossing over a dense tangle of dark green ivy and leaves",
+   "notes": {}
+  },
+  "mm6/t3wsp": {
+   "name": "t3wsp",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-violet dressed stone bricks with pale mortar",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.662
+    },
+    "3": {
+     "sources": [
+      "mm6/t3wsbp",
+      "mm6/t3wbltd"
+     ],
+     "fraction": 0.801
+    }
+   }
+  },
+  "mm6/ctwl2": {
+   "name": "ctwl2",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "warm golden sandstone ashlar blocks with faint carved glyph speckle and fine joints",
+   "notes": {}
+  },
+  "mm6/d2wlbpos": {
+   "name": "d2wlbpos",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark grey-brown rough stone brick wall with a dark wooden post down the middle and a beam on top",
+   "notes": {},
+   "prefill": {
+    "3": {
+     "sources": [
+      "mm6/d2wlbc",
+      "mm6/d2wlble",
+      "mm6/d2wlbre",
+      "mm6/d2niche1"
+     ],
+     "fraction": 0.589
+    },
+    "4": {
+     "sources": [
+      "mm6/d2wlbc",
+      "mm6/d2wlbctr",
+      "mm6/d2niche1"
+     ],
+     "fraction": 0.577
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "4": {
+     "left": "mm6/d2niche1",
+     "right": "mm6/d2niche1",
+     "bottom": "mm6/d2wlbre"
+    }
+   }
+  },
+  "mm6/ctflor1": {
+   "name": "ctflor1",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "golden sandstone floor with dark red-brown polygonal stone inlays in a scattered mosaic",
+   "notes": {}
+  },
+  "mm6/d2lgdor": {
+   "name": "d2lgdor",
+   "reference": {
+    "pad": [
+     16,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     910
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "heavy dark iron-studded wooden door with riveted iron straps and a golden skull ornament on top",
+   "notes": {}
+  },
+  "mm6/t3ll5": {
+   "name": "t3ll5",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough terracotta-red weathered stone with dark cracks and pale mineral flecks",
+   "notes": {}
+  },
+  "mm6/ctflor5": {
+   "name": "ctflor5",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown stone floor inlaid with golden ornamental scrollwork",
+   "notes": {}
+  },
+  "mm6/bdksv16c": {
+   "name": "bdksv16c",
+   "reference": {
+    "pad": [
+     46,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     691,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "one continuous plain polished red-brown mahogany strip with straight vertical grain",
+   "notes": {
+    "3": "A single uninterrupted strip from top to bottom: no joints, blocks, bulges, bands, end caps or ornaments."
+   }
+  },
+  "mm6/d1wctrb": {
+   "name": "d1wctrb",
+   "reference": {
+    "pad": [
+     16,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     569,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey-brown fieldstone wall with a dark wooden post down the middle and a wooden beam on top",
+   "notes": {}
+  },
+  "mm6/ctwl2re": {
+   "name": "ctwl2re",
+   "reference": {
+    "pad": [
+     0,
+     16
+    ],
+    "copies": 2,
+    "gap": 32,
+    "stack_axis": "u",
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "warm golden sandstone ashlar wall ending in a fluted Corinthian sandstone column",
+   "notes": {}
+  },
+  "mm6/bemv32c": {
+   "name": "bemv32c",
+   "reference": {
+    "pad": [
+     80,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     683,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished red-brown mahogany vertical trim with fine grain",
+   "notes": {}
+  },
+  "mm6/deskside": {
+   "name": "deskside",
+   "reference": {
+    "pad": [
+     8,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     819
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "polished orange-brown mahogany desk side panel with a thin pale top edge",
+   "notes": {}
+  },
+  "mm6/cttrim1": {
+   "name": "cttrim1",
+   "reference": {
+    "pad": [
+     80,
+     16
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     683,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "narrow carved golden sandstone trim with a chain of ornamental rosettes",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge: every edge keeps the brightness and material of the reference's edge."
+   },
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctspcl1": {
+   "name": "ctspcl1",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved golden sandstone arched alcove with ornate baroque relief, a rough stone back wall and a sarcophagus lid of a figure under a red and blue shroud",
+   "notes": {}
+  },
+  "mm6/ctspcl2": {
+   "name": "ctspcl2",
+   "reference": {
+    "pad": [
+     0,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     1024,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "carved golden sandstone arched alcove with ornate baroque relief, a rough stone back wall and a red draped tomb with carved front",
+   "notes": {},
+   "prefill": {
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm6/cttrim5": {
+   "name": "cttrim5",
+   "reference": {
+    "pad": [
+     4,
+     0
+    ],
+    "copies": 1,
+    "gap": 0,
+    "stack_axis": null,
+    "size": [
+     640,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1,
+    2
+   ],
+   "material": "carved golden sandstone trim with an oval rosette medallion",
+   "notes": {}
+  },
+  "mm6/cttrim4": {
+   "name": "cttrim4",
+   "reference": {
+    "pad": [
+     0,
+     8
+    ],
+    "copies": 2,
+    "gap": 8,
+    "stack_axis": "u",
+    "size": [
+     922,
+     1024
+    ],
+    "smooth": true
+   },
+   "versions": [
+    1
+   ],
+   "material": "carved golden sandstone trim with a vertical floral ornament",
+   "notes": {}
+  },
+  "mm6/ch4bakb": {
+   "name": "ch4bakb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "one complete back face of a red lacquered wooden chest with dark iron bands and studs and a pale skull clasp",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,70 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_arslegardcity/review/sky02
+settle_seconds: 1.5
+exit: true
+shots:
+- name: 0630_temple_square
+  position:
+  - 6912
+  - 1056
+  - -491
+  yaw: 3.1416
+  pitch: 0.2618
+  time: 06:30
+  commands:
+  - qbit set 90098
+- name: 0630_park
+  position:
+  - 5120
+  - -12512
+  - -491
+  yaw: 1.5708
+  pitch: 0.2618
+  time: 06:30
+- name: 1200_temple_square
+  position:
+  - 6912
+  - 1056
+  - -491
+  yaw: 3.1416
+  pitch: 0.2618
+  time: '12:00'
+- name: 1200_park
+  position:
+  - 5120
+  - -12512
+  - -491
+  yaw: 1.5708
+  pitch: 0.2618
+  time: '12:00'
+- name: 1930_temple_square
+  position:
+  - 6912
+  - 1056
+  - -491
+  yaw: 3.1416
+  pitch: 0.2618
+  time: '19:30'
+- name: 1930_park
+  position:
+  - 5120
+  - -12512
+  - -491
+  yaw: 1.5708
+  pitch: 0.2618
+  time: '19:30'
+- name: 2330_temple_square
+  position:
+  - 6912
+  - 1056
+  - -491
+  yaw: 3.1416
+  pitch: 0.2618
+  time: '23:30'
+- name: 2330_park
+  position:
+  - 5120
+  - -12512
+  - -491
+  yaw: 1.5708
+  pitch: 0.2618
+  time: '23:30'

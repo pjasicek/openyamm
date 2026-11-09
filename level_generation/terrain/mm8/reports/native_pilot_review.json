@@ -1,0 +1,274 @@
+{
+  "status": "appearance_only_partial_stage",
+  "views": {
+    "dirt": {
+      "note": "Broad tone retained, clearer clod definition.",
+      "appearance_pilot": "promising_not_final_acceptance",
+      "captures": {
+        "x1": {
+          "image_sha256": "152ac5cad611ae125508d080654c6434f86d5acde858502ef0266fc842448566",
+          "metadata_sha256": "9909cb17424d7e2c1b7b1183023e920a6238cbf97922879945a0eb7e7420a24b"
+        },
+        "x2": {
+          "image_sha256": "8b0d50f9427d22fb94d9ddc9a82c8f21b3f806dd4c978e2cb4cec25db9160095",
+          "metadata_sha256": "a1589e688779aacc88bae3f6003fed28808b7a570dff47a1828f2df6a94b720f"
+        }
+      }
+    },
+    "grass": {
+      "note": "Palette and fine vegetation scale retained; actors differ between captures.",
+      "appearance_pilot": "promising_not_final_acceptance",
+      "captures": {
+        "x1": {
+          "image_sha256": "342065a87d236491f07dfaac4050da9b1edbd39e99508be7af0905be0ee3cffd",
+          "metadata_sha256": "f54b052d9e3b4e710843bfb9ffe7d3296c9ead9c98eb84249b300066cca75fcf"
+        },
+        "x2": {
+          "image_sha256": "bf37d203332adedadc29764bc8aaeb77da334c92791973b14c6161df7f89fe88",
+          "metadata_sha256": "cff48dd9dca217b284224e8aba009ca16a209640f1b5fc4c4043c89b59540990"
+        }
+      }
+    },
+    "volcano": {
+      "note": "Pore scale and dark porous character remain close to original in this view.",
+      "appearance_pilot": "promising_not_final_acceptance",
+      "captures": {
+        "x1": {
+          "image_sha256": "99d61adfe51acf41d4bccf13efe8d4f47f77fde1e04ee12552cf756cf88aad3a",
+          "metadata_sha256": "fdb1bd483c109d5a9890f8869b5891c1019f4d9f392043388f7ebfac675e92ab"
+        },
+        "x2": {
+          "image_sha256": "e569595c22983949585db61b922f2699f332572acc71925ad57e3957cd7e5cc2",
+          "metadata_sha256": "e5cbfac42349a81d348a9dc6d9f8791b3c9150e85f7d5c831fd4748eb814b820"
+        }
+      }
+    },
+    "plains": {
+      "note": "Large orange plates/cracks remain comparable at ground level.",
+      "appearance_pilot": "promising_not_final_acceptance",
+      "captures": {
+        "x1": {
+          "image_sha256": "635cc2dc9ed4af2982be269a7d7126b85cf9bcff025134357b28b8c5f5ea154a",
+          "metadata_sha256": "adb6ec59b489c9151f37552b3c68e48c6df054dd56dbf1a1cfe187f0ab6e1601"
+        },
+        "x2": {
+          "image_sha256": "9f239eb92012b36ca8b1f64f012d7bfe63c588d14df8b87de1a46af8352ca535",
+          "metadata_sha256": "a1a469ec54159200dc87e1c694483b0c6093aa701ba718d072b86096222d8237"
+        }
+      }
+    },
+    "rock": {
+      "note": "Broad striation positions and scale retained.",
+      "appearance_pilot": "promising_not_final_acceptance",
+      "captures": {
+        "x1": {
+          "image_sha256": "4afd610462e2666cf4868af7244351a1c46feeb8b4d10859f84ee1fecae5ca09",
+          "metadata_sha256": "b0f15f22fce0554ba8e37a0055c4cda538987ab7958f5fc62aaddafcba310d0c"
+        },
+        "x2": {
+          "image_sha256": "42376bb2e8f3fd1b811d448a895df1fe077c4cc4caf4dd731b0949f47b70fdf5",
+          "metadata_sha256": "fb7cc0182c6766651044f0c146fe04946b341cf2cde38f6d33e90705477306b9"
+        }
+      }
+    },
+    "sandstone": {
+      "note": "Warm red striation character retained.",
+      "appearance_pilot": "promising_not_final_acceptance",
+      "captures": {
+        "x1": {
+          "image_sha256": "e5ad36dd44d298755526a07f6873c901dfe9e50b8bebe074b8d7f1bce0f6f3de",
+          "metadata_sha256": "316aef9f69ab03d6a80cbd50e82a4ea8a7ccc4aaad657e8564f05538a60d004e"
+        },
+        "x2": {
+          "image_sha256": "59f3062499ab37ee4e2997823abce4ba86c7f74d32c0e957810c5fa85f39fc19",
+          "metadata_sha256": "514317d7fe0c96299d0f370788bc97fe48e6cf1b985c8c7afd1b500f0e29b478"
+        }
+      }
+    },
+    "plains_sand": {
+      "note": "Dune ridges and palette comparable, no conspicuous new seam in this view.",
+      "appearance_pilot": "promising_not_final_acceptance",
+      "captures": {
+        "x1": {
+          "image_sha256": "809ece02028ea5879b71f5babca30abc51d17f4a371c7c1130e312408edeee1a",
+          "metadata_sha256": "a7a66550c934c75aa9c23385cc5d0e44c455f94416eb730f18fb3956124812ec"
+        },
+        "x2": {
+          "image_sha256": "b6d40708e5c04ef7dc18aef9c380fd5be6fe36b4a64f44d6b33f774a94692d6a",
+          "metadata_sha256": "291a7b18345beeac22d727e3e30f90bcee533b6ed580f70107a8ee6103c22970"
+        }
+      }
+    },
+    "grey_stone": {
+      "note": "Large dark plates retained in master. Transition fringe needs separate correction.",
+      "appearance_pilot": "promising_not_final_acceptance",
+      "captures": {
+        "x1": {
+          "image_sha256": "4fb14cde815e96b10a7b9f7ee4cd3f0ccea7228526287f226667488e45911fac",
+          "metadata_sha256": "a75cbe30665ed8dfd8059c77f810e31a125fcf295d7099bb31c5235e71d7724e"
+        },
+        "x2": {
+          "image_sha256": "7d98790ea88e26fcdfc5e35680ad933a670c1b7ce567b81d7ff78f91ef1592b3",
+          "metadata_sha256": "a22a8159576dbbb960229ba2244ac8292924b1cd98ecaa2b0b048bba46ec6a45"
+        }
+      }
+    }
+  },
+  "stage_snapshot": {
+    "status": "partial_candidate_stage_not_final_installation",
+    "files": {
+      "gsxse.png": "bc18f68275922c6a57e3bd987440e2f957ee710abd39072bd36ed06fdf593453",
+      "plsas.png": "08eff4db85fbded1d70eb1397ce1e6d5ef8d4a0ec166c261a777658842ec5de8",
+      "lvdrxse.png": "e7dbcba7f8aff8ae13e8907e1a1e30f0b313219d0d1bea17ac4df1a09c76d1fc",
+      "gsnw.png": "20fe4827560bc202371888207614b0aef645f955c4bca4c25814ccb5400bd32d",
+      "wase.png": "97fc40dd9d90bf432aa82a12904c5f9dc27895c9e50e9fa5cb8c031ae521400d",
+      "plsae.png": "49e4ce3ec93f312d5d6c6cbbbb36ae81664b32af3acf6c99e2d742a5ac31914d",
+      "grdrtnw.png": "001ac89c164457166ae6cb8062acb3c38b53bbfc3a2f4b898d5a7c5bb3535b87",
+      "gsse.png": "6e88c642120b449df19b194738ce549cb16146e835dc540fc03b281d9ec5d50c",
+      "trxsw.png": "9689624966c051a74767f0edd20d12f513213481c67598658f26202b3699e9fe",
+      "plsase.png": "1ac17339425c502f0bbb02cf59b8e1b12a12c62e44dedce5bcc9fc6760bc748d",
+      "wae.png": "9e8f11d66a0c652b9201d98a8ce615c2e52a86b87bc59c347a7f38a5f4d8337b",
+      "wtrdrse.png": "05f735c44521ce4b6a5f99b2ac69b3de850cc126666cb59b67b2df1e64d5c67e",
+      "rkw.png": "ef7aead9968ff6533ddd0a5513b40cefc08672b481456072ecfc6f9a119f39b4",
+      "waxnw.png": "8ea840ed15517cb9963c4d8e1adf990a206e87f9bc291d09d41c985eb6d773f7",
+      "lvdrsw.png": "c207d00a79b472fa7db3fe26fc9a18374b549aba43e52ec437bb7d7bfb8d4ddf",
+      "gstylx.png": "ab5f2eb1466c944ff95e411210ab6043c51218592ef49173ea3b3b0a47cc1ec9",
+      "grdrtxsw.png": "3ea1ee26c4cac3a52a117bbd122d10f42aae9be30897e0648a3fbeceb1ee0b1a",
+      "gstyl.png": "712b5ecea2366e267b892a868cd92084a01541d3527605256e1fb0262b4991c2",
+      "rcn.png": "58bd0d1d183d31d5a68228dcafc0f1257c74d856aef7562585d7c56c201971c2",
+      "lvdrxsw.png": "4114a6fd651ad71f4938054ae0dc21f26b10fc24ddd0c075fbcc8a7bc3379a23",
+      "grastyl2.png": "d51d1d8e22e05f7d7339a6008fe9f26739c3b11e3086d1dc7dc3d47214de0175",
+      "gsxsw.png": "ffb26c0bc01d5f3d3b787a3716c50c3e70ff11ce9b7b58f5e66c87616947c9e1",
+      "trxse.png": "7a9de712b3b374826cf2d6d2277b9191d6bf8af421ed35e486ecf94c4b0328f1",
+      "vole.png": "0aeb5b5a7489616db9a468a57d43327d0236dd8617d0f9a17a0d83e0a5a89f2a",
+      "volne.png": "66a852a67e8499a61edd17b06c7b8e99f987cb7081b6e25bfe2b5c2f56565cf8",
+      "trsw.png": "246827c789b095acbc09422f3590b296a1232ea58387e44ce47b2f8294054cf8",
+      "plsaxne.png": "2d2a7fbe6f8b9d270d2e5b31a1b63150322914212f082a62845d4c2aa37f4d4d",
+      "lvn.png": "b1788eca01f86a0eaca4453b05c230fab4fcfff4bb008266d9444d5f6e3f9962",
+      "lvdrxnw.png": "4eb5ff090c28cb4aa664622609550703c51ac865ff68fdac0a6a7a429aa430c9",
+      "rcnw.png": "f0663f3e94db41c23ffc0fc11ee51759315c5e10a46c1f04924db644fbd5fb95",
+      "rkxnw.png": "0c015865d70c0c0c0db19ba22aa4d5ee91f6eea9fb5bf95eb8a9f03d05e9ad2e",
+      "rktyl.png": "ff5f4c74d171bef4a1047812129138dfd69bfcd02d4c9a9b914da8f4d92c13f9",
+      "wane.png": "d4c09af838a3af72112a445c5aba29c29e7a56e5f0b01a3695b101fea3a3217d",
+      "trse.png": "a2160a0a9119549ac93698e32cf89defdaf2a858f579f89f492aa7ef134afc73",
+      "wtrdrnw.png": "c1faff4b23fccf73116d95294b019efa0e66f912fa15c31500c1cc3d89b609b4",
+      "gss.png": "0dd44e8d7cbd46f7e3b9e515a4c7bde04d465150339a05c930d85bffd7f77c60",
+      "grdrte.png": "81160a6f9dbc62afb755a324358780fb45925335c020034046d93b27e7507eab",
+      "wtrdrn.png": "c935e2490837579ac1d8ab5b6b14e1c94403670e05242dd7f576746c43473c1e",
+      "lvs.png": "34254c00db9114e95c3788409755e3b5881b8ed5e2ab421c59fb9991c5ca0653",
+      "lvne.png": "970ec8af968fe668d9d995f343ec0db753d223012619efb1cd493ab37ff45aa9",
+      "trw.png": "4c3df2f8ddedf8d7c95507a165211b44f065083f5a4929bb853c81a08db23b13",
+      "gssw.png": "2196fab000b19ff9416481635fc735c525936ccde39b949aed3803e812942968",
+      "lvdrn.png": "25bd71e3be3c2e65a53391b50ca88ffb4fc57cc6f516d083a1c99761b421e3a6",
+      "lvsw.png": "c865a3f335463d264c6c266b5907c9a87572dff9cfca97c258f42d6771c0a83f",
+      "volsw.png": "9ce483e2dac07625c251e5223ec54ba40cb5ca4acb39469488f2f33bd98cc76a",
+      "rcxnw.png": "ca8e8f5a3b30d2d43cccad5fb2512bee4822a583faf315eaaa3a87d9d1287271",
+      "grdrtse.png": "1cd2bdb79f73f9c9fdcb4e9ba4ceb78587fe2aacbc08f61dad1c3bf1780d5e7f",
+      "rke.png": "29e165895e279be6333c5fcce623cecbd63a5d61a3f843d9e559651ce348a2e8",
+      "plsaxsw.png": "ad095612d78f08d0aa5bf8c2f7870e5767885bf822dc5ff630a05060aaed839e",
+      "rcs.png": "d4151f2d571a60af215b652b48b7d790ffbcd8f5f186ab255ff72d635cabf1bb",
+      "wan.png": "0d2e9de8d91e0defebaf663781cf9d58277ad972cd2a0856692d38efcd6dc77f",
+      "trn.png": "79348b42f471dc9d5b46d74b6212a2217ea3295e15f6b7fcbf49af71d7539d21",
+      "rdnw.png": "8a06e9e777557ad646ac7eaee5e0707e5c4838342d5ef1ff7199cc814af9210c",
+      "gsxnw.png": "4161e80ede473fe500449667075ca7a02dd713ead58c00ffb44ec513e80ad839",
+      "rkne.png": "b2bb58accff052e6bfa3d4e451063bbfef0b4e1c05c43c99c50bd5fbdb4915c8",
+      "grdrtne.png": "b0faf69649880b8f6c9ca1f24e0199237ad00056a649831e1417d5a7c3db2861",
+      "gsne.png": "24efd3f62ae87f59412ce0c3217ed32efbae6cba54aa7847354ff3356ab9bd07",
+      "lvdrxne.png": "93667976670d226d9d64a8d0088098fd0261873400aee9a6de0280d0903fe357",
+      "plsan.png": "b19e677409d01d1e8aa1d1837b5f9dcaadb0588e284250233378865d1501c994",
+      "lvnw.png": "6e426191b12d6b76eea43936386d987a2a9eef586685cc36008ed33476ef969e",
+      "wtrdrne.png": "47d523b45710804ecac9d89c5b5919451a00908fac2c407ad827b75b58344770",
+      "rcxse.png": "802eb5c1c99ddb7d1a5d09b11fe18e837fa2339ddb78b85a6064358a9903280d",
+      "plntyl.png": "2210cb954b496e2373f077d2a504097fa900ebc5e1cb5e0ce8988998cb1b52fc",
+      "grdrts.png": "cdafe167460e6fa157ec4bae6dfbb8f8038bd5581a727cd6faaaf5825fecacec",
+      "waxne.png": "d1ff4fe43b65a7c92d5b6d5ed18dbec6425862087553f86477649bc9a7152ea7",
+      "rce.png": "5a897d8092bc58058cbccfeb7ab4586db3aee3b2904cedade306c0042f35085d",
+      "volxse.png": "659a36cefb8a86ff9b5774122848af99b8eb725a1c491a4a0c2cda434880fde9",
+      "rkn.png": "bdb66cd6915ea6dc9abeafaa225aa7c85b412dbc1f46f80ab9211d26d6c978d6",
+      "grastyl.png": "852c340377036427672b3979ad097d51b11bbb730238ee5c5fa96e5ec24bc9d1",
+      "wtrdre.png": "bf4451f64794e0ff3b274455d87a6a85c6154767925591005702c4eafb1d88cc",
+      "rctyl.png": "b32da80c7f399695ce1c8764dfc6fc7b21719aacd533b5cb84237eea93c7f91a",
+      "volxsw.png": "154d4bfee45b58133abb7845184dfea96e2696ab3f04b0407506ea45dcbbbeb7",
+      "grdrtn.png": "32a18e87db054c9edeca26d5b70a1eab17384293d9fd8f4df85d5045c05c903a",
+      "volw.png": "764b7645095456cd00d386dfaf66874312e2899fc22d74fd292bf0f7e289589b",
+      "voln.png": "9039df5cfc6c7dd7b1e46e55300c2cabdb45e635b5b7484129d85ec9ad5f6317",
+      "rkse.png": "4592b3b9a0a2ad1eaffab3293b1eb1697021ede4e56628dd5cedef11bbe71697",
+      "plsanw.png": "617512b70914995a7695a517219b6811ffa24285454b2eef4deefebb51a78790",
+      "grdrtxse.png": "29f67b37de081bdbd3376a559e5a6d314a20e386270fb29ba80116ca91ef88bc",
+      "vols.png": "7e035a002b12903069bd69b0af21a87214d97dd877654cca9dacf3e8d5a9695b",
+      "lvdrs.png": "b00a420eb8352149eae75c2037f7c59a63bccbfdffb65e0600416c2555d2f629",
+      "trxnw.png": "1b8bb8756b21f1db9ca88f06859b24fda62159f33977c3b122e57d3ac28dcc35",
+      "rcne.png": "38a47fe458b8f506d2896e5fae8413bf99c5060dc909c2976c12e43ad366a8f2",
+      "wtrdrxsw.png": "02025c0dbeb01828770283f78e07588e3eb38e92b91f983537d21ef36b67edc6",
+      "grdrtxnw.png": "34b6c285966b0684ef5ade61ad4ee77565516f566862eaeb64ba45689d8b0d5b",
+      "rcxsw.png": "130d59559cfeea751d6f94085bde679a28f624a6c8d0e067b5373c85b1ea386d",
+      "rkxne.png": "6c5b442a7f54d39cff718ce6b079e0cc6aa5837ab029a112fd437b550fa4e915",
+      "lvdrnw.png": "96cb02bb4fd51bbbb5cee95ed6a17fd2b04b6b5e0bb20e9018d2a4abe02dfea2",
+      "wtrdrxne.png": "5cac738b6a3796d5a8c410f76d185881acee9f03732a0800962acf894ec4b456",
+      "voltyl.png": "44a9a3254593982b35ae26c99f1660129fc55052166c7a12cf8d8e6c5cb93815",
+      "waxse.png": "c5e8a65eb216c31de15bae5e07f2d859d06f4e1121e7b850e150d07c805660e6",
+      "grdrtxne.png": "b6f3a8f1d36ba5c235ddd15fcdd9cfb1ad20659a29a1524a2cc76e946893f616",
+      "gsw.png": "59a7e10c2ef558f1fd1a6714612c9754c754a3a2086bf720bfad976c1b199277",
+      "plsane.png": "a894e053fe4e0f57f831e1a153173a07d0d969ec218ccd15238ba794b9e9fe62",
+      "lvxne.png": "56df6f712102a6ab8ac9e3b938b7abb68ca9906d130a648291ee29c80a3e14e9",
+      "lvse.png": "0ae8a903b18aa0e01f83989cc463c2bf893a89f82e0929fd8bdf59e55e3e4f6c",
+      "lvxsw.png": "ce138862f1660ce4c2b18de18c9c13a73852d6361ed8ff6523c32390c796c0ec",
+      "lvw.png": "9831c2b42007cfee981b8590c28be9dec72e437b61d6f37b168b2ceb7185bcf5",
+      "trnw.png": "f19c8f66153a3ccc29c280c478303267fa3f5cc5989a6b60f5111ceee92a9a8f",
+      "rkxsw.png": "31ae92de75d2fd93ff2c13d1509c0bba2e1aff8d101e4683df6fc28d32e6cb25",
+      "rksw.png": "ba93697cff238496a1c69df4d819dbfb86bce6e5562b21bb8b3b46dfd5592f61",
+      "grdrtw.png": "2793f0d8641eca62f70b4d316906445acd4e58eb770a8f3ac2b996340e54c90e",
+      "plsaw.png": "48c0733fad27cee9734e2f9d508f35a78c3639a8af745130c094aa5ec1575fca",
+      "rcse.png": "ac1866a22b1abe9c31aab914b0d5d78ac3a74ae90a7f45e0c8c6d1c400b7ef2b",
+      "volse.png": "88952c70578916c89be637c99f5f58450d94ec6711eb17d84359109c3052980a",
+      "plsaxse.png": "8f501c892819bfc07e6d212a394d5254e7eb0ef50c364e32677061ab553e1fd2",
+      "volxne.png": "f3e2eb2acbbbf7a73772c9a391ce1fe2de8f065bd157b57b7493bf18d7bdc176",
+      "plsasw.png": "a0b5502da8119f5e3a3cdea33a3f52a77c79fb3a18520251ad80c21505a7c68b",
+      "wanw.png": "a94c2a4352c7eb0c3cd7ab818df45f9cb1fc5fa5cc1c79f0ce04c424a76c088f",
+      "lvdrne.png": "3a239113c5c00ae36ab941724905bb40853f6d286f26449051ff1320502a315a",
+      "gsxne.png": "6e604e51580b280a1c7ab0946665525797101e92f09ff7e0ea55e45b593a560c",
+      "plsaxnw.png": "3751c3357da100ea802581eaadbb9c5c1e7f0337622609d753cbc937db732d36",
+      "dirttyl.png": "9137a083cfbadbf94bbe80e4e2920a07bdfc60e9e6a33c815711a8a0b24a5195",
+      "was.png": "1bfeb646a6d96a65881c3b72d8b42300ead2d6e4d269f2fcec8d198734c0c78e",
+      "plsatylx.png": "f0fdcc6be6eef5ff1643725687741a4feba2d5c995756ab489edd8181c8dacd3",
+      "plsatyl.png": "43a0809eae7bf8f955c88274e101e8b63477365db5b396e485bd7c18a634d88d",
+      "gse.png": "56f9312b9a2ea3d927645ddd34fbe2f9b339f2389b90c00913a717c79472fb96",
+      "volnw.png": "2f956a9560d44f750d6bfbf510fc3db1df3fb6d165d24e7c2c0de88ef0b9d78f",
+      "lve.png": "eedd207d84e67ed553db4e97c15aac78aaf27e5df294fd0ce5b8308114542c16",
+      "wtrdrs.png": "937609192d6f103eb6018f638f4c950c8fc28e0479cb2c719a5b0bbd069a8b8e",
+      "lvdrse.png": "9ead1fb635eca731dbf39ec1e8a8ba17e5eb965912d3a5b17e8e8c213f5944ef",
+      "trs.png": "656455348b126b385ab9afdd4f43e1bf9b117d6d9c9570dba134e3b9305243c4",
+      "wtrdrxnw.png": "e54f17ec01951d4b1c97ba438fe3c8cd27bf32bebe36c00eb327483c70816212",
+      "tre.png": "9fc9b499416c66ef1432c1f62acb4ba72b675ad7df0cd3ef74cd6d7605914a7f",
+      "gsn.png": "af9fc3a5b3df376c48db1bcf87f853248b3f687cda6b7324c17b585a57ae3795",
+      "grdrtsw.png": "91f50edc1eb33a64c5c3715ff0b59610717c636e4948401f6e24c6b37d411534",
+      "wtrdrsw.png": "5439202015646f46e7dab12d8623daabcb7efe818733374c27ce60696fb02302",
+      "lvdrw.png": "79285068bb763d8c5a7351701775022efa50a3346537b4fe8c9f2111ae168230",
+      "rktylx.png": "14bb66dfa6daa4f92e94c2d323c787793f4e07239a5ddf06d909cee887c1f7b7",
+      "rks.png": "c5c121389c09998856a962c3626738fc0a6e712c5265967dbfb78543b64d47f8",
+      "volxnw.png": "2ad0133b3a5741e7233f5eb992f32deff7c894e20d4871c56290e7c2f3313777",
+      "trne.png": "edac2a1783c1ab104f920c139d0d5d406e684cf3b4b98d7b628f8b44fe75cd03",
+      "lvdre.png": "bf2ae1d96b493e053e26f888771af03fdcc0a7024bbd8bdf8a1cd2d9fb88469c",
+      "rkxse.png": "78208e97cb6f6ac848247c4c5ae9584da0b1c9075b25fcb5bf81d0e8b37f3122",
+      "rctylx.png": "0c11625c44ce67c59da906c42ee83cb33b1d25a8766f744e905791a1116fa488",
+      "rknw.png": "72fc8e7921f2001c872359aa37ad9b6711cb0f158a39747bb5a0e2c30fe1a3bf",
+      "rcxne.png": "c6bcd5028df888d05a50eb7ca046d7169fe971908d4c5d11044e71e4677737b4",
+      "trxne.png": "5932c8f631b5411778f85f5680e7cf3f8d2a15f327a8199c3ccbe9ff690d88e5",
+      "lvxse.png": "3483f53c49205e3c917e83470d1a4368713e981edd8b3bd58e13f1872548200e",
+      "rcw.png": "a0fb661fdda866e61873ccc6e9eb39fd34394bd32e45c8d22162c05d28391cfe",
+      "wtrdrw.png": "4d949d4201a067ac422b98b9c04ce5c59bdf3a37e4e4722129ce99455a98a23d",
+      "wtrdrxse.png": "6094832b524055658952199892ea885f5c0cd8a2e2d99a72127c7fae07db870b",
+      "voltylx.png": "1dacc323ed8112ebba2a690b26e4e30d34a7cbb70630fc4a4cc77c5a903f1bbd",
+      "lvxnw.png": "b31771d3f9731bfec0c5162293a01662db1fe18bdb886c8dac4909c9dfc1acb0"
+    },
+    "stage": "/tmp/openyamm-mm8-terrain-review/enhanced",
+    "assets_updated_ns": 1788979061335979372,
+    "binary_sha256": "54917a618945387ef0b678dc9d4807c9d97105e9a2c6e3f540bb9605d660bcd3"
+  },
+  "provenance_limit": "Asset manifest verified retrospectively against the unchanged stage; early capture script did not snapshot candidate hashes before and after. Final captures must use the updated script.",
+  "limitations": [
+    "Moving actors, weather and combat are present.",
+    "No animation or movement acceptance from still pairs.",
+    "143-file stage omits pebble candidates and all new roads/liquid frames."
+  ]
+}

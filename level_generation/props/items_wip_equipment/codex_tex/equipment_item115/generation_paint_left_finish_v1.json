@@ -1,0 +1,14 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT TARGET is image 1: the exact orthographic LEFT-side grey mesh guide of Lucky Hat, 1024x1024. Image 2 is colour/material reference ONLY, not shape/framing. Paint image 1's EXISTING visible surfaces as navy-blue velvet cloth, crimson feather on the right of this view, and thin dull gold band at the bottom. Preserve ALL silhouettes, object pixel position, scale, folds, outline, feather shape and band width EXACTLY from image 1. Do not enlarge feather or extend the band. No new geometry. All object surfaces opaque, including inner grey folds. Flat shadowless albedo, fine velvet/feather grain; NO baked shadows, light falloff, highlights or glossy lighting. Background truly transparent with no coloured halo, haze, glow, floor, vignette, labels or text. Output ONE square 1024x1024 image with the same fixed framing as image 1. It is a texture projection source for that exact mesh, not a new hat illustration.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-7e91ae18-4472-4b45-9495-bf233ceb75f0.png",
+  "raw_output": "paint_left_finish_v1.png",
+  "output_sha256": "0245f987f8ffddab5be0ee2578c48a51ee11dcc0237336b6a006f168f9084741",
+  "input_guide": "guide_left.png",
+  "input_guide_sha256": "f88cad1e46dc207532fad289a0cb2a71b23762c510743ffdd1a80c0af735ebb3",
+  "colour_reference": "left_paint_before_finish.png",
+  "colour_reference_sha256": "c5b4911f50562e46b324e7844908230259a88efe3ee691947eb224e7d9c00be2",
+  "purpose": "Replace only failed left-view registration; other views are unchanged atlas cells",
+  "selected": true,
+  "reason": "Accepted corrected exact-guide view"
+}

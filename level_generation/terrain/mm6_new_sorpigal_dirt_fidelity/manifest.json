@@ -1,0 +1,154 @@
+{
+  "status": "candidate only; not installed in the peasants playtest or accepted master selection",
+  "generation": "built-in image_gen: native restoration followed by targeted palette/relief revision",
+  "native_runtime_size": [
+    128,
+    128
+  ],
+  "candidate_runtime_size": [
+    256,
+    256
+  ],
+  "selected_candidate": "v2",
+  "master": "generated/dirt_v2_512.png",
+  "runtime": "runtime/6dirttyl.png",
+  "prompts": [
+    "prompts/dirt_v1.txt",
+    "prompts/dirt_v2.txt"
+  ],
+  "export": "Lanczos raw to 512 master, then 256 runtime; no post-generation color correction",
+  "files": {
+    "references/native_dirt.png": {
+      "sha256": "fef069bcbe2af3cb766a49fce0da02fc0e59e364b300521f38cef6d16394c833",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGB",
+      "mean_rgb": [
+        106.163,
+        65.407,
+        47.706
+      ],
+      "std_rgb": [
+        20.385,
+        17.826,
+        16.525
+      ],
+      "edge_rgb_mae": {
+        "left_right": 17.0,
+        "top_bottom": 17.302083333333332
+      }
+    },
+    "generated/dirt_v1_raw.png": {
+      "sha256": "563de66288a39945f096fc2bb661dce62e65319c5b798c5c20af02bfa7ba8e78",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "mean_rgb": [
+        114.574,
+        66.338,
+        42.927
+      ],
+      "std_rgb": [
+        35.236,
+        27.6,
+        22.934
+      ],
+      "edge_rgb_mae": {
+        "left_right": 30.84795321637427,
+        "top_bottom": 34.10606060606061
+      }
+    },
+    "generated/dirt_v1_512.png": {
+      "sha256": "556db5dad84ce073326c5dbe7158d1ba6fc225b598ca2b803664656b178575c7",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "mean_rgb": [
+        114.078,
+        65.841,
+        42.43
+      ],
+      "std_rgb": [
+        35.002,
+        27.32,
+        22.663
+      ],
+      "edge_rgb_mae": {
+        "left_right": 30.352213541666668,
+        "top_bottom": 34.722005208333336
+      }
+    },
+    "generated/dirt_v2_raw.png": {
+      "sha256": "4f707640c040955db04215f69ca5018de14a5651a75ffbffd9642ccd4f2acd18",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "mean_rgb": [
+        105.253,
+        65.998,
+        47.698
+      ],
+      "std_rgb": [
+        24.336,
+        20.241,
+        17.779
+      ],
+      "edge_rgb_mae": {
+        "left_right": 23.30675172780436,
+        "top_bottom": 25.87666135034556
+      }
+    },
+    "generated/dirt_v2_512.png": {
+      "sha256": "9e501c5b7f12ea0abe519b1f71a85aaa86134fc51473f1f154f5cea2c8fd24e0",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "mean_rgb": [
+        104.756,
+        65.5,
+        47.2
+      ],
+      "std_rgb": [
+        24.341,
+        20.239,
+        17.767
+      ],
+      "edge_rgb_mae": {
+        "left_right": 22.942057291666668,
+        "top_bottom": 25.865234375
+      }
+    },
+    "runtime/6dirttyl.png": {
+      "sha256": "dce7f08c796d69641fe8960b45966c0f98571c3920176c89fcd91c911a0e2dcd",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGB",
+      "mean_rgb": [
+        104.258,
+        65.003,
+        46.7
+      ],
+      "std_rgb": [
+        23.537,
+        19.528,
+        17.098
+      ],
+      "edge_rgb_mae": {
+        "left_right": 21.70703125,
+        "top_bottom": 25.401041666666668
+      }
+    }
+  }
+}

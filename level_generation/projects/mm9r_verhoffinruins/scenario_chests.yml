@@ -1,0 +1,111 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.verhoffinruins_chests
+title: Verhoffin Ruins (native BLV) - the six MM9 treasure chests open
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: verhoffinruins.blv
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4355
+    y: -871
+    z: -654
+    yaw: 1.4975
+    pitch: -0.8818
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: verhoffinruins.blv
+    x: -269
+    y: 10
+    z: -327
+    yaw: -0.9617
+    pitch: -0.8806
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: verhoffinruins.blv
+    x: 3581
+    y: -2120
+    z: -327
+    yaw: -0.9617
+    pitch: -0.8806
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: verhoffinruins.blv
+    x: 1779
+    y: -4946
+    z: -327
+    yaw: -0.9617
+    pitch: -0.8806
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- damage_actor:
+    actor_index: 21
+    amount: 100000
+- damage_actor:
+    actor_index: 36
+    amount: 100000
+- damage_actor:
+    actor_index: 37
+    amount: 100000
+- set_pose:
+    map: verhoffinruins.blv
+    x: -2098
+    y: -4380
+    z: -409
+    yaw: -2.2794
+    pitch: -0.4364
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: verhoffinruins.blv
+    x: -7384
+    y: -4300
+    z: -204
+    yaw: -2.2794
+    pitch: -0.8874
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog

@@ -1,0 +1,468 @@
+{
+  "item": "hes_anchor_boots",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "returned_size": [
+    1254,
+    1254
+  ],
+  "status": "generation_finished_with_failed_visual_checks",
+  "size_note": "The built-in tool returned 1254 x 1254 for all ten images. All returns were preserved unresized and unmodified, as the brief requires for unexpected dimensions.",
+  "selection_note": "Selected means chosen deliverable from the two available attempts, not visual acceptance or full compliance.",
+  "attempt_limit": "One initial generation and one corrective regeneration per view; no further generations were made.",
+  "comparison_note": "normalized_mask_iou compares alpha >= 128 at guide pixel centers using coordinate sampling for measurements only. No delivered image was resized or modified. The mask metric does not validate internal part edges.",
+  "scope_note": "Only generated image files and this log were written in the requested item folder. No builds, model edits, texture baking or engine integration.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper anchor boots 3D model.\nEdit ONLY the first input image (the named 1024 x 1024 grey model guide) by painting its existing surfaces. The second input image is design_reference.png: appearance and materials authority ONLY, never composition authority.\nHARD GEOMETRY LOCK: preserve the first input's exact silhouette/alpha coverage, exact pixel placement, size, orthographic camera, count of visible boots, openings, part boundaries and occlusions. Do not redraw, reshape, round off, straighten, mirror, rotate, recenter or change the projection. Keep the guide's faceted edges even where the design reference is smoother. Nothing added outside its silhouette; nothing cropped. The guide overrides the design reference's three-quarter arrangement completely.\nApply the approved design's materials: lightly worn warm ivory-white ceramic shin/toe armor with fine muted hairline wear and engraved panel joins; very dark brown leather flexible sections and straps with fine seams; understated ochre brushed-gold heel/ankle braces; broad charcoal soles; tiny bright cyan-blue-white ankle contacts only where their geometry is visible. No orange lights, glass, crystal, paper or cloth unless actually shown in the design; no invented decoration.\nLIGHTING IS STRICTLY UNLIT ALBEDO: even flat shadowless illumination from the viewer, uniform material base color on each surface orientation. No directional gradient shading, no cast shadows, no ambient occlusion or crevice darkening, no glossy reflections, no strong specular highlights, no rim light, no glowing light cast onto surrounding surfaces. Gold is ochre base colour with very faint fine brushed texture, not reflective shiny gold. Fine material wear and seams are painted color detail only.\nOutput one single 1024 x 1024 PNG with genuine transparent alpha background. Empty calf-high practical boots, no legs, no person. No background, floor, shadow, labels, text, letters, numerals, logos or watermark.\n\nVIEW: FRONT orthographic view: retain exactly the TWO separate forward-facing boots side by side at the guide's original locations. Retain the flat top rim line and the exact shin, ankle, vamp, toe and sole boundaries. Paint the large front shin plates and toe caps warm ivory-white ceramic; straps and flexible ankle/vamp areas very dark brown leather; sole charcoal; side brace slivers muted brushed gold.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "51409e6ea668b39ed76e86acc53ba8eb5006897b7c65b75db6f5301184d537e0",
+          "role": "geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        }
+      ],
+      "output": "paint_front_initial.png",
+      "selected": false,
+      "reason": "Not selected: changed outline/framing, shaded highlights and crevice shading; corrective pass requested.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "afd89360564ad2a2b9d1011ab2bf522306262133727d3d1d6c57eec5056a58c1",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.904011,
+        "fully_transparent_fraction": 0.515763,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper anchor boots 3D model.\nEdit ONLY the first input image (the named 1024 x 1024 grey model guide) by painting its existing surfaces. The second input image is design_reference.png: appearance and materials authority ONLY, never composition authority.\nHARD GEOMETRY LOCK: preserve the first input's exact silhouette/alpha coverage, exact pixel placement, size, orthographic camera, count of visible boots, openings, part boundaries and occlusions. Do not redraw, reshape, round off, straighten, mirror, rotate, recenter or change the projection. Keep the guide's faceted edges even where the design reference is smoother. Nothing added outside its silhouette; nothing cropped. The guide overrides the design reference's three-quarter arrangement completely.\nApply the approved design's materials: lightly worn warm ivory-white ceramic shin/toe armor with fine muted hairline wear and engraved panel joins; very dark brown leather flexible sections and straps with fine seams; understated ochre brushed-gold heel/ankle braces; broad charcoal soles; tiny bright cyan-blue-white ankle contacts only where their geometry is visible. No orange lights, glass, crystal, paper or cloth unless actually shown in the design; no invented decoration.\nLIGHTING IS STRICTLY UNLIT ALBEDO: even flat shadowless illumination from the viewer, uniform material base color on each surface orientation. No directional gradient shading, no cast shadows, no ambient occlusion or crevice darkening, no glossy reflections, no strong specular highlights, no rim light, no glowing light cast onto surrounding surfaces. Gold is ochre base colour with very faint fine brushed texture, not reflective shiny gold. Fine material wear and seams are painted color detail only.\nOutput one single 1024 x 1024 PNG with genuine transparent alpha background. Empty calf-high practical boots, no legs, no person. No background, floor, shadow, labels, text, letters, numerals, logos or watermark.\n\nVIEW: BACK orthographic view: retain exactly the TWO separate rear-facing boots side by side at the guide's original locations. This is the backs of the boots, not their front shins. Calf backs and cuff straps are dark brown stitched leather; the shaped heel reinforcement is muted brushed gold with dark inset leather; thick base soles charcoal. Continue the unseen rear materials plausibly from the design, without inventing ornaments or a front shin plate on the rear.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "b59316fadad81e36eba7df63fd6c75d9c5833def6b7155a82b007472c1651f65",
+          "role": "geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        }
+      ],
+      "output": "paint_back_initial.png",
+      "selected": false,
+      "reason": "Not selected: changed outline/framing, rear cuff straps wrongly painted ceramic, shaded gold highlights and crevice shading; corrective pass requested.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "07d32b38e4806de4750d1e5243699a6cf334afa56713e20418db4c5e0549a139",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.907401,
+        "fully_transparent_fraction": 0.538615,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": false,
+        "flat_even_light": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper anchor boots 3D model.\nEdit ONLY the first input image (the named 1024 x 1024 grey model guide) by painting its existing surfaces. The second input image is design_reference.png: appearance and materials authority ONLY, never composition authority.\nHARD GEOMETRY LOCK: preserve the first input's exact silhouette/alpha coverage, exact pixel placement, size, orthographic camera, count of visible boots, openings, part boundaries and occlusions. Do not redraw, reshape, round off, straighten, mirror, rotate, recenter or change the projection. Keep the guide's faceted edges even where the design reference is smoother. Nothing added outside its silhouette; nothing cropped. The guide overrides the design reference's three-quarter arrangement completely.\nApply the approved design's materials: lightly worn warm ivory-white ceramic shin/toe armor with fine muted hairline wear and engraved panel joins; very dark brown leather flexible sections and straps with fine seams; understated ochre brushed-gold heel/ankle braces; broad charcoal soles; tiny bright cyan-blue-white ankle contacts only where their geometry is visible. No orange lights, glass, crystal, paper or cloth unless actually shown in the design; no invented decoration.\nLIGHTING IS STRICTLY UNLIT ALBEDO: even flat shadowless illumination from the viewer, uniform material base color on each surface orientation. No directional gradient shading, no cast shadows, no ambient occlusion or crevice darkening, no glossy reflections, no strong specular highlights, no rim light, no glowing light cast onto surrounding surfaces. Gold is ochre base colour with very faint fine brushed texture, not reflective shiny gold. Fine material wear and seams are painted color detail only.\nOutput one single 1024 x 1024 PNG with genuine transparent alpha background. Empty calf-high practical boots, no legs, no person. No background, floor, shadow, labels, text, letters, numerals, logos or watermark.\n\nVIEW: LEFT orthographic side view: retain exactly the SINGLE overlapping boot silhouette shown by the guide, heel LEFT, toe RIGHT. Preserve every edge and angle of its tall shaft, strap, circular ankle contact, heel brace, toe cap and tread cutouts. Shin/front-side armor and toe cap warm ivory-white ceramic; rear calf and straps very dark brown leather; sculpted heel/ankle brace muted brushed gold, ankle circular contact blue-white; sole charcoal. Do not separate the overlapped boots or add a second boot.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "b2ac1f3ac060cb1e1d44cbfafc4957db7d4ee6f07c8765f37f54de6eb133dd28",
+          "role": "geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        }
+      ],
+      "output": "paint_left_initial.png",
+      "selected": false,
+      "reason": "Not selected: outline/framing drift, strong gold/toe highlights and crevice shading; corrective pass requested.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "da041805ce48e1ea385fa894074bcfe8963cce628e4225734caeadca3df95c72",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.911933,
+        "fully_transparent_fraction": 0.610395,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper anchor boots 3D model.\nEdit ONLY the first input image (the named 1024 x 1024 grey model guide) by painting its existing surfaces. The second input image is design_reference.png: appearance and materials authority ONLY, never composition authority.\nHARD GEOMETRY LOCK: preserve the first input's exact silhouette/alpha coverage, exact pixel placement, size, orthographic camera, count of visible boots, openings, part boundaries and occlusions. Do not redraw, reshape, round off, straighten, mirror, rotate, recenter or change the projection. Keep the guide's faceted edges even where the design reference is smoother. Nothing added outside its silhouette; nothing cropped. The guide overrides the design reference's three-quarter arrangement completely.\nApply the approved design's materials: lightly worn warm ivory-white ceramic shin/toe armor with fine muted hairline wear and engraved panel joins; very dark brown leather flexible sections and straps with fine seams; understated ochre brushed-gold heel/ankle braces; broad charcoal soles; tiny bright cyan-blue-white ankle contacts only where their geometry is visible. No orange lights, glass, crystal, paper or cloth unless actually shown in the design; no invented decoration.\nLIGHTING IS STRICTLY UNLIT ALBEDO: even flat shadowless illumination from the viewer, uniform material base color on each surface orientation. No directional gradient shading, no cast shadows, no ambient occlusion or crevice darkening, no glossy reflections, no strong specular highlights, no rim light, no glowing light cast onto surrounding surfaces. Gold is ochre base colour with very faint fine brushed texture, not reflective shiny gold. Fine material wear and seams are painted color detail only.\nOutput one single 1024 x 1024 PNG with genuine transparent alpha background. Empty calf-high practical boots, no legs, no person. No background, floor, shadow, labels, text, letters, numerals, logos or watermark.\n\nVIEW: RIGHT orthographic side view: retain exactly the SINGLE overlapping boot silhouette shown by the guide, toe LEFT, heel RIGHT. Preserve every edge and angle of its tall shaft, strap, circular ankle contact, heel brace, toe cap and tread cutouts. Shin/front-side armor and toe cap warm ivory-white ceramic; rear calf and straps very dark brown leather; sculpted heel/ankle brace muted brushed gold, ankle circular contact blue-white; sole charcoal. Do not separate the overlapped boots or add a second boot.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "bdfcb2b3201003467271401abbd297ebc3eaeb460a385bf42180d9a5b7074ef0",
+          "role": "geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        }
+      ],
+      "output": "paint_right_initial.png",
+      "selected": false,
+      "reason": "Not selected: outline/framing drift, strong gold/toe highlights and crevice shading; corrective pass requested.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "04aba79b1ac72bf7df1f47eda759a6b0c7af3a24cd3ac4fe2c7ccdc7a0e636a7",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.888031,
+        "fully_transparent_fraction": 0.610918,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture projection source for the existing Hesper anchor boots 3D model.\nEdit ONLY the first input image (the named 1024 x 1024 grey model guide) by painting its existing surfaces. The second input image is design_reference.png: appearance and materials authority ONLY, never composition authority.\nHARD GEOMETRY LOCK: preserve the first input's exact silhouette/alpha coverage, exact pixel placement, size, orthographic camera, count of visible boots, openings, part boundaries and occlusions. Do not redraw, reshape, round off, straighten, mirror, rotate, recenter or change the projection. Keep the guide's faceted edges even where the design reference is smoother. Nothing added outside its silhouette; nothing cropped. The guide overrides the design reference's three-quarter arrangement completely.\nApply the approved design's materials: lightly worn warm ivory-white ceramic shin/toe armor with fine muted hairline wear and engraved panel joins; very dark brown leather flexible sections and straps with fine seams; understated ochre brushed-gold heel/ankle braces; broad charcoal soles; tiny bright cyan-blue-white ankle contacts only where their geometry is visible. No orange lights, glass, crystal, paper or cloth unless actually shown in the design; no invented decoration.\nLIGHTING IS STRICTLY UNLIT ALBEDO: even flat shadowless illumination from the viewer, uniform material base color on each surface orientation. No directional gradient shading, no cast shadows, no ambient occlusion or crevice darkening, no glossy reflections, no strong specular highlights, no rim light, no glowing light cast onto surrounding surfaces. Gold is ochre base colour with very faint fine brushed texture, not reflective shiny gold. Fine material wear and seams are painted color detail only.\nOutput one single 1024 x 1024 PNG with genuine transparent alpha background. Empty calf-high practical boots, no legs, no person. No background, floor, shadow, labels, text, letters, numerals, logos or watermark.\n\nVIEW: TOP directly overhead orthographic view: retain exactly the TWO boots side by side with heels at TOP and toes at BOTTOM, at the guide's original coordinates. Preserve the exact oval cuff openings, rim thickness, visible shaft/foot projections and all exterior edges. Empty openings with dark brown leather lining, dark leather cuffs and straps, warm ivory-white ceramic visible shin and toe surfaces, charcoal sole borders and muted gold brace slivers. The grey diagonal shadows in the guide are only lighting artifacts: paint the actual local material across them with uniform brightness and no baked shadow. Do not tilt the camera or show extra front/side surfaces.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "d5c02d88913cd50d8fdde300fc44f58b0c4b65ee6a739a0368a936d3b12aff56",
+          "role": "geometry edit target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        }
+      ],
+      "output": "paint_top_initial.png",
+      "selected": false,
+      "reason": "Not selected: outline/framing drift, invented ceramic cuff rim and excessive exposed shin panels, strong highlights/interior shading; corrective pass requested.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "8a1b4bb9f5b79f9f80189a25203613ed3a0ac960dee3b51d607fa4b17ff1aab3",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.953541,
+        "fully_transparent_fraction": 0.42753,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": false,
+        "flat_even_light": false,
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective regeneration: registered albedo paint-over, not a beauty render.\nINPUT 1 is design_reference.png, ONLY the colour/material reference.\nINPUT 2, the LAST input, is the exact 1024 x 1024 guide image to EDIT. Use input 2 as the base canvas and retain its alpha mask and part edges pixel for pixel. Output must have the guide's 1024 x 1024 canvas, NOT the reference's 1254 x 1254 canvas. Do not zoom, recenter, crop, smooth, reshape or redesign anything. Keep every faceted contour and projected part boundary at its exact input 2 coordinate. Transparent pixels stay transparent. Paint existing surfaces only.\nThe prior generation moved the outline and rendered highlights/shadows. Correct those failures: retain the guide's exact placement, and use STRICT BASE COLOR / DIFFUSE ALBEDO. Every material has the same even brightness on front, sides and edges: NO light source shading, NO shadow gradients, NO AO, NO darkening under overlapping parts, NO bright edges, NO reflections or shiny spots. Only fine surface grain, light wear, panel seams and stitching may change the base colour. Gold must look like matte muted ochre gold paint with faint brushed grain, NOT illuminated polished metal. Ceramic is warm off-white with fine subtle beige wear, NOT coarse marble cracks. Leather is dark brown with fine grain, NOT near-black shadows. Sole is uniform charcoal grey with fine wear. Small contact centres are flat bright cyan-white, no glow spill.\nThe reference depicts empty calf-high boots: ivory ceramic shin/toe armor, dark brown leather shaft/straps, muted gold heel/ankle braces, charcoal thick soles. Use only these reference materials and the tiny blue-white contacts where existing parts permit them. No extra hardware or parts. Keep the exact orthographic view and visible object count of the LAST input. No text, letters, numbers, logos, labels, scenery, floor, cast shadow or watermark.\n\nFRONT: two forward-facing boots, same two placements as the guide. Guide visible object bounds approximately x=87..936, y=106..917 on the 1024 canvas; left and right boots are separate, same height. Top shaft rims retain the almost flat line of the guide, no newly opened oval cuffs. Main shin and toe plates ivory ceramic, ankle flex/straps dark brown, lower braces gold, bottom tread charcoal. Preserve asymmetries of the original guide; do not symmetrize the part layout.\nReturn exactly one transparent 1024 x 1024 PNG, editing the LAST input.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "51409e6ea668b39ed76e86acc53ba8eb5006897b7c65b75db6f5301184d537e0",
+          "role": "geometry edit target"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected over attempt 1 for substantially closer silhouette (normalized mask IoU 0.981318 versus 0.904011) and reduced highlights. Not a full brief pass: outline/part-edge deviations and residual leather/edge shading remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "c523d86aedd9fcf848f3e662e714e1cbd1aeaefa7f6b7019c5de5aed9e533fd1",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.981318,
+        "fully_transparent_fraction": 0.54135,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "passes_all_brief_checks": false,
+        "visual_issues": [
+          "Silhouette and internal part boundaries are not identical to the guide.",
+          "Residual shading on leather and armor/sole edges."
+        ]
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective regeneration: registered albedo paint-over, not a beauty render.\nINPUT 1 is design_reference.png, ONLY the colour/material reference.\nINPUT 2, the LAST input, is the exact 1024 x 1024 guide image to EDIT. Use input 2 as the base canvas and retain its alpha mask and part edges pixel for pixel. Output must have the guide's 1024 x 1024 canvas, NOT the reference's 1254 x 1254 canvas. Do not zoom, recenter, crop, smooth, reshape or redesign anything. Keep every faceted contour and projected part boundary at its exact input 2 coordinate. Transparent pixels stay transparent. Paint existing surfaces only.\nThe prior generation moved the outline and rendered highlights/shadows. Correct those failures: retain the guide's exact placement, and use STRICT BASE COLOR / DIFFUSE ALBEDO. Every material has the same even brightness on front, sides and edges: NO light source shading, NO shadow gradients, NO AO, NO darkening under overlapping parts, NO bright edges, NO reflections or shiny spots. Only fine surface grain, light wear, panel seams and stitching may change the base colour. Gold must look like matte muted ochre gold paint with faint brushed grain, NOT illuminated polished metal. Ceramic is warm off-white with fine subtle beige wear, NOT coarse marble cracks. Leather is dark brown with fine grain, NOT near-black shadows. Sole is uniform charcoal grey with fine wear. Small contact centres are flat bright cyan-white, no glow spill.\nThe reference depicts empty calf-high boots: ivory ceramic shin/toe armor, dark brown leather shaft/straps, muted gold heel/ankle braces, charcoal thick soles. Use only these reference materials and the tiny blue-white contacts where existing parts permit them. No extra hardware or parts. Keep the exact orthographic view and visible object count of the LAST input. No text, letters, numbers, logos, labels, scenery, floor, cast shadow or watermark.\n\nBACK: two rear-facing boots at the exact guide coordinates (bounds x=87..935, y=106..917). All calf backs, the broad upper wraparound straps and cuff rims are DARK BROWN LEATHER with subtle stitching. The broad band at the upper calf is a LEATHER STRAP: do not paint it white ceramic. Gold rear heel cage with brown leather inserts, charcoal sole. No frontal shin plates on the rear. Match each irregular edge in the guide exactly, including the two boots' different facets.\nReturn exactly one transparent 1024 x 1024 PNG, editing the LAST input.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "b59316fadad81e36eba7df63fd6c75d9c5833def6b7155a82b007472c1651f65",
+          "role": "geometry edit target"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected over attempt 1 for corrected dark leather upper straps and closer silhouette (0.951739 versus 0.907401). Not a full brief pass: geometry deviations, an invented central sole notch, gold highlights and leather shading remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "13cda6912a42a887ed73fa419408a10bde2654add43e07d5ff48d971f1872e73",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.951739,
+        "fully_transparent_fraction": 0.520143,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "passes_all_brief_checks": false,
+        "visual_issues": [
+          "Silhouette and internal part boundaries are not identical to the guide.",
+          "Central sole notch not present in the guide.",
+          "Residual gold highlights and leather shading."
+        ]
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective regeneration: registered albedo paint-over, not a beauty render.\nINPUT 1 is design_reference.png, ONLY the colour/material reference.\nINPUT 2, the LAST input, is the exact 1024 x 1024 guide image to EDIT. Use input 2 as the base canvas and retain its alpha mask and part edges pixel for pixel. Output must have the guide's 1024 x 1024 canvas, NOT the reference's 1254 x 1254 canvas. Do not zoom, recenter, crop, smooth, reshape or redesign anything. Keep every faceted contour and projected part boundary at its exact input 2 coordinate. Transparent pixels stay transparent. Paint existing surfaces only.\nThe prior generation moved the outline and rendered highlights/shadows. Correct those failures: retain the guide's exact placement, and use STRICT BASE COLOR / DIFFUSE ALBEDO. Every material has the same even brightness on front, sides and edges: NO light source shading, NO shadow gradients, NO AO, NO darkening under overlapping parts, NO bright edges, NO reflections or shiny spots. Only fine surface grain, light wear, panel seams and stitching may change the base colour. Gold must look like matte muted ochre gold paint with faint brushed grain, NOT illuminated polished metal. Ceramic is warm off-white with fine subtle beige wear, NOT coarse marble cracks. Leather is dark brown with fine grain, NOT near-black shadows. Sole is uniform charcoal grey with fine wear. Small contact centres are flat bright cyan-white, no glow spill.\nThe reference depicts empty calf-high boots: ivory ceramic shin/toe armor, dark brown leather shaft/straps, muted gold heel/ankle braces, charcoal thick soles. Use only these reference materials and the tiny blue-white contacts where existing parts permit them. No extra hardware or parts. Keep the exact orthographic view and visible object count of the LAST input. No text, letters, numbers, logos, labels, scenery, floor, cast shadow or watermark.\n\nLEFT SIDE: one overlapping silhouette at exact guide position, heel on LEFT and toe on RIGHT (bounds x=66..957, y=106..917). Keep the guide's exact jagged sole geometry including gaps, raised toe edge, shaft top slope, stepped brace and circular ankle centre. Paint the existing tall front/shin-side and toe plates ivory, rear shaft and straps dark brown, ankle/heel brace muted gold, ring centre flat cyan-white, sole charcoal. No new second boot. Reduce prior gold and toe highlight bands to uniform base colour.\nReturn exactly one transparent 1024 x 1024 PNG, editing the LAST input.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "b2ac1f3ac060cb1e1d44cbfafc4957db7d4ee6f07c8765f37f54de6eb133dd28",
+          "role": "geometry edit target"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected over attempt 1 for closer silhouette (0.970289 versus 0.911933) and less reflective gold. Not a full brief pass: part-edge deviations and residual toe/gold highlights and leather shading remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "83a5e78eb4d68466ecab1ff4307c440bd4a50c855fbadc927889c3ed2815057a",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.970289,
+        "fully_transparent_fraction": 0.60189,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": true,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "passes_all_brief_checks": false,
+        "visual_issues": [
+          "Silhouette and internal part boundaries are not identical to the guide.",
+          "Residual toe/gold highlights and leather shading."
+        ]
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective regeneration: registered albedo paint-over, not a beauty render.\nINPUT 1 is design_reference.png, ONLY the colour/material reference.\nINPUT 2, the LAST input, is the exact 1024 x 1024 guide image to EDIT. Use input 2 as the base canvas and retain its alpha mask and part edges pixel for pixel. Output must have the guide's 1024 x 1024 canvas, NOT the reference's 1254 x 1254 canvas. Do not zoom, recenter, crop, smooth, reshape or redesign anything. Keep every faceted contour and projected part boundary at its exact input 2 coordinate. Transparent pixels stay transparent. Paint existing surfaces only.\nThe prior generation moved the outline and rendered highlights/shadows. Correct those failures: retain the guide's exact placement, and use STRICT BASE COLOR / DIFFUSE ALBEDO. Every material has the same even brightness on front, sides and edges: NO light source shading, NO shadow gradients, NO AO, NO darkening under overlapping parts, NO bright edges, NO reflections or shiny spots. Only fine surface grain, light wear, panel seams and stitching may change the base colour. Gold must look like matte muted ochre gold paint with faint brushed grain, NOT illuminated polished metal. Ceramic is warm off-white with fine subtle beige wear, NOT coarse marble cracks. Leather is dark brown with fine grain, NOT near-black shadows. Sole is uniform charcoal grey with fine wear. Small contact centres are flat bright cyan-white, no glow spill.\nThe reference depicts empty calf-high boots: ivory ceramic shin/toe armor, dark brown leather shaft/straps, muted gold heel/ankle braces, charcoal thick soles. Use only these reference materials and the tiny blue-white contacts where existing parts permit them. No extra hardware or parts. Keep the exact orthographic view and visible object count of the LAST input. No text, letters, numbers, logos, labels, scenery, floor, cast shadow or watermark.\n\nRIGHT SIDE: one overlapping silhouette at exact guide position, toe on LEFT and heel on RIGHT (bounds x=66..957, y=106..917). Keep the guide's exact jagged sole geometry including gaps, raised toe edge, shaft top slope, stepped brace and circular ankle centre. Paint the existing tall front/shin-side and toe plates ivory, rear shaft and straps dark brown, ankle/heel brace muted gold, ring centre flat cyan-white, sole charcoal. No new second boot. Reduce prior gold and toe highlight bands to uniform base colour.\nReturn exactly one transparent 1024 x 1024 PNG, editing the LAST input.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "bdfcb2b3201003467271401abbd297ebc3eaeb460a385bf42180d9a5b7074ef0",
+          "role": "geometry edit target"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected over attempt 1 for closer silhouette (0.936409 versus 0.888031) and reduced highlights. Not a full brief pass: upper strap is incorrectly gold instead of leather, geometry deviations and residual highlights/shading remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "baa7f9da482481a048ce33f290a5b3a05cbc73d7564fc91e1d1e4c91c6535f45",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.936409,
+        "fully_transparent_fraction": 0.606459,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": false,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "passes_all_brief_checks": false,
+        "visual_issues": [
+          "Silhouette and internal part boundaries are not identical to the guide.",
+          "Upper strap rendered gold instead of dark leather.",
+          "Residual gold/toe highlights and leather shading."
+        ]
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "tool": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Corrective regeneration: registered albedo paint-over, not a beauty render.\nINPUT 1 is design_reference.png, ONLY the colour/material reference.\nINPUT 2, the LAST input, is the exact 1024 x 1024 guide image to EDIT. Use input 2 as the base canvas and retain its alpha mask and part edges pixel for pixel. Output must have the guide's 1024 x 1024 canvas, NOT the reference's 1254 x 1254 canvas. Do not zoom, recenter, crop, smooth, reshape or redesign anything. Keep every faceted contour and projected part boundary at its exact input 2 coordinate. Transparent pixels stay transparent. Paint existing surfaces only.\nThe prior generation moved the outline and rendered highlights/shadows. Correct those failures: retain the guide's exact placement, and use STRICT BASE COLOR / DIFFUSE ALBEDO. Every material has the same even brightness on front, sides and edges: NO light source shading, NO shadow gradients, NO AO, NO darkening under overlapping parts, NO bright edges, NO reflections or shiny spots. Only fine surface grain, light wear, panel seams and stitching may change the base colour. Gold must look like matte muted ochre gold paint with faint brushed grain, NOT illuminated polished metal. Ceramic is warm off-white with fine subtle beige wear, NOT coarse marble cracks. Leather is dark brown with fine grain, NOT near-black shadows. Sole is uniform charcoal grey with fine wear. Small contact centres are flat bright cyan-white, no glow spill.\nThe reference depicts empty calf-high boots: ivory ceramic shin/toe armor, dark brown leather shaft/straps, muted gold heel/ankle braces, charcoal thick soles. Use only these reference materials and the tiny blue-white contacts where existing parts permit them. No extra hardware or parts. Keep the exact orthographic view and visible object count of the LAST input. No text, letters, numbers, logos, labels, scenery, floor, cast shadow or watermark.\n\nTOP: two boots seen from directly above, heels at top and toes at bottom, guide bounds x=87..936,y=66..957. Match the exact projected shape of the guide, including both oval openings and the long projected front shin portions below them. The oval cuff rim and its interior are DARK BROWN LEATHER; do not invent a white ceramic ring around the openings. Ceramic belongs on existing outward-facing shin and toe armor only. The guide's diagonal grey wedges are cast shadows and must be removed, painting the true underlying material with even base colour there. No new surfaces or changed openings. Same brightness in leather interiors as leather exterior: no deep cavity shading.\nReturn exactly one transparent 1024 x 1024 PNG, editing the LAST input.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "46cea9dc4294afff92973cfe56677f71abd3fcdebeacabcdf69df161ce774356",
+          "role": "appearance authority"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "d5c02d88913cd50d8fdde300fc44f58b0c4b65ee6a739a0368a936d3b12aff56",
+          "role": "geometry edit target"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected over attempt 1 for improved dark leather cuff treatment and reduced material highlights. This trades worse silhouette alignment (0.912531 versus 0.953541) for better materials. Not a full brief pass: projected shaft/foot geometry and cuff borders differ from the guide, with residual cavity and edge shading.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "sha256": "66031fe0beb31ddd48cfb779d70dd8ea68ff551737f6cef36be04081d61bc8fa",
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.912531,
+        "fully_transparent_fraction": 0.449211,
+        "unresized": true,
+        "no_postprocessing": true,
+        "transparent_background": true,
+        "materials_match": false,
+        "flat_even_light": false,
+        "no_text_or_letters": true,
+        "passes_all_brief_checks": false,
+        "visual_issues": [
+          "Silhouette and internal part boundaries are not identical to the guide.",
+          "Cuff/shaft projections and armor coverage differ from the guide.",
+          "Residual cavity shading, toe shading and bright ceramic edges."
+        ]
+      }
+    }
+  ]
+}

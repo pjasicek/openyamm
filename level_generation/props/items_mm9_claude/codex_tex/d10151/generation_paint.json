@@ -1,0 +1,27 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, the authoritative geometry/layout target. design_reference.png is material/detail reference only, icon_x8.png is colour reference only (ignore magenta). Produce ONE transparent PNG 1536x2048 (3:4). Preserve exact guide silhouettes, positions, sizes, gaps and openings. Three columns, FOUR rows of 512-square cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 duplicate those exact five views. Paint existing grey pixels only, never redraw/enlarge/move/redesign objects. Geometry guide overrides references: do not add hanging strap or rounded buckle geometry absent from the guide. Rows 1-2 PAINT: unlit base colour narrow red-brown leather belt with silver buckle and small silver keepers, reference leather grain and silver detail scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections. Rows 3-4 MATERIAL MASK: same silhouettes filled with FLAT pure colours only: #FF0000 all metal; #00FF00 all leather/fur; #0000FF cloth/hair; #000000 gems/glass/enamel/liquid. For this belt use green leather and red silver hardware. Every silhouette pixel exactly one material colour. No shading, texture, outlines, or antialiased colour blends inside masks. Keep ring interior and all gaps fully transparent. Column 3 rows 2 and 4 remain fully empty transparent. No background, ground, text, labels, outlines, glow, sparkles or aura. Match guide layout precisely, with substantial transparent space around each thin belt view. Save generated image unchanged.\nCORRECTION: The previous attempt had green speckles filling the lower TOP ring opening and around mask outlines. This is unacceptable. Strictly preserve the guide alpha/silhouettes: the entire large oval opening must remain fully transparent, with absolutely zero stray pixels in it or outside the belt. Material masks must be clean solid red/green shapes limited to exact guide objects. Do not simulate transparency or use colour-removal effects. Return clean true RGBA transparency. Use original guide as exact stencil.",
+  "initial_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, the authoritative geometry/layout target. design_reference.png is material/detail reference only, icon_x8.png is colour reference only (ignore magenta). Produce ONE transparent PNG 1536x2048 (3:4). Preserve exact guide silhouettes, positions, sizes, gaps and openings. Three columns, FOUR rows of 512-square cells. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 duplicate those exact five views. Paint existing grey pixels only, never redraw/enlarge/move/redesign objects. Geometry guide overrides references: do not add hanging strap or rounded buckle geometry absent from the guide. Rows 1-2 PAINT: unlit base colour narrow red-brown leather belt with silver buckle and small silver keepers, reference leather grain and silver detail scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections. Rows 3-4 MATERIAL MASK: same silhouettes filled with FLAT pure colours only: #FF0000 all metal; #00FF00 all leather/fur; #0000FF cloth/hair; #000000 gems/glass/enamel/liquid. For this belt use green leather and red silver hardware. Every silhouette pixel exactly one material colour. No shading, texture, outlines, or antialiased colour blends inside masks. Keep ring interior and all gaps fully transparent. Column 3 rows 2 and 4 remain fully empty transparent. No background, ground, text, labels, outlines, glow, sparkles or aura. Match guide layout precisely, with substantial transparent space around each thin belt view. Save generated image unchanged.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acea-919f-7e13-acf2-86677ec831af/exec-98543203-be7d-46b2-8542-8b466cf3e238.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10151/paint_mask_guide.png",
+      "sha256": "c3228ed1c2e31ac3ffb620f172ea11f6ce5427ddfb97a8e05d515b2a35e6d5fe"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10151/design_reference.png",
+      "sha256": "e95b82ca06e0b134952ff9c253916d5bd1bf1e8fd8b6cee213c9298504a53582"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10151/icon_x8.png",
+      "sha256": "efac3a63c8cc76aef4aaea2d0a8a2b0727892993d843d5f7a7a85cd5f078c5e3"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10151/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout visually preserved, but generated material mask retains stray green pixels outside silhouettes and inside top-view opening; does not fully meet brief. Raw tool output copied unchanged."
+}

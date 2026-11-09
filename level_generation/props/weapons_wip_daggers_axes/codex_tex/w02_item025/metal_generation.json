@@ -1,0 +1,83 @@
+{
+  "tool": "built-in imagegen",
+  "source": "/home/pjasicek/.codex/generated_images/01a14de2-b151-7590-9890-726d2905cefd/exec-6ee9744c-760f-4ed0-96fa-1c0c8979b713.png",
+  "saved": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item025/metal_atlas_v1.png",
+  "sha256": "193276290bc275ac053689a4aac46b854b92cc33e02c9b869a502bf1406ef00e",
+  "kind": "metal",
+  "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/props/weapons_wip_daggers_axes/codex_tex/w02_item025/metal_atlas_prompt.txt",
+  "cells": {
+    "front": {
+      "crop": [
+        0,
+        231,
+        512,
+        277
+      ],
+      "size": [
+        512,
+        46
+      ]
+    },
+    "back": {
+      "crop": [
+        512,
+        231,
+        1024,
+        279
+      ],
+      "size": [
+        512,
+        48
+      ]
+    },
+    "left": {
+      "crop": [
+        0,
+        744,
+        512,
+        790
+      ],
+      "size": [
+        512,
+        46
+      ]
+    },
+    "right": {
+      "crop": [
+        512,
+        744,
+        1024,
+        790
+      ],
+      "size": [
+        512,
+        46
+      ]
+    },
+    "top": {
+      "crop": [
+        0,
+        950,
+        512,
+        1491
+      ],
+      "size": [
+        512,
+        541
+      ]
+    },
+    "bottom": {
+      "crop": [
+        512,
+        949,
+        1024,
+        1491
+      ],
+      "size": [
+        512,
+        542
+      ]
+    }
+  },
+  "guide_sha256": "1b5c93e37dce55022e9b2c1f8a2a8afd0d607be6ca2397eb292cc32c72afc2db"
+}

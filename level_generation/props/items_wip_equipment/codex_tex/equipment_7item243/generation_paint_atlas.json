@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Mind's Eye (7item243). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Green etched dome helmet with bronze forehead bands, two vertical oval red jewels, curled short ivory horns and a gold pointed top finial. This is a genuine geometry variant; match the attached 7item243 icon colours and ornament instead of copying the master variant colours. Exact material boundaries: Green etched metal dome and gold/bronze fittings RED. Ivory horns YELLOW. Red jewels BLACK. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item243/inputs/guide_paint.png",
+  "input_guide_sha256": "4c8dc45acc32269535ff63f73f26a1867b1b45cd84ba8ab9f0493598b73742be",
+  "revision": 1,
+  "input_icon": "7item243",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-a233f362-8a5c-47bc-8306-5fbdb6f1fa8e.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "81927d5dc8fcf5c52004d33768dc24eb669272a3310fe99de1e1db4bc95f1752",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item243.png",
+  "input_icon_sha256": "31dda83d3af0d68ce0be3094edb65d76d1dc34606aee37cb56a84587ba035e21",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

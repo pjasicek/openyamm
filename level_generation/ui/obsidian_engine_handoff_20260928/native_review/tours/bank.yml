@@ -1,0 +1,22 @@
+output_dir: /tmp/obsidian-native-bank
+exit: true
+steps:
+  - wait: 2
+  - action: trigger
+  - wait: 2
+  - capture: bank
+  - click: [1240, 403]
+  - wait: 0.5
+  - capture: deposit
+  - wait: 1
+  - text: '125'
+  - capture: input
+  - key: Return
+  - wait: 0.5
+  - capture: deposited
+  - click: [1240, 488]
+  - text: '25'
+  - capture: withdrawal-input
+  - key: Return
+  - wait: 0.5
+  - capture: withdrawn

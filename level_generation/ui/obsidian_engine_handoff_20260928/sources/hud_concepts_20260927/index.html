@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM · HUD studies</title>
+  <link rel="stylesheet" href="style.css?v=4">
+  <script src="buffs.js?v=2" defer></script>
+  <script src="../obsidian_overlays_20260928/buff-art.js?v=1" defer></script>
+  <script src="app.js?v=5" defer></script>
+</head>
+<body>
+  <header class="review-header">
+    <a class="wordmark" href="?concept=obsidian">OPEN<span>YAMM</span><i></i><small>INTERFACE STUDIES</small></a>
+    <span class="review-scope">Obsidian · refinement 04 · journal & quill</span>
+    <button id="fullscreen" class="subtle">↗ Full screen</button>
+  </header>
+
+  <main>
+    <nav class="concepts" aria-label="HUD direction">
+      <button data-concept="verdigris" class="concept-tab active" aria-pressed="true">
+        <span class="tab-number">01</span><span><strong>Verdigris</strong><small>The familiar, refined</small></span>
+        <span class="swatch-stack"><i style="--swatch:#233a33"></i><i style="--swatch:#b79b62"></i></span>
+      </button>
+      <button data-concept="obsidian" class="concept-tab" aria-pressed="false">
+        <span class="tab-number">02</span><span><strong>Obsidian</strong><small>Selected direction · refined</small></span>
+        <span class="swatch-stack"><i style="--swatch:#171c23"></i><i style="--swatch:#c2a478"></i></span>
+      </button>
+      <button data-concept="journal" class="concept-tab" aria-pressed="false">
+        <span class="tab-number">03</span><span><strong>Field journal</strong><small>A traveller’s instruments</small></span>
+        <span class="swatch-stack"><i style="--swatch:#39271d"></i><i style="--swatch:#cdb88e"></i></span>
+      </button>
+      <button data-concept="current" class="current-tab" aria-pressed="false">Current HUD <span>↗</span></button>
+    </nav>
+
+    <div class="review-controls">
+      <div class="control-group"><span class="control-caption">SCENE STATE</span>
+        <div class="segmented" id="state-controls" aria-label="Example gameplay state">
+          <button data-state="explore" aria-pressed="true">Exploring</button>
+          <button data-state="nearby" aria-pressed="false">Enemies near</button>
+          <button data-state="combat" aria-pressed="false">Combat</button>
+        </div>
+      </div>
+      <label class="control-group"><span class="control-caption">PARTY</span>
+        <select id="party-count" aria-label="Party size">
+          <option value="1">1 portrait</option><option value="4">4 portraits</option>
+          <option value="5" selected>5 portraits</option>
+        </select>
+      </label>
+      <label class="check-control"><input id="dusk" type="checkbox">Dusk check</label>
+      <label class="check-control"><input id="notes" type="checkbox">Design notes</label>
+      <button id="compare" class="subtle compare-button" aria-pressed="false">Compare all</button>
+    </div>
+
+    <div class="refinement-controls" id="refinement-controls" aria-label="Obsidian design previews">
+      <label class="control-group"><span class="control-caption">BUFF LAYOUT</span>
+        <select id="buff-layout" aria-label="Buff layout">
+          <option value="compact">4 + overflow</option><option value="rows">2 rows + overflow</option>
+        </select>
+      </label>
+      <label class="control-group"><span class="control-caption">ACTIVE</span>
+        <select id="buff-count" aria-label="Active party buffs">
+          <option value="0">0 buffs</option><option value="4">4 buffs</option>
+          <option value="12" selected>12 · composite spells</option><option value="22">22 · all slots</option>
+        </select>
+      </label>
+      <label class="control-group"><span class="control-caption">HP / SP</span>
+        <select id="bar-style" aria-label="Health and spell-point bar finish">
+          <option value="shaded">Shaded</option><option value="flat">Flat</option>
+          <option value="pulse">Shaded + low HP pulse</option>
+        </select>
+      </label>
+      <button id="damage-demo" class="subtle">Play damage</button>
+      <label class="control-group"><span class="control-caption">STATUS TEXT</span>
+        <select id="status-preview" aria-label="Status bar text preview">
+          <option value="off">Off</option><option value="short">Short</option>
+          <option value="long">Long</option><option value="wrapped">Two lines</option><option value="custom">Custom…</option>
+        </select>
+      </label>
+      <label class="control-group"><span class="control-caption">TURNS</span>
+        <select id="turn-preview" aria-label="Turn-based indicator preview">
+          <option value="0">Off</option><option value="1">Attack</option>
+          <option value="2">Movement</option><option value="3">Waiting</option>
+        </select>
+      </label>
+      <label class="custom-status-control" id="custom-status-control" hidden>
+        <span class="control-caption">YOUR TEXT</span>
+        <input id="custom-status" type="text" maxlength="400" placeholder="Type a status message to preview…"
+          aria-label="Custom status message">
+      </label>
+    </div>
+
+    <div id="presentation" class="presentation">
+      <div id="stage-host" class="stage-host">
+        <section id="stage" class="stage verdigris" aria-label="Interactive HUD mockup">
+          <div class="scenery" aria-hidden="true"></div>
+          <div class="ambient-shade" aria-hidden="true"></div>
+          <img class="current-screenshot" src="assets/current-hud.png" alt="Original HUD in test_img/2000.png">
+          <div id="hud"></div>
+          <div id="annotation-layer" class="annotations" aria-hidden="true"></div>
+          <div class="stage-caption">CONCEPT <span id="stage-number">01</span><i></i>NEW SORPIGAL</div>
+          <div class="fullscreen-hint">Esc to leave full screen</div>
+        </section>
+      </div>
+      <div id="comparison" class="comparison" hidden></div>
+    </div>
+
+    <div class="direction-summary">
+      <div class="summary-title"><span id="direction-kicker">01 / EVOLUTION</span><h1 id="direction-title">Verdigris</h1></div>
+      <p id="direction-description"></p>
+      <div class="summary-verdict"><span>THE TRADEOFF</span><p id="direction-tradeoff"></p></div>
+    </div>
+    <p class="review-hint" id="review-hint">Click +N for hidden buffs; preview short/long status text and a sample hit.</p>
+
+    <details class="buff-research">
+      <summary>Buff capacity: 22 party effects, 10 per-character effect types <span>+</span></summary>
+      <p>The strip counts active party effects. Personal effects stay with their portrait. Day of Protection contributes
+        eight party effects; Hour of Power adds up to four more plus personal Bless. The 12-effect preset reflects that
+        case. “22 · all slots” is a capacity test, not a normal casting sequence.</p>
+      <p><strong>Default:</strong> four soonest to expire, then <strong>+N</strong> for the hidden count. The alternative
+        shows up to eight effects in two rows, followed by the same overflow control. Both stay within a 268-pixel-wide
+        area at 1600 × 900. Equal durations keep their order. The list is held still while a buff is being inspected.</p>
+      <p>Static shading is the default for bars. Play damage demonstrates a short delayed damage trail; the optional pulse
+        is confined to critical HP. Reduced-motion preferences disable the motion. The green, amber and red alert sigils
+        retain the existing readiness/danger meaning; recovery and incapacity use a dark, unlit treatment.</p>
+      <p>Source: <a href="../../../game/party/Party.h">Party.h</a> and
+        <a href="../../../game/party/PartySpellSystem.cpp">PartySpellSystem.cpp</a>.
+        <a href="README.md#obsidian-refinement-04">Refinement notes and full buff list</a>.</p>
+    </details>
+
+    <details class="design-rationale">
+      <summary>What changes, what stays, and where the art comes from <span>+</span></summary>
+      <div class="rationale-grid">
+        <article><h2>The present HUD</h2><p>The game already has a useful layout: a party-sized basebar, oval faces,
+          HP/SP columns, three utility buttons, separate gold and food strips, two buff tableaux, a minimap and followers.
+          The heavy repeated green frames, small indicators and unevenly scattered groups make those pieces compete.</p>
+          <p>The aim is clearer hierarchy and more coherent materials. The portraits remain the visual anchor.</p></article>
+        <article><h2>The same game underneath</h2><p>Every direction keeps portrait selection and inspection, health,
+          spell points, recovery, conditions, the danger/readiness indicator, party and personal buffs, gold, food,
+          resting, books, quick reference, options, followers and map zoom. Turn-based attack, movement and waiting
+          states have a reserved indicator.</p><p>Inventory, dialogue, spellbook, journal and other full screens retain
+          their existing designs. Buttons here show a small handoff notice.</p></article>
+        <article><h2>A proposal you can inspect</h2><p>The faces, resource icons, spell artwork and MM6 map
+          are unmodified local assets. Obsidian adds six generated icons for commands, followers and personal buffs.
+          The frame, layout and typography are browser-drawn proposals. All three directions
+          use the same cropped gameplay view from <code>test_img/2000.png</code>; the Current tab shows the untouched image.</p>
+          <p>Party names, health, durations, map position and status examples are illustrative. Dusk is a simulated contrast
+          check. <a href="asset_sources.json">Original asset sources</a> · <a href="generated_icons.json">New icons and prompts</a> ·
+          <a href="README.md">Design and implementation notes</a></p></article>
+      </div>
+      <table class="comparison-table">
+        <thead><tr><th>Part</th><th>01 · Verdigris</th><th>02 · Obsidian</th><th>03 · Field journal</th></tr></thead>
+        <tbody>
+          <tr><th>Basebar</th><td>Low connected metal plinth</td><td>Separate portrait medallions</td><td>Left party rail; bottom tool tray</td></tr>
+          <tr><th>HP / SP</th><td>Familiar vertical paired columns</td><td>Wide horizontal bars below faces</td><td>Labelled bars alongside faces</td></tr>
+          <tr><th>Buffs</th><td>Two original tableaux + timed seals</td><td>Four earliest expiries + N more; bounded two-row alternative</td><td>Named effect list + original tableaux</td></tr>
+          <tr><th>Minimap</th><td>Square, lower right</td><td>Round, upper right; full map on click</td><td>Square chart, upper right</td></tr>
+          <tr><th>Character</th><td>Patinated green, aged brass, ivory</td><td>Charcoal, pale brass, restrained blue</td><td>Leather, warm vellum, oxblood</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <footer><span>OPENYAMM / HUD EXPLORATION / SEPTEMBER 2026</span><span>Visual prototypes · no runtime changes</span></footer>
+  </main>
+</body>
+</html>

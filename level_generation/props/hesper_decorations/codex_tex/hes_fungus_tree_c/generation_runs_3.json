@@ -1,0 +1,176 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "noncompliant_best_available_unresized_returns",
+  "postprocessing": "None. Generated PNGs copied byte-for-byte; no resizing or alpha replacement.",
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Edit the first input image, guide_left.png, by painting its existing surfaces ONLY. The second input image, design_reference.png, is the colour and material reference ONLY, not the geometry or camera.\nProduce one 1024 x 1024 RGBA PNG with a genuinely transparent background, an unresized native return.\nThis is the LEFT orthographic view of a cultivated shelf fungus tree, a texture-source ALBEDO painting for projection onto the exact existing 3D model.\nCRITICAL: preserve the first image's EXACT silhouette, size, position, every shape edge, opening and detail. Trace its existing contours pixel for pixel. Do not change the camera, crop, enlarge, move, reshape, smooth or add geometry. There are four shelf tiers. The guide, including its asymmetric cap edges, visible undersides, stem segments, root buttresses, planter silhouette and vertical straps, is the absolute shape authority.\nPaint pale cream fibrous fungus flesh with tan growth rings on the visible shelf tops, fine ochre-orange radial gills on the shelf undersides, and pale cream fibrous stem and roots. Paint the prefab composite planter white/ivory with a broad teal horizontal band and a narrow orange stripe through the band, matching the design reference. Keep its existing vertical straps pale ivory and its exact geometry. Dark soil only where soil is visible in the guide; do not invent a visible top opening.\nLighting is completely flat, even, shadowless from the viewer: NO cast shadows, NO ambient occlusion or darkening at joints, NO strong specular highlights, reflections, rim lights, background or floor. Pigment detail and natural material colour are allowed, lighting gradients are not. Do not copy the dramatic illumination or photographic background of the design reference. Nothing outside the guide silhouette; no extra objects, text or labels.",
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d449-7520-9378-a3470ec0af66/exec-38c779e8-5157-4d53-a4d1-34ef6b5af354.png",
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, enlarged visible cap tops and rounded contours, residual shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "e81938de3e003dbcb2595b77fa206374f7f43070ca95ea804e10fa67e9888fb5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "output_sha256": "fbe0a0af970df4f8c7d653049bc42388d263e88d007a5ac3f66f626ea0d5c5c3",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Different canvas dimensions and visible changes to contour and internal geometry. No resizing performed.",
+        "materials_and_colours": "Broad palette matches cream flesh, tan rings, ochre-orange undersides, ivory planter and teal/orange bands.",
+        "flat_even_light": "Fail: residual highlights and groove/joint shading remain.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Edit the first input image, guide_left.png, by painting its existing surfaces ONLY. The second input image, design_reference.png, is the colour and material reference ONLY, not the geometry or camera.\nProduce one 1024 x 1024 RGBA PNG with a genuinely transparent background, an unresized native return.\nThis is the LEFT orthographic view of a cultivated shelf fungus tree, a texture-source ALBEDO painting for projection onto the exact existing 3D model.\nCRITICAL: preserve the first image's EXACT silhouette, size, position, every shape edge, opening and detail. Trace its existing contours pixel for pixel. Do not change the camera, crop, enlarge, move, reshape, smooth or add geometry. There are four shelf tiers. The guide, including its asymmetric cap edges, visible undersides, stem segments, root buttresses, planter silhouette and vertical straps, is the absolute shape authority.\nPaint pale cream fibrous fungus flesh with tan growth rings on the visible shelf tops, fine ochre-orange radial gills on the shelf undersides, and pale cream fibrous stem and roots. Paint the prefab composite planter white/ivory with a broad teal horizontal band and a narrow orange stripe through the band, matching the design reference. Keep its existing vertical straps pale ivory and its exact geometry. Dark soil only where soil is visible in the guide; do not invent a visible top opening.\nLighting is completely flat, even, shadowless from the viewer: NO cast shadows, NO ambient occlusion or darkening at joints, NO strong specular highlights, reflections, rim lights, background or floor. Pigment detail and natural material colour are allowed, lighting gradients are not. Do not copy the dramatic illumination or photographic background of the design reference. Nothing outside the guide silhouette; no extra objects, text or labels.\nCORRECTIVE GENERATION: The previous attempt failed by returning 1254 x 1254 and inventing curved shelf rims and enlarged visible top surfaces. This deliverable MUST be 1024 x 1024 pixels, matching the attached guide canvas, not 1254. Edit the attached guide directly. Keep its comparatively straight, angular, flattened silhouette and narrow top strips EXACTLY. Do not expose more of the cap tops. Keep the top cap inside approximately x=210..815 and y=65..260, with the planter ending at y=959. Do not replace the mesh shape with the prettier reference shape. Preserve the original guide's alpha boundary and all internal geometry edges. Use a flat albedo pass without shadows between gills.",
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d449-7520-9378-a3470ec0af66/exec-0bc10818-bf1a-41f3-99e7-0b3a7b4d19b1.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best available after the one allowed correction: narrower top strips closer to guide. Selected for preservation only, not accepted as compliant: dimensions and silhouette still fail, residual shading remains.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "e81938de3e003dbcb2595b77fa206374f7f43070ca95ea804e10fa67e9888fb5"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "output_sha256": "776be5df462e19bc58304db78e8ef641bac05016c99c77953a157c3d64e650d0",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Different canvas dimensions and visible changes to contour and internal geometry. No resizing performed.",
+        "materials_and_colours": "Broad palette matches cream flesh, tan rings, ochre-orange undersides, ivory planter and teal/orange bands.",
+        "flat_even_light": "Fail: residual highlights and groove/joint shading remain.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Edit the first input image, guide_right.png, by painting its existing surfaces ONLY. The second input image, design_reference.png, is the colour and material reference ONLY, not the geometry or camera.\nOutput exactly one 1024 x 1024 RGBA PNG with genuinely transparent background, unresized native return. Preserve the first input's 1024 x 1024 canvas.\nThis is the RIGHT orthographic view of a cultivated shelf fungus tree, a texture-source ALBEDO painting for projection onto the exact existing 3D model.\nCRITICAL: preserve the guide's EXACT silhouette, size, position, every shape edge, opening and detail. Trace existing contours pixel for pixel, including their angularities. Do not change camera, crop, enlarge, move, reshape, smooth or add geometry. There are four shelf tiers, with large visible top surfaces in this view. The guide's asymmetric cap edges, visible tops and undersides, stem segments, root buttresses, planter and vertical straps are the absolute shape authority. Top cap remains at approximately x=210..815 and y=65..245 and planter bottom at y=959.\nPaint pale cream fibrous fungus flesh with tan concentric growth rings on the visible shelf tops, ochre-orange fine radial gills only on visible shelf undersides, pale cream fibrous stem and roots. Paint the prefab composite planter white/ivory with a broad teal horizontal band and a narrow orange stripe through the band, matching the design reference. Keep its existing vertical straps pale ivory and its exact geometry. Dark soil only where soil is visible in the guide; do not invent a visible top opening.\nLighting must be entirely flat, even and shadowless from the viewer: NO cast shadows, NO ambient occlusion or joint darkening, NO strong specular highlights, reflections, rim lighting, background or floor. Pigment and natural material colour details only; no lighting gradients. Do not copy the dramatic illumination or photographic background of the design reference. Nothing outside the guide silhouette; no extra objects, text or labels. This is a flat albedo source, not a beauty render.",
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d449-7520-9378-a3470ec0af66/exec-8dbb885e-7bfa-4441-b643-796ea12b7e2b.png",
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, rounded bowl-like caps, altered geometry and residual shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "dc7ea09a7a9fa86c8db327525340230187ae933f5ec7f929a677c705369af108"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "output_sha256": "cf5d03d2261c0ddeb570458fb5b99d16d6e3500846e006baa6a78b0ff6714feb",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          37,
+          1234,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Different canvas dimensions and visible changes to contour and internal geometry. No resizing performed.",
+        "materials_and_colours": "Broad palette matches cream flesh, tan rings, ochre-orange undersides, ivory planter and teal/orange bands.",
+        "flat_even_light": "Fail: residual highlights and groove/joint shading remain.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Edit the first input image, guide_right.png, by painting its existing surfaces ONLY. The second input image, design_reference.png, is the colour and material reference ONLY, not the geometry or camera.\nOutput exactly one 1024 x 1024 RGBA PNG with genuinely transparent background, unresized native return. Preserve the first input's 1024 x 1024 canvas.\nThis is the RIGHT orthographic view of a cultivated shelf fungus tree, a texture-source ALBEDO painting for projection onto the exact existing 3D model.\nCRITICAL: preserve the guide's EXACT silhouette, size, position, every shape edge, opening and detail. Trace existing contours pixel for pixel, including their angularities. Do not change camera, crop, enlarge, move, reshape, smooth or add geometry. There are four shelf tiers, with large visible top surfaces in this view. The guide's asymmetric cap edges, visible tops and undersides, stem segments, root buttresses, planter and vertical straps are the absolute shape authority. Top cap remains at approximately x=210..815 and y=65..245 and planter bottom at y=959.\nPaint pale cream fibrous fungus flesh with tan concentric growth rings on the visible shelf tops, ochre-orange fine radial gills only on visible shelf undersides, pale cream fibrous stem and roots. Paint the prefab composite planter white/ivory with a broad teal horizontal band and a narrow orange stripe through the band, matching the design reference. Keep its existing vertical straps pale ivory and its exact geometry. Dark soil only where soil is visible in the guide; do not invent a visible top opening.\nLighting must be entirely flat, even and shadowless from the viewer: NO cast shadows, NO ambient occlusion or joint darkening, NO strong specular highlights, reflections, rim lighting, background or floor. Pigment and natural material colour details only; no lighting gradients. Do not copy the dramatic illumination or photographic background of the design reference. Nothing outside the guide silhouette; no extra objects, text or labels. This is a flat albedo source, not a beauty render.\nCORRECTIVE GENERATION: Return a native 1024 x 1024 image, NOT 1254 x 1254. Previous attempt added rounded bulging lips, changed the shelf contours, softened buttress shapes and retained unwanted gill shadows. Preserve exactly the original grey guide's angular geometry, flat shelf rims and buttress edges. Paint over the guide, don't redraw its shape. Lock every boundary and the alpha mask to guide_right.png. The caps are flattened, irregular and angular as in the guide, not rounded bowl-like shelves. Eliminate all cast lighting and ambient occlusion; material colour only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d449-7520-9378-a3470ec0af66/exec-a336212c-1005-4cee-890e-006281512beb.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best available after the one allowed correction: flatter cap edges closer to guide. Selected for preservation only, not accepted as compliant: dimensions and silhouette still fail, residual shading remains.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "dc7ea09a7a9fa86c8db327525340230187ae933f5ec7f929a677c705369af108"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "output_sha256": "dd25a23ce6b6ccecab2eb6fec405130917b456321f89a664f4bf46cd2bfb763e",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          33,
+          1246,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Different canvas dimensions and visible changes to contour and internal geometry. No resizing performed.",
+        "materials_and_colours": "Broad palette matches cream flesh, tan rings, ochre-orange undersides, ivory planter and teal/orange bands.",
+        "flat_even_light": "Fail: residual highlights and groove/joint shading remain.",
+        "accepted": false
+      }
+    }
+  ]
+}

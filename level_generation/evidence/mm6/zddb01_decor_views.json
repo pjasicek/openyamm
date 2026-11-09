@@ -1,0 +1,53 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "room",
+        "target": [
+          260,
+          1348,
+          0
+        ],
+        "span": 4198.0
+      },
+      "section_top_z": 512,
+      "image": "level_generation/evidence/mm6/zddb01_decor_room.png",
+      "camera_position": [
+        2160.751220703125,
+        -2453.50244140625,
+        4646.28125
+      ],
+      "highlighted": [
+        {
+          "index": 5,
+          "name": "dec04",
+          "position": [
+            260,
+            1348,
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "name": "6torch01",
+          "position": [
+            944,
+            1832,
+            168
+          ]
+        },
+        {
+          "index": 4,
+          "name": "6torch01",
+          "position": [
+            280,
+            2536,
+            168
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

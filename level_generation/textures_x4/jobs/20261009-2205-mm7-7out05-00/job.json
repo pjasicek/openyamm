@@ -1,0 +1,79 @@
+{
+ "id": "20261009-2205-mm7-7out05-00",
+ "world": "mm7",
+ "maps": [
+  "7out05.odm"
+ ],
+ "created": "2026-10-09T20:05:53+00:00",
+ "textures": [
+  "mm7/hnp1er",
+  "mm7/hnp1el"
+ ],
+ "requests": {
+  "mm7/hnp1er": {
+   "name": "hnp1er",
+   "versions": [],
+   "material": "",
+   "notes": {}
+  },
+  "mm7/hnp1el": {
+   "name": "hnp1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, under a band of dark rough rubble stone along the top, with a column of dark rough rubble stone along the left edge; one even plaster tone with no square patches",
+   "notes": {
+    "2": "the plaster beside the rubble column is the same pale cream plaster as the sharp areas, with the reference's soft shadow gradient darkening only towards the column; continue the sharp plaster seamlessly, with no visible boundary, band or rectangle",
+    "3": "one continuous pale cream plaster surface with the reference's soft shadow darkening only right next to the rubble column, no bands, rectangles or vertical boundaries in the plaster; the right edge continues the sharp neighbouring plaster",
+    "4": "one continuous pale cream plaster surface with the reference's soft shadow darkening only right next to the rubble column, no bands, rectangles or vertical boundaries in the plaster; the right edge continues the sharp neighbouring plaster"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.611
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.611
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hnp1b"
+    },
+    "2": {
+     "right": "mm7/hnp1b"
+    },
+    "3": {
+     "right": "mm7/hnp1b"
+    },
+    "4": {
+     "right": "mm7/hnp1b"
+    }
+   },
+   "match_neighbor": true,
+   "standalone": true,
+   "pad": {
+    "4": [
+     32,
+     16
+    ]
+   }
+  }
+ }
+}

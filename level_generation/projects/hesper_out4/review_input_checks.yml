@@ -1,0 +1,63 @@
+# The Crown's in-game checks that headless cannot make (README, "Checked in the game"): the cannons' lock and strike
+# (event 3, a map timer), the test emplacement, the air raid (event 4), the night, the lander (events 5 and 58) and
+# the city with the Lattice down. Run with --set debug.menu_input_tour_path=<this file>.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/game_checks
+exit: true
+steps:
+  - wait: 4
+  - expect: gameplay
+  - console: config set immortal true
+  # The west run: inside the NW and SW cannons' reach, in their sight.
+  - console: goto 9130 -11000 -600 1088 0
+  - wait: 1.2
+  - capture: 01-west_run_lock
+  - wait: 3.0
+  - capture: 02-west_run_strike
+  # Behind the west run's slab (cover): no lock.
+  - console: goto 9130 -11000 900 1088 0
+  - wait: 4.0
+  - capture: 03-behind_slab
+  # The test emplacement's 2 500.
+  - console: goto 9130 16700 -12000 1088 1024
+  - wait: 1.0
+  - capture: 04-test_lock
+  - wait: 3.2
+  - capture: 05-test_strike
+  # The air raid: flying over the roosts.
+  - console: goto 9130 15600 15600 2600 1280
+  - console: config set start_flying true
+  - wait: 3.0
+  - capture: 06-raid_scramble
+  - console: actor count 10032
+  - wait: 0.5
+  - capture: 06b-raid_count
+  - console: config set start_flying false
+  # Night over the crater from the plaza.
+  - console: time set 23:30
+  - console: goto 9130 3700 -15800 1160 512
+  - wait: 2.0
+  - capture: 07-plaza_night
+  - console: time set 19:40
+  - wait: 1.0
+  - capture: 08-plaza_dusk
+  - console: time set 12:00
+  # The Lattice down: dark cannons and masts, the gate's seal dead.
+  - console: qbit set 100009 100010 100014
+  - console: reload map
+  - wait: 4.0
+  - console: goto 9130 0 -6800 1088 512
+  - wait: 1.5
+  - capture: 09-lattice_down_gate
+  # The lander on the pad (100607): its first second's lines, then boarding (event 58).
+  - console: qbit set 100607
+  - console: reload map
+  - wait: 4.0
+  - console: goto 9130 2880 -16600 1160 512
+  - wait: 2.5
+  - capture: 10-lander_waits
+  - console: event 58
+  - wait: 1.0
+  - capture: 11-boarding
+  - console: qbit get 100016
+  - wait: 0.5
+  - capture: 12-qbit_100016

@@ -1,0 +1,88 @@
+[
+  {
+    "view": "back",
+    "prompt": "Use case: precise-object-edit.\nAsset type: orthographic 3D-model albedo texture source, BACK view.\nProduce exactly one 1024 x 1024 PNG with genuine transparent background, an unresized return.\nINPUT ROLES: Image 1 design_reference.png is ONLY the approved design, colour and material authority. Image 2 guide_back.png is the EDIT TARGET and absolute geometry/camera authority.\nPaint the surfaces of Image 2 guide_back.png in place. Keep the guide silhouette EXACTLY, at its original pixel positions, scale and 1024x1024 framing. Every shape edge, opening, gap, projection, joint, cable and plate must remain exactly where the guide has it. Do not redraw the design-reference pose: this must stay the guide's straight BACK orthographic view with the same slightly asymmetric geometry. Nothing added outside the silhouette, nothing cropped, no new parts, no changed shapes or camera.\nApply the design reference materials: worn white/ivory ceramic armour plates with restrained aged gold trim, dark grey steel joints and pistons, black cables, small scuffs and ash dust. Yellow-black hazard stripes on any visible fork surfaces only; do not invent forks or expose front parts that the back guide occludes. Gold edging follows existing guide plate boundaries. Use the same design/material identity as Image 1 while painting only the shapes actually visible in Image 2.\nLIGHTING: Texture-source ALBEDO, perfectly even flat shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light, no floor, no background. Distinguish materials through their intrinsic surface colours, scuffs and texture, not baked lighting. If any glowing part is present in the guide, paint its intrinsic glowing colour only, without light cast on surroundings.\nPriority: exact guide registration and silhouette first; faithful white ceramic/gold/dark steel/black cable materials second; flat even albedo third. Preserve all transparent holes and background. No text, labels, collage or watermark.",
+    "inputs": [
+      {
+        "path": "design_reference.png",
+        "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70"
+      },
+      {
+        "path": "guide_back.png",
+        "sha256": "cfc8e63412327c396e57ccba58f0c3903a4883a4f3c4036f41879edaf508d6b7"
+      }
+    ],
+    "output": "paint_back_run1.png",
+    "selected": false,
+    "reason": "Rejected: native return is 1254 x 1254 instead of 1024 x 1024; silhouette and geometry differ from guide, and lighting includes shading.",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "tool": "built-in image_gen",
+    "output_sha256": "69b8e6ba703431491edae4123d3097c419f483d347261ff5dbd2a45416996ab8",
+    "checks": {
+      "1024x1024": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_match_reference": "Broad material palette matches; visual review",
+      "flat_even_light": false,
+      "unresized_return": true,
+      "alpha_bbox": [
+        0,
+        24,
+        1245,
+        1254
+      ],
+      "opaque_bbox": [
+        171,
+        212,
+        1088,
+        1112
+      ]
+    }
+  },
+  {
+    "view": "back",
+    "prompt": "Use case: precise-object-edit. Output ONE native 1024 x 1024 transparent PNG, SAME canvas dimensions as image 1. Do not output 1254x1254 or enlarge the guide.\nImage 1 guide_back.png is the image to PAINT IN PLACE, with every pixel of its exact silhouette and geometric edges held fixed. Image 2 design_reference.png supplies surface colours/materials ONLY.\nThis is the one corrective generation: the previous attempt incorrectly enlarged and redesigned the subject and baked shading. Correct those failures by painting the original grey guide directly; preserve its actual coarse mesh and every existing shape, without replacing the mesh with detailed invented geometry.\nLOCK THE GUIDE: original BACK orthographic view; guide frame 1024x1024; mech occupies x=187 through 836 and y=182 through 841. Top cage rail stays at its current position and subtly slanted angle. Feet stay at y=841, with their exact trapezoidal silhouettes. Preserve the two long lower limbs, all polygonal joints, thin cables and their exact routes, central back shield and its long lower rectangular extension. Keep all openings and their boundaries pixel-identical. Do not center, straighten, symmetrize, inflate, stretch, zoom, add equipment, remodel the mesh, add ribs, or change any contour. All background pixels remain genuinely transparent.\nPaint only intrinsic materials onto those locked shapes: worn off-white ceramic armour plates with aged gold trim along existing panel edges; dark grey steel joints and pistons; black existing cables; restrained scuffs and ash dust, matching image 2 design identity and colour. Yellow-black hazard stripes only on forks if actually visible in this BACK guide; do not invent or reveal occluded forks. No new shapes, no added geometry.\nThis is an ALBEDO texture source: perfectly flat, even shadowless front illumination. No ambient occlusion, no cast shadows, no directional shading, no darkening in crevices from lighting, no rim light, no specular highlights/reflections, no floor or scenery. Black cables/dark steel retain their intrinsic dark colours. No text. Preserve precise guide registration over polish.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "cfc8e63412327c396e57ccba58f0c3903a4883a4f3c4036f41879edaf508d6b7"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "ebad3e1eb44da4a5599b7fbb07c0c9b1b93702736a7bcc34f8b869220d0c8c70"
+      }
+    ],
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected as the closer of the two permitted native returns, not as a passing asset. Back-view proportions and broad guide shapes are closer than run 1, with matching ceramic/gold/steel/cable colours. Exact silhouette and flat shadowless albedo are not achieved. Kept unresized as required.",
+    "tool": "built-in image_gen",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "56b8120534f9ad8c22e6021b55f97f35f3fbb28b5429312301d00db14dbea5ed",
+    "checks": {
+      "1024x1024": false,
+      "transparent_background": true,
+      "silhouette_identical": false,
+      "materials_match_reference": "Broad material palette matches; visual review",
+      "flat_even_light": false,
+      "unresized_return": true,
+      "alpha_bbox": [
+        0,
+        23,
+        1224,
+        1222
+      ],
+      "opaque_bbox": [
+        227,
+        218,
+        1028,
+        1030
+      ]
+    }
+  }
+]

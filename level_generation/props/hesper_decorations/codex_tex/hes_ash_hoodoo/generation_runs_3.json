@@ -1,0 +1,182 @@
+{
+  "tool": "built-in image_gen",
+  "status": "Generated returns preserved unresized; strict brief checks not all met.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Create a texture-source albedo painting by editing guide_left.png, the FIRST input image, at its native 1024 x 1024 resolution. The SECOND image design_reference.png is only the approved material and colour reference, not a geometry or camera reference.\nPaint the decoration seen from the left. Keep the guide's silhouette EXACTLY: identical outline, size, position in frame, every edge, opening, ledge, facet and rubble stone exactly where the guide has them. Preserve its orthographic camera. Treat its existing alpha mask and geometric edges as locked. Nothing added outside the silhouette, nothing cropped or moved, no redesign or rounding of geometry. Paint surface detail only.\nApply the design reference's layered grey-violet and dark brown volcanic stone, paler ash in the grooves, and a darker cap rock. Fine natural rough mineral grain, brittle stratified volcanic rock and fine cracks painted onto the fixed guide geometry. All parts including rubble share the reference material.\nLIGHTING: texture-source ALBEDO, even flat shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not copy the reference's directional lighting or dark crevice shading. No background, no floor. Genuine transparent background; preserve guide transparency. No text. Output one 1024 x 1024 PNG, unresized.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604c-34d5-7833-9448-03278975fe82/exec-6c022221-bbcf-4900-b40e-68135dedb18c.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by correction with more even material lighting; wrong native dimensions and ledge shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "9c9e1d09be177f58fbfc979c22adff52c081fd04fe0547a6ed698534f1a8a225"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+        }
+      ],
+      "output_sha256": "d8f55494f838e5abe9b94d4d6cb7eac84abeb6793d039ddd7cd7f511ce3ebc66",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1230,
+          1188
+        ],
+        "silhouette_identical": false,
+        "silhouette_note": "Different native canvas dimensions; outline broadly follows guide but pixel-exact silhouette requirement fails. No resizing or mask replacement performed.",
+        "materials_and_colours": "Visually matches grey-violet and brown volcanic stone with pale ash detail; darker cap is not strongly distinguished.",
+        "flat_even_light": "Residual ledge and facet shading visible; strict shadowless albedo check not passed."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Create a texture-source albedo painting by editing guide_left.png, the FIRST input image, at its native 1024 x 1024 resolution. The SECOND image design_reference.png is only the approved material and colour reference, not a geometry or camera reference.\nPaint the decoration seen from the left. Keep the guide's silhouette EXACTLY: identical outline, size, position in frame, every edge, opening, ledge, facet and rubble stone exactly where the guide has them. Preserve its orthographic camera. Treat its existing alpha mask and geometric edges as locked. Nothing added outside the silhouette, nothing cropped or moved, no redesign or rounding of geometry. Paint surface detail only.\nApply the design reference's layered grey-violet and dark brown volcanic stone, paler ash in the grooves, and a darker cap rock. Fine natural rough mineral grain, brittle stratified volcanic rock and fine cracks painted onto the fixed guide geometry. All parts including rubble share the reference material.\nLIGHTING: texture-source ALBEDO, even flat shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not copy the reference's directional lighting or dark crevice shading. No background, no floor. Genuine transparent background; preserve guide transparency. No text. Output one 1024 x 1024 PNG, unresized.\nCORRECTION, final allowed attempt: The previous return was incorrectly 1254 x 1254 and shaded dark under the ledges. Required output dimensions are exactly 1024 x 1024 pixels, native generation size, not 1254 or 1536. Match the first input's canvas pixel for pixel. The first input guide is the sole geometric authority. Paint a FLAT UNLIT DIFFUSE BASE COLOR PASS: give upward, downward and front-facing facets the same average stone colour. Remove all dark under-ledge shading and AO; grooves contain PALE ash. Moderate contrast mineral detail, no directional brightness variation.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604c-34d5-7833-9448-03278975fe82/exec-4007a8be-cb6a-4bd9-b8e6-d4caf9525610.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Best allowed left return, improved lighting. Selected for preservation, not full brief compliance: native size mismatch, exact silhouette not preserved, residual facet shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "9c9e1d09be177f58fbfc979c22adff52c081fd04fe0547a6ed698534f1a8a225"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+        }
+      ],
+      "output_sha256": "5abde3ee7f7b1351d1468deb732ef2400113e9da87a832b791782ba8ed07ef94",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          20,
+          1240,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_note": "Different native canvas dimensions; outline broadly follows guide but pixel-exact silhouette requirement fails. No resizing or mask replacement performed.",
+        "materials_and_colours": "Visually matches grey-violet and brown volcanic stone with pale ash detail; darker cap is not strongly distinguished.",
+        "flat_even_light": "Residual ledge and facet shading visible; strict shadowless albedo check not passed."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Create a texture-source albedo painting by editing guide_right.png, the FIRST input image, at its native 1024 x 1024 resolution. The SECOND image design_reference.png is only the approved material and colour reference, not a geometry or camera reference.\nPaint the decoration seen from the right. Keep the guide's silhouette EXACTLY: identical outline, size, position in frame, every edge, opening, ledge, facet and rubble stone exactly where the guide has them. Preserve its orthographic camera. Treat its existing alpha mask and geometric edges as locked. Nothing added outside the silhouette, nothing cropped or moved, no redesign or rounding of geometry. Paint surface detail only.\nApply the design reference's layered grey-violet and dark brown volcanic stone, paler ash in the grooves, and a darker cap rock. Fine natural rough mineral grain, brittle stratified volcanic rock and fine cracks painted onto the fixed guide geometry. All parts including rubble share the reference material.\nLIGHTING: texture-source ALBEDO, even flat shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not copy the reference's directional lighting or dark crevice shading. No background, no floor. Genuine transparent background; preserve guide transparency. No text. Output one 1024 x 1024 PNG, unresized.\nRequired native output size: exactly 1024 x 1024 pixels. Generate a FLAT UNLIT DIFFUSE BASE COLOR PASS: upward, downward and front-facing facets have the same average stone colour. No dark under-ledge shading and AO; grooves contain PALE ash. Moderate contrast mineral detail, no directional brightness variation. Match the first input canvas and silhouette pixel for pixel.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604c-34d5-7833-9448-03278975fe82/exec-f46d808a-646b-4afe-a9f3-745f7c1e29de.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by correction; wrong native dimensions and ledge shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "26a36b01a15b98bf7882d943bea379a2f29f5238e58fcca4ed59b48538b25ee7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+        }
+      ],
+      "output_sha256": "4baeb2b33a4b48a662e829e0bbd600f3860be11a0e99d42858f965ff1ff053c6",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1240,
+          1180
+        ],
+        "silhouette_identical": false,
+        "silhouette_note": "Different native canvas dimensions; outline broadly follows guide but pixel-exact silhouette requirement fails. No resizing or mask replacement performed.",
+        "materials_and_colours": "Visually matches grey-violet and brown volcanic stone with pale ash detail; darker cap is not strongly distinguished.",
+        "flat_even_light": "Residual ledge and facet shading visible; strict shadowless albedo check not passed."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Create a texture-source albedo painting by editing guide_right.png, the FIRST input image, at its native 1024 x 1024 resolution. The SECOND image design_reference.png is only the approved material and colour reference, not a geometry or camera reference.\nPaint the decoration seen from the right. Keep the guide's silhouette EXACTLY: identical outline, size, position in frame, every edge, opening, ledge, facet and rubble stone exactly where the guide has them. Preserve its orthographic camera. Treat its existing alpha mask and geometric edges as locked. Nothing added outside the silhouette, nothing cropped or moved, no redesign or rounding of geometry. Paint surface detail only.\nApply the design reference's layered grey-violet and dark brown volcanic stone, paler ash in the grooves, and a darker cap rock. Fine natural rough mineral grain, brittle stratified volcanic rock and fine cracks painted onto the fixed guide geometry. All parts including rubble share the reference material.\nLIGHTING: texture-source ALBEDO, even flat shadowless light from the viewer. No cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not copy the reference's directional lighting or dark crevice shading. No background, no floor. Genuine transparent background; preserve guide transparency. No text. Output one 1024 x 1024 PNG, unresized.\nRequired native output size: exactly 1024 x 1024 pixels. Generate a FLAT UNLIT DIFFUSE BASE COLOR PASS: upward, downward and front-facing facets have the same average stone colour. No dark under-ledge shading and AO; grooves contain PALE ash. Moderate contrast mineral detail, no directional brightness variation. Match the first input canvas and silhouette pixel for pixel.\nCORRECTIVE REGENERATION, last allowed attempt: Output MUST be 1024 by 1024, NOT 1254 by 1254. Preserve exact source guide pixel coordinates and silhouette. The previous attempt still shaded the undersides of ledges. Remove that shading completely: texture is shadowless albedo, every plane and recess equally illuminated, pale ash in recessed grooves. Do not render a lit model. Paint reference stone pigment onto the exact guide shapes.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1604c-34d5-7833-9448-03278975fe82/exec-620f2d89-21ca-4f10-9a9a-42aee4f5ade1.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Best allowed right return. Selected for preservation, not full brief compliance: native size mismatch, exact silhouette not preserved, residual facet shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "26a36b01a15b98bf7882d943bea379a2f29f5238e58fcca4ed59b48538b25ee7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+        }
+      ],
+      "output_sha256": "cf695be05fa927a746f6cb648af01fba685105faa45032c6194121292ac77915",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "unresized": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          18,
+          1240,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_note": "Different native canvas dimensions; outline broadly follows guide but pixel-exact silhouette requirement fails. No resizing or mask replacement performed.",
+        "materials_and_colours": "Visually matches grey-violet and brown volcanic stone with pale ash detail; darker cap is not strongly distinguished.",
+        "flat_even_light": "Residual ledge and facet shading visible; strict shadowless albedo check not passed."
+      }
+    }
+  ]
+}

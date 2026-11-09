@@ -1,0 +1,13 @@
+output_dir: /tmp/obsidian-native-4by3
+exit: true
+steps:
+  - wait: 2
+  - capture: gameplay
+  - action: combat
+  - capture: turn-based
+  - action: combat
+  - action: quest
+  - capture: inventory
+  - key: Escape
+  - action: quick_ref
+  - capture: quickref

@@ -1,0 +1,1 @@
+Final correction: run calibrate_orb_gamma.py after process, then queue.py check. This supersedes calibrate_orb.py and orb_grade.json, which document rejected multiplicative grades. Use before_orb_grade backups as immutable inputs. repair_review.json describes the now-resolved pre-gamma defects.

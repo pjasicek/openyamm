@@ -1,0 +1,147 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/pass3",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "lowfolk_gate",
+   "position": [
+    -1440,
+    -5472,
+    1172
+   ],
+   "yaw": 0.6327,
+   "pitch": 0.0481
+  },
+  {
+   "name": "lowfolk_inside",
+   "position": [
+    4320,
+    -3456,
+    1540
+   ],
+   "yaw": 2.5213,
+   "pitch": -0.0444
+  },
+  {
+   "name": "lowfolk_aerial",
+   "position": [
+    1152,
+    -7488,
+    3592
+   ],
+   "yaw": 1.1802,
+   "pitch": -0.7
+  },
+  {
+   "name": "camp",
+   "position": [
+    -9216,
+    8064,
+    1204
+   ],
+   "yaw": 3.0309,
+   "pitch": 0.0065
+  },
+  {
+   "name": "camp_inside",
+   "position": [
+    -13536,
+    7200,
+    1308
+   ],
+   "yaw": 2.1294,
+   "pitch": -0.0258
+  },
+  {
+   "name": "camp_aerial",
+   "position": [
+    -10368,
+    6912,
+    3424
+   ],
+   "yaw": 2.7367,
+   "pitch": -0.6
+  },
+  {
+   "name": "hangars",
+   "position": [
+    -4608,
+    4608,
+    1460
+   ],
+   "yaw": 1.1903,
+   "pitch": -0.0682
+  },
+  {
+   "name": "hangar_inside",
+   "position": [
+    -4032,
+    7200,
+    1160
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.0057
+  },
+  {
+   "name": "scrapyard",
+   "position": [
+    10656,
+    1728,
+    1524
+   ],
+   "yaw": 0.2985,
+   "pitch": -0.0972
+  },
+  {
+   "name": "outpost",
+   "position": [
+    17856,
+    1440,
+    1172
+   ],
+   "yaw": 0.7854,
+   "pitch": 0.0008
+  },
+  {
+   "name": "road_north",
+   "position": [
+    576,
+    20736,
+    1364
+   ],
+   "yaw": 1.6124,
+   "pitch": -0.0182
+  },
+  {
+   "name": "road_east",
+   "position": [
+    20736,
+    -2592,
+    1268
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0003
+  },
+  {
+   "name": "crater_hatch",
+   "position": [
+    -8640,
+    -8352,
+    1276
+   ],
+   "yaw": -1.1071,
+   "pitch": -0.4503
+  },
+  {
+   "name": "terminal_front",
+   "position": [
+    4320,
+    3168,
+    1460
+   ],
+   "yaw": -0.0907,
+   "pitch": -0.0094
+  }
+ ]
+}

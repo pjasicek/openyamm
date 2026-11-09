@@ -1,0 +1,80 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          -1736.0,
+          -11608.0,
+          716.0
+        ],
+        "span": 12500
+      },
+      "image": "level_generation/evidence/mm8/out07_decor_settlement.png",
+      "camera_position": [
+        3923.69287109375,
+        -22927.38671875,
+        14550.806640625
+      ],
+      "highlighted": [
+        {
+          "index": 840,
+          "name": "tree11",
+          "position": [
+            -1024,
+            -10496,
+            640
+          ]
+        },
+        {
+          "index": 1847,
+          "name": "dec03",
+          "position": [
+            -1152,
+            -13896,
+            608
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "landscape",
+        "target": [
+          -640,
+          -128,
+          888
+        ],
+        "span": 13000
+      },
+      "image": "level_generation/evidence/mm8/out07_decor_landscape.png",
+      "camera_position": [
+        5246.08056640625,
+        -11900.1611328125,
+        15276.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 597,
+          "name": "tree10",
+          "position": [
+            -640,
+            -128,
+            888
+          ]
+        },
+        {
+          "index": 192,
+          "name": "rock16",
+          "position": [
+            -672,
+            4088,
+            446
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

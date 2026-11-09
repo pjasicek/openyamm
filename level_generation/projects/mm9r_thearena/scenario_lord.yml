@@ -1,0 +1,146 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thearena_lord
+title: 'The Arena (native BLV) - the third labor: a Lord fight won with key 214 gives key 217'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thearena.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 90214
+    value: true
+- set_pose:
+    map: thearena.blv
+    x: -98
+    y: -3441
+    z: 1
+    yaw: 3.1416
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 430
+- select_topic:
+    action_id: 4
+    match_label: We're here to fight.
+- select_topic:
+    action_id: 12
+    match_label: We're the best there is!  Send us in at Lord!
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    named_map_var_changed:
+      name: Lord
+      current: 1
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: -1786
+    z: 1
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thearena.blv
+      x: 0
+      y: -2000
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: thearena.blv
+      x: 0
+      y: -1310
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 20
+- advance_runtime:
+    seconds: 1
+- assert:
+    named_map_var_changed:
+      name: FightGroup
+      current: 101
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    skip_dead: true
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    skip_dead: true
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    skip_dead: true
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    skip_dead: true
+- damage_actor:
+    actor_index: 9
+    amount: 1000000
+    skip_dead: true
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 91020
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: -1286
+    z: 1
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- set_pose:
+    map: thearena.blv
+    x: -98
+    y: -3441
+    z: 1
+    yaw: 3.1416
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 430
+- select_topic:
+    action_id: 18
+    match_label: We won!
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90217
+    - 91009

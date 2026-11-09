@@ -1,0 +1,29 @@
+# The PerceptionLights (dungeon/lights.py perception_lights): shown to a perceptive party (PerceptionValue 8), put out
+# for good by the machinery (SteamValve0's OpenTrigger3: PerceptionLight4 off; LIGHTS_OFF in convert.py).
+id: mm9r.thjoradmine_lights
+title: 'Thjorad Mine (native BLV): the PerceptionLights and an Off message'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: thjoradmine.blv
+- console:
+    line: skill set Perception 30 G
+- advance_runtime: {seconds: 3.5}
+- assert:
+    light: {key: 41430, on: true}
+- assert:
+    light: {key: 41431, on: true}
+- note:
+    text: The steam valve (event 68) puts out PerceptionLight4; the check keeps it out.
+- execute_event: {id: 68}
+- advance_runtime: {seconds: 3.5}
+- assert:
+    light: {key: 41430, on: false}
+- assert:
+    state_dump_named_map_var: {name: LightOff41430, value: 1}
+- assert:
+    light: {key: 41431, on: true}

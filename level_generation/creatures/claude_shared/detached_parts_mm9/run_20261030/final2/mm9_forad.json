@@ -1,0 +1,67 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_forad.glb",
+  "components": 45,
+  "body": 1,
+  "size": 1.7871739864349365,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 45,
+   "attached_in_every_pose": 44
+  },
+  "concealed": {},
+  "shallow": {
+   "0": {
+    "joint": "Bip01 L Hand",
+    "where": "-x side",
+    "triangles": 699,
+    "extent": 0.3039,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 617,
+    "clips": {},
+    "shallowest": {
+     "depth": -6e-05,
+     "on": "Bip01 Head",
+     "clip": "Hit",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "44": {
+    "joint": "Bip01 R Hand",
+    "where": "+x side",
+    "triangles": 699,
+    "extent": 0.3114,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00067,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 617,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00041,
+     "on": "Bip01 Head",
+     "clip": "Death",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   }
+  },
+  "root_lift": {}
+ }
+]

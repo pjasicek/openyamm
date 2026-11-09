@@ -1,0 +1,9 @@
+"""Install binding data from measured standing assembly height and original native frame scale."""
+from pathlib import Path
+import json,yaml,hashlib
+P=Path(__file__).resolve().parents[1];info=json.loads((P/'work/export_audit.json').read_text());height=info['standing_assembly_height_m'];scale=198*1.199997/height;entries=[]
+for tier in 'ABC':
+ entries.append({'descriptor':'Naga '+tier,'model':'worlds/mm8/models/mm8_m624.glb','scale':round(scale,9),'skin':'naga_'+tier.lower(),'yaw_offset':-1.570796327,'attachments':[{'model':f'worlds/mm8/models/mm8_m624_{sd.lower()}.glb','node':sd+'_Sword'}for sd in ['L1','L2','L3','R1','R2','R3']],
+ 'animation':{'cast':'Cast','run':'Running','stride_length':1.35,'run_stride_length':1.75,'upper_body_root':'Pelvis','sockets':{'blade_left':'Socket_Blade_L1','blade_right':'Socket_Blade_R1'},'events':{'attack_melee':{'impact':1.0},'attack_ranged':{'impact':1.0,'release':'blade_right','glow':['blade_left','blade_right']},'cast':{'impact':1.0,'release':'blade_right','glow':['blade_left','blade_right']}},'look':{'nodes':['Neck','Head'],'max_yaw_degrees':22,'max_pitch_degrees':15}},'clips':{'standing':'Standing','walking':'Walk','attack_melee':'Attack','attack_ranged':'Attack','hit':'Hit','dying':'Death','dead':'Dead','fidget':'Fidget'}})
+path=Path('assets_dev/worlds/mm8/models/actors.yml');text=path.read_text();existing=yaml.safe_load(text);assert not any(a['descriptor'] in ['Naga '+x for x in 'ABC']for a in existing['actors']);path.write_text(text.rstrip()+'\n'+yaml.safe_dump(entries,sort_keys=False))
+(P/'work/scale.json').write_text(json.dumps({'standing_native_pixels':198,'native_frame_scale':1.199997,'standing_assembly_height_m':height,'runtime_scale':scale,'tier_scale_ratios':[1,1,1],'collision_height':160,'collision_radius':90},indent=2)+'\n');print('NAGA_BINDING_SCALE',scale)

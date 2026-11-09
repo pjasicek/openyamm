@@ -1,0 +1,1 @@
+Unadjusted native-rectangle extraction, then run restore_stone_tone.py and queue.py check. One shared RGB gamma fit to pooled native opaque pixels across all four views; alpha and placement unchanged. Immutable before_tone backups preserve ungraded exports.

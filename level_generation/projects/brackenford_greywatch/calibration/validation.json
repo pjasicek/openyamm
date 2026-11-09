@@ -1,0 +1,30 @@
+{
+  "result": "passed",
+  "scope": "Blender/native compiler calibration, not gameplay",
+  "bounds": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      2048,
+      1024,
+      768
+    ]
+  ],
+  "faces": 18,
+  "vertices": 22,
+  "occupied_sectors": 2,
+  "portal_pair": [
+    1,
+    2
+  ],
+  "event": 101,
+  "panel_uv_span_pixels": [
+    64,
+    64
+  ],
+  "bsp_nodes": 13,
+  "outlines": 8
+}

@@ -1,0 +1,1674 @@
+# STAGED CANDIDATE; requires the renderer/input work in INTEGRATION.md.
+screen: OutdoorHud
+elements:
+- id: OutdoorBasebar
+  anchor: bottom_center
+  width: 640
+  height: 114
+  z_index: 200
+  scale:
+    min: 1.0
+    max: 8.0
+  asset:
+    default: obsidian_hud_fullscreen_basebar
+  notes: Carved Obsidian status revision from 2116. Fixed 640x114; clear status/input rail, 22.4 high.
+  children:
+  - id: OutdoorPartyStrip
+    anchor: top_left
+    width: 483
+    height: 114
+    notes: Modern portrait templates; dedicated renderer must use children instead of old ManaFRM/selring path.
+    children:
+    - id: ObsidianOverlayPc1
+      anchor: top_left
+      offset_x: 20.853333
+      offset_y: 31.466667
+      width: 62.4
+      height: 77.333333
+      children:
+      - id: ObsidianOverlayPc1Face
+        anchor: top_left
+        offset_x: 8.533333
+        offset_y: 0.0
+        width: 45.333333
+        height: 60.266667
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianOverlayPc1Rim
+        anchor: top_left
+        offset_x: -1.066667
+        offset_y: -9.6
+        width: 64.53333333333333
+        height: 79.46666666666667
+        asset:
+          default: obsidian_hud_fullscreen_rim_normal
+      - id: ObsidianOverlayPc1Selection
+        anchor: top_left
+        offset_x: 20.266667
+        offset_y: -14.933333
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianOverlayPc1Health
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 66.133333
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianOverlayPc1Mana
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 72.0
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianOverlayPc1Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 47.466667
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianOverlayPc1PersonalBuffs
+        anchor: top_left
+        offset_x: 47.466667
+        offset_y: 47.466667
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+    - id: ObsidianOverlayPc2
+      anchor: top_left
+      offset_x: 117.493333
+      offset_y: 31.466667
+      width: 62.4
+      height: 77.333333
+      children:
+      - id: ObsidianOverlayPc2Face
+        anchor: top_left
+        offset_x: 8.533333
+        offset_y: 0.0
+        width: 45.333333
+        height: 60.266667
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianOverlayPc2Rim
+        anchor: top_left
+        offset_x: -1.066667
+        offset_y: -9.6
+        width: 64.53333333333333
+        height: 79.46666666666667
+        asset:
+          default: obsidian_hud_fullscreen_rim_normal
+      - id: ObsidianOverlayPc2Selection
+        anchor: top_left
+        offset_x: 20.266667
+        offset_y: -14.933333
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianOverlayPc2Health
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 66.133333
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianOverlayPc2Mana
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 72.0
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianOverlayPc2Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 47.466667
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianOverlayPc2PersonalBuffs
+        anchor: top_left
+        offset_x: 47.466667
+        offset_y: 47.466667
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+    - id: ObsidianOverlayPc3
+      anchor: top_left
+      offset_x: 214.133333
+      offset_y: 31.466667
+      width: 62.4
+      height: 77.333333
+      children:
+      - id: ObsidianOverlayPc3Face
+        anchor: top_left
+        offset_x: 8.533333
+        offset_y: 0.0
+        width: 45.333333
+        height: 60.266667
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianOverlayPc3Rim
+        anchor: top_left
+        offset_x: -1.066667
+        offset_y: -9.6
+        width: 64.53333333333333
+        height: 79.46666666666667
+        asset:
+          default: obsidian_hud_fullscreen_rim_normal
+      - id: ObsidianOverlayPc3Selection
+        anchor: top_left
+        offset_x: 20.266667
+        offset_y: -14.933333
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianOverlayPc3Health
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 66.133333
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianOverlayPc3Mana
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 72.0
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianOverlayPc3Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 47.466667
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianOverlayPc3PersonalBuffs
+        anchor: top_left
+        offset_x: 47.466667
+        offset_y: 47.466667
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+    - id: ObsidianOverlayPc4
+      anchor: top_left
+      offset_x: 310.773333
+      offset_y: 31.466667
+      width: 62.4
+      height: 77.333333
+      children:
+      - id: ObsidianOverlayPc4Face
+        anchor: top_left
+        offset_x: 8.533333
+        offset_y: 0.0
+        width: 45.333333
+        height: 60.266667
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianOverlayPc4Rim
+        anchor: top_left
+        offset_x: -1.066667
+        offset_y: -9.6
+        width: 64.53333333333333
+        height: 79.46666666666667
+        asset:
+          default: obsidian_hud_fullscreen_rim_normal
+      - id: ObsidianOverlayPc4Selection
+        anchor: top_left
+        offset_x: 20.266667
+        offset_y: -14.933333
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianOverlayPc4Health
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 66.133333
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianOverlayPc4Mana
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 72.0
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianOverlayPc4Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 47.466667
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianOverlayPc4PersonalBuffs
+        anchor: top_left
+        offset_x: 47.466667
+        offset_y: 47.466667
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+    - id: ObsidianOverlayPc5
+      anchor: top_left
+      offset_x: 407.413333
+      offset_y: 31.466667
+      width: 62.4
+      height: 77.333333
+      children:
+      - id: ObsidianOverlayPc5Face
+        anchor: top_left
+        offset_x: 8.533333
+        offset_y: 0.0
+        width: 45.333333
+        height: 60.266667
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianOverlayPc5Rim
+        anchor: top_left
+        offset_x: -1.066667
+        offset_y: -9.6
+        width: 64.53333333333333
+        height: 79.46666666666667
+        asset:
+          default: obsidian_hud_fullscreen_rim_normal
+      - id: ObsidianOverlayPc5Selection
+        anchor: top_left
+        offset_x: 20.266667
+        offset_y: -14.933333
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianOverlayPc5Health
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 66.133333
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianOverlayPc5Mana
+        anchor: top_left
+        offset_x: 2.666667
+        offset_y: 72.0
+        width: 57.066667
+        height: 3.2
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianOverlayPc5Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 47.466667
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianOverlayPc5PersonalBuffs
+        anchor: top_left
+        offset_x: 47.466667
+        offset_y: 47.466667
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+  - id: OutdoorStatusBar
+    anchor: top_left
+    offset_x: 14.4
+    offset_y: 2.666667
+    width: 454.933333
+    height: 17.066667
+    text:
+      font: Lucida
+      align_x: center
+      align_y: middle
+      color: '#e5dcc7'
+    notes: Reserved clear rail. Native Lucida 17; input/caret takes priority over event and hover text. No Ui-FrSp
+      ornament.
+  - id: CharShield_1
+    anchor: top_left
+    offset_x: 24.32
+    offset_y: 33.06666666666667
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_01
+    notes: Empty party slot only; never cover an occupied portrait. Approved banner colour treatment applies.
+  - id: CharShield_2
+    anchor: top_left
+    offset_x: 120.96
+    offset_y: 33.06666666666667
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_01
+    notes: Empty party slot only; never cover an occupied portrait. Approved banner colour treatment applies.
+  - id: CharShield_3
+    anchor: top_left
+    offset_x: 217.6
+    offset_y: 33.06666666666667
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_02
+    notes: Empty party slot only; never cover an occupied portrait. Approved banner colour treatment applies.
+  - id: CharShield_4
+    anchor: top_left
+    offset_x: 314.23999999999995
+    offset_y: 33.06666666666667
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_03
+    notes: Empty party slot only; never cover an occupied portrait. Approved banner colour treatment applies.
+  - id: CharShield_5
+    anchor: top_left
+    offset_x: 410.88
+    offset_y: 33.06666666666667
+    width: 52.266666666666666
+    height: 72.53333333333333
+    asset:
+      default: obsidian_empty_slot_04
+    notes: Empty party slot only; never cover an occupied portrait. Approved banner colour treatment applies.
+- id: OutdoorGameplayBasebar
+  anchor: bottom_center
+  offset_x: 0.0
+  offset_y: -12.266667
+  width: 322.666667
+  height: 98.666667
+  children:
+  - id: OutdoorGameplayPartyStrip
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 322.666667
+    height: 98.666667
+    children:
+    - id: ObsidianPc1
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 0.0
+      width: 56.0
+      height: 98.666667
+      children:
+      - id: ObsidianPc1Face
+        anchor: top_left
+        offset_x: 6.4
+        offset_y: 2.666667
+        width: 43.2
+        height: 58.133333
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianPc1Rim
+        anchor: top_left
+        offset_x: -3.2
+        offset_y: -6.933333
+        width: 62.4
+        height: 77.33333333333333
+        asset:
+          default: obsidian_hud_portrait_rim_normal
+      - id: ObsidianPc1Selection
+        anchor: top_left
+        offset_x: 17.066667
+        offset_y: -15.466667
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianPc1Health
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 78.4
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianPc1Mana
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 84.8
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianPc1Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 46.4
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianPc1PersonalBuffs
+        anchor: top_left
+        offset_x: 41.6
+        offset_y: 46.4
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      - id: ObsidianPc1Name
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 66.666667
+        width: 56.0
+        height: 10.666667
+        text:
+          value: ''
+          font: Lucida
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.47058824
+      - id: ObsidianPc1Condition
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 91.2
+        width: 56.0
+        height: 6.4
+        text:
+          value: ''
+          font: SMALLNUM
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.3047619
+        notes: Recovery/incapacity text only; no idle Ready label.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+    - id: ObsidianPc2
+      anchor: top_left
+      offset_x: 66.666667
+      offset_y: 0.0
+      width: 56.0
+      height: 98.666667
+      children:
+      - id: ObsidianPc2Face
+        anchor: top_left
+        offset_x: 6.4
+        offset_y: 2.666667
+        width: 43.2
+        height: 58.133333
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianPc2Rim
+        anchor: top_left
+        offset_x: -3.2
+        offset_y: -6.933333
+        width: 62.4
+        height: 77.33333333333333
+        asset:
+          default: obsidian_hud_portrait_rim_normal
+      - id: ObsidianPc2Selection
+        anchor: top_left
+        offset_x: 17.066667
+        offset_y: -15.466667
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianPc2Health
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 78.4
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianPc2Mana
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 84.8
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianPc2Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 46.4
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianPc2PersonalBuffs
+        anchor: top_left
+        offset_x: 41.6
+        offset_y: 46.4
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      - id: ObsidianPc2Name
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 66.666667
+        width: 56.0
+        height: 10.666667
+        text:
+          value: ''
+          font: Lucida
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.47058824
+      - id: ObsidianPc2Condition
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 91.2
+        width: 56.0
+        height: 6.4
+        text:
+          value: ''
+          font: SMALLNUM
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.3047619
+        notes: Recovery/incapacity text only; no idle Ready label.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+    - id: ObsidianPc3
+      anchor: top_left
+      offset_x: 133.333333
+      offset_y: 0.0
+      width: 56.0
+      height: 98.666667
+      children:
+      - id: ObsidianPc3Face
+        anchor: top_left
+        offset_x: 6.4
+        offset_y: 2.666667
+        width: 43.2
+        height: 58.133333
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianPc3Rim
+        anchor: top_left
+        offset_x: -3.2
+        offset_y: -6.933333
+        width: 62.4
+        height: 77.33333333333333
+        asset:
+          default: obsidian_hud_portrait_rim_normal
+      - id: ObsidianPc3Selection
+        anchor: top_left
+        offset_x: 17.066667
+        offset_y: -15.466667
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianPc3Health
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 78.4
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianPc3Mana
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 84.8
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianPc3Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 46.4
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianPc3PersonalBuffs
+        anchor: top_left
+        offset_x: 41.6
+        offset_y: 46.4
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      - id: ObsidianPc3Name
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 66.666667
+        width: 56.0
+        height: 10.666667
+        text:
+          value: ''
+          font: Lucida
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.47058824
+      - id: ObsidianPc3Condition
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 91.2
+        width: 56.0
+        height: 6.4
+        text:
+          value: ''
+          font: SMALLNUM
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.3047619
+        notes: Recovery/incapacity text only; no idle Ready label.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+    - id: ObsidianPc4
+      anchor: top_left
+      offset_x: 200.0
+      offset_y: 0.0
+      width: 56.0
+      height: 98.666667
+      children:
+      - id: ObsidianPc4Face
+        anchor: top_left
+        offset_x: 6.4
+        offset_y: 2.666667
+        width: 43.2
+        height: 58.133333
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianPc4Rim
+        anchor: top_left
+        offset_x: -3.2
+        offset_y: -6.933333
+        width: 62.4
+        height: 77.33333333333333
+        asset:
+          default: obsidian_hud_portrait_rim_normal
+      - id: ObsidianPc4Selection
+        anchor: top_left
+        offset_x: 17.066667
+        offset_y: -15.466667
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianPc4Health
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 78.4
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianPc4Mana
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 84.8
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianPc4Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 46.4
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianPc4PersonalBuffs
+        anchor: top_left
+        offset_x: 41.6
+        offset_y: 46.4
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      - id: ObsidianPc4Name
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 66.666667
+        width: 56.0
+        height: 10.666667
+        text:
+          value: ''
+          font: Lucida
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.47058824
+      - id: ObsidianPc4Condition
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 91.2
+        width: 56.0
+        height: 6.4
+        text:
+          value: ''
+          font: SMALLNUM
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.3047619
+        notes: Recovery/incapacity text only; no idle Ready label.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+    - id: ObsidianPc5
+      anchor: top_left
+      offset_x: 266.666667
+      offset_y: 0.0
+      width: 56.0
+      height: 98.666667
+      children:
+      - id: ObsidianPc5Face
+        anchor: top_left
+        offset_x: 6.4
+        offset_y: 2.666667
+        width: 43.2
+        height: 58.133333
+        notes: Existing animated PC portrait; native expression/condition logic. Apply ellipse alpha mask.
+      - id: ObsidianPc5Rim
+        anchor: top_left
+        offset_x: -3.2
+        offset_y: -6.933333
+        width: 62.4
+        height: 77.33333333333333
+        asset:
+          default: obsidian_hud_portrait_rim_normal
+      - id: ObsidianPc5Selection
+        anchor: top_left
+        offset_x: 17.066667
+        offset_y: -15.466667
+        width: 21.333333333333332
+        height: 21.333333333333332
+        asset:
+          default: obsidian_hud_selection_diamond
+      - id: ObsidianPc5Health
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 78.4
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live HP/max HP. See design/gameplay.yml.
+      - id: ObsidianPc5Mana
+        anchor: top_left
+        offset_x: 0.533333
+        offset_y: 84.8
+        width: 54.933333
+        height: 3.733333
+        notes: Horizontal shaded meter; crop fill at live SP/max SP.
+      - id: ObsidianPc5Readiness
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 46.4
+        width: 11.733333
+        height: 13.333333
+        notes: Plain green/yellow/red diamond; recovery arc when recovering, dim when incapacitated.
+      - id: ObsidianPc5PersonalBuffs
+        anchor: top_left
+        offset_x: 41.6
+        offset_y: 46.4
+        width: 14.933333
+        height: 14.933333
+        asset:
+          default: obsidian_personal_buffs
+        interactive: true
+        visible: false
+        notes: Visible only with active individual effects; consumes click before portrait selection.
+      - id: ObsidianPc5Name
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 66.666667
+        width: 56.0
+        height: 10.666667
+        text:
+          value: ''
+          font: Lucida
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.47058824
+      - id: ObsidianPc5Condition
+        anchor: top_left
+        offset_x: 0.0
+        offset_y: 91.2
+        width: 56.0
+        height: 6.4
+        text:
+          value: ''
+          font: SMALLNUM
+          color: '#e5dcc7'
+          align_x: center
+          align_y: middle
+          scale: 0.3047619
+        notes: Recovery/incapacity text only; no idle Ready label.
+      interactive: true
+      notes: Repeated live party slot; hide unused slots.
+  notes: Layout-only floating party; width = 105*n+20*(n-1) review px, n=1..5. No backing plate.
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: OutdoorOptionsBar
+  anchor: bottom_left
+  offset_x: 14.933333
+  offset_y: -15.466667
+  width: 151.466667
+  height: 36.266667
+  children:
+  - id: ObsidianCommandPlate
+    anchor: top_left
+    offset_x: -5.333333
+    offset_y: -5.333333
+    width: 162.13333333333333
+    height: 46.93333333333333
+    asset:
+      default: obsidian_hud_command_plate
+  - id: OutdoorButtonBooks
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 4.8
+    width: 36.266667
+    height: 31.466667
+    children:
+    - id: ObsidianCommandIconBooks
+      anchor: top_left
+      offset_x: 6.933333
+      offset_y: 0.0
+      width: 22.4
+      height: 20.266667
+      asset:
+        default: obsidian_books
+    - id: ObsidianCommandLabelBooks
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 20.8
+      width: 36.266667
+      height: 9.066667
+      text:
+        value: Books
+        font: Fondamento
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.18333333
+    interactive: true
+  - id: OutdoorButtonQuickReference
+    anchor: top_left
+    offset_x: 38.4
+    offset_y: 4.8
+    width: 36.266667
+    height: 31.466667
+    children:
+    - id: ObsidianCommandIconQuickReference
+      anchor: top_left
+      offset_x: 6.933333
+      offset_y: 0.0
+      width: 22.4
+      height: 20.266667
+      asset:
+        default: obsidian_party
+    - id: ObsidianCommandLabelQuickReference
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 20.8
+      width: 36.266667
+      height: 9.066667
+      text:
+        value: Party
+        font: Fondamento
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.18333333
+    interactive: true
+  - id: OutdoorButtonRest
+    anchor: top_left
+    offset_x: 76.8
+    offset_y: 4.8
+    width: 36.266667
+    height: 31.466667
+    children:
+    - id: ObsidianCommandIconRest
+      anchor: top_left
+      offset_x: 6.933333
+      offset_y: 0.0
+      width: 22.4
+      height: 20.266667
+      asset:
+        default: obsidian_rest
+    - id: ObsidianCommandLabelRest
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 20.8
+      width: 36.266667
+      height: 9.066667
+      text:
+        value: Rest
+        font: Fondamento
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.18333333
+    interactive: true
+  - id: OutdoorButtonOptions
+    anchor: top_left
+    offset_x: 115.2
+    offset_y: 4.8
+    width: 36.266667
+    height: 31.466667
+    children:
+    - id: ObsidianCommandIconOptions
+      anchor: top_left
+      offset_x: 6.933333
+      offset_y: 0.0
+      width: 22.4
+      height: 20.266667
+      asset:
+        default: obsidian_options
+    - id: ObsidianCommandLabelOptions
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 20.8
+      width: 36.266667
+      height: 9.066667
+      text:
+        value: Options
+        font: Fondamento
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.18333333
+    interactive: true
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: OutdoorGoldBar
+  anchor: top_left
+  offset_x: 14.933333
+  offset_y: 13.866667
+  width: 142.4
+  height: 22.933333
+  children:
+  - id: ObsidianResourcePlate
+    anchor: top_left
+    offset_x: -5.333333
+    offset_y: -5.333333
+    width: 153.06666666666666
+    height: 33.6
+    asset:
+      default: obsidian_hud_resource_plate
+  - id: OutdoorGoldIcon
+    anchor: top_left
+    offset_x: 2.666667
+    offset_y: 4.266667
+    width: 19.733333
+    height: 14.4
+    asset:
+      default: scorebg_gold
+  - id: OutdoorGoldLabel
+    anchor: top_left
+    offset_x: 23.466667
+    offset_y: 0.0
+    width: 43.2
+    height: 22.933333
+    text:
+      value: '{gold}'
+      font: Lucida
+      color: '#e5dcc7'
+      align_x: center
+      align_y: middle
+      scale: 0.65882353
+  - id: OutdoorFoodIcon
+    anchor: top_left
+    offset_x: 76.266667
+    offset_y: 4.266667
+    width: 19.733333
+    height: 14.4
+    asset:
+      default: scorebg_food
+  - id: OutdoorFoodLabel
+    anchor: top_left
+    offset_x: 97.6
+    offset_y: 0.0
+    width: 41.066667
+    height: 22.933333
+    text:
+      value: '{food}'
+      font: Lucida
+      color: '#e5dcc7'
+      align_x: center
+      align_y: middle
+      scale: 0.65882353
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: ObsidianPartyBuffStrip
+  anchor: top_left
+  offset_x: 14.933333
+  offset_y: 48.533333
+  width: 142.933333
+  height: 65.066667
+  children:
+  - id: ObsidianPartyBuff1
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_normal
+    children:
+    - id: ObsidianPartyBuffArt1
+      anchor: top_left
+      offset_x: 3.2
+      offset_y: 1.6
+      width: 19.2
+      height: 19.2
+      notes: Glyph-free icon resolved by enum from design/buffs.yml.
+    - id: ObsidianPartyBuffTimer1
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 22.4
+      width: 25.6
+      height: 6.4
+      text:
+        value: ''
+        font: SMALLNUM
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.34285714
+    interactive: true
+    visible: true
+  - id: ObsidianPartyBuff2
+    anchor: top_left
+    offset_x: 29.333333
+    offset_y: 0.0
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_normal
+    children:
+    - id: ObsidianPartyBuffArt2
+      anchor: top_left
+      offset_x: 3.2
+      offset_y: 1.6
+      width: 19.2
+      height: 19.2
+      notes: Glyph-free icon resolved by enum from design/buffs.yml.
+    - id: ObsidianPartyBuffTimer2
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 22.4
+      width: 25.6
+      height: 6.4
+      text:
+        value: ''
+        font: SMALLNUM
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.34285714
+    interactive: true
+    visible: true
+  - id: ObsidianPartyBuff3
+    anchor: top_left
+    offset_x: 58.666667
+    offset_y: 0.0
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_normal
+    children:
+    - id: ObsidianPartyBuffArt3
+      anchor: top_left
+      offset_x: 3.2
+      offset_y: 1.6
+      width: 19.2
+      height: 19.2
+      notes: Glyph-free icon resolved by enum from design/buffs.yml.
+    - id: ObsidianPartyBuffTimer3
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 22.4
+      width: 25.6
+      height: 6.4
+      text:
+        value: ''
+        font: SMALLNUM
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.34285714
+    interactive: true
+    visible: true
+  - id: ObsidianPartyBuff4
+    anchor: top_left
+    offset_x: 88.0
+    offset_y: 0.0
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_normal
+    children:
+    - id: ObsidianPartyBuffArt4
+      anchor: top_left
+      offset_x: 3.2
+      offset_y: 1.6
+      width: 19.2
+      height: 19.2
+      notes: Glyph-free icon resolved by enum from design/buffs.yml.
+    - id: ObsidianPartyBuffTimer4
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 22.4
+      width: 25.6
+      height: 6.4
+      text:
+        value: ''
+        font: SMALLNUM
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.34285714
+    interactive: true
+    visible: true
+  - id: ObsidianPartyBuff5
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 34.666667
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_normal
+    children:
+    - id: ObsidianPartyBuffArt5
+      anchor: top_left
+      offset_x: 3.2
+      offset_y: 1.6
+      width: 19.2
+      height: 19.2
+      notes: Glyph-free icon resolved by enum from design/buffs.yml.
+    - id: ObsidianPartyBuffTimer5
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 22.4
+      width: 25.6
+      height: 6.4
+      text:
+        value: ''
+        font: SMALLNUM
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.34285714
+    interactive: true
+    visible: false
+  - id: ObsidianPartyBuff6
+    anchor: top_left
+    offset_x: 29.333333
+    offset_y: 34.666667
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_normal
+    children:
+    - id: ObsidianPartyBuffArt6
+      anchor: top_left
+      offset_x: 3.2
+      offset_y: 1.6
+      width: 19.2
+      height: 19.2
+      notes: Glyph-free icon resolved by enum from design/buffs.yml.
+    - id: ObsidianPartyBuffTimer6
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 22.4
+      width: 25.6
+      height: 6.4
+      text:
+        value: ''
+        font: SMALLNUM
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.34285714
+    interactive: true
+    visible: false
+  - id: ObsidianPartyBuff7
+    anchor: top_left
+    offset_x: 58.666667
+    offset_y: 34.666667
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_normal
+    children:
+    - id: ObsidianPartyBuffArt7
+      anchor: top_left
+      offset_x: 3.2
+      offset_y: 1.6
+      width: 19.2
+      height: 19.2
+      notes: Glyph-free icon resolved by enum from design/buffs.yml.
+    - id: ObsidianPartyBuffTimer7
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 22.4
+      width: 25.6
+      height: 6.4
+      text:
+        value: ''
+        font: SMALLNUM
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.34285714
+    interactive: true
+    visible: false
+  - id: ObsidianPartyBuff8
+    anchor: top_left
+    offset_x: 88.0
+    offset_y: 34.666667
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_normal
+    children:
+    - id: ObsidianPartyBuffArt8
+      anchor: top_left
+      offset_x: 3.2
+      offset_y: 1.6
+      width: 19.2
+      height: 19.2
+      notes: Glyph-free icon resolved by enum from design/buffs.yml.
+    - id: ObsidianPartyBuffTimer8
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 22.4
+      width: 25.6
+      height: 6.4
+      text:
+        value: ''
+        font: SMALLNUM
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.34285714
+    interactive: true
+    visible: false
+  - id: ObsidianPartyBuffOverflow
+    anchor: top_left
+    offset_x: 117.333333
+    offset_y: 0.0
+    width: 25.6
+    height: 30.4
+    asset:
+      default: obsidian_hud_buff_overflow
+    interactive: true
+    text:
+      value: ''
+      font: Lucida
+      color: '#e5dcc7'
+      align_x: center
+      align_y: middle
+      scale: 0.53333333
+    notes: Live +N hidden count; no fixture count in runtime.
+  notes: Compact 4 + N default. Optional 8 + N in two rows; bounded width, stable expiry sort.
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: OutdoorMinimapFrame
+  anchor: top_right
+  offset_x: -14.933333
+  offset_y: 13.866667
+  width: 119.466667
+  height: 148.8
+  children:
+  - id: OutdoorMinimap
+    anchor: top_left
+    offset_x: 6.4
+    offset_y: 13.333333
+    width: 106.666667
+    height: 106.666667
+    interactive: true
+    notes: Live circular map clip; keep Wizard Eye semantics and picking.
+  - id: ObsidianMinimapRim
+    anchor: top_left
+    offset_x: -11.733333
+    offset_y: -4.8
+    width: 142.93333333333334
+    height: 142.93333333333334
+    asset:
+      default: obsidian_hud_minimap_rim
+  - id: ObsidianMapNorth
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 119.466667
+    height: 9.6
+    text:
+      value: N
+      font: Lucida
+      color: '#e5dcc7'
+      align_x: center
+      align_y: middle
+      scale: 0.40784314
+  - id: ObsidianMapLocation
+    anchor: top_left
+    offset_x: -8.533333
+    offset_y: 130.133333
+    width: 136.533333
+    height: 14.933333
+    text:
+      value: ''
+      font: Lucida
+      color: '#e5dcc7'
+      align_x: center
+      align_y: middle
+      scale: 0.50196078
+    notes: Live location; pale ivory, strong shadow, no baked place name.
+  - id: OutdoorMinimapZoomOut
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 110.4
+    width: 12.8
+    height: 12.8
+    children:
+    - id: ObsidianMapZoomPlateOut
+      anchor: top_left
+      offset_x: -1.066667
+      offset_y: -1.066667
+      width: 14.933333333333334
+      height: 14.933333333333334
+      asset:
+        default: obsidian_hud_zoom_normal
+    - id: ObsidianMapZoomLabelOut
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 0.0
+      width: 12.8
+      height: 12.8
+      text:
+        value: −
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.43921569
+    interactive: true
+  - id: OutdoorMinimapZoomIn
+    anchor: top_left
+    offset_x: 106.666667
+    offset_y: 110.4
+    width: 12.8
+    height: 12.8
+    children:
+    - id: ObsidianMapZoomPlateIn
+      anchor: top_left
+      offset_x: -1.066667
+      offset_y: -1.066667
+      width: 14.933333333333334
+      height: 14.933333333333334
+      asset:
+        default: obsidian_hud_zoom_normal
+    - id: ObsidianMapZoomLabelIn
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 0.0
+      width: 12.8
+      height: 12.8
+      text:
+        value: +
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: center
+        align_y: middle
+        scale: 0.43921569
+    interactive: true
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: OutdoorFollowerToggle
+  anchor: top_right
+  offset_x: -22.4
+  offset_y: 164.266667
+  width: 102.933333
+  height: 17.6
+  children:
+  - id: ObsidianFollowersPlate
+    anchor: top_left
+    offset_x: -3.2
+    offset_y: -3.2
+    width: 109.33333333333333
+    height: 24
+    asset:
+      default: obsidian_hud_followers_normal
+  - id: ObsidianFollowersArt
+    anchor: top_left
+    offset_x: 6.4
+    offset_y: 1.066667
+    width: 15.466667
+    height: 15.466667
+    asset:
+      default: obsidian_followers
+  - id: ObsidianFollowersLabel
+    anchor: top_left
+    offset_x: 24.0
+    offset_y: 0.0
+    width: 74.666667
+    height: 17.6
+    text:
+      value: Followers {count}
+      font: Fondamento
+      color: '#e5dcc7'
+      align_x: center
+      align_y: middle
+      scale: 0.21666667
+  interactive: true
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: OutdoorFollowerPanel
+  anchor_space: screen
+  anchor: top_right
+  offset_y: 188.8
+  width: 91
+  height: 292
+  z_index: 110
+  scale:
+    min: 1.0
+    max: 8.0
+  notes: Follower popup; retain live slot/action IDs and scroll behaviour. Shared obsidian popup frame.
+  children:
+  - id: OutdoorFollowerSlot_1
+    anchor: top_left
+    offset_x: 10
+    offset_y: 20
+    width: 71
+    height: 81
+    interactive: true
+    notes: Live follower portrait or stateful scroll control; render with shared popup/button treatment.
+  - id: OutdoorFollowerPortrait_1
+    anchor: top_left
+    offset_x: 14
+    offset_y: 24
+    width: 63
+    height: 73
+    notes: Dynamic follower portrait 1 draw region.
+  - id: OutdoorFollowerSlot_2
+    anchor: top_left
+    offset_x: 10
+    offset_y: 105
+    width: 71
+    height: 81
+    interactive: true
+    notes: Live follower portrait or stateful scroll control; render with shared popup/button treatment.
+  - id: OutdoorFollowerPortrait_2
+    anchor: top_left
+    offset_x: 14
+    offset_y: 109
+    width: 63
+    height: 73
+    notes: Dynamic follower portrait 2 draw region.
+  - id: OutdoorFollowerSlot_3
+    anchor: top_left
+    offset_x: 10
+    offset_y: 190
+    width: 71
+    height: 81
+    interactive: true
+    notes: Live follower portrait or stateful scroll control; render with shared popup/button treatment.
+  - id: OutdoorFollowerPortrait_3
+    anchor: top_left
+    offset_x: 14
+    offset_y: 194
+    width: 63
+    height: 73
+    notes: Dynamic follower portrait 3 draw region.
+  - id: OutdoorFollowerScrollUp
+    anchor: top_left
+    offset_x: 7
+    offset_y: 5
+    width: 77
+    height: 12
+    interactive: true
+    notes: Live follower portrait or stateful scroll control; render with shared popup/button treatment.
+  - id: OutdoorFollowerScrollDown
+    anchor: top_left
+    offset_x: 7
+    offset_y: 275
+    width: 77
+    height: 12
+    interactive: true
+    notes: Live follower portrait or stateful scroll control; render with shared popup/button treatment.
+  offset_x: -22.4
+  visible: false
+- id: OutdoorGameplayStatusBar
+  anchor: bottom_center
+  offset_x: 0.0
+  offset_y: -128.0
+  width: 330.666667
+  height: 25.6
+  text:
+    value: ''
+    font: Lucida
+    color: '#e5dcc7'
+    align_x: center
+    align_y: middle
+    scale: 0.50196078
+  visible: false
+  notes: Content-sized plate, 620x148 review maximum. Hide empty; see responsive collision rule.
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: ObsidianTurnDock
+  anchor: bottom_left
+  offset_x: 175.466667
+  offset_y: -15.466667
+  width: 69.333333
+  height: 33.066667
+  children:
+  - id: ObsidianTurnPlate
+    anchor: top_left
+    offset_x: -3.2
+    offset_y: -3.2
+    width: 75.73333333333333
+    height: 39.46666666666667
+    asset:
+      default: obsidian_hud_turn_normal
+  - id: ObsidianTurnPhase
+    anchor: top_left
+    offset_x: 4.266667
+    offset_y: 4.266667
+    width: 60.8
+    height: 12.8
+    text:
+      value: ''
+      font: Lucida
+      color: '#e5dcc7'
+      align_x: center
+      align_y: middle
+      scale: 0.40784314
+  - id: ObsidianTurnDetail
+    anchor: top_left
+    offset_x: 4.266667
+    offset_y: 18.133333
+    width: 60.8
+    height: 9.6
+    text:
+      value: ''
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: center
+      align_y: middle
+      scale: 0.3047619
+  interactive: true
+  visible: false
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: ObsidianPartyBuffPopup
+  anchor: top_left
+  offset_x: 14.933333
+  offset_y: 86.4
+  width: 192.0
+  height: 96.0
+  visible: false
+  notes: Measured, scrollable remaining effects; popup style and input rules in design/gameplay.yml.
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200
+- id: ObsidianPersonalBuffPopup
+  anchor: bottom_center
+  offset_x: 0.0
+  offset_y: -130.133333
+  width: 184.0
+  height: 96.0
+  visible: false
+  notes: Live selected owner's effects. Opens from medallion without changing selection.
+  anchor_space: screen
+  scale:
+    min: 0.5
+    max: 8.0
+  z_index: 200

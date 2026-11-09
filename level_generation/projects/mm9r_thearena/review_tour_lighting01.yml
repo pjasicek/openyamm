@@ -1,0 +1,88 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_thearena/review/lighting01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: h01_start
+  position:
+  - 0
+  - -3686
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: h03_counter_master
+  position:
+  - 154
+  - -3441
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: h05_corridor_to_arena_door
+  position:
+  - 0
+  - -2560
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: h06_stair_foot
+  position:
+  - 471
+  - -3840
+  - 1
+  yaw: 1.5708
+  pitch: 0.1396
+- name: s02_south_stand
+  position:
+  - 0
+  - -2381
+  - 861
+  yaw: 1.5708
+  pitch: -0.2094
+- name: a01_arena_north
+  position:
+  - 0
+  - -896
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: a02_arena_east_pen
+  position:
+  - 640
+  - 0
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: a04_arena_door
+  position:
+  - 0
+  - 256
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: p01_east_pen
+  position:
+  - 2304
+  - 0
+  - 1
+  yaw: 3.1416
+  pitch: 0.0
+- name: b01_box_over_arena
+  position:
+  - 0
+  - 1792
+  - 503
+  yaw: -1.5708
+  pitch: -0.2618
+- name: t01_east_stand
+  position:
+  - 2176
+  - -384
+  - 984
+  yaw: 2.9669
+  pitch: -0.2094
+- name: t04_ne_stand
+  position:
+  - 1382
+  - 1382
+  - 718
+  yaw: -2.3562
+  pitch: -0.1745

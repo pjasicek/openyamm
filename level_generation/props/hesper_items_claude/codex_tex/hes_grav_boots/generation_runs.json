@@ -1,0 +1,484 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for the existing Hesper grav boots model (Feather Fall and stronger jump).\nINPUT ROLES: Image 1 is the exact gray geometry guide and sole EDIT TARGET. Image 2 is design_reference.png, the authority ONLY for design, colors and materials, never for camera or composition.\nTASK: Paint materials onto image 1 in place, preserving its original 1024 x 1024 canvas, exact alpha silhouette, position, scale, every contour and every part boundary. Treat its alpha as a locked stencil: do not invent, move, smooth, straighten or redesign geometry; no new pixels outside the guide and no missing pixels inside it. Preserve the guide's awkward polygon corners as well as its smooth surfaces. The design reference is a different camera angle; do not copy its pose.\nMATERIALS: Match the approved reference's warm white ceramic with fine subtle wear and hairline marks, brushed golden metal, black-violet resin, small blue-white luminous insets, engraved lines, seams and panel joins. Any surfaces absent from the reference continue those materials plausibly. Do not introduce unrelated materials or orange lights when the reference uses blue-white.\nLIGHTING: This is flat unlit BASE COLOR / ALBEDO, not a lit product render. Even flat shadowless frontal illumination. No cast shadows, no ambient occlusion or cavity darkening, no strong specular highlights, reflection bands or rim light. Gold uses its ochre-gold base color with at most a faint sheen; ceramic stays an even warm white. Bright parts use solid bright blue-white color with no bloom, halo, or illumination of adjacent panels.\nBACKGROUND AND FORMAT: Deliver one 1024 x 1024 PNG with genuine transparent alpha, preserving the guide's full framing. No background, floor, cast shadow, text, letters, symbols, labels, watermark, contact sheet or additional view. Return at original generated resolution.\nVIEW-SPECIFIC MAPPING: FRONT view, exactly two separate boots as shown, standing at equal height, facing straight at viewer. Paint the tall shin fronts warm white ceramic with narrow gold central bars and small blue-white inset lights; the existing exposed instep sections black-violet ribbed resin; the toe shells warm white ceramic, with gold rim trim and small inset blue-white toe lights only within the existing forms. The lateral heel mechanisms are seen edge-on here; keep them edge-on. Both boot bounds together are x=66..957, y=206..817 on the 1024-square guide.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "b1923ddc22f94f8cf86ad2c66163026b687985db2537f3e1a0792c7a936597c5",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: returned size 1254 x 1254; silhouette enlarged vertically relative to guide; shaded surface reflections and bright highlights conflict with flat albedo lighting.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-eeb9b30c-0ae5-43ac-a1da-543aa8230b91.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "29985ec1444ebb98c4ccaaa300a5238353b218c2c5d7e570203770706e78977b",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.555515,
+        "opaque_bbox_alpha_gt_127": [
+          86,
+          193,
+          1168,
+          1041
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.82278,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for the existing Hesper grav boots model (Feather Fall and stronger jump).\nINPUT ROLES: Image 1 is the exact gray geometry guide and sole EDIT TARGET. Image 2 is design_reference.png, the authority ONLY for design, colors and materials, never for camera or composition.\nTASK: Paint materials onto image 1 in place, preserving its original 1024 x 1024 canvas, exact alpha silhouette, position, scale, every contour and every part boundary. Treat its alpha as a locked stencil: do not invent, move, smooth, straighten or redesign geometry; no new pixels outside the guide and no missing pixels inside it. Preserve the guide's awkward polygon corners as well as its smooth surfaces. The design reference is a different camera angle; do not copy its pose.\nMATERIALS: Match the approved reference's warm white ceramic with fine subtle wear and hairline marks, brushed golden metal, black-violet resin, small blue-white luminous insets, engraved lines, seams and panel joins. Any surfaces absent from the reference continue those materials plausibly. Do not introduce unrelated materials or orange lights when the reference uses blue-white.\nLIGHTING: This is flat unlit BASE COLOR / ALBEDO, not a lit product render. Even flat shadowless frontal illumination. No cast shadows, no ambient occlusion or cavity darkening, no strong specular highlights, reflection bands or rim light. Gold uses its ochre-gold base color with at most a faint sheen; ceramic stays an even warm white. Bright parts use solid bright blue-white color with no bloom, halo, or illumination of adjacent panels.\nBACKGROUND AND FORMAT: Deliver one 1024 x 1024 PNG with genuine transparent alpha, preserving the guide's full framing. No background, floor, cast shadow, text, letters, symbols, labels, watermark, contact sheet or additional view. Return at original generated resolution.\nVIEW-SPECIFIC MAPPING: BACK view, exactly two separate boots, facing directly away, exactly as the guide. Follow the existing rear cuff bands, exposed rear shaft sections, broad rear ankle brace and bulbous heel casings: warm white ceramic cuff shells, gold edging and broad brace, black-violet resin shaft and heel backing with subtle panel joins. Continue the approved materials plausibly on unseen rear surfaces; do not add forward-facing toes or invent full blue disks facing the rear. Both boot bounds together are x=66..957, y=206..817 on the 1024-square guide.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "036682ba8c3ae3fff3a02f705734a3810691227c3ab0095ce70594927090aef6",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: enlarged and shifted silhouette, glossy gold and ceramic shading. One corrective pass requested.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-82f8ba16-6d65-4f04-ac94-0db9e2d5225a.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "babd073deb35d3fcbcbcd4dbc025e9032940341e38841afc43d36fe07f4bd2b3",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.609049,
+        "opaque_bbox_alpha_gt_127": [
+          71,
+          219,
+          1185,
+          956
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.850837,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for the existing Hesper grav boots model (Feather Fall and stronger jump).\nINPUT ROLES: Image 1 is the exact gray geometry guide and sole EDIT TARGET. Image 2 is design_reference.png, the authority ONLY for design, colors and materials, never for camera or composition.\nTASK: Paint materials onto image 1 in place, preserving its original 1024 x 1024 canvas, exact alpha silhouette, position, scale, every contour and every part boundary. Treat its alpha as a locked stencil: do not invent, move, smooth, straighten or redesign geometry; no new pixels outside the guide and no missing pixels inside it. Preserve the guide's awkward polygon corners as well as its smooth surfaces. The design reference is a different camera angle; do not copy its pose.\nMATERIALS: Match the approved reference's warm white ceramic with fine subtle wear and hairline marks, brushed golden metal, black-violet resin, small blue-white luminous insets, engraved lines, seams and panel joins. Any surfaces absent from the reference continue those materials plausibly. Do not introduce unrelated materials or orange lights when the reference uses blue-white.\nLIGHTING: This is flat unlit BASE COLOR / ALBEDO, not a lit product render. Even flat shadowless frontal illumination. No cast shadows, no ambient occlusion or cavity darkening, no strong specular highlights, reflection bands or rim light. Gold uses its ochre-gold base color with at most a faint sheen; ceramic stays an even warm white. Bright parts use solid bright blue-white color with no bloom, halo, or illumination of adjacent panels.\nBACKGROUND AND FORMAT: Deliver one 1024 x 1024 PNG with genuine transparent alpha, preserving the guide's full framing. No background, floor, cast shadow, text, letters, symbols, labels, watermark, contact sheet or additional view. Return at original generated resolution.\nVIEW-SPECIFIC MAPPING: LEFT orthographic side view, one visible boot silhouette, toe pointing RIGHT, tall cuff left, circular ankle/heel mechanism left. Preserve the exact existing circular housing and side frame. White ceramic cuff and toe shells; black-violet ribbed resin flexible shaft and instep; brushed gold outer frame; the circular side mechanism has concentric dark resin/gold rings and a blue-white inset disk, painted as bright solid colors without glow spilling into surroundings. Bounds x=66..957, y=206..817.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "bfa28424cc1fa1ce8dc397555b3bbe855825620946918f69ecee93a0598d2d40",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        }
+      ],
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: rounded/redesigned toe and side contours, strong metal and ceramic highlights. One corrective pass requested.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-70d25790-8352-4d8c-b8ac-b7c9a543b069.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "6c2540d10bae2ded9f579ea48b5754916b9117fccba099f8f3c83a56e6c5eb5d",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.69027,
+        "opaque_bbox_alpha_gt_127": [
+          80,
+          247,
+          1193,
+          994
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.965387,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Material-only paintover of image 1, guide_right.png. Image 2 is ONLY the material/design palette. Paint image 1 without changing its geometry. This is a flat albedo texture source, not a new product rendering.\n\nPreserve EXACTLY image 1's 1024x1024 transparent mask, silhouette, polygon corners, internal part edges, camera, position and proportions. One visible boot in strict RIGHT side orthographic view: toe points LEFT, heel disk at RIGHT. Bounds x=66..957 and y=206..817. Preserve the long LOW blunt angular toe, the faceted heel disk and its polygonal center, high ankle arch, existing jagged shaft edges, and straight cuff band. Do not round or redesign any component. Keep the original margins: 206 transparent pixels above and below. Do not add decorative pieces or protrusions beyond the guide.\n\nReplace grayscale only with warm white fine-worn ceramic on cuff and toe shells; black-violet resin shaft, flexible instep, sole and heel backing; restrained brushed ochre-gold existing frame and concentric ring surfaces; blue-white bright base color in the EXISTING polygonal center of the side disk. Light disk is a flat color inset, with no bloom or spill.\n\nLIGHTING PRIORITY: uniform flat albedo. No shiny render, bright bevels, white highlight streaks, darkened cavity shadows, ambient occlusion, directional light or reflected light. No illumination gradients across ceramic or gold; show material via base color and subtle fine texture only. Gold should read as muted brushed gold, not yellow polished chrome. No background, ground, shadow, text, letters, watermark. Return one actual transparent PNG at 1024 x 1024, preserving exact guide framing.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "8a9c53375aeb2d0fad410cd82e3b9b7bcf95d21846d146931c669ca75e6aea30",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: outline/framing and internal edges differ from the guide, with residual specular shading. One corrective pass requested.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-4e34395b-8e03-470d-90a5-6ee80983dd66.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "b3bcaeea12e20bd843fbcb0e42565a650ae0f34d7591d6a08435e66223eaa9a9",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.700472,
+        "opaque_bbox_alpha_gt_127": [
+          79,
+          239,
+          1174,
+          980
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.909796,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for the existing Hesper grav boots model (Feather Fall and stronger jump).\nINPUT ROLES: Image 2 is the exact gray geometry guide and sole EDIT TARGET. Image 1 is design_reference.png, the authority ONLY for design, colors and materials, never for camera or composition.\nTASK: Paint materials onto image 2 in place, preserving its original 1024 x 1024 canvas, exact alpha silhouette, position, scale, every contour and every part boundary. Treat its alpha as a locked stencil: do not invent, move, smooth, straighten or redesign geometry; no new pixels outside the guide and no missing pixels inside it. Preserve the guide's awkward polygon corners as well as its smooth surfaces. The design reference is a different camera angle; do not copy its pose.\nMATERIALS: Match the approved reference's warm white ceramic with fine subtle wear and hairline marks, brushed golden metal, black-violet resin, small blue-white luminous insets, engraved lines, seams and panel joins. Any surfaces absent from the reference continue those materials plausibly. Do not introduce unrelated materials or orange lights when the reference uses blue-white.\nLIGHTING: This is flat unlit BASE COLOR / ALBEDO, not a lit product render. Even flat shadowless frontal illumination. No cast shadows, no ambient occlusion or cavity darkening, no strong specular highlights, reflection bands or rim light. Gold uses its ochre-gold base color with at most a faint sheen; ceramic stays an even warm white. Bright parts use solid bright blue-white color with no bloom, halo, or illumination of adjacent panels.\nBACKGROUND AND FORMAT: Deliver one 1024 x 1024 PNG with genuine transparent alpha, preserving the guide's full framing. No background, floor, cast shadow, text, letters, symbols, labels, watermark, contact sheet or additional view. Return at original generated resolution.\nVIEW-SPECIFIC MAPPING: TOP orthographic view from DIRECTLY ABOVE: exactly two separate boots in exactly the guide positions, toes pointing DOWN. The large existing oval cuff openings occupy the upper part of each boot; keep every opening edge in place, with black-violet resin padded linings and interiors in their base material color, ivory ceramic cuff rims with narrow brushed gold edging. Paint the foot shells visible below the openings warm white ceramic with gold joins, fine wear and small blue-white inset toe lights only inside existing forms. Do not fill the openings with white ceramic or tilt the camera. Bounds together x=66..957, y=66..957.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "b559d1347e0c7c8d6bd8e5f23ca7624bfa2102ac444aba82d568d298361c9e20",
+          "role": "edit_target"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: rounded/rearranged contours and cuff/toe surfaces; bright rim highlights and cavity shading conflict with albedo lighting.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-7c6c6c15-0983-4f4d-a8bb-44ae04a56d0b.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7e0c2f8b60ea3fcf4199bed8513c6531edb1df75296388d24aa9e61ca890968c",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.479537,
+        "opaque_bbox_alpha_gt_127": [
+          95,
+          71,
+          1159,
+          1177
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.937484,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Precisely colorize image 1 (guide_front.png). Image 1 is the sole spatial authority; image 2 supplies only material colors. This is the ONE corrective pass: the previous attempt expanded the boots vertically and introduced glossy shading. Correct the guide conformity and use flat matte albedo.\n\nProduce exactly the image 1 canvas, 1024 x 1024, with its original transparent alpha mask LOCKED and all gray geometry contours LOCKED. Color only inside this mask. Keep the polygonal outlines, the broad blunt toe shapes, all part edges, the asymmetric small cutouts, and the exact two-boot spacing. The transparent top margin is 206 pixels; the bottom is 206 pixels. Combined opaque bounds are x=66 to 957 and y=206 to 817. DO NOT make the boots taller, more elegant, rounded, symmetrical, reposed or resized. The entire existing front view, including its awkward shapes, is intentional.\n\nApply image 2 materials directly onto image 1: warm white finely worn ceramic shin armor and toe shells; ochre brushed gold existing narrow center bars, rims and side braces; black-violet ribbed resin insteps and inner cuffs; blue-white small inset lights on existing front center bars and toe fronts. Preserve every existing geometric edge. Remove the guide's lighting gradients as you paint: use uniform material base color with fine texture detail. No specular white patches, shadows, ambient occlusion, black shading in seams or recesses, rim lighting, reflections, bloom, light spill. Black-violet means a dark material base color, not shadow.\n\nReturn one flat evenly illuminated FRONT-view albedo texture-source PNG with genuine transparency. No backdrop, floor, labels, text, letters, logos, additional views. Required resolution 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "b1923ddc22f94f8cf86ad2c66163026b687985db2537f3e1a0792c7a936597c5",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: closer to guide geometry and flatter than attempt 1. Exact silhouette still differs; some baked shading remains. Retained without resizing.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-3023fd2e-2c3f-49b1-a513-5527fa951dc8.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "6352983b48fc4882d3ca3c31d48f2ec6c9bf45ec5ebf9f38c015c19a5bc06a4c",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.615658,
+        "opaque_bbox_alpha_gt_127": [
+          84,
+          225,
+          1170,
+          961
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.861734,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint ONLY the existing pixels of image 1, the gray BACK guide. Image 2 is a material palette/reference only. One correction: remove the glossy render shading and the framing drift. The gray image MUST remain the exact spatial template. No new rear design geometry. Preserve all polygonal edges, the irregular shaft cutouts, the single wide ankle band, bulbous heel backs, and bottom sole strips. Exactly two boots facing away; keep every part at its guide location.\n\nCanvas: 1024 x 1024. Keep the original alpha silhouette exactly: x=66..957, y=206..817, with 206px transparent top and bottom margins. Do not crop, expand, reposition or symmetrize the boots. Keep their exact individual proportions and separation.\n\nAlbedo surface paint: warm ivory-white fine-worn ceramic top cuff bands; black-violet resin shaft sections; muted ochre brushed-gold broad ankle braces; black-violet resin bulbous heel backs with restrained ceramic upper panels and narrow gold edging, consistent with the reference's visible side housing. Plausible continuation of unseen rear surfaces only, no new component protrusions. No front-facing toes or large blue disks.\n\nABSOLUTELY FLAT BASE COLOR: no scene illumination, no reflections, no directional gradient, no white specular patches or bright gold edge highlights. Each ceramic panel has uniform pale-ivory base color and faint fine wear. Gold has muted gold base color with barely perceptible brushed texture. Resin has black-violet base color and fine texture; panel lines are small material seams, not thick cast shadows. No AO, no shadow gradients, no rim light, no floor or bloom. Transparent background. No text or letters. One BACK view PNG, 1024 square.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "036682ba8c3ae3fff3a02f705734a3810691227c3ab0095ce70594927090aef6",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected corrective return: simpler rear construction closer to guide, with flatter ceramic/resin regions. Exact silhouette still differs and gold has remaining shading; retained unresized.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-86ddeef8-c3eb-495a-84ef-3a9abbe9c7a5.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "4bc09fd68c0f12b34a31c091820b2621c2b59ccc3445b6924bbe50b1e0af52da",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.601373,
+        "opaque_bbox_alpha_gt_127": [
+          77,
+          225,
+          1178,
+          978
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.899572,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Corrective material-only paintover of image 1, guide_left.png. Image 2 is ONLY the material/design palette. Paint image 1 without changing its geometry. This is a flat albedo texture source, not a new product rendering.\n\nPreserve EXACTLY image 1's 1024x1024 transparent mask, silhouette, polygon corners, internal part edges, camera, position and proportions. One visible boot in strict LEFT side orthographic view: toe points RIGHT, heel disk at LEFT. Bounds x=66..957 and y=206..817. Preserve the long LOW blunt angular toe, the faceted heel disk and its polygonal center, high ankle arch, existing jagged shaft edges, and straight cuff band. Do not round or redesign any component. Keep the original margins: 206 transparent pixels above and below. Do not add decorative pieces or protrusions beyond the guide.\n\nReplace grayscale only with warm white fine-worn ceramic on cuff and toe shells; black-violet resin shaft, flexible instep, sole and heel backing; restrained brushed ochre-gold existing frame and concentric ring surfaces; blue-white bright base color in the EXISTING polygonal center of the side disk. Light disk is a flat color inset, with no bloom or spill.\n\nCORRECTION PRIORITY: uniform flat albedo. No shiny render, bright bevels, white highlight streaks, darkened cavity shadows, ambient occlusion, directional light or reflected light. No illumination gradients across ceramic or gold; show material via base color and subtle fine texture only. Gold should read as muted brushed gold, not yellow polished chrome. No background, ground, shadow, text, letters, watermark. Return one actual transparent PNG at 1024 x 1024, preserving exact guide framing.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "bfa28424cc1fa1ce8dc397555b3bbe855825620946918f69ecee93a0598d2d40",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected corrective return for the guide-like polygonal disk center and reduced glow/reflection. Tradeoff: normalized silhouette overlap is 0.9194 versus 0.9654 for attempt 1; exact silhouette and flat-albedo checks still fail. Retained unresized.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-34df0fc7-dfd6-479c-b797-75698c85dab1.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d0357661d28dd4c44b2fcd8a96805a291d1acb2ededd2b423799bbe364bfe315",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.69537,
+        "opaque_bbox_alpha_gt_127": [
+          78,
+          243,
+          1184,
+          981
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.919399,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Edit the SECOND image, guide_right.png, in place. FIRST image is design_reference.png and provides the material palette only. Corrective pass priority: keep the second image's entire shape, pixel placement and contour exactly unchanged. Use the second image as a locked stencil, and paint its gray pixels only. The canvas is 1024 x 1024, with genuine transparent background.\n\nExactly the guide's RIGHT-side orthographic boot, toe pointing LEFT, heel on RIGHT. Keep its low blunt toe, irregular faceted outlines and seams, polygonal disk with asymmetrical center, ankle arch and shaft edges. No smoothing, no new silhouette, no scaling or repositioning. Original combined bounds are x=66..957 and y=206..817; keep this frame and all transparent margins exactly.\n\nApply the first image's fine-worn warm white ceramic to armor shell panels, muted brushed gold to existing bands, ring and narrow trim, black-violet resin to the flexible shaft, instep, sole and backing. The existing side disk center is bright pale blue-white; its shape must stay exactly the guide's shape. Continue the reference's seams and wear on the existing parts without changing geometry.\n\nTEXTURE SOURCE: unlit matte base color/albedo, not a shiny photograph. Suppress all specular highlights, bright metal edges, white reflection streaks, gradients, AO, cast shadows, rim light and glow halos. Show material differences with uniform base colors and subtle surface texture. No floor, background, labels, lettering or symbols. Return ONLY the painted second image, same 1024 x 1024 canvas and alpha silhouette.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "8a9c53375aeb2d0fad410cd82e3b9b7bcf95d21846d146931c669ca75e6aea30",
+          "role": "edit_target"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: overall placement and faceted side construction closer to guide, less intense disk highlight. Exact pixel silhouette still differs and shaded gold edges remain; retained unresized.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-d6b196fc-55f2-470b-b257-ad64f0c5008e.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e71e7e2ba2d78bd8fcb0e3c64fa66209bc10119334939bf09331ccab4a01add9",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.681456,
+        "opaque_bbox_alpha_gt_127": [
+          78,
+          250,
+          1176,
+          1003
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.971508,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Precise material-only paintover: edit SECOND input guide_top.png; FIRST input is the approved design/material reference only. The second input is a 1024 x 1024 orthographic render seen from directly ABOVE. Color its gray surfaces without moving ANY geometry. Exactly two boots, toes toward bottom. Preserve the alpha silhouette and every existing part edge exactly, including faceted openings, irregular inner-rim notches, the asymmetric partly occluded foot shells, little polygon edges and all margins. Do not symmetrize, round, fill or redesign the cuff openings. Do not change camera. Opaque bounds remain x=66..957,y=66..957. This is the single corrective pass for guide fidelity and flat lighting.\n\nMatch FIRST input materials: warm ivory-white ceramic outer cuff rim and visible foot/toe shells with subtle fine wear; narrow ochre-gold existing rim/frame trim; dark black-violet resin interior lining and exposed instep. Pale blue-white inset toe lights fit within existing toe surfaces. Keep the original openings completely present with the same boundaries. Their interior surfaces are black-violet resin BASE COLOR, with fine padded seam detail, not deep black shadows or AO. Continue the design reference plausibly on interior and upper faces.\n\nStrict FLAT ALBEDO texture-source painting. All surfaces use even constant material base color with only tiny texture variations. Remove bright edge streaks, specular shine, reflections, black shadow gradients, AO, cast shadows, rim lighting, glow halos. Gold is muted ochre gold with faint brushed texture only; ceramic is consistently pale ivory. The padded lining is dark violet material, never a lighting gradient. No background, floor, text, letters, labels, logos or additional views. Return one genuinely transparent 1024 x 1024 PNG, exactly following guide_top's layout and silhouette.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6d292d8f13dc3f298ca9c2009e43390acfd22701aa3a66175e61375d1fb7d759",
+          "role": "material_reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "b559d1347e0c7c8d6bd8e5f23ca7624bfa2102ac444aba82d568d298361c9e20",
+          "role": "edit_target"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return for the guide-like broad cuff shell, faceted opening boundaries, asymmetric foot surfaces and broader even ceramic areas. Tradeoff: normalized silhouette overlap is 0.9231 versus 0.9375 for attempt 1; exact silhouette and flat-albedo checks still fail. Retained unresized.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16e2a-b6d7-7521-a82a-4a996321dcac/exec-8a256e43-6471-40f0-bc1c-b3243555a26f.png",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7215330378364e70eea3f21ba684982f7ebada281a42fe6bedae7801ed301d4a",
+      "checks": {
+        "format": "PNG",
+        "mode": "RGBA",
+        "genuine_transparent_background": true,
+        "fully_transparent_fraction": 0.50536,
+        "opaque_bbox_alpha_gt_127": [
+          98,
+          85,
+          1159,
+          1162
+        ],
+        "requested_size_match": false,
+        "silhouette_identical_to_guide": false,
+        "normalized_silhouette_iou_alpha_gt_127": 0.923085,
+        "normalized_iou_method": "Read-only point sampling at normalized guide pixel centers; no output image resizing or other processing.",
+        "reference_material_palette_matches": true,
+        "flat_even_light_without_shadows_or_highlights": false,
+        "no_text_or_letters_visual_check": true,
+        "unmodified_tool_return_sha256_verified": true,
+        "strict_brief_checks_pass": false
+      }
+    }
+  ],
+  "status": "All requested files generated and saved; strict silhouette and flat-albedo checks not met after the permitted corrective pass per view.",
+  "selection_note": "Selected means the preferred available return, not approval or passing all brief checks.",
+  "size_note": "Every tool return is 1254 x 1254. All are preserved byte-for-byte, without resize, crop, mask replacement or retouching, as required for different-size returns.",
+  "scope_note": "Only generated PNG copies and generation_runs.json written within the requested folder. No builds, runtime integration or other project edits performed."
+}

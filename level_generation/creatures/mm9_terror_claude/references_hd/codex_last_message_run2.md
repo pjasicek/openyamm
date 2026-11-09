@@ -1,0 +1,3 @@
+Saved `01_front.png`–`04_right.png` unresized at 1536×1024 using built-in image generation, appended eight runs with prompts and SHA-256 hashes, and created [selected_views_review.png](level_generation/creatures/mm9_terror_claude/references_hd/selected_views_review.png).
+
+Stopped at one correction per view. Remaining limits: faint alpha haze, tight margins, slightly oblique side views and ambiguous rear toes.

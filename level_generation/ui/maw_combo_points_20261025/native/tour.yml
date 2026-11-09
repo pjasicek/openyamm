@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/maw_combo_points_20261025/native
+exit: true
+steps:
+  - wait: 3
+  - console: testparty apply mid newclasses
+  - wait: 3
+  - console: ruleset counter 5 3.5
+  - console: ruleset counter 4 7
+  - wait: 0.5
+  - capture: combo35_stacks7
+  - console: ruleset counter 4 14
+  - wait: 0.5
+  - capture: combo35_stacks14
+  - console: ruleset counter 5 5
+  - console: ruleset counter 4 0
+  - wait: 0.5
+  - capture: combo5_stacks0
+  - console: ruleset counter 5 3.5
+  - console: ruleset counter 4 14
+  - pointer_move: [1035, 776]
+  - wait: 0.5
+  - capture: hover_combo
+  - pointer_move: [889, 769]
+  - wait: 0.5
+  - capture: hover_stacks14

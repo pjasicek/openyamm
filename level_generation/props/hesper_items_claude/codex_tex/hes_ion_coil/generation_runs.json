@@ -1,0 +1,534 @@
+{
+  "item": "hes_ion_coil",
+  "brief": "CODEX_BRIEF.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "returned_size": [
+    1254,
+    1254
+  ],
+  "unresized_returns": true,
+  "pixel_postprocessing": false,
+  "status": "generated_with_deviations",
+  "brief_checks_all_pass": false,
+  "material_authority": {
+    "path": "design_reference.png",
+    "sha256": "21bd1c0dffdb66ccb22790f17165429e7311d8a0fc4ba7dc5d585214981b0c94"
+  },
+  "notes": [
+    "All nine successful returns are preserved byte-for-byte; five are selected as the requested filenames.",
+    "Each view received one initial request and at most one corrective request. The right correction failed output moderation and returned no image.",
+    "All successful returns are 1254 x 1254 RGBA, retained unresized as required for non-1024 tool returns.",
+    "The exact-silhouette and perfectly-flat-lighting requirements were not achieved. Selected means best available under the correction limit, not full brief acceptance.",
+    "No builds or runtime integration were performed."
+  ],
+  "measurement_method": "Read-only comparison: opaque silhouettes use alpha > 127. Because tool returns differ in size, the original guide alpha is scaled with nearest-neighbour in memory only to compute normalized silhouette intersection-over-union. No returned image is resized or edited. Low-alpha fringe pixels are counted separately. Exact-size alpha comparison necessarily fails for all 1254 x 1254 returns.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting of the Hesper ion coil, a lander quest-item part.\nInput 1 is the exact geometry guide and EDIT TARGET. Input 2 is design_reference.png, the authority for surface colours, materials and detail ONLY; do not adopt its camera, silhouette or lighting.\nPaint directly over the guide at 1024 x 1024 on a genuinely transparent background. Preserve its alpha silhouette EXACTLY, pixel for pixel: all outlines, part edges, faceted geometry, positions, dimensions and generous transparent margins. Keep every part where the guide has it. No reframing, rotation, perspective, enlargement, smoothing of the silhouette or added geometry. Do not copy the pale placeholder material tints.\nPaint the ribbed coil in warm brushed gold base colour with fine subtle brushed grain. Paint the guide's ceramic housing and base in lightly worn warm white ceramic, with fine scratches, delicate worn speckling, narrow engraved seams and panel joins. Small existing trim surfaces may use brushed gold and dark black-violet resin as shown in the design. Existing luminous faces are bright icy blue-white. Continue unseen surfaces plausibly in the same materials. Surface markings must be purely abstract seams, never text or letters.\nLIGHTING MUST BE ALBEDO: even flat shadowless viewer-facing light, no directional or underside darkening, no cast shadows, no ambient occlusion or darkened crevices, no strong specular highlights, reflections or rim light. Gold is an even golden base colour with only a faint sheen, no white glints. No floor, scenery, background, text, labels or watermark. Deliver one view only, a 1024 x 1024 transparent PNG.\nVIEW: FRONT. Use guide_front.png exactly. The silhouette occupies x=121..902 and y=386..637 on the 1024-square canvas. The ribbed torus is seen edge-on, a wide short horizontal gold form. The concentric polygonal connector is at the horizontal centre in front of the coil, with its exact existing outline. Paint its housing ceramic, concentric trim muted brushed gold and dark resin, and its existing pale luminous band icy blue-white. The thin ceramic base runs along the bottom and its little mounting tab projects to the RIGHT. Keep the straight-on orthographic camera and the geometry of every rib and the connector. Do not turn the coil to reveal its top opening.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "47b581337ea67e79d4a9c57e55fd47d957ffdf2dcd6029d6e5833708eb5a286c",
+          "role": "geometry_guide_and_edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "21bd1c0dffdb66ccb22790f17165429e7311d8a0fc4ba7dc5d585214981b0c94",
+          "role": "material_reference"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-a8196457-4524-4710-b873-0be23f28bdfa.png",
+      "output": "paint_front_attempt1.png",
+      "selected": true,
+      "reason": "Selected over correction: closer normalized silhouette overlap (0.860387 versus 0.615258). Gold and ceramic match the reference broadly, but framing drift and strong metallic highlights remain. Requires review.",
+      "selected_output": "paint_front.png",
+      "measurements": {
+        "file": "paint_front_attempt1.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "388f51fe0e9dcf28f54730eb9c690a29f8382ab7f2f6eda61acad9434de626ec",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          130,
+          454,
+          1158,
+          786
+        ],
+        "normalized_silhouette_iou": 0.860387,
+        "pixels_outside_normalized_guide": 42519,
+        "guide_pixels_missing": 7,
+        "nonzero_low_alpha_pixels": 13690,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Residual metallic highlights and/or facet/recess shading visible.",
+        "exact_part_edges_preserved": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting of the Hesper ion coil, a lander quest-item part.\nInput 1 is design_reference.png, the authority for surface colours, materials and detail ONLY; do not adopt its camera, silhouette or lighting. Input 2, the LAST image, is the exact 1024 x 1024 geometry guide and EDIT TARGET. Preserve the canvas and silhouette of this LAST image.\nPaint directly over the guide at 1024 x 1024 on a genuinely transparent background. Preserve its alpha silhouette EXACTLY, pixel for pixel: all outlines, part edges, faceted geometry, positions, dimensions and generous transparent margins. Keep every part where the guide has it. No reframing, rotation, perspective, enlargement, smoothing of the silhouette or added geometry. Do not copy the pale placeholder material tints.\nPaint the ribbed coil in warm brushed gold base colour with fine subtle brushed grain. Paint the guide's ceramic housing and base in lightly worn warm white ceramic, with fine scratches, delicate worn speckling, narrow engraved seams and panel joins. Small existing trim surfaces may use brushed gold and dark black-violet resin as shown in the design. Existing luminous faces are bright icy blue-white. Continue unseen surfaces plausibly in the same materials. Surface markings must be purely abstract seams, never text or letters.\nLIGHTING MUST BE ALBEDO: even flat shadowless viewer-facing light, no directional or underside darkening, no cast shadows, no ambient occlusion or darkened crevices, no strong specular highlights, reflections or rim light. Gold is an even golden base colour with only a faint sheen, no white glints. No floor, scenery, background, text, labels or watermark. Deliver one view only, a 1024 x 1024 transparent PNG.\nVIEW: FRONT. Last input guide_front.png is the image to edit, NOT the first image. It is a 1024 x 1024 transparent image; output the SAME 1024 x 1024 canvas. This is the single corrective regeneration: the previous attempt incorrectly enlarged and repositioned the object and added shiny bright highlights. Correct those errors.\nKeep the front silhouette exactly inside x=121..902 and y=386..637. Do not fit the object to the canvas. Keep the enormous blank transparent top and bottom margins. The gold ribbed torus is viewed edge-on, not from above. Keep the polygonal ceramic connector centred at approximately (496,504), with the same concentric part edges and pale blue-white luminous face. Bottom ceramic strip at y=590..637 and mounting tab extending RIGHT. Keep every ridge and notch of the guide, including the original angular edges.\nUse muted uniform warm golden ochre for every gold rib, with fine low-contrast brushed grain only. DO NOT make the top facets lighter or bottom facets darker. No white or yellow specular streaks, no brown shadows between ribs. Thin dark resin seams may distinguish materials, but no lighting gradients or depth shading. Warm off-white lightly worn ceramic. Flat unlit base-colour texture with bright icy blue-white existing light faces. Preserve transparent pixels exactly; no specks outside the guide.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "21bd1c0dffdb66ccb22790f17165429e7311d8a0fc4ba7dc5d585214981b0c94",
+          "role": "material_reference"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "47b581337ea67e79d4a9c57e55fd47d957ffdf2dcd6029d6e5833708eb5a286c",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-46cd2c40-307f-431b-aa78-0c0eb2942d7a.png",
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: correction moved the object downward and reduced normalized silhouette overlap to 0.615258; metallic highlights also remain.",
+      "selected_output": null,
+      "measurements": {
+        "file": "paint_front_attempt2.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "03b49a0688292b513a5567e511019c520424c1cb6061c779c69da5cca536ae2d",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          164,
+          536,
+          1122,
+          841
+        ],
+        "normalized_silhouette_iou": 0.615258,
+        "pixels_outside_normalized_guide": 60869,
+        "guide_pixels_missing": 63383,
+        "nonzero_low_alpha_pixels": 12300,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Residual metallic highlights and/or facet/recess shading visible.",
+        "exact_part_edges_preserved": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Edit the LAST input image, guide_back.png, by painting only its surfaces. The FIRST input, design_reference.png, is the material and colour reference. Create ONE BACK orthographic albedo painting, 1024 x 1024 transparent PNG, retaining guide_back.png's exact alpha mask, composition, margins, scale, every part edge and all angular ribs. This is a flat texture source, NOT a beauty render.\nKeep the object in the exact horizontal band of the guide: top at 37.7% of canvas height and bottom at 62.3%; left extent 11.8% and right extent 88.2%. Do not move, enlarge, rotate, round or redesign any part. It is a low horizontal edge-on ribbed torus; no connector on this back face, no visible top opening. Its thin straight ceramic support is underneath, with the small mounting tab extending LEFT.\nTransfer the design's warm brushed-gold material to the ribbed coil, and its worn warm-white ceramic to the bottom support and mounting tab. Fine engraved seams and tiny restrained ceramic wear, only painted within the existing parts. No extra straps or shapes. Continue unseen back materials plausibly. Gold must have an EVEN MATTE GOLDEN-OCHRE BASE COLOUR with very subtle brushed texture; use the reference's colour, not its reflections. Keep the gold uniformly lit across upper and lower facets. No bright bands, hotspots, reflections, dark recess shading, ambient occlusion, cast shadows or rim light. No floor or background. No text, letters, numbers, labels or watermark. Preserve all transparent space exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "21bd1c0dffdb66ccb22790f17165429e7311d8a0fc4ba7dc5d585214981b0c94",
+          "role": "material_reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "5469bdbc1c5af19ce828ac74c1107560dfac60af5ee52409103957647231c49f",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-3ff2d642-ab7c-4b7f-be42-4bf119c462d0.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favour of correction: strong highlight band and less accurate silhouette (normalized overlap 0.900631).",
+      "selected_output": null,
+      "measurements": {
+        "file": "paint_back_attempt1.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "6e2d91239260ea1b3376858e2d1df77ee3721a3fb1e5b61714999e05a8e2917b",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          152,
+          485,
+          1084,
+          772
+        ],
+        "normalized_silhouette_iou": 0.900631,
+        "pixels_outside_normalized_guide": 1664,
+        "guide_pixels_missing": 24543,
+        "nonzero_low_alpha_pixels": 10897,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Reduced highlights in correction; some facet shading remains.",
+        "exact_part_edges_preserved": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Paint the attached exact 1024 x 1024 orthographic BACK guide in place. Keep the original alpha silhouette and every part edge unchanged. Do not move or scale the object, and retain the full 1024-square canvas. The object is a broad short horizontal ribbed coil above a thin ceramic base, with a mounting tab extending left. No connector visible. Background transparent. Nothing outside the original alpha mask.\nThis is the single corrective regeneration of a game albedo texture source; the previous result was too shiny, shaded, and misaligned. Make an UNLIT HAND-PAINTED DIFFUSE BASE-COLOUR MAP, NOT a shaded metallic render. Remove ALL directional shading from the guide while preserving geometry.\nMaterial authority is the supplied Hesper ion-coil design reference: warm rich golden brass ribs with very fine brushed wear, warm ivory-white ceramic support and tab with sparse fine beige scratches and tiny seam lines, occasional narrow black-violet resin joins within existing edges. Every rib has the SAME medium warm golden-ochre colour (#B88B43 approximately); its facets have identical illumination. Texture marks are subtle, less than 10% value variation. Gold contains NO bright cream or white bands, NO yellow highlights, NO brown-to-black depth shadows. Ceramic is evenly lit ivory-white (#E8E1D1 approximately). No cast shadow, AO, reflections, rim light, bloom, background or floor. No text or letters. Faithfully keep all guide notches and faceted edges at their original pixels. Output one 1024 x 1024 transparent PNG.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "5469bdbc1c5af19ce828ac74c1107560dfac60af5ee52409103957647231c49f",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-5a779bb2-3654-46cb-a00d-f6588025e322.png",
+      "output": "paint_back_attempt2.png",
+      "selected": true,
+      "reason": "Selected: flatter brushed-gold colour and better normalized silhouette overlap (0.976101). Small edge drift and residual facet shading remain.",
+      "selected_output": "paint_back.png",
+      "measurements": {
+        "file": "paint_back_attempt2.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "6726a1a9ed92889ddf0b8a8378f8a9e4a6de38f35b6d58083d86e4f32fde10ff",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          148,
+          472,
+          1106,
+          785
+        ],
+        "normalized_silhouette_iou": 0.976101,
+        "pixels_outside_normalized_guide": 5351,
+        "guide_pixels_missing": 1040,
+        "nonzero_low_alpha_pixels": 14499,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Reduced highlights in correction; some facet shading remains.",
+        "exact_part_edges_preserved": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Create one exact orthographic game TEXTURE SOURCE painting by editing the attached geometry guide in place. It is a 1024 x 1024 transparent image. Preserve this canvas, every transparent pixel, silhouette, notch, ridge, faceted edge, part position, scale and framing exactly. All transparent margins must remain unchanged. NO geometric redesign, added parts, perspective, rotation, zoom or recentering.\nInput 1 is design_reference.png: material design only. Input 2 is the geometry guide to paint, the exact composition and shape authority. Use the reference's surface colours and wear, NOT its lighting or shape.\nMake an UNLIT HAND-PAINTED DIFFUSE BASE-COLOUR MAP, NOT a shaded metallic render. Remove all guide lighting while keeping geometry. The Hesper ion-coil materials are warm rich golden brass ribs with subtle fine brushed wear, warm ivory-white ceramic housing/support with sparse fine beige scratches, tiny seam lines, narrow dark black-violet resin joins, and icy blue-white luminous parts. Continue unseen surfaces plausibly.\nEvery gold rib has the SAME uniform medium warm golden-ochre base (#B88B43 approximately); all facets receive identical illumination. Subtle fine grain and worn marks, with less than 10% value variation. NO bright bands, glints, white highlights, brown depth shadows, AO, or reflections. Ceramic is uniformly ivory-white (#E8E1D1 approximately) with fine restrained wear. Existing luminous parts are bright pale icy blue-white, no halo outside their edges. No cast shadows, rim light, bloom, floor or background. No text, letters, numbers, logo or watermark. Deliver one transparent PNG, 1024 x 1024, same guide alpha mask.\nVIEW: LEFT, use guide_left.png as the edit target. The coil is seen perfectly edge-on, with the ceramic cylindrical connector at the RIGHT end and a thin pale blue-white light cap at the extreme RIGHT. The coil spans left-to-centre and the ceramic bottom base stops before the connector tip. There is NO extra projecting mounting tab on this side. Preserve precisely the asymmetric silhouette, cylinder length and all existing part edges. Keep the object in the original horizontal band, top 37.7% and bottom 62.3% of image height; extreme left 6.45%, extreme right 93.55%. Do not reveal the top of the torus. The side of the connector housing is ivory ceramic, with narrow gold/dark resin seam details painted inside its boundary.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "21bd1c0dffdb66ccb22790f17165429e7311d8a0fc4ba7dc5d585214981b0c94",
+          "role": "material_reference"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "a411987652f03027340c10d1c3b97d3b0c44f9d7de0eebec13053e7205553cc7",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-e88eedce-1561-403e-8076-ac48c58cd7d4.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favour of correction: stronger facet shading and altered material boundaries; normalized silhouette overlap 0.980281.",
+      "selected_output": null,
+      "measurements": {
+        "file": "paint_left_attempt1.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "e2ba601d903f571c91374d12b79bc9c2c4b2f754b9381254a66d8736cc48f7d1",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          80,
+          472,
+          1176,
+          782
+        ],
+        "normalized_silhouette_iou": 0.980281,
+        "pixels_outside_normalized_guide": 4637,
+        "guide_pixels_missing": 1614,
+        "nonzero_low_alpha_pixels": 16302,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Reduced highlights in correction; some facet shading remains.",
+        "exact_part_edges_preserved": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Single corrective pass: repaint guide_left.png directly as an unlit albedo texture, preserving its EXACT silhouette and all part boundaries. The earlier painting drifted slightly around the edges and shaded the ribs. Use the original guide's mask and original placement, not an approximation. Output 1024 x 1024 PNG, true transparency. Do not resize, move, rotate, recenter, round off or expand the original geometry.\nThe Hesper ion-coil's LEFT orthographic view has a low horizontally ribbed gold torus, a slim ivory ceramic base below, and a ceramic connector at the RIGHT with a pale icy-blue cap at the extreme right. Preserve all original ribs, their faceted edges, the exact cylinder dimensions and the base; no added tab. Torus top remains invisible.\nContinue the approved design_reference.png materials: uniform warm golden-ochre brushed metal (#B88B43) on the ribs, fine subtle brushing and tiny restrained scratches; warm white ceramic (#E8E1D1) on the base and connector, tiny beige wear and engraved seams; narrow black-violet resin and gold trim inside the connector's existing boundary. Bright blue-white existing luminous cap, no glow halo.\nFlat even viewer-facing unlit base colours. Every gold facet equally bright, including upper and lower facets. Faint sheen only. NO bright streaks, highlights, darkened lower facets, recess shadows, ambient occlusion, cast shadows, reflections or rim light. No letters, text, numbers, labels, background or floor. Preserve transparent pixels and leave the large empty margins exactly as in the guide.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "a411987652f03027340c10d1c3b97d3b0c44f9d7de0eebec13053e7205553cc7",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-8630ef6c-e73a-44b9-9c24-f1931c462e4c.png",
+      "output": "paint_left_attempt2.png",
+      "selected": true,
+      "reason": "Selected: flatter gold, closer original part boundaries and normalized silhouette overlap 0.984997. Small edge drift and residual facet shading remain.",
+      "selected_output": "paint_left.png",
+      "measurements": {
+        "file": "paint_left_attempt2.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "01dc381b5820042d20f8be15b4f56b40e3c9a381c245fb6c5eebfc812d1ad9fd",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          80,
+          473,
+          1176,
+          782
+        ],
+        "normalized_silhouette_iou": 0.984997,
+        "pixels_outside_normalized_guide": 3170,
+        "guide_pixels_missing": 1564,
+        "nonzero_low_alpha_pixels": 12855,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Reduced highlights in correction; some facet shading remains.",
+        "exact_part_edges_preserved": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Create one exact orthographic game TEXTURE SOURCE painting by editing the attached geometry guide in place. It is a 1024 x 1024 transparent image. Preserve this canvas, every transparent pixel, silhouette, notch, ridge, faceted edge, part position, scale and framing exactly. All transparent margins must remain unchanged. NO geometric redesign, added parts, perspective, rotation, zoom or recentering.\nInput 1 is design_reference.png: material design only. Input 2 is the geometry guide to paint, the exact composition and shape authority. Use the reference's surface colours and wear, NOT its lighting or shape.\nMake an UNLIT HAND-PAINTED DIFFUSE BASE-COLOUR MAP, NOT a shaded metallic render. Remove all guide lighting while keeping geometry. The Hesper ion-coil materials are warm rich golden brass ribs with subtle fine brushed wear, warm ivory-white ceramic housing/support with sparse fine beige scratches, tiny seam lines, narrow dark black-violet resin joins, and icy blue-white luminous parts. Continue unseen surfaces plausibly.\nEvery gold rib has the SAME uniform medium warm golden-ochre base (#B88B43 approximately); all facets receive identical illumination. Subtle fine grain and worn marks, with less than 10% value variation. NO bright bands, glints, white highlights, brown depth shadows, AO, or reflections. Ceramic is uniformly ivory-white (#E8E1D1 approximately) with fine restrained wear. Existing luminous parts are bright pale icy blue-white, no halo outside their edges. No cast shadows, rim light, bloom, floor or background. No text, letters, numbers, logo or watermark. Deliver one transparent PNG, 1024 x 1024, same guide alpha mask.\nVIEW: RIGHT, use guide_right.png as the edit target. The coil is seen perfectly edge-on with the ceramic cylindrical connector at the LEFT end and a thin pale blue-white light cap at the extreme LEFT. The coil spans centre-to-right. The slim ceramic bottom base lies under the coil, with the existing small faceted mounting tab in front near the lower RIGHT. Preserve all these asymmetries and every part edge. Keep the object in the guide's exact horizontal band, top 37.7% and bottom 62.3% of image height, leftmost 6.45% and rightmost 93.55%. The torus top is invisible. Paint the side connector ceramic with narrow gold and black-violet resin trim in its existing boundary. Do not add caps, straps, extra mounting points, holes or objects.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "21bd1c0dffdb66ccb22790f17165429e7311d8a0fc4ba7dc5d585214981b0c94",
+          "role": "material_reference"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "6130b9d0c8a74a3358a591967cdae0819e6298445d6a3093d6e96c927befafea",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-f6f83fa8-a0bf-460c-aa12-5e53dae8af36.png",
+      "output": "paint_right_attempt1.png",
+      "selected": true,
+      "reason": "Selected as the only returned right view; normalized silhouette overlap 0.974001. Corrective request was rejected by the image tool. Highlight bands and small edge drift remain.",
+      "selected_output": "paint_right.png",
+      "measurements": {
+        "file": "paint_right_attempt1.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "cef7b871b8c29bb194c0cda5cca0c0f53f87471cfbacbdd4a2fadf2ff584647c",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          77,
+          472,
+          1174,
+          783
+        ],
+        "normalized_silhouette_iou": 0.974001,
+        "pixels_outside_normalized_guide": 6871,
+        "guide_pixels_missing": 1429,
+        "nonzero_low_alpha_pixels": 13255,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Residual metallic highlights and/or facet/recess shading visible.",
+        "exact_part_edges_preserved": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Single corrective pass: repaint the attached original guide_right.png in place as an UNLIT ALBEDO TEXTURE. Earlier paint retained metallic highlight bands; remove them completely. Preserve the original guide silhouette, faceted contours, geometry edges, every part, original object position and scale EXACTLY. Return its same 1024 x 1024 canvas with true transparent background; no crop, zoom or redesign. All empty margins remain unchanged.\nThis RIGHT orthographic view shows a short broad edge-on toroidal gold coil, a ceramic connector cylinder to the LEFT with an icy blue-white luminous face at the far LEFT, a thin ceramic base below the coil and a small mounting tab in front at lower RIGHT. Follow each original part boundary. Do not show the top opening.\nApproved Hesper ion-coil materials: evenly coloured warm brushed gold ribs (#B88B43 approximate base), ivory-white ceramic (#E8E1D1) base and connector with tiny beige scratches and light wear, narrow black-violet resin and muted gold trim around the connector. Paint engraved seams within existing ceramic surfaces only. Blue-white luminous face has a flat bright colour with no outside halo.\nPaint fine low-contrast brushing over UNIFORM gold colour. Every gold facet is the same brightness: NO brighter upper facets, NO darkened lower facets, NO specular stripe across the ribs. All material texture variation is faint. No shading, AO, crevice darkening, cast shadow, reflections, rim light or bloom. No floor, scenery, text, letters, numbers or watermark. Preserve the original alpha mask exactly, with nothing outside it.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "6130b9d0c8a74a3358a591967cdae0819e6298445d6a3093d6e96c927befafea",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Corrective generation returned no image: tool rejected the output with moderation_blocked (violence), request ID c1b7e61a-d7ed-4fbd-a62a-5180ed34c310. No further correction attempted under the one-correction-per-view limit.",
+      "error": {
+        "code": "moderation_blocked",
+        "stage": "output",
+        "categories": [
+          "violence"
+        ],
+        "request_id": "c1b7e61a-d7ed-4fbd-a62a-5180ed34c310"
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Create one exact orthographic game TEXTURE SOURCE painting by editing the attached geometry guide in place. It is a 1024 x 1024 transparent image. Preserve this canvas, every transparent pixel, silhouette, notch, ridge, faceted edge, part position, scale and framing exactly. All transparent margins must remain unchanged. NO geometric redesign, added parts, perspective, rotation, zoom or recentering.\nInput 1 is design_reference.png: material design only. Input 2 is the geometry guide to paint, the exact composition and shape authority. Use the reference's surface colours and wear, NOT its lighting or shape.\nMake an UNLIT HAND-PAINTED DIFFUSE BASE-COLOUR MAP, NOT a shaded metallic render. Remove all guide lighting while keeping geometry. The Hesper ion-coil materials are warm rich golden brass ribs with subtle fine brushed wear, warm ivory-white ceramic housing/support with sparse fine beige scratches, tiny seam lines, narrow dark black-violet resin joins, and icy blue-white luminous parts. Continue unseen surfaces plausibly.\nEvery gold rib has the SAME uniform medium warm golden-ochre base (#B88B43 approximately); all facets receive identical illumination. Subtle fine grain and worn marks, with less than 10% value variation. NO bright bands, glints, white highlights, brown depth shadows, AO, or reflections. Ceramic is uniformly ivory-white (#E8E1D1 approximately) with fine restrained wear. Existing luminous parts are bright pale icy blue-white, no halo outside their edges. No cast shadows, rim light, bloom, floor or background. No text, letters, numbers, logo or watermark. Deliver one transparent PNG, 1024 x 1024, same guide alpha mask.\nVIEW: TOP, seen DIRECTLY ABOVE. Last input guide_top.png is the EXACT edit target. A circular toroidal coil with angular radial gold ribs occupies the upper-central canvas. Its circular centre is at approximately (497,442) in the original 1024 x 1024 image. Keep the irregular faceted outer silhouette, every notch, each original radial rib and the exact inner contours. Preserve the existing pale blue-white central face, including its irregular guide outline; it is NOT transparent. The ceramic cylindrical connector projects DOWNWARD from the coil at six o'clock, terminating in a small pale icy-blue cap near the image bottom. The only mounting tab projects towards the UPPER RIGHT at roughly one-thirty. Preserve that tab exactly. No other mounts, straps or geometry.\nThe guide has a narrow ring and small inset surfaces around the existing central luminous face. Paint those inset surfaces as dark black-violet resin with restrained gold trim, retaining each actual guide boundary. Main radial ribs stay uniform matte warm brushed gold. The bottom connector and upper-right tab are worn ivory ceramic. Preserve full 1024 canvas, outline bounding box x=121..902, y=66..957. No perspective; all central and radial geometry must align directly above the guide. No specular highlight arcs, bright radial streaks, dark inside shading or ambient occlusion; all facets evenly lit.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "21bd1c0dffdb66ccb22790f17165429e7311d8a0fc4ba7dc5d585214981b0c94",
+          "role": "material_reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "bccd7ba58c644129440c207b822c5077b50e738afca5d655a41c3ac09ab6d29b",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-4759f4f4-dd73-4054-bfb0-7e5f08088bf5.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Rejected in favour of correction: better outer silhouette overlap (0.984546), but central luminous contour and inner-ring details diverge more from the guide; added small light details.",
+      "selected_output": null,
+      "measurements": {
+        "file": "paint_top_attempt1.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "4786354596d7d3b1cb47783e3eb2540fb20ec3d4fdeb28226cb21de3080c493b",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          149,
+          79,
+          1114,
+          1186
+        ],
+        "normalized_silhouette_iou": 0.984546,
+        "pixels_outside_normalized_guide": 8385,
+        "guide_pixels_missing": 2469,
+        "nonzero_low_alpha_pixels": 14636,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Residual metallic highlights and/or facet/recess shading visible.",
+        "exact_part_edges_preserved": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Single corrective regeneration for the TOP view of a Hesper ion-coil lander component. Paint the attached guide_top.png directly. Keep its EXACT alpha silhouette, internal part edges, positions and 1024 x 1024 canvas. The previous painting still shaded facets and changed some boundaries. Correct those errors. No zoom, recentering, altered proportions, smoothing or additional parts.\nExact overhead orthographic layout: radial ribbed torus centred about (497,442), ivory ceramic connector projecting down at six o'clock, small ivory mounting tab at upper right, angular inner ring, irregular pale icy-blue central face. The central face is opaque and luminous; preserve its guide contour. Retain every radial notch, tooth and faceted border. Every guide edge is authoritative, including the exposed light cap below the bottom ceramic connector. Preserve the large transparent exterior and all narrow spaces.\nPaint the approved design materials as an UNLIT DIFFUSE ALBEDO MAP. All coil ribs have uniform warm golden-ochre brushed metal base colour (#B88B43 approximate), with subtle fine brushing and sparse small wear. All upper and inner facets have identical illumination. The connector and mounting tab are evenly lit warm ivory-white ceramic (#E8E1D1) with faint beige wear and delicate seams. The narrow ring surrounding the central face is dark black-violet resin with restrained muted gold detail, following existing geometry. The central face and existing light cap are flat bright pale blue-white; no glow outside them.\nNO directional lighting, bright edge streaks, specular reflections, dark recess shading, ambient occlusion, cast shadows, rim light or bloom. Texture variation should be very subtle, no polished metal appearance. No text, letters, numbers, labels, background, floor or watermark. Return one transparent 1024 x 1024 PNG, painting only inside the original alpha silhouette.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "bccd7ba58c644129440c207b822c5077b50e738afca5d655a41c3ac09ab6d29b",
+          "role": "geometry_guide_and_edit_target"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16dd5-1cb7-79e0-b3b6-02f604689cf1/exec-eb78f6a3-bfd5-449b-80bd-2231935e7daf.png",
+      "output": "paint_top_attempt2.png",
+      "selected": true,
+      "reason": "Selected for closer internal geometry, especially the irregular central luminous face, and simpler material continuation. Outer silhouette overlap is slightly worse (0.976614 versus 0.984546). Facet shading and edge highlights remain.",
+      "selected_output": "paint_top.png",
+      "measurements": {
+        "file": "paint_top_attempt2.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "21a9e122d97622e6e5c9aabb2f16fddbe58470abb6deb5acd9fcef13e00f8c63",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "visible_bbox_alpha_gt_127": [
+          144,
+          75,
+          1109,
+          1179
+        ],
+        "normalized_silhouette_iou": 0.976614,
+        "pixels_outside_normalized_guide": 16616,
+        "guide_pixels_missing": 1,
+        "nonzero_low_alpha_pixels": 14162,
+        "exact_silhouette_match": false,
+        "transparent_background": true
+      },
+      "visual_checks": {
+        "inspected": true,
+        "colours_and_materials": "Broad match to brushed gold, worn ivory ceramic, dark resin and blue-white light; see selection reason for deviations.",
+        "no_text_or_letters": true,
+        "flat_even_shadowless_lighting": false,
+        "lighting_note": "Residual metallic highlights and/or facet/recess shading visible.",
+        "exact_part_edges_preserved": false
+      }
+    }
+  ]
+}

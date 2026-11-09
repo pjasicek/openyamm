@@ -1,0 +1,30 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise texture atlas. The guide is the edit target; design_reference.png is only the material/detail reference and icon_x8.png only the colour reference (magenta is background).\nOutput ONE transparent PNG on a 3:4 canvas, 1536x2048 or nearest 3:4 size. Preserve the guide's exact layout, object positions, size, outlines, gaps and openings. Three columns by FOUR rows of square cells. Rows 1-2 and rows 3-4 contain identical five views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Never move, enlarge, redraw or redesign geometry. Paint existing grey pixels only. In particular do not add the dangling cord geometry from the reference outside guide silhouettes.\nRows 1-2 PAINT: unlit base colour of a plain tan-yellow cloth sash belt with dark-red painted X marks along it, tied at front with a thin red-brown leather cord loop whose ends hang down a little. Match reference materials and colours, mapping details onto existing guide geometry only. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No illumination, cast shadows, ambient occlusion, hot highlights, reflections, outlines, ground, text, glow, sparkles or aura.\nRows 3-4 MATERIAL MASK: same five exact silhouettes filled with FLAT pure colours only. #FF0000 for every metal part; #00FF00 for every leather part including red-brown leather cord and fur; #0000FF for every cloth part including tan-yellow sash AND its painted red X marks, quilting, linings, cloth cords, ribbons and hair; #000000 for gemstones, crystal, glass, pearl, enamel or liquid through glass. This is primarily a cloth belt, so belt bodies and painted X marks must be pure BLUE, with leather closure parts pure GREEN. No texture, shading, outlines or antialiased colour blends inside mask. Every silhouette pixel gets exactly one material colour. Nothing outside silhouettes.\nKeep all gaps transparent. Column 3 in row 2 and row 4 remain empty transparent. Preserve all ten guide silhouettes exactly.\nCORRECTIVE GENERATION: The previous attempt violated silhouettes. Use the original GREY GUIDE as absolute geometry, including all its small rectangular raised patches. NO dangling cord may be added: the reference cord must only be suggested INSIDE existing guide shapes. Keep edges clean and alpha completely zero everywhere outside the original guide. No speckles or smears anywhere. Bottom half must be truly flat solid blue cloth and solid green leather patches only, with absolutely NO visible X patterns, texture or tonal variation in blue. Do not remove or merge original raised patches. Exact silhouette tracing is more important than resembling reference shape.",
+  "initial_prompt": "Edit paint_mask_guide.png as a precise texture atlas. The guide is the edit target; design_reference.png is only the material/detail reference and icon_x8.png only the colour reference (magenta is background).\nOutput ONE transparent PNG on a 3:4 canvas, 1536x2048 or nearest 3:4 size. Preserve the guide's exact layout, object positions, size, outlines, gaps and openings. Three columns by FOUR rows of square cells. Rows 1-2 and rows 3-4 contain identical five views: FRONT, BACK, LEFT / RIGHT, TOP, empty. Never move, enlarge, redraw or redesign geometry. Paint existing grey pixels only. In particular do not add the dangling cord geometry from the reference outside guide silhouettes.\nRows 1-2 PAINT: unlit base colour of a plain tan-yellow cloth sash belt with dark-red painted X marks along it, tied at front with a thin red-brown leather cord loop whose ends hang down a little. Match reference materials and colours, mapping details onto existing guide geometry only. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view. No illumination, cast shadows, ambient occlusion, hot highlights, reflections, outlines, ground, text, glow, sparkles or aura.\nRows 3-4 MATERIAL MASK: same five exact silhouettes filled with FLAT pure colours only. #FF0000 for every metal part; #00FF00 for every leather part including red-brown leather cord and fur; #0000FF for every cloth part including tan-yellow sash AND its painted red X marks, quilting, linings, cloth cords, ribbons and hair; #000000 for gemstones, crystal, glass, pearl, enamel or liquid through glass. This is primarily a cloth belt, so belt bodies and painted X marks must be pure BLUE, with leather closure parts pure GREEN. No texture, shading, outlines or antialiased colour blends inside mask. Every silhouette pixel gets exactly one material colour. Nothing outside silhouettes.\nKeep all gaps transparent. Column 3 in row 2 and row 4 remain empty transparent. Preserve all ten guide silhouettes exactly.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ace1-bf5b-7be2-842b-b75062dfad3d/exec-99358679-15f4-4bcb-af64-8f3d78adc112.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10150/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10150/paint_mask_guide.png",
+      "sha256": "c3228ed1c2e31ac3ffb620f172ea11f6ce5427ddfb97a8e05d515b2a35e6d5fe"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10150/design_reference.png",
+      "sha256": "4685b93962aa3e568c90698f621e1a151b61d6d0f077d17ed12b44f5fb28e927"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10150/icon_x8.png",
+      "sha256": "d1f81793b478f4c4bddca4d5eb3eff58aba138f48d05a64a42cf6692eca7c309"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "limitations": "Generated output still contains stray pixels outside guide silhouettes, non-flat material masks, and incomplete X markings; retained raw without postprocessing per brief."
+  }
+}

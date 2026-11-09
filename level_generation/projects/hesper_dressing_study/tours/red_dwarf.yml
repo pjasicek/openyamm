@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/red_dwarf
+settle_seconds: 2.0
+exit: true
+shots:
+- name: cabinet_hall_s45
+  position:
+  - 6809
+  - 10864
+  - -1023
+  yaw: 0.175
+  pitch: -0.12
+- name: cabinet_room_s31
+  position:
+  - 1656
+  - 11504
+  - -1023
+  yaw: 3.119
+  pitch: -0.12
+- name: long_mine_s27
+  position:
+  - 7871
+  - 10015
+  - 1
+  yaw: 3.12
+  pitch: -0.12
+- name: empty_big_s51
+  position:
+  - 18287
+  - 9483
+  - -1295
+  yaw: 1.644
+  pitch: -0.12
+- name: entry_s2
+  position:
+  - 1663
+  - 2601
+  - -127
+  yaw: 2.931
+  pitch: -0.12
+- name: water_s23
+  position:
+  - 9583
+  - 5888
+  - -127
+  yaw: 0.007
+  pitch: -0.12
+- name: mine_room_s48
+  position:
+  - 14707
+  - 7003
+  - -1023
+  yaw: 2.7
+  pitch: -0.12

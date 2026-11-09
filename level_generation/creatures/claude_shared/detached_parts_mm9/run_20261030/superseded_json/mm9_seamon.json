@@ -1,0 +1,134 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_seamon.glb",
+  "components": 41,
+  "body": 0,
+  "size": 7.379337310791016,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "17": {
+    "joint": "Bone07",
+    "where": "above, +z",
+    "triangles": 28,
+    "extent": 0.2905,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01948,
+    "worst": {
+     "gap": 0.04441,
+     "to_body_cluster": 0.04441,
+     "clip": "Hit",
+     "frame": 14,
+     "time": 0.4667,
+     "part_point": [
+      0.97116,
+      1.91141,
+      0.66886
+     ],
+     "attached_point": [
+      0.97248,
+      1.89945,
+      0.6252
+     ],
+     "kind": "parted",
+     "against": "Bone07"
+    },
+    "detached_poses": 16,
+    "poses": 328,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.01812,
+      "frame": 16,
+      "time": 0.5333,
+      "frames": 5
+     },
+     "Hit": {
+      "max_gap": 0.04441,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 11
+     }
+    },
+    "shallowest": {
+     "depth": -0.00347,
+     "on": "Bone06",
+     "clip": "AttackRanged",
+     "frame": 19,
+     "time": 0.6333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_seamon_part17.png"
+   },
+   "20": {
+    "joint": "Bone02",
+    "where": "-z",
+    "triangles": 23,
+    "extent": 0.2363,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0253,
+    "worst": {
+     "gap": 0.00916,
+     "to_body_cluster": 0.00916,
+     "clip": "Walking",
+     "frame": 2,
+     "time": 0.0667,
+     "part_point": [
+      0.29975,
+      0.96571,
+      -1.33866
+     ],
+     "attached_point": [
+      0.29318,
+      0.95966,
+      -1.33812
+     ],
+     "kind": "parted",
+     "against": "Bone07"
+    },
+    "detached_poses": 46,
+    "poses": 328,
+    "clips": {
+     "Dead": {
+      "max_gap": 0.00908,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.00908,
+      "frame": 41,
+      "time": 1.3667,
+      "frames": 7
+     },
+     "Walking": {
+      "max_gap": 0.00916,
+      "frame": 2,
+      "time": 0.0667,
+      "frames": 8
+     }
+    },
+    "shallowest": {
+     "depth": 0.01544,
+     "on": "Bone07",
+     "clip": "Walking",
+     "frame": 6,
+     "time": 0.2
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_seamon_part20.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 41,
+   "attached_in_every_pose": 38
+  },
+  "concealed": {},
+  "shallow": {}
+ }
+]

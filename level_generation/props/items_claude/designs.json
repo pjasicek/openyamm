@@ -1,0 +1,80 @@
+{
+ "helm_full": {
+  "title": "Full Helm (MM6)",
+  "icons": [
+   "item111"
+  ],
+  "master_icon": "item111",
+  "identity": "a closed great helm of dark blackened steel: a rounded skull with a low central ridge, a fully closed face plate with a narrow horizontal eye slit and a vertical row of small breathing holes below it, riveted bands, a dark gunmetal finish with soft steel highlights. It stands upright on its lower rim.",
+  "length": 42.0,
+  "route": "codex",
+  "tris": 3200,
+  "materials": "blackened dark-grey steel plates with subtle hammered texture and light wear on the edges, brass/gold trim on the rim and band edges, small round dark-steel rivets, a dark (near black) interior visible through the face slit",
+  "metallic": 0.85,
+  "rough": [
+   0.55,
+   0.3
+  ],
+  "normal": 2.0
+ },
+ "helm_horned": {
+  "title": "Horned Helm (MM7)",
+  "icons": [
+   "7item089"
+  ],
+  "master_icon": "7item089",
+  "identity": "a dark iron spangenhelm with a brass browband studded with rivets: a rounded black-steel dome with a short spike on top, two curved ivory horns rising from the sides, a short nasal guard and an open face. It stands upright on its lower rim.",
+  "length": 42.0,
+  "route": "meshy_textured",
+  "tris": null,
+  "note": "KEEP (user decision 2026-10-18). Do not regenerate solely to change the production route."
+ },
+ "hat_peasant": {
+  "title": "Peasant Hat (MM7)",
+  "icons": [
+   "7item094"
+  ],
+  "master_icon": "7item094",
+  "identity": "a soft, battered brown leather (or felt) hat with a floppy wide brim turned up at one side, a pointed crown slumped forward, a braided golden cord band round the crown and a long striped tan feather tucked into the band, sweeping back. It rests on its brim.",
+  "length": 50.0,
+  "route": "meshy_textured",
+  "tris": null,
+  "note": "KEEP (user decision 2026-10-18). Do not regenerate solely to change the production route."
+ },
+ "boots_leather": {
+  "title": "Leather Boots (MM7)",
+  "icons": [
+   "7item115"
+  ],
+  "master_icon": "7item115",
+  "identity": "a pair of tall soft tan-brown leather boots with wide slouched cuffs folded down at the top, a buckled strap across each ankle and worn, scuffed leather. The pair stands upright side by side, slightly apart and slightly turned.",
+  "length": 52.0,
+  "route": "meshy_textured",
+  "tris": null,
+  "note": "KEEP (user decision 2026-10-18). Do not regenerate solely to change the production route."
+ },
+ "boots_knight": {
+  "title": "Knight's Boots (MM7)",
+  "icons": [
+   "7item118"
+  ],
+  "master_icon": "7item118",
+  "identity": "a pair of steel plate greaves and sabatons: polished articulated steel shin plates with brass-trimmed rims and riveted bands, a gold-edged knee flare at the top, segmented steel foot plates over dark leather. The pair stands upright side by side, slightly apart.",
+  "length": 52.0,
+  "route": "meshy_textured",
+  "tris": null,
+  "note": "KEEP (user decision 2026-10-18). Do not regenerate solely to change the production route."
+ },
+ "boots_ranger": {
+  "title": "Ranger Boots (MM7)",
+  "icons": [
+   "7item117"
+  ],
+  "master_icon": "7item117",
+  "identity": "a pair of tall dark navy-blue suede boots laced up the front with tan cord through brass eyelets, the tops folded over into wide soft cuffs, darker worn toes and soles. The pair stands upright side by side, slightly apart.",
+  "length": 52.0,
+  "route": "meshy_textured",
+  "tris": null,
+  "note": "KEEP (user decision 2026-10-18). Do not regenerate solely to change the production route."
+ }
+}

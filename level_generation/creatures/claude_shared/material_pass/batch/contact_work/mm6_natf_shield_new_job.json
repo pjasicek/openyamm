@@ -1,0 +1,51 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_natf_shield_new.glb",
+ "patch_materials": {
+  "LeafShield_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "LeafShield_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "LeafShield_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "LeafShield_L1_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "LeafShield_L1_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "LeafShield_L1_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "LeafShield_L3_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "LeafShield_L3_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "LeafShield_L3_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_natf_shield_new",
+ "size": 300,
+ "front": "-y"
+}

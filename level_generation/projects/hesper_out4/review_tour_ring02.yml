@@ -1,0 +1,37 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/ring02",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "ring_track",
+   "position": [
+    14900,
+    9400,
+    1120
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0784
+  },
+  {
+   "name": "ring_passage",
+   "position": [
+    15830,
+    10300,
+    1120
+   ],
+   "yaw": -1.4382,
+   "pitch": -0.033
+  },
+  {
+   "name": "ring_gate",
+   "position": [
+    16650,
+    9400,
+    1088
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0495
+  }
+ ]
+}

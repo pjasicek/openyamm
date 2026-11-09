@@ -1,0 +1,63 @@
+# Walkability and room-shape pass (2026-10-24): the user's play spots (hesper_stage/review/user_play_20261024)
+# and the reshaped rooms. Party-foot coordinates; capture minimized, under the shared engine and stage locks.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d08/review/walkability/captures
+settle_seconds: 1.5
+exit: true
+shots:
+- name: u65_bridge_c2_flush
+  position: [5900, 3500, 0]
+  yaw: -0.4000
+  pitch: -0.25
+  commands: [config set immortal 1, config set invisible 1]
+- name: u65_bridge_c1_banks
+  position: [2900, 2780, 0]
+  yaw: -0.5500
+  pitch: -0.3
+- name: u66_middle_belt
+  position: [4193, 6905, 896]
+  yaw: -0.1220
+  pitch: -0.1
+- name: u66_belt_stairs_railed
+  position: [2440, 6650, 768]
+  yaw: 0.2500
+  pitch: -0.05
+- name: u67_west_edge_ramps
+  position: [3700, 11200, 0]
+  yaw: 3.1416
+  pitch: -0.05
+- name: u67_west_edge_from_above
+  position: [2600, 11000, 128]
+  yaw: 0.2000
+  pitch: -0.3
+- name: u68_belt_mouth_crates
+  position: [4800, 6400, 896]
+  yaw: 0.0000
+  pitch: -0.15
+- name: u70_mouth_from_fab_a
+  position: [6750, 6420, 768]
+  yaw: 3.1416
+  pitch: 0.05
+- name: hall_east_walkway_seal
+  position: [5200, 10250, 0]
+  yaw: 0.0000
+  pitch: 0.0
+- name: hall_vault
+  position: [4200, 9950, 0]
+  yaw: 1.5708
+  pitch: 0.35
+- name: smelt_chamfer_hip
+  position: [3600, 1850, 0]
+  yaw: -2.7500
+  pitch: 0.3
+- name: belt_stair_sloped_ceiling
+  position: [5550, 5578, 0]
+  yaw: 3.1416
+  pitch: 0.2
+- name: gate_hall_chamfers
+  position: [4900, 300, 0]
+  yaw: 1.5708
+  pitch: 0.15
+- name: plant_chamfers
+  position: [7800, 400, -768]
+  yaw: 1.2000
+  pitch: 0.15

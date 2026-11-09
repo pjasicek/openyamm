@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png (input 1), preserving its exact silhouette positions, sizes and outlines. Output ONE transparent PNG 1536x2048 (3:4). Input 2 design_reference.png is material/detail reference; input 3 icon_x8.png is colour reference, magenta is background. Saint's Relic, source-faithful bone relic. Guide is three columns by FOUR rows of 512x512 cells: FRONT, BACK, LEFT / RIGHT, TOP, empty, repeated in bottom two rows. Keep the thin HORIZONTAL rods and tiny end-view circles exactly as in the guide, despite the item description 'vertical bone relic'. Never enlarge, move, rotate or redesign objects. Rows 1-2 PAINT: paint grey silhouettes only with unlit warm ochre golden aged bone base colour matching references, fine natural bone pores and subtle longitudinal grain. Reference facets, engravings, scrollwork and inner swirls only where present, scaled to each view. No lighting, cast shadow, AO, hot highlights, reflections, glow, aura, ground, outlines or text. Rows 3-4 MATERIAL MASK: fill the same five silhouettes with FLAT pure #FFFF00 yellow, because the entire object is bone, matte non-metal solid. No shading, texture or antialiased colour blends inside masks. Material schema: metal red #FF0000, leather/fur green #00FF00, cloth/hair blue #0000FF, matte non-metal solids including bone yellow #FFFF00, gem/glass/enamel/liquid black #000000. Here all is bone and therefore yellow. Every silhouette pixel gets a colour; nothing outside silhouettes. All gaps/openings and all background stay fully transparent. Column 3 row 2 and column 3 row 4 stay empty transparent. Preserve generous empty space and identical guide layout precisely.\nCORRECTION: The previous attempt expanded silhouettes and added stray coloured edge pixels. Use the original guide as a strict alpha stencil. Absolutely no pixels, fringes, speckles or protrusions outside its clean smooth outlines. Rods must remain as thin as the guide, not thicker bone shapes from the reference. Masks must be solid uniform yellow with clean straight edges and no floating dots. Paint must be matte unlit bone, not shiny metal. Preserve exact guide geometry above all.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad10-eeb9-7713-893f-c58032d046e6/exec-eee9c772-6b5e-4235-8b03-0e7ac6b6a949.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10368/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10368/paint_mask_guide.png",
+      "sha256": "55fffd53ae3f67485e96f7336d3b17c91efe19be0ea6bbd77a4553e4210fe96b"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10368/design_reference.png",
+      "sha256": "a00fb19237806c62b58bc8c7d8742bb589ed5ab470e66c9995b75124bdcf688b"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10368/icon_x8.png",
+      "sha256": "db2d69374d57827b1e7e8a7085cafd2c5202b5d05267f52c7216447738cf62bb"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "validation": "Layout preserved broadly; visible edge spill and non-flat mask artifacts remain after one corrective regeneration. Raw tool output preserved without edits."
+}

@@ -1,0 +1,1 @@
+Preserved magenta master, default native rectangle registration and deterministic native RGB tone matching with restore_native_tone.py. Alpha unchanged by tone correction. Light and dark proofs inspected.

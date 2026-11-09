@@ -1,0 +1,3 @@
+Saved all four 1536×1024 transparent images in [d3/](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantdf_claude/references_hd/d3), using built-in image generation. Includes raw returns, prompts/input hashes, and `selected_views_review.png`.
+
+Stopped at the permitted one correction per view. Exact outlines still differ, and the back has incorrect bracelets; these limitations are recorded in `generation_runs.json`.

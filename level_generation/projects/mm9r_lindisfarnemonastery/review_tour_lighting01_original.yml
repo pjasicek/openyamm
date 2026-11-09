@@ -1,0 +1,95 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_lindisfarnemonastery/review/lighting01_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: g01_narthex_start
+  position:
+  - -328
+  - -934
+  - 4
+  yaw: 1.5708
+  pitch: 0.0
+- name: g03_nave_north
+  position:
+  - -328
+  - 1536
+  - 4
+  yaw: 1.5708
+  pitch: 0.0
+- name: g05_crossing_east
+  position:
+  - -328
+  - 6656
+  - 4
+  yaw: 0.0
+  pitch: 0.0
+- name: g07_choir_north
+  position:
+  - -328
+  - 7680
+  - 4
+  yaw: 1.5708
+  pitch: 0.0
+- name: g08_altar
+  position:
+  - -328
+  - 10880
+  - 21
+  yaw: 1.5708
+  pitch: 0.1745
+- name: g10_courtyard_ne
+  position:
+  - 1536
+  - 2560
+  - -40
+  yaw: 0.7266
+  pitch: 0.0
+- name: g12_cloister_east
+  position:
+  - 5632
+  - 1536
+  - 42
+  yaw: 1.5708
+  pitch: 0.0
+- name: g14_thjorad
+  position:
+  - 6272
+  - 6144
+  - 4
+  yaw: -0.1419
+  pitch: 0.0
+- name: g16_tower_west
+  position:
+  - -1638
+  - 845
+  - 1
+  yaw: -2.5625
+  pitch: 0.0
+- name: u01_library_west
+  position:
+  - -1664
+  - 6912
+  - 987
+  yaw: 1.5708
+  pitch: 0.0
+- name: u02_scriptorium_east
+  position:
+  - 1024
+  - 6912
+  - 987
+  yaw: 1.8438
+  pitch: 0.0
+- name: l01_organ_loft
+  position:
+  - -328
+  - 9216
+  - 2297
+  yaw: 1.5708
+  pitch: 0.0
+- name: t01_bell_tower
+  position:
+  - -369
+  - 6195
+  - 3237
+  yaw: 1.5708
+  pitch: 0.0

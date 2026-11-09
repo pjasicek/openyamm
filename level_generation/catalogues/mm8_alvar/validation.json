@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "parts": 99,
+  "physicalAssemblies": 68,
+  "renderedViews": 121,
+  "houses": 47,
+  "npcRows": 35,
+  "serviceProprietors": 12,
+  "textures": 89,
+  "unboundScriptHouses": 10,
+  "limitations": [
+    "Original geometry and UVs are rendered for reference only; no MM5 geometry is copied.",
+    "Residents are initial merged-base table candidates, separate from named service proprietors; no quest-state simulation.",
+    "The merchant guild event changes dialogue with quest state; these are not extra houses or occupants.",
+    "Some script house events lack active outdoor mesh faces; recorded explicitly rather than inventing an exterior.",
+    "Independently fitted renders do not show relative physical scale. Use dimensions and equal-scale figures.",
+    "Source poor/med/rich names identify art families, not proven wealth."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "family": "djn",
+  "title": "MM6 Genie",
+  "descriptor_ids": [
+    544,
+    545,
+    546
+  ],
+  "base_palette": 739,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "MM6 adult male genie with vivid medium-blue skin, muscular upper torso, pointed black goatee and black high topknot held by a gold band. Gold belt, gold jeweled upper-arm and wrist ornaments, broad angular gold/red bracer on his left forearm (viewer right). Lower body is a tapering dark charcoal-violet tightly spiraling vortex with pale silvery ridges, no legs or feet. Preserve the original compact taper, stern face, hand positions and asymmetrical jewelry. No smoke aura, lamp, weapon, extra ornaments or modern redesign.",
+  "regions": "Blue skin changes to native purple or red; small jewel changes need their own mask. Gold metal, black hair and dark silver/violet vortex stay protected.",
+  "variant_names": {
+    "739": "Genie 1",
+    "740": "Genie 2",
+    "741": "Genie 3"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

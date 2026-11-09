@@ -1,0 +1,60 @@
+# Hesper's monster relations (design/kreegan_world/MONSTERS.md, Factions), staged by stage.py as the world's
+# worlds/hesper/relations.yml (engine: devdocs/ENERGY_SHIELDS_AND_RELATIONS.md). They sit on top of the engine's
+# relation table (hostile.txt), which has no rows for Hesper's ids; MM6-MM9 monsters are in no faction and keep theirs.
+#
+# relation: friendly / neutral (0), or hostile with an engagement range: close (1 024), short (2 560), medium
+# (5 120), long (the party's engagement range). `to` is party, any (every monster) or factions. A later rule overrides
+# an earlier one for the same pair; until_qbit / after_qbit switch a rule by a QBit (saved with the party, so a Lua
+# `evt.Set(QBit(n))` changes the relation for good). `kin` factions rally together when the party attacks one of them.
+schema: openyamm.monsterRelations.v1
+factions:
+  # Kreegans, their machines and the collared Kept: one faction (Drudges to Nobles, drones, turrets, the ion cannon,
+  # the Kept), the Kreegan bosses and the Crown's boss rows (D12: the test emplacement, the Bulwark coupled, the
+  # Capacitor Columns, the throne conduits, the Hierarch enthroned and faltering; CR-P3-20).
+  # The Hellhounds (10300-10302, design/kreegan_world/NEW_FAMILIES.md) are Kreegan-bred war-beasts: the same faction.
+  kreegans: {monsters: [10000-10062, 10100, 10102-10120, 10130, 10131, 10140-10143, 10145, 10146, 10147, 10300-10302]}
+  # Landfall's wall turrets and guards; the villagers are their kin (attacking either turns the town on the party).
+  defenders: {monsters: [10065-10069], kin: [villagers]}
+  villagers: {monsters: [10073-10078], kin: [defenders]}
+  ashrunners: {monsters: [10070-10072]}
+  # The Ashrunner camp's folk (row 10262, from S1): outside the raiders' hostile relation.
+  ashrunner_folk: {monsters: [10262]}
+  # Native beasts: the glassbacks, acid crawlers and the Gloamers (10320-10322), hostile to everything.
+  wild: {monsters: [10080-10092, 10101, 10320-10322]}
+  # The Ashkites (10310-10312): native carrion flyers that follow the brood; they and the Kreegans leave each other
+  # alone (no rule between them), and they fight the wild beasts.
+  kites: {monsters: [10310-10312]}
+  # D4 Labor Pens' own collared Kept (design zone2/dungeons/D4_LABOR_PENS.md, CR-P1-23): the Collar Control (M6,
+  # QBit 100027) turns every one of them at once, also mid-fight. The Scour's camps keep 10060-10062 and group bits.
+  pens_kept: {monsters: [10200-10202]}
+  # D12's Aster turrets (10144): the party's foes until Grid Control is turned (QBit 100608), then they fire on
+  # the Kreegans (D12 review C6, CR-P3-20).
+  aster_turrets: {monsters: [10144]}
+relations:
+  - {from: [kreegans, wild, kites], to: party, relation: long}
+  - {from: [defenders, villagers], to: party, relation: friendly}
+  - {from: ashrunners, to: party, relation: long, until_qbit: 100101}     # S1 Salvage Rights done
+  - {from: ashrunner_folk, to: party, relation: friendly}
+  # Landfall's defenders engage Kreegans within the short range (drones at the walls); the drones only answer within
+  # the close range, so the groups by the walls and the crater rim do not march on the town.
+  - {from: defenders, to: kreegans, relation: short}
+  - {from: kreegans, to: [defenders, villagers], relation: close}
+  - {from: defenders, to: ashrunners, relation: short, until_qbit: 100101}
+  # Ashrunners and Kreegans fight on sight.
+  - {from: ashrunners, to: kreegans, relation: short}
+  - {from: kreegans, to: ashrunners, relation: short}
+  # Glassbacks and crawlers attack anything near them, but not each other; the others answer them.
+  - {from: wild, to: any, relation: short}
+  - {from: wild, to: wild, relation: friendly}
+  - {from: [kreegans, defenders, ashrunners, kites], to: wild, relation: short}
+  # The Pens' Kept: hostile while collared; once the Collar Control is set they side with the party and fight their
+  # keepers (D4).
+  - {from: pens_kept, to: party, relation: long, until_qbit: 100027}
+  - {from: pens_kept, to: party, relation: friendly, after_qbit: 100027}
+  - {from: pens_kept, to: kreegans, relation: short, after_qbit: 100027}
+  - {from: kreegans, to: pens_kept, relation: short, after_qbit: 100027}
+  # D12's Aster turrets: hostile until Grid Control (100608), then with the party against the Kreegans.
+  - {from: aster_turrets, to: party, relation: long, until_qbit: 100608}
+  - {from: aster_turrets, to: party, relation: friendly, after_qbit: 100608}
+  - {from: aster_turrets, to: kreegans, relation: short, after_qbit: 100608}
+  - {from: kreegans, to: aster_turrets, relation: short, after_qbit: 100608}

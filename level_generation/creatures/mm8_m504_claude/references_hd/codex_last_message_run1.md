@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm8_m504_claude/references_hd/00_three_quarter.png), unresized at 1024×1536 with transparency, using built-in image generation.
+
+Prompt, input hashes and checks are in [generation_runs.json](level_generation/creatures/mm8_m504_claude/references_hd/generation_runs.json). After one correction, the head remains rounded and the arms narrower than requested. Stopped per the brief; no other views generated.

@@ -1,0 +1,80 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.tasaracademy_chests
+title: Ta'Sar Academy (native BLV) - the four MM9 treasure chests open
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: tasaracademy.blv
+- note:
+    text: 'The chests stand behind the two secret doors: both are opened first.'
+- execute_event:
+    id: 202
+- execute_event:
+    id: 203
+- advance_runtime:
+    seconds: 3
+- set_pose:
+    map: tasaracademy.blv
+    x: 6935
+    y: -10332
+    z: 349
+    yaw: 0.0
+    pitch: -0.8877
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: tasaracademy.blv
+    x: 6935
+    y: -10476
+    z: 349
+    yaw: 0.0
+    pitch: -0.8877
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: tasaracademy.blv
+    x: 7548
+    y: -142
+    z: 1
+    yaw: -0.0122
+    pitch: -0.8831
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: tasaracademy.blv
+    x: 7548
+    y: -265
+    z: 1
+    yaw: -0.0122
+    pitch: -0.8831
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog

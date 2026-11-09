@@ -1,0 +1,32 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as original colour reference (magenta is background, never paint it). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Exactly preserve the guide's three-column FOUR-row layout, object positions, scale, silhouettes, orientations, detached parts, and every transparent gap. Paint existing grey pixels only; never move, enlarge, redraw or redesign the objects. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those exact five silhouettes as material masks. Empty column 3 of rows 2 and 4 stays transparent.\nTOP HALF rows 1-2: unlit base colour for this MM9 Sing decorative fantasy prop, MM6-MM8 late-1990s pre-rendered inventory style. Narrow pale-gold flat blade, ornate scalloped orange-gold guard with facets, engravings, scrollwork and inner swirls from the approved master, segmented red-leather-and-gold grip, open ring pommel. Reference detail must be scaled to each existing view. Geometry guide is authoritative, even where the reference differs. No shading or illumination baked into the paint: no cast shadows, ambient occlusion, hot highlights, reflections or glow. Restrained fine material detail only.\nBOTTOM HALF rows 3-4: same five exact silhouettes with FLAT pure material colours only. Every metal part including blade, ornate guard, gold fittings and ring pommel is pure red #FF0000. Every leather part including red leather grip is pure green #00FF00. Cloth/hair pure blue #0000FF; matte non-metal solids wood/bone/horn/stone/paper/wax pure yellow #FFFF00; gems/glass/enamel/liquid pure black #000000 only if present. No shading, texture, outlines, or antialiased colour blends inside masks. Each silhouette pixel gets exactly one material colour, nothing outside silhouettes.\nPreserve genuine transparent alpha everywhere outside the objects and in all openings. No background colour, text, frame, scenery, hands, shadows, sparkles, aura or watermark. This is a precise multi-view paint-and-mask atlas, NOT a single enlarged hero illustration.",
+  "corrective_prompt": "Use case: precise-object-edit. Edit paint_mask_guide.png, using design_reference.png as material/detail reference and icon_x8.png as original colour reference (magenta is background, never paint it). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Exactly preserve the guide's three-column FOUR-row layout, object positions, scale, silhouettes, orientations, detached parts, and every transparent gap. Paint existing grey pixels only; never move, enlarge, redraw or redesign the objects. Rows 1-2 contain FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat those exact five silhouettes as material masks. Empty column 3 of rows 2 and 4 stays transparent.\nTOP HALF rows 1-2: unlit base colour for this MM9 Sing decorative fantasy prop, MM6-MM8 late-1990s pre-rendered inventory style. Narrow pale-gold flat blade, ornate scalloped orange-gold guard with facets, engravings, scrollwork and inner swirls from the approved master, segmented red-leather-and-gold grip, open ring pommel. Reference detail must be scaled to each existing view. Geometry guide is authoritative, even where the reference differs. No shading or illumination baked into the paint: no cast shadows, ambient occlusion, hot highlights, reflections or glow. Restrained fine material detail only.\nBOTTOM HALF rows 3-4: same five exact silhouettes with FLAT pure material colours only. Every metal part including blade, ornate guard, gold fittings and ring pommel is pure red #FF0000. Every leather part including red leather grip is pure green #00FF00. Cloth/hair pure blue #0000FF; matte non-metal solids wood/bone/horn/stone/paper/wax pure yellow #FFFF00; gems/glass/enamel/liquid pure black #000000 only if present. No shading, texture, outlines, or antialiased colour blends inside masks. Each silhouette pixel gets exactly one material colour, nothing outside silhouettes.\nPreserve genuine transparent alpha everywhere outside the objects and in all openings. No background colour, text, frame, scenery, hands, shadows, sparkles, aura or watermark. This is a precise multi-view paint-and-mask atlas, NOT a single enlarged hero illustration.\nCORRECTION: Exact geometry preservation is paramount. The previous attempt filled the deliberate transparent gap in the handle and introduced scattered opaque pixels beyond the silhouettes. Trace the ORIGINAL grey guide alpha faithfully at output scale, including its detached handle sections. Do not connect them with a red grip or any new geometry. Keep the original ring hole fully open, no inner diamond ornament. Every gap in each side view and upright view must remain transparent. No scattered pixels or fringe, no widened blade. Use muted unlit colour, not bright highlights. The mask half must have clean solid pure-colour interiors.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-f2cd-7cb1-bcbc-a79a4d2976cf/exec-25053f3f-0114-4cd2-91fd-8336f5b9b263.png",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2a-f2cd-7cb1-bcbc-a79a4d2976cf/exec-6881cb1a-3ad2-4850-a2fe-a43cd555c869.png",
+  "tool": "built-in image_gen",
+  "selection_reason": "First output retains the repeated layout and leather material classification better. Corrective output did not resolve geometry drift.",
+  "limitations": [
+    "Generated silhouettes deviate from guide, including filled handle gaps and fringe.",
+    "Paint includes highlights; material mask is not guaranteed to use exact palette values."
+  ],
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10175/paint_mask_guide.png",
+      "sha256": "47f11859ee71d6453dfc765b2caad8dd0d5467e102ddca07c578152da8d395f1"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10175/design_reference.png",
+      "sha256": "ca34cd56770b035fbd624ce0855996cb4aa8450dea45b7c66c1a17d619fd6873"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10175/icon_x8.png",
+      "sha256": "ef341bc7015a902c1cfa21110c2f12c9ba24a3c7c10d96af7684b2ea815b3055"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10175/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

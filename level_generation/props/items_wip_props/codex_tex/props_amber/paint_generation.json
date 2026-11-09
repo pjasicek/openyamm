@@ -1,0 +1,83 @@
+{
+  "tool": "built-in imagegen",
+  "source": "/home/pjasicek/.codex/generated_images/01a14de2-b151-7590-9890-726d2905cefd/exec-eab03ce3-3b57-4b10-8e5e-aec366baa063.png",
+  "saved": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_props/codex_tex/props_amber/paint_atlas_v1.png",
+  "sha256": "a86ec7dbb634004c9fbfc363314d37fa803c157dd75122cce7340eccc07f06ba",
+  "kind": "paint",
+  "prompt": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_props/codex_tex/props_amber/paint_atlas_prompt.txt",
+  "cells": {
+    "front": {
+      "crop": [
+        0,
+        175,
+        512,
+        338
+      ],
+      "size": [
+        512,
+        163
+      ]
+    },
+    "back": {
+      "crop": [
+        512,
+        175,
+        1024,
+        337
+      ],
+      "size": [
+        512,
+        162
+      ]
+    },
+    "left": {
+      "crop": [
+        0,
+        692,
+        512,
+        846
+      ],
+      "size": [
+        512,
+        154
+      ]
+    },
+    "right": {
+      "crop": [
+        512,
+        692,
+        1024,
+        846
+      ],
+      "size": [
+        512,
+        154
+      ]
+    },
+    "top": {
+      "crop": [
+        0,
+        997,
+        512,
+        1514
+      ],
+      "size": [
+        512,
+        517
+      ]
+    },
+    "bottom": {
+      "crop": [
+        512,
+        998,
+        1024,
+        1514
+      ],
+      "size": [
+        512,
+        516
+      ]
+    }
+  },
+  "guide_sha256": "4fbb512a3017dd87511344725d8f78b06a6593f4a7e3649b463977cc0d75f9da"
+}

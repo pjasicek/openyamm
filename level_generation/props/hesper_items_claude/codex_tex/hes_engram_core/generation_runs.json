@@ -1,0 +1,579 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-projection source for the existing Hesper training-core 3D model.\nCreate ONE painted FRONT view, 1024 x 1024 RGBA PNG, with genuine transparent background.\nINPUT 1 guide_front.png is the EDIT TARGET and absolute geometry authority. INPUT 2 design_reference.png is ONLY the material/color/design reference, never the camera or shape authority.\nPaint directly over input 1: preserve its EXACT alpha silhouette, all interior gaps, pixel positions, every part edge, proportions, scale, straight-on orthographic camera and margins. Do not redesign, straighten, symmetrize, add/remove parts, enlarge, recenter, rotate, or crop. The silhouette bounds in the 1024 square are x126..897, y66..957. Preserve the thin diagonal upper braces, pointed crystal top, horizontal upper rails with their existing small downward middle clasp, side pillars, and wide low ceramic base with its specific angular recesses. Do not invent a tall central front pillar over the crystal.\nTransfer input 2's actual materials onto these exact surfaces: a large faceted luminous sapphire/cyan-blue crystal with restrained pale blue-white internal mineral veins, brushed warm gold cage/rails/rims/clasps/pillars, off-white ivory ceramic inserts and broad lower base panels with tiny fine wear, and dark black-violet resin inside existing recessed base insets. Keep engraved fine lines and panel seams subtle, with no writing. Continue hidden faces plausibly using this same material scheme. Only these materials shown in reference; no orange lights, cloth or leather.\nLIGHTING IS ALBEDO: flat, even, shadowless viewer-facing illumination. Replace the guide's gray shading with base material colors. No cast shadows, no ambient-occlusion darkening, no directional lighting or rim light, no strong specular hot spots, reflected environment, glossy glare, bloom or external glow. Gold is a fairly uniform warm ochre-gold base color with fine brushed grain and only a faint sheen; ceramic is evenly lit warm ivory. Crystal facets show blue/cyan base colors and delicate internal veining, with its luminous parts painted bright pale cyan, not overexposed white reflections. No floor, no background, no text, no letters, numbers, symbols or watermark. Return only this single front painting, not a sheet. Exact guide alignment has priority over beautifying the geometry.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "587279eb320affa2f8c16adbf6958558d4abcafa57d164eae8f4ea729bca304f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        }
+      ],
+      "output": "paint_front_initial.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-c6bc4cef-4b6c-40dc-9ca7-0bbe5cc28d60.png",
+      "selected": false,
+      "reason": "Initial return retained. Corrective generation requested for remaining baked highlights and guide alignment.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "bcca3e1b99924e934cc5c68832970eb4cd4cc0d6020bed7cdf7281623b4b33d4",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          64,
+          1240,
+          1216
+        ],
+        "solid_alpha_bbox": [
+          152,
+          68,
+          1101,
+          1153
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.945864,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source for the Hesper training core.\nINPUT 1 design_reference.png supplies ONLY the approved material palette and surface detailing. INPUT 2 guide_back.png is the exact EDIT TARGET. The final image must use input 2's 1024 x 1024 canvas, camera, silhouette, alpha mask, margins and every part's pixel placement. Directly recolor input 2's existing surfaces; do not redraw or recompose its geometry.\nMaterials: warm off-white ceramic panels with fine restrained wear; brushed warm ochre gold rails, rims, clasps, braces and structural pillars with only a faint sheen; dark black-violet resin in existing lower recessed panels; luminous blue/cyan faceted crystal with delicate blue-white mineral veining. Paint luminous colors as base colors without illumination bleeding. Continue the same materials plausibly on faces unseen in the reference. Keep existing fine seams and understated engravings without any letters or symbols.\nMANDATORY flat albedo light: fully even shadowless viewer lighting, no cast shadows, no contact shadows or ambient occlusion, no directional shading or vignette. The gold is almost uniform matte base gold with very fine brushed grain, no bright bevel reflections or mirror highlights. Ceramic is evenly ivory, not shaded grey. Blue crystal facets have only moderate tonal variation, no glossy white streaks or sparkling hot spots. Do not reproduce the reference's dramatic lighting or the guide's gray shading.\nPreserve EXACTLY every guide edge, gap, asymmetry and proportion. No geometry improvements, reshaping, thickening, new holes, new parts, central columns, pedestal additions or enlargement. No perspective tilt. No recentering, cropping or changes to margins. Background is real zero-alpha transparency, including original open gaps. No background, floor, cast shadow, halo or external glow. No text, letters, numbers, runes, labels, logo or watermark. One view only, no contact sheet. Deliver an unscaled 1024 x 1024 RGBA PNG.\nVIEW: A directly orthographic BACK painting of guide_back.png. Preserve the rear central upper vertical strap in front of the crystal apex and its short downward clasp, the side pillars, and the three distinct lower angular recesses exactly as this guide.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "36b2eee996bd1da879a3112c2043a3d0852849bedbd67f8b68bccdec401b9be6"
+        }
+      ],
+      "output": "paint_back.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-a3999850-949b-49f7-93ae-d3569f273159.png",
+      "selected": true,
+      "reason": "Selected initial return because its silhouette and placement match the guide more closely than the corrective return. Baked highlights and non-identical geometry remain; maximum one corrective generation used.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "9a77ce3853b533f27198d14109417b58efab7783df2a4e9a63128560cc4c9656",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          31,
+          1250,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          155,
+          80,
+          1100,
+          1176
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.985361,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      },
+      "archive_output": "paint_back_initial.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source for the Hesper training core.\nINPUT 1 design_reference.png supplies ONLY the approved material palette and surface detailing. INPUT 2 guide_left.png is the exact EDIT TARGET. The final image must use input 2's 1024 x 1024 canvas, camera, silhouette, alpha mask, margins and every part's pixel placement. Directly recolor input 2's existing surfaces; do not redraw or recompose its geometry.\nMaterials: warm off-white ceramic panels with fine restrained wear; brushed warm ochre gold rails, rims, clasps, braces and structural pillars with only a faint sheen; dark black-violet resin in existing lower recessed panels; luminous blue/cyan faceted crystal with delicate blue-white mineral veining. Paint luminous colors as base colors without illumination bleeding. Continue the same materials plausibly on faces unseen in the reference. Keep existing fine seams and understated engravings without any letters or symbols.\nMANDATORY flat albedo light: fully even shadowless viewer lighting, no cast shadows, no contact shadows or ambient occlusion, no directional shading or vignette. The gold is almost uniform matte base gold with very fine brushed grain, no bright bevel reflections or mirror highlights. Ceramic is evenly ivory, not shaded grey. Blue crystal facets have only moderate tonal variation, no glossy white streaks or sparkling hot spots. Do not reproduce the reference's dramatic lighting or the guide's gray shading.\nPreserve EXACTLY every guide edge, gap, asymmetry and proportion. No geometry improvements, reshaping, thickening, new holes, new parts, central columns, pedestal additions or enlargement. No perspective tilt. No recentering, cropping or changes to margins. Background is real zero-alpha transparency, including original open gaps. No background, floor, cast shadow, halo or external glow. No text, letters, numbers, runes, labels, logo or watermark. One view only, no contact sheet. Deliver an unscaled 1024 x 1024 RGBA PNG.\nVIEW: A directly orthographic LEFT painting of guide_left.png. Preserve the guide's asymmetrical upper clasp extending rightwards before pointing down, the single upper diagonal visible on the left, central rear upright, and the small lower-left plus broad lower-right angular recesses exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "cf082223bdc549793b0ab23b4d2112168a237e8cde1b1582d1db1e901a69551e"
+        }
+      ],
+      "output": "paint_left.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-1ec3259a-ab42-4a21-bf00-5560d560eca7.png",
+      "selected": true,
+      "reason": "Selected initial return because its silhouette and placement match the guide more closely than the corrective return. Baked highlights and non-identical geometry remain; maximum one corrective generation used.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "db2b1444725e8738b91179fba5f9e0ae8e459315cada82dc463475d8d5ea167e",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1252
+        ],
+        "solid_alpha_bbox": [
+          164,
+          80,
+          1091,
+          1173
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.990887,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      },
+      "archive_output": "paint_left_initial.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source for the Hesper training core.\nINPUT 1 design_reference.png supplies ONLY the approved material palette and surface detailing. INPUT 2 guide_right.png is the exact EDIT TARGET. The final image must use input 2's 1024 x 1024 canvas, camera, silhouette, alpha mask, margins and every part's pixel placement. Directly recolor input 2's existing surfaces; do not redraw or recompose its geometry.\nMaterials: warm off-white ceramic panels with fine restrained wear; brushed warm ochre gold rails, rims, clasps, braces and structural pillars with only a faint sheen; dark black-violet resin in existing lower recessed panels; luminous blue/cyan faceted crystal with delicate blue-white mineral veining. Paint luminous colors as base colors without illumination bleeding. Continue the same materials plausibly on faces unseen in the reference. Keep existing fine seams and understated engravings without any letters or symbols.\nMANDATORY flat albedo light: fully even shadowless viewer lighting, no cast shadows, no contact shadows or ambient occlusion, no directional shading or vignette. The gold is almost uniform matte base gold with very fine brushed grain, no bright bevel reflections or mirror highlights. Ceramic is evenly ivory, not shaded grey. Blue crystal facets have only moderate tonal variation, no glossy white streaks or sparkling hot spots. Do not reproduce the reference's dramatic lighting or the guide's gray shading.\nPreserve EXACTLY every guide edge, gap, asymmetry and proportion. No geometry improvements, reshaping, thickening, new holes, new parts, central columns, pedestal additions or enlargement. No perspective tilt. No recentering, cropping or changes to margins. Background is real zero-alpha transparency, including original open gaps. No background, floor, cast shadow, halo or external glow. No text, letters, numbers, runes, labels, logo or watermark. One view only, no contact sheet. Deliver an unscaled 1024 x 1024 RGBA PNG.\nVIEW: A directly orthographic RIGHT painting of guide_right.png. Preserve the guide's asymmetrical upper clasp extending leftwards before pointing down, the single upper diagonal visible on the right, central rear upright, and the broad lower-left plus small lower-right angular recesses exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "7e5e4dc72d12fa9cebec90dfe682e6f85800a9f41b570853dce60a4684abd2c2"
+        }
+      ],
+      "output": "paint_right_initial.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-23485afb-0bad-4694-b169-ff4d530e2a76.png",
+      "selected": false,
+      "reason": "Initial return retained. Corrective generation requested for remaining baked highlights and guide alignment.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "74b16f7776db7239215788ecd7017e78f914f7984216fca8756b7969cf22171e",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1250,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          160,
+          71,
+          1094,
+          1173
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.985783,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source for the Hesper training core.\nINPUT 1 design_reference.png supplies ONLY the approved material palette and surface detailing. INPUT 2 guide_top.png is the exact EDIT TARGET. The final image must use input 2's 1024 x 1024 canvas, camera, silhouette, alpha mask, margins and every part's pixel placement. Directly recolor input 2's existing surfaces; do not redraw or recompose its geometry.\nMaterials: warm off-white ceramic panels with fine restrained wear; brushed warm ochre gold rails, rims, clasps, braces and structural pillars with only a faint sheen; dark black-violet resin in existing lower recessed panels; luminous blue/cyan faceted crystal with delicate blue-white mineral veining. Paint luminous colors as base colors without illumination bleeding. Continue the same materials plausibly on faces unseen in the reference. Keep existing fine seams and understated engravings without any letters or symbols.\nMANDATORY flat albedo light: fully even shadowless viewer lighting, no cast shadows, no contact shadows or ambient occlusion, no directional shading or vignette. The gold is almost uniform matte base gold with very fine brushed grain, no bright bevel reflections or mirror highlights. Ceramic is evenly ivory, not shaded grey. Blue crystal facets have only moderate tonal variation, no glossy white streaks or sparkling hot spots. Do not reproduce the reference's dramatic lighting or the guide's gray shading.\nPreserve EXACTLY every guide edge, gap, asymmetry and proportion. No geometry improvements, reshaping, thickening, new holes, new parts, central columns, pedestal additions or enlargement. No perspective tilt. No recentering, cropping or changes to margins. Background is real zero-alpha transparency, including original open gaps. No background, floor, cast shadow, halo or external glow. No text, letters, numbers, runes, labels, logo or watermark. One view only, no contact sheet. Deliver an unscaled 1024 x 1024 RGBA PNG.\nVIEW: A directly overhead orthographic TOP painting of guide_top.png. Preserve the square perimeter and every projecting inward clasp and its asymmetry, the rounded faceted crystal region in the middle, the top rail and all corner assemblies exactly. No side elevation, isometric or three-quarter view.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "6e73636f09826279d7ed78118d036302d17894280c3cf3ace706b3265b09fdf0"
+        }
+      ],
+      "output": "paint_top_initial.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-868a2e2d-9864-4e6c-8381-219b615808fe.png",
+      "selected": false,
+      "reason": "Initial return retained. Corrective generation requested for remaining baked highlights and guide alignment.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "fd8fbfe47e5ea10c6a0a1687c7947f5540674ddc86262317026184e3c2e79fac",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          3,
+          1238,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          97,
+          85,
+          1157,
+          1121
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.796029,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective generation, the only correction allowed for this view.\nUse case: precise-object-edit. Deliver one 1024 x 1024 transparent RGBA PNG painting for paint_front.png.\nINPUT 1 (guide_front.png) IS THE CANVAS AND EXACT GEOMETRY TO PRESERVE. Paint its gray surfaces in place. Copy its alpha outline and all part boundaries exactly, including the small irregularities. INPUT 2 (paint_front_initial.png) is the earlier color attempt ONLY: it contains unwanted shiny highlights and geometric drift. INPUT 3 (design_reference.png) is the approved material identity reference ONLY.\nStraight-on orthographic FRONT view. The guide's entire object bounds are x126..897, y66..957 on the 1024 canvas. Preserve these margins exactly, including all asymmetric parts and the exact lower recess pattern.\nCORRECT TWO THINGS: (1) restore every shape, scale, location and outline to input 1, never input 2 or 3; (2) remove lighting baked into materials. Do not reproduce any unwanted bright edges, directional brightness gradients, shadows or shading from input 2 or 3.\nThis is an UNLIT DIFFUSE BASE-COLOR painting for projection onto an existing 3D mesh, not a beauty render. Paint matte brushed-gold structural rails, thin gold rims and pillars; pale ivory-white ceramic panel inserts and broad lower panels; charcoal-violet resin in existing base recesses; saturated luminous blue and cyan crystal with fine pale mineral veins. Continue unseen faces with the same palette. Gold must remain near a consistent ochre-gold base color with only tiny fine grain and faint sheen; its bevels must NOT turn white or black. Ceramic stays even warm ivory with tiny fine wear, no strong marble patterns. Crystal uses azure/cyan facets and delicate internal pale-cyan veining with moderate contrast, NO white reflective triangular hotspots or directional reflections. Do not add cyan spill light onto frame.\nUse the visual materials in input 3 but EXCLUDE all its lighting. No cast shadows, ambient occlusion, dark contact shadows, rim light, directional highlights, hot reflections, glare, bloom, halos or floor. Material seams may have thin subtle lines but no broad dark bands pretending to be occlusion. Do not add new panel shapes or parts and do not improve or regularize the guide. Clear background must be true alpha zero with absolutely no stray pixels or colored fringe outside the exact guide outline; keep guide openings transparent. No text, letters, numbers, runes, labels, logos or watermark. Keep the exact original guide camera, all edges, framing and generous transparent margins. Return only this one view at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "587279eb320affa2f8c16adbf6958558d4abcafa57d164eae8f4ea729bca304f"
+        },
+        {
+          "path": "paint_front_initial.png",
+          "sha256": "bcca3e1b99924e934cc5c68832970eb4cd4cc0d6020bed7cdf7281623b4b33d4"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        }
+      ],
+      "output": "paint_front.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-515de8c8-1d8d-4bae-b538-27024f0a45f0.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter gold and reduced highlights. Exact guide silhouette and fully shadowless albedo were not achieved; maximum one corrective generation used.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e055ced73e34426991336e8870cc75042e7fc2ded5c55480b7c11748f0d503d4",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          33,
+          1226,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          152,
+          71,
+          1104,
+          1155
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.953175,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective generation, the only correction allowed for this view.\nUse case: precise-object-edit. Deliver one 1024 x 1024 transparent RGBA PNG painting for paint_back.png.\nINPUT 1 (guide_back.png) IS THE CANVAS AND EXACT GEOMETRY TO PRESERVE. Paint its gray surfaces in place. Copy its alpha outline and all part boundaries exactly, including the small irregularities. INPUT 2 (paint_back_initial.png) is the earlier color attempt ONLY: it contains unwanted shiny highlights and geometric drift. INPUT 3 (design_reference.png) is the approved material identity reference ONLY.\nStraight-on orthographic BACK view. The guide's entire object bounds are x126..897, y66..957 on the 1024 canvas. Preserve these margins exactly, including all asymmetric parts and the exact lower recess pattern.\nCORRECT TWO THINGS: (1) restore every shape, scale, location and outline to input 1, never input 2 or 3; (2) remove lighting baked into materials. Do not reproduce any unwanted bright edges, directional brightness gradients, shadows or shading from input 2 or 3.\nThis is an UNLIT DIFFUSE BASE-COLOR painting for projection onto an existing 3D mesh, not a beauty render. Paint matte brushed-gold structural rails, thin gold rims and pillars; pale ivory-white ceramic panel inserts and broad lower panels; charcoal-violet resin in existing base recesses; saturated luminous blue and cyan crystal with fine pale mineral veins. Continue unseen faces with the same palette. Gold must remain near a consistent ochre-gold base color with only tiny fine grain and faint sheen; its bevels must NOT turn white or black. Ceramic stays even warm ivory with tiny fine wear, no strong marble patterns. Crystal uses azure/cyan facets and delicate internal pale-cyan veining with moderate contrast, NO white reflective triangular hotspots or directional reflections. Do not add cyan spill light onto frame.\nUse the visual materials in input 3 but EXCLUDE all its lighting. No cast shadows, ambient occlusion, dark contact shadows, rim light, directional highlights, hot reflections, glare, bloom, halos or floor. Material seams may have thin subtle lines but no broad dark bands pretending to be occlusion. Do not add new panel shapes or parts and do not improve or regularize the guide. Clear background must be true alpha zero with absolutely no stray pixels or colored fringe outside the exact guide outline; keep guide openings transparent. No text, letters, numbers, runes, labels, logos or watermark. Keep the exact original guide camera, all edges, framing and generous transparent margins. Return only this one view at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "36b2eee996bd1da879a3112c2043a3d0852849bedbd67f8b68bccdec401b9be6"
+        },
+        {
+          "path": "paint_back_initial.png",
+          "sha256": "9a77ce3853b533f27198d14109417b58efab7783df2a4e9a63128560cc4c9656"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        }
+      ],
+      "output": "paint_back_corrective.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-3ef088bc-2e35-4f4f-9cc5-865b5e2eb3b9.png",
+      "selected": false,
+      "reason": "Corrective return has flatter lighting, but greater guide alignment drift than the initial return; retained unedited and not selected.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "dca08114e2a62d4e2fd3486fb142ea3c0feef8d5bae0e849d75b88099a04e62a",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          5,
+          1242,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          145,
+          68,
+          1109,
+          1178
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.959332,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective generation, the only correction allowed for this view.\nUse case: precise-object-edit. Deliver one 1024 x 1024 transparent RGBA PNG painting for paint_left.png.\nINPUT 1 (guide_left.png) IS THE CANVAS AND EXACT GEOMETRY TO PRESERVE. Paint its gray surfaces in place. Copy its alpha outline and all part boundaries exactly, including the small irregularities. INPUT 2 (paint_left_initial.png) is the earlier color attempt ONLY: it contains unwanted shiny highlights and geometric drift. INPUT 3 (design_reference.png) is the approved material identity reference ONLY.\nStraight-on orthographic LEFT view. The guide's entire object bounds are x132..891, y66..957 on the 1024 canvas. Preserve these margins exactly, including all asymmetric parts and the exact lower recess pattern.\nCORRECT TWO THINGS: (1) restore every shape, scale, location and outline to input 1, never input 2 or 3; (2) remove lighting baked into materials. Do not reproduce any unwanted bright edges, directional brightness gradients, shadows or shading from input 2 or 3.\nThis is an UNLIT DIFFUSE BASE-COLOR painting for projection onto an existing 3D mesh, not a beauty render. Paint matte brushed-gold structural rails, thin gold rims and pillars; pale ivory-white ceramic panel inserts and broad lower panels; charcoal-violet resin in existing base recesses; saturated luminous blue and cyan crystal with fine pale mineral veins. Continue unseen faces with the same palette. Gold must remain near a consistent ochre-gold base color with only tiny fine grain and faint sheen; its bevels must NOT turn white or black. Ceramic stays even warm ivory with tiny fine wear, no strong marble patterns. Crystal uses azure/cyan facets and delicate internal pale-cyan veining with moderate contrast, NO white reflective triangular hotspots or directional reflections. Do not add cyan spill light onto frame.\nUse the visual materials in input 3 but EXCLUDE all its lighting. No cast shadows, ambient occlusion, dark contact shadows, rim light, directional highlights, hot reflections, glare, bloom, halos or floor. Material seams may have thin subtle lines but no broad dark bands pretending to be occlusion. Do not add new panel shapes or parts and do not improve or regularize the guide. Clear background must be true alpha zero with absolutely no stray pixels or colored fringe outside the exact guide outline; keep guide openings transparent. No text, letters, numbers, runes, labels, logos or watermark. Keep the exact original guide camera, all edges, framing and generous transparent margins. Return only this one view at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "cf082223bdc549793b0ab23b4d2112168a237e8cde1b1582d1db1e901a69551e"
+        },
+        {
+          "path": "paint_left_initial.png",
+          "sha256": "db2b1444725e8738b91179fba5f9e0ae8e459315cada82dc463475d8d5ea167e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        }
+      ],
+      "output": "paint_left_corrective.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-5071104c-d41a-4fe3-9b47-8f6b4f44456a.png",
+      "selected": false,
+      "reason": "Corrective return has flatter lighting, but greater guide alignment drift than the initial return; retained unedited and not selected.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "3c141013d617e1f823441314c4378c21a8ca36e11345b5f909d918ef2ccbff51",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          25,
+          1238,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          176,
+          72,
+          1091,
+          1146
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.937365,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective generation, the only correction allowed for this view.\nUse case: precise-object-edit. Deliver one 1024 x 1024 transparent RGBA PNG painting for paint_right.png.\nINPUT 1 (guide_right.png) IS THE CANVAS AND EXACT GEOMETRY TO PRESERVE. Paint its gray surfaces in place. Copy its alpha outline and all part boundaries exactly, including the small irregularities. INPUT 2 (paint_right_initial.png) is the earlier color attempt ONLY: it contains unwanted shiny highlights and geometric drift. INPUT 3 (design_reference.png) is the approved material identity reference ONLY.\nStraight-on orthographic RIGHT view. The guide's entire object bounds are x132..891, y66..957 on the 1024 canvas. Preserve these margins exactly, including all asymmetric parts and the exact lower recess pattern.\nCORRECT TWO THINGS: (1) restore every shape, scale, location and outline to input 1, never input 2 or 3; (2) remove lighting baked into materials. Do not reproduce any unwanted bright edges, directional brightness gradients, shadows or shading from input 2 or 3.\nThis is an UNLIT DIFFUSE BASE-COLOR painting for projection onto an existing 3D mesh, not a beauty render. Paint matte brushed-gold structural rails, thin gold rims and pillars; pale ivory-white ceramic panel inserts and broad lower panels; charcoal-violet resin in existing base recesses; saturated luminous blue and cyan crystal with fine pale mineral veins. Continue unseen faces with the same palette. Gold must remain near a consistent ochre-gold base color with only tiny fine grain and faint sheen; its bevels must NOT turn white or black. Ceramic stays even warm ivory with tiny fine wear, no strong marble patterns. Crystal uses azure/cyan facets and delicate internal pale-cyan veining with moderate contrast, NO white reflective triangular hotspots or directional reflections. Do not add cyan spill light onto frame.\nUse the visual materials in input 3 but EXCLUDE all its lighting. No cast shadows, ambient occlusion, dark contact shadows, rim light, directional highlights, hot reflections, glare, bloom, halos or floor. Material seams may have thin subtle lines but no broad dark bands pretending to be occlusion. Do not add new panel shapes or parts and do not improve or regularize the guide. Clear background must be true alpha zero with absolutely no stray pixels or colored fringe outside the exact guide outline; keep guide openings transparent. No text, letters, numbers, runes, labels, logos or watermark. Keep the exact original guide camera, all edges, framing and generous transparent margins. Return only this one view at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "7e5e4dc72d12fa9cebec90dfe682e6f85800a9f41b570853dce60a4684abd2c2"
+        },
+        {
+          "path": "paint_right_initial.png",
+          "sha256": "74b16f7776db7239215788ecd7017e78f914f7984216fca8756b7969cf22171e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        }
+      ],
+      "output": "paint_right.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-148bb7e0-0e3e-4da6-8ea4-b90e47d824f6.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter gold and reduced highlights. Exact guide silhouette and fully shadowless albedo were not achieved; maximum one corrective generation used.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c69e2e1e9acbda376f942b4c2eaf6ef0c6aea96aef05aa39be2748f82d7505ce",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          5,
+          1238,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          160,
+          67,
+          1094,
+          1168
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.976834,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective generation, the only correction allowed for this view.\nUse case: precise-object-edit. Deliver one 1024 x 1024 transparent RGBA PNG painting for paint_top.png.\nINPUT 1 (guide_top.png) IS THE CANVAS AND EXACT GEOMETRY TO PRESERVE. Paint its gray surfaces in place. Copy its alpha outline and all part boundaries exactly, including the small irregularities. INPUT 2 (paint_top_initial.png) is the earlier color attempt ONLY: it contains unwanted shiny highlights and geometric drift. INPUT 3 (design_reference.png) is the approved material identity reference ONLY.\nDirectly overhead TOP view. The guide's entire object bounds are x126..897, y132..891 on the 1024 canvas: preserve these wide transparent margins exactly; do not enlarge it to fill the canvas. Preserve all four inward clamps and the slightly irregular outside square.\nCORRECT TWO THINGS: (1) restore every shape, scale, location and outline to input 1, never input 2 or 3; (2) remove lighting baked into materials. Do not reproduce any unwanted bright edges, directional brightness gradients, shadows or shading from input 2 or 3.\nThis is an UNLIT DIFFUSE BASE-COLOR painting for projection onto an existing 3D mesh, not a beauty render. Paint matte brushed-gold structural rails, thin gold rims and pillars; pale ivory-white ceramic panel inserts and broad lower panels; charcoal-violet resin in existing base recesses; saturated luminous blue and cyan crystal with fine pale mineral veins. Continue unseen faces with the same palette. Gold must remain near a consistent ochre-gold base color with only tiny fine grain and faint sheen; its bevels must NOT turn white or black. Ceramic stays even warm ivory with tiny fine wear, no strong marble patterns. Crystal uses azure/cyan facets and delicate internal pale-cyan veining with moderate contrast, NO white reflective triangular hotspots or directional reflections. Do not add cyan spill light onto frame.\nUse the visual materials in input 3 but EXCLUDE all its lighting. No cast shadows, ambient occlusion, dark contact shadows, rim light, directional highlights, hot reflections, glare, bloom, halos or floor. Material seams may have thin subtle lines but no broad dark bands pretending to be occlusion. Do not add new panel shapes or parts and do not improve or regularize the guide. Clear background must be true alpha zero with absolutely no stray pixels or colored fringe outside the exact guide outline; keep guide openings transparent. No text, letters, numbers, runes, labels, logos or watermark. Keep the exact original guide camera, all edges, framing and generous transparent margins. Return only this one view at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "6e73636f09826279d7ed78118d036302d17894280c3cf3ace706b3265b09fdf0"
+        },
+        {
+          "path": "paint_top_initial.png",
+          "sha256": "fd8fbfe47e5ea10c6a0a1687c7947f5540674ddc86262317026184e3c2e79fac"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "7d6f6a07f54183b5a4a6907330dee19d7857661c16265811e0721a87f91741b9"
+        }
+      ],
+      "output": "paint_top.png",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e90-6a84-7b52-9519-1735f24ee3b7/exec-0f405c42-519c-4c0f-88f4-3e1febd2fef3.png",
+      "selected": true,
+      "reason": "Selected corrective return for flatter gold and reduced highlights. Exact guide silhouette and fully shadowless albedo were not achieved; maximum one corrective generation used.",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d4228217a7930916fa04b7b815f8879af9df83738c45cd443da766fefea13029",
+      "checks": {
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1240,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          138,
+          140,
+          1116,
+          1109
+        ],
+        "requested_size": false,
+        "silhouette_identical": false,
+        "guide_mask_iou_normalized_canvas": 0.919247,
+        "guide_mask_comparison_method": "Alpha >= 128 masks compared at normalized pixel centers for measurement only. Saved images were not resized or edited.",
+        "materials_match_reference_palette_visual": true,
+        "no_text_or_letters_visual": true,
+        "flat_shadowless_albedo_visual": false,
+        "visual_notes": "Gold, ivory ceramic, blue crystal and dark resin match the palette. Remaining bevel shading, geometric drift and sparse colored alpha fringe prevent strict brief compliance.",
+        "unresized_unedited_source_copy": true,
+        "meets_all_checks": false
+      }
+    }
+  ],
+  "status": "Generated all five views; selected best returns with unresolved checks.",
+  "limitations": [
+    "Tool returned 1254 x 1254 images instead of requested 1024 x 1024; all files retained unresized and otherwise unedited.",
+    "Guide silhouettes and internal geometry are not pixel-identical, including after accounting for canvas size.",
+    "Some shaded bevels/contact seams and bright edges remain; these are not fully shadowless albedo.",
+    "Transparency is present, but sparse colored edge fringe pixels remain."
+  ]
+}

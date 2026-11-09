@@ -1,0 +1,39 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_remaining_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- capture: touch-phone
+- click:
+  - 1825.62
+  - 298.12
+- capture: touch-phone-followers
+- click:
+  - 1825.62
+  - 298.12
+- click:
+  - -130.0
+  - 795.0
+- capture: touch-phone-turn
+- click:
+  - -130.0
+  - 795.0
+- pointer_down:
+  - 1490.0
+  - 772.5
+- capture: touch-phone-attack-held
+- pointer_up:
+  - 1490.0
+  - 772.5
+- click:
+  - 42.5
+  - 795.0
+- wait: 0.5
+- capture: touch-phone-inventory
+- right_down:
+  - 1298.75
+  - 22.5
+- capture: touch-phone-inspect-held
+- right_up:
+  - 1298.75
+  - 22.5
+- key: Escape

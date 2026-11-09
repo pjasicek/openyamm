@@ -1,0 +1,258 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.verhoffinruins_swim
+title: 'Verhoffin Ruins (native BLV) - swimming: dive, chest on the bed, breath, drowning, surface, ramp, save under water,
+  the trap room floods'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: verhoffinruins.blv
+- note:
+    text: 'Off the crevasse''s rim: the party walks off the ruin floor, falls into the water and, its eye under, sinks (102
+      a second) to the bed.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4347
+    y: -560
+    z: -327
+    yaw: -1.5707963267948966
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    water:
+      state: dry
+      eye_under: false
+      breath_min: 0.99
+- movement_segment:
+    input: forward
+    seconds: 0.3
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: verhoffinruins.blv
+      x: -4347
+      y: -560
+      z: -327
+      yaw: -1.5708
+      pitch: 0.0
+    expect_stop:
+      map: verhoffinruins.blv
+      x: -4347
+      y: -790
+      z: -328
+      yaw: -1.5708
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- advance_runtime:
+    seconds: 3
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      foot_z_max: -647.4
+- note:
+    text: 'TreasureChest0 on the bed: opened from in front of it, under water.'
+- &id001
+  set_pose:
+    map: verhoffinruins.blv
+    x: -4355
+    y: -871
+    z: -654
+    yaw: 1.4975
+    pitch: -0.8818
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'Breath (MM9): 15 s under water, then every 2 s each member loses 1/6 of maximum HP. Out of the water first (breath
+      full), then on the bed for 10, 16 and 20 s.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: -4347
+    y: -560
+    z: -327
+    yaw: -1.5707963267948966
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    water:
+      eye_under: false
+      breath_min: 0.99
+- *id001
+- advance_runtime:
+    seconds: 10
+- assert:
+    water:
+      eye_under: true
+      breath_min: 0.25
+      breath_max: 0.42
+      drowning_ticks_max: 0
+- assert:
+    party_health:
+      full: true
+- advance_runtime:
+    seconds: 6
+- assert:
+    water:
+      eye_under: true
+      breath_max: 0.01
+      drowning_ticks_min: 1
+- advance_runtime:
+    seconds: 4
+- assert:
+    water:
+      eye_under: true
+      drowning_ticks_min: 3
+- assert:
+    party_health:
+      full: false
+- note:
+    text: 'Up (Fly Up held): the party rises at 384 a second and holds at the surface, its eye out; breath refills at once.'
+- movement_segment:
+    input: none
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: verhoffinruins.blv
+      x: -4355
+      y: -871
+      z: -654
+      yaw: 0.0
+      pitch: 0.0
+    expect_stop:
+      map: verhoffinruins.blv
+      x: -4355
+      y: -871
+      z: -586
+      yaw: 0.0
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+    fly_up: true
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+      foot_z_min: -590.5
+      foot_z_max: -582.5
+- note:
+    text: A save under water loads under water, with full breath (breath is not saved).
+- *id001
+- advance_runtime:
+    seconds: 5
+- assert:
+    water:
+      eye_under: true
+      breath_max: 0.7
+- save_game:
+    name: verhoffin_swim_under
+- load_game:
+    name: verhoffin_swim_under
+- assert:
+    water:
+      state: bed
+      eye_under: true
+      breath_min: 0.99
+- note:
+    text: 'Out by the NW ramp: from the surface over its foot the party swims west onto it and walks up out of the water onto
+      the ruin floor.'
+- movement_segment:
+    input: forward
+    seconds: 2.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: verhoffinruins.blv
+      x: -3700
+      y: -1600
+      z: -586
+      yaw: 3.1416
+      pitch: 0.0
+    expect_stop:
+      map: verhoffinruins.blv
+      x: -4500
+      y: -1600
+      z: -328
+      yaw: 3.1416
+      pitch: 0.0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: dry
+      eye_under: false
+      foot_z_min: -360
+- note:
+    text: 'The trap room (WaterTrap on its slide mover): a nozzle floods it to -77, over the heads of a party on its floor;
+      after 15 s under it drowns.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: 368
+    y: -2007
+    z: -327
+    yaw: 1.5708
+    pitch: -0.6511
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_named_map_var:
+      name: WaterState
+      value: 1
+- advance_runtime:
+    seconds: 29
+- assert:
+    mechanism:
+      id: 75
+      state: closed
+- assert:
+    water:
+      eye_under: true
+      breath_max: 0.01
+- note:
+    text: 'The drain button lowers the water: the party''s eye comes out, breath is full.'
+- set_pose:
+    map: verhoffinruins.blv
+    x: 369
+    y: -1686
+    z: -327
+    yaw: -1.5708
+    pitch: -0.4101
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_named_map_var:
+      name: WaterState
+      value: 0
+- advance_runtime:
+    seconds: 18
+- assert:
+    mechanism:
+      id: 75
+      state: open
+- assert:
+    water:
+      eye_under: false
+      breath_min: 0.99

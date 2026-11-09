@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_colloidalwarrior_claude/references_hd/00_three_quarter.png), unresized at 1024×1536 with transparency, using built-in image generation. Raw attempts and prompts/input hashes are retained in `raw/` and `generation_runs.json`.
+
+Stopped after run 1. Residual faults: narrow side margins and imperfect arm spacing/finger separation.

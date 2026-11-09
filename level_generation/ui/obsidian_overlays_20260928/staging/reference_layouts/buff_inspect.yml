@@ -1,0 +1,107 @@
+screen: BuffInspect
+
+elements:
+  - id: BuffInspectRoot
+    anchor: top_left
+    width: 330
+    height: 210
+    z_index: 526
+    visible: false
+    asset:
+      default: parchment
+    children:
+      - id: BuffInspectTitle
+        anchor: top_center
+        offset_x: 0
+        offset_y: 12
+        width: 220
+        height: 22
+        text:
+          value: "{title}"
+          font: Create
+          color: "#ffff9b"
+          align_x: center
+          align_y: middle
+
+      - id: BuffInspectBody
+        anchor: top_left
+        offset_x: 18
+        offset_y: 40
+        width: 294
+        height: 146
+        text:
+          value: "{body}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: BuffInspectCorner_UR
+        anchor: top_right
+        offset_x: 7
+        width: 39
+        height: 32
+        z_index: 580
+        asset:
+          default: cornr_UR
+
+      - id: BuffInspectCorner_UL
+        anchor: top_left
+        width: 33
+        height: 32
+        z_index: 580
+        asset:
+          default: cornr_UL
+
+      - id: BuffInspectCorner_LR
+        anchor: bottom_right
+        width: 39
+        height: 38
+        z_index: 580
+        offset_x: 7
+        offset_y: 7
+        asset:
+          default: cornr_LR
+
+      - id: BuffInspectCorner_LL
+        anchor: bottom_left
+        width: 33
+        height: 38
+        z_index: 580
+        offset_y: 7
+        asset:
+          default: cornr_LL
+
+      - id: BuffInspectCorner_TopEdge
+        anchor: top_left
+        width: 330
+        height: 10
+        z_index: 570
+        asset:
+          default: edge_top
+
+      - id: BuffInspectCorner_BottomEdge
+        anchor: bottom_left
+        offset_y: 7
+        width: 330
+        height: 16
+        z_index: 570
+        asset:
+          default: edge_btm
+
+      - id: BuffInspectCorner_LeftEdge
+        anchor: top_left
+        width: 11
+        height: 260
+        z_index: 570
+        asset:
+          default: edge_lf
+
+      - id: BuffInspectCorner_RightEdge
+        anchor: top_right
+        offset_x: 6
+        width: 16
+        height: 260
+        z_index: 570
+        asset:
+          default: edge_rt

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Obsidian • Remaining gameplay UI</title>
+<style>
+@font-face{font-family:Fondamento;src:url('../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf')}
+*{box-sizing:border-box}body{margin:0;background:#0b1311;color:#e5dcc7;font:16px/1.5 system-ui,sans-serif}
+header,main{max-width:1700px;margin:auto;padding:22px 30px}header{padding-bottom:0}
+h1{font:36px Fondamento;margin:0;color:#e4c793}p{margin:8px 0 16px;color:#b3beb5}
+nav,.choices{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}button,select,a.link{font:16px system-ui;color:#e5dcc7;background:#18271f;border:1px solid #716448;padding:9px 15px;cursor:pointer;border-radius:3px}
+button:hover,button[aria-pressed=true]{background:#3a3b29;border-color:#cfb775;color:#fff3d3}a{color:#d9bf86}
+#screen{display:block;max-width:100%;max-height:78vh;width:auto;height:auto;margin:auto;border:1px solid #675f43}
+.preview{background:#080d0b;padding:12px;min-height:100px}.note{font-size:14px;margin:12px 0;color:#9bac9f}
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:16px;margin:20px 0}
+.tile{text-align:center;padding:18px 10px;background:#15221c;border:1px solid #454d3b;border-radius:4px}
+.tile img{width:100px;height:100px;object-fit:contain}.tile span{display:block;color:#c8cfbd}
+.control{width:104px;height:104px;border:0;background:transparent;position:relative;padding:0;margin:8px}
+.control .plate{position:absolute;inset:0;width:100%;height:100%}.control .art{position:absolute;inset:15%;width:70%;height:70%;object-fit:contain}.control:active .art{transform:translateY(2px)}
+.states{display:flex;align-items:center;flex-wrap:wrap;gap:24px}.states label{display:flex;align-items:center;gap:8px}
+[hidden]{display:none!important}footer{border-top:1px solid #354338;margin-top:24px;padding-top:15px;font-size:14px;color:#a6b5a9}
+@media(max-width:700px){header,main{padding:16px}h1{font-size:28px}button,select{font-size:14px;padding:8px}.preview{padding:4px}}
+</style>
+<header>
+ <h1>Carved Obsidian — gameplay follow-up</h1>
+ <p>Native screens, new contextual illustrations and the Android thumb controls.</p>
+ <nav id="tabs" aria-label="Screen collection"></nav>
+</header>
+<main>
+ <div id="shots">
+  <div class="choices"><label>View <select id="view"></select></label></div>
+  <div class="preview"><img id="screen" alt="Native OpenYAMM screen"></div>
+  <p id="caption" class="note"></p>
+ </div>
+ <div id="artwork" hidden>
+  <p>True-alpha illustrations on the shared dark surface. Hover or press the control to inspect its state.</p>
+  <div class="states">
+   <label>Illustration <select id="control-icon"></select></label>
+   <label>State <select id="control-state"><option>normal</option><option>hover</option><option>pressed</option><option>active</option></select></label>
+   <button class="control" aria-label="Preview control"><img class="plate" alt=""><img class="art" alt=""></button>
+  </div>
+  <div class="icon-grid" id="icons"></div>
+ </div>
+ <footer>Integrated YAML and source graphics: <a href="README.md">implementation record</a> ·
+ <a href="art/prompt_set.json">generation prompts</a> · <a href="export.json">runtime asset manifest</a>.
+ Android screenshots preview its YAML in the native desktop renderer; APK/device validation is blocked by the local toolchain.</footer>
+</main>
+<script>
+const groups={
+ Android:{note:'One bottom-left column: Turn Mode, Inventory, Inspect from bottom to top. The buttons keep their size and clear the full party ornament even at 4:3. At 2:1 Attack/Spell remain beside the party, with context above. Flight arrows require an active Fly buff outdoors.',views:[
+  ['touch-column-4by3','4:3 • vertical controls'],['touch-column-4by3-turn','4:3 • turn mode'],['touch-column-4by3-inspect-held','4:3 • Inspect held'],['touch-column-4by3-inventory','4:3 • Inventory opened'],
+  ['touch-column-2by1','2:1 • vertical controls, no Fly'],['touch-column-2by1-followers','2:1 • expanded followers'],['touch-column-2by1-held','2:1 • context action held'],['touch-column-2by1-opened','2:1 • house opened'],
+  ['touch-column-phone','Wide phone • vertical controls'],['touch-column-phone-followers','Wide phone • followers']]},
+ Beacon:{note:'Original five-slot geometry, saved view, location and expiry text. Set and Recall use the shared Fondamento button treatment.',views:[['beacon-empty','Set • empty slots'],['beacon-saved','Recall • saved view'],['beacon-set-with-preview','Set • saved view'],['beacon-recall-hover','Recall button • hover']]},
+ Inventory:{note:'Jewelry slots and equipment placement retain their original rectangles. The panel and magnifier use the new shared skin.',views:[['jewelry','Jewelry panel'],['inventory','Inventory'],['magnifier-held','Magnifier held']]},
+ Portals:{note:'Town Portal and Dimension Door share the new Close-button renderer. Their destination map artwork is retained.',views:[['town-portal','Town Portal'],['town-portal-close-hover','Close hovered'],['town-portal-closed','Closed successfully']]},
+ Context:{note:'Shared carved panel, generated action illustration and live Fondamento label. Android places the action above the right-hand buttons; desktop keeps its current position. Both examples open the targeted house.',views:[['touch-column-2by1','Android • above Attack/Spell'],['touch-column-2by1-held','Android • action held'],['touch-column-2by1-opened','Android • house opened'],['context-door','Desktop • house interaction'],['context-door-held','Desktop • action held'],['context-door-open','Desktop • house opened']]},
+ Icons:{views:[]}
+};
+const asset=n=>'../../../assets_dev/engine/icons_x2/obsidian_'+n+'.png';
+const names=['attack','cast','magnifier','talk','door','chest','pouch','hand','lever','fountain','shrine','obelisk','read','portal','pause','resume','quickcast','up','down'];
+const view=document.querySelector('#view'),screen=document.querySelector('#screen');
+function showGroup(name){
+ document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-pressed',b.textContent===name));
+ document.querySelector('#shots').hidden=name==='Icons';document.querySelector('#artwork').hidden=name!=='Icons';
+ if(name==='Icons')return;
+ view.replaceChildren(...groups[name].views.map(([key,label])=>new Option(label,key)));
+ document.querySelector('#caption').textContent=groups[name].note;showView();
+}
+function showView(){screen.src='native/images/'+view.value+'.png';screen.alt=view.selectedOptions[0].textContent;}
+for(const name of Object.keys(groups)){const b=document.createElement('button');b.textContent=name;b.onclick=()=>showGroup(name);document.querySelector('#tabs').append(b)}
+view.onchange=showView;
+const control=document.querySelector('.control'),icon=document.querySelector('#control-icon'),state=document.querySelector('#control-state');
+for(const name of names){icon.add(new Option(name.replace('quickcast','quick cast'),name));const tile=document.createElement('div');tile.className='tile';tile.innerHTML='<img src="'+asset('action_'+name)+'" alt="'+name+'"><span>'+name.replace('quickcast','quick cast')+'</span>';document.querySelector('#icons').append(tile)}
+function paint(forced){document.querySelector('.plate').src=asset('touch_'+(forced||state.value));document.querySelector('.art').src=asset('action_'+icon.value)}
+control.onpointerenter=()=>paint('hover');control.onpointerleave=()=>paint();control.onpointerdown=()=>paint('pressed');control.onpointerup=()=>paint('hover');state.onchange=()=>paint();icon.onchange=()=>paint();paint();
+showGroup(new URLSearchParams(location.search).get('screen') in groups?new URLSearchParams(location.search).get('screen'):'Android');
+</script>
+</html>

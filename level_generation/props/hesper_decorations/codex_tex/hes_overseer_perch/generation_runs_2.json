@@ -1,0 +1,134 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "max_corrective_regenerations": 1,
+  "corrective_regenerations_used": 1,
+  "status": "generated_but_brief_checks_failed",
+  "image_postprocessing": "none; byte-for-byte copies of unresized built-in returns",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture-source painting of the back of an Overseer's perch, for projection onto an existing 3D model.\n\nInput 1, guide_back.png, is the EDIT TARGET and absolute geometric authority: a 1024 x 1024 transparent orthographic back render. Input 2, design_reference.png, is ONLY the approved colour, design and material reference. Input 3, concept_crop.png, is secondary original concept context.\n\nPaint ONLY the existing opaque surfaces in Input 1. Return ONE native 1024 x 1024 RGBA image with genuine transparent background, unchanged framing and placement, no resizing. Preserve the guide's alpha silhouette exactly, including every internal opening and small detail. Keep every edge, spike, arch, pylon, root-shaped foot, crosspiece and ladder rung at the identical pixel location, size and shape. Keep the strict orthographic BACK view; do not borrow the three-quarter viewpoint or geometry of Input 2. The object occupies approximately x=262..761 and y=66..957 in the 1024-square canvas. Preserve the asymmetric details, broad filled upper panel under the deck, crossing braces and visible ladder. Do not cut additional holes or add new mesh features.\n\nTransfer Input 2's surface materials to this exact existing geometry: black-violet resin struts and root forms; white ceramic pylon panels with restrained fine aged hairline cracks and brushed gold bands; ivory bone ribs, ladder rungs and spikes; orange light-strip accents painted flush on existing surfaces; dark worn alloy deck plates and deck edge. Use the reference's dark violet-black, warm ivory/ceramic white, muted gold and saturated orange material palette. Treat the broad filled panel under the deck as an existing surface and preserve its outline and raised arch edges. Decoration detail must be paint within the existing surfaces, never new silhouette protrusions. Add no rubble outside the existing feet.\n\nLIGHTING: texture-source ALBEDO, even flat shadowless frontal light from the viewer across ALL surfaces. No cast shadows, ambient-occlusion darkening, directional shading, strong specular highlights, reflections, rim light, bloom or glow spill. Orange sacs/seams/strips are their intrinsic bright orange colour, not light on nearby surfaces. Surface colour and restrained material texture only. No floor, background, backdrop, character, creature, scenery, text, labels, watermark or border. All empty space, including spaces between ladder rungs, remains transparent. Preserve the guide's exact silhouette and all shape edges above all else.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "fb259feb0fd1aae926ce0dae65b306a8dc73b9ba4c909dd6ea98d60549914ff4",
+          "role": "edit target and geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707",
+          "role": "approved material and colour reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734",
+          "role": "secondary original concept reference"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16913-2ad0-7e62-886c-3af20574a02d/exec-6511dec4-68b9-41ad-9c8e-a4efdde05717.png",
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: native output is 1254 x 1254, not 1024 x 1024. Guide edges and ladder details changed, with shaded and highlighted material treatment. Retained unchanged for provenance.",
+      "output_sha256": "bef6c033a7b4af3b5ea61ebc64493e5117fcdb4f32e61164eefd208cad732f9e",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1240,
+          1254
+        ],
+        "alpha_128_bbox": [
+          320,
+          77,
+          936,
+          1171
+        ],
+        "exact_guide_alpha": false,
+        "transparent_pixels": 1243151,
+        "partially_transparent_pixels": 328452,
+        "unresized_return_verified": true,
+        "materials_and_colours": "Broad material palette matches; ornament detail added.",
+        "flat_even_albedo_lighting": "FAIL: residual shading and specular-looking edge highlights.",
+        "exact_guide_geometry": "FAIL: altered rung shapes and ornamental geometry."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Edit the FIRST image, guide_back.png. This is a surface-painting task with a STRICT 1024 x 1024 output canvas. Return one native 1024 x 1024 PNG with a true transparent alpha channel. Do not upscale or choose another resolution.\n\nUse guide_back.png as the fixed pixel stencil. Keep its alpha mask and all geometric boundaries UNCHANGED. Every opaque pixel stays in the same position and every transparent pixel stays transparent. The complete object remains inside exactly the original guide bounds x=262..761, y=66..957. Paint material colours within that stencil only. Keep the original orthographic BACK view, the original spike profiles, the solid upper arched panel, narrow legs, irregular cross-braces, exact ladder rails and individual rung positions, angular foot outlines, all openings and small asymmetries. Do not enlarge, recenter, reshape, straighten, beautify or add geometry. Do not add ornaments, gems, edging or extra ribs that alter any existing edge.\n\nThe second image, design_reference.png, supplies materials and colours only: black-violet resin struts and roots; white ceramic pylons with brushed gold bands; ivory bone ribs and spikes; a glowing-orange coloured light strip; dark worn alloy deck plates. Apply those materials as subtle painted textures on the FIRST image's existing shapes. The third image, concept_crop.png, is secondary design context only, no character or scenery.\n\nALBEDO TEXTURE SOURCE: uniform flat shadowless frontal illumination over every visible surface. Resin must read as a matte dark violet base colour, ceramic as matte warm white, gold as a subdued brushed gold base colour, bone as matte ivory, orange strips as solid saturated orange. No dark contact shading, no ambient occlusion, no cast shadows, no metallic glints, no specular highlights, no reflections, no bevel highlights, no light spill, no bloom, no rim light, no floor or backdrop. Material separation and fine colour texture only. Preserve solid opaque interiors and the guide's antialiased transparent boundaries; never make the object translucent. Empty regions including ladder openings must be alpha-zero, not coloured fringe or black fill.\n\nCORRECTION TARGET: the prior attempt returned 1254 x 1254 and changed details. This new result must be the exact ORIGINAL guide layout at 1024 x 1024, not a resized or reinterpreted version of that prior attempt. Prioritize exact canvas dimensions and unchanged guide silhouette/edges. Paint the supplied grey guide itself; do not redraw a similar tower.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "fb259feb0fd1aae926ce0dae65b306a8dc73b9ba4c909dd6ea98d60549914ff4",
+          "role": "edit target and geometry authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "2854671c37a541e8e0b083aa711a27597cda35bdcf9e7894df027260613c5707",
+          "role": "approved material and colour reference"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "e7bdb9c5e0cb8c36bc080acd98abd6629297e15c86476a52479193ce4eaaa734",
+          "role": "secondary original concept reference"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16913-2ad0-7e62-886c-3af20574a02d/exec-f25fb0d5-cca3-4ecd-8eab-b64fb3d0bd12.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected only as the better available raw candidate: clearer brushed-gold bands and restrained orange material. Not compliant: again 1254 x 1254, with altered guide edges/details, residual shading and stray low-alpha pixels. The one permitted corrective regeneration is exhausted; no resizing, masking or retouching applied.",
+      "output_sha256": "3114d85719e1a425c5d0d661612e59c58588df2db4c50337beaca5b2759e6d00",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "dimensions_1024x1024": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          25,
+          1236,
+          1228
+        ],
+        "alpha_128_bbox": [
+          321,
+          82,
+          933,
+          1170
+        ],
+        "exact_guide_alpha": false,
+        "transparent_pixels": 1252235,
+        "partially_transparent_pixels": 319098,
+        "unresized_return_verified": true,
+        "materials_and_colours": "Broad black-violet, ceramic white, ivory, gold and orange palette matches the reference.",
+        "flat_even_albedo_lighting": "FAIL: residual surface shading and highlights remain.",
+        "exact_guide_geometry": "FAIL: rung openings, outer contours and some decorative edges differ."
+      }
+    }
+  ]
+}

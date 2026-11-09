@@ -1,0 +1,77 @@
+# Explicit conversion choices for MM9's Connecting Tunnels (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: connectingtunnels
+  display_name: Connecting Tunnels
+  starts: [StartPoint0, StartPoint1, StartPoint2]   # 0: from Thronheim (east), 1: Yorwick's lower exit (west), 2: Yorwick's upper exit
+  monster_classes: [SkeletonWarrior, SkeletonMaster, SpectreDagrell, VenomousDagrell, Annelid, Bloodsucker, Vampir]
+  # The DAT spans LT x -1 184..14 512 (native -3 031..37 151): over int16. The x offset centres it (native
+  # -20 031..20 151); y -15 565..12 001 and z -1 925..7 352 fit. convert.py shifts the transition rows (README).
+  offset: [17000, 0, 0]
+  ambient: 20
+  model_lighting: true
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+plan_levels:
+  low: [-800, 300]
+  mid: [300, 1600]
+  high: [1600, 2900]
+models:
+  # --- the coffin's lid leaves (RotatingDoor pair, no portal): they open the coffin; open unlocks TreasureChest1
+  #     inside, close locks it (coffin door right's OpenTriggerTarget0/CloseTriggerTarget0)
+  coffin door left: {group: coffin, motion: rotate}
+  coffin door right: {group: coffin, motion: rotate}
+  # --- the rock fall in the west tunnel (DestructableBrush0, HitPoints 10, its death destroys DestructableBrush1,
+  #     TriggerDestroyOnly): scene destructibles (dungeon/destructibles.py `break`); weapons break DestructableBrush0, a
+  #     click on either still does (DestructableBrush1's click is DestructableBrush0's: 38000 + 127)
+  DestructableBrush0: {group: RockFall, motion: break}
+  DestructableBrush1: {group: RockFall, motion: break, click: 38127}
+model_patterns:
+  AITrack: skip                       # AIRail helpers: MM9's walkable graph, not built
+portals:   # archway cuts: work/cuts/manual.yml by hand, t* from work/cuts/tunnel_cuts.py (README)
+  - {name: t00, axis: z, point: [14360, 320, -1368], span: 160}
+  - {name: t01, axis: x, point: [12408, -40, -2392], span: 200}
+  - {name: t02, axis: x, point: [10248, -88, -1816], span: 232}
+  - {name: t03, axis: z, point: [12152, -40, -424], span: 248}
+  - {name: t04, axis: x, point: [9368, -152, -2360], span: 232}
+  - {name: t06, axis: x, point: [9880, 24, 328], span: 232}
+  - {name: t07, axis: z, point: [8808, -376, -4392], span: 320}
+  - {name: t09, axis: x, point: [6584, -144, -872], span: 192}
+  - {name: t10, axis: x, point: [7880, -416, -5048], span: 328}
+  - {name: t11, axis: x, point: [8184, 88, 808], span: 168}
+  - {name: t12, axis: x, point: [8856, -232, -1624], span: 312}
+  - {name: t13, axis: z, point: [6104, -224, -1880], span: 200}
+  - {name: t14, axis: x, point: [8184, -120, -216], span: 192}
+  - {name: t15, axis: z, point: [9112, -240, -440], span: 232}
+  - {name: t16, axis: x, point: [5352, -192, -2520], span: 240}
+  - {name: t17, axis: x, point: [3768, -536, -5048], span: 320}
+  - {name: t18, axis: z, point: [4792, -296, -3336], span: 224}
+  - {name: t19, axis: x, point: [3320, -96, -1576], span: 208}
+  - {name: t20, axis: z, point: [2360, -88, -2024], span: 200}
+  - {name: t21, axis: z, point: [2520, -120, -984], span: 208}
+  - {name: t22, axis: x, point: [1896, 104, -2968], span: 176}
+  - {name: t23, axis: x, point: [2136, 104, 24], span: 176}
+  - {name: t24, axis: z, point: [1272, 328, -2072], span: 160}
+  - {name: t25, axis: z, point: [504, 544, -2488], span: 200}
+  - {name: t26, axis: z, point: [1464, 736, 1688], span: 216}
+  - {name: t27, axis: x, point: [-328, 744, -3064], span: 160}
+  - {name: t28, axis: x, point: [744, 936, 2472], span: 400}
+  - {name: t29, axis: x, point: [72, 1120, 1288], span: 208}
+  - {name: t30, axis: z, point: [-712, 1584, 1992], span: 200}
+  - {name: t31, axis: z, point: [-1048, 1984, 3032], span: 208}
+  - {name: t32, axis: x, point: [-72, 2424, 3560], span: 184}
+  - {name: t33, axis: z, point: [744, 2664, 4136], span: 176}
+# MM9's translucent textures (devdocs/mm9_rework/MM9_VISUAL_PROPERTIES.md): the two pale blue Lichwindow pillars beside
+# the coffin (alpha 43-138) and their blue ice caps (yanmirsolidice1, alpha 191, LIGHTDEFS teal: a bake-only light per
+# polygon, the bake profile's texture_lights). Brush Alpha 1; the texture alpha multiplies at run time (Lich Lab's).
+glass:
+  lichwindow.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  yanmirsolidice1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [Vampir0, Vampir1, Vampir2]
+  themed_near: [BonePile0, BonePile1, BonePile2, BonePile3, BonePile4, BonePile5, BonePile6, BonePile7, BonePile8]

@@ -1,0 +1,49 @@
+{
+  "source": "assets_dev/worlds/mm8/maps/out02.odm",
+  "views": [
+    {
+      "id": "ravenshore_shadowspire",
+      "target": [
+        27000,
+        1000,
+        1400
+      ],
+      "position": [
+        21500,
+        -7500,
+        12500
+      ],
+      "scale": 19000
+    },
+    {
+      "id": "ravenshore_alvar",
+      "target": [
+        -3000,
+        27000,
+        400
+      ],
+      "position": [
+        5500,
+        21000,
+        11500
+      ],
+      "scale": 19000
+    },
+    {
+      "id": "ravenshore_garrote",
+      "target": [
+        -27000,
+        11000,
+        1400
+      ],
+      "position": [
+        -21000,
+        19000,
+        12500
+      ],
+      "scale": 19000
+    }
+  ],
+  "missing_textures": [],
+  "limitations": "Native terrain/BModels; inspection lighting, no actors or decoration sprites."
+}

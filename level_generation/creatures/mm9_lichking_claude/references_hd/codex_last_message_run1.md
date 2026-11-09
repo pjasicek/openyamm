@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_lichking_claude/references_hd/00_three_quarter.png), unresized at 1024×1536 with transparency, using built-in image generation. Both raw attempts, prompts and input hashes are preserved in `references_hd/`.
+
+Stopped after run 1 and its one allowed correction. Residual limitation: arms remain narrower than the requested 40° pose; finger and crown-point counts aren’t fully verifiable.

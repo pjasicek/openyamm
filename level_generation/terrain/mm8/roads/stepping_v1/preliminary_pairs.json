@@ -1,0 +1,266 @@
+{
+  "scope": "unclassified all pairs; diagnostic only",
+  "checks": 338,
+  "failures": [
+    {
+      "a": "plrdew",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.47942904227819,
+      "boundary_max": 3.7602258305608043,
+      "interior_p95": 1.4728278131252412,
+      "interior_p999": 2.103350672573585,
+      "passed": false
+    },
+    {
+      "a": "plrdn_e",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.4972262591223453,
+      "boundary_max": 3.725249101627135,
+      "interior_p95": 1.4678640430637575,
+      "interior_p999": 2.1030469400393375,
+      "passed": false
+    },
+    {
+      "a": "plrdn_w",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.7126935141858155,
+      "boundary_max": 3.723801737267388,
+      "interior_p95": 1.4744902721647803,
+      "interior_p999": 2.116130638642257,
+      "passed": false
+    },
+    {
+      "a": "plrdncap",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.7126935141858155,
+      "boundary_max": 3.723801737267388,
+      "interior_p95": 1.462988443646575,
+      "interior_p999": 2.1030469400393375,
+      "passed": false
+    },
+    {
+      "a": "plrdne1",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.7126935141858155,
+      "boundary_max": 3.723801737267388,
+      "interior_p95": 1.4772005962448644,
+      "interior_p999": 2.1044883145985573,
+      "passed": false
+    },
+    {
+      "a": "plrdne2",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.5287309703052077,
+      "boundary_max": 3.6483150521768746,
+      "interior_p95": 1.4728278131252412,
+      "interior_p999": 2.1030469400393375,
+      "passed": false
+    },
+    {
+      "a": "plrdns",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.7126935141858155,
+      "boundary_max": 3.723801737267388,
+      "interior_p95": 1.4508971025797368,
+      "interior_p999": 2.1030469400393375,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdew",
+      "side": "S",
+      "boundary_p95": 3.320361957902246,
+      "boundary_max": 4.648231654225428,
+      "interior_p95": 1.5570561145300672,
+      "interior_p999": 2.1391489894501805,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdn_e",
+      "side": "S",
+      "boundary_p95": 2.7948080924726404,
+      "boundary_max": 3.441474182064302,
+      "interior_p95": 1.5469752973871929,
+      "interior_p999": 2.141049211299463,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdn_w",
+      "side": "S",
+      "boundary_p95": 2.718404237463119,
+      "boundary_max": 4.161108393155811,
+      "interior_p95": 1.5341744353965405,
+      "interior_p999": 2.1134990750246363,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdncap",
+      "side": "S",
+      "boundary_p95": 2.8462915391122316,
+      "boundary_max": 3.82604355173009,
+      "interior_p95": 1.5493385173067415,
+      "interior_p999": 2.1134990750246363,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.4941528868828318,
+      "boundary_max": 3.7253634391258688,
+      "interior_p95": 1.4772005962448644,
+      "interior_p999": 2.1044883145985573,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdne1",
+      "side": "S",
+      "boundary_p95": 3.320361957902246,
+      "boundary_max": 4.648231654225428,
+      "interior_p95": 1.567750793634892,
+      "interior_p999": 2.2857542101096007,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdne2",
+      "side": "S",
+      "boundary_p95": 2.799844356817326,
+      "boundary_max": 3.5598627399537777,
+      "interior_p95": 1.5585359329526343,
+      "interior_p999": 2.5645793369952807,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdns",
+      "side": "S",
+      "boundary_p95": 2.845156217570489,
+      "boundary_max": 3.744430574273655,
+      "interior_p95": 1.5565129264208148,
+      "interior_p999": 2.1134990750246363,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdnw1",
+      "side": "S",
+      "boundary_p95": 3.320361957902246,
+      "boundary_max": 4.648231654225428,
+      "interior_p95": 1.5795296416937974,
+      "interior_p999": 2.141049211299463,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdnw2",
+      "side": "S",
+      "boundary_p95": 2.9235153148408934,
+      "boundary_max": 3.965397145964989,
+      "interior_p95": 1.5469752973871929,
+      "interior_p999": 2.1134990750246363,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrds_e",
+      "side": "S",
+      "boundary_p95": 3.320361957902246,
+      "boundary_max": 4.648231654225428,
+      "interior_p95": 1.5873101012300608,
+      "interior_p999": 2.141049211299463,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrds_w",
+      "side": "S",
+      "boundary_p95": 3.320361957902246,
+      "boundary_max": 4.648231654225428,
+      "interior_p95": 1.5894749979569736,
+      "interior_p999": 2.141049211299463,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plrdwcap",
+      "side": "S",
+      "boundary_p95": 3.320361957902246,
+      "boundary_max": 4.648231654225428,
+      "interior_p95": 1.5563459776138313,
+      "interior_p999": 2.141049211299463,
+      "passed": false
+    },
+    {
+      "a": "plrdnw1",
+      "b": "plntyl",
+      "side": "S",
+      "boundary_p95": 3.320361957902246,
+      "boundary_max": 4.648231654225428,
+      "interior_p95": 1.5493385173067407,
+      "interior_p999": 2.141049211299463,
+      "passed": false
+    },
+    {
+      "a": "plrdnw2",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.7126935141858155,
+      "boundary_max": 3.723801737267388,
+      "interior_p95": 1.4788780086711404,
+      "interior_p999": 2.1044883145985573,
+      "passed": false
+    },
+    {
+      "a": "plrds_e",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.587652677729197,
+      "boundary_max": 3.7320514004578724,
+      "interior_p95": 1.51699985578884,
+      "interior_p999": 2.1044883145985573,
+      "passed": false
+    },
+    {
+      "a": "plrds_w",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.7126935141858155,
+      "boundary_max": 3.723801737267388,
+      "interior_p95": 1.462988443646575,
+      "interior_p999": 2.1058764755441963,
+      "passed": false
+    },
+    {
+      "a": "plrdwcap",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.47942904227819,
+      "boundary_max": 3.765725077359666,
+      "interior_p95": 1.4764825153542427,
+      "interior_p999": 2.1030469400393375,
+      "passed": false
+    },
+    {
+      "a": "plntyl",
+      "b": "plrdne1",
+      "side": "E",
+      "boundary_p95": 2.7126935141858155,
+      "boundary_max": 3.723801737267388,
+      "interior_p95": 1.4744902721647803,
+      "interior_p999": 2.1044883145985573,
+      "passed": false
+    }
+  ]
+}

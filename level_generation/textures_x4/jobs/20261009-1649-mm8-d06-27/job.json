@@ -1,0 +1,929 @@
+{
+ "id": "20261009-1649-mm8-d06-27",
+ "world": "mm8",
+ "maps": [
+  "d06.blv",
+  "d11.blv",
+  "d28.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/t66d01h",
+  "mm8/t66d01d",
+  "mm8/t66d01k",
+  "mm8/t66d01b",
+  "mm8/t66c01b",
+  "mm8/t66d01f",
+  "mm8/t66d01e",
+  "mm8/t66d01mb",
+  "mm8/t66d01ma",
+  "mm8/t66a12b1",
+  "mm8/t66a12b2",
+  "mm8/t66b12i1",
+  "mm8/t66b12i2",
+  "mm8/alphanumf",
+  "mm8/alphanume",
+  "mm8/alphanumi",
+  "mm8/alphanumj",
+  "mm8/alphanumc",
+  "mm8/alphanum1",
+  "mm8/t66d01p2",
+  "mm8/t66d04",
+  "mm8/gwspflcg",
+  "mm8/grbas2",
+  "mm8/gtempe2l"
+ ],
+ "requests": {
+  "mm8/t66d01h": {
+   "name": "t66d01h",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with a dark wooden bookcase of old leather-bound books between carved posts with golden finials",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01l",
+      "mm8/t66d01j",
+      "mm8/t66d01f"
+     ],
+     "fraction": 0.838
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01l",
+      "mm8/t66d01i",
+      "mm8/t66d01f"
+     ],
+     "fraction": 0.837
+    }
+   }
+  },
+  "mm8/t66d01d": {
+   "name": "t66d01d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with a carved bronze sun-face mask hanging on the wall",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01"
+     ],
+     "fraction": 0.854
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01j",
+      "mm8/t66d01m",
+      "mm8/t66d01l"
+     ],
+     "fraction": 0.774
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t66d01m"
+    }
+   }
+  },
+  "mm8/t66d01k": {
+   "name": "t66d01k",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with a dark wooden bookcase of old leather-bound books between carved posts with golden finials",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01l",
+      "mm8/t66d01j"
+     ],
+     "fraction": 0.805
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01l",
+      "mm8/t66d01i",
+      "mm8/t66d01j"
+     ],
+     "fraction": 0.805
+    },
+    "3": {
+     "sources": [
+      "mm8/t66d01l",
+      "mm8/t66d01j"
+     ],
+     "fraction": 0.804
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm8/t66d01b": {
+   "name": "t66d01b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with a carved bronze sword-bearing figure statue relief",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01"
+     ],
+     "fraction": 0.795
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01j",
+      "mm8/t66d01m",
+      "mm8/t66d01l"
+     ],
+     "fraction": 0.755
+    },
+    "3": {
+     "sources": [
+      "mm8/t66d01d",
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.794
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ],
+    "3": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t66d01m"
+    },
+    "3": {
+     "top": "mm8/t66d01m"
+    }
+   }
+  },
+  "mm8/t66c01b": {
+   "name": "t66c01b",
+   "versions": [
+    1
+   ],
+   "material": "warm tan-brown bricks in staggered courses with pale mortar under a carved dark wooden pelmet",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66c01a"
+     ],
+     "fraction": 0.734
+    }
+   }
+  },
+  "mm8/t66d01f": {
+   "name": "t66d01f",
+   "versions": [
+    1
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with a framed painting of a sailing ship in a gilded frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01"
+     ],
+     "fraction": 0.614
+    }
+   }
+  },
+  "mm8/t66d01e": {
+   "name": "t66d01e",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with a framed painting of a sailing ship on a blue sea in a gilded frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01"
+     ],
+     "fraction": 0.607
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01d",
+      "mm8/t66d01b"
+     ],
+     "fraction": 0.607
+    },
+    "3": {
+     "sources": [
+      "mm8/t66d01d",
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.602
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ],
+    "3": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm8/t66d01m"
+    },
+    "3": {
+     "top": "mm8/t66d01m"
+    }
+   }
+  },
+  "mm8/t66d01mb": {
+   "name": "t66d01mb",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with an arched window showing a painted sailing ship on a stormy sea",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.355
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.338
+    },
+    "3": {
+     "sources": [
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.338
+    },
+    "4": {
+     "sources": [
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.338
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {},
+    "4": {}
+   },
+   "roll": {
+    "3": [
+     0,
+     190
+    ]
+   }
+  },
+  "mm8/t66d01ma": {
+   "name": "t66d01ma",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "material": "pale sand-beige speckled plaster wall panel under a carved reddish wooden cornice, above a carved dark wooden wainscot with turned balusters, with an arched window showing a painted sea and sky with distant ships",
+   "notes": {
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "9": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "11": "the bottom rows are the thin pale cream stone sill of the reference running the full width; no wooden rail, pegs or dark band at the bottom"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.346
+    },
+    "2": {
+     "sources": [
+      "mm8/t66d01m",
+      "mm8/t66d01mb"
+     ],
+     "fraction": 0.35
+    },
+    "3": {
+     "sources": [
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.328
+    },
+    "4": {
+     "sources": [
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.328
+    },
+    "5": {
+     "sources": [
+      "mm8/t66d01m"
+     ],
+     "fraction": 0.328
+    },
+    "6": {
+     "sources": [
+      "mm8/t66d01m",
+      "mm8/t66d01d",
+      "mm8/t66d01mb"
+     ],
+     "fraction": 0.338
+    },
+    "7": {
+     "sources": [
+      "mm8/t66d01m",
+      "mm8/t66d01d",
+      "mm8/t66d01mb"
+     ],
+     "fraction": 0.338
+    },
+    "8": {
+     "sources": [
+      "mm8/t66d01m",
+      "mm8/t66d01d",
+      "mm8/t66d01mb"
+     ],
+     "fraction": 0.338
+    },
+    "9": {
+     "sources": [
+      "mm8/t66d01m",
+      "mm8/t66d01d",
+      "mm8/t66d01mb"
+     ],
+     "fraction": 0.338
+    },
+    "10": {
+     "sources": [
+      "mm8/t66d01m",
+      "mm8/t66d01d",
+      "mm8/t66d01mb"
+     ],
+     "fraction": 0.338
+    },
+    "11": {
+     "sources": [
+      "mm8/t66d01m",
+      "mm8/t66d01d",
+      "mm8/t66d01mb"
+     ],
+     "fraction": 0.338
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {},
+    "10": {},
+    "11": {}
+   },
+   "roll": {
+    "4": [
+     0,
+     133
+    ],
+    "6": [
+     95,
+     133
+    ],
+    "8": [
+     0,
+     133
+    ],
+    "10": [
+     0,
+     133
+    ]
+   }
+  },
+  "mm8/t66a12b1": {
+   "name": "t66a12b1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark reddish wooden weapon rack under a carved cornice holding crossed axes, swords and sabres",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66a01"
+     ],
+     "fraction": 0.289
+    },
+    "2": {
+     "sources": [
+      "mm8/t66a01"
+     ],
+     "fraction": 0.289
+    },
+    "3": {
+     "sources": [
+      "mm8/t66a07"
+     ],
+     "fraction": 0.286
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm8/t66a12b2": {
+   "name": "t66a12b2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark reddish wooden weapon rack under a carved cornice holding crossed axes, swords and sabres",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66a01"
+     ],
+     "fraction": 0.281
+    },
+    "2": {
+     "sources": [
+      "mm8/t66a01"
+     ],
+     "fraction": 0.281
+    },
+    "3": {
+     "sources": [
+      "mm8/t66a07"
+     ],
+     "fraction": 0.281
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm8/t66b12i1": {
+   "name": "t66b12i1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark reddish wooden panelled wall with a draped dark blue-black curtain tied back with a gold cord",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66b01"
+     ],
+     "fraction": 0.292
+    }
+   }
+  },
+  "mm8/t66b12i2": {
+   "name": "t66b12i2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark reddish wooden panelled wall with a draped dark blue-black curtain tied back with a gold cord, carved column on the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66b01"
+     ],
+     "fraction": 0.238
+    },
+    "2": {
+     "sources": [
+      "mm8/t66b01"
+     ],
+     "fraction": 0.238
+    },
+    "3": {
+     "sources": [
+      "mm8/t66b01",
+      "mm8/t66b06",
+      "mm8/t66b07"
+     ],
+     "fraction": 0.264
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t66b01",
+     "right": "mm8/t66b01"
+    }
+   }
+  },
+  "mm8/alphanumf": {
+   "name": "alphanumf",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter F, bevelled edges, copy the letter exactly",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanume": {
+   "name": "alphanume",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter E, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "the engraved glyph has clean smooth chiselled edges with straight cuts and smooth curves, no stair-step notches, no outline around it; keep its exact shape and position",
+    "3": "the engraved glyph is a clean typeset letterform cut into the steel with perfectly straight smooth edges and smooth curves; never stair-stepped, notched or jagged"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.914
+    },
+    "2": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.914
+    },
+    "3": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.914
+    }
+   },
+   "ref_blur": {
+    "3": 2.0
+   }
+  },
+  "mm8/alphanumi": {
+   "name": "alphanumi",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter I, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.836
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanumj": {
+   "name": "alphanumj",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter J, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "the engraved glyph has clean smooth chiselled edges with straight cuts and smooth curves, no stair-step notches, no outline around it; keep its exact shape and position",
+    "3": "the engraved glyph is a clean typeset letterform cut into the steel with perfectly straight smooth edges and smooth curves; never stair-stepped, notched or jagged"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.79
+    },
+    "2": {
+     "sources": [
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.828
+    },
+    "3": {
+     "sources": [
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.828
+    }
+   },
+   "ref_blur": {
+    "3": 2.0
+   }
+  },
+  "mm8/alphanumc": {
+   "name": "alphanumc",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black letter C, bevelled edges, copy the letter exactly",
+   "notes": {
+    "2": "the engraved glyph has clean smooth chiselled edges with straight cuts and smooth curves, no stair-step notches, no outline around it; keep its exact shape and position",
+    "3": "the engraved glyph is a clean typeset letterform cut into the steel with perfectly straight smooth edges and smooth curves; never stair-stepped, notched or jagged",
+    "4": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: no pale or dark strip, groove or highlight along any edge; the grey plaster meets the wooden pilaster directly",
+    "7": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.827
+    },
+    "2": {
+     "sources": [
+      "mm8/alphanumf",
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.845
+    },
+    "3": {
+     "sources": [
+      "mm8/alphanumf",
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.845
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "3": 2.0,
+    "4": 2.0,
+    "5": 2.0
+   },
+   "context": {
+    "5": {},
+    "6": {},
+    "7": {}
+   },
+   "roll": {
+    "6": [
+     16,
+     0
+    ]
+   }
+  },
+  "mm8/alphanum1": {
+   "name": "alphanum1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 1, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.818
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66d01p2": {
+   "name": "t66d01p2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark red woven tapestry fabric with a pale gold arabesque scroll pattern",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t66floor"
+    },
+    "3": {
+     "right": "mm8/t66floor"
+    }
+   }
+  },
+  "mm8/t66d04": {
+   "name": "t66d04",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown wooden panel with a dense celtic interlace knot inside a square border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gwspflcg": {
+   "name": "gwspflcg",
+   "versions": [
+    1
+   ],
+   "material": "dark grey stone ceiling of raised hexagonal tiles with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/grbas2": {
+   "name": "grbas2",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale grey-beige marble with faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gtempe2l": {
+   "name": "gtempe2l",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale icy blue-white marble with frosty veining and a carved grey stone border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [
+      "mm8/gtempw2",
+      "mm8/gtempw3"
+     ],
+     "fraction": 0.969
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/gtempw3"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,28 @@
+output_dir: ../images
+exit: true
+steps:
+- wait: 1
+- key: P
+- wait: 1
+- capture: paged-first
+- click: [231, 627]
+- click: [231, 627]
+- click: [231, 627]
+- click: [231, 627]
+- capture: paged-last
+- click: [443, 586]
+- wait: 0.5
+- capture: paged-last-selected
+- click: [231, 100]
+- capture: paged-up
+- click: [318, 164]
+- click: [1255, 738]
+- click: [1255, 738]
+- click: [1255, 738]
+- click: [1255, 738]
+- wait: 0.5
+- capture: paged-party-full
+- click: [1255, 738]
+- capture: paged-disabled-hire
+- click: [1255, 868]
+- expect: gameplay

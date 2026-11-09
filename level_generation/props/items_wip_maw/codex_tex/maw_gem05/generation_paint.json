@@ -1,0 +1,36 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint-only game item view atlas. Edit guide_atlas.png (input 1) only, using design_reference.png (input 2) as material/detail reference and icon_x8.png (input 3) as purple colour reference; magenta in the icon is background, never paint magenta background. Output ONE 1536x1024 RGBA PNG, transparent background. Preserve the guide's exact silhouettes, sizes, positions, facet geometry and orthographic cameras. Three columns by two rows of 512x512 cells: FRONT, BACK, LEFT / RIGHT, TOP, EMPTY. Paint only the five gray objects, do not redraw, move, enlarge or redesign. Object: round brilliant-cut royal amethyst gemstone with flat octagonal table, crown facet ring and pointed faceted pavilion. Paint unlit base colour: deep royal purple faceted amethyst with lighter violet facets toward the table. Reference facet detail and internal swirls scaled to each view, but remove photographic lighting/reflections from reference: diffuse albedo only. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Preserve all gaps as transparent and keep lower-right cell completely transparent. Exact guide layout and outline are paramount.\nCORRECTION: Previous output failed by painting opaque purple glow outside the silhouettes and making the top outline jagged. Start again from the ORIGINAL gray guide input 1. Retain its alpha mask exactly. All pixels outside its five gray silhouettes MUST be alpha 0, including whole background and empty cell. The TOP outline is the guide's convex polygon, not a star or jagged shape. Simple flat purple albedo per original facet, subdued internal purple variation only. No glow anywhere. No bright highlights. Do not render a lit gemstone scene. Recolour the guide in place.",
+  "initial_prompt": "Use case: precise-object-edit. Paint-only game item view atlas. Edit guide_atlas.png (input 1) only, using design_reference.png (input 2) as material/detail reference and icon_x8.png (input 3) as purple colour reference; magenta in the icon is background, never paint magenta background. Output ONE 1536x1024 RGBA PNG, transparent background. Preserve the guide's exact silhouettes, sizes, positions, facet geometry and orthographic cameras. Three columns by two rows of 512x512 cells: FRONT, BACK, LEFT / RIGHT, TOP, EMPTY. Paint only the five gray objects, do not redraw, move, enlarge or redesign. Object: round brilliant-cut royal amethyst gemstone with flat octagonal table, crown facet ring and pointed faceted pavilion. Paint unlit base colour: deep royal purple faceted amethyst with lighter violet facets toward the table. Reference facet detail and internal swirls scaled to each view, but remove photographic lighting/reflections from reference: diffuse albedo only. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Preserve all gaps as transparent and keep lower-right cell completely transparent. Exact guide layout and outline are paramount.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16cd8-25a3-7e92-a23a-96feed9c034c/exec-c809b863-ae4f-4472-8292-311142909cd1.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem05/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem05/guide_atlas.png",
+      "sha256": "ead84c721a64e7f2caf2fbda44028ba66307e3f1df225aa49fb321fe19fb730e"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem05/design_reference.png",
+      "sha256": "895bb70a97583807ec84f9bb334f1c494f0d595affbefde09f6dc021920a4b25"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem05/icon_x8.png",
+      "sha256": "7759120fc5abea5cc2ef30211cdb2c3cecf6b98741a502444ffa8ffa3179c26e"
+    }
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "visual_issues": [
+      "Generated glow background violates transparent background and unlit requirements; corrective regeneration did not resolve it."
+    ]
+  }
+}

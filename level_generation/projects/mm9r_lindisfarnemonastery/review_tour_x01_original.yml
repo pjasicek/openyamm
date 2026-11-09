@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_lindisfarnemonastery/review/x01_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: a_outside_facade
+  position:
+  - -328
+  - -3584
+  - 1
+  yaw: 1.5708
+  pitch: 0.1745
+- name: b_porch_side
+  position:
+  - -1152
+  - -1382
+  - 103
+  yaw: 3.1416
+  pitch: 0.0
+- name: c_narthex_west
+  position:
+  - -328
+  - -512
+  - 4
+  yaw: 3.1416
+  pitch: 0.0
+- name: d_narthex_east
+  position:
+  - -328
+  - -512
+  - 4
+  yaw: 0.0
+  pitch: 0.0
+- name: e_porch_from_west
+  position:
+  - -1536
+  - -768
+  - 1
+  yaw: -0.5035
+  pitch: 0.0
+- name: f_up_narthex
+  position:
+  - -328
+  - -768
+  - 4
+  yaw: 1.5708
+  pitch: 0.8727

@@ -1,0 +1,104 @@
+{
+  "status": "family_candidates_not_runtime_installed",
+  "tiles": [
+    {
+      "name": "plrdew",
+      "components": 11,
+      "raw_sha256": "7c69305b76193c546b92cd54ad03130f4170110d69d34bd02de5719791655a51",
+      "mask_raw_sha256": "f4847f45f5bfcbf99a72b728eed198e82697e3c4632462631d56be171e04349e",
+      "runtime_sha256": "fb621df94fb79fccc16de829f098d576fdd55586cbfa39a6c8849442b0396f77",
+      "max_flow": 0.8793910145759583
+    },
+    {
+      "name": "plrdn_e",
+      "components": 11,
+      "raw_sha256": "c09906dc91e0dad9dd54c44daef4a264e030de6143d41db68d5ca6f69750619f",
+      "mask_raw_sha256": "590226530caf49086e237e5343ed5aa2bbf05721f06f2ede98b8ba4aa74a8fda",
+      "runtime_sha256": "c31d364c07ff82c851c6e06b04094877a6a20ce9b125c1c6d6bffdb2f0841a0b",
+      "max_flow": 0.9003487825393677
+    },
+    {
+      "name": "plrdn_w",
+      "components": 11,
+      "raw_sha256": "0df60a318c4b3a833a8e468c20ae011a807c475bd84b19e0e63550c3d1510e1e",
+      "mask_raw_sha256": "c6a12d2670af2ea4315166e375f6fd3853b82a99960c5c611bf4547a3f827364",
+      "runtime_sha256": "7e2f16e109128742bb42b89186e69326f7d9bd5abc0f8130513f933b2f61ee0f",
+      "max_flow": 0.5992537140846252
+    },
+    {
+      "name": "plrdncap",
+      "components": 8,
+      "raw_sha256": "30d2da07057c071b73870902525eccc3d4690c6e51a38eaaeb120d99a6af229c",
+      "mask_raw_sha256": "8be046c031d727326847225678d10450c1f3648930d6a1bdb9a56d4a1a78a97c",
+      "runtime_sha256": "33453f63f1579ac351b95932f9d3c0dc350dd20f43da6608435c3502a857babe",
+      "max_flow": 0.5639657974243164
+    },
+    {
+      "name": "plrdne1",
+      "components": 11,
+      "raw_sha256": "134a7e8c321f3f74014a454e931f3274775232cd21ac10ddd5dfea45e6c5fc60",
+      "mask_raw_sha256": "2f573456d2575dd1ec27081e40b4f0f1644ca4d91b1a264dfa504baaca047dbd",
+      "runtime_sha256": "c4f2dd752129f7c5dac51d66d8df76d1a47963a087c96213e5717622a3fb34cc",
+      "max_flow": 0.8806515336036682
+    },
+    {
+      "name": "plrdne2",
+      "components": 9,
+      "raw_sha256": "f01a24c370cb86f76a2fb2edf3cc03a90cfe716680ec48741a93b3ffe9b016c8",
+      "mask_raw_sha256": "ea534df13040d3ea9c236eadc886f021d844c43e30e5c90ad06faf448cf0065d",
+      "runtime_sha256": "a0837d496f1b5a146b1bf633a01fba66e60a4102cc05085fe293d3e862eaecfc",
+      "max_flow": 0.56903076171875
+    },
+    {
+      "name": "plrdns",
+      "components": 11,
+      "raw_sha256": "053131ddda9037278dcfbe9517617100318ebb7da94e68250327422a895d2ee4",
+      "mask_raw_sha256": "cda7c8967fe2d6c382a15f3cc63321e521fe50fccc0b1374d69f0f670941fb0f",
+      "runtime_sha256": "1e73acecb59616dd95d19c7ca452fc9d4b9907fe0af16bda7184bf00c7d2042c",
+      "max_flow": 0.6339966654777527
+    },
+    {
+      "name": "plrdnw1",
+      "components": 8,
+      "raw_sha256": "17debc85923f46cfd41425ce4b078cc9cf4de2db9d51ad030cebc512a8ff81fe",
+      "mask_raw_sha256": "a0385fc3d4b087f8fe6a4b43fde1ccb397dfb3c0d480337a1c53e1b12fcd722d",
+      "runtime_sha256": "a1acd36f76aeb286e5a321855049a4b6a6ffa207fea3d5068bffa834ecf760dd",
+      "max_flow": 0.5207347273826599
+    },
+    {
+      "name": "plrdnw2",
+      "components": 11,
+      "raw_sha256": "41e38af3d9cd275c6e796b6a67c49bc63ed597c13f5699a6ed291a5437c2bb98",
+      "mask_raw_sha256": "d6956e0966da3675e0ba8bcb2ceacb4f3e381e08431aad2d3f16043ad8a49ed6",
+      "runtime_sha256": "f37ea1347cdda02367d25dad2259991ee55861b0b430114233ff4c884c0c3d18",
+      "max_flow": 0.7283760905265808
+    },
+    {
+      "name": "plrds_e",
+      "components": 10,
+      "raw_sha256": "7e864993bfde345b1f62a5f12e28703d74b2b29fb1baed188c46b227d13160b3",
+      "mask_raw_sha256": "cddfb1d45227c1b9bd7ba20d70ac1c4d629bd78c09d02367ca1cceadbd031682",
+      "runtime_sha256": "b0a73c9cd92a1e37274050d17cb763f6f4f2c44f8f244f54885eeec57754e573",
+      "max_flow": 0.4649401009082794
+    },
+    {
+      "name": "plrds_w",
+      "components": 12,
+      "raw_sha256": "96543a01c1c547933150b19eae915b02d6e320558a3318de8fa0d804ca78d68d",
+      "mask_raw_sha256": "ddf83c07cd13f6cbde9067fabd61bdb40a64876db91a2fed8cdbf52de7c737bc",
+      "runtime_sha256": "14df9150f66db872039d1d96ced78376d956780341f97413549a37932ee79230",
+      "max_flow": 0.5252034664154053
+    },
+    {
+      "name": "plrdwcap",
+      "components": 9,
+      "raw_sha256": "389b01f81fe6d3c0773c8763bb8fd32fb0cc836f761561d73877bea01558d64b",
+      "mask_raw_sha256": "a508e87b0d22ed29eea028eaa7b5ffaa069f41cbb4230b409db9c16540853da0",
+      "runtime_sha256": "db0a5ad6520fa6981f1b42f3531b973c8a6a924e39f2da154f5a988b3a003a03",
+      "max_flow": 0.7957592010498047
+    }
+  ],
+  "receipts_sha256": "fc043efe7598fbaa3f7b25c2a57be8fd5bedf3119c47d5449186575ffd2825c2",
+  "master_sha256": "aad28c8345d14309fe95a48c8b9cf0b933cffd37f840cc96dfefbfb5c17c7a18",
+  "script_sha256": "a4b3b721354591abc4f40beddcfbd39cdfd43f43a7243e8285cd32f1f7d70091"
+}

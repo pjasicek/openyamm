@@ -1,0 +1,101 @@
+# The Hesper maps the stage installs and registers (stage.py). Map ids are stage-only until the Hesper world
+# package gets its own id block. reference: the map_stats row whose settings a new row starts from.
+maps:
+  - {id: 9100, name: Hangar Nine, file: hes_d00.blv, project: hesper_d00, reference: sci-fi.blv}
+  # slots: the encounter slots (map_stats Mon1-Mon3: picture, name, difficulty 0-5, count range) the map's spawn
+  # points draw from (hesper_out1/spawns.yml); the picture is a family whose monsters' pictures are "<picture> A/B/C"
+  # (monsters.yml `picture`).
+  - {id: 9101, name: Starport Reach, file: hes_out1.odm, project: hesper_out1, reference: out02.odm,
+     encounters: 0,
+     slots: {1: {picture: hes_drone, name: Drone, difficulty: 0, count: [2, 4]},
+             2: {picture: hes_glassback, name: Glassback, difficulty: 2, count: [1, 2]}}}
+  - {id: 9102, name: The Undervault, file: hes_undervault.blv, project: hesper_undervault, reference: sci-fi.blv}
+  - {id: 9103, name: Starport Terminal, file: hes_d01.blv, project: hesper_d01, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_drone, name: Drone, difficulty: 0, count: [0, 0]},
+                            2: {picture: hes_crawler, name: Acid crawler, difficulty: 0, count: [0, 0]}}}
+  - {id: 9104, name: Pumping Station, file: hes_d02.blv, project: hesper_d02, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_crawler, name: Acid crawler, difficulty: 1, count: [0, 0]},
+                            2: {picture: hes_drone, name: Drone, difficulty: 0, count: [0, 0]}}}
+  # The pickups test room (hesper_pickups_test): no entrance, loaded only by its scenario (pickups.yml).
+  - {id: 9109, name: Pickups test room, file: hes_pickups_test.blv, project: hesper_pickups_test,
+     reference: sci-fi.blv}
+  # The walkability test room (hesper_walk_test): engine checks of monster movement; loaded only by its scenario.
+  - {id: 9108, name: Walkability test room, file: hes_walk_test.blv, project: hesper_walk_test,
+     reference: sci-fi.blv}
+  - {id: 9113, name: The Foundry, file: hes_d08.blv, project: hesper_d08, reference: sci-fi.blv,
+     encounters: 0,
+     slots: {1: {picture: hes_drudge, name: Drudge, difficulty: 3, count: [1, 1]},
+             2: {picture: hes_lancer, name: Lancer, difficulty: 1, count: [1, 1]}}}
+  - {id: 9122, name: Brood Pits, file: hes_d09.blv, project: hesper_d09, reference: sci-fi.blv,
+     encounters: 0,
+     slots: {1: {picture: hes_drudge, name: Drudge, difficulty: 1, count: [2, 4]},
+             2: {picture: hes_hound, name: Hound, difficulty: 2, count: [3, 5]},
+             3: {picture: hes_overseer, name: Overseer, difficulty: 1, count: [1, 2]}}}
+  - {id: 9111, name: Quarry Outpost, file: hes_d03.blv, project: hesper_d03, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_trooper, name: Trooper, difficulty: 0, count: [0, 0]},
+                            2: {picture: hes_drudge, name: Drudge, difficulty: 0, count: [0, 0]}}}
+  - {id: 9121, name: Relay Spire, file: hes_d05.blv, project: hesper_d05, reference: sci-fi.blv,
+     encounters: 0,
+     slots: {1: {picture: hes_trooper, name: Trooper, difficulty: 1, count: [2, 4]},
+             2: {picture: hes_drudge, name: Drudge, difficulty: 0, count: [3, 5]},
+             3: {picture: hes_overseer, name: Overseer, difficulty: 0, count: [1, 2]}}}
+  - {id: 9112, name: Labor Pens, file: hes_d04.blv, project: hesper_d04, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_drudge, name: Drudge, difficulty: 0, count: [0, 0]},
+                            2: {picture: hes_trooper, name: Trooper, difficulty: 0, count: [0, 0]}}}
+
+  # D11 Seedship: temporary art bindings where production models are pending.
+  - {id: 9123, name: The Seedship, file: hes_d11.blv, project: hesper_d11, reference: sci-fi.blv, encounters: 0, slots: {
+        1: {picture: hes_lancer, name: Lancer, difficulty: 1, count: [0, 0]}, 2: {picture: hes_overseer, name: Overseer,
+          difficulty: 1, count: [0, 0]}}}
+
+  - {id: 9136, name: The Undercroft, file: hes_d15.blv, project: hesper_d15, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_gloamer, name: Gloamer, difficulty: 4, count: [0, 0]},
+                            2: {picture: hes_lancer, name: Lancer, difficulty: 2, count: [0, 0]},
+                            3: {picture: hes_drudge, name: Drudge, difficulty: 2, count: [0, 0]}}}
+  - {id: 9131, name: Lattice Node West, file: hes_d06.blv, project: hesper_d06, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_noble, name: Noble, difficulty: 1, count: [0, 0]},
+                            2: {picture: hes_trooper, name: Trooper, difficulty: 2, count: [0, 0]}}}
+
+  # D10 Colony Archive, beneath Starport Reach's sealed dome.
+  - {id: 9105, name: Colony Archive, file: hes_d10.blv, project: hesper_d10, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_drone, name: Drone, difficulty: 2, count: [0, 0]}}}
+
+  - {id: 9134, name: Crownspire, file: hes_d12.blv, project: hesper_d12, reference: sci-fi.blv,
+     encounters: 0,
+     slots: {1: {picture: hes_trooper, name: Spire Guard, difficulty: 2, count: [0, 0]},
+             2: {picture: hes_lancer, name: Crown Lancer, difficulty: 2, count: [0, 0]},
+             3: {picture: hes_noble, name: Court Noble, difficulty: 2, count: [0, 0]}}}
+  # The Crown (hes_out4; THE_CROWN.md section 7): slot 1 the Drudge Hulk gangs and slot 2 the Overseer flights at the
+  # fixed tier C (hesper_out4/build_out4.py), slot 3 the ring's Noble patrols by difficulty (mostly A and B).
+  - {id: 9130, name: The Crown, file: hes_out4.odm, project: hesper_out4, reference: out02.odm,
+     encounters: 0,
+     slots: {1: {picture: hes_drudge, name: Drudge, difficulty: 4, count: [3, 4]},
+             2: {picture: hes_overseer, name: Overseer, difficulty: 4, count: [1, 2]},
+             3: {picture: hes_noble, name: Noble, difficulty: 3, count: [1, 2]}}}
+  # The Brood Spires (hes_out3; BROOD_SPIRES.md section 7): slot 1 the brood (difficulty 0: every point spawns
+  # Hatchlings), slot 2 the Overseers (every point fixed at tier B, the Overseer Prime), slot 3 the acid crawlers (the
+  # points fixed at B, Brood Crawlers, or C, the Matron); hesper_out3/build_out3.py places the points.
+  - {id: 9120, name: The Brood Spires, file: hes_out3.odm, project: hesper_out3, reference: out02.odm,
+     encounters: 0,
+     slots: {1: {picture: hes_brood, name: Brood, difficulty: 0, count: [2, 3]},
+             2: {picture: hes_overseer, name: Overseer, difficulty: 1, count: [1, 2]},
+             3: {picture: hes_crawler, name: Acid crawler, difficulty: 1, count: [2, 3]}}}
+
+  # The Scour (P1, hesper_out2; THE_SCOUR.md section 7): slot 1 the Drudges (80 % A, 20 % Brute B), slot 2 the
+  # Troopers (75 % A, 25 % Veteran B), slot 3 the Overseers (A); the Kept and the bosses are placed.
+  - {id: 9110, name: The Scour, file: hes_out2.odm, project: hesper_out2, reference: out02.odm,
+     encounters: 0,
+     slots: {1: {picture: hes_drudge, name: Drudge, difficulty: 1, count: [1, 3]},
+             2: {picture: hes_trooper, name: Trooper, difficulty: 1, count: [2, 3]},
+             3: {picture: hes_overseer, name: Overseer, difficulty: 0, count: [1, 2]}}}
+  - {id: 9132, name: Lattice Node East, file: hes_d07.blv, project: hesper_d07, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_noble, name: Noble, difficulty: 1, count: [0, 0]},
+                            2: {picture: hes_drone, name: Drone, difficulty: 2, count: [0, 0]}}}
+  - {id: 9133, name: Lattice Node North, file: hes_d16.blv, project: hesper_d16, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_noble, name: Noble, difficulty: 1, count: [0, 0]},
+                            2: {picture: hes_drudge, name: Drudge, difficulty: 2, count: [0, 0]},
+                            3: {picture: hes_overseer, name: Overseer, difficulty: 2, count: [0, 0]}}}
+  - {id: 9135, name: Deepwell, file: hes_d13.blv, project: hesper_d13, reference: sci-fi.blv,
+     encounters: 0, slots: {1: {picture: hes_hound, name: Hound, difficulty: 3, count: [0, 0]},
+                            2: {picture: hes_harrower, name: Harrower, difficulty: 3, count: [0, 0]},
+                            3: {picture: hes_gloamer, name: Gloamer, difficulty: 4, count: [0, 0]}}}

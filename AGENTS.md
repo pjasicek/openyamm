@@ -158,6 +158,10 @@ These rules apply to all AI-generated contributions in this repository.
 
 ### Level Generation
 
+- `level_generation/` is tracked only in part: its own `.gitignore` admits docs, scripts, review pages and small
+  hand-written data and skips the heavy folders (`work/`, `review/`, `meshy/`, renders, venvs). Models and images stay
+  local. After creating a project or a large text file there, run `python3 level_generation/update_gitignore.py`,
+  which lists the files over 256 KB that the rules would admit.
 - For creating or revising indoor/outdoor maps, start with [Level Generation](level_generation/README.md), even when
   the user does not name the document. Follow its applicable indoor/outdoor workflow, reference studies, calibration,
   and current pipeline-status notes; example maps are references, not universal layouts or exporters.

@@ -1,0 +1,27 @@
+# The Ledger of Teachers in Dagger Wound Island's tavern (MM8, Standard). Run as finder.yml, --map out01.odm.
+output_dir: ../images
+exit: true
+steps:
+- wait: 3
+- console: event 191
+- wait: 1.5
+- click: [1237, 145]
+- wait: 0.8
+- capture: 10-tavern-topics
+- click: [1237, 603]
+- wait: 0.8
+- capture: 11-tavern-ledger-topic
+- click: [1237, 452]
+- wait: 0.8
+- capture: 12-tavern-ledger-bought
+- click: [1252, 820]
+- wait: 0.8
+- click: [1252, 820]
+- wait: 1.5
+- action: map_book
+- wait: 0.5
+- click: [1313, 666]
+- wait: 0.3
+- click: [1173, 746]
+- wait: 0.5
+- capture: 13-finder-after-ledger

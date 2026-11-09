@@ -1,0 +1,1126 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "master_processing": "Selected masters are unmodified native image_gen PNG files. Python/PIL used only for copying, checking colours and dimensions, and review sheets.",
+  "status": "Six selected files saved; four pass review, two provisional candidates exceed the gap-colour tolerance after three attempts.",
+  "attempts": [
+    {
+      "sky": "6sky02",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: opaque square seamless HD sky texture master, 6sky02.\nInput image: the supplied 6sky02.png is the EDIT TARGET, not just a mood reference.\nPrimary request: faithfully restore this exact original Might and Magic 6 sky painting at the largest square output size available, preferably 2048 x 2048, at least 1024 x 1024. Repaint dithering, palette banding and blocky pixels as smooth hand-painted gradients and fine soft wisps, billows and subtle internal cloud shading. This is the same picture restored, not a new cloud arrangement.\nInvariants: lock the input composition at identical normalized coordinates. Every cloud retains its exact position, size, silhouette and direction of flow. Keep the same cloud coverage, gaps, palette, lighting direction and mood. No clouds added, removed, rearranged, enlarged or shrunk. Keep the central dark blue branching gap, the tan cloud fields and the warm pale highlights exactly where they appear in the input.\nOpen sky: EVERY cloud-free gap must be one perfectly flat solid RGB(61,68,108), hex #3d446c, with no gradient, noise, haze, brush texture or variation. Clouds retain soft edges against this flat colour.\nCloud palette, brightest first: #b89e88, #917a6e, #746669, #57546d, #3d446c. Preserve the muted warm tan versus dusk-blue balance; do not brighten or saturate the original.\nTiling: paint a single seamless tile, periodic in both axes. The left edge continues into the right, and top into bottom, exactly as in the original; match cloud contours, colour and shading across each pair of opposite edges. No visible seam when repeated 2 x 2. Show just ONE tile, never a repeated grid.\nStyle: clean, detailed hand-painted game sky, softly blended natural cloud structure, no photographic look, no new grain or dither.\nCanvas: opaque full bleed square, edge to edge, no margin.\nAvoid: sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, borders, vignettes, watermarks.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-4fbe0af0-10b2-4a84-b0f6-abc8d8983a4d.png",
+      "file": "6sky02_hd_try1.png",
+      "selected": false,
+      "reason": "Rejected: sampled clear-sky RGB differs by 7–9 in at least one channel, exceeding the brief's ±6 tolerance. Composition and 2 x 2 tiling visually pass.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "6sky02_hd_try1.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 4.581,
+          "top_bottom": 5.385
+        },
+        "sky_key": "#3d446c",
+        "gap_samples": [
+          {
+            "uv": [
+              0.4346,
+              0.54
+            ],
+            "source_rgb": [
+              56,
+              65,
+              113
+            ],
+            "rgb": [
+              66,
+              75,
+              116
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.6396,
+              0.3252
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              67,
+              76,
+              118
+            ],
+            "max_channel_delta": 10,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.2764,
+              0.6279
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              65,
+              74,
+              117
+            ],
+            "max_channel_delta": 9,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.8057,
+              0.9697
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              65,
+              74,
+              116
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.0947,
+              0.1904
+            ],
+            "source_rgb": [
+              56,
+              65,
+              113
+            ],
+            "rgb": [
+              65,
+              75,
+              116
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          }
+        ],
+        "gap_colour_pass": false,
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "input_file": "inputs/6sky02.png",
+      "sha256": "2d66622d9da36a23936565ce6b367b53c379a4816e54735bac4f6a00ee7d325f"
+    },
+    {
+      "sky": "6sky02",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nInput image: this 6sky02 HD repaint is the EDIT TARGET.\nMake one targeted correction only: replace every clearly cloud-free dark-blue gap by the EXACT perfectly uniform solid RGB(61,68,108), HEX #3d446c. This is a technical colour key, not an approximate aesthetic colour. In the interior of every blue gap there must be absolutely no variation, gradient, noise or texture. Keep cloud softness only at the cloud boundaries. All blue gaps share the identical exact colour #3d446c.\nPreserve every cloud, every wisp, cloud contour, cloud colour, cloud internal shading, position, size and direction of flow exactly as in the supplied image. Keep the same canvas and composition; repaint no cloud. Keep the warm tan/grey clouds and brightest-first palette #b89e88, #917a6e, #746669, #57546d, #3d446c.\nOutput the largest square resolution available, preferably 2048 x 2048 and at least 1024 x 1024, opaque full-bleed hand-painted sky. Keep the existing seamless left/right and top/bottom cloud continuation, a single tile only. No sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, margins, vignettes, watermark or photographic look.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-e73fb6c1-7052-49fb-aa98-a9a6715c9caa.png",
+      "file": "6sky02_hd_try2.png",
+      "selected": false,
+      "reason": "Rejected: clear-sky samples are uniform but 11–12 RGB levels above the specified key colour. Cloud layout and tiling pass.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "6sky02_hd_try2.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 6.567,
+          "top_bottom": 6.453
+        },
+        "sky_key": "#3d446c",
+        "gap_samples": [
+          {
+            "uv": [
+              0.4346,
+              0.54
+            ],
+            "source_rgb": [
+              56,
+              65,
+              113
+            ],
+            "rgb": [
+              71,
+              79,
+              120
+            ],
+            "max_channel_delta": 12,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.6396,
+              0.3252
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              71,
+              79,
+              120
+            ],
+            "max_channel_delta": 12,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.2764,
+              0.6279
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              70,
+              78,
+              119
+            ],
+            "max_channel_delta": 11,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.8057,
+              0.9697
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              72,
+              78,
+              120
+            ],
+            "max_channel_delta": 12,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.0947,
+              0.1904
+            ],
+            "source_rgb": [
+              56,
+              65,
+              113
+            ],
+            "rgb": [
+              70,
+              78,
+              120
+            ],
+            "max_channel_delta": 12,
+            "pass": false
+          }
+        ],
+        "gap_colour_pass": false,
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "input_file": "inputs/6sky02.png",
+      "sha256": "84c964dd33f238a82cc0547823c48e32f520e9ce242eb712f968b86469503e1e"
+    },
+    {
+      "sky": "6sky02",
+      "attempt": 3,
+      "prompt": "Use case: precise-object-edit.\nImage 1 is the EDIT TARGET: the already restored 6sky02 sky tile.\nImage 2 is a TECHNICAL FLAT COLOUR SWATCH ONLY: exact desired RGB(61,68,108) = #3d446c.\nOne targeted correction: replace ALL the blue cloud-free spaces in Image 1 with the exact flat colour visually and numerically shown by Image 2. Copy the swatch colour faithfully, no lightening, no tint change, no gradient, no noise. This colour is slightly darker and less blue than the current background. All blue-gap interior pixels must use one solid identical colour. The result must still show the clouds from Image 1 on this flat swatch background, not just the swatch by itself.\nKeep ALL clouds, wisps, silhouettes, placement, sizes, lighting, painterly detail and colours of Image 1 unchanged. Soft cloud boundaries remain soft. Brightest-first cloud palette #b89e88, #917a6e, #746669, #57546d.\nKeep seamless opposite-edge continuation in both axes. Return ONE full-bleed opaque square sky tile at the largest square resolution available, preferably 2048 x 2048, at least 1024 x 1024.\nNo added or removed clouds. No sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, margins, vignettes, watermark or photographic look.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-0083ef7d-3f1d-4fb9-8b82-bbed87957254.png",
+      "file": "6sky02_hd.png",
+      "selected": true,
+      "reason": "Selected provisionally as the closest flat-background match after the maximum three attempts. Faithful overall cloud map and painterly detail; 2 x 2 repeat visually acceptable. Five gap samples have maximum channel errors 7–8, above ±6: the brief is not fully satisfied.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "6sky02_hd.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 8.504,
+          "top_bottom": 7.563
+        },
+        "sky_key": "#3d446c",
+        "gap_samples": [
+          {
+            "uv": [
+              0.4346,
+              0.54
+            ],
+            "source_rgb": [
+              56,
+              65,
+              113
+            ],
+            "rgb": [
+              68,
+              75,
+              114
+            ],
+            "max_channel_delta": 7,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.6396,
+              0.3252
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              68,
+              76,
+              116
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.2764,
+              0.6279
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              69,
+              76,
+              115
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.8057,
+              0.9697
+            ],
+            "source_rgb": [
+              56,
+              65,
+              105
+            ],
+            "rgb": [
+              68,
+              76,
+              115
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.0947,
+              0.1904
+            ],
+            "source_rgb": [
+              56,
+              65,
+              113
+            ],
+            "rgb": [
+              68,
+              76,
+              115
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          }
+        ],
+        "gap_colour_pass": false,
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "input_file": "inputs/6sky02.png",
+      "brief_pass": false,
+      "sha256": "6f4ed335fb8666a771c01b7e5d8e73a2818f539378e55ca140d63b3123dc4335"
+    },
+    {
+      "sky": "6sky12",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: opaque square seamless HD sky texture master, 6sky12.\nImage 1: 6sky12.png is the EDIT TARGET, not merely a mood reference.\nImage 2: technical colour swatch for the cloud-free background only, exact RGB(48,65,172), #3041ac.\nRestore the exact input picture as a clean high-resolution hand-painted sky tile. Output the largest square resolution available, preferably 2048 x 2048 and at least 1024 x 1024. Replace ONLY dither, palette banding and blocky pixels with fine cloud structure, soft wisps, billows and subtle internal shading.\nLock composition at identical normalized coordinates. Every cloud keeps its position, size, silhouette and direction of flow; no new clouds, removed clouds or changed weather/time. Keep the many broken diagonal bands of white and lavender-grey cloud and irregular cobalt gaps precisely as the original; preserve the bright patch at the right around two-thirds down.\nEVERY cloud-free blue gap must be a perfectly flat uniform fill in the exact colour of Image 2: #3041ac / RGB(48,65,172). No gradient, noise, haze or brush texture in the open sky. Retain soft cloud edges against this solid colour.\nCloud colours, brightest first: #dfdfdf, #9e9eaf, #7171ac, #5454ad, #3041ac. Same original palette, lighting direction and mood; retain the grey-lavender cloud shades, do not convert all clouds into pure white.\nSeamless single tile: left edge continues into right, top into bottom exactly as the original. Match opposite-edge cloud contours, colours and shading so a 2 x 2 repetition has no visible seam. Show ONE tile, never a repeated grid.\nHand-painted game-art style, no photographic look; opaque full-bleed square without border or margin.\nDo not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-03f9b5d9-280d-4cff-a209-71fe6aebaad1.png",
+      "file": "6sky12_hd_try1.png",
+      "selected": false,
+      "reason": "Rejected: the five clear-sky samples are 8–9 levels too low in red; otherwise faithful cloud layout and useful painterly detail. Minor opposite-edge mismatches also visible.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "6sky12_hd_try1.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 27.499,
+          "top_bottom": 19.024
+        },
+        "sky_key": "#3041ac",
+        "gap_samples": [
+          {
+            "uv": [
+              0.8193,
+              0.0146
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              39,
+              66,
+              173
+            ],
+            "max_channel_delta": 9,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.5361,
+              0.0889
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              40,
+              67,
+              172
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.1963,
+              0.4697
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              39,
+              68,
+              175
+            ],
+            "max_channel_delta": 9,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.6943,
+              0.6475
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              39,
+              67,
+              172
+            ],
+            "max_channel_delta": 9,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.2002,
+              0.7256
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              40,
+              67,
+              172
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          }
+        ],
+        "gap_colour_pass": false,
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "input_file": "inputs/6sky12.png",
+      "sha256": "b487ed9c537463c4e3d20a5e25847aad996f695b4371e8ac57cf52dc921e715b"
+    },
+    {
+      "sky": "6sky12",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nImage 1 is the EDIT TARGET, the HD 6sky12 seamless sky tile. Image 2 is the exact background colour swatch.\nMake just ONE targeted correction: correct the flat blue cloud-free background hue. Its current sampled RGB is approximately (39,67,173). The required blue is RGB(48,65,172), #3041ac, matching Image 2. In those clear blue areas, increase red by about NINE levels, reduce green by about TWO and blue by about ONE. The result should be slightly less saturated with more red than Image 1. Fill every blue gap with this one uniform exact RGB value, no gradient, noise or texture. Preserve soft cloud edges.\nPreserve the clouds of Image 1: exact placement, size, shape, density, diagonal flow, highlights, lavender/grey shadows, brush detail, and lighting. No clouds added or removed. Palette #dfdfdf, #9e9eaf, #7171ac, #5454ad, #3041ac.\nMaintain seamless left-right and top-bottom continuation; this is one periodic tile, not a repeated grid. Opaque full-bleed square at the largest native square resolution possible, preferably 2048 x 2048, at least 1024 x 1024. Clean hand-painted game sky, no photographic look.\nDo not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, borders, margins, vignettes or watermark.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-1323e8c3-7cd2-42c7-86d6-3dc6397c54e7.png",
+      "file": "6sky12_hd.png",
+      "selected": true,
+      "reason": "Selected provisionally as the best palette/composition balance after the maximum three attempts. Diagonal clouds and highlights retain the input placement. Five gap samples have maximum channel errors 7–9, above ±6. Small cloud discontinuities remain at opposite edges, also present in the source. The brief is not fully satisfied.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "6sky12_hd.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 28.507,
+          "top_bottom": 18.805
+        },
+        "sky_key": "#3041ac",
+        "gap_samples": [
+          {
+            "uv": [
+              0.8193,
+              0.0146
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              52,
+              72,
+              177
+            ],
+            "max_channel_delta": 7,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.5361,
+              0.0889
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              51,
+              72,
+              177
+            ],
+            "max_channel_delta": 7,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.1963,
+              0.4697
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              52,
+              74,
+              178
+            ],
+            "max_channel_delta": 9,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.6943,
+              0.6475
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              51,
+              73,
+              178
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.2002,
+              0.7256
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              51,
+              73,
+              179
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          }
+        ],
+        "gap_colour_pass": false,
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "input_file": "inputs/6sky12.png",
+      "brief_pass": false,
+      "sha256": "9132cd0ea15b84182c994d1fbf6874e80ece6aa0dcd1dd9bc6fd8f6c54677d73"
+    },
+    {
+      "sky": "6sky12",
+      "attempt": 3,
+      "prompt": "Use case: precise-object-edit.\nImage 1 is the EDIT TARGET, 6sky12 HD sky. Image 2 is the exact desired open-sky blue swatch.\nOne correction only: remove the excess green in the clear blue sky gaps. Current background is about RGB(51,73,178); target is RGB(48,65,172), #3041ac. Reduce GREEN by eight levels and keep the clear blue areas perfectly flat at the swatch colour, with no variations or texture. Match Image 2 without brightening it. No change to cloud positions, sizes, silhouettes, diagonal flow, fine painterly texture, white highlights or lavender-grey shading. Keep every cloud exactly where it is in Image 1.\nPreserve original lighting and palette #dfdfdf, #9e9eaf, #7171ac, #5454ad, #3041ac. Preserve soft cloud edges against the flat RGB(48,65,172) background.\nMaintain opposite-edge continuity on both axes for a seamless repeated texture. One tile only, opaque full bleed square, largest native size possible, preferably 2048 x 2048, at least 1024 x 1024. No crop, margin or repeated grid.\nNo added/removed clouds, no photographic look, sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermark.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-a9e1d068-f056-4b76-89f5-c116d04288e8.png",
+      "file": "6sky12_hd_try3.png",
+      "selected": false,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "6sky12_hd_try3.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 29.986,
+          "top_bottom": 19.183
+        },
+        "sky_key": "#3041ac",
+        "gap_samples": [
+          {
+            "uv": [
+              0.8193,
+              0.0146
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              53,
+              73,
+              179
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.5361,
+              0.0889
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              52,
+              73,
+              177
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.1963,
+              0.4697
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              54,
+              73,
+              179
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.6943,
+              0.6475
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              53,
+              74,
+              179
+            ],
+            "max_channel_delta": 9,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.2002,
+              0.7256
+            ],
+            "source_rgb": [
+              48,
+              65,
+              174
+            ],
+            "rgb": [
+              52,
+              73,
+              178
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          }
+        ],
+        "gap_colour_pass": false,
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "reason": "Rejected: third colour correction did not improve the green mismatch (8–9 maximum deviations); small edge mismatches remain.",
+      "input_file": "inputs/6sky12.png",
+      "sha256": "b1077566bfb94b20413af581d48470d90760688e2cbe0fa444e1ce42024f5702"
+    },
+    {
+      "sky": "7sky02",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: opaque square seamless HD sky texture master, 7sky02.\nImage 1: original 7sky02.png is the EDIT TARGET. Image 2: exact flat open-sky colour swatch, RGB(67,72,108), #43486c.\nRestore the exact original Might and Magic 7 cloud painting into a detailed high-resolution hand-painted game sky. Largest square output available, preferably 2048 x 2048, minimum 1024 x 1024. Replace dither, banding and pixel blocks with smooth painted cloud gradients and fine soft wisps, billows and internal shading.\nLock the original cloud map exactly at normalized coordinates. Preserve every cloud's position, size, silhouette and flow, the blue gaps and coverage, warm-tan/grey palette, lighting direction and mood. No new, moved, enlarged or removed clouds. The central branching dark-blue gap and the bright warm patch near the lower middle remain exactly placed as in the input.\nAll cloud-free spaces must have ONE absolutely flat uniform colour, matching Image 2 EXACTLY: RGB(67,72,108), #43486c, no gradient, haze, noise, texture or brightening. Keep clouds' soft feathered edges against that solid fill.\nPalette, brightest first: #c0a98e, #9c8877, #8a7369, #6c6269, #43486c. Same original muted warm cloud colours and dusk-blue balance, do not brighten the whole tile or change the mood.\nA single periodic seamless tile on BOTH axes: match contours, colours and shading across left/right and top/bottom edges exactly as the original, so a 2 x 2 repeat has no visible seam. Do not display a repeated grid.\nOpaque full-bleed square, no margins. Clean softly painted game art, no photographic look.\nNo sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes, watermarks, added or removed clouds.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-444e00cb-a9ec-4281-9fe3-4da09f75d6a3.png",
+      "file": "7sky02_hd.png",
+      "selected": true,
+      "reason": "Selected: 1254-square opaque full bleed, original cloud layout and warm/dusk palette retained with fine painterly detail, five visually identified gap samples within 1–3 RGB levels of #43486c, 2 x 2 repetition visually continuous, no prohibited additions.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "7sky02_hd.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 4.959,
+          "top_bottom": 5.856
+        },
+        "sky_key": "#43486c",
+        "gap_samples": [
+          {
+            "uv": [
+              0.43,
+              0.42
+            ],
+            "source_rgb": [
+              74,
+              72,
+              113
+            ],
+            "rgb": [
+              67,
+              73,
+              108
+            ],
+            "max_channel_delta": 1,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.43,
+              0.46
+            ],
+            "source_rgb": [
+              77,
+              80,
+              113
+            ],
+            "rgb": [
+              68,
+              75,
+              110
+            ],
+            "max_channel_delta": 3,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.67,
+              0.32
+            ],
+            "source_rgb": [
+              61,
+              72,
+              115
+            ],
+            "rgb": [
+              67,
+              74,
+              109
+            ],
+            "max_channel_delta": 2,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.08,
+              0.18
+            ],
+            "source_rgb": [
+              61,
+              72,
+              115
+            ],
+            "rgb": [
+              67,
+              75,
+              111
+            ],
+            "max_channel_delta": 3,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.82,
+              0.97
+            ],
+            "source_rgb": [
+              58,
+              62,
+              100
+            ],
+            "rgb": [
+              68,
+              75,
+              111
+            ],
+            "max_channel_delta": 3,
+            "pass": true
+          }
+        ],
+        "gap_colour_pass": true,
+        "sample_basis": "Five visually identified gaps in the input; its native palette has no pixels within ±6 of the prescribed averaged sky key.",
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "input_file": "inputs/7sky02.png",
+      "brief_pass": true,
+      "sha256": "32e60e96dcd7a37bead4be1b5681d9e0c8c119b48a4703849eb3fe60cc371769"
+    },
+    {
+      "sky": "plansky3",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: opaque square seamless HD sky master, plansky3.\nImage 1: original plansky3.png is the EDIT TARGET. Image 2: technical flat background swatch RGB(128,156,176), #809cb0.\nFaithfully repaint this exact sparse Might and Magic 8 sky picture at the largest square resolution available, preferably 2048 x 2048 and at least 1024 x 1024. Change only low-resolution dither, palette bands and blocky pixels into clean smooth painterly gradients and fine soft cloud wisps, billows and internal shading.\nKeep EXACT original composition and every cloud position, size, shape and flow at identical normalized coordinates. Preserve the large amount of empty sky. The diagonal ivory-grey cloud cluster in the lower-left-middle, broken wispy cluster in the upper-right, small middle wisp, right-side small cloud cluster and edge-crossing bottom/top clouds stay exactly placed and sized. No added, removed, enlarged, rearranged or joined clouds. Same original muted colours, lighting direction and mood.\nEVERY open-sky pixel away from soft cloud boundaries must be a perfectly uniform solid flat colour copied exactly from Image 2: RGB(128,156,176), #809cb0. No gradient, haze, noise, brush texture, vignette or variation in open sky. Do not brighten or recolour this swatch. Clouds keep soft feathery boundaries.\nOriginal cloud palette, brightest first: #d2c9bd, #a9acb5, #8ea2b4, #859db0, #809cb0. Muted warm ivory highlights with subtle lavender-grey shaded wisps against the desaturated slate-blue background.\nSeamless single tile periodic on BOTH axes: the fragment leaving the bottom continues at the top, and left/right contours and colours continue without a seam exactly as the original. Return ONE tile only, never a repeated grid.\nFull bleed opaque square, edge to edge with no margin. Clean fine hand-painted game sky, no photographic look.\nDo not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, vignettes or watermarks.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-f0cdb4cd-06f3-4ecd-826d-3a09cb99b300.png",
+      "file": "plansky3_hd_try1.png",
+      "selected": false,
+      "reason": "Rejected: unwanted background mottling and one gap sample 8 levels from the key colour. The second attempt improves all sampled gaps to within tolerance.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "plansky3_hd_try1.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 0.979,
+          "top_bottom": 1.769
+        },
+        "sky_key": "#809cb0",
+        "gap_samples": [
+          {
+            "uv": [
+              0.001,
+              0.001
+            ],
+            "source_rgb": [
+              128,
+              156,
+              176
+            ],
+            "rgb": [
+              120,
+              151,
+              175
+            ],
+            "max_channel_delta": 8,
+            "pass": false
+          },
+          {
+            "uv": [
+              0.1826,
+              0.001
+            ],
+            "source_rgb": [
+              128,
+              156,
+              176
+            ],
+            "rgb": [
+              122,
+              153,
+              176
+            ],
+            "max_channel_delta": 6,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.4932,
+              0.001
+            ],
+            "source_rgb": [
+              133,
+              157,
+              176
+            ],
+            "rgb": [
+              122,
+              153,
+              176
+            ],
+            "max_channel_delta": 6,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.6748,
+              0.001
+            ],
+            "source_rgb": [
+              128,
+              156,
+              176
+            ],
+            "rgb": [
+              123,
+              155,
+              178
+            ],
+            "max_channel_delta": 5,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.8564,
+              0.001
+            ],
+            "source_rgb": [
+              128,
+              156,
+              176
+            ],
+            "rgb": [
+              123,
+              154,
+              177
+            ],
+            "max_channel_delta": 5,
+            "pass": true
+          }
+        ],
+        "gap_colour_pass": false,
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "input_file": "inputs/plansky3.png",
+      "sha256": "49213f4cf995a99285eac915e37914f5d5f9c66e31f4a80707e5dfa7323dcd0b"
+    },
+    {
+      "sky": "plansky3",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit.\nImage 1 is the EDIT TARGET: plansky3 restored cloud tile. Image 2 is a technical single-colour swatch RGB(128,156,176), #809cb0.\nMake ONE targeted correction: completely flatten the blue BACKGROUND. Remove every bit of haze, painted mottling, noise, shadow, gradient and broad low-contrast streak from all cloud-free areas. Replace every background area with exactly ONE identical solid colour, copied directly from Image 2: #809cb0, RGB(128,156,176). Current blue is slightly too dark/red-poor; add the needed red rather than darkening the reference swatch. Absolutely uniform blank blue wherever there is no cloud. Do not retain atmospheric texture in the negative space.\nKeep only the existing actual ivory-grey clouds and their soft feathered edges. Preserve every cloud's EXACT location, size, shape, diagonal flow, wisps, highlights, lavender-grey shadows and high-resolution hand-painted detail. No added or removed clouds; no change to their lighting or palette #d2c9bd, #a9acb5, #8ea2b4, #859db0.\nSeamless one tile with all edge-crossing clouds continuing on opposite edges, both axes. Square opaque full bleed at largest available native size, preferably 2048 x 2048, minimum 1024 x 1024. Keep framing and crop.\nNo repeated grid, no photographic look, sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, margins, vignettes or watermark.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-394f6a57-d402-4bd3-b554-f1662ffb6775.png",
+      "file": "plansky3_hd.png",
+      "selected": true,
+      "reason": "Selected: 1254-square opaque full bleed, sparse cloud layout and palette retained with smooth painterly detail. Five initial gap samples within 2–4 RGB levels of #809cb0, and five additional interior samples within 3–4. Background has slight harmless variation within the brief's tolerance. 2 x 2 repetition visually continuous; no prohibited additions.",
+      "input_file": "inputs/plansky3.png",
+      "brief_pass": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "plansky3_hd.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 0.939,
+          "top_bottom": 1.886
+        },
+        "sky_key": "#809cb0",
+        "gap_samples": [
+          {
+            "uv": [
+              0.001,
+              0.001
+            ],
+            "source_rgb": [
+              128,
+              156,
+              176
+            ],
+            "rgb": [
+              125,
+              154,
+              177
+            ],
+            "max_channel_delta": 3,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.1826,
+              0.001
+            ],
+            "source_rgb": [
+              128,
+              156,
+              176
+            ],
+            "rgb": [
+              125,
+              155,
+              177
+            ],
+            "max_channel_delta": 3,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.4932,
+              0.001
+            ],
+            "source_rgb": [
+              133,
+              157,
+              176
+            ],
+            "rgb": [
+              124,
+              154,
+              176
+            ],
+            "max_channel_delta": 4,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.6748,
+              0.001
+            ],
+            "source_rgb": [
+              128,
+              156,
+              176
+            ],
+            "rgb": [
+              126,
+              155,
+              177
+            ],
+            "max_channel_delta": 2,
+            "pass": true
+          },
+          {
+            "uv": [
+              0.8564,
+              0.001
+            ],
+            "source_rgb": [
+              128,
+              156,
+              176
+            ],
+            "rgb": [
+              124,
+              154,
+              176
+            ],
+            "max_channel_delta": 4,
+            "pass": true
+          }
+        ],
+        "gap_colour_pass": true,
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "sha256": "6253b1a3c7e1a05cdba2ecbf764fddb5e6f100b4d4bd81a8e499b157b6dad66e"
+    },
+    {
+      "sky": "sky04",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: opaque square seamless HD sky texture master, sky04.\nInput image: original sky04.png is the EDIT TARGET, not merely inspiration.\nFaithful restoration of this EXACT Might and Magic 8 sky painting, at the largest square output size available, preferably 2048 x 2048, minimum 1024 x 1024. Repaint the dithering, palette banding and low-resolution pixels into smooth hand-painted gradients, fine billows, soft wisps and subtle internal cloud shading.\nLock original composition at identical normalized coordinates. Every cloud patch, pale highlight, blue-grey depression, wispy band and repeated native cloud motif retains its exact position, size, shape and direction of flow. Same native cloud coverage, palette, lighting direction and calm blue-grey mood. No new, moved, removed or enlarged clouds.\nFULLY PAINTED SKY: clouds cover this entire tile. Keep EVERY area painted, including all darker blue-grey spaces; they are cloudy shade, not empty flat sky. Preserve the textured whole-field coverage.\nExact main colours, brightest first: #b0bcde, #90a4c5, #7b8fb3, #6b82a5, #5b749b. Preserve the muted cool blue/lavender-grey colour family and soft pale illumination, no warm cast or saturated white conversion.\nSingle seamless tile, periodic on BOTH axes. Native cloud motifs and bands that leave the left continue at the right, and those leaving the top continue at the bottom. Opposite edges match cloud contours, shading and colours without a visible seam in a 2 x 2 repetition. Render ONE tile only, never a repeated grid.\nDetailed soft hand-painted game sky, no photographic look. Full bleed opaque square, no margins.\nDo not add sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, borders, vignettes or watermarks.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-1319613e-8f48-4fad-9c3d-60c279dcfb54.png",
+      "file": "sky04_hd.png",
+      "selected": true,
+      "reason": "Selected: 1254-square opaque full bleed, original cloud contours and native repeated motifs retained, cool muted palette and complete painted coverage preserved, smooth detailed painterly shading, 2 x 2 repetition visually continuous, no prohibited additions.",
+      "input_file": "inputs/sky04.png",
+      "brief_pass": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "sky04_hd.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 3.845,
+          "top_bottom": 4.416
+        },
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "sha256": "3180dc7e1b0a079cb4f6ecb61de9b753572ca62d0e5ae200bcdf7405cb05061b"
+    },
+    {
+      "sky": "skycity01",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nAsset type: opaque square seamless HD sky texture master, skycity01.\nInput image: original skycity01.png is the EDIT TARGET. Faithfully restore THIS exact Might and Magic 7 sky painting at the largest native square size available, preferably 2048 x 2048, minimum 1024 x 1024.\nChange only the original low-resolution dither, palette steps and blocky pixels into smooth hand-painted tonal transitions and fine soft cloud wisps, billows and subtle interior shading. Preserve all original cloud positions, sizes, shapes, edge contours, flow and coverage at identical normalized coordinates. Keep the pale diagonal branching cloudy pattern and soft blotchy cloud forms exactly arranged as the input, no clouds added, removed, rearranged or enlarged.\nFULLY PAINTED SKY: every part of the tile is painted cloud. All pale blue/periwinkle spaces have soft cloudy shading; there is NO clear sky to flatten. Entire canvas stays opaque and softly painted.\nOriginal palette, brightest first: #d5d7e9, #bbc8e8, #bbc8e8, #bbc8e8, #aebce4. Preserve the extremely pale low-contrast pastel lavender/blue/ivory atmosphere. Keep the source's exact lightness range and overall palette, no dark blue gaps, heavy shadows, warmer yellow highlights, dramatic lighting or highly contrasted white clouds. Same lighting direction and calm mood.\nSingle seamless periodic tile in BOTH axes: every edge-crossing cloud continues seamlessly on the opposite edge, left to right and top to bottom. Cloud colours, shading and contours match across edges so a 2 x 2 repetition has no seam. Return ONE tile only, not a repeated grid.\nHigh-resolution detailed but softly blended hand-painted game art, no photographic look, no grain or new dithering. Square opaque full bleed, no border or margin.\nNo sun, moon, stars, rays, lens flare, horizon, ground, mountains, birds, buildings, text, logos, frames, borders, vignettes or watermarks.",
+      "source_file": "/home/pjasicek/.codex/generated_images/01a11ffc-eb03-7143-94fd-d66a82215d97/exec-b62b126c-ac84-42d4-97a8-25a306115772.png",
+      "file": "skycity01_hd.png",
+      "selected": true,
+      "reason": "Selected: 1254-square opaque full bleed, original pale cloudy layout and coverage retained, pastel palette and low-contrast mood preserved, dithering replaced with soft painterly detail, 2 x 2 repetition visually continuous, no prohibited additions.",
+      "input_file": "inputs/skycity01.png",
+      "brief_pass": true,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "file": "skycity01_hd.png",
+        "edge_mean_abs_rgb": {
+          "left_right": 3.331,
+          "top_bottom": 4.249
+        },
+        "composition_review": "Same overall cloud layout, shape, scale and flow; fine details repainted.",
+        "prohibited_additions_review": "None visible."
+      },
+      "sha256": "c0b70443bd435e827c0d182c9e134de9cf8ec2d270cdb5e8663372cab1b35045"
+    }
+  ],
+  "review_file": "selected_review.png"
+}

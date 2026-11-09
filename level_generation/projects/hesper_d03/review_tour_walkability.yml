@@ -1,0 +1,51 @@
+# Walkability and room-shape pass (2026-10-24): the user's play spots (hesper_stage/review/user_play_20261024)
+# and the reshaped rooms. Party-foot coordinates; capture minimized, under the shared engine and stage locks.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d03/review/walkability/captures
+settle_seconds: 1.5
+exit: true
+shots:
+- name: u71_crusher_throat
+  position: [1942, -1163, -1536]
+  yaw: 0.9076
+  pitch: -0.15
+  commands: [config set immortal 1, config set invisible 1]
+- name: u72_ore_bins
+  position: [4550, -450, -1536]
+  yaw: -1.5708
+  pitch: -0.1
+- name: crusher_hall_chamfer_hip
+  position: [3300, -1250, -1536]
+  yaw: 2.3500
+  pitch: 0.3
+- name: gatehouse_chamfers_hip
+  position: [7200, 2614, 0]
+  yaw: 0.0000
+  pitch: 0.2
+- name: east_stair_sloped_ceiling
+  position: [5560, 1450, -768]
+  yaw: 0.0000
+  pitch: 0.25
+- name: roost_stair_sloped_ceiling
+  position: [2050, 1600, -768]
+  yaw: 3.1416
+  pitch: 0.25
+- name: cave_in_pocket
+  position: [4330, -2750, -1536]
+  yaw: 0.0000
+  pitch: -0.05
+- name: quarry_chamfers
+  position: [2700, -2000, -1536]
+  yaw: -2.4000
+  pitch: 0.05
+- name: emitter_lab_chamfers
+  position: [7064, -450, -1536]
+  yaw: -1.1000
+  pitch: 0.05
+- name: mess_hall_chamfers
+  position: [5250, 4300, -768]
+  yaw: 0.6000
+  pitch: 0.05
+- name: signal_room_chamfers
+  position: [1150, 4650, 0]
+  yaw: 1.5708
+  pitch: 0.05

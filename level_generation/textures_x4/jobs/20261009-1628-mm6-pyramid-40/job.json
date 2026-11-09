@@ -1,0 +1,662 @@
+{
+ "id": "20261009-1628-mm6-pyramid-40",
+ "world": "mm6",
+ "maps": [
+  "pyramid.blv"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/swceilge",
+  "mm6/egywlhle",
+  "mm6/egywlhre",
+  "mm6/egtrmcle",
+  "mm6/egybiga",
+  "mm6/egyceila",
+  "mm6/egyceilb",
+  "mm6/egyceild",
+  "mm6/egycol32",
+  "mm6/egycol64",
+  "mm6/egycom32",
+  "mm6/egydrlgr",
+  "mm6/egydrsmc",
+  "mm6/egydrsmd",
+  "mm6/egydrsml",
+  "mm6/egydrsmr",
+  "mm6/egyflora",
+  "mm6/egyflorb",
+  "mm6/egyflorc",
+  "mm6/egyflord",
+  "mm6/egyflore",
+  "mm6/egymeda",
+  "mm6/egyspca",
+  "mm6/egyswaon"
+ ],
+ "requests": {
+  "mm6/swceilge": {
+   "name": "swceilge",
+   "versions": [
+    1
+   ],
+   "material": "ceiling panel of rusty red-brown diagonal iron mesh grating with dark scorched glyph-like shapes across it, inside a riveted teal-green metal pipe frame with corner brackets, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swceilf"
+     ],
+     "fraction": 0.567
+    }
+   }
+  },
+  "mm6/egywlhle": {
+   "name": "egywlhle",
+   "versions": [
+    1
+   ],
+   "material": "smooth tan sandstone Egyptian wall panel framed by a raised border band carved with brown hieroglyphs, copy every hieroglyph shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egywlhre": {
+   "name": "egywlhre",
+   "versions": [
+    1
+   ],
+   "material": "smooth tan sandstone Egyptian wall panel framed by a raised border band carved with brown hieroglyphs, copy every hieroglyph shape exactly as in the reference",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/egywlhle"
+     ],
+     "fraction": 0.197
+    }
+   }
+  },
+  "mm6/egtrmcle": {
+   "name": "egtrmcle",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow tan sandstone trim strip of stacked rough blocks with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egybiga": {
+   "name": "egybiga",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone wall of large rough-cut blocks with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyceila": {
+   "name": "egyceila",
+   "versions": [
+    1
+   ],
+   "material": "polished warm brown wooden ceiling panel divided into triangular facets forming a raised pyramid pattern",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyceilb": {
+   "name": "egyceilb",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone ceiling of rough-cut blocks with a border course of larger blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyceild": {
+   "name": "egyceild",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone block ceiling framed by heavy weathered brown timber beams",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egycol32": {
+   "name": "egycol32",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "gilded golden Egyptian column shaft carved with a vertical hieroglyph and lotus relief, dark banded rings at top and bottom",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Left, right and bottom borders continue the gold column surface.",
+    "3": "No dark outline or shadow along any outer edge; keep the golden sandstone colour of the reference.",
+    "4": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "6": "No dark outline or shadow along the left or right edge: the gilded column surface continues to the border at even brightness.",
+    "7": "Keep the warm gold and dark bronze colours of the reference, no blue tint. The gilded column surface continues to the right and bottom borders at even brightness: no dark outline or shadow along any edge.",
+    "8": "The gold column surface continues at the same brightness right up to the right border; no dark line or shadow along the right edge. Keep the gold colour of the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     23,
+     0
+    ],
+    "4": [
+     0,
+     77
+    ],
+    "5": [
+     23,
+     77
+    ],
+    "6": [
+     23,
+     77
+    ],
+    "7": [
+     23,
+     77
+    ],
+    "8": [
+     23,
+     0
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   }
+  },
+  "mm6/egycol64": {
+   "name": "egycol64",
+   "versions": [
+    1
+   ],
+   "material": "gilded golden Egyptian column shaft carved with a vertical hieroglyph and lotus relief, dark banded rings at top and bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egycom32": {
+   "name": "egycom32",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow tan sandstone pilaster strip carved with a single column of small brown hieroglyphs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egydrlgr": {
+   "name": "egydrlgr",
+   "versions": [
+    1
+   ],
+   "material": "large Egyptian door: painted gold relief of a pharaoh in a blue crown raising his hands to a radiant sun disc, inside a gilded frame of hieroglyphs, a round bronze boss on the left edge, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egydrsmc": {
+   "name": "egydrsmc",
+   "versions": [
+    1
+   ],
+   "material": "narrow carved wooden Egyptian door with a relief procession of figures beneath columns of hieroglyphs, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egydrsmd": {
+   "name": "egydrsmd",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "narrow tan sandstone Egyptian door panel with columns of small hieroglyphs between gilded vertical border bands",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Right edge continues the gold hieroglyph border."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egydrsml": {
+   "name": "egydrsml",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "narrow painted Egyptian door: falcon-headed god in a white crown with arms crossed holding crook and flail, golden pleated robe, between green and gold striped columns, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Left and right edges continue the green border column.",
+    "3": "Copy the composition exactly: keep the figure as wide as in the reference, the large feathered wings spreading behind it on both sides down to the feet, the hieroglyph columns beside the head, and the long was-sceptre staff held as in the reference; do not slim or restyle the figure.",
+    "4": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "6": "The green and gold side pillars run to the left and right borders at their reference brightness: no dark outline or hairline along either side edge.",
+    "7": "The green and gold side pillars run to the left and right borders at their reference brightness: no dark or pale line in the outermost columns. Keep the figure exactly as now.",
+    "8": "The green and yellow lotus border strips keep the reference's yellow-green brightness right up to the left and right borders; no dark teal line or shadow along the left or right edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   },
+   "roll": {
+    "4": [
+     51,
+     0
+    ],
+    "5": [
+     51,
+     0
+    ],
+    "6": [
+     51,
+     0
+    ],
+    "7": [
+     51,
+     0
+    ],
+    "8": [
+     51,
+     0
+    ]
+   }
+  },
+  "mm6/egydrsmr": {
+   "name": "egydrsmr",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "narrow painted Egyptian door: falcon-headed god in a white crown with arms crossed holding crook and flail, golden pleated robe, between green and gold striped columns, mirror-image counterpart, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Top row continues the painted lintel.",
+    "3": "Copy the composition exactly: keep the figure as wide as in the reference, the large feathered wings spreading behind it on both sides down to the feet, the hieroglyph columns beside the head, and the long was-sceptre staff held as in the reference; do not slim or restyle the figure.",
+    "4": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "6": "The green and gold side pillars run to the left and right borders at their reference brightness: no dark outline or hairline along either side edge.",
+    "7": "The green and gold side pillars run to the left and right borders at their reference brightness: no dark or pale line in the outermost columns, especially the left. Keep the figure exactly as now.",
+    "8": "The green and yellow lotus border strips keep the reference's yellow-green brightness right up to the left and right borders; no dark teal line or shadow along the left or right edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   },
+   "roll": {
+    "4": [
+     71,
+     0
+    ],
+    "5": [
+     71,
+     0
+    ],
+    "6": [
+     71,
+     0
+    ],
+    "7": [
+     71,
+     0
+    ],
+    "8": [
+     71,
+     0
+    ]
+   }
+  },
+  "mm6/egyflora": {
+   "name": "egyflora",
+   "versions": [
+    1
+   ],
+   "material": "floor of glossy turquoise-blue glazed square tiles beneath rows of pale grey stone header blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyflorb": {
+   "name": "egyflorb",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "polished golden floor engraved with a faint large relief of spread feathered wings and hieroglyphs, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Bottom and left edges continue the gold relief floor; keep the wing and glyph layout of the reference.",
+    "3": "No dark outline or shadow along any outer edge.",
+    "4": "No dark or light hairline on any edge: the outermost pixels continue the material exactly. No baked lighting; evenly lit carved sandstone."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "3": [
+     73,
+     32
+    ],
+    "4": [
+     73,
+     32
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {}
+   }
+  },
+  "mm6/egyflorc": {
+   "name": "egyflorc",
+   "versions": [
+    1
+   ],
+   "material": "smooth pale sand-coloured stone floor slab with a slightly darker border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyflord": {
+   "name": "egyflord",
+   "versions": [
+    1
+   ],
+   "material": "fine golden sand floor, evenly speckled",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyflore": {
+   "name": "egyflore",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "fine dark golden sand floor, evenly speckled",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Keep the reference's warm sand colour, no blue or grey tint; right and bottom edges continue the sand surface."
+   },
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/egymeda": {
+   "name": "egymeda",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone wall of medium rough-cut blocks with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyspca": {
+   "name": "egyspca",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone block wall with a dark arched niche flanked by carved Egyptian columns, holding three weathered green bronze statues of Egyptian gods, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/egyswaon": {
+   "name": "egyswaon",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "small tan sandstone wall button tile with a carved turquoise and brown scarab beetle, copy the composition exactly",
+   "notes": {
+    "2": "No dark outline, hairline or shadow along any outer edge; the material runs to the canvas border at even brightness. Top row continues the sandstone plate."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  }
+ }
+}

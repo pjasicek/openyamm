@@ -1,0 +1,95 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_isleofashes/review/terrain02_original
+settle_seconds: 2.5
+exit: true
+shots:
+- name: top_down
+  position:
+  - -9774
+  - -10079
+  - 8836
+  yaw: 1.5708
+  pitch: -1.5
+- name: aerial_south
+  position:
+  - -9774
+  - -26054
+  - 4336
+  yaw: 1.5708
+  pitch: -0.2234
+- name: aerial_west
+  position:
+  - -25748
+  - -10079
+  - 4336
+  yaw: 0.0
+  pitch: -0.2234
+- name: island1_to_peak
+  position:
+  - -11008
+  - -13568
+  - 2108
+  yaw: -2.8198
+  pitch: 0.308
+- name: island1_outward
+  position:
+  - -11008
+  - -13568
+  - 2108
+  yaw: 2.0695
+  pitch: -0.1071
+- name: island2_to_peak
+  position:
+  - -18688
+  - 256
+  - 284
+  yaw: 0.7854
+  pitch: 0.884
+- name: island2_outward
+  position:
+  - -18688
+  - 256
+  - 284
+  yaw: 0.4549
+  pitch: 0.0641
+- name: island3_to_peak
+  position:
+  - 2816
+  - 11520
+  - 2012
+  yaw: 2.6779
+  pitch: -0.0227
+- name: island3_outward
+  position:
+  - 2816
+  - 11520
+  - 2012
+  yaw: -2.3155
+  pitch: -0.1146
+- name: island4_to_peak
+  position:
+  - -6912
+  - 256
+  - 444
+  yaw: 2.3562
+  pitch: 0.0262
+- name: island4_outward
+  position:
+  - -6912
+  - 256
+  - 444
+  yaw: -1.714
+  pitch: 0.0973
+- name: shore_out
+  position:
+  - -8960
+  - -9984
+  - 188
+  yaw: 1.5627
+  pitch: -0.125
+- name: shore_back
+  position:
+  - -8950
+  - -8724
+  - -164
+  yaw: -1.5789
+  pitch: 0.3611

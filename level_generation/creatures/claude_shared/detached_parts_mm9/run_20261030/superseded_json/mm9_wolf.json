@@ -1,0 +1,188 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_wolf.glb",
+  "components": 31,
+  "body": 0,
+  "size": 3.7277954816818237,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "2": {
+    "joint": "Bone42",
+    "where": "below, -z",
+    "triangles": 18,
+    "extent": 0.0522,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01046,
+    "worst": {
+     "gap": 0.01198,
+     "to_body_cluster": 0.01198,
+     "clip": "Walking",
+     "frame": 8,
+     "time": 0.2667,
+     "part_point": [
+      -0.368,
+      0.21516,
+      -0.82572
+     ],
+     "attached_point": [
+      -0.36803,
+      0.22535,
+      -0.82653
+     ],
+     "kind": "parted",
+     "against": "Bone34"
+    },
+    "detached_poses": 7,
+    "poses": 359,
+    "clips": {
+     "Running": {
+      "max_gap": 0.00903,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 1
+     },
+     "Walking": {
+      "max_gap": 0.01198,
+      "frame": 8,
+      "time": 0.2667,
+      "frames": 6
+     }
+    },
+    "shallowest": {
+     "depth": 0.01011,
+     "on": "Bone34",
+     "clip": "Walking",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_wolf_part2.png"
+   },
+   "23": {
+    "joint": "Bone09",
+    "where": "below, -z",
+    "triangles": 22,
+    "extent": 0.0642,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01803,
+    "worst": {
+     "gap": 0.00914,
+     "to_body_cluster": 0.00914,
+     "clip": "Walking",
+     "frame": 21,
+     "time": 0.7,
+     "part_point": [
+      0.23081,
+      0.123,
+      -1.05384
+     ],
+     "attached_point": [
+      0.22861,
+      0.12688,
+      -1.05081
+     ],
+     "kind": "parted",
+     "against": "Bone34"
+    },
+    "detached_poses": 4,
+    "poses": 359,
+    "clips": {
+     "Running": {
+      "max_gap": 0.00801,
+      "frame": 8,
+      "time": 0.2667,
+      "frames": 1
+     },
+     "Walking": {
+      "max_gap": 0.00914,
+      "frame": 21,
+      "time": 0.7,
+      "frames": 3
+     }
+    },
+    "shallowest": {
+     "depth": 0.01027,
+     "on": "Bone34",
+     "clip": "Walking",
+     "frame": 23,
+     "time": 0.7667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_wolf_part23.png"
+   },
+   "29": {
+    "joint": "Bone09",
+    "where": "below, -z",
+    "triangles": 22,
+    "extent": 0.0555,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01008,
+    "worst": {
+     "gap": 0.00943,
+     "to_body_cluster": 0.00943,
+     "clip": "Walking",
+     "frame": 21,
+     "time": 0.7,
+     "part_point": [
+      0.38054,
+      0.13142,
+      -1.06278
+     ],
+     "attached_point": [
+      0.37791,
+      0.13683,
+      -1.05624
+     ],
+     "kind": "parted",
+     "against": "Bone34"
+    },
+    "detached_poses": 9,
+    "poses": 359,
+    "clips": {
+     "Death": {
+      "max_gap": 0.00804,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 3
+     },
+     "Running": {
+      "max_gap": 0.00862,
+      "frame": 8,
+      "time": 0.2667,
+      "frames": 2
+     },
+     "Walking": {
+      "max_gap": 0.00943,
+      "frame": 21,
+      "time": 0.7,
+      "frames": 4
+     }
+    },
+    "shallowest": {
+     "depth": 0.01008,
+     "on": "Bone34",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_wolf_part29.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 31,
+   "attached_in_every_pose": 27
+  },
+  "concealed": {},
+  "shallow": {}
+ }
+]

@@ -1,0 +1,38 @@
+{
+  "status": "full_delivery_audit_pass",
+  "requirements": {
+    "coverage": "14 maps,197 static names,42 frames",
+    "fidelity": "Reviewed original comparisons, ten masters and native scale/palette evidence",
+    "seamlessness": "24,428 exact-export compatible checks plus flat/native visual review",
+    "roads": "36 solid cobbles,12 separate stepping masks; grounded and loop/diagonal review",
+    "liquids": "All three14-frame cycles; five bank families,18 native flat temporal captures",
+    "preservation": "239 installed files; originals and121 protected hashes unchanged",
+    "usability": "Both launcher modes verified; installed desktop run completed0",
+    "sharing": "Verified runtime ZIP, gallery, map guide and reproducible source/provenance"
+  },
+  "deliverables": {
+    "README.md": "24bbf5b281304d895cb7e660252f9933d8ac7fa14ef5ef09d43c92db432a32d4",
+    "HANDOFF.md": "a34ef31a300b32398be9a5dcf198950a698fc115eb464a48a02d857b8210de13",
+    "MAPS.md": "e5f167723bc1081f2c6e63a7ba965cd90c5a7e71133b41c0ad2d2adc45e1d84a",
+    "review.html": "f6fad10dc59eeec82619b337eb09b58feb09f1c94762d6520116956d417fc8bd",
+    "play.sh": "e90303e65b7a00d7438724621db9dad21d01843c9a1a3b354f726cb413ac16fb",
+    "install.py": "4081a218441b27135ab112ee4e981a8fb9d2f96d8da98343cf9c5469692fe250",
+    "package.py": "28b30d4093c630b88660d5d0022bf8262793a070d25dbc7d7d2fe2510170ba1d",
+    "assemble_pack.py": "bab63a21a80e423c238c90462a0ea8589bf02ed04d4ff15e03cf953fd0aa131b",
+    "check_complete_pack.py": "105a1cc0538daacbb2f687033d8736ddcee313d2dd8d8108782c70e530f8f2a9",
+    "build_gallery.py": "b318b6da762d71a170b0a5ba34f0fba6dbcfcb2d1f3fd34509f21d8d41e37202",
+    "write_map_list.py": "0ca902685e6e74302490029a45330f444f57d98f90fe8a611ef1ad98c246b45d",
+    "reports/acceptance.json": "2d8d08f142682aeb1efecb45e5ea902ffb645bd2aa5a9489cfd3c8ea0915bd92",
+    "reports/integration.json": "686c70db861ea10ffc19005e001df46e7b6f57ef32b526c345486e6e7c4fa199",
+    "reports/package.json": "8edcc90adfe067c8b7c6cd6e1b15a0e035448bc107f40525c43e7ccb62518099",
+    "reports/launcher/validation.json": "a80ec35ed7c341dbb838150576b9fc2c0ea87af3f7fc8297fd3b74f4e6c46834",
+    "reports/gallery_preview.png": "87f348a57c25e2e7216b1e15831971b8ea48a49d5b0292ed1ff09e50ca4f6e4c",
+    "mm8_complete_terrain_x2.zip": "d08a1bdf317aff6cbbb8c532a1e9c1e6f69645f1b8d134d07b121bcb2f1fedb0"
+  },
+  "scope_limits": [
+    "Existing incompatible native tile placements are preserved, not silently repaired.",
+    "Xvfb review validates content appearance, not hardware GPU performance.",
+    "Representative captures do not imply every map cell/view/mip was visually inspected."
+  ],
+  "script_sha256": "138c123066ffc7b28a3d56d319fe7d7d7bdc3c0c05d63396ca84aa98ef7a249c"
+}

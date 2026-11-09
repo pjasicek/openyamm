@@ -1,0 +1,83 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "status": "Generated and saved unresized; strict acceptance failed.",
+  "required_size": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations_used": 1,
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: albedo texture-source painting for the Ashrunner totem 3D prop, BACK view.\nEdit target: Image 1 guide_back.png, 1024 x 1024 RGBA. Image 2 design_reference.png is ONLY the approved colour/material/design reference. Image 3 concept_crop.png is supporting design context.\nPaint ONLY the existing grey surfaces of Image 1. Return one 1024 x 1024 PNG with actual transparent background. Preserve Image 1's alpha silhouette EXACTLY pixel for pixel, including every opening, every shape edge, geometry boundaries, exact object size, orientation and position in the square. Do not resize, zoom, crop, rotate, recenter, remodel, or change the camera. This is the decoration seen from the BACK: follow all forms visible in the guide, do not turn the helmet around to show the reference's front-facing goggles. Never substitute Image 2's silhouette or camera. Keep the low-poly geometry of the guide while adding finely painted material detail.\nGeometry anchors in guide: subject bounds x=66..957 y=200..823 on 1024 square; helmet top at y=200; horizontal crossbar around y=350; rubble base down to y=823; asymmetric existing hanging tags, rings, strips and diagonal rods must stay exactly where shown.\nSurface materials/colours from approved design: weathered dark gunmetal pipe and helmet with chipped charcoal grey metal and scattered muted orange-brown rust; dull glass goggle lenses only where their surfaces are actually visible; faded dusty ochre/tan and grey rag cloth with woven grain; aged copper wire and rings; existing small bone forms in bleached ivory; cool grey ash and grey rubble on the base. Paint helmet seams and cloth wear as surface colour detail only. Add no geometry, dangling pieces, holes, bones, or debris beyond the guide's existing outlines.\nLIGHTING: this is an ALBEDO TEXTURE SOURCE. Even flat shadowless light from the viewer. Material colour only; no cast shadows, no ambient occlusion darkening, no dark crevice shading, no strong specular highlights, reflections, rim light, gradients from lighting, floor, background or contact shadow. Neutral matte, uniformly exposed surfaces. Any emissive parts are just painted at their glowing colour without lighting their surroundings; do not invent emissive parts.\nExact guide geometry and transparency have priority over all design reference details. No text, watermark or annotations.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; exact geometry authority",
+          "sha256": "c28271a559734c1b17d4e509ad80395ef9dd8880b30d40cdc05e8ea09a8cf77f"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "8d37fb4889d63c2a98e8cefff95f5323fdd9000a4b378f1c1ab5217a108a426e"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "dca2956c55f0970780cf64f0ea22b0ec357aadd52ba879d0e16b7776151781ff"
+        }
+      ],
+      "output": "paint_back_run_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254 x 1254 rather than 1024 x 1024, silhouette and internal details differ from guide, and baked shading remains.",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match approved rusted metal, ochre/grey cloth and grey ash palette.",
+        "flat_even_light": "Failed: fold shading, dark crevices and highlights remain."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, use case precise-object-edit. Deliver exactly ONE 1024 x 1024 pixel RGBA PNG, transparent background, at native output size. Do not return 1254 x 1254 or another resolution; this is a 1024-square texture registered to a fixed 1024-square render.\n\nImage 1 guide_back.png is the EDIT TARGET and absolute geometry authority. Paint this precise image in place, keeping its original alpha mask and ALL visible geometry edges exactly. Image 2 design_reference.png is only the approved MATERIAL/COLOUR reference. Image 3 concept_crop.png is only supporting style context. The target is the BACK view and must remain the back view.\n\nPreserve the guide without any geometric redesign: exact same silhouette, position, scale, projection, gaps, rings, pendant shapes, cloth edges, strips, skull/helmet details and base. Paint the target's small visible skull details exactly as they appear instead of erasing them with a new helmet band. No new holes through the cloth: worn weave and stains are surface textures only. No new dangling objects or rubble. All transparent pixels outside the guide, including every interior opening, must remain transparent. The guide's subject occupies x 66 through 957, y 200 through 823 on the 1024 x 1024 canvas. Do not enlarge it or recenter it.\n\nApply surface colour with the approved design's rusted dark grey metal pipes and helmet, muted orange-brown corrosion, faded dusty ochre/tan and grey rags, aged copper wire, small bleached bone surfaces only where present, grey ash and grey rubble. Preserve guide shape even where design reference differs. Dull, matte glass only where visible in this back view.\n\nCritical lighting correction: pure diffuse ALBEDO, even flat shadowless frontal illumination everywhere. Remove cast shadows and ambient occlusion, dark creases, directional shading, highlights and reflections. Cloth folds and metal sides retain their local material colour instead of becoming black or white from lighting. Rich painted surface grain, oxidation and weathering are welcome, but zero baked lighting. No floor, background, contact shadow, rim light, lettering, watermark. Transparent clean alpha with no stray pixels. Output 1024 x 1024 native, unresized.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target; exact geometry authority",
+          "sha256": "c28271a559734c1b17d4e509ad80395ef9dd8880b30d40cdc05e8ea09a8cf77f"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "8d37fb4889d63c2a98e8cefff95f5323fdd9000a4b378f1c1ab5217a108a426e"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept",
+          "sha256": "dca2956c55f0970780cf64f0ea22b0ec357aadd52ba879d0e16b7776151781ff"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected only as the closer available return: retains more of the guide's helmet details and has somewhat flatter materials. NOT a compliant final: native return remains 1254 x 1254, geometry differs and residual shading remains. Preserved unresized and unmodified; no further generation because the brief permits only one corrective regeneration.",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Broadly match approved rusted metal, faded ochre/grey rags, copper and ash palette.",
+        "flat_even_light": "Failed: residual highlights and crevice shading remain."
+      },
+      "acceptance_passed": false
+    }
+  ]
+}

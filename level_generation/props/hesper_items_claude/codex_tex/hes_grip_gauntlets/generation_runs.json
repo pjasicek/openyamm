@@ -1,0 +1,629 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "returns_unresized_and_unedited": true,
+  "max_corrective_regenerations_per_view": 1,
+  "silhouette_check_note": "Exact alpha equality is strict and fails if native sizes differ. Normalized silhouette IoU samples guide alpha in normalized canvas coordinates for measurement only; no delivered image is resized or edited. Threshold is alpha >=128.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "key": "front",
+      "selected": false,
+      "reason": "Rejected: changed guide geometry and framing, with strong baked shading and highlights.",
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 transparent RGBA PNG texture-source paintover for the Hesper powered-grip colonial work gloves.\nINPUT ROLES: Image 1 is the exact orthographic model guide and EDIT TARGET. Image 2 is design_reference.png, the approved authority ONLY for surface design, colours and materials, NEVER for pose or camera.\nGEOMETRY LOCK: Paint directly inside image 1's existing alpha silhouette. Preserve its exact pixel outline, every finger and part edge, all holes and gaps, position, scale, framing, camera and occlusion. Do not rearrange, straighten, separate, merge, inflate or add fingers. Do not improve the mesh geometry. Keep all low-poly boundary corners and part locations exactly. No pixels outside the guide silhouette; background fully transparent, not black and not a painted checkerboard. The grey guide is to be recoloured, not replaced by a new drawing in the design reference's pose.\nSURFACES: Use the reference's warm ivory-white ceramic armour panels with fine subtle wear and engraved seams, muted brushed gold fittings and joint bands, charcoal black-violet leather/resin with fine grain and small pebble-textured grip pads, cool blue-white circular power lenses and narrow blue-white light strips at the corresponding existing fittings. Follow existing guide panel edges. Do not put ceramic armour across a palm grip area. Continue unseen undersides with plausible matching leather, resin and ceramic/gold cuff lining. No orange lights because this approved reference uses blue-white lights. No text, letters, numbers, logos or watermark.\nALBEDO LIGHTING: flat, even, shadowless viewer illumination, unlit base colour texture. No cast shadows, no ambient-occlusion darkening in seams or cavities, no directional shading, no specular hot spots, reflections, rim light, glow halos or bloom. Gold is muted base gold with only a faint sheen. Blue-white lights are simply their bright light colour. Material grain and fine wear are colour variations, not lighting. No background, floor, props or scene.\nOUTPUT: one square image at requested native 1024 x 1024, transparent background. Silhouette accuracy takes precedence over decoration.\nVIEW: FRONT, paint exactly guide_front.png. Two foreshortened gloves, cuffs at the bottom, curled fingers rising upward, in the exact asymmetrical arrangement of Image 1. The broad exposed palm and inner fingers are dark leather/resin with grip pads; visible peripheral armour and cuffs are ivory ceramic with gold details. Keep the large gap between the two gloves and all small finger gaps unchanged.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-f1c3f6bc-f71e-40b3-94aa-7e75b726482f.png",
+      "tool_input_files": [
+        "guide_front.png",
+        "design_reference.png"
+      ],
+      "output": "paint_front_attempt1.png",
+      "output_sha256": "e69b5b326a37b8f6f6d1e784a009b7f02833bd4a3bb6275b217b953e74080d43",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": true
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "ebb6c216ecc76d93f2a77c32aa25b610dba6b19ff21e3facc49f6f6c05ef02c0",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          76,
+          0,
+          1208,
+          1194
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8854871639888795,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.5435200659325565,
+        "nontransparent_border_pixels": 33,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Visible form shading and edge highlights; not strictly flat albedo.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "key": "frontCorrection",
+      "selected": true,
+      "reason": "Closer guide arrangement and flatter than attempt 1; residual contour drift and form shading remain.",
+      "prompt": "Use case: precise-object-edit. Produce ONE 1024x1024 transparent PNG.\nImage 1 = design_reference.png, surface colour/material reference ONLY.\nImage 2 = guide_front.png, the EDIT TARGET. The output must be a recoloured copy of IMAGE 2, the grey model guide, on the identical 1024x1024 canvas. Use image 2 as the base image.\nThis is the single corrective regeneration for the FRONT texture-source view. The previous try changed the geometry/framing and baked in shadows. Correct those two defects.\nLOCK IMAGE 2 COMPLETELY: EXACT outer silhouette, pixel size, position, camera, shape, edges, cuffs, fingers and negative spaces. Its occupied area extends x=66 to 957 and y=134 to 889. Retain the plain model's polygonal outlines. Preserve the exact poses of both gloves. All existing part edges stay in place. NO redesign, enlargement, recentering, reposing, or new geometry. Colour the existing surfaces only.\nTransfer the reference surface design to this model: warm ivory ceramic existing cuff and armour surfaces with subtle fine wear; matte ochre-gold bands and fittings; black-violet/charcoal leather joints and palm surfaces, little dark pebbled resin grip pads; blue-white lenses and narrow bars only on existing fittings. Carry these same materials onto unseen sides logically. Draw panel seams, grain and wear as subtle base-colour texture; do not add new protrusions or components.\nFLAT ALBEDO, NOT SHADED PRODUCT ART: each material has near-uniform base colour independent of face orientation, including the underside of curled fingers. No black crevice shadows, no AO, no cast shadows, no broad gradients, no painted highlights or reflections. Gold is flat muted gold. Lenses are pale icy blue-white without bright reflected highlights or glow spilling beyond them. Leather is readable charcoal-violet instead of shadow-black. Keep surface details fine and low-contrast. Do not copy the lighting from image 1 or the grey lighting from image 2.\nOutput actual alpha transparency outside precisely image 2's silhouette; no floor or background. No text, letters, digits, symbols, labels or watermarks. Priority: original guide silhouette and placement, flat lighting, correct materials.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-104674da-3227-4240-9ff6-a51e58779e6d.png",
+      "tool_input_files": [
+        "design_reference.png",
+        "guide_front.png"
+      ],
+      "output": "paint_front.png",
+      "output_sha256": "8ba72fb049c350333059eea7c34e1ac5191facb8d30ce267e61ca2c11c9e407f",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": true
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "ebb6c216ecc76d93f2a77c32aa25b610dba6b19ff21e3facc49f6f6c05ef02c0",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          21,
+          1202,
+          1240
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9894755842288063,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.5480573806562222,
+        "nontransparent_border_pixels": 3,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Reduced shading in correction; some face-value variation and dark seams remain, especially on the front view.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "key": "back",
+      "selected": false,
+      "reason": "Rejected: rounded guide geometry, added decorative shapes, and baked shading/highlights.",
+      "prompt": "Use case: precise-object-edit. ONE transparent 1024x1024 PNG, flat base-colour texture source.\nImage 1 is design_reference.png: use ONLY its materials and palette. Image 2 is guide_back.png: EDIT THIS EXACT GREY RENDER. Recolour image 2; retain its alpha silhouette and every part edge at the same pixel location. Image 2 controls all geometry, camera, scale and layout.\nBACK VIEW: two gloves with large open wrist cuffs facing the viewer at the bottom; fingers recede toward the top; the rightmost thumb rises to the upper right. Preserve that exact arrangement and its entire silhouette. Keep the two large oval cuff openings and the original contour of every finger and panel. Occupied bounding box in the 1024x1024 canvas: x=66..957, y=134..889. No crop, zoom, reposition, rotation, added or removed parts, or geometry smoothing. Preserve all empty gaps.\nPaint the existing surfaces with the approved reference's finely worn warm ivory ceramic panels, subdued brushed golden metal trims and joint bands, charcoal black-violet leather and resin, subtle pebbled grip surfaces and seams. Existing circular fittings and narrow recesses may hold pale icy blue-white power lenses/light strips matching the reference. Continue the design plausibly on the cuff interiors: visible dark charcoal-violet fabric/leather lining, ivory ceramic cuff lips and muted gold thin trim. Do not fill the openings with solid white armour or invent hands.\nSTRICT ALBEDO: flat, uniform, shadowless frontal lighting across ALL surfaces and inside cuffs. No AO, no black cavity shadows, no cast shadows, no directional gradients, no rim lighting, no hot specular highlights or reflections. Dark lining has its own readable dark grey-violet base colour, not black shading. Gold is a matte golden-ochre base colour with only the faintest sheen. Ceramic is flat warm off-white with subtle fine wear. Blue-white elements use their bright base colour without bloom. Fine details are low-contrast pigment, not relief shading.\nThe result must be a texture paintover locked to image 2's silhouette, not a polished rendered product photo. True alpha transparency outside the model, no floor, no background, no text, letters, numbers, logos or watermark.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-5b4672ff-a75d-42bc-b767-d10be0e6ce41.png",
+      "tool_input_files": [
+        "design_reference.png",
+        "guide_back.png"
+      ],
+      "output": "paint_back_attempt1.png",
+      "output_sha256": "411d018e7e1a55b9ec9323fc5e97b001d177854cb358c072b2ab1a89691411a0",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": true
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "66f37bea60f27ed29864048bb25b52a18831513371e123f0a47e7833f7ad224b",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1218,
+          1220
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9143479895411364,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.5561005420612573,
+        "nontransparent_border_pixels": 2,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Visible form shading and edge highlights; not strictly flat albedo.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "key": "backCorrection",
+      "selected": true,
+      "reason": "Flatter albedo and closer panel geometry than attempt 1; residual silhouette drift remains.",
+      "prompt": "Paint material base colours onto this exact 1024x1024 grey model guide. This is the BACK view of Hesper powered-grip colonial work gloves, the one allowed corrective regeneration. Output must be transparent 1024x1024 PNG.\nKEEP THE EXISTING IMAGE. Lock its silhouette and pixel alignment, every polygon corner, finger, overlap and cuff edge. Occupied bounding box [66,134,958,890). Do not redraw, round, move, add or remove any geometry; do not change scale, projection or pose. The two oval cuff mouths stay EXACTLY where they are with exactly their existing inner contours. The entire background and every gap stay transparent.\nSURFACE COLOURS from the approved design: the existing hard panels and thick cuff rims are warm off-white ivory ceramic, lightly worn with hairline scratches and fine engraved joins. Narrow fittings, joint rings and borders use desaturated ochre-gold brushed metal. Existing raised circular fittings have pale icy blue-white inset centres with muted gold rims. Existing narrow indicator recesses are icy blue-white. Flexible underlayers and the interior of each cuff are uniformly charcoal-violet fine-grain leather/resin. Grip areas have fine pebbled rubber texture. Surface details must stay inside the existing parts. No text or letters.\nCRITICAL CORRECTION: make this completely FLAT UNLIT DIFFUSE ALBEDO. Remove ALL shading from the grey guide. Use constant ivory on every ceramic face regardless of orientation, constant dull gold on every metal face, constant charcoal-violet on every leather surface. No light-to-dark form gradients. No ambient occlusion or dark crevices. NO cavity shadow inside either cuff: only the uniform dark material colour with fine grain. NO shine, reflections, metallic specular, highlight bands, bright edges, rim light or shadow. Blue indicators are flat bright pale blue, with no lens sparkle or bloom. Subtle scratches/grain are the only local colour variation. This is a technical texture projection source, not a shaded illustration or product rendering.\nTransparent alpha outside the exact original silhouette. No backdrop, floor or text. Preserve the original 1024x1024 canvas and exact part edges.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-f2f73578-2d69-4e31-a12b-a0b9fa0ef8dd.png",
+      "tool_input_files": [
+        "guide_back.png"
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "f845f0805f5cbeeb4ad563f356376f28098e2f9acf9cc1cc1f1e50a64ec3a32c",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": false
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "66f37bea60f27ed29864048bb25b52a18831513371e123f0a47e7833f7ad224b",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          41,
+          1242,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9899063124122952,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.5457616965423563,
+        "nontransparent_border_pixels": 24,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Reduced shading in correction; some face-value variation and dark seams remain, especially on the front view.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "key": "left",
+      "selected": false,
+      "reason": "Rejected in favour of corrective attempt: softened silhouettes and moved panel edges; residual shading.",
+      "prompt": "Use case: precise-object-edit. Paint this exact grey orthographic guide as a transparent 1024x1024 flat albedo texture source for the LEFT view of Hesper colonial powered-grip work gloves.\nThe attached guide_left.png is the EDIT TARGET and absolute authority for geometry. Keep its canvas, exact alpha silhouette, low-poly edges, part contours, camera, scale and all pixels of background fixed. The glove group runs diagonally from the wide cuff at lower left toward the fingertips at upper right, with the thumb extending upward near the top centre; keep exactly the original pose and overlapping geometry. Existing model bounding box is [66,134,958,890) on the 1024 square. Do not rotate, reshape, inflate, recenter or spread the fingers. Preserve all black/transparent gaps as transparent.\nApply the approved design_reference.png material design as already shown in this conversation: warm ivory-white ceramic existing armour plates and cuff shell with subtle fine wear and engraved panel joins; narrow brushed muted-gold rims, hinges and finger articulation bands; charcoal black-violet resin and fine-grain leather in flexible areas and palm grips; fine pebbled rubber texture on grip surfaces. The existing round cuff disc and hand disc become icy blue-white power lenses in gold rims; light slots on existing plates are blue-white, never orange. Follow EVERY existing panel edge; no new shapes, protrusions or decorative geometry. Unseen side surfaces continue the same materials.\nThis is UNLIT DIFFUSE BASE COLOUR, not a shaded product image. All ivory faces share the same warm off-white value, all gold faces the same muted ochre-gold, all leather faces the same charcoal-violet, regardless of orientation. Fine scratches and grain are low contrast. Flat shadowless viewer light. No cast shadow, no ambient occlusion, no dark seam shadows, no directional form gradients, no specular hot spots or glossy reflections, no rim light. Gold has at most a faint uniform sheen. Blue-white lenses use flat bright light colour without glow or bloom.\nReturn only ONE transparent RGBA PNG with the exact same silhouette and framing as the guide. Nothing outside the silhouette, nothing cropped, no floor, background, text, letters, labels, numbers, logos or watermark.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-38195991-592c-4da5-92e6-b880887ab612.png",
+      "tool_input_files": [
+        "guide_left.png"
+      ],
+      "output": "paint_left_attempt1.png",
+      "output_sha256": "7b74b784d9f9bb1f40c7d937f0c7fbfa595bd5f5d0731f808b2ded06ea1ac630",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": false
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "2c5077064f6b5dba617f2faf4b24f064c2387a5a8a5438274c6ac2442cea25da",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          71,
+          33,
+          1180,
+          1230
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9855049510525936,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.6292762680952054,
+        "nontransparent_border_pixels": 0,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Visible form shading and edge highlights; not strictly flat albedo.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "key": "leftCorrection",
+      "selected": true,
+      "reason": "Selected for closer polygonal guide geometry and flatter light; residual contour drift and some form shading remain.",
+      "prompt": "Corrective generation, LEFT view. Paint directly over THIS GREY GUIDE, keeping its original 1024x1024 image coordinates. Return ONE transparent PNG at 1024x1024. This is the final allowed attempt.\nThe previous paintover was close but subtly rounded and displaced the outer contour and several part boundaries. CORRECT THAT: trace the exact polygonal silhouette and every part edge from guide_left.png. Preserve the exact fingers, thumb, knuckles, wrist cuff, side disc positions, overlaps, black gaps and frame position. Bounding box [66,134,958,890). In particular preserve the broad faceted cuff at bottom left and the exact convex curve/corners of the upper thumb. NO rounding, pose cleanup or geometry redesign. Everything outside the guide's existing alpha silhouette must stay transparent.\nApply ONLY surface pigment in the approved design colours: fine-worn warm ivory ceramic on existing hard plates and cuff; muted ochre-gold fittings and narrow articulation bands; charcoal-violet fine-grain leather/resin on palm and flexible joints, with low-contrast pebbled grip detail. Circular power fittings have flat pale blue-white centres within existing disc outlines; other discs may remain matching ceramic as the material design requires. Keep all design embellishments confined inside existing panel edges. No added armour parts.\nLIGHTING MUST BE FLAT BASE COLOUR. Remove every grey render shadow rather than turning it into painted shading. Uniform ivory throughout all ceramic planes; uniform muted gold throughout metal planes; readable uniform charcoal-violet in leather. Grain and fine scratches may slightly vary pigment, but no highlights, directional gradients, bevel-edge shine, cast shadows, ambient occlusion, contact shadow, lens sparkle or bloom. No black shading in creases. Pale blue-white lamps are simple solid light colour.\nFaithful technical albedo paintover, not a 3D beauty render. Transparent alpha background and all guide gaps; no text, letters, labels, numbers or watermark. Do not rescale to 1254; requested native output is 1024 square.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-ff0e4c38-8e28-48e7-9332-87a918b39a2f.png",
+      "tool_input_files": [
+        "guide_left.png"
+      ],
+      "output": "paint_left.png",
+      "output_sha256": "7b034b210e2ed3e224ee92656a5d84cfd842deff6b92c5b26cf25ce5750c62b5",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": false
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "2c5077064f6b5dba617f2faf4b24f064c2387a5a8a5438274c6ac2442cea25da",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          20,
+          1234,
+          1232
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9902322610408275,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.633172571853005,
+        "nontransparent_border_pixels": 22,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Reduced shading in correction; some face-value variation and dark seams remain, especially on the front view.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "key": "right",
+      "selected": false,
+      "reason": "Rejected in favour of the correction: some rounded contours, shifted part edges and baked shading.",
+      "prompt": "Use case: precise-object-edit. Paint this exact grey orthographic guide as ONE transparent 1024x1024 flat albedo texture source for the RIGHT view of Hesper colonial powered-grip work gloves.\nguide_right.png is the EDIT TARGET and geometry authority. Preserve its exact canvas, alpha silhouette, every polygon corner, part contour, occlusion, camera, scale and background pixel. The cuff sits at lower right with its oval opening visible, the fingers extend toward upper left, and the raised thumb lies near the upper centre. Keep all poses, overlaps and gaps EXACTLY as the guide. Its silhouette occupies [66,134,958,890) on the 1024-square canvas. Do not rotate, enlarge, reshape, round the contours, move parts, add fingers or alter the interior cuff opening.\nUse the approved design_reference.png materials shown in this conversation: lightly worn warm ivory-white ceramic hard armour plates and cuff shell, engraved joins and small seams, subdued brushed ochre-gold rims and articulation bands, charcoal black-violet fine-grain leather/resin flexible areas, fine pebble-textured grip pads. Existing round fittings are inset pale icy blue-white power lenses in muted gold rims. Any light strips lie painted within existing parts, bright icy blue-white. The visible cuff interior is uniformly charcoal-violet leather lining. Continue the original reference materials plausibly on unseen undersides. Avoid invented armour over palm grip areas. Keep every surface treatment inside the guide's original edges.\nSTRICT UNLIT DIFFUSE ALBEDO: each material has a uniform base colour regardless of surface orientation. Ivory faces are flat ivory, gold faces are flat muted golden ochre, leather is readable charcoal-violet with low-contrast grain. No cast shadows or ambient occlusion, no dark crevice or cavity shading, no directional gradients, specular highlights, reflections, shine, rim light or bloom. At most a faint uniform gold sheen. Lights are their flat bright pale blue-white base colour. Only tiny scratches, engraved seams and material grain add colour variation. This is a technical flat texture projection source, not a shaded illustration.\nTrue alpha transparency everywhere outside the EXACT original guide silhouette. No background, floor, prop, text, lettering, digits, labels, logo or watermark. Return a single 1024x1024 PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-fc048638-b829-488e-a38e-e93ae17e721d.png",
+      "tool_input_files": [
+        "guide_right.png"
+      ],
+      "output": "paint_right_attempt1.png",
+      "output_sha256": "c3b9a78218ff2bec2c4ae34b58c21505ae665396de0b71d2952882ca5a4f789d",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": false
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "3ecb404c52ca326a6365d3e07a263582d9e4c58556ebec9219dddcbfac0750ce",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          25,
+          29,
+          1240,
+          1230
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9838671678581098,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.6295993172724474,
+        "nontransparent_border_pixels": 0,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Visible form shading and edge highlights; not strictly flat albedo.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "key": "rightCorrection",
+      "selected": true,
+      "reason": "Selected for closer polygonal guide geometry and flatter light; residual contour drift and some form shading remain.",
+      "prompt": "RIGHT VIEW, single corrective generation. Paint only the surfaces of THIS supplied guide_right.png. Output a transparent 1024x1024 PNG. The prior attempt matched the palette but changed some contours and included shading; correct these defects.\nRecolour the original guide image in place, with ALL geometry frozen. Lock the exact polygonal silhouette, existing part edges, fingers, cuff contours, occlusions, frame position and pose. Original bounds on the 1024 canvas are [66,134,958,890). The fingers point to upper left, thumb rises toward top centre, and two overlapping cuff lips/openings occupy the bottom right exactly as the guide shows. Preserve the flattened angular boundaries instead of smoothing them. No larger or smaller shapes, no extra components, no new gaps, no cropped parts.\nMATERIALS from approved reference: existing armour and cuffs are warm ivory ceramic with fine wear and delicate engraved seams, narrow trims and articulation bands are muted brushed gold, flexible joints and palm are charcoal black-violet fine-grained leather/resin with low-contrast pebbled grip patches. Existing circular fittings have flat bright blue-white centres within their original outlines and gold borders. Preserve plain ceramic or gold surfaces on fittings where appropriate. Continue same materials on hidden sides and inside cuff.\nAbsolutely FLAT, UNLIT ALBEDO, shadowless viewer illumination. Paint uniform ivory on ALL ceramic planes regardless of guide lighting, uniform dull golden-ochre on all gold, uniform charcoal-violet on leather. Eliminate every directional gradient, highlight and crevice shadow. The only texture value changes are delicate material grain, seams and scratches. No ambient occlusion, contact shading, black cavities, shiny metallic edges, specular reflections, rim light or bloom. Cuff interior uses readable charcoal-violet material colour without shadow. Lens centre is solid bright pale blue-white, not a shiny glowing sphere.\nMatch the exact guide alpha boundary, including all gaps, no pixels outside silhouette. Background is genuinely transparent, not black/white/checkerboard. No floor, text, numbers, logos, labels or watermark. Technical texture source, not shaded illustration. Requested native canvas 1024x1024, not 1254.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-8b04a1f3-450f-425f-9183-aa135b63ffb4.png",
+      "tool_input_files": [
+        "guide_right.png"
+      ],
+      "output": "paint_right.png",
+      "output_sha256": "d65091716e1dbc5d0a7dd4db191f428a71150dee93318214ad627197167e4e27",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": false
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "3ecb404c52ca326a6365d3e07a263582d9e4c58556ebec9219dddcbfac0750ce",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          5,
+          1234,
+          1254
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9844062190581981,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.6344641326383961,
+        "nontransparent_border_pixels": 81,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Reduced shading in correction; some face-value variation and dark seams remain, especially on the front view.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "key": "top",
+      "selected": false,
+      "reason": "Rejected in favour of the correction: some rounded contours, shifted part edges and baked shading.",
+      "prompt": "Use case: precise-object-edit. Paint the provided exact grey orthographic TOP guide of Hesper colonial powered-grip work gloves. ONE 1024x1024 transparent RGBA PNG texture source.\nEDIT TARGET: guide_top.png. Keep the original 1024 square canvas, every silhouette pixel and part edge. The two gloves have cuffs across the top and fingers toward the bottom, exactly as shown: the left glove is curled and exposes the inner/palm area; the right glove exposes the armoured back of hand with fingers pointing down. Do not make the hands symmetric or spread the left fingers. Do not change camera, position, scale, orientation, overlaps or negative spaces. Occupied bounding box [66,66,958,958). Retain all low-poly contour corners and exact spacing between parts.\nUse the approved design_reference.png appearance shown in this conversation: warm ivory-white finely worn ceramic armour on the existing plates/cuffs, muted brushed gold narrow trim and joint bands, charcoal black-violet fine-grain leather/resin underlayers and palm, fine pebble-textured grip pads. Existing circular bosses have pale blue-white power lenses with dull gold rims; the finger light accents are short pale blue-white slots painted within existing plate shapes. Ivory armour must follow the guide's exact panel joins; do not cover the whole palm with armour. The reference's material colours continue plausibly onto unseen surfaces. No new geometry or extra panels beyond the guide.\nUnlit ALBEDO texture projection source, FLAT EVEN SHADOWLESS illumination from the viewer. Keep the same base value on all faces of each material irrespective of their orientation. No painted directional shading, cast shadows, ambient occlusion, dark crevices, metallic hot highlights, reflections, rim light or bloom. Gold is its subdued ochre base colour with a faint sheen at most. Blue-white lights are flat bright light colour. Fine grain, small wear marks and delicate seams are low-contrast colour detail only. Do not reproduce the grey render's shading or make a beauty render.\nFully transparent background, preserve every existing transparent gap. No floor, environment, text, letters, numbers, logos or watermark. Exact guide silhouette/part placement is the highest priority; retain requested 1024x1024 native size.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-2befcf3a-9968-4df1-9da0-a8f825b620a4.png",
+      "tool_input_files": [
+        "guide_top.png"
+      ],
+      "output": "paint_top_attempt1.png",
+      "output_sha256": "1aca2d484886617189a4e18cff00f5558d5cb8fffae7b88901e780a916cde6f6",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": false
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "15ac99946b1f80dcbcd8c839384fa286d86558bb5b7d46073cbbfe4a7bd43657",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          19,
+          1218,
+          1230
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.980373669886569,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.43493611511742963,
+        "nontransparent_border_pixels": 2,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Visible form shading and edge highlights; not strictly flat albedo.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "key": "topCorrection",
+      "selected": true,
+      "reason": "Selected for closer polygonal guide geometry and flatter light; residual contour drift and some form shading remain.",
+      "prompt": "TOP VIEW, one final corrective generation. Paint materials directly onto THIS guide_top.png as a 1024x1024 transparent PNG. Preserve exact original model silhouette and panel boundaries.\nThe prior result subtly changed the rounded silhouettes of fingers and cuffs and added shading. Correct the alignment: retain every polygon corner and existing part edge, every original finger shape, cuff shape and disc location. The two gloves must stay EXACTLY in the guide's pose, size and positions, with cuffs at top and fingers at bottom. Left hand curled with exposed palm; right hand with back armour exposed. Keep all gaps, overlaps and negative spaces exact; no added parts or new geometry. Model bounding box [66,66,958,958) on original 1024 canvas. No rescaling, smoothing, reposing, cropping or recentering.\nSurface palette/material design: finely worn warm ivory ceramic existing armour and cuffs, dull muted golden-ochre metal narrow fittings and articulation bands, charcoal black-violet resin/leather flexible joints and palms, tiny low-contrast pebbled rubber grip pads. Circular light lenses in existing appropriate fittings are solid icy blue-white with gold rims. Small light strips are painted only inside existing panels. Follow the original reference appearance without adding symbols or mechanical parts. Keep large inner palm areas dark flexible material, not ceramic.\nSTRICT TECHNICAL ALBEDO: no rendering light baked into the image. Uniform ivory on all ceramic faces, uniform muted gold on all metal, uniform readable charcoal-violet on leather, regardless of angle. Fine material grain, faint wear scratches and subtle engraved joins provide the only value differences. Eliminate directional form gradients, cast shadows, ambient occlusion, crevice shading, bevel highlights, gold shine, reflections, glossy lenses, rim light and bloom. Blue-white lights are their flat base colour. Use even flat shadowless frontal illumination.\nTransparent alpha outside the exact guide silhouette and through every existing gap. No background, floor, text, letters, numbers, labels, logos or watermark. ONE native 1024x1024 PNG, not a 1254 image.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e2b-aa3f-7e00-9d3f-2a1bba4375a8/exec-f9a51e7b-c409-4a8c-816d-7d38871335ec.png",
+      "tool_input_files": [
+        "guide_top.png"
+      ],
+      "output": "paint_top.png",
+      "output_sha256": "f7acc60d7c86da68e266b8513e0ef67ff7c1b37ce08bd98395bdc90998aea851",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "210958cd75e3d1e586bef778ed92167cfa908558de8f72d906a88f5cad54df84",
+          "sent_to_tool": false
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "15ac99946b1f80dcbcd8c839384fa286d86558bb5b7d46073cbbfe4a7bd43657",
+          "sent_to_tool": true
+        }
+      ],
+      "checks": {
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "returned_size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          43,
+          8,
+          1234,
+          1216
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9840340205755402,
+        "no_text_or_letters_visual_check": true,
+        "materials_visual_check": "Ivory ceramic, gold, charcoal-violet underlayer, blue-white lights present.",
+        "transparent_pixel_fraction": 0.42932981286040967,
+        "nontransparent_border_pixels": 0,
+        "flat_shadowless_albedo": false,
+        "lighting_visual_notes": "Reduced shading in correction; some face-value variation and dark seams remain, especially on the front view.",
+        "silhouette_visual_notes": "Broad guide pose retained; local contour drift and fine edge fringe remain. Not an identical silhouette.",
+        "reference_material_layout_exact": false,
+        "material_visual_notes": "Reference palette and material families retained; fine panel trim, grip-pad and indicator placement vary from the approved art."
+      }
+    }
+  ],
+  "status": "best_available_returns_with_documented_mismatches",
+  "limitations": [
+    "All native tool returns are 1254 x 1254 rather than requested 1024 x 1024; preserved byte-for-byte without resizing or other image processing.",
+    "Exact guide silhouette and fully flat albedo requirements were not achieved. Selected normalized silhouette IoU ranges from 0.98403 to 0.99023; residual contour drift, edge fringe and some shading remain.",
+    "One initial generation and one corrective regeneration were used per view. No additional regenerations beyond the brief limit.",
+    "Guide-only corrective calls used the inspected design reference through the prompt and conversation. sent_to_tool records which input files were directly attached to each call."
+  ],
+  "validation": {
+    "input_files_unchanged": true,
+    "selected_output_count": 5,
+    "all_returns_byte_identical_to_tool_files": true,
+    "builds_run": false,
+    "runtime_integration_or_tests": false
+  }
+}

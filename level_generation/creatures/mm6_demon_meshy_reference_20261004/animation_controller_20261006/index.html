@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MM6 demon — casting and sockets</title>
+<style>
+body{background:#1b1e23;color:#e8dfd2;font:16px system-ui;margin:28px auto;max-width:1100px;padding:0 20px}
+a{color:#efb68e}h1{font-size:26px}video{width:400px;max-width:100%;background:#34383d}
+.poses{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}img{width:100%;background:#34383d}
+figure{margin:0}figcaption{padding:7px 0}button{background:#414852;color:inherit;padding:8px 14px;border:0;cursor:pointer}
+@media(max-width:700px){.poses{grid-template-columns:1fr}}
+</style>
+<h1>MM6 demon — two-handed casting</h1>
+<p>The actual exported GLB: gather, channel, then release. The game scales this gesture to its existing spell clock.
+The original nine clips, anatomy and materials are retained.</p>
+<p><a href="README.md">Implementation and MM9 evidence</a> · <a href="mm6_demon_animation_master.blend">Blender master</a> ·
+<a href="mm6_demon_animated.glb">Animated GLB</a></p>
+<video id="cast" src="review/cast.mp4" controls autoplay muted loop playsinline></video>
+<p><button data-speed="1">Normal speed</button> <button data-speed="0.25">¼ speed</button></p>
+<div class="poses">
+<figure><img src="review/cast_00_front.png" alt="Standing at the start of casting"><figcaption>Start</figcaption></figure>
+<figure><img src="review/cast_30_front.png" alt="Hands meeting in front of the chest"><figcaption>Channel — front</figcaption></figure>
+<figure><img src="review/cast_30_profile.png" alt="Channeling hands seen in profile"><figcaption>Channel — profile</figcaption></figure>
+<figure><img src="review/cast_48_front.png" alt="Hands opening forward at release"><figcaption>Release — front</figcaption></figure>
+<figure><img src="review/cast_48_profile.png" alt="Release pose in profile"><figcaption>Release — profile</figcaption></figure>
+</div>
+<p>These neutral renders show the authored motion. Eye embers, the charge glow/light and release sparks use the
+game's existing FX system. Run <code>./tools/run_demon_3d_test.sh</code> for the in-game review.</p>
+<figure><img src="review/native-ranged-combat.png" alt="Three native Devil Spawn actors during ranged combat in New Sorpigal">
+<figcaption>Native game: ordinary ranged combat and existing flame effects. This still is separate from the
+authored casting-motion review above.</figcaption></figure>
+<script>document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{
+document.querySelector('#cast').playbackRate=Number(b.dataset.speed);document.querySelector('#cast').play()})</script>
+</html>

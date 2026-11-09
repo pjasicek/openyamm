@@ -1,0 +1,389 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.lichlab_scripted
+title: Lich Lab (native BLV) - the elixir, a letter, the Transmutation Engine, the skeleton transformer, the shooting range,
+  the summoner, the cages and the ickies
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: lichlab.blv
+- note:
+    text: 'Storeroom B: a herb bag (Prop10) and a jar (Prop4) are world items (Givetake.scr): picked up, they give Elixir
+      Ingredients and a Jar.'
+- set_pose:
+    map: lichlab.blv
+    x: -172
+    y: 2417
+    z: 1563
+    yaw: 0.0
+    pitch: -1.2963
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- set_pose:
+    map: lichlab.blv
+    x: -909
+    y: 2417
+    z: 1312
+    yaw: 0.0
+    pitch: -0.6521
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    inventory_any_member:
+    - item_id: 10378
+      count: 1
+    - item_id: 10358
+      count: 1
+- note:
+    text: The kitchen's cook pot (Prop18, ElixirCook.scr) turns the ingredients into Elixir Fluid; the burner (Prop17, GiveElixir.scr)
+      turns fluid and jar into the Elixir of Defedation.
+- execute_event:
+    id: 222
+- assert:
+    inventory_any_member:
+    - item_id: 10561
+      count: 1
+- execute_event:
+    id: 223
+- assert:
+    inventory_any_member:
+    - item_id: 10246
+      count: 1
+- note:
+    text: The letter scroll Prop20 (BookLetter.scr, letter 592) shows MM9's Elixir Instructions.
+- execute_event:
+    id: 226
+- press_action:
+    action: cancel_dialog
+- note:
+    text: Without the Lich Instructions the pod closes, the engine strikes and nothing happens.
+- damage_actor:
+    actor_index: 3
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 9
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 11
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 12
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 41
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 43
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 53
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 54
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 60
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 61
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 62
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 63
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 147
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 149
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 150
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 151
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 169
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 174
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 192
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 193
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 195
+    amount: 100000
+    skip_dead: true
+- set_pose:
+    map: lichlab.blv
+    x: -1260
+    y: 5765
+    z: -654
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 200
+- advance_runtime:
+    seconds: 4.2
+- assert:
+    mechanism:
+      id: 10
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: EngineStrikes
+      value: 1
+- assert:
+    qbit_clear:
+    - 90299
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 10
+      state: closed
+- note:
+    text: 'With key 296 and a Wizard carrying the elixir: the strike makes the Wizard a Lich, gives key 299 (quest ''Become
+      a Lich'' done) and MM9''s 63000 experience.'
+- console:
+    line: player add Wizard Risdar
+    expect_contains: Added Risdar as Wizard
+- grant_item:
+    item_id: 10246
+    member_index: 1
+- setup_shortcut:
+    kind: set_qbit
+    id: 90296
+    value: true
+- set_pose:
+    map: lichlab.blv
+    x: -1260
+    y: 5765
+    z: -654
+    yaw: 0
+    pitch: 0
+- execute_event:
+    id: 200
+- advance_runtime:
+    seconds: 4.2
+- assert:
+    state_dump_named_map_var:
+      name: Transmuted
+      value: 1
+- assert:
+    qbit_set:
+    - 90299
+- advance_runtime:
+    seconds: 5
+- assert:
+    mechanism:
+      id: 10
+      state: closed
+- note:
+    text: 'TransformSwitch0 (event 202): the switches lock, the chamber''s glass door lowers; with the door down a Commoner
+      (9050, PeasantTransformee.scr) appears at MarkerSpawn, walks into the chamber and cowers; the strike turns him into
+      a Skeleton (9135), the door rises, the switches unlock.'
+- assert:
+    mechanism:
+      id: 82
+      state: open
+- execute_event:
+    id: 202
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 96
+      state: open
+- advance_runtime:
+    seconds: 3.3
+- assert:
+    mechanism:
+      id: 82
+      state: closed
+- assert:
+    actor_count:
+      monster_id: 9050
+      min: 1
+- advance_runtime:
+    seconds: 12
+- assert:
+    state_dump_named_map_var:
+      name: SkeletonDoorACowered
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: SkeletonsMade
+      value: 1
+- assert:
+    actor_count:
+      monster_id: 9135
+      min: 1
+- advance_runtime:
+    seconds: 5.5
+- assert:
+    mechanism:
+      id: 82
+      state: open
+- assert:
+    mechanism:
+      id: 95
+      state: closed
+- note:
+    text: 'firebook2 (event 206, ILSshootingbook.scr) starts shootfire1: ten bolts break the straw target DestructableBrush19,
+      which sinks; the book is done.'
+- execute_event:
+    id: 206
+- advance_runtime:
+    seconds: 17
+- assert:
+    state_dump_named_map_var:
+      name: Target19Hits
+      value: 10
+- assert:
+    mechanism:
+      id: 93
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: firebook2
+      value: 2
+- note:
+    text: 'TriggerLich (event 230): the summoner wakes and a Specter (9140) rises from each ghost pool.'
+- movement_segment:
+    input: forward
+    seconds: 0.21
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: -87
+      y: -1880
+      z: -675
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: -87
+      y: -1720
+      z: -675
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- assert:
+    state_dump_named_map_var:
+      name: Summoner
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: GhostsRaised
+      value: 4
+- assert:
+    actor_count:
+      monster_id: 9140
+      min: 4
+- note:
+    text: 'TriggerExplodeL (event 231): the four critters smash their cage fronts (they sink).'
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 0.21
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: -8847
+      y: 5656
+      z: 1
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: -8847
+      y: 5816
+      z: 1
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: CagesBroken
+      value: 1
+- note:
+    text: 'LobbyBatTrigger1 (event 234): the lobby''s eight ickies turn hostile.'
+- movement_segment:
+    input: forward
+    seconds: 0.85
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: lichlab.blv
+      x: 1992
+      y: -1388
+      z: 1312
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: lichlab.blv
+      x: 1992
+      y: -738
+      z: 1312
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 16
+- assert:
+    state_dump_named_map_var:
+      name: BatsLobby
+      value: 1

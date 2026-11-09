@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>D — native Obsidian crosshair</title>
+<style>
+body{max-width:1320px;margin:28px auto;padding:0 24px;background:#111718;color:#eee7d8;font:15px/1.5 system-ui}
+h1{font-size:24px;margin-bottom:8px}a{color:#e6d1a7}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+article{padding:14px;background:#1b2324;border:1px solid #4e5a53;border-radius:5px}h2{font-size:16px;margin:0 0 10px}
+img{display:block;width:100%;height:auto;margin-top:12px}.crop{width:144px;height:96px;background-position:center;background-repeat:no-repeat;border:1px solid #73654d}
+.note{font-size:12px;color:#b9c1bc} @media(max-width:800px){.grid{grid-template-columns:1fr}}
+</style>
+<h1>D — native Obsidian crosshair</h1>
+<p>Ivory face with a full charcoal contour and an open aiming center. The crops below display native screen pixels at 1:1. Click a screenshot for its full resolution.</p>
+<p>Build passed. Six real-game captures reviewed on NVIDIA/OpenGL 3.3/SDL Wayland. <a href="validation.json">Validation</a> · <a href="../index.html">Original comparison</a></p>
+<div class="grid">
+<article><h2>1600 × 900 · Street</h2><div class="crop" style="background-image:url(images/wide/01-street.png)"></div><p class="note">18 × 18 px, with a clear 2 × 2 center.</p><a href="images/wide/01-street.png"><img src="images/wide/01-street.png" alt="Native D crosshair over the street at 1600 by 900"></a></article>
+<article><h2>1600 × 900 · Foliage</h2><div class="crop" style="background-image:url(images/wide/02-foliage.png)"></div><p class="note">Ivory face remains visible over dark leaves.</p><a href="images/wide/02-foliage.png"><img src="images/wide/02-foliage.png" alt="Native D crosshair over foliage at 1600 by 900"></a></article>
+<article><h2>1600 × 900 · Sky</h2><div class="crop" style="background-image:url(images/wide/03-sky.png)"></div><p class="note">Complete dark contour against bright scenery.</p><a href="images/wide/03-sky.png"><img src="images/wide/03-sky.png" alt="Native D crosshair over sky at 1600 by 900"></a></article>
+<article><h2>800 × 600 · Street</h2><div class="crop" style="background-image:url(images/small/01-street.png)"></div><p class="note">14 × 14 px; the center stays open.</p><a href="images/small/01-street.png"><img src="images/small/01-street.png" alt="Native D crosshair over street at 800 by 600"></a></article>
+<article><h2>800 × 600 · Foliage</h2><div class="crop" style="background-image:url(images/small/02-foliage.png)"></div><p class="note">Crisp ivory arms at the smaller HUD scale.</p><a href="images/small/02-foliage.png"><img src="images/small/02-foliage.png" alt="Native D crosshair over foliage at 800 by 600"></a></article>
+<article><h2>800 × 600 · Sky</h2><div class="crop" style="background-image:url(images/small/03-sky.png)"></div><p class="note">Dark outline remains one screen pixel wide.</p><a href="images/small/03-sky.png"><img src="images/small/03-sky.png" alt="Native D crosshair over sky at 800 by 600"></a></article>
+</div></html>

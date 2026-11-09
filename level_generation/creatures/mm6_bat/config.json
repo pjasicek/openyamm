@@ -1,0 +1,23 @@
+{
+  "family": "bat",
+  "title": "MM6 Bat",
+  "descriptor_ids": [
+    481,
+    482,
+    483
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 667,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "standing_reference_frame": 0,
+  "description": "Original MM6 bat B: small dark charcoal-purple furry bat body, broad pointed leathery ears with pink inner rims, red eyes, two small long ivory fangs and tiny white toe claws. Very broad blue membranous bat wings stretched across black slender finger bones. Preserve the original expressive flattened bat muzzle, rounded belly, wing joints, uneven native baked wing lighting, pointed wing tips and tiny dangling feet. Faithful old pre-rendered fantasy monster artwork; no modern realistic animal redesign, extra anatomy, added accessories or scenery.",
+  "regions": "Only blue wing membranes recolorable; preserve black wing finger bones, dark purple-charcoal furry body, red eyes, pink inner ear details, ivory fangs and toe claws. Blue base palette 667; other palettes later derived deterministically.",
+  "variant_names": {
+    "666": "Bat A / amber wings",
+    "667": "Bat B / blue wings",
+    "668": "Bat C / red wings"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 1
+}

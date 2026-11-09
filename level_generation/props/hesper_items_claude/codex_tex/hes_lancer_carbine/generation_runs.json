@@ -1,0 +1,51 @@
+{
+  "status": "blocked_by_image_tool",
+  "tool": "image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture projection source for the existing Hesper Lancer carbine 3D model.\nINPUT ROLES: Image 1 is the edit target, the exact white model guide. Image 2 is the approved design_reference.png, used ONLY as colour, material and surface-detail authority.\nEdit ONLY the white object's surface colours in Image 1. Preserve Image 1's original 1024 x 1024 canvas, exact alpha silhouette, pixel location, object scale, camera orientation, all contours, negative spaces, edges and geometry. Copy the guide's alpha unchanged. Do not substitute the design-reference silhouette or side-view camera. No zooming, recentering, rotating, cropping, enlargement or extra parts. This is a surface repaint of the same exact existing guide, not a new rendering of the reference.\nApply the design's worn ivory-white ceramic plating, fine restrained scratches and engraved seams, base-colour brushed antique gold narrow trim and collars, black-violet organic resin framework, orange light in recessed energy chambers and blue-white light in the barrel/core. Translate surface details plausibly onto only the surfaces actually visible in the guide. Continue unseen surfaces plausibly with the same materials. Do not add reference spines, ribs or muzzle fins beyond the guide contours.\nLIGHTING: pure albedo TEXTURE SOURCE, even flat shadowless viewer illumination. No baked shadows, no ambient occlusion, no darkening in corners, no directional shading, no cast shadows, no strong specular highlights, no reflections, no rim light. Metals have base colour and only faint sheen. Bright energy parts are flat bright colour without bloom or spill outside the object.\nOutput a single transparent RGBA PNG, 1024 x 1024, maintaining all the guide's empty margins. True transparent background, no floor, no background colour, no checkerboard drawn into the image, no text, letters, numbers, labels, logos or watermarks.\nVIEW front: use guide_front.png exactly. It is the extremely thin horizontal projection shown in Image 1, muzzle at LEFT, butt at RIGHT. Occupied alpha bounds are x=66..957, y=466..557 within the 1024-square canvas, only 92 pixels tall. Keep these huge transparent margins and thin profile exactly; do not turn this into the fuller side profile in the design reference. Keep the visible broad plates ivory, recesses black-violet with local orange and the long core blue-white, collars gold, all within the guide.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "role": "edit_target",
+          "sha256": "56906e3c2ad9f37383aac905d9fee468ecc383b0534b1981d6e55422a9e3e6b2"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "material_and_colour_reference",
+          "sha256": "5df59f99fe0a0f2e9a492b815b0f005e81e4825e8d8c9b828054cf5be9671a45"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "The built-in image tool rejected the input under its violence safety filter before generating an image.",
+      "error": {
+        "http_status": 400,
+        "code": "moderation_blocked",
+        "moderation_stage": "input",
+        "categories": [
+          "violence"
+        ],
+        "request_id": "77d27ad5-571c-4d44-9b63-463d6a6f8ffd"
+      },
+      "checks": {
+        "status": "not_run",
+        "reason": "No output image returned."
+      }
+    }
+  ],
+  "unattempted_views": [
+    "back",
+    "left",
+    "right",
+    "top"
+  ],
+  "note": "Generation stopped after the safety rejection. No corrective regenerations, fallback tools, output images, resizing, or other asset edits were performed."
+}

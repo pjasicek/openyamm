@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>MM8 joined road repair v7</title>
+<style>body{background:#182027;color:#eee;font:17px system-ui;margin:24px auto;max-width:1600px}
+.pair{display:flex;gap:20px;align-items:flex-start}.pair img{max-width:48%;height:auto}img{max-width:100%}
+p{max-width:1000px}button{padding:8px;font:inherit}</style>
+<h1>Connected road repair: v6 before / v7 after</h1>
+<p>Unmarked4× nearest-pixel enlargements. Each row uses actual neighboring tiles, including the
+straight-road entry and exit. All images show final runtime pixels, not imagegen previews.</p>
+<h2>east: drsrne2 E drsrne1</h2><div class="pair"><img src="v6_east_join.png"><img src="v7_east_join.png"></div>
+<h2>south: drsrne1 S drsrne2</h2><div class="pair"><img src="v6_south_join.png"><img src="v7_south_join.png"></div>
+<h2>entry: drsrns S drsrne2</h2><div class="pair"><img src="v6_entry_join.png"><img src="v7_entry_join.png"></div>
+<h2>exit: drsrne2 E drsrew</h2><div class="pair"><img src="v6_exit_join.png"><img src="v7_exit_join.png"></div>
+<h2>Native assembled path</h2>
+<button onclick="const i=document.querySelector('#path');i.src=i.src.endsWith('v7_path.png')?'v6_path.png':'v7_path.png'">Toggle v6 / v7</button>
+<a href="v7_path.png"><img id="path" src="v7_path.png"></a>
+<h2>Native camera a</h2><img src="captures/mm8_diagonal_v7_ports_a_walk_start.png">
+<h2>Native camera b</h2><img src="captures/mm8_diagonal_v7_ports_b.png">
+<img src="movement_00.png">
+<img src="movement_01.png">
+<img src="movement_02.png">
+<img src="movement_03.png">

@@ -1,0 +1,256 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_inventastorca/review/v06
+settle_seconds: 1.5
+exit: true
+shots:
+- name: u01_start
+  position:
+  - 369
+  - 154
+  - -890
+  yaw: 3.0796
+  pitch: 0.0
+- name: u02_exit_stair
+  position:
+  - 369
+  - -282
+  - -890
+  yaw: -1.4039
+  pitch: 0.0
+- name: u03_entrance_corridor
+  position:
+  - -768
+  - 256
+  - -890
+  yaw: 3.1416
+  pitch: 0.0
+- name: u04_side_hall
+  position:
+  - -2304
+  - 0
+  - -890
+  yaw: 1.5708
+  pitch: 0.0
+- name: u05_green_party_hall
+  position:
+  - -3072
+  - 0
+  - -890
+  yaw: 2.8753
+  pitch: 0.0
+- name: u06_green_party_south
+  position:
+  - -3712
+  - -1075
+  - -869
+  yaw: 1.5708
+  pitch: 0.0
+- name: u07_purple_hall
+  position:
+  - -4736
+  - 0
+  - -859
+  yaw: 3.0648
+  pitch: 0.0
+- name: u08_north_hall
+  position:
+  - -6784
+  - 768
+  - -859
+  yaw: -3.0828
+  pitch: 0.0
+- name: u09_long_hall_north
+  position:
+  - -8520
+  - -384
+  - -859
+  yaw: -1.5708
+  pitch: 0.0
+- name: u10_long_hall_south
+  position:
+  - -8520
+  - -4864
+  - -859
+  yaw: -1.5708
+  pitch: 0.0
+- name: u11_west_hall_north
+  position:
+  - -10701
+  - -307
+  - -859
+  yaw: -1.5708
+  pitch: 0.0
+- name: u12_west_hall_south
+  position:
+  - -10701
+  - -3456
+  - -859
+  yaw: -1.5708
+  pitch: 0.0
+- name: u13_dresser
+  position:
+  - -11213
+  - -2022
+  - -859
+  yaw: 3.1416
+  pitch: 0.0
+- name: u14_cage_wall
+  position:
+  - -9907
+  - -563
+  - -859
+  yaw: 1.5708
+  pitch: 0.0
+- name: u15_reading_room
+  position:
+  - -5888
+  - -3533
+  - -857
+  yaw: -1.4486
+  pitch: 0.0
+- name: u16_corridor_west
+  position:
+  - -7578
+  - -3482
+  - -859
+  yaw: 0.0
+  pitch: 0.0
+- name: u17_spiral_room
+  position:
+  - -4301
+  - -3405
+  - -869
+  yaw: -2.2198
+  pitch: 0.0
+- name: u18_cavern_walkway
+  position:
+  - -4659
+  - -1690
+  - -900
+  yaw: -2.8929
+  pitch: 0.0
+- name: u19_cavern_water
+  position:
+  - -4992
+  - -1792
+  - -900
+  yaw: -2.2455
+  pitch: -0.6109
+- name: u20_lich_study
+  position:
+  - -3456
+  - -6912
+  - -859
+  yaw: -2.8753
+  pitch: 0.0
+- name: u21_ladder_room
+  position:
+  - -2688
+  - -7296
+  - -859
+  yaw: 0.4757
+  pitch: 0.0
+- name: u22_south_corridor
+  position:
+  - -7424
+  - -6861
+  - -859
+  yaw: 0.0
+  pitch: 0.0
+- name: u23_cracked_wall2
+  position:
+  - -5632
+  - -3507
+  - -857
+  yaw: 0.0
+  pitch: 0.0
+- name: u24_dead_party
+  position:
+  - -5376
+  - 256
+  - -859
+  yaw: -2.9694
+  pitch: -0.1745
+- name: u25_dying_adventurer
+  position:
+  - -7552
+  - 461
+  - -859
+  yaw: 3.1416
+  pitch: 0.0
+- name: l01_ladder_hall
+  position:
+  - -1946
+  - -6272
+  - -1474
+  yaw: -1.4337
+  pitch: 0.0
+- name: l02_lower_west_hall
+  position:
+  - -2304
+  - -5632
+  - -1474
+  yaw: 1.5708
+  pitch: 0.0
+- name: l03_lower_north_hall
+  position:
+  - -1920
+  - -3328
+  - -1637
+  yaw: 0.0
+  pitch: 0.0
+- name: l04_bookcases
+  position:
+  - -205
+  - -5734
+  - -1637
+  yaw: 1.9577
+  pitch: 0.0
+- name: l05_east_reading_room
+  position:
+  - 230
+  - -2816
+  - -1637
+  yaw: -1.0304
+  pitch: 0.0
+- name: l06_lower_hall
+  position:
+  - 845
+  - -1536
+  - -1637
+  yaw: -2.6972
+  pitch: 0.0
+- name: l07_cave_floor
+  position:
+  - -845
+  - -1152
+  - -1637
+  yaw: 1.2152
+  pitch: 0.0
+- name: l08_cave_shaft
+  position:
+  - -845
+  - -1152
+  - -1637
+  yaw: 1.2152
+  pitch: 0.8727
+- name: l09_well
+  position:
+  - -2406
+  - -3062
+  - -1631
+  yaw: 3.1416
+  pitch: -0.3491
+- name: l10_cave_wall_from_hall
+  position:
+  - -440
+  - -1843
+  - -1637
+  yaw: 1.5708
+  pitch: 0.0
+- name: l11_bookcase_switch
+  position:
+  - -205
+  - -5120
+  - -1637
+  yaw: 2.6621
+  pitch: 0.0

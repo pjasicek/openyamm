@@ -1,0 +1,10434 @@
+{
+  "scope": "Distinct texture names on valid non-portal BLV faces and ODM building/model faces, plus map event SetTexture states; counted once across MM6. Water, sky and animation names remain in this raw inventory. Terrain, sprites, UI and 3D model asset textures are separate.",
+  "map_counts": {
+    "blv": 51,
+    "odm": 15
+  },
+  "counts": {
+    "indoor": 1077,
+    "outdoor_buildings": 635,
+    "shared": 207,
+    "map_union": 1505,
+    "additional_event_names": 2,
+    "all": 1507,
+    "temple_prepared": 62,
+    "remaining_names": 1445,
+    "terrain_used_separately": 120
+  },
+  "additional_event_names": [
+    "john01",
+    "paladn01"
+  ],
+  "temple_prepared": [
+    "bdksh32b",
+    "bdksv32b",
+    "beamplnh",
+    "beamplnv",
+    "bemdord",
+    "bemhwal1",
+    "bemsv32a",
+    "bemsv32c",
+    "carpt01",
+    "ceilbemh",
+    "cekr4",
+    "celtile",
+    "ch1bakb",
+    "ch1bkle",
+    "ch1bkre",
+    "ch1frle",
+    "ch1frntb",
+    "ch1frre",
+    "ch1side",
+    "ch1tpbv",
+    "ch1tplev",
+    "ch1tprev",
+    "crdflr4",
+    "crdrf2",
+    "ctceil1",
+    "ctceil2",
+    "ctdor2",
+    "ctdor4",
+    "ctflor3",
+    "ctflor4",
+    "ctmura",
+    "d1wldle",
+    "d1wldle2",
+    "d1wldle3",
+    "d1wldre",
+    "d1wldsp",
+    "d1wlele",
+    "d1wlere",
+    "d2ceil1",
+    "d2ceil3",
+    "d2flor4",
+    "d2flor5",
+    "d2wctra",
+    "d2wlactr",
+    "d2wlale",
+    "d2wlare",
+    "d2wlbmnk",
+    "d5flora",
+    "graysq",
+    "gset04",
+    "gset05",
+    "gset06",
+    "gset07",
+    "plnkdrk",
+    "slabco2",
+    "sndston",
+    "stabig2",
+    "stain512",
+    "wltil2",
+    "wywl",
+    "wywl2",
+    "wywt"
+  ],
+  "remaining_names": [
+    "6dirttyl",
+    "6grastyl",
+    "6sandtyl",
+    "6solid03",
+    "6t3d1",
+    "6voltyl",
+    "6wtrtyl",
+    "apothmid",
+    "armormid",
+    "armorpor",
+    "armorrch",
+    "bank",
+    "bcsctr",
+    "bcsrf",
+    "bd1ftbrd",
+    "bd1ftbrsd",
+    "bd1hdbrd",
+    "bd1hdbrs",
+    "bd1hdbrt",
+    "bd1rail",
+    "bdksh16a",
+    "bdksh16b",
+    "bdksh16c",
+    "bdksh32a",
+    "bdksh32c",
+    "bdksv16a",
+    "bdksv16b",
+    "bdksv16c",
+    "bdksv32a",
+    "bdksv32c",
+    "bedsid2",
+    "bedside",
+    "bedtop",
+    "beemdorc",
+    "bembllg",
+    "bemdk1",
+    "bemdk16d",
+    "bemdk2",
+    "bemdk3",
+    "bemdk4",
+    "bemdk5",
+    "bemdk6",
+    "bemdorb",
+    "bemh",
+    "bemh16a",
+    "bemh16b",
+    "bemh16c",
+    "bemh32a",
+    "bemh32b",
+    "bemh32c",
+    "bemhwal",
+    "bemob1",
+    "bemob1b",
+    "bemob2",
+    "bemob2b",
+    "bemsh16b",
+    "bemsh16c",
+    "bemsh32a",
+    "bemsh32b",
+    "bemsh32c",
+    "bemstara",
+    "bemstarb",
+    "bemstart",
+    "bemstra1",
+    "bemstrb1",
+    "bemstrt1",
+    "bemsv16a",
+    "bemsv16b",
+    "bemsv16c",
+    "bemsv32b",
+    "bemtila",
+    "bemv",
+    "bemv16a",
+    "bemv16b",
+    "bemv16c",
+    "bemv32a",
+    "bemv32b",
+    "bemv32c",
+    "bemvdk",
+    "bemvwal",
+    "bemvwal1",
+    "bigsign",
+    "blksmmid",
+    "bmdk16",
+    "bmdk16a",
+    "bmdk16c",
+    "bmdk16e",
+    "bmplnk",
+    "bmsctr",
+    "bmsctr1",
+    "bmsctrw1",
+    "bmsde",
+    "bmsde1",
+    "bmsle",
+    "bmsle1",
+    "bmslgdr",
+    "bmsre",
+    "bmsre1",
+    "bmssmdr",
+    "bookcas1",
+    "bookcas2",
+    "brxcntr",
+    "brxdr",
+    "brxend",
+    "brxendwn",
+    "brxlft",
+    "brxlwn",
+    "brxrt",
+    "brxrwn",
+    "brxwn",
+    "cb1frnt",
+    "cb1side1",
+    "cb1top1",
+    "cb2frnt",
+    "cb2side",
+    "cb2top",
+    "cb3frnt",
+    "cb3shlf",
+    "cb3side",
+    "cb3top",
+    "cb4frnt",
+    "cb4side",
+    "cb5frnt",
+    "cb5side",
+    "cb5top",
+    "cb6frnt",
+    "cb6side",
+    "cb6top",
+    "cbb",
+    "cbeam2",
+    "cbeam5",
+    "cbeam6",
+    "cbedsqr",
+    "cbfbm16",
+    "cbfbm16c",
+    "cbfeam9",
+    "cblrg",
+    "cbm16",
+    "cbm16b",
+    "cbm16c",
+    "cbm16d",
+    "cbmdk1",
+    "cbmxbrck",
+    "cbrdbrck",
+    "cbsm",
+    "cbtiny",
+    "cedfncdk",
+    "cedhwal",
+    "cedhwal1",
+    "cedhwal2",
+    "cedsqrdk",
+    "cedvwal",
+    "cedvwal1",
+    "cedvwal2",
+    "ch1bak",
+    "ch1frnt",
+    "ch1top",
+    "ch1topb",
+    "ch1tople",
+    "ch1topre",
+    "ch1topv",
+    "ch2bak",
+    "ch2bakb",
+    "ch2bakle",
+    "ch2bakre",
+    "ch2frle",
+    "ch2frnt",
+    "ch2frntb",
+    "ch2frre",
+    "ch2side",
+    "ch2top",
+    "ch2topb",
+    "ch2tople",
+    "ch2topre",
+    "ch2tpbv",
+    "ch2tplev",
+    "ch2tprev",
+    "ch3bakb",
+    "ch3frle",
+    "ch3frnt",
+    "ch3frntb",
+    "ch3frre",
+    "ch3side",
+    "ch3top",
+    "ch3topb",
+    "ch3tople",
+    "ch3topre",
+    "ch3tpbv",
+    "ch3tplev",
+    "ch3tprev",
+    "ch4bakb",
+    "ch4bakle",
+    "ch4bakre",
+    "ch4frle",
+    "ch4frntb",
+    "ch4frre",
+    "ch4side",
+    "ch4top",
+    "ch4tople",
+    "ch4topre",
+    "ch4topv",
+    "ch4tplev",
+    "ch4tprev",
+    "ch5frle",
+    "ch5frnt",
+    "ch5frre",
+    "ch5side",
+    "ch5top",
+    "ch5topb",
+    "ch5toplb",
+    "ch5tople",
+    "ch5toprb",
+    "ch5topre",
+    "chairtop",
+    "chf16bdk",
+    "cnclrich",
+    "cr1frnt",
+    "cr1ptrn",
+    "cr1seat",
+    "cr64",
+    "crcn96",
+    "crdflr3",
+    "crdrf1",
+    "crdwlle",
+    "crdwlmd",
+    "crdwlre",
+    "crflr2",
+    "crflr3",
+    "crside",
+    "crsmdr1",
+    "crsmdr2",
+    "crstont",
+    "crwl3",
+    "csaro128",
+    "csbr128",
+    "csde128",
+    "csde256",
+    "csdearo",
+    "csdoor",
+    "csdwndw",
+    "csle128",
+    "csle128w",
+    "csre128",
+    "csre128w",
+    "cstr128",
+    "cstr256",
+    "cstyl",
+    "cswdw128",
+    "cswl128",
+    "cswl256",
+    "cswndw",
+    "ctceil3",
+    "ctflor1",
+    "ctflor2",
+    "ctflor5",
+    "ctspcl1",
+    "ctspcl2",
+    "cttrim1",
+    "cttrim2",
+    "cttrim3",
+    "cttrim4",
+    "cttrim5",
+    "ctwl2",
+    "ctwl2le",
+    "ctwl2re",
+    "ctwl4le",
+    "ctwl4re",
+    "ctwl5",
+    "ctwl5le",
+    "ctwl5re",
+    "cvceil1",
+    "cvceil3",
+    "cvdor1",
+    "cvdor3",
+    "cvflor1",
+    "cvwl6",
+    "cvwl8",
+    "cvwl8le",
+    "cvwl8re",
+    "d1ceil1",
+    "d1flr",
+    "d1ladder",
+    "d1lggrt",
+    "d1mbea",
+    "d1medbw",
+    "d1sbea",
+    "d1sbeb",
+    "d1sbpa",
+    "d1smbw",
+    "d1spcl1",
+    "d1spcl2",
+    "d1spcl3",
+    "d1trimle",
+    "d1trimre",
+    "d1wblnka",
+    "d1wblnka1",
+    "d1wcntr",
+    "d1wctra",
+    "d1wctrb",
+    "d1wlbct1",
+    "d1wlbctr",
+    "d1wlble1",
+    "d1wlbre1",
+    "d1wld",
+    "d1wldle4",
+    "d1wle",
+    "d1wlea",
+    "d1wlec",
+    "d1wrea",
+    "d1wrec",
+    "d1wvnta",
+    "d2ceil2",
+    "d2ceil4",
+    "d2flor1",
+    "d2flor2",
+    "d2flor3",
+    "d2lgdor",
+    "d2lgdore",
+    "d2niche1",
+    "d2niche2",
+    "d2niche3",
+    "d2niche4",
+    "d2skulas",
+    "d2skulbs",
+    "d2smldo2",
+    "d2smldor",
+    "d2trima",
+    "d2trimb",
+    "d2trpdor",
+    "d2wlaslt",
+    "d2wlbc",
+    "d2wlbctr",
+    "d2wlbdrn",
+    "d2wlble",
+    "d2wlbmed",
+    "d2wlbpos",
+    "d2wlbre",
+    "d2wlbsml",
+    "d2wlcctr",
+    "d2wlcle",
+    "d2wlcre",
+    "d2wlcsp",
+    "d3dwal1",
+    "d3dwall",
+    "d3ll2",
+    "d3ll2le",
+    "d3ll2re",
+    "d3ll5",
+    "d3ll6",
+    "d3ll61",
+    "d3ll6le",
+    "d3ll6re",
+    "d3oor2",
+    "d3oor3",
+    "d3rsml",
+    "d3rsmls",
+    "d3smlb",
+    "d3ystlwl",
+    "d5ceila",
+    "d5ceilc",
+    "d5ceild",
+    "d5colum",
+    "d5dorlga",
+    "d5dorlgb",
+    "d5dorsma",
+    "d5dorsmb",
+    "d5drlgbe",
+    "d5drsmae",
+    "d5drsmbs",
+    "d5florb",
+    "d5florc",
+    "d5flord",
+    "d5flore",
+    "d5smtra",
+    "d5smtrb",
+    "d5trima",
+    "d5trimb",
+    "d5trimc",
+    "d5trime",
+    "d5walas1",
+    "d5walas2",
+    "d5walb",
+    "d5walba",
+    "d5walble",
+    "d5walbre",
+    "d5walc",
+    "d5walc1",
+    "d5walc2",
+    "d5walcle",
+    "d5walcre",
+    "d6dora",
+    "d6dorb",
+    "d6dorc",
+    "d6dord",
+    "d6dorde",
+    "d6ebeam",
+    "d6flora",
+    "d6florb",
+    "d6roofa",
+    "d6roofb",
+    "d6uniqa",
+    "d6uniqb",
+    "d6wlactr",
+    "d6wlale",
+    "d6wlalg",
+    "d6wlare",
+    "d6wlasp1",
+    "d6wlbctr",
+    "d6wlble",
+    "d6wlbre",
+    "d6wlcctr",
+    "d6wldctr",
+    "d6wldle",
+    "d6wldre",
+    "d7ceil2",
+    "d7ceil3",
+    "d7ceil4",
+    "d7colum",
+    "d7dor1",
+    "d7dor1s",
+    "d7dor2",
+    "d7dor2s",
+    "d7dor3",
+    "d7flor1",
+    "d7flor2",
+    "d7flor3",
+    "d7flor4",
+    "d7flor8",
+    "d7spcla",
+    "d7spclb",
+    "d7spclc",
+    "d7trim1",
+    "d7trim7",
+    "d7trim8",
+    "d7wl1ctr",
+    "d7wl1ctr2",
+    "d7wl1le",
+    "d7wl1re",
+    "d7wl2ctr",
+    "d7wl2le",
+    "d7wl2re",
+    "d7wl3ctr",
+    "d7wl3ctr2",
+    "d7wl4ctr",
+    "d7wl4le",
+    "d7wl4re",
+    "d8ceila",
+    "d8ceilb",
+    "d8ceilc",
+    "d8ceild",
+    "d8dora",
+    "d8dorabs",
+    "d8dorae",
+    "d8dorb",
+    "d8dorbe",
+    "d8dord",
+    "d8dore",
+    "d8dorf",
+    "d8dorg",
+    "d8dorge",
+    "d8flora",
+    "d8florb",
+    "d8florc",
+    "d8flore",
+    "d8florf",
+    "d8florg",
+    "d8florh",
+    "d8s2off",
+    "d8s2on",
+    "d8wla",
+    "d8wlale",
+    "d8wlare",
+    "d8wlb",
+    "d8wlble",
+    "d8wlbre",
+    "d8wlbsp1",
+    "d8wlbsp2",
+    "d8wlbsp3",
+    "d8wlbsp4",
+    "d8wlbsp5",
+    "d8wlbsp6",
+    "d8wlbsp7",
+    "d8wlbx",
+    "d8wlbxl",
+    "d8wlbxr",
+    "d8wlc",
+    "d8wlcle",
+    "d8wlcre",
+    "d8wlcsp2",
+    "d8wlcsp3",
+    "d8wlcsp4",
+    "d8wlcsp5",
+    "d8wlcsp6",
+    "d8wlcspl",
+    "d8wlcspr",
+    "d8wld",
+    "d8wldle",
+    "d8wldre",
+    "d8wldsp1",
+    "d8wldsp2",
+    "d8wldsp3",
+    "d8wldsp4",
+    "d8wldtrm",
+    "d8wle",
+    "d8wlele",
+    "d8wlere",
+    "d8wlesp1",
+    "d8wlesp2",
+    "d8wletrn",
+    "d8wletrn1",
+    "descnr1",
+    "descnr2",
+    "descnr3",
+    "descnr4",
+    "desdr1",
+    "desdr1a",
+    "desdr2",
+    "desdr3",
+    "desend1",
+    "deskback",
+    "deskside",
+    "desktop",
+    "deslft1",
+    "deslft2",
+    "deslft3",
+    "deslft4",
+    "desrf1",
+    "desrf2a",
+    "desrf3a",
+    "desrt1",
+    "desrt2",
+    "desrt3",
+    "desrt4",
+    "deswin1",
+    "deswin1a",
+    "deswin1b",
+    "deswin2",
+    "deswin3",
+    "deswin3a",
+    "deswin3b",
+    "dkdorb",
+    "dknkrf",
+    "dkwbwl",
+    "dkwdr",
+    "dkwle",
+    "dkwlew",
+    "dkwmt1",
+    "dkwre",
+    "dkwrew",
+    "dkwrf",
+    "dkwsde",
+    "dkwsmbwl",
+    "dkwst",
+    "dkwwn",
+    "dkwwn1",
+    "dkwwnde",
+    "egtrmcle",
+    "egybiga",
+    "egybigb",
+    "egyceila",
+    "egyceilb",
+    "egyceild",
+    "egycol32",
+    "egycol64",
+    "egycom32",
+    "egydrlgl",
+    "egydrlgr",
+    "egydrsmc",
+    "egydrsmd",
+    "egydrsml",
+    "egydrsmr",
+    "egyflora",
+    "egyflorb",
+    "egyflorc",
+    "egyflord",
+    "egyflore",
+    "egyflorf",
+    "egymeda",
+    "egymedb",
+    "egyspca",
+    "egyswaon",
+    "egyswbof",
+    "egyswbon",
+    "egytrma",
+    "egytrmas",
+    "egytrmb",
+    "egytrmbs",
+    "egytrmc",
+    "egytrmcs",
+    "egytrmd",
+    "egytrmds",
+    "egywalg1",
+    "egywalgm",
+    "egywalh",
+    "egywalhb",
+    "egywla",
+    "egywlb",
+    "egywlbl",
+    "egywlbr",
+    "egywlc",
+    "egywld",
+    "egywle",
+    "egywles",
+    "egywlf",
+    "egywlgvs",
+    "egywlh",
+    "egywlhle",
+    "egywlhre",
+    "egywlj",
+    "egywlspa",
+    "egywlspb",
+    "egywlspc",
+    "elem-all",
+    "elemair",
+    "elemerth",
+    "elemfire",
+    "elemwatr",
+    "gbcnt",
+    "gbdor",
+    "gbend",
+    "gblft",
+    "gblftw",
+    "gbrf",
+    "gbrt",
+    "gbrtw",
+    "gbsmdr",
+    "gbwin",
+    "glass11",
+    "glass2",
+    "gldorb",
+    "glstrde",
+    "granite",
+    "gset01",
+    "gset02",
+    "gset03",
+    "gstmed",
+    "gstrdr",
+    "gstrle",
+    "gstrlew",
+    "gstrre",
+    "gstrrew",
+    "gstrrf",
+    "gstrsbw",
+    "gstrst",
+    "gstrwde",
+    "gstrwn1",
+    "hcbalcwb",
+    "hcdoor32",
+    "hclgdr",
+    "hcsmdr",
+    "hctriw",
+    "hcuniq2",
+    "hcuniq3",
+    "hcw1ctr",
+    "hcw1le",
+    "hcw1leb",
+    "hcw1re",
+    "hcw1reb",
+    "hcwall",
+    "hcwindo",
+    "hvceila",
+    "hvceilb",
+    "hvdorc",
+    "hvdord",
+    "hvdore",
+    "hvdorf",
+    "hvdorg",
+    "hvflora",
+    "hvflorb",
+    "hvflorc",
+    "hvflord",
+    "hvflore",
+    "hvflorf",
+    "hvflorg",
+    "hvflorh",
+    "hvflori",
+    "hvtrim1",
+    "hvtrim2",
+    "hvtrim3",
+    "hvtrim4",
+    "hvwl1a",
+    "hvwl1le",
+    "hvwl1re",
+    "hvwl1spa",
+    "hvwl1spb",
+    "hvwl2a",
+    "hvwl2le",
+    "hvwl2re",
+    "hvwl3",
+    "hvwl3a",
+    "hvwl3le",
+    "hvwl3re",
+    "hvwl3spa",
+    "hvwl4",
+    "hvwl4a",
+    "hvwl4le",
+    "hvwl4re",
+    "hvwl5",
+    "hvwl5a",
+    "hvwl5le",
+    "hvwl5re",
+    "hvwl6",
+    "hvwl6le",
+    "hvwl6re",
+    "john01",
+    "lavatyl",
+    "magicmid",
+    "magicpor",
+    "magicrch",
+    "mbbwl",
+    "mbdbwl",
+    "mbdrst",
+    "mercmid",
+    "mercrich",
+    "mndora",
+    "mnflorc",
+    "mnwl1",
+    "mnwl2",
+    "msdor2",
+    "msdord",
+    "msroof",
+    "mswaldc",
+    "mswalld",
+    "mswalll",
+    "mswallm",
+    "mswallr",
+    "mswinm",
+    "mswinm2",
+    "mswinm3",
+    "mswinm4",
+    "mswinr",
+    "mswinr1",
+    "mystrya",
+    "mystryb",
+    "ns8s00",
+    "ns8s01",
+    "ns8s02",
+    "ns8s03",
+    "ns8s04",
+    "ns8s05",
+    "ns8s06",
+    "ns8s07",
+    "ns8s08",
+    "ns8s09",
+    "ns8s10",
+    "ns8s11",
+    "oceil",
+    "oceil1",
+    "oflr",
+    "oflr1",
+    "oflr1d32",
+    "oflr1l32",
+    "oflr1l64",
+    "oflrd32",
+    "oflrd48",
+    "oflrl32",
+    "oflrl48",
+    "oflrl64",
+    "orair256",
+    "orair256b",
+    "orair32",
+    "orair64",
+    "orair64a",
+    "orairlg",
+    "orairlgb",
+    "orairmbb",
+    "orairrf",
+    "oraltmrb",
+    "orceil",
+    "orceilb",
+    "orert32",
+    "orert64",
+    "orert64b",
+    "orerthrf",
+    "orertlga",
+    "orertlgb",
+    "orflr1",
+    "orflr132",
+    "orflr164",
+    "orflr1l64",
+    "orflr32a",
+    "orflr32b",
+    "orflr64c",
+    "orflra",
+    "orflrd32",
+    "orflrd64",
+    "orflrl64",
+    "orfyr32",
+    "orfyr64a",
+    "orfyr64b",
+    "orfyrlga",
+    "orfyrlgb",
+    "orfyrrf",
+    "ormrblga",
+    "ormrblgb",
+    "orwtr32",
+    "orwtr64",
+    "orwtr64b",
+    "orwtrlga",
+    "orwtrlgb",
+    "orwtrrf",
+    "orwtrtyl",
+    "paladn01",
+    "pbdorb",
+    "pbdorb1",
+    "pbrdr",
+    "pbrdr1",
+    "pbrle",
+    "pbrlew",
+    "pbroof",
+    "pbrre",
+    "pbrrew",
+    "pbrsde",
+    "pbrst",
+    "pbrwn",
+    "pbsmwl",
+    "pbtrm",
+    "pbtrvl1",
+    "pbtrvr1",
+    "pbwal",
+    "pg128bl",
+    "pgstrdr",
+    "pgstrle",
+    "pgstrlew",
+    "pgstrre",
+    "pgstrrew",
+    "pgstrst11",
+    "pgwino",
+    "pl128bl",
+    "plg128",
+    "plg128t1",
+    "plgctr1",
+    "plgctr1w",
+    "plgle1",
+    "plgle1w",
+    "plgre1",
+    "plgre1w",
+    "plgsmdr",
+    "plruf01",
+    "plstrdr",
+    "px128",
+    "px1ctr",
+    "px1le",
+    "px1lew",
+    "px1re",
+    "px1rew",
+    "pxdorb",
+    "pxshings",
+    "pxsle",
+    "pxsre",
+    "pxstrde",
+    "pxstrdr",
+    "pxstrle",
+    "pxstrlew",
+    "pxstrre",
+    "pxstrrew",
+    "pxstrst",
+    "pxstrwb",
+    "pxstrwbx",
+    "pxstrwde",
+    "qgzwood",
+    "qtargtop",
+    "qtargtsd",
+    "qtextle1",
+    "rblbw",
+    "rblle",
+    "rblmt",
+    "rblre",
+    "rblrf",
+    "rblst",
+    "rblst1",
+    "rh128",
+    "rhctr",
+    "rhctrw",
+    "rhdr1",
+    "rhdr2",
+    "rhle",
+    "rhre",
+    "rokcsm",
+    "rokdr",
+    "rokdr2",
+    "rokend",
+    "roklft",
+    "rokrt",
+    "rokwin",
+    "roof",
+    "roof1",
+    "scroll",
+    "sdkdorb",
+    "sdknkrf",
+    "sdkwbwl",
+    "sdkwdr",
+    "sdkwle",
+    "sdkwlew",
+    "sdkwre",
+    "sdkwrew",
+    "sdkwsde",
+    "sdkwst",
+    "sdkwwn",
+    "sdkwwn1",
+    "sdkwwnde",
+    "self-all",
+    "selfbody",
+    "selfmind",
+    "selfsprt",
+    "sginn",
+    "sgldorb",
+    "sglstrde",
+    "sgstrdr",
+    "sgstrle",
+    "sgstrlew",
+    "sgstrre",
+    "sgstrrew",
+    "sgstrrf",
+    "sgstrsbw",
+    "sgstrst",
+    "sgstrwde",
+    "sgstrwn1",
+    "sidert32",
+    "sign1",
+    "sign11",
+    "sign128",
+    "sign22",
+    "sign3",
+    "sign5",
+    "sign7",
+    "sky_clo1",
+    "sky_nit1",
+    "sky_nit2",
+    "sky_sns1",
+    "smalldr",
+    "solid09",
+    "solid10",
+    "stables",
+    "stc1le",
+    "stc1re",
+    "stc2128",
+    "stc2dr",
+    "stc2le",
+    "stc2lea",
+    "stc2re",
+    "stc2rea",
+    "stc2trm",
+    "stc2wdw",
+    "stcplan",
+    "stcwal1",
+    "stcwal2",
+    "storemid",
+    "storepor",
+    "straw",
+    "strctclm",
+    "strctr",
+    "strdr",
+    "strdr2",
+    "strle",
+    "strlew",
+    "strre",
+    "strrew",
+    "strroof1",
+    "strwin1",
+    "strwin2",
+    "swaled",
+    "swall1",
+    "swall2",
+    "swall3",
+    "swall4",
+    "swall5",
+    "swank",
+    "swankdk",
+    "swared",
+    "swceilf",
+    "swceilge",
+    "swcirc1",
+    "swcirc2",
+    "swdoora",
+    "swdoorb",
+    "swdoorc",
+    "swfloor2b",
+    "swfloor5",
+    "swfloor5a",
+    "swfloor6",
+    "swfloor6a",
+    "swflora",
+    "swflorb",
+    "swflorc",
+    "swgirder",
+    "swhor1dk",
+    "swhor4dk",
+    "swhorza",
+    "swhorzad",
+    "swhorzdb",
+    "swhorzdc",
+    "swhz2",
+    "swhz2dk",
+    "swhz3",
+    "swhz3dk",
+    "swhz4",
+    "swildk",
+    "swildk2",
+    "swll2",
+    "swll2dk",
+    "swll3dk",
+    "swll4",
+    "swll4dk",
+    "swll5",
+    "swll5dk",
+    "swoor",
+    "swor",
+    "swor2",
+    "swpcnr1",
+    "swpcnr2",
+    "swpcnr3",
+    "swpdr1",
+    "swpdr1a",
+    "swpdr2a",
+    "swpdr3",
+    "swpdr3a",
+    "swpend1",
+    "swpend1a",
+    "swpend2",
+    "swpend2a",
+    "swpend3",
+    "swpend3a",
+    "swpipes",
+    "swplft1",
+    "swplft1a",
+    "swplft3",
+    "swplft3a",
+    "swpnl",
+    "swprf",
+    "swprrf1",
+    "swprrf2",
+    "swprrf3",
+    "swprt1",
+    "swprt1a",
+    "swprt3",
+    "swprt3a",
+    "swpwin1",
+    "swpwin2",
+    "swpwin3",
+    "swqur3",
+    "swr1",
+    "swr1dk",
+    "swr2dk",
+    "swr3",
+    "swr3dk",
+    "swr4",
+    "swr4dk",
+    "swrdk",
+    "swrdk2",
+    "swrt2",
+    "swrt3dk",
+    "swrt4dk",
+    "swtrdk",
+    "swtrpnl",
+    "swvert3dk",
+    "swwala",
+    "t1c11",
+    "t1c2",
+    "t1c3",
+    "t1curtl",
+    "t1curtr",
+    "t1d1",
+    "t1d2",
+    "t1d3",
+    "t1d3e",
+    "t1d4",
+    "t1doors",
+    "t1f1",
+    "t1f2",
+    "t1f3",
+    "t1f4",
+    "t1f5",
+    "t1lava",
+    "t1spcl1",
+    "t1spcla",
+    "t1spclb",
+    "t1swbd",
+    "t1swbu",
+    "t1swdd",
+    "t1swdu",
+    "t1trima",
+    "t1trimb",
+    "t1trm1",
+    "t1trm2",
+    "t1w11a",
+    "t1w15a",
+    "t1w15b",
+    "t1wl0lg",
+    "t1wl0sm",
+    "t1wl1ctl",
+    "t1wl1cts",
+    "t1wl1lea",
+    "t1wl1lea1",
+    "t1wl1leb",
+    "t1wl1rea",
+    "t1wl1reb",
+    "t1wl2ctl",
+    "t1wl2lea",
+    "t1wl2leb",
+    "t1wl2rea",
+    "t1wl2reb",
+    "t1wl3cts",
+    "t1wl3lea",
+    "t1wl3rea",
+    "t1wl4ctl",
+    "t1wl4ctr",
+    "t1wl4cts",
+    "t1wl4lea",
+    "t1wl4leb",
+    "t1wl4rea",
+    "t1wl4reb",
+    "t1wl4spa",
+    "t1wl4spb",
+    "t1wl4w",
+    "t1wl5ct",
+    "t1wl5ctl",
+    "t1wl5lea",
+    "t1wl5leb",
+    "t1wl5lec",
+    "t1wl5rea",
+    "t1wl6leb",
+    "t1wl6reb",
+    "t1wl7cta",
+    "t1wl7ctb",
+    "t1wl7ctc",
+    "t1wl7lea",
+    "t1wl7leb",
+    "t1wl7rea",
+    "t1wl7reb",
+    "t1wl7spa",
+    "t1wl8ctb",
+    "t1wl8ctc",
+    "t1wl8lea",
+    "t1wl8rea",
+    "t1wl9ctb",
+    "t1wl9ctl",
+    "t1wl9cts",
+    "t1wl9lea",
+    "t1wl9leb",
+    "t1wl9rea",
+    "t1wl9reb",
+    "t1wl9spa",
+    "t1wl9spb",
+    "t1wl9spc",
+    "t1wl9spd",
+    "t1ww9rec",
+    "t3ate1",
+    "t3ate2",
+    "t3c1",
+    "t3c2",
+    "t3c3",
+    "t3d2a",
+    "t3d2abe",
+    "t3d2abs",
+    "t3d2b",
+    "t3d3",
+    "t3dr1",
+    "t3dr2",
+    "t3dwal1",
+    "t3dwall",
+    "t3f1",
+    "t3f2",
+    "t3f3",
+    "t3ique1",
+    "t3ll4",
+    "t3ll4le",
+    "t3ll4re",
+    "t3ll5",
+    "t3ll5le",
+    "t3ll5re",
+    "t3ll6",
+    "t3ll6le",
+    "t3ll6re",
+    "t3mgc",
+    "t3of3",
+    "t3oor1",
+    "t3oor2",
+    "t3oor3",
+    "t3oor4",
+    "t3rsml",
+    "t3s1off",
+    "t3s1on",
+    "t3t2",
+    "t3t3",
+    "t3t4",
+    "t3t5",
+    "t3t6",
+    "t3t7",
+    "t3t8",
+    "t3ulwall",
+    "t3wbll",
+    "t3wblr",
+    "t3wbltbd",
+    "t3wbltbl",
+    "t3wbltbr",
+    "t3wbltd",
+    "t3wbltl",
+    "t3wbltr",
+    "t3wbsl",
+    "t3wbsr",
+    "t3wbst",
+    "t3wbstb",
+    "t3wbstb1",
+    "t3wbstbd",
+    "t3wbstbl",
+    "t3wbstbr",
+    "t3wbstd",
+    "t3wbstl",
+    "t3wbstr",
+    "t3wcl",
+    "t3wcr",
+    "t3wpf",
+    "t3wpg",
+    "t3wsbp",
+    "t3wsbtb",
+    "t3wsbtbl",
+    "t3wsbtbr",
+    "t3wsbtd",
+    "t3wsbtl",
+    "t3wsbtr",
+    "t3wsmp",
+    "t3wsmtb",
+    "t3wsmtbd",
+    "t3wsmtbl",
+    "t3wsmtbr",
+    "t3wsmtd",
+    "t3wsp",
+    "t3wspp",
+    "t3wsptbd",
+    "t3wsptl",
+    "t3wsptr",
+    "t4c1",
+    "t4c2",
+    "t4c3",
+    "t4c4",
+    "t4c5",
+    "t4d3",
+    "t4d4",
+    "t4d5",
+    "t4f1",
+    "t4f2",
+    "t4f3",
+    "t4f4",
+    "t4wb1",
+    "t4wb2",
+    "t4wb3",
+    "t4wb4",
+    "t4wb5",
+    "t4wb6",
+    "t4wb7",
+    "t4ws1",
+    "t4ws2",
+    "t4ws3",
+    "t4ws4",
+    "t4ws5",
+    "t4ws7",
+    "t4ww1",
+    "t4ww2",
+    "t4ww5",
+    "t4ww6",
+    "t4ww7",
+    "t4ww9",
+    "tav128wl",
+    "tavctr",
+    "tavgobln",
+    "tavldyle",
+    "tavldyre",
+    "tavle",
+    "tavlgdr",
+    "tavmid",
+    "tavpoor1",
+    "tavpoor2",
+    "tavre",
+    "tavrf",
+    "tavrich",
+    "tavsmdr",
+    "tavwctr",
+    "tavwle",
+    "tavwre",
+    "tdoora",
+    "tdoorb",
+    "tdoorc",
+    "tdoord",
+    "tdoore",
+    "tdortrim",
+    "tdortrm2",
+    "tentdor1",
+    "tentdor2",
+    "tentdor3",
+    "tentdor7",
+    "tentdor7a",
+    "tentrf1",
+    "tentrf2",
+    "tentrf3",
+    "tentwal1",
+    "tentwal2",
+    "tentwal3",
+    "tentwal7a",
+    "tentwal7b",
+    "teunq2",
+    "tewd",
+    "tewdw",
+    "tewld",
+    "tewls",
+    "tewm",
+    "tewrd",
+    "tewrs",
+    "tews",
+    "tewsw",
+    "tha",
+    "thaw1",
+    "thawcd",
+    "thawcs",
+    "thawcts",
+    "thawd1",
+    "thawd2",
+    "thawtbt",
+    "thb",
+    "thbbhs",
+    "thbbv",
+    "thbpbam2",
+    "thctr",
+    "thctrw1",
+    "thctrw2",
+    "thcw1",
+    "thcw2",
+    "thcwctbd",
+    "thcwd1",
+    "thcwd2",
+    "thcwtbt",
+    "thle",
+    "thlgdr",
+    "thre",
+    "thsmdr",
+    "thuniq1",
+    "thuniq2",
+    "top16",
+    "top32",
+    "training",
+    "trekscon",
+    "trekscrn",
+    "trim",
+    "trim11_32",
+    "vh1ctr",
+    "vh1dor",
+    "vh1le",
+    "vh1re",
+    "vh1roof",
+    "vh1trima",
+    "vh1winle",
+    "vh1winlg",
+    "vh2ctr",
+    "vh2ctrw",
+    "vh2door",
+    "vh2le",
+    "vh2re",
+    "vh2roof2",
+    "vh2trima",
+    "vh2trimb",
+    "vh2winle",
+    "vh2winlg",
+    "vh2winre",
+    "vh3ctr",
+    "vh3door",
+    "vh3le",
+    "vh3re",
+    "vh3roofb",
+    "vh3trimb",
+    "vh4ctr",
+    "vh4ctrw",
+    "vh4door",
+    "vh4le",
+    "vh4re",
+    "vh4roof",
+    "vh4trimb",
+    "vh4trimc",
+    "vh4winle",
+    "vh4winlg",
+    "vh4winre",
+    "vh4wnlex",
+    "vh4wnrex",
+    "vh5trmf",
+    "vlcceila",
+    "vlcdora",
+    "vlcdorb",
+    "vlcdorc",
+    "vlcdord",
+    "vlcflora",
+    "vlcflorb",
+    "vlcflorc",
+    "vlcflord",
+    "vlcflore",
+    "vlcgnrc1",
+    "vlcgnrc2",
+    "vlcgnrc3",
+    "vlcgnrc4",
+    "vlcsaoff",
+    "vlcsaon",
+    "vlctrm2",
+    "vlctrm3",
+    "vlctrm4",
+    "vlctrm5",
+    "vlctrm6",
+    "vlctrm8",
+    "vlctrm9",
+    "vlcwl1",
+    "vlcwl1a",
+    "vlcwl1le",
+    "vlcwl1lg",
+    "vlcwl1re",
+    "vlcwl1u",
+    "vlcwl2",
+    "vlcwl2b",
+    "vlcwl2le",
+    "vlcwl2re",
+    "vlcwl3",
+    "vlcwl3a",
+    "vlcwl3le",
+    "vlcwl3re",
+    "vlcwl3u",
+    "vlcwl4",
+    "vlcwl4b",
+    "vlcwl4le",
+    "vlcwl4re",
+    "vlcwl4ua",
+    "whcntr",
+    "whcntr1",
+    "whdor",
+    "whend",
+    "whft",
+    "whlftw",
+    "whrf",
+    "whrt",
+    "whrtw",
+    "whtrim",
+    "whwin",
+    "wood011",
+    "wood012",
+    "wood013",
+    "wood017",
+    "wood018a",
+    "wtrtyl",
+    "yindark",
+    "yinlite"
+  ],
+  "indoor": {
+    "t1wl2reb": [
+      "6d01.blv"
+    ],
+    "t1w11a": [
+      "6d01.blv",
+      "6t1.blv"
+    ],
+    "t1wl2leb": [
+      "6d01.blv"
+    ],
+    "t1spcla": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "t1d1": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "t3t2": [
+      "6d01.blv",
+      "6t7.blv"
+    ],
+    "t3t6": [
+      "6d01.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "oflr": [
+      "6d01.blv",
+      "6t1.blv",
+      "6t6.blv"
+    ],
+    "t1wl1ctl": [
+      "6d01.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1c2": [
+      "6d01.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t8.blv"
+    ],
+    "t3wsbp": [
+      "6d01.blv",
+      "6d17.blv",
+      "6t3.blv"
+    ],
+    "t3wsbtd": [
+      "6d01.blv"
+    ],
+    "swhorzdc": [
+      "6d01.blv"
+    ],
+    "orert64b": [
+      "6d01.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "t3t5": [
+      "6d01.blv",
+      "6t3.blv"
+    ],
+    "t3t7": [
+      "6d01.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t7.blv",
+      "zdtl02.blv"
+    ],
+    "t3wbll": [
+      "6d01.blv"
+    ],
+    "t3wblr": [
+      "6d01.blv"
+    ],
+    "t1trima": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t1.blv",
+      "6t2.blv",
+      "6t8.blv",
+      "znwc.blv"
+    ],
+    "t3wpf": [
+      "6d01.blv",
+      "6d15.blv",
+      "6t7.blv"
+    ],
+    "t3wbsl": [
+      "6d01.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "orert32": [
+      "6d01.blv",
+      "6d04.blv",
+      "6d13.blv",
+      "cd3.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "t3c1": [
+      "6d01.blv",
+      "6d17.blv",
+      "6t7.blv"
+    ],
+    "t3f2": [
+      "6d01.blv",
+      "6d17.blv",
+      "6t7.blv"
+    ],
+    "t1wl1cts": [
+      "6d01.blv",
+      "6t8.blv"
+    ],
+    "t1f3": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv",
+      "znwc.blv"
+    ],
+    "t3c2": [
+      "6d01.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "t1c3": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "d6wlalg": [
+      "6d01.blv",
+      "6d13.blv",
+      "6d17.blv"
+    ],
+    "swfloor5a": [
+      "6d01.blv",
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "cbfbm16c": [
+      "6d01.blv"
+    ],
+    "orceil": [
+      "6d01.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "oracle.blv"
+    ],
+    "swhz2dk": [
+      "6d01.blv",
+      "hive.blv"
+    ],
+    "oflr1l32": [
+      "6d01.blv",
+      "oracle.blv"
+    ],
+    "oflrl32": [
+      "6d01.blv",
+      "6d04.blv",
+      "hive.blv",
+      "pyramid.blv"
+    ],
+    "ch2frnt": [
+      "6d01.blv",
+      "6d04.blv",
+      "6d11.blv",
+      "6d19.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "hive.blv",
+      "zddb10.blv"
+    ],
+    "d6wlasp1": [
+      "6d01.blv",
+      "6d13.blv"
+    ],
+    "d6wlactr": [
+      "6d01.blv",
+      "6d13.blv"
+    ],
+    "orertlga": [
+      "6d01.blv",
+      "6d06.blv",
+      "6d07.blv",
+      "6d12.blv",
+      "6d13.blv",
+      "6t4.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "pyramid.blv",
+      "zddb10.blv"
+    ],
+    "t1wl2ctl": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl4ctl": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t3c3": [
+      "6d01.blv",
+      "6t7.blv"
+    ],
+    "d2flor5": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d11.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "cd3.blv",
+      "zddb01.blv",
+      "zddb10.blv",
+      "zdtl02.blv"
+    ],
+    "d2ceil4": [
+      "6d01.blv",
+      "6d05.blv",
+      "6d11.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "cd3.blv",
+      "zddb01.blv"
+    ],
+    "t3wsmp": [
+      "6d01.blv"
+    ],
+    "oflrd32": [
+      "6d01.blv",
+      "pyramid.blv"
+    ],
+    "t1f1": [
+      "6d01.blv",
+      "6d08.blv",
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1trimb": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "swcirc1": [
+      "6d01.blv"
+    ],
+    "t3d2b": [
+      "6d01.blv",
+      "6d15.blv",
+      "6t3.blv",
+      "6t7.blv",
+      "zddb01.blv"
+    ],
+    "swhorza": [
+      "6d01.blv"
+    ],
+    "orwtr32": [
+      "6d01.blv",
+      "hive.blv",
+      "oracle.blv"
+    ],
+    "orfyr32": [
+      "6d01.blv",
+      "6d04.blv",
+      "6d05.blv",
+      "6d12.blv",
+      "6d19.blv",
+      "cd1.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "swall5": [
+      "6d01.blv",
+      "6t6.blv",
+      "oracle.blv",
+      "sci-fi.blv",
+      "sewer.blv"
+    ],
+    "t1wl3cts": [
+      "6d01.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "d6wlcctr": [
+      "6d01.blv"
+    ],
+    "t1wl0sm": [
+      "6d01.blv",
+      "6t8.blv"
+    ],
+    "orflr32b": [
+      "6d01.blv",
+      "6d15.blv",
+      "cd3.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "t3d3": [
+      "6d01.blv",
+      "6t3.blv"
+    ],
+    "t1d2": [
+      "6d01.blv",
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "d6dora": [
+      "6d01.blv",
+      "6d13.blv"
+    ],
+    "d6dord": [
+      "6d01.blv",
+      "6d13.blv"
+    ],
+    "t3f1": [
+      "6d01.blv",
+      "6t7.blv"
+    ],
+    "t3wbltd": [
+      "6d01.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t7.blv"
+    ],
+    "swhz4": [
+      "6d01.blv",
+      "hive.blv",
+      "pyramid.blv"
+    ],
+    "swhz2": [
+      "6d01.blv"
+    ],
+    "swfloor6a": [
+      "6d01.blv",
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "bdksv32b": [
+      "6d01.blv",
+      "6d02.blv",
+      "zdtl01.blv"
+    ],
+    "bdksh32c": [
+      "6d01.blv"
+    ],
+    "t3d2a": [
+      "6d01.blv",
+      "6d15.blv",
+      "6t3.blv",
+      "zddb01.blv"
+    ],
+    "swhz3dk": [
+      "6d01.blv",
+      "sci-fi.blv"
+    ],
+    "t3wsbtl": [
+      "6d01.blv"
+    ],
+    "t3wsbtr": [
+      "6d01.blv"
+    ],
+    "t3t8": [
+      "6d01.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "d6flora": [
+      "6d01.blv",
+      "6d13.blv",
+      "zddb06.blv",
+      "zddb10.blv"
+    ],
+    "d2ceil3": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d05.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "cd3.blv"
+    ],
+    "ch1tople": [
+      "6d01.blv",
+      "6d03.blv",
+      "6d09.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "cd3.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdwj01.blv"
+    ],
+    "ch1frle": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d03.blv",
+      "6d04.blv",
+      "6d09.blv",
+      "6d11.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdtl01.blv",
+      "zdwj01.blv"
+    ],
+    "ch1side": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d03.blv",
+      "6d04.blv",
+      "6d05.blv",
+      "6d06.blv",
+      "6d09.blv",
+      "6d11.blv",
+      "6d13.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdtl01.blv",
+      "zdwj01.blv",
+      "znwc.blv"
+    ],
+    "ch1topre": [
+      "6d01.blv",
+      "6d03.blv",
+      "6d09.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "cd3.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdwj01.blv"
+    ],
+    "ch1frre": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d03.blv",
+      "6d04.blv",
+      "6d09.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdtl01.blv",
+      "zdwj01.blv"
+    ],
+    "ch1topb": [
+      "6d01.blv",
+      "6d03.blv",
+      "6d09.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "cd3.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdwj01.blv"
+    ],
+    "ch1frntb": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d03.blv",
+      "6d04.blv",
+      "6d09.blv",
+      "6d11.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdtl01.blv",
+      "zdwj01.blv"
+    ],
+    "ch1tplev": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d04.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d20.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdtl01.blv",
+      "zdwj01.blv"
+    ],
+    "ch1tprev": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d04.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d20.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdtl01.blv",
+      "zdwj01.blv"
+    ],
+    "ch1tpbv": [
+      "6d01.blv",
+      "6d02.blv",
+      "6d04.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d20.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "hive.blv",
+      "sewer.blv",
+      "zdtl01.blv",
+      "zdwj01.blv"
+    ],
+    "t3oor2": [
+      "6d01.blv",
+      "6t3.blv"
+    ],
+    "t3oor3": [
+      "6d01.blv",
+      "6t1.blv"
+    ],
+    "bemstrt1": [
+      "6d01.blv",
+      "6d16.blv",
+      "cd1.blv",
+      "pyramid.blv"
+    ],
+    "cedfncdk": [
+      "6d01.blv",
+      "6d03.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "pyramid.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "bemstara": [
+      "6d01.blv",
+      "6d06.blv",
+      "cd1.blv",
+      "pyramid.blv",
+      "zdtl01.blv"
+    ],
+    "t3wbsr": [
+      "6d01.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "t1swdd": [
+      "6d01.blv",
+      "znwc.blv"
+    ],
+    "t1doors": [
+      "6d01.blv"
+    ],
+    "t1trm1": [
+      "6d01.blv",
+      "6t1.blv"
+    ],
+    "t1trm2": [
+      "6d01.blv",
+      "6d19.blv"
+    ],
+    "t1d3e": [
+      "6d01.blv"
+    ],
+    "t1swdu": [
+      "6d01.blv"
+    ],
+    "crdflr4": [
+      "6d02.blv",
+      "cd2.blv"
+    ],
+    "d2wlactr": [
+      "6d02.blv",
+      "6d10.blv",
+      "6d11.blv",
+      "6d18.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "cd3.blv"
+    ],
+    "d2flor4": [
+      "6d02.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6t4.blv",
+      "cd2.blv",
+      "pyramid.blv"
+    ],
+    "d2wlale": [
+      "6d02.blv",
+      "6d10.blv",
+      "6d11.blv",
+      "6d18.blv",
+      "6t4.blv",
+      "cd2.blv"
+    ],
+    "d2wlare": [
+      "6d02.blv",
+      "6d10.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6d18.blv",
+      "6t4.blv",
+      "cd2.blv"
+    ],
+    "d2wlbmnk": [
+      "6d02.blv",
+      "6d11.blv",
+      "6t2.blv",
+      "cd3.blv"
+    ],
+    "bemdord": [
+      "6d02.blv",
+      "cd3.blv",
+      "zddb03.blv",
+      "zddb06.blv"
+    ],
+    "bemsv32a": [
+      "6d02.blv",
+      "6d10.blv",
+      "6d15.blv",
+      "zdtl01.blv"
+    ],
+    "ctceil2": [
+      "6d02.blv",
+      "6d18.blv",
+      "cd2.blv"
+    ],
+    "wltil2": [
+      "6d02.blv"
+    ],
+    "sndston": [
+      "6d02.blv"
+    ],
+    "stain512": [
+      "6d02.blv"
+    ],
+    "cekr4": [
+      "6d02.blv"
+    ],
+    "wywl2": [
+      "6d02.blv"
+    ],
+    "wywl": [
+      "6d02.blv"
+    ],
+    "stabig2": [
+      "6d02.blv"
+    ],
+    "ceilbemh": [
+      "6d02.blv"
+    ],
+    "carpt01": [
+      "6d02.blv"
+    ],
+    "wywt": [
+      "6d02.blv"
+    ],
+    "plnkdrk": [
+      "6d02.blv"
+    ],
+    "slabco2": [
+      "6d02.blv"
+    ],
+    "celtile": [
+      "6d02.blv"
+    ],
+    "graysq": [
+      "6d02.blv"
+    ],
+    "d2ceil1": [
+      "6d02.blv",
+      "6d05.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "sewer.blv",
+      "zddb04.blv",
+      "zddb10.blv",
+      "zdtl01.blv",
+      "zdtl02.blv"
+    ],
+    "ctflor4": [
+      "6d02.blv",
+      "6d18.blv"
+    ],
+    "ctflor3": [
+      "6d02.blv"
+    ],
+    "d2wctra": [
+      "6d02.blv",
+      "6d10.blv",
+      "6d11.blv",
+      "6d13.blv",
+      "6t5.blv",
+      "cd2.blv",
+      "cd3.blv"
+    ],
+    "crdrf2": [
+      "6d02.blv",
+      "cd2.blv"
+    ],
+    "beamplnv": [
+      "6d02.blv"
+    ],
+    "ctdor4": [
+      "6d02.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "pyramid.blv"
+    ],
+    "d5flora": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d08.blv"
+    ],
+    "bdksh32b": [
+      "6d02.blv",
+      "6d07.blv",
+      "6d12.blv",
+      "6d17.blv",
+      "zdtl01.blv"
+    ],
+    "d1wldle2": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d16.blv",
+      "sewer.blv",
+      "zddb03.blv"
+    ],
+    "d1wldsp": [
+      "6d02.blv",
+      "6d06.blv",
+      "sewer.blv"
+    ],
+    "orwtrtyl": [
+      "6d02.blv",
+      "6d09.blv",
+      "6t1.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "oracle.blv",
+      "pyramid.blv",
+      "sewer.blv"
+    ],
+    "bemsv32c": [
+      "6d02.blv",
+      "6d10.blv",
+      "cd2.blv"
+    ],
+    "d1wldle": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d16.blv",
+      "sewer.blv",
+      "zddb03.blv"
+    ],
+    "d1wldre": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d16.blv",
+      "sewer.blv",
+      "zddb03.blv"
+    ],
+    "d1wlere": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d16.blv"
+    ],
+    "d1wlele": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d16.blv"
+    ],
+    "d1wldle3": [
+      "6d02.blv",
+      "6d16.blv",
+      "sewer.blv"
+    ],
+    "bemhwal1": [
+      "6d02.blv",
+      "6d09.blv",
+      "6d12.blv",
+      "6d17.blv"
+    ],
+    "sky_nit2": [
+      "6d02.blv",
+      "6d18.blv",
+      "6t6.blv",
+      "sci-fi.blv"
+    ],
+    "ch1bkre": [
+      "6d02.blv",
+      "6d05.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "hive.blv"
+    ],
+    "ch1bakb": [
+      "6d02.blv",
+      "6d05.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6t1.blv",
+      "6t4.blv"
+    ],
+    "ch1bkle": [
+      "6d02.blv",
+      "6d05.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6t1.blv",
+      "6t4.blv"
+    ],
+    "ctdor2": [
+      "6d02.blv",
+      "6d07.blv"
+    ],
+    "gset07": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d12.blv",
+      "6t7.blv",
+      "zdtl01.blv"
+    ],
+    "gset06": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d12.blv",
+      "6t7.blv",
+      "zdtl01.blv"
+    ],
+    "gset05": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d09.blv",
+      "6d10.blv",
+      "6d11.blv",
+      "6d12.blv",
+      "6d18.blv",
+      "6t3.blv",
+      "6t5.blv",
+      "6t7.blv",
+      "zdtl01.blv",
+      "zdtl02.blv",
+      "znwc.blv"
+    ],
+    "gset04": [
+      "6d02.blv",
+      "6d06.blv",
+      "6d09.blv",
+      "6d12.blv",
+      "6t7.blv",
+      "zdtl01.blv"
+    ],
+    "ctceil1": [
+      "6d02.blv",
+      "6d07.blv",
+      "6d18.blv",
+      "cd2.blv"
+    ],
+    "beamplnh": [
+      "6d02.blv"
+    ],
+    "ctmura": [
+      "6d02.blv"
+    ],
+    "d1wlbre1": [
+      "6d03.blv",
+      "6d16.blv",
+      "sewer.blv"
+    ],
+    "d8dore": [
+      "6d03.blv",
+      "6d16.blv"
+    ],
+    "d1wlble1": [
+      "6d03.blv",
+      "6d16.blv",
+      "sewer.blv"
+    ],
+    "d1wlbct1": [
+      "6d03.blv",
+      "6d16.blv",
+      "cd1.blv"
+    ],
+    "bemvwal": [
+      "6d03.blv",
+      "6d06.blv",
+      "6d07.blv",
+      "6d12.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "cd2.blv"
+    ],
+    "d2flor2": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d11.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "zddb08.blv",
+      "zddb10.blv"
+    ],
+    "d1sbpa": [
+      "6d03.blv",
+      "6d06.blv",
+      "6d07.blv",
+      "6d11.blv",
+      "6d15.blv",
+      "6t2.blv",
+      "6t5.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "pyramid.blv",
+      "sewer.blv",
+      "zddb06.blv",
+      "zddb10.blv",
+      "znwc.blv"
+    ],
+    "bemtila": [
+      "6d03.blv",
+      "6d05.blv",
+      "6d07.blv",
+      "6d09.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d14.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6d19.blv",
+      "6t7.blv",
+      "zdtl01.blv"
+    ],
+    "beemdorc": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d17.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "zdtl01.blv"
+    ],
+    "d8dorf": [
+      "6d03.blv",
+      "6d15.blv"
+    ],
+    "bemv": [
+      "6d03.blv",
+      "6d06.blv",
+      "6d07.blv",
+      "6d09.blv",
+      "6d12.blv",
+      "6d17.blv",
+      "6t5.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "zddb06.blv"
+    ],
+    "bemh": [
+      "6d03.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d14.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "sewer.blv"
+    ],
+    "bemstart": [
+      "6d03.blv",
+      "6d12.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t5.blv"
+    ],
+    "qtextle1": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d08.blv",
+      "6d09.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t7.blv",
+      "sewer.blv"
+    ],
+    "cbrdbrck": [
+      "6d03.blv",
+      "6d17.blv"
+    ],
+    "cbmxbrck": [
+      "6d03.blv",
+      "6d10.blv"
+    ],
+    "cbm16": [
+      "6d03.blv",
+      "6d17.blv"
+    ],
+    "ch2side": [
+      "6d03.blv",
+      "6d04.blv",
+      "6d11.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d19.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "hive.blv",
+      "pyramid.blv",
+      "zddb10.blv"
+    ],
+    "wood017": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d08.blv",
+      "6t7.blv"
+    ],
+    "bd1ftbrsd": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d08.blv",
+      "6d09.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "sewer.blv",
+      "zddb08.blv",
+      "zddb10.blv"
+    ],
+    "bd1rail": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d08.blv",
+      "6d09.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "sewer.blv",
+      "zddb08.blv",
+      "zddb10.blv"
+    ],
+    "wood018a": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d08.blv",
+      "6t7.blv"
+    ],
+    "ch2frntb": [
+      "6d03.blv",
+      "6d04.blv",
+      "6d11.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "pyramid.blv"
+    ],
+    "ch2tpbv": [
+      "6d03.blv",
+      "6d04.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "pyramid.blv"
+    ],
+    "cbfeam9": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d12.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t7.blv",
+      "zddb08.blv",
+      "zddb10.blv"
+    ],
+    "cbedsqr": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d08.blv",
+      "6d09.blv",
+      "6d12.blv",
+      "6d14.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t7.blv",
+      "sewer.blv",
+      "zddb08.blv",
+      "zddb10.blv"
+    ],
+    "bemdk3": [
+      "6d03.blv",
+      "6d06.blv",
+      "6d15.blv",
+      "zddb06.blv",
+      "zddb10.blv"
+    ],
+    "d5flord": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d12.blv"
+    ],
+    "cbm16b": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d12.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t7.blv",
+      "zddb08.blv",
+      "zddb10.blv"
+    ],
+    "cedsqrdk": [
+      "6d03.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d11.blv",
+      "6d12.blv",
+      "6d14.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t7.blv",
+      "zddb08.blv",
+      "zddb10.blv"
+    ],
+    "cb5frnt": [
+      "6d03.blv",
+      "6d09.blv",
+      "6d10.blv",
+      "znwc.blv"
+    ],
+    "cb5top": [
+      "6d03.blv",
+      "6d09.blv",
+      "6d10.blv"
+    ],
+    "cb5side": [
+      "6d03.blv",
+      "6d09.blv",
+      "6d10.blv"
+    ],
+    "ch2tprev": [
+      "6d03.blv",
+      "6d04.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "pyramid.blv"
+    ],
+    "ch2tplev": [
+      "6d03.blv",
+      "6d04.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "pyramid.blv"
+    ],
+    "ch2frre": [
+      "6d03.blv",
+      "6d04.blv",
+      "6d11.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "cd2.blv",
+      "pyramid.blv"
+    ],
+    "ch2frle": [
+      "6d03.blv",
+      "6d04.blv",
+      "6d11.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "cd2.blv",
+      "pyramid.blv"
+    ],
+    "swpend2a": [
+      "6d04.blv",
+      "sewer.blv"
+    ],
+    "vlctrm4": [
+      "6d04.blv",
+      "6t6.blv"
+    ],
+    "swpcnr1": [
+      "6d04.blv",
+      "zddb02.blv"
+    ],
+    "swpwin2": [
+      "6d04.blv"
+    ],
+    "vlcwl1": [
+      "6d04.blv",
+      "6d18.blv"
+    ],
+    "vlcceila": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv",
+      "6t7.blv"
+    ],
+    "swprrf3": [
+      "6d04.blv",
+      "sewer.blv",
+      "zddb07.blv"
+    ],
+    "vlcflore": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv"
+    ],
+    "vlcwl2": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv"
+    ],
+    "vlcwl1re": [
+      "6d04.blv",
+      "6d18.blv"
+    ],
+    "vlctrm6": [
+      "6d04.blv"
+    ],
+    "thbbhs": [
+      "6d04.blv"
+    ],
+    "thcw2": [
+      "6d04.blv"
+    ],
+    "vlcdord": [
+      "6d04.blv",
+      "6t6.blv",
+      "6t7.blv"
+    ],
+    "vlcdora": [
+      "6d04.blv",
+      "6t6.blv"
+    ],
+    "ch2top": [
+      "6d04.blv",
+      "6d11.blv",
+      "6d19.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "hive.blv",
+      "zddb10.blv"
+    ],
+    "vlctrm2": [
+      "6d04.blv",
+      "6t6.blv"
+    ],
+    "orflr32a": [
+      "6d04.blv"
+    ],
+    "thcwd1": [
+      "6d04.blv"
+    ],
+    "vlcgnrc4": [
+      "6d04.blv"
+    ],
+    "thbbv": [
+      "6d04.blv"
+    ],
+    "oflrd48": [
+      "6d04.blv"
+    ],
+    "vlcwl2b": [
+      "6d04.blv",
+      "6t6.blv"
+    ],
+    "vlctrm8": [
+      "6d04.blv"
+    ],
+    "vlcdorb": [
+      "6d04.blv",
+      "6t6.blv"
+    ],
+    "vlcwl4": [
+      "6d04.blv",
+      "6t6.blv"
+    ],
+    "vlcwl4b": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv"
+    ],
+    "vlctrm5": [
+      "6d04.blv"
+    ],
+    "vlcflorc": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv"
+    ],
+    "thcw1": [
+      "6d04.blv"
+    ],
+    "vlcwl3a": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv"
+    ],
+    "swpend3a": [
+      "6d04.blv",
+      "sewer.blv"
+    ],
+    "swpdr2a": [
+      "6d04.blv"
+    ],
+    "swpcnr3": [
+      "6d04.blv",
+      "sewer.blv",
+      "zddb02.blv",
+      "zddb07.blv"
+    ],
+    "thaw1": [
+      "6d04.blv"
+    ],
+    "thcwtbt": [
+      "6d04.blv"
+    ],
+    "swprrf1": [
+      "6d04.blv",
+      "zddb02.blv",
+      "znwc.blv"
+    ],
+    "thawcd": [
+      "6d04.blv"
+    ],
+    "swpend1": [
+      "6d04.blv",
+      "zddb07.blv"
+    ],
+    "swpcnr2": [
+      "6d04.blv",
+      "sewer.blv"
+    ],
+    "swpend3": [
+      "6d04.blv"
+    ],
+    "swpdr1a": [
+      "6d04.blv"
+    ],
+    "vlcflord": [
+      "6d04.blv"
+    ],
+    "thawcs": [
+      "6d04.blv"
+    ],
+    "thcwctbd": [
+      "6d04.blv"
+    ],
+    "thbpbam2": [
+      "6d04.blv"
+    ],
+    "vlcflora": [
+      "6d04.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t6.blv"
+    ],
+    "thawd2": [
+      "6d04.blv"
+    ],
+    "vlctrm9": [
+      "6d04.blv"
+    ],
+    "vlcwl1lg": [
+      "6d04.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t6.blv"
+    ],
+    "vlcwl1u": [
+      "6d04.blv"
+    ],
+    "vlcwl4le": [
+      "6d04.blv"
+    ],
+    "vlcwl4re": [
+      "6d04.blv"
+    ],
+    "vlcwl4ua": [
+      "6d04.blv"
+    ],
+    "vlcwl1a": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv",
+      "znwc.blv"
+    ],
+    "vlcflorb": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv",
+      "6t7.blv"
+    ],
+    "thb": [
+      "6d04.blv"
+    ],
+    "thawcts": [
+      "6d04.blv"
+    ],
+    "tha": [
+      "6d04.blv"
+    ],
+    "swpend2": [
+      "6d04.blv"
+    ],
+    "vlcgnrc2": [
+      "6d04.blv",
+      "6d18.blv"
+    ],
+    "thawtbt": [
+      "6d04.blv"
+    ],
+    "thcwd2": [
+      "6d04.blv"
+    ],
+    "thawd1": [
+      "6d04.blv"
+    ],
+    "ch2topb": [
+      "6d04.blv",
+      "6d11.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t8.blv",
+      "cd2.blv",
+      "pyramid.blv"
+    ],
+    "vlcgnrc1": [
+      "6d04.blv",
+      "6d18.blv"
+    ],
+    "ch2topre": [
+      "6d04.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t8.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "pyramid.blv"
+    ],
+    "ch2tople": [
+      "6d04.blv",
+      "6d11.blv",
+      "6d17.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t8.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "pyramid.blv"
+    ],
+    "ch2bakre": [
+      "6d04.blv",
+      "6d16.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "pyramid.blv"
+    ],
+    "swpend1a": [
+      "6d04.blv"
+    ],
+    "vlcsaoff": [
+      "6d04.blv"
+    ],
+    "vlcsaon": [
+      "6d04.blv"
+    ],
+    "vlcgnrc3": [
+      "6d04.blv",
+      "6d18.blv"
+    ],
+    "whcntr": [
+      "6d04.blv",
+      "zddb07.blv"
+    ],
+    "swprrf2": [
+      "6d04.blv",
+      "zddb07.blv",
+      "znwc.blv"
+    ],
+    "vlcdorc": [
+      "6d04.blv",
+      "6d18.blv",
+      "6t6.blv"
+    ],
+    "t3oor1": [
+      "6d05.blv",
+      "6d06.blv",
+      "6t3.blv",
+      "zdwj02.blv"
+    ],
+    "t3ll6": [
+      "6d05.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "zdwj02.blv"
+    ],
+    "t3ll6le": [
+      "6d05.blv",
+      "6t3.blv"
+    ],
+    "t3dwall": [
+      "6d05.blv"
+    ],
+    "crwl3": [
+      "6d05.blv"
+    ],
+    "t3ll5le": [
+      "6d05.blv"
+    ],
+    "t3ll5": [
+      "6d05.blv",
+      "6t3.blv",
+      "cd2.blv"
+    ],
+    "t3ulwall": [
+      "6d05.blv"
+    ],
+    "t3oor4": [
+      "6d05.blv"
+    ],
+    "t3ll5re": [
+      "6d05.blv"
+    ],
+    "t3ate2": [
+      "6d05.blv"
+    ],
+    "d2ceil2": [
+      "6d05.blv",
+      "6d10.blv",
+      "6d16.blv",
+      "6t4.blv",
+      "cd2.blv",
+      "sewer.blv",
+      "zddb10.blv",
+      "zdtl01.blv"
+    ],
+    "t3ll6re": [
+      "6d05.blv",
+      "6t3.blv"
+    ],
+    "d3ystlwl": [
+      "6d05.blv"
+    ],
+    "t3dwal1": [
+      "6d05.blv",
+      "zdwj02.blv"
+    ],
+    "t3ate1": [
+      "6d05.blv"
+    ],
+    "crstont": [
+      "6d05.blv"
+    ],
+    "crdrf1": [
+      "6d05.blv",
+      "zddb08.blv"
+    ],
+    "cbm16d": [
+      "6d05.blv"
+    ],
+    "cbm16c": [
+      "6d05.blv",
+      "pyramid.blv"
+    ],
+    "t3ique1": [
+      "6d05.blv"
+    ],
+    "bemh32c": [
+      "6d05.blv",
+      "6d06.blv",
+      "6d07.blv",
+      "6d12.blv",
+      "6d17.blv",
+      "cd1.blv",
+      "cd3.blv"
+    ],
+    "oceil": [
+      "6d05.blv",
+      "6d07.blv",
+      "6d15.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "oracle.blv",
+      "pyramid.blv",
+      "zddb08.blv"
+    ],
+    "oceil1": [
+      "6d05.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t6.blv",
+      "oracle.blv"
+    ],
+    "t3rsml": [
+      "6d05.blv",
+      "6t3.blv"
+    ],
+    "t3d2abs": [
+      "6d05.blv",
+      "6t3.blv"
+    ],
+    "t3dr1": [
+      "6d05.blv",
+      "6d10.blv",
+      "zdwj02.blv"
+    ],
+    "t3d2abe": [
+      "6d05.blv",
+      "6t3.blv",
+      "sewer.blv"
+    ],
+    "6wtrtyl": [
+      "6d05.blv",
+      "6d06.blv",
+      "6d11.blv",
+      "6d13.blv",
+      "zddb07.blv"
+    ],
+    "6sandtyl": [
+      "6d05.blv"
+    ],
+    "bemdk4": [
+      "6d05.blv",
+      "6d06.blv",
+      "6d09.blv",
+      "6d13.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6t5.blv",
+      "zddb06.blv",
+      "zddb10.blv"
+    ],
+    "ch1frnt": [
+      "6d05.blv",
+      "6d06.blv",
+      "6d13.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "znwc.blv"
+    ],
+    "ch1top": [
+      "6d05.blv",
+      "6d06.blv",
+      "6d13.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "znwc.blv"
+    ],
+    "crflr3": [
+      "6d05.blv"
+    ],
+    "d8flore": [
+      "6d06.blv"
+    ],
+    "d8florc": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "d8wlcsp3": [
+      "6d06.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8wldtrm": [
+      "6d06.blv"
+    ],
+    "d8wldsp1": [
+      "6d06.blv",
+      "6d16.blv",
+      "zddb10.blv"
+    ],
+    "d8florh": [
+      "6d06.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6t3.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8wla": [
+      "6d06.blv"
+    ],
+    "d8wldle": [
+      "6d06.blv",
+      "6d16.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8wldre": [
+      "6d06.blv",
+      "6d16.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8wlare": [
+      "6d06.blv"
+    ],
+    "d8dora": [
+      "6d06.blv",
+      "6t2.blv",
+      "cd1.blv",
+      "sewer.blv",
+      "zddb10.blv"
+    ],
+    "d8wlale": [
+      "6d06.blv"
+    ],
+    "d8ceild": [
+      "6d06.blv",
+      "6d16.blv",
+      "6t6.blv"
+    ],
+    "d8wlcre": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "d8ceilb": [
+      "6d06.blv"
+    ],
+    "d8flora": [
+      "6d06.blv"
+    ],
+    "d8wlc": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "d8wlcle": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "d8wld": [
+      "6d06.blv",
+      "6t6.blv"
+    ],
+    "d8wlbxl": [
+      "6d06.blv",
+      "6d18.blv",
+      "zddb10.blv"
+    ],
+    "d8dorb": [
+      "6d06.blv",
+      "cd1.blv",
+      "zddb10.blv"
+    ],
+    "d1wle": [
+      "6d06.blv",
+      "6d16.blv",
+      "cd1.blv",
+      "sewer.blv"
+    ],
+    "bemhwal": [
+      "6d06.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d14.blv",
+      "6d15.blv",
+      "6t4.blv"
+    ],
+    "bmplnk": [
+      "6d06.blv",
+      "6d10.blv",
+      "6t5.blv",
+      "zddb10.blv"
+    ],
+    "mbdrst": [
+      "6d06.blv"
+    ],
+    "d8florf": [
+      "6d06.blv",
+      "6d16.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8ceila": [
+      "6d06.blv",
+      "6d16.blv",
+      "6t2.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8wlble": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8wlbre": [
+      "6d06.blv",
+      "6d16.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8ceilc": [
+      "6d06.blv"
+    ],
+    "d1wblnka": [
+      "6d06.blv",
+      "6d16.blv",
+      "cd1.blv",
+      "zdtl01.blv"
+    ],
+    "d8wlb": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8wlesp2": [
+      "6d06.blv"
+    ],
+    "d8wlere": [
+      "6d06.blv"
+    ],
+    "d8wlele": [
+      "6d06.blv"
+    ],
+    "d8wlesp1": [
+      "6d06.blv"
+    ],
+    "d8wle": [
+      "6d06.blv"
+    ],
+    "orert64": [
+      "6d06.blv",
+      "6t6.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "d8wlbsp2": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "cvceil1": [
+      "6d06.blv",
+      "6t6.blv"
+    ],
+    "d8wlcsp2": [
+      "6d06.blv",
+      "6t6.blv"
+    ],
+    "d1wcntr": [
+      "6d06.blv",
+      "6t2.blv",
+      "cd1.blv",
+      "sewer.blv"
+    ],
+    "d8florb": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "6voltyl": [
+      "6d06.blv",
+      "6d10.blv",
+      "6d18.blv"
+    ],
+    "d8wlcsp4": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "t1f2": [
+      "6d06.blv",
+      "6d19.blv",
+      "6t1.blv",
+      "6t3.blv",
+      "6t8.blv"
+    ],
+    "t3wspp": [
+      "6d06.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "d8florg": [
+      "6d06.blv",
+      "6d16.blv",
+      "6t6.blv"
+    ],
+    "d1wvnta": [
+      "6d06.blv",
+      "sewer.blv"
+    ],
+    "bemdk5": [
+      "6d06.blv",
+      "6d09.blv",
+      "6d14.blv",
+      "6d17.blv",
+      "6t5.blv",
+      "zddb04.blv"
+    ],
+    "cvflor1": [
+      "6d06.blv"
+    ],
+    "cvwl8": [
+      "6d06.blv"
+    ],
+    "cvceil3": [
+      "6d06.blv"
+    ],
+    "orfyr64a": [
+      "6d06.blv",
+      "6t6.blv",
+      "cd1.blv",
+      "hive.blv",
+      "oracle.blv"
+    ],
+    "cvwl6": [
+      "6d06.blv"
+    ],
+    "cvwl8le": [
+      "6d06.blv"
+    ],
+    "cvwl8re": [
+      "6d06.blv"
+    ],
+    "d8wletrn": [
+      "6d06.blv"
+    ],
+    "d1wrec": [
+      "6d06.blv",
+      "cd1.blv"
+    ],
+    "d1wlec": [
+      "6d06.blv",
+      "cd1.blv"
+    ],
+    "d8wlbsp7": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "d8wlbsp3": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "d8wlbsp5": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "d8wlbsp4": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "d8wlbsp6": [
+      "6d06.blv",
+      "zddb10.blv"
+    ],
+    "bemdk2": [
+      "6d06.blv",
+      "6d13.blv",
+      "6d14.blv",
+      "6d15.blv",
+      "zddb06.blv",
+      "zddb10.blv"
+    ],
+    "bemdk6": [
+      "6d06.blv"
+    ],
+    "gset03": [
+      "6d06.blv"
+    ],
+    "ch4bakre": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "ch4bakle": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "ch4side": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6d20.blv",
+      "6t1.blv"
+    ],
+    "ch4frntb": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6d20.blv",
+      "6t1.blv"
+    ],
+    "ch4tople": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6d20.blv",
+      "6t1.blv"
+    ],
+    "ch4topre": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6d20.blv",
+      "6t1.blv"
+    ],
+    "ch4top": [
+      "6d06.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6d20.blv",
+      "6t1.blv"
+    ],
+    "ch3side": [
+      "6d06.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "ch3frntb": [
+      "6d06.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "ch3tpbv": [
+      "6d06.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d18.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "ch4frre": [
+      "6d06.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6d20.blv",
+      "6t1.blv"
+    ],
+    "ch4frle": [
+      "6d06.blv",
+      "6d16.blv",
+      "6d19.blv",
+      "6d20.blv",
+      "6t1.blv"
+    ],
+    "ch3tplev": [
+      "6d06.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d18.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "ch3frle": [
+      "6d06.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "ch3frre": [
+      "6d06.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "ch3tprev": [
+      "6d06.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d18.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "d8wletrn1": [
+      "6d06.blv"
+    ],
+    "ch3topre": [
+      "6d06.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "ch3tople": [
+      "6d06.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "ch3topb": [
+      "6d06.blv",
+      "6d07.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t5.blv",
+      "6t6.blv",
+      "6t8.blv",
+      "pyramid.blv"
+    ],
+    "d1wctra": [
+      "6d07.blv",
+      "6d11.blv",
+      "6d16.blv",
+      "6t2.blv"
+    ],
+    "d1wlea": [
+      "6d07.blv",
+      "6d16.blv",
+      "6t2.blv"
+    ],
+    "d1spcl1": [
+      "6d07.blv"
+    ],
+    "d1wrea": [
+      "6d07.blv",
+      "6d16.blv",
+      "6t2.blv"
+    ],
+    "orerthrf": [
+      "6d07.blv",
+      "6d12.blv",
+      "6d13.blv",
+      "6t4.blv",
+      "6t6.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "cb1top1": [
+      "6d07.blv",
+      "6d12.blv",
+      "6d15.blv",
+      "6t4.blv",
+      "zddb08.blv"
+    ],
+    "cr1ptrn": [
+      "6d07.blv",
+      "6d12.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t7.blv",
+      "zddb08.blv"
+    ],
+    "cb2side": [
+      "6d07.blv",
+      "6d09.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv"
+    ],
+    "bd1hdbrs": [
+      "6d07.blv",
+      "6d08.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t6.blv",
+      "6t7.blv",
+      "zddb08.blv",
+      "zddb10.blv"
+    ],
+    "deskside": [
+      "6d07.blv",
+      "6d12.blv",
+      "6d17.blv",
+      "cd2.blv"
+    ],
+    "deskback": [
+      "6d07.blv",
+      "6d12.blv",
+      "6d17.blv"
+    ],
+    "mbdbwl": [
+      "6d07.blv"
+    ],
+    "mbbwl": [
+      "6d07.blv"
+    ],
+    "solid10": [
+      "6d07.blv"
+    ],
+    "cb2top": [
+      "6d07.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6t7.blv",
+      "zddb10.blv"
+    ],
+    "ch3frnt": [
+      "6d07.blv",
+      "6t8.blv"
+    ],
+    "ch3top": [
+      "6d07.blv",
+      "6t8.blv"
+    ],
+    "straw": [
+      "6d07.blv",
+      "6d17.blv",
+      "zddb02.blv"
+    ],
+    "top16": [
+      "6d07.blv"
+    ],
+    "bemdk1": [
+      "6d07.blv",
+      "6d12.blv",
+      "6d17.blv",
+      "zdtl01.blv"
+    ],
+    "d5ceila": [
+      "6d08.blv"
+    ],
+    "d5florb": [
+      "6d08.blv",
+      "6d19.blv",
+      "zdwj01.blv"
+    ],
+    "d5walba": [
+      "6d08.blv",
+      "zdwj01.blv"
+    ],
+    "d5walbre": [
+      "6d08.blv",
+      "zdwj01.blv"
+    ],
+    "d5florc": [
+      "6d08.blv",
+      "pyramid.blv"
+    ],
+    "d5ceild": [
+      "6d08.blv",
+      "6d12.blv"
+    ],
+    "d5walb": [
+      "6d08.blv"
+    ],
+    "d5walble": [
+      "6d08.blv",
+      "zdwj01.blv"
+    ],
+    "d5dorlgb": [
+      "6d08.blv"
+    ],
+    "d5walc": [
+      "6d08.blv",
+      "6d12.blv"
+    ],
+    "d5smtrb": [
+      "6d08.blv"
+    ],
+    "d5flore": [
+      "6d08.blv"
+    ],
+    "d5trimb": [
+      "6d08.blv"
+    ],
+    "d5trime": [
+      "6d08.blv"
+    ],
+    "d5dorsma": [
+      "6d08.blv",
+      "6d10.blv",
+      "sewer.blv"
+    ],
+    "d5smtra": [
+      "6d08.blv"
+    ],
+    "d5dorlga": [
+      "6d08.blv",
+      "zdwj01.blv"
+    ],
+    "d5dorsmb": [
+      "6d08.blv",
+      "6d12.blv"
+    ],
+    "d5drsmbs": [
+      "6d08.blv"
+    ],
+    "d5walas1": [
+      "6d08.blv",
+      "zdwj01.blv"
+    ],
+    "d5ceilc": [
+      "6d08.blv",
+      "zdwj01.blv"
+    ],
+    "d5colum": [
+      "6d08.blv",
+      "hive.blv"
+    ],
+    "d5walcre": [
+      "6d08.blv",
+      "6d12.blv"
+    ],
+    "d5walcle": [
+      "6d08.blv",
+      "6d12.blv"
+    ],
+    "t3s1off": [
+      "6d08.blv"
+    ],
+    "t3s1on": [
+      "6d08.blv"
+    ],
+    "mystryb": [
+      "6d08.blv"
+    ],
+    "bedside": [
+      "6d08.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6t3.blv",
+      "6t6.blv",
+      "6t7.blv"
+    ],
+    "bedtop": [
+      "6d08.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "6t3.blv",
+      "6t4.blv",
+      "6t6.blv",
+      "6t7.blv"
+    ],
+    "t1wl8rea": [
+      "6d08.blv"
+    ],
+    "t1wl8lea": [
+      "6d08.blv"
+    ],
+    "t1wl8ctc": [
+      "6d08.blv"
+    ],
+    "mystrya": [
+      "6d08.blv",
+      "cd3.blv"
+    ],
+    "t1c11": [
+      "6d08.blv"
+    ],
+    "t1f4": [
+      "6d08.blv",
+      "6d19.blv",
+      "znwc.blv"
+    ],
+    "t1d3": [
+      "6d08.blv",
+      "6t1.blv"
+    ],
+    "d7flor4": [
+      "6d09.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "sewer.blv",
+      "zarena.blv",
+      "zddb09.blv",
+      "znwc.blv"
+    ],
+    "d7ceil2": [
+      "6d09.blv"
+    ],
+    "cbeam5": [
+      "6d09.blv",
+      "6d16.blv",
+      "6t3.blv",
+      "sewer.blv"
+    ],
+    "d7wl2ctr": [
+      "6d09.blv"
+    ],
+    "d7wl1ctr": [
+      "6d09.blv"
+    ],
+    "mnwl2": [
+      "6d09.blv"
+    ],
+    "d7wl1le": [
+      "6d09.blv"
+    ],
+    "d7wl1re": [
+      "6d09.blv"
+    ],
+    "d7wl2re": [
+      "6d09.blv"
+    ],
+    "d7spclc": [
+      "6d09.blv",
+      "zddb08.blv"
+    ],
+    "d7trim8": [
+      "6d09.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "bookcas1": [
+      "6d09.blv",
+      "6t7.blv",
+      "pyramid.blv",
+      "znwc.blv"
+    ],
+    "bookcas2": [
+      "6d09.blv",
+      "6d18.blv",
+      "6t7.blv",
+      "znwc.blv"
+    ],
+    "d7wl4ctr": [
+      "6d09.blv",
+      "zddb08.blv"
+    ],
+    "d7wl4le": [
+      "6d09.blv",
+      "zddb08.blv"
+    ],
+    "bd1hdbrt": [
+      "6d09.blv",
+      "6d10.blv",
+      "6t3.blv",
+      "6t6.blv",
+      "sewer.blv"
+    ],
+    "d7flor3": [
+      "6d09.blv",
+      "6d17.blv",
+      "zarena.blv",
+      "zddb08.blv",
+      "zddb09.blv"
+    ],
+    "cb6side": [
+      "6d09.blv",
+      "6d10.blv",
+      "6d16.blv",
+      "6t2.blv"
+    ],
+    "cb6frnt": [
+      "6d09.blv",
+      "6d10.blv",
+      "6d16.blv",
+      "6t2.blv"
+    ],
+    "bd1ftbrd": [
+      "6d09.blv",
+      "6d10.blv",
+      "6t7.blv",
+      "znwc.blv"
+    ],
+    "cb2frnt": [
+      "6d09.blv",
+      "6d10.blv",
+      "6d12.blv",
+      "6d16.blv",
+      "znwc.blv"
+    ],
+    "d7dor3": [
+      "6d09.blv"
+    ],
+    "d7wl2le": [
+      "6d09.blv",
+      "zddb08.blv"
+    ],
+    "d7dor1": [
+      "6d09.blv",
+      "zarena.blv",
+      "zddb08.blv",
+      "zddb09.blv"
+    ],
+    "d7wl3ctr": [
+      "6d09.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "d7wl4re": [
+      "6d09.blv",
+      "zddb08.blv"
+    ],
+    "d7dor2": [
+      "6d09.blv",
+      "6d17.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "d7ceil3": [
+      "6d09.blv"
+    ],
+    "d7dor1s": [
+      "6d09.blv",
+      "zddb08.blv"
+    ],
+    "d2wlcre": [
+      "6d10.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6t4.blv"
+    ],
+    "d2wlcle": [
+      "6d10.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6d18.blv",
+      "6t4.blv"
+    ],
+    "bemh32b": [
+      "6d10.blv",
+      "6d15.blv",
+      "6d17.blv",
+      "zddb04.blv"
+    ],
+    "d2wlbre": [
+      "6d10.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6t2.blv",
+      "6t4.blv"
+    ],
+    "d2wlble": [
+      "6d10.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6t2.blv",
+      "6t4.blv"
+    ],
+    "bemh32a": [
+      "6d10.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6t2.blv"
+    ],
+    "d2flor3": [
+      "6d10.blv",
+      "6d15.blv",
+      "6t4.blv",
+      "pyramid.blv"
+    ],
+    "d2wlbctr": [
+      "6d10.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6d15.blv",
+      "6t4.blv",
+      "cd3.blv"
+    ],
+    "d2wlbpos": [
+      "6d10.blv",
+      "6d14.blv",
+      "6t2.blv",
+      "cd2.blv",
+      "cd3.blv"
+    ],
+    "d2wlbc": [
+      "6d10.blv",
+      "6d11.blv",
+      "6d14.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "cd3.blv"
+    ],
+    "bemvdk": [
+      "6d10.blv",
+      "cd2.blv"
+    ],
+    "bdksv32a": [
+      "6d10.blv",
+      "zdtl01.blv",
+      "zdtl02.blv"
+    ],
+    "d3smlb": [
+      "6d10.blv"
+    ],
+    "cb3shlf": [
+      "6d10.blv",
+      "6d17.blv",
+      "zdtl01.blv"
+    ],
+    "cb3frnt": [
+      "6d10.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "zdtl01.blv",
+      "znwc.blv"
+    ],
+    "cb3side": [
+      "6d10.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "zdtl01.blv",
+      "znwc.blv"
+    ],
+    "cb3top": [
+      "6d10.blv",
+      "6d17.blv",
+      "6t2.blv",
+      "sewer.blv"
+    ],
+    "cb4frnt": [
+      "6d10.blv",
+      "6d17.blv",
+      "6t2.blv",
+      "sewer.blv"
+    ],
+    "cb4side": [
+      "6d10.blv",
+      "6d17.blv",
+      "6t2.blv",
+      "sewer.blv"
+    ],
+    "cb6top": [
+      "6d10.blv",
+      "6d16.blv",
+      "6t2.blv",
+      "zdtl01.blv",
+      "znwc.blv"
+    ],
+    "d2wlcctr": [
+      "6d10.blv",
+      "6d13.blv",
+      "6d14.blv",
+      "6t4.blv",
+      "cd1.blv",
+      "cd2.blv"
+    ],
+    "bemh16a": [
+      "6d10.blv",
+      "6d18.blv",
+      "znwc.blv"
+    ],
+    "d2flor1": [
+      "6d10.blv",
+      "6d14.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "cd1.blv",
+      "cd3.blv"
+    ],
+    "d2wlbmed": [
+      "6d11.blv",
+      "6d14.blv",
+      "cd1.blv",
+      "cd2.blv"
+    ],
+    "cvdor3": [
+      "6d11.blv"
+    ],
+    "d2skulas": [
+      "6d11.blv",
+      "6d14.blv",
+      "6d16.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "zddb10.blv"
+    ],
+    "d2skulbs": [
+      "6d11.blv",
+      "6d14.blv",
+      "6d16.blv",
+      "cd2.blv"
+    ],
+    "egywalgm": [
+      "6d11.blv"
+    ],
+    "d2smldor": [
+      "6d11.blv",
+      "6d16.blv",
+      "cd3.blv",
+      "zddb04.blv",
+      "zdtl02.blv"
+    ],
+    "d2niche1": [
+      "6d11.blv",
+      "6d14.blv"
+    ],
+    "d2niche2": [
+      "6d11.blv",
+      "6d14.blv"
+    ],
+    "d2niche3": [
+      "6d11.blv",
+      "6d14.blv",
+      "cd3.blv"
+    ],
+    "d2niche4": [
+      "6d11.blv",
+      "6d14.blv",
+      "cd1.blv"
+    ],
+    "d2lgdor": [
+      "6d12.blv",
+      "6d14.blv",
+      "6d16.blv",
+      "6d18.blv",
+      "6t7.blv",
+      "cd1.blv",
+      "cd2.blv",
+      "cd3.blv"
+    ],
+    "d3ll5": [
+      "6d12.blv",
+      "zddb04.blv"
+    ],
+    "d3ll6": [
+      "6d12.blv",
+      "6d17.blv",
+      "zddb06.blv"
+    ],
+    "chairtop": [
+      "6d12.blv"
+    ],
+    "d5walc2": [
+      "6d12.blv"
+    ],
+    "d5walc1": [
+      "6d12.blv"
+    ],
+    "cb1side1": [
+      "6d12.blv",
+      "6d15.blv",
+      "6d16.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "zddb08.blv",
+      "znwc.blv"
+    ],
+    "cbsm": [
+      "6d12.blv",
+      "6d17.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "cedhwal1": [
+      "6d12.blv"
+    ],
+    "bdksh16a": [
+      "6d12.blv",
+      "6d17.blv",
+      "6t7.blv",
+      "zdtl01.blv"
+    ],
+    "6dirttyl": [
+      "6d13.blv",
+      "zddb08.blv"
+    ],
+    "d6roofa": [
+      "6d13.blv",
+      "6d17.blv"
+    ],
+    "d6wlare": [
+      "6d13.blv"
+    ],
+    "d6wlale": [
+      "6d13.blv"
+    ],
+    "6grastyl": [
+      "6d13.blv"
+    ],
+    "d6dorc": [
+      "6d13.blv"
+    ],
+    "d6ebeam": [
+      "6d13.blv"
+    ],
+    "d6wlbctr": [
+      "6d13.blv",
+      "6t5.blv"
+    ],
+    "d6roofb": [
+      "6d13.blv",
+      "6d17.blv",
+      "cd2.blv"
+    ],
+    "d6wldctr": [
+      "6d13.blv"
+    ],
+    "d6wldre": [
+      "6d13.blv"
+    ],
+    "d6florb": [
+      "6d13.blv",
+      "6d17.blv",
+      "6t6.blv"
+    ],
+    "d6dorb": [
+      "6d13.blv",
+      "6d17.blv"
+    ],
+    "d6wldle": [
+      "6d13.blv"
+    ],
+    "d6dorde": [
+      "6d13.blv"
+    ],
+    "d6wlble": [
+      "6d13.blv"
+    ],
+    "d6wlbre": [
+      "6d13.blv"
+    ],
+    "oflr1": [
+      "6d13.blv",
+      "6t1.blv",
+      "6t6.blv",
+      "oracle.blv"
+    ],
+    "d6uniqb": [
+      "6d13.blv"
+    ],
+    "crsmdr1": [
+      "6d14.blv"
+    ],
+    "crsmdr2": [
+      "6d14.blv"
+    ],
+    "d2wlbdrn": [
+      "6d14.blv"
+    ],
+    "d2wlcsp": [
+      "6d14.blv",
+      "cd1.blv"
+    ],
+    "bemdk16d": [
+      "6d14.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "bmdk16c": [
+      "6d14.blv",
+      "cd3.blv"
+    ],
+    "t3wbltr": [
+      "6d15.blv"
+    ],
+    "t3wbltl": [
+      "6d15.blv",
+      "6t7.blv"
+    ],
+    "t3wbltbd": [
+      "6d15.blv",
+      "6t7.blv"
+    ],
+    "t3wbltbl": [
+      "6d15.blv"
+    ],
+    "t3wbltbr": [
+      "6d15.blv"
+    ],
+    "t3wbstbd": [
+      "6d15.blv"
+    ],
+    "d8dord": [
+      "6d15.blv"
+    ],
+    "t3wsptr": [
+      "6d15.blv",
+      "6t3.blv"
+    ],
+    "t3wsptl": [
+      "6d15.blv",
+      "6t3.blv"
+    ],
+    "bemsh32a": [
+      "6d15.blv"
+    ],
+    "bemv32b": [
+      "6d15.blv",
+      "6d16.blv",
+      "6d17.blv",
+      "6t7.blv",
+      "zddb04.blv"
+    ],
+    "bemsv32b": [
+      "6d15.blv",
+      "6t7.blv"
+    ],
+    "orair32": [
+      "6d15.blv",
+      "6t1.blv",
+      "oracle.blv"
+    ],
+    "bemsv16b": [
+      "6d15.blv",
+      "6d18.blv"
+    ],
+    "bemsh16c": [
+      "6d15.blv",
+      "cd3.blv"
+    ],
+    "cr1seat": [
+      "6d15.blv"
+    ],
+    "orflr132": [
+      "6d15.blv",
+      "oracle.blv"
+    ],
+    "cr1frnt": [
+      "6d15.blv"
+    ],
+    "t3wbstbl": [
+      "6d15.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "t3wbstbr": [
+      "6d15.blv",
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "t3wpg": [
+      "6d15.blv",
+      "6t7.blv"
+    ],
+    "orfyrrf": [
+      "6d15.blv",
+      "6t6.blv",
+      "oracle.blv"
+    ],
+    "bemob1b": [
+      "6d15.blv",
+      "cd1.blv",
+      "zarena.blv",
+      "zddb09.blv",
+      "znwc.blv"
+    ],
+    "chf16bdk": [
+      "6d15.blv"
+    ],
+    "cb1frnt": [
+      "6d15.blv",
+      "6d16.blv",
+      "6t4.blv",
+      "6t7.blv",
+      "zddb08.blv",
+      "znwc.blv"
+    ],
+    "bemob1": [
+      "6d15.blv",
+      "cd1.blv"
+    ],
+    "bemob2": [
+      "6d15.blv"
+    ],
+    "d1smbw": [
+      "6d16.blv",
+      "6d17.blv",
+      "cd1.blv",
+      "hive.blv",
+      "sewer.blv"
+    ],
+    "bemstra1": [
+      "6d16.blv",
+      "6d17.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "bemv16a": [
+      "6d16.blv",
+      "6d18.blv",
+      "6t3.blv"
+    ],
+    "d2trimb": [
+      "6d16.blv",
+      "cd3.blv"
+    ],
+    "d1trimre": [
+      "6d16.blv",
+      "cd1.blv",
+      "sewer.blv"
+    ],
+    "d1trimle": [
+      "6d16.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "sewer.blv",
+      "zddb10.blv"
+    ],
+    "d2trima": [
+      "6d16.blv",
+      "cd1.blv"
+    ],
+    "d1wblnka1": [
+      "6d16.blv",
+      "zdtl01.blv"
+    ],
+    "d8s2off": [
+      "6d16.blv",
+      "zddb07.blv",
+      "zddb10.blv"
+    ],
+    "bmdk16a": [
+      "6d16.blv"
+    ],
+    "ch1bak": [
+      "6d16.blv",
+      "6t7.blv"
+    ],
+    "ch1topv": [
+      "6d16.blv"
+    ],
+    "ch2bakle": [
+      "6d16.blv",
+      "6t1.blv",
+      "6t4.blv",
+      "pyramid.blv"
+    ],
+    "ch2bakb": [
+      "6d16.blv",
+      "6d20.blv",
+      "6t1.blv",
+      "6t4.blv"
+    ],
+    "ch4bakb": [
+      "6d16.blv",
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "qgzwood": [
+      "6d16.blv",
+      "6t6.blv"
+    ],
+    "bedsid2": [
+      "6d16.blv",
+      "6t4.blv",
+      "6t7.blv"
+    ],
+    "d2smldo2": [
+      "6d16.blv"
+    ],
+    "d8s2on": [
+      "6d16.blv",
+      "zddb07.blv",
+      "zddb10.blv"
+    ],
+    "d7flor2": [
+      "6d17.blv"
+    ],
+    "tews": [
+      "6d17.blv"
+    ],
+    "tewrs": [
+      "6d17.blv"
+    ],
+    "tewls": [
+      "6d17.blv"
+    ],
+    "ormrblga": [
+      "6d17.blv",
+      "6t1.blv",
+      "6t6.blv",
+      "cd1.blv",
+      "cd3.blv",
+      "oracle.blv"
+    ],
+    "bemv32a": [
+      "6d17.blv"
+    ],
+    "d7wl1ctr2": [
+      "6d17.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "tdortrim": [
+      "6d17.blv"
+    ],
+    "bemsh32c": [
+      "6d17.blv",
+      "6t3.blv",
+      "6t6.blv"
+    ],
+    "tdortrm2": [
+      "6d17.blv"
+    ],
+    "d6uniqa": [
+      "6d17.blv",
+      "6t3.blv"
+    ],
+    "d7flor1": [
+      "6d17.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "bdksv32c": [
+      "6d17.blv"
+    ],
+    "cblrg": [
+      "6d17.blv",
+      "zddb10.blv"
+    ],
+    "d7wl3ctr2": [
+      "6d17.blv"
+    ],
+    "granite": [
+      "6d17.blv",
+      "cd1.blv"
+    ],
+    "cedvwal1": [
+      "6d17.blv",
+      "6t3.blv"
+    ],
+    "t3mgc": [
+      "6d17.blv"
+    ],
+    "cr64": [
+      "6d17.blv",
+      "6t6.blv"
+    ],
+    "cbfbm16": [
+      "6d17.blv"
+    ],
+    "orfyrlga": [
+      "6d18.blv",
+      "6t6.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "vlctrm3": [
+      "6d18.blv"
+    ],
+    "bemh16c": [
+      "6d18.blv"
+    ],
+    "bemh16b": [
+      "6d18.blv",
+      "cd1.blv"
+    ],
+    "cvdor1": [
+      "6d18.blv",
+      "6d20.blv"
+    ],
+    "vlcwl3le": [
+      "6d18.blv",
+      "6t6.blv"
+    ],
+    "vlcwl3re": [
+      "6d18.blv",
+      "6t6.blv"
+    ],
+    "orfyr64b": [
+      "6d18.blv",
+      "cd3.blv",
+      "oracle.blv"
+    ],
+    "vlcwl1le": [
+      "6d18.blv"
+    ],
+    "ctwl5le": [
+      "6d18.blv"
+    ],
+    "ctflor1": [
+      "6d18.blv",
+      "cd1.blv",
+      "cd2.blv"
+    ],
+    "ctwl5": [
+      "6d18.blv",
+      "cd1.blv"
+    ],
+    "ctceil3": [
+      "6d18.blv"
+    ],
+    "ctwl2le": [
+      "6d18.blv"
+    ],
+    "ctwl2re": [
+      "6d18.blv",
+      "cd2.blv"
+    ],
+    "ctwl2": [
+      "6d18.blv",
+      "cd1.blv",
+      "cd2.blv"
+    ],
+    "cttrim2": [
+      "6d18.blv"
+    ],
+    "ctflor5": [
+      "6d18.blv",
+      "cd2.blv"
+    ],
+    "ctwl5re": [
+      "6d18.blv"
+    ],
+    "ctflor2": [
+      "6d18.blv"
+    ],
+    "ctwl4le": [
+      "6d18.blv"
+    ],
+    "ctwl4re": [
+      "6d18.blv"
+    ],
+    "vlcwl3u": [
+      "6d18.blv"
+    ],
+    "t1wl4cts": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl4leb": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl4rea": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl4reb": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl7ctb": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl7leb": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl2lea": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl2rea": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl7reb": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl1rea": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl7rea": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl7lea": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl9cts": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl9ctl": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl9reb": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl9lea": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl9spc": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1ww9rec": [
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "t1wl0lg": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1swbd": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1swbu": [
+      "6d19.blv",
+      "6t2.blv",
+      "6t8.blv"
+    ],
+    "t1wl9leb": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl9spb": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl4spa": [
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "t1wl4lea": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1wl4spb": [
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "t1wl7spa": [
+      "6d19.blv"
+    ],
+    "t1wl9spd": [
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "t1wl9ctb": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl9rea": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl1lea": [
+      "6d19.blv",
+      "6t8.blv"
+    ],
+    "t1spclb": [
+      "6d19.blv"
+    ],
+    "ch2bak": [
+      "6d19.blv",
+      "6t4.blv",
+      "zddb10.blv"
+    ],
+    "t1wl9spa": [
+      "6d19.blv",
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1w15b": [
+      "6d19.blv",
+      "6t1.blv"
+    ],
+    "ch3bakb": [
+      "6d20.blv",
+      "6t6.blv",
+      "6t7.blv"
+    ],
+    "ch4tprev": [
+      "6d20.blv"
+    ],
+    "ch4tplev": [
+      "6d20.blv"
+    ],
+    "ch4topv": [
+      "6d20.blv"
+    ],
+    "oflr1d32": [
+      "6t1.blv",
+      "oracle.blv"
+    ],
+    "t1wl5ctl": [
+      "6t1.blv"
+    ],
+    "oraltmrb": [
+      "6t1.blv",
+      "6t6.blv",
+      "cd1.blv"
+    ],
+    "t1d4": [
+      "6t1.blv"
+    ],
+    "t1wl5leb": [
+      "6t1.blv"
+    ],
+    "t1wl6leb": [
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl6reb": [
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl7ctc": [
+      "6t1.blv"
+    ],
+    "t1wl5lea": [
+      "6t1.blv"
+    ],
+    "t1wl5rea": [
+      "6t1.blv"
+    ],
+    "t1w15a": [
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "orwtr64": [
+      "6t1.blv",
+      "6t6.blv",
+      "hive.blv",
+      "oracle.blv"
+    ],
+    "orwtrrf": [
+      "6t1.blv",
+      "6t6.blv",
+      "6t8.blv",
+      "oracle.blv"
+    ],
+    "t1wl3lea": [
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl3rea": [
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "t1wl7cta": [
+      "6t1.blv",
+      "6t8.blv"
+    ],
+    "orairmbb": [
+      "6t1.blv",
+      "oracle.blv"
+    ],
+    "orair64": [
+      "6t1.blv",
+      "6t6.blv",
+      "oracle.blv"
+    ],
+    "t1curtr": [
+      "6t1.blv"
+    ],
+    "t1curtl": [
+      "6t1.blv"
+    ],
+    "t1spcl1": [
+      "6t1.blv"
+    ],
+    "sign3": [
+      "6t1.blv"
+    ],
+    "orair256b": [
+      "6t1.blv",
+      "oracle.blv"
+    ],
+    "d1flr": [
+      "6t2.blv",
+      "zdtl01.blv"
+    ],
+    "mnflorc": [
+      "6t2.blv"
+    ],
+    "mndora": [
+      "6t2.blv",
+      "cd3.blv",
+      "oracle.blv"
+    ],
+    "orflr1l64": [
+      "6t2.blv",
+      "cd1.blv"
+    ],
+    "t3t3": [
+      "6t3.blv"
+    ],
+    "t3wsp": [
+      "6t3.blv",
+      "6t7.blv",
+      "cd2.blv"
+    ],
+    "t3f3": [
+      "6t3.blv"
+    ],
+    "t3wbstb": [
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "t3wbst": [
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "cedvwal2": [
+      "6t3.blv"
+    ],
+    "t3wbstl": [
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "t3wbstr": [
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "t3wbstb1": [
+      "6t3.blv",
+      "6t7.blv"
+    ],
+    "6t3d1": [
+      "6t3.blv"
+    ],
+    "bemsv16c": [
+      "6t3.blv"
+    ],
+    "bemv32c": [
+      "6t3.blv",
+      "6t6.blv",
+      "cd2.blv"
+    ],
+    "t3t4": [
+      "6t3.blv"
+    ],
+    "t3wsptbd": [
+      "6t3.blv"
+    ],
+    "cbtiny": [
+      "6t3.blv",
+      "zddb02.blv",
+      "zddb03.blv",
+      "zddb04.blv",
+      "zddb10.blv"
+    ],
+    "bdksh16c": [
+      "6t3.blv",
+      "cd2.blv"
+    ],
+    "bdksv16c": [
+      "6t3.blv",
+      "cd2.blv"
+    ],
+    "t3dr2": [
+      "6t3.blv"
+    ],
+    "t3of3": [
+      "6t3.blv"
+    ],
+    "d2wlbsml": [
+      "6t4.blv",
+      "cd1.blv",
+      "cd3.blv"
+    ],
+    "orair256": [
+      "6t4.blv",
+      "6t6.blv"
+    ],
+    "sky_nit1": [
+      "6t4.blv",
+      "oracle.blv"
+    ],
+    "sky_sns1": [
+      "6t4.blv",
+      "6t6.blv"
+    ],
+    "bemstrb1": [
+      "6t4.blv"
+    ],
+    "t4f1": [
+      "6t5.blv"
+    ],
+    "t4wb1": [
+      "6t5.blv"
+    ],
+    "t4c5": [
+      "6t5.blv"
+    ],
+    "t4ws7": [
+      "6t5.blv"
+    ],
+    "t4ws5": [
+      "6t5.blv"
+    ],
+    "t4ws1": [
+      "6t5.blv"
+    ],
+    "t4ws4": [
+      "6t5.blv"
+    ],
+    "t4c3": [
+      "6t5.blv"
+    ],
+    "t4ws3": [
+      "6t5.blv"
+    ],
+    "t4d4": [
+      "6t5.blv"
+    ],
+    "t4d3": [
+      "6t5.blv"
+    ],
+    "t4c1": [
+      "6t5.blv"
+    ],
+    "t4f3": [
+      "6t5.blv"
+    ],
+    "t4wb6": [
+      "6t5.blv"
+    ],
+    "t4c2": [
+      "6t5.blv"
+    ],
+    "t4wb4": [
+      "6t5.blv"
+    ],
+    "t4wb5": [
+      "6t5.blv"
+    ],
+    "t4d5": [
+      "6t5.blv"
+    ],
+    "t4ww9": [
+      "6t5.blv"
+    ],
+    "t4f4": [
+      "6t5.blv"
+    ],
+    "t4c4": [
+      "6t5.blv"
+    ],
+    "t4wb3": [
+      "6t5.blv"
+    ],
+    "t4ws2": [
+      "6t5.blv"
+    ],
+    "t4f2": [
+      "6t5.blv"
+    ],
+    "t4wb7": [
+      "6t5.blv"
+    ],
+    "t4wb2": [
+      "6t5.blv"
+    ],
+    "t4ww6": [
+      "6t5.blv"
+    ],
+    "t4ww1": [
+      "6t5.blv"
+    ],
+    "t4ww5": [
+      "6t5.blv"
+    ],
+    "t4ww7": [
+      "6t5.blv"
+    ],
+    "t4ww2": [
+      "6t5.blv"
+    ],
+    "sign22": [
+      "6t5.blv",
+      "pyramid.blv"
+    ],
+    "sign1": [
+      "6t5.blv"
+    ],
+    "hvwl1a": [
+      "6t6.blv",
+      "hive.blv"
+    ],
+    "hvwl1re": [
+      "6t6.blv",
+      "hive.blv"
+    ],
+    "hvwl1le": [
+      "6t6.blv",
+      "hive.blv"
+    ],
+    "hvflori": [
+      "6t6.blv",
+      "hive.blv"
+    ],
+    "hvceila": [
+      "6t6.blv",
+      "hive.blv",
+      "sewer.blv"
+    ],
+    "hvwl6": [
+      "6t6.blv",
+      "hive.blv"
+    ],
+    "hvwl6le": [
+      "6t6.blv",
+      "hive.blv"
+    ],
+    "orfyrlgb": [
+      "6t6.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "oflrl64": [
+      "6t6.blv"
+    ],
+    "orflr64c": [
+      "6t6.blv"
+    ],
+    "orertlgb": [
+      "6t6.blv",
+      "oracle.blv"
+    ],
+    "orflra": [
+      "6t6.blv",
+      "oracle.blv",
+      "pyramid.blv"
+    ],
+    "orwtrlga": [
+      "6t6.blv",
+      "6t8.blv",
+      "oracle.blv"
+    ],
+    "orflr164": [
+      "6t6.blv"
+    ],
+    "orflr1": [
+      "6t6.blv",
+      "oracle.blv"
+    ],
+    "orwtrlgb": [
+      "6t6.blv",
+      "oracle.blv"
+    ],
+    "orairlg": [
+      "6t6.blv"
+    ],
+    "orairrf": [
+      "6t6.blv",
+      "oracle.blv"
+    ],
+    "orairlgb": [
+      "6t6.blv"
+    ],
+    "d8wlcspl": [
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "d8wlcspr": [
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "hvwl5a": [
+      "6t6.blv",
+      "hive.blv",
+      "sewer.blv"
+    ],
+    "hvflora": [
+      "6t6.blv",
+      "hive.blv",
+      "sewer.blv"
+    ],
+    "vlcwl3": [
+      "6t6.blv"
+    ],
+    "vh5trmf": [
+      "6t6.blv"
+    ],
+    "lavatyl": [
+      "6t6.blv",
+      "cd2.blv"
+    ],
+    "hvwl6re": [
+      "6t6.blv",
+      "hive.blv"
+    ],
+    "vlcwl2re": [
+      "6t6.blv"
+    ],
+    "vlcwl2le": [
+      "6t6.blv"
+    ],
+    "d8wldsp2": [
+      "6t6.blv",
+      "zddb10.blv"
+    ],
+    "hvtrim3": [
+      "6t6.blv",
+      "hive.blv"
+    ],
+    "swcirc2": [
+      "6t6.blv",
+      "sci-fi.blv",
+      "sewer.blv"
+    ],
+    "t3wbstd": [
+      "6t7.blv"
+    ],
+    "t3wsmtb": [
+      "6t7.blv"
+    ],
+    "t3wsmtd": [
+      "6t7.blv"
+    ],
+    "t3wsmtbd": [
+      "6t7.blv"
+    ],
+    "t3wsbtb": [
+      "6t7.blv"
+    ],
+    "d1sbeb": [
+      "6t7.blv"
+    ],
+    "t3wsbtbl": [
+      "6t7.blv"
+    ],
+    "t3wsbtbr": [
+      "6t7.blv"
+    ],
+    "t3wsmtbr": [
+      "6t7.blv"
+    ],
+    "t3wsmtbl": [
+      "6t7.blv"
+    ],
+    "t3wcl": [
+      "6t7.blv"
+    ],
+    "t3wcr": [
+      "6t7.blv"
+    ],
+    "bd1hdbrd": [
+      "6t7.blv"
+    ],
+    "ormrblgb": [
+      "6t7.blv",
+      "cd1.blv",
+      "oracle.blv"
+    ],
+    "bemstarb": [
+      "6t7.blv"
+    ],
+    "scroll": [
+      "6t7.blv"
+    ],
+    "dkwsmbwl": [
+      "6t7.blv"
+    ],
+    "t1f5": [
+      "6t8.blv"
+    ],
+    "t1wl1leb": [
+      "6t8.blv"
+    ],
+    "t1wl1reb": [
+      "6t8.blv"
+    ],
+    "d1mbea": [
+      "cd1.blv",
+      "sewer.blv",
+      "zdtl01.blv"
+    ],
+    "wood013": [
+      "cd1.blv",
+      "cd3.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "oflrl48": [
+      "cd1.blv"
+    ],
+    "wood012": [
+      "cd1.blv"
+    ],
+    "d1ceil1": [
+      "cd1.blv",
+      "sewer.blv",
+      "zddb03.blv"
+    ],
+    "d1wld": [
+      "cd1.blv"
+    ],
+    "d1medbw": [
+      "cd1.blv",
+      "sewer.blv",
+      "zdtl01.blv"
+    ],
+    "orceilb": [
+      "cd1.blv"
+    ],
+    "cttrim1": [
+      "cd1.blv",
+      "cd2.blv"
+    ],
+    "oflr1l64": [
+      "cd1.blv"
+    ],
+    "cttrim3": [
+      "cd1.blv",
+      "cd2.blv"
+    ],
+    "orflrl64": [
+      "cd1.blv",
+      "pyramid.blv"
+    ],
+    "orflrd32": [
+      "cd1.blv",
+      "oracle.blv"
+    ],
+    "d1wctrb": [
+      "cd2.blv"
+    ],
+    "ctspcl1": [
+      "cd2.blv"
+    ],
+    "ctspcl2": [
+      "cd2.blv"
+    ],
+    "cttrim4": [
+      "cd2.blv"
+    ],
+    "cttrim5": [
+      "cd2.blv"
+    ],
+    "bigsign": [
+      "cd2.blv"
+    ],
+    "sign7": [
+      "cd2.blv"
+    ],
+    "desktop": [
+      "cd2.blv"
+    ],
+    "d2trpdor": [
+      "cd3.blv",
+      "zddb10.blv"
+    ],
+    "d2wlaslt": [
+      "cd3.blv"
+    ],
+    "bemvwal1": [
+      "cd3.blv",
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "sign128": [
+      "cd3.blv"
+    ],
+    "d2lgdore": [
+      "cd3.blv"
+    ],
+    "hvflore": [
+      "hive.blv"
+    ],
+    "hvwl2a": [
+      "hive.blv"
+    ],
+    "hvwl3spa": [
+      "hive.blv"
+    ],
+    "hvwl2re": [
+      "hive.blv"
+    ],
+    "hvwl2le": [
+      "hive.blv"
+    ],
+    "hvwl4a": [
+      "hive.blv"
+    ],
+    "hvwl3": [
+      "hive.blv"
+    ],
+    "hvwl3a": [
+      "hive.blv"
+    ],
+    "hvflorb": [
+      "hive.blv"
+    ],
+    "hvdord": [
+      "hive.blv"
+    ],
+    "hvceilb": [
+      "hive.blv"
+    ],
+    "hvflorf": [
+      "hive.blv"
+    ],
+    "d5trima": [
+      "hive.blv",
+      "pyramid.blv"
+    ],
+    "hvtrim1": [
+      "hive.blv"
+    ],
+    "hvdore": [
+      "hive.blv"
+    ],
+    "hvdorc": [
+      "hive.blv"
+    ],
+    "hvdorf": [
+      "hive.blv"
+    ],
+    "hvwl4le": [
+      "hive.blv"
+    ],
+    "hvwl4re": [
+      "hive.blv"
+    ],
+    "hvtrim4": [
+      "hive.blv"
+    ],
+    "hvflorc": [
+      "hive.blv"
+    ],
+    "hvwl1spa": [
+      "hive.blv"
+    ],
+    "hvwl3re": [
+      "hive.blv"
+    ],
+    "hvwl5": [
+      "hive.blv"
+    ],
+    "hvdorg": [
+      "hive.blv"
+    ],
+    "hvwl4": [
+      "hive.blv"
+    ],
+    "hvtrim2": [
+      "hive.blv"
+    ],
+    "hvwl1spb": [
+      "hive.blv"
+    ],
+    "hvwl3le": [
+      "hive.blv"
+    ],
+    "d5trimc": [
+      "hive.blv"
+    ],
+    "hvflord": [
+      "hive.blv"
+    ],
+    "d1sbea": [
+      "hive.blv",
+      "zdtl01.blv"
+    ],
+    "hvflorh": [
+      "hive.blv"
+    ],
+    "hvflorg": [
+      "hive.blv"
+    ],
+    "d5drsmae": [
+      "hive.blv"
+    ],
+    "d5drlgbe": [
+      "hive.blv"
+    ],
+    "swhor1dk": [
+      "hive.blv",
+      "pyramid.blv"
+    ],
+    "swflorb": [
+      "hive.blv",
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swhz3": [
+      "hive.blv",
+      "pyramid.blv"
+    ],
+    "swfloor2b": [
+      "hive.blv",
+      "sci-fi.blv"
+    ],
+    "swtrpnl": [
+      "hive.blv",
+      "sci-fi.blv"
+    ],
+    "swr1": [
+      "hive.blv"
+    ],
+    "hvwl5le": [
+      "hive.blv"
+    ],
+    "hvwl5re": [
+      "hive.blv"
+    ],
+    "orair64a": [
+      "oracle.blv"
+    ],
+    "orwtr64b": [
+      "oracle.blv"
+    ],
+    "swank": [
+      "oracle.blv"
+    ],
+    "swankdk": [
+      "oracle.blv",
+      "sci-fi.blv"
+    ],
+    "swwala": [
+      "oracle.blv",
+      "sci-fi.blv"
+    ],
+    "swgirder": [
+      "oracle.blv",
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swll4dk": [
+      "oracle.blv",
+      "sci-fi.blv"
+    ],
+    "swrdk": [
+      "oracle.blv",
+      "sci-fi.blv"
+    ],
+    "swr2dk": [
+      "oracle.blv",
+      "sci-fi.blv"
+    ],
+    "trekscrn": [
+      "oracle.blv",
+      "sci-fi.blv"
+    ],
+    "trekscon": [
+      "oracle.blv",
+      "sci-fi.blv"
+    ],
+    "egyflorc": [
+      "pyramid.blv"
+    ],
+    "egywlc": [
+      "pyramid.blv"
+    ],
+    "orflrd64": [
+      "pyramid.blv"
+    ],
+    "egybigb": [
+      "pyramid.blv"
+    ],
+    "egywalhb": [
+      "pyramid.blv"
+    ],
+    "egywla": [
+      "pyramid.blv"
+    ],
+    "egyceila": [
+      "pyramid.blv"
+    ],
+    "egybiga": [
+      "pyramid.blv"
+    ],
+    "egyflord": [
+      "pyramid.blv"
+    ],
+    "egycol64": [
+      "pyramid.blv"
+    ],
+    "egyflorb": [
+      "pyramid.blv"
+    ],
+    "egyceild": [
+      "pyramid.blv"
+    ],
+    "egtrmcle": [
+      "pyramid.blv"
+    ],
+    "egywalg1": [
+      "pyramid.blv"
+    ],
+    "egytrmc": [
+      "pyramid.blv"
+    ],
+    "egyceilb": [
+      "pyramid.blv"
+    ],
+    "swceilge": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "egyflore": [
+      "pyramid.blv"
+    ],
+    "egywlj": [
+      "pyramid.blv"
+    ],
+    "egyflora": [
+      "pyramid.blv"
+    ],
+    "egytrmbs": [
+      "pyramid.blv"
+    ],
+    "egyflorf": [
+      "pyramid.blv"
+    ],
+    "egytrmas": [
+      "pyramid.blv"
+    ],
+    "swdoora": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swall3": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swoor": [
+      "pyramid.blv"
+    ],
+    "egywld": [
+      "pyramid.blv"
+    ],
+    "egywle": [
+      "pyramid.blv"
+    ],
+    "egywlspb": [
+      "pyramid.blv"
+    ],
+    "egywlspa": [
+      "pyramid.blv"
+    ],
+    "swfloor5": [
+      "pyramid.blv"
+    ],
+    "egydrlgl": [
+      "pyramid.blv"
+    ],
+    "egytrmcs": [
+      "pyramid.blv"
+    ],
+    "egywles": [
+      "pyramid.blv"
+    ],
+    "egyspca": [
+      "pyramid.blv"
+    ],
+    "egytrma": [
+      "pyramid.blv"
+    ],
+    "egycom32": [
+      "pyramid.blv"
+    ],
+    "egywlh": [
+      "pyramid.blv"
+    ],
+    "egydrlgr": [
+      "pyramid.blv"
+    ],
+    "egyswbon": [
+      "pyramid.blv"
+    ],
+    "egyswaon": [
+      "pyramid.blv"
+    ],
+    "egyswbof": [
+      "pyramid.blv"
+    ],
+    "egywlb": [
+      "pyramid.blv"
+    ],
+    "egywlf": [
+      "pyramid.blv"
+    ],
+    "egywlspc": [
+      "pyramid.blv"
+    ],
+    "egytrmd": [
+      "pyramid.blv"
+    ],
+    "egydrsmc": [
+      "pyramid.blv"
+    ],
+    "egymedb": [
+      "pyramid.blv"
+    ],
+    "egymeda": [
+      "pyramid.blv"
+    ],
+    "egydrsmd": [
+      "pyramid.blv"
+    ],
+    "egydrsml": [
+      "pyramid.blv"
+    ],
+    "egydrsmr": [
+      "pyramid.blv"
+    ],
+    "egytrmds": [
+      "pyramid.blv"
+    ],
+    "egycol32": [
+      "pyramid.blv"
+    ],
+    "egywlhle": [
+      "pyramid.blv"
+    ],
+    "egywlgvs": [
+      "pyramid.blv"
+    ],
+    "egywlhre": [
+      "pyramid.blv"
+    ],
+    "egywalh": [
+      "pyramid.blv"
+    ],
+    "egywlbl": [
+      "pyramid.blv"
+    ],
+    "egywlbr": [
+      "pyramid.blv"
+    ],
+    "egytrmb": [
+      "pyramid.blv"
+    ],
+    "swr3dk": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swrt4dk": [
+      "pyramid.blv"
+    ],
+    "swhorzad": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swhorzdb": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swall1": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swall2": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swll2": [
+      "pyramid.blv"
+    ],
+    "swpnl": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swll5": [
+      "pyramid.blv",
+      "sci-fi.blv"
+    ],
+    "swrdk2": [
+      "sci-fi.blv"
+    ],
+    "swll5dk": [
+      "sci-fi.blv"
+    ],
+    "swflorc": [
+      "sci-fi.blv"
+    ],
+    "swtrdk": [
+      "sci-fi.blv"
+    ],
+    "swared": [
+      "sci-fi.blv"
+    ],
+    "swildk2": [
+      "sci-fi.blv"
+    ],
+    "swqur3": [
+      "sci-fi.blv"
+    ],
+    "swor2": [
+      "sci-fi.blv"
+    ],
+    "swaled": [
+      "sci-fi.blv"
+    ],
+    "swceilf": [
+      "sci-fi.blv"
+    ],
+    "swll2dk": [
+      "sci-fi.blv"
+    ],
+    "swildk": [
+      "sci-fi.blv"
+    ],
+    "swall4": [
+      "sci-fi.blv"
+    ],
+    "swrt3dk": [
+      "sci-fi.blv"
+    ],
+    "swr1dk": [
+      "sci-fi.blv"
+    ],
+    "swll4": [
+      "sci-fi.blv"
+    ],
+    "swr4dk": [
+      "sci-fi.blv"
+    ],
+    "swflora": [
+      "sci-fi.blv"
+    ],
+    "swdoorb": [
+      "sci-fi.blv"
+    ],
+    "swr3": [
+      "sci-fi.blv"
+    ],
+    "swor": [
+      "sci-fi.blv"
+    ],
+    "swfloor6": [
+      "sci-fi.blv"
+    ],
+    "swpipes": [
+      "sci-fi.blv"
+    ],
+    "swll3dk": [
+      "sci-fi.blv"
+    ],
+    "swrt2": [
+      "sci-fi.blv"
+    ],
+    "swdoorc": [
+      "sci-fi.blv"
+    ],
+    "swr4": [
+      "sci-fi.blv"
+    ],
+    "swvert3dk": [
+      "sci-fi.blv"
+    ],
+    "swhor4dk": [
+      "sci-fi.blv"
+    ],
+    "ch5top": [
+      "sci-fi.blv"
+    ],
+    "ch5side": [
+      "sci-fi.blv"
+    ],
+    "ch5frnt": [
+      "sci-fi.blv"
+    ],
+    "ch5topb": [
+      "sci-fi.blv"
+    ],
+    "ch5frle": [
+      "sci-fi.blv"
+    ],
+    "ch5tople": [
+      "sci-fi.blv"
+    ],
+    "ch5frre": [
+      "sci-fi.blv"
+    ],
+    "ch5topre": [
+      "sci-fi.blv"
+    ],
+    "ch5toprb": [
+      "sci-fi.blv"
+    ],
+    "ch5toplb": [
+      "sci-fi.blv"
+    ],
+    "d1wldle4": [
+      "sewer.blv"
+    ],
+    "d1lggrt": [
+      "sewer.blv"
+    ],
+    "d1ladder": [
+      "sewer.blv"
+    ],
+    "d1spcl3": [
+      "sewer.blv"
+    ],
+    "d1spcl2": [
+      "sewer.blv"
+    ],
+    "crcn96": [
+      "sewer.blv"
+    ],
+    "d1wlbctr": [
+      "sewer.blv"
+    ],
+    "d7trim1": [
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "cedhwal": [
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "d7dor2s": [
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "sky_clo1": [
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "d7trim7": [
+      "zarena.blv",
+      "zddb09.blv"
+    ],
+    "d7spcla": [
+      "zarena.blv",
+      "zddb08.blv",
+      "zddb09.blv"
+    ],
+    "swplft3": [
+      "zddb02.blv",
+      "zddb07.blv"
+    ],
+    "swprt3": [
+      "zddb02.blv",
+      "zddb07.blv"
+    ],
+    "swplft1a": [
+      "zddb02.blv"
+    ],
+    "swprt1a": [
+      "zddb02.blv"
+    ],
+    "tdoore": [
+      "zddb02.blv",
+      "zddb03.blv"
+    ],
+    "descnr3": [
+      "zddb03.blv"
+    ],
+    "pbsmwl": [
+      "zddb04.blv"
+    ],
+    "d3oor2": [
+      "zddb06.blv"
+    ],
+    "d3ll2le": [
+      "zddb06.blv"
+    ],
+    "d3ll2": [
+      "zddb06.blv"
+    ],
+    "d3rsmls": [
+      "zddb06.blv"
+    ],
+    "d3ll2re": [
+      "zddb06.blv"
+    ],
+    "d3dwall": [
+      "zddb06.blv"
+    ],
+    "d3ll6le": [
+      "zddb06.blv"
+    ],
+    "d3ll6re": [
+      "zddb06.blv"
+    ],
+    "d3ll61": [
+      "zddb06.blv"
+    ],
+    "d3oor3": [
+      "zddb06.blv"
+    ],
+    "d3rsml": [
+      "zddb06.blv"
+    ],
+    "d3dwal1": [
+      "zddb06.blv"
+    ],
+    "swpdr3a": [
+      "zddb07.blv"
+    ],
+    "crdwlmd": [
+      "zddb08.blv"
+    ],
+    "crdwlle": [
+      "zddb08.blv"
+    ],
+    "crdwlre": [
+      "zddb08.blv"
+    ],
+    "crdflr3": [
+      "zddb08.blv",
+      "zdtl01.blv"
+    ],
+    "d7ceil4": [
+      "zddb08.blv"
+    ],
+    "d7colum": [
+      "zddb08.blv"
+    ],
+    "d7spclb": [
+      "zddb08.blv"
+    ],
+    "d7flor8": [
+      "zddb08.blv"
+    ],
+    "dkwle": [
+      "zddb10.blv"
+    ],
+    "dkwst": [
+      "zddb10.blv"
+    ],
+    "dkwre": [
+      "zddb10.blv"
+    ],
+    "d8wlbx": [
+      "zddb10.blv"
+    ],
+    "d8wlbxr": [
+      "zddb10.blv"
+    ],
+    "d8wlcsp6": [
+      "zddb10.blv"
+    ],
+    "d8dorabs": [
+      "zddb10.blv"
+    ],
+    "d8wlcsp5": [
+      "zddb10.blv"
+    ],
+    "d8wldsp3": [
+      "zddb10.blv"
+    ],
+    "d8wldsp4": [
+      "zddb10.blv"
+    ],
+    "d8wlbsp1": [
+      "zddb10.blv"
+    ],
+    "bemsh32b": [
+      "zddb10.blv"
+    ],
+    "cbb": [
+      "zddb10.blv"
+    ],
+    "d8dorae": [
+      "zddb10.blv"
+    ],
+    "d8dorg": [
+      "zddb10.blv"
+    ],
+    "d8dorge": [
+      "zddb10.blv"
+    ],
+    "d8dorbe": [
+      "zddb10.blv"
+    ],
+    "bdksv16b": [
+      "zdtl01.blv"
+    ],
+    "bdksh16b": [
+      "zdtl01.blv"
+    ],
+    "bdksv16a": [
+      "zdtl01.blv"
+    ],
+    "bdksh32a": [
+      "zdtl01.blv"
+    ],
+    "csbr128": [
+      "zdtl02.blv"
+    ],
+    "csdoor": [
+      "zdtl02.blv"
+    ],
+    "d5walas2": [
+      "zdwj01.blv"
+    ],
+    "stcplan": [
+      "zdwj02.blv"
+    ],
+    "descnr2": [
+      "zdwj02.blv"
+    ],
+    "descnr4": [
+      "zdwj02.blv"
+    ],
+    "desrf1": [
+      "zdwj02.blv"
+    ],
+    "desrt4": [
+      "zdwj02.blv"
+    ],
+    "deslft4": [
+      "zdwj02.blv"
+    ],
+    "t3ll4re": [
+      "zdwj02.blv"
+    ],
+    "t3ll4le": [
+      "zdwj02.blv"
+    ],
+    "t3ll4": [
+      "zdwj02.blv"
+    ],
+    "bmsctr": [
+      "znwc.blv"
+    ],
+    "bmsre": [
+      "znwc.blv"
+    ],
+    "swprf": [
+      "znwc.blv"
+    ],
+    "bmsctr1": [
+      "znwc.blv"
+    ],
+    "tdoord": [
+      "znwc.blv"
+    ],
+    "bmsle": [
+      "znwc.blv"
+    ],
+    "bemob2b": [
+      "znwc.blv"
+    ],
+    "tdoorb": [
+      "znwc.blv"
+    ],
+    "mnwl1": [
+      "znwc.blv"
+    ]
+  },
+  "outdoor_buildings": {
+    "bemhwal": [
+      "outa1.odm",
+      "outa2.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "strctr": [
+      "outa1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "bdksv32c": [
+      "outa1.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "bemdk2": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "oute2.odm"
+    ],
+    "desrt1": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "descnr1": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "deslft1": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "bemv32a": [
+      "outa1.odm",
+      "outa2.odm",
+      "outb1.odm",
+      "outc2.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "pgstrre": [
+      "outa1.odm"
+    ],
+    "pgstrst11": [
+      "outa1.odm"
+    ],
+    "pgstrle": [
+      "outa1.odm"
+    ],
+    "bemvwal": [
+      "outa1.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "pxshings": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute3.odm"
+    ],
+    "bemsv16c": [
+      "outa1.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm"
+    ],
+    "pgstrdr": [
+      "outa1.odm"
+    ],
+    "pgwino": [
+      "outa1.odm"
+    ],
+    "pgstrlew": [
+      "outa1.odm"
+    ],
+    "pgstrrew": [
+      "outa1.odm"
+    ],
+    "bemh16a": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm"
+    ],
+    "bdksh16a": [
+      "outa1.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute1.odm"
+    ],
+    "cbmxbrck": [
+      "outa1.odm",
+      "outa2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "vh1trima": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "bemhwal1": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "gset05": [
+      "outa1.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "cbrdbrck": [
+      "outa1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "bemtila": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "storepor": [
+      "outa1.odm"
+    ],
+    "bdksv16a": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "pg128bl": [
+      "outa1.odm",
+      "outd3.odm"
+    ],
+    "6wtrtyl": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "bdksv32b": [
+      "outa1.odm",
+      "outa2.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute2.odm"
+    ],
+    "bdksh32b": [
+      "outa1.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute2.odm"
+    ],
+    "wood013": [
+      "outa1.odm",
+      "outa2.odm",
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "deswin1": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "tavrich": [
+      "outa1.odm",
+      "outa2.odm",
+      "outc2.odm",
+      "outd3.odm",
+      "oute1.odm"
+    ],
+    "hvflorf": [
+      "outa1.odm"
+    ],
+    "cstyl": [
+      "outa1.odm",
+      "outd3.odm"
+    ],
+    "swgirder": [
+      "outa1.odm"
+    ],
+    "gbrf": [
+      "outa1.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "hvwl1a": [
+      "outa1.odm"
+    ],
+    "crstont": [
+      "outa1.odm"
+    ],
+    "swfloor2b": [
+      "outa1.odm"
+    ],
+    "hvwl6": [
+      "outa1.odm"
+    ],
+    "6voltyl": [
+      "outa1.odm",
+      "outc2.odm"
+    ],
+    "pl128bl": [
+      "outa1.odm"
+    ],
+    "bemstrt1": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "bemob2": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "mystrya": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "bemsv16a": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ch4side": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "ch4topre": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc2.odm"
+    ],
+    "ch4frre": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "ch4bakle": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "ch4tople": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc2.odm"
+    ],
+    "ch4bakb": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "ch4top": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "ch4frntb": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "ch4frle": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "desrf2a": [
+      "outa2.odm"
+    ],
+    "desend1": [
+      "outa2.odm"
+    ],
+    "desrf1": [
+      "outa2.odm",
+      "outb3.odm"
+    ],
+    "bemstra1": [
+      "outa2.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "desdr1a": [
+      "outa2.odm"
+    ],
+    "tentwal3": [
+      "outa2.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc3.odm",
+      "outd2.odm"
+    ],
+    "tentdor3": [
+      "outa2.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc3.odm",
+      "outd2.odm"
+    ],
+    "desdr1": [
+      "outa2.odm"
+    ],
+    "deslft2": [
+      "outa2.odm"
+    ],
+    "desrt2": [
+      "outa2.odm"
+    ],
+    "descnr2": [
+      "outa2.odm"
+    ],
+    "desdr2": [
+      "outa2.odm"
+    ],
+    "bemh16b": [
+      "outa2.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "bemv": [
+      "outa2.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "armorrch": [
+      "outa2.odm",
+      "outc2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "deswin2": [
+      "outa2.odm"
+    ],
+    "desrf3a": [
+      "outa2.odm",
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "trim": [
+      "outa2.odm",
+      "outb2.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "magicpor": [
+      "outa2.odm",
+      "outc2.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "training": [
+      "outa2.odm",
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd2.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "bemh32a": [
+      "outa2.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "bemv32b": [
+      "outa2.odm",
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "deswin1b": [
+      "outa2.odm"
+    ],
+    "deswin1a": [
+      "outa2.odm"
+    ],
+    "desrt3": [
+      "outa2.odm"
+    ],
+    "deslft3": [
+      "outa2.odm"
+    ],
+    "deswin3b": [
+      "outa2.odm"
+    ],
+    "deswin3a": [
+      "outa2.odm"
+    ],
+    "desdr3": [
+      "outa2.odm"
+    ],
+    "descnr3": [
+      "outa2.odm"
+    ],
+    "deswin3": [
+      "outa2.odm"
+    ],
+    "bemv16a": [
+      "outa2.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "ch2side": [
+      "outa2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "ch2topre": [
+      "outa2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "ch2frre": [
+      "outa2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "ch2frle": [
+      "outa2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "ch2tople": [
+      "outa2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "ch2bakb": [
+      "outa2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "ch2topb": [
+      "outa2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "ch2frntb": [
+      "outa2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "vh2ctr": [
+      "outa3.odm",
+      "outb1.odm"
+    ],
+    "vh2door": [
+      "outa3.odm",
+      "outb1.odm"
+    ],
+    "vh3trimb": [
+      "outa3.odm",
+      "outb1.odm"
+    ],
+    "6solid03": [
+      "outa3.odm"
+    ],
+    "lavatyl": [
+      "outa3.odm"
+    ],
+    "vh2trimb": [
+      "outa3.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "vh2roof2": [
+      "outa3.odm",
+      "outb1.odm"
+    ],
+    "solid09": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "ch3side": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "ch3topre": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "ch3frle": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "ch3frre": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "ch3tople": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "ch3frntb": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "ch3tpbv": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "ch3bakb": [
+      "outa3.odm",
+      "outd2.odm"
+    ],
+    "vh4winle": [
+      "outb1.odm"
+    ],
+    "vh4door": [
+      "outb1.odm"
+    ],
+    "vh4re": [
+      "outb1.odm"
+    ],
+    "vh4winlg": [
+      "outb1.odm"
+    ],
+    "vh4le": [
+      "outb1.odm"
+    ],
+    "vh4winre": [
+      "outb1.odm"
+    ],
+    "bemv32c": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "oute2.odm"
+    ],
+    "cedhwal1": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "vh2trima": [
+      "outb1.odm"
+    ],
+    "vh4ctr": [
+      "outb1.odm"
+    ],
+    "vh4trimc": [
+      "outb1.odm"
+    ],
+    "vh1roof": [
+      "outb1.odm"
+    ],
+    "cedvwal": [
+      "outb1.odm",
+      "outc3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "cedvwal1": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "bemstara": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "cedhwal": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "vh1le": [
+      "outb1.odm"
+    ],
+    "vh1re": [
+      "outb1.odm"
+    ],
+    "vh1ctr": [
+      "outb1.odm"
+    ],
+    "vh1winle": [
+      "outb1.odm"
+    ],
+    "bemv16b": [
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "vh1dor": [
+      "outb1.odm"
+    ],
+    "vh1winlg": [
+      "outb1.odm"
+    ],
+    "cstr128": [
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "bdksv16c": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "vh3le": [
+      "outb1.odm"
+    ],
+    "vh3re": [
+      "outb1.odm"
+    ],
+    "vh3door": [
+      "outb1.odm"
+    ],
+    "armorpor": [
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "vh3ctr": [
+      "outb1.odm"
+    ],
+    "vh3roofb": [
+      "outb1.odm"
+    ],
+    "gbcnt": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "vh2le": [
+      "outb1.odm"
+    ],
+    "vh2re": [
+      "outb1.odm"
+    ],
+    "vh2ctrw": [
+      "outb1.odm"
+    ],
+    "vh2winle": [
+      "outb1.odm"
+    ],
+    "bdksv16b": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm"
+    ],
+    "cedhwal2": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "blksmmid": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "vh2winlg": [
+      "outb1.odm"
+    ],
+    "vh2winre": [
+      "outb1.odm"
+    ],
+    "tavmid": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "magicrch": [
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "bemdorb": [
+      "outb1.odm",
+      "outb2.odm",
+      "oute3.odm"
+    ],
+    "bmdk16a": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm"
+    ],
+    "bemdord": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd2.odm",
+      "outd3.odm"
+    ],
+    "bmdk16e": [
+      "outb1.odm",
+      "outb2.odm"
+    ],
+    "cbsm": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm"
+    ],
+    "bmdk16": [
+      "outb1.odm",
+      "outb2.odm"
+    ],
+    "bdksh16b": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "stables": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "vh4trimb": [
+      "outb1.odm"
+    ],
+    "tews": [
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "tdortrim": [
+      "outb1.odm",
+      "outc1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "tdoorb": [
+      "outb1.odm",
+      "outc1.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "tewm": [
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "tewls": [
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "tewrs": [
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "tewsw": [
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "vh4roof": [
+      "outb1.odm"
+    ],
+    "tewrd": [
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "vh4wnrex": [
+      "outb1.odm"
+    ],
+    "vh4wnlex": [
+      "outb1.odm"
+    ],
+    "vh4ctrw": [
+      "outb1.odm"
+    ],
+    "orceil": [
+      "outb1.odm"
+    ],
+    "oceil": [
+      "outb1.odm"
+    ],
+    "oraltmrb": [
+      "outb1.odm"
+    ],
+    "wood012": [
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "orair64": [
+      "outb1.odm"
+    ],
+    "orwtr64": [
+      "outb1.odm"
+    ],
+    "orwtr32": [
+      "outb1.odm"
+    ],
+    "bemob2b": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "bemob1b": [
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "csbr128": [
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "granite": [
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outd2.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "tewd": [
+      "outb1.odm",
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "teunq2": [
+      "outb1.odm"
+    ],
+    "tdoore": [
+      "outb1.odm"
+    ],
+    "dkwrf": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "sdkwre": [
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "sdkwle": [
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "sdknkrf": [
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "sdkwdr": [
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "sdkwwn": [
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "sdkwst": [
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "ch1side": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1topre": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1frre": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1bkle": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1bkre": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1tople": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1bakb": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1topb": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1frntb": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "ch1frle": [
+      "outb1.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "bemh32c": [
+      "outb1.odm",
+      "outb2.odm",
+      "oute2.odm"
+    ],
+    "tav128wl": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "pxstrlew": [
+      "outb2.odm",
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "pxstrrew": [
+      "outb2.odm",
+      "outc2.odm"
+    ],
+    "pxstrst": [
+      "outb2.odm",
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "pxstrle": [
+      "outb2.odm",
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "pxstrre": [
+      "outb2.odm",
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "pxstrwbx": [
+      "outb2.odm",
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "pxdorb": [
+      "outb2.odm"
+    ],
+    "pxstrde": [
+      "outb2.odm"
+    ],
+    "pxstrdr": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute3.odm"
+    ],
+    "plg128t1": [
+      "outb2.odm"
+    ],
+    "dkwre": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "dkwle": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "dkwdr": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "dkwwn": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "dkwst": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "dkwrew": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "dkwlew": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "gblft": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "gbwin": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "gbrt": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "gbdor": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "yinlite": [
+      "outb2.odm",
+      "outd1.odm"
+    ],
+    "dkwbwl": [
+      "outb2.odm",
+      "outc1.odm",
+      "outd2.odm"
+    ],
+    "sdkwbwl": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "yindark": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "armormid": [
+      "outb2.odm",
+      "outc1.odm",
+      "outd1.odm",
+      "outd2.odm"
+    ],
+    "straw": [
+      "outb2.odm",
+      "outc1.odm",
+      "outd2.odm",
+      "oute2.odm"
+    ],
+    "bmplnk": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "pxstrwb": [
+      "outb2.odm",
+      "oute3.odm"
+    ],
+    "dknkrf": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm"
+    ],
+    "pxstrwde": [
+      "outb2.odm",
+      "oute1.odm"
+    ],
+    "plruf01": [
+      "outb2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute3.odm"
+    ],
+    "bank": [
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "magicmid": [
+      "outb2.odm",
+      "outd1.odm",
+      "oute2.odm"
+    ],
+    "bemvwal1": [
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "cedvwal2": [
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "dkwmt1": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "dkdorb": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "bdksh32a": [
+      "outb2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "bemstart": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "sign22": [
+      "outb2.odm",
+      "oute2.odm"
+    ],
+    "bdksv32a": [
+      "outb2.odm",
+      "oute2.odm"
+    ],
+    "dkwwn1": [
+      "outb2.odm"
+    ],
+    "bemsv32c": [
+      "outb2.odm",
+      "outd1.odm"
+    ],
+    "tavctr": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "tavrf": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "tavlgdr": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "tavle": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "tavre": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "tavwctr": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "gbrtw": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "gblftw": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "storemid": [
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "dkwsde": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "dkwwnde": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "tavpoor2": [
+      "outb2.odm",
+      "outc1.odm",
+      "outd1.odm",
+      "oute2.odm"
+    ],
+    "plg128": [
+      "outb2.odm",
+      "oute1.odm"
+    ],
+    "stc2dr": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "stc2rea": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "stcwal2": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "stc2le": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "stcwal1": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "stc1le": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "stc1re": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "stc2wdw": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "stc2re": [
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "ch4tprev": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "ch4tplev": [
+      "outb2.odm",
+      "outc1.odm"
+    ],
+    "tentwal7b": [
+      "outb2.odm",
+      "outc3.odm",
+      "outd2.odm"
+    ],
+    "tentwal7a": [
+      "outb2.odm",
+      "outc3.odm",
+      "outd2.odm"
+    ],
+    "tentdor7": [
+      "outb2.odm",
+      "outc3.odm",
+      "outd2.odm"
+    ],
+    "tentrf3": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc3.odm",
+      "outd2.odm"
+    ],
+    "tentdor7a": [
+      "outb2.odm",
+      "outc3.odm",
+      "outd2.odm"
+    ],
+    "bcsrf": [
+      "outb2.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "t1swbd": [
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "solid10": [
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "t1swbu": [
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "egybigb": [
+      "outb3.odm"
+    ],
+    "egymedb": [
+      "outb3.odm"
+    ],
+    "egywalg1": [
+      "outb3.odm"
+    ],
+    "egywla": [
+      "outb3.odm"
+    ],
+    "egywalhb": [
+      "outb3.odm"
+    ],
+    "egywlbl": [
+      "outb3.odm"
+    ],
+    "egywlbr": [
+      "outb3.odm"
+    ],
+    "egyflorf": [
+      "outb3.odm"
+    ],
+    "egywlb": [
+      "outb3.odm"
+    ],
+    "egytrmc": [
+      "outb3.odm"
+    ],
+    "egywld": [
+      "outb3.odm"
+    ],
+    "egydrlgl": [
+      "outb3.odm"
+    ],
+    "stc2lea": [
+      "outb3.odm"
+    ],
+    "stc2trm": [
+      "outb3.odm"
+    ],
+    "stc2128": [
+      "outb3.odm"
+    ],
+    "crflr2": [
+      "outb3.odm"
+    ],
+    "t1wl8ctb": [
+      "outb3.odm"
+    ],
+    "crdflr3": [
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "t1f1": [
+      "outb3.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute3.odm"
+    ],
+    "t1f4": [
+      "outb3.odm"
+    ],
+    "crflr3": [
+      "outb3.odm",
+      "oute2.odm"
+    ],
+    "t1trima": [
+      "outb3.odm"
+    ],
+    "t1d3e": [
+      "outb3.odm"
+    ],
+    "tentdor2": [
+      "outb3.odm",
+      "outd2.odm"
+    ],
+    "tentwal2": [
+      "outb3.odm",
+      "outd2.odm"
+    ],
+    "tentrf2": [
+      "outb3.odm",
+      "outd2.odm"
+    ],
+    "tentdor1": [
+      "outb3.odm",
+      "outd2.odm"
+    ],
+    "tentwal1": [
+      "outb3.odm",
+      "outd2.odm"
+    ],
+    "tentrf1": [
+      "outb3.odm",
+      "outd2.odm"
+    ],
+    "wtrtyl": [
+      "outb3.odm"
+    ],
+    "csde128": [
+      "outc1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "cswl128": [
+      "outc1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "cvceil3": [
+      "outc1.odm"
+    ],
+    "cswdw128": [
+      "outc1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "csle128": [
+      "outc1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "csre128": [
+      "outc1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "t1f3": [
+      "outc1.odm",
+      "outd3.odm"
+    ],
+    "cvceil1": [
+      "outc1.odm"
+    ],
+    "csle128w": [
+      "outc1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "csre128w": [
+      "outc1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "csdoor": [
+      "outc1.odm",
+      "oute2.odm"
+    ],
+    "cstr256": [
+      "outc1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "tdortrm2": [
+      "outc1.odm"
+    ],
+    "tdoorc": [
+      "outc1.odm"
+    ],
+    "rblrf": [
+      "outc1.odm",
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "sgstrsbw": [
+      "outc1.odm"
+    ],
+    "bemob1": [
+      "outc1.odm",
+      "outc2.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "sglstrde": [
+      "outc1.odm"
+    ],
+    "sgstrrf": [
+      "outc1.odm"
+    ],
+    "sgstrle": [
+      "outc1.odm"
+    ],
+    "sgstrwn1": [
+      "outc1.odm"
+    ],
+    "sgstrre": [
+      "outc1.odm"
+    ],
+    "sgstrdr": [
+      "outc1.odm"
+    ],
+    "sign11": [
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm"
+    ],
+    "sdkwsde": [
+      "outc1.odm"
+    ],
+    "sdkwrew": [
+      "outc1.odm"
+    ],
+    "pbwal": [
+      "outc1.odm",
+      "outc2.odm"
+    ],
+    "bemstarb": [
+      "outc1.odm",
+      "outc2.odm",
+      "outd2.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "gstrst": [
+      "outc1.odm",
+      "outd2.odm",
+      "oute1.odm"
+    ],
+    "gstrre": [
+      "outc1.odm",
+      "outd2.odm",
+      "oute1.odm"
+    ],
+    "gstrle": [
+      "outc1.odm",
+      "outd2.odm",
+      "oute1.odm"
+    ],
+    "sgstrst": [
+      "outc1.odm"
+    ],
+    "gstrsbw": [
+      "outc1.odm",
+      "outd2.odm",
+      "oute1.odm"
+    ],
+    "csaro128": [
+      "outc1.odm",
+      "oute2.odm"
+    ],
+    "smalldr": [
+      "outc1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "gset02": [
+      "outc1.odm",
+      "outc2.odm",
+      "oute1.odm"
+    ],
+    "sdkdorb": [
+      "outc1.odm"
+    ],
+    "sdkwlew": [
+      "outc1.odm"
+    ],
+    "mercmid": [
+      "outc1.odm",
+      "outd1.odm",
+      "oute2.odm"
+    ],
+    "sdkwwn1": [
+      "outc1.odm"
+    ],
+    "gstrrf": [
+      "outc1.odm",
+      "outd2.odm"
+    ],
+    "elem-all": [
+      "outc1.odm",
+      "oute3.odm"
+    ],
+    "sdkwwnde": [
+      "outc1.odm"
+    ],
+    "bemsh16b": [
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm"
+    ],
+    "bdksh16c": [
+      "outc1.odm",
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "sgstrlew": [
+      "outc1.odm"
+    ],
+    "sgstrrew": [
+      "outc1.odm"
+    ],
+    "bemsh32b": [
+      "outc1.odm",
+      "oute2.odm"
+    ],
+    "bemv16c": [
+      "outc1.odm",
+      "oute2.odm"
+    ],
+    "dkwsmbwl": [
+      "outc1.odm"
+    ],
+    "sgstrwde": [
+      "outc1.odm"
+    ],
+    "sgldorb": [
+      "outc1.odm"
+    ],
+    "roof1": [
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm"
+    ],
+    "pbroof": [
+      "outc2.odm",
+      "outc3.odm",
+      "outd2.odm",
+      "oute2.odm"
+    ],
+    "pbrrew": [
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "pbrle": [
+      "outc2.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "pbrdr1": [
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "pbrlew": [
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "pbrst": [
+      "outc2.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "pbrre": [
+      "outc2.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "pbrwn": [
+      "outc2.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "tdoord": [
+      "outc2.odm",
+      "outd3.odm"
+    ],
+    "strle": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "strre": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "roof": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "elemfire": [
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "strdr2": [
+      "outc2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "gset07": [
+      "outc2.odm"
+    ],
+    "strwin1": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "strroof1": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute2.odm"
+    ],
+    "strdr": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "bmsctr": [
+      "outc2.odm",
+      "outc3.odm"
+    ],
+    "gset04": [
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "pbrdr": [
+      "outc2.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "gbend": [
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "glass11": [
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "elemair": [
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "tavsmdr": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "tavwre": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "tavwle": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute3.odm"
+    ],
+    "pbtrm": [
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "strlew": [
+      "outc2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "strctclm": [
+      "outc2.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "strrew": [
+      "outc2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "bembllg": [
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "elemerth": [
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "glass2": [
+      "outc2.odm",
+      "outd1.odm",
+      "oute2.odm"
+    ],
+    "t1lava": [
+      "outc2.odm"
+    ],
+    "pbsmwl": [
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "cbeam5": [
+      "outc2.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "gbsmdr": [
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "pbrsde": [
+      "outc2.odm",
+      "oute2.odm"
+    ],
+    "pbtrvr1": [
+      "outc2.odm"
+    ],
+    "pbtrvl1": [
+      "outc2.odm"
+    ],
+    "gset03": [
+      "outc2.odm"
+    ],
+    "roklft": [
+      "outc2.odm"
+    ],
+    "rokrt": [
+      "outc2.odm"
+    ],
+    "rokcsm": [
+      "outc2.odm"
+    ],
+    "rokwin": [
+      "outc2.odm"
+    ],
+    "rokend": [
+      "outc2.odm"
+    ],
+    "rokdr2": [
+      "outc2.odm"
+    ],
+    "rokdr": [
+      "outc2.odm"
+    ],
+    "selfbody": [
+      "outc2.odm",
+      "outd3.odm"
+    ],
+    "selfsprt": [
+      "outc2.odm",
+      "outd3.odm"
+    ],
+    "cbmdk1": [
+      "outc2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "cbeam6": [
+      "outc2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "cedsqrdk": [
+      "outc2.odm",
+      "oute3.odm"
+    ],
+    "d2ceil1": [
+      "outc2.odm",
+      "outd1.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "d2ceil2": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "bemsv32a": [
+      "outc2.odm",
+      "outd1.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "mercrich": [
+      "outc2.odm"
+    ],
+    "trim11_32": [
+      "outc2.odm"
+    ],
+    "sginn": [
+      "outc2.odm"
+    ],
+    "elemwatr": [
+      "outc2.odm"
+    ],
+    "ns8s06": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s02": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s09": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s01": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s10": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s11": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s08": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s04": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s03": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s07": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s00": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "ns8s05": [
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "swpend1": [
+      "outc3.odm"
+    ],
+    "whtrim": [
+      "outc3.odm"
+    ],
+    "swprrf2": [
+      "outc3.odm"
+    ],
+    "swprrf1": [
+      "outc3.odm"
+    ],
+    "swpcnr2": [
+      "outc3.odm"
+    ],
+    "swpwin1": [
+      "outc3.odm"
+    ],
+    "swprt1": [
+      "outc3.odm"
+    ],
+    "swplft1": [
+      "outc3.odm"
+    ],
+    "swpdr1a": [
+      "outc3.odm"
+    ],
+    "swpdr1": [
+      "outc3.odm"
+    ],
+    "whrf": [
+      "outc3.odm"
+    ],
+    "swpcnr1": [
+      "outc3.odm"
+    ],
+    "tavpoor1": [
+      "outc3.odm"
+    ],
+    "swprrf3": [
+      "outc3.odm"
+    ],
+    "whend": [
+      "outc3.odm"
+    ],
+    "whcntr": [
+      "outc3.odm"
+    ],
+    "whrt": [
+      "outc3.odm"
+    ],
+    "whft": [
+      "outc3.odm"
+    ],
+    "swprf": [
+      "outc3.odm"
+    ],
+    "bmsde": [
+      "outc3.odm"
+    ],
+    "bmsle": [
+      "outc3.odm"
+    ],
+    "bmsre": [
+      "outc3.odm"
+    ],
+    "bmsctr1": [
+      "outc3.odm"
+    ],
+    "bmslgdr": [
+      "outc3.odm"
+    ],
+    "bmsle1": [
+      "outc3.odm"
+    ],
+    "bmsre1": [
+      "outc3.odm"
+    ],
+    "brxendwn": [
+      "outc3.odm"
+    ],
+    "brxdr": [
+      "outc3.odm"
+    ],
+    "brxcntr": [
+      "outc3.odm"
+    ],
+    "bmsctrw1": [
+      "outc3.odm"
+    ],
+    "brxend": [
+      "outc3.odm"
+    ],
+    "brxlft": [
+      "outc3.odm"
+    ],
+    "brxrt": [
+      "outc3.odm"
+    ],
+    "bmssmdr": [
+      "outc3.odm"
+    ],
+    "bmsde1": [
+      "outc3.odm"
+    ],
+    "whlftw": [
+      "outc3.odm"
+    ],
+    "whwin": [
+      "outc3.odm"
+    ],
+    "whdor": [
+      "outc3.odm"
+    ],
+    "whrtw": [
+      "outc3.odm"
+    ],
+    "brxwn": [
+      "outc3.odm"
+    ],
+    "brxrwn": [
+      "outc3.odm"
+    ],
+    "whcntr1": [
+      "outc3.odm"
+    ],
+    "swplft3a": [
+      "outc3.odm"
+    ],
+    "swpend3": [
+      "outc3.odm"
+    ],
+    "swprt3a": [
+      "outc3.odm"
+    ],
+    "swpdr3a": [
+      "outc3.odm"
+    ],
+    "swpdr3": [
+      "outc3.odm"
+    ],
+    "swplft3": [
+      "outc3.odm"
+    ],
+    "swpwin3": [
+      "outc3.odm"
+    ],
+    "swprt3": [
+      "outc3.odm"
+    ],
+    "swprt1a": [
+      "outc3.odm"
+    ],
+    "swplft1a": [
+      "outc3.odm"
+    ],
+    "brxlwn": [
+      "outc3.odm"
+    ],
+    "pbdorb": [
+      "outc3.odm"
+    ],
+    "crside": [
+      "outc3.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "cr64": [
+      "outc3.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "plgle1w": [
+      "outd1.odm"
+    ],
+    "plgsmdr": [
+      "outd1.odm"
+    ],
+    "plgre1w": [
+      "outd1.odm"
+    ],
+    "plgre1": [
+      "outd1.odm"
+    ],
+    "plgctr1": [
+      "outd1.odm"
+    ],
+    "plgle1": [
+      "outd1.odm"
+    ],
+    "plgctr1w": [
+      "outd1.odm"
+    ],
+    "self-all": [
+      "outd1.odm",
+      "oute3.odm"
+    ],
+    "tavldyre": [
+      "outd1.odm",
+      "oute3.odm"
+    ],
+    "tavldyle": [
+      "outd1.odm",
+      "oute3.odm"
+    ],
+    "rhre": [
+      "outd1.odm"
+    ],
+    "rhle": [
+      "outd1.odm",
+      "oute3.odm"
+    ],
+    "rhctrw": [
+      "outd1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "rhdr1": [
+      "outd1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "rhctr": [
+      "outd1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "bdksh32c": [
+      "outd1.odm"
+    ],
+    "rh128": [
+      "outd1.odm"
+    ],
+    "rhdr2": [
+      "outd1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "bemh": [
+      "outd1.odm"
+    ],
+    "apothmid": [
+      "outd1.odm"
+    ],
+    "gstrrew": [
+      "outd2.odm"
+    ],
+    "gstrlew": [
+      "outd2.odm"
+    ],
+    "gstrdr": [
+      "outd2.odm",
+      "oute1.odm"
+    ],
+    "gstrwn1": [
+      "outd2.odm",
+      "oute1.odm"
+    ],
+    "gstrwde": [
+      "outd2.odm"
+    ],
+    "tavgobln": [
+      "outd2.odm"
+    ],
+    "gldorb": [
+      "outd2.odm",
+      "oute1.odm"
+    ],
+    "glstrde": [
+      "outd2.odm"
+    ],
+    "strwin2": [
+      "outd2.odm",
+      "oute2.odm"
+    ],
+    "hcwall": [
+      "outd3.odm"
+    ],
+    "hcw1ctr": [
+      "outd3.odm"
+    ],
+    "hclgdr": [
+      "outd3.odm"
+    ],
+    "hcw1re": [
+      "outd3.odm"
+    ],
+    "hcw1le": [
+      "outd3.odm"
+    ],
+    "hcuniq2": [
+      "outd3.odm"
+    ],
+    "hcuniq3": [
+      "outd3.odm"
+    ],
+    "hctriw": [
+      "outd3.odm"
+    ],
+    "sign7": [
+      "outd3.odm"
+    ],
+    "sign5": [
+      "outd3.odm"
+    ],
+    "t1d3": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "t1wl0lg": [
+      "outd3.odm"
+    ],
+    "t1wl1lea": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "t1wl1rea": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "t1wl0sm": [
+      "outd3.odm"
+    ],
+    "t1f2": [
+      "outd3.odm"
+    ],
+    "thre": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "thle": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "thlgdr": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "thsmdr": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "thctr": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "thctrw1": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "hcsmdr": [
+      "outd3.odm"
+    ],
+    "t1wl1lea1": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "t1d1": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "t1wl1leb": [
+      "outd3.odm"
+    ],
+    "t1wl1reb": [
+      "outd3.odm"
+    ],
+    "bemdk4": [
+      "outd3.odm"
+    ],
+    "bemdk3": [
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "cbfbm16c": [
+      "outd3.odm"
+    ],
+    "selfmind": [
+      "outd3.odm"
+    ],
+    "bcsctr": [
+      "outd3.odm"
+    ],
+    "t1trimb": [
+      "outd3.odm"
+    ],
+    "hcw1leb": [
+      "outd3.odm"
+    ],
+    "hcw1reb": [
+      "outd3.odm"
+    ],
+    "hcwindo": [
+      "outd3.odm"
+    ],
+    "hcbalcwb": [
+      "outd3.odm"
+    ],
+    "bemsv32b": [
+      "outd3.odm"
+    ],
+    "hcdoor32": [
+      "outd3.odm"
+    ],
+    "mswallm": [
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "gset01": [
+      "oute1.odm"
+    ],
+    "msroof": [
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "t1c2": [
+      "oute1.odm",
+      "oute3.odm"
+    ],
+    "mswinm": [
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "mswalll": [
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "mswallr": [
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "mswaldc": [
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "msdord": [
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "mswalld": [
+      "oute1.odm"
+    ],
+    "mswinm4": [
+      "oute1.odm"
+    ],
+    "gstmed": [
+      "oute1.odm"
+    ],
+    "rblst": [
+      "oute1.odm",
+      "oute3.odm"
+    ],
+    "px1le": [
+      "oute1.odm"
+    ],
+    "px1ctr": [
+      "oute1.odm"
+    ],
+    "px1lew": [
+      "oute1.odm"
+    ],
+    "px1rew": [
+      "oute1.odm"
+    ],
+    "px1re": [
+      "oute1.odm"
+    ],
+    "pxsre": [
+      "oute1.odm"
+    ],
+    "pxsle": [
+      "oute1.odm"
+    ],
+    "msdor2": [
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "px128": [
+      "oute1.odm"
+    ],
+    "csdwndw": [
+      "oute2.odm"
+    ],
+    "cswl256": [
+      "oute2.odm"
+    ],
+    "csde256": [
+      "oute2.odm"
+    ],
+    "csdearo": [
+      "oute2.odm"
+    ],
+    "cswndw": [
+      "oute2.odm"
+    ],
+    "pbdorb1": [
+      "oute2.odm"
+    ],
+    "cnclrich": [
+      "oute2.odm"
+    ],
+    "mswinm3": [
+      "oute2.odm"
+    ],
+    "mswinm2": [
+      "oute2.odm"
+    ],
+    "wood011": [
+      "oute2.odm"
+    ],
+    "qtargtsd": [
+      "oute2.odm"
+    ],
+    "qtargtop": [
+      "oute2.odm"
+    ],
+    "wood018a": [
+      "oute2.odm"
+    ],
+    "mswinr": [
+      "oute2.odm"
+    ],
+    "mswinr1": [
+      "oute2.odm"
+    ],
+    "rblbw": [
+      "oute3.odm"
+    ],
+    "crdflr4": [
+      "oute3.odm"
+    ],
+    "rblmt": [
+      "oute3.odm"
+    ],
+    "tdoora": [
+      "oute3.odm"
+    ],
+    "t1c3": [
+      "oute3.odm"
+    ],
+    "t1wl5lec": [
+      "oute3.odm"
+    ],
+    "t1wl5rea": [
+      "oute3.odm"
+    ],
+    "t1wl5lea": [
+      "oute3.odm"
+    ],
+    "t1wl4spb": [
+      "oute3.odm"
+    ],
+    "top32": [
+      "oute3.odm"
+    ],
+    "sign128": [
+      "oute3.odm"
+    ],
+    "sidert32": [
+      "oute3.odm"
+    ],
+    "t1wl5ct": [
+      "oute3.odm"
+    ],
+    "t1wl4w": [
+      "oute3.odm"
+    ],
+    "thuniq2": [
+      "oute3.odm"
+    ],
+    "thctrw2": [
+      "oute3.odm"
+    ],
+    "cbeam2": [
+      "oute3.odm"
+    ],
+    "plstrdr": [
+      "oute3.odm"
+    ],
+    "t1wl4ctr": [
+      "oute3.odm"
+    ],
+    "t3c2": [
+      "oute3.odm"
+    ],
+    "thuniq1": [
+      "oute3.odm"
+    ],
+    "tewld": [
+      "oute3.odm"
+    ],
+    "tewdw": [
+      "oute3.odm"
+    ],
+    "d2lgdor": [
+      "oute3.odm"
+    ],
+    "rblst1": [
+      "oute3.odm"
+    ],
+    "rblre": [
+      "oute3.odm"
+    ],
+    "rblle": [
+      "oute3.odm"
+    ],
+    "t1wl1cts": [
+      "oute3.odm"
+    ],
+    "t1w11a": [
+      "oute3.odm"
+    ],
+    "oflr": [
+      "oute3.odm"
+    ]
+  },
+  "event_states": {
+    "t1swdu": [
+      "6d01.lua"
+    ],
+    "t1swdd": [
+      "6d01.lua"
+    ],
+    "t3ll6": [
+      "6d05.lua"
+    ],
+    "t3s1on": [
+      "6d08.lua"
+    ],
+    "mystryb": [
+      "6d08.lua"
+    ],
+    "t3s1off": [
+      "6d08.lua"
+    ],
+    "john01": [
+      "6d12.lua"
+    ],
+    "d5walc": [
+      "6d12.lua"
+    ],
+    "d6flora": [
+      "6d13.lua",
+      "6d13_mmmerge.lua"
+    ],
+    "d8s2on": [
+      "6d16.lua",
+      "zddb07.lua",
+      "zddb10.lua"
+    ],
+    "d7wl1ctr2": [
+      "6d17.lua"
+    ],
+    "paladn01": [
+      "6d17.lua"
+    ],
+    "sky_nit1": [
+      "6t4.lua"
+    ],
+    "orair256": [
+      "6t4.lua"
+    ],
+    "sky_sns1": [
+      "6t4.lua"
+    ],
+    "t1swbu": [
+      "6t8.lua"
+    ],
+    "t1swbd": [
+      "6t8.lua"
+    ],
+    "deskside": [
+      "cd2.lua"
+    ],
+    "lavatyl": [
+      "cd2.lua"
+    ],
+    "orwtrtyl": [
+      "cd2.lua"
+    ],
+    "trekscon": [
+      "oracle.lua",
+      "sci-fi.lua",
+      "sci-fi_mmmerge.lua"
+    ],
+    "trekscrn": [
+      "oracle.lua"
+    ],
+    "d3ll6": [
+      "zddb06.lua"
+    ]
+  },
+  "terrain": {
+    "6dirttyl": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "crktyl": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtne": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtse": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtnw": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtsw": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrte": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtw": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtn": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrts": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtxne": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtxse": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtxnw": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "crkdrtxsw": [
+      "outa1.odm",
+      "outa2.odm"
+    ],
+    "6wtrtyl": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrne": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrse": [
+      "outa1.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrnw": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrsw": [
+      "outa1.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdre": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrw": [
+      "outa1.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrn": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrs": [
+      "outa1.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrxne": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrxse": [
+      "outa1.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrxnw": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6wtrdrxsw": [
+      "outa1.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "snotyl": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrne": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrse": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrnw": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrsw": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodre": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrw": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrn": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrs": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrxne": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrxse": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrxnw": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "snodrxsw": [
+      "outa1.odm",
+      "outb1.odm",
+      "outc1.odm"
+    ],
+    "6drsrns": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6drsrew": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6drsrn_e": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6drsrn_w": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6drsrs_e": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6drsrs_w": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6drsrns_e": [
+      "outa1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "6drsrncap": [
+      "outa1.odm",
+      "outa2.odm",
+      "outa3.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "6drsrecap": [
+      "outa1.odm",
+      "outa2.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6drsrscap": [
+      "outa1.odm",
+      "outa2.odm",
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm"
+    ],
+    "6sandtyl": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "6sndrtne": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "6sndrtse": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "6sndrtnw": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "6sndrtsw": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "6sndrte": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "6sndrtw": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "6sndrtn": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "6sndrts": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "6sndrtxne": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "6sndrtxse": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm"
+    ],
+    "6sndrtxnw": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "6sndrtxsw": [
+      "outa2.odm",
+      "outa3.odm",
+      "outb2.odm",
+      "outb3.odm"
+    ],
+    "6drsrew_n": [
+      "outa2.odm",
+      "outb2.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "6drsrew_s": [
+      "outa2.odm",
+      "outb1.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd3.odm",
+      "oute3.odm"
+    ],
+    "6voltyl": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtne": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtse": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtnw": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtsw": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrte": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtw": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtn": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrts": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtxne": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtxse": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtxnw": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "voldrtxsw": [
+      "outa3.odm",
+      "outb1.odm",
+      "oute3.odm"
+    ],
+    "6drsrwcap": [
+      "outb1.odm",
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outc3.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grastyl": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtne": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtse": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtnw": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtsw": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrte": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtw": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtn": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrts": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtxne": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtxse": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtxnw": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6grdrtxsw": [
+      "outb2.odm",
+      "outb3.odm",
+      "outc2.odm",
+      "outd1.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute1.odm",
+      "oute2.odm",
+      "oute3.odm"
+    ],
+    "6drsrns_w": [
+      "outb2.odm",
+      "outc1.odm",
+      "outc2.odm",
+      "outd2.odm",
+      "outd3.odm",
+      "oute2.odm"
+    ],
+    "6drsrcros": [
+      "outc1.odm",
+      "outc2.odm",
+      "outd1.odm"
+    ],
+    "swmtyl": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrne": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrse": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrnw": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrsw": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdre": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrw": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrn": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrs": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrxne": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrxse": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrxnw": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "swmdrxsw": [
+      "outc3.odm",
+      "outd3.odm"
+    ],
+    "troptyl": [
+      "outd2.odm"
+    ],
+    "tropne": [
+      "outd2.odm"
+    ],
+    "tropse": [
+      "outd2.odm"
+    ],
+    "tropnw": [
+      "outd2.odm"
+    ],
+    "tropsw": [
+      "outd2.odm"
+    ],
+    "trope": [
+      "outd2.odm"
+    ],
+    "tropw": [
+      "outd2.odm"
+    ],
+    "tropn": [
+      "outd2.odm"
+    ],
+    "trops": [
+      "outd2.odm"
+    ],
+    "tropxne": [
+      "outd2.odm"
+    ],
+    "tropxse": [
+      "outd2.odm"
+    ],
+    "tropxnw": [
+      "outd2.odm"
+    ],
+    "tropxsw": [
+      "outd2.odm"
+    ]
+  },
+  "only_invisible_initial_faces": [
+    "apothmid",
+    "cbfbm16"
+  ]
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenYAMM · Carved Obsidian menus</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="review-bar">
+    <a href="../hud_overlay_study_20260927/index.html">OpenYAMM <span>/ Carved Obsidian</span></a>
+    <div class="review-tools">
+      <label>Screen <select id="review-screen" aria-label="Preview screen"></select></label>
+      <label>Buttons <select id="review-font" aria-label="Button lettering"><option value="fondamento">Fondamento</option><option value="almendra">Almendra</option></select></label>
+      <label>Background <select id="review-background" aria-label="Main menu background"></select></label>
+      <label>Saves <select id="review-saves" aria-label="Save data example"><option value="sample">Sample library</option><option value="empty">Empty library</option></select></label>
+      <button id="fullscreen" type="button">Full screen ↗</button>
+      <a href="README.md">Design &amp; audit ↗</a>
+    </div>
+  </header>
+  <main>
+    <div id="stage-wrap"><section id="stage" aria-label="Interactive menu design" class="font-fondamento">
+      <div id="backdrop" aria-hidden="true"></div>
+      <div id="screen"></div>
+      <div id="toast" role="status" aria-live="polite"></div>
+      <div id="modal-root"></div>
+    </section></div>
+    <div class="review-caption"><span>INTERACTIVE DESIGN STUDY · 03</span><span>Sample saves &amp; settings · Browser only · No game files changed</span><span>Tab to focus · Enter to choose · Esc to return</span></div>
+    <section class="background-review" aria-label="Main menu background comparison">
+      <div class="background-review-head"><div><h2>Main menu backgrounds</h2><p id="background-credit"></p></div><p>Same menu, four directions. Online artwork is included for local comparison.</p></div>
+      <div id="background-choices"></div>
+    </section>
+    <section class="review-notes">
+      <div><h2>A familiar world. A common language.</h2><p>Rough obsidian, worn brass, a quiet celestial seal. Fondamento actions and headings, with the recreated OpenYAMM Arrus and Lucida fonts for text and values.</p></div>
+      <div><h3>Try the whole journey</h3><p>Start a party, spend attribute points, choose skills, browse a save, or pause an adventure. Options keep your place as you move between categories.</p></div>
+      <div><h3>Try the difficult states</h3><p>Assign an occupied key, leave unapplied settings, change the display mode, overwrite a save, or choose the empty library above.</p></div>
+    </section>
+  </main>
+  <script src="data.js"></script>
+  <script src="backgrounds.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

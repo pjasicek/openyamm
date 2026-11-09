@@ -1,0 +1,135 @@
+{
+  "tool": "built-in image_gen",
+  "paid_meshy_jobs": 12,
+  "runs": [
+    {
+      "name": "material",
+      "selected": true,
+      "image": "level_generation/props/items_wip_props/references/material_atlas_v1.png",
+      "sha256": "fc029991a4552b382502e515875f29d24104a2dd1a99367ada100201c594e98e",
+      "prompt": "level_generation/props/items_wip_props/references/material_atlas_prompt.txt",
+      "derivation": "crop equal UV cells with 3 or 5 pixel gutter exclusion; resize to 256 or 512 PNG"
+    },
+    {
+      "name": "detail",
+      "selected": true,
+      "image": "level_generation/props/items_wip_props/references/detail_atlas_v1.png",
+      "sha256": "7a1539c24d48014456869155ac15956a328716a7531fd44013696071b1ef8c70",
+      "prompt": "level_generation/props/items_wip_props/references/detail_atlas_prompt.txt",
+      "derivation": "crop equal UV cells with 3 or 5 pixel gutter exclusion; resize to 256 or 512 PNG"
+    },
+    {
+      "name": "panels",
+      "selected": true,
+      "image": "level_generation/props/items_wip_props/references/panels_atlas_v1.png",
+      "sha256": "7dc23a8cb248e0fc1fd926b1e9a18fb6476eed2c0c7577ddbb5eb8cfa0826d39",
+      "prompt": "level_generation/props/items_wip_props/references/panels_atlas_prompt.txt",
+      "derivation": "crop equal UV cells with 3 or 5 pixel gutter exclusion; resize to 256 or 512 PNG"
+    },
+    {
+      "name": "identity",
+      "selected": true,
+      "image": "level_generation/props/items_wip_props/references/identity_atlas_v1.png",
+      "sha256": "c1841d928977783adcc720ade12b8abfc12458248b38bca26809d9e50a361a44",
+      "prompt": "level_generation/props/items_wip_props/references/identity_atlas_prompt.txt",
+      "derivation": "crop equal UV cells with 3 or 5 pixel gutter exclusion; resize to 256 or 512 PNG"
+    }
+  ],
+  "paid_meshy_credits": 60,
+  "paid_retries": 0,
+  "approval": "User: meshy approval granted",
+  "meshy_receipts": "meshy/creature_3d_progress.json",
+  "sculptural_models": {
+    "7item368": {
+      "master": "level_generation/props/items_wip_props/meshy/props_7item368/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_7item368/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_7item368/bake_report.json",
+      "mesh_job": "props_7item368_st_v1",
+      "mesh_credits": 5,
+      "metal": "level_generation/props/items_wip_props/codex_tex/props_7item368/metal_generation.json"
+    },
+    "7item371": {
+      "master": "level_generation/props/items_wip_props/meshy/props_7item371/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_7item371/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_7item371/bake_report.json",
+      "mesh_job": "props_7item371_st_v1",
+      "mesh_credits": 5
+    },
+    "7item372": {
+      "master": "level_generation/props/items_wip_props/meshy/props_7item372/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_7item372/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_7item372/bake_report.json",
+      "mesh_job": "props_7item372_st_v1",
+      "mesh_credits": 5
+    },
+    "7item373": {
+      "master": "level_generation/props/items_wip_props/meshy/props_7item373/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_7item373/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_7item373/bake_report.json",
+      "mesh_job": "props_7item373_st_v1",
+      "mesh_credits": 5
+    },
+    "7item374": {
+      "master": "level_generation/props/items_wip_props/meshy/props_7item374/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_7item374/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_7item374/bake_report.json",
+      "mesh_job": "props_7item374_st_v1",
+      "mesh_credits": 5
+    },
+    "harp": {
+      "master": "level_generation/props/items_wip_props/meshy/props_harp/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_harp/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_harp/bake_report.json",
+      "mesh_job": "props_harp_st_v1",
+      "mesh_credits": 5,
+      "metal": "level_generation/props/items_wip_props/codex_tex/props_harp/metal_generation.json"
+    },
+    "horn": {
+      "master": "level_generation/props/items_wip_props/meshy/props_horn/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_horn/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_horn/bake_report.json",
+      "mesh_job": "props_horn_st_v1",
+      "mesh_credits": 5,
+      "metal": "level_generation/props/items_wip_props/codex_tex/props_horn/metal_generation.json"
+    },
+    "item267": {
+      "master": "level_generation/props/items_wip_props/meshy/props_item267/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_item267/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_item267/bake_report.json",
+      "mesh_job": "props_item267_st_v1",
+      "mesh_credits": 5
+    },
+    "item276": {
+      "master": "level_generation/props/items_wip_props/meshy/props_item276/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_item276/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_item276/bake_report.json",
+      "mesh_job": "props_item276_st_v1",
+      "mesh_credits": 5,
+      "metal": "level_generation/props/items_wip_props/codex_tex/props_item276/metal_generation.json"
+    },
+    "memcryst": {
+      "master": "level_generation/props/items_wip_props/meshy/props_memcryst/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_memcryst/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_memcryst/bake_report.json",
+      "mesh_job": "props_memcryst_st_v1",
+      "mesh_credits": 5,
+      "cleanup": "Voxel exterior repair at 0.008 authoring units, reduced to 3200 triangles. Paint sources retained; original guides archived in guides_before_cleanup."
+    },
+    "lockpick": {
+      "master": "level_generation/props/items_wip_props/meshy/props_lockpick/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_lockpick/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_lockpick/bake_report.json",
+      "mesh_job": "props_lockpick_st_v1",
+      "mesh_credits": 5,
+      "metal": "level_generation/props/items_wip_props/codex_tex/props_lockpick/metal_generation.json",
+      "corrected_end_views": "level_generation/props/items_wip_props/codex_tex/props_lockpick/paint_corrected_end_views.json"
+    },
+    "amber": {
+      "master": "level_generation/props/items_wip_props/meshy/props_amber/references_hd/generation_runs.json",
+      "paint": "level_generation/props/items_wip_props/codex_tex/props_amber/paint_generation.json",
+      "bake": "level_generation/props/items_wip_props/codex_tex/props_amber/bake_report.json",
+      "mesh_job": "props_amber_st_v1",
+      "mesh_credits": 5
+    }
+  }
+}

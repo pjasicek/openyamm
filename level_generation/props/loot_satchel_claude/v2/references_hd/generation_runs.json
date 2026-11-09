@@ -1,0 +1,1724 @@
+{
+  "brief": "CODEX_BRIEF.md",
+  "runs": [
+    {
+      "id": "master_001",
+      "prompt": "Use case: stylized-concept.\nAsset type: single master reference for a ~900-triangle Might and Magic VI loot sack mesh.\nInput image 1 is the user-approved concept E design sheet: use the SHAPE of the plump top-row sacks and the RUST LEATHER material of sack 3. Input image 2 is STYLE ONLY: match its warm, saturated, semi-realistic prerendered game-prop look, but include absolutely NO COINS.\nProduce exactly ONE isolated sack, native 1024 x 1024 square PNG with genuine transparent alpha background.\nCamera: near-orthographic three-quarter view, camera 35 degrees to the RIGHT of the front, 30 degrees elevation above horizontal. The front clasp and both short cord ends must be clearly visible. Keep the entire sack centered, approximately 15 percent transparent margin on every side, consistent width/height in frame.\nSubject: a plump rounded slightly pear-shaped drawstring sack, broad flat base, compact upper gathered ruffled neck. The neck is tightly gathered CLOSED: the ruffles meet toward the center; no open mouth, no visible interior or contents. Twisted brown leather cord tied twice around the neck, one knot at FRONT CENTER. On that knot a plain ROUND FLAT BRASS CLASP DISC, diameter about ONE FIFTH the width of the body. Exactly TWO SHORT cord ends descend from the knot against the FRONT surface of the sack, with simple ROUND BRASS BEADS at their tips. The ends lie against the body; no free-hanging loops or attachments.\nMaterial: tanned RUST-BROWN LEATHER, warm reddish brown, rich natural leather grain and modest stitched seams; brown leather neck cord; plain brass clasp disc and brass beads. No embroidery, gemstones or glow on this tier.\nKeep a simple strong coherent silhouette like the concept, suitable for a single low-poly game mesh. Realistic but slightly painted prerendered finish, saturated warm colour, readable volume.\nEven soft NEUTRAL studio light from above, consistent gentle highlights, no dramatic rim light, no colored illumination.\nABSOLUTELY NO floor, no ground plane, no cast shadow, no background gradient, no text, no numbering, no labels, no watermark, no straps, no buckles, no coins, no spilled items. Only the single sack with clean alpha edges.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/concept_E.png",
+          "sha256": "d215638c89aa1425c766c5a29c1e4e512263e723c7025d53a688c7240e621e97"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+          "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+        }
+      ],
+      "output_path": "runs/master_001.png",
+      "selected": false,
+      "reason": "Rejected: insufficient transparent margins, neck reads as open, native return is 1254x1254 rather than requested 1024x1024.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        19,
+        1234,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "16c2f669bf4b591a7333b02396ff2366182c2df2b4034f60e551a96f6fe20a66",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-d8b1269b-6980-4fe4-a9d0-51b55fbed1f2.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          171,
+          107,
+          1096,
+          1155
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1364,
+          0.0853,
+          0.126,
+          0.0789
+        ]
+      },
+      "superseded_by": "master_002"
+    },
+    {
+      "id": "master_002",
+      "prompt": "Use case: stylized-concept.\nAsset type: single master reference for a ~900-triangle Might and Magic VI loot sack mesh.\nInput image 1 is the user-approved concept E design sheet: use the SHAPE of the plump top-row sacks and the RUST LEATHER material of sack 3. Input image 2 is STYLE ONLY: match its warm, saturated, semi-realistic prerendered game-prop look, but include absolutely NO COINS.\nProduce exactly ONE isolated sack, native 1024 x 1024 square PNG with genuine transparent alpha background.\nCamera: near-orthographic three-quarter view, camera 35 degrees to the RIGHT of the front, 30 degrees elevation above horizontal. The front clasp and both short cord ends must be clearly visible. Keep the entire sack centered, approximately 15 percent transparent margin on every side, consistent width/height in frame.\nSubject: a plump rounded slightly pear-shaped drawstring sack, broad flat base, compact upper gathered ruffled neck. The neck is tightly gathered CLOSED: the ruffles meet toward the center; no open mouth, no visible interior or contents. Twisted brown leather cord tied twice around the neck, one knot at FRONT CENTER. On that knot a plain ROUND FLAT BRASS CLASP DISC, diameter about ONE FIFTH the width of the body. Exactly TWO SHORT cord ends descend from the knot against the FRONT surface of the sack, with simple ROUND BRASS BEADS at their tips. The ends lie against the body; no free-hanging loops or attachments.\nMaterial: tanned RUST-BROWN LEATHER, warm reddish brown, rich natural leather grain and modest stitched seams; brown leather neck cord; plain brass clasp disc and brass beads. No embroidery, gemstones or glow on this tier.\nKeep a simple strong coherent silhouette like the concept, suitable for a single low-poly game mesh. Realistic but slightly painted prerendered finish, saturated warm colour, readable volume.\nEven soft NEUTRAL studio light from above, consistent gentle highlights, no dramatic rim light, no colored illumination.\nABSOLUTELY NO floor, no ground plane, no cast shadow, no background gradient, no text, no numbering, no labels, no watermark, no straps, no buckles, no coins, no spilled items. Only the single sack with clean alpha edges.\nCritical correction: render the sack SMALLER within the canvas, its visible solid silhouette bounded strictly within x=154..870 and y=154..870 on a 1024x1024 output. Leave a completely empty transparent border at least 15% wide on ALL FOUR sides. Output native dimensions MUST BE EXACTLY 1024 x 1024 pixels, not 1254 or any other size. Close the upper opening: the ruffled lobes should gather together into a sealed pinched center, so the top shows ONLY folded leather with NO hollow or interior cavity. Use the requested genuine oblique 35-degree angle; put the front clasp toward image LEFT of center because the camera is on the sack's RIGHT side.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/concept_E.png",
+          "sha256": "d215638c89aa1425c766c5a29c1e4e512263e723c7025d53a688c7240e621e97"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/references_hd/native_gold_piles.png",
+          "sha256": "279a77a2dc47a4f8c3489e0bc3c34f904ca6d489825ff5a0acc28ee86c80703b"
+        }
+      ],
+      "output_path": "master/00_three_quarter.png",
+      "selected": true,
+      "reason": "Selected for visual design: closed gathered neck, visible clasp and two bead ends, rust leather, right three-quarter camera, clean full silhouette. Native 1254x1254 preserved; requested 1024 size is not exposed by built-in tool and user clarification is pending.",
+      "superseded_runs": [
+        "master_001"
+      ],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        21,
+        1206,
+        1230
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-870a4d37-2d68-42b3-a325-200acbf65f32.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          281,
+          233,
+          986,
+          1038
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2241,
+          0.1858,
+          0.2137,
+          0.1722
+        ]
+      }
+    },
+    {
+      "id": "t3_01_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the accepted TIER 3 MASTER and is authoritative for the geometry and material. Re-render this exact sack at the requested angle; do not invent a different sack.\nRequested view: FRONT: camera azimuth exactly 0 degrees, looking squarely at the front center. The clasp is centered horizontally, both bead ends visible symmetrically just below it.\nMaterial: tanned RUST-BROWN LEATHER with stitched seams, brown leather cord, plain round flat BRASS clasp disc and round brass beads. No embroidery or gem.\nPreserve the master's exact body fullness, relative neck height, cord thickness, clasp size, and bead spacing. The only change from the input master is camera rotation and the required 20-degree elevation. Use the same leather seams around this one object, no patches.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        }
+      ],
+      "output_path": "t3/01_front.png",
+      "selected": true,
+      "reason": "Selected after visual inspection: correct orthogonal view, closed gathered neck, rust leather and front-only hardware correctly visible or occluded. Transparent native return retained; size clarification pending.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        55,
+        1218,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "008f735bf9ab3ede5730cb9bb839d8db221df16691545d51759c0780b8afdb7f",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-5db0dc20-ffde-428d-9eb8-d0fb48d9629e.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          187,
+          137,
+          1068,
+          1126
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1491,
+          0.1093,
+          0.1483,
+          0.1021
+        ]
+      }
+    },
+    {
+      "id": "t3_02_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the accepted TIER 3 MASTER and is authoritative for the geometry and material. Re-render this exact sack at the requested angle; do not invent a different sack.\nRequested view: BACK: camera azimuth exactly 180 degrees, looking squarely at the BACK of this exact same sack. The FRONT clasp, FRONT knot and BOTH FRONT bead ends are naturally OCCLUDED by the body: do NOT duplicate them on the back. Show only the TWO continuous neck cord wraps around the rear and the same ruffled neck from behind.\nMaterial: tanned RUST-BROWN LEATHER with stitched seams, brown leather cord, plain round flat BRASS clasp disc and round brass beads. No embroidery or gem.\nPreserve the master's exact body fullness, relative neck height, cord thickness, clasp size, and bead spacing. The only change from the input master is camera rotation and the required 20-degree elevation. Use the same leather seams around this one object, no patches.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        }
+      ],
+      "output_path": "t3/02_back.png",
+      "selected": true,
+      "reason": "Selected after visual inspection: correct orthogonal view, closed gathered neck, rust leather and front-only hardware correctly visible or occluded. Transparent native return retained; size clarification pending.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        1242,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "2108db8b235774556db5e9d02b90c878c0408b22a18a5b7190c444c569cb570f",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-f9a1b16b-6657-4ae0-b8b1-26e62ce69954.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          218,
+          184,
+          1037,
+          1087
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": false,
+        "solid_margin_fraction": [
+          0.1738,
+          0.1467,
+          0.173,
+          0.1332
+        ]
+      }
+    },
+    {
+      "id": "t3_03_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the accepted TIER 3 MASTER and is authoritative for the geometry and material. Re-render this exact sack at the requested angle; do not invent a different sack.\nRequested view: OWN LEFT SIDE: camera azimuth exactly -90 degrees from front, looking at the sack's OWN LEFT flank. The FRONT of the sack is at IMAGE RIGHT. The front clasp and the two short front cords with beads can only be edge-on at the RIGHT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nMaterial: tanned RUST-BROWN LEATHER with stitched seams, brown leather cord, plain round flat BRASS clasp disc and round brass beads. No embroidery or gem.\nPreserve the master's exact body fullness, relative neck height, cord thickness, clasp size, and bead spacing. The only change from the input master is camera rotation and the required 20-degree elevation. Use the same leather seams around this one object, no patches.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        }
+      ],
+      "output_path": "t3/03_left.png",
+      "selected": true,
+      "reason": "Selected after visual inspection: correct orthogonal view, closed gathered neck, rust leather and front-only hardware correctly visible or occluded. Transparent native return retained; size clarification pending.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        19,
+        1226,
+        1232
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "6793badd518e1960f269d5892ae02b00b9515667a91313fed01b89999c0b21f3",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-dab773e8-b8f0-4366-b1aa-9742b74a8bb1.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          287,
+          212,
+          968,
+          1044
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2289,
+          0.1691,
+          0.2281,
+          0.1675
+        ]
+      }
+    },
+    {
+      "id": "t3_04_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the accepted TIER 3 MASTER and is authoritative for the geometry and material. Re-render this exact sack at the requested angle; do not invent a different sack.\nRequested view: OWN RIGHT SIDE: camera azimuth exactly +90 degrees from front, looking at the sack's OWN RIGHT flank. The FRONT of the sack is at IMAGE LEFT. The front clasp and the two short front cords with beads can only be edge-on at the LEFT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nMaterial: tanned RUST-BROWN LEATHER with stitched seams, brown leather cord, plain round flat BRASS clasp disc and round brass beads. No embroidery or gem.\nPreserve the master's exact body fullness, relative neck height, cord thickness, clasp size, and bead spacing. The only change from the input master is camera rotation and the required 20-degree elevation. Use the same leather seams around this one object, no patches.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        }
+      ],
+      "output_path": "t3/04_right.png",
+      "selected": true,
+      "reason": "Selected after visual inspection: correct orthogonal view, closed gathered neck, rust leather and front-only hardware correctly visible or occluded. Transparent native return retained; size clarification pending.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        9,
+        1226,
+        1244
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "27a97b76b26f0491b9fb7cdd44fd829e3fb7041bea2ae572352896ea0ab85e2b",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-47e321b1-1ac1-4eca-a66d-c9551250ebe5.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          318,
+          208,
+          995,
+          1046
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2536,
+          0.1659,
+          0.2065,
+          0.1659
+        ]
+      }
+    },
+    {
+      "id": "t1_01_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: FRONT: camera azimuth exactly 0 degrees, looking squarely at the front center. The clasp is centered horizontally, both bead ends visible symmetrically just below it.\nReplace material everywhere on the same geometry with TIER 1: coarse UNDYED BEIGE BURLAP, visible woven jute fibers, natural tan jute cord, plain round flat WOODEN clasp disc and round wooden beads. No gold, leather, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/01_front.png",
+          "sha256": "008f735bf9ab3ede5730cb9bb839d8db221df16691545d51759c0780b8afdb7f"
+        }
+      ],
+      "output_path": "runs/t1_01_001.png",
+      "selected": false,
+      "reason": "Rejected for changed framing/scale relative to matching tier-3 view; will regenerate with numerical frame lock.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        103,
+        1234,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "4c75fa46063238df034d2ff9562b817985f7ddc220780e7ad5c33cad87bda468",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-be3eeb85-2d60-43d1-b535-5b180668200e.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          167,
+          111,
+          1089,
+          1146
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1332,
+          0.0885,
+          0.1316,
+          0.0861
+        ],
+        "silhouette_iou": 0.9210053859964094,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 26
+      },
+      "superseded_by": "t1_01_002"
+    },
+    {
+      "id": "t1_02_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: BACK: camera azimuth exactly 180 degrees, looking squarely at the BACK of this exact same sack. The FRONT clasp, FRONT knot and BOTH FRONT bead ends are naturally OCCLUDED by the body: do NOT duplicate them on the back. Show only the TWO continuous neck cord wraps around the rear and the same ruffled neck from behind.\nReplace material everywhere on the same geometry with TIER 1: coarse UNDYED BEIGE BURLAP, visible woven jute fibers, natural tan jute cord, plain round flat WOODEN clasp disc and round wooden beads. No gold, leather, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/02_back.png",
+          "sha256": "2108db8b235774556db5e9d02b90c878c0408b22a18a5b7190c444c569cb570f"
+        }
+      ],
+      "output_path": "runs/t1_02_001.png",
+      "selected": false,
+      "reason": "Rejected after final measured review: silhouette IoU 0.9634 and bounds differ by up to 20 pixels from matching tier-3 view. Superseded by corrected framing run.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        21,
+        1253,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "88e75797a32769b9a84b6e8fa5fd7919252c8c72d0f34d504825ffaf9f0c6599",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-bf9bcbf4-1307-42bd-9d4a-ca7c618aa144.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          214,
+          185,
+          1057,
+          1091
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1707,
+          0.1475,
+          0.1571,
+          0.13
+        ],
+        "silhouette_iou": 0.9633527149185823,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 20
+      },
+      "superseded_by": "t1_02_002"
+    },
+    {
+      "id": "t1_03_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN LEFT SIDE: camera azimuth exactly -90 degrees from front, looking at the sack's OWN LEFT flank. The FRONT of the sack is at IMAGE RIGHT. The front clasp and the two short front cords with beads can only be edge-on at the RIGHT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 1: coarse UNDYED BEIGE BURLAP, visible woven jute fibers, natural tan jute cord, plain round flat WOODEN clasp disc and round wooden beads. No gold, leather, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/03_left.png",
+          "sha256": "6793badd518e1960f269d5892ae02b00b9515667a91313fed01b89999c0b21f3"
+        }
+      ],
+      "output_path": "runs/t1_03_001.png",
+      "selected": false,
+      "reason": "Rejected for changed framing/scale relative to matching tier-3 view; will regenerate with numerical frame lock.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        23,
+        1208,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "7a481c50540f11d12b3f481914aed57aeb6a8e7b1500eb1ce1e69a3276e60737",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-40d277c5-aa35-4e32-b4d8-1d5ff08d5fa9.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          282,
+          211,
+          975,
+          1045
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2249,
+          0.1683,
+          0.2225,
+          0.1667
+        ],
+        "silhouette_iou": 0.9861345097991685,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 7
+      },
+      "superseded_by": "t1_03_002"
+    },
+    {
+      "id": "t1_04_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN RIGHT SIDE: camera azimuth exactly +90 degrees from front, looking at the sack's OWN RIGHT flank. The FRONT of the sack is at IMAGE LEFT. The front clasp and the two short front cords with beads can only be edge-on at the LEFT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 1: coarse UNDYED BEIGE BURLAP, visible woven jute fibers, natural tan jute cord, plain round flat WOODEN clasp disc and round wooden beads. No gold, leather, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/04_right.png",
+          "sha256": "27a97b76b26f0491b9fb7cdd44fd829e3fb7041bea2ae572352896ea0ab85e2b"
+        }
+      ],
+      "output_path": "runs/t1_04_001.png",
+      "selected": false,
+      "reason": "Rejected for changed framing/scale relative to matching tier-3 view; will regenerate with numerical frame lock.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        47,
+        1240,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "output_sha256": "a31882eaad388fe61ae3eeabbed2b4470c6f6f64b88a11576217a5e97e8d696d",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-d97b2b0e-4a1d-471d-8157-103c703e188d.png",
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          261,
+          141,
+          1068,
+          1129
+        ],
+        "not_cropped": true,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2081,
+          0.1124,
+          0.1483,
+          0.0997
+        ],
+        "silhouette_iou": 0.7112342829955078,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 83
+      },
+      "superseded_by": "t1_04_002"
+    },
+    {
+      "id": "t1_01_002",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: FRONT: camera azimuth exactly 0 degrees, looking squarely at the front center. The clasp is centered horizontally, both bead ends visible symmetrically just below it.\nReplace material everywhere on the same geometry with TIER 1: coarse UNDYED BEIGE BURLAP, visible woven jute fibers, natural tan jute cord, plain round flat WOODEN clasp disc and round wooden beads. No gold, leather, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 14.9%, TOP 10.9%, RIGHT 85.2%, BOTTOM 89.8% of canvas. Body maximum width 70.3% of canvas, total height 78.9%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/01_front.png",
+          "sha256": "008f735bf9ab3ede5730cb9bb839d8db221df16691545d51759c0780b8afdb7f"
+        }
+      ],
+      "output_path": "t1/01_front.png",
+      "selected": true,
+      "reason": "Visually accepted after framing constraints: matching body and neck folds, correct burlap/wood or patched moss-green wool/bone material, front-only hardware and no unwanted objects. Native return retained. Pixel-level silhouette differences are measured in checks.",
+      "superseded_runs": [
+        "t1_01_001"
+      ],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        19,
+        1230,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          186,
+          136,
+          1069,
+          1123
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9932053373134523,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 3,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1483,
+          0.1085,
+          0.1475,
+          0.1045
+        ]
+      },
+      "output_sha256": "3541f07389de3729f1ad89ca5eb29e8f04b2e4c04c2579bbc6c73ff5e8ebbb34",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-476b63cc-6cf5-4d66-bc1e-c0efd8aeab90.png"
+    },
+    {
+      "id": "t1_03_002",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN LEFT SIDE: camera azimuth exactly -90 degrees from front, looking at the sack's OWN LEFT flank. The FRONT of the sack is at IMAGE RIGHT. The front clasp and the two short front cords with beads can only be edge-on at the RIGHT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 1: coarse UNDYED BEIGE BURLAP, visible woven jute fibers, natural tan jute cord, plain round flat WOODEN clasp disc and round wooden beads. No gold, leather, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 22.9%, TOP 16.9%, RIGHT 77.2%, BOTTOM 83.3% of canvas. Body maximum width 54.3% of canvas, total height 66.4%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/03_left.png",
+          "sha256": "6793badd518e1960f269d5892ae02b00b9515667a91313fed01b89999c0b21f3"
+        }
+      ],
+      "output_path": "t1/03_left.png",
+      "selected": true,
+      "reason": "Visually accepted after framing constraints: matching body and neck folds, correct burlap/wood or patched moss-green wool/bone material, front-only hardware and no unwanted objects. Native return retained. Pixel-level silhouette differences are measured in checks.",
+      "superseded_runs": [
+        "t1_03_001"
+      ],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        25,
+        39,
+        1234,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          285,
+          211,
+          971,
+          1045
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9899726415852776,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 3,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2273,
+          0.1683,
+          0.2257,
+          0.1667
+        ]
+      },
+      "output_sha256": "2b28ff798345370ff1b45953ef9a71b6ce2b075f46e377d8df461bb369454503",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-ad5efced-d4bf-43af-a245-ad26a99aa99f.png"
+    },
+    {
+      "id": "t1_04_002",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN RIGHT SIDE: camera azimuth exactly +90 degrees from front, looking at the sack's OWN RIGHT flank. The FRONT of the sack is at IMAGE LEFT. The front clasp and the two short front cords with beads can only be edge-on at the LEFT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 1: coarse UNDYED BEIGE BURLAP, visible woven jute fibers, natural tan jute cord, plain round flat WOODEN clasp disc and round wooden beads. No gold, leather, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 25.4%, TOP 16.6%, RIGHT 79.3%, BOTTOM 83.4% of canvas. Body maximum width 53.9% of canvas, total height 66.8%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/04_right.png",
+          "sha256": "27a97b76b26f0491b9fb7cdd44fd829e3fb7041bea2ae572352896ea0ab85e2b"
+        }
+      ],
+      "output_path": "t1/04_right.png",
+      "selected": true,
+      "reason": "Visually accepted after framing constraints: matching body and neck folds, correct burlap/wood or patched moss-green wool/bone material, front-only hardware and no unwanted objects. Native return retained. Pixel-level silhouette differences are measured in checks.",
+      "superseded_runs": [
+        "t1_04_001"
+      ],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        19,
+        1226,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          318,
+          208,
+          1002,
+          1047
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9882420342441083,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 7,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2536,
+          0.1659,
+          0.201,
+          0.1651
+        ]
+      },
+      "output_sha256": "0aa5e8715329573588bf4ed5b219613bdf21602e9b6ba279808160db3db1a156",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-eeba3629-2ecb-409c-9d69-ec19a1b11c8a.png"
+    },
+    {
+      "id": "t2_01_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: FRONT: camera azimuth exactly 0 degrees, looking squarely at the front center. The clasp is centered horizontally, both bead ends visible symmetrically just below it.\nReplace material everywhere on the same geometry with TIER 2: patched MOSS GREEN WOOL, clearly GREEN, darker moss-green patches with coarse visible stitching. Patches are flat texture overlays on the exact existing body, not new bulges. Brown cord, plain round flat BONE clasp disc; keep the two round tips in the exact locations and shapes, in a plain natural bone finish. No leather, gold, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 14.9%, TOP 10.9%, RIGHT 85.2%, BOTTOM 89.8% of canvas. Body maximum width 70.3% of canvas, total height 78.9%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/01_front.png",
+          "sha256": "008f735bf9ab3ede5730cb9bb839d8db221df16691545d51759c0780b8afdb7f"
+        }
+      ],
+      "output_path": "t2/01_front.png",
+      "selected": true,
+      "reason": "Visually accepted after framing constraints: matching body and neck folds, correct burlap/wood or patched moss-green wool/bone material, front-only hardware and no unwanted objects. Native return retained. Pixel-level silhouette differences are measured in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        41,
+        1208,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          186,
+          135,
+          1072,
+          1126
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.993286436201689,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 4,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1483,
+          0.1077,
+          0.1451,
+          0.1021
+        ]
+      },
+      "output_sha256": "751d17cf168c303b7765172251fbdbaf41ff4fab20fa8b1aba525ac8dbf3471f",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-b142750f-27ce-4628-bc89-e0344cf50b40.png"
+    },
+    {
+      "id": "t2_02_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: BACK: camera azimuth exactly 180 degrees, looking squarely at the BACK of this exact same sack. The FRONT clasp, FRONT knot and BOTH FRONT bead ends are naturally OCCLUDED by the body: do NOT duplicate them on the back. Show only the TWO continuous neck cord wraps around the rear and the same ruffled neck from behind.\nReplace material everywhere on the same geometry with TIER 2: patched MOSS GREEN WOOL, clearly GREEN, darker moss-green patches with coarse visible stitching. Patches are flat texture overlays on the exact existing body, not new bulges. Brown cord, plain round flat BONE clasp disc; keep the two round tips in the exact locations and shapes, in a plain natural bone finish. No leather, gold, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 17.4%, TOP 14.7%, RIGHT 82.7%, BOTTOM 86.7% of canvas. Body maximum width 65.3% of canvas, total height 72.0%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/02_back.png",
+          "sha256": "2108db8b235774556db5e9d02b90c878c0408b22a18a5b7190c444c569cb570f"
+        }
+      ],
+      "output_path": "t2/02_back.png",
+      "selected": true,
+      "reason": "Visually accepted after framing constraints: matching body and neck folds, correct burlap/wood or patched moss-green wool/bone material, front-only hardware and no unwanted objects. Native return retained. Pixel-level silhouette differences are measured in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        31,
+        1226,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          216,
+          182,
+          1042,
+          1088
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9921089799427043,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 5,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1722,
+          0.1451,
+          0.1691,
+          0.1324
+        ]
+      },
+      "output_sha256": "933014b02a9387e44f6ab4ae9d22a802a1f9636c1974ef8d13a5d338c2bb6a02",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-6936502b-beee-4504-b479-b75bdb8222f2.png"
+    },
+    {
+      "id": "t2_03_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN LEFT SIDE: camera azimuth exactly -90 degrees from front, looking at the sack's OWN LEFT flank. The FRONT of the sack is at IMAGE RIGHT. The front clasp and the two short front cords with beads can only be edge-on at the RIGHT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 2: patched MOSS GREEN WOOL, clearly GREEN, darker moss-green patches with coarse visible stitching. Patches are flat texture overlays on the exact existing body, not new bulges. Brown cord, plain round flat BONE clasp disc; keep the two round tips in the exact locations and shapes, in a plain natural bone finish. No leather, gold, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 22.9%, TOP 16.9%, RIGHT 77.2%, BOTTOM 83.3% of canvas. Body maximum width 54.3% of canvas, total height 66.4%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/03_left.png",
+          "sha256": "6793badd518e1960f269d5892ae02b00b9515667a91313fed01b89999c0b21f3"
+        }
+      ],
+      "output_path": "t2/03_left.png",
+      "selected": true,
+      "reason": "Visually accepted after framing constraints: matching body and neck folds, correct burlap/wood or patched moss-green wool/bone material, front-only hardware and no unwanted objects. Native return retained. Pixel-level silhouette differences are measured in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        19,
+        1224,
+        1220
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          286,
+          211,
+          973,
+          1045
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9899576986920182,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 5,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2281,
+          0.1683,
+          0.2241,
+          0.1667
+        ]
+      },
+      "output_sha256": "276f4662c837053df48d0ba0f33fe186ca65aa143cc3df5240654177b35ac07f",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-44cbbb4d-7eda-471a-8f8b-dc30c4a3d5c2.png"
+    },
+    {
+      "id": "t2_04_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN RIGHT SIDE: camera azimuth exactly +90 degrees from front, looking at the sack's OWN RIGHT flank. The FRONT of the sack is at IMAGE LEFT. The front clasp and the two short front cords with beads can only be edge-on at the LEFT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 2: patched MOSS GREEN WOOL, clearly GREEN, darker moss-green patches with coarse visible stitching. Patches are flat texture overlays on the exact existing body, not new bulges. Brown cord, plain round flat BONE clasp disc; keep the two round tips in the exact locations and shapes, in a plain natural bone finish. No leather, gold, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 25.4%, TOP 16.6%, RIGHT 79.3%, BOTTOM 83.4% of canvas. Body maximum width 53.9% of canvas, total height 66.8%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/04_right.png",
+          "sha256": "27a97b76b26f0491b9fb7cdd44fd829e3fb7041bea2ae572352896ea0ab85e2b"
+        }
+      ],
+      "output_path": "t2/04_right.png",
+      "selected": true,
+      "reason": "Visually accepted after framing constraints: matching body and neck folds, correct burlap/wood or patched moss-green wool/bone material, front-only hardware and no unwanted objects. Native return retained. Pixel-level silhouette differences are measured in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        57,
+        9,
+        1208,
+        1220
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          317,
+          206,
+          1002,
+          1050
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.983292759635653,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 7,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2528,
+          0.1643,
+          0.201,
+          0.1627
+        ]
+      },
+      "output_sha256": "d2c2f062b7de3bf2133a954aa6d889a0dbdcf73c9cc5cb9c3a93059c931a9fd1",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-799c62db-ad02-45d7-b036-94fba9995f55.png"
+    },
+    {
+      "id": "t4_01_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: FRONT: camera azimuth exactly 0 degrees, looking squarely at the front center. The clasp is centered horizontally, both bead ends visible symmetrically just below it.\nReplace material everywhere on the same geometry with TIER 4: DEEP BLUE dyed LEATHER with stitched seams, twisted GOLD cord, round flat BRASS clasp disc, round GOLD bead ends. No velvet, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 14.9%, TOP 10.9%, RIGHT 85.2%, BOTTOM 89.8% of canvas. Body maximum width 70.3% of canvas, total height 78.9%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/01_front.png",
+          "sha256": "008f735bf9ab3ede5730cb9bb839d8db221df16691545d51759c0780b8afdb7f"
+        }
+      ],
+      "output_path": "t4/01_front.png",
+      "selected": true,
+      "reason": "Visually accepted: deep blue dyed leather, twisted gold cord, brass disc, round gold tips; correct view and stable target silhouette. Native size retained; numerical differences recorded in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        17,
+        55,
+        1232,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          184,
+          134,
+          1075,
+          1130
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.985338596731012,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 7,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1467,
+          0.1069,
+          0.1427,
+          0.0989
+        ]
+      },
+      "output_sha256": "8ec81b4a33e9004b76c3d2e0043836548a3295f63cf504f6fc38f0b16140f2a3",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-9526c94b-9bcb-4e3e-aaf9-17fd09fc8abb.png"
+    },
+    {
+      "id": "t4_02_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: BACK: camera azimuth exactly 180 degrees, looking squarely at the BACK of this exact same sack. The FRONT clasp, FRONT knot and BOTH FRONT bead ends are naturally OCCLUDED by the body: do NOT duplicate them on the back. Show only the TWO continuous neck cord wraps around the rear and the same ruffled neck from behind.\nReplace material everywhere on the same geometry with TIER 4: DEEP BLUE dyed LEATHER with stitched seams, twisted GOLD cord, round flat BRASS clasp disc, round GOLD bead ends. No velvet, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 17.4%, TOP 14.7%, RIGHT 82.7%, BOTTOM 86.7% of canvas. Body maximum width 65.3% of canvas, total height 72.0%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/02_back.png",
+          "sha256": "2108db8b235774556db5e9d02b90c878c0408b22a18a5b7190c444c569cb570f"
+        }
+      ],
+      "output_path": "t4/02_back.png",
+      "selected": true,
+      "reason": "Visually accepted: deep blue dyed leather, twisted gold cord, brass disc, round gold tips; correct view and stable target silhouette. Native size retained; numerical differences recorded in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        23,
+        1234,
+        1228
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          219,
+          193,
+          1038,
+          1086
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.980884487993111,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 9,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1746,
+          0.1539,
+          0.1722,
+          0.134
+        ]
+      },
+      "output_sha256": "3ef1f72827488cd1588ba06030041d9c83124b975d73717ed2c0afb187d396c2",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-855eecd5-15dc-4a3c-8928-189f0a43b39a.png"
+    },
+    {
+      "id": "t4_03_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN LEFT SIDE: camera azimuth exactly -90 degrees from front, looking at the sack's OWN LEFT flank. The FRONT of the sack is at IMAGE RIGHT. The front clasp and the two short front cords with beads can only be edge-on at the RIGHT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 4: DEEP BLUE dyed LEATHER with stitched seams, twisted GOLD cord, round flat BRASS clasp disc, round GOLD bead ends. No velvet, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 22.9%, TOP 16.9%, RIGHT 77.2%, BOTTOM 83.3% of canvas. Body maximum width 54.3% of canvas, total height 66.4%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/03_left.png",
+          "sha256": "6793badd518e1960f269d5892ae02b00b9515667a91313fed01b89999c0b21f3"
+        }
+      ],
+      "output_path": "t4/03_left.png",
+      "selected": true,
+      "reason": "Visually accepted: deep blue dyed leather, twisted gold cord, brass disc, round gold tips; correct view and stable target silhouette. Native size retained; numerical differences recorded in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        5,
+        1240,
+        1228
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          286,
+          212,
+          970,
+          1048
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9852138075659093,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 4,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2281,
+          0.1691,
+          0.2265,
+          0.1643
+        ]
+      },
+      "output_sha256": "9e85a3080c6d24ee7bd4ef32698346ac15a26abe8b0bc4043b0368c5ce7e8695",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-587369f2-42fc-4709-86bb-8528c1192772.png"
+    },
+    {
+      "id": "t4_04_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN RIGHT SIDE: camera azimuth exactly +90 degrees from front, looking at the sack's OWN RIGHT flank. The FRONT of the sack is at IMAGE LEFT. The front clasp and the two short front cords with beads can only be edge-on at the LEFT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 4: DEEP BLUE dyed LEATHER with stitched seams, twisted GOLD cord, round flat BRASS clasp disc, round GOLD bead ends. No velvet, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 25.4%, TOP 16.6%, RIGHT 79.3%, BOTTOM 83.4% of canvas. Body maximum width 53.9% of canvas, total height 66.8%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/04_right.png",
+          "sha256": "27a97b76b26f0491b9fb7cdd44fd829e3fb7041bea2ae572352896ea0ab85e2b"
+        }
+      ],
+      "output_path": "t4/04_right.png",
+      "selected": true,
+      "reason": "Visually accepted: deep blue dyed leather, twisted gold cord, brass disc, round gold tips; correct view and stable target silhouette. Native size retained; numerical differences recorded in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        1170,
+        1176
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          317,
+          207,
+          1000,
+          1048
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9869067812945758,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 5,
+        "all_four_corners_exact_alpha_zero": false,
+        "solid_margin_fraction": [
+          0.2528,
+          0.1651,
+          0.2026,
+          0.1643
+        ]
+      },
+      "output_sha256": "cd4f5cdd843f7c17cf88b03ce9e09e1df783f997ae0173e3286b8b83f5ba3b45",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-dcb07d34-6273-458d-8b39-af0a0b4a3598.png"
+    },
+    {
+      "id": "t5_01_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: FRONT: camera azimuth exactly 0 degrees, looking squarely at the front center. The clasp is centered horizontally, both bead ends visible symmetrically just below it.\nReplace material everywhere on the same geometry with TIER 5: ROYAL VIOLET / PURPLE VELVET with rich GOLD embroidery of scrolling vines across the body, gold cord and short gold tassel tips constrained to the exact existing ROUND bead-end silhouette and footprint. Round flat gold clasp with a large FACETED VIOLET GEM set within its existing disc outline, soft local violet glow only on the gem itself. Clearly PURPLE; never green, blue or crimson.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 14.9%, TOP 10.9%, RIGHT 85.2%, BOTTOM 89.8% of canvas. Body maximum width 70.3% of canvas, total height 78.9%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/01_front.png",
+          "sha256": "008f735bf9ab3ede5730cb9bb839d8db221df16691545d51759c0780b8afdb7f"
+        }
+      ],
+      "output_path": "t5/01_front.png",
+      "selected": true,
+      "reason": "Visually accepted: royal-violet velvet, rich gold vine embroidery, gold cord and short round tips; front-only faceted violet gem with local glow. Correct front/back/side orientation and target silhouette closely retained. Native size retained; exact differences recorded in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        181,
+        131,
+        1234,
+        1130
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          185,
+          137,
+          1071,
+          1127
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9924273973672395,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 3,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1475,
+          0.1093,
+          0.1459,
+          0.1013
+        ]
+      },
+      "output_sha256": "cffcecea50ee746d6a189d09c9e2ddb74871bbe17beebb1b2c44e71f6af50087",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-e88bd5c3-cef1-4547-b158-1b1360f833d6.png"
+    },
+    {
+      "id": "t5_02_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: BACK: camera azimuth exactly 180 degrees, looking squarely at the BACK of this exact same sack. The FRONT clasp, FRONT knot and BOTH FRONT bead ends are naturally OCCLUDED by the body: do NOT duplicate them on the back. Show only the TWO continuous neck cord wraps around the rear and the same ruffled neck from behind.\nReplace material everywhere on the same geometry with TIER 5: ROYAL VIOLET / PURPLE VELVET with rich GOLD embroidery of scrolling vines across the body, gold cord and short gold tassel tips constrained to the exact existing ROUND bead-end silhouette and footprint. Round flat gold clasp with a large FACETED VIOLET GEM set within its existing disc outline, soft local violet glow only on the gem itself. Clearly PURPLE; never green, blue or crimson.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 17.4%, TOP 14.7%, RIGHT 82.7%, BOTTOM 86.7% of canvas. Body maximum width 65.3% of canvas, total height 72.0%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/02_back.png",
+          "sha256": "2108db8b235774556db5e9d02b90c878c0408b22a18a5b7190c444c569cb570f"
+        }
+      ],
+      "output_path": "t5/02_back.png",
+      "selected": true,
+      "reason": "Visually accepted: royal-violet velvet, rich gold vine embroidery, gold cord and short round tips; front-only faceted violet gem with local glow. Correct front/back/side orientation and target silhouette closely retained. Native size retained; exact differences recorded in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        19,
+        1234,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          216,
+          182,
+          1045,
+          1088
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9863081435002046,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 8,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1722,
+          0.1451,
+          0.1667,
+          0.1324
+        ]
+      },
+      "output_sha256": "4471dd33c83928260f2f45b46e758208a989b9f62de88fe01a5d77c6f0fa4a0d",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-2b00e25d-2cb4-4a82-b735-da32aab86a73.png"
+    },
+    {
+      "id": "t5_03_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN LEFT SIDE: camera azimuth exactly -90 degrees from front, looking at the sack's OWN LEFT flank. The FRONT of the sack is at IMAGE RIGHT. The front clasp and the two short front cords with beads can only be edge-on at the RIGHT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 5: ROYAL VIOLET / PURPLE VELVET with rich GOLD embroidery of scrolling vines across the body, gold cord and short gold tassel tips constrained to the exact existing ROUND bead-end silhouette and footprint. Round flat gold clasp with a large FACETED VIOLET GEM set within its existing disc outline, soft local violet glow only on the gem itself. Clearly PURPLE; never green, blue or crimson.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 22.9%, TOP 16.9%, RIGHT 77.2%, BOTTOM 83.3% of canvas. Body maximum width 54.3% of canvas, total height 66.4%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/03_left.png",
+          "sha256": "6793badd518e1960f269d5892ae02b00b9515667a91313fed01b89999c0b21f3"
+        }
+      ],
+      "output_path": "t5/03_left.png",
+      "selected": true,
+      "reason": "Visually accepted: royal-violet velvet, rich gold vine embroidery, gold cord and short round tips; front-only faceted violet gem with local glow. Correct front/back/side orientation and target silhouette closely retained. Native size retained; exact differences recorded in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        1208,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          286,
+          211,
+          972,
+          1045
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9884874911695208,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 4,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2281,
+          0.1683,
+          0.2249,
+          0.1667
+        ]
+      },
+      "output_sha256": "f06ad876e2c9742af8ff473ceead03dc4032e9b41d0cedc7ab38297fd4518b66",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-963d33ca-fa28-4206-87f6-2b425866a9f5.png"
+    },
+    {
+      "id": "t5_04_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN RIGHT SIDE: camera azimuth exactly +90 degrees from front, looking at the sack's OWN RIGHT flank. The FRONT of the sack is at IMAGE LEFT. The front clasp and the two short front cords with beads can only be edge-on at the LEFT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 5: ROYAL VIOLET / PURPLE VELVET with rich GOLD embroidery of scrolling vines across the body, gold cord and short gold tassel tips constrained to the exact existing ROUND bead-end silhouette and footprint. Round flat gold clasp with a large FACETED VIOLET GEM set within its existing disc outline, soft local violet glow only on the gem itself. Clearly PURPLE; never green, blue or crimson.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 25.4%, TOP 16.6%, RIGHT 79.3%, BOTTOM 83.4% of canvas. Body maximum width 53.9% of canvas, total height 66.8%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/04_right.png",
+          "sha256": "27a97b76b26f0491b9fb7cdd44fd829e3fb7041bea2ae572352896ea0ab85e2b"
+        }
+      ],
+      "output_path": "t5/04_right.png",
+      "selected": true,
+      "reason": "Visually accepted: royal-violet velvet, rich gold vine embroidery, gold cord and short round tips; front-only faceted violet gem with local glow. Correct front/back/side orientation and target silhouette closely retained. Native size retained; exact differences recorded in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        25,
+        19,
+        1218,
+        1220
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          318,
+          207,
+          1000,
+          1049
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9887446493627521,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 5,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2536,
+          0.1651,
+          0.2026,
+          0.1635
+        ]
+      },
+      "output_sha256": "9f268f2619fb3e9693a4220423a9a055006611a3638bb64a340108acc8631c31",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-7864e034-f79b-468c-bd6d-111659338cdd.png"
+    },
+    {
+      "id": "t6_01_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: FRONT: camera azimuth exactly 0 degrees, looking squarely at the front center. The clasp is centered horizontally, both bead ends visible symmetrically just below it.\nReplace material everywhere on the same geometry with TIER 6: deep saturated BLOOD RED / CRIMSON VELVET, conspicuously REDDER and DARKER than the rust-brown leather master. Dense GOLD scrolling-vine embroidery across the body, gold cord and short gold tassel tips constrained to the exact existing ROUND bead-end silhouette and footprint. Round flat gold clasp with a large faceted WARM GOLD-WHITE AMBER GEM set within the existing disc outline. Local amber glow brighter than tier 5's violet gem but confined to the gem. Clearly CRIMSON RED; no violet, purple, green or orange-brown leather.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 14.9%, TOP 10.9%, RIGHT 85.2%, BOTTOM 89.8% of canvas. Body maximum width 70.3% of canvas, total height 78.9%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/01_front.png",
+          "sha256": "008f735bf9ab3ede5730cb9bb839d8db221df16691545d51759c0780b8afdb7f"
+        }
+      ],
+      "output_path": "t6/01_front.png",
+      "selected": true,
+      "reason": "Visually accepted: deep saturated crimson velvet distinct from rust leather and purple, dense gold vine embroidery, front-only warm amber gem with brighter local highlight. View and shared body geometry closely retained. Native size preserved; exact deviations measured in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        21,
+        1238,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          183,
+          136,
+          1072,
+          1128
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9926345407157471,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 4,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1459,
+          0.1085,
+          0.1451,
+          0.1005
+        ]
+      },
+      "output_sha256": "c5a29af84f4f70384ca45fe37afe42076ab6b6ef299ef849088a2d31ca96531a",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-ba0c16b2-fccd-400f-b9ea-03fe01b657e6.png"
+    },
+    {
+      "id": "t6_02_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: BACK: camera azimuth exactly 180 degrees, looking squarely at the BACK of this exact same sack. The FRONT clasp, FRONT knot and BOTH FRONT bead ends are naturally OCCLUDED by the body: do NOT duplicate them on the back. Show only the TWO continuous neck cord wraps around the rear and the same ruffled neck from behind.\nReplace material everywhere on the same geometry with TIER 6: deep saturated BLOOD RED / CRIMSON VELVET, conspicuously REDDER and DARKER than the rust-brown leather master. Dense GOLD scrolling-vine embroidery across the body, gold cord and short gold tassel tips constrained to the exact existing ROUND bead-end silhouette and footprint. Round flat gold clasp with a large faceted WARM GOLD-WHITE AMBER GEM set within the existing disc outline. Local amber glow brighter than tier 5's violet gem but confined to the gem. Clearly CRIMSON RED; no violet, purple, green or orange-brown leather.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 17.4%, TOP 14.7%, RIGHT 82.7%, BOTTOM 86.7% of canvas. Body maximum width 65.3% of canvas, total height 72.0%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/02_back.png",
+          "sha256": "2108db8b235774556db5e9d02b90c878c0408b22a18a5b7190c444c569cb570f"
+        }
+      ],
+      "output_path": "t6/02_back.png",
+      "selected": true,
+      "reason": "Visually accepted: deep saturated crimson velvet distinct from rust leather and purple, dense gold vine embroidery, front-only warm amber gem with brighter local highlight. View and shared body geometry closely retained. Native size preserved; exact deviations measured in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        41,
+        1234,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          216,
+          182,
+          1044,
+          1087
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9903090120100525,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 7,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.1722,
+          0.1451,
+          0.1675,
+          0.1332
+        ]
+      },
+      "output_sha256": "19d7c55d44f528b97eb775e4154fa24c5ace27ffff60ff4a29b68c55c7b41536",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-38abbbf6-aeee-43d0-ad26-5c6ceba920fc.png"
+    },
+    {
+      "id": "t6_03_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN LEFT SIDE: camera azimuth exactly -90 degrees from front, looking at the sack's OWN LEFT flank. The FRONT of the sack is at IMAGE RIGHT. The front clasp and the two short front cords with beads can only be edge-on at the RIGHT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 6: deep saturated BLOOD RED / CRIMSON VELVET, conspicuously REDDER and DARKER than the rust-brown leather master. Dense GOLD scrolling-vine embroidery across the body, gold cord and short gold tassel tips constrained to the exact existing ROUND bead-end silhouette and footprint. Round flat gold clasp with a large faceted WARM GOLD-WHITE AMBER GEM set within the existing disc outline. Local amber glow brighter than tier 5's violet gem but confined to the gem. Clearly CRIMSON RED; no violet, purple, green or orange-brown leather.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 22.9%, TOP 16.9%, RIGHT 77.2%, BOTTOM 83.3% of canvas. Body maximum width 54.3% of canvas, total height 66.4%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/03_left.png",
+          "sha256": "6793badd518e1960f269d5892ae02b00b9515667a91313fed01b89999c0b21f3"
+        }
+      ],
+      "output_path": "t6/03_left.png",
+      "selected": true,
+      "reason": "Visually accepted: deep saturated crimson velvet distinct from rust leather and purple, dense gold vine embroidery, front-only warm amber gem with brighter local highlight. View and shared body geometry closely retained. Native size preserved; exact deviations measured in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        1235,
+        1230
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          284,
+          211,
+          972,
+          1046
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9869207482729178,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 4,
+        "all_four_corners_exact_alpha_zero": false,
+        "solid_margin_fraction": [
+          0.2265,
+          0.1683,
+          0.2249,
+          0.1659
+        ]
+      },
+      "output_sha256": "e5f69c6b8502a836f7553d2245136f0b58f71cc62f56b5cf51bd5cce5b02507a",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-d2cadd4c-4d74-47fe-8d15-2ff2bdca5b4b.png"
+    },
+    {
+      "id": "t6_04_001",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: OWN RIGHT SIDE: camera azimuth exactly +90 degrees from front, looking at the sack's OWN RIGHT flank. The FRONT of the sack is at IMAGE LEFT. The front clasp and the two short front cords with beads can only be edge-on at the LEFT contour or occluded; do NOT relocate them onto the side. This is a true side view, not a three-quarter view.\nReplace material everywhere on the same geometry with TIER 6: deep saturated BLOOD RED / CRIMSON VELVET, conspicuously REDDER and DARKER than the rust-brown leather master. Dense GOLD scrolling-vine embroidery across the body, gold cord and short gold tassel tips constrained to the exact existing ROUND bead-end silhouette and footprint. Round flat gold clasp with a large faceted WARM GOLD-WHITE AMBER GEM set within the existing disc outline. Local amber glow brighter than tier 5's violet gem but confined to the gem. Clearly CRIMSON RED; no violet, purple, green or orange-brown leather.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 25.4%, TOP 16.6%, RIGHT 79.3%, BOTTOM 83.4% of canvas. Body maximum width 53.9% of canvas, total height 66.8%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/04_right.png",
+          "sha256": "27a97b76b26f0491b9fb7cdd44fd829e3fb7041bea2ae572352896ea0ab85e2b"
+        }
+      ],
+      "output_path": "t6/04_right.png",
+      "selected": true,
+      "reason": "Visually accepted: deep saturated crimson velvet distinct from rust leather and purple, dense gold vine embroidery, front-only warm amber gem with brighter local highlight. View and shared body geometry closely retained. Native size preserved; exact deviations measured in checks.",
+      "superseded_runs": [],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        19,
+        30,
+        1226,
+        1238
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          319,
+          208,
+          1002,
+          1048
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9871468646944362,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 7,
+        "all_four_corners_exact_alpha_zero": true,
+        "solid_margin_fraction": [
+          0.2544,
+          0.1659,
+          0.201,
+          0.1643
+        ]
+      },
+      "output_sha256": "1df057ea9336393aad5dc5534964e954990ae74cbfb4f9a9ba161f548989cac5",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-4d22915b-e468-4aae-967b-6aabcd1b5e9a.png"
+    },
+    {
+      "id": "t1_02_002",
+      "prompt": "Use case: precise-object-edit.\nAsset type: HD texture-reference view for one shared ~900-triangle Might and Magic VI loot sack mesh.\nOutput: exactly ONE isolated sack, square native 1024 x 1024 PNG, genuine transparent alpha background, clean edges.\nSubject invariants: preserve the exact same plump rounded slightly pear-shaped body with flat base, gathered CLOSED ruffled neck (no open mouth or visible interior), the same two twisted cord wraps, one front-center round FLAT clasp disc one fifth of body width, exactly two short front cord ends with round tips resting on the body. No geometry changes. No extra attachments. Simple strong silhouette.\nCamera: near-orthographic, exactly 20 degrees elevation above horizontal, requested azimuth. Keep same size/framing and position: about 15 percent empty transparent margin all around. Soft neutral studio light from above; stable exposure and shading.\nStyle: warm saturated semi-realistic prerendered Might and Magic VI game asset, as in master, consistent surface volume.\nAvoid: NO coins anywhere, contents, straps, buckles, floor, ground plane, cast shadow, backdrop, colored lighting, text, numbering, labels or watermark.\nInput image 1 is the MASTER: it defines ONE shared physical sack for all six tiers. Input image 2 is the MATCHING TIER-3 VIEW and is the EDIT TARGET: preserve image 2's exact silhouette, framing, camera, size, placement, neck folds, cord wraps, front clasp disc outline, and the two cord-end tip shapes and positions. Keep image 2's ALPHA boundary and every fold and object contour unchanged. This is strictly a surface MATERIAL REPLACEMENT, not a redesigned or re-rendered sack.\nRequested view: BACK: camera azimuth exactly 180 degrees, looking squarely at the BACK of this exact same sack. The FRONT clasp, FRONT knot and BOTH FRONT bead ends are naturally OCCLUDED by the body: do NOT duplicate them on the back. Show only the TWO continuous neck cord wraps around the rear and the same ruffled neck from behind.\nReplace material everywhere on the same geometry with TIER 1: coarse UNDYED BEIGE BURLAP, visible woven jute fibers, natural tan jute cord, plain round flat WOODEN clasp disc and round wooden beads. No gold, leather, embroidery or gem.\nCHANGE ONLY surface textures, colours and permitted clasp decoration within the existing shapes. Preserve all geometry, lighting direction, existing shadows on the body, alpha cutout, framing and scale from IMAGE 2. Hide or show front hardware EXACTLY as it appears in image 2. Do not turn a side view toward the camera. No expansion of neck or body. No longer tassels. No protruding gem or bezel outside the master clasp footprint. Do not duplicate a gem or clasp on the back. Materials should read plainly at small game size.\nFRAMING LOCK: Visible solid sack boundary: LEFT 17.4%, TOP 14.7%, RIGHT 82.7%, BOTTOM 86.7% of canvas. Body maximum width 65.3% of canvas, total height 72.0%. Keep the object EXACTLY this size and position in the output. Preserve the edit target's original silhouette, do not zoom in or enlarge the prop to fill the canvas. Perform texture substitution on the fixed image, not a fresh photo of a similar object.\nCritical correction: match the second image's geometry and pixel layout exactly. Replace its leather with beige woven burlap and its cord with natural jute, but KEEP the body border, neck folds, all seams and cloth volume unchanged. Make no camera, projection, scale or geometry adjustment. The flat bottom, the body's lower curve, and the upper ruffles must follow the target exactly.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/master/00_three_quarter.png",
+          "sha256": "bd24c54aec2b39a3cb0aba55e03357f00791c27802af238ee56c98ff7de4c0da"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/t3/02_back.png",
+          "sha256": "2108db8b235774556db5e9d02b90c878c0408b22a18a5b7190c444c569cb570f"
+        }
+      ],
+      "output_path": "t1/02_back.png",
+      "selected": true,
+      "reason": "Selected correction: beige burlap back with jute neck wraps, same ruffles and body silhouette as tier-3 back; measured silhouette IoU 0.9907. Native return retained; exact deviations recorded in checks.",
+      "superseded_runs": [
+        "t1_02_001"
+      ],
+      "native_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        65,
+        1234,
+        1254
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "checks": {
+        "requested_size_met": false,
+        "transparent_background": true,
+        "solid_bbox": [
+          214,
+          182,
+          1042,
+          1088
+        ],
+        "not_cropped": true,
+        "silhouette_iou": 0.9906647241980175,
+        "silhouette_pixel_identical": false,
+        "max_bbox_delta_pixels": 5
+      },
+      "output_sha256": "37ffce65933fce6bead2e8275aa7bf54a946aa2597e7e5d9c7ac130d7510996f",
+      "tool": "built-in image_gen.imagegen",
+      "tool_output_path": "/home/pjasicek/.codex/generated_images/01a12090-745f-7023-9180-90689a0912f8/exec-49a9b5e8-adc8-4c22-bb3b-e04b4c1db393.png"
+    }
+  ],
+  "verification_summary": {
+    "tool": "built-in image_gen.imagegen",
+    "selected_asset_count": 25,
+    "generation_count": 30,
+    "rejected_count": 5,
+    "native_dimensions": [
+      1254,
+      1254
+    ],
+    "requested_dimensions": [
+      1024,
+      1024
+    ],
+    "all_selected_outputs_unmodified_native_returns": true,
+    "all_input_and_output_hashes_verified": true,
+    "silhouette_iou_range": [
+      0.980884487993111,
+      0.993286436201689
+    ],
+    "max_selected_bbox_delta_pixels": 9,
+    "brief_fully_met": false,
+    "limitations": [
+      "The built-in tool returned 1254x1254 despite explicit 1024x1024 requests; no size parameter is exposed. Native returns were preserved without resizing. The asynchronous size-priority question received no reply before completion.",
+      "Surface edits closely preserve geometry but do not produce pixel-identical silhouettes; measured overlap and bounds are recorded per run.",
+      "Margins follow each matching tier-3 view; front-view solid top margin is about 11 percent rather than approximately 15 percent.",
+      "Native alpha includes some very-low-alpha residual pixels outside the main object; no cleanup was applied because unmodified returns were requested."
+    ],
+    "visual_checks": [
+      "Closed gathered neck; no coins, visible contents, straps, buckles, floor, cast shadow or text.",
+      "Correct front/back/own-left/own-right orientation and front-only hardware.",
+      "Tier 2 is moss green, tier 5 royal violet, tier 6 crimson. Tier 6 is redder and darker than rust-leather tier 3."
+    ],
+    "review_sheet": "selected_views_review.png"
+  },
+  "review_sheet_sha256": "73003764a14c315281995b87dbd1a02ad90d08165f9fcd9f56ed3c82bebf30bd"
+}

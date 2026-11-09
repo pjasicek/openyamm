@@ -1,0 +1,3518 @@
+{
+  "format_version": 2,
+  "kind": "indoor_geometry",
+  "map_file": "hes_d12.blv",
+  "source": {
+    "authoring_file": "hes_d12.blend",
+    "asset_path": "hes_d12.glb",
+    "coordinate_system": "blender_z_up",
+    "unit_scale": 128,
+    "import": {
+      "source_format": "glb",
+      "reserve_sector_zero": true,
+      "merge_coplanar_faces": false,
+      "generate_bsp": true,
+      "generate_outlines": true
+    }
+  },
+  "materials": [
+    {
+      "id": "hcceiling",
+      "source_material": "hes_d12_hcceiling",
+      "texture": "hcceiling",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcconsole",
+      "source_material": "hes_d12_hcconsole",
+      "texture": "hcconsole",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcdoor",
+      "source_material": "hes_d12_hcdoor",
+      "texture": "hcdoor",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hcfloor",
+      "source_material": "hes_d12_hcfloor",
+      "texture": "hcfloor",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcmachine",
+      "source_material": "hes_d12_hcmachine",
+      "texture": "hcmachine",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hcpanel",
+      "source_material": "hes_d12_hcpanel",
+      "texture": "hcpanel",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hcrecess",
+      "source_material": "hes_d12_hcrecess",
+      "texture": "hcrecess",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hctrim",
+      "source_material": "hes_d12_hctrim",
+      "texture": "hctrim",
+      "texture_width": 128,
+      "texture_height": 32
+    },
+    {
+      "id": "hnconduit",
+      "source_material": "hes_d12_hnconduit",
+      "texture": "hnconduit",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hnmach",
+      "source_material": "hes_d12_hnmach",
+      "texture": "hnmach",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hnresin",
+      "source_material": "hes_d12_hnresin",
+      "texture": "hnresin",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hogate",
+      "source_material": "hes_d12_hogate",
+      "texture": "hogate",
+      "texture_width": 512,
+      "texture_height": 512
+    },
+    {
+      "id": "hogateof",
+      "source_material": "hes_d12_hogateof",
+      "texture": "hogateof",
+      "texture_width": 512,
+      "texture_height": 512
+    },
+    {
+      "id": "hogold",
+      "source_material": "hes_d12_hogold",
+      "texture": "hogold",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hokwall",
+      "source_material": "hes_d12_hokwall",
+      "texture": "hokwall",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hpbanner",
+      "source_material": "hes_d12_hpbanner",
+      "texture": "hpbanner",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hpceil",
+      "source_material": "hes_d12_hpceil",
+      "texture": "hpceil",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hpcolumn",
+      "source_material": "hes_d12_hpcolumn",
+      "texture": "hpcolumn",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hpdoor",
+      "source_material": "hes_d12_hpdoor",
+      "texture": "hpdoor",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hpfloor",
+      "source_material": "hes_d12_hpfloor",
+      "texture": "hpfloor",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hpglass",
+      "source_material": "hes_d12_hpglass",
+      "texture": "hpglass",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hpglow",
+      "source_material": "hes_d12_hpglow",
+      "texture": "hpglow",
+      "texture_width": 128,
+      "texture_height": 32
+    },
+    {
+      "id": "hpgraft",
+      "source_material": "hes_d12_hpgraft",
+      "texture": "hpgraft",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hplift",
+      "source_material": "hes_d12_hplift",
+      "texture": "hplift",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hprelief",
+      "source_material": "hes_d12_hprelief",
+      "texture": "hprelief",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hpring",
+      "source_material": "hes_d12_hpring",
+      "texture": "hpring",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hpsigil1",
+      "source_material": "hes_d12_hpsigil1",
+      "texture": "hpsigil1",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hpsigil2",
+      "source_material": "hes_d12_hpsigil2",
+      "texture": "hpsigil2",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hpsigil3",
+      "source_material": "hes_d12_hpsigil3",
+      "texture": "hpsigil3",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hpthrone",
+      "source_material": "hes_d12_hpthrone",
+      "texture": "hpthrone",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hptrim",
+      "source_material": "hes_d12_hptrim",
+      "texture": "hptrim",
+      "texture_width": 128,
+      "texture_height": 32
+    },
+    {
+      "id": "hptroph1",
+      "source_material": "hes_d12_hptroph1",
+      "texture": "hptroph1",
+      "texture_width": 256,
+      "texture_height": 128
+    },
+    {
+      "id": "hptroph2",
+      "source_material": "hes_d12_hptroph2",
+      "texture": "hptroph2",
+      "texture_width": 256,
+      "texture_height": 128
+    },
+    {
+      "id": "hpvoice",
+      "source_material": "hes_d12_hpvoice",
+      "texture": "hpvoice",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hpvoicef",
+      "source_material": "hes_d12_hpvoicef",
+      "texture": "hpvoicef",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hpvoicex",
+      "source_material": "hes_d12_hpvoicex",
+      "texture": "hpvoicex",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hpwall",
+      "source_material": "hes_d12_hpwall",
+      "texture": "hpwall",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "htexch",
+      "source_material": "hes_d12_htexch",
+      "texture": "htexch",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "htgrid",
+      "source_material": "hes_d12_htgrid",
+      "texture": "htgrid",
+      "texture_width": 256,
+      "texture_height": 128
+    },
+    {
+      "id": "htgridof",
+      "source_material": "hes_d12_htgridof",
+      "texture": "htgridof",
+      "texture_width": 256,
+      "texture_height": 128
+    }
+  ],
+  "rooms": [
+    {
+      "id": "room_gate",
+      "source_nodes": [
+        "ROOM_gate",
+        "TRIGGER_spire_exit_gate",
+        "MECH_spire_gate",
+        "MECH_inner_gate",
+        "DECOR_hes_d12_fire_bowl_gilded_70",
+        "DECOR_hes_scrap_bundle_88",
+        "DECOR_hes_scrap_bundle_89"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gatehouse_0",
+      "source_nodes": [
+        "ROOM_gatehouse_0",
+        "TRIGGER_gate_console_gatehouse_0",
+        "MECH_barracks",
+        "DECOR_hes_d12_fire_bowl_gilded_11",
+        "DECOR_hes_d12_fire_bowl_gilded_12"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gatehouse_1",
+      "source_nodes": [
+        "ROOM_gatehouse_1",
+        "TRIGGER_voice_gate_arrival_gatehouse_1",
+        "MECH_gatehouse"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gatehouse_2",
+      "source_nodes": [
+        "ROOM_gatehouse_2",
+        "MECH_corelift_gate",
+        "DECOR_hes_d12_fire_bowl_gilded_13",
+        "DECOR_hes_d12_fire_bowl_gilded_14"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_barracks_0",
+      "source_nodes": [
+        "ROOM_barracks_0",
+        "DECOR_hes_shelf_rack_0",
+        "DECOR_hes_shelf_rack_1",
+        "DECOR_hes_colonial_locker_5",
+        "DECOR_hes_d12_fire_bowl_gilded_59",
+        "DECOR_hes_d12_fire_bowl_gilded_60"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_barracks_1",
+      "source_nodes": [
+        "ROOM_barracks_1",
+        "DECOR_hes_scrap_bundle_90",
+        "DECOR_hes_scrap_bundle_91"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_corelift",
+      "source_nodes": [
+        "ROOM_corelift",
+        "TRIGGER_core_call_-1440_corelift",
+        "TRIGGER_core_call_96_corelift",
+        "MECH_core_platform",
+        "DECOR_hes_d12_wall_light_34",
+        "DECOR_hes_d12_wall_light_72"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_central_0",
+      "source_nodes": [
+        "ROOM_central_0",
+        "TRIGGER_press_central_0",
+        "DECOR_hes_d12_fire_bowl_gilded_15",
+        "DECOR_hes_d12_fire_bowl_gilded_17",
+        "DECOR_hes_scrap_bundle_92"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_central_1",
+      "source_nodes": [
+        "ROOM_central_1",
+        "MECH_graftw",
+        "MECH_grafte"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_central_2",
+      "source_nodes": [
+        "ROOM_central_2",
+        "DECOR_hes_d12_fire_bowl_gilded_16",
+        "DECOR_hes_d12_fire_bowl_gilded_18",
+        "DECOR_hes_scrap_bundle_93"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_graftw_0",
+      "source_nodes": [
+        "ROOM_graftw_0",
+        "DECOR_hes_d12_lattice_coil_gilded_21",
+        "DECOR_hes_d12_lattice_coil_gilded_22",
+        "DECOR_hes_serum_vat_74",
+        "DECOR_hes_serum_vat_75",
+        "DECOR_hes_serum_vat_76",
+        "DECOR_hes_serum_vat_77",
+        "DECOR_hes_serum_vat_78",
+        "DECOR_hes_serum_vat_79",
+        "DECOR_hes_serum_vat_80"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_graftw_1",
+      "source_nodes": [
+        "ROOM_graftw_1"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_graftw_2",
+      "source_nodes": [
+        "ROOM_graftw_2",
+        "MECH_trophw",
+        "DECOR_hes_kreegan_pod_chest_4",
+        "DECOR_hes_d12_lattice_coil_gilded_19",
+        "DECOR_hes_d12_lattice_coil_gilded_20",
+        "DECOR_hes_scrap_bundle_94"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_grafte_0",
+      "source_nodes": [
+        "ROOM_grafte_0",
+        "TRIGGER_lane_0_grafte_0",
+        "TRIGGER_lane_1_grafte_0",
+        "DECOR_hes_d12_lattice_coil_gilded_25",
+        "DECOR_hes_d12_lattice_coil_gilded_26",
+        "DECOR_hes_scrap_bundle_95"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_grafte_1",
+      "source_nodes": [
+        "ROOM_grafte_1",
+        "TRIGGER_lane_2_grafte_1",
+        "TRIGGER_lane_3_grafte_1"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_grafte_2",
+      "source_nodes": [
+        "ROOM_grafte_2",
+        "TRIGGER_lane_4_grafte_2",
+        "TRIGGER_lane_5_grafte_2",
+        "MECH_trophe",
+        "DECOR_hes_d12_lattice_coil_gilded_23",
+        "DECOR_hes_d12_lattice_coil_gilded_24",
+        "DECOR_hes_scrap_bundle_96"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_trophw",
+      "source_nodes": [
+        "ROOM_trophw",
+        "TRIGGER_niche_-3964_trophw",
+        "TRIGGER_niche_-3064_trophw",
+        "TRIGGER_niche_-2164_trophw",
+        "DECOR_hes_founder_head_2",
+        "DECOR_hes_d12_lattice_coil_gilded_27",
+        "DECOR_hes_d12_lattice_coil_gilded_28",
+        "DECOR_hes_scrap_bundle_97"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_trophe",
+      "source_nodes": [
+        "ROOM_trophe",
+        "TRIGGER_niche_2164_trophe",
+        "TRIGGER_niche_3064_trophe",
+        "TRIGGER_niche_3964_trophe",
+        "MECH_armoury",
+        "DECOR_hes_palace_coffer_6",
+        "DECOR_hes_d12_lattice_coil_gilded_29",
+        "DECOR_hes_d12_lattice_coil_gilded_30",
+        "DECOR_hes_scrap_bundle_98"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_armoury",
+      "source_nodes": [
+        "ROOM_armoury",
+        "DECOR_hes_palace_coffer_3",
+        "DECOR_hes_d12_lattice_coil_gilded_31"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_stair",
+      "source_nodes": [
+        "ROOM_stair",
+        "MECH_court",
+        "DECOR_hes_d12_fire_bowl_gilded_32",
+        "DECOR_hes_d12_fire_bowl_gilded_33"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_court_ring",
+      "source_nodes": [
+        "ROOM_court_ring",
+        "LIGHT_L1"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_court_0",
+      "source_nodes": [
+        "ROOM_court_0",
+        "TRIGGER_rim_0",
+        "TRIGGER_rim_2",
+        "TRIGGER_hpsigil2",
+        "TRIGGER_hpsigil3",
+        "MECH_mraal",
+        "MECH_xith",
+        "MECH_crowns_gate",
+        "DECOR_hes_d12_fire_bowl_gilded_38"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_court_1",
+      "source_nodes": [
+        "ROOM_court_1",
+        "TRIGGER_rim_4",
+        "TRIGGER_rim_6",
+        "TRIGGER_hpsigil1",
+        "MECH_ssekh",
+        "MECH_noblegal",
+        "DECOR_hes_d12_fire_bowl_gilded_36"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_court_2",
+      "source_nodes": [
+        "ROOM_court_2",
+        "TRIGGER_rim_8",
+        "DECOR_hes_d12_fire_bowl_gilded_35"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_court_3",
+      "source_nodes": [
+        "ROOM_court_3",
+        "TRIGGER_rim_10",
+        "TRIGGER_rim_12",
+        "TRIGGER_herald"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_court_4",
+      "source_nodes": [
+        "ROOM_court_4",
+        "TRIGGER_rim_14",
+        "DECOR_hes_d12_fire_bowl_gilded_37"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_ssekh",
+      "source_nodes": [
+        "ROOM_ssekh",
+        "DECOR_hes_d12_fire_bowl_gilded_39"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_mraal",
+      "source_nodes": [
+        "ROOM_mraal",
+        "DECOR_hes_d12_fire_bowl_gilded_40"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_xith",
+      "source_nodes": [
+        "ROOM_xith",
+        "MECH_housegal",
+        "DECOR_hes_d12_fire_bowl_gilded_41"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_housegal_0",
+      "source_nodes": [
+        "ROOM_housegal_0",
+        "TRIGGER_house_sigil_1_housegal_0",
+        "TRIGGER_house_sigil_2_housegal_0",
+        "TRIGGER_house_sigil_3_housegal_0",
+        "DECOR_hes_d12_lattice_coil_gilded_61",
+        "DECOR_hes_serum_vat_85",
+        "DECOR_hes_serum_vat_86",
+        "DECOR_hes_serum_vat_87",
+        "DECOR_hes_scrap_bundle_100"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_housegal_1",
+      "source_nodes": [
+        "ROOM_housegal_1",
+        "DECOR_hes_palace_coffer_10",
+        "DECOR_hes_d12_lattice_coil_gilded_62"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_noblegal",
+      "source_nodes": [
+        "ROOM_noblegal",
+        "DECOR_hes_palace_coffer_7",
+        "DECOR_hes_d12_lattice_coil_gilded_42",
+        "DECOR_hes_d12_lattice_coil_gilded_43",
+        "DECOR_hes_serum_vat_81",
+        "DECOR_hes_serum_vat_82",
+        "DECOR_hes_serum_vat_83",
+        "DECOR_hes_serum_vat_84",
+        "DECOR_hes_scrap_bundle_99"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_liftbase",
+      "source_nodes": [
+        "ROOM_liftbase",
+        "TRIGGER_crowns_call_864_liftbase",
+        "TRIGGER_crowns_call_2400_liftbase",
+        "MECH_crowns_platform",
+        "DECOR_hes_d12_lattice_coil_gilded_44",
+        "DECOR_hes_d12_wall_light_73"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_voice_0",
+      "source_nodes": [
+        "ROOM_voice_0",
+        "TRIGGER_voice_voice_0",
+        "TRIGGER_cables_-320_voice_0",
+        "TRIGGER_voice_lift_top_voice_0",
+        "MECH_throne",
+        "DECOR_hes_d12_lattice_coil_gilded_45",
+        "LIGHT_L2"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_voice_1",
+      "source_nodes": [
+        "ROOM_voice_1",
+        "TRIGGER_voice_voice_1",
+        "TRIGGER_cables_320_voice_1",
+        "TRIGGER_voice_lift_top_voice_1",
+        "DECOR_hes_d12_lattice_coil_gilded_46"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_throne_0",
+      "source_nodes": [
+        "ROOM_throne_0",
+        "TRIGGER_cables_-320_throne_0",
+        "TRIGGER_cables_320_throne_0",
+        "TRIGGER_throne_entry_throne_0",
+        "MECH_sanctum",
+        "DECOR_hes_d12_fire_bowl_gilded_48"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_throne_1",
+      "source_nodes": [
+        "ROOM_throne_1"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_throne_2",
+      "source_nodes": [
+        "ROOM_throne_2",
+        "TRIGGER_cables_-320_throne_2",
+        "TRIGGER_cables_320_throne_2",
+        "LIGHT_L3",
+        "DECOR_hes_hierarch_throne_deco_0"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_throne_3",
+      "source_nodes": [
+        "ROOM_throne_3"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_throne_4",
+      "source_nodes": [
+        "ROOM_throne_4",
+        "DECOR_hes_d12_fire_bowl_gilded_47"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_throne_5",
+      "source_nodes": [
+        "ROOM_throne_5",
+        "MECH_shaft",
+        "DECOR_hes_d12_fire_bowl_gilded_49"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_sanctum_0",
+      "source_nodes": [
+        "ROOM_sanctum_0",
+        "DECOR_hes_palace_coffer_8",
+        "DECOR_hes_d12_fire_bowl_gilded_63",
+        "DECOR_hes_scrap_bundle_101"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_sanctum_1",
+      "source_nodes": [
+        "ROOM_sanctum_1"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_shaft",
+      "source_nodes": [
+        "ROOM_shaft",
+        "TRIGGER_shaft_lift_shaft",
+        "DECOR_hes_alarm_beacon_off_50",
+        "DECOR_hes_d12_fire_bowl_gilded_71"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_corridor",
+      "source_nodes": [
+        "ROOM_corridor",
+        "DECOR_hes_d12_wall_light_64",
+        "DECOR_hes_d12_wall_light_65"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_corehalls_0",
+      "source_nodes": [
+        "ROOM_corehalls_0",
+        "DECOR_hes_d12_wall_light_51",
+        "DECOR_hes_d12_wall_light_53"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_corehalls_1",
+      "source_nodes": [
+        "ROOM_corehalls_1",
+        "MECH_grid",
+        "MECH_coolant",
+        "DECOR_hes_colony_satchel_102"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_corehalls_2",
+      "source_nodes": [
+        "ROOM_corehalls_2",
+        "TRIGGER_voice_core_arrival_corehalls_2",
+        "MECH_service",
+        "DECOR_hes_colonial_locker_9",
+        "DECOR_hes_d12_wall_light_52",
+        "DECOR_hes_d12_wall_light_54",
+        "DECOR_hes_colony_satchel_103"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_coolant_0",
+      "source_nodes": [
+        "ROOM_coolant_0",
+        "DECOR_hes_d12_wall_light_55",
+        "DECOR_hes_d12_wall_light_57",
+        "DECOR_hes_colony_satchel_104",
+        "LIGHT_L5"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_coolant_1",
+      "source_nodes": [
+        "ROOM_coolant_1",
+        "DECOR_hes_d12_wall_light_56",
+        "DECOR_hes_d12_wall_light_58",
+        "DECOR_hes_colony_satchel_105"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_service",
+      "source_nodes": [
+        "ROOM_service",
+        "TRIGGER_service_exit_service",
+        "DECOR_hes_d12_wall_light_66",
+        "DECOR_hes_colony_satchel_106"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_grid_0",
+      "source_nodes": [
+        "ROOM_grid_0",
+        "TRIGGER_grid_console_grid_0",
+        "DECOR_hes_d12_ceiling_light_67",
+        "LIGHT_L4"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_grid_1",
+      "source_nodes": [
+        "ROOM_grid_1",
+        "TRIGGER_grid_console_grid_1",
+        "MECH_padlift",
+        "DECOR_hes_d12_ceiling_light_68"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_padlift",
+      "source_nodes": [
+        "ROOM_padlift",
+        "TRIGGER_padlift_exit_padlift",
+        "TRIGGER_pad_call_padlift",
+        "DECOR_hes_d12_wall_light_69",
+        "DECOR_hes_colony_satchel_107"
+      ],
+      "min_ambient_light_level": 15
+    }
+  ],
+  "portals": [
+    {
+      "id": "gatehouse_0_gatehouse_1_0",
+      "source_node": "PORTAL_gatehouse_0_gatehouse_1_0",
+      "front_room": "room_gatehouse_0",
+      "back_room": "room_gatehouse_1"
+    },
+    {
+      "id": "gatehouse_1_gatehouse_2_1",
+      "source_node": "PORTAL_gatehouse_1_gatehouse_2_1",
+      "front_room": "room_gatehouse_1",
+      "back_room": "room_gatehouse_2"
+    },
+    {
+      "id": "barracks_0_barracks_1_2",
+      "source_node": "PORTAL_barracks_0_barracks_1_2",
+      "front_room": "room_barracks_0",
+      "back_room": "room_barracks_1"
+    },
+    {
+      "id": "central_0_central_1_3",
+      "source_node": "PORTAL_central_0_central_1_3",
+      "front_room": "room_central_0",
+      "back_room": "room_central_1"
+    },
+    {
+      "id": "central_1_central_2_4",
+      "source_node": "PORTAL_central_1_central_2_4",
+      "front_room": "room_central_1",
+      "back_room": "room_central_2"
+    },
+    {
+      "id": "graftw_0_graftw_1_5",
+      "source_node": "PORTAL_graftw_0_graftw_1_5",
+      "front_room": "room_graftw_0",
+      "back_room": "room_graftw_1"
+    },
+    {
+      "id": "graftw_1_graftw_2_6",
+      "source_node": "PORTAL_graftw_1_graftw_2_6",
+      "front_room": "room_graftw_1",
+      "back_room": "room_graftw_2"
+    },
+    {
+      "id": "grafte_0_grafte_1_7",
+      "source_node": "PORTAL_grafte_0_grafte_1_7",
+      "front_room": "room_grafte_0",
+      "back_room": "room_grafte_1"
+    },
+    {
+      "id": "grafte_1_grafte_2_8",
+      "source_node": "PORTAL_grafte_1_grafte_2_8",
+      "front_room": "room_grafte_1",
+      "back_room": "room_grafte_2"
+    },
+    {
+      "id": "court_ring_court_0_9",
+      "source_node": "PORTAL_court_ring_court_0_9",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_0"
+    },
+    {
+      "id": "court_4_court_0_10",
+      "source_node": "PORTAL_court_4_court_0_10",
+      "front_room": "room_court_4",
+      "back_room": "room_court_0"
+    },
+    {
+      "id": "court_ring_court_0_11",
+      "source_node": "PORTAL_court_ring_court_0_11",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_0"
+    },
+    {
+      "id": "court_ring_court_0_12",
+      "source_node": "PORTAL_court_ring_court_0_12",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_0"
+    },
+    {
+      "id": "court_ring_court_0_13",
+      "source_node": "PORTAL_court_ring_court_0_13",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_0"
+    },
+    {
+      "id": "court_ring_court_1_14",
+      "source_node": "PORTAL_court_ring_court_1_14",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_1"
+    },
+    {
+      "id": "court_0_court_1_15",
+      "source_node": "PORTAL_court_0_court_1_15",
+      "front_room": "room_court_0",
+      "back_room": "room_court_1"
+    },
+    {
+      "id": "court_ring_court_1_16",
+      "source_node": "PORTAL_court_ring_court_1_16",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_1"
+    },
+    {
+      "id": "court_ring_court_1_17",
+      "source_node": "PORTAL_court_ring_court_1_17",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_1"
+    },
+    {
+      "id": "court_ring_court_1_18",
+      "source_node": "PORTAL_court_ring_court_1_18",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_1"
+    },
+    {
+      "id": "court_ring_court_2_19",
+      "source_node": "PORTAL_court_ring_court_2_19",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_2"
+    },
+    {
+      "id": "court_1_court_2_20",
+      "source_node": "PORTAL_court_1_court_2_20",
+      "front_room": "room_court_1",
+      "back_room": "room_court_2"
+    },
+    {
+      "id": "court_ring_court_2_21",
+      "source_node": "PORTAL_court_ring_court_2_21",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_2"
+    },
+    {
+      "id": "court_ring_court_3_22",
+      "source_node": "PORTAL_court_ring_court_3_22",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_3"
+    },
+    {
+      "id": "court_2_court_3_23",
+      "source_node": "PORTAL_court_2_court_3_23",
+      "front_room": "room_court_2",
+      "back_room": "room_court_3"
+    },
+    {
+      "id": "court_ring_court_3_24",
+      "source_node": "PORTAL_court_ring_court_3_24",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_3"
+    },
+    {
+      "id": "court_ring_court_3_25",
+      "source_node": "PORTAL_court_ring_court_3_25",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_3"
+    },
+    {
+      "id": "court_ring_court_3_26",
+      "source_node": "PORTAL_court_ring_court_3_26",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_3"
+    },
+    {
+      "id": "court_ring_court_4_27",
+      "source_node": "PORTAL_court_ring_court_4_27",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_4"
+    },
+    {
+      "id": "court_3_court_4_28",
+      "source_node": "PORTAL_court_3_court_4_28",
+      "front_room": "room_court_3",
+      "back_room": "room_court_4"
+    },
+    {
+      "id": "court_ring_court_4_29",
+      "source_node": "PORTAL_court_ring_court_4_29",
+      "front_room": "room_court_ring",
+      "back_room": "room_court_4"
+    },
+    {
+      "id": "housegal_0_housegal_1_30",
+      "source_node": "PORTAL_housegal_0_housegal_1_30",
+      "front_room": "room_housegal_0",
+      "back_room": "room_housegal_1"
+    },
+    {
+      "id": "voice_0_voice_1_31",
+      "source_node": "PORTAL_voice_0_voice_1_31",
+      "front_room": "room_voice_0",
+      "back_room": "room_voice_1"
+    },
+    {
+      "id": "throne_0_throne_1_32",
+      "source_node": "PORTAL_throne_0_throne_1_32",
+      "front_room": "room_throne_0",
+      "back_room": "room_throne_1"
+    },
+    {
+      "id": "throne_0_throne_2_33",
+      "source_node": "PORTAL_throne_0_throne_2_33",
+      "front_room": "room_throne_0",
+      "back_room": "room_throne_2"
+    },
+    {
+      "id": "throne_0_throne_3_34",
+      "source_node": "PORTAL_throne_0_throne_3_34",
+      "front_room": "room_throne_0",
+      "back_room": "room_throne_3"
+    },
+    {
+      "id": "throne_1_throne_2_35",
+      "source_node": "PORTAL_throne_1_throne_2_35",
+      "front_room": "room_throne_1",
+      "back_room": "room_throne_2"
+    },
+    {
+      "id": "throne_1_throne_4_36",
+      "source_node": "PORTAL_throne_1_throne_4_36",
+      "front_room": "room_throne_1",
+      "back_room": "room_throne_4"
+    },
+    {
+      "id": "throne_2_throne_3_37",
+      "source_node": "PORTAL_throne_2_throne_3_37",
+      "front_room": "room_throne_2",
+      "back_room": "room_throne_3"
+    },
+    {
+      "id": "throne_2_throne_5_38",
+      "source_node": "PORTAL_throne_2_throne_5_38",
+      "front_room": "room_throne_2",
+      "back_room": "room_throne_5"
+    },
+    {
+      "id": "throne_3_throne_5_39",
+      "source_node": "PORTAL_throne_3_throne_5_39",
+      "front_room": "room_throne_3",
+      "back_room": "room_throne_5"
+    },
+    {
+      "id": "sanctum_0_sanctum_1_40",
+      "source_node": "PORTAL_sanctum_0_sanctum_1_40",
+      "front_room": "room_sanctum_0",
+      "back_room": "room_sanctum_1"
+    },
+    {
+      "id": "corehalls_0_corehalls_1_41",
+      "source_node": "PORTAL_corehalls_0_corehalls_1_41",
+      "front_room": "room_corehalls_0",
+      "back_room": "room_corehalls_1"
+    },
+    {
+      "id": "corehalls_1_corehalls_2_42",
+      "source_node": "PORTAL_corehalls_1_corehalls_2_42",
+      "front_room": "room_corehalls_1",
+      "back_room": "room_corehalls_2"
+    },
+    {
+      "id": "coolant_0_coolant_1_43",
+      "source_node": "PORTAL_coolant_0_coolant_1_43",
+      "front_room": "room_coolant_0",
+      "back_room": "room_coolant_1"
+    },
+    {
+      "id": "grid_0_grid_1_44",
+      "source_node": "PORTAL_grid_0_grid_1_44",
+      "front_room": "room_grid_0",
+      "back_room": "room_grid_1"
+    },
+    {
+      "id": "gate_gatehouse_1_45",
+      "source_node": "PORTAL_gate_gatehouse_1_45",
+      "front_room": "room_gate",
+      "back_room": "room_gatehouse_1"
+    },
+    {
+      "id": "gatehouse_2_corelift_46",
+      "source_node": "PORTAL_gatehouse_2_corelift_46",
+      "front_room": "room_gatehouse_2",
+      "back_room": "room_corelift"
+    },
+    {
+      "id": "gatehouse_1_central_0_47",
+      "source_node": "PORTAL_gatehouse_1_central_0_47",
+      "front_room": "room_gatehouse_1",
+      "back_room": "room_central_0"
+    },
+    {
+      "id": "gatehouse_0_barracks_1_48",
+      "source_node": "PORTAL_gatehouse_0_barracks_1_48",
+      "front_room": "room_gatehouse_0",
+      "back_room": "room_barracks_1"
+    },
+    {
+      "id": "central_1_graftw_1_49",
+      "source_node": "PORTAL_central_1_graftw_1_49",
+      "front_room": "room_central_1",
+      "back_room": "room_graftw_1"
+    },
+    {
+      "id": "central_1_grafte_1_50",
+      "source_node": "PORTAL_central_1_grafte_1_50",
+      "front_room": "room_central_1",
+      "back_room": "room_grafte_1"
+    },
+    {
+      "id": "graftw_2_trophw_51",
+      "source_node": "PORTAL_graftw_2_trophw_51",
+      "front_room": "room_graftw_2",
+      "back_room": "room_trophw"
+    },
+    {
+      "id": "grafte_2_trophe_52",
+      "source_node": "PORTAL_grafte_2_trophe_52",
+      "front_room": "room_grafte_2",
+      "back_room": "room_trophe"
+    },
+    {
+      "id": "trophe_armoury_53",
+      "source_node": "PORTAL_trophe_armoury_53",
+      "front_room": "room_trophe",
+      "back_room": "room_armoury"
+    },
+    {
+      "id": "central_2_stair_54",
+      "source_node": "PORTAL_central_2_stair_54",
+      "front_room": "room_central_2",
+      "back_room": "room_stair"
+    },
+    {
+      "id": "stair_court_3_55",
+      "source_node": "PORTAL_stair_court_3_55",
+      "front_room": "room_stair",
+      "back_room": "room_court_3"
+    },
+    {
+      "id": "court_1_ssekh_56",
+      "source_node": "PORTAL_court_1_ssekh_56",
+      "front_room": "room_court_1",
+      "back_room": "room_ssekh"
+    },
+    {
+      "id": "court_0_mraal_57",
+      "source_node": "PORTAL_court_0_mraal_57",
+      "front_room": "room_court_0",
+      "back_room": "room_mraal"
+    },
+    {
+      "id": "court_0_xith_58",
+      "source_node": "PORTAL_court_0_xith_58",
+      "front_room": "room_court_0",
+      "back_room": "room_xith"
+    },
+    {
+      "id": "court_1_noblegal_59",
+      "source_node": "PORTAL_court_1_noblegal_59",
+      "front_room": "room_court_1",
+      "back_room": "room_noblegal"
+    },
+    {
+      "id": "xith_housegal_1_60",
+      "source_node": "PORTAL_xith_housegal_1_60",
+      "front_room": "room_xith",
+      "back_room": "room_housegal_1"
+    },
+    {
+      "id": "court_0_liftbase_61",
+      "source_node": "PORTAL_court_0_liftbase_61",
+      "front_room": "room_court_0",
+      "back_room": "room_liftbase"
+    },
+    {
+      "id": "liftbase_voice_0_62",
+      "source_node": "PORTAL_liftbase_voice_0_62",
+      "front_room": "room_liftbase",
+      "back_room": "room_voice_0"
+    },
+    {
+      "id": "liftbase_voice_1_63",
+      "source_node": "PORTAL_liftbase_voice_1_63",
+      "front_room": "room_liftbase",
+      "back_room": "room_voice_1"
+    },
+    {
+      "id": "voice_0_throne_0_64",
+      "source_node": "PORTAL_voice_0_throne_0_64",
+      "front_room": "room_voice_0",
+      "back_room": "room_throne_0"
+    },
+    {
+      "id": "voice_1_throne_0_65",
+      "source_node": "PORTAL_voice_1_throne_0_65",
+      "front_room": "room_voice_1",
+      "back_room": "room_throne_0"
+    },
+    {
+      "id": "throne_0_sanctum_1_66",
+      "source_node": "PORTAL_throne_0_sanctum_1_66",
+      "front_room": "room_throne_0",
+      "back_room": "room_sanctum_1"
+    },
+    {
+      "id": "throne_5_shaft_67",
+      "source_node": "PORTAL_throne_5_shaft_67",
+      "front_room": "room_throne_5",
+      "back_room": "room_shaft"
+    },
+    {
+      "id": "corelift_corridor_68",
+      "source_node": "PORTAL_corelift_corridor_68",
+      "front_room": "room_corelift",
+      "back_room": "room_corridor"
+    },
+    {
+      "id": "corridor_corehalls_0_69",
+      "source_node": "PORTAL_corridor_corehalls_0_69",
+      "front_room": "room_corridor",
+      "back_room": "room_corehalls_0"
+    },
+    {
+      "id": "corehalls_2_service_70",
+      "source_node": "PORTAL_corehalls_2_service_70",
+      "front_room": "room_corehalls_2",
+      "back_room": "room_service"
+    },
+    {
+      "id": "corehalls_0_grid_0_71",
+      "source_node": "PORTAL_corehalls_0_grid_0_71",
+      "front_room": "room_corehalls_0",
+      "back_room": "room_grid_0"
+    },
+    {
+      "id": "corehalls_1_grid_0_72",
+      "source_node": "PORTAL_corehalls_1_grid_0_72",
+      "front_room": "room_corehalls_1",
+      "back_room": "room_grid_0"
+    },
+    {
+      "id": "corehalls_1_grid_1_73",
+      "source_node": "PORTAL_corehalls_1_grid_1_73",
+      "front_room": "room_corehalls_1",
+      "back_room": "room_grid_1"
+    },
+    {
+      "id": "corehalls_1_coolant_0_74",
+      "source_node": "PORTAL_corehalls_1_coolant_0_74",
+      "front_room": "room_corehalls_1",
+      "back_room": "room_coolant_0"
+    },
+    {
+      "id": "corehalls_1_coolant_1_75",
+      "source_node": "PORTAL_corehalls_1_coolant_1_75",
+      "front_room": "room_corehalls_1",
+      "back_room": "room_coolant_1"
+    },
+    {
+      "id": "grid_1_padlift_76",
+      "source_node": "PORTAL_grid_1_padlift_76",
+      "front_room": "room_grid_1",
+      "back_room": "room_padlift"
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "rim_0",
+      "source_node": "TRIGGER_rim_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 150,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "rim_2",
+      "source_node": "TRIGGER_rim_2",
+      "flags": [],
+      "trigger": {
+        "event_id": 150,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "rim_4",
+      "source_node": "TRIGGER_rim_4",
+      "flags": [],
+      "trigger": {
+        "event_id": 150,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "rim_6",
+      "source_node": "TRIGGER_rim_6",
+      "flags": [],
+      "trigger": {
+        "event_id": 150,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "rim_8",
+      "source_node": "TRIGGER_rim_8",
+      "flags": [],
+      "trigger": {
+        "event_id": 150,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "rim_10",
+      "source_node": "TRIGGER_rim_10",
+      "flags": [],
+      "trigger": {
+        "event_id": 150,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "rim_12",
+      "source_node": "TRIGGER_rim_12",
+      "flags": [],
+      "trigger": {
+        "event_id": 150,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "rim_14",
+      "source_node": "TRIGGER_rim_14",
+      "flags": [],
+      "trigger": {
+        "event_id": 150,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "grid_console_grid_0",
+      "source_node": "TRIGGER_grid_console_grid_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 80,
+        "type": "click"
+      },
+      "cog_number": 180
+    },
+    {
+      "id": "grid_console_grid_1",
+      "source_node": "TRIGGER_grid_console_grid_1",
+      "flags": [],
+      "trigger": {
+        "event_id": 80,
+        "type": "click"
+      },
+      "cog_number": 180
+    },
+    {
+      "id": "service_exit_service",
+      "source_node": "TRIGGER_service_exit_service",
+      "flags": [],
+      "trigger": {
+        "event_id": 51,
+        "type": "click"
+      }
+    },
+    {
+      "id": "padlift_exit_padlift",
+      "source_node": "TRIGGER_padlift_exit_padlift",
+      "flags": [],
+      "trigger": {
+        "event_id": 52,
+        "type": "click"
+      }
+    },
+    {
+      "id": "pad_call_padlift",
+      "source_node": "TRIGGER_pad_call_padlift",
+      "flags": [],
+      "trigger": {
+        "event_id": 82,
+        "type": "click"
+      }
+    },
+    {
+      "id": "voice_core_arrival_corehalls_2",
+      "source_node": "TRIGGER_voice_core_arrival_corehalls_2",
+      "flags": [],
+      "trigger": {
+        "event_id": 162,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "core_call_-1440_corelift",
+      "source_node": "TRIGGER_core_call_-1440_corelift",
+      "flags": [],
+      "trigger": {
+        "event_id": 122,
+        "type": "click"
+      }
+    },
+    {
+      "id": "core_call_96_corelift",
+      "source_node": "TRIGGER_core_call_96_corelift",
+      "flags": [],
+      "trigger": {
+        "event_id": 122,
+        "type": "click"
+      }
+    },
+    {
+      "id": "spire_exit_gate",
+      "source_node": "TRIGGER_spire_exit_gate",
+      "flags": [],
+      "trigger": {
+        "event_id": 50,
+        "type": "click"
+      }
+    },
+    {
+      "id": "gate_console_gatehouse_0",
+      "source_node": "TRIGGER_gate_console_gatehouse_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 72,
+        "type": "click"
+      }
+    },
+    {
+      "id": "voice_gate_arrival_gatehouse_1",
+      "source_node": "TRIGGER_voice_gate_arrival_gatehouse_1",
+      "flags": [],
+      "trigger": {
+        "event_id": 162,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "press_central_0",
+      "source_node": "TRIGGER_press_central_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 15,
+        "type": "click"
+      }
+    },
+    {
+      "id": "lane_0_grafte_0",
+      "source_node": "TRIGGER_lane_0_grafte_0",
+      "flags": []
+    },
+    {
+      "id": "lane_1_grafte_0",
+      "source_node": "TRIGGER_lane_1_grafte_0",
+      "flags": []
+    },
+    {
+      "id": "lane_2_grafte_1",
+      "source_node": "TRIGGER_lane_2_grafte_1",
+      "flags": []
+    },
+    {
+      "id": "lane_3_grafte_1",
+      "source_node": "TRIGGER_lane_3_grafte_1",
+      "flags": []
+    },
+    {
+      "id": "lane_4_grafte_2",
+      "source_node": "TRIGGER_lane_4_grafte_2",
+      "flags": []
+    },
+    {
+      "id": "lane_5_grafte_2",
+      "source_node": "TRIGGER_lane_5_grafte_2",
+      "flags": []
+    },
+    {
+      "id": "niche_-3964_trophw",
+      "source_node": "TRIGGER_niche_-3964_trophw",
+      "flags": [],
+      "trigger": {
+        "event_id": 12,
+        "type": "click"
+      }
+    },
+    {
+      "id": "niche_-3064_trophw",
+      "source_node": "TRIGGER_niche_-3064_trophw",
+      "flags": [],
+      "trigger": {
+        "event_id": 12,
+        "type": "click"
+      }
+    },
+    {
+      "id": "niche_-2164_trophw",
+      "source_node": "TRIGGER_niche_-2164_trophw",
+      "flags": [],
+      "trigger": {
+        "event_id": 12,
+        "type": "click"
+      }
+    },
+    {
+      "id": "niche_2164_trophe",
+      "source_node": "TRIGGER_niche_2164_trophe",
+      "flags": [],
+      "trigger": {
+        "event_id": 12,
+        "type": "click"
+      }
+    },
+    {
+      "id": "niche_3064_trophe",
+      "source_node": "TRIGGER_niche_3064_trophe",
+      "flags": [],
+      "trigger": {
+        "event_id": 12,
+        "type": "click"
+      }
+    },
+    {
+      "id": "niche_3964_trophe",
+      "source_node": "TRIGGER_niche_3964_trophe",
+      "flags": [],
+      "trigger": {
+        "event_id": 12,
+        "type": "click"
+      }
+    },
+    {
+      "id": "hpsigil1",
+      "source_node": "TRIGGER_hpsigil1",
+      "flags": [],
+      "trigger": {
+        "event_id": 11,
+        "type": "click"
+      }
+    },
+    {
+      "id": "hpsigil2",
+      "source_node": "TRIGGER_hpsigil2",
+      "flags": [],
+      "trigger": {
+        "event_id": 11,
+        "type": "click"
+      }
+    },
+    {
+      "id": "hpsigil3",
+      "source_node": "TRIGGER_hpsigil3",
+      "flags": [],
+      "trigger": {
+        "event_id": 11,
+        "type": "click"
+      }
+    },
+    {
+      "id": "herald",
+      "source_node": "TRIGGER_herald",
+      "flags": [],
+      "trigger": {
+        "event_id": 154,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "house_sigil_1_housegal_0",
+      "source_node": "TRIGGER_house_sigil_1_housegal_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 11,
+        "type": "click"
+      }
+    },
+    {
+      "id": "house_sigil_2_housegal_0",
+      "source_node": "TRIGGER_house_sigil_2_housegal_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 11,
+        "type": "click"
+      }
+    },
+    {
+      "id": "house_sigil_3_housegal_0",
+      "source_node": "TRIGGER_house_sigil_3_housegal_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 11,
+        "type": "click"
+      }
+    },
+    {
+      "id": "crowns_call_864_liftbase",
+      "source_node": "TRIGGER_crowns_call_864_liftbase",
+      "flags": [],
+      "trigger": {
+        "event_id": 121,
+        "type": "click"
+      }
+    },
+    {
+      "id": "crowns_call_2400_liftbase",
+      "source_node": "TRIGGER_crowns_call_2400_liftbase",
+      "flags": [],
+      "trigger": {
+        "event_id": 121,
+        "type": "click"
+      }
+    },
+    {
+      "id": "voice_voice_0",
+      "source_node": "TRIGGER_voice_voice_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 160,
+        "type": "click"
+      },
+      "cog_number": 160
+    },
+    {
+      "id": "voice_voice_1",
+      "source_node": "TRIGGER_voice_voice_1",
+      "flags": [],
+      "trigger": {
+        "event_id": 160,
+        "type": "click"
+      },
+      "cog_number": 160
+    },
+    {
+      "id": "cables_-320_voice_0",
+      "source_node": "TRIGGER_cables_-320_voice_0",
+      "flags": [],
+      "cog_number": 176
+    },
+    {
+      "id": "cables_-320_throne_0",
+      "source_node": "TRIGGER_cables_-320_throne_0",
+      "flags": [],
+      "cog_number": 176
+    },
+    {
+      "id": "cables_-320_throne_2",
+      "source_node": "TRIGGER_cables_-320_throne_2",
+      "flags": [],
+      "cog_number": 176
+    },
+    {
+      "id": "cables_320_voice_1",
+      "source_node": "TRIGGER_cables_320_voice_1",
+      "flags": [],
+      "cog_number": 176
+    },
+    {
+      "id": "cables_320_throne_0",
+      "source_node": "TRIGGER_cables_320_throne_0",
+      "flags": [],
+      "cog_number": 176
+    },
+    {
+      "id": "cables_320_throne_2",
+      "source_node": "TRIGGER_cables_320_throne_2",
+      "flags": [],
+      "cog_number": 176
+    },
+    {
+      "id": "voice_lift_top_voice_0",
+      "source_node": "TRIGGER_voice_lift_top_voice_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 161,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "voice_lift_top_voice_1",
+      "source_node": "TRIGGER_voice_lift_top_voice_1",
+      "flags": [],
+      "trigger": {
+        "event_id": 161,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "throne_entry_throne_0",
+      "source_node": "TRIGGER_throne_entry_throne_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 158,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "shaft_lift_shaft",
+      "source_node": "TRIGGER_shaft_lift_shaft",
+      "flags": [],
+      "trigger": {
+        "event_id": 53,
+        "type": "click"
+      }
+    },
+    {
+      "id": "spire_gate",
+      "source_node": "MECH_spire_gate",
+      "flags": [],
+      "trigger": {
+        "event_id": 50,
+        "type": "click"
+      }
+    },
+    {
+      "id": "inner_gate",
+      "source_node": "MECH_inner_gate",
+      "flags": [],
+      "trigger": {
+        "event_id": 102,
+        "type": "click"
+      }
+    },
+    {
+      "id": "corelift_gate",
+      "source_node": "MECH_corelift_gate",
+      "flags": [],
+      "trigger": {
+        "event_id": 109,
+        "type": "click"
+      }
+    },
+    {
+      "id": "gatehouse",
+      "source_node": "MECH_gatehouse",
+      "flags": [],
+      "trigger": {
+        "event_id": 103,
+        "type": "click"
+      }
+    },
+    {
+      "id": "barracks",
+      "source_node": "MECH_barracks",
+      "flags": [],
+      "trigger": {
+        "event_id": 104,
+        "type": "click"
+      }
+    },
+    {
+      "id": "graftw",
+      "source_node": "MECH_graftw",
+      "flags": [],
+      "trigger": {
+        "event_id": 110,
+        "type": "click"
+      }
+    },
+    {
+      "id": "grafte",
+      "source_node": "MECH_grafte",
+      "flags": [],
+      "trigger": {
+        "event_id": 111,
+        "type": "click"
+      }
+    },
+    {
+      "id": "trophw",
+      "source_node": "MECH_trophw",
+      "flags": [],
+      "trigger": {
+        "event_id": 112,
+        "type": "click"
+      }
+    },
+    {
+      "id": "trophe",
+      "source_node": "MECH_trophe",
+      "flags": [],
+      "trigger": {
+        "event_id": 113,
+        "type": "click"
+      }
+    },
+    {
+      "id": "armoury",
+      "source_node": "MECH_armoury",
+      "flags": [],
+      "trigger": {
+        "event_id": 74,
+        "type": "click"
+      }
+    },
+    {
+      "id": "court",
+      "source_node": "MECH_court",
+      "flags": [],
+      "trigger": {
+        "event_id": 105,
+        "type": "click"
+      }
+    },
+    {
+      "id": "noblegal",
+      "source_node": "MECH_noblegal",
+      "flags": [],
+      "trigger": {
+        "event_id": 114,
+        "type": "click"
+      }
+    },
+    {
+      "id": "housegal",
+      "source_node": "MECH_housegal",
+      "flags": [],
+      "trigger": {
+        "event_id": 115,
+        "type": "click"
+      }
+    },
+    {
+      "id": "crowns_gate",
+      "source_node": "MECH_crowns_gate",
+      "flags": [],
+      "trigger": {
+        "event_id": 75,
+        "type": "click"
+      }
+    },
+    {
+      "id": "throne",
+      "source_node": "MECH_throne",
+      "flags": [],
+      "trigger": {
+        "event_id": 117,
+        "type": "click"
+      }
+    },
+    {
+      "id": "sanctum",
+      "source_node": "MECH_sanctum",
+      "flags": [],
+      "trigger": {
+        "event_id": 118,
+        "type": "click"
+      }
+    },
+    {
+      "id": "shaft",
+      "source_node": "MECH_shaft",
+      "flags": [],
+      "trigger": {
+        "event_id": 53,
+        "type": "click"
+      }
+    },
+    {
+      "id": "service",
+      "source_node": "MECH_service",
+      "flags": [],
+      "trigger": {
+        "event_id": 123,
+        "type": "click"
+      }
+    },
+    {
+      "id": "grid",
+      "source_node": "MECH_grid",
+      "flags": [],
+      "trigger": {
+        "event_id": 124,
+        "type": "click"
+      }
+    },
+    {
+      "id": "coolant",
+      "source_node": "MECH_coolant",
+      "flags": [],
+      "trigger": {
+        "event_id": 125,
+        "type": "click"
+      }
+    },
+    {
+      "id": "padlift",
+      "source_node": "MECH_padlift",
+      "flags": [],
+      "trigger": {
+        "event_id": 126,
+        "type": "click"
+      }
+    }
+  ],
+  "mechanisms": [
+    {
+      "id": "core_platform",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_core_platform"
+      ],
+      "door": {
+        "door_id": 22,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "move_length": 1536,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "spire_gate",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_spire_gate"
+      ],
+      "door": {
+        "door_id": 1,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 768,
+        "open_speed": 384,
+        "close_speed": 384
+      }
+    },
+    {
+      "id": "crowns_platform",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_crowns_platform"
+      ],
+      "door": {
+        "door_id": 21,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 1536,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "inner_gate",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_inner_gate"
+      ],
+      "door": {
+        "door_id": 2,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 512,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "corelift_gate",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_corelift_gate"
+      ],
+      "door": {
+        "door_id": 9,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "gatehouse",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_gatehouse"
+      ],
+      "door": {
+        "door_id": 3,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 512,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "barracks",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_barracks"
+      ],
+      "door": {
+        "door_id": 4,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "graftw",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_graftw"
+      ],
+      "door": {
+        "door_id": 10,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "grafte",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_grafte"
+      ],
+      "door": {
+        "door_id": 11,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "trophw",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_trophw"
+      ],
+      "door": {
+        "door_id": 12,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "trophe",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_trophe"
+      ],
+      "door": {
+        "door_id": 13,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "armoury",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_armoury"
+      ],
+      "door": {
+        "door_id": 16,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "court",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_court"
+      ],
+      "door": {
+        "door_id": 5,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 768,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "ssekh",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_ssekh"
+      ],
+      "door": {
+        "door_id": 6,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "mraal",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_mraal"
+      ],
+      "door": {
+        "door_id": 7,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "xith",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_xith"
+      ],
+      "door": {
+        "door_id": 8,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "noblegal",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_noblegal"
+      ],
+      "door": {
+        "door_id": 14,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "housegal",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_housegal"
+      ],
+      "door": {
+        "door_id": 15,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "crowns_gate",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_crowns_gate"
+      ],
+      "door": {
+        "door_id": 20,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "throne",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_throne"
+      ],
+      "door": {
+        "door_id": 17,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 768,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "sanctum",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_sanctum"
+      ],
+      "door": {
+        "door_id": 18,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "shaft",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_shaft"
+      ],
+      "door": {
+        "door_id": 19,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "service",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_service"
+      ],
+      "door": {
+        "door_id": 23,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "grid",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_grid"
+      ],
+      "door": {
+        "door_id": 24,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "coolant",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_coolant"
+      ],
+      "door": {
+        "door_id": 25,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    },
+    {
+      "id": "padlift",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_padlift"
+      ],
+      "door": {
+        "door_id": 26,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 384,
+        "open_speed": 256,
+        "close_speed": 256
+      }
+    }
+  ],
+  "entities": [
+    {
+      "id": "hes_shelf_rack_0",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_shelf_rack_0",
+      "decoration_list_id": 3032,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_shelf_rack_1",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_shelf_rack_1",
+      "decoration_list_id": 3032,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_founder_head_2",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_founder_head_2",
+      "decoration_list_id": 3145,
+      "event_id_primary": 173,
+      "event_id_secondary": 73,
+      "facing": 180
+    },
+    {
+      "id": "hes_palace_coffer_3",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_palace_coffer_3",
+      "decoration_list_id": 3146,
+      "event_id_primary": 0,
+      "event_id_secondary": 36,
+      "facing": 180
+    },
+    {
+      "id": "hes_kreegan_pod_chest_4",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_4",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 30,
+      "facing": 180
+    },
+    {
+      "id": "hes_colonial_locker_5",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colonial_locker_5",
+      "decoration_list_id": 3007,
+      "event_id_primary": 0,
+      "event_id_secondary": 31,
+      "facing": 180
+    },
+    {
+      "id": "hes_palace_coffer_6",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_palace_coffer_6",
+      "decoration_list_id": 3146,
+      "event_id_primary": 0,
+      "event_id_secondary": 37,
+      "facing": 180
+    },
+    {
+      "id": "hes_palace_coffer_7",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_palace_coffer_7",
+      "decoration_list_id": 3146,
+      "event_id_primary": 0,
+      "event_id_secondary": 33,
+      "facing": 180
+    },
+    {
+      "id": "hes_palace_coffer_8",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_palace_coffer_8",
+      "decoration_list_id": 3146,
+      "event_id_primary": 0,
+      "event_id_secondary": 35,
+      "facing": 180
+    },
+    {
+      "id": "hes_colonial_locker_9",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colonial_locker_9",
+      "decoration_list_id": 3007,
+      "event_id_primary": 0,
+      "event_id_secondary": 34,
+      "facing": 180
+    },
+    {
+      "id": "hes_palace_coffer_10",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_palace_coffer_10",
+      "decoration_list_id": 3146,
+      "event_id_primary": 0,
+      "event_id_secondary": 32,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_11",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_11",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_12",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_12",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_13",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_13",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_14",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_14",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_15",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_15",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_16",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_16",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_17",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_17",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_18",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_18",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_19",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_19",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_20",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_20",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_21",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_21",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_22",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_22",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_23",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_23",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_24",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_24",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_25",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_25",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_26",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_26",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_27",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_27",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_28",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_28",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_29",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_29",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_30",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_30",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_31",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_31",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_32",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_32",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_33",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_33",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_wall_light_34",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_34",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_35",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_35",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_36",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_36",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_37",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_37",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_38",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_38",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_39",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_39",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_40",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_40",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_41",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_41",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_42",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_42",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_43",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_43",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_44",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_44",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_45",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_45",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_46",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_46",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_47",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_47",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_48",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_48",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_49",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_49",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_alarm_beacon_off_50",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_alarm_beacon_off_50",
+      "decoration_list_id": 3144,
+      "event_id_primary": 124,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_wall_light_51",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_51",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_wall_light_52",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_52",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_wall_light_53",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_53",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_wall_light_54",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_54",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_wall_light_55",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_55",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_wall_light_56",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_56",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_wall_light_57",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_57",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_wall_light_58",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_58",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_59",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_59",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_60",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_60",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_61",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_61",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_lattice_coil_gilded_62",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_lattice_coil_gilded_62",
+      "decoration_list_id": 3233,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_63",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_63",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d12_wall_light_64",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_64",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_wall_light_65",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_65",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d12_wall_light_66",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_66",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_ceiling_light_67",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_ceiling_light_67",
+      "decoration_list_id": 3231,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_ceiling_light_68",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_ceiling_light_68",
+      "decoration_list_id": 3231,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_wall_light_69",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_69",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_70",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_70",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_fire_bowl_gilded_71",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_fire_bowl_gilded_71",
+      "decoration_list_id": 3232,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d12_wall_light_72",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_72",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d12_wall_light_73",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d12_wall_light_73",
+      "decoration_list_id": 3230,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_74",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_74",
+      "decoration_list_id": 3246,
+      "event_id_primary": 701,
+      "event_id_secondary": 701,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_75",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_75",
+      "decoration_list_id": 3246,
+      "event_id_primary": 702,
+      "event_id_secondary": 702,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_76",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_76",
+      "decoration_list_id": 3246,
+      "event_id_primary": 703,
+      "event_id_secondary": 703,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_77",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_77",
+      "decoration_list_id": 3246,
+      "event_id_primary": 704,
+      "event_id_secondary": 704,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_78",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_78",
+      "decoration_list_id": 3246,
+      "event_id_primary": 705,
+      "event_id_secondary": 705,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_79",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_79",
+      "decoration_list_id": 3246,
+      "event_id_primary": 706,
+      "event_id_secondary": 706,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_80",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_80",
+      "decoration_list_id": 3246,
+      "event_id_primary": 707,
+      "event_id_secondary": 707,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_81",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_81",
+      "decoration_list_id": 3246,
+      "event_id_primary": 708,
+      "event_id_secondary": 708,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_82",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_82",
+      "decoration_list_id": 3246,
+      "event_id_primary": 709,
+      "event_id_secondary": 709,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_83",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_83",
+      "decoration_list_id": 3246,
+      "event_id_primary": 710,
+      "event_id_secondary": 710,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_84",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_84",
+      "decoration_list_id": 3246,
+      "event_id_primary": 711,
+      "event_id_secondary": 711,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_85",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_85",
+      "decoration_list_id": 3246,
+      "event_id_primary": 712,
+      "event_id_secondary": 712,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_86",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_86",
+      "decoration_list_id": 3246,
+      "event_id_primary": 713,
+      "event_id_secondary": 713,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_87",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_87",
+      "decoration_list_id": 3246,
+      "event_id_primary": 714,
+      "event_id_secondary": 714,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_88",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_88",
+      "decoration_list_id": 3257,
+      "event_id_primary": 751,
+      "event_id_secondary": 751,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_89",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_89",
+      "decoration_list_id": 3257,
+      "event_id_primary": 752,
+      "event_id_secondary": 752,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_90",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_90",
+      "decoration_list_id": 3257,
+      "event_id_primary": 753,
+      "event_id_secondary": 753,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_91",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_91",
+      "decoration_list_id": 3257,
+      "event_id_primary": 754,
+      "event_id_secondary": 754,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_92",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_92",
+      "decoration_list_id": 3257,
+      "event_id_primary": 755,
+      "event_id_secondary": 755,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_93",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_93",
+      "decoration_list_id": 3257,
+      "event_id_primary": 756,
+      "event_id_secondary": 756,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_94",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_94",
+      "decoration_list_id": 3257,
+      "event_id_primary": 757,
+      "event_id_secondary": 757,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_95",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_95",
+      "decoration_list_id": 3257,
+      "event_id_primary": 758,
+      "event_id_secondary": 758,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_96",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_96",
+      "decoration_list_id": 3257,
+      "event_id_primary": 759,
+      "event_id_secondary": 759,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_97",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_97",
+      "decoration_list_id": 3257,
+      "event_id_primary": 760,
+      "event_id_secondary": 760,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_98",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_98",
+      "decoration_list_id": 3257,
+      "event_id_primary": 761,
+      "event_id_secondary": 761,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_99",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_99",
+      "decoration_list_id": 3257,
+      "event_id_primary": 762,
+      "event_id_secondary": 762,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_100",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_100",
+      "decoration_list_id": 3257,
+      "event_id_primary": 763,
+      "event_id_secondary": 763,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_101",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_101",
+      "decoration_list_id": 3257,
+      "event_id_primary": 764,
+      "event_id_secondary": 764,
+      "facing": 90
+    },
+    {
+      "id": "hes_colony_satchel_102",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_102",
+      "decoration_list_id": 3255,
+      "event_id_primary": 765,
+      "event_id_secondary": 765,
+      "facing": 90
+    },
+    {
+      "id": "hes_colony_satchel_103",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_103",
+      "decoration_list_id": 3255,
+      "event_id_primary": 766,
+      "event_id_secondary": 766,
+      "facing": 90
+    },
+    {
+      "id": "hes_colony_satchel_104",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_104",
+      "decoration_list_id": 3255,
+      "event_id_primary": 767,
+      "event_id_secondary": 767,
+      "facing": 90
+    },
+    {
+      "id": "hes_colony_satchel_105",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_105",
+      "decoration_list_id": 3255,
+      "event_id_primary": 768,
+      "event_id_secondary": 768,
+      "facing": 90
+    },
+    {
+      "id": "hes_colony_satchel_106",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_106",
+      "decoration_list_id": 3255,
+      "event_id_primary": 769,
+      "event_id_secondary": 769,
+      "facing": 90
+    },
+    {
+      "id": "hes_colony_satchel_107",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_colony_satchel_107",
+      "decoration_list_id": 3255,
+      "event_id_primary": 770,
+      "event_id_secondary": 770,
+      "facing": 90
+    },
+    {
+      "id": "hes_hierarch_throne_deco_0",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_hierarch_throne_deco_0",
+      "decoration_list_id": 3260,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    }
+  ],
+  "lights": [
+    {
+      "id": "L1",
+      "source_node": "LIGHT_L1",
+      "color": [
+        205,
+        175,
+        255
+      ],
+      "radius": 1400,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "L2",
+      "source_node": "LIGHT_L2",
+      "color": [
+        120,
+        230,
+        255
+      ],
+      "radius": 1300,
+      "brightness": 31,
+      "type": "point",
+      "group": 6
+    },
+    {
+      "id": "L3",
+      "source_node": "LIGHT_L3",
+      "color": [
+        205,
+        175,
+        255
+      ],
+      "radius": 1100,
+      "brightness": 31,
+      "type": "point",
+      "group": 3
+    },
+    {
+      "id": "L5",
+      "source_node": "LIGHT_L5",
+      "color": [
+        255,
+        150,
+        90
+      ],
+      "radius": 900,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "L4",
+      "source_node": "LIGHT_L4",
+      "color": [
+        170,
+        120,
+        255
+      ],
+      "radius": 600,
+      "brightness": 31,
+      "type": "point",
+      "group": 5
+    }
+  ],
+  "spawns": []
+}

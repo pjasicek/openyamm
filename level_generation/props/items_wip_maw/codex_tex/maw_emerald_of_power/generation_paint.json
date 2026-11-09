@@ -1,0 +1,33 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Paint-only view atlas, precise-object-edit. Edit input 1 guide_atlas.png, preserving its exact 1536x1024 canvas and alpha silhouettes. Input 2 design_reference.png is material/detail reference ONLY, input 3 icon_x8.png is colour reference ONLY (magenta is background).\nOutput ONE 1536x1024 transparent PNG, three columns by two rows of 512x512 cells. Row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, empty. Paint grey objects only; never redraw, enlarge, move or redesign. Keep each object's exact position, size, outline and orthographic facets. Two small hexagonal end views centered at (256,256) and (768,256); horizontal long side view centered (1280,256); horizontal side view centered (256,768); vertical long top view centered (768,768). Last cell fully transparent. Preserve guide alpha and all empty space exactly.\nObject: long slender hexagonal emerald crystal prism with pointed faceted terminations at both ends, lying on its side on ground. Paint unlit base colour: vivid saturated green emerald crystal, lighter green facet edges, deep green core. Facets and inner swirls/veining follow approved design reference scaled to each view; any engravings/scrollwork only as present in reference. Retain long simple planes of guide with green internal crystalline marbling. Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no glow halo, sparkles or aura outside silhouette, no ground, no outlines, no text. Do not copy the diagonal pose of the reference. Keep every gap and opening as in guide fully transparent.\nCORRECTION: The previous attempt failed by adding broad green glow and a black opaque background. These change the alpha silhouettes and are forbidden. Strictly preserve input 1's transparency: all pixels outside the five original grey polygons must have alpha zero. NO green haze or bloom anywhere. Paint matte unlit green mineral pigmentation inside the guide polygons only. No bright white specular highlights. Match the grey guide's actual facet boundaries, do not invent additional bevels. Output transparent RGBA, not black background.",
+  "initial_prompt": "Paint-only view atlas, precise-object-edit. Edit input 1 guide_atlas.png, preserving its exact 1536x1024 canvas and alpha silhouettes. Input 2 design_reference.png is material/detail reference ONLY, input 3 icon_x8.png is colour reference ONLY (magenta is background).\nOutput ONE 1536x1024 transparent PNG, three columns by two rows of 512x512 cells. Row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, empty. Paint grey objects only; never redraw, enlarge, move or redesign. Keep each object's exact position, size, outline and orthographic facets. Two small hexagonal end views centered at (256,256) and (768,256); horizontal long side view centered (1280,256); horizontal side view centered (256,768); vertical long top view centered (768,768). Last cell fully transparent. Preserve guide alpha and all empty space exactly.\nObject: long slender hexagonal emerald crystal prism with pointed faceted terminations at both ends, lying on its side on ground. Paint unlit base colour: vivid saturated green emerald crystal, lighter green facet edges, deep green core. Facets and inner swirls/veining follow approved design reference scaled to each view; any engravings/scrollwork only as present in reference. Retain long simple planes of guide with green internal crystalline marbling. Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no glow halo, sparkles or aura outside silhouette, no ground, no outlines, no text. Do not copy the diagonal pose of the reference. Keep every gap and opening as in guide fully transparent.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_emerald_of_power/guide_atlas.png",
+      "sha256": "780b9fb963d4912be1a16d1a405a2930d556cb3985082a0b727a4719ee38c77e"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_emerald_of_power/design_reference.png",
+      "sha256": "36664db36eccef40bb60b75d50689000dca25e0d0e17623face0c2432538f1b9"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_emerald_of_power/icon_x8.png",
+      "sha256": "7c2a12d3c489a7cf54065076486332aac35ab0900399a07f95851f38ffaa69aa"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce1-c2b8-72f2-ba30-b71c4fe427ba/exec-164990a9-16c5-4466-a3ad-78568cac42f5.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_emerald_of_power/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "corrective_regenerations": 1,
+  "validation": {
+    "status": "does_not_fully_meet_brief",
+    "issues": [
+      "Visible exterior green glow remains after correction.",
+      "Exact guide silhouettes and unlit material requirements are not satisfied."
+    ]
+  }
+}

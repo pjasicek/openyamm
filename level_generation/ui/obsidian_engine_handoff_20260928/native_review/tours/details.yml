@@ -1,0 +1,29 @@
+output_dir: /tmp/obsidian-native-details
+exit: true
+steps:
+  - wait: 2
+  - capture: all-recovering
+  - click: [1545, 237]
+  - capture: zoom-in
+  - click: [1368, 237]
+  - capture: zoom-out
+  - action: quest
+  - capture: inventory
+  - click: [470, 656]
+  - capture: skills
+  - pointer_down: [1071, 265]
+  - pointer_move: [1071, 530]
+  - pointer_up: [1071, 530]
+  - capture: skills-dragged
+  - click: [800, 656]
+  - capture: awards
+  - pointer_down: [1011, 240]
+  - pointer_move: [1011, 520]
+  - pointer_up: [1011, 520]
+  - capture: awards-dragged
+  - key: Escape
+  - action: rest
+  - capture: rest
+  - key: Escape
+  - key: Escape
+  - capture: menu

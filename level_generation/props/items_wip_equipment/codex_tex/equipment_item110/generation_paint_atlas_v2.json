@@ -1,0 +1,23 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas. Preserve its 1536x1024 3:2 canvas, 3x2 tile grid, exact five outlines, positions, sizes and every shape edge. Do NOT redraw or move/recompose the five objects. Tile order: front, back, left on top row; right, top, empty on bottom row. Change ONLY the surfaces inside existing silhouettes to realistic fantasy game ALBEDO texture, using image 2's icon material colours. Dome, forehead and visor iron are dark charcoal steel. Brow studs dull gold. The two curled side horns are tan with ridged horn grain. Entire lower smooth flared skirt receives dark iron chainmail texture PAINTED ON THE SOLID SURFACE, all skirt and ring pixels opaque, not new holes. Match every guide protrusion and silhouette exactly; do not expand edges to illustrate chainmail links. Flat even shadowless colour, no specular glints, reflections, cast shadows, AO or highlights. Source texture sheet, not a product photograph. Background and empty tile truly transparent; no glow, haze, floor, labels or frames. Critical correction: keep exactly the guide width/height of EACH view; in particular side views and top view must NOT get wider. One landscape 3:2 atlas.",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-1c18c5a8-32e2-4e3c-b7b1-c5616c411e0d.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "supersedes": "generation_paint_atlas.json",
+  "raw_output": "paint_raw_v2.png",
+  "output_sha256": "d435726ff8813faef39c9e65388568364c04caa5660cfc9a521e8550a7b8fb3d",
+  "revision": 2,
+  "input_icon": "item110",
+  "input_icon_path": "assets_dev/engine/icons_x2/item110.png",
+  "input_icon_sha256": "475f68b68a4591736bfe98fe0e08294748db14cec965a2b28ed0ce1ec4d75971",
+  "retained_guide": "codex_tex/equipment_item110/guide_atlas.png",
+  "retained_guide_sha256": "0a3a7c21ec77c525c61b8838131cd83d378e623b50db12815c5a16d9ecfbeb2e",
+  "guide_hash_note": "Retained guide hashed retrospectively; original receipt omitted input hash.",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "format_version": 1,
+  "project": "brackenford_greywatch",
+  "installation": "isolated MM8 development mount; original base artwork required",
+  "map_ids": {
+    "lg02.blv": 9081,
+    "lg01.odm": 9082
+  },
+  "tested_binary_sha256": "1190297b468138ce50c1a9450586156ed18a3d4d9a0005afc92e6de38ead9660",
+  "base_sha256": {
+    "engine/data_tables/map_stats.txt": "15c97e7fa3a23f1857be2646cf732e89c5000a06b3b3ee252f9a36a4250e5ed6",
+    "engine/data_tables/house_data.txt": "03a2057bd9baa19e68931de61d16ff7bfe67bb4e5f6b0cce4d4cd279d1d6eb45",
+    "engine/data_tables/house_animations.txt": "3c7ffcdc826995e790448b036109edf44e2521ee34f389ee5a94c2c86fa2633f",
+    "engine/data_tables/npc.txt": "1432a20271baa15e3d93ce5ad9909b8dbfc29ee50f8a9fc8a89b41df7dc258fa",
+    "engine/data_tables/bolster_maps.txt": "69b22e8f56a85326eed3b67d88e84c7ffd848c511ac4bea4b0ca9d8b8e7359f1",
+    "engine/data_tables/map_navigation.txt": "82dd9e1fb1737ff0a239cb0d5ec884a2542ba934d776b0b4357caa9fc965d4b9",
+    "engine/data_tables/transport_locations.txt": "86873d3feb2fbd635e002e96e10610e59a330dd17d201208d8f1d49803517501",
+    "engine/data_tables/house_rules.txt": "e261ec6b6051c5c8941846297d09461bf583ba41809bd5d6a0710e62124fe61d"
+  },
+  "files": {
+    "worlds/mm8/events/maps/lg01.lua": "db998aad9ac970e92b298bb5272a1c7416269180d82e167a4b6b0a947256faa9",
+    "worlds/mm8/events/maps/lg02.lua": "c1e8c62e27e5437f2dd227e424f717af0499d671ce44c459f71e149ede30ce74",
+    "worlds/mm8/icons/lg01.bmp": "05874dcbd3e48cfe5b3e36503d3e4fa4d9b18f0c79086d23dd3ca699a9b07efd",
+    "worlds/mm8/maps/lg01.odm": "1042e98eda5e9cce9feda806ef469ee0f7c9a9e9fed304b7ad30288768df51a5",
+    "worlds/mm8/maps/lg01.scene.yml": "25bed603db903461f6fee4ba69fff2063b16a5bba74b04477c42eb07f18b76b9",
+    "worlds/mm8/maps/lg02.blv": "b227608891142f1982f2cd6039124eaab2310775b6760760a8570baff8679fec",
+    "worlds/mm8/maps/lg02.scene.yml": "9d889acbc7365555b112421cbf288c09557fc2edb62c99b123d349f5b31c83e8",
+    "engine/data_tables/map_stats.txt": "10e56382bb467f8059a63f87691ea82f23e5af66cda5511388b9c8cd5a2e4833",
+    "engine/data_tables/house_data.txt": "b166c142c744125f5811140686201cc071be1f1bae114577cf5f5a78670442ba",
+    "engine/data_tables/house_animations.txt": "af2c6712cb7a84fa47d71ae1435eb4d087834295fbd247030cf0b9bc6733a308",
+    "engine/data_tables/npc.txt": "eabc4bbbf35db4933fc1f4deb20d4846f4f6b8b8a43b894a7ee365a30225d0dc",
+    "engine/data_tables/bolster_maps.txt": "89c4fd98867dd9a2a89467460b88f570ceeb1b7ff9eb658cad3bdae5f6dcc471",
+    "engine/data_tables/map_navigation.txt": "0765a5afc5f1bdda6c8fd86da082d0b689dacac4c061c0c6350c45db3f8d4f42",
+    "engine/data_tables/transport_locations.txt": "241370bcf90912faf8eb086266b01c6f02a5cbfb7ffbd711465d270b46dbccf3",
+    "engine/data_tables/house_rules.txt": "85ff71f75e814a8e6d1756e04626495061d9e9e757103a8fdc0c689b179e055a"
+  }
+}

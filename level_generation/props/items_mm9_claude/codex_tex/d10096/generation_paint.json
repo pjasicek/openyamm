@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit paint_mask_guide.png, the exact geometry/layout target. design_reference.png is material/detail reference; icon_x8.png is colour reference (ignore magenta background).\nProduce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the guide's three columns by FOUR rows of 512x512 cells, all object positions, sizes, rotations, outlines, openings and gaps EXACTLY. Do not reinterpret camera labels or rearrange views. Rows 1-2 and 3-4 repeat the same five renders, FRONT, BACK, LEFT / RIGHT, TOP, empty. Paint grey objects only; never redraw, enlarge, move or redesign them.\nRows 1-2 PAINT: unlit base colour of a sleeveless tunic of large rusty brown-bronze butted chain rings, coarse and slightly irregular with a few broken links, a plain round neck and short split skirt. Match reference detail and original icon colours, scaled into each exact guide silhouette. Facets, engravings, scrollwork and inner swirls follow design reference where present. No lighting, cast shadows, ambient occlusion, hot highlights or reflections. Chain ring appearance in base colours only. Preserve all guide gaps and openings fully transparent; add no new silhouette holes.\nRows 3-4 MATERIAL MASK: fill each exact guide silhouette with flat pure #FF0000 red because this item is entirely metal chain mail. No shading, texture, outlines or antialiased colour blends inside. Material rules: metal pure red #FF0000; leather/fur pure green #00FF00; cloth/hair pure blue #0000FF; gems/crystal/glass/pearl/enamel/liquid through glass pure black #000000. Every silhouette pixel exactly one material colour, nothing outside.\nEmpty cells column 3 row 2 and column 3 row 4 remain transparent. No ground, text, outlines, glow halo, sparkles or aura. Preserve guide silhouette boundaries precisely.\nCRITICAL CORRECTION: the material mask must have absolutely clean silhouette edges and completely transparent empty space. NO scattered red pixels, red spray, red noise, marks outside the silhouettes or inside the circular holes. Rows 3\u20134 should look like exact solid-red cutouts of the grey guide, with all original holes transparent. Preserve the exact guide shape and placement, including the bottom center silhouette's complete hem. This is a precise texture atlas, not an illustration presentation.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10096/paint_mask_guide.png",
+      "sha256": "0ef7f8bf2a4c2530783acc1bc72977305c1f89a0e86798440629b701e70a62ab"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10096/design_reference.png",
+      "sha256": "03b99db3bc49e1a3a61146bf7bc64cbb476913ad1bacedcb248673e04cac5564"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10096/icon_x8.png",
+      "sha256": "7a9b8a6ca7067708a7f2ae6f6df24ec194c12e37c1a4160138ce806039f5dfee"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1aca1-92eb-7513-b9e4-cd0f341e0983/exec-e7909b29-e2c7-4c76-904f-12a6a650db0c.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10096/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained; visible stray red pixels remain outside material-mask silhouettes after the permitted correction. Raw output preserved without editing."
+}

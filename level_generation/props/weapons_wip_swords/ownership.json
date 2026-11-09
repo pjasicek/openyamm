@@ -1,0 +1,2450 @@
+[
+  {
+    "icon": "2hsword1",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1608,
+        "name": "Claymore"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "2hsword1",
+      "model": "engine/world_items/models/item_2hsword1.glb",
+      "length": 195.3
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "2hsword1",
+      "name": "Claymore",
+      "id": 1608,
+      "triangles": 327,
+      "runtime_triangles": 327,
+      "thickness_pct_length": 1.89,
+      "zero_thickness_triangles": 13,
+      "zero_thickness_area_pct": 5.56,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/2hsword1.png"
+  },
+  {
+    "icon": "2hsword2",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1609,
+        "name": "Barbarian Flamberge"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "2hsword2",
+      "model": "engine/world_items/models/item_2hsword2.glb",
+      "length": 208.8
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "2hsword2",
+      "name": "Barbarian Flamberge",
+      "id": 1609,
+      "triangles": 478,
+      "runtime_triangles": 478,
+      "thickness_pct_length": 1.96,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 7.26,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/2hsword2.png"
+  },
+  {
+    "icon": "2hsword3",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1610,
+        "name": "Vanquisher Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "2hsword3",
+      "model": "engine/world_items/models/item_2hsword3.glb",
+      "length": 185.0
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "2hsword3",
+      "name": "Vanquisher Sword",
+      "id": 1610,
+      "triangles": 192,
+      "runtime_triangles": 192,
+      "thickness_pct_length": 2.15,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 6.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/2hsword3.png"
+  },
+  {
+    "icon": "62hsword5",
+    "family": "swords",
+    "items": [
+      {
+        "id": 2039,
+        "name": "Hercules"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "62hsword5",
+      "model": "engine/world_items/models/item_62hsword5.glb",
+      "length": 185.0
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "62hsword5",
+      "name": "Hercules",
+      "id": 2039,
+      "triangles": 192,
+      "runtime_triangles": 192,
+      "thickness_pct_length": 2.15,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 6.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/62hsword5.png"
+  },
+  {
+    "icon": "6brsword4",
+    "family": "swords",
+    "items": [
+      {
+        "id": 2023,
+        "name": "Excalibur"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6brsword4",
+      "model": "engine/world_items/models/item_6brsword4.glb",
+      "length": 165.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "6brsword4",
+      "name": "Excalibur",
+      "id": 2023,
+      "triangles": 190,
+      "runtime_triangles": 190,
+      "thickness_pct_length": 2.55,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 8.45,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6brsword4.png"
+  },
+  {
+    "icon": "6lsword7",
+    "family": "swords",
+    "items": [
+      {
+        "id": 2035,
+        "name": "Hades"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6lsword7",
+      "model": "engine/world_items/models/item_6lsword7.glb",
+      "length": 165.6
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "6lsword7",
+      "name": "Hades",
+      "id": 2035,
+      "triangles": 180,
+      "runtime_triangles": 180,
+      "thickness_pct_length": 2.17,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 19.12,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6lsword7.png"
+  },
+  {
+    "icon": "7item001",
+    "family": "swords",
+    "items": [
+      {
+        "id": 803,
+        "name": "Crude Longsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item001",
+      "model": "engine/world_items/models/item_7item001.glb",
+      "length": 138.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item001",
+      "name": "Crude Longsword",
+      "id": 803,
+      "triangles": 206,
+      "runtime_triangles": 206,
+      "thickness_pct_length": 2.74,
+      "zero_thickness_triangles": 10,
+      "zero_thickness_area_pct": 2.91,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item001.png"
+  },
+  {
+    "icon": "7item002",
+    "family": "swords",
+    "items": [
+      {
+        "id": 804,
+        "name": "Elven Saber"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item002",
+      "model": "engine/world_items/models/item_7item002.glb",
+      "length": 161.1
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item002",
+      "name": "Elven Saber",
+      "id": 804,
+      "triangles": 120,
+      "runtime_triangles": 120,
+      "thickness_pct_length": 2.25,
+      "zero_thickness_triangles": 30,
+      "zero_thickness_area_pct": 10.68,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item002.png"
+  },
+  {
+    "icon": "7item003",
+    "family": "swords",
+    "items": [
+      {
+        "id": 805,
+        "name": "Keen Longsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item003",
+      "model": "engine/world_items/models/item_7item003.glb",
+      "length": 133.7
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item003",
+      "name": "Keen Longsword",
+      "id": 805,
+      "triangles": 128,
+      "runtime_triangles": 128,
+      "thickness_pct_length": 2.94,
+      "zero_thickness_triangles": 10,
+      "zero_thickness_area_pct": 3.74,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item003.png"
+  },
+  {
+    "icon": "7item004",
+    "family": "swords",
+    "items": [
+      {
+        "id": 806,
+        "name": "Graceful Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item004",
+      "model": "engine/world_items/models/item_7item004.glb",
+      "length": 151.7
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item004",
+      "name": "Graceful Sword",
+      "id": 806,
+      "triangles": 206,
+      "runtime_triangles": 206,
+      "thickness_pct_length": 2.6,
+      "zero_thickness_triangles": 8,
+      "zero_thickness_area_pct": 5.69,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item004.png"
+  },
+  {
+    "icon": "7item005",
+    "family": "swords",
+    "items": [
+      {
+        "id": 807,
+        "name": "Duelist Blade"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item005",
+      "model": "engine/world_items/models/item_7item005.glb",
+      "length": 162.9
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item005",
+      "name": "Duelist Blade",
+      "id": 807,
+      "triangles": 251,
+      "runtime_triangles": 251,
+      "thickness_pct_length": 2.41,
+      "zero_thickness_triangles": 33,
+      "zero_thickness_area_pct": 12.82,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item005.png"
+  },
+  {
+    "icon": "7item006",
+    "family": "swords",
+    "items": [
+      {
+        "id": 808,
+        "name": "Two-Handed Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item006",
+      "model": "engine/world_items/models/item_7item006.glb",
+      "length": 164.7
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item006",
+      "name": "Two-Handed Sword",
+      "id": 808,
+      "triangles": 100,
+      "runtime_triangles": 100,
+      "thickness_pct_length": 2.09,
+      "zero_thickness_triangles": 28,
+      "zero_thickness_area_pct": 47.79,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item006.png"
+  },
+  {
+    "icon": "7item007",
+    "family": "swords",
+    "items": [
+      {
+        "id": 809,
+        "name": "Great Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item007",
+      "model": "engine/world_items/models/item_7item007.glb",
+      "length": 171.9
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item007",
+      "name": "Great Sword",
+      "id": 809,
+      "triangles": 218,
+      "runtime_triangles": 218,
+      "thickness_pct_length": 2.12,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 4.96,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item007.png"
+  },
+  {
+    "icon": "7item008",
+    "family": "swords",
+    "items": [
+      {
+        "id": 810,
+        "name": "Heroic Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item008",
+      "model": "engine/world_items/models/item_7item008.glb",
+      "length": 172.3
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item008",
+      "name": "Heroic Sword",
+      "id": 810,
+      "triangles": 314,
+      "runtime_triangles": 314,
+      "thickness_pct_length": 2.55,
+      "zero_thickness_triangles": 10,
+      "zero_thickness_area_pct": 1.61,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item008.png"
+  },
+  {
+    "icon": "7item009",
+    "family": "swords",
+    "items": [
+      {
+        "id": 811,
+        "name": "Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item009",
+      "model": "engine/world_items/models/item_7item009.glb",
+      "length": 142.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item009",
+      "name": "Broadsword",
+      "id": 811,
+      "triangles": 169,
+      "runtime_triangles": 169,
+      "thickness_pct_length": 2.45,
+      "zero_thickness_triangles": 43,
+      "zero_thickness_area_pct": 11.33,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item009.png"
+  },
+  {
+    "icon": "7item010",
+    "family": "swords",
+    "items": [
+      {
+        "id": 812,
+        "name": "Steel Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item010",
+      "model": "engine/world_items/models/item_7item010.glb",
+      "length": 130.5
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item010",
+      "name": "Steel Broadsword",
+      "id": 812,
+      "triangles": 250,
+      "runtime_triangles": 250,
+      "thickness_pct_length": 3.25,
+      "zero_thickness_triangles": 30,
+      "zero_thickness_area_pct": 6.49,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item010.png"
+  },
+  {
+    "icon": "7item011",
+    "family": "swords",
+    "items": [
+      {
+        "id": 813,
+        "name": "Master Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item011",
+      "model": "engine/world_items/models/item_7item011.glb",
+      "length": 139.5
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item011",
+      "name": "Master Broadsword",
+      "id": 813,
+      "triangles": 387,
+      "runtime_triangles": 387,
+      "thickness_pct_length": 3.85,
+      "zero_thickness_triangles": 33,
+      "zero_thickness_area_pct": 5.46,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item011.png"
+  },
+  {
+    "icon": "7item012",
+    "family": "swords",
+    "items": [
+      {
+        "id": 814,
+        "name": "Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item012",
+      "model": "engine/world_items/models/item_7item012.glb",
+      "length": 116.1
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item012",
+      "name": "Cutlass",
+      "id": 814,
+      "triangles": 167,
+      "runtime_triangles": 167,
+      "thickness_pct_length": 3.26,
+      "zero_thickness_triangles": 29,
+      "zero_thickness_area_pct": 8.44,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item012.png"
+  },
+  {
+    "icon": "7item013",
+    "family": "swords",
+    "items": [
+      {
+        "id": 815,
+        "name": "Goblin Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item013",
+      "model": "engine/world_items/models/item_7item013.glb",
+      "length": 133.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item013",
+      "name": "Goblin Cutlass",
+      "id": 815,
+      "triangles": 295,
+      "runtime_triangles": 295,
+      "thickness_pct_length": 3.15,
+      "zero_thickness_triangles": 47,
+      "zero_thickness_area_pct": 10.02,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item013.png"
+  },
+  {
+    "icon": "7item014",
+    "family": "swords",
+    "items": [
+      {
+        "id": 816,
+        "name": "Exquisite Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item014",
+      "model": "engine/world_items/models/item_7item014.glb",
+      "length": 144.0
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item014",
+      "name": "Exquisite Cutlass",
+      "id": 816,
+      "triangles": 317,
+      "runtime_triangles": 317,
+      "thickness_pct_length": 2.99,
+      "zero_thickness_triangles": 29,
+      "zero_thickness_area_pct": 5.51,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item014.png"
+  },
+  {
+    "icon": "7item217",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1302,
+        "name": "Puck"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item217",
+      "model": "engine/world_items/models/item_7item217.glb",
+      "length": 160.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item217",
+      "name": "Puck",
+      "id": 1302,
+      "triangles": 240,
+      "runtime_triangles": 240,
+      "thickness_pct_length": 2.47,
+      "zero_thickness_triangles": 28,
+      "zero_thickness_area_pct": 7.27,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item217.png"
+  },
+  {
+    "icon": "7item218",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1303,
+        "name": "Iron Feather"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item218",
+      "model": "engine/world_items/models/item_7item218.glb",
+      "length": 169.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item218",
+      "name": "Iron Feather",
+      "id": 1303,
+      "triangles": 296,
+      "runtime_triangles": 296,
+      "thickness_pct_length": 2.4,
+      "zero_thickness_triangles": 28,
+      "zero_thickness_area_pct": 2.64,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item218.png"
+  },
+  {
+    "icon": "7item219",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1304,
+        "name": "Wallace"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item219",
+      "model": "engine/world_items/models/item_7item219.glb",
+      "length": 135.0
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item219",
+      "name": "Wallace",
+      "id": 1304,
+      "triangles": 312,
+      "runtime_triangles": 312,
+      "thickness_pct_length": 3.51,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 11.46,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item219.png"
+  },
+  {
+    "icon": "7item220",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1305,
+        "name": "Corsair"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item220",
+      "model": "engine/world_items/models/item_7item220.glb",
+      "length": 135.0
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item220",
+      "name": "Corsair",
+      "id": 1305,
+      "triangles": 242,
+      "runtime_triangles": 242,
+      "thickness_pct_length": 3.1,
+      "zero_thickness_triangles": 18,
+      "zero_thickness_area_pct": 4.58,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item220.png"
+  },
+  {
+    "icon": "7item242",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1333,
+        "name": "Elfbane"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item242",
+      "model": "engine/world_items/models/item_7item242.glb",
+      "length": 172.3
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item242",
+      "name": "Elfbane",
+      "id": 1333,
+      "triangles": 314,
+      "runtime_triangles": 314,
+      "thickness_pct_length": 2.55,
+      "zero_thickness_triangles": 10,
+      "zero_thickness_area_pct": 1.61,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item242.png"
+  },
+  {
+    "icon": "7item249",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1372,
+        "name": "The DeathBlade"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item249",
+      "model": "engine/world_items/models/item_7item249.glb",
+      "length": 171.9
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item249",
+      "name": "The DeathBlade",
+      "id": 1372,
+      "triangles": 218,
+      "runtime_triangles": 218,
+      "thickness_pct_length": 2.12,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 4.96,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item249.png"
+  },
+  {
+    "icon": "7item286",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1340,
+        "name": "Lieutenant's Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item286",
+      "model": "engine/world_items/models/item_7item286.glb",
+      "length": 133.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item286",
+      "name": "Lieutenant's Cutlass",
+      "id": 1340,
+      "triangles": 295,
+      "runtime_triangles": 295,
+      "thickness_pct_length": 3.15,
+      "zero_thickness_triangles": 47,
+      "zero_thickness_area_pct": 10.02,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item286.png"
+  },
+  {
+    "icon": "7item296",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1343,
+        "name": "Villain's Blade"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item296",
+      "model": "engine/world_items/models/item_7item296.glb",
+      "length": 162.9
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item296",
+      "name": "Villain's Blade",
+      "id": 1343,
+      "triangles": 251,
+      "runtime_triangles": 251,
+      "thickness_pct_length": 2.41,
+      "zero_thickness_triangles": 33,
+      "zero_thickness_area_pct": 12.82,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item296.png"
+  },
+  {
+    "icon": "7item298",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1354,
+        "name": "Grognard's Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item298",
+      "model": "engine/world_items/models/item_7item298.glb",
+      "length": 133.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "7item298",
+      "name": "Grognard's Cutlass",
+      "id": 1354,
+      "triangles": 295,
+      "runtime_triangles": 295,
+      "thickness_pct_length": 3.15,
+      "zero_thickness_triangles": 47,
+      "zero_thickness_area_pct": 10.02,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item298.png"
+  },
+  {
+    "icon": "brsword1",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1611,
+        "name": "Fine Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "brsword1",
+      "model": "engine/world_items/models/item_brsword1.glb",
+      "length": 158.4
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "brsword1",
+      "name": "Fine Broadsword",
+      "id": 1611,
+      "triangles": 184,
+      "runtime_triangles": 184,
+      "thickness_pct_length": 2.51,
+      "zero_thickness_triangles": 44,
+      "zero_thickness_area_pct": 8.31,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/brsword1.png"
+  },
+  {
+    "icon": "brsword2",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1612,
+        "name": "Massive Steel Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "brsword2",
+      "model": "engine/world_items/models/item_brsword2.glb",
+      "length": 164.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "brsword2",
+      "name": "Massive Steel Broadsword",
+      "id": 1612,
+      "triangles": 219,
+      "runtime_triangles": 219,
+      "thickness_pct_length": 2.58,
+      "zero_thickness_triangles": 27,
+      "zero_thickness_area_pct": 7.18,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/brsword2.png"
+  },
+  {
+    "icon": "brsword3",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1613,
+        "name": "Mighty Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "brsword3",
+      "model": "engine/world_items/models/item_brsword3.glb",
+      "length": 165.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "brsword3",
+      "name": "Mighty Broadsword",
+      "id": 1613,
+      "triangles": 190,
+      "runtime_triangles": 190,
+      "thickness_pct_length": 2.55,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 8.45,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/brsword3.png"
+  },
+  {
+    "icon": "cutlass1",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1614,
+        "name": "Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "cutlass1",
+      "model": "engine/world_items/models/item_cutlass1.glb",
+      "length": 167.8
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "cutlass1",
+      "name": "Cutlass",
+      "id": 1614,
+      "triangles": 137,
+      "runtime_triangles": 137,
+      "thickness_pct_length": 2.04,
+      "zero_thickness_triangles": 41,
+      "zero_thickness_area_pct": 22.44,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/cutlass1.png"
+  },
+  {
+    "icon": "cutlass2",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1615,
+        "name": "Pirate Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "cutlass2",
+      "model": "engine/world_items/models/item_cutlass2.glb",
+      "length": 160.7
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "cutlass2",
+      "name": "Pirate Cutlass",
+      "id": 1615,
+      "triangles": 337,
+      "runtime_triangles": 337,
+      "thickness_pct_length": 2.77,
+      "zero_thickness_triangles": 39,
+      "zero_thickness_area_pct": 7.64,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/cutlass2.png"
+  },
+  {
+    "icon": "cutlass3",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1616,
+        "name": "Master Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "cutlass3",
+      "model": "engine/world_items/models/item_cutlass3.glb",
+      "length": 171.9
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "cutlass3",
+      "name": "Master Cutlass",
+      "id": 1616,
+      "triangles": 269,
+      "runtime_triangles": 269,
+      "thickness_pct_length": 2.21,
+      "zero_thickness_triangles": 51,
+      "zero_thickness_area_pct": 10.93,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/cutlass3.png"
+  },
+  {
+    "icon": "item001",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1,
+        "name": "Iron Longsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item001",
+      "model": "engine/world_items/models/item_item001.glb",
+      "length": 134.6
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item001",
+      "name": "Iron Longsword",
+      "id": 1,
+      "triangles": 129,
+      "runtime_triangles": 129,
+      "thickness_pct_length": 2.42,
+      "zero_thickness_triangles": 17,
+      "zero_thickness_area_pct": 15.83,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item001.png"
+  },
+  {
+    "icon": "item002",
+    "family": "swords",
+    "items": [
+      {
+        "id": 2,
+        "name": "Trollish War Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item002",
+      "model": "engine/world_items/models/item_item002.glb",
+      "length": 138.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item002",
+      "name": "Trollish War Sword",
+      "id": 2,
+      "triangles": 135,
+      "runtime_triangles": 135,
+      "thickness_pct_length": 2.78,
+      "zero_thickness_triangles": 19,
+      "zero_thickness_area_pct": 12.77,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item002.png"
+  },
+  {
+    "icon": "item003",
+    "family": "swords",
+    "items": [
+      {
+        "id": 3,
+        "name": "Dark Elven Longsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item003",
+      "model": "engine/world_items/models/item_item003.glb",
+      "length": 141.3
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item003",
+      "name": "Dark Elven Longsword",
+      "id": 3,
+      "triangles": 122,
+      "runtime_triangles": 122,
+      "thickness_pct_length": 2.29,
+      "zero_thickness_triangles": 38,
+      "zero_thickness_area_pct": 28.9,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item003.png"
+  },
+  {
+    "icon": "item004",
+    "family": "swords",
+    "items": [
+      {
+        "id": 4,
+        "name": "Templar's Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item004",
+      "model": "engine/world_items/models/item_item004.glb",
+      "length": 139.5
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item004",
+      "name": "Templar's Sword",
+      "id": 4,
+      "triangles": 142,
+      "runtime_triangles": 142,
+      "thickness_pct_length": 2.91,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 4.47,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item004.png"
+  },
+  {
+    "icon": "item005",
+    "family": "swords",
+    "items": [
+      {
+        "id": 5,
+        "name": "Champion's Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item005",
+      "model": "engine/world_items/models/item_item005.glb",
+      "length": 147.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item005",
+      "name": "Champion's Sword",
+      "id": 5,
+      "triangles": 185,
+      "runtime_triangles": 185,
+      "thickness_pct_length": 2.76,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 4.45,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item005.png"
+  },
+  {
+    "icon": "item006",
+    "family": "swords",
+    "items": [
+      {
+        "id": 6,
+        "name": "Iron Two-Handed Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item006",
+      "model": "engine/world_items/models/item_item006.glb",
+      "length": 167.0
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item006",
+      "name": "Iron Two-Handed Sword",
+      "id": 6,
+      "triangles": 93,
+      "runtime_triangles": 93,
+      "thickness_pct_length": 1.89,
+      "zero_thickness_triangles": 31,
+      "zero_thickness_area_pct": 52.44,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item006.png"
+  },
+  {
+    "icon": "item007",
+    "family": "swords",
+    "items": [
+      {
+        "id": 7,
+        "name": "Dark Elven Bastard Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item007",
+      "model": "engine/world_items/models/item_item007.glb",
+      "length": 163.8
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item007",
+      "name": "Dark Elven Bastard Sword",
+      "id": 7,
+      "triangles": 226,
+      "runtime_triangles": 226,
+      "thickness_pct_length": 2.58,
+      "zero_thickness_triangles": 40,
+      "zero_thickness_area_pct": 14.46,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item007.png"
+  },
+  {
+    "icon": "item008",
+    "family": "swords",
+    "items": [
+      {
+        "id": 8,
+        "name": "Minotaur Battlesword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item008",
+      "model": "engine/world_items/models/item_item008.glb",
+      "length": 170.1
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item008",
+      "name": "Minotaur Battlesword",
+      "id": 8,
+      "triangles": 149,
+      "runtime_triangles": 149,
+      "thickness_pct_length": 2.44,
+      "zero_thickness_triangles": 37,
+      "zero_thickness_area_pct": 25.88,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item008.png"
+  },
+  {
+    "icon": "item009",
+    "family": "swords",
+    "items": [
+      {
+        "id": 9,
+        "name": "Dragonning Blade"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item009",
+      "model": "engine/world_items/models/item_item009.glb",
+      "length": 173.7
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item009",
+      "name": "Dragonning Blade",
+      "id": 9,
+      "triangles": 297,
+      "runtime_triangles": 297,
+      "thickness_pct_length": 2.42,
+      "zero_thickness_triangles": 9,
+      "zero_thickness_area_pct": 0.78,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item009.png"
+  },
+  {
+    "icon": "item010",
+    "family": "swords",
+    "items": [
+      {
+        "id": 10,
+        "name": "Headsman's Reaver"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item010",
+      "model": "engine/world_items/models/item_item010.glb",
+      "length": 176.4
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item010",
+      "name": "Headsman's Reaver",
+      "id": 10,
+      "triangles": 370,
+      "runtime_triangles": 370,
+      "thickness_pct_length": 2.42,
+      "zero_thickness_triangles": 34,
+      "zero_thickness_area_pct": 5.66,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item010.png"
+  },
+  {
+    "icon": "item011",
+    "family": "swords",
+    "items": [
+      {
+        "id": 11,
+        "name": "Iron Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item011",
+      "model": "engine/world_items/models/item_item011.glb",
+      "length": 136.3
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item011",
+      "name": "Iron Broadsword",
+      "id": 11,
+      "triangles": 214,
+      "runtime_triangles": 214,
+      "thickness_pct_length": 2.71,
+      "zero_thickness_triangles": 24,
+      "zero_thickness_area_pct": 10.59,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item011.png"
+  },
+  {
+    "icon": "item012",
+    "family": "swords",
+    "items": [
+      {
+        "id": 12,
+        "name": "Trollish Claymore"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item012",
+      "model": "engine/world_items/models/item_item012.glb",
+      "length": 138.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item012",
+      "name": "Trollish Claymore",
+      "id": 12,
+      "triangles": 158,
+      "runtime_triangles": 158,
+      "thickness_pct_length": 2.91,
+      "zero_thickness_triangles": 30,
+      "zero_thickness_area_pct": 13.67,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item012.png"
+  },
+  {
+    "icon": "item013",
+    "family": "swords",
+    "items": [
+      {
+        "id": 13,
+        "name": "Lizardman Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item013",
+      "model": "engine/world_items/models/item_item013.glb",
+      "length": 139.1
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item013",
+      "name": "Lizardman Broadsword",
+      "id": 13,
+      "triangles": 199,
+      "runtime_triangles": 199,
+      "thickness_pct_length": 2.85,
+      "zero_thickness_triangles": 19,
+      "zero_thickness_area_pct": 3.66,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item013.png"
+  },
+  {
+    "icon": "item014",
+    "family": "swords",
+    "items": [
+      {
+        "id": 14,
+        "name": "Knightly Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item014",
+      "model": "engine/world_items/models/item_item014.glb",
+      "length": 140.4
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item014",
+      "name": "Knightly Broadsword",
+      "id": 14,
+      "triangles": 192,
+      "runtime_triangles": 192,
+      "thickness_pct_length": 3.12,
+      "zero_thickness_triangles": 6,
+      "zero_thickness_area_pct": 1.23,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item014.png"
+  },
+  {
+    "icon": "item015",
+    "family": "swords",
+    "items": [
+      {
+        "id": 15,
+        "name": "Archangel Broadsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item015",
+      "model": "engine/world_items/models/item_item015.glb",
+      "length": 148.1
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item015",
+      "name": "Archangel Broadsword",
+      "id": 15,
+      "triangles": 170,
+      "runtime_triangles": 170,
+      "thickness_pct_length": 2.64,
+      "zero_thickness_triangles": 28,
+      "zero_thickness_area_pct": 11.58,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item015.png"
+  },
+  {
+    "icon": "item016",
+    "family": "swords",
+    "items": [
+      {
+        "id": 16,
+        "name": "Rusty Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item016",
+      "model": "engine/world_items/models/item_item016.glb",
+      "length": 137.7
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item016",
+      "name": "Rusty Cutlass",
+      "id": 16,
+      "triangles": 183,
+      "runtime_triangles": 183,
+      "thickness_pct_length": 2.72,
+      "zero_thickness_triangles": 33,
+      "zero_thickness_area_pct": 9.23,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item016.png"
+  },
+  {
+    "icon": "item017",
+    "family": "swords",
+    "items": [
+      {
+        "id": 17,
+        "name": "Goblin Scimitar"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item017",
+      "model": "engine/world_items/models/item_item017.glb",
+      "length": 142.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item017",
+      "name": "Goblin Scimitar",
+      "id": 17,
+      "triangles": 192,
+      "runtime_triangles": 192,
+      "thickness_pct_length": 2.94,
+      "zero_thickness_triangles": 44,
+      "zero_thickness_area_pct": 13.03,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item017.png"
+  },
+  {
+    "icon": "item018",
+    "family": "swords",
+    "items": [
+      {
+        "id": 18,
+        "name": "Regnan Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item018",
+      "model": "engine/world_items/models/item_item018.glb",
+      "length": 144.5
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item018",
+      "name": "Regnan Cutlass",
+      "id": 18,
+      "triangles": 281,
+      "runtime_triangles": 281,
+      "thickness_pct_length": 3.18,
+      "zero_thickness_triangles": 27,
+      "zero_thickness_area_pct": 6.31,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item018.png"
+  },
+  {
+    "icon": "item019",
+    "family": "swords",
+    "items": [
+      {
+        "id": 19,
+        "name": "Regnan Falchion"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item019",
+      "model": "engine/world_items/models/item_item019.glb",
+      "length": 147.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item019",
+      "name": "Regnan Falchion",
+      "id": 19,
+      "triangles": 261,
+      "runtime_triangles": 261,
+      "thickness_pct_length": 3.42,
+      "zero_thickness_triangles": 17,
+      "zero_thickness_area_pct": 2.71,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item019.png"
+  },
+  {
+    "icon": "item020",
+    "family": "swords",
+    "items": [
+      {
+        "id": 20,
+        "name": "Captain's Cutlass"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item020",
+      "model": "engine/world_items/models/item_item020.glb",
+      "length": 145.8
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item020",
+      "name": "Captain's Cutlass",
+      "id": 20,
+      "triangles": 286,
+      "runtime_triangles": 286,
+      "thickness_pct_length": 3.13,
+      "zero_thickness_triangles": 38,
+      "zero_thickness_area_pct": 5.96,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item020.png"
+  },
+  {
+    "icon": "item234",
+    "family": "swords",
+    "items": [
+      {
+        "id": 523,
+        "name": "Snake"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item234",
+      "model": "engine/world_items/models/item_item234.glb",
+      "length": 180.0
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item234",
+      "name": "Snake",
+      "id": 523,
+      "triangles": 384,
+      "runtime_triangles": 384,
+      "thickness_pct_length": 2.4,
+      "zero_thickness_triangles": 48,
+      "zero_thickness_area_pct": 5.17,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item234.png"
+  },
+  {
+    "icon": "item235",
+    "family": "swords",
+    "items": [
+      {
+        "id": 500,
+        "name": "Elsenrail"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item235",
+      "model": "engine/world_items/models/item_item235.glb",
+      "length": 175.1
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item235",
+      "name": "Elsenrail",
+      "id": 500,
+      "triangles": 425,
+      "runtime_triangles": 425,
+      "thickness_pct_length": 2.74,
+      "zero_thickness_triangles": 21,
+      "zero_thickness_area_pct": 1.79,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item235.png"
+  },
+  {
+    "icon": "item236",
+    "family": "swords",
+    "items": [
+      {
+        "id": 502,
+        "name": "Terminus"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item236",
+      "model": "engine/world_items/models/item_item236.glb",
+      "length": 151.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item236",
+      "name": "Terminus",
+      "id": 502,
+      "triangles": 410,
+      "runtime_triangles": 410,
+      "thickness_pct_length": 3.18,
+      "zero_thickness_triangles": 26,
+      "zero_thickness_area_pct": 4.42,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item236.png"
+  },
+  {
+    "icon": "item237",
+    "family": "swords",
+    "items": [
+      {
+        "id": 503,
+        "name": "Judicious Measure"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item237",
+      "model": "engine/world_items/models/item_item237.glb",
+      "length": 144.9
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item237",
+      "name": "Judicious Measure",
+      "id": 503,
+      "triangles": 435,
+      "runtime_triangles": 435,
+      "thickness_pct_length": 3.34,
+      "zero_thickness_triangles": 75,
+      "zero_thickness_area_pct": 11.07,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item237.png"
+  },
+  {
+    "icon": "item296",
+    "family": "swords",
+    "items": [
+      {
+        "id": 501,
+        "name": "Glomenthal"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item296",
+      "model": "engine/world_items/models/item_item296.glb",
+      "length": 175.1
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item296",
+      "name": "Glomenthal",
+      "id": 501,
+      "triangles": 457,
+      "runtime_triangles": 457,
+      "thickness_pct_length": 2.8,
+      "zero_thickness_triangles": 23,
+      "zero_thickness_area_pct": 1.17,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item296.png"
+  },
+  {
+    "icon": "item333",
+    "family": "swords",
+    "items": [
+      {
+        "id": 524,
+        "name": "Havoc"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item333",
+      "model": "engine/world_items/models/item_item333.glb",
+      "length": 139.5
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item333",
+      "name": "Havoc",
+      "id": 524,
+      "triangles": 142,
+      "runtime_triangles": 142,
+      "thickness_pct_length": 2.91,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 4.47,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item333.png"
+  },
+  {
+    "icon": "item334",
+    "family": "swords",
+    "items": [
+      {
+        "id": 525,
+        "name": "Finality"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item334",
+      "model": "engine/world_items/models/item_item334.glb",
+      "length": 176.4
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item334",
+      "name": "Finality",
+      "id": 525,
+      "triangles": 370,
+      "runtime_triangles": 370,
+      "thickness_pct_length": 2.42,
+      "zero_thickness_triangles": 34,
+      "zero_thickness_area_pct": 5.66,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item334.png"
+  },
+  {
+    "icon": "item342",
+    "family": "swords",
+    "items": [
+      {
+        "id": 540,
+        "name": "Sword of Whistlebone"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item342",
+      "model": "engine/world_items/models/item_item342.glb",
+      "length": 176.4
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "item342",
+      "name": "Sword of Whistlebone",
+      "id": 540,
+      "triangles": 370,
+      "runtime_triangles": 370,
+      "thickness_pct_length": 2.42,
+      "zero_thickness_triangles": 34,
+      "zero_thickness_area_pct": 5.66,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item342.png"
+  },
+  {
+    "icon": "lsword1",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1603,
+        "name": "Longsword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "lsword1",
+      "model": "engine/world_items/models/item_lsword1.glb",
+      "length": 165.2
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "lsword1",
+      "name": "Longsword",
+      "id": 1603,
+      "triangles": 191,
+      "runtime_triangles": 191,
+      "thickness_pct_length": 2.42,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 3.71,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/lsword1.png"
+  },
+  {
+    "icon": "lsword2",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1604,
+        "name": "Warrior Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "lsword2",
+      "model": "engine/world_items/models/item_lsword2.glb",
+      "length": 162.9
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "lsword2",
+      "name": "Warrior Sword",
+      "id": 1604,
+      "triangles": 216,
+      "runtime_triangles": 216,
+      "thickness_pct_length": 2.27,
+      "zero_thickness_triangles": 30,
+      "zero_thickness_area_pct": 7.17,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/lsword2.png"
+  },
+  {
+    "icon": "lsword3",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1605,
+        "name": "Crusader Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "lsword3",
+      "model": "engine/world_items/models/item_lsword3.glb",
+      "length": 163.3
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "lsword3",
+      "name": "Crusader Sword",
+      "id": 1605,
+      "triangles": 234,
+      "runtime_triangles": 234,
+      "thickness_pct_length": 2.45,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 5.51,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/lsword3.png"
+  },
+  {
+    "icon": "lsword4",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1606,
+        "name": "Conqueror Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "lsword4",
+      "model": "engine/world_items/models/item_lsword4.glb",
+      "length": 166.5
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "lsword4",
+      "name": "Conqueror Sword",
+      "id": 1606,
+      "triangles": 112,
+      "runtime_triangles": 112,
+      "thickness_pct_length": 1.93,
+      "zero_thickness_triangles": 24,
+      "zero_thickness_area_pct": 16.03,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/lsword4.png"
+  },
+  {
+    "icon": "lsword5",
+    "family": "swords",
+    "items": [
+      {
+        "id": 1607,
+        "name": "Lionheart Sword"
+      }
+    ],
+    "owner": "weapons_swords",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "lsword5",
+      "model": "engine/world_items/models/item_lsword5.glb",
+      "length": 165.6
+    },
+    "baseline_audit": {
+      "family": "swords",
+      "icon": "lsword5",
+      "name": "Lionheart Sword",
+      "id": 1607,
+      "triangles": 180,
+      "runtime_triangles": 180,
+      "thickness_pct_length": 2.17,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 19.12,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/lsword5.png"
+  }
+]

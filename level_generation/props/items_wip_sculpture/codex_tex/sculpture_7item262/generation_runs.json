@@ -1,0 +1,29 @@
+[
+  {
+    "name": "sculpture_7item262",
+    "prompt": "Use case: precise-object-edit. This is a FLAT DIFFUSE ALBEDO TEXTURE PAINTING, not a beauty render. Image 1 is the EXACT edit target: six orthographic mesh guides in one transparent 1536x1024 atlas, three columns and two rows. Keep its PIXEL-EXACT outlines, alpha, internal holes, shapes, directions, centres, scale, framing and six-cell grid. Never rearrange, enlarge, shrink or rotate the objects. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / BOTTOM. Image 2 supplies design and material only; IGNORE ITS SHADOWS AND HIGHLIGHTS. Paint only these exact mesh surfaces: Uniform antique ochre GOLD BASE COLOUR (#bd943d) over bird, sphere and integral plinth; delicate engraved feather pattern, fine subtle surface grain. No bright yellow shine. antique yellow gold. Every surface receives uniform matte ambient light: NO 3D SHADING, NO HIGHLIGHTS, NO SPECULAR, NO REFLECTIONS, NO LIGHT GRADIENTS, NO AMBIENT OCCLUSION, NO DROP SHADOW, NO HALO. Remove the grey guide's lighting gradients too. Surface colour may vary only for actual pigments, engraved patterns, material grain or wear, never to suggest lighting. These paintings will be lit by a game renderer later. Keep the original transparent background completely empty. No floor, background colour, labels, outlines, decorative frame or extra objects. Return exactly one 3:2 six-cell atlas with the original placement, all six views.",
+    "generated_path": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-d053ab88-9eaa-498e-9635-8a8c97f30b6b.png",
+    "tool": "built-in image_gen",
+    "selected": true,
+    "output_sha256": "8028bd32874c371dc056dde11d24403f139993bf06fb09c2ecc7bc8c17849ff9",
+    "output_size": [
+      1536,
+      1024
+    ],
+    "mesh_guide": "guide_atlas.png (regenerated during seam cleanup; registration uses final guides)",
+    "material_reference": "level_generation/props/items_wip_sculpture/meshy/sculpture_7item262/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "d0b3f33ab7bf15b715d253ab72caca2d610443ef0c4bf13e359381227f3e3f05",
+    "status": "superseded"
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case: precise-object-edit. This is a FLAT DIFFUSE ALBEDO TEXTURE PAINTING, not a beauty render. Image 1 is the EXACT edit target: six orthographic mesh guides in one transparent 1536x1024 atlas, three columns and two rows. Keep its PIXEL-EXACT outlines, alpha, internal holes, shapes, directions, centres, scale, framing and six-cell grid. Never rearrange, enlarge, shrink or rotate the objects. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / BOTTOM. Image 2 supplies design and material only; IGNORE ITS SHADOWS AND HIGHLIGHTS. Paint only these exact mesh surfaces: Uniform antique ochre GOLD BASE COLOUR (#bd943d) over bird, sphere and integral plinth; delicate engraved feather pattern, fine subtle surface grain. No bright yellow shine. antique yellow gold. Every surface receives uniform matte ambient light: NO 3D SHADING, NO HIGHLIGHTS, NO SPECULAR, NO REFLECTIONS, NO LIGHT GRADIENTS, NO AMBIENT OCCLUSION, NO DROP SHADOW, NO HALO. Remove the grey guide's lighting gradients too. Surface colour may vary only for actual pigments, engraved patterns, material grain or wear, never to suggest lighting. These paintings will be lit by a game renderer later. Keep the original transparent background completely empty. No floor, background colour, labels, outlines, decorative frame or extra objects. Return exactly one 3:2 six-cell atlas with the original placement, all six views.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-d053ab88-9eaa-498e-9635-8a8c97f30b6b.png",
+    "raw_sha256": "8028bd32874c371dc056dde11d24403f139993bf06fb09c2ecc7bc8c17849ff9",
+    "selected_atlas_sha256": "8028bd32874c371dc056dde11d24403f139993bf06fb09c2ecc7bc8c17849ff9",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_7item262/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "d0b3f33ab7bf15b715d253ab72caca2d610443ef0c4bf13e359381227f3e3f05",
+    "guide_input_note": "Exact earlier guide revision was not retained; final mesh guides are retained. Repaired geometry used for final bake."
+  }
+]

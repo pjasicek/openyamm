@@ -1,0 +1,1098 @@
+{
+ "format_version": 2,
+ "kind": "indoor_geometry",
+ "map_file": "hallofthegods.blv",
+ "source": {
+  "authoring_file": "convert.py",
+  "asset_path": "hallofthegods.glb",
+  "coordinate_system": "blender_z_up",
+  "unit_scale": 1.0,
+  "import": {
+   "source_format": "glb",
+   "reserve_sector_zero": true,
+   "merge_coplanar_faces": false,
+   "triangulate_ngons": false,
+   "generate_bsp": true,
+   "generate_outlines": true
+  }
+ },
+ "materials": [
+  {
+   "id": "FLOOX94CUW",
+   "source_material": "FLOOX94CUW",
+   "texture": "FLOOX94CUW",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "GOLDFSV4D0",
+   "source_material": "GOLDFSV4D0",
+   "texture": "GOLDFSV4D0",
+   "texture_width": 128,
+   "texture_height": 32
+  },
+  {
+   "id": "ARMYKTNEAJ",
+   "source_material": "ARMYKTNEAJ",
+   "texture": "ARMYKTNEAJ",
+   "texture_width": 256,
+   "texture_height": 512
+  },
+  {
+   "id": "BLOKLYYZ1D",
+   "source_material": "BLOKLYYZ1D",
+   "texture": "BLOKLYYZ1D",
+   "texture_width": 128,
+   "texture_height": 256
+  },
+  {
+   "id": "PILLX0V9XM",
+   "source_material": "PILLX0V9XM",
+   "texture": "PILLX0V9XM",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "KARH1PP156",
+   "source_material": "KARH1PP156",
+   "texture": "KARH1PP156",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FLOOXHH652",
+   "source_material": "FLOOXHH652",
+   "texture": "FLOOXHH652",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "PILL37PWLV",
+   "source_material": "PILL37PWLV",
+   "texture": "PILL37PWLV",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "MARBGA5JQP",
+   "source_material": "MARBGA5JQP",
+   "texture": "MARBGA5JQP",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "CCOL3ODCE9",
+   "source_material": "CCOL3ODCE9",
+   "texture": "CCOL3ODCE9",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "TAPELVCHQ2",
+   "source_material": "TAPELVCHQ2",
+   "texture": "TAPELVCHQ2",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "INVIZVJN7N",
+   "source_material": "INVIZVJN7N",
+   "texture": "INVIZVJN7N",
+   "texture_width": 64,
+   "texture_height": 64
+  },
+  {
+   "id": "BRICWSJO7Y",
+   "source_material": "BRICWSJO7Y",
+   "texture": "BRICWSJO7Y",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STURQN29OL",
+   "source_material": "STURQN29OL",
+   "texture": "STURQN29OL",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WATEQOBX0Z",
+   "source_material": "WATEQOBX0Z",
+   "texture": "WATEQOBX0Z",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "BLOKUMNS8D",
+   "source_material": "BLOKUMNS8D",
+   "texture": "BLOKUMNS8D",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "CLANV18F6U",
+   "source_material": "CLANV18F6U",
+   "texture": "CLANV18F6U",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "FLOODZ85QZ",
+   "source_material": "FLOODZ85QZ",
+   "texture": "FLOODZ85QZ",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "ARSLNVVXK0",
+   "source_material": "ARSLNVVXK0",
+   "texture": "ARSLNVVXK0",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "ARSLDHX75W",
+   "source_material": "ARSLDHX75W",
+   "texture": "ARSLDHX75W",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "ARSL0T1IGW",
+   "source_material": "ARSL0T1IGW",
+   "texture": "ARSL0T1IGW",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "ARSLQO1R9H",
+   "source_material": "ARSLQO1R9H",
+   "texture": "ARSLQO1R9H",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "ARSLDD8YWQ",
+   "source_material": "ARSLDD8YWQ",
+   "texture": "ARSLDD8YWQ",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "ARSLAV9ILE",
+   "source_material": "ARSLAV9ILE",
+   "texture": "ARSLAV9ILE",
+   "texture_width": 256,
+   "texture_height": 256
+  },
+  {
+   "id": "SPIK67HFER",
+   "source_material": "SPIK67HFER",
+   "texture": "SPIK67HFER",
+   "texture_width": 64,
+   "texture_height": 128
+  },
+  {
+   "id": "WATEZWECUN",
+   "source_material": "WATEZWECUN",
+   "texture": "WATEZWECUN",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "WIND0CSB50",
+   "source_material": "WIND0CSB50",
+   "texture": "WIND0CSB50",
+   "texture_width": 128,
+   "texture_height": 128
+  },
+  {
+   "id": "STUCSWAG9M",
+   "source_material": "STUCSWAG9M",
+   "texture": "STUCSWAG9M",
+   "texture_width": 256,
+   "texture_height": 256
+  }
+ ],
+ "rooms": [
+  {
+   "id": "room_r01",
+   "source_nodes": [
+    "ROOM_r01",
+    "TRIGGER_invisible_r01",
+    "TRIGGER_nonsolid_r01",
+    "STATIC_glass0_r01",
+    "LIGHT_Light17",
+    "LIGHT_Light19",
+    "LIGHT_Light21",
+    "LIGHT_Light23",
+    "LIGHT_Light29",
+    "LIGHT_Light31",
+    "LIGHT_Light33",
+    "LIGHT_Light35",
+    "LIGHT_Light39",
+    "LIGHT_Light4",
+    "LIGHT_Light41",
+    "LIGHT_Light43",
+    "LIGHT_Light46",
+    "LIGHT_Light48",
+    "LIGHT_Light50",
+    "LIGHT_Light52",
+    "LIGHT_Light54",
+    "LIGHT_Light57",
+    "LIGHT_Light59",
+    "LIGHT_Light61",
+    "LIGHT_Light94",
+    "LIGHT_Light28",
+    "LIGHT_Light16",
+    "LIGHT_Light18",
+    "LIGHT_Light20",
+    "LIGHT_Light22",
+    "LIGHT_Light30",
+    "LIGHT_Light32",
+    "LIGHT_Light44",
+    "LIGHT_Light45",
+    "LIGHT_Light47",
+    "LIGHT_Light49",
+    "LIGHT_Light51",
+    "LIGHT_Light3",
+    "DECOR_Bench7",
+    "DECOR_Bench5",
+    "DECOR_Bench4",
+    "DECOR_Bench6",
+    "DECOR_Lionstat0",
+    "DECOR_WallTorch7",
+    "DECOR_Brazier3",
+    "DECOR_Brazier5",
+    "DECOR_WallTorch6",
+    "DECOR_Brazier1",
+    "LIGHT_lamp_Brazier1",
+    "DECOR_Brazier0",
+    "DECOR_Brazier4",
+    "DECOR_WallTorch8",
+    "DECOR_WallTorch9",
+    "DECOR_Lionstat1",
+    "DECOR_Brazier2",
+    "DECOR_Bench0",
+    "DECOR_Bench1",
+    "DECOR_Bench2",
+    "DECOR_Bench3",
+    "DECOR_Brazier9",
+    "DECOR_Brazier8",
+    "DECOR_Brazier7",
+    "DECOR_Brazier6",
+    "DECOR_Brazier17",
+    "DECOR_Brazier16",
+    "DECOR_Brazier15",
+    "DECOR_Brazier14",
+    "DECOR_Brazier13",
+    "DECOR_Brazier12",
+    "DECOR_Brazier11",
+    "DECOR_Brazier10",
+    "LIGHT_lamp_Brazier10",
+    "DECOR_Throne",
+    "DECOR_Krohnstat",
+    "DECOR_Skraelosstat",
+    "DECOR_Njamstat",
+    "DECOR_Frestat",
+    "DECOR_Wyrd1stat",
+    "DECOR_Wyrd2stat",
+    "DECOR_Wyrd3stat",
+    "DECOR_Prop3"
+   ],
+   "min_ambient_light_level": 31
+  }
+ ],
+ "portals": [],
+ "surfaces": [
+  {
+   "id": "invisible_r01",
+   "source_node": "TRIGGER_invisible_r01",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "nonsolid_r01",
+   "source_node": "TRIGGER_nonsolid_r01",
+   "flags": [
+    "untouchable"
+   ]
+  }
+ ],
+ "mechanisms": [],
+ "entities": [
+  {
+   "id": "Bench7",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench7",
+   "decoration_list_id": 2262,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bench5",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench5",
+   "decoration_list_id": 2262,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bench4",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench4",
+   "decoration_list_id": 2262,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bench6",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench6",
+   "decoration_list_id": 2262,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Lionstat0",
+   "kind": "decoration",
+   "source_node": "DECOR_Lionstat0",
+   "decoration_list_id": 2444,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "WallTorch7",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch7",
+   "decoration_list_id": 2447,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Brazier3",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier3",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier5",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier5",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch6",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch6",
+   "decoration_list_id": 2447,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Brazier1",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier1",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier0",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier0",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier4",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier4",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch8",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch8",
+   "decoration_list_id": 2447,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "WallTorch9",
+   "kind": "decoration",
+   "source_node": "DECOR_WallTorch9",
+   "decoration_list_id": 2447,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Lionstat1",
+   "kind": "decoration",
+   "source_node": "DECOR_Lionstat1",
+   "decoration_list_id": 2444,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier2",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier2",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bench0",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench0",
+   "decoration_list_id": 2262,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bench1",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench1",
+   "decoration_list_id": 2262,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bench2",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench2",
+   "decoration_list_id": 2262,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Bench3",
+   "kind": "decoration",
+   "source_node": "DECOR_Bench3",
+   "decoration_list_id": 2262,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier9",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier9",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier8",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier8",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier7",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier7",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier6",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier6",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier17",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier17",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier16",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier16",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier15",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier15",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier14",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier14",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier13",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier13",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier12",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier12",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier11",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier11",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Brazier10",
+   "kind": "decoration",
+   "source_node": "DECOR_Brazier10",
+   "decoration_list_id": 2440,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Throne",
+   "kind": "decoration",
+   "source_node": "DECOR_Throne",
+   "decoration_list_id": 2111,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Krohnstat",
+   "kind": "decoration",
+   "source_node": "DECOR_Krohnstat",
+   "decoration_list_id": 2443,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 90
+  },
+  {
+   "id": "Skraelosstat",
+   "kind": "decoration",
+   "source_node": "DECOR_Skraelosstat",
+   "decoration_list_id": 2446,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Njamstat",
+   "kind": "decoration",
+   "source_node": "DECOR_Njamstat",
+   "decoration_list_id": 2445,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Frestat",
+   "kind": "decoration",
+   "source_node": "DECOR_Frestat",
+   "decoration_list_id": 2442,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Wyrd1stat",
+   "kind": "decoration",
+   "source_node": "DECOR_Wyrd1stat",
+   "decoration_list_id": 2449,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "facing": 180
+  },
+  {
+   "id": "Wyrd2stat",
+   "kind": "decoration",
+   "source_node": "DECOR_Wyrd2stat",
+   "decoration_list_id": 2448,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Wyrd3stat",
+   "kind": "decoration",
+   "source_node": "DECOR_Wyrd3stat",
+   "decoration_list_id": 2450,
+   "event_id_primary": 0,
+   "event_id_secondary": 0
+  },
+  {
+   "id": "Prop3",
+   "kind": "decoration",
+   "source_node": "DECOR_Prop3",
+   "decoration_list_id": 2805,
+   "event_id_primary": 0,
+   "event_id_secondary": 76,
+   "facing": 335
+  }
+ ],
+ "lights": [
+  {
+   "id": "Light17",
+   "source_node": "LIGHT_Light17",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light19",
+   "source_node": "LIGHT_Light19",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light21",
+   "source_node": "LIGHT_Light21",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light23",
+   "source_node": "LIGHT_Light23",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light29",
+   "source_node": "LIGHT_Light29",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light31",
+   "source_node": "LIGHT_Light31",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light33",
+   "source_node": "LIGHT_Light33",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light35",
+   "source_node": "LIGHT_Light35",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light39",
+   "source_node": "LIGHT_Light39",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light4",
+   "source_node": "LIGHT_Light4",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light41",
+   "source_node": "LIGHT_Light41",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light43",
+   "source_node": "LIGHT_Light43",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light46",
+   "source_node": "LIGHT_Light46",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light48",
+   "source_node": "LIGHT_Light48",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light50",
+   "source_node": "LIGHT_Light50",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light52",
+   "source_node": "LIGHT_Light52",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light54",
+   "source_node": "LIGHT_Light54",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light57",
+   "source_node": "LIGHT_Light57",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light59",
+   "source_node": "LIGHT_Light59",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light61",
+   "source_node": "LIGHT_Light61",
+   "color": [
+    238,
+    179,
+    125
+   ],
+   "radius": 768,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light94",
+   "source_node": "LIGHT_Light94",
+   "color": [
+    121,
+    121,
+    255
+   ],
+   "radius": 896,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light28",
+   "source_node": "LIGHT_Light28",
+   "color": [
+    202,
+    227,
+    215
+   ],
+   "radius": 1920,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light16",
+   "source_node": "LIGHT_Light16",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light18",
+   "source_node": "LIGHT_Light18",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light20",
+   "source_node": "LIGHT_Light20",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light22",
+   "source_node": "LIGHT_Light22",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light30",
+   "source_node": "LIGHT_Light30",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light32",
+   "source_node": "LIGHT_Light32",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light44",
+   "source_node": "LIGHT_Light44",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light45",
+   "source_node": "LIGHT_Light45",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light47",
+   "source_node": "LIGHT_Light47",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light49",
+   "source_node": "LIGHT_Light49",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light51",
+   "source_node": "LIGHT_Light51",
+   "color": [
+    255,
+    255,
+    196
+   ],
+   "radius": 2304,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "Light3",
+   "source_node": "LIGHT_Light3",
+   "color": [
+    202,
+    227,
+    226
+   ],
+   "radius": 3840,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "LIGHT_lamp_Brazier1",
+   "source_node": "LIGHT_lamp_Brazier1",
+   "color": [
+    255,
+    230,
+    160
+   ],
+   "radius": 512,
+   "brightness": 31,
+   "type": "point"
+  },
+  {
+   "id": "LIGHT_lamp_Brazier10",
+   "source_node": "LIGHT_lamp_Brazier10",
+   "color": [
+    255,
+    230,
+    160
+   ],
+   "radius": 512,
+   "brightness": 31,
+   "type": "point"
+  }
+ ],
+ "spawns": []
+}

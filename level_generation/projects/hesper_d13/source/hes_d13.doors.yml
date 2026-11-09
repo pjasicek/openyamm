@@ -1,0 +1,102 @@
+- door_index: 0
+  legacy_attributes: 0
+  door_id: 5
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 640
+  open_speed: 640
+  close_speed: 640
+  state: 0
+  vertex_ids: [926, 927, 928, 929, 930, 931, 932, 933]
+  face_ids: [1498, 1499, 1500, 1501, 1502, 1503, 1504, 1505]
+  sector_ids: [5]
+  delta_us: [0, 0, 0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0, 0, 0]
+  x_offsets: [5344, 6112, 6112, 5344, 6112, 5344, 5344, 6112]
+  y_offsets: [2464, 2464, 2464, 2464, 2592, 2592, 2592, 2592]
+  z_offsets: [640, 640, 1280, 1280, 640, 640, 1280, 1280]
+- door_index: 1
+  legacy_attributes: 0
+  door_id: 6
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 640
+  open_speed: 640
+  close_speed: 640
+  state: 0
+  vertex_ids: [934, 935, 936, 937, 938, 939, 940, 941]
+  face_ids: [1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513]
+  sector_ids: [13]
+  delta_us: [0, 0, 0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0, 0, 0]
+  x_offsets: [4380, 5020, 5020, 4380, 5020, 4380, 4380, 5020]
+  y_offsets: [5592, 5592, 5592, 5592, 6792, 6792, 6792, 6792]
+  z_offsets: [1152, 1152, 1792, 1792, 1152, 1152, 1792, 1792]
+- door_index: 2
+  legacy_attributes: 0
+  door_id: 2
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 384
+  open_speed: 480
+  close_speed: 256
+  state: 2
+  vertex_ids: [942, 943, 944, 945, 946, 947, 948, 949]
+  face_ids: [1514, 1515, 1516, 1517, 1518, 1519, 1520, 1521]
+  sector_ids: [13]
+  delta_us: [0, 0, 0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0, 0, 0]
+  x_offsets: [3888, 3904, 3904, 3888, 3904, 3888, 3888, 3904]
+  y_offsets: [6000, 6000, 6000, 6000, 6384, 6384, 6384, 6384]
+  z_offsets: [896, 896, 1280, 1280, 896, 896, 1280, 1280]
+- door_index: 3
+  legacy_attributes: 0
+  door_id: 3
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 512
+  open_speed: 512
+  close_speed: 256
+  state: 0
+  vertex_ids: [950, 951, 952, 953, 954, 955, 956, 957]
+  face_ids: [1522, 1523, 1524, 1525, 1526, 1527, 1528, 1529]
+  sector_ids: [1]
+  delta_us: [0, 0, 0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0, 0, 0]
+  x_offsets: [4888, 4904, 4904, 4888, 4904, 4888, 4888, 4904]
+  y_offsets: [744, 744, 744, 744, 1256, 1256, 1256, 1256]
+  z_offsets: [512, 512, 1024, 1024, 512, 512, 1024, 1024]
+- door_index: 4
+  legacy_attributes: 0
+  door_id: 4
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 512
+  open_speed: 512
+  close_speed: 256
+  state: 2
+  vertex_ids: [958, 959, 960, 961, 962, 963, 964, 965]
+  face_ids: [1530, 1531, 1532, 1533, 1534, 1535, 1536, 1537]
+  sector_ids: [5]
+  delta_us: [0, 0, 0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0, 0, 0]
+  x_offsets: [5472, 5984, 5984, 5472, 5984, 5472, 5472, 5984]
+  y_offsets: [2424, 2424, 2424, 2424, 2440, 2440, 2440, 2440]
+  z_offsets: [512, 512, 1024, 1024, 512, 512, 1024, 1024]
+- door_index: 5
+  legacy_attributes: 0
+  door_id: 1
+  time_since_triggered_ms: 0
+  direction: [0, 0, -65536]
+  move_length: 512
+  open_speed: 256
+  close_speed: 256
+  state: 2
+  vertex_ids: [966, 967, 968, 969, 970, 971, 972, 973]
+  face_ids: [1538, 1539, 1540, 1541, 1542, 1543, 1544, 1545, 1546, 1547]
+  sector_ids: [12]
+  delta_us: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  delta_vs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  x_offsets: [32, 544, 544, 32, 544, 32, 32, 544]
+  y_offsets: [744, 744, 744, 744, 1256, 1256, 1256, 1256]
+  z_offsets: [480, 480, 512, 512, 480, 480, 512, 512]

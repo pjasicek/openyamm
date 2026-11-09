@@ -1,0 +1,3 @@
+Saved all five tier A PNGs in [references_head](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_monk_claude/references_head), with raw returns in `raw/` and prompts/checks in `generation_runs_a.json`. Built-in generation only; all are unresized 1254×1254 RGBA with transparency.
+
+The pixel-exact requirement was **not achieved** despite one correction per view; geometry drift remains. No builds, Meshy, or other tiers were run.

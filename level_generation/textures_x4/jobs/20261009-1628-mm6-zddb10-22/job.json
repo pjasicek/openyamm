@@ -1,0 +1,761 @@
+{
+ "id": "20261009-1628-mm6-zddb10-22",
+ "world": "mm6",
+ "maps": [
+  "zddb10.blv",
+  "oute1.odm"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/d8dorbe",
+  "mm6/d8dorg",
+  "mm6/d8dorge",
+  "mm6/dkwst",
+  "mm6/ns8s08",
+  "mm6/ns8s07",
+  "mm6/ns8s06",
+  "mm6/gldorb",
+  "mm6/mswalld",
+  "mm6/ns8s04",
+  "mm6/ns8s05",
+  "mm6/sgldorb",
+  "mm6/pxdorb",
+  "mm6/gstrle",
+  "mm6/gstrst",
+  "mm6/px1le",
+  "mm6/px1re",
+  "mm6/pxstrde",
+  "mm6/pxstrle",
+  "mm6/gstrlew",
+  "mm6/gstrwn1",
+  "mm6/pxstrre",
+  "mm6/pxstrlew",
+  "mm6/px1ctr"
+ ],
+ "requests": {
+  "mm6/d8dorbe": {
+   "name": "d8dorbe",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow weathered dark grey wooden plank strip with streaky grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/d8dorg": {
+   "name": "d8dorg",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered blue-grey horizontal plank door inside a riveted rusty red-brown iron frame with an iron bar latch and hooks across the lower half, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "left": "mm6/d8wlbxr"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/d8dorge": {
+   "name": "d8dorge",
+   "versions": [
+    1
+   ],
+   "material": "plain narrow weathered blue-grey wooden plank strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/dkwst": {
+   "name": "dkwst",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark weathered vertical wooden planks with green moss staining inside an orange-brown wooden frame, horizontal frame rails at the top and middle",
+   "notes": {
+    "2": "The bottom rail and the top rail meet across the tile boundary as one continuous wide rail: no dark groove or line between them."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/dkwle",
+     "right": "mm6/dkwrew"
+    },
+    "2": {
+     "left": "mm6/dkwle",
+     "right": "mm6/dkwrew"
+    }
+   },
+   "roll": {
+    "2": [
+     0,
+     176
+    ]
+   }
+  },
+  "mm6/ns8s08": {
+   "name": "ns8s08",
+   "versions": [
+    1
+   ],
+   "material": "warm brown horizontal wooden planks with rows of dark nail holes, two round dark porthole openings in carved wooden frames, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/ns8s07": {
+   "name": "ns8s07",
+   "versions": [
+    1
+   ],
+   "material": "warm brown horizontal wooden planks with rows of dark nail holes, two small square lattice-grilled windows in carved wooden frames, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/ns8s08"
+     ],
+     "fraction": 0.959
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/ns8s06": {
+   "name": "ns8s06",
+   "versions": [
+    1
+   ],
+   "material": "warm brown horizontal wooden planks with rows of dark nail holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/ns8s08"
+     ],
+     "fraction": 0.871
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/gldorb": {
+   "name": "gldorb",
+   "versions": [
+    1
+   ],
+   "material": "double door of dark brown weathered vertical planks with horizontal battens and an iron bar latch, inside a heavy timber frame, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/mswalld": {
+   "name": "mswalld",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale carved limestone wall panel with four recessed square panels in a cross-shaped frame, between ornate carved pilasters with rosettes and a copper-trimmed base, copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/ns8s04": {
+   "name": "ns8s04",
+   "versions": [
+    1
+   ],
+   "material": "warm brown vertical wooden planks with a row of dark nail holes near the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/ns8s05": {
+   "name": "ns8s05",
+   "versions": [
+    1
+   ],
+   "material": "warm brown vertical wooden planks with a row of dark nail holes near the bottom, two square dark wooden barred grilles, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/ns8s04"
+     ],
+     "fraction": 0.686
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/sgldorb": {
+   "name": "sgldorb",
+   "versions": [
+    1
+   ],
+   "material": "snowy double door of dark brown weathered vertical planks with horizontal battens and an iron bar latch, inside a heavy timber frame hung with icicles, snow drifted at the base and on the ledges, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gldorb"
+     ],
+     "fraction": 0.657
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/pxdorb": {
+   "name": "pxdorb",
+   "versions": [
+    1
+   ],
+   "material": "double door of brown horizontal planks with carved gilded cross-shaped ornament panels and round brass knobs, a brass lattice transom above, between dark timber posts, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/gstrle": {
+   "name": "gstrle",
+   "versions": [
+    1
+   ],
+   "material": "log cabin house wall of horizontal reddish-brown round logs above a grey fieldstone foundation, grey fieldstone corner quoins on the left edge, no snow",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/gstrst": {
+   "name": "gstrst",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "log cabin house wall of horizontal reddish-brown round logs above a grey fieldstone foundation, no snow",
+   "notes": {
+    "2": "Continue the neighbouring gstrle wall seamlessly across the left edge: the logs run straight through, with no log ends or vertical joints near the left edge.",
+    "3": "Logs run straight through both side edges with no log ends, end grain or butt joints anywhere; continue the neighbouring gstrle wall seamlessly across the left edge with the same log shading."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrle"
+     ],
+     "fraction": 0.787
+    },
+    "2": {
+     "sources": [
+      "mm6/gstrle"
+     ],
+     "fraction": 0.787
+    },
+    "3": {
+     "sources": [
+      "mm6/gstrle"
+     ],
+     "fraction": 0.787
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/gstrle",
+     "right": "mm6/gldorb"
+    },
+    "2": {
+     "left": "mm6/gstrle",
+     "right": "mm6/gldorb"
+    },
+    "3": {
+     "left": "mm6/gstrle",
+     "right": "mm6/gldorb"
+    }
+   }
+  },
+  "mm6/px1le": {
+   "name": "px1le",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house facade: rough cream-grey plaster panels in a dark brown timber frame with a low horizontal rail, a diagonal corner brace at the top left and a post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pxstrle"
+     ],
+     "fraction": 0.963
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrle",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.95
+    },
+    "3": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxstrle",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.979
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/px1re": {
+   "name": "px1re",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "half-timbered house facade: rough cream-grey plaster panels in a dark brown timber frame with a low horizontal rail, a diagonal corner brace at the top right and a post on the right edge",
+   "notes": {
+    "3": "Only the timber is new; the plaster is the sharp copied plaster, keep its tone, no lighter or darker patches.",
+    "4": "The cast shadows beside the brace and posts are soft, narrow gradients darkening the plaster texture itself; never a flat brown band with hard edges."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1le",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.56
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1le",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.752
+    },
+    "3": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.865
+    },
+    "4": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.865
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/px1le"
+    },
+    "2": {
+     "left": "mm6/px1le"
+    },
+    "3": {
+     "left": "mm6/px1le"
+    },
+    "4": {
+     "left": "mm6/px1le"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ],
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/pxstrde": {
+   "name": "pxstrde",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade: rough cream-grey plaster panels in a dark brown timber frame with a low horizontal rail, diagonal corner braces at both top corners and posts on both edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1re",
+      "mm6/px1le"
+     ],
+     "fraction": 0.993
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1re",
+      "mm6/px1le"
+     ],
+     "fraction": 0.996
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/pxstrle": {
+   "name": "pxstrle",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "half-timbered house facade: rough cream-grey plaster panels in a dark brown timber frame with a low horizontal rail, a diagonal corner brace at the top left and a post on the left edge",
+   "notes": {
+    "3": "Plaster around the post and brace continues the sharp copied plaster exactly in tone; no darker shadow band beside the timber.",
+    "4": "Only the timber is new; the plaster beside it is the sharp copied plaster, keep its tone, no shadow band.",
+    "5": "The left post is one continuous vertical timber over its full height, crossing in front of the horizontal beams."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.133
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.851
+    },
+    "3": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.88
+    },
+    "4": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.912
+    },
+    "5": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxdorb"
+     ],
+     "fraction": 0.912
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {
+     "right": "mm6/pxstrst",
+     "top": "mm6/pxstrst"
+    },
+    "3": {
+     "right": "mm6/pxstrst",
+     "top": "mm6/pxstrst"
+    },
+    "4": {
+     "right": "mm6/pxstrst",
+     "top": "mm6/pxstrst"
+    },
+    "5": {
+     "right": "mm6/pxstrst",
+     "top": "mm6/pxstrst"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ],
+    "4": [
+     32,
+     32
+    ],
+    "5": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/gstrlew": {
+   "name": "gstrlew",
+   "versions": [
+    1
+   ],
+   "material": "log cabin house wall of horizontal reddish-brown round logs above a grey fieldstone foundation, a dark square multi-pane window in a wooden frame, grey fieldstone corner quoins on the left edge, no snow",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrle"
+     ],
+     "fraction": 0.793
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/gstrst"
+    }
+   }
+  },
+  "mm6/gstrwn1": {
+   "name": "gstrwn1",
+   "versions": [
+    1
+   ],
+   "material": "log cabin house wall of horizontal reddish-brown round logs above a grey fieldstone foundation, a dark square multi-pane window in a wooden frame, no snow",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     32
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/gstrst",
+      "mm6/gstrrew",
+      "mm6/gstrlew"
+     ],
+     "fraction": 0.996
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/gstrle",
+     "right": "mm6/gstrre",
+     "top": "mm6/gstrrf"
+    }
+   }
+  },
+  "mm6/pxstrre": {
+   "name": "pxstrre",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade: rough cream-grey plaster panels in a dark brown timber frame with a low horizontal rail, a diagonal corner brace at the top right and a post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1re"
+     ],
+     "fraction": 0.96
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/pxstrle"
+    }
+   }
+  },
+  "mm6/pxstrlew": {
+   "name": "pxstrlew",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade: rough cream-grey plaster panels in a dark brown timber frame with a low horizontal rail, a diagonal corner brace at the top left and a post on the left edge, a small amber-lit diamond-lattice window in a wooden frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pxstrle",
+      "mm6/pxstrwde"
+     ],
+     "fraction": 0.719
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/pxstrle",
+      "mm6/px1le",
+      "mm6/pxstrwde"
+     ],
+     "fraction": 0.748
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm6/pxdorb"
+    },
+    "2": {
+     "right": "mm6/pxstrst",
+     "top": "mm6/plg128t1",
+     "bottom": "mm6/pxstrle"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/px1ctr": {
+   "name": "px1ctr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "half-timbered house facade: rough cream-grey plaster panels in a dark brown timber frame with a low horizontal rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/px1le",
+      "mm6/px1re"
+     ],
+     "fraction": 0.959
+    },
+    "2": {
+     "sources": [
+      "mm6/pxstrst",
+      "mm6/px1le",
+      "mm6/px1re"
+     ],
+     "fraction": 0.993
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/px1le",
+     "right": "mm6/px1re"
+    },
+    "2": {
+     "left": "mm6/px1le",
+     "right": "mm6/px1re"
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   }
+  }
+ }
+}

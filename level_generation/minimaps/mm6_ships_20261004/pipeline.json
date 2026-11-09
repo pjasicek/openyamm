@@ -1,0 +1,18 @@
+{
+  "pipeline": {
+    "level_generation/minimaps/prepare.py": "b475cff1fe47d9dd6ed818e0349bf014a938f56ce4eacce6eed055dffddc30ee",
+    "level_generation/minimaps/render.py": "75eb7bd0b09a033984468cd34cb85f4b29a07c9a6b9cec45de5266e9c817065d",
+    "level_generation/minimaps/finish.py": "769ed52f69e6db163c777036c32c8e173380ec60e55257df0b0dcda14e1c3232",
+    "level_generation/minimaps/processing.py": "f1f2a9415286c3c99bd618d040cc7f6d1aa387c17f5cb0bbb576018748163214",
+    "level_generation/minimaps/validate.py": "213e2068c31b6496f3d013f9ab028697a4334ab48ac90b367a9220c5e69174ac",
+    "level_generation/minimaps/publish.py": "9d3848d18cd50260da6ca22cd9202d9a56b13a9e731f1f6b351cb421bbe78912"
+  },
+  "template": {
+    "path": "level_generation/ui/hud_inventory/minimap_study_20260927/new_sorpigal/new_sorpigal_vinevi.blend",
+    "sha256": "8c53e47f6defee2b8ca6a0926b664fd85358c1fd471cae41942b5d58c3e39134"
+  },
+  "reviewer": {
+    "level_generation/minimaps/index.html": "fff6f54423817653f5f88073897e302d22ed7f5adb61aa30ee611eae8762ab54",
+    "level_generation/minimaps/test_browser.mjs": "8496010cb51f1d820af0b3b8cd05d6684f04ad5da04f4545f6d973b3223f3122"
+  }
+}

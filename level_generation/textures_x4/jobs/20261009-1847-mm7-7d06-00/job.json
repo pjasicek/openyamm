@@ -1,0 +1,910 @@
+{
+ "id": "20261009-1847-mm7-7d06-00",
+ "world": "mm7",
+ "maps": [
+  "7d06.blv",
+  "7out03.odm",
+  "out14.odm",
+  "out09.odm",
+  "7d25.blv",
+  "7out04.odm",
+  "7d13.blv",
+  "out10.odm",
+  "d03.blv",
+  "7d32.blv",
+  "7d30.blv",
+  "7out06.odm",
+  "7d29.blv",
+  "out11.odm"
+ ],
+ "created": "2026-10-09T16:47:56+00:00",
+ "textures": [
+  "mm7/7t1books1",
+  "mm7/hhp1elw",
+  "mm7/chb1dr",
+  "mm7/7gt002c",
+  "mm7/hem1elw",
+  "mm7/hem1b",
+  "mm7/hwp1b",
+  "mm7/hwp1bwall",
+  "mm7/hwr1wall",
+  "mm7/hem1erw",
+  "mm7/t5bs",
+  "mm7/hkm3elw",
+  "mm7/hkm3b",
+  "mm7/cnb1s",
+  "mm7/cnb1ser",
+  "mm7/cnb1er",
+  "mm7/ch003b",
+  "mm7/tap1",
+  "mm7/tap3",
+  "mm7/tap6",
+  "mm7/cndr",
+  "mm7/tfb09b-g",
+  "mm7/tap7",
+  "mm7/hdm1b"
+ ],
+ "requests": {
+  "mm7/7t1books1": {
+   "name": "7t1books1",
+   "versions": [
+    1
+   ],
+   "material": "plain worn brown wooden boards with long straight grain and a few faint scratches; one continuous surface with no patches or outlines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7t1books2"
+     ],
+     "fraction": 0.162
+    }
+   }
+  },
+  "mm7/hhp1elw": {
+   "name": "hhp1elw",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough grey weathered stucco plaster with a dark weathered timber post along the left edge and a small window boarded with rough vertical wooden slats; copy the composition exactly",
+   "notes": {
+    "2": "the dark timber post reaches the very left edge with its normal wood tone: no black outline, shadow line or gap in the outermost pixel columns"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp1el"
+     ],
+     "fraction": 0.162
+    },
+    "2": {
+     "sources": [
+      "mm7/hhp1el"
+     ],
+     "fraction": 0.162
+    }
+   }
+  },
+  "mm7/chb1dr": {
+   "name": "chb1dr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with an arch of dressed stones over the right half of a dark wooden plank double door with a riveted dark greenish iron band across its top and iron hinges; copy the composition exactly",
+   "notes": {
+    "2": "the plank door continues to the very left edge, where it meets the left door leaf; no dark gap, line or shadow along the left edge",
+    "3": "the planks of the door leaf run right through the left edge at their normal brown tone, as if the door continues: no black seam, outline or gap in the outermost pixel columns at the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1el"
+     ],
+     "fraction": 0.138
+    }
+   }
+  },
+  "mm7/7gt002c": {
+   "name": "7gt002c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wooden crate face of vertical reddish-brown planks inside a dark iron frame with corner rivets and a square iron plate in the centre; every plank and joint runs straight and unbroken; copy the composition exactly",
+   "notes": {
+    "2": "each plank joint is one straight continuous line across the whole width, aligned exactly with the sharp areas: no steps, offsets or short dashes; the riveted iron band along the top is as wide as the bottom band, with whole rivets"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.594
+    },
+    "2": {
+     "sources": [
+      "mm7/7gt002f"
+     ],
+     "fraction": 0.594
+    }
+   }
+  },
+  "mm7/hem1elw": {
+   "name": "hem1elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "pale cream vertical wooden planks with fine grain, bordered by thin dark brown wood strips at top and bottom, with a curved dark brown wooden rib sweeping across in a broken arch, a dark wooden post on the left edge, small green ivy leaves on the left and part of a small arched dark wooden window at the right edge; copy the composition exactly",
+   "notes": {
+    "2": "every plank keeps one even pale cream tone and grain from top to bottom, matching the sharp planks exactly where it meets them; no darker, greyer or lighter patches or stepped outlines under or beside the ribs",
+    "3": "no shadow under the curved ribs: the planks below and between the ribs are exactly as light and evenly cream as the sharp planks, with no darker or greyer blotches, shading or outlines anywhere"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem1el"
+     ],
+     "fraction": 0.86
+    },
+    "2": {
+     "sources": [
+      "mm7/hem1el",
+      "mm7/hem1b"
+     ],
+     "fraction": 0.867
+    },
+    "3": {
+     "sources": [
+      "mm7/hem1el",
+      "mm7/hem1b"
+     ],
+     "fraction": 0.867
+    }
+   }
+  },
+  "mm7/hem1b": {
+   "name": "hem1b",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "pale cream vertical wooden planks with fine grain, bordered by thin dark brown wood strips at top and bottom, with two curved dark brown wooden ribs meeting in a pointed arch over a central vertical rib and a small green leaf; copy the composition exactly",
+   "notes": {
+    "3": "the plank at the left edge is one bright pale plank running straight past the left edge from top to bottom; no plank seam, crack or dark line on the outermost left pixels anywhere",
+    "4": "plank seams are perfectly straight vertical lines and lie only where the reference shows them; the nearest seam to the left edge is a straight line a little way in from it (about 7% of the width), and the first and last few pixel columns are clean unbroken pale plank surface with no crack, seam or dark streak anywhere along their height",
+    "5": "the sharp seam segments near the left edge belong to one straight continuous plank seam: draw it unbroken over the full height between the sharp segments, the same thin dark line as every other seam; the outermost left and right pixel columns are clean plank surface",
+    "6": "the planks at both side edges are cut through their middle by the picture border: the last plank on the right and the first plank on the left are clean pale wood right up to the border along the whole height, with no seam, crack, gap or dark streak on the outermost pixel columns; seams sit only between planks inside the picture, as in the reference",
+    "7": "the planks at both side edges are cut through their middle by the picture border: the last plank on the right and the first plank on the left are clean pale wood right up to the border along the whole height, with no seam, crack, gap or dark streak on the outermost pixel columns; seams sit only between planks inside the picture, as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem1el"
+     ],
+     "fraction": 0.616
+    },
+    "2": {
+     "sources": [
+      "mm7/hem1el"
+     ],
+     "fraction": 0.616
+    },
+    "3": {
+     "sources": [
+      "mm7/hem1el"
+     ],
+     "fraction": 0.616
+    },
+    "4": {
+     "sources": [
+      "mm7/hem1el",
+      "mm7/hem1elw"
+     ],
+     "fraction": 0.622
+    },
+    "5": {
+     "sources": [
+      "mm7/hem1el",
+      "mm7/hem1elw"
+     ],
+     "fraction": 0.622
+    },
+    "6": {
+     "sources": [
+      "mm7/hem1el",
+      "mm7/hem1elw"
+     ],
+     "fraction": 0.622
+    },
+    "7": {
+     "sources": [
+      "mm7/hem1el"
+     ],
+     "fraction": 0.616
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hem1er",
+     "left": "mm7/hem1el"
+    },
+    "3": {
+     "right": "mm7/hem1er",
+     "left": "mm7/hem1el"
+    },
+    "4": {
+     "right": "mm7/hem1er",
+     "left": "mm7/hem1el"
+    },
+    "5": {
+     "right": "mm7/hem1er",
+     "left": "mm7/hem1el"
+    },
+    "6": {
+     "right": "mm7/hem1er",
+     "left": "mm7/hem1el"
+    },
+    "7": {
+     "right": "mm7/hem1er",
+     "left": "mm7/hem1el"
+    }
+   },
+   "pad": {
+    "7": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm7/hwp1b": {
+   "name": "hwp1b",
+   "versions": [
+    1
+   ],
+   "material": "pale cream speckled marble wall with a grey stone moulding across the top and a dark grey stone base along the bottom; the marble is one continuous slab with no vertical line or joint",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwp1b1s2"
+     ],
+     "fraction": 0.681
+    }
+   }
+  },
+  "mm7/hwp1bwall": {
+   "name": "hwp1bwall",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "pale cream speckled marble wall, one continuous slab with no vertical line, joint, band or outline",
+   "notes": {
+    "2": "the new marble continues the sharp marble exactly in speckle size, tone and colour, so no rectangle, strip or edge of the sharp areas can be seen"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwp1b1s2",
+      "mm7/hwp1b1s1"
+     ],
+     "fraction": 0.488
+    },
+    "2": {
+     "sources": [
+      "mm7/hwp1b1s2",
+      "mm7/hwp1b1s1"
+     ],
+     "fraction": 0.488
+    }
+   }
+  },
+  "mm7/hwr1wall": {
+   "name": "hwr1wall",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow weathered vertical wooden planks with fine grain, small knots and dark seams between boards; every board runs straight and unbroken from top to bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hwr1b"
+     ],
+     "fraction": 0.316
+    }
+   }
+  },
+  "mm7/hem1erw": {
+   "name": "hem1erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: pale cream vertical wooden planks with fine grain, bordered by thin dark brown wood strips at top and bottom, with a curved dark brown wooden rib sweeping across in a broken arch, a dark wooden post on the left edge, small green ivy leaves on the left and part of a small arched dark wooden window at the right edge - right part: pale cream vertical wooden planks with fine grain, bordered by thin dark brown wood strips at top and bottom, with a curved dark brown wooden rib sweeping across in a broken arch, a dark wooden post on the right edge and part of a small arched dark wooden window at the left edge; copy the composition exactly",
+   "notes": {
+    "2": "every plank keeps one even pale cream tone and grain from top to bottom, matching the sharp planks exactly where it meets them; no darker, greyer or lighter patches or stepped outlines under or beside the ribs",
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hem1er"
+     ],
+     "fraction": 0.852
+    },
+    "2": {
+     "sources": [
+      "mm7/hem1er"
+     ],
+     "fraction": 0.852
+    },
+    "3": {
+     "sources": [
+      "mm7/hem1er"
+     ],
+     "fraction": 0.852
+    },
+    "4": {
+     "sources": [
+      "mm7/hem1el",
+      "mm7/hem1er"
+     ],
+     "fraction": 0.856
+    }
+   },
+   "context": {
+    "3": {
+     "left": "mm7/hem1elw"
+    },
+    "4": {}
+   }
+  },
+  "mm7/t5bs": {
+   "name": "t5bs",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "smooth grey speckled granite panel, one plain continuous slab with no joints, seams or lines",
+   "notes": {
+    "2": "one continuous granite slab: fill the narrow vertical and horizontal gaps between the sharp areas with granite of exactly the same fine speckle size, mid-grey tone and colour, so no band, stripe, line or seam shows; no joint lines",
+    "3": "one continuous granite slab: the narrow strips between the sharp areas get exactly the same fine speckle, tone and colour as the sharp granite, so no band, stripe, line or seam shows"
+   },
+   "ref_blur": {
+    "1": 2.5,
+    "3": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.802
+    },
+    "2": {
+     "sources": [
+      "mm7/t5s1b"
+     ],
+     "fraction": 0.802
+    },
+    "3": {
+     "sources": [
+      "mm7/t5s1b",
+      "mm7/t5s1el"
+     ],
+     "fraction": 0.834
+    }
+   }
+  },
+  "mm7/hkm3elw": {
+   "name": "hkm3elw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber frame with a carved wooden lintel and small skull ornaments along the top, with an arched window of yellow-green leaded glass under a carved horned stone skull head and a timber post on the left edge; copy the composition exactly",
+   "notes": {
+    "3": "the very top rows are a light tan wooden plank strip as bright as the reference, with no dark rim or shadow along the top edge; keep the skull frieze, arch, window and bone heap at the reference positions",
+    "4": "along the very top edge runs a thin bright light-tan wooden plank strip, almost cream, exactly as thick and as bright as the reference's top two pixel rows, touching the top edge; then the darker beam and the skull frieze below it, as in hkm3erw",
+    "5": "along the very top edge runs a thin bright light-tan wooden plank strip, almost cream, exactly as thick and as bright as the reference's top two pixel rows, touching the top edge; then the darker beam and the skull frieze below it, as in hkm3erw"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.258
+    },
+    "2": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.258
+    },
+    "3": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.258
+    },
+    "4": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.258
+    },
+    "5": {
+     "sources": [
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.258
+    }
+   },
+   "context": {
+    "5": {
+     "right": "mm7/hkm3erw",
+     "left": "mm7/hkm3er"
+    }
+   }
+  },
+  "mm7/hkm3b": {
+   "name": "hkm3b",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey slate wall of thin stacked flat stones, a heap of old skulls and bones along the base, dark carved timber lintel with small skull ornaments along the top; the slate continues straight across the left and right edges with no post or vertical line",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hkm3el",
+      "mm7/hkm3erw"
+     ],
+     "fraction": 0.444
+    }
+   }
+  },
+  "mm7/cnb1s": {
+   "name": "cnb1s",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, under a band of pale tan stone along the top",
+   "notes": {
+    "2": "copy the layout exactly at its scale: under the pale tan band lies a deep dark shadow strip, then one row of small low stones half in that shadow, and the large blocks start only below them, lining up exactly with the sharp blocks; the tan band reaches the top edge at full brightness"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.8
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.8
+    }
+   }
+  },
+  "mm7/cnb1ser": {
+   "name": "cnb1ser",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, under a band of pale tan stone along the top, with a column of large tan sandstone corner blocks along the right edge",
+   "notes": {
+    "2": "keep every block exactly where it is in the reference, at the same scale: continue the sharp grey blocks without moving them, so no block is cut in half or shifted; the pale tan band along the top edge and the sandstone corner blocks along the right edge stay exactly in place",
+    "3": "keep every block exactly where it is in the reference, at the same scale: continue the sharp grey blocks without moving them, so no block is cut in half or shifted; the pale tan band along the top edge and the sandstone corner blocks along the right edge stay exactly in place",
+    "4": "keep every block exactly where it is in the reference, at the same scale: continue the sharp grey blocks without moving them, so no block is cut in half or shifted; the pale tan band along the top edge and the sandstone corner blocks along the right edge stay exactly in place"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb1s",
+      "mm7/cnb"
+     ],
+     "fraction": 0.566
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb1s",
+      "mm7/cnb"
+     ],
+     "fraction": 0.566
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb1s",
+      "mm7/cnb"
+     ],
+     "fraction": 0.566
+    },
+    "4": {
+     "sources": [
+      "mm7/cnb1s",
+      "mm7/cnb"
+     ],
+     "fraction": 0.566
+    }
+   },
+   "context": {
+    "4": {}
+   }
+  },
+  "mm7/cnb1er": {
+   "name": "cnb1er",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with a column of large tan sandstone corner blocks along the right edge",
+   "notes": {
+    "2": "keep every block and mortar joint exactly where it is in the reference: the new blocks line up with the sharp blocks and their full-width dark mortar joints, so no joint narrows to a thin line and no block is cut; the sandstone corner blocks stay along the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb1ser",
+      "mm7/cnb"
+     ],
+     "fraction": 0.86
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb1ser",
+      "mm7/cnb"
+     ],
+     "fraction": 0.86
+    }
+   }
+  },
+  "mm7/ch003b": {
+   "name": "ch003b",
+   "versions": [
+    1
+   ],
+   "material": "mottled blue-grey slate chest panel, plain, with faint rust stains and no fittings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003d"
+     ],
+     "fraction": 0.519
+    }
+   }
+  },
+  "mm7/tap1": {
+   "name": "tap1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven medieval wool tapestry in a blue patterned border with gold corner squares, showing fully robed courtly figures and a white heron in a garden; copy the composition exactly",
+   "notes": {
+    "2": "at the left and right edges the blue border meets the next panel with only a thin grey thread line, the same width as in the reference; no wide dark navy stripe at the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap3": {
+   "name": "tap3",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "woven medieval wool tapestry in a thin rose-red patterned border with a blue and white arch, showing fully robed courtly figures before a castle on a hill; copy the composition exactly",
+   "notes": {
+    "2": "the blue vine border runs right up to the very right edge and the very left edge: no pale, beige or white strip or line at either side edge",
+    "3": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "5": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge; copy the composition exactly, with every figure, animal, building and border at the same size and position as in the reference",
+    "6": "copy the composition exactly, with every figure, animal, building and border at the same size and position as in the reference; the very top pixel row is a thin bright pale-gold thread with a thin dark thread just below it, the bottom edge ends in a thin dark thread, and the blue side borders run right up to both side edges at their normal blue tone; no other pale or dark line along any edge",
+    "7": "copy the composition exactly, with every figure, animal, building and border at the same size and position as in the reference; the very top pixel row is a thin bright pale-gold thread with a thin dark thread just below it, the bottom edge ends in a thin dark thread; at the left side the blue border reaches the very left edge, and its outermost pixel column is a medium blue-grey thread, lighter than the thin dark line just inside it, never a dark outline; the right side ends in a thin dark thread"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "4": [
+     65,
+     75
+    ],
+    "5": [
+     0,
+     75
+    ],
+    "6": [
+     65,
+     0
+    ],
+    "7": [
+     65,
+     0
+    ]
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {}
+   }
+  },
+  "mm7/tap6": {
+   "name": "tap6",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "woven wool tapestry of a fully clothed rider in a blue cloak on a white horse with two white hounds in a flowering meadow, in a red and gold woven border; copy the composition exactly",
+   "notes": {
+    "2": "the top edge is the native's thin bright gold line at full brightness, not a dark frame line; the blue border runs right up to the very right edge with no pale strip or line there",
+    "3": "the blue border reaches the very left edge at its normal blue tone, with only a hair-thin dark thread line one pixel wide; the top edge is a thin bright gold line at full brightness; no wide dark strip at the left or top edge",
+    "4": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge",
+    "6": "every edge keeps the reference colours right up to the last pixel row and column: no pale or dark line along any edge; copy the composition exactly, with every figure, animal, building and border at the same size and position as in the reference",
+    "7": "copy the composition exactly, with every figure, animal, building and border at the same size and position as in the reference; the very top pixel row is a thin bright pale-gold thread with a thin dark thread just below it, the bottom edge ends in a thin dark thread, and the blue side borders run right up to both side edges at their normal blue tone; no other pale or dark line along any edge",
+    "8": "copy the composition exactly, with every figure, animal, building and border at the same size and position as in the reference; the very top pixel row is a thin bright pale-gold thread with a thin dark thread just below it, the bottom edge ends in a thin dark thread; at the left side the blue border reaches the very left edge, and its outermost pixel column is a medium blue-grey thread, lighter than the thin dark line just inside it, never a dark outline; the right side ends in a thin dark thread",
+    "9": "copy the composition exactly, with every figure, animal, tree and border at the same size and position as in the reference; the very top pixel row is a thin bright pale-gold thread with a thin dark thread just below it, the bottom edge ends in a thin dark thread; at the left side the blue border reaches the very left edge, and its outermost pixel column is a medium blue-grey thread, lighter than the thin dark line just inside it, never a dark outline; the right side ends in a thin dark thread"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "9": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "roll": {
+    "5": [
+     53,
+     0
+    ],
+    "6": [
+     53,
+     172
+    ],
+    "7": [
+     53,
+     0
+    ],
+    "8": [
+     53,
+     0
+    ],
+    "9": [
+     53,
+     0
+    ]
+   },
+   "context": {
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {},
+    "9": {}
+   }
+  },
+  "mm7/cndr": {
+   "name": "cndr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, with an arched doorway of rough pale stone voussoirs around a dark weathered wooden door with iron hinges and a ring handle; copy the composition exactly",
+   "notes": {
+    "2": "the door handle is a small bronze skull with dark eye sockets and teeth sitting on top of a long vertical bronze bar; copy the skull exactly, no ring or rosette",
+    "3": "keep the skull handle; at the right edge the grey stone blocks run right up to the border at their normal mid-grey tone, cut off by the edge: no dark vertical shadow, gap or mortar line along the right edge, and none along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.146
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.146
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb"
+     ],
+     "fraction": 0.146
+    }
+   }
+  },
+  "mm7/tfb09b-g": {
+   "name": "tfb09b-g",
+   "versions": [
+    1
+   ],
+   "material": "weathered dark olive-green stone floor blocks with dark mortar, partly covered by a woven rust-orange and black patterned carpet with octagonal medallions and a key-pattern border, with patches of dark soot",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/tap7": {
+   "name": "tap7",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "woven wool tapestry in a red and gold floral border with a dark green and gold pointed arch, showing one large tan greyhound with a red collar and white legs standing on red-brown ground, head raised to the right, filling the middle of the arch at the same size as in the reference, dark green bushes behind it and a pale blue cloudy sky above; no stag, no other animals; copy the composition exactly",
+   "notes": {
+    "2": "keep the hound's size, pose and position exactly as in the reference",
+    "3": "the greyhound is large: its body spans most of the width inside the arch, standing in the middle of the picture with its head raised at the right and its tail at the left, exactly as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hdm1b": {
+   "name": "hdm1b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "worn grey-brown dressed stone wall with a carved diagonal lattice band along the bottom edge, a shallow carved round-arched recess of plain smooth stone and a narrow stone ledge near the bottom; no pointed arch or ribs inside the recess",
+   "notes": {
+    "2": "the recess is one smooth continuous slab of worn stone: no vertical crack, joint or block line anywhere, especially none near the left edge; the shallow arch band runs as one even curve from the left edge to the right edge; the stone keeps the same tone right up to the right edge, no darkening there",
+    "3": "continue the faint stone joints and texture of the sharp strip on the left evenly across the whole recess so the left strip does not stand out; the stone reaches the right edge at full tone with no dark line, shadow or groove along the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hdm1er"
+     ],
+     "fraction": 0.34
+    },
+    "2": {
+     "sources": [
+      "mm7/hdm1er"
+     ],
+     "fraction": 0.34
+    },
+    "3": {
+     "sources": [
+      "mm7/hdm1er"
+     ],
+     "fraction": 0.34
+    }
+   }
+  }
+ }
+}

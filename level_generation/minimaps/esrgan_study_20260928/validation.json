@@ -1,0 +1,377 @@
+{
+  "result": "PASS",
+  "native_sources_checked": 27,
+  "recommended_candidates": 27,
+  "candidate_canvases_and_hashes_checked": 113,
+  "original_runtime_files_unchanged": 42,
+  "minimum_error_registration": [
+    {
+      "map": "mm7/7out01",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 0.8539418162412918,
+      "next_best_shift_mse": 1.7300585179423862
+    },
+    {
+      "map": "mm7/7out02",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 2.6737011693285133,
+      "next_best_shift_mse": 7.571505634679083
+    },
+    {
+      "map": "mm7/7out03",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 3.2458867701354928,
+      "next_best_shift_mse": 7.5672919529622735
+    },
+    {
+      "map": "mm7/7out04",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 2.326138260250625,
+      "next_best_shift_mse": 3.814444058601751
+    },
+    {
+      "map": "mm7/7out05",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 1.209746265865561,
+      "next_best_shift_mse": 3.8500530142471727
+    },
+    {
+      "map": "mm7/7out06",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 1.466111820304644,
+      "next_best_shift_mse": 2.8990783364927033
+    },
+    {
+      "map": "mm7/7out13",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 1.8325333742797685,
+      "next_best_shift_mse": 6.589284129250353
+    },
+    {
+      "map": "mm7/7out15",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 4.501111715027716,
+      "next_best_shift_mse": 4.651538561656527
+    },
+    {
+      "map": "mm7/out09",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 0.677220796541448,
+      "next_best_shift_mse": 1.719725136189636
+    },
+    {
+      "map": "mm7/out10",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        1
+      ],
+      "zero_shift_smoothed_luma_mse": 2.0984307706487044,
+      "next_best_shift_mse": 8.42212939168614
+    },
+    {
+      "map": "mm7/out11",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 0.794666474588162,
+      "next_best_shift_mse": 2.8697441659511043
+    },
+    {
+      "map": "mm7/out12",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 1.1439668492374921,
+      "next_best_shift_mse": 4.81043418919134
+    },
+    {
+      "map": "mm7/out14",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 2.098718800314712,
+      "next_best_shift_mse": 3.6715236065192576
+    },
+    {
+      "map": "mm8/elema",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 4.7317771176514505,
+      "next_best_shift_mse": 5.445301405392918
+    },
+    {
+      "map": "mm8/elemf",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 2.473499031849424,
+      "next_best_shift_mse": 6.952850643760302
+    },
+    {
+      "map": "mm8/elemw",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 7.141927766067689,
+      "next_best_shift_mse": 7.790334096544436
+    },
+    {
+      "map": "mm8/out01",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 1.2497780211417608,
+      "next_best_shift_mse": 2.1304981005270323
+    },
+    {
+      "map": "mm8/out02",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 2.0802616196966386,
+      "next_best_shift_mse": 4.136063519711327
+    },
+    {
+      "map": "mm8/out03",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 3.582753236736263,
+      "next_best_shift_mse": 6.232292318617607
+    },
+    {
+      "map": "mm8/out04",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 3.4115324962586153,
+      "next_best_shift_mse": 4.748941775461722
+    },
+    {
+      "map": "mm8/out05",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 3.421031117684348,
+      "next_best_shift_mse": 5.488132448538446
+    },
+    {
+      "map": "mm8/out06",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 3.9507561190869604,
+      "next_best_shift_mse": 5.329488483822292
+    },
+    {
+      "map": "mm8/out07",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 2.9075303886375874,
+      "next_best_shift_mse": 3.360787667633591
+    },
+    {
+      "map": "mm8/out08",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 1.831812310956406,
+      "next_best_shift_mse": 2.9885791899949075
+    },
+    {
+      "map": "mm8/out13",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 1.4768827435496994,
+      "next_best_shift_mse": 2.0649713724777388
+    },
+    {
+      "map": "mm8/out15",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 4.501111715027716,
+      "next_best_shift_mse": 4.651538561656527
+    },
+    {
+      "map": "mm8/pbp",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        0
+      ],
+      "zero_shift_smoothed_luma_mse": 1.6501921050297752,
+      "next_best_shift_mse": 2.6737857855111895
+    }
+  ],
+  "phase_outliers": [
+    {
+      "map": "mm7/out10",
+      "minimum_error_shift_x2_px": [
+        0,
+        0
+      ],
+      "phase_correlation_shift_x2_px": [
+        0,
+        1
+      ],
+      "zero_shift_smoothed_luma_mse": 2.0984307706487044,
+      "next_best_shift_mse": 8.42212939168614
+    }
+  ],
+  "limitation": "Global registration and exact canvases do not guarantee unchanged local neural contours.",
+  "exports_sha256": "a9afa480970082de91f1f668a9515c28df9a6599d69fb38e8a5685221e468f01"
+}

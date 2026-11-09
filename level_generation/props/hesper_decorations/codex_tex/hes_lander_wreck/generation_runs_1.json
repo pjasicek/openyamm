@@ -1,0 +1,236 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "generated_with_unresolved_validation_failures",
+  "postprocessing": "None. Byte-for-byte unresized tool returns.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting of the party's wrecked colony lander. Edit the FIRST input, the grey geometry guide, in place. The second input is design_reference.png, authority for design, colours and materials ONLY; the third is concept_crop.png, the original concept. Output one 1024 x 1024 RGBA PNG with true transparent background, original guide framing and unresized output.\nThe guide fixes the silhouette EXACTLY: preserve the same outline, size and position in the frame, every shape edge, opening and detail where the guide has them. Preserve its alpha silhouette, every rock, fin, beam and aperture. Nothing added outside the silhouette, nothing cropped. Do not substitute the three-quarter reference camera or its geometry. Paint surface material details onto the existing guide geometry only.\nMaterials: chipped white ceramic plates with gold trim and rivets, black soot and scorch streaks, dark tinted cracked glass, dark steel ribs where plates are gone, warm amber colour in the open hatch, cyan console detail wherever visible, black glassy rubble. Match the design reference's material palette and damage character, constrained to the guide geometry.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, with no light cast on surroundings. No text, labels, watermarks or extra objects.\nView: FRONT, exactly guide_front.png. This guide shows a lateral elevation with the tall fin on the LEFT, rounded nose and broken forward rails on the RIGHT, large circular engine to the left of the rectangular open hatch. Keep that exact view and all guide locations; do not rotate it. Preserve the large transparent margins above and below the model.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "748a30752b695afc1b023606c4e85575bdbf9fbbe80d4322feb2b1cb5b89762f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16561-2551-7f62-a0ed-af674fa4fce8/exec-d18b38ca-1546-4402-89a7-8bfbcc5b7535.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by correction: front engine and fin geometry drift; native output dimensions incorrect.",
+      "output_sha256": "13f7df3ef58c48f124b15013bddf14f8fa14f05c46f114eb9a50b28ee4c92952",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1277178,
+        "partial_alpha_pixels": 294896,
+        "guide_alpha_bbox": [
+          66,
+          303,
+          958,
+          721
+        ],
+        "output_alpha_bbox": [
+          47,
+          21,
+          1210,
+          1228
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native dimensions differ; visual inspection also shows redesigned geometry and rubble edges.",
+        "materials_colours": "Requested ceramic, gold, soot, dark glass, amber and cyan palette present.",
+        "flat_even_light": false,
+        "lighting_reason": "Visible shading, dark crevices and highlights remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting of the party's wrecked colony lander. Edit the FIRST input, the grey geometry guide, in place. The second input is design_reference.png, authority for design, colours and materials ONLY; the third is concept_crop.png, the original concept. Output one 1024 x 1024 RGBA PNG with true transparent background, original guide framing and unresized output.\nThe guide fixes the silhouette EXACTLY: preserve the same outline, size and position in the frame, every shape edge, opening and detail where the guide has them. Preserve its alpha silhouette, every rock, fin, beam and aperture. Nothing added outside the silhouette, nothing cropped. Do not substitute the three-quarter reference camera or its geometry. Paint surface material details onto the existing guide geometry only.\nMaterials: chipped white ceramic plates with gold trim and rivets, black soot and scorch streaks, dark tinted cracked glass, dark steel ribs where plates are gone, warm amber colour in the open hatch, cyan console detail wherever visible, black glassy rubble. Match the design reference's material palette and damage character, constrained to the guide geometry.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, with no light cast on surroundings. No text, labels, watermarks or extra objects.\nView: TOP, exactly guide_top.png, straight overhead orthographic. Tail on the LEFT, rounded nose on the RIGHT, two forward rails extending right, oval rubble footprint. Keep exact overhead silhouette and all shapes in their guide locations. Do not rotate, tilt or change framing. Transfer cockpit glazing, ceramic hull panel divisions, gold rims and damaged dark mechanics as surface colours within the existing overhead geometry.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b1853d5baa5dae9107b60db9c16fc7b7c59a496e36c324b9e821347bbbf5d168"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16561-2551-7f62-a0ed-af674fa4fce8/exec-eeaa7f55-7e6a-44ab-ad1f-648968f92dd1.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by corrective attempt aimed at exact geometry and flatter illumination; native output dimensions incorrect.",
+      "output_sha256": "3868b3dec46fd308e0ad7e36ea81c738e764d7937f172d9004028dc265c1708b",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 970093,
+        "partial_alpha_pixels": 601770,
+        "guide_alpha_bbox": [
+          66,
+          222,
+          958,
+          802
+        ],
+        "output_alpha_bbox": [
+          0,
+          24,
+          1218,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native dimensions differ; visual inspection also shows redesigned geometry and rubble edges.",
+        "materials_colours": "Requested ceramic, gold, soot, dark glass, amber and cyan palette present.",
+        "flat_even_light": false,
+        "lighting_reason": "Visible shading, dark crevices and highlights remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting of the party's wrecked colony lander. Edit the FIRST input, the grey geometry guide, in place. The second input is design_reference.png, authority for design, colours and materials ONLY; the third is concept_crop.png, the original concept. Output one 1024 x 1024 RGBA PNG with true transparent background, original guide framing and unresized output.\nThe guide fixes the silhouette EXACTLY: preserve the same outline, size and position in the frame, every shape edge, opening and detail where the guide has them. Preserve its alpha silhouette, every rock, fin, beam and aperture. Nothing added outside the silhouette, nothing cropped. Do not substitute the three-quarter reference camera or its geometry. Paint surface material details onto the existing guide geometry only.\nMaterials: chipped white ceramic plates with gold trim and rivets, black soot and scorch streaks, dark tinted cracked glass, dark steel ribs where plates are gone, warm amber colour in the open hatch, cyan console detail wherever visible, black glassy rubble. Match the design reference's material palette and damage character, constrained to the guide geometry.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, with no light cast on surroundings. No text, labels, watermarks or extra objects.\nView: FRONT, exactly guide_front.png. This guide shows a lateral elevation with the tall fin on the LEFT, rounded nose and broken forward rails on the RIGHT, large circular engine to the left of the rectangular open hatch. Keep that exact view and all guide locations; do not rotate it. Preserve the large transparent margins above and below the model.\nCORRECTIVE REGENERATION (the only retry permitted): the first attempt incorrectly returned 1254 x 1254 and changed guide edges. Return exactly 1024 x 1024 pixels natively. Treat the FIRST input as an immutable image to recolour, not a suggestion to redraw. Preserve its alpha mask pixel for pixel, all outer and internal geometry edges, rock positions, opening boundaries, and object extent. Recolour existing surfaces with flat albedo, eliminating directional shading, bright metallic highlights and ambient occlusion. All fully transparent pixels of the guide must remain fully transparent; no stray opaque or translucent pixels in the empty margins. The material references must not reshape any part of the guide.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "748a30752b695afc1b023606c4e85575bdbf9fbbe80d4322feb2b1cb5b89762f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16561-2551-7f62-a0ed-af674fa4fce8/exec-e2df2801-dc5f-48d5-b91a-f2bdec98a663.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available within one-correction limit: central engine cap follows guide more closely. Selected for delivery, NOT accepted as brief-compliant; resolution, exact silhouette and flat lighting requirements remain unmet.",
+      "output_sha256": "6c1e647ce8574af506ea79fa4497fcad0392215a77628d7f149aa383709596e2",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1277262,
+        "partial_alpha_pixels": 294883,
+        "guide_alpha_bbox": [
+          66,
+          303,
+          958,
+          721
+        ],
+        "output_alpha_bbox": [
+          0,
+          19,
+          1234,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native dimensions differ; visual inspection also shows redesigned geometry and rubble edges.",
+        "materials_colours": "Requested ceramic, gold, soot, dark glass, amber and cyan palette present.",
+        "flat_even_light": false,
+        "lighting_reason": "Visible shading, dark crevices and highlights remain.",
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: orthographic albedo texture-source painting of the party's wrecked colony lander. Edit the FIRST input, the grey geometry guide, in place. The second input is design_reference.png, authority for design, colours and materials ONLY; the third is concept_crop.png, the original concept. Output one 1024 x 1024 RGBA PNG with true transparent background, original guide framing and unresized output.\nThe guide fixes the silhouette EXACTLY: preserve the same outline, size and position in the frame, every shape edge, opening and detail where the guide has them. Preserve its alpha silhouette, every rock, fin, beam and aperture. Nothing added outside the silhouette, nothing cropped. Do not substitute the three-quarter reference camera or its geometry. Paint surface material details onto the existing guide geometry only.\nMaterials: chipped white ceramic plates with gold trim and rivets, black soot and scorch streaks, dark tinted cracked glass, dark steel ribs where plates are gone, warm amber colour in the open hatch, cyan console detail wherever visible, black glassy rubble. Match the design reference's material palette and damage character, constrained to the guide geometry.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, with no light cast on surroundings. No text, labels, watermarks or extra objects.\nView: TOP, exactly guide_top.png, straight overhead orthographic. Tail on the LEFT, rounded nose on the RIGHT, two forward rails extending right, oval rubble footprint. Keep exact overhead silhouette and all shapes in their guide locations. Do not rotate, tilt or change framing. Transfer cockpit glazing, ceramic hull panel divisions, gold rims and damaged dark mechanics as surface colours within the existing overhead geometry.\nCORRECTIVE REGENERATION (the only retry permitted): the first attempt incorrectly returned 1254 x 1254 and changed guide edges. Return exactly 1024 x 1024 pixels natively. Treat the FIRST input as an immutable image to recolour, not a suggestion to redraw. Preserve its alpha mask pixel for pixel, all outer and internal geometry edges, rock positions, opening boundaries, and object extent. Recolour existing surfaces with flat albedo, eliminating directional shading, bright metallic highlights and ambient occlusion. All fully transparent pixels of the guide must remain fully transparent; no stray opaque or translucent pixels in the empty margins. The material references must not reshape any part of the guide.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b1853d5baa5dae9107b60db9c16fc7b7c59a496e36c324b9e821347bbbf5d168"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "f6a2c14cf3aa17953aca77cadeab82a688010238589055705f1225bf9e0dd755"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "752e43173ec03373e495439fd2f44c333b6b52d71c0ec338f9f8e08d0ad534c4"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16561-2551-7f62-a0ed-af674fa4fce8/exec-7dad5f8d-2972-4a66-9a23-bc26386d7891.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective overhead view for delivery, NOT accepted as brief-compliant; resolution, exact geometry/silhouette and flat lighting requirements remain unmet.",
+      "output_sha256": "ddeda76265c3118d3fa5de9539ca7df4fc57cebada90661d7f1ef28e441258fb",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 972373,
+        "partial_alpha_pixels": 599141,
+        "guide_alpha_bbox": [
+          66,
+          222,
+          958,
+          802
+        ],
+        "output_alpha_bbox": [
+          0,
+          20,
+          1240,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native dimensions differ; visual inspection also shows redesigned geometry and rubble edges.",
+        "materials_colours": "Requested ceramic, gold, soot, dark glass, amber and cyan palette present.",
+        "flat_even_light": false,
+        "lighting_reason": "Visible shading, dark crevices and highlights remain.",
+        "brief_compliant": false
+      }
+    }
+  ]
+}

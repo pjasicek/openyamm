@@ -1,0 +1,39 @@
+output_dir: ../../review/outc2
+settle_seconds: 1.5
+exit: true
+shots:
+- name: windrunner_overview
+  position:
+  - 11876
+  - 11668
+  - 1412
+  yaw: 0.62
+  pitch: -0.3
+- name: windrunner_boarding
+  position:
+  - 14848
+  - 13270
+  - 176
+  yaw: 1.5707963267948966
+  pitch: -0.2
+- name: windrunner_return
+  position:
+  - 14848
+  - 13816
+  - 105
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: windrunner_cabin
+  position:
+  - 15072
+  - 13968
+  - 105
+  yaw: 0.0
+  pitch: 0
+- name: offshore_scenery_overview
+  position:
+  - 14844
+  - 12076
+  - 1412
+  yaw: 0.62
+  pitch: -0.3

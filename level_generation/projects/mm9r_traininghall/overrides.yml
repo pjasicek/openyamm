@@ -1,0 +1,157 @@
+# Explicit conversion choices for MM9's Training Hall (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: traininghall
+  display_name: Training Hall
+  starts: [StartPoint0, StartPoint1]   # 0: the front door from Thjorgard (ExitTrigger1); 1: the hall's end (ExitTrigger0)
+  monster_classes: [Ghoul, LizardOrc, LizardOrcWarrior, Trellborg]
+  offset: [0, 0, 0]                    # the old map's frame
+  ambient: 20
+  split_minor_rooms: true              # every polygon is split at a portal plane it crosses (playbook gotchas)
+  thin_walls: true                     # thin pieces (the 4 LT poles, 2 LT fire-stand legs, rails, beams) keep their far faces
+models:
+  # --- the lobby's hanging platform (Door "drop", 432 LT down at 750) and the bar that holds it (DestructableBrush6,
+  # destroyed by droptrigger at the end of the dropsequence creaks); both fall when the party stands on it.
+  drop: {group: drop, motion: dat, click: false}
+  DestructableBrush6: {group: DropBar, motion: break, click: false}   # a scene destructible (100 HP): its death drops it
+  Chain Ladder: static                 # the beam the platform hangs on (MM9 Ladder class: climbable, map's ladder)
+  # --- the joust (dummy2door: the horse on rails, 1190 LT east at 1250, back at 200) and its lever and wheels; the
+  # second horse (dummy4door, 2000 LT) breaks the wooden wall at the far end (upperbreak/lowerbreak, woodexplosion).
+  dummy2door: {group: Horse2, motion: dat, click: false}
+  d2w1: {group: Horse2Wheels, motion: slide, move_lt: [1190, 0, 0], speed: 3200, click: false}
+  d2w2: {group: Horse2Wheels, motion: slide, move_lt: [1190, 0, 0], speed: 3200, click: false}
+  d2w3: {group: Horse2Wheels, motion: slide, move_lt: [1190, 0, 0], speed: 3200, click: false}
+  d2w4: {group: Horse2Wheels, motion: slide, move_lt: [1190, 0, 0], speed: 3200, click: false}
+  d2lever: {group: d2lever, motion: rotate}
+  dummy4door: {group: Horse4, motion: dat, click: false}
+  dummy4guide: {group: Horse4Guide, motion: dat, click: false}
+  d4w1: {group: Horse4Wheels, motion: slide, move_lt: [2000, 0, 0], speed: 3200, click: false}
+  d4w2: {group: Horse4Wheels, motion: slide, move_lt: [2000, 0, 0], speed: 3200, click: false}
+  d4w3: {group: Horse4Wheels, motion: slide, move_lt: [2000, 0, 0], speed: 3200, click: false}
+  d4w4: {group: Horse4Wheels, motion: slide, move_lt: [2000, 0, 0], speed: 3200, click: false}
+  d4lever0: {group: d4lever0, motion: rotate}
+  upperbreak1: {group: upperbreak1, motion: break}   # TriggerDestroyOnly scene destructibles: the horse breaks them
+  lowerbreak1: {group: lowerbreak1, motion: break}
+  upperbreak2: {group: upperbreak2, motion: break}
+  lowerbreak2: {group: lowerbreak2, motion: break}
+  woodexplosion: {group: woodexplosion, motion: break}
+  WorldObject3: static                 # the frame round the breakable wall
+  WorldObject4: static                 # a wrecked horse beyond it
+  # --- the crate round the Blackbox chest: its boards break (MM9 DestructableBrush, 25 HP; the back 100 HP and
+  # crateopentrigger): scene destructibles (dungeon/destructibles.py `break`), broken by weapons or a click.
+  DestructableBrush0: {group: DestructableBrush0, motion: break}
+  DestructableBrush1: {group: DestructableBrush1, motion: break}
+  DestructableBrush2: {group: DestructableBrush2, motion: break}
+  DestructableBrush3: {group: DestructableBrush3, motion: break}
+  DestructableBrush4: {group: DestructableBrush4, motion: break}
+  DestructableBrush5: {group: DestructableBrush5, motion: break}
+  DestructableBrush8: {group: DestructableBrush8, motion: break}
+  # --- the board at the hall's end (TrainingEnter.scr :OnBreak): breaking it is the training's reward
+  DestructableBrush12: {group: DestructableBrush12, motion: break}
+  # --- the skylight panes over the archery range (trainingglass, 75 HP in MM9): static glass
+  DestructableBrush7: static
+  DestructableBrush9: static
+  DestructableBrush10: static
+  DestructableBrush11: static
+  # --- the archery range: four targets swing flat (90 about x) when the party passes TriggerTargetsOff and stand
+  # again at TriggerTargetsOn; the rings (TH_TargetRing.scr) ride their target here and pay once per target.
+  target1: {group: target1, motion: rotate, click: false}
+  target2: {group: target2, motion: rotate, click: false}
+  target3: {group: target3, motion: rotate, click: false}
+  target4: {group: target4, motion: rotate, click: false}
+  # the 16 target rings (TH_TargetRing.scr): each rides its target (convert.py gives it the target's swing) and
+  # pays its prize when hit by a missile or clicked (map events)
+  Rank8000a: {group: Rank8000a, motion: rotate, click: false}
+  Rank4000a: {group: Rank4000a, motion: rotate, click: false}
+  Rank2000a: {group: Rank2000a, motion: rotate, click: false}
+  Rank1000a: {group: Rank1000a, motion: rotate, click: false}
+  Rank4000b: {group: Rank4000b, motion: rotate, click: false}
+  Rank2000b: {group: Rank2000b, motion: rotate, click: false}
+  Rank1000b: {group: Rank1000b, motion: rotate, click: false}
+  Rank0750b: {group: Rank0750b, motion: rotate, click: false}
+  Rank2000c: {group: Rank2000c, motion: rotate, click: false}
+  Rank1000c: {group: Rank1000c, motion: rotate, click: false}
+  Rank0750c: {group: Rank0750c, motion: rotate, click: false}
+  Rank0500c: {group: Rank0500c, motion: rotate, click: false}
+  Rank1000d: {group: Rank1000d, motion: rotate, click: false}
+  Rank0750d: {group: Rank0750d, motion: rotate, click: false}
+  Rank0500d: {group: Rank0500d, motion: rotate, click: false}
+  Rank0250d: {group: Rank0250d, motion: rotate, click: false}
+  resetlever1: {group: resetlever1, motion: rotate}
+  resetlever2: {group: resetlever2, motion: rotate}
+  resetlever3: {group: resetlever3, motion: rotate}
+  resetlever4: {group: resetlever4, motion: rotate}
+  InvisibleBrush0: static              # Firethrough.dtx: the range's counters (collision only)
+  InvisibleBrush1: static
+  InvisibleBrush2: static              # the blocker in front of the front door
+  # --- the pole room: three beams slide to and fro for ever (MM9 Door Looping: 130-150 LT at 40, 2-3 s waits)
+  Pusher0: {group: Pusher0, motion: dat, click: false}
+  Pusher1: {group: Pusher1, motion: dat, click: false}
+  Pusher2: {group: Pusher2, motion: dat, click: false}
+  # --- double doors: the lobby's side doors and the ghouls' door to the pole room
+  RotatingDoor0: {group: LobbyDoorE, motion: rotate, doorway: true, portal: doorportal0}
+  RotatingDoor2: {group: LobbyDoorE, motion: rotate, doorway: true, portal: doorportal0}
+  RotatingDoor1: {group: LobbyDoorW, motion: rotate, doorway: true, portal: doorportal1}
+  RotatingDoor3: {group: LobbyDoorW, motion: rotate, doorway: true, portal: doorportal1}
+  dragonroomdoorL: {group: dragonroomdoor, motion: rotate, doorway: true, portal: portal0}
+  dragonroomdoorR: {group: dragonroomdoor, motion: rotate, doorway: true, portal: portal0}
+  # --- static world objects
+  WorldObject1: static                 # the lobby's two steel ladders (rungs, invisible blockers)
+  WorldObject2: static
+  WO_GhoulPlatform: static             # the ledge the lobby ghouls drop from
+  BlueWater0: skip                     # water volumes: their surfaces are the map's own faces (convert.py)
+  BlueWater1: skip
+  SkyBox0: skip
+  TOD_Sky0: skip
+model_patterns:
+  WorldObject: static                  # the pole room's poles (Iron)
+# Archway cuts (LT; 64 LT off the frames): the corridors' south legs into the archery range and the crate room, the
+# stairs down to the joust level, the two passages into the joust hall, the short corridor between the archery range
+# and the training room, the breakable wall into the debris room and the two cave branches beyond it.
+portals:
+  - {name: east_leg, axis: z, point: [1088, 32, -580], span: 100}
+  - {name: west_leg, axis: z, point: [-1088, 32, -580], span: 100}
+  - {name: east_stair_top, axis: z, point: [736, 0, -140], span: 100}
+  - {name: west_stair_top, axis: z, point: [-736, 0, -140], span: 100}
+  - {name: joust_passages, axis: z, points: [[512, -200, -960], [-512, -200, -960]], span: 100}
+  - {name: range_corridor, axis: x, point: [480, 32, -1024], span: 100}
+  - {name: broken_wall, axis: x, point: [856, -220, -1830], span: 100}
+  - {name: cave_south, axis: z, point: [1040, -300, -2000], span: 150}
+  - {name: cave_east, axis: z, point: [1040, -260, -1620], span: 150}
+# Relay triggers MM9 parks outside the walls or under the floors (the joust and horse wiring, the crate relay) and
+# Light52, inside the rock west of the joust lane: outside the built air.
+seed_exclude: [Trigger2, Trigger3, Trigger6, Trigger7, Trigger8, Trigger9, TriggerHorseGo, crateopentrigger, Light52]
+# The four skylight shafts over the archery range (above the glass panes DestructableBrush7/9/10/11): MM9's DirLight2-5
+# shine down through them; no seed class stands there.
+seeds:
+  - [784, 440, -1424]
+  - [976, 440, -1424]
+  - [1168, 440, -1424]
+  - [1360, 440, -1424]
+ladders: {}
+exits: {}
+plan_levels:
+  caves: [-800, -300]
+  lower: [-300, -20]
+  hall: [-20, 300]
+  upper: [300, 1800]
+# MM9 source textures without an alias in the old import: the sky markers draw MM9's Clouds1 sky (CLOUVKSJD0), as in
+# the Temple of Honk and the Ruined Temple.
+textures:
+  "TEXTURES\\Skybox\\skymarker.dtx": {alias: CLOUVKSJD0, width: 256, height: 256}
+  "TEXTURES\\LevelTextures\\Skybox\\skymarker.dtx": {alias: CLOUVKSJD0, width: 256, height: 256}
+  "water:pool": {alias: OCEABYM7AI, width: 128, height: 128}     # the lobby pool's surface: MM9's Ocean4.spr (BlueWater1)
+  "water:poles": {alias: WATE1XKSQP, width: 128, height: 128}    # the pole room's surface: water123.spr (BlueWater0)
+# MM9's translucent surfaces (SURF_TRANSLUCENT): the archery range's skylight panes, the lobby ladders' rungs, the
+# chandelier's and the bars' grey metal bars: texture alpha x brush Alpha (1 on every one here), drawn from both sides.
+glass:
+  trainingglass.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  steel_ladder_rungs.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  metalbargrey.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  xeenbars2.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [MeanTrellborg, TrainingCommander]

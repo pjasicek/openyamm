@@ -1,0 +1,150 @@
+{
+ "selection": "mixed, chosen by the user on 2026-10-23: canister from candidate 1; vat, satchel and bundle from candidate 2",
+ "records": [
+  {
+   "id": "pickups_c1_01",
+   "file": "raw/pickups_c1_01.png",
+   "prompt": "Use case: stylized-concept.\nCreate ONE ORIGINAL Hesper dungeon-pickups concept sheet, Candidate 1, exactly 1536 x 1024 pixels, landscape PNG, fully opaque on a plain dark neutral charcoal background.\n\nREFERENCE IMAGES, construction and painting-style references only, NOT edit targets:\n1. Tech gear sheet: painting style, value range and dark sheet background. Do not include its weapons.\n2. Chest sheet: TOP ROW ONLY for colony material language: bone-white Colonial Ancient ceramic, gold edging and bands, small blue-white Ancient lights. MIDDLE ROW ONLY for Kreegan material language: black-violet ribbed resin, pale bone and claw edges, localized orange glow. Ignore bottom Ashrunner scrap row.\n3. Guard: colony livery reference: bone-white plates edged in gold, deep blue, red field with gold ring-and-stem sigil. Do not draw a person.\n4. Kreegan fixtures: reference for matching lit and spent construction, glow gone and surface dark and dull in the spent state.\nMake original designs. No outside franchise designs; no Fallout stimpaks, StarCraft or Warhammer props.\n\nSTYLE AND IMAGE CONTRACT:\nPainterly late-1990s Might and Magic science-fantasy concept art: clear painted forms, strong value structure, restrained surface detail, natural materials and even lighting. Neither photoreal nor glossy 3D, anime or cartoon.\nEntire silhouettes inside canvas, separated views, generous margins. Only faint contact shadows; no scenery, ground plane, smoke, effects, labels, lettering, numbers, logos, watermarks, UI, borders or scale bars. The small sewn colony sigil patch specified below is a pictorial emblem, with no lettering.\nKeep glow localized so ceramic, glass, resin and cloth stay readable. Ivory ceramic and gold distinguish colony designs; black-violet resin and pale bone distinguish Kreegan designs.\nViews use independent display sizes for legibility; this is NOT a common-scale chart. Real sizes are design constraints, NEVER printed.\n\nEXACT LAYOUT:\nExactly eight isolated views arranged in TWO ROWS OF FOUR. Full object on LEFT of each pair; empty state on RIGHT.\nTOP ROW, left to right: full stim canister, empty stim canister, full graft-serum vat, empty graft-serum vat. Allocate about 60 percent of sheet height to this row of larger props.\nBOTTOM ROW, left to right: full colony satchel, empty colony satchel, full Kreegan scrap bundle, empty Kreegan scrap bundle.\nEvery prop is in front three-quarter view with camera slightly above, as the party looks down at these objects. Each pair must be the SAME physical object in the SAME pose/camera orientation and SAME display size, before and after use.\nCandidate 1 specifically: TALLER SLIMMER CANISTER WITH THREE WINDOWS; VAT A NEAR-HEMISPHERE WITH DENSE THIN RIBS. These silhouettes must be clearly apparent.\n\nCOLOURED FLUID REGION:\nContainers are designed for seven in-game colour variants on one model: red, yellow, blue, orange, green, purple, white. Here show only ONE full red canister and ONE full green vat, NOT seven variants.\nThe coloured fluid is ONE clearly bounded colour region per container: the canister's glass panes, or the vat's membrane and gaps between ribs. Lit evenly from inside with NO colour bleeding onto ceramic, gold, resin or bone.\nPaint full canister fluid RED and full vat serum GREEN. Nothing else on EITHER container is red or green. Keep vat ribs and bone their normal dark-violet and ivory colours. All empty states have no glow.\n\nEIGHT VIEWS IN READING ORDER:\n1. FULL STIM CANISTER: colony and Ancient design, about 1 metre tall, waist-high. A taller slimmer upright cylinder of bone-white ceramic with gold bands, on a LOW ROUND FOOT. THREE tall GLASS WINDOWS around its middle reveal red glowing stim filled near the top; frame the view to read all three windows. A VALVE on top, a gold HAND WHEEL on a SHORT NECK. A small panel with ONE blue-white Ancient light, and a deep-blue livery stripe. Solid and simple enough to read at a distance. No hoses or loose parts. No red decoration: red appears ONLY behind the glass.\n2. EMPTY STIM CANISTER: exact same canister, same pose, geometry, THREE windows, wheel, foot, bands, panel, stripe and parts. Glass DARK AND SMOKY, fluid completely gone (at most thin dull film at bottom), blue light DEAD. Nothing broken.\n3. FULL GRAFT-SERUM VAT: Kreegan, about 0.8 metre tall and 1.1 metres across, squat NEAR-HEMISPHERE. Round black-violet resin vat with DENSE THIN VERTICAL RIBS and gaps showing green glowing serum. Pale bone claws grip the rim. THREE SHORT SPLAYED ROOT FEET. A MEMBRANE LID stretched over the top, taut, translucent and glowing green with the serum. Grown, not built. The membrane and rib gaps show one bounded internal green fluid region; opaque ribs, rim and claws retain their own colours.\n4. EMPTY GRAFT-SERUM VAT: same vat, same pose, ribs, rim, claws and three root feet. MEMBRANE TORN OPEN, ragged flaps hanging INWARD; rib gaps dark; inside a visibly DARK DRY HOLLOW. No glow anywhere.\n5. FULL COLONY SATCHEL: about 0.5 metre long, lying on floor. STUFFED CANVAS supply pouch in faded DEEP BLUE AND SAND, tan straps with GOLD BUCKLES. Flap CLOSED over top. Small colony patch SEWN ON FLAP: RED FIELD with GOLD RING AND STEM pictorial sigil, NO letters. Bulging with supplies; closed.\n6. EMPTY COLONY SATCHEL: same pouch, SAME orientation, now OPEN AND LYING FLAT. Flap thrown back, straps loose, canvas collapsed and creased, NOTHING inside. Maintain the same material, strap and patch design.\n7. FULL KREEGAN SCRAP BUNDLE: about 0.6 metre long, on floor. Compact bundle of looted scrap: a few bent IVORY CERAMIC PLATES, a GOLD FITTING and a CABLE END, bound in a wrap of BLACK-VIOLET RESIN. Closed with a BONE CLASP, a CURVED CLAW HOOK THROUGH A LOOP. Faint orange in resin seams ONLY. This is a resin-bound scrap parcel, not a chest.\n8. EMPTY KREEGAN SCRAP BUNDLE: same resin wrap, SAME orientation, SPLIT OPEN AND FLATTENED, clasp undone and hanging, NOTHING INSIDE, NO GLOW. Clearly recognizable as the now-empty matching wrap.\n\nFINAL CHECK: eight views in exactly the prescribed two-row/four-column order; same object and pose within each pair; taller three-window canister and densely ribbed near-hemisphere vat; red full canister and green full vat, colour confined to their fluid windows; dark empty glass, torn empty membrane and dry hollow, flat opened empty satchel, flattened empty open resin wrap. No text or letters anywhere, no scenery, no effects. Exactly 1536 x 1024 pixels.",
+   "selected": false,
+   "reason": "Initial candidate 1 generation; retained as raw. Retry 2 is used for the candidate deliverable because its empty satchel and resin wrap read more clearly as depleted.",
+   "source": {
+    "tool": "image_gen.imagegen",
+    "mode": "built-in",
+    "generated_file": "/home/pjasicek/.codex/generated_images/01a16aa2-9bdc-7b62-9731-99b2f838854f/exec-927dcf27-62f1-4b8f-ab8e-c78b03599bd1.png",
+    "reference_images": [
+     "design/kreegan_world/concepts/08_tech_gear_sheet.png",
+     "design/kreegan_world/zone1/concepts/z1_06_chests.png",
+     "level_generation/creatures/hes_guard_claude/references_hd/00_three_quarter.png",
+     "design/kreegan_world/zone3/concepts/z3_10_fixtures.png"
+    ]
+   },
+   "dimensions": {
+    "width": 1536,
+    "height": 1024
+   },
+   "started_at": "2026-10-23T21:21:21.691Z",
+   "finished_at": "2026-10-23T21:21:59.458Z",
+   "review_notes": [
+    "Eight views in the prescribed two-row order; complete separated silhouettes on a dark charcoal background, without text.",
+    "Three-window slender canister with red fluid and matching smoky empty glass; green ribbed vat with matching torn dry empty state.",
+    "Paired constructions and orientations read consistently. Vat is rounded and squat, with thin dense ribs.",
+    "Empty satchel remains too raised at the sides to read as fully flat.",
+    "Empty resin bundle retains an ivory scrap-like shape and faint orange seam highlights; target these together with the empty satchel in one bottom-row empty-state correction.",
+    "Raw PNG copied unchanged; PIL used only to check the exact dimensions."
+   ]
+  },
+  {
+   "id": "pickups_c1_02",
+   "file": "raw/pickups_c1_02.png",
+   "prompt": "Use case: precise-object-edit.\nEdit this Hesper pickups Candidate 1 concept sheet with ONE targeted correction: the two BOTTOM-ROW EMPTY STATES must be completely depleted and flattened.\n\nKeep exactly 1536 x 1024 pixels, opaque PNG, the same plain dark charcoal background, painterly late-1990s Might and Magic science-fantasy style, lighting, layout, palette, display sizes, generous margins and eight views. Preserve the ENTIRE TOP ROW unchanged. Preserve the FULL SATCHEL at bottom left and the FULL RESIN BUNDLE at bottom row third position unchanged. Preserve all objects' camera angle and orientation. No text, labels, scenery, extra objects or effects.\n\nChange ONLY:\n- Bottom row SECOND view, the empty colony satchel: collapse the raised canvas sidewalls completely so the same deep-blue and sand canvas pouch lies FLAT and creased, with its flap thrown back, the same red/gold ring-and-stem patch retained on the flap, tan straps loose and gold buckles intact. No contents. Preserve its width, orientation and construction; make depletion obvious from the flattened silhouette.\n- Bottom row FOURTH view, the empty Kreegan resin wrap: remove ALL remaining looted scrap, including the ivory ceramic piece at the upper-left edge and any cable remnants. Only the same black-violet resin wrapping and its own undone pale-bone curved claw-hook clasp and loop remain. Split open and FLATTEN the wrapping, with the clasp undone and hanging over the edge. The interior is visibly empty. Remove every orange or ember-coloured glow/highlight from this empty wrap; show dull neutral black-violet resin under ordinary light.\n\nThis is a paired-state correction, not a redesign. All other pixels and designs remain as close as possible to the input. Entire silhouettes inside canvas and separated, only faint contact shadows. Exactly eight views, two rows of four, 1536 x 1024.",
+   "selected": true,
+   "reason": "Better of two generations after the single permitted targeted correction to bottom-row empty states. Copied unchanged to pickups_candidate_1.png; selection remains with the user.",
+   "source": {
+    "tool": "image_gen.imagegen",
+    "mode": "built-in",
+    "generated_file": "/home/pjasicek/.codex/generated_images/01a16aa2-9bdc-7b62-9731-99b2f838854f/exec-1ac11fff-3d66-4069-b748-0ff7ed62cc4a.png",
+    "edit_target": "raw/pickups_c1_01.png",
+    "parent_id": "pickups_c1_01",
+    "reference_images": [
+     "design/kreegan_world/concepts/08_tech_gear_sheet.png",
+     "design/kreegan_world/zone1/concepts/z1_06_chests.png",
+     "level_generation/creatures/hes_guard_claude/references_hd/00_three_quarter.png",
+     "design/kreegan_world/zone3/concepts/z3_10_fixtures.png"
+    ]
+   },
+   "dimensions": {
+    "width": 1536,
+    "height": 1024
+   },
+   "started_at": "2026-10-23T21:22:59.688Z",
+   "finished_at": "2026-10-23T21:23:27.687Z",
+   "review_notes": [
+    "Visually reviewed the generated sheet: eight views in the prescribed two-row/four-column order, full then empty for each prop.",
+    "Tall slim canister has three visible glass windows, red fluid, ivory ceramic, gold bands, a blue stripe and valve wheel; paired empty glass is smoky and the panel light is off.",
+    "Rounded near-hemisphere vat has dense thin ribs, pale bone claws and three short splayed feet. Full serum and membrane are green; empty membrane is torn inward over a dark dry hollow.",
+    "Red and green fluid regions remain visually bounded by the glass, membrane and rib gaps; opaque structural materials keep their own colours.",
+    "Empty satchel is now collapsed and flat with an open flap, loose straps and no contents. The pictorial ring-and-stem patch has no letters.",
+    "Empty resin wrap is flatter, open and without the leftover ivory scrap; the bone clasp is undone. Small warm edge accents remain but do not read as an active internal glow.",
+    "Top-row pairs and full bottom-row objects remain visually consistent with the initial generation.",
+    "Complete silhouettes, charcoal background, no text, scenery or added effects; narrow outer margins remain around the widest bottom-row views.",
+    "Exact 1536 x 1024 dimensions checked using PIL only for dimensions. PNG header and chunks confirm opaque RGB without transparency. Raw and final PNGs verified byte-identical to the generated source; no repainting, resizing or compositing.",
+    "One permitted retry used. User acceptance remains pending; selected is false."
+   ],
+   "user_selection": "candidate 1 (pickups_candidate_1.png): the user picked its stim canister (slim, three windows; reads as waist-high at a distance)."
+  },
+  {
+   "id": "pickups_c2_01",
+   "file": "raw/pickups_c2_01.png",
+   "prompt": "Use case: stylized-concept.\nCreate one original Hesper dungeon pickup concept sheet, Candidate 2, as an EXACTLY 1536 x 1024 pixel landscape PNG. Opaque, plain dark neutral charcoal background.\n\nREFERENCE INPUTS ARE CONSTRUCTION AND STYLE REFERENCES, NOT EDIT TARGETS:\nImage 1 (08_tech_gear_sheet.png): painting style, value range and dark sheet background only. Its weapons are NOT part of this design.\nImage 2 (z1_06_chests.png): top row colony locker for bone-white Colonial Ancient ceramic with gold edging/bands and small blue-white Ancient lights; middle row Kreegan pod chest for black-violet ribbed resin, pale bone/claw edges and localized orange glow. The bottom Ashrunner scrap row is NOT part of this design.\nImage 3 (00_three_quarter.png guard): colony livery, bone-white plates edged in gold, deep blue, red field with gold ring-and-stem sigil. Do not draw the person.\nImage 4 (z3_10_fixtures.png): paired lit/spent Kreegan construction: same object, glow gone, surface dark and dull.\nMake original designs. No outside franchise designs, no Fallout stimpaks, no StarCraft or Warhammer props.\n\nSTYLE AND COMPOSITION:\nPainterly late-1990s Might and Magic science-fantasy concept art: clear painted forms, strong value structure, restrained surface detail, natural materials, even lighting. Neither photoreal nor glossy 3D, anime or cartoon.\nExactly EIGHT separated views in TWO ROWS OF FOUR. Full on the left of each pair, empty immediately to its right. Front three-quarter views, camera slightly above so the tops are visible. Each full/empty pair is the SAME object in the SAME camera pose, orientation, construction, display scale and lighting, with only the specified state changing. Do not mirror pairs.\nTop row, about 60 percent of the canvas height: FULL CANISTER, EMPTY CANISTER, FULL VAT, EMPTY VAT.\nBottom row: FULL SATCHEL, EMPTY SATCHEL, FULL BUNDLE, EMPTY BUNDLE.\nEntire silhouettes inside canvas, generous outer margins and clear space between every view. Independent display sizes for legibility, not a common-scale chart. All real-world sizes below are design constraints only and must NEVER be printed. Faint contact shadows only; no ground plane, scenery, smoke, effects, labels, lettering, numbers, logos, watermarks, UI, borders or scale bars. The small satchel patch is a pictorial sigil, never letters.\n\nCOLOURED FLUID RULE:\nBoth containers must support palette swaps over a single clearly bounded fluid/window region. Paint the full canister fluid RED and the full vat serum GREEN. No other part of either container is red or green. Canister glass panes are one coherent fluid region; vat membrane and gaps between ribs are one coherent serum region. These regions are evenly lit internally. No coloured light spilling onto ceramic, gold, resin, bone or background; no exterior halo. Keep all material surfaces readable.\n\nTOP ROW LEFT PAIR \u2014 STIM CANISTER, CANDIDATE 2:\nFull: about 1 m tall in-world, waist-high, an upright STOCKY cylinder of bone-white ceramic with gold bands, a HEAVIER low round foot, and exactly TWO BROAD TALL GLASS WINDOWS around its middle. Both broad windows visible from this three-quarter view, showing red glowing stim filled nearly to the top. On top, a gold hand-wheel valve on a short neck. A small panel with ONE blue-white Ancient light and a deep-blue livery stripe. Solid, simple, readable at distance, no hoses, no loose parts. Do not use a tall slender three-window design.\nEmpty: precisely the same stocky canister, two windows, heavier foot, valve, panel, pose and parts. Glass dark smoky transparent grey, fluid gone, at most a thin dull film at the bottom. Blue light dead. No glow. Nothing broken.\n\nTOP ROW RIGHT PAIR \u2014 GRAFT-SERUM VAT, CANDIDATE 2:\nFull: about 0.8 m tall and 1.1 m across, a SQUAT BARREL-SHAPED round vat grown from black-violet resin. FEWER THICK VERTICAL RIBS with BIG GAPS between them reveal green serum. Pale bone claws grip the rim; THREE short splayed root feet support it. A taut translucent MEMBRANE LID stretched across the top glows evenly green with the serum colour. Grown, not built. No handles, hardware or industrial drum construction. Barrel-shaped walls, not a hemisphere or dense thin rib cage. The green membrane lid and green serum visible between ribs form a bounded serum/window region; all ribs and bone claws keep their natural colours.\nEmpty: the exact same barrel-shaped vat, thick ribs, claws, root feet and pose. Its membrane is TORN OPEN with clearly visible ragged flaps hanging inward. Gaps between ribs dark. The inside is a DARK DRY HOLLOW. No liquid and no glow anywhere.\n\nBOTTOM ROW LEFT PAIR \u2014 COLONY SATCHEL:\nFull: about 0.5 m long, lying on the floor (implied only by faint contact shadow), a stuffed canvas supply pouch in faded DEEP BLUE AND SAND, tan straps with gold buckles, flap closed over the top, bulging with supplies. Small sewn colony patch on flap: a RED FIELD bearing a GOLD RING WITH A SINGLE STEM descending from the bottom of the ring, matching the guard reference. No letters.\nEmpty: same canvas satchel, same orientation, OPENED AND LYING FLAT. Flap thrown back, straps loose, canvas collapsed and creased, nothing inside. Keep its matching colours, strap construction and patch.\n\nBOTTOM ROW RIGHT PAIR \u2014 KREEGAN SCRAP BUNDLE:\nFull: about 0.6 m long, lying on floor (implied only by faint contact shadow), a compact bundle of looted scrap: a FEW bent ivory ceramic plates, a gold fitting, a cable end. These contents are BOUND IN A WRAP OF BLACK-VIOLET RESIN and closed with a BONE CLASP, a curved claw hook through a loop. Faint orange restricted to resin seams only. This is a resin-bound scrap bundle, not a chest.\nEmpty: the SAME resin wrap SPLIT OPEN AND FLATTENED, bone clasp undone and hanging, same orientation, NOTHING INSIDE, no glow. Clearly show it is an opened, spent wrap with the contents removed.\n\nFINAL CONTRACT: Exactly eight views, four unmistakable full/empty pairs, correct two-row order. Candidate 2 stocky two-broad-window canisters and squat barrel vats with fewer thick ribs and wide gaps. Full canister red, full vat green; colours confined to bounded fluid regions. Empties: dark glass with dead panel light, torn membrane over dark hollow, flat opened satchel, open flattened empty wrap. Ivory/gold/blue colony materials, black-violet/pale-bone Kreegan materials. Plain opaque charcoal, all silhouettes within margins, no text or extra objects. Output exactly 1536 x 1024 pixels.",
+   "selected": false,
+   "reason": "Initial Candidate 2 generation retained in raw/. Superseded as the candidate-file source by pickups_c2_02, which clarifies spent states. User selection remains pending.",
+   "source": {
+    "tool": "image_gen.imagegen",
+    "mode": "built-in",
+    "generated_file": "/home/pjasicek/.codex/generated_images/01a16aa2-9bdc-77e2-b8ae-b37687ce45f0/exec-37228eae-de15-4a02-a51d-dad80fbedb4b.png",
+    "references": [
+     "design/kreegan_world/concepts/08_tech_gear_sheet.png",
+     "design/kreegan_world/zone1/concepts/z1_06_chests.png",
+     "level_generation/creatures/hes_guard_claude/references_hd/00_three_quarter.png",
+     "design/kreegan_world/zone3/concepts/z3_10_fixtures.png"
+    ],
+    "brief": "CODEX_BRIEF_PICKUPS.md",
+    "content_source": "design/kreegan_world/PICKUPS.md"
+   },
+   "dimensions": {
+    "width": 1536,
+    "height": 1024
+   },
+   "review_notes": [
+    "Eight views in the required two-row order; generous outer margins, opaque charcoal background, no lettering.",
+    "Canister pair has two broad glass windows, heavy feet, matching valves and pose. Full fluid is red; empty glass is smoky and the panel light is dead.",
+    "Vat pair has thick separated ribs and a visible full green membrane versus a torn dry hollow. Small orange seam highlights remain visible on the empty vat.",
+    "Full colony pouch has the ring-and-stem patch; empty pouch is open but still too upright and voluminous instead of lying flat.",
+    "Full scrap bundle contains ivory/gold scrap and a cable end with bone closure. Empty wrap is open, but orange seams still appear lit.",
+    "One targeted correction requested: make the spent states unequivocally empty, collapsed where required, and unlit.",
+    "Pixel dimensions verified with PIL. PNG copied without repainting, resizing or compositing."
+   ]
+  },
+  {
+   "id": "pickups_c2_02",
+   "file": "raw/pickups_c2_02.png",
+   "candidate_file": "pickups_candidate_2.png",
+   "prompt": "Use case: precise-object-edit.\nEdit the attached Candidate 2 concept sheet with ONE targeted correction: make the EMPTY/SPENT STATES unequivocally spent. Preserve the original designs and composition.\n\nOutput EXACTLY 1536 x 1024 pixels, landscape PNG, opaque plain dark neutral charcoal. Keep exactly eight views in the same two rows of four, same display sizes, placement, front three-quarter cameras, lighting, painterly science-fantasy style, colours and margins. Do not add any text, lettering, numbers, labels, scenery, ground plane, effects or additional objects.\n\nThe targeted spent-state correction affects only these three EMPTY props:\n- TOP ROW FOURTH VIEW, empty graft-serum vat: keep the identical thick ribs, squat barrel silhouette, pale bone claws, three short root feet and torn membrane with ragged inward flaps. Remove ALL orange ember/emission from resin seams and crevices. All gaps, seams, torn membrane and the dry hollow must be dull, dark and unlit. Use ordinary neutral painted highlights to keep black-violet resin readable. Absolutely no green or orange glow anywhere in this empty vat.\n- BOTTOM ROW SECOND VIEW, empty colony satchel: make this same canvas satchel visibly COLLAPSED AND LYING FLAT instead of an upright open bag. Its walls must slump down into low creased canvas with no upright box-shaped volume and no stuffing. Preserve the faded deep-blue and sand canvas, tan straps, gold buckles, sewn red patch with gold ring-and-stem, same orientation. Flap thrown back, straps undone and lying loosely outward, shallow dry empty lining visible. Clearly an emptied floppy pouch flattened under its own weight.\n- BOTTOM ROW FOURTH VIEW, empty Kreegan wrap: keep the same resin wrap split open and flattened with the bone claw clasp undone and hanging. Remove ALL orange ember/emission from resin seams and interior. Nothing inside and no glow anywhere. Keep black-violet resin, pale bone and neutral painted surface highlights.\n\nPRESERVE the entire FULL canister (top left), EMPTY canister (top second), FULL green vat (top third), FULL satchel (bottom left), and FULL scrap bundle (bottom third) unchanged. Canister pair must retain two broad windows and heavier feet; red fluid belongs only to the full canister glass. Full vat must retain the taut green membrane, thick ribs and big serum gaps. Full scrap bundle may retain its faint orange resin seams. Every full/empty pair remains the same underlying construction and camera orientation. Only the three empty-state corrections above; no redesign, no added parts.",
+   "selected": true,
+   "reason": "Retained as the better Candidate 2: the empty vat and wrap are now unlit, and the empty satchel is substantially collapsed. This uses the brief's single permitted targeted retry. selected remains false for the user's decision.",
+   "source": {
+    "tool": "image_gen.imagegen",
+    "mode": "built-in",
+    "operation": "targeted spent-state correction",
+    "generated_file": "/home/pjasicek/.codex/generated_images/01a16aa2-9bdc-77e2-b8ae-b37687ce45f0/exec-d2bd5546-8d1f-4c02-85f6-edf25f264561.png",
+    "edit_target": "raw/pickups_c2_01.png",
+    "parent_id": "pickups_c2_01",
+    "references": [
+     "design/kreegan_world/concepts/08_tech_gear_sheet.png",
+     "design/kreegan_world/zone1/concepts/z1_06_chests.png",
+     "level_generation/creatures/hes_guard_claude/references_hd/00_three_quarter.png",
+     "design/kreegan_world/zone3/concepts/z3_10_fixtures.png"
+    ],
+    "brief": "CODEX_BRIEF_PICKUPS.md",
+    "content_source": "design/kreegan_world/PICKUPS.md"
+   },
+   "dimensions": {
+    "width": 1536,
+    "height": 1024
+   },
+   "review_notes": [
+    "Eight separate complete silhouettes in the required two rows: full/empty canisters, full/empty vats, full/empty satchels, full/empty scrap wraps.",
+    "Candidate 2 has two broad canister windows and a heavy low round foot; vats use squat rounded barrel forms with few thick ribs and wide gaps.",
+    "Canister red is confined to glass; full vat green is confined to membrane and gaps. Ceramic, gold, resin and bone remain separately readable.",
+    "Paired construction and camera orientations remain consistent. Empty canister has smoky glass and dead indicator; empty vat has a torn inward-hanging membrane over a dry dark hollow.",
+    "Empty colony satchel is visibly collapsed with loose straps and visible empty lining. It retains a shallow folded edge instead of becoming completely paper-flat.",
+    "Empty resin wrap is open and flattened with the clasp undone and no contents. Empty vat and wrap no longer show orange emission.",
+    "Colony patch preserves the red field and gold ring-and-stem pictogram, though it is a broad flap strip rather than a small badge.",
+    "Opaque charcoal background, no text, labels, scenery or effects; faint contact shadows only.",
+    "Dimensions verified with PIL. Raw and final PNG copies verified byte-identical to the generated source; no repainting, resizing or compositing.",
+    "No further generation after the one allowed retry. Concept candidate only; user acceptance remains pending."
+   ],
+   "user_selection": "candidate 2 (pickups_candidate_2.png): the user picked its serum vat (the largest, cleanest colour region for the seven-colour swap), colony satchel and scrap bundle."
+  }
+ ]
+}

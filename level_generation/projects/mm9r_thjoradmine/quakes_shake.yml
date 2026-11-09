@@ -1,0 +1,47 @@
+# The mine's EarthQuakes as evt.CameraShake in their senders' handlers (README "Cinematics"): each handler runs without
+# error (a Lua error fails execute_event): the barricades (BarWall0 -> DBQuakeObject5, BarWall1 -> 4, ABDoorBoards0
+# -> 1), the falling board (DBQuakeObject2), the stalactite (TunnelQuake2), the mine cart's boards (DBQuakeObject0),
+# the barrel chain's ABMineBoards2 (DBQuakeObject3) and ThjoradQuake.scr's ambient timer (207).
+id: mm9r.thjoradmine.quakes_shake
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: thjoradmine.blv}
+- set_pose: {map: thjoradmine.blv, x: 6600, y: -14700, z: -1580, yaw: 3.1416, pitch: 0.0}
+- execute_event: {id: 67}
+- assert: {state_dump_named_map_var: {name: FallingBoard, value: 1}}
+- execute_event: {id: 107}
+- assert: {state_dump_named_map_var: {name: Stalactite, value: 1}}
+- execute_event: {id: 207}
+- note: {text: "BarWall0's spikes (Spike12-17, events 82-87)"}
+- execute_event: {id: 82}
+- execute_event: {id: 83}
+- execute_event: {id: 84}
+- execute_event: {id: 85}
+- execute_event: {id: 86}
+- execute_event: {id: 87}
+- assert: {state_dump_named_map_var: {name: BarWall0Open, value: 1}}
+- note: {text: "BarWall1's spikes (Spike6-11, events 76-81)"}
+- execute_event: {id: 76}
+- execute_event: {id: 77}
+- execute_event: {id: 78}
+- execute_event: {id: 79}
+- execute_event: {id: 80}
+- execute_event: {id: 81}
+- assert: {state_dump_named_map_var: {name: BarWall1Open, value: 1}}
+- note: {text: "ABDoorBoards0's spikes (Spike0-5, events 70-75)"}
+- execute_event: {id: 70}
+- execute_event: {id: 71}
+- execute_event: {id: 72}
+- execute_event: {id: 73}
+- execute_event: {id: 74}
+- execute_event: {id: 75}
+- assert: {state_dump_named_map_var: {name: ABDoorBoards0Open, value: 1}}
+- note: {text: "the mine cart (110): its ride ends after 9 s with ABMineBoards0"}
+- execute_event: {id: 110}
+- advance_runtime: {seconds: 10}
+- assert: {state_dump_named_map_var: {name: Cart, value: 2}}
+- note: {text: "the falling torch (108): the barrel chain, DB_Barrel7 breaks ABMineBoards2"}
+- execute_event: {id: 108}
+- advance_runtime: {seconds: 5}
+- assert: {state_dump_named_map_var: {name: Torch0, value: 8}}

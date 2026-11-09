@@ -1,0 +1,128 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm6/models/mm6_kni.glb",
+ "output": "material_pass/pilot/mm6_kni.glb",
+ "class_maps": {
+  "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_kni_reduce_claude/textures/kni_material_classes.png"
+ },
+ "textures": [
+  {
+   "image": "kni_body_mr_1k",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "KnightPlate_A",
+    "KnightPlate_B",
+    "KnightPlate_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "x": [
+      0,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 0,
+   "parts": {
+    "body": {
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_kni_reduce_claude/textures/kni_material_classes.png",
+     "uv_covered_texels": 631202,
+     "uv_covered_without_class": 0.0162,
+     "class_texels_outside_uv": 0.0,
+     "class_share_in_uv": {
+      "fur": 0.0981,
+      "metal": 0.9019
+     },
+     "new_roughness_mean_by_class": {
+      "fur": 0.9,
+      "metal": 0.379
+     }
+    }
+   },
+   "class_share_total": {
+    "fur": 0.0981,
+    "metal": 0.9019
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "KnightPlate_A": {
+     "median_srgb": [
+      52,
+      50,
+      53
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      18,
+      51,
+      124
+     ],
+     "share_below_srgb_30": 0.1856,
+     "share_below_srgb_90": 0.7632,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "KnightPlate_B": {
+     "median_srgb": [
+      53,
+      51,
+      52
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      18,
+      52,
+      122
+     ],
+     "share_below_srgb_30": 0.1851,
+     "share_below_srgb_90": 0.736,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    },
+    "KnightPlate_C": {
+     "median_srgb": [
+      53,
+      52,
+      54
+     ],
+     "luminance_srgb_p10_p50_p90": [
+      18,
+      52,
+      177
+     ],
+     "share_below_srgb_30": 0.1838,
+     "share_below_srgb_90": 0.7059,
+     "verdict": "very dark (engine phase 2 diffuse floor needed)"
+    }
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 232.4
+    },
+    "G": {
+     "min": 77,
+     "max": 255,
+     "mean": 108.5
+    },
+    "B": {
+     "min": 0,
+     "max": 255,
+     "mean": 232.4
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,173 @@
+{
+ "sprite": "tree25",
+ "note": "111 placements (Murmurwoods 100, Tatalia 11). Small (500 units) autumn tree: short reddish-brown flared trunk forking at a quarter of the height, an irregular crown of red, orange and green sprays.",
+ "sapling": {
+  "scale": 4.6,
+  "ratio": 0.05,
+  "baseSize": 0.25,
+  "branches": [
+   0,
+   26,
+   10,
+   6
+  ],
+  "length": [
+   1.0,
+   0.5,
+   0.35,
+   0.3
+  ],
+  "downAngle": [
+   90,
+   55,
+   40,
+   45
+  ],
+  "downAngleV": [
+   0,
+   20,
+   10,
+   10
+  ],
+  "attractUp": [
+   0,
+   0.4,
+   0.3,
+   0
+  ],
+  "curve": [
+   0,
+   -10,
+   0,
+   0
+  ],
+  "shape": "2",
+  "seed": 25,
+  "segSplits": [
+   0.05,
+   0.2,
+   0.25,
+   0
+  ],
+  "splitAngle": [
+   20,
+   15,
+   15,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.32,
+  "centre": 0.62,
+  "clumps": 75,
+  "underside": 0.45,
+  "low_keep": 0.45,
+  "outer_radius": [
+   0.38,
+   0.6
+  ],
+  "inner_radius": [
+   0.34,
+   0.48
+  ],
+  "card": [
+   0.7,
+   0.85
+  ],
+  "tip_thickness": 0.05,
+  "inner_clumps": 0,
+  "gap": 1.05,
+  "gen_cards": 1294,
+  "keep": 0.44,
+  "shell": {
+   "core": 0.4,
+   "cores": [
+    60,
+    30,
+    12
+   ]
+  }
+ },
+ "bark": {
+  "min_thickness": [
+   0.02,
+   0.04,
+   0.07
+  ],
+  "budget": [
+   700,
+   300,
+   190
+  ],
+  "sides": [
+   0.3,
+   0.15
+  ],
+  "target_srgb": [
+   140,
+   100,
+   76
+  ],
+  "root_reach": 0.08,
+  "roots": 5
+ },
+ "lod": {
+  "triangles": [
+   2500,
+   1150,
+   480
+  ],
+  "tone": [
+   1.0,
+   0.936,
+   1.184
+  ],
+  "lod2_card_scale": 0.89,
+  "grow": [
+   1.0,
+   1.256,
+   1.6
+  ],
+  "card_frac": [
+   1.0,
+   0.8,
+   1.0
+  ],
+  "lod2_vertical": 2,
+  "lod2_capacity": 0.85
+ },
+ "occlusion": {
+  "floor": 0.22,
+  "range": 0.84,
+  "power": 0.85,
+  "hue": [
+   1.05,
+   1.0,
+   0.9
+  ]
+ },
+ "leaves": {
+  "cells": [
+   0,
+   1,
+   2,
+   3,
+   12,
+   13,
+   14,
+   15
+  ],
+  "target_srgb": [
+   245,
+   214,
+   100
+  ],
+  "lift": {
+   "highlight": [
+    1.08,
+    1.05,
+    0.97
+   ]
+  }
+ }
+}

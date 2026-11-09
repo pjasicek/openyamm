@@ -1,0 +1,3 @@
+Saved run 2’s four views, raw returns, prompts/hashes manifest, and [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantboy_claude/references_hd/selected_views_review.png) in `references_hd/` using built-in image generation.
+
+Verified unresized 1536×1024 files and transparent backgrounds. Corrections stopped at the brief’s limit; arm angles, tight margins, and minor hair/pose differences remain documented.

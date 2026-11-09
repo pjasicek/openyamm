@@ -1,0 +1,162 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d12/review/walkability/capture
+settle_seconds: 7
+exit: true
+shots:
+- name: gate
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+  position:
+  - 0
+  - 400
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0.0
+- name: gatehouse
+  position:
+  - 0
+  - 1600
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0.0
+- name: central
+  position:
+  - 0
+  - 3900
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0.0
+- name: grafting_west
+  position:
+  - -3064
+  - 3900
+  - 0
+  yaw: 1.5707963267948966
+  pitch: 0.0
+- name: drill_hall
+  position:
+  - 1900
+  - 4900
+  - 0
+  yaw: 0.0
+  pitch: 0.0
+- name: trophy_west
+  position:
+  - -3650
+  - 6450
+  - 0
+  yaw: 0.6549202447647139
+  pitch: 0.0
+- name: stair
+  position:
+  - 0
+  - 6300
+  - 24
+  yaw: 1.5707963267948966
+  pitch: 0.0
+- name: court
+  position:
+  - 0
+  - 8500
+  - 768
+  yaw: 1.5707963267948966
+  pitch: 0.17453292519943295
+- name: lift
+  position:
+  - 0
+  - 12120
+  - 768
+  yaw: 1.5707963267948966
+  pitch: 0.2617993877991494
+- name: voice
+  position:
+  - 0
+  - 13400
+  - 2304
+  yaw: 1.5707963267948966
+  pitch: 0.0
+- name: throne
+  position:
+  - 0
+  - 15900
+  - 2304
+  yaw: 1.5707963267948966
+  pitch: 0.17453292519943295
+- name: core_halls
+  position:
+  - 6800
+  - 1300
+  - -1536
+  yaw: 1.5707963267948966
+  pitch: 0.0
+- name: grid_control
+  position:
+  - 6400
+  - 4000
+  - -1536
+  yaw: 1.5707963267948966
+  pitch: 0.0
+- name: grand_stair_cache
+  position:
+  - -300
+  - 7820
+  - 696
+  yaw: 1.5707963267948966
+  pitch: 0.1
+  commands:
+  - event 105
+- name: court_ring
+  position:
+  - 0
+  - 8380
+  - 768
+  yaw: 1.5707963267948966
+  pitch: 0.1
+- name: core_lower_landing
+  position:
+  - 2110
+  - 2364
+  - -1536
+  yaw: 0.0
+  pitch: 0.1
+  commands:
+  - event 122
+- name: core_upper_landing
+  position:
+  - 2110
+  - 2364
+  - 0
+  yaw: 3.141592653589793
+  pitch: 0.1
+  commands:
+  - event 122
+- name: crowns_upper_landing
+  position:
+  - 0
+  - 13600
+  - 2304
+  yaw: -1.5707963267948966
+  pitch: 0.1
+  commands:
+  - event 121
+- name: throne_dais
+  position:
+  - -450
+  - 18380
+  - 2560
+  yaw: -1.0980991910803073
+  pitch: 0.1
+- name: turret_plinth
+  position:
+  - 1000
+  - 16800
+  - 2304
+  yaw: -0.8760580505981934
+  pitch: 0.1
+- name: core_dogleg
+  position:
+  - 3100
+  - 2364
+  - -1536
+  yaw: 0
+  pitch: 0

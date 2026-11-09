@@ -1,0 +1,2258 @@
+[
+  {
+    "icon": "6bow6",
+    "family": "bows",
+    "items": [
+      {
+        "id": 2025,
+        "name": "Percival"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6bow6",
+      "model": "engine/world_items/models/item_6bow6.glb",
+      "length": 205.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "6bow6",
+      "name": "Percival",
+      "id": 2025,
+      "triangles": 443,
+      "runtime_triangles": 443,
+      "thickness_pct_length": 1.94,
+      "zero_thickness_triangles": 55,
+      "zero_thickness_area_pct": 13.47,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6bow6.png"
+  },
+  {
+    "icon": "6bow7",
+    "family": "bows",
+    "items": [
+      {
+        "id": 2040,
+        "name": "Artemis"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6bow7",
+      "model": "engine/world_items/models/item_6bow7.glb",
+      "length": 205.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "6bow7",
+      "name": "Artemis",
+      "id": 2040,
+      "triangles": 443,
+      "runtime_triangles": 443,
+      "thickness_pct_length": 1.94,
+      "zero_thickness_triangles": 55,
+      "zero_thickness_area_pct": 13.47,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6bow7.png"
+  },
+  {
+    "icon": "7item042",
+    "family": "bows",
+    "items": [
+      {
+        "id": 844,
+        "name": "Crude Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item042",
+      "model": "engine/world_items/models/item_7item042.glb",
+      "length": 200.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item042",
+      "name": "Crude Bow",
+      "id": 844,
+      "triangles": 125,
+      "runtime_triangles": 125,
+      "thickness_pct_length": 1.58,
+      "zero_thickness_triangles": 55,
+      "zero_thickness_area_pct": 56.02,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item042.png"
+  },
+  {
+    "icon": "7item043",
+    "family": "bows",
+    "items": [
+      {
+        "id": 845,
+        "name": "Longbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item043",
+      "model": "engine/world_items/models/item_7item043.glb",
+      "length": 203.8
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item043",
+      "name": "Longbow",
+      "id": 845,
+      "triangles": 203,
+      "runtime_triangles": 203,
+      "thickness_pct_length": 1.71,
+      "zero_thickness_triangles": 39,
+      "zero_thickness_area_pct": 25.72,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item043.png"
+  },
+  {
+    "icon": "7item044",
+    "family": "bows",
+    "items": [
+      {
+        "id": 846,
+        "name": "Elven Longbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item044",
+      "model": "engine/world_items/models/item_7item044.glb",
+      "length": 189.9
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item044",
+      "name": "Elven Longbow",
+      "id": 846,
+      "triangles": 186,
+      "runtime_triangles": 186,
+      "thickness_pct_length": 1.82,
+      "zero_thickness_triangles": 44,
+      "zero_thickness_area_pct": 25.75,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item044.png"
+  },
+  {
+    "icon": "7item045",
+    "family": "bows",
+    "items": [
+      {
+        "id": 847,
+        "name": "Composite Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item045",
+      "model": "engine/world_items/models/item_7item045.glb",
+      "length": 205.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item045",
+      "name": "Composite Bow",
+      "id": 847,
+      "triangles": 541,
+      "runtime_triangles": 541,
+      "thickness_pct_length": 1.9,
+      "zero_thickness_triangles": 119,
+      "zero_thickness_area_pct": 23.28,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item045.png"
+  },
+  {
+    "icon": "7item046",
+    "family": "bows",
+    "items": [
+      {
+        "id": 848,
+        "name": "Griffin Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item046",
+      "model": "engine/world_items/models/item_7item046.glb",
+      "length": 182.7
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item046",
+      "name": "Griffin Bow",
+      "id": 848,
+      "triangles": 458,
+      "runtime_triangles": 458,
+      "thickness_pct_length": 2.52,
+      "zero_thickness_triangles": 92,
+      "zero_thickness_area_pct": 21.75,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item046.png"
+  },
+  {
+    "icon": "7item047",
+    "family": "bows",
+    "items": [
+      {
+        "id": 849,
+        "name": "Crude Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item047",
+      "model": "engine/world_items/models/item_7item047.glb",
+      "length": 159.8
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item047",
+      "name": "Crude Crossbow",
+      "id": 849,
+      "triangles": 457,
+      "runtime_triangles": 457,
+      "thickness_pct_length": 2.63,
+      "zero_thickness_triangles": 77,
+      "zero_thickness_area_pct": 10.38,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item047.png"
+  },
+  {
+    "icon": "7item048",
+    "family": "bows",
+    "items": [
+      {
+        "id": 850,
+        "name": "Heavy Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item048",
+      "model": "engine/world_items/models/item_7item048.glb",
+      "length": 109.8
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item048",
+      "name": "Heavy Crossbow",
+      "id": 850,
+      "triangles": 307,
+      "runtime_triangles": 307,
+      "thickness_pct_length": 3.76,
+      "zero_thickness_triangles": 45,
+      "zero_thickness_area_pct": 7.86,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item048.png"
+  },
+  {
+    "icon": "7item049",
+    "family": "bows",
+    "items": [
+      {
+        "id": 851,
+        "name": "Ideal Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item049",
+      "model": "engine/world_items/models/item_7item049.glb",
+      "length": 114.3
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item049",
+      "name": "Ideal Crossbow",
+      "id": 851,
+      "triangles": 541,
+      "runtime_triangles": 541,
+      "thickness_pct_length": 3.89,
+      "zero_thickness_triangles": 93,
+      "zero_thickness_area_pct": 7.91,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item049.png"
+  },
+  {
+    "icon": "7item228",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1312,
+        "name": "Ullyses"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item228",
+      "model": "engine/world_items/models/item_7item228.glb",
+      "length": 213.8
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item228",
+      "name": "Ullyses",
+      "id": 1312,
+      "triangles": 423,
+      "runtime_triangles": 423,
+      "thickness_pct_length": 1.54,
+      "zero_thickness_triangles": 91,
+      "zero_thickness_area_pct": 17.01,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item228.png"
+  },
+  {
+    "icon": "7item229",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1328,
+        "name": "Ania Selving"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item229",
+      "model": "engine/world_items/models/item_7item229.glb",
+      "length": 114.8
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item229",
+      "name": "Ania Selving",
+      "id": 1328,
+      "triangles": 305,
+      "runtime_triangles": 305,
+      "thickness_pct_length": 3.1,
+      "zero_thickness_triangles": 59,
+      "zero_thickness_area_pct": 15.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item229.png"
+  },
+  {
+    "icon": "7item300",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1344,
+        "name": "The Perfect Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item300",
+      "model": "engine/world_items/models/item_7item300.glb",
+      "length": 205.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item300",
+      "name": "The Perfect Bow",
+      "id": 1344,
+      "triangles": 426,
+      "runtime_triangles": 426,
+      "thickness_pct_length": 1.95,
+      "zero_thickness_triangles": 66,
+      "zero_thickness_area_pct": 21.12,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item300.png"
+  },
+  {
+    "icon": "7item301",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1345,
+        "name": "The Perfect Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item301",
+      "model": "engine/world_items/models/item_7item301.glb",
+      "length": 205.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "7item301",
+      "name": "The Perfect Bow",
+      "id": 1345,
+      "triangles": 426,
+      "runtime_triangles": 426,
+      "thickness_pct_length": 1.95,
+      "zero_thickness_triangles": 66,
+      "zero_thickness_area_pct": 21.12,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item301.png"
+  },
+  {
+    "icon": "bow1",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1644,
+        "name": "Crude Longbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "bow1",
+      "model": "engine/world_items/models/item_bow1.glb",
+      "length": 222.3
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "bow1",
+      "name": "Crude Longbow",
+      "id": 1644,
+      "triangles": 195,
+      "runtime_triangles": 195,
+      "thickness_pct_length": 1.42,
+      "zero_thickness_triangles": 31,
+      "zero_thickness_area_pct": 21.56,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/bow1.png"
+  },
+  {
+    "icon": "bow2",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1645,
+        "name": "Elven Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "bow2",
+      "model": "engine/world_items/models/item_bow2.glb",
+      "length": 200.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "bow2",
+      "name": "Elven Bow",
+      "id": 1645,
+      "triangles": 139,
+      "runtime_triangles": 139,
+      "thickness_pct_length": 1.51,
+      "zero_thickness_triangles": 43,
+      "zero_thickness_area_pct": 37.47,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/bow2.png"
+  },
+  {
+    "icon": "bow3",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1646,
+        "name": "Precision Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "bow3",
+      "model": "engine/world_items/models/item_bow3.glb",
+      "length": 203.0
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "bow3",
+      "name": "Precision Bow",
+      "id": 1646,
+      "triangles": 225,
+      "runtime_triangles": 225,
+      "thickness_pct_length": 1.77,
+      "zero_thickness_triangles": 23,
+      "zero_thickness_area_pct": 13.89,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/bow3.png"
+  },
+  {
+    "icon": "bow4",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1647,
+        "name": "Magic Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "bow4",
+      "model": "engine/world_items/models/item_bow4.glb",
+      "length": 182.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "bow4",
+      "name": "Magic Bow",
+      "id": 1647,
+      "triangles": 275,
+      "runtime_triangles": 275,
+      "thickness_pct_length": 1.91,
+      "zero_thickness_triangles": 23,
+      "zero_thickness_area_pct": 12.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/bow4.png"
+  },
+  {
+    "icon": "bow5",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1648,
+        "name": "Stellar Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "bow5",
+      "model": "engine/world_items/models/item_bow5.glb",
+      "length": 205.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "bow5",
+      "name": "Stellar Bow",
+      "id": 1648,
+      "triangles": 443,
+      "runtime_triangles": 443,
+      "thickness_pct_length": 1.94,
+      "zero_thickness_triangles": 55,
+      "zero_thickness_area_pct": 13.47,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/bow5.png"
+  },
+  {
+    "icon": "crsbow1",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1649,
+        "name": "Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "crsbow1",
+      "model": "engine/world_items/models/item_crsbow1.glb",
+      "length": 128.7
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "crsbow1",
+      "name": "Crossbow",
+      "id": 1649,
+      "triangles": 375,
+      "runtime_triangles": 375,
+      "thickness_pct_length": 3.27,
+      "zero_thickness_triangles": 29,
+      "zero_thickness_area_pct": 5.78,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/crsbow1.png"
+  },
+  {
+    "icon": "crsbow2",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1650,
+        "name": "Accurate Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "crsbow2",
+      "model": "engine/world_items/models/item_crsbow2.glb",
+      "length": 144.5
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "crsbow2",
+      "name": "Accurate Crossbow",
+      "id": 1650,
+      "triangles": 273,
+      "runtime_triangles": 273,
+      "thickness_pct_length": 2.51,
+      "zero_thickness_triangles": 61,
+      "zero_thickness_area_pct": 13.39,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/crsbow2.png"
+  },
+  {
+    "icon": "crsbow3",
+    "family": "bows",
+    "items": [
+      {
+        "id": 1651,
+        "name": "True Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "crsbow3",
+      "model": "engine/world_items/models/item_crsbow3.glb",
+      "length": 148.5
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "crsbow3",
+      "name": "True Crossbow",
+      "id": 1651,
+      "triangles": 351,
+      "runtime_triangles": 351,
+      "thickness_pct_length": 2.71,
+      "zero_thickness_triangles": 47,
+      "zero_thickness_area_pct": 13.18,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/crsbow3.png"
+  },
+  {
+    "icon": "item056",
+    "family": "bows",
+    "items": [
+      {
+        "id": 56,
+        "name": "Hunting Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item056",
+      "model": "engine/world_items/models/item_item056.glb",
+      "length": 171.9
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item056",
+      "name": "Hunting Bow",
+      "id": 56,
+      "triangles": 162,
+      "runtime_triangles": 162,
+      "thickness_pct_length": 1.95,
+      "zero_thickness_triangles": 40,
+      "zero_thickness_area_pct": 31.24,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item056.png"
+  },
+  {
+    "icon": "item057",
+    "family": "bows",
+    "items": [
+      {
+        "id": 57,
+        "name": "Recurve Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item057",
+      "model": "engine/world_items/models/item_item057.glb",
+      "length": 174.6
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item057",
+      "name": "Recurve Bow",
+      "id": 57,
+      "triangles": 276,
+      "runtime_triangles": 276,
+      "thickness_pct_length": 1.99,
+      "zero_thickness_triangles": 64,
+      "zero_thickness_area_pct": 23.0,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item057.png"
+  },
+  {
+    "icon": "item058",
+    "family": "bows",
+    "items": [
+      {
+        "id": 58,
+        "name": "Snakewood Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item058",
+      "model": "engine/world_items/models/item_item058.glb",
+      "length": 175.1
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item058",
+      "name": "Snakewood Bow",
+      "id": 58,
+      "triangles": 269,
+      "runtime_triangles": 269,
+      "thickness_pct_length": 1.96,
+      "zero_thickness_triangles": 29,
+      "zero_thickness_area_pct": 13.69,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item058.png"
+  },
+  {
+    "icon": "item059",
+    "family": "bows",
+    "items": [
+      {
+        "id": 59,
+        "name": "Elven Warbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item059",
+      "model": "engine/world_items/models/item_item059.glb",
+      "length": 178.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item059",
+      "name": "Elven Warbow",
+      "id": 59,
+      "triangles": 202,
+      "runtime_triangles": 202,
+      "thickness_pct_length": 2.1,
+      "zero_thickness_triangles": 42,
+      "zero_thickness_area_pct": 23.21,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item059.png"
+  },
+  {
+    "icon": "item060",
+    "family": "bows",
+    "items": [
+      {
+        "id": 60,
+        "name": "Devilbone Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item060",
+      "model": "engine/world_items/models/item_item060.glb",
+      "length": 177.3
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item060",
+      "name": "Devilbone Bow",
+      "id": 60,
+      "triangles": 504,
+      "runtime_triangles": 504,
+      "thickness_pct_length": 2.4,
+      "zero_thickness_triangles": 188,
+      "zero_thickness_area_pct": 31.15,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item060.png"
+  },
+  {
+    "icon": "item061",
+    "family": "bows",
+    "items": [
+      {
+        "id": 61,
+        "name": "Light Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item061",
+      "model": "engine/world_items/models/item_item061.glb",
+      "length": 121.0
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item061",
+      "name": "Light Crossbow",
+      "id": 61,
+      "triangles": 382,
+      "runtime_triangles": 382,
+      "thickness_pct_length": 3.62,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 8.3,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item061.png"
+  },
+  {
+    "icon": "item062",
+    "family": "bows",
+    "items": [
+      {
+        "id": 62,
+        "name": "Blood Drop Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item062",
+      "model": "engine/world_items/models/item_item062.glb",
+      "length": 121.0
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item062",
+      "name": "Blood Drop Crossbow",
+      "id": 62,
+      "triangles": 372,
+      "runtime_triangles": 372,
+      "thickness_pct_length": 3.71,
+      "zero_thickness_triangles": 38,
+      "zero_thickness_area_pct": 8.64,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item062.png"
+  },
+  {
+    "icon": "item063",
+    "family": "bows",
+    "items": [
+      {
+        "id": 63,
+        "name": "Hunting Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item063",
+      "model": "engine/world_items/models/item_item063.glb",
+      "length": 126.5
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item063",
+      "name": "Hunting Crossbow",
+      "id": 63,
+      "triangles": 321,
+      "runtime_triangles": 321,
+      "thickness_pct_length": 2.82,
+      "zero_thickness_triangles": 47,
+      "zero_thickness_area_pct": 12.49,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item063.png"
+  },
+  {
+    "icon": "item064",
+    "family": "bows",
+    "items": [
+      {
+        "id": 64,
+        "name": "Caravaner's Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item064",
+      "model": "engine/world_items/models/item_item064.glb",
+      "length": 137.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item064",
+      "name": "Caravaner's Crossbow",
+      "id": 64,
+      "triangles": 392,
+      "runtime_triangles": 392,
+      "thickness_pct_length": 2.81,
+      "zero_thickness_triangles": 42,
+      "zero_thickness_area_pct": 10.69,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item064.png"
+  },
+  {
+    "icon": "item065",
+    "family": "bows",
+    "items": [
+      {
+        "id": 65,
+        "name": "Regnan Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item065",
+      "model": "engine/world_items/models/item_item065.glb",
+      "length": 142.7
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item065",
+      "name": "Regnan Crossbow",
+      "id": 65,
+      "triangles": 439,
+      "runtime_triangles": 439,
+      "thickness_pct_length": 3.0,
+      "zero_thickness_triangles": 33,
+      "zero_thickness_area_pct": 7.01,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item065.png"
+  },
+  {
+    "icon": "item245",
+    "family": "bows",
+    "items": [
+      {
+        "id": 512,
+        "name": "Longseeker"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item245",
+      "model": "engine/world_items/models/item_item245.glb",
+      "length": 179.1
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item245",
+      "name": "Longseeker",
+      "id": 512,
+      "triangles": 447,
+      "runtime_triangles": 447,
+      "thickness_pct_length": 2.02,
+      "zero_thickness_triangles": 171,
+      "zero_thickness_area_pct": 35.26,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item245.png"
+  },
+  {
+    "icon": "item246",
+    "family": "bows",
+    "items": [
+      {
+        "id": 532,
+        "name": "Lightning Crossbow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item246",
+      "model": "engine/world_items/models/item_item246.glb",
+      "length": 141.8
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item246",
+      "name": "Lightning Crossbow",
+      "id": 532,
+      "triangles": 442,
+      "runtime_triangles": 442,
+      "thickness_pct_length": 2.9,
+      "zero_thickness_triangles": 56,
+      "zero_thickness_area_pct": 11.17,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item246.png"
+  },
+  {
+    "icon": "item336",
+    "family": "bows",
+    "items": [
+      {
+        "id": 531,
+        "name": "Tournament Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item336",
+      "model": "engine/world_items/models/item_item336.glb",
+      "length": 178.2
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item336",
+      "name": "Tournament Bow",
+      "id": 531,
+      "triangles": 202,
+      "runtime_triangles": 202,
+      "thickness_pct_length": 2.1,
+      "zero_thickness_triangles": 42,
+      "zero_thickness_area_pct": 23.21,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item336.png"
+  },
+  {
+    "icon": "item344",
+    "family": "bows",
+    "items": [
+      {
+        "id": 542,
+        "name": "Noblebone Bow"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item344",
+      "model": "engine/world_items/models/item_item344.glb",
+      "length": 177.3
+    },
+    "baseline_audit": {
+      "family": "bows",
+      "icon": "item344",
+      "name": "Noblebone Bow",
+      "id": 542,
+      "triangles": 504,
+      "runtime_triangles": 504,
+      "thickness_pct_length": 2.4,
+      "zero_thickness_triangles": 188,
+      "zero_thickness_area_pct": 31.15,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item344.png"
+  },
+  {
+    "icon": "7item064",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 866,
+        "name": "Blaster"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item064",
+      "model": "engine/world_items/models/item_7item064.glb",
+      "length": 54.9
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "7item064",
+      "name": "Blaster",
+      "id": 866,
+      "triangles": 211,
+      "runtime_triangles": 211,
+      "thickness_pct_length": 19.29,
+      "zero_thickness_triangles": 3,
+      "zero_thickness_area_pct": 1.58,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item064.png"
+  },
+  {
+    "icon": "7item065",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 867,
+        "name": "Blaster Rifle"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item065",
+      "model": "engine/world_items/models/item_7item065.glb",
+      "length": 111.6
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "7item065",
+      "name": "Blaster Rifle",
+      "id": 867,
+      "triangles": 521,
+      "runtime_triangles": 521,
+      "thickness_pct_length": 6.22,
+      "zero_thickness_triangles": 25,
+      "zero_thickness_area_pct": 3.29,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item065.png"
+  },
+  {
+    "icon": "blastsg",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 2201,
+        "name": "Blaster Shotgun"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "blastsg",
+      "model": "engine/world_items/models/item_blastsg.glb",
+      "length": 167.4
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "blastsg",
+      "name": "Blaster Shotgun",
+      "id": 2201,
+      "triangles": 1278,
+      "runtime_triangles": 1278,
+      "thickness_pct_length": 5.48,
+      "zero_thickness_triangles": 28,
+      "zero_thickness_area_pct": 2.1,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/blastsg.png"
+  },
+  {
+    "icon": "raygun1",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 1666,
+        "name": "Blaster"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "raygun1",
+      "model": "engine/world_items/models/item_raygun1.glb",
+      "length": 92.7
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "raygun1",
+      "name": "Blaster",
+      "id": 1666,
+      "triangles": 320,
+      "runtime_triangles": 320,
+      "thickness_pct_length": 6.52,
+      "zero_thickness_triangles": 36,
+      "zero_thickness_area_pct": 8.05,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/raygun1.png"
+  },
+  {
+    "icon": "raygun2",
+    "family": "blasters",
+    "items": [
+      {
+        "id": 1667,
+        "name": "Blaster Rifle"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "raygun2",
+      "model": "engine/world_items/models/item_raygun2.glb",
+      "length": 211.5
+    },
+    "baseline_audit": {
+      "family": "blasters",
+      "icon": "raygun2",
+      "name": "Blaster Rifle",
+      "id": 1667,
+      "triangles": 1270,
+      "runtime_triangles": 1270,
+      "thickness_pct_length": 2.98,
+      "zero_thickness_triangles": 20,
+      "zero_thickness_area_pct": 0.75,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/raygun2.png"
+  },
+  {
+    "icon": "7item135",
+    "family": "wands",
+    "items": [
+      {
+        "id": 937,
+        "name": "Wand of Fire"
+      },
+      {
+        "id": 938,
+        "name": "Wand of Sparks"
+      },
+      {
+        "id": 939,
+        "name": "Wand of Poison"
+      },
+      {
+        "id": 940,
+        "name": "Wand of Stunning"
+      },
+      {
+        "id": 941,
+        "name": "Wand of Harm"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item135",
+      "model": "engine/world_items/models/item_7item135.glb",
+      "length": 61.6
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "7item135",
+      "name": "Wand of Fire",
+      "id": 937,
+      "triangles": 81,
+      "runtime_triangles": 81,
+      "thickness_pct_length": 3.51,
+      "zero_thickness_triangles": 13,
+      "zero_thickness_area_pct": 43.59,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item135.png"
+  },
+  {
+    "icon": "7item136",
+    "family": "wands",
+    "items": [
+      {
+        "id": 942,
+        "name": "Fairy Wand of Light"
+      },
+      {
+        "id": 943,
+        "name": "Fairy Wand of Ice"
+      },
+      {
+        "id": 944,
+        "name": "Fairy Wand of Lashing"
+      },
+      {
+        "id": 945,
+        "name": "Fairy Wand of Mind"
+      },
+      {
+        "id": 946,
+        "name": "Fairy Wand of Swarms"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item136",
+      "model": "engine/world_items/models/item_7item136.glb",
+      "length": 82.6
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "7item136",
+      "name": "Fairy Wand of Light",
+      "id": 942,
+      "triangles": 161,
+      "runtime_triangles": 161,
+      "thickness_pct_length": 3.42,
+      "zero_thickness_triangles": 5,
+      "zero_thickness_area_pct": 28.29,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item136.png"
+  },
+  {
+    "icon": "7item137",
+    "family": "wands",
+    "items": [
+      {
+        "id": 947,
+        "name": "Alacorn Wand of Fireballs"
+      },
+      {
+        "id": 948,
+        "name": "Alacorn Wand of Acid"
+      },
+      {
+        "id": 949,
+        "name": "Alacorn Wand of Lightning"
+      },
+      {
+        "id": 950,
+        "name": "Alacorn Wand of Blades"
+      },
+      {
+        "id": 951,
+        "name": "Alacorn Wand of Charms"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item137",
+      "model": "engine/world_items/models/item_7item137.glb",
+      "length": 70.5
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "7item137",
+      "name": "Alacorn Wand of Fireballs",
+      "id": 947,
+      "triangles": 243,
+      "runtime_triangles": 243,
+      "thickness_pct_length": 4.58,
+      "zero_thickness_triangles": 25,
+      "zero_thickness_area_pct": 10.25,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item137.png"
+  },
+  {
+    "icon": "7item138",
+    "family": "wands",
+    "items": [
+      {
+        "id": 952,
+        "name": "Warlock's Wand of Blasting"
+      },
+      {
+        "id": 953,
+        "name": "Warlock's Wand of The Fist"
+      },
+      {
+        "id": 954,
+        "name": "Warlock's Wand of Rocks"
+      },
+      {
+        "id": 955,
+        "name": "Warlock's Wand of Paralyzing"
+      },
+      {
+        "id": 956,
+        "name": "Warlock's Wand of Clouds"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item138",
+      "model": "engine/world_items/models/item_7item138.glb",
+      "length": 73.2
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "7item138",
+      "name": "Warlock's Wand of Blasting",
+      "id": 952,
+      "triangles": 291,
+      "runtime_triangles": 291,
+      "thickness_pct_length": 4.78,
+      "zero_thickness_triangles": 33,
+      "zero_thickness_area_pct": 6.0,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item138.png"
+  },
+  {
+    "icon": "7item139",
+    "family": "wands",
+    "items": [
+      {
+        "id": 957,
+        "name": "Mystic Wand of Implosion"
+      },
+      {
+        "id": 958,
+        "name": "Mystic Wand of Distortion"
+      },
+      {
+        "id": 959,
+        "name": "Mystic Wand of Shrapmetal"
+      },
+      {
+        "id": 960,
+        "name": "Mystic Wand of Shrinking"
+      },
+      {
+        "id": 961,
+        "name": "Mystic Wand of Incineration"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item139",
+      "model": "engine/world_items/models/item_7item139.glb",
+      "length": 78.8
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "7item139",
+      "name": "Mystic Wand of Implosion",
+      "id": 957,
+      "triangles": 591,
+      "runtime_triangles": 591,
+      "thickness_pct_length": 5.25,
+      "zero_thickness_triangles": 33,
+      "zero_thickness_area_pct": 1.33,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item139.png"
+  },
+  {
+    "icon": "item152",
+    "family": "wands",
+    "items": [
+      {
+        "id": 152,
+        "name": "Witch's Wand of Fire"
+      },
+      {
+        "id": 153,
+        "name": "Witch's Wand of Sparks"
+      },
+      {
+        "id": 154,
+        "name": "Witch's Wand of Poison"
+      },
+      {
+        "id": 155,
+        "name": "Witch's Wand of Stunning"
+      },
+      {
+        "id": 156,
+        "name": "Witch's Wand of Harming"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item152",
+      "model": "engine/world_items/models/item_item152.glb",
+      "length": 63.7
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "item152",
+      "name": "Witch's Wand of Fire",
+      "id": 152,
+      "triangles": 399,
+      "runtime_triangles": 399,
+      "thickness_pct_length": 5.02,
+      "zero_thickness_triangles": 49,
+      "zero_thickness_area_pct": 9.04,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item152.png"
+  },
+  {
+    "icon": "item153",
+    "family": "wands",
+    "items": [
+      {
+        "id": 157,
+        "name": "Shaman's Wand of Light"
+      },
+      {
+        "id": 158,
+        "name": "Shaman's Wand of Ice"
+      },
+      {
+        "id": 159,
+        "name": "Shaman's Wand of Lashing"
+      },
+      {
+        "id": 160,
+        "name": "Shaman's Wand of Mind"
+      },
+      {
+        "id": 161,
+        "name": "Shaman's Wand of Swarms"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item153",
+      "model": "engine/world_items/models/item_item153.glb",
+      "length": 67.0
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "item153",
+      "name": "Shaman's Wand of Light",
+      "id": 157,
+      "triangles": 411,
+      "runtime_triangles": 411,
+      "thickness_pct_length": 5.18,
+      "zero_thickness_triangles": 35,
+      "zero_thickness_area_pct": 5.15,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item153.png"
+  },
+  {
+    "icon": "item154",
+    "family": "wands",
+    "items": [
+      {
+        "id": 167,
+        "name": "Serpent Wand of Blasting"
+      },
+      {
+        "id": 168,
+        "name": "Serpent Wand of the Fist"
+      },
+      {
+        "id": 169,
+        "name": "Serpent Wand of Rocks"
+      },
+      {
+        "id": 170,
+        "name": "Serpent Wand of Paralysis"
+      },
+      {
+        "id": 171,
+        "name": "Serpent Wand of Clouds"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item154",
+      "model": "engine/world_items/models/item_item154.glb",
+      "length": 70.7
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "item154",
+      "name": "Serpent Wand of Blasting",
+      "id": 167,
+      "triangles": 330,
+      "runtime_triangles": 330,
+      "thickness_pct_length": 4.2,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 3.23,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item154.png"
+  },
+  {
+    "icon": "item155",
+    "family": "wands",
+    "items": [
+      {
+        "id": 162,
+        "name": "Wizard Wand of Fireballs"
+      },
+      {
+        "id": 163,
+        "name": "Wizard Wand of Acid"
+      },
+      {
+        "id": 164,
+        "name": "Wizard Wand of Lightning"
+      },
+      {
+        "id": 165,
+        "name": "Wizard Wand of Blades"
+      },
+      {
+        "id": 166,
+        "name": "Wizard Wand of Berzerking"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item155",
+      "model": "engine/world_items/models/item_item155.glb",
+      "length": 67.8
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "item155",
+      "name": "Wizard Wand of Fireballs",
+      "id": 162,
+      "triangles": 141,
+      "runtime_triangles": 141,
+      "thickness_pct_length": 4.2,
+      "zero_thickness_triangles": 45,
+      "zero_thickness_area_pct": 41.66,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item155.png"
+  },
+  {
+    "icon": "item156",
+    "family": "wands",
+    "items": [
+      {
+        "id": 172,
+        "name": "Necrotic Wand of Implosion"
+      },
+      {
+        "id": 173,
+        "name": "Necrotic Wand of Distortion"
+      },
+      {
+        "id": 174,
+        "name": "Necrotic Wand of Shrapnel"
+      },
+      {
+        "id": 175,
+        "name": "Necrotic Wand of Shrinking"
+      },
+      {
+        "id": 176,
+        "name": "Necrotic Wand of Incineration"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item156",
+      "model": "engine/world_items/models/item_item156.glb",
+      "length": 70.2
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "item156",
+      "name": "Necrotic Wand of Implosion",
+      "id": 172,
+      "triangles": 495,
+      "runtime_triangles": 495,
+      "thickness_pct_length": 5.56,
+      "zero_thickness_triangles": 13,
+      "zero_thickness_area_pct": 1.26,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item156.png"
+  },
+  {
+    "icon": "wand1",
+    "family": "wands",
+    "items": [
+      {
+        "id": 1737,
+        "name": "Sparkling Wand of Fire"
+      },
+      {
+        "id": 1738,
+        "name": "Sparkling Wand of Sparks"
+      },
+      {
+        "id": 1739,
+        "name": "Sparkling Wand of Poison"
+      },
+      {
+        "id": 1740,
+        "name": "Sparkling Wand of Stunning"
+      },
+      {
+        "id": 1741,
+        "name": "Sparkling Wand of Harming"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "wand1",
+      "model": "engine/world_items/models/item_wand1.glb",
+      "length": 82.1
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "wand1",
+      "name": "Sparkling Wand of Fire",
+      "id": 1737,
+      "triangles": 219,
+      "runtime_triangles": 219,
+      "thickness_pct_length": 3.41,
+      "zero_thickness_triangles": 5,
+      "zero_thickness_area_pct": 0.52,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/wand1.png"
+  },
+  {
+    "icon": "wand2",
+    "family": "wands",
+    "items": [
+      {
+        "id": 1742,
+        "name": "Druid Wand of Light"
+      },
+      {
+        "id": 1743,
+        "name": "Druid Wand of Ice"
+      },
+      {
+        "id": 1744,
+        "name": "Druid Wand of Lashing"
+      },
+      {
+        "id": 1745,
+        "name": "Druid Wand of Mind"
+      },
+      {
+        "id": 1746,
+        "name": "Druid Wand of Swarms"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "wand2",
+      "model": "engine/world_items/models/item_wand2.glb",
+      "length": 95.6
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "wand2",
+      "name": "Druid Wand of Light",
+      "id": 1742,
+      "triangles": 207,
+      "runtime_triangles": 207,
+      "thickness_pct_length": 2.27,
+      "zero_thickness_triangles": 101,
+      "zero_thickness_area_pct": 40.6,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/wand2.png"
+  },
+  {
+    "icon": "wand3",
+    "family": "wands",
+    "items": [
+      {
+        "id": 1747,
+        "name": "Cruel Wand of Fireballs"
+      },
+      {
+        "id": 1748,
+        "name": "Cruel Wand of Acid"
+      },
+      {
+        "id": 1749,
+        "name": "Cruel Wand of Lightning"
+      },
+      {
+        "id": 1750,
+        "name": "Cruel Wand of Blades"
+      },
+      {
+        "id": 1751,
+        "name": "Cruel Wand of Berzerking"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "wand3",
+      "model": "engine/world_items/models/item_wand3.glb",
+      "length": 76.7
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "wand3",
+      "name": "Cruel Wand of Fireballs",
+      "id": 1747,
+      "triangles": 131,
+      "runtime_triangles": 131,
+      "thickness_pct_length": 2.73,
+      "zero_thickness_triangles": 43,
+      "zero_thickness_area_pct": 40.95,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/wand3.png"
+  },
+  {
+    "icon": "wand4",
+    "family": "wands",
+    "items": [
+      {
+        "id": 1752,
+        "name": "Arcane Wand of Blasting"
+      },
+      {
+        "id": 1753,
+        "name": "Arcane Wand of the Fist"
+      },
+      {
+        "id": 1754,
+        "name": "Arcane Wand of Rocks"
+      },
+      {
+        "id": 1755,
+        "name": "Arcane Wand of Paralyzing"
+      },
+      {
+        "id": 1756,
+        "name": "Arcane Wand of Clouds"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "wand4",
+      "model": "engine/world_items/models/item_wand4.glb",
+      "length": 104.8
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "wand4",
+      "name": "Arcane Wand of Blasting",
+      "id": 1752,
+      "triangles": 388,
+      "runtime_triangles": 388,
+      "thickness_pct_length": 3.07,
+      "zero_thickness_triangles": 16,
+      "zero_thickness_area_pct": 1.24,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/wand4.png"
+  },
+  {
+    "icon": "wand5",
+    "family": "wands",
+    "items": [
+      {
+        "id": 1757,
+        "name": "Dragon Wand of Implosion"
+      },
+      {
+        "id": 1758,
+        "name": "Dragon Wand of Distortion"
+      },
+      {
+        "id": 1759,
+        "name": "Dragon Wand of Shrapmetal"
+      },
+      {
+        "id": 1760,
+        "name": "Dragon Wand of Shrinking"
+      },
+      {
+        "id": 1761,
+        "name": "Dragon Wand of Incineration"
+      }
+    ],
+    "owner": "weapons_ranged_magic",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "wand5",
+      "model": "engine/world_items/models/item_wand5.glb",
+      "length": 83.2
+    },
+    "baseline_audit": {
+      "family": "wands",
+      "icon": "wand5",
+      "name": "Dragon Wand of Implosion",
+      "id": 1757,
+      "triangles": 310,
+      "runtime_triangles": 310,
+      "thickness_pct_length": 3.44,
+      "zero_thickness_triangles": 30,
+      "zero_thickness_area_pct": 12.02,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/wand5.png"
+  }
+]

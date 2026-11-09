@@ -1,0 +1,32 @@
+-- Generated local house IDs; edit build_town_content.py/source inventory, never legacy scripts.
+LG.houses = {
+    [100] = 12000, -- Guild Caravans
+    [101] = 12001, -- Keen Edge
+    [102] = 12002, -- The Polished Shield
+    [103] = 12003, -- Needful Things
+    [104] = 12004, -- Myles Greydawn - Guildmaster's Residence
+    [105] = 12005, -- Kessel's Kantina
+    [106] = 12006, -- Sanctum
+    [107] = 12007, -- Assassin's School
+    [108] = 12008, -- Apothecary
+    [109] = 12009, -- Stormlance Residence
+    [110] = 12010, -- Hovel of Mist
+    [111] = 12011, -- House of Lightfinger
+    [112] = 12012, -- Steeleye Estate
+    [113] = 12013, -- Hillsman Cottage
+    [114] = 12014, -- Holden's Hovel
+    [115] = 12015, -- Iver's Estate
+    [116] = 12016, -- Laraselle Estate
+    [117] = 12017, -- Fromago Manor
+    [118] = 12018, -- Sail's Shack
+    [119] = 12019, -- Hobert's Hovel
+    [120] = 12020, -- Morningstar Residence
+    [121] = 12021, -- Aznog's Hovel
+    [122] = 12022, -- Bith Estate
+    [123] = 12023, -- Wargreen's Lab
+    [124] = 12024, -- Apple Home
+    [125] = 12025, -- Applebee Estate
+    [126] = 12026, -- Ironfist Residence
+    [127] = 12027, -- Hovel of Greenstorm
+    [128] = 12028, -- Pole's Hovel
+}

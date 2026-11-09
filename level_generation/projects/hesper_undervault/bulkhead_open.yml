@@ -1,0 +1,30 @@
+# The Deep Stair bulkhead with a Grandmaster Hacker (event 17, CR-P3-03), headless (run from
+# output/hesper_stage/scenario_run): it opens (map variable 1, the load event's htbulkon) and leads down into D15
+# (hes_d15.blv); back by D15's exit, it stays open.
+id: hesper.undervault.bulkhead_open
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_undervault.blv
+    party:
+      gold: 0
+      food: 10
+      members:
+      - name: Root Locksmith
+        class: Knight
+        level: 20
+        skills:
+        - {name: Hacking, level: 10, mastery: 4}
+        equipment: {}
+- set_pose: {map: hes_undervault.blv, x: 480, y: -2048, z: -1024, yaw: 3.14159265, pitch: 0}
+- assert:
+    runtime_event_variable: {id: 124, value: 0}
+- press_interact: {}
+- assert:
+    map: hes_d15.blv
+- set_pose: {map: hes_d15.blv, x: 200, y: 600, z: 512, yaw: 3.14159265, pitch: 0}
+- press_interact: {}
+- assert:
+    map: hes_undervault.blv
+    runtime_event_variable: {id: 124, value: 1}

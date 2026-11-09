@@ -1,0 +1,87 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.guberlandcity_shops
+title: 'Guberland City (native BLV) - walk-in shops: the shopkeepers'' dialogues open by real clicks and their service rows
+  open the shops'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: guberlandcity.blv
+- advance_runtime:
+    seconds: 1.5
+- note:
+    text: 'ShopkeeperHuman2MaleA5 (RUDE 135) in the shop: a click opens the dialogue; "We''d like to see your wares." opens
+      the shop.'
+- set_pose:
+    map: guberlandcity.blv
+    x: -2130
+    y: -12885
+    z: 1
+    yaw: -1.5708
+    pitch: -0.6155
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 135
+- assert:
+    dialog:
+      active: true
+      source_id: 135
+- select_topic:
+    action_id: 2
+    match_label: We'd like to see your wares.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'ShopkeeperHuman2MaleA6 (RUDE 137) in the shop: a click opens the dialogue; "We''d like to see what you have." opens
+      the shop.'
+- set_pose:
+    map: guberlandcity.blv
+    x: 2621
+    y: -1826
+    z: 1
+    yaw: -1.5708
+    pitch: -0.6155
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 137
+- assert:
+    dialog:
+      active: true
+      source_id: 137
+- select_topic:
+    action_id: 2
+    match_label: We'd like to see what you have.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5

@@ -1,0 +1,123 @@
+# Hand-written (2026-11-06, the user's report: fell into the well and could not climb out). Points from the built
+# scene: Wellwater (water_volumes, top 18329.6, bed 17674) and Ladder7 (the chain: bottom on the bed, top exit
+# [5696, 16998, 19789]); the party falls into the shaft, is under, rises to the surface, swims north into the chain,
+# climbs it and steps off onto the street (dry).
+id: mm9r.sturmfordcity_well
+title: 'Sturmford City (native BLV) - the well: fall in, swim up, out by the chain (Ladder7); from the bed too'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: sturmfordcity.blv
+- set_pose:
+    map: sturmfordcity.blv
+    x: 5693
+    y: 16480
+    z: 19000
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 4
+- assert:
+    water:
+      eye_under: true
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 3.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: sturmfordcity.blv
+      x: 5693
+      y: 16480
+      z: 17700
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: sturmfordcity.blv
+      x: 5693
+      y: 16480
+      z: 18196
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 7000
+    tolerance_z: 2000
+- assert:
+    water:
+      state: surface
+      eye_under: false
+- movement_segment:
+    input: forward
+    seconds: 8.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: sturmfordcity.blv
+      x: 5693
+      y: 16480
+      z: 18196
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: sturmfordcity.blv
+      x: 5696
+      y: 16998
+      z: 19789
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 700
+    tolerance_z: 60
+- assert:
+    water:
+      state: dry
+      eye_under: false
+      foot_z_min: 19700
+- note:
+    text: 'From the bed (the bags'' place): walking north on the bed under water takes the chain too.'
+- set_pose:
+    map: sturmfordcity.blv
+    x: 5693
+    y: 16480
+    z: 17747
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1
+- assert:
+    water:
+      state: bed
+      eye_under: true
+- movement_segment:
+    input: forward
+    seconds: 10.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: sturmfordcity.blv
+      x: 5693
+      y: 16480
+      z: 17747
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: sturmfordcity.blv
+      x: 5696
+      y: 16998
+      z: 19789
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 900
+    tolerance_z: 60
+- assert:
+    water:
+      state: dry
+      eye_under: false
+      foot_z_min: 19700

@@ -1,0 +1,182 @@
+{
+  "worker": "potions",
+  "date": "2026-10-18",
+  "status": "installed_wip_scope_complete",
+  "examined": 42,
+  "replaced": 41,
+  "keep": [
+    "7item182"
+  ],
+  "deferred": [],
+  "meshy_credits_spent": 0,
+  "imagegen_receipt": "receipts/imagegen_atlas.json",
+  "length_changes_requested": [
+    {
+      "icon": "7item145",
+      "current_length": 27.9,
+      "current_height": 63.9,
+      "proposed_length": 27.9,
+      "proposed_height": 64,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 59.4,
+      "previous_height": 136.1
+    },
+    {
+      "icon": "7item155",
+      "current_length": 39.2,
+      "current_height": 70.1,
+      "proposed_length": 39.2,
+      "proposed_height": 70,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 53.6,
+      "previous_height": 95.8
+    },
+    {
+      "icon": "7item157",
+      "current_length": 37.5,
+      "current_height": 62.0,
+      "proposed_length": 37.5,
+      "proposed_height": 62,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 53.1,
+      "previous_height": 87.8
+    },
+    {
+      "icon": "7item259",
+      "current_length": 49.3,
+      "current_height": 75.0,
+      "proposed_length": 49.3,
+      "proposed_height": 75,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 56.7,
+      "previous_height": 86.2
+    },
+    {
+      "icon": "item162",
+      "current_length": 29.4,
+      "current_height": 48.0,
+      "proposed_length": 29.4,
+      "proposed_height": 48,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 40.5,
+      "previous_height": 66.1
+    },
+    {
+      "icon": "7item273",
+      "current_length": 30.7,
+      "current_height": 64.0,
+      "proposed_length": 30.7,
+      "proposed_height": 64,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 55.8,
+      "previous_height": 116.4
+    },
+    {
+      "icon": "7item294",
+      "current_length": 49.3,
+      "current_height": 75.0,
+      "proposed_length": 49.3,
+      "proposed_height": 75,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 56.7,
+      "previous_height": 86.2
+    },
+    {
+      "icon": "item278",
+      "current_length": 36.0,
+      "current_height": 61.9,
+      "proposed_length": 36.0,
+      "proposed_height": 62,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 55.8,
+      "previous_height": 96.0
+    },
+    {
+      "icon": "item280",
+      "current_length": 36.0,
+      "current_height": 61.9,
+      "proposed_length": 36.0,
+      "proposed_height": 62,
+      "applied": true,
+      "reason": "Legacy relief length makes the new standing vessel disproportionately tall beside 53-63 unit potion bottles.",
+      "previous_length": 62.1,
+      "previous_height": 106.8
+    }
+  ],
+  "bindings_modified": true,
+  "release_promotion": false,
+  "native_validation": "receipts/native_validation.json",
+  "limitations": [
+    "Alpha-blended glass with no refraction; filled vessels use smoked opaque necks for readability.",
+    "Specimen anatomy is simplified into tissue lobes and coils.",
+    "Pure metal follows the shared renderer lighting and is dark in dim rooms.",
+    "Authoring project is under the existing git-ignored level_generation tree."
+  ],
+  "not_run": [
+    "global cook/build",
+    "Vulkan",
+    "Android device/release APK",
+    "release promotion",
+    "lighting bake",
+    "git staging or commits"
+  ],
+  "ledger": "ledger.json",
+  "validation": "receipts/validation.json",
+  "installs": "receipts/install.json",
+  "native_checks": {
+    "outdoor": {
+      "world": "mm7",
+      "map": "out10.odm",
+      "captures": 7,
+      "errors": 0
+    },
+    "indoor": {
+      "world": "mm6",
+      "map": "6d19.blv",
+      "captures": 3,
+      "errors": 0
+    }
+  },
+  "script_sha256": {
+    "build_potions.py": "761abe0b1b82298bc4f0c9dc58defa377a557bb3ff79020c5709a36652ad90d6",
+    "install_owned.py": "96b2ad84f65744a1d155b7f2fa81ed0fef634998593b406c395d09e7dff050d7",
+    "prepare_atlas.py": "64a8e039695ae527ea9a1e48037c62000af89cda21eb83b4c3678199f4120c7f",
+    "review_sheet.py": "8397c556ff48f7e289e75f9df6be2f31f30752976c3c126ff5e201bc06748ab8",
+    "check_assets.py": "7a9b21b7470f2ac7573d598967f1cb0969cbff2b2013a0ffc719d67ecd3ac934"
+  },
+  "followup_authorization": "do what you can to finish the rest",
+  "scale_validation": "receipts/scale_validation.json",
+  "pending_scale_changes": [],
+  "scale_changes_applied": 9,
+  "validation_checks": {
+    "binding_tests": {
+      "cases": 2,
+      "assertions": 932,
+      "failed": 0
+    },
+    "release_exclusion": "passed",
+    "default_cook_wip_isolation": "passed",
+    "scale_world_heights": "all 9 within 0.15 units of targets",
+    "unmodified_binding_lines": "byte-identical at application",
+    "android_profile": "42 assigned models / 4 unique ETC2/EAC texture payloads verified"
+  },
+  "android_profile_progress": {
+    "verified": 42,
+    "target": 42,
+    "replacement_receipts": "receipts/android_cook.json",
+    "retained_scroll_receipt": "receipts/android_scroll.json",
+    "payloads": 4,
+    "payload_validation": "receipts/android_payloads.tsv",
+    "device_rendering": "not_run",
+    "reason": "No connected Android device; stock release packages intentionally exclude world_items."
+  },
+  "android_texture_verification": "receipts/android_verified.json"
+}

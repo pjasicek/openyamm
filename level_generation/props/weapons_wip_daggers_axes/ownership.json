@@ -1,0 +1,2486 @@
+[
+  {
+    "icon": "6ldagger4",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 2020,
+        "name": "Mordred"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6ldagger4",
+      "model": "engine/world_items/models/item_6ldagger4.glb",
+      "length": 121.0
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "6ldagger4",
+      "name": "Mordred",
+      "id": 2020,
+      "triangles": 230,
+      "runtime_triangles": 230,
+      "thickness_pct_length": 3.42,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 9.1,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6ldagger4.png"
+  },
+  {
+    "icon": "7item015",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 817,
+        "name": "Improvised Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item015",
+      "model": "engine/world_items/models/item_7item015.glb",
+      "length": 89.5
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item015",
+      "name": "Improvised Dagger",
+      "id": 817,
+      "triangles": 55,
+      "runtime_triangles": 55,
+      "thickness_pct_length": 2.96,
+      "zero_thickness_triangles": 19,
+      "zero_thickness_area_pct": 23.73,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item015.png"
+  },
+  {
+    "icon": "7item016",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 818,
+        "name": "Dwarven Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item016",
+      "model": "engine/world_items/models/item_7item016.glb",
+      "length": 91.4
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item016",
+      "name": "Dwarven Dagger",
+      "id": 818,
+      "triangles": 159,
+      "runtime_triangles": 159,
+      "thickness_pct_length": 4.38,
+      "zero_thickness_triangles": 9,
+      "zero_thickness_area_pct": 5.6,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item016.png"
+  },
+  {
+    "icon": "7item017",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 819,
+        "name": "Sharktooth Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item017",
+      "model": "engine/world_items/models/item_7item017.glb",
+      "length": 75.6
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item017",
+      "name": "Sharktooth Dagger",
+      "id": 819,
+      "triangles": 295,
+      "runtime_triangles": 295,
+      "thickness_pct_length": 6.8,
+      "zero_thickness_triangles": 11,
+      "zero_thickness_area_pct": 2.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item017.png"
+  },
+  {
+    "icon": "7item018",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 820,
+        "name": "Assassin's Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item018",
+      "model": "engine/world_items/models/item_7item018.glb",
+      "length": 89.5
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item018",
+      "name": "Assassin's Dagger",
+      "id": 820,
+      "triangles": 279,
+      "runtime_triangles": 279,
+      "thickness_pct_length": 4.28,
+      "zero_thickness_triangles": 29,
+      "zero_thickness_area_pct": 4.44,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item018.png"
+  },
+  {
+    "icon": "7item019",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 821,
+        "name": "Wonder Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item019",
+      "model": "engine/world_items/models/item_7item019.glb",
+      "length": 90.0
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item019",
+      "name": "Wonder Dagger",
+      "id": 821,
+      "triangles": 277,
+      "runtime_triangles": 277,
+      "thickness_pct_length": 4.92,
+      "zero_thickness_triangles": 5,
+      "zero_thickness_area_pct": 0.85,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item019.png"
+  },
+  {
+    "icon": "7item020",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 822,
+        "name": "Shoddy Long Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item020",
+      "model": "engine/world_items/models/item_7item020.glb",
+      "length": 101.2
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item020",
+      "name": "Shoddy Long Dagger",
+      "id": 822,
+      "triangles": 162,
+      "runtime_triangles": 162,
+      "thickness_pct_length": 3.94,
+      "zero_thickness_triangles": 18,
+      "zero_thickness_area_pct": 5.95,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item020.png"
+  },
+  {
+    "icon": "7item021",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 823,
+        "name": "Erathian Long Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item021",
+      "model": "engine/world_items/models/item_7item021.glb",
+      "length": 95.4
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item021",
+      "name": "Erathian Long Dagger",
+      "id": 823,
+      "triangles": 255,
+      "runtime_triangles": 255,
+      "thickness_pct_length": 4.65,
+      "zero_thickness_triangles": 21,
+      "zero_thickness_area_pct": 6.19,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item021.png"
+  },
+  {
+    "icon": "7item022",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 824,
+        "name": "Exquisite Long Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item022",
+      "model": "engine/world_items/models/item_7item022.glb",
+      "length": 102.2
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item022",
+      "name": "Exquisite Long Dagger",
+      "id": 824,
+      "triangles": 199,
+      "runtime_triangles": 199,
+      "thickness_pct_length": 3.71,
+      "zero_thickness_triangles": 5,
+      "zero_thickness_area_pct": 2.69,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item022.png"
+  },
+  {
+    "icon": "7item221",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1319,
+        "name": "Old Nick"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item221",
+      "model": "engine/world_items/models/item_7item221.glb",
+      "length": 89.1
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item221",
+      "name": "Old Nick",
+      "id": 1319,
+      "triangles": 168,
+      "runtime_triangles": 168,
+      "thickness_pct_length": 4.27,
+      "zero_thickness_triangles": 26,
+      "zero_thickness_area_pct": 8.58,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item221.png"
+  },
+  {
+    "icon": "7item289",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1342,
+        "name": "Lady Carmine's Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item289",
+      "model": "engine/world_items/models/item_7item289.glb",
+      "length": 90.0
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "7item289",
+      "name": "Lady Carmine's Dagger",
+      "id": 1342,
+      "triangles": 277,
+      "runtime_triangles": 277,
+      "thickness_pct_length": 4.92,
+      "zero_thickness_triangles": 5,
+      "zero_thickness_area_pct": 0.85,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item289.png"
+  },
+  {
+    "icon": "dagger1",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1617,
+        "name": "Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "dagger1",
+      "model": "engine/world_items/models/item_dagger1.glb",
+      "length": 97.2
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "dagger1",
+      "name": "Dagger",
+      "id": 1617,
+      "triangles": 173,
+      "runtime_triangles": 173,
+      "thickness_pct_length": 3.89,
+      "zero_thickness_triangles": 11,
+      "zero_thickness_area_pct": 5.17,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/dagger1.png"
+  },
+  {
+    "icon": "dagger2",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1618,
+        "name": "Blood Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "dagger2",
+      "model": "engine/world_items/models/item_dagger2.glb",
+      "length": 109.4
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "dagger2",
+      "name": "Blood Dagger",
+      "id": 1618,
+      "triangles": 200,
+      "runtime_triangles": 200,
+      "thickness_pct_length": 3.78,
+      "zero_thickness_triangles": 4,
+      "zero_thickness_area_pct": 1.4,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/dagger2.png"
+  },
+  {
+    "icon": "dagger3",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1619,
+        "name": "Shadow Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "dagger3",
+      "model": "engine/world_items/models/item_dagger3.glb",
+      "length": 109.8
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "dagger3",
+      "name": "Shadow Dagger",
+      "id": 1619,
+      "triangles": 146,
+      "runtime_triangles": 146,
+      "thickness_pct_length": 3.06,
+      "zero_thickness_triangles": 32,
+      "zero_thickness_area_pct": 14.83,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/dagger3.png"
+  },
+  {
+    "icon": "dagger4",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1620,
+        "name": "Mage Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "dagger4",
+      "model": "engine/world_items/models/item_dagger4.glb",
+      "length": 93.6
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "dagger4",
+      "name": "Mage Dagger",
+      "id": 1620,
+      "triangles": 179,
+      "runtime_triangles": 179,
+      "thickness_pct_length": 3.98,
+      "zero_thickness_triangles": 9,
+      "zero_thickness_area_pct": 3.43,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/dagger4.png"
+  },
+  {
+    "icon": "dagger5",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1621,
+        "name": "Jeweled Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "dagger5",
+      "model": "engine/world_items/models/item_dagger5.glb",
+      "length": 100.4
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "dagger5",
+      "name": "Jeweled Dagger",
+      "id": 1621,
+      "triangles": 183,
+      "runtime_triangles": 183,
+      "thickness_pct_length": 3.8,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 6.52,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/dagger5.png"
+  },
+  {
+    "icon": "item021",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 21,
+        "name": "Crude Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item021",
+      "model": "engine/world_items/models/item_item021.glb",
+      "length": 87.3
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item021",
+      "name": "Crude Dagger",
+      "id": 21,
+      "triangles": 228,
+      "runtime_triangles": 228,
+      "thickness_pct_length": 3.8,
+      "zero_thickness_triangles": 10,
+      "zero_thickness_area_pct": 3.82,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item021.png"
+  },
+  {
+    "icon": "item022",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 22,
+        "name": "Crystal Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item022",
+      "model": "engine/world_items/models/item_item022.glb",
+      "length": 85.0
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item022",
+      "name": "Crystal Dagger",
+      "id": 22,
+      "triangles": 244,
+      "runtime_triangles": 244,
+      "thickness_pct_length": 5.22,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 3.94,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item022.png"
+  },
+  {
+    "icon": "item023",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 23,
+        "name": "Merchantman's Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item023",
+      "model": "engine/world_items/models/item_item023.glb",
+      "length": 88.7
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item023",
+      "name": "Merchantman's Dagger",
+      "id": 23,
+      "triangles": 140,
+      "runtime_triangles": 140,
+      "thickness_pct_length": 4.08,
+      "zero_thickness_triangles": 20,
+      "zero_thickness_area_pct": 8.91,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item023.png"
+  },
+  {
+    "icon": "item024",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 24,
+        "name": "Master's Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item024",
+      "model": "engine/world_items/models/item_item024.glb",
+      "length": 87.8
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item024",
+      "name": "Master's Dagger",
+      "id": 24,
+      "triangles": 185,
+      "runtime_triangles": 185,
+      "thickness_pct_length": 4.46,
+      "zero_thickness_triangles": 11,
+      "zero_thickness_area_pct": 2.59,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item024.png"
+  },
+  {
+    "icon": "item025",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 25,
+        "name": "Fanged Blade"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item025",
+      "model": "engine/world_items/models/item_item025.glb",
+      "length": 81.0
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item025",
+      "name": "Fanged Blade",
+      "id": 25,
+      "triangles": 330,
+      "runtime_triangles": 330,
+      "thickness_pct_length": 5.08,
+      "zero_thickness_triangles": 46,
+      "zero_thickness_area_pct": 6.42,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item025.png"
+  },
+  {
+    "icon": "item026",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 26,
+        "name": "Long Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item026",
+      "model": "engine/world_items/models/item_item026.glb",
+      "length": 103.0
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item026",
+      "name": "Long Dagger",
+      "id": 26,
+      "triangles": 144,
+      "runtime_triangles": 144,
+      "thickness_pct_length": 3.6,
+      "zero_thickness_triangles": 10,
+      "zero_thickness_area_pct": 4.35,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item026.png"
+  },
+  {
+    "icon": "item027",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 27,
+        "name": "Alvarian Poignard"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item027",
+      "model": "engine/world_items/models/item_item027.glb",
+      "length": 106.2
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item027",
+      "name": "Alvarian Poignard",
+      "id": 27,
+      "triangles": 158,
+      "runtime_triangles": 158,
+      "thickness_pct_length": 3.43,
+      "zero_thickness_triangles": 8,
+      "zero_thickness_area_pct": 2.65,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item027.png"
+  },
+  {
+    "icon": "item028",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 28,
+        "name": "Regnan Fighting Knife"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item028",
+      "model": "engine/world_items/models/item_item028.glb",
+      "length": 107.1
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item028",
+      "name": "Regnan Fighting Knife",
+      "id": 28,
+      "triangles": 243,
+      "runtime_triangles": 243,
+      "thickness_pct_length": 3.37,
+      "zero_thickness_triangles": 31,
+      "zero_thickness_area_pct": 5.88,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item028.png"
+  },
+  {
+    "icon": "item029",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 30,
+        "name": "Dueling Long Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item029",
+      "model": "engine/world_items/models/item_item029.glb",
+      "length": 109.4
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item029",
+      "name": "Dueling Long Dagger",
+      "id": 30,
+      "triangles": 302,
+      "runtime_triangles": 302,
+      "thickness_pct_length": 3.19,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 2.84,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item029.png"
+  },
+  {
+    "icon": "item030",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 29,
+        "name": "Twilight Kris"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item030",
+      "model": "engine/world_items/models/item_item030.glb",
+      "length": 109.8
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item030",
+      "name": "Twilight Kris",
+      "id": 29,
+      "triangles": 300,
+      "runtime_triangles": 300,
+      "thickness_pct_length": 3.58,
+      "zero_thickness_triangles": 10,
+      "zero_thickness_area_pct": 3.15,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item030.png"
+  },
+  {
+    "icon": "item238",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 529,
+        "name": "Blade of Mercy"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item238",
+      "model": "engine/world_items/models/item_item238.glb",
+      "length": 98.1
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item238",
+      "name": "Blade of Mercy",
+      "id": 529,
+      "triangles": 164,
+      "runtime_triangles": 164,
+      "thickness_pct_length": 3.76,
+      "zero_thickness_triangles": 20,
+      "zero_thickness_area_pct": 14.24,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item238.png"
+  },
+  {
+    "icon": "item239",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 508,
+        "name": "Foulfang"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item239",
+      "model": "engine/world_items/models/item_item239.glb",
+      "length": 113.9
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "item239",
+      "name": "Foulfang",
+      "id": 508,
+      "triangles": 393,
+      "runtime_triangles": 393,
+      "thickness_pct_length": 3.95,
+      "zero_thickness_triangles": 45,
+      "zero_thickness_area_pct": 5.77,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item239.png"
+  },
+  {
+    "icon": "ldagger1",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1622,
+        "name": "Fine Long Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "ldagger1",
+      "model": "engine/world_items/models/item_ldagger1.glb",
+      "length": 113.4
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "ldagger1",
+      "name": "Fine Long Dagger",
+      "id": 1622,
+      "triangles": 170,
+      "runtime_triangles": 170,
+      "thickness_pct_length": 3.26,
+      "zero_thickness_triangles": 16,
+      "zero_thickness_area_pct": 4.29,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/ldagger1.png"
+  },
+  {
+    "icon": "ldagger2",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1623,
+        "name": "Piercing Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "ldagger2",
+      "model": "engine/world_items/models/item_ldagger2.glb",
+      "length": 124.2
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "ldagger2",
+      "name": "Piercing Dagger",
+      "id": 1623,
+      "triangles": 137,
+      "runtime_triangles": 137,
+      "thickness_pct_length": 2.48,
+      "zero_thickness_triangles": 31,
+      "zero_thickness_area_pct": 16.83,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/ldagger2.png"
+  },
+  {
+    "icon": "ldagger3",
+    "family": "daggers",
+    "items": [
+      {
+        "id": 1624,
+        "name": "Divine Dagger"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "ldagger3",
+      "model": "engine/world_items/models/item_ldagger3.glb",
+      "length": 121.0
+    },
+    "baseline_audit": {
+      "family": "daggers",
+      "icon": "ldagger3",
+      "name": "Divine Dagger",
+      "id": 1624,
+      "triangles": 230,
+      "runtime_triangles": 230,
+      "thickness_pct_length": 3.42,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 9.1,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/ldagger3.png"
+  },
+  {
+    "icon": "2haxe1",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1630,
+        "name": "Light Poleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "2haxe1",
+      "model": "engine/world_items/models/item_2haxe1.glb",
+      "length": 159.8
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "2haxe1",
+      "name": "Light Poleaxe",
+      "id": 1630,
+      "triangles": 398,
+      "runtime_triangles": 398,
+      "thickness_pct_length": 2.65,
+      "zero_thickness_triangles": 38,
+      "zero_thickness_area_pct": 13.96,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/2haxe1.png"
+  },
+  {
+    "icon": "2haxe2",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1631,
+        "name": "Heavy Poleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "2haxe2",
+      "model": "engine/world_items/models/item_2haxe2.glb",
+      "length": 226.8
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "2haxe2",
+      "name": "Heavy Poleaxe",
+      "id": 1631,
+      "triangles": 536,
+      "runtime_triangles": 536,
+      "thickness_pct_length": 1.85,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 1.03,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/2haxe2.png"
+  },
+  {
+    "icon": "2haxe3",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1632,
+        "name": "Grand Poleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "2haxe3",
+      "model": "engine/world_items/models/item_2haxe3.glb",
+      "length": 238.5
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "2haxe3",
+      "name": "Grand Poleaxe",
+      "id": 1632,
+      "triangles": 556,
+      "runtime_triangles": 556,
+      "thickness_pct_length": 2.08,
+      "zero_thickness_triangles": 44,
+      "zero_thickness_area_pct": 7.33,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/2haxe3.png"
+  },
+  {
+    "icon": "62haxe4",
+    "family": "axes",
+    "items": [
+      {
+        "id": 2022,
+        "name": "Conan"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "62haxe4",
+      "model": "engine/world_items/models/item_62haxe4.glb",
+      "length": 238.5
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "62haxe4",
+      "name": "Conan",
+      "id": 2022,
+      "triangles": 556,
+      "runtime_triangles": 556,
+      "thickness_pct_length": 2.08,
+      "zero_thickness_triangles": 44,
+      "zero_thickness_area_pct": 7.33,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/62haxe4.png"
+  },
+  {
+    "icon": "6axe7",
+    "family": "axes",
+    "items": [
+      {
+        "id": 2038,
+        "name": "Cronos"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6axe7",
+      "model": "engine/world_items/models/item_6axe7.glb",
+      "length": 141.3
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "6axe7",
+      "name": "Cronos",
+      "id": 2038,
+      "triangles": 366,
+      "runtime_triangles": 366,
+      "thickness_pct_length": 2.78,
+      "zero_thickness_triangles": 78,
+      "zero_thickness_area_pct": 17.18,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6axe7.png"
+  },
+  {
+    "icon": "6axe8",
+    "family": "axes",
+    "items": [
+      {
+        "id": 2118,
+        "name": "Snergle's Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "6axe8",
+      "model": "engine/world_items/models/item_6axe8.glb",
+      "length": 106.2
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "6axe8",
+      "name": "Snergle's Axe",
+      "id": 2118,
+      "triangles": 164,
+      "runtime_triangles": 164,
+      "thickness_pct_length": 3.6,
+      "zero_thickness_triangles": 16,
+      "zero_thickness_area_pct": 18.36,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/6axe8.png"
+  },
+  {
+    "icon": "7item023",
+    "family": "axes",
+    "items": [
+      {
+        "id": 825,
+        "name": "Crude Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item023",
+      "model": "engine/world_items/models/item_7item023.glb",
+      "length": 102.6
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item023",
+      "name": "Crude Axe",
+      "id": 825,
+      "triangles": 267,
+      "runtime_triangles": 267,
+      "thickness_pct_length": 4.3,
+      "zero_thickness_triangles": 13,
+      "zero_thickness_area_pct": 6.06,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item023.png"
+  },
+  {
+    "icon": "7item024",
+    "family": "axes",
+    "items": [
+      {
+        "id": 826,
+        "name": "Battle Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item024",
+      "model": "engine/world_items/models/item_7item024.glb",
+      "length": 103.0
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item024",
+      "name": "Battle Axe",
+      "id": 826,
+      "triangles": 198,
+      "runtime_triangles": 198,
+      "thickness_pct_length": 4.35,
+      "zero_thickness_triangles": 38,
+      "zero_thickness_area_pct": 25.31,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item024.png"
+  },
+  {
+    "icon": "7item025",
+    "family": "axes",
+    "items": [
+      {
+        "id": 827,
+        "name": "Dwarven Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item025",
+      "model": "engine/world_items/models/item_7item025.glb",
+      "length": 120.6
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item025",
+      "name": "Dwarven Axe",
+      "id": 827,
+      "triangles": 404,
+      "runtime_triangles": 404,
+      "thickness_pct_length": 3.71,
+      "zero_thickness_triangles": 24,
+      "zero_thickness_area_pct": 2.24,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item025.png"
+  },
+  {
+    "icon": "7item026",
+    "family": "axes",
+    "items": [
+      {
+        "id": 828,
+        "name": "Steel Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item026",
+      "model": "engine/world_items/models/item_7item026.glb",
+      "length": 138.6
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item026",
+      "name": "Steel Axe",
+      "id": 828,
+      "triangles": 343,
+      "runtime_triangles": 343,
+      "thickness_pct_length": 3.04,
+      "zero_thickness_triangles": 19,
+      "zero_thickness_area_pct": 10.78,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item026.png"
+  },
+  {
+    "icon": "7item027",
+    "family": "axes",
+    "items": [
+      {
+        "id": 829,
+        "name": "Minotaur Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item027",
+      "model": "engine/world_items/models/item_7item027.glb",
+      "length": 130.1
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item027",
+      "name": "Minotaur Axe",
+      "id": 829,
+      "triangles": 440,
+      "runtime_triangles": 440,
+      "thickness_pct_length": 3.64,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 7.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item027.png"
+  },
+  {
+    "icon": "7item028",
+    "family": "axes",
+    "items": [
+      {
+        "id": 830,
+        "name": "Poleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item028",
+      "model": "engine/world_items/models/item_7item028.glb",
+      "length": 198.9
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item028",
+      "name": "Poleaxe",
+      "id": 830,
+      "triangles": 618,
+      "runtime_triangles": 618,
+      "thickness_pct_length": 2.13,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 0.98,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item028.png"
+  },
+  {
+    "icon": "7item029",
+    "family": "axes",
+    "items": [
+      {
+        "id": 831,
+        "name": "Warrior's Poleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item029",
+      "model": "engine/world_items/models/item_7item029.glb",
+      "length": 244.3
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item029",
+      "name": "Warrior's Poleaxe",
+      "id": 831,
+      "triangles": 489,
+      "runtime_triangles": 489,
+      "thickness_pct_length": 1.76,
+      "zero_thickness_triangles": 23,
+      "zero_thickness_area_pct": 7.17,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item029.png"
+  },
+  {
+    "icon": "7item030",
+    "family": "axes",
+    "items": [
+      {
+        "id": 832,
+        "name": "Headsman's Poleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item030",
+      "model": "engine/world_items/models/item_7item030.glb",
+      "length": 243.0
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item030",
+      "name": "Headsman's Poleaxe",
+      "id": 832,
+      "triangles": 700,
+      "runtime_triangles": 700,
+      "thickness_pct_length": 1.72,
+      "zero_thickness_triangles": 80,
+      "zero_thickness_area_pct": 2.74,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item030.png"
+  },
+  {
+    "icon": "7item223",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1308,
+        "name": "Splitter"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item223",
+      "model": "engine/world_items/models/item_7item223.glb",
+      "length": 104.4
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item223",
+      "name": "Splitter",
+      "id": 1308,
+      "triangles": 194,
+      "runtime_triangles": 194,
+      "thickness_pct_length": 3.74,
+      "zero_thickness_triangles": 66,
+      "zero_thickness_area_pct": 33.64,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item223.png"
+  },
+  {
+    "icon": "7item224",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1320,
+        "name": "Amuck"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item224",
+      "model": "engine/world_items/models/item_7item224.glb",
+      "length": 144.0
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item224",
+      "name": "Amuck",
+      "id": 1320,
+      "triangles": 294,
+      "runtime_triangles": 294,
+      "thickness_pct_length": 2.88,
+      "zero_thickness_triangles": 40,
+      "zero_thickness_area_pct": 12.24,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item224.png"
+  },
+  {
+    "icon": "7item226",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1309,
+        "name": "Ghoulsbane"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item226",
+      "model": "engine/world_items/models/item_7item226.glb",
+      "length": 246.6
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item226",
+      "name": "Ghoulsbane",
+      "id": 1309,
+      "triangles": 641,
+      "runtime_triangles": 641,
+      "thickness_pct_length": 1.94,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 2.06,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item226.png"
+  },
+  {
+    "icon": "7item304",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1351,
+        "name": "Zokarr's Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item304",
+      "model": "engine/world_items/models/item_7item304.glb",
+      "length": 243.0
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item304",
+      "name": "Zokarr's Axe",
+      "id": 1351,
+      "triangles": 700,
+      "runtime_triangles": 700,
+      "thickness_pct_length": 1.72,
+      "zero_thickness_triangles": 80,
+      "zero_thickness_area_pct": 2.74,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item304.png"
+  },
+  {
+    "icon": "7item305",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1353,
+        "name": "Minotaur's Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "7item305",
+      "model": "engine/world_items/models/item_7item305.glb",
+      "length": 130.1
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "7item305",
+      "name": "Minotaur's Axe",
+      "id": 1353,
+      "triangles": 440,
+      "runtime_triangles": 440,
+      "thickness_pct_length": 3.64,
+      "zero_thickness_triangles": 22,
+      "zero_thickness_area_pct": 7.14,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/7item305.png"
+  },
+  {
+    "icon": "axe1",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1625,
+        "name": "Hand Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "axe1",
+      "model": "engine/world_items/models/item_axe1.glb",
+      "length": 98.1
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "axe1",
+      "name": "Hand Axe",
+      "id": 1625,
+      "triangles": 155,
+      "runtime_triangles": 155,
+      "thickness_pct_length": 4.04,
+      "zero_thickness_triangles": 15,
+      "zero_thickness_area_pct": 27.03,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/axe1.png"
+  },
+  {
+    "icon": "axe2",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1626,
+        "name": "Barbarian Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "axe2",
+      "model": "engine/world_items/models/item_axe2.glb",
+      "length": 127.4
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "axe2",
+      "name": "Barbarian Axe",
+      "id": 1626,
+      "triangles": 473,
+      "runtime_triangles": 473,
+      "thickness_pct_length": 3.4,
+      "zero_thickness_triangles": 41,
+      "zero_thickness_area_pct": 2.58,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/axe2.png"
+  },
+  {
+    "icon": "axe3",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1627,
+        "name": "War Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "axe3",
+      "model": "engine/world_items/models/item_axe3.glb",
+      "length": 117.5
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "axe3",
+      "name": "War Axe",
+      "id": 1627,
+      "triangles": 262,
+      "runtime_triangles": 262,
+      "thickness_pct_length": 3.44,
+      "zero_thickness_triangles": 12,
+      "zero_thickness_area_pct": 2.51,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/axe3.png"
+  },
+  {
+    "icon": "axe4",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1628,
+        "name": "Dwarven Noble Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "axe4",
+      "model": "engine/world_items/models/item_axe4.glb",
+      "length": 106.2
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "axe4",
+      "name": "Dwarven Noble Axe",
+      "id": 1628,
+      "triangles": 164,
+      "runtime_triangles": 164,
+      "thickness_pct_length": 3.6,
+      "zero_thickness_triangles": 16,
+      "zero_thickness_area_pct": 18.36,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/axe4.png"
+  },
+  {
+    "icon": "axe5",
+    "family": "axes",
+    "items": [
+      {
+        "id": 1629,
+        "name": "Supreme Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "axe5",
+      "model": "engine/world_items/models/item_axe5.glb",
+      "length": 141.3
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "axe5",
+      "name": "Supreme Axe",
+      "id": 1629,
+      "triangles": 366,
+      "runtime_triangles": 366,
+      "thickness_pct_length": 2.78,
+      "zero_thickness_triangles": 78,
+      "zero_thickness_area_pct": 17.18,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/axe5.png"
+  },
+  {
+    "icon": "item031",
+    "family": "axes",
+    "items": [
+      {
+        "id": 31,
+        "name": "Stone Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item031",
+      "model": "engine/world_items/models/item_item031.glb",
+      "length": 102.6
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item031",
+      "name": "Stone Axe",
+      "id": 31,
+      "triangles": 208,
+      "runtime_triangles": 208,
+      "thickness_pct_length": 3.65,
+      "zero_thickness_triangles": 14,
+      "zero_thickness_area_pct": 4.75,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item031.png"
+  },
+  {
+    "icon": "item032",
+    "family": "axes",
+    "items": [
+      {
+        "id": 32,
+        "name": "Battle Hatchet"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item032",
+      "model": "engine/world_items/models/item_item032.glb",
+      "length": 106.2
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item032",
+      "name": "Battle Hatchet",
+      "id": 32,
+      "triangles": 240,
+      "runtime_triangles": 240,
+      "thickness_pct_length": 3.5,
+      "zero_thickness_triangles": 8,
+      "zero_thickness_area_pct": 1.75,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item032.png"
+  },
+  {
+    "icon": "item033",
+    "family": "axes",
+    "items": [
+      {
+        "id": 33,
+        "name": "Battleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item033",
+      "model": "engine/world_items/models/item_item033.glb",
+      "length": 118.4
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item033",
+      "name": "Battleaxe",
+      "id": 33,
+      "triangles": 270,
+      "runtime_triangles": 270,
+      "thickness_pct_length": 3.33,
+      "zero_thickness_triangles": 16,
+      "zero_thickness_area_pct": 3.46,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item033.png"
+  },
+  {
+    "icon": "item034",
+    "family": "axes",
+    "items": [
+      {
+        "id": 34,
+        "name": "Dwarven Battleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item034",
+      "model": "engine/world_items/models/item_item034.glb",
+      "length": 129.6
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item034",
+      "name": "Dwarven Battleaxe",
+      "id": 34,
+      "triangles": 338,
+      "runtime_triangles": 338,
+      "thickness_pct_length": 3.05,
+      "zero_thickness_triangles": 20,
+      "zero_thickness_area_pct": 3.29,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item034.png"
+  },
+  {
+    "icon": "item035",
+    "family": "axes",
+    "items": [
+      {
+        "id": 35,
+        "name": "Minotaur Battleaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item035",
+      "model": "engine/world_items/models/item_item035.glb",
+      "length": 136.3
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item035",
+      "name": "Minotaur Battleaxe",
+      "id": 35,
+      "triangles": 280,
+      "runtime_triangles": 280,
+      "thickness_pct_length": 3.17,
+      "zero_thickness_triangles": 42,
+      "zero_thickness_area_pct": 14.4,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item035.png"
+  },
+  {
+    "icon": "item036",
+    "family": "axes",
+    "items": [
+      {
+        "id": 36,
+        "name": "Two-Handed Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item036",
+      "model": "engine/world_items/models/item_item036.glb",
+      "length": 198.5
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item036",
+      "name": "Two-Handed Axe",
+      "id": 36,
+      "triangles": 559,
+      "runtime_triangles": 559,
+      "thickness_pct_length": 2.13,
+      "zero_thickness_triangles": 11,
+      "zero_thickness_area_pct": 0.29,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item036.png"
+  },
+  {
+    "icon": "item037",
+    "family": "axes",
+    "items": [
+      {
+        "id": 38,
+        "name": "Minotaur War Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item037",
+      "model": "engine/world_items/models/item_item037.glb",
+      "length": 198.9
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item037",
+      "name": "Minotaur War Axe",
+      "id": 38,
+      "triangles": 507,
+      "runtime_triangles": 507,
+      "thickness_pct_length": 2.16,
+      "zero_thickness_triangles": 11,
+      "zero_thickness_area_pct": 0.44,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item037.png"
+  },
+  {
+    "icon": "item038",
+    "family": "axes",
+    "items": [
+      {
+        "id": 37,
+        "name": "Footman's Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item038",
+      "model": "engine/world_items/models/item_item038.glb",
+      "length": 225.0
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item038",
+      "name": "Footman's Axe",
+      "id": 37,
+      "triangles": 640,
+      "runtime_triangles": 640,
+      "thickness_pct_length": 2.0,
+      "zero_thickness_triangles": 26,
+      "zero_thickness_area_pct": 0.82,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item038.png"
+  },
+  {
+    "icon": "item039",
+    "family": "axes",
+    "items": [
+      {
+        "id": 39,
+        "name": "Elite Minotaur Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item039",
+      "model": "engine/world_items/models/item_item039.glb",
+      "length": 230.4
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item039",
+      "name": "Elite Minotaur Axe",
+      "id": 39,
+      "triangles": 613,
+      "runtime_triangles": 613,
+      "thickness_pct_length": 1.72,
+      "zero_thickness_triangles": 23,
+      "zero_thickness_area_pct": 10.51,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item039.png"
+  },
+  {
+    "icon": "item040",
+    "family": "axes",
+    "items": [
+      {
+        "id": 40,
+        "name": "Minotaur Herdsman Axe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item040",
+      "model": "engine/world_items/models/item_item040.glb",
+      "length": 243.9
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item040",
+      "name": "Minotaur Herdsman Axe",
+      "id": 40,
+      "triangles": 636,
+      "runtime_triangles": 636,
+      "thickness_pct_length": 1.84,
+      "zero_thickness_triangles": 44,
+      "zero_thickness_area_pct": 4.06,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item040.png"
+  },
+  {
+    "icon": "item240",
+    "family": "axes",
+    "items": [
+      {
+        "id": 504,
+        "name": "Elderaxe"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item240",
+      "model": "engine/world_items/models/item_item240.glb",
+      "length": 135.0
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item240",
+      "name": "Elderaxe",
+      "id": 504,
+      "triangles": 334,
+      "runtime_triangles": 334,
+      "thickness_pct_length": 3.08,
+      "zero_thickness_triangles": 18,
+      "zero_thickness_area_pct": 3.43,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item240.png"
+  },
+  {
+    "icon": "item241",
+    "family": "axes",
+    "items": [
+      {
+        "id": 505,
+        "name": "Volcano"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item241",
+      "model": "engine/world_items/models/item_item241.glb",
+      "length": 241.2
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item241",
+      "name": "Volcano",
+      "id": 505,
+      "triangles": 647,
+      "runtime_triangles": 647,
+      "thickness_pct_length": 1.9,
+      "zero_thickness_triangles": 27,
+      "zero_thickness_area_pct": 0.94,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item241.png"
+  },
+  {
+    "icon": "item248",
+    "family": "axes",
+    "items": [
+      {
+        "id": 526,
+        "name": "Hell's Cleaver"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item248",
+      "model": "engine/world_items/models/item_item248.glb",
+      "length": 141.3
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item248",
+      "name": "Hell's Cleaver",
+      "id": 526,
+      "triangles": 320,
+      "runtime_triangles": 320,
+      "thickness_pct_length": 2.8,
+      "zero_thickness_triangles": 46,
+      "zero_thickness_area_pct": 14.21,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item248.png"
+  },
+  {
+    "icon": "item343",
+    "family": "axes",
+    "items": [
+      {
+        "id": 541,
+        "name": "Axe of Balthazar"
+      }
+    ],
+    "owner": "weapons_daggers_axes",
+    "decision": "rebuild_or_substantially_improve",
+    "binding": {
+      "icon": "item343",
+      "model": "engine/world_items/models/item_item343.glb",
+      "length": 243.9
+    },
+    "baseline_audit": {
+      "family": "axes",
+      "icon": "item343",
+      "name": "Axe of Balthazar",
+      "id": 541,
+      "triangles": 636,
+      "runtime_triangles": 636,
+      "thickness_pct_length": 1.84,
+      "zero_thickness_triangles": 44,
+      "zero_thickness_area_pct": 4.06,
+      "materials": [
+        {
+          "metallic": 0,
+          "normal_map": false,
+          "orm_map": false
+        }
+      ]
+    },
+    "icon_reference": "assets_dev/engine/icons_x2/item343.png"
+  }
+]

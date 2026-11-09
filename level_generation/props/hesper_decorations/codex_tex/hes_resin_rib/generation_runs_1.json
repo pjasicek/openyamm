@@ -1,0 +1,208 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "corrections_per_view": 1,
+  "status": "Images generated and saved as unresized raw returns; strict dimension, silhouette and lighting requirements not achieved within the allowed attempts.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic 3D-model TEXTURE SOURCE/albedo painting.\nInput image 1 is the edit target, a plain grey orthographic render of the EXACT 3D model; its alpha, silhouette, position, size, framing and EVERY shape edge, opening, spike, surface ridge and detail are locked. Input image 2, design_reference.png, is only the approved design, colour and material authority, NOT the shape or camera authority.\nPaint ONLY the existing grey surfaces of image 1. Preserve its silhouette EXACTLY, pixel-aligned at the same 1024 x 1024 canvas size: same outline, size and position in frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing removed inside, nothing cropped. Do not redesign, rotate, recenter, enlarge or smooth out the shape. Do not copy the three-quarter camera or silhouette of the design reference.\nMaterials: glossy black-violet resin and chitin with thin glowing orange veins, a few fused fragments of chipped white ceramic plating with gold edges, as in image 2. Paint those materials onto the existing geometry and follow the existing surface channels. Preserve all original geometry edges beneath the painted material.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Use material colour and surface markings to describe resin/chitin without baked directional lighting. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No bloom.\nOutput: ONE 1024 x 1024 PNG with genuine transparent background, including all existing openings. Preserve guide alpha exactly. No labels or other content.\nView: FRONT, matching guide_front.png exactly. Keep the tall curved rib leaning to the right at the top, wide rooted base, two existing rounded ceramic plating forms at the lower front, and every existing spur and recess in place. Paint the front view only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1583c-1bc9-7fc2-a8db-b95a46caf3e2/exec-6dc86eb2-2b63-409d-9752-a3633546b1eb.png",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: changed guide geometry/framing, strong specular highlights and occlusion; incorrect return dimensions.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d40e6e06b49ed488e4d59b2716199caaa1cc979d83d363a6e267cd6b44ce551d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          29,
+          1240,
+          1178
+        ],
+        "guide_alpha_bbox": [
+          198,
+          66,
+          826,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Black-violet resin, orange veins and white/gold ceramic present; surface detailing deviates from guide.",
+        "flat_even_light": false,
+        "lighting_note": "Visible baked highlights and dark crevices remain; unsuitable as strictly unlit albedo.",
+        "unresized_return": true,
+        "meets_all_brief_requirements": false
+      },
+      "output_sha256": "17bf4e0d00bc5961b3fd5b58cd7ed2879a927a643674dbc81c32f5808a7a647b"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic 3D-model TEXTURE SOURCE/albedo painting.\nInput image 1 is the edit target, a plain grey orthographic render of the EXACT 3D model; its alpha, silhouette, position, size, framing and EVERY shape edge, opening, spike, surface ridge and detail are locked. Input image 2, design_reference.png, is only the approved design, colour and material authority, NOT the shape or camera authority.\nPaint ONLY the existing grey surfaces of image 1. Preserve its silhouette EXACTLY, pixel-aligned at the same 1024 x 1024 canvas size: same outline, size and position in frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing removed inside, nothing cropped. Do not redesign, rotate, recenter, enlarge or smooth out the shape. Do not copy the three-quarter camera or silhouette of the design reference.\nMaterials: glossy black-violet resin and chitin with thin glowing orange veins, a few fused fragments of chipped white ceramic plating with gold edges, as in image 2. Paint those materials onto the existing geometry and follow the existing surface channels. Preserve all original geometry edges beneath the painted material.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Use material colour and surface markings to describe resin/chitin without baked directional lighting. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No bloom.\nOutput: ONE 1024 x 1024 PNG with genuine transparent background, including all existing openings. Preserve guide alpha exactly. No labels or other content.\nFRONT VIEW CORRECTION \u2014 this is your one corrective generation. The previous attempt failed because it changed the outline and geometry, baked bright white specular highlights and dark occlusion into the resin, and returned at 1254 x 1254. Correct these failures. Use the supplied guide_front.png as a rigid pixel-registration stencil. OUTPUT CANVAS MUST BE EXACTLY 1024 PIXELS WIDE AND 1024 PIXELS HIGH. Paint directly over the guide and keep its original alpha, not a new rendering of the object.\nIn the 1024-square image the guide's top tip is near (825,94); base endpoints near (198,954) and (777,954); the top starts at about y=65. Do not scale up or reposition these landmarks. Keep the guide's broad smooth ridges and solid surface panels; do not replace them with invented hollow filigree. Its two rounded lower-front plating forms stay in their exact locations. Surface colour can be detailed black-violet resin, fine orange lines and chipped white/gold plating, but existing surfaces stay exactly where the guide places them. Show their albedo colour in flat diffuse frontal light, without ANY white glints, reflections, rim lighting, occlusion or shadow grading. Single front-view image; genuine transparent alpha; exactly 1024 x 1024.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1583c-1bc9-7fc2-a8db-b95a46caf3e2/exec-a0894f63-6da4-4e9d-b599-fbeb40da5e5a.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer available raw return after the single permitted correction; geometry and specular shading improved, but the strict brief checks still fail.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "d40e6e06b49ed488e4d59b2716199caaa1cc979d83d363a6e267cd6b44ce551d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          37,
+          36,
+          1194,
+          1179
+        ],
+        "guide_alpha_bbox": [
+          198,
+          66,
+          826,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Black-violet resin, orange veins and white/gold ceramic present; surface detailing deviates from guide.",
+        "flat_even_light": false,
+        "lighting_note": "Visible baked highlights and dark crevices remain; unsuitable as strictly unlit albedo.",
+        "unresized_return": true,
+        "meets_all_brief_requirements": false
+      },
+      "output_sha256": "a9fbec6ab6568c29af0de5a5ae7246320fe5c1c51819a2ef613c464464423364"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic 3D-model TEXTURE SOURCE/albedo painting.\nInput image 1 is the edit target, a plain grey orthographic render of the EXACT 3D model; its alpha, silhouette, position, size, framing and EVERY shape edge, opening, spike, surface ridge and detail are locked. Input image 2, design_reference.png, is only the approved design, colour and material authority, NOT the shape or camera authority.\nPaint ONLY the existing grey surfaces of image 1. Preserve its silhouette EXACTLY, pixel-aligned at the same 1024 x 1024 canvas size: same outline, size and position in frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing removed inside, nothing cropped. Do not redesign, rotate, recenter, enlarge or smooth out the shape. Do not copy the three-quarter camera or silhouette of the design reference.\nMaterials: glossy black-violet resin and chitin with thin glowing orange veins, a few fused fragments of chipped white ceramic plating with gold edges, as in image 2. Paint those materials onto the existing geometry and follow the existing surface channels. Preserve all original geometry edges beneath the painted material.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Use material colour and surface markings to describe resin/chitin without baked directional lighting. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No bloom.\nOutput: ONE 1024 x 1024 PNG with genuine transparent background, including all existing openings. Preserve guide alpha exactly. No labels or other content.\nView: TOP, matching guide_top.png exactly, looking straight down onto the model. The correct top view is the compact, approximately radially spread thorned shape in image 1, with the prominent long point facing right; DO NOT make the tall crescent front view of the design reference. Preserve every top-facing surface, hooked spike, small existing opening and rounded plating form at the exact image-1 position. The broad central area remains a continuous resin surface where the guide shows a solid surface, not an invented hollow. Apply thin orange seams along existing channels, black-violet chitin resin on the solid panels and a few chipped white/gold ceramic fragments on existing rounded plating surfaces. Keep material marks fine; no invented geometry.\nOUTPUT EXACTLY 1024 PIXELS WIDE BY 1024 PIXELS HIGH. Do not resize the subject; its entire original framing must stay fixed. The geometry occupies approximately x=197..827 and y=221..802 in the original 1024-square image. Genuine transparent alpha outside that original shape and in its openings. Strictly uniform shadowless albedo lighting with NO bright white glints, reflective streaks, edge highlighting, dark ambient occlusion or dramatic shading.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1583c-1bc9-7fc2-a8db-b95a46caf3e2/exec-b74662d3-6d19-4822-a4cd-f815da6b4cd2.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: changed guide geometry/framing, strong specular highlights and occlusion; incorrect return dimensions.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "61e637dd615d7984a879f9cdc3ae766f2dc0953944068396de5e095bc9639cfd"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          27,
+          19,
+          1236,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          198,
+          220,
+          826,
+          804
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Black-violet resin, orange veins and white/gold ceramic present; surface detailing deviates from guide.",
+        "flat_even_light": false,
+        "lighting_note": "Visible baked highlights and dark crevices remain; unsuitable as strictly unlit albedo.",
+        "unresized_return": true,
+        "meets_all_brief_requirements": false
+      },
+      "output_sha256": "f22a25b920b7eaf2145c3566e102c5c8a3c505774561593b4aa8dc4d1add6911"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic 3D-model TEXTURE SOURCE/albedo painting.\nInput image 1 is the edit target, a plain grey orthographic render of the EXACT 3D model; its alpha, silhouette, position, size, framing and EVERY shape edge, opening, spike, surface ridge and detail are locked. Input image 2, design_reference.png, is only the approved design, colour and material authority, NOT the shape or camera authority.\nPaint ONLY the existing grey surfaces of image 1. Preserve its silhouette EXACTLY, pixel-aligned at the same 1024 x 1024 canvas size: same outline, size and position in frame, every edge, opening and detail where the guide has them; nothing added outside the silhouette, nothing removed inside, nothing cropped. Do not redesign, rotate, recenter, enlarge or smooth out the shape. Do not copy the three-quarter camera or silhouette of the design reference.\nMaterials: glossy black-violet resin and chitin with thin glowing orange veins, a few fused fragments of chipped white ceramic plating with gold edges, as in image 2. Paint those materials onto the existing geometry and follow the existing surface channels. Preserve all original geometry edges beneath the painted material.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Use material colour and surface markings to describe resin/chitin without baked directional lighting. Glowing parts (orange sacs, seams) are painted at their glowing colour, not as light cast on their surroundings. No bloom.\nOutput: ONE 1024 x 1024 PNG with genuine transparent background, including all existing openings. Preserve guide alpha exactly. No labels or other content.\nTOP VIEW CORRECTION \u2014 one corrective generation only. Work as a direct paint-over of the first input image, guide_top.png. Retain its original 1024 x 1024 pixel grid and alpha mask. The previous top attempt enlarged the model, invented many deep hollows and rendered specular highlights. Correct those failures: KEEP THE GUIDE'S GEOMETRY AND SCALE. Its shape spans approximately x=197..827 and y=221..802 on a 1024 x 1024 canvas. Rightmost point remains at (827,512), uppermost hooks at y=221, bottommost hooks at y=802. The broad left-central solid panel is a solid panel with black-violet material, not a network of new holes. Every hook, spike and opening stays registered to the guide. Do not add ridges or cavities absent in the guide.\nCopy only the design reference's material COLOURS, not its lighting. Dark violet-black resin/chitin, sparse narrow orange veins and the existing rounded plating forms painted chipped ivory ceramic with thin gold edges. The lighting must be flat like an unlit base-colour render: NO white highlights, NO shiny silver edge strokes, NO black shading in crevices, NO directional shading, NO rim light, NO ambient occlusion, NO glow cast onto adjacent surfaces. Orange seams are simply orange pixels. The original grey lighting is not to be retained; paint flat material colour in all surface regions.\nDeliver one genuinely transparent PNG exactly 1024 x 1024, with the original guide's scale, framing, silhouette and alpha unchanged. Top view only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1583c-1bc9-7fc2-a8db-b95a46caf3e2/exec-2ff6757a-d5a3-4e78-8ddf-f095403b3c05.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closer available raw return after the single permitted correction; geometry and specular shading improved, but the strict brief checks still fail.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "61e637dd615d7984a879f9cdc3ae766f2dc0953944068396de5e095bc9639cfd"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1cc7096b3e088d7772b7bb2b2e977a4558579a4236b9c0a20c7220f36df6b8ac"
+        }
+      ],
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "transparent_background": true,
+        "alpha_bbox": [
+          21,
+          23,
+          1222,
+          1229
+        ],
+        "guide_alpha_bbox": [
+          198,
+          220,
+          826,
+          804
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "Black-violet resin, orange veins and white/gold ceramic present; surface detailing deviates from guide.",
+        "flat_even_light": false,
+        "lighting_note": "Visible baked highlights and dark crevices remain; unsuitable as strictly unlit albedo.",
+        "unresized_return": true,
+        "meets_all_brief_requirements": false
+      },
+      "output_sha256": "cc3d8e6b5bb767f2e9aac679279eb86193a8f83851847a35206a8495834ed541"
+    }
+  ]
+}

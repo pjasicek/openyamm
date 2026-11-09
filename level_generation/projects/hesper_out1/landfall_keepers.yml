@@ -1,0 +1,86 @@
+# Landfall's keepers (FIX_PROMPTS "Landfall's keepers and the Last Lamp"; hesper_stage/npcs_landfall.yml): the four
+# houses of the town plan's 1-4, each with its keeper and the keeper's topics; Lorn's Rumors give S5 (100225); the
+# Last Lamp fills the packs (MM's tavern food). Door poses: out1_build.json `door_poses` (51-54).
+# Run from output/hesper_stage/scenario_run (its settings.ini mounts the stage):
+#   ../../../build/game/openyamm --world hesper --headless-run-scenario ../../../level_generation/projects/hesper_out1/landfall_keepers.yml
+id: hesper.out1.landfall_keepers
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+    party:
+      gold: 1000
+      food: 0
+      members:
+        - {name: Ada, class: Knight, level: 5, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+- assert: {map: hes_out1.odm}
+- note: {text: "Salvage & Arms (event 51, house 9201): Brask beside the Novice lessons, with Kreegan arms and Salvage."}
+- set_pose: {map: hes_out1.odm, x: -18080, y: -15374, z: 1472, yaw: 1.5708, pitch: 0}
+- press_interact: {}
+- assert:
+    dialog: {house_dialog: true, source_id: 9201, actions: [{id: 8, label: Learn Skills}, {id: 9516, label: Brask}]}
+- select_topic: {kind: house_resident, source_id: 9201, action_id: 9516}
+- assert:
+    dialog: {house_dialog: false, source_id: 9516, actions: [{id: 9745, label: Kreegan arms}, {id: 9746, label: Salvage}]}
+- select_topic: {kind: npc_topic, source_id: 9516, action_id: 9745}
+- select_topic: {kind: npc_topic, source_id: 9516, action_id: 9746}
+- press_action: {action: cancel_dialog}
+- note: {text: "The Emitters (event 52, house 9202): Ysel, with Shields and The devils' shields."}
+- set_pose: {map: hes_out1.odm, x: -13488, y: -15826, z: 1472, yaw: -1.5708, pitch: 0}
+- press_interact: {}
+- assert:
+    dialog: {house_dialog: true, source_id: 9202, actions: [{id: 8, label: Learn Skills}, {id: 9517, label: Ysel}]}
+- select_topic: {kind: house_resident, source_id: 9202, action_id: 9517}
+- assert:
+    dialog: {house_dialog: false, source_id: 9517, actions: [{id: 9747, label: Shields}, {id: 9748, label: "The devils' shields"}]}
+- select_topic: {kind: npc_topic, source_id: 9517, action_id: 9747}
+- select_topic: {kind: npc_topic, source_id: 9517, action_id: 9748}
+- press_action: {action: cancel_dialog}
+- note: {text: "Provisions (event 53, vendor 9450): Mother Ama, her Food before Hesk's rations (S10)."}
+- set_pose: {map: hes_out1.odm, x: -16120, y: -17576, z: 1472, yaw: -1.5708, pitch: 0}
+- press_interact: {}
+- assert:
+    dialog: {house_dialog: true, source_id: 9450}
+- select_topic: {kind: house_resident, source_id: 9450, action_id: 9518}
+- assert:
+    dialog: {house_dialog: false, source_id: 9518, actions: [{id: 9749, label: Food}]}
+- select_topic: {kind: npc_topic, source_id: 9518, action_id: 9749}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}       # a shop: back to its counter, then out
+- note: {text: "The Last Lamp (event 54, house 9451): MM's tavern (a room, the packs; no lessons, no hirelings) and Lorn."}
+- set_pose: {map: hes_out1.odm, x: -11400, y: -15074, z: 1472, yaw: 1.5708, pitch: 0}
+- press_interact: {}
+- assert:
+    dialog: {house_dialog: true, source_id: 9451, house_title: The Last Lamp}
+- note: {text: "The innkeeper's counter (a room, the packs; its skill cell says none); fill the packs, 14 days of food for 22 gold
+    (the Last Lamp's price 13). Full packs disable the button."}
+- select_topic: {kind: house_proprietor, source_id: 9451, action_id: 9451}
+- assert:
+    dialog: {house_dialog: true, source_id: 9451, actions: [{id: 3, enabled: true}, {id: 4, enabled: true}]}
+- select_topic: {kind: house_service, source_id: 9451, action_id: 4}
+- assert: {gold: 978}
+- assert:
+    dialog: {house_dialog: true, source_id: 9451, actions: [{id: 3, enabled: true}, {id: 4, enabled: false}]}
+- press_action: {action: cancel_dialog}       # back to the inn's people
+- note: {text: "Lorn: The Last Lamp, Water and Rumors; Rumors gives S5 (100225)."}
+- select_topic: {kind: house_resident, source_id: 9451, action_id: 9519}
+- assert:
+    dialog: {house_dialog: false, source_id: 9519, actions: [{id: 9751, label: The Last Lamp}, {id: 9752, label: Water}, {id: 9770, label: Rumors}]}
+- assert: {qbit_clear: [100225, 100105]}
+- select_topic: {kind: npc_topic, source_id: 9519, action_id: 9751}
+- select_topic: {kind: npc_topic, source_id: 9519, action_id: 9752}
+- select_topic: {kind: npc_topic, source_id: 9519, action_id: 9770}
+- assert: {qbit_set: [100225]}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}       # back to the inn's people, then out
+- note: {text: "After S10 (100110) Mother Ama's second Food sends the party to the Last Lamp."}
+- setup_shortcut: {kind: set_qbit, id: 100110, reason: S10 done (Hesk's garden)}
+- set_pose: {map: hes_out1.odm, x: -16120, y: -17576, z: 1472, yaw: -1.5708, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9450, action_id: 9518}
+- assert:
+    dialog: {source_id: 9518, actions: [{id: 9750, label: Food}]}
+- select_topic: {kind: npc_topic, source_id: 9518, action_id: 9750}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}       # a shop: back to its counter, then out

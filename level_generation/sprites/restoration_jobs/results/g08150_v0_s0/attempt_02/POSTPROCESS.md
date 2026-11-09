@@ -1,0 +1,1 @@
+Legacy cyan master retained. Run process g08150_v0_s0 --adjust 0.95 0 10. Save fresh ungraded finals as .before_tone.png; run restore_native_tone.py for separate foliage/bark native RGB matching, then queue.py check. Alpha preserved.

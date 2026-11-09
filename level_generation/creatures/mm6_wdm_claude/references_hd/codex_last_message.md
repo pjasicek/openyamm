@@ -1,0 +1,3 @@
+Saved all five references in [references_hd](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_wdm_claude/references_hd), using the built-in image tool. Each is transparent, 1024 × 1536 and an unchanged tool return.
+
+[Contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_wdm_claude/references_hd/selected_views_review.png) · [Prompts, hashes and superseded runs](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_wdm_claude/references_hd/generation_runs.json)

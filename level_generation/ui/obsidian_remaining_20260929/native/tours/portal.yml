@@ -1,0 +1,15 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_remaining_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- action: cast_ready
+- wait: 0.6
+- capture: town-portal
+- pointer_move:
+  - 1315
+  - 869
+- capture: town-portal-close-hover
+- click:
+  - 1315
+  - 869
+- capture: town-portal-closed

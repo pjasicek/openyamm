@@ -1,0 +1,46 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_beethoven/review/swing
+settle_seconds: 1.5
+exit: true
+shots:
+- name: door3_north
+  position:
+  - -10813
+  - 300
+  - -1883
+  yaw: -1.5708
+  pitch: 0
+- name: door3_south
+  position:
+  - -10813
+  - -640
+  - -1883
+  yaw: 1.5708
+  pitch: 0
+- name: door18
+  position:
+  - 4470
+  - 17567
+  - 83
+  yaw: 0.0
+  pitch: 0
+- name: door9
+  position:
+  - -5100
+  - -1111
+  - -1883
+  yaw: 3.1416
+  pitch: 0
+- name: hedge1
+  position:
+  - -16050
+  - -23300
+  - -3563
+  yaw: -1.2
+  pitch: 0
+- name: great_north
+  position:
+  - -12800
+  - -18688
+  - -3563
+  yaw: -1.5708
+  pitch: 0.1

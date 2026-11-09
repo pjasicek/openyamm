@@ -1,0 +1,1890 @@
+{
+  "map": "lg01.odm / Brackenford",
+  "bmodel_count": 87,
+  "source_faces": 3880,
+  "glb_count": 41,
+  "native_units_per_gltf_unit": 128,
+  "gltf_axes": "X, Z, -Y from native X, Y, Z",
+  "source_blend_sha256": "90e1ecdc6b127266a2fe1464df742dd8dcc96d4baee0d7b5e3d80febf3901d53",
+  "source_odm_sha256": "1042e98eda5e9cce9feda806ef469ee0f7c9a9e9fed304b7ad30288768df51a5",
+  "checks": [
+    "All BModels covered exactly once by individual assets",
+    "Every source polygon matches native ODM vertices, winding, and material",
+    "Every GLB embeds PNG textures, preserves UVs and normals, and has no external buffers",
+    "Exported triangle and mesh counts match source",
+    "Every GLB reimported successfully with expected meshes, triangles, and textures"
+  ],
+  "bmodels": [
+    {
+      "id": "stables",
+      "index": 0,
+      "faces": 95,
+      "triangles": 188,
+      "textures": [
+        "sgstabl",
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "stables_door",
+      "index": 1,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "weapon_shop",
+      "index": 2,
+      "faces": 59,
+      "triangles": 116,
+      "textures": [
+        "sgweap",
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14b05",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "weapon_shop_door",
+      "index": 3,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "armor_shop",
+      "index": 4,
+      "faces": 55,
+      "triangles": 110,
+      "textures": [
+        "sgarm",
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "armor_shop_door",
+      "index": 5,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "magic_shop",
+      "index": 6,
+      "faces": 104,
+      "triangles": 220,
+      "textures": [
+        "sgmagic",
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14c01b",
+        "t14d01"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "magic_shop_door",
+      "index": 7,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "civic_hall",
+      "index": 8,
+      "faces": 826,
+      "triangles": 1630,
+      "textures": [
+        "t14a05b",
+        "t14b05",
+        "t14c01",
+        "t14c01b",
+        "t14c03",
+        "t14c04c",
+        "t14c06",
+        "t14c07"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "civic_hall_door",
+      "index": 9,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14c03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "tavern",
+      "index": 10,
+      "faces": 135,
+      "triangles": 266,
+      "textures": [
+        "sgtvrn",
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14b05",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "tavern_door",
+      "index": 11,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "temple",
+      "index": 12,
+      "faces": 332,
+      "triangles": 646,
+      "textures": [
+        "t14a05b",
+        "t14b05",
+        "t14c01",
+        "t14c01b",
+        "t14c03",
+        "t14c04c",
+        "t14c06",
+        "t14c07"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "temple_door",
+      "index": 13,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14c03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "training",
+      "index": 14,
+      "faces": 117,
+      "triangles": 228,
+      "textures": [
+        "sgtrain",
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14b05",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "training_door",
+      "index": 15,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "alchemist",
+      "index": 16,
+      "faces": 61,
+      "triangles": 136,
+      "textures": [
+        "sgalch",
+        "t14a05b",
+        "t14b05",
+        "t14c01",
+        "t14c01b",
+        "t14c03",
+        "t14c04c",
+        "t14c06",
+        "t14c07"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "alchemist_door",
+      "index": 17,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14c03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "teacher_1",
+      "index": 18,
+      "faces": 60,
+      "triangles": 118,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "teacher_1_door",
+      "index": 19,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "teacher_2",
+      "index": 20,
+      "faces": 64,
+      "triangles": 128,
+      "textures": [
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14c01b",
+        "t14d01"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "teacher_2_door",
+      "index": 21,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "teacher_3",
+      "index": 22,
+      "faces": 60,
+      "triangles": 134,
+      "textures": [
+        "t14a05b",
+        "t14b05",
+        "t14c01",
+        "t14c01b",
+        "t14c03",
+        "t14c04c",
+        "t14c06",
+        "t14c07"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "teacher_3_door",
+      "index": 23,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14c03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "teacher_4",
+      "index": 24,
+      "faces": 60,
+      "triangles": 118,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "teacher_4_door",
+      "index": 25,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_1",
+      "index": 26,
+      "faces": 64,
+      "triangles": 128,
+      "textures": [
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14c01b",
+        "t14d01"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_1_door",
+      "index": 27,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_2",
+      "index": 28,
+      "faces": 103,
+      "triangles": 218,
+      "textures": [
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14c01b",
+        "t14d01"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_2_door",
+      "index": 29,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_3",
+      "index": 30,
+      "faces": 60,
+      "triangles": 118,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_3_door",
+      "index": 31,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_4",
+      "index": 32,
+      "faces": 60,
+      "triangles": 134,
+      "textures": [
+        "t14a05b",
+        "t14b05",
+        "t14c01",
+        "t14c01b",
+        "t14c03",
+        "t14c04c",
+        "t14c06",
+        "t14c07"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_4_door",
+      "index": 33,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14c03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_5",
+      "index": 34,
+      "faces": 64,
+      "triangles": 128,
+      "textures": [
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14c01b",
+        "t14d01"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_5_door",
+      "index": 35,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_6",
+      "index": 36,
+      "faces": 60,
+      "triangles": 134,
+      "textures": [
+        "t14a05b",
+        "t14b05",
+        "t14c01",
+        "t14c01b",
+        "t14c03",
+        "t14c04c",
+        "t14c06",
+        "t14c07"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "resident_6_door",
+      "index": 37,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14c03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "warehouse_1",
+      "index": 38,
+      "faces": 78,
+      "triangles": 154,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "warehouse_1_door",
+      "index": 39,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "warehouse_2",
+      "index": 40,
+      "faces": 78,
+      "triangles": 154,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "warehouse_2_door",
+      "index": 41,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "residence_7",
+      "index": 42,
+      "faces": 64,
+      "triangles": 128,
+      "textures": [
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14c01b",
+        "t14d01"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "residence_7_door",
+      "index": 43,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "residence_8",
+      "index": 44,
+      "faces": 60,
+      "triangles": 118,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "residence_8_door",
+      "index": 45,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "residence_9",
+      "index": 46,
+      "faces": 60,
+      "triangles": 134,
+      "textures": [
+        "t14a05b",
+        "t14b05",
+        "t14c01",
+        "t14c01b",
+        "t14c03",
+        "t14c04c",
+        "t14c06",
+        "t14c07"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "residence_9_door",
+      "index": 47,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14c03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "well_lane_cottage",
+      "index": 48,
+      "faces": 56,
+      "triangles": 110,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "well_lane_cottage_door",
+      "index": 49,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "court_west_long",
+      "index": 50,
+      "faces": 78,
+      "triangles": 154,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "court_west_long_door",
+      "index": 51,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "court_west_small",
+      "index": 52,
+      "faces": 70,
+      "triangles": 140,
+      "textures": [
+        "t14a01",
+        "t14a03",
+        "t14a04c",
+        "t14a05b",
+        "t14a06",
+        "t14a07",
+        "t14c01b",
+        "t14d01"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "court_west_small_door",
+      "index": 53,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14a03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "court_south_long",
+      "index": 54,
+      "faces": 72,
+      "triangles": 158,
+      "textures": [
+        "t14a05b",
+        "t14b05",
+        "t14c01",
+        "t14c01b",
+        "t14c03",
+        "t14c04c",
+        "t14c06",
+        "t14c07"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "court_south_long_door",
+      "index": 55,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14c03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "court_east_small",
+      "index": 56,
+      "faces": 52,
+      "triangles": 102,
+      "textures": [
+        "t14a05b",
+        "t14b01",
+        "t14b03",
+        "t14b04c",
+        "t14b05",
+        "t14b06",
+        "t14b07",
+        "t14c01b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "court_east_small_door",
+      "index": 57,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "t14b03"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "bridge_deck",
+      "index": 58,
+      "faces": 6,
+      "triangles": 12,
+      "textures": [
+        "trim9_32",
+        "trimd"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "bridge_parapet_-256",
+      "index": 59,
+      "faces": 66,
+      "triangles": 132,
+      "textures": [
+        "trim1_16",
+        "trim9_32"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "bridge_parapet_704",
+      "index": 60,
+      "faces": 66,
+      "triangles": 132,
+      "textures": [
+        "trim1_16",
+        "trim9_32"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "bridge_pier_3840",
+      "index": 61,
+      "faces": 12,
+      "triangles": 24,
+      "textures": [
+        "hhr1p"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "bridge_pier_6144",
+      "index": 62,
+      "faces": 12,
+      "triangles": 24,
+      "textures": [
+        "hhr1p"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_keep",
+      "index": 63,
+      "faces": 16,
+      "triangles": 30,
+      "textures": [
+        "gcst2-bs",
+        "gston1wl",
+        "t14b05"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_tower_-2304_-1792",
+      "index": 64,
+      "faces": 48,
+      "triangles": 96,
+      "textures": [
+        "gcst2-bs",
+        "gston1wl"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_tower_-2304_1792",
+      "index": 65,
+      "faces": 52,
+      "triangles": 102,
+      "textures": [
+        "gcst2-bs",
+        "gston1wl",
+        "t14b05"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_tower_2304_-1792",
+      "index": 66,
+      "faces": 48,
+      "triangles": 96,
+      "textures": [
+        "gcst2-bs",
+        "gston1wl"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_tower_2304_1792",
+      "index": 67,
+      "faces": 52,
+      "triangles": 102,
+      "textures": [
+        "gcst2-bs",
+        "gston1wl",
+        "t14b05"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_side_-2304",
+      "index": 68,
+      "faces": 6,
+      "triangles": 12,
+      "textures": [
+        "gcst2-bs"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_side_2304",
+      "index": 69,
+      "faces": 6,
+      "triangles": 12,
+      "textures": [
+        "gcst2-bs"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_rear",
+      "index": 70,
+      "faces": 6,
+      "triangles": 12,
+      "textures": [
+        "gcst2-bs"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_front_-1",
+      "index": 71,
+      "faces": 6,
+      "triangles": 12,
+      "textures": [
+        "gcst2-bs"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_front_1",
+      "index": 72,
+      "faces": 6,
+      "triangles": 12,
+      "textures": [
+        "gcst2-bs"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_gatehouse",
+      "index": 73,
+      "faces": 10,
+      "triangles": 18,
+      "textures": [
+        "gcst2-bs",
+        "t14b05"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "castle_entrance",
+      "index": 74,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "gt002b"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "cave_left",
+      "index": 75,
+      "faces": 14,
+      "triangles": 16,
+      "textures": [
+        "dirttyl"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "cave_right",
+      "index": 76,
+      "faces": 14,
+      "triangles": 16,
+      "textures": [
+        "dirttyl"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "cave_brow",
+      "index": 77,
+      "faces": 14,
+      "triangles": 16,
+      "textures": [
+        "dirttyl"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "cave_entrance",
+      "index": 78,
+      "faces": 1,
+      "triangles": 2,
+      "textures": [
+        "solid01"
+      ],
+      "geometry_origin": "Brackenford generated geometry"
+    },
+    {
+      "id": "east_cache_chest_1",
+      "index": 79,
+      "faces": 19,
+      "triangles": 38,
+      "textures": [
+        "gt002a",
+        "gt002b",
+        "gt002c",
+        "gt002e",
+        "gt002g"
+      ],
+      "geometry_origin": "mm8/out02.odm:bmodel:1"
+    },
+    {
+      "id": "east_cache_chest_2",
+      "index": 80,
+      "faces": 19,
+      "triangles": 38,
+      "textures": [
+        "gt002a",
+        "gt002b",
+        "gt002c",
+        "gt002e",
+        "gt002g"
+      ],
+      "geometry_origin": "mm8/out02.odm:bmodel:1"
+    },
+    {
+      "id": "south_cache_chest_1",
+      "index": 81,
+      "faces": 19,
+      "triangles": 38,
+      "textures": [
+        "gt002a",
+        "gt002b",
+        "gt002c",
+        "gt002e",
+        "gt002g"
+      ],
+      "geometry_origin": "mm8/out02.odm:bmodel:1"
+    },
+    {
+      "id": "south_cache_chest_2",
+      "index": 82,
+      "faces": 19,
+      "triangles": 38,
+      "textures": [
+        "gt002a",
+        "gt002b",
+        "gt002c",
+        "gt002e",
+        "gt002g"
+      ],
+      "geometry_origin": "mm8/out02.odm:bmodel:1"
+    },
+    {
+      "id": "obelisk",
+      "index": 83,
+      "faces": 8,
+      "triangles": 12,
+      "textures": [
+        "t03a05c"
+      ],
+      "geometry_origin": "mm8/out02.odm:bmodel:65"
+    },
+    {
+      "id": "town_well",
+      "index": 84,
+      "faces": 51,
+      "triangles": 110,
+      "textures": [
+        "t06a02",
+        "t06a10",
+        "t06b01",
+        "t06c11",
+        "t1cabs",
+        "wtrtyl"
+      ],
+      "geometry_origin": "mm8/out02.odm:bmodel:6"
+    },
+    {
+      "id": "well_south",
+      "index": 85,
+      "faces": 51,
+      "triangles": 110,
+      "textures": [
+        "t06a02",
+        "t06a10",
+        "t06b01",
+        "t06c11",
+        "t1cabs",
+        "wtrtyl"
+      ],
+      "geometry_origin": "mm8/out02.odm:bmodel:[6]"
+    },
+    {
+      "id": "fountain",
+      "index": 86,
+      "faces": 96,
+      "triangles": 174,
+      "textures": [
+        "gcst2-bs",
+        "gstn1bot",
+        "gstn1cl",
+        "gston1wl",
+        "wtrtyl"
+      ],
+      "geometry_origin": "mm8/out02.odm:bmodel:[83, 84]"
+    }
+  ],
+  "exports": [
+    {
+      "file": "brackenford_all_bmodels_in_place.glb",
+      "bmodels": [
+        "stables",
+        "stables_door",
+        "weapon_shop",
+        "weapon_shop_door",
+        "armor_shop",
+        "armor_shop_door",
+        "magic_shop",
+        "magic_shop_door",
+        "civic_hall",
+        "civic_hall_door",
+        "tavern",
+        "tavern_door",
+        "temple",
+        "temple_door",
+        "training",
+        "training_door",
+        "alchemist",
+        "alchemist_door",
+        "teacher_1",
+        "teacher_1_door",
+        "teacher_2",
+        "teacher_2_door",
+        "teacher_3",
+        "teacher_3_door",
+        "teacher_4",
+        "teacher_4_door",
+        "resident_1",
+        "resident_1_door",
+        "resident_2",
+        "resident_2_door",
+        "resident_3",
+        "resident_3_door",
+        "resident_4",
+        "resident_4_door",
+        "resident_5",
+        "resident_5_door",
+        "resident_6",
+        "resident_6_door",
+        "warehouse_1",
+        "warehouse_1_door",
+        "warehouse_2",
+        "warehouse_2_door",
+        "residence_7",
+        "residence_7_door",
+        "residence_8",
+        "residence_8_door",
+        "residence_9",
+        "residence_9_door",
+        "well_lane_cottage",
+        "well_lane_cottage_door",
+        "court_west_long",
+        "court_west_long_door",
+        "court_west_small",
+        "court_west_small_door",
+        "court_south_long",
+        "court_south_long_door",
+        "court_east_small",
+        "court_east_small_door",
+        "bridge_deck",
+        "bridge_parapet_-256",
+        "bridge_parapet_704",
+        "bridge_pier_3840",
+        "bridge_pier_6144",
+        "castle_keep",
+        "castle_tower_-2304_-1792",
+        "castle_tower_-2304_1792",
+        "castle_tower_2304_-1792",
+        "castle_tower_2304_1792",
+        "castle_side_-2304",
+        "castle_side_2304",
+        "castle_rear",
+        "castle_front_-1",
+        "castle_front_1",
+        "castle_gatehouse",
+        "castle_entrance",
+        "cave_left",
+        "cave_right",
+        "cave_brow",
+        "cave_entrance",
+        "east_cache_chest_1",
+        "east_cache_chest_2",
+        "south_cache_chest_1",
+        "south_cache_chest_2",
+        "obelisk",
+        "town_well",
+        "well_south",
+        "fountain"
+      ],
+      "original_origin_native_xyz": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangles": 7746,
+      "embedded_textures": 48,
+      "bytes": 2523292,
+      "sha256": "28c5c6b2768d4f157c61dd6206ddb5dac2aab6472fdfb207aa1e5b194db1b828"
+    },
+    {
+      "file": "buildings/stables.glb",
+      "bmodels": [
+        "stables",
+        "stables_door"
+      ],
+      "original_origin_native_xyz": [
+        -6208.0,
+        -4096.0,
+        512.0
+      ],
+      "triangles": 190,
+      "embedded_textures": 9,
+      "bytes": 465836,
+      "sha256": "3f7275db34b4c2940c5cbeb88e956d0395fd9539fbedf3cb948d3e05d0a739b0"
+    },
+    {
+      "file": "buildings/weapon_shop.glb",
+      "bmodels": [
+        "weapon_shop",
+        "weapon_shop_door"
+      ],
+      "original_origin_native_xyz": [
+        -10432.0,
+        -6080.0,
+        512.0
+      ],
+      "triangles": 118,
+      "embedded_textures": 9,
+      "bytes": 476188,
+      "sha256": "31e8a316608a07e7091cc6736db9d707a12a14df536d63477b00ddac6a3ce087"
+    },
+    {
+      "file": "buildings/armor_shop.glb",
+      "bmodels": [
+        "armor_shop",
+        "armor_shop_door"
+      ],
+      "original_origin_native_xyz": [
+        -10816.0,
+        -6078.5,
+        512.0
+      ],
+      "triangles": 112,
+      "embedded_textures": 8,
+      "bytes": 448380,
+      "sha256": "605a05a20dc821a5396256d6b780b3655f5a1c21021a87d1132c8d1f8244801f"
+    },
+    {
+      "file": "buildings/magic_shop.glb",
+      "bmodels": [
+        "magic_shop",
+        "magic_shop_door"
+      ],
+      "original_origin_native_xyz": [
+        -8192.0,
+        -3454.5,
+        512.0
+      ],
+      "triangles": 222,
+      "embedded_textures": 9,
+      "bytes": 525816,
+      "sha256": "10ff1afc4de324f97cf0ae79234de32bf1f8ffa752d45019ca16ba1cd00c44b2"
+    },
+    {
+      "file": "buildings/civic_hall.glb",
+      "bmodels": [
+        "civic_hall",
+        "civic_hall_door"
+      ],
+      "original_origin_native_xyz": [
+        -14592.0,
+        7936.0,
+        1472.0
+      ],
+      "triangles": 1632,
+      "embedded_textures": 8,
+      "bytes": 581772,
+      "sha256": "b4270aafa437243945e5eddc496e21820d1fa246982b4ab8eb32bf873f639ec1"
+    },
+    {
+      "file": "buildings/tavern.glb",
+      "bmodels": [
+        "tavern",
+        "tavern_door"
+      ],
+      "original_origin_native_xyz": [
+        -9984.0,
+        960.0,
+        512.0
+      ],
+      "triangles": 268,
+      "embedded_textures": 9,
+      "bytes": 484492,
+      "sha256": "6f3250331eab869a82c1ff3135e92de875eada39d5d7743df67043fd2a7547b2"
+    },
+    {
+      "file": "buildings/temple.glb",
+      "bmodels": [
+        "temple",
+        "temple_door"
+      ],
+      "original_origin_native_xyz": [
+        -13782.0,
+        1066.0,
+        1024.0
+      ],
+      "triangles": 648,
+      "embedded_textures": 8,
+      "bytes": 513156,
+      "sha256": "6cea5fbda1a8235f34272d781bc23d64bfd5f7eef95de93d255e3d7afad6b5fd"
+    },
+    {
+      "file": "buildings/training.glb",
+      "bmodels": [
+        "training",
+        "training_door"
+      ],
+      "original_origin_native_xyz": [
+        -6080.0,
+        -768.0,
+        512.0
+      ],
+      "triangles": 230,
+      "embedded_textures": 9,
+      "bytes": 483588,
+      "sha256": "bbabaeebc3e7b11afb1796a303161da7038f1ad393615ca350308678f05c80ff"
+    },
+    {
+      "file": "buildings/alchemist.glb",
+      "bmodels": [
+        "alchemist",
+        "alchemist_door"
+      ],
+      "original_origin_native_xyz": [
+        -6320.0,
+        1792.0,
+        544.0
+      ],
+      "triangles": 138,
+      "embedded_textures": 9,
+      "bytes": 484528,
+      "sha256": "cb722a22c08bac4677c33e3797d44c7d052a8c54df6a1003d1eba9882a0fca54"
+    },
+    {
+      "file": "buildings/teacher_1.glb",
+      "bmodels": [
+        "teacher_1",
+        "teacher_1_door"
+      ],
+      "original_origin_native_xyz": [
+        -15872.0,
+        3984.0,
+        608.0
+      ],
+      "triangles": 120,
+      "embedded_textures": 8,
+      "bytes": 450384,
+      "sha256": "9236a80b30872bee65361aedecc56d0a29f065bd22fb2f23093e947710b94d48"
+    },
+    {
+      "file": "buildings/teacher_2.glb",
+      "bmodels": [
+        "teacher_2",
+        "teacher_2_door"
+      ],
+      "original_origin_native_xyz": [
+        -13312.0,
+        3904.0,
+        608.0
+      ],
+      "triangles": 130,
+      "embedded_textures": 8,
+      "bytes": 510168,
+      "sha256": "70638c9698f1018a17291c126e4c7cb701078140a8d0020a0f327988968d8638"
+    },
+    {
+      "file": "buildings/teacher_3.glb",
+      "bmodels": [
+        "teacher_3",
+        "teacher_3_door"
+      ],
+      "original_origin_native_xyz": [
+        -11264.0,
+        3984.0,
+        608.0
+      ],
+      "triangles": 136,
+      "embedded_textures": 8,
+      "bytes": 475868,
+      "sha256": "5e26b94294b1582610de784b0f1a4086c2116a7af5432675ed6b4727fcf130d4"
+    },
+    {
+      "file": "buildings/teacher_4.glb",
+      "bmodels": [
+        "teacher_4",
+        "teacher_4_door"
+      ],
+      "original_origin_native_xyz": [
+        -9216.0,
+        2960.0,
+        576.0
+      ],
+      "triangles": 120,
+      "embedded_textures": 8,
+      "bytes": 450384,
+      "sha256": "caf2eed8a80c4efbd0f250cd4d549a5289a0f2322ff873f013aeb6ed715fa47b"
+    },
+    {
+      "file": "buildings/resident_1.glb",
+      "bmodels": [
+        "resident_1",
+        "resident_1_door"
+      ],
+      "original_origin_native_xyz": [
+        -7680.0,
+        2880.0,
+        576.0
+      ],
+      "triangles": 130,
+      "embedded_textures": 8,
+      "bytes": 510172,
+      "sha256": "da55973476628f686c2d4046471e64621b537d9c66fc0d158e0125c39ad08eab"
+    },
+    {
+      "file": "buildings/resident_2.glb",
+      "bmodels": [
+        "resident_2",
+        "resident_2_door"
+      ],
+      "original_origin_native_xyz": [
+        -18302.5,
+        2816.0,
+        576.0
+      ],
+      "triangles": 220,
+      "embedded_textures": 8,
+      "bytes": 516200,
+      "sha256": "15f438713f7ae37adef6cc1115e56c57d3417acf898c59f4a896c8eaed177335"
+    },
+    {
+      "file": "buildings/resident_3.glb",
+      "bmodels": [
+        "resident_3",
+        "resident_3_door"
+      ],
+      "original_origin_native_xyz": [
+        -18320.0,
+        1280.0,
+        512.0
+      ],
+      "triangles": 120,
+      "embedded_textures": 8,
+      "bytes": 450388,
+      "sha256": "13dae0324cd45e18161ee040a1feab59a2496b48f341630ea36a73813738c7af"
+    },
+    {
+      "file": "buildings/resident_4.glb",
+      "bmodels": [
+        "resident_4",
+        "resident_4_door"
+      ],
+      "original_origin_native_xyz": [
+        -17232.0,
+        -1088.0,
+        512.0
+      ],
+      "triangles": 136,
+      "embedded_textures": 8,
+      "bytes": 476056,
+      "sha256": "52fc1d328c4787db3bafdc6c2debc45ac4aefc45b20abb93f6a45d91f82a8834"
+    },
+    {
+      "file": "buildings/resident_5.glb",
+      "bmodels": [
+        "resident_5",
+        "resident_5_door"
+      ],
+      "original_origin_native_xyz": [
+        -15760.0,
+        -2464.0,
+        512.0
+      ],
+      "triangles": 130,
+      "embedded_textures": 8,
+      "bytes": 510368,
+      "sha256": "b7201537b05b1509adc8a8833cc3b18018aa9bef07b3a9baa3fb599b23bc2f9f"
+    },
+    {
+      "file": "buildings/resident_6.glb",
+      "bmodels": [
+        "resident_6",
+        "resident_6_door"
+      ],
+      "original_origin_native_xyz": [
+        -14672.0,
+        -4352.0,
+        512.0
+      ],
+      "triangles": 136,
+      "embedded_textures": 8,
+      "bytes": 475872,
+      "sha256": "68f9aa3b4890391f8393bf6a52efd4bb11561eb87b842f1cfe0e7b9c6d8354c0"
+    },
+    {
+      "file": "buildings/warehouse_1.glb",
+      "bmodels": [
+        "warehouse_1",
+        "warehouse_1_door"
+      ],
+      "original_origin_native_xyz": [
+        -12288.0,
+        -4672.0,
+        512.0
+      ],
+      "triangles": 156,
+      "embedded_textures": 8,
+      "bytes": 452840,
+      "sha256": "03f7cc20dc00c049d45cb289ef2f06e17366c4d2323a13eb2d90ac877c4cd3c8"
+    },
+    {
+      "file": "buildings/warehouse_2.glb",
+      "bmodels": [
+        "warehouse_2",
+        "warehouse_2_door"
+      ],
+      "original_origin_native_xyz": [
+        -7936.0,
+        -4672.0,
+        512.0
+      ],
+      "triangles": 156,
+      "embedded_textures": 8,
+      "bytes": 452840,
+      "sha256": "0a87486a8bbd5ec1ccb4c62a6b3ab3a27dbe01f8da99ddbfb317ff4943096106"
+    },
+    {
+      "file": "buildings/residence_7.glb",
+      "bmodels": [
+        "residence_7",
+        "residence_7_door"
+      ],
+      "original_origin_native_xyz": [
+        -12800.0,
+        -5952.0,
+        512.0
+      ],
+      "triangles": 130,
+      "embedded_textures": 8,
+      "bytes": 510184,
+      "sha256": "f8c8484c0a5a3cc64bac36e02c66b9b7c2fcff61a6ecec7891376b4c069e6c45"
+    },
+    {
+      "file": "buildings/residence_8.glb",
+      "bmodels": [
+        "residence_8",
+        "residence_8_door"
+      ],
+      "original_origin_native_xyz": [
+        -6912.0,
+        -6032.0,
+        512.0
+      ],
+      "triangles": 120,
+      "embedded_textures": 8,
+      "bytes": 450400,
+      "sha256": "8ec1afa74f03c533ac2c7d9082ec67919ed1820581b144ab19368b837a090b84"
+    },
+    {
+      "file": "buildings/residence_9.glb",
+      "bmodels": [
+        "residence_9",
+        "residence_9_door"
+      ],
+      "original_origin_native_xyz": [
+        -10576.0,
+        -640.0,
+        512.0
+      ],
+      "triangles": 136,
+      "embedded_textures": 8,
+      "bytes": 475880,
+      "sha256": "12bf68fcace284e99eff6b7bcdab43fb821a29e7a50aa60d06fa0c799405c3b5"
+    },
+    {
+      "file": "buildings/well_lane_cottage.glb",
+      "bmodels": [
+        "well_lane_cottage",
+        "well_lane_cottage_door"
+      ],
+      "original_origin_native_xyz": [
+        -10576.0,
+        -1920.0,
+        512.0
+      ],
+      "triangles": 112,
+      "embedded_textures": 8,
+      "bytes": 449896,
+      "sha256": "6acf25a2d82759dc448731cfda31618095c6a4e02c519a7de2a7f4e80bf82071"
+    },
+    {
+      "file": "buildings/court_west_long.glb",
+      "bmodels": [
+        "court_west_long",
+        "court_west_long_door"
+      ],
+      "original_origin_native_xyz": [
+        -9280.0,
+        -1472.0,
+        512.0
+      ],
+      "triangles": 156,
+      "embedded_textures": 8,
+      "bytes": 452868,
+      "sha256": "d27a7312e8a8a43338ad3d158ea0e0542b70e46d98ed186d3d149e4c184e35d1"
+    },
+    {
+      "file": "buildings/court_west_small.glb",
+      "bmodels": [
+        "court_west_small",
+        "court_west_small_door"
+      ],
+      "original_origin_native_xyz": [
+        -9344.0,
+        -128.0,
+        512.0
+      ],
+      "triangles": 142,
+      "embedded_textures": 8,
+      "bytes": 511080,
+      "sha256": "13b140b15c85e84b4aef09f4dfc349993d4d2fee7de934a09d9f41dc0f94be28"
+    },
+    {
+      "file": "buildings/court_south_long.glb",
+      "bmodels": [
+        "court_south_long",
+        "court_south_long_door"
+      ],
+      "original_origin_native_xyz": [
+        -7936.0,
+        -2160.0,
+        512.0
+      ],
+      "triangles": 160,
+      "embedded_textures": 8,
+      "bytes": 477768,
+      "sha256": "2202743aca17e9028d078d76a97f893f3be6a1ae29e929049b51a494750b8142"
+    },
+    {
+      "file": "buildings/court_east_small.glb",
+      "bmodels": [
+        "court_east_small",
+        "court_east_small_door"
+      ],
+      "original_origin_native_xyz": [
+        -7504.0,
+        -1024.0,
+        512.0
+      ],
+      "triangles": 104,
+      "embedded_textures": 8,
+      "bytes": 449328,
+      "sha256": "ac980efe2cce9324a82b36948f19da9abdea76809456d6da561b5b592e21522c"
+    },
+    {
+      "file": "structures/castle.glb",
+      "bmodels": [
+        "castle_keep",
+        "castle_tower_-2304_-1792",
+        "castle_tower_-2304_1792",
+        "castle_tower_2304_-1792",
+        "castle_tower_2304_1792",
+        "castle_side_-2304",
+        "castle_side_2304",
+        "castle_rear",
+        "castle_front_-1",
+        "castle_front_1",
+        "castle_gatehouse",
+        "castle_entrance"
+      ],
+      "original_origin_native_xyz": [
+        15360.0,
+        17756.0,
+        1472.0
+      ],
+      "triangles": 506,
+      "embedded_textures": 4,
+      "bytes": 214520,
+      "sha256": "2acee1bcb78231df1a773630bb4b4fd01cc95535448f978b9bb46685ee44c842"
+    },
+    {
+      "file": "structures/bridge.glb",
+      "bmodels": [
+        "bridge_deck",
+        "bridge_parapet_-256",
+        "bridge_parapet_704",
+        "bridge_pier_3840",
+        "bridge_pier_6144"
+      ],
+      "original_origin_native_xyz": [
+        5376.0,
+        256.0,
+        192.0
+      ],
+      "triangles": 324,
+      "embedded_textures": 4,
+      "bytes": 121196,
+      "sha256": "730bd7c9408378abb4ddb711c7c18ad79224a5e25a1903f5e72dc2625716bece"
+    },
+    {
+      "file": "structures/cave.glb",
+      "bmodels": [
+        "cave_left",
+        "cave_right",
+        "cave_brow",
+        "cave_entrance"
+      ],
+      "original_origin_native_xyz": [
+        15360.0,
+        -16513.0,
+        896.0
+      ],
+      "triangles": 50,
+      "embedded_textures": 2,
+      "bytes": 40520,
+      "sha256": "826457d02e93e08acf739ffeac0b91380566a0399936e82c6ed35df1dae69ddb"
+    },
+    {
+      "file": "props/east_cache_chest_1.glb",
+      "bmodels": [
+        "east_cache_chest_1"
+      ],
+      "original_origin_native_xyz": [
+        21248.0,
+        3584.0,
+        1120.0
+      ],
+      "triangles": 38,
+      "embedded_textures": 5,
+      "bytes": 44612,
+      "sha256": "67ccfae744858cd70bda723459ba5f30c7b6444c5e3e61bd313cfc98144db144"
+    },
+    {
+      "file": "props/east_cache_chest_2.glb",
+      "bmodels": [
+        "east_cache_chest_2"
+      ],
+      "original_origin_native_xyz": [
+        21760.0,
+        3584.0,
+        1072.0
+      ],
+      "triangles": 38,
+      "embedded_textures": 5,
+      "bytes": 44612,
+      "sha256": "581cefee9f1dc4d3a79512448a68faf9d05181474c337fcfff51a6712ad3e67f"
+    },
+    {
+      "file": "props/south_cache_chest_1.glb",
+      "bmodels": [
+        "south_cache_chest_1"
+      ],
+      "original_origin_native_xyz": [
+        9984.0,
+        -22528.0,
+        1088.0
+      ],
+      "triangles": 38,
+      "embedded_textures": 5,
+      "bytes": 44612,
+      "sha256": "c5eca2df9d1e2ae14fd2e2a486189e000b262399330efb7c3cf65b9c544ec298"
+    },
+    {
+      "file": "props/south_cache_chest_2.glb",
+      "bmodels": [
+        "south_cache_chest_2"
+      ],
+      "original_origin_native_xyz": [
+        14848.0,
+        -18432.0,
+        1312.0
+      ],
+      "triangles": 38,
+      "embedded_textures": 5,
+      "bytes": 44612,
+      "sha256": "b89446004323fd7eb441d9e2294b290ddca7f7665454a5d211c7af5f5704a900"
+    },
+    {
+      "file": "props/obelisk.glb",
+      "bmodels": [
+        "obelisk"
+      ],
+      "original_origin_native_xyz": [
+        -18432.0,
+        15360.0,
+        1472.0
+      ],
+      "triangles": 12,
+      "embedded_textures": 1,
+      "bytes": 28072,
+      "sha256": "89f037af7e8e89f1246cb9aa5dc532e9121e361daf1d67d523448e797944c078"
+    },
+    {
+      "file": "props/town_well.glb",
+      "bmodels": [
+        "town_well"
+      ],
+      "original_origin_native_xyz": [
+        -12800.0,
+        -1792.0,
+        624.0
+      ],
+      "triangles": 110,
+      "embedded_textures": 6,
+      "bytes": 162800,
+      "sha256": "07b81aff8426ad2844e474d43d29abcac656f6f9027f08d842ae4c452714a183"
+    },
+    {
+      "file": "props/well_south.glb",
+      "bmodels": [
+        "well_south"
+      ],
+      "original_origin_native_xyz": [
+        -10240.0,
+        -3584.0,
+        576.0
+      ],
+      "triangles": 110,
+      "embedded_textures": 6,
+      "bytes": 162808,
+      "sha256": "92a861df715980a6dc88762bb80711217da4ddeb5c44c178d44beb0002c34d90"
+    },
+    {
+      "file": "props/fountain.glb",
+      "bmodels": [
+        "fountain"
+      ],
+      "original_origin_native_xyz": [
+        -8192.0,
+        256.0,
+        576.0
+      ],
+      "triangles": 174,
+      "embedded_textures": 5,
+      "bytes": 279152,
+      "sha256": "c04b5865225136e2709c3f500d279510cd876e34a5d2479bd74e71bbaab1054e"
+    }
+  ]
+}

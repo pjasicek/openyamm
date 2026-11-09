@@ -1,0 +1,1125 @@
+{
+  "cedfncdk": {
+    "export": "exports_x4/cedfncdk.png",
+    "export_sha256": "f96040985e16c2021d01a931a674d90cf9ee0878db9f61f08a24be41392e7cb4",
+    "sources": [
+      {
+        "source": "generated/cedfncdk_wrap_v2.png",
+        "source_sha256": "32f899d412261cf76ed40a7f88e947283ed73b44648f3dea254e1636d1961e43",
+        "source_size": [
+          887,
+          1774
+        ],
+        "crop": [
+          0,
+          0,
+          887,
+          1774
+        ],
+        "target_size": [
+          512,
+          1024
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Inverse raw half-period offset (-443,-887), then direct Lanczos reduction to native 4x.",
+    "runtime_review": "review/second_batch/review.json",
+    "runtime_review_sha256": "3c60fd191adc5b3794cf550cbd61dc2ea4bb93f7e38d3bdb1cea95ae4f392972",
+    "runtime_review_limit": "Goblinwatch checked; shared-map appearances have not all been visually checked."
+  },
+  "d2ceil4": {
+    "export": "exports_x4/d2ceil4.png",
+    "export_sha256": "47eee51b544322b672e75befc14c49d6ea062b4c18d8a21a7c42edc34fd9505b",
+    "sources": [
+      {
+        "source": "../mm6_abandoned_temple_textures/generated/full_x4/d2ceil3_v1.png",
+        "source_sha256": "7d82be76f19556ef4f6ffbcd0309c47009a6179b2bda8e66fa4bff9235fcb7da",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          0,
+          1254,
+          1254
+        ],
+        "target_size": [
+          1024,
+          1024
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Exact native/ESRGAN duplicate of d2ceil3; use the identical verified 4x export reduced from its fresh 1254-square master.",
+    "runtime_review": "review/second_batch/review.json",
+    "runtime_review_sha256": "3c60fd191adc5b3794cf550cbd61dc2ea4bb93f7e38d3bdb1cea95ae4f392972",
+    "runtime_review_limit": "Goblinwatch checked; shared-map appearances have not all been visually checked.",
+    "native_equivalent_to": "d2ceil3"
+  },
+  "oflr": {
+    "export": "exports_x4/oflr.png",
+    "export_sha256": "fbfe8c21290b2fd30cb241541e5bcac3594322f66335881ab4139fb191bee5ef",
+    "sources": [
+      {
+        "source": "generated/oflr_v2.png",
+        "source_sha256": "5e66a6e921340b7da0e905592a2885102a5b6b3cba5ecdd86759299751e9aa91",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          0,
+          627,
+          627
+        ],
+        "target_size": [
+          256,
+          256
+        ],
+        "role": "slate complete finite stone diamond cut from fresh full-floor master; geometric crop mask only, not an imagegen alpha return"
+      },
+      {
+        "source": "generated/oflr_v2.png",
+        "source_sha256": "5e66a6e921340b7da0e905592a2885102a5b6b3cba5ecdd86759299751e9aa91",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          313,
+          313,
+          940,
+          940
+        ],
+        "target_size": [
+          256,
+          256
+        ],
+        "role": "rose complete finite stone diamond cut from fresh full-floor master; geometric crop mask only, not an imagegen alpha return"
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Complete slate and rose diamonds cut from the fresh full-floor master, reduced to 256-square finite stones and assembled only along their grout into one 512-square native period; exact one-native-pixel outer joint retained. See review/third_batch/oflr_assembly.json.",
+    "runtime_review": "review/third_batch/review.json",
+    "runtime_review_sha256": "eec7e03c0523f4e93070ede80faaaf1ba8732e993c3d8c1bdc5f6e7cab7a2419",
+    "runtime_review_limit": "Goblinwatch and 6t1 representative normal/Torch Light views checked; shared-map and outdoor appearances have not all been visually checked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        16,
+        21,
+        20,
+        255
+      ]
+    }
+  },
+  "oflr1": {
+    "export": "exports_x4/oflr1.png",
+    "export_sha256": "fbfe8c21290b2fd30cb241541e5bcac3594322f66335881ab4139fb191bee5ef",
+    "sources": [
+      {
+        "source": "generated/oflr_v2.png",
+        "source_sha256": "5e66a6e921340b7da0e905592a2885102a5b6b3cba5ecdd86759299751e9aa91",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          0,
+          627,
+          627
+        ],
+        "target_size": [
+          256,
+          256
+        ],
+        "role": "slate complete finite stone diamond cut from fresh full-floor master; geometric crop mask only, not an imagegen alpha return"
+      },
+      {
+        "source": "generated/oflr_v2.png",
+        "source_sha256": "5e66a6e921340b7da0e905592a2885102a5b6b3cba5ecdd86759299751e9aa91",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          313,
+          313,
+          940,
+          940
+        ],
+        "target_size": [
+          256,
+          256
+        ],
+        "role": "rose complete finite stone diamond cut from fresh full-floor master; geometric crop mask only, not an imagegen alpha return"
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Complete slate and rose diamonds cut from the fresh full-floor master, reduced to 256-square finite stones and assembled only along their grout into one 512-square native period; exact one-native-pixel outer joint retained. See review/third_batch/oflr_assembly.json.",
+    "runtime_review": "review/third_batch/review.json",
+    "runtime_review_sha256": "eec7e03c0523f4e93070ede80faaaf1ba8732e993c3d8c1bdc5f6e7cab7a2419",
+    "runtime_review_limit": "Goblinwatch and 6t1 representative normal/Torch Light views checked; shared-map and outdoor appearances have not all been visually checked.",
+    "native_equivalent_to": "oflr",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        16,
+        21,
+        20,
+        255
+      ]
+    }
+  },
+  "orceil": {
+    "export": "exports_x4/orceil.png",
+    "export_sha256": "b7b52e597c7a4a69143d2aecfabcb69a935c7ef47c5c84c9afc210580e367837",
+    "sources": [
+      {
+        "source": "generated/orceil_wrap_v1.png",
+        "source_sha256": "2eb67daed149b11780ca67afef3d25015e0377965dc115252d7f783e595336ac",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          0,
+          1254,
+          1254
+        ],
+        "target_size": [
+          512,
+          512
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Inverse half-period offset (-627,-627) of fresh repaired 1254-square marble master, then direct reduction to native 512-square 4x.",
+    "runtime_review": "review/third_batch/review.json",
+    "runtime_review_sha256": "eec7e03c0523f4e93070ede80faaaf1ba8732e993c3d8c1bdc5f6e7cab7a2419",
+    "runtime_review_limit": "Goblinwatch and 6t1 representative normal/Torch Light views checked; shared-map and outdoor appearances have not all been visually checked."
+  },
+  "orflr1": {
+    "export": "exports_x4/orflr1.png",
+    "export_sha256": "fbfe8c21290b2fd30cb241541e5bcac3594322f66335881ab4139fb191bee5ef",
+    "sources": [
+      {
+        "source": "generated/oflr_v2.png",
+        "source_sha256": "5e66a6e921340b7da0e905592a2885102a5b6b3cba5ecdd86759299751e9aa91",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          0,
+          627,
+          627
+        ],
+        "target_size": [
+          256,
+          256
+        ],
+        "role": "slate complete finite stone diamond cut from fresh full-floor master; geometric crop mask only, not an imagegen alpha return"
+      },
+      {
+        "source": "generated/oflr_v2.png",
+        "source_sha256": "5e66a6e921340b7da0e905592a2885102a5b6b3cba5ecdd86759299751e9aa91",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          313,
+          313,
+          940,
+          940
+        ],
+        "target_size": [
+          256,
+          256
+        ],
+        "role": "rose complete finite stone diamond cut from fresh full-floor master; geometric crop mask only, not an imagegen alpha return"
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Complete slate and rose diamonds cut from the fresh full-floor master, reduced to 256-square finite stones and assembled only along their grout into one 512-square native period; exact one-native-pixel outer joint retained. See review/third_batch/oflr_assembly.json.",
+    "runtime_review": "review/third_batch/review.json",
+    "runtime_review_sha256": "eec7e03c0523f4e93070ede80faaaf1ba8732e993c3d8c1bdc5f6e7cab7a2419",
+    "runtime_review_limit": "Goblinwatch and 6t1 representative normal/Torch Light views checked; shared-map and outdoor appearances have not all been visually checked.",
+    "native_equivalent_to": "oflr",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        16,
+        21,
+        20,
+        255
+      ]
+    }
+  },
+  "t1c2": {
+    "export": "exports_x4/t1c2.png",
+    "export_sha256": "2885fd016422d1450f4f3275bdf633d86ea81791cb9ff812a4a2b0dfccc9d971",
+    "sources": [
+      {
+        "source": "generated/t1c2_panel_v6.png",
+        "source_sha256": "e93ac6990dd24e8dffb30b2d0300b8ca72fb52d51dd0bcb40b8308bb5c4c4239",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          0,
+          1254,
+          1254
+        ],
+        "target_size": [
+          256,
+          256
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Complete newly painted beveled granite panel reduced directly from 1254-square master to native 256-square 4x; exact uniform one-native-pixel outer joint retained. Fresh two-native-pixel mitered bevel is part of the new master. See review/third_batch/t1c2_bevel_assembly.json.",
+    "runtime_review": "review/third_batch/review.json",
+    "runtime_review_sha256": "eec7e03c0523f4e93070ede80faaaf1ba8732e993c3d8c1bdc5f6e7cab7a2419",
+    "runtime_review_limit": "Goblinwatch and 6t1 representative normal/Torch Light views checked; shared-map and outdoor appearances have not all been visually checked.",
+    "retained_native_flat_border": {
+      "reference": "references/native/t1c2.png",
+      "reference_sha256": "f5ff894166252e3b35381dc1442f255d8cde601759622603ed51a7b949ef5d2e",
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        40,
+        58,
+        56,
+        255
+      ]
+    }
+  },
+  "t1c3": {
+    "export": "exports_x4/t1c3.png",
+    "export_sha256": "2885fd016422d1450f4f3275bdf633d86ea81791cb9ff812a4a2b0dfccc9d971",
+    "sources": [
+      {
+        "source": "generated/t1c2_panel_v6.png",
+        "source_sha256": "e93ac6990dd24e8dffb30b2d0300b8ca72fb52d51dd0bcb40b8308bb5c4c4239",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          0,
+          1254,
+          1254
+        ],
+        "target_size": [
+          256,
+          256
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Complete newly painted beveled granite panel reduced directly from 1254-square master to native 256-square 4x; exact uniform one-native-pixel outer joint retained. Fresh two-native-pixel mitered bevel is part of the new master. See review/third_batch/t1c2_bevel_assembly.json.",
+    "runtime_review": "review/third_batch/review.json",
+    "runtime_review_sha256": "eec7e03c0523f4e93070ede80faaaf1ba8732e993c3d8c1bdc5f6e7cab7a2419",
+    "runtime_review_limit": "Goblinwatch and 6t1 representative normal/Torch Light views checked; shared-map and outdoor appearances have not all been visually checked.",
+    "native_equivalent_to": "t1c2",
+    "retained_native_flat_border": {
+      "reference": "references/native/t1c2.png",
+      "reference_sha256": "f5ff894166252e3b35381dc1442f255d8cde601759622603ed51a7b949ef5d2e",
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        40,
+        58,
+        56,
+        255
+      ]
+    }
+  },
+  "oflrd32": {
+    "export": "exports_x4/oflrd32.png",
+    "export_sha256": "bee159520dbeb05c70820e33850c865cec599d98004206e44dd3da074e336190",
+    "sources": [
+      {
+        "source": "generated/granite_dark_pair_v2.png",
+        "source_sha256": "e8a5a1df75d1989b73412a7a66ab34f9573f7a083827f02eacb4e4f40fffa686",
+        "source_size": [
+          1774,
+          887
+        ],
+        "crop": [
+          8,
+          8,
+          879,
+          879
+        ],
+        "target_size": [
+          120,
+          120
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Fresh registered finite panel body cut from the recorded raw master, reduced directly to 120-square pixels and placed inside a four-pixel joint in a 128-square opaque export. The native one-pixel joint uses its dominant native colour; the fresh thin mitered bevel is kept with the body. See review/fourth_batch/component_layout.json.",
+    "runtime_review": "review/fourth_batch/review.json",
+    "runtime_review_sha256": "a0031b734ce54adc79135d509dd13811d3311c6bc52538341f05df23608d7a47",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size; original map assignments, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        32,
+        30,
+        19,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      124,
+      124
+    ]
+  },
+  "oflrl32": {
+    "export": "exports_x4/oflrl32.png",
+    "export_sha256": "1ed127eaad91247a225a3de6d180189bc2ea9ee0ce2062cf6547a6b69c8401ce",
+    "sources": [
+      {
+        "source": "generated/granite_variants_board_v1.png",
+        "source_sha256": "0719001625cb9c4f2c80b839198898498244d2cb84e49ba8ad9816b9ac9a0fab",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          635,
+          8,
+          1246,
+          619
+        ],
+        "target_size": [
+          120,
+          120
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Fresh registered finite panel body cut from the recorded raw master, reduced directly to 120-square pixels and placed inside a four-pixel joint in a 128-square opaque export. The native one-pixel joint uses its dominant native colour; the fresh thin mitered bevel is kept with the body. See review/fourth_batch/component_layout.json.",
+    "runtime_review": "review/fourth_batch/review.json",
+    "runtime_review_sha256": "a0031b734ce54adc79135d509dd13811d3311c6bc52538341f05df23608d7a47",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size; original map assignments, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        52,
+        28,
+        20,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      124,
+      124
+    ]
+  },
+  "oflr1l32": {
+    "export": "exports_x4/oflr1l32.png",
+    "export_sha256": "24df38132c3501438fb6d3e895ca3805192866e52b8746e17a34633cafba5d22",
+    "sources": [
+      {
+        "source": "generated/granite_variants_board_v1.png",
+        "source_sha256": "0719001625cb9c4f2c80b839198898498244d2cb84e49ba8ad9816b9ac9a0fab",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          8,
+          635,
+          619,
+          1246
+        ],
+        "target_size": [
+          120,
+          120
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Fresh registered finite panel body cut from the recorded raw master, reduced directly to 120-square pixels and placed inside a four-pixel joint in a 128-square opaque export. The native one-pixel joint uses its dominant native colour; the fresh thin mitered bevel is kept with the body. See review/fourth_batch/component_layout.json.",
+    "runtime_review": "review/fourth_batch/review.json",
+    "runtime_review_sha256": "a0031b734ce54adc79135d509dd13811d3311c6bc52538341f05df23608d7a47",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size; original map assignments, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        52,
+        69,
+        78,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      124,
+      124
+    ]
+  },
+  "orflr32b": {
+    "export": "exports_x4/orflr32b.png",
+    "export_sha256": "78cf9c249ca3e0aeae732d74a3a1d07c89e508c45cf100e330348e896d390c74",
+    "sources": [
+      {
+        "source": "generated/granite_variants_board_v1.png",
+        "source_sha256": "0719001625cb9c4f2c80b839198898498244d2cb84e49ba8ad9816b9ac9a0fab",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          635,
+          635,
+          1246,
+          1246
+        ],
+        "target_size": [
+          120,
+          120
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Fresh registered finite panel body cut from the recorded raw master, reduced directly to 120-square pixels and placed inside a four-pixel joint in a 128-square opaque export. The native one-pixel joint uses its dominant native colour; the fresh thin mitered bevel is kept with the body. See review/fourth_batch/component_layout.json.",
+    "runtime_review": "review/fourth_batch/review.json",
+    "runtime_review_sha256": "a0031b734ce54adc79135d509dd13811d3311c6bc52538341f05df23608d7a47",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size; original map assignments, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        28,
+        4,
+        2,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      124,
+      124
+    ]
+  },
+  "oflr1d32": {
+    "export": "exports_x4/oflr1d32.png",
+    "export_sha256": "0e75a6ed2972a2c43e01c12a453752cff30511e7472f5d393fdd31ad7cb33532",
+    "sources": [
+      {
+        "source": "generated/oflr1d32_panel_v1.png",
+        "source_sha256": "38f3ffab2c633ad416c3642f8153c0543c27b749f4097feda01b0146cdf08d53",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          14,
+          14,
+          1240,
+          1240
+        ],
+        "target_size": [
+          120,
+          120
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Recorded fresh finite stone body crop reduced directly to its native 4x body dimensions and assembled inside a four-pixel joint using its dominant native colour; complete fine bevel retained. Exact native/ESRGAN duplicate aliases share the same export. See review/fifth_batch/component_layout.json.",
+    "runtime_review": "review/fifth_batch/review.json",
+    "runtime_review_sha256": "7fc1efbfe00d38a09f7e60444cc8f144e3251422d4762d0217552f69473115fb",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size. Canonical original narrow-strip placements, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        26,
+        40,
+        39,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      124,
+      124
+    ]
+  },
+  "orflrd32": {
+    "export": "exports_x4/orflrd32.png",
+    "export_sha256": "0e75a6ed2972a2c43e01c12a453752cff30511e7472f5d393fdd31ad7cb33532",
+    "sources": [
+      {
+        "source": "generated/oflr1d32_panel_v1.png",
+        "source_sha256": "38f3ffab2c633ad416c3642f8153c0543c27b749f4097feda01b0146cdf08d53",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          14,
+          14,
+          1240,
+          1240
+        ],
+        "target_size": [
+          120,
+          120
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Recorded fresh finite stone body crop reduced directly to its native 4x body dimensions and assembled inside a four-pixel joint using its dominant native colour; complete fine bevel retained. Exact native/ESRGAN duplicate aliases share the same export. See review/fifth_batch/component_layout.json.",
+    "runtime_review": "review/fifth_batch/review.json",
+    "runtime_review_sha256": "7fc1efbfe00d38a09f7e60444cc8f144e3251422d4762d0217552f69473115fb",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size. Canonical original narrow-strip placements, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        26,
+        40,
+        39,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      124,
+      124
+    ],
+    "native_equivalent_to": "oflr1d32"
+  },
+  "oflr1l64": {
+    "export": "exports_x4/oflr1l64.png",
+    "export_sha256": "f327ab5bba1decf06e57d6ffd77f46ce3a8a218a202a96d8e02d29c1fb547569",
+    "sources": [
+      {
+        "source": "generated/oflr1l64_panel_v3.png",
+        "source_sha256": "53c4ed35e1a607ec68b81be4f3b067010d926d15702325cebae2a2eea12141a5",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          13,
+          13,
+          1241,
+          1241
+        ],
+        "target_size": [
+          248,
+          248
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Recorded fresh finite stone body crop reduced directly to its native 4x body dimensions and assembled inside a four-pixel joint using its dominant native colour; complete fine bevel retained. Exact native/ESRGAN duplicate aliases share the same export. See review/fifth_batch/component_layout.json.",
+    "runtime_review": "review/fifth_batch/review.json",
+    "runtime_review_sha256": "7fc1efbfe00d38a09f7e60444cc8f144e3251422d4762d0217552f69473115fb",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size. Canonical original narrow-strip placements, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        69,
+        64,
+        78,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      252,
+      252
+    ]
+  },
+  "orflr1l64": {
+    "export": "exports_x4/orflr1l64.png",
+    "export_sha256": "f327ab5bba1decf06e57d6ffd77f46ce3a8a218a202a96d8e02d29c1fb547569",
+    "sources": [
+      {
+        "source": "generated/oflr1l64_panel_v3.png",
+        "source_sha256": "53c4ed35e1a607ec68b81be4f3b067010d926d15702325cebae2a2eea12141a5",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          13,
+          13,
+          1241,
+          1241
+        ],
+        "target_size": [
+          248,
+          248
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Recorded fresh finite stone body crop reduced directly to its native 4x body dimensions and assembled inside a four-pixel joint using its dominant native colour; complete fine bevel retained. Exact native/ESRGAN duplicate aliases share the same export. See review/fifth_batch/component_layout.json.",
+    "runtime_review": "review/fifth_batch/review.json",
+    "runtime_review_sha256": "7fc1efbfe00d38a09f7e60444cc8f144e3251422d4762d0217552f69473115fb",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size. Canonical original narrow-strip placements, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        69,
+        64,
+        78,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      252,
+      252
+    ],
+    "native_equivalent_to": "oflr1l64"
+  },
+  "oflrd48": {
+    "export": "exports_x4/oflrd48.png",
+    "export_sha256": "b3f7fb367b8c7fd7e60567a46d83f4b6997c79c6c9c37c05f34be7a91a46f58b",
+    "sources": [
+      {
+        "source": "generated/oflrd48_panel_v4.png",
+        "source_sha256": "26b84b1cee78f3aaf4e1deb08073c7b1bddc10e2a99846663b5f799b03aa0c18",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          17,
+          17,
+          1237,
+          1237
+        ],
+        "target_size": [
+          248,
+          248
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Recorded fresh finite stone body crop reduced directly to its native 4x body dimensions and assembled inside a four-pixel joint using its dominant native colour; complete fine bevel retained. Exact native/ESRGAN duplicate aliases share the same export. See review/fifth_batch/component_layout.json.",
+    "runtime_review": "review/fifth_batch/review.json",
+    "runtime_review_sha256": "7fc1efbfe00d38a09f7e60444cc8f144e3251422d4762d0217552f69473115fb",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size. Canonical original narrow-strip placements, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        28,
+        4,
+        2,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      252,
+      252
+    ]
+  },
+  "orflr64c": {
+    "export": "exports_x4/orflr64c.png",
+    "export_sha256": "b3f7fb367b8c7fd7e60567a46d83f4b6997c79c6c9c37c05f34be7a91a46f58b",
+    "sources": [
+      {
+        "source": "generated/oflrd48_panel_v4.png",
+        "source_sha256": "26b84b1cee78f3aaf4e1deb08073c7b1bddc10e2a99846663b5f799b03aa0c18",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          17,
+          17,
+          1237,
+          1237
+        ],
+        "target_size": [
+          248,
+          248
+        ]
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Recorded fresh finite stone body crop reduced directly to its native 4x body dimensions and assembled inside a four-pixel joint using its dominant native colour; complete fine bevel retained. Exact native/ESRGAN duplicate aliases share the same export. See review/fifth_batch/component_layout.json.",
+    "runtime_review": "review/fifth_batch/review.json",
+    "runtime_review_sha256": "7fc1efbfe00d38a09f7e60444cc8f144e3251422d4762d0217552f69473115fb",
+    "runtime_review_limit": "Normal/Torch Light labelled material sampler checked at native logical size. Canonical original narrow-strip placements, shared-map and outdoor appearances remain unchecked.",
+    "retained_native_flat_joint": {
+      "native_width": 1,
+      "export_width": 4,
+      "rgba": [
+        28,
+        4,
+        2,
+        255
+      ]
+    },
+    "body_placement": [
+      4,
+      4,
+      252,
+      252
+    ],
+    "native_equivalent_to": "oflrd48"
+  },
+  "d6wlactr": {
+    "export": "exports_x4/d6wlactr.png",
+    "export_sha256": "16e5127d0974bbcfa8f74b7ab4a33020c4b26220b46d14cd405fccc26d2796d2",
+    "sources": [
+      {
+        "source": "generated/d6wlactr_v3.png",
+        "source_sha256": "64f06462ec0b79bc19410ca61c7fcbbf55df690194a1d5ce103fa3015bc925de",
+        "source_size": [
+          887,
+          1774
+        ],
+        "crop": [
+          0,
+          0,
+          887,
+          1774
+        ],
+        "target_size": [
+          512,
+          1024
+        ],
+        "role": "fresh body; repair rectangles replace only the centre cross after raw half-period offset"
+      },
+      {
+        "source": "generated/d6wlactr_wrap_v2.png",
+        "source_sha256": "19bc118ee064c61e5f9d4b63d61f9040a3cf45a2f134947c230a0001a87285be",
+        "source_size": [
+          887,
+          1774
+        ],
+        "crop": [
+          394,
+          0,
+          492,
+          1774
+        ],
+        "target_size": [
+          57,
+          1024
+        ],
+        "role": "exact selected centre-cross repair; full repair return unused"
+      },
+      {
+        "source": "generated/d6wlactr_wrap_v2.png",
+        "source_sha256": "19bc118ee064c61e5f9d4b63d61f9040a3cf45a2f134947c230a0001a87285be",
+        "source_size": [
+          887,
+          1774
+        ],
+        "crop": [
+          0,
+          789,
+          887,
+          984
+        ],
+        "target_size": [
+          512,
+          113
+        ],
+        "role": "exact selected centre-cross repair; full repair return unused"
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Copy exact repair rectangles without feathering into the rolled body; inverse-roll once and reduce by Lanczos. Entire repair return is not accepted.",
+    "assembly": "review/second_batch/d6wlactr_assembly.json",
+    "assembly_sha256": "5319031c228f037e0ebd0728a3393f93cff6bb35fa176df1de7de09e963343a5",
+    "runtime_review": "review/sixth_batch/review.json",
+    "runtime_review_sha256": "7aa1d00801ac188e859b8e502eb4d4cebc5c1457cb4f3c846d8320fea639c48e",
+    "runtime_review_limit": "Original 6d13 placements checked. Other maps sharing these names, adjacent unfinished grille/root composites and their full family joins remain unchecked. Active actors/clock can differ slightly. No performance claim or production installation."
+  },
+  "d6flora": {
+    "export": "exports_x4/d6flora.png",
+    "export_sha256": "f1e86878ddeaea25a1be3d051a9a4d7bd2479c1c8efd804ba1d9d517af74507d",
+    "sources": [
+      {
+        "source": "generated/d6flora_v5.png",
+        "source_sha256": "94153b3849677a0d6f6eae7c3fcdcb3cfd1991f1016e723c8e592a7b29b864ce",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          0,
+          1254,
+          1254
+        ],
+        "target_size": [
+          512,
+          512
+        ],
+        "role": "fresh body; repair rectangles replace only the centre cross after raw half-period offset"
+      },
+      {
+        "source": "generated/d6flora_wrap_v1.png",
+        "source_sha256": "5d237743e41cd86d0ff884f67d66d03cc0679cab94b6c6a4194f5e5413778574",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          558,
+          0,
+          695,
+          1254
+        ],
+        "target_size": [
+          56,
+          512
+        ],
+        "role": "exact selected centre-cross repair; full repair return unused"
+      },
+      {
+        "source": "generated/d6flora_wrap_v1.png",
+        "source_sha256": "5d237743e41cd86d0ff884f67d66d03cc0679cab94b6c6a4194f5e5413778574",
+        "source_size": [
+          1254,
+          1254
+        ],
+        "crop": [
+          0,
+          558,
+          1254,
+          695
+        ],
+        "target_size": [
+          512,
+          56
+        ],
+        "role": "exact selected centre-cross repair; full repair return unused"
+      }
+    ],
+    "acceptance": {
+      "new_detail": true,
+      "native_fidelity": true,
+      "source_budget": true,
+      "alpha": true,
+      "continuity": true,
+      "brightness_finish": true,
+      "runtime_scale": true,
+      "runtime_appearance": true
+    },
+    "construction": "Copy exact repair rectangles without feathering into the rolled body; inverse-roll once and reduce by Lanczos. Entire repair return is not accepted.",
+    "assembly": "review/second_batch/d6flora_assembly.json",
+    "assembly_sha256": "21dea0f4fd474e78718ae214b51d4d3d33b541f1b9e3248adaac6a36b5b52a32",
+    "runtime_review": "review/sixth_batch/review.json",
+    "runtime_review_sha256": "7aa1d00801ac188e859b8e502eb4d4cebc5c1457cb4f3c846d8320fea639c48e",
+    "runtime_review_limit": "Original 6d13 placements checked. Other maps sharing these names, adjacent unfinished grille/root composites and their full family joins remain unchecked. Active actors/clock can differ slightly. No performance claim or production installation."
+  }
+}

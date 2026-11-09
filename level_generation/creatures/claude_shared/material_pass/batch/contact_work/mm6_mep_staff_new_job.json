@@ -1,0 +1,51 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_mep_staff_new.glb",
+ "patch_materials": {
+  "MepStaff_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MepStaff_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MepStaff_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MepStaff_L2_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MepStaff_L2_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MepStaff_L2_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MepStaff_L3_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MepStaff_L3_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "MepStaff_L3_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_mep_staff_new",
+ "size": 300,
+ "front": "-y"
+}

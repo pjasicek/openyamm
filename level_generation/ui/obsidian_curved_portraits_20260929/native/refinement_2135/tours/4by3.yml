@@ -1,0 +1,11 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_curved_portraits_20260929/native/refinement_2135/images
+exit: true
+steps:
+- wait: 2
+- action: combat
+- wait: 0.25
+- capture: status-short-4by3
+- action: rest
+- wait: 0.25
+- capture: status-longer-4by3
+- action: combat

@@ -1,0 +1,202 @@
+{
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic game-model albedo texture source, LEFT view.\nEdit input 1 (guide_left.png) in place: paint ONLY its existing grey object surface. Return ONE 1024 x 1024 PNG with genuine transparent background, at the original resolution and identical framing.\nINPUT ROLES: input 1 is the exact geometry and alpha-mask authority, the LEFT-side orthographic render of the existing model; input 2 (design_reference.png) is the approved design, colour and material authority ONLY; input 3 (concept_crop.png) is the original concept for secondary material context.\nThe silhouette must be PIXEL-IDENTICAL to input 1: preserve its alpha footprint, size, position, orthographic view, ALL outlines, shape edges, openings, projecting points, folds and angular base details. No recentering, scaling, crop, viewpoint change, rounded outline, new spires or invented geometry. This side view shows a single tall central needle and a wide low flaring root base; do not replace it with the three-quarter three-spire arrangement in the design reference. In a 1024-square image the needle tip is near (511,66), the base spans approximately x=86..937 with its bottom near y=959. Trace the actual guide exactly, not these approximate bounds.\nPaint the reference materials ON this fixed shape: very dark black-violet resin lattice and ribs along the existing forms, small faint orange sacs/seams inside, warm ivory bone points on the tall cap and existing pointed portions. Retain the guide's structure and its asymmetric details. The bone is ivory with subtle warm grain and fine brown seams; resin is black-violet with restrained purple material variation. Glossy resin identity is carried by surface colour and fine material texture, NOT baked reflections.\nLIGHTING: albedo texture source, even flat shadowless illumination from the viewer across every surface. No directional shading, cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim light, backdrop or floor. Paint orange parts in their glowing orange colour only; no bloom or light cast on surrounding resin. Remove grey lighting gradients from the guide while retaining its form boundaries as material detail.\nOutside the guide silhouette must remain fully transparent. No text, labels, checkerboard pixels, border, extra objects. Deliver the unresized 1024 x 1024 painting only.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/guide_left.png",
+          "sha256": "463e4ea9abf6eee173dca3724e0225c36e672aa097b02f4e948a9fde853d2a01"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/design_reference.png",
+          "sha256": "cb311caf50290e75d7d01b20ebcf360ee72e51459d74890e03e5f54e2fe11bed"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/concept_crop.png",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16931-2bc0-7851-bc7a-e623cc17ef60/exec-ae02fb31-c2d8-4062-99cf-dfbff2c151cc.png",
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "reason": "Not selected: wrong native dimensions, altered shape boundaries, excessive highlights and shaded recesses.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          31,
+          1234,
+          1206
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "materials_colours": "Black-violet resin, ivory bone and orange seams present.",
+        "flat_even_light": "Fails: strong highlights and shaded recesses.",
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.8152139628468009,
+        "partially_transparent_pixel_fraction": 0.18433516733693012,
+        "raw_return_preserved": true
+      },
+      "accepted": false,
+      "output_sha256": "33ec2956333342553e53148e93ab3d89f3e188d4fb8830b55779a7ec94d18c7c"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective generation for LEFT view. REQUIRED OUTPUT: exactly 1024 pixels wide by exactly 1024 pixels high, native unresized RGBA PNG. Keep input 1's original 1024x1024 raster canvas. Do not choose a new resolution.\nUse case: precise-object-edit; texture/albedo painting directly over the existing orthographic render.\nInput 1, guide_left.png, is the actual image to edit. Preserve its original alpha channel, exact pixel positions of its outline and every existing shape boundary. Input 2, design_reference.png, supplies MATERIAL COLOURS ONLY. Input 3, concept_crop.png, is secondary design context. Do not copy either reference's geometry or lighting.\nThe previous attempt failed because it returned a 1254x1254 image, redrew the silhouette and included strong lit highlights. Correct those defects. Treat this as colourizing the grey guide in place, not creating another depiction of the object. The guide is the final shape. Leave all transparent pixels unchanged. Fill all previously covered pixels with material colour. No added openings, projections, spines, rounded geometry, outside details or smaller footprint. Preserve every angular edge, pointed fold and polygon face boundary in the grey guide. Keep the narrow central needle, original spear-head cap silhouette, slender trunk and broad angular triangular root base precisely aligned.\nApply black-violet resin colour and fine restrained resin-lattice material detail along the existing surface forms, with faint orange internal seams and warm ivory bone colour on the cap and existing points. Keep material pattern subtle enough that it does not replace or hide the original geometry. The original design's dark purple-black, warm cream-ivory and orange colours are authoritative.\nFLAT UNLIT ALBEDO ONLY: uniform frontal shadowless colour. All faces receive equal light; remove the guide's directional shading. No shiny highlights, reflections, white glints, rim lights, dark AO creases, cast shadows, volume lighting or scene illumination. Orange details are flat orange paint without halo or colour spill. Transparent background; no floor, text, captions, frame or checkerboard.\nFinal deliverable is ONE native 1024 x 1024 RGBA image, identical alpha silhouette and alignment to input 1.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/guide_left.png",
+          "sha256": "463e4ea9abf6eee173dca3724e0225c36e672aa097b02f4e948a9fde853d2a01"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/design_reference.png",
+          "sha256": "cb311caf50290e75d7d01b20ebcf360ee72e51459d74890e03e5f54e2fe11bed"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/concept_crop.png",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16931-2bc0-7851-bc7a-e623cc17ef60/exec-27bab354-f771-4c6b-9930-35c676f4724a.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the better of the two permitted raw returns: flatter orange and less highlight clutter. Fails native 1024x1024 size and exact guide silhouette. Residual shaded recesses and edge highlights remain. Unresized and otherwise unmodified.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          9,
+          1210,
+          1254
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "materials_colours": "Black-violet resin, ivory bone and orange seams present.",
+        "flat_even_light": "Improved but incomplete: residual shaded recesses and edge highlights.",
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.8128922058662679,
+        "partially_transparent_pixel_fraction": 0.18656535132233948,
+        "raw_return_preserved": true
+      },
+      "output_sha256": "feba439710fda14b12cbbf13705d48b53e1377ea7a26f6dad9db2541b98401cb"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Paint the RIGHT view. REQUIRED OUTPUT: exactly 1024 pixels wide by exactly 1024 pixels high, native unresized RGBA PNG. Keep input 1's original 1024x1024 raster canvas. Do not choose a new resolution.\nUse case: precise-object-edit; texture/albedo painting directly over the existing orthographic render.\nInput 1, guide_right.png, is the actual image to edit. Preserve its original alpha channel, exact pixel positions of its outline and every existing shape boundary. Input 2, design_reference.png, supplies MATERIAL COLOURS ONLY. Input 3, concept_crop.png, is secondary design context. Do not copy either reference's geometry or lighting.\nTreat this as colourizing the grey guide in place, not creating another depiction of the object. The guide is the final shape. Leave all transparent pixels unchanged. Fill all previously covered pixels with material colour. No added openings, projections, spines, rounded geometry, outside details or smaller footprint. Preserve every angular edge, pointed fold and polygon face boundary in the grey guide. Keep the narrow central needle, original spear-head cap silhouette, slender trunk and broad angular triangular root base precisely aligned.\nApply black-violet resin colour and fine restrained resin-lattice material detail along the existing surface forms, with faint orange internal seams and warm ivory bone colour on the cap and existing points. Keep material pattern subtle enough that it does not replace or hide the original geometry. The original design's dark purple-black, warm cream-ivory and orange colours are authoritative.\nFLAT UNLIT ALBEDO ONLY: uniform frontal shadowless colour. All faces receive equal light; remove the guide's directional shading. No shiny highlights, reflections, white glints, rim lights, dark AO creases, cast shadows, volume lighting or scene illumination. Orange details are flat orange paint without halo or colour spill. Transparent background; no floor, text, captions, frame or checkerboard.\nFinal deliverable is ONE native 1024 x 1024 RGBA image, identical alpha silhouette and alignment to input 1.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/guide_right.png",
+          "sha256": "f3d536d6ce924e41f17866e06f96a5b0d911b159a35f4af34ca24898b289e963"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/design_reference.png",
+          "sha256": "cb311caf50290e75d7d01b20ebcf360ee72e51459d74890e03e5f54e2fe11bed"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/concept_crop.png",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16931-2bc0-7851-bc7a-e623cc17ef60/exec-399da585-d11e-4c02-b050-ca5487ce981e.png",
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Not selected: wrong native dimensions, altered shape boundaries, intricate added lattice geometry, residual directional shading and specular highlights.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          39,
+          22,
+          1240,
+          1177
+        ],
+        "requested_size_match": false,
+        "silhouette_identical": false,
+        "materials_colours": "Black-violet resin, ivory bone and orange seams present.",
+        "flat_even_light": "Fails: shaded recesses and edge highlights.",
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.8129468952939112,
+        "partially_transparent_pixel_fraction": 0.18646487539713427,
+        "raw_return_preserved": true
+      },
+      "output_sha256": "ecd0b04d35d4eec82dfbc2d462c84c2db524ae49891cffc1ebd12d5da065f5c0"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "RIGHT VIEW \u2014 one corrective edit, native output 1024x1024 PNG with transparent background.\nEdit the FIRST attached image, guide_right.png, by colourizing its existing pixels. Keep its original 1024-by-1024 canvas, exact alpha channel and pixel-aligned outline. Preserve all angular polygon shape edges and folds, including the original spear cap, narrow tapering shaft and broad low triangular spreading base. Do not redraw, smooth, enlarge, shrink, rotate or move any geometry. Keep every opening and detail in the same position. Do not add any forms outside the guide.\nThe SECOND image, design_reference.png, is for material colour only; the THIRD, concept_crop.png, is the original concept. Paint dark black-violet resin lattice on the existing forms, small faint orange internal seams, and ivory bone points. Match the reference colour family, but not its perspective, shape or baked lighting.\nCORRECT the prior result's redrawn outlines, wrong 1254-pixel dimensions, extra intricate lattice geometry and shaded/specular lighting. Retain the actual simple angular model from the first image. Merely texture its surfaces; preserve all its contours exactly.\nThis is an UNLIT ALBEDO TEXTURE SOURCE. Flat even colour on every face, shadowless frontal illumination; no 3D studio lighting. No ambient occlusion, shading gradients, specular streaks, bright edges, reflections, rim lights, shadows, bloom, background, floor or text. Orange is flat faint orange paint, with no light spill.\nOutput exactly 1024 x 1024 pixels, unresized, with the first image's original alpha silhouette. One image only.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/guide_right.png",
+          "sha256": "f3d536d6ce924e41f17866e06f96a5b0d911b159a35f4af34ca24898b289e963"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/design_reference.png",
+          "sha256": "cb311caf50290e75d7d01b20ebcf360ee72e51459d74890e03e5f54e2fe11bed"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_spire_cluster/concept_crop.png",
+          "sha256": "05e1dca08ef14153ccc03e96af9f3b11d9a619070f15efd979472ce4f1bb8a51"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16931-2bc0-7851-bc7a-e623cc17ef60/exec-6ea2d8b0-4328-4dc6-834e-810bee5c4cc5.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the better of the two permitted raw returns: simpler surface pattern and flatter orange with fewer specular highlights. Fails native 1024x1024 size and exact guide silhouette. Residual edge shading and excess ivory coverage remain. Unresized and otherwise unmodified.",
+      "checks": {
+        "materials_colours": "Black-violet resin, ivory bone and orange seams present, but ivory coverage exceeds the reference.",
+        "flat_even_light": "Improved but incomplete: residual edge shading and dark recesses.",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "requested_size_match": false,
+        "alpha_bbox": [
+          0,
+          39,
+          1202,
+          1176
+        ],
+        "silhouette_identical": false,
+        "transparent_background": true,
+        "fully_transparent_pixel_fraction": 0.8129494389882201,
+        "partially_transparent_pixel_fraction": 0.18630716634997674,
+        "raw_return_preserved": true
+      },
+      "output_sha256": "817b0706c788efb2c7cda19b723496fb79cd736f27083bea29f0a66fbb378833"
+    }
+  ],
+  "tool": "built-in image_gen",
+  "postprocessing": "None. Generated PNGs copied byte-for-byte; no resize, crop, masking, colour edit or alpha edit.",
+  "brief": "CODEX_BRIEF_3.md",
+  "requirements_met": false,
+  "status": "Generation complete within the limit of one corrective regeneration per view. Selected PNGs are best available raw returns, not accepted as conforming texture sources.",
+  "unmet_requirements": [
+    "All four built-in outputs are 1254x1254, despite prompts requesting 1024x1024.",
+    "Guide alpha silhouettes and internal shape edges are not identical.",
+    "Residual shading/highlights remain; requested completely flat albedo lighting is not fully achieved."
+  ],
+  "selected_outputs": [
+    "paint_left.png",
+    "paint_right.png"
+  ]
+}

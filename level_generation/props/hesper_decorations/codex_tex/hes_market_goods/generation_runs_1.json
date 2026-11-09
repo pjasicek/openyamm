@@ -1,0 +1,207 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: 3D-model albedo texture-source view.\nEdit target: Image 1, guide_front.png, a 1024 x 1024 orthographic FRONT render of the EXACT model. Image 2, design_reference.png, supplies ONLY the approved colours and surface materials, never its camera or geometry.\nPaint the existing grey surfaces of Image 1 with the materials of Image 2. Return exactly 1024 x 1024 RGBA with genuine transparent background, at original scale and position, unresized. Preserve Image 1's alpha silhouette EXACTLY, pixel for pixel; preserve every edge, opening, detail, overlap, polygon shape and contour. Keep the large empty area above and below the narrow front-view pile: its overall occupied bounding rectangle is x=66..957, y=320..703. Do not enlarge, center differently, reframe, crop or rotate the pile. Do not add geometry outside the guide or invent new pieces.\nSubject materials: three ochre/tan coarse sackcloth sacks stacked at left, cord ties and muted stitched blue-grey/rust cloth patches as visible surface paint; two red-brown fired-clay lidded jars at back; two dented weathered dull grey tin canisters in middle; dried brown woody roots in a tied horizontal bundle across foreground; weathered salvage-wood crate at right containing dull steel utensils and wood handles. Apply their material identities precisely to existing corresponding shapes; cords are tan twisted fibre, wood is dusty warm brown, clay is muted terracotta with pale mineral wear, tin is grey with restrained brown oxidation. Detailed believable woven fabric, dusty wood grain and roots, ceramic mottling and tin wear matching the reference.\nLIGHTING: strictly albedo, even flat shadowless illumination from viewer, uniform material brightness across differently oriented planes. Remove the grey guide's baked shading. No cast shadows, no ambient occlusion darkening, no crevice shadows, no specular highlights, no reflections, no rim light. Use painted surface colour and material texture only. No floor or background, no text or watermark. Preserve all transparent openings and the guide's exact low-poly geometry; do not replace with the reference's three-quarter view.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "9a2b2b9a97b8ab35b5a1f7a92366459b0c47c9bd9e3b3567d9c4a10fe149fd99"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "paint_front_candidate_1.png",
+      "selected": false,
+      "reason": "Rejected: native generated return is 1254x1254 instead of requested 1024x1024; outline and internal geometry differ from guide; directional shading remains.",
+      "validation": {
+        "output": "paint_front_candidate_1.png",
+        "sha256": "7d841ba42aabec3f54b4a90f4303e390d4f10d5df6ec96281e058a3cde12335a",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1179918,
+        "partially_transparent_pixels": 391947,
+        "opaque_pixels": 651,
+        "alpha_bbox": [
+          0,
+          23,
+          1238,
+          1254
+        ]
+      },
+      "checks": {
+        "native_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": true,
+        "flat_even_shadowless_light": false,
+        "transparent_background": "RGBA alpha is present, but stray partially transparent pixels extend outside the intended silhouette; exact guide alpha is not preserved."
+      },
+      "accepted": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "CORRECTIVE GENERATION, FRONT VIEW. Produce a 1024 x 1024 PNG, NOT 1254 or 1280. Keep native 1024 x 1024 resolution. Actual transparent alpha background.\nImage 1 (guide_front.png) is the edit target. Perform a surface recolour ONLY, preserving its exact original pixel coordinates and alpha mask. The guide's low-poly contours and contents are authoritative. Image 2 (design_reference.png) is only a material-colour swatch reference: ignore ALL its lighting, perspective, rounded shapes and composition.\nThe prior attempt was rejected because it redesigned the objects, shaded them, and returned the wrong resolution. Correct exactly those failures: use the unchanged 1024x1024 guide canvas; keep every existing angular contour, every overlap and every transparent gap. Do not enlarge, smooth, rotate, or alter geometry. Keep front pile in x66..957, y320..703, with original large empty transparent top/bottom margins. Preserve the three angular sack shapes stacked left, the exact root sticks across bottom middle, all bands, canisters, jar handles and crate planks exactly as rendered in guide.\nPaint tan/ochre coarse burlap on sacks, subtle sewn cloth patches in muted blue grey/rust, tan fibre on existing cords/bands, muted red-brown fired clay on two rear jars and their lids/handles, grey tin with mild rust colour mottling on two central canisters and steel utensils, brown dry root bark on root bundle, dusty warm brown grain on salvage-wood crate and utensil handles. Material details must look painted directly into the grey guide without creating new shape edges.\nThis is an UNLIT BASE COLOUR / ALBEDO pass, not beauty rendering. Remove the guide's grey lighting. Use even, flat, completely shadowless viewer light; uniform lightness over each material, detailed weave/grain/mottling only. Eliminate dark underside shading on sacks, contact shadows, ambient occlusion, crevice shadows, shiny tin highlights, reflections and rim light. No floor, scene, backdrop, cast shadow, text or watermark. Exactly preserve guide transparency and silhouette. Output one native 1024x1024 RGBA image.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "9a2b2b9a97b8ab35b5a1f7a92366459b0c47c9bd9e3b3567d9c4a10fe149fd99"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the better raw front return after the single permitted correction: closer material balance and less strong metal shine. Selection is not acceptance: wrong native dimensions, guide contour/internal-geometry drift, residual shading and stray alpha remain.",
+      "validation": {
+        "output": "paint_front.png",
+        "sha256": "e89aeb695e778dfc3126805efd3322e28e26a6e7b655d0ba765c19ccb6def779",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 1176898,
+        "partially_transparent_pixels": 394895,
+        "opaque_pixels": 723,
+        "alpha_bbox": [
+          0,
+          21,
+          1236,
+          1254
+        ]
+      },
+      "checks": {
+        "native_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": true,
+        "flat_even_shadowless_light": false,
+        "transparent_background": "RGBA alpha is present, but stray partially transparent pixels extend outside the intended silhouette; exact guide alpha is not preserved."
+      },
+      "accepted": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Edit Image 1 (guide_top.png) by painting only its existing grey surface pixels. Image 2 (design_reference.png) is a colour/material reference only.\nMANDATORY OUTPUT: a 1024 by 1024 pixel PNG with genuine alpha transparency, at exactly the same canvas resolution as Image 1. No resizing, no cropping. This is a tightly registered 3D MODEL TEXTURE SOURCE, a precise overhead orthographic material pass, not a presentation illustration.\nLOCK ALL GEOMETRY TO IMAGE 1: keep its exact alpha silhouette, all empty gaps, polygon edges, shape outlines, overlaps, handle openings, position, scale and orientation. Preserve the straight overhead camera. The occupied bounds of Image 1 are x=66..957 and y=105..918 on its 1024x1024 canvas. Retain every pointed thin shape, angular plank, and empty gap, with no added objects, no rounded remodelled geometry. DO NOT use the three-quarter camera or object layout from Image 2.\nPaint the material identities from the approved design reference onto matching shapes in the top guide: large sack dominating the left is ochre/tan coarse burlap with seams, dirt and subtle worn fabric patches; its ties are tan fibre cord. Upper central large round lidded jar and upper right smaller round lidded jar are red-brown fired clay with pale worn mineral speckles, their lid handles also ceramic, with tan rope ties. Two smaller circular lidded canisters below jars are dull dented grey tin with subdued rusty mottling. Lower foreground tied bundle is dried brown roots, its flat bands are tan fibre rope. Right open rectangular crate is dusty weathered warm salvage wood; its interior contains the exact existing wood handles and dull steel utensils shown in the guide, no extra contents. Match design-reference colours and material detail while retaining the top guide geometry.\nALBEDO ONLY: flat uniform diffuse colour, absolutely shadowless viewer illumination. No cast shadows, NO ambient occlusion or darkening between objects, NO directional shading, no specular highlights, no reflections or rim light. All surface orientations get equal illumination. Material grain, weave, oxidation, dust and ceramic variation supply detail. No background, floor, text, watermark or decorative glow. Transparent pixels stay transparent. Return only this one 1024x1024 image.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "7f36f05e5d1f57f4c59a98a8e287d2776d506955c655a2e49c37484ee46eb04f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "paint_top_candidate_1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, rounded/remodelled guide contours, changed crate contents and heavy contact shading.",
+      "validation": {
+        "output": "paint_top_candidate_1.png",
+        "sha256": "fbb46d2631579057f16619a7a62c13c2933f17b95e8005baf061b2367708e941",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 902028,
+        "partially_transparent_pixels": 669084,
+        "opaque_pixels": 1404,
+        "alpha_bbox": [
+          0,
+          19,
+          1238,
+          1254
+        ]
+      },
+      "checks": {
+        "native_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": true,
+        "flat_even_shadowless_light": false,
+        "transparent_background": "RGBA alpha is present, but stray partially transparent pixels extend outside the intended silhouette; exact guide alpha is not preserved."
+      },
+      "accepted": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "corrective": true,
+      "prompt": "CORRECTIVE TOP-VIEW MATERIAL PASS. Return a native 1024 x 1024 pixel transparent RGBA PNG. NOT 1254x1254 or 1280x1280. Keep Image 1's original exact 1024x1024 canvas, pixel coordinates and alpha channel unchanged.\nImage 1 = guide_top.png, the exact geometry and overhead orthographic camera to preserve. Image 2 = design_reference.png, materials and colour authority ONLY. Recolour only Image 1's grey surfaces. Do not redraw its shapes. The previous attempt wrongly rounded its polygonal objects, changed silhouettes and used heavy shading; correct those errors.\nMaintain guide silhouette precisely: same angular sack contours on left, two polygonal clay jars and lids at upper middle/right, thin pointed rope ends, two polygonal metal lids below, the tilted rectangular open wood crate at right and all its individual utensils and handles, and the straight angular root strips and binding bands at bottom. Preserve all edges, exact openings, occlusion boundaries and existing layout at x66..957,y105..918 on the original 1024x1024 canvas. No geometry additions or smoothing. Absolutely straight top-down view as in Image 1; no perspective.\nMaterials from Image 2: coarse warm ochre/tan burlap sackcloth with modest dusty stains, seams and muted fabric patches; tan twisted fibre cords and binding bands; dusty brown dried root bark; red-brown terracotta ceramic with pale mineral speckles for jars/lids/handles; grey dented tin with brown oxidation mottling for smaller canisters and steel utensils; weathered dusty warm brown wood grain for open crate and wood handles. Paint materials onto existing matching guide polygons.\nCRITICAL ALBEDO LIGHTING: strictly unlit, even flat shadowless diffuse base colour. No shading on curved forms, no dark crevices or dark underside regions, no ambient occlusion, no shadow under handles or inside crate, no specular shine or reflection. Crate inside walls and bottom have the same material brightness as outer walls. Detail comes from colour texture only: fabric weave, wood grain, clay speckling, tin oxidation. Do not reproduce the reference's dramatic illumination. Background and every gap genuinely alpha transparent. No floor, environment, text or watermark. One image only, 1024x1024.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "7f36f05e5d1f57f4c59a98a8e287d2776d506955c655a2e49c37484ee46eb04f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "706e21647bb9d485d277f780473efbf4a30b65e5ab127dce18f1c6099f797171"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the better raw top return after the single permitted correction: more polygonal lids and flatter crate interior. Selection is not acceptance: wrong native dimensions, silhouette/internal-geometry changes, residual shading and stray alpha remain.",
+      "validation": {
+        "output": "paint_top.png",
+        "sha256": "ecde406d87b2ee47a53c8acf5b527680c2764e9c12e2c299f4a28ebb22a33695",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_pixels": 901880,
+        "partially_transparent_pixels": 668889,
+        "opaque_pixels": 1747,
+        "alpha_bbox": [
+          0,
+          0,
+          1232,
+          1254
+        ]
+      },
+      "checks": {
+        "native_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": true,
+        "flat_even_shadowless_light": false,
+        "transparent_background": "RGBA alpha is present, but stray partially transparent pixels extend outside the intended silhouette; exact guide alpha is not preserved."
+      },
+      "accepted": false
+    }
+  ],
+  "status": "Generated all requested raw deliverables with built-in image_gen and one corrective regeneration per view; outputs do not satisfy every brief constraint.",
+  "postprocessing": "None. Selected generated PNGs copied byte-for-byte; no resizing, recolouring, alpha masking or image editing outside image_gen.",
+  "output_files": [
+    "paint_front.png",
+    "paint_top.png"
+  ],
+  "note": "All generated returns were natively 1254x1254 despite explicit 1024x1024 requests. No further generation was attempted because the brief permits at most one correction per view."
+}

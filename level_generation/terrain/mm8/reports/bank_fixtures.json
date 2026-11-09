@@ -1,0 +1,381 @@
+{
+  "contexts_sha256": "136e43c4c10697f5ede35e014170d20fa52d1e3acd7a3f49b7ba80755b745a56",
+  "fixtures": {
+    "shore_dirt": {
+      "folder": "fixtures/banks_v2/shore_dirt",
+      "master_tile": 0,
+      "lookup": [
+        126,
+        378,
+        90,
+        414
+      ],
+      "placements": {
+        "island": {
+          "row": 56,
+          "col": 52,
+          "grid": [
+            [
+              "wtrdrxse",
+              "wtrdrs",
+              "wtrdrs",
+              "wtrdrs",
+              "wtrdrxsw"
+            ],
+            [
+              "wtrdre",
+              "dirt",
+              "dirt",
+              "dirt",
+              "wtrdrw"
+            ],
+            [
+              "wtrdre",
+              "dirt",
+              "dirt",
+              "dirt",
+              "wtrdrw"
+            ],
+            [
+              "wtrdre",
+              "dirt",
+              "dirt",
+              "dirt",
+              "wtrdrw"
+            ],
+            [
+              "wtrdrxne",
+              "wtrdrn",
+              "wtrdrn",
+              "wtrdrn",
+              "wtrdrxnw"
+            ]
+          ],
+          "pose": [
+            -4864.0,
+            512,
+            3000,
+            1.5707963268,
+            -0.96
+          ]
+        },
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "wtrdrnw",
+              "wtrdrn",
+              "wtrdrn",
+              "wtrdrn",
+              "wtrdrne"
+            ],
+            [
+              "wtrdrw",
+              "water",
+              "water",
+              "water",
+              "wtrdre"
+            ],
+            [
+              "wtrdrw",
+              "water",
+              "water",
+              "water",
+              "wtrdre"
+            ],
+            [
+              "wtrdrw",
+              "water",
+              "water",
+              "water",
+              "wtrdre"
+            ],
+            [
+              "wtrdrsw",
+              "wtrdrs",
+              "wtrdrs",
+              "wtrdrs",
+              "wtrdrse"
+            ]
+          ],
+          "pose": [
+            1280.0,
+            512,
+            3000,
+            1.5707963268,
+            -0.96
+          ]
+        }
+      },
+      "odm_sha256": "1233fa5b6a1a0cbc6cd983d97099153185d56cfb1ec6542b41434daff4c240a9",
+      "used_names": [
+        "dirttyl",
+        "wtrdre",
+        "wtrdrn",
+        "wtrdrne",
+        "wtrdrnw",
+        "wtrdrs",
+        "wtrdrse",
+        "wtrdrsw",
+        "wtrdrw",
+        "wtrdrxne",
+        "wtrdrxnw",
+        "wtrdrxse",
+        "wtrdrxsw",
+        "wtrtyl"
+      ]
+    },
+    "lava_dirt": {
+      "folder": "fixtures/banks_v2/lava_dirt",
+      "master_tile": 0,
+      "lookup": [
+        126,
+        378,
+        90,
+        414
+      ],
+      "placements": {
+        "island": {
+          "row": 56,
+          "col": 52,
+          "grid": [
+            [
+              "lvdrxse",
+              "lvdrs",
+              "lvdrs",
+              "lvdrs",
+              "lvdrxsw"
+            ],
+            [
+              "lvdre",
+              "dirt",
+              "dirt",
+              "dirt",
+              "lvdrw"
+            ],
+            [
+              "lvdre",
+              "dirt",
+              "dirt",
+              "dirt",
+              "lvdrw"
+            ],
+            [
+              "lvdre",
+              "dirt",
+              "dirt",
+              "dirt",
+              "lvdrw"
+            ],
+            [
+              "lvdrxne",
+              "lvdrn",
+              "lvdrn",
+              "lvdrn",
+              "lvdrxnw"
+            ]
+          ],
+          "pose": [
+            -4864.0,
+            512,
+            3000,
+            1.5707963268,
+            -0.96
+          ]
+        },
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "lvdrnw",
+              "lvdrn",
+              "lvdrn",
+              "lvdrn",
+              "lvdrne"
+            ],
+            [
+              "lvdrw",
+              "lava",
+              "lava",
+              "lava",
+              "lvdre"
+            ],
+            [
+              "lvdrw",
+              "lava",
+              "lava",
+              "lava",
+              "lvdre"
+            ],
+            [
+              "lvdrw",
+              "lava",
+              "lava",
+              "lava",
+              "lvdre"
+            ],
+            [
+              "lvdrsw",
+              "lvdrs",
+              "lvdrs",
+              "lvdrs",
+              "lvdrse"
+            ]
+          ],
+          "pose": [
+            1280.0,
+            512,
+            3000,
+            1.5707963268,
+            -0.96
+          ]
+        }
+      },
+      "odm_sha256": "d0bb2141f00a3fe2b45d0bab2d1daa3ecd356ece4acf2ae40488b62a86242f8f",
+      "used_names": [
+        "dirttyl",
+        "lavtyl",
+        "lvdre",
+        "lvdrn",
+        "lvdrne",
+        "lvdrnw",
+        "lvdrs",
+        "lvdrse",
+        "lvdrsw",
+        "lvdrw",
+        "lvdrxne",
+        "lvdrxnw",
+        "lvdrxse",
+        "lvdrxsw"
+      ]
+    },
+    "tar_grey": {
+      "folder": "fixtures/banks_v2/tar_grey",
+      "master_tile": 2,
+      "lookup": [
+        702,
+        738,
+        666,
+        774
+      ],
+      "placements": {
+        "island": {
+          "row": 56,
+          "col": 52,
+          "grid": [
+            [
+              "trxse",
+              "trs",
+              "trs",
+              "trs",
+              "trxsw"
+            ],
+            [
+              "tre",
+              "grey_dirt",
+              "grey_dirt",
+              "grey_dirt",
+              "trw"
+            ],
+            [
+              "tre",
+              "grey_dirt",
+              "grey_dirt",
+              "grey_dirt",
+              "trw"
+            ],
+            [
+              "tre",
+              "grey_dirt",
+              "grey_dirt",
+              "grey_dirt",
+              "trw"
+            ],
+            [
+              "trxne",
+              "trn",
+              "trn",
+              "trn",
+              "trxnw"
+            ]
+          ],
+          "pose": [
+            -4864.0,
+            512,
+            3000,
+            1.5707963268,
+            -0.96
+          ]
+        },
+        "hole": {
+          "row": 56,
+          "col": 64,
+          "grid": [
+            [
+              "trnw",
+              "trn",
+              "trn",
+              "trn",
+              "trne"
+            ],
+            [
+              "trw",
+              "tar",
+              "tar",
+              "tar",
+              "tre"
+            ],
+            [
+              "trw",
+              "tar",
+              "tar",
+              "tar",
+              "tre"
+            ],
+            [
+              "trw",
+              "tar",
+              "tar",
+              "tar",
+              "tre"
+            ],
+            [
+              "trsw",
+              "trs",
+              "trs",
+              "trs",
+              "trse"
+            ]
+          ],
+          "pose": [
+            1280.0,
+            512,
+            3000,
+            1.5707963268,
+            -0.96
+          ]
+        }
+      },
+      "odm_sha256": "3a05ca7b9834bded79680bc9634894e7ea7795f9cb62923eb3fcea1155f80a7e",
+      "used_names": [
+        "gdtyl",
+        "tartyl",
+        "tre",
+        "trn",
+        "trne",
+        "trnw",
+        "trs",
+        "trse",
+        "trsw",
+        "trw",
+        "trxne",
+        "trxnw",
+        "trxse",
+        "trxsw"
+      ]
+    }
+  },
+  "script_sha256": "b9a4b8cc86cce7bd61f0cf8d1b9ff4020c9a678a6fbfbacff1a40e24e5d6021e"
+}

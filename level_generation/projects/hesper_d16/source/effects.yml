@@ -1,0 +1,28 @@
+schema: openyamm.effectLibrary.v1
+effects:
+  - id: hesper:fx/d16_staff
+    display_name: Conductor staff and ward warning
+    duration_seconds: 1
+    compatibility_profile: predictable
+    components:
+      - id: 1
+        type: sprite_system
+        start_seconds: 0
+        end_seconds: 0.8
+        sprite_resource: openyamm:effect-sprite/spark
+        blend: additive
+        particle_space: world
+        color_keys:
+          - {time: 0, rgb: [230, 210, 255], transparency: 255}
+          - {time: 0.1, rgb: [205, 175, 255], transparency: 0}
+          - {time: 1, rgb: [160, 100, 255], transparency: 255}
+        scale_keys:
+          - {time: 0, value: 0.3}
+          - {time: 1, value: 0.6}
+        motion_keys: []
+        particle_lifetime_seconds: 0.6
+        emission_shape: sphere
+        radius: 60
+        velocity: 100
+        sprites_per_emission: 3
+        emission_interval_seconds: 0.08

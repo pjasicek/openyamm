@@ -1,0 +1,1260 @@
+{
+  "status": "validated_installed",
+  "sources": {
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrte.png": "02699b0c8f9481af94bbe18f67dfa3a7804d4327c7a510766a1ff750c17debc8",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtn.png": "20b8b6e96666a0c7bc40403d01afbe09ac86621a733dd806a4e0b00f9fe36dc4",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtne.png": "1d22963b30018141afd3598c2befcd31768e4762f507482cbc190ca4b61cd63b",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtnw.png": "8ee9649c3ef4b53ef2e67e689f6b8aca98ea09b11765dbb9d78e6a09cce3adb3",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrts.png": "4adae4bd463f972d91e0c8ad7c76d4935314ae022eba0d8ba91ee22fb7f074c0",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtse.png": "12ccb941996771f428ed9ec3fb2a713635bdae59bb87257c60be41ee6d25efff",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtsw.png": "7c9dd695b792ad4ca93d17ccd7fcd4e7f15d9d748604b88fba52c370f0669bb7",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtw.png": "56ed2d8b3e38221dba7a980d950da894fa6c5bc639250b0da71e128e57e834f5",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtxne.png": "e4982e38879a325305e93c96e7c1c30edaedbe37b1f54a3169955f504e669ce3",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtxnw.png": "968d96195a03150ddb77055df3792a8a0d00b6066b66b14491558592675435ea",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtxse.png": "8a84e00af625d0dbb14c94c6fb563a490b69734d1e88849c45983e7a9d3f383f",
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtxsw.png": "8e26fc4e4a3df300a94d488ccf84bd39bb116278a4942d093a315c7c8768132f",
+    "assets_dev/worlds/mm6/terrain_x2/swmdre.png": "0c9175b047111cb7023c4724ad78f5c573be1e1abd2701a4244cbee9d34d2753",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdre.npz": "bf1d89e8cd102878cd2efe83a019171d7f1b4465022ec5194cfb153c4f54aec7",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrn.png": "81cbb39ba40711b4b967286d64e43dc678d4ea72386a2ff0e2c65d6946a8d942",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrn.npz": "3c314393fe120bf6703c5badd951b415b9b8a0efe7031f8fa95c5eea503a25fb",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrne.png": "15504e3cd538b88ec09ef9643da2408bdb29b76fd3df710799ac174190cab1ed",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrne.npz": "c16afcfbbbb719d381971b81ccd3b9bcb36f03d35d58f45847ddd128cfbf0ee9",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrnw.png": "c3e9dca5addafed71d77a92b67cbb27ced46356e25560b5f21d70376dd89a1e6",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrnw.npz": "21e8ae24f3bd59edba09469f6f93bad9d707fee6b399438bd9886e1596ae0bcc",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrs.png": "e0057249f21c148beeb487fb95bb866d418363de3f9e5c5ab4b6385780e80c30",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrs.npz": "248423149b2a9ea97474c503247c8db32da8a6a9de2ca30ba2e27881af046254",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrse.png": "9e7d73e0bc94a21a2eab862d3a6467fb684efcfde6b203079546fdf9a1e596fa",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrse.npz": "c922761de0931e398f119f6b301bb9c5fbef727c7b29caf24593364c1ff77185",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrsw.png": "41ac4c614022077d29d467f34982a7dbec741cefaf7dab4fe0ae78b40380c6e8",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrsw.npz": "ac9ab00c3281bba541803927cda508a2a5bb0a148089f6c774c098da5d84f3c9",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrw.png": "9fc902692bd6f2fab712805d03da70c6bb61337a76cea4f75c93f4c061626a58",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrw.npz": "1133fb6d2a0373b302b9e55ba173778eea1d546ad34c78781b40f46a3db4cc91",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrxne.png": "d5c150bd04d797c64d82ff7f2904456b9609e219389ebc19db706971183cd140",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrxne.npz": "8aebd90052177c52cdc1e14b2936d2c5d12cd7b1c3908b3ff44e60822c5b64fc",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrxnw.png": "70bfb0f5c51ba92dd8193abb18ca0372c8c3d00b447a7b2cb155e08544083b13",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrxnw.npz": "735b1a226f497f2dcfa7cef68160703713b9691af55827486b9cf705fb981426",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrxse.png": "18fada128ecc452369879f18662bfa1b900a918f0c10b59fb260729bc8488b1e",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrxse.npz": "7f151850bb037834fb6434ac261090ff72924fcc8eb33087fad09a895988718d",
+    "assets_dev/worlds/mm6/terrain_x2/swmdrxsw.png": "b2e2da4a91b0850a030592d32a7050e5ced6df31e4a76ecdef32e4952be4d9b8",
+    "level_generation/terrain/mm6_remaining/transitions/fields/swmdrxsw.npz": "c2a25152bb99cb38f86069da693b94fb12e275051dfa1f6a793b730ceb653438",
+    "assets_dev/worlds/mm6/terrain_x2/swmtyl.png": "d73093b703a1c1b21a49eeaf073357e1e1d54a73a8e583104b2a5d46c7e05137",
+    "level_generation/terrain/mm6_remaining/transitions/fields/trope.npz": "b2fff83ba1fd0fdab253d66486e87e937ae2e7801386d5828d7de0c2d6e49029",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropn.npz": "018c5ea517c977c6d7f72e273aa727264d259e0014b65d2587cbcfd6f7b1ef0b",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropne.npz": "9036c46e86f4615444d0fee7692fb4c40bc63e96ad1339e22385fa1f84d46b7c",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropnw.npz": "3a81f8345674eb739fb05462431e7db6585d4d8ba3a6dd452ab2eea351c30f0a",
+    "level_generation/terrain/mm6_remaining/transitions/fields/trops.npz": "6d7f0dbd7b3c67a3b265657ab7423431caead9eda2a73739bbe9021e32dc291d",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropse.npz": "dc9f786494709662a392251321ae641d2c77f330b8424c89cdc964fafaa036fe",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropsw.npz": "9e6470b87c233c93adfa801270ab7f221289ae396b56b021e804a9c3c9c8dae1",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropw.npz": "60d66a22db9abe1838684c503b2cc8287ef72b93beed0cbcb5fbf59c0c4a1ca4",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropxne.npz": "7b6fe9979c4b03044d80478a52f09e638f14cad677d671a4cda02af26fb1593c",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropxnw.npz": "cd00ed9fe715d4ec36fc5dc588325a584ad825820902d35f7625138586b8162d",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropxse.npz": "19f766e57b11ce840a1c28b19023d8c23bc754c1ccd866034e92185af53a4684",
+    "level_generation/terrain/mm6_remaining/transitions/fields/tropxsw.npz": "64007d659e04b5034e2bf0adcbf0e05cc9dca414eb7e6a81c0a03b84e320a00b",
+    "level_generation/terrain/mm7/transitions/fields/7grdrte.npz": "4bb84a54b771a74dec72d786ce5d1f2cee4badca6ef5a9d456ac16411d9d4b8e",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtn.npz": "a8c74459dc41a8a8d32d4d44158c53d93d70a2238eb7b04059aaa8980ee87eba",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtne.npz": "a31f174f8c7b23a33e39f10b6a3c62421c1c6cccbf7893714df4a7cf1bc31c32",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtnw.npz": "b6a6bdae6358b322732195601b59a204a293bb22edbf63b1883dd45cdfe71f6e",
+    "level_generation/terrain/mm7/transitions/fields/7grdrts.npz": "9927ee842147d200cdd82b4505a802fa884e23c6e34b95e6d7dc5433b03fdfe3",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtse.npz": "320169ea574eae92a2e738be404333109dc477ecbdb27471feca80ddacff4f1d",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtsw.npz": "19f42a3eb7b6bb76e3cae37b9919139eb48c8c415ff5638e8a4e85a3780243f9",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtw.npz": "daf24402f630ca73ed44b42f1d22fa61cd7a9c9f1634c8e7d7082e1d023ae66d",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtxne.npz": "2acba8aad73c1e14bdcc252223da1449cc6a16169e8e8bb4293ba52844458d1a",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtxnw.npz": "3a8a2c2e4a6c4f9658f1c62d517dd114d4a33cb7e0b4b81ae154d048628a832a",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtxse.npz": "1078780f92463180d3465a038f5abde39b4f26ea065f69f62333a4a0e18ff62b",
+    "level_generation/terrain/mm7/transitions/fields/7grdrtxsw.npz": "962209652c54aa616e8937699ee9a52611833d75039dae927d4aaa0293a8d16f",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrte.png": "2f1f42cb705da1f18f9cfc9cb74fc4fb270ef9f7e989067303f21ee838b4435e",
+    "level_generation/terrain/mm7/transitions/fields/7swdrte.npz": "460d0e0c50a8b8ee10170d5f317045fbb15d0469313d029b9f13f8dac7ceb32e",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtn.png": "2ea5ac41ab3834e32d6fea6c6c7bca7ad53fb7ff1f523481132022f978be38f0",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtn.npz": "4c28864ff9c63a76e647b6dba9dcad7072cf7ed3230953ac448de3ec4ab57e5f",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtne.png": "68d7a380cc3f7961bc7727b51b35baf54e9db018d86fd0b6b10f469935f54d0e",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtne.npz": "ea7208589940cc5d7783ea0bde7585063d1ae999002e10382316939757ea6916",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtnw.png": "94f81075b7e557a04a113288536493774edcc32cf13735d879e899b1f8fcc7dd",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtnw.npz": "b7ba30686f2615699078e1aa425ae4299f8e03f961f4664b4d495e8ad8fb2415",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrts.png": "ba288a397f5201fd4643bf3dcd3588ffd4496c96b390487c620117ed5f59fdfb",
+    "level_generation/terrain/mm7/transitions/fields/7swdrts.npz": "52f1bbc2f2c9adb2f943964f43e05019d93c978388b4e47f7c6e46af40732c92",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtse.png": "8d2f803e7b8b8f03fd1b25088ec68665ceae0ecd8db8a6fa07bef90afa02ba65",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtse.npz": "05e4b7fd10b74cc33db47ea942783e13129a7c7e723eed2b05e146a7a580c0fe",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtsw.png": "61f5dd36568c3a637c3f7df88407d848f08c40b24ce92b80023aa53ae0f7ad14",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtsw.npz": "b50a69efc6da816909b34476788b8a4fd5d15145352d8fce5c624787939f644c",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtw.png": "02f333fba765d91cd9e093bfbc83c6d7d785355885a93a7976cda447d1d7116a",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtw.npz": "5a46cd35deb3e1ff5f60c96fd9b6fb73ca0a6b1b3eb8b7d9a319f912462b3495",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtxne.png": "4e34e5294e3e99905175ab887e68713605274fd706e4baf727007c4dbbf546f3",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtxne.npz": "d8e7ddae5a72ef2a7e6cb3a765ba16af620e9bdde8f8be7179f0f6740fa61360",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtxnw.png": "b77fd578cf96622d3b3f7abafe9d60b9f74b2764514e23d043d0e19f720da5d8",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtxnw.npz": "15b5c85e6c4c0f46973259460e4fb9d777851866a63f346154ac210016fefdba",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtxse.png": "c9681abed1d971fc1e4c8b52a5dd4d4c7de2c11b546dbc83171e42323c2441e7",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtxse.npz": "0c92e8e04c513421f5d3ef70e45a9d1ecc20b0fb8272213dabe3684c048ac7f2",
+    "assets_dev/worlds/mm7/terrain_x2/7swdrtxsw.png": "949f9e63fb0d01f0aabecf1b04c48873c82a2fa9ea86d2f043d0ccf4ff60bd4a",
+    "level_generation/terrain/mm7/transitions/fields/7swdrtxsw.npz": "d8b37aac22e0e8b840021971b26e29babd8937a5c1d6c14bb896aacc00e5c33a",
+    "assets_dev/worlds/mm7/terrain_x2/7swtyl.png": "84d13e960d73519a679e14e88d7170d96aed26a77a5c8abf7b7a6230d477d486",
+    "assets_dev/worlds/mm7/terrain_x2/7swtylv2.png": "2ccaa3f19c8120c5831832ab1ae842e37a6e19b254854f767222575b056bdaa1",
+    "assets_dev/worlds/mm7/terrain_x2/7swtylv1.png": "a44ba81806edca138e3b110e03b652c70de82eaf90709d5f8a12a7e0c363ad4c",
+    "level_generation/terrain/mm8/transitions/fields/grastyl2.npz": "9eec5d73ec958532e18453384d1b87952570674516f84494aa3c3cc235e88cde",
+    "level_generation/terrain/mm8/transitions/fields/grdrte.npz": "736a42f4d66469bc81506f10340a5905a2b5410686f572dc476ab93efff0e0d3",
+    "level_generation/terrain/mm8/transitions/fields/grdrtn.npz": "fb78f4884d84a9ea43b921c6b9e932f730f033f5cefc1944102b96f0fe019dc4",
+    "level_generation/terrain/mm8/transitions/fields/grdrtne.npz": "964afa7bf269930e1ba96c6b5c112033b8b2b97b68b92f637823afefb434605c",
+    "level_generation/terrain/mm8/transitions/fields/grdrtnw.npz": "3665ea001040f5b87a03ea159ebac5a5ff50b7436a39d47eb69d7b3f40d5ccdc",
+    "level_generation/terrain/mm8/transitions/fields/grdrts.npz": "d96873d350f110dbe9163690a0da9afa14883fd3fe7a5eadec516fed449dcfb4",
+    "level_generation/terrain/mm8/transitions/fields/grdrtse.npz": "f3720f0f2309fe9714750a1a41c063f00c75b7817ad8ee0a1b2cf7aeeffa719d",
+    "level_generation/terrain/mm8/transitions/fields/grdrtsw.npz": "5f49d24c4334e9ebae7bcfd18b38b950611e877b07b11575483ed1e5f4b43e0d",
+    "level_generation/terrain/mm8/transitions/fields/grdrtw.npz": "a731838aee715727478ac49281e34fb17a793362ed24f61cc45e0fd8a4ac75ec",
+    "level_generation/terrain/mm8/transitions/fields/grdrtxne.npz": "1f7a0ed973571feef5f6402737184aca84b17d4ef48683d349b87eb93c4b5fb4",
+    "level_generation/terrain/mm8/transitions/fields/grdrtxnw.npz": "9dc0620406ad62d87a0fb316a77986e7ada4e0bf5bb4b1296c9f8433b7d1673d",
+    "level_generation/terrain/mm8/transitions/fields/grdrtxse.npz": "209c7f06208d228dc545b702fd9534740ccf967af7804355f5f22efa6d08cbea",
+    "level_generation/terrain/mm8/transitions/fields/grdrtxsw.npz": "8f13aa5905e5a5eb5270f46056652bfe7488164e2d9891b794585058dafc9228"
+  },
+  "maps": {
+    "mm6/outa1": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm6/outa2": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm6/outa3": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm6/outb1": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm6/outb2": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm6/outb3": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm6/outc1": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm6/outc2": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm6/outc3": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm6/outd1": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm6/outd2": {
+      "status": "prepared",
+      "rules": 26
+    },
+    "mm6/outd3": {
+      "status": "prepared",
+      "rules": 26
+    },
+    "mm6/oute1": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm6/oute2": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm6/oute3": {
+      "status": "preserved_grass",
+      "rules": 13
+    },
+    "mm7/7out01": {
+      "status": "prepared",
+      "rules": 27
+    },
+    "mm7/7out02": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm7/7out03": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm7/7out04": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm7/7out05": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm7/7out06": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm7/7out13": {
+      "status": "prepared",
+      "rules": 15
+    },
+    "mm7/7out15": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm7/out09": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm7/out10": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm7/out11": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm7/out12": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm7/out14": {
+      "status": "prepared",
+      "rules": 13
+    },
+    "mm8/elema": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm8/elemf": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm8/elemw": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm8/out01": {
+      "status": "prepared",
+      "rules": 14
+    },
+    "mm8/out02": {
+      "status": "prepared",
+      "rules": 14
+    },
+    "mm8/out03": {
+      "status": "prepared",
+      "rules": 14
+    },
+    "mm8/out04": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm8/out05": {
+      "status": "prepared",
+      "rules": 14
+    },
+    "mm8/out06": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm8/out07": {
+      "status": "prepared",
+      "rules": 14
+    },
+    "mm8/out08": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm8/out13": {
+      "status": "prepared",
+      "rules": 14
+    },
+    "mm8/out15": {
+      "status": "disabled",
+      "rules": 0
+    },
+    "mm8/pbp": {
+      "status": "disabled",
+      "rules": 0
+    }
+  },
+  "masks": {
+    "mm6/6grdrte_foreground.png": {
+      "mean_coverage": 0.5322986079197304,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrte.png",
+      "sha256": "6809a31375fff1296321e6117766aba914fa34770cb980138bec97ca6edd73ba"
+    },
+    "mm6/6grdrtn_foreground.png": {
+      "mean_coverage": 0.6216114717371324,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtn.png",
+      "sha256": "d5b5fb4ad457aee77f27ae8addfa1a10d23102273a6cc338e626f94c819bba85"
+    },
+    "mm6/6grdrtne_foreground.png": {
+      "mean_coverage": 0.4048871208639706,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtne.png",
+      "sha256": "d95fc474bd2ad6d1be655c97f0ebf7b476f2c10e5cf35b02cee77a12c13021be"
+    },
+    "mm6/6grdrtnw_foreground.png": {
+      "mean_coverage": 0.5065044328278187,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtnw.png",
+      "sha256": "c370af5012c7875b6c4c6ad4cf78ac77766fd4b95b8aa6cdf0cc19fc7bee0e24"
+    },
+    "mm6/6grdrts_foreground.png": {
+      "mean_coverage": 0.5436051910998775,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrts.png",
+      "sha256": "eed710f53fdee4c5f6eb43f9c8956ce194007f62679dead2b6e313be3e9dd986"
+    },
+    "mm6/6grdrtse_foreground.png": {
+      "mean_coverage": 0.42131275850183825,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtse.png",
+      "sha256": "f20b0b13f6183229602009513aac2203104cbe7a74f378f4130515c17914ab7d"
+    },
+    "mm6/6grdrtsw_foreground.png": {
+      "mean_coverage": 0.5078661151960784,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtsw.png",
+      "sha256": "e66c64763e9564799c41d56c62e08fd48b47cea71ce1f4d4a164696146ed1a8c"
+    },
+    "mm6/6grdrtw_foreground.png": {
+      "mean_coverage": 0.6332320867800245,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtw.png",
+      "sha256": "dfafcfb60968763fc4c52a6d350cb61db638967dc05bd986a5f65209b40ba2ab"
+    },
+    "mm6/6grdrtxne_foreground.png": {
+      "mean_coverage": 0.6774416456035539,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtxne.png",
+      "sha256": "05b11b42dd8e5c9345e90ac39a53d8c26d1e2abed9735427a11a5f520591ada6"
+    },
+    "mm6/6grdrtxnw_foreground.png": {
+      "mean_coverage": 0.809628236060049,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtxnw.png",
+      "sha256": "61e2ab58b0d8cd02c36bc44999fdddb213f06162b9803d54f23537af2b570496"
+    },
+    "mm6/6grdrtxse_foreground.png": {
+      "mean_coverage": 0.7859140433517157,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtxse.png",
+      "sha256": "072f581ca503d946074c1ba339b19fae597a7a1be979677beecc26f77bd91c94"
+    },
+    "mm6/6grdrtxsw_foreground.png": {
+      "mean_coverage": 0.7000078986672794,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/masks/connected_v4/6grdrtxsw.png",
+      "sha256": "e6e5deb3304013fe7221c0ebf2853937aa2f5d01a51e9dda13d1b94cac4563cc"
+    },
+    "mm6/swmdre_swamp.png": {
+      "mean_coverage": 0.3772336473651961,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdre.npz",
+      "sha256": "a5acf2068895a3d5f1fa65978d2b955580678c603595ec7c7b9de7e220ccf544"
+    },
+    "mm6/swmdrn_swamp.png": {
+      "mean_coverage": 0.3839266907935049,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrn.npz",
+      "sha256": "3b1f97b303a840c398d58f74222c2e86c025b5f055beb53f33b46532866f272e"
+    },
+    "mm6/swmdrne_swamp.png": {
+      "mean_coverage": 0.30296008540134806,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrne.npz",
+      "sha256": "f2bd5d6d730191a2e86543caebe9ee9043522d3ff5d04f2f5cff101394d33896"
+    },
+    "mm6/swmdrnw_swamp.png": {
+      "mean_coverage": 0.2908689012714461,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrnw.npz",
+      "sha256": "6280f064456240e8ad44c2635659b5d59d4504ff87ca877e927f9096924661c4"
+    },
+    "mm6/swmdrs_swamp.png": {
+      "mean_coverage": 0.43971234489889705,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrs.npz",
+      "sha256": "2b0a994b20b8e1bfb36ace82bd92b0dff06f2da826b1028869359d8af8825a56"
+    },
+    "mm6/swmdrse_swamp.png": {
+      "mean_coverage": 0.35397255093443625,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrse.npz",
+      "sha256": "10440cce6576c17f2e5148cfc8431bc7090ef6e0fcad75f3fe8cbb5ab84f0f8c"
+    },
+    "mm6/swmdrsw_swamp.png": {
+      "mean_coverage": 0.2803866517310049,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrsw.npz",
+      "sha256": "394de7a3bd1b8f2c9d4c91862f862e71e41374d0eb0bc11b0ad1932c1f24bf0d"
+    },
+    "mm6/swmdrw_swamp.png": {
+      "mean_coverage": 0.4490243949142157,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrw.npz",
+      "sha256": "e764995c8b486f5561b10cac0f3278b1f8801a4b01ceeaf5978c226b310134b8"
+    },
+    "mm6/swmdrxne_swamp.png": {
+      "mean_coverage": 0.5711959539675245,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrxne.npz",
+      "sha256": "34d6cccb18f425c51227a4d6c206f73562a7c0819e64bacd99f1c39c7908b402"
+    },
+    "mm6/swmdrxnw_swamp.png": {
+      "mean_coverage": 0.5961095473345588,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrxnw.npz",
+      "sha256": "46dd171cf389c8d5e2bbe84e80afdcb9c94e8e17af29f3e00cdd46229dcfc7d2"
+    },
+    "mm6/swmdrxse_swamp.png": {
+      "mean_coverage": 0.5508073395373775,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrxse.npz",
+      "sha256": "569939dcaa561d031a66e875a2a9b3b69c8e53f4b7c3096e95c454a3049ee176"
+    },
+    "mm6/swmdrxsw_swamp.png": {
+      "mean_coverage": 0.547738826976103,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/swmdrxsw.npz",
+      "sha256": "c1430f1569912968c0c8e983c8e01dad10c72328447e977ae3668f9fff2c6696"
+    },
+    "mm6/swmtyl_swamp.png": {
+      "mean_coverage": 0.6875052657781863,
+      "purpose": "swamp",
+      "source": "base material",
+      "sha256": "d7135cd75131e59d037f1abdcb984f2ea69f404a03eb88001674a51f0627be02"
+    },
+    "mm6/trope_foreground.png": {
+      "mean_coverage": 0.5507688036151961,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/trope.npz",
+      "sha256": "2040a962c67fad7970a9aa489c0fc8812f76fc972c5aca5fa565bde043cda070"
+    },
+    "mm6/tropn_foreground.png": {
+      "mean_coverage": 0.5532781862745098,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropn.npz",
+      "sha256": "a71063a7de96721c056c8835c74fdaa182ec96e7c7c4da4b00de111d3d2f3ee4"
+    },
+    "mm6/tropne_foreground.png": {
+      "mean_coverage": 0.31607785692401963,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropne.npz",
+      "sha256": "6737b32579d8b8869425fdefb85e809a7cdbac9e40b31a312b5920b579968cf8"
+    },
+    "mm6/tropnw_foreground.png": {
+      "mean_coverage": 0.36698261335784316,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropnw.npz",
+      "sha256": "7e05f1e5567e76c0007836c7e60319ad3056d0ec4e33afc1035bfb86645d3f30"
+    },
+    "mm6/trops_foreground.png": {
+      "mean_coverage": 0.5285024605545343,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/trops.npz",
+      "sha256": "58912a29b481106c850a42a1712a6a00a9763ecbce38c5275344799eeaaefa67"
+    },
+    "mm6/tropse_foreground.png": {
+      "mean_coverage": 0.26766118068321076,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropse.npz",
+      "sha256": "cb495a839054009b77394e70508717a9d48b8cf6ef0851d48c1c022dda677ea4"
+    },
+    "mm6/tropsw_foreground.png": {
+      "mean_coverage": 0.41416733685661766,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropsw.npz",
+      "sha256": "e4a675f8e5a343cbd8815457e7baeebd328a199990715fa324e93e5e5a3eb7fd"
+    },
+    "mm6/tropw_foreground.png": {
+      "mean_coverage": 0.5384416168811275,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropw.npz",
+      "sha256": "b966db8c8674e848093bed9ece7c34d1b834ce04303563e69ef2b0ae6897ed5c"
+    },
+    "mm6/tropxne_foreground.png": {
+      "mean_coverage": 0.7292339250153186,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropxne.npz",
+      "sha256": "099eed86544229bc12bf0890880ef15788cba27a615e0b3f701bd140fde3e35d"
+    },
+    "mm6/tropxnw_foreground.png": {
+      "mean_coverage": 0.7553256165747549,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropxnw.npz",
+      "sha256": "3a69815a3020a05baa72dc912ec784b42079981a8f4060f3120b06d6cec6feeb"
+    },
+    "mm6/tropxse_foreground.png": {
+      "mean_coverage": 0.7246349858302696,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropxse.npz",
+      "sha256": "25c0a60af1d56bf8f1fc3fcc680ddf8ac4be42a3c6984b96b23edd39ce34bfb8"
+    },
+    "mm6/tropxsw_foreground.png": {
+      "mean_coverage": 0.7472139246323529,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm6_remaining/transitions/fields/tropxsw.npz",
+      "sha256": "538c954f14852dbe6a4c77f85ae9d5cc5122d33f848208648ca963fca4bef23c"
+    },
+    "mm7/7grdrte_foreground.png": {
+      "mean_coverage": 0.665432559742647,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrte.npz",
+      "sha256": "fdf7c8ef440814d00ac48125d5fd80532303e4546ebd4763153d0267d139d131"
+    },
+    "mm7/7grdrtn_foreground.png": {
+      "mean_coverage": 0.6801157035079657,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtn.npz",
+      "sha256": "d645040cf1ac2c36a43c0655c7af887598f2ffcea0afe1889174ba3b7263b292"
+    },
+    "mm7/7grdrtne_foreground.png": {
+      "mean_coverage": 0.5586128982843137,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtne.npz",
+      "sha256": "2b43a26ae6c3a5f9158cf2776cabcc882ead3cc050e43cf91ece352e09e326db"
+    },
+    "mm7/7grdrtnw_foreground.png": {
+      "mean_coverage": 0.5291094611672794,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtnw.npz",
+      "sha256": "199a8fe1ab1cf81df71b60a488b1240f1d265f3a14de680b88dbc68db234d771"
+    },
+    "mm7/7grdrts_foreground.png": {
+      "mean_coverage": 0.6994219611672794,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrts.npz",
+      "sha256": "d47cd45b55ed8d89ccb3eeed52c633aea9989e6aab5cb5883de2203f139a16e2"
+    },
+    "mm7/7grdrtse_foreground.png": {
+      "mean_coverage": 0.49476031135110293,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtse.npz",
+      "sha256": "1095e8720078b19f5423a9c919cdc245f4fd3c38e1229cbf7c651bc06ccb9f6d"
+    },
+    "mm7/7grdrtsw_foreground.png": {
+      "mean_coverage": 0.5186918370863971,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtsw.npz",
+      "sha256": "aeeb3c74f48c6970c6f2a9765930e2f31b036285acfd96a9cea6e94a1477d6cb"
+    },
+    "mm7/7grdrtw_foreground.png": {
+      "mean_coverage": 0.6711911668964461,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtw.npz",
+      "sha256": "9164643ea6f10eaa5c43c512e57dc37fc39e5673dc92ad32fa845d4eccb378e3"
+    },
+    "mm7/7grdrtxne_foreground.png": {
+      "mean_coverage": 0.912103151807598,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtxne.npz",
+      "sha256": "cb115cefa4abc76710285cc02737f524a508a59508107a7f3992017ae233e7c9"
+    },
+    "mm7/7grdrtxnw_foreground.png": {
+      "mean_coverage": 0.9112879136029411,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtxnw.npz",
+      "sha256": "4ad9be4f2ba8ebe2b60ae473c1f8b31ecb2d38eb2b10c105167a1d8ce1e47461"
+    },
+    "mm7/7grdrtxse_foreground.png": {
+      "mean_coverage": 0.9036034677542892,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtxse.npz",
+      "sha256": "3b87c03c9019ec5120fa970c7f643624cc219a9c54f0e4cb99854f90c5fb48b1"
+    },
+    "mm7/7grdrtxsw_foreground.png": {
+      "mean_coverage": 0.9099712297028186,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm7/transitions/fields/7grdrtxsw.npz",
+      "sha256": "311e59e278dae8f3a0c2d47d05dfb3efa0a9218b99faf6d39e6755658a806679"
+    },
+    "mm7/7swdrte_swamp.png": {
+      "mean_coverage": 0.5144976447610294,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrte.npz",
+      "sha256": "bcd17a0509a479bf784e58394d13ae5a6fd493693657ba8b1660cd59fc6ee84b"
+    },
+    "mm7/7swdrtn_swamp.png": {
+      "mean_coverage": 0.5147197648590687,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtn.npz",
+      "sha256": "d4ccadd4eef0e278bcc10f391983a3a77d6f65409497bd83c6812d9b61a5fcb8"
+    },
+    "mm7/7swdrtne_swamp.png": {
+      "mean_coverage": 0.4417724609375,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtne.npz",
+      "sha256": "a2ffbf9e9f61e38cf9e5dca33dc013f1f432051d0ee81571846feadb3a31396f"
+    },
+    "mm7/7swdrtnw_swamp.png": {
+      "mean_coverage": 0.4666525448069853,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtnw.npz",
+      "sha256": "652a09387b99126b6f3ee6a1a3906082098bf7e3ffd5a25357e310aae222ff94"
+    },
+    "mm7/7swdrts_swamp.png": {
+      "mean_coverage": 0.5435417624080883,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrts.npz",
+      "sha256": "7b9cb63a56ed39be5256e6e0f4e5ecf76b65babafb2830383f05c8ce3bad5836"
+    },
+    "mm7/7swdrtse_swamp.png": {
+      "mean_coverage": 0.45964738434436275,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtse.npz",
+      "sha256": "d0e70731aa4352481520968970e76168010304c477d2dad4179da17c4033e103"
+    },
+    "mm7/7swdrtsw_swamp.png": {
+      "mean_coverage": 0.42043768190870096,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtsw.npz",
+      "sha256": "5b8a1d71e0f3ff92c3d7e5418163c2d8b544de8f5a7374df38596ed929c505d9"
+    },
+    "mm7/7swdrtw_swamp.png": {
+      "mean_coverage": 0.5359959022671569,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtw.npz",
+      "sha256": "4aadf087f0bddcadcf26b3cb029e36d5c2be79a3d58f800885d83ea28e7ec0b0"
+    },
+    "mm7/7swdrtxne_swamp.png": {
+      "mean_coverage": 0.6498611749387255,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtxne.npz",
+      "sha256": "a6c812dad1e5ee77e54f6594f576032216abb91fd93ac64be0fddeec27f9a623"
+    },
+    "mm7/7swdrtxnw_swamp.png": {
+      "mean_coverage": 0.6750787473192402,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtxnw.npz",
+      "sha256": "f15da9b427a6d901ccb1bb51d70712294263d4d5ec7d42d16bce6fe0623b685d"
+    },
+    "mm7/7swdrtxse_swamp.png": {
+      "mean_coverage": 0.6594295726102941,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtxse.npz",
+      "sha256": "5030e43619df77dffc3e5b94248f1457d3c1f4dd1a3f174b76aaccf890390b98"
+    },
+    "mm7/7swdrtxsw_swamp.png": {
+      "mean_coverage": 0.6235248640471813,
+      "purpose": "swamp",
+      "source": "level_generation/terrain/mm7/transitions/fields/7swdrtxsw.npz",
+      "sha256": "f687728234eca4d994c0243e09a60448b936775e939510b0be67caaea6570d5d"
+    },
+    "mm7/7swtyl_swamp.png": {
+      "mean_coverage": 0.7609987745098039,
+      "purpose": "swamp",
+      "source": "base material",
+      "sha256": "a4ccd98b985f6258df96ebf62a96aaee77d730da7ac7e8fc361f56adf8121a5c"
+    },
+    "mm7/7swtylv2_swamp.png": {
+      "mean_coverage": 0.45827469171262253,
+      "purpose": "swamp",
+      "source": "base material",
+      "sha256": "2ae8e693a6b65354220dccdbdabaa67cd1a63bc128ec1d54f8db0d2fe5547cd3"
+    },
+    "mm7/7swtylv1_swamp.png": {
+      "mean_coverage": 0.8064797794117647,
+      "purpose": "swamp",
+      "source": "base material",
+      "sha256": "fa8723b97d551419d359d6f63a766d0574228416e73a93e62af02582b8019238"
+    },
+    "mm8/grastyl2_foreground.png": {
+      "mean_coverage": 0.8420491536458333,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grastyl2.npz",
+      "sha256": "a10c19fb2663e6c331333d9d34e4419bc0c55f292fb79491eb75cfc075af68ca"
+    },
+    "mm8/grdrte_foreground.png": {
+      "mean_coverage": 0.6406364889705882,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrte.npz",
+      "sha256": "d3e83557640942a6deb636c216546018143669d85750bcd4c1b6f805c3cb1e06"
+    },
+    "mm8/grdrtn_foreground.png": {
+      "mean_coverage": 0.6295903224571079,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtn.npz",
+      "sha256": "f6c2e187f5f533c70c9f834cb8206b60487fa2e0e99e70cb4597ed0e19f01f17"
+    },
+    "mm8/grdrtne_foreground.png": {
+      "mean_coverage": 0.4508293600643382,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtne.npz",
+      "sha256": "30df13ee381a6a4b401fe7937108db9a0b800b771d949e10456790d86a3fed3f"
+    },
+    "mm8/grdrtnw_foreground.png": {
+      "mean_coverage": 0.4597943474264706,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtnw.npz",
+      "sha256": "cb391963e9b4798f51ddcc3ecd7d2fa8c44ced2557ac4fed354d5103747fdef7"
+    },
+    "mm8/grdrts_foreground.png": {
+      "mean_coverage": 0.6330721986060049,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrts.npz",
+      "sha256": "8089c0cd8bb7e80e2f9cce7cf91ec842190e969598132f55505af65162137cba"
+    },
+    "mm8/grdrtse_foreground.png": {
+      "mean_coverage": 0.4454391180300245,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtse.npz",
+      "sha256": "2d198895c5a4aea8a55c37d3eb50d1747facab350da6a9c238e194d73124a916"
+    },
+    "mm8/grdrtsw_foreground.png": {
+      "mean_coverage": 0.4604312672334559,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtsw.npz",
+      "sha256": "3653eaae2eedd06d1651a1e9ec076813ac803c08f2b92bbd73bbce75311730eb"
+    },
+    "mm8/grdrtw_foreground.png": {
+      "mean_coverage": 0.67672119140625,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtw.npz",
+      "sha256": "385e8ca749fa96222da1847d797a2de107ff8e19f3e4862fe9cbd88f75b631c9"
+    },
+    "mm8/grdrtxne_foreground.png": {
+      "mean_coverage": 0.7762597177542893,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtxne.npz",
+      "sha256": "e3c6d0ee74b9905ce115929288dd3f721e6fa8e686b2ce8aab3bd46254608113"
+    },
+    "mm8/grdrtxnw_foreground.png": {
+      "mean_coverage": 0.7835820216758579,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtxnw.npz",
+      "sha256": "8fc4d8c977de150fa54838208211dead53db7f7c78d4b0bac0f81f94ad1a8044"
+    },
+    "mm8/grdrtxse_foreground.png": {
+      "mean_coverage": 0.792306458716299,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtxse.npz",
+      "sha256": "da672764253ee803457d710e17d26e82b38159bf3a01827c33ed4119a7246d2a"
+    },
+    "mm8/grdrtxsw_foreground.png": {
+      "mean_coverage": 0.8081262925091912,
+      "purpose": "foreground",
+      "source": "level_generation/terrain/mm8/transitions/fields/grdrtxsw.npz",
+      "sha256": "a78a31ca4daa4e453c48e6ac3b2fbfa51855dc9ec5e32e64b32c19e9d8180e07"
+    }
+  },
+  "files": {
+    "worlds/mm6/terrain_decorations/oute2.yml": "2c57970a6afb0f8da5998fc0597917c0bbd3269ad013275bc88f1020018105b6",
+    "worlds/mm6/terrain_decorations/outa3.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm6/terrain_decorations/grass_tuft.png": "81279840b2c14fda4711dec530a583f69a8455a9e79f4bdd38c72f6141d44d93",
+    "worlds/mm6/terrain_decorations/outc1.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm6/terrain_decorations/oute3.yml": "261c87c56bf2f5e7cbd51a8ae4858faa0737d0765088a22b1dc33b6768e6e671",
+    "worlds/mm6/terrain_decorations/outc2.yml": "54c3a3400ffcb1a9f3ad3f1b477bad5f752759fe9edaf8a5d0a24a3b91f7a02e",
+    "worlds/mm6/terrain_decorations/outb2.yml": "2e1c72faba46097365b41ff5a51e1927c61cd5cf10ed3247ae80dfa07f30a0c5",
+    "worlds/mm6/terrain_decorations/families_v2.yml": "0eb24be0b0208eeeca84709c27716828146e35b40916929bf5d5ec1bd151ac11",
+    "worlds/mm6/terrain_decorations/outb3.yml": "c7b30bdb70907399a48f5b6bae6e66e14582743955c81e65d5ef9c9ad414760e",
+    "worlds/mm6/terrain_decorations/outa2.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm6/terrain_decorations/outc3.yml": "3927fdd9ccf3cdafcead2e8792fd111c0708f437e5e1198dfc8362e8872d5d8e",
+    "worlds/mm6/terrain_decorations/plants_v2.png": "508b0e4c7abe84a900c75f2917fde8b9ebc7f90f3bade7179326dcf58c54f73c",
+    "worlds/mm6/terrain_decorations/outd1.yml": "51968f55ce818be13f1c2df8515776122c8e28a4f99bfbfaa9e792d1b0ab57c9",
+    "worlds/mm6/terrain_decorations/outa1.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm6/terrain_decorations/outd3.yml": "4dd30c221bf510a3a8e8fe2c88e2b8a01bf3ab109e9be0ebd9422f43d5398c9c",
+    "worlds/mm6/terrain_decorations/grass_variants.png": "342b1fb06b409d49d44f66df76674ddf2626a5d914a61dca21c73f16f65b4006",
+    "worlds/mm6/terrain_decorations/oute1.yml": "5a3081aeab06002359f6d23758486c29fcba0acc4246efdddca38dc72dd36b86",
+    "worlds/mm6/terrain_decorations/outd2.yml": "6a1d4d4cc2dde0b2ad69d6191588109391ea1a4222c296781ceee1bc529019b7",
+    "worlds/mm6/terrain_decorations/outb1.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm6/terrain_decorations/masks/tropw_foreground.png": "b966db8c8674e848093bed9ece7c34d1b834ce04303563e69ef2b0ae6897ed5c",
+    "worlds/mm6/terrain_decorations/masks/snodrw_foreground.png": "19d231851fe4442ca15b0b9f13c9acb49a311302fa876e427a00eac2dd65de0c",
+    "worlds/mm6/terrain_decorations/masks/6sndrtse_background.png": "9cc5353620160b32a52e16f633b96166fc469f4ad87e07bf5437b50989010419",
+    "worlds/mm6/terrain_decorations/masks/snodrs_background.png": "3d5a93fb56ed2e43146bf05d0e8aa1e2aaed43891314c477e58800bc02399216",
+    "worlds/mm6/terrain_decorations/masks/6grdrts_foreground.png": "eed710f53fdee4c5f6eb43f9c8956ce194007f62679dead2b6e313be3e9dd986",
+    "worlds/mm6/terrain_decorations/masks/6grdrte_foreground.png": "6809a31375fff1296321e6117766aba914fa34770cb980138bec97ca6edd73ba",
+    "worlds/mm6/terrain_decorations/masks/tropse_background.png": "b26d55b3bc679ce7c50997a39ee3a31589cb165810ae03d0b3276f581ed12a2f",
+    "worlds/mm6/terrain_decorations/masks/swmdrnw_background.png": "3a54011357bae8edcf0106c2b5ad895f131e6f2db86e7747807cf0ec3fed7f4f",
+    "worlds/mm6/terrain_decorations/masks/crkdrtnw_foreground.png": "ef51e6dffad958f2feb9a1fc822e4706dc606aeddf2238b42b253c957f0c4df6",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxse.png": "f52da6dcb1b3b542360f62dc2394d46c249228c4372d770c0df3afc9a1b26a5a",
+    "worlds/mm6/terrain_decorations/masks/snodrxsw_background.png": "d288e9b7613c6de6a36f8e0123e144ad59f23ec4eee936fc745847c823e04ba7",
+    "worlds/mm6/terrain_decorations/masks/6grdrtne.png": "1dc19471683530369f05a35460f87499276b2cb3e0547412eded906dda5a9b9e",
+    "worlds/mm6/terrain_decorations/masks/crkdrtnw_background.png": "f0734197a9e06a1b8477a338632968f42c3594362147024628d268bf7a8e52e2",
+    "worlds/mm6/terrain_decorations/masks/tropxne_foreground.png": "099eed86544229bc12bf0890880ef15788cba27a615e0b3f701bd140fde3e35d",
+    "worlds/mm6/terrain_decorations/masks/6grdrte.png": "e0cc107f4235da0629123f635dab86a3c83ffd620dd621403dd02130dd359f3b",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxsw_background.png": "de5bc0ee9a8da765cf2b18e891ec23abe0343852f959cac42a7c14b5fc530a1c",
+    "worlds/mm6/terrain_decorations/masks/snodre_background.png": "4cce2e368c8733c6a0a158212f68d716c76a797d4882c0bdecdfd1b2db55a9a5",
+    "worlds/mm6/terrain_decorations/masks/6sndrtxnw_background.png": "1f952f3699026052b214bb7eb25019ec4bdc7cccc303792706e838ef10990bb6",
+    "worlds/mm6/terrain_decorations/masks/voldrtxsw_background.png": "e291cf743c8d47f098d2e343f3c140eea85a26d164e0910ddf497b9fc314336b",
+    "worlds/mm6/terrain_decorations/masks/6sndrtxne_foreground.png": "5f6eb9228119c62cdf845f2d5d3e0a4bcad49ed3eae1a9e88cf2e90a1ecb5be5",
+    "worlds/mm6/terrain_decorations/masks/voldrtxsw_foreground.png": "f05af9579f601df88561298f69e81a7f6090452ae4ec0dd399f16bb74ef63d53",
+    "worlds/mm6/terrain_decorations/masks/crkdrtsw_background.png": "60bfc0d455217a64b48f9ed5c0052da31dc62c43cec37a111fd7c4c79df2be36",
+    "worlds/mm6/terrain_decorations/masks/trope_foreground.png": "2040a962c67fad7970a9aa489c0fc8812f76fc972c5aca5fa565bde043cda070",
+    "worlds/mm6/terrain_decorations/masks/swmdrn_background.png": "6dd3b09d39ba08f1d57421aae4a3b4327a45fbc738a688ee71eaa517d56dfd6e",
+    "worlds/mm6/terrain_decorations/masks/trops_background.png": "37d59e7e1c1c6423075d47e595a81d00620df29495fd0b078713cd30fa1efa49",
+    "worlds/mm6/terrain_decorations/masks/6grdrtse_background.png": "3578611a2a6fa8ab492f8ddf9b88a63a4d5b31e5a84c9f1b72f4eb0ef5fa3f1b",
+    "worlds/mm6/terrain_decorations/masks/crkdrtxne_background.png": "8573d4b5e115b40a3bf5e84d1e18f147f0e07286ab4cb7a804f59f7dd2036f0b",
+    "worlds/mm6/terrain_decorations/masks/snodrn_background.png": "5307dc4226cef4a8b2633353c194a3b49b17ba2849e7fd000979247a5090c6fa",
+    "worlds/mm6/terrain_decorations/masks/tropxnw_background.png": "ce2c8a292bddee940a8eaf685c0b641436a513867d2aac1210e57e623806d16f",
+    "worlds/mm6/terrain_decorations/masks/crkdrte_foreground.png": "2649377b389b4e5945b1871713b9df4e964ae18f708bc6de0acc5d4f654cd457",
+    "worlds/mm6/terrain_decorations/masks/tropne_foreground.png": "6737b32579d8b8869425fdefb85e809a7cdbac9e40b31a312b5920b579968cf8",
+    "worlds/mm6/terrain_decorations/masks/voldrtxne_background.png": "d64ff895e54faa45177fef3e004875de987c708d4d9490670d3ca24e5fb41c6b",
+    "worlds/mm6/terrain_decorations/masks/voldrtnw_background.png": "89c623a3df760c7d93deafb75c1f18afb7e5352abbbacff27ce237fad3f387fa",
+    "worlds/mm6/terrain_decorations/masks/6sndrtxnw_foreground.png": "d8428754a1f885d321adf1344e6e2655363bcf8e27574d197735178595a1254c",
+    "worlds/mm6/terrain_decorations/masks/snodrn_foreground.png": "0fec459a67eef27f6b2d9a8d80c25d8fc91f1b311200c9ca02b10fe8604730a4",
+    "worlds/mm6/terrain_decorations/masks/6grdrts_background.png": "d4b5380349fea3f00d1d91a0534663ae8294846876f8a79186ec00ec823b874a",
+    "worlds/mm6/terrain_decorations/masks/swmdrw_background.png": "941c1e189c60bdf07fe4f3f1ef5009831c95a57e56377eab11fe8fd5eb10c337",
+    "worlds/mm6/terrain_decorations/masks/voldrtw_background.png": "c71d0fc661587105ccfbc3a61930c98210f8c4437c4a2e91b0cc38182cfe4f45",
+    "worlds/mm6/terrain_decorations/masks/tropsw_foreground.png": "e4a675f8e5a343cbd8815457e7baeebd328a199990715fa324e93e5e5a3eb7fd",
+    "worlds/mm6/terrain_decorations/masks/voldrtsw_foreground.png": "12b878ca3f3de6365922f543bf252bd347333dfd8ace5564cc37e4897c81269d",
+    "worlds/mm6/terrain_decorations/masks/tropnw_foreground.png": "7e05f1e5567e76c0007836c7e60319ad3056d0ec4e33afc1035bfb86645d3f30",
+    "worlds/mm6/terrain_decorations/masks/6grdrtsw_foreground.png": "e66c64763e9564799c41d56c62e08fd48b47cea71ce1f4d4a164696146ed1a8c",
+    "worlds/mm6/terrain_decorations/masks/swmdrxse_swamp.png": "569939dcaa561d031a66e875a2a9b3b69c8e53f4b7c3096e95c454a3049ee176",
+    "worlds/mm6/terrain_decorations/masks/6sndrtse_foreground.png": "980c9f32f462dd505db4b261cd3ad01410b02ce40a5f610dc386b94fecdaa906",
+    "worlds/mm6/terrain_decorations/masks/6sndrtw_foreground.png": "d50091654a7d7c77049e8d2c171495976ef1a077f890373971c0314e5cf91b28",
+    "worlds/mm6/terrain_decorations/masks/6grdrts.png": "d86a7ab345eb9f47b4d43bb293e2f19aec1947aa3b31befb7aa516549c35d2fc",
+    "worlds/mm6/terrain_decorations/masks/6grdrtnw_foreground.png": "c370af5012c7875b6c4c6ad4cf78ac77766fd4b95b8aa6cdf0cc19fc7bee0e24",
+    "worlds/mm6/terrain_decorations/masks/crkdrts_foreground.png": "c2bf068a9a57cf6f2e2ce291fa7938cbbbd528866b562ef96f77c26f664138e5",
+    "worlds/mm6/terrain_decorations/masks/6grdrtn_background.png": "6429616cce5cfd47e50758bc1072ec3618caae1f004a6085377ccfc9c696cd4e",
+    "worlds/mm6/terrain_decorations/masks/crkdrts_background.png": "571ac07f849e910b61567819491b4af489939c5b0977fc305f663c88f6a0b3b3",
+    "worlds/mm6/terrain_decorations/masks/6sndrtne_foreground.png": "2d026b9a58cdfd338e5099c295d18edcfd8ea060145c9bf869682d3d6798007e",
+    "worlds/mm6/terrain_decorations/masks/voldrts_foreground.png": "416c74b8604cdae0ca79a4513ff19365971a0cbbc9068b917079fd8c3917612a",
+    "worlds/mm6/terrain_decorations/masks/crkdrte_background.png": "3541ecb3bd6123d4a0cf67ab54da6007572c98fa97e2c1b935d2a1c578de6bdb",
+    "worlds/mm6/terrain_decorations/masks/tropw_background.png": "768c459d1bbe46a06430ad2c02fc8d6ebad16ccf0bcbe6443ff0b57fe134a3e3",
+    "worlds/mm6/terrain_decorations/masks/6grdrtw_foreground.png": "dfafcfb60968763fc4c52a6d350cb61db638967dc05bd986a5f65209b40ba2ab",
+    "worlds/mm6/terrain_decorations/masks/voldrtxnw_background.png": "0a16578cef8c22ae669c62efd70474f15cee2f586fba82a1aa737ffa983832c4",
+    "worlds/mm6/terrain_decorations/masks/crkdrtxse_foreground.png": "ec5500f6ba4a6246beecc91977bec3f2eca9327f21bf4a0e5e98e7e12fa106a9",
+    "worlds/mm6/terrain_decorations/masks/tropxsw_foreground.png": "538c954f14852dbe6a4c77f85ae9d5cc5122d33f848208648ca963fca4bef23c",
+    "worlds/mm6/terrain_decorations/masks/6grdrtn_foreground.png": "d5b5fb4ad457aee77f27ae8addfa1a10d23102273a6cc338e626f94c819bba85",
+    "worlds/mm6/terrain_decorations/masks/voldrte_foreground.png": "e98b3f3d202e297bc6c50106fbc7e40a820d7d91dc63c33160a92b75399485a4",
+    "worlds/mm6/terrain_decorations/masks/crkdrtxnw_background.png": "2b04ef9ac0c99cdbbab707d331968f138033119a7887adc07dba4944c0f05f63",
+    "worlds/mm6/terrain_decorations/masks/tropxne_background.png": "f16b7222b6e8c359ee3038a3593ea3d2a082f756445809fb2f67ad4d8fab1b8f",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxsw_foreground.png": "e6e5deb3304013fe7221c0ebf2853937aa2f5d01a51e9dda13d1b94cac4563cc",
+    "worlds/mm6/terrain_decorations/masks/crkdrtw_foreground.png": "86e08369e717b7fa468c93a8aa3b70ea576090a63a8f7a0c2049c454a9b0eb46",
+    "worlds/mm6/terrain_decorations/masks/tropne_background.png": "ba0258104ab3d0829ffa90092e5cd62ce4d8718e8bebd190828af37cd87f71d1",
+    "worlds/mm6/terrain_decorations/masks/voldrtn_foreground.png": "aaea1526bd8faa0130e0c42548dedd5f57e6561ca796fd9f0ed30a0f8145986d",
+    "worlds/mm6/terrain_decorations/masks/snodrxse_background.png": "38a4884245412f5421944a38b048eb5949cb1a7877080d5ebb2703e4fae1d321",
+    "worlds/mm6/terrain_decorations/masks/voldrts_background.png": "8efda7e831cbae53b853e1440acde016cb763ef0709e0fca4fc16e25f72ce283",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxne.png": "b40421426d5f4d4729e88bdce97b59d93709ba07fda95dda90768bcf4f7df958",
+    "worlds/mm6/terrain_decorations/masks/swmdrsw_background.png": "947f701d5e315ca90bd0040a736d22b11a4f5bc9883cb44a3f75a23c53237b10",
+    "worlds/mm6/terrain_decorations/masks/snodrnw_foreground.png": "e5fa8c765aa357a71f14c51dc3a37d57d0307cdae19acb43315c44cee466dbe5",
+    "worlds/mm6/terrain_decorations/masks/voldrtxse_foreground.png": "f15708c7f095a33a5852fac138e6af2186f0b5e07a1387417ed43c873aa02bec",
+    "worlds/mm6/terrain_decorations/masks/swmdrxne_swamp.png": "34d6cccb18f425c51227a4d6c206f73562a7c0819e64bacd99f1c39c7908b402",
+    "worlds/mm6/terrain_decorations/masks/voldrtse_background.png": "6e7ac503fff0bbd85239b232da571b62505e82315c195480956ba35661dcb569",
+    "worlds/mm6/terrain_decorations/masks/swmdre_background.png": "cbc73d072d436f53129354b440df41ad38a36c984a24f230ef7c14e198e32847",
+    "worlds/mm6/terrain_decorations/masks/6grdrtnw.png": "b6364181628e401dd87592f27eae271157bc2d37e344e077cbf5fb7b1a921c47",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxne_foreground.png": "05b11b42dd8e5c9345e90ac39a53d8c26d1e2abed9735427a11a5f520591ada6",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxnw_background.png": "b0545041be4a28cee3a7835e49e4d5899e14521fef42ec7395720910b47ef3b3",
+    "worlds/mm6/terrain_decorations/masks/voldrtsw_background.png": "69a9c21617670209deb090b9ab77952e2e0fbe41e798b3acb71ba4cbdf4aa48f",
+    "worlds/mm6/terrain_decorations/masks/swmdrsw_swamp.png": "394de7a3bd1b8f2c9d4c91862f862e71e41374d0eb0bc11b0ad1932c1f24bf0d",
+    "worlds/mm6/terrain_decorations/masks/swmdrs_swamp.png": "2b0a994b20b8e1bfb36ace82bd92b0dff06f2da826b1028869359d8af8825a56",
+    "worlds/mm6/terrain_decorations/masks/crkdrtxne_foreground.png": "3332d8e5d140171f46587c4d435938ee5b911d8d507197a7ce28846dbb4e30ae",
+    "worlds/mm6/terrain_decorations/masks/6sndrtxsw_foreground.png": "dcdcaebf039b949c19dfdf2cf3716cb5bddf662f577b95ada843114b4a41cc2a",
+    "worlds/mm6/terrain_decorations/masks/tropse_foreground.png": "cb495a839054009b77394e70508717a9d48b8cf6ef0851d48c1c022dda677ea4",
+    "worlds/mm6/terrain_decorations/masks/swmdrxnw_background.png": "0bb5c97866e86cc66c1e97cfbdba1001a516981a1a96004489ecb652ae8f25ec",
+    "worlds/mm6/terrain_decorations/masks/crkdrtxnw_foreground.png": "c7c22640f2c72c287be7baad29d8eb178ce5161d70496fc43c2ae6819fcdd5f9",
+    "worlds/mm6/terrain_decorations/masks/swmdrs_background.png": "b262893538a83d318373a84bb281cde0f3ee8d508fc7076fe22eeef1b76898f6",
+    "worlds/mm6/terrain_decorations/masks/swmdrxse_background.png": "e10b30c817d6189495e752977a1fa052847acae2a8bc1847a34b0336b9a37d24",
+    "worlds/mm6/terrain_decorations/masks/snodrsw_background.png": "398aec6110dd29a09801f8374e4b667bcb1f8398473f3de19a1d756697283a5d",
+    "worlds/mm6/terrain_decorations/masks/snodrxnw_background.png": "b6c89083ff73d158108ee3e6437458b5fc93c5a781609b0ea885a6b4179393b0",
+    "worlds/mm6/terrain_decorations/masks/6sndrtxne_background.png": "7f2322d5b1f0182336d20be2f5fc257578c7a100133285b32a7280c6ff2acb9c",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxsw.png": "bdd2e8bf965ad3f15928a0eaa2e79fc38732e4a9515576cb238b1a32b4fe64c4",
+    "worlds/mm6/terrain_decorations/masks/6grdrtn.png": "b49fb2132c7207d76f16c2d01092d7ac7aac1f18b83b7add41c18f1700e9c716",
+    "worlds/mm6/terrain_decorations/masks/6sndrts_background.png": "087f4f698e04c8cc02e2b6c0ec7c0938b62e540d0d0d35420494e643e04c05fa",
+    "worlds/mm6/terrain_decorations/masks/6sndrtxsw_background.png": "1eafbbecbc1d6225d9e37a1084d076c9bcc6e3bb73667cbd935fc6bac6e2a3c6",
+    "worlds/mm6/terrain_decorations/masks/swmdre_swamp.png": "a5acf2068895a3d5f1fa65978d2b955580678c603595ec7c7b9de7e220ccf544",
+    "worlds/mm6/terrain_decorations/masks/trops_foreground.png": "58912a29b481106c850a42a1712a6a00a9763ecbce38c5275344799eeaaefa67",
+    "worlds/mm6/terrain_decorations/masks/snodrs_foreground.png": "c43728004ed6c7d7a13efdae13478f9d5f586e01c75dd338b0f0a9f2030d87b9",
+    "worlds/mm6/terrain_decorations/masks/6sndrts_foreground.png": "edb99e29456271c6f5a9aaa34df3e14ff8b2ab6df07fe8b5d6ad22bdc3790ff4",
+    "worlds/mm6/terrain_decorations/masks/crkdrtxsw_background.png": "0b2603f623ca69c64dff65c2c07c59e99c0d6cd2c2ef014c2a82782205b93590",
+    "worlds/mm6/terrain_decorations/masks/voldrtn_background.png": "5d447807ec44f6c9bbc4f9c46412d192f7433bac7687650d37c7b3615077f0ba",
+    "worlds/mm6/terrain_decorations/masks/crkdrtse_background.png": "fb340b0f0486ccb0e7d77f231336e174d3ea283208be546efeca908166800079",
+    "worlds/mm6/terrain_decorations/masks/crkdrtxsw_foreground.png": "ae2d2fa407fa6bc8013ec6d89643b64d70f699d06a564aadd4c90eb1920c9913",
+    "worlds/mm6/terrain_decorations/masks/6sndrtne_background.png": "1dbb725f3165ae9611a95b339bf75b9a4ee41c2f695e241c2835307c6f212815",
+    "worlds/mm6/terrain_decorations/masks/voldrtne_background.png": "d9cf49a540379c0c482eaf3ce0b120107daca99e1c825d3dee18de6220699c47",
+    "worlds/mm6/terrain_decorations/masks/6sndrtn_foreground.png": "bab98e33f6cc939f1a4e45a7b214c2b7f09bfb9014c8d7ef5cfbabb9c5b41dea",
+    "worlds/mm6/terrain_decorations/masks/swmdrse_swamp.png": "10440cce6576c17f2e5148cfc8431bc7090ef6e0fcad75f3fe8cbb5ab84f0f8c",
+    "worlds/mm6/terrain_decorations/masks/6grdrtne_background.png": "d5eb1ce73bc5bdc0dbfce0e4155ce87fbbc19dae10273d2fe6e29239ab0cf46e",
+    "worlds/mm6/terrain_decorations/masks/6sndrte_foreground.png": "cedf994bc3b2e5538b43e485e11b4034b569b7090d3822863145999e872defbd",
+    "worlds/mm6/terrain_decorations/masks/6grdrtw.png": "210e19f07d49513324a2cfe5397b413ba1bef859edd99a4dadb1569910c1e73d",
+    "worlds/mm6/terrain_decorations/masks/swmdrn_swamp.png": "3b1f97b303a840c398d58f74222c2e86c025b5f055beb53f33b46532866f272e",
+    "worlds/mm6/terrain_decorations/masks/6sndrtnw_foreground.png": "62990d82de99e6393c81152791ed1e7429d20a1eb6dc99e26827df6729f28dc8",
+    "worlds/mm6/terrain_decorations/masks/voldrtw_foreground.png": "1ab961bcf67eb6364aaedbb7282f175a0b47ac47d3daf69e06874c122e796f01",
+    "worlds/mm6/terrain_decorations/masks/snodre_foreground.png": "f8bef1c5ec751dee9cd485fbbf229789d3cc2e6051bf090e7cc344d1db882fe4",
+    "worlds/mm6/terrain_decorations/masks/tropnw_background.png": "5d52fecd910fe4bdc302bd0fb20847f261ddeed84d6c05482846b5f9e8c8c5bc",
+    "worlds/mm6/terrain_decorations/masks/6grdrtw_background.png": "077ee91aa3b5957bc6a5e28f657eaae27313c6c3a3e7e6441d85afc84b30e95c",
+    "worlds/mm6/terrain_decorations/masks/swmtyl_swamp.png": "d7135cd75131e59d037f1abdcb984f2ea69f404a03eb88001674a51f0627be02",
+    "worlds/mm6/terrain_decorations/masks/voldrtne_foreground.png": "d6666187887bfb5a2326c89a517a0ffdb44a11e7af4417ced734541c61903afc",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxne_background.png": "d49a6bdbf1486e4983b5cc58782e2fa16234a5ff618050f08c29b8d1e5f70e5c",
+    "worlds/mm6/terrain_decorations/masks/crkdrtn_background.png": "ad89f37de965809ad8ce5603c5882389e6c40f18ff110908934014f263777429",
+    "worlds/mm6/terrain_decorations/masks/crkdrtxse_background.png": "c20491b411a419bcf0c98c6be4adaf97988e15fee9a5418c633f95af7bd28ee8",
+    "worlds/mm6/terrain_decorations/masks/6sndrte_background.png": "6129eee0466b3e9b1abeb30aea217ea82a1a878ba3cbc98a0d99640fe3550831",
+    "worlds/mm6/terrain_decorations/masks/6grdrtsw.png": "9e758f501e9274d348e01cd7aa9a74a3ab4996c09b99d733a5cb1e58e0a8c59f",
+    "worlds/mm6/terrain_decorations/masks/6grdrte_background.png": "73de5e215830a99cba6369c3498537729a5bcfe1aa87f26dec6647c4752c3e94",
+    "worlds/mm6/terrain_decorations/masks/swmdrxne_background.png": "291cb754b2bd621449219fd37602902b89bae5b8c38669ec39212f71c301c4f5",
+    "worlds/mm6/terrain_decorations/masks/tropn_background.png": "6e93c7507dad775a6f7c46624da98b803906882d10a1b7d739fd0cc109c1899c",
+    "worlds/mm6/terrain_decorations/masks/snodrse_background.png": "7000afef836d132caeebd5c7ba20a32c9bafab6d19f042db2138cf892d060d40",
+    "worlds/mm6/terrain_decorations/masks/snodrnw_background.png": "813e57b10f66cf29a1da2468b5aa1f707e1e492afaf533bca0b6a860ccd8e797",
+    "worlds/mm6/terrain_decorations/masks/6sndrtn_background.png": "66aa0a09ebbd9013d75bc47b0341cf5f2c240d5db4391d7b8703f5869ad0587e",
+    "worlds/mm6/terrain_decorations/masks/snodrxnw_foreground.png": "c7ef89655505113e75acf91a1d5f603c19f379be375fb04da7c2da2a4848c0b5",
+    "worlds/mm6/terrain_decorations/masks/tropsw_background.png": "b7f01f06ad2bae52a41f64bc33ce729c384f329e7ad6fd46bd7e74e92071526c",
+    "worlds/mm6/terrain_decorations/masks/crkdrtw_background.png": "4804275e10d8dd6cc9689f64cabb0a80992332508e2a2aa12cff73a7b547d9b0",
+    "worlds/mm6/terrain_decorations/masks/6sndrtsw_background.png": "346858139790a7ad41f8e09da63ce6be3c13e04a3ae2f547798fc0e377093695",
+    "worlds/mm6/terrain_decorations/masks/snodrw_background.png": "68d23d42e59bc0034ae4a41a101301957959c461a0d1c08cdb6f28685653cfb8",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxnw.png": "a5737c3699ffaccc191261174ac21349bd685943c903c07c97965a28eaf75a87",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxse_foreground.png": "072f581ca503d946074c1ba339b19fae597a7a1be979677beecc26f77bd91c94",
+    "worlds/mm6/terrain_decorations/masks/6sndrtw_background.png": "cbf0eff993e6340dba7f141732f53d591f62eae01cfceb936a05f52e21fc2492",
+    "worlds/mm6/terrain_decorations/masks/voldrtse_foreground.png": "c38ffd71b9c1893a80069cb5633abe5839b518ddeb915485ef67aa4f15a1fa8d",
+    "worlds/mm6/terrain_decorations/masks/6grdrtse_foreground.png": "f20b0b13f6183229602009513aac2203104cbe7a74f378f4130515c17914ab7d",
+    "worlds/mm6/terrain_decorations/masks/6sndrtxse_background.png": "9975c30f72495d6465ca188d5e151cb1a44208f629b0db98c9f0e23188978f48",
+    "worlds/mm6/terrain_decorations/masks/crkdrtn_foreground.png": "71268f91180c826a101fabc5817ab162944355bb436188f8e3717cb9bb4fe666",
+    "worlds/mm6/terrain_decorations/masks/snodrne_background.png": "4ca4ff033d2a13ad165d2e5f50a3d0bf01c70ecdc19c325bea8eadcd67896d38",
+    "worlds/mm6/terrain_decorations/masks/swmdrne_swamp.png": "f2bd5d6d730191a2e86543caebe9ee9043522d3ff5d04f2f5cff101394d33896",
+    "worlds/mm6/terrain_decorations/masks/6sndrtsw_foreground.png": "018d560d84ee9bb1572f2402e1bbb61f98c289b29823201301bb65daf040cc51",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxnw_foreground.png": "61e2ab58b0d8cd02c36bc44999fdddb213f06162b9803d54f23537af2b570496",
+    "worlds/mm6/terrain_decorations/masks/swmdrxnw_swamp.png": "46dd171cf389c8d5e2bbe84e80afdcb9c94e8e17af29f3e00cdd46229dcfc7d2",
+    "worlds/mm6/terrain_decorations/masks/crkdrtsw_foreground.png": "e2eb3d5828b8231677d7030a4902633eb82691ec1ca597c2a4dc00c9568f0da8",
+    "worlds/mm6/terrain_decorations/masks/swmdrxsw_background.png": "684a7d6a9c877c97154441fbf82a933d34293185c9aba6727f3376dd19c6e120",
+    "worlds/mm6/terrain_decorations/masks/swmdrse_background.png": "7242504b0c47592e2803b96c852724c1374cb1250ed7d3b9fc43f8f760db106f",
+    "worlds/mm6/terrain_decorations/masks/tropxnw_foreground.png": "3a69815a3020a05baa72dc912ec784b42079981a8f4060f3120b06d6cec6feeb",
+    "worlds/mm6/terrain_decorations/masks/swmdrxsw_swamp.png": "c1430f1569912968c0c8e983c8e01dad10c72328447e977ae3668f9fff2c6696",
+    "worlds/mm6/terrain_decorations/masks/crkdrtne_background.png": "d7d8dfb4f846a102fd4a317ff33d29ef0a16f424fa77aa0b829a4072622852ea",
+    "worlds/mm6/terrain_decorations/masks/snodrxne_background.png": "42c3a3f5868915321975114a4a3aab333478085309905f64f65caf0052f2df21",
+    "worlds/mm6/terrain_decorations/masks/6grdrtne_foreground.png": "d95fc474bd2ad6d1be655c97f0ebf7b476f2c10e5cf35b02cee77a12c13021be",
+    "worlds/mm6/terrain_decorations/masks/6grdrtsw_background.png": "f317a09eefb792930ed755a19082471e38aacc8aa5de9fb660052c1d6fb6d2a1",
+    "worlds/mm6/terrain_decorations/masks/snodrxsw_foreground.png": "dd4b85e742aef96a8a61c5f38e8d9b9eb6b0611d031bed14d50f63a020554041",
+    "worlds/mm6/terrain_decorations/masks/tropxse_foreground.png": "25c0a60af1d56bf8f1fc3fcc680ddf8ac4be42a3c6984b96b23edd39ce34bfb8",
+    "worlds/mm6/terrain_decorations/masks/swmdrnw_swamp.png": "6280f064456240e8ad44c2635659b5d59d4504ff87ca877e927f9096924661c4",
+    "worlds/mm6/terrain_decorations/masks/tropn_foreground.png": "a71063a7de96721c056c8835c74fdaa182ec96e7c7c4da4b00de111d3d2f3ee4",
+    "worlds/mm6/terrain_decorations/masks/voldrtxse_background.png": "c5517c523fbe7fac357d3dcc1ab7c2104f1679487961ecd8dbdbb213698b3cd0",
+    "worlds/mm6/terrain_decorations/masks/snodrsw_foreground.png": "64297df4998fa442438c4844b1bae439a9b92a4f7a0ec7d405e3cdeb01007943",
+    "worlds/mm6/terrain_decorations/masks/6grdrtse.png": "e1338f3230a4701880b0522577aa136ebca08a1da9b6f705d8b95f279da77314",
+    "worlds/mm6/terrain_decorations/masks/snodrse_foreground.png": "d3c8c7b05371e07e175c0a3739c73c3b89e7d53e6e66077760c5bf76fe7ef6d4",
+    "worlds/mm6/terrain_decorations/masks/voldrtxne_foreground.png": "f778865bf3161d3f61e551d4d9c3b10ec12a37e207a92dd8e7733c91476256fa",
+    "worlds/mm6/terrain_decorations/masks/tropxsw_background.png": "115873bb7bad9b8bf6dbcf787f7c8ded397b4904807fd39c9ad5c956675b3dce",
+    "worlds/mm6/terrain_decorations/masks/swmdrne_background.png": "1048b6ad6250f6d0242f34005d5409af1648de53106e0edbb259a571bcbfc891",
+    "worlds/mm6/terrain_decorations/masks/voldrtnw_foreground.png": "638c9c5a7ff07dd322a4323daf4d0354d113e6fac829273be628d3c30873da85",
+    "worlds/mm6/terrain_decorations/masks/crkdrtse_foreground.png": "8bb7d7ae07ba6ebe52d7435fb24448fd59152ef4bd9f22a511a68d0f8c767eea",
+    "worlds/mm6/terrain_decorations/masks/trope_background.png": "d53e60c65df0fcef768e9974bba719d30ec8c9532257445f54dc9288d7456f50",
+    "worlds/mm6/terrain_decorations/masks/6grdrtxse_background.png": "aa76a4a137ab17addf424fbc6c8ca628d55b4725e3898371809811ecdc2558f5",
+    "worlds/mm6/terrain_decorations/masks/snodrne_foreground.png": "376f30c6f22ba7bccf08f8cf19190c23c27e95161c41ca80646cc6b1e31ec8c3",
+    "worlds/mm6/terrain_decorations/masks/tropxse_background.png": "c527aa13cc675fd345bced95b70a1f67dc6d030bbe3152f1afdcf4ad213c579f",
+    "worlds/mm6/terrain_decorations/masks/6grdrtnw_background.png": "75e2e5788e0784659d9d4db5223aec7541b888b86750ee4337790f91b4baa77f",
+    "worlds/mm6/terrain_decorations/masks/voldrte_background.png": "95ab8afddd979bc294ebb993350ef65f26a65afd538954163d5a08498d3c81a8",
+    "worlds/mm6/terrain_decorations/masks/crkdrtne_foreground.png": "5e5656085c88a0c295ec603be9bfb9ee79d34089b2702bc7e16c901cc22eb8ac",
+    "worlds/mm6/terrain_decorations/masks/swmdrw_swamp.png": "e764995c8b486f5561b10cac0f3278b1f8801a4b01ceeaf5978c226b310134b8",
+    "worlds/mm6/terrain_decorations/masks/6sndrtxse_foreground.png": "932775ed72379c74a0c3de5c586bee1938d0b1ab31800a301d32432395840873",
+    "worlds/mm6/terrain_decorations/masks/snodrxne_foreground.png": "2e21ad675b5538979c7b6096037b6a5d47ebc4beba3fa678c2d8cafa88d0d301",
+    "worlds/mm6/terrain_decorations/masks/voldrtxnw_foreground.png": "9c5ee2d4e55dbfb96e9d87ad3ae669f6f0630d87bfc9f8b94e12d59ff4adf7be",
+    "worlds/mm6/terrain_decorations/masks/snodrxse_foreground.png": "35831f70777653ced20a8d76c4780b0445025b1f1133d01fddadd8698ec49f25",
+    "worlds/mm6/terrain_decorations/masks/6sndrtnw_background.png": "04568fc034c3cd230b9e54a7d5a8bb918e594d474d7c29a4b2cd0729fa45589e",
+    "worlds/mm7/terrain_decorations/7out03.yml": "452f63125a85e60082c04041d0929fc2cace38adf169a6210e3d30de2266fc80",
+    "worlds/mm7/terrain_decorations/out12.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm7/terrain_decorations/7out04.yml": "16c370d971802b61f4091e720ffe36f3d9be77e8fc9ac271a4428abb5a8d9bf8",
+    "worlds/mm7/terrain_decorations/out09.yml": "e288c26e6660f199f045399c1574b975d7be6bfc0a827e8bd3af498a3187889d",
+    "worlds/mm7/terrain_decorations/7out02.yml": "7952a6effb195574e38aeb3e3a080522d1cd24adc99c238af71ac09d46c214fe",
+    "worlds/mm7/terrain_decorations/families_v2.yml": "6c5a9c31190fb8c0de91384f5c12e681df18e3523d2d125e4edebd0ca2fb68b7",
+    "worlds/mm7/terrain_decorations/7out15.yml": "1f92727f53ff3805a7f8ad687133fb517cd64cc292860e3cec4780ec11e30f44",
+    "worlds/mm7/terrain_decorations/out11.yml": "de0a983b57dc4989df1cbbeaf6a31618b419b4428bebd8a384db2166c6e9ec15",
+    "worlds/mm7/terrain_decorations/7out06.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm7/terrain_decorations/out10.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm7/terrain_decorations/plants_v2.png": "508b0e4c7abe84a900c75f2917fde8b9ebc7f90f3bade7179326dcf58c54f73c",
+    "worlds/mm7/terrain_decorations/7out13.yml": "c4cadbb542e61449a4e793914052e0425c09f75f03c10907a221b506959979a7",
+    "worlds/mm7/terrain_decorations/out14.yml": "a083b99ddbf2776d2aad3327fca39ebef06921b2081d964a52f7d4b83ca3acc0",
+    "worlds/mm7/terrain_decorations/7out01.yml": "e39c05dca29c945ae593e184824fd00a12d701a1db4f435675ab8b38ac2e1507",
+    "worlds/mm7/terrain_decorations/7out05.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtxnw_background.png": "8861f5016f8a76ea459d18a3f495021f4684eef0ff75fdbe97d3050acb86c8e1",
+    "worlds/mm7/terrain_decorations/masks/7sndrtxsw_background.png": "47d5096e142a432a29e78c9221406a153ed550c46fc72a47643f74b2346c54e8",
+    "worlds/mm7/terrain_decorations/masks/7grdrtxne_background.png": "469dd1275f2edd91be8db54c195d4edc086f03600a75e3e69b18989d17705004",
+    "worlds/mm7/terrain_decorations/masks/7sndrtxne_background.png": "a118a04f9a789dec37335fba3c9c284695c65bd95f824fc4e296373e243daf76",
+    "worlds/mm7/terrain_decorations/masks/7sndrtne_background.png": "946e36f4582bc79475571f223917dc6944919bd8307834557886077e4e46f2f9",
+    "worlds/mm7/terrain_decorations/masks/7grdrtxsw_background.png": "964ccec281f59f1b39bfe8fe01d804109186655591aca9d3630977f5d5aec450",
+    "worlds/mm7/terrain_decorations/masks/7swdrte_background.png": "f0c0917e59d80c3b37cdcf2e438314e4b67cd4c082297e6761bd4d0b21402ca8",
+    "worlds/mm7/terrain_decorations/masks/7grdrtw_foreground.png": "9164643ea6f10eaa5c43c512e57dc37fc39e5673dc92ad32fa845d4eccb378e3",
+    "worlds/mm7/terrain_decorations/masks/7sndrtxnw_background.png": "1b20ef60dffb83b126c18ffeb4f0d6db8c3aa116684ce6e3cd67ba42fefb003b",
+    "worlds/mm7/terrain_decorations/masks/7grdrtne_background.png": "1708e4c64b2f25fd691d5e505fb297fbe48b976b02eee003627fc0da5153ba52",
+    "worlds/mm7/terrain_decorations/masks/7swdrtw_background.png": "3327b719bb636ee2419dc86725272a6f5127bf3e91598877dc717e4919fbd7dd",
+    "worlds/mm7/terrain_decorations/masks/7sddrtxse_background.png": "aedbee861bc3aac38f3aa501a19b3edd56ce21e037df84cf7237b9add21e9fe1",
+    "worlds/mm7/terrain_decorations/masks/7sddrtse_background.png": "8644cea43738a71fc232332269f8f92c28a511e8dbcea6be41de598a0b335ddf",
+    "worlds/mm7/terrain_decorations/masks/7sddrtw_foreground.png": "14a8982b46760a232c66c421d28ff2b71dac5e4aaf0b6f1cf62e0775841ecc6e",
+    "worlds/mm7/terrain_decorations/masks/7swdrtxsw_background.png": "d70035e9df72184980e0452c96d8ed5c349d7a3b3783c723f85d8cc152f1f2e0",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtsw_background.png": "fa1ee00671bde45e56fc81c5070a02b38110d0839674357e73b8832a78dc886d",
+    "worlds/mm7/terrain_decorations/masks/7grdrtn_foreground.png": "d645040cf1ac2c36a43c0655c7af887598f2ffcea0afe1889174ba3b7263b292",
+    "worlds/mm7/terrain_decorations/masks/7grdrtn_background.png": "e8cf34ba25bdb9e0424adf081ef0707a013ef1cadda8543f87bd9996416bf8fa",
+    "worlds/mm7/terrain_decorations/masks/7swdrtn_background.png": "b59d68722043315660cb124deed0dad223f38cd1c42ba7eb3f11343049c5bfd8",
+    "worlds/mm7/terrain_decorations/masks/7swtyl_swamp.png": "a4ccd98b985f6258df96ebf62a96aaee77d730da7ac7e8fc361f56adf8121a5c",
+    "worlds/mm7/terrain_decorations/masks/7grdrtxnw_foreground.png": "4ad9be4f2ba8ebe2b60ae473c1f8b31ecb2d38eb2b10c105167a1d8ce1e47461",
+    "worlds/mm7/terrain_decorations/masks/7swdrtnw_background.png": "08e1a0ede9e9898cb9492e99acbbdb6409bc1d1d27231d773de1847816830996",
+    "worlds/mm7/terrain_decorations/masks/7swdrte_swamp.png": "bcd17a0509a479bf784e58394d13ae5a6fd493693657ba8b1660cd59fc6ee84b",
+    "worlds/mm7/terrain_decorations/masks/7sddrte_background.png": "f76af243247b17882ded76c638c95263170fa73c205c4f87a85173340fcda5b1",
+    "worlds/mm7/terrain_decorations/masks/7sddrtxnw_foreground.png": "8660504d323d5453d78be4ac6991e1f9956c9893f9bad9b37532ceafd7a3e376",
+    "worlds/mm7/terrain_decorations/masks/7swtylv1_swamp.png": "fa8723b97d551419d359d6f63a766d0574228416e73a93e62af02582b8019238",
+    "worlds/mm7/terrain_decorations/masks/7sndrtxse_foreground.png": "e746a06179988baae2a48c54ba024115f1ef099b2242896eb242969ef518bb3a",
+    "worlds/mm7/terrain_decorations/masks/7grdrtsw_background.png": "bd47b0a73b790a01b9fb27618e9f737fc485c5e6d18398c5a16a3afb67fca91e",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtn_background.png": "4a0f5d464d70e040b9ee2b8a01c84af83d831c77a315adc46772c58de1d89298",
+    "worlds/mm7/terrain_decorations/masks/7grdrtnw_foreground.png": "199a8fe1ab1cf81df71b60a488b1240f1d265f3a14de680b88dbc68db234d771",
+    "worlds/mm7/terrain_decorations/masks/7sndrtnw_background.png": "9927a486e33d065d0744c159843fb742abed9ea3edda23a86f01c575d9f93c43",
+    "worlds/mm7/terrain_decorations/masks/7swdrtse_background.png": "96dc972d8872cc00d88412f44de95df5a58d244e232d3e9e258c6823f800fbcf",
+    "worlds/mm7/terrain_decorations/masks/7sndrtw_background.png": "dc226bf86f7b3955f1bf85a653cf924cb5f7a7ee4f619361c5e7d6edd6fd7577",
+    "worlds/mm7/terrain_decorations/masks/7wstdrts_foreground.png": "0bc5e9e639ca7071e70ea23aa119b1410edb6deb7451ed50e118f11f44578777",
+    "worlds/mm7/terrain_decorations/masks/7swdrtxse_background.png": "39e735ecbc7f1e786fc06b7bff829a258a80c4f03f7c032ea80f05c7bacee379",
+    "worlds/mm7/terrain_decorations/masks/7sndrtnw_foreground.png": "39928ef00ff070c235cbe5a78400157eee45275d48d481e07504dd4efcb387d6",
+    "worlds/mm7/terrain_decorations/masks/7sndrtn_background.png": "3cbc7032ee38d2a676d39572658677a6167005d7de1b4881eeb13948da4b10d2",
+    "worlds/mm7/terrain_decorations/masks/7swdrtne_background.png": "43e94f7b5ade3309e469633bb721f615ff672d8a27eacbf23d31e9ab7bd131e1",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtne_background.png": "e3f6e35f0b433a76e1c5de0226df31da3ec8c3fff2006c8a3881c4e1992c58c4",
+    "worlds/mm7/terrain_decorations/masks/7swdrts_background.png": "fff92043a362a4b9e2d614af3d4d91796035735d65590c22e6a7f5c60755d787",
+    "worlds/mm7/terrain_decorations/masks/7sddrts_background.png": "fdbe23ecc98d4a2e79797324f4075de49eb3d6d345a16524b628bd3801376fa4",
+    "worlds/mm7/terrain_decorations/masks/7sndrte_background.png": "cab7db96ddb60789a0f7ccabe13183c5c94a4d870336214e44e0da9ebeb79bfd",
+    "worlds/mm7/terrain_decorations/masks/7wstdrte_foreground.png": "9e7bca01287dc2d4e8b1289df0d5d4ed7b93910ec31ebf1ad780d7e3f9428a89",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtxsw_background.png": "38f739dacff966f20ee8c8559b012ecd0a681fe04c0cc94fa7eb0b14520a9493",
+    "worlds/mm7/terrain_decorations/masks/7grdrts_foreground.png": "d47cd45b55ed8d89ccb3eeed52c633aea9989e6aab5cb5883de2203f139a16e2",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtxse_background.png": "3a363556e00d169eb5178ce03e5185b86c87bf85c6b4b739ec04af618c58f271",
+    "worlds/mm7/terrain_decorations/masks/7sddrtnw_background.png": "d355f81dda8c26d57973fde105b79d2c38fddece1c83cd8ccdce4b822eca0bd5",
+    "worlds/mm7/terrain_decorations/masks/7grdrtsw_foreground.png": "aeeb3c74f48c6970c6f2a9765930e2f31b036285acfd96a9cea6e94a1477d6cb",
+    "worlds/mm7/terrain_decorations/masks/7grdrtxse_background.png": "ce319ccabe547c9439bc7d21429c165a27add0fcefab8fe13abec9c7ca8c6629",
+    "worlds/mm7/terrain_decorations/masks/7sndrtxse_background.png": "6152ba79c39fd6fe52d604e7e9581268a15b6b3f34e907528ea3c88521a6ba58",
+    "worlds/mm7/terrain_decorations/masks/7swdrtxse_swamp.png": "5030e43619df77dffc3e5b94248f1457d3c1f4dd1a3f174b76aaccf890390b98",
+    "worlds/mm7/terrain_decorations/masks/7grdrtxne_foreground.png": "cb115cefa4abc76710285cc02737f524a508a59508107a7f3992017ae233e7c9",
+    "worlds/mm7/terrain_decorations/masks/7sddrtn_foreground.png": "fd8fb4b22a0c194c6d1a28038d51fda637f7b8511752a0972c93d29dc8093e39",
+    "worlds/mm7/terrain_decorations/masks/7swdrtxne_swamp.png": "a6c812dad1e5ee77e54f6594f576032216abb91fd93ac64be0fddeec27f9a623",
+    "worlds/mm7/terrain_decorations/masks/7sddrts_foreground.png": "e5dcc47091bdc05b5d9df53ace7aa1936adf133ef6badaa9a1fb42481a24f962",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtse_foreground.png": "6399072a0e72d58fec5bb49a277f48b1002c56b269bd1eb589d0f2b488050364",
+    "worlds/mm7/terrain_decorations/masks/7sndrtn_foreground.png": "0248bcd603c2b6c112eb9beb61e956a38d687dc43aab7bc156c1f5de5b3388bd",
+    "worlds/mm7/terrain_decorations/masks/7sddrtxne_background.png": "80f6b0ade419677288a89194aa7eb318a287240f761b4490341b44e6f680ddc7",
+    "worlds/mm7/terrain_decorations/masks/7sddrtxne_foreground.png": "f0a0e71ff3ff1e989411872143e0d8bd967b435c8ae32cfaa99f8e8d220c68df",
+    "worlds/mm7/terrain_decorations/masks/7swdrtsw_swamp.png": "5b8a1d71e0f3ff92c3d7e5418163c2d8b544de8f5a7374df38596ed929c505d9",
+    "worlds/mm7/terrain_decorations/masks/7swdrtn_swamp.png": "d4ccadd4eef0e278bcc10f391983a3a77d6f65409497bd83c6812d9b61a5fcb8",
+    "worlds/mm7/terrain_decorations/masks/7grdrtw_background.png": "1cb6c3655855ae4bbd7e0f4b6f31a0629b681cc36b26b0a3ed1b58389ef466e8",
+    "worlds/mm7/terrain_decorations/masks/7sndrtxne_foreground.png": "9d48df1074edf916443432387871095321cd3d30ddcd389dda9656801a3f369c",
+    "worlds/mm7/terrain_decorations/masks/7grdrtne_foreground.png": "2b43a26ae6c3a5f9158cf2776cabcc882ead3cc050e43cf91ece352e09e326db",
+    "worlds/mm7/terrain_decorations/masks/7grdrtnw_background.png": "4c99b2a9a613503e7a735c6473a5f8ab31b4227612f21d72c6a2b25f319af00a",
+    "worlds/mm7/terrain_decorations/masks/7grdrtxse_foreground.png": "3b87c03c9019ec5120fa970c7f643624cc219a9c54f0e4cb99854f90c5fb48b1",
+    "worlds/mm7/terrain_decorations/masks/7swdrtxsw_swamp.png": "f687728234eca4d994c0243e09a60448b936775e939510b0be67caaea6570d5d",
+    "worlds/mm7/terrain_decorations/masks/7swtylv2_swamp.png": "2ae8e693a6b65354220dccdbdabaa67cd1a63bc128ec1d54f8db0d2fe5547cd3",
+    "worlds/mm7/terrain_decorations/masks/7sddrtsw_foreground.png": "b8525bc2cc848e4bc77ca659228299c0f27c96e3a7ab9c34b82ded7fa1dc2257",
+    "worlds/mm7/terrain_decorations/masks/7sndrte_foreground.png": "8a6a2a1d573c28af806f5c92dd3b96e71a6dac90f626f0d92ce5336a3257122d",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtn_foreground.png": "97e686701242870e88e40f7831f30d511c94de7be6d39f525311d514ceb07172",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtxnw_foreground.png": "86791a5e8682cc130555b6046b158a3cb3af40a19af4a193b7cedb5bf21031a8",
+    "worlds/mm7/terrain_decorations/masks/7swdrts_swamp.png": "7b9cb63a56ed39be5256e6e0f4e5ecf76b65babafb2830383f05c8ce3bad5836",
+    "worlds/mm7/terrain_decorations/masks/7swdrtse_swamp.png": "d0e70731aa4352481520968970e76168010304c477d2dad4179da17c4033e103",
+    "worlds/mm7/terrain_decorations/masks/7sddrte_foreground.png": "4af3100f331576e948920ce61be6806172f15ebbf5b22b3294c2a75db4d6ad91",
+    "worlds/mm7/terrain_decorations/masks/7grdrtse_foreground.png": "1095e8720078b19f5423a9c919cdc245f4fd3c38e1229cbf7c651bc06ccb9f6d",
+    "worlds/mm7/terrain_decorations/masks/7grdrtse_background.png": "bc1b4fbec025ce066fbb8c84721d93827c0fca12213a30d89acbe49af0752048",
+    "worlds/mm7/terrain_decorations/masks/7grdrtxsw_foreground.png": "311e59e278dae8f3a0c2d47d05dfb3efa0a9218b99faf6d39e6755658a806679",
+    "worlds/mm7/terrain_decorations/masks/7sndrts_background.png": "3680c8090327a10a9659cd9d403529d12d16e8178d9f0d168dfac5b333688014",
+    "worlds/mm7/terrain_decorations/masks/7sndrtsw_foreground.png": "18d234b84a49b94adc823060cb7de99457c5bc86f8e3ff99f7d66f01f3a1341b",
+    "worlds/mm7/terrain_decorations/masks/7sndrtne_foreground.png": "ad688ffcbc46046120b2e6f1280cbcdc8cd74be7d428923046b6287df0247747",
+    "worlds/mm7/terrain_decorations/masks/7wstdrte_background.png": "02fc203b6e5cb8a816ddd890f3d714a71687137828dc487861f9306a570f0b53",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtxse_foreground.png": "805d192732f7699ed203e3eaaeab09df1612589a9ded10b5116592f6e5ea3ade",
+    "worlds/mm7/terrain_decorations/masks/7sddrtnw_foreground.png": "da5d89edc956357facd25ebe718f0570d489365ff18045df38d3f02f69839f49",
+    "worlds/mm7/terrain_decorations/masks/7sddrtxse_foreground.png": "af9bf0f90cdeb4203fab7dc4da509a7a76582f95db33823c7bc10e3f86d5c13d",
+    "worlds/mm7/terrain_decorations/masks/7grdrtxnw_background.png": "b2eb0cbaff1598e76c0ccd4cd7aa14e72dc50dea398520208ecd845b7b56ae63",
+    "worlds/mm7/terrain_decorations/masks/7swdrtxnw_background.png": "fe58bdcb8937e11fb57fcabfa87468ad7530b9ab5a5987c40c1f24bdaf7adee9",
+    "worlds/mm7/terrain_decorations/masks/7sddrtxsw_foreground.png": "30d57ff9d0dcc3d6c9129ad2f57f9df30877f569788fca6e12e17e3f7b0358fd",
+    "worlds/mm7/terrain_decorations/masks/7grdrte_foreground.png": "fdf7c8ef440814d00ac48125d5fd80532303e4546ebd4763153d0267d139d131",
+    "worlds/mm7/terrain_decorations/masks/7sndrtse_foreground.png": "a6589ea7eddcce28e21ef65a05b2630b4fc82bd88ae0784af2df8ed36c08125a",
+    "worlds/mm7/terrain_decorations/masks/7grdrte_background.png": "dc47523c362bc28d9aa8fcd9e51616fcf9246a7b0268518343e1e54a7d5d096c",
+    "worlds/mm7/terrain_decorations/masks/7sndrtw_foreground.png": "44beeda7b5e8f1f5a1922affe2badc80ab561b633b61cd17a21a314c7d95d20e",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtw_background.png": "1c890d09de4bc14d7d1bba54fc600dc5c620246cb1f4d80f42288948cf3ed68f",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtw_foreground.png": "78efea39256e05a2579b0223fa77ed107bb40826b40178bc8b81e3a632b092c7",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtnw_background.png": "7b4c1a0296dfc8d7afee2d85cd26179d019c8b7700c07a41177acdb92859034b",
+    "worlds/mm7/terrain_decorations/masks/7wstdrts_background.png": "6223ab651ba1605563e000b00dfb0e3a78c732a5284e5e629079f31b7f8b2549",
+    "worlds/mm7/terrain_decorations/masks/7swdrtxne_background.png": "a1d666cc3c16d83da341e7f0047396f8cb1d3a4198ba1616c93ee17b8513c82c",
+    "worlds/mm7/terrain_decorations/masks/7sndrts_foreground.png": "c56970225f6295e205269db4529aef171bbb2a9b4ff18e359501834c58fa6e29",
+    "worlds/mm7/terrain_decorations/masks/7sddrtxsw_background.png": "8c154268295073e580144be524a636257b23b32f6ebda53158ba58df0dd91ca1",
+    "worlds/mm7/terrain_decorations/masks/7sddrtse_foreground.png": "b94c7b8292a732716d34a589b456abfbd3f6778927a16ed62a74f81c65f54455",
+    "worlds/mm7/terrain_decorations/masks/7swdrtw_swamp.png": "4aadf087f0bddcadcf26b3cb029e36d5c2be79a3d58f800885d83ea28e7ec0b0",
+    "worlds/mm7/terrain_decorations/masks/7sddrtw_background.png": "5b98f542297ca4fde0bf05d01cd53bed04ba2b51e07223149ba09c1cc9b7f98a",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtxsw_foreground.png": "204176840649b5ed555504506ef9225444c0a55a16d89ca1d4bf6fa578b74c3f",
+    "worlds/mm7/terrain_decorations/masks/7sndrtsw_background.png": "2b062cc354decb23e3a304184b1744976a0d3783947d46140577329d935d6899",
+    "worlds/mm7/terrain_decorations/masks/7sddrtxnw_background.png": "b86cf62c2e92b1a73a60ff8418f0ee16394ba804077278c6f89b7328d398d67a",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtne_foreground.png": "348f64f57a3b6ea54c674e653928d0bd5736140b207021a5207624e25767c6f8",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtxne_foreground.png": "55289c1a787b879e5e724587a3f384cda95b02f6449d6ed5f9283e8c9528ed95",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtnw_foreground.png": "e8f2d4d4b43287d9911cb6d62d7e14f615e1cc2decdb051957e177026da25178",
+    "worlds/mm7/terrain_decorations/masks/7grdrts_background.png": "c13f23f6f616e40c8a39315e82c2a8a9a01266c62f6773ecef5ec85a4f063699",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtxne_background.png": "c601b014fbecf83072dcc57a2c0639a47fd2787086035f6e64cf8985585cd40f",
+    "worlds/mm7/terrain_decorations/masks/7sndrtse_background.png": "fe8f73365b5fa06ce1aa4f354d0dcfbf623d5cdcb70a30d19ce2a01324490390",
+    "worlds/mm7/terrain_decorations/masks/7swdrtsw_background.png": "2db788a3f86e62b4a084c99c01ea51dbee97192581d62e2d7a239b4460117669",
+    "worlds/mm7/terrain_decorations/masks/7swdrtne_swamp.png": "a2ffbf9e9f61e38cf9e5dca33dc013f1f432051d0ee81571846feadb3a31396f",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtse_background.png": "4502bb88a691b68ba7ea621aefd9020efb6361132e5cd322eaf0af5fcded078a",
+    "worlds/mm7/terrain_decorations/masks/7sndrtxnw_foreground.png": "e66f33e5cad585bb1fa1e4d66c61b3d9fa2aab32372bb576aba3f048f45519fc",
+    "worlds/mm7/terrain_decorations/masks/7wstdrtsw_foreground.png": "ba0d1fc566781528508850c08d391c28f71a12639182bb356d89e646ec942619",
+    "worlds/mm7/terrain_decorations/masks/7swdrtxnw_swamp.png": "f15da9b427a6d901ccb1bb51d70712294263d4d5ec7d42d16bce6fe0623b685d",
+    "worlds/mm7/terrain_decorations/masks/7sddrtn_background.png": "93336eb251420982f9521d55d94ae70ae3054fc8a67be4c65bb922c1ffe32634",
+    "worlds/mm7/terrain_decorations/masks/7sddrtsw_background.png": "9d29f1a0f20015b23c94733d37cee5b6f3eaad8d1acd3653152cc82ce88f82a2",
+    "worlds/mm7/terrain_decorations/masks/7sddrtne_foreground.png": "ea2d77c9c734025c2937a925b2cacbc98f7f4088ceea72fd017ea985527ef48a",
+    "worlds/mm7/terrain_decorations/masks/7sddrtne_background.png": "5b568a02b3787f8ed9cb51e984649148dba9ec55895bea74067361e249edff28",
+    "worlds/mm7/terrain_decorations/masks/7swdrtnw_swamp.png": "652a09387b99126b6f3ee6a1a3906082098bf7e3ffd5a25357e310aae222ff94",
+    "worlds/mm7/terrain_decorations/masks/7sndrtxsw_foreground.png": "d6b56826289ccae272702a639a2c474fa6d867f97ace4d96073487569fecc94c",
+    "worlds/mm8/terrain_decorations/out06.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm8/terrain_decorations/out07.yml": "e8c96862d68c36b74c47f3fe3e381714aca588a24e2395e33f5d3c333d59a764",
+    "worlds/mm8/terrain_decorations/out03.yml": "c620c5729b4a1fc6b74e95a51d2cd3a163fcf9576190afb77c2deb78d63355f3",
+    "worlds/mm8/terrain_decorations/out05.yml": "d4423c364ee35940119beb69481dbf6379e3a17015723ce0042e16b8bfd38a73",
+    "worlds/mm8/terrain_decorations/families_v2.yml": "9beb75409157e985280dc02816a0ff8fa6fa3a3e3a472e9fe0a037122e875bf8",
+    "worlds/mm8/terrain_decorations/out08.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm8/terrain_decorations/elema.yml": "f6db9c7b975265f33f568b182e09a6f0052071aad1a7a9740a2a8a9d5b7e6dde",
+    "worlds/mm8/terrain_decorations/plants_v2.png": "508b0e4c7abe84a900c75f2917fde8b9ebc7f90f3bade7179326dcf58c54f73c",
+    "worlds/mm8/terrain_decorations/elemw.yml": "f6db9c7b975265f33f568b182e09a6f0052071aad1a7a9740a2a8a9d5b7e6dde",
+    "worlds/mm8/terrain_decorations/elemf.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm8/terrain_decorations/pbp.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm8/terrain_decorations/out02.yml": "c5d37dbf3afe11cd6bef240034e313cab451ed7235f9412567433ef865be04ce",
+    "worlds/mm8/terrain_decorations/out01.yml": "36d93d173174bef838752aa17e5b14a36adf29efdce9edcb67c8048f17c392e1",
+    "worlds/mm8/terrain_decorations/out13.yml": "eadbacaee7268062c4751f44c027069c3cfaf87d033781db501b63b454e93eb0",
+    "worlds/mm8/terrain_decorations/out04.yml": "8240a34f429783026eaaae949087bbea1bc090ed7875e4b95c746a31631dc373",
+    "worlds/mm8/terrain_decorations/out15.yml": "ceb25ecdc8c48e19bab61a0a0d67cc6d6cbbcdecbadf888a9b0d16e911add931",
+    "worlds/mm8/terrain_decorations/masks/rcw_foreground.png": "b48fe2a3471890e4eff8ac7ce943dda1e4f8a31f15271b0aef0e2391dd9b6a5b",
+    "worlds/mm8/terrain_decorations/masks/grdrtnw_background.png": "21d5c210c409f5e99a9f8a12e2a8026d27b1ea6fbd4194bdf546e59a7743315a",
+    "worlds/mm8/terrain_decorations/masks/rktylx_foreground.png": "2ea06679bf3aa3cf902cc28747c3083220e244f527d00d2f9d95752c55c61715",
+    "worlds/mm8/terrain_decorations/masks/plsae_background.png": "0c59c809ee6ed407e9b4086d4a4cba1bddc9622e06752c94f211ce78fa4ed619",
+    "worlds/mm8/terrain_decorations/masks/plsas_foreground.png": "71762c2021617f4334d7e795c1fbb5b4e25fea3d888c8c9580eb0beb5646f342",
+    "worlds/mm8/terrain_decorations/masks/grdrtxnw_foreground.png": "8fc4d8c977de150fa54838208211dead53db7f7c78d4b0bac0f81f94ad1a8044",
+    "worlds/mm8/terrain_decorations/masks/rke_background.png": "e19441bd550efebfb6bc756a4d2a75c212938dd66f603bc0e8b0ddb9bb090b9a",
+    "worlds/mm8/terrain_decorations/masks/rktylx_background.png": "b2219a0df27f92e329ce4bed369fd7d56a092dc6d451ba5733271e02ed3f06f6",
+    "worlds/mm8/terrain_decorations/masks/rkse_foreground.png": "11c80c5707d06d5e59328a5125bbce1f9df54298cad7074e40368888cea39f9d",
+    "worlds/mm8/terrain_decorations/masks/gss_foreground.png": "12d0a6b27a6cc81caa6f7607526d083801fac05c7d1ce494cfb97409e0534f4f",
+    "worlds/mm8/terrain_decorations/masks/volne_background.png": "868665e6c28d76ea0599e7df520834339b60c27515caca3154fe08e747f98833",
+    "worlds/mm8/terrain_decorations/masks/rctylx_foreground.png": "fb136e6c445229bedf71a864abe43c49ae286b4a7565852ecea0a43b907306cd",
+    "worlds/mm8/terrain_decorations/masks/gse_background.png": "3f367bf7eff775d33c6c2aa84aeaa5e5b824e621856c0b8eb6386f59fc523bba",
+    "worlds/mm8/terrain_decorations/masks/volsw_background.png": "aaf4bd66045f56a713f6338cc33b0c89df361bc6206ce9d114cce59b82007d5c",
+    "worlds/mm8/terrain_decorations/masks/gssw_background.png": "9e5088094a40d8f2c11c306a13dfb5eb3b3ec060394481f030c3660c516a8514",
+    "worlds/mm8/terrain_decorations/masks/grdrtne_background.png": "29bfffe86ae17126f48939c2e3c7ac10178d55e4c187d21b48a993594a37731c",
+    "worlds/mm8/terrain_decorations/masks/grdrte_background.png": "dcd62d04c2fda379628d8192e484d7e44dbf39c354fa0434380e54724df2d889",
+    "worlds/mm8/terrain_decorations/masks/grdrtnw_foreground.png": "cb391963e9b4798f51ddcc3ecd7d2fa8c44ced2557ac4fed354d5103747fdef7",
+    "worlds/mm8/terrain_decorations/masks/rkw_foreground.png": "b027dd4625972b2ce12ecd9264ac79cc8db9d28f8dbb7a4692a431248dc239bb",
+    "worlds/mm8/terrain_decorations/masks/rdnw_foreground.png": "fb5d1cc3fda8965289b7135d49b3f5e097bc8e986316b57aae7a6f779ec81a3b",
+    "worlds/mm8/terrain_decorations/masks/volnw_foreground.png": "6b760c837c72710601d0ac635bb88eec71bfc8a2cff77e01605760e57ecfe311",
+    "worlds/mm8/terrain_decorations/masks/volw_background.png": "d793bbe62927ac18b25dea3c781d9526d3b4dcfcc6bbd5d7ea5a15aecaf7fd99",
+    "worlds/mm8/terrain_decorations/masks/rkxnw_foreground.png": "cb9062e1f37229a77d5497db0569d90687fd109a570bf48d490fcc568289ced0",
+    "worlds/mm8/terrain_decorations/masks/volsw_foreground.png": "9349d2e4741a2360dec9bf1a90f5bd28e6b7317dfcb563ea1f006cab10b4934b",
+    "worlds/mm8/terrain_decorations/masks/rce_foreground.png": "34f8c03fd767436eea12e5d99f081e655172c37378bc23c370bf7ad5be79a199",
+    "worlds/mm8/terrain_decorations/masks/plsaxnw_background.png": "28e175c93e87e64f50e9be81cbf9475e5d1d6a844be99c41e8e19106bb664da6",
+    "worlds/mm8/terrain_decorations/masks/rcxsw_background.png": "312712cb24c60a43355048faa78b0078dba6f5bf6a91c8080514f7c3cb06e345",
+    "worlds/mm8/terrain_decorations/masks/rcs_background.png": "9aa020718e23eb64629d15f67496083fdef60c191b15eaaf82f4b1cc55aa6ebb",
+    "worlds/mm8/terrain_decorations/masks/gsnw_background.png": "960385874d0aba7d5a9b8a2ce7de033f3d5815956102aee7b12468bdbd199f01",
+    "worlds/mm8/terrain_decorations/masks/rkxse_foreground.png": "bd872ed33872026d1343e3c05ea41311bf5630265355969ee8554bbc5107bf9d",
+    "worlds/mm8/terrain_decorations/masks/plsaxne_foreground.png": "94353a9213b45176c7878cc8508b262af05a47bf025be73fd8b6430d7e8f702c",
+    "worlds/mm8/terrain_decorations/masks/plsaw_background.png": "a637c0c8e5c188c5af703f5ca21b56c3bf5504ef550e6778cb285981bf753735",
+    "worlds/mm8/terrain_decorations/masks/grdrtxnw_background.png": "8eb9e2aa3c8ea46a5e05e4e24b2b9ce22fc13644102b4e6fff24dee0fec63985",
+    "worlds/mm8/terrain_decorations/masks/plsan_foreground.png": "bfac75d095cf0f6a4ac42e8a1bc73bf2ed6ab0b0ee59839c82e79f630df22171",
+    "worlds/mm8/terrain_decorations/masks/volse_foreground.png": "d5899b375e181d00d4530f03786007ca9bfd69503c629ef7accce04c568beca3",
+    "worlds/mm8/terrain_decorations/masks/rcse_background.png": "97b1c42a3e14b951035a35aeb7933061c0307d4c67c1b2a5d719ae20e794ed38",
+    "worlds/mm8/terrain_decorations/masks/rcn_foreground.png": "96acf046dbcabc2dbc41b197c3aaf212a2a637f03409c8be2f5cdf7a47dc278d",
+    "worlds/mm8/terrain_decorations/masks/rkw_background.png": "408ce2779af70d076a0158733d9eb915bd955ce5d1b502f350f4706b41c68cc4",
+    "worlds/mm8/terrain_decorations/masks/rksw_foreground.png": "15a912d6320ae3abe6e73b1258cf341a4610f33ca6082f83dd99aa28610a04b4",
+    "worlds/mm8/terrain_decorations/masks/gsne_foreground.png": "c35662a329bc996e17ad57a7682f7964cdd77ca8c720277ea24703646f48af0d",
+    "worlds/mm8/terrain_decorations/masks/voltylx_foreground.png": "66ce7e2e4972dba58c080a37d815890c3a89ee53489f896d2170109967bb1361",
+    "worlds/mm8/terrain_decorations/masks/plsane_foreground.png": "4cdb5afc1e0a042cca06b778fd2dafa92c559efb46944ea181666d21239c9c84",
+    "worlds/mm8/terrain_decorations/masks/plsaw_foreground.png": "bde76ec4e67de4e91bc4a0a916d4c6b589fdd07f7b7d900ad782e87ae3515366",
+    "worlds/mm8/terrain_decorations/masks/volw_foreground.png": "3bac85ac91bbe33929fb41ece6e84dc5b19c4129c8bebd739999dd448d2331f9",
+    "worlds/mm8/terrain_decorations/masks/voltylx_background.png": "27b5a17a2c6c4aa44dfed3824bf25e7a6341976cf074b0a193040890fa0a18cd",
+    "worlds/mm8/terrain_decorations/masks/gsn_background.png": "7dd271330772ab12f004e85bec560be25baad637ec93dc040d064ca0f86f5c82",
+    "worlds/mm8/terrain_decorations/masks/volxne_foreground.png": "f11b1084c7e5d448223fe3f3a8509a5083f2ca89e4da91dc6ffef5d624478faa",
+    "worlds/mm8/terrain_decorations/masks/rkxsw_background.png": "9e58bcbace29aa78a97b7bb2c3bb673472419ccb58951858b9e8122f0880e501",
+    "worlds/mm8/terrain_decorations/masks/grdrtxse_foreground.png": "da672764253ee803457d710e17d26e82b38159bf3a01827c33ed4119a7246d2a",
+    "worlds/mm8/terrain_decorations/masks/rkn_background.png": "e6caf30144aa082e980fe064ea03ebcec184daed87fbcb2ccaa8fcb14cf91859",
+    "worlds/mm8/terrain_decorations/masks/rknw_foreground.png": "a4b32f07ae4ce8df099f87abda1d86ef04fe26c34a0ef356e3eb757b5355e8dc",
+    "worlds/mm8/terrain_decorations/masks/gse_foreground.png": "e2ae5ebd9f72181090cf1b2544251fd91b4a6a498bceb0ce29e78e37790f7410",
+    "worlds/mm8/terrain_decorations/masks/grdrtw_foreground.png": "385e8ca749fa96222da1847d797a2de107ff8e19f3e4862fe9cbd88f75b631c9",
+    "worlds/mm8/terrain_decorations/masks/rcw_background.png": "91c4df04b31f2d20bdf097141fbe9a04dcc1d222583d3fb9dfae6da7d2572a7c",
+    "worlds/mm8/terrain_decorations/masks/gstylx_foreground.png": "a4624eee8bf90abc54736bf7a075f0e7c8a3e936db8fa7f0046700f495650e80",
+    "worlds/mm8/terrain_decorations/masks/gssw_foreground.png": "9a01c03da225c8316fd66196e6dc39bf4673cbbdfa0248795f5508a2b8504ee5",
+    "worlds/mm8/terrain_decorations/masks/rcne_foreground.png": "36825f3c7a43f353b67a41c317412a0cbfa9f35c74de8bc4fb476f019771e7d9",
+    "worlds/mm8/terrain_decorations/masks/grdrtsw_background.png": "cbda785d2d69bce1779df375d30ac2d050f447300459dedcdd3c82d4252c299b",
+    "worlds/mm8/terrain_decorations/masks/rcs_foreground.png": "06ae70cf394af4747414ebfb21fa842e3c826a26e48b0b01d0fd5a41e367a6e3",
+    "worlds/mm8/terrain_decorations/masks/rkse_background.png": "60f09fc04465358ba9a50e9e5dd6f986dc0430cc4b3a2b6677d6126ee7fd7d6f",
+    "worlds/mm8/terrain_decorations/masks/plsae_foreground.png": "67cd807f07fe00515ef9ea86013ea6ff1aa1b1f31a739108044d35b21ffd96d0",
+    "worlds/mm8/terrain_decorations/masks/grdrtxne_foreground.png": "e3c6d0ee74b9905ce115929288dd3f721e6fa8e686b2ce8aab3bd46254608113",
+    "worlds/mm8/terrain_decorations/masks/gsse_foreground.png": "5301561981162d27d949d99948755b387055561cfe4120c32edef70533c761a1",
+    "worlds/mm8/terrain_decorations/masks/grdrtxse_background.png": "de7792aaa458292341b5ca5b0121fcec4d6228846818f4fb7c0716308bbcb833",
+    "worlds/mm8/terrain_decorations/masks/grdrts_background.png": "2bbd0b9b477fa840c346b6372ed5ee3ca0a23cd2c08a7850acea890224b6d120",
+    "worlds/mm8/terrain_decorations/masks/rkxne_background.png": "7dcc442591279766f6b3254babc4bdfc8b9597630977e77b9d75404e9172f990",
+    "worlds/mm8/terrain_decorations/masks/grdrtse_foreground.png": "2d198895c5a4aea8a55c37d3eb50d1747facab350da6a9c238e194d73124a916",
+    "worlds/mm8/terrain_decorations/masks/grastyl2_foreground.png": "a10c19fb2663e6c331333d9d34e4419bc0c55f292fb79491eb75cfc075af68ca",
+    "worlds/mm8/terrain_decorations/masks/volxse_background.png": "817679fa8f6c1eb4ff512e8b4193f8526c1aa089ba45b48f85841a4dd514a0e4",
+    "worlds/mm8/terrain_decorations/masks/rks_background.png": "72d5117de37e30464f17d364ff17db4a0d8dab2e65b6e3689d5009caec424dc9",
+    "worlds/mm8/terrain_decorations/masks/plsasw_background.png": "1594247189e3131393216748f492671a56e3c61461af16dfd5b03f9f1982789d",
+    "worlds/mm8/terrain_decorations/masks/rdnw_background.png": "6699e1acdd61dba97ef12cdc1611785a5ce931aea6d6369798a829f9794702be",
+    "worlds/mm8/terrain_decorations/masks/grastyl2_background.png": "d457a395bd3515702bf7b9bc2e28ae6f5685751a7c42b0402b726eb90e5517e9",
+    "worlds/mm8/terrain_decorations/masks/gsxse_background.png": "e466e43822c020a15e0aed93d26f5d5767d00f89185c5caf13c81135c634c95c",
+    "worlds/mm8/terrain_decorations/masks/plsasw_foreground.png": "a945160e0eb3cf471d8a9e94278738720880ef88f4239a27c76eb3923190ec0a",
+    "worlds/mm8/terrain_decorations/masks/vole_background.png": "2ddea1901a354431154f6ec217fc26f945d3dc991addcf9d1093017018002b5d",
+    "worlds/mm8/terrain_decorations/masks/plsase_foreground.png": "8886426b1e1794e6f2caf7b54b143d15bb5a8d17ce13de4feb21ac8d5035fd8e",
+    "worlds/mm8/terrain_decorations/masks/grdrtn_background.png": "ef98188b90b9d561cc18e70b4eca22870675f478fa0beea99bb123ff442b36a4",
+    "worlds/mm8/terrain_decorations/masks/gsxse_foreground.png": "b8780a870db548e22f3c909de2fb58378befbbaab43cecf96896f8358ad9d0a0",
+    "worlds/mm8/terrain_decorations/masks/gsw_foreground.png": "c087fc7e8ee7b503229a04c776a87ef251c6e7dad24f52001c4127dbca27748f",
+    "worlds/mm8/terrain_decorations/masks/gsw_background.png": "4087507347aa787b3a81664b8de78b11ca99be2bc0e82e8e49608f4dea02beeb",
+    "worlds/mm8/terrain_decorations/masks/plsaxnw_foreground.png": "86820cad9d0797287abd210c6a88b594cd8361cef16d176a0225211f1bd98e51",
+    "worlds/mm8/terrain_decorations/masks/plsatylx_foreground.png": "fa3de1127b312853cc910cd9309e116bf44e38e8fb8c3b42f42fae385f8a3b4c",
+    "worlds/mm8/terrain_decorations/masks/rkxnw_background.png": "a10e7fd6d33e39e7eb88886d6a083a05a5cf6672c204f62734632c1fcb8f1bef",
+    "worlds/mm8/terrain_decorations/masks/vols_foreground.png": "55e2a1c7d0d4538fad872c18680721f0e2e08d3873318783157e291ec5e598fa",
+    "worlds/mm8/terrain_decorations/masks/rcxne_foreground.png": "3cec09d344eb93bedd93788be4604bb881ea835a86b050c28e912689328dad5a",
+    "worlds/mm8/terrain_decorations/masks/rcnw_background.png": "28a275a16a757a2c7e1e4e6b865cc6cc56308b56c4f1173a29f8b28652f95c99",
+    "worlds/mm8/terrain_decorations/masks/gsnw_foreground.png": "ffd1c081c37811ef24adb8d96119009dda1ac34d1c3e952726c28a8eb08fc5e0",
+    "worlds/mm8/terrain_decorations/masks/volxne_background.png": "6b456f4d955e730100591954bc2ff50c6578a28fc5f9a5a3aecf7d412161b11d",
+    "worlds/mm8/terrain_decorations/masks/rksw_background.png": "1c7a38326ad4b9282680911637bf9944986ff24c9643232d9a46f9c085ac22e1",
+    "worlds/mm8/terrain_decorations/masks/grdrtxne_background.png": "d9013710bb983f302c7182158b907ef25ab2b71b8527c035e16ce7d688caceb5",
+    "worlds/mm8/terrain_decorations/masks/plsas_background.png": "3acdcde76526458450dc904b5c0d788bfd9f2a97c64dd1d508d9abe0b86bcc1c",
+    "worlds/mm8/terrain_decorations/masks/voln_background.png": "37d0516720ebb1a428634620bb2dbb538c381c0a19dbceb98fea39e2410e0744",
+    "worlds/mm8/terrain_decorations/masks/gsxsw_foreground.png": "bca8c70a295d141fbdbf30ba40f4b55a4a8dc7d905f2df7e65a480af6f551981",
+    "worlds/mm8/terrain_decorations/masks/rcse_foreground.png": "002bf546a2d3e4942453e810cf4ded4984ac1870b65ee6136e98f965b40f2358",
+    "worlds/mm8/terrain_decorations/masks/gsxnw_foreground.png": "824496970a2265ef5798e8ea2ad4c174009259857d45a5037339fafc58eee9e2",
+    "worlds/mm8/terrain_decorations/masks/gsn_foreground.png": "f1293baef4b684a64dc2e0d5908dfd888a6759f182ecbbbf5ead7c681f653ca5",
+    "worlds/mm8/terrain_decorations/masks/plsatylx_background.png": "9f112599af81e43e551bf469779ddce74f4a0851bbbb417e367ce69db5435e54",
+    "worlds/mm8/terrain_decorations/masks/plsaxsw_background.png": "9b30709a3dcd4b5ad1adb85251a31fb2b251ec38a7c99e7e4de2818ad996af68",
+    "worlds/mm8/terrain_decorations/masks/rce_background.png": "bff67c208162cf161eaae9e26ec32d34a1ddbbd651bd9942d7ac0010bd6eef26",
+    "worlds/mm8/terrain_decorations/masks/rkne_background.png": "bdb67327f79ce006b615c9d2702470fa111c62a88a44e4ba7f0b31245b498d50",
+    "worlds/mm8/terrain_decorations/masks/gsse_background.png": "58b2236fa583a60b3eb2b5b2ef6a7acb1c980b25281fec47a306a3c806ddcbaa",
+    "worlds/mm8/terrain_decorations/masks/rkn_foreground.png": "be7ce3c5ca259b70dc94ea30d81a430bb02e5672461780f304a9e4e349015eed",
+    "worlds/mm8/terrain_decorations/masks/plsaxne_background.png": "93ad62e2a22ecd0b05fbceeacd8ca1dd5a05e18bf2cc081764f3ae3d76fc1688",
+    "worlds/mm8/terrain_decorations/masks/rknw_background.png": "f957f421d8369a27d0e19d06c023ec829f10682b259d70df28482a278e8e56b4",
+    "worlds/mm8/terrain_decorations/masks/rcnw_foreground.png": "f8228339d46d6b049ea59bf8b7799f81ff06e8780ea296c048e1967d46a6a4ce",
+    "worlds/mm8/terrain_decorations/masks/rks_foreground.png": "c14055ecb2e5ed484810e0c8f3cf21b328998e36a664fedbe2220c05b8c392bd",
+    "worlds/mm8/terrain_decorations/masks/plsaxse_background.png": "04f1fecdbd13b15c568f127d0a3f0e49a7046420ea74ed6457144b561a4b1ec9",
+    "worlds/mm8/terrain_decorations/masks/rcne_background.png": "d33e13d0ceb7845385e4e19946d445c8ba5d9325bf61e6bf44f45a2602ce09bb",
+    "worlds/mm8/terrain_decorations/masks/gsxnw_background.png": "3ca308408d224dc46f5a105ebc9687fa477d1d9b0284c144990e6e258a75296f",
+    "worlds/mm8/terrain_decorations/masks/rcxnw_background.png": "f31038959762f630d08a4f78c51747cf7bcbea63ad6c4e216c7c68a838635822",
+    "worlds/mm8/terrain_decorations/masks/plsase_background.png": "11ef67ea9e282155fea32bbd6aba601a666f264757c2fcb7856c8bc6fdc9e3fc",
+    "worlds/mm8/terrain_decorations/masks/rcxne_background.png": "c72236c67acdcad3b6e145a3799249336f483567325710accf22525c8d848891",
+    "worlds/mm8/terrain_decorations/masks/volnw_background.png": "b1091d144aa9581e29e81ccd7a8244cab633d76d706da6ab16a502a4ba0f470d",
+    "worlds/mm8/terrain_decorations/masks/grdrts_foreground.png": "8089c0cd8bb7e80e2f9cce7cf91ec842190e969598132f55505af65162137cba",
+    "worlds/mm8/terrain_decorations/masks/plsanw_background.png": "2d0bb8ec195a61a3a7b8b548b52b4915bf751daf7a494280d38b142fa12dae58",
+    "worlds/mm8/terrain_decorations/masks/plsane_background.png": "fd3422c806c54525eaa4be3a5e6e66166c29ff2b5f41d5b6db76eb9b04fd12fc",
+    "worlds/mm8/terrain_decorations/masks/plsaxse_foreground.png": "3bc3566bfae76c4b67c2a918d7697ab6048f162a73fe7c9840d7f795b9ea0d0d",
+    "worlds/mm8/terrain_decorations/masks/grdrte_foreground.png": "d3e83557640942a6deb636c216546018143669d85750bcd4c1b6f805c3cb1e06",
+    "worlds/mm8/terrain_decorations/masks/rcxsw_foreground.png": "1a520c97655a31cde5ae661b7ba4d7b5a05cdb2a0c243bdab318490a6a648e14",
+    "worlds/mm8/terrain_decorations/masks/vols_background.png": "55f55a8e8ea3a5b077fc9d10107fee5b054b31f88aea9bbda23fa69a6fbeb558",
+    "worlds/mm8/terrain_decorations/masks/volne_foreground.png": "1a608b2369de80e66558f8ed063ed2ebca350a5c49f1234ce1ca3549c03450a3",
+    "worlds/mm8/terrain_decorations/masks/rcxnw_foreground.png": "51fda54c904971d9f642af2d701bcbb28c6c8b1f4de8d3c9d98df8f10b3b6cbd",
+    "worlds/mm8/terrain_decorations/masks/grdrtsw_foreground.png": "3653eaae2eedd06d1651a1e9ec076813ac803c08f2b92bbd73bbce75311730eb",
+    "worlds/mm8/terrain_decorations/masks/gsxsw_background.png": "6f477bec25668cd14033c80ee1e158c421aae64231ca71562556bcf1ae01779e",
+    "worlds/mm8/terrain_decorations/masks/volse_background.png": "4fd8df82944bc9c8c6242206a7eccf16c141031772bd50828526202482d3bf03",
+    "worlds/mm8/terrain_decorations/masks/rke_foreground.png": "fabc4c2ede439117f8cd49eb0ce1424e63e231b63452a450b367455f66b601dd",
+    "worlds/mm8/terrain_decorations/masks/grdrtxsw_background.png": "fd20851ac08aef1842c2d0a78adac00cde5ba4c4661d43ff50ef3d14a56c881f",
+    "worlds/mm8/terrain_decorations/masks/gss_background.png": "eb06bb934adc2e975507dc01ac98f85ec46718c499afe3cdd84065e0f0f7b647",
+    "worlds/mm8/terrain_decorations/masks/volxnw_background.png": "11652fd237fadaea3b8bf6aec7a7200f4bf51699b6ca35a190ae0c7158b11319",
+    "worlds/mm8/terrain_decorations/masks/plsaxsw_foreground.png": "0429e0064edb2997f8f95f54f3583e6e8b417bcbb34284f8461022816c1873ad",
+    "worlds/mm8/terrain_decorations/masks/voln_foreground.png": "da0e5a1d6785bb6fe4f94c23032e362d0048a72aecb891c4e0ae6f0ed3ac5a97",
+    "worlds/mm8/terrain_decorations/masks/rctylx_background.png": "fceddce50482abdf9de1fa86dd8c9292a360efac40544f57d03df4409dfca144",
+    "worlds/mm8/terrain_decorations/masks/rkxne_foreground.png": "ca97f82540505e13a749e011f8110fc777d676675da2386229153d31ffa0ee44",
+    "worlds/mm8/terrain_decorations/masks/rkxse_background.png": "38aaeb37aacf2be40f8cc30c741068c3b9a55d361dac084a2d964e662f698929",
+    "worlds/mm8/terrain_decorations/masks/volxsw_background.png": "d3fc884d187b3f03c68127d44b744198940a0677cf4326cf96c3c35ff83b4ebd",
+    "worlds/mm8/terrain_decorations/masks/gsxne_background.png": "5432e6e4e31c1b47340096634b1f047c28203d7aede36488724728d9f5fd4933",
+    "worlds/mm8/terrain_decorations/masks/grdrtxsw_foreground.png": "a78a31ca4daa4e453c48e6ac3b2fbfa51855dc9ec5e32e64b32c19e9d8180e07",
+    "worlds/mm8/terrain_decorations/masks/rkxsw_foreground.png": "fc0916fe00c31d1be1c76acc8b535e110c674eb93fac4369a0e4dfd0a1bbf7b8",
+    "worlds/mm8/terrain_decorations/masks/volxnw_foreground.png": "93ed6b9d3e1187d63cd6c653f4807eea46abfb3db670237689f84a0b0017c91f",
+    "worlds/mm8/terrain_decorations/masks/grdrtne_foreground.png": "30df13ee381a6a4b401fe7937108db9a0b800b771d949e10456790d86a3fed3f",
+    "worlds/mm8/terrain_decorations/masks/gsne_background.png": "05ffed5ed2ba478d59dc86d90e8ff84a5056187b9811f6e01d36d8e5f1f50d55",
+    "worlds/mm8/terrain_decorations/masks/rcxse_background.png": "b47b3c1809f9ad09eb1c5d6bb574ff825a6bf85d8ef5ec4037d737d62f3d53c0",
+    "worlds/mm8/terrain_decorations/masks/grdrtse_background.png": "278ae742dde14b83c45bbbc5acc3bff25a75079b9631650c91e030380c94126a",
+    "worlds/mm8/terrain_decorations/masks/grdrtn_foreground.png": "f6c2e187f5f533c70c9f834cb8206b60487fa2e0e99e70cb4597ed0e19f01f17",
+    "worlds/mm8/terrain_decorations/masks/plsanw_foreground.png": "346240b6b99ce39c11df4f9ca905b5ada9a63cdfa266d5245492c97643574ef6",
+    "worlds/mm8/terrain_decorations/masks/rkne_foreground.png": "74ae6a8ff02de5e4ae399a2bfa6cf678c47840269bb58aeb005bf51d07dcd8f0",
+    "worlds/mm8/terrain_decorations/masks/volxsw_foreground.png": "e965473403b54dae0490572735081db0a703d4aab94b1ab03d1ff826cca64b6c",
+    "worlds/mm8/terrain_decorations/masks/plsan_background.png": "f1f4e506e165c17102f0dbf5dac1c5e4ddf87f00e970697cad1334c1574e8dd7",
+    "worlds/mm8/terrain_decorations/masks/rcxse_foreground.png": "81ce9fdccb8efcfa36d7f0f84e26a4ad68f372fed20cda4595713b8feb55e348",
+    "worlds/mm8/terrain_decorations/masks/gsxne_foreground.png": "99e45c904844e0a8de38e8f779e9d701c95c4b379fb0a524bb5d2513075cac05",
+    "worlds/mm8/terrain_decorations/masks/vole_foreground.png": "bd7b987c512b332ff2ba191b9518f553101935d8e68020774c3caaa1eef68387",
+    "worlds/mm8/terrain_decorations/masks/grdrtw_background.png": "6747edc92a3befaef54cf3e0ac0a3e49d7ae120f6d08c21854b4ec961bfad4b9",
+    "worlds/mm8/terrain_decorations/masks/gstylx_background.png": "04564f7e4571f03f897288d28c446925f4be77c5c0300fb2ee27e09f2f9921eb",
+    "worlds/mm8/terrain_decorations/masks/rcn_background.png": "7dd0630a61c4f20936496826c75549acdd4a924b211bbb81764b1d3916f8c23c",
+    "worlds/mm8/terrain_decorations/masks/volxse_foreground.png": "7ae548527a70af68ff58d0e7aecf2be7665315c92a2eb304e95708a038cc7aa0"
+  },
+  "settings_unchanged": true,
+  "allowed_materials": [
+    "grass",
+    "tropical",
+    "swamp"
+  ],
+  "validation_ledger": "WORK_STATE.json",
+  "validation_ledger_sha256": "cb799c31d189c1c57df325d73b8c73f2ab2de3e6d28096302700f37180d8c1d7"
+}

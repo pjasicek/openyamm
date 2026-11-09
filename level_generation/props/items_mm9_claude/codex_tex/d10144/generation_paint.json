@@ -1,0 +1,25 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint the provided paint_mask_guide.png as an exact registered view atlas, using design_reference.png for appearance and icon_x8.png for colour (magenta is background). Output ONE transparent PNG at 1536x2048 (3:4). The guide is the edit target, not a layout suggestion: preserve every silhouette, size, position, gap and opening exactly. It has three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat five orthographic renders FRONT, BACK, LEFT / RIGHT, TOP, empty. The extremely thin edge-on shapes MUST remain thin edge-on strips in their existing positions; only the middle cell of row 2 and middle cell of row 4 contain the full upright shield silhouette. Never replace edge views with full shields. Paint grey pixels only, do not enlarge, move or redesign anything. Rows 1-2 PAINT: unlit base colour of unusually narrow upright pointed wood kite shield, dark metal rim, central plank and gold side studs. Match approved design wood grain, plank detail and colours scaled to each existing view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground, outlines or text. Rows 3-4 MATERIAL MASK: repeat same five silhouettes, fill each material with FLAT pure colours only: metal including rim and gold studs #FF0000; leather and fur #00FF00; wood and other matte nonmetal solids #FFFF00; gemstones/glass/enamel/liquid #000000. Every silhouette pixel exactly one of these colours, no shading, texture, outlines or antialiased internal colour blends. Use yellow for wood face and red for metal rim/studs. Nothing outside silhouettes. Empty column 3 row 2 and column 3 row 4 fully transparent. Preserve transparent background and openings. Reference image roles: image 1 paint_mask_guide.png exact edit target; image 2 design_reference.png appearance only; image 3 icon_x8.png colour only.\nCRITICAL CORRECTION: Output canvas must be 3:4, NOT 1:2. Copy the guide geometry exactly. Full shield bounding boxes in normalized canvas coordinates are x45.2%-54.9%, y26.6%-48.4% and x45.2%-54.9%, y76.6%-98.4%. They must NOT be enlarged. Edge strips: top row centered at y12.5%, third row y62.5%; left side strips centered at y37.5% and y87.5%. Column centers x16.667%,50%,83.333%. Use the guide alpha exactly, including narrow rim edges. No speckles or extra geometry. Output 1536 wide by 2048 high.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10144/paint_mask_guide.png",
+      "sha256": "b623efa16563c66442dc32322eaf8001e516144a46ee4dccbbaa6b4de5e2999a"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10144/design_reference.png",
+      "sha256": "56be06212232f447807ae076d0c1f3deab74ca204f09613d2bcb71e35e062d00"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10144/icon_x8.png",
+      "sha256": "1b9a31d72d8e62a369829b184b3f55ed0726a442c2a724522c9c3e004da8d526"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1acdf-9e27-7200-baf3-f3e708f77285/exec-f4e038be-9665-4b80-afa9-6909671f007f.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10144/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1
+}

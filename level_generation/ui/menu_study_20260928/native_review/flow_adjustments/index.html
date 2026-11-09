@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenYAMM · Menu flow adjustments</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}
+body{margin:0;background:#0b1415;color:#e6dec7;font:16px/1.55 system-ui,sans-serif}
+header,main{max-width:1500px;margin:auto;padding:28px}h1{font-size:32px;margin:0}
+p{color:#bac3be;max-width:85ch}a{color:#dfc791}nav{display:flex;gap:20px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,560px),1fr));gap:24px}
+figure{margin:0;background:#152022;border:1px solid #465249;border-radius:6px;overflow:hidden}
+img{display:block;width:100%;height:auto}figcaption{padding:14px 18px}figcaption strong{display:block}
+figcaption span{display:block;color:#b4c0b9;font-size:14px}
+</style>
+<header><h1>Menu flow adjustments</h1>
+<p>Native 1280×720 captures from an isolated NVIDIA/OpenGL desktop run. Successful saves resume gameplay;
+continent cards open party creation directly; Continue names the saved location. Click an image for full resolution.</p>
+<nav><a href="../index.html">Earlier native checks</a><a href="../../NATIVE_INTEGRATION.md">Integration notes</a>
+<a href="validation.json">Validation receipt</a><a href="../tours/flow-adjustments.yml">Replay tour</a></nav></header>
+<main class="grid">
+<figure><a href="main-location.png"><img loading="lazy" src="main-location.png" alt="Continue location"></a>
+<figcaption><strong>Continue location</strong><span>Goblinwatch is resolved from the newest save. Both footer labels are removed.</span></figcaption></figure>
+<figure><a href="continents-neutral.png"><img loading="lazy" src="continents-neutral.png" alt="No default continent"></a>
+<figcaption><strong>No default continent</strong><span>Return without focusing a card keeps this screen open. No Create Your Party button.</span></figcaption></figure>
+<figure><a href="continent-enroth-hover.png"><img loading="lazy" src="continent-enroth-hover.png" alt="Hover a continent"></a>
+<figcaption><strong>Hover a continent</strong><span>Only the card under the pointer receives the hover artwork.</span></figcaption></figure>
+<figure><a href="continent-keyboard-focus.png"><img loading="lazy" src="continent-keyboard-focus.png" alt="Keyboard navigation"></a>
+<figcaption><strong>Keyboard navigation</strong><span>Tab focuses Antagarich; Enter opens its party screen.</span></figcaption></figure>
+<figure><a href="party-antagarich.png"><img loading="lazy" src="party-antagarich.png" alt="Direct party creation"></a>
+<figcaption><strong>Direct party creation</strong><span>The selected continent and starting location are correct.</span></figcaption></figure>
+<figure><a href="save-before-commit.png"><img loading="lazy" src="save-before-commit.png" alt="Named manual save"></a>
+<figcaption><strong>Named manual save</strong><span>The typed name differs from the location displayed below Continue.</span></figcaption></figure>
+<figure><a href="save-returned-gameplay.png"><img loading="lazy" src="save-returned-gameplay.png" alt="Save resumes gameplay"></a>
+<figcaption><strong>Save resumes gameplay</strong><span>Successful creation returns directly to the loaded session.</span></figcaption></figure>
+<figure><a href="replace-cancelled.png"><img loading="lazy" src="replace-cancelled.png" alt="Cancel replacement"></a>
+<figcaption><strong>Cancel replacement</strong><span>The existing save remains selected on the Save Game screen.</span></figcaption></figure>
+<figure><a href="replace-returned-gameplay.png"><img loading="lazy" src="replace-returned-gameplay.png" alt="Replace resumes gameplay"></a>
+<figcaption><strong>Replace resumes gameplay</strong><span>Confirmed replacement returns directly to the loaded session.</span></figcaption></figure>
+<figure><a href="cancel-returned-pause.png"><img loading="lazy" src="cancel-returned-pause.png" alt="Cancel Save"></a>
+<figcaption><strong>Cancel Save</strong><span>Cancelling Save Game returns to Pause.</span></figcaption></figure>
+<figure><a href="main-after-save.png"><img loading="lazy" src="main-after-save.png" alt="Continue after saving"></a>
+<figcaption><strong>Continue after saving</strong><span>The subtitle still shows Goblinwatch after a save named Goblinwatch - flow.</span></figcaption></figure>
+</main></html>

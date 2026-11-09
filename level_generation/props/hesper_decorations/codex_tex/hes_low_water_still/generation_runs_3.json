@@ -1,0 +1,204 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_3.md",
+  "status": "Generated and preserved unresized; exact size, silhouette and flat-light requirements not met within allowed attempts.",
+  "corrections_per_view": 1,
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA image with real transparent background.\nImage 1 (guide_left.png) is the EDIT TARGET and absolute pixel geometry authority. Image 2 (design_reference.png) is ONLY the colour/material design reference.\nPaint the LEFT orthographic view of this Lowfolk water still directly onto image 1. Preserve the target's exact silhouette, original alpha contour, size, position, all shape edges, openings, pipes, supports, occlusion and details pixel-for-pixel. Do not move, rotate, resize, crop, replace or redesign any part. The coil is on image right and the basin is low on image right, exactly as in the target. Do not copy the reference camera angle or geometry.\nChange only surface colours/material texture: weathered white ceramic tank with gold bands, green-brown oxidized copper pipes and coil, rusted steel tripod and furnace, grey stone basin, clear water where visible, dim orange fire colour only where the guide exposes the fire. Match the design reference's worn material character, chips and patina while obeying the brief's grey stone basin and green-brown copper. Retain every guide component and all negative spaces; add no objects or protrusions.\nThis is a TEXTURE SOURCE / ALBEDO painting, NOT a beauty render. Even flat shadowless viewer-facing light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections or rim light. Orange emissive details are painted orange only, without illuminating surrounding materials. No background, floor, text or frame. Output exactly 1024 x 1024, unresized, transparent background.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d93-5e92-7151-ad67-9650593d7136/exec-46b162ab-92fc-4d38-9054-ec83a8fcc9c0.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, altered geometry and invented visible fire; strong baked shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "4418626eb5d672e4f118060ba49d32b531559357dda0a67033949d62ffae3e32"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output_sha256": "aef708ad59b6074f11978ccb70d1424646be3c5647c4dba00554f1c084c76dc5",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          9,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          96,
+          958,
+          928
+        ],
+        "silhouette_identical": false,
+        "materials": "White ceramic, gold bands, oxidized green-brown copper, rusted steel and grey basin broadly match the brief. Right containers differ from design reference.",
+        "flat_even_light": false,
+        "visual_review": "Residual shading/highlights and modified component edges remain. Not compliant with exact texture-source brief."
+      },
+      "accepted_against_brief": false
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA image with real transparent background.\nImage 1 (guide_left.png) is the EDIT TARGET and absolute pixel geometry authority. Image 2 (design_reference.png) is ONLY the colour/material design reference.\nPaint the LEFT orthographic view of this Lowfolk water still directly onto image 1. Preserve the target's exact silhouette, original alpha contour, size, position, all shape edges, openings, pipes, supports, occlusion and details pixel-for-pixel. Do not move, rotate, resize, crop, replace or redesign any part. The coil is on image right and the basin is low on image right, exactly as in the target. Do not copy the reference camera angle or geometry.\nChange only surface colours/material texture: weathered white ceramic tank with gold bands, green-brown oxidized copper pipes and coil, rusted steel tripod and furnace, grey stone basin, clear water where visible, dim orange fire colour only where the guide exposes the fire. Match the design reference's worn material character, chips and patina while obeying the brief's grey stone basin and green-brown copper. Retain every guide component and all negative spaces; add no objects or protrusions.\nThis is a TEXTURE SOURCE / ALBEDO painting, NOT a beauty render. Even flat shadowless viewer-facing light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections or rim light. Orange emissive details are painted orange only, without illuminating surrounding materials. No background, floor, text or frame. Output exactly 1024 x 1024, unresized, transparent background.\nCORRECTION: The previous attempt returned 1254 x 1254 and altered geometry. This attempt MUST return native 1024 x 1024 pixels. Treat image 1 as a fixed canvas and paint it in-place, retaining its original alpha mask exactly. Do not generate a new object drawing. Preserve the guide's flat faceted shapes, exact top cap, legs, coil spaces and feature positions. Do not invent a furnace door or fire on the occluded side. Flatten all lighting: remove painted shadows, edge shading, bright gold gleams and copper highlights. Surface coloration only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d93-5e92-7151-ad67-9650593d7136/exec-470d4719-c478-40f9-b797-46d124b0aa13.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the better of two permitted attempts: flatter materials and no invented fire. Still fails exact silhouette/geometry, native 1024 size, and fully shadowless albedo requirements.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "4418626eb5d672e4f118060ba49d32b531559357dda0a67033949d62ffae3e32"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output_sha256": "a52f9622eaed2d7dcef0647b1115cd8b50bafe2c1f0935413ed9353cd497e38b",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          96,
+          958,
+          928
+        ],
+        "silhouette_identical": false,
+        "materials": "White ceramic, gold bands, oxidized green-brown copper, rusted steel and grey basin broadly match the brief. Right containers differ from design reference.",
+        "flat_even_light": false,
+        "visual_review": "Residual shading/highlights and modified component edges remain. Not compliant with exact texture-source brief."
+      },
+      "accepted_against_brief": false
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA image with real transparent background.\nImage 1 (guide_right.png) is the EDIT TARGET and absolute pixel geometry authority. Image 2 (design_reference.png) is ONLY the colour/material design reference.\nPaint the RIGHT orthographic view of this Lowfolk water still directly onto image 1. Preserve the target's exact silhouette, original alpha contour, size, position, all shape edges, openings, pipes, supports, occlusion and details pixel-for-pixel. Do not move, rotate, resize, crop, replace or redesign any part. The coil is on image left and the basin and small containers are low on image left, exactly as in the target. The tank wheel and all right-view components must stay at the guide's exact positions. Do not copy the reference camera angle or geometry.\nChange only surface colours/material texture: weathered white ceramic tank with gold bands, green-brown oxidized copper pipes and coil, rusted steel tripod and furnace, grey stone basin, clear water where visible, dim orange fire colour only where the guide exposes the fire. Match the design reference's worn material character, chips and patina while obeying the brief's grey stone basin and green-brown copper. Retain every guide component and all negative spaces; add no objects or protrusions.\nThis is a TEXTURE SOURCE / ALBEDO painting, NOT a beauty render. Even flat shadowless viewer-facing light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections or rim light. Orange emissive details are painted orange only, without illuminating surrounding materials. No background, floor, text or frame. Output exactly 1024 x 1024, unresized, transparent background.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d93-5e92-7151-ad67-9650593d7136/exec-b9dad2bb-b2a6-496a-ac9a-630bc6e5bb27.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, shifted framing, altered containers and component geometry, and strong baked shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "2bcef3d833c76147c75607cf740805e3ae6871736b4732289ea1884612788c93"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output_sha256": "e2a681e33f680afb345d2db03d4b9bfd28478d3a182c014341cfcf9787e4201d",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1244,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          96,
+          958,
+          928
+        ],
+        "silhouette_identical": false,
+        "materials": "White ceramic, gold bands, oxidized green-brown copper, rusted steel and grey basin broadly match the brief. Right containers differ from design reference.",
+        "flat_even_light": false,
+        "visual_review": "Residual shading/highlights and modified component edges remain. Not compliant with exact texture-source brief."
+      },
+      "accepted_against_brief": false
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: precise-object-edit. Create one 1024 x 1024 RGBA image with real transparent background.\nImage 1 (guide_right.png) is the EDIT TARGET and absolute pixel geometry authority. Image 2 (design_reference.png) is ONLY the colour/material design reference.\nPaint the RIGHT orthographic view of this Lowfolk water still directly onto image 1. Preserve the target's exact silhouette, original alpha contour, size, position, all shape edges, openings, pipes, supports, occlusion and details pixel-for-pixel. Do not move, rotate, resize, crop, replace or redesign any part. The coil is on image left and the basin and small containers are low on image left, exactly as in the target. The tank wheel and all right-view components must stay at the guide's exact positions. Do not copy the reference camera angle or geometry.\nChange only surface colours/material texture: weathered white ceramic tank with gold bands, green-brown oxidized copper pipes and coil, rusted steel tripod and furnace, grey stone basin, clear water where visible, dim orange fire colour only where the guide exposes the fire. Match the design reference's worn material character, chips and patina while obeying the brief's grey stone basin and green-brown copper. Retain every guide component and all negative spaces; add no objects or protrusions.\nThis is a TEXTURE SOURCE / ALBEDO painting, NOT a beauty render. Even flat shadowless viewer-facing light. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections or rim light. Orange emissive details are painted orange only, without illuminating surrounding materials. No background, floor, text or frame. Output exactly 1024 x 1024, unresized, transparent background.\nCORRECTIVE ATTEMPT: Return EXACTLY 1024 x 1024 pixels, matching image 1's native canvas. Paint in place on the supplied grey guide; preserve its exact alpha mask and every component's pixel location. Previous attempt enlarged/shifted the subject and altered the foreground containers, coil and furnace geometry. Keep the guide's three foreground containers and their exact shapes, the exact valve-wheel shape, flat supports, gaps and all small edge details. Do not invent fire doors, valves, splash, or new shapes. The guide is the sole geometry source. Keep guide framing with top around pixel y=97, base around y=926. Material colours ONLY, no painted lighting gradients or AO, no shiny gold/copper highlights. Matte flat albedo with worn surface detail, not a rendered product image.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15d93-5e92-7151-ad67-9650593d7136/exec-d6d771db-0a32-4f15-87d7-0858e77115c2.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the better of two permitted attempts: framing and foreground shapes closer to guide. Still fails exact silhouette/geometry, native 1024 size, and fully shadowless albedo requirements.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "2bcef3d833c76147c75607cf740805e3ae6871736b4732289ea1884612788c93"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "217a67dc7d313ea61d5f8c48cb29b95c913a204fdda4a3f74fefbb8317db18c1"
+        }
+      ],
+      "output_sha256": "44bec9e7b148063df7855e2d3fe25549de4d89f7ad3706c3a7e5d00c89ec0755",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1248,
+          1244
+        ],
+        "guide_alpha_bbox": [
+          66,
+          96,
+          958,
+          928
+        ],
+        "silhouette_identical": false,
+        "materials": "White ceramic, gold bands, oxidized green-brown copper, rusted steel and grey basin broadly match the brief. Right containers differ from design reference.",
+        "flat_even_light": false,
+        "visual_review": "Residual shading/highlights and modified component edges remain. Not compliant with exact texture-source brief."
+      },
+      "accepted_against_brief": false
+    }
+  ]
+}

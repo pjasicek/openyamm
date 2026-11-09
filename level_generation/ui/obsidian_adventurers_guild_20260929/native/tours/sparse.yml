@@ -1,0 +1,18 @@
+output_dir: ../images
+exit: true
+steps:
+- wait: 1
+- key: P
+- wait: 1
+- capture: sparse-roster
+- pointer_move: [1255, 738]
+- capture: sparse-hire-hover
+- click: [444, 164]
+- wait: 0.5
+- capture: sparse-second-selected
+- click: [1255, 738]
+- wait: 0.5
+- capture: sparse-hired
+- click: [1255, 868]
+- expect: gameplay
+- capture: sparse-exit

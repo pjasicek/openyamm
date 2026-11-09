@@ -1,0 +1,71 @@
+# The acid rain (BROOD_SPIRES.md section 9, events 1, 3, 4): 1385 game minutes after a new game (day
+# 1, hour 8) the day's roll has it raining (map variable 1); on load the rain starts and
+# burns each character without a sealed helm: a party in the Rebreather Helm (11106) stays whole and 100503 stays clear,
+# a bareheaded party burns (3D6 Body) and meets the rain (100503; autonote 10201).
+id: hesper.out3.brood_acid_rain
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out3.odm
+    party:
+      gold: 0
+      food: 10
+      members:
+      - name: Helmed
+        class: Knight
+        level: 40
+        skills: []
+        equipment:
+          helm: 11106
+- load_map:
+    map: hes_out3.odm
+- assert:
+    runtime_event_variable:
+      id: 124
+      value: 0
+- advance_game_time:
+    minutes: 1385
+- load_map:
+    map: hes_out3.odm
+- assert:
+    runtime_event_variable:
+      id: 124
+      value: 1
+- assert:
+    party_health:
+      full: true
+- assert:
+    qbit_clear:
+    - 100503
+- new_game_flow:
+    start_map: hes_out3.odm
+    party:
+      gold: 0
+      food: 10
+      members:
+      - name: Bareheaded
+        class: Knight
+        level: 40
+        skills: []
+        equipment: {}
+- load_map:
+    map: hes_out3.odm
+- assert:
+    runtime_event_variable:
+      id: 124
+      value: 0
+- advance_game_time:
+    minutes: 1385
+- load_map:
+    map: hes_out3.odm
+- assert:
+    runtime_event_variable:
+      id: 124
+      value: 1
+- assert:
+    party_health:
+      full: false
+- assert:
+    qbit_set:
+    - 100503

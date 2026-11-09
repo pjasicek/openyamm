@@ -1,0 +1,355 @@
+# Both Armoury routes reject unqualified input; hacking resets on reload; brine is safe and the shelf recharges.
+id: hesper.d10.hacking_and_hazard
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d10.blv
+    party:
+      members:
+      - name: Archive tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d10.blv
+    x: 1850
+    y: -2800
+    z: -512
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 16
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- set_pose:
+    map: hes_d10.blv
+    x: 1800
+    y: -3100
+    z: -512
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 17
+- assert:
+    mechanism:
+      id: 2
+      state: closed
+- new_game_flow:
+    start_map: hes_d10.blv
+    party:
+      members:
+      - name: Archive tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d10.blv
+    x: 1800
+    y: -3100
+    z: -512
+    yaw: 0
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 17
+- wait_until:
+    timeout_runtime_seconds: 3
+    assert:
+      mechanism:
+        id: 2
+        state: open
+- assert:
+    actor_visible:
+      actor_index: 9
+      hostile_to_party: false
+- assert:
+    actor_visible:
+      actor_index: 10
+      hostile_to_party: false
+- save_game:
+    name: hes_d10_hacked
+- load_game:
+    name: hes_d10_hacked
+- assert:
+    actor_visible:
+      actor_index: 9
+      hostile_to_party: true
+- assert:
+    actor_visible:
+      actor_index: 10
+      hostile_to_party: true
+- new_game_flow:
+    start_map: hes_d10.blv
+    party:
+      members:
+      - name: Archive tester
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- assert:
+    party_health:
+      full: true
+- movement_segment:
+    input: none
+    seconds: 2
+    start: &id001
+      map: hes_d10.blv
+      x: 5800
+      y: 1200
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop: *id001
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    party_health:
+      full: true
+- movement_segment:
+    input: none
+    seconds: 1.1
+    start: &id002
+      map: hes_d10.blv
+      x: 6200
+      y: 850
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop: *id002
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    party_health:
+      full: false
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      min: 5016
+      max: 5037
+- movement_segment:
+    input: none
+    seconds: 10.5
+    start: &id003
+      map: hes_d10.blv
+      x: 5800
+      y: 1200
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop: *id003
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map_var_changed:
+      index: 5
+      value: 0
+- movement_segment:
+    input: none
+    seconds: 1.1
+    start: &id004
+      map: hes_d10.blv
+      x: 6200
+      y: 850
+      z: 0
+      yaw: 0
+      pitch: 0
+    expect_stop: *id004
+    tolerance_xy: 1
+    tolerance_z: 1
+    actor_collision: false
+    actor_ai: false
+- assert:
+    runtime_event_variable:
+      id: 3
+      member_index: 0
+      min: 4992
+      max: 5034

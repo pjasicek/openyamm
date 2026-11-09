@@ -1,0 +1,270 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "requirements_not_met",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "max_corrective_regenerations_per_view": 1,
+  "selection_note": "Selected means the closer raw candidate saved under the requested filename; neither selected image passes all brief requirements.",
+  "processing": "Copied original PNG returns byte-for-byte. No resizing, alpha replacement, compositing or other image editing.",
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Fallen hive spire 3D model, left view.\nEdit target: input image 1, guide_left.png. This is the EXACT geometry and composition to repaint. Input image 2, design_reference.png, is the approved colour/material/design authority ONLY. Input image 3, concept_crop.png, is supporting original concept. Do NOT copy the composition or three-quarter camera of images 2 or 3.\n\nReturn one 1024 x 1024 PNG with a genuinely transparent background, in the identical full square canvas as the guide, unresized. Preserve the guide alpha/silhouette EXACTLY, including all anti-aliased boundary pixels, every tiny spike, opening, edge, facet, shape, position and scale. The object occupies only x=322 through 701 and y=283 through 740 in the 1024 square. KEEP the large transparent margins: do not enlarge, recenter, shift, rotate, zoom or crop. No new geometry or silhouette protrusions. Do not change the visible shapes or their arrangement. This is a surface-colour edit of the existing guide, not a new interpretation of the spire.\n\nPaint the guide's surfaces with the materials and colours of design_reference.png: black-violet purple resin and chitin, ivory bone spikes, dim glowing orange inside hollow broken ends. The resin is glossy as a material, but render its BASE COLOUR without reflections or strong specular highlights. Preserve the material detail and restrained colours of the approved design while following the actual guide geometry. Colour glowing orange regions at their emissive colour without any light spill onto their surroundings.\n\nLIGHTING: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. Every surface clearly readable. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light, no bloom or glow halo. No background, no floor, no ground shadow, no text, no labels or watermarks. Keep the guide silhouette, size, position and every shape edge unchanged; replace only the grey surface appearance.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "b579369046c92ae00665c4d6a198c22622a95ad03255d6e727c1f8dae838d299",
+          "role": "edit target; geometry, alpha, framing authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54",
+          "role": "approved design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421",
+          "role": "original concept supporting reference"
+        }
+      ],
+      "output": "paint_left_attempt_1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: native output is 1254x1254 rather than 1024x1024; guide alpha is not preserved, some shapes/openings are invented, and shading/highlights are too strong for albedo. One corrective regeneration requested.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "a216aaaa9d5b74940c3a5217102aef019c57625e762448f4c10be0bfddf113c3",
+        "alpha_bbox": [
+          49,
+          41,
+          1226,
+          1198
+        ],
+        "opaque_bbox": [
+          395,
+          346,
+          861,
+          907
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "size_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "transparent_background": true,
+        "unresized_return": true,
+        "clean_transparent_margins": false,
+        "materials_and_colours_match_design_reference": {
+          "result": "partial",
+          "observation": "Black-violet shell, ivory spikes and orange cavities are recognizable; stronger gloss/highlights and invented relief than permitted."
+        },
+        "flat_even_shadowless_light": {
+          "result": "fail",
+          "observation": "Strong cavity/facet shading and highlights are visible."
+        }
+      },
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16882-ce92-7ec1-9a0c-ed7e504170ca/exec-dcf8b45a-552d-4430-b24e-e2615204ccc1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, left view. Return exactly 1024 pixels wide by 1024 pixels tall, RGBA PNG. The previous attempt incorrectly returned 1254 x 1254, altered the outline and added shaded material rendering. Those are failures. This final attempt must be a precise flat-colour surface edit of image 1.\n\nImage 1: guide_left.png is the 1024 x 1024 EDIT TARGET. Keep its complete alpha channel unchanged, including the transparent margins and all anti-aliased edges. Keep every geometry edge in exactly its original location. Keep every spike, flat facet, opening and detail exactly as the guide, with no invented openings, thorns, struts, holes or decorations. The existing object must stay at x=322..701, y=283..740 in the original 1024 square. Do not scale the object or canvas. Outside the guide object is fully transparent, alpha 0, with no specks or translucent haze anywhere.\n\nImage 2: design_reference.png gives ONLY the material palette and material surface appearance. Image 3: concept_crop.png is a supporting colour reference. Their silhouette and perspective must not influence the shape.\n\nRecolour the white/grey guide surfaces into the approved Fallen hive spire materials: deep black-violet resin/chitin for the shell, warm ivory bone on the EXISTING spikes, and dim muted orange at the EXISTING hollow broken ends. Painted fine cracks and material grain may follow existing surfaces, but do not create new 3D geometry. The irregular overlapping broken shell facets must retain all the guide's original edges and shapes.\n\nALBEDO ONLY: flat uniform diffuse viewer illumination with no shading, no ambient occlusion, no directional light, no shadows, no reflections, no highlights, no rim light and no bloom. Resin gloss is a material identity, not a lighting effect to paint. Ivory is a consistent light ivory base colour, violet a consistent readable dark violet base colour; avoid white highlights and black shadow gradients. Orange is its own dim flat colour, never light spill. Transparent background, no floor, no text. Exactly 1024 x 1024; original guide alpha and framing unchanged.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "b579369046c92ae00665c4d6a198c22622a95ad03255d6e727c1f8dae838d299",
+          "role": "edit target; geometry, alpha, framing authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54",
+          "role": "approved design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421",
+          "role": "original concept supporting reference"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the closer of two raw candidates: existing guide facets are followed more closely and highlights reduced. NOT accepted against the brief: output remains 1254x1254, exact silhouette/alpha is not preserved, faint alpha pixels extend into margins, and some facet/cavity shading remains. Corrective regeneration allowance exhausted.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "1bec2011a03e52b0e334c6affd481d115dafda5838c372c93c6d953c09394f2f",
+        "alpha_bbox": [
+          41,
+          23,
+          1136,
+          1013
+        ],
+        "opaque_bbox": [
+          395,
+          347,
+          859,
+          907
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "size_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "transparent_background": true,
+        "unresized_return": true,
+        "clean_transparent_margins": false,
+        "materials_and_colours_match_design_reference": {
+          "result": "partial",
+          "observation": "Black-violet shell, ivory spikes and orange cavities retained; surface reads more faceted/matte than the approved resin and chitin."
+        },
+        "flat_even_shadowless_light": {
+          "result": "fail",
+          "observation": "Highlights reduced, but facet and cavity darkening remains."
+        }
+      },
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16882-ce92-7ec1-9a0c-ed7e504170ca/exec-ba3bdbfd-cad4-4e3d-b7a8-9643e88ab3be.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for the Fallen hive spire 3D model, right view.\nEdit target: input image 1, guide_right.png. This is the EXACT geometry and composition to repaint. Input image 2, design_reference.png, is the approved colour/material/design authority ONLY. Input image 3, concept_crop.png, is supporting original concept. Do NOT copy the composition or three-quarter camera of images 2 or 3.\n\nReturn one 1024 x 1024 PNG with a genuinely transparent background, in the identical full square canvas as the guide, unresized. Preserve the guide alpha/silhouette EXACTLY, including all anti-aliased boundary pixels, every tiny spike, opening, edge, facet, shape, position and scale. The object occupies only x=322 through 701 and y=283 through 740 in the 1024 square. KEEP the large transparent margins: do not enlarge, recenter, shift, rotate, zoom or crop. No new geometry or silhouette protrusions. Do not change the visible shapes or their arrangement. This is a surface-colour edit of the existing guide, not a new interpretation of the spire.\n\nPaint the guide's surfaces with the materials and colours of design_reference.png: black-violet purple resin and chitin, ivory bone spikes, dim glowing orange inside hollow broken ends. The resin is glossy as a material, but render its BASE COLOUR without reflections or strong specular highlights. Preserve the material detail and restrained colours of the approved design while following the actual guide geometry. Colour glowing orange regions at their emissive colour without any light spill onto their surroundings.\n\nLIGHTING: TEXTURE SOURCE / ALBEDO. Even flat shadowless illumination from the viewer. Every surface clearly readable. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light, no bloom or glow halo. No background, no floor, no ground shadow, no text, no labels or watermarks. Keep the guide silhouette, size, position and every shape edge unchanged; replace only the grey surface appearance.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "5a389aff7bcee167cf2bdc1a665d93d0e5bf69dbeaabd91cffebc9477448bb16",
+          "role": "edit target; geometry, alpha, framing authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54",
+          "role": "approved design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421",
+          "role": "original concept supporting reference"
+        }
+      ],
+      "output": "paint_right_attempt_1.png",
+      "selected": false,
+      "accepted": false,
+      "reason": "Rejected: native output is 1254x1254 rather than 1024x1024; guide alpha is not preserved, some shapes/openings are invented, and shading/highlights are too strong for albedo. One corrective regeneration requested.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "33d74928f798a4ba0da2c21640c7d930289ad3436016f3ef4a8d045c4564c088",
+        "alpha_bbox": [
+          81,
+          214,
+          1144,
+          1164
+        ],
+        "opaque_bbox": [
+          394,
+          346,
+          860,
+          908
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "size_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "transparent_background": true,
+        "unresized_return": true,
+        "clean_transparent_margins": false,
+        "materials_and_colours_match_design_reference": {
+          "result": "partial",
+          "observation": "Black-violet shell, ivory spikes and orange cavities are recognizable; stronger gloss/highlights and invented relief than permitted."
+        },
+        "flat_even_shadowless_light": {
+          "result": "fail",
+          "observation": "Strong cavity/facet shading and highlights are visible."
+        }
+      },
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16882-ce92-7ec1-9a0c-ed7e504170ca/exec-f61c6adb-f31d-4904-9cbc-30124902b936.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, right view. Return exactly 1024 pixels wide by 1024 pixels tall, RGBA PNG. The previous attempt incorrectly returned 1254 x 1254, altered the outline and added shaded material rendering. Those are failures. This final attempt must be a precise flat-colour surface edit of image 1.\n\nImage 1: guide_right.png is the 1024 x 1024 EDIT TARGET. Keep its complete alpha channel unchanged, including the transparent margins and all anti-aliased edges. Keep every geometry edge in exactly its original location. Keep every spike, flat facet, opening and detail exactly as the guide, with no invented openings, thorns, struts, holes or decorations. The existing object must stay at x=322..701, y=283..740 in the original 1024 square. Do not scale the object or canvas. Outside the guide object is fully transparent, alpha 0, with no specks or translucent haze anywhere.\n\nImage 2: design_reference.png gives ONLY the material palette and material surface appearance. Image 3: concept_crop.png is a supporting colour reference. Their silhouette and perspective must not influence the shape.\n\nRecolour the white/grey guide surfaces into the approved Fallen hive spire materials: deep black-violet resin/chitin for the shell, warm ivory bone on the EXISTING spikes, and dim muted orange at the EXISTING hollow broken ends. Painted fine cracks and material grain may follow existing surfaces, but do not create new 3D geometry. The broad continuous chitin facets and low triangular front section must retain all the guide's original edges and shapes.\n\nALBEDO ONLY: flat uniform diffuse viewer illumination with no shading, no ambient occlusion, no directional light, no shadows, no reflections, no highlights, no rim light and no bloom. Resin gloss is a material identity, not a lighting effect to paint. Ivory is a consistent light ivory base colour, violet a consistent readable dark violet base colour; avoid white highlights and black shadow gradients. Orange is its own dim flat colour, never light spill. Transparent background, no floor, no text. Exactly 1024 x 1024; original guide alpha and framing unchanged.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "5a389aff7bcee167cf2bdc1a665d93d0e5bf69dbeaabd91cffebc9477448bb16",
+          "role": "edit target; geometry, alpha, framing authority"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54",
+          "role": "approved design, colour and material authority"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421",
+          "role": "original concept supporting reference"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected as the closer of two raw candidates: existing guide facets are followed more closely and highlights reduced. NOT accepted against the brief: output remains 1254x1254, exact silhouette/alpha is not preserved, faint alpha pixels extend into margins, and some facet/cavity shading remains. Corrective regeneration allowance exhausted.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "2577d8c747cceed3eda992edfd0c179fbdc5ac9c5828d185c0c045499cd8b7d7",
+        "alpha_bbox": [
+          49,
+          45,
+          1234,
+          1180
+        ],
+        "opaque_bbox": [
+          395,
+          344,
+          859,
+          907
+        ],
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "size_1024x1024": false,
+        "silhouette_identical_to_guide": false,
+        "transparent_background": true,
+        "unresized_return": true,
+        "clean_transparent_margins": false,
+        "materials_and_colours_match_design_reference": {
+          "result": "partial",
+          "observation": "Black-violet shell, ivory spikes and orange cavities retained; surface reads more faceted/matte than the approved resin and chitin."
+        },
+        "flat_even_shadowless_light": {
+          "result": "fail",
+          "observation": "Highlights reduced, but facet and cavity darkening remains."
+        }
+      },
+      "generated_source": "/home/pjasicek/.codex/generated_images/01a16882-ce92-7ec1-9a0c-ed7e504170ca/exec-4fb4adc2-e7b6-4e7d-b900-cf33a6947faf.png"
+    }
+  ]
+}

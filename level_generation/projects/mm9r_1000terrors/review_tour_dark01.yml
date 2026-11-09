@@ -1,0 +1,74 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_1000terrors/review/dark01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: m16_puzzle_wall
+  position:
+  - 9216
+  - -22758
+  - -127
+  yaw: 0.0
+  pitch: 0.0
+- name: m17_treasure_room
+  position:
+  - 8704
+  - -22784
+  - -127
+  yaw: 3.1416
+  pitch: 0.0
+- name: l04_skull_head
+  position:
+  - 8315
+  - -9344
+  - -2078
+  yaw: -1.5708
+  pitch: 0.0
+- name: l08_lower_hall_west
+  position:
+  - -2304
+  - -8704
+  - -2569
+  yaw: 3.1416
+  pitch: 0.0
+- name: l09_lower_north_west
+  position:
+  - -6656
+  - -6912
+  - -2016
+  yaw: 1.5708
+  pitch: 0.0
+- name: l11_lower_tomb
+  position:
+  - -707
+  - -3328
+  - -2411
+  yaw: 1.5708
+  pitch: 0.0
+- name: u01_foyer
+  position:
+  - 3594
+  - -16896
+  - 2254
+  yaw: 1.5708
+  pitch: 0.0
+- name: u07_upper_corridor
+  position:
+  - 3584
+  - -18330
+  - 2254
+  yaw: 0.0
+  pitch: 0.0
+- name: l01_lever_room
+  position:
+  - 640
+  - -11904
+  - -3245
+  yaw: 0.0
+  pitch: 0.0
+- name: m09_water_hall_north
+  position:
+  - 14182
+  - -13824
+  - -619
+  yaw: 1.5708
+  pitch: 0.0

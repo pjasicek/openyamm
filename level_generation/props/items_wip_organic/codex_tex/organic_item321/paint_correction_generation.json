@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. STRICT PIXEL-REGISTERED INPAINT TEXTURE EDIT. The ONLY input is the actual geometry mask. Recolour only its opaque gray pixels. The shape in each panel is a HARD MASK, not a suggestion: do not replace it with a conventional drawing of the named object. Preserve absolutely the SAME six silhouettes and every interior hole, screen position, thin cross-section, aspect ratio, camera angle and scale. This is one 3-column, 2-row grid: top row FRONT BACK LEFT, bottom row RIGHT TOP BOTTOM. Several views are THIN EDGE-ON CROSS-SECTIONS. THEY MUST STAY THIN. Never turn them face-on. Inpaint flat unlit base colour and fine texture ONLY: Warm tan-brown ear skin on every surface, subtle fine skin pores and faint pigment wrinkles only. Paint the existing concha folds where the guide has them. Do not change the ear's angle or draw new folds. No metal. NO light, highlights, gloss, reflections, ambient occlusion, shadows, outline glow, gradients or modeling of form with colour. Same local pigment brightness on all faces. No geometry, text, labels, borders or extra objects. Empty pixels remain truly transparent with absolutely no glow or floor. Retain landscape 3:2 and the exact panel framing. Output the edited mask sheet, six coloured shapes in exactly the original pixels.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_item321/guide_sheet.png"
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_item321/paint_sheet_raw.png",
+  "supersedes": "paint_sheet_superseded.png",
+  "reason": "Initial sheet changed the silhouette/pose of one or more panels.",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-f87f2aed-73f8-4c4a-8bfc-6e6f3f145e76.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "selected": true,
+  "guide_sha256": "33e6eebade0d1cec6c0d80650b23f62fccaf58b46d47181f7d267944f23b92b4",
+  "output_sha256": "5fd9c908d409dd4f8b4d0e7b5702b3c032cb52ea054f8e171e2fdb89ed73097f"
+}

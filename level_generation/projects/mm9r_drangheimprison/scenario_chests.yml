@@ -1,0 +1,92 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.drangheimprison_chests
+title: Drangheim Prison (native BLV) - the six MM9 treasure chests open from in front of them
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: drangheimprison.blv
+- set_pose:
+    map: drangheimprison.blv
+    x: 3202
+    y: -1031
+    z: -1904
+    yaw: 1.0472
+    pitch: -0.7338
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: drangheimprison.blv
+    x: -1475
+    y: -9228
+    z: -3911
+    yaw: -1.5708
+    pitch: -0.2989
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: drangheimprison.blv
+    x: -1126
+    y: -9228
+    z: -3911
+    yaw: -1.5708
+    pitch: -0.7073
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: drangheimprison.blv
+    x: -1582
+    y: -9182
+    z: -3911
+    yaw: -2.2689
+    pitch: -0.7262
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: drangheimprison.blv
+    x: 605
+    y: -5944
+    z: -3583
+    yaw: -2.4435
+    pitch: -0.7287
+- execute_event:
+    id: 45
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: drangheimprison.blv
+    x: 562
+    y: -5898
+    z: -3583
+    yaw: 3.1416
+    pitch: -0.7287
+- execute_event:
+    id: 46
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog

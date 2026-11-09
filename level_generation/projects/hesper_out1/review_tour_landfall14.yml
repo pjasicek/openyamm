@@ -1,0 +1,57 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/landfall14",
+ "settle_seconds": 3.0,
+ "exit": true,
+ "shots": [
+  {
+   "name": "sign_1",
+   "position": [
+    -17080,
+    -15410,
+    1478
+   ],
+   "yaw": 2.6058,
+   "pitch": 0.538
+  },
+  {
+   "name": "sign_2",
+   "position": [
+    -14420,
+    -15790,
+    1478
+   ],
+   "yaw": -0.5358,
+   "pitch": 0.538
+  },
+  {
+   "name": "sign_3",
+   "position": [
+    -17120,
+    -17540,
+    1478
+   ],
+   "yaw": -0.5358,
+   "pitch": 0.538
+  },
+  {
+   "name": "sign_4",
+   "position": [
+    -10430,
+    -15110,
+    1478
+   ],
+   "yaw": 2.6058,
+   "pitch": 0.798
+  },
+  {
+   "name": "sign_5",
+   "position": [
+    -15620,
+    -17490,
+    1478
+   ],
+   "yaw": -0.5358,
+   "pitch": 0.798
+  }
+ ]
+}

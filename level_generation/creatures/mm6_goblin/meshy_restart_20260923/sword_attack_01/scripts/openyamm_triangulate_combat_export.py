@@ -1,0 +1,6 @@
+import bpy,bmesh
+from pathlib import Path
+OUT=Path('/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_goblin/meshy_restart_20260923/sword_attack_01');s=bpy.data.scenes['Goblin - Sword and Native Attack'];bpy.context.window.scene=s;r=s.objects['Goblin_Combat_Rig'];m=s.objects['Goblin_Combat_Body'];bm=bmesh.new();bm.from_mesh(m.data);faces=[f for f in bm.faces if len(f.verts)>3];bmesh.ops.triangulate(bm,faces=faces,quad_method='FIXED',ngon_method='BEAUTY');bm.to_mesh(m.data);bm.free();m.data.update();a=bpy.data.actions['MM6_Goblin_Attack'];r.animation_data.action=a;r.animation_data.action_slot=a.slots[0];s.frame_start=1;s.frame_end=37;s.frame_set(7);bpy.ops.object.select_all(action='DESELECT')
+for o in s.objects:
+ if o.type in ['MESH','ARMATURE']:o.select_set(True)
+bpy.context.view_layer.objects.active=r;bpy.ops.export_scene.gltf(filepath=str(OUT/'mm6_goblin_corsair_attack.glb'),export_format='GLB',use_selection=True,use_active_scene=True,export_animations=True,export_animation_mode='ACTIONS',export_anim_single_armature=False,export_force_sampling=True,export_tangents=True);bpy.data.libraries.write(str(OUT/'mm6_goblin_corsair_attack.blend'),{s},fake_user=True,compress=True);print('Hand triangles frozen; original body triangles and UVs retained')

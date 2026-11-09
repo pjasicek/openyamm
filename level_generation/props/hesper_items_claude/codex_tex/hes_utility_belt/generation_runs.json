@@ -1,0 +1,602 @@
+{
+  "brief": "CODEX_BRIEF.md",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "images_modified_after_generation": false,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset: hes_utility_belt, FRONT orthographic texture-source painting.\nImage 1 (guide_front.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is the approved material/design reference ONLY.\nEdit image 1 in place: paint its existing surfaces, preserve its exact 1024 x 1024 canvas, alpha silhouette, size, position, straight orthographic camera, part edges and occlusions. Output ONE 1024 x 1024 RGBA PNG with real transparent background. The narrow horizontal object must stay at x=66..957, y=440..583, with the main leather band at y=450..573. Leave all the large transparent margins. Do not enlarge or recenter the object. No three-quarter view.\nPaint the guide's long band as the reference's dark weathered brown leather with fine grain, tan stitching along both edges and subtle scuffed patina. The existing cuboid patches at the far left, around x=220..333, and far right are compact leather pouches; paint worn olive-brown leather/cloth surfaces, seams and small repaired patches within those exact faces. The broad leather band occludes the central buckle; only the two thin existing gold slivers above/below the band near x=442..580 show. Paint just those slivers muted brushed aged gold. Do not invent a visible full buckle or cell pack on this side. Continue hidden/back-facing materials plausibly.\nUse the reference's material colours, never the pale guide tints. Surface detail is painted colour only; do not change, round, expand, move or add geometry. Match the guide pixel for pixel around all outer boundaries.\nLIGHTING: flat, evenly lit, shadowless albedo texture source. Remove guide lighting gradients and cast shadows. No ambient occlusion, directional shading, dark contact shadows, rim light, strong highlights, reflections, photographic studio lighting, bloom, floor or background. Metal is its muted base colour with only a faint sheen. Detailed materials without baked lighting. No text, letters, labels, watermark or added objects. Preserve alpha outside the guide exactly.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "2d6461de656b1d8153772a16ec5730914b07b1297eaec553bc8f414f53e09377"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration planned: right-hand pouch geometry and material assignments drifted; tool returned 1254 square rather than 1024; original retained unchanged.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-45b00998-3437-4a5d-83c0-132cb9304b33.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "c8a6c66ebfcea829c0d4d395f36abab79ea4c1a70343e4c29befd9f657e178de",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          55,
+          30,
+          1230,
+          1222
+        ],
+        "opaque_bbox": [
+          80,
+          538,
+          1175,
+          715
+        ],
+        "guide_alpha_bbox": [
+          66,
+          440,
+          958,
+          584
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.966959,
+        "requested_size": false,
+        "colours_and_materials_match_reference": false,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 14108,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Make a material-only paintover of image 1, guide_back.png. Image 2, design_reference.png, is the material reference ONLY.\nDeliver ONE 1024x1024 RGBA image with real alpha transparency: the BACK orthographic view of hes_utility_belt. Retain image 1's exact canvas and silhouette, all straight part edges and all large blank transparent margins. Do not regenerate the geometry or copy image 2's perspective. Object remains confined to x=66..957, y=440..583 in the 1024 square. The broad band spans y=450..573. No zoom, translation, new shapes, bevel changes or added thickness. Edit texture colours within the original alpha mask only.\nMap materials exactly: the long band is weathered dark brown leather, fine grain, two fine tan stitched edge seams. The beige blocks at x=66..140, x=220..333 and x=880..957 are leather/olive-brown cloth pouches, with flat painted seams, flaps and small rust-brown stitched repairs from the reference; they retain the guide's precise cuboid outlines. The central frame at x=442..581, y=440..583 is muted aged brushed gold, retaining its rectangular frame and existing leather-filled rectangular middle x=470..553, y=469..557. The light-grey block at x=690..808, y=450..573 is the small cell pack: worn ivory-white ceramic with fine hairline cracks, a narrow black-violet resin vertical centre panel, blue-white luminous slit, and muted gold brackets/band. All detail stays inside its guide block and no part projects outside the existing outline. Match the approved reference materials, with no letters.\nThis is an ALBEDO TEXTURE SOURCE, not a lit object beauty render. Flat uniform shadowless light from viewer. Paint base colour everywhere, including bevels, at equal brightness. No directional gradients, cast shadows, contact shadows, ambient occlusion, black outlines representing shadow, metallic hot highlights, strong reflections, rim lighting or bloom. Gold is dull ochre-gold with faint brushed grain and tiny worn flecks, not bright specular edging. Luminous slit is bright blue-white colour without lighting anything else. No background, floor, text, logo, watermark or added object. Absolutely preserve image 1 geometry and alpha edge positions.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "7f34174468689336748d8f71e0f0c1cca48e6c0adee883eb20d894565cb34148"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected initial return: better guide alignment than the one corrective regeneration; material assignment matches the reference. Residual edge drift and baked shading remain. Best of the two allowed attempts, not a strict silhouette/albedo pass.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-683b81c7-53c4-4624-85e0-6d3cc498558a.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "df0fbdbf3ed27e66f76ea82ac4221cd9040b1f89a493d485f6fccf890049fe29",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          68,
+          1218,
+          1182
+        ],
+        "opaque_bbox": [
+          80,
+          539,
+          1174,
+          715
+        ],
+        "guide_alpha_bbox": [
+          66,
+          440,
+          958,
+          584
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.977283,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 11638,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      },
+      "retained_raw_output": "paint_back_attempt1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint only the surface colours of image 1 (guide_left.png), using image 2 (design_reference.png) for material design.\nDeliver a single 1024x1024 transparent RGBA texture-source painting, LEFT orthographic view. The exact silhouette, framing and EVERY part boundary from image 1 are mandatory. Object occupies only x=200..823, y=440..583; the main band is y=450..573. Keep the very large empty transparent margins and the original straight-on camera. Use original guide alpha unchanged. Do not enlarge, recenter, round or reconstruct shapes. Treat the guide as a precise paint-by-number mask.\nThe long beige band becomes dark weathered brown leather with finely painted tan edge stitching and natural grain. The light grey block at x=202..298, y=450..573 is the side of the cell pack: off-white worn ceramic, fine hairline cracks, the reference's black-violet resin narrow joins and restrained aged brushed-gold fastenings. Keep the cell side face as the guide shows; no projecting parts or new geometry, no full forward-facing cell light added to a hidden side. The tiny existing tabs at x=208..226 above and below it are dull aged gold. Existing beige cuboids at x=392..506 and x=727..823 are olive-brown worn leather/cloth pouches. Paint their side seams and rust-brown stitched repairs at that exact size, without expanding their box boundaries or adding hardware outside them. Plausibly continue the design's side materials.\nALBEDO ONLY: uniform base-colour painting with detailed fine colour variation. Completely even frontal shadowless light on ALL faces, including side faces and bevels; no darker side faces, no contact or cast shadows, no ambient occlusion, no rim highlights or glossy reflections. Ignore and remove the guide's triangular shadow shapes: they are light, not material boundaries. Muted gold base colour and faint brushed grain, no bright metallic highlights. Fine wear is colour texture only. Transparent background, no floor, no text, letters, labels or watermark. Match original guide outline and part edges exactly.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "ee25a4e028754a7f1668d3e52722e4e6236c0ac1ab8b43d9f03bd57257adc65c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected initial return: better guide alignment than the one corrective regeneration; material assignment matches the reference. Residual edge drift and baked shading remain. Best of the two allowed attempts, not a strict silhouette/albedo pass.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-fc1380e5-f2de-457e-80af-20ebcb5760b3.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "f1a092b297c0c227cca0367e15959388ec6cb95f1297038c047cc39d85d43ffb",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1232,
+          1214
+        ],
+        "opaque_bbox": [
+          244,
+          540,
+          1010,
+          714
+        ],
+        "guide_alpha_bbox": [
+          200,
+          440,
+          824,
+          584
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.977208,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 8842,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      },
+      "retained_raw_output": "paint_left_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Material-only paintover for hes_utility_belt, RIGHT orthographic view.\nInput 1, guide_right.png, is the image to edit and exact geometric authority. Input 2, design_reference.png, supplies surface design and colours, NOT geometry or camera.\nOutput ONE 1024 x 1024 RGBA transparent painting, preserving the guide's alpha mask and all its part boundaries exactly. Keep the horizontal object in x=200..823 and y=440..583, main band y=450..573. Keep all huge transparent margins. Nothing outside the original silhouette. No enlargement, perspective, recentering, new shapes, rounder edges, added straps or buckles.\nPaint the entire long band as the reference's dark warm brown leather with subdued natural grain, scuffs and fine tan stitched upper/lower seams. The existing raised beige boxes at x=495..617 and x=725..823 become weathered olive-brown leather/cloth pouch surfaces. Keep their exact guide footprints, visible side planes and chamfer positions. Add only painted flaps, seams, small rust-brown repaired patches, and restrained small dull-gold fastener colour within their existing faces. The far-left narrow visible end face is leather too. The tiny existing tabs above and below the far-right end at x=797..817 are dull brushed aged gold. The cell is occluded from this side; no white ceramic panel or blue light should be invented on the broad leather band. Continue the approved design's reverse/side surfaces plausibly.\nALBEDO, no lighting baked in: entirely flat even shadowless illumination from the viewer. Remove all directional shading in the guide, including triangles cast by pouches. Side faces and bevels have the same material base brightness as front faces. Fine surface pigmentation only; no dark contact creases as AO, cast shadows, drop shadows, rim highlights, specular glints, reflections, bloom or shaded relief. Muted gold base colour with faint sheen only. True transparent empty background, no floor, no labels, no text, no letters, no watermark. Paint within the existing alpha; preserve the model edges pixel-for-pixel.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "c0326d27922d6fda21b0aa85c48c231801c83b452f7c6085346b9b08f683571a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration planned: changed scale, rounded pouch contours and residual shading.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-edffed51-f85b-4b21-9bc9-03708064aa47.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "47951903648b3b4373aeb42b585f16a79683cc09c2878f0a26f3ed1e15fbb741",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          53,
+          1224,
+          1230
+        ],
+        "opaque_bbox": [
+          175,
+          554,
+          1105,
+          742
+        ],
+        "guide_alpha_bbox": [
+          200,
+          440,
+          824,
+          584
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.6235,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 50896,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Apply a detailed ALBEDO painting onto the EXACT shape in image 1, guide_top.png. Image 2, design_reference.png, is for the approved leather, ceramic and gold surfaces only.\nOutput ONE 1024x1024 transparent RGBA PNG: TOP view of hes_utility_belt seen directly vertically from above, orthographic. This is a texture projection source: copy the original guide alpha and positions exactly. Retain its thin elliptical ring, transparent hole and gaps, and all six separate visible attachments at their precise shapes, orientation and positions. No three-quarter view, no upright buckle/pouch face showing, no enlargement, no rotation, no added geometry or connectors.\nGeometry landmarks in the 1024 image: oval belt ring outer edge approximately x=133..891, y=229..795, only about 18 pixels thick; keep that narrow thickness and the exact large oval empty centre. Overall bounds x=66..957,y=200..823. The slim gold buckle sits horizontally at the very top x=442..580,y=210..225, with its little leather tab x=469..553,y=200..209. Ceramic cell is the single angled light-grey cuboid at upper-left x=214..330,y=204..301. Four existing angled beige pouch blocks lie at upper-right x=691..807,y=204..299, far-left x=66..146,y=392..507, far-right x=884..957,y=406..520, and lower-left x=220..335,y=730..823. Their orientation, beveled corners and silhouettes must remain EXACT. Keep every gap between these shapes and the ring transparent.\nPaint the ring's thin top edge as worn dark brown layered leather, fine edge wear and subtle stitched seam detail without changing thickness. Paint pouch top faces olive-brown worn leather/cloth, fine grain, seams and small rusty-brown stitched patch details. These are tops, not front flap portraits. Paint the cell top ivory-white ceramic with fine hairline wear, dark black-violet resin join and small muted brushed-gold retaining band as appropriate to its top surface. The slim buckle edge is brushed aged gold base colour. Match the reference's material palette.\nFLAT UNLIT BASE COLOUR ONLY. Uniform shadowless illumination on all faces, including bevels. No AO or contact shadows, cast shadows, dark side faces, strong highlights, reflections, rim light, metallic glints or bloom. Preserve the guide's shapes but remove its lighting gradients. No background, floor, text, letters, labels, watermarks or added shapes. Preserve real transparency, including the entire centre and every original gap.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "d687b958c5206ddafd06d72123de0b40900f1c80eee7157c1163d50c737f7d5e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Corrective regeneration planned: added straps bridge guide gaps and bevels contain residual shading.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-f97016c1-017c-49f6-a6ad-742237aee276.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "511e22a802c034f6d5d55241208f1b26ea6e774b103787369e2a08441405e65d",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          19,
+          19,
+          1242,
+          1254
+        ],
+        "opaque_bbox": [
+          70,
+          242,
+          1186,
+          1013
+        ],
+        "guide_alpha_bbox": [
+          66,
+          200,
+          958,
+          824
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.745216,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 62566,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION 1 of 1. Use case: precise-object-edit. Produce the FRONT albedo painting of hes_utility_belt.\nImage 1 = original guide_front.png: COPY ITS PIXEL GEOMETRY AND ALPHA. Image 2 = design_reference.png: use its materials only. Image 3 = previous paint_front_attempt1.png: material detail example, NOT geometry.\nCorrect the previous output's geometry drift: there are ONLY THREE visible rectangular pouch blocks, at x66..121, x221..333, and x901..957 on the ORIGINAL 1024-square guide. The far-left and far-right blocks are LEATHER, not metal. The band from x334 through x900 is one uninterrupted broad leather surface; DO NOT add a pouch or loop near x830. At centre only gold slivers at x442..580,y440..450 and y574..583 are visible. No full buckle frame. Maintain every chamfer and every straight edge from image 1. Preserve original large transparent margins, exact position and object height. Main band extends x66..957, y450..573. Output 1024x1024 PNG; do not zoom, enlarge, bend, rotate, round off corners or reinterpret this as a product beauty render. It is an exact orthographic paintover. Outside original guide alpha must remain fully transparent with zero stray particles.\nPaint dark brown weathered leather on the band, olive-brown worn leather/cloth on just the three existing cuboids, subtle tan edge stitches, tiny rusty-brown sewn repairs on pouches. Continue back-facing surfaces plausibly. Dull brushed ochre-gold only on the two central slivers. Fine reference-matching pigment and material grain.\nThe other correction is lighting: use FLAT UNLIT BASE COLOUR, as if painting a UV texture. Remove the previous candidate's dark edge shadows, bright shiny brass edges and high-contrast bumps. All faces and chamfers have equal base brightness; stitch lines are tan pigment with no embossed shadows. No cast/contact shadows or AO whatsoever, no directional shading, reflections, specular highlights, rim light or background. No text, letters, watermark or extra objects.\nChange surface RGB only inside image 1. The original guide is the exact stencil; never take shape from images 2 or 3.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "2d6461de656b1d8153772a16ec5730914b07b1297eaec553bc8f414f53e09377"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        },
+        {
+          "path": "paint_front_attempt1.png",
+          "sha256": "c8a6c66ebfcea829c0d4d395f36abab79ea4c1a70343e4c29befd9f657e178de"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected corrective return: removed extra right-side loop, restored leather end pouches and reduced gold highlights. Best of two allowed attempts; residual edge drift and shading remain, so exact-silhouette and strict unlit checks are not claimed.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-fa1a63d2-9ec5-474a-be37-a9c9285dbfc1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "7c7689a294174ca670d70b94749ec6c81f1d69b8720a944abea95be77d4402ba",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          17,
+          21,
+          1230,
+          1228
+        ],
+        "opaque_bbox": [
+          81,
+          540,
+          1173,
+          711
+        ],
+        "guide_alpha_bbox": [
+          66,
+          440,
+          958,
+          584
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.960812,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 16419,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION 1 of 1: hes_utility_belt BACK texture painting.\nImage 1 guide_back.png is the exact geometry/alpha stencil. Image 2 design_reference.png is material/design authority. Image 3 paint_back_attempt1.png is the earlier material paintover, whose lighting and rounded edges need correction.\nReturn one transparent 1024x1024 RGBA image. Pixel-align the painted shapes to image 1. Preserve its exact canvas, huge margins, straight orthographic camera, object position, overall alpha and individual cuboid edges. The belt must remain x66..957,y440..583, with band y450..573. No cropping, zoom, shift, new geometry or additional objects.\nKeep all materials and motif placements from image 3, but mapped onto the EXACT original guide planes: dark brown leather band with fine tan edge seams; the original three beige blocks at x66..140, x220..333,x880..957 are olive-brown worn leather/cloth pouches with small rusty-brown repair patches. Original frame x442..581,y440..583 is muted ochre brushed gold, its middle rectangle x470..553,y469..557 is leather. Original cell cuboid x690..808,y450..573 retains guide's clipped corners and planes, painted ivory ceramic with fine hairline cracks, central black-violet resin strip and blue-white light, tiny muted-gold clamps.\nPRIMARY CORRECTION: make this a pure UNLIT ALBEDO MAP. Erase all baked directional highlights, hot brass rims, black contact/occlusion shadows beneath hardware, bright leather bevel outlines and embossing shadows on stitches. The same material must have the same average colour/brightness on front, side and bevel planes. Use fine material pigment/grain, not simulated lighting or bumpy shaded relief. Gold should read as matte ochre-gold base colour with fine brushing, NO bright edging. Ceramic reads as off-white pigmentation, with no rim highlight. Seam lines are thin brown pigment, not deep black crevices. Light slit is bright pale blue-white paint with no halo.\nNever trace the rounded contours of image 3: trace image 1 exactly. Fully transparent background with no alpha noise, floor, shadow, text, letters, watermark, or added shapes.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "7f34174468689336748d8f71e0f0c1cca48e6c0adee883eb20d894565cb34148"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        },
+        {
+          "path": "paint_back_attempt1.png",
+          "sha256": "df0fbdbf3ed27e66f76ea82ac4221cd9040b1f89a493d485f6fccf890049fe29"
+        }
+      ],
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Rejected corrective return: flatter lighting, but substantial vertical placement drift reduced normalized silhouette overlap from 0.977283 to 0.874018. Original geometry alignment takes priority.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-8fdfcddf-4697-4242-bea6-f9a6b2801b5d.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "bc9875fe37bc3b7f7a7996ea190c3c81f3675bab0d4456188c448e1b4acc06cc",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          78,
+          49,
+          1234,
+          1214
+        ],
+        "opaque_bbox": [
+          82,
+          551,
+          1173,
+          721
+        ],
+        "guide_alpha_bbox": [
+          66,
+          440,
+          958,
+          584
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.874018,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 12950,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION 1 of 1. LEFT albedo texture paintover for hes_utility_belt.\nImage 1 guide_left.png: exact editable stencil, authoritative geometry and alpha. Image 2 design_reference.png: materials only. Image 3 paint_left_attempt1.png: earlier painting, use its material palette but correct its shaded/rounded rendering.\nProduce one 1024x1024 transparent RGBA PNG. The geometry must remain exactly image 1: horizontal band x200..823,y450..573, total silhouette y440..583 including tiny buckle tips. Keep the same canvas, all blank margins, straight edges, chamfers and exact cuboid boundary positions. Do not take shape from image 3, do not zoom or round. Change only surface colour inside image 1 alpha. All pixels outside the original stencil stay fully transparent without stray semi-transparent noise.\nMaterial assignment: cell at x202..298 is off-white ceramic with fine narrow hairline cracks and black-violet resin joins; same guide side/front face division near x249, not a rounded cell. Tiny gold buckle tabs at x208..226,y440..450 and y573..583. Leather/cloth pouch cuboids at x392..506 and x727..823. Remaining band is dark warm brown leather, upper/lower tan stitches, fine natural grain. Pouches worn olive-brown, small rusty-brown stitched repairs only within existing faces. No added visible blue light on this cell side. No new geometry, no extra brackets outside the model.\nCorrection: eliminate baked lighting. Paint UV-style unlit base colours, even brightness across front/side/bevel planes. Remove shadows and bright edge glints from the first painting. Ceramic should be uniform off-white pigment with wear, not bright at a corner. Leather folds and stitches are fine brown/tan pigment, without embossed light-and-shadow pairs. Gold is subdued ochre base colour with faint brushed grain, no gleam. No ambient occlusion, cast/contact shadows, directional shading, reflections, rim lighting or bloom. No text, letters, floor, backdrop, logos or watermarks.\nPreserve the guide's alpha and polygonal contour precisely, including both tiny gold projections.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "ee25a4e028754a7f1668d3e52722e4e6236c0ac1ab8b43d9f03bd57257adc65c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        },
+        {
+          "path": "paint_left_attempt1.png",
+          "sha256": "f1a092b297c0c227cca0367e15959388ec6cb95f1297038c047cc39d85d43ffb"
+        }
+      ],
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Rejected corrective return: scale and vertical placement drift, stray bright protrusion above ceramic, persistent baked shading. Initial candidate better preserves the guide.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-b735538f-4f74-4ec6-a14c-2a6e098f25dc.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "64fd812872fd8258fa4811828f847d3943b61c3721368e182750808fb387059c",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          65,
+          38,
+          1232,
+          1207
+        ],
+        "opaque_bbox": [
+          229,
+          561,
+          1025,
+          741
+        ],
+        "guide_alpha_bbox": [
+          200,
+          440,
+          824,
+          584
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.694214,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 28924,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Precisely recolour image 1, guide_right.png, as a texture-source painting. Image 2 design_reference.png is the material reference only. This is the one corrective regeneration of the RIGHT view of hes_utility_belt.\nGEOMETRY IS A HARD STENCIL: copy image 1, retaining its original alpha, exact outline, all plane edges and all blank margins. Do not draw a new belt. The original is a small thin horizontal strip covering only 61% of the canvas width, centred in a square canvas. Left edge 19.53% of image width; right edge 80.47%; straight band upper edge 43.95% height and lower edge 56.05%. Tiny original gold tips reach 42.97% and 57.03%. No object pixels beyond those limits. Keep the original 1024x1024 canvas, no enlargement, no recentering. Earlier attempt enlarged it too much: correct that.\nRecolour the original beige band with dark brown weathered leather, small grain and fine tan stitching along top and bottom. Recolour only the two raised beige cuboids already in image 1 with olive-brown worn leather/cloth, a small rusty-brown stitched repair patch and subtle seam details. Those cuboids occupy the original x495..617 and x727..823. Keep their straight top/bottom edges exactly flush with the guide, no protruding curved flap. Tiny existing gold tips at the far right become muted aged gold. No ceramic or light in this view; no new loops or hardware.\nPaint reference-matching material pigmentation, with UNLIT FLAT ALBEDO and equal brightness on all faces. Remove the guide's cast shadows. No ambient occlusion, contact shadows, shaded embossing, bright edging, glossy gold, specular highlights, directional gradients, reflections, rim light or bloom. No floor, background, text, letters or watermark. True transparent background, alpha zero everywhere outside the guide stencil including every empty margin. One image only, a geometry-preserving colour edit of image 1.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "c0326d27922d6fda21b0aa85c48c231801c83b452f7c6085346b9b08f683571a"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected corrective return: restored intended frame occupancy and removed oversized flap/hardware. Residual edge drift, rounded pouch corners and baked seam shading remain; exact silhouette not achieved.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-7703581c-52e5-401c-8fea-65fefebf8d15.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "49dc4c42de39decaf9816061b2c012b5589b7756078ba6f377befbef516fe06e",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          156,
+          23,
+          1216,
+          1174
+        ],
+        "opaque_bbox": [
+          246,
+          541,
+          1013,
+          712
+        ],
+        "guide_alpha_bbox": [
+          200,
+          440,
+          824,
+          584
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.954322,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 9588,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. CORRECTIVE REGENERATION 1 of 1 for hes_utility_belt TOP view.\nImage 1 guide_top.png is the image to recolour. Copy it exactly, changing surface RGB only. Image 2 design_reference.png supplies material colours/grain but must NEVER supply shapes or lighting.\nOutput one 1024x1024 RGBA painting with genuinely transparent empty areas. The original geometry is a THIN elliptical ring and SIX detached attachments: one slim buckle, one ceramic cell block, four leather pouch blocks. Trace every original polygon, bevel, gap and alpha edge exactly. Keep exact original framing and the giant empty oval hole. Entire image bounds x66..957,y200..823. Ring outer edge x133..891,y229..795; it is just ~18 pixels thick. It must not grow thicker or acquire loops, studs or metal bands. SIX attachments are separate from ring: preserve every original transparent gap; do not draw connectors, straps or shadows across gaps.\nCell at upper-left x214..330,y204..301: recolour its exact angled polygon with ivory ceramic pigment, fine hairline cracks and a small black-violet resin join/aged gold retaining strip wholly inside it. Four pouches at upper-right x691..807,y204..299; left x66..146,y392..507; right x884..957,y406..520; lower-left x220..335,y730..823. Recolour these exact four box top faces with weathered olive-brown leather/cloth grain, subtle edge seam and a little rusty-brown sewn repair. NO flaps or extra rims protruding. Slender buckle at top x442..580,y210..225: muted brushed ochre gold, small brown leather tab x469..553,y200..209. Ring: dark worn brown leather top edge, fine grain and subtle edge stitching ONLY. No decorative metal loops around ring, no lacing sticking out. Preserve every original chamfer.\nTop-down orthographic camera, looking STRAIGHT DOWN. No perspective or added visible sidewalls. FLAT UNLIT TEXTURE BASE COLOUR: uniform brightness over all faces. No rim highlights, bright metallic edges, strong sheen, reflections, shadows of any kind, ambient occlusion, dark contact outlines, glossy rendering or bloom. Do not reproduce guide shadows or design-reference lighting. Tiny colour wear only. No text, letters, labels, watermark, floor or background. All empty areas, centre hole and disconnected gaps retain original alpha zero. This is a precise stencil paintover, not a redesigned rendered belt.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "d687b958c5206ddafd06d72123de0b40900f1c80eee7157c1163d50c737f7d5e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d0d55bb842063d77b9e62bd3ed45e3e24e679f27bd027de1b5b48b41ec5dcf20"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective return: removed invented metal bands and laced straps from the ring and better preserved separated attachments. Residual silhouette drift, bright buckle edge and material shading remain; exact-silhouette and strictly unlit gates are not passed.",
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e0e-3b43-7ba1-94d9-7cbd9f893cbd/exec-73487700-8822-4b39-b0e4-1fc66b559096.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "76e8eb3f7e21e51965a7ab7b5eacfa1766c34a72f7c7b31199bf8509fef8a40e",
+      "unresized": true,
+      "checks": {
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1234,
+          1254
+        ],
+        "opaque_bbox": [
+          78,
+          244,
+          1178,
+          1011
+        ],
+        "guide_alpha_bbox": [
+          66,
+          200,
+          958,
+          824
+        ],
+        "exact_alpha_match": false,
+        "normalized_silhouette_iou": 0.845767,
+        "requested_size": false,
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "text_or_letters_present": false,
+        "clean_transparent_background": false,
+        "nonzero_alpha_pixels_outside_normalized_guide": 41425,
+        "bytes_identical_to_tool_return": true,
+        "size_note": "Tool returned 1254x1254; preserved unresized as instructed by brief."
+      }
+    }
+  ],
+  "selection_policy": "Select the closer guide/material result after no more than one corrective regeneration per view. Preserve native returns without resizing, masking, repainting or alpha cleanup.",
+  "status": "Five paintings saved; exact silhouette and strictly shadowless albedo requirements remain unmet.",
+  "validation_notes": {
+    "silhouette_metric": "Nearest pixel-centre samples of generated alpha compared with guide at threshold 128; computed in memory only. IoU is diagnostic, not exact-silhouette approval.",
+    "alpha": "RGBA transparency is present; faint stray alpha and contour differences remain outside original guide shapes. No postprocessing performed.",
+    "visual_review": "Reviewed all ten generated images for materials, part arrangement, text and lighting. No text/letters observed. Residual shaded seams, contact darkening and/or highlights prevent a strict flat-albedo pass.",
+    "scope": "Image generation and checks only. No builds or runtime integration."
+  }
+}

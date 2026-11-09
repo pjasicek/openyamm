@@ -1,0 +1,57 @@
+output_dir: ../replay/display-and-choices
+exit: true
+steps:
+- click:
+  - 327.0
+  - 669.9999374999999
+- click:
+  - 263.4999375
+  - 339.59390625
+- click:
+  - 1291.9999687499999
+  - 432.74990625
+- capture: resolution-choices
+- key: Home
+- key: Down
+- key: Down
+- key: Return
+- click: &id001
+  - 1319.6794687499998
+  - 801.4999687499999
+- capture: resolution-preview
+- wait: 16
+- capture: resolution-reverted
+- click:
+  - 1291.9999687499999
+  - 359.76590625000006
+- key: Home
+- key: Down
+- key: Return
+- click: *id001
+- capture: borderless-preview
+- key: Escape
+- capture: borderless-reverted
+- click:
+  - 263.4999375
+  - 265.59403125
+- click:
+  - 1347.9999375
+  - 488.74996875
+- key: Escape
+- capture: settings-unsaved-escape
+- click:
+  - 800
+  - 550
+- click:
+  - 327.0
+  - 536.0000625
+- click:
+  - 374
+  - 500
+- click:
+  - 186.49996875
+  - 484.59403125
+- key: End
+- capture: class-last
+- key: Return
+- capture: class-selected-last

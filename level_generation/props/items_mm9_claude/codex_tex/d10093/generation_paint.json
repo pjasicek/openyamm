@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png precisely, using design_reference.png as material/detail reference and icon_x8.png as color reference (ignore magenta background). Output ONE transparent PNG, 1536x2048 or nearest 3:4 size. Preserve the guide's exact silhouettes, positions, sizes, orientations, gaps and openings. This is a projection texture sheet, not a rearranged garment presentation. Use actual visible guide orientations even where view labels are counterintuitive.\nThree columns by FOUR rows of square cells: rows 1-2 and 3-4 repeat the exact same five objects. Row 1 has three objects, row 2 has two and empty third cell; row 3 repeats row 1, row 4 repeats row 2.\nRows 1-2 PAINT: Paint only grey objects with unlit base colour: a long-sleeved warm-brown leather brigandine of square riveted leather panels with silver rivets at every corner, round collar, brown leather waist belt, long skirt split at front. Reference panel details and leather grain scaled to each view. Facets, engravings, scrollwork and inner swirls follow design reference. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, outlines.\nRows 3-4 MATERIAL MASK: Exact repeated silhouettes and corresponding material locations from upper painted views, filled with FLAT pure colors ONLY. Pure red #FF0000 every metal part including every silver rivet; pure green #00FF00 every leather part including panels, belt, collar, sleeves, skirt, hide, padding and fur; pure blue #0000FF every cloth lining, cord or hair; pure black #000000 any gemstone/glass/enamel/liquid. For this leather armor, green leather with red rivet dots dominates. Every silhouette pixel gets exactly one material color; no shading, texture, outlines, antialiased interior color blends. All gaps/openings and entire background transparent. Empty cells column 3 row 2 and row 4 remain transparent. Never redraw, enlarge, move, redesign objects. No text, ground, glow, sparkles or outside silhouette marks.\nCORRECTION REQUIRED: The previous attempt had massive green spray/noise outside the lower mask silhouettes. Eliminate ALL such spill. Use the original grey guide as the exact alpha/silhouette stencil for ALL ten objects. The lower five objects must be crisp flat green shapes with pure red rivet dots only, with absolutely no seam lines, contour lines, shading, texture, green halo, green dust, splatter, noise, extra pixels or color outside original silhouette. Open holes must remain transparent including oval top openings. Preserve upper paint layout. Output crisp clean transparent sheet.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ac8f-3b2b-7f53-aedd-790946b633b8/exec-c24abe1f-1351-48bc-aaa1-ec655d4be33c.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10093/paint_mask_guide.png",
+      "sha256": "3eaa90d1a0ae5c7533b840e6cc3b5d4be6ff7fca15f83daecf619d559c812179"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10093/design_reference.png",
+      "sha256": "9f4b9075b60e888a6739b01afd8a26477cf8196c170166f2df94a6f544bba0f7"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10093/icon_x8.png",
+      "sha256": "ced5cad83e5a01fe08a17b324749a4aaf2b178b31d60323f73f9ea42aac1446d"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10093/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained; material mask still contains spill outside silhouettes and filled openings. Raw tool output preserved without modification."
+}

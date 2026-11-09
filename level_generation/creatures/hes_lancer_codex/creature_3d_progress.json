@@ -1,0 +1,153 @@
+{
+  "creature_3d_identity": "hesper:lancer",
+  "meshy": {
+    "credit_limit": 0,
+    "credits_spent": 0,
+    "jobs": {}
+  },
+  "scope": "CREATURE_BUILDS Lancers: 10020-10022 and 10110; exports and Hesper staging only",
+  "stage": "staged",
+  "status": "complete",
+  "source": {
+    "path": "source/hes_kreegan.glb",
+    "sha256": "7057137fbabc3ff257d2d7f48f1510d9fcd20e636f6a57a04fd90ac2fabaceed"
+  },
+  "required_components": [
+    "shared_body_tail_harness",
+    "heavy_shell",
+    "ion_lance",
+    "twin_barrel_module",
+    "ancient_graft",
+    "thunder_maul",
+    "hull_plate_apron"
+  ],
+  "ready_rows": [
+    10020,
+    10021,
+    10022,
+    10110
+  ],
+  "blocked_rows": [],
+  "visual_review": "Integrator accepted revised Attack in viewer playback (0.3–3.2 s), 2026-10-24: high windup, over-and-down slam at 1.75 s, weight hold and slow lift. Lancers, Forge art and prior D8 smoke remain accepted. User retains the last word on weight; integrator in-game capture follows in D8's next capture round. Build complete unless the user requests more.",
+  "scenarios": {
+    "passed": 93,
+    "total": 93,
+    "exit_code": 0,
+    "logs": "output/hesper_stage/logs/scenarios_085959_5"
+  },
+  "ready_assets": {
+    "hes_lancer.glb": "4857dc9a9eaea2eb723b64d414394050ce6dbb436957c35aa1b85515efa7f2a1",
+    "hes_ion_lance.glb": "8e9509325fbda8522e0595be200b3c5a76c2eaba8dfce93c6ba75968fc531c44",
+    "hes_ion_lance_twin.glb": "f08e2c3c1ad50166e78b7c09d66ed05653c1b34fb0746dfafe0b633ff8fab7a1",
+    "hes_lancer_graft.glb": "f1b1fd7b3c56f86419f3f29db628ed2b8ccfcedb95ab6fbe5da80439e6982185",
+    "hes_forgemaster.glb": "9d0dd727a98e4eaca666524f8c1494ba5e71d63334add4463d6cdc4834dd073a",
+    "hes_thunder_maul.glb": "0f1877102f33afc174ae1ed8a35de989348c707100e647f1c1969e15b5cfec0d"
+  },
+  "remaining": [],
+  "lancer_review_revision": {
+    "master": "work/lancer_complete.blend",
+    "rebuild": "scripts/finish_cuirass_outline.py",
+    "source": "work/lancer_review2_base.blend",
+    "shells": 24,
+    "crest": 1,
+    "body_shell_lods": [
+      10466,
+      5156,
+      4499,
+      2268
+    ],
+    "authoring_gates": "review/gates_review2.json",
+    "shell_gates": "review/armour_gate_review2.json",
+    "runtime_gates": "review/runtime_validation.json",
+    "status": "accepted_20261024"
+  },
+  "forgemaster_repair": {
+    "master": "work/forge_complete.blend",
+    "authoring_gates": {
+      "arm_p99": 2.0435,
+      "hand_max": 4.1517,
+      "wrist_swing": 59.0,
+      "shell_p99": 1.028,
+      "shell_max": 1.029,
+      "armour_contact_cm": 0.29,
+      "slam_impact_s": 1.75,
+      "slam_checks": {
+        "below_both_wrists": true,
+        "below_both_knees": true,
+        "front_at_least_0_6m": true,
+        "head_lowest_within_two_frames": true,
+        "head_centre_lowest_within_two_frames": true,
+        "head_near_floor": true
+      },
+      "passed": true,
+      "roles": 9,
+      "master_sha256": "da6e4da76815fd4cf0f6010d2210227132146c6ada9feda974bf1d3cab81527a"
+    },
+    "runtime_body_shell_lods": [
+      11453,
+      5443,
+      4710,
+      2525
+    ],
+    "runtime_maul_lods": [
+      2456,
+      1482,
+      542,
+      126
+    ],
+    "far_lods": "work/lodrep_hes_forgemaster/result.json",
+    "floor": "review/forge_floor_runtime.json",
+    "twist_continuity": "review/forge_runtime_twist_continuity.json",
+    "desktop": "review/desktop_concept_20261024/run.json",
+    "staging": "review/staging_strike.json",
+    "visual_acceptance": "Art, prior D8 smoke and revised slam accepted by the integrator 2026-10-24; user final weight review remains separate.",
+    "attack": {
+      "source": "RPG 2HandAxeAttack1 accepted windup/body, with an authored ground-slam arc and two-hand IK",
+      "alternative_probes": [
+        "review/forge_slam_mixamo_probe.json",
+        "review/forge_slam_axeair_probe.json",
+        "review/forge_slam_swordair_probe.json"
+      ],
+      "decision": "Keep the accepted windup. Fit both hands to the physical maul arc so the downward rotation survives the grip fit. No replacement clip or Meshy job is needed.",
+      "duration_s": 3.5,
+      "impact_s": 1.75,
+      "hold_s": 0.25,
+      "recovery_s": 1.5,
+      "meshy_credits": 0,
+      "meshy_jobs": []
+    },
+    "geometry_body_weights_unchanged": true,
+    "meshy_jobs_needed": false
+  },
+  "latest_report": "design/kreegan_world/WORK_PACKAGES/requests/P2.md: Creature report: Forgemaster acceptance and release (2026-10-24)",
+  "strike_revision": {
+    "art": "accepted_20261024",
+    "D8": "accepted_no_new_smoke_requested",
+    "status": "complete",
+    "meshy": "prohibited",
+    "checkpoint": "work/forge_complete.blend",
+    "duration_s": 3.5,
+    "impact_s": 1.75,
+    "baseline": "work/before_strike_20261024/",
+    "hold_s": 0.25,
+    "authoring_gate": "review/forge_slam_gate.json",
+    "runtime_gate": "review/forge_slam_runtime_gate.json",
+    "preservation": "review/forge_slam_lod_equivalence.json",
+    "integrator_acceptance": {
+      "status": "accepted",
+      "date": "2026-10-24",
+      "source": "design/kreegan_world/WORK_PACKAGES/requests/P2.md: Integrator answer: the Forgemaster's slam (2026-10-24)",
+      "method": "viewer playback, frames 0.3–3.2 s",
+      "evidence": "review/integrator_slam_20261024.jpg",
+      "artifact": "export/hes_forgemaster.glb",
+      "sha256": "9d0dd727a98e4eaca666524f8c1494ba5e71d63334add4463d6cdc4834dd073a",
+      "decision": "Build complete unless the user asks for more; retain the numeric slam gate and release the project."
+    },
+    "user_acceptance": {
+      "status": "not_recorded",
+      "scope": "Final playback review of the revised slam weight; user has the last word."
+    },
+    "follow_up": "Integrator shows the user playback and captures it in game in D8's next capture round; these do not block build completion or project release."
+  },
+  "updated_at": "2026-10-24T09:11:20.236095+00:00"
+}

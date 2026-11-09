@@ -1,0 +1,34 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint-only orthographic base-colour view atlas. Edit guide_atlas.png (first input), using design_reference.png (second input) for material/detail and icon_x8.png (third input) for colour only; magenta is background, never paint magenta. Output ONE 1536x1024 PNG with actual transparent background. Preserve the guide's exact alpha silhouettes, positions, sizes, outlines and layout: three columns by two rows of 512x512 cells. Row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, empty. Four low dome side profiles with flat horizontal undersides, and one upright teardrop plan view in bottom middle. Do not turn side profiles into upright gems. Paint only existing grey pixels, never redraw, enlarge, move or redesign them. Object is a polished teardrop amber cabochon lying on the ground: smooth domed top, pointed end, flat underside. Paint unlit base colour: translucent honey-orange amber with deeper orange material at rim, small brown leaf inclusion inside, natural fine resin details from approved reference, scaled consistently to each view. Facets, engravings, scrollwork and inner swirls only as actually present in reference; preserve smooth cabochon. Leaf shows through amber with correct foreshortening in side views and clearly in top view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text. Do not copy bright white specular highlights from reference. All gaps and surroundings remain fully transparent; bottom right cell entirely transparent. Exact guide geometry is mandatory.\nCORRECTION, STRICT: Prior attempt was wrong. Use original grey guide as immutable mask. Bottom-middle tip must be at y=546 and bottom y=991, x=605..930. Bottom-left dome y=716..820 x=33..479. Top-left x=93..419 y=204..308; top-middle x=605..931 y=204..308; top-right x=1057..1503 y=204..308. Do not shift or scale any shapes. Outside these exact guide silhouettes must have alpha ZERO. Absolutely NO black background, NO orange glow anywhere, NO illumination, NO bright golden lighting or white shine. Flat unlit honey-orange resin pigmentation with brown leaf inclusion and modest natural resin variation; deeper orange rim pigment. This is a base-color texture map, not a beauty render. Preserve original guide alpha and all blank space exactly.",
+  "initial_prompt": "Use case: precise-object-edit. Paint-only orthographic base-colour view atlas. Edit guide_atlas.png (first input), using design_reference.png (second input) for material/detail and icon_x8.png (third input) for colour only; magenta is background, never paint magenta. Output ONE 1536x1024 PNG with actual transparent background. Preserve the guide's exact alpha silhouettes, positions, sizes, outlines and layout: three columns by two rows of 512x512 cells. Row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, empty. Four low dome side profiles with flat horizontal undersides, and one upright teardrop plan view in bottom middle. Do not turn side profiles into upright gems. Paint only existing grey pixels, never redraw, enlarge, move or redesign them. Object is a polished teardrop amber cabochon lying on the ground: smooth domed top, pointed end, flat underside. Paint unlit base colour: translucent honey-orange amber with deeper orange material at rim, small brown leaf inclusion inside, natural fine resin details from approved reference, scaled consistently to each view. Facets, engravings, scrollwork and inner swirls only as actually present in reference; preserve smooth cabochon. Leaf shows through amber with correct foreshortening in side views and clearly in top view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text. Do not copy bright white specular highlights from reference. All gaps and surroundings remain fully transparent; bottom right cell entirely transparent. Exact guide geometry is mandatory.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce3-e3e1-7643-b298-bf6a2d5f25a3/exec-88839adb-4814-453c-9e45-9d701665182b.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem04/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem04/guide_atlas.png",
+      "sha256": "94dfb499fc64e61efef5bf53844bd72c947d301ee3b616f5153a0f47792f83fa"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem04/design_reference.png",
+      "sha256": "3c6e80e6e73ff9f08b499474ea5e265bf6e86ef6c6a62cb5acdcf644b3bdb7a7"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem04/icon_x8.png",
+      "sha256": "ee05041784e11c4d775a09d748c8ec6da25d01dad0d60c67bafc1ae7542bb7dd"
+    }
+  ],
+  "validation": {
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      254
+    ],
+    "visual_review": "Failed strict brief: visible external glow/background, lighting and silhouette drift remain after the one allowed correction. Raw tool output preserved without modification."
+  }
+}

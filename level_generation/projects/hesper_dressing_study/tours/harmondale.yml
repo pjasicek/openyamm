@@ -1,0 +1,53 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/harmondale
+settle_seconds: 2.0
+exit: true
+shots:
+- name: hall_s33
+  position:
+  - -4869
+  - -640
+  - 1
+  yaw: 1.75
+  pitch: -0.15
+- name: library_s18
+  position:
+  - 2880
+  - 1136
+  - -2207
+  yaw: 3.16
+  pitch: -0.12
+- name: pillars_s32
+  position:
+  - -7872
+  - 0
+  - 1505
+  yaw: 4.69
+  pitch: -0.12
+- name: quarters_s49
+  position:
+  - -8544
+  - 2848
+  - 1153
+  yaw: 2.737
+  pitch: -0.12
+- name: corridor_s43
+  position:
+  - -2040
+  - 2336
+  - 1153
+  yaw: 3.152
+  pitch: -0.12
+- name: cells_s22
+  position:
+  - 688
+  - 1792
+  - 1
+  yaw: 3.142
+  pitch: -0.12
+- name: stores_s37
+  position:
+  - -10992
+  - 3872
+  - 1
+  yaw: 0.003
+  pitch: -0.12

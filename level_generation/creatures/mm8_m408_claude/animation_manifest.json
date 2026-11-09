@@ -1,0 +1,65 @@
+{
+  "fps": 24,
+  "clips": {
+    "Standing": {
+      "seconds": 2.0,
+      "frames": 48,
+      "loop": true,
+      "max_ground_correction": 0.007104687392711639
+    },
+    "Walk": {
+      "seconds": 0.875,
+      "frames": 21,
+      "loop": true,
+      "max_ground_correction": 0.007104791700839996
+    },
+    "Run": {
+      "seconds": 0.625,
+      "frames": 15,
+      "loop": true,
+      "max_ground_correction": 0.007104411721229553
+    },
+    "Attack": {
+      "seconds": 1.25,
+      "frames": 30,
+      "loop": false,
+      "max_ground_correction": 0.007104605436325073
+    },
+    "Cast": {
+      "seconds": 1.25,
+      "frames": 30,
+      "loop": false,
+      "max_ground_correction": 0.007104463875293732
+    },
+    "Hit": {
+      "seconds": 0.75,
+      "frames": 18,
+      "loop": false,
+      "max_ground_correction": 0.007104761898517609
+    },
+    "Fidget": {
+      "seconds": 1.125,
+      "frames": 27,
+      "loop": false,
+      "max_ground_correction": 0.0071042850613594055
+    },
+    "Death": {
+      "seconds": 0.875,
+      "frames": 21,
+      "loop": false,
+      "max_ground_correction": 0.008650541305541992
+    },
+    "Dead": {
+      "seconds": 1.0,
+      "frames": 24,
+      "loop": false,
+      "max_ground_correction": 0.008493661880493164
+    }
+  },
+  "impact_seconds": {
+    "Attack": 0.9,
+    "Cast": 0.9
+  },
+  "mouth_socket": "MouthSocket",
+  "death_dead_endpoint_delta": 0
+}

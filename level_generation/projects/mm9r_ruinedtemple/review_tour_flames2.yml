@@ -1,0 +1,18 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_ruinedtemple/review/flames
+settle_seconds: 1.5
+exit: true
+shots:
+- name: chandelier_a
+  position:
+  - -328
+  - -1482
+  - -2416
+  yaw: -1.5708
+  pitch: 0.721
+- name: chandelier_b
+  position:
+  - -628
+  - -1802
+  - -2416
+  yaw: 0.0
+  pitch: 0.7531

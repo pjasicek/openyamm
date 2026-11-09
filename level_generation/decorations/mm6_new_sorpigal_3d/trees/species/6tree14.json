@@ -1,0 +1,88 @@
+{
+ "sprite": "6tree14",
+ "output": "mm6_deco_tree14.glb",
+ "height_m": 6.83,
+ "note": "Dense broadleaf with a conical top, crown from a fifth of the height, single straight trunk.",
+ "sapling": {
+  "scale": 4.83,
+  "baseSplits": 0,
+  "baseSize": 0.25,
+  "splitHeight": 0.3,
+  "seed": 161,
+  "ratio": 0.04,
+  "attractUp": [
+   0,
+   0.75,
+   0.4,
+   0
+  ],
+  "segSplits": [
+   0,
+   0.25,
+   0.3,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.2,
+  "centre": 0.55,
+  "clumps": 160,
+  "inner_clumps": 24,
+  "spire": [
+   0.35,
+   1.6
+  ],
+  "radius_by_width": 0.3,
+  "gap": 0.65,
+  "card": [
+   0.5,
+   0.62
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   108,
+   80,
+   52
+  ],
+  "clip_below_crown": true,
+  "root_reach": 0.3
+ },
+ "leaves": {
+  "target_srgb": [
+   88,
+   182,
+   52
+  ],
+  "seeds": [
+   161,
+   177,
+   189,
+   199
+  ],
+  "value": [
+   0.8,
+   1.45
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "lod": {
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    1.084,
+    1.126,
+    0.92
+   ]
+  ]
+ },
+ "transparent_bounces": 64
+}

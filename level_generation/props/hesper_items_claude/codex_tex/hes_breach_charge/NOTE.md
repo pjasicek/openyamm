@@ -1,0 +1,1 @@
+The image tool refused the front, back and right views (violence filter, 2026-10-24, after a neutral rewording). paint_right.png is paint_left.png mirrored; the front and back faces take their part classes' painted averages (hes_texture.py).

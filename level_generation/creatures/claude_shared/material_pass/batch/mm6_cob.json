@@ -1,0 +1,111 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_cob.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_cob.glb",
+ "assignments": [
+  {
+   "match": "=Cobra_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_cob_claude/textures/cob_material_classes.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "cob_metal_rough_1k",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "Cobra_A",
+    "Cobra_B",
+    "Cobra_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 0,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 383368,
+     "uv_covered_without_class": 0.0478,
+     "uv_covered_without_class_far": 0.0082,
+     "class_texels_outside_uv": 0.0,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_cob_claude/textures/cob_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.9916,
+      "tooth": 0.0034,
+      "mouth": 0.005
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.9916,
+    "tooth": 0.0034,
+    "mouth": 0.005
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "tooth": 0.0,
+    "mouth": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.247,
+    "tooth": 0.947,
+    "mouth": 0.449
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.809,
+    "tooth": 0.381,
+    "mouth": 0.457
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Cobra_A": null,
+    "Cobra_B": null,
+    "Cobra_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 39.8
+    },
+    "G": {
+     "min": 71,
+     "max": 230,
+     "mean": 203.5
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

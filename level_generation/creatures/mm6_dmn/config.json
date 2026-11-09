@@ -1,0 +1,48 @@
+{
+  "family": "dmn",
+  "title": "MM6 Demon",
+  "descriptor_ids": [
+    502,
+    503,
+    504
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 688,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "separate_corpse_batch": true,
+  "description": "Original MM6 walking demon: tall slim dark charcoal-gray scaly humanoid, long thin arms and three elongated ivory claw fingers, pointed angular ears, small curved head horns, long ivory shoulder and forearm spikes, long thin curved tail, large three-toed feet with ivory talons, pale gray segmented belly, small reddish eyes. Bright muted jade-green crossed chest/back harness with a small ivory skull clasp on the chest. No wings. Preserve native wiry elongated anatomy and tiny head, baked shadows, original hand and foot proportions. No muscular redesign, armor, clothes or weapons.",
+  "regions": "Green chest harness, neutral scaly skin, ivory spines and reddish eyes have native palette changes; preserve the original material boundaries and native appearance. Generate gray-green base once; recolor native variants deterministically.",
+  "variant_names": {
+    "688": "Demon A / gray and green",
+    "687": "Demon B / green and ochre",
+    "686": "Demon C / red"
+  },
+  "extra_sources": {
+    "m496xa0": {
+      "path": "assets_dev/engine/sprites/m496Xa0.bmp",
+      "palette": 496
+    },
+    "m496xa1": {
+      "path": "assets_dev/engine/sprites/m496Xa1.bmp",
+      "palette": 496
+    },
+    "m496xa2": {
+      "path": "assets_dev/engine/sprites/m496Xa2.bmp",
+      "palette": 496
+    },
+    "m496xa3": {
+      "path": "assets_dev/engine/sprites/m496Xa3.bmp",
+      "palette": 496
+    },
+    "m496xa4": {
+      "path": "assets_dev/engine/sprites/m496Xa4.bmp",
+      "palette": 496
+    }
+  },
+  "extra_palette_paths": {
+    "496": "assets_dev/worlds/mm8/textures/pal496.act"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

@@ -1,0 +1,1 @@
+Unadjusted native rectangle extraction, then results/g08082_v0_s0/attempt_03/restore_copper_tone.py, then queue.py check for the mile marker. Script uses immutable before_tone exports; per-channel bounded gamma matches native opaque mean RGB, preserving alpha and shading detail.

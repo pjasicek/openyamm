@@ -1,0 +1,238 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dungeonofsecrets_doors_exits
+title: 'Dungeon of Secrets: a shut door stops the party and opens on a click, the stair, Chadwick''s dialogue and reward,
+  the exit to Frosgard'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dungeonofsecrets.blv
+- advance_runtime:
+    seconds: 1.0
+- note:
+    text: 'The arrival: the party coming in from Frosgard crosses `knockback off` at the hub''s east end, which turns off
+      the axe doors'' knockbacks (they start on in MM9).'
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 4403
+    y: -328
+    z: -40
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Firedknockback_off
+      value: 1
+- note:
+    text: 'Axe door 10 (RotatingDoor): shut, it stops the party walking west from the lever corner; a click opens it and the
+      party walks through into section 9''s room.'
+- assert:
+    mechanism:
+      id: 17
+      state: closed
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dungeonofsecrets.blv
+      x: 4224
+      y: -410
+      z: -40
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: dungeonofsecrets.blv
+      x: 4044
+      y: -410
+      z: -41
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 30
+- set_pose:
+    map: dungeonofsecrets.blv
+    x: 4104
+    y: -410
+    z: -40
+    yaw: 3.1416
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    mechanism:
+      id: 17
+      state: open
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dungeonofsecrets.blv
+      x: 4224
+      y: -410
+      z: -40
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: dungeonofsecrets.blv
+      x: 3464
+      y: -410
+      z: -41
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 40
+- note:
+    text: 'Section 2''s stair (8 LT risers, 256 LT up): the party walks up from the corridor to axe door 2.'
+- movement_segment:
+    input: forward
+    seconds: 3.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dungeonofsecrets.blv
+      x: -742
+      y: 2458
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: dungeonofsecrets.blv
+      x: -742
+      y: 3917
+      z: 655
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 260
+    tolerance_z: 60
+- note:
+    text: 'The flooded pool room under section 4 (floor -24 LT, water to -16): the party climbs out west onto the corridor
+      (floor 0) and east (floor 8) by the invisible steps where MM9''s player climbs out of the water.'
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dungeonofsecrets.blv
+      x: -973
+      y: 1208
+      z: -60
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: dungeonofsecrets.blv
+      x: -1728
+      y: 1208
+      z: 1
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 30
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dungeonofsecrets.blv
+      x: 973
+      y: 1208
+      z: -60
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: dungeonofsecrets.blv
+      x: 1728
+      y: 1208
+      z: 20
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 200
+    tolerance_z: 30
+- note:
+    text: 'Chadwick Boorsley (RUDE 417): a click opens his dialogue. With the reward topic taken (key 246, RUDE node 417/3),
+      the dialogue''s exit runs NPC417.scr :OnRude: 10 000 experience, the quest sound and key 247.'
+- &id001
+  set_pose:
+    map: dungeonofsecrets.blv
+    x: 4336
+    y: -1065
+    z: -40
+    yaw: 3.1416
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 417
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- console:
+    line: qbit set 90246
+- *id001
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 417
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    qbit_set:
+    - 90247
+- note:
+    text: 'ExitTrigger0 (to Frosgard, DungeonOfSecretsExit): the party walks east from the arrival into it.'
+- movement_segment:
+    input: forward
+    seconds: 0.75
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dungeonofsecrets.blv
+      x: 5069
+      y: -1065
+      z: -40
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: dungeonofsecrets.blv
+      x: 5504
+      y: -1065
+      z: -40
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 300
+    tolerance_z: 120
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 362

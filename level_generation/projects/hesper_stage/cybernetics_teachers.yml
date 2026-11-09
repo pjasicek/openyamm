@@ -1,0 +1,34 @@
+# The Cybernetics teachers in Landfall (skills.yml, CR-INT-1): Yara's house (hes_out1 event 66 -> house 9219) and
+# Teodor's (event 67 -> house 9220), each with its teacher living there and the teacher's topic. The engine has
+# Cybernetics (id 48, 2026-10-26), so the topics are promotions: a party without the skill is refused and keeps its
+# gold (tech_skills_landfall.yml promotes with Corra).
+# Run from output/hesper_stage/scenario_run (its settings.ini points at the stage):
+#   ../../../build/game/openyamm --world hesper --headless-run-scenario ../../../level_generation/projects/hesper_stage/cybernetics_teachers.yml
+# Poses: north of each cliff house's door, clear of its treads (zone1/landfall_plan.py houses 16 and 17, cut into the
+# south cliff on South Lane, doors facing north).
+id: hesper.stage.cybernetics_teachers
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+    party:
+      gold: 30000
+      members:
+        - {name: Ada, class: Knight, level: 5, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+- assert: {map: hes_out1.odm}
+- set_pose: {map: hes_out1.odm, x: -13800, y: -19900, z: 1540, yaw: -1.5708, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9219, action_id: 9225}
+- select_topic: {kind: npc_topic, source_id: 9225, action_id: 9225}
+- assert: {dialog: {source_id: 9225}}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- set_pose: {map: hes_out1.odm, x: -12300, y: -19900, z: 1540, yaw: -1.5708, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9220, action_id: 9226}
+- select_topic: {kind: npc_topic, source_id: 9226, action_id: 9226}
+- assert: {dialog: {source_id: 9226}}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+- assert: {gold: 30000}

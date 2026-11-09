@@ -1,0 +1,263 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_1000terrors/review/v01
+settle_seconds: 1.5
+exit: true
+shots:
+- name: m01_start
+  position:
+  - 5202
+  - -16435
+  - -142
+  yaw: 1.5708
+  pitch: 0.0
+- name: m02_exit
+  position:
+  - 5202
+  - -16000
+  - -142
+  yaw: -1.5708
+  pitch: 0.0
+- name: m03_entry_diagonal
+  position:
+  - 5504
+  - -13952
+  - -142
+  yaw: 0.8478
+  pitch: 0.0
+- name: m04_central_north
+  position:
+  - 7936
+  - -11520
+  - -142
+  yaw: 1.5708
+  pitch: 0.0
+- name: m05_sorc_west
+  position:
+  - 6272
+  - -9298
+  - -142
+  yaw: 3.1416
+  pitch: 0.0
+- name: m06_sorc_east
+  position:
+  - 9472
+  - -9298
+  - -142
+  yaw: 0.0
+  pitch: 0.0
+- name: m07_spiral_stair
+  position:
+  - 8064
+  - -7552
+  - -142
+  yaw: 1.5708
+  pitch: 0.2618
+- name: m08_water_hall_east
+  position:
+  - 11392
+  - -12196
+  - -127
+  yaw: 0.0
+  pitch: 0.0
+- name: m09_water_hall_north
+  position:
+  - 14182
+  - -13824
+  - -619
+  yaw: 1.5708
+  pitch: 0.0
+- name: m10_lightning_hall
+  position:
+  - 17024
+  - -12206
+  - -127
+  yaw: 0.0
+  pitch: 0.0
+- name: m11_east_tomb
+  position:
+  - 17664
+  - -11520
+  - -127
+  yaw: 0.8961
+  pitch: 0.0
+- name: m12_south_corridor
+  position:
+  - 14182
+  - -17152
+  - -127
+  yaw: -1.5708
+  pitch: 0.0
+- name: m13_coffin_octagon
+  position:
+  - 15360
+  - -16896
+  - -127
+  yaw: -0.7378
+  pitch: 0.0
+- name: m14_south_hall_west
+  position:
+  - 13568
+  - -22784
+  - -158
+  yaw: 3.1416
+  pitch: 0.0
+- name: m15_shooter_plates
+  position:
+  - 11264
+  - -22769
+  - -158
+  yaw: 0.0
+  pitch: 0.0
+- name: m16_puzzle_wall
+  position:
+  - 9216
+  - -22758
+  - -127
+  yaw: 0.0
+  pitch: 0.0
+- name: m17_treasure_room
+  position:
+  - 8704
+  - -22784
+  - -127
+  yaw: 3.1416
+  pitch: 0.0
+- name: l01_lever_room
+  position:
+  - 640
+  - -11904
+  - -3245
+  yaw: 0.0
+  pitch: 0.0
+- name: l02_chess_board
+  position:
+  - 6554
+  - -15488
+  - -2748
+  yaw: 0.0
+  pitch: 0.0
+- name: l03_key_chests
+  position:
+  - 9088
+  - -15462
+  - -2754
+  yaw: 0.0
+  pitch: 0.0
+- name: l04_skull_head
+  position:
+  - 8315
+  - -9344
+  - -2078
+  yaw: -1.5708
+  pitch: 0.0
+- name: l05_west_coffins
+  position:
+  - -9216
+  - -16896
+  - -2569
+  yaw: -0.8761
+  pitch: 0.0
+- name: l06_genie
+  position:
+  - -1792
+  - -13107
+  - -2569
+  yaw: 3.1416
+  pitch: -0.1745
+- name: l07_maze_gate
+  position:
+  - -707
+  - -3712
+  - -2555
+  yaw: 1.5708
+  pitch: 0.0
+- name: l08_lower_hall_west
+  position:
+  - -2304
+  - -8704
+  - -2569
+  yaw: 3.1416
+  pitch: 0.0
+- name: l09_lower_north_west
+  position:
+  - -6656
+  - -6912
+  - -2016
+  yaw: 1.5708
+  pitch: 0.0
+- name: l10_lower_doors
+  position:
+  - 2816
+  - -9201
+  - -2569
+  yaw: 0.0
+  pitch: 0.0
+- name: l11_maze_inside
+  position:
+  - 0
+  - 768
+  - -2323
+  yaw: 0.6435
+  pitch: 0.0
+- name: l12_lower_south
+  position:
+  - -4608
+  - -15360
+  - -3061
+  yaw: 0.6435
+  pitch: 0.0
+- name: u01_foyer
+  position:
+  - 3594
+  - -16896
+  - 2254
+  yaw: 1.5708
+  pitch: 0.0
+- name: u02_foyer_south_doors
+  position:
+  - 768
+  - -16768
+  - 2254
+  yaw: -1.6902
+  pitch: 0.0
+- name: u03_demon_statues
+  position:
+  - 3604
+  - -12800
+  - 2254
+  yaw: 1.5708
+  pitch: 0.0
+- name: u04_njam_hall
+  position:
+  - 6912
+  - -11776
+  - 2735
+  yaw: 0.0
+  pitch: 0.0
+- name: u05_win_switch
+  position:
+  - 8929
+  - -10240
+  - 2776
+  yaw: 1.5708
+  pitch: 0.0
+- name: u06_end_hall_south
+  position:
+  - 8929
+  - -13568
+  - 2776
+  yaw: 1.5708
+  pitch: 0.0
+- name: u07_upper_corridor
+  position:
+  - 3584
+  - -18330
+  - 2254
+  yaw: 0.0
+  pitch: 0.0
+- name: u08_lift_top
+  position:
+  - 4823
+  - -14336
+  - 2254
+  yaw: 1.5708
+  pitch: 0.0

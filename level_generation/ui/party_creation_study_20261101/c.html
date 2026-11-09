@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Party Creation C</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* Approach C: roster rail on the left, one large character sheet, full skill list as wide rows below. */
+.rail { position: absolute; left: 58px; top: 100px; width: 206px; height: 694px; display: flex; flex-direction: column; gap: 7px; }
+.mcard { position: relative; height: 130px; display: flex; gap: 8px; padding: 7px; text-align: left; border: 1px solid #434c40; background: #0d1715d0; }
+.mcard.sel { border-color: #e1c58d; background: linear-gradient(90deg, #3e3824e0, #121a17e0); box-shadow: 0 0 18px #d6bb8230; }
+.mcard.sel::after { content: ""; position: absolute; right: -10px; top: 50%; margin-top: -9px; border: 9px solid transparent; border-left-color: #e1c58d; }
+.mcard .portrait { width: 82px; height: 114px; flex: none; }
+.mcard .mi { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding-top: 2px; }
+.mcard .nm { font: 20px var(--body); color: #f1e3c2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mcard .cl { display: flex; align-items: center; gap: 4px; font: 17px var(--action); color: #e1c994; white-space: nowrap; }
+.mcard .cl img { width: 20px; height: 20px; }
+.mcard .rc { font: 13px var(--small); color: #aeb39a; }
+.mcard .stt { margin-top: auto; font: 13px var(--small); color: var(--warn); }
+.mcard .stt.ok { color: var(--ok); }
+.mcard .mb { position: absolute; left: 3px; top: 3px; }
+.mcard.add { align-items: center; justify-content: center; font: 24px var(--action); color: #b6ae93; border-style: dashed; height: 70px; }
+
+.sheet { position: absolute; left: 278px; top: 100px; width: 1264px; height: 290px; display: grid; grid-template-columns: 172px 300px 318px 1fr; gap: 14px; }
+.sheet > .portrait { width: 172px; height: 226px; }
+.ident { display: flex; flex-direction: column; gap: 8px; }
+.ident .field { height: 42px; font-size: 24px; }
+.clsbtn { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 10px; border: 1px solid #a48d5d; background: #1d251ecc; font: 29px var(--action); color: #ecd5a6; text-align: left; }
+.clsbtn img { width: 40px; height: 40px; }
+.clsbtn .chev { margin-left: auto; font-size: 15px; color: #b9a27a; }
+.voicecard { padding: 8px 10px; border: 1px solid #535b4d; background: #101917; }
+.voicecard .vt { display: flex; align-items: baseline; gap: 8px; }
+.voicecard .vn { font: 22px var(--action); color: #ead3a3; }
+.voicecard .lines .line { min-height: 32px; font-size: 15px; }
+.racecard { padding: 10px 12px; border: 1px solid #5d6b4c; background: linear-gradient(#1b2a1ce0, #0f1714e0); font: 15px/1.4 var(--small); color: #cdd3b4; overflow: hidden; }
+.racecard .rt { display: flex; align-items: baseline; gap: 10px; }
+.racecard .rt .h2 { color: #d9e7b7; font-size: 28px; }
+.racecard .rl { margin: 6px 0 0; padding: 0; list-style: none; }
+.racecard .rl li { display: flex; gap: 8px; padding: 2px 0; border-top: 1px solid #ffffff0e; }
+.racecard .rl li .k { width: 22px; text-align: center; flex: none; }
+.racecard .strong { color: #a8dc87; } .racecard .weak { color: #f0a08b; } .racecard .skill { color: #b7d38a; } .racecard .note { color: #9fcfe0; }
+.attrs .sh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+.attrs .pts { font: 18px var(--small); color: #e9cf91; }
+.attrs .pts.zero { color: var(--ok); }
+.attrs .stat { height: 36px; font-size: 22px; gap: 8px; }
+.attrs .stat .sq { width: 48px; height: 33px; font-size: 26px; }
+.attrs .stat .sv { width: 42px; font-size: 24px; }
+.attrs .stat .lim { font: 12px var(--small); color: #8c907f; width: 98px; text-align: right; }
+
+.skills { position: absolute; left: 278px; top: 402px; width: 1264px; height: 392px; padding: 6px 12px 8px; }
+.skills .sh { display: flex; align-items: center; gap: 12px; height: 34px; }
+.skills .sh .h2 { font-size: 25px; }
+.legend { display: flex; gap: 12px; align-items: center; font: 13px var(--small); color: #a9ab9a; }
+.legend span { display: inline-flex; align-items: center; gap: 4px; }
+.slist { column-count: 4; column-gap: 14px; column-fill: auto; height: 342px; margin-top: 4px; }
+.gstart { break-inside: avoid; }
+.sgrp { font: 12px/19px var(--small); letter-spacing: 1.5px; text-transform: uppercase; color: #93977f; border-bottom: 1px solid #ffffff1a; height: 20px; }
+.srow { break-inside: avoid; display: flex; align-items: center; gap: 5px; width: 100%; height: 30px; padding: 0 6px; border: 1px solid transparent; border-bottom-color: #ffffff0b; text-align: left; font: 18px var(--body); }
+.srow .nm { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.srow .ml { font-size: 14px; width: 36px; text-align: right; flex: none; }
+.srow .cov { display: flex; gap: 1px; justify-content: flex-end; flex: none; }
+.srow .cov .mb { width: 13px; height: 13px; font-size: 9px; }
+.srow.fixed { background: linear-gradient(90deg, #4a3f27, #1a1b13 80%); }
+.srow.chosen { background: linear-gradient(90deg, #3f3d2e, #151c19 80%); border-color: #e6d29e; }
+.srow.option { border-color: #4f5040; }
+.mouse .srow.option:hover, .mouse .srow.chosen:hover { border-color: #fff0c0; }
+.srow.later { color: #a6a897; }
+.srow.promo { color: #7f8377; }
+.srow.none { color: #4f544d; }
+.srow.planned { border: 1px dashed var(--plan); }
+.srow.planned .nm::after { content: " ⚑"; color: var(--plan); font-size: 13px; }
+.slist.dense .srow { height: 26px; font-size: 16.5px; }
+.srow.focus { box-shadow: 0 0 0 2px #ffe3a0; }
+</style>
+</head>
+<body>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script src="board.js"></script>
+<script>
+function railHtml() {
+  let out = App.members.map((m, i) => {
+    const p = portraitById(m.portrait);
+    const left = pool(m), need = Math.min(2, optionalSkills(m).length) - m.chosen.length;
+    const status = ready(m) ? '<span class="stt ok">✓ ready</span>'
+      : `<span class="stt">${[left ? `${left} pts` : '', need > 0 ? `${need} skill${need > 1 ? 's' : ''}` : ''].filter(Boolean).join(' · ')} to go</span>`;
+    return `<button class="mcard${i === App.sel ? ' sel' : ''}" data-select="${i}">${badge(i)}<span class="portrait">${portraitImg(p)}</span>
+      <span class="mi"><span class="nm">${esc(m.name)}</span><span class="cl"><img src="${classIcon(m.cls)}" alt="">${esc(className(m.cls))}</span>
+      <span class="rc">${esc(race(m).name)} · ${p.sex ? 'female' : 'male'}</span>${status}</span></button>`;
+  }).join('');
+  if (App.members.length < 5) out += `<button class="mcard add" data-add>+ Add adventurer</button>`;
+  return `<div class="rail">${out}</div>`;
+}
+
+function raceCardHtml(m) {
+  const r = race(m);
+  const items = [];
+  r.stats.forEach((s, i) => {
+    const t = statTrait(m, i);
+    if (t.cls) items.push(`<li class="${t.cls}"><span class="k">${t.mark}</span>${D.statNames[i]} ${s[0]} · ${t.text} · max ${s[1]}</li>`);
+  });
+  for (const g of raceRuleGroups(r)) items.push(`<li class="skill"><span class="k">★</span>${esc(g.effect)}: ${esc(g.names.join(', '))}</li>`);
+  for (const note of r.notes || []) items.push(`<li class="note"><span class="k">✦</span>${esc(note)}</li>`);
+  if (!r.stats.some((s, i) => statTrait(m, i).cls)) items.unshift(`<li class="dim"><span class="k">=</span>Even attributes: ${r.stats[0][0]} each, max ${r.stats[0][1]}</li>`);
+  const classes = classOptions(portraitById(m.portrait).race).map(className);
+  items.push(`<li class="dim"><span class="k">⚔</span>${classes.length} classes: ${esc(classes.join(', '))}</li>`);
+  return `<div class="racecard"><div class="rt"><span class="h2">${esc(r.name)}</span><span class="caption">racial traits</span></div><ul class="rl">${items.join('')}</ul></div>`;
+}
+
+function sheetHtml() {
+  const i = App.sel, m = App.members[i], p = portraitById(m.portrait);
+  const left = pool(m);
+  const v = voicesById()[m.voice];
+  return `<div class="sheet" data-member="${i}">
+    <button class="portrait" data-portrait="${i}">${portraitImg(p)}<span class="edit" style="font-size:16px;padding:6px 0 4px">#${p.id} · change portrait</span></button>
+    <div class="ident">
+      <input class="field" data-name="${i}" value="${esc(m.name)}" maxlength="15">
+      <button class="clsbtn" data-class="${i}"><img src="${classIcon(m.cls)}" alt="">${esc(className(m.cls))}<span class="chev">change ▼</span></button>
+      <div class="voicecard"><div class="vt"><span class="vn">${voiceLabel(m.voice)}</span><span class="caption" style="text-transform:none;letter-spacing:.3px">${m.voice === p.voice ? 'own voice of #' + p.id : 'voice of #' + ((voiceOwners(m.voice)[0] || {}).id ?? '?')} · ${v ? v.lines.length : 0} lines</span></div>
+        <div class="lines">${voiceButtons(m, ['ChooseMe', 'Hello', 'Yes', 'Win'])}<button class="line" data-voice="${i}" style="border-style:dashed">Other voices…</button></div></div>
+      <div style="display:flex;gap:8px"><button class="btn tiny quiet" data-reset="${i}">Default</button><button class="btn tiny quiet" data-remove="${i}" ${App.members.length < 2 ? 'disabled' : ''}>Remove</button></div>
+    </div>
+    ${raceCardHtml(m)}
+    <div class="attrs"><div class="sh"><span class="caption">Attributes</span><span class="pts${left === 0 ? ' zero' : ''}">${left} bonus point${left === 1 ? '' : 's'} left</span></div>
+      ${D.statNames.map((n, si) => {
+        const t = statTrait(m, si), r = statRule(m, si), val = m.stats[si];
+        return `<div class="stat"><span class="sn">${n}</span><span class="lim">${t.cls ? t.text : ''}</span><span class="tr ${t.cls}">${t.mark}</span>
+          <button class="btn sq" data-dec="${i}:${si}" ${canDec(m, si) ? '' : 'disabled'}>−</button><span class="sv${val > r.base ? ' up' : val < r.base ? ' down' : ''}">${val}</span>
+          <button class="btn sq" data-inc="${i}:${si}" ${canInc(m, si) ? '' : 'disabled'}>+</button></div>`;
+      }).join('')}</div>
+  </div>`;
+}
+
+function skillsHtml() {
+  const i = App.sel, m = App.members[i];
+  let list = '';
+  for (const [group, skills] of skillGroups()) {
+    list += `<div class="gstart"><div class="sgrp">${group}</div>`;
+    for (const [k, s] of skills.entries()) {
+      const st = skillState(m, s), planned = m.plan.includes(s);
+      const focus = App.focus && App.focus.m === i && App.focus.skill === s;
+      list += `<button class="srow ${st}${planned ? ' planned' : ''}${focus ? ' focus' : ''}" data-skill="${s}" data-m="${i}">
+        <span class="sg ${st}"></span><span class="nm">${esc(skillName(s))}${raceMarks(m, s)}</span>
+        <span class="cov">${coverageBadges(s, i)}</span>${mastery(capNow(m, s), capBest(m, s))}</button>${k === 0 ? '</div>' : ''}`;
+    }
+  }
+  return `<div class="skills stone" data-member="${i}"><div class="sh"><span class="h2">Skills</span>
+    <span class="caption" style="text-transform:none;letter-spacing:.3px">${m.chosen.length} of ${Math.min(2, optionalSkills(m).length)} chosen</span>
+    <span class="legend"><span><span class="sg fixed"></span>fixed</span><span><span class="sg option"></span>choosable</span><span><span class="sg later"></span>teacher later</span>
+    <span><span class="ml"><span class="now" data-c="3">M</span><span class="later mc4">›G</span></span> now › after promotion</span><span>${badge(1)}${badge(2, true)} others have / plan</span></span>
+    <span style="flex:1"></span>${planToggleHtml()}<button class="btn tiny quiet" data-table="${i}">Mastery table</button><button class="btn tiny" data-board>Party board</button></div>
+    <div class="slist${skillList().length > 40 ? ' dense' : ''}">${list}</div></div>`;
+}
+
+// The party skill board (approach B) as an overlay: the whole party's skills in one view, still editable.
+function openBoard() {
+  const dlg = openModal(`<div class="dlg-head"><span class="h2">Party skills</span><span class="caption bsum-c"></span>
+    <span style="flex:1"></span>${planToggleHtml()}<button class="btn small quiet" data-close>Close</button></div><div class="body boardwrap"></div>`, [56, 26, 1488, 848]);
+  dlg.querySelector('[data-close]').onclick = closeModal;
+  drawBoard();
+}
+function drawBoard() {
+  const wrap = el('#modal .boardwrap');
+  wrap.innerHTML = boardHtml();
+  el('#modal .bsum-c').innerHTML = boardSummary();
+  const plan = el('#modal [data-plan]');
+  plan.setAttribute('aria-pressed', App.planMode);
+  plan.classList.toggle('quiet', !App.planMode);
+  plan.onclick = e => { e.stopPropagation(); App.planMode = !App.planMode; App.render(); };
+  wireCommon(wrap);
+}
+function render() {
+  el('#screen').innerHTML = headHtml(`<span class="sub">${boardSummary()}</span>`) + railHtml() + sheetHtml() + skillsHtml() + footHtml();
+  wireCommon(el('#screen'));
+  el('#screen [data-board]').onclick = e => { e.stopPropagation(); openBoard(); };
+  if (el('#modal .boardwrap')) drawBoard();
+}
+boot('c', render);
+</script>
+</body>
+</html>

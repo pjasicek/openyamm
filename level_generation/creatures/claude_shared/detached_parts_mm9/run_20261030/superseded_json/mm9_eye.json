@@ -1,0 +1,698 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_eye.glb",
+  "components": 38,
+  "body": 8,
+  "size": 2.953127384185791,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "11": {
+    "joint": "Box13",
+    "where": "above",
+    "triangles": 204,
+    "extent": 0.5538,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.11019,
+    "worst": {
+     "gap": 0.05458,
+     "to_body_cluster": 0.05458,
+     "clip": "Dead",
+     "frame": 0,
+     "time": 0.0,
+     "part_point": [
+      -0.00063,
+      0.31872,
+      -0.66255
+     ],
+     "attached_point": [
+      -0.01752,
+      0.33552,
+      -0.61286
+     ],
+     "kind": "parted",
+     "against": "Box01"
+    },
+    "detached_poses": 353,
+    "poses": 515,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.04887,
+      "frame": 12,
+      "time": 0.4,
+      "frames": 12
+     },
+     "AttackRanged": {
+      "max_gap": 0.03745,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 32
+     },
+     "Dead": {
+      "max_gap": 0.05458,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.05458,
+      "frame": 63,
+      "time": 2.1,
+      "frames": 23
+     },
+     "Fidget": {
+      "max_gap": 0.03375,
+      "frame": 44,
+      "time": 1.4667,
+      "frames": 65
+     },
+     "Hit": {
+      "max_gap": 0.03044,
+      "frame": 20,
+      "time": 0.6667,
+      "frames": 22
+     },
+     "Running": {
+      "max_gap": 0.03345,
+      "frame": 28,
+      "time": 0.9333,
+      "frames": 41
+     },
+     "Standing": {
+      "max_gap": 0.03319,
+      "frame": 42,
+      "time": 1.4,
+      "frames": 64
+     },
+     "Walking": {
+      "max_gap": 0.03345,
+      "frame": 42,
+      "time": 1.4,
+      "frames": 63
+     }
+    },
+    "shallowest": {
+     "depth": 0.10417,
+     "on": "Box01",
+     "clip": "AttackMelee",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_eye_part11.png"
+   },
+   "18": {
+    "joint": "Box01",
+    "where": "central",
+    "triangles": 18,
+    "extent": 0.052,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01503,
+    "worst": {
+     "gap": 0.00576,
+     "to_body_cluster": 0.00576,
+     "clip": "Hit",
+     "frame": 27,
+     "time": 0.9,
+     "part_point": [
+      -0.13165,
+      2.92071,
+      0.14686
+     ],
+     "attached_point": [
+      -0.12596,
+      2.92044,
+      0.14773
+     ],
+     "kind": "floating",
+     "against": "Box01"
+    },
+    "detached_poses": 1,
+    "poses": 515,
+    "clips": {
+     "Hit": {
+      "max_gap": 0.00576,
+      "frame": 27,
+      "time": 0.9,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": 0.00521,
+     "on": "Box01",
+     "clip": "Walking",
+     "frame": 26,
+     "time": 0.8667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_eye_part18.png"
+   },
+   "19": {
+    "joint": "Box01",
+    "where": "central",
+    "triangles": 18,
+    "extent": 0.0515,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01684,
+    "worst": {
+     "gap": 0.0062,
+     "to_body_cluster": 0.0062,
+     "clip": "Walking",
+     "frame": 26,
+     "time": 0.8667,
+     "part_point": [
+      -0.04438,
+      2.52364,
+      0.14489
+     ],
+     "attached_point": [
+      -0.05021,
+      2.5255,
+      0.14592
+     ],
+     "kind": "floating",
+     "against": "Box01"
+    },
+    "detached_poses": 12,
+    "poses": 515,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.0062,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 1
+     },
+     "Hit": {
+      "max_gap": 0.0062,
+      "frame": 21,
+      "time": 0.7,
+      "frames": 1
+     },
+     "Running": {
+      "max_gap": 0.0062,
+      "frame": 17,
+      "time": 0.5667,
+      "frames": 3
+     },
+     "Standing": {
+      "max_gap": 0.0062,
+      "frame": 27,
+      "time": 0.9,
+      "frames": 3
+     },
+     "Walking": {
+      "max_gap": 0.0062,
+      "frame": 26,
+      "time": 0.8667,
+      "frames": 4
+     }
+    },
+    "shallowest": {
+     "depth": 0.00541,
+     "on": "Box01",
+     "clip": "Running",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 46,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_eye_part19.png"
+   },
+   "21": {
+    "joint": "Box01",
+    "where": "central",
+    "triangles": 20,
+    "extent": 0.0528,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01694,
+    "worst": {
+     "gap": 0.00606,
+     "to_body_cluster": 0.00606,
+     "clip": "Standing",
+     "frame": 24,
+     "time": 0.8,
+     "part_point": [
+      -0.01759,
+      2.60573,
+      0.16451
+     ],
+     "attached_point": [
+      -0.01267,
+      2.609,
+      0.16583
+     ],
+     "kind": "floating",
+     "against": "Box01"
+    },
+    "detached_poses": 46,
+    "poses": 515,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.006,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 2
+     },
+     "AttackRanged": {
+      "max_gap": 0.00604,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 1
+     },
+     "Fidget": {
+      "max_gap": 0.00605,
+      "frame": 28,
+      "time": 0.9333,
+      "frames": 14
+     },
+     "Hit": {
+      "max_gap": 0.00605,
+      "frame": 28,
+      "time": 0.9333,
+      "frames": 1
+     },
+     "Running": {
+      "max_gap": 0.00605,
+      "frame": 18,
+      "time": 0.6,
+      "frames": 6
+     },
+     "Standing": {
+      "max_gap": 0.00606,
+      "frame": 24,
+      "time": 0.8,
+      "frames": 12
+     },
+     "Walking": {
+      "max_gap": 0.00606,
+      "frame": 22,
+      "time": 0.7333,
+      "frames": 10
+     }
+    },
+    "shallowest": {
+     "depth": -0.00204,
+     "on": "Box01",
+     "clip": "Walking",
+     "frame": 33,
+     "time": 1.1
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 12,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_eye_part21.png"
+   },
+   "23": {
+    "joint": "Box01",
+    "where": "central",
+    "triangles": 20,
+    "extent": 0.0497,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01455,
+    "worst": {
+     "gap": 0.00887,
+     "to_body_cluster": 0.00887,
+     "clip": "AttackRanged",
+     "frame": 6,
+     "time": 0.2,
+     "part_point": [
+      0.00148,
+      2.51647,
+      0.31625
+     ],
+     "attached_point": [
+      0.00092,
+      2.52396,
+      0.31242
+     ],
+     "kind": "parted",
+     "against": "Box01"
+    },
+    "detached_poses": 12,
+    "poses": 515,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.00887,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 1
+     },
+     "Hit": {
+      "max_gap": 0.00811,
+      "frame": 21,
+      "time": 0.7,
+      "frames": 1
+     },
+     "Running": {
+      "max_gap": 0.00872,
+      "frame": 16,
+      "time": 0.5333,
+      "frames": 3
+     },
+     "Standing": {
+      "max_gap": 0.00821,
+      "frame": 27,
+      "time": 0.9,
+      "frames": 3
+     },
+     "Walking": {
+      "max_gap": 0.00872,
+      "frame": 24,
+      "time": 0.8,
+      "frames": 4
+     }
+    },
+    "shallowest": {
+     "depth": -0.00366,
+     "on": "Box01",
+     "clip": "Hit",
+     "frame": 27,
+     "time": 0.9
+    },
+    "concealed_poses": 25,
+    "worst_concealed": {
+     "gap": 0.00695,
+     "clip": "Death",
+     "frame": 20,
+     "time": 0.6667
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_eye_part23.png"
+   },
+   "26": {
+    "joint": "Box01",
+    "where": "central",
+    "triangles": 22,
+    "extent": 0.0492,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01153,
+    "worst": {
+     "gap": 0.00855,
+     "to_body_cluster": 0.00855,
+     "clip": "Hit",
+     "frame": 26,
+     "time": 0.8667,
+     "part_point": [
+      -0.09434,
+      2.97662,
+      0.10954
+     ],
+     "attached_point": [
+      -0.09775,
+      2.98205,
+      0.10554
+     ],
+     "kind": "parted",
+     "against": "Box01"
+    },
+    "detached_poses": 1,
+    "poses": 515,
+    "clips": {
+     "Hit": {
+      "max_gap": 0.00855,
+      "frame": 26,
+      "time": 0.8667,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": 0.00705,
+     "on": "Box01",
+     "clip": "Hit",
+     "frame": 27,
+     "time": 0.9
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_eye_part26.png"
+   },
+   "35": {
+    "joint": "Box19",
+    "where": "+x side",
+    "triangles": 132,
+    "extent": 0.2851,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03743,
+    "worst": {
+     "gap": 0.01138,
+     "to_body_cluster": 0.01138,
+     "clip": "Death",
+     "frame": 55,
+     "time": 1.8333,
+     "part_point": [
+      0.29797,
+      0.51885,
+      -0.33239
+     ],
+     "attached_point": [
+      0.28708,
+      0.52188,
+      -0.33357
+     ],
+     "kind": "parted",
+     "against": "Box01"
+    },
+    "detached_poses": 1,
+    "poses": 515,
+    "clips": {
+     "Death": {
+      "max_gap": 0.01138,
+      "frame": 55,
+      "time": 1.8333,
+      "frames": 1
+     }
+    },
+    "shallowest": {
+     "depth": 0.03146,
+     "on": "Box01",
+     "clip": "AttackMelee",
+     "frame": 12,
+     "time": 0.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_eye_part35.png"
+   },
+   "37": {
+    "joint": "Box10",
+    "where": "above, +x side",
+    "triangles": 222,
+    "extent": 0.3066,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.01732,
+    "worst": {
+     "gap": 0.01984,
+     "to_body_cluster": 0.01984,
+     "clip": "Hit",
+     "frame": 20,
+     "time": 0.6667,
+     "part_point": [
+      -0.02061,
+      3.80992,
+      -0.93311
+     ],
+     "attached_point": [
+      -0.03671,
+      3.80133,
+      -0.93072
+     ],
+     "kind": "parted",
+     "against": "Box07"
+    },
+    "detached_poses": 137,
+    "poses": 515,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.01058,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 7
+     },
+     "AttackRanged": {
+      "max_gap": 0.01678,
+      "frame": 17,
+      "time": 0.5667,
+      "frames": 24
+     },
+     "Dead": {
+      "max_gap": 0.01619,
+      "frame": 30,
+      "time": 1.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.01968,
+      "frame": 57,
+      "time": 1.9,
+      "frames": 61
+     },
+     "Hit": {
+      "max_gap": 0.01984,
+      "frame": 20,
+      "time": 0.6667,
+      "frames": 14
+     }
+    },
+    "shallowest": {
+     "depth": 0.01307,
+     "on": "Box07",
+     "clip": "Hit",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_eye_part37.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 38,
+   "attached_in_every_pose": 29
+  },
+  "concealed": {},
+  "shallow": {
+   "1": {
+    "joint": "Box54",
+    "where": "below, -x side",
+    "triangles": 169,
+    "extent": 1.276,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03203,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 515,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00398,
+     "on": "Box46",
+     "clip": "Fidget",
+     "frame": 16,
+     "time": 0.5333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "3": {
+    "joint": "Box06",
+    "where": "above, -x side",
+    "triangles": 218,
+    "extent": 0.3034,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00891,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 515,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00271,
+     "on": "Box03",
+     "clip": "Hit",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "4": {
+    "joint": "Box57",
+    "where": "-x side",
+    "triangles": 208,
+    "extent": 0.277,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00241,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 515,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00241,
+     "on": "Box56",
+     "clip": "Walking",
+     "frame": 80,
+     "time": 2.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "9": {
+    "joint": "Box14",
+    "where": "+z",
+    "triangles": 240,
+    "extent": 0.316,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00939,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 515,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00231,
+     "on": "Box01",
+     "clip": "Hit",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 353
+   },
+   "10": {
+    "joint": "Box01",
+    "where": "central",
+    "triangles": 505,
+    "extent": 0.5906,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00397,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 515,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00397,
+     "on": "Box01",
+     "clip": "Walking",
+     "frame": 80,
+     "time": 2.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "36": {
+    "joint": "Box47",
+    "where": "+x side",
+    "triangles": 220,
+    "extent": 0.301,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00248,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 515,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00064,
+     "on": "Box38",
+     "clip": "Death",
+     "frame": 40,
+     "time": 1.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 1
+   }
+  }
+ }
+]

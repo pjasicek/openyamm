@@ -1,0 +1,43 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_hrp_new.glb",
+ "patch_materials": {
+  "HarpyBody_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HarpyBody_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HarpyBody_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HarpyHead_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HarpyWings_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HarpyWings_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "HarpyWings_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_hrp_new",
+ "size": 300,
+ "front": "-y"
+}

@@ -1,0 +1,51 @@
+{
+ "glb": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_drg1_new.glb",
+ "patch_materials": {
+  "DrakeBody_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "DrakeBody_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "DrakeBody_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "DrakeHead_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "DrakeHead_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "DrakeHead_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "DrakeWings_A": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "DrakeWings_B": {
+   "specular": 1.0,
+   "specular_mask": true
+  },
+  "DrakeWings_C": {
+   "specular": 1.0,
+   "specular_mask": true
+  }
+ },
+ "lights": [
+  "sun",
+  "indoor"
+ ],
+ "views": [
+  "front"
+ ],
+ "out_prefix": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/contact_work/mm6_drg1_new",
+ "size": 300,
+ "front": "-y"
+}

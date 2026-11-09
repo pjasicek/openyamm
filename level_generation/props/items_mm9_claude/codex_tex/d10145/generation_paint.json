@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png exactly. Use case: precise-object-edit. Produce ONE transparent PNG 1536x2048 (3:4), preserving all guide silhouettes, positions, sizes and outlines exactly. The guide is the edit target; design_reference.png is material/detail reference; icon_x8.png is colour reference (magenta is background).\nThe guide has 3 columns and FOUR rows of 512x512 cells. Rows 1-2 contain five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Rows 3-4 repeat exactly those five silhouettes. Follow the actual guide geometry, even where views are very thin edge strips. Do not turn thin views into full shield faces.\nRows 1-2: paint only the grey objects with unlit base colour. Preserve the upright broad pointed heater silhouette, vertical golden-brown wooden boards and plain iron rim of the references. Fine wood grain and plain worn grey iron, no invented fittings. Details follow reference scaled to each view. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text.\nRows 3-4: MATERIAL MASK ONLY. Fill the exact same silhouettes with FLAT pure colours, no shading, texture, outlines or antialiased colour blends inside. Every metal part pure red #FF0000. Every leather/fur part pure green #00FF00. Every wood/bone/horn/stone/paper/wax or other matte non-metal solid pure yellow #FFFF00. Every gem/glass/crystal/pearl/enamel/liquid behind glass pure black #000000. This shield is wood (yellow) and iron rim (red); follow visible material regions. Every silhouette pixel exactly one material colour.\nPreserve all gaps/openings transparent. Everything outside silhouettes transparent. Column 3 rows 2 and 4 stay empty transparent. Never redraw, enlarge, move or redesign any object. Copy guide layout precisely.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10145/paint_mask_guide.png",
+      "sha256": "cbd6b4b2bc8c79036546fcf6f36488f468ec7aae34df338291ea04d5419771c0"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10145/design_reference.png",
+      "sha256": "a49cd2e6ca6c21c31772c45b2281c962e7517de7bff78a5953b0505297313ca1"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10145/icon_x8.png",
+      "sha256": "e1ad0882d39eab33bc50fcf4cf6f160b6ad4d218be3b3b71686f8edf93b1b15a"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1abd5-78d6-70d0-968a-908cb400a552/exec-72eb128c-63a7-4865-a8a9-f7a818e5917f.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10145/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

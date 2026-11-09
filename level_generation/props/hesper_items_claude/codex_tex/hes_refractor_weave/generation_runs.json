@@ -1,0 +1,502 @@
+{
+  "tool": "built-in image_gen",
+  "requested_dimensions": [
+    1024,
+    1024
+  ],
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Create ONE 1024 x 1024 transparent PNG texture-source painting, paint_front.png, by editing image 1 (guide_front.png). Image 2 (design_reference.png) is ONLY the material/design authority.\nLock image 1's exact orthographic projection, silhouette, pixel positions, size, outer boundary, all part edges and transparent holes. Keep its large empty margins. The object occupies x=236..787, y=302..721 on the 1024 square. It is a strongly foreshortened end-on view of a hollow sleeveless tunic, NOT an upright chest view. Preserve the wide elliptical rim and the polygonal transparent hole at center, the two humps at upper edge, and every irregular plate at lower edge. Do not reorient, turn upright, enlarge, recenter, crop or redesign it. Paint ONLY the existing opaque guide surfaces; preserve all its transparent pixels.\nApply the reference's Hesper refractor weave materials to this exact geometry: ivory woven fabric, dark slate-blue/black-violet quilted lining and side cloth, aged brushed warm gold borders, off-white ceramic armor pieces with fine restrained wear, narrow ice blue-white refractor filaments sewn into cloth. Interior visible fabric is dark quilted cloth. Broad rim gets gold trim; ceramic only on rigid plates. Continue unseen surfaces plausibly using these materials. Keep material zones and edges tied to the guide. Fine seams, panel joins and woven texture, no lettering.\nLighting is strictly flat albedo, uniformly lit from viewer: NO cast shadows, NO ambient occlusion, NO cavity darkening from lighting, NO strong specular highlights, NO reflections, NO rim light. Metal reads as its gold base color with only a faint sheen; glowing filaments are painted their bright blue-white color without bloom or light spill. Copy material colors, not the dramatic lighting of the design reference.\nReal transparent background and holes, no black backdrop, no floor, no text, no labels, no watermark. Return original 1024x1024 image, no montage. Geometry and alpha must remain EXACTLY those of image 1.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_front.png",
+          "sha256": "0d6a41f3e80aafb01054427842acaa6ab58ff53c6aaf7307c0f78b77c5c32541"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-c697f332-f6a3-449a-bbb9-13d8bfa2a8bd.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: enlarged footprint; normalized silhouette IoU 0.5706. The correction improves this substantially.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "31264dead820caef5d4ab0baed7ffa2173b55124766c7a203ab325edab9d0f4f",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          206,
+          336,
+          1049,
+          952
+        ],
+        "normalized_mask_iou": 0.5706089160825971,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint ONLY the opaque surfaces of image 1, a 1024x1024 gray orthographic model guide. Image 2 is the design/material reference ONLY. Deliver one square 1024x1024 RGBA PNG with genuine transparent background, preserving image 1's exact camera, frame, occupied pixel footprint, part boundaries, negative spaces and silhouette. Keep all the empty space. This is texture-source albedo, NOT a rendered product shot.\nUse the reference's ivory fine woven cloth, dark slate blue almost black quilted fabric, off-white ceramic plates with tiny wear, brushed warm gold trim, narrow icy blue-white refractor light filaments sewn into the cloth, and any visible crystal centerpiece. Paint the guide's existing plates and seams; do not add geometry. Continue hidden surfaces with the same materials.\nSTRICT FLAT EVEN ALBEDO: all surfaces evenly lit, no directional shading, no shadows, no ambient occlusion, no darkening in creases, no shiny reflections or bright metal highlights, no rim light. Gold is matte base gold with a faint sheen. Light filaments are bright flat blue-white with no bloom or spill. Cloth grain and ceramic wear are fine color details, not lighting.\nNo lettering, text, labels, ground, backdrop or contact shadow. Preserve transparent holes. Do not copy the reference's three-quarter camera, dramatic lighting or framing.\nTarget: paint_back.png from guide_back.png. LOCKED GUIDE: the short end-on view of the hollow garment stays at x=236..787, y=302..721 with large transparent top/bottom margins. Its two rounded upper bumps, center round/polygonal see-through opening, thick ring around that opening, two wide vertical side plates and irregular bottom edge remain at exactly the guide positions. The camera points through the collar end of the horizontal garment. Preserve every opening, do NOT convert to an upright back view. Gold edges, ivory ceramic on existing stiff strips, dark quilted inside lining; unobstructed center hole is fully transparent.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_back.png",
+          "sha256": "110454057ec38fb4ac74955c0b2c9a7c05a25f796825803ed289e97f2941eb42"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-fa49ed3c-e2d5-4958-9131-a082af956c0c.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two permitted returns: normalized silhouette IoU 0.8385 versus 0.6442. Still too wide and fails exact silhouette and fully flat albedo.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "dd788d427aa287c3503d0cdad4012fb41ea42fa443680b05dc3a9f877762fcd9",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          249,
+          361,
+          1005,
+          893
+        ],
+        "normalized_mask_iou": 0.8384544945820828,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      },
+      "raw_output": "paint_back_attempt1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint ONLY the opaque surfaces of image 1, a 1024x1024 gray orthographic model guide. Image 2 is the design/material reference ONLY. Deliver one square 1024x1024 RGBA PNG with genuine transparent background, preserving image 1's exact camera, frame, occupied pixel footprint, part boundaries, negative spaces and silhouette. Keep all the empty space. This is texture-source albedo, NOT a rendered product shot.\nUse the reference's ivory fine woven cloth, dark slate blue almost black quilted fabric, off-white ceramic plates with tiny wear, brushed warm gold trim, narrow icy blue-white refractor light filaments sewn into the cloth, and any visible crystal centerpiece. Paint the guide's existing plates and seams; do not add geometry. Continue hidden surfaces with the same materials.\nSTRICT FLAT EVEN ALBEDO: all surfaces evenly lit, no directional shading, no shadows, no ambient occlusion, no darkening in creases, no shiny reflections or bright metal highlights, no rim light. Gold is matte base gold with a faint sheen. Light filaments are bright flat blue-white with no bloom or spill. Cloth grain and ceramic wear are fine color details, not lighting.\nNo lettering, text, labels, ground, backdrop or contact shadow. Preserve transparent holes. Do not copy the reference's three-quarter camera, dramatic lighting or framing.\nTarget: paint_left.png from guide_left.png. LOCKED GUIDE: horizontal garment silhouette occupies x=66..957, y=302..721, long axis left-to-right. The collar/shoulder end and large transparent armhole are on the LEFT; the open flared waist hem is on the RIGHT. The bust bump rises near x=385,y=303. Preserve the exact sideways pose, large round left armhole, two right hem tips, waist pinch, every polygonal plate and all margins. Color existing rigid armhole trim gold with ceramic where shown, body woven ivory and slate blue with narrow gold seams and blue-white filaments, dark cloth visible inside. Do NOT turn upright or invent extra protrusions.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_left.png",
+          "sha256": "7b774a07b71eb6c6a0d5998fd4cf95c3fd4e1342b2a33d0afe7264d62a0533a3"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-0e6d3af1-45bc-4de2-8612-0c2b14f0e5a5.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected for closer geometry: normalized silhouette IoU 0.9709 versus 0.9202. Residual highlights and a misplaced side jewel remain; exact silhouette and flat-albedo requirements are not fully met.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "c13cbe292dbb310bcf7515a0d11f8279db1ca3eef24b5a4121e64b428fb1b754",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          81,
+          369,
+          1176,
+          881
+        ],
+        "normalized_mask_iou": 0.9708626166120601,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      },
+      "raw_output": "paint_left_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint ONLY the opaque surfaces of image 1, a 1024x1024 gray orthographic model guide. Image 2 is the design/material reference ONLY. Deliver one square 1024x1024 RGBA PNG with genuine transparent background, preserving image 1's exact camera, frame, occupied pixel footprint, part boundaries, negative spaces and silhouette. Keep all the empty space. This is texture-source albedo, NOT a rendered product shot.\nUse the reference's ivory fine woven cloth, dark slate blue almost black quilted fabric, off-white ceramic plates with tiny wear, brushed warm gold trim, narrow icy blue-white refractor light filaments sewn into the cloth, and any visible crystal centerpiece. Paint the guide's existing plates and seams; do not add geometry. Continue hidden surfaces with the same materials.\nSTRICT FLAT EVEN ALBEDO: all surfaces evenly lit, no directional shading, no shadows, no ambient occlusion, no darkening in creases, no shiny reflections or bright metal highlights, no rim light. Gold is matte base gold with a faint sheen. Light filaments are bright flat blue-white with no bloom or spill. Cloth grain and ceramic wear are fine color details, not lighting.\nNo lettering, text, labels, ground, backdrop or contact shadow. Preserve transparent holes. Do not copy the reference's three-quarter camera, dramatic lighting or framing.\nTarget: paint_right.png from guide_right.png. LOCKED GUIDE: horizontal garment silhouette occupies x=66..957, y=302..721. The collar/shoulder end and large transparent armhole are on the RIGHT; the open flared waist hem is on the LEFT. The bust bump rises near x=632,y=303. Preserve the exact sideways pose, large round right armhole, two left hem tips, waist pinch, every polygonal plate and all margins. Color existing rigid armhole trim gold with ceramic where shown, body woven ivory and slate blue with narrow gold seams and blue-white filaments, dark cloth visible inside. Do NOT turn upright or invent extra protrusions.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_right.png",
+          "sha256": "3cb270055e9d1ac94fe73a7a632931ea7b70b8a6ef1194f47bf701c94846d79d"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-07207c3e-adce-4459-8eff-926a14ad13da.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected for closer geometry: normalized silhouette IoU 0.8990 versus 0.7799. Armhole shape, panel mapping and baked highlights remain imperfect.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "bef169458e5ec143f9c4446e1dbb48fdee80031e3a2c5228f3926556d88c4251",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          57,
+          365,
+          1197,
+          878
+        ],
+        "normalized_mask_iou": 0.8989977651314425,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      },
+      "raw_output": "paint_right_attempt1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint ONLY the opaque surfaces of image 1, a 1024x1024 gray orthographic model guide. Image 2 is the design/material reference ONLY. Deliver one square 1024x1024 RGBA PNG with genuine transparent background, preserving image 1's exact camera, frame, occupied pixel footprint, part boundaries, negative spaces and silhouette. Keep all the empty space. This is texture-source albedo, NOT a rendered product shot.\nUse the reference's ivory fine woven cloth, dark slate blue almost black quilted fabric, off-white ceramic plates with tiny wear, brushed warm gold trim, narrow icy blue-white refractor light filaments sewn into the cloth, and any visible crystal centerpiece. Paint the guide's existing plates and seams; do not add geometry. Continue hidden surfaces with the same materials.\nSTRICT FLAT EVEN ALBEDO: all surfaces evenly lit, no directional shading, no shadows, no ambient occlusion, no darkening in creases, no shiny reflections or bright metal highlights, no rim light. Gold is matte base gold with a faint sheen. Light filaments are bright flat blue-white with no bloom or spill. Cloth grain and ceramic wear are fine color details, not lighting.\nNo lettering, text, labels, ground, backdrop or contact shadow. Preserve transparent holes. Do not copy the reference's three-quarter camera, dramatic lighting or framing.\nTarget: paint_top.png from guide_top.png. LOCKED GUIDE: preserve the supplied full-length symmetric straight-on chest appearance, exactly x=236..787,y=66..957 with the wide margins on left and right. The standing collar at top, angular shoulder plates, small pointed chest plate, fitted waist, angular flared hem and rounded lower lining projection retain all their exact edges and positions. Although the filename is top, paint the view EXACTLY AS SHOWN; do not change the camera. Follow the approved art's chest design: gold-edged ivory ceramic collar/shoulders/chest clasp, small ice-blue crystal on existing center chest plate, cream woven central panels, slate-blue side panels with fine blue-white filaments and narrow gold seams, dark inner collar and hem lining. Keep chest proportions and every plate edge of image 1, with no floating geometry.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_top.png",
+          "sha256": "d9814573fd04165d1830e45e7b35642378c0a588917f47cd48dd7dec92335d79"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-38fc4674-6fdb-400e-8216-e84d439206c5.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected for closer geometry: normalized silhouette IoU 0.9830 versus 0.9135. Materials closely follow reference, but exact edge identity and completely flat lighting are not achieved.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "a88268c5a0bca47cedee53a8b25670fa8211b7b0c147b4a52db7fcdc819e96b4",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          289,
+          69,
+          965,
+          1177
+        ],
+        "normalized_mask_iou": 0.9830421060734355,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      },
+      "raw_output": "paint_top_attempt1.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. ONE corrective edit for paint_front.png. IMAGE 1 is the edit target and ABSOLUTE pixel geometry and alpha authority (guide_front.png); image 2 is the approved color/material reference; image 3 is a rejected first painting that wrongly enlarged the object. Repaint IMAGE 1, do not use image 3 as the layout.\nOUTPUT: exactly 1024x1024 RGBA, transparent. Keep the gray guide's exact pixels, silhouette, part boundaries, all holes and empty margins. Only replace gray surface colors. The body is centered with total width 552 px = 53.9% of canvas, height 420 px = 41.0%, from x236 to788 and y302 to722. Its large elliptical opening, polygonal see-through center hole, two upper humps, bottom notches and all the polygonal edges remain EXACT. Do not expand the object, smooth its silhouette, change camera, turn it upright or crop anything. The corrected item should look SMALLER in the square than image 3, exactly as small as the gray guide.\nPaint the outer fabric ivory weave and dark slate-blue fabric, interior dark quilted lining, rigid plates off-white ceramic, borders muted brushed warm gold, narrow blue-white refractor threads. Continue reference materials into visible underside. Keep gold and ivory details painted within existing boundaries; no added geometry.\nCRITICAL albedo correction: matte flat colors, fully diffuse even illumination, no lighting gradients, no cast shadows, no ambient occlusion, no dark occlusion outlines, no specular sparkles, no glossy gold bright edges, no bloom. The dark lining remains dark because it is dark fabric, not because of shading. Subtle fine woven color pattern and ceramic wear permitted. Filaments are bright blue-white color with no spill. No text, labels, backdrop, floor or solid fill in transparent openings. Preserve guide alpha including clean fully transparent empty space.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_front.png",
+          "sha256": "0d6a41f3e80aafb01054427842acaa6ab58ff53c6aaf7307c0f78b77c5c32541"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/paint_front_attempt1.png",
+          "sha256": "31264dead820caef5d4ab0baed7ffa2173b55124766c7a203ab325edab9d0f4f"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-1de8c76f-c54a-43fe-b813-89adafb984d8.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two permitted returns: normalized silhouette IoU improves to 0.8736. Still fails exact silhouette; opening and internal part edges drift, and lighting remains partly baked in.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "3cf703eedacf3a8c5bfb2c2b6db034d3656f1d0959b5e0a43a695b0336a9c58f",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          297,
+          394,
+          957,
+          877
+        ],
+        "normalized_mask_iou": 0.8735607415129614,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      },
+      "raw_output": "paint_front_attempt2.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for paint_back.png. Image 1 (guide_back.png) is the edit target and authoritative exact geometry and alpha. Image 2 is the material/design authority. Image 3 is the previous color painting for continuity only; its deviations must NOT override the gray guide.\nRepaint image 1 pixel for pixel: change surface color ONLY, leaving the alpha mask, part locations, camera, size and frame margins unchanged. Return ONE 1024x1024 RGBA transparent PNG, no crop or zoom. The previous painting widened the body. Restore the EXACT guide footprint: 53.9% canvas width, 41.0% canvas height, x236..788/y302..722 on a 1024 square. Preserve the center see-through hole and broad side strips. Reproduce its faceted irregular silhouette without smoothing or enlargement.\nUse the reference's off-white finely worn ceramic on the guide's existing rigid plates, matte brushed warm gold edges, ivory woven cloth, dark slate-blue almost black quilted fabric, and fine blue-white refractor threads sewn into cloth. Match these material colors consistently and continue hidden surfaces plausibly.\nFLAT ALBEDO, unlit texture paint: uniform material color over curved and flat faces, with fine material patterns only. NO lighting highlights, metallic shine, specular stripes, cast shadows, ambient occlusion, dark seam shadows, cavity shading, reflections or light gradients. Gold is base ochre-gold with faint brushed grain. Blue-white threads are flat bright color with no bloom/spill. NO text, letters, symbols, labels, backdrop or floor.\nKeep ALL original transparent regions fully transparent, including every hole and the empty margins. No stray pixels, halos, outlines, extra armor or invented geometry. The output silhouette must trace the gray guide EXACTLY.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_back.png",
+          "sha256": "110454057ec38fb4ac74955c0b2c9a7c05a25f796825803ed289e97f2941eb42"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/paint_back_attempt1.png",
+          "sha256": "dd788d427aa287c3503d0cdad4012fb41ea42fa443680b05dc3a9f877762fcd9"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-4644c2f4-195c-4287-b83f-9e6f68766818.png",
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: corrective return enlarged the body further; normalized silhouette IoU falls to 0.6442.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "7c25c3a46fc7594ecf3bcdc728913a7f3f55c6dad8a813be3b0efc092c26d0b3",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          210,
+          364,
+          1045,
+          945
+        ],
+        "normalized_mask_iou": 0.6441638115499264,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for paint_left.png. Image 1 (guide_left.png) is the edit target and authoritative exact geometry and alpha. Image 2 is the material/design authority. Image 3 is the previous color painting for continuity only; its deviations must NOT override the gray guide.\nRepaint image 1 pixel for pixel: change surface color ONLY, leaving the alpha mask, part locations, camera, size and frame margins unchanged. Return ONE 1024x1024 RGBA transparent PNG, no crop or zoom. The previous painting is fairly close to the guide. Preserve the EXACT sideways silhouette, armhole outline, waist pinch and two hem tips. Remove the added jewel on the upper bust bump; keep that bump as continuous cream fabric following the reference. The chest crystal belongs at the collar/chest center and is not a new side ornament. Main correction: remove every painted specular highlight and cavity shadow for true flat diffuse texture color. Keep the guide's existing plates only.\nUse the reference's off-white finely worn ceramic on the guide's existing rigid plates, matte brushed warm gold edges, ivory woven cloth, dark slate-blue almost black quilted fabric, and fine blue-white refractor threads sewn into cloth. Match these material colors consistently and continue hidden surfaces plausibly.\nFLAT ALBEDO, unlit texture paint: uniform material color over curved and flat faces, with fine material patterns only. NO lighting highlights, metallic shine, specular stripes, cast shadows, ambient occlusion, dark seam shadows, cavity shading, reflections or light gradients. Gold is base ochre-gold with faint brushed grain. Blue-white threads are flat bright color with no bloom/spill. NO text, letters, symbols, labels, backdrop or floor.\nKeep ALL original transparent regions fully transparent, including every hole and the empty margins. No stray pixels, halos, outlines, extra armor or invented geometry. The output silhouette must trace the gray guide EXACTLY.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_left.png",
+          "sha256": "7b774a07b71eb6c6a0d5998fd4cf95c3fd4e1342b2a33d0afe7264d62a0533a3"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/paint_left_attempt1.png",
+          "sha256": "c13cbe292dbb310bcf7515a0d11f8279db1ca3eef24b5a4121e64b428fb1b754"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-658fb306-ba35-44c6-856b-7172d5482e18.png",
+      "output": "paint_left_attempt2.png",
+      "selected": false,
+      "reason": "Rejected despite flatter lighting and removal of side jewel: silhouette and armhole drift increased; normalized silhouette IoU 0.9202.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "0d8411f7b3a0e78827046ce76566b2b3394ac7a00b3ead0f47a85b205f47571d",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          85,
+          378,
+          1178,
+          882
+        ],
+        "normalized_mask_iou": 0.9201988384683532,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for paint_right.png. Image 1 (guide_right.png) is the edit target and authoritative exact geometry and alpha. Image 2 is the material/design authority. Image 3 is the previous color painting for continuity only; its deviations must NOT override the gray guide.\nRepaint image 1 pixel for pixel: change surface color ONLY, leaving the alpha mask, part locations, camera, size and frame margins unchanged. Return ONE 1024x1024 RGBA transparent PNG, no crop or zoom. The previous painting enlarged the right shoulder and altered the armhole. Restore the EXACT guide silhouette and the large rounded transparent armhole, including its full width. Do not introduce the first painting's extra dark crescent inside the armhole. Preserve the left open hem, its two tips, and the high cloth bust bump at x632. Avoid moving the chest crystal onto the side; only paint a crystal on a preexisting chest-clasp surface if visible. Main rule: color image 1 pixels in place without moving any edge.\nUse the reference's off-white finely worn ceramic on the guide's existing rigid plates, matte brushed warm gold edges, ivory woven cloth, dark slate-blue almost black quilted fabric, and fine blue-white refractor threads sewn into cloth. Match these material colors consistently and continue hidden surfaces plausibly.\nFLAT ALBEDO, unlit texture paint: uniform material color over curved and flat faces, with fine material patterns only. NO lighting highlights, metallic shine, specular stripes, cast shadows, ambient occlusion, dark seam shadows, cavity shading, reflections or light gradients. Gold is base ochre-gold with faint brushed grain. Blue-white threads are flat bright color with no bloom/spill. NO text, letters, symbols, labels, backdrop or floor.\nKeep ALL original transparent regions fully transparent, including every hole and the empty margins. No stray pixels, halos, outlines, extra armor or invented geometry. The output silhouette must trace the gray guide EXACTLY.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_right.png",
+          "sha256": "3cb270055e9d1ac94fe73a7a632931ea7b70b8a6ef1194f47bf701c94846d79d"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/paint_right_attempt1.png",
+          "sha256": "bef169458e5ec143f9c4446e1dbb48fdee80031e3a2c5228f3926556d88c4251"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-e00ae624-0458-4ea1-86a2-aa84bd21c821.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Rejected despite flatter lighting and opening cleanup: silhouette drift increased; normalized silhouette IoU 0.7799.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "1d03addd0cf0926e732ee2d729beed2eff70a81d3eeeddeaa1d179814ed524a1",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          62,
+          379,
+          1217,
+          901
+        ],
+        "normalized_mask_iou": 0.7799007367945269,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Single corrective regeneration for paint_top.png. Image 1 (guide_top.png) is the edit target and authoritative exact geometry and alpha. Image 2 is the material/design authority. Image 3 is the previous color painting for continuity only; its deviations must NOT override the gray guide.\nRepaint image 1 pixel for pixel: change surface color ONLY, leaving the alpha mask, part locations, camera, size and frame margins unchanged. Return ONE 1024x1024 RGBA transparent PNG, no crop or zoom. The previous painting has the correct overall view but rounds/changes the guide edges and has strong highlight/shadow shading. Restore exact guide edges, original narrow shoulders, the chest plate boundary, waist corners and hem silhouette. Remove lighting gradients from breast/waist cloth, remove bright gold edge highlights and crease shadows. Keep the small reference chest crystal painted on the existing pointed chest plate, with the existing size/boundary; no raised redesign.\nUse the reference's off-white finely worn ceramic on the guide's existing rigid plates, matte brushed warm gold edges, ivory woven cloth, dark slate-blue almost black quilted fabric, and fine blue-white refractor threads sewn into cloth. Match these material colors consistently and continue hidden surfaces plausibly.\nFLAT ALBEDO, unlit texture paint: uniform material color over curved and flat faces, with fine material patterns only. NO lighting highlights, metallic shine, specular stripes, cast shadows, ambient occlusion, dark seam shadows, cavity shading, reflections or light gradients. Gold is base ochre-gold with faint brushed grain. Blue-white threads are flat bright color with no bloom/spill. NO text, letters, symbols, labels, backdrop or floor.\nKeep ALL original transparent regions fully transparent, including every hole and the empty margins. No stray pixels, halos, outlines, extra armor or invented geometry. The output silhouette must trace the gray guide EXACTLY.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/guide_top.png",
+          "sha256": "d9814573fd04165d1830e45e7b35642378c0a588917f47cd48dd7dec92335d79"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/design_reference.png",
+          "sha256": "6fc3cdbf4ee1bf9ffcd5d31563eb93faa3910855a0c96d4db837229f40b0bd0b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_refractor_weave/paint_top_attempt1.png",
+          "sha256": "a88268c5a0bca47cedee53a8b25670fa8211b7b0c147b4a52db7fcdc819e96b4"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e51-9021-77e2-9cdc-fdb5134f857d/exec-dcecbc0d-9464-4cc1-b704-da106b9c0c69.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected despite flatter lighting: shortened body and altered hem/waist move silhouette away from guide; normalized silhouette IoU 0.9135.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "unresized": true,
+      "sha256": "339de1f89257230d59a6338c38de6538bd42b0360bf169968ecd4f3c364d2d3c",
+      "checks": {
+        "alpha_range": [
+          0,
+          255
+        ],
+        "has_transparency": true,
+        "opaque_bbox": [
+          294,
+          69,
+          960,
+          1138
+        ],
+        "normalized_mask_iou": 0.9135357536652101,
+        "silhouette_identical": false,
+        "no_text_or_letters": true,
+        "materials_match_reference": "Ivory weave, slate-blue cloth, gold and ceramic palette match visually; detailed panel mapping varies.",
+        "flat_even_lighting": "Residual edge highlights and crease darkening remain; corrective passes generally reduce them.",
+        "flat_albedo_pass": false,
+        "transparent_background": "RGBA with transparent background and openings; low-alpha fringe/stray pixels remain, so mask is not identical to guide."
+      }
+    }
+  ],
+  "validation_method": "Read-only alpha inspection; for size-independent silhouette comparison, sample output alpha at normalized guide pixel centers, threshold both at 128, and compute intersection over union. No image is resized or modified. Exact pixel/alpha identity is separately checked.",
+  "status": "deliverables_saved_with_unresolved_visual_check_failures",
+  "limitations": [
+    "All ten tool returns are 1254x1254 rather than requested 1024x1024; preserved byte-for-byte, unresized as required.",
+    "No return exactly preserves the guide silhouette or alpha. Selected the closer geometric match per view after at most one corrective regeneration.",
+    "Residual highlights, crevice shading, panel-placement deviations and alpha fringes remain; these are not validated as finished projection-ready albedo sources."
+  ],
+  "scope": "Image generation only. No builds, game checks, mesh/UV edits or asset installation. All task-authored files are inside this folder."
+}

@@ -1,0 +1,291 @@
+{
+  "purpose": "Handoff to the peasants enhanced session: preserve these 51 accepted runtime tiles and create 12 new-dirt shoreline overlays.",
+  "runtime_size": [
+    256,
+    256
+  ],
+  "authoring_size": [
+    512,
+    512
+  ],
+  "accepted_files": {
+    "6dirttyl.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6dirttyl.png",
+      "sha256": "584a2aa035830313528dea4d27b06db293ca701aeda759bce24d6732748a939a",
+      "role": "accepted_land"
+    },
+    "6drsrecap.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrecap.png",
+      "sha256": "01bde54fe658ca4b164e76998ed108389d81e0595d0ffad7b99408cec2873fa4",
+      "role": "accepted_land"
+    },
+    "6drsrew.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrew.png",
+      "sha256": "9c77a02713baf48246a4366d496c17fc4d381f6e8ec4d3a1f5cb45fc63c45fd5",
+      "role": "accepted_land"
+    },
+    "6drsrew_s.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrew_s.png",
+      "sha256": "2ef902e14a6b8d924646faaf65f862219423dba0074b06b3c0ef26d83cca5cdf",
+      "role": "accepted_land"
+    },
+    "6drsrn_e.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrn_e.png",
+      "sha256": "530334786327e9b88a0960552da3c10915573da420e8c068fe526d52142b88d0",
+      "role": "accepted_land"
+    },
+    "6drsrn_w.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrn_w.png",
+      "sha256": "75bd3ff565d73c259734bf7d7727b4e3be886ea0444e895e0083e4c5dc0ac830",
+      "role": "accepted_land"
+    },
+    "6drsrns.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrns.png",
+      "sha256": "f411d5a06947e5eb3705c9d6ad8a645b7aa21d267496e2317510b44d36850f14",
+      "role": "accepted_land"
+    },
+    "6drsrs_e.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrs_e.png",
+      "sha256": "e17f40f4f516c408125e68ef611115d3bf5499732ec6df4b837df584543fe8f1",
+      "role": "accepted_land"
+    },
+    "6drsrs_w.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrs_w.png",
+      "sha256": "74743ddadced2a75e6b57794ee04c5f48e8df03f0ad89a44823e2c83436faef4",
+      "role": "accepted_land"
+    },
+    "6drsrwcap.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6drsrwcap.png",
+      "sha256": "2847bad8ac8cd74bb283a87db440381a382222a55762cf62c201042e3e08a2b2",
+      "role": "accepted_land"
+    },
+    "6grastyl.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grastyl.png",
+      "sha256": "284d25135da6cf053e84e7f9298c27316bca40b4106d0756e2cf105854d4d11b",
+      "role": "accepted_land"
+    },
+    "6grdrte.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrte.png",
+      "sha256": "da3ffb5472b95aedefb6717317077ac2631baa3248221715a82e8440e3f17de9",
+      "role": "accepted_land"
+    },
+    "6grdrtn.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtn.png",
+      "sha256": "d6f18fec8e02ec49ec06feb09f26db86e7ff7647cdc233280167732e1c37aec2",
+      "role": "accepted_land"
+    },
+    "6grdrtne.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtne.png",
+      "sha256": "c61aff3400a2e019e99e45dba682b5150bba4bdc9dbdaeb3441e92581c480442",
+      "role": "accepted_land"
+    },
+    "6grdrtnw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtnw.png",
+      "sha256": "5b64404213ad3dc783839acc0f1f12b8d62befbe02f8cbd2f18b68608fc2eb7f",
+      "role": "accepted_land"
+    },
+    "6grdrts.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrts.png",
+      "sha256": "e6a85b3826c9bb7a8c2e09ed6c10eae521adbef7b9dbcaa61d9149fd5f928c29",
+      "role": "accepted_land"
+    },
+    "6grdrtse.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtse.png",
+      "sha256": "0a6d74e951391a35d4b64c905893808f2c9786af5b722397c549a0f584680b7d",
+      "role": "accepted_land"
+    },
+    "6grdrtsw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtsw.png",
+      "sha256": "a63a8fc307a1c715f65fe1a1980c45e17f1afaa0436ca2e682d28cfec4920a09",
+      "role": "accepted_land"
+    },
+    "6grdrtw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtw.png",
+      "sha256": "14257190f95432117ff6baef5c88e5fde7f468b07e8cc8702da0f3cdb8e3bb62",
+      "role": "accepted_land"
+    },
+    "6grdrtxne.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtxne.png",
+      "sha256": "86fdacbb98e78c9b58db9366b2922c4b9910d2658de392cd342db0aea976fb21",
+      "role": "accepted_land"
+    },
+    "6grdrtxnw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtxnw.png",
+      "sha256": "0c2e23cad9f34435f9848540812b59578827658048b2d24d46b3c5c04124a06d",
+      "role": "accepted_land"
+    },
+    "6grdrtxse.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtxse.png",
+      "sha256": "1ed0ed6268a2e34b871470d3101929e5fd71f9fb948446069096ffa8737c2dbe",
+      "role": "accepted_land"
+    },
+    "6grdrtxsw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6grdrtxsw.png",
+      "sha256": "e59358e91fc656cb6bd7b4e304a6bc78917f8e56b539dad168c9e84d638060a3",
+      "role": "accepted_land"
+    },
+    "6voltyl.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/6voltyl.png",
+      "sha256": "19781fc97db5c9bb3eb23d95c8a53b9947e07235f33c965c8c298fc65ef8b380",
+      "role": "accepted_land"
+    },
+    "voldrte.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrte.png",
+      "sha256": "812762ef62f9c742a896ab33cdc5b2dfaccaf06f0de40145c71c8151032a4cf3",
+      "role": "accepted_land"
+    },
+    "voldrtn.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtn.png",
+      "sha256": "1411a1b78bd6ee40a71704497622399d2006da029b12e432f5b573efeaeb72b0",
+      "role": "accepted_land"
+    },
+    "voldrtne.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtne.png",
+      "sha256": "b0fdb24d48ffebb7408ae74f075c88dda73d28592b99b1424474f40fde68b4a5",
+      "role": "accepted_land"
+    },
+    "voldrtnw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtnw.png",
+      "sha256": "a39f329edc4470e4e43a42587ca3a677d1f6dd2016c80c619727fbf320fb550a",
+      "role": "accepted_land"
+    },
+    "voldrts.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrts.png",
+      "sha256": "128929b4f6472c6faf76c0717e82a77b0dd433165f27afb41b8603781c0ff31c",
+      "role": "accepted_land"
+    },
+    "voldrtse.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtse.png",
+      "sha256": "9c0995b53219345af075fba4cbf39eaea6cf21ab0165ac3cdc139bd59daec10d",
+      "role": "accepted_land"
+    },
+    "voldrtsw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtsw.png",
+      "sha256": "7a28baf4c7ad835dc2e1dfa4d54a89aef098400f8384a8b0f66f54474e326062",
+      "role": "accepted_land"
+    },
+    "voldrtw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtw.png",
+      "sha256": "7a74d93cf5163c9441b9acde4777a80ea8738e2acbb232d3105cc51904496a2b",
+      "role": "accepted_land"
+    },
+    "voldrtxne.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtxne.png",
+      "sha256": "4d2c5dd2bb5ef379d8eab1807d4cec566aaa90381cc857ba66ffac735305e546",
+      "role": "accepted_land"
+    },
+    "voldrtxnw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtxnw.png",
+      "sha256": "a620fee205e9af26fdc151da04bb3250940e0c9684625c8567578be31de48acb",
+      "role": "accepted_land"
+    },
+    "voldrtxse.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtxse.png",
+      "sha256": "b592e96067dbe14b0a40d503adfb7f9b23bd922be3575ac75b787c2e55eb735d",
+      "role": "accepted_land"
+    },
+    "voldrtxsw.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/edge_treatment/runtime/v2/voldrtxsw.png",
+      "sha256": "fd26c5055c2c68a995c106fbf9856f2688b0fbb94fe7c975e6a3e1cb7a1209b4",
+      "role": "accepted_land"
+    },
+    "6hdwtr000.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr000.png",
+      "sha256": "3df191abfe6ea76b4c591f70c3ddc7d98c3bdf30512a2c2300041e8189980bf6",
+      "role": "accepted_water"
+    },
+    "6hdwtr001.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr001.png",
+      "sha256": "ac59d03d51fdf24152e18ebf0b6e4ff094c166be164bba56430b84300b5ccab6",
+      "role": "accepted_water"
+    },
+    "6hdwtr002.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr002.png",
+      "sha256": "e1a989ee59bb3b3845cf928030220f52a9695ff030787f137f9b85d96a81615a",
+      "role": "accepted_water"
+    },
+    "6hdwtr003.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr003.png",
+      "sha256": "de638bfe300c9effae7f49d9ef0a5b6925a94da54fa489b2a338ac22e3450657",
+      "role": "accepted_water"
+    },
+    "6hdwtr004.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr004.png",
+      "sha256": "345781c56f89626e41ae597ad42691dde62bc1ff19c30d7f4bf994192c8322ee",
+      "role": "accepted_water"
+    },
+    "6hdwtr005.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr005.png",
+      "sha256": "e6d024f41218ece7769e77f3959014895b586202952378bf15e53aecd90ceee6",
+      "role": "accepted_water"
+    },
+    "6hdwtr006.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr006.png",
+      "sha256": "1ecf4fc429df578f0d4919a3ac007821c60dee81261c244788cdd31deb69c92c",
+      "role": "accepted_water"
+    },
+    "6hdwtr007.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr007.png",
+      "sha256": "abf36d501e25cadd807e3f66fd413bec069ba810fd06c79b3cdc5b28ec5671ea",
+      "role": "accepted_water"
+    },
+    "6hdwtr008.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr008.png",
+      "sha256": "0a580da00ac7589f8c6a392f70c68c2a3a8082d0f144ec0dff156cad85f17d28",
+      "role": "accepted_water"
+    },
+    "6hdwtr009.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr009.png",
+      "sha256": "65ef6e6633877fb17f288e421b1c4c7d5e7aa5e335925ffab060b564f9c301a5",
+      "role": "accepted_water"
+    },
+    "6hdwtr010.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr010.png",
+      "sha256": "0c0d2120fac3c6118e55736ca3f066ef67119f23acc6ca4a8a350c1090443eba",
+      "role": "accepted_water"
+    },
+    "6hdwtr011.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr011.png",
+      "sha256": "1e1dd74f6969ebb5abc9cfeb479f8bc32ea6facf74dda0f68c02d24e2c3c1995",
+      "role": "accepted_water"
+    },
+    "6hdwtr012.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr012.png",
+      "sha256": "6a244eec62d022465408998b440544caca5ab29c063cc7e3b2d2a51d5c77bb0c",
+      "role": "accepted_water"
+    },
+    "6hdwtr013.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6hdwtr013.png",
+      "sha256": "e5a7939da121f33a0a30a49c9dc4abcccce83f742257f90fb6a6fb8d676cd2f6",
+      "role": "accepted_water"
+    },
+    "6wtrtyl.png": {
+      "source": "level_generation/terrain/mm6_new_sorpigal_water/restoration_v3/runtime_x2/worlds/mm6/terrain_x2/6wtrtyl.png",
+      "sha256": "3df191abfe6ea76b4c591f70c3ddc7d98c3bdf30512a2c2300041e8189980bf6",
+      "role": "accepted_water"
+    }
+  },
+  "master_references": {
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/generated/dirt_v2_512.png": {
+      "sha256": "9e501c5b7f12ea0abe519b1f71a85aaa86134fc51473f1f154f5cea2c8fd24e0"
+    },
+    "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/transitions/seam_repair/materials/dirt.png": {
+      "sha256": "2869dcf7497e341343a6b6ba7fb5e5c764c400a98089058ad0e71da92ccf1f68"
+    }
+  },
+  "remaining_shoreline_tiles": [
+    "6wtrdre.png",
+    "6wtrdrn.png",
+    "6wtrdrne.png",
+    "6wtrdrnw.png",
+    "6wtrdrs.png",
+    "6wtrdrse.png",
+    "6wtrdrsw.png",
+    "6wtrdrw.png",
+    "6wtrdrxne.png",
+    "6wtrdrxnw.png",
+    "6wtrdrxse.png",
+    "6wtrdrxsw.png"
+  ],
+  "complete_pack_count_after_shoreline_work": 63
+}

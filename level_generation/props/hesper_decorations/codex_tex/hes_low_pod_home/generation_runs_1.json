@@ -1,0 +1,201 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "incomplete_requirements_not_met",
+  "unresized_returns": true,
+  "corrections_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture projection source for an existing 3D game prop. Edit image 1, the exact grey model guide, by painting its surfaces ONLY. Image 2 (design_reference.png) is the approved material/colour/design authority, image 3 (concept_crop.png) is supporting original concept. Output exactly 1024 x 1024 RGBA with a genuinely transparent background. The guide's alpha silhouette, all shape edges, openings, component boundaries, orthographic camera, scale, position and framing are immutable. Do not redesign, move, enlarge, shrink, add or remove geometry; keep every piece of the existing rubble base but add no floor or background. Paint chipped off-white ceramic panels, aged gold seams/trim/rivets, charcoal exposed machinery, dark tinted glass, and rust on existing landing legs. Use the reference's material identity but NOT its perspective or lighting. TEXTURE SOURCE ALBEDO: perfectly flat even shadowless viewer-facing illumination, no cast shadows, no ambient occlusion, no darkening of crevices due to light, no strong specular highlights or reflections, no rim light. Dark surfaces are dark because of their material only. Warm doorway lamplight only where doorway is actually visible, painted amber/orange colour with no light spill. No text, labels or watermark. Preserve the exact guide canvas and silhouette; return the native image unresized.\nVIEW: FRONT. The tall narrow fin stays at the top centre, twin side pods stay left and right, and the broad central cockpit nose retains the guide's front-facing rounded shape. Apply the reference's dark tinted cockpit glass with gold edging to the existing forward canopy surface, white ceramic lower hull, white ceramic/gold dorsal fin and side pods, dark machinery in existing side recesses. Preserve every existing splayed landing support and scattered debris shape. Do not insert a side doorway into this front view. Guide foreground footprint is approximately x=68..955, y=206..817 in the 1024 square canvas; preserve exactly.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d94-00e5-72d3-8af3-15f6f84c9606/exec-2b9290ba-8d05-437e-a0e5-358f123c1d0c.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by corrective generation: strong shading and changed geometry; native output dimensions do not match the brief.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "f8ad572405bba6f3f11645a1b1aa33b85e22a979c45109dd9a38058027c3d5ed"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+        }
+      ],
+      "output_sha256": "c95916cf4cb2ba19858c7540ca2b0c03b93c122b4b051d3ec4b4d4f58fa17eac",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          33,
+          19,
+          1226,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broadly match chipped ivory ceramic, aged gold and dark glass; exact surface details differ.",
+        "flat_even_light": "Partial: residual surface shading, dark recesses and metallic highlights remain.",
+        "unresized": true,
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture projection source for an existing 3D game prop. Edit image 1, the exact grey model guide, by painting its surfaces ONLY. Image 2 (design_reference.png) is the approved material/colour/design authority, image 3 (concept_crop.png) is supporting original concept. Output exactly 1024 x 1024 RGBA with a genuinely transparent background. The guide's alpha silhouette, all shape edges, openings, component boundaries, orthographic camera, scale, position and framing are immutable. Do not redesign, move, enlarge, shrink, add or remove geometry; keep every piece of the existing rubble base but add no floor or background. Paint chipped off-white ceramic panels, aged gold seams/trim/rivets, charcoal exposed machinery, dark tinted glass, and rust on existing landing legs. Use the reference's material identity but NOT its perspective or lighting. TEXTURE SOURCE ALBEDO: perfectly flat even shadowless viewer-facing illumination, no cast shadows, no ambient occlusion, no darkening of crevices due to light, no strong specular highlights or reflections, no rim light. Dark surfaces are dark because of their material only. Warm doorway lamplight only where doorway is actually visible, painted amber/orange colour with no light spill. No text, labels or watermark. Preserve the exact guide canvas and silhouette; return the native image unresized.\nVIEW: FRONT. The tall narrow fin stays at the top centre, twin side pods stay left and right, and the broad central cockpit nose retains the guide's front-facing rounded shape. Apply the reference's dark tinted cockpit glass with gold edging to the existing forward canopy surface, white ceramic lower hull, white ceramic/gold dorsal fin and side pods, dark machinery in existing side recesses. Preserve every existing splayed landing support and scattered debris shape. Do not insert a side doorway into this front view. Guide foreground footprint is approximately x=68..955, y=206..817 in the 1024 square canvas; preserve exactly.\nCORRECTIVE REGENERATION (only correction allowed): previous attempt incorrectly returned 1254 x 1254 and changed geometric details. Generate this edit NATIVELY at 1024 x 1024, the same size as image 1. Copy image 1's exact silhouette/alpha coverage and internal shapes, treating it as a fixed paint-by-number stencil. In particular keep the exact angular fin and separate rubble pieces, every hole in the struts, and broad nose geometry. Do not use the design image's outline. Paint matte base colours only. Remove ALL lighting gradients, underbody shadow, occlusion and metallic glints. Ceramic undersides are as light as roof ceramic; machinery reads charcoal without black shaded crevices. No relighting, reconstruction, idealization or compositional adjustment.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d94-00e5-72d3-8af3-15f6f84c9606/exec-bc0de488-016e-4b55-b8c1-1fbc251343ed.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the flatter front candidate after the single allowed correction. Not accepted as compliant: wrong native dimensions, silhouette/detail drift and residual shading.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "f8ad572405bba6f3f11645a1b1aa33b85e22a979c45109dd9a38058027c3d5ed"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+        }
+      ],
+      "output_sha256": "8f1c96b15afe3b68b22146f6438b2515fc748796d33fce8c9c47081c5a0e8f76",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1253,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broadly match chipped ivory ceramic, aged gold and dark glass; exact surface details differ.",
+        "flat_even_light": "Partial: residual surface shading, dark recesses and metallic highlights remain.",
+        "unresized": true,
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture projection source for an existing 3D game prop. Edit image 1, the exact grey model guide, by painting its surfaces ONLY. Image 2 (design_reference.png) is the approved material/colour/design authority, image 3 (concept_crop.png) is supporting original concept. Output exactly 1024 x 1024 RGBA with a genuinely transparent background. The guide's alpha silhouette, all shape edges, openings, component boundaries, orthographic camera, scale, position and framing are immutable. Do not redesign, move, enlarge, shrink, add or remove geometry; keep every piece of the existing rubble base but add no floor or background. Paint chipped off-white ceramic panels, aged gold seams/trim/rivets, charcoal exposed machinery, dark tinted glass, and rust on existing landing legs. Use the reference's material identity but NOT its perspective or lighting. TEXTURE SOURCE ALBEDO: perfectly flat even shadowless viewer-facing illumination, no cast shadows, no ambient occlusion, no darkening of crevices due to light, no strong specular highlights or reflections, no rim light. Dark surfaces are dark because of their material only. Warm doorway lamplight only where doorway is actually visible, painted amber/orange colour with no light spill. No text, labels or watermark. Preserve the exact guide canvas and silhouette; return the native image unresized.\nVIEW: TOP. Strict straight-down orthographic view matching guide_top.png exactly: rear toward top of canvas, rounded cockpit nose toward bottom, fin seen edge-on along upper centre, paired rounded pods at left and right, round roof window below centre. Preserve asymmetric rubble, protrusions, fin footprint, roof-window outline, and all landing struts precisely. Paint existing surfaces only, no added objects. Do not show the tall fin from the side or change the camera. The guide occupies x=68..955, y=66..957. Native output MUST be 1024 by 1024 pixels matching the input guide dimensions, without rescaling. Match its exact alpha mask including holes. All white ceramic areas have equal albedo brightness regardless of orientation; gold is matte ochre-gold without glints; glass is flat dark charcoal-blue without reflected scenery.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d94-00e5-72d3-8af3-15f6f84c9606/exec-3992143b-f686-4c0d-b649-51357efcf187.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by corrective generation to improve albedo flatness and stencil fidelity; wrong native dimensions.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "35dd81ce24b09cfd558f6c4d290bb8c0b0969edc94d7caf79c6dc7131a2b4313"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+        }
+      ],
+      "output_sha256": "6d22f0dbdd1140d101e9242f9e589e4b7ffdf1c0e3b696ed3750ceb316aca11d",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          39,
+          1246,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broadly match chipped ivory ceramic, aged gold and dark glass; exact surface details differ.",
+        "flat_even_light": "Partial: residual surface shading, dark recesses and metallic highlights remain.",
+        "unresized": true,
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture projection source for an existing 3D game prop. Edit image 1, the exact grey model guide, by painting its surfaces ONLY. Image 2 (design_reference.png) is the approved material/colour/design authority, image 3 (concept_crop.png) is supporting original concept. Output exactly 1024 x 1024 RGBA with a genuinely transparent background. The guide's alpha silhouette, all shape edges, openings, component boundaries, orthographic camera, scale, position and framing are immutable. Do not redesign, move, enlarge, shrink, add or remove geometry; keep every piece of the existing rubble base but add no floor or background. Paint chipped off-white ceramic panels, aged gold seams/trim/rivets, charcoal exposed machinery, dark tinted glass, and rust on existing landing legs. Use the reference's material identity but NOT its perspective or lighting. TEXTURE SOURCE ALBEDO: perfectly flat even shadowless viewer-facing illumination, no cast shadows, no ambient occlusion, no darkening of crevices due to light, no strong specular highlights or reflections, no rim light. Dark surfaces are dark because of their material only. Warm doorway lamplight only where doorway is actually visible, painted amber/orange colour with no light spill. No text, labels or watermark. Preserve the exact guide canvas and silhouette; return the native image unresized.\nVIEW: TOP. Strict straight-down orthographic view matching guide_top.png exactly: rear toward top of canvas, rounded cockpit nose toward bottom, fin seen edge-on along upper centre, paired rounded pods at left and right, round roof window below centre. Preserve asymmetric rubble, protrusions, fin footprint, roof-window outline, and all landing struts precisely. Paint existing surfaces only, no added objects. Do not show the tall fin from the side or change the camera. The guide occupies x=68..955, y=66..957. Native output MUST be 1024 by 1024 pixels matching the input guide dimensions, without rescaling. Match its exact alpha mask including holes. All white ceramic areas have equal albedo brightness regardless of orientation; gold is matte ochre-gold without glints; glass is flat dark charcoal-blue without reflected scenery.\nCORRECTIVE REGENERATION (only correction allowed): preserve the EXACT guide image, not an approximation of its geometry. Paint over image 1 as a fixed stencil. Native output size 1024 x 1024 pixels is REQUIRED, do not output 1254 square. Retain every disconnected rock, cutout, angular edge and component silhouette at its original pixel location. No rounded replacement shapes and no extra gold borders that protrude from the silhouette. Most critically use flat shadowless albedo: no dark bands beneath panels, no occlusion, no reflective metallic streaks, no shading gradients. Uniform ivory ceramic, matte aged ochre-gold, flat dark tinted glass and charcoal debris, retaining subtle chips/rust texture. Preserve the exact downward camera of image 1.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a15d94-00e5-72d3-8af3-15f6f84c9606/exec-d67005c2-965f-4667-97ce-10dae8743d06.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected corrective top candidate. Material palette broadly matches; not accepted as compliant due to wrong native dimensions, silhouette/detail drift and residual shading.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "35dd81ce24b09cfd558f6c4d290bb8c0b0969edc94d7caf79c6dc7131a2b4313"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "693ebc0b123dbc860f2fafe46fe99115d76f4661eb8cf50e493bb09899e4b769"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "7671b9d34cb242e437857c091536284c5b0cbc9863be149c28005ab61eb5f6f5"
+        }
+      ],
+      "output_sha256": "a4fb54a2f01d39ba6ab81a3cf140f6f3a39cf85176ce2953a3695540854fab7d",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background_present": true,
+        "alpha_bbox": [
+          0,
+          27,
+          1216,
+          1254
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Broadly match chipped ivory ceramic, aged gold and dark glass; exact surface details differ.",
+        "flat_even_light": "Partial: residual surface shading, dark recesses and metallic highlights remain.",
+        "unresized": true,
+        "accepted_as_brief_compliant": false
+      }
+    }
+  ]
+}

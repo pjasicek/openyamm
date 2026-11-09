@@ -1,0 +1,104 @@
+# Explicit conversion choices for the Bathhouse (convert.py and the shared converter read this; a rerun keeps them).
+# Keys: ../mm9r_common/DUNGEON_PLAYBOOK.md (overrides.yml).
+map:
+  stem: bathhouse
+  display_name: Bathhouse
+  starts: [StartPoint0]
+  monster_classes: [ColloidalWarrior, ColloidalSoldier, ColloidalGuardian, JellySpore, SuccEbora, Concubine, LesserDemon]
+  offset: [0, 0, 0]               # the old bmodel_world map's frame (fits int16): transitions and bounds stay valid
+  ambient: 20
+  split_minor_rooms: true
+# What every DAT world model becomes (motions: ../mm9r_common/dungeon/movers.py).
+models:
+  # --- sliding doors (MM9 Door: MoveDir, MoveDist, Speed 50, back after 10 s, PushOpen; Door3/4 TouchToOpen)
+  Door0: {group: Door0, motion: dat, doorway: true, portal: portal1}
+  Door1: {group: Door1, motion: dat, doorway: true, portal: portal2}
+  Door2: {group: Door2, motion: dat, doorway: true, portal: portal3}
+  Door3: {group: Door3, motion: dat, doorway: true, portal: portal4}
+  Door4: {group: Door4, motion: dat, doorway: true, portal: portal5}
+  Door5: {group: Door5, motion: dat, doorway: true, portal: portal6}
+  Door6: {group: Door67, motion: dat, doorway: true, portal: portal7, locked_event: true}   # Locked until Switch0
+  Door7: {group: Door67, motion: dat, doorway: true, portal: portal7, locked_event: true}
+  Door8: {group: Door89, motion: dat, doorway: true, portal: portal8}
+  Door9: {group: Door89, motion: dat, doorway: true, portal: portal8}
+  # --- the furnace (BathFurnace.scr): the gas valve swings 180 and stays; the pistons pump while it is open
+  GasRelease0: {group: GasRelease0, motion: rotate}
+  PistonDown0: {group: Piston0, motion: dat, click: false}
+  PistonUp0: {group: Piston0, motion: dat, click: false}
+  PistonDown1: {group: Piston1, motion: dat, click: false}
+  PistonUp1: {group: Piston1, motion: dat, click: false}
+  # --- the drain room: Switch0 (StartOpen, -80 about x) spins the propeller WaterProp and drains BlueWater2
+  Switch0: {group: Switch0, motion: rotate, start_open: true}
+  WaterProp: {group: WaterProp, motion: rotate, click: false}
+  # --- the steam vent flap over SteamVent0 (swings 90 about x on a push, back after 10 s)
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate}
+  # --- static world objects
+  WorldObject0: static             # the ladder's rungs (Ladder0)
+  WorldObject1: static
+  WorldObject5: static
+  FurnaceWarning: skip             # the furnace's warning plate: convert.py adds it as a clickable face (furnacewarning.scr)
+  InvisibleBrush0: static          # InvisibleBrush: collision in the entrance
+  DamageBrush0: skip               # steam vent hazard volumes (SteamVentDB.scr): polled boxes in the map Lua
+  DamageBrush1: skip
+  DamageBrush2: skip
+  DamageBrush3: skip
+  # --- water volumes: no drawn faces; their surfaces are built by convert.py (wading floors, README "Water")
+  BlueWater0: skip
+  BlueWater1: skip
+  BlueWater2: skip
+  BlueWater4: skip
+  BlueWater6: skip
+  BlueWater7: skip
+  BlueWater8: skip
+  BlueWater9: skip
+  BlueWater10: skip
+  BlueWater14: skip
+  WaterthatBoilsA: skip
+  WaterthatBoilsB: skip
+  SkyBox0: skip
+  TOD_Sky0: skip
+model_patterns: {}
+plan_levels:
+  upper: [-140, 420]
+  lower: [-620, -140]
+textures:
+  'textures\skybox\skymarker.dtx': {alias: CLOUVKSJD0, width: 256, height: 256}
+  "water:pool": {alias: WATEQOBX0Z, width: 128, height: 128}      # Water115.spr, first frame (as the Temple's pool)
+# Seed-class objects that stand outside the map: relay triggers of the quake and the (unused) flood trigger
+seed_exclude: [TriggerEffects, TriggerFloodTrigger, Light43, Light44, Light54, Light55, Light56, Light57, Light58, Light93, Light94]
+# Lights MM9 buried in the rock (under the boiling pools' basins, under the hall, behind the furnace room's south wall):
+# their air is the outside, so they are no seeds and no BLV lights (README "Lights").
+skip_lights: [Light43, Light44, Light54, Light55, Light56, Light57, Light58, Light93, Light94]
+# Archway portals beyond the doorways (chosen on work/slice_*.png and work/rooms_*.png).
+portals:
+  - {name: entrance_hall, axis: x, point: [-140, 0, -350], span: 160}            # entrance corridor | great hall
+  - {name: swpool_poolb, axis: x, point: [650, 40, -1540], span: 160}             # south-west pool | pool B room
+  - {name: poola_tub, axis: x, point: [2050, 40, -1640], span: 150}               # pool A room | Ebora's tub
+  - {name: tub_east, axis: x, point: [2575, 40, -1560], span: 100}                # Ebora's tub | east hall
+  - {name: east_diagonal, axis: x, point: [3180, 40, -920], span: 200}            # east hall | diagonal corridor
+  - {name: stairs_top, axis: z, point: [3976, -40, -560], span: 150}              # landing | stairs down to the drain room
+  - {name: drain_ledge, axis: x, point: [4255, -250, 60], span: 300}             # low corridor | the drain room's ledge
+  - {name: tunnel14, axis: x, point: [2600, -540, -480], span: 80}                # chamber | tunnel to the switch room
+  - {name: tunnel8, axis: z, point: [1846, -540, -900], span: 80}                 # chamber | tunnel to pool A
+  - {name: tunnel10, axis: z, point: [992, -540, -900], span: 80}                 # chamber | tunnel to pool B
+  - {name: ne_rooms, axis: x, points: [[2765, 40, 250], [2765, 40, -190]], span: 60}   # north-east corridor | its two rooms
+# Ladder0: from the switch room's floor up the west face of the shelf the switch stands on (climber faces +x)
+ladders:
+  Ladder0: {facing_lt: [1, 0], surface_lt: 3576, top_exit_lt: [3624, -416, 116]}
+# Air no seeded object reaches: the flooded tunnels under the wading floors (README "Water"), built for the day diving
+# lands
+seeds:
+  - [2500, -540, -480]                # tunnel 14, chamber to switch room (joins tunnels 8, 10 and the pool shafts)
+# Windows: the iron grilles (iron_window.dtx, WorldObject1/5, with invisible collision) close the voxel pass, so each
+# window gets a portal (playbook "Bars close the voxel pass")
+rect_portals:
+  - {name: window_poola, min_lt: [1649, 13, -1861], max_lt: [1650, 72, -1647]}      # furnace room | pool A room
+  - {name: window_poolb, min_lt: [1246, 13, -1816], max_lt: [1247, 72, -1647]}      # pool B room | furnace corridor
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [LesserDemon0, Concubine1, Concubine2, Concubine3]
+  avoid_near:
+    - {name: Ebora, radius: 1500}

@@ -1,0 +1,11 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_dressing_study/shots/levers_mm7
+settle_seconds: 2.0
+exit: true
+shots:
+- name: lever_ev452
+  position:
+  - -102
+  - -1290
+  - 1
+  yaw: 3.534
+  pitch: -0.266

@@ -1,0 +1,32 @@
+# DESIGN CONTRACT. Tiling/insets are not currently parsed by UiLayoutManager.
+name: carved_obsidian_shared_inspector
+master: masters/frame.png
+cropped_master: masters/frame-cropped.png
+slice_coordinates: masters/frame_slices.json
+alpha: straight RGBA PNG; preserve transparency, no matte or parchment baked into frame
+corner_logical: [30.9333333333, 30.9333333333]
+edge_tile_logical_length: 48.2861788618
+source_corner_pixels: [164, 164]
+source_edge_pixels_horizontal: [256, 164]
+source_edge_pixels_vertical: [164, 256]
+corners:
+  top_left: obsidian_frame_tl
+  top_right: obsidian_frame_tr
+  bottom_left: obsidian_frame_bl
+  bottom_right: obsidian_frame_br
+edges:
+  top: obsidian_frame_top
+  bottom: obsidian_frame_bottom
+  left: obsidian_frame_left
+  right: obsidian_frame_right
+draw:
+  order: [surface, edges, corners, content]
+  edge_rule: Repeat at fixed length between corners; clip last tile, never stretch to fit the window.
+  surface: obsidian_reading_surface
+  surface_inset: 8.5333333333
+  surface_pixels_per_logical: 2
+  surface_rule: Crop the 1280×960 master at native 2× density for these windows, rather than resizing to their bounds.
+  surface_limit_logical: [640, 480]
+  larger_windows: Retain the source grain at width 293.333333 logical and repeat with a separate dark wash; do not stretch the composite master.
+  dialogue: Top corners, top edge and side edges only; sides run to basebar. Surface bottom inset 1.6 logical.
+  seams: Browser approval covers visual design. Check repeat joins and alpha fringes at actual runtime UI scales before installation.

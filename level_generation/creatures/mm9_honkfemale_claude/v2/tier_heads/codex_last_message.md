@@ -1,0 +1,3 @@
+Saved all three `elder_*.png` images, raw returns, prompts in `generation_runs.json`, and [review sheet](level_generation/creatures/mm9_honkfemale_claude/v2/tier_heads/selected_views_review.png) in the requested directory. Used built-in image generation; outputs remain 1254×1254 RGBA.
+
+No builds or Meshy run. Despite one correction per view, alignment drift and exposed profile neck remain—the images do **not** fully meet the projection brief.

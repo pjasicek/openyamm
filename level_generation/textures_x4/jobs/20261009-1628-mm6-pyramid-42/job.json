@@ -1,0 +1,945 @@
+{
+ "id": "20261009-1628-mm6-pyramid-42",
+ "world": "mm6",
+ "maps": [
+  "pyramid.blv",
+  "6t8.blv",
+  "outd3.odm"
+ ],
+ "created": "2026-10-09T14:28:27+00:00",
+ "textures": [
+  "mm6/swdoora",
+  "mm6/swfloor5",
+  "mm6/swhorzad",
+  "mm6/swhorzdb",
+  "mm6/swll2",
+  "mm6/swll5",
+  "mm6/swoor",
+  "mm6/swpnl",
+  "mm6/swr3dk",
+  "mm6/swrt4dk",
+  "mm6/t1f5",
+  "mm6/hcwall",
+  "mm6/hcw1ctr",
+  "mm6/hcwindo",
+  "mm6/hctriw",
+  "mm6/hcw1reb",
+  "mm6/hcw1le",
+  "mm6/hcw1leb",
+  "mm6/hcw1re",
+  "mm6/hcdoor32",
+  "mm6/hcsmdr",
+  "mm6/thre",
+  "mm6/hcuniq3",
+  "mm6/hcuniq2"
+ ],
+ "requests": {
+  "mm6/swdoora": {
+   "name": "swdoora",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "heavy dark teal-black riveted metal door panel with crossed diagonal girders, pipes and a round dark glass orb boss, in a rusty red-brown riveted frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     165,
+     0
+    ]
+   }
+  },
+  "mm6/swfloor5": {
+   "name": "swfloor5",
+   "versions": [
+    1
+   ],
+   "material": "glowing red floor panel under a teal metal pipe lattice of diagonal bars and nested square frames, in a dark riveted metal border; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swhorzad": {
+   "name": "swhorzad",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small blue-grey mottled stone tile with a black-lined panel holding a green glass orb on a stem, pale cyan edge bands; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: keep the pale light-blue crescent under the green gem and the pale light-blue lines along the dark horizontal bars, as in the reference.",
+    "3": "Invent new crisp detail: polished blue marble with fine natural veins, a smooth glossy green gem and clean bevelled dark stone frames; do not copy the pixel pattern of the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/swhorzdb": {
+   "name": "swhorzdb",
+   "versions": [
+    1
+   ],
+   "material": "small blue-grey mottled stone tile with a black-lined panel holding a dull green glass orb on a stem; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swll2": {
+   "name": "swll2",
+   "versions": [
+    1
+   ],
+   "material": "glowing red wall panel with dark diagonal chevron ribs and a central column of black segmented bony vertebrae, in a dark metal frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swll5": {
+   "name": "swll5",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-black metal wall of vertical pipes crossed by horizontal bars with a small round red-eyed boss, riveted plates behind",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swoor": {
+   "name": "swoor",
+   "versions": [
+    1
+   ],
+   "material": "dark red glowing pit seen through a heavy teal riveted metal grate of vertical bars",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swpnl": {
+   "name": "swpnl",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-green steel machinery wall panel with a vertical stack of segmented black cylinders, copper pipes, a red glass light and a round valve port; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swr3dk": {
+   "name": "swr3dk",
+   "versions": [
+    1
+   ],
+   "material": "dark rusty iron rail of slanted bone-like brackets above a row of vertical bars on a near-black ground",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/swrt4dk": {
+   "name": "swrt4dk",
+   "versions": [
+    1
+   ],
+   "material": "dark navy wall of glossy blue organic leaf-like ribs mirrored along a vertical axis over black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/t1f5": {
+   "name": "t1f5",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "floor tile of a pale grey marble square centre surrounded by four blue and crimson marble petal lobes on a beige ground, copy the composition exactly",
+   "notes": {
+    "2": "No grout line along the tile borders: the red and tan marble continue across every edge."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   },
+   "roll": {
+    "2": [
+     68,
+     88
+    ]
+   }
+  },
+  "mm6/hcwall": {
+   "name": "hcwall",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "tan and cream-grey sandstone block wall of bevelled rectangular blocks of mixed sizes with dark recessed joints",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material.",
+    "3": "No dark or pale hairline along the top or bottom edge: the blocks and joints continue across the tile boundary exactly as in the reference.",
+    "4": "The dark mortar joint of the reference sits exactly on the top and bottom tile edges: no pale or dark hairline outside it; blocks and joints continue across the tile boundary.",
+    "5": "Bottom edge: the dark mortar joint along the bottom border stays dark to the outermost row; no pale hairline inside or below the bottom mortar line.",
+    "6": "No pale or dark hairline along the top edge; mortar joints and stone blocks continue to the border as in the reference.",
+    "7": "Top edge: the blocks and joints continue to the outermost row exactly where the reference has them; no pale or dark hairline along the top."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {}
+   },
+   "roll": {
+    "3": [
+     0,
+     102
+    ],
+    "4": [
+     0,
+     102
+    ],
+    "5": [
+     0,
+     102
+    ],
+    "6": [
+     0,
+     102
+    ],
+    "7": [
+     0,
+     102
+    ]
+   }
+  },
+  "mm6/hcw1ctr": {
+   "name": "hcw1ctr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "tan and cream-grey sandstone block wall of bevelled rectangular blocks of mixed sizes with dark recessed joints, with a carved terracotta frieze of interlocking cross motifs along the top",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.832
+    },
+    "2": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.832
+    },
+    "3": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.832
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     102
+    ]
+   }
+  },
+  "mm6/hcwindo": {
+   "name": "hcwindo",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "tan and cream-grey sandstone block wall of bevelled rectangular blocks with dark recessed joints, with a gothic triple-lancet window of green bullseye glass in a pale carved stone frame; copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Rebuilt on the corrected relative. No dark or pale hairline along the top edge: the stone blocks continue to the top border at even brightness."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.458
+    },
+    "2": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.458
+    },
+    "3": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.458
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     190
+    ],
+    "3": [
+     0,
+     190
+    ]
+   }
+  },
+  "mm6/hctriw": {
+   "name": "hctriw",
+   "versions": [
+    1
+   ],
+   "material": "tan and cream-grey sandstone block wall of bevelled rectangular blocks with dark recessed joints and a carved terracotta cross-motif frieze on top, with a gothic triple-lancet window of green bullseye glass in a pale carved stone frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcwindo",
+      "mm6/hcw1ctr"
+     ],
+     "fraction": 0.889
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/hcw1reb": {
+   "name": "hcw1reb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "tan and cream-grey sandstone block wall of bevelled rectangular blocks of mixed sizes with dark recessed joints, with a carved terracotta border of interlocking cross motifs along the left edge",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Rebuilt on the corrected relative. Keep the sandstone colours of the reference. No dark or pale hairline along any edge: the carved brown trim runs to the left border and the blocks to the top and right borders at even brightness.",
+    "4": "Copy the composition exactly: one straight, continuous carved terracotta border of interlocking cross motifs along the full height of the left edge, as in the reference; sandstone blocks intact with crisp bevels, no broken, eroded or crumbling edges. Keep the reference's tan and cream colours. The trim runs to the left border and the blocks to the top and right borders with no hairline.",
+    "5": "Copy the composition exactly: one straight, continuous carved terracotta border of interlocking cross motifs along the full height of the left edge, reaching the left border, as in the reference. Uniform tan and cream sandstone colours with no lighter or darker vertical band; blocks intact with crisp bevels."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.638
+    },
+    "2": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.638
+    },
+    "3": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.638
+    },
+    "4": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.638
+    },
+    "5": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.638
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {}
+   },
+   "roll": {
+    "2": [
+     32,
+     140
+    ],
+    "3": [
+     32,
+     140
+    ],
+    "4": [
+     32,
+     140
+    ]
+   }
+  },
+  "mm6/hcw1le": {
+   "name": "hcw1le",
+   "versions": [
+    1
+   ],
+   "material": "tan and cream-grey sandstone block wall of bevelled rectangular blocks of mixed sizes with dark recessed joints, with a carved terracotta border of interlocking cross motifs along the top and left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcw1reb",
+      "mm6/hcw1ctr",
+      "mm6/hcuniq3"
+     ],
+     "fraction": 0.766
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/hcw1leb": {
+   "name": "hcw1leb",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "tan and cream-grey sandstone block wall of bevelled rectangular blocks of mixed sizes with dark recessed joints, with a carved terracotta border of interlocking cross motifs along the right edge",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "Rebuilt on the corrected relative. No dark or pale hairline along the top edge: blocks and trim continue to the top border at even brightness.",
+    "4": "Right edge: the dark brown band beside the carved terracotta border has the reference's brightness right to the outermost column; no near-black hairline on the last columns.",
+    "5": "Right edge: the dark brown band beside the carved terracotta border reaches the outermost right column as in the reference; no pale strip of the neighbouring block on the last columns.",
+    "6": "Right edge: one flat dark brown band beside the carved terracotta border, the reference's width and darkness, running straight to the outermost right column; no grey stone, pale streak or highlight on the last columns."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.635
+    },
+    "2": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.635
+    },
+    "3": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.635
+    },
+    "4": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.635
+    },
+    "5": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.635
+    },
+    "6": {
+     "sources": [
+      "mm6/hcwall"
+     ],
+     "fraction": 0.62
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     102
+    ],
+    "3": [
+     0,
+     102
+    ],
+    "4": [
+     90,
+     102
+    ],
+    "5": [
+     90,
+     102
+    ],
+    "6": [
+     0,
+     102
+    ]
+   }
+  },
+  "mm6/hcw1re": {
+   "name": "hcw1re",
+   "versions": [
+    1
+   ],
+   "material": "tan and cream-grey sandstone block wall of bevelled rectangular blocks of mixed sizes with dark recessed joints, with a carved terracotta border of interlocking cross motifs along the top and right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcw1leb",
+      "mm6/hcw1ctr",
+      "mm6/hcw1le",
+      "mm6/hcuniq2",
+      "mm6/hcuniq3"
+     ],
+     "fraction": 0.715
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/hcdoor32": {
+   "name": "hcdoor32",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "material": "arched dark brown wooden plank door with black wrought-iron scroll strap hinges and a ring knocker, under a carved terracotta Romanesque arch with beaded moulding on carved capitals and columns; copy the composition exactly",
+   "notes": {
+    "2": "No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "3": "No dark or pale hairline along the top or bottom edge: the stone blocks above and the column bases below continue to the border at even brightness.",
+    "4": "Copy the composition exactly: the arch and door at the same heights as in the reference. No dark or pale line along the top edge: the stone blocks above the arch continue to the top border at even brightness.",
+    "5": "Keep the arch and door at exactly the reference's height. Top edge: the top row of light stone blocks runs to the canvas border; no dark line or shadow along the top edge.",
+    "6": "Copy the composition exactly: the arch top sits at the reference's height with only the reference's single row of light stone blocks above it; no dark line or shadow along the top edge.",
+    "7": "Top edge: the stone blocks above the arch continue to the outermost row as light as the reference; no dark rim or hairline along the top. Keep the arch at the reference's height.",
+    "8": "The top edge is plain sandstone wall blocks exactly as in the reference; keep the arch at the reference height; no door parts at the top."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcsmdr"
+     ],
+     "fraction": 0.538
+    },
+    "2": {
+     "sources": [
+      "mm6/hcsmdr"
+     ],
+     "fraction": 0.538
+    },
+    "3": {
+     "sources": [
+      "mm6/hcsmdr"
+     ],
+     "fraction": 0.538
+    },
+    "4": {
+     "sources": [
+      "mm6/hcsmdr"
+     ],
+     "fraction": 0.538
+    },
+    "5": {
+     "sources": [
+      "mm6/hcsmdr"
+     ],
+     "fraction": 0.538
+    },
+    "6": {
+     "sources": [
+      "mm6/hcsmdr"
+     ],
+     "fraction": 0.538
+    },
+    "7": {
+     "sources": [
+      "mm6/hcsmdr"
+     ],
+     "fraction": 0.538
+    },
+    "8": {
+     "sources": [
+      "mm6/hcsmdr"
+     ],
+     "fraction": 0.538
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+    "7": {},
+    "8": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     75
+    ],
+    "3": [
+     0,
+     75
+    ],
+    "4": [
+     0,
+     75
+    ],
+    "5": [
+     0,
+     75
+    ],
+    "6": [
+     0,
+     75
+    ],
+    "7": [
+     0,
+     75
+    ]
+   }
+  },
+  "mm6/hcsmdr": {
+   "name": "hcsmdr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "arched dark brown wooden plank door with black wrought-iron scroll strap hinges and a ring knocker, under a carved terracotta Romanesque arch with beaded moulding on carved capitals and columns, a carved cross-motif frieze above; copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: no added hairlines, rims or patches; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/thre": {
+   "name": "thre",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "material": "red and orange brick wall with a green-trimmed ledge holding a carved frieze of two robed figure reliefs, and a fluted terracotta column with carved figure panels on the right edge; copy the composition exactly",
+   "notes": {
+    "2": "Continue the neighbouring wall seamlessly across the left edge: no dark hairline or shadow in the leftmost column; the bricks and frieze run at full brightness to the border.",
+    "3": "No pale or dark hairline along the left edge: the brick and mortar run right up to the left border as in the reference. No dark or light hairline on any edge: the outermost pixels continue the material exactly.",
+    "5": "The bottom mortar course runs to the bottom border: no dark line below it. Continue the neighbouring wall seamlessly across the left edge.",
+    "6": "The bottom mortar course runs to the bottom border: no dark line below it. Continue the neighbouring wall seamlessly across the left edge.",
+    "7": "The top cornice bands must continue at exactly the same height as the sharp copied cornice to the left of the pilaster."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.582
+    },
+    "7": {
+     "sources": [
+      "mm6/thctr"
+     ],
+     "fraction": 0.61
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm6/thctrw2"
+    },
+    "2": {
+     "left": "mm6/thctrw2"
+    },
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {
+     "left": "mm6/thctr",
+     "bottom": "mm6/cbmxbrck",
+     "top": "mm6/bemvwal"
+    },
+    "7": {
+     "left": "mm6/thctr",
+     "bottom": "mm6/cbmxbrck",
+     "top": "mm6/bemvwal"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     169
+    ],
+    "4": [
+     0,
+     169
+    ],
+    "5": [
+     0,
+     169
+    ]
+   },
+   "pad": {
+    "6": [
+     32,
+     32
+    ],
+    "7": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/hcuniq3": {
+   "name": "hcuniq3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tan sandstone block wall with a carved cross-motif frieze on top and an arched niche lined with green mosaic holding a pale marble statue of a standing figure fully wrapped in a long hooded robe and cloak; copy the composition exactly",
+   "notes": {
+    "2": "The statue is fully clothed in a long hooded robe and cloak; no bare skin."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcw1ctr",
+      "mm6/hcwall"
+     ],
+     "fraction": 0.371
+    },
+    "2": {
+     "sources": [
+      "mm6/hcw1ctr",
+      "mm6/hcwall"
+     ],
+     "fraction": 0.371
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm6/hcuniq2": {
+   "name": "hcuniq2",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone block wall with a carved cross-motif frieze on top and an arched niche lined with green mosaic holding a pale marble bust of a curly-haired man on a fluted pedestal; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/hcuniq3",
+      "mm6/hcw1ctr"
+     ],
+     "fraction": 0.387
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

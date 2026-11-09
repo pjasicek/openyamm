@@ -1,0 +1,27 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_remaining_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- capture: touch-column-2by1
+- right_down: &id001
+  - 1675.62
+  - 298.12
+- click: *id001
+- right_up: *id001
+- wait: 0.4
+- capture: touch-column-2by1-followers
+- right_down: &id002
+  - 1675.62
+  - 298.12
+- click: *id002
+- right_up: *id002
+- wait: 0.4
+- right_down: &id003
+  - 1464.45
+  - 627.54
+- pointer_down: *id003
+- capture: touch-column-2by1-held
+- pointer_up: *id003
+- right_up: *id003
+- wait: 1
+- capture: touch-column-2by1-opened

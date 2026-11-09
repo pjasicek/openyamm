@@ -1,0 +1,3 @@
+Saved the master and all 24 tier views using built-in imagegen in [references_hd](/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd), plus the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/selected_views_review.png) and [run log with prompts and hashes](/home/pjasicek/github/OpenYAMM/level_generation/props/loot_satchel_claude/v2/references_hd/generation_runs.json).
+
+Skipped builds and Meshy. **The brief is not fully met:** native returns are 1254×1254; small silhouette, margin and alpha deviations are documented in the log.

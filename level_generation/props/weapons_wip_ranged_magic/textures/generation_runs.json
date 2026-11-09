@@ -1,0 +1,16 @@
+{
+  "tool": "built-in imagegen",
+  "input": "material_uv_guide.png",
+  "output": "material_atlas_raw.png",
+  "result_size": [
+    1254,
+    1254
+  ],
+  "selected": true,
+  "reason": "Exact sixteen-cell layout; unlit surface colours; fine material detail. Geometry and semantic masks supply material separation.",
+  "prompt": "Paint sixteen UV cells: walnut, elm, brown leather, burgundy leather; steel, gold, bone, silver; lapis, emerald, ruby, ebony; red lacquer, green snakeskin, engraved brass, ivory/gold scrollwork. Remove text/grid; unlit flat orthographic surface textures, no shadows/reflections/perspective.",
+  "prompt_file": "PROMPT.txt",
+  "input_sha256": "e3c82db1f4187cda25e327a284bfc7e7086955d364bcc8f668115c674cd46e00",
+  "output_sha256": "1c21c61ea16b45d7a0748f61a906c888df74e7523ed883818f65aa758a38ff37",
+  "pbr": "Semantic binary metallic mask and fixed roughness per swatch; +Y tangent normals from high-frequency surface grain only"
+}

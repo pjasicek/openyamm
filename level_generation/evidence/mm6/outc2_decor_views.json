@@ -1,0 +1,82 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          6840.0,
+          12216.0,
+          237.0
+        ],
+        "span": 12500
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm6/outc2_decor_settlement.png",
+      "camera_position": [
+        12499.693359375,
+        896.6142578125,
+        14071.806640625
+      ],
+      "highlighted": [
+        {
+          "index": 4,
+          "name": "6tree06",
+          "position": [
+            6816,
+            12984,
+            96
+          ]
+        },
+        {
+          "index": 346,
+          "name": "6rock04",
+          "position": [
+            4352,
+            11568,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "landscape",
+        "target": [
+          -240,
+          -3120,
+          169
+        ],
+        "span": 13000
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm6/outc2_decor_landscape.png",
+      "camera_position": [
+        5646.08056640625,
+        -14892.1611328125,
+        14557.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 137,
+          "name": "6tree10",
+          "position": [
+            -240,
+            -3120,
+            169
+          ]
+        },
+        {
+          "index": 436,
+          "name": "6rock13",
+          "position": [
+            -144,
+            -192,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

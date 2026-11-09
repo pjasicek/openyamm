@@ -1,0 +1,1 @@
+Retained original detailed RGBA master. Common --adjust 0.98 0 0 protects perimeter. Native opaque RGB gamma preserves alpha. Full raw, native reference and final light/dark proofs reviewed. registration_checks.json records zero clipping and <=1 native pixel bounds differences.

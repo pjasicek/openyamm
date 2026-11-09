@@ -1,0 +1,3 @@
+Saved tier B’s four transparent 1024×1536 views, raw returns, [review sheet](level_generation/creatures/mm9_nobleman_claude/references_tiers/selected_views_review_b.png), and [generation log with prompts and hashes](level_generation/creatures/mm9_nobleman_claude/references_tiers/generation_runs_b.json).
+
+Used built-in image generation; no builds or Meshy. Exact silhouette fidelity remains imperfect after the allowed corrections.

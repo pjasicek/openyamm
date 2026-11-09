@@ -1,0 +1,3 @@
+Saved Run 3’s four 1254×1254 transparent busts, review sheet, and generation records in [references_head/](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_guard_claude/references_head). Built-in imagegen prompts are recorded in `generation_runs.json`.
+
+Stopped after Run 3. Remaining limitations: corrected profile retains slight obliqueness; front/back shoulder edges touch the canvas boundaries.

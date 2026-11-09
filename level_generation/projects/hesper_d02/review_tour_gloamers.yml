@@ -1,0 +1,17 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d02/review/gloamers
+settle_seconds: 2
+exit: true
+shots:
+- name: drained_sump
+  position:
+  - 3200
+  - 1848
+  - -768
+  yaw: 0
+  pitch: -0.1
+  commands:
+  - config set immortal true
+  - config set invisible true
+  - event 3
+  - event 4
+  - event 5

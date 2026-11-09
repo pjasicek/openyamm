@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm9_basilisk_claude/references_hd/00_three_quarter.png) and [generation_runs.json](level_generation/creatures/mm9_basilisk_claude/references_hd/generation_runs.json), including prompts and input hashes. Used built-in image generation; preserved the unresized 1536×1024 return.
+
+Stopped after the one permitted correction; no other views generated. Remaining issues: background halo, extra frill divisions/crown horn, and a more side-on camera than requested.

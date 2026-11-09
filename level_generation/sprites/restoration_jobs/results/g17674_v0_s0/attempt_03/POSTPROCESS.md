@@ -1,0 +1,1 @@
+Targeted builtin imagegen pixel_steps repair, preserving previous masters. Process --adjust 0.99 0 14, then native RGB gamma matching via restore_native_tone.py and queue check. Alpha unchanged by tone pass. Final light/dark proofs reviewed.

@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the attached paint_mask_guide.png precisely. The guide is the edit target; design_reference.png is material/detail reference and icon_x8.png is color reference (ignore its magenta background).\n# Pendant of the Spheres: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10215/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: source-faithful upright pendant.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: source-faithful upright pendant\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10215/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nCRITICAL CORRECTION: Treat actual guide pixels as authoritative over FRONT/BACK names. Do not interpret those names as new camera views. In the guide row 1 column 1 and column 2 are ONLY very thin horizontal edge-on trapezoid strips, centered near y=256. Row 1 column 3 is a horizontal chain on the left and long thin edge-on pendant on the right. Row 2 column 1 is that horizontal view reversed. ONLY row 2 column 2 shows a broad face with a chain loop above it. Rows 3 and 4 repeat EXACTLY those same shapes and positions for masks. Preserve every grey silhouette exactly as supplied, including the extremely thin horizontal strips. Do NOT replace them with upright pendants. Paint directly over the guide. Keep scale and locations, do not expand to fill cells. Guide is image 1 and takes absolute priority for all geometry.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10215/paint_mask_guide.png",
+      "sha256": "cbd748dd300252410ea391dc44ffaa9888c4e9c83e1b09b76316d46bfb540290"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10215/design_reference.png",
+      "sha256": "3f479c3295a0205455a76ee0c02e57d0511b94064dc93d5ccdb2bae59e1ecd2e"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10215/icon_x8.png",
+      "sha256": "e45203bb29a91632f957c42c652c078898e68d9ac0c523b2a90d434383266ec8"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad09-fdfe-7070-b752-b34038748432/exec-96a23f52-90c6-42e6-97cb-b21075f2bdab.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10215/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

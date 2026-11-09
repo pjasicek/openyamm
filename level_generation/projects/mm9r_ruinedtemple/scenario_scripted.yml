@@ -1,0 +1,706 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.ruinedtemple_scripted
+title: 'Ruined Temple (native BLV): sun buttons, hidden doors, the elevator puzzle, the crypt, the Tree of Life, the cave-ins,
+  the scrolls, the perception hints, the genie'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: ruinedtemple.blv
+- note:
+    text: The PerceptionBrushes' glow shows at Perception 8 and not below (checked every 3 s).
+- console:
+    line: skill set Perception 1 B
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    state_dump_named_map_var:
+      name: PerceptionHints
+      value: 1
+- console:
+    line: skill set Perception 8 E
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    state_dump_named_map_var:
+      name: PerceptionHints
+      value: 2
+- note:
+    text: 'SunButton2, on the elevator room''s side, is SunButton''s DoubleDoorName pair: it opens HiddenDoor too (the way
+      back out), which shuts after 10 s. SunButton opens it with both buttons riding it, the hint goes off, and 10 s later
+      the door shuts again.'
+- damage_actor:
+    actor_index: 12
+    amount: 100000
+    skip_dead: true
+- set_pose:
+    map: ruinedtemple.blv
+    x: -2212
+    y: 4380
+    z: -2293
+    yaw: -1.5708
+    pitch: -0.2781
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    mechanism:
+      id: 32
+      state: open
+- advance_runtime:
+    seconds: 11
+- assert:
+    mechanism:
+      id: 32
+      state: closed
+- set_pose:
+    map: ruinedtemple.blv
+    x: -2212
+    y: 4058
+    z: -2293
+    yaw: 1.5708
+    pitch: -0.2781
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    mechanism:
+      id: 32
+      state: open
+- assert:
+    mechanism:
+      id: 50
+      state: open
+- assert:
+    mechanism:
+      id: 51
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: HintOff300
+      value: 1
+- advance_runtime:
+    seconds: 11
+- assert:
+    mechanism:
+      id: 32
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: HintOff300
+      value: 0
+- note:
+    text: 'HiddenButton opens HiddenDoor3 (10 s). The actors near it die first: the door reopens on contact, so one standing
+      in its swing would hold it open.'
+- damage_actor:
+    actor_index: 2
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 6
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 8
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 14
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 17
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 18
+    amount: 100000
+    skip_dead: true
+- set_pose:
+    map: ruinedtemple.blv
+    x: 1700
+    y: 2967
+    z: -2272
+    yaw: 1.5708
+    pitch: -0.3255
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    mechanism:
+      id: 34
+      state: open
+- advance_runtime:
+    seconds: 11
+- assert:
+    mechanism:
+      id: 34
+      state: closed
+- note:
+    text: 'The elevator (SunTempleButtons.scr): with no symbol pressed the main button does nothing.'
+- &id001
+  set_pose:
+    map: ruinedtemple.blv
+    x: -2193
+    y: 4528
+    z: -2293
+    yaw: 2.0692
+    pitch: -0.2286
+- &id002
+  advance_runtime:
+    seconds: 0.2
+- &id003
+  press_interact: {}
+- &id004
+  advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 37
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: LiftTrips
+      value: 0
+- note:
+    text: 'MoonButton2 pressed: still wrong. Released, then StarButton1 and DiamondButton2 (the two the hints mark): the main
+      button sends the lift down with the party on it.'
+- set_pose:
+    map: ruinedtemple.blv
+    x: -2045
+    y: 4700
+    z: -2293
+    yaw: 0.0
+    pitch: -0.0581
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: SymMoon2
+      value: 1
+- *id001
+- *id002
+- *id003
+- *id004
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 37
+      state: closed
+- set_pose:
+    map: ruinedtemple.blv
+    x: -2045
+    y: 4700
+    z: -2293
+    yaw: 0.0
+    pitch: -0.0581
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: SymMoon2
+      value: 0
+- set_pose:
+    map: ruinedtemple.blv
+    x: -2460
+    y: 4557
+    z: -2293
+    yaw: 3.1416
+    pitch: -0.0581
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: SymStar1
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HintOff302
+      value: 1
+- set_pose:
+    map: ruinedtemple.blv
+    x: -2045
+    y: 4628
+    z: -2293
+    yaw: 0.0
+    pitch: -0.0581
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: SymDiamond2
+      value: 1
+- *id001
+- *id002
+- *id003
+- *id004
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 37
+      state: open
+- assert:
+    state_dump_named_map_var:
+      name: LiftTrips
+      value: 1
+- note:
+    text: SecondButton at the foot of the shaft sends the lift back up.
+- set_pose:
+    map: ruinedtemple.blv
+    x: -1966
+    y: 4698
+    z: -2866
+    yaw: 1.5708
+    pitch: -0.3
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 37
+      state: closed
+- assert:
+    state_dump_named_map_var:
+      name: LiftTrips
+      value: 2
+- note:
+    text: 'PrisonButton2 (RT_CounterBalance.scr): the counterbalance drops onto the crypt lid, which breaks (evt.DestroyDestructible;
+      its destroyed event sets CryptOpen); the shaft under it is open down to the first dirt plug.'
+- assert:
+    state_dump_named_map_var:
+      name: CryptOpen
+      value: 0
+- set_pose:
+    map: ruinedtemple.blv
+    x: 451
+    y: 5517
+    z: -2866
+    yaw: 1.5708
+    pitch: -0.3
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: CryptOpen
+      value: 1
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    mechanism:
+      id: 55
+      state: open
+- note:
+    text: 'The shaft''s dirt plugs (DestructableBrush0-5, scene destructibles of 20 hit points): 19 damage leave the first
+      standing; standing on each, a click on the dirt at the party''s feet breaks it (the shared click''s killing blow) and
+      the party drops to the next.'
+- console:
+    line: destructible 339 damage 19
+    expect_contains: damage
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    state_dump_named_map_var:
+      name: BrokenDestructableBrush0
+      value: 0
+- set_pose:
+    map: ruinedtemple.blv
+    x: 155
+    y: 5243
+    z: -2948
+    yaw: 3.1416
+    pitch: -1.2397
+- advance_runtime:
+    seconds: 0.3
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    state_dump_named_map_var:
+      name: BrokenDestructableBrush0
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HintOff304
+      value: 1
+- set_pose:
+    map: ruinedtemple.blv
+    x: 155
+    y: 5243
+    z: -3153
+    yaw: 3.1416
+    pitch: -1.2397
+- advance_runtime:
+    seconds: 0.3
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    state_dump_named_map_var:
+      name: BrokenDestructableBrush1
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HintOff305
+      value: 1
+- set_pose:
+    map: ruinedtemple.blv
+    x: 155
+    y: 5243
+    z: -3358
+    yaw: 3.1416
+    pitch: -1.2397
+- advance_runtime:
+    seconds: 0.3
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    state_dump_named_map_var:
+      name: BrokenDestructableBrush2
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HintOff306
+      value: 1
+- set_pose:
+    map: ruinedtemple.blv
+    x: 155
+    y: 5243
+    z: -3563
+    yaw: 3.1416
+    pitch: -1.2397
+- advance_runtime:
+    seconds: 0.3
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    state_dump_named_map_var:
+      name: BrokenDestructableBrush3
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HintOff307
+      value: 1
+- set_pose:
+    map: ruinedtemple.blv
+    x: 155
+    y: 5243
+    z: -3767
+    yaw: 3.1416
+    pitch: -1.2397
+- advance_runtime:
+    seconds: 0.3
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    state_dump_named_map_var:
+      name: BrokenDestructableBrush4
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HintOff308
+      value: 1
+- set_pose:
+    map: ruinedtemple.blv
+    x: 155
+    y: 5243
+    z: -3972
+    yaw: 3.1416
+    pitch: -1.2397
+- advance_runtime:
+    seconds: 0.3
+- press_interact: {}
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    state_dump_named_map_var:
+      name: BrokenDestructableBrush5
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: HintOff309
+      value: 1
+- note:
+    text: 'PrisonButton3 in the tunnel: DoorCryptEscape0 rises (0.5 s + 120 LT at 25 LT/s), then the Tree of Life''s cell
+      door and bars open.'
+- set_pose:
+    map: ruinedtemple.blv
+    x: 0
+    y: 6156
+    z: -2928
+    yaw: -1.5708
+    pitch: -0.1378
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 1
+- assert:
+    mechanism:
+      id: 12
+      state: opening
+- advance_runtime:
+    seconds: 5.5
+- assert:
+    mechanism:
+      id: 12
+      state: open
+- advance_runtime:
+    seconds: 6
+- assert:
+    mechanism:
+      id: 43
+      state: open
+- assert:
+    mechanism:
+      id: 42
+      state: open
+- note:
+    text: 'The Tree of Life (TreeofLife.scr): item 241, key 256; it arms TriggerCaveIn1.'
+- set_pose:
+    map: ruinedtemple.blv
+    x: 246
+    y: 6008
+    z: -2866
+    yaw: -1.5708
+    pitch: -0.9041
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90256
+- assert:
+    inventory_any_member:
+    - item_id: 10241
+      count: 1
+- assert:
+    state_dump_named_map_var:
+      name: CaveIn1Armed
+      value: 1
+- note:
+    text: 'TriggerCaveIn1 (on the way out with the Tree): the ceiling breaks and its rocks drop.'
+- set_pose:
+    map: ruinedtemple.blv
+    x: 1874
+    y: 1946
+    z: -2272
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    state_dump_named_map_var:
+      name: CaveIn1Done
+      value: 1
+- assert:
+    mechanism:
+      id: 9
+      state: open
+- assert:
+    mechanism:
+      id: 5
+      state: open
+- note:
+    text: 'TriggerCaveIn0 at the hidden door: the rails break and the rocks drop by the pews.'
+- movement_segment:
+    input: forward
+    seconds: 0.640625
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: ruinedtemple.blv
+      x: -2212
+      y: 3878
+      z: -2293
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: ruinedtemple.blv
+      x: -2212
+      y: 4298
+      z: -2293
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 240
+    tolerance_z: 40
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    state_dump_named_map_var:
+      name: CaveIn0Done
+      value: 1
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- assert:
+    mechanism:
+      id: 7
+      state: open
+- note:
+    text: The scrolls (BookLetter.scr 502, 503) show MM9's texts on a click.
+- set_pose:
+    map: ruinedtemple.blv
+    x: -2524
+    y: 3613
+    z: -2211
+    yaw: -2.0054
+    pitch: -0.9903
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: ruinedtemple.blv
+    x: -132
+    y: 4849
+    z: -2866
+    yaw: -2.0054
+    pitch: -0.9892
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'The genie (GenieCrystal.scr, ColloidalGenie.scr): hidden until the lamp is used; two seconds after the click it
+      stands over the lamp.'
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: true
+- set_pose:
+    map: ruinedtemple.blv
+    x: 0
+    y: 785
+    z: -2416
+    yaw: -1.5708
+    pitch: -0.8734
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: GenieCalled
+      value: 1
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    state_dump_named_map_var:
+      name: GenieShown
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: false
+      hostile_to_party: false
+- note:
+    text: A click on the genie opens dialogue 435; the gold wish sets key 5022; closing it grants 5000 gold (GrantWish) and
+      the genie vanishes 3 s later.
+- set_pose:
+    map: ruinedtemple.blv
+    x: 0
+    y: 435
+    z: -2416
+    yaw: 1.5708
+    pitch: -0.2678
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 435
+- select_topic:
+    action_id: 2
+    match_label: You're welcome.
+- select_topic:
+    action_id: 1
+    match_label: We'd like more gold.
+- assert:
+    qbit_set:
+    - 95022
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_named_map_var:
+      name: WishGranted
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Wish
+      value: 1
+- advance_runtime:
+    seconds: 3.5
+- assert:
+    state_dump_named_map_var:
+      name: GenieGone
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: true

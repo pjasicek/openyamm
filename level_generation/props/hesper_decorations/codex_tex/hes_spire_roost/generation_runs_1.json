@@ -1,0 +1,237 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen.imagegen",
+  "required_dimensions": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "status": "incomplete_constraints_not_met",
+  "note": "The best available corrections are saved at the requested deliverable paths, byte-identical to the tool returns. Neither passes the strict dimensions/silhouette/lighting checks. No resizing, masking, retouching or further generation was performed.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for an existing 3D game decoration.\nEdit only the surface colours/material painting of INPUT 1, the grey model guide. INPUT 1 is the absolute authority for every shape, geometry edge, opening, silhouette, camera, framing, orientation, size and position. INPUT 2 design_reference.png is authority for material appearance and palette ONLY, not geometry or camera. INPUT 3 concept_crop.png is supporting design context ONLY; omit its dragon and figure.\nOutput: exactly 1024 x 1024 PNG with a genuine transparent background, unresized, matching the guide's existing pixel grid and alpha silhouette exactly. Paint inside the existing guide mask only. Preserve all antialiased boundary pixels, interior transparent holes and every projecting spike; never invent extra geometry, extra openings, extra spikes, or rearrange shapes to match the design image. Do not enlarge, shrink, rotate, recenter, crop, or change the perspective. Maintain the original empty margins.\nMaterials: black-violet resin and chitin, dark aubergine and purple organic strands, hot glowing orange slit windows/sacs/seams, warm ivory bone spikes and great ivory tusks, a dark woven resin nest cup, matching the approved design. Convey the glossy wet material identity through its colours and fine surface texture only.\nLighting: strictly even, flat, shadowless light from the viewer, an ALBEDO texture painting, not a beauty render. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light, no dramatic gradients. Orange parts have saturated orange glowing colour painted on their own surfaces without light cast onto adjacent surfaces, bloom, halos or fog. No environment, background, floor, text or watermark.\nView: FRONT, exactly the front guide's orthographic view. Retain the guide's entire tall thin spire, narrow stem, flared root base, nest cup and all asymmetric tusks, points and protrusions at their exact existing locations. Foreground object bounds are x=246..777 and y=66..957 on the 1024-square canvas. The tall tusk tip near (416,66), the other visible upper tusk shapes, the nest rim and the base remain exactly as in the guide. Paint the existing broad tusks and selected existing thorn faces ivory; paint the existing stem and roots black-violet resin/chitin with orange slits on their inner surfaces. Paint the existing nest interior with woven dark resin surface texture. Keep all original geometric contours visible and unchanged; do not copy the three-quarter camera or extra filigree silhouette from the design reference.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687a-3b06-7a01-967f-46733e379791/exec-35d98006-c2a6-4a43-864b-9ccb66ec5549.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1687a-3b06-7a01-967f-46733e379791/exec-35d98006-c2a6-4a43-864b-9ccb66ec5549.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, bright specular highlights, residual shading, and colored edge artifacts.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "317918c468e577803c281bec02969a2e58db0a98741d4cc8a28c0f5fcc172ba3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "checks": {
+        "output": {
+          "size": [
+            1254,
+            1254
+          ],
+          "mode": "RGBA",
+          "sha256": "7c2d4bcc73bd16ef54b45c0171839c5ab2f171c0fba0cb770df62f7dcd4747ec",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_bbox": [
+            0,
+            21,
+            1240,
+            1254
+          ],
+          "fully_transparent_pixels": 1292901,
+          "partially_transparent_pixels": 279013,
+          "fully_opaque_pixels": 602
+        },
+        "native_1024_square": false,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "Cannot match the guide pixel-for-pixel at the returned dimensions; visible boundary artifacts also remain.",
+        "materials_and_colours": "Visual check: violet resin/chitin, orange slits/seams, ivory bone and dark woven cup are present.",
+        "flat_even_light": "Failed: strong specular highlights and dark recesses.",
+        "transparent_background": true,
+        "transparent_edges_clean": false,
+        "edge_note": "Visible colored fringe/artifacts remain in the native return.",
+        "fully_meets_brief": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only allowed correction for this view. Deliver a native 1024 x 1024 transparent PNG. The last return was incorrectly 1254 x 1254; do not repeat that size. Output MUST have exactly the same 1024 x 1024 pixel dimensions as input 1. Keep the exact original alpha mask from input 1 without inventing, feathering, growing or moving it. Transparent pixels must remain fully transparent with no colored edge debris. This is a direct colour repaint of the guide, retaining its raster geometry, not a newly composed illustration.\nThe prior attempt also had specular gloss and dark shaded recesses. Correct this to flat base colour: uniform illumination of every surface, no white glints or shiny streaks, no shadowed rim/interstices, no orange illumination outside the orange material itself. Ivory is uniformly pale warm bone; violet chitin/resin has subtle pigment texture without directional light. Every coloured patch remains attached to the same guide face. Preserve ALL original guide edges and boundaries at the exact same pixel positions.\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture source for an existing 3D game decoration.\nEdit only the surface colours/material painting of INPUT 1, the grey model guide. INPUT 1 is the absolute authority for every shape, geometry edge, opening, silhouette, camera, framing, orientation, size and position. INPUT 2 design_reference.png is authority for material appearance and palette ONLY, not geometry or camera. INPUT 3 concept_crop.png is supporting design context ONLY; omit its dragon and figure.\nOutput: exactly 1024 x 1024 PNG with a genuine transparent background, unresized, matching the guide's existing pixel grid and alpha silhouette exactly. Paint inside the existing guide mask only. Preserve all antialiased boundary pixels, interior transparent holes and every projecting spike; never invent extra geometry, extra openings, extra spikes, or rearrange shapes to match the design image. Do not enlarge, shrink, rotate, recenter, crop, or change the perspective. Maintain the original empty margins.\nMaterials: black-violet resin and chitin, dark aubergine and purple organic strands, hot glowing orange slit windows/sacs/seams, warm ivory bone spikes and great ivory tusks, a dark woven resin nest cup, matching the approved design. Convey the glossy wet material identity through its colours and fine surface texture only.\nLighting: strictly even, flat, shadowless light from the viewer, an ALBEDO texture painting, not a beauty render. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light, no dramatic gradients. Orange parts have saturated orange glowing colour painted on their own surfaces without light cast onto adjacent surfaces, bloom, halos or fog. No environment, background, floor, text or watermark.\nView: FRONT, exactly the front guide's orthographic view. Retain the guide's entire tall thin spire, narrow stem, flared root base, nest cup and all asymmetric tusks, points and protrusions at their exact existing locations. Foreground object bounds are x=246..777 and y=66..957 on the 1024-square canvas. The tall tusk tip near (416,66), the other visible upper tusk shapes, the nest rim and the base remain exactly as in the guide. Paint the existing broad tusks and selected existing thorn faces ivory; paint the existing stem and roots black-violet resin/chitin with orange slits on their inner surfaces. Paint the existing nest interior with woven dark resin surface texture. Keep all original geometric contours visible and unchanged; do not copy the three-quarter camera or extra filigree silhouette from the design reference.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687a-3b06-7a01-967f-46733e379791/exec-385e7c6d-ed89-4009-a3eb-22943bf36399.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the best available unresized return after the one allowed correction: reduced highlights and closer to flat albedo. Selection does not constitute passing the brief; see checks.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "317918c468e577803c281bec02969a2e58db0a98741d4cc8a28c0f5fcc172ba3"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "checks": {
+        "output": {
+          "size": [
+            1254,
+            1254
+          ],
+          "mode": "RGBA",
+          "sha256": "ca4ca9f168446b4f5d855c8255c0483a156c9210bdfb3f660e8ef706d0ca534c",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_bbox": [
+            31,
+            37,
+            1226,
+            1222
+          ],
+          "fully_transparent_pixels": 1301159,
+          "partially_transparent_pixels": 270397,
+          "fully_opaque_pixels": 960
+        },
+        "native_1024_square": false,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "Cannot match the guide pixel-for-pixel at the returned dimensions; visible boundary artifacts also remain.",
+        "materials_and_colours": "Visual check: violet resin/chitin, orange slits/seams, ivory bone and dark woven cup are present.",
+        "flat_even_light": "Partial: correction reduced specular highlights, but residual form shading remains.",
+        "transparent_background": true,
+        "transparent_edges_clean": false,
+        "edge_note": "Visible colored fringe/artifacts remain in the native return.",
+        "fully_meets_brief": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture source for an existing 3D game decoration.\nEdit only the surface colours/material painting of INPUT 1, the grey model guide. INPUT 1 is the absolute authority for every shape, geometry edge, opening, silhouette, camera, framing, orientation, size and position. INPUT 2 design_reference.png is authority for material appearance and palette ONLY, not geometry or camera. INPUT 3 concept_crop.png is supporting design context ONLY; omit its dragon and figure.\nOutput: exactly 1024 x 1024 PNG with a genuine transparent background, unresized, matching the guide's existing pixel grid and alpha silhouette exactly. Paint inside the existing guide mask only. Preserve all antialiased boundary pixels, interior transparent holes and every projecting spike; never invent extra geometry, extra openings, extra spikes, or rearrange shapes to match the design image. Do not enlarge, shrink, rotate, recenter, crop, or change the perspective. Maintain the original empty margins.\nMaterials: black-violet resin and chitin, dark aubergine and purple organic strands, hot glowing orange slit windows/sacs/seams, warm ivory bone spikes and great ivory tusks, a dark woven resin nest cup, matching the approved design. Convey the glossy wet material identity through its colours and fine surface texture only.\nLighting: strictly even, flat, shadowless light from the viewer, an ALBEDO texture painting, not a beauty render. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light, no dramatic gradients. Orange parts have saturated orange glowing colour painted on their own surfaces without light cast onto adjacent surfaces, bloom, halos or fog. No environment, background, floor, text or watermark.\nView: TOP, exactly the top guide's straight-down orthographic view. It is the compact radial crown/cup shape seen from directly above, with the exact asymmetric projecting spikes shown by the grey guide. Object bounds remain x=246..777 and y=241..782 on the 1024-square canvas, including the large transparent margins. Do NOT turn this into a side/front view, enlarge the crown, regularize the asymmetric spikes or add a visible tall trunk. Preserve the guide's concentric stepped cup boundaries, polygon edges and every spike. Paint the central cup as dark woven black-violet resin with thin saturated orange slit/seam patches and no cast illumination. Paint the appropriate existing peripheral bone points and tusk faces warm ivory, with black-violet resin/chitin at their joins, consistent with the approved design. Woven surface details stay within the existing solid cup; no new transparent holes.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687a-3b06-7a01-967f-46733e379791/exec-5c8db7bf-4ef2-4a4e-96f3-ad6541539660.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a1687a-3b06-7a01-967f-46733e379791/exec-5c8db7bf-4ef2-4a4e-96f3-ad6541539660.png",
+      "selected": false,
+      "reason": "Rejected: wrong native dimensions, bright specular highlights, residual shading, and colored edge artifacts.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b154a8f989408baacc547ded3f1afa79798ba2dc4c88ada96ece8cf1b788004f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "checks": {
+        "output": {
+          "size": [
+            1254,
+            1254
+          ],
+          "mode": "RGBA",
+          "sha256": "5ebaccf59e7429053f53c8f6ec3c7ba3f35bf8ff5c33171866036bfef35ee84f",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_bbox": [
+            23,
+            15,
+            1234,
+            1244
+          ],
+          "fully_transparent_pixels": 1305865,
+          "partially_transparent_pixels": 266366,
+          "fully_opaque_pixels": 285
+        },
+        "native_1024_square": false,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "Cannot match the guide pixel-for-pixel at the returned dimensions; visible boundary artifacts also remain.",
+        "materials_and_colours": "Visual check: violet resin/chitin, orange slits/seams, ivory bone and dark woven cup are present.",
+        "flat_even_light": "Failed: strong specular highlights and dark recesses.",
+        "transparent_background": true,
+        "transparent_edges_clean": false,
+        "edge_note": "Visible colored fringe/artifacts remain in the native return.",
+        "fully_meets_brief": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION, the only allowed correction for this view. Deliver a native 1024 x 1024 transparent PNG. The last return was incorrectly 1254 x 1254; do not repeat that size. Output MUST have exactly the same 1024 x 1024 pixel dimensions as input 1. Keep the exact original alpha mask from input 1 without inventing, feathering, growing or moving it. Transparent pixels must remain fully transparent with no colored edge debris. This is a direct colour repaint of the guide, retaining its raster geometry, not a newly composed illustration.\nThe prior attempt also had specular gloss and dark shaded recesses. Correct this to flat base colour: uniform illumination of every surface, no white glints or shiny streaks, no shadowed rim/interstices, no orange illumination outside the orange material itself. Ivory is uniformly pale warm bone; violet chitin/resin has subtle pigment texture without directional light. Every coloured patch remains attached to the same guide face. Preserve ALL original guide edges and boundaries at the exact same pixel positions.\nUse case: precise-object-edit.\nAsset type: orthographic albedo texture source for an existing 3D game decoration.\nEdit only the surface colours/material painting of INPUT 1, the grey model guide. INPUT 1 is the absolute authority for every shape, geometry edge, opening, silhouette, camera, framing, orientation, size and position. INPUT 2 design_reference.png is authority for material appearance and palette ONLY, not geometry or camera. INPUT 3 concept_crop.png is supporting design context ONLY; omit its dragon and figure.\nOutput: exactly 1024 x 1024 PNG with a genuine transparent background, unresized, matching the guide's existing pixel grid and alpha silhouette exactly. Paint inside the existing guide mask only. Preserve all antialiased boundary pixels, interior transparent holes and every projecting spike; never invent extra geometry, extra openings, extra spikes, or rearrange shapes to match the design image. Do not enlarge, shrink, rotate, recenter, crop, or change the perspective. Maintain the original empty margins.\nMaterials: black-violet resin and chitin, dark aubergine and purple organic strands, hot glowing orange slit windows/sacs/seams, warm ivory bone spikes and great ivory tusks, a dark woven resin nest cup, matching the approved design. Convey the glossy wet material identity through its colours and fine surface texture only.\nLighting: strictly even, flat, shadowless light from the viewer, an ALBEDO texture painting, not a beauty render. No cast shadows, no ambient-occlusion darkening, no strong specular highlights, no reflections, no rim light, no dramatic gradients. Orange parts have saturated orange glowing colour painted on their own surfaces without light cast onto adjacent surfaces, bloom, halos or fog. No environment, background, floor, text or watermark.\nView: TOP, exactly the top guide's straight-down orthographic view. It is the compact radial crown/cup shape seen from directly above, with the exact asymmetric projecting spikes shown by the grey guide. Object bounds remain x=246..777 and y=241..782 on the 1024-square canvas, including the large transparent margins. Do NOT turn this into a side/front view, enlarge the crown, regularize the asymmetric spikes or add a visible tall trunk. Preserve the guide's concentric stepped cup boundaries, polygon edges and every spike. Paint the central cup as dark woven black-violet resin with thin saturated orange slit/seam patches and no cast illumination. Paint the appropriate existing peripheral bone points and tusk faces warm ivory, with black-violet resin/chitin at their joins, consistent with the approved design. Woven surface details stay within the existing solid cup; no new transparent holes.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687a-3b06-7a01-967f-46733e379791/exec-0977f6fa-ca7d-49ae-a533-342e60c41e65.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the best available unresized return after the one allowed correction: reduced highlights and closer to flat albedo. Selection does not constitute passing the brief; see checks.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "b154a8f989408baacc547ded3f1afa79798ba2dc4c88ada96ece8cf1b788004f"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "checks": {
+        "output": {
+          "size": [
+            1254,
+            1254
+          ],
+          "mode": "RGBA",
+          "sha256": "302a4658a2aac09ebaf63db1ef922504f553b6b02cf6bd7e0957ded7f86637ab",
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_bbox": [
+            172,
+            117,
+            1224,
+            1214
+          ],
+          "fully_transparent_pixels": 1314654,
+          "partially_transparent_pixels": 257370,
+          "fully_opaque_pixels": 492
+        },
+        "native_1024_square": false,
+        "silhouette_identical_to_guide": false,
+        "silhouette_note": "Cannot match the guide pixel-for-pixel at the returned dimensions; visible boundary artifacts also remain.",
+        "materials_and_colours": "Visual check: violet resin/chitin, orange slits/seams, ivory bone and dark woven cup are present.",
+        "flat_even_light": "Partial: correction reduced specular highlights, but residual form shading remains.",
+        "transparent_background": true,
+        "transparent_edges_clean": false,
+        "edge_note": "Visible colored fringe/artifacts remain in the native return.",
+        "fully_meets_brief": false
+      }
+    }
+  ]
+}

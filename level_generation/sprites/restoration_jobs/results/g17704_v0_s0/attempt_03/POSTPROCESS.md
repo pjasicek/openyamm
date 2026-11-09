@@ -1,0 +1,1 @@
+Original attempt substituted pebbles for fibrous debris. Built-in shape repair with exact localized addition restores tangled refuse while retaining object layout. Delivered alpha preserved. Common --adjust 0.98 0 6 removes clipping; registration_checks.json retained. Native opaque RGB gamma preserves alpha. Full raw, native reference and final light/dark proofs reviewed.

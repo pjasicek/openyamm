@@ -1,0 +1,109 @@
+[
+  {
+    "view": "back",
+    "run": 1,
+    "prompt": "Use case: precise-object-edit.\nAsset type: game decoration texture source, BACK orthographic view, albedo painting.\nCreate exactly one 1024 x 1024 transparent PNG by painting ONLY the surface of the supplied guide_back.png.\nInputs, in order: (1) guide_back.png is the EDIT TARGET and absolute authority for geometry, silhouette, camera, framing and alpha; (2) design_reference.png is the approved authority for design, colours and materials ONLY; (3) concept_crop.png is supporting original concept reference.\nThe edit target shows three broken segments of a fallen hive spire: a tall spiky segment on the left, a squat middle segment and a tapered low segment on the right. This is the BACK view of that exact model.\nGeometry lock: retain the guide's EXACT pixel silhouette and transparent mask, all three pieces' positions, scale, spacing, outlines, every spike, notch, broken edge, opening and surface-shape edge. Retain the entire 1024 square canvas including its large empty transparent margins. The occupied bounds in this guide are approximately x=66..957, y=283..740; do not enlarge, reframe, rotate, crop, rearrange or fill the gaps. Do not copy the design reference's three-quarter camera or its different silhouette. Do not add geometry, new spikes, rubble, holes or appendages. Keep geometric edges registered to the guide.\nPaint the design reference's materials onto the exact guide shapes: rich glossy black-violet organic resin and chitin, restrained plum-violet shell plates and organic ribs; weathered warm ivory bone on the existing spikes and bone ridges; dim glowing orange material inside the visible hollow broken ends and subtle orange sacs or seams where applicable to the existing shape. Use the reference's fine bone striation, chitin grain and restrained wear as surface colour detail. Surface patterning must not change geometry or transparency.\nLIGHTING: THIS IS ALBEDO, a texture source, not a beauty render. Flat, even, shadowless illumination from the viewer over every surface. No directional shading, cast shadows, ambient-occlusion darkening, strong specular highlights, reflections, rim light, gradients caused by illumination, or cinematic contrast. Represent glossy material by its intrinsic material colour/detail, without baking specular lighting. Orange glowing regions are painted orange, with no bloom, halo or light cast on surrounding materials.\nBackground: genuine alpha transparency, exactly preserving the guide's background and spaces. No background colour, floor, ground plane, cast shadow, text, border or watermark. Deliver at native 1024 x 1024; no resizing. The unchanged guide geometry and alpha take precedence over decorative detail.",
+    "tool": "built-in image_gen",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "8acd73ca7e48e72c9421482d775545b1830796fbc5bf1f7db589ff009efc556a",
+        "sent_to_tool": true
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54",
+        "sent_to_tool": true
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421",
+        "sent_to_tool": true
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a1687f-8f06-7e12-8d69-65b0fde21aa1/exec-d23e4841-1051-45eb-93ef-1fc6c850ecb1.png",
+    "output": "paint_back_attempt_1.png",
+    "selected": false,
+    "reason": "Rejected: copied the three-quarter design reference rather than preserving the back guide geometry; strong lighting and highlights remain. One corrective regeneration will prioritize the guide. Native return is 1254 x 1254, not the requested 1024 x 1024.",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "size_1024": false,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        25,
+        29,
+        1224,
+        1254
+      ],
+      "silhouette_identical": false,
+      "flat_lighting": false
+    },
+    "accepted": false
+  },
+  {
+    "view": "back",
+    "run": 2,
+    "prompt": "Corrective edit, use case: precise-object-edit. Deliver exactly 1024 x 1024 pixels, transparent RGBA PNG.\nEDIT THE ATTACHED GREY GUIDE DIRECTLY. This is a surface-colour painting of an existing model's BACK VIEW, for albedo texture projection. Do not reconstruct the object. Do not change the camera or silhouette.\nPreserve every original guide pixel's alpha and every geometric boundary. Keep the exact angular faceted silhouettes, all three separated parts, the asymmetrical spikes and every notch, edge and visible opening. Leave the original large empty transparent margins unchanged. Occupied guide bounds: x=66..957, y=283..740 in a 1024 x 1024 canvas. The tall left piece's highest spike ends at approximately (136,283), the bottom is approximately y=740, and the rightmost tip is approximately (957,722). Nothing may grow outside the original mask; no resizing or repositioning.\nChange ONLY the grey surface colours into the approved fallen-hive-spire materials: dark black-violet resin and chitin on the body, restrained plum-purple organic streaks and fine chitin grain; warm ivory bone on the existing protruding spikes with fine bone striations and subtle brown wear; muted burnt-orange colour inside existing hollow broken ends. Existing shape and edge geometry take precedence over material design. Do not add a filigree cage, new holes, new spikes, rubble, or any objects. Do not substitute the three-quarter front design.\nUse flat evenly lit diffuse base colour/albedo throughout. Surface colours should remain readable and uniform across surface orientations. No specular shine, bright reflections, rim light, directional or cast shadows, ambient occlusion, dark shading bands, bloom or orange lighting spill. Orange is only intrinsic painted material colour. No floor or background. The original guide's outside alpha remains transparent.\nThe prior attempt failed by copying a design reference, changing geometry, baking lighting and returning 1254 pixels. Correct those failures by painting this exact attached guide, at its unchanged native 1024 x 1024 resolution. Preserve the simple model's geometric edges. Return one image.",
+    "tool": "built-in image_gen",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "8acd73ca7e48e72c9421482d775545b1830796fbc5bf1f7db589ff009efc556a",
+        "sent_to_tool": true,
+        "role": "edit target"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "6bcec8d7bd3535ecbc0174e59710e7de1033dcce9c2399e235616874dc28df54",
+        "sent_to_tool": false,
+        "role": "material reference inspected for first prompt; omitted from corrective tool call to reduce geometry drift"
+      },
+      {
+        "path": "concept_crop.png",
+        "sha256": "fc4ab197ed4ba6b150892a440f4c928fbe384335565872da188cbed516c28421",
+        "sent_to_tool": false,
+        "role": "material reference inspected for first prompt; omitted from corrective tool call to reduce geometry drift"
+      }
+    ],
+    "source_output": "/home/pjasicek/.codex/generated_images/01a1687f-8f06-7e12-8d69-65b0fde21aa1/exec-dfeddddd-f5de-454a-8b65-a1e240574f71.png",
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected as the closer of the two permitted unmodified returns: visibly follows the back guide's faceted geometry and uses violet chitin, ivory bone and orange broken interiors. Not accepted as fully brief-compliant: native output dimensions and exact alpha silhouette must match the guide, and some facet shading remains. Corrective regeneration allowance exhausted.",
+    "accepted": false,
+    "output_sha256": "83112261bff821eef9f518ba02c9ab090cc30d09b11a475b40a2eed62530b4b1",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "size_1024": false,
+      "unresized_return": true,
+      "byte_identical_to_tool_output": true,
+      "has_transparent_pixels": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        65,
+        49,
+        1242,
+        1220
+      ],
+      "silhouette_identical": false,
+      "silhouette_note": "Visual shape is closer to guide; pixel registration fails because output dimensions differ.",
+      "materials_visual": "Violet-black chitin, ivory bone and orange interiors present; simpler surface design than the approved reference.",
+      "flat_even_light": false,
+      "lighting_note": "Reduced specular highlights and no evident cast shadow or bloom, but directional facet shading remains.",
+      "background_note": "RGBA alpha present; exact background and edge mask are not identical to the guide."
+    }
+  }
+]

@@ -1,0 +1,133 @@
+# The Brood Spires' round trips (BROOD_SPIRES.md BUILD-READY 7): both edges (map_navigation from the stage's edges.yml)
+# and each dungeon door and back to its outdoor arrival (out3_build.json `arrivals`, which the dungeons' builds read).
+id: hesper.out3.brood_round_trips
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out3.odm
+- assert:
+    map: hes_out3.odm
+- note:
+    text: 'Spinefall Pass: south to Starport Reach, arriving at (288, 22 540) facing south, and back.'
+- setup_shortcut:
+    kind: map_transition_prompt
+    source_id: 1
+- select_topic: &id001
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    secondary_id: 0
+    selection_index: 0
+    house_dialog: false
+    enabled: true
+    label: OK
+- assert:
+    map: hes_out1.odm
+    map_arrived:
+      map: hes_out1.odm
+      pos: (288,22540,1120)
+- setup_shortcut:
+    kind: map_transition_prompt
+    source_id: 0
+- select_topic: *id001
+- assert:
+    map: hes_out3.odm
+    map_arrived:
+      map: hes_out3.odm
+      pos: (288,-22540,1120)
+- note:
+    text: 'The Crown road: east to the Crown (-21 800, 8 640), and back to (21 800, 8 640).'
+- setup_shortcut:
+    kind: map_transition_prompt
+    source_id: 2
+- select_topic: *id001
+- assert:
+    map: hes_out4.odm
+- setup_shortcut:
+    kind: map_transition_prompt
+    source_id: 3
+- select_topic: *id001
+- assert:
+    map: hes_out3.odm
+    map_arrived:
+      map: hes_out3.odm
+      pos: (21800,8640,1216)
+- note:
+    text: 'D5 Relay Spire: its door here, then its own exit back to the arrival "d05_root_door".'
+- set_pose:
+    map: hes_out3.odm
+    x: -11240
+    y: -12384
+    z: 1652
+    yaw: 3.1416
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d05.blv
+- set_pose:
+    map: hes_d05.blv
+    x: 5600
+    y: 3200
+    z: 0
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- select_topic: *id001
+- assert:
+    map: hes_out3.odm
+    map_arrived:
+      map: hes_out3.odm
+      pos: (-11080,-12384,1652)
+- note:
+    text: 'D9 Brood Pits: its door here, then its own exit back to the arrival "d09_mouth".'
+- set_pose:
+    map: hes_out3.odm
+    x: -8993
+    y: 6977
+    z: 0
+    yaw: 2.3562
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d09.blv
+- set_pose:
+    map: hes_d09.blv
+    x: 8200
+    y: 1800
+    z: 0
+    yaw: 0.0
+    pitch: 0
+- press_interact: {}
+- select_topic: *id001
+- assert:
+    map: hes_out3.odm
+    map_arrived:
+      map: hes_out3.odm
+      pos: (-8830,6600,0)
+- note:
+    text: 'D11 the Seedship: its door here, then its own exit back to the arrival "d11_breach".'
+- set_pose:
+    map: hes_out3.odm
+    x: 7723
+    y: 10991
+    z: 1909
+    yaw: 6.0388
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d11.blv
+- set_pose:
+    map: hes_d11.blv
+    x: 250
+    y: 2800
+    z: 0
+    yaw: 3.1416
+    pitch: 0
+- press_interact: {}
+- select_topic: *id001
+- assert:
+    map: hes_out3.odm
+    map_arrived:
+      map: hes_out3.odm
+      pos: (7723,10991,1909)

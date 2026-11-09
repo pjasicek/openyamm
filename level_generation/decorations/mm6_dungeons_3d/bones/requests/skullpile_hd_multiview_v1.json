@@ -1,0 +1,15 @@
+{
+  "image_urls": [
+    "@file:skullpile/references_hd/00_three_quarter.png",
+    "@file:skullpile/references_hd/03_left.png",
+    "@file:skullpile/references_hd/02_back.png",
+    "@file:skullpile/references_hd/04_right.png"
+  ],
+  "ai_model": "meshy-7.1",
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "should_remesh": false,
+  "target_formats": ["glb"],
+  "multi_view_thumbnails": true
+}

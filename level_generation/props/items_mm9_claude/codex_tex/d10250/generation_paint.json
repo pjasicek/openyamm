@@ -1,0 +1,23 @@
+{
+  "prompt": "# Black Orb of Knowledge: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10250/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: source-faithful orb.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: source-faithful orb\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10250/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nUse case: precise-object-edit. Input order: image 1 paint_mask_guide.png is the exact edit target; image 2 design_reference.png is appearance reference; image 3 icon_x8.png is source colour reference. Preserve guide placement precisely. Deliver only the atlas image. Remove illumination from the reference for base colour: retain its dark charcoal, slightly warm grey surface with subtle fine grain, without white specular spots or directional shading. The polished dark orb is glass/crystal: use pure black #000000 throughout all five lower material-mask silhouettes. No invented ornament. The mask must remain opaque black against genuine transparent background.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10250/paint_mask_guide.png",
+      "sha256": "315d81bbbecdf83f0fef4f1e0ea133fa905c4b9b745fce5540dfddf80fcd76b4"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10250/design_reference.png",
+      "sha256": "9c879d72bb18b8d00b362699c7d7f780558a4ed590832b424cdb0e84a6804975"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10250/icon_x8.png",
+      "sha256": "07458032f856cdd668f882b9df533580ecdc92b5e9649ad3d739e749023700fd"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0f-1498-7622-a67f-330ea731830a/exec-f721cb50-f497-49c0-a7e8-35ddae570ccf.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10250/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

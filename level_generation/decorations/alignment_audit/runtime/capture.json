@@ -1,0 +1,17 @@
+{
+  "map": "mm6/outa1.odm",
+  "sprite": "6tree27",
+  "pose": {
+    "position": [
+      3232,
+      8200,
+      470
+    ],
+    "yaw_radians": 1.57079632679,
+    "pitch_radians": -0.2
+  },
+  "native_run": "/tmp/openyamm-desktop-ground-contact-native-final-8rp4g4hq/run.json",
+  "enhanced_run": "/tmp/openyamm-desktop-ground-contact-enhanced-final-znf913ez/run.json",
+  "enhanced_asset_root": "private temporary overlay with corrected 6tree27 only",
+  "observation": "Restored trunk reaches the same terrain contact as native; no visible floating or clipped base in this pose. Other placements not checked."
+}

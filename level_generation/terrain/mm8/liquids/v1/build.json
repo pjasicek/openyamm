@@ -1,0 +1,960 @@
+{
+  "status": "liquid_candidates_not_installed",
+  "runtime_size": 256,
+  "size_note": "Native hardware animation frames are already256px;128px static fallbacks become256px, matching x2 land array.",
+  "fallback_note": "Static liquid fallbacks use restored frame0, matching accepted MM6/MM7 workflow.",
+  "families": {
+    "water": {
+      "files": [
+        {
+          "name": "hdwtr000.png",
+          "sha256": "1e319dce5e4e3c68b02a8813538fae81b5f99bebc07ff9a600516832ef3408e8",
+          "mean_rgb_shift": [
+            -0.00164794921875,
+            -0.0023193359375,
+            -0.002349853515625
+          ],
+          "broad_correlation": 0.9994177774042893,
+          "seams": {
+            "boundary_p95": 0.5816628422034528,
+            "boundary_max": 0.6794850219601647,
+            "interior_p95": 1.275437335332726,
+            "interior_p999": 1.7486295741130637,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr001.png",
+          "sha256": "bfaffe87f0ff96e7193adaea9d02ebb96e9ae8af68b2a16bbee52e92a92f4d96",
+          "mean_rgb_shift": [
+            0.0016021728515625,
+            0.0008697509765625,
+            0.001220703125
+          ],
+          "broad_correlation": 0.9995119423731372,
+          "seams": {
+            "boundary_p95": 0.5375166214185007,
+            "boundary_max": 0.675003065972924,
+            "interior_p95": 1.244804807456815,
+            "interior_p999": 1.5691449565481923,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr002.png",
+          "sha256": "605c83385f3476273ddd30d23838f034fa56618896c7da527a543fe90a273fd8",
+          "mean_rgb_shift": [
+            -0.0001373291015625,
+            0.0017547607421875,
+            -1.52587890625e-05
+          ],
+          "broad_correlation": 0.9994443755251065,
+          "seams": {
+            "boundary_p95": 0.5552813381098255,
+            "boundary_max": 0.8405668959414868,
+            "interior_p95": 1.3761100270593973,
+            "interior_p999": 1.856744008866133,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr003.png",
+          "sha256": "fa0400274af3568da3251a5edc8b715264f0fb5f20ae851620c06a3d8fbaa44c",
+          "mean_rgb_shift": [
+            0.0,
+            -0.0012969970703125,
+            -0.000732421875
+          ],
+          "broad_correlation": 0.9994720024798694,
+          "seams": {
+            "boundary_p95": 0.5341692761970293,
+            "boundary_max": 0.7595276759684508,
+            "interior_p95": 1.3405580699061295,
+            "interior_p999": 1.7932719066446123,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr004.png",
+          "sha256": "bdbabda91dcd930d6e3b1020fa0b3cda5e6bd436b49b3548caffa9391193fe00",
+          "mean_rgb_shift": [
+            -0.0023651123046875,
+            -0.0001983642578125,
+            -0.00128173828125
+          ],
+          "broad_correlation": 0.9993928026117905,
+          "seams": {
+            "boundary_p95": 0.5875140476381107,
+            "boundary_max": 0.731732923180406,
+            "interior_p95": 1.2506694631542774,
+            "interior_p999": 1.8437501621380463,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr005.png",
+          "sha256": "aeed7c6903d48e8dd60ca0ec2990f1518d0c3cd445af2c8588a1a695be4744c3",
+          "mean_rgb_shift": [
+            0.000457763671875,
+            0.001129150390625,
+            -0.000244140625
+          ],
+          "broad_correlation": 0.9989502896028426,
+          "seams": {
+            "boundary_p95": 0.5115658732419276,
+            "boundary_max": 0.8785212740409227,
+            "interior_p95": 1.3815506895749112,
+            "interior_p999": 1.8324696027993415,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr006.png",
+          "sha256": "aa736508b7d8ee624e9a8f2caabcae9a43875999867b3192f41d4cdd5bb79dc6",
+          "mean_rgb_shift": [
+            -0.000640869140625,
+            -0.00030517578125,
+            -0.0001068115234375
+          ],
+          "broad_correlation": 0.9981071498990194,
+          "seams": {
+            "boundary_p95": 0.6603118479804534,
+            "boundary_max": 0.7109303557793164,
+            "interior_p95": 1.4077744340961742,
+            "interior_p999": 1.83477745901091,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr007.png",
+          "sha256": "949cbf36e93f647b251b1644867f5eb72068384f3d7027329e25454c9d15f7e1",
+          "mean_rgb_shift": [
+            0.002288818359375,
+            -0.0004425048828125,
+            -0.00042724609375
+          ],
+          "broad_correlation": 0.9972981684740082,
+          "seams": {
+            "boundary_p95": 0.5744458540055689,
+            "boundary_max": 0.6987930225121658,
+            "interior_p95": 1.2684402589191341,
+            "interior_p999": 2.089972274879736,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr008.png",
+          "sha256": "c9659c2c64bc48a53491b7a32890b5e192a9177c17f9d755dd49d55e1240b832",
+          "mean_rgb_shift": [
+            -0.0004119873046875,
+            -0.000762939453125,
+            0.0001373291015625
+          ],
+          "broad_correlation": 0.9971703251535489,
+          "seams": {
+            "boundary_p95": 0.6579673875095919,
+            "boundary_max": 0.901809108685584,
+            "interior_p95": 1.2781931503496708,
+            "interior_p999": 2.0045651141493117,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr009.png",
+          "sha256": "b90d924492bb83b13776ad063953891d8dac9a634b375bbe7775f58f0c9d9f13",
+          "mean_rgb_shift": [
+            0.0022430419921875,
+            -0.001739501953125,
+            -0.0019073486328125
+          ],
+          "broad_correlation": 0.9969682690521524,
+          "seams": {
+            "boundary_p95": 0.6909943242405823,
+            "boundary_max": 0.842018235547609,
+            "interior_p95": 1.2754751191774187,
+            "interior_p999": 2.106305038419617,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr010.png",
+          "sha256": "472d60d20189a8b1ae09c75060920cc8f051fff19e7073b525e4de53df7dc119",
+          "mean_rgb_shift": [
+            0.001220703125,
+            0.0009307861328125,
+            0.002044677734375
+          ],
+          "broad_correlation": 0.9963478315484574,
+          "seams": {
+            "boundary_p95": 0.6437305809475641,
+            "boundary_max": 0.804774804368815,
+            "interior_p95": 1.242774319936163,
+            "interior_p999": 1.6816013405047987,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr011.png",
+          "sha256": "386b6eb33383ac23b353c3ea1e434c48b001437614800de6ccaf485b07fc91f0",
+          "mean_rgb_shift": [
+            0.001556396484375,
+            0.000762939453125,
+            0.0009765625
+          ],
+          "broad_correlation": 0.9967617572179509,
+          "seams": {
+            "boundary_p95": 0.6760019055722207,
+            "boundary_max": 0.837707816583391,
+            "interior_p95": 1.2664357973627827,
+            "interior_p999": 1.918125905642895,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr012.png",
+          "sha256": "eab39787d92223486ebc6c79d3adccfec1cfc0a878773e6fbbfa3dcf86105551",
+          "mean_rgb_shift": [
+            -0.0033721923828125,
+            -0.0012359619140625,
+            -0.000457763671875
+          ],
+          "broad_correlation": 0.9970250521258175,
+          "seams": {
+            "boundary_p95": 0.5614062101456799,
+            "boundary_max": 0.5823927253578186,
+            "interior_p95": 1.31803720185355,
+            "interior_p999": 1.9592926229946006,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdwtr013.png",
+          "sha256": "106bead7d81fe00ccb53a305fcef1d085b3202fa18295e3ac71a143d3a8a202d",
+          "mean_rgb_shift": [
+            0.0013885498046875,
+            -0.002410888671875,
+            -0.00048828125
+          ],
+          "broad_correlation": 0.9979748093678377,
+          "seams": {
+            "boundary_p95": 0.6491860391699926,
+            "boundary_max": 0.7476576634211637,
+            "interior_p95": 1.2706268629112258,
+            "interior_p999": 1.8998223463806667,
+            "passed": true
+          }
+        },
+        {
+          "name": "wtrtyl.png",
+          "sha256": "1e319dce5e4e3c68b02a8813538fae81b5f99bebc07ff9a600516832ef3408e8",
+          "source_frame": "hdwtr000"
+        }
+      ],
+      "frame_ticks": 15,
+      "ticks_per_second": 128,
+      "native_steps": [
+        4.650034586588542,
+        3.7195536295572915,
+        2.3133138020833335,
+        1.8954671223958333,
+        2.8862202962239585,
+        4.188527425130208,
+        4.77001953125,
+        4.625356038411458,
+        3.6800333658854165,
+        2.2573445638020835,
+        1.8208821614583333,
+        2.8973592122395835,
+        4.230082194010417,
+        4.803426106770833
+      ],
+      "restored_steps": [
+        4.624643961588542,
+        4.1190338134765625,
+        2.5297749837239585,
+        1.9700063069661458,
+        2.8279520670572915,
+        3.854853312174479,
+        4.296173095703125,
+        4.1099497477213545,
+        3.4097696940104165,
+        2.202479044596354,
+        1.8305104573567708,
+        2.7689005533854165,
+        3.7553253173828125,
+        4.4220428466796875
+      ],
+      "loop_step_ratio": 1.3250583182484623,
+      "native_loop_step_ratio": 1.3797958424187498,
+      "before_seams": {
+        "boundary_p95": 0.6250268839903361,
+        "boundary_max": 0.901809108685584,
+        "interior_p95": 1.2974731078327928,
+        "interior_p999": 1.9432745499196509,
+        "passed": true
+      },
+      "seams": {
+        "boundary_p95": 0.6250268839903361,
+        "boundary_max": 0.901809108685584,
+        "interior_p95": 1.2974731078327928,
+        "interior_p999": 1.9432745499196509,
+        "passed": true
+      },
+      "repaired": false,
+      "source_files": {
+        "hdwtr000": "1981de2a8d115a7de3535e69238f0e942dcf6c1743cdb8dfe6213dadb9641720",
+        "hdwtr001": "00b2bbd8be2e4dcf8b2146af87ee1f79357af1dc8fb34b90d2937e7d5b572128",
+        "hdwtr002": "05687b46c9f66309f3ca4bad7bdc3c92686fb0be71b0711734584c0656cea4fb",
+        "hdwtr003": "c78a6b1d562c54879edc7fc39dd382cb6be351e1f5b4ffde8e4adaedf7d88cbc",
+        "hdwtr004": "360ad7a1f42f67d8d69be3555b43be743c99912307d98362943e15c8d5224e22",
+        "hdwtr005": "d60b5e4614442d12455bacd591e1138e4bfcb8bc95c3100919ffefc56387cfd2",
+        "hdwtr006": "d23e021696d6f97a4d9cf1ec7e9b976811904560c8ac27b1f30152cd1d2fe7f0",
+        "hdwtr007": "c16b04108213b20973fd4827b91222ffc93831d8f24740907604ece49afaf484",
+        "hdwtr008": "9adf97aead41f05761143f824ad6a0e1dd1f39a603de9e1a3e116915bd278316",
+        "hdwtr009": "e8de78194110a075918112ad40061d85b1e4e3a7d1bced13bf9f83affd47d7f7",
+        "hdwtr010": "02fb1da062151f3685a261e5a7b5f170aee0270c7c8e5edea6694a02b96450b0",
+        "hdwtr011": "718831707868240c645f267bf5b476378b7fda89c4610018d6dc0d309bd54672",
+        "hdwtr012": "9afcb80bf362eab393b973089f3550551ae5835fd346cf95f2119708623ea014",
+        "hdwtr013": "a130a6943fd7efae86002481f4ac9ceefecd6a7397c0c5b6f017c944d53eb3ee",
+        "wtrtyl": "c8309c873a164dd31702d52b2d208fa3437fd3e3927d7ae9cff2e8985d7362c4"
+      }
+    },
+    "lava": {
+      "files": [
+        {
+          "name": "hdlav000.png",
+          "sha256": "eab26b51402a4a44a16c7c1ddfa38fe33bf8de9fa7232211cec5364730db610c",
+          "mean_rgb_shift": [
+            0.0033111572265625,
+            -0.0009918212890625,
+            0.0004730224609375
+          ],
+          "broad_correlation": 0.9999443637819787,
+          "seams": {
+            "boundary_p95": 0.5220724783752793,
+            "boundary_max": 0.657329137348713,
+            "interior_p95": 1.3877432715655158,
+            "interior_p999": 1.8418455521982458,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav001.png",
+          "sha256": "2ff6cd90c1f7fd5127aa826a8ac32e0dd4774a07f26762acb1712d2da2a58867",
+          "mean_rgb_shift": [
+            0.0029296875,
+            -0.0013427734375,
+            -0.000579833984375
+          ],
+          "broad_correlation": 0.9999444780694767,
+          "seams": {
+            "boundary_p95": 0.5307482585634454,
+            "boundary_max": 0.6348198600245962,
+            "interior_p95": 1.3202421706399239,
+            "interior_p999": 1.7295741983626975,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav002.png",
+          "sha256": "e72b732386d88a6c79cd8e8ca8dbdd09e5ca93f978c7f52cd2d921313126ae58",
+          "mean_rgb_shift": [
+            0.004913330078125,
+            -7.62939453125e-05,
+            -0.0010528564453125
+          ],
+          "broad_correlation": 0.9999425014365091,
+          "seams": {
+            "boundary_p95": 0.5322606635918007,
+            "boundary_max": 0.758188828327876,
+            "interior_p95": 1.3185581269053368,
+            "interior_p999": 1.819142074885606,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav003.png",
+          "sha256": "2b918f4b355acb2bf41b950d362e718fbf28cac9c72f8978724fe05783d894e9",
+          "mean_rgb_shift": [
+            0.0036468505859375,
+            0.0007476806640625,
+            0.0016937255859375
+          ],
+          "broad_correlation": 0.9999409290858985,
+          "seams": {
+            "boundary_p95": 0.5520508131119716,
+            "boundary_max": 0.6918713465012866,
+            "interior_p95": 1.436958308056929,
+            "interior_p999": 1.9221602254813988,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav004.png",
+          "sha256": "3f3c4f4a1f9f9ca23136a64f95d83a5ada3144bbefd55a71a89c2c80d0ffdfc8",
+          "mean_rgb_shift": [
+            0.003021240234375,
+            -0.00140380859375,
+            0.0005950927734375
+          ],
+          "broad_correlation": 0.9999399822995688,
+          "seams": {
+            "boundary_p95": 0.4776540330462484,
+            "boundary_max": 0.5809345347871107,
+            "interior_p95": 1.4489948064037146,
+            "interior_p999": 1.9037605487171732,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav005.png",
+          "sha256": "0868f3e1f665d6b87f33cf664647f2f69213d83b712f3e81727149d53de7fd49",
+          "mean_rgb_shift": [
+            0.0055999755859375,
+            0.0,
+            0.001983642578125
+          ],
+          "broad_correlation": 0.999940581853566,
+          "seams": {
+            "boundary_p95": 0.5310910406166469,
+            "boundary_max": 0.6751906048969998,
+            "interior_p95": 1.3151887316125568,
+            "interior_p999": 1.7062094025217933,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav006.png",
+          "sha256": "825388598e1518d8e71551dcf2674fb97a0e22fdc7d5efb07ef7697a24e6620d",
+          "mean_rgb_shift": [
+            0.00543212890625,
+            -0.001220703125,
+            0.0003204345703125
+          ],
+          "broad_correlation": 0.9999458666314757,
+          "seams": {
+            "boundary_p95": 0.6640108599398675,
+            "boundary_max": 0.7631567323435362,
+            "interior_p95": 1.2832585048874254,
+            "interior_p999": 1.6087952716079295,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav007.png",
+          "sha256": "28c884f1fb67c9825b0bf60e660228d90133be68fc993efde95eac9134666d7c",
+          "mean_rgb_shift": [
+            0.0041046142578125,
+            -0.001312255859375,
+            0.000946044921875
+          ],
+          "broad_correlation": 0.9999476923040502,
+          "seams": {
+            "boundary_p95": 0.5047879306515328,
+            "boundary_max": 0.548524142241838,
+            "interior_p95": 1.375907443274644,
+            "interior_p999": 1.9869208881655036,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav008.png",
+          "sha256": "2bf36ee45242c49fb70693603e3d8304cd62380476443719f7d14560af159a70",
+          "mean_rgb_shift": [
+            0.00054931640625,
+            0.00091552734375,
+            0.002960205078125
+          ],
+          "broad_correlation": 0.9999450823868932,
+          "seams": {
+            "boundary_p95": 0.5372300802660063,
+            "boundary_max": 0.6201383209785656,
+            "interior_p95": 1.3273251184660397,
+            "interior_p999": 1.705641699218492,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav009.png",
+          "sha256": "a60062db768b7cffa36ea2cf2052b847a347b2565bb4b5629f103745265a989f",
+          "mean_rgb_shift": [
+            0.003204345703125,
+            -0.0002593994140625,
+            0.002838134765625
+          ],
+          "broad_correlation": 0.9999411246225385,
+          "seams": {
+            "boundary_p95": 0.5521067812679402,
+            "boundary_max": 0.6171475110411505,
+            "interior_p95": 1.3095627775963916,
+            "interior_p999": 1.7014386593489372,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav010.png",
+          "sha256": "3c065e7cd009ba5129fc12ac5b4c9f6127329037ab3aa6e4bbd826f847124786",
+          "mean_rgb_shift": [
+            0.0050811767578125,
+            0.00103759765625,
+            0.0009765625
+          ],
+          "broad_correlation": 0.9999474942316202,
+          "seams": {
+            "boundary_p95": 0.5015976318978852,
+            "boundary_max": 0.5947135533400225,
+            "interior_p95": 1.3110319424978012,
+            "interior_p999": 1.7924604583118122,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav011.png",
+          "sha256": "48fc2adead6ccda7e30c656d9d0040a16fa432290b335d11e1c37175ec2e3f1d",
+          "mean_rgb_shift": [
+            0.003204345703125,
+            -0.0002593994140625,
+            0.0029754638671875
+          ],
+          "broad_correlation": 0.9999504776276787,
+          "seams": {
+            "boundary_p95": 0.5142849609894503,
+            "boundary_max": 0.5694754620652934,
+            "interior_p95": 1.3969125429003673,
+            "interior_p999": 1.944982642953625,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav012.png",
+          "sha256": "8e711da582974e448cebb092bcea9b942f1f5be5d6015fc619fc322a492a17f4",
+          "mean_rgb_shift": [
+            0.0035552978515625,
+            -0.0008697509765625,
+            0.0003509521484375
+          ],
+          "broad_correlation": 0.99995062677765,
+          "seams": {
+            "boundary_p95": 0.5284246703444447,
+            "boundary_max": 0.5906568208173493,
+            "interior_p95": 1.303734909014024,
+            "interior_p999": 1.5532470531029705,
+            "passed": true
+          }
+        },
+        {
+          "name": "hdlav013.png",
+          "sha256": "7448a63cb8a1677a939e198e3e8d621a126174bcd7a7a9856db5be45c1e42c76",
+          "mean_rgb_shift": [
+            0.002044677734375,
+            -0.001068115234375,
+            -0.0006561279296875
+          ],
+          "broad_correlation": 0.9999541649251141,
+          "seams": {
+            "boundary_p95": 0.5835988780485978,
+            "boundary_max": 0.6818291876725634,
+            "interior_p95": 1.3308761224877528,
+            "interior_p999": 1.859932786855126,
+            "passed": true
+          }
+        },
+        {
+          "name": "lavtyl.png",
+          "sha256": "eab26b51402a4a44a16c7c1ddfa38fe33bf8de9fa7232211cec5364730db610c",
+          "source_frame": "hdlav000"
+        }
+      ],
+      "frame_ticks": 15,
+      "ticks_per_second": 128,
+      "native_steps": [
+        3.1819966634114585,
+        3.1647542317708335,
+        3.13201904296875,
+        3.0662638346354165,
+        3.107025146484375,
+        3.2374369303385415,
+        3.3158976236979165,
+        3.3516947428385415,
+        3.2499491373697915,
+        3.183807373046875,
+        3.0793863932291665,
+        3.0352783203125,
+        3.091766357421875,
+        3.1776936848958335
+      ],
+      "restored_steps": [
+        3.517064412434896,
+        3.5222269694010415,
+        3.5014495849609375,
+        3.45477294921875,
+        3.4597981770833335,
+        3.561737060546875,
+        3.6889546712239585,
+        3.720850626627604,
+        3.5793304443359375,
+        3.532257080078125,
+        3.4300384521484375,
+        3.3730926513671875,
+        3.375091552734375,
+        3.5371907552083335
+      ],
+      "loop_step_ratio": 1.0054171431545498,
+      "native_loop_step_ratio": 1.0025406689274334,
+      "before_seams": {
+        "boundary_p95": 0.5319069540261094,
+        "boundary_max": 0.7631567323435362,
+        "interior_p95": 1.3529653760502427,
+        "interior_p999": 1.8893965569605127,
+        "passed": true
+      },
+      "seams": {
+        "boundary_p95": 0.5319069540261094,
+        "boundary_max": 0.7631567323435362,
+        "interior_p95": 1.3529653760502427,
+        "interior_p999": 1.8893965569605127,
+        "passed": true
+      },
+      "repaired": false,
+      "source_files": {
+        "hdlav000": "e849eaf649d4a74b116f3730982e96e165d4ee15ba526f2f4ac1ea62e4575d9d",
+        "hdlav001": "6b8e3d853d42a15ef742fc71c06c63d56ea0e181d2947af67427b5e1dc28b53d",
+        "hdlav002": "7a79e44d71b542421937c56848b03e68ffbeff75619c455a4772634e565b201f",
+        "hdlav003": "d242f6888871e3072d6a3b12ac8fa15774d2f0cd71fcf4b7389e8dc2280e62be",
+        "hdlav004": "50a914fb1c0798bc7056294fa7558e3538b22ea95957a351e12943a04c0110d5",
+        "hdlav005": "77b7ed67ce1435d64742acc3e43a042ac31140a6638a40f9c00c9f867eb66889",
+        "hdlav006": "832ed68319018a7f66bccf64c3e5bb06030e0428f764204a5d55f072db38c94b",
+        "hdlav007": "7b3f19495a69f39359aa6779623cc71d0f798e0ecfc31bf1e56327450522d0a6",
+        "hdlav008": "fd9372a201ab6a970f30ec1a432f037f642cf753f65103194088d0b2fab9671d",
+        "hdlav009": "bf12dbd5fdb82660be2ef733c56cfd757aa90ed3e53ee8493617d3c4e552aaf0",
+        "hdlav010": "b127a8e0a41916df3e8f265fc4ac1a1d5f55addc68165a1a2e1e40d44e9ded9c",
+        "hdlav011": "26eae897ec26f7bae38982cc52bae5277e321a9045d2978db6d71abe7ab476c2",
+        "hdlav012": "f46e68aa2bbd628f3125d4c32665491cd8ed6d6e831bd65196ef1c53733e3895",
+        "hdlav013": "0973d51972c1dca66dd2499cb7be5d46762c25f0ff4076d6f168028a6c94f706",
+        "lavtyl": "51c08d3ee46ed18a9edd79e9044674453ba0bfa23f252d232874d4961b7b591f"
+      }
+    },
+    "tar": {
+      "files": [
+        {
+          "name": "hwoil000.png",
+          "sha256": "d7445e9e9ef96118428ffd022180713371301aabcc3fec54cc45f4cc2e7f40bb",
+          "mean_rgb_shift": [
+            0.001251220703125,
+            0.000823974609375,
+            -0.0016326904296875
+          ],
+          "broad_correlation": 0.9960869306625503,
+          "seams": {
+            "boundary_p95": 0.42096051904754983,
+            "boundary_max": 0.4705391967858831,
+            "interior_p95": 1.353425861350073,
+            "interior_p999": 1.9458233980874766,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil001.png",
+          "sha256": "024e8dc63489085d40152f195b6da5aeb99ffffe33096e56abedf7107b4a6416",
+          "mean_rgb_shift": [
+            -0.000274658203125,
+            -0.00091552734375,
+            0.002349853515625
+          ],
+          "broad_correlation": 0.9962456223831675,
+          "seams": {
+            "boundary_p95": 0.38934671937703225,
+            "boundary_max": 0.46134741045368016,
+            "interior_p95": 1.6221132591282768,
+            "interior_p999": 2.557762587208114,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil002.png",
+          "sha256": "6f28b81636536aa2eef20365ccb3c71e1512f7194efec7a4d1aa0d50686ee250",
+          "mean_rgb_shift": [
+            0.0009307861328125,
+            0.0024261474609375,
+            -0.00164794921875
+          ],
+          "broad_correlation": 0.9958382371977113,
+          "seams": {
+            "boundary_p95": 0.40642963930361586,
+            "boundary_max": 0.5901380105486759,
+            "interior_p95": 1.6490151706480671,
+            "interior_p999": 2.8397310776711,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil003.png",
+          "sha256": "9d96c74c0393d2caf7fd6bccc34a922242f894e654616d37a972971226aa4298",
+          "mean_rgb_shift": [
+            0.0018157958984375,
+            0.0002593994140625,
+            -0.000213623046875
+          ],
+          "broad_correlation": 0.9960633145899295,
+          "seams": {
+            "boundary_p95": 0.4560400505138254,
+            "boundary_max": 0.5144478753143125,
+            "interior_p95": 1.3745634431994735,
+            "interior_p999": 1.858147731126843,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil004.png",
+          "sha256": "fd95a76c3192bab7a532d47c3618326b07e56978df70f28850ceefce80853cea",
+          "mean_rgb_shift": [
+            0.0010833740234375,
+            0.000518798828125,
+            -0.0001068115234375
+          ],
+          "broad_correlation": 0.9963153159398319,
+          "seams": {
+            "boundary_p95": 0.49866316756974244,
+            "boundary_max": 0.5956005886179759,
+            "interior_p95": 1.3739210589741355,
+            "interior_p999": 2.117908275478898,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil005.png",
+          "sha256": "0dbb3d46346aea0bb71516b2d4a8a562f32caa766339475efce55bd649acc79e",
+          "mean_rgb_shift": [
+            -0.00048828125,
+            0.00048828125,
+            0.0009307861328125
+          ],
+          "broad_correlation": 0.9966496151281955,
+          "seams": {
+            "boundary_p95": 0.43494896865655297,
+            "boundary_max": 0.4754040056729281,
+            "interior_p95": 1.5101812212821208,
+            "interior_p999": 3.2081961502798486,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil006.png",
+          "sha256": "a2a16d6e5c1c37f3e9c21724f829d44fc05686850d93a7b5393366a5b9588390",
+          "mean_rgb_shift": [
+            0.000640869140625,
+            0.0017242431640625,
+            0.0005340576171875
+          ],
+          "broad_correlation": 0.996589956099198,
+          "seams": {
+            "boundary_p95": 0.4214358724325167,
+            "boundary_max": 0.4978010500087139,
+            "interior_p95": 1.4344061428138335,
+            "interior_p999": 2.025476804433384,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil007.png",
+          "sha256": "6398e68adf94aa585341560fce3e4b5fb69edc1b1597e256b77e497bbe952c98",
+          "mean_rgb_shift": [
+            -0.0020599365234375,
+            -0.000396728515625,
+            0.00067138671875
+          ],
+          "broad_correlation": 0.9956554950628184,
+          "seams": {
+            "boundary_p95": 0.4353649956733391,
+            "boundary_max": 0.5798297436709932,
+            "interior_p95": 1.3755709895322021,
+            "interior_p999": 1.8408174276102636,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil008.png",
+          "sha256": "eb540fd7440691f42a8b67c5f9b91e1a0c833d0a729d09aedec9ba5f6a8d00e4",
+          "mean_rgb_shift": [
+            0.0007171630859375,
+            -0.00128173828125,
+            0.001708984375
+          ],
+          "broad_correlation": 0.996692125735631,
+          "seams": {
+            "boundary_p95": 0.4563442649763299,
+            "boundary_max": 0.5550561155407892,
+            "interior_p95": 1.5814751220807635,
+            "interior_p999": 3.1590783438079093,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil009.png",
+          "sha256": "a54107a91fb681b7ef4aba0bc730f5b56343c7559e9866fcc374e0fd89626dd1",
+          "mean_rgb_shift": [
+            0.000579833984375,
+            -0.001251220703125,
+            -0.000213623046875
+          ],
+          "broad_correlation": 0.9967506831199329,
+          "seams": {
+            "boundary_p95": 0.4414112936437847,
+            "boundary_max": 0.5497082651329229,
+            "interior_p95": 1.7517248358316357,
+            "interior_p999": 2.825500486397195,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil010.png",
+          "sha256": "f8b5b4c986608b2a956217409fb7eeb738d0cb4ef730b58277731d0e22e0c6c1",
+          "mean_rgb_shift": [
+            -0.00048828125,
+            -0.0003509521484375,
+            0.0008087158203125
+          ],
+          "broad_correlation": 0.9970180442359068,
+          "seams": {
+            "boundary_p95": 0.42151428151180076,
+            "boundary_max": 0.5384346303186179,
+            "interior_p95": 1.4029632970381678,
+            "interior_p999": 1.7686071402434709,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil011.png",
+          "sha256": "b13e915b124e69bc4137f6c0a806db75f7e943ee4290b07fa670b34e1904b231",
+          "mean_rgb_shift": [
+            -9.1552734375e-05,
+            0.0014190673828125,
+            0.002044677734375
+          ],
+          "broad_correlation": 0.9968931897781659,
+          "seams": {
+            "boundary_p95": 0.48351801715509507,
+            "boundary_max": 0.6006009015026297,
+            "interior_p95": 1.3629597259775976,
+            "interior_p999": 1.7626609264882576,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil012.png",
+          "sha256": "744a75c2dd3897e59d9ee26bd3f08754287489d882d38838a2ed87557a932be7",
+          "mean_rgb_shift": [
+            0.0036773681640625,
+            -0.00152587890625,
+            -0.0003509521484375
+          ],
+          "broad_correlation": 0.9969997472110844,
+          "seams": {
+            "boundary_p95": 0.3882943209811625,
+            "boundary_max": 0.4531811275068261,
+            "interior_p95": 1.5976363795141757,
+            "interior_p999": 2.660435014046561,
+            "passed": true
+          }
+        },
+        {
+          "name": "hwoil013.png",
+          "sha256": "9b8f0f0fb78967abd8792a4d4251c58f2d01df2a838af9ce153c8f532eafa278",
+          "mean_rgb_shift": [
+            -0.0010986328125,
+            0.0001983642578125,
+            0.0006103515625
+          ],
+          "broad_correlation": 0.9966767966129815,
+          "seams": {
+            "boundary_p95": 0.4640684780778503,
+            "boundary_max": 0.5759726717381064,
+            "interior_p95": 1.388360554078431,
+            "interior_p999": 2.2292358438168196,
+            "passed": true
+          }
+        },
+        {
+          "name": "tartyl.png",
+          "sha256": "d7445e9e9ef96118428ffd022180713371301aabcc3fec54cc45f4cc2e7f40bb",
+          "source_frame": "hwoil000"
+        }
+      ],
+      "frame_ticks": 15,
+      "ticks_per_second": 128,
+      "native_steps": [
+        3.6017557779947915,
+        3.7161356608072915,
+        3.707763671875,
+        3.6953531901041665,
+        3.6153767903645835,
+        3.6850687662760415,
+        3.6165262858072915,
+        3.6174723307291665,
+        3.73388671875,
+        3.6895548502604165,
+        3.6886494954427085,
+        3.655120849609375,
+        3.7384440104166665,
+        3.621673583984375
+      ],
+      "restored_steps": [
+        4.4558766682942705,
+        4.609608968098958,
+        4.602396647135417,
+        4.584228515625,
+        4.4446360270182295,
+        4.5405222574869795,
+        4.4579518636067705,
+        4.450124104817708,
+        4.5566965738932295,
+        4.480255126953125,
+        4.4924672444661455,
+        4.4616546630859375,
+        4.5877024332682295,
+        4.487518310546875
+      ],
+      "loop_step_ratio": 0.993887469771677,
+      "native_loop_step_ratio": 0.9867786098683208,
+      "before_seams": {
+        "boundary_p95": 0.44587135170236014,
+        "boundary_max": 0.6006009015026297,
+        "interior_p95": 1.4802799060579985,
+        "interior_p999": 2.5743491129556877,
+        "passed": true
+      },
+      "seams": {
+        "boundary_p95": 0.44587135170236014,
+        "boundary_max": 0.6006009015026297,
+        "interior_p95": 1.4802799060579985,
+        "interior_p999": 2.5743491129556877,
+        "passed": true
+      },
+      "repaired": false,
+      "source_files": {
+        "hwoil000": "68e2b985227d647085575e94d664d7220ba47b256ece6e2191901ba267241be1",
+        "hwoil001": "f78dfb668719e144820f50347690e360ca63cf6d8f9ac353e5cabbd03f4e3a70",
+        "hwoil002": "9e6839ff741e49c94516b566f0eb1ec5b6f1b83b4cee52b0cd4fa6cb03471687",
+        "hwoil003": "3d28879b8f1d851e6e66b61b9124aceaed3282c02782dd3bcc28daa26e1efa95",
+        "hwoil004": "cb4cf345acc342fe42189b4f1150797fb52cca4ad56f66d46b7721a720a16775",
+        "hwoil005": "2645c0fd6b8b9aeca493d72eef5b14223db2820d30b85d9ecd66dbafad07d394",
+        "hwoil006": "3ed00009f72bda0e3cab3c89a61f0743cfd101a0eef5fa74598c09806bef69a3",
+        "hwoil007": "b36be76a55fd5f458ed69ce06c8fdeb3a9c493d0c43987bfbb61ba8d8bd01358",
+        "hwoil008": "2cc576dfb9f19f79c23f0fab90f3814ee376f60a0ee6da00ab7173a762de43a5",
+        "hwoil009": "3f98a11296b344bcd35ad589a2a7a5c56f0b4032d381ca8891eedf76a59c8771",
+        "hwoil010": "d521ba48a7a06a04296e2169a75706fe20988023d01462fe0472cab1a01d3475",
+        "hwoil011": "c0dbbf2e8f41c5678b9144470ec725ad0a7207d387f5ee299fcae024d9b26e52",
+        "hwoil012": "61ed6965af645c70c96a317f7c0e5ee905b605a04ed937c599fcea07e7cd73bf",
+        "hwoil013": "f623856745cf0b5b59fcbb0f6033940f54ff1fb0a2daad645d64ffc35dac58c5",
+        "tartyl": "b6d245c7172730790bb5714b0f62266bb27144b0a8b863b4f9ad8880eb21535a"
+      }
+    }
+  },
+  "receipts_sha256": "31d2c47efd25a79145b15897b03ffb1380ffd1b01f44e1f81b60b576d57e5d92",
+  "script_sha256": "4e600d647aebe0fdd59fd1653c048bdf8bbfb54c34b18f29d217f67541a823b3",
+  "material_registry_sha256": "aaab60029977b317f3bc4232046d0822af3f4257a10c655b6850b6e56b6d1131",
+  "helper_hashes": {
+    "mm6_new_sorpigal_water/restoration_v2/build.py": "0dd621e1f9585a2462943992710cb9e981a7705703e12992f092484bfac3718c",
+    "mm6_new_sorpigal_water/restoration_v3/build.py": "67fadcade07dfba18f180ac233f1bcf79ce93b75e5bc4d4ed4f621d54c359ce5"
+  }
+}

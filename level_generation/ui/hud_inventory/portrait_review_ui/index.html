@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portrait family review</title><link rel="stylesheet" href="style.css">
+<header><h1>Portrait families</h1><p>Technical checks first. Your votes express visual preference, not runtime approval.</p>
+<div id="summary"></div><button id="export">Export feedback JSON</button>
+<label class="button">Import feedback <input id="import" type="file" accept="application/json" hidden></label>
+<span id="notice" role="status"></span></header>
+<aside><input id="search" type="search" placeholder="Find family or character…" aria-label="Find family">
+<label><input id="unfinished" type="checkbox"> Show unfinished families</label><nav id="families"></nav></aside>
+<main><h2 id="title">Choose a family</h2><p id="status"></p><div id="vote">
+<button data-vote="like">Like</button><button data-vote="dislike">Dislike</button><button data-vote="undecided">Undecided</button>
+<label>Notes<textarea id="notes" rows="3" placeholder="What works? Which frames need attention?"></textarea></label></div>
+<section id="controls"><label>Background <select id="background"><option value="checker">Checker</option><option value="dark">Dark</option><option value="light">Light</option><option value="green">HUD-like green</option></select></label>
+<label>Frame <input id="frame" type="range" min="1" max="56" value="1"><output id="frameLabel">1</output></label>
+<button id="previous">Previous frame</button><button id="next">Next frame</button><button id="play">Play numeric sequence</button>
+<p>Numeric slideshow is a diagnostic, not the game's expression timing. All portraits below use the native 59:79 canvas ratio.</p></section>
+<section id="comparison"><figure><figcaption>Native geometry reference (pixelated by design)</figcaption><canvas id="native" width="118" height="158"></canvas></figure>
+<figure><figcaption>Previous restored preview (may be provisional)</figcaption><canvas id="prior" width="118" height="158"></canvas></figure>
+<figure><figcaption>New transparent restoration — exact x2</figcaption><canvas id="new" width="118" height="158"></canvas></figure></section>
+<p id="frameStatus"></p><div id="links"></div><details><summary>Whole family at x2 / master</summary>
+<p>Open the original master link for a 1:1 pixel inspection. A browser-fit image is not proof of detail quality.</p><img id="sheet" alt="New family sheet"></details>
+<details><summary>Technical evidence and source references</summary><pre id="evidence"></pre></details></main>
+<script src="data.js"></script><script src="app.js"></script></html>

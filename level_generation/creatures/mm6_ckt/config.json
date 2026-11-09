@@ -1,0 +1,22 @@
+{
+  "family": "ckt",
+  "title": "MM6 Cockatrice",
+  "descriptor_ids": [
+    496,
+    497,
+    498
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 681,
+  "matte": "magenta",
+  "mask_kind": "green",
+  "description": "Original MM6 Cockatrice B: upright brown scaly bird-reptile with thick crouched thighs, two yellow-orange scaly bird legs and long talons, long tapered brown reptilian tail, spread bat-like wings with turquoise-green mottled membranes and thin ivory finger bones, small bald pinkish chicken head on a stretched neck, orange hooked beak, red brow/comb, pale ivory spikes on neck/back/tail. Preserve the awkward native hybrid anatomy, dark brown baked shading, leathery membrane mottling, exact beak direction, spread-wing angles and leg/tail pose. No fluffy feathers, cute redesign, extra limbs or realistic photograph.",
+  "regions": "Only turquoise-green wing membranes change palette. Protect brown body/tail, pink neck, orange beak and legs, red brow, ivory spikes/wing fingers/talons.",
+  "variant_names": {
+    "680": "Cockatrice A / ochre wings",
+    "681": "Cockatrice B / turquoise wings",
+    "682": "Cockatrice C / red wings"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 1
+}

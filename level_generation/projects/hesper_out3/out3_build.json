@@ -1,0 +1,667 @@
+{
+ "map": "hes_out3.odm",
+ "map_id": 9120,
+ "bmodels": 16,
+ "faces": 1918,
+ "entities": 512,
+ "decorations": {
+  "Party Start": 1,
+  "hes_spire_great": 55,
+  "hes_spire_mid": 100,
+  "hes_spire_cluster": 93,
+  "hes_spire_roost": 8,
+  "hes_spire_fallen": 9,
+  "hes_seedship": 1,
+  "hes_cradle_arch": 10,
+  "hes_relay_spire": 1,
+  "hes_relay_crown_light": 1,
+  "hes_hatchery_tower": 1,
+  "hes_agflyer_wreck": 1,
+  "hes_creep_pod": 53,
+  "hes_bones_litter": 22,
+  "hes_hive_mound": 8,
+  "hes_egg_mound": 8,
+  "hes_acid_shelf": 30,
+  "hes_signpost": 2,
+  "hes_glow_sac_out": 14,
+  "hes_pylon": 21,
+  "hes_trail_cairn": 11,
+  "hes_giant_rib": 13,
+  "hes_relay_post": 3,
+  "hes_tablet_plinth": 3,
+  "hes_corpse_colonist": 1,
+  "hes_water_condenser": 1,
+  "hes_crate_clean": 6,
+  "hes_hand_cart": 1,
+  "hes_brazier_out": 1,
+  "hes_stat_barrel_green": 1,
+  "hes_light_post_out": 8,
+  "hes_nest_mound": 4,
+  "hes_turret_mount_k": 8,
+  "hes_kreegan_pod_chest": 7,
+  "hes_colonial_locker": 5
+ },
+ "actors": 89,
+ "hostile_placed": 85,
+ "spawn_points": 51,
+ "chests": 12,
+ "ground_items": 16,
+ "missing_ground_items": [],
+ "events": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  30,
+  31,
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40,
+  41,
+  50,
+  51,
+  52,
+  150,
+  151,
+  152,
+  301,
+  302,
+  303,
+  304,
+  305
+ ],
+ "height_range": [
+  0,
+  8000
+ ],
+ "south_edge_worst": 0.0,
+ "arrivals": {
+  "south_edge": {
+   "position": [
+    288,
+    -22540,
+    1120
+   ],
+   "direction_degrees": 90
+  },
+  "east_edge": {
+   "position": [
+    21800,
+    8640,
+    1216
+   ],
+   "direction_degrees": 180
+  },
+  "d05_root_door": {
+   "position": [
+    -11080,
+    -12384,
+    1652
+   ],
+   "direction_degrees": 0
+  },
+  "d09_mouth": {
+   "position": [
+    -8830,
+    6600,
+    0
+   ],
+   "direction_degrees": 315
+  },
+  "d11_breach": {
+   "position": [
+    7723,
+    10991,
+    1909
+   ],
+   "direction_degrees": 166
+  }
+ },
+ "d09_mouth": {
+  "position": [
+   -8830,
+   6600,
+   0
+  ],
+  "direction_degrees": 315
+ },
+ "garden": {
+  "gate": [
+   -1200,
+   -5900
+  ],
+  "wicket": [
+   -2100,
+   -1900
+  ]
+ },
+ "people": {
+  "Hesk": 69,
+  "Bram": 70,
+  "Sedge": 71,
+  "Lio": 72
+ },
+ "actor_groups": {
+  "1": [
+   0,
+   1,
+   73,
+   74
+  ],
+  "2": [
+   2,
+   3,
+   75,
+   76
+  ],
+  "3": [
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "4": [
+   4,
+   5,
+   77,
+   78
+  ],
+  "5": [
+   6,
+   7,
+   79,
+   80
+  ],
+  "6": [
+   13,
+   14,
+   15,
+   16,
+   17
+  ],
+  "7": [
+   18,
+   19,
+   20,
+   21,
+   22,
+   23
+  ],
+  "8": [
+   24,
+   25,
+   26,
+   27,
+   28
+  ],
+  "9": [
+   29,
+   30,
+   31,
+   32,
+   33,
+   34
+  ],
+  "10": [
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46
+  ],
+  "11": [
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54
+  ],
+  "12": [
+   55,
+   56,
+   57,
+   58,
+   59,
+   60
+  ],
+  "13": [
+   61
+  ],
+  "14": [
+   62
+  ],
+  "15": [
+   63
+  ],
+  "16": [
+   64
+  ],
+  "17": [
+   65
+  ],
+  "18": [
+   66
+  ],
+  "19": [
+   67
+  ],
+  "20": [
+   68
+  ],
+  "22": [
+   69,
+   70,
+   71,
+   72
+  ],
+  "150": [
+   81,
+   82,
+   83,
+   84
+  ],
+  "151": [
+   85,
+   86,
+   87,
+   88
+  ]
+ },
+ "behaviours": [
+  [
+   35,
+   "hes_egg_cluster_hatchery"
+  ],
+  [
+   36,
+   "hes_egg_cluster_hatchery"
+  ],
+  [
+   37,
+   "hes_egg_cluster_hatchery"
+  ],
+  [
+   38,
+   "hes_egg_cluster_hatchery"
+  ],
+  [
+   39,
+   "hes_egg_cluster_hatchery"
+  ],
+  [
+   40,
+   "hes_egg_cluster_hatchery"
+  ],
+  [
+   41,
+   "hes_egg_cluster_hatchery"
+  ],
+  [
+   46,
+   "hes_overseer_prime"
+  ],
+  [
+   59,
+   "hes_overseer_prime"
+  ],
+  [
+   60,
+   "hes_overseer_prime"
+  ],
+  [
+   61,
+   "hes_overseer_prime"
+  ],
+  [
+   62,
+   "hes_overseer_prime"
+  ],
+  [
+   63,
+   "hes_overseer_prime"
+  ],
+  [
+   64,
+   "hes_overseer_prime"
+  ],
+  [
+   65,
+   "hes_overseer_prime"
+  ],
+  [
+   66,
+   "hes_overseer_prime"
+  ],
+  [
+   67,
+   "hes_overseer_prime"
+  ],
+  [
+   68,
+   "hes_overseer_prime"
+  ]
+ ],
+ "levels": {
+  "d5_door": 1677,
+  "gantry_foot": 1328,
+  "hatchery": 1690,
+  "station": 1519
+ },
+ "chest_positions": [
+  [
+   2419,
+   -19469,
+   1952
+  ],
+  [
+   -19584,
+   15552,
+   1688
+  ],
+  [
+   10368,
+   17395,
+   989
+  ],
+  [
+   4147,
+   1728,
+   768
+  ],
+  [
+   -8278,
+   6262,
+   0
+  ],
+  [
+   19699,
+   4723,
+   1784
+  ],
+  [
+   14746,
+   2534,
+   1476
+  ],
+  [
+   -8755,
+   -2880,
+   887
+  ],
+  [
+   -19469,
+   2765,
+   1568
+  ],
+  [
+   8986,
+   -8294,
+   1536
+  ],
+  [
+   14746,
+   -14400,
+   1344
+  ],
+  [
+   -7258,
+   -5299,
+   896
+  ]
+ ],
+ "tablets": {
+  "A4": [
+   -20160,
+   3456
+  ],
+  "F6": [
+   8352,
+   -8986
+  ],
+  "C5": [
+   -9446,
+   -3456
+  ]
+ },
+ "relays": [
+  [
+   -11347,
+   -12960
+  ],
+  [
+   -8064,
+   3974
+  ],
+  [
+   5843,
+   11056
+  ]
+ ],
+ "kite_roosts": [
+  [
+   1,
+   10310,
+   -1682,
+   -19699
+  ],
+  [
+   1,
+   10310,
+   -1082,
+   -19699
+  ],
+  [
+   2,
+   10310,
+   1658,
+   -19699
+  ],
+  [
+   2,
+   10310,
+   2258,
+   -19699
+  ],
+  [
+   4,
+   10311,
+   19084,
+   12308
+  ],
+  [
+   4,
+   10311,
+   19508,
+   11884
+  ],
+  [
+   5,
+   10311,
+   19508,
+   5396
+  ],
+  [
+   5,
+   10311,
+   19084,
+   4972
+  ]
+ ],
+ "spires_dropped": 2,
+ "moved": [
+  [
+   "egg field E8",
+   80.0
+  ],
+  [
+   "hatchery egg cluster",
+   80.0
+  ],
+  [
+   "hatchery egg cluster",
+   80.0
+  ],
+  [
+   "hatchery egg cluster",
+   320.0
+  ],
+  [
+   "hatchery egg cluster",
+   80.0
+  ],
+  [
+   "hatchery egg cluster",
+   80.0
+  ],
+  [
+   "hatchery hatchling",
+   80.0
+  ],
+  [
+   "hatchery hatchling",
+   80.0
+  ],
+  [
+   "nest matron",
+   80.0
+  ],
+  [
+   "nest brood crawler",
+   160.0
+  ],
+  [
+   "nest brood crawler",
+   320.0
+  ],
+  [
+   "nest brood crawler",
+   320.0
+  ],
+  [
+   "nest brood crawler",
+   160.0
+  ],
+  [
+   "nest brood crawler",
+   320.0
+  ],
+  [
+   "nest brood crawler",
+   80.0
+  ],
+  [
+   "nest brood crawler",
+   320.0
+  ],
+  [
+   "spawn 0 D7",
+   180
+  ],
+  [
+   "spawn 3 C8",
+   180
+  ],
+  [
+   "spawn 7 B8",
+   180
+  ],
+  [
+   "spawn 9 F8",
+   270
+  ],
+  [
+   "spawn 14 C5",
+   1350
+  ],
+  [
+   "spawn 17 A4",
+   180
+  ],
+  [
+   "spawn 18 B4",
+   450
+  ],
+  [
+   "spawn 20 E6",
+   450
+  ],
+  [
+   "spawn 21 F4",
+   450
+  ],
+  [
+   "spawn 22 E5",
+   1620
+  ],
+  [
+   "spawn 27 G5",
+   90
+  ],
+  [
+   "spawn 30 C3",
+   630
+  ],
+  [
+   "spawn 31 C4",
+   540
+  ],
+  [
+   "spawn 32 B3",
+   360
+  ],
+  [
+   "spawn 36 D2",
+   90
+  ],
+  [
+   "spawn 37 D3",
+   810
+  ],
+  [
+   "spawn 47 H3",
+   180
+  ],
+  [
+   "spawn 49 C3",
+   270
+  ],
+  [
+   "kite spur flock",
+   160.0
+  ],
+  [
+   "kite spur flock",
+   160.0
+  ]
+ ]
+}

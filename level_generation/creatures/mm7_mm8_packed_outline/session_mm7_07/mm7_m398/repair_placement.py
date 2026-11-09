@@ -1,0 +1,11 @@
+import importlib.util
+from pathlib import Path
+p=Path(__file__).parents[1]/'mm7_m390/session_pipeline.py';s=importlib.util.spec_from_file_location('session',p);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+out=Path(__file__).parent/'redo_2x';pol=m.read(out/'processing.json');reg=m.read(out/'registration.json');report=m.read(out/'review/death_0_sheet_extraction.json');ref=next(f for f in report['frames'] if f['frame']=='m398na0')
+pol.setdefault('anatomical_sheet_calibration',{})['death_0_sheet']=dict(frame='m398na0',raw_sha256=report['raw_sha256'],clean_sha256=m.sha(m.REPO/ref['clean_path']),landmarks={'helmet_spike_tip':dict(native=[118.5,96],clean=[245,55]),'support_boot_sole':dict(native=[107.5,255],clean=[205,520])},scale_pair=['helmet_spike_tip','support_boot_sole'],axes=[1],anchor='helmet_spike_tip',method='One uniform scale for all six complete native death cells, measured on actual corresponding helmet spike and planted boot sole. Held na0/nb0 continue their canonical hit bitmap aliases. Independent knees, wrists, skull, boots, armor collapse and detached sword reviewed; no limb warp or per-pose scale.')
+for name,nat,clean,label in [('m398we3',[148.5,97],[202,50],'actual_helmet_spike_tip'),('m398da0',[115,153],[306,242],'actual_tilted_upper_skull_crown'),('m398db0',[119.5,149],[249,245],'actual_helmet_spike_tip'),('m398dc0',[141,148],[324,221],'actual_helmet_spike_tip'),('m398dd0',[139,164],[315,274],'actual_helmet_spike_tip'),('m398xa0',[121,225],[820,576],'actual_upper_central_gold_chest_fitting')]:
+ r=reg[name];pol.setdefault('frame_translation_calibration',{})[name]=dict(raw_sha256=r['raw_sha256'],clean_sha256=r['clean_sha256'],axes=[0,1],landmark=label,native=nat,clean=clean,method='Whole-pose translation measured on the identified anatomical feature drawn on native and actual clean art; one uniform sheet scale retained. Independent skull, pelvis, boots, wrists and equipment checked.')
+m.save(out/'processing.json',pol)
+import register_packed_outline as r
+r.native_2x=m.native_2x;r.process_family.mask=lambda image,config:m.Image.new('L',image.size)
+r.register(str(out.parent.relative_to(m.REPO)));m.export_candidate('m398');m.contacts('m398');m.all_pose_reviews('m398')

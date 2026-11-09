@@ -1,0 +1,151 @@
+{
+ "sprite": "cac25",
+ "output": "mm6_deco_cac25.glb",
+ "height_m": 3.13,
+ "note": "Broad desert tree: thick twisted olive-grey trunk forking into spreading limbs, clumped rosette foliage pads of long narrow leaves.",
+ "sapling": {
+  "scale": 2.22,
+  "baseSplits": 0,
+  "splitHeight": 0.32,
+  "splitAngle": [
+   30,
+   22,
+   15,
+   0
+  ],
+  "baseSize": 0.38,
+  "seed": 181,
+  "ratio": 0.09,
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "attractUp": [
+   0,
+   0.6,
+   0.3,
+   0
+  ],
+  "downAngle": [
+   90,
+   42,
+   45,
+   45
+  ],
+  "branches": [
+   0,
+   8,
+   20,
+   8
+  ],
+  "length": [
+   1.0,
+   0.65,
+   0.35,
+   0.3
+  ],
+  "rootFlare": 2.0,
+  "scaleV": 0.3,
+  "curve": [
+   0,
+   20,
+   0,
+   0
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.37,
+  "centre": 0.7,
+  "clumps": 36,
+  "inner_clumps": 4,
+  "outer_radius": [
+   0.16,
+   0.22
+  ],
+  "inner_radius": [
+   0.15,
+   0.2
+  ],
+  "card": [
+   0.7,
+   0.9
+  ],
+  "gap": 1.6,
+  "card_up": 0.6
+ },
+ "bark": {
+  "target_srgb": [
+   80,
+   78,
+   46
+  ],
+  "roots": 5,
+  "root_reach": 0.3,
+  "min_thickness": [
+   0.02,
+   0.035,
+   0.06
+  ],
+  "budget": [
+   1300,
+   560,
+   320
+  ],
+  "root_radius": 0.6
+ },
+ "lod": {
+  "triangles": [
+   2600,
+   1500,
+   700
+  ],
+  "tone": [
+   1.0,
+   [
+    0.92,
+    0.92,
+    0.92
+   ],
+   [
+    1.123,
+    1.141,
+    1.006
+   ]
+  ],
+  "grow": [
+   1.0,
+   1.12,
+   1.6
+  ],
+  "lod2_card_scale": 1.05,
+  "clump_frame": 6.0
+ },
+ "leaves": {
+  "kind": "rosette",
+  "target_srgb": [
+   150,
+   205,
+   95
+  ],
+  "seeds": [
+   181,
+   193,
+   211,
+   227
+  ],
+  "value": [
+   0.9,
+   1.5
+  ]
+ },
+ "impostor_tone": [
+  0.983,
+  0.976,
+  1.011
+ ],
+ "impostor_dilate": 5,
+ "impostor_edge_fill": true,
+ "transparent_bounces": 64
+}

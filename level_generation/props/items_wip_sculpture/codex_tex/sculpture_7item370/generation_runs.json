@@ -1,0 +1,30 @@
+[
+  {
+    "name": "sculpture_7item370",
+    "prompt": "Use case: precise-object-edit. Repaint Image 1 ONLY as a six-view FLAT DIFFUSE ALBEDO painting for a game model. Image 1 is the exact mesh/silhouette authority. It is a 1536x1024 transparent atlas with THREE columns and TWO rows, six 512px cells. Preserve the position, scale, outline, interior gaps, silhouette and camera direction of EVERY view exactly. Do not rotate or reinterpret any view even when the first view is lateral. Cell order FRONT/BACK/LEFT on top, RIGHT/TOP/BOTTOM below. Image 2 defines the named item's colours and fine appearance only; ignore ALL lighting and reflections in it. Paint: Gold BASE COLOUR (#b9923e) pharaoh face/trim, cobalt blue enamel stripes (#193679), pale ivory horns (#d0c4a3); horizontal blue/gold bands on the nemes and chin beard, blue/gold radial crown top, vertical crown side stripes, rounded oval forehead plate. Keep all geometry unchanged. Materials: gold face and trim; cobalt blue enamel stripes; ivory horns. Perfectly even MATTE diffuse illumination: no specular reflections, highlights, directional shading, shadows, ambient occlusion, gradients, glow or halo. Paint material grain and pigment detail only. All six views stay in their exact original cells and framing. True transparent empty background, no floor, labels, borders, extra objects or ornamental additions. Return ONE 3:2 atlas.",
+    "generated_path": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-17ec1dcd-b59c-425d-8ae7-2d6eb847424a.png",
+    "tool": "built-in image_gen",
+    "selected": true,
+    "output_sha256": "7bd975e18ed5dbf66bab62e1f13adcd0778d307e9e370372fd85e874ae512118",
+    "output_size": [
+      1536,
+      1024
+    ],
+    "mesh_guide": "guide_atlas.png (regenerated during seam cleanup; registration uses final guides)",
+    "material_reference": "level_generation/props/items_wip_sculpture/meshy/sculpture_7item370/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "228a02e3fe3fd05d9fb36d9ac32702eae7519429fdbf6a4ffc162de7be96be18",
+    "status": "superseded"
+  },
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case precise-object-edit. Paint Image 1 exact gray six-view geometry atlas as flat diffuse albedo. Preserve every silhouette, interior gap, view direction, cell placement and size exactly. 1536x1024 atlas, three columns/two rows: FRONT BACK LEFT / RIGHT TOP BOTTOM. Image 2 is material/design reference only; ignore its lighting. This is the ORDINARY golem head: face, trim and both SHORT HORNS are ALL YELLOW GOLD (#b9923e), never ivory. Cobalt blue (#193679) enamel with gold bands on nemes/headcloth and beard; blue/gold radial crown top and vertical crown sides, small oval gold brow plate. No added geometry. Absolutely matte diffuse colour only, fine pigment grain, no lighting, gloss, highlights, shadows, AO, gradients, glow, halo. Transparent empty background. Keep exact mesh framing. One 3:2 atlas.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-b16899b7-4e32-46f5-a119-e301ea67c7f9.png",
+    "raw_sha256": "c005e3cf1363fb9729a42375639017006fe02e89fb2f55f5abb817cc79dc5dc0",
+    "selected_atlas_sha256": "c005e3cf1363fb9729a42375639017006fe02e89fb2f55f5abb817cc79dc5dc0",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_7item370/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "228a02e3fe3fd05d9fb36d9ac32702eae7519429fdbf6a4ffc162de7be96be18",
+    "exact_guide_input": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/codex_tex/sculpture_7item370/paint_input_atlas.png",
+    "exact_guide_input_sha256": "ba3a3faed71fd395210ebbf4083bd3407dbb100ebed585f7418169bf956cb110"
+  }
+]

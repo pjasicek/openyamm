@@ -1,0 +1,122 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "corrective_regenerations": 1,
+  "acceptance": "requirements_not_fully_met",
+  "limitations": [
+    "Both native tool returns are 1254 x 1254 instead of the requested 1024 x 1024; preserved without resizing.",
+    "Silhouette and internal edges are not identical to the guide, including stray low-alpha pixels beyond the object.",
+    "Material colours follow the reference, but some directional shading and ambient-occlusion-like darkening remain."
+  ],
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate exactly one 1024 x 1024 RGBA PNG: paint_back.png, an orthographic BACK-view albedo texture source for the Colony satchel.\n\nINPUT ROLES, in attached order:\n1. guide_back.png is the EDIT TARGET and absolute authority for silhouette, camera, framing, placement, scale, geometry, all shape edges, all gaps/openings and every existing detail.\n2. design_reference.png is the approved authority for design, colours and material appearance ONLY. Do not copy its camera, geometry or lighting.\n3. concept_crop.png is the original concept, supporting design reference only.\n\nPaint directly over the grey surfaces in input 1. Keep its exact 1024-square canvas and original alpha silhouette. Do not move, rotate, enlarge, shrink, reframe, crop, straighten, round, add or remove any geometry. The silhouette occupies x=66 through 957, y=298 through 725. Leave the large empty transparent area above and below unchanged. Match the guide's exact low broad shape, stepped/faceted boundaries, two vertical straps, rivets, centre tab, side attachments and long shoulder strap looping across the bottom. Preserve the shape and position of the transparent openings inside the shoulder-strap loop. All edges and details must remain at the guide's positions. This is the BACK side shown in the guide, not the three-quarter reference.\n\nPaint only surface materials onto this fixed geometry: worn faded deep-blue canvas on the bag body and side panels; sand-coloured canvas on the broad upper panel; a red cloth band with the reference's simple gold embroidered ring-and-stem sigil, gold edging; tan leather straps and tabs; brass for the existing hardware/rivets/buckles where present in the guide. Use realistic fine canvas weave, stitching, dust, subtle wear, leather grain, and subdued brass colour, consistent with the approved design. Keep stitching inside the existing edges. Do not invent additional protrusions, ornaments, hardware, seams that change shape, or hanging pieces. Maintain the approved material colours while removing its dramatic lighting.\n\nLIGHTING: pure ALBEDO texture source, flat even shadowless illumination from the viewer. No cast shadows, no ambient occlusion or darkening in creases/under straps, no shading gradients that suggest directional lighting, no strong specular highlights, reflections, rim light or glow spill. Readable material colours even in recesses. No background, no floor, no scene, no text labels or watermarks. Genuine transparent alpha, not black or a baked checkerboard. Preserve the original guide's transparency.\nReturn the native unresized 1024 x 1024 image.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "878c6c334a937b6c022d9f2d78fec23999a529511489ea5f8e875d3e591e4337"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "7fcb067d6d1f0858c68b39388d207fd02bdbbcab6291874aa0fc7ef0eb18cd8c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "5748e87c95da3b5875f06915307ba03771b6718c84b759673390663c10613392"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected in favour of the correction: added front buckle forms and stronger shading; wrong native dimensions and non-identical silhouette.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac7-95c5-7922-9f32-c4d26ff65891/exec-0d0290ea-1ebf-4994-8ce4-59911e8fe166.png",
+      "output_sha256": "495f4257aee659908e34459739a670ada8f752bce45e15cd95faac95f6405a96",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "format": "PNG",
+        "requested_size_pass": false,
+        "transparent_background_present": true,
+        "fully_transparent_pixels": 1069689,
+        "partial_alpha_pixels": 502179,
+        "alpha_bbox": [
+          0,
+          22,
+          1202,
+          1254
+        ],
+        "opaque_bbox": [
+          79,
+          365,
+          1176,
+          889
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": "Visually consistent blue/sand canvas, red and gold cloth, tan leather and brass; no calibrated colour comparison.",
+        "flat_even_light": "Fail: residual shading and darkening remain.",
+        "unresized_return_verified": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION \u2014 the one permitted correction for CODEX_BRIEF_2.md.\nUse case: precise-object-edit.\nDeliver ONE native 1024 x 1024 RGBA image, transparent background, as a BACK-view albedo texture painting of the EXACT guide mesh. The previous return was incorrectly 1254 x 1254, added buckle shapes, changed boundaries, and included directional shading. Correct these failures. Output exactly 1024 pixels wide and 1024 pixels high; do not resample the guide to another canvas.\n\nINPUT ROLES:\nImage 1, guide_back.png: the sole edit target; KEEP ITS EXACT GEOMETRY AND ALPHA. Treat it as a fixed stencil. The white surfaces are the only editable pixels. All transparent pixels must stay transparent. Every shape edge within the object stays exactly where it is. Paint the surfaces without changing their boundaries.\nImage 2, design_reference.png: material and colour reference ONLY; do not transfer its shape, camera, highlights, shadows, or front buckles.\nImage 3, concept_crop.png: secondary colour/material reference only.\n\nThe guide is an orthographic BACK view, not a front view. Keep the guide's original framing, proportions, polygonal outline, openings and detail positions. Image 1 is 1024 x 1024; the entire guide alpha bounding rectangle is [66,298,958,726] using exclusive right and bottom. Preserve this placement with generous empty transparency above and below. The top panel edge is at about y303, lower panel edge about y500. The two broad vertical rear straps are about x245-315 and x712-785 with the small existing polygonal rivets near (276,425) and (748,425). Preserve the rear straps' simple forms: do not add front buckles or rectangular buckled patches. The central flat tab starts below the top panel at about x475-550,y508. The long thin shoulder strap follows the exact guide outline along the sides and across y683-725. Keep the original transparent gaps inside the shoulder-strap loop. Keep all angular edge irregularities from the mesh. No new forms.\n\nSurface painting: worn faded deep-blue canvas on the lower body and side areas, sand canvas on the broad upper surface, red cloth centre band with the approved simple gold embroidered ring-and-stem sigil and thin gold edging, tan leather on existing straps and tabs, muted brass on existing hardware and rivets only. Stitching, canvas weave, fine leather grain and dusty wear painted INSIDE the existing surfaces. Match reference colours/materials. Embroidered details are flat colour/material texture only, not raised new forms. Do not add anything outside the guide silhouette.\n\nALBEDO ONLY. Even flat shadowless light from the viewer; uniformly readable base colour over every surface. Remove the guide's grey light/shadow as you colour it. No cast shadows, no ambient-occlusion darkening under the upper panel or straps, no edge/rim light, no strong specular highlights, no reflections, no directional shading. Brass is dull ochre-gold albedo with subtle wear, not shiny gold with white glints. No floor, background, scene, labels, watermark or checkerboard. Transparent pixels remain true alpha zero; no stray pixels or halos outside the guide.\n\nThis is precise surface recolouring of the grey guide, not a redesigned illustration of a satchel. Preserve the guide alpha and all shape edges. Return an unresized native 1024 x 1024 RGBA PNG.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "878c6c334a937b6c022d9f2d78fec23999a529511489ea5f8e875d3e591e4337"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "7fcb067d6d1f0858c68b39388d207fd02bdbbcab6291874aa0fc7ef0eb18cd8c"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "5748e87c95da3b5875f06915307ba03771b6718c84b759673390663c10613392"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best available within the one-correction limit: restores the plain rear straps and polygonal rivets and retains the reference palette. Selected for delivery, not accepted as fully conforming: native size, exact silhouette/edges and flat lighting requirements remain unmet.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a16ac7-95c5-7922-9f32-c4d26ff65891/exec-df79e4ca-cb78-41dd-b99f-efcdfc10bbbb.png",
+      "output_sha256": "1fe6ce6b6058c0811b15b9b61ae7495c10b9348740f349063df6a6991513470c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "format": "PNG",
+        "requested_size_pass": false,
+        "transparent_background_present": true,
+        "fully_transparent_pixels": 1065825,
+        "partial_alpha_pixels": 505955,
+        "alpha_bbox": [
+          0,
+          19,
+          1236,
+          1254
+        ],
+        "opaque_bbox": [
+          80,
+          366,
+          1176,
+          887
+        ],
+        "silhouette_identical_to_guide": false,
+        "materials_and_colours_match_reference": "Visually consistent blue/sand canvas, red and gold cloth, tan leather and brass; no calibrated colour comparison.",
+        "flat_even_light": "Fail: residual shading and darkening remain.",
+        "unresized_return_verified": true
+      }
+    }
+  ]
+}

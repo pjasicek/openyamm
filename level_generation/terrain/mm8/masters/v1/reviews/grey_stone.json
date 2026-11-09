@@ -1,0 +1,37 @@
+{
+  "material": "grey_stone",
+  "status": "candidate_visual_review_required",
+  "method": "Local AI half-offset repair with periodic Poisson insertion; central352 square protected",
+  "raw_sha256": "47d118b0fb16fd817d66cdd5af32eced4b9486a7d0ac482ae20e96f1cdfe21b9",
+  "prompt_sha256": "e7833eac7e7829b826e74f74a71ef728cb626a9005b2f4ef5b386e45d709cd58",
+  "native_sha256": "7ac6d65ecca17031b99e8094c5605637d959f023b958f7558feb18e1d7821e58",
+  "authoring_sha256": "a7ec65bed50e2969765ddb8f8532801096c9b867e776445bb09bf6ecb397c224",
+  "runtime_sha256": "712b5ecea2366e267b892a868cd92084a01541d3527605256e1fb0262b4991c2",
+  "native_mean_rgb": [
+    37.74700164794922,
+    37.81155014038086,
+    37.77204132080078
+  ],
+  "runtime_mean_rgb": [
+    37.859100341796875,
+    37.93443298339844,
+    37.890289306640625
+  ],
+  "seams": {
+    "E": {
+      "boundary_p95": 1.3672689650745213,
+      "boundary_max": 1.4572249566362396,
+      "interior_p95": 1.4598965314462515,
+      "interior_p999": 1.829859773549566,
+      "passed": true
+    },
+    "S": {
+      "boundary_p95": 1.670194104218096,
+      "boundary_max": 2.064409220315643,
+      "interior_p95": 1.4495544963145943,
+      "interior_p999": 1.9283789609600475,
+      "passed": true
+    }
+  },
+  "repair_sha256": "df6c53abfe1626af86ced9c63b5f74af78c83d1d9beaff6d36d9211f742549da"
+}

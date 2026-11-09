@@ -1,0 +1,636 @@
+{
+ "id": "20261009-1628-mm6-oracle-18",
+ "world": "mm6",
+ "maps": [
+  "oracle.blv",
+  "zddb04.blv",
+  "6d13.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/orair64a",
+  "mm6/orairrf",
+  "mm6/orertlgb",
+  "mm6/orflra",
+  "mm6/swank",
+  "mm6/swankdk",
+  "mm6/swgirder",
+  "mm6/swll4dk",
+  "mm6/swr2dk",
+  "mm6/swrdk",
+  "mm6/swwala",
+  "mm6/trekscon",
+  "mm6/trekscrn",
+  "mm6/pbrrew",
+  "mm6/pbrre",
+  "mm6/pbrle",
+  "mm6/pbrlew",
+  "mm6/pbrst",
+  "mm6/pbrwn",
+  "mm6/pbrsde",
+  "mm6/pbwal",
+  "mm6/pbsmwl",
+  "mm6/d6wlbctr",
+  "mm6/d6wldctr"
+ ],
+ "requests": {
+  "mm6/orair64a": {
+   "name": "orair64a",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "pale icy blue marble tile with a bevelled edge and a recessed teal cross inlay in the centre",
+   "notes": {
+    "3": "Keep the background and bevelled border identical in style and colour to the plain tile in the native's pale ice-blue; add only the sunken cross; the top and bottom rows must continue seamlessly."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/orair64"
+     ],
+     "fraction": 0.872
+    },
+    "2": {
+     "sources": [
+      "mm6/orair64"
+     ],
+     "fraction": 0.809
+    },
+    "3": {
+     "sources": [
+      "mm6/orair64"
+     ],
+     "fraction": 0.809
+    }
+   },
+   "pad": {
+    "2": [
+     8,
+     32
+    ],
+    "3": [
+     8,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm6/orair64"
+    },
+    "3": {
+     "top": "mm6/orair64"
+    }
+   }
+  },
+  "mm6/orairrf": {
+   "name": "orairrf",
+   "versions": [
+    1
+   ],
+   "material": "pale icy blue marble with soft white cloudy veining",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orertlgb": {
+   "name": "orertlgb",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "orange-brown crackled earth stone with fine glowing golden vein network",
+   "notes": {
+    "2": "Natural material with irregular grain: no mosaic of cells, no grid."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm6/orflra": {
+   "name": "orflra",
+   "versions": [
+    1
+   ],
+   "material": "red-pink speckled granite floor tiles laid in a diagonal diamond pattern with dark grout lines",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swank": {
+   "name": "swank",
+   "versions": [
+    1
+   ],
+   "material": "pale teal-blue stained metal wall panel with engraved angular circuit-like seam lines and small dark square sockets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swankdk": {
+   "name": "swankdk",
+   "versions": [
+    1
+   ],
+   "material": "dark teal-blue stained metal wall panel with engraved angular circuit-like seam lines and small dark square sockets",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swgirder": {
+   "name": "swgirder",
+   "versions": [
+    1
+   ],
+   "material": "dull teal-blue steel plate with four domed rivets near the corners and faint rust specks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swll4dk": {
+   "name": "swll4dk",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark teal-green rusted metal wall panel with recessed angular seam lines, rivets, a round port and a vertical slot panel; copy the composition exactly",
+   "notes": {
+    "2": "Invent fresh crisp painted-metal detail (scratches, rust, rivets); do not copy the low-resolution pixels. Keep the panel layout."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swr2dk": {
+   "name": "swr2dk",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark metal strip with horizontal teal rails and rows of diagonal rusty orange-brown slanted vent louvres",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge.",
+    "3": "The top edge must not be a dark line: the teal rail along the top runs straight to the top canvas border at its own brightness, with no black hairline or shadow above it."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swrdk": {
+   "name": "swrdk",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark teal riveted metal frame holding vertical steel bars over a red and black striped glowing grille; copy the composition exactly",
+   "notes": {
+    "2": "No dark outline or shadow along any outer edge.",
+    "3": "The bottom edge must not be a dark line: the teal riveted frame runs straight to the bottom canvas border at its own brightness, with no black hairline or shadow below it.",
+    "4": "Paint new crisp rusted teal iron and rivet detail at full resolution; do not trace or enlarge the reference pixels."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swwala": {
+   "name": "swwala",
+   "versions": [
+    1
+   ],
+   "material": "dark metal wall dense with horizontal grey-teal pipes, conduits and small fittings, with a small red light in a round housing; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/trekscon": {
+   "name": "trekscon",
+   "versions": [
+    1
+   ],
+   "material": "grey metal control console panel with maze-like engraved circuit lines, coloured red, yellow, blue and orange indicator buttons and a round green radar screen; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/trekscrn": {
+   "name": "trekscrn",
+   "versions": [
+    1
+   ],
+   "material": "grey metal control console panel with maze-like engraved circuit lines and an unlit round radar screen, all in grey tones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pbrrew": {
+   "name": "pbrrew",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown brick wall with pale mortar in a dark red-brown timber frame with top beam and middle rail, a vertical timber post on the right edge and a small timber-framed latticed window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/pbrre": {
+   "name": "pbrre",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown brick wall with pale mortar in a dark red-brown timber frame with top beam and middle rail, a vertical timber post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.734
+    }
+   }
+  },
+  "mm6/pbrle": {
+   "name": "pbrle",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-brown brick wall with pale mortar in a dark red-brown timber frame with top beam and middle rail, a vertical timber post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrre",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.66
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrre",
+      "mm6/pbwal",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.74
+    },
+    "3": {
+     "sources": [
+      "mm6/pbrre",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.66
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/pbrre",
+     "bottom": "mm6/gset04",
+     "top": "mm6/pbroof"
+    },
+    "3": {
+     "right": "mm6/pbrre",
+     "bottom": "mm6/gset04",
+     "top": "mm6/pbroof"
+    }
+   }
+  },
+  "mm6/pbrlew": {
+   "name": "pbrlew",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-brown brick wall with pale mortar in a dark red-brown timber frame with top beam and middle rail, a vertical timber post on the left edge and a small timber-framed latticed window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrle",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.969
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrle",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.963
+    },
+    "3": {
+     "sources": [
+      "mm6/pbrle",
+      "mm6/pbrst",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.967
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ],
+    "3": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm6/gset04",
+     "right": "mm6/pbrrew"
+    },
+    "3": {
+     "right": "mm6/pbrst",
+     "bottom": "mm6/gset04"
+    }
+   }
+  },
+  "mm6/pbrst": {
+   "name": "pbrst",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "orange-brown brick wall with pale mortar in a dark red-brown timber frame with top beam and middle rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrre",
+      "mm6/pbrle"
+     ],
+     "fraction": 0.99
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrre",
+      "mm6/pbrle",
+      "mm6/pbrsde",
+      "mm6/pbrlew",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.99
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/pbrre",
+     "left": "mm6/pbrle",
+     "bottom": "mm6/gset04",
+     "top": "mm6/pbrle"
+    }
+   }
+  },
+  "mm6/pbrwn": {
+   "name": "pbrwn",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "orange-brown brick wall with pale mortar in a dark red-brown timber frame with top beam and middle rail and a small timber-framed latticed window in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrre",
+      "mm6/pbrle",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.984
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrst",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.985
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/pbrre",
+     "left": "mm6/pbrle",
+     "bottom": "mm6/pbrst",
+     "top": "mm6/pbroof"
+    }
+   }
+  },
+  "mm6/pbrsde": {
+   "name": "pbrsde",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-brown brick wall with pale mortar in a dark red-brown timber frame with top beam and middle rail, vertical timber posts on both left and right edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrle",
+      "mm6/pbrre",
+      "mm6/pbrdr"
+     ],
+     "fraction": 0.981
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrle",
+      "mm6/pbrre",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.973
+    },
+    "3": {
+     "sources": [
+      "mm6/pbrle",
+      "mm6/pbrre",
+      "mm6/pbrst",
+      "mm6/pbrrew"
+     ],
+     "fraction": 0.973
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/pbwal": {
+   "name": "pbwal",
+   "versions": [
+    1
+   ],
+   "material": "orange-brown brick wall with pale mortar",
+   "notes": {}
+  },
+  "mm6/pbsmwl": {
+   "name": "pbsmwl",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-brown brick wall with pale mortar, small bricks",
+   "notes": {
+    "2": "Tile repeats on both axes: brick courses and mortar joints must continue across all four edges with no line or break at the tile border; keep the brick rows and joint positions as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/pbrre"
+     ],
+     "fraction": 0.985
+    },
+    "2": {
+     "sources": [
+      "mm6/pbrre"
+     ],
+     "fraction": 0.985
+    },
+    "3": {
+     "sources": [
+      "mm6/pbrre"
+     ],
+     "fraction": 0.985
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/d6wlbctr": {
+   "name": "d6wlbctr",
+   "versions": [
+    1
+   ],
+   "material": "dense tangle of dark olive-brown roots and vines over black earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d6wldctr": {
+   "name": "d6wldctr",
+   "versions": [
+    1
+   ],
+   "material": "dense tangle of dark olive-brown roots and vines over black earth, slightly lighter and more open",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

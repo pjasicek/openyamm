@@ -1,0 +1,130 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_bathhouse/review/probe_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: entrance
+  position:
+  - -768
+  - -896
+  - -281
+  yaw: 0.0
+  pitch: 0.0
+- name: hall_pool
+  position:
+  - 256
+  - 768
+  - 718
+  yaw: -0.4049
+  pitch: 0.0
+- name: hall_north
+  position:
+  - 768
+  - 1664
+  - -281
+  yaw: 1.5708
+  pitch: 0.0
+- name: sw_pool
+  position:
+  - 512
+  - -3584
+  - -147
+  yaw: -0.8761
+  pitch: 0.0
+- name: boil_b
+  position:
+  - 2176
+  - -3328
+  - -142
+  yaw: -1.3258
+  pitch: 0.0
+- name: boil_a
+  position:
+  - 4480
+  - -3328
+  - -242
+  yaw: -1.2793
+  pitch: 0.0
+- name: furnace
+  position:
+  - 3686
+  - -4352
+  - -122
+  yaw: -1.5708
+  pitch: 0.0
+- name: tub
+  position:
+  - 6528
+  - -3456
+  - -242
+  yaw: -2.1294
+  pitch: 0.0
+- name: vents
+  position:
+  - 6400
+  - -5427
+  - -199
+  yaw: 0.0
+  pitch: 0.0
+- name: east_rooms
+  position:
+  - 6912
+  - -2560
+  - -242
+  yaw: -0.7854
+  pitch: 0.0
+- name: diag
+  position:
+  - 8448
+  - -2432
+  - -242
+  yaw: 1.0122
+  pitch: 0.0
+- name: stairs_top
+  position:
+  - 10179
+  - -1664
+  - -242
+  yaw: 1.5708
+  pitch: 0.0
+- name: flood_ledge
+  position:
+  - 11136
+  - 256
+  - -849
+  yaw: 0.0
+  pitch: 0.0
+- name: flood_floor
+  position:
+  - 12544
+  - -256
+  - -1092
+  yaw: 3.1416
+  pitch: -0.1745
+- name: alcove
+  position:
+  - 9318
+  - -256
+  - -1064
+  yaw: 1.5708
+  pitch: 0.0
+- name: channel14
+  position:
+  - 6400
+  - -1229
+  - -1515
+  yaw: 0.0
+  pitch: 0.0
+- name: east_corr
+  position:
+  - 15104
+  - -768
+  - -818
+  yaw: 1.5708
+  pitch: 0.0
+- name: chests
+  position:
+  - 15616
+  - -3840
+  - -818
+  yaw: -0.9828
+  pitch: 0.0

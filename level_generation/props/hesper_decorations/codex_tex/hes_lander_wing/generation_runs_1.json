@@ -1,0 +1,228 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "status": "generated_with_failed_acceptance_checks",
+  "postprocessing": "None: original generated PNG bytes copied without resizing, masking or painting.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Texture-source albedo painting for an existing 3D model of a lander's torn-off wing. Image 1 is the exact grey orthographic guide and EDIT TARGET: keep its 1024 x 1024 canvas, silhouette, position, scale, every shape edge, opening, protrusion and detail EXACTLY. Preserve its alpha silhouette pixel for pixel. Image 2 is design_reference.png, the approved colour/material authority ONLY; do not adopt its perspective, silhouette, lighting or background. Paint chipped white ceramic plates with gold trim and rivets, black soot and scorch at the torn root, dark steel spars, black cables onto the guide's existing surfaces. Lighting: TEXTURE SOURCE (albedo), even flat shadowless illumination from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Dark colours must be inherent material/soot colour, never lighting gradients. No background, no floor, genuinely transparent background. No new geometry, nothing outside the guide silhouette, nothing cropped, no labels. Return one 1024 x 1024 RGBA image, unresized.\nView: FRONT, looking straight into the torn root, matching guide_front.png exactly. The small flattened wing cross-section occupies x=223..800, y=350..672 including the narrow upright fin and hanging cables; preserve the large transparent margins. The small far fin rises behind the upper shell at the exact guide position. Paint the existing rounded shell white ceramic with aged gold trim; existing interior broken spars dark steel, existing hanging cables black, intrinsic soot on the torn ceramic. Retain every existing interior fragment without adding holes or cables.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16561-2552-77b3-9cfd-870d9cd9ad39/exec-185e0f26-4961-436b-9483-0b843e4cc400.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best available front return: closer guide framing than corrective return. Does not pass exact canvas/silhouette or fully flat lighting requirements.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c0634be9519a38f341f4425d1e406247920df32aeeb80edc49c04a7d54e6e5e1"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        }
+      ],
+      "output_sha256": "136d43e1da405a9e9f523d372c2bc55b392d93e2710a2736d8f9fbccaf300633",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          33,
+          87,
+          1235,
+          1230
+        ],
+        "opaque_bbox_alpha_128": [
+          197,
+          407,
+          1070,
+          900
+        ],
+        "guide_alpha_bbox": [
+          223,
+          350,
+          801,
+          673
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White ceramic, aged gold trim, soot, steel and cables present; visually consistent palette.",
+        "flat_even_light_pass": false,
+        "flat_even_light_note": "Residual highlights and cavity shading remain.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Texture-source albedo painting for an existing 3D model of a lander's torn-off wing. Image 1 is the exact grey orthographic guide and EDIT TARGET: keep its 1024 x 1024 canvas, silhouette, position, scale, every shape edge, opening, protrusion and detail EXACTLY. Preserve its alpha silhouette pixel for pixel. Image 2 is design_reference.png, the approved colour/material authority ONLY; do not adopt its perspective, silhouette, lighting or background. Paint chipped white ceramic plates with gold trim and rivets, black soot and scorch at the torn root, dark steel spars, black cables onto the guide's existing surfaces. Lighting: TEXTURE SOURCE (albedo), even flat shadowless illumination from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Dark colours must be inherent material/soot colour, never lighting gradients. No background, no floor, genuinely transparent background. No new geometry, nothing outside the guide silhouette, nothing cropped, no labels. Return one 1024 x 1024 RGBA image, unresized.\nView: FRONT, looking straight into the torn root, matching guide_front.png exactly. The small flattened wing cross-section occupies x=223..800, y=350..672 including the narrow upright fin and hanging cables; preserve the large transparent margins. The small far fin rises behind the upper shell at the exact guide position. Paint the existing rounded shell white ceramic with aged gold trim; existing interior broken spars dark steel, existing hanging cables black, intrinsic soot on the torn ceramic. Retain every existing interior fragment without adding holes or cables.\nCORRECTIVE ATTEMPT (only correction allowed): The prior attempt changed framing and returned 1254 x 1254, which failed. Deliver exactly 1024 x 1024 pixels. Use guide_front.png as a locked image to repaint, NOT as inspiration for a new render. Its opaque object stays at x=223..800, y=350..672 on the 1024 canvas, with all the original transparent margins. Retain the precise original alpha and geometry, including every small internal fragment and three hanging cable outlines. Only change grey surface pixels to diffuse material colours. No enlargement or recentering. Remove all specular reflections and cavity shadows; gold is matte ochre gold, steel is diffuse charcoal grey, ceramic is diffuse off-white. Do not add faint opaque background speckles.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16561-2552-77b3-9cfd-870d9cd9ad39/exec-36585489-ec57-497d-a324-cd5cf0d1d6af.png",
+      "output": "paint_front_correction_unselected.png",
+      "selected": false,
+      "reason": "Single allowed corrective regeneration. Enlarged silhouette further and retained cavity shading; not selected.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "c0634be9519a38f341f4425d1e406247920df32aeeb80edc49c04a7d54e6e5e1"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        }
+      ],
+      "output_sha256": "db1720b54b4762a7dea80e384064de0fc8347121ff92b400ebc044c20a17a20b",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1250
+        ],
+        "opaque_bbox_alpha_128": [
+          174,
+          387,
+          1104,
+          932
+        ],
+        "guide_alpha_bbox": [
+          223,
+          350,
+          801,
+          673
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White ceramic, aged gold trim, soot, steel and cables present; visually consistent palette.",
+        "flat_even_light_pass": false,
+        "flat_even_light_note": "Residual highlights and cavity shading remain.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Texture-source albedo painting for an existing 3D model of a lander's torn-off wing. Image 1 is the exact grey orthographic guide and EDIT TARGET: keep its 1024 x 1024 canvas, silhouette, position, scale, every shape edge, opening, protrusion and detail EXACTLY. Preserve its alpha silhouette pixel for pixel. Image 2 is design_reference.png, the approved colour/material authority ONLY; do not adopt its perspective, silhouette, lighting or background. Paint chipped white ceramic plates with gold trim and rivets, black soot and scorch at the torn root, dark steel spars, black cables onto the guide's existing surfaces. Lighting: TEXTURE SOURCE (albedo), even flat shadowless illumination from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Dark colours must be inherent material/soot colour, never lighting gradients. No background, no floor, genuinely transparent background. No new geometry, nothing outside the guide silhouette, nothing cropped, no labels. Return one 1024 x 1024 RGBA image, unresized.\nView: TOP, exactly guide_top.png. Long tapered wing runs vertically in the canvas from rounded narrow tip near y=66 to broad jagged torn root near y=850, with the guide's existing dark cables/spars extending down to y=957. Exact guide outer bounding box x=223..800, y=66..957. Small existing upright fin at top right remains in place. Paint broad ceramic top white with design-reference gold panel trim, restrained weathering and rivets; near the torn bottom root, black scorch on existing ceramic and dark steel/black materials on exposed spars/cables. Keep original silhouette and all thin cable shapes. Do not widen, shorten or rotate the wing. Do not transfer the design-reference perspective.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16561-2552-77b3-9cfd-870d9cd9ad39/exec-4db112a5-8b79-4920-912b-d7cb43e1957e.png",
+      "output": "paint_top_initial_unselected.png",
+      "selected": false,
+      "reason": "Gold retained strong specular highlights. Exact canvas and silhouette requirements not met.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "987d84264b938e725b377e4ba3894dd12a05b68247eb89062327d4c1e7d06e83"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        }
+      ],
+      "output_sha256": "9254632312ab674790157aa0a9d00ce42c14a8473dca0233e56876cce49a2ea9",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          31,
+          21,
+          1240,
+          1254
+        ],
+        "opaque_bbox_alpha_128": [
+          272,
+          80,
+          987,
+          1175
+        ],
+        "guide_alpha_bbox": [
+          223,
+          66,
+          801,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White ceramic, aged gold trim, soot, steel and cables present; visually consistent palette.",
+        "flat_even_light_pass": false,
+        "flat_even_light_note": "Residual highlights and cavity shading remain.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: precise-object-edit. Texture-source albedo painting for an existing 3D model of a lander's torn-off wing. Image 1 is the exact grey orthographic guide and EDIT TARGET: keep its 1024 x 1024 canvas, silhouette, position, scale, every shape edge, opening, protrusion and detail EXACTLY. Preserve its alpha silhouette pixel for pixel. Image 2 is design_reference.png, the approved colour/material authority ONLY; do not adopt its perspective, silhouette, lighting or background. Paint chipped white ceramic plates with gold trim and rivets, black soot and scorch at the torn root, dark steel spars, black cables onto the guide's existing surfaces. Lighting: TEXTURE SOURCE (albedo), even flat shadowless illumination from the viewer, no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Dark colours must be inherent material/soot colour, never lighting gradients. No background, no floor, genuinely transparent background. No new geometry, nothing outside the guide silhouette, nothing cropped, no labels. Return one 1024 x 1024 RGBA image, unresized.\nView: TOP, exactly guide_top.png. Long tapered wing runs vertically in the canvas from rounded narrow tip near y=66 to broad jagged torn root near y=850, with the guide's existing dark cables/spars extending down to y=957. Exact guide outer bounding box x=223..800, y=66..957. Small existing upright fin at top right remains in place. Paint broad ceramic top white with design-reference gold panel trim, restrained weathering and rivets; near the torn bottom root, black scorch on existing ceramic and dark steel/black materials on exposed spars/cables. Keep original silhouette and all thin cable shapes. Do not widen, shorten or rotate the wing. Do not transfer the design-reference perspective.\nCORRECTIVE ATTEMPT (only correction allowed): Generate exactly 1024 x 1024 pixels. Repaint the original guide_top.png surface pixels in place; its alpha outline is a LOCKED mask, including each jagged plate, spar and individual dangling wire. Do not create a newly rendered wing inspired by the guide. Do not relocate, lengthen, widen or invent the fin, cables or debris. Preserve every original edge and opening. Gold must be uniformly matte ochre gold with chipped dark flecks, NOT glossy polished metal: remove the bright bands, glints, shadows and all directional illumination. White ceramic must have even diffuse flat colour with intrinsic chips and soot only. Steel spars dark grey and black cable rubber, with no cavity lighting. Preserve exact original frame and transparent margins. No background speckles.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16561-2552-77b3-9cfd-870d9cd9ad39/exec-441b370a-2a78-4e4c-a875-7fb55604e79a.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Single allowed corrective regeneration; reduced highlights and flatter ceramic. Best available top return, but exact canvas/silhouette and fully flat lighting requirements remain unmet.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "987d84264b938e725b377e4ba3894dd12a05b68247eb89062327d4c1e7d06e83"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "19e571cb7e2d82d2ceff7f5e832f4369047b32831ded20541d8d657e622b6c9e"
+        }
+      ],
+      "output_sha256": "170f9106fa1d922862fd5ea3b92b3e9c6a255d4a2789d7851cdff20f91da62ad",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          31,
+          1236,
+          1254
+        ],
+        "opaque_bbox_alpha_128": [
+          273,
+          81,
+          985,
+          1175
+        ],
+        "guide_alpha_bbox": [
+          223,
+          66,
+          801,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_and_colours": "White ceramic, aged gold trim, soot, steel and cables present; visually consistent palette.",
+        "flat_even_light_pass": false,
+        "flat_even_light_note": "Residual highlights and cavity shading remain.",
+        "accepted": false
+      }
+    }
+  ]
+}

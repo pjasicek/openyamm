@@ -1,0 +1,31 @@
+# The well (WellMMIX0: MM9's class use, devdocs/mm9_rework/MM9_BONUS_PROPS_RE.md: Stat 2 Endurance +5 for the party,
+# once, the well then spent) and a greeting voice (Shopkeeper.scr :OnUse, dungeon/voices.py: the click plays the
+# voice and opens the dialogue).
+id: mm9r.thjorgardcity_well_voices
+title: 'Thjorgard City (native BLV): the well''s bonus and a greeting voice'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: thjorgardcity.blv
+- execute_event: {id: 339}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    state_dump_named_map_var: {name: MM9.Bonus.1765.Spent, value: 1}
+- assert:
+    state_dump_named_map_var: {name: MM9.Bonus.1765.Doses, value: 1}
+- note:
+    text: A second drink is refused (the well is spent); the attempt still counts.
+- execute_event: {id: 339}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    state_dump_named_map_var: {name: MM9.Bonus.1765.Doses, value: 2}
+- note:
+    text: 'Johannes (NPC4): his voice, then his dialogue.'
+- execute_event: {id: 54044}
+- advance_runtime: {seconds: 0.3}
+- assert:
+    dialog: {active: true, source_id: 4}

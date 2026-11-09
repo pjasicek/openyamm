@@ -1,0 +1,207 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d01/review/redress01",
+ "settle_seconds": 2.0,
+ "exit": true,
+ "shots": [
+  {
+   "name": "vestibule",
+   "position": [
+    200,
+    3700,
+    0
+   ],
+   "yaw": 0.3,
+   "pitch": 0.05
+  },
+  {
+   "name": "concourse_w",
+   "position": [
+    1500,
+    3400,
+    0
+   ],
+   "yaw": 0.25,
+   "pitch": 0.1
+  },
+  {
+   "name": "concourse_board",
+   "position": [
+    4200,
+    3500,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.15
+  },
+  {
+   "name": "customs",
+   "position": [
+    6950,
+    3600,
+    0
+   ],
+   "yaw": 0.6,
+   "pitch": 0.05
+  },
+  {
+   "name": "security",
+   "position": [
+    8700,
+    3900,
+    0
+   ],
+   "yaw": 0.5,
+   "pitch": 0.0
+  },
+  {
+   "name": "claim",
+   "position": [
+    2200,
+    1400,
+    0
+   ],
+   "yaw": 0.6,
+   "pitch": -0.05
+  },
+  {
+   "name": "claim_back",
+   "position": [
+    4250,
+    2900,
+    0
+   ],
+   "yaw": -2.5,
+   "pitch": -0.05
+  },
+  {
+   "name": "belts",
+   "position": [
+    4520,
+    2124,
+    0
+   ],
+   "yaw": 0.0,
+   "pitch": -0.05
+  },
+  {
+   "name": "lost_luggage",
+   "position": [
+    1050,
+    1600,
+    0
+   ],
+   "yaw": 0.8,
+   "pitch": 0.0
+  },
+  {
+   "name": "sorting",
+   "position": [
+    5780,
+    2124,
+    0
+   ],
+   "yaw": 0.0,
+   "pitch": -0.1
+  },
+  {
+   "name": "sorting_back",
+   "position": [
+    7500,
+    2900,
+    0
+   ],
+   "yaw": -2.4,
+   "pitch": -0.1
+  },
+  {
+   "name": "freight_top",
+   "position": [
+    7900,
+    1650,
+    0
+   ],
+   "yaw": 0.6,
+   "pitch": 0.0
+  },
+  {
+   "name": "maintenance",
+   "position": [
+    2000,
+    5300,
+    0
+   ],
+   "yaw": 0.7,
+   "pitch": 0.05
+  },
+  {
+   "name": "stairhall",
+   "position": [
+    4000,
+    5250,
+    0
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.25
+  },
+  {
+   "name": "tower",
+   "position": [
+    4000,
+    7700,
+    768
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "plant_ledge",
+   "position": [
+    5400,
+    500,
+    -768
+   ],
+   "yaw": 2.4,
+   "pitch": -0.15
+  },
+  {
+   "name": "plant_catwalk",
+   "position": [
+    4100,
+    900,
+    -768
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.1
+  },
+  {
+   "name": "breakers",
+   "position": [
+    4100,
+    2800,
+    -768
+   ],
+   "yaw": 1.5708,
+   "pitch": 0.05
+  },
+  {
+   "name": "drone_control",
+   "position": [
+    2600,
+    2400,
+    -768
+   ],
+   "yaw": 2.5,
+   "pitch": 0.0
+  },
+  {
+   "name": "service",
+   "position": [
+    5800,
+    1950,
+    -768
+   ],
+   "yaw": 0,
+   "pitch": 0.0
+  }
+ ]
+}

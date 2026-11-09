@@ -1,0 +1,60 @@
+output_dir: ../../review/outd1
+settle_seconds: 1.5
+exit: true
+shots:
+- name: barracuda_overview
+  position:
+  - 15780
+  - 14460
+  - 1396
+  yaw: 3.7615926535897932
+  pitch: -0.3
+- name: barracuda_boarding
+  position:
+  - 12808
+  - 12858
+  - 160
+  yaw: 4.71238898038469
+  pitch: -0.2
+- name: barracuda_return
+  position:
+  - 12808
+  - 12312
+  - 89
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: barracuda_cabin
+  position:
+  - 12584
+  - 12160
+  - 89
+  yaw: 3.141592653589793
+  pitch: 0
+- name: cerulean_skies_overview
+  position:
+  - 7452
+  - -10388
+  - 1412
+  yaw: 3.7615926535897932
+  pitch: -0.3
+- name: cerulean_skies_boarding
+  position:
+  - 4480
+  - -11990
+  - 176
+  yaw: 4.71238898038469
+  pitch: -0.2
+- name: cerulean_skies_return
+  position:
+  - 4480
+  - -12536
+  - 105
+  yaw: 1.5707963267948966
+  pitch: -0.12
+- name: cerulean_skies_cabin
+  position:
+  - 4256
+  - -12688
+  - 105
+  yaw: 3.141592653589793
+  pitch: 0

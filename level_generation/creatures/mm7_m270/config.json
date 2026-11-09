@@ -1,0 +1,198 @@
+{
+  "label": "Lich A",
+  "creature": "lich",
+  "base_palette": 271,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "preserve_delivered_rgb": true,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m270sa0",
+    "m270sa1",
+    "m270sa2",
+    "m270sa3",
+    "m270sa4"
+  ],
+  "identity_view": "front, front-right, profile, rear-right, back in native order",
+  "description": "The original skeletal lich: small ivory-gray skull and empty dark eye sockets, gold pointed crown, chainmail coif and long narrow floor-length chainmail skirt in dark blue-violet gray. Silver articulated breastplate and angular shoulder plates with gold borders, gold waist belt, exposed bony hands. One tall thin dark staff in its left hand with gold fittings, open gold cage and small red orb. Preserve native staff side, length and angles. Keep chain links distinct from silver plate, gold trim, bone and red orb. No additional magical glow, weapons or ornaments.",
+  "sampling_target": 2.3,
+  "true_alpha": true,
+  "palette_paths": {
+    "271": "assets_dev/worlds/mm7/textures/pal271.act",
+    "272": "assets_dev/worlds/mm7/textures/pal272.act",
+    "273": "assets_dev/worlds/mm7/textures/pal273.act"
+  },
+  "clear_alpha1_border_batches": [
+    "standing",
+    "w_0_0",
+    "w_0_1",
+    "w_1_0",
+    "w_1_1",
+    "w_2_0",
+    "w_2_1",
+    "w_3_0",
+    "w_3_1",
+    "w_4_0",
+    "w_4_1",
+    "a_0_0",
+    "a_1_0",
+    "a_0_1",
+    "a_1_1",
+    "a_1_2",
+    "a_1_3",
+    "a_2_0",
+    "a_2_1",
+    "a_2_2",
+    "a_2_3",
+    "a_3_0",
+    "a_3_1",
+    "a_4_0",
+    "a_4_1",
+    "n_0",
+    "n_2",
+    "n_1",
+    "n_3",
+    "n_4",
+    "fidget",
+    "death_corpse_0",
+    "death_corpse_1"
+  ],
+  "materials": {
+    "regions": [
+      {
+        "name": "chainmail",
+        "selector": "blue",
+        "thresholds": [
+          0.005,
+          0.075
+        ],
+        "brightness_floor": [
+          4,
+          14
+        ],
+        "palette_indices": [
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176
+        ],
+        "fit": "diagonal",
+        "mask_sigma": 0.8,
+        "exclude_channels": [
+          1
+        ]
+      },
+      {
+        "name": "neutral_chainmail",
+        "selector": "neutral",
+        "thresholds": [
+          0.8,
+          0.94
+        ],
+        "brightness_floor": [
+          8,
+          20
+        ],
+        "brightness_ceiling": [
+          110,
+          170
+        ],
+        "palette_indices": [
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206
+        ],
+        "fit": "diagonal",
+        "mask_sigma": 1.2
+      }
+    ],
+    "limitation": "Enhanced blue-violet and neutral chainmail coverage; neutral coverage also affects some cool silver plate and bone shadows. Gold trim and red casting effects are protected by color. Fine shade variation is retained."
+  },
+  "review_mass_region": "silhouette_mass",
+  "reviewed_border_alpha_limits": {
+    "n_1": 2
+  },
+  "reviewed_placement_translation_px": {
+    "m270ad0": [
+      -32,
+      0
+    ],
+    "m270ac1": [
+      -24,
+      0
+    ],
+    "m270ad1": [
+      -56,
+      0
+    ],
+    "m270ad3": [
+      -24,
+      0
+    ],
+    "m270ad4": [
+      16,
+      0
+    ],
+    "m270db0": [
+      -30,
+      0
+    ]
+  },
+  "placement_review_note": "Translations in 2x pixels chosen from actual native/restored head, torso and planted-foot comparisons. Flash area biases silhouette centroid in casting poses; it was not used as an automatic alignment target. Falling db0 body/hand pair shifted left; other corpse poses retain native baselines."
+}

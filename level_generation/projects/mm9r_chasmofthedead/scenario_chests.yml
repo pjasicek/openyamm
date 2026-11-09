@@ -1,0 +1,221 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.chasmofthedead_chests
+title: Chasm of the Dead (native BLV) - the sixteen MM9 treasure chests open
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: chasmofthedead.blv
+- set_pose:
+    map: chasmofthedead.blv
+    x: 1884
+    y: -4397
+    z: -4300
+    yaw: -1.5708
+    pitch: -0.7328
+- execute_event:
+    id: 41
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 5352
+    y: 17900
+    z: -5324
+    yaw: 3.1416
+    pitch: -0.7186
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 10486
+    y: 13858
+    z: -5242
+    yaw: 1.5708
+    pitch: -0.7183
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 2
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 10240
+    y: 13858
+    z: -5242
+    yaw: 1.5708
+    pitch: -0.7183
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 3
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: -10390
+    y: 8028
+    z: -3358
+    yaw: 0.0
+    pitch: -0.7152
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 4
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: -8615
+    y: -737
+    z: -3358
+    yaw: 3.1416
+    pitch: -0.7152
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 5
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: -2826
+    y: 8247
+    z: -2375
+    yaw: 1.5708
+    pitch: -0.7153
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 6
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: -3318
+    y: 8247
+    z: -2375
+    yaw: 1.5708
+    pitch: -0.7153
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 7
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: -2744
+    y: -1161
+    z: -1883
+    yaw: -1.5708
+    pitch: -0.7173
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 8
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 2867
+    y: -18323
+    z: -5488
+    yaw: -1.5708
+    pitch: -0.7155
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 9
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 2294
+    y: -18323
+    z: -5488
+    yaw: -1.5708
+    pitch: -0.7155
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 10
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 669
+    y: -8765
+    z: -4423
+    yaw: 0.0
+    pitch: -0.7153
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 11
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 749
+    y: -13736
+    z: -4914
+    yaw: -1.6528
+    pitch: -0.7171
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 12
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 669
+    y: -5571
+    z: -4423
+    yaw: 0.0
+    pitch: -0.7153
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 13
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 6922
+    y: -3468
+    z: -4423
+    yaw: 1.5708
+    pitch: -0.7153
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 14
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: chasmofthedead.blv
+    x: 6922
+    y: -7346
+    z: -4423
+    yaw: -1.5708
+    pitch: -0.7153
+- press_interact: {}
+- assert:
+    chest_opened:
+      chest_id: 15
+- press_action:
+    action: cancel_dialog

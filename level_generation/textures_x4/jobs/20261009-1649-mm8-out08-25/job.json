@@ -1,0 +1,689 @@
+{
+ "id": "20261009-1649-mm8-out08-25",
+ "world": "mm8",
+ "maps": [
+  "out08.odm",
+  "d16.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/t07b06",
+  "mm8/t07a02c",
+  "mm8/t07a08c",
+  "mm8/t07a09c",
+  "mm8/t07b04c",
+  "mm8/t30a04a",
+  "mm8/t30c01",
+  "mm8/t30a07",
+  "mm8/t30a06",
+  "mm8/t07a03a",
+  "mm8/t07c03b",
+  "mm8/t30a05b",
+  "mm8/t07a11b",
+  "mm8/t01a11c",
+  "mm8/t01a10b",
+  "mm8/t01a03a",
+  "mm8/t01a10a",
+  "mm8/t07a05",
+  "mm8/t07a10a",
+  "mm8/t07a11a",
+  "mm8/t07b02",
+  "mm8/t30d01",
+  "mm8/t30e01",
+  "mm8/gtrlwal3"
+ ],
+ "requests": {
+  "mm8/t07b06": {
+   "name": "t07b06",
+   "versions": [
+    1
+   ],
+   "material": "warm golden-orange sandstone plaster wall with fine grainy texture beside a column of dark stone quoin blocks, above a darker weathered base",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t07b01",
+      "mm8/t07c08b"
+     ],
+     "fraction": 0.788
+    }
+   }
+  },
+  "mm8/t07a02c": {
+   "name": "t07a02c",
+   "versions": [
+    1
+   ],
+   "material": "warm golden-orange sandstone plaster wall with fine grainy texture with a gothic double lancet window with red tracery under a carved stone arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t07a01",
+      "mm8/t07c04b",
+      "mm8/t07c08c"
+     ],
+     "fraction": 0.891
+    }
+   }
+  },
+  "mm8/t07a08c": {
+   "name": "t07a08c",
+   "versions": [
+    1
+   ],
+   "material": "warm golden-orange sandstone plaster wall with fine grainy texture with a gothic double lancet window with red tracery under a carved stone arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t07c08c",
+      "mm8/t07c08b",
+      "mm8/t07b06",
+      "mm8/t07a01"
+     ],
+     "fraction": 0.852
+    }
+   }
+  },
+  "mm8/t07a09c": {
+   "name": "t07a09c",
+   "versions": [
+    1
+   ],
+   "material": "warm golden-orange sandstone plaster wall with fine grainy texture beside a column of dark stone quoin blocks, with a gothic double lancet window with red tracery",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t07b07",
+      "mm8/t07a01",
+      "mm8/t07c09b",
+      "mm8/t07c08c"
+     ],
+     "fraction": 0.849
+    }
+   }
+  },
+  "mm8/t07b04c": {
+   "name": "t07b04c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "warm golden-orange sandstone plaster wall with fine grainy texture with a narrow tall red-framed slit window under a stone lintel, above a darker weathered base",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t07b01"
+     ],
+     "fraction": 0.693
+    },
+    "2": {
+     "sources": [
+      "mm8/t07b01"
+     ],
+     "fraction": 0.693
+    }
+   }
+  },
+  "mm8/t30a04a": {
+   "name": "t30a04a",
+   "versions": [
+    1
+   ],
+   "material": "warm orange-tan irregular flagstones with grey-green joints under a pale yellow stone coping, with a small barred dark window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t30a01"
+     ],
+     "fraction": 0.685
+    }
+   }
+  },
+  "mm8/t30c01": {
+   "name": "t30c01",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "warm orange-tan irregular flagstones with grey-green joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t30a01",
+      "mm8/t30a04a",
+      "mm8/t30a07"
+     ],
+     "fraction": 0.51
+    },
+    "2": {
+     "sources": [
+      "mm8/t30a01",
+      "mm8/t30a04a"
+     ],
+     "fraction": 0.504
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm8/t30a03b2"
+    }
+   }
+  },
+  "mm8/t30a07": {
+   "name": "t30a07",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "warm orange-tan irregular flagstones with grey-green joints framed by pale yellow stone corner blocks along the top and side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t30a01"
+     ],
+     "fraction": 0.45
+    },
+    "2": {
+     "sources": [
+      "mm8/t30a01",
+      "mm8/t30a04a"
+     ],
+     "fraction": 0.439
+    },
+    "3": {
+     "sources": [
+      "mm8/t30a01",
+      "mm8/t30a04a"
+     ],
+     "fraction": 0.439
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/t30a04a"
+    },
+    "3": {
+     "right": "mm8/t30a04a"
+    }
+   },
+   "roll": {
+    "3": [
+     0,
+     84
+    ]
+   }
+  },
+  "mm8/t30a06": {
+   "name": "t30a06",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "warm orange-tan irregular flagstones with grey-green joints framed by pale yellow stone corner blocks along the top and side",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t30a01",
+      "mm8/t30c01"
+     ],
+     "fraction": 0.421
+    },
+    "2": {
+     "sources": [
+      "mm8/t30a01",
+      "mm8/t30c01"
+     ],
+     "fraction": 0.421
+    },
+    "3": {
+     "sources": [
+      "mm8/t30a01",
+      "mm8/t30c01"
+     ],
+     "fraction": 0.405
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t30a04a"
+    }
+   }
+  },
+  "mm8/t07a03a": {
+   "name": "t07a03a",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "warm golden-orange sandstone plaster wall with fine grainy texture under a carved stone cornice, around an arched dark wooden plank door in a pale stone arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t07a03c",
+      "mm8/t07a03d"
+     ],
+     "fraction": 0.33
+    },
+    "2": {
+     "sources": [
+      "mm8/t07a03c",
+      "mm8/t07a03d"
+     ],
+     "fraction": 0.33
+    },
+    "3": {
+     "sources": [
+      "mm8/t07a03c",
+      "mm8/t07a03d"
+     ],
+     "fraction": 0.33
+    },
+    "4": {
+     "sources": [
+      "mm8/t07a03c",
+      "mm8/t07a03d"
+     ],
+     "fraction": 0.33
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t07a08c",
+     "left": "mm8/t07a09c"
+    },
+    "4": {
+     "right": "mm8/t07a08c",
+     "left": "mm8/t07a09c"
+    }
+   }
+  },
+  "mm8/t07c03b": {
+   "name": "t07c03b",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "warm golden-orange sandstone plaster wall with fine grainy texture under a carved stone cornice, around an arched red-painted wooden plank door in a pale stone arch",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t07a03a",
+      "mm8/t07c03c",
+      "mm8/t07c03d"
+     ],
+     "fraction": 0.412
+    },
+    "2": {
+     "sources": [
+      "mm8/t07a03a",
+      "mm8/t07c03c",
+      "mm8/t07c03d"
+     ],
+     "fraction": 0.412
+    },
+    "3": {
+     "sources": [
+      "mm8/t07a03a",
+      "mm8/t07c03c",
+      "mm8/t07c03d"
+     ],
+     "fraction": 0.412
+    },
+    "4": {
+     "sources": [
+      "mm8/t07a03a",
+      "mm8/t07c03c",
+      "mm8/t07c03d"
+     ],
+     "fraction": 0.412
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "right": "mm8/t07c04b",
+     "left": "mm8/t07c04b"
+    },
+    "4": {
+     "right": "mm8/t07c04b",
+     "left": "mm8/t07c04b"
+    }
+   }
+  },
+  "mm8/t30a05b": {
+   "name": "t30a05b",
+   "versions": [
+    1
+   ],
+   "material": "large irregular warm orange-tan flagstones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t07a11b": {
+   "name": "t07a11b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "horizontal band of dark reddish-brown wood planks",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t07c07"
+     ],
+     "fraction": 0.452
+    },
+    "2": {
+     "sources": [
+      "mm8/t07c07"
+     ],
+     "fraction": 0.452
+    }
+   }
+  },
+  "mm8/t01a11c": {
+   "name": "t01a11c",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "carved grey stone frieze tile: a raised greek-key meander of interlocking square hooks running the full width, with a small carved glyph between the hooks, crisp chiselled edges, weathered limestone",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "3": "copy the carved greek-key meander exactly as in the reference: the same interlocking hooked lines, no other symbols",
+    "6": "copy the meander lines exactly as in the reference: every hook, turn and the small glyph in the same place; no bow-ties, stars, flowers or rectangular panels"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a04a"
+     ],
+     "fraction": 0.933
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a04a"
+     ],
+     "fraction": 0.933
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a04a"
+     ],
+     "fraction": 0.933
+    },
+    "4": {
+     "sources": [
+      "mm8/t01a04b"
+     ],
+     "fraction": 0.916
+    },
+    "5": {
+     "sources": [
+      "mm8/t01a04a"
+     ],
+     "fraction": 0.933
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {}
+   },
+   "ref_blur": {
+    "6": 0.6
+   },
+   "standalone": true
+  },
+  "mm8/t01a10b": {
+   "name": "t01a10b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "narrow vertical grey carved stone strip with a greek-key meander",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t01a06a"
+     ],
+     "fraction": 0.907
+    },
+    "2": {
+     "sources": [
+      "mm8/t01a06a"
+     ],
+     "fraction": 0.907
+    },
+    "3": {
+     "sources": [
+      "mm8/t01a06a"
+     ],
+     "fraction": 0.907
+    }
+   },
+   "context": {
+    "3": {}
+   }
+  },
+  "mm8/t01a03a": {
+   "name": "t01a03a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ornate carved grey stone arch frame of bone-white serpentine forms with a green crystal at the top, around an arched dark wooden door with golden trim",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm8/t01a10a": {
+   "name": "t01a10a",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "narrow vertical grey carved stone strip with a greek-key meander",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t07a05": {
+   "name": "t07a05",
+   "versions": [
+    1
+   ],
+   "material": "horizontal rows of dark reddish-brown weathered wooden roof planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t07a10a": {
+   "name": "t07a10a",
+   "versions": [
+    1
+   ],
+   "material": "vertical warm orange-brown wood grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t07a11a": {
+   "name": "t07a11a",
+   "versions": [
+    1
+   ],
+   "material": "horizontal warm orange-brown wood grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t07b02": {
+   "name": "t07b02",
+   "versions": [
+    1
+   ],
+   "material": "dark reddish-brown crumbly earth ground with small pebbles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t30d01": {
+   "name": "t30d01",
+   "versions": [
+    1
+   ],
+   "material": "pale yellow-tan irregular flagstones with pale joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t30e01": {
+   "name": "t30e01",
+   "versions": [
+    1
+   ],
+   "material": "warm orange-tan irregular flagstones with grey-green joints, darker and shaded",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gtrlwal3": {
+   "name": "gtrlwal3",
+   "versions": [
+    1
+   ],
+   "material": "dark grey rough stone wall with green moss and lichen patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gtrlwal1"
+     ],
+     "fraction": 0.541
+    }
+   }
+  }
+ }
+}

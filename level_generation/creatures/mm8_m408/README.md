@@ -1,0 +1,13 @@
+# MM8 Couatl restoration
+
+Validated staging package for all 155 native unique frames, all native actions, five stored views and eight logical directions with native mirrors. No missing sources, aliases or orphan frames. Originals are unchanged; nothing is installed into gameplay.
+
+Open `viewer.html` directly. Base palette 408 preserves violet scales, yellow segmented belly, orange snout and multicolored feathers. Palettes 410 and 411 reproduce native green/yellow/purple and purple/green/blue appearances through deterministic recoloring. Masks follow enhanced artwork and native palette correspondence; all variants share alpha, geometry and placement. Metadata retains exact native timing, playback, mirrors, logical dimensions and anchors.
+
+The 2× package has five RGBA8 atlas pages and five matching R8 mask pages: 90,338,560 decoded bytes (72,270,848 color and 18,067,712 mask), including 27,730,355 bytes of packing overhead. Native 256×256 logical canvases, transparent margins, 16-pixel atlas gutters, three-pixel hidden bleed and no mipmaps are preserved.
+
+All 26 base sheets use built-in imagegen. Exact prompts, all 28 raw generations, native references, accepted identity and registration checkpoints, rejected rear attack and rear movement outputs are retained. Rear attack revision 2 corrects front-facing heads; rear movement revision 2 corrects oversized figures crossing cell boundaries. Frozen shared batch transforms and documented lower-row translations correct sheet spacing without individual pose fitting. Native coarse RGB plus 0.7× enhanced fine detail preserves tonal weight. Eight-neighbor inverse-fourth-power native palette interpolation performs recoloring through enhanced-art coverage masks. RGB-only contour correction preserves alpha and measured native chroma allowances.
+
+Visual review covers all 26 registration contacts, 26 native/final atlas contacts, 26 three-palette/mask contacts, magnified light/dark contours and mirrored attack in the actual viewer. Browser checks pass 465 variant decodes, 155 stored poses, 192 animation tracks and 1,128 timing boundaries. Export checks verify full source coverage and hashes, exact atlas reconstruction and matching mask placement, base bypass and identical variant alpha. Every audited edge stage has zero excess over measured native allowances.
+
+To revise, reuse retained raw outputs and run `python3 level_generation/creatures/mm8_m408/rebuild.py`. Review changed contacts, run `browser_checks.py` through the authorized offline wrapper, renew `review/decision.json` hashes, run `finalize.py`, then refresh `inventory_remaining.py`. Rebuilding does not accept changed artwork; the acceptance seal verifies reviewed artifacts.

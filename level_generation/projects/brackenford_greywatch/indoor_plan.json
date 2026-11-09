@@ -1,0 +1,416 @@
+{
+  "status": "Implemented and functionally reviewed; see ACCEPTANCE.md",
+  "map": "lg02.blv",
+  "name": "Greywatch Vault",
+  "units": "native MM8 units; room centers and approximate footprints",
+  "reference": "mm8/d18.blv",
+  "rooms": [
+    {
+      "id": "castle_arrival",
+      "name": "Upper arrival hall",
+      "center": [
+        0,
+        0,
+        768
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "shape": "octagon",
+      "hostile_budget": 0
+    },
+    {
+      "id": "watch_hall",
+      "name": "Watch hall",
+      "center": [
+        0,
+        3072,
+        768
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "shape": "octagon",
+      "hostile_budget": 4
+    },
+    {
+      "id": "armory",
+      "name": "Optional west armory",
+      "center": [
+        -3072,
+        3072,
+        768
+      ],
+      "size": [
+        1792,
+        1536
+      ],
+      "shape": "chamfered",
+      "hostile_budget": 2
+    },
+    {
+      "id": "stair_gallery",
+      "name": "Descending stair gallery",
+      "center": [
+        3072,
+        3072,
+        384
+      ],
+      "size": [
+        2048,
+        1536
+      ],
+      "shape": "rectangle",
+      "hostile_budget": 2
+    },
+    {
+      "id": "records",
+      "name": "Records chamber",
+      "center": [
+        5632,
+        3072,
+        384
+      ],
+      "size": [
+        2048,
+        2048
+      ],
+      "shape": "octagon",
+      "hostile_budget": 4
+    },
+    {
+      "id": "barracks",
+      "name": "Optional barracks",
+      "center": [
+        8704,
+        3072,
+        384
+      ],
+      "size": [
+        2048,
+        1792
+      ],
+      "shape": "chamfered",
+      "hostile_budget": 4
+    },
+    {
+      "id": "secret",
+      "name": "Secret strongroom",
+      "center": [
+        8704,
+        5376,
+        384
+      ],
+      "size": [
+        1536,
+        1280
+      ],
+      "shape": "rectangle",
+      "hostile_budget": 0
+    },
+    {
+      "id": "upper_landing",
+      "name": "Lift landing",
+      "center": [
+        5632,
+        6144,
+        768
+      ],
+      "size": [
+        1792,
+        1536
+      ],
+      "shape": "chamfered",
+      "hostile_budget": 0,
+      "placement_note": "Keep the lift disembarkation and call controls clear; former sentries moved to lower junction."
+    },
+    {
+      "id": "vault",
+      "name": "Captain vault",
+      "center": [
+        9216,
+        7680,
+        768
+      ],
+      "size": [
+        2560,
+        2048
+      ],
+      "shape": "octagon",
+      "hostile_budget": 5
+    },
+    {
+      "id": "lower_passage",
+      "name": "Lower junction",
+      "center": [
+        5632,
+        0,
+        0
+      ],
+      "size": [
+        1536,
+        1792
+      ],
+      "shape": "chamfered",
+      "hostile_budget": 3,
+      "actor_ids": [
+        "ACTOR_upper_landing_0",
+        "ACTOR_upper_landing_1",
+        "ACTOR_upper_landing_2"
+      ],
+      "placement_note": "Three sentries relocated from lift landing; retain original semantic actor IDs and runtime slots."
+    },
+    {
+      "id": "cave_arrival",
+      "name": "Lower cave arrival",
+      "center": [
+        5632,
+        -2816,
+        0
+      ],
+      "size": [
+        2304,
+        2048
+      ],
+      "shape": "irregular sloping cave",
+      "hostile_budget": 0
+    }
+  ],
+  "connections": [
+    {
+      "a": "castle_arrival",
+      "b": "watch_hall",
+      "kind": "paired_door",
+      "from_z": 768,
+      "to_z": 768,
+      "clear_width": 512
+    },
+    {
+      "a": "watch_hall",
+      "b": "armory",
+      "kind": "optional_branch",
+      "from_z": 768,
+      "to_z": 768,
+      "clear_width": 512
+    },
+    {
+      "a": "watch_hall",
+      "b": "stair_gallery",
+      "kind": "stairs",
+      "from_z": 768,
+      "to_z": 384,
+      "clear_width": 512
+    },
+    {
+      "a": "stair_gallery",
+      "b": "records",
+      "kind": "trap_corridor",
+      "from_z": 384,
+      "to_z": 384,
+      "clear_width": 512
+    },
+    {
+      "a": "records",
+      "b": "barracks",
+      "kind": "optional_branch",
+      "from_z": 384,
+      "to_z": 384,
+      "clear_width": 512
+    },
+    {
+      "a": "barracks",
+      "b": "secret",
+      "kind": "secret_door",
+      "from_z": 384,
+      "to_z": 384,
+      "clear_width": 512
+    },
+    {
+      "a": "records",
+      "b": "upper_landing",
+      "kind": "button_gate_and_lift",
+      "from_z": 384,
+      "to_z": 768,
+      "clear_width": 512
+    },
+    {
+      "a": "upper_landing",
+      "b": "vault",
+      "kind": "bent_passage",
+      "from_z": 768,
+      "to_z": 768,
+      "clear_width": 512
+    },
+    {
+      "a": "records",
+      "b": "lower_passage",
+      "kind": "stairs",
+      "from_z": 384,
+      "to_z": 0,
+      "clear_width": 512
+    },
+    {
+      "a": "lower_passage",
+      "b": "cave_arrival",
+      "kind": "cave_passage",
+      "from_z": 0,
+      "to_z": 0,
+      "clear_width": 512
+    },
+    {
+      "a": "lower_passage",
+      "b": "castle_arrival",
+      "kind": "unlockable_shortcut_stairs",
+      "from_z": 0,
+      "to_z": 768,
+      "clear_width": 512
+    }
+  ],
+  "constraints": {
+    "wall_thickness": 128,
+    "normal_headroom": 768,
+    "stair_riser_max": 32,
+    "stair_tread_min": 96,
+    "native_sector_zero": "empty",
+    "portals": "derive explicit convex visibility sectors; chamber count is not sector count",
+    "actor_budget": 24,
+    "monster_family": "MM8 HumanMercenary A/B/C, mostly B/C; resolve merged IDs from actual tables",
+    "treasure_level": 5,
+    "ambient_lighting": "derive from reference native sector/light measurements"
+  },
+  "arrivals": [
+    {
+      "id": "castle",
+      "room": "castle_arrival",
+      "return_anchor": "lg01:castle_door"
+    },
+    {
+      "id": "cave",
+      "room": "cave_arrival",
+      "return_anchor": "lg01:cave_door"
+    }
+  ],
+  "default_party_start": "castle",
+  "events": [
+    {
+      "id": 1,
+      "name": "exit_castle",
+      "kind": "travel"
+    },
+    {
+      "id": 2,
+      "name": "exit_cave",
+      "kind": "travel"
+    },
+    {
+      "id": 101,
+      "name": "watch_paired_door",
+      "doors": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 102,
+      "name": "lift_gate_button",
+      "doors": [
+        3
+      ],
+      "control_room": "records"
+    },
+    {
+      "id": 103,
+      "name": "secret_wall",
+      "doors": [
+        4
+      ],
+      "room": "barracks",
+      "flags": [
+        "secret"
+      ]
+    },
+    {
+      "id": 104,
+      "name": "shortcut_unlock",
+      "doors": [
+        5
+      ],
+      "unlock_side": "records route; cave side can reach records"
+    },
+    {
+      "id": 105,
+      "name": "lift_lower_call",
+      "doors": [
+        6
+      ],
+      "operation": "Native moving platform floor pressure plate and lower button share event105; upper button106 uses the same handler. Entering the floor toggles once, standing on it does not repeat."
+    },
+    {
+      "id": 106,
+      "name": "lift_upper_call",
+      "doors": [
+        6
+      ]
+    },
+    {
+      "id": 201,
+      "name": "armory_chest",
+      "chest_index": 0
+    },
+    {
+      "id": 202,
+      "name": "secret_chest",
+      "chest_index": 1
+    },
+    {
+      "id": 203,
+      "name": "barracks_chest",
+      "chest_index": 2
+    },
+    {
+      "id": 204,
+      "name": "vault_chest",
+      "chest_index": 3
+    },
+    {
+      "id": 301,
+      "name": "gallery_projectile_plate",
+      "flags": [
+        "pressure_plate",
+        "secret"
+      ],
+      "reset": "once per refill"
+    },
+    {
+      "id": 302,
+      "name": "armory_pressure_plate",
+      "flags": [
+        "pressure_plate"
+      ],
+      "reset": "once per refill"
+    },
+    {
+      "id": 107,
+      "name": "records_south_door",
+      "doors": [
+        7
+      ],
+      "operation": "click moving face or fixed control from either side; closed initially",
+      "purpose": "Separate records, barracks and lower-passage fights without changing species or disabling AI"
+    },
+    {
+      "id": 108,
+      "name": "barracks_door",
+      "doors": [
+        8
+      ],
+      "operation": "click moving face or fixed control from either side; closed initially",
+      "purpose": "Separate records, barracks and lower-passage fights without changing species or disabling AI"
+    }
+  ],
+  "open_work": [],
+  "material_policy": "Upper arrival hall uses the same GSton1WL masonry, base/cornice and floor as the main vault. Only the natural lower cave arrival retains sloping cave walls.",
+  "decoration_policy": "Sparse supplies and benches near room edges, records desk, barracks mess tables, armory rack, cave bones/rocks. Preserve routes, mover sweeps and actor starts."
+}

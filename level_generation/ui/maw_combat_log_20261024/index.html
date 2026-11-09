@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Combat Log Study</title>
+<!--
+  Browser study for MAW H.3 (devdocs/maw/GAPS.md §11 D.15): a scrolling combat log built from the damage-stage
+  records (game/rules/DamagePipeline.h). Two layouts for the user to choose from, drawn over a 1600x900 gameplay
+  capture with the native Carved Obsidian graphics and fonts. Nothing here is wired into the game.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Arrus; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #9fa594; --gold: #e3c185; --brass: #8c815f;
+  --party: #f2e6c4; --monster: #e6a98a; --amount: #ffe66b; --crit: #ffb347; --kill: #ff6a5a; --heal: #8fe08a;
+  --stage: #b9c4b0; --down: #e6a98a; --up: #a8d99a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 12px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review span { color: #9aa597; }
+#wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: top left;
+  overflow: hidden; background: #071012 url(gameplay_backdrop.jpg) 0 0 / 100% 100%; }
+.abs { position: absolute; }
+.hidden { display: none !important; }
+
+/* Shared line text: who, what, to whom, how much (MAW's status-line colours). */
+.who { color: var(--party); }
+.mon { color: var(--monster); }
+.amt { color: var(--amount); }
+.crit { color: var(--crit); }
+.kill { color: var(--kill); }
+.time { color: var(--muted); font-size: 12px; margin-right: 8px; }
+.chip { display: inline-flex; align-items: center; height: 26px; padding: 0 12px; margin-right: 6px;
+  font: 14px Lucida, sans-serif; color: #c8c7a7; border: 1px solid #5d6449; background: #0d1716cc; cursor: pointer; }
+.chip.on { border-color: #d6bb80; color: #ffe4ac; background: #2b2a1acc; }
+.chip.expand { margin-right: 0; padding: 0 9px; font-size: 18px; color: #e9d4a6; }
+
+/* A: the docked log over play, above the party frame on the left. Translucent obsidian, brass hairline. */
+#docked { left: 16px; top: 448px; width: 520px; height: 300px; background: #070e0edb; border: 1px solid var(--brass);
+  box-shadow: 0 0 0 1px #000a, 0 6px 16px #000c; }
+#docked .head { position: absolute; left: 14px; top: 8px; right: 14px; height: 30px; display: flex;
+  align-items: center; justify-content: space-between; }
+#docked .head h3 { margin: 0; font: 22px Fondamento, serif; color: var(--label); text-shadow: 0 2px #000; }
+#docked .lines { position: absolute; left: 14px; right: 26px; top: 46px; bottom: 10px; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end; }
+#docked .line { font: 15px/1.45 Lucida, sans-serif; color: var(--body); padding: 1px 4px; cursor: pointer;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#docked .line:hover, #docked .line.open { background: #c9b07a1f; }
+#docked .stages { margin: 2px 0 5px 22px; padding-left: 10px; border-left: 2px solid #ac9663;
+  font: 13px/1.5 Lucida, sans-serif; color: var(--stage); white-space: normal; }
+.scroll { position: absolute; right: 6px; top: 46px; bottom: 10px; width: 12px; }
+.scroll .track { position: absolute; left: 4px; top: 0; bottom: 0; width: 3px; background: #2a3829; }
+.scroll .thumb { position: absolute; left: 2px; width: 7px; background: #ac8d6a; }
+
+/* B: the log window, a modal over play (the pause menu's modal art), list on the left, the chosen hit on the right. */
+#window { left: 230px; top: 92px; width: 1140px; height: 640px;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_modal.png) 0 0 / 100% 100% no-repeat; }
+#window h2 { position: absolute; left: 62px; top: 46px; margin: 0; font: 34px Fondamento, serif; color: var(--ivory);
+  text-shadow: 0 2px #000; }
+#window .sub { position: absolute; left: 64px; top: 94px; font: 14px Lucida, sans-serif; color: var(--muted); }
+#window .filters { position: absolute; right: 62px; top: 58px; }
+#window .rule { position: absolute; left: 58px; right: 58px; height: 1px; background: #b5a47755; }
+#window .list { position: absolute; left: 58px; top: 138px; width: 610px; height: 400px; overflow: hidden; }
+#window .row { display: grid; grid-template-columns: 62px 1fr 92px; align-items: center; height: 34px;
+  padding: 0 10px; font: 15px Lucida, sans-serif; color: var(--body); cursor: pointer; margin-bottom: 2px;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row.png) 0 0 / 100% 100%; }
+#window .row.on { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row_selected.png); }
+#window .row .n { text-align: right; }
+#window .row .t { color: var(--muted); font-size: 12px; }
+#window .detail { position: absolute; left: 692px; top: 138px; width: 390px; height: 400px; padding: 14px 18px;
+  border-left: 2px solid #ac9663; background: #bbab6112; }
+#window .detail h4 { margin: 0 0 4px; font: 23px Fondamento, serif; color: var(--label); }
+#window .detail .what { font: 15px/1.45 Lucida, sans-serif; color: var(--body); margin-bottom: 14px; }
+.wf { position: relative; height: 40px; margin-bottom: 6px; }
+.wf .name { position: absolute; left: 0; top: 0; font: 13px Lucida, sans-serif; color: var(--stage); }
+.wf .val { position: absolute; right: 0; top: 0; font: 13px Lucida, sans-serif; color: var(--body); }
+.wf .bar { position: absolute; left: 0; top: 20px; height: 12px; background: #3b4a3a; }
+.wf .fill { position: absolute; left: 0; top: 20px; height: 12px; background: linear-gradient(#d9bf88, #a88b55); }
+.wf .lost { position: absolute; top: 20px; height: 12px; background: #b0503f99; }
+.wf .gain { position: absolute; top: 20px; height: 12px; background: #6ea86299; }
+#window .buttons { position: absolute; left: 58px; right: 58px; bottom: 46px; height: 52px; display: flex;
+  justify-content: space-between; align-items: center; }
+.button { display: inline-flex; align-items: center; justify-content: center; width: 180px; height: 48px;
+  font: 24px Fondamento, serif; color: #e8d1a4; text-shadow: 0 2px 1px #000; cursor: pointer;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_default.png) 0 0 / 100% 100%; }
+.button:hover { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_hover.png); }
+.note { font: 13px Lucida, sans-serif; color: var(--muted); }
+#window .scroll { left: 672px; right: auto; top: 138px; bottom: auto; height: 400px; }
+</style>
+</head>
+<body>
+<div class="review">
+  <strong style="font: 18px Fondamento, serif; color: #e9d4a6">Combat log · study</strong>
+  <button data-view="docked">A · Docked log</button>
+  <button data-view="window">B · Log window</button>
+  <button data-view="both">Both</button>
+  <span>Click a line for its damage stages; the chips filter. Browser only.</span>
+</div>
+<div id="wrap"><div id="stage">
+  <div id="docked" class="abs">
+    <div class="head"><h3>Combat log</h3>
+      <div><span class="chip on" data-filter="all">All</span><span class="chip" data-filter="dealt">Dealt</span><span class="chip" data-filter="taken">Taken</span><span class="chip expand" title="Open the log window">+</span></div>
+    </div>
+    <div class="lines"></div>
+    <div class="scroll"><div class="track"></div><div class="thumb" style="top: 58%; height: 42%"></div></div>
+  </div>
+
+  <div id="window" class="abs">
+    <h2>Combat Log</h2>
+    <div class="sub">This map · the last 200 hits · newest first</div>
+    <div class="filters"><span class="chip on" data-filter="all">All</span><span class="chip" data-filter="dealt">Dealt</span><span class="chip" data-filter="taken">Taken</span><span class="chip" data-filter="kills">Kills</span></div>
+    <div class="rule" style="top: 124px"></div>
+    <div class="list"></div>
+    <div class="scroll"><div class="track"></div><div class="thumb" style="top: 0; height: 38%"></div></div>
+    <div class="detail"></div>
+    <div class="buttons"><span class="button">Clear</span><span class="note">The Combat Log key opens and closes it · Esc closes</span><span class="button">Close</span></div>
+  </div>
+</div></div>
+
+<script>
+// Sample hits as the damage pipelines record them: the rolled amount, then one record per stage that ran
+// (DamageStageRecord: stage, before, after). Stage ids are MawCombatRules' own; the labels are the player's words.
+const StageLabels = {
+  'damage-taken-stacks': 'Exposed (damage taken)', 'resistance': 'Monster resistance', 'legendary-blows':
+  'Legendary blows', 'boss-affixes': 'Boss affix', 'map-affixes': 'Dimension affix', 'map-energy': 'Energy damage',
+  'damage-recompute': 'Monster damage at its level', 'mitigation': 'Armour and resistances', 'legendary-defense':
+  'Legendary defence', 'mist-form': 'Mist form', 'solo-cover': 'Cover', 'disease': 'Disease'
+};
+const hits = [
+  {t: '9:41', kind: 'dealt', who: 'Ariel', verb: 'hits', target: 'Goblin Shaman', amount: 168, rolled: 240, crit: true, kill: false,
+   stages: [['resistance', 240, 204], ['boss-affixes', 204, 168]], note: 'Melee, Sword'},
+  {t: '9:41', kind: 'dealt', who: 'Lys', verb: 'Fireball', target: '3 monsters', amount: 512, rolled: 612, spell: true,
+   stages: [['resistance', 612, 520], ['map-affixes', 520, 512]], note: 'Fireball, area: total of three'},
+  {t: '9:41', kind: 'taken', who: 'Goblin Shaman', verb: 'hits', target: 'Ariel', amount: 31, rolled: 88,
+   stages: [['damage-recompute', 88, 96], ['mitigation', 96, 38], ['solo-cover', 38, 31]], monsterSource: true, note: 'Melee'},
+  {t: '9:40', kind: 'dealt', who: 'Gerrard', verb: 'shoots', target: 'Goblin', amount: 74, rolled: 74, kill: true,
+   stages: [['resistance', 74, 74]], note: 'Bow, killing it'},
+  {t: '9:40', kind: 'taken', who: 'Goblin Archer', verb: 'shoots', target: 'Lys', amount: 0, rolled: 52,
+   stages: [['damage-recompute', 52, 57], ['mitigation', 57, 21], ['mist-form', 21, 0]], monsterSource: true, note: 'Arrow, absorbed'},
+  {t: '9:40', kind: 'dealt', who: 'Ariel', verb: 'hits', target: 'Goblin Archer', amount: 141, rolled: 141, kill: true,
+   stages: [['damage-taken-stacks', 128, 141], ['resistance', 141, 141]], note: 'Melee, killing it'},
+  {t: '9:39', kind: 'taken', who: 'Goblin Shaman', verb: 'Lightning Bolt', target: 'Gerrard', amount: 44, rolled: 70,
+   stages: [['damage-recompute', 70, 77], ['map-energy', 77, 77], ['mitigation', 77, 44]], monsterSource: true, spell: true,
+   note: 'Air spell'},
+  {t: '9:39', kind: 'dealt', who: 'Lys', verb: 'Fire Bolt', target: 'Goblin Shaman', amount: 96, rolled: 120,
+   stages: [['resistance', 120, 96]], spell: true, note: 'Fire spell'},
+  {t: '9:39', kind: 'dealt', who: 'Gerrard', verb: 'shoots', target: 'Goblin', amount: 58, rolled: 58, crit: true,
+   stages: [['resistance', 58, 58]], note: 'Bow'},
+  {t: '9:38', kind: 'taken', who: 'Goblin', verb: 'hits', target: 'Ariel', amount: 12, rolled: 40,
+   stages: [['damage-recompute', 40, 44], ['mitigation', 44, 15], ['legendary-defense', 15, 12]], monsterSource: true, note: 'Melee'},
+];
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+let filter = 'all', openLine = 0, selected = 0;
+
+function lineHtml(h) {
+  const who = h.monsterSource ? `<span class="mon">${h.who}</span>` : `<span class="who">${h.who}</span>`;
+  const target = h.monsterSource ? `<span class="who">${h.target}</span>` : `<span class="mon">${h.target}</span>`;
+  const verb = h.spell ? `casts ${h.verb} on` : h.verb;
+  const amount = h.amount === 0 ? '<span class="amt">no damage</span>' : `<span class="amt">${h.amount}</span> damage`;
+  return `${who} ${verb} ${target} for ${amount}` + (h.crit ? ' <span class="crit">(CRIT!)</span>' : '')
+    + (h.kill ? ' <span class="kill">killing it</span>' : '');
+}
+function stagesText(h) {
+  return `Rolled <span class="amt">${h.rolled}</span>` + h.stages.map(([id, b, a]) =>
+    ` → ${StageLabels[id]} <span style="color:${a < b ? 'var(--down)' : a > b ? 'var(--up)' : 'var(--stage)'}">`
+    + `${a < b ? '−' : a > b ? '+' : '±'}${Math.abs(a - b)}</span>`).join('') + ` → <span class="amt">${h.amount}</span>`;
+}
+function shown() {
+  return hits.filter(h => filter === 'all' || h.kind === filter || (filter === 'kills' && h.kill));
+}
+function render() {
+  // A: oldest at the top, newest at the bottom, as a chat log scrolls.
+  const lines = $('#docked .lines');
+  lines.innerHTML = shown().slice(0, 9).reverse().map(h => {
+    const i = hits.indexOf(h);
+    return `<div class="line${i === openLine ? ' open' : ''}" data-i="${i}"><span class="time">${h.t}</span>${lineHtml(h)}`
+      + (i === openLine ? `<div class="stages">${stagesText(h)}</div>` : '') + '</div>';
+  }).join('');
+  // B: newest first, a row per hit, the chosen hit's stages as a waterfall.
+  $('#window .list').innerHTML = shown().map(h => {
+    const i = hits.indexOf(h);
+    return `<div class="row${i === selected ? ' on' : ''}" data-i="${i}"><span class="t">${h.t}</span>`
+      + `<span>${lineHtml(h).replace(/ for .*$/, '')}</span><span class="n"><span class="amt">${h.amount}</span>`
+      + `${h.crit ? ' <span class="crit">✦</span>' : ''}${h.kill ? ' <span class="kill">✝</span>' : ''}</span></div>`;
+  }).join('');
+  const h = hits[selected];
+  const top = Math.max(h.rolled, ...h.stages.map(s => Math.max(s[1], s[2])));
+  const width = 360;
+  const bar = (label, value, before) => {
+    const w = v => Math.round(v / top * width);
+    let extra = '';
+    if (before !== undefined && before > value) extra = `<div class="lost" style="left:${w(value)}px;width:${w(before) - w(value)}px"></div>`;
+    if (before !== undefined && before < value) extra = `<div class="gain" style="left:${w(before)}px;width:${w(value) - w(before)}px"></div>`;
+    return `<div class="wf"><span class="name">${label}</span><span class="val">${before !== undefined
+      ? `${before} → ` : ''}${value}</span><div class="bar" style="width:${width}px"></div>`
+      + `<div class="fill" style="width:${w(Math.min(value, before ?? value))}px"></div>${extra}</div>`;
+  };
+  $('#window .detail').innerHTML = `<h4>${h.monsterSource ? 'Damage taken' : 'Damage dealt'}</h4>`
+    + `<div class="what">${lineHtml(h)}<br><span class="note">${h.note} · ${h.t}</span></div>`
+    + bar('Rolled', h.rolled) + h.stages.map(([id, b, a]) => bar(StageLabels[id], a, b)).join('')
+    + `<div class="note" style="margin-top:10px">Each bar is a stage of the damage rules, in the order they run.</div>`;
+  $$('.line, .row').forEach(el => el.onclick = () => {
+    const i = +el.dataset.i;
+    if (el.classList.contains('line')) openLine = openLine === i ? -1 : i; else selected = i;
+    render();
+  });
+}
+$('.chip.expand').onclick = () => setView('both');
+$$('.chip[data-filter]').forEach(c => c.onclick = () => {
+  filter = c.dataset.filter;
+  $$('.chip[data-filter]').forEach(x => x.classList.toggle('on', x.dataset.filter === filter));
+  render();
+});
+function setView(view) {
+  $('#docked').classList.toggle('hidden', view === 'window');
+  $('#window').classList.toggle('hidden', view === 'docked');
+  $$('.review button').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === view));
+}
+$$('.review button').forEach(b => b.onclick = () => setView(b.dataset.view));
+function fit() {
+  const scale = $('#wrap').clientWidth / 1600;
+  $('#stage').style.transform = `scale(${scale})`;
+}
+const params = new URLSearchParams(location.search);
+if (params.get('export')) $('.review').classList.add('hidden');
+if (params.get('select')) selected = +params.get('select');
+if (params.get('open')) openLine = +params.get('open');
+window.addEventListener('resize', fit);
+render();
+setView(params.get('view') || 'docked');
+fit();
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Crystal Walker A — packed outline restoration
+
+Status: **complete_local_acceptance**. Enhanced 160 of 160 native frame names; missing 0. All native playback art restored: True. No gameplay installation.
+
+The local package is [manifest](redo_2x/manifest.json) and its frozen [acceptance record](redo_2x/review/acceptance.json). Actual minimum generated sampling: 1.6713×; checked physical masters are 2×. Whole animations were retained for reviewed lower-sampling sheets.
+
+All 35 complete sheets and 160 native frame names reviewed statically against the native sequence, including all five stored rotations, grounded-row corrections, lateral head/support correction in hit view 1, falling/collapsed poses and independent waists, knees and claw ownership. No imagegen guide strokes, dark material grooves or smoothed waxy surfaces copied. All 40 palette/mask contacts inspected through eight unresized contact strips; sole palette 596 retains a zero recolour mask. Representative unresized head/facet material detail and strongest measured cleaned/atlas edge patches inspected on dark and ivory. Diagnostic pink scores are native crystal colour, with complete tapered contours and no visible matte bands. Exact half-pixel crop/anchor/mirror metadata, timing, alias/hold reuse and all source hashes validated. Reviewed sheets below 2x generated detail retained as complete cycles; physical masters exported at 2x.

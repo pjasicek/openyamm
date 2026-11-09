@@ -1,0 +1,26 @@
+{
+  "family": "dwa1",
+  "title": "MM6 Dwarf",
+  "descriptor_ids": [
+    520,
+    521,
+    522
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 195,
+  "matte": "magenta",
+  "mask_kind": "green",
+  "extra_native_actions": {
+    "fidget": [
+      "dwa1fib0"
+    ]
+  },
+  "description": "A short stocky adult male dwarf with broad face, large nose, heavy dark eyebrows, long pointed dark black-brown beard and moustache. Small rounded iron helmet with brass rim/reinforcements and a short central top spike; no horns. Dark forest-green short-sleeved knee-length tunic with laced chest and small metal-studded hem, matching dark green leggings. Brown leather shoulder panels, belt with square brass buckle, forearm bracers and boots. Light warm exposed skin on face, arms and hands. Holds the native short wooden-handled iron axe low in his right hand; preserve the weapon shape, visible side and foreshortening from the source. Preserve the squat broad native proportions and dark tonal weight; no lengthened legs, oversized fantasy armor, invented shield or accessories.",
+  "regions": "Green tunic sleeves/body and green leggings recolor to the native blue/purple or red/brown cloth; preserve beard, face, arms, brown leather, iron/brass helmet, axe and metal hem details.",
+  "variant_names": {
+    "195": "Dwarf A / green cloth",
+    "196": "Dwarf B / blue cloth",
+    "197": "Dwarf C / red cloth"
+  },
+  "material_module": "materials.py"
+}

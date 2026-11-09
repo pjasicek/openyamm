@@ -1,0 +1,58 @@
+[
+  {
+    "name": "drsrew",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-cdd5973b-b1d0-48b7-b061-ccc96ae3fe0f.png",
+    "raw_sha256": "f460b0267ee255fc6f729ae1b425e5eb45f117af2cbc9ce534fd4b4228c51e34",
+    "prompt_sha256": "ff2217c56a57a505f6a5cc7923c9c980a3164fcf75a56dad64f126986b073bdc",
+    "inputs": {
+      "level_generation/terrain/mm8/references/drsrew.png": "cb668e6951c7ba9f4bdb94683de0a30dcd07f1840792701b7606201e441a4093",
+      "level_generation/terrain/mm8/masters/v1/materials/dirt.png": "88f9379ecad45e35a4b3888654abb972f428809e9f101d8c4321f7926d669dea"
+    }
+  },
+  {
+    "name": "drsrns",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-9191c79b-760a-4a3d-b0a2-d31053536891.png",
+    "raw_sha256": "0d07a5517da4fd7714b062531280adf77622149b25aff123b1ec6809059c03e1",
+    "prompt_sha256": "6f880404cebb796ce43fb0f1eb9a33fd01a4bbfb706f50b089d9bf83aab8d87e",
+    "inputs": {
+      "level_generation/terrain/mm8/references/drsrns.png": "1230b380bcc28fc6cba44bb707faa62f3e42fe556d41da00c6862f06f736a9aa",
+      "level_generation/terrain/mm8/masters/v1/materials/dirt.png": "88f9379ecad45e35a4b3888654abb972f428809e9f101d8c4321f7926d669dea"
+    }
+  },
+  {
+    "name": "drsrew_geometry_v2",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-18a8d043-e7b7-49e3-b8b1-cc44c286137e.png",
+    "raw_sha256": "7e83d28db6f94c938fa56a5ab83e03a3d17640fa5a9e37585498b25d12c0d3ab",
+    "prompt_sha256": "59c97aaafd28c4c828f62efe706c9feafd6ded8498c65260fc849814870f5dcb",
+    "inputs": {
+      "level_generation/terrain/mm8/roads/v1/inputs/drsrew_native_512.png": "d805a8dd7fe1879f561e1e710ca9b799a0c2b96f080c5008b626c6d7eda7a647",
+      "level_generation/terrain/mm8/roads/v1/inputs/drsrew_solid_guide.png": "ad150493cc8fc509d605567003194d8dde722d3ff89dc2a177c46adf9561992b"
+    }
+  },
+  {
+    "name": "drsrns_geometry_v2",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-9af5aa3d-d725-4fe9-bccb-c2d276eb9146.png",
+    "raw_sha256": "62bd307194c1a576d88fb301ef25245fd15f933354ba2d4d9d4a7a34357cc024",
+    "prompt_sha256": "59c97aaafd28c4c828f62efe706c9feafd6ded8498c65260fc849814870f5dcb",
+    "inputs": {
+      "level_generation/terrain/mm8/roads/v1/inputs/drsrns_native_512.png": "0a034a1554b0cdf792a4672d8cebd18da09bc253196dbc9de9d00921c41ec450",
+      "level_generation/terrain/mm8/roads/v1/inputs/drsrns_solid_guide.png": "39e0dc0d5d92dacff05542ada2e1b0c2b08603f9f1027513f737c87765fa9ec3"
+    }
+  },
+  {
+    "name": "drsrew_definition_v3",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-37322666-689b-4be7-994c-3c648ff052e6.png",
+    "raw_sha256": "8bdd1f64e8bec682f51e3deb2cb7d82ebb6d6c5b50f2fbf6abf03ecaedc45993",
+    "prompt_sha256": "201a3ffbd29101aa597b6c400119fd4ea86b55392258e3caf7f54c74dc578e19",
+    "inputs": {
+      "level_generation/terrain/mm8/roads/v1/inputs/drsrew_smooth_reference.png": "55d0f5e1cf5d007c45a637e6a07b03ab8412d11c6a5cd69d246fd0620bcdda08",
+      "level_generation/terrain/mm8/roads/v1/raw/drsrew.png": "f460b0267ee255fc6f729ae1b425e5eb45f117af2cbc9ce534fd4b4228c51e34",
+      "level_generation/terrain/mm8/roads/v1/inputs/drsrew_solid_guide.png": "ad150493cc8fc509d605567003194d8dde722d3ff89dc2a177c46adf9561992b"
+    }
+  }
+]

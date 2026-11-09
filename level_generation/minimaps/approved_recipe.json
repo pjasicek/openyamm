@@ -1,0 +1,24 @@
+{
+  "source": "https://www.moddb.com/mods/minimaps-for-might-magic/tutorials/making-minimaps-for-might-and-magic",
+  "status": "Process reproduction; chosen numeric settings, not recovered author presets",
+  "sun": {
+    "azimuth_degrees_clockwise_from_north": 315,
+    "elevation_degrees": 20,
+    "color_linear_rgb": [1.0, 0.84, 0.62],
+    "strength": 6.6,
+    "cast_shadows": false
+  },
+  "world": {"color_linear_rgb": [0.35, 0.5, 1.0], "strength": 0.4},
+  "render": {"size": 2048, "samples": 64, "seed": 60927, "diffuse_bounces": 0, "denoising": false},
+  "terrain_flat_normal_blend": 0.15,
+  "terrain_random_pick": {
+    "seed": 20260927,
+    "radius_master_pixels": 1,
+    "probability": 0.25,
+    "blend": 0.3
+  },
+  "object_levels": {"black": 0.0, "white": 0.85, "gamma": 1.16},
+  "global_grade": {"contrast": 1.06, "contrast_pivot": 0.3, "saturation": 1.13},
+  "unsharp": {"radius_master_pixels": 1.2, "amount": 0.3, "threshold_255": 2},
+  "export_size": 1024
+}

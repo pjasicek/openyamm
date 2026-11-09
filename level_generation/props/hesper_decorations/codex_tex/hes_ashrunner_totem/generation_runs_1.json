@@ -1,0 +1,227 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated and saved unresized returns; exact brief requirements not met",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: 1024 x 1024 transparent RGBA orthographic FRONT-view albedo texture source for an existing 3D decoration.\nImage 1 (guide_front.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is the approved material/color authority only. Image 3 (concept_crop.png) supports material identity only.\nPaint directly over the EXACT grey model in Image 1, replacing only its grey surface with the reference materials. Preserve the guide's silhouette EXACTLY, pixel-aligned: identical canvas, camera, orthographic front view, object size, position, outline, internal openings, every shape edge, folds, hanging strips, hoops, rectangular plates, crossbar, helmet, goggle rims and rubble. Do not reconstruct the reference's three-quarter geometry. Do not move, reshape, add or remove anything. Preserve all transparent negative spaces and the original alpha boundary. Object bounds in 1024-square canvas: x66..957, y200..823. Keep the large original transparent margins.\nMaterials: reference's weathered rusted dark charcoal iron pipe and helmet with muted orange-brown rust patches, aged ochre brass goggle rims, dull near-black glass lenses without reflected scenes or bright glints, dusty faded ochre and grey woven rags, oxidized copper wire, small bleached bone coloration on existing relevant details; grey ash, charcoal grey fractured rocks, rusty scrap at base. Apply fine material surface texture WITHIN the existing faces; do not add geometry, holes or new dangling details.\nLIGHTING: pure diffuse ALBEDO, even flat shadowless viewer-facing illumination on every surface. NO cast shadows, NO ambient occlusion, NO dark crease shading, NO directional shading, NO strong specular highlights, NO reflections, NO rim light. Material color variation only; do not copy the dramatic light of the references. No ground plane, background, shadow, text or watermark. Genuine transparent background. Return one unresized 1024x1024 PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15641-e9f3-7443-8353-360fc9ab1a76/exec-db3f03e8-5d6f-41ea-8487-4f6ad88d9b09.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Rejected: geometry and cloth details drifted from guide; shaded folds; returned 1254x1254 instead of 1024x1024.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1e346a832c5ad8e447caba442cc6ad1b70bd126370cfde57a549a6f0bd54acd6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8d37fb4889d63c2a98e8cefff95f5323fdd9000a4b378f1c1ab5217a108a426e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "dca2956c55f0970780cf64f0ea22b0ec357aadd52ba879d0e16b7776151781ff"
+        }
+      ],
+      "output_sha256": "6460e7f13f14ad55ea85a2741526215225843125effaf83ffec80d0e4e123548",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_pixels_present": true,
+        "opaque_pixels_present": true,
+        "alpha_bbox": [
+          0,
+          27,
+          1236,
+          1254
+        ],
+        "opaque_bbox": [
+          80,
+          244,
+          1175,
+          995
+        ],
+        "exact_guide_alpha_pass": false,
+        "materials_visual": "Rusted iron, ochre/grey cloth, brass/copper and grey ash palette present",
+        "flat_albedo_visual": "Residual shading and highlights remain",
+        "unresized_original_bytes": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "EDIT image 1 (guide_front.png) in place. Output canvas MUST be exactly 1024 pixels wide by 1024 pixels high, the same as image 1. Do not resize or recenter the subject. This is the only corrective pass for the FRONT albedo painting. The previous result was rejected for incorrect 1254-square dimensions, geometry drift and shaded creases.\nImage 1: exact 1024x1024 grey FRONT guide, the sole geometry and alpha authority. Image 2: approved design_reference.png, surface color/material authority. Image 3: concept_crop.png, supporting color reference.\nRecolor ONLY the grey object surface of image 1 with fine textured albedo. Retain its exact low polygon geometry, exact cloth folds, strips, loops, plaques, rubble, helmet shape, goggle shapes and every interior gap. Trace every original shape boundary exactly. Keep object original pixels x66..957 and y200..823 with all original transparent margins. Do not add cutouts or rag holes; don't replace the model with the reference. Preserve the entire guide alpha mask including anti-aliased boundaries and disconnected small stones.\nTransfer ONLY these surface colors from the design: dark weathered iron and muted orange-brown rust on pipes/helmet/plates, aged ochre brass rims, DULL charcoal glass goggle lenses, faded dusty ochre and grey cloth, oxidized copper bindings, subtle bleached bone details where already modeled, grey ash rubble base. Keep faceted edges exactly as the grey model. Material texture is painted detail only.\nPURE ALBEDO texture-source pass, all surfaces evenly illuminated from viewer. Zero cast shadows, zero ambient occlusion, zero crease darkening, zero specular/reflections, zero gradients from illumination, zero rim light. No floor, background, text, watermark or new objects. Background is true transparency. Deliver one PNG at EXACTLY 1024x1024 pixels, without enlarging the source guide.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15641-e9f3-7443-8353-360fc9ab1a76/exec-52e2dc32-4617-44d6-a9c1-8db539f1c686.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Best front return: closer faceted cloth and model edges, duller lenses and flatter materials. Still fails exact 1024x1024 dimensions and exact silhouette; residual shading. One corrective regeneration exhausted.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1e346a832c5ad8e447caba442cc6ad1b70bd126370cfde57a549a6f0bd54acd6"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8d37fb4889d63c2a98e8cefff95f5323fdd9000a4b378f1c1ab5217a108a426e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "dca2956c55f0970780cf64f0ea22b0ec357aadd52ba879d0e16b7776151781ff"
+        }
+      ],
+      "output_sha256": "e3cbf718db1f867c4c3645732c79b91838ad12ea6e71c3216b9101e13f2b1ab6",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_pixels_present": true,
+        "opaque_pixels_present": true,
+        "alpha_bbox": [
+          0,
+          30,
+          1226,
+          1254
+        ],
+        "opaque_bbox": [
+          80,
+          243,
+          1174,
+          1009
+        ],
+        "exact_guide_alpha_pass": false,
+        "materials_visual": "Rusted iron, ochre/grey cloth, brass/copper and grey ash palette present",
+        "flat_albedo_visual": "Residual shading and highlights remain",
+        "unresized_original_bytes": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. EDIT image 1 (guide_top.png) in place to paint an albedo texture source for an existing 3D totem. Return exactly 1024x1024 transparent PNG, matching the image 1 canvas without resizing.\nImage 1: grey orthographic TOP guide; absolute geometry, shape, camera and alpha authority. Image 2: approved design_reference.png; MATERIALS AND COLORS ONLY, not geometry or camera. Image 3: concept_crop.png supporting appearance reference only.\nKeep image 1's exact overhead view looking STRAIGHT DOWN. Center of helmet is the round dome in the center, goggle edges at its lower edge, horizontal crossbar extends left/right and rubble forms the footprint around it. This is not a front view. Paint the grey surfaces without changing any geometry. Preserve exactly each original polygon, outline, edge, opening, piece of rubble, arm, rod, binding, cloth fold and tiny disconnected stone in its original pixel position. Object bounds x66..957, y276..747 in 1024x1024. Keep original transparent margins and all negative spaces. Do not enlarge, recenter, add objects, add holes, or invent newly visible anatomy.\nApply reference materials: rust-pitted dark charcoal iron helmet with muted rusty orange seams, dark iron horizontal pipes with rust, aged ochre brass bindings, faded dusty ochre and grey woven cloth on existing rag surfaces, oxidized copper wire, small bleached bone colors on existing appropriate details, grey ash and charcoal grey fractured stones with rusty scrap at base. Dull glass only on visible goggle edges. Material surface textures may change; exact shape edges must stay.\nLighting is pure ALBEDO: evenly lit, flat, shadowless, from the top-view viewer. No cast shadows, no ambient occlusion, no shaded creases, no bright specular highlights or reflections, no rim light or directional lighting. Do not copy cinematic lighting of reference images. No floor or background. Genuine transparent background. No text or watermark. ONE unresized 1024 x 1024 PNG, do not upscale the guide.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15641-e9f3-7443-8353-360fc9ab1a76/exec-24508fc4-df0c-47e0-afa0-040eb5b9cb6e.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Best top return: closer original framing and shape placement than corrective pass. Still fails exact 1024x1024 dimensions and exact silhouette; added surface detail and residual shading. One corrective regeneration exhausted.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "52c64c8e65bdf961494cb68a6145033bb20e935f4d827053fa0f1d4f1b0814d4"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8d37fb4889d63c2a98e8cefff95f5323fdd9000a4b378f1c1ab5217a108a426e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "dca2956c55f0970780cf64f0ea22b0ec357aadd52ba879d0e16b7776151781ff"
+        }
+      ],
+      "output_sha256": "d6f5552d7b229ac57fad0af7558658321f38400e5b858ce5b76a0772f7e93352",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_pixels_present": true,
+        "opaque_pixels_present": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1234,
+          1228
+        ],
+        "opaque_bbox": [
+          80,
+          338,
+          1174,
+          918
+        ],
+        "exact_guide_alpha_pass": false,
+        "materials_visual": "Rusted iron, ochre/grey cloth, brass/copper and grey ash palette present",
+        "flat_albedo_visual": "Residual shading and highlights remain",
+        "unresized_original_bytes": true,
+        "brief_compliant": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE TOP ALBEDO PASS. Edit the first attached image in place; do not redraw its geometry. Return 1024 x 1024 pixels, exactly the original guide canvas dimensions. The earlier top attempt came back incorrectly at 1254x1254 and had dark ambient occlusion and bright helmet highlights; correct those failures.\nInput 1 guide_top.png = EDIT TARGET: definitive straight-down orthographic top projection of an existing low-poly 3D model, including the exact alpha coverage and exact low-poly faces. Input 2 design_reference.png = materials/colors only. Input 3 concept_crop.png = supporting colors only.\nTreat input 1 as an immutable shape stencil. Keep every polygon edge, silhouette, separate small fragment, gap, fold, helmet dome, goggle edge, crossbar, wire and rock EXACTLY where it is. Keep all grey guide outlines unchanged, including angular rubble faces and broad faceted cloth folds. Do not invent seams, holes, geometry, extra rubble or 3D details from the reference. Object occupies x66..957, y276..747 on a 1024-square transparent canvas. Preserve those coordinates and the complete guide alpha mask. No zoom, resize, camera tilt, recentering or cropping.\nONLY replace grey with matte material colors and fine surface wear: charcoal iron with dusty muted burnt-orange rust on helmet and pipes; dull aged brass bindings; dusty faded ochre and grey cloth; oxidized copper existing wires; subtle bleached bone colors on already modeled details; grey ash and charcoal grey fractured rocks on base. The dome is rusty metal, not a polished sphere. Goggle edges are dull brass and dark glass.\nThis image is an UNLIT BASE-COLOR / ALBEDO pass for texture projection, NOT a lit beauty render. Each surface has even flat color independent of angle. NO darkening between objects, NO shadowed folds, NO ambient occlusion, NO cast shadows, NO specular shine, NO reflected highlights, NO light falloff, NO rim lighting. Natural material pigmentation only. Background genuinely transparent, including every small guide opening. No ground, text, labels or watermark. Return one unresized 1024x1024 transparent PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a15641-e9f3-7443-8353-360fc9ab1a76/exec-a53321a2-3fdd-4f62-9ff6-7285910435f4.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Rejected: flatter material response but object shifted vertically away from guide, invented cloth detail; returned 1254x1254 instead of 1024x1024.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "52c64c8e65bdf961494cb68a6145033bb20e935f4d827053fa0f1d4f1b0814d4"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8d37fb4889d63c2a98e8cefff95f5323fdd9000a4b378f1c1ab5217a108a426e"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "dca2956c55f0970780cf64f0ea22b0ec357aadd52ba879d0e16b7776151781ff"
+        }
+      ],
+      "output_sha256": "0ae055ff382ef37da36764ef1f98a0957e5b0126f85f552c743f46ccc13394e8",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_pixels_present": true,
+        "opaque_pixels_present": true,
+        "alpha_bbox": [
+          27,
+          14,
+          1240,
+          1234
+        ],
+        "opaque_bbox": [
+          81,
+          300,
+          1174,
+          877
+        ],
+        "exact_guide_alpha_pass": false,
+        "materials_visual": "Rusted iron, ochre/grey cloth, brass/copper and grey ash palette present",
+        "flat_albedo_visual": "Residual shading and highlights remain",
+        "unresized_original_bytes": true,
+        "brief_compliant": false
+      }
+    }
+  ]
+}

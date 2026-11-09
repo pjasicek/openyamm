@@ -1,0 +1,640 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "status": "All five deliverables saved; strict silhouette and flat-albedo constraints remain unmet.",
+  "policy": "Unresized and unedited tool returns. At most two calls per view, including rejected calls. Best available candidate retained.",
+  "limitations": [
+    "All selected returns are 1254 x 1254, not the requested 1024 x 1024; preserved unresized as instructed.",
+    "No selected alpha silhouette is identical to its guide. Normalized silhouette overlap is recorded for each return.",
+    "Top view has significant contour/part-placement drift.",
+    "Selected images retain some form shading and metallic highlights, so they are not strictly unlit albedo.",
+    "The RGBA returns contain faint stray-alpha pixels beyond the main silhouette.",
+    "Back initial generation and right corrective generation were rejected by the image tool; full errors are recorded."
+  ],
+  "deliverables": {
+    "front": {
+      "output": "paint_front.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "8c071970477703d17bd2499db8ace1482fed9d40b771b39bf8b983a3b811f3df",
+      "strict_brief_checks_passed": false
+    },
+    "back": {
+      "output": "paint_back.png",
+      "selected_attempt": 2,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "93a97f2dcea81539e68ec8f502a66191c8369e159164d12c94cc630e064443da",
+      "strict_brief_checks_passed": false
+    },
+    "left": {
+      "output": "paint_left.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "de78a3499535ef2e8dadcc4d3f3252990cedb3d4ac8529d887ec80fb136f6456",
+      "strict_brief_checks_passed": false
+    },
+    "right": {
+      "output": "paint_right.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "b39e15503b516562bac4c8b7d300ddbeb5ee72202f15468a2422a2ee2272029f",
+      "strict_brief_checks_passed": false
+    },
+    "top": {
+      "output": "paint_top.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "e38301542d460402421d29dfaa86946ac3ccfacc34fd1f5dc01480137414827f",
+      "strict_brief_checks_passed": false
+    }
+  },
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a texture-source/albedo view of the Hesper disruptor cannon by editing image 1, guide_front.png. Image 1 is the EXACT geometry, silhouette, framing and camera authority. Image 2, design_reference.png, supplies ONLY surface colours/materials/design details; do not adopt its perspective or silhouette.\nOutput: ONE 1024 x 1024 PNG with genuine transparent background, keeping the original guide alpha silhouette exactly. No sheet, labels, letters, words or watermark.\nGeometry invariants: preserve EVERY edge of image 1, all parts, occlusions, position, scale and orientation without adding, enlarging, moving or deleting anything. The object occupies x=66..957, y=418..605 on the full square canvas; keep all this surrounding empty transparent space. Stock points left, muzzle right. This guide shows the thin edge-on plane of the gun, not the broad profile of the design reference. Do not rotate toward the design reference. Preserve the long central bar/hose and the existing small grip seen edge-on.\nPaint the reference's surfaces precisely onto the guide geometry: very dark black-violet organic resin stock/body with fine fibrous ridges and small warm grooves, aged ivory/bone ceramic ribs and white ceramic barrel with fine subtle wear, brushed antique gold collars/bands and small fittings, bright orange energy chambers behind the ribs, pale blue-white energy tubes between the barrel ribs and blue-white at the muzzle. Continue obscured surfaces plausibly in the same materials. Keep fine engraved lines, panel joins and seams without alphabetic marks. Do not invent any extra geometry or holes.\nLIGHTING: flat even shadowless albedo from the viewer. Remove the clay guide's lighting gradients. No cast shadows, no ambient occlusion darkening, no strong specular highlights or reflections, no rim light, no background or floor. Metal is its base gold colour with a faint sheen only. Energy parts are painted bright light colours without bloom or glow outside the silhouette. Small surface material detail must not imply directional lighting.\nOnly change surface painting; preserve the guide's exact orthographic view and exact alpha contour.",
+      "transparent_background": true,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-41a727cb-2693-4f3b-942c-ddcf4355d273.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closest available guide silhouette within the one-retry limit. Preserves the square canvas and intended view; remaining contour drift and baked shading fail strict brief checks.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_front.png",
+          "sha256": "ef2b0d5e4575f822fdb7798e98d6794c6db14affb41cc012847055b16fc50a6b"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "8c071970477703d17bd2499db8ace1482fed9d40b771b39bf8b983a3b811f3df",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "fully_transparent_pixels": 1408875,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha128": 0.970228,
+        "comparison_method": "Read-only normalized-coordinate sampling of returned alpha; no saved image was resized or edited.",
+        "alpha_nonzero_bbox": [
+          21,
+          45,
+          1224,
+          1234
+        ],
+        "alpha128_bbox": [
+          79,
+          512,
+          1177,
+          743
+        ],
+        "normalized_opaque_pixels_outside_guide": 2960,
+        "colours_materials_match_palette": true,
+        "flat_even_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "visual_review": "Ivory ceramic, antique gold, black-violet resin, orange energy and blue-white energy palette present. No visible text or floor. Residual form shading and metallic highlights prevent a strict flat-albedo pass. Alpha includes faint stray pixels beyond the main silhouette.",
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "paint_front_run1.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Single corrective repaint for a fantasy video-game prop texture source.\nImage 1 (guide_front.png) is the canvas to paint: its camera, exact alpha contour, size, position and every part's edge are immutable.\nImage 2 (previous paint) is ONLY a colour/material reference; it has silhouette drift and excess highlights that you must correct.\nImage 3 (design_reference.png) is the approved material design; do not use its perspective, dimensions, outline or lighting.\nCreate ONE 1024 x 1024 RGBA PNG. Preserve every transparent pixel of image 1. Paint only its nontransparent pixels; nothing outside its outline. Keep all empty canvas margins. Do not resize/reframe the object. No text or labels.\nThin edge-on horizontal silhouette. Stock left and muzzle right. Keep the guide's long central bar, small polygonal side grip, exact rib tips above and below, and all part boundaries. On the 1024 square the object occupies only x=66..957, y=418..605.\nApply the approved diffuse base colours and fine material wear to the fixed guide parts: near-black violet fibrous resin stock/body/fins/hoses; ivory ceramic/bone ribs and white ceramic barrel; muted brushed antique-gold bands/fittings; bright orange chamber surfaces and pale blue-white energy tubes/muzzle. Continue unseen faces plausibly. Keep seams, engraved grooves and fine wear, without adding geometry.\nCorrection: enforce the guide silhouette and use strictly UNLIT DIFFUSE ALBEDO. All ceramic is evenly ivory, gold is evenly muted gold with at most faint sheen, resin is evenly dark violet with small material texture. Remove every bright metallic hotspot, dark cast shadow, ambient-occlusion gradient and directional highlight from the previous painting. No reflections, rim lighting, bloom, shadow or glow spill. Luminous surfaces use flat bright orange or blue-white colour. This must be a flat evenly coloured texture projection source, with detailed surface texture but no baked illumination.\nOutput only the painted original guide, genuinely transparent background, no floor, no decoration outside it.",
+      "transparent_background": true,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-214c5c38-763a-4d63-8ba0-afe0723127f4.png",
+      "output": "paint_front_run2.png",
+      "selected": false,
+      "reason": "Not selected: its silhouette/framing is further from the guide than the retained candidate; no further regeneration permitted.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_front.png",
+          "sha256": "ef2b0d5e4575f822fdb7798e98d6794c6db14affb41cc012847055b16fc50a6b"
+        },
+        {
+          "path": "paint_front_run1.png",
+          "tool_input_path": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-41a727cb-2693-4f3b-942c-ddcf4355d273.png",
+          "sha256": "8c071970477703d17bd2499db8ace1482fed9d40b771b39bf8b983a3b811f3df"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1774,
+        887
+      ],
+      "unresized": true,
+      "sha256": "3ada0faf509c1bac1fce1f5f1784d98aa2360eedb90db4d01d74add0efc44a94",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "fully_transparent_pixels": 1241564,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha128": 0.447371,
+        "comparison_method": "Read-only normalized-coordinate sampling of returned alpha; no saved image was resized or edited.",
+        "alpha_nonzero_bbox": [
+          57,
+          57,
+          1710,
+          861
+        ],
+        "alpha128_bbox": [
+          105,
+          317,
+          1671,
+          643
+        ],
+        "normalized_opaque_pixels_outside_guide": 114827,
+        "colours_materials_match_palette": true,
+        "flat_even_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "visual_review": "Ivory ceramic, antique gold, black-violet resin, orange energy and blue-white energy palette present. No visible text or floor. Residual form shading and metallic highlights prevent a strict flat-albedo pass. Alpha includes faint stray pixels beyond the main silhouette.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint ONE texture-source/albedo view of the Hesper disruptor cannon by editing image 1, guide_back.png. Image 1 is the EXACT geometry, camera, silhouette, position and scale authority. Image 2, design_reference.png, supplies ONLY the approved materials, colours and small surface design.\nOutput: ONE 1024 x 1024 PNG, genuine transparent background. Preserve the guide's original alpha silhouette EXACTLY; preserve all surrounding transparent canvas. Do not crop, zoom, enlarge, rotate, move, remove or add any part. No sheet, words, letters, numbers, watermark, background or floor.\nView-specific constraint: guide_back.png is a thin edge-on orthographic view, with muzzle pointing LEFT and stock RIGHT. Its occupied bounds on the 1024 canvas are x=66..957, y=418..605. Keep the narrow silhouette, the visible ivory rib tips above and below the central black-violet body, the ceramic/gold muzzle assembly at the left, and the black-violet stock extending right. Do not turn into the design reference's broadside view.\nSurface painting: white/aged ivory ceramic bone-like ribs and ceramic barrel shells with fine subtle wear; brushed antique gold bands, rings and collars with only faint sheen; very dark black-violet organic resin body, fins, stock and grips with fine fibrous/engraved surface lines; bright orange energy chambers behind ribs; pale blue-white energy tubes between barrel supports and blue-white muzzle interior. Match design_reference.png's material placement on the existing guide parts. Any hidden back/underside surfaces plausibly continue these same materials. Keep fine seams, panel joins and engraving without text. Add no geometric features from the reference where the guide does not have them.\nLIGHTING IS ALBEDO: even, flat, shadowless light from the viewer across all surfaces. Remove the clay guide's shading and do not copy the design reference's studio lighting. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections or rim light. Metal is flat base gold with faint sheen only. Glowing parts are bright painted colours with no bloom, no halo and no light outside the silhouette.\nEdit only surface colour/detail inside image 1's exact silhouette and part edges. Keep its camera and geometry completely unchanged.",
+      "transparent_background": true,
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Image tool rejected the request without producing an image.",
+      "error": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 95c2bef9-6650-423b-ae55-891658e4195e. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_back.png",
+          "sha256": "109bd6a6eec11261ca32d20077bafb7106a3b6e8654c279afa38ddb6188697cc"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint ONE texture-source/albedo view of the Hesper disruptor cannon by editing image 1, guide_back.png. Image 1 is the EXACT geometry, camera, silhouette, position and scale authority. Image 2, design_reference.png, supplies ONLY the approved materials, colours and small surface design.\nOutput: ONE 1024 x 1024 PNG, genuine transparent background. Preserve the guide's original alpha silhouette EXACTLY; preserve all surrounding transparent canvas. Do not crop, zoom, enlarge, rotate, move, remove or add any part. No sheet, words, letters, numbers, watermark, background or floor.\nView-specific constraint: guide_back.png is a thin edge-on orthographic view, with muzzle pointing LEFT and stock RIGHT. Its occupied bounds on the 1024 canvas are x=66..957, y=418..605. Keep the narrow silhouette, the visible ivory rib tips above and below the central black-violet body, the ceramic/gold muzzle assembly at the left, and the black-violet stock extending right. Do not turn into the design reference's broadside view.\nSurface painting: white/aged ivory ceramic bone-like ribs and ceramic barrel shells with fine subtle wear; brushed antique gold bands, rings and collars with only faint sheen; very dark black-violet organic resin body, fins, stock and grips with fine fibrous/engraved surface lines; bright orange energy chambers behind ribs; pale blue-white energy tubes between barrel supports and blue-white muzzle interior. Match design_reference.png's material placement on the existing guide parts. Any hidden back/underside surfaces plausibly continue these same materials. Keep fine seams, panel joins and engraving without text. Add no geometric features from the reference where the guide does not have them.\nLIGHTING IS ALBEDO: even, flat, shadowless light from the viewer across all surfaces. Remove the clay guide's shading and do not copy the design reference's studio lighting. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections or rim light. Metal is flat base gold with faint sheen only. Glowing parts are bright painted colours with no bloom, no halo and no light outside the silhouette.\nEdit only surface colour/detail inside image 1's exact silhouette and part edges. Keep its camera and geometry completely unchanged.",
+      "transparent_background": true,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-38cf8fde-6bf0-4e44-97a1-1daaab4887f1.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Only successful back-view return: unchanged retry after the first request was rejected. Square canvas and intended view preserved; remaining contour drift and baked shading fail strict brief checks.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_back.png",
+          "sha256": "109bd6a6eec11261ca32d20077bafb7106a3b6e8654c279afa38ddb6188697cc"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "93a97f2dcea81539e68ec8f502a66191c8369e159164d12c94cc630e064443da",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "fully_transparent_pixels": 1413222,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha128": 0.981474,
+        "comparison_method": "Read-only normalized-coordinate sampling of returned alpha; no saved image was resized or edited.",
+        "alpha_nonzero_bbox": [
+          69,
+          23,
+          1222,
+          1142
+        ],
+        "alpha128_bbox": [
+          79,
+          513,
+          1176,
+          742
+        ],
+        "normalized_opaque_pixels_outside_guide": 1323,
+        "colours_materials_match_palette": true,
+        "flat_even_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "visual_review": "Ivory ceramic, antique gold, black-violet resin, orange energy and blue-white energy palette present. No visible text or floor. Residual form shading and metallic highlights prevent a strict flat-albedo pass. Alpha includes faint stray pixels beyond the main silhouette.",
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "paint_back_run2.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint ONE texture-source/albedo view of the Hesper disruptor cannon by editing image 1, guide_left.png. Image 1 is the EXACT geometry, camera, silhouette, position and scale authority. Image 2, design_reference.png, supplies ONLY the approved materials, colours and small surface design.\nOutput: ONE 1024 x 1024 PNG, genuine transparent background. Preserve the guide's original alpha silhouette EXACTLY; preserve all surrounding transparent canvas. Do not crop, zoom, enlarge, rotate, move, remove or add any part. No sheet, words, letters, numbers, watermark, background or floor.\nView-specific constraint: guide_left.png is the end-on view from behind the stock, a SMALL silhouette in the middle of the full square. Its occupied bounds on the 1024 canvas are x=376..647, y=418..605. Preserve the broad pointed dark resin body cross-section at center-left and the short foreshortened stock/grip crossing its middle and extending to the right with a small collar at its tip. The muzzle is hidden in this view. Keep every polygonal contour and overlap. Do not enlarge the object or reveal a side view.\nSurface painting: white/aged ivory ceramic bone-like ribs and ceramic barrel shells with fine subtle wear; brushed antique gold bands, rings and collars with only faint sheen; very dark black-violet organic resin body, fins, stock and grips with fine fibrous/engraved surface lines; bright orange energy chambers behind ribs; pale blue-white energy tubes between barrel supports and blue-white muzzle interior. Match design_reference.png's material placement on the existing guide parts. Any hidden back/underside surfaces plausibly continue these same materials. Keep fine seams, panel joins and engraving without text. Add no geometric features from the reference where the guide does not have them.\nLIGHTING IS ALBEDO: even, flat, shadowless light from the viewer across all surfaces. Remove the clay guide's shading and do not copy the design reference's studio lighting. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections or rim light. Metal is flat base gold with faint sheen only. Glowing parts are bright painted colours with no bloom, no halo and no light outside the silhouette.\nEdit only surface colour/detail inside image 1's exact silhouette and part edges. Keep its camera and geometry completely unchanged.",
+      "transparent_background": true,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-347a54dd-18cf-4ca3-9640-a94eede593df.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the closest available guide silhouette within the one-retry limit. Preserves the square canvas and intended view; remaining contour drift and baked shading fail strict brief checks.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_left.png",
+          "sha256": "6ab9180b37b54f1a6453a5e06933ac5211e884bdff4d359237737d0755840734"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "de78a3499535ef2e8dadcc4d3f3252990cedb3d4ac8529d887ec80fb136f6456",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "fully_transparent_pixels": 1527354,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha128": 0.969292,
+        "comparison_method": "Read-only normalized-coordinate sampling of returned alpha; no saved image was resized or edited.",
+        "alpha_nonzero_bbox": [
+          0,
+          23,
+          1214,
+          1206
+        ],
+        "alpha128_bbox": [
+          462,
+          513,
+          794,
+          744
+        ],
+        "normalized_opaque_pixels_outside_guide": 751,
+        "colours_materials_match_palette": true,
+        "flat_even_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "visual_review": "Ivory ceramic, antique gold, black-violet resin, orange energy and blue-white energy palette present. No visible text or floor. Residual form shading and metallic highlights prevent a strict flat-albedo pass. Alpha includes faint stray pixels beyond the main silhouette.",
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "paint_left_run1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Single corrective repaint for a fantasy video-game prop texture source.\nImage 1 (guide_left.png) is the canvas to paint: its camera, exact alpha contour, size, position and every part's edge are immutable.\nImage 2 (previous paint) is ONLY a colour/material reference; it has silhouette drift and excess highlights that you must correct.\nImage 3 (design_reference.png) is the approved material design; do not use its perspective, dimensions, outline or lighting.\nCreate ONE 1024 x 1024 RGBA PNG. Preserve every transparent pixel of image 1. Paint only its nontransparent pixels; nothing outside its outline. Keep all empty canvas margins. Do not resize/reframe the object. No text or labels.\nSMALL rear end-on silhouette. Keep its foreshortened horizontal stock/grip pointing right, exact faceted body cross-section and overlaps. The muzzle is hidden. On the 1024 square the object occupies only x=376..647, y=418..605. Keep the huge surrounding transparent margins.\nApply the approved diffuse base colours and fine material wear to the fixed guide parts: near-black violet fibrous resin stock/body/fins/hoses; ivory ceramic/bone ribs and white ceramic barrel; muted brushed antique-gold bands/fittings; bright orange chamber surfaces and pale blue-white energy tubes/muzzle. Continue unseen faces plausibly. Keep seams, engraved grooves and fine wear, without adding geometry.\nCorrection: enforce the guide silhouette and use strictly UNLIT DIFFUSE ALBEDO. All ceramic is evenly ivory, gold is evenly muted gold with at most faint sheen, resin is evenly dark violet with small material texture. Remove every bright metallic hotspot, dark cast shadow, ambient-occlusion gradient and directional highlight from the previous painting. No reflections, rim lighting, bloom, shadow or glow spill. Luminous surfaces use flat bright orange or blue-white colour. This must be a flat evenly coloured texture projection source, with detailed surface texture but no baked illumination.\nOutput only the painted original guide, genuinely transparent background, no floor, no decoration outside it.",
+      "transparent_background": true,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-4b2c70a5-1f27-458a-9da1-3c0fbcc6f327.png",
+      "output": "paint_left_run2.png",
+      "selected": false,
+      "reason": "Not selected: its silhouette/framing is further from the guide than the retained candidate; no further regeneration permitted.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_left.png",
+          "sha256": "6ab9180b37b54f1a6453a5e06933ac5211e884bdff4d359237737d0755840734"
+        },
+        {
+          "path": "paint_left_run1.png",
+          "tool_input_path": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-347a54dd-18cf-4ca3-9640-a94eede593df.png",
+          "sha256": "de78a3499535ef2e8dadcc4d3f3252990cedb3d4ac8529d887ec80fb136f6456"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "84be6ba19a8c345ce805660bf4be5d494405d6d301ad9ec3c6f53237e33b0b4e",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "fully_transparent_pixels": 1499885,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha128": 0.574992,
+        "comparison_method": "Read-only normalized-coordinate sampling of returned alpha; no saved image was resized or edited.",
+        "alpha_nonzero_bbox": [
+          33,
+          63,
+          1210,
+          1228
+        ],
+        "alpha128_bbox": [
+          431,
+          504,
+          846,
+          802
+        ],
+        "normalized_opaque_pixels_outside_guide": 18719,
+        "colours_materials_match_palette": true,
+        "flat_even_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "visual_review": "Ivory ceramic, antique gold, black-violet resin, orange energy and blue-white energy palette present. No visible text or floor. Residual form shading and metallic highlights prevent a strict flat-albedo pass. Alpha includes faint stray pixels beyond the main silhouette.",
+        "strict_brief_checks_passed": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint ONE texture-source/albedo view of the Hesper disruptor cannon by editing image 1, guide_right.png. Image 1 is the EXACT geometry, camera, silhouette, position and scale authority. Image 2, design_reference.png, supplies ONLY the approved materials, colours and small surface design.\nOutput: ONE 1024 x 1024 PNG, genuine transparent background. Preserve the guide's original alpha silhouette EXACTLY; preserve all surrounding transparent canvas. Do not crop, zoom, enlarge, rotate, move, remove or add any part. No sheet, words, letters, numbers, watermark, background or floor.\nView-specific constraint: guide_right.png is the end-on view looking into the muzzle, a SMALL silhouette in the middle of the full square. Its occupied bounds on the 1024 canvas are x=376..647, y=418..605. Preserve the central concentric polygonal muzzle rings and center disc, the pointed dark resin body silhouette behind them, and the foreshortened side grip extending LEFT. Paint the outer muzzle hardware brushed gold and ivory ceramic, the inner energy ring blue-white, the center blue light with no reflections or bloom. Keep every polygonal edge. Do not enlarge the object or reveal a side view.\nSurface painting: white/aged ivory ceramic bone-like ribs and ceramic barrel shells with fine subtle wear; brushed antique gold bands, rings and collars with only faint sheen; very dark black-violet organic resin body, fins, stock and grips with fine fibrous/engraved surface lines; bright orange energy chambers behind ribs; pale blue-white energy tubes between barrel supports and blue-white muzzle interior. Match design_reference.png's material placement on the existing guide parts. Any hidden back/underside surfaces plausibly continue these same materials. Keep fine seams, panel joins and engraving without text. Add no geometric features from the reference where the guide does not have them.\nLIGHTING IS ALBEDO: even, flat, shadowless light from the viewer across all surfaces. Remove the clay guide's shading and do not copy the design reference's studio lighting. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections or rim light. Metal is flat base gold with faint sheen only. Glowing parts are bright painted colours with no bloom, no halo and no light outside the silhouette.\nEdit only surface colour/detail inside image 1's exact silhouette and part edges. Keep its camera and geometry completely unchanged.",
+      "transparent_background": true,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-098c8514-e955-4d35-8e12-e253371c6435.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the closest available guide silhouette within the one-retry limit. Preserves the square canvas and intended view; remaining contour drift and baked shading fail strict brief checks. The corrective request was rejected by the image tool.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_right.png",
+          "sha256": "79c2a7e33ccccfadfcbd1ff53fbb3dac588929db11279debf2fa1cb86d89563a"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "b39e15503b516562bac4c8b7d300ddbeb5ee72202f15468a2422a2ee2272029f",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "fully_transparent_pixels": 1527353,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha128": 0.956782,
+        "comparison_method": "Read-only normalized-coordinate sampling of returned alpha; no saved image was resized or edited.",
+        "alpha_nonzero_bbox": [
+          81,
+          152,
+          1089,
+          1164
+        ],
+        "alpha128_bbox": [
+          462,
+          508,
+          793,
+          741
+        ],
+        "normalized_opaque_pixels_outside_guide": 801,
+        "colours_materials_match_palette": true,
+        "flat_even_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "visual_review": "Ivory ceramic, antique gold, black-violet resin, orange energy and blue-white energy palette present. No visible text or floor. Residual form shading and metallic highlights prevent a strict flat-albedo pass. Alpha includes faint stray pixels beyond the main silhouette.",
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "paint_right_run1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Single corrective repaint for a fantasy video-game prop texture source.\nImage 1 (guide_right.png) is the canvas to paint: its camera, exact alpha contour, size, position and every part's edge are immutable.\nImage 2 (previous paint) is ONLY a colour/material reference; it has silhouette drift and excess highlights that you must correct.\nImage 3 (design_reference.png) is the approved material design; do not use its perspective, dimensions, outline or lighting.\nCreate ONE 1024 x 1024 RGBA PNG. Preserve every transparent pixel of image 1. Paint only its nontransparent pixels; nothing outside its outline. Keep all empty canvas margins. Do not resize/reframe the object. No text or labels.\nSMALL muzzle end-on silhouette with polygonal concentric rings and grip pointing left. Keep the exact faceted perimeter, ring boundaries and overlaps. On the 1024 square the object occupies only x=376..647, y=418..605. Keep the huge surrounding transparent margins.\nApply the approved diffuse base colours and fine material wear to the fixed guide parts: near-black violet fibrous resin stock/body/fins/hoses; ivory ceramic/bone ribs and white ceramic barrel; muted brushed antique-gold bands/fittings; bright orange chamber surfaces and pale blue-white energy tubes/muzzle. Continue unseen faces plausibly. Keep seams, engraved grooves and fine wear, without adding geometry.\nCorrection: enforce the guide silhouette and use strictly UNLIT DIFFUSE ALBEDO. All ceramic is evenly ivory, gold is evenly muted gold with at most faint sheen, resin is evenly dark violet with small material texture. Remove every bright metallic hotspot, dark cast shadow, ambient-occlusion gradient and directional highlight from the previous painting. No reflections, rim lighting, bloom, shadow or glow spill. Luminous surfaces use flat bright orange or blue-white colour. This must be a flat evenly coloured texture projection source, with detailed surface texture but no baked illumination.\nOutput only the painted original guide, genuinely transparent background, no floor, no decoration outside it.",
+      "transparent_background": true,
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Tool failed without producing an image.",
+      "error": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 000392ec-3010-4994-9c41-670a465d84a8. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_right.png",
+          "sha256": "79c2a7e33ccccfadfcbd1ff53fbb3dac588929db11279debf2fa1cb86d89563a"
+        },
+        {
+          "path": "paint_right_run1.png",
+          "tool_input_path": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-098c8514-e955-4d35-8e12-e253371c6435.png",
+          "sha256": "b39e15503b516562bac4c8b7d300ddbeb5ee72202f15468a2422a2ee2272029f"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint ONE texture-source/albedo view of the Hesper disruptor cannon by editing image 1, guide_top.png. Image 1 is the EXACT geometry, camera, silhouette, position and scale authority. Image 2, design_reference.png, supplies ONLY the approved materials, colours and small surface design.\nOutput: ONE 1024 x 1024 PNG, genuine transparent background. Preserve the guide's original alpha silhouette EXACTLY; preserve all surrounding transparent canvas. Do not crop, zoom, enlarge, rotate, move, remove or add any part. No sheet, words, letters, numbers, watermark, background or floor.\nView-specific constraint: guide_top.png is the directly-above orthographic view: the broad profile of this laid-flat model. Its occupied bounds on the 1024 canvas are x=66..957, y=376..647. The stock is LEFT, the muzzle RIGHT, the stock has its exact open cutout, the curved segmented hose runs below the body, and the small grip points down below the forward body. Preserve the guide's exact flat profile including its four ivory ribs, swept resin fins, all tubing and open negative spaces. Do not adopt the design reference's perspective.\nSurface painting: white/aged ivory ceramic bone-like ribs and ceramic barrel shells with fine subtle wear; brushed antique gold bands, rings and collars with only faint sheen; very dark black-violet organic resin body, fins, stock and grips with fine fibrous/engraved surface lines; bright orange energy chambers behind ribs; pale blue-white energy tubes between barrel supports and blue-white muzzle interior. Match design_reference.png's material placement on the existing guide parts. Any hidden back/underside surfaces plausibly continue these same materials. Keep fine seams, panel joins and engraving without text. Add no geometric features from the reference where the guide does not have them.\nLIGHTING IS ALBEDO: even, flat, shadowless light from the viewer across all surfaces. Remove the clay guide's shading and do not copy the design reference's studio lighting. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections or rim light. Metal is flat base gold with faint sheen only. Glowing parts are bright painted colours with no bloom, no halo and no light outside the silhouette.\nEdit only surface colour/detail inside image 1's exact silhouette and part edges. Keep its camera and geometry completely unchanged.",
+      "transparent_background": true,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-158687ed-356b-4c1f-a1b2-759b1e4eb9f2.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closest available guide silhouette within the one-retry limit. Preserves the square canvas and intended view; remaining contour drift and baked shading fail strict brief checks. Top-view drift remains substantial; the corrective return changed the canvas aspect and framing, so the initial return is preferable.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_top.png",
+          "sha256": "02d3248d99111898701cfb61c315aca98733b23d7ef7f8bcec45424045289fe8"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "e38301542d460402421d29dfaa86946ac3ccfacc34fd1f5dc01480137414827f",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "fully_transparent_pixels": 1330640,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha128": 0.744491,
+        "comparison_method": "Read-only normalized-coordinate sampling of returned alpha; no saved image was resized or edited.",
+        "alpha_nonzero_bbox": [
+          41,
+          28,
+          1230,
+          1214
+        ],
+        "alpha128_bbox": [
+          78,
+          432,
+          1187,
+          777
+        ],
+        "normalized_opaque_pixels_outside_guide": 26314,
+        "colours_materials_match_palette": true,
+        "flat_even_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "visual_review": "Ivory ceramic, antique gold, black-violet resin, orange energy and blue-white energy palette present. No visible text or floor. Residual form shading and metallic highlights prevent a strict flat-albedo pass. Alpha includes faint stray pixels beyond the main silhouette.",
+        "strict_brief_checks_passed": false
+      },
+      "raw_output": "paint_top_run1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Single corrective repaint for a fantasy video-game prop texture source.\nImage 1 (guide_top.png) is the canvas to paint: its camera, exact alpha contour, size, position and every part's edge are immutable.\nImage 2 (previous paint) is ONLY a colour/material reference; it has silhouette drift and excess highlights that you must correct.\nImage 3 (design_reference.png) is the approved material design; do not use its perspective, dimensions, outline or lighting.\nCreate ONE 1024 x 1024 RGBA PNG. Preserve every transparent pixel of image 1. Paint only its nontransparent pixels; nothing outside its outline. Keep all empty canvas margins. Do not resize/reframe the object. No text or labels.\nCRITICAL: copy guide_top.png's precise outline and all internal part edges, NOT the outline from the design reference or previous painting. It is an orthographic view directly above the laid-flat model, with stock LEFT and muzzle RIGHT. The guide's body, rib positions, short straight grip, deep curved hose, stock opening and triangular stock lower edge must stay exactly where the guide has them. Do not substitute the design-reference shape. On the 1024 square the object occupies only x=66..957, y=376..647. No perspective.\nApply the approved diffuse base colours and fine material wear to the fixed guide parts: near-black violet fibrous resin stock/body/fins/hoses; ivory ceramic/bone ribs and white ceramic barrel; muted brushed antique-gold bands/fittings; bright orange chamber surfaces and pale blue-white energy tubes/muzzle. Continue unseen faces plausibly. Keep seams, engraved grooves and fine wear, without adding geometry.\nCorrection: enforce the guide silhouette and use strictly UNLIT DIFFUSE ALBEDO. All ceramic is evenly ivory, gold is evenly muted gold with at most faint sheen, resin is evenly dark violet with small material texture. Remove every bright metallic hotspot, dark cast shadow, ambient-occlusion gradient and directional highlight from the previous painting. No reflections, rim lighting, bloom, shadow or glow spill. Luminous surfaces use flat bright orange or blue-white colour. This must be a flat evenly coloured texture projection source, with detailed surface texture but no baked illumination.\nOutput only the painted original guide, genuinely transparent background, no floor, no decoration outside it.",
+      "transparent_background": true,
+      "source": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-ef66b618-ae34-4ff3-a7ca-506f98489023.png",
+      "output": "paint_top_run2.png",
+      "selected": false,
+      "reason": "Not selected: its silhouette/framing is further from the guide than the retained candidate; no further regeneration permitted.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/guide_top.png",
+          "sha256": "02d3248d99111898701cfb61c315aca98733b23d7ef7f8bcec45424045289fe8"
+        },
+        {
+          "path": "paint_top_run1.png",
+          "tool_input_path": "/home/pjasicek/.codex/generated_images/01a16e88-221b-7ce1-8f6d-f4f81331df32/exec-158687ed-356b-4c1f-a1b2-759b1e4eb9f2.png",
+          "sha256": "e38301542d460402421d29dfaa86946ac3ccfacc34fd1f5dc01480137414827f"
+        },
+        {
+          "path": "design_reference.png",
+          "tool_input_path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_disruptor_cannon/design_reference.png",
+          "sha256": "07e0d8a33512d336f0357223ca92e089cb53fc90574324faba8e91a4ae80157c"
+        }
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1983,
+        793
+      ],
+      "unresized": true,
+      "sha256": "90aec0a14741d58595aa9affa1143a40b6641bc266c0b1a23b89c8f53c640dd6",
+      "checks": {
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "fully_transparent_pixels": 981038,
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_at_alpha128": 0.327591,
+        "comparison_method": "Read-only normalized-coordinate sampling of returned alpha; no saved image was resized or edited.",
+        "alpha_nonzero_bbox": [
+          0,
+          17,
+          1959,
+          793
+        ],
+        "alpha128_bbox": [
+          94,
+          161,
+          1901,
+          686
+        ],
+        "normalized_opaque_pixels_outside_guide": 249424,
+        "colours_materials_match_palette": true,
+        "flat_even_shadowless_albedo": false,
+        "no_visible_text_or_letters": true,
+        "visual_review": "Ivory ceramic, antique gold, black-violet resin, orange energy and blue-white energy palette present. No visible text or floor. Residual form shading and metallic highlights prevent a strict flat-albedo pass. Alpha includes faint stray pixels beyond the main silhouette.",
+        "strict_brief_checks_passed": false
+      }
+    }
+  ]
+}

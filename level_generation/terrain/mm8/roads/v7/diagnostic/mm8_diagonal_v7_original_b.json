@@ -1,0 +1,33 @@
+{
+  "name": "mm8_diagonal_v7_original_b",
+  "world": "mm8",
+  "map": "out01.odm",
+  "pose": [
+    6304.584,
+    5271.343,
+    545.0,
+    5.41,
+    -0.375018896
+  ],
+  "screenshot": "mm8_diagonal_v7_original_b.png",
+  "look_left": 0,
+  "look_down": 0,
+  "diagnostic_flying": false,
+  "warmup_seconds": 1.0,
+  "actions": null,
+  "party_file": "/home/pjasicek/github/OpenYAMM/level_generation/projects/brackenford_greywatch/source/baseline_party.json",
+  "performance_sample": false,
+  "display": ":99",
+  "resolution": [
+    1600,
+    1200
+  ],
+  "vsync": false,
+  "measurement_seconds": 0.0,
+  "fps_samples": [],
+  "median_fps": null,
+  "binary_sha256": "54917a618945387ef0b678dc9d4807c9d97105e9a2c6e3f540bb9605d660bcd3",
+  "settings_sha256": "3cbd76dfb9fd8c21c09978df2bc0ddd40d0d67dad872b7fbfce13c77904ff76c",
+  "native_sha256": "083a2efc4b859eaed03535bc93e6d66a80737ffac86065a6fd0169688f0045e4",
+  "limitations": "Fixed viewpoint, active ordinary party/actors; software display performance is not driver GPU FPS; UI and rendered state must be visually checked before accepting samples."
+}

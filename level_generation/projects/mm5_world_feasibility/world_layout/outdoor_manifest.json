@@ -1,0 +1,401 @@
+{
+  "total": 16,
+  "counts": {
+    "surface": 6,
+    "sky": 6,
+    "plane": 4
+  },
+  "maps": [
+    {
+      "id": "surface_nw",
+      "layer": "surface",
+      "sourceMaps": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "name": "Alamar / Necropolis",
+      "preview": "regions/nw.png",
+      "sourcePreview": "regions/nw.png"
+    },
+    {
+      "id": "surface_nc",
+      "layer": "surface",
+      "sourceMaps": [
+        9,
+        10,
+        13,
+        14
+      ],
+      "name": "Desert / Northern Highlands",
+      "preview": "regions/nc.png",
+      "sourcePreview": "regions/nc.png"
+    },
+    {
+      "id": "surface_ne",
+      "layer": "surface",
+      "sourceMaps": [
+        17,
+        18,
+        21,
+        22
+      ],
+      "name": "Blackfang / Lakeside",
+      "preview": "regions/ne.png",
+      "sourcePreview": "regions/ne.png"
+    },
+    {
+      "id": "surface_sw",
+      "layer": "surface",
+      "sourceMaps": [
+        3,
+        4,
+        7,
+        8
+      ],
+      "name": "Castleview / Kalindra",
+      "preview": "regions/sw.png",
+      "sourcePreview": "regions/sw.png"
+    },
+    {
+      "id": "surface_sc",
+      "layer": "surface",
+      "sourceMaps": [
+        11,
+        12,
+        15,
+        16
+      ],
+      "name": "Sprite Forest / Southern Tower",
+      "preview": "regions/sc.png",
+      "sourcePreview": "regions/sc.png"
+    },
+    {
+      "id": "surface_se",
+      "layer": "surface",
+      "sourceMaps": [
+        19,
+        20,
+        23,
+        24
+      ],
+      "name": "Sandcaster / Eastern Forest",
+      "preview": "regions/se.png",
+      "sourcePreview": "regions/se.png"
+    },
+    {
+      "id": "sky_nw",
+      "layer": "sky",
+      "name": "Sky NW",
+      "sourceMaps": [
+        89,
+        90,
+        93,
+        94
+      ],
+      "preview": "concepts/sky_nw.png",
+      "access": [
+        "Alamar upper entrance",
+        "Fire-plane gateway"
+      ],
+      "sourcePreview": "regions/sky_nw.png",
+      "editablePreview": "concepts/sky_nw.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "sky_nc",
+      "layer": "sky",
+      "name": "Sky NC",
+      "sourceMaps": [
+        97,
+        98,
+        101,
+        102
+      ],
+      "preview": "concepts/sky_nc.png",
+      "access": [
+        "Olympus; Northern Tower",
+        "Great Pyramid summit"
+      ],
+      "sourcePreview": "regions/sky_nc.png",
+      "editablePreview": "concepts/sky_nc.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "sky_ne",
+      "layer": "sky",
+      "name": "Sky NE",
+      "sourceMaps": [
+        105,
+        106,
+        109,
+        110
+      ],
+      "preview": "concepts/sky_ne.png",
+      "access": [
+        "Blackfang upper entrance",
+        "Air-plane gateway"
+      ],
+      "sourcePreview": "regions/sky_ne.png",
+      "editablePreview": "concepts/sky_ne.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "sky_sw",
+      "layer": "sky",
+      "name": "Sky SW",
+      "sourceMaps": [
+        91,
+        92,
+        95,
+        96
+      ],
+      "preview": "concepts/sky_sw.png",
+      "access": [
+        "Western Tower; Ellinger; Kalindra",
+        "Dark Grove rope; Water gateway"
+      ],
+      "sourcePreview": "regions/sky_sw.png",
+      "editablePreview": "concepts/sky_sw.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "sky_sc",
+      "layer": "sky",
+      "name": "Sky SC",
+      "sourceMaps": [
+        99,
+        100,
+        103,
+        104
+      ],
+      "preview": "concepts/sky_sc.png",
+      "access": [
+        "Southern Tower upper entrance"
+      ],
+      "sourcePreview": "regions/sky_sc.png",
+      "editablePreview": "concepts/sky_sc.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "sky_se",
+      "layer": "sky",
+      "name": "Sky SE",
+      "sourceMaps": [
+        107,
+        108,
+        111,
+        112
+      ],
+      "preview": "concepts/sky_se.png",
+      "access": [
+        "Eastern Tower; sky merchants",
+        "Boatman; Earth-plane gateway"
+      ],
+      "sourcePreview": "regions/sky_se.png",
+      "editablePreview": "concepts/sky_se.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "plane_fire",
+      "layer": "plane",
+      "name": "Fire",
+      "sourceMaps": [
+        25
+      ],
+      "preview": "concepts/plane_fire.png",
+      "entranceRegion": "sky_nw",
+      "entranceSquare": "Sky A1",
+      "treatment": "Lava / obsidian; hostile heat",
+      "sourcePreview": "regions/plane_fire.png",
+      "editablePreview": "concepts/plane_fire.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "plane_air",
+      "layer": "plane",
+      "name": "Air",
+      "sourceMaps": [
+        26
+      ],
+      "preview": "concepts/plane_air.png",
+      "entranceRegion": "sky_ne",
+      "entranceSquare": "Sky F1",
+      "treatment": "Clouds / exposed platforms",
+      "sourcePreview": "regions/plane_air.png",
+      "editablePreview": "concepts/plane_air.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "plane_earth",
+      "layer": "plane",
+      "name": "Earth",
+      "sourceMaps": [
+        27
+      ],
+      "preview": "concepts/plane_earth.png",
+      "entranceRegion": "sky_se",
+      "entranceSquare": "Sky F4",
+      "treatment": "Dirt / rock; elemental landmarks",
+      "sourcePreview": "regions/plane_earth.png",
+      "editablePreview": "concepts/plane_earth.svg",
+      "previewKind": "generated_minimap_concept"
+    },
+    {
+      "id": "plane_water",
+      "layer": "plane",
+      "name": "Water",
+      "sourceMaps": [
+        28
+      ],
+      "preview": "concepts/plane_water.png",
+      "entranceRegion": "sky_sw",
+      "entranceSquare": "Sky A4",
+      "treatment": "Water; traversal must be designed",
+      "sourcePreview": "regions/plane_water.png",
+      "editablePreview": "concepts/plane_water.svg",
+      "previewKind": "generated_minimap_concept"
+    }
+  ],
+  "sourceOutdoorMapsCoveredExactlyOnce": 52,
+  "elementalDirectedEvents": [
+    {
+      "source": 25,
+      "x": 13,
+      "y": 2,
+      "spatial": true,
+      "destination": 89,
+      "arrival": [
+        3,
+        13
+      ],
+      "kind": "fall",
+      "eventOffset": 64,
+      "line": 0,
+      "sourceName": "Elemental Plane of Fire",
+      "destinationName": "Skyroad A1",
+      "scope": "MM5"
+    },
+    {
+      "source": 26,
+      "x": 2,
+      "y": 2,
+      "spatial": true,
+      "destination": 109,
+      "arrival": [
+        12,
+        13
+      ],
+      "kind": "fall",
+      "eventOffset": 64,
+      "line": 0,
+      "sourceName": "Elemental Plane of Air",
+      "destinationName": "Skyroad F1",
+      "scope": "MM5"
+    },
+    {
+      "source": 27,
+      "x": 2,
+      "y": 13,
+      "spatial": true,
+      "destination": 112,
+      "arrival": [
+        13,
+        2
+      ],
+      "kind": "fall",
+      "eventOffset": 64,
+      "line": 0,
+      "sourceName": "Elemental Plane of Earth",
+      "destinationName": "Skyroad F4",
+      "scope": "MM5"
+    },
+    {
+      "source": 28,
+      "x": 13,
+      "y": 13,
+      "spatial": true,
+      "destination": 89,
+      "arrival": [
+        2,
+        13
+      ],
+      "kind": "fall",
+      "eventOffset": 64,
+      "line": 0,
+      "sourceName": "Elemental Plane of Water",
+      "destinationName": "Skyroad A1",
+      "scope": "MM5"
+    },
+    {
+      "source": 89,
+      "x": 2,
+      "y": 13,
+      "spatial": true,
+      "destination": 25,
+      "arrival": [
+        1,
+        1
+      ],
+      "kind": "fall",
+      "eventOffset": 224,
+      "line": 6,
+      "sourceName": "Skyroad A1",
+      "destinationName": "Elemental Plane of Fire",
+      "scope": "MM5"
+    },
+    {
+      "source": 92,
+      "x": 2,
+      "y": 2,
+      "spatial": true,
+      "destination": 28,
+      "arrival": [
+        1,
+        1
+      ],
+      "kind": "fall",
+      "eventOffset": 263,
+      "line": 6,
+      "sourceName": "Skyroad A4",
+      "destinationName": "Elemental Plane of Water",
+      "scope": "MM5"
+    },
+    {
+      "source": 109,
+      "x": 13,
+      "y": 13,
+      "spatial": true,
+      "destination": 26,
+      "arrival": [
+        1,
+        1
+      ],
+      "kind": "fall",
+      "eventOffset": 201,
+      "line": 6,
+      "sourceName": "Skyroad F1",
+      "destinationName": "Elemental Plane of Air",
+      "scope": "MM5"
+    },
+    {
+      "source": 112,
+      "x": 13,
+      "y": 2,
+      "spatial": true,
+      "destination": 27,
+      "arrival": [
+        1,
+        1
+      ],
+      "kind": "fall",
+      "eventOffset": 169,
+      "line": 6,
+      "sourceName": "Skyroad F4",
+      "destinationName": "Elemental Plane of Earth",
+      "scope": "MM5"
+    }
+  ],
+  "inventorySha256": "f70f72dc2072af56f163d96c4296147014a4427b8141d765dde716ff4ffee2a2"
+}

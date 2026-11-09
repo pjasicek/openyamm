@@ -1,0 +1,16 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_crosshair_20261002/native/images/small
+settle_seconds: 1.5
+exit: true
+shots:
+  - name: street
+    position: [-9728, -11319, 161]
+    yaw: 2.6529
+    pitch: -0.15
+  - name: foliage
+    position: [-9728, -11319, 161]
+    yaw: 2.95
+    pitch: 0.18
+  - name: sky
+    position: [-9728, -11319, 161]
+    yaw: 2.6529
+    pitch: 0.65

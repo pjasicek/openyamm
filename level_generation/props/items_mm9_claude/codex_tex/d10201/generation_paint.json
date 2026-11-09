@@ -1,0 +1,26 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit target: paint_mask_guide.png; design_reference.png is material/detail reference; icon_x8.png is colour reference (ignore magenta background). Produce ONE transparent PNG 1536x2048, 3:4 canvas. Paint the guide sheet, preserving EXACT positions, sizes, outlines, rotations, openings and geometry. Three columns by FOUR rows of 512x512 cells. Rows 1-2 and 3-4 repeat five grey orthographic model views FRONT, BACK, LEFT / RIGHT, TOP, empty. Do not reinterpret or rotate these unusual views into upright shirts. Paint grey objects only, never redraw, enlarge, move or redesign. Rows 1-2: unlit base colour of short-sleeved mossy green-and-white chain mail shirt, irregular mottled green patina, steel band crossing from near shoulder and steel band around waist, following approved design reference scaled to each view. Fine interlocking chain links. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, ground, outlines or text. Keep all gaps/openings exactly as guide fully transparent; preserve visible interior surfaces. Rows 3-4: same silhouettes filled with flat pure material colours only, no shading, texture, outlines or antialiased colour blends inside. #FF0000 for EVERY metal part including green-patinated chainmail and steel bands; #00FF00 only leather/fur; #0000FF only cloth/hair; #000000 only gemstone/crystal/glass/pearl/enamel/liquid. This shirt and bands are metal so silhouettes should be solid pure RED, including interior metal surfaces. Every silhouette pixel has exactly one material colour, nothing outside. Column 3 of rows 2 and 4 completely transparent. Preserve guide composition pixel-for-pixel as closely as possible.\nCRITICAL correction: material mask lower half must have perfectly clean silhouette boundaries and transparent holes. Absolutely NO red dust, noise, splatter, haze or pixels outside the exact grey guide silhouettes. Flat solid red shape interiors with fully transparent surrounding canvas. Treat guide alpha as a strict stencil for every view. The two empty cells must contain zero pixels.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10201/paint_mask_guide.png",
+      "sha256": "279a1477c66be44e5ed6a47f0ed2e33f34ee04d152f5601631819a8c3f9e2354"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10201/design_reference.png",
+      "sha256": "55029ebd0c7eb3cd30b950492c1f967e03c17442ed5c5371042312603bf5e9b3"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10201/icon_x8.png",
+      "sha256": "0400a4f3ab6a469913bb78a290e42e5b7d7409aae472d4199d95577c1b485db0"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad07-2e1f-7fd2-884f-057187b22f61/exec-6c97752c-8627-4b24-b93a-b813574105da.png",
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10201/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: stray red pixels remain outside lower material-mask silhouettes; raw tool output preserved as requested."
+}

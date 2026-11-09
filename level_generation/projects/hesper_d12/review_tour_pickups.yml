@@ -1,0 +1,29 @@
+# Integrator capture: party feet, fresh map. D15 has no stat containers; its storeroom holds satchels.
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d12/review/pickups/captures
+settle_seconds: 1.5
+exit: true
+shots:
+- name: graft_stores
+  position:
+  - -3060
+  - 4750
+  - 0
+  yaw: -1.5707963267948966
+  pitch: -0.2
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+- name: palace_bundle
+  position:
+  - -4100
+  - 7000
+  - 0
+  yaw: -1.5707963267948966
+  pitch: -0.3
+- name: ancient_satchel
+  position:
+  - 6500
+  - 1900
+  - -1536
+  yaw: -1.5707963267948966
+  pitch: -0.25

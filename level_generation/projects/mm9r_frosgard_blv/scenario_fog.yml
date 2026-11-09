@@ -1,0 +1,43 @@
+# Frosgard's pass fog (MM9's WeatherMan0 switched by Trigger1-4; dungeon/objects.py weather_triggers,
+# devdocs/INDOOR_FOG.md "Fog from Lua"): walking west through Trigger2 fades in the thick Fog0 (1-6 500 LT), walking
+# back east through Trigger1 clears it (Fog1 begins past its far clip).
+id: mm9r.frosgard_fog
+title: 'Frosgard (native BLV): the pass fog switched by the trigger pair'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: frosgard.blv
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    scripted_fog: {active: false}
+- set_pose:
+    map: frosgard.blv
+    x: -15443
+    y: 11230
+    z: 1790
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var: {name: Weather267, value: 1}
+- assert:
+    scripted_fog: {active: true, near: 3, far: 16640}
+- set_pose:
+    map: frosgard.blv
+    x: -14952
+    y: 11230
+    z: 1790
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var: {name: Weather267, value: 2}
+- assert:
+    scripted_fog: {active: false}

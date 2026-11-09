@@ -1,0 +1,30 @@
+{
+  "runs": [
+    {
+      "id": "1a11c3cf-1902-49a8-b382-f0df0b3f79c8",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: faithful high-definition reconstruction of the statue painted in the EXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. Input 1 native_views_x7.png is DESIGN AUTHORITY for shape, pose, proportions, parts; cyan and black are background. Input 2 x2_surface_only.png is STONE SURFACE MATERIAL ONLY, never design authority.\nCarved STONE SCULPTURE, one solid piece of warm brown-grey weathered sandstone, matte, slightly weathered, fine chisel and grain detail, no paint. Whole statue visible and centred, filling about 80% of frame height, near-orthographic camera. TRUE transparent background, no floor, no cast shadow, no text. Even soft neutral studio light, no dramatic lighting.\nIdentity: classical stone statue of an adult winged woman in the style of an ancient Greek victory figure: nude female figure with smooth idealised non-explicit sculpted anatomy like a marble Nike or Venus. Standing weight on her LEFT leg, RIGHT foot slightly forward, BOTH hands resting on hips with elbows out, chest lifted, head turned up and to HER LEFT. Hair pulled back tight into a small bun. TWO large feathered wings spring from shoulder blades and spread UP AND BACK, long splayed primary feathers and rows of coverts. Thick RECTANGULAR stone plinth: one plain block with a thin top slab, about ONE QUARTER total statue height.\nDo not add clothing, jewellery, sword, wreath, halo, explicit detail. Do not make plinth stepped or ornate. Do not crop any part or add floor, backdrop, second figure or text.\nOutput exactly 1024 x 1536 PORTRAIT, one statue, unresized return.\nVIEW: front-left three-quarter, statue's own front turned about 35 degrees toward IMAGE RIGHT; camera a little above chest height. Generate primary reference first. Save output to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/dec94/references_hd/00_three_quarter.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/dec94/references_hd/native_views_x7.png",
+          "sha256": "1ce5aea5af17bf6641c8fcce26fd27c14044cb69f3183d36501d266f43393228"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/dec94/references_hd/x2_surface_only.png",
+          "sha256": "d4f0e328809b44443a60c65b573bea11e4784dadbfa25392e3b3b354748b3af0"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/dec94/references_hd/00_three_quarter.png",
+      "selected": false,
+      "reason": "Image generation rejected by tool safety system at output stage: moderation_blocked, sexual. No image returned.",
+      "superseded_runs": []
+    }
+  ],
+  "status": "blocked",
+  "remaining_outputs": [
+    "00_three_quarter.png",
+    "01_front.png",
+    "03_side.png",
+    "02_back.png",
+    "selected_views_review.png"
+  ]
+}

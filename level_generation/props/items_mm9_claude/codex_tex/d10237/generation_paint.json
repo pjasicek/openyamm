@@ -1,0 +1,26 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a precise paint-only texture atlas. Inputs: image 1 paint_mask_guide.png is the immutable layout/geometry edit target; image 2 design_reference.png is the approved material/detail reference; image 3 icon_x8.png is the original colour reference (ignore magenta background). Produce ONE transparent PNG, 1536x2048 (3:4), three columns by FOUR rows of 512x512 cells. Preserve every exact guide silhouette, position, size, orientation, opening and gap. The five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty repeat in the lower two rows. Do not substitute the reference pose or invent a pair; paint the exact guide geometry. Rows 1-2: unlit base colour of Fre's Gloves, saturated green leather with fine leather detail and gold interlaced cuff ornament and gold cuff rim, source-faithful to both references. Facets, engravings, scrollwork and inner swirls follow the design reference scaled to each existing view. Inside cuff is green leather. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text. Rows 3-4: corresponding MATERIAL MASK, each same silhouette filled exclusively with FLAT pure colours: every gold/metal part #FF0000; every leather/fur part #00FF00; any cloth/lining/cord/hair #0000FF; any gemstone/crystal/glass/pearl/enamel/liquid #000000. For this green leather and gold glove use green leather and red metal corresponding exactly to painted regions above. No shading, texture, outlines or antialiased colour blends inside mask. Every silhouette pixel assigned a material. Preserve all transparency outside silhouettes and in actual guide gaps. Column 3 rows 2 and 4 remain entirely transparent. Paint grey objects only; never redraw, enlarge, move or redesign them.\nCORRECTION: The previous attempt had large green speckled clouds outside the lower material-mask objects. This is clearly wrong. Enforce clean exact guide silhouettes for ALL ten objects, especially lower half. Absolutely zero stray pixels, spray, mottling or colour outside guide boundaries. Lower material masks are clean solid flat shapes with no finger outline strokes. Upper paint must be flat albedo, not a lit render. Match original guide layout exactly.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10237/paint_mask_guide.png",
+      "sha256": "8a09d2d78d85688bb754c93fd1ee56cfbf42e3554f01fb607fa572b3f0e0fc1a"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10237/design_reference.png",
+      "sha256": "45dd7c9311fab061e0e30ac881618220a2b00b23215e142067dc576ae325c2f7"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10237/icon_x8.png",
+      "sha256": "4a0ee1a94d0677ca75914cd3a495e6d6d5e05a66ecce999e7426fce24507a26c"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad2e-1397-7ae3-aac2-eea21302a711/exec-c2d294e8-8c8f-42f5-8606-7a000843bb96.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10237/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "limitations": "Stray pixels remain outside lower mask silhouettes; paint contains shading. Raw tool output preserved.",
+  "size": [
+    1086,
+    1448
+  ]
+}

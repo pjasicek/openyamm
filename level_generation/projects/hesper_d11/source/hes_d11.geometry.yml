@@ -1,0 +1,3420 @@
+{
+  "format_version": 2,
+  "kind": "indoor_geometry",
+  "map_file": "hes_d11.blv",
+  "source": {
+    "authoring_file": "hes_d11.blend",
+    "asset_path": "hes_d11.glb",
+    "coordinate_system": "blender_z_up",
+    "unit_scale": 128,
+    "import": {
+      "source_format": "glb",
+      "reserve_sector_zero": true,
+      "merge_coplanar_faces": false,
+      "generate_bsp": true,
+      "generate_outlines": true
+    }
+  },
+  "materials": [
+    {
+      "id": "hpbanner",
+      "source_material": "hes_d11_hpbanner",
+      "texture": "hpbanner",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hpfloor",
+      "source_material": "hes_d11_hpfloor",
+      "texture": "hpfloor",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hptrim",
+      "source_material": "hes_d11_hptrim",
+      "texture": "hptrim",
+      "texture_width": 128,
+      "texture_height": 32
+    },
+    {
+      "id": "hptroph1",
+      "source_material": "hes_d11_hptroph1",
+      "texture": "hptroph1",
+      "texture_width": 256,
+      "texture_height": 128
+    },
+    {
+      "id": "hptroph2",
+      "source_material": "hes_d11_hptroph2",
+      "texture": "hptroph2",
+      "texture_width": 256,
+      "texture_height": 128
+    },
+    {
+      "id": "hpwall",
+      "source_material": "hes_d11_hpwall",
+      "texture": "hpwall",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hsbrain",
+      "source_material": "hes_d11_hsbrain",
+      "texture": "hsbrain",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hsbraind",
+      "source_material": "hes_d11_hsbraind",
+      "texture": "hsbraind",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hsceil",
+      "source_material": "hes_d11_hsceil",
+      "texture": "hsceil",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hscradle",
+      "source_material": "hes_d11_hscradle",
+      "texture": "hscradle",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hsdoor",
+      "source_material": "hes_d11_hsdoor",
+      "texture": "hsdoor",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hsduel",
+      "source_material": "hes_d11_hsduel",
+      "texture": "hsduel",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hsfloor",
+      "source_material": "hes_d11_hsfloor",
+      "texture": "hsfloor",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hsgest",
+      "source_material": "hes_d11_hsgest",
+      "texture": "hsgest",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hsglow",
+      "source_material": "hes_d11_hsglow",
+      "texture": "hsglow",
+      "texture_width": 128,
+      "texture_height": 32
+    },
+    {
+      "id": "hsgrill",
+      "source_material": "hes_d11_hsgrill",
+      "texture": "hsgrill",
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "id": "hshull",
+      "source_material": "hes_d11_hshull",
+      "texture": "hshull",
+      "texture_width": 256,
+      "texture_height": 256
+    },
+    {
+      "id": "hsmemb",
+      "source_material": "hes_d11_hsmemb",
+      "texture": "hsmemb",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hsnerve",
+      "source_material": "hes_d11_hsnerve",
+      "texture": "hsnerve",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hsrib",
+      "source_material": "hes_d11_hsrib",
+      "texture": "hsrib",
+      "texture_width": 128,
+      "texture_height": 256
+    },
+    {
+      "id": "hstrim",
+      "source_material": "hes_d11_hstrim",
+      "texture": "hstrim",
+      "texture_width": 128,
+      "texture_height": 32
+    },
+    {
+      "id": "hsvault",
+      "source_material": "hes_d11_hsvault",
+      "texture": "hsvault",
+      "texture_width": 128,
+      "texture_height": 256
+    }
+  ],
+  "rooms": [
+    {
+      "id": "room_gantry",
+      "source_nodes": [
+        "ROOM_gantry",
+        "TRIGGER_hull_exit_gantry",
+        "TRIGGER_arrival_floor_gantry",
+        "MECH_door_201",
+        "MECH_door_202",
+        "MECH_door_205",
+        "DECOR_hes_d11_nerve_node_off_46",
+        "DECOR_hes_scrap_bundle_100",
+        "DECOR_hes_scrap_bundle_101",
+        "LIGHT_L1"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_breach_0_0_0",
+      "source_nodes": [
+        "ROOM_breach_0_0_0",
+        "MECH_door_204",
+        "DECOR_hes_scrap_bundle_102"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_breach_1_0_0",
+      "source_nodes": [
+        "ROOM_breach_1_0_0",
+        "MECH_door_206",
+        "DECOR_hes_kreegan_pod_chest_11",
+        "DECOR_hes_d11_nerve_node_off_32",
+        "DECOR_hes_d11_nerve_node_off_33",
+        "DECOR_hes_d11_nerve_node_off_35",
+        "DECOR_hes_scrap_bundle_103",
+        "DECOR_hes_scrap_bundle_111"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gest_aft_0_0_0",
+      "source_nodes": [
+        "ROOM_gest_aft_0_0_0",
+        "DECOR_hes_bones_litter_3",
+        "DECOR_hes_scrap_bundle_104"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gest_aft_1_0_0",
+      "source_nodes": [
+        "ROOM_gest_aft_1_0_0",
+        "DECOR_hes_d11_nerve_node_off_47",
+        "DECOR_hes_scrap_bundle_105",
+        "LIGHT_L2"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gest_aft_2_0_0",
+      "source_nodes": [
+        "ROOM_gest_aft_2_0_0",
+        "DECOR_hes_kreegan_pod_chest_10"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_rib_port_0_0_0",
+      "source_nodes": [
+        "ROOM_rib_port_0_0_0",
+        "DECOR_hes_d11_nerve_node_off_16"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_rib_port_0_1_0",
+      "source_nodes": [
+        "ROOM_rib_port_0_1_0",
+        "DECOR_hes_d11_nerve_node_off_17"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_rib_port_0_2_0",
+      "source_nodes": [
+        "ROOM_rib_port_0_2_0",
+        "MECH_door_208",
+        "DECOR_hes_d11_nerve_node_off_18",
+        "DECOR_hes_d11_fire_bowl_gilded_36"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_rib_star_0_0_0",
+      "source_nodes": [
+        "ROOM_rib_star_0_0_0",
+        "DECOR_hes_d11_nerve_node_off_19"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_rib_star_0_1_0",
+      "source_nodes": [
+        "ROOM_rib_star_0_1_0",
+        "DECOR_hes_d11_nerve_node_off_20"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_rib_star_0_2_0",
+      "source_nodes": [
+        "ROOM_rib_star_0_2_0",
+        "MECH_door_209",
+        "DECOR_hes_d11_nerve_node_off_21",
+        "DECOR_hes_d11_fire_bowl_gilded_37"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_brain_0_0_0",
+      "source_nodes": [
+        "ROOM_brain_0_0_0",
+        "LIGHT_G1",
+        "LIGHT_G2"
+      ],
+      "min_ambient_light_level": 10
+    },
+    {
+      "id": "room_brain_0_1_0",
+      "source_nodes": [
+        "ROOM_brain_0_1_0",
+        "DECOR_hes_d11_nerve_node_off_48"
+      ],
+      "min_ambient_light_level": 10
+    },
+    {
+      "id": "room_brain_0_2_0",
+      "source_nodes": [
+        "ROOM_brain_0_2_0",
+        "MECH_door_207"
+      ],
+      "min_ambient_light_level": 10
+    },
+    {
+      "id": "room_brain_0_0_1",
+      "source_nodes": [
+        "ROOM_brain_0_0_1",
+        "TRIGGER_navigation_brain_brain_0_0_1"
+      ],
+      "min_ambient_light_level": 10
+    },
+    {
+      "id": "room_brain_0_1_1",
+      "source_nodes": [
+        "ROOM_brain_0_1_1",
+        "TRIGGER_navigation_brain_brain_0_1_1",
+        "LIGHT_L5"
+      ],
+      "min_ambient_light_level": 10
+    },
+    {
+      "id": "room_brain_0_2_1",
+      "source_nodes": [
+        "ROOM_brain_0_2_1",
+        "TRIGGER_navigation_brain_brain_0_2_1"
+      ],
+      "min_ambient_light_level": 10
+    },
+    {
+      "id": "room_gest_fore_0_0_0",
+      "source_nodes": [
+        "ROOM_gest_fore_0_0_0",
+        "DECOR_hes_bones_litter_4",
+        "DECOR_hes_scrap_bundle_106"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gest_fore_0_1_0",
+      "source_nodes": [
+        "ROOM_gest_fore_0_1_0",
+        "DECOR_hes_d11_nerve_node_off_49",
+        "LIGHT_L3"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gest_fore_0_2_0",
+      "source_nodes": [
+        "ROOM_gest_fore_0_2_0",
+        "MECH_door_210",
+        "DECOR_hes_scrap_bundle_107"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_pens",
+      "source_nodes": [
+        "ROOM_pens",
+        "DECOR_hes_bones_litter_6",
+        "DECOR_hes_kreegan_pod_chest_12",
+        "DECOR_hes_d11_nerve_node_off_50",
+        "DECOR_hes_scrap_bundle_108",
+        "DECOR_hes_scrap_bundle_109",
+        "LIGHT_L4"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_lower_hall",
+      "source_nodes": [
+        "ROOM_lower_hall",
+        "MECH_door_203",
+        "DECOR_hes_bones_litter_5",
+        "DECOR_hes_d11_nerve_node_off_51"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_cradles_0_0_0",
+      "source_nodes": [
+        "ROOM_cradles_0_0_0",
+        "DECOR_hes_kreegan_pod_chest_13",
+        "DECOR_hes_d11_nerve_node_off_34",
+        "DECOR_hes_serum_vat_86",
+        "DECOR_hes_serum_vat_87",
+        "DECOR_hes_serum_vat_88",
+        "DECOR_hes_serum_vat_89",
+        "DECOR_hes_serum_vat_90",
+        "DECOR_hes_scrap_bundle_110"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_cradles_1_0_0",
+      "source_nodes": [
+        "ROOM_cradles_1_0_0",
+        "MECH_door_52"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_cradles_2_0_0",
+      "source_nodes": [
+        "ROOM_cradles_2_0_0"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_vault_0_0_0",
+      "source_nodes": [
+        "ROOM_vault_0_0_0",
+        "TRIGGER_return_hatch_vault_0_0_0",
+        "DECOR_hes_kreegan_pod_chest_9",
+        "DECOR_hes_d11_fire_bowl_gilded_52",
+        "DECOR_hes_serum_vat_72",
+        "DECOR_hes_serum_vat_73",
+        "DECOR_hes_serum_vat_74",
+        "DECOR_hes_serum_vat_75",
+        "DECOR_hes_serum_vat_76",
+        "DECOR_hes_serum_vat_77",
+        "DECOR_hes_serum_vat_78",
+        "LIGHT_L6"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_vault_1_0_0",
+      "source_nodes": [
+        "ROOM_vault_1_0_0",
+        "TRIGGER_return_hatch_vault_1_0_0",
+        "DECOR_hes_serum_vat_79",
+        "DECOR_hes_serum_vat_80",
+        "DECOR_hes_serum_vat_81",
+        "DECOR_hes_serum_vat_82",
+        "DECOR_hes_serum_vat_83",
+        "DECOR_hes_serum_vat_84",
+        "DECOR_hes_serum_vat_85",
+        "DECOR_hes_scrap_bundle_115"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_gal_port_0_0_0",
+      "source_nodes": [
+        "ROOM_gal_port_0_0_0",
+        "MECH_door_218",
+        "DECOR_hes_d11_nerve_node_off_22"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_gal_port_0_1_0",
+      "source_nodes": [
+        "ROOM_gal_port_0_1_0",
+        "MECH_door_216",
+        "DECOR_hes_d11_nerve_node_off_23"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_gal_star_0_0_0",
+      "source_nodes": [
+        "ROOM_gal_star_0_0_0",
+        "MECH_door_219",
+        "DECOR_hes_d11_nerve_node_off_24"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_gal_star_0_1_0",
+      "source_nodes": [
+        "ROOM_gal_star_0_1_0",
+        "MECH_door_217",
+        "DECOR_hes_d11_nerve_node_off_25"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_gangway",
+      "source_nodes": [
+        "ROOM_gangway",
+        "DECOR_hes_d11_nerve_node_off_53",
+        "LIGHT_G3",
+        "LIGHT_G4"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_quarters_0_0_0",
+      "source_nodes": [
+        "ROOM_quarters_0_0_0",
+        "MECH_door_211",
+        "MECH_door_213"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_quarters_0_1_0",
+      "source_nodes": [
+        "ROOM_quarters_0_1_0",
+        "TRIGGER_journal_quarters_0_1_0",
+        "MECH_door_214",
+        "DECOR_hes_d11_nerve_node_off_39",
+        "DECOR_hes_scrap_bundle_116"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_dormitory_0_0_0",
+      "source_nodes": [
+        "ROOM_dormitory_0_0_0",
+        "MECH_door_212",
+        "DECOR_hes_serum_vat_91",
+        "DECOR_hes_serum_vat_92",
+        "DECOR_hes_serum_vat_93",
+        "DECOR_hes_serum_vat_94",
+        "DECOR_hes_serum_vat_95"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_dormitory_0_1_0",
+      "source_nodes": [
+        "ROOM_dormitory_0_1_0",
+        "MECH_door_215",
+        "MECH_door_51",
+        "DECOR_hes_scrap_bundle_112"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_trophy",
+      "source_nodes": [
+        "ROOM_trophy",
+        "DECOR_hes_trophy_relic_0",
+        "DECOR_hes_trophy_relic_1",
+        "DECOR_hes_kreegan_pod_chest_14",
+        "DECOR_hes_d11_fire_bowl_gilded_38",
+        "DECOR_hes_scrap_bundle_114"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_attend",
+      "source_nodes": [
+        "ROOM_attend",
+        "DECOR_hes_d11_fire_bowl_gilded_54",
+        "DECOR_hes_serum_vat_96",
+        "DECOR_hes_serum_vat_97",
+        "DECOR_hes_serum_vat_98",
+        "DECOR_hes_serum_vat_99",
+        "DECOR_hes_scrap_bundle_113"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_vchamber",
+      "source_nodes": [
+        "ROOM_vchamber",
+        "DECOR_hes_trophy_relic_2",
+        "DECOR_hes_kreegan_pod_chest_7",
+        "DECOR_hes_d11_fire_bowl_gilded_45"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_core",
+      "source_nodes": [
+        "ROOM_core",
+        "MECH_door_222",
+        "DECOR_hes_d11_nerve_node_off_40"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_spine_port_0_0_0",
+      "source_nodes": [
+        "ROOM_spine_port_0_0_0",
+        "TRIGGER_terms_spine_port_spine_port_0_0_0",
+        "MECH_door_220",
+        "DECOR_hes_d11_nerve_node_off_26",
+        "DECOR_hes_d11_nerve_node_off_56",
+        "DECOR_hes_d11_nerve_node_off_57",
+        "DECOR_hes_d11_nerve_node_off_58"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_spine_port_0_1_0",
+      "source_nodes": [
+        "ROOM_spine_port_0_1_0",
+        "DECOR_hes_d11_nerve_node_off_27",
+        "DECOR_hes_d11_nerve_node_off_59",
+        "DECOR_hes_d11_nerve_node_off_60",
+        "DECOR_hes_d11_nerve_node_off_61",
+        "DECOR_hes_scrap_bundle_118"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_spine_port_0_2_0",
+      "source_nodes": [
+        "ROOM_spine_port_0_2_0",
+        "MECH_door_53",
+        "DECOR_hes_d11_nerve_node_off_28",
+        "DECOR_hes_d11_nerve_node_off_62",
+        "DECOR_hes_d11_nerve_node_off_63"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_spine_star_0_0_0",
+      "source_nodes": [
+        "ROOM_spine_star_0_0_0",
+        "TRIGGER_terms_spine_star_spine_star_0_0_0",
+        "MECH_door_221",
+        "DECOR_hes_d11_nerve_node_off_29",
+        "DECOR_hes_d11_nerve_node_off_64",
+        "DECOR_hes_d11_nerve_node_off_65",
+        "DECOR_hes_d11_nerve_node_off_66"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_spine_star_0_1_0",
+      "source_nodes": [
+        "ROOM_spine_star_0_1_0",
+        "DECOR_hes_d11_nerve_node_off_30",
+        "DECOR_hes_d11_nerve_node_off_67",
+        "DECOR_hes_d11_nerve_node_off_68",
+        "DECOR_hes_d11_nerve_node_off_69"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_spine_star_0_2_0",
+      "source_nodes": [
+        "ROOM_spine_star_0_2_0",
+        "MECH_door_54",
+        "DECOR_hes_d11_nerve_node_off_31",
+        "DECOR_hes_d11_nerve_node_off_70",
+        "DECOR_hes_d11_nerve_node_off_71",
+        "DECOR_hes_scrap_bundle_119"
+      ],
+      "min_ambient_light_level": 15
+    },
+    {
+      "id": "room_duel_0_0_0",
+      "source_nodes": [
+        "ROOM_duel_0_0_0",
+        "DECOR_hes_kreegan_pod_chest_8",
+        "DECOR_hes_d11_fire_bowl_gilded_41",
+        "LIGHT_L7"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_duel_1_0_0",
+      "source_nodes": [
+        "ROOM_duel_1_0_0",
+        "MECH_vault_stair_hatch",
+        "DECOR_hes_d11_fire_bowl_gilded_43"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_duel_0_1_0",
+      "source_nodes": [
+        "ROOM_duel_0_1_0",
+        "DECOR_hes_d11_fire_bowl_gilded_42"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_duel_1_1_0",
+      "source_nodes": [
+        "ROOM_duel_1_1_0",
+        "DECOR_hes_d11_fire_bowl_gilded_44"
+      ],
+      "min_ambient_light_level": 12
+    },
+    {
+      "id": "room_sensorium",
+      "source_nodes": [
+        "ROOM_sensorium",
+        "TRIGGER_eye_sensorium",
+        "DECOR_hes_kreegan_pod_chest_15",
+        "DECOR_hes_d11_nerve_node_off_55",
+        "DECOR_hes_scrap_bundle_117",
+        "LIGHT_L8"
+      ],
+      "min_ambient_light_level": 12
+    }
+  ],
+  "portals": [
+    {
+      "id": "breach_0_0_0_breach_1_0_0_0",
+      "source_node": "PORTAL_breach_0_0_0_breach_1_0_0_0",
+      "front_room": "room_breach_0_0_0",
+      "back_room": "room_breach_1_0_0"
+    },
+    {
+      "id": "gest_aft_0_0_0_gest_aft_1_0_0_1",
+      "source_node": "PORTAL_gest_aft_0_0_0_gest_aft_1_0_0_1",
+      "front_room": "room_gest_aft_0_0_0",
+      "back_room": "room_gest_aft_1_0_0"
+    },
+    {
+      "id": "gest_aft_1_0_0_gest_aft_2_0_0_2",
+      "source_node": "PORTAL_gest_aft_1_0_0_gest_aft_2_0_0_2",
+      "front_room": "room_gest_aft_1_0_0",
+      "back_room": "room_gest_aft_2_0_0"
+    },
+    {
+      "id": "rib_port_0_0_0_rib_port_0_1_0_3",
+      "source_node": "PORTAL_rib_port_0_0_0_rib_port_0_1_0_3",
+      "front_room": "room_rib_port_0_0_0",
+      "back_room": "room_rib_port_0_1_0"
+    },
+    {
+      "id": "rib_port_0_1_0_rib_port_0_2_0_4",
+      "source_node": "PORTAL_rib_port_0_1_0_rib_port_0_2_0_4",
+      "front_room": "room_rib_port_0_1_0",
+      "back_room": "room_rib_port_0_2_0"
+    },
+    {
+      "id": "rib_star_0_0_0_rib_star_0_1_0_5",
+      "source_node": "PORTAL_rib_star_0_0_0_rib_star_0_1_0_5",
+      "front_room": "room_rib_star_0_0_0",
+      "back_room": "room_rib_star_0_1_0"
+    },
+    {
+      "id": "rib_star_0_1_0_rib_star_0_2_0_6",
+      "source_node": "PORTAL_rib_star_0_1_0_rib_star_0_2_0_6",
+      "front_room": "room_rib_star_0_1_0",
+      "back_room": "room_rib_star_0_2_0"
+    },
+    {
+      "id": "brain_0_0_0_brain_0_1_0_7",
+      "source_node": "PORTAL_brain_0_0_0_brain_0_1_0_7",
+      "front_room": "room_brain_0_0_0",
+      "back_room": "room_brain_0_1_0"
+    },
+    {
+      "id": "brain_0_0_0_brain_0_0_1_8",
+      "source_node": "PORTAL_brain_0_0_0_brain_0_0_1_8",
+      "front_room": "room_brain_0_0_0",
+      "back_room": "room_brain_0_0_1"
+    },
+    {
+      "id": "brain_0_1_0_brain_0_2_0_9",
+      "source_node": "PORTAL_brain_0_1_0_brain_0_2_0_9",
+      "front_room": "room_brain_0_1_0",
+      "back_room": "room_brain_0_2_0"
+    },
+    {
+      "id": "brain_0_1_0_brain_0_1_1_10",
+      "source_node": "PORTAL_brain_0_1_0_brain_0_1_1_10",
+      "front_room": "room_brain_0_1_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "brain_0_2_0_brain_0_2_1_11",
+      "source_node": "PORTAL_brain_0_2_0_brain_0_2_1_11",
+      "front_room": "room_brain_0_2_0",
+      "back_room": "room_brain_0_2_1"
+    },
+    {
+      "id": "brain_0_0_1_brain_0_1_1_12",
+      "source_node": "PORTAL_brain_0_0_1_brain_0_1_1_12",
+      "front_room": "room_brain_0_0_1",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "brain_0_1_1_brain_0_2_1_13",
+      "source_node": "PORTAL_brain_0_1_1_brain_0_2_1_13",
+      "front_room": "room_brain_0_1_1",
+      "back_room": "room_brain_0_2_1"
+    },
+    {
+      "id": "gest_fore_0_0_0_gest_fore_0_1_0_14",
+      "source_node": "PORTAL_gest_fore_0_0_0_gest_fore_0_1_0_14",
+      "front_room": "room_gest_fore_0_0_0",
+      "back_room": "room_gest_fore_0_1_0"
+    },
+    {
+      "id": "gest_fore_0_1_0_gest_fore_0_2_0_15",
+      "source_node": "PORTAL_gest_fore_0_1_0_gest_fore_0_2_0_15",
+      "front_room": "room_gest_fore_0_1_0",
+      "back_room": "room_gest_fore_0_2_0"
+    },
+    {
+      "id": "cradles_0_0_0_cradles_1_0_0_16",
+      "source_node": "PORTAL_cradles_0_0_0_cradles_1_0_0_16",
+      "front_room": "room_cradles_0_0_0",
+      "back_room": "room_cradles_1_0_0"
+    },
+    {
+      "id": "cradles_1_0_0_cradles_2_0_0_17",
+      "source_node": "PORTAL_cradles_1_0_0_cradles_2_0_0_17",
+      "front_room": "room_cradles_1_0_0",
+      "back_room": "room_cradles_2_0_0"
+    },
+    {
+      "id": "vault_0_0_0_vault_1_0_0_18",
+      "source_node": "PORTAL_vault_0_0_0_vault_1_0_0_18",
+      "front_room": "room_vault_0_0_0",
+      "back_room": "room_vault_1_0_0"
+    },
+    {
+      "id": "gal_port_0_0_0_gal_port_0_1_0_19",
+      "source_node": "PORTAL_gal_port_0_0_0_gal_port_0_1_0_19",
+      "front_room": "room_gal_port_0_0_0",
+      "back_room": "room_gal_port_0_1_0"
+    },
+    {
+      "id": "gal_star_0_0_0_gal_star_0_1_0_20",
+      "source_node": "PORTAL_gal_star_0_0_0_gal_star_0_1_0_20",
+      "front_room": "room_gal_star_0_0_0",
+      "back_room": "room_gal_star_0_1_0"
+    },
+    {
+      "id": "quarters_0_0_0_quarters_0_1_0_21",
+      "source_node": "PORTAL_quarters_0_0_0_quarters_0_1_0_21",
+      "front_room": "room_quarters_0_0_0",
+      "back_room": "room_quarters_0_1_0"
+    },
+    {
+      "id": "dormitory_0_0_0_dormitory_0_1_0_22",
+      "source_node": "PORTAL_dormitory_0_0_0_dormitory_0_1_0_22",
+      "front_room": "room_dormitory_0_0_0",
+      "back_room": "room_dormitory_0_1_0"
+    },
+    {
+      "id": "spine_port_0_0_0_spine_port_0_1_0_23",
+      "source_node": "PORTAL_spine_port_0_0_0_spine_port_0_1_0_23",
+      "front_room": "room_spine_port_0_0_0",
+      "back_room": "room_spine_port_0_1_0"
+    },
+    {
+      "id": "spine_port_0_1_0_spine_port_0_2_0_24",
+      "source_node": "PORTAL_spine_port_0_1_0_spine_port_0_2_0_24",
+      "front_room": "room_spine_port_0_1_0",
+      "back_room": "room_spine_port_0_2_0"
+    },
+    {
+      "id": "spine_star_0_0_0_spine_star_0_1_0_25",
+      "source_node": "PORTAL_spine_star_0_0_0_spine_star_0_1_0_25",
+      "front_room": "room_spine_star_0_0_0",
+      "back_room": "room_spine_star_0_1_0"
+    },
+    {
+      "id": "spine_star_0_1_0_spine_star_0_2_0_26",
+      "source_node": "PORTAL_spine_star_0_1_0_spine_star_0_2_0_26",
+      "front_room": "room_spine_star_0_1_0",
+      "back_room": "room_spine_star_0_2_0"
+    },
+    {
+      "id": "duel_0_0_0_duel_1_0_0_27",
+      "source_node": "PORTAL_duel_0_0_0_duel_1_0_0_27",
+      "front_room": "room_duel_0_0_0",
+      "back_room": "room_duel_1_0_0"
+    },
+    {
+      "id": "duel_0_0_0_duel_0_1_0_28",
+      "source_node": "PORTAL_duel_0_0_0_duel_0_1_0_28",
+      "front_room": "room_duel_0_0_0",
+      "back_room": "room_duel_0_1_0"
+    },
+    {
+      "id": "duel_1_0_0_duel_1_1_0_29",
+      "source_node": "PORTAL_duel_1_0_0_duel_1_1_0_29",
+      "front_room": "room_duel_1_0_0",
+      "back_room": "room_duel_1_1_0"
+    },
+    {
+      "id": "duel_0_1_0_duel_1_1_0_30",
+      "source_node": "PORTAL_duel_0_1_0_duel_1_1_0_30",
+      "front_room": "room_duel_0_1_0",
+      "back_room": "room_duel_1_1_0"
+    },
+    {
+      "id": "rib_port_0_2_0_quarters_0_0_0_31",
+      "source_node": "PORTAL_rib_port_0_2_0_quarters_0_0_0_31",
+      "front_room": "room_rib_port_0_2_0",
+      "back_room": "room_quarters_0_0_0"
+    },
+    {
+      "id": "rib_port_0_2_0_quarters_0_1_0_32",
+      "source_node": "PORTAL_rib_port_0_2_0_quarters_0_1_0_32",
+      "front_room": "room_rib_port_0_2_0",
+      "back_room": "room_quarters_0_1_0"
+    },
+    {
+      "id": "rib_port_0_2_0_quarters_0_0_0_33",
+      "source_node": "PORTAL_rib_port_0_2_0_quarters_0_0_0_33",
+      "front_room": "room_rib_port_0_2_0",
+      "back_room": "room_quarters_0_0_0"
+    },
+    {
+      "id": "rib_port_0_2_0_quarters_0_1_0_34",
+      "source_node": "PORTAL_rib_port_0_2_0_quarters_0_1_0_34",
+      "front_room": "room_rib_port_0_2_0",
+      "back_room": "room_quarters_0_1_0"
+    },
+    {
+      "id": "rib_port_0_2_0_quarters_0_0_0_35",
+      "source_node": "PORTAL_rib_port_0_2_0_quarters_0_0_0_35",
+      "front_room": "room_rib_port_0_2_0",
+      "back_room": "room_quarters_0_0_0"
+    },
+    {
+      "id": "rib_port_0_2_0_quarters_0_1_0_36",
+      "source_node": "PORTAL_rib_port_0_2_0_quarters_0_1_0_36",
+      "front_room": "room_rib_port_0_2_0",
+      "back_room": "room_quarters_0_1_0"
+    },
+    {
+      "id": "rib_star_0_2_0_dormitory_0_0_0_37",
+      "source_node": "PORTAL_rib_star_0_2_0_dormitory_0_0_0_37",
+      "front_room": "room_rib_star_0_2_0",
+      "back_room": "room_dormitory_0_0_0"
+    },
+    {
+      "id": "rib_star_0_2_0_dormitory_0_1_0_38",
+      "source_node": "PORTAL_rib_star_0_2_0_dormitory_0_1_0_38",
+      "front_room": "room_rib_star_0_2_0",
+      "back_room": "room_dormitory_0_1_0"
+    },
+    {
+      "id": "rib_star_0_2_0_dormitory_0_0_0_39",
+      "source_node": "PORTAL_rib_star_0_2_0_dormitory_0_0_0_39",
+      "front_room": "room_rib_star_0_2_0",
+      "back_room": "room_dormitory_0_0_0"
+    },
+    {
+      "id": "rib_star_0_2_0_dormitory_0_1_0_40",
+      "source_node": "PORTAL_rib_star_0_2_0_dormitory_0_1_0_40",
+      "front_room": "room_rib_star_0_2_0",
+      "back_room": "room_dormitory_0_1_0"
+    },
+    {
+      "id": "rib_star_0_2_0_dormitory_0_0_0_41",
+      "source_node": "PORTAL_rib_star_0_2_0_dormitory_0_0_0_41",
+      "front_room": "room_rib_star_0_2_0",
+      "back_room": "room_dormitory_0_0_0"
+    },
+    {
+      "id": "rib_star_0_2_0_dormitory_0_1_0_42",
+      "source_node": "PORTAL_rib_star_0_2_0_dormitory_0_1_0_42",
+      "front_room": "room_rib_star_0_2_0",
+      "back_room": "room_dormitory_0_1_0"
+    },
+    {
+      "id": "quarters_0_0_0_core_43",
+      "source_node": "PORTAL_quarters_0_0_0_core_43",
+      "front_room": "room_quarters_0_0_0",
+      "back_room": "room_core"
+    },
+    {
+      "id": "quarters_0_0_0_core_44",
+      "source_node": "PORTAL_quarters_0_0_0_core_44",
+      "front_room": "room_quarters_0_0_0",
+      "back_room": "room_core"
+    },
+    {
+      "id": "quarters_0_0_0_core_45",
+      "source_node": "PORTAL_quarters_0_0_0_core_45",
+      "front_room": "room_quarters_0_0_0",
+      "back_room": "room_core"
+    },
+    {
+      "id": "quarters_0_0_0_core_46",
+      "source_node": "PORTAL_quarters_0_0_0_core_46",
+      "front_room": "room_quarters_0_0_0",
+      "back_room": "room_core"
+    },
+    {
+      "id": "vault_1_0_0_duel_1_0_0_47",
+      "source_node": "PORTAL_vault_1_0_0_duel_1_0_0_47",
+      "front_room": "room_vault_1_0_0",
+      "back_room": "room_duel_1_0_0"
+    },
+    {
+      "id": "vault_1_0_0_duel_1_0_0_48",
+      "source_node": "PORTAL_vault_1_0_0_duel_1_0_0_48",
+      "front_room": "room_vault_1_0_0",
+      "back_room": "room_duel_1_0_0"
+    },
+    {
+      "id": "duel_1_0_0_vault_1_0_0_49",
+      "source_node": "PORTAL_duel_1_0_0_vault_1_0_0_49",
+      "front_room": "room_duel_1_0_0",
+      "back_room": "room_vault_1_0_0"
+    },
+    {
+      "id": "vault_1_0_0_duel_1_0_0_50",
+      "source_node": "PORTAL_vault_1_0_0_duel_1_0_0_50",
+      "front_room": "room_vault_1_0_0",
+      "back_room": "room_duel_1_0_0"
+    },
+    {
+      "id": "cradles_2_0_0_breach_1_0_0_51",
+      "source_node": "PORTAL_cradles_2_0_0_breach_1_0_0_51",
+      "front_room": "room_cradles_2_0_0",
+      "back_room": "room_breach_1_0_0"
+    },
+    {
+      "id": "cradles_2_0_0_breach_1_0_0_52",
+      "source_node": "PORTAL_cradles_2_0_0_breach_1_0_0_52",
+      "front_room": "room_cradles_2_0_0",
+      "back_room": "room_breach_1_0_0"
+    },
+    {
+      "id": "brain_0_2_1_gangway_53",
+      "source_node": "PORTAL_brain_0_2_1_gangway_53",
+      "front_room": "room_brain_0_2_1",
+      "back_room": "room_gangway"
+    },
+    {
+      "id": "gantry_breach_0_0_0_54",
+      "source_node": "PORTAL_gantry_breach_0_0_0_54",
+      "front_room": "room_gantry",
+      "back_room": "room_breach_0_0_0"
+    },
+    {
+      "id": "gantry_lower_hall_55",
+      "source_node": "PORTAL_gantry_lower_hall_55",
+      "front_room": "room_gantry",
+      "back_room": "room_lower_hall"
+    },
+    {
+      "id": "lower_hall_gest_aft_0_0_0_56",
+      "source_node": "PORTAL_lower_hall_gest_aft_0_0_0_56",
+      "front_room": "room_lower_hall",
+      "back_room": "room_gest_aft_0_0_0"
+    },
+    {
+      "id": "breach_0_0_0_gest_aft_1_0_0_57",
+      "source_node": "PORTAL_breach_0_0_0_gest_aft_1_0_0_57",
+      "front_room": "room_breach_0_0_0",
+      "back_room": "room_gest_aft_1_0_0"
+    },
+    {
+      "id": "breach_1_0_0_gest_aft_2_0_0_58",
+      "source_node": "PORTAL_breach_1_0_0_gest_aft_2_0_0_58",
+      "front_room": "room_breach_1_0_0",
+      "back_room": "room_gest_aft_2_0_0"
+    },
+    {
+      "id": "gantry_rib_port_0_0_0_59",
+      "source_node": "PORTAL_gantry_rib_port_0_0_0_59",
+      "front_room": "room_gantry",
+      "back_room": "room_rib_port_0_0_0"
+    },
+    {
+      "id": "breach_1_0_0_rib_star_0_0_0_60",
+      "source_node": "PORTAL_breach_1_0_0_rib_star_0_0_0_60",
+      "front_room": "room_breach_1_0_0",
+      "back_room": "room_rib_star_0_0_0"
+    },
+    {
+      "id": "rib_port_0_0_0_brain_0_0_0_61",
+      "source_node": "PORTAL_rib_port_0_0_0_brain_0_0_0_61",
+      "front_room": "room_rib_port_0_0_0",
+      "back_room": "room_brain_0_0_0"
+    },
+    {
+      "id": "rib_star_0_0_0_brain_0_0_0_62",
+      "source_node": "PORTAL_rib_star_0_0_0_brain_0_0_0_62",
+      "front_room": "room_rib_star_0_0_0",
+      "back_room": "room_brain_0_0_0"
+    },
+    {
+      "id": "brain_0_2_0_gest_fore_0_0_0_63",
+      "source_node": "PORTAL_brain_0_2_0_gest_fore_0_0_0_63",
+      "front_room": "room_brain_0_2_0",
+      "back_room": "room_gest_fore_0_0_0"
+    },
+    {
+      "id": "rib_port_0_2_0_gest_fore_0_1_0_64",
+      "source_node": "PORTAL_rib_port_0_2_0_gest_fore_0_1_0_64",
+      "front_room": "room_rib_port_0_2_0",
+      "back_room": "room_gest_fore_0_1_0"
+    },
+    {
+      "id": "rib_star_0_2_0_gest_fore_0_1_0_65",
+      "source_node": "PORTAL_rib_star_0_2_0_gest_fore_0_1_0_65",
+      "front_room": "room_rib_star_0_2_0",
+      "back_room": "room_gest_fore_0_1_0"
+    },
+    {
+      "id": "gest_fore_0_2_0_pens_66",
+      "source_node": "PORTAL_gest_fore_0_2_0_pens_66",
+      "front_room": "room_gest_fore_0_2_0",
+      "back_room": "room_pens"
+    },
+    {
+      "id": "quarters_0_0_0_gal_port_0_1_0_67",
+      "source_node": "PORTAL_quarters_0_0_0_gal_port_0_1_0_67",
+      "front_room": "room_quarters_0_0_0",
+      "back_room": "room_gal_port_0_1_0"
+    },
+    {
+      "id": "dormitory_0_0_0_gal_star_0_1_0_68",
+      "source_node": "PORTAL_dormitory_0_0_0_gal_star_0_1_0_68",
+      "front_room": "room_dormitory_0_0_0",
+      "back_room": "room_gal_star_0_1_0"
+    },
+    {
+      "id": "quarters_0_0_0_dormitory_0_0_0_69",
+      "source_node": "PORTAL_quarters_0_0_0_dormitory_0_0_0_69",
+      "front_room": "room_quarters_0_0_0",
+      "back_room": "room_dormitory_0_0_0"
+    },
+    {
+      "id": "quarters_0_1_0_dormitory_0_1_0_70",
+      "source_node": "PORTAL_quarters_0_1_0_dormitory_0_1_0_70",
+      "front_room": "room_quarters_0_1_0",
+      "back_room": "room_dormitory_0_1_0"
+    },
+    {
+      "id": "quarters_0_1_0_trophy_71",
+      "source_node": "PORTAL_quarters_0_1_0_trophy_71",
+      "front_room": "room_quarters_0_1_0",
+      "back_room": "room_trophy"
+    },
+    {
+      "id": "dormitory_0_1_0_attend_72",
+      "source_node": "PORTAL_dormitory_0_1_0_attend_72",
+      "front_room": "room_dormitory_0_1_0",
+      "back_room": "room_attend"
+    },
+    {
+      "id": "gal_port_0_1_0_gangway_73",
+      "source_node": "PORTAL_gal_port_0_1_0_gangway_73",
+      "front_room": "room_gal_port_0_1_0",
+      "back_room": "room_gangway"
+    },
+    {
+      "id": "gal_star_0_1_0_gangway_74",
+      "source_node": "PORTAL_gal_star_0_1_0_gangway_74",
+      "front_room": "room_gal_star_0_1_0",
+      "back_room": "room_gangway"
+    },
+    {
+      "id": "gal_port_0_0_0_cradles_0_0_0_75",
+      "source_node": "PORTAL_gal_port_0_0_0_cradles_0_0_0_75",
+      "front_room": "room_gal_port_0_0_0",
+      "back_room": "room_cradles_0_0_0"
+    },
+    {
+      "id": "gal_star_0_0_0_breach_1_0_0_76",
+      "source_node": "PORTAL_gal_star_0_0_0_breach_1_0_0_76",
+      "front_room": "room_gal_star_0_0_0",
+      "back_room": "room_breach_1_0_0"
+    },
+    {
+      "id": "dormitory_0_1_0_vchamber_77",
+      "source_node": "PORTAL_dormitory_0_1_0_vchamber_77",
+      "front_room": "room_dormitory_0_1_0",
+      "back_room": "room_vchamber"
+    },
+    {
+      "id": "cradles_1_0_0_vault_0_0_0_78",
+      "source_node": "PORTAL_cradles_1_0_0_vault_0_0_0_78",
+      "front_room": "room_cradles_1_0_0",
+      "back_room": "room_vault_0_0_0"
+    },
+    {
+      "id": "cradles_1_0_0_vault_1_0_0_79",
+      "source_node": "PORTAL_cradles_1_0_0_vault_1_0_0_79",
+      "front_room": "room_cradles_1_0_0",
+      "back_room": "room_vault_1_0_0"
+    },
+    {
+      "id": "spine_port_0_2_0_core_80",
+      "source_node": "PORTAL_spine_port_0_2_0_core_80",
+      "front_room": "room_spine_port_0_2_0",
+      "back_room": "room_core"
+    },
+    {
+      "id": "spine_star_0_2_0_core_81",
+      "source_node": "PORTAL_spine_star_0_2_0_core_81",
+      "front_room": "room_spine_star_0_2_0",
+      "back_room": "room_core"
+    },
+    {
+      "id": "spine_port_0_0_0_duel_0_1_0_82",
+      "source_node": "PORTAL_spine_port_0_0_0_duel_0_1_0_82",
+      "front_room": "room_spine_port_0_0_0",
+      "back_room": "room_duel_0_1_0"
+    },
+    {
+      "id": "spine_star_0_0_0_duel_1_1_0_83",
+      "source_node": "PORTAL_spine_star_0_0_0_duel_1_1_0_83",
+      "front_room": "room_spine_star_0_0_0",
+      "back_room": "room_duel_1_1_0"
+    },
+    {
+      "id": "core_sensorium_84",
+      "source_node": "PORTAL_core_sensorium_84",
+      "front_room": "room_core",
+      "back_room": "room_sensorium"
+    },
+    {
+      "id": "gal_port_0_0_0_brain_0_0_1_85",
+      "source_node": "PORTAL_gal_port_0_0_0_brain_0_0_1_85",
+      "front_room": "room_gal_port_0_0_0",
+      "back_room": "room_brain_0_0_1"
+    },
+    {
+      "id": "gal_port_0_0_0_brain_0_1_1_86",
+      "source_node": "PORTAL_gal_port_0_0_0_brain_0_1_1_86",
+      "front_room": "room_gal_port_0_0_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "gal_port_0_0_0_brain_0_1_1_87",
+      "source_node": "PORTAL_gal_port_0_0_0_brain_0_1_1_87",
+      "front_room": "room_gal_port_0_0_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "gal_port_0_1_0_brain_0_1_1_88",
+      "source_node": "PORTAL_gal_port_0_1_0_brain_0_1_1_88",
+      "front_room": "room_gal_port_0_1_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "gal_port_0_1_0_brain_0_2_1_89",
+      "source_node": "PORTAL_gal_port_0_1_0_brain_0_2_1_89",
+      "front_room": "room_gal_port_0_1_0",
+      "back_room": "room_brain_0_2_1"
+    },
+    {
+      "id": "gal_star_0_0_0_brain_0_0_1_90",
+      "source_node": "PORTAL_gal_star_0_0_0_brain_0_0_1_90",
+      "front_room": "room_gal_star_0_0_0",
+      "back_room": "room_brain_0_0_1"
+    },
+    {
+      "id": "gal_star_0_0_0_brain_0_1_1_91",
+      "source_node": "PORTAL_gal_star_0_0_0_brain_0_1_1_91",
+      "front_room": "room_gal_star_0_0_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "gal_star_0_0_0_brain_0_1_1_92",
+      "source_node": "PORTAL_gal_star_0_0_0_brain_0_1_1_92",
+      "front_room": "room_gal_star_0_0_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "gal_star_0_1_0_brain_0_1_1_93",
+      "source_node": "PORTAL_gal_star_0_1_0_brain_0_1_1_93",
+      "front_room": "room_gal_star_0_1_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "gal_star_0_1_0_brain_0_2_1_94",
+      "source_node": "PORTAL_gal_star_0_1_0_brain_0_2_1_94",
+      "front_room": "room_gal_star_0_1_0",
+      "back_room": "room_brain_0_2_1"
+    },
+    {
+      "id": "spine_port_0_0_0_brain_0_0_1_95",
+      "source_node": "PORTAL_spine_port_0_0_0_brain_0_0_1_95",
+      "front_room": "room_spine_port_0_0_0",
+      "back_room": "room_brain_0_0_1"
+    },
+    {
+      "id": "spine_port_0_0_0_brain_0_1_1_96",
+      "source_node": "PORTAL_spine_port_0_0_0_brain_0_1_1_96",
+      "front_room": "room_spine_port_0_0_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "spine_port_0_1_0_brain_0_1_1_97",
+      "source_node": "PORTAL_spine_port_0_1_0_brain_0_1_1_97",
+      "front_room": "room_spine_port_0_1_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "spine_port_0_1_0_brain_0_2_1_98",
+      "source_node": "PORTAL_spine_port_0_1_0_brain_0_2_1_98",
+      "front_room": "room_spine_port_0_1_0",
+      "back_room": "room_brain_0_2_1"
+    },
+    {
+      "id": "spine_star_0_0_0_brain_0_0_1_99",
+      "source_node": "PORTAL_spine_star_0_0_0_brain_0_0_1_99",
+      "front_room": "room_spine_star_0_0_0",
+      "back_room": "room_brain_0_0_1"
+    },
+    {
+      "id": "spine_star_0_0_0_brain_0_1_1_100",
+      "source_node": "PORTAL_spine_star_0_0_0_brain_0_1_1_100",
+      "front_room": "room_spine_star_0_0_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "spine_star_0_1_0_brain_0_1_1_101",
+      "source_node": "PORTAL_spine_star_0_1_0_brain_0_1_1_101",
+      "front_room": "room_spine_star_0_1_0",
+      "back_room": "room_brain_0_1_1"
+    },
+    {
+      "id": "spine_star_0_1_0_brain_0_2_1_102",
+      "source_node": "PORTAL_spine_star_0_1_0_brain_0_2_1_102",
+      "front_room": "room_spine_star_0_1_0",
+      "back_room": "room_brain_0_2_1"
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "hull_exit_gantry",
+      "source_node": "TRIGGER_hull_exit_gantry",
+      "flags": [],
+      "trigger": {
+        "event_id": 50,
+        "type": "click"
+      }
+    },
+    {
+      "id": "arrival_floor_gantry",
+      "source_node": "TRIGGER_arrival_floor_gantry",
+      "flags": [],
+      "trigger": {
+        "event_id": 10,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "journal_quarters_0_1_0",
+      "source_node": "TRIGGER_journal_quarters_0_1_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 11,
+        "type": "click"
+      }
+    },
+    {
+      "id": "eye_sensorium",
+      "source_node": "TRIGGER_eye_sensorium",
+      "flags": [],
+      "trigger": {
+        "event_id": 12,
+        "type": "click"
+      }
+    },
+    {
+      "id": "return_hatch_vault_0_0_0",
+      "source_node": "TRIGGER_return_hatch_vault_0_0_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 223,
+        "type": "click"
+      }
+    },
+    {
+      "id": "return_hatch_vault_1_0_0",
+      "source_node": "TRIGGER_return_hatch_vault_1_0_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 223,
+        "type": "click"
+      }
+    },
+    {
+      "id": "navigation_brain_brain_0_0_1",
+      "source_node": "TRIGGER_navigation_brain_brain_0_0_1",
+      "flags": [],
+      "cog_number": 155
+    },
+    {
+      "id": "navigation_brain_brain_0_1_1",
+      "source_node": "TRIGGER_navigation_brain_brain_0_1_1",
+      "flags": [],
+      "cog_number": 155
+    },
+    {
+      "id": "navigation_brain_brain_0_2_1",
+      "source_node": "TRIGGER_navigation_brain_brain_0_2_1",
+      "flags": [],
+      "cog_number": 155
+    },
+    {
+      "id": "terms_spine_port_spine_port_0_0_0",
+      "source_node": "TRIGGER_terms_spine_port_spine_port_0_0_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 160,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "terms_spine_star_spine_star_0_0_0",
+      "source_node": "TRIGGER_terms_spine_star_spine_star_0_0_0",
+      "flags": [],
+      "trigger": {
+        "event_id": 160,
+        "type": "pressure_plate"
+      }
+    },
+    {
+      "id": "door_201",
+      "source_node": "MECH_door_201",
+      "flags": [],
+      "trigger": {
+        "event_id": 201,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_202",
+      "source_node": "MECH_door_202",
+      "flags": [],
+      "trigger": {
+        "event_id": 202,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_203",
+      "source_node": "MECH_door_203",
+      "flags": [],
+      "trigger": {
+        "event_id": 203,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_204",
+      "source_node": "MECH_door_204",
+      "flags": [],
+      "trigger": {
+        "event_id": 204,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_205",
+      "source_node": "MECH_door_205",
+      "flags": [],
+      "trigger": {
+        "event_id": 205,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_206",
+      "source_node": "MECH_door_206",
+      "flags": [],
+      "trigger": {
+        "event_id": 206,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_207",
+      "source_node": "MECH_door_207",
+      "flags": [],
+      "trigger": {
+        "event_id": 207,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_208",
+      "source_node": "MECH_door_208",
+      "flags": [],
+      "trigger": {
+        "event_id": 208,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_209",
+      "source_node": "MECH_door_209",
+      "flags": [],
+      "trigger": {
+        "event_id": 209,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_210",
+      "source_node": "MECH_door_210",
+      "flags": [],
+      "trigger": {
+        "event_id": 210,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_211",
+      "source_node": "MECH_door_211",
+      "flags": [],
+      "trigger": {
+        "event_id": 211,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_212",
+      "source_node": "MECH_door_212",
+      "flags": [],
+      "trigger": {
+        "event_id": 212,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_213",
+      "source_node": "MECH_door_213",
+      "flags": [],
+      "trigger": {
+        "event_id": 213,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_214",
+      "source_node": "MECH_door_214",
+      "flags": [],
+      "trigger": {
+        "event_id": 214,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_215",
+      "source_node": "MECH_door_215",
+      "flags": [],
+      "trigger": {
+        "event_id": 215,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_216",
+      "source_node": "MECH_door_216",
+      "flags": [],
+      "trigger": {
+        "event_id": 216,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_217",
+      "source_node": "MECH_door_217",
+      "flags": [],
+      "trigger": {
+        "event_id": 217,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_218",
+      "source_node": "MECH_door_218",
+      "flags": [],
+      "trigger": {
+        "event_id": 218,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_219",
+      "source_node": "MECH_door_219",
+      "flags": [],
+      "trigger": {
+        "event_id": 219,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_51",
+      "source_node": "MECH_door_51",
+      "flags": [],
+      "trigger": {
+        "event_id": 51,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_52",
+      "source_node": "MECH_door_52",
+      "flags": [],
+      "trigger": {
+        "event_id": 52,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_53",
+      "source_node": "MECH_door_53",
+      "flags": [],
+      "trigger": {
+        "event_id": 53,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_54",
+      "source_node": "MECH_door_54",
+      "flags": [],
+      "trigger": {
+        "event_id": 54,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_220",
+      "source_node": "MECH_door_220",
+      "flags": [],
+      "trigger": {
+        "event_id": 220,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_221",
+      "source_node": "MECH_door_221",
+      "flags": [],
+      "trigger": {
+        "event_id": 221,
+        "type": "click"
+      }
+    },
+    {
+      "id": "door_222",
+      "source_node": "MECH_door_222",
+      "flags": [],
+      "trigger": {
+        "event_id": 222,
+        "type": "click"
+      }
+    },
+    {
+      "id": "vault_stair_hatch",
+      "source_node": "MECH_vault_stair_hatch",
+      "flags": [],
+      "trigger": {
+        "event_id": 52,
+        "type": "click"
+      }
+    }
+  ],
+  "mechanisms": [
+    {
+      "id": "door_201",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_201"
+      ],
+      "door": {
+        "door_id": 201,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_202",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_202"
+      ],
+      "door": {
+        "door_id": 202,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_203",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_203"
+      ],
+      "door": {
+        "door_id": 203,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_204",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_204"
+      ],
+      "door": {
+        "door_id": 204,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_205",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_205"
+      ],
+      "door": {
+        "door_id": 205,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_206",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_206"
+      ],
+      "door": {
+        "door_id": 206,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_207",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_207"
+      ],
+      "door": {
+        "door_id": 207,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_208",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_208"
+      ],
+      "door": {
+        "door_id": 208,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_209",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_209"
+      ],
+      "door": {
+        "door_id": 209,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_210",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_210"
+      ],
+      "door": {
+        "door_id": 210,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_211",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_211"
+      ],
+      "door": {
+        "door_id": 211,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_212",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_212"
+      ],
+      "door": {
+        "door_id": 212,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_213",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_213"
+      ],
+      "door": {
+        "door_id": 213,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_214",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_214"
+      ],
+      "door": {
+        "door_id": 214,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_215",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_215"
+      ],
+      "door": {
+        "door_id": 215,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_216",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_216"
+      ],
+      "door": {
+        "door_id": 216,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_217",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_217"
+      ],
+      "door": {
+        "door_id": 217,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_218",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_218"
+      ],
+      "door": {
+        "door_id": 218,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_219",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_219"
+      ],
+      "door": {
+        "door_id": 219,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_51",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_51"
+      ],
+      "door": {
+        "door_id": 51,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_52",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_52"
+      ],
+      "door": {
+        "door_id": 52,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_53",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_53"
+      ],
+      "door": {
+        "door_id": 53,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_54",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_54"
+      ],
+      "door": {
+        "door_id": 54,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_220",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_220"
+      ],
+      "door": {
+        "door_id": 220,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_221",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_221"
+      ],
+      "door": {
+        "door_id": 221,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "door_222",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_door_222"
+      ],
+      "door": {
+        "door_id": 222,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    },
+    {
+      "id": "vault_stair_hatch",
+      "kind": "linear",
+      "source_nodes": [
+        "MECH_vault_stair_hatch"
+      ],
+      "door": {
+        "door_id": 552,
+        "initial_state": "closed",
+        "source_pose": "closed",
+        "direction": [
+          0,
+          0,
+          -1
+        ],
+        "move_length": 400,
+        "open_speed": 400,
+        "close_speed": 400
+      }
+    }
+  ],
+  "entities": [
+    {
+      "id": "hes_trophy_relic_0",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_trophy_relic_0",
+      "decoration_list_id": 3135,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_trophy_relic_1",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_trophy_relic_1",
+      "decoration_list_id": 3135,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_trophy_relic_2",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_trophy_relic_2",
+      "decoration_list_id": 3135,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_bones_litter_3",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_bones_litter_3",
+      "decoration_list_id": 3136,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_bones_litter_4",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_bones_litter_4",
+      "decoration_list_id": 3136,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_bones_litter_5",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_bones_litter_5",
+      "decoration_list_id": 3136,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_bones_litter_6",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_bones_litter_6",
+      "decoration_list_id": 3136,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_kreegan_pod_chest_7",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_7",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 30
+    },
+    {
+      "id": "hes_kreegan_pod_chest_8",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_8",
+      "decoration_list_id": 3016,
+      "event_id_primary": 131,
+      "event_id_secondary": 31
+    },
+    {
+      "id": "hes_kreegan_pod_chest_9",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_9",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 32
+    },
+    {
+      "id": "hes_kreegan_pod_chest_10",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_10",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 33
+    },
+    {
+      "id": "hes_kreegan_pod_chest_11",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_11",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 34
+    },
+    {
+      "id": "hes_kreegan_pod_chest_12",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_12",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 35
+    },
+    {
+      "id": "hes_kreegan_pod_chest_13",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_13",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 36
+    },
+    {
+      "id": "hes_kreegan_pod_chest_14",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_14",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 37
+    },
+    {
+      "id": "hes_kreegan_pod_chest_15",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_kreegan_pod_chest_15",
+      "decoration_list_id": 3016,
+      "event_id_primary": 0,
+      "event_id_secondary": 38
+    },
+    {
+      "id": "hes_d11_nerve_node_off_16",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_16",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_17",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_17",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_18",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_18",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_19",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_19",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_20",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_20",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_21",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_21",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_22",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_22",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_23",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_23",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_24",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_24",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_25",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_25",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_26",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_26",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_27",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_27",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_28",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_28",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_29",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_29",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_30",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_30",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_31",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_31",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_32",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_32",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_33",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_33",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_34",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_34",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d11_nerve_node_off_35",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_35",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_36",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_36",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_37",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_37",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_38",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_38",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_39",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_39",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d11_nerve_node_off_40",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_40",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_41",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_41",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_42",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_42",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_43",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_43",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_44",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_44",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_45",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_45",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d11_nerve_node_off_46",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_46",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d11_nerve_node_off_47",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_47",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d11_nerve_node_off_48",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_48",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_49",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_49",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_50",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_50",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_51",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_51",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_52",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_52",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d11_nerve_node_off_53",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_53",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 180
+    },
+    {
+      "id": "hes_d11_fire_bowl_gilded_54",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_fire_bowl_gilded_54",
+      "decoration_list_id": 3229,
+      "event_id_primary": 0,
+      "event_id_secondary": 0
+    },
+    {
+      "id": "hes_d11_nerve_node_off_55",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_55",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_56",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_56",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_57",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_57",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_58",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_58",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_59",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_59",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_60",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_60",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_61",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_61",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_62",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_62",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_63",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_63",
+      "decoration_list_id": 3228,
+      "event_id_primary": 141,
+      "event_id_secondary": 0,
+      "facing": 270
+    },
+    {
+      "id": "hes_d11_nerve_node_off_64",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_64",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_65",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_65",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_66",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_66",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_67",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_67",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_68",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_68",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_69",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_69",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_70",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_70",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_d11_nerve_node_off_71",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_d11_nerve_node_off_71",
+      "decoration_list_id": 3228,
+      "event_id_primary": 142,
+      "event_id_secondary": 0,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_72",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_72",
+      "decoration_list_id": 3246,
+      "event_id_primary": 701,
+      "event_id_secondary": 701,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_73",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_73",
+      "decoration_list_id": 3246,
+      "event_id_primary": 702,
+      "event_id_secondary": 702,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_74",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_74",
+      "decoration_list_id": 3246,
+      "event_id_primary": 703,
+      "event_id_secondary": 703,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_75",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_75",
+      "decoration_list_id": 3246,
+      "event_id_primary": 704,
+      "event_id_secondary": 704,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_76",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_76",
+      "decoration_list_id": 3246,
+      "event_id_primary": 705,
+      "event_id_secondary": 705,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_77",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_77",
+      "decoration_list_id": 3246,
+      "event_id_primary": 706,
+      "event_id_secondary": 706,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_78",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_78",
+      "decoration_list_id": 3246,
+      "event_id_primary": 707,
+      "event_id_secondary": 707,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_79",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_79",
+      "decoration_list_id": 3246,
+      "event_id_primary": 708,
+      "event_id_secondary": 708,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_80",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_80",
+      "decoration_list_id": 3246,
+      "event_id_primary": 709,
+      "event_id_secondary": 709,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_81",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_81",
+      "decoration_list_id": 3246,
+      "event_id_primary": 710,
+      "event_id_secondary": 710,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_82",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_82",
+      "decoration_list_id": 3246,
+      "event_id_primary": 711,
+      "event_id_secondary": 711,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_83",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_83",
+      "decoration_list_id": 3246,
+      "event_id_primary": 712,
+      "event_id_secondary": 712,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_84",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_84",
+      "decoration_list_id": 3246,
+      "event_id_primary": 713,
+      "event_id_secondary": 713,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_85",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_85",
+      "decoration_list_id": 3246,
+      "event_id_primary": 714,
+      "event_id_secondary": 714,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_86",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_86",
+      "decoration_list_id": 3246,
+      "event_id_primary": 715,
+      "event_id_secondary": 715,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_87",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_87",
+      "decoration_list_id": 3246,
+      "event_id_primary": 716,
+      "event_id_secondary": 716,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_88",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_88",
+      "decoration_list_id": 3246,
+      "event_id_primary": 717,
+      "event_id_secondary": 717,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_89",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_89",
+      "decoration_list_id": 3246,
+      "event_id_primary": 718,
+      "event_id_secondary": 718,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_90",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_90",
+      "decoration_list_id": 3246,
+      "event_id_primary": 719,
+      "event_id_secondary": 719,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_91",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_91",
+      "decoration_list_id": 3246,
+      "event_id_primary": 720,
+      "event_id_secondary": 720,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_92",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_92",
+      "decoration_list_id": 3246,
+      "event_id_primary": 721,
+      "event_id_secondary": 721,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_93",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_93",
+      "decoration_list_id": 3246,
+      "event_id_primary": 722,
+      "event_id_secondary": 722,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_94",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_94",
+      "decoration_list_id": 3246,
+      "event_id_primary": 723,
+      "event_id_secondary": 723,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_95",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_95",
+      "decoration_list_id": 3246,
+      "event_id_primary": 724,
+      "event_id_secondary": 724,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_96",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_96",
+      "decoration_list_id": 3246,
+      "event_id_primary": 725,
+      "event_id_secondary": 725,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_97",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_97",
+      "decoration_list_id": 3246,
+      "event_id_primary": 726,
+      "event_id_secondary": 726,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_98",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_98",
+      "decoration_list_id": 3246,
+      "event_id_primary": 727,
+      "event_id_secondary": 727,
+      "facing": 90
+    },
+    {
+      "id": "hes_serum_vat_99",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_serum_vat_99",
+      "decoration_list_id": 3246,
+      "event_id_primary": 728,
+      "event_id_secondary": 728,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_100",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_100",
+      "decoration_list_id": 3257,
+      "event_id_primary": 751,
+      "event_id_secondary": 751,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_101",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_101",
+      "decoration_list_id": 3257,
+      "event_id_primary": 752,
+      "event_id_secondary": 752,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_102",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_102",
+      "decoration_list_id": 3257,
+      "event_id_primary": 753,
+      "event_id_secondary": 753,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_103",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_103",
+      "decoration_list_id": 3257,
+      "event_id_primary": 754,
+      "event_id_secondary": 754,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_104",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_104",
+      "decoration_list_id": 3257,
+      "event_id_primary": 755,
+      "event_id_secondary": 755,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_105",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_105",
+      "decoration_list_id": 3257,
+      "event_id_primary": 756,
+      "event_id_secondary": 756,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_106",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_106",
+      "decoration_list_id": 3257,
+      "event_id_primary": 757,
+      "event_id_secondary": 757,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_107",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_107",
+      "decoration_list_id": 3257,
+      "event_id_primary": 758,
+      "event_id_secondary": 758,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_108",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_108",
+      "decoration_list_id": 3257,
+      "event_id_primary": 759,
+      "event_id_secondary": 759,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_109",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_109",
+      "decoration_list_id": 3257,
+      "event_id_primary": 760,
+      "event_id_secondary": 760,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_110",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_110",
+      "decoration_list_id": 3257,
+      "event_id_primary": 761,
+      "event_id_secondary": 761,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_111",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_111",
+      "decoration_list_id": 3257,
+      "event_id_primary": 762,
+      "event_id_secondary": 762,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_112",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_112",
+      "decoration_list_id": 3257,
+      "event_id_primary": 763,
+      "event_id_secondary": 763,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_113",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_113",
+      "decoration_list_id": 3257,
+      "event_id_primary": 764,
+      "event_id_secondary": 764,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_114",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_114",
+      "decoration_list_id": 3257,
+      "event_id_primary": 765,
+      "event_id_secondary": 765,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_115",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_115",
+      "decoration_list_id": 3257,
+      "event_id_primary": 766,
+      "event_id_secondary": 766,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_116",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_116",
+      "decoration_list_id": 3257,
+      "event_id_primary": 767,
+      "event_id_secondary": 767,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_117",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_117",
+      "decoration_list_id": 3257,
+      "event_id_primary": 768,
+      "event_id_secondary": 768,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_118",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_118",
+      "decoration_list_id": 3257,
+      "event_id_primary": 769,
+      "event_id_secondary": 769,
+      "facing": 90
+    },
+    {
+      "id": "hes_scrap_bundle_119",
+      "kind": "decoration",
+      "source_node": "DECOR_hes_scrap_bundle_119",
+      "decoration_list_id": 3257,
+      "event_id_primary": 770,
+      "event_id_secondary": 770,
+      "facing": 90
+    }
+  ],
+  "lights": [
+    {
+      "id": "L1",
+      "source_node": "LIGHT_L1",
+      "color": [
+        200,
+        180,
+        230
+      ],
+      "radius": 700,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "L2",
+      "source_node": "LIGHT_L2",
+      "color": [
+        240,
+        160,
+        60
+      ],
+      "radius": 800,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "L3",
+      "source_node": "LIGHT_L3",
+      "color": [
+        240,
+        160,
+        60
+      ],
+      "radius": 800,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "L4",
+      "source_node": "LIGHT_L4",
+      "color": [
+        240,
+        160,
+        60
+      ],
+      "radius": 600,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "L5",
+      "source_node": "LIGHT_L5",
+      "color": [
+        220,
+        80,
+        210
+      ],
+      "radius": 1300,
+      "brightness": 31,
+      "type": "point",
+      "group": 5
+    },
+    {
+      "id": "L6",
+      "source_node": "LIGHT_L6",
+      "color": [
+        240,
+        170,
+        70
+      ],
+      "radius": 800,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "L7",
+      "source_node": "LIGHT_L7",
+      "color": [
+        240,
+        200,
+        120
+      ],
+      "radius": 1100,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "L8",
+      "source_node": "LIGHT_L8",
+      "color": [
+        190,
+        180,
+        230
+      ],
+      "radius": 700,
+      "brightness": 31,
+      "type": "point"
+    },
+    {
+      "id": "G1",
+      "source_node": "LIGHT_G1",
+      "color": [
+        220,
+        80,
+        210
+      ],
+      "radius": 512,
+      "brightness": 31,
+      "type": "point",
+      "group": 11
+    },
+    {
+      "id": "G2",
+      "source_node": "LIGHT_G2",
+      "color": [
+        220,
+        80,
+        210
+      ],
+      "radius": 512,
+      "brightness": 31,
+      "type": "point",
+      "group": 12
+    },
+    {
+      "id": "G3",
+      "source_node": "LIGHT_G3",
+      "color": [
+        220,
+        80,
+        210
+      ],
+      "radius": 512,
+      "brightness": 31,
+      "type": "point",
+      "group": 13
+    },
+    {
+      "id": "G4",
+      "source_node": "LIGHT_G4",
+      "color": [
+        220,
+        80,
+        210
+      ],
+      "radius": 512,
+      "brightness": 31,
+      "type": "point",
+      "group": 14
+    }
+  ],
+  "spawns": []
+}

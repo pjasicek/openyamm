@@ -1,0 +1,115 @@
+# The Brood Spires' people (hes_out3; stage.py merges npcs_*.yml with npcs.yml): the Acid Garden's farmer Hesk (S10),
+# Tessaly's farm store (vendor 9352) and the farmers Bram, Sedge and Lio. Texts: P4's
+# design/kreegan_world/quests/dialogue/BROOD_SPIRES.md; S10 from QUESTS.md. Built and placed by
+# level_generation/projects/hesper_out3/build_out3.py (the street actors on the Garden farmer row 10265, the farm
+# store's door, event 303). Wren (9222, Grandmaster Energy Guns from S10) is a teacher row of skills.yml in her post
+# (house 9351, event 302).
+#
+# QBits: 100230 S10 given (its journal row is npcs.yml's), 100510 the nest cleared (hes_out3 event 150), 100110 S10
+# done (Hesk's topic 9726).
+
+npcs:
+  - id: 9510
+    name: Hesk
+    portrait: design/kreegan_world/art/portraits/x2/hes_hesk.png
+    greeting:
+      - "Hesk. These are my ponds, and that's my sister up the tower with the long gun, so keep your hands where she can see them."
+      - "Still alive in the wet? Good lungs."
+    topics: [9726, 9727]
+  - id: 9600
+    name: Tessaly
+    portrait: design/kreegan_world/art/portraits/x2/hes_tessaly.png
+    house: 9352
+    greeting:
+      - "Get under the roof! There's a dry place beside the counter. Tessaly's my name. What can I get you?"
+      - "Wipe your boots; the acid eats the mats."
+    topics: [9846, 9847]
+  - id: 9601
+    name: Bram
+    portrait: design/kreegan_world/art/portraits/x2/hes_bram.png
+    greeting: ["Stay on the stones. The algae make that edge slippery.", "Stay on the stones. The algae make that edge slippery."]
+    topics: [9848]
+  - id: 9602
+    name: Sedge
+    portrait: design/kreegan_world/art/portraits/x2/hes_sedge.png
+    greeting: ["Algae cake? No? Your loss.", "Algae cake? No? Your loss."]
+    topics: [9849]
+  - id: 9603
+    name: Lio
+    portrait: design/kreegan_world/art/portraits/x2/hes_lio.png
+    greeting: ["Sixty years in the Garden. Sixty.", "Sixty years in the Garden. Sixty."]
+    topics: [9850]
+
+topics:
+  # Hesk (9510): S10. Not given: gives it (100230), unless the nest is already cleared (100510), when he closes it at
+  # once. Cleared: 100230 cleared, 100110 set, an Engram Core (11332; an Engram until CR-INT-1), 30 000 experience, reputation -1 (MM's sign: good),
+  # autonote 10418 (Wren teaches).
+  - id: 9726
+    title: "The nest"
+    show_until: 100110
+    lua: |
+      if IsQBitSet(QBit(100510)) then
+        ClearQBit(QBit(100230))
+        SetQBit(QBit(100110))
+        AddValue(InventoryItem(11332), 11332)
+        AddValue(Experience, 30000)
+        AddValue(ReputationInCurrentLocation, -1)
+        SetAutonote(10418)
+        evt.SetMessage("Quiet out west. I planted the outer ponds this morning. The Last Lamp will have rations by the crate, and the price of bread will drop. Here: an engram core the old scouts left with me. And go and see my sister; she owes you a lesson.")
+      elseif IsQBitSet(QBit(100230)) then
+        evt.SetMessage("The nest, west of the wall. The big one's the mother.")
+      else
+        SetQBit(QBit(100230))
+        evt.SetMessage("West of the wall, past the outer ponds, the crawlers have nested: a great mother and her brood. They eat my outer ponds bare and spit acid at whoever comes to plant them. Clear the nest and the Garden feeds Landfall again.")
+      end
+  - id: 9727
+    title: "The Garden"
+    lua: |
+      evt.SetMessage("My grandfather sealed the first dome. Algae grow in acid if you love them enough. Nobody else wanted the place, so nobody fought us for it. Until the crawlers.")
+  # Wren (9222, the teacher row of skills.yml): her other topic.
+  - id: 9755
+    title: "The spires"
+    lua: |
+      evt.SetMessage("Overseers roost in the spires and fly the marsh at dusk. I shoot them off the perches before they call the hatchlings. Clear my brother's nest by the west wall, and I'll have time to teach you how.")
+  # Tessaly (9600), in the farm store.
+  - id: 9846
+    title: "The Garden"
+    lua: |
+      evt.SetMessage("Pale algae in sealed ponds, under domes. The rain would kill anything else; the algae drink it. Pressed and dried it feeds half of Landfall, when the road's open and the crawlers aren't.")
+  - id: 9847
+    title: "Rations"
+    lua: |
+      if IsQBitSet(QBit(100110)) then
+        evt.SetMessage("The outer ponds are planted again. The Last Lamp gets rations by the crate.")
+      else
+        evt.SetMessage("Hesk could grow twice what we do, if the nest by the west wall weren't eating the outer ponds. Crawlers. Big ones.")
+      end
+  # The farmers (row 10265): one topic each (NPCS sub-block 9830-9859).
+  - id: 9848
+    title: "The Seedship"
+    lua: |
+      evt.SetMessage("You see it from every pond: the ship in its cradle, north-east. At night it glows. My son says it breathes.")
+  - id: 9849
+    title: "Acid rain"
+    lua: |
+      evt.SetMessage("The rain burns. A rebreather keeps your lungs whole; old Hale had one. He went out to the Spire road and didn't come back.")
+  - id: 9850
+    title: "The Pits"
+    lua: |
+      evt.SetMessage("The sinkhole in the marsh goes down to the womb of them. Nothing you say works down there, the old songs say. Not even a prayer.")
+
+# The Brood Spires' autonotes (BROOD_SPIRES.md section 17; 10418 is npcs.yml's).
+autonotes:
+  - {id: 10201, text: "Acid rain on the Brood Spires burns any skin it touches. A sealed helm, like the scouts' Rebreather, keeps it out.", category: Misc}
+  - {id: 10202, text: "The Brood Spires: a hive forest where a marsh was, its spires grown by the Kreegans. Hesk's farmers hold the Acid Garden in the south.", category: Misc}
+  - {id: 10203, text: "The turrets on Spinefall Pass are destroyed. The road between the Brood Spires and Starport Reach is open.", category: Misc}
+
+# Wren's post (P2's house 9351, event 302): Wren lives there (skills.yml's teacher row).
+houses:
+  - {id: 9351, name: "Wren's post", map: hes_out3.odm, picture: 9810}
+
+# The farm store in greenhouse 1 (P2's house 9352, event 303): Tessaly's food, Stims and Shield Cells. The Hesper Ration
+# comes "after S10" in P4's roster; the engine's fixed vendor stock has no gate, so it is sold from the start.
+vendors:
+  - {id: 9352, picture: 9810, name: "The farm store", location: The Acid Garden, merchandise: "Food, stims and cells", restock_days: 7,
+     stock: [[11305, 6], [11302, 4], [11300, 4]]}

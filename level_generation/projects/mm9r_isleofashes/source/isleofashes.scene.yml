@@ -1,0 +1,8001 @@
+{
+ "format_version": 1,
+ "kind": "outdoor_scene",
+ "source": {
+  "geometry_file": "isleofashes.odm"
+ },
+ "environment": {
+  "sky_texture": "",
+  "ground_tileset_name": "",
+  "master_tile": 0,
+  "tile_set_lookup_indices": [
+   90,
+   342,
+   198,
+   126
+  ],
+  "day_bits_raw": 0,
+  "map_extra_bits_raw": 0,
+  "flags": {
+   "foggy": false,
+   "raining": false,
+   "snowing": false,
+   "underwater": false,
+   "no_terrain": false,
+   "always_dark": false,
+   "always_light": false,
+   "always_foggy": false,
+   "red_fog": false
+  },
+  "fog": {
+   "weak_distance": 0,
+   "strong_distance": 0
+  },
+  "ceiling": 0
+ },
+ "terrain": {
+  "attribute_overrides": [],
+  "footstep_sound_overrides": []
+ },
+ "bmodel_faces": {
+  "interactive_faces": [
+   {
+    "bmodel_index": 41,
+    "face_index": 0,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 1,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 2,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 3,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 4,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 5,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 6,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 7,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 8,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 9,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 10,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 11,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 12,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 13,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 14,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 15,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 16,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 17,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 18,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 19,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 20,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 21,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 22,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 23,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 24,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 25,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 26,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 27,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 28,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 29,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 30,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 31,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 32,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 33,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 34,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 35,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 36,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 37,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 38,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 39,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 40,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 41,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 42,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 43,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 44,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 45,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 46,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 47,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 48,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 49,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 50,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 51,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 52,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 53,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 54,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 55,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 56,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 57,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 58,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 59,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 60,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 61,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 62,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 63,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 64,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 65,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 66,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 67,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 68,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 69,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 70,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 71,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 72,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 73,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 74,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 75,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 76,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 77,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 78,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 79,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 80,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 81,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 82,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 83,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 84,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 85,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 86,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 87,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 88,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 89,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 90,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 91,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 92,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 93,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 94,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 95,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 96,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 97,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 98,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 99,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 100,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 101,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 102,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 103,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 104,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 105,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 106,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 107,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 108,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 109,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 110,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 111,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 112,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 113,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 114,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 115,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 116,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 117,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 118,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 119,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 120,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 121,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 122,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 123,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 124,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 125,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 126,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 127,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 128,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 129,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 130,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 131,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 132,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 133,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 134,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 135,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 136,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 137,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 138,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 139,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 140,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 141,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 142,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 143,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 144,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 145,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 146,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 147,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 148,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 149,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 150,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 151,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 152,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 153,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 154,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 41,
+    "face_index": 155,
+    "legacy_attributes": 8192,
+    "cog_number": 0,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 42,
+    "face_index": 0,
+    "legacy_attributes": 33554432,
+    "cog_number": 498,
+    "cog_triggered_number": 30498,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 42,
+    "face_index": 1,
+    "legacy_attributes": 33554432,
+    "cog_number": 498,
+    "cog_triggered_number": 30498,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 42,
+    "face_index": 2,
+    "legacy_attributes": 33554432,
+    "cog_number": 498,
+    "cog_triggered_number": 30498,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 42,
+    "face_index": 3,
+    "legacy_attributes": 33554432,
+    "cog_number": 498,
+    "cog_triggered_number": 30498,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 42,
+    "face_index": 4,
+    "legacy_attributes": 33554432,
+    "cog_number": 498,
+    "cog_triggered_number": 30498,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 42,
+    "face_index": 5,
+    "legacy_attributes": 33554432,
+    "cog_number": 498,
+    "cog_triggered_number": 30498,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 43,
+    "face_index": 0,
+    "legacy_attributes": 33554432,
+    "cog_number": 499,
+    "cog_triggered_number": 30499,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 43,
+    "face_index": 1,
+    "legacy_attributes": 33554432,
+    "cog_number": 499,
+    "cog_triggered_number": 30499,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 43,
+    "face_index": 2,
+    "legacy_attributes": 33554432,
+    "cog_number": 499,
+    "cog_triggered_number": 30499,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 43,
+    "face_index": 3,
+    "legacy_attributes": 33554432,
+    "cog_number": 499,
+    "cog_triggered_number": 30499,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 43,
+    "face_index": 4,
+    "legacy_attributes": 33554432,
+    "cog_number": 499,
+    "cog_triggered_number": 30499,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 43,
+    "face_index": 5,
+    "legacy_attributes": 33554432,
+    "cog_number": 499,
+    "cog_triggered_number": 30499,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 44,
+    "face_index": 0,
+    "legacy_attributes": 33554432,
+    "cog_number": 769,
+    "cog_triggered_number": 30769,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 44,
+    "face_index": 1,
+    "legacy_attributes": 33554432,
+    "cog_number": 769,
+    "cog_triggered_number": 30769,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 44,
+    "face_index": 2,
+    "legacy_attributes": 33554432,
+    "cog_number": 769,
+    "cog_triggered_number": 30769,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 44,
+    "face_index": 3,
+    "legacy_attributes": 33554432,
+    "cog_number": 769,
+    "cog_triggered_number": 30769,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 44,
+    "face_index": 4,
+    "legacy_attributes": 33554432,
+    "cog_number": 769,
+    "cog_triggered_number": 30769,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 44,
+    "face_index": 5,
+    "legacy_attributes": 33554432,
+    "cog_number": 769,
+    "cog_triggered_number": 30769,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 0,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 1,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 2,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 3,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 4,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 5,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 6,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 7,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 8,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 9,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 10,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 11,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 12,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 13,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 14,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 15,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 16,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 17,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 18,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 19,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 20,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 21,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 22,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 23,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 24,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 25,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 26,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 27,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 28,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 29,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 30,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 31,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 32,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 33,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 34,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 35,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 36,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 37,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 38,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 39,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 40,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 41,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 42,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 43,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 44,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 45,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 46,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 47,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 45,
+    "face_index": 48,
+    "legacy_attributes": 0,
+    "cog_number": 520,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 0,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 1,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 2,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 3,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 4,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 5,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 6,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 7,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 8,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 9,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 10,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 11,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 12,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 13,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 14,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 15,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 16,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 17,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 18,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 19,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 20,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 21,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 22,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 23,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 24,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 25,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 26,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 27,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 28,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 29,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 30,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 31,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 32,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 33,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 34,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 35,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 36,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 37,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 38,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 39,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 40,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 41,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 42,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 43,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 44,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 45,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 46,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 47,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 48,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 49,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 50,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 51,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 52,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 53,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 54,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 55,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 56,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 57,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 58,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 59,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 60,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 46,
+    "face_index": 61,
+    "legacy_attributes": 0,
+    "cog_number": 7,
+    "cog_triggered_number": 0,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 0,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 1,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 2,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 3,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 4,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 5,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 6,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 7,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 8,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 9,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 10,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 11,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 12,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 13,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 14,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 15,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 16,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 17,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 18,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 19,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 20,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 21,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 22,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 23,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 24,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 25,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 26,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 27,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 28,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 29,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 30,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 31,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 32,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 33,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 34,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 35,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 36,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 37,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 38,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 39,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 40,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 41,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 42,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 43,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 44,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 45,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 46,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 47,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 48,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 49,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 50,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 51,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 52,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 53,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 54,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 55,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 56,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 57,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 58,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 59,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 60,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 61,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 62,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 63,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 64,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 65,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 66,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 67,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 68,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 69,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 70,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 71,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 72,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 73,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 74,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 75,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 76,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 77,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 78,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 79,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 80,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 81,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 82,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 83,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 84,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 85,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 86,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 87,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 88,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 89,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 90,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 91,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 92,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 93,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 94,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 95,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 96,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 97,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 98,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 99,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 100,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 101,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 102,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 103,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 104,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 105,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 106,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 107,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 108,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 109,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 110,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 111,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 112,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 113,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 114,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 115,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 116,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 117,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 118,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 119,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 120,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 121,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 122,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 123,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 124,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 125,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 126,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 127,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 128,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 129,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 130,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 131,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 132,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 133,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 134,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 135,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 136,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 137,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 138,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 139,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 140,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 141,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 142,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 47,
+    "face_index": 143,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 40,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 0,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 1,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 2,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 3,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 4,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 5,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 6,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 7,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 8,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 9,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 10,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 11,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 12,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 13,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 14,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 15,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 16,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 17,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 18,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 19,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 20,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 21,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 22,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 23,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 24,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 25,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 26,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 27,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 28,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 29,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 30,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 31,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 32,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 33,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 34,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 35,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 36,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 37,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 38,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 39,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 40,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 41,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 42,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 43,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 44,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 45,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 46,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 47,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 48,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 49,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 50,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 51,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 52,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 53,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 54,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 55,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 56,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 57,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 58,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 59,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 60,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 61,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 62,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 63,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 64,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 65,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 66,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 67,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 68,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 69,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 70,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 71,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 72,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 73,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 74,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 75,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 76,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 77,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 78,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 79,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 80,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 81,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 82,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 83,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 84,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 85,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 86,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 87,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 88,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 89,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 90,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 91,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 92,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 93,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 94,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 95,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 96,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 97,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 98,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 99,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 100,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 101,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 102,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 103,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 104,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 105,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 106,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 107,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 108,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 109,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 110,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 111,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 112,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 113,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 114,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 115,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 116,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 117,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 118,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 119,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 120,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 121,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 122,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 123,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 124,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 125,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 126,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 127,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 128,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 129,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 130,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 131,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 132,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 133,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 134,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 135,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 136,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 137,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 138,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 139,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 140,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 141,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 142,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 48,
+    "face_index": 143,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 41,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 0,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 1,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 2,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 3,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 4,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 5,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 6,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 7,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 8,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 9,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 10,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 11,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 12,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 13,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 14,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 15,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 16,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 17,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 18,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 19,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 20,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 21,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 22,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 23,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 24,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 25,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 26,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 27,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 28,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 29,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 30,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 31,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 32,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 33,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 34,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 35,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 36,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 37,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 38,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 39,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 40,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 41,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 42,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 43,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 44,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 45,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 46,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 47,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 48,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 49,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 50,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 51,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 52,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 53,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 54,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 55,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 56,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 57,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 58,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 59,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 60,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 61,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 62,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 63,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 64,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 65,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 66,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 67,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 68,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 69,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 70,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 71,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 72,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 73,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 74,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 75,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 76,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 77,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 78,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 79,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 80,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 81,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 82,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 83,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 84,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 85,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 86,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 87,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 88,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 89,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 90,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 91,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 92,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 93,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 94,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 95,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 96,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 97,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 98,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 99,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 100,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 101,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 102,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 103,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 104,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 105,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 106,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 107,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 108,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 109,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 110,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 111,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 112,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 113,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 114,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 115,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 116,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 117,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 118,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 119,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 120,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 121,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 122,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 123,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 124,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 125,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 126,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 127,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 128,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 129,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 130,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 131,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 132,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 133,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 134,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 135,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 136,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 137,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 138,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 139,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 140,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 141,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 142,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   },
+   {
+    "bmodel_index": 49,
+    "face_index": 143,
+    "legacy_attributes": 33554432,
+    "cog_number": 0,
+    "cog_triggered_number": 42,
+    "cog_trigger": 0
+   }
+  ]
+ },
+ "mechanisms": [
+  {
+   "activation": {
+    "locked": true,
+    "open_away": true,
+    "push_open": true,
+    "start_open": false,
+    "touch_to_open": false
+   },
+   "binding": {
+    "target_kind": "odm_bmodel",
+    "bmodel_index": 42,
+    "bmodel_name": "BMODEL_BunkerDoor1"
+   },
+   "event_id": 30498,
+   "kind": "rotating_door",
+   "mechanism_id": 900498,
+   "motion": {
+    "move_time_ms": 1800,
+    "rotation": {
+     "pivot_openyamm": {
+      "x": -1116,
+      "y": 4690,
+      "z": 195
+     },
+     "rotation_angles_deg": [
+      0,
+      90,
+      0
+     ],
+     "rotation_angles_openyamm_deg": {
+      "x": 0,
+      "y": 0,
+      "z": 90
+     },
+     "rotation_point_lt": [
+      -3236,
+      12,
+      1632
+     ]
+    }
+   },
+   "sounds": {
+    "close_start": "Door/door01creak.wav",
+    "close_stop": "Door/door01close.wav",
+    "open_start": "Door/door01open.wav",
+    "position": {
+     "x": -1116,
+     "y": 4690,
+     "z": 195
+    }
+   },
+   "source_class": "RotatingDoor",
+   "source_name": "BunkerDoor1",
+   "source_object_index": 498
+  },
+  {
+   "activation": {
+    "locked": true,
+    "open_away": true,
+    "push_open": true,
+    "start_open": false,
+    "touch_to_open": false
+   },
+   "binding": {
+    "target_kind": "odm_bmodel",
+    "bmodel_index": 43,
+    "bmodel_name": "BMODEL_BunkerDoor2"
+   },
+   "event_id": 30499,
+   "kind": "rotating_door",
+   "mechanism_id": 900499,
+   "motion": {
+    "move_time_ms": 1800,
+    "rotation": {
+     "pivot_openyamm": {
+      "x": -850,
+      "y": 4690,
+      "z": 195
+     },
+     "rotation_angles_deg": [
+      0,
+      90,
+      0
+     ],
+     "rotation_angles_openyamm_deg": {
+      "x": 0,
+      "y": 0,
+      "z": 90
+     },
+     "rotation_point_lt": [
+      -3132,
+      12,
+      1632
+     ]
+    }
+   },
+   "sounds": {
+    "close_start": "Door/door01creak.wav",
+    "close_stop": "Door/door01close.wav",
+    "open_start": "Door/door01open.wav",
+    "position": {
+     "x": -850,
+     "y": 4690,
+     "z": 195
+    }
+   },
+   "source_class": "RotatingDoor",
+   "source_name": "BunkerDoor2",
+   "source_object_index": 499
+  },
+  {
+   "activation": {
+    "locked": false,
+    "open_away": true,
+    "push_open": true,
+    "start_open": false,
+    "touch_to_open": false
+   },
+   "binding": {
+    "target_kind": "odm_bmodel",
+    "bmodel_index": 44,
+    "bmodel_name": "BMODEL_RotatingDoor8"
+   },
+   "event_id": 30769,
+   "kind": "rotating_door",
+   "mechanism_id": 900769,
+   "motion": {
+    "move_time_ms": 1800,
+    "rotation": {
+     "pivot_openyamm": {
+      "x": 2314,
+      "y": -16410,
+      "z": 517
+     },
+     "rotation_angles_deg": [
+      0,
+      90,
+      0
+     ],
+     "rotation_angles_openyamm_deg": {
+      "x": 0,
+      "y": 0,
+      "z": 90
+     },
+     "rotation_point_lt": [
+      -1896,
+      138,
+      -6610
+     ]
+    }
+   },
+   "source_class": "RotatingDoor",
+   "source_name": "RotatingDoor8",
+   "source_object_index": 769
+  }
+ ],
+ "mm9_npc_greetings": [
+  {
+   "source_object_index": 61,
+   "sound": "voices/NPC/NPC_002.wav"
+  },
+  {
+   "source_object_index": 747,
+   "sound": "voices/NPC/NPC_138.wav"
+  }
+ ],
+ "entities": [
+  {
+   "entity_index": 0,
+   "name": "mm9_skull",
+   "decoration_list_id": 2009,
+   "ai_attributes": 0,
+   "position": {
+    "x": -11996,
+    "y": -2130,
+    "z": 1061
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 1,
+   "name": "mm9_skull",
+   "decoration_list_id": 2009,
+   "ai_attributes": 0,
+   "position": {
+    "x": -12032,
+    "y": -2084,
+    "z": 1056
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 2,
+   "name": "mm9_shipwreck",
+   "decoration_list_id": 2008,
+   "ai_attributes": 0,
+   "position": {
+    "x": -17117,
+    "y": 8581,
+    "z": -501
+   },
+   "facing": 23,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 3,
+   "name": "mm9_vikingship",
+   "decoration_list_id": 2015,
+   "ai_attributes": 0,
+   "position": {
+    "x": 3574,
+    "y": 6932,
+    "z": -121
+   },
+   "facing": 263,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 4,
+   "name": "mm9_vikingship",
+   "decoration_list_id": 2015,
+   "ai_attributes": 0,
+   "position": {
+    "x": 9554,
+    "y": 5253,
+    "z": -121
+   },
+   "facing": 316,
+   "event_id_primary": 493,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 5,
+   "name": "mm9_book",
+   "decoration_list_id": 2000,
+   "ai_attributes": 0,
+   "position": {
+    "x": -947,
+    "y": 5416,
+    "z": 123
+   },
+   "facing": 0,
+   "event_id_primary": 495,
+   "event_id_secondary": 30495,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 6,
+   "name": "mm9_podium",
+   "decoration_list_id": 2006,
+   "ai_attributes": 0,
+   "position": {
+    "x": -942,
+    "y": 5427,
+    "z": 22
+   },
+   "facing": 180,
+   "event_id_primary": 0,
+   "event_id_secondary": 30496,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 7,
+   "name": "mm9_statstone",
+   "decoration_list_id": 2010,
+   "ai_attributes": 0,
+   "position": {
+    "x": -9994,
+    "y": -11858,
+    "z": 180
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 8,
+   "name": "mm9_stonedebris02",
+   "decoration_list_id": 2011,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2022,
+    "y": 3341,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 9,
+   "name": "mm9_stonedebris02_x150",
+   "decoration_list_id": 2012,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2073,
+    "y": 2780,
+    "z": 983
+   },
+   "facing": 124,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 10,
+   "name": "mm9_stonedebris02",
+   "decoration_list_id": 2011,
+   "ai_attributes": 0,
+   "position": {
+    "x": 1858,
+    "y": 2153,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 11,
+   "name": "mm9_stonedebris02",
+   "decoration_list_id": 2011,
+   "ai_attributes": 0,
+   "position": {
+    "x": 710,
+    "y": 2112,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 12,
+   "name": "mm9_stonedebris02",
+   "decoration_list_id": 2011,
+   "ai_attributes": 0,
+   "position": {
+    "x": 256,
+    "y": 2549,
+    "z": 983
+   },
+   "facing": 300,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 13,
+   "name": "mm9_stonedebris02",
+   "decoration_list_id": 2011,
+   "ai_attributes": 0,
+   "position": {
+    "x": -478,
+    "y": 2604,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 14,
+   "name": "mm9_stonedebris02_x150",
+   "decoration_list_id": 2012,
+   "ai_attributes": 0,
+   "position": {
+    "x": 516,
+    "y": 2329,
+    "z": 983
+   },
+   "facing": 124,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 15,
+   "name": "mm9_stonedebris02_x150",
+   "decoration_list_id": 2012,
+   "ai_attributes": 0,
+   "position": {
+    "x": -344,
+    "y": 3067,
+    "z": 983
+   },
+   "facing": 124,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 16,
+   "name": "mm9_stonedebris02_x150",
+   "decoration_list_id": 2012,
+   "ai_attributes": 0,
+   "position": {
+    "x": 1336,
+    "y": 1879,
+    "z": 983
+   },
+   "facing": 124,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 17,
+   "name": "mm9_stonedebris03",
+   "decoration_list_id": 2013,
+   "ai_attributes": 0,
+   "position": {
+    "x": -86,
+    "y": 2850,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 18,
+   "name": "mm9_stonedebris03",
+   "decoration_list_id": 2013,
+   "ai_attributes": 0,
+   "position": {
+    "x": 1020,
+    "y": 2153,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 19,
+   "name": "mm9_stonedebris03",
+   "decoration_list_id": 2013,
+   "ai_attributes": 0,
+   "position": {
+    "x": 1962,
+    "y": 2399,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 20,
+   "name": "mm9_stonedebris03",
+   "decoration_list_id": 2013,
+   "ai_attributes": 0,
+   "position": {
+    "x": 1798,
+    "y": 2768,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 21,
+   "name": "mm9_stonedebris03",
+   "decoration_list_id": 2013,
+   "ai_attributes": 0,
+   "position": {
+    "x": 1880,
+    "y": 3177,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 22,
+   "name": "mm9_stonedebris03",
+   "decoration_list_id": 2013,
+   "ai_attributes": 0,
+   "position": {
+    "x": 856,
+    "y": 2522,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 23,
+   "name": "mm9_stonedebris03",
+   "decoration_list_id": 2013,
+   "ai_attributes": 0,
+   "position": {
+    "x": -4,
+    "y": 3710,
+    "z": 983
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 24,
+   "name": "mm9_stonedebris03",
+   "decoration_list_id": 2013,
+   "ai_attributes": 0,
+   "position": {
+    "x": 448,
+    "y": 3833,
+    "z": 1017
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 25,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -11510,
+    "y": 1987,
+    "z": 448
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 26,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": -12653,
+    "y": -476,
+    "z": 441
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 27,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -10527,
+    "y": -1454,
+    "z": 518
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 28,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -9052,
+    "y": -10793,
+    "z": 282
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 29,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": -7660,
+    "y": -8253,
+    "z": 225
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 30,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -8233,
+    "y": 1167,
+    "z": 374
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 31,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -11919,
+    "y": -3011,
+    "z": 489
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 32,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": 15278,
+    "y": 1905,
+    "z": 438
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 33,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": 15114,
+    "y": 2724,
+    "z": 406
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 34,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": 15340,
+    "y": 2396,
+    "z": 424
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 35,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2683,
+    "y": -15718,
+    "z": 476
+   },
+   "facing": 340,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 36,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -4954,
+    "y": -18138,
+    "z": 835
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 37,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -3240,
+    "y": -18839,
+    "z": 785
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 38,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": -3008,
+    "y": -18144,
+    "z": 782
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 39,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -2082,
+    "y": -18146,
+    "z": 800
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 40,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -3315,
+    "y": -17318,
+    "z": 800
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 41,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": -2783,
+    "y": -17011,
+    "z": 746
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 42,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -3643,
+    "y": -16335,
+    "z": 790
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 43,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": -4298,
+    "y": -16499,
+    "z": 775
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 44,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": -4954,
+    "y": -16827,
+    "z": 817
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 45,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": -5609,
+    "y": -17482,
+    "z": 863
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 46,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": 6328,
+    "y": -13158,
+    "z": 165
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 47,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": 102,
+    "y": -7926,
+    "z": 306
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 48,
+   "name": "tree30",
+   "decoration_list_id": 514,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2460,
+    "y": -17196,
+    "z": 409
+   },
+   "facing": 16,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 49,
+   "name": "tree29",
+   "decoration_list_id": 511,
+   "ai_attributes": 0,
+   "position": {
+    "x": -9441,
+    "y": -11233,
+    "z": 274
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 50,
+   "name": "mm9_cot",
+   "decoration_list_id": 2003,
+   "ai_attributes": 0,
+   "position": {
+    "x": 3031,
+    "y": -16630,
+    "z": 410
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 51,
+   "name": "mm9_stool",
+   "decoration_list_id": 2014,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2478,
+    "y": -16282,
+    "z": 410
+   },
+   "facing": 270,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 52,
+   "name": "mm9_stool",
+   "decoration_list_id": 2014,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2724,
+    "y": -16282,
+    "z": 410
+   },
+   "facing": 90,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 53,
+   "name": "mm9_coatrack",
+   "decoration_list_id": 2001,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2346,
+    "y": -16292,
+    "z": 527
+   },
+   "facing": 270,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 54,
+   "name": "mm9_dresser",
+   "decoration_list_id": 2004,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2724,
+    "y": -16753,
+    "z": 411
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 55,
+   "name": "mm9_logsburning",
+   "decoration_list_id": 2005,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2918,
+    "y": -16241,
+    "z": 399
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 56,
+   "name": "mm9_roundtable",
+   "decoration_list_id": 2007,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2601,
+    "y": -16282,
+    "z": 410
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 57,
+   "name": "mm9_well",
+   "decoration_list_id": 2016,
+   "ai_attributes": 0,
+   "position": {
+    "x": 3004,
+    "y": -17428,
+    "z": 438
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  },
+  {
+   "entity_index": 58,
+   "name": "mm9_cookpot",
+   "decoration_list_id": 2002,
+   "ai_attributes": 0,
+   "position": {
+    "x": 2990,
+    "y": -8110,
+    "z": 187
+   },
+   "facing": 0,
+   "event_id_primary": 0,
+   "event_id_secondary": 0,
+   "variable_primary": 0,
+   "variable_secondary": 0,
+   "special_trigger": 0,
+   "initial_decoration_flag": 0
+  }
+ ],
+ "spawns": [],
+ "initial_state": {
+  "location": {
+   "respawn_count": 0,
+   "last_respawn_day": 0,
+   "reputation": 0,
+   "alert_status": 0
+  },
+  "face_attribute_overrides": [],
+  "actors": [
+   {
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "mm9_source_object_index": 21,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 80,
+    "height": 30,
+    "move_speed": 640,
+    "position": {
+     "x": -2662,
+     "y": -18166,
+     "z": 1448
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "mm9_source_object_index": 22,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 80,
+    "height": 30,
+    "move_speed": 640,
+    "position": {
+     "x": -3973,
+     "y": -18821,
+     "z": 1611
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly",
+    "npc_id": 0,
+    "mm9_source_object_index": 23,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9076,
+    "monster_id": 9076,
+    "radius": 80,
+    "height": 30,
+    "move_speed": 640,
+    "position": {
+     "x": -4465,
+     "y": -17019,
+     "z": 1611
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly Mite",
+    "npc_id": 0,
+    "mm9_source_object_index": 26,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 7,
+    "hostility_type": 4,
+    "monster_info_id": 9075,
+    "monster_id": 9075,
+    "radius": 80,
+    "height": 20,
+    "move_speed": 640,
+    "position": {
+     "x": -2826,
+     "y": -18657,
+     "z": 1448
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly Mite",
+    "npc_id": 0,
+    "mm9_source_object_index": 27,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 7,
+    "hostility_type": 4,
+    "monster_info_id": 9075,
+    "monster_id": 9075,
+    "radius": 80,
+    "height": 20,
+    "move_speed": 640,
+    "position": {
+     "x": -3579,
+     "y": -16359,
+     "z": 1448
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly Mite",
+    "npc_id": 0,
+    "mm9_source_object_index": 31,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 7,
+    "hostility_type": 4,
+    "monster_info_id": 9075,
+    "monster_id": 9075,
+    "radius": 80,
+    "height": 20,
+    "move_speed": 640,
+    "position": {
+     "x": -3415,
+     "y": -17567,
+     "z": 1611
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly Mite",
+    "npc_id": 0,
+    "mm9_source_object_index": 32,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 7,
+    "hostility_type": 4,
+    "monster_info_id": 9075,
+    "monster_id": 9075,
+    "radius": 80,
+    "height": 20,
+    "move_speed": 640,
+    "position": {
+     "x": -4301,
+     "y": -18330,
+     "z": 1611
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly Mite",
+    "npc_id": 0,
+    "mm9_source_object_index": 33,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 7,
+    "hostility_type": 4,
+    "monster_info_id": 9075,
+    "monster_id": 9075,
+    "radius": 80,
+    "height": 20,
+    "move_speed": 640,
+    "position": {
+     "x": -4956,
+     "y": -17347,
+     "z": 1611
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly Mite",
+    "npc_id": 0,
+    "mm9_source_object_index": 34,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 7,
+    "hostility_type": 4,
+    "monster_info_id": 9075,
+    "monster_id": 9075,
+    "radius": 80,
+    "height": 20,
+    "move_speed": 640,
+    "position": {
+     "x": -4137,
+     "y": -19313,
+     "z": 1611
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Dragonfly Mite",
+    "npc_id": 0,
+    "mm9_source_object_index": 35,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 7,
+    "hostility_type": 4,
+    "monster_info_id": 9075,
+    "monster_id": 9075,
+    "radius": 80,
+    "height": 20,
+    "move_speed": 640,
+    "position": {
+     "x": -2826,
+     "y": -19149,
+     "z": 1611
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "mm9_source_object_index": 36,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1707,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 80,
+    "height": 50,
+    "move_speed": 640,
+    "position": {
+     "x": -6431,
+     "y": -19149,
+     "z": 1611
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Fire Dragonfly",
+    "npc_id": 0,
+    "mm9_source_object_index": 37,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 19,
+    "hostility_type": 4,
+    "monster_info_id": 9077,
+    "monster_id": 9077,
+    "radius": 80,
+    "height": 50,
+    "move_speed": 640,
+    "position": {
+     "x": -5120,
+     "y": -18493,
+     "z": 1448
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Yrsa the Troll",
+    "npc_id": 0,
+    "mm9_rude_id": 1,
+    "mm9_source_object_index": 46,
+    "mm9_can_receive_damage": false,
+    "mm9_civilian": true,
+    "mm9_guard": false,
+    "initial_yaw_units": 538,
+    "immobile": true,
+    "attributes": 0,
+    "hp": 3,
+    "hostility_type": 0,
+    "monster_info_id": 9254,
+    "monster_id": 9254,
+    "radius": 76,
+    "height": 180,
+    "move_speed": 0,
+    "position": {
+     "x": 2866,
+     "y": -16475,
+     "z": 410
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Forad Darre",
+    "npc_id": 0,
+    "mm9_rude_id": 2,
+    "mm9_source_object_index": 61,
+    "mm9_can_receive_damage": false,
+    "mm9_civilian": true,
+    "mm9_guard": false,
+    "initial_yaw_units": 342,
+    "immobile": true,
+    "attributes": 0,
+    "hp": 217,
+    "hostility_type": 0,
+    "monster_info_id": 9252,
+    "monster_id": 9252,
+    "radius": 62,
+    "height": 154,
+    "move_speed": 0,
+    "position": {
+     "x": 2171,
+     "y": -7506,
+     "z": 146
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Annud Redeye",
+    "npc_id": 0,
+    "mm9_rude_id": 138,
+    "mm9_source_object_index": 747,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": true,
+    "mm9_guard": false,
+    "initial_yaw_units": 0,
+    "immobile": true,
+    "attributes": 0,
+    "hp": 6,
+    "hostility_type": 0,
+    "monster_info_id": 9054,
+    "monster_id": 9054,
+    "radius": 44,
+    "height": 110,
+    "move_speed": 0,
+    "position": {
+     "x": 3400,
+     "y": 6328,
+     "z": 246
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Bone Thrasher",
+    "npc_id": 0,
+    "mm9_source_object_index": 11,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 910,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9184,
+    "monster_id": 9184,
+    "radius": 65,
+    "height": 185,
+    "move_speed": 384,
+    "position": {
+     "x": -901,
+     "y": 4198,
+     "z": 146
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Bone Thrasher",
+    "npc_id": 0,
+    "mm9_source_object_index": 12,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1821,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9184,
+    "monster_id": 9184,
+    "radius": 65,
+    "height": 185,
+    "move_speed": 384,
+    "position": {
+     "x": -1516,
+     "y": 3584,
+     "z": 196
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Bone Thrasher",
+    "npc_id": 0,
+    "mm9_source_object_index": 13,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 1992,
+    "immobile": false,
+    "attributes": 524288,
+    "hp": 11,
+    "hostility_type": 4,
+    "monster_info_id": 9184,
+    "monster_id": 9184,
+    "radius": 65,
+    "height": 185,
+    "move_speed": 384,
+    "position": {
+     "x": -1311,
+     "y": 3338,
+     "z": 280
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   },
+   {
+    "name": "Lich King",
+    "npc_id": 0,
+    "mm9_source_object_index": 565,
+    "mm9_can_receive_damage": true,
+    "mm9_civilian": false,
+    "mm9_guard": false,
+    "initial_yaw_units": 0,
+    "immobile": false,
+    "attributes": 589824,
+    "hp": 829,
+    "hostility_type": 4,
+    "monster_info_id": 9209,
+    "monster_id": 9209,
+    "radius": 79,
+    "height": 176,
+    "move_speed": 512,
+    "position": {
+     "x": 9134,
+     "y": 9196,
+     "z": 616
+    },
+    "sprite_ids": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "sector_id": 0,
+    "current_action_animation": 0,
+    "carried_item_id": 0,
+    "group": 0,
+    "ally": 0,
+    "unique_name_index": 0
+   }
+  ],
+  "sprite_objects": [],
+  "chests": [],
+  "variables": {
+   "map": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "decor": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "loot_containers": [
+  {
+   "source_id": "mm9:isleofashes:object:475",
+   "source_object_index": 475,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest1",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest1.dtx",
+   "source_position_lt": [
+    -4929.25,
+    284.29998779296875,
+    -6853.9501953125
+   ],
+   "position": {
+    "x": -5451,
+    "y": -17034,
+    "z": 892
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 0,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 0,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 0,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false
+  },
+  {
+   "source_id": "mm9:isleofashes:object:476",
+   "source_object_index": 476,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest0",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest1.dtx",
+   "source_position_lt": [
+    -8297.568359375,
+    -29.93096923828125,
+    780.0892333984375
+   ],
+   "position": {
+    "x": -14074,
+    "y": 2509,
+    "z": 87
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 1,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 0,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 0,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false
+  },
+  {
+   "source_id": "mm9:isleofashes:object:772",
+   "source_object_index": 772,
+   "source_class": "TreasureChest",
+   "source_name": "TreasureChest2",
+   "source_model": "models\\Props\\Chest1.ABC",
+   "source_skin": "Skins\\Props\\Chest1.dtx",
+   "source_position_lt": [
+    -3081.568359375,
+    -29.93096923828125,
+    1692.0892333984375
+   ],
+   "position": {
+    "x": -721,
+    "y": 4844,
+    "z": 87
+   },
+   "script_name": "",
+   "script_params": "",
+   "container_id": 2,
+   "kind": "chest",
+   "presentation": "mm9_chest",
+   "random_treasure_level": 1,
+   "treasure_type": 7,
+   "gold": 0,
+   "gold_only": false,
+   "random": true,
+   "ai_drop": false,
+   "trap_level": 0,
+   "should_repopulate": true,
+   "fixed_items": [],
+   "remove_when_empty": false
+  }
+ ],
+ "world_items": []
+}

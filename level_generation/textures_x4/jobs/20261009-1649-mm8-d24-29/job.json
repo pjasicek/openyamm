@@ -1,0 +1,712 @@
+{
+ "id": "20261009-1649-mm8-d24-29",
+ "world": "mm8",
+ "maps": [
+  "d24.blv",
+  "d43.blv",
+  "d05.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/alphanum3",
+  "mm8/alphanum4",
+  "mm8/alphanum7",
+  "mm8/alphanum5",
+  "mm8/alphanum6",
+  "mm8/alphanum8",
+  "mm8/alphanum9",
+  "mm8/alphanum11",
+  "mm8/alphanum10",
+  "mm8/t31a02a",
+  "mm8/t31a02b",
+  "mm8/hhr1b",
+  "mm8/hhr1bwall",
+  "mm8/gkp2flr",
+  "mm8/t65a05br",
+  "mm8/t65a05bl",
+  "mm8/t65b02t",
+  "mm8/t65b06t",
+  "mm8/t65b07t",
+  "mm8/t65b02m",
+  "mm8/t65a01b",
+  "mm8/t65a13b",
+  "mm8/t65a13c",
+  "mm8/t6502c"
+ ],
+ "requests": {
+  "mm8/alphanum3": {
+   "name": "alphanum3",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 3, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "only the single engraved numeral is cut into the plate; no extra lines, ghost strokes or partial outlines beside it; clean smooth edges",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.746
+    },
+    "2": {
+     "sources": [
+      "mm8/alphanumi"
+     ],
+     "fraction": 0.746
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum4": {
+   "name": "alphanum4",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 4, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "only the single engraved numeral is cut into the plate; no extra lines, ghost strokes or partial outlines beside it; clean smooth edges",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.725
+    },
+    "2": {
+     "sources": [
+      "mm8/alphanumi",
+      "mm8/alphanum10"
+     ],
+     "fraction": 0.779
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum7": {
+   "name": "alphanum7",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 7, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.752
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum5": {
+   "name": "alphanum5",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 5, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.7
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum6": {
+   "name": "alphanum6",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 6, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.707
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum8": {
+   "name": "alphanum8",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 8, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.697
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum9": {
+   "name": "alphanum9",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black numeral 9, bevelled edges, copy the numeral exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.73
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum11": {
+   "name": "alphanum11",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black number 11, bevelled edges, copy the number exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the plate's outer bevel keeps the same brightness as the reference at every canvas edge; no dark line along the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.679
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/alphanum10": {
+   "name": "alphanum10",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brushed grey steel plate with a deeply engraved black number 10, bevelled edges, copy the number exactly",
+   "notes": {
+    "2": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "3": "the engraved glyph is a clean letterform cut into the steel with smooth straight edges and smooth curves, no stair steps; only this one glyph on the plate, no other marks",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/alphanumf"
+     ],
+     "fraction": 0.561
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t31a02a": {
+   "name": "t31a02a",
+   "versions": [
+    1
+   ],
+   "material": "large dark grey-brown rough stone blocks with deep dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t31a02b": {
+   "name": "t31a02b",
+   "versions": [
+    1
+   ],
+   "material": "pale cream and tan flat fieldstone bricks in irregular courses with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/hhr1b": {
+   "name": "hhr1b",
+   "versions": [
+    1
+   ],
+   "material": "pale cream sandstone plaster wall between dark wooden beams, with a small dark barred vent near the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/hhr1bs2"
+     ],
+     "fraction": 0.919
+    }
+   }
+  },
+  "mm8/hhr1bwall": {
+   "name": "hhr1bwall",
+   "versions": [
+    1
+   ],
+   "material": "pale cream sandstone plaster with faint mottling",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/hhr1bs2"
+     ],
+     "fraction": 0.679
+    }
+   }
+  },
+  "mm8/gkp2flr": {
+   "name": "gkp2flr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "tan stone floor of four square slabs, two carved with angular knot reliefs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a05br": {
+   "name": "t65a05br",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "carved golden-brown sandstone relief of a grinning tribal mask face with a large eye",
+   "notes": {
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "5": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65a05ar"
+     ],
+     "fraction": 0.98
+    },
+    "2": {
+     "sources": [
+      "mm8/t65a05ar"
+     ],
+     "fraction": 0.98
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "3": {
+     "left": "mm8/t65a07",
+     "right": "mm8/t65a01"
+    },
+    "4": {
+     "left": "mm8/t65a07",
+     "right": "mm8/t65a01"
+    },
+    "5": {
+     "left": "mm8/t65a07",
+     "right": "mm8/t65a01"
+    },
+    "6": {
+     "left": "mm8/t65a07",
+     "right": "mm8/t65a01"
+    }
+   }
+  },
+  "mm8/t65a05bl": {
+   "name": "t65a05bl",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "carved golden-brown sandstone relief of a grinning tribal mask face with a large eye",
+   "notes": {
+    "3": "no ring, piercing or jewellery anywhere on the face; carve only what the reference shows",
+    "4": "no ring, piercing or jewellery anywhere on the face; carve only what the reference shows"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65a05al"
+     ],
+     "fraction": 0.979
+    },
+    "2": {
+     "sources": [
+      "mm8/t65a05al"
+     ],
+     "fraction": 0.979
+    },
+    "3": {
+     "sources": [
+      "mm8/t65a05al"
+     ],
+     "fraction": 0.979
+    }
+   }
+  },
+  "mm8/t65b02t": {
+   "name": "t65b02t",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough brown sandstone flagstone wall of irregular rounded stones with dark joints, under a raised stone border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b06t": {
+   "name": "t65b06t",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough brown sandstone flagstone wall of irregular rounded stones with dark joints, under and beside a raised stone border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65b02t"
+     ],
+     "fraction": 0.788
+    },
+    "2": {
+     "sources": [
+      "mm8/t65b02t"
+     ],
+     "fraction": 0.788
+    }
+   }
+  },
+  "mm8/t65b07t": {
+   "name": "t65b07t",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough brown sandstone flagstone wall of irregular rounded stones with dark joints, under and beside a raised stone border",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65b02t"
+     ],
+     "fraction": 0.789
+    },
+    "2": {
+     "sources": [
+      "mm8/t65b02t"
+     ],
+     "fraction": 0.789
+    },
+    "3": {
+     "sources": [
+      "mm8/t65b02t"
+     ],
+     "fraction": 0.789
+    },
+    "4": {
+     "sources": [
+      "mm8/t65b02t",
+      "mm8/t65b06t"
+     ],
+     "fraction": 0.826
+    }
+   }
+  },
+  "mm8/t65b02m": {
+   "name": "t65b02m",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "rough brown sandstone flagstone wall of irregular rounded stones with dark joints",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65b02t"
+     ],
+     "fraction": 0.792
+    },
+    "2": {
+     "sources": [
+      "mm8/t65b02t",
+      "mm8/t65b07t",
+      "mm8/t65b06t"
+     ],
+     "fraction": 0.832
+    }
+   }
+  },
+  "mm8/t65a01b": {
+   "name": "t65a01b",
+   "versions": [
+    1
+   ],
+   "material": "carved golden-brown sandstone relief panel of two columns of round glyph bosses inside a raised border",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65a01a"
+     ],
+     "fraction": 0.163
+    }
+   }
+  },
+  "mm8/t65a13b": {
+   "name": "t65a13b",
+   "versions": [
+    1
+   ],
+   "material": "small tile of rounded tan pebbles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65a13c": {
+   "name": "t65a13c",
+   "versions": [
+    1
+   ],
+   "material": "small tile of rounded tan pebbles with a carved glyph",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t65a13b"
+     ],
+     "fraction": 0.795
+    }
+   }
+  },
+  "mm8/t6502c": {
+   "name": "t6502c",
+   "versions": [
+    1
+   ],
+   "material": "coarse dark brown gravel and grit",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

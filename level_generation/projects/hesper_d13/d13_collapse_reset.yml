@@ -1,0 +1,510 @@
+id: hesper.d13.d13_collapse_reset
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d13.blv
+    party:
+      food: 200
+      members:
+      - name: Deepwell tester 1
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 2
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 3
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 4
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+      - name: Deepwell tester 5
+        class: Knight
+        level: 1000
+        endurance: 100
+        equipment: {}
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 2
+- assert:
+    map: hes_d13.blv
+- assert:
+    qbit_clear:
+    - 100607
+- damage_actor:
+    actor_index: 0
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 1
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 6
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 7
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 8
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 9
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 9
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 10
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 10
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 11
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 11
+    amount: 1000000
+    tier: kreegan_energy
+- movement_segment:
+    input: forward
+    duration_ms: 1000
+    delta_game_minutes: 0
+    start:
+      map: hes_d13.blv
+      x: 1100
+      y: 1000
+      z: 0
+      yaw: 0.0
+      pitch: 0
+    expect_stop:
+      map: hes_d13.blv
+      x: 1868
+      y: 1000
+      z: 0
+      yaw: 0.0
+      pitch: 0
+    tolerance_xy: 60
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 1500
+    delta_game_minutes: 0
+    start:
+      map: hes_d13.blv
+      x: 4100
+      y: 1000
+      z: 0
+      yaw: 0.0
+      pitch: 0
+    expect_stop:
+      map: hes_d13.blv
+      x: 5252
+      y: 1000
+      z: 0
+      yaw: 0.0
+      pitch: 0
+    tolerance_xy: 60
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- set_pose:
+    map: hes_d13.blv
+    x: 5300
+    y: 1650
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: -0.3
+- press_interact:
+    expect:
+      kind: world_item
+- assert:
+    inventory_any_member:
+    - item_id: 11304
+- set_pose:
+    map: hes_d13.blv
+    x: 5199
+    y: 1525
+    z: 0
+    yaw: 0.0
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 80
+- assert:
+    map_var_changed:
+      index: 11
+      value: 1
+- set_pose:
+    map: hes_d13.blv
+    x: 6328
+    y: -300
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 81
+- assert:
+    map_var_changed:
+      index: 12
+      value: 1
+- set_pose:
+    map: hes_d13.blv
+    x: 7460
+    y: 1525
+    z: 0
+    yaw: 3.141592653589793
+    pitch: 0
+- press_interact:
+    expect:
+      kind: event_target
+      triggered_event: 82
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 2.1
+- assert:
+    map_var_changed:
+      index: 1
+      value: 1
+- assert:
+    qbit_clear:
+    - 100607
+- assert:
+    mechanism:
+      id: 3
+      state: closed
+- assert:
+    mechanism:
+      id: 4
+      state: open
+- movement_segment:
+    input: forward
+    duration_ms: 650
+    delta_game_minutes: 0
+    start:
+      map: hes_d13.blv
+      x: 5728
+      y: 2200
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d13.blv
+      x: 5728
+      y: 2699
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    tolerance_xy: 60
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 297
+    delta_game_minutes: 0
+    start:
+      map: hes_d13.blv
+      x: 5728
+      y: 2700
+      z: 0
+      yaw: 3.141592653589793
+      pitch: 0
+    expect_stop:
+      map: hes_d13.blv
+      x: 5500
+      y: 2700
+      z: 0
+      yaw: 3.141592653589793
+      pitch: 0
+    tolerance_xy: 60
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 1562
+    delta_game_minutes: 0
+    start:
+      map: hes_d13.blv
+      x: 5500
+      y: 2700
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d13.blv
+      x: 5500
+      y: 3900
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    tolerance_xy: 60
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map_var_changed:
+      index: 16
+      value: 1
+- advance_runtime:
+    seconds: 2.1
+- assert:
+    mechanism:
+      id: 5
+      state: closed
+- assert:
+    actor_visible:
+      actor_index: 18
+      dead: false
+- damage_actor:
+    actor_index: 18
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 19
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 25
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 26
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 27
+    amount: 1000000
+    tier: kreegan_energy
+- movement_segment:
+    input: forward
+    duration_ms: 1078
+    delta_game_minutes: 0
+    start:
+      map: hes_d13.blv
+      x: 5500
+      y: 3900
+      z: 0
+      yaw: 0.0
+      pitch: 0
+    expect_stop:
+      map: hes_d13.blv
+      x: 6328
+      y: 3900
+      z: 0
+      yaw: 0.0
+      pitch: 0
+    tolerance_xy: 60
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- movement_segment:
+    input: forward
+    duration_ms: 2474
+    delta_game_minutes: 0
+    start:
+      map: hes_d13.blv
+      x: 6328
+      y: 3900
+      z: 0
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: hes_d13.blv
+      x: 6328
+      y: 5750
+      z: 512
+      yaw: 1.5707963267948966
+      pitch: 0
+    tolerance_xy: 60
+    tolerance_z: 40
+    actor_collision: false
+    actor_ai: false
+- assert:
+    map_var_changed:
+      index: 17
+      value: 1
+- advance_runtime:
+    seconds: 2.1
+- assert:
+    mechanism:
+      id: 6
+      state: closed
+- assert:
+    actor_visible:
+      actor_index: 21
+      dead: false
+- damage_actor:
+    actor_index: 21
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 21
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 22
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 22
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 23
+    amount: 1000000
+    tier: kreegan_energy
+- damage_actor:
+    actor_index: 23
+    amount: 1000000
+    tier: kreegan_energy
+- save_game:
+    name: d13_collapse_shown
+- movement_segment:
+    input: none
+    duration_ms: 121000
+    start:
+      map: hes_d13.blv
+      x: 6328
+      y: 5750
+      z: 512
+      yaw: 0.0
+      pitch: 0
+    expect_stop:
+      map: hes_d13.blv
+      x: 5228
+      y: 1000
+      z: 0
+      yaw: 0.0
+      pitch: 0
+    tolerance_xy: 4
+    tolerance_z: 4
+    actor_collision: false
+    actor_ai: true
+- assert:
+    map_var_changed:
+      index: 1
+      value: 0
+- assert:
+    map_var_changed:
+      index: 2
+      value: 120
+- assert:
+    map_var_changed:
+      index: 11
+      value: 1
+- assert:
+    map_var_changed:
+      index: 12
+      value: 1
+- assert:
+    map_var_changed:
+      index: 13
+      value: 0
+- assert:
+    map_var_changed:
+      index: 16
+      value: 0
+- assert:
+    map_var_changed:
+      index: 17
+      value: 0
+- assert:
+    qbit_clear:
+    - 100607
+- assert:
+    input_prompt:
+      active: true
+      event_id: 83
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 2.1
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- assert:
+    mechanism:
+      id: 4
+      state: closed
+- assert:
+    mechanism:
+      id: 5
+      state: open
+- assert:
+    mechanism:
+      id: 6
+      state: open
+- assert:
+    actor_visible:
+      actor_index: 18
+      current_hp: 0
+- assert:
+    actor_visible:
+      actor_index: 21
+      current_hp: 0
+- save_game:
+    name: d13_after_vent

@@ -1,0 +1,124 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/engine_creep/raw
+exit: true
+settle_seconds: 3
+shots:
+- name: creep_g4_1200
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - 12900
+  - 1780
+  - 1392
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_g4_1940
+  time: '19:40'
+  commands:
+  - weather clear
+  position:
+  - 12900
+  - 1780
+  - 1392
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_g4_2330
+  time: '23:30'
+  commands:
+  - weather clear
+  position:
+  - 12900
+  - 1780
+  - 1392
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_g4_close
+  time: '23:30'
+  commands:
+  - weather clear
+  position:
+  - 14100
+  - 2660
+  - 1022
+  yaw: 0.6327
+  pitch: -0.35
+- name: creep_h4_1200
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - 18084
+  - 2068
+  - 1424
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_h4_1940
+  time: '19:40'
+  commands:
+  - weather clear
+  position:
+  - 18084
+  - 2068
+  - 1424
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_h4_2330
+  time: '23:30'
+  commands:
+  - weather clear
+  position:
+  - 18084
+  - 2068
+  - 1424
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_h4_close
+  time: '23:30'
+  commands:
+  - weather clear
+  position:
+  - 19284
+  - 2948
+  - 1054
+  yaw: 0.6327
+  pitch: -0.35
+- name: creep_d2_1200
+  time: '12:00'
+  commands:
+  - weather clear
+  position:
+  - -2940
+  - 13012
+  - 2352
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_d2_1940
+  time: '19:40'
+  commands:
+  - weather clear
+  position:
+  - -2940
+  - 13012
+  - 2352
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_d2_2330
+  time: '23:30'
+  commands:
+  - weather clear
+  position:
+  - -2940
+  - 13012
+  - 2352
+  yaw: 0.6327
+  pitch: -0.2118
+- name: creep_d2_close
+  time: '23:30'
+  commands:
+  - weather clear
+  position:
+  - -1740
+  - 13892
+  - 1982
+  yaw: 0.6327
+  pitch: -0.35

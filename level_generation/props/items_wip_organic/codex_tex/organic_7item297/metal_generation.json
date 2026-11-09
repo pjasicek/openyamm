@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset: binary METALLIC MATERIAL MASK SHEET for a six-view PBR projection bake. Image1 is the exact edit target, a 3-column by 2-row sheet of SIX orthographic views of ONE exact game mesh Heart of the Wood. Keep the exact sheet proportions, every panel boundary at thirds and halves, and ALL SIX existing object shapes in precisely the same position, angle and scale. Panel order: top FRONT, BACK, LEFT; bottom RIGHT, TOP, BOTTOM. Never rearrange or turn any panel. Other images are design/colour references only. Short tapered translucent violet-white crystal relic, set into a gold circular flanged socket at its wide end; thin gold prongs along crystal edges. Preserve the short cylindrical crystal and ornate gold mounting.  Replace every gray object surface in Image1 with SOLID BLACK except actual exposed metal hardware, which must be SOLID WHITE. Gold bands, gold fringe, gold socket/rings/prongs, gold clasp/pendant loops or silver diamond buckle are white where appropriate to THIS item. All leather, cloth, feathers, ivory teeth, organic scales and crystal are black. The entire object must remain opaque even where black. Transparent empty background and holes. No highlights, shadows, shading, reflections, gradients, texture, outlines, text or labels. White means metal, black means non-metal. Keep all six whole-object silhouettes EXACT; do not draw only the metal pieces. Return this one binary six-view mask sheet in landscape 3:2.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_7item297/guide_sheet.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/meshy/organic_7item297/references_hd/00_three_quarter.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/meshy/organic_7item297/references_hd/icon_x8.png"
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_7item297/metal_sheet_raw.png",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-c7064052-c4b6-415d-bf49-cc4330e50f8f.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "selected": true,
+  "output_sha256": "024ca3a6a15004946f2e78843868f49badfaa1d11ca6bf6c1a4f44ad8e4d0261",
+  "guide_sha256": "d62605bd0222853067484aed293bcac5d2b9fde8fcef840159d5fe314c4de175"
+}

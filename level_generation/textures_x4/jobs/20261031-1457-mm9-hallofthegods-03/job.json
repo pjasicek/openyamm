@@ -1,0 +1,465 @@
+{
+ "id": "20261031-1457-mm9-hallofthegods-03",
+ "world": "mm9",
+ "maps": [
+  "hallofthegods.blv",
+  "verhoffinruins.blv"
+ ],
+ "created": "2026-10-31T13:57:39+00:00",
+ "textures": [
+  "mm9/stucswag9m",
+  "mm9/sturqn29ol",
+  "mm9/versmip074",
+  "mm9/vers27g3df",
+  "mm9/stucc1pzbi",
+  "mm9/versg94exv",
+  "mm9/versyqmxyr",
+  "mm9/verbylaa2a",
+  "mm9/verbdgwo0m",
+  "mm9/grilunvh56",
+  "mm9/clifgswikq",
+  "mm9/roug0yot2x",
+  "mm9/verc3ptlv6",
+  "mm9/figu1humh5",
+  "mm9/stuc947nff",
+  "mm9/vert5iczpw",
+  "mm9/verdmohry2",
+  "mm9/jailc08oq3",
+  "mm9/figuorsd01",
+  "mm9/staiay623e",
+  "mm9/versylw3nz",
+  "mm9/ashrpokf0h",
+  "mm9/switrm3973",
+  "mm9/blooilnop6"
+ ],
+ "requests": {
+  "mm9/stucswag9m": {
+   "name": "stucswag9m",
+   "versions": [],
+   "material": "",
+   "notes": {}
+  },
+  "mm9/sturqn29ol": {
+   "name": "sturqn29ol",
+   "versions": [
+    1
+   ],
+   "material": "pale grey stone sidewalk slabs with soft mottling and a faint vertical joint line down the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/versmip074": {
+   "name": "versmip074",
+   "versions": [
+    1
+   ],
+   "material": "a ruined wall of weathered tan plaster with dusty yellowish lower part, a row of rough dark stones along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/vers27g3df": {
+   "name": "vers27g3df",
+   "versions": [
+    1
+   ],
+   "material": "a ruined wall of weathered tan plaster with dusty yellowish lower part, a row of rough dark stones along the top edge, with crumbling exposed dark grey stone blocks showing through on the right side",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/versmip074"
+     ],
+     "fraction": 0.758
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stucc1pzbi": {
+   "name": "stucc1pzbi",
+   "versions": [
+    1
+   ],
+   "material": "rough reddish-brown stucco with uneven trowel marks and darker stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/stucim40e7"
+     ],
+     "fraction": 0.685
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/versg94exv": {
+   "name": "versg94exv",
+   "versions": [
+    1
+   ],
+   "material": "a ruined wall of weathered tan plaster with dusty yellowish lower part, a row of rough dark stones along the top edge, with patches of exposed grey stone on the upper right",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/versmip074"
+     ],
+     "fraction": 0.678
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/versyqmxyr": {
+   "name": "versyqmxyr",
+   "versions": [
+    1
+   ],
+   "material": "a ruined wall of weathered tan plaster with dusty yellowish lower part, a row of rough dark stones along the top edge, cracked with a large crumbled hole showing grey stone blocks in the lower middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/versmip074"
+     ],
+     "fraction": 0.627
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/verbylaa2a": {
+   "name": "verbylaa2a",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rough orange-brown clay bricks in regular courses with dark joints, weathered chipped faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/verbdgwo0m": {
+   "name": "verbdgwo0m",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rough orange-brown clay bricks in regular courses with dark joints, a stepped ledge of protruding bricks across the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/verbylaa2a"
+     ],
+     "fraction": 0.629
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/grilunvh56": {
+   "name": "grilunvh56",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a square lattice grate of rusty brown iron bars on black, with a few bars bent apart in the middle",
+   "notes": {
+    "2": "transparent background: keep exactly the native's cut-out silhouette; every bar, rim and knob sits exactly where the native has it, nothing painted in the transparent areas"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/gril2fj7qi",
+      "mm9/grilf0rntm"
+     ],
+     "fraction": 0.467
+    },
+    "2": {
+     "sources": [
+      "mm9/gril2fj7qi"
+     ],
+     "fraction": 0.45
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/clifgswikq": {
+   "name": "clifgswikq",
+   "versions": [
+    1
+   ],
+   "material": "a weathered rock cliff of dark grey-brown stone with layered strata, cracks and rust-coloured streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/roug0yot2x": {
+   "name": "roug0yot2x",
+   "versions": [
+    1
+   ],
+   "material": "a wall of rough flat olive-grey stones stacked in uneven courses with dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/verc3ptlv6": {
+   "name": "verc3ptlv6",
+   "versions": [
+    1
+   ],
+   "material": "a wall of irregular rectangular grey stones with dark joints, worn faces",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/figu1humh5": {
+   "name": "figu1humh5",
+   "versions": [
+    1
+   ],
+   "material": "a tall carved sandstone relief of a stylised standing figure with arms at its sides and a headdress, symmetric, weathered tan stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stuc947nff": {
+   "name": "stuc947nff",
+   "versions": [
+    1
+   ],
+   "material": "a brown stucco wall with an embossed band of swirling scroll ornament in the upper half and a row of small zigzag triangles below it",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/vert5iczpw": {
+   "name": "vert5iczpw",
+   "versions": [
+    1
+   ],
+   "material": "a square dark brown stone floor tile carved with a geometric cross-shaped labyrinth relief inside a bevelled frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/verdmohry2": {
+   "name": "verdmohry2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a massive pair of brown iron door leaves whose plates are covered all over in an embossed swirling damask / wood-grain-like engraved pattern, riveted bands, black wrought-iron scroll hinges, small barred windows at the top and latch fittings in the middle",
+   "notes": {
+    "2": "keep the native's dense swirling engraved pattern across every plate; do not turn it into plain rusty metal"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/jailc08oq3": {
+   "name": "jailc08oq3",
+   "versions": [
+    1
+   ],
+   "material": "a pair of jail door leaves of vertical dark iron bars with horizontal crossbars and a small lock plate in the middle, black behind the bars",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/figuorsd01": {
+   "name": "figuorsd01",
+   "versions": [
+    1
+   ],
+   "material": "a carved sandstone totem relief of a stylised seated idol figure with a large headdress and ornate stacked carvings, weathered tan stone",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/staiay623e": {
+   "name": "staiay623e",
+   "versions": [
+    1
+   ],
+   "material": "a pointed gothic stained glass window of irregular red, orange, pink and yellow glass pieces in dark lead lines, in a grey stone frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/versylw3nz": {
+   "name": "versylw3nz",
+   "versions": [
+    1
+   ],
+   "material": "rough lumpy grey-violet stone with a bumpy pitted surface, matte",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashrpokf0h": {
+   "name": "ashrpokf0h",
+   "versions": [
+    1
+   ],
+   "material": "dark grey ash-covered rock with fine streaky grainy texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/switrm3973": {
+   "name": "switrm3973",
+   "versions": [
+    1
+   ],
+   "material": "a square grey metal switch panel with a riveted frame and a recessed vertical slot with a dark lever in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/blooilnop6": {
+   "name": "blooilnop6",
+   "versions": [
+    1
+   ],
+   "material": "a splatter of dark red blood with darker drops and streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

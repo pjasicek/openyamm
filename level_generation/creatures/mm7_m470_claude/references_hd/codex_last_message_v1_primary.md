@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m470_claude/references_hd/00_three_quarter.png) using built-in image generation: 1024 × 1536, true transparency, unresized.
+
+Selected the corrective second return. Both raw returns, prompts, input hashes and remaining deviations are recorded in [generation_runs.json](level_generation/creatures/mm7_m470_claude/references_hd/generation_runs.json).

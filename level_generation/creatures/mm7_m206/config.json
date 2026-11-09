@@ -1,0 +1,21 @@
+{
+  "label": "Elemental Light A",
+  "creature": "light_elemental",
+  "base_palette": 528,
+  "palette_paths": {
+    "528": "assets_dev/worlds/mm8/textures/PAL528.act"
+  },
+  "connected_pose_calibration": false,
+  "per_batch_window": false,
+  "neutralize_green_contours": false,
+  "core_magenta_tolerance": 8,
+  "protect_warm_contours": true,
+  "batch_mode": "single_view_chunks",
+  "identity_frames": [
+    "m206wa0",
+    "m206wg0",
+    "m206ws0"
+  ],
+  "description": "The original tiny floating light elemental: a small flattened oval dark blue-gray glassy sphere with a pale gold horizontal glowing center, surrounded by irregular clusters of fine sharp pale ivory and gold star-shaped sparkles. Preserve its small central sphere, exact particle positions, empty gaps, flickering white-gold light, subtle cool rim and restrained native glow. Attack frames develop a larger orange-gold circular flare and luminous center. Death frames scatter into separate dim warm gray-brown motes and a few fading gold sparks. No humanoid face, eyes, limbs, wings, ornaments, opaque cloud, giant sun or extra broad bloom. Keep the diffuse light soft and translucent-looking, with crisp tiny sparkle cores and native relative brightness. Preserve every disconnected particle and each frame-specific silhouette.",
+  "ivory_spark_grade": true
+}

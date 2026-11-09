@@ -1,0 +1,77 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/ring01",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "ring_from_patrol",
+   "position": [
+    14400,
+    6000,
+    1120
+   ],
+   "yaw": 0.8003,
+   "pitch": 0.0042
+  },
+  {
+   "name": "ring_track",
+   "position": [
+    14900,
+    9400,
+    1120
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0784
+  },
+  {
+   "name": "ring_passage",
+   "position": [
+    15850,
+    9750,
+    1120
+   ],
+   "yaw": -0.187,
+   "pitch": 0.0106
+  },
+  {
+   "name": "ring_gate",
+   "position": [
+    16650,
+    9400,
+    1088
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0495
+  },
+  {
+   "name": "ring_dais",
+   "position": [
+    18550,
+    9100,
+    1088
+   ],
+   "yaw": 2.9963,
+   "pitch": 0.0251
+  },
+  {
+   "name": "ring_aerial",
+   "position": [
+    14600,
+    6600,
+    4320
+   ],
+   "yaw": 0.7346,
+   "pitch": -0.6803
+  },
+  {
+   "name": "ring_top",
+   "position": [
+    17200,
+    8300,
+    6200
+   ],
+   "yaw": 1.5708,
+   "pitch": -1.42
+  }
+ ]
+}

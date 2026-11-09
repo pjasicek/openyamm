@@ -1,0 +1,256 @@
+{
+  "brief": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "status": "Generated best available candidates within the attempt limit; not fully compliant with the brief.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer.\nCreate ONE image: a 1024 x 1024 transparent RGBA PNG texture-source painting of the FRONT view of the Egg-field mound.\n\nINPUT ROLES:\nImage 1, guide_front.png, is the EDIT TARGET and absolute geometry/placement authority. Paint directly over this exact grey orthographic rendering; preserve its alpha mask and every shape edge.\nImage 2, design_reference.png, is the approved colour and material authority ONLY. Do not adopt its camera, silhouette, composition, or lighting.\nImage 3, concept_crop.png, is supporting original-concept reference only.\n\nGEOMETRY LOCK: keep image 1's silhouette EXACTLY, including the faceted outlines, spikes, openings, overlap boundaries, shape sizes and positions. Keep the entire 1024-square canvas, no crop, no resize, no recentering, no extra geometry or new holes. The front-view object occupies x=66..957 and y=345..679; retain the large empty transparent margins above and below. The largest egg stays high just right of centre, the cracked egg is in front of it slightly left of centre, the medium left egg and the right egg remain exactly where the guide places them. Preserve every grey guide shape; paint surface details without altering the shapes. Everything outside the existing guide silhouette remains fully transparent.\n\nMATERIAL PAINT: match the design reference's glossy black-violet resin-root material using its dark purple/violet base colour and restrained painted surface texture, but without reflected highlights. Paint the guide's egg surfaces translucent-looking amber-orange with dark branching violet-brown veins and the reference's amber shell texture. Paint the inside of the existing cracked egg hot orange. Preserve every opening and the exact cracked-egg rim. Orange sacs and seams have their glowing colour only; their colour must not cast light onto neighbouring surfaces. Paint all the existing root/web/spike geometry black-violet; do not replace the guide's geometry with the reference's intricate lattice.\n\nLIGHTING: this is an ALBEDO TEXTURE SOURCE, evenly and flatly lit from the viewer. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights, no reflections, no white glossy flecks, no rim lighting, no bloom or light spill. Keep materials clearly readable throughout using their inherent colour. No background, no floor, no text, no border. Deliver the single unresized 1024 x 1024 transparent image.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/guide_front.png",
+          "sha256": "f0458f511d7ef412c46d825ff0c478bb5f30867a0edf7cadf476882df99b3fbe"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1689c-d806-7db0-b18a-90d85594b479/exec-710a5af3-d8fa-4b8a-8ae1-5fad2862e2e2.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: geometry was reinterpreted and strong reflective highlights violate the albedo brief. Used the single allowed corrective regeneration.",
+      "visual_checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Amber-orange eggs and black-violet resin colours are present, but resin geometry is embellished.",
+        "flat_even_light": "Fail: strong highlights, dark crevices, and bright edges.",
+        "transparent_background": "RGBA with transparent background present; alpha differs from the guide (see numeric checks)."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "size_matches_brief": false,
+        "unmodified_return": true,
+        "sha256": "a7dca6eb5de1e8354c6c893e7ee0102d579f40c4be658eac460e826949ea1361",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_nonzero": [
+          43,
+          31,
+          1186,
+          1230
+        ],
+        "exact_alpha_match": false,
+        "fully_transparent_fraction": 0.82761,
+        "fully_opaque_fraction": 0.000177,
+        "alpha_bbox_threshold_128": [
+          80,
+          422,
+          1174,
+          833
+        ],
+        "normalized_alpha_iou_threshold_128": 0.980077,
+        "normalized_alpha_mismatch_pixels_threshold_128": 3420
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION, FRONT VIEW. Return exactly 1024 by 1024 pixels, with real transparent alpha, matching the pixel dimensions of input image 1. This is a technical albedo repaint of an existing model render, not concept art. The prior generation incorrectly redesigned the geometry, used specular highlights and output 1254 pixels; correct these failures.\n\nInput image 1: guide_front.png \u2014 the grey EDIT TARGET. This image alone determines ALL geometry, alpha, camera, framing and shape boundaries. KEEP ITS ENTIRE 1024 x 1024 CANVAS AND ALPHA MASK UNCHANGED. Paint only the existing opaque surface pixels. Do not add, remove, move or round off even the smallest polygon, spike or opening. Keep the low-poly faceted web exactly as modelled. Do not make new intricate holes, threads or spikes. Do not enlarge or recenter the mound: its silhouette stays inside x=66..957, y=345..679 on the 1024-square canvas, with its large transparent top and bottom margins.\nInput image 2: design_reference.png \u2014 colour/material reference ONLY, not a shape or lighting reference.\nInput image 3: concept_crop.png \u2014 supporting original colour reference ONLY.\n\nPaint existing root/web/spike surfaces uniformly black-violet resin, with subtle violet grain. Paint existing egg surfaces rich amber-orange shell, subtle irregular amber shell plates and dark branching plum-brown veins. The cracked egg's existing broken rim, opening and small inner shape MUST stay at their exact guide positions: paint the interior and its existing inner sac hot orange and the shell amber. Express translucent glowing eggs through saturated amber and orange base colour ONLY.\nUse the reference's material identities without its highlights, reflections, detailed geometry or dramatic lighting.\n\nFLAT ALBEDO ONLY: uniform frontal illumination, no white glints, no bright rim edges, no specular highlights or reflections anywhere. No cast shadows, no ambient occlusion, no directional darkening, no bloom. Do not paint an orange light gradient onto the purple resin. Flat black-violet resin and flat bright amber-orange eggs, with veins and shell pigmentation providing detail. No floor, no backdrop, no shadow plane, no text.\nEvery transparent pixel outside or inside the guide's original silhouette must remain transparent. The exact grey shape is the stencil. Output one unresized 1024 x 1024 RGBA image.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/guide_front.png",
+          "sha256": "f0458f511d7ef412c46d825ff0c478bb5f30867a0edf7cadf476882df99b3fbe"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1689c-d806-7db0-b18a-90d85594b479/exec-75d86bce-f343-41fc-bc46-4b91b50e01d4.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/paint_front.png",
+      "selected": true,
+      "reason": "Selected for reduced specular lighting and fewer invented resin cavities, preserving the faceted appearance better. This tradeoff does not improve the measured outer silhouette: normalized alpha overlap is slightly worse than attempt 1. Neither attempt is compliant: both are 1254 x 1254, their alpha masks differ from the guide, and residual shading/material differences remain. Preserved the raw output without resizing or post-processing; the single corrective regeneration for this view is exhausted.",
+      "visual_checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Amber-orange eggs and purple resin colours are present; resin reads more matte and stony than the approved design.",
+        "flat_even_light": "Partial: resin highlights reduced, but facet shading, egg gradients and bright shell edges remain.",
+        "transparent_background": "RGBA with transparent background present; alpha differs from the guide (see numeric checks)."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "size_matches_brief": false,
+        "unmodified_return": true,
+        "sha256": "233baff238de55784a8bc15dbc8d4236cce384e0c437780a04e0053adfe87327",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_nonzero": [
+          69,
+          87,
+          1240,
+          1214
+        ],
+        "exact_alpha_match": false,
+        "fully_transparent_fraction": 0.828776,
+        "fully_opaque_fraction": 0.000235,
+        "alpha_bbox_threshold_128": [
+          77,
+          423,
+          1178,
+          834
+        ],
+        "normalized_alpha_iou_threshold_128": 0.965112,
+        "normalized_alpha_mismatch_pixels_threshold_128": 6041
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. ONE technical texture-source painting, exactly 1024 x 1024 pixels, transparent RGBA PNG. TOP VIEW of the Egg-field mound. This is an albedo repaint of an exact existing low-poly model render.\n\nINPUT ROLES:\nImage 1, guide_top.png: EDIT TARGET and absolute authority for the orthographic top-down camera, silhouette, every surface boundary, every opening, object count, pixel position, scale and alpha. Keep the canvas and geometry completely unchanged.\nImage 2, design_reference.png: approved colour and material reference only; do not copy its three-quarter view, silhouette, layout, light or reflections.\nImage 3, concept_crop.png: supporting original-concept material reference only.\n\nPaint directly onto the grey surfaces in image 1, using its original alpha mask as an immutable stencil. Preserve ALL the guide's angular low-poly spikes, faceted roots, eggs, overlap boundaries and openings. Do not remodel it into the intricate lattice in image 2. No extra shapes, holes or spikes, nothing outside the original silhouette. No cropping, rotation, zoom, recentering or resizing. Retain x=66..957, y=70..954 silhouette bounds on the full 1024-square image.\n\nTOP-VIEW GEOMETRY: there are exactly seven closed eggs and one cracked egg visible, in the exact guide positions: closed eggs upper left, upper centre, upper right, small far left, lower left, the largest lower centre/right, and lower right; the open cracked egg remains at the bottom/front. The top view MUST remain straight down, not tilted. Preserve the exact cracked rim, internal opening and its small interior shape.\n\nSURFACE MATERIALS: use the approved design's black-violet resin root material on every root, web and spike surface; represent this by dark purple-black albedo with subtle violet variation, no painted reflection. All closed egg surfaces are saturated amber-orange translucent-looking shell with irregular amber shell pigmentation and dark plum-brown branching veins, consistent with the reference. The cracked shell is amber-orange and its existing exposed interior is hot orange. Any orange sacs or seams are painted their glowing colour without light spilling onto nearby purple surfaces.\n\nALBEDO LIGHTING: flat, even, shadowless viewer-facing light throughout. No cast shadows, no ambient-occlusion darkening, no directional shading, no strong highlights, no reflections, no white glints, no rim light. The glow is only the intrinsic colour of the orange material, with no bloom or cast illumination. Retain subtle material variation without rendered lighting.\nEverything outside the exact original silhouette and in the guide's transparent openings is actually transparent. No background, floor, text, labels, borders or extra panels. Return one unresized 1024 x 1024 image.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/guide_top.png",
+          "sha256": "c738c03fa6cc12e9ab102a1726ad458057c45a61c864b7d85363e8d1716eb552"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1689c-d806-7db0-b18a-90d85594b479/exec-2f17a88e-9eb0-4895-aeb7-6aaf141a8b9a.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: geometry was reinterpreted and strong reflective highlights violate the albedo brief. Used the single allowed corrective regeneration.",
+      "visual_checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Amber-orange eggs and black-violet resin colours are present, but resin geometry is embellished.",
+        "flat_even_light": "Fail: strong highlights, dark crevices, and bright edges.",
+        "transparent_background": "RGBA with transparent background present; alpha differs from the guide (see numeric checks)."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "size_matches_brief": false,
+        "unmodified_return": true,
+        "sha256": "49e6dad67f070463a5e1155e94c5142d55fff0006678156d8a626334199473e9",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_nonzero": [
+          33,
+          41,
+          1240,
+          1254
+        ],
+        "exact_alpha_match": false,
+        "fully_transparent_fraction": 0.540959,
+        "fully_opaque_fraction": 0.000762,
+        "alpha_bbox_threshold_128": [
+          79,
+          84,
+          1174,
+          1170
+        ],
+        "normalized_alpha_iou_threshold_128": 0.978503,
+        "normalized_alpha_mismatch_pixels_threshold_128": 9965
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE TOP-VIEW ALBEDO REPAINT. One transparent 1024 x 1024 RGBA PNG, exactly the dimensions of the first input. Preserve its alpha channel and all geometric boundaries, with no resizing.\n\nImage 1 (guide_top.png) is the EDIT TARGET. Recolour its existing grey surface pixels only. Its original alpha is the immutable stencil. Every spike, triangle, egg edge, opening, overlap and interior detail must remain at exactly the same pixel location. Preserve the exact angular outer contour from x=66..957 and y=70..954 on this unchanged 1024-square canvas. Preserve the seven closed egg surfaces and the existing cracked egg at bottom. No new holes, hollowed-out spikes, root threads, sacs or geometry. Keep the orthographic straight-down camera. Do not beautify, soften, relocate or redraw the model geometry.\n\nImage 2 (design_reference.png) provides the approved material colours ONLY. Image 3 (concept_crop.png) supports those colours. Do not copy either reference's specular highlights, shadows, shine, lighting or perspective. In the previous attempt the resin had bright reflective pink edges and numerous added cavities; remove those invented details and follow the exact plain guide geometry.\n\nApply an unlit diffuse/albedo paint:\n- Existing resin root/web/spike shapes: deep black-violet pigmentation with subdued violet texture. No bright pink facet edges. Every facet has the same evenly lit material, not a directional light value.\n- Existing intact eggs: rich translucent-looking amber-orange pigmentation with irregular amber shell plates and dark branching plum-brown veins. Retain all exact egg contours.\n- Existing cracked egg: amber shell, hot orange inside its exact original opening, preserving its exact broken rim and existing interior shape.\n- Any orange material is painted its glowing orange colour only, never illuminating neighbouring surfaces.\n\nUniform flat shadowless frontal lighting. Zero specular highlights, reflections, white glints, rim highlights or edge-lighting. Zero cast shadows or ambient occlusion. No dark perimeter gradients implying rounded shading, no bloom, no glow spill. This is the flat base-colour texture pass, not a beauty render.\nNo background, floor, labels or text. All original transparent pixels, including internal openings, must stay transparent. Output a single unresized native 1024 x 1024 image.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/guide_top.png",
+          "sha256": "c738c03fa6cc12e9ab102a1726ad458057c45a61c864b7d85363e8d1716eb552"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/design_reference.png",
+          "sha256": "56a8048448e2c04ef7bbc64e79a92e76b9bc2a90ea808994deceb9f5a21adf3b"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/concept_crop.png",
+          "sha256": "fa444aaf96324a05f6e732819dfa9f33b078dcf63f9ba5344088b44156cd7d32"
+        }
+      ],
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1689c-d806-7db0-b18a-90d85594b479/exec-1afe5940-3ab2-48eb-92b3-f07fc9b6d9f3.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_egg_mound/paint_top.png",
+      "selected": true,
+      "reason": "Selected for reduced specular lighting and fewer invented resin cavities, preserving the faceted appearance better. This tradeoff does not improve the measured outer silhouette: normalized alpha overlap is slightly worse than attempt 1. Neither attempt is compliant: both are 1254 x 1254, their alpha masks differ from the guide, and residual shading/material differences remain. Preserved the raw output without resizing or post-processing; the single corrective regeneration for this view is exhausted.",
+      "visual_checks": {
+        "silhouette_identical": false,
+        "materials_and_colours": "Amber-orange eggs and purple resin colours are present; resin reads more matte and stony than the approved design.",
+        "flat_even_light": "Partial: resin highlights reduced, but facet shading, egg gradients and bright shell edges remain.",
+        "transparent_background": "RGBA with transparent background present; alpha differs from the guide (see numeric checks)."
+      },
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "size_matches_brief": false,
+        "unmodified_return": true,
+        "sha256": "6e82facf9ff511f03026b0b2bec3fc71200617dfc94c68a02e24b2755df99920",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox_nonzero": [
+          0,
+          82,
+          1220,
+          1254
+        ],
+        "exact_alpha_match": false,
+        "fully_transparent_fraction": 0.541307,
+        "fully_opaque_fraction": 0.000989,
+        "alpha_bbox_threshold_128": [
+          79,
+          85,
+          1175,
+          1171
+        ],
+        "normalized_alpha_iou_threshold_128": 0.977026,
+        "normalized_alpha_mismatch_pixels_threshold_128": 10668
+      }
+    }
+  ]
+}

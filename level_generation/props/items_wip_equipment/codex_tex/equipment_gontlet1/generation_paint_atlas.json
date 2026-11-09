@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Gauntlets (gontlet1). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Single silver articulated gauntlet with four straight segmented fingers, side thumb, gold knuckle bar and long flared plain silver cuff with gold edging. Exact material boundaries: Silver and gold plates on back, finger backs and cuff are METAL RED. Palm, finger flex joints and inner lining are LEATHER GREEN. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_gontlet1/inputs/guide_paint.png",
+  "input_guide_sha256": "a2545edbb1dcd2d4bbe734d7ce1258f91492d60660b60c66f0c96a3a7e02136b",
+  "revision": 1,
+  "input_icon": "gontlet1",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-8ad1405b-1e6b-46af-a18e-54906c5213a7.png",
+  "output": "paint_atlas.png",
+  "selected": false,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "2e36388a0fb6997fa6ee235189ca451fafb9fc0e9319923ea4c7ef17c0132aa6",
+  "input_icon_path": "assets_dev/engine/icons_x2/gontlet1.png",
+  "input_icon_sha256": "6256e2089c3e1f06547089d3e7664dfa57492ba62e77cf78e228f9d973a5a968",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

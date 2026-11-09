@@ -1,0 +1,543 @@
+{
+  "maps": [
+    {
+      "map": "outc2.odm",
+      "location": "Free Haven",
+      "ships": [
+        {
+          "entity": 1,
+          "service": "Windrunner",
+          "event": 18,
+          "house": 501,
+          "original_position": [
+            14816,
+            13888,
+            -60
+          ],
+          "rotation_quarters": 0,
+          "position": [
+            14576,
+            13968,
+            -88
+          ],
+          "pier_model": 92,
+          "pier_face": 27,
+          "boarding_edge": [
+            14848,
+            13568,
+            176
+          ]
+        },
+        {
+          "entity": 341,
+          "service": "Offshore scenery",
+          "event": 0,
+          "house": 0,
+          "original_position": [
+            17544,
+            14376,
+            0
+          ],
+          "rotation_quarters": 0,
+          "position": [
+            17544,
+            14376,
+            -88
+          ],
+          "pier_model": null,
+          "pier_face": null,
+          "boarding_edge": null
+        }
+      ],
+      "original_bmodels": 127,
+      "added_bmodels": 10,
+      "unchanged_original_bmodels_including_opaque_bytes": true,
+      "unchanged_terrain_spawns_other_entities_and_scene_state": true,
+      "geometry_sha256": "1875401ac24b8a358d15c082db0bc8f7d082afe080ef6a3b033a0e8840cb115b",
+      "scene_sha256": "43a7553c56e193a908e6069ab0c9eebd7c7ee11538bd0716f7a249046bd1b990"
+    },
+    {
+      "map": "outd1.odm",
+      "location": "Silver Cove",
+      "ships": [
+        {
+          "entity": 1,
+          "service": "Barracuda",
+          "event": 32,
+          "house": 502,
+          "original_position": [
+            12784,
+            12256,
+            0
+          ],
+          "rotation_quarters": 2,
+          "position": [
+            13080,
+            12160,
+            -104
+          ],
+          "pier_model": 3,
+          "pier_face": 4,
+          "boarding_edge": [
+            12808,
+            12560,
+            160
+          ]
+        },
+        {
+          "entity": 395,
+          "service": "Cerulean Skies",
+          "event": 12,
+          "house": 500,
+          "original_position": [
+            4450,
+            -12620,
+            0
+          ],
+          "rotation_quarters": 2,
+          "position": [
+            4752,
+            -12688,
+            -88
+          ],
+          "pier_model": 1,
+          "pier_face": 28,
+          "boarding_edge": [
+            4480,
+            -12288,
+            176
+          ]
+        }
+      ],
+      "original_bmodels": 119,
+      "added_bmodels": 10,
+      "unchanged_original_bmodels_including_opaque_bytes": true,
+      "unchanged_terrain_spawns_other_entities_and_scene_state": true,
+      "geometry_sha256": "0dbe49a1ce74ebc078bb2d8b05992c2d3174a61daa6476d70049884a350f2c3c",
+      "scene_sha256": "9ab32d9fc3307bb0b40d9f6138b3b99e8a761d3cf9bd0f24e84514038c933306"
+    },
+    {
+      "map": "outd2.odm",
+      "location": "Bootleg Bay",
+      "ships": [
+        {
+          "entity": 120,
+          "service": "Valkyrie",
+          "event": 16,
+          "house": 506,
+          "original_position": [
+            1680,
+            3984,
+            0
+          ],
+          "rotation_quarters": 3,
+          "position": [
+            1696,
+            4224,
+            -104
+          ],
+          "pier_model": 3,
+          "pier_face": 4,
+          "boarding_edge": [
+            1296,
+            3952,
+            160
+          ]
+        },
+        {
+          "entity": 121,
+          "service": "Tsunami",
+          "event": 17,
+          "house": 505,
+          "original_position": [
+            6940,
+            10480,
+            0
+          ],
+          "rotation_quarters": 2,
+          "position": [
+            7216,
+            10496,
+            -104
+          ],
+          "pier_model": 2,
+          "pier_face": 4,
+          "boarding_edge": [
+            6944,
+            10896,
+            160
+          ]
+        }
+      ],
+      "original_bmodels": 60,
+      "added_bmodels": 10,
+      "unchanged_original_bmodels_including_opaque_bytes": true,
+      "unchanged_terrain_spawns_other_entities_and_scene_state": true,
+      "geometry_sha256": "6ecd7f30d62cdf124052c9356a0f7906adf62b7b127a6b46cc2d10e0ad80c813",
+      "scene_sha256": "67877c0ec5b0d61fc7105179fef6936a1698e6d126cdf21d3df8d6e8762babf9"
+    },
+    {
+      "map": "outd3.odm",
+      "location": "Castle Ironfist",
+      "ships": [
+        {
+          "entity": 125,
+          "service": "Zephyr",
+          "event": 44,
+          "house": 497,
+          "original_position": [
+            21750,
+            8180,
+            0
+          ],
+          "rotation_quarters": 3,
+          "position": [
+            21840,
+            8464,
+            -72
+          ],
+          "pier_model": 56,
+          "pier_face": 2,
+          "boarding_edge": [
+            21440,
+            8192,
+            192
+          ]
+        },
+        {
+          "entity": 126,
+          "service": "Queen Catherine",
+          "event": 45,
+          "house": 498,
+          "original_position": [
+            21750,
+            4570,
+            0
+          ],
+          "rotation_quarters": 3,
+          "position": [
+            21840,
+            4880,
+            -72
+          ],
+          "pier_model": 56,
+          "pier_face": 3,
+          "boarding_edge": [
+            21440,
+            4608,
+            192
+          ]
+        }
+      ],
+      "original_bmodels": 69,
+      "added_bmodels": 10,
+      "unchanged_original_bmodels_including_opaque_bytes": true,
+      "unchanged_terrain_spawns_other_entities_and_scene_state": true,
+      "geometry_sha256": "2b55d518bed08da74c9b07c2ed807cd53a9124b85d3e75a69312c9f8fc0af2f9",
+      "scene_sha256": "dd36692164a99d53b9ef58a3aa64a1b00576eea295bd7a3ba138151b46d02609"
+    },
+    {
+      "map": "oute1.odm",
+      "location": "Eel Infested Waters",
+      "ships": [
+        {
+          "entity": 1,
+          "service": "Tigershark",
+          "event": 9,
+          "house": 504,
+          "original_position": [
+            6368,
+            7856,
+            0
+          ],
+          "rotation_quarters": 2,
+          "position": [
+            6632,
+            7800,
+            -88
+          ],
+          "pier_model": 8,
+          "pier_face": 28,
+          "boarding_edge": [
+            6360,
+            8200,
+            176
+          ]
+        },
+        {
+          "entity": 2,
+          "service": "Cirrus",
+          "event": 10,
+          "house": 503,
+          "original_position": [
+            -2816,
+            -4016,
+            0
+          ],
+          "rotation_quarters": 1,
+          "position": [
+            -2864,
+            -4272,
+            -88
+          ],
+          "pier_model": 6,
+          "pier_face": 28,
+          "boarding_edge": [
+            -2464,
+            -4000,
+            176
+          ]
+        }
+      ],
+      "original_bmodels": 24,
+      "added_bmodels": 10,
+      "unchanged_original_bmodels_including_opaque_bytes": true,
+      "unchanged_terrain_spawns_other_entities_and_scene_state": true,
+      "geometry_sha256": "51ee2a1e37ff7b5d5b73abd2fb5a4ad446ba012707dd6a9c749dcd29aa014aab",
+      "scene_sha256": "036ecfe7d641049ad8d84390233f14ecc00b9936036d26ea2dcb5e950c6b44e0"
+    },
+    {
+      "map": "oute2.odm",
+      "location": "Misty Islands",
+      "ships": [
+        {
+          "entity": 1,
+          "service": "Adventure",
+          "event": 10,
+          "house": 499,
+          "original_position": [
+            -4784,
+            -14576,
+            0
+          ],
+          "rotation_quarters": 1,
+          "position": [
+            -4800,
+            -14880,
+            -88
+          ],
+          "pier_model": 0,
+          "pier_face": 3,
+          "boarding_edge": [
+            -4400,
+            -14608,
+            176
+          ]
+        }
+      ],
+      "original_bmodels": 55,
+      "added_bmodels": 5,
+      "unchanged_original_bmodels_including_opaque_bytes": true,
+      "unchanged_terrain_spawns_other_entities_and_scene_state": true,
+      "geometry_sha256": "68648b1b5b1b5558069d752555bf61ec46331b18fbef4c830ec43c31efd33080",
+      "scene_sha256": "25fc3525610af445349c969c360cd8447cfaceeb7b38298a16c46ccc9d088186"
+    },
+    {
+      "map": "oute3.odm",
+      "location": "New Sorpigal",
+      "ships": [
+        {
+          "entity": 477,
+          "service": "Odyssey",
+          "event": 29,
+          "house": 496,
+          "original_position": [
+            2100,
+            -10224,
+            0
+          ],
+          "rotation_quarters": 3,
+          "position": [
+            2168,
+            -9936,
+            -104
+          ],
+          "pier_model": 46,
+          "pier_face": 4,
+          "boarding_edge": [
+            1768,
+            -10208,
+            160
+          ]
+        }
+      ],
+      "original_bmodels": 85,
+      "added_bmodels": 5,
+      "unchanged_original_bmodels_including_opaque_bytes": true,
+      "unchanged_terrain_spawns_other_entities_and_scene_state": true,
+      "geometry_sha256": "d1c5d7a9e450287d97deb3758b74f4f99b87a142bb12ffb0c11fe40eef7f426d",
+      "scene_sha256": "8ae976b11efae3e82372211d8402f1e90fefdf3c52c11945795007dd8c518f8f"
+    }
+  ],
+  "textures": [
+    {
+      "source": "bdoorb",
+      "target": "ns8s00",
+      "logical_size": [
+        128,
+        256
+      ],
+      "native_sha256": "09209ae62fca7b1a5f554395c4a978efe1c0ea817079ee0ed69a288c21c73c30",
+      "enhanced_sha256": "dbecf20a9d472400c3dd01659c1b80d5569b2d160b6ac3494b7cd562896b4576"
+    },
+    {
+      "source": "btrima1",
+      "target": "ns8s01",
+      "logical_size": [
+        64,
+        256
+      ],
+      "native_sha256": "534783e36b29f129522c7bcf05204a64fa9ac3a252c699c370488135bba006b8",
+      "enhanced_sha256": "d627afcc82af75ab031c0535b5be300aac204561df2a16a63551c9b7bbc8ef80"
+    },
+    {
+      "source": "btrimb1",
+      "target": "ns8s02",
+      "logical_size": [
+        64,
+        128
+      ],
+      "native_sha256": "885aa51e02077fe49489838ca9a71bde5c8616ace771416e19ef95adce811d84",
+      "enhanced_sha256": "63771106949a8542919bdef30cb9a9aecb1f3af3803c35e8fe4322de728a30d9"
+    },
+    {
+      "source": "btrimb2",
+      "target": "ns8s03",
+      "logical_size": [
+        128,
+        64
+      ],
+      "native_sha256": "a329721699e1b53e490e8b491605cd568adff71fbeead094fe6cc10992c6da7d",
+      "enhanced_sha256": "e6af881c0233e5c9fb5101be3990da80dad4c09e09db4dc5dcd91cbd1827745f"
+    },
+    {
+      "source": "bwooda1",
+      "target": "ns8s04",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_sha256": "3732641a70e9b95ed997feaa8d579199bb858df52c158c3808748788f9a64c7b",
+      "enhanced_sha256": "3fad2a2508981b3d6e504a82642f68bc5329a0345b1ec65695475b16f1f2f99c"
+    },
+    {
+      "source": "bwooda2",
+      "target": "ns8s05",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_sha256": "c00998d379ebad21038f952ca47d4a1c19cb790c54a9b358cc5b5d0fa76c9a92",
+      "enhanced_sha256": "b72a90a442f503193383fa578f25366b6084a89bc4004ceae3fbe3626b8913fc"
+    },
+    {
+      "source": "bwoodb1",
+      "target": "ns8s06",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_sha256": "08493eb7ef33a74757648cb9d3dfae034b8d7f05ee4ce758d5209eab0dba617c",
+      "enhanced_sha256": "55583c0ecd8691a16d821cf3f9decacb996a9c3b902ebaa1add25c7eb2468a32"
+    },
+    {
+      "source": "bwoodb3",
+      "target": "ns8s07",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_sha256": "7464c58288959d34972b538a00ded3e507a03c27dc36ebdf1b7c7ad602de01b7",
+      "enhanced_sha256": "d6565e8f32e500d673787411093a63b2052842bad0d6b84db156f41406a6b4bc"
+    },
+    {
+      "source": "bwoodb4",
+      "target": "ns8s08",
+      "logical_size": [
+        256,
+        256
+      ],
+      "native_sha256": "88acbfdc69adec48688c75bd18db9efba92dd0709de282a515843366f73147c4",
+      "enhanced_sha256": "b2a18b22cf564c1b796a63f4ac6790258889a970e6cc59a1d9fd47a9af371734"
+    },
+    {
+      "source": "t05a10",
+      "target": "ns8s09",
+      "logical_size": [
+        32,
+        64
+      ],
+      "native_sha256": "86ab3f0557276c629ebe5c3bd69ed1400d8966a794413568eac349cd4cc38e29",
+      "enhanced_sha256": "d7a71b1250c20b64a676f9eb2eaa7be169005efdaa6a85ce0ee2fd2cb00ed810"
+    },
+    {
+      "source": "t05a11",
+      "target": "ns8s10",
+      "logical_size": [
+        64,
+        32
+      ],
+      "native_sha256": "3261f3a8dda8cbfb283b353e0e382a2a42e6740d4e57b04e9ee5e5a9084ad0c7",
+      "enhanced_sha256": "929ee21fe3a67e575aa17d5c73b72350c771ed324080b0ab8c7923b5837abca6"
+    },
+    {
+      "source": "t66a12d",
+      "target": "ns8s11",
+      "logical_size": [
+        128,
+        256
+      ],
+      "native_sha256": "f88c981b523ca3b9a7eb2d05d83d6b900d41df2df95afbe5c26c1c9b921a923f",
+      "enhanced_sha256": "3943349d631820976fe2862303f1162429ad7691b1205b410512c42af75a0ad5"
+    }
+  ],
+  "lua_changes": [],
+  "original_sources": {
+    "assets_dev/worlds/mm8/maps/out02.odm": "246deaf7bc74403f0c55ac39bdf9f2dd9ab57cf3f3a30b7f46a2f5b80d3b3367",
+    "assets_dev/worlds/mm6/maps/outc2.odm": "c4f2466f0b77c1ee6a1e3565a012236902636ed6cd036df8f16c006c1e714551",
+    "assets_dev/worlds/mm6/maps/outc2.scene.yml": "f54e49fa075bcb294d76ecccc97a49afccfb0486ae4a806d2a5495d9c91665b5",
+    "assets_dev/worlds/mm6/maps/outc2.bake.json": "6ffe63d815c422f5151001abe33b7ab2e76687ab56ed9c5e8a7e633ad672b852",
+    "assets_dev/worlds/mm6/maps/outc2.lighting": "ac522adc1194516b8f789316eab76167901c07790a7aa10d4b5da03edb4c9a4d",
+    "assets_dev/worlds/mm6/events/maps/outc2.lua": "6ec3be36d6b730c124d9aa71232bcd11fbb054c23134cfbfdd7e1579a308dda3",
+    "assets_dev/worlds/mm6/events/maps/outc2_mmmerge.lua": "fa48d5e2e3597d7638e4a1b7a335351d75da0a85e9cac5ae3df0c11fb6442df5",
+    "assets_dev/worlds/mm6/maps/outd1.odm": "af3865eb2e5281f7ad95bd8122be45937e59abfa9ea55dc0216eaae00b8690e8",
+    "assets_dev/worlds/mm6/maps/outd1.scene.yml": "694bed5970e668b66574d00493786733763b1bfb8ae3739de6314056f05bd518",
+    "assets_dev/worlds/mm6/maps/outd1.bake.json": "dc0438f6c94932238b621b3852d7c5d222e710355719283289240f7bc444d33c",
+    "assets_dev/worlds/mm6/maps/outd1.lighting": "0ccc3246b231577c5a3b658b949d021fc7703da2077938cab63f96236fe660dd",
+    "assets_dev/worlds/mm6/events/maps/outd1.lua": "ef3bc0870c8f903c608460a578110a342154de413b549aeebf65cc666359d313",
+    "assets_dev/worlds/mm6/events/maps/outd1_1.lua": "055a63104b9bf6c48dd2821362f871e65b683cd8ba4ec86c0c1e2f4b17174a13",
+    "assets_dev/worlds/mm6/events/maps/outd1_mmmerge.lua": "edd0df249899820c8bb7d72235f00ddb42bf46a95e9cda5f9210bde9ab45830a",
+    "assets_dev/worlds/mm6/maps/outd2.odm": "f21caf147c579d0c6720383283f2a885aeee8ba4c23efefdb969e669265a2dbb",
+    "assets_dev/worlds/mm6/maps/outd2.scene.yml": "4aaa27a74469051b8cb6083a54e767ffe471a7ea6be6aed1c6b5e08857afda7a",
+    "assets_dev/worlds/mm6/maps/outd2.bake.json": "e68d7bdde783fe93960c33d483c9e850b2b4487ebed841abd036f4635fb8d255",
+    "assets_dev/worlds/mm6/maps/outd2.lighting": "609b6e9f2082d4ef77867c7fc774bdb74066ae21f0f916dd2a08b8c9c2bf7466",
+    "assets_dev/worlds/mm6/events/maps/outd2.lua": "6669159f23cdc7a0cfb1f8a7a3774e3bde7bfee964d5d555756fe2f96a7d460d",
+    "assets_dev/worlds/mm6/maps/outd3.odm": "342b8a5ce2b3bad7a905aeabb0fecf6f16188d72eed35f881e1f060375a66125",
+    "assets_dev/worlds/mm6/maps/outd3.scene.yml": "d05c3fba614250b7f2d9625e86d855715385df41bbdf2edfe865676b560ca9dd",
+    "assets_dev/worlds/mm6/maps/outd3.bake.json": "189a69b85313720c21213150e0cf783d50bdb14aa91bb482ca824b8f5411151f",
+    "assets_dev/worlds/mm6/maps/outd3.lighting": "c598ac037663d96ab5817e4668cc6b095fcf864348ce06e7cde7f706f9e1d470",
+    "assets_dev/worlds/mm6/events/maps/outd3.lua": "71632f22595192f3ceaf3167f62e365a4f68dbbb38b5fbafd005b7b897ae3221",
+    "assets_dev/worlds/mm6/events/maps/outd3_1.lua": "d7894799e9cd334e44c637b2c851d0fc342cbfc354981ffcb0a044df0743f73a",
+    "assets_dev/worlds/mm6/events/maps/outd3_mmmerge.lua": "d2b49fe1f00219d4c09933b9372235e688c6b90c607b75d5569ca5909053ffbd",
+    "assets_dev/worlds/mm6/maps/oute1.odm": "f7d2062dcba625e707f7f8390d4643b138a51260ff740742901e1724514bc756",
+    "assets_dev/worlds/mm6/maps/oute1.scene.yml": "a1d840cbe5fc9bf53d12e4b26f03e5cde6ce2e8ec5ec4e09c69a9e729d469656",
+    "assets_dev/worlds/mm6/maps/oute1.bake.json": "32b0260129f2171a2d6e74a4a458a788264f80661bf912826de6baa508f020e9",
+    "assets_dev/worlds/mm6/maps/oute1.lighting": "a039606c59f30740682dd56cad308fb01f84949be80e0a6457ae72d588701881",
+    "assets_dev/worlds/mm6/events/maps/oute1.lua": "4ef6ee1e9843cf3f764450a789d8b28e77dc2029a57a0883f8501399f0f5e4af",
+    "assets_dev/worlds/mm6/maps/oute2.odm": "5b33c2ddc1ce1123f58bbaa91eb12cbb64805464bfb13455a4c00d0f6db3a55c",
+    "assets_dev/worlds/mm6/maps/oute2.scene.yml": "5dc2e823bde97d9e1267fa0b2a85e11850a0aa5c8a30209a8564e71711324197",
+    "assets_dev/worlds/mm6/maps/oute2.bake.json": "66776ba92f53c140177584c4dc9da2e2446c1c9d0bda725594835724ea48b9e5",
+    "assets_dev/worlds/mm6/maps/oute2.lighting": "3919b32d5e25c36b305b39b580cddb789ab7f69da90658cdf29b5e73ec91a76d",
+    "assets_dev/worlds/mm6/events/maps/oute2.lua": "fca23ddcdc29eabec4c69210711ccae8f7208348c543d3a26196152d3df4d42e",
+    "assets_dev/worlds/mm6/events/maps/oute2_1.lua": "6ac2d599d3a414c5bd08f7e9ccc168fb15682fad032847a5f02238a8bcdf66e4",
+    "assets_dev/worlds/mm6/events/maps/oute2_mmmerge.lua": "9248c32db282dff318e169af0952afed7723b01379fef433a24e4a690cd25898",
+    "assets_dev/worlds/mm6/maps/oute3.odm": "f882b149aba446c0f1396d05255f4146efd5c885aa5dd2dea38740a0c1e1dbf4",
+    "assets_dev/worlds/mm6/maps/oute3.scene.yml": "d9045c85837442b60c45a955e7d20c3a0143fc0a3a4649821c6736b8a1471b89",
+    "assets_dev/worlds/mm6/maps/oute3.bake.json": "1324e49c75712fe47905becdc02529ddfaa869692c17da5b716740c6667e4086",
+    "assets_dev/worlds/mm6/maps/oute3.lighting": "9bdfc03354b513394997f753f77449dc3f2e91f98ed29ac065b13efc921a98d5",
+    "assets_dev/worlds/mm6/events/maps/oute3.lua": "f7531ecc644e2aca5330df92791b0518587d1c20218820bb3227883066f03f24",
+    "assets_dev/worlds/mm6/events/maps/oute3_1.lua": "a5a24613e4fe39ca7a5964670e7e7a4236f827359448a9a9a1822d069f1444d1",
+    "assets_dev/worlds/mm6/events/maps/oute3_intro.lua": "9202a2908f316a2757ef41c7d1ba4e65fd7962c3dbd3cc5c15c99f1138926539",
+    "assets_dev/worlds/mm6/events/maps/oute3_mmmerge.lua": "0e46fb619a4ca53cec1a577fc66263e50609806f7d8884f72a36be5bba5e6e26"
+  }
+}

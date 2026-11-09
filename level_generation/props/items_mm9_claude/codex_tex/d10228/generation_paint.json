@@ -1,0 +1,27 @@
+{
+  "prompt": "Paint the supplied paint_mask_guide.png using design_reference.png as the material/detail reference and icon_x8.png as colour reference. Follow this exact production brief:\nOutput ONE transparent PNG, 1536x2048 (3:4). The guide is three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 repeat the same five grey orthographic renders of the exact model: FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve each object's EXACT position, size, outline, openings, chain links and orientation. Paint grey objects only; do not redraw, enlarge, move or redesign them. The large round pendant is in column 2 row 2, repeated column 2 row 4; other views are thin edge-on shapes and chains exactly as shown.\nRows 1-2: PAINT, unlit base colours of source-faithful upright pendant. Gold metal round amulet, gold cross dividing four blue gemstones with pale silver metal circular settings as in design reference. Gold chain. Match reference design scaled to visible surfaces; edge views remain edge views. Facets, engravings, scrollwork and inner swirls follow reference. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground, outlines or text.\nRows 3-4: MATERIAL MASK of same five views, flat PURE colours only, no shading, texture, outlines, or antialiased colour blends inside: #FF0000 every metal part including gold, silver and chain; #000000 every gemstone, crystal, glass, pearl or enamel; #0000FF any cloth or hair. Every silhouette pixel gets one of these colours. Corresponding four gem circles on the broad pendant view are black, all surrounding metal red. Nothing outside silhouettes.\nKeep all gaps and openings exactly as guide and fully transparent. Column 3 of row 2 and row 4 remain empty transparent. Treat guide geometry as locked pixel positions; references only specify paint, not layout.\nCORRECTION: The previous attempt expanded the chain and added red speckles outside objects. This is unacceptable. Use the original grey guide alpha silhouettes as an exact stencil, including the slender single chain links, polygonal disk edge and all holes. No paint whatsoever outside the original stencil. Absolutely no scattered pixels or coloured fringe. Keep chains thin exactly like guide. Flat unlit colour on upper rows; pure solid material IDs on lower rows. Do not add dimensional lighting or bevel highlights.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad0c-7461-79e3-bf93-05f02e62e05d/exec-30126f15-d710-40ad-bef7-5db6dae7b27f.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10228/paint_mask_guide.png",
+      "sha256": "9f7498db6d787f8cce48cffb5a32edeac741c41100c447d893e91d8f4f23cef5"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10228/design_reference.png",
+      "sha256": "d118710ddd9e32f622908c57308d297a7d27e8ca5fe13637c7852ef62e833640"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10228/icon_x8.png",
+      "sha256": "d3dd459b282e1e729c64fcd388406a95c7e5fb37e7d725db326eae248e54e696"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10228/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Visual inspection: layout retained, but stray pixels and silhouette drift remain; raw output preserved as requested."
+}

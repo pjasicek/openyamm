@@ -1,0 +1,22 @@
+{
+  "format_version": 1,
+  "kind": "outdoor_map_package",
+  "package_id": "mm5:sw",
+  "display_name": "Castleview and Kalindra",
+  "map_file": "mm5_sw.odm",
+  "scene_file": "mm5_sw.scene.yml",
+  "geometry_metadata_file": "mm5_sw.geometry.yml",
+  "terrain_metadata_file": "mm5_sw.terrain.yml",
+  "script_module": "maps/mm5_sw.lua",
+  "map_stats_id": 13001,
+  "redbook_track": 0,
+  "environment_name": "grassland",
+  "is_top_level_area": true,
+  "outdoor_bounds": {
+    "enabled": true,
+    "min_x": -24576,
+    "max_x": 24576,
+    "min_y": -24576,
+    "max_y": 24576
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit image 1 paint_mask_guide.png exactly; image 2 design_reference.png is material/detail reference only; image 3 icon_x8.png is color reference only (magenta is background). Produce ONE transparent PNG at 1536x2048, 3:4. Preserve the guide's exact three columns by FOUR rows of square cells and all ten silhouettes, their positions, sizes, outlines, geometry, gaps and openings. No rearranging or redesign. Rows 1-2 contain FRONT BACK LEFT / RIGHT TOP empty. Rows 3-4 repeat those same five views for material masks. Paint only the grey guide objects. Rows 1-2: unlit base color deep royal purple faceted amethyst with lighter violet facets toward the table, warm yellow gold filigree with darker gold recesses. The stone is round brilliant cut, flat octagonal table, crown facets, pointed faceted pavilion, in low open gold cradle of curling scrollwork and small prongs wrapping lower half and rim, upper stone free. Follow reference facets, engraving, scrollwork, inner swirls scaled to the guide geometry. Do not adopt reference camera or outline. Rows 3-4: MATERIAL MASK, same five silhouettes and exact visible material boundaries as corresponding painted views, every metal part FLAT PURE RED #FF0000; every gemstone part FLAT PURE BLACK #000000. Every silhouette pixel gets exactly one of these colors, with no shading, texture, outlines, or antialiased internal color blends. Black gemstone is opaque black, NOT transparency. Outside objects and original gaps remain fully transparent. Column 3 in rows 2 and 4 stays fully empty transparent. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines, or text. Exact guide geometry/placement is paramount. Output is a texture projection and material classification atlas, not a beauty render.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem15/paint_mask_guide.png",
+      "sha256": "7434a4422d8ae37a03321fe764a77a21bfe98417a7cf0a152316cde334df3fb5"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem15/design_reference.png",
+      "sha256": "59c584fc57fa6512950fd15512c3c0b90bc295c13c0048121df13cb8f8cf9847"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem15/icon_x8.png",
+      "sha256": "b8c2b108b18b7d6fc9309cf4608bbc04875c3ed2a3b4d18d121e1ffe44000a5d"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16cd8-25a3-7402-b581-3b5f54e93081/exec-1832fd10-b379-4672-a268-2b21c16aecd7.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem15/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

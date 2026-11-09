@@ -1,0 +1,3 @@
+Saved all five 1536×1024 views using built-in image generation, plus raw returns, prompts/hashes in `generation_runs.json`, and the [review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasanthom2_claude/references_hd/selected_views_review.png).
+
+No builds or Meshy calls. Residual alpha haze and silhouette drift remain after the allowed corrections; the results do not fully meet the brief.

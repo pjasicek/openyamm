@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""Dark slivers: candidate faces with at least REA_DARK_N (default 2) of 48 samples over REA_DARK_L (default 60) luminance
+darker than the source at the same rest-pose point (a collapsed face spanning a UV-island edge samples the dark
+gutter; the median drift check passes it: m520 upper back). Writes work/drift_<tag>.npy as 100 for those faces, 0
+otherwise, for drift_lock.py. Usage: dark_slivers.py <tag>"""
+import os, sys
+import numpy as np
+from PIL import Image
+from scipy.spatial import cKDTree
+tag = sys.argv[1]
+T = '../mm7_m266_claude/textures/'  # hydra: two texture sets by the wedge-u material offset (+2 per material)
+IMGS = [np.asarray(Image.open(T + n).convert('RGB'), np.float32) for n in ('m266_body_basecolor.png', 'm266_heads_basecolor.png')]
+
+
+def lookup(u):
+    out = np.zeros(u.shape[:-1] + (3,), np.float32); m = (u[..., 0] // 2).astype(int)
+    for k, img in enumerate(IMGS):
+        H, W = img.shape[:2]; s = m == k
+        x = np.clip((u[s][:, 0] % 1) * W, 0, W - 1).astype(int); y = np.clip((1 - u[s][:, 1] % 1) * H, 0, H - 1).astype(int)
+        out[s] = img[y, x]
+    return out
+B = np.random.default_rng(1).dirichlet((1, 1, 1), int(os.environ.get('REA_DARK_S', '48')))
+
+
+def samples(path):
+    d = np.load(path); v, f, uv = d['verts'], d['faces'], d['wuv'].reshape(-1, 3, 2); tri = v[f]
+    nrm = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0]); nrm /= np.linalg.norm(nrm, axis=1, keepdims=True) + 1e-12
+    pos = np.einsum('sk,fkc->fsc', B, tri); u = np.einsum('sk,fkc->fsc', B, uv)
+    return pos, nrm, lookup(u) @ np.array([.3, .59, .11]), tri
+
+
+sp, sn, sl, _ = samples('work/mesh_in.npz'); cp, cn, cl, ctri = samples(f'work/mesh_{tag}.npz')
+dist, idx = cKDTree(sp.reshape(-1, 3)).query(cp.reshape(-1, 3), 8)
+ok = np.abs((np.repeat(sn, len(B), 0)[idx] * np.repeat(cn, len(B), 0)[:, None]).sum(-1)) > .5
+best = idx[np.arange(len(idx)), np.where(ok, dist, np.inf).argmin(1)]
+sign = -1 if os.environ.get('REA_LIGHT') == '1' else 1  # REA_LIGHT=1: light flecks (skin texels on the black shirt)
+darker = sign * (sl.reshape(-1)[best] - cl.reshape(-1)).reshape(len(cn), len(B)) > float(os.environ.get('REA_DARK_L', '60'))
+bad = darker.sum(1) >= int(os.environ.get('REA_DARK_N', '2'))
+area = np.linalg.norm(np.cross(ctri[:, 1] - ctri[:, 0], ctri[:, 2] - ctri[:, 0]), axis=1) / 2
+np.save(f'work/drift_{tag}.npy', np.where(bad & (area > 0), 100., 0.))
+print(tag, 'dark-sliver faces', int(bad.sum()))
+for i in np.where(bad)[0][:20]:
+    print(f'  face {i} dark samples {darker[i].sum()} area {area[i]*1e4:.2f}cm2 at {np.round(ctri[i].mean(0), 3)}')

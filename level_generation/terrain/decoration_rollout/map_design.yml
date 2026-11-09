@@ -1,0 +1,141 @@
+# Authoring data; export_runtime.py compiles the runtime TerrainDecorationConfig schema.
+# Density is relative to each family's baseline in catalogue.yml.
+# Unlisted material families remain bare. Roads/liquids/shore overlays are excluded.
+version: 1
+status: installed
+allowed_materials: [grass, tropical, swamp]
+maps:
+  mm6:
+    outa1:
+      settings: {}
+      note: "Sweet Water: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    outa2:
+      settings: {}
+      note: "Paradise Valley: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    outa3:
+      settings: {}
+      note: "Hermit's Isle: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    outb1:
+      settings: {}
+      note: "Kriegspire: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    outb2:
+      settings: {grass: [dry_meadow, 0.65]}
+      note: "Blackshire: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    outb3:
+      settings: {grass: [dry_meadow, 0.55]}
+      note: "Dragonsand: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    outc1:
+      settings: {}
+      note: "Frozen Highlands: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    outc2:
+      settings: {grass: [meadow, 0.65]}
+      note: "Free Haven: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    outc3:
+      settings: {swamp: [marsh_reed, 0.7]}
+      note: "Mire of the Damned: Taller reeds on masked swamp islands and transitions; other ground bare."
+    outd1:
+      settings: {grass: [meadow, 0.7]}
+      note: "Silver Cove: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    outd2:
+      settings: {grass: [coastal_grass, 0.85], tropical: [tropical_low, 0.8]}
+      note: "Bootleg Bay: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    outd3:
+      settings: {grass: [meadow, 0.8], swamp: [marsh_reed, 0.5]}
+      note: "Castle Ironfist: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    oute1:
+      settings: {grass: [coastal_grass, 0.9]}
+      note: "Eel Infested Waters: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    oute2:
+      settings: {grass: [coastal_grass, 0.9]}
+      note: "Misty Islands: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    oute3:
+      settings: {grass: [meadow, 1.0]}
+      preserve_existing: true
+      note: "New Sorpigal: Retain accepted grass placement and masks; remove dirt stones."
+  mm7:
+    7out01:
+      settings: {grass: [coastal_grass, 0.9], swamp: [marsh_reed, 0.4]}
+      note: "Emerald Island: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    7out02:
+      settings: {grass: [meadow, 0.45]}
+      note: "Harmondale: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    7out03:
+      settings: {grass: [meadow, 0.25]}
+      note: "Erathia: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    7out04:
+      settings: {grass: [woodland_grass, 0.3]}
+      note: "Tularean Forest: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    7out05:
+      settings: {}
+      note: "Deyja: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    7out06:
+      settings: {}
+      note: "Bracada Desert: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    7out13:
+      settings: {swamp: [marsh_reed, 0.8]}
+      note: "Tatalia: Taller reeds on masked swamp islands and transitions; other ground bare."
+    7out15:
+      settings: {}
+      defer: underwater
+      note: "Shoals: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    out09:
+      settings: {grass: [coastal_grass, 0.8]}
+      note: "Evenmorn Island: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    out10:
+      settings: {}
+      note: "Mount Nighon: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    out11:
+      settings: {grass: [dry_meadow, 0.65]}
+      note: "Barrow Downs: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    out12:
+      settings: {}
+      note: "Land of the Giants: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    out14:
+      settings: {grass: [woodland_grass, 0.25]}
+      note: "Avlee: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+  mm8:
+    elema:
+      settings: {}
+      defer: elemental_geometry
+      note: "Plane of Air: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    elemf:
+      settings: {}
+      note: "Plane of Fire: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    elemw:
+      settings: {}
+      defer: elemental_geometry
+      note: "Plane of Water: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    out01:
+      settings: {grass: [tropical_low, 0.55]}
+      note: "Dagger Wound Island: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    out02:
+      settings: {grass: [meadow, 0.35]}
+      note: "Ravenshore: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    out03:
+      settings: {grass: [meadow, 0.3]}
+      note: "Alvar: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    out04:
+      settings: {}
+      note: "Ironsand: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    out05:
+      settings: {grass: [dry_meadow, 0.5]}
+      note: "Garrote Gorge: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    out06:
+      settings: {}
+      note: "Shadowspire: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    out07:
+      settings: {grass: [woodland_grass, 0.25]}
+      note: "Murmurwoods: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    out08:
+      settings: {}
+      note: "Ravage Roaming: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    out13:
+      settings: {grass: [coastal_grass, 0.7]}
+      note: "Regna: Decorations only on grass/tropical/swamp portions; all other terrain stays bare."
+    out15:
+      settings: {}
+      defer: tutorial_geometry
+      note: "Tutorial: No grass/tropical/swamp cover selected; terrain decorations disabled."
+    pbp:
+      settings: {}
+      note: "Plane Between Planes: No grass/tropical/swamp cover selected; terrain decorations disabled."

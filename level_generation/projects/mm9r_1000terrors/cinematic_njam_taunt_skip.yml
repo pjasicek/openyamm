@@ -1,0 +1,17 @@
+# njam_taunt skipped at 1.5 s: Door0 opened and shut again, Njam's vanishing, key 497.
+id: mm9r.1000terrors.cinematic_njam_taunt_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: 1000terrors.blv}
+- set_pose: {map: 1000terrors.blv, x: 8929, y: -9150, z: 2776, yaw: -1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90108}
+- execute_event: {id: 379}
+- advance_runtime: {seconds: 1.5}
+- console: {line: cinematic list, expect_contains: playing njam_taunt}
+- assert: {state_dump_named_map_var: {name: OpenDoor0, value: 1}}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- assert: {qbit_set: [90497]}
+- assert: {state_dump_named_map_var: {name: OpenDoor0, value: 0}}
+- assert: {state_dump_named_map_var: {name: Cinema.njam_taunt.step.vanish, value: 1}}

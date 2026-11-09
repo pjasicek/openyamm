@@ -1,0 +1,385 @@
+{
+  "label": "Harpy A",
+  "creature": "harpy",
+  "base_palette": 263,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "preserve_delivered_rgb": true,
+  "material_edge_hue_repair": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m262wa0",
+    "m262wa1",
+    "m262wa2",
+    "m262wa3",
+    "m262wa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "true_alpha": true,
+  "sampling_target": 2.3,
+  "review_mass_region": "silhouette_mass",
+  "description": "The exact original armored adult female harpy: slender stern gray-tan human face and long bare neck, small pale eyes, swept-back short stiff silver-gray crest hair forming narrow ridges over the scalp and down the nape. Bare gray-tan shoulders and slim arms. A fully covering dark teal-black fitted breastplate/corset with bright gold upper rim and waist edging, silver-gray convex chest plates and dark central abdomen plate; matching thin gold back straps and belt. A short shaggy brown-black feather skirt and thick brown feathered bird thighs, orange-red scaly lower bird legs ending in three long splayed toes with sharp dark claws. No human feet. Two huge broad feather wings grow from the upper back, dark gray-brown small coverts near the shoulders, layered deep green-teal long flight feathers with pale mint highlights and near-black shadows, individually separated narrow feather tips. Preserve original wing arc, span, overlap, raised/lowered phase and foreshortening exactly. Small brown-gray tail feathers project behind waist. Right hand holds the single native short curved ivory-silver dagger with serrated upper edge and round brass pommel; preserve its exact size, hand grip and angle. Gold wrist and forearm fittings with dark teal cloth/armor inserts. Left hand empty and claw-like. Preserve native small head, slender limbs, bent bird knees, talons, fully armored torso, dark tonal weight, asymmetry and fine feather strands. Only colored wing flight feathers and native colored forearm inserts change among green-teal, dark crimson-purple and violet appearances; face, silver crest, gray-brown wing roots, brown feather thighs, orange talons, silver blade and brass remain protected. No extra weapons, jewelry, aura, particles, floor shadow or redesign.",
+  "clear_alpha1_border_batches": [
+    "standing",
+    "w_0_0",
+    "w_0_1",
+    "w_1_0",
+    "w_1_1",
+    "w_2",
+    "w_3_0",
+    "w_3_1",
+    "w_4_0",
+    "w_4_1",
+    "a_0_0",
+    "a_0_1",
+    "a_1_0",
+    "a_1_1",
+    "a_2_0",
+    "a_2_1",
+    "a_3_0",
+    "a_3_1",
+    "a_4_0",
+    "a_4_1",
+    "n_0_0",
+    "n_0_1",
+    "n_1_0",
+    "n_1_1",
+    "n_2_0",
+    "n_2_1",
+    "n_3_0",
+    "n_3_1",
+    "n_4_0",
+    "n_4_1",
+    "death_corpse_0",
+    "death_corpse_1"
+  ],
+  "materials": {
+    "regions": [
+      {
+        "name": "flight_feathers",
+        "selector": "green",
+        "thresholds": [
+          0.015,
+          0.11
+        ],
+        "palette_indices": [
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.5
+      },
+      {
+        "name": "metal_inserts",
+        "selector": "cyan",
+        "thresholds": [
+          0.03,
+          0.18
+        ],
+        "palette_indices": [
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140
+        ],
+        "fit": "luminance",
+        "mask_sigma": 0.5,
+        "native_palette_spatial_support": [
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140
+        ],
+        "support_padding": 6,
+        "exclude_channels": [
+          0
+        ]
+      }
+    ],
+    "limitation": "Enhanced material coverage follows feather and blue metal chroma; near-neutral highlights retain some original tint."
+  },
+  "reviewed_border_alpha_limits": {
+    "a_1_1": 2,
+    "n_2_1": 3
+  },
+  "reviewed_placement_translation_px": {
+    "m262wc1": [
+      -24,
+      0
+    ],
+    "m262wd1": [
+      -20,
+      0
+    ],
+    "m262wc2": [
+      -12,
+      0
+    ],
+    "m262wf2": [
+      -14,
+      0
+    ],
+    "m262wg2": [
+      -20,
+      0
+    ],
+    "m262wh2": [
+      -40,
+      0
+    ],
+    "m262wd3": [
+      -18,
+      0
+    ],
+    "m262we3": [
+      -12,
+      0
+    ],
+    "m262wf3": [
+      -10,
+      0
+    ],
+    "m262wh3": [
+      -26,
+      0
+    ],
+    "m262aa0": [
+      -8,
+      0
+    ],
+    "m262ab0": [
+      -48,
+      0
+    ],
+    "m262ad0": [
+      -24,
+      0
+    ],
+    "m262af0": [
+      -30,
+      0
+    ],
+    "m262ag0": [
+      -20,
+      0
+    ],
+    "m262ah0": [
+      -42,
+      0
+    ],
+    "m262aa1": [
+      -16,
+      0
+    ],
+    "m262ab1": [
+      -26,
+      0
+    ],
+    "m262ac1": [
+      -18,
+      0
+    ],
+    "m262ad1": [
+      -12,
+      0
+    ],
+    "m262ah1": [
+      -34,
+      0
+    ],
+    "m262aa2": [
+      20,
+      0
+    ],
+    "m262ac2": [
+      12,
+      0
+    ],
+    "m262ad2": [
+      24,
+      0
+    ],
+    "m262ae2": [
+      18,
+      0
+    ],
+    "m262af2": [
+      16,
+      0
+    ],
+    "m262ag2": [
+      28,
+      0
+    ],
+    "m262ae3": [
+      -18,
+      0
+    ],
+    "m262af3": [
+      -24,
+      0
+    ],
+    "m262ag3": [
+      -28,
+      0
+    ],
+    "m262ah3": [
+      -34,
+      0
+    ],
+    "m262ac4": [
+      -14,
+      0
+    ],
+    "m262na1": [
+      -54,
+      0
+    ],
+    "m262nb1": [
+      -20,
+      0
+    ],
+    "m262na2": [
+      -28,
+      0
+    ],
+    "m262nc2": [
+      -32,
+      0
+    ],
+    "m262nb3": [
+      -28,
+      0
+    ],
+    "m262nd3": [
+      -16,
+      0
+    ],
+    "m262nf3": [
+      -32,
+      0
+    ],
+    "m262ng3": [
+      -12,
+      0
+    ]
+  }
+}

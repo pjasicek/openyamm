@@ -1,0 +1,470 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "brief": "CODEX_BRIEF.md",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint a 3D model texture source.\nOutput ONE image: paint_front.png, 1024 x 1024 RGBA, true transparent background.\n\nINPUT ROLES:\nImage 1 (guide_front.png) is the EDIT TARGET and absolute geometry authority. Keep its exact original alpha silhouette, every contour, every gap between fingers, cuff positions, finger lengths and overlaps, scale, framing, and part boundaries. Paint directly onto this image without changing the geometry or camera.\nImage 2 (design_reference.png) is ONLY the approved design/material/color reference. Do not copy its pose or composition.\n\nPaint the matching pair of empty heavy colonial work gauntlets in the EXACT front view of Image 1. Preserve both gloves as positioned, cuffs at the top and all the naturally visible fingers below. Do not correct, smooth, straighten, enlarge, reposition, or remodel any part of the guide.\nApply warm off-white ceramic to the existing cuff and knuckle/back-of-hand armor panels and finger plates, with restrained fine scratches, fine hairline cracks and wear from the design. Use muted brushed antique gold for their borders, articulated joints, cuff rims and fasteners. Use charcoal nearly black fabric/leather with a subtle violet tint on flexible wrists, between plates and fingers. Existing circular cuff contacts have a pale bright blue-white center and blue ring, contained within their original shapes. Continue the design coherently across both gloves. No invented armor extensions or accessories.\n\nTEXTURE SOURCE / ALBEDO LIGHTING: completely even, flat, shadowless frontal illumination across every visible surface. No cast shadow, no ambient occlusion, no directional shading gradients, no rim light, no hot specular highlight or reflected environment. Metal reads as its muted gold base color with only a faint sheen; ceramic stays evenly off-white. Paint contacts as bright pale blue-white color without bloom or light spill. Use texture and panel joins for detail, not dramatic lighting.\nKeep the exact guide outline and all transparent empty areas pixel-aligned; no content outside that mask, no cropping, no zoom or recentering. No floor, background, text, letters, labels, logo or watermark. Return the painted front view only at 1024 x 1024.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "6bf87afc05ad4c7e4f2cdf62c9987ab6ac2df52c0f5275f13976611a619bfc58"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-6faab785-3b93-42d7-9bc1-019f9b931b43.png",
+      "output": "generated_front_01.png",
+      "selected": false,
+      "reason": "Not selected: stronger shading and lower silhouette agreement (0.9171) than the corrective return.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "0ae0e44c1e0a7cfe4e4495f29767e699def7e23f3dcac4dc1a6646ac5baa052b",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9170526919019358,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 0,
+        "border_nonzero_alpha_pixels": 0,
+        "fully_transparent_fraction": 0.5434526580333682,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Strict recoloring/edit of the LAST input image.\nMake ONE 1024 x 1024 transparent PNG texture source for paint_front.png.\nImage 1 is design_reference.png: material palette only (off-white ceramic, muted brushed antique gold, charcoal fabric, blue-white contacts).\nImage 2, guide_front.png, is the actual image to EDIT. Its 1024 x 1024 pixel coordinates and alpha mask are locked. Copy its exact silhouette and internal geometry. DO NOT render new gloves or borrow the reference composition.\n\nCorrective requirement: a prior attempt shifted edges and made a shaded product render. This time literally colorize the fixed guide surfaces in place with flat albedo colors and fine reference textures. Keep every polygon boundary, fingertip, side of every finger, hand spacing, cuff edge and small projecting disk at the exact coordinates of the second image. Keep its angular outline; do not beautify it into rounder anatomy. No moving, extending, shortening or rotating fingers. The pair's body occupies the same pixels as the guide.\n\nOff-white ceramic covers the existing hand armor, knuckle and finger plates and large cuff shell. Antique gold covers existing trims, narrow articulation bands, cuff rims and contact bezels. Charcoal fabric covers the flexible wrist, gaps between plates and finger undersuit. Blue-white circles occupy only the original circular cuff contacts. Fine worn ceramic hairlines, muted brushed-gold grain and fine charcoal cloth grain match Image 1. Don't add new jewelry or protrusions.\n\nRemove ALL lighting from the guide and reference: even flat base colors, no gray facet shadows, no ambient occlusion, no specular bright streaks, no dark gold undersides, no light-source gradient. Each material has constant base brightness across all orientations, allowing only subtle intrinsic grain and wear. This is a flat unlit base-color texture projection, not a beauty render. Blue-white contacts are painted light color, no halo.\nBackground truly transparent. Preserve the exact second-image alpha boundary and empty gaps; no floor, drop shadow or background. No text or letters. Return only this recolored second image. Requested native output 1024 x 1024; do not enlarge.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "6bf87afc05ad4c7e4f2cdf62c9987ab6ac2df52c0f5275f13976611a619bfc58"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-ff7b6ca2-0de9-4e69-be28-38c7f4f14015.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected: corrective return improves silhouette agreement to 0.9697 and flattens ceramic/gold shading. Still not pixel-identical or fully shadowless.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "948a2590ec9c77264836bb0b99a3a794b7e9eac0b3ed8bf00c38294e9b485e30",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9697271971242769,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 22,
+        "fully_transparent_fraction": 0.5616305334890074,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Strict surface recoloring of a fixed 3D-model guide into a flat albedo texture-source image.\nProduce ONE transparent RGBA PNG, requested native size 1024 x 1024.\nINPUTS: Image 1 is design_reference.png, the authority ONLY for design colors/materials and fine surface wear. Image 2 is guide_back.png, the actual EDIT TARGET and absolute geometry authority. Preserve the second image's exact 1024 x 1024 pixel-space silhouette, framing, scale, position, every part boundary, every gap and occlusion, every tip and cuff outline. Literally paint the existing surfaces in place; do not invent a new model or borrow the design reference's pose. Do not round off the angular guide geometry or change the camera.\n\nBACK guide: show exactly the palms/undersides and the two open empty cuffs shown in the target. The palm and finger undersides are charcoal cloth/leather with modest seams and flexible grip reinforcement. Do not put knuckle armor on the palm surfaces. Cuff exterior is off-white ceramic with antique-gold borders, and the rim and visible circular contacts retain the reference materials. Cuff interiors are charcoal fabric at its ordinary base brightness, not a black shadowed hole. Keep every existing little shape visible inside each opening; recolor it without adding objects or skin. No arms or wearer.\n\nMatch the design's warm off-white ceramic with restrained fine worn hairline cracks, muted brushed antique gold with fine grain and fine scratches, charcoal nearly black woven textile/leather with a subtle violet tint, and bright pale blue-white circular cuff contacts. Fine panel joins, seams and wear belong on existing parts only. Add no protrusions, extra objects or extensions.\nALBEDO: eliminate all directional lighting in both inputs. Use constant base brightness for each material regardless of orientation, with only subtle intrinsic texture/wear. Even flat shadowless viewer illumination, no cast shadows, no ambient occlusion, no gray facet shading, no light-to-dark gradient, no dark underside shading. No specular highlights, rim lights, white streaks or environmental reflections. Gold has its base color and only a faint sheen. Contacts are bright light-color paint without bloom or spill. This is a flat unlit base-color projection, not a beauty render.\nKeep the guide alpha silhouette, original empty background and gaps completely transparent; no floor or background. No text, letters, labels, logo or watermark. Return only the painted guide view, at 1024 x 1024, without zooming or recentering.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "4c0514e22dab2c67e29ac2aa5a49c08d955cc95cd5340d678ab19c0cedcbcd82"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-41add64d-1ed2-4e6a-824e-676234967190.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected: preserves plausible charcoal palm/finger undersides. Corrective return incorrectly adds ceramic/gold finger armor to the palm side. Silhouette agreement 0.9610; some relief shading remains.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "3349b0ecda26af82485d4099b35121d92c1183e7e7804ca067c63d66508013a6",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.961005996994734,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 1,
+        "fully_transparent_fraction": 0.5601914384336948,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Strict surface recoloring of a fixed 3D-model guide into a flat albedo texture-source image.\nProduce ONE transparent RGBA PNG, requested native size 1024 x 1024.\nINPUTS: Image 1 is design_reference.png, the authority ONLY for design colors/materials and fine surface wear. Image 2 is guide_left.png, the actual EDIT TARGET and absolute geometry authority. Preserve the second image's exact 1024 x 1024 pixel-space silhouette, framing, scale, position, every part boundary, every gap and occlusion, every tip and cuff outline. Literally paint the existing surfaces in place; do not invent a new model or borrow the design reference's pose. Do not round off the angular guide geometry or change the camera.\n\nLEFT guide: preserve the single overlapping side silhouette exactly as shown: large cuff at upper left, fingers pointing down and right. Keep the original side-on overlapping parts, large circular cuff contact in its exact position, and every angular finger boundary. Do not separate or rearrange the overlapping gloves. Ceramic outer cuff and existing dorsal hand and finger plate surfaces, gold borders and articulation bands, charcoal flexible underside. Blue-white light is confined to the existing cuff contact.\n\nMatch the design's warm off-white ceramic with restrained fine worn hairline cracks, muted brushed antique gold with fine grain and fine scratches, charcoal nearly black woven textile/leather with a subtle violet tint, and bright pale blue-white circular cuff contacts. Fine panel joins, seams and wear belong on existing parts only. Add no protrusions, extra objects or extensions.\nALBEDO: eliminate all directional lighting in both inputs. Use constant base brightness for each material regardless of orientation, with only subtle intrinsic texture/wear. Even flat shadowless viewer illumination, no cast shadows, no ambient occlusion, no gray facet shading, no light-to-dark gradient, no dark underside shading. No specular highlights, rim lights, white streaks or environmental reflections. Gold has its base color and only a faint sheen. Contacts are bright light-color paint without bloom or spill. This is a flat unlit base-color projection, not a beauty render.\nKeep the guide alpha silhouette, original empty background and gaps completely transparent; no floor or background. No text, letters, labels, logo or watermark. Return only the painted guide view, at 1024 x 1024, without zooming or recentering.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "02436a549b58233bd603a21d575f3e0b3b5ce6454020a4f2442d9fa115a2bc5f"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-e00a6a58-ad98-4760-b3d4-2170dce38dba.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected: substantially closer silhouette agreement (0.9638) than the corrective return; matches the approved material palette. Some shading remains.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "f96392493883bd8aafdcb8056617ff1392454859a34bd9134bfe26c519d144ba",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9638333730883383,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 7,
+        "fully_transparent_fraction": 0.7459040162389444,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Strict surface recoloring of a fixed 3D-model guide into a flat albedo texture-source image.\nProduce ONE transparent RGBA PNG, requested native size 1024 x 1024.\nINPUTS: Image 1 is design_reference.png, the authority ONLY for design colors/materials and fine surface wear. Image 2 is guide_right.png, the actual EDIT TARGET and absolute geometry authority. Preserve the second image's exact 1024 x 1024 pixel-space silhouette, framing, scale, position, every part boundary, every gap and occlusion, every tip and cuff outline. Literally paint the existing surfaces in place; do not invent a new model or borrow the design reference's pose. Do not round off the angular guide geometry or change the camera.\n\nRIGHT guide: preserve the single overlapping side silhouette exactly as shown: large cuff at upper right, fingers pointing down and left. Keep the original side-on overlapping parts, circular cuff contact in its exact position, and every angular finger boundary. Do not separate or rearrange the overlapping gloves. Ceramic outer cuff and existing dorsal hand and finger plate surfaces, gold borders and articulation bands, charcoal flexible underside. Blue-white light is confined to the existing cuff contact.\n\nMatch the design's warm off-white ceramic with restrained fine worn hairline cracks, muted brushed antique gold with fine grain and fine scratches, charcoal nearly black woven textile/leather with a subtle violet tint, and bright pale blue-white circular cuff contacts. Fine panel joins, seams and wear belong on existing parts only. Add no protrusions, extra objects or extensions.\nALBEDO: eliminate all directional lighting in both inputs. Use constant base brightness for each material regardless of orientation, with only subtle intrinsic texture/wear. Even flat shadowless viewer illumination, no cast shadows, no ambient occlusion, no gray facet shading, no light-to-dark gradient, no dark underside shading. No specular highlights, rim lights, white streaks or environmental reflections. Gold has its base color and only a faint sheen. Contacts are bright light-color paint without bloom or spill. This is a flat unlit base-color projection, not a beauty render.\nKeep the guide alpha silhouette, original empty background and gaps completely transparent; no floor or background. No text, letters, labels, logo or watermark. Return only the painted guide view, at 1024 x 1024, without zooming or recentering.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "38abcee5ac8f7a6f52593381fc07f24e1617d57138716762bee950d7e763c362"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-4d6d6927-31ef-45ed-9ae3-5acc8506cd0f.png",
+      "output": "generated_right_01.png",
+      "selected": false,
+      "reason": "Not selected: lower silhouette agreement (0.8685) than the corrective return.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "5d533eab9e6392a076cc6388147935f8ee2dff5dc2d63e7d79194abda2fad420",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.8684584037517468,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 2,
+        "fully_transparent_fraction": 0.7384160161168472,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Strict surface recoloring of a fixed 3D-model guide into a flat albedo texture-source image.\nProduce ONE transparent RGBA PNG, requested native size 1024 x 1024.\nINPUTS: Image 1 is design_reference.png, the authority ONLY for design colors/materials and fine surface wear. Image 2 is guide_top.png, the actual EDIT TARGET and absolute geometry authority. Preserve the second image's exact 1024 x 1024 pixel-space silhouette, framing, scale, position, every part boundary, every gap and occlusion, every tip and cuff outline. Literally paint the existing surfaces in place; do not invent a new model or borrow the design reference's pose. Do not round off the angular guide geometry or change the camera.\n\nTOP guide: keep the exact two gloves and the visible large empty open cuff interiors at the top, hands and fingertips below, at the original top-view angle. Preserve every finger and each cuff's polygonal opening. Exterior cuff shells and existing dorsal hand/finger plates are off-white ceramic, borders and articulations muted gold, flexible wrist and between plates charcoal textile. Cuff lining is charcoal fabric with uniform base brightness, without AO or a darkened recess. Paint existing side disks as the blue-white contacts. No arms or wearer.\n\nMatch the design's warm off-white ceramic with restrained fine worn hairline cracks, muted brushed antique gold with fine grain and fine scratches, charcoal nearly black woven textile/leather with a subtle violet tint, and bright pale blue-white circular cuff contacts. Fine panel joins, seams and wear belong on existing parts only. Add no protrusions, extra objects or extensions.\nALBEDO: eliminate all directional lighting in both inputs. Use constant base brightness for each material regardless of orientation, with only subtle intrinsic texture/wear. Even flat shadowless viewer illumination, no cast shadows, no ambient occlusion, no gray facet shading, no light-to-dark gradient, no dark underside shading. No specular highlights, rim lights, white streaks or environmental reflections. Gold has its base color and only a faint sheen. Contacts are bright light-color paint without bloom or spill. This is a flat unlit base-color projection, not a beauty render.\nKeep the guide alpha silhouette, original empty background and gaps completely transparent; no floor or background. No text, letters, labels, logo or watermark. Return only the painted guide view, at 1024 x 1024, without zooming or recentering.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "2477a5e68f2ace9b5712ec675cb18928d6be2b48f5deb79fb61bf0561ad4c79f"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-1fb7f626-475a-4fbc-a2d4-3b29f6387fb7.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected: closest silhouette agreement (0.9834), consistent materials and visible empty cuff lining. Interior and relief shading remain.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "eeb10caff29497673aaa6d5c21bb5bf064ad2156d56e27fc1babdccca4100f09",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9834244129059978,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 43,
+        "fully_transparent_fraction": 0.40842636895268475,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION, back view. Strict image recoloring, not redrawing.\nImage 1: approved design reference, material appearance only.\nImage 2: guide_back.png, the only shape and framing authority. Paint this exact image.\n\nPreserve all original pixels' positions, the exact alpha silhouette, every finger tip and gap, cuff opening outlines, polygonal edges, inner cuff shapes and all existing overlaps. The first attempt made the palm fingers rounder and changed contours. Keep the guide's original angular shape exactly. Do not move or resize anything. 1024 x 1024 transparent PNG.\n\nThe guide shows the backs/undersides of the pair, with palms facing the viewer and two empty cuff openings. Paint the palms and fingers matte charcoal woven leather/cloth with fine subtle seams. Paint the cuff shell off-white ceramic, existing rims and slim borders muted antique gold, contacts pale blue-white. Paint cuff interiors the same evenly lit charcoal textile, without shadow gradients. Copy only fine material textures and light wear from the design; add no new volumes or raised palm pads, no fingers or arms.\nUse FLAT ALBEDO colors. Remove the guide's illumination. Ceramic has one off-white base tone, gold one muted ochre-gold base tone, charcoal one consistent charcoal base tone. Very subtle intrinsic scratches, grain and seam lines only. NO dark crevices, ambient occlusion, simulated lighting, directional highlights, metallic reflections or modeled depth shadows. Contacts are pale blue color without bloom. Preserve every transparent gap and pixel of the original silhouette. No background, ground, text or letters.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "4c0514e22dab2c67e29ac2aa5a49c08d955cc95cd5340d678ab19c0cedcbcd82"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-46800a17-b1c1-4ffe-bb34-527e97e7114c.png",
+      "output": "generated_back_02.png",
+      "selected": false,
+      "reason": "Not selected: slight silhouette improvement (0.9656) is outweighed by ceramic/gold armor wrongly added to the palm-side fingers.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "f8cfd97599cb8ffac674d27809e743e2ea6325bdde2cf297d8f93ab2b09d0089",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9656368578393462,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 18,
+        "fully_transparent_fraction": 0.5575288264157566,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Make a strict in-place texture painting of guide_left.png, the second input. One 1024 x 1024 transparent PNG.\nFirst input is the approved design, only a reference for materials. SECOND INPUT IS THE FIXED IMAGE TO RECOLOR. Its original pixel-space outer boundary, internal geometry, cuff disk, overlaps, finger boundaries and negative space must remain EXACTLY unchanged.\nCorrect the prior tendency to change the fingertip shapes and add directional light. Keep the angular polygon geometry of the guide, not the rounder geometry of the design reference. Left-view cuff is at upper left; fingertips lower right; preserve the exact original length, orientation and bounding box. Do not show any extra parts or separate the overlapping gloves.\n\nFill existing surfaces with the design's warm off-white ceramic, muted brushed antique gold trims/joints, and charcoal woven fabric flexible parts. Keep the existing circular cuff face blue-white and its bezel gold. Hairline ceramic wear, subtle gold grain and fine fabric texture, without changing any surface boundary. Do not add secondary blue lights to the wrist where no guide part exists.\nFLAT UNLIT ALBEDO ONLY: ceramic equal pale off-white everywhere, gold equal muted ochre-gold everywhere, fabric equal charcoal everywhere. Preserve material grain, remove directional gradients, glossy reflections, hot highlights, depth shading, occlusion and shadows. No darker underside of a plate, no bright left-lit edge, no shadow under a trim. Contacts are bright base color without emitted bloom. The material should look evenly and diffusely scanned rather than photographed under a lamp. No text or letters, no extra objects, no cast shadow, no ground, entirely transparent background matching the exact guide outline.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "02436a549b58233bd603a21d575f3e0b3b5ce6454020a4f2442d9fa115a2bc5f"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-659795a1-4a2f-4cfc-941b-8992c17b357c.png",
+      "output": "generated_left_02.png",
+      "selected": false,
+      "reason": "Not selected: corrective return enlarges/shifts geometry and lowers silhouette agreement to 0.8617.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "9a763bc295d3d8e5875b3a43c047c7a1e1747cee22e1413b0a679b711534cd59",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.8617263208213679,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 9,
+        "fully_transparent_fraction": 0.7213465554563515,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Edit the SECOND image (guide_right.png) by painting materials on it. Return one transparent 1024x1024 PNG.\nThe FIRST image is only the ceramic/gold/cloth material reference. The SECOND image is the immutable model, camera and silhouette.\n\nCORRECTION: exact outline preservation takes priority. A previous painting enlarged and tilted the glove; don't do that. On the target's 1024px square canvas the glove remains in approximately x=80..944, y=190..834; preserve the actual guide mask exactly, not just this bounding box. The large cuff is at upper right and bent fingers at lower left. Keep the guide's precise original diagonal, length, original fingertip positions, overlapping parts and polygon edges. Keep its round cuff contact exactly where it is. Do not rotate, recenter, enlarge, round-off or change any shapes.\n\nPaint existing cuff and back-of-hand plates and finger plates warm off-white worn ceramic, existing trims and joints muted brushed antique gold, existing flexible wrist and undersuit charcoal woven leather/fabric. The circular cuff contact is pale icy blue-white with a narrow blue ring and gold bezel. Apply the design reference's fine hairline cracks, surface wear and subtle grain to the existing geometry, no additions.\nIt is a pure unlit base-color/albedo projection: flat, constant material brightness from edge to edge, no cast shadows, no AO, no directional gradients, no bright gold highlights, no reflected environment, no dark underside shading, no rim light. Preserve only intrinsic fine surface wear, grain and seam detail; gold has only a faint sheen, the contact has no bloom. Real alpha transparency all around and in every original gap. No background, floor, text or letters. Trace the original guide silhouette exactly.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "38abcee5ac8f7a6f52593381fc07f24e1617d57138716762bee950d7e763c362"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-1dadff63-64b3-436f-8115-c59620652665.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected: corrective return improves silhouette agreement to 0.8886. Significant contour/placement drift and some shading remain, so this view fails strict guide alignment.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "5e6162be2c11068d28a8132dee736fa7e2259a96347bd148d353680ce9e7177d",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.8885535183708965,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 1,
+        "fully_transparent_fraction": 0.7290711191491851,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Strict paint-over of the SECOND image, guide_top.png. Output one 1024 x 1024 RGBA PNG with true transparency. The first image is the design/color/material reference only.\nCORRECTION: retain the guide's silhouette and part boundaries exactly and flatten all illumination. This is an albedo texture source, not a promotional rendering. Copy the original polygonal outline pixel for pixel, every fingertip and inter-finger gap, both gloves' position and size, both cuff openings, all circular contacts and overlaps. Keep the second image's top-view camera and framing. Nothing may extend beyond its exact alpha silhouette or change shape inside it. Do not recenter, zoom, rotate or round off the geometry.\n\nPaint the guide's existing dorsal hand plates, finger plates and cuff shells in warm off-white ceramic with fine restrained cracks and wear matching the design. Existing trims, joint bands and rims are brushed muted antique gold. All flexible wrists, fabric around fingers, and empty cuff linings are fine charcoal cloth/leather with a restrained violet tint. Keep each existing cuff contact pale bright blue-white inside a blue ring with its gold bezel. No new fittings, raised pads, limbs or wearer.\nUse the same flat base brightness over every surface of each material. No shaded recess inside the cuffs, no gray polygon shading, no underside shadows, no AO or contact shadows, no directional highlights, no hot gold glints, reflections or rim lights. Fine grain/scratches and seams show materials without lighting effects. No bloom from the contacts. True transparent background, no floor, cast shadows, text, letters, logos or watermark. Preserve the precise target outline above all.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "5ea8f3d5847a65eba67a5ce51f39f213b181ea1f2b746a3ae7cfa9d1a6de18e6"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "2477a5e68f2ace9b5712ec675cb18928d6be2b48f5deb79fb61bf0561ad4c79f"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16e37-6470-7b92-85e4-0cc89ba11b95/exec-a937ef97-48f3-4e8e-9a24-6ae33130ca0e.png",
+      "output": "generated_top_02.png",
+      "selected": false,
+      "reason": "Not selected: flatter cuff interiors but reduced silhouette agreement (0.9733) and lost internal cuff geometry.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "sha256": "02f06df5742e2b9892bb64b0ed1ee7868f3cfbbf228156007de46e04601a9d12",
+      "checks": {
+        "rgba": true,
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "native_size_matches_requested": false,
+        "silhouette_pixel_identical": false,
+        "normalized_silhouette_iou": 0.9733265702933469,
+        "silhouette_metric_note": "Output alpha sampled at normalized guide pixel centers for comparison only. Output file was not resized or modified.",
+        "flat_shadowless_albedo": false,
+        "no_text_or_letters": "Passed visual inspection",
+        "materials": "Off-white ceramic, antique gold, charcoal fabric and blue-white cuff contacts present.",
+        "border_alpha_max": 1,
+        "border_nonzero_alpha_pixels": 38,
+        "fully_transparent_fraction": 0.4246195269237324,
+        "background_note": "Real alpha transparency; any canvas-edge residue has alpha 1/255. Raw tool output preserved without cleanup.",
+        "full_brief_compliance": false
+      }
+    }
+  ],
+  "brief_sha256": "71b055e309b2cfaa86d3857e446af34997f2befaee59e3b2301f0284cb146f9e",
+  "selection_note": "Best available unmodified tool return per view after exactly one initial generation and one corrective generation per view. Selected does not mean all strict checks passed.",
+  "full_brief_compliance": false,
+  "limitations": [
+    "All returns are 1254 x 1254 instead of requested 1024 x 1024; retained unresized as instructed.",
+    "No selected return has a pixel-identical guide silhouette. Normalized alpha overlap ranges from 0.8886 to 0.9834; the right view has the largest remaining drift.",
+    "Some modeled relief shading, cuff interior shadows and gold highlights remain; pure flat shadowless albedo was not achieved.",
+    "The real alpha backgrounds include sparse near-transparent alpha 1/255 residue and visible edge fringe in places; raw outputs were not cleaned or edited."
+  ],
+  "verification": "Inspected every generated image. Verified PNG dimensions, RGBA/alpha, normalized silhouette overlap, all recorded input/output SHA-256 hashes and byte identity with raw built-in-tool returns. No builds or runtime integration."
+}

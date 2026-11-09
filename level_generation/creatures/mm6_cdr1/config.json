@@ -1,0 +1,25 @@
+{
+  "family": "cdr1",
+  "title": "MM6 Dragon Cover",
+  "descriptor_ids": [
+    514,
+    515,
+    516
+  ],
+  "base_palette": 698,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "standing_reference_frame": 0,
+  "batch_distinct_standing": true,
+  "identity_reference_action": "walk",
+  "description": "Original MM6 cover dragon: vivid warm red-orange scaled flying dragon with large reddish orange wing membranes, golden-yellow segmented belly, long tapering tail, bent four legs with ivory claws, long pale ivory swept head horns and shorter pale cheek spines, sharp narrow dragon snout. Preserve the native compact muscular torso and huge batlike wings, all wing folds and viewing angles. Original painted/pre-rendered fantasy detail, no added ornaments or redesign.",
+  "regions": "Orange hide, orange wing membranes, golden underside and pale horns/claws; derive selective enhanced-art masks after native palette review.",
+  "variant_names": {
+    "698": "Dragon Cover A / red-orange",
+    "699": "Dragon Cover B / blue",
+    "700": "Dragon Cover C / gold"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

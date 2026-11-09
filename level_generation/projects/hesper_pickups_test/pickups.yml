@@ -1,0 +1,74 @@
+# The shared pickups (hesper_stage/common/pickups.lua) on the test room: the colours rolled at first entry, a stim
+# canister and a serum vat drunk (+2 to the active character's base stat, MM's autonote, the container empty and a
+# second click giving nothing), and the satchels opened (gold, an item, nothing; a second click gives nothing).
+# The rolls are the event random numbers of a new game, the same every run. Headless, from
+# output/hesper_stage/scenario_run. Headless runs do not hand a clicked decoration's evt.GiveItem item to the party
+# (indoors the game view does, IndoorGameView::presentPendingEventFeedback): the item satchels are asserted by their
+# state, and the item itself in a desktop run (README).
+id: hesper.pickups_test.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_pickups_test.blv
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.Rolled, value: 1}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.701, value: 5}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.702, value: 6}
+# The canister rolled green (5): +2 Endurance (variable 35) and autonote 20, "Green liquid grants Endurance.".
+- assert:
+    runtime_event_variable: {id: 35, member_index: 0, value: 15}
+- assert:
+    runtime_event_variable: {id: 1310945, value: 0}
+- set_pose: {map: hes_pickups_test.blv, x: 300, y: 480, z: 0, yaw: 1.5707963, pitch: -0.4}
+- press_interact: {}
+- assert:
+    runtime_event_variable: {id: 35, member_index: 0, value: 17}
+- assert:
+    runtime_event_variable: {id: 1310945, value: 1}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.701, value: 8}
+- press_interact: {}
+- assert:
+    runtime_event_variable: {id: 35, member_index: 0, value: 17}
+# The vat rolled purple (6): +2 Speed (variable 36) and autonote 22.
+- assert:
+    runtime_event_variable: {id: 36, member_index: 0, value: 12}
+- set_pose: {map: hes_pickups_test.blv, x: 600, y: 440, z: 0, yaw: 1.5707963, pitch: -0.4}
+- press_interact: {}
+- assert:
+    runtime_event_variable: {id: 1442017, value: 1}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.702, value: 8}
+- assert:
+    runtime_event_variable: {id: 36, member_index: 0, value: 14}
+# The satchels (treasure level 5): 751 nothing (3), 752 and 753 an item (2), the bundle 754 gold (1), 1000-2000.
+- assert:
+    gold: 10000
+- set_pose: {map: hes_pickups_test.blv, x: 900, y: 520, z: 0, yaw: 1.5707963, pitch: -0.6}
+- press_interact: {}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.751, value: 3}
+- set_pose: {map: hes_pickups_test.blv, x: 1100, y: 520, z: 0, yaw: 1.5707963, pitch: -0.6}
+- press_interact: {}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.752, value: 2}
+- set_pose: {map: hes_pickups_test.blv, x: 1300, y: 520, z: 0, yaw: 1.5707963, pitch: -0.6}
+- press_interact: {}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.753, value: 2}
+- assert:
+    gold: 10000
+- set_pose: {map: hes_pickups_test.blv, x: 1120, y: 300, z: 0, yaw: 0, pitch: -0.6}
+- press_interact: {}
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.754, value: 1}
+- assert:
+    gold: 11744
+- press_interact: {}
+- assert:
+    gold: 11744
+- assert:
+    state_dump_named_map_var: {name: HesperPickups.754, value: 1}

@@ -1,0 +1,25 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Make a precise production registration correction to IMAGE 1, keeping its exact transparent 3:4 canvas and 3-column/4-row layout. IMAGE 2 is the immutable gray geometry guide that each silhouette should match; image 3 original icon reference. For BOTH paint and masks: shrink every view to 93% of current width and height, keeping centres. Do not enlarge remaining objects. No material, detail or colour changes: keep existing realistic unlit base colours in top two rows and flat pure material ID masks in bottom two rows. No new objects, shadow, floor, letters, outlines, noise or background. Preserve openings and solid surfaces from gray guides. Last slot of rows 2 and 4 stays transparent. This is a technical size-only edit, not redesign or new lighting. Output a transparent 1536x2048 PNG.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_item125/paint_mask_raw_v1.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_item125/paint_mask_guide.png",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/item125.png"
+  ],
+  "revision": 2,
+  "selected": false,
+  "reason": "Registration-only corrective painting; awaiting strict bake gate",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-fe9d-7f62-984f-d3dee5255cc3/exec-80099976-133b-49bb-9851-0fc2cb273b1e.png",
+  "raw_sha256": "fac2570c391478dc243156c12103daddcfe8e3c57ee06e5241664aadcbf6b495",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "derivation": "Unresized top/bottom half extraction; original retained byte-for-byte",
+  "input_sha256": {
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_item125/paint_mask_raw_v1.png": "cf9d6a07d453273da45776897ddad7ca252dbbaa9a6fb840ced579ab6e266669",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/codex_tex/equipment_item125/paint_mask_guide.png": "96c942de93e3f269f21e70e8b932e60277830e6134c62cda7db4f8c67c4cac98",
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment_geometry_finish/references/icons/item125.png": "ca13ffcf8b9409631ad74f6b0a8f34e978ff40bcbb787a49adaf82cc6cec195d"
+  },
+  "prepared_scene_sha256": "29a6b285fdadaa232d783dac2192904ee4231a7efdfaaa576496400bde8bdaf2"
+}

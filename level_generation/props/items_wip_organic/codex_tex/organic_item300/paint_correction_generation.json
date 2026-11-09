@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. STRICT PIXEL-REGISTERED INPAINT TEXTURE EDIT. The ONLY input is the actual geometry mask. Recolour only its opaque gray pixels. The shape in each panel is a HARD MASK, not a suggestion: do not replace it with a conventional drawing of the named object. Preserve absolutely the SAME six silhouettes and every interior hole, screen position, thin cross-section, aspect ratio, camera angle and scale. This is one 3-column, 2-row grid: top row FRONT BACK LEFT, bottom row RIGHT TOP BOTTOM. Several views are THIN EDGE-ON CROSS-SECTIONS. THEY MUST STAY THIN. Never turn them face-on. Inpaint flat unlit base colour and fine texture ONLY: Orange-brown snakeskin with a pale ivory-silver transverse belly-scute stripe down the centre of the TOP view; round bumps on flanks have dark brown rims. Bottom is plain orange-brown small scales. Side views paint only the narrow skin thickness in exactly their existing thin shape. No metal. NO light, highlights, gloss, reflections, ambient occlusion, shadows, outline glow, gradients or modeling of form with colour. Same local pigment brightness on all faces. No geometry, text, labels, borders or extra objects. Empty pixels remain truly transparent with absolutely no glow or floor. Retain landscape 3:2 and the exact panel framing. Output the edited mask sheet, six coloured shapes in exactly the original pixels.",
+  "inputs": [
+    "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_item300/guide_sheet.png"
+  ],
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_organic/codex_tex/organic_item300/paint_sheet_raw.png",
+  "supersedes": "paint_sheet_superseded.png",
+  "reason": "Initial sheet changed the silhouette/pose of one or more panels.",
+  "output_hint": "Generated images are saved to /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009 as /home/pjasicek/.codex/generated_images/01a14de2-a429-7903-b3f9-880d197fd009/exec-f9fd3824-9858-4bd7-b44b-826af64829f1.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "selected": true,
+  "guide_sha256": "8d13903457a5a711269d79928d6fc624bd2de7fe05be0429414481ea5121c017",
+  "output_sha256": "c4b9c90589043ecbb065742012c34b281b1b92d82cfd733813ee80257ddfbd51"
+}

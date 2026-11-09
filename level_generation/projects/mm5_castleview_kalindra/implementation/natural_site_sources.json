@@ -1,0 +1,615 @@
+{
+  "source": "level_generation/projects/mm5_world_feasibility/inventory.json",
+  "status": "future behavior/source identities only; no runtime travel activated",
+  "sites": [
+    {
+      "id": "falista",
+      "sources": [
+        [
+          4,
+          7,
+          1
+        ]
+      ],
+      "sourceSites": [
+        {
+          "map": 4,
+          "x": 7,
+          "y": 1,
+          "spatial": true,
+          "npcTitles": [
+            "Falista The Unicorn"
+          ],
+          "services": [],
+          "labels": [
+            "The hut is empty."
+          ],
+          "dialogueTextIndices": [
+            1,
+            9
+          ],
+          "eventRecords": 12,
+          "transfers": [],
+          "mapName": "Area A4"
+        }
+      ],
+      "outgoingTransfers": [],
+      "nearbyReturnTransfers": []
+    },
+    {
+      "id": "nibbler",
+      "sources": [
+        [
+          8,
+          3,
+          12
+        ]
+      ],
+      "sourceSites": [
+        {
+          "map": 8,
+          "x": 3,
+          "y": 12,
+          "spatial": true,
+          "npcTitles": [
+            "Nibbler The Monkeydog"
+          ],
+          "services": [],
+          "labels": [],
+          "dialogueTextIndices": [
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+          ],
+          "eventRecords": 36,
+          "transfers": [],
+          "mapName": "Area B4"
+        }
+      ],
+      "outgoingTransfers": [],
+      "nearbyReturnTransfers": []
+    },
+    {
+      "id": "mine",
+      "sources": [
+        [
+          7,
+          10,
+          9
+        ]
+      ],
+      "sourceSites": [
+        {
+          "map": 7,
+          "x": 10,
+          "y": 9,
+          "spatial": true,
+          "npcTitles": [],
+          "services": [],
+          "labels": [
+            "Enter Mine?"
+          ],
+          "dialogueTextIndices": [],
+          "eventRecords": 4,
+          "transfers": [
+            {
+              "destination": 39,
+              "arrival": [
+                25,
+                0
+              ],
+              "kind": "teleport/exit",
+              "eventOffset": 1504,
+              "line": 3
+            }
+          ],
+          "mapName": "Area B3"
+        }
+      ],
+      "outgoingTransfers": [
+        {
+          "source": 7,
+          "x": 10,
+          "y": 9,
+          "spatial": true,
+          "destination": 39,
+          "arrival": [
+            25,
+            0
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 1504,
+          "line": 3,
+          "sourceName": "Area B3",
+          "destinationName": "Gemstone Mines",
+          "scope": "MM5"
+        }
+      ],
+      "nearbyReturnTransfers": [
+        {
+          "source": 39,
+          "x": 25,
+          "y": 0,
+          "spatial": true,
+          "destination": 7,
+          "arrival": [
+            10,
+            9
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 14708,
+          "line": 4,
+          "sourceName": "Gemstone Mines",
+          "destinationName": "Area B3",
+          "scope": "MM5"
+        }
+      ]
+    },
+    {
+      "id": "troll_a",
+      "sources": [
+        [
+          8,
+          8,
+          12
+        ]
+      ],
+      "sourceSites": [
+        {
+          "map": 8,
+          "x": 8,
+          "y": 12,
+          "spatial": true,
+          "npcTitles": [],
+          "services": [],
+          "labels": [
+            "Troll Hole. Descend?"
+          ],
+          "dialogueTextIndices": [],
+          "eventRecords": 11,
+          "transfers": [
+            {
+              "destination": 40,
+              "arrival": [
+                3,
+                3
+              ],
+              "kind": "fall",
+              "eventOffset": 426,
+              "line": 8
+            },
+            {
+              "destination": 40,
+              "arrival": [
+                3,
+                3
+              ],
+              "kind": "teleport/exit",
+              "eventOffset": 443,
+              "line": 10
+            }
+          ],
+          "mapName": "Area B4"
+        }
+      ],
+      "outgoingTransfers": [
+        {
+          "source": 8,
+          "x": 8,
+          "y": 12,
+          "spatial": true,
+          "destination": 40,
+          "arrival": [
+            3,
+            3
+          ],
+          "kind": "fall",
+          "eventOffset": 426,
+          "line": 8,
+          "sourceName": "Area B4",
+          "destinationName": "Troll Holes",
+          "scope": "MM5"
+        },
+        {
+          "source": 8,
+          "x": 8,
+          "y": 12,
+          "spatial": true,
+          "destination": 40,
+          "arrival": [
+            3,
+            3
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 443,
+          "line": 10,
+          "sourceName": "Area B4",
+          "destinationName": "Troll Holes",
+          "scope": "MM5"
+        }
+      ],
+      "nearbyReturnTransfers": [
+        {
+          "source": 40,
+          "x": 3,
+          "y": 3,
+          "spatial": true,
+          "destination": 8,
+          "arrival": [
+            8,
+            12
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 3431,
+          "line": 3,
+          "sourceName": "Troll Holes",
+          "destinationName": "Area B4",
+          "scope": "MM5"
+        }
+      ]
+    },
+    {
+      "id": "troll_b",
+      "sources": [
+        [
+          8,
+          12,
+          13
+        ]
+      ],
+      "sourceSites": [
+        {
+          "map": 8,
+          "x": 12,
+          "y": 13,
+          "spatial": true,
+          "npcTitles": [],
+          "services": [],
+          "labels": [
+            "Troll Hole. Descend?"
+          ],
+          "dialogueTextIndices": [],
+          "eventRecords": 11,
+          "transfers": [
+            {
+              "destination": 40,
+              "arrival": [
+                9,
+                3
+              ],
+              "kind": "fall",
+              "eventOffset": 517,
+              "line": 8
+            },
+            {
+              "destination": 40,
+              "arrival": [
+                9,
+                3
+              ],
+              "kind": "teleport/exit",
+              "eventOffset": 534,
+              "line": 10
+            }
+          ],
+          "mapName": "Area B4"
+        }
+      ],
+      "outgoingTransfers": [
+        {
+          "source": 8,
+          "x": 12,
+          "y": 13,
+          "spatial": true,
+          "destination": 40,
+          "arrival": [
+            9,
+            3
+          ],
+          "kind": "fall",
+          "eventOffset": 517,
+          "line": 8,
+          "sourceName": "Area B4",
+          "destinationName": "Troll Holes",
+          "scope": "MM5"
+        },
+        {
+          "source": 8,
+          "x": 12,
+          "y": 13,
+          "spatial": true,
+          "destination": 40,
+          "arrival": [
+            9,
+            3
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 534,
+          "line": 10,
+          "sourceName": "Area B4",
+          "destinationName": "Troll Holes",
+          "scope": "MM5"
+        }
+      ],
+      "nearbyReturnTransfers": [
+        {
+          "source": 40,
+          "x": 9,
+          "y": 3,
+          "spatial": true,
+          "destination": 8,
+          "arrival": [
+            12,
+            13
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 3462,
+          "line": 3,
+          "sourceName": "Troll Holes",
+          "destinationName": "Area B4",
+          "scope": "MM5"
+        }
+      ]
+    },
+    {
+      "id": "troll_c",
+      "sources": [
+        [
+          8,
+          11,
+          6
+        ]
+      ],
+      "sourceSites": [
+        {
+          "map": 8,
+          "x": 11,
+          "y": 6,
+          "spatial": true,
+          "npcTitles": [],
+          "services": [],
+          "labels": [
+            "Troll Hole. Descend?"
+          ],
+          "dialogueTextIndices": [],
+          "eventRecords": 11,
+          "transfers": [
+            {
+              "destination": 40,
+              "arrival": [
+                15,
+                3
+              ],
+              "kind": "fall",
+              "eventOffset": 608,
+              "line": 8
+            },
+            {
+              "destination": 40,
+              "arrival": [
+                15,
+                3
+              ],
+              "kind": "teleport/exit",
+              "eventOffset": 625,
+              "line": 10
+            }
+          ],
+          "mapName": "Area B4"
+        }
+      ],
+      "outgoingTransfers": [
+        {
+          "source": 8,
+          "x": 11,
+          "y": 6,
+          "spatial": true,
+          "destination": 40,
+          "arrival": [
+            15,
+            3
+          ],
+          "kind": "fall",
+          "eventOffset": 608,
+          "line": 8,
+          "sourceName": "Area B4",
+          "destinationName": "Troll Holes",
+          "scope": "MM5"
+        },
+        {
+          "source": 8,
+          "x": 11,
+          "y": 6,
+          "spatial": true,
+          "destination": 40,
+          "arrival": [
+            15,
+            3
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 625,
+          "line": 10,
+          "sourceName": "Area B4",
+          "destinationName": "Troll Holes",
+          "scope": "MM5"
+        }
+      ],
+      "nearbyReturnTransfers": [
+        {
+          "source": 40,
+          "x": 15,
+          "y": 3,
+          "spatial": true,
+          "destination": 8,
+          "arrival": [
+            11,
+            6
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 3493,
+          "line": 3,
+          "sourceName": "Troll Holes",
+          "destinationName": "Area B4",
+          "scope": "MM5"
+        }
+      ]
+    },
+    {
+      "id": "sewer_out",
+      "sources": [
+        [
+          4,
+          14,
+          8
+        ]
+      ],
+      "sourceSites": [
+        {
+          "map": 4,
+          "x": 14,
+          "y": 8,
+          "spatial": true,
+          "npcTitles": [],
+          "services": [],
+          "labels": [
+            "Enter?"
+          ],
+          "dialogueTextIndices": [],
+          "eventRecords": 5,
+          "transfers": [
+            {
+              "destination": 30,
+              "arrival": [
+                17,
+                0
+              ],
+              "kind": "teleport/exit",
+              "eventOffset": 1061,
+              "line": 4
+            }
+          ],
+          "mapName": "Area A4"
+        }
+      ],
+      "outgoingTransfers": [
+        {
+          "source": 4,
+          "x": 14,
+          "y": 8,
+          "spatial": true,
+          "destination": 30,
+          "arrival": [
+            17,
+            0
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 1061,
+          "line": 4,
+          "sourceName": "Area A4",
+          "destinationName": "Castleview Sewer",
+          "scope": "MM5"
+        }
+      ],
+      "nearbyReturnTransfers": [
+        {
+          "source": 30,
+          "x": 17,
+          "y": 0,
+          "spatial": true,
+          "destination": 4,
+          "arrival": [
+            14,
+            8
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 2795,
+          "line": 0,
+          "sourceName": "Castleview Sewer",
+          "destinationName": "Area A4",
+          "scope": "MM5"
+        }
+      ]
+    },
+    {
+      "id": "skyrope",
+      "sources": [
+        [
+          3,
+          14,
+          7
+        ]
+      ],
+      "sourceSites": [
+        {
+          "map": 3,
+          "x": 14,
+          "y": 7,
+          "spatial": true,
+          "npcTitles": [],
+          "services": [],
+          "labels": [
+            "A strange rope rises up through the ceiling. Climb?"
+          ],
+          "dialogueTextIndices": [],
+          "eventRecords": 4,
+          "transfers": [
+            {
+              "destination": 91,
+              "arrival": [
+                13,
+                8
+              ],
+              "kind": "teleport/exit",
+              "eventOffset": 2144,
+              "line": 3
+            }
+          ],
+          "mapName": "Area A3"
+        }
+      ],
+      "outgoingTransfers": [
+        {
+          "source": 3,
+          "x": 14,
+          "y": 7,
+          "spatial": true,
+          "destination": 91,
+          "arrival": [
+            13,
+            8
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 2144,
+          "line": 3,
+          "sourceName": "Area A3",
+          "destinationName": "Skyroad A3",
+          "scope": "MM5"
+        }
+      ],
+      "nearbyReturnTransfers": [
+        {
+          "source": 91,
+          "x": 13,
+          "y": 7,
+          "spatial": true,
+          "destination": 3,
+          "arrival": [
+            14,
+            7
+          ],
+          "kind": "teleport/exit",
+          "eventOffset": 158,
+          "line": 3,
+          "sourceName": "Skyroad A3",
+          "destinationName": "Area A3",
+          "scope": "MM5"
+        }
+      ]
+    }
+  ],
+  "returnSelection": "Original reverse-destination transfers whose arrival is within two source-grid steps of this site; review the specific entry/return before activating travel."
+}

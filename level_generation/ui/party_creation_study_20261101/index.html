@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Party Creation Study</title>
+<style>
+@font-face { font-family: Fondamento; src: url(../menu_study_20260928/assets/fonts/Fondamento-Regular.ttf); }
+@font-face { font-family: SourceSans; src: url(../menu_study_20260928/assets/fonts/SourceSans3.ttf); font-weight: 200 900; }
+@font-face { font-family: SourceSerif; src: url(../menu_study_20260928/assets/fonts/SourceSerif4.ttf); font-weight: 200 900; }
+:root { color-scheme: dark; --ivory: #eadfc6; --gold: #d3b67b; --muted: #aeb4a9; --line: #39413a; --good: #9fd57f; --mid: #e9c45a; --weak: #ee8f7a; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #0b1112; color: var(--ivory); font: 16px/1.5 SourceSans, sans-serif; }
+main { max-width: 1320px; margin: auto; padding: 28px 24px 60px; }
+h1, h2, h3 { font-family: Fondamento, serif; font-weight: normal; color: #efe0bc; margin: 0; }
+h1 { font-size: 40px; }
+h2 { font-size: 29px; margin: 40px 0 12px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+h3 { font-size: 24px; }
+p { margin: 8px 0; max-width: 980px; }
+a { color: #e1c88f; }
+.lead { color: #c7c2ad; font-size: 18px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+.card { background: #121a19; border: 1px solid #3c463e; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.card img { width: 100%; display: block; border: 1px solid #2c332e; }
+.card .links { display: flex; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+.card .open { display: inline-block; padding: 6px 14px; border: 1px solid #93805a; background: #2b3027; font-family: Fondamento, serif; font-size: 19px; color: #f0d9a8; text-decoration: none; }
+.card p { font-size: 15px; color: #c9c5b2; margin: 0; }
+.rec { border: 1px solid #a48d5d; background: linear-gradient(#2c281bcc, #131a17); padding: 6px 18px 12px; margin-top: 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; margin-top: 8px; }
+th, td { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+th { color: #b9b39c; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+td:first-child { color: #e1d3b0; width: 190px; }
+.g { color: var(--good); } .m { color: var(--mid); } .w { color: var(--weak); }
+.gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.gallery figure { margin: 0; }
+.gallery img { width: 100%; border: 1px solid #2c332e; display: block; }
+figcaption { font-size: 14px; color: #a9ab9a; margin-top: 4px; }
+ul { margin: 6px 0; padding-left: 22px; max-width: 1000px; }
+li { margin: 3px 0; }
+code { font-size: 14px; color: #d8cfb5; background: #1a2221; padding: 1px 4px; }
+@media (max-width: 900px) { .cards, .gallery { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+<h1>Party creation — three approaches</h1>
+<p class="lead">Interactive Carved Obsidian mockups for a full-screen OpenYAMM party creation screen, built on the real MMerge tables
+(classes, caps, promotions, race rules, portraits, voices) for the Standard and MAW rulesets, with the real voice lines playable.
+Each page renders the game's 853⅓×480 menu canvas and can simulate a 4:3 window and a 6.5″ phone (touch input, 9 mm fingertip).
+Serve the repository root (<code>python3 -m http.server 8917</code>) and open the pages; the review bar switches approach,
+rules, continent, view and party.</p>
+
+<div class="cards">
+  <div class="card"><h3>A · Five columns</h3><a href="a.html"><img src="shots/a-desktop.png" alt="Approach A"></a>
+    <p>Vanilla MM7 heritage: all five adventurers side by side with portrait, class, voice, racial line, attributes and
+    starting skills. One shared strip below shows the selected column's full skill list (40 chips) with party markers.</p>
+    <div class="links"><a class="open" href="a.html">Open A</a><a href="shots/a-4x3.png">4:3</a><a href="shots/a-phone.png">phone</a><a href="shots/a-maw.png">MAW</a></div></div>
+  <div class="card"><h3>B · Skill board</h3><a href="b.html"><img src="shots/b-desktop.png" alt="Approach B"></a>
+    <p>The "skill bingo" is the screen: skills as rows, the five members as columns, every cell showing what that member
+    starts with, can choose, learns later or after promotion. A one-member editor sits on the left.</p>
+    <div class="links"><a class="open" href="b.html">Open B</a><a href="shots/b-4x3.png">4:3</a><a href="shots/b-phone.png">phone</a><a href="shots/b-maw.png">MAW</a></div></div>
+  <div class="card"><h3>C · Focus + rail</h3><a href="c.html"><img src="shots/c-desktop.png" alt="Approach C"></a>
+    <p>One large character sheet (portrait, class, voice card, race card, attributes) with a roster rail of five cards,
+    and the whole skill list as wide rows below. <b>Party board</b> opens approach B's board as an overlay.</p>
+    <div class="links"><a class="open" href="c.html">Open C</a><a href="shots/c-4x3.png">4:3</a><a href="shots/c-phone.png">phone</a><a href="shots/c-maw.png">MAW</a><a href="shots/c-board-overlay.png">board overlay</a></div></div>
+</div>
+
+<div class="rec">
+<h2 style="margin-top:12px">Recommendation: C, with B's board as its "Party board" overlay</h2>
+<p><b>Build approach C</b> as the screen and keep approach B's board as a full-screen overlay one button away (already wired in
+<a href="c.html">c.html</a>). C reads best: one adventurer at a time, with racial traits, voice and mastery spelled out in
+full sentences and the complete skill list always visible with party markers. It has the largest controls of the three,
+so it degrades least on Android and on a letterboxed 4:3 window, and it keeps the current
+<code>NewGameScreen</code> model (one edited <code>m_state</code> plus <code>m_partyStates</code>), so it is the cheapest
+to build. The board covers what C lacks — whole-party planning — without making it the default for players who just want
+a party.</p>
+<p>Choose <b>A</b> instead if the MM7 look of five full columns matters most. It is the most authentic and shows every
+attribute at once, but its seventy small stepper buttons and 1.7 mm median targets on a phone make it the least
+comfortable, and drawing five live editors needs per-slot versions of the stat and skill logic.</p>
+</div>
+
+<h2>Comparison</h2>
+<table>
+<tr><th></th><th>A · Five columns</th><th>B · Skill board</th><th>C · Focus + rail</th></tr>
+<tr><td>Party at a glance</td><td class="g">Best: portraits, classes, attributes and starting skills of all five</td><td class="m">Portraits and classes in the board header; attributes of one member only</td><td class="m">Rail cards: portrait, class, race, "7 pts · 1 skill to go"</td></tr>
+<tr><td>Skill bingo / coverage</td><td class="m">Numbered party markers on the selected member's chips</td><td class="g">The whole matrix, the party's best mastery per skill, "covers 21 of 36" summary</td><td class="m">Markers on each row, plus the full board as an overlay</td></tr>
+<tr><td>Readability of one character</td><td class="w">Dense: 23 px rows, short racial line, starting skills truncated in MAW</td><td class="m">Good editor; board cells are letters at 13 logical units</td><td class="g">Best: race card in sentences, voice card, 30 px skill rows with names in full</td></tr>
+<tr><td>How 40 (MAW 44) skills appear</td><td>8 (9) × 5 chip grid for the selected member, always visible</td><td>Two half-boards of 18 + 22 rows (21 + 23 MAW), five member columns</td><td>Four columns of rows grouped Weapons / Armour / Magic / Racial / Misc; 26 px rows in MAW</td></tr>
+<tr><td>How 5 members appear</td><td>Five equal columns; empty ones become "Add adventurer"</td><td>Five board columns + one editor</td><td>Five rail cards + one sheet</td></tr>
+<tr><td>Phone (measured)</td><td class="w">161 targets, 3 % ≥ 5 mm tall, median 1.7 mm</td><td class="w">277 targets, 4 % ≥ 5 mm, median 1.8 mm</td><td class="m">74 targets, 8 % ≥ 5 mm, median 2.3 mm</td></tr>
+<tr><td>4:3 window</td><td class="w">Canvas letterboxed to 75 %: the chips become small</td><td class="w">Letterboxed: board cells at the edge of legibility</td><td class="m">Letterboxed but still comfortable</td></tr>
+<tr><td>Implementation vs current code</td><td class="w">Medium–high: five live editors need per-slot stat/skill functions (today only <code>bonusPoolForState</code> takes a state)</td><td class="m">Medium: today's editor + a read-only per-slot board; a cell click activates that slot</td><td class="g">Lowest: today's single-member flow; new rail, race/voice cards, skill rows and the shared popups</td></tr>
+</table>
+<p style="font-size:14px;color:#a9ab9a">Phone numbers: every interactive element measured on a 6.5″ 20:9 phone (the 480-unit canvas is 67.7 mm tall,
+0.141 mm per unit; <code>smallTargetAudit()</code> in common.js, recorded in <a href="validation.json">validation.json</a>). No layout that keeps
+all 40 skills on screen can give 7 mm rows (40 × 7 mm = 280 mm), so every approach makes touch work in two steps: a tap
+selects, and a card with large Choose / Plan buttons acts. The review bar's "Mark &lt;5 mm targets" outlines the small ones.</p>
+
+<h2>Shared by all three</h2>
+<ul>
+<li><b>Portrait grid</b> instead of arrows: every offered portrait grouped by race, each race header carrying its bonuses,
+filters for male and female, the portrait number and its voice on every tile, and a party badge on portraits already in use.</li>
+<li><b>Class picker</b> with each class's Grandmaster skills on its card and a structured <b>mastery table</b> for this race:
+rows are skills, columns are the starting class and every promotion (for example Thief, Rogue, Assassin, Spy), with the ranks a promotion
+adds shaded. The same table opens from "Mastery table" on any member.</li>
+<li><b>Skill card</b> (hover or right button on desktop, tap on touch): description, then one row per mastery with its effect and
+whether this character has it now, after a named promotion, or never; who in the party has or plans the skill.</li>
+<li><b>Racial bonuses in plain sight</b>: ▲/▼ attributes with their point cost and maximum, race skill rules grouped by effect
+("+1 mastery rank: Merchant, Perception"), MAW's +3 skills and resistances, and race tags on the affected skills.</li>
+<li><b>Planner</b>: Plan mode (or the card's "Plan for later") flags skills a member should learn later, including ones that
+only open after promotion; plans appear as hollow party markers and dashed blue outlines.</li>
+<li><b>Voices</b>: "Voice N" is portrait #N's own voice, so a portrait and its voice share a number (the two dragons that share a
+voice show it). The voice picker lists voices of the same kind with the portraits that use them and plays real lines
+(Choose me, Hello, Yes, Thanks, Victory… and "all 84"), decoded from the game's IMA ADPCM WAVs.</li>
+</ul>
+
+<h2>Popups</h2>
+<div class="gallery">
+<figure><img src="shots/popup-portraits.png" alt=""><figcaption>Portrait grid, grouped by race with racial bonuses</figcaption></figure>
+<figure><img src="shots/popup-class.png" alt=""><figcaption>Class picker with the structured mastery table (Dwarf Thief line)</figcaption></figure>
+<figure><img src="shots/popup-voice.png" alt=""><figcaption>Voice picker: numbered by owner portrait, real lines</figcaption></figure>
+<figure><img src="shots/popup-skill-card.png" alt=""><figcaption>Skill card: mastery now / after promotion / never</figcaption></figure>
+<figure><img src="shots/c-board-overlay.png" alt=""><figcaption>C's Party board overlay (approach B's board)</figcaption></figure>
+<figure><img src="shots/c-phone.png" alt=""><figcaption>C on a phone: tap opens the action card; red outlines are targets under 5 mm</figcaption></figure>
+</div>
+
+<h2>Open questions</h2>
+<p>See <a href="README.md">README.md</a> for the design notes, data sources and the full list. In short:</p>
+<ul>
+<li>A, B or C, and should C's board overlay stay?</li>
+<li>Keep the paperdoll? None of the mockups shows it; C could fit a small one beside the portrait.</li>
+<li>Voice choices: same kind only (as today) or all voices behind a toggle (as here)? And do you want the "Voice N = portrait #N" naming?</li>
+<li>Should the planner be saved with the party (a journal note or party sheet marker) or exist only during creation?</li>
+<li>On phones, should menus use the full 20:9 width instead of a pillarboxed 16:9 canvas? That alone gives 25 % more room.</li>
+</ul>
+</main>
+</body>
+</html>

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "drsrew",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-088e270a-af0c-481a-b960-45073e03b33e.png",
+    "raw_sha256": "dde4abd6f80575639d487f0ca62cf8d6edac26c7788369446ba4fdbe93705386",
+    "prompt_sha256": "7904a0fd9185794a8afa709273ed26bde891f4b0d42746aa905f88f8531e2292",
+    "inputs": {
+      "roads/v1/inputs/drsrew_join_offset.png": "b8fa8f943486abaecad31e1342a8d0326de2ea0c47a41991a8c6813878b1a5ce"
+    }
+  },
+  {
+    "name": "drsrns",
+    "tool": "built_in_image_gen",
+    "source_cache_path": "/home/pjasicek/.codex/generated_images/01a07fff-d641-78c1-a58a-4501f7c594bd/exec-947bb3ef-d9e1-4b9f-ac9b-d168ccf5caf5.png",
+    "raw_sha256": "828eeafbd2cde9f755c052f802ab2fba70ea53593f0bbe78b0e12444e9180f02",
+    "prompt_sha256": "c6e0a0218d25ef4a4b0502472193aa2e13a83301fad2c5871bcab45cdff90353",
+    "inputs": {
+      "roads/v1/inputs/drsrns_join_offset.png": "d132adf33687b1b0f2aa9bfd7b0dedd9521cd6613532759d199fe6d55e2dfa7d"
+    }
+  }
+]

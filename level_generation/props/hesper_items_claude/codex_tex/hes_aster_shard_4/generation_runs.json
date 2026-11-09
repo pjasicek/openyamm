@@ -1,0 +1,542 @@
+{
+  "item": "hes_aster_shard_4",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "unresized_returns": true,
+  "max_corrective_regenerations_per_view": 1,
+  "status": "generated_with_unresolved_validation_failures",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit / texture-source painting.\nOutput ONE 1024 x 1024 RGBA PNG, with genuine transparent background, no text.\nImage 1 is the EDIT TARGET: the plain orthographic guide. Image 2 is the MATERIAL/DESIGN REFERENCE ONLY: approved Aster memory shard artwork. Paint directly inside Image 1, preserving Image 1's alpha silhouette, canvas, scale, position, all part boundaries, straight edges, corners, overlaps and empty gaps EXACTLY. Do not reproduce Image 2's upright silhouette, pose, framing or lighting. Do not assemble, rotate, remodel, enlarge or reposition any guide part. Keep every existing guide pixel occupied, and every transparent guide pixel transparent. No extra parts, no external glow, no chips added to the outline. Guide light tints identify materials, NOT the final palette.\nMATERIALS: The large pale-blue faceted guide part becomes the reference's icy medium-blue crystal with subtle fine crystalline grain and hairline internal fractures, plus delicate branching blue-white memory-light veins and small bright blue-white nodes. Keep these vein colours bright, clean and sharply defined, without bloom or light spill. Crystal appearance belongs in RGB surface paint; keep the crystal interior opaque in alpha for texture baking. The smaller light-grey guide part becomes the reference's warm ivory-white ceramic mounting cap with fine wear, fine seams, elegant curved brushed-gold bands/panel borders and a small inset blue-white light detail. Gold is a restrained warm gold base colour with only a faint brushed sheen. Fit all decoration INTO the guide surfaces; do not add protruding gold claws or extensions outside them. Continue unseen faces plausibly from the same materials. Include only materials present in this design: no cloth, leather, paper, lettering or unrelated ornaments.\nLIGHTING: this is flat ALBEDO, not a beauty render. Even, flat, shadowless light from the viewer across every part. No cast shadows, no ambient occlusion, no dark underside shading, no directional illumination, no hot specular highlights, no strong reflections, no reflected environment, no rim light. Remove the guide's directional face shading, retaining facet divisions as subtle material boundaries. Glowing details are simply painted their bright light colour. Nothing behind or around the silhouette: no background fill, no checkerboard drawn into the image, no floor. No text, letters, labels, numerals or watermark.\n\nVIEW AND EXACT LAYOUT: FRONT orthographic view. Keep the horizontally oriented crystal pointing left, with the ceramic mounting cap at the right overlapping it exactly as the guide shows. The crystal has a straight horizontal facet edge at y=510, a short flat top at y=348 from x=408 to x=542, a left point at (108,510), and flat lower edge at y=671. The ceramic cap is the rounded polygon occupying approximately x=634..915, y=476..675; it is a solid surface, not a donut and has no new transparent holes. The total silhouette stays within x=108..915 and y=348..675. Blue-white branching memory veins originate near the crystal's right mounting end and branch toward its left tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "563f9cf1464a5ce707265a78e41789a3f289ba416c22e707b3716ce56e1b9b42",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-513a7cf1-313f-4a3c-ba94-39f35b045db4.png",
+      "output": "generation_attempts/paint_front_1.png",
+      "selected": false,
+      "reason": "Not selected: Selected correction: improved silhouette overlap and reduced reflective contrast. Exact guide silhouette and fully flat albedo requirements still fail; added crystal facets and gold prongs remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "74b6e179a12c482197e55b7e07c24712069bfeb01ff8835e90f19c1435782f7f",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          36,
+          1210,
+          1254
+        ],
+        "opaque_bbox": [
+          134,
+          397,
+          1150,
+          814
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.839728,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, front view. Make a TEXTURE PAINTOVER of the LAST attached image, guide_front.png. The first image, design_reference.png, supplies only materials and fine decorative design. Output exactly the LAST image's 1024 x 1024 pixel canvas and EXACT alpha mask. Leave every transparent pixel transparent and replace only the guide's surface colours. Preserve every silhouette edge and part boundary pixel-for-pixel. Do not invent any new bevels, facets, geometry, placement, outline, perspective, rim or thickness. The previous attempt drifted from the guide and had excessive highlights: correct these two problems.\nPaint the large guide crystal in a consistent moderate icy-blue base colour, fine subtle crystalline grain and hairline fractures, with delicate branching white-cyan memory lines and small blue-white nodes. Paint the small guide mounting cap in matte ivory ceramic with fine wear and thin brushed ochre-gold curved panel borders, with one small cyan-white inset. Use the approved design's motifs inside the guide only.\nStrict UNLIT ALBEDO appearance: equally illuminated upper and lower faces, no shading gradients, no white reflective patches, no large near-white crystal faces, no dark face, no metallic glare, no occlusion, no cast shadow, no outline glow, no highlight bands, no shiny bevels, no external sparkle. All crystal faces have similar medium-light blue values; gold has flat gold base colour with only faint fine brushing. Luminous lines are simply light-coloured paint, no bloom. Keep alpha opaque across all painted surfaces and truly zero outside the exact guide mask. No text or letters.\nVIEW LAYOUT: FRONT orthographic view. Keep the horizontally oriented crystal pointing left, with the ceramic mounting cap at the right overlapping it exactly as the guide shows. The crystal has a straight horizontal facet edge at y=510, a short flat top at y=348 from x=408 to x=542, a left point at (108,510), and flat lower edge at y=671. The ceramic cap is the rounded polygon occupying approximately x=634..915, y=476..675; it is a solid surface, not a donut and has no new transparent holes. The total silhouette stays within x=108..915 and y=348..675. Blue-white branching memory veins originate near the crystal's right mounting end and branch toward its left tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "563f9cf1464a5ce707265a78e41789a3f289ba416c22e707b3716ce56e1b9b42",
+          "role": "edit_target"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-0315a553-a624-4582-bb2b-416d5b3dce26.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected correction: improved silhouette overlap and reduced reflective contrast. Exact guide silhouette and fully flat albedo requirements still fail; added crystal facets and gold prongs remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "d3d47e44e97ae6605fb64d2d294bd4b0d4a5cd43223134bab5f1f34430a23840",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          48,
+          1226,
+          1236
+        ],
+        "opaque_bbox": [
+          130,
+          420,
+          1130,
+          842
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.893852,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      },
+      "raw_attempt": "generation_attempts/paint_front_2.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit / texture-source painting.\nOutput ONE 1024 x 1024 RGBA PNG, with genuine transparent background, no text.\nImage 1 is the EDIT TARGET: the plain orthographic guide. Image 2 is the MATERIAL/DESIGN REFERENCE ONLY: approved Aster memory shard artwork. Paint directly inside Image 1, preserving Image 1's alpha silhouette, canvas, scale, position, all part boundaries, straight edges, corners, overlaps and empty gaps EXACTLY. Do not reproduce Image 2's upright silhouette, pose, framing or lighting. Do not assemble, rotate, remodel, enlarge or reposition any guide part. Keep every existing guide pixel occupied, and every transparent guide pixel transparent. No extra parts, no external glow, no chips added to the outline. Guide light tints identify materials, NOT the final palette.\nMATERIALS: The large pale-blue faceted guide part becomes the reference's icy medium-blue crystal with subtle fine crystalline grain and hairline internal fractures, plus delicate branching blue-white memory-light veins and small bright blue-white nodes. Keep these vein colours bright, clean and sharply defined, without bloom or light spill. Crystal appearance belongs in RGB surface paint; keep the crystal interior opaque in alpha for texture baking. The smaller light-grey guide part becomes the reference's warm ivory-white ceramic mounting cap with fine wear, fine seams, elegant curved brushed-gold bands/panel borders and a small inset blue-white light detail. Gold is a restrained warm gold base colour with only a faint brushed sheen. Fit all decoration INTO the guide surfaces; do not add protruding gold claws or extensions outside them. Continue unseen faces plausibly from the same materials. Include only materials present in this design: no cloth, leather, paper, lettering or unrelated ornaments.\nLIGHTING: this is flat ALBEDO, not a beauty render. Even, flat, shadowless light from the viewer across every part. No cast shadows, no ambient occlusion, no dark underside shading, no directional illumination, no hot specular highlights, no strong reflections, no reflected environment, no rim light. Remove the guide's directional face shading, retaining facet divisions as subtle material boundaries. Glowing details are simply painted their bright light colour. Nothing behind or around the silhouette: no background fill, no checkerboard drawn into the image, no floor. No text, letters, labels, numerals or watermark.\n\nVIEW AND EXACT LAYOUT: BACK orthographic view. Keep the horizontally oriented crystal pointing right, with the ceramic mounting cap on the left partly occluded by the crystal exactly as the guide shows. The crystal runs from (250,510) to its right point at (915,510), with flat top at y=348 from x=482 to x=617 and flat lower edge at y=671. Ceramic cap occupies approximately x=108..390, y=476..675. The total silhouette stays within x=108..915 and y=348..675. Continue the same blue crystal, brushed gold and ivory ceramic plausibly on these rear faces; blue-white memory veins extend from the crystal's left mounting end toward its right tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "2d4310c2e1c1e4d76ff856751f9898dc6419e8dc17db8051aba1adfb449c79e5",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-0044fd52-9cf9-4977-b86c-bc569488400c.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected initial return: higher silhouette overlap than the correction and better preservation of the ceramic cap behind the crystal. Correction introduced prominent forward gold prongs. Reflective facet shading and outline drift remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "aed02d4e449c3a25da208e60298eb2df7ec2c14826aefcdd8af633364ea3cbc0",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          29,
+          1232,
+          1230
+        ],
+        "opaque_bbox": [
+          127,
+          424,
+          1139,
+          832
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.933682,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      },
+      "raw_attempt": "generation_attempts/paint_back_1.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, back view. Make a TEXTURE PAINTOVER of the LAST attached image, guide_back.png. The first image, design_reference.png, supplies only materials and fine decorative design. Output exactly the LAST image's 1024 x 1024 pixel canvas and EXACT alpha mask. Leave every transparent pixel transparent and replace only the guide's surface colours. Preserve every silhouette edge and part boundary pixel-for-pixel. Do not invent any new bevels, facets, geometry, placement, outline, perspective, rim or thickness. The previous attempt drifted from the guide and had excessive highlights: correct these two problems.\nPaint the large guide crystal in a consistent moderate icy-blue base colour, fine subtle crystalline grain and hairline fractures, with delicate branching white-cyan memory lines and small blue-white nodes. Paint the small guide mounting cap in matte ivory ceramic with fine wear and thin brushed ochre-gold curved panel borders, with one small cyan-white inset. Use the approved design's motifs inside the guide only.\nStrict UNLIT ALBEDO appearance: equally illuminated upper and lower faces, no shading gradients, no white reflective patches, no large near-white crystal faces, no dark face, no metallic glare, no occlusion, no cast shadow, no outline glow, no highlight bands, no shiny bevels, no external sparkle. All crystal faces have similar medium-light blue values; gold has flat gold base colour with only faint fine brushing. Luminous lines are simply light-coloured paint, no bloom. Keep alpha opaque across all painted surfaces and truly zero outside the exact guide mask. No text or letters.\nVIEW LAYOUT: BACK orthographic view. Keep the horizontally oriented crystal pointing right, with the ceramic mounting cap on the left partly occluded by the crystal exactly as the guide shows. The crystal runs from (250,510) to its right point at (915,510), with flat top at y=348 from x=482 to x=617 and flat lower edge at y=671. Ceramic cap occupies approximately x=108..390, y=476..675. The total silhouette stays within x=108..915 and y=348..675. Continue the same blue crystal, brushed gold and ivory ceramic plausibly on these rear faces; blue-white memory veins extend from the crystal's left mounting end toward its right tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "2d4310c2e1c1e4d76ff856751f9898dc6419e8dc17db8051aba1adfb449c79e5",
+          "role": "edit_target"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-e21a7558-bcea-4378-96ac-7fbdf40d6f96.png",
+      "output": "generation_attempts/paint_back_2.png",
+      "selected": false,
+      "reason": "Not selected: Selected initial return: higher silhouette overlap than the correction and better preservation of the ceramic cap behind the crystal. Correction introduced prominent forward gold prongs. Reflective facet shading and outline drift remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "24fda075a592f0a5b81a1f728b598a50ced968d31b7815caeb14404f1608095e",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1238,
+          1254
+        ],
+        "opaque_bbox": [
+          127,
+          426,
+          1138,
+          837
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.916048,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit / texture-source painting.\nOutput ONE 1024 x 1024 RGBA PNG, with genuine transparent background, no text.\nImage 1 is the EDIT TARGET: the plain orthographic guide. Image 2 is the MATERIAL/DESIGN REFERENCE ONLY: approved Aster memory shard artwork. Paint directly inside Image 1, preserving Image 1's alpha silhouette, canvas, scale, position, all part boundaries, straight edges, corners, overlaps and empty gaps EXACTLY. Do not reproduce Image 2's upright silhouette, pose, framing or lighting. Do not assemble, rotate, remodel, enlarge or reposition any guide part. Keep every existing guide pixel occupied, and every transparent guide pixel transparent. No extra parts, no external glow, no chips added to the outline. Guide light tints identify materials, NOT the final palette.\nMATERIALS: The large pale-blue faceted guide part becomes the reference's icy medium-blue crystal with subtle fine crystalline grain and hairline internal fractures, plus delicate branching blue-white memory-light veins and small bright blue-white nodes. Keep these vein colours bright, clean and sharply defined, without bloom or light spill. Crystal appearance belongs in RGB surface paint; keep the crystal interior opaque in alpha for texture baking. The smaller light-grey guide part becomes the reference's warm ivory-white ceramic mounting cap with fine wear, fine seams, elegant curved brushed-gold bands/panel borders and a small inset blue-white light detail. Gold is a restrained warm gold base colour with only a faint brushed sheen. Fit all decoration INTO the guide surfaces; do not add protruding gold claws or extensions outside them. Continue unseen faces plausibly from the same materials. Include only materials present in this design: no cloth, leather, paper, lettering or unrelated ornaments.\nLIGHTING: this is flat ALBEDO, not a beauty render. Even, flat, shadowless light from the viewer across every part. No cast shadows, no ambient occlusion, no dark underside shading, no directional illumination, no hot specular highlights, no strong reflections, no reflected environment, no rim light. Remove the guide's directional face shading, retaining facet divisions as subtle material boundaries. Glowing details are simply painted their bright light colour. Nothing behind or around the silhouette: no background fill, no checkerboard drawn into the image, no floor. No text, letters, labels, numerals or watermark.\n\nVIEW AND EXACT LAYOUT: LEFT orthographic view. There are TWO SEPARATE DISCONNECTED silhouettes, with a narrow transparent gap; DO NOT join them. Crystal lies horizontally at x=66..732, y=348..671, with left tip (66,510), right tip (732,510), flat top from (366,348) to (499,348), and flat bottom at y=671. Separate ceramic mounting cap lies to the right at x=741..957, y=476..675; broad vertical end at left, tapered smaller end to the right. Preserve this exact spacing and both silhouettes. Blue-white branching memory veins spread from the crystal's right mounting end toward its left tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "1ca986d8f29b8a1d3bff6d9ac795fd224e0ba4bae9e4c5f0775f128a2d5a9d49",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-9a3adafe-a197-4bb2-bc7b-996505cae844.png",
+      "output": "generation_attempts/paint_left_1.png",
+      "selected": false,
+      "reason": "Not selected: Selected correction: substantially improved silhouette overlap and placement, preserved the disconnected cap, and reduced reflective contrast. Added facets, residual shading and edge drift remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "7ac5d9d008d2154beea771231a76a9ea33bdf997bacbcbad1e164577380e5820",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          68,
+          1222,
+          1254
+        ],
+        "opaque_bbox": [
+          84,
+          456,
+          1184,
+          873
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.700792,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, left view. Make a TEXTURE PAINTOVER of the LAST attached image, guide_left.png. The first image, design_reference.png, supplies only materials and fine decorative design. Output exactly the LAST image's 1024 x 1024 pixel canvas and EXACT alpha mask. Leave every transparent pixel transparent and replace only the guide's surface colours. Preserve every silhouette edge and part boundary pixel-for-pixel. Do not invent any new bevels, facets, geometry, placement, outline, perspective, rim or thickness. The previous attempt drifted from the guide and had excessive highlights: correct these two problems.\nPaint the large guide crystal in a consistent moderate icy-blue base colour, fine subtle crystalline grain and hairline fractures, with delicate branching white-cyan memory lines and small blue-white nodes. Paint the small guide mounting cap in matte ivory ceramic with fine wear and thin brushed ochre-gold curved panel borders, with one small cyan-white inset. Use the approved design's motifs inside the guide only.\nStrict UNLIT ALBEDO appearance: equally illuminated upper and lower faces, no shading gradients, no white reflective patches, no large near-white crystal faces, no dark face, no metallic glare, no occlusion, no cast shadow, no outline glow, no highlight bands, no shiny bevels, no external sparkle. All crystal faces have similar medium-light blue values; gold has flat gold base colour with only faint fine brushing. Luminous lines are simply light-coloured paint, no bloom. Keep alpha opaque across all painted surfaces and truly zero outside the exact guide mask. No text or letters.\nVIEW LAYOUT: LEFT orthographic view. There are TWO SEPARATE DISCONNECTED silhouettes, with a narrow transparent gap; DO NOT join them. Crystal lies horizontally at x=66..732, y=348..671, with left tip (66,510), right tip (732,510), flat top from (366,348) to (499,348), and flat bottom at y=671. Separate ceramic mounting cap lies to the right at x=741..957, y=476..675; broad vertical end at left, tapered smaller end to the right. Preserve this exact spacing and both silhouettes. Blue-white branching memory veins spread from the crystal's right mounting end toward its left tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "1ca986d8f29b8a1d3bff6d9ac795fd224e0ba4bae9e4c5f0775f128a2d5a9d49",
+          "role": "edit_target"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-060de5bf-12c6-466c-8d58-c938ed8f2176.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction: substantially improved silhouette overlap and placement, preserved the disconnected cap, and reduced reflective contrast. Added facets, residual shading and edge drift remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "f78ec1db417039f787282c0ac536d162712a60025ddc92b5c3d52dab51e14c3f",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          25,
+          43,
+          1218,
+          1254
+        ],
+        "opaque_bbox": [
+          93,
+          429,
+          1174,
+          830
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.961106,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      },
+      "raw_attempt": "generation_attempts/paint_left_2.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit / texture-source painting.\nOutput ONE 1024 x 1024 RGBA PNG, with genuine transparent background, no text.\nImage 1 is the EDIT TARGET: the plain orthographic guide. Image 2 is the MATERIAL/DESIGN REFERENCE ONLY: approved Aster memory shard artwork. Paint directly inside Image 1, preserving Image 1's alpha silhouette, canvas, scale, position, all part boundaries, straight edges, corners, overlaps and empty gaps EXACTLY. Do not reproduce Image 2's upright silhouette, pose, framing or lighting. Do not assemble, rotate, remodel, enlarge or reposition any guide part. Keep every existing guide pixel occupied, and every transparent guide pixel transparent. No extra parts, no external glow, no chips added to the outline. Guide light tints identify materials, NOT the final palette.\nMATERIALS: The large pale-blue faceted guide part becomes the reference's icy medium-blue crystal with subtle fine crystalline grain and hairline internal fractures, plus delicate branching blue-white memory-light veins and small bright blue-white nodes. Keep these vein colours bright, clean and sharply defined, without bloom or light spill. Crystal appearance belongs in RGB surface paint; keep the crystal interior opaque in alpha for texture baking. The smaller light-grey guide part becomes the reference's warm ivory-white ceramic mounting cap with fine wear, fine seams, elegant curved brushed-gold bands/panel borders and a small inset blue-white light detail. Gold is a restrained warm gold base colour with only a faint brushed sheen. Fit all decoration INTO the guide surfaces; do not add protruding gold claws or extensions outside them. Continue unseen faces plausibly from the same materials. Include only materials present in this design: no cloth, leather, paper, lettering or unrelated ornaments.\nLIGHTING: this is flat ALBEDO, not a beauty render. Even, flat, shadowless light from the viewer across every part. No cast shadows, no ambient occlusion, no dark underside shading, no directional illumination, no hot specular highlights, no strong reflections, no reflected environment, no rim light. Remove the guide's directional face shading, retaining facet divisions as subtle material boundaries. Glowing details are simply painted their bright light colour. Nothing behind or around the silhouette: no background fill, no checkerboard drawn into the image, no floor. No text, letters, labels, numerals or watermark.\n\nVIEW AND EXACT LAYOUT: RIGHT orthographic view. There are TWO SEPARATE DISCONNECTED silhouettes, with a narrow transparent gap; DO NOT join them. Crystal lies horizontally at x=291..957, y=348..671, with left tip (291,510), right tip (957,510), flat top from (525,348) to (658,348), and flat bottom at y=671. Separate ceramic mounting cap lies to the left at x=66..282, y=476..675; broad vertical end at right, tapered smaller end to the left. Preserve this exact spacing and both silhouettes. Blue-white branching memory veins spread from the crystal's left mounting end toward its right tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "ec0ba6fe0edbd5750bab2cf448ef71fef054566f23e464c7049cd578eaaafcfe",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-e45716b9-790e-421f-8642-d1be37d1d377.png",
+      "output": "generation_attempts/paint_right_1.png",
+      "selected": false,
+      "reason": "Not selected: Selected correction: improved silhouette overlap and reduced reflective contrast. Crystal and cap still drift from guide boundaries; facet highlights and edge artifacts remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "014ab7d2623c6883e62b1fcfb69b320fc97aa5cd9163b1d2669ae5ab51701c17",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1244,
+          1220
+        ],
+        "opaque_bbox": [
+          78,
+          450,
+          1190,
+          858
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.766093,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, right view. Make a TEXTURE PAINTOVER of the LAST attached image, guide_right.png. The first image, design_reference.png, supplies only materials and fine decorative design. Output exactly the LAST image's 1024 x 1024 pixel canvas and EXACT alpha mask. Leave every transparent pixel transparent and replace only the guide's surface colours. Preserve every silhouette edge and part boundary pixel-for-pixel. Do not invent any new bevels, facets, geometry, placement, outline, perspective, rim or thickness. The previous attempt drifted from the guide and had excessive highlights: correct these two problems.\nPaint the large guide crystal in a consistent moderate icy-blue base colour, fine subtle crystalline grain and hairline fractures, with delicate branching white-cyan memory lines and small blue-white nodes. Paint the small guide mounting cap in matte ivory ceramic with fine wear and thin brushed ochre-gold curved panel borders, with one small cyan-white inset. Use the approved design's motifs inside the guide only.\nStrict UNLIT ALBEDO appearance: equally illuminated upper and lower faces, no shading gradients, no white reflective patches, no large near-white crystal faces, no dark face, no metallic glare, no occlusion, no cast shadow, no outline glow, no highlight bands, no shiny bevels, no external sparkle. All crystal faces have similar medium-light blue values; gold has flat gold base colour with only faint fine brushing. Luminous lines are simply light-coloured paint, no bloom. Keep alpha opaque across all painted surfaces and truly zero outside the exact guide mask. No text or letters.\nVIEW LAYOUT: RIGHT orthographic view. There are TWO SEPARATE DISCONNECTED silhouettes, with a narrow transparent gap; DO NOT join them. Crystal lies horizontally at x=291..957, y=348..671, with left tip (291,510), right tip (957,510), flat top from (525,348) to (658,348), and flat bottom at y=671. Separate ceramic mounting cap lies to the left at x=66..282, y=476..675; broad vertical end at right, tapered smaller end to the left. Preserve this exact spacing and both silhouettes. Blue-white branching memory veins spread from the crystal's left mounting end toward its right tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "ec0ba6fe0edbd5750bab2cf448ef71fef054566f23e464c7049cd578eaaafcfe",
+          "role": "edit_target"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-93425265-a1c9-4410-816d-0db8a7e2dcee.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected correction: improved silhouette overlap and reduced reflective contrast. Crystal and cap still drift from guide boundaries; facet highlights and edge artifacts remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "117c3133b96b7355736d4f4b573052a9306dc2901656ee3b88604a44cb02868e",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          25,
+          19,
+          1242,
+          1208
+        ],
+        "opaque_bbox": [
+          83,
+          438,
+          1172,
+          842
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.826507,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      },
+      "raw_attempt": "generation_attempts/paint_right_2.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit / texture-source painting.\nOutput ONE 1024 x 1024 RGBA PNG, with genuine transparent background, no text.\nImage 1 is the EDIT TARGET: the plain orthographic guide. Image 2 is the MATERIAL/DESIGN REFERENCE ONLY: approved Aster memory shard artwork. Paint directly inside Image 1, preserving Image 1's alpha silhouette, canvas, scale, position, all part boundaries, straight edges, corners, overlaps and empty gaps EXACTLY. Do not reproduce Image 2's upright silhouette, pose, framing or lighting. Do not assemble, rotate, remodel, enlarge or reposition any guide part. Keep every existing guide pixel occupied, and every transparent guide pixel transparent. No extra parts, no external glow, no chips added to the outline. Guide light tints identify materials, NOT the final palette.\nMATERIALS: The large pale-blue faceted guide part becomes the reference's icy medium-blue crystal with subtle fine crystalline grain and hairline internal fractures, plus delicate branching blue-white memory-light veins and small bright blue-white nodes. Keep these vein colours bright, clean and sharply defined, without bloom or light spill. Crystal appearance belongs in RGB surface paint; keep the crystal interior opaque in alpha for texture baking. The smaller light-grey guide part becomes the reference's warm ivory-white ceramic mounting cap with fine wear, fine seams, elegant curved brushed-gold bands/panel borders and a small inset blue-white light detail. Gold is a restrained warm gold base colour with only a faint brushed sheen. Fit all decoration INTO the guide surfaces; do not add protruding gold claws or extensions outside them. Continue unseen faces plausibly from the same materials. Include only materials present in this design: no cloth, leather, paper, lettering or unrelated ornaments.\nLIGHTING: this is flat ALBEDO, not a beauty render. Even, flat, shadowless light from the viewer across every part. No cast shadows, no ambient occlusion, no dark underside shading, no directional illumination, no hot specular highlights, no strong reflections, no reflected environment, no rim light. Remove the guide's directional face shading, retaining facet divisions as subtle material boundaries. Glowing details are simply painted their bright light colour. Nothing behind or around the silhouette: no background fill, no checkerboard drawn into the image, no floor. No text, letters, labels, numerals or watermark.\n\nVIEW AND EXACT LAYOUT: TOP orthographic view directly above. There are TWO SEPARATE DISCONNECTED silhouettes, with a narrow transparent gap; DO NOT join them. The crystal is the large diagonal polygon, with vertices approximately (108,66),(616,159),(749,293),(775,732),(336,707),(201,573), and a straight diagonal facet boundary from (108,66) to (775,732). Preserve that exact outline and diagonal orientation. The separate ceramic cap sits at the lower right, x=632..915, y=741..957, with its broad mouth along the upper edge and its narrower flat end at the bottom. Blue-white memory branches originate near the lower-right mounting end of the crystal and branch toward its upper-left tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "9c6868c5a15d8a8ba93eced09ab006d32e2877a33667e0ba358e1d88eff7761b",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-397fae09-34d3-4642-ad74-9407d110811f.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected initial return: higher silhouette overlap and closer cap placement than the correction. Correction flattened the crystal shading but shifted the cap and outer edges more. Additional crystal facets and strong light patches remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "349170b038798c721fc2cf60c4e2a58d0d008f543605ff8e1db820e1682a2e7c",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1242,
+          1254
+        ],
+        "opaque_bbox": [
+          128,
+          74,
+          1121,
+          1165
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.944853,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      },
+      "raw_attempt": "generation_attempts/paint_top_1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, top view. Make a TEXTURE PAINTOVER of the LAST attached image, guide_top.png. The first image, design_reference.png, supplies only materials and fine decorative design. Output exactly the LAST image's 1024 x 1024 pixel canvas and EXACT alpha mask. Leave every transparent pixel transparent and replace only the guide's surface colours. Preserve every silhouette edge and part boundary pixel-for-pixel. Do not invent any new bevels, facets, geometry, placement, outline, perspective, rim or thickness. The previous attempt drifted from the guide and had excessive highlights: correct these two problems.\nPaint the large guide crystal in a consistent moderate icy-blue base colour, fine subtle crystalline grain and hairline fractures, with delicate branching white-cyan memory lines and small blue-white nodes. Paint the small guide mounting cap in matte ivory ceramic with fine wear and thin brushed ochre-gold curved panel borders, with one small cyan-white inset. Use the approved design's motifs inside the guide only.\nStrict UNLIT ALBEDO appearance: equally illuminated upper and lower faces, no shading gradients, no white reflective patches, no large near-white crystal faces, no dark face, no metallic glare, no occlusion, no cast shadow, no outline glow, no highlight bands, no shiny bevels, no external sparkle. All crystal faces have similar medium-light blue values; gold has flat gold base colour with only faint fine brushing. Luminous lines are simply light-coloured paint, no bloom. Keep alpha opaque across all painted surfaces and truly zero outside the exact guide mask. No text or letters.\nVIEW LAYOUT: TOP orthographic view directly above. There are TWO SEPARATE DISCONNECTED silhouettes, with a narrow transparent gap; DO NOT join them. The crystal is the large diagonal polygon, with vertices approximately (108,66),(616,159),(749,293),(775,732),(336,707),(201,573), and a straight diagonal facet boundary from (108,66) to (775,732). Preserve that exact outline and diagonal orientation. The separate ceramic cap sits at the lower right, x=632..915, y=741..957, with its broad mouth along the upper edge and its narrower flat end at the bottom. Blue-white memory branches originate near the lower-right mounting end of the crystal and branch toward its upper-left tip.\nReturn the full 1024 x 1024 guide canvas with its generous empty transparent margins intact; no crop or automatic fit.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "76e3dbe38e9e6141d46207e8148c5351375a01f645bf076b907d006ddfbed571",
+          "role": "design_material_reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "9c6868c5a15d8a8ba93eced09ab006d32e2877a33667e0ba358e1d88eff7761b",
+          "role": "edit_target"
+        }
+      ],
+      "tool": "built-in image_gen",
+      "source": "/home/pjasicek/.codex/generated_images/01a16d9f-691e-7f52-a523-08b891644f6b/exec-00e57bd4-578a-4c1b-a57a-efe080bf2e98.png",
+      "output": "generation_attempts/paint_top_2.png",
+      "selected": false,
+      "reason": "Not selected: Selected initial return: higher silhouette overlap and closer cap placement than the correction. Correction flattened the crystal shading but shifted the cap and outer edges more. Additional crystal facets and strong light patches remain.",
+      "size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "c577eab25e5842759e4d3c89172911eb5bef925a0500fec7cb9d760d92fbc6d6",
+      "checks": {
+        "rgba": true,
+        "has_transparent_pixels": true,
+        "alpha_bbox": [
+          0,
+          9,
+          1234,
+          1254
+        ],
+        "opaque_bbox": [
+          116,
+          76,
+          1157,
+          1199
+        ],
+        "requested_size": false,
+        "exact_guide_alpha": false,
+        "normalized_silhouette_iou": 0.909777,
+        "comparison_note": "IoU compares alpha >=128 at normalized canvas coordinates; output pixels are not altered.",
+        "colours_and_materials_match_reference": true,
+        "flat_even_light_no_hot_highlights": false,
+        "no_text_or_letters": true,
+        "fully_conforms_to_brief": false
+      }
+    }
+  ],
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "notes": [
+    "Built-in image generation only: one initial run and one corrective regeneration per view.",
+    "All returns are 1254 x 1254 RGBA despite requesting 1024 x 1024. All saved PNGs are byte-for-byte copies of tool outputs, unresized and unretouched.",
+    "All five selected returns have transparency, the blue crystal/ivory ceramic/gold material palette, and no visible text.",
+    "None passes exact guide silhouette preservation. Residual facet shading, reflections and edge artifacts also prevent strict flat-albedo acceptance.",
+    "Selection prefers closer guide silhouette and part placement within the two-run limit. These are selected candidates, not fully compliant texture-baking sources.",
+    "No builds, mesh changes, texture baking or game integration were performed."
+  ]
+}

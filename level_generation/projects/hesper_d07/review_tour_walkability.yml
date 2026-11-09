@@ -1,0 +1,88 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d07/review/walkability/captures
+settle_seconds: 2
+exit: true
+shots:
+- name: vestibule
+  position:
+  - 4800
+  - 300
+  - 120
+  yaw: 1.57
+  pitch: 0.2
+- name: guard-hall
+  position:
+  - 4800
+  - 1400
+  - 120
+  yaw: 1.57
+  pitch: 0.2
+- name: dais-west
+  position:
+  - 3500
+  - 3100
+  - 120
+  yaw: -0.2
+  pitch: 0.15
+- name: dais-east
+  position:
+  - 5900
+  - 2900
+  - 120
+  yaw: 3.14
+  pitch: 0.15
+- name: dais-north
+  position:
+  - 4800
+  - 3200
+  - 136
+  yaw: -1.57
+  pitch: 0.1
+- name: down-ramp
+  position:
+  - 4800
+  - 3500
+  - 54
+  yaw: 1.57
+  pitch: 0
+- name: gallery-wave
+  position:
+  - 4120
+  - 5520
+  - -392
+  yaw: 0
+  pitch: 0
+- name: arc-wave
+  position:
+  - 7500
+  - 5472
+  - -392
+  yaw: 3.14
+  pitch: 0
+- name: terminal-one
+  position:
+  - 2436
+  - 6350
+  - -392
+  yaw: 1.57
+  pitch: 0.2
+- name: terminal-two
+  position:
+  - 8400
+  - 8000
+  - -392
+  yaw: 1.2
+  pitch: 0.2
+- name: core-octagon
+  position:
+  - 3700
+  - 6500
+  - -392
+  yaw: 0.6
+  pitch: 0.25
+- name: assembly-aisle-and-beds
+  position:
+  - 8300
+  - 6000
+  - -392
+  yaw: 0
+  pitch: 0.1

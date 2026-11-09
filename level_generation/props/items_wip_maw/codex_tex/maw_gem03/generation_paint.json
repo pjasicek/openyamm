@@ -1,0 +1,24 @@
+{
+  "prompt": "Paint-only edit of guide_atlas.png (first input, exact geometry/layout target). Output ONE 1536x1024 transparent PNG. Preserve exactly its three columns by two rows of 512x512 cells: row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, empty. Each grey orthographic model must retain its exact position, size, outline, facets, every small base crystal, gap and opening. Paint grey objects only; never redraw, enlarge, move or redesign them. Keep the empty bottom-right cell and all gaps/background fully transparent. Second input design_reference.png is approved material/detail reference only, NOT layout; third icon_x8.png is colour reference only (magenta is background). Object: natural cluster of six to eight pointed violet amethyst crystal prisms of different lengths growing from one small pale crystalline base, spreading upward and outward, lying on ground. Paint unlit base colour: violet to lilac amethyst crystal prisms with paler tips, pale whitish base. Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view; reproduce only details actually present in the reference. Unlit albedo only: no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles or aura outside silhouette, ground, outlines or text. Preserve the guide's geometry and alpha outline exactly, colouring its existing surfaces with natural purple amethyst mineral inclusions and subtle cloudy inner swirls, with no baked lighting.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce3-8e3c-7cc1-8ad2-40c0487657cc/exec-9523157a-0517-43dd-9b50-4822075eb8e0.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem03/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "tool": "built-in image_gen",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem03/guide_atlas.png",
+      "sha256": "83d9178efed4fc61d17de41110ccde8397650004a64beec2b9970cc0c19aaa33"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem03/design_reference.png",
+      "sha256": "70b936c85dfc00de02cc00a934f6596d593ba1994bface129daa40f0f53df600"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem03/icon_x8.png",
+      "sha256": "010bb9c9032cdc030b82dd00949aaa5158240d949d53f18cec2b8f9ee43cf44c"
+    }
+  ]
+}

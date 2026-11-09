@@ -1,0 +1,87 @@
+{
+  "playableBounds": [
+    -24576,
+    24576,
+    -24576,
+    24576
+  ],
+  "terrainBounds": [
+    -32768,
+    32256,
+    -32256,
+    32768
+  ],
+  "axisOrder": "xmin,xmax,ymin,ymax",
+  "bufferWidths": {
+    "west": 8192,
+    "north": 8192,
+    "east": 7680,
+    "south": 7680
+  },
+  "masks": {
+    "domain": "terrain_domain_mask.png",
+    "domainValues": {
+      "0": "unused stored row/column",
+      "1": "playable map crop",
+      "2": "scenery buffer"
+    },
+    "crop": "playable_crop_mask.png",
+    "cropMeaning": "255 inside travel envelope; 0 elsewhere. Not a walkability mask.",
+    "sourceMaps": "source_map_ids.png",
+    "sourceMapMeaning": "Original maze number at each rendered quad centre; 0 outside original world or unused storage."
+  },
+  "sourceProjection": "gx=floor((x+24576)/1536), gy=floor((y+24576)/1536); maze=1+4*floor(gx/16)+3-floor(gy/16)",
+  "neighbours": [
+    {
+      "side": "north",
+      "region": "nw",
+      "title": "Alamar / Necropolis",
+      "sourceMaps": [
+        2,
+        6
+      ],
+      "neighbourCentreInThisMap": [
+        0,
+        49152
+      ],
+      "intent": "Acid Pond narrows and closes; dirt, rock, desert and a small scorched fringe follow actual A2/B2 cells. Lava lies farther north."
+    },
+    {
+      "side": "east",
+      "region": "sc",
+      "title": "Sprite Forest / Southern Tower",
+      "sourceMaps": [
+        11,
+        12
+      ],
+      "neighbourCentreInThisMap": [
+        49152,
+        0
+      ],
+      "intent": "Continue the river bends, dry ground and forest cells from C3/C4; trade road reaches the terrain edge."
+    },
+    {
+      "side": "northeast corner",
+      "region": "nc",
+      "sourceMaps": [
+        10
+      ],
+      "neighbourCentreInThisMap": [
+        49152,
+        49152
+      ],
+      "intent": "C2 desert continues around the corner."
+    },
+    {
+      "side": "west / south",
+      "region": null,
+      "intent": "Original outer cells are Xeen void. Continue that void, not an invented sea; water extension is used only if an original world-edge cell is water."
+    }
+  ],
+  "overlapContract": "When neighbours are generated, reuse these source cells and world-aligned heights/materials/scenery throughout overlapping terrain, including both buffers; matching only a travel-edge line is insufficient.",
+  "neighbourHeightStatus": "Neighbouring native terrains do not exist yet; this heightfield and edge profiles are the handoff, not verified native seams.",
+  "minimapPolicy": "Default region PNG/SVG and HTML show only the playable crop. Buffer review is a separate opt-in authoring page; concatenate playable crops for the world map.",
+  "renderedQuads": 16129,
+  "playableQuads": 9216,
+  "bufferQuads": 6913
+}

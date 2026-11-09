@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MM6–MM8 minimaps · current accepted artwork</title>
+<style>
+*{box-sizing:border-box}body{max-width:1550px;margin:22px auto;padding:0 20px;background:#181e24;color:#e1e8ef;font:15px system-ui}
+h1{font-size:26px}p{color:#b3c2ce;line-height:1.5}a{color:#83c7f5}button,select{font:inherit;background:#293540;color:inherit;border:1px solid #586975;padding:8px;border-radius:5px}
+.bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:16px 0}.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+canvas{width:100%;height:auto;background:#10151b;cursor:crosshair;touch-action:none}select{max-width:600px}h2{font-size:17px}
+@media(max-width:800px){.pair{grid-template-columns:1fr}}
+</style>
+<h1>MM6–MM8 outdoor minimaps · current accepted artwork</h1>
+<p><a href="esrgan_study_20260928/">Accepted MM7/MM8: anime-video v3 direct 2× — all 27 maps and model comparison →</a></p>
+<p><a href="style_v2_20260927/">Earlier, unfinished Blender shoreline and shading experiment →</a></p>
+<p>MM6 uses the approved Blender light-noise treatment. MM7/MM8 use direct 2× ESRGAN of the original paintings.
+All 42 maps retain their native bounds and export canvases. This page reads the current accepted icons index.</p>
+<div class="bar"><select id="world" aria-label="World"><option value="">All worlds</option><option>mm6</option><option>mm7</option><option>mm8</option></select>
+<button id="prev">← Previous</button><select id="map" aria-label="Map"></select><button id="next">Next →</button>
+<label><input type="checkbox" id="outline"> Geometry outlines</label><label><input type="checkbox" id="town"> Zoom ×3</label></div>
+<div class="pair"><section><h2>Native minimap</h2><canvas id="original" width="1024" height="1024"></canvas></section>
+<section><h2>Current accepted replacement</h2><canvas id="current" width="1024" height="1024"></canvas></section></div>
+<p id="info">Loading…</p><p><a id="full" target="_blank">Open full replacement</a> · <a id="layers">Editable layers</a> · <a href="README.md">Recipe, acceptance and redeployment</a> · <a id="validation" href="validation.json">Validation</a></p>
+<p>Arrow keys select maps. Click either image to center the zoom; hold Space to compare the right image with the native map.</p>
+<script>
+"use strict";
+(async()=>{
+ const manifest=await(await fetch('exports.json',{cache:'no-store'})).json(),all=manifest.records,$=id=>document.getElementById(id);
+ const accepted=await(await fetch('../ui/hud_inventory/accepted_icons.json',{cache:'no-store'})).json();
+ const projectPath=path=>'../../level_generation/'+path.split('/level_generation/')[1];
+ let rows=all,index=0,images={},center=[.5,.5],blink=false,serial=0;
+ const load=async path=>{const image=new Image();image.src=path;await image.decode();return image;};
+ function draw(){if(!images.current)return;const zoom=$('town').checked?3:1,span=1/zoom;
+  center=center.map(n=>Math.max(span/2,Math.min(1-span/2,n)));
+  for(const id of ['original','current']){const c=$(id).getContext('2d'),image=images[blink&&id==='current'?'original':id];
+   const w=$(id).width,h=$(id).height;c.imageSmoothingEnabled=id!=='original';c.clearRect(0,0,w,h);
+   c.drawImage(image,(center[0]-span/2)*image.width,(center[1]-span/2)*image.height,
+     span*image.width,span*image.height,0,0,w,h);
+   if($('outline').checked){const o=images.overlay;c.drawImage(o,(center[0]-span/2)*o.width,
+     (center[1]-span/2)*o.height,span*o.width,span*o.height,0,0,w,h);}
+  }
+ }
+ async function select(){const request=++serial,row=rows[index];$('map').value=String(index);document.body.dataset.ready='false';
+  const record=accepted.records[row.target],path='../../'+record.runtime_output_path;
+  const geometry=record.method==='registered_cycles_layers_light_terrain_noise'
+   ?projectPath(record.capture).replace(/capture\.json$/,'geometry.png'):row.directory+'/geometry.png';
+  const [original,current,overlay]=await Promise.all([load(row.directory+'/original.png'),
+    load(path+'?v='+record.sha256.slice(0,12)),load(geometry)]);
+  if(request!==serial)return;images={original,current,overlay};center=[.5,.5];
+  for(const id of ['original','current']){ $(id).width=row.x2_size[0];$(id).height=row.x2_size[1]; }draw();
+  const method=record.method==='native_realesr_animevideov3_direct_2x'?'Anime-video v3 direct 2×':'Blender light noise';
+  $('info').textContent=`${row.world.toUpperCase()} · ${row.name} · ${row.x2_size.join('×')} · ${method}`;
+  $('full').href=path;
+  const master=record.layered_artifact||record.master_artifact;
+  $('layers').href=projectPath(master);
+  $('layers').textContent=record.layered_artifact?'Editable layers':'Neural master';
+  $('validation').href=projectPath(record.authority).replace(/authority\.json$/,'validation.json');
+  document.body.dataset.ready='true';
+ }
+ function populate(){rows=all.filter(r=>!$('world').value||r.world===$('world').value);$('map').replaceChildren();rows.forEach((r,i)=>$('map').add(new Option(r.world.toUpperCase()+' · '+r.name+' ('+r.map+')',i)));index=0;select();}
+ function step(n){index=(index+n+rows.length)%rows.length;select();}
+ $('world').onchange=populate;$('map').onchange=()=>{index=Number($('map').value);select();};$('prev').onclick=()=>step(-1);$('next').onclick=()=>step(1);
+ $('outline').onchange=draw;$('town').onchange=draw;
+ for(const id of ['original','current'])$(id).onclick=e=>{const rect=e.target.getBoundingClientRect(),span=$('town').checked?1/3:1;center=[center[0]+((e.clientX-rect.left)/rect.width-.5)*span,center[1]+((e.clientY-rect.top)/rect.height-.5)*span];$('town').checked=true;draw();};
+ document.onkeydown=e=>{if(e.target.closest('select,input'))return;if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();step(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();step(-1);}if(e.code==='Space'){e.preventDefault();blink=true;draw();}};
+ document.onkeyup=e=>{if(e.code==='Space'){blink=false;draw();}};window.onblur=()=>{blink=false;draw();};populate();
+})().catch(e=>{document.getElementById('info').textContent=e.message;console.error(e);});
+</script>
+</html>

@@ -1,0 +1,685 @@
+{
+  "item": "hes_thunder_maul",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "resize_policy": "Keep all tool returns unresized.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper thunder maul, not a presentation render.\nInput 1 is the EDIT TARGET, the exact 1024 x 1024 transparent white model guide. Input 2 is design_reference.png, the approved MATERIAL / COLOUR / DETAIL reference only. Paint directly over Input 1. The camera, outline, alpha mask, geometry, framing, scale and exact placement of every part must come ONLY from Input 1; never adopt Input 2's perspective or framing.\nOutput a single 1024 x 1024 RGBA PNG with genuine transparent background. Keep every source-guide boundary and cutout exactly at its original pixel position. All original empty canvas must stay transparent. No enlargement to fill the canvas, no recentering, no cropping, no new silhouette elements.\nApply the design reference's white/ivory ceramic with fine surface wear and hairline cracks, restrained brushed antique gold trim and thin engraved seams, black-violet organic resin and the visible orange luminous capacitor conduits; blue-white light where the reference shows it. Continue unseen surfaces with these same coherent materials. Paint raised ribs as ceramic, fittings as gold, exposed underlying body as dark violet resin; preserve each guide part and edge. Fine surface detail must not change geometry. No new cloth, paper or leather where the reference does not show it.\nLIGHTING: strict flat albedo / texture-source colours, even shadowless frontal illumination. REMOVE the guide's baked shadows. No cast shadows, no ambient occlusion darkening, no black directional shading, no bright specular hotspots, no reflections, no rim lighting, no environment, no floor. Gold is its local base colour with only faint sheen. Luminous parts are painted bright orange or blue-white locally, with no bloom or glow outside the object.\nNo text, no letters, no labels, no watermark.\nVIEW front: follow guide_front.png exactly. Only the compact horizontal hammer-head is visible in this camera, occupying x=308..715, y=390..632 on the 1024-square canvas (about 40% width, 24% height), centered near (512,512). Do not add the handle. Preserve the end caps and outer ceramic ribs. The central protruding angular capacitor assembly must retain its exact star/spindle shape; paint its reference-like gold hardware and blue-white light and orange coil surfaces within the existing geometry. All remaining canvas is transparent.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "df07579043049fa217dc8947353b26a7c021886d655abb1e91e21a091bb55c54"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b9fac254a7583fecd9eb827ed269ca0b65dee639f284767110da0fe62f2f69be"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-062e090f-8c5d-465b-b996-16a843202c20.png",
+      "selected": false,
+      "reason": "Material palette matches, but framing/silhouette expanded and shading/specular highlights remain. Use the single allowed corrective regeneration.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1184,
+          1229
+        ],
+        "guide_alpha_bbox": [
+          308,
+          390,
+          716,
+          633
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.673147,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "8e568570a8fd48d9fd5a4b30d4e7879ae660df9bce4543ab9ac8bace0187e76e",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          315,
+          448,
+          941,
+          806
+        ],
+        "low_alpha_pixel_count_1_to_15": 7209,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Corrective regeneration, front view, precise-object-edit. Output requested: 1024 x 1024 transparent RGBA.\nImage 1 (guide_front.png) is the exact canvas and exact silhouette to PAINT INTO. Image 2 (paint_front_attempt1.png) is ONLY a palette/material guide; its enlarged silhouette, perspective end caps and dramatic lighting are WRONG.\nReturn Image 1 with its white areas recoloured/material-painted. Freeze its original alpha and every part edge. Head remains only 408 pixels wide and 243 pixels tall, bounds x308..715 y390..632 in the 1024 square; huge transparent margins are intentional. Do not enlarge the object. Do not reconstruct or redesign it. In particular retain the guide's flat end-cap shapes, irregular ribs, narrow top peg and exact angular central protrusion. No handle, no extra teeth, no extra rings or projecting details.\nUse the material palette of Image 2: worn ivory ceramic on ribs and end caps, muted brushed gold fine edges and hardware, dark violet resin body, orange capacitor tracks, small blue-white central capacitor. Keep detail within the guide's existing shapes.\nThis is an unlit ALBEDO texture-source paint, not a shaded product render: even diffuse local colour on every part, NO cast shadow, NO ambient occlusion shadows, NO specular highlights, NO reflections, NO illumination gradient, NO edge bloom. Luminous colour is bright flat orange and blue-white. Genuine fully transparent empty background, clean alpha. No text or letters. Pixel-accurate source geometry matters more than decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "df07579043049fa217dc8947353b26a7c021886d655abb1e91e21a091bb55c54"
+        },
+        {
+          "path": "paint_front_attempt1.png",
+          "sha256": "8e568570a8fd48d9fd5a4b30d4e7879ae660df9bce4543ab9ac8bace0187e76e"
+        }
+      ],
+      "output": "paint_front.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-e7d4de83-3c6e-4650-840d-e13743b8a3ea.png",
+      "selected": true,
+      "reason": "Closest of the two permitted returns: more orthographic end caps and higher guide-mask overlap. Still fails exact geometry and flat-lighting requirements.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1227,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          308,
+          390,
+          716,
+          633
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.71761,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "31b380dfd5b78609063768aa7c4ce6e57dcac080c34b81dca8f880eb45e07b51",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          334,
+          455,
+          921,
+          811
+        ],
+        "low_alpha_pixel_count_1_to_15": 9844,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper thunder maul, not a presentation render.\nInput 1 is the EDIT TARGET, the exact 1024 x 1024 transparent white model guide. Input 2 is design_reference.png, the approved MATERIAL / COLOUR / DETAIL reference only. Paint directly over Input 1. The camera, outline, alpha mask, geometry, framing, scale and exact placement of every part must come ONLY from Input 1; never adopt Input 2's perspective or framing.\nOutput a single 1024 x 1024 RGBA PNG with genuine transparent background. Keep every source-guide boundary and cutout exactly at its original pixel position. All original empty canvas must stay transparent. No enlargement to fill the canvas, no recentering, no cropping, no new silhouette elements.\nApply the design reference's white/ivory ceramic with fine surface wear and hairline cracks, restrained brushed antique gold trim and thin engraved seams, black-violet organic resin and the visible orange luminous capacitor conduits; blue-white light where the reference shows it. Continue unseen surfaces with these same coherent materials. Paint raised ribs as ceramic, fittings as gold, exposed underlying body as dark violet resin; preserve each guide part and edge. Fine surface detail must not change geometry. No new cloth, paper or leather where the reference does not show it.\nLIGHTING: strict flat albedo / texture-source colours, even shadowless frontal illumination. REMOVE the guide's baked shadows. No cast shadows, no ambient occlusion darkening, no black directional shading, no bright specular hotspots, no reflections, no rim lighting, no environment, no floor. Gold is its local base colour with only faint sheen. Luminous parts are painted bright orange or blue-white locally, with no bloom or glow outside the object.\nNo text, no letters, no labels, no watermark.\nVIEW back: follow guide_back.png exactly. Only the compact horizontal reverse side of the hammer-head is visible, occupying x=308..715, y=390..633 on the 1024-square canvas, centered near (512,512). Do not add the handle. The back has the existing overlapping ceramic ribs and rounded dark-violet resin casing with recessed orange conduits. Preserve its smooth reverse-side structure; do not invent the front's protruding central capacitor hardware or new holes. Continue reference materials plausibly across this unseen side.\nTreat this as recolouring the existing guide pixels, not reconstructing an object from the design. Absolute priority: original guide alpha mask and original geometry. Use an unlit base-color material pass with flat local colours and subtle drawn wear.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "245c6d7814dc8409b82d64822864061faf4ab63ae39cd9e894a48770597f6883"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b9fac254a7583fecd9eb827ed269ca0b65dee639f284767110da0fe62f2f69be"
+        }
+      ],
+      "output": "paint_back.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-e30ed47f-35ac-4c69-835c-5334df2b849b.png",
+      "selected": true,
+      "reason": "Original return has substantially closer guide framing and silhouette than the correction. Still changes the centre/rib layout and retains relief shading.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          33,
+          71,
+          1226,
+          1148
+        ],
+        "guide_alpha_bbox": [
+          308,
+          390,
+          716,
+          634
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.964581,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "32e7e710e436d92ff8aefd165dd8ff1beea7c15557a2a86c5ad022ad6ca55925",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          376,
+          473,
+          877,
+          775
+        ],
+        "low_alpha_pixel_count_1_to_15": 6383,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      },
+      "retained_attempt_copy": "paint_back_attempt1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper thunder maul, not a presentation render.\nInput 1 is the EDIT TARGET, the exact 1024 x 1024 transparent white model guide. Input 2 is design_reference.png, the approved MATERIAL / COLOUR / DETAIL reference only. Paint directly over Input 1. The camera, outline, alpha mask, geometry, framing, scale and exact placement of every part must come ONLY from Input 1; never adopt Input 2's perspective or framing.\nOutput a single 1024 x 1024 RGBA PNG with genuine transparent background. Keep every source-guide boundary and cutout exactly at its original pixel position. All original empty canvas must stay transparent. No enlargement to fill the canvas, no recentering, no cropping, no new silhouette elements.\nApply the design reference's white/ivory ceramic with fine surface wear and hairline cracks, restrained brushed antique gold trim and thin engraved seams, black-violet organic resin and the visible orange luminous capacitor conduits; blue-white light where the reference shows it. Continue unseen surfaces with these same coherent materials. Paint raised ribs as ceramic, fittings as gold, exposed underlying body as dark violet resin; preserve each guide part and edge. Fine surface detail must not change geometry. No new cloth, paper or leather where the reference does not show it.\nLIGHTING: strict flat albedo / texture-source colours, even shadowless frontal illumination. REMOVE the guide's baked shadows. No cast shadows, no ambient occlusion darkening, no black directional shading, no bright specular hotspots, no reflections, no rim lighting, no environment, no floor. Gold is its local base colour with only faint sheen. Luminous parts are painted bright orange or blue-white locally, with no bloom or glow outside the object.\nNo text, no letters, no labels, no watermark.\nVIEW left: follow guide_left.png exactly. Whole weapon lies HORIZONTALLY: circular striking face and head on the LEFT, shaft extends RIGHT, claw pommel at the far RIGHT. Entire object occupies x=66..957, y=390..633 on the 1024-square canvas, with all the large transparent margins retained. The round striking face is ivory ceramic with restrained gold trim, surrounded by existing ceramic ribs over dark violet resin. The thin handle keeps its source twist geometry with ivory and violet material bands, tiny recessed orange conduits, gold collars. Pommel claws are ivory ceramic and gold with tiny blue-white central light as the reference shows. Do not rotate or enlarge the weapon.\nPaint the guide's existing visible circular face; do not substitute a broadside capacitor view. Texture only: frozen outline and parts, unlit base-colour shading.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "0acc5cfcf3733952c40235a6e2cd56242df4104f1bed71867eb5805e8d6a4b7d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b9fac254a7583fecd9eb827ed269ca0b65dee639f284767110da0fe62f2f69be"
+        }
+      ],
+      "output": "paint_left.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-38855b89-0c26-486d-9a99-91c83aaea7d0.png",
+      "selected": true,
+      "reason": "Original square return preserves framing much better than the landscape corrective return. Head/pommel silhouette drift and relief shading remain.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          43,
+          29,
+          1196,
+          1229
+        ],
+        "guide_alpha_bbox": [
+          66,
+          390,
+          958,
+          634
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.909348,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "be0afebbb05b650072b2125c0a5bde9d1cae7a727951d48c043baa6215a469db",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          79,
+          477,
+          1191,
+          777
+        ],
+        "low_alpha_pixel_count_1_to_15": 13360,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      },
+      "retained_attempt_copy": "paint_left_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper thunder maul, not a presentation render.\nInput 1 is the EDIT TARGET, the exact 1024 x 1024 transparent white model guide. Input 2 is design_reference.png, the approved MATERIAL / COLOUR / DETAIL reference only. Paint directly over Input 1. The camera, outline, alpha mask, geometry, framing, scale and exact placement of every part must come ONLY from Input 1; never adopt Input 2's perspective or framing.\nOutput a single 1024 x 1024 RGBA PNG with genuine transparent background. Keep every source-guide boundary and cutout exactly at its original pixel position. All original empty canvas must stay transparent. No enlargement to fill the canvas, no recentering, no cropping, no new silhouette elements.\nApply the design reference's white/ivory ceramic with fine surface wear and hairline cracks, restrained brushed antique gold trim and thin engraved seams, black-violet organic resin and the visible orange luminous capacitor conduits; blue-white light where the reference shows it. Continue unseen surfaces with these same coherent materials. Paint raised ribs as ceramic, fittings as gold, exposed underlying body as dark violet resin; preserve each guide part and edge. Fine surface detail must not change geometry. No new cloth, paper or leather where the reference does not show it.\nLIGHTING: strict flat albedo / texture-source colours, even shadowless frontal illumination. REMOVE the guide's baked shadows. No cast shadows, no ambient occlusion darkening, no black directional shading, no bright specular hotspots, no reflections, no rim lighting, no environment, no floor. Gold is its local base colour with only faint sheen. Luminous parts are painted bright orange or blue-white locally, with no bloom or glow outside the object.\nNo text, no letters, no labels, no watermark.\nVIEW right: follow guide_right.png exactly. Whole weapon lies HORIZONTALLY: claw pommel at far LEFT, shaft extends RIGHT to circular striking face and head on the RIGHT. Entire object occupies x=66..957, y=390..633 on the 1024-square canvas, with all the large transparent margins retained. The round striking face is ivory ceramic with restrained gold trim, surrounded by existing ceramic ribs over dark violet resin. The thin handle keeps its source twist geometry with ivory and violet material bands, tiny recessed orange conduits, gold collars. Pommel claws are ivory ceramic and gold with tiny blue-white central light as the reference shows. Do not rotate or enlarge the weapon.\nPaint the guide's existing visible circular face; do not substitute a broadside capacitor view. Texture only: frozen outline and parts, unlit base-colour shading.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d4f6c5b6045ecdec2385e0cd1786f475c3dbd2cde89f2d1bcc2866b9fef8965e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b9fac254a7583fecd9eb827ed269ca0b65dee639f284767110da0fe62f2f69be"
+        }
+      ],
+      "output": "paint_right_attempt1.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-28d66447-38cf-4fee-96c1-41330cd9028e.png",
+      "selected": false,
+      "reason": "Correct horizontal right-view direction and reference colours. Guide silhouette differs around head/neck/pommel and relief shading remains; compare with single correction.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          65,
+          81,
+          1227,
+          1222
+        ],
+        "guide_alpha_bbox": [
+          66,
+          390,
+          958,
+          634
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.893369,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "8f64b3520c0f4bab5052bf6b67b99979d65aef77458ffd9a4d1315eb12c62441",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          73,
+          477,
+          1187,
+          781
+        ],
+        "low_alpha_pixel_count_1_to_15": 10724,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting of the Hesper thunder maul, not a presentation render.\nInput 1 is the EDIT TARGET, the exact 1024 x 1024 transparent white model guide. Input 2 is design_reference.png, the approved MATERIAL / COLOUR / DETAIL reference only. Paint directly over Input 1. The camera, outline, alpha mask, geometry, framing, scale and exact placement of every part must come ONLY from Input 1; never adopt Input 2's perspective or framing.\nOutput a single 1024 x 1024 RGBA PNG with genuine transparent background. Keep every source-guide boundary and cutout exactly at its original pixel position. All original empty canvas must stay transparent. No enlargement to fill the canvas, no recentering, no cropping, no new silhouette elements.\nApply the design reference's white/ivory ceramic with fine surface wear and hairline cracks, restrained brushed antique gold trim and thin engraved seams, black-violet organic resin and the visible orange luminous capacitor conduits; blue-white light where the reference shows it. Continue unseen surfaces with these same coherent materials. Paint raised ribs as ceramic, fittings as gold, exposed underlying body as dark violet resin; preserve each guide part and edge. Fine surface detail must not change geometry. No new cloth, paper or leather where the reference does not show it.\nLIGHTING: strict flat albedo / texture-source colours, even shadowless frontal illumination. REMOVE the guide's baked shadows. No cast shadows, no ambient occlusion darkening, no black directional shading, no bright specular hotspots, no reflections, no rim lighting, no environment, no floor. Gold is its local base colour with only faint sheen. Luminous parts are painted bright orange or blue-white locally, with no bloom or glow outside the object.\nNo text, no letters, no labels, no watermark.\nVIEW top: follow guide_top.png exactly, its name denotes the model camera. Whole weapon stands VERTICALLY on this canvas: horizontal hammer head at the TOP, long narrow shaft pointing DOWN, claw pommel at the BOTTOM. Entire object occupies x=308..715, y=66..957 on the 1024-square canvas. Keep those wide transparent side margins. Preserve the exact head ribs, round central capacitor enclosure and narrow central projecting spindle. Use ivory ceramic ribs and striking end caps, antique gold trim, dark violet resin, recessed orange coils, and small blue-white capacitor light. Preserve the narrow twisted handle geometry and all collar positions; ivory/violet spiral surfaces with tiny orange accents. Keep the existing bottom claw pommel silhouette, ivory/gold surfaces and blue-white internal light. Never substitute the three-quarter view from the design reference.\nReturn the white guide recoloured with material detail; do not redesign it. Its head spans only 40% of the canvas width. Match each collar's size/position. Flat unlit local base colours only.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "aae8aa1aa0f663ccce42aedf0d9a5e36288b86e08b67eb815cc04e6847af551b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b9fac254a7583fecd9eb827ed269ca0b65dee639f284767110da0fe62f2f69be"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-a22f991e-8b9a-4404-b6f3-86079bdb384d.png",
+      "selected": false,
+      "reason": "Top view broadly matches vertical framing and reference palette; handle thickness, ribs and pommel differ and lighting remains shaded. Retain for comparison with the single permitted correction.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          35,
+          21,
+          1240,
+          1212
+        ],
+        "guide_alpha_bbox": [
+          308,
+          66,
+          716,
+          958
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.931431,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "60a8896c488303e8c2a072d2bba4471e934974a174d4a5bf0755a3d67ce0aa25",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          377,
+          80,
+          878,
+          1183
+        ],
+        "low_alpha_pixel_count_1_to_15": 13212,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make a single 1024 x 1024 RGBA image, real transparent background.\nImage 1 is the exact guide to colour IN PLACE. Image 2 is an earlier painting for material colour ONLY. Image 2 has wrong geometry and excessive lighting; do NOT reproduce its shape, framing or shading.\nLock Image 1's silhouette, alpha mask, every internal part edge, scale, pose and placement. Recolour that original guide, do not replace or reconstruct it. Large blank transparent margins are required. No added spikes, extra collars or protrusions, no thicker handle.\nApply worn ivory ceramic, muted antique gold seams/fittings, dark violet resin, recessed bright orange conduits and local blue-white capacitor light from Image 2. Keep details entirely inside the original guide's surface regions.\nCRITICAL correction: unlit albedo texture pass. Completely remove directional shading and specular highlights. Every material is its flat diffuse local colour with fine wear/engraving only. Gold is muted ochre-gold, not shiny lit metal. Ivory stays evenly ivory on both sides. Dark violet stays violet without black shadow pockets. No ambient occlusion, shadows, highlights, reflections, rim light or glow halos. No text or letters.\n\nVIEW back: follow guide_back.png exactly. Only the compact horizontal reverse side of the hammer-head is visible, occupying x=308..715, y=390..633 on the 1024-square canvas, centered near (512,512). Do not add the handle. The back has the existing overlapping ceramic ribs and rounded dark-violet resin casing with recessed orange conduits. Preserve its smooth reverse-side structure; do not invent the front's protruding central capacitor hardware or new holes. Continue reference materials plausibly across this unseen side.\nRestore the guide's broad rounded centre and irregular ceramic strips in their exact positions. Do not insert a large new pointed leaf-shaped plate in the centre.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "245c6d7814dc8409b82d64822864061faf4ab63ae39cd9e894a48770597f6883"
+        },
+        {
+          "path": "paint_back_attempt1.png",
+          "sha256": "32e7e710e436d92ff8aefd165dd8ff1beea7c15557a2a86c5ad022ad6ca55925"
+        }
+      ],
+      "output": "paint_back_attempt2.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-7f45ef15-e553-4d81-8989-5ac26ceaae64.png",
+      "selected": false,
+      "reason": "Corrective return still changes central geometry and enlarges framing. Original return has the closer silhouette; no more regenerations permitted.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          81,
+          54,
+          1226,
+          1182
+        ],
+        "guide_alpha_bbox": [
+          308,
+          390,
+          716,
+          634
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.709202,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "dc136e772dd11043d117856a3ce42cdeff69665d77ce257ae4a9e0194ba79af3",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          327,
+          463,
+          927,
+          808
+        ],
+        "low_alpha_pixel_count_1_to_15": 6906,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective regeneration: texture-only edit of Image 1, guide_left.png. Image 2, design_reference.png, supplies material colours and motifs only. Return the original guide canvas with its object recoloured. Requested output 1024x1024 PNG with transparent background.\nKEEP the guide's exact original alpha silhouette and every part boundary. No extra details outside it. Preserve the horizontal placement, head on left and pommel on right; object bounds x66..957 y390..633, 892 x244 pixels. Do not enlarge, rotate, thicken or change the outline or any collar position.\nPaint ivory ceramic with fine wear on the round striking face and raised ribs; subtle muted gold edges, fittings and collar faces; black-violet resin between the ribs and in the twisted shaft; small recessed orange luminous tracks; blue-white internal pommel light. Match only the reference's materials, not its perspective.\nFlat unlit ALBEDO/base-colour pass. Ivory is evenly ivory, gold is flat brushed ochre-gold with only the faintest sheen, violet resin remains violet. No shadows, no ambient-occlusion black crevices, no specular hotspots, no reflections or rim light. Paint glows as flat bright local colours without halos. Texture/engraving/wear detail only; no painted illumination gradients. Fully transparent empty canvas. No text or letters.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "0acc5cfcf3733952c40235a6e2cd56242df4104f1bed71867eb5805e8d6a4b7d"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b9fac254a7583fecd9eb827ed269ca0b65dee639f284767110da0fe62f2f69be"
+        }
+      ],
+      "output": "paint_left_attempt2.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-742362ee-db57-400b-b47c-98cc74d79ad3.png",
+      "selected": false,
+      "reason": "Correction returned a landscape canvas and changed framing/geometry. Prefer the original square return; no further regeneration permitted.",
+      "checks": {
+        "size": [
+          1774,
+          887
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          41,
+          23,
+          1726,
+          865
+        ],
+        "guide_alpha_bbox": [
+          66,
+          390,
+          958,
+          634
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.268568,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "e21152b7a6de46a2be225493c1253c65a6fb5b1a1328d552155694efdb6c7844",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          109,
+          302,
+          1682,
+          710
+        ],
+        "low_alpha_pixel_count_1_to_15": 18963,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Corrective regeneration: edit Image 1, guide_right.png, without changing its SQUARE CANVAS, alpha silhouette, scale or geometry. Image 2, design_reference.png, is material reference only.\nONE SQUARE image, requested 1024 x1024 transparent RGBA. Preserve the square canvas with huge empty areas above and below; NEVER crop into a landscape image. Head on RIGHT, shaft horizontal, pommel on LEFT; preserve every pixel boundary of the guide and every collar/pommel/rib position. Guide object bounds x66..957, y390..633.\nRecolour the existing guide surfaces: worn ivory ceramic striking face and raised ribs, fine antique gold trim/collars, dark black-violet resin, thin recessed orange conduits, tiny blue-white central pommel light. Fine material texture only, without altering geometry or inventing external decorations.\nCorrect the previous excessive shading: this is a flat UNLIT DIFFUSE/ALBEDO pass for texture projection. Even ivory, subdued gold base colour with barely any sheen, violet resin, flat bright orange/blue-white emission colours. No shadows, ambient occlusion, reflections, bright specular highlights, rim light, bloom or painted illumination gradients. No floor or backdrop. Actual transparent background, no text, no letters.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "d4f6c5b6045ecdec2385e0cd1786f475c3dbd2cde89f2d1bcc2866b9fef8965e"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b9fac254a7583fecd9eb827ed269ca0b65dee639f284767110da0fe62f2f69be"
+        }
+      ],
+      "output": "paint_right.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-5f3a892b-b934-46fe-8947-31c51970289c.png",
+      "selected": true,
+      "reason": "Correction improves guide-mask overlap and has flatter ceramic/gold colours. Exact part boundaries, head outline and shadowless albedo remain unmet.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          47,
+          1238,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          66,
+          390,
+          958,
+          634
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.95195,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "44a00f9d255e0ba92820bb63602144cd976c085038e793b9181e8c8c1dd39f60",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          81,
+          477,
+          1175,
+          777
+        ],
+        "low_alpha_pixel_count_1_to_15": 13614,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      },
+      "retained_attempt_copy": "paint_right_attempt2.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Corrective regeneration: edit Image 1, guide_top.png, without changing its SQUARE CANVAS, alpha silhouette, scale or geometry. Image 2, design_reference.png, is material reference only.\nONE SQUARE image, requested 1024 x1024 transparent RGBA. Preserve the square canvas with huge empty areas left and right; NEVER crop into a portrait image. Weapon points vertically down, horizontal hammer head at top, narrow handle down the centre, pommel at bottom. Exact guide object bounds x308..715, y66..957. Preserve every guide part boundary, especially the thin handle width, all collars, the angular head ribs and narrow central spindle, the small pommel tips.\nRecolour the existing guide surfaces only: worn ivory ceramic striking end caps and raised ribs, fine antique gold trim and collars, dark black-violet resin, thin recessed orange capacitor coils/conduits, small blue-white capacitor and pommel light. Fine material texture without altering geometry or inventing external decorations. Never adopt the reference's three-quarter projection.\nCorrect the excessive shading: this is a flat UNLIT DIFFUSE/ALBEDO pass for texture projection. Even ivory, subdued gold base colour with barely any sheen, violet resin, flat bright orange and blue-white emission colours. No shadows, ambient occlusion, reflections, bright specular highlights, rim light, bloom or painted illumination gradients. No floor or backdrop. Actual transparent background, no text, no letters.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "aae8aa1aa0f663ccce42aedf0d9a5e36288b86e08b67eb815cc04e6847af551b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "b9fac254a7583fecd9eb827ed269ca0b65dee639f284767110da0fe62f2f69be"
+        }
+      ],
+      "output": "paint_top.png",
+      "tool_source": "/home/pjasicek/.codex/generated_images/01a16ed1-04d0-7013-bacc-95740ce90890/exec-c2206b79-2244-4084-98aa-9602939d7629.png",
+      "selected": true,
+      "reason": "Correction has slightly higher guide-mask overlap and flatter materials. Handle/pommel and head detail still differ, with residual shaded relief.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size_met": false,
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1216,
+          1238
+        ],
+        "guide_alpha_bbox": [
+          308,
+          66,
+          716,
+          958
+        ],
+        "identical_alpha": false,
+        "normalized_silhouette_iou_diagnostic": 0.93559,
+        "normalized_silhouette_diagnostic_note": "Nearest sample of alpha arrays only for comparison; output image is copied unchanged, never resized.",
+        "output_sha256": "87b6d47aa317bc6790909855193223f7849961117f33b60fa2759f4ae3663b87",
+        "unmodified_tool_return": true,
+        "alpha_bbox_at_128": [
+          375,
+          79,
+          879,
+          1175
+        ],
+        "low_alpha_pixel_count_1_to_15": 12798,
+        "visual_review": {
+          "reference_material_palette": "Matches ivory ceramic, antique gold, violet resin, orange and blue-white luminous colours.",
+          "exact_geometry_and_part_edges": false,
+          "flat_even_light_without_shadows_or_hot_highlights": false,
+          "lighting_note": "Residual shaded relief, dark crevices and metallic highlights remain despite albedo prompts.",
+          "no_text_or_letters": true,
+          "alpha_note": "RGBA transparency is present, but stray low-alpha pixels and edge fringing remain; guide alpha is not identical."
+        },
+        "meets_all_brief_checks": false
+      },
+      "retained_attempt_copy": "paint_top_attempt2.png"
+    }
+  ],
+  "status": "Generated all requested views; exact silhouette and strict albedo checks failed within the allowed two attempts per view.",
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_back.png",
+    "paint_left.png",
+    "paint_right.png",
+    "paint_top.png"
+  ],
+  "limitations": [
+    "All selected built-in tool returns are 1254 x 1254, not the requested 1024 x 1024. Kept unresized as instructed.",
+    "No selected return has a guide-identical silhouette/alpha or every part edge in its original place.",
+    "Reference material palette is preserved, but residual shading/specular effects prevent strict flat albedo compliance.",
+    "Low-alpha stray pixels and edge fringing remain in the original tool returns.",
+    "Exactly one corrective regeneration per view; no additional attempts or post-processing performed."
+  ],
+  "verification": {
+    "builds_run": false,
+    "image_postprocessing": false,
+    "selected_files_are_byte_identical_tool_returns": true
+  }
+}

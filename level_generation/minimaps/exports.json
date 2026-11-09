@@ -1,0 +1,1644 @@
+{
+  "count": 42,
+  "expected": 42,
+  "records": [
+    {
+      "world": "mm6",
+      "map": "outa1.odm",
+      "name": "Sweet Water",
+      "target": "worlds-mm6--icons--outa1.bmp",
+      "directory": "maps/mm6/outa1",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "efce2a067465c243f2c61ac3097881d25f7d92bc7875cc0a2732aa7fb9278be3",
+        "master.png": "fa9fe597777749b8c785d7a1b634c0a2b7f5261e9b113ba336ff1b3db2c8d4d1",
+        "terrain_processed.png": "76160992eaa0d4bb33085467494ecb1cde8d28390a226e384b565642e919c35b",
+        "objects_processed.png": "fd78d2f4411e6af95d1452cf96c443c3373e29b22198d9f72bdf801ec8a54ae0",
+        "layers.ora": "d7bf165f1fbad1ef83f5706a657c06799efe856e6625907513b68c8e7e8c6bd8",
+        "geometry.png": "00d6510810cc3f8c780986d6eb2c2b18fdd06f93d5e8cb7b6b79efdc5dc39406"
+      },
+      "sources_sha256": "b051fd524322c82baf01fe9dc899acf6db6a3e8a6afc0a9241aa9f0b6c2b7cd6",
+      "capture_sha256": "d5c351eb8f70c5083ebfb3be61988b183c34a4d57d510ce11856ca568f85418f",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1488,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9905303120613098,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outa2.odm",
+      "name": "Paradise Valley",
+      "target": "worlds-mm6--icons--outa2.bmp",
+      "directory": "maps/mm6/outa2",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "4ef0ab11ad3398fcfa302baa02b198193c9ba7171d9afdb87664dbcb59e0e60e",
+        "master.png": "75df0003e08bc07db1df5ae5ec8be5fe9cea0787a2c7ce53b5e74cca4836d436",
+        "terrain_processed.png": "b440538d096d20195c85089ce587858a94a2d538e7579789d8936a83389f9980",
+        "objects_processed.png": "2363b139d740ec20a36ca71175a3c4345f18946c8a1b4cee8ad293277a22e6f5",
+        "layers.ora": "c6d9ce1ae439973f4656279bed7355879b0fa7f8af134a42d51a9b7a0f65b830",
+        "geometry.png": "25296a54c774eb0faecd39a09f2e9759d85514bd856ae2dd129d317c57559cc8"
+      },
+      "sources_sha256": "8dc2ea2be5ce56733668fb1850c96f3362f678f22cd53156816852814ca1ed58",
+      "capture_sha256": "ac4099a391199d0716e8bbda17a33a442eead104dde0c020bd1547e8894aebab",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1738,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9277359247207642,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outa3.odm",
+      "name": "Hermit's Isle",
+      "target": "worlds-mm6--icons--outa3.bmp",
+      "directory": "maps/mm6/outa3",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "89a342c440df6adb4aedb39fa11a45ac3a38d89e8a7eb2580ed8341ebe159652",
+        "master.png": "25ca50ecead1ae65ac419cabdf44e2cf8ba9e372a16662a22a8228c88c7cdcfc",
+        "terrain_processed.png": "933beab89895d85b8b0cb1aa00b7cc01d31a5e7e77ad50156bfef73a4b095e4e",
+        "objects_processed.png": "a5d71db3335d2457b9c51e4327cb20c2509c09438bd8eae4d9912bf9805af652",
+        "layers.ora": "4b015b691ba65f8126e7679ed552b9e988f70d89cb0a61c40cc75b179caf21c7",
+        "geometry.png": "cb17bbd37502dc6fd0bc915bc2e2d47b855aafae1a47c25c80d416a525ee97cb"
+      },
+      "sources_sha256": "173f42c2a202dad86df25290fc24f1985588003b16f9f9541dc474308be0b415",
+      "capture_sha256": "2caae006c712fd5c9455dfd4327637071231f410f4f4b04376761369f2a7efd7",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 397,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.5995641946792603,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outb1.odm",
+      "name": "Kriegspire",
+      "target": "worlds-mm6--icons--outb1.bmp",
+      "directory": "maps/mm6/outb1",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "28ead99820cdf5c9d0b4491e968e04b9965d851115f4d184379cc5c36e7e59b9",
+        "master.png": "3e6b473c897dba9389816b82d2e6d5336f6f6965b45b3e250f9d21ade1e69445",
+        "terrain_processed.png": "268b05a2280a451fc7aa7a93c32158763c4a823ffbc73dd488a95b2abb83be2c",
+        "objects_processed.png": "cd92d74e3df84ea507b38ed59ffeeab5c93eaa9b9e2e7d11876e8334246cb0c2",
+        "layers.ora": "ac26a2790718b9df5cce028561b5804818da99c1a10adbdada6a3ade81e83cb7",
+        "geometry.png": "6c7d1a26be343fd6693a8edf235f11a09b734809a5ab8c68b6b0190204fe1040"
+      },
+      "sources_sha256": "d3e81df3e1c5e6860be0d7a04aaebcd3d98a3c4f693716e0955d09f820f9127e",
+      "capture_sha256": "85ef12e25183e05e91fd1b474a47c774cbaab498a76883b6e312ce8ce526d536",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 2944,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9990285634994507,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outb2.odm",
+      "name": "Blackshire",
+      "target": "worlds-mm6--icons--outb2.bmp",
+      "directory": "maps/mm6/outb2",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "30f585f7e2005adabd4fa0c3889b1e488bbbd03f01ef2991f4850df8593fac01",
+        "master.png": "3952785abbb6b98ff6febdcf52c587b3ee4c6b93806b1b920b304924b0822165",
+        "terrain_processed.png": "b3ffc8f5f98adf732b714b0af0376de1ef895f887c83e07048425dc0167c2726",
+        "objects_processed.png": "3f769f15962edc9511b7c2f56d90f1fd2accf4ec2f626756fd4a145f2f43f0f9",
+        "layers.ora": "85e96c27a07b0dd5ad1344ba8e245e667fea9560b7fd529d4a8a8885c854c88c",
+        "geometry.png": "631afeeacd6fb7492dabecba1fe420ae6a036368fe4a955b04580e860470e694"
+      },
+      "sources_sha256": "5357b9ee8fa872778e4491eacf12533db78facffd5ae5d4f9e8f939e1fb6a942",
+      "capture_sha256": "c3e04e4fe6c636493072a585ffbc8950a6836d4a05f365301a668ecf6093640c",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 3924,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9859753847122192,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outb3.odm",
+      "name": "Dragonsand",
+      "target": "worlds-mm6--icons--outb3.bmp",
+      "directory": "maps/mm6/outb3",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "56a801a14d06019d7afb10979a3b259675e6079be311cf4f2fb952b40251a157",
+        "master.png": "525d2a1feb8206f1611bbbc870e9dd128ad047ef4190cfc2a78697d9ea0f52e8",
+        "terrain_processed.png": "f2093648047356c1b8e1e8edbc7f6e5bbd89d2b2135bf2f9b8f60846839842e6",
+        "objects_processed.png": "d90c077e21c63a071ceea24b26d22a198b438614dc327d9acbd9c0dd6d426428",
+        "layers.ora": "e414c3c33316d30063216505bbd9cba997248fe9a43c6f398859e475ac088aef",
+        "geometry.png": "738a52815ca97e168e59f6bd66b027ccc2d8decc438790e0cc37ae22b0aab09b"
+      },
+      "sources_sha256": "d46cf3e95d5889bb97659fc19051a9652152423fe9590ee8373f0c8eb8927c69",
+      "capture_sha256": "eefd560862da480e1351a06f5c28ffb3694c171834fd77a81c36434ce0f52cb9",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1247,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.6858740448951721,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outc1.odm",
+      "name": "Frozen Highlands",
+      "target": "worlds-mm6--icons--outc1.bmp",
+      "directory": "maps/mm6/outc1",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "142a5fccda736fa469804c1405dbdf2ee54d9dfdb904fd751f56520b737fbc64",
+        "master.png": "37e7d9f9770c51da1ddd09289e257c83e136608ec81accb42d4381d9a6054b39",
+        "terrain_processed.png": "73ee1429ae71485cb2292f0f91557c69b981c481d143f00273a3e1ae10557821",
+        "objects_processed.png": "f9205bad9c5ece00869fd4b165e0d135443092cdb0213b927d7975189f5e034d",
+        "layers.ora": "f8107192252ce48dd47b5b192eb879a6c2f23183a697b47646854032470900c1",
+        "geometry.png": "bda5649ccb0d23e78ffef15113680aab3b190c66951ff8530cb20289e12b518b"
+      },
+      "sources_sha256": "2f215f373b5aac453f4a845c8e4e6e89cc4c749894feb81927f92f580da5467c",
+      "capture_sha256": "627b927d048b01291ace390b0af013fc755ffd59c285f5074cb1915ede8571c7",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 6190,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9429243803024292,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outc2.odm",
+      "name": "Free Haven",
+      "target": "worlds-mm6--icons--outc2.bmp",
+      "directory": "maps/mm6/outc2",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "c4c8438ab382d3af1ea45d0f925b18b53290ece1b1b9c962e29f2b6a9d7b8fa0",
+        "master.png": "12448f93898ced080ae019ceb3893629b0e74adb05c5bda172d9b4e76fcec18b",
+        "terrain_processed.png": "255c799b8c188eb4de446140ff76ce92c24b23d7342c5c3d606e1e90361fc36f",
+        "objects_processed.png": "95565010b62834d12cb401777259625bef3f96f6827c86eac41e3cbb8d56a3af",
+        "layers.ora": "4cd12ab195f5d0530d99584fb4d847c65a14c7884a72c5fe5056b0e6a61ea172",
+        "geometry.png": "71e2e693af8f8e0774c5117933bf6af3e6b5bd88afcb017b05e63c62f5a97a3e"
+      },
+      "sources_sha256": "966e3c1aa635234706e56888491cc67a39f7b145a68412fab8055889fedbb121",
+      "capture_sha256": "e64aa313e20af79a17bc145f20772582fa53e2398d566605fcd3f7b86399924f",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 8255,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.8617748618125916,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outc3.odm",
+      "name": "Mire of the Damned",
+      "target": "worlds-mm6--icons--outc3.bmp",
+      "directory": "maps/mm6/outc3",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "1dc7d2e66b7f372a29b8a636828b5354d091971543ddbf6c6367da7b5b1d76a9",
+        "master.png": "df4646bd68f84cd05cc53be09a84a9dd7f23f6467fbd3617c0821211acc8fd98",
+        "terrain_processed.png": "2964c80bc2f53a84bbf52322340aa83432235f9f12ebe481a6ce668abb8dc606",
+        "objects_processed.png": "4e4af6df88bba29a40ab1733ca029feaf4a93a441fe9973eae5ad7302f14ec5f",
+        "layers.ora": "fef11d741889a885c966c3d2fe6397422d38ee4bc7cb649f52fa5058e06b0219",
+        "geometry.png": "dcfaccbe3d26dad83352f8ceb74b800135d78dac4c1ee10b324933f31a649dd7"
+      },
+      "sources_sha256": "7914a3b9bf84bcfe81136e7c1e3715addd787212f78e48b9cb7b74e612e8151c",
+      "capture_sha256": "3c1a82499fd8086f1aee9078b323ec2f50409c4d798acd5032760253247ea828",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 4285,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.5687502026557922,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outd1.odm",
+      "name": "Silver Cove",
+      "target": "worlds-mm6--icons--outd1.bmp",
+      "directory": "maps/mm6/outd1",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "b5989271758202408ab2b5ba3b3ab23983741846d5653b73c0d23d84aaf0e635",
+        "master.png": "378d427403d9d99569453515829acd40e8634caa49fbb51d48aaa392f5a0a00c",
+        "terrain_processed.png": "1b29fe9e8352260b52651d3bd269944656d92f9b1211a8e17c1bcbc5f70a131b",
+        "objects_processed.png": "6d31d08a0fd9aa9951d3bdddc95be19ff72db9f91cec3d33597c067716a80ba6",
+        "layers.ora": "409bd6c362ce0f049b8cb5948981e3b75d51223314bfed542a56b9d4760bee8b",
+        "geometry.png": "f63fbdbc8f5c6039363c85604c0736f928b8bec7e838779d032d3319cabbd1f7"
+      },
+      "sources_sha256": "57b5f38a4aff7c82768a3de1188a21c8550d587148112623b67e0516916222d6",
+      "capture_sha256": "98c8a3c43c3d942f890c4ab8461d89b7ac4d52cdea9d3ba3816c491ea702aa88",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 6002,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.5049013495445251,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outd2.odm",
+      "name": "Bootleg Bay",
+      "target": "worlds-mm6--icons--outd2.bmp",
+      "directory": "maps/mm6/outd2",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "e1a1d1dfe0647868a0847165d555e5ce35a409f8f715a9ce4695d0d742338a78",
+        "master.png": "f32b0389dd31e0eaa76b6c24094daf355871eba4c51fa6e9ee70a6973f185235",
+        "terrain_processed.png": "d36be919f8cd59d24f9a1bbba0d930e968e40ee9996b9febd6f1be498bef9d20",
+        "objects_processed.png": "4fbf75e9c06c6f8592cf0607a2f514f08443c21935e84022f08286395a20dc04",
+        "layers.ora": "7cc6b5bfab9ad859694fff60481a0149e06b08504c80c4d898aac06fa6a24738",
+        "geometry.png": "a7f8a058eeda6d921e566a547743bfbea61e320b19dfc4de216e63ade476ab64"
+      },
+      "sources_sha256": "89cb5ba8bf857259b9dc2cef948ba8151f929caa4436c0c98d02662cca11fd20",
+      "capture_sha256": "9b7d6b6d9cfa6d954594d3f043d08563e48e46496d296ea5f1a848aef79e3351",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 3309,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.40920865535736084,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "outd3.odm",
+      "name": "Castle Ironfist",
+      "target": "worlds-mm6--icons--outd3.bmp",
+      "directory": "maps/mm6/outd3",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "87fc550250695652e9b00d2b96faca04b1f8269687305edca78507bdbf4acd11",
+        "master.png": "1c08d4f3e4bf87ecb75530077e6c509408e4c765dd3bf9d34fd1b67ae6d638ef",
+        "terrain_processed.png": "2380000147b6cc7a20759ac314de3c0b5cd5052763d431fd6f2cf782d7620156",
+        "objects_processed.png": "3f62123e79935e2c57b73b74e19bb18ea7b03f312aacc8de7dcf551003ab1d91",
+        "layers.ora": "dfad5f8aac9221112b529529b1a7e5cad60560568a2bc72179b3fe57b6629d73",
+        "geometry.png": "8db3e3806cf547183009936198060cbbe8cdcbbfccc66421bf630f2bf4970f03"
+      },
+      "sources_sha256": "76354d581ca1699893718dc2225f1904faead34501eef8f89f0a5207816c8ae1",
+      "capture_sha256": "c882c98398deb0535d8fa66a3df91853541224b777cf971c2aac196ac8ecea21",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 4722,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.5907909274101257,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "oute1.odm",
+      "name": "Eel Infested Waters",
+      "target": "worlds-mm6--icons--oute1.bmp",
+      "directory": "maps/mm6/oute1",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "c054dfa70f018839b1f1f9112cf541016673655bdeb91634cd17fb935657d667",
+        "master.png": "08155e229d2f5f23c9066d76cabb297b5b483b41b2f3bd6882531ac315c6652c",
+        "terrain_processed.png": "bc910f5d30fe4e73b34d941de5d94e592070280c6ad8da174d99d5c9a4311649",
+        "objects_processed.png": "34dfdac7cf84a6fb333c34af9e4e4d777a6818db60d267c6898cc36c99ebdb89",
+        "layers.ora": "968c547bb6a23c5aaa309795360cc6c57d350acf6c3ed4631000bdfeab83c357",
+        "geometry.png": "d79e79f2caa4822b1fd893b9580f82912e8338110c1d431c62345f26e83ead5d"
+      },
+      "sources_sha256": "ce912a0c2281b1efbff4df9602e0ed7f43ab0a3b1024589d2bb73d29a4455b4b",
+      "capture_sha256": "6d3259af2d5261033e13906e2ae0fd6fdc2884cd6b351a74485ab5ed455a11d4",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1605,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.19270703196525574,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "oute2.odm",
+      "name": "Misty Islands",
+      "target": "worlds-mm6--icons--oute2.bmp",
+      "directory": "maps/mm6/oute2",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "23f4af47204676e97b4faf132fca6fec05e0755a1b3d92ed73011c092374aa82",
+        "master.png": "508b821de66f241f1b793302de4cdae096f781ebc70890354a1f62955a311cc9",
+        "terrain_processed.png": "7401c33dcd108855b0e53b2f720ff8ef7bc94047808816a3beab8adbac0c6422",
+        "objects_processed.png": "36bc18f9dac82cf80152282c4c1534dc6e8988b0fa9be686f3fdc22413a0b292",
+        "layers.ora": "84efe8e05b229b23880dd6a7ab7820b65cd1b480090ecf6b7401a7795a4e39a4",
+        "geometry.png": "0f8fa9ff5847db67dca3d9a64eae5a6b8ede3f7ee2f920d33f8b2fd25d0bd861"
+      },
+      "sources_sha256": "ce83ce6a853ca7d9f547882aed4bba9cad6a86ff18091a25e564f50a55f241a6",
+      "capture_sha256": "f3bc36388845c82e075ad97680da22fb255223079bbb4296497be357fb578bd9",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 3471,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.2138114869594574,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm6",
+      "map": "oute3.odm",
+      "name": "New Sorpigal",
+      "target": "worlds-mm6--icons--oute3.bmp",
+      "directory": "maps/mm6/oute3",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "c9d7754aef37e5166cf96ad42ebc99e9a6235fd357e372b389c33ba8987f2354",
+        "master.png": "38cf2ba04b953f9d766c0370f15d4646207c288deb0d16ca716370aabdbcad86",
+        "terrain_processed.png": "1ea7d1cc303a9f55654ff01c410fdadaad52eda4144b5ca4221f2e895a7cf4bf",
+        "objects_processed.png": "91ffce20d2bea9024477fb242d1ed2f140746a4667d2ae63c1699d1d3ee59294",
+        "layers.ora": "134367e567d7e29658d35623a232a06bc3a11b0738c04b64fc5d94b5e702cf4b",
+        "geometry.png": "68c974ba2fb52f95abc1ec2021e28c838feff6678ad3157dfed5e489275955c5"
+      },
+      "sources_sha256": "df93eda31a5981fd84a811af831bb7728226da3baafc9406545f0aae8880d60a",
+      "capture_sha256": "95e7dde8c9af9c3827a2af2881bd78a4fe581095ada4be7f9ac083927fe7735b",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 4486,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.3451460301876068,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "7out01.odm",
+      "name": "Emerald Island",
+      "target": "worlds-mm7--icons--7out01.bmp",
+      "directory": "maps/mm7/7out01",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "4e70c689e3b861845ee66c91827dbdb3dfe47b732a04834225742094ecfb14be",
+        "master.png": "3ea36e56c0c1acf29d9920c3dbfe08035077f7d1896d11d3a8edbcd7a50a4991",
+        "terrain_processed.png": "c63d8b59ecce2fcb61e759c0dc7057df058eb4fb4afea7502c4ab754764b1392",
+        "objects_processed.png": "edc02b4633b7d258918688c24e830df316dd165d6e86bf99f927f24eb60a7c08",
+        "layers.ora": "35240b5a59d05584f668944cd29542b8e7ad3addae453db03e596c69dc684abb",
+        "geometry.png": "419d949ff9695b2444afbc118edb4988b79f2321bf018200913d87e6200cb8b4"
+      },
+      "sources_sha256": "84d8581c3cf6acd6537adaf2b5282e4c8594df0978b0a009cc3c1fd31b19b3ba",
+      "capture_sha256": "1d468388a12749d95b254439fb5f22d61c15816f41629eb2619214514020e968",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 5082,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.06544343382120132,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "7out02.odm",
+      "name": "Harmondale",
+      "target": "worlds-mm7--icons--7out02.bmp",
+      "directory": "maps/mm7/7out02",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "0f0c0d7a60b39af4c26f92f03dce73e7c8e8d503fef8665385633b50085c4a12",
+        "master.png": "3b775a2b30a28f7ac2b0f39406b88891e12c2b98dccfc9230784fdef2adef8b7",
+        "terrain_processed.png": "8ce8c409111166ae00ed3de972fcf2a815f8cb32b162bf4da1d39d71f5b647d7",
+        "objects_processed.png": "29122b9878f40f0252b9cff23078d706717a70ebe166b8337908120e4c40fa2c",
+        "layers.ora": "c7117a2d8847df7ca4896fd50d7c66c5cffd79773c89f35ca30efc06a2ccd6eb",
+        "geometry.png": "39eecf5ef68f82eca8f541a0fd592f675e562e714b1116156c2769bf206bdb40"
+      },
+      "sources_sha256": "d2d6e9c085bdef53e7cf91e03213092973698c9eac49fb3f47173139d6edf0f1",
+      "capture_sha256": "f7c0e5cb68ceb95427e6fea888c82f1753fdbd3e2af4efa8ee4d0cedc0e6d134",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 8154,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9761813879013062,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "7out03.odm",
+      "name": "Erathia",
+      "target": "worlds-mm7--icons--7out03.bmp",
+      "directory": "maps/mm7/7out03",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "90ebde0e5683a8c4cb249d9f5ac6662e2b80276514da5eaf4c5b671065c0f95d",
+        "master.png": "d6a6a42ca623f69ad1f5a8e167bd70d4efb295abd318ae9df272b8df079dded2",
+        "terrain_processed.png": "73653f797251b379b09c09b89fcd1ebb6e2d84bcf8ecf2de899e009531f92b63",
+        "objects_processed.png": "195c2a4dbfaf16735c1d5e9493b1e11cd1bbaf7c08b0f4f085563fae8e11c009",
+        "layers.ora": "dad35f2a982c3e1fa3951a0ad52e26ab5d592fff3849d7035ebda3790f0dce4e",
+        "geometry.png": "2c180e6fc72756b80c598e5357f8974fed978dc602daae20a2ca730f2ac60dbd"
+      },
+      "sources_sha256": "702ea9643b3f95c4674080b9eee19019e8ad2091a8610dd7c8569c2369a03815",
+      "capture_sha256": "23071bac21c771ef765a4049d9ab486d284f1e63a2442ded81bc6a70bc025183",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 8566,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.8178128600120544,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "7out04.odm",
+      "name": "The Tularean Forest",
+      "target": "worlds-mm7--icons--7out04.bmp",
+      "directory": "maps/mm7/7out04",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "cd95399c1af691b790b0ec5efb973e433dc52dc5a96ff4409330fcc81735d16a",
+        "master.png": "0ba607639bf8267d1b8f2037e82dfd7917ea994db988002128e35f5deec2c548",
+        "terrain_processed.png": "c75ea02baff40398d5ce829b949f3bbc442d682a1e0f05c641d74d1ab28d25c9",
+        "objects_processed.png": "2d6b1e8b18820ac8e131b22cc49612f67874a566d58133b36e189621f180cab1",
+        "layers.ora": "b33a0ab483ef3bcac8f272e92a9a7fb5c222923af75aa1be570fb68cf8f17862",
+        "geometry.png": "0d4479cc802fe8ccd0266bf6123310ac195a13b688c607d4bbb6cfe12dc94cba"
+      },
+      "sources_sha256": "30b6a8753760508920fb532bf883a330200dc768ea9ed7e6c844f964c3506a32",
+      "capture_sha256": "17f153acca775dd4d6d33a37eefc0d6f3ea7ce85df5fd80981d6ea2219b471a1",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 10243,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.5880343317985535,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "7out05.odm",
+      "name": "Deyja",
+      "target": "worlds-mm7--icons--7out05.bmp",
+      "directory": "maps/mm7/7out05",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "7b3df2dd7ba998b109bf510cc5ab370fd5c1bcedb0858b2faa8f4e0a67dffff5",
+        "master.png": "5ea786d20eaae08fc02b0aac630adf264c031848f7029d49054fd10d948cf41f",
+        "terrain_processed.png": "1f0aba2b400167bf1a052de8f4ca2e7f72de3c7a63ebef52fe9b4069d036c591",
+        "objects_processed.png": "b29c98598baae1c333a86816f0c9970094744c670df0735241a7f3e9f3bd0862",
+        "layers.ora": "5eaa18386af2abdfb695ce5252da6b3ff3391e7b641bb0042923c5dda1f55e71",
+        "geometry.png": "40c4a3f4541500b5e2456054f96bb535c7b875eea364b8ba804f35ac1141b411"
+      },
+      "sources_sha256": "1260785f485c1fb8db11ea2ffa992f45bc1055ace9936af501804194565330b7",
+      "capture_sha256": "dddf873435a2b5808101b6877747d264683fd0df7c9a4166833c4b35bfe8f634",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 4549,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.8091684579849243,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "7out06.odm",
+      "name": "The Bracada Desert",
+      "target": "worlds-mm7--icons--7out06.bmp",
+      "directory": "maps/mm7/7out06",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "4e122e9ad90c5b388c9cb9e890eeea06679a9f2b5dde535ab344799f708ffc64",
+        "master.png": "6b8631b4e628e0d1686e54020dff29f8ea57c2400f15a9a93653ca7ce2a6ad22",
+        "terrain_processed.png": "e55b33748112b875acbc629c97da0f1a264b05f4bdb4151a0bc88eb14146a5a8",
+        "objects_processed.png": "fa847d65c087318a4f8e1002a37274635dd6ec6e6da2bcc3d06ea4576116df1c",
+        "layers.ora": "7f701c6f642e88d60dd9ca92522b9999ca32b307d56d5c81cb9bd4d58d2c743b",
+        "geometry.png": "2d1cf8ab98112bdec2fbc4745cf21d7a343afae71caa494dec8936354f96e61a"
+      },
+      "sources_sha256": "e21e114bded2e715c29afa989eca1ecf44dcf7f74562822c85c8d807cc6ae346",
+      "capture_sha256": "bbb4f6449079b47271830702df0c6280cddab47d53518998dc1e7a6c0c5c5a01",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 6127,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9239935874938965,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "7out13.odm",
+      "name": "Tatalia",
+      "target": "worlds-mm7--icons--7out13.bmp",
+      "directory": "maps/mm7/7out13",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "e54f2255dfb6e03f96051cfc31b24efa210d1d3686e28ff7c65f702344dddcc2",
+        "master.png": "7ee02499ed80a0b162d22d5ca00aa405f295e2ead4a1e0f7beb2f23bbcfe3905",
+        "terrain_processed.png": "cc5ca97cf7eb95a9e560291ac159c6d37333a100283fa920d10d13fd491b0f0e",
+        "objects_processed.png": "f3a32501dce1ff51c1ecd8b15b3310204acfcadbcdcc927fa323decf42a049ce",
+        "layers.ora": "513a57221f0f41bfc5a6742d0b9c5b57ae36a8e24050dce4db3fb01cfc93df26",
+        "geometry.png": "411e80fcfeb02274287bbd102a3e427d9244d5ac353b2842b864bbd8fe307f99"
+      },
+      "sources_sha256": "9d7b944a9e2762f1cf1bf8e36dd9485028f2e42563e48c533e24d52e459383c9",
+      "capture_sha256": "e0470eb721bafd332827cff94140afb2100b19a0dd494dbf2a3203e1b44c5b58",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 7668,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.7120518088340759,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "7out15.odm",
+      "name": "Shoals",
+      "target": "worlds-mm7--icons--7out15.bmp",
+      "directory": "maps/mm7/7out15",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "f807ec3a5fc374059d1a885865094cd1bd586abd24ee4d280c48f152e48897e4",
+        "master.png": "ed4742ced4a0d9f35edbc3e5dae0a00ace3311a4374ab60e7e069e5a28dd2220",
+        "terrain_processed.png": "353d5f6005bedff641bc69e71f8b57eb3e4c42dc5889f9917101eb4e6543d6f9",
+        "objects_processed.png": "1753a375b9e98eb7bab33f2ed913dd4fbc30489421a844c7f2ca987fcce351a1",
+        "layers.ora": "b4499a11fca5fd6f2208acbcb7f413717018958805fddba74f0594ead817051f",
+        "geometry.png": "2978294e158756725d065ed71aa1fe83ec5988f3afbcf37906de1c5dbf39ccba"
+      },
+      "sources_sha256": "2bf023bc5b9fcee9887dc1196a0b091a170255219ba746e6036d9e80aee5f5bf",
+      "capture_sha256": "25a6eb913db49eb5c93be0d1737f97e4f16e5c1bdf4b434e613acfa5dc5a47c6",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 2268,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 1.0,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "out09.odm",
+      "name": "Evenmorn Island",
+      "target": "worlds-mm7--icons--out09.bmp",
+      "directory": "maps/mm7/out09",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "75aa5c73bd02adae5e3ddf35ce88b80f90ff7c18b0578b7aa47c63c48b079ff5",
+        "master.png": "a3b7bac9d78bf31dd465256975a309c3b017d03c769530cac6f0ed0367f86bf1",
+        "terrain_processed.png": "4d0c5c899d69a695b838ea888d238ff6f64ab8d30d1ea0ce1aed1b70adf9e3c1",
+        "objects_processed.png": "4312aa11f50c56d21eaaaafa273014e716578852fc2e778b6072617fd59ab3e5",
+        "layers.ora": "505c2bdef05565eb7e10e045fb010d9a3546a99a32947958f976da323bc78c5f",
+        "geometry.png": "3493ea1c1d1b2cec8139f93b4a8e033608e16c7a6108998e5682b3bfc1e4c132"
+      },
+      "sources_sha256": "f1bbfa02b10849acbd52d1fff15e6d9c6378b54ea4b0d93a9c3f1edd04941206",
+      "capture_sha256": "bbd890e68ee22afbed16349d45059a481e8abb0e61c2fcb9586b5786a5509666",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 4762,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.13494972884655,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "out10.odm",
+      "name": "Mount Nighon",
+      "target": "worlds-mm7--icons--out10.bmp",
+      "directory": "maps/mm7/out10",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "e27a36f01a7e147e1576ee512e3365643bd14e11649f4342d7f335da3f8577fe",
+        "master.png": "b123478b502350aa2b7ce16143c5655f592175975bee39100af95344fef4fa19",
+        "terrain_processed.png": "6e150af3c43b4b828f9e74affb8827c590fbf646d1a991a30acd67ceec0cb08f",
+        "objects_processed.png": "eaf2d083d1efdafa4a89bccb30153cf894816217441424245d80dc7e72e25a6d",
+        "layers.ora": "3c4d96e5409baacca82e692e2961a218525a6b048dc1c4ad87ae2cda1b3c7d4c",
+        "geometry.png": "2a1584913394873cb9c555cda56eff443a2d0210d015352a688c7eeb7b77bbdd"
+      },
+      "sources_sha256": "b71a0c3afacfc988774cf1a892229230280669070b54b7e200c1246645f4b90c",
+      "capture_sha256": "98a855f79825aec6d303de07a81bf7e4870809b38395f07c06a077c9f3228245",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 4847,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.8879976868629456,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "out11.odm",
+      "name": "The Barrow Downs",
+      "target": "worlds-mm7--icons--out11.bmp",
+      "directory": "maps/mm7/out11",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "128c81e9bf0ce3196fc4fd85cff0c8ef3de1589086cf0f70392accb1d514ed72",
+        "master.png": "65aa67291d7af3cc4621454cd6edfa94eaba6e43777b822fd1d5fd7cad15c2f5",
+        "terrain_processed.png": "4ff981c061bc8886c95d1670e4d783027696cd29d8b7f25f16ab041275646bfe",
+        "objects_processed.png": "4f2fddf014a5f9574554c2a9c1a569ace4f2d63a664b0fcdb7c9d160e83fbd3d",
+        "layers.ora": "4723553eb68e67990b320bad7eb88e86fa4a9c9c5bed478d20764580b6bc551b",
+        "geometry.png": "7b89d5831b98fd9c81c99e74d4cc6c17a648732b64b847ec3d9f4312f2975d89"
+      },
+      "sources_sha256": "34ab4ba10a96b5e2f8d81ec5f18800eaf89401d90185d2f77138d1dcecd6e895",
+      "capture_sha256": "a5041e0f76155dd7331487312b864657ad41b0b40985afa883459477db38c778",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 8109,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.8660919666290283,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "out12.odm",
+      "name": "The Land of the Giants",
+      "target": "worlds-mm7--icons--out12.bmp",
+      "directory": "maps/mm7/out12",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "82c56a6a652b1fe8ea16e32d14f4e090994e50fa814d6f38e643f382943a6aef",
+        "master.png": "178749a3960272103257240d25b79471625d6c6e9fd45805ac9ba13f0f77b467",
+        "terrain_processed.png": "c7b9a8f3008095ff776920df38a634ed3bd7dad91e9315528c81b42e9ff081d3",
+        "objects_processed.png": "63012ec4298daf6545d2e102e93d6629d32ade47e71e836a9af414be1189797a",
+        "layers.ora": "ad0023afbb5052f09722c0f732be0f1a5a8eaabd215137b98d92b3f6e03d9cb6",
+        "geometry.png": "d56892184a5ff9078b3f6430737ea5989b9e32bc1c8a5faa9f077ec34f565a9b"
+      },
+      "sources_sha256": "b5741ebddb2183c455e539dd7d70c613ae0bd1b9191b3039a5a2bd02e2f6d07c",
+      "capture_sha256": "87c32082d9f8626fb255daea6e889c9e9676f66003803991856b78fa8495e9f2",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1388,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.56572425365448,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm7",
+      "map": "out14.odm",
+      "name": "Avlee",
+      "target": "worlds-mm7--icons--out14.bmp",
+      "directory": "maps/mm7/out14",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "cf518f7433e4046ad7abf3ff4e8f1d046715b64410d02e2272c2d00b36104436",
+        "master.png": "ba1004e12c9e9b8cd6572baf23502dc590048e2f09482ac79a600a749e003f3c",
+        "terrain_processed.png": "6c17bc4bf1af1870d818732b165e7af9c8b18943cef888f36689f23cdfc9b48d",
+        "objects_processed.png": "b58d89a28ac88227d752c39b41c6185f775512ead3f5e67aae0696fd4050ab56",
+        "layers.ora": "ecedeaf7c66a4a59f04f735131f9770126e4256a4cf6289e5276b23df5722ead",
+        "geometry.png": "68aee526fb4d45b5c1f36e134953b0310d6c903ad6abb789b18f4923c00501e6"
+      },
+      "sources_sha256": "215f79242c0e01220d247f34ae375013a42bf3d6da0d2b417ea525fc9aad64a5",
+      "capture_sha256": "6cf03317b03fca9620ca9da65baa91d1f920d14b0ba31185119c21238ffd4672",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 6526,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.6919655799865723,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "elema.odm",
+      "name": "Plane of Air",
+      "target": "worlds-mm8--icons--elema.bmp",
+      "directory": "maps/mm8/elema",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "8491decab732fb299e0c418c16e163c70da07df240876308bf9381a554b38b14",
+        "master.png": "69dae48e22eb370d5b797ebbdb6483a986c0a9577e7716600813be6e7d5aeec6",
+        "terrain_processed.png": "39cb292e7519db92e38a4ff11d51a057b25d41ecb99439b593cbf734e3aa46aa",
+        "objects_processed.png": "bc8b7f9702231d2de54f36f0179bd2ee41898dc94c4d78076585371315e34db5",
+        "layers.ora": "35ef599c6c13e682a8c133308932b81bdd68496a5bcb9104c6597f2f80c7fb24",
+        "geometry.png": "6231589488351471eba3d507d850fd9b9f768ea91f7ce2a746cc10d575d92716"
+      },
+      "sources_sha256": "59df0f0c4dee642872bca38b7016e5c6148e5d3e7007d29d31c18f96056ab290",
+      "capture_sha256": "4e3401f4e7937102dd18949e2fe975b9834d936724b2c7c10ab7ea505fb5722b",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 2982,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 1.0,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "elemf.odm",
+      "name": "Plane of Fire",
+      "target": "worlds-mm8--icons--elemf.bmp",
+      "directory": "maps/mm8/elemf",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "c2e51fe86d9698f2214e91dccf9030287190af9d1b7764e78cbc6b9e6b43aaf4",
+        "master.png": "3ec9d24ae29385db57c9b53424ea0fca0a4441593118d1d98ee387dcd09ca589",
+        "terrain_processed.png": "5782dc208dd6c3195258ec5e8259ad32158e66cdb7c75601161e0a49a589bd3a",
+        "objects_processed.png": "c695110de6c1c5dc0226acc764d1701f645f495b69ab7864f47ffc9a1572cd4f",
+        "layers.ora": "59dde0e7b3c928754e438197e05340eb58a737547b3affe758aee346351d5116",
+        "geometry.png": "ba8c727edf067e8ffaac9a81fe0f04bb357b44903b6ee5b6acdad474b64d1102"
+      },
+      "sources_sha256": "4760e8119785fd4d49e1a6c95f513e8461e0428186f01199275a973645ad0d72",
+      "capture_sha256": "b0a508983e7c1dfdab4541ccf11f6abe484babf96cb88c815977ae4b511c328d",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1620,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9673963189125061,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "elemw.odm",
+      "name": "Plane of Water",
+      "target": "worlds-mm8--icons--elemw.bmp",
+      "directory": "maps/mm8/elemw",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "02b62114b6c9827f4cdedbc92ba861a37b9200693e952ec194a2f679157dcd10",
+        "master.png": "00a3de1dcb9ce61159ef4d99fd537528c592f05608df11b485a636701d5e51e3",
+        "terrain_processed.png": "c7ddd511642870dd8a34e4399461541348ec1f5c4b357effb0246002da7fa93b",
+        "objects_processed.png": "877d42127d475da11190b194541dc70bde4d69d37d1120317d7170efe0f98ec4",
+        "layers.ora": "7fc61b689596fddd4b382ec203c6b273233be3828bf899378fc184b54d7b2259",
+        "geometry.png": "10459c196037ad93bf8296ff642a772e9069b19c548bddf1de1eaa8d602db7a0"
+      },
+      "sources_sha256": "e8ecbe8b151e540a8192e1df2d144bbcd1d7b6aad2ac8403cad3390188edc206",
+      "capture_sha256": "ebb71078e699d61c35e8a363d50692e8784279c13111fefa51fec1ecc6c1a844",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1774,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 1.0,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out01.odm",
+      "name": "Dagger Wound Island",
+      "target": "worlds-mm8--icons--out01.bmp",
+      "directory": "maps/mm8/out01",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "fb859b98d8279b376b8053cbf9297177870c9f9d6d96162f771fdcf3017f7a8e",
+        "master.png": "e6fbdfacf35d9b4241fcf9f189fde3bef0f968728bd3bc18b7930d9a30c18ffa",
+        "terrain_processed.png": "11857e3bb116bf75857926389b9154eb830aae3972da8e19740c02ce29b8e3a7",
+        "objects_processed.png": "6f2d939a3cb99b79ddcd2fcbd9532589e55aabb2becc4760a78dd4c879146a14",
+        "layers.ora": "68e6f50f93f4f7631e97e81d4a4166c858ce8743a78cdb98f78d4acaae6fd1e2",
+        "geometry.png": "b9b45a8a02a2006c8dcebc528b9b3a370d954325a8ee87ff26fbc06717dcc75a"
+      },
+      "sources_sha256": "f00da1f9d0b2e3cbd1a7d085663eb3023e0e29b73003bee9e0dec31ac04d9f8d",
+      "capture_sha256": "f1f29d466526a9e61abf78f4e0d204f1ac23664dc2247496488f07b51ea81c6f",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 9269,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.27803587913513184,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out02.odm",
+      "name": "Ravenshore",
+      "target": "worlds-mm8--icons--out02.bmp",
+      "directory": "maps/mm8/out02",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "e174fb67c157729483186f7b8eefaf8df86ea8b33dce3d6bc773d1eecd8fff50",
+        "master.png": "d53882a17fb59e764299113b898c497b57e4d65fec40b0f9f2a75f7c21d3a254",
+        "terrain_processed.png": "7b951a3b934e70a1a2a1a539b1877a3b54ac271c0d4d8b03d0012ae7fedd639d",
+        "objects_processed.png": "3527a10c345868bc758f160c60c5e5271b0c84edb89e73bc55a73e9fe1c33ba6",
+        "layers.ora": "f55a159b4754b0fc1119bd4bf096074819e8d63cf3cf06040884f60deb851a7d",
+        "geometry.png": "cd147c17899575b6ff582554309e91c458f1b2bcb91d96e11cced1e9ca4a08b6"
+      },
+      "sources_sha256": "668ef7c0b61ee36611f11e77d511163e13076e76ce6b0795eecbb2d1996f6d43",
+      "capture_sha256": "10ba045f31acb9bb823bbdbbca33423dbebfe8058a5ff1272794c60c45a50c8a",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 8700,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.7332772016525269,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out03.odm",
+      "name": "Alvar",
+      "target": "worlds-mm8--icons--out03.bmp",
+      "directory": "maps/mm8/out03",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "8a7b45a7287592860780f3362ae4998c61b3cab8897797535821c7d8da985cca",
+        "master.png": "ee4ebd31ad3b466804f95dce30cc0897d0f86e3754ed339c588f9ce3e59809e8",
+        "terrain_processed.png": "24a7e928d0e863aef0551bbfc0eede19801db161375e56964a8d71b412f5cea4",
+        "objects_processed.png": "a0229aa6214b918e25d5f93ee954affbec09d9cb51932f0a9f8c5d47747ab029",
+        "layers.ora": "69aeaa0c8eedd71be00a107eecf75057dace1fecb25be4e2962ba5816e8f336c",
+        "geometry.png": "9d2470a41ec4b6eb90321eac3b7e374ce8fe4651373907f861625799dca26141"
+      },
+      "sources_sha256": "e1defa5251a61a4aae2354f265ca61b53daf3509d1026c5fc4939f1018fb0c1e",
+      "capture_sha256": "1e5232b78d1a9ea458cee0eed4deffa66b0745e6405c82dccfb939e57b79c76d",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 7470,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.913104236125946,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out04.odm",
+      "name": "Ironsand Desert",
+      "target": "worlds-mm8--icons--out04.bmp",
+      "directory": "maps/mm8/out04",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "5d8984d5bc2c6990f084f00e084a357e3f8ee43de631532bf874b284797ea207",
+        "master.png": "c6b2b2f68d57f844c69ceeeb37407075d7056dbcd9ce8cbc210e4e76d4af3e83",
+        "terrain_processed.png": "1ffe6c230570c4ab0268e713188e7c420a1b8ba4fe29cb9cddfa3578e4d1cb2c",
+        "objects_processed.png": "326d6aac74d24e77e7f4ec0a3fb441c0ad1d57804125c23fdc62090133a8c7e7",
+        "layers.ora": "07787f63cde9c8f3a00007c338f821588fe33e53a0c41d27acaf564fe37f7367",
+        "geometry.png": "419d379dcfe3e71971d55e7f97f35d863f5497559d21aa0506dbe69c264aed39"
+      },
+      "sources_sha256": "c24f7cdfa83d53342840060aea249d40d7668fe1727a393e4b08221386f78e63",
+      "capture_sha256": "97b771f0122fe6e6f83158560deca0b04b25870a6087382c1cee1cccbde70b75",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 3478,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9922115802764893,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out05.odm",
+      "name": "Garrote Gorge",
+      "target": "worlds-mm8--icons--out05.bmp",
+      "directory": "maps/mm8/out05",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "6bfe99d1658f54d8addcdfe18398b0047be696783608d1476037cf18ceba6e1d",
+        "master.png": "a636a32b1494606afa5cc98762526e7661196c90181f3d2e7c0e8801ef1a7572",
+        "terrain_processed.png": "063fca251fbf520c96143669d3022fa7fad1dc253597deeca7c001e4d22a3ed3",
+        "objects_processed.png": "d84ff3a7a7d1630a3b5e3a7a6d50c4cb4fc789d06492bd0bde192b16555a2ba2",
+        "layers.ora": "d054fc0223ba934f8a351a6af16819a6c7f8ee06d59f2767b0745039d7736bdc",
+        "geometry.png": "86a15166684eb60966843186651ffedcf3d24587e8e41336d24d8b2d4478eaf5"
+      },
+      "sources_sha256": "cc596107d31e0f55b8847e6e9dc3e6dab8c52f92760b0f9423989a9cbba95dbc",
+      "capture_sha256": "6c7b573f3532ad0f53e2bef04a26aa43d16566d1bb998084582734064a8a689b",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 4303,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.9764197468757629,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out06.odm",
+      "name": "Shadowspire",
+      "target": "worlds-mm8--icons--out06.bmp",
+      "directory": "maps/mm8/out06",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "80da377e51a35a85244fad2ac79f17466878cd435227005a24a5a65b543fb82e",
+        "master.png": "cdae9e3bdd68854b949aa256d2146e2d27506dae7c1809c72ff6f94e9d83b3ff",
+        "terrain_processed.png": "12d640d4da3bceafab169b5bf0dba2b343a00b969ba2359f88678f22db947291",
+        "objects_processed.png": "39d42f950a5c46bbe8f01e8a0d695e7ec5f028f88dfa42c757df7d17bfcf6645",
+        "layers.ora": "2c73ce73f1424bd32d7a17980015eb48d2fe667dc908acc394175802a62bdb8f",
+        "geometry.png": "07c12a05fb539f0f2f900a09566c43f40cad0c21b5485beb3634b5c630c10821"
+      },
+      "sources_sha256": "50b488cd16a4b6f031115e43ae6e535c1488b6216ccfe0fc767ef9aa1b768c8e",
+      "capture_sha256": "e9793f417be6fdb7f3ecccf4351630a2a61d2d5a5bcd4abc1b4334ef730ff975",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 6141,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.8984850645065308,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out07.odm",
+      "name": "Murmurwoods",
+      "target": "worlds-mm8--icons--out07.bmp",
+      "directory": "maps/mm8/out07",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "1ea171c76fb30251c9a8b527c1ac4946b012cb2d5a30cc12957e955abfeaf9a9",
+        "master.png": "1a5bbec8410d85d9159e87a99fd7249269c7bfdd4f49f17cbfdc639b41fad8a1",
+        "terrain_processed.png": "3d353717d9d49b1dcb39d425d7827aa71d79e46e4818568a232d4620753835ce",
+        "objects_processed.png": "fb5272aac2d14022706859c1021b6362910a6e419c2f0f4f3a86155094e9b265",
+        "layers.ora": "8c93b8360d96a1227597773a605bcd87feed306d601c16124af78f4ea8f53900",
+        "geometry.png": "122d3c28d72eee2e5a301165bacaed2ead62d7398f0938c081b092afed8e2dde"
+      },
+      "sources_sha256": "14504ff1dd1add4c31adb6c123a7ce52326000b450b1c167cabb0d52c9bba8d7",
+      "capture_sha256": "b0cba20f19706387311708a28bd04ed5a994ce191fa82a072aa73db1123de6e9",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1655,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 1.0,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out08.odm",
+      "name": "Ravage Roaming",
+      "target": "worlds-mm8--icons--out08.bmp",
+      "directory": "maps/mm8/out08",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "a0f099cfa23a28f714672a3d2db8b5709b7287fb0a9ca49815cad4e0b189ff81",
+        "master.png": "d729f530fc9a45796f440c352378292d2081865941a898b7b3fa8ab05998434b",
+        "terrain_processed.png": "442cab9cd35950835d6bf11c21786a734de2fea41f763bfbff54d91b974f84fd",
+        "objects_processed.png": "31d76cc870f051fd2004b8b55257095f1df6717785d93a751f0c26db798500c4",
+        "layers.ora": "80cc3e354506d0bc76ae8010052e7aab7f8f58d3f91c4cd138010b9ad7758b6b",
+        "geometry.png": "03e1e6ed13d6a7371820922ed154250f21114d3558a12493675c7d67cbace409"
+      },
+      "sources_sha256": "4f99214a6f03555427ee0395dd4614445051cd3f0055290ea9b1c9bed426304f",
+      "capture_sha256": "c21872e8003363d1ab5ebc142b29b773eabe60daaf76ddf3a6d26395e27fba71",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 3474,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.845783531665802,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out13.odm",
+      "name": "Regna",
+      "target": "worlds-mm8--icons--out13.bmp",
+      "directory": "maps/mm8/out13",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "d048b560fe8b64d0d5b051b29650fc49de1c732d0e6b930914adab7b03bd6a17",
+        "master.png": "9d04ea2f39250b6e6041fdd7f8e4b5d27856aa6f29b64b8b65744164c372315f",
+        "terrain_processed.png": "f425c7a99bb79d11235351187d85deb1836422a68edad9cee1c49dc6de9de45b",
+        "objects_processed.png": "e790b85d9eecd87517ea1eb9843c4e5595942e557a10a9559d96c768fa370416",
+        "layers.ora": "584534171506b0af7df8816249d9d223943491d8c6be60f41fe7c7a8c1811a48",
+        "geometry.png": "f30774a4ebb26be039c6a42a968eb32d7fd60b7efd414925705d135715e55796"
+      },
+      "sources_sha256": "5bc826f36c8885e6111fe5d50b12a37f2c27fb55088c08fb4e9c3dfcc655cbf1",
+      "capture_sha256": "f6631e07caf02056d1e9b1fdc30d7cdae7d614acf39810a40522fa8c793c66d1",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 11467,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.25870269536972046,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "out15.odm",
+      "name": "Tutorial",
+      "target": "worlds-mm8--icons--out15.bmp",
+      "directory": "maps/mm8/out15",
+      "x2_size": [
+        1024,
+        1024
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "b41b6e7111a7cf04a9c6c0b5b0543c5cabbcc3f25f3576fd82fc54b5f01f0dea",
+        "master.png": "a6b737f1edff5819e7ea1fb928d31c3373d808eda0a523e7219832fc04ed3847",
+        "terrain_processed.png": "c7ddd511642870dd8a34e4399461541348ec1f5c4b357effb0246002da7fa93b",
+        "objects_processed.png": "8fc8af1ab29c4ccc3d3447fbb86c5c18cd5da3c39f4ebe5124d95fe31235f4d6",
+        "layers.ora": "677c122c90dc259a6b62461eaa6ee7fdbfe61c70ea5167b9ad2b80485ed168ad",
+        "geometry.png": "59141e9a74fea7b8e5ccee9078846a0efaaab2e3628f0fd0f6c472b4c1ca8322"
+      },
+      "sources_sha256": "87f0d9106635971f5a766235736812e2a25a3201d4fb9e038cd4b48bddd63532",
+      "capture_sha256": "1124b5fd65c4f8ba7bdedd1920e79dcde165329dbf4456aabcb50aa7ae7b5a50",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 0,
+      "max_projection_error_x2_pixels": 0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 1.0,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    },
+    {
+      "world": "mm8",
+      "map": "pbp.odm",
+      "name": "Plane Between Planes",
+      "target": "worlds-mm8--icons--pbp.bmp",
+      "directory": "maps/mm8/pbp",
+      "x2_size": [
+        1024,
+        1020
+      ],
+      "status": "ready_for_authorized_acceptance",
+      "master_size": [
+        2048,
+        2048
+      ],
+      "outputs": {
+        "x2.png": "7e4477c782dacfcd4f2fb2fddde533a4570979eb686dd08ffa082801572c8f2c",
+        "master.png": "3b49ee531f443fb3a279fac77ab6897b205cd8e7a2fbfba0b7dc38142a288f4b",
+        "terrain_processed.png": "4ce2e72cf49cc60ab930ba8e35d39ff383bc840a9af34718c16db87c306b8d17",
+        "objects_processed.png": "cbf2dd6fa7aacfe94ed0bcb5f7c48df848c7d2de376ea891967a9d61c15a78dc",
+        "layers.ora": "868c225345b0dc181cebb03f4db61459be4e73276dec69bf6f2f3ffcebdabe68",
+        "geometry.png": "3d95bddaf3862941dcaadd07de75481321c2375806062782dd84d10327d68e54"
+      },
+      "sources_sha256": "55aa8a7d856cf9099b07ecad5614254bc4e9008052df324aac859789db6c3edd",
+      "capture_sha256": "bbaed6ad15c9e613f0810f404b596827dc754fde3380470f545a68c1ea8c1d1b",
+      "recipe_sha256": "601c455c03e195cb6b67119b3f500be315a1a50ce0fa891a0eb2e5510d9c52ef",
+      "noise_sha256": "934108ff47b5f8aa64a146f065e2a6ab8015e3b576523b7603ed38a3d8010ee0",
+      "vertex_controls": 1924,
+      "max_projection_error_x2_pixels": 0.0,
+      "processed_object_alpha_exactly_preserved": true,
+      "open_water_unchanged_by_noise": true,
+      "geometry_moved": false,
+      "land_fraction": 0.8812581300735474,
+      "recipe": "Gentler vinevi capture plus approved light land-only noise",
+      "limitations": [
+        "Static terrain and BModels; no sprite vegetation, actors or event-driven changes.",
+        "Native tile lookup and original world bounds; repeated water texture retained."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,547 @@
+[
+  {
+    "id": "mm5:source/30/3/25/interior",
+    "name": "Felix the Tinker",
+    "source": [
+      30,
+      3,
+      25
+    ],
+    "exteriorOwner": "sewer_out",
+    "role": "teacher: Direction Sense (1000 gold)",
+    "dialogue": [
+      {
+        "index": 1,
+        "text": "I helped invent the compass! For a mere 1000 gold, I can teach you to read it so you will always know your direction heading."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/30/31/26/interior",
+    "name": "Valio, the Simple",
+    "source": [
+      30,
+      31,
+      26
+    ],
+    "exteriorOwner": "sewer_out",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 10,
+        "text": "Hi. I live down here. There sure are a lot of rats. Too many for me to kill. Maybe you could kill them for me. Or at least the Queen Rat. I'll give you something if you do."
+      },
+      {
+        "index": 23,
+        "text": "You've killed the Queen Rat! Here is your reward. Thanks. +25,000 experience."
+      },
+      {
+        "index": 24,
+        "text": "The Queen Rat is still alive. I can hear her awful chittering through the walls. No reward for you yet!"
+      },
+      {
+        "index": 25,
+        "text": "It's good to see you again."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/39/11/12/interior",
+    "name": "God of Minerals",
+    "source": [
+      39,
+      11,
+      12
+    ],
+    "exteriorOwner": "mine",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 16,
+        "text": "I am the god of these mountains. If you give me 250,000 of your gold pieces, I will use them to replenish the gems inside the mountains."
+      },
+      {
+        "index": 17,
+        "text": "Thank you. I will replenish the gems."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/40/7/24/interior",
+    "name": "Hobstadt Troll King",
+    "source": [
+      40,
+      7,
+      24
+    ],
+    "exteriorOwner": "troll_a",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 11,
+        "text": "I am Hobstadt, Strongest of the Trolls. You are here. You will:"
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/41/2/7/interior",
+    "name": "Queen Kalindra",
+    "source": [
+      41,
+      2,
+      7
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 25,
+        "text": "I'm sorry, adventurers, but I have no new information for you. I can only waste your valuable time chatting with you. Good luck in your Quest."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/41/8/6/interior",
+    "name": "Errol the Agile",
+    "source": [
+      41,
+      8,
+      6
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "teacher: Arms Master (free)",
+    "dialogue": [
+      {
+        "index": 16,
+        "text": "I am the castle Armsmaster. I will teach you to use your weapons more accurately in combat for free, if you like."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/41/8/8/interior",
+    "name": "Gem the Empath",
+    "source": [
+      41,
+      8,
+      8
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "teacher: Danger Sense (free)",
+    "dialogue": [
+      {
+        "index": 13,
+        "text": "As an empath, I am quite perceptive to my surroundings. Since you are on a quest to save the world, I'll teach you to be more aware of of immediate danger for free."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/41/9/13/interior",
+    "name": "Audrey the Cook",
+    "source": [
+      41,
+      9,
+      13
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 33,
+        "text": "We were stuck in this castle for a long time! If it weren't for our large stockpile of sun dried lizard innards we surely would have starved to death. Lizard innards are probably the most filling and wholesome food in all of Darkside."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/41/10/1/interior",
+    "name": "Carl the Mason",
+    "source": [
+      41,
+      10,
+      1
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 35,
+        "text": "I helped build Castle Kalindra. The place is full of secret doors and traps. If you ever come to a dead end in the castle, just keep walking. The wall may be an illusion."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/41/11/1/interior",
+    "name": "James the Spy",
+    "source": [
+      41,
+      11,
+      1
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 37,
+        "text": "While Alamar was still pretending to be a good guy and living off the Queen's hospitality, I overheard him telling a servant of his that he had Prince Roland in his \"basement\"."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/41/11/6/interior",
+    "name": "Terry the Waiter",
+    "source": [
+      41,
+      11,
+      6
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 21,
+        "text": "Surely you must know what Alamar has done! No? Why, he slew the guards and stole the Cube of Power, that's what!"
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/41/11/8/interior",
+    "name": "Kenneth the Butler",
+    "source": [
+      41,
+      11,
+      8
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 19,
+        "text": "Thanks for bringing the castle back to reality. We've been trapped here ever since Alamar moved the Castle out of phase. We were starting to run out of food!"
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/42/10/15/interior",
+    "name": "Dimitri, Captain of the Guard",
+    "source": [
+      42,
+      10,
+      15
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 6,
+        "text": "Go away. I don't want to talk to anyone! Leave me alone in my misery!"
+      },
+      {
+        "index": 7,
+        "text": "Thank you for bringing me the Songbird of Serenity. Hearing its beautiful song has cleansed my spirit and filled me with hope. I believe if you could bring Kalindra her Royal Crown, it will restore her back to herself. Her crown is in the wall safe in her bedroom, which is located on the 3rd level of the castle. Unfortunately, I do not have the combination--Only Queen Kalindra knows it. But I can give you the combination to the safes on this level that contain energy discs. It is 64,52,31. Remember, only Queen Kalindra has the combination to her safe."
+      },
+      {
+        "index": 8,
+        "text": "I see you couldn't find a way into Castle Blackfang. If you talk to Ambrose, the Queen's knight, perhaps he could help you get in. Last I heard, he was near Griffin Pass. Tell him Dimitri sent you."
+      },
+      {
+        "index": 9,
+        "text": "Please return the Queen's crown to her immediately."
+      },
+      {
+        "index": 10,
+        "text": "Adventurers, I will always be in your debt for rescuing our beloved Queen."
+      },
+      {
+        "index": 12,
+        "text": "Nice to see you again."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/42/11/15/interior",
+    "name": "Megan, Daughter of Dimitri",
+    "source": [
+      42,
+      11,
+      15
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 14,
+        "text": "I'm sorry you have travelled so far for nothing, but my father is so despondent he will not see anyone. He blames himself for the kidnapping of Queen Kalindra and the loss of the Cube of Power. He was responsible for protecting the Queen and he has failed in his duty. If only he would realize it wasn't his fault! No one could have stopped Alamar from taking the Cube of Power and giving Queen Kalindra to Count Blackfang. I'm sure my father could think of a way to rescue the Queen if we could just help him feel better. I have heard talk of a songbird that sings so sweetly that it can uplift the spirit of anyone who listens to it. If my father could just hear it, perhaps it would bring him out of his gloom. I also heard that this bird has been seen in the dungeon on the Isle of Lost Souls. Please, take this key. You'll need it to get it."
+      },
+      {
+        "index": 15,
+        "text": "You must go to the Isle of Lost Souls and find the song bird for my father."
+      },
+      {
+        "index": 16,
+        "text": "Give the song bird to my father and let him hear her sing and then return to me."
+      },
+      {
+        "index": 17,
+        "text": "Thank you for bringing my father out of his gloom. I will always be grateful. +3,000,000 experience."
+      },
+      {
+        "index": 18,
+        "text": "I will always be grateful for what you have done for me and my father."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/43/15/0/interior",
+    "name": "Training",
+    "source": [
+      43,
+      15,
+      0
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior Training service",
+    "dialogue": [],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": [
+      "Training"
+    ]
+  },
+  {
+    "id": "mm5:source/43/15/2/interior",
+    "name": "Blacksmith",
+    "source": [
+      43,
+      15,
+      2
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior Blacksmith service",
+    "dialogue": [],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": [
+      "Blacksmith"
+    ]
+  },
+  {
+    "id": "mm5:source/43/15/13/interior",
+    "name": "Temple",
+    "source": [
+      43,
+      15,
+      13
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior Temple service",
+    "dialogue": [],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": [
+      "Temple"
+    ]
+  },
+  {
+    "id": "mm5:source/43/15/15/interior",
+    "name": "Bank",
+    "source": [
+      43,
+      15,
+      15
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior Bank service",
+    "dialogue": [],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": [
+      "Bank"
+    ]
+  },
+  {
+    "id": "mm5:source/44/7/9/interior",
+    "name": "Guido the Convict",
+    "source": [
+      44,
+      7,
+      9
+    ],
+    "exteriorOwner": "kalindra",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 4,
+        "text": "I have been imprisoned unjustly, but now is the time to escape! If you will just unlock these chains, I will give you the combination to the tougher safes in the castle. C'mon, Waddaya say?"
+      },
+      {
+        "index": 46,
+        "text": "You must think I am lying to you! Believe you me, I would never do that. I am innocent! Look, you think about it and come back to me when you are ready to do the right thing. I'll be here waiting for you."
+      },
+      {
+        "index": 47,
+        "text": "Hey, thanks a lot! You didn't make a mistake, TRUST me. Try 10,11,12 on the tougher safes. See ya."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/56/4/8/interior",
+    "name": "Ellinger the Queen's Wizard",
+    "source": [
+      56,
+      4,
+      8
+    ],
+    "exteriorOwner": "tower",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 14,
+        "text": "Welcome. I'm glad you made it to the top of my tower. I'm sorry you had to run the gauntlet to get here, but my defenses are necessary to keep Alamar's agents and spies from my door. I see that you hold the Dragon Pharaoh's orb. The orb is the source of the Pharaoh's magic, and without it he is unable to combat Alamar. He released the orb into the world to find adventurers willing and capable of helping him, and it is very important that you return it to him. The Dragon Pharaoh has sealed the pyramid from invaders, just as I have sealed my tower, so you will be unable to enter the royal pyramid without the key. Fortunately, we know where a key is--Queen Kalindra's castle. Unfortunately, Alamar moved the castle \"out of phase\" when he kidnapped the queen, and it will be impossible to enter it until the castle has been restored to our world."
+      },
+      {
+        "index": 15,
+        "text": "Ahh! I see you have energy discs for me! I will need 5 energy discs to power the spells that will restore the first level of the castle. Keep the disks with you and return when you have at least 5. The world of Xeen is counting on you."
+      },
+      {
+        "index": 16,
+        "text": "Excellent work. You have brought enough discs to restore the first level of the castle. Go to the castle as soon as you can--perhaps you will find more energy discs inside."
+      },
+      {
+        "index": 17,
+        "text": "You haven't found any energy discs yet, eh? Perhaps you fail to grasp the urgency of your mission. ALAMAR IS GOING TO DESTROY XEEN!!! NOW GET BACK OUT THERE AND SAVE THE WORLD!!!"
+      },
+      {
+        "index": 18,
+        "text": "Good, good. More discs. I still need 5 discs to restore level two of the castle. We will need those extra discs before we can uncover the key to the pyramid. Keep up the good work."
+      },
+      {
+        "index": 19,
+        "text": "Have I taken the time to tell you that you are doing a wonderful job? All of you. I mean it. The discs that you have brought to me will be sufficient to free the second level of the castle from Alamar's curse. I hope you will find more energy discs on the newly restored section when next you visit the castle."
+      },
+      {
+        "index": 20,
+        "text": "No discs? Well, don't worry. When Alamar destroys the world, you won't be the only ones to die. Millions of innocents will go with you. It's somehow comforting to know that you'll have so much company when you shuffle off this mortal coil, isn't it? It just must be depressing knowing that you are letting millions of beings down in their moment of need. Oh, well."
+      },
+      {
+        "index": 21,
+        "text": "Thanks for bringing the discs, but I still need a total of 5 discs to restore the dungeon. I would like to restore the third level first, but the mathematical alignment of the forces would make such a strategy prohibitively costly in terms of discs. Carry on."
+      },
+      {
+        "index": 22,
+        "text": "This is fantastic! I was getting worried that we would pass the time threshold for the number of discs I originally stated we would need, but your speedy delivery of this batch has kept us on track! We are very, very, close to bringing the last of the castle back to our world. Just 5 discs will do it. There is still time to stop Alamar's plan."
+      },
+      {
+        "index": 23,
+        "text": "Why have you come to me empty handed? Did you expect congratulations? The final hour approaches while you dawdle here! Get back to work!"
+      },
+      {
+        "index": 25,
+        "text": "Congratulations! We've done it! The Castle is free! I can't thank you enough. Our task together is complete. You must now find the key to the pyramid in the castle and return the orb to the Pharaoh. Without the orb in the Pharaoh's hands, there is no hope that Alamar will be defeated. I must attend to certain magical duties that will require my full attention from now till the completion of the prophesy. Go with my blessing."
+      },
+      {
+        "index": 27,
+        "text": "It is good to see you again, my friends, but I cannot spend much time talking. I must see to my magical duties, and you must see to your tasks as well. The world is depending on us."
+      },
+      {
+        "index": 28,
+        "text": "The castle can be restored to our world by casting certain complex spells powered by energy discs. Energy discs are rare magical \"batteries\" that can be used to power great works of magic, such as restoring the castle. I recently used the last of my energy discs protecting this tower from infiltration, and I haven't a clue where others may be found. Restoring the castle will require 20 energy discs to power the necessary spells. I don't have to restore the entire castle at once, so every 5 energy discs will enable me to restore a fourth part of the castle. Before you set about your new task, I would like to give you a little something to help you on your way. You will be able to find your gifts in the chest that runs away from you in the southwest part of Castleview. I will instruct it to stay still long enough for you to get what is inside. +250,000 experience."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/58/7/12/interior",
+    "name": "Humble The Cleric",
+    "source": [
+      58,
+      7,
+      12
+    ],
+    "exteriorOwner": "western",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 6,
+        "text": "Oh, please don't kill me! I'm not like the others! I didn't want to mutiny against the High Priest! Slay him anyway?"
+      },
+      {
+        "index": 7,
+        "text": "Thank you for sparing my life. I shall be going now."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/59/7/12/interior",
+    "name": "Pious The Cleric",
+    "source": [
+      59,
+      7,
+      12
+    ],
+    "exteriorOwner": "western",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 6,
+        "text": "Oh, please don't kill me! I'm not like the others!I didn't want to mutiny against the High Priest! Slay him anyway?"
+      },
+      {
+        "index": 7,
+        "text": "Thank you for sparing my life. I shall be going now."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  },
+  {
+    "id": "mm5:source/60/4/10/interior",
+    "name": "Dreyfus High Priest of Mok",
+    "source": [
+      60,
+      4,
+      10
+    ],
+    "exteriorOwner": "western",
+    "role": "retained interior contact / quest state",
+    "dialogue": [
+      {
+        "index": 8,
+        "text": "Thank you for your help in the battle against the heretics. Ours is the true religion, and Mok has sided with the righteous. You will surely be rewarded in the afterlife, and have earned our everlasting gratitude. (+500,000 exp)"
+      },
+      {
+        "index": 9,
+        "text": "It is always pleasing to be honored with your presence, my friends."
+      }
+    ],
+    "placement": "Inside the retained BLV complex; no new outdoor house",
+    "services": []
+  }
+]

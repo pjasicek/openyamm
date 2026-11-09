@@ -1,0 +1,53 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "desert_plants",
+        "target": [
+          -4944,
+          15296,
+          480
+        ],
+        "span": 16000
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm6/outb3_decor_desert_plants.png",
+      "camera_position": [
+        2300.40673828125,
+        807.1865234375,
+        18188.55078125
+      ],
+      "highlighted": [
+        {
+          "index": 312,
+          "name": "cac10",
+          "position": [
+            -4944,
+            15296,
+            480
+          ]
+        },
+        {
+          "index": 140,
+          "name": "cac16",
+          "position": [
+            -2496,
+            16640,
+            276
+          ]
+        },
+        {
+          "index": 300,
+          "name": "cac10",
+          "position": [
+            -4736,
+            12304,
+            480
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

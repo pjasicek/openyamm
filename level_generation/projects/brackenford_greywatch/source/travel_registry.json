@@ -1,0 +1,35 @@
+{
+  "status": "configured; functional evidence in review/shared_travel_followup.json",
+  "source_tables": {
+    "map_navigation.txt": "82dd9e1fb1737ff0a239cb0d5ec884a2542ba934d776b0b4357caa9fc965d4b9",
+    "transport_locations.txt": "86873d3feb2fbd635e002e96e10610e59a330dd17d201208d8f1d49803517501",
+    "house_rules.txt": "e261ec6b6051c5c8941846297d09461bf583ba41809bd5d6a0710e62124fe61d"
+  },
+  "native_edges": [
+    {
+      "edge": "west",
+      "destination": "out02.odm",
+      "days": 1
+    },
+    {
+      "edge": "north",
+      "destination": "out03.odm",
+      "days": 2
+    }
+  ],
+  "return_location": "12000",
+  "return_arrival": {
+    "id": "stable",
+    "position": [
+      -6656,
+      -4096,
+      576
+    ],
+    "yaw": 0
+  },
+  "return_profiles": {
+    "452": 12000,
+    "453": 12001
+  },
+  "policy": "Isolated test-world links; original stable routes retained, daily Brackenford return appended. Existing stable opening hours/quest behavior apply."
+}

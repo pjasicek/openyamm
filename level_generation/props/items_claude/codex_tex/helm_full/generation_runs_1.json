@@ -1,0 +1,328 @@
+{
+  "brief": "CODEX_BRIEF_1.md",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "processing": "Unmodified, unresized tool returns only.",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for an existing 3D Full Helm.\nEdit ONLY the surface colors of input image 1, the exact grey model guide. Input image 2, design_reference.png, is the approved material/design reference, not the target geometry or camera. Input image 3, icon_x8.png, is supporting original-game appearance reference; its magenta background must not appear.\nOutput one 1024 x 1024 RGBA PNG with real transparency. Retain input image 1's exact alpha silhouette, pixel alignment, object scale, position, camera projection and ALL shape edges. Do not recenter, enlarge, shrink, rotate, crop, redesign, smooth the outline, or add any geometry. Every rivet, band, plate edge, slit and opening stays exactly where the grey guide puts it. Preserve the original transparent pixels. Opaque interior surfaces visible through openings stay opaque near-black, not transparent.\nPaint blackened dark-grey steel plates with subtle fine hammered texture and restrained light edge wear, matching the reference's material identity. Paint brass/gold trim on the EXISTING rim and band edges, without changing their dimensions or introducing ornament. The small round rivets MUST be dark steel as explicitly required by the brief, even though the design reference has gold-colored rivets. Broad bands remain dark steel; brass is confined to their trim edges. Interior material is near black.\nCRITICAL LIGHTING: this is FLAT ALBEDO, not a beauty render. Use perfectly even, flat, shadowless frontal light. Surface base color must stay uniform across the curvature. No cast shadows, no ambient-occlusion darkening, no lighting gradients, no bright reflections or specular hot spots, no rim light. Only a faint material sheen and small, low-contrast painted wear marks. Do not copy the strong highlights or shadows of either reference or the guide. No background, floor, drop shadow, text, labels, watermark or extra objects.\nVIEW: exact FRONT view from guide_front.png. Preserve the guide's complete outer silhouette within x=144..879 and y=66..957 on the 1024 square canvas. Copy the broad dome, central vertical riveted strip, rectangular strip end, brow band, narrow eye slits, central face opening, two front plates, lower rim and visible lower interior exactly from the guide. The source's broad bottom interior surface remains near-black opaque material. Do not replace its geometry with the narrower helmet or shaped brow ornament in the design reference.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "bc093cd68a5d5fe55c4887b0b077cbaf7497278c534f67a0c7c88099f81dd634",
+          "role": "edit target; exact geometry"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4d84495ff2fb4a586a1ed5895188dae7c8b3ae2544530c1e935fae83dad78d68",
+          "role": "design, colour and material reference"
+        },
+        {
+          "path": "icon_x8.png",
+          "sha256": "7a978b938442f78b7a94e2e9bcb61565229dbfc169f61f706b666a6b83e81ad4",
+          "role": "original game icon"
+        }
+      ],
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the single permitted correction, which reduces broad plate lighting gradients. This first return also fails exact guide registration and flat albedo.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a14648-61fc-7dc3-a9fe-aed5898404ae/exec-5bcc78ea-ac25-417d-bbe6-dd80c0c0ad3a.png",
+      "output_sha256": "dfb0f86478a622268be90ff814c74b9cc87270159aa983f9f10a99b12fc69c1e",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "image_mode": "RGBA",
+        "transparent_background": {
+          "has_alpha": true,
+          "alpha_range": [
+            0,
+            255
+          ],
+          "fully_transparent_pixels": 847877,
+          "partially_transparent_pixels": 724069
+        },
+        "requested_dimensions_met": false,
+        "unresized_unmodified_tool_return": true,
+        "silhouette_identical_to_guide": false,
+        "alpha_bbox": [
+          0,
+          9,
+          1238,
+          1254
+        ],
+        "foreground_bbox_alpha_128": [
+          178,
+          64,
+          1075,
+          1132
+        ],
+        "guide_foreground_bbox_alpha_128": [
+          145,
+          67,
+          879,
+          957
+        ],
+        "foreground_bbox_in_1024_coordinates_for_comparison_only": [
+          145.35,
+          52.26,
+          877.83,
+          924.38
+        ],
+        "materials_visual_review": "Blackened dark-grey steel, brass trim, dark-steel rivets and dark interior are present. Texture/wear is stronger than the brief asks for.",
+        "flat_shadowless_albedo_met": false,
+        "lighting_visual_review": "Residual shading and highlighted rivets/edges remain; the brass retains bright edge reflections.",
+        "geometry_visual_review": "Not pixel-identical to guide: framing/outline and internal edge positions differ. No rescaling, warping or masking was applied."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic albedo texture-source painting for an existing 3D Full Helm.\nEdit ONLY the surface colors of input image 1, the exact grey model guide. Input image 2, design_reference.png, is the approved material/design reference, not the target geometry or camera. Input image 3, icon_x8.png, is supporting original-game appearance reference; its magenta background must not appear.\nOutput one 1024 x 1024 RGBA PNG with real transparency. Retain input image 1's exact alpha silhouette, pixel alignment, object scale, position, camera projection and ALL shape edges. Do not recenter, enlarge, shrink, rotate, crop, redesign, smooth the outline, or add any geometry. Every rivet, band, plate edge, slit and opening stays exactly where the grey guide puts it. Preserve the original transparent pixels. Opaque interior surfaces visible through openings stay opaque near-black, not transparent.\nPaint blackened dark-grey steel plates with subtle fine hammered texture and restrained light edge wear, matching the reference's material identity. Paint brass/gold trim on the EXISTING rim and band edges, without changing their dimensions or introducing ornament. The small round rivets MUST be dark steel as explicitly required by the brief, even though the design reference has gold-colored rivets. Broad bands remain dark steel; brass is confined to their trim edges. Interior material is near black.\nCRITICAL LIGHTING: this is FLAT ALBEDO, not a beauty render. Use perfectly even, flat, shadowless frontal light. Surface base color must stay uniform across the curvature. No cast shadows, no ambient-occlusion darkening, no lighting gradients, no bright reflections or specular hot spots, no rim light. Only a faint material sheen and small, low-contrast painted wear marks. Do not copy the strong highlights or shadows of either reference or the guide. No background, floor, drop shadow, text, labels, watermark or extra objects.\nVIEW: exact TOP view from guide_top.png, front of helmet at the bottom of the image. Preserve the guide's complete outer silhouette within x=144..880 and y=104..919 on the 1024 square canvas. Copy the oval crown, vertical front-to-back band, transverse riveted band, every existing rivet, surrounding rim and lower central notch exactly. Do not turn this into a front or three-quarter view. Do not add rivets or move the transverse band to a different height. The crown and skirt stay in their guide positions.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "130e1cc6a319c3503c631939e7bdb61df980302fbc08a9558fbc7e1454448781",
+          "role": "edit target; exact geometry"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4d84495ff2fb4a586a1ed5895188dae7c8b3ae2544530c1e935fae83dad78d68",
+          "role": "design, colour and material reference"
+        },
+        {
+          "path": "icon_x8.png",
+          "sha256": "7a978b938442f78b7a94e2e9bcb61565229dbfc169f61f706b666a6b83e81ad4",
+          "role": "original game icon"
+        }
+      ],
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Superseded by the single permitted correction, which reduces broad plate lighting gradients. This first return also fails exact guide registration and flat albedo.",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a14648-61fc-7dc3-a9fe-aed5898404ae/exec-64db68eb-7412-40aa-a453-2bb22cbab51f.png",
+      "output_sha256": "39511e25c9eef842108eccfc53fe1b0c8c7e5c67e6eddb134f2b7741211069fa",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "checks": {
+        "image_mode": "RGBA",
+        "transparent_background": {
+          "has_alpha": true,
+          "alpha_range": [
+            0,
+            255
+          ],
+          "fully_transparent_pixels": 922745,
+          "partially_transparent_pixels": 649439
+        },
+        "requested_dimensions_met": false,
+        "unresized_unmodified_tool_return": true,
+        "silhouette_identical_to_guide": false,
+        "alpha_bbox": [
+          0,
+          48,
+          1240,
+          1254
+        ],
+        "foreground_bbox_alpha_128": [
+          189,
+          104,
+          1059,
+          1096
+        ],
+        "guide_foreground_bbox_alpha_128": [
+          145,
+          106,
+          879,
+          918
+        ],
+        "foreground_bbox_in_1024_coordinates_for_comparison_only": [
+          154.33,
+          84.93,
+          864.77,
+          894.98
+        ],
+        "materials_visual_review": "Blackened dark-grey steel, brass trim, dark-steel rivets and dark interior are present. Texture/wear is stronger than the brief asks for.",
+        "flat_shadowless_albedo_met": false,
+        "lighting_visual_review": "Residual shading and highlighted rivets/edges remain; the brass retains bright edge reflections.",
+        "geometry_visual_review": "Not pixel-identical to guide: framing/outline and internal edge positions differ. No rescaling, warping or masking was applied."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make a corrected flat ALBEDO surface painting for the Full Helm. Produce ONE PNG, exactly 1024 x 1024, real transparent background.\n\nINPUT AUTHORITY: image 1 is guide_front.png, the exact edit target. PRESERVE its complete silhouette, alpha mask, framing and every geometric feature; colorize this guide in place. Image 2 is the previous flawed painting, shown ONLY to identify errors to fix: it has lighting gradients and highlights and its shape was shifted relative to the guide. Image 3 is design_reference.png, the approved material palette. Image 4 is icon_x8.png, the original-game design reference.\n\nCORRECTION: reconstruct no geometry. Keep every guide pixel's material region and every outline exactly registered with image 1. The camera, scale, padding, rivet count and positions, existing band contours, face openings, rim and visible interior MUST stay as in image 1. In the previous painting the object was moved upward; restore the exact guide alignment. Preserve the guide's transparent background with fully transparent empty pixels and clean antialiased boundary. Do not use the three-quarter design reference as a geometry guide.\n\nPaint the plates and bands uniformly blackened dark-grey steel, with subtle LOW-CONTRAST hammered grain and only a little edge wear. Small round rivets are dark steel, not gold. Brass/gold is thin trim on existing rim and band edges only. Keep broad bands dark steel. Interior surfaces are opaque near-black.\n\nFLAT TEXTURE SOURCE: REMOVE ALL broad lighting shading from the previous painting. Uniform base-color values from edge to center, no brighter crown or pale forehead, no specular blobs, no white edge glints, no gradient down the plates, no darkening around rivets/bands, no ambient occlusion, no cast shadows, no reflections. The brass must be a muted even brass base color, not glowing or yellow-white. It must look like an unlit PBR base-color pass with fine material texture and only a faint sheen, not a lit product render.\n\nExact orthographic FRONT view. Use the guide's bounding box x=144..879, y=66..957 on the 1024x1024 canvas. Keep the broad dome, rectangular front tab, narrow eye slits, central face opening, separated lower plates and the complete lower interior silhouette precisely as in the grey guide. Do not enlarge the eye slits or change the plate edges.\n\nNo text, watermark, background, floor, extra ornament or objects. ONLY change surface materials; all geometry and transparency remain fixed to image 1.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "bc093cd68a5d5fe55c4887b0b077cbaf7497278c534f67a0c7c88099f81dd634",
+          "role": "edit target; exact geometry"
+        },
+        {
+          "path": "paint_front_attempt1.png",
+          "sha256": "dfb0f86478a622268be90ff814c74b9cc87270159aa983f9f10a99b12fc69c1e",
+          "role": "previous unmodified return; correction reference"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4d84495ff2fb4a586a1ed5895188dae7c8b3ae2544530c1e935fae83dad78d68",
+          "role": "design, colour and material reference"
+        },
+        {
+          "path": "icon_x8.png",
+          "sha256": "7a978b938442f78b7a94e2e9bcb61565229dbfc169f61f706b666a6b83e81ad4",
+          "role": "original game icon"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the better available return after the single permitted correction: flatter broad plate lighting. Still fails exact guide registration and completely flat albedo; retained unmodified at 1254 x 1254 as the brief requires for non-1024 returns. Selection is not full brief acceptance.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "1a1493ee1b62d25b69c2af77dc2b600d982da5f2b3c3db239c53a373a5abf0a9",
+      "checks": {
+        "image_mode": "RGBA",
+        "transparent_background": {
+          "has_alpha": true,
+          "alpha_range": [
+            0,
+            255
+          ],
+          "fully_transparent_pixels": 833934,
+          "partially_transparent_pixels": 737938
+        },
+        "requested_dimensions_met": false,
+        "unresized_unmodified_tool_return": true,
+        "silhouette_identical_to_guide": false,
+        "alpha_bbox": [
+          0,
+          39,
+          1248,
+          1254
+        ],
+        "foreground_bbox_alpha_128": [
+          171,
+          63,
+          1083,
+          1151
+        ],
+        "guide_foreground_bbox_alpha_128": [
+          145,
+          67,
+          879,
+          957
+        ],
+        "foreground_bbox_in_1024_coordinates_for_comparison_only": [
+          139.64,
+          51.44,
+          884.36,
+          939.89
+        ],
+        "materials_visual_review": "Blackened dark-grey steel, brass trim, dark-steel rivets and dark interior are present. Texture/wear is stronger than the brief asks for.",
+        "flat_shadowless_albedo_met": false,
+        "lighting_visual_review": "Residual shading and highlighted rivets/edges remain; the brass retains bright edge reflections.",
+        "geometry_visual_review": "Not pixel-identical to guide: framing/outline and internal edge positions differ. No rescaling, warping or masking was applied."
+      },
+      "source_output": "/home/pjasicek/.codex/generated_images/01a14648-61fc-7dc3-a9fe-aed5898404ae/exec-798efc3a-e289-45f7-941f-43523d59ca5f.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Make a corrected flat ALBEDO surface painting for the Full Helm. Produce ONE PNG, exactly 1024 x 1024, real transparent background.\n\nINPUT AUTHORITY: image 1 is guide_top.png, the exact edit target. PRESERVE its complete silhouette, alpha mask, framing and every geometric feature; colorize this guide in place. Image 2 is the previous flawed painting, shown ONLY to identify errors to fix: it has lighting gradients and highlights and its shape was shifted relative to the guide. Image 3 is design_reference.png, the approved material palette. Image 4 is icon_x8.png, the original-game design reference.\n\nCORRECTION: reconstruct no geometry. Keep every guide pixel's material region and every outline exactly registered with image 1. The camera, scale, padding, rivet count and positions, existing band contours, face openings, rim and visible interior MUST stay as in image 1. In the previous painting the object was moved upward; restore the exact guide alignment. Preserve the guide's transparent background with fully transparent empty pixels and clean antialiased boundary. Do not use the three-quarter design reference as a geometry guide.\n\nPaint the plates and bands uniformly blackened dark-grey steel, with subtle LOW-CONTRAST hammered grain and only a little edge wear. Small round rivets are dark steel, not gold. Brass/gold is thin trim on existing rim and band edges only. Keep broad bands dark steel. Interior surfaces are opaque near-black.\n\nFLAT TEXTURE SOURCE: REMOVE ALL broad lighting shading from the previous painting. Uniform base-color values from edge to center, no brighter crown or pale forehead, no specular blobs, no white edge glints, no gradient down the plates, no darkening around rivets/bands, no ambient occlusion, no cast shadows, no reflections. The brass must be a muted even brass base color, not glowing or yellow-white. It must look like an unlit PBR base-color pass with fine material texture and only a faint sheen, not a lit product render.\n\nExact orthographic TOP view, front at bottom. Use the guide's bounding box x=144..880, y=104..919 on the 1024x1024 canvas. Copy the vertical band, transverse band height, ALL rivet locations, crown outline, skirt and central lower notch exactly from the grey guide. Do not shift the transverse band, widen it or redraw the notch.\n\nNo text, watermark, background, floor, extra ornament or objects. ONLY change surface materials; all geometry and transparency remain fixed to image 1.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "130e1cc6a319c3503c631939e7bdb61df980302fbc08a9558fbc7e1454448781",
+          "role": "edit target; exact geometry"
+        },
+        {
+          "path": "paint_top_attempt1.png",
+          "sha256": "39511e25c9eef842108eccfc53fe1b0c8c7e5c67e6eddb134f2b7741211069fa",
+          "role": "previous unmodified return; correction reference"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "4d84495ff2fb4a586a1ed5895188dae7c8b3ae2544530c1e935fae83dad78d68",
+          "role": "design, colour and material reference"
+        },
+        {
+          "path": "icon_x8.png",
+          "sha256": "7a978b938442f78b7a94e2e9bcb61565229dbfc169f61f706b666a6b83e81ad4",
+          "role": "original game icon"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the better available return after the single permitted correction: flatter broad plate lighting. Still fails exact guide registration and completely flat albedo; retained unmodified at 1254 x 1254 as the brief requires for non-1024 returns. Selection is not full brief acceptance.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "output_sha256": "e21a9e96ca9b80b58a3268dc6c71afdd34a1112a7ec3b08cb91242de30813e76",
+      "checks": {
+        "image_mode": "RGBA",
+        "transparent_background": {
+          "has_alpha": true,
+          "alpha_range": [
+            0,
+            255
+          ],
+          "fully_transparent_pixels": 921865,
+          "partially_transparent_pixels": 650122
+        },
+        "requested_dimensions_met": false,
+        "unresized_unmodified_tool_return": true,
+        "silhouette_identical_to_guide": false,
+        "alpha_bbox": [
+          0,
+          33,
+          1246,
+          1254
+        ],
+        "foreground_bbox_alpha_128": [
+          189,
+          103,
+          1062,
+          1101
+        ],
+        "guide_foreground_bbox_alpha_128": [
+          145,
+          106,
+          879,
+          918
+        ],
+        "foreground_bbox_in_1024_coordinates_for_comparison_only": [
+          154.33,
+          84.11,
+          867.22,
+          899.06
+        ],
+        "materials_visual_review": "Blackened dark-grey steel, brass trim, dark-steel rivets and dark interior are present. Texture/wear is stronger than the brief asks for.",
+        "flat_shadowless_albedo_met": false,
+        "lighting_visual_review": "Residual shading and highlighted rivets/edges remain; the brass retains bright edge reflections.",
+        "geometry_visual_review": "Not pixel-identical to guide: framing/outline and internal edge positions differ. No rescaling, warping or masking was applied."
+      },
+      "source_output": "/home/pjasicek/.codex/generated_images/01a14648-61fc-7dc3-a9fe-aed5898404ae/exec-d40067e6-d92a-4899-8a46-3ebf1b8c423e.png"
+    }
+  ],
+  "status": "Generation complete within the two-attempt-per-view limit; best available paintings saved, but exact silhouette and flat-albedo checks failed.",
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_top.png"
+  ],
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "builds_or_runtime_changes": false
+}

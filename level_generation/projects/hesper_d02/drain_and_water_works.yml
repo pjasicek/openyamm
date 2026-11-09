@@ -1,0 +1,129 @@
+id: hesper.d02.drain_and_water_works
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d02.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Bram
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Cyra
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Dana
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+      - name: Eli
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills: []
+- set_pose:
+    map: hes_d02.blv
+    x: 1150
+    y: 2700
+    z: 0
+    yaw: 3.14159265
+    pitch: 0
+- press_interact: {}
+- set_pose:
+    map: hes_d02.blv
+    x: 3200
+    y: 2972
+    z: 0
+    yaw: 1.5707963
+    pitch: 0
+- press_interact: {}
+- set_pose:
+    map: hes_d02.blv
+    x: 4172
+    y: 900
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d02.blv
+- movement_segment:
+    input: forward
+    duration_ms: 2600
+    delta_game_minutes: 0.0
+    start:
+      x: 1476
+      y: 2972
+      z: 0
+      map: hes_d02.blv
+      yaw: -1.5707963
+      pitch: 0
+    expect_stop:
+      x: 1476
+      y: 1010
+      z: -768
+      map: hes_d02.blv
+      yaw: -1.5707963
+      pitch: 0
+    tolerance_xy: 400
+    tolerance_z: 40
+    loose_tolerance: true
+    actor_collision: false
+    actor_ai: false
+- damage_actor:
+    actor_index: 15
+    amount: 100000
+    tier: physical
+- advance_runtime:
+    seconds: 4
+- assert:
+    actor_visible:
+      actor_index: 15
+      dead: true
+      hp: 0
+- set_pose:
+    map: hes_d02.blv
+    x: 7924
+    y: 2600
+    z: -256
+    yaw: 1.5707963
+    pitch: 0
+- press_interact: {}
+- assert:
+    qbit_set:
+    - 100102
+- press_action:
+    action: cancel_dialog
+- set_pose:
+    map: hes_d02.blv
+    x: 6000
+    y: -100
+    z: -256
+    yaw: -1.5707963
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_undervault.blv
+- set_pose:
+    map: hes_undervault.blv
+    x: 6150
+    y: -900
+    z: 0
+    yaw: 0
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: npc_topic
+    action_id: 9040
+- assert:
+    map: hes_d02.blv

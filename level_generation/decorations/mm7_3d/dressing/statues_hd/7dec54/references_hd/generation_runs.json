@@ -1,0 +1,383 @@
+{
+  "runs": [
+    {
+      "id": "7dec54_00",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the\nEXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. The\nobject is a carved STONE SCULPTURE (one solid piece of weathered stone: dark green-grey granite with gilded inlays), matte, slightly weathered, fine\nchisel and grain detail, no paint except where stated. Whole statue visible and centred, filling about 80 % of the\nframe height, near-orthographic camera, transparent background, no floor, no cast shadow, no text. Even soft\nneutral studio light (no dramatic light; Meshy bakes light into the albedo).\n\nIdentity: a stocky, broad-shouldered dwarf warrior standing square, feet apart, knees slightly bent, as in a0\nand a4. Horned helmet: a smooth dark iron dome, a broad GOLD rim band with rivets, a short gold central spike on top\nand two thick, round, tapering GOLD horns curving out and up from the dome's sides (each with a gold collar at its\nroot). Stern face, heavy brows, big nose; a long full beard of carved strands reaching the belt. A studded leather\njerkin with short shoulder flaps over a chainmail shirt; a chainmail skirt to above the knees; a wide belt with a\nsquare buckle. Bare muscular forearms with wide GOLD bracers and GOLD arm rings; heavy boots with GOLD rings at the\nboot tops. His RIGHT hand holds a double-bladed battle axe low beside his thigh, the dark haft angled back and up\nbehind him, the two crescent axe blades behind his right hip (see a2); his LEFT fist is clenched at his side. The\nstatue is stone; the gold parts are gilded brass. No plinth: he stands directly on the ground.\n\nDo NOT: do not add a cape, a shield, a second weapon, a plinth or wings; do not change the horn count (two horns plus one central spike); do not make it cartoonish; do not crop any part; do not add a floor, a backdrop, a second figure or text.\n\n\nINPUT AUTHORITY: Input 1 is the native five-view design authority; cyan/black is background. Input 2 is surface material ONLY, not design authority.\nGenerate primary 00_three_quarter.png: front-left three-quarter, statue's own front turned about 35 degrees toward image RIGHT, camera a little above chest height. EXACT 1024 x 1536 portrait, unresized native return, true transparent RGBA. One whole statue about 80% frame height. Save output into /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/native_views_x4.png",
+          "sha256": "dff9791bf30c0649684dfa7bb2a89bc3e9401f1aaab6bae05f6c8897abeaa5cd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/x2_surface_only.png",
+          "sha256": "9df945a97e37f1c4b4758dcf15dbb16ecb11fd5aaa328c0fcb6722ac944b8085"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a14354-fc57-7fb2-b500-e4dfbd247346/exec-020d7a31-4f03-45de-8408-73a83be0c995.png",
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter_attempt01.png",
+      "selected": false,
+      "reason": "Superseded by correction requesting wider margins and transparency.",
+      "superseded_runs": [],
+      "output_sha256": "8863f63f1044a0927943d996ab1a58d90e10dbff99f0fe9a9a1dd60216ad424d",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 848943,
+        "solid_bounds": [
+          41,
+          12,
+          984,
+          1512
+        ],
+        "height_fraction": 0.977,
+        "unresized": true
+      }
+    },
+    {
+      "id": "7dec54_00fix",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the\nEXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. The\nobject is a carved STONE SCULPTURE (one solid piece of weathered stone: dark green-grey granite with gilded inlays), matte, slightly weathered, fine\nchisel and grain detail, no paint except where stated. Whole statue visible and centred, filling about 80 % of the\nframe height, near-orthographic camera, transparent background, no floor, no cast shadow, no text. Even soft\nneutral studio light (no dramatic light; Meshy bakes light into the albedo).\n\nIdentity: a stocky, broad-shouldered dwarf warrior standing square, feet apart, knees slightly bent, as in a0\nand a4. Horned helmet: a smooth dark iron dome, a broad GOLD rim band with rivets, a short gold central spike on top\nand two thick, round, tapering GOLD horns curving out and up from the dome's sides (each with a gold collar at its\nroot). Stern face, heavy brows, big nose; a long full beard of carved strands reaching the belt. A studded leather\njerkin with short shoulder flaps over a chainmail shirt; a chainmail skirt to above the knees; a wide belt with a\nsquare buckle. Bare muscular forearms with wide GOLD bracers and GOLD arm rings; heavy boots with GOLD rings at the\nboot tops. His RIGHT hand holds a double-bladed battle axe low beside his thigh, the dark haft angled back and up\nbehind him, the two crescent axe blades behind his right hip (see a2); his LEFT fist is clenched at his side. The\nstatue is stone; the gold parts are gilded brass. No plinth: he stands directly on the ground.\n\nDo NOT: do not add a cape, a shield, a second weapon, a plinth or wings; do not change the horn count (two horns plus one central spike); do not make it cartoonish; do not crop any part; do not add a floor, a backdrop, a second figure or text.\n\n\nINPUT AUTHORITY: Input 1 is the native five-view design authority; cyan/black is background. Input 2 is surface material ONLY, not design authority.\nGenerate primary 00_three_quarter.png: front-left three-quarter, statue's own front turned about 35 degrees toward image RIGHT, camera a little above chest height. EXACT 1024 x 1536 portrait, unresized native return, true transparent RGBA. One whole statue about 80% frame height. Save output into /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png\nCORRECTION: Previous attempt had an opaque painted backdrop and statue filled 98% height. Remove background completely: alpha zero outside sculpture, no glow, no gradient, no shadow, no backdrop. Statue height exactly about 1229 pixels within 1536 canvas, 150 pixels empty above and below. Keep stocky native proportions, simple unbraided carved beard strands, restrained matte stone. Exact 1024x1536.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/native_views_x4.png",
+          "sha256": "dff9791bf30c0649684dfa7bb2a89bc3e9401f1aaab6bae05f6c8897abeaa5cd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/x2_surface_only.png",
+          "sha256": "9df945a97e37f1c4b4758dcf15dbb16ecb11fd5aaa328c0fcb6722ac944b8085"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter_attempt01.png",
+          "sha256": "8863f63f1044a0927943d996ab1a58d90e10dbff99f0fe9a9a1dd60216ad424d"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a14354-fc57-7fb2-b500-e4dfbd247346/exec-3809ff3a-4f9e-4892-a97d-6dac37a2b46a.png",
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png",
+      "selected": true,
+      "reason": "Selected corrected primary; alpha verified numerically.",
+      "superseded_runs": [
+        "7dec54_00"
+      ],
+      "output_sha256": "ff87977c3b668b172aa8032bd4d21855d78bc1ffa53f62a9a16064817abc2512",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 954200,
+        "solid_bounds": [
+          64,
+          124,
+          975,
+          1465
+        ],
+        "height_fraction": 0.873,
+        "unresized": true
+      }
+    },
+    {
+      "id": "7dec54_01",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the\nEXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. The\nobject is a carved STONE SCULPTURE (one solid piece of weathered stone: dark green-grey granite with gilded inlays), matte, slightly weathered, fine\nchisel and grain detail, no paint except where stated. Whole statue visible and centred, filling about 80 % of the\nframe height, near-orthographic camera, transparent background, no floor, no cast shadow, no text. Even soft\nneutral studio light (no dramatic light; Meshy bakes light into the albedo).\n\nIdentity: a stocky, broad-shouldered dwarf warrior standing square, feet apart, knees slightly bent, as in a0\nand a4. Horned helmet: a smooth dark iron dome, a broad GOLD rim band with rivets, a short gold central spike on top\nand two thick, round, tapering GOLD horns curving out and up from the dome's sides (each with a gold collar at its\nroot). Stern face, heavy brows, big nose; a long full beard of carved strands reaching the belt. A studded leather\njerkin with short shoulder flaps over a chainmail shirt; a chainmail skirt to above the knees; a wide belt with a\nsquare buckle. Bare muscular forearms with wide GOLD bracers and GOLD arm rings; heavy boots with GOLD rings at the\nboot tops. His RIGHT hand holds a double-bladed battle axe low beside his thigh, the dark haft angled back and up\nbehind him, the two crescent axe blades behind his right hip (see a2); his LEFT fist is clenched at his side. The\nstatue is stone; the gold parts are gilded brass. No plinth: he stands directly on the ground.\n\nDo NOT: do not add a cape, a shield, a second weapon, a plinth or wings; do not change the horn count (two horns plus one central spike); do not make it cartoonish; do not crop any part; do not add a floor, a backdrop, a second figure or text.\n\n\nINPUTS: 1 native sprites are design authority, 2 material only, 3 selected primary is SAME statue identity and proportions. Rotate camera only, preserve pose, outfit and axe placement. Generate 01_front.png STRAIGHT FRONT: symmetric standing square, right hand on IMAGE LEFT holds axe with head behind right hip, left clenched fist on IMAGE RIGHT. EXACT 1024 x 1536 portrait native output, one statue 80% height with ample empty margins. True transparent RGBA background, no gradient, no glow, no floor or shadow. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/01_front.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/native_views_x4.png",
+          "sha256": "dff9791bf30c0649684dfa7bb2a89bc3e9401f1aaab6bae05f6c8897abeaa5cd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/x2_surface_only.png",
+          "sha256": "9df945a97e37f1c4b4758dcf15dbb16ecb11fd5aaa328c0fcb6722ac944b8085"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png",
+          "sha256": "ff87977c3b668b172aa8032bd4d21855d78bc1ffa53f62a9a16064817abc2512"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a14354-fc57-7fb2-b500-e4dfbd247346/exec-5ee19b1b-420e-46db-a9f9-80e802c26af8.png",
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/01_front_attempt01.png",
+      "selected": false,
+      "reason": "Superseded by wider framing correction.",
+      "superseded_runs": [],
+      "output_sha256": "c618ab7b90bfcfa9cfb065d5d9cf26edb62d2e5f7ff2f7941068f1026262d217",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 918517,
+        "solid_bounds": [
+          62,
+          61,
+          966,
+          1459
+        ],
+        "height_fraction": 0.91,
+        "unresized": true
+      }
+    },
+    {
+      "id": "7dec54_03",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the\nEXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. The\nobject is a carved STONE SCULPTURE (one solid piece of weathered stone: dark green-grey granite with gilded inlays), matte, slightly weathered, fine\nchisel and grain detail, no paint except where stated. Whole statue visible and centred, filling about 80 % of the\nframe height, near-orthographic camera, transparent background, no floor, no cast shadow, no text. Even soft\nneutral studio light (no dramatic light; Meshy bakes light into the albedo).\n\nIdentity: a stocky, broad-shouldered dwarf warrior standing square, feet apart, knees slightly bent, as in a0\nand a4. Horned helmet: a smooth dark iron dome, a broad GOLD rim band with rivets, a short gold central spike on top\nand two thick, round, tapering GOLD horns curving out and up from the dome's sides (each with a gold collar at its\nroot). Stern face, heavy brows, big nose; a long full beard of carved strands reaching the belt. A studded leather\njerkin with short shoulder flaps over a chainmail shirt; a chainmail skirt to above the knees; a wide belt with a\nsquare buckle. Bare muscular forearms with wide GOLD bracers and GOLD arm rings; heavy boots with GOLD rings at the\nboot tops. His RIGHT hand holds a double-bladed battle axe low beside his thigh, the dark haft angled back and up\nbehind him, the two crescent axe blades behind his right hip (see a2); his LEFT fist is clenched at his side. The\nstatue is stone; the gold parts are gilded brass. No plinth: he stands directly on the ground.\n\nDo NOT: do not add a cape, a shield, a second weapon, a plinth or wings; do not change the horn count (two horns plus one central spike); do not make it cartoonish; do not crop any part; do not add a floor, a backdrop, a second figure or text.\n\n\nINPUTS: 1 native sprites design authority, 2 material only, 3 selected primary SAME statue identity. Rotate camera only, keep pose/proportions/outfit. Generate 03_side.png: TRUE RIGHT SIDE PROFILE, nose/front facing IMAGE LEFT, right arm nearest camera. Axe right hand beside thigh, shaft extends backward/up toward IMAGE RIGHT and double crescent blades behind right hip as native a2. Native a2 controls weapon position. Both horns and central spike exist but naturally overlap in profile. EXACT 1024 x1536 portrait, full statue at 80% height centered. True transparent background no glow/gradient/floor/shadow. Save /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/03_side.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/native_views_x4.png",
+          "sha256": "dff9791bf30c0649684dfa7bb2a89bc3e9401f1aaab6bae05f6c8897abeaa5cd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/x2_surface_only.png",
+          "sha256": "9df945a97e37f1c4b4758dcf15dbb16ecb11fd5aaa328c0fcb6722ac944b8085"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png",
+          "sha256": "ff87977c3b668b172aa8032bd4d21855d78bc1ffa53f62a9a16064817abc2512"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a14354-fc57-7fb2-b500-e4dfbd247346/exec-5f2468a8-fb60-48fa-8786-f196b5745742.png",
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/03_side_attempt01.png",
+      "selected": false,
+      "reason": "Superseded by wider framing correction.",
+      "superseded_runs": [],
+      "output_sha256": "9d9073c146b33a4736efd74a106fafcc5645b36343c8d960cfa34a05b401f3d1",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 1050450,
+        "solid_bounds": [
+          204,
+          30,
+          987,
+          1503
+        ],
+        "height_fraction": 0.959,
+        "unresized": true
+      }
+    },
+    {
+      "id": "7dec54_02",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the\nEXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. The\nobject is a carved STONE SCULPTURE (one solid piece of weathered stone: dark green-grey granite with gilded inlays), matte, slightly weathered, fine\nchisel and grain detail, no paint except where stated. Whole statue visible and centred, filling about 80 % of the\nframe height, near-orthographic camera, transparent background, no floor, no cast shadow, no text. Even soft\nneutral studio light (no dramatic light; Meshy bakes light into the albedo).\n\nIdentity: a stocky, broad-shouldered dwarf warrior standing square, feet apart, knees slightly bent, as in a0\nand a4. Horned helmet: a smooth dark iron dome, a broad GOLD rim band with rivets, a short gold central spike on top\nand two thick, round, tapering GOLD horns curving out and up from the dome's sides (each with a gold collar at its\nroot). Stern face, heavy brows, big nose; a long full beard of carved strands reaching the belt. A studded leather\njerkin with short shoulder flaps over a chainmail shirt; a chainmail skirt to above the knees; a wide belt with a\nsquare buckle. Bare muscular forearms with wide GOLD bracers and GOLD arm rings; heavy boots with GOLD rings at the\nboot tops. His RIGHT hand holds a double-bladed battle axe low beside his thigh, the dark haft angled back and up\nbehind him, the two crescent axe blades behind his right hip (see a2); his LEFT fist is clenched at his side. The\nstatue is stone; the gold parts are gilded brass. No plinth: he stands directly on the ground.\n\nDo NOT: do not add a cape, a shield, a second weapon, a plinth or wings; do not change the horn count (two horns plus one central spike); do not make it cartoonish; do not crop any part; do not add a floor, a backdrop, a second figure or text.\n\n\nINPUTS: 1 native sprites design authority especially rightmost a4 BACK; 2 material only; 3 selected primary SAME statue. Rotate camera only keep same pose and proportions. Generate 02_back.png: STRAIGHT BACK square rear view, NO face or beard visible through torso. Back of helmet with two gold horns plus central spike, short hair at nape, plain studded jerkin back over mail, no cape. RIGHT axe hand on IMAGE RIGHT, left fist IMAGE LEFT. Axe blades behind right hip. EXACT 1024x1536 portrait one whole statue occupying 80% height with ample margins. Genuine transparent RGBA no glow/backdrop/gradient/floor/shadow. Save /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/02_back.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/native_views_x4.png",
+          "sha256": "dff9791bf30c0649684dfa7bb2a89bc3e9401f1aaab6bae05f6c8897abeaa5cd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/x2_surface_only.png",
+          "sha256": "9df945a97e37f1c4b4758dcf15dbb16ecb11fd5aaa328c0fcb6722ac944b8085"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png",
+          "sha256": "ff87977c3b668b172aa8032bd4d21855d78bc1ffa53f62a9a16064817abc2512"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a14354-fc57-7fb2-b500-e4dfbd247346/exec-7b377b6d-9322-477a-bb31-56a8de2fd49e.png",
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/02_back_attempt01.png",
+      "selected": false,
+      "reason": "Superseded by wider framing correction.",
+      "superseded_runs": [],
+      "output_sha256": "f6924528ee47edbb9409333c4aa2d70003af3f867ea435c15076aafc8d66d8f2",
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 913547,
+        "solid_bounds": [
+          61,
+          81,
+          995,
+          1456
+        ],
+        "height_fraction": 0.895,
+        "unresized": true
+      }
+    },
+    {
+      "id": "7dec54_01fix",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the\nEXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. The\nobject is a carved STONE SCULPTURE (one solid piece of weathered stone: dark green-grey granite with gilded inlays), matte, slightly weathered, fine\nchisel and grain detail, no paint except where stated. Whole statue visible and centred, filling about 80 % of the\nframe height, near-orthographic camera, transparent background, no floor, no cast shadow, no text. Even soft\nneutral studio light (no dramatic light; Meshy bakes light into the albedo).\n\nIdentity: a stocky, broad-shouldered dwarf warrior standing square, feet apart, knees slightly bent, as in a0\nand a4. Horned helmet: a smooth dark iron dome, a broad GOLD rim band with rivets, a short gold central spike on top\nand two thick, round, tapering GOLD horns curving out and up from the dome's sides (each with a gold collar at its\nroot). Stern face, heavy brows, big nose; a long full beard of carved strands reaching the belt. A studded leather\njerkin with short shoulder flaps over a chainmail shirt; a chainmail skirt to above the knees; a wide belt with a\nsquare buckle. Bare muscular forearms with wide GOLD bracers and GOLD arm rings; heavy boots with GOLD rings at the\nboot tops. His RIGHT hand holds a double-bladed battle axe low beside his thigh, the dark haft angled back and up\nbehind him, the two crescent axe blades behind his right hip (see a2); his LEFT fist is clenched at his side. The\nstatue is stone; the gold parts are gilded brass. No plinth: he stands directly on the ground.\n\nDo NOT: do not add a cape, a shield, a second weapon, a plinth or wings; do not change the horn count (two horns plus one central spike); do not make it cartoonish; do not crop any part; do not add a floor, a backdrop, a second figure or text.\n\n\nINPUTS: 1 native sprites are design authority, 2 material only, 3 selected primary is SAME statue identity and proportions. Rotate camera only, preserve pose, outfit and axe placement. Generate 01_front.png STRAIGHT FRONT: symmetric standing square, right hand on IMAGE LEFT holds axe with head behind right hip, left clenched fist on IMAGE RIGHT. EXACT 1024 x 1536 portrait native output, one statue 80% height with ample empty margins. True transparent RGBA background, no gradient, no glow, no floor or shadow. Save to /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/01_front.png\nONE CORRECTIVE REGENERATION: Pull camera back. Sculpture top must be at y=154 and boot bottoms at y=1382, centered in the 1024x1536 image. This is a framing correction only; keep identical sculpture, straight front camera and true alpha. Do not fill 90% of height; fill 80%.",
+      "source": "/home/pjasicek/.codex/generated_images/01a14354-fc57-7fb2-b500-e4dfbd247346/exec-42573697-ea4e-4ef5-809c-de89a9ed9efc.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/native_views_x4.png",
+          "sha256": "dff9791bf30c0649684dfa7bb2a89bc3e9401f1aaab6bae05f6c8897abeaa5cd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/x2_surface_only.png",
+          "sha256": "9df945a97e37f1c4b4758dcf15dbb16ecb11fd5aaa328c0fcb6722ac944b8085"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png",
+          "sha256": "ff87977c3b668b172aa8032bd4d21855d78bc1ffa53f62a9a16064817abc2512"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/01_front_attempt01.png",
+          "sha256": "c618ab7b90bfcfa9cfb065d5d9cf26edb62d2e5f7ff2f7941068f1026262d217"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/01_front.png",
+      "output_sha256": "9abba5118b9e84a446ab2a297c554441bd75d221f4fc5002bcdcd29284127afe",
+      "selected": true,
+      "reason": "Selected wider framing; same directional identity. Unresized return retained.",
+      "superseded_runs": [
+        "7dec54_01"
+      ],
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 998635,
+        "solid_bounds": [
+          83,
+          141,
+          940,
+          1420
+        ],
+        "height_fraction": 0.833,
+        "unresized": true
+      }
+    },
+    {
+      "id": "7dec54_03fix",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the\nEXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. The\nobject is a carved STONE SCULPTURE (one solid piece of weathered stone: dark green-grey granite with gilded inlays), matte, slightly weathered, fine\nchisel and grain detail, no paint except where stated. Whole statue visible and centred, filling about 80 % of the\nframe height, near-orthographic camera, transparent background, no floor, no cast shadow, no text. Even soft\nneutral studio light (no dramatic light; Meshy bakes light into the albedo).\n\nIdentity: a stocky, broad-shouldered dwarf warrior standing square, feet apart, knees slightly bent, as in a0\nand a4. Horned helmet: a smooth dark iron dome, a broad GOLD rim band with rivets, a short gold central spike on top\nand two thick, round, tapering GOLD horns curving out and up from the dome's sides (each with a gold collar at its\nroot). Stern face, heavy brows, big nose; a long full beard of carved strands reaching the belt. A studded leather\njerkin with short shoulder flaps over a chainmail shirt; a chainmail skirt to above the knees; a wide belt with a\nsquare buckle. Bare muscular forearms with wide GOLD bracers and GOLD arm rings; heavy boots with GOLD rings at the\nboot tops. His RIGHT hand holds a double-bladed battle axe low beside his thigh, the dark haft angled back and up\nbehind him, the two crescent axe blades behind his right hip (see a2); his LEFT fist is clenched at his side. The\nstatue is stone; the gold parts are gilded brass. No plinth: he stands directly on the ground.\n\nDo NOT: do not add a cape, a shield, a second weapon, a plinth or wings; do not change the horn count (two horns plus one central spike); do not make it cartoonish; do not crop any part; do not add a floor, a backdrop, a second figure or text.\n\n\nINPUTS: 1 native sprites design authority, 2 material only, 3 selected primary SAME statue identity. Rotate camera only, keep pose/proportions/outfit. Generate 03_side.png: TRUE RIGHT SIDE PROFILE, nose/front facing IMAGE LEFT, right arm nearest camera. Axe right hand beside thigh, shaft extends backward/up toward IMAGE RIGHT and double crescent blades behind right hip as native a2. Native a2 controls weapon position. Both horns and central spike exist but naturally overlap in profile. EXACT 1024 x1536 portrait, full statue at 80% height centered. True transparent background no glow/gradient/floor/shadow. Save /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/03_side.png\nONE CORRECTIVE REGENERATION: Pull camera back substantially. Sculpture top at y=154, boot bottoms y=1382, sculpture including axe CENTERED horizontally in 1024x1536 image. Frame height 80%, not 96%. Framing correction only keep exact same right side profile facing LEFT, axe and statue. True alpha.",
+      "source": "/home/pjasicek/.codex/generated_images/01a14354-fc57-7fb2-b500-e4dfbd247346/exec-39e31026-817b-43d1-95e3-0e91682d3f31.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/native_views_x4.png",
+          "sha256": "dff9791bf30c0649684dfa7bb2a89bc3e9401f1aaab6bae05f6c8897abeaa5cd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/x2_surface_only.png",
+          "sha256": "9df945a97e37f1c4b4758dcf15dbb16ecb11fd5aaa328c0fcb6722ac944b8085"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png",
+          "sha256": "ff87977c3b668b172aa8032bd4d21855d78bc1ffa53f62a9a16064817abc2512"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/03_side_attempt01.png",
+          "sha256": "9d9073c146b33a4736efd74a106fafcc5645b36343c8d960cfa34a05b401f3d1"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/03_side.png",
+      "output_sha256": "66b0e3546e7a385a1bf0fee28e9fcd25d482e9910f6f66e46cb2f59b4c1d34bc",
+      "selected": true,
+      "reason": "Selected wider framing; same directional identity. Unresized return retained.",
+      "superseded_runs": [
+        "7dec54_03"
+      ],
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 1183989,
+        "solid_bounds": [
+          266,
+          168,
+          933,
+          1429
+        ],
+        "height_fraction": 0.821,
+        "unresized": true
+      }
+    },
+    {
+      "id": "7dec54_02fix",
+      "prompt": "TASK CONTEXT \u2014 FANTASY-GAME ASSET RESTORATION: a faithful high-definition reconstruction of the statue painted in the\nEXISTING Might and Magic VII decoration sprite, as a 3D modelling and texturing reference. Not a new design. The\nobject is a carved STONE SCULPTURE (one solid piece of weathered stone: dark green-grey granite with gilded inlays), matte, slightly weathered, fine\nchisel and grain detail, no paint except where stated. Whole statue visible and centred, filling about 80 % of the\nframe height, near-orthographic camera, transparent background, no floor, no cast shadow, no text. Even soft\nneutral studio light (no dramatic light; Meshy bakes light into the albedo).\n\nIdentity: a stocky, broad-shouldered dwarf warrior standing square, feet apart, knees slightly bent, as in a0\nand a4. Horned helmet: a smooth dark iron dome, a broad GOLD rim band with rivets, a short gold central spike on top\nand two thick, round, tapering GOLD horns curving out and up from the dome's sides (each with a gold collar at its\nroot). Stern face, heavy brows, big nose; a long full beard of carved strands reaching the belt. A studded leather\njerkin with short shoulder flaps over a chainmail shirt; a chainmail skirt to above the knees; a wide belt with a\nsquare buckle. Bare muscular forearms with wide GOLD bracers and GOLD arm rings; heavy boots with GOLD rings at the\nboot tops. His RIGHT hand holds a double-bladed battle axe low beside his thigh, the dark haft angled back and up\nbehind him, the two crescent axe blades behind his right hip (see a2); his LEFT fist is clenched at his side. The\nstatue is stone; the gold parts are gilded brass. No plinth: he stands directly on the ground.\n\nDo NOT: do not add a cape, a shield, a second weapon, a plinth or wings; do not change the horn count (two horns plus one central spike); do not make it cartoonish; do not crop any part; do not add a floor, a backdrop, a second figure or text.\n\n\nINPUTS: 1 native sprites design authority especially rightmost a4 BACK; 2 material only; 3 selected primary SAME statue. Rotate camera only keep same pose and proportions. Generate 02_back.png: STRAIGHT BACK square rear view, NO face or beard visible through torso. Back of helmet with two gold horns plus central spike, short hair at nape, plain studded jerkin back over mail, no cape. RIGHT axe hand on IMAGE RIGHT, left fist IMAGE LEFT. Axe blades behind right hip. EXACT 1024x1536 portrait one whole statue occupying 80% height with ample margins. Genuine transparent RGBA no glow/backdrop/gradient/floor/shadow. Save /home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/02_back.png\nONE CORRECTIVE REGENERATION: Pull camera back. Sculpture top at y=154 and boot bottoms y=1382 in 1024x1536 portrait. 80% frame height. Keep identical straight BACK view of same sculpture, pose and axe. True transparent alpha exterior; no backdrop.",
+      "source": "/home/pjasicek/.codex/generated_images/01a14354-fc57-7fb2-b500-e4dfbd247346/exec-c6d0facb-347e-4744-b8fa-02fa659d7fcf.png",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/native_views_x4.png",
+          "sha256": "dff9791bf30c0649684dfa7bb2a89bc3e9401f1aaab6bae05f6c8897abeaa5cd"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/x2_surface_only.png",
+          "sha256": "9df945a97e37f1c4b4758dcf15dbb16ecb11fd5aaa328c0fcb6722ac944b8085"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/00_three_quarter.png",
+          "sha256": "ff87977c3b668b172aa8032bd4d21855d78bc1ffa53f62a9a16064817abc2512"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/02_back_attempt01.png",
+          "sha256": "f6924528ee47edbb9409333c4aa2d70003af3f867ea435c15076aafc8d66d8f2"
+        }
+      ],
+      "output_path": "/home/pjasicek/github/OpenYAMM/level_generation/decorations/mm7_3d/dressing/statues_hd/7dec54/references_hd/02_back.png",
+      "output_sha256": "08730f588e457764a3c06afbd23f4972a16999443fc203363e8d34a8e843ca2e",
+      "selected": true,
+      "reason": "Selected wider framing; same directional identity. Unresized return retained.",
+      "superseded_runs": [
+        "7dec54_02"
+      ],
+      "checks": {
+        "size": [
+          1024,
+          1536
+        ],
+        "mode": "RGBA",
+        "alpha_extrema": [
+          0,
+          254
+        ],
+        "transparent_pixels": 968180,
+        "solid_bounds": [
+          76,
+          133,
+          990,
+          1435
+        ],
+        "height_fraction": 0.848,
+        "unresized": true
+      }
+    }
+  ],
+  "review": {
+    "status": "Selected references with noted deviations",
+    "notes": [
+      "All four selected images are original unresized 1024x1536 RGBA returns with transparent exterior.",
+      "One correction per view used; all attempts preserved.",
+      "Framing remains approximately 82-87 percent rather than exactly 80 percent.",
+      "Generated beard has braided strands and additional costume detailing compared with native sprites; native sprites remain design authority.",
+      "Side silhouette has overlapping horns; no extra horn is inferred.",
+      "No builds, Meshy calls or runtime installation performed."
+    ]
+  }
+}

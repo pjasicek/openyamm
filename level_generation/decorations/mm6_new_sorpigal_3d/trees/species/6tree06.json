@@ -1,0 +1,67 @@
+{
+ "sprite": "6tree06",
+ "output": "mm6_deco_tree06.glb",
+ "height_m": 7.05,
+ "note": "6 placements: the food tree after its fruit was picked. tree06a (with fruit) reuses this exact tree.",
+ "sapling": {
+  "scale": 4.99,
+  "baseSplits": 0,
+  "baseSize": 0.33,
+  "branches": [
+   0,
+   80,
+   15,
+   8
+  ],
+  "seed": 71,
+  "ratio": 0.05
+ },
+ "crown": {
+  "canopy_low": 0.28,
+  "centre": 0.58,
+  "clumps": 120,
+  "inner_clumps": 22
+ },
+ "bark": {
+  "target_srgb": [
+   80,
+   76,
+   48
+  ],
+  "min_thickness": [
+   0.02,
+   0.035,
+   0.07
+  ]
+ },
+ "lod": {
+  "triangles": [
+   7400,
+   2750,
+   900
+  ],
+  "lod2_card_scale": 0.96,
+  "tone": [
+   1.0,
+   0.92,
+   [
+    0.82,
+    1.1,
+    0.77
+   ]
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   35,
+   148,
+   33
+  ],
+  "seeds": [
+   27,
+   43,
+   59,
+   71
+  ]
+ }
+}

@@ -1,0 +1,27 @@
+{
+  "prompt": "Edit image 1 paint_mask_guide.png exactly according to this production brief. Image 1 is the immutable layout and silhouette target; image 2 design_reference.png is material/detail reference; image 3 icon_x8.png is colour reference (ignore magenta background).\nOutput ONE transparent PNG 1536x2048 (3:4). Three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 contain identical five grey orthographic renders FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object's exact position, size, orientation, outline, gaps and openings from image 1. Paint grey objects only, never redraw, enlarge, move or redesign them. Preserve the unusual edge-on views and the separated head and handle visible in the central view. Do not replace these with full face-on axes.\nRows 1-2 PAINT: unlit base colour of the decorative fantasy axe. Enchanted by the Sturmford Mages, it is very rare to see the flat metal piece of this shaped metal head dulled. Silver steel head and borders, dark metal scrollwork and inner swirls on ivory inset following design_reference, brown wood handle, silver bands, two blue gemstones, engraved dark metal lower grip and gold pommel following icon. Facets, engravings, scrollwork and inner swirls follow design reference scaled to each view.\nRows 3-4 MATERIAL MASK: corresponding five identical silhouettes filled with FLAT pure colours only, no shading, texture, outlines or antialiased colour blends inside. #FF0000 for EVERY metal part including steel, iron, gold, silver, bronze, copper, brass and dark metal ornament. #00FF00 for leather and fur. #0000FF for cloth, cords and hair. #FFFF00 for matte nonmetal solids including wood, bone, horn, stone, parchment, wax (ivory inset). #000000 for gemstones, crystal, glass, pearl, enamel and liquid. Every pixel inside silhouettes gets exactly one such colour, nothing outside.\nKeep every gap and opening fully transparent. Empty cells column 3 row 2 and column 3 row 4 fully transparent. Unlit base colour only, no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkle, aura, ground, outlines or text. This is a texture sheet for a harmless static decorative prop in a cosy fantasy game.\nCORRECTION REQUIREMENT: Clean exact silhouette boundaries are critical. There must be ZERO stray pixels, speckles, splashes or fragments outside the guide objects, especially in the bottom two material-mask rows. Preserve the original guide alpha boundaries. Material mask must include the metal scrollwork as flat red on the yellow inset, matching the paint. Use absolutely solid flat color region fills and clean edges.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad27-2daa-7c53-a839-a802c6de765f/exec-5baf20e9-6c80-4f82-9825-713a23dba5da.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10039/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation_notes": "Visual inspection: residual stray pixels outside material-mask silhouettes and silhouette drift remain. Raw tool output preserved without modification.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10039/paint_mask_guide.png",
+      "sha256": "5d52c133979bf565438649e06a59578334f8f8f0d1c11b14552731136208fec0"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10039/design_reference.png",
+      "sha256": "ea788cbaf02a40898e0978ebddba35a999012665d90209e6117a75843c0b0ff7"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10039/icon_x8.png",
+      "sha256": "d08048c128b057479b37a7f5cdca5f0ea10d44e18713a8d62d00cc31eb8beb54"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

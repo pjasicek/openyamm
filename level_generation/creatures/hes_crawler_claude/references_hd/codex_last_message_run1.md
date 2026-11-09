@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/hes_crawler_claude/references_hd/00_three_quarter.png) using built-in image generation: 1536×1024 RGBA with transparency. Prompts and checks are in [generation_runs.json](level_generation/creatures/hes_crawler_claude/references_hd/generation_runs.json).
+
+Stopped after one corrective regeneration; no other views generated. Remaining issues: apparent extra leg, tight margins, and a higher camera angle than requested.

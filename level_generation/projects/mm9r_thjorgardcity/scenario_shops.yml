@@ -1,0 +1,87 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thjorgardcity_shops
+title: 'Thjorgard City (native BLV) - walk-in shops: the shopkeepers'' dialogues open by real clicks and their service rows
+  open the shops'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thjorgardcity.blv
+- advance_runtime:
+    seconds: 1.5
+- note:
+    text: 'ShopkeeperElfFemaleB3 (RUDE 12) in the shop: a click opens the dialogue; "Let us see what you have." opens the
+      shop.'
+- set_pose:
+    map: thjorgardcity.blv
+    x: 164
+    y: 6038
+    z: 1
+    yaw: -1.5708
+    pitch: -0.6155
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 12
+- assert:
+    dialog:
+      active: true
+      source_id: 12
+- select_topic:
+    action_id: 4
+    match_label: Let us see what you have.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'ShopkeeperElfFemaleB0 (RUDE 10) in the shop: a click opens the dialogue; "Let us see what you have." opens the
+      shop.'
+- set_pose:
+    map: thjorgardcity.blv
+    x: 1720
+    y: 11609
+    z: 1
+    yaw: -1.5708
+    pitch: -0.6155
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 10
+- assert:
+    dialog:
+      active: true
+      source_id: 10
+- select_topic:
+    action_id: 8
+    match_label: Let us see what you have.
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+- press_action:
+    action: cancel_dialog
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5

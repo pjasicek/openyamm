@@ -1,0 +1,24 @@
+{
+  "status": "pilot_only_join_repair_required",
+  "tiles": [
+    {
+      "name": "drsrew",
+      "raw": "drsrew_definition_v3",
+      "raw_sha256": "8bdd1f64e8bec682f51e3deb2cb7d82ebb6d6c5b50f2fbf6abf03ecaedc45993",
+      "mean_native_width": 221.943359375,
+      "mean_unaligned_width": 192.91015625,
+      "protected_dirt_fraction": 0.4956245422363281,
+      "runtime_sha256": "ef399dec88106a4ec33e6b928f804110372984fce84fd8fd704020ddcdea42fc"
+    },
+    {
+      "name": "drsrns",
+      "raw": "drsrns",
+      "raw_sha256": "0d07a5517da4fd7714b062531280adf77622149b25aff123b1ec6809059c03e1",
+      "mean_native_width": 228.11523437500003,
+      "mean_unaligned_width": 174.12890625,
+      "protected_dirt_fraction": 0.478485107421875,
+      "runtime_sha256": "597ed8ade4bb1532019d67a2238a5765b5e3597d95fcac07ff886349092fde50"
+    }
+  ],
+  "master_sha256": "88f9379ecad45e35a4b3888654abb972f428809e9f101d8c4321f7926d669dea"
+}

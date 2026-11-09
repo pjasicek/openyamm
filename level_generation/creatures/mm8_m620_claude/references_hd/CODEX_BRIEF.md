@@ -1,0 +1,5 @@
+# Bedraggled Human m620 HD masters
+
+Original authority: `../review/native/standing.png` and `../review/native/tiers.png`, decoded from 160 original MM8 frames with palettes 621/622/623. Preserve lean male build, weathered face, messy brown hair, open ragged sleeveless vest, bare torso, torn trousers, bare shins and low cuffed boots. Native tiers change only vest colour. Generate one A-pose figure per image with separated five-digit hands, near-orthographic front three-quarter/front/back/left/right views, transparent 1024x1536 canvas and no floor/text/shadow. Head masters use the selected body identity. Do not add a weapon, armour or accessories. Camera-hidden wear is an inference from the native costume, not recovered geometry.
+
+Built-in imagegen was used. Exact prompts, source hashes, generated paths, selection and rejection reasons are in `../generation_runs.json`. Original returns are preserved without resizing; the contact sheet is only a review aid. All five body views passed identity, pose, completeness, alpha and hand checks before the mesh submission. The primary pose correction is retained as a superseded image.

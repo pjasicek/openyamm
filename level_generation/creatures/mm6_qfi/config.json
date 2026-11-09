@@ -1,0 +1,77 @@
+{
+  "family": "qfi",
+  "title": "MM6 Demon Queen",
+  "descriptor_ids": [
+    646
+  ],
+  "base_palette": 834,
+  "mask_kind": "blue",
+  "description": "Native MM6 Demon Queen: small central red-scaled serpentine adult female demon with ivory crown of horns, pale eyes, long thin dark arms and clawed hands, violet metal chest armor and silver segmented tapered abdomen. She is embedded in a HUGE irregular oval olive-gray rock alcove with blue-black shadow on the right. The ENTIRE original rock backdrop is part of this native sprite and MUST remain, identical between cells; do not extract the small queen alone. Preserve original relative queen size, alcove silhouette and lit-left shadow-right rock texture. Only native queen movements differ.",
+  "regions": "Single native palette, preserve all materials.",
+  "variant_names": {
+    "834": "Demon Queen"
+  },
+  "material_mask_channels": 1,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "material_module": "materials.py",
+  "standing_reference_frame": 0,
+  "identity_full_sequence": true,
+  "batch_distinct_standing": true,
+  "extra_sources": {
+    "qatf0": {
+      "path": "assets_dev/engine/sprites/qatf0.bmp"
+    },
+    "qatd0": {
+      "path": "assets_dev/engine/sprites/qatd0.bmp"
+    },
+    "qata0": {
+      "path": "assets_dev/engine/sprites/qata0.bmp"
+    },
+    "qate0": {
+      "path": "assets_dev/engine/sprites/qate0.bmp"
+    },
+    "qatb0": {
+      "path": "assets_dev/engine/sprites/qatb0.bmp"
+    },
+    "qatc0": {
+      "path": "assets_dev/engine/sprites/qatc0.bmp"
+    },
+    "qwib0": {
+      "path": "assets_dev/engine/sprites/qwib0.bmp"
+    },
+    "qwid0": {
+      "path": "assets_dev/engine/sprites/qwid0.bmp"
+    },
+    "qwia0": {
+      "path": "assets_dev/engine/sprites/qwia0.bmp"
+    },
+    "qwie0": {
+      "path": "assets_dev/engine/sprites/qwie0.bmp"
+    },
+    "qwic0": {
+      "path": "assets_dev/engine/sprites/qwic0.bmp"
+    },
+    "qwif0": {
+      "path": "assets_dev/engine/sprites/qwif0.bmp"
+    },
+    "qdeb0": {
+      "path": "assets_dev/engine/sprites/qdeb0.bmp"
+    },
+    "qdea0": {
+      "path": "assets_dev/engine/sprites/qdea0.bmp"
+    },
+    "qdef0": {
+      "path": "assets_dev/engine/sprites/qdef0.bmp"
+    },
+    "qdec0": {
+      "path": "assets_dev/engine/sprites/qdec0.bmp"
+    },
+    "qded0": {
+      "path": "assets_dev/engine/sprites/qded0.bmp"
+    },
+    "qdee0": {
+      "path": "assets_dev/engine/sprites/qdee0.bmp"
+    }
+  }
+}

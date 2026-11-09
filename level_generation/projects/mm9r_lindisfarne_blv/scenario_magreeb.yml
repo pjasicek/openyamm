@@ -1,0 +1,20 @@
+# Hand-written (2026-11-06, scr_audit monsters_ai #5): MAGREEB.scr :OnFoundTarget: a Magreeb that finds the party
+# during the Scholar quest (key 201, not 202) gives key 202 (MM9's second route to the Scholar promotion).
+id: mm9r.lindisfarne_magreeb
+title: 'Lindisfarne (native BLV): a Magreeb sighting gives key 202 (MAGREEB.scr)'
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, draft]
+steps:
+- load_map:
+    map: lindisfarne.blv
+- set_pose: {map: lindisfarne.blv, x: 14849, y: -3300, z: 914, yaw: 0.0, pitch: 0.0}
+- advance_runtime: {seconds: 2.5}
+- note:
+    text: 'Without the Scholar quest (201) a sighting gives nothing.'
+- assert:
+    qbit_clear: [90202]
+- setup_shortcut: {kind: set_qbit, id: 90201, value: true}
+- advance_runtime: {seconds: 2.5}
+- assert:
+    qbit_set: [90202]

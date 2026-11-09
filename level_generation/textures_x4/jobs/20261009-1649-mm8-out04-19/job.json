@@ -1,0 +1,446 @@
+{
+ "id": "20261009-1649-mm8-out04-19",
+ "world": "mm8",
+ "maps": [
+  "out04.odm",
+  "d19.blv",
+  "d07.blv",
+  "d20.blv",
+  "out07.odm"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/t13b10e",
+  "mm8/t65b04",
+  "mm8/gnecdr3",
+  "mm8/gnecdr1r",
+  "mm8/gnecdr1l",
+  "mm8/gnecdr2",
+  "mm8/gnecstpt",
+  "mm8/gnecwal2",
+  "mm8/t1butt",
+  "mm8/t65b14h2",
+  "mm8/tws1h",
+  "mm8/cr_w256a",
+  "mm8/cr_w256b",
+  "mm8/gkp1-bs2",
+  "mm8/gkp1-ts",
+  "mm8/gkp1-tt",
+  "mm8/gkp1-bs1",
+  "mm8/cr_m128",
+  "mm8/crate_w64",
+  "mm8/gwspinwl",
+  "mm8/gnecstpv",
+  "mm8/swamptyl",
+  "mm8/t32a01",
+  "mm8/t32a03a"
+ ],
+ "requests": {
+  "mm8/t13b10e": {
+   "name": "t13b10e",
+   "versions": [
+    1
+   ],
+   "material": "small block of stacked dark brown bricks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b04": {
+   "name": "t65b04",
+   "versions": [
+    1
+   ],
+   "material": "coarse brown gravel and small pebbles, gritty ground",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecdr3": {
+   "name": "gnecdr3",
+   "versions": [
+    1
+   ],
+   "material": "dark grey stone door slab carved with a black wrought-iron tentacled emblem set with small violet gems",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecdr1r": {
+   "name": "gnecdr1r",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey stone door slab carved with a black relief of a tall hooded robed figure",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gnecdr3"
+     ],
+     "fraction": 0.538
+    }
+   }
+  },
+  "mm8/gnecdr1l": {
+   "name": "gnecdr1l",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey stone door slab carved with a black relief of a tall hooded robed figure",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gnecdr3"
+     ],
+     "fraction": 0.527
+    },
+    "2": {
+     "sources": [
+      "mm8/gnecdr3"
+     ],
+     "fraction": 0.533
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm8/gnecwtrb",
+     "right": "mm8/gnecwtlb"
+    }
+   }
+  },
+  "mm8/gnecdr2": {
+   "name": "gnecdr2",
+   "versions": [
+    1
+   ],
+   "material": "dark grey stone slab etched with a pale white engraving of a horned skeletal king figure surrounded by fine runes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecstpt": {
+   "name": "gnecstpt",
+   "versions": [
+    1
+   ],
+   "material": "rough grey flat fieldstones in rows with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecwal2": {
+   "name": "gnecwal2",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "black stone mosaic of small grey cobble tesserae laid in curved fan rows, with a single small red gem",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm8/gnecwalt",
+     "left": "mm8/gnecwalt"
+    }
+   }
+  },
+  "mm8/t1butt": {
+   "name": "t1butt",
+   "versions": [
+    1
+   ],
+   "material": "small worn brown wooden plaque with a carved glyph",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t65b14h2": {
+   "name": "t65b14h2",
+   "versions": [
+    1
+   ],
+   "material": "dry sandy brown dirt ground with small pebbles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/tws1h": {
+   "name": "tws1h",
+   "versions": [
+    1
+   ],
+   "material": "pale beige weathered sandstone floor with faint cracks and stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/cr_w256a": {
+   "name": "cr_w256a",
+   "versions": [
+    1
+   ],
+   "material": "light pine wooden crate side of horizontal planks in a plank frame with corner nails and a small painted cream label with red lettering in the lower right, copy the label exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/cr_w256b": {
+   "name": "cr_w256b",
+   "versions": [
+    1
+   ],
+   "material": "light pine wooden crate side of horizontal planks in a plank frame with corner nails",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cr_w256a"
+     ],
+     "fraction": 0.875
+    }
+   }
+  },
+  "mm8/gkp1-bs2": {
+   "name": "gkp1-bs2",
+   "versions": [
+    1
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gkp1-ts": {
+   "name": "gkp1-ts",
+   "versions": [
+    1
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints under a brown wooden beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.422
+    }
+   }
+  },
+  "mm8/gkp1-tt": {
+   "name": "gkp1-tt",
+   "versions": [
+    1
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints under a brown wooden beam",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp1-bs2",
+      "mm8/gkp1-ts"
+     ],
+     "fraction": 0.96
+    }
+   }
+  },
+  "mm8/gkp1-bs1": {
+   "name": "gkp1-bs1",
+   "versions": [
+    1
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp1-ts",
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.909
+    }
+   }
+  },
+  "mm8/cr_m128": {
+   "name": "cr_m128",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "olive-green carved stone crate side with a raised square frame and an octagonal medallion in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/crate_w64": {
+   "name": "crate_w64",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "small light pine wooden crate side of horizontal planks in a plank frame",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gwspinwl": {
+   "name": "gwspinwl",
+   "versions": [
+    1
+   ],
+   "material": "rough grey-brown weathered rock with fine pitted crust",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gnecstpv": {
+   "name": "gnecstpv",
+   "versions": [
+    1
+   ],
+   "material": "rough grey flat fieldstones stacked vertically with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/swamptyl": {
+   "name": "swamptyl",
+   "versions": [
+    1
+   ],
+   "material": "dense wet dark green swamp moss and grass ground",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32a01": {
+   "name": "t32a01",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32a03a": {
+   "name": "t32a03a",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar around a red lacquered wooden door with a carved spiral emblem and a dark iron handle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01"
+     ],
+     "fraction": 0.184
+    }
+   }
+  }
+ }
+}

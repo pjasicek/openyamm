@@ -1,0 +1,85 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_2.md",
+  "runs": [
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. Asset type: game model texture projection source, BACK view albedo.\nEdit the first input, guide_back.png, directly: paint ONLY the existing grey surfaces with the materials of design_reference.png (second input), supported by concept_crop.png (third input). Return exactly 1024 x 1024 pixels with real transparent background.\nThe FIRST image is the absolute geometry, camera, silhouette and pixel placement authority. Preserve its exact orthographic BACK view, size, position and all shape edges, interior openings, poles, cloth, bowls, lanterns, boxes and rubble. Keep the original alpha silhouette. Do not rotate to the attractive front three-quarter reference view. Do not redesign, add, remove, enlarge or move any geometry. Retain the large empty transparent upper and lower margins of the guide, with the object approximately x=65..958 and y=223..799. Every existing opening stays transparent. Thin strips stay exactly where the guide has them.\nThe SECOND image is only the approved material, colour and design authority, NOT the viewpoint or layout. The THIRD is supporting original concept. Apply weathered dark charcoal and rusted steel to structural poles and metal crates; faded brick red canvas with worn off-white cloth patches to the canopy and hanging cloth; chipped off-white enamel/ceramic with muted gold/brass salvage fittings; weathered wood only where appropriate to existing crates; grey-brown rocky base fragments where already present. Rear-facing tarp shows its back surface. Use painted material wear and fine woven cloth texture without adding tears or holes that change the guide geometry. Warm amber lantern panes.\nLIGHTING: pure albedo texture source. Completely even flat shadowless illumination from the viewer. No cast shadows, ambient occlusion, directional shading, strong highlights, reflections or rim light. Gold and steel are matte material colours, not shiny renderings. Paint glowing lantern parts amber-orange, without light spill onto adjacent surfaces. No studio environment, no background, no added floor, no text, no watermark. Preserve exactly the guide's outline, internal edges and transparent holes; change surface colours/textures only.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "1eac74ffd158fbd9fcc7c3dea68821b8e13a31e556f0726dc5cdc4f1f9147cfb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: tool returned 1254x1254 rather than 1024x1024; geometry drift and strong lantern highlights.",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a15d8f-07d9-7541-8b8f-068bf3a3858a/exec-280dbebf-d942-4be7-b1c1-0501840288d5.png",
+      "output_sha256": "d5fc6b03f77a7855b2c9a643d0a50e7eba718985ad8235af628415e3a67c0c4d",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Weathered red/off-white cloth, charcoal rusted steel, muted brass and chipped ceramic present; visual approximation.",
+        "flat_even_light": "Lantern highlights and surface shading remain."
+      }
+    },
+    {
+      "view": "back",
+      "prompt": "Use case: style-transfer. CORRECTIVE GENERATION for a texture source.\nOutput MUST be exactly 1024 pixels wide by 1024 pixels tall, RGBA transparent PNG. Preserve this native size; do not generate 1254x1254 or any other size.\nPaint the FIRST INPUT guide_back.png itself, treating its existing alpha mask and all edges as immutable. This is a precise colourization of an orthographic grey model render, not a new rendering or concept interpretation. Keep every pixel's shape coverage unchanged. Geometry silhouette, internal negative spaces, all objects and surface boundaries, scale and frame placement must be exactly those of guide_back.png. Preserve the wide transparent margins above and below: topmost pole y=223, ground fragments bottom y=799, leftmost point x=65, rightmost point x=958 in the 1024x1024 frame. Keep the faceted simplified model forms, do not replace them with detailed differently shaped objects.\nSECOND INPUT design_reference.png supplies only material colour and surface design; THIRD INPUT concept_crop.png supports the materials. Never adopt their camera or shape layout.\nColour existing canopy surfaces faded brick red with the existing left patch off-white, worn red and off-white cloth strips, dark rusted charcoal steel structural poles and crates, chipped white ceramic/enamel with muted gold brass salvage rims, weathered wood crate surfaces and dark grey stones. Warm amber lantern panes. Material wear is flat painted colour texture; no new holes, chains, ropes, hanging merchandise or edges. Back of stall as in first input, never front or three-quarter.\nALBEDO ONLY: flat even unlit colour, shadowless viewer illumination, zero cast shadows or ambient occlusion, no specular highlights or reflections, no directional or rim light. Amber lantern panes have only their orange colour, no bloom or light spill. Transparent background and transparent internal openings exactly as first input. No floor or environment added, no labels. The absolute priority is exact 1024x1024 guide alignment and unchanged alpha silhouette.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "1eac74ffd158fbd9fcc7c3dea68821b8e13a31e556f0726dc5cdc4f1f9147cfb"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "1659d00c43d67e52588bba6e02928b27cd2edbc8294618b16fdfd5194a54ee66"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "286c8bc2e819a05dbef00b40da021061aab28d09bd3abe2a1a1f28b0f75cbb27"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Best of two allowed attempts: closer simplified geometry and flatter lantern colour. Preserved unresized as required. NOT fully compliant: tool returned 1254x1254, not 1024x1024; silhouette is not identical and residual shading remains.",
+      "source_return": "/home/pjasicek/.codex/generated_images/01a15d8f-07d9-7541-8b8f-068bf3a3858a/exec-baddcbc2-1e8f-4c49-8f6a-2ce7b06d8b35.png",
+      "output_sha256": "317d77e89e2a03553127e82a2bea7cb0c9bb3846744db0bee064a9351e400fcd",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized_return": true,
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "materials_and_colours": "Weathered red/off-white cloth, charcoal rusted steel, muted brass and chipped ceramic present; visual approximation.",
+        "flat_even_light": "Second attempt reduces lantern highlights; residual surface shading remains."
+      }
+    }
+  ],
+  "status": "Generation complete within two-attempt limit; selected raw image fails exact-size and exact-silhouette requirements."
+}

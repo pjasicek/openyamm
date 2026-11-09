@@ -1,0 +1,174 @@
+[
+  {
+    "view": "front",
+    "prompt": "Use case: precise-object-edit. Create paint_front.png, a single 1024 x 1024 transparent PNG texture-source painting. Input 1 guide_front.png is the EDIT TARGET and exact geometry authority. Input 2 design_reference.png is ONLY the approved colour and material reference, NOT its shape, viewpoint, composition or lighting. Paint directly over the front orthographic grey guide without moving or changing any geometry. Preserve EXACTLY its alpha silhouette, size, position in the square frame, every polygon edge, opening, ledge, cap-rock edge and individual rubble detail. No additions outside the silhouette; nothing cropped or rescaled. Replace grey surfaces with detailed layered grey-violet and dark brown volcanic stone, paler ash in the grooves, and a darker cap rock, matching the approved design material. Fine rough mineral grain and fissures within existing faces, with all guide shape edges retained. This is ALBEDO for projection onto the exact model, not a beauty render: even flat shadowless viewer lighting, no cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. No background, floor, text or additional objects. True transparent background. Return exactly 1024 x 1024, unresized.",
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Superseded by permitted correction; wrong native size and baked shading.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "2d0941a6861c532c2098b344c64be30f31c3b1767c3f8954c28114ea444bc657"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "has_transparency": true,
+      "alpha_bbox": [
+        0,
+        27,
+        1240,
+        1205
+      ],
+      "silhouette_identical": false,
+      "materials_colours": "Visually consistent grey-violet/brown volcanic stone with pale ash; cap darkness not clearly established.",
+      "flat_even_light": false,
+      "accepted": false
+    },
+    "output_sha256": "a6688996259c108803de00741f7a7660b0611520d5608b4755aefe506e59c42e",
+    "original_return": "/home/pjasicek/.codex/generated_images/01a1604c-34ba-7762-b996-9a4f210e454e/exec-43325990-1329-4ab4-842b-d597c93270eb.png",
+    "tool": "built-in image_gen",
+    "postprocessing": "None; byte-identical unresized return."
+  },
+  {
+    "view": "front",
+    "prompt": "Use case: precise-object-edit. Create paint_front.png, a single 1024 x 1024 transparent PNG texture-source painting. Input 1 guide_front.png is the EDIT TARGET and exact geometry authority. Input 2 design_reference.png is ONLY the approved colour and material reference, NOT its shape, viewpoint, composition or lighting. Paint directly over the front orthographic grey guide without moving or changing any geometry. Preserve EXACTLY its alpha silhouette, size, position in the square frame, every polygon edge, opening, ledge, cap-rock edge and individual rubble detail. No additions outside the silhouette; nothing cropped or rescaled. Replace grey surfaces with detailed layered grey-violet and dark brown volcanic stone, paler ash in the grooves, and a darker cap rock, matching the approved design material. Fine rough mineral grain and fissures within existing faces, with all guide shape edges retained. This is ALBEDO for projection onto the exact model, not a beauty render: even flat shadowless viewer lighting, no cast shadows, no ambient-occlusion darkening, no directional shading, no strong specular highlights or reflections, no rim light. No background, floor, text or additional objects. True transparent background. Return exactly 1024 x 1024, unresized.\nCORRECTIVE REGENERATION (last permitted attempt): The previous return was incorrectly 1254 x 1254 and had baked shadows. Output MUST be exactly 1024 x 1024 pixels at native generation size. The original guide's nontransparent bounding box is x=191..832, y=66..957 on that 1024 square. Preserve the original guide alpha mask verbatim including all transparent margins and openings. Use the guide as a locked canvas; do not recreate its geometry. Paint ONLY RGB inside its existing opaque pixels. The darker undersides in the guide are lighting to REMOVE, not colour to reproduce. Uniform diffuse albedo brightness on all surface orientations; no dark undercuts or contact-shadow bands. Keep grey-violet/brown stone and pale ash pigments, with darker cap-rock material, but eliminate all baked directional and ambient-occlusion shading. No stray pixels or haze beyond the guide mask.",
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected corrective return, saved unmodified; NOT accepted against brief: wrong native size, silhouette mismatch and residual baked shading. Correction limit reached.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "2d0941a6861c532c2098b344c64be30f31c3b1767c3f8954c28114ea444bc657"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "has_transparency": true,
+      "alpha_bbox": [
+        33,
+        21,
+        1234,
+        1190
+      ],
+      "silhouette_identical": false,
+      "materials_colours": "Visually consistent grey-violet/brown volcanic stone with pale ash; cap darkness not clearly established.",
+      "flat_even_light": false,
+      "accepted": false
+    },
+    "output_sha256": "74b5d28c64686f7887544fec844a736a638af6e28e1954774033ba23980b1474",
+    "original_return": "/home/pjasicek/.codex/generated_images/01a1604c-34ba-7762-b996-9a4f210e454e/exec-9f719cfe-0ccc-4c21-a925-71e70f8edb0d.png",
+    "tool": "built-in image_gen",
+    "postprocessing": "None; byte-identical unresized return."
+  },
+  {
+    "view": "top",
+    "prompt": "Use case: precise-object-edit. Create paint_top.png: one exactly 1024 x 1024 transparent PNG. Input 1 guide_top.png is the EDIT TARGET: preserve its exact pixel geometry and alpha silhouette. Input 2 design_reference.png supplies ONLY the approved material and colour, never its perspective or lighting. Paint the TOP orthographic view directly onto the guide. Keep every stone, polygon edge, opening, position, scale and framing identical, including the broad central cap surface and surrounding individual rubble pieces. Never change the silhouette, add anything outside it, crop, zoom or rescale. Material: layered grey-violet and dark brown volcanic stone with pale ash in grooves, a darker cap rock, weathered rough mineral grain and fine fissures matching the design. TEXTURE SOURCE ALBEDO: absolutely even flat shadowless light from viewer, all face orientations equally illuminated; no cast shadows, no ambient occlusion, no darkening between/under rocks, no specular highlights, reflections or rim light. Material pigmentation only, no baked lighting. True transparent background, no floor, no backdrop, no text. Deliver a square 1024 x 1024 original return.",
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Superseded by permitted correction; enlarged framing, wrong native size and baked shading.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "f1415844e7307c743c4c77a0bdf59cfe9cddba5fb21f5c7c0f7729d1ce14e88e"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "has_transparency": true,
+      "alpha_bbox": [
+        0,
+        17,
+        1232,
+        1228
+      ],
+      "silhouette_identical": false,
+      "materials_colours": "Visually consistent grey-violet/brown volcanic stone with pale ash; cap darkness not clearly established.",
+      "flat_even_light": false,
+      "accepted": false
+    },
+    "output_sha256": "d6e137e7332c1dd91ab80b11e64d2c7944ac052043c939037c4427f48318f9a8",
+    "original_return": "/home/pjasicek/.codex/generated_images/01a1604c-34ba-7762-b996-9a4f210e454e/exec-a943ecaf-8107-4779-a822-e38a2567415a.png",
+    "tool": "built-in image_gen",
+    "postprocessing": "None; byte-identical unresized return."
+  },
+  {
+    "view": "top",
+    "prompt": "Use case: precise-object-edit. Create paint_top.png: one exactly 1024 x 1024 transparent PNG. Input 1 guide_top.png is the EDIT TARGET: preserve its exact pixel geometry and alpha silhouette. Input 2 design_reference.png supplies ONLY the approved material and colour, never its perspective or lighting. Paint the TOP orthographic view directly onto the guide. Keep every stone, polygon edge, opening, position, scale and framing identical, including the broad central cap surface and surrounding individual rubble pieces. Never change the silhouette, add anything outside it, crop, zoom or rescale. Material: layered grey-violet and dark brown volcanic stone with pale ash in grooves, a darker cap rock, weathered rough mineral grain and fine fissures matching the design. TEXTURE SOURCE ALBEDO: absolutely even flat shadowless light from viewer, all face orientations equally illuminated; no cast shadows, no ambient occlusion, no darkening between/under rocks, no specular highlights, reflections or rim light. Material pigmentation only, no baked lighting. True transparent background, no floor, no backdrop, no text. Deliver a square 1024 x 1024 original return.\nCORRECTIVE REGENERATION (last permitted attempt): Previous return incorrectly enlarged the object to fill the frame and was 1254 x 1254. Produce exactly 1024 x 1024 pixels. LOCK the original guide canvas, transparent padding, geometry and alpha mask. All nontransparent pixels must stay within the guide bounding box x=191..833, y=205..818, with every contour and opening preserved exactly inside that box. Do not enlarge, center anew, or rescale the subject. It should occupy only about 63% of the image width and 60% of its height, like the input guide. Paint only the existing surface pixels, and keep a broad transparent margin on all sides. Remove directional shading and ambient occlusion: uniform albedo brightness across all surface orientations, pale ash in fissures, grey-violet and dark brown mineral pigments. Darker cap rock means material colour, not shadows. Keep the cap silhouette and all individual rubble edges unchanged. No stray pixels or haze outside the original alpha.",
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected corrective return with improved framing, saved unmodified; NOT accepted against brief: wrong native size, silhouette mismatch and residual baked shading. Correction limit reached.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "f1415844e7307c743c4c77a0bdf59cfe9cddba5fb21f5c7c0f7729d1ce14e88e"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "361c5352950e538a09aa76a9603f56a9142832a240c5591c7f9568c1dcbcd1bb"
+      }
+    ],
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "required_size": [
+        1024,
+        1024
+      ],
+      "size_pass": false,
+      "has_transparency": true,
+      "alpha_bbox": [
+        0,
+        19,
+        1218,
+        1232
+      ],
+      "silhouette_identical": false,
+      "materials_colours": "Visually consistent grey-violet/brown volcanic stone with pale ash; cap darkness not clearly established.",
+      "flat_even_light": false,
+      "accepted": false
+    },
+    "output_sha256": "f1c8f8333ce4022abb6e3a3074a9d25d211d8e7f79ae833f1f2e5e1abca934d3",
+    "original_return": "/home/pjasicek/.codex/generated_images/01a1604c-34ba-7762-b996-9a4f210e454e/exec-a7c142ec-0cb0-4a23-b085-08dd1ae4a152.png",
+    "tool": "built-in image_gen",
+    "postprocessing": "None; byte-identical unresized return."
+  }
+]

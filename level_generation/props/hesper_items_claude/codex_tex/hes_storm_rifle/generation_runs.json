@@ -1,0 +1,55 @@
+{
+  "tool": "built-in image_gen",
+  "status": "blocked_by_image_tool_safety_filter",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for the exact existing Hesper Arc Rifle 3D model.\nImage 1 is the EDIT TARGET, the plain white orthographic guide. Image 2 is the approved design reference, used ONLY for material/color/surface design, NEVER for camera, silhouette, shape or framing.\nPaint directly inside image 1, retaining its original 1024 x 1024 transparent canvas, exact alpha silhouette, object bounds, position, scale, camera direction, internal holes, part edges and all protrusions. Copy its alpha channel exactly. Do not enlarge or recenter the object, rotate it, change perspective, reconstruct geometry, add parts, fill holes, or crop it. The large empty transparent margins are REQUIRED.\nSurface design: an Arc Rifle with a Lattice coil in the stock and a three-channel muzzle. Follow image 2: aged warm white ceramic armor and narrow ivory ribs with fine wear; restrained brushed antique gold/brass fittings; black-violet resin body with fine organic engraved grooves, seams and panel joins; bright orange coil recesses; small blue-white muzzle apertures. Continue these materials plausibly on faces not shown in the design art, respecting the exact guide's visible surfaces. Use only materials that the design shows. Fine non-letter markings only.\nLIGHTING: FLAT ALBEDO texture-source painting, uniform even shadowless illumination directly from viewer. Paint metals as base colors with at most a very faint sheen. No cast shadows, no ambient occlusion darkening, no directional lighting, no specular hot spots or reflections, no rim light. Glowing parts are solid bright light colors, without bloom, halos, rays or effects outside the original silhouette. Retain material detail without baking lighting.\nOutput exactly ONE 1024 x 1024 RGBA PNG with a genuinely transparent background. No background, floor, text, letters, labels, watermark, border, collage or extra views.\nVIEW-SPECIFIC GEOMETRY LOCK: FRONT guide is an extremely THIN EDGE-ON horizontal view, NOT the wide side profile in the design reference. It occupies only x=66..957 and y=468..555. Muzzle points LEFT, stock is RIGHT. Keep the tiny vertical peg above the middle, all long thin rods, and the shallow irregular edge thickness exactly. Paint only this thin sliver; do not expose the stock's large circular side coil or the side grip silhouette.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "7bbda2754948de8067c9a208af238e3e4a321b7335e46ab34de8ee9faf4971cd",
+          "role": "edit_target"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3e64fef2200b8118c25fb01fd9c457b92ab8305d49678f95ad2608ac5a64b548",
+          "role": "design_color_material_reference"
+        }
+      ],
+      "requested_output": "paint_front.png",
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_transparent_background": true,
+      "output": null,
+      "selected": false,
+      "reason": "No image returned. The built-in image tool rejected the input with HTTP 400 moderation_blocked, safety_violations=[violence].",
+      "error": {
+        "type": "image_generation_user_error",
+        "code": "moderation_blocked",
+        "moderation_stage": "input",
+        "categories": [
+          "violence"
+        ],
+        "request_id": "47773160-c84b-475d-b548-3c34fa8bdd97",
+        "message": "Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 47773160-c84b-475d-b548-3c34fa8bdd97. safety_violations=[violence]."
+      },
+      "checks": {
+        "silhouette_identical": "not_run_no_output",
+        "materials_match_reference": "not_run_no_output",
+        "lighting_flat": "not_run_no_output",
+        "transparent_background": "not_run_no_output",
+        "no_text_or_letters": "not_run_no_output"
+      }
+    }
+  ],
+  "unattempted_views": [
+    "back",
+    "left",
+    "right",
+    "top"
+  ],
+  "unattempted_reason": "Stopped after the built-in image tool rejected the first view at input moderation. No corrective regeneration or alternate generation tool was used."
+}

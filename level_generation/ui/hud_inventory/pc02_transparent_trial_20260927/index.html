@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>pc02 · transparent portrait trial</title>
+<style>
+  :root { color-scheme:dark; font:15px/1.5 system-ui,sans-serif; background:#14171d; color:#e8ebf2; }
+  * { box-sizing:border-box; }
+  body { margin:0 auto; padding:24px 30px 45px; max-width:1500px; }
+  h1 { margin:0; font-size:26px; font-weight:600; }
+  p { margin:7px 0 16px; color:#bac4d5; }
+  a { color:#9cd7ff; }
+  button,select,input[type=number] { font:inherit; background:#292f3c; color:inherit; border:1px solid #495263;
+    border-radius:5px; padding:6px 10px; cursor:pointer; }
+  button:hover { border-color:#a7c1e6; }
+  button.active { border-color:#f6c775; background:#4a3d2d; }
+  input { accent-color:#f6c775; }
+  .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:14px 0; }
+  .controls label { display:flex; gap:6px; align-items:center; }
+  .offsets input[type=number] { width:76px; }
+  .offsets input[type=range] { width:140px; }
+  .hint { font-size:13px; }
+  .panels { display:flex; flex-wrap:wrap; gap:22px; margin:20px 0 14px; }
+  figure { margin:0; }
+  figcaption { margin:0 0 8px; font-size:14px; color:#c6d1e4; }
+  .portrait { width:236px; height:316px; position:relative; }
+  .portrait img,.portrait canvas { display:block; width:100%; height:100%; image-rendering:auto; }
+  .backdrop.checker { background-color:#3c414c; background-image:conic-gradient(#292d35 25%,transparent 0 50%,#292d35 0 75%,transparent 0);
+    background-size:24px 24px; }
+  .backdrop.light { background:#f2f1ed; }
+  .backdrop.dark { background:#080a0d; }
+  .backdrop.green { background:#4e6055; }
+  .guides .portrait:after { content:""; position:absolute; pointer-events:none; left:50%; top:0; bottom:0;
+    border-left:1px solid #ffcf6dcc; }
+  .guides .portrait:before { content:""; position:absolute; pointer-events:none; left:0; right:0; bottom:0;
+    border-bottom:1px solid #ffcf6dcc; z-index:1; }
+  .context { width:248px; height:328px; display:block; }
+  .caption { margin-top:6px; font-size:12px; color:#9eaac0; max-width:248px; }
+  #note { min-height:24px; margin:8px 0; color:#f6d497; }
+  .links { display:flex; flex-wrap:wrap; gap:16px; margin:14px 0; }
+  details { color:#b3bfd3; margin:16px 0; }
+  #details { max-width:1000px; }
+  #gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(122px,1fr)); gap:10px; margin-top:24px; }
+  #gallery button { padding:7px; display:flex; align-items:center; flex-direction:column; }
+  #gallery img { width:118px; height:158px; object-fit:contain; display:block; }
+  #gallery .thumbnail { width:118px; height:158px; overflow:hidden; }
+  #gallery img { transform:translate(var(--offset-x,0px),var(--offset-y,0px)); }
+  #gallery span { font-size:12px; margin-top:4px; }
+  #gallery .flag { color:#f6ce80; }
+  @media(max-width:600px) { body { padding:16px; } .panels { gap:14px; } }
+</style>
+<h1>pc02 · transparent portrait trial</h1>
+<p id="summary"></p>
+<div class="controls">
+  <button id="previous" aria-label="Previous frame">←</button>
+  <label>Frame <select id="frame"></select></label>
+  <button id="next" aria-label="Next frame">→</button>
+  <button id="stone">12 · Stone</button>
+  <button id="lowered">35 · Lowered</button>
+  <button id="partial">36 · Partial</button>
+  <button id="play">Play</button>
+  <select id="sequence" aria-label="Playback sequence">
+    <option value="all">All 56 states</option><option value="blink">Neutral / blink</option>
+  </select>
+</div>
+<div class="controls">
+  <label>Background <select id="background"><option value="checker">Checkerboard</option>
+    <option value="dark">Dark</option><option value="light">Light</option><option value="green">Green</option></select></label>
+  <label><input id="guides" type="checkbox"> Center + bottom guides</label>
+  <label><input id="showRing" type="checkbox" checked> Selection ring</label>
+  <label>HUD layout <select id="layout"><option value="gameplay">Basebar</option>
+    <option value="selection">Character selection</option></select></label>
+</div>
+<div class="controls offsets">
+  <strong>Global offset · aligned portraits</strong>
+  <label>X <input id="offsetXRange" type="range" min="-59" max="59" step="0.5" value="0" aria-label="Horizontal offset slider">
+    <input id="offsetX" type="number" min="-59" max="59" step="0.5" value="0" aria-label="Horizontal offset in pixels"></label>
+  <label>Y <input id="offsetYRange" type="range" min="-79" max="79" step="0.5" value="0" aria-label="Vertical offset slider">
+    <input id="offsetY" type="number" min="-79" max="79" step="0.5" value="0" aria-label="Vertical offset in pixels"></label>
+  <button id="resetOffsets">Reset offset</button>
+</div>
+<p class="hint">Offsets apply to all 56 aligned portraits inside their fixed 118×158 canvases. Positive X moves right; positive Y moves down.
+  Values are in image pixels and are kept in the page URL.</p>
+<main class="panels" id="panels">
+  <figure><figcaption>Old · original + selection ring</figcaption><canvas id="originalContext" class="context" width="124" height="164" aria-label="Original portrait with selection ring"></canvas></figure>
+  <figure><figcaption>New · aligned + selection ring</figcaption><canvas id="context" class="context" width="124" height="164" aria-label="Aligned portrait with selection ring and global offset"></canvas>
+    <div class="caption">Both use the selected HUD layout and ring checkbox. Shown at 2× for inspection.</div></figure>
+  <figure><figcaption>Generated · before placement correction</figcaption><div class="portrait backdrop checker"><img id="uncorrected" alt="Generated portrait before registration"></div></figure>
+  <figure><figcaption>New · transparency + global offset</figcaption><div class="portrait backdrop checker"><canvas id="aligned" width="118" height="158" aria-label="Aligned transparent portrait with global offset"></canvas></div></figure>
+</main>
+<img id="native" hidden alt="Native pc02 portrait source"><img id="candidate" hidden alt="Aligned pc02 portrait source">
+<div id="note"></div>
+<div class="links">
+  <a id="download" download>Download shown PNG</a><a id="alphaLink">View base alpha</a>
+  <a href="A/attempt_01/raw.png">Master A · 01–28</a><a href="B/attempt_01/raw.png">Master B · 29–56</a>
+  <a href="comparison.png">Comparison plate</a><a href="README.md">Method + prompts</a>
+</div>
+<details><summary>Placement measurements</summary><p id="details"></p>
+  <p>Gold guides mark x=59 and the bottom edge of the 118×158 canvas. The global offset moves the aligned portrait within that fixed canvas;
+    pixels outside its edges are clipped. The original and ring keep their placement. Height matches the native crown and bottom independently of width fitting.
+    The generated alpha supplies the outline; no native mask or oval clips the cutouts. Changes in pose and expression still need visual review.</p>
+</details>
+<p>Click any frame below. Arrow keys step through the sequence. Frames 36 and 38 have the largest silhouette differences from the originals.</p>
+<div id="gallery"></div>
+<script src="manifest.js?v=height-2"></script><script src="viewer.js?v=height-2"></script>
+</html>

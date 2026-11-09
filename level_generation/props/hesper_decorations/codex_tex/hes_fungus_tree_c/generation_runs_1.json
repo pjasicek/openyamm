@@ -1,0 +1,199 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated raw returns; strict brief checks failed. No resizing or image postprocessing performed.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: sketch-to-render. Edit the FIRST input image (guide_front.png), the exact orthographic FRONT geometry guide, by painting surface materials only. SECOND input (design_reference.png) is the material and colour reference only; do not adopt its camera, shape, proportions, lighting, or background. Return exactly 1024 x 1024 PNG with genuine transparent background, unresized. Preserve the first input's silhouette EXACTLY at the pixel positions shown: identical outline, scale, position, every shape edge, shelf, opening, planter rib and detail. Do not move, enlarge, shrink, reshape or crop anything. Paint pale cream fibrous fungus flesh, subtle tan growth rings on visible shelf tops, ochre-orange gills on shelf undersides, white prefab composite planter with teal and orange horizontal band, dark soil only where visible in the guide. Keep four shelves and exact asymmetric twisting trunk of guide. Treat this as albedo TEXTURE SOURCE: even flat shadowless viewer-facing illumination, no cast shadows, no ambient occlusion darkening, no strong specular highlights/reflections, no rim light, no floor, no background. Preserve fine material detail without baked lighting. Any glowing colours are surface colour only without cast light. No added objects or text. Do not reveal hidden surfaces or change to three-quarter view.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "caa581a02de1afe2a428b724a6336cef096c1fcfb0de645971f04e33ef54e564"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d449-7641-b234-8b8da2fad6b2/exec-ebbcd8e2-d245-4363-8c06-aacb6561d7f5.png",
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: raw return is 1254 x 1254 rather than 1024 x 1024; outline and material edges drift from guide; stray alpha pixels.",
+      "output_sha256": "65abdb9208398b37c9a3dd4d202eb8ab9161ff4d4f7bd3de984b5e7d9a57323c",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          16,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          213,
+          66,
+          811,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Visually match cream/tan fungus and ochre undersides; front includes teal/orange/white planter.",
+        "flat_even_light": "Fail: residual highlights and dark grooves visible.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "Use case: sketch-to-render. Edit the FIRST input image (guide_front.png), the exact orthographic FRONT geometry guide, by painting surface materials only. SECOND input (design_reference.png) is the material and colour reference only; do not adopt its camera, shape, proportions, lighting, or background. Return exactly 1024 x 1024 PNG with genuine transparent background, unresized. Preserve the first input's silhouette EXACTLY at the pixel positions shown: identical outline, scale, position, every shape edge, shelf, opening, planter rib and detail. Do not move, enlarge, shrink, reshape or crop anything. Paint pale cream fibrous fungus flesh, subtle tan growth rings on visible shelf tops, ochre-orange gills on shelf undersides, white prefab composite planter with teal and orange horizontal band, dark soil only where visible in the guide. Keep four shelves and exact asymmetric twisting trunk of guide. Treat this as albedo TEXTURE SOURCE: even flat shadowless viewer-facing illumination, no cast shadows, no ambient occlusion darkening, no strong specular highlights/reflections, no rim light, no floor, no background. Preserve fine material detail without baked lighting. Any glowing colours are surface colour only without cast light. No added objects or text. Do not reveal hidden surfaces or change to three-quarter view.\nCORRECTIVE GENERATION (the only correction allowed): The previous result failed by returning 1254 x 1254 and drifting from the guide boundary. Output resolution MUST be 1024 by 1024 pixels, square, matching the first input's original canvas exactly. Start from the first image and recolour its surfaces in place. Keep its original alpha mask exactly, including transparent gaps and clean outside pixels, rather than reconstructing the silhouette. Original guide opaque geometry extends approximately x=213..810 and y=66..957 on that 1024 canvas. Do not change those coordinates or add stray opaque pixels. Flat diffuse albedo only; suppress highlight stripes and shadowed creases. The design image supplies ONLY pigment/material texture. The front guide's upper cap edge and planter top line remain exactly where they are.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "caa581a02de1afe2a428b724a6336cef096c1fcfb0de645971f04e33ef54e564"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d449-7641-b234-8b8da2fad6b2/exec-404bade0-50b5-4f0a-8757-0fcaa87ff21a.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected correction as requested raw return, but not accepted as compliant: outline drifts, stray alpha and residual shading remain. No further correction permitted.",
+      "output_sha256": "d1bd360d213abed57a7a72dd6d5a7215802c543af498b1a0548e2e3744d982b0",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          32,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          213,
+          66,
+          811,
+          958
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Visually match cream/tan fungus and ochre undersides; front includes teal/orange/white planter.",
+        "flat_even_light": "Fail: residual highlights and dark grooves visible.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: sketch-to-render. Edit FIRST image guide_top.png IN PLACE as a texture-painting task. SECOND image design_reference.png is ONLY the colour/material authority. Deliver one PNG of exactly 1024 x 1024 pixels, genuine transparent background, same original canvas as guide_top.png, without resizing. This is a strict orthographic TOP view of the exact fungus-tree model. Preserve the guide's EXACT silhouette, position, scale, irregular round outline and every edge. Paint ONLY the visible uppermost mushroom cap surface in the guide: pale cream fungus flesh with tan concentric organic growth rings, subtle fine cream fibrous material, as on the top cap in the design reference. The top cap occludes the lower shelves, trunk, soil and planter: DO NOT show these hidden surfaces or invent new parts. Do not adopt the design reference's three-quarter camera. Keep top-down round silhouette of guide. The original guide alpha mask must remain unchanged; outside stays transparent. Flat even shadowless viewer-facing lighting for albedo TEXTURE SOURCE: no cast shadows, no ambient occlusion, no bright highlights/reflections, no rim light, no directional shading, no floor or background. Surface colour detail only. No text. Preserve canvas at 1024 x 1024 exactly.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "fae1ce053992c97b0db1f3af134c41c840add91eaaa569ce9f50a86fe3081558"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d449-7641-b234-8b8da2fad6b2/exec-7fc7ebc6-3fd9-4f20-b096-bd3d15d4d01a.png",
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: cap enlarged relative to guide, boundary changed and raised rings contain shading.",
+      "output_sha256": "73b2bb5e200b2a63c417f4b58bf4dfd61a78d37488431c1bc11d4e5dc8c48f67",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          9,
+          1238,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          212,
+          209,
+          812,
+          815
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Visually match cream/tan fungus and ochre undersides; front includes teal/orange/white planter.",
+        "flat_even_light": "Fail: residual highlights and dark grooves visible.",
+        "accepted": false
+      }
+    },
+    {
+      "view": "top",
+      "prompt": "Use case: sketch-to-render. Edit FIRST image guide_top.png IN PLACE as a texture-painting task. SECOND image design_reference.png is ONLY the colour/material authority. Deliver one PNG of exactly 1024 x 1024 pixels, genuine transparent background, same original canvas as guide_top.png, without resizing. This is a strict orthographic TOP view of the exact fungus-tree model. Preserve the guide's EXACT silhouette, position, scale, irregular round outline and every edge. Paint ONLY the visible uppermost mushroom cap surface in the guide: pale cream fungus flesh with tan concentric organic growth rings, subtle fine cream fibrous material, as on the top cap in the design reference. The top cap occludes the lower shelves, trunk, soil and planter: DO NOT show these hidden surfaces or invent new parts. Do not adopt the design reference's three-quarter camera. Keep top-down round silhouette of guide. The original guide alpha mask must remain unchanged; outside stays transparent. Flat even shadowless viewer-facing lighting for albedo TEXTURE SOURCE: no cast shadows, no ambient occlusion, no bright highlights/reflections, no rim light, no directional shading, no floor or background. Surface colour detail only. No text. Preserve canvas at 1024 x 1024 exactly.\nCORRECTIVE GENERATION, last permitted attempt: Preserve the guide as an EDIT TARGET, not an inspiration. The previous attempt enlarged the cap and returned the wrong size. REQUIRED output canvas 1024 x 1024. Original guide cap alpha bounds x=212..811, y=209..814; retain those precise positions, leaving about 210 transparent pixels around all sides. Do not fill the frame with the cap. Trace the exact irregular contour of the FIRST input, preserving every small edge, no invented scallops, protrusions, yellow/red fringes, or floating pixels. Recolour original pixels only and keep its alpha unchanged. Tan growth rings must be pigment patterns lying FLAT on the pale cream flesh, without raised ring highlight or shadow. Zero baked directional light or AO. No shaded rim, no white shine. Do not use the three-quarter silhouette from second image.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "fae1ce053992c97b0db1f3af134c41c840add91eaaa569ce9f50a86fe3081558"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c29a05967bb81adec2e8ece31f94cdceb9d6e674377f117870a58bb9329f9e53"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a160a6-d449-7641-b234-8b8da2fad6b2/exec-3c88f492-7580-420c-92c4-f32bbd0a04b2.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction for closer guide framing; raw return retained, not accepted as compliant. Exact resolution, silhouette and fully shadowless albedo requirements remain unmet. Maximum one correction reached.",
+      "output_sha256": "5a39ef5a07ded448a25f8704de661b3f79c07bd0da8ff1adccd379beee5bb258",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1240,
+          1254
+        ],
+        "guide_alpha_bbox": [
+          212,
+          209,
+          812,
+          815
+        ],
+        "silhouette_identical": false,
+        "materials_colours": "Visually match cream/tan fungus and ochre undersides; front includes teal/orange/white planter.",
+        "flat_even_light": "Fail: residual highlights and dark grooves visible.",
+        "accepted": false
+      }
+    }
+  ]
+}

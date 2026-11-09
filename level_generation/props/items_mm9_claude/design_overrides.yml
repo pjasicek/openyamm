@@ -1,0 +1,85 @@
+# Hand corrections per design, applied over the family defaults by scripts/designs.py.
+d10084:
+  # Dragon Hammer: its head is flat flared blades round a round core, which Blender builds (build_mm9.py): no Meshy.
+  route: blender
+d10229:
+  # hybrid: Meshy builds the sculpted head only; the haft is Blender (scripts/build_mm9.py)
+  master_note: >-
+    Show ONLY the hammer's head (the spike, the striking face and the sculpted scrollwork ornament, with the socket
+    where the handle enters), WITHOUT the handle: the handle is modelled separately.
+d10369:
+  # The Golden Honk statue stands on its pedestal as Meshy built it.
+  rest: null
+d10400:
+  # Victory Certificate: a loose, unsealed parchment roll, unlike every MM6-MM8 scroll model (sealed or tied).
+  route: blender
+d10445:
+  # Accountant's Key: a plain ring-bow key, unlike the ornate MM6-MM8 key models.
+  route: blender
+d10153:
+  # The top view sees only the band's thin upper rim (the side views cover it); imagegen cannot trace it (IoU 0.88 twice).
+  skip_views: [top]
+# --- Full pass (2026-11-05): route changes after looking at every icon ---
+# Sculpted all over: whole Meshy models lying flat.
+d10066: {route: meshy, rest: pca}
+d10068: {route: meshy, rest: pca}
+d10069: {route: meshy, rest: pca}
+d10198: {route: meshy, rest: pca}
+d10187: {route: meshy, rest: pca}
+# Complex props better as Meshy models than Blender kits.
+d10371: {route: meshy, rest: pca}
+d10378: {route: meshy}
+d10249: {route: meshy}
+# Saint's Relic is a plain gold rod.
+d10368: {route: blender}
+# Misc Meshy designs stand as built, except these flat ones.
+d10370: {rest: pca}
+d10380: {rest: pca}
+d10591: {rest: pca}
+d10358: {route: blender}
+# Heads, hilts and weights the automatic builder makes from regular parts (no Meshy part needed).
+d10085: {route: blender}
+d10182: {route: blender}
+d10189: {route: blender}
+d10191: {route: blender}
+d10192: {route: blender}
+d10195: {route: blender}
+d10080: {route: blender}
+d10196: {route: blender}
+d10180: {route: blender}
+# Hybrid parts: the Meshy job is this part of the icon (build_mm9.py auto_weapon `meshy`).
+d10175: {meshy_part: hilt}
+d10176: {meshy_part: hilt}
+d10179: {meshy_part: hilt}
+d10038: {meshy_part: head}
+d10039: {meshy_part: head}
+d10183: {meshy_part: head}
+d10070: {meshy_part: head}
+d10234: {meshy_part: head}
+d10193: {meshy_part: head}
+d10199: {meshy_part: head, crumbs: 0}   # the cage head is many small islands
+d10197: {meshy_part: head}
+d10194: {meshy_part: weight}
+# Generic builder flags (build_mm9.py generic()).
+d10244: {slab_depth: 0.08, slab_class: iron}   # Book Key: a key
+d10248: {manuscript: true}
+d10247: {letter: true}
+d10397: {note: true}
+d10392: {rod: true}
+d10208: {medallion: true}
+d10207: {boss: true}
+d10223: {boss: true}
+d10157: {plain: true}
+d10239: {rock: {roughness: 0.05, flat: 0.5}}
+d10359: {rock: {roughness: 0.22, flat: 0.6}}
+d10360: {rock: {roughness: 0.25, flat: 0.65}}
+d10361: {rock: {roughness: 0.2, flat: 0.5}}
+d10240: {slab_depth: 0.3, slab_class: string}
+d10590: {slab_depth: 0.04, slab_class: string}
+d10358: {vessel: true}
+# Masters redone: a pair of boots (as the painting), one glove (as every other gauntlet).
+d10129: {master_note: 'Show the PAIR of boots side by side exactly as the painting shows them (two boots, not one).'}
+d10130: {master_note: 'Show the PAIR of boots side by side exactly as the painting shows them (two boots, not one).'}
+d10132: {master_note: 'Show the PAIR of boots side by side exactly as the painting shows them (two boots, not one).'}
+d10233: {master_note: 'Show the PAIR of boots side by side exactly as the painting shows them (two boots, not one).'}
+d10133: {master_note: 'Show ONE single glove (the right one), not a pair.'}

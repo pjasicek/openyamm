@@ -1,0 +1,16 @@
+{
+  "model_url": "@file:texturing/skull_upload.glb",
+  "ai_model": "meshy-7",
+  "enable_original_uv": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "target_formats": [
+    "glb"
+  ],
+  "multiview_image_urls": [
+    "@file:skull/references_hd/01_front.png",
+    "@file:skull/references_hd/04_right.png",
+    "@file:skull/references_hd/02_back.png",
+    "@file:skull/references_hd/03_left.png"
+  ]
+}

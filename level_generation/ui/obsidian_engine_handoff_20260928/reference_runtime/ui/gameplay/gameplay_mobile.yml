@@ -1,0 +1,615 @@
+screen: OutdoorHud
+elements:
+  - id: OutdoorGameplayBasebar
+    anchor_space: screen
+    anchor: bottom_center
+    offset_y: 1
+    width: 485
+    height: 94
+    z_index: 200
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    asset:
+      default: Basebar_cut
+    notes: Gameplay party strip scaled against the width needed by the mobile side controls.
+
+  - id: OutdoorOptionsBar
+    anchor_space: screen
+    anchor: top_left
+    visible: false
+
+  - id: OutdoorOptionsBarFrame
+    anchor_space: screen
+    anchor: top_left
+    visible: false
+
+  - id: OutdoorButtonDimensionDoor
+    anchor_space: screen
+    anchor: top_left
+    visible: false
+
+  - id: OutdoorFoodRestBar
+    anchor_space: screen
+    anchor: top_left
+    visible: false
+
+  - id: OutdoorFoodRestBar_Frame
+    anchor_space: screen
+    anchor: top_left
+    visible: false
+
+  - id: OutdoorFlyBuffIcon
+    anchor_space: screen
+    anchor: top_left
+    visible: false
+
+  - id: OutdoorFollowerPanel
+    anchor_space: screen
+    anchor: right
+    offset_y: -56
+    width: 91
+    height: 292
+    z_index: 110
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    asset:
+      default: npcpnl
+    notes: Mobile follower panel scaled with the rest of the gameplay HUD.
+
+  - id: OutdoorFollowerToggle
+    anchor_space: screen
+    anchor: top_right
+    offset_x: 0
+    offset_y: 121
+    width: 32
+    height: 32
+    z_index: 111
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    interactive: true
+    asset:
+      default: npcopenup
+      pressed: npcopendw
+    notes: Mobile follower panel toggle on the right edge below the minimap.
+
+  - id: OutdoorGoldBar
+    anchor_space: screen
+    anchor: top_left
+    width: 542
+    height: 40
+    z_index: 90
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    asset:
+      default: topbar
+    notes: Mobile top-left utility bar with resources and common actions.
+    children:
+      - id: OutdoorGoldBar_Frame
+        anchor: center_in
+        width: 542
+        height: 40
+        asset:
+          default: Ui-FrGol
+
+      - id: OutdoorGoldIcon
+        anchor: top_left
+        offset_x: 14
+        offset_y: 8
+        width: 39
+        height: 20
+        asset:
+          default: scoreBG_gold
+
+      - id: OutdoorGoldLabel
+        anchor: top_left
+        offset_x: 58
+        offset_y: 4
+        width: 90
+        height: 32
+        text:
+          value: "{gold}"
+          font: SMALLNUM
+          scale: 1.5
+          align_x: center
+          align_y: middle
+
+      - id: OutdoorFoodIcon
+        anchor: top_left
+        offset_x: 154
+        offset_y: 8
+        width: 39
+        height: 20
+        asset:
+          default: scoreBG_food
+
+      - id: OutdoorFoodLabel
+        anchor: top_left
+        offset_x: 196
+        offset_y: 4
+        width: 50
+        height: 32
+        text:
+          value: "{food}"
+          font: SMALLNUM
+          scale: 1.5
+          align_x: center
+          align_y: middle
+
+      - id: OutdoorButtonRest
+        anchor: top_left
+        offset_x: 252
+        offset_y: 4
+        width: 53
+        height: 32
+        interactive: true
+        asset:
+          default: butn2u
+          highlighted: butn2d
+          pressed: butn2d
+        notes: Rest button.
+
+      - id: OutdoorButtonBooks
+        anchor: top_left
+        offset_x: 314
+        offset_y: 4
+        width: 53
+        height: 32
+        interactive: true
+        asset:
+          default: butn1u
+          highlighted: butn1d
+          pressed: butn1d
+        notes: Journal button.
+
+      - id: OutdoorButtonQuickReference
+        anchor: top_left
+        offset_x: 376
+        offset_y: 4
+        width: 80
+        height: 32
+        interactive: true
+        asset:
+          default: butn3u
+          highlighted: butn3d
+          pressed: butn3d
+        notes: Quick reference button.
+
+      - id: OutdoorButtonOptions
+        anchor: top_left
+        offset_x: 466
+        offset_y: 4
+        width: 73
+        height: 32
+        interactive: true
+        asset:
+          default: butn4u
+          highlighted: butn4d
+          pressed: butn4d
+        notes: Menu button.
+
+  - id: OutdoorBuffBodyPanel
+    anchor_space: screen
+    anchor: top_left
+    offset_x: 10
+    offset_y: 48
+    width: 56
+    height: 56
+    z_index: 88
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    asset:
+      default: asiL00
+    notes: Mobile body buff panel.
+    children:
+      - id: OutdoorBuffBody_Frame
+        anchor: center_in
+        width: 58
+        height: 58
+        asset:
+          default: Ui-FrSp
+
+      - id: OutdoorBuffBody_FireResistance
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL01
+
+      - id: OutdoorBuffBody_WaterResistance
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL02
+
+      - id: OutdoorBuffBody_AirResistance
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL03
+
+      - id: OutdoorBuffBody_EarthResistance
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL04
+
+      - id: OutdoorBuffBody_MindResistance
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL05
+
+      - id: OutdoorBuffBody_BodyResistance
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL06
+
+      - id: OutdoorBuffBody_Shield
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL07
+
+      - id: OutdoorBuffBody_Heroism
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL08
+
+      - id: OutdoorBuffBody_Haste
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL09
+
+      - id: OutdoorBuffBody_Immolation
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiL10
+
+  - id: OutdoorBuffSkullPanel
+    anchor_space: screen
+    anchor: top_left
+    offset_x: 74
+    offset_y: 48
+    width: 56
+    height: 56
+    z_index: 88
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    asset:
+      default: asiR00
+    notes: Mobile skull buff panel.
+    children:
+      - id: OutdoorBuffSkull_Frame
+        anchor: center_in
+        width: 58
+        height: 58
+        asset:
+          default: Ui-FrSp
+
+      - id: OutdoorBuffSkull_DetectLife
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiR01
+
+      - id: OutdoorBuffSkull_TorchLight
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiR02
+
+      - id: OutdoorBuffSkull_WizardEye
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiR03
+
+      - id: OutdoorBuffSkull_FeatherFall
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiR04
+
+      - id: OutdoorBuffSkull_WaterWalk
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiR05
+
+      - id: OutdoorBuffSkull_Fly
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiR06
+
+      - id: OutdoorBuffSkull_Invisibility
+        anchor: center_in
+        width: 56
+        height: 56
+        asset:
+          default: asiR07
+
+  - id: OutdoorMinimapFrame
+    anchor_space: screen
+    anchor: top_right
+    offset_x: 0
+    offset_y: 0
+    width: 159
+    height: 113
+    z_index: 90
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    asset:
+      default: mapframe
+    notes: Mobile top-right minimap.
+    children:
+      - id: OutdoorMinimap
+        anchor: center_in
+        offset_x: -1
+        width: 122
+        height: 83
+        asset:
+          default: MINIMAP
+
+      - id: OutdoorMinimapZoomIn
+        anchor: top_right
+        offset_x: -4
+        offset_y: 6
+        width: 13
+        height: 15
+        interactive: true
+        asset:
+          default: map+up
+          pressed: map+dn
+
+      - id: OutdoorMinimapZoomOut
+        anchor: bottom_right
+        offset_x: -4
+        offset_y: -5
+        width: 13
+        height: 15
+        interactive: true
+        asset:
+          default: map-up
+          pressed: map-dn
+
+  - id: OutdoorGameplayStatusBar
+    anchor_space: screen
+    anchor: bottom_center
+    offset_y: -94
+    height: 24
+    z_index: 80
+    asset:
+      default: status_bar
+    text:
+      font: Lucida
+      align_x: center
+      align_y: middle
+    notes: Mobile status banner above the party strip.
+
+  - id: OutdoorMobileContextActionButton
+    anchor_space: screen
+    anchor: bottom_right
+    offset_x: -8
+    offset_y: -128
+    width: 260
+    height: 56
+    z_index: 101
+    interactive: true
+    visible: false
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    notes: Mobile context action popup above the bottom-right gameplay actions.
+
+  - id: OutdoorMobileSystemPanel
+    anchor_space: screen
+    anchor: bottom_left
+    offset_x: 20
+    offset_y: -16
+    width: 172
+    height: 80
+    z_index: 100
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    notes: Mobile bottom-left system actions.
+    children:
+      - id: OutdoorMobileButtonPause
+        anchor: top_left
+        width: 80
+        height: 80
+        interactive: true
+        asset:
+          default: pause_default
+          highlighted: pause_pressed
+          pressed: pause_pressed
+
+      - id: OutdoorMobileButtonInventory
+        anchor: top_left
+        offset_x: 92
+        width: 80
+        height: 80
+        interactive: true
+        asset:
+          default: inventory_default
+          highlighted: inventory_pressed
+          pressed: inventory_pressed
+
+  - id: OutdoorMobileInspectButton
+    anchor_space: screen
+    anchor: bottom_left
+    offset_x: 20
+    offset_y: -104
+    width: 80
+    height: 80
+    z_index: 101
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    interactive: true
+    notes: Inspect modifier at a stable position directly above the mobile Pause button.
+    children:
+      - id: OutdoorMobileInspectButtonIcon
+        anchor: top_left
+        offset_x: 19
+        offset_y: 8
+        width: 42
+        height: 64
+        asset:
+          default: magnif-b
+          highlighted: magnif-b
+          pressed: magnif-a
+
+  - id: OutdoorMobileActionPanel
+    anchor_space: screen
+    anchor: bottom_right
+    offset_x: -8
+    offset_y: -16
+    width: 220
+    height: 104
+    z_index: 100
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    notes: Mobile bottom-right gameplay actions.
+    children:
+      - id: OutdoorMobileButtonAttack
+        anchor: top_left
+        width: 104
+        height: 104
+        interactive: true
+        asset:
+          default: attack_default
+          highlighted: attack_pressed
+          pressed: attack_pressed
+
+      - id: OutdoorMobileButtonCast
+        anchor: top_left
+        offset_x: 116
+        width: 104
+        height: 104
+        interactive: true
+        asset:
+          default: cast_default
+          highlighted: cast_pressed
+          pressed: cast_pressed
+
+      - id: OutdoorMobileButtonQuickCast
+        anchor: top_left
+        offset_x: 100
+        offset_y: -10
+        width: 56
+        height: 56
+        z_index: 101
+        interactive: true
+        asset:
+          default: quick_cast_default
+          highlighted: quick_cast_pressed
+          pressed: quick_cast_pressed
+        notes: Compact Quick Cast badge attached to the upper-left corner of the Cast button.
+
+  - id: OutdoorMobileFlightPanel
+    anchor_space: screen
+    anchor: top_right
+    offset_x: 0
+    offset_y: 160
+    width: 96
+    height: 64
+    z_index: 100
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    notes: Compact side-by-side flight controls shown outdoors while the Fly party buff is active.
+    children:
+      - id: OutdoorMobileButtonFlyUp
+        anchor: top_left
+        offset_x: 24
+        width: 32
+        height: 64
+        interactive: true
+        asset:
+          default: ascend_compact_default
+          highlighted: ascend_compact_default
+          pressed: ascend_compact_pressed
+
+      - id: OutdoorMobileButtonFlyDown
+        anchor: top_left
+        offset_x: 64
+        width: 32
+        height: 64
+        interactive: true
+        asset:
+          default: descend_compact_default
+          highlighted: descend_compact_default
+          pressed: descend_compact_pressed
+
+  - id: OutdoorMobileMovementZone
+    anchor_space: screen
+    anchor: top_left
+    offset_y: 160
+    width: 300
+    height: 320
+    z_index: 99
+    visible: false
+    scale:
+      min: 0.6
+      max: 8.0
+      reference_width: 965
+    notes: Runtime touch zone for the floating mobile joystick.
+    children:
+      - id: OutdoorMobileJoystickBase
+        anchor: center_in
+        width: 96
+        height: 96
+        visible: false
+        asset:
+          default: joystick_base_default
+          pressed: joystick_base_active
+
+      - id: OutdoorMobileJoystickKnob
+        anchor: center_in
+        width: 48
+        height: 48
+        visible: false
+        asset:
+          default: joystick_knob_default
+          pressed: joystick_knob_active

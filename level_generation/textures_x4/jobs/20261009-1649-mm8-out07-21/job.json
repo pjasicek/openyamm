@@ -1,0 +1,650 @@
+{
+ "id": "20261009-1649-mm8-out07-21",
+ "world": "mm8",
+ "maps": [
+  "out07.odm",
+  "elema.odm",
+  "d41.blv"
+ ],
+ "created": "2026-10-09T14:49:41+00:00",
+ "textures": [
+  "mm8/t32b03bl",
+  "mm8/gkp2-bs1",
+  "mm8/t32b12l",
+  "mm8/t32b12r",
+  "mm8/t32a11a",
+  "mm8/t32a02",
+  "mm8/t32a05a",
+  "mm8/t32a05b",
+  "mm8/t32a11b",
+  "mm8/cdb1s",
+  "mm8/cdb1ser",
+  "mm8/cdb1sel",
+  "mm8/cdb1er",
+  "mm8/cdb1el",
+  "mm8/cdbw",
+  "mm8/cddr",
+  "mm8/cddl",
+  "mm8/gwspedg",
+  "mm8/gwsphlfl",
+  "mm8/gwsphlwl",
+  "mm8/t66e01s5",
+  "mm8/gkp1-lb",
+  "mm8/gkp1-rb",
+  "mm8/gkp1-lt"
+ ],
+ "requests": {
+  "mm8/t32b03bl": {
+   "name": "t32b03bl",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar above a carved grey stone relief base at the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01"
+     ],
+     "fraction": 0.715
+    }
+   }
+  },
+  "mm8/gkp2-bs1": {
+   "name": "gkp2-bs1",
+   "versions": [
+    1
+   ],
+   "material": "pale beige rough-hewn limestone blocks with fine pitted surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32b12l": {
+   "name": "t32b12l",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar with a carved brown stone relief of a winged lion",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32b06",
+      "mm8/t32a01",
+      "mm8/t32b03br"
+     ],
+     "fraction": 0.456
+    },
+    "2": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32b04",
+      "mm8/t32b03br"
+     ],
+     "fraction": 0.458
+    }
+   }
+  },
+  "mm8/t32b12r": {
+   "name": "t32b12r",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark grey-brown granite ashlar blocks with thin pale mortar with a carved brown stone relief of a roaring lion",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32a01",
+      "mm8/t32c01",
+      "mm8/t32b03br",
+      "mm8/t32b06"
+     ],
+     "fraction": 0.46
+    },
+    "2": {
+     "sources": [
+      "mm8/t32b04",
+      "mm8/t32a01",
+      "mm8/t32c01",
+      "mm8/t32b03br"
+     ],
+     "fraction": 0.461
+    }
+   }
+  },
+  "mm8/t32a11a": {
+   "name": "t32a11a",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "two horizontal courses of plain dark olive-brown stone bricks with dark recessed mortar, weathered",
+   "notes": {
+    "4": "a plain horizontal course of granite ashlar blocks exactly as in the reference; no marks or symbols",
+    "6": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge; continue the finished neighbouring artwork in the border seamlessly: the same courses, rows, bands and brightness run straight across the joint"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t32b06"
+     ],
+     "fraction": 0.741
+    },
+    "2": {
+     "sources": [
+      "mm8/t32b04"
+     ],
+     "fraction": 0.741
+    },
+    "3": {
+     "sources": [
+      "mm8/t32b07"
+     ],
+     "fraction": 0.741
+    },
+    "4": {
+     "sources": [
+      "mm8/t32b07"
+     ],
+     "fraction": 0.741
+    },
+    "5": {
+     "sources": [
+      "mm8/t32b07"
+     ],
+     "fraction": 0.741
+    },
+    "6": {
+     "sources": [
+      "mm8/t32b07"
+     ],
+     "fraction": 0.741
+    }
+   },
+   "context": {
+    "3": {
+     "top": "mm8/t32a06"
+    },
+    "4": {
+     "top": "mm8/t32a06"
+    },
+    "5": {
+     "top": "mm8/t32a06"
+    },
+    "6": {
+     "top": "mm8/t32a06"
+    }
+   },
+   "ref_blur": {
+    "5": 2.0
+   }
+  },
+  "mm8/t32a02": {
+   "name": "t32a02",
+   "versions": [
+    1
+   ],
+   "material": "large dark grey-brown granite ashlar blocks with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32a05a": {
+   "name": "t32a05a",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-blue weathered stone with fine horizontal striations",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32a05b": {
+   "name": "t32a05b",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown weathered stone with fine horizontal striations",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t32a11b": {
+   "name": "t32a11b",
+   "versions": [
+    1
+   ],
+   "material": "horizontal grey stone cornice moulding with parallel grooves",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/cdb1s": {
+   "name": "cdb1s",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "ochre-tan sandstone bricks in staggered courses with dark mortar",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the very top rows are a bright pale tan mortar line running across the full width, exactly as in the reference; keep them bright, and keep the bottom edge as bright as the reference's bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.779
+    },
+    "2": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.779
+    },
+    "3": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.779
+    }
+   }
+  },
+  "mm8/cdb1ser": {
+   "name": "cdb1ser",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "ochre-tan sandstone bricks in staggered courses with dark mortar with a dark recessed vertical channel near one edge",
+   "notes": {
+    "2": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.46
+    },
+    "2": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.46
+    }
+   }
+  },
+  "mm8/cdb1sel": {
+   "name": "cdb1sel",
+   "versions": [
+    1
+   ],
+   "material": "ochre-tan sandstone bricks in staggered courses with dark mortar with a dark recessed vertical channel near one edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb",
+      "mm8/cdb1ser"
+     ],
+     "fraction": 0.592
+    }
+   }
+  },
+  "mm8/cdb1er": {
+   "name": "cdb1er",
+   "versions": [
+    1
+   ],
+   "material": "ochre-tan sandstone bricks in staggered courses with dark mortar beside a dark recessed vertical channel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb1ser",
+      "mm8/cdb"
+     ],
+     "fraction": 0.924
+    }
+   }
+  },
+  "mm8/cdb1el": {
+   "name": "cdb1el",
+   "versions": [
+    1
+   ],
+   "material": "ochre-tan sandstone bricks in staggered courses with dark mortar beside a dark recessed vertical channel",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb1sel",
+      "mm8/cdb"
+     ],
+     "fraction": 0.916
+    }
+   }
+  },
+  "mm8/cdbw": {
+   "name": "cdbw",
+   "versions": [
+    1
+   ],
+   "material": "ochre-tan sandstone bricks in staggered courses with dark mortar around an arched dark opening with a carved round wheel emblem in the keystone above",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.235
+    }
+   }
+  },
+  "mm8/cddr": {
+   "name": "cddr",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark blue-grey wooden plank door with an iron ring handle and a carved animal head, inside a pale golden stone arch",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.155
+    },
+    "2": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.155
+    },
+    "3": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.155
+    },
+    "4": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.155
+    }
+   }
+  },
+  "mm8/cddl": {
+   "name": "cddl",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "dark blue-grey wooden plank door with an iron ring handle and a carved animal head, inside a pale golden stone arch",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.153
+    },
+    "2": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.153
+    },
+    "3": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.153
+    },
+    "4": {
+     "sources": [
+      "mm8/cdb"
+     ],
+     "fraction": 0.153
+    }
+   }
+  },
+  "mm8/gwspedg": {
+   "name": "gwspedg",
+   "versions": [
+    1
+   ],
+   "material": "grey-brown weathered stone with fine vertical striations",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gwsphlfl": {
+   "name": "gwsphlfl",
+   "versions": [
+    1
+   ],
+   "material": "pale tan sandstone floor with soft rippled wear patterns",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/gwsphlwl": {
+   "name": "gwsphlwl",
+   "versions": [
+    1
+   ],
+   "material": "pale tan sandstone wall with soft rippled wear patterns",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm8/t66e01s5": {
+   "name": "t66e01s5",
+   "versions": [
+    1
+   ],
+   "material": "smooth warm tan-brown stained plaster above a thin dark carved wooden band with small round studs",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/t66e01s1"
+     ],
+     "fraction": 0.875
+    }
+   }
+  },
+  "mm8/gkp1-lb": {
+   "name": "gkp1-lb",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints beside a brown wooden post",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    },
+    "2": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    },
+    "3": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    },
+    "4": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.623
+    }
+   }
+  },
+  "mm8/gkp1-rb": {
+   "name": "gkp1-rb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints beside a brown wooden post",
+   "notes": {
+    "2": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge",
+    "3": "the outermost pixel rows and columns must keep the same brightness and material as the reference's edge; no darker or lighter line along any canvas edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.605
+    },
+    "2": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.605
+    },
+    "3": {
+     "sources": [
+      "mm8/gkp1-bs2"
+     ],
+     "fraction": 0.605
+    }
+   }
+  },
+  "mm8/gkp1-lt": {
+   "name": "gkp1-lt",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough dark grey fieldstone blocks of mixed sizes with dark joints between brown wooden beams with a diagonal brace",
+   "notes": {
+    "3": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge",
+    "4": "the outermost pixel rows and columns continue the reference's edge exactly: same brightness and material right up to the canvas border, with no thin dark or bright line, groove, frame or shadow painted along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm8/gkp1-ts",
+      "mm8/gkp1-lb"
+     ],
+     "fraction": 0.745
+    },
+    "2": {
+     "sources": [
+      "mm8/gkp1-ts",
+      "mm8/gkp1-tt"
+     ],
+     "fraction": 0.561
+    },
+    "3": {
+     "sources": [
+      "mm8/gkp1-ts",
+      "mm8/gkp1-lb",
+      "mm8/gkp1-tt"
+     ],
+     "fraction": 0.761
+    },
+    "4": {
+     "sources": [
+      "mm8/gkp1-ts",
+      "mm8/gkp1-lb",
+      "mm8/gkp1-tt",
+      "mm8/gkp1-rt"
+     ],
+     "fraction": 0.758
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm8/gkp1-ts"
+    },
+    "4": {
+     "bottom": "mm8/gkp1-lb",
+     "right": "mm8/gkp1-ts",
+     "left": "mm8/gkp103b"
+    }
+   },
+   "pad": {
+    "4": [
+     32,
+     32
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,21 @@
+boar485877 ACCEPT # seam u: the joint falls on an ordinary plank gap, same 7 planks and batten heights as the native
+fleupiwcbm RETRY roll=- note="paint the fleur-de-lis and the small corner squares warm orange-amber with orange-red petal tips as in the native, not mustard yellow" # alpha flag is only the native's translucent glass (native alpha fits the lead lines); colour of the gold glass too cool
+mottmjhfox ACCEPT
+windghlzdv RETRY roll=- note="keep the full thick wooden frame unbroken on all four sides with the 3x3 panes evenly spaced inside it as in the native, no torn or missing frame at the top and bottom, no coloured fringe pixels" # frame missing/torn at top and bottom, layout 0.54
+oldw0r6y0d ACCEPT
+sturdev8si ACCEPT # seam u/v: door with hinge hardware and frame at its own edges like the native; leaf joint at the same column
+abndv7m7yc ACCEPT
+storw5d49w RETRY roll=- note="end the planks at a straight dark line along the top and bottom edges as in the native, no ragged light plank tops and no soft dark fade" # v joint: ragged lighter plank ends at the top edge and a smudgy fade at the bottom instead of the native's clean dark line
+winddsvu1t RETRY roll=- note="fill the whole square edge to edge with the diamond lattice and pale glass, no faded or transparent corners" # corners of the candidate are transparent with garbage RGB (dark spots where tiles meet); native is uniformly translucent
+door0qlnr3 RETRY roll=v note="carry the bottom frame rail straight down to the bottom edge with no dark groove and no light strip along it" # rim bottom: a dark groove plus pale strip in the last 8 pixels that the native lacks; layout and leaf joint otherwise match
+cawnkbfjwl ACCEPT # colour flag is the calibration gain; calibrated means match the native red cloth
+door6ilni2 RETRY roll=u note="run the planks right up to the left edge with no dark hairline along it" # rim left: dark 3-4 px line on the left edge (native edge is plain plank); layout, colour and the v brightness step (native's own) are fine
+housn2n0o8 ACCEPT
+brok8s5hou RETRY roll=- note="fill the gaps between the broken planks with plain black shadow as in the native, no red or yellow pixels" # red/yellow chroma artefacts in the plank gaps
+archu1sg7j RETRY roll=- note="brighter, more saturated glass: vivid magenta diamonds and bright peach-pink panes as in the native" # glass about 20% darker and duller purple than the native; alpha flag is only the translucent native glass
+housbnug9f ACCEPT
+woode6rkb7 RETRY roll=- note="clean straight plank ends along the top edge, no red, green or noisy band" # red/green garbage band along the top right edge
+castbbspdw ACCEPT
+stucgi60y8 ACCEPT
+sturh1ow08 ACCEPT # seam v: frieze at the top edge meets plain wall as in the native; 10 dentils and 4x4 bars match
+sturol8ay2 ACCEPT

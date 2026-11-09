@@ -1,0 +1,512 @@
+{
+  "label": "AWyvern A",
+  "creature": "wyvern",
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m434sa0",
+    "m434sa1",
+    "m434sa2",
+    "m434sa3",
+    "m434sa4"
+  ],
+  "identity_view": "front, front-right, right profile, rear-right, back",
+  "description": "Original airborne olive-green two-legged wyvern with long narrow gray-green dragon head, thin white horns and spinal spikes, orange-brown leathery wing membranes with dark branching ribs, long pointed trailing tail, small red mouth interior and pale claws. Exactly two legs and two wings; preserve native wingbeat, tail curvature and camera angle.",
+  "preserve_delivered_rgb": true,
+  "review_mass_region": "olive_torso",
+  "materials": {
+    "regions": [
+      {
+        "id": "olive_body",
+        "channel": "R",
+        "selector": "cream",
+        "thresholds": [
+          0.08,
+          0.3
+        ],
+        "brightness_floor": [
+          8,
+          30
+        ],
+        "palette_indices": [
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159
+        ],
+        "fit": "diagonal",
+        "mask_sigma": 0.65,
+        "exclude_channels": [
+          1
+        ],
+        "protected": "Orange wing membranes, neutral horn/claw/head details, magenta mouth."
+      },
+      {
+        "id": "orange_wing_membranes",
+        "channel": "G",
+        "selector": "burgundy",
+        "thresholds": [
+          0.18,
+          0.4
+        ],
+        "brightness_floor": [
+          8,
+          30
+        ],
+        "palette_indices": [
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239
+        ],
+        "fit": "diagonal",
+        "mask_sigma": 0.65,
+        "protected": "Olive body and neutral claws/horns.",
+        "minimum_green_over_blue": [
+          0,
+          0.15
+        ]
+      }
+    ],
+    "limitation": "Native material palette fits use enhanced RGB coverage. Neutral head plates and tiny eyes/mouth remain base colors where protected."
+  },
+  "clear_alpha1_border_batches": [
+    "standing_0",
+    "standing_1",
+    "w_0_0",
+    "w_0_1",
+    "w_1_0",
+    "w_1_1",
+    "w_2_0",
+    "w_2_1",
+    "w_3_0",
+    "w_3_1",
+    "w_4_0",
+    "w_4_1",
+    "a_0_0",
+    "a_0_1",
+    "a_0_2",
+    "a_0_3",
+    "a_1_0",
+    "a_2_0",
+    "a_2_1",
+    "a_2_3",
+    "a_3_0",
+    "a_3_1",
+    "a_4_0",
+    "a_1_1",
+    "a_2_2",
+    "a_4_1",
+    "a_4_2",
+    "a_4_3",
+    "n_0_0",
+    "n_1_0",
+    "n_2_0",
+    "n_0_1",
+    "n_1_1",
+    "n_2_1",
+    "n_3_0",
+    "n_3_1",
+    "n_4_0",
+    "n_4_1",
+    "death_corpse"
+  ],
+  "reviewed_border_alpha_limits": {
+    "a_1_1": 3,
+    "a_2_2": 3,
+    "n_0_1": 4,
+    "n_1_1": 6
+  },
+  "alpha_border_review": "Every raw sheet reviewed. Outermost boundary alpha<=1 is invisible haze. a_1_1 and a_2_2 rightmost90px strips inspected on white: complete inset snouts, only max3/255 haze on boundary. Clear outermost boundary only and retain raw. n_0_1/n_1_1 rightmost90px strips inspected on white: complete inset wing contours, only max4/255 and6/255 border haze.",
+  "reviewed_placement_translation_px": {
+    "m434wg1": [
+      -18,
+      0
+    ],
+    "m434wf2": [
+      0,
+      -23
+    ],
+    "m434wg3": [
+      0,
+      -23
+    ],
+    "m434wb4": [
+      0,
+      20
+    ],
+    "m434wc4": [
+      0,
+      -21
+    ],
+    "m434wg4": [
+      0,
+      -18
+    ],
+    "m434ad0": [
+      0,
+      70
+    ],
+    "m434aa1": [
+      -56,
+      0
+    ],
+    "m434ab1": [
+      -67,
+      0
+    ],
+    "m434ac1": [
+      0,
+      -23
+    ],
+    "m434ad1": [
+      25,
+      0
+    ],
+    "m434ae1": [
+      19,
+      0
+    ],
+    "m434ag1": [
+      -30,
+      -20
+    ],
+    "m434aa2": [
+      -34,
+      0
+    ],
+    "m434ab2": [
+      -56,
+      0
+    ],
+    "m434ac2": [
+      0,
+      -22
+    ],
+    "m434ad2": [
+      45,
+      0
+    ],
+    "m434ae2": [
+      31,
+      0
+    ],
+    "m434aa3": [
+      -38,
+      -19
+    ],
+    "m434ab3": [
+      -49,
+      -19
+    ],
+    "m434ac3": [
+      -29,
+      -23
+    ],
+    "m434ad3": [
+      23,
+      0
+    ],
+    "m434ag3": [
+      0,
+      -18
+    ],
+    "m434aa4": [
+      0,
+      51
+    ],
+    "m434ab4": [
+      0,
+      -33
+    ],
+    "m434ad4": [
+      0,
+      52
+    ],
+    "m434na0": [
+      25,
+      0
+    ],
+    "m434nb0": [
+      -35,
+      0
+    ],
+    "m434nd0": [
+      -51,
+      0
+    ],
+    "m434ne0": [
+      -31,
+      0
+    ],
+    "m434na1": [
+      -26,
+      0
+    ],
+    "m434nd1": [
+      -26,
+      0
+    ],
+    "m434ne1": [
+      20,
+      0
+    ],
+    "m434ng1": [
+      -18,
+      0
+    ],
+    "m434na2": [
+      -36,
+      0
+    ],
+    "m434nb2": [
+      -75,
+      0
+    ],
+    "m434nc2": [
+      -29,
+      -16
+    ],
+    "m434nd2": [
+      -84,
+      0
+    ],
+    "m434nf2": [
+      -34,
+      0
+    ],
+    "m434ng2": [
+      -23,
+      -17
+    ],
+    "m434na3": [
+      -27,
+      0
+    ],
+    "m434nb3": [
+      -27,
+      -19
+    ],
+    "m434ne3": [
+      20,
+      0
+    ],
+    "m434nf3": [
+      -29,
+      0
+    ],
+    "m434ng3": [
+      -36,
+      0
+    ],
+    "m434ne4": [
+      23,
+      0
+    ],
+    "m434nf4": [
+      -23,
+      0
+    ],
+    "m434ng4": [
+      -29,
+      0
+    ],
+    "m434xa0": [
+      -18,
+      0
+    ]
+  },
+  "placement_review": "All 115 final native/restored poses reviewed in static common-space contacts with olive torso, baseline and pivot guides and independent head, feet and wing-root checks. All 49 translations rechecked; maximum torso residual 7.906 logical pixels. Modest anatomy interpretation accepted; no per-frame rescale."
+}

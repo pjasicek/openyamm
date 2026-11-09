@@ -1,0 +1,42 @@
+output_dir: captures
+exit: true
+steps:
+- wait: 2
+- capture: gameplay
+- action: combat
+- capture: turn-based
+- action: combat
+- action: quest
+- capture: inventory
+- click: [1360, 610]
+- capture: jewelry
+- click: [300, 656]
+- capture: stats
+- click: [470, 656]
+- capture: skills
+- click: [800, 656]
+- capture: awards
+- key: Escape
+- action: quick_ref
+- capture: quick-reference
+- key: Escape
+- action: rest
+- capture: rest
+- key: Escape
+- action: map_book
+- capture: map
+- click: [1315, 294]
+- capture: quests
+- click: [1315, 654]
+- capture: notes
+- click: [1315, 471]
+- capture: story
+- key: Escape
+- action: cast
+- capture: spellbook
+- key: Escape
+- action: cast_ready
+- capture: beacon
+- click: [1320, 850]
+- key: Escape
+- capture: pause-menu

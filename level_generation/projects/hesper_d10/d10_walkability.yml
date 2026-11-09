@@ -1,0 +1,122 @@
+# Isolate the spawned pursuit actor from the 19 residents, including both wildlife packs.
+id: hesper.d10.walkability
+world: hesper
+mode: faithful
+steps:
+- &id001
+  new_game_flow:
+    start_map: hes_d10.blv
+    party:
+      members:
+      - name: Archive walker
+        class: Knight
+        level: 1000
+        equipment: {}
+        skills:
+        - name: Sword
+          level: 1
+          mastery: 1
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d10.blv
+    x: 4300
+    y: 1200
+    z: 0
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10002
+    count: 1
+    x: 3404
+    y: 1200
+    z: 0
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+      dead: false
+      near:
+        x: 4300
+        y: 1200
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d10.blv
+    x: 1200
+    y: -2200
+    z: -512
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 1104
+    y: -200
+    z: -50
+- advance_runtime:
+    seconds: 18
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+      dead: false
+      near:
+        x: 1200
+        y: -2200
+        max_distance: 400
+- *id001
+- damage_actor:
+    all: true
+    amount: 1000000
+    tier: kreegan_energy
+- set_pose:
+    map: hes_d10.blv
+    x: 1200
+    y: -700
+    z: -197
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 10000
+    count: 1
+    x: 1104
+    y: -1500
+    z: -433
+- advance_runtime:
+    seconds: 5
+- set_pose:
+    map: hes_d10.blv
+    x: 1200
+    y: -100
+    z: -20
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 7
+- set_pose:
+    map: hes_d10.blv
+    x: 1200
+    y: 400
+    z: 0
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 18
+- assert:
+    actor_visible:
+      actor_index: 19
+      report_state: true
+      dead: false
+      near:
+        x: 1200
+        y: 400
+        max_distance: 400

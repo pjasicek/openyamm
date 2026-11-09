@@ -1,0 +1,51 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.sturmfordcity_chests
+title: Sturmford City (native BLV) - the two treasure bags at the bottom of the well open
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: sturmfordcity.blv
+- execute_event:
+    id: 41
+- assert:
+    chest_opened:
+      chest_id: 0
+- press_action:
+    action: cancel_dialog
+- execute_event:
+    id: 42
+- assert:
+    chest_opened:
+      chest_id: 1
+- press_action:
+    action: cancel_dialog
+- note:
+    text: 'The bags lie on the well''s bottom under the water (MM9: diving): the party climbs out by the rope (Ladder7, extended
+      to the bottom).'
+- movement_segment:
+    input: forward
+    seconds: 9.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: sturmfordcity.blv
+      x: 5693
+      y: 16560
+      z: 17748
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: sturmfordcity.blv
+      x: 5696
+      y: 16998
+      z: 19789
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 900
+    tolerance_z: 60

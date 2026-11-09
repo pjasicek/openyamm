@@ -1,0 +1,123 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_ckt.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_ckt.glb",
+ "assignments": [
+  {
+   "match": "=Cockatrice_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ckt_claude/textures/ckt_material_classes.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "ckt_metal_rough_1k",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "Cockatrice_A",
+    "Cockatrice_B",
+    "Cockatrice_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0,
+    "openyamm_specular_mask": false
+   },
+   "old_r_channel": "ao",
+   "stretched_uv_triangles": 2,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 247745,
+     "uv_covered_without_class": 0.0473,
+     "uv_covered_without_class_far": 0.0013,
+     "class_texels_outside_uv": 0.1677,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ckt_claude/textures/ckt_material_classes.png",
+     "class_share_in_uv": {
+      "skin": 0.1353,
+      "fur": 0.4116,
+      "membrane": 0.2885,
+      "claw": 0.1646
+     }
+    }
+   },
+   "class_share_total": {
+    "skin": 0.1353,
+    "fur": 0.4116,
+    "membrane": 0.2885,
+    "claw": 0.1646
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "skin": 0.0,
+    "fur": 0.0,
+    "membrane": 0.0,
+    "claw": 0.0
+   },
+   "new_specular_mean_by_class": {
+    "skin": 0.239,
+    "fur": 0.0,
+    "membrane": 0.288,
+    "claw": 0.815
+   },
+   "new_roughness_mean_by_class": {
+    "skin": 0.8,
+    "fur": 0.899,
+    "membrane": 0.847,
+    "claw": 0.393
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Cockatrice_A": null,
+    "Cockatrice_B": null,
+    "Cockatrice_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 0,
+     "max": 255,
+     "mean": 36.7
+    },
+    "G": {
+     "min": 89,
+     "max": 255,
+     "mean": 189.7
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": [
+  {
+   "image": "ckt_head_metal_rough_1k",
+   "materials": [
+    "CockatriceHead_A"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,31 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png precisely. It is the EDIT TARGET; design_reference.png is the material/detail reference, icon_x8.png is the original colour reference (ignore magenta background). Produce ONE transparent RGBA PNG, 1536x2048 or nearest 3:4 canvas. Keep exact guide layout, positions, scale, silhouettes, gaps, view orientations: three columns by FOUR rows, 512x512 cells. Rows 1-2 five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat these five views. Do not replace the layout with a hero image. Paint grey objects only, never move, enlarge, redraw or redesign their geometry.\nRows 1-2: unlit base colour, faithful MM6-MM8 inventory-style rendition of original MM9 Thjorad: broad pale-silver double rectangular head, layered ridges, copper bands and rails, thick copper socket, very long narrow brown wooden two-handed shaft, pale silver lower grip and copper rings/end cap. Follow approved design detail and original icon colours, scaled to each view, but no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground or outlines. Head's pitted pale silver is metal, copper bindings metal; brown shaft wood; pale lower grip metal. Preserve full length where guide shows it; end-on views remain end-on.\nRows 3-4: exact corresponding silhouettes filled with FLAT pure material classification colours ONLY, no shading, texture, outlines or antialiased colour blends inside. #FF0000 every metal part including pale silver head, copper bands, socket, rings, lower silver grip and end cap. #FFFF00 wooden brown shaft and any other matte nonmetal solids. #00FF00 leather/fur if present; #0000FF cloth/hair if present; #000000 gems/glass/enamel if present. Every silhouette pixel exactly one material colour. No invented materials. Outside silhouettes and all gaps fully transparent. Column 3 row 2 and column 3 row 4 stay empty. No text. Exact geometry/layout preservation is critical for projection onto existing mesh.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad3d-da47-7141-917c-32fd7c8c0644/exec-e63bf2b7-a8d9-4ded-a8d9-9a59c8b46f14.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_mm9_claude/codex_tex/d10197/paint_mask_raw_v1.png",
+  "tool": "built-in image_gen",
+  "corrective_attempt": {
+    "prompt": "Edit the supplied paint_mask_guide.png precisely. It is the EDIT TARGET; design_reference.png is the material/detail reference, icon_x8.png is the original colour reference (ignore magenta background). Produce ONE transparent RGBA PNG, 1536x2048 or nearest 3:4 canvas. Keep exact guide layout, positions, scale, silhouettes, gaps, view orientations: three columns by FOUR rows, 512x512 cells. Rows 1-2 five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty; rows 3-4 repeat these five views. Do not replace the layout with a hero image. Paint grey objects only, never move, enlarge, redraw or redesign their geometry.\nRows 1-2: unlit base colour, faithful MM6-MM8 inventory-style rendition of original MM9 Thjorad: broad pale-silver double rectangular head, layered ridges, copper bands and rails, thick copper socket, very long narrow brown wooden two-handed shaft, pale silver lower grip and copper rings/end cap. Follow approved design detail and original icon colours, scaled to each view, but no lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, aura, ground or outlines. Head's pitted pale silver is metal, copper bindings metal; brown shaft wood; pale lower grip metal. Preserve full length where guide shows it; end-on views remain end-on.\nRows 3-4: exact corresponding silhouettes filled with FLAT pure material classification colours ONLY, no shading, texture, outlines or antialiased colour blends inside. #FF0000 every metal part including pale silver head, copper bands, socket, rings, lower silver grip and end cap. #FFFF00 wooden brown shaft and any other matte nonmetal solids. #00FF00 leather/fur if present; #0000FF cloth/hair if present; #000000 gems/glass/enamel if present. Every silhouette pixel exactly one material colour. No invented materials. Outside silhouettes and all gaps fully transparent. Column 3 row 2 and column 3 row 4 stay empty. No text. Exact geometry/layout preservation is critical for projection onto existing mesh.\nCORRECTION: First attempt had stray red/yellow speckles and ragged enlarged masks outside object silhouettes. Strictly use the original grey guide alpha silhouettes unchanged for ALL TEN objects. Absolutely NO stray pixels, flecks, haze, stains or fragments outside guide alpha. Mask objects must have clean precise edges matching corresponding upper painted objects and the original guide. Preserve exact guide shape even at shaft rings and socket. Output clean transparent background.",
+    "status": "failed: output safety rejection (violence)",
+    "request_id": "83e973d1-dec9-472b-86d1-5d03d003e69d"
+  },
+  "validation": "Initial result retained; stray mask pixels outside silhouettes. Not production-ready.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10197/paint_mask_guide.png",
+      "sha256": "f60bd242df99f2aa2fcd891ac1ed02b0f57087c4c66831fd7369417acf6d5d58"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10197/design_reference.png",
+      "sha256": "fc79d77e61092fdc4496beec4ab8f91e1ea454e2c7d9baaa7c6caad87c5389c2"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10197/icon_x8.png",
+      "sha256": "803fa8b53d1ebc7078878f9412ccccfd1ce5dff8f7da41da125da5df33ce3d41"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

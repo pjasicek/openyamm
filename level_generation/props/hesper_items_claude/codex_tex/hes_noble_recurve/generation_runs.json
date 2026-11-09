@@ -1,0 +1,514 @@
+{
+  "tool": "built-in image_gen",
+  "brief_sha256": "cc5a800cae993735e909e24745ef9f772f6255ceae968cb037112c1442b6b4b7",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "outputs_modified": false,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nCreate paint_front.png: a 1024 x 1024 RGBA texture-source painting.\nInput image 1 (guide_front.png) is the EDIT TARGET and absolute authority for every pixel of geometry, silhouette, alpha, part edges, placement and scale. Input image 2 (design_reference.png) is MATERIAL/COLOR REFERENCE ONLY.\nPaint only inside the existing opaque pixels of image 1. Preserve its alpha mask exactly. Keep the very small horizontal END-ON bow view at its exact original location: occupied bounds x=412..611, y=490..533 within the 1024 square canvas. The rounded grip section is to the left of center, around x=480; the narrower joint is around x=556. Do not enlarge, rotate, recenter, straighten, redesign or turn this into the tall side-view bow. The large transparent margins are intentional. Maintain every existing part's outline and edge.\nSubject: A Noble's hunting bow of polished chitin, physical. Map the design reference's dark black-violet resin/chitin with fine organic engraved seams onto the guide's lavender structural parts; map warm ivory/white worn ceramic/bone onto existing pale exposed tips; subdued brushed gold on fittings and trim, with a dark fine leather grip where appropriate. Small orange amber insets only where corresponding existing surface area permits, painted bright orange without glow spill. Continue hidden surfaces plausibly. Guide tints only distinguish materials; they are not final colors. Reproduce fine wear, small seam lines and joins as albedo detail confined within the model.\nLIGHTING: strictly flat even shadowless viewer lighting for ALBEDO, no cast shadows, no AO darkening, no directional shading, no strong specular highlights/reflections, no rim light; metal has its base color and only faint sheen.\nBackground: genuinely transparent, preserve alpha and empty pixels. No floor, backdrop, text, letters, labels, watermark, extra objects or additions outside the exact guide silhouette. Return the complete original 1024 x 1024 canvas, not a crop.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7542-8cd9-e17e468554a3/exec-d266361a-5eaa-429f-a6b3-b19f2ca5a621.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "51f1fddec0d5e34abb5eccafdd2734b708cf6cb00127dc83f9f9dfbd0fe2cdf0"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the only returned image; corrective generation was blocked. Still fails exact silhouette and flat albedo requirements.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "transparent_pixels": 1564111,
+        "alpha_bbox": [
+          33,
+          23,
+          1138,
+          1117
+        ],
+        "opaque_bbox": [
+          504,
+          600,
+          750,
+          655
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.7969924812030075,
+        "comparison_note": "Guide alpha scaled in memory by nearest neighbour for diagnostic comparison only. Saved outputs are byte-for-byte tool returns.",
+        "materials": "Visually matches ivory, gold, dark violet chitin and orange accents.",
+        "lighting": "Residual shading and highlights remain.",
+        "no_text_or_letters": true,
+        "opaque_pixels_outside_normalized_guide": 1239,
+        "nonzero_alpha_pixels_outside_normalized_guide": 2700,
+        "flat_even_albedo_pass": false,
+        "transparent_background_present": true,
+        "clean_exact_background_mask_pass": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "6bc45b2bcfbe75aeabd495da459edd060c3d04bd77a50094c6d00f63427d9894",
+      "raw_output": "generation_attempts/paint_front_1.png"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: flat ALBEDO texture projection source for a 3D item.\nINPUT IMAGE 1 is the exact orthographic geometry guide and edit target. INPUT IMAGE 2 is the approved design reference, for surface colors and material details only.\nRepaint IMAGE 1 IN PLACE, preserving its alpha mask, silhouette, all part boundaries, position, scale, orientation and blank margins. Do not copy image 2's pose or silhouette. Do not inflate or add any geometry. Output exactly 1024 x 1024 pixels, RGBA, genuinely transparent background. Every background pixel must have alpha zero; no stray pixels, halos, floor, shadows, text or letters.\nItem: a noble's physical hunting bow of polished chitin. Use the guide's lavender parts for very dark black-violet chitin/resin with fine organic engraving and seams. The existing pale tips/spurs use ivory ceramic/bone with fine worn markings; use restrained warm brushed gold on existing fittings and trim. The central grip continues dark fine leather with gold/ivory end trim from the reference. Orange amber details only painted within existing corresponding surfaces, no bloom. Material guide tints are labels, not final colors. Hidden surfaces continue reference materials plausibly.\nFLAT TEXTURE LIGHTING: albedo only. All surfaces are evenly lit from the viewer. Keep material base colors visible. No baked directional lighting, no occlusion shading, no cast shadows, no specular highlights, no reflections, no rim lighting. Gold is a matte ochre-gold base color with faint brushed lines, NOT shiny photographic metal. Ivory is muted cream with fine wear, not hot white reflections. Details are pigment/engraving color marks, not lit relief.\nVIEW CONSTRAINT: BACK end-on view. Preserve the tiny horizontal form occupying x=412..611, y=490..533 on the 1024 canvas. The wider rounded section is on the RIGHT around x=545, the narrower joint on the LEFT around x=468. Keep these asymmetries exactly. Do not show the long bow profile. The extensive transparent padding is intentional.\nReturn one painting for paint_back.png only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7542-8cd9-e17e468554a3/exec-9b5aa888-4a31-46fa-9550-b5eefd0e9d98.png",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "4ca9c07a4989250123e87bb74c5d9930033b7902a3d49130d602fc4c2a1f42ec"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the only returned image; corrective generation was blocked. Still fails exact silhouette and flat albedo requirements.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "transparent_pixels": 1556020,
+        "alpha_bbox": [
+          234,
+          168,
+          848,
+          1068
+        ],
+        "opaque_bbox": [
+          438,
+          593,
+          818,
+          673
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.3466923475813023,
+        "comparison_note": "Guide alpha scaled in memory by nearest neighbour for diagnostic comparison only. Saved outputs are byte-for-byte tool returns.",
+        "materials": "Visually matches ivory, gold, dark violet chitin and orange accents.",
+        "lighting": "Residual shading and highlights remain.",
+        "no_text_or_letters": true,
+        "opaque_pixels_outside_normalized_guide": 8623,
+        "nonzero_alpha_pixels_outside_normalized_guide": 10895,
+        "flat_even_albedo_pass": false,
+        "transparent_background_present": true,
+        "clean_exact_background_mask_pass": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "46c3d717cb8679d45d621b857d6ddf83a3b790b248d343ceb1834b2f9589ae70",
+      "raw_output": "generation_attempts/paint_back_1.png"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: flat ALBEDO texture projection source for a 3D item.\nINPUT IMAGE 1 is the exact orthographic geometry guide and edit target. INPUT IMAGE 2 is the approved design reference, for surface colors and material details only.\nRepaint IMAGE 1 IN PLACE, preserving its alpha mask, silhouette, all part boundaries, position, scale, orientation and blank margins. Do not copy image 2's pose or silhouette. Do not inflate or add any geometry. Output exactly 1024 x 1024 pixels, RGBA, genuinely transparent background. Every background pixel must have alpha zero; no stray pixels, halos, floor, shadows, text or letters.\nItem: a noble's physical hunting bow of polished chitin. Use the guide's lavender parts for very dark black-violet chitin/resin with fine organic engraving and seams. The existing pale tips/spurs use ivory ceramic/bone with fine worn markings; use restrained warm brushed gold on existing fittings and trim. The central grip continues dark fine leather with gold/ivory end trim from the reference. Orange amber details only painted within existing corresponding surfaces, no bloom. Material guide tints are labels, not final colors. Hidden surfaces continue reference materials plausibly.\nFLAT TEXTURE LIGHTING: albedo only. All surfaces are evenly lit from the viewer. Keep material base colors visible. No baked directional lighting, no occlusion shading, no cast shadows, no specular highlights, no reflections, no rim lighting. Gold is a matte ochre-gold base color with faint brushed lines, NOT shiny photographic metal. Ivory is muted cream with fine wear, not hot white reflections. Details are pigment/engraving color marks, not lit relief.\nVIEW CONSTRAINT: LEFT view seen edge-on. Preserve the thin horizontal bow occupying x=66..957, y=490..533 on the 1024 canvas. Center grip rectangle x=460..562, y=490..533; thin limbs extend to either end at y~512. Preserve four tiny pale diamond cross-sections in the left/right limbs exactly where the guide places them. Keep both ivory tapered ends their original size and position. No curve in the image plane, no new spurs, no enlarged thickness.\nReturn one painting for paint_left.png only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7542-8cd9-e17e468554a3/exec-844b85b0-c3f4-4161-b44c-9a8aee6928a2.png",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "f66b63074ba3730902ef4df3e07adb5476a83fc27fbe472b939c19949239de96"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "output": "generation_attempts/paint_left_1.png",
+      "selected": false,
+      "reason": "Superseded by the corrective return, which has closer measured silhouette alignment.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "transparent_pixels": 1529895,
+        "alpha_bbox": [
+          27,
+          32,
+          1224,
+          1206
+        ],
+        "opaque_bbox": [
+          77,
+          597,
+          1177,
+          651
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.7388938109100114,
+        "comparison_note": "Guide alpha scaled in memory by nearest neighbour for diagnostic comparison only. Saved outputs are byte-for-byte tool returns.",
+        "materials": "Visually matches ivory, gold, dark violet chitin and orange accents.",
+        "lighting": "Residual shading and highlights remain.",
+        "no_text_or_letters": true
+      },
+      "output_sha256": "e82ff8fea587097a2342c4c95c1523a48110323b1fbe24986a718a125a194723"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: flat ALBEDO texture projection source for a 3D item.\nINPUT IMAGE 1 is the exact orthographic geometry guide and edit target. INPUT IMAGE 2 is the approved design reference, for surface colors and material details only.\nRepaint IMAGE 1 IN PLACE, preserving its alpha mask, silhouette, all part boundaries, position, scale, orientation and blank margins. Do not copy image 2's pose or silhouette. Do not inflate or add any geometry. Output exactly 1024 x 1024 pixels, RGBA, genuinely transparent background. Every background pixel must have alpha zero; no stray pixels, halos, floor, shadows, text or letters.\nItem: a noble's physical hunting bow of polished chitin. Use the guide's lavender parts for very dark black-violet chitin/resin with fine organic engraving and seams. The existing pale tips/spurs use ivory ceramic/bone with fine worn markings; use restrained warm brushed gold on existing fittings and trim. The central grip continues dark fine leather with gold/ivory end trim from the reference. Orange amber details only painted within existing corresponding surfaces, no bloom. Material guide tints are labels, not final colors. Hidden surfaces continue reference materials plausibly.\nFLAT TEXTURE LIGHTING: albedo only. All surfaces are evenly lit from the viewer. Keep material base colors visible. No baked directional lighting, no occlusion shading, no cast shadows, no specular highlights, no reflections, no rim lighting. Gold is a matte ochre-gold base color with faint brushed lines, NOT shiny photographic metal. Ivory is muted cream with fine wear, not hot white reflections. Details are pigment/engraving color marks, not lit relief.\nVIEW CONSTRAINT: RIGHT view seen edge-on. Preserve the thin horizontal bow occupying x=66..957, y=490..533 on the 1024 canvas. Center grip rectangle x=460..562, y=490..533; thin limbs extend to either end at y~512. Preserve the fine straight string line as located in the guide and all part edges. This side has no large diamonds visible along its limbs. Keep both ivory tapered ends their original size and position. No curve in the image plane, no new spurs, no enlarged thickness.\nReturn one painting for paint_right.png only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7542-8cd9-e17e468554a3/exec-3b20a560-fd42-49bb-863e-8138da9c7f31.png",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "477e6f0b68ede2e559cdda4d92d40545644c516c7603bd48ef2ba6dae66bfd92"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the only returned image; corrective generation was blocked. Still fails exact silhouette and flat albedo requirements.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "transparent_pixels": 1532527,
+        "alpha_bbox": [
+          0,
+          369,
+          1202,
+          1101
+        ],
+        "opaque_bbox": [
+          81,
+          602,
+          1173,
+          653
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.8674443266171792,
+        "comparison_note": "Guide alpha scaled in memory by nearest neighbour for diagnostic comparison only. Saved outputs are byte-for-byte tool returns.",
+        "materials": "Visually matches ivory, gold, dark violet chitin and orange accents.",
+        "lighting": "Residual shading and highlights remain.",
+        "no_text_or_letters": true,
+        "opaque_pixels_outside_normalized_guide": 2994,
+        "nonzero_alpha_pixels_outside_normalized_guide": 11723,
+        "flat_even_albedo_pass": false,
+        "transparent_background_present": true,
+        "clean_exact_background_mask_pass": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "2e12b351eeb6b3c56d02e89b5b591587f28af788b86ed94293ed364a9fc5ac03",
+      "raw_output": "generation_attempts/paint_right_1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: flat ALBEDO texture projection source for a 3D item.\nINPUT IMAGE 1 is the exact orthographic geometry guide and edit target. INPUT IMAGE 2 is the approved design reference, for surface colors and material details only.\nRepaint IMAGE 1 IN PLACE, preserving its alpha mask, silhouette, all part boundaries, position, scale, orientation and blank margins. Do not copy image 2's pose or silhouette. Do not inflate or add any geometry. Output exactly 1024 x 1024 pixels, RGBA, genuinely transparent background. Every background pixel must have alpha zero; no stray pixels, halos, floor, shadows, text or letters.\nItem: a noble's physical hunting bow of polished chitin. Use the guide's lavender parts for very dark black-violet chitin/resin with fine organic engraving and seams. The existing pale tips/spurs use ivory ceramic/bone with fine worn markings; use restrained warm brushed gold on existing fittings and trim. The central grip continues dark fine leather with gold/ivory end trim from the reference. Orange amber details only painted within existing corresponding surfaces, no bloom. Material guide tints are labels, not final colors. Hidden surfaces continue reference materials plausibly.\nFLAT TEXTURE LIGHTING: albedo only. All surfaces are evenly lit from the viewer. Keep material base colors visible. No baked directional lighting, no occlusion shading, no cast shadows, no specular highlights, no reflections, no rim lighting. Gold is a matte ochre-gold base color with faint brushed lines, NOT shiny photographic metal. Ivory is muted cream with fine wear, not hot white reflections. Details are pigment/engraving color marks, not lit relief.\nVIEW CONSTRAINT: TOP view, directly above the lying bow. Preserve the upright narrow curved bow silhouette occupying x=412..611, y=66..957 on the 1024 canvas. Keep four pointed spurs projecting LEFT at y~264,430,594,760, the rectangular center grip x=453..505,y=460..564, two ivory hook tips on the right at top and bottom, and the single thin straight vertical string at x~556 from y~156 to868. Maintain the huge transparent opening between the curved left limb and straight right string. Do not add ornate geometry from the design reference: its details must be painted within this exact simpler model. Keep its precise curvature and every existing part boundary.\nReturn one painting for paint_top.png only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7542-8cd9-e17e468554a3/exec-1cfa73c6-b96a-4991-9927-41abcd176cbf.png",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "35b495feb162cfbb05188cdcafa935ea19106e8e2093fb067b25d61c86d48943"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the only returned image; corrective generation was blocked. Still fails exact silhouette and flat albedo requirements.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "transparent_pixels": 1496903,
+        "alpha_bbox": [
+          49,
+          53,
+          1224,
+          1228
+        ],
+        "opaque_bbox": [
+          503,
+          73,
+          754,
+          1182
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.6343097222690919,
+        "comparison_note": "Guide alpha scaled in memory by nearest neighbour for diagnostic comparison only. Saved outputs are byte-for-byte tool returns.",
+        "materials": "Visually matches ivory, gold, dark violet chitin and orange accents.",
+        "lighting": "Residual shading and highlights remain.",
+        "no_text_or_letters": true,
+        "opaque_pixels_outside_normalized_guide": 18611,
+        "nonzero_alpha_pixels_outside_normalized_guide": 28647,
+        "flat_even_albedo_pass": false,
+        "transparent_background_present": true,
+        "clean_exact_background_mask_pass": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "798400751a1c1fa981a8e0bf96f646205d4e3dfa5def5c054a7a581713a9f911",
+      "raw_output": "generation_attempts/paint_top_1.png"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: exact guide-registered albedo repaint. One output, 1024 x 1024 RGBA with real transparency.\nIMAGE 1 is guide_front.png: this is the EDIT TARGET. Its silhouette and alpha mask are immutable. Recolor ONLY its existing opaque pixels without changing any edges. Copy its transparent background exactly with alpha 0. Keep all its part boundaries, scale, position and orientation.\nIMAGE 2 is the earlier painted front view: this supplies the surface color/detail vocabulary but has incorrect edges and baked lighting. DO NOT copy its silhouette or its lighting.\nIMAGE 3 is design_reference.png: original material/color authority only, not a geometric reference.\nVIEW: Tiny END-ON front view only. It is 200 pixels wide and 44 pixels high, bounded by x=412..611,y=490..533 on a 1024 square. Rounded part around x=480 on the LEFT; narrow fitting around x=556 on the RIGHT. Preserve the small exact original size.\nTake IMAGE 1 and simply replace its pale material tints with the approved bow's diffuse base colors: lavender structural parts become black-violet chitin/resin, with delicate organic seam/engraved line colors; ivory tip/spur parts stay ivory with very fine wear. Existing fitting areas get flat brushed ochre-gold base color. The center grip gets dark leather with diagonal seam pigment and thin gold/ivory trim painted entirely WITHIN its existing rectangle. Tiny orange details, if visible, are flat bright orange paint, without bloom or light spill. Match the design without new sculptural parts. Hidden faces plausibly continue these materials.\nCRITICAL lighting correction: this is an UNLIT ALBEDO map, not a lit beauty render. All pixels of a material should have a consistent diffuse base tone except very fine texture markings. No darkened sides, no brightened edges, no shaded bevels, no gleaming gold, no white hotspots, no directional light, no AO, no cast shadow, no reflections. Muted ivory and restrained matte gold; black-violet is readable without highlights.\nCRITICAL silhouette correction: boundaries must be those of IMAGE 1 exactly, including every tip, taper, straight edge and hole. Do not rotate, zoom, crop, add a border, enlarge parts, or add surface relief that changes an edge. Maintain the guide's extensive transparent margins. No background, floor, text, symbols, labels, watermark or stray pixels. Return only the painted guide on its original square canvas.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "51f1fddec0d5e34abb5eccafdd2734b708cf6cb00127dc83f9f9dfbd0fe2cdf0"
+        },
+        {
+          "path": "generation_attempts/paint_front_1.png",
+          "sha256": "6bc45b2bcfbe75aeabd495da459edd060c3d04bd77a50094c6d00f63427d9894"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by built-in image generation safety system; no image returned.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "stage": "input",
+        "request_id": "e1aa53e6-d0aa-46ea-b41e-e7a9e22f8f64"
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: exact guide-registered albedo repaint. One output, 1024 x 1024 RGBA with real transparency.\nIMAGE 1 is guide_back.png: this is the EDIT TARGET. Its silhouette and alpha mask are immutable. Recolor ONLY its existing opaque pixels without changing any edges. Copy its transparent background exactly with alpha 0. Keep all its part boundaries, scale, position and orientation.\nIMAGE 2 is the earlier painted back view: this supplies the surface color/detail vocabulary but has incorrect edges and baked lighting. DO NOT copy its silhouette or its lighting.\nIMAGE 3 is design_reference.png: original material/color authority only, not a geometric reference.\nVIEW: Tiny END-ON back view only. It is 200 pixels wide and 44 pixels high, bounded by x=412..611,y=490..533 on a 1024 square. Rounded part around x=545 on the RIGHT; narrow fitting around x=468 on the LEFT. The previous return wrongly enlarged this view by about 50 percent. Copy the size and edges of IMAGE 1 exactly.\nTake IMAGE 1 and simply replace its pale material tints with the approved bow's diffuse base colors: lavender structural parts become black-violet chitin/resin, with delicate organic seam/engraved line colors; ivory tip/spur parts stay ivory with very fine wear. Existing fitting areas get flat brushed ochre-gold base color. The center grip gets dark leather with diagonal seam pigment and thin gold/ivory trim painted entirely WITHIN its existing rectangle. Tiny orange details, if visible, are flat bright orange paint, without bloom or light spill. Match the design without new sculptural parts. Hidden faces plausibly continue these materials.\nCRITICAL lighting correction: this is an UNLIT ALBEDO map, not a lit beauty render. All pixels of a material should have a consistent diffuse base tone except very fine texture markings. No darkened sides, no brightened edges, no shaded bevels, no gleaming gold, no white hotspots, no directional light, no AO, no cast shadow, no reflections. Muted ivory and restrained matte gold; black-violet is readable without highlights.\nCRITICAL silhouette correction: boundaries must be those of IMAGE 1 exactly, including every tip, taper, straight edge and hole. Do not rotate, zoom, crop, add a border, enlarge parts, or add surface relief that changes an edge. Maintain the guide's extensive transparent margins. No background, floor, text, symbols, labels, watermark or stray pixels. Return only the painted guide on its original square canvas.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "4ca9c07a4989250123e87bb74c5d9930033b7902a3d49130d602fc4c2a1f42ec"
+        },
+        {
+          "path": "generation_attempts/paint_back_1.png",
+          "sha256": "46c3d717cb8679d45d621b857d6ddf83a3b790b248d343ceb1834b2f9589ae70"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by built-in image generation safety system; no image returned.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "stage": "input",
+        "request_id": "fe79b811-a6b4-4eb9-a1a5-059a8b19470f"
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: exact guide-registered albedo repaint. One output, 1024 x 1024 RGBA with real transparency.\nIMAGE 1 is guide_left.png: this is the EDIT TARGET. Its silhouette and alpha mask are immutable. Recolor ONLY its existing opaque pixels without changing any edges. Copy its transparent background exactly with alpha 0. Keep all its part boundaries, scale, position and orientation.\nIMAGE 2 is the earlier painted left view: this supplies the surface color/detail vocabulary but has incorrect edges and baked lighting. DO NOT copy its silhouette or its lighting.\nIMAGE 3 is design_reference.png: original material/color authority only, not a geometric reference.\nVIEW: Extremely thin horizontal LEFT edge-on view, x=66..957,y=490..533. Keep limbs only as thin as image 1. Keep the four small diamond-shaped bone sections at x=264,430,594,760. The central grip is the EXACT rectangle x=460..562,y=490..533, not flared, not rounded by gold trim. Keep both tip boundaries.\nTake IMAGE 1 and simply replace its pale material tints with the approved bow's diffuse base colors: lavender structural parts become black-violet chitin/resin, with delicate organic seam/engraved line colors; ivory tip/spur parts stay ivory with very fine wear. Existing fitting areas get flat brushed ochre-gold base color. The center grip gets dark leather with diagonal seam pigment and thin gold/ivory trim painted entirely WITHIN its existing rectangle. Tiny orange details, if visible, are flat bright orange paint, without bloom or light spill. Match the design without new sculptural parts. Hidden faces plausibly continue these materials.\nCRITICAL lighting correction: this is an UNLIT ALBEDO map, not a lit beauty render. All pixels of a material should have a consistent diffuse base tone except very fine texture markings. No darkened sides, no brightened edges, no shaded bevels, no gleaming gold, no white hotspots, no directional light, no AO, no cast shadow, no reflections. Muted ivory and restrained matte gold; black-violet is readable without highlights.\nCRITICAL silhouette correction: boundaries must be those of IMAGE 1 exactly, including every tip, taper, straight edge and hole. Do not rotate, zoom, crop, add a border, enlarge parts, or add surface relief that changes an edge. Maintain the guide's extensive transparent margins. No background, floor, text, symbols, labels, watermark or stray pixels. Return only the painted guide on its original square canvas.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "f66b63074ba3730902ef4df3e07adb5476a83fc27fbe472b939c19949239de96"
+        },
+        {
+          "path": "generation_attempts/paint_left_1.png",
+          "sha256": "e82ff8fea587097a2342c4c95c1523a48110323b1fbe24986a718a125a194723"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de51-7542-8cd9-e17e468554a3/exec-b79878b0-88b4-4a10-b1db-74ad68343015.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the available return with the closest measured silhouette. Still fails exact silhouette and flat albedo requirements.",
+      "error": null,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "unresized": true,
+        "transparent_pixels": 1534966,
+        "alpha_bbox": [
+          82,
+          278,
+          1173,
+          1165
+        ],
+        "opaque_bbox": [
+          85,
+          599,
+          1170,
+          651
+        ],
+        "silhouette_identical": false,
+        "normalized_opaque_mask_iou": 0.8068309812495859,
+        "comparison_note": "Guide alpha scaled in memory by nearest neighbour for diagnostic comparison only. Saved outputs are byte-for-byte tool returns.",
+        "materials": "Visually matches ivory, gold, dark violet chitin, leather and orange accents.",
+        "lighting": "Residual shading and highlights remain despite corrective prompt.",
+        "no_text_or_letters": true,
+        "opaque_pixels_outside_normalized_guide": 4890,
+        "nonzero_alpha_pixels_outside_normalized_guide": 9665,
+        "flat_even_albedo_pass": false,
+        "transparent_background_present": true,
+        "clean_exact_background_mask_pass": false,
+        "no_cast_shadow_or_floor": true
+      },
+      "output_sha256": "c0598abb5009895e9d5af919737074f35c94f43cc39ca44e3730347fee44d9a5",
+      "raw_output": "generation_attempts/paint_left_2.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: exact guide-registered albedo repaint. One output, 1024 x 1024 RGBA with real transparency.\nIMAGE 1 is guide_right.png: this is the EDIT TARGET. Its silhouette and alpha mask are immutable. Recolor ONLY its existing opaque pixels without changing any edges. Copy its transparent background exactly with alpha 0. Keep all its part boundaries, scale, position and orientation.\nIMAGE 2 is the earlier painted right view: this supplies the surface color/detail vocabulary but has incorrect edges and baked lighting. DO NOT copy its silhouette or its lighting.\nIMAGE 3 is design_reference.png: original material/color authority only, not a geometric reference.\nVIEW: Extremely thin horizontal RIGHT edge-on view, x=66..957,y=490..533. Keep limbs and straight string exactly as thin as image 1. The central grip is the EXACT rectangle x=460..562,y=490..533, not flared, not reshaped by gold trim. Preserve its original geometry, tiny features and both tip boundaries.\nTake IMAGE 1 and simply replace its pale material tints with the approved bow's diffuse base colors: lavender structural parts become black-violet chitin/resin, with delicate organic seam/engraved line colors; ivory tip/spur parts stay ivory with very fine wear. Existing fitting areas get flat brushed ochre-gold base color. The center grip gets dark leather with diagonal seam pigment and thin gold/ivory trim painted entirely WITHIN its existing rectangle. Tiny orange details, if visible, are flat bright orange paint, without bloom or light spill. Match the design without new sculptural parts. Hidden faces plausibly continue these materials.\nCRITICAL lighting correction: this is an UNLIT ALBEDO map, not a lit beauty render. All pixels of a material should have a consistent diffuse base tone except very fine texture markings. No darkened sides, no brightened edges, no shaded bevels, no gleaming gold, no white hotspots, no directional light, no AO, no cast shadow, no reflections. Muted ivory and restrained matte gold; black-violet is readable without highlights.\nCRITICAL silhouette correction: boundaries must be those of IMAGE 1 exactly, including every tip, taper, straight edge and hole. Do not rotate, zoom, crop, add a border, enlarge parts, or add surface relief that changes an edge. Maintain the guide's extensive transparent margins. No background, floor, text, symbols, labels, watermark or stray pixels. Return only the painted guide on its original square canvas.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "477e6f0b68ede2e559cdda4d92d40545644c516c7603bd48ef2ba6dae66bfd92"
+        },
+        {
+          "path": "generation_attempts/paint_right_1.png",
+          "sha256": "2e12b351eeb6b3c56d02e89b5b591587f28af788b86ed94293ed364a9fc5ac03"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by built-in image generation safety system; no image returned.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "stage": "input",
+        "request_id": "37d734e2-d456-4ddd-a425-d6499048fb48"
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "CORRECTIVE REGENERATION: exact guide-registered albedo repaint. One output, 1024 x 1024 RGBA with real transparency.\nIMAGE 1 is guide_top.png: this is the EDIT TARGET. Its silhouette and alpha mask are immutable. Recolor ONLY its existing opaque pixels without changing any edges. Copy its transparent background exactly with alpha 0. Keep all its part boundaries, scale, position and orientation.\nIMAGE 2 is the earlier painted top view: this supplies the surface color/detail vocabulary but has incorrect edges and baked lighting. DO NOT copy its silhouette or its lighting.\nIMAGE 3 is design_reference.png: original material/color authority only, not a geometric reference.\nVIEW: Upright narrow curved TOP projection, x=412..611,y=66..957. Match the THIN limbs of IMAGE 1 exactly, do not bulk them up. Preserve the rectangular center grip x=453..505,y=460..564, all four LEFT-pointing straight spurs at y=264,430,594,760, and each existing hook tip. The single vertical string at x=556 from y=156 to868 must stay just as thin, straight and in place. No added bulk around spur roots. No ornate new geometry.\nTake IMAGE 1 and simply replace its pale material tints with the approved bow's diffuse base colors: lavender structural parts become black-violet chitin/resin, with delicate organic seam/engraved line colors; ivory tip/spur parts stay ivory with very fine wear. Existing fitting areas get flat brushed ochre-gold base color. The center grip gets dark leather with diagonal seam pigment and thin gold/ivory trim painted entirely WITHIN its existing rectangle. Tiny orange details, if visible, are flat bright orange paint, without bloom or light spill. Match the design without new sculptural parts. Hidden faces plausibly continue these materials.\nCRITICAL lighting correction: this is an UNLIT ALBEDO map, not a lit beauty render. All pixels of a material should have a consistent diffuse base tone except very fine texture markings. No darkened sides, no brightened edges, no shaded bevels, no gleaming gold, no white hotspots, no directional light, no AO, no cast shadow, no reflections. Muted ivory and restrained matte gold; black-violet is readable without highlights.\nCRITICAL silhouette correction: boundaries must be those of IMAGE 1 exactly, including every tip, taper, straight edge and hole. Do not rotate, zoom, crop, add a border, enlarge parts, or add surface relief that changes an edge. Maintain the guide's extensive transparent margins. No background, floor, text, symbols, labels, watermark or stray pixels. Return only the painted guide on its original square canvas.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "35b495feb162cfbb05188cdcafa935ea19106e8e2093fb067b25d61c86d48943"
+        },
+        {
+          "path": "generation_attempts/paint_top_1.png",
+          "sha256": "798400751a1c1fa981a8e0bf96f646205d4e3dfa5def5c054a7a581713a9f911"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "d60609052205df8c462edcb021a1ec0084068cd69af30682e9004798510a879c"
+        }
+      ],
+      "source": null,
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by built-in image generation safety system; no image returned.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "stage": "input",
+        "request_id": "d08f0531-38b2-4895-a589-ac8db50797c6"
+      }
+    }
+  ],
+  "deliverables": [
+    {
+      "view": "front",
+      "output": "paint_front.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "6bc45b2bcfbe75aeabd495da459edd060c3d04bd77a50094c6d00f63427d9894",
+      "all_brief_checks_pass": false
+    },
+    {
+      "view": "back",
+      "output": "paint_back.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "46c3d717cb8679d45d621b857d6ddf83a3b790b248d343ceb1834b2f9589ae70",
+      "all_brief_checks_pass": false
+    },
+    {
+      "view": "left",
+      "output": "paint_left.png",
+      "selected_attempt": 2,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "c0598abb5009895e9d5af919737074f35c94f43cc39ca44e3730347fee44d9a5",
+      "all_brief_checks_pass": false
+    },
+    {
+      "view": "right",
+      "output": "paint_right.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "2e12b351eeb6b3c56d02e89b5b591587f28af788b86ed94293ed364a9fc5ac03",
+      "all_brief_checks_pass": false
+    },
+    {
+      "view": "top",
+      "output": "paint_top.png",
+      "selected_attempt": 1,
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "798400751a1c1fa981a8e0bf96f646205d4e3dfa5def5c054a7a581713a9f911",
+      "all_brief_checks_pass": false
+    }
+  ],
+  "status": "Five best-available unmodified tool returns saved; strict silhouette and flat albedo acceptance checks failed.",
+  "limitations": [
+    "All image returns are 1254 x 1254, kept unresized as the brief requires when another size is returned.",
+    "Silhouettes are not identical to their guides. Background has low-alpha stray pixels and some opaque contour drift.",
+    "Painted highlights and shading remain; these are not strictly flat albedo sources.",
+    "One corrective request per view was attempted; front, back, right and top requests were rejected by the image tool violence filter.",
+    "No image postprocessing, builds, model changes, texture baking or runtime integration performed."
+  ]
+}

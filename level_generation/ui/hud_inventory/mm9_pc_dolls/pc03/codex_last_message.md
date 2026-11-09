@@ -1,0 +1,3 @@
+Saved [raw.png](level_generation/ui/hud_inventory/mm9_pc_dolls/pc03/raw.png) using built-in image generation. Verified RGBA transparency. Exact prompts, hashes and checks are in [generation.json](level_generation/ui/hud_inventory/mm9_pc_dolls/pc03/generation.json); first attempt retained as `raw_rejected.png`.
+
+No pixel edits or builds. The corrective result still alters torso details; original-body replacement remains necessary.

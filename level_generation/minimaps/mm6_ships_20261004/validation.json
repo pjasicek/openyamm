@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "count": 15,
+  "exports_sha256": "e535bdad5b0da224da38acf1d42d2bdb2528b86cc728430ef2fb7d4b651653ab",
+  "source_files_checked": 1415,
+  "vertex_controls": 58947,
+  "max_projection_error_x2_pixels": 0,
+  "rectangular_native_canvases_preserved": [],
+  "approved_new_sorpigal_byte_identical": false,
+  "checks": [
+    "Source, texture cache, raw render and final output hashes",
+    "Native x2 dimensions",
+    "Nonempty RGB PNG exports",
+    "Unchanged object alpha",
+    "Exact geometry/camera registration",
+    "Approved lighting/noise recipes and exact native map registration"
+  ],
+  "pilot_pixel_check": "New geometry revision; same approved recipe"
+}

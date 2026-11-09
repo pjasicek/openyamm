@@ -1,0 +1,27 @@
+{
+  "label": "Peasant Elf MaleA A",
+  "creature": "elf_male_peasant",
+  "base_palette": 59,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "protect_cool_purple": false,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "n"
+  ],
+  "identity_frames": [
+    "m332sa0",
+    "m332sa1",
+    "m332sa2",
+    "m332sa3",
+    "m332sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The original adult male elf peasant, lean muscular build with fair skin and pointed ears, short combed-back pale yellow-blond hair tied into a long narrow low ponytail. Plain dark brown sleeveless leather vest, open V neckline, two close vertical rows of small brass buttons and dark brown leather straps around upper arms and wrists. Muted dark burgundy-purple fitted trousers, brown ankle boots, narrow brown belt and a small sheathed dagger with pale gold fittings at the hip. Both hands are empty and loosely clenched. Preserve the ordinary stern native face, long slim legs, original proportions, material boundaries and dark tonal weight. No beard, cape, armor, hat, large weapons, extra jewelry or costume redesign. Native palette variants will be derived offline.",
+  "core_magenta_tolerance": 24,
+  "protect_burgundy": true,
+  "material_edge_hue_repair": true
+}

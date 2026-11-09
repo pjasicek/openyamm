@@ -1,0 +1,555 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: 3D model albedo texture projection source for \"The Last Light of Hesper\".\nImage 1 is the EXACT orthographic gray geometry guide to paint over. Image 2 is the approved design/material reference ONLY; do not copy its camera, composition, silhouette, perspective, lighting or proportions.\nReturn a single 1024 x 1024 PNG with a genuinely transparent background. This is a surface-paint edit of Image 1, not a new drawing of the design reference. Treat every transparent pixel and every part edge of Image 1 as locked. Retain its exact silhouette, framing, size, position, orientation, internal part borders and all separated parts; add nothing, remove nothing, never recenter, never crop. Do not fill the empty gap between the shield and the separate grip. Maintain the low-poly contour even where it differs from the reference.\nPaint the existing surfaces with the design reference's materials: softly off-white ivory ceramic panels with very fine sparse tan wear and hairline seams, muted brushed warm gold ribs, bezels and frame, narrow pale ice-blue/blue-white light channels, blue-white glass/crystal insets, and dark black-violet textured resin/leather on the grip. Restrict luminous areas to inset channels and crystals within the silhouette, no external glow. Existing rim bosses are gold with small pale blue-white inset lenses. Use reference engravings and panel joins as fine surface details only; no text, no letters, no labels, no numbers, no watermark. Continue unseen surfaces plausibly in the same materials.\nLIGHTING IS ALBEDO: even flat shadowless light straight from the viewer. No cast shadows, no ambient occlusion, no dark shading in recesses, no directional gradients, no rim light, no shiny hotspots, no strong specular reflections. Gold has its base pigment color with only a faint sheen, ceramic is matte, glowing parts are painted solid bright light colors with subtle internal crystal linework. No floor, no scene, no background. Do not reproduce the bright specular lighting in Image 2. The silhouette and all geometry in Image 1 override the design reference wherever they differ.\nVIEW-SPECIFIC CONSTRAINTS: Paint guide_front.png exactly as shown. It is a very shallow edge-on view: the broad flattened shield shell occupies x=66..957, y=274..583; the separate horizontal grip below it occupies approximately x=67..749, y=585..749. Preserve the large transparent gap and the grip's left-heavy fittings and asymmetry. Do not turn the disc upright. Do not add a full central medallion that this edge-on guide does not show. Gold frame, ivory upper panels, restrained ice-blue rim insets; grip dark black-violet with gold end fittings.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-ea5cb347-09b1-4207-821d-37522da922c1.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: poorer silhouette overlap than the corrective return, with residual shading and geometry drift.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "1ac1d43cfc10c7fba379fa4d94c06bbdbfb94bce4b66273e2592c854625e5267"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          44,
+          48,
+          1251,
+          1204
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8959438837758993,
+        "solid_alpha_bbox": [
+          47,
+          346,
+          1212,
+          923
+        ],
+        "semi_transparent_pixel_count": 19946,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Reference palette retained, but shape/placement drift and strong gold highlights and underside shadows remain."
+        }
+      },
+      "output_sha256": "edcd261c30492d305ef7544cd6e21f99128f7b0aef1b9557d917a80fe8d65e20"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Asset: 3D model albedo texture projection source for \"The Last Light of Hesper\".\nImage 2 is the EXACT orthographic gray geometry guide to paint over. Image 1 is the approved design/material reference ONLY; do not copy its camera, composition, silhouette, perspective, lighting or proportions.\nReturn a single 1024 x 1024 PNG with a genuinely transparent background. This is a surface-paint edit of Image 2, not a new drawing of the design reference. Treat every transparent pixel and every part edge of Image 2 as locked. Retain its exact silhouette, framing, size, position, orientation, internal part borders and all separated parts; add nothing, remove nothing, never recenter, never crop. Do not fill the empty gap between the shield and the separate grip. Maintain the low-poly contour even where it differs from the reference.\nPaint the existing surfaces with the design reference's materials: softly off-white ivory ceramic panels with very fine sparse tan wear and hairline seams, muted brushed warm gold ribs, bezels and frame, narrow pale ice-blue/blue-white light channels, blue-white glass/crystal insets, and dark black-violet textured resin/leather on the grip. Restrict luminous areas to inset channels and crystals within the silhouette, no external glow. Existing rim bosses are gold with small pale blue-white inset lenses. Use reference engravings and panel joins as fine surface details only; no text, no letters, no labels, no numbers, no watermark. Continue unseen surfaces plausibly in the same materials.\nLIGHTING IS ALBEDO: even flat shadowless light straight from the viewer. No cast shadows, no ambient occlusion, no dark shading in recesses, no directional gradients, no rim light, no shiny hotspots, no strong specular reflections. Gold has its base pigment color with only a faint sheen, ceramic is matte, glowing parts are painted solid bright light colors with subtle internal crystal linework. No floor, no scene, no background. Do not reproduce the bright specular lighting in Image 1. The silhouette and all geometry in Image 2 override the design reference wherever they differ.\nVIEW-SPECIFIC CONSTRAINTS: Paint guide_front.png exactly as shown. It is a very shallow edge-on view: the broad flattened shield shell occupies x=66..957, y=274..583; the separate horizontal grip below it occupies approximately x=67..749, y=585..749. Preserve the large transparent gap and the grip's left-heavy fittings and asymmetry. Do not turn the disc upright. Do not add a full central medallion that this edge-on guide does not show. Gold frame, ivory upper panels, restrained ice-blue rim insets; grip dark black-violet with gold end fittings.\nCORRECTIVE REGENERATION (one allowed): The previous attempt enlarged and shifted parts and shaded them too dramatically. Start from the SECOND image, the 1024-square gray guide, retaining its image canvas and exact alpha boundary. Apply color inside its shapes only. The first image is a material swatch reference, not an image to reconstruct. No decorative shape additions. Exact mask and flat matte base colors take priority over beauty. Keep the lower edge and grip outline precisely on the guide's original boundary. Preserve 1024 x 1024 output if supported.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-83cba067-bba1-404e-9bcc-8804b0e5ca08.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two allowed returns, with the reference palette retained. Exact silhouette and fully flat lighting still fail; preserved unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "1ac1d43cfc10c7fba379fa4d94c06bbdbfb94bce4b66273e2592c854625e5267"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          15,
+          1222,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          80,
+          339,
+          1172,
+          915
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9341936815234048,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Ivory, gold, blue light and dark grip match reference. Residual bevel highlights and shading. Outline and lower parts still deviate from the guide."
+        },
+        "semi_transparent_pixel_count": 19383
+      },
+      "output_sha256": "afc763ce25cb2c53326bedc1a38c9e3c5cfb09e06842eab055f95a39024e0984"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: 3D model albedo texture projection source for \"The Last Light of Hesper\".\nImage 2 is the EXACT orthographic gray geometry guide to paint over. Image 1 is the approved design/material reference ONLY; do not copy its camera, composition, silhouette, perspective, lighting or proportions.\nReturn a single 1024 x 1024 PNG with a genuinely transparent background. This is a surface-paint edit of Image 2, not a new drawing of the design reference. Treat every transparent pixel and every part edge of Image 2 as locked. Retain its exact silhouette, framing, size, position, orientation, internal part borders and all separated parts; add nothing, remove nothing, never recenter, never crop. Do not fill the empty gap between the shield and the separate grip. Maintain the low-poly contour even where it differs from the reference.\nPaint the existing surfaces with the design reference's materials: softly off-white ivory ceramic panels with very fine sparse tan wear and hairline seams, muted brushed warm gold ribs, bezels and frame, narrow pale ice-blue/blue-white light channels, blue-white glass/crystal insets, and dark black-violet textured resin/leather on the grip. Restrict luminous areas to inset channels and crystals within the silhouette, no external glow. Existing rim bosses are gold with small pale blue-white inset lenses. Use reference engravings and panel joins as fine surface details only; no text, no letters, no labels, no numbers, no watermark. Continue unseen surfaces plausibly in the same materials.\nLIGHTING IS ALBEDO: even flat shadowless light straight from the viewer. No cast shadows, no ambient occlusion, no dark shading in recesses, no directional gradients, no rim light, no shiny hotspots, no strong specular reflections. Gold has its base pigment color with only a faint sheen, ceramic is matte, glowing parts are painted solid bright light colors with subtle internal crystal linework. No floor, no scene, no background. Do not reproduce the bright specular lighting in Image 1. The silhouette and all geometry in Image 2 override the design reference wherever they differ.\nVIEW-SPECIFIC CONSTRAINTS: Paint guide_back.png exactly as shown. This is a very shallow edge-on view with the broad shield shell above and its detached horizontal grip offset toward the right below. Preserve that exact offset, outline, camera, facets and transparent gap. Do not invent a rear view from the word back: the supplied guide is authoritative. Gold frame, ivory exposed shell panels and pale ice-blue narrow insets; black-violet leather/resin grip with gold fittings.\nThe second image's 1024-square canvas and alpha mask must be retained. Paint colors on it as a flat albedo map. Minimal faint edge sheen only, no 3D product-shot lighting.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-8aeeb046-e999-4e01-a818-d3d381638e71.png",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: poorer silhouette overlap than the corrective return, with residual shading and geometry drift.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "a1c9f5a0637ea7f9bea3b6d74d180137b230d33179c56547afe544e439565a7c"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          19,
+          1191,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          70,
+          310,
+          1188,
+          884
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8173142373408427,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Consistent ivory/gold/blue/dark grip palette. Rim and grip details depart from guide; metallic edge highlights and recess shading remain."
+        },
+        "semi_transparent_pixel_count": 18761
+      },
+      "output_sha256": "4db0a23d064a9177040bc8b807f23e4bd30ba9dab9088f1a6b13894350f0fa75"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Edit the SECOND input image, guide_back.png, by painting its existing gray surfaces. First input is MATERIAL REFERENCE ONLY. This is the one corrective regeneration: the prior result redrew the geometry, moved it upwards and made the gold shiny. Correct those failures.\nCRITICAL: output canvas 1024x1024, transparent. The second input is a fixed pixel stencil: trace its exact outside contour, part edges, component positions and negative space. Shield x66..958 y274..584; detached grip x275..957 y585..750. Preserve all irregularities, coarse facets and the tiny grip projections. Do not symmetrize, smooth, enlarge, shift, change camera or add parts. Keep the gray guide silhouette unchanged.\nApply the first input's materials to this geometry: warm ivory ceramic shell panels, ochre brushed gold ribs and frame, narrow icy blue-white inset lights and blue-white crystal details, black-violet leather/resin grip with gold fittings. Very fine sparse tan wear on ceramic, faint engraved seams, no letters or text. Continue unseen surfaces plausibly.\nUse FLAT UNLIT ALBEDO COLORS, like a material base-color map. All orientations of a material have the same brightness. No highlights, no reflected white light, no shadows, no ambient occlusion, no dark edges or recess shading, no metallic reflections, no rim light, no glowing halo. Gold is matte ochre base color with only subtle grain. Icy blue lights have a light blue base color with very fine white crystal linework. No floor, scene or background.\nOnly recolor the second image's surfaces; don't render a new shield.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-fd9a1754-f5ac-4280-8d86-668967ab09ec.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two allowed returns, with the reference palette retained. Exact silhouette and fully flat lighting still fail; preserved unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "a1c9f5a0637ea7f9bea3b6d74d180137b230d33179c56547afe544e439565a7c"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          0,
+          1202,
+          1230
+        ],
+        "solid_alpha_bbox": [
+          79,
+          338,
+          1177,
+          916
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9818382600189527,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Gold is more matte and lighting flatter than initial return, but residual facet shading and highlights remain. Geometry approximates the guide without exact correspondence."
+        },
+        "semi_transparent_pixel_count": 19449
+      },
+      "output_sha256": "ba83023455eb9629c4bf5e4a0368716b27538b354225e43f1a97e6a5070e466c"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source of The Last Light of Hesper.\nInput image 1: approved design reference, material authority only.\nInput image 2: exact orthographic gray guide, the EDIT TARGET. Recolor image 2's surfaces, retaining its exact canvas, alpha mask, silhouette, size, position, camera, low-poly contour and every part edge. Never reconstruct the camera or shape from image 1. No added geometry, no smoothing, no moving or changing size, no cropping. Transparent background and all transparent gaps remain empty. Return one 1024 x 1024 transparent PNG.\nApply image 1's materials: warm ivory ceramic broad shell panels with fine sparse tan wear and seams; muted brushed ochre-gold frame and radial ribs; narrow pale ice-blue and blue-white light channels and crystal insets; dark black-violet resin/leather grip with gold end fittings. Fine engraved lines and panel joins as surface details only. Continue unseen faces plausibly.\nFLAT UNLIT ALBEDO: every face of a given material at equal brightness, no directional shading, no cast shadows, no ambient occlusion, no dark creases or recess shadows, no bright metallic highlights, no strong reflections, no rim light. Gold is base-color ochre with subtle grain and barely any sheen. Ceramic is warm ivory. Blue-white lights are bright pale blue color with faint internal white linework, no bloom or halos. No floor, no scene, no text, letters, labels or watermarks.\nVIEW CONSTRAINTS: Paint guide_left.png exactly as shown. This is a shallow side/edge view with a broad flattened shell above and a shorter detached horizontal grip below, offset left. Preserve the slope of the rim, exact facet edges, center boss, grip fittings and transparent gap. No upright disc or added visible front medallion. Gold structural frame, ivory ceramic shell, narrow ice-blue insets, dark black-violet leather/resin grip with gold fittings.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-7acebf8c-e24f-43bc-aa03-cdcd32d1b3cb.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: poorer silhouette overlap than the corrective return, with residual shading and geometry drift.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "b84a92bd65170c72d3ad54877660c49377a524149780954024dd80a17fa5f360"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          33,
+          1238,
+          1250
+        ],
+        "solid_alpha_bbox": [
+          76,
+          334,
+          1180,
+          918
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9693729139497359,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Correct general side view and component arrangement; remaining edge/bevel highlights and dark seam shading. Some grip and rim contours differ."
+        },
+        "semi_transparent_pixel_count": 21848
+      },
+      "output_sha256": "0cf3c406dd643c116a662157569b6fca821a4f0168e88a1f3da081cc0bcb4307"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source of The Last Light of Hesper.\nInput image 1: approved design reference, material authority only.\nInput image 2: exact orthographic gray guide, the EDIT TARGET. Recolor image 2's surfaces, retaining its exact canvas, alpha mask, silhouette, size, position, camera, low-poly contour and every part edge. Never reconstruct the camera or shape from image 1. No added geometry, no smoothing, no moving or changing size, no cropping. Transparent background and all transparent gaps remain empty. Return one 1024 x 1024 transparent PNG.\nApply image 1's materials: warm ivory ceramic broad shell panels with fine sparse tan wear and seams; muted brushed ochre-gold frame and radial ribs; narrow pale ice-blue and blue-white light channels and crystal insets; dark black-violet resin/leather grip with gold end fittings. Fine engraved lines and panel joins as surface details only. Continue unseen faces plausibly.\nFLAT UNLIT ALBEDO: every face of a given material at equal brightness, no directional shading, no cast shadows, no ambient occlusion, no dark creases or recess shadows, no bright metallic highlights, no strong reflections, no rim light. Gold is base-color ochre with subtle grain and barely any sheen. Ceramic is warm ivory. Blue-white lights are bright pale blue color with faint internal white linework, no bloom or halos. No floor, no scene, no text, letters, labels or watermarks.\nVIEW CONSTRAINTS: Paint guide_left.png exactly as shown. This is a shallow side/edge view with a broad flattened shell above and a shorter detached horizontal grip below, offset left. Preserve the slope of the rim, exact facet edges, center boss, grip fittings and transparent gap. No upright disc or added visible front medallion. Gold structural frame, ivory ceramic shell, narrow ice-blue insets, dark black-violet leather/resin grip with gold fittings.\nONE CORRECTIVE REGENERATION: make the exterior mask and every internal part border identical to image 2. The prior result slightly changed the rim and grip contours and retained shaded bevels. Preserve the exact 1024-square guide with shell x66..958 and grip x214..682, overall y274..750. Do not make a prettier or smoother object: retain the existing low-poly corners. Flatten the material lighting completely, especially gold bevels and seams; use subtle albedo grain instead of white highlights. Please output the 1024-square guide's native dimensions.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-6a0957d9-e9f0-4295-8c3c-c7153d1e6f98.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two allowed returns, with the reference palette retained. Exact silhouette and fully flat lighting still fail; preserved unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "b84a92bd65170c72d3ad54877660c49377a524149780954024dd80a17fa5f360"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          21,
+          1224,
+          1214
+        ],
+        "solid_alpha_bbox": [
+          79,
+          332,
+          1185,
+          918
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9711000593955834,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Gold is matte with fewer bright highlights; residual face shading and dark recesses remain. General layout retained but rim/grip silhouette is not exact."
+        },
+        "semi_transparent_pixel_count": 16699
+      },
+      "output_sha256": "726536515d392de085c32c2c458bbbd1ea6958562c16dcf47355c0e7ff73ee7c"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source of The Last Light of Hesper.\nInput image 1: approved design reference, material authority only.\nInput image 2: exact orthographic gray guide, the EDIT TARGET. Recolor image 2's surfaces, retaining its exact canvas, alpha mask, silhouette, size, position, camera, low-poly contour and every part edge. Never reconstruct the camera or shape from image 1. No added geometry, no smoothing, no moving or changing size, no cropping. Transparent background and all transparent gaps remain empty. Return one 1024 x 1024 transparent PNG.\nApply image 1's materials: warm ivory ceramic broad shell panels with fine sparse tan wear and seams; muted brushed ochre-gold frame and radial ribs; narrow pale ice-blue and blue-white light channels and crystal insets; dark black-violet resin/leather grip with gold end fittings. Fine engraved lines and panel joins as surface details only. Continue unseen faces plausibly.\nFLAT UNLIT ALBEDO: every face of a given material at equal brightness, no directional shading, no cast shadows, no ambient occlusion, no dark creases or recess shadows, no bright metallic highlights, no strong reflections, no rim light. Gold is base-color ochre with subtle grain and barely any sheen. Ceramic is warm ivory. Blue-white lights are bright pale blue color with faint internal white linework, no bloom or halos. No floor, no scene, no text, letters, labels or watermarks.\nVIEW CONSTRAINTS: Paint guide_right.png exactly as shown. This is a shallow side/edge view with a broad flattened shell above and a detached short grip below, offset toward the right. Preserve its asymmetric rim slope and asymmetric grip fittings, exact geometry and transparent gap. No upright disc or added front medallion. Gold structural frame, ivory ceramic shell, narrow ice-blue insets, dark black-violet leather/resin grip with gold fittings.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-a9226742-f6af-4bfb-93aa-5d7c38cbe5da.png",
+      "output": "paint_right_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: poorer silhouette overlap than the corrective return, with residual shading and geometry drift.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "7a5ad6bbabebd675c52e120e26f452763c38e45e375484807384c30a2db2401f"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          23,
+          23,
+          1235,
+          1230
+        ],
+        "solid_alpha_bbox": [
+          77,
+          320,
+          1183,
+          919
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.8867303148860186,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Palette and asymmetric shell/grip placement broadly match. Fine geometry drifts and bright gold bevels and seam shadows remain."
+        },
+        "semi_transparent_pixel_count": 16373
+      },
+      "output_sha256": "1d938f090767f4686ff485e67d429730f3cdaae584a06252fb80b95c6bc61d87"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source of The Last Light of Hesper.\nInput image 1: approved design reference, material authority only.\nInput image 2: exact orthographic gray guide, the EDIT TARGET. Recolor image 2's surfaces, retaining its exact canvas, alpha mask, silhouette, size, position, camera, low-poly contour and every part edge. Never reconstruct the camera or shape from image 1. No added geometry, no smoothing, no moving or changing size, no cropping. Transparent background and all transparent gaps remain empty. Return one 1024 x 1024 transparent PNG.\nApply image 1's materials: warm ivory ceramic broad shell panels with fine sparse tan wear and seams; muted brushed ochre-gold frame and radial ribs; narrow pale ice-blue and blue-white light channels and crystal insets; dark black-violet resin/leather grip with gold end fittings. Fine engraved lines and panel joins as surface details only. Continue unseen faces plausibly.\nFLAT UNLIT ALBEDO: every face of a given material at equal brightness, no directional shading, no cast shadows, no ambient occlusion, no dark creases or recess shadows, no bright metallic highlights, no strong reflections, no rim light. Gold is base-color ochre with subtle grain and barely any sheen. Ceramic is warm ivory. Blue-white lights are bright pale blue color with faint internal white linework, no bloom or halos. No floor, no scene, no text, letters, labels or watermarks.\nVIEW CONSTRAINTS: Paint guide_right.png exactly as shown. This is a shallow side/edge view with a broad flattened shell above and a detached short grip below, offset toward the right. Preserve its asymmetric rim slope and asymmetric grip fittings, exact geometry and transparent gap. No upright disc or added front medallion. Gold structural frame, ivory ceramic shell, narrow ice-blue insets, dark black-violet leather/resin grip with gold fittings.\nONE CORRECTIVE REGENERATION: the previous result moved the shell top upward, rounded some of its lower edge and invented grip geometry. Restore the exact guide_right.png pixel stencil. The guide's shell starts at x66 y274, spans to x958, and the grip occupies x342..809 y585..750, including its flat, irregular broad left end and its specific right fittings. Do not fill any notches, shift any piece, or add panels. Trace the second input's exact silhouette and all part edges. Retain its original 1024x1024 canvas. Make the gold matte ochre base color and remove all bright edge highlights and crease shadows. A texture-source paintover, not a beautifully lit product render.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-7252500b-7705-4ab6-ae7c-08c19cb04d8e.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two allowed returns, with the reference palette retained. Exact silhouette and fully flat lighting still fail; preserved unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "7a5ad6bbabebd675c52e120e26f452763c38e45e375484807384c30a2db2401f"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          25,
+          37,
+          1240,
+          1198
+        ],
+        "solid_alpha_bbox": [
+          83,
+          333,
+          1179,
+          918
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.971246049418187,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Matte gold and ceramic broadly follow the reference palette. Residual dark recesses, face shading, fine highlights and contour drift remain."
+        },
+        "semi_transparent_pixel_count": 20473
+      },
+      "output_sha256": "335a7ba3d6313cf880364a98f67d3a82a3a7a85c2ae2f08de09da85cc01b0c20"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source of The Last Light of Hesper.\nInput image 1: approved design reference, material authority only.\nInput image 2: exact orthographic gray guide, the EDIT TARGET. Recolor image 2's surfaces, retaining its exact canvas, alpha mask, silhouette, size, position, camera, low-poly contour and every part edge. Never reconstruct the camera or shape from image 1. No added geometry, no smoothing, no moving or changing size, no cropping. Transparent background and all transparent gaps remain empty. Return one 1024 x 1024 transparent PNG.\nApply image 1's materials: warm ivory ceramic broad shell panels with fine sparse tan wear and seams; muted brushed ochre-gold frame and radial ribs; narrow pale ice-blue and blue-white light channels and crystal insets; dark black-violet resin/leather grip with gold end fittings. Fine engraved lines and panel joins as surface details only. Continue unseen faces plausibly.\nFLAT UNLIT ALBEDO: every face of a given material at equal brightness, no directional shading, no cast shadows, no ambient occlusion, no dark creases or recess shadows, no bright metallic highlights, no strong reflections, no rim light. Gold is base-color ochre with subtle grain and barely any sheen. Ceramic is warm ivory. Blue-white lights are bright pale blue color with faint internal white linework, no bloom or halos. No floor, no scene, no text, letters, labels or watermarks.\nVIEW CONSTRAINTS: Paint guide_top.png exactly as shown, directly overhead. Keep the exact near-circular low-poly outline x=66..957 y=66..957, center crystal shape, four radial ribs and all eight existing ceramic panel shapes. The guide fixes every edge. Paint four main radial ribs and inner concentric frame muted brushed gold, eight large outer panels warm ivory ceramic with fine tan wear, narrow outer rim channel pale ice-blue, small rim inset gems blue-white and the central circular glass/crystal pale icy blue with fine luminous geometric linework. Use flat albedo color, not the reference's highly reflective shading; no background glow.\nThis guide is one single overhead circular shell. No grip appears in this view: add none. Keep the asymmetric low-poly outer facets and the original central crystal outline. No perspective tilt.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-ed87d0d6-e638-45bc-8393-af944093ffe7.png",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: poorer silhouette overlap than the corrective return, with residual shading and geometry drift.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "81ff5554de7823d613c4ce175265f7b6901e5b370a506812c418cf4ba6091fa9"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          2,
+          1240,
+          1254
+        ],
+        "solid_alpha_bbox": [
+          72,
+          61,
+          1183,
+          1182
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9537353698581609,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Reference material palette and overhead view match. Outline is more symmetric than the guide and crystal/panel borders drift; residual shaded relief remains."
+        },
+        "semi_transparent_pixel_count": 15934
+      },
+      "output_sha256": "1f508a5ee931ef4d46805c206c33ee01510e1d623e3de52832fddb01fdc53293"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint an albedo texture source of The Last Light of Hesper.\nInput image 1: approved design reference, material authority only.\nInput image 2: exact orthographic gray guide, the EDIT TARGET. Recolor image 2's surfaces, retaining its exact canvas, alpha mask, silhouette, size, position, camera, low-poly contour and every part edge. Never reconstruct the camera or shape from image 1. No added geometry, no smoothing, no moving or changing size, no cropping. Transparent background and all transparent gaps remain empty. Return one 1024 x 1024 transparent PNG.\nApply image 1's materials: warm ivory ceramic broad shell panels with fine sparse tan wear and seams; muted brushed ochre-gold frame and radial ribs; narrow pale ice-blue and blue-white light channels and crystal insets; dark black-violet resin/leather grip with gold end fittings. Fine engraved lines and panel joins as surface details only. Continue unseen faces plausibly.\nFLAT UNLIT ALBEDO: every face of a given material at equal brightness, no directional shading, no cast shadows, no ambient occlusion, no dark creases or recess shadows, no bright metallic highlights, no strong reflections, no rim light. Gold is base-color ochre with subtle grain and barely any sheen. Ceramic is warm ivory. Blue-white lights are bright pale blue color with faint internal white linework, no bloom or halos. No floor, no scene, no text, letters, labels or watermarks.\nVIEW CONSTRAINTS: Paint guide_top.png exactly as shown, directly overhead. Keep the exact near-circular low-poly outline x=66..957 y=66..957, center crystal shape, four radial ribs and all eight existing ceramic panel shapes. The guide fixes every edge. Paint four main radial ribs and inner concentric frame muted brushed gold, eight large outer panels warm ivory ceramic with fine tan wear, narrow outer rim channel pale ice-blue, small rim inset gems blue-white and the central circular glass/crystal pale icy blue with fine luminous geometric linework. Use flat albedo color, not the reference's highly reflective shading; no background glow.\nONE CORRECTIVE REGENERATION: previous output made the silhouette symmetrical and shifted the crystal/panel edges. This must be a texture paintover of image 2. Preserve the gray guide's slightly asymmetric low-poly perimeter, including its exact top and bottom projections, x66..958 y66..958 in the 1024-square canvas. Keep the large central polygonal crystal approximately x400..620 y403..623 and the exact four spoke endpoints and eight ceramic panel edges where image 2 has them. Do not center or straighten the guide. Do not impose the first image's shield geometry. Make all materials flat base colors: no shaded border relief, no white bevel highlights, no dark ambient-occlusion rings. Subtle engraved fine lines and sparse tan wear may remain. Direct overhead view of the shell only, no grip. Keep true transparency; no opaque or faintly tinted pixels outside the guide mask. Return the guide's native 1024x1024 dimensions.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16e43-dff5-7821-8311-5054a705ad88/exec-0e8997d2-e47d-4d69-b812-23af6a901493.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closer silhouette of the two allowed returns, with the reference palette retained. Exact silhouette and fully flat lighting still fail; preserved unresized.",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "e08118aca10e2fc5958740e00d582194b1504704e6913309da6df4696f8fe008"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "81ff5554de7823d613c4ce175265f7b6901e5b370a506812c418cf4ba6091fa9"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "resized": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1234,
+          1238
+        ],
+        "solid_alpha_bbox": [
+          72,
+          67,
+          1184,
+          1190
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.9677989675327445,
+        "visual_review": {
+          "palette_matches": true,
+          "no_text": true,
+          "flat_lighting": false,
+          "notes": "Guide asymmetry is closer, but crystal and panel borders still differ. Material palette matches. Some metallic highlights and dark recess/relief shading remain."
+        },
+        "semi_transparent_pixel_count": 14331
+      },
+      "output_sha256": "7cf85fe416d0417c6d4eb67b215467614462beae0094021b37c13f17a7a28032"
+    }
+  ],
+  "status": "generation_complete_with_unmet_visual_requirements",
+  "selection_policy": "Best available unmodified tool return per view, prioritizing normalized silhouette overlap. Selected does not mean all brief checks passed.",
+  "limitations": [
+    "Every return is 1254 x 1254 despite requests for 1024 x 1024; preserved unresized as the brief requires.",
+    "No return has a silhouette identical to its guide. Normalized overlap is only a diagnostic, not an exact-match pass.",
+    "Residual material shading, dark seams and some highlights remain despite flat-albedo prompts.",
+    "Generated alpha contains low-opacity fringe/noise outside the main silhouette. No cleanup or resizing was applied.",
+    "Exactly one corrective regeneration was used per view; no further generation was performed."
+  ],
+  "metric_method": "For diagnostics only, nearest-neighbor sample output alpha to the guide dimensions in memory, threshold both at 128, and calculate intersection over union. Saved images remain byte-for-byte original tool returns."
+}

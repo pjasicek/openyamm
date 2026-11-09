@@ -1,0 +1,1 @@
+Builtin pixel_steps repair retained previous masters. Reviewed gray metal and dark peas contain no magenta; repair_extraction.py keys actual magenta with default native registration. Run restore_native_tone.py then queue check. Alpha unchanged by grade. Both final background proofs reviewed.

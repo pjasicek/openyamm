@@ -1,0 +1,117 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/village2",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "gate0_outside",
+   "position": [
+    2082,
+    1279,
+    1500
+   ],
+   "yaw": -1.3016,
+   "pitch": 0.0
+  },
+  {
+   "name": "gate0_street",
+   "position": [
+    2415,
+    74,
+    1460
+   ],
+   "yaw": -1.3016,
+   "pitch": 0.05
+  },
+  {
+   "name": "gate0_plaza_left",
+   "position": [
+    2641,
+    -745,
+    1460
+   ],
+   "yaw": -2.2804,
+   "pitch": -0.02
+  },
+  {
+   "name": "gate0_plaza_right",
+   "position": [
+    2641,
+    -745,
+    1460
+   ],
+   "yaw": -0.3227,
+   "pitch": -0.02
+  },
+  {
+   "name": "gate1_outside",
+   "position": [
+    649,
+    -3619,
+    1500
+   ],
+   "yaw": 0.7323,
+   "pitch": 0.0
+  },
+  {
+   "name": "gate1_street",
+   "position": [
+    1579,
+    -2783,
+    1460
+   ],
+   "yaw": 0.7323,
+   "pitch": 0.05
+  },
+  {
+   "name": "gate1_plaza_left",
+   "position": [
+    2211,
+    -2215,
+    1460
+   ],
+   "yaw": -0.2465,
+   "pitch": -0.02
+  },
+  {
+   "name": "gate1_plaza_right",
+   "position": [
+    2211,
+    -2215,
+    1460
+   ],
+   "yaw": 1.7112,
+   "pitch": -0.02
+  },
+  {
+   "name": "aerial",
+   "position": [
+    1798,
+    -3977,
+    3580
+   ],
+   "yaw": 1.1416,
+   "pitch": -0.75
+  },
+  {
+   "name": "aerial2",
+   "position": [
+    4285,
+    575,
+    3580
+   ],
+   "yaw": -2.1416,
+   "pitch": -0.75
+  },
+  {
+   "name": "ashrunner_camp",
+   "position": [
+    -14472,
+    8480,
+    1712
+   ],
+   "yaw": 0.75,
+   "pitch": -0.25
+  }
+ ]
+}

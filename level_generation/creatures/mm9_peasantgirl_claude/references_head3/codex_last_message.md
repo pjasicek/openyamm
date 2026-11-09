@@ -1,0 +1,3 @@
+Saved all nine built-in generations as unresized 1254×1254 transparent PNGs in `references_head3/`, plus raw returns, prompts/input hashes in `generation_runs.json`, and [comparison sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_peasantgirl_claude/references_head3/selected_review.png).
+
+No builds or Meshy calls. **Exact landmark registration was not achieved; these are not projection-ready.**

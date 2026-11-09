@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Drogg's Helm (item256). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Tall dark steel full helmet with slanted eye openings, vertical closed face plate seam, short black feather crest and two thick curled grey side horns. Exact material boundaries: Dark steel helmet RED. Grey curled horns YELLOW. Black feather crest BLUE. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_item256/inputs/guide_paint.png",
+  "input_guide_sha256": "5b0b90a3a8853644fab4655ec01549aab629b68b475a8cff8e7cf55e48dbe2d4",
+  "revision": 1,
+  "input_icon": "item256",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-6df6c211-7838-4b50-abce-5e11881ab147.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Not installed by equipment worker; see final per-icon ledger decision.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "a35b63ea3fe15a277ec646094987869f459567c861173ead80b7a60477594977",
+  "input_icon_path": "assets_dev/engine/icons_x2/item256.png",
+  "input_icon_sha256": "88819120a1a3f722dba3a86ca3d135f1478b5fa83f4fb6e97e6b3c4cd0d3729b",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

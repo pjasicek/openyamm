@@ -1,0 +1,276 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.dragonstadium_doors_exits
+title: Dragon Stadium (native BLV) - the exit to Lindisfarne, the pillars break on a click
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: dragonstadium.blv
+- note:
+    text: 'ExitTrigger0 (to Lindisfarne, DragonStatiumExit; AskPlayer): a walk from the start down the tunnel into its volume
+      (DAT object 33).'
+- movement_segment:
+    input: forward
+    seconds: 1.97
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dragonstadium.blv
+      x: 1802
+      y: -5734
+      z: -163
+      yaw_degrees: 301.0
+      pitch: 0
+    expect_stop:
+      map: dragonstadium.blv
+      x: 2345
+      y: -6636
+      z: -163
+      yaw_degrees: 301.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 200
+- assert:
+    map_transition_requested:
+      source_kind: mm9_exit_trigger
+      source_id: 33
+- load_map:
+    map: dragonstadium.blv
+- note:
+    text: 'Pillar p1 standing: a walk east on its mound stops at the column (p1 level 2).'
+- assert:
+    state_dump_named_map_var:
+      name: Pillar0_1
+      value: 0
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dragonstadium.blv
+      x: 40
+      y: -1430
+      z: 329
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: dragonstadium.blv
+      x: 127
+      y: -1430
+      z: 329
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 60
+    tolerance_z: 200
+- note:
+    text: A real click on the mound (p1 level 1) breaks it and every level over it (DeathTriggerTarget chain).
+- set_pose:
+    map: dragonstadium.blv
+    x: 212
+    y: -2285
+    z: -163
+    yaw: 0.9273
+    pitch: 0.4705
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Pillar0_1
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar0_2
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar0_3
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar0_4
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar0_5
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar0_6
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar0_7
+      value: 1
+- note:
+    text: The same walk east now crosses where the column stood (its faces are untouchable).
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dragonstadium.blv
+      x: 40
+      y: -1430
+      z: 329
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: dragonstadium.blv
+      x: 808
+      y: -1430
+      z: -163
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 400
+- note:
+    text: The party walks on the arena floor north through where the mound stood.
+- movement_segment:
+    input: forward
+    seconds: 2.62
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: dragonstadium.blv
+      x: 573
+      y: -2780
+      z: -150
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: dragonstadium.blv
+      x: 573
+      y: -768
+      z: -150
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 80
+- note:
+    text: A real click on p3 level 2 (from p3's plinth) breaks levels 2-7; the plinth stays.
+- set_pose:
+    map: dragonstadium.blv
+    x: 4874
+    y: 353
+    z: 329
+    yaw: 1.5708
+    pitch: 0.8483
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Pillar2_1
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Pillar2_2
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar2_3
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar2_4
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar2_5
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar2_6
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar2_7
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_1
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_2
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_3
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_4
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_5
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_6
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_7
+      value: 0
+- note:
+    text: 'p2 by weapon damage: 199 leave level 1 standing; level 7 takes none (TriggerDestroyOnly is broken only by the chain);
+      one more point breaks level 1 and its death chain brings down levels 2-7.'
+- console:
+    line: destructible 8 damage 199
+    expect_contains: damage
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_1
+      value: 0
+- console:
+    line: destructible 8 damage 1
+    expect_contains: damage
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_1
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_2
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_3
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_4
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_5
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_6
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: Pillar1_7
+      value: 1

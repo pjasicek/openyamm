@@ -1,0 +1,271 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated and saved; strict brief checks failed.",
+  "selected_means": "Best available raw return, not acceptance against the brief.",
+  "postprocessing": "None. PNGs copied byte-for-byte without resizing, cropping, compositing or alpha modification.",
+  "runs": [
+    {
+      "view": "front",
+      "prompt": "Use case: style-transfer.\nAsset type: painted orthographic view for a 3D model's albedo texture source.\nInput image 1 is the exact grey orthographic model render to EDIT. Input image 2 (design_reference.png) is the approved colour/material design authority ONLY, not a shape or camera reference. Input image 3 (concept_crop.png) supports the design, not the background or lighting.\nPrimary request: paint only the existing model surfaces in input image 1. Preserve its exact silhouette, alpha mask, image-space position, size, camera, every shape edge, opening and detail. Do not reconstruct or redesign it. Keep every pixel outside its existing silhouette transparent, and all its existing model surfaces covered. Match the guide rather than the reference's three-quarter geometry.\nMaterials: warm ivory bone plates with fine subtle bone grain and thin branching gold-brown veins following the surfaces, as in the design reference. Muted gold borders on the existing rims. Paint the existing beacon lens blue-white with pale blue/periwinkle internal luminous colour, confined to the lens surface. Existing small rocks at the foot have the reference's muted stone colours, without adding rocks.\nLighting: flat, even, shadowless frontal illumination, an unlit ALBEDO texture source. Uniform material colour independent of surface orientation. No cast shadows, no ambient occlusion or cavity darkening, no directional gradients, no strong specular highlights or reflections, no rim light. Recesses retain material colour, not black shadows. Any glowing surface is painted at its glowing colour only, without light spill or bloom.\nOutput: one native 1024 x 1024 RGBA PNG with genuine transparent background. Preserve input image 1's framing and unaltered silhouette; no background, no floor, no text, no checkerboard painted into the image.\nView-specific invariants: use guide_front.png exactly. This is the front orthographic view with a curved tapering horn pointing to the upper left and a broad grounded lower-right base. The guide's occupied bounding box is x=66..957, y=66..957 on the 1024-square canvas. Preserve the tip at the upper left, the flat base at y=957, the oval-in-projection round beacon around (682,638), its raised rim and central shape, the two pointed lower recesses including their horizontal divider, and every small base spire in its original position. Surface ornament is painted within these locked shapes. Do not substitute the design reference's base or narrower arch.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "677da9fda4a9f06504d8f31959cccab9420a767f8b5392b4f928e1b6b8e9f11b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_front_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native return is 1254x1254 instead of 1024x1024; outline/details drift and directional shading remain. One corrective regeneration authorized by the brief.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1688d-503b-7961-bf92-77a039c28ff1/exec-ed1cac36-b2ab-4dcd-8aab-f88b696620ae.png",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1228247,
+        "partially_transparent_pixels": 343165,
+        "alpha_bbox": [
+          0,
+          23,
+          1232,
+          1230
+        ],
+        "alpha_128_bbox": [
+          80,
+          80,
+          1176,
+          1174
+        ],
+        "guide_alpha_bbox": [
+          66,
+          66,
+          958,
+          958
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Ivory bone, branching gold-brown/gold veins, muted stone and blue-white lens present; gold remains shinier than requested.",
+        "flat_even_light": false,
+        "visual_notes": "Front lens central protrusion retained in correction; contour and base details differ, with shaded recesses and bright gold.",
+        "unresized_byte_identical_to_return": true,
+        "brief_pass": false
+      },
+      "attempt": 1,
+      "output_sha256": "b9233341ccc1a7e933660ccdc81e72bbb74db74ecb6e204af10aa4fa66c011c7"
+    },
+    {
+      "view": "top",
+      "prompt": "REQUIRED NATIVE CANVAS: exactly 1024 by 1024 pixels, matching the first input image. Retain its pixel registration and alpha. Return one PNG at this exact native size.\nUse case: style-transfer.\nAsset type: painted orthographic view for a 3D model's albedo texture source.\nInput image 1 is the exact grey orthographic model render to EDIT. Input image 2 (design_reference.png) is the approved colour/material design authority ONLY, not a shape or camera reference. Input image 3 (concept_crop.png) supports the design, not the background or lighting.\nPrimary request: paint only the existing model surfaces in input image 1. Preserve its exact silhouette, alpha mask, image-space position, size, camera, every shape edge, opening and detail. Do not reconstruct or redesign it. Keep every pixel outside its existing silhouette transparent, and all its existing model surfaces covered. Match the guide rather than the reference's three-quarter geometry.\nMaterials: warm ivory bone plates with fine subtle bone grain and thin branching gold-brown veins following the surfaces, as in the design reference. Muted gold borders on the existing rims. Paint the existing beacon lens blue-white with pale blue/periwinkle internal luminous colour, confined to the lens surface. Existing small rocks at the foot have the reference's muted stone colours, without adding rocks.\nLighting: flat, even, shadowless frontal illumination, an unlit ALBEDO texture source. Uniform material colour independent of surface orientation. No cast shadows, no ambient occlusion or cavity darkening, no directional gradients, no strong specular highlights or reflections, no rim light. Recesses retain material colour, not black shadows. Any glowing surface is painted at its glowing colour only, without light spill or bloom.\nOutput: one native 1024 x 1024 RGBA PNG with genuine transparent background. Preserve input image 1's framing and unaltered silhouette; no background, no floor, no text, no checkerboard painted into the image.\nView-specific invariants: use guide_top.png exactly, a straight DOWNWARD ORTHOGRAPHIC TOP VIEW. Preserve the broad irregular base around the right-hand side, every base rim and stone, the buttress shapes and central raised ridge. The long foreshortened arch taper extends HORIZONTALLY LEFT to about (66,509); do not turn it into the upright side-view crescent. The guide's occupied bounding box is x=66..957, y=233..790 on the 1024-square canvas. Preserve the lens as its exact oblique foreshortened opening near (680,442) behind the central ridge; do not turn it to face the viewer or invent an additional lens. Copy all visible shape edges, spacing and occlusion from the top guide, without making the design bilaterally symmetrical.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "a1ff1c2b77b45c2ec84d3e0c7b242a94508c47e520ca2e97c991d9cdfe66df47"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_top_attempt_1.png",
+      "selected": false,
+      "reason": "Rejected: native size is not 1024x1024; shape/details drift, additional stones and directional shading. Uses the one corrective regeneration allowed by the brief.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1688d-503b-7961-bf92-77a039c28ff1/exec-58fa382a-9638-4df8-89c2-6eb5f2b7acc1.png",
+      "attempt": 1,
+      "output_sha256": "357d8aa3a2fc86e4cdbbae64a5c085df99a95bd187e44b1d50720415e5b835ea",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1189918,
+        "partially_transparent_pixels": 382264,
+        "alpha_bbox": [
+          41,
+          20,
+          1206,
+          1245
+        ],
+        "alpha_128_bbox": [
+          83,
+          287,
+          1174,
+          962
+        ],
+        "guide_alpha_bbox": [
+          66,
+          233,
+          958,
+          791
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Ivory bone, branching gold-brown/gold veins, muted stone and blue-white lens present; gold remains shinier than requested.",
+        "flat_even_light": false,
+        "visual_notes": "Overhead orientation retained; stone/rim details and outline differ, and some shaded surfaces remain.",
+        "unresized_byte_identical_to_return": true,
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "front",
+      "prompt": "CORRECTIVE REGENERATION, FRONT VIEW. Deliver a native 1024 by 1024 pixel square PNG, exactly the input guide's canvas dimensions. This resolution is mandatory; do not output 1254 by 1254. The preceding attempt was rejected for changing the source geometry and adding lighting.\nUse case: style-transfer.\nAsset type: painted orthographic view for a 3D model's albedo texture source.\nInput image 1 is the exact grey orthographic model render to EDIT. Input image 2 (design_reference.png) is the approved colour/material design authority ONLY, not a shape or camera reference. Input image 3 (concept_crop.png) supports the design, not the background or lighting.\nPrimary request: paint only the existing model surfaces in input image 1. Preserve its exact silhouette, alpha mask, image-space position, size, camera, every shape edge, opening and detail. Do not reconstruct or redesign it. Keep every pixel outside its existing silhouette transparent, and all its existing model surfaces covered. Match the guide rather than the reference's three-quarter geometry.\nMaterials: warm ivory bone plates with fine subtle bone grain and thin branching gold-brown veins following the surfaces, as in the design reference. Muted gold borders on the existing rims. Paint the existing beacon lens blue-white with pale blue/periwinkle internal luminous colour, confined to the lens surface. Existing small rocks at the foot have the reference's muted stone colours, without adding rocks.\nLighting: flat, even, shadowless frontal illumination, an unlit ALBEDO texture source. Uniform material colour independent of surface orientation. No cast shadows, no ambient occlusion or cavity darkening, no directional gradients, no strong specular highlights or reflections, no rim light. Recesses retain material colour, not black shadows. Any glowing surface is painted at its glowing colour only, without light spill or bloom.\nOutput: one native 1024 x 1024 RGBA PNG with genuine transparent background. Preserve input image 1's framing and unaltered silhouette; no background, no floor, no text, no checkerboard painted into the image.\nView-specific invariants: use guide_front.png exactly. This is the front orthographic view with a curved tapering horn pointing to the upper left and a broad grounded lower-right base. The guide's occupied bounding box is x=66..957, y=66..957 on the 1024-square canvas. Preserve the tip at the upper left, the flat base at y=957, the oval-in-projection round beacon around (682,638), its raised rim and central shape, the two pointed lower recesses including their horizontal divider, and every small base spire in its original position. Surface ornament is painted within these locked shapes. Do not substitute the design reference's base or narrower arch.\nCorrection priority: treat the first image as a locked raster stencil. Preserve its existing alpha and every polygon edge pixel-for-pixel. Keep the exact grey-model shapes including the polygonal beacon and central raised sliver, all existing base spikes, the exact lower recesses and their divider. Only replace the grey surface colours with flat ivory, fine gold-brown veins and blue-white lens colour. Do not sculpt new geometry or add rubble between the existing spikes. Keep the guide's crisp original contour rather than inventing a painterly contour or soft halo. Use MATTE diffuse material swatches without a single reflection highlight, shadow or darkened side. The grey guide's lighting is not to be retained. Transparent empty pixels must stay empty. Return exactly 1024x1024; never resize the geometry or canvas.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "677da9fda4a9f06504d8f31959cccab9420a767f8b5392b4f928e1b6b8e9f11b"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two raw front returns: restored central lens protrusion and more guide details. Still fails native 1024x1024, identical silhouette, and fully flat albedo requirements. Retained unresized; corrective regeneration limit reached.",
+      "attempt": 2,
+      "source": "/home/pjasicek/.codex/generated_images/01a1688d-503b-7961-bf92-77a039c28ff1/exec-a29d94d0-28b4-40f8-b987-56ea51ce5a4e.png",
+      "output_sha256": "1dc8ff643a71fe201bac8bf138778177c4b789d4b630ac05e8fb4c400ced59be",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1235332,
+        "partially_transparent_pixels": 336096,
+        "alpha_bbox": [
+          41,
+          69,
+          1214,
+          1206
+        ],
+        "alpha_128_bbox": [
+          80,
+          81,
+          1177,
+          1175
+        ],
+        "guide_alpha_bbox": [
+          66,
+          66,
+          958,
+          958
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Ivory bone, branching gold-brown/gold veins, muted stone and blue-white lens present; gold remains shinier than requested.",
+        "flat_even_light": false,
+        "visual_notes": "Front lens central protrusion retained in correction; contour and base details differ, with shaded recesses and bright gold.",
+        "unresized_byte_identical_to_return": true,
+        "brief_pass": false
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "a1ff1c2b77b45c2ec84d3e0c7b242a94508c47e520ca2e97c991d9cdfe66df47"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected as the closer of the two raw top returns: flatter ivory, finer veins, and fewer extra stones. Still fails native 1024x1024, identical silhouette/detail positions, and completely shadowless albedo requirements. Retained unresized; corrective regeneration limit reached.",
+      "prompt": "Use case: style-transfer. Corrective repaint of guide_top.png only. Output exactly 1024x1024 pixels, native canvas unchanged, RGBA with genuine transparency.\nImage 1: guide_top.png, the locked edit target and exact geometry, placement, scale and alpha-mask authority.\nImage 2: design_reference.png, authority for ivory, gold-brown and blue-white material colours only.\nImage 3: concept_crop.png, supporting original material reference only.\nPaint the EXISTING grey model surfaces in image 1 with matte warm ivory bone plates, thin branching GOLD-BROWN veins and the existing small lens in blue-white luminous colour. Paint existing stones in muted grey-brown. Preserve every single edge and every stone, buttress, ridge, opening, lens rim and centre detail exactly where it occurs in image 1. Do not add shapes, extra rocks or new rims. Do not smooth or redraw the model's outline.\nThis is a FLAT UNLIT ALBEDO texture painting, not a shaded render. All ivory surfaces must have the SAME LIGHT IVORY VALUE including the lower half and recessed surfaces. ALL veins must be matte thin ochre/gold-brown lines, without bright shiny gold edges or dark relief shadows. Bone grain can be very subtle. NO ambient occlusion, cavity darkening, cast shadows, specular highlights, reflections, gradients from lighting or dark undersides. Paint blue-white luminous colour only inside the existing lens, with zero glow spill.\nKeep the exact orthographic overhead camera of image 1: horizontal taper pointing left to (66,509), irregular broad base on the right, bounds x=66..957 y=233..790. The existing central ridge occludes the lower edge of the lens; keep that occlusion and exact projected shape. No upright crescent or three-quarter view.\nMatch image 1's 1024x1024 transparent canvas and its actual pixel-precise silhouette. Copy its alpha; replace only surface colour. Do not expand or rescale the canvas. Absolutely no scenery, floor, shadow, labels or added objects. One native unresized 1024x1024 PNG.",
+      "source": "/home/pjasicek/.codex/generated_images/01a1688d-503b-7961-bf92-77a039c28ff1/exec-47b793d9-6c50-4d5d-841c-1f33065bb164.png",
+      "output_sha256": "768898e542a97722a023dd844c549184a43f7d297df6e8f858aba19193c1c576",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "required_dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "fully_transparent_pixels": 1184867,
+        "partially_transparent_pixels": 387315,
+        "alpha_bbox": [
+          0,
+          87,
+          1218,
+          1224
+        ],
+        "alpha_128_bbox": [
+          82,
+          287,
+          1175,
+          967
+        ],
+        "guide_alpha_bbox": [
+          66,
+          233,
+          958,
+          791
+        ],
+        "alpha_identical_to_guide": false,
+        "silhouette_identical": false,
+        "materials_and_colours": "Ivory bone, branching gold-brown/gold veins, muted stone and blue-white lens present; gold remains shinier than requested.",
+        "flat_even_light": false,
+        "visual_notes": "Overhead orientation retained; stone/rim details and outline differ, and some shaded surfaces remain.",
+        "unresized_byte_identical_to_return": true,
+        "brief_pass": false
+      }
+    }
+  ],
+  "limitations": [
+    "All native tool returns are 1254x1254 despite explicit 1024x1024 prompts.",
+    "Exact guide silhouettes and detail positions were not preserved.",
+    "Residual shading/highlights remain unsuitable for strictly flat albedo.",
+    "One corrective regeneration per view used; no further generation or postprocessing performed."
+  ]
+}

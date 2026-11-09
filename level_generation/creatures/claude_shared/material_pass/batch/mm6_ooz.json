@@ -1,0 +1,101 @@
+{
+ "source": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/backup_pre_material_pass/mm6_ooz.glb",
+ "output": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/material_pass/batch/mm6_ooz.glb",
+ "assignments": [
+  {
+   "match": "=Ooze_A",
+   "body": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ooz_claude/textures/ooz_material_classes.png",
+   "head": null
+  }
+ ],
+ "kept_classes": [],
+ "textures": [
+  {
+   "image": "ooz_metal_rough_1k",
+   "size": [
+    1024,
+    1024
+   ],
+   "materials": [
+    "Ooze_A",
+    "Ooze_B",
+    "Ooze_C"
+   ],
+   "layout": [
+    {
+     "part": "body",
+     "box": [
+      0,
+      0,
+      1024,
+      1024
+     ]
+    }
+   ],
+   "old_factors": {
+    "metallicFactor": 0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 0.7,
+    "openyamm_specular_mask": true
+   },
+   "old_r_channel": "specular_mask",
+   "stretched_uv_triangles": 10,
+   "fit_ok": true,
+   "parts": {
+    "body": {
+     "uv_covered_texels": 662076,
+     "uv_covered_without_class": 0.0,
+     "uv_covered_without_class_far": 0.0,
+     "class_texels_outside_uv": 0.3136,
+     "class_map": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm6_ooz_claude/textures/ooz_material_classes.png",
+     "class_share_in_uv": {
+      "other": 1.0
+     }
+    }
+   },
+   "class_share_total": {
+    "other": 1.0
+   },
+   "kept_classes": [],
+   "kept_texels": 0,
+   "old_specular_mean_by_class": {
+    "other": 0.596
+   },
+   "new_specular_mean_by_class": {
+    "other": 0.3
+   },
+   "new_roughness_mean_by_class": {
+    "other": 0.7
+   },
+   "new_factors": {
+    "metallicFactor": 1.0,
+    "roughnessFactor": 1.0,
+    "openyamm_specular": 1.0,
+    "openyamm_specular_mask": true
+   },
+   "metal_base_colour": {
+    "Ooze_A": null,
+    "Ooze_B": null,
+    "Ooze_C": null
+   },
+   "new_channels": {
+    "R": {
+     "min": 77,
+     "max": 77,
+     "mean": 77.0
+    },
+    "G": {
+     "min": 153,
+     "max": 204,
+     "mean": 178.5
+    },
+    "B": {
+     "min": 0,
+     "max": 0,
+     "mean": 0.0
+    }
+   }
+  }
+ ],
+ "unchanged": []
+}

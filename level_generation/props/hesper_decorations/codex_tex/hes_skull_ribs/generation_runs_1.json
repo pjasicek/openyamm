@@ -1,0 +1,281 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF_1.md",
+  "status": "Generated best available returns; exact brief requirements not met.",
+  "brief_compliant": false,
+  "postprocessing": "None. All saved PNGs are byte-identical unresized built-in tool returns.",
+  "corrections_per_view": {
+    "front": 1,
+    "top": 1
+  },
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture source for an existing Giant Kreegan skull and ribs 3D decoration. Produce ONE 1024 x 1024 RGBA image, true transparent background, unresized. INPUT ROLES: Image 1 guide_front.png is the EDIT TARGET and sole authority for camera, shape, all edges, silhouette, pixel position and scale. Image 2 design_reference.png is the approved material/colour authority ONLY; do not copy its three-quarter view or geometry. Image 3 concept_crop.png is supporting concept reference ONLY. PAINT ONLY the grey model in image 1. Keep its exact front orthographic view, every shape edge, opening, rock, bone and spike, exactly registered in the 1024 square. The entire very low wide decoration must remain within x=68..955 and y=367..656, leaving the original large transparent margins above and below. Preserve the guide's alpha silhouette exactly, including transparent gaps between spikes and through actual openings; the visible inner bone surfaces in the sockets remain present. Do not zoom, reframe, move, crop, rotate, add geometry, add rocks, or change any silhouette. Surface materials: bleached ancient bone, pale ivory with grey-violet ash dust in every crack, fine pits and weathered cracks; darker brown-grey bone coloration in sockets and joints. Ash mound and existing rubble are grey-violet, with the reference's natural mineral texture. Match approved reference colour/material richness, but remove its lighting. LIGHTING: flat even shadowless viewer-facing illumination, pure diffuse ALBEDO, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections, rim light or directional shading. Sockets show their darker brown-grey material, not black baked lighting. No background, floor, text or labels. Any existing glowing parts must be painted only at their own colour without casting light; invent no glowing parts. Return only the single finished front painting.",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected as the closest front guide alignment among the two allowed returns (normalized opaque-mask IoU about 0.964 versus 0.665 for correction). Best available only, not brief-compliant: native resolution is 1254 x 1254, exact alpha/shape edges differ, and baked directional shading remains.",
+      "native_output": "/home/pjasicek/.codex/generated_images/01a1563a-71f8-75a0-9cd3-e46ba1d8152b/exec-6479c927-3eb4-4200-8bd1-b5e8d7def7bc.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "bede56bfe84e25f77e9def7b2b269a8866dcb2a8426d5eb99e2d589d27420d29"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output_sha256": "c9ea41e4ef68ce5852082791ae67d43d56e826b55f1640fb4b0227b0ba10b9f7",
+      "brief_compliant": false,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          49,
+          1214,
+          1192
+        ],
+        "opaque_bbox_threshold_128": [
+          84,
+          451,
+          1173,
+          804
+        ],
+        "guide_alpha_bbox": [
+          68,
+          367,
+          956,
+          657
+        ],
+        "exact_guide_silhouette": false,
+        "normalized_opaque_mask_iou_for_comparison_only": 0.9636415161176054,
+        "material_colour_review": "Pale ivory weathered bone, brown-grey sockets and grey-violet ash/rubble present; visual match is approximate.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Some directional or cavity/contact shading remains; top correction is visibly flatter."
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture source for an existing Giant Kreegan skull and ribs 3D decoration. Produce ONE 1024 x 1024 RGBA image, true transparent background, unresized. INPUT ROLES: Image 1 guide_front.png is the EDIT TARGET and sole authority for camera, shape, all edges, silhouette, pixel position and scale. Image 2 design_reference.png is the approved material/colour authority ONLY; do not copy its three-quarter view or geometry. Image 3 concept_crop.png is supporting concept reference ONLY. PAINT ONLY the grey model in image 1. Keep its exact front orthographic view, every shape edge, opening, rock, bone and spike, exactly registered in the 1024 square. The entire very low wide decoration must remain within x=68..955 and y=367..656, leaving the original large transparent margins above and below. Preserve the guide's alpha silhouette exactly, including transparent gaps between spikes and through actual openings; the visible inner bone surfaces in the sockets remain present. Do not zoom, reframe, move, crop, rotate, add geometry, add rocks, or change any silhouette. Surface materials: bleached ancient bone, pale ivory with grey-violet ash dust in every crack, fine pits and weathered cracks; darker brown-grey bone coloration in sockets and joints. Ash mound and existing rubble are grey-violet, with the reference's natural mineral texture. Match approved reference colour/material richness, but remove its lighting. LIGHTING: flat even shadowless viewer-facing illumination, pure diffuse ALBEDO, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections, rim light or directional shading. Sockets show their darker brown-grey material, not black baked lighting. No background, floor, text or labels. Any existing glowing parts must be painted only at their own colour without casting light; invent no glowing parts. Return only the single finished front painting.\nCORRECTION REQUIREMENTS: The earlier output failed size and exact registration. Generate at native 1024 by 1024 pixels, the SAME pixel dimensions as guide_front.png, do NOT output 1254, 1280, 1536 or another resolution. Paint directly within image 1's exact original alpha mask; do not redraw, beautify or rearrange its shapes. Use image 1's original geometry even where it looks angular and simple. Leave all blank pixels fully alpha zero, with no faint artifacts. The front model's bounding box is exactly (68,367) to (956,657) exclusive in this 1024 square. Keep every existing bone, socket interior, rubble piece and ground-edge shape exactly as in the guide, with no added top fragments, no expanded thin tips, no new rock silhouettes. Only replace the guide's grey surface colours with pale ivory bone, grey-violet ash and brown-grey socket interiors. Reduce the reference's directional shadows and bright edge highlights to produce a flat diffuse texture-source painting. One image only.",
+      "output": "paint_front_attempt2.png",
+      "selected": false,
+      "reason": "Corrective attempt rejected: still 1254 x 1254; model shifted downward and enlarged relative to the guide, with poorer silhouette alignment. Lighting somewhat flatter, but shading remains.",
+      "native_output": "/home/pjasicek/.codex/generated_images/01a1563a-71f8-75a0-9cd3-e46ba1d8152b/exec-484b3466-5bc4-42a2-8116-774f80ef4f87.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "bede56bfe84e25f77e9def7b2b269a8866dcb2a8426d5eb99e2d589d27420d29"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output_sha256": "145bead856848640fcc4aa9736c681f5044a6c21031a8bfc6a89471443e64081",
+      "brief_compliant": false,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          31,
+          1212,
+          1206
+        ],
+        "opaque_bbox_threshold_128": [
+          63,
+          471,
+          1208,
+          842
+        ],
+        "guide_alpha_bbox": [
+          68,
+          367,
+          956,
+          657
+        ],
+        "exact_guide_silhouette": false,
+        "normalized_opaque_mask_iou_for_comparison_only": 0.6650067058643774,
+        "material_colour_review": "Pale ivory weathered bone, brown-grey sockets and grey-violet ash/rubble present; visual match is approximate.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Some directional or cavity/contact shading remains; top correction is visibly flatter."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture source for an existing Giant Kreegan skull and ribs 3D decoration. Produce ONE 1024 x 1024 RGBA image, true transparent background, unresized. INPUT ROLES: Image 1 guide_top.png is the EDIT TARGET and sole authority for camera, shape, every edge, silhouette, pixel position and scale. Image 2 design_reference.png is the approved material/colour authority ONLY; do not copy its three-quarter view or geometry. Image 3 concept_crop.png is supporting concept reference ONLY. PAINT ONLY the grey model in image 1. Keep the EXACT straight-down orthographic TOP VIEW, no perspective or camera tilt. Preserve every model shape, edge, opening, rock, bone and spike, exactly registered in the 1024 square. Preserve the central long bone ridge from upper middle toward the lower edge, the surrounding skull shapes, ribs, all existing rubble and ash mound, and their exact visible boundaries. Entire alpha silhouette stays within x=68..955 and y=66..957 with exactly the original scale, position and transparent margins. Keep the guide's alpha silhouette exactly; preserve real openings and visible inner bone surfaces. Do not zoom, reframe, move, crop, rotate, add geometry, add rocks, or change any silhouette. Surface materials: bleached ancient bone, pale ivory with grey-violet ash dust in every crack, fine pits and weathered cracks; darker brown-grey bone coloration in sockets and joints. Ash mound and existing rubble are grey-violet, with the reference's natural mineral texture. Match approved reference colour/material richness, but remove its lighting. LIGHTING: flat even shadowless viewer-facing illumination, pure diffuse ALBEDO, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections, rim light or directional shading. Sockets show their darker brown-grey material, not black baked lighting. No background, floor, text or labels. Any existing glowing parts must be painted only at their own colour without casting light; invent no glowing parts. Return only the single finished top painting.",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Initial return rejected in favour of flatter corrective return: strong bright bone edges, rock-face highlights and cavity/contact shadows; 1254 x 1254 and exact guide silhouette not preserved.",
+      "native_output": "/home/pjasicek/.codex/generated_images/01a1563a-71f8-75a0-9cd3-e46ba1d8152b/exec-c64a8359-9d1e-4e4e-b8f3-06d48392545a.png",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "2031ff330443181b0dfc6d710d19747f595097acc24e2f43f10f835339752c3c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output_sha256": "ccf699583791fd8d5376eccb649924cf318d4714be6f3c470bfbeadaafa575ca",
+      "brief_compliant": false,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "opaque_bbox_threshold_128": [
+          81,
+          76,
+          1171,
+          1176
+        ],
+        "guide_alpha_bbox": [
+          68,
+          66,
+          956,
+          958
+        ],
+        "exact_guide_silhouette": false,
+        "normalized_opaque_mask_iou_for_comparison_only": 0.9912047252222609,
+        "material_colour_review": "Pale ivory weathered bone, brown-grey sockets and grey-violet ash/rubble present; visual match is approximate.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Some directional or cavity/contact shading remains; top correction is visibly flatter."
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: sketch-to-render. Asset type: orthographic albedo texture source for an existing Giant Kreegan skull and ribs 3D decoration. Produce ONE 1024 x 1024 RGBA image, true transparent background, unresized. INPUT ROLES: Image 1 guide_top.png is the EDIT TARGET and sole authority for camera, shape, every edge, silhouette, pixel position and scale. Image 2 design_reference.png is the approved material/colour authority ONLY; do not copy its three-quarter view or geometry. Image 3 concept_crop.png is supporting concept reference ONLY. PAINT ONLY the grey model in image 1. Keep the EXACT straight-down orthographic TOP VIEW, no perspective or camera tilt. Preserve every model shape, edge, opening, rock, bone and spike, exactly registered in the 1024 square. Preserve the central long bone ridge from upper middle toward the lower edge, the surrounding skull shapes, ribs, all existing rubble and ash mound, and their exact visible boundaries. Entire alpha silhouette stays within x=68..955 and y=66..957 with exactly the original scale, position and transparent margins. Keep the guide's alpha silhouette exactly; preserve real openings and visible inner bone surfaces. Do not zoom, reframe, move, crop, rotate, add geometry, add rocks, or change any silhouette. Surface materials: bleached ancient bone, pale ivory with grey-violet ash dust in every crack, fine pits and weathered cracks; darker brown-grey bone coloration in sockets and joints. Ash mound and existing rubble are grey-violet, with the reference's natural mineral texture. Match approved reference colour/material richness, but remove its lighting. LIGHTING: flat even shadowless viewer-facing illumination, pure diffuse ALBEDO, no cast shadows, no ambient-occlusion darkening, no strong specular highlights, reflections, rim light or directional shading. Sockets show their darker brown-grey material, not black baked lighting. No background, floor, text or labels. Any existing glowing parts must be painted only at their own colour without casting light; invent no glowing parts. Return only the single finished top painting.\nCORRECTION REQUIREMENTS: Generate at native 1024 by 1024 pixels, the SAME pixel dimensions as guide_top.png, do NOT output 1254, 1280, 1536 or another resolution. Paint directly within image 1's exact original alpha mask; do not redraw, beautify or rearrange its shapes. Use image 1's original geometry even where it looks angular and simple. Keep the full ash mound and every original rock in precisely their original 1024-square positions, with bounds (68,66) to (956,958) exclusive. Only replace grey surface colours with pale ivory bone, grey-violet ash and brown-grey socket interiors. KEY LIGHTING CORRECTION: eliminate the previous result's shiny upper-left bone edges and rock-face highlights, black contact shadows around every rock, and deep black cavity shadows. This is unlit diffuse colour for texture projection, not a studio render. Paint the grey-violet ash in an even middle-value tone; use subdued ivory bone with fine grey-violet dust in cracks. No bright gold edge light, specular, AO, directional gradients or shadowing. Leave blank pixels fully alpha zero, with no faint artifacts. One image only.",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected for flatter, more subdued bone and ash materials and retained top orthographic framing. Best available only, not brief-compliant: native resolution is 1254 x 1254, exact alpha/shape edges differ, and some cavity/contact shading remains.",
+      "native_output": "/home/pjasicek/.codex/generated_images/01a1563a-71f8-75a0-9cd3-e46ba1d8152b/exec-12bd04ab-92d2-41b7-bee2-5005ba56b330.png",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "2031ff330443181b0dfc6d710d19747f595097acc24e2f43f10f835339752c3c"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "edeb0a5097e207879a742ff8ee97e14f61c0aa7324affc1012772079c7809de6"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "cab431549b6f54b296447e0d9e3ca75959d9cd5f7d37af9d04ce14b292db01e8"
+        }
+      ],
+      "output_sha256": "347e08af3cdadbb320ffbe69942b9ce689e311fcdd383c4913abeaeaccd43d4c",
+      "brief_compliant": false,
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_matches": false,
+        "unresized_return": true,
+        "byte_identical_to_tool_return": true,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          2,
+          1240,
+          1254
+        ],
+        "opaque_bbox_threshold_128": [
+          84,
+          79,
+          1171,
+          1175
+        ],
+        "guide_alpha_bbox": [
+          68,
+          66,
+          956,
+          958
+        ],
+        "exact_guide_silhouette": false,
+        "normalized_opaque_mask_iou_for_comparison_only": 0.9931257431629013,
+        "material_colour_review": "Pale ivory weathered bone, brown-grey sockets and grey-violet ash/rubble present; visual match is approximate.",
+        "flat_even_shadowless_light": false,
+        "lighting_review": "Some directional or cavity/contact shading remains; top correction is visibly flatter."
+      }
+    }
+  ]
+}

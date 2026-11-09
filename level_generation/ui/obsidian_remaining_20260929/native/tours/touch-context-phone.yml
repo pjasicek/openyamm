@@ -1,0 +1,25 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/ui/obsidian_remaining_20260929/native/images
+exit: true
+steps:
+- wait: 2
+- capture: touch-context-phone
+- right_down: &id001
+  - 1825.62
+  - 298.12
+- click: *id001
+- right_up: *id001
+- wait: 0.4
+- capture: touch-context-phone-followers
+- right_down: *id001
+- click: *id001
+- right_up: *id001
+- wait: 0.4
+- right_down: &id002
+  - 1598.75
+  - 609.38
+- pointer_down: *id002
+- capture: touch-context-phone-held
+- pointer_up: *id002
+- right_up: *id002
+- wait: 1
+- capture: touch-context-phone-opened

@@ -1,0 +1,82 @@
+# Real clicks at authored pickup positions; shared loot/stat rules are tested in hesper_pickups_test.
+id: hesper.d10.pickups
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d10.blv
+    party:
+      members:
+      - name: Pickup tester
+        class: Knight
+        level: 1000
+        skills: []
+        equipment: {}
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.Rolled
+      value: 1
+- set_pose:
+    map: hes_d10.blv
+    x: 2180
+    y: -3180
+    z: -512
+    yaw: 0.0
+    pitch: -0.4
+- press_interact:
+    expect:
+      event_primary: 700
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.700
+      value: 8
+- set_pose:
+    map: hes_d10.blv
+    x: 2540
+    y: 1500
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: -0.4
+- press_interact:
+    expect:
+      event_primary: 706
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.706
+      value: 8
+- set_pose:
+    map: hes_d10.blv
+    x: 5140
+    y: 1500
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: -0.4
+- press_interact:
+    expect:
+      event_primary: 711
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.711
+      value: 8
+- save_game:
+    name: d10_pickup_groups
+- load_game:
+    name: d10_pickup_groups
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.700
+      value: 8
+- set_pose:
+    map: hes_d10.blv
+    x: 500
+    y: 800
+    z: 0
+    yaw: 3.141592653589793
+    pitch: -0.6
+- press_interact:
+    expect:
+      event_primary: 750
+- assert:
+    state_dump_named_map_var:
+      name: HesperPickups.750
+      value: 1

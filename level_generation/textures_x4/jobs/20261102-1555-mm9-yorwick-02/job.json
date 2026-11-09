@@ -1,0 +1,487 @@
+{
+ "id": "20261102-1555-mm9-yorwick-02",
+ "world": "mm9",
+ "maps": [
+  "yorwick.odm",
+  "thjorgard.odm",
+  "isleofashes.odm",
+  "wizardslab.odm"
+ ],
+ "created": "2026-11-02T14:55:26+00:00",
+ "textures": [
+  "mm9/thjo07yaja",
+  "mm9/refie74u7w",
+  "mm9/thjomkoqrr",
+  "mm9/bricyc05ca",
+  "mm9/thjo8gh81b",
+  "mm9/fortc2a63r",
+  "mm9/flooi1cebi",
+  "mm9/walllzgugr",
+  "mm9/cfawdnxynt",
+  "mm9/thjodbs7wo",
+  "mm9/cgrajnkrow",
+  "mm9/traiz9qwhp",
+  "mm9/rive8tpfdj",
+  "mm9/ashc08t3g2",
+  "mm9/ashro4zhnj",
+  "mm9/ashwnzu3n5",
+  "mm9/ashweu97ac",
+  "mm9/ashdwmj1ts",
+  "mm9/dung5thz8a",
+  "mm9/evilkuegxb",
+  "mm9/marb9xf18f",
+  "mm9/ceildg7b2t",
+  "mm9/oute4tbwzn",
+  "mm9/stonpyyy7z"
+ ],
+ "requests": {
+  "mm9/thjo07yaja": {
+   "name": "thjo07yaja",
+   "versions": [
+    1
+   ],
+   "material": "muddy hillside, brown earth and small stones with sparse green grass tufts",
+   "notes": {},
+   "pad": {
+    "1": [
+     16,
+     32
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjob3xi6b"
+     ],
+     "fraction": 0.699
+    }
+   },
+   "context": {
+    "1": {
+     "bottom": "mm9/thjob3xi6b",
+     "top": "mm9/thjob3xi6b"
+    }
+   }
+  },
+  "mm9/refie74u7w": {
+   "name": "refie74u7w",
+   "versions": [
+    1
+   ],
+   "material": "grey-green rock cliff face with dark folds, a strip of green grass along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/refikj0cwd"
+     ],
+     "fraction": 0.319
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      288
+     ],
+     [
+      260,
+      0,
+      544,
+      288
+     ]
+    ]
+   }
+  },
+  "mm9/thjomkoqrr": {
+   "name": "thjomkoqrr",
+   "versions": [
+    1
+   ],
+   "material": "grassy hillside, bright green grass clumps over brown earth and stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/thjob3xi6b"
+     ],
+     "fraction": 0.243
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/bricyc05ca": {
+   "name": "bricyc05ca",
+   "versions": [
+    1
+   ],
+   "material": "tan and pinkish stone bricks in irregular courses with pale mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/briccyidcs"
+     ],
+     "fraction": 0.386
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjo8gh81b": {
+   "name": "thjo8gh81b",
+   "versions": [
+    1
+   ],
+   "material": "dense green grass and moss with small dark gaps of earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fortc2a63r": {
+   "name": "fortc2a63r",
+   "versions": [
+    1
+   ],
+   "material": "dark weathered horizontal wooden planks with knots and nail holes",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/flooi1cebi": {
+   "name": "flooi1cebi",
+   "versions": [
+    1
+   ],
+   "material": "pale grey limestone floor tiles of mixed sizes with dark joints, worn and chipped",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/walllzgugr": {
+   "name": "walllzgugr",
+   "versions": [
+    1
+   ],
+   "material": "grey-blue stone bricks in neat courses with dark mortar, slightly rough",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/cfawdnxynt": {
+   "name": "cfawdnxynt",
+   "versions": [
+    1
+   ],
+   "material": "purple woven canvas awning cloth with fine wavy weave threads",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjodbs7wo": {
+   "name": "thjodbs7wo",
+   "versions": [
+    1
+   ],
+   "material": "dark brown forest earth with roots and faint green moss",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/cgrajnkrow": {
+   "name": "cgrajnkrow",
+   "versions": [
+    1
+   ],
+   "material": "short olive-green grass, even and fine",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/traiz9qwhp": {
+   "name": "traiz9qwhp",
+   "versions": [
+    1
+   ],
+   "material": "wooden door in a pointed stone arch: dark planks, a row of small windows near the top and a band of carved panels",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/rive8tpfdj": {
+   "name": "rive8tpfdj",
+   "versions": [
+    1
+   ],
+   "material": "brown riveted iron plate with a row of round rivets along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashc08t3g2": {
+   "name": "ashc08t3g2",
+   "versions": [
+    1
+   ],
+   "material": "pale ash-grey and tan cliff rock with flaky layers and dust",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashro4zhnj": {
+   "name": "ashro4zhnj",
+   "versions": [
+    1
+   ],
+   "material": "dry grass over pale ashy ground, olive and straw coloured",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashwnzu3n5": {
+   "name": "ashwnzu3n5",
+   "versions": [
+    1
+   ],
+   "material": "mottled green and brown mossy stone, damp and uneven",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashweu97ac": {
+   "name": "ashweu97ac",
+   "versions": [
+    1
+   ],
+   "material": "pale wooden wall of vertical boards with faint reddish stains, a dark wooden beam along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/ashdwmj1ts": {
+   "name": "ashdwmj1ts",
+   "versions": [
+    1
+   ],
+   "material": "dark earth with scattered green weeds and small stones",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dung5thz8a": {
+   "name": "dung5thz8a",
+   "versions": [
+    1
+   ],
+   "material": "dungeon wall trim: a band of pale grey stone at the top over blue-grey stone with faint triangular carving",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/wall8a7bn7"
+     ],
+     "fraction": 0.321
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/evilkuegxb": {
+   "name": "evilkuegxb",
+   "versions": [
+    1
+   ],
+   "material": "dark ceiling panel with a pale carved four-pointed star ornament and a round boss in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/marb9xf18f": {
+   "name": "marb9xf18f",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "blue-green veined marble floor tiles in a 2x2 grid with thin pale joints",
+   "notes": {
+    "2": "the grout lines between the marble slabs are thin and pale grey, not pink; each image edge carries half a grout line so the repeat shows one even thin line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/ceildg7b2t": {
+   "name": "ceildg7b2t",
+   "versions": [
+    1
+   ],
+   "material": "rough grey stone pillars between vertical wooden beams, alternating",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/oute4tbwzn": {
+   "name": "oute4tbwzn",
+   "versions": [
+    1
+   ],
+   "material": "brown stone bricks in neat courses with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stonpyyy7z": {
+   "name": "stonpyyy7z",
+   "versions": [
+    1
+   ],
+   "material": "grey slate stones laid flat in rough courses with dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

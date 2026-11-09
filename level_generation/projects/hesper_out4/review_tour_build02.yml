@@ -1,0 +1,87 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out4/review/build02",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "plaza_signature",
+   "position": [
+    3700,
+    -15800,
+    1088
+   ],
+   "yaw": 1.8008,
+   "pitch": 0.077
+  },
+  {
+   "name": "west_run",
+   "position": [
+    -12000,
+    0,
+    1088
+   ],
+   "yaw": 0.0,
+   "pitch": 0.0237
+  },
+  {
+   "name": "north_run",
+   "position": [
+    0,
+    12000,
+    1088
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.0237
+  },
+  {
+   "name": "east_run",
+   "position": [
+    12000,
+    0,
+    1088
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.0237
+  },
+  {
+   "name": "aerial_citadel",
+   "position": [
+    0,
+    -10500,
+    6120
+   ],
+   "yaw": 1.5708,
+   "pitch": -0.3871
+  },
+  {
+   "name": "aerial_killing_ground",
+   "position": [
+    -12000,
+    -12000,
+    7088
+   ],
+   "yaw": 0.7854,
+   "pitch": -0.3423
+  },
+  {
+   "name": "node_door_west",
+   "position": [
+    -10700,
+    300,
+    1088
+   ],
+   "yaw": -0.3234,
+   "pitch": 0.0021
+  },
+  {
+   "name": "top_down",
+   "position": [
+    0,
+    -2500,
+    15000
+   ],
+   "yaw": 1.5708,
+   "pitch": -1.4
+  }
+ ]
+}

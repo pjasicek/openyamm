@@ -1,0 +1,304 @@
+# The Isle of Ashes story chain on the BLV. Written by make_story_scenario.py.
+id: mm9r.isleofashes_blv.story
+world: mm9
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: isleofashes.blv
+- set_pose:
+    map: isleofashes.blv
+    x: 2011
+    y: -7506
+    z: 147
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Forad Darre: the crash, Yrsa''s name (477); OnRudeExit 368 + 4000 xp'
+- interact_actor:
+    actor_index: 13
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 4
+- select_topic:
+    action_id: 14
+- select_topic:
+    action_id: 1
+- assert:
+    qbit_set:
+    - 90480
+    - 90477
+    - 90368
+    qbit_clear:
+    - 90029
+- set_pose:
+    map: isleofashes.blv
+    x: 2706
+    y: -16475
+    z: 411
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Yrsa: the dragonfly task (7)'
+- interact_actor:
+    actor_index: 12
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 20
+- select_topic:
+    action_id: 9
+- assert:
+    qbit_set:
+    - 90365
+    - 90007
+    qbit_clear:
+    - 90027
+- set_pose:
+    map: isleofashes.blv
+    x: -3262
+    y: -18166
+    z: 1448
+    yaw: 0.0
+    pitch: 0.0
+- damage_actor:
+    actor_index: 0
+    amount: 30000
+- damage_actor:
+    actor_index: 1
+    amount: 30000
+- damage_actor:
+    actor_index: 2
+    amount: 30000
+- damage_actor:
+    actor_index: 3
+    amount: 30000
+- damage_actor:
+    actor_index: 4
+    amount: 30000
+- damage_actor:
+    actor_index: 5
+    amount: 30000
+- damage_actor:
+    actor_index: 6
+    amount: 30000
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_clear:
+    - 90027
+- damage_actor:
+    actor_index: 7
+    amount: 30000
+- advance_runtime:
+    seconds: 1
+- note:
+    text: the eighth OneDown gives key 27
+- assert:
+    qbit_set:
+    - 90027
+- set_pose:
+    map: isleofashes.blv
+    x: 2706
+    y: -16475
+    z: 411
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Yrsa: destiny (1); OnRudeExit dragonfly 366 and mainline 367'
+- interact_actor:
+    actor_index: 12
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 5
+- select_topic:
+    action_id: 10
+- select_topic:
+    action_id: 6
+- select_topic:
+    action_id: 7
+- select_topic:
+    action_id: 0
+- select_topic:
+    action_id: 1
+- select_topic:
+    action_id: 2
+- select_topic:
+    action_id: 3
+- assert:
+    qbit_set:
+    - 90001
+    - 90366
+    - 90367
+- set_pose:
+    map: isleofashes.blv
+    x: -1014
+    y: 4540
+    z: 21
+    yaw: 1.5708
+    pitch: -0.0133
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- set_pose:
+    map: isleofashes.blv
+    x: 2011
+    y: -7506
+    z: 147
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Forad Darre joins: hire row grants 29 and 371'
+- interact_actor:
+    actor_index: 13
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 4
+- select_topic:
+    action_id: 7
+- select_topic:
+    action_id: 2
+- select_topic:
+    action_id: 15
+- select_topic:
+    action_id: 10
+- select_topic:
+    action_id: 11
+- select_topic:
+    action_id: 12
+- assert:
+    dialog:
+      active: false
+- assert:
+    qbit_set:
+    - 90029
+    - 90371
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: true
+- set_pose:
+    map: isleofashes.blv
+    x: 2706
+    y: -16475
+    z: 411
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Yrsa: the Turret Key (469, item 568)'
+- interact_actor:
+    actor_index: 12
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 24
+- select_topic:
+    action_id: 9
+- assert:
+    qbit_set:
+    - 90469
+    held_item:
+      active: true
+      item_id: 10568
+- assert:
+    held_item:
+      active: false
+      item_id: 10568
+- assert:
+    inventory_any_member:
+    - item_id: 10568
+- set_pose:
+    map: isleofashes.blv
+    x: -1014
+    y: 4540
+    z: 21
+    yaw: 1.5708
+    pitch: -0.0133
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- assert:
+    mechanism:
+      id: 2
+      state: open
+- assert:
+    inventory_any_member:
+    - item_id: 10568
+      count: 0
+- set_pose:
+    map: isleofashes.blv
+    x: -942
+    y: 5287
+    z: 22
+    yaw: 1.5708
+    pitch: -0.5509
+- execute_event:
+    id: 30496
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    qbit_clear:
+    - 90028
+- advance_runtime:
+    seconds: 1.0
+- note:
+    text: 'OnSink (4.5 s): key 28, 5200 xp'
+- assert:
+    qbit_set:
+    - 90028
+- advance_runtime:
+    seconds: 12.0
+    follow_map_move: true
+- note:
+    text: 'FadeOut2 (17 s): ExitTrigger1 to Sturmford'
+- assert:
+    map_arrived:
+      map: sturmford.blv
+- advance_game_time:
+    days: 1
+- load_map:
+    map: isleofashes.blv
+- assert:
+    actor_visible:
+      actor_index: 14
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 12
+      hidden: true
+- set_pose:
+    map: isleofashes.blv
+    x: 3240
+    y: 6328
+    z: 247
+    yaw: 0.0
+    pitch: 0.0
+- note:
+    text: 'Annud Redeye: passage to Sturmford (transport_routes.txt dock 138)'
+- interact_actor:
+    actor_index: 14
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    action_id: 2
+- select_topic:
+    action_id: 0
+- assert:
+    map_arrived:
+      map: sturmford.blv

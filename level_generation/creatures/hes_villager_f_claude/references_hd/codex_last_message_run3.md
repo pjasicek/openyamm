@@ -1,0 +1,3 @@
+Saved all four 1254×1254 transparent head views in [references_head/](/home/pjasicek/github/OpenYAMM/level_generation/creatures/hes_villager_f_claude/references_head), plus the review sheet and generation records with prompts/input hashes. Used built-in imagegen. Stopped after Run 3.
+
+No builds or Meshy calls. The profile retains slight three-quarter bias after its one allowed correction; minor detailing varies across views.

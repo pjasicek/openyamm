@@ -1,0 +1,29 @@
+{
+  "perimeter_corners": [
+    [
+      -20480,
+      -10240
+    ],
+    [
+      0,
+      -10240
+    ],
+    [
+      0,
+      9216
+    ],
+    [
+      -20480,
+      9216
+    ],
+    [
+      -20480,
+      -10240
+    ]
+  ],
+  "nominal_world_seconds": 344.0,
+  "house_visits": 24,
+  "standing_world_seconds_per_house": 10,
+  "actor_count": 43,
+  "limits": "Contiguous perimeter walking; explicit setup at service approaches. No exhaustive movement path between houses."
+}

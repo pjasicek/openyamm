@@ -1,0 +1,556 @@
+{
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "unresized_returns": true,
+  "maximum_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture source for the existing Hesper phase axe 3D model.\nEdit the FIRST input image (the named white geometry guide); the SECOND input is design_reference.png and supplies only colours, materials and surface ornament. Generate ONE PNG, 1024 x 1024, true transparent RGBA background, unresized.\nHighest priority: copy the first image's alpha silhouette EXACTLY pixel for pixel. Repaint only its existing opaque object pixels. The outline, size, position, viewing direction, all part edges and all holes are fixed. No crop, zoom, recentering, rotation, geometry redesign or new protrusions. The guide is deliberately sparse; keep all its empty margin.\nPaint the approved reference's surfaces onto the corresponding visible model parts: subtly worn warm white ceramic plates with fine hairline wear, brushed antique gold trims and bands, black-violet resin structural core, dark wrapped grip, orange light-coloured inset slits, and an ice blue-white crystalline phase blade edge with fine pale veins. Continue these same materials plausibly on unseen sides. Engraved lines, seams, panel joins and fine non-letter markings belong inside the geometry. Use only the materials actually shown by the design. The phase effect is bright paint INSIDE the blade outline; never emit a halo or particles outside it.\nLIGHTING: flat albedo texture source, even shadowless viewer-facing illumination across every face. White ceramic stays the same base colour on all orientations; gold stays its base ochre-gold with only a faint sheen; violet resin stays legible. No cast shadows, no ambient occlusion or directional darkening, no hard highlights, no reflections, no rim light. Glowing parts are painted as their bright blue-white or orange base colour, without bloom or spill. No background, no floor, no text, no letters, no watermark.\n\nFRONT view: the guide is a very thin horizontally foreshortened edge-on view, NOT an upright broadside axe. Preserve its tiny centered shape in the 1024 square, with exact occupied bounds x=314..709 and y=481..542. The pointed thin blade edge is at screen LEFT, the circular socket near x=543, and the segmented claw-end at screen RIGHT near x=709. Keep all this geometry, the very large transparent margins, and every existing part edge. No visible long handle should be invented.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "51bf2d5cf09374526eeb3752181a8f67237ab484391a5405b85afb53a282efb5",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "No image returned: built-in tool input moderation rejected the isolated fantasy prop as violence.",
+      "error": {
+        "code": "moderation_blocked",
+        "category": "violence",
+        "request_id": "37324447-3666-4589-8dbe-beb45b59b521"
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the isolated decorative fantasy-game prop in image 1 (guide_back.png), using image 2 (design_reference.png) as the colour and material reference. This is a flat albedo texture-source image, with no scene or action.\nReturn one 1024 x 1024 PNG with a true transparent background. Preserve image 1's exact alpha mask, silhouette, geometry, orientation, part edges, size and placement. BACK view: the guide is a very thin horizontally foreshortened edge-on view, NOT an upright broadside axe. Preserve its tiny centered shape in the 1024 square, with exact occupied bounds x=314..709 and y=481..542. The segmented claw-end is at screen LEFT near x=314, the round socket near x=479, and the pointed thin blade edge at screen RIGHT near x=709. Keep all this geometry, the very large transparent margins, and every existing part edge. No visible long handle should be invented.\nReplace the white surfaces with the reference's warm white ceramic with fine wear, brushed gold bands and trim, black-violet resin, dark wrapping, small orange-coloured insets, and pale blue-white crystal surfaces where appropriate. Continue the materials plausibly across surfaces unseen in the reference. Preserve seams, joins and fine decorative lines without letters.\nEven, flat, shadowless light from the viewer; base colours only with at most faint material sheen. No cast shadows, ambient occlusion, hot highlights, reflections, rim lighting, floor, background, bloom or halo. Bright insets are painted as their bright colours, all strictly within the original silhouette. No text, letters or watermark.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "0d89cc83979444b98aee5e088b60c03ee02318ce91d50cd92b00c77a030e04ae",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected initial return for the closer silhouette (0.953902 versus 0.936589 IoU) and stronger reference material agreement. Correction is flatter but drifts further from the guide. Exact silhouette and flat albedo requirements remain unmet.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-f4d9c763-713d-424f-9729-83072f11f8bf.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "0c9dff551d45514fad8171a02c76304a9b0b47067ad5cbb01549b069f89ce8dc",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1547975,
+        "nonzero_alpha_bbox": [
+          136,
+          79,
+          1186,
+          1093
+        ],
+        "opaque_alpha_bbox": [
+          386,
+          589,
+          868,
+          664
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.953902,
+        "normalized_opaque_pixels_outside_guide": 798,
+        "flat_even_light": "Fail: visible shaded grooves and specular accents.",
+        "materials_match": "Reference palette and decorative materials present.",
+        "text_or_letters": "None visible."
+      },
+      "retained_return": "paint_back_initial.png",
+      "brief_checks_passed": false
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the isolated decorative fantasy-game prop in image 1 (guide_left.png), using image 2 (design_reference.png) as the colour and material reference. This is a flat albedo texture-source image, with no scene or action.\nReturn one 1024 x 1024 PNG with a true transparent background. Preserve image 1's exact alpha mask, silhouette, geometry, orientation, part edges, size and placement. LEFT view: the guide is a long, extremely thin horizontal edge-on view, NOT an upright or broadside axe. Preserve exact occupied bounds x=66..957 and y=481..542 in the 1024 square. The axe head is edge-on at screen LEFT x=66..420; the slender ribbed grip extends along the screen horizontal centre x=420..710; the enlarged ornamental butt/pommel is at RIGHT x=710..957. Keep the tiny thickness, existing swellings and every part edge. Large transparent areas above and below are intentional.\nReplace the white surfaces with the reference's warm white ceramic with fine wear, brushed gold bands and trim, black-violet resin, dark wrapping, small orange-coloured insets, and pale blue-white crystal surfaces where appropriate. Continue the materials plausibly across surfaces unseen in the reference. Preserve seams, joins and fine decorative lines without letters.\nEven, flat, shadowless light from the viewer; base colours only with at most faint material sheen. No cast shadows, ambient occlusion, hot highlights, reflections, rim lighting, floor, background, bloom or halo. Bright insets are painted as their bright colours, all strictly within the original silhouette. No text, letters or watermark.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "bfb6d63ea04dd33ac2f90e18c9832aea830dbd555f0b752cb25c8d4a29c6fae9",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected initial return because it retains the blue-white crystal at the left end. Correction improves silhouette overlap and lighting but removes this reference material. Exact silhouette and flat albedo requirements remain unmet.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-9850fac3-e5f9-4448-8eed-984ee7b3c7f6.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "1cf4e676c4c593348feaee7070ba11f465754140be530b628399f015994ce72c",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1524996,
+        "nonzero_alpha_bbox": [
+          33,
+          31,
+          1232,
+          1214
+        ],
+        "opaque_alpha_bbox": [
+          84,
+          589,
+          1170,
+          663
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.90573,
+        "normalized_opaque_pixels_outside_guide": 2488,
+        "flat_even_light": "Fail: visible shaded grooves and specular accents.",
+        "materials_match": "Reference palette and decorative materials present.",
+        "text_or_letters": "None visible."
+      },
+      "retained_return": "paint_left_initial.png",
+      "brief_checks_passed": false
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the isolated decorative fantasy-game prop in image 1 (guide_right.png), using image 2 (design_reference.png) as the colour and material reference. This is a flat albedo texture-source image, with no scene or action.\nReturn one 1024 x 1024 PNG with a true transparent background. Preserve image 1's exact alpha mask, silhouette, geometry, orientation, part edges, size and placement. RIGHT view: the guide is a long, extremely thin horizontal edge-on view, NOT an upright or broadside axe. Preserve exact occupied bounds x=66..957 and y=481..542 in the 1024 square. The pointed ornamental butt/pommel is at screen LEFT x=66..310; the slender ribbed grip runs along the screen horizontal centre x=310..633; the axe head and segmented hook are edge-on at screen RIGHT x=633..957. Keep the tiny thickness, existing swellings and every part edge. Large transparent areas above and below are intentional.\nReplace the white surfaces with the reference's warm white ceramic with fine wear, brushed gold bands and trim, black-violet resin, dark wrapping, small orange-coloured insets, and pale blue-white crystal surfaces where appropriate. Continue the materials plausibly across surfaces unseen in the reference. Preserve seams, joins and fine decorative lines without letters.\nEven, flat, shadowless light from the viewer; base colours only with at most faint material sheen. No cast shadows, ambient occlusion, hot highlights, reflections, rim lighting, floor, background, bloom or halo. Bright insets are painted as their bright colours, all strictly within the original silhouette. No text, letters or watermark.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "30f939c87cba8692589ea3d44e8ff4c15ad8b5afd369a6bfee717a398b6df359",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected initial return for the closer silhouette (0.917807 versus 0.890049 IoU), particularly the narrow shaft and head. Exact silhouette and flat albedo requirements remain unmet.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-2c5b033d-4654-4d1c-9bdb-0cf0f4d72e06.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "33fa8f3d72c48f0c22f2a2d76b3039431ecebceca1ef7b9ede727d6f1ac34733",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1525565,
+        "nonzero_alpha_bbox": [
+          31,
+          161,
+          1177,
+          1228
+        ],
+        "opaque_alpha_bbox": [
+          81,
+          589,
+          1174,
+          666
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.917807,
+        "normalized_opaque_pixels_outside_guide": 2679,
+        "flat_even_light": "Fail: visible shaded grooves and specular accents.",
+        "materials_match": "Reference palette and decorative materials present.",
+        "text_or_letters": "None visible."
+      },
+      "retained_return": "paint_right_initial.png",
+      "brief_checks_passed": false
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint the isolated decorative fantasy-game prop in image 1 (guide_top.png), using image 2 (design_reference.png) as the colour and material reference. This is a flat albedo texture-source image, with no scene or action.\nReturn one 1024 x 1024 PNG with a true transparent background. Preserve image 1's exact alpha mask, silhouette, geometry, orientation, part edges, size and placement. TOP view: the supplied guide shows the axe broadside from directly above, vertical in the 1024 square. Preserve exact occupied bounds x=314..709 and y=66..957. Unlike the design-reference orientation, the broad crescent blade is at screen LEFT, the segmented hooked counterweight is at screen RIGHT, and the long thin handle points DOWN at x about 520. The crescent blade runs from its upper tip near (433,66), bows to x=314 and ends at its lower tip near (455,428). Keep all cutouts transparent. Copy exactly the guide's head outline, projections, narrow handle and pointed bottom pommel; do not mirror, rotate or widen it.\nReplace the white surfaces with the reference's warm white ceramic with fine wear, brushed gold bands and trim, black-violet resin, dark wrapping, small orange-coloured insets, and pale blue-white crystal surfaces where appropriate. Continue the materials plausibly across surfaces unseen in the reference. Preserve seams, joins and fine decorative lines without letters.\nEven, flat, shadowless light from the viewer; base colours only with at most faint material sheen. No cast shadows, ambient occlusion, hot highlights, reflections, rim lighting, floor, background, bloom or halo. Bright insets are painted as their bright colours, all strictly within the original silhouette. No text, letters or watermark.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "413fc523f3a5dfd23c0a0b8e97da29ec10205061bccd635b11d807a4d5b24779",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected initial return for closer silhouette overlap (0.911207 versus 0.901682 IoU) and better total length. The correction shortens the lower shaft/pommel. Exact silhouette and flat albedo requirements remain unmet.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-30a759c7-e66f-43bb-8c4a-9292b31c53a6.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "6ec89184c95895cfd58f4c3be2bb9cb5bb61eb458a278aaa4cd27dcd1e29a18d",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1443308,
+        "nonzero_alpha_bbox": [
+          49,
+          19,
+          1176,
+          1228
+        ],
+        "opaque_alpha_bbox": [
+          389,
+          71,
+          867,
+          1176
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.911207,
+        "normalized_opaque_pixels_outside_guide": 7871,
+        "flat_even_light": "Fail: visible shaded grooves and specular accents.",
+        "materials_match": "Reference palette and decorative materials present.",
+        "text_or_letters": "None visible."
+      },
+      "retained_return": "paint_top_initial.png",
+      "brief_checks_passed": false
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint the isolated decorative fantasy-game prop in image 1 (guide_front.png), using image 2 (design_reference.png) as the colour and material reference. This is a flat albedo texture-source image, with no scene or action.\nReturn one 1024 x 1024 PNG with a true transparent background. Preserve image 1's exact alpha mask, silhouette, geometry, orientation, part edges, size and placement. Keep the tiny horizontal edge-on form at x=314..709, y=481..542 and its large transparent margins. Do not turn it into a broadside view, rotate it, enlarge it or add any parts.\nReplace the white surfaces with the reference's warm white ceramic with fine wear, brushed gold bands and trim, black-violet resin, dark wrapping, small orange-coloured insets, and pale blue-white crystal surfaces where appropriate. Continue the materials plausibly across surfaces unseen in the reference. Preserve seams, joins and fine decorative lines without letters.\nEven, flat, shadowless light from the viewer; base colours only with at most faint material sheen. No cast shadows, ambient occlusion, hot highlights, reflections, rim lighting, floor, background, bloom or halo. Bright insets are painted as their bright colours, all strictly within the original silhouette. No text, letters or watermark.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "51bf2d5cf09374526eeb3752181a8f67237ab484391a5405b85afb53a282efb5",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_front_initial.png",
+      "selected": false,
+      "reason": "Not selected. Selected correction for substantially flatter materials with only a small change in normalized contour overlap. Exact silhouette, clean outside alpha and fully flat albedo requirements remain unmet; the blue-white material is not clearly visible in either front candidate.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-6ba7ea8b-e3f2-4523-913d-6317ed9ebda4.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "ebc98bc2ab4790d478fc69361e3d915756861f93475a289563828118679034c4",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1548707,
+        "nonzero_alpha_bbox": [
+          55,
+          102,
+          1168,
+          1051
+        ],
+        "opaque_alpha_bbox": [
+          385,
+          590,
+          870,
+          663
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.956766,
+        "normalized_opaque_pixels_outside_guide": 347,
+        "flat_even_light": "Fail: visible shaded grooves and specular accents.",
+        "materials_match": "Ceramic, gold, violet resin and orange insets present; blue-white crystal is not clearly visible.",
+        "text_or_letters": "None visible."
+      },
+      "generation_index": 1,
+      "brief_checks_passed": false
+    },
+    {
+      "view": "front",
+      "attempt": 3,
+      "generation_index": 2,
+      "corrective_regeneration": true,
+      "prompt": "Corrective generation, the only correction for the front view.\nUse case: precise-object-edit. Input 1 is guide_front.png, the ONLY shape, camera, alpha mask and part-layout authority. Input 2 is design_reference.png, the approved colour/material reference for this isolated decorative fantasy-game prop.\nProduce ONE 1024 x 1024 true-transparent RGBA PNG. Repaint the guide in place. Its existing alpha and ALL outer and inner contours must be retained exactly; change only RGB inside its original opaque pixels. A clean silhouette stencil is essential for texture projection: no edge fringe, no glow spill, no isolated semitransparent pixels, no added pixels outside the guide, no alterations to spikes, rings, cutouts or thickness. Keep original canvas, scale and placement. All empty guide pixels stay entirely transparent.\nKeep the very small horizontal edge-on projection, centered at y=512, spanning only x=314..709 and y=481..542 on the requested 1024 square. The left point, central socket and segmented right end must exactly follow guide_front.png. This view has no visible extended shaft.\nCritical correction: render an UNLIT BASE-COLOUR/ALBEDO PASS, not a shaded beauty render. Flatten all lighting. No gradients representing surface orientation, no ambient-occlusion grooves, no highlights or reflections. Keep just the reference's intrinsic surface colours and fine surface marks: warm white worn ceramic with subtle hairline cracks, muted brushed ochre-gold trim, medium-dark black-violet resin, dark purple-brown wrap, orange insets, pale blue-white crystal. Gold is a uniform matte base colour with tiny brush texture, not alternating bright and dark metal reflections. Ceramic is evenly warm white. Resin stays visibly violet rather than shaded to black. Recess outlines are fine material boundaries, not deep shadow bands. The blue-white crystal pattern and orange insets are bright colour paint contained inside the geometry, never light cast onto surrounding parts. The front side continues the same materials plausibly where unseen by the design reference.\nRetain the reference's decoration as surface pigment only. No lettering, no text, no watermark, no floor or backdrop. No compositional changes. Exact guide silhouette and flat base colours outrank decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "51bf2d5cf09374526eeb3752181a8f67237ab484391a5405b85afb53a282efb5",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected correction for substantially flatter materials with only a small change in normalized contour overlap. Exact silhouette, clean outside alpha and fully flat albedo requirements remain unmet; the blue-white material is not clearly visible in either front candidate.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-db37a08c-44fe-4d7f-8c06-815fcac3f3b6.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "b4590cf6065256ec3508607ea02d67ff4de2767908ba1989c67b614846a15ac5",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1548316,
+        "nonzero_alpha_bbox": [
+          0,
+          23,
+          1206,
+          1198
+        ],
+        "opaque_alpha_bbox": [
+          384,
+          591,
+          871,
+          664
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.953164,
+        "normalized_opaque_pixels_outside_guide": 746,
+        "flat_even_light": "Improved, but residual painted shading remains; strict flat-albedo check not passed.",
+        "materials_match": "Ceramic, gold, violet resin and orange insets present; blue-white crystal is not clearly visible.",
+        "text_or_letters": "None visible."
+      },
+      "retained_return": "paint_front_corrected.png",
+      "brief_checks_passed": false
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "generation_index": 2,
+      "corrective_regeneration": true,
+      "prompt": "Corrective generation, the only correction for the back view.\nUse case: precise-object-edit. Input 1 is guide_back.png, the ONLY shape, camera, alpha mask and part-layout authority. Input 2 is design_reference.png, the approved colour/material reference for this isolated decorative fantasy-game prop.\nProduce ONE 1024 x 1024 true-transparent RGBA PNG. Repaint the guide in place. Its existing alpha and ALL outer and inner contours must be retained exactly; change only RGB inside its original opaque pixels. A clean silhouette stencil is essential for texture projection: no edge fringe, no glow spill, no isolated semitransparent pixels, no added pixels outside the guide, no alterations to spikes, rings, cutouts or thickness. Keep original canvas, scale and placement. All empty guide pixels stay entirely transparent.\nBACK view: the guide is a very thin horizontally foreshortened edge-on view, NOT an upright broadside axe. Preserve its tiny centered shape in the 1024 square, with exact occupied bounds x=314..709 and y=481..542. The segmented claw-end is at screen LEFT near x=314, the round socket near x=479, and the pointed thin blade edge at screen RIGHT near x=709. Keep all this geometry, the very large transparent margins, and every existing part edge. No visible long handle should be invented.\nCritical correction: render an UNLIT BASE-COLOUR/ALBEDO PASS, not a shaded beauty render. Flatten all lighting. No gradients representing surface orientation, no ambient-occlusion grooves, no highlights or reflections. Keep just the reference's intrinsic surface colours and fine surface marks: warm white worn ceramic with subtle hairline cracks, muted brushed ochre-gold trim, medium-dark black-violet resin, dark purple-brown wrap, orange insets, pale blue-white crystal. Gold is a uniform matte base colour with tiny brush texture, not alternating bright and dark metal reflections. Ceramic is evenly warm white. Resin stays visibly violet rather than shaded to black. Recess outlines are fine material boundaries, not deep shadow bands. The blue-white crystal pattern and orange insets are bright colour paint contained inside the geometry, never light cast onto surrounding parts. The back side continues the same materials plausibly where unseen by the design reference.\nRetain the reference's decoration as surface pigment only. No lettering, no text, no watermark, no floor or backdrop. No compositional changes. Exact guide silhouette and flat base colours outrank decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "0d89cc83979444b98aee5e088b60c03ee02318ce91d50cd92b00c77a030e04ae",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_back_corrected.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return for the closer silhouette (0.953902 versus 0.936589 IoU) and stronger reference material agreement. Correction is flatter but drifts further from the guide. Exact silhouette and flat albedo requirements remain unmet.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-3a042d49-9cab-43c0-baa5-9a6041bd2a55.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "758b95415386cd6a50dc7c47eb767f942cd62bc40823b999a710909fa4b8d59f",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1545636,
+        "nonzero_alpha_bbox": [
+          0,
+          0,
+          1208,
+          1228
+        ],
+        "opaque_alpha_bbox": [
+          385,
+          589,
+          869,
+          664
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.936589,
+        "normalized_opaque_pixels_outside_guide": 1271,
+        "flat_even_light": "Improved, but residual painted shading remains; strict flat-albedo check not passed.",
+        "materials_match": "Reference palette and decorative materials present.",
+        "text_or_letters": "None visible."
+      },
+      "brief_checks_passed": false
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "generation_index": 2,
+      "corrective_regeneration": true,
+      "prompt": "Corrective generation, the only correction for the left view.\nUse case: precise-object-edit. Input 1 is guide_left.png, the ONLY shape, camera, alpha mask and part-layout authority. Input 2 is design_reference.png, the approved colour/material reference for this isolated decorative fantasy-game prop.\nProduce ONE 1024 x 1024 true-transparent RGBA PNG. Repaint the guide in place. Its existing alpha and ALL outer and inner contours must be retained exactly; change only RGB inside its original opaque pixels. A clean silhouette stencil is essential for texture projection: no edge fringe, no glow spill, no isolated semitransparent pixels, no added pixels outside the guide, no alterations to spikes, rings, cutouts or thickness. Keep original canvas, scale and placement. All empty guide pixels stay entirely transparent.\nLEFT view: the guide is a long, extremely thin horizontal edge-on view, NOT an upright or broadside axe. Preserve exact occupied bounds x=66..957 and y=481..542 in the 1024 square. The axe head is edge-on at screen LEFT x=66..420; the slender ribbed grip extends along the screen horizontal centre x=420..710; the enlarged ornamental butt/pommel is at RIGHT x=710..957. Keep the tiny thickness, existing swellings and every part edge. Large transparent areas above and below are intentional.\nCritical correction: render an UNLIT BASE-COLOUR/ALBEDO PASS, not a shaded beauty render. Flatten all lighting. No gradients representing surface orientation, no ambient-occlusion grooves, no highlights or reflections. Keep just the reference's intrinsic surface colours and fine surface marks: warm white worn ceramic with subtle hairline cracks, muted brushed ochre-gold trim, medium-dark black-violet resin, dark purple-brown wrap, orange insets, pale blue-white crystal. Gold is a uniform matte base colour with tiny brush texture, not alternating bright and dark metal reflections. Ceramic is evenly warm white. Resin stays visibly violet rather than shaded to black. Recess outlines are fine material boundaries, not deep shadow bands. The blue-white crystal pattern and orange insets are bright colour paint contained inside the geometry, never light cast onto surrounding parts. The left side continues the same materials plausibly where unseen by the design reference.\nRetain the reference's decoration as surface pigment only. No lettering, no text, no watermark, no floor or backdrop. No compositional changes. Exact guide silhouette and flat base colours outrank decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "bfb6d63ea04dd33ac2f90e18c9832aea830dbd555f0b752cb25c8d4a29c6fae9",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_left_corrected.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return because it retains the blue-white crystal at the left end. Correction improves silhouette overlap and lighting but removes this reference material. Exact silhouette and flat albedo requirements remain unmet.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-9b2132b4-59f0-4115-9f25-7292b652de3f.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "67d21d741f7e318f85be90a67dbdeeea31d93d2eb855846717231f3f1ff936b2",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1526920,
+        "nonzero_alpha_bbox": [
+          57,
+          93,
+          1224,
+          1229
+        ],
+        "opaque_alpha_bbox": [
+          81,
+          590,
+          1173,
+          663
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.937351,
+        "normalized_opaque_pixels_outside_guide": 1728,
+        "flat_even_light": "Improved, but residual painted shading remains; strict flat-albedo check not passed.",
+        "materials_match": "Ceramic, gold, violet resin and orange insets present, but required blue-white left edge is absent.",
+        "text_or_letters": "None visible."
+      },
+      "brief_checks_passed": false
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "generation_index": 2,
+      "corrective_regeneration": true,
+      "prompt": "Corrective generation, the only correction for the right view.\nUse case: precise-object-edit. Input 1 is guide_right.png, the ONLY shape, camera, alpha mask and part-layout authority. Input 2 is design_reference.png, the approved colour/material reference for this isolated decorative fantasy-game prop.\nProduce ONE 1024 x 1024 true-transparent RGBA PNG. Repaint the guide in place. Its existing alpha and ALL outer and inner contours must be retained exactly; change only RGB inside its original opaque pixels. A clean silhouette stencil is essential for texture projection: no edge fringe, no glow spill, no isolated semitransparent pixels, no added pixels outside the guide, no alterations to spikes, rings, cutouts or thickness. Keep original canvas, scale and placement. All empty guide pixels stay entirely transparent.\nRIGHT view: the guide is a long, extremely thin horizontal edge-on view, NOT an upright or broadside axe. Preserve exact occupied bounds x=66..957 and y=481..542 in the 1024 square. The pointed ornamental butt/pommel is at screen LEFT x=66..310; the slender ribbed grip runs along the screen horizontal centre x=310..633; the axe head and segmented hook are edge-on at screen RIGHT x=633..957. Keep the tiny thickness, existing swellings and every part edge. Large transparent areas above and below are intentional.\nCritical correction: render an UNLIT BASE-COLOUR/ALBEDO PASS, not a shaded beauty render. Flatten all lighting. No gradients representing surface orientation, no ambient-occlusion grooves, no highlights or reflections. Keep just the reference's intrinsic surface colours and fine surface marks: warm white worn ceramic with subtle hairline cracks, muted brushed ochre-gold trim, medium-dark black-violet resin, dark purple-brown wrap, orange insets, pale blue-white crystal. Gold is a uniform matte base colour with tiny brush texture, not alternating bright and dark metal reflections. Ceramic is evenly warm white. Resin stays visibly violet rather than shaded to black. Recess outlines are fine material boundaries, not deep shadow bands. The blue-white crystal pattern and orange insets are bright colour paint contained inside the geometry, never light cast onto surrounding parts. The right side continues the same materials plausibly where unseen by the design reference.\nRetain the reference's decoration as surface pigment only. No lettering, no text, no watermark, no floor or backdrop. No compositional changes. Exact guide silhouette and flat base colours outrank decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "30f939c87cba8692589ea3d44e8ff4c15ad8b5afd369a6bfee717a398b6df359",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_right_corrected.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return for the closer silhouette (0.917807 versus 0.890049 IoU), particularly the narrow shaft and head. Exact silhouette and flat albedo requirements remain unmet.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-787dd404-2c3d-4919-a9ff-1c06cda8e3fb.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "f9fb346e1c2dfca2ae7197c9517a3743bccfa851048b1bcb23bf9fe83a448324",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1524703,
+        "nonzero_alpha_bbox": [
+          25,
+          32,
+          1184,
+          1229
+        ],
+        "opaque_alpha_bbox": [
+          81,
+          589,
+          1173,
+          664
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.890049,
+        "normalized_opaque_pixels_outside_guide": 3783,
+        "flat_even_light": "Improved, but residual painted shading remains; strict flat-albedo check not passed.",
+        "materials_match": "Reference palette and decorative materials present.",
+        "text_or_letters": "None visible."
+      },
+      "brief_checks_passed": false
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "generation_index": 2,
+      "corrective_regeneration": true,
+      "prompt": "Corrective generation, the only correction for the top view.\nUse case: precise-object-edit. Input 1 is guide_top.png, the ONLY shape, camera, alpha mask and part-layout authority. Input 2 is design_reference.png, the approved colour/material reference for this isolated decorative fantasy-game prop.\nProduce ONE 1024 x 1024 true-transparent RGBA PNG. Repaint the guide in place. Its existing alpha and ALL outer and inner contours must be retained exactly; change only RGB inside its original opaque pixels. A clean silhouette stencil is essential for texture projection: no edge fringe, no glow spill, no isolated semitransparent pixels, no added pixels outside the guide, no alterations to spikes, rings, cutouts or thickness. Keep original canvas, scale and placement. All empty guide pixels stay entirely transparent.\nTOP view: the supplied guide shows the axe broadside from directly above, vertical in the 1024 square. Preserve exact occupied bounds x=314..709 and y=66..957. Unlike the design-reference orientation, the broad crescent blade is at screen LEFT, the segmented hooked counterweight is at screen RIGHT, and the long thin handle points DOWN at x about 520. The crescent blade runs from its upper tip near (433,66), bows to x=314 and ends at its lower tip near (455,428). Keep all cutouts transparent. Copy exactly the guide's head outline, projections, narrow handle and pointed bottom pommel; do not mirror, rotate or widen it.\nCritical correction: render an UNLIT BASE-COLOUR/ALBEDO PASS, not a shaded beauty render. Flatten all lighting. No gradients representing surface orientation, no ambient-occlusion grooves, no highlights or reflections. Keep just the reference's intrinsic surface colours and fine surface marks: warm white worn ceramic with subtle hairline cracks, muted brushed ochre-gold trim, medium-dark black-violet resin, dark purple-brown wrap, orange insets, pale blue-white crystal. Gold is a uniform matte base colour with tiny brush texture, not alternating bright and dark metal reflections. Ceramic is evenly warm white. Resin stays visibly violet rather than shaded to black. Recess outlines are fine material boundaries, not deep shadow bands. The blue-white crystal pattern and orange insets are bright colour paint contained inside the geometry, never light cast onto surrounding parts. The top side continues the same materials plausibly where unseen by the design reference.\nRetain the reference's decoration as surface pigment only. No lettering, no text, no watermark, no floor or backdrop. No compositional changes. Exact guide silhouette and flat base colours outrank decorative detail.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "413fc523f3a5dfd23c0a0b8e97da29ec10205061bccd635b11d807a4d5b24779",
+          "role": "edit target; exact geometry and alpha"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "8e59a4c83bfa16dd92858f35e9a1d1ff318c091270ea2b10034f33ea92540dc7",
+          "role": "colour and material reference"
+        }
+      ],
+      "output": "paint_top_corrected.png",
+      "selected": false,
+      "reason": "Not selected. Selected initial return for closer silhouette overlap (0.911207 versus 0.901682 IoU) and better total length. The correction shortens the lower shaft/pommel. Exact silhouette and flat albedo requirements remain unmet.",
+      "source_path": "/home/pjasicek/.codex/generated_images/01a16eda-9af2-7cf3-ad4f-67fa8da0a0a4/exec-24060cba-cf77-41aa-bde1-5ed72cd7d795.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "53cd888985a4fd4b89420fdfc577239e993c33a7a850ec30a6bee854dd0ea975",
+      "checks": {
+        "rgba": true,
+        "transparent_pixels": 1443032,
+        "nonzero_alpha_bbox": [
+          55,
+          39,
+          1186,
+          1164
+        ],
+        "opaque_alpha_bbox": [
+          385,
+          78,
+          870,
+          1148
+        ],
+        "silhouette_identical_to_guide": false,
+        "normalized_opaque_silhouette_iou": 0.901682,
+        "normalized_opaque_pixels_outside_guide": 8654,
+        "flat_even_light": "Improved, but residual painted shading remains; strict flat-albedo check not passed.",
+        "materials_match": "Reference palette and decorative materials present.",
+        "text_or_letters": "None visible."
+      },
+      "brief_checks_passed": false
+    }
+  ],
+  "validation_method": "Read-only PNG RGBA/dimension/hash checks plus visual inspection. Normalized opaque silhouette IoU compares output alpha >=128 against guide alpha >=128 sampled at normalized pixel centres. This diagnostic does not resize or modify either PNG. Exact guide-size alpha identity is false. Low-alpha fringe and stray pixels remain outside the guide.",
+  "status": "All five named deliverables saved; strict silhouette and flat-albedo checks failed within the permitted generation limit.",
+  "return_size_note": "All ten generated returns are 1254 x 1254 instead of requested 1024 x 1024. Original returned bytes retained without resizing, masking, cleanup or repainting.",
+  "generation_count": 10,
+  "rejected_requests_without_images": 1,
+  "corrective_regenerations_per_view": {
+    "front": 1,
+    "back": 1,
+    "left": 1,
+    "right": 1,
+    "top": 1
+  },
+  "builds_or_runtime_tests_run": false
+}

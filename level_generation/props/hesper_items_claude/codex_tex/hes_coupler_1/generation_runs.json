@@ -1,0 +1,589 @@
+{
+  "tool": "built-in image_gen",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Asset: FRONT orthographic albedo texture-source painting for the Hesper coupler.\nImage 1 (guide_front.png) is the EDIT TARGET and absolute geometry authority. Image 2 (design_reference.png) is ONLY the approved surface design, colour and material reference, not geometry or camera reference.\nReturn ONE 1024 x 1024 RGBA PNG with genuine transparent background. Paint directly inside image 1's existing object pixels. Preserve its alpha silhouette pixel-for-pixel, each part edge, orthographic camera, position, scale, size and framing. Do not crop, enlarge, move, rotate or redesign any part. Keep the huge empty transparent margins. Object occupies only x=66..957, y=447..576. The front guide is a THIN HORIZONTAL EDGE-ON VIEW, NOT the zigzag top view or the diagonal perspective of image 2. Its end housings remain at the same positions; the long middle remains a straight flattened edge-on band, with the blue energy channel visible only as the guide's very narrow top stripe. Only the pins visible in this guide may appear; do not add extra pins from the design reference.\nTransfer the reference's warm white/ivory ceramic to the two ceramic end housings, with restrained fine wear, subtle panel joins and hairline scratches. Paint the connecting metal rail's exposed faces and housing trim as brushed warm gold with faint fine surface grain. Paint the connector pins gold. The thin energy inset is bright cyan/turquoise with blue-white core, following exactly the guide's inset strip. The guide's pale material tints are only IDs, not final colours. Continue unseen faces plausibly with the same ceramic and gold, without adding parts. Use only materials actually shown in the design: ivory ceramic, warm gold and cyan energy. No unrelated leather, cloth, paper or orange.\nLIGHTING: flat diffuse unlit ALBEDO, even shadowless frontal light, uniform base colours across all facets. Fine wear is colour detail. Gold is its base gold colour with only the faintest sheen. Remove the guide's shading as you paint; do not bake shadows into the texture. No cast shadows, no ambient occlusion, no dark underside shading, no hot highlights, no specular reflections, no rim light. Glow is painted as bright colour confined inside the silhouette, no bloom, halo or spill. Background alpha=0, no black or checkerboard painted background, no floor. No text, letters, numbers, symbols, labels or watermark. The exact guide outline and every part location take priority over any detail in the design reference.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-7598ea07-23cd-4866-9f2f-f41d69409b89.png",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: poorer silhouette registration and stronger baked shading than corrective return.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_front.png",
+          "sha256": "6dddb629f93bcd9e79a9184e96de9997c976aa29e0d69f138935225bb84b4e96"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          29,
+          1229,
+          1214
+        ],
+        "transparent_pixels": 1455502,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.6190296764080845,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 29681,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false,
+        "opaque_bbox": [
+          79,
+          577,
+          1175,
+          726
+        ]
+      },
+      "output_sha256": "67bbcdf2026697954d6933d66c88effec86e34fa815c374ba7ffc3938a5d9cf4"
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Paint the SECOND image in place. Return exactly 1024x1024, transparent RGBA.\nImage 1 = design_reference.png, use ONLY its ceramic/gold/cyan material colours and fine surface wear.\nImage 2 = guide_front.png, the actual canvas to edit. This is the FRONT ORTHOGRAPHIC texture-source view.\nThis is a strict pixel-registered recolouring task. Keep image 2's alpha mask and every geometric edge unchanged. No re-rendering or redesign. Preserve the very thin horizontal silhouette and large transparent margins. Canvas 1024 square. The occupied bounds must remain x66..957 y447..576. Do not center the object differently, scale it, thicken it, or increase the framing. Do not reproduce image 1's perspective, shape, size, lighting, or composition. Only the single pin profile at each horizontal end visible in image 2 should be painted; do not add parts.\nPaint the end housings ivory white ceramic with fine sparse surface wear and subtle thin panel seams; the middle structural band and pins warm brushed gold base colour; the very narrow upper inset cyan with a blue-white bright core. Follow every original part boundary. Continue hidden surfaces with the same materials. No leather, fabric, extra geometry, or markings containing letters.\nCRITICAL CORRECTION: the previous attempt enlarged and shifted the silhouette and introduced baked shading. This attempt must keep the guide's shape and position EXACTLY and use FLAT UNLIT ALBEDO. Each gold facet must have the same mid-light warm gold base colour, including the lower face. Each white ceramic facet the same warm white base colour. Surface grain and wear may be subtle, but NO directional illumination, NO bright gold reflections, NO shaded bottom, NO cast shadows, NO ambient occlusion, NO rim highlights. The cyan remains within its narrow strip with no glow outside. No background, no opaque black, no floor, no shadow, no text, no numbers, no labels, no watermark. Preserve the guide's original transparent pixels; no stray pixels in empty space. Output one painted front view only.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-c78b1a1e-762c-4994-8259-c3029d007cfe.png",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected attempt 2: materially closer silhouette registration (normalized IoU 0.880 versus 0.619), with reference ivory, gold and cyan. Exact silhouette and flat-lighting checks still fail.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_front.png",
+          "sha256": "6dddb629f93bcd9e79a9184e96de9997c976aa29e0d69f138935225bb84b4e96"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          33,
+          1184,
+          1125
+        ],
+        "opaque_bbox": [
+          80,
+          560,
+          1175,
+          710
+        ],
+        "transparent_pixels": 1450788,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.8795784851811197,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 13471,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "9dc14f5f38b426e94f0574c6be1d054d58abf9f61c64be8023542e436fda5d0e"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit, material painting for a game-model ALBEDO texture source.\nINPUT 1 design_reference.png is the material authority only: ivory-white lightly worn ceramic housings, brushed warm gold trim/bridge/pins, bright cyan/turquoise energy with a blue-white core.\nINPUT 2 guide_back.png is the EDIT TARGET and absolute silhouette/geometry/camera authority. Paint directly over this guide at the original pixel locations. Return ONE 1024 x 1024 transparent RGBA painting.\nBACK view: the thin horizontal edge-on object must occupy x=66..957, y=447..576 in the 1024-square guide. The left and right end housings keep their exact trapezoid outlines, the middle remains a shallow horizontal band with the guide's own facets, and only a very narrow cyan inset strip is visible along its upper edge. One horizontal pin profile at each end exactly as the guide shows. Do not turn the bridge into a visible zigzag: this is its edge-on back projection. Continue the unseen back with the reference's ivory ceramic and brushed gold.\nKeep the guide's exact outline, size, frame position, every part edge, overlap and gap. Preserve the original alpha mask, all empty pixels stay transparent. NO additions outside the silhouette. NO cropping, resizing, recentering, smoothing away corners, or new geometry. The guide's pale tints are material labels, not colours to copy. Paint fine sparse wear and scratches onto the ceramic and very fine brushed grain onto the gold, with thin panel joins consistent with the reference. Continue unseen faces using the same materials. Match the reference's design without importing its perspective, broader silhouette or lighting. Do not invent unrelated materials.\nLIGHTING MUST BE FLAT UNLIT ALBEDO: even, shadowless viewer-facing illumination. Use uniform warm white for ALL ceramic facets and uniform base warm gold for ALL metal facets. Gold has at most an extremely faint sheen. No dark lower facets, no cast shadows, no ambient-occlusion shading, no strong specular highlights, no reflections, no rim lighting, no bloom. Glow is its bright cyan/blue-white surface colour confined within the guide's inset, with no external light spill. Transparent empty background, no floor, no opaque black background, no checkerboard pixels. No text, letters, numbers, labels, watermark or symbols. Prioritize exact guide registration and flat material painting.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-3d845e1a-2eff-41ca-84eb-adf9c5ec7b1c.png",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected attempt 1: closer silhouette registration (normalized IoU 0.884 versus 0.738). The unseen back includes ceramic bridge panels; the correction made them gold but moved the object farther from the guide. Exact silhouette and flat-lighting checks still fail.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_back.png",
+          "sha256": "c064ea7c2cafd4daae183e9257b7250f111add641a2158888f4af28017523fde"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          55,
+          63,
+          1206,
+          1236
+        ],
+        "opaque_bbox": [
+          66,
+          551,
+          1200,
+          711
+        ],
+        "transparent_pixels": 1435909,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.883946252925484,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 23976,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "ed02d3cf43a6a6bb9b9d5cf25766f3cfb68745c3dc67a1d4eff50634e120a0a2",
+      "retained_attempt_output": "paint_back_attempt1.png"
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Corrective painting, one image, 1024x1024 transparent RGBA.\nImage 1: approved design reference, surface colours and wear only.\nImage 2: previous painting, materials reference ONLY. It has unwanted baked shading and a wrongly white connecting bridge; do NOT preserve those mistakes.\nImage 3: guide_back.png, the EXACT OUTPUT CANVAS and geometry authority. EDIT IMAGE 3 IN PLACE, keeping its exact alpha silhouette and every part boundary.\nBACK: precisely the horizontal thin edge-on guide, with only the narrow cyan inset at its top, the two trapezoid end housings, and the one visible horizontal pin silhouette at each end. Occupied guide bounds x66..957 y447..576 on 1024x1024. Do not reveal the zigzag top. Preserve guide facet boundaries.\nOnly paint inside the existing guide alpha. Preserve original pixel positions and blank transparent space. No rescaling, recentering, new protrusions or outline changes. Match the guide's shape instead of the outline of either other image. No stray opaque or partially opaque pixels outside it.\nMANDATORY MATERIAL CORRECTION: ivory ceramic ONLY on the two end connector housings. The whole central connecting structural bridge, its top/bottom/side/beveled faces, the housing trim and the pins are warm brushed GOLD. No ceramic panel on the bridge. The existing narrow energy inset is cyan/turquoise with a thin blue-white core. Fine sparse cream wear and fine gold brushing, not heavy cracks.\nMANDATORY LIGHTING CORRECTION: genuinely UNLIT ALBEDO, not a 3D beauty render. Gold is a uniform muted honey-gold base colour across every face, white ceramic is uniformly warm ivory across every face, pin cylinders are uniform gold rather than shiny. REMOVE ALL bright top surfaces, dark lower surfaces, shiny bevel edges, shadows, reflections and AO from the references. Keep only faint microtexture in the colours. No large-scale brightness gradients at all. No specular highlights, rim light, bloom or light spill. The bright cyan is confined to the inset. No cast shadow, floor or background. No letters, numbers, text, labels or watermark. Return only the one back painting registered to IMAGE 3, 1024 square.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-a0dafe15-12f9-4bbb-86c0-c70afd89d111.png",
+      "output": "paint_back_attempt2.png",
+      "selected": false,
+      "reason": "Gold bridge and reduced highlights, but poorer silhouette registration than first attempt; not selected.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/paint_back_attempt1.png",
+          "sha256": "ed02d3cf43a6a6bb9b9d5cf25766f3cfb68745c3dc67a1d4eff50634e120a0a2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_back.png",
+          "sha256": "c064ea7c2cafd4daae183e9257b7250f111add641a2158888f4af28017523fde"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          47,
+          84,
+          1202,
+          1214
+        ],
+        "opaque_bbox": [
+          76,
+          539,
+          1180,
+          698
+        ],
+        "transparent_pixels": 1444894,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.73778928136419,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 23358,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "cc082ef60710c72a8ef1cefd26e13aaffc33c90f9f19b470d339bce76a627b09"
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit, material painting for a game-model ALBEDO texture source.\nINPUT 1 design_reference.png is the material authority only: ivory-white lightly worn ceramic housings, brushed warm gold trim/bridge/pins, bright cyan/turquoise energy with a blue-white core.\nINPUT 2 guide_left.png is the EDIT TARGET and absolute silhouette/geometry/camera authority. Paint directly over this guide at the original pixel locations. Return ONE 1024 x 1024 transparent RGBA painting.\nLEFT view: a very SMALL foreshortened object occupies only x=346..677, y=447..576 in the 1024-square guide. Preserve the huge empty margins; do not zoom. The nearer octagonal connector housing is on the RIGHT of this image, with exactly TWO visible gold pins projecting down-left on its face in the guide. The partly occluded farther housing stays on the LEFT. The shallow connecting bridge remains precisely between them with its narrow cyan upper inset. Keep every part at precisely the guide's position and angle. Do not mirror, flip, turn the object, show a long broadside view, add a third pin, or use the design image's camera.\nKeep the guide's exact outline, size, frame position, every part edge, overlap and gap. Preserve the original alpha mask, all empty pixels stay transparent. NO additions outside the silhouette. NO cropping, resizing, recentering, smoothing away corners, or new geometry. The guide's pale tints are material labels, not colours to copy. Paint fine sparse wear and scratches onto the ceramic and very fine brushed grain onto the gold, with thin panel joins consistent with the reference. Continue unseen faces using the same materials. Match the reference's design without importing its perspective, broader silhouette or lighting. Do not invent unrelated materials.\nLIGHTING MUST BE FLAT UNLIT ALBEDO: even, shadowless viewer-facing illumination. Use uniform warm white for ALL ceramic facets and uniform base warm gold for ALL metal facets. Gold has at most an extremely faint sheen. No dark lower facets, no cast shadows, no ambient-occlusion shading, no strong specular highlights, no reflections, no rim lighting, no bloom. Glow is its bright cyan/blue-white surface colour confined within the guide's inset, with no external light spill. Transparent empty background, no floor, no opaque black background, no checkerboard pixels. No text, letters, numbers, labels, watermark or symbols. Prioritize exact guide registration and flat material painting.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-c61a9ddd-002c-4c2e-b8f4-d6e92cf38b5d.png",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Not selected: ceramic bridge panel inconsistent with the reference gold bridge; corrective return fixes material allocation with similar framing.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_left.png",
+          "sha256": "a32636ba8bcd3a4a6aca32845765475379e7b5ae2a3e0276bb94a5714017a920"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          43,
+          115,
+          1240,
+          1206
+        ],
+        "opaque_bbox": [
+          424,
+          547,
+          832,
+          707
+        ],
+        "transparent_pixels": 1521752,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.9651531821259309,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 3503,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "9249f59d45b6941522ab30917a167afbb46dcf3893bff2d4f0a9554a550b1a5e"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Corrective painting, one image, 1024x1024 transparent RGBA.\nImage 1: approved design reference, surface colours and wear only.\nImage 2: previous painting, materials reference ONLY. It has unwanted baked shading and a wrongly white connecting bridge; do NOT preserve those mistakes.\nImage 3: guide_left.png, the EXACT OUTPUT CANVAS and geometry authority. EDIT IMAGE 3 IN PLACE, keeping its exact alpha silhouette and every part boundary.\nLEFT: precisely the tiny foreshortened guide, with near octagonal connector on the RIGHT, far occluded housing on the LEFT, exactly two visible pins projecting down-left, and a short bridge. Occupied guide bounds x346..677 y447..576 on 1024x1024. Keep the enormous empty margins. Preserve the angular outline and original pin geometry, without enlargement.\nOnly paint inside the existing guide alpha. Preserve original pixel positions and blank transparent space. No rescaling, recentering, new protrusions or outline changes. Match the guide's shape instead of the outline of either other image. No stray opaque or partially opaque pixels outside it.\nMANDATORY MATERIAL CORRECTION: ivory ceramic ONLY on the two end connector housings. The whole central connecting structural bridge, its top/bottom/side/beveled faces, the housing trim and the pins are warm brushed GOLD. No ceramic panel on the bridge. The existing narrow energy inset is cyan/turquoise with a thin blue-white core. Fine sparse cream wear and fine gold brushing, not heavy cracks.\nMANDATORY LIGHTING CORRECTION: genuinely UNLIT ALBEDO, not a 3D beauty render. Gold is a uniform muted honey-gold base colour across every face, white ceramic is uniformly warm ivory across every face, pin cylinders are uniform gold rather than shiny. REMOVE ALL bright top surfaces, dark lower surfaces, shiny bevel edges, shadows, reflections and AO from the references. Keep only faint microtexture in the colours. No large-scale brightness gradients at all. No specular highlights, rim light, bloom or light spill. The bright cyan is confined to the inset. No cast shadow, floor or background. No letters, numbers, text, labels or watermark. Return only the one left painting registered to IMAGE 3, 1024 square.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-d5f1e158-40d2-476c-b163-32915daaa6ea.png",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected attempt 2: correct gold bridge and more muted gold, with nearly the same framing. Its normalized silhouette IoU is 0.937 versus 0.965 for the first attempt with a ceramic bridge panel. Exact silhouette and flat-lighting checks still fail.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/paint_left_attempt1.png",
+          "sha256": "9249f59d45b6941522ab30917a167afbb46dcf3893bff2d4f0a9554a550b1a5e"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_left.png",
+          "sha256": "a32636ba8bcd3a4a6aca32845765475379e7b5ae2a3e0276bb94a5714017a920"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          31,
+          85,
+          1138,
+          1180
+        ],
+        "opaque_bbox": [
+          424,
+          547,
+          830,
+          705
+        ],
+        "transparent_pixels": 1524296,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.9365827758309441,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 2176,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "36999a5fc6154d6440ada461841bf5f79361c0ed3b2212a0e0777caa51abdbdd"
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a game-model ALBEDO texture-source view.\nImage 1 design_reference.png is ONLY the design/material reference. Image 2 guide_right.png is the EDIT TARGET and fixes all geometry, edges, silhouette, camera, scale and placement.\nReturn exactly ONE 1024x1024 RGBA painting on genuine transparent background. Paint image 2 in place, preserving its alpha mask and ALL geometric edges pixel-for-pixel. Keep its large transparent margins, no rescaling, cropping, recentering or new geometry.\nRIGHT view: a very SMALL foreshortened object occupies only x=346..677, y=447..576 in the 1024-square guide. Preserve all huge empty margins; do not zoom. The nearer octagonal connector housing is on the RIGHT of this image, with exactly TWO visible gold pins projecting down-left on its face in the guide. The partly occluded farther housing stays on the LEFT. The shallow connecting bridge remains precisely between them with its very narrow cyan upper inset. The entire exposed side of the connecting bridge is GOLD, not white ceramic. ONLY the two end housings are ceramic. Keep every part exactly at the guide's position and angle. Do not mirror, flip, rotate, show a long broadside view, or add a third pin.\nMaterials from image 1: warm ivory-white ceramic with subtle sparse fine wear and restrained panel joins; muted brushed warm gold with fine grain; turquoise/cyan energy with blue-white bright core painted as surface colour. Only materials shown in the design. The guide's pale tints are material IDs, not final colours. Continue unseen surfaces plausibly. Retain exact geometric boundaries, keeping surface detail inside each part.\nThis is a FLAT UNLIT BASE-COLOUR painting, not a beauty render. All gold faces, including the underside/bevel faces, share one mid-light gold base colour with only faint texture variation. All ceramic faces share one warm white base colour. No top-bright/bottom-dark shading. No cast shadows, ambient occlusion, hot highlights, specular reflection, rim light, glow halo, or environmental lighting. Gold has at most the faintest sheen. Cyan is confined within its existing inset. No opaque background, no floor, no checkerboard pixels. No text, letters, numbers, labels, watermark or symbols. Nothing added outside the guide silhouette; zero alpha everywhere the guide is empty.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-2418e7ba-bd73-491e-9810-97cbaabe2b11.png",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Selected attempt 1: much closer guide registration (normalized IoU 0.952 versus 0.516). The correction shifted the object down. Reference material allocation is retained; exact silhouette and flat-lighting checks still fail.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_right.png",
+          "sha256": "a848830806c111dc1815541671d521166092b11637fb0ed440e3ecd7a35b7189"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          33,
+          71,
+          1192,
+          1228
+        ],
+        "opaque_bbox": [
+          423,
+          547,
+          832,
+          706
+        ],
+        "transparent_pixels": 1522432,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.9518373696602758,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 3004,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "1c4093e86c90a63abe3eff7b03d09dd5edd6fc0649d4813d1567f9e43d68586c",
+      "retained_attempt_output": "paint_right_attempt1.png"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. FINAL CORRECTIVE ALBEDO PAINTING, ONE 1024x1024 transparent RGBA PNG.\nImage 1: approved design reference, use only the ceramic/gold/cyan palette and subtle fine wear.\nImage 2: prior right painting, use its material allocation but remove ALL baked lighting and do not preserve its inaccurate outline.\nImage 3: guide_right.png, EDIT TARGET AND ABSOLUTE PIXEL GEOMETRY AUTHORITY. This is the output canvas. Copy its silhouette/alpha mask exactly; recolour only the existing object pixels. Preserve every part edge and position.\nRIGHT view: keep the tiny foreshortened guide object at x346..677 y447..576 in the 1024x1024 canvas. Near octagonal connector housing stays right, partly occluded far housing stays left; exactly two visible pins angled down-left in their original positions. Preserve the unusually large transparent margins. The short gold bridge has only the guide's narrow cyan strip.\nWhite/ivory ceramic on the two end housings, warm brushed gold on ALL bridge/frame/trim/pins, cyan/turquoise with blue-white core in the energy inset. Do not invent parts or ceramic panels on the bridge. Carry only sparse fine wear, faint grain and restrained narrow seams from the reference onto these surfaces. No text or letters.\nCRITICAL: produce an UNLIT ALBEDO texture. Flatten all facet tones. Every gold face must have the SAME muted honey-gold base colour, with faint grain but no bright gold highlights. Every ceramic face must have the SAME warm ivory base colour, with faint wear but no top/bottom lighting difference. Pin cylinders must have a gold base colour without reflective streaks. Eliminate dark undersides, bright bevels, shine, directional shading, specular reflections, ambient occlusion, cast shadows, rim lighting and colour spill. No lighting gradients. Cyan is a painted light colour, NOT a light illuminating nearby gold.\nKeep the output geometry and alpha of image 3 precisely, not the geometry of image 2 or image 1. No enlarged framing, moved object, new silhouette, reshaped end caps, rounded-off guide corners or extraneous pixels. All empty pixels remain fully alpha-zero. No background, floor, checkerboard, drop shadow, glow halo, labels, numbers or watermark. Output the one right painting only, 1024 by 1024 pixels.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-637a6b2d-7808-42ee-ac37-d26094efa9af.png",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Correction reduces highlights but shifts the object down and changes the outline; first attempt has closer guide registration.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/paint_right_attempt1.png",
+          "sha256": "1c4093e86c90a63abe3eff7b03d09dd5edd6fc0649d4813d1567f9e43d68586c"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_right.png",
+          "sha256": "a848830806c111dc1815541671d521166092b11637fb0ed440e3ecd7a35b7189"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          25,
+          21,
+          1202,
+          1214
+        ],
+        "opaque_bbox": [
+          423,
+          585,
+          833,
+          747
+        ],
+        "transparent_pixels": 1521973,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.5162786172903561,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 16877,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "0ea8ce6daa53c1752e907e8c9f5664dee1eb0072367507f9d714eef2bc4c3578"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a game-model ALBEDO texture-source view.\nImage 1 design_reference.png is ONLY the design/material reference. Image 2 guide_top.png is the EDIT TARGET and fixes all geometry, edges, silhouette, camera, scale and placement.\nReturn exactly ONE 1024x1024 RGBA painting on genuine transparent background. Paint image 2 in place, preserving its alpha mask and ALL geometric edges pixel-for-pixel. Keep its large transparent margins, no rescaling, cropping, recentering or new geometry.\nTOP view: directly above, orthographic. Keep the guide's precise angular zigzag lightning-bolt bridge and both housings, NOT the softer S-shaped perspective coupler of the design reference. The occupied bounds are x=66..957, y=346..677 in the 1024-square guide. Left housing is lower-left, right housing is upper-right. Both ends have exactly TWO visible horizontal pins as the guide shows. There are two opposing sharp turns in the bridge with the exact original corners: ascending from lower-left to an upper central point, descending to a lower central point, ascending to upper-right. Keep the original width and exact contour of each zigzag arm and its cyan inset. The two end housings are ivory ceramic with gold trim. The ENTIRE zigzag bridge/frame is gold around the cyan energy channel, including all outer and inner side faces; do not paint the bridge ceramic white.\nMaterials from image 1: warm ivory-white ceramic with subtle sparse fine wear and restrained panel joins; muted brushed warm gold with fine grain; turquoise/cyan energy with blue-white bright core painted as surface colour. Only materials shown in the design. The guide's pale tints are material IDs, not final colours. Continue unseen surfaces plausibly. Retain exact geometric boundaries, keeping surface detail inside each part.\nThis is a FLAT UNLIT BASE-COLOUR painting, not a beauty render. All gold faces, including the underside/bevel faces, share one mid-light gold base colour with only faint texture variation. All ceramic faces share one warm white base colour. No top-bright/bottom-dark shading. No cast shadows, ambient occlusion, hot highlights, specular reflection, rim light, glow halo, or environmental lighting. Gold has at most the faintest sheen. Cyan is confined within its existing inset. No opaque background, no floor, no checkerboard pixels. No text, letters, numbers, labels, watermark or symbols. Nothing added outside the guide silhouette; zero alpha everywhere the guide is empty.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-5160d1e2-1062-4ffd-ab8f-16f4f278dea8.png",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected attempt 1: much closer guide registration (normalized IoU 0.820 versus 0.421). The correction shifted and expanded the object. Reference material allocation is retained; exact silhouette and flat-lighting checks still fail.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_top.png",
+          "sha256": "211072f6042827f445c45b06d5cd9b3837bea7911621869d4467812eec03307e"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          49,
+          47,
+          1220,
+          1050
+        ],
+        "opaque_bbox": [
+          58,
+          416,
+          1202,
+          841
+        ],
+        "transparent_pixels": 1395900,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.8198347206851754,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 34221,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "1776b613c2755dd902ba9bdc5408f005bc5d4c866b584d8ccee226343a992edb",
+      "retained_attempt_output": "paint_top_attempt1.png"
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. FINAL CORRECTIVE ALBEDO PAINTING, ONE 1024x1024 transparent RGBA PNG.\nImage 1: approved design reference, use only the ceramic/gold/cyan palette and subtle fine wear.\nImage 2: prior top painting, use its material allocation but remove ALL baked lighting and do not preserve its inaccurate outline.\nImage 3: guide_top.png, EDIT TARGET AND ABSOLUTE PIXEL GEOMETRY AUTHORITY. This is the output canvas. Copy its silhouette/alpha mask exactly; recolour only the existing object pixels. Preserve every part edge and position.\nTOP view: keep the precise sharp lightning-bolt zigzag shown by the guide and its cyan channel. Bounds x66..957 y346..677 in the 1024x1024 canvas. Lower-left and upper-right housings retain the exact guide contours. Each end has exactly two visible horizontal pins; keep their original straight blunt-ended shapes and spacing. The two sharp opposed zigzag corners, arm widths and inset widths must trace the guide exactly, not the softer wider previous painting.\nWhite/ivory ceramic on the two end housings, warm brushed gold on ALL bridge/frame/trim/pins, cyan/turquoise with blue-white core in the energy inset. Do not invent parts or ceramic panels on the bridge. Carry only sparse fine wear, faint grain and restrained narrow seams from the reference onto these surfaces. No text or letters.\nCRITICAL: produce an UNLIT ALBEDO texture. Flatten all facet tones. Every gold face must have the SAME muted honey-gold base colour, with faint grain but no bright gold highlights. Every ceramic face must have the SAME warm ivory base colour, with faint wear but no top/bottom lighting difference. Pin cylinders must have a gold base colour without reflective streaks. Eliminate dark undersides, bright bevels, shine, directional shading, specular reflections, ambient occlusion, cast shadows, rim lighting and colour spill. No lighting gradients. Cyan is a painted light colour, NOT a light illuminating nearby gold.\nKeep the output geometry and alpha of image 3 precisely, not the geometry of image 2 or image 1. No enlarged framing, moved object, new silhouette, reshaped end caps, rounded-off guide corners or extraneous pixels. All empty pixels remain fully alpha-zero. No background, floor, checkerboard, drop shadow, glow halo, labels, numbers or watermark. Output the one top painting only, 1024 by 1024 pixels.",
+      "source": "/home/pjasicek/.codex/generated_images/01a16db1-1302-7ef2-a0dc-cfdb8595a2f8/exec-2c35e991-0e62-480c-8b51-4d294abc95ea.png",
+      "output": "paint_top_attempt2.png",
+      "selected": false,
+      "reason": "Correction reduces highlights but shifts the object down and changes the outline; first attempt has closer guide registration.",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/design_reference.png",
+          "sha256": "eddf32188f56379327221d1b26af47237b71f019c4c3757a8b381547ca14c451"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/paint_top_attempt1.png",
+          "sha256": "1776b613c2755dd902ba9bdc5408f005bc5d4c866b584d8ccee226343a992edb"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_items_claude/codex_tex/hes_coupler_1/guide_top.png",
+          "sha256": "211072f6042827f445c45b06d5cd9b3837bea7911621869d4467812eec03307e"
+        }
+      ],
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "requested_size": [
+          1024,
+          1024
+        ],
+        "unresized": true,
+        "mode": "RGBA",
+        "alpha_bbox": [
+          0,
+          71,
+          1223,
+          1230
+        ],
+        "opaque_bbox": [
+          51,
+          463,
+          1220,
+          895
+        ],
+        "transparent_pixels": 1387768,
+        "silhouette_alpha_identical": false,
+        "normalized_silhouette_iou": 0.42114631541473835,
+        "transparent_background": true,
+        "no_text_or_letters_visual": true,
+        "colours_and_materials_visual": "Ivory ceramic, warm gold and cyan energy; see selection reason for bridge material deviations.",
+        "flat_even_light_without_shadows_or_hot_highlights": false,
+        "lighting_observation": "Residual bright upper faces, darker lower facets and edge highlights remain.",
+        "nonzero_alpha_pixels_outside_normalized_guide": 85683,
+        "silhouette_observation": "Not pixel-identical; different native canvas size, outline drift and faint stray alpha pixels.",
+        "brief_visual_checks_passed": false
+      },
+      "output_sha256": "07c9bc1fe0d0e79ad252b47e83362c019fed2b536cbc4dad741222917333dcb6"
+    }
+  ],
+  "status": "Five selected generated candidates saved; exact-silhouette and flat-albedo requirements remain unmet after the permitted single correction per view.",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "returned_sizes": [
+    [
+      1254,
+      1254
+    ]
+  ],
+  "resized_or_postprocessed": false,
+  "correction_limit_per_view": 1,
+  "comparison_note": "Exact alpha check uses original dimensions. Normalized silhouette IoU compares alpha>=128 after scaling only the GUIDE in memory to the returned canvas; generated images are never resized or edited. This diagnostic does not establish exact compliance.",
+  "scope_note": "Image generation and records only. No builds or runtime changes. Tool-generated originals were copied byte-for-byte into this folder."
+}

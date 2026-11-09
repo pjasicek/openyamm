@@ -1,0 +1,78 @@
+@font-face {font-family: BookLucida; src: url("fonts/lucida.ttf") format("truetype"); font-display: block;}
+:root {color-scheme: dark; font-family: system-ui, sans-serif; background: #171918; color: #e6e2d9;
+  --line: #373a34; --muted: #a5aaa0; --gold: #dec18b; --panel: #212420;}
+* {box-sizing: border-box;}
+body {margin: 0;}
+button, select, textarea {font: inherit; color: inherit;}
+button, select, .import-button {border: 1px solid #474c42; border-radius: 5px; background: #2a2e28; padding: 7px 11px;}
+button, .import-button {cursor: pointer;}
+button:hover, .import-button:hover {background: #373d32; border-color: #7d8871;}
+button:focus-visible, select:focus-visible, textarea:focus-visible, canvas:focus-visible {outline: 2px solid var(--gold); outline-offset: 2px;}
+button[aria-pressed="true"] {background: #d7bd8c; border-color: #d7bd8c; color: #24261f;}
+header {display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 15px 22px; border-bottom: 1px solid var(--line);}
+.heading {display: flex; align-items: baseline; gap: 20px;}
+.eyebrow {font-size: 10px; letter-spacing: .13em; color: var(--muted); white-space: nowrap;}
+h1 {font-family: Georgia, serif; font-size: 27px; font-weight: normal; margin: 0;}
+h2 {font-size: 17px; font-weight: 600; margin: 0;}
+h3 {font-size: 17px; margin: 0; font-weight: 550;}
+.toolbar {display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 13px;}
+.toolbar label {display: flex; align-items: center; gap: 7px; color: var(--muted);}
+.toolbar select {color: #e6e2d9;}
+.segmented {display: flex;}
+.segmented button {border-radius: 0;}
+.segmented button:first-child {border-radius: 5px 0 0 5px;}
+.segmented button:last-child {border-radius: 0 5px 5px 0;}
+main {display: grid; grid-template-columns: minmax(0, 1fr) 290px; min-height: calc(100vh - 72px);}
+.preview {min-width: 0; padding: 12px 18px 8px; display: flex; flex-direction: column;}
+.preview-heading {display: flex; justify-content: space-between; gap: 10px; min-height: 29px; font-size: 12px; color: #bdc4b5;}
+.check {display: flex; align-items: center; gap: 6px; white-space: nowrap; cursor: pointer;}
+input[type="checkbox"] {accent-color: var(--gold);}
+#stageViewport {overflow: auto; display: grid; align-items: safe center; justify-items: safe center;
+  min-height: 100px; height: calc(100vh - 211px); background: #111311; border: 1px solid #2c302a;}
+#bookFrame {position: relative; width: 640px; height: 480px; flex: none; line-height: 0;}
+#book {display: block; width: 100%; height: 100%; cursor: default; touch-action: manipulation;}
+#closedOverlay, #loading {position: absolute; inset: 0; background: #151915ee; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 20px; line-height: 1.5; color: var(--gold); font-family: Georgia, serif; font-size: 25px;}
+[hidden] {display: none !important;}
+#closedOverlay button {font-family: system-ui, sans-serif; font-size: 14px;}
+.status-line {display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 40px; font-size: 13px;}
+.status-line button {padding: 4px 8px; font-size: 12px;}
+.assignments {display: flex; gap: 22px; color: var(--muted); font-size: 11px; min-height: 18px;}
+.hint {font-size: 11px; color: var(--muted); line-height: 1.5; margin: 5px 0;}
+.hint a {color: #cdbd9b; text-underline-offset: 2px;}
+aside {padding: 18px 17px; background: var(--panel); border-left: 1px solid var(--line); font-size: 13px;}
+.panel-heading {display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;}
+#progress {font-size: 11px; color: var(--muted);}
+.stacked {display: flex; flex-direction: column; gap: 7px; margin: 12px 0; font-size: 12px; color: var(--muted);}
+.stacked select, .stacked textarea {width: 100%; color: #e6e2d9; font-size: 13px;}
+.target-heading {display: flex; flex-direction: column; align-items: flex-start; gap: 7px; margin-top: 20px;}
+.badge {border: 1px solid #565d4d; color: #bac2b0; padding: 2px 7px; border-radius: 12px; font-size: 10px;}
+.badge.good {color: #b4dbab; border-color: #537e49;}
+.badge.flag {color: #f1be93; border-color: #9e6740;}
+.muted {color: var(--muted); font-size: 12px; line-height: 1.5;}
+.decisions {display: flex; gap: 8px; margin-top: 16px;}
+.decisions button {flex: 1; padding: 9px 4px; font-size: 12px;}
+.decisions #approve[aria-pressed="true"] {background: #35532c; border-color: #739667; color: #d6ecd0;}
+.decisions #flag[aria-pressed="true"] {background: #67472f; border-color: #c38b64; color: #ffe0c8;}
+textarea {resize: vertical; min-height: 95px; border: 1px solid #454c3e; border-radius: 5px; background: #191d18; padding: 9px; line-height: 1.55;}
+.note-footer {display: flex; align-items: center; justify-content: space-between; gap: 6px; color: #929d87; font-size: 10px;}
+.text-button {padding: 0; border: none; background: transparent; color: var(--muted); font-size: 10px; text-decoration: underline;}
+.inspect {margin: 23px 0; border-top: 1px solid var(--line); padding-top: 14px;}
+.inspect-title {display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); gap: 7px;}
+.inspect-title button {font-size: 11px; padding: 4px 7px;}
+#detail {width: 100%; height: 180px; margin-top: 10px; display: block; border-radius: 4px;}
+#detailLabel {display: block; font-size: 10px; text-align: center; margin-top: 5px;}
+.export-row {display: flex; gap: 8px;}
+.export-row button {flex: 1;}
+.import-button {font-size: 12px; display: flex; align-items: center;}
+.import-button input {display: none;}
+details {margin-top: 24px; font-size: 11px; color: var(--muted); line-height: 1.6;}
+summary {cursor: pointer; color: #c0c6b9;}
+.revision {color: #828b7b; font-size: 9px; margin-top: 18px;}
+body.focus main {grid-template-columns: minmax(0, 1fr);}
+body.focus aside {display: none;}
+@media (max-width: 1050px) {.heading .eyebrow {display: none;} header {gap: 12px;} .toolbar {gap: 8px;} main {grid-template-columns: minmax(0,1fr) 265px;}}
+@media (max-width: 780px) {header {align-items: flex-start; flex-direction: column; padding: 12px;} main {display: block;}
+  aside {border-left: none; border-top: 1px solid var(--line);} .preview {padding: 10px;}
+  #stageViewport {height: auto; min-height: 0;} .hint {font-size: 10px;}
+  .preview-heading {font-size: 10px;} body.focus aside {display: none;} .toolbar {font-size: 12px;}}

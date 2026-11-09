@@ -1,0 +1,43 @@
+{
+  "status": "visually_reviewed_for_road_edge_update",
+  "changed": [
+    "drsrne1.png",
+    "drsrne2.png",
+    "drsrnw1.png",
+    "drsrnw2.png",
+    "gdrdne1.png",
+    "gdrdne2.png",
+    "gdrdnw1.png",
+    "gdrdnw2.png"
+  ],
+  "unchanged_files": 231,
+  "protected_other_roads": 28,
+  "pose": [
+    7766.5,
+    3508.695,
+    545,
+    1.782,
+    -26.385
+  ],
+  "pitch_unit": "degrees",
+  "findings": [
+    "V12 independent AI stone RGB replaced by actual accepted v7 EW cobble pixels, including bevels and grout; no separate diagonal material calibration.",
+    "Both diagonal halves sample one continuous periodic strip; repeated concave dirt bites from v12 removed.",
+    "Final width follows the broader native diagonal footprint; all 28 non-diagonal roads unchanged."
+  ],
+  "limitations": [
+    "Stone layout and edge outline are not perfectly matched where a road changes direction into another tile, consistent with user1304 tolerance. Raw gradient-screen failures at these bends remain visible in validation reports, not relabelled as seamless.",
+    "Final supplied-pose capture reviewed; earlier alternate-heading captures show narrower trial, not final installed width.",
+    "No new imagegen calls; broad gallery/ZIP not rebuilt."
+  ],
+  "evidence": {
+    "roads/v13/build.py": "393b31212cc421e4c79f47d326378a564f02ff4baa297bba1736a868d111b854",
+    "roads/v13/build.json": "974941ed37add364204023cfcf4ba5096acd7eb2cb32b7b12f6618e29b05d16a",
+    "roads/v13/validation.json": "d0ddf7c15cfc4f798b27a1079042ef20a6db3a2f4d0840bc940d110737c27811",
+    "roads/v13/continuity.json": "42e5d79b2102c1a0bb3ab968a420c027b1749472390bed3643aaa1de6afb9122",
+    "roads/v13/protected_straights.json": "c031a14e25bc983aa0790c0d29d9d5371299a4e10f6aa4521a074a1317dbad2c",
+    "roads/v13/exact_pose_comparison.png": "b2444139acb7850e36788a74447517b22234ca743451bd8273dc641508142a6e",
+    "roads/v13/captures/mm8_1304_width.png": "06d3b4979e51d0730842c755998fc71ee0a2ba1fc7c0a6c94556e1822f6d1d4d",
+    "roads/v13/captures/mm8_1304_width.json": "a62101c83ce92581897358da432cedfa98f641c74db41df904c237bef1c7b788"
+  }
+}

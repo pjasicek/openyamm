@@ -1,0 +1,598 @@
+{
+  "status": "Design comparison only; existing Garrote architecture mapping remains the active proposal",
+  "recommendation": "Alvar for most civilian houses and civic details; Garrote for walls, gates, jail and royal fortifications. All geometry newly authored.",
+  "fitMeaning": "Axis-aligned exterior envelope comparison, allowing a 90-degree turn. Not door, foundation, street, courtyard, collision or room-capacity approval.",
+  "entries": [
+    {
+      "id": "guild",
+      "title": "Ol\u2019 Black Magic",
+      "residents": [
+        "Nool the Doomsayer",
+        "Metla the Rosterkeeper"
+      ],
+      "quality": "maintained",
+      "reservedEnvelope": [
+        1280,
+        1100
+      ],
+      "candidate": "part_092",
+      "models": [
+        92
+      ],
+      "nativeAssemblyDimensions": [
+        1024.0,
+        1024.0,
+        1152.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar details",
+      "newGeometryIntent": "Use the polygonal guild vocabulary sparingly; author a lower main hall and membership wing, with Nool still outside."
+    },
+    {
+      "id": "forge",
+      "title": "Ogre Foundry",
+      "residents": [],
+      "quality": "working",
+      "reservedEnvelope": [
+        1536,
+        1000
+      ],
+      "candidate": "four_shops",
+      "models": [
+        13,
+        14,
+        15
+      ],
+      "nativeAssemblyDimensions": [
+        2272.0,
+        2272.0,
+        768.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": false,
+      "preference": "Mixed: Garrote workshop, Alvar shop frontage",
+      "newGeometryIntent": "Use one or two asymmetric shop bays and a Garrote-like working canopy; the whole four-way block is far too large."
+    },
+    {
+      "id": "training",
+      "title": "Tog\u2019s Training / swimming annex",
+      "residents": [
+        "Ordana the Swimming Instructor"
+      ],
+      "quality": "working",
+      "reservedEnvelope": [
+        1536,
+        1000
+      ],
+      "candidate": "training",
+      "models": [
+        76,
+        77
+      ],
+      "nativeAssemblyDimensions": [
+        1152.0,
+        1600.0,
+        576.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": false,
+      "preference": "Alvar hall details",
+      "newGeometryIntent": "Shorten and narrow the hall to the reservation; keep the swimming annex separate. Its native buttressed flat roof is institutional, not a domestic default."
+    },
+    {
+      "id": "jail",
+      "title": "Castleview Jail",
+      "residents": [
+        "Jasper"
+      ],
+      "quality": "fortified",
+      "reservedEnvelope": [
+        1088,
+        1536
+      ],
+      "candidate": null,
+      "models": [],
+      "nativeAssemblyDimensions": null,
+      "nativeEnvelopeFitsWithQuarterTurn": null,
+      "preference": "Garrote",
+      "newGeometryIntent": "Keep the fortified masonry and controlled prison threshold; Alvar cottages are not the right structural reference."
+    },
+    {
+      "id": "monks_n",
+      "title": "First Drawkcab chapterhouse",
+      "residents": [
+        "Tinit First Drawkcab Monk",
+        "Bob the Drawkcab Monk"
+      ],
+      "quality": "plain",
+      "reservedEnvelope": [
+        1280,
+        640
+      ],
+      "candidate": "part_066",
+      "models": [
+        66
+      ],
+      "nativeAssemblyDimensions": [
+        640.0,
+        1408.0,
+        448.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": false,
+      "preference": "Alvar",
+      "newGeometryIntent": "Shorten the long cottage and retain two study places under one roof; plain finish without an estate tower."
+    },
+    {
+      "id": "monks_s",
+      "title": "Drawkcab study house",
+      "residents": [
+        "Pip the Drawkcab Monk",
+        "Otto the Drawkcab Monk"
+      ],
+      "quality": "plain",
+      "reservedEnvelope": [
+        1152,
+        640
+      ],
+      "candidate": "part_068",
+      "models": [
+        68
+      ],
+      "nativeAssemblyDimensions": [
+        832.0,
+        640.0,
+        512.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "A smaller gabled companion house with an offset door/garden side, not a mirrored duplicate."
+    },
+    {
+      "id": "bank",
+      "title": "Milken Savings / accounts",
+      "residents": [
+        "Rex the Accountant"
+      ],
+      "quality": "maintained",
+      "reservedEnvelope": [
+        1408,
+        832
+      ],
+      "candidate": "part_065",
+      "models": [
+        65
+      ],
+      "nativeAssemblyDimensions": [
+        704.0,
+        1024.0,
+        408.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "Compact finance house with a subordinate accounts room; one bank service and Rex retain their separate roles."
+    },
+    {
+      "id": "tavern",
+      "title": "Blacksmoke Tavern",
+      "residents": [
+        "Tanya the Floozy",
+        "Gloria the Dreamer"
+      ],
+      "quality": "working",
+      "reservedEnvelope": [
+        1664,
+        1280
+      ],
+      "candidate": "profit_house",
+      "models": [
+        97,
+        98
+      ],
+      "nativeAssemblyDimensions": [
+        1408.0,
+        1472.0,
+        800.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": false,
+      "preference": "Alvar",
+      "newGeometryIntent": "New main guest room and lower entrance wing; reduce depth to preserve the street and shared court."
+    },
+    {
+      "id": "lodging",
+      "title": "Adventurers\u2019 lodging",
+      "residents": [
+        "Esteban the Adventurer",
+        "Bleys the Burglar"
+      ],
+      "quality": "working",
+      "reservedEnvelope": [
+        1152,
+        768
+      ],
+      "candidate": "withersmythe",
+      "models": [
+        33,
+        34
+      ],
+      "nativeAssemblyDimensions": [
+        1184.0,
+        1296.0,
+        896.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": false,
+      "preference": "Alvar composition only",
+      "newGeometryIntent": "Borrow unequal connected wings; omit the estate tower and reduce the footprint for shared modest lodging."
+    },
+    {
+      "id": "maps",
+      "title": "Mapmakers\u2019 court",
+      "residents": [
+        "Jethro the Mapmaker",
+        "Miles the Cartographer",
+        "Lydia the Mapmaker"
+      ],
+      "quality": "maintained",
+      "reservedEnvelope": [
+        1664,
+        1088
+      ],
+      "candidate": "part_040",
+      "models": [
+        40
+      ],
+      "nativeAssemblyDimensions": [
+        736.0,
+        768.0,
+        576.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "Maintained square house with a map room and visible window/door rhythm; reserve remaining space for the shared frontage."
+    },
+    {
+      "id": "mayor",
+      "title": "Mayor\u2019s office and editorial room",
+      "residents": [
+        "Majot the Editor",
+        "Mayor Snarfblad"
+      ],
+      "quality": "civic",
+      "reservedEnvelope": [
+        1664,
+        1088
+      ],
+      "candidate": "part_049",
+      "models": [
+        49
+      ],
+      "nativeAssemblyDimensions": [
+        1280.0,
+        784.0,
+        448.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "Wide low formal residence with an audience/office bay; restrained civic identity without another castle."
+    },
+    {
+      "id": "workyard",
+      "title": "Taskmaster\u2019s hiring office",
+      "residents": [
+        "Jojosh the Taskmaster"
+      ],
+      "quality": "working",
+      "reservedEnvelope": [
+        832,
+        640
+      ],
+      "candidate": "part_011",
+      "models": [
+        11
+      ],
+      "nativeAssemblyDimensions": [
+        1216.0,
+        960.0,
+        512.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": false,
+      "preference": "Mixed",
+      "newGeometryIntent": "Borrow the timber canopy and loading details only; the native stables exceed this small yard reservation."
+    },
+    {
+      "id": "joe",
+      "title": "Joe\u2019s map stall",
+      "residents": [
+        "Joe the Mapmaker"
+      ],
+      "quality": "makeshift",
+      "reservedEnvelope": [
+        512,
+        512
+      ],
+      "candidate": "part_067",
+      "models": [
+        67
+      ],
+      "nativeAssemblyDimensions": [
+        768.0,
+        512.0,
+        400.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": false,
+      "preference": "New makeshift shelter",
+      "newGeometryIntent": "Even the small Alvar cottage exceeds Joe\u2019s 512-square envelope. Author a small lean-to/shelter; do not shrink doors or silently enlarge the lot."
+    },
+    {
+      "id": "ranger",
+      "title": "Goldur\u2019s lodge",
+      "residents": [
+        "Goldur the Ranger"
+      ],
+      "quality": "plain",
+      "reservedEnvelope": [
+        832,
+        640
+      ],
+      "candidate": "part_068",
+      "models": [
+        68
+      ],
+      "nativeAssemblyDimensions": [
+        832.0,
+        640.0,
+        512.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "Plain gabled cottage at normal door scale, with a practical garden-facing side."
+    },
+    {
+      "id": "herbalist",
+      "title": "Zelda\u2019s house and drying shed",
+      "residents": [
+        "Zelda the Herbalist"
+      ],
+      "quality": "plain",
+      "reservedEnvelope": [
+        1088,
+        768
+      ],
+      "candidate": "part_067",
+      "models": [
+        67
+      ],
+      "nativeAssemblyDimensions": [
+        768.0,
+        512.0,
+        400.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "Small cottage with herb-drying details and planted court; quality comes from use and repair rather than a taller roof."
+    },
+    {
+      "id": "nadia",
+      "title": "Nadia\u2019s house",
+      "residents": [
+        "Nadia the Hoarder"
+      ],
+      "quality": "worn",
+      "reservedEnvelope": [
+        896,
+        768
+      ],
+      "candidate": "part_067",
+      "models": [
+        67
+      ],
+      "nativeAssemblyDimensions": [
+        768.0,
+        512.0,
+        400.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "Worn small cottage with an offset entrance and sparse trim; preserve the west-gate lane."
+    },
+    {
+      "id": "diviners",
+      "title": "Oorla\u2019s house / Troyanna\u2019s room",
+      "residents": [
+        "Madame Oorla the Gypsy",
+        "Troyanna the Mindreader"
+      ],
+      "quality": "plain",
+      "reservedEnvelope": [
+        1280,
+        832
+      ],
+      "candidate": "part_040",
+      "models": [
+        40
+      ],
+      "nativeAssemblyDimensions": [
+        736.0,
+        768.0,
+        576.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "Shared study house, two interior work areas, restrained arched-window details; no need for two exterior towers."
+    },
+    {
+      "id": "king",
+      "title": "Gremlin court",
+      "residents": [
+        "Gettlewaithe the Gremlin King"
+      ],
+      "quality": "fortified",
+      "reservedEnvelope": [
+        1536,
+        1664
+      ],
+      "candidate": null,
+      "models": [],
+      "nativeAssemblyDimensions": null,
+      "nativeEnvelopeFitsWithQuarterTurn": null,
+      "preference": "Garrote",
+      "newGeometryIntent": "Keep the fortified audience annex distinct from ordinary housing."
+    },
+    {
+      "id": "tower",
+      "title": "Ellinger\u2019s Tower",
+      "residents": [],
+      "quality": "arcane",
+      "reservedEnvelope": [
+        1536,
+        1536
+      ],
+      "candidate": "part_092",
+      "models": [
+        92
+      ],
+      "nativeAssemblyDimensions": [
+        1024.0,
+        1024.0,
+        1152.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Mixed: Alvar arcane details, custom tower",
+      "newGeometryIntent": "Use the polygonal shaft/entry as a study only. Ellinger requires a much taller original composition with repeated normal-scale bays, not a stretched guild mushroom roof."
+    },
+    {
+      "id": "temple",
+      "title": "Temple of Mok",
+      "residents": [
+        "Ben the Benchman",
+        "Imble the Monk"
+      ],
+      "quality": "civic",
+      "reservedEnvelope": [
+        1664,
+        1280
+      ],
+      "candidate": "part_078",
+      "models": [
+        78
+      ],
+      "nativeAssemblyDimensions": [
+        1344.0,
+        1024.0,
+        768.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "The nave, lower side aisles and entrance porch suit Mok\u2019s civic temple; create new symbols and preserve the taller planned nave."
+    },
+    {
+      "id": "crafts",
+      "title": "Tailor and cobbler row",
+      "residents": [
+        "Gromlug the Tailor",
+        "Sojo the Cobbler"
+      ],
+      "quality": "working",
+      "reservedEnvelope": [
+        1792,
+        768
+      ],
+      "candidate": "four_shops",
+      "models": [
+        13,
+        14,
+        15
+      ],
+      "nativeAssemblyDimensions": [
+        2272.0,
+        2272.0,
+        768.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": false,
+      "preference": "Alvar organization only",
+      "newGeometryIntent": "Create two unequal shallow work bays for tailor/cobbler with distinct doors. Do not use the cross-shaped symmetric four-shop plan."
+    },
+    {
+      "id": "workers",
+      "title": "Workers\u2019 shared house",
+      "residents": [
+        "Daron the Efficient",
+        "Tolberti the chimney sweep"
+      ],
+      "quality": "worn",
+      "reservedEnvelope": [
+        1024,
+        512
+      ],
+      "candidate": "part_067",
+      "models": [
+        67
+      ],
+      "nativeAssemblyDimensions": [
+        768.0,
+        512.0,
+        400.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "One low cottage for Daron and Tolberti; shared occupancy is supported by the Garrote/Ravenshore study, not inferred from Alvar\u2019s single-resident table."
+    },
+    {
+      "id": "keeper",
+      "title": "Keeper\u2019s cottage and kennel",
+      "residents": [
+        "Sinbolas the Dog Catcher",
+        "Raymond the Direct"
+      ],
+      "quality": "working",
+      "reservedEnvelope": [
+        896,
+        640
+      ],
+      "candidate": "part_067",
+      "models": [
+        67
+      ],
+      "nativeAssemblyDimensions": [
+        768.0,
+        512.0,
+        400.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar",
+      "newGeometryIntent": "Small shared cottage and newly fitted low kennel canopy; two residents do not imply a rich estate."
+    },
+    {
+      "id": "puzzle",
+      "title": "Dyson\u2019s public storehouse",
+      "residents": [
+        "Dyson the Puzzlemaster"
+      ],
+      "quality": "working",
+      "reservedEnvelope": [
+        2176,
+        1792
+      ],
+      "candidate": "training",
+      "models": [
+        76,
+        77
+      ],
+      "nativeAssemblyDimensions": [
+        1152.0,
+        1600.0,
+        576.0
+      ],
+      "nativeEnvelopeFitsWithQuarterTurn": true,
+      "preference": "Alvar hall details",
+      "newGeometryIntent": "Broad low functional storehouse with two nine-chest bays and Dyson\u2019s desk; no imported training service or native hall mesh."
+    }
+  ],
+  "sources": [
+    {
+      "path": "level_generation/projects/mm5_castleview_kalindra/layout.json",
+      "sha256": "3f4187d3366b53d8e7554389712c3067b395fbdfd8d96cc58420416d98c86926"
+    },
+    {
+      "path": "level_generation/catalogues/mm8_alvar/catalogue.json",
+      "sha256": "0e83d1f52ca69668d6b0d69964dac78b5b734a991a2729fc58a90cb8933dd8be"
+    }
+  ]
+}

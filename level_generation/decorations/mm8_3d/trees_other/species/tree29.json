@@ -1,0 +1,144 @@
+{
+ "note": "Fir: dense cone from near the ground, whorls of long slightly drooping branches with flat feathery sprays, light yellow-green tips, reddish-brown trunk showing at the base and through the crown.",
+ "kind": "conifer",
+ "atlas": "needles_pine",
+ "seed": 2901,
+ "conifer": {
+  "crown_low": 0.09,
+  "whorl_top": 0.93,
+  "whorl_spacing": [
+   0.5,
+   0.28
+  ],
+  "branches_per_whorl": [
+   6,
+   5
+  ],
+  "elevation": [
+   0,
+   22
+  ],
+  "droop": [
+   0.18,
+   0.1
+  ],
+  "tip_lift": 0.08,
+  "reach": 1.1,
+  "trunk_radius": 0.34,
+  "flare": 0.5,
+  "roll": 28,
+  "aspect": 0.5,
+  "main_width": 1.0,
+  "leader": 0.06,
+  "coverage": 0.4,
+  "inner_shade": 0.5,
+  "normal_up": 0.6,
+  "spray": {
+   "u": [
+    0.2,
+    0.9
+   ],
+   "yaw": [
+    35,
+    70
+   ],
+   "pitch": [
+    8,
+    30
+   ],
+   "length": [
+    0.35,
+    0.55
+   ],
+   "roll": 55,
+   "scale": 1.25
+  },
+  "seg_main": [
+   2,
+   1,
+   1
+  ],
+  "seg_spray": [
+   2,
+   1,
+   1
+  ],
+  "cone_ao": {
+   "floor": 0.45,
+   "power": 1.4,
+   "low": 0.72
+  },
+  "shell": {
+   "inset": 0.4,
+   "dark": 0.25,
+   "z1": 0.88
+  }
+ },
+ "leaves": {
+  "cells": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "target_srgb": [
+   115,
+   131,
+   21
+  ],
+  "sun": {
+   "value": 0.07,
+   "sat": 0.08,
+   "lo": 0.45,
+   "hi": 0.85
+  },
+  "floor": 0.17
+ },
+ "bark": {
+  "target_srgb": [
+   118,
+   88,
+   62
+  ],
+  "tile": 1.2,
+  "occlusion_floor": 0.5
+ },
+ "lod": {
+  "triangles": [
+   3000,
+   1300,
+   500
+  ],
+  "grow": [
+   [
+    1.0,
+    1.0
+   ],
+   [
+    1.06,
+    1.18
+   ],
+   [
+    1.2,
+    1.55
+   ]
+  ],
+  "tone": [
+   1.0,
+   0.8,
+   0.765
+  ]
+ },
+ "impostor_tone": [
+  1.03,
+  1.03,
+  1.03
+ ],
+ "transparent_bounces": 64,
+ "occlusion": {
+  "floor": 0.14,
+  "range": 0.86,
+  "power": 1.25
+ },
+ "translucency": 0.09
+}

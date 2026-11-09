@@ -1,0 +1,432 @@
+{
+ "id": "20261101-1436-mm9-lindisfarnemonastery-01",
+ "world": "mm9",
+ "maps": [
+  "lindisfarnemonastery.blv"
+ ],
+ "created": "2026-11-01T13:36:44+00:00",
+ "textures": [
+  "mm9/sturtuff78",
+  "mm9/windoq4hkt",
+  "mm9/windmrpguz",
+  "mm9/plasp5w8lj",
+  "mm9/keepen1hqi",
+  "mm9/boar94yyk4",
+  "mm9/abndst2nts",
+  "mm9/amazpr48cv",
+  "mm9/grnddvxm58",
+  "mm9/lind3u0val",
+  "mm9/woodnytybf",
+  "mm9/monaebyx1s",
+  "mm9/tapeidzrka",
+  "mm9/monaktamt8",
+  "mm9/linduwtxnz",
+  "mm9/lindjkwme0",
+  "mm9/staix8hc0f",
+  "mm9/wood5emx5q",
+  "mm9/cand3hggb3",
+  "mm9/sturfhkfq9",
+  "mm9/trimc9e3tc"
+ ],
+ "requests": {
+  "mm9/sturtuff78": {
+   "name": "sturtuff78",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey-green dressed stone wall of long rectangular blocks in regular courses with thin mortar joints",
+   "notes": {
+    "2": "regular thin stone courses running straight across the whole wall; every horizontal mortar line continues unbroken across the top/bottom edge, no gaps, offsets or broken courses",
+    "3": "regular straight courses of long dressed stone blocks exactly as in the native; every horizontal mortar line runs unbroken across the whole width and continues across the top/bottom edge; vertical joints only where the native has them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/sturfpaxnn",
+      "mm9/sturcwaq6d"
+     ],
+     "fraction": 0.537
+    },
+    "2": {
+     "sources": [
+      "mm9/sturfpaxnn",
+      "mm9/sturcwaq6d"
+     ],
+     "fraction": 0.537
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     0,
+     182
+    ]
+   },
+   "standalone": true
+  },
+  "mm9/windoq4hkt": {
+   "name": "windoq4hkt",
+   "versions": [
+    1
+   ],
+   "material": "a stained-glass window: a standing knight in gold and white holding a red and white heraldic shield, against bright blue glass panes, framed by orange-red patterned border strips and dark lead cames",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/windmrpguz": {
+   "name": "windmrpguz",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "a stained-glass window: two red and white heraldic roses in gold-bordered medallions stacked vertically on bright blue glass panes, orange-red patterned border strips and dark lead cames",
+   "notes": {
+    "2": "match the native's soft colours: pale lavender-blue panes, dull brick-red and muted gold border strips, dusty pink-and-cream roses; no vivid cobalt, cyan or orange, no black or white specks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/windoq4hkt"
+     ],
+     "fraction": 0.678
+    },
+    "2": {
+     "sources": [
+      "mm9/windoq4hkt"
+     ],
+     "fraction": 0.482
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/plasp5w8lj": {
+   "name": "plasp5w8lj",
+   "versions": [
+    1
+   ],
+   "material": "smooth warm peach-orange plaster with soft mottled stains",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/plasqzmtu9"
+     ],
+     "fraction": 0.284
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/keepen1hqi": {
+   "name": "keepen1hqi",
+   "versions": [
+    1
+   ],
+   "material": "grey flagstone floor of irregular rectangular stones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/boar94yyk4": {
+   "name": "boar94yyk4",
+   "versions": [
+    1
+   ],
+   "material": "dark brown weathered vertical wooden planks with deep grain and dark gaps",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/abndst2nts": {
+   "name": "abndst2nts",
+   "versions": [
+    1
+   ],
+   "material": "olive-green and tan dry grassy earth, fine short blades and dirt",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/amazpr48cv": {
+   "name": "amazpr48cv",
+   "versions": [
+    1
+   ],
+   "material": "a tall dark polished wood panel with gold-trimmed vertical edges and grooved borders",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/grnddvxm58": {
+   "name": "grnddvxm58",
+   "versions": [
+    1
+   ],
+   "material": "patchy green grass and brown dirt ground, mottled",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/lind3u0val": {
+   "name": "lind3u0val",
+   "versions": [
+    1
+   ],
+   "material": "a dark wooden door leaf set in a grey marble frame with a gold trim line, a carved silver quatrefoil cross emblem in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/woodnytybf": {
+   "name": "woodnytybf",
+   "versions": [
+    1
+   ],
+   "material": "dark brown wood with fine horizontal grain streaks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/monaebyx1s": {
+   "name": "monaebyx1s",
+   "versions": [
+    1
+   ],
+   "material": "a square grey marble panel with a raised bevelled frame and a carved silver quatrefoil cross emblem in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/tapeidzrka": {
+   "name": "tapeidzrka",
+   "versions": [
+    1
+   ],
+   "material": "a royal-blue tapestry with gold scrollwork and a central gold flourish, bordered by an orange-red and gold patterned edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/monaktamt8": {
+   "name": "monaktamt8",
+   "versions": [
+    1
+   ],
+   "material": "a slanted grey marble panel with a raised bevelled frame and a carved silver quatrefoil cross emblem, the right side cut on a diagonal against black",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/linduwtxnz": {
+   "name": "linduwtxnz",
+   "versions": [
+    1
+   ],
+   "material": "an arched pair of dark wooden door leaves in a gold-trimmed frame, carved panels at the top, iron spikes in rows, a horizontal iron latch bar across the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/lindjkwme0": {
+   "name": "lindjkwme0",
+   "versions": [
+    1
+   ],
+   "material": "a single dark wooden door leaf in a gold-trimmed frame with an iron latch bar across the top half",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/staix8hc0f": {
+   "name": "staix8hc0f",
+   "versions": [
+    1
+   ],
+   "material": "a round stained-glass medallion: a colourful harbour town with towers and red roofs above blue water with a small ship, dark lead cames, black outside the circle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wood5emx5q": {
+   "name": "wood5emx5q",
+   "versions": [
+    1
+   ],
+   "material": "smooth reddish-brown wood with fine horizontal grain",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/cand3hggb3": {
+   "name": "cand3hggb3",
+   "versions": [
+    1
+   ],
+   "material": "a polished gold cylindrical trim with soft highlights",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturfhkfq9": {
+   "name": "sturfhkfq9",
+   "versions": [
+    1
+   ],
+   "material": "a thin grey stone moulding strip",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/trimc9e3tc": {
+   "name": "trimc9e3tc",
+   "versions": [
+    1
+   ],
+   "material": "a carved terracotta-orange stone relief of interlaced arches and curving lines, weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  }
+ }
+}

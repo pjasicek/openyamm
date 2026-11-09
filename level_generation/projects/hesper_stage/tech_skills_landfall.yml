@@ -1,0 +1,36 @@
+# The technology skills in Landfall (skills.yml): a Knight buys Novice Energy Guns at Salvage & Arms, then a
+# Sorcerer with rank 4 Energy Guns is promoted to Expert by Corra (no class caps on technology skills).
+# Run from output/hesper_stage/scenario_run (its settings.ini points at the stage):
+#   ../../../build/game/openyamm --headless-run-scenario <this file>
+# Event variable 320 is EnergyGunsSkill (0x0140): the joined skill value (rank, plus 0x40 for Expert).
+id: hesper.stage.tech_skills_landfall
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_out1.odm
+    party:
+      gold: 30000
+      members:
+        - {name: Ada, class: Knight, level: 5, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+        - {name: Bram, class: Sorcerer, level: 5, equipment: {},
+           skills: [{name: FireMagic, level: 1, mastery: 1}, {name: EnergyGuns, level: 4, mastery: 1}]}
+- assert: {map: hes_out1.odm}
+- assert: {runtime_event_variable: {id: 320, member_index: 0, value: 0}}
+# Salvage & Arms (hes_out1 event 51 -> house 9201): Learn Skills lists Energy Blades and Energy Guns.
+- set_pose: {map: hes_out1.odm, x: -18080, y: -15350, z: 1540, yaw: 1.5708, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_service, source_id: 9201, action_id: 8}
+- select_topic: {kind: house_service, source_id: 9201, action_id: 12, match_label: Learn Energy Guns for 1000 gold}
+- assert: {runtime_event_variable: {id: 320, member_index: 0, value: 1}}
+- assert: {gold: 29000}
+- press_action: {action: cancel_dialog}
+- press_action: {action: cancel_dialog}
+# Corra's house (event 57 -> house 9211): Expert Energy Guns for 15 000 gold.
+- press_action: {action: select_member, member_index: 1}
+- set_pose: {map: hes_out1.odm, x: -13550, y: -15000, z: 1540, yaw: 1.5708, pitch: 0}
+- press_interact: {}
+- select_topic: {kind: house_resident, source_id: 9211, action_id: 9201}
+- select_topic: {kind: npc_topic, source_id: 9201, action_id: 9201, match_label: Become Expert in Energy Guns for 15000 gold}
+- assert: {runtime_event_variable: {id: 320, member_index: 1, value: 68}}
+- assert: {gold: 14000}

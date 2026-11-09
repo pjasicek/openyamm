@@ -1,0 +1,24 @@
+{
+  "label": "Elemental Fire A",
+  "creature": "fire_elemental",
+  "base_palette": 496,
+  "palette_paths": {
+    "496": "assets_dev/worlds/mm8/textures/pal496.act"
+  },
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "core_magenta_tolerance": 8,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "identity_frames": [
+    "m202fa0",
+    "m202fb0",
+    "m202fc0",
+    "m202fd0",
+    "m202fe0",
+    "m202ff0"
+  ],
+  "identity_view": "six successive front-facing idle flame poses, in row-major order",
+  "description": "The original humanoid fire elemental: smooth deep crimson red athletic torso and limbs, small bald oval red head with two pale glowing yellow eyes, plain clenched hands and bare flame feet. Bright flat orange and pale warm yellow flames lick around and across the body, with long narrow tongues above the head. Preserve the exact flame silhouettes, negative spaces, native flame coverage and dark red body shading of each pose. The body is a featureless magical figure, with no clothes, armor, accessories, weapons, lava cracks or redesign. Keep flame edges delicate and slightly soft with clear separate tongues, not white-hot bloom, smoke, sparks or a broad glowing halo. Preserve original orange/red/yellow colors and tonal weight."
+}

@@ -1,0 +1,22 @@
+{
+  "family": "drag",
+  "title": "MM6 Cave Dragon",
+  "descriptor_ids": [
+    505,
+    506,
+    507
+  ],
+  "inventory_file": "inventory.json",
+  "base_palette": 689,
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Original MM6 cave dragon A: upright wingless long-necked dragon with a large heavy lower body, short bent forearms, powerful hind legs, a long tail resting on the ground and curling forward around the feet, very fine dark teal/green mottled scales, rusty orange segmented throat/belly/underside, large orange ear fins with green rims, ivory pale green horns and back/tail spikes, ivory claws, tiny bright orange-yellow eyes and muted mauve mouth. Keep exact native slender long neck, small head, bent arms, stocky thighs and original dragon head silhouette. No wings, armor, added accessories, cartoon baby-dragon features or modern redesign.",
+  "regions": "Teal green scaly skin, rusty orange throat/belly/ear membranes, ivory horn/spine/claw material and mouth/eyes. Preserve all native palette variants by selective deterministic recoloring of one base generation.",
+  "variant_names": {
+    "689": "Cave Dragon A",
+    "690": "Cave Dragon B",
+    "691": "Cave Dragon C"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4
+}

@@ -1,0 +1,213 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "town_gardens",
+        "target": [
+          15000,
+          -13600,
+          550
+        ],
+        "span": 13000
+      },
+      "image": "level_generation/evidence/mm8/out02_decor_town_gardens.png",
+      "camera_position": [
+        20886.080078125,
+        -25372.16015625,
+        14938.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 469,
+          "name": "tree12",
+          "position": [
+            13728,
+            -14792,
+            11
+          ]
+        },
+        {
+          "index": 479,
+          "name": "plant29",
+          "position": [
+            16408,
+            -15156,
+            0
+          ]
+        },
+        {
+          "index": 322,
+          "name": "rock06",
+          "position": [
+            16376,
+            -12256,
+            0
+          ]
+        },
+        {
+          "index": 814,
+          "name": "dec03",
+          "position": [
+            11728,
+            -14544,
+            192
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "rural_grove",
+        "target": [
+          -8500,
+          10000,
+          450
+        ],
+        "span": 14000
+      },
+      "image": "level_generation/evidence/mm8/out02_decor_rural_grove.png",
+      "camera_position": [
+        -2161.14453125,
+        -2677.7109375,
+        15944.982421875
+      ],
+      "highlighted": [
+        {
+          "index": 96,
+          "name": "tree11",
+          "position": [
+            -8864,
+            10656,
+            1060
+          ]
+        },
+        {
+          "index": 316,
+          "name": "rock02",
+          "position": [
+            -8000,
+            9024,
+            624
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "shadowspire_pass",
+        "target": [
+          20500,
+          500,
+          700
+        ],
+        "span": 15500,
+        "direction": [
+          -0.4,
+          -1,
+          1.0
+        ]
+      },
+      "image": "level_generation/evidence/mm8/out02_decor_shadowspire_pass.png",
+      "camera_position": [
+        14172.15234375,
+        -15319.62109375,
+        16519.62109375
+      ],
+      "highlighted": [
+        {
+          "index": 670,
+          "name": "tree13",
+          "position": [
+            18720,
+            3808,
+            64
+          ]
+        },
+        {
+          "index": 331,
+          "name": "rock16",
+          "position": [
+            18496,
+            -704,
+            80
+          ]
+        },
+        {
+          "index": 575,
+          "name": "dec03",
+          "position": [
+            19152,
+            1504,
+            64
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "terrain_enclosure",
+        "target": [
+          0,
+          0,
+          1700
+        ],
+        "span": 85000
+      },
+      "image": "level_generation/evidence/mm8/out02_decor_terrain_enclosure.png",
+      "camera_position": [
+        38485.9140625,
+        -76971.828125,
+        95776.6875
+      ],
+      "highlighted": [
+        {
+          "index": 527,
+          "name": "tree62a",
+          "position": [
+            -128,
+            2432,
+            592
+          ]
+        },
+        {
+          "index": 640,
+          "name": "plant26",
+          "position": [
+            8080,
+            -5072,
+            128
+          ]
+        },
+        {
+          "index": 636,
+          "name": "rock26",
+          "position": [
+            -9520,
+            -3824,
+            369
+          ]
+        },
+        {
+          "index": 810,
+          "name": "dec25",
+          "position": [
+            4920,
+            16224,
+            534
+          ]
+        },
+        {
+          "index": 605,
+          "name": "dec30",
+          "position": [
+            -4992,
+            -15264,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

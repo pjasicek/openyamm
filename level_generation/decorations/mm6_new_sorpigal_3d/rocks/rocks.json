@@ -1,0 +1,372 @@
+{
+  "rock07": {
+    "source": "../source/namaqualand_boulder_05/namaqualand_boulder_05_2k.gltf",
+    "name": "Rock07",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.0,
+      1.0,
+      1.3
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 0.6,
+      "gain": [
+        0.67,
+        0.57,
+        0.48
+      ]
+    },
+    "parts": [
+      {
+        "source": "../source/namaqualand_boulder_05/namaqualand_boulder_05_2k.gltf",
+        "location": [
+          -0.21,
+          -0.04,
+          0.69
+        ],
+        "rotation_deg": [
+          -22,
+          0,
+          135
+        ],
+        "scale": [
+          0.48,
+          0.52,
+          0.3
+        ]
+      }
+    ],
+    "ground_band": 0.12
+  },
+  "rock14": {
+    "source": "../source/boulder_01/boulder_01_2k.gltf",
+    "name": "Rock14",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.0,
+      1.0,
+      1.2
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.8,
+    "grade": {
+      "saturation": 0.6,
+      "gain": [
+        1.05,
+        0.83,
+        0.47
+      ]
+    },
+    "ground_band": 0.12
+  },
+  "rock05": {
+    "source": "../../rock/source/namaqualand_boulder_04/namaqualand_boulder_04_2k.gltf",
+    "name": "Rock05",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.35,
+      1.15,
+      0.85
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 0.5,
+      "gain": [
+        1.16,
+        0.89,
+        0.43
+      ]
+    },
+    "parts": [
+      {
+        "source": "../../rock/source/namaqualand_boulder_04/namaqualand_boulder_04_2k.gltf",
+        "location": [
+          -1.2,
+          -0.3,
+          0.45
+        ],
+        "rotation_deg": [
+          0,
+          0,
+          120
+        ],
+        "scale": [
+          0.6,
+          0.55,
+          0.5
+        ]
+      },
+      {
+        "source": "../../rock/source/namaqualand_boulder_04/namaqualand_boulder_04_2k.gltf",
+        "location": [
+          -0.75,
+          -0.95,
+          0.35
+        ],
+        "rotation_deg": [
+          0,
+          0,
+          220
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.4
+        ]
+      }
+    ],
+    "ground_band": 0.12
+  },
+  "rock13": {
+    "source": "../source/boulder_01/boulder_01_2k.gltf",
+    "name": "Rock13",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.0,
+      1.0,
+      0.55
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.8,
+    "grade": {
+      "saturation": 1.0,
+      "gain": [
+        0.52,
+        0.4,
+        0.18
+      ]
+    },
+    "ground_band": 0.12
+  },
+  "rock06": {
+    "source": "../source/namaqualand_boulder_06/namaqualand_boulder_06_2k.gltf",
+    "name": "Rock06",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.0,
+      1.0,
+      1.25
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.8,
+    "grade": {
+      "saturation": 0.9,
+      "gain": [
+        0.73,
+        0.675,
+        0.53
+      ]
+    },
+    "ground_band": 0.12
+  },
+  "rock04": {
+    "source": "../../rock/source/namaqualand_boulder_03/namaqualand_boulder_03_2k.gltf",
+    "name": "Rock04",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.0,
+      1.0,
+      1.35
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 1.0,
+      "gain": [
+        1.36,
+        1.21,
+        0.84
+      ]
+    },
+    "ground_band": 0.12
+  },
+  "rock03": {
+    "source": "../source/rock_09/rock_09_2k.gltf",
+    "name": "Rock03",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      8,
+      8,
+      10
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.8,
+    "grade": {
+      "saturation": 0.5,
+      "gain": [
+        5.04,
+        3.85,
+        2.83
+      ]
+    },
+    "roughness_min": 0.8,
+    "ground_band": 0.12
+  },
+  "rock12": {
+    "source": "../source/namaqualand_boulders_01/namaqualand_boulders_01_b_2k.gltf",
+    "name": "Rock12",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.0,
+      1.0,
+      1.6
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 0.8,
+      "gain": [
+        3.11,
+        2.9,
+        2.13
+      ]
+    },
+    "ground_band": 0.12
+  },
+  "rock08": {
+    "source": "../source/namaqualand_boulder_05/namaqualand_boulder_05_2k.gltf",
+    "name": "Rock08",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      1.0,
+      1.0,
+      1.4
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.6,
+    "grade": {
+      "saturation": 0.6,
+      "gain": [
+        1.16,
+        0.83,
+        0.46
+      ]
+    },
+    "ground_band": 0.12
+  },
+  "rock09": {
+    "source": "../source/namaqualand_boulders_01/namaqualand_boulders_01_a_2k.gltf",
+    "name": "Rock09",
+    "mode": "decimate",
+    "yaw_deg": 0,
+    "scale": [
+      2.2,
+      2.2,
+      2.2
+    ],
+    "targets": [
+      2400,
+      960,
+      290,
+      96
+    ],
+    "cage_extrusion": 0.04,
+    "max_ray": 0.15,
+    "ao_strength": 0.8,
+    "grade": {
+      "saturation": 0.2,
+      "gain": [
+        0.36,
+        0.31,
+        0.27
+      ],
+      "contrast": 1.5
+    },
+    "parts": [
+      {
+        "source": "../source/namaqualand_boulders_01/namaqualand_boulders_01_b_2k.gltf",
+        "location": [
+          0,
+          0.75,
+          0.4
+        ],
+        "rotation_deg": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          2.2,
+          1.6,
+          3.8
+        ]
+      }
+    ],
+    "ground_band": 0.12
+  }
+}

@@ -1,0 +1,1 @@
+Process with --adjust 0.96 0 14. Save fresh ungraded final as .before_tone.png, run restore_native_tone.py, then queue.py check g08125_v0_s0. Foliage and bark are graded separately against native opaque RGB means with alpha unchanged. Refresh backup after reprocessing. Default registration exceeded canvas; dy10 trial left base 1.5 native pixels high, corrected to dy14.

@@ -1,0 +1,1 @@
+Run repair_extraction.py instead of ordinary process. Reviewed pink/purple petals and green stems contain no cyan material; direct cyan-matte extraction replaces faulty companion mask that erased stems. Default registration. Script writes checks/proofs; original mask retained for provenance, not used by corrected export. No tone grade.

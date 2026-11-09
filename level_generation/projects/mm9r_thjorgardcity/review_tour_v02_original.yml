@@ -1,0 +1,256 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_thjorgardcity/review/v02_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: s01_docks_start
+  position:
+  - 655
+  - 0
+  - -19
+  yaw: 1.5708
+  pitch: 0.0
+- name: s02_main_street_north
+  position:
+  - 512
+  - 1792
+  - -19
+  yaw: 1.5708
+  pitch: 0.0
+- name: s03_town_hall_plaza
+  position:
+  - -1536
+  - 3328
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: s04_southwest_diagonal
+  position:
+  - -3584
+  - 2816
+  - 1
+  yaw: -2.3996
+  pitch: 0.0
+- name: s05_southeast_diagonal
+  position:
+  - 3840
+  - 3072
+  - -19
+  yaw: -0.7419
+  pitch: 0.0
+- name: s06_west_gate_start
+  position:
+  - -8028
+  - 3277
+  - -19
+  yaw: 0.0
+  pitch: 0.0
+- name: s07_east_west_street
+  position:
+  - -6144
+  - 6016
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: s08_magic_shop_front
+  position:
+  - 0
+  - 7296
+  - -19
+  yaw: -1.5708
+  pitch: 0.0873
+- name: s09_market_street
+  position:
+  - -1536
+  - 7680
+  - -19
+  yaw: 0.0
+  pitch: 0.0
+- name: s10_store_front
+  position:
+  - 1966
+  - 9856
+  - -19
+  yaw: -1.5708
+  pitch: 0.0873
+- name: s11_bank_street
+  position:
+  - -4915
+  - 10240
+  - -19
+  yaw: 1.5708
+  pitch: 0.0873
+- name: s12_forge_street
+  position:
+  - -3840
+  - 10496
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: s13_east_side
+  position:
+  - 8448
+  - 4608
+  - -19
+  yaw: 1.5708
+  pitch: 0.0
+- name: s14_arena_exit
+  position:
+  - 9216
+  - 11141
+  - -19
+  yaw: 3.1416
+  pitch: 0.0
+- name: s15_west_side
+  position:
+  - -8448
+  - 7680
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: s16_training_hall_square
+  position:
+  - -2560
+  - 13312
+  - -19
+  yaw: 0.2606
+  pitch: 0.0
+- name: s17_university_gate
+  position:
+  - 2816
+  - 12452
+  - -19
+  yaw: 0.0
+  pitch: 0.0
+- name: s18_north_gate
+  position:
+  - -2621
+  - 14336
+  - -19
+  yaw: 1.5708
+  pitch: 0.0
+- name: s19_hill_path
+  position:
+  - -2304
+  - 16128
+  - 299
+  yaw: 0.9273
+  pitch: 0.0
+- name: s20_palace_terrace
+  position:
+  - 82
+  - 18688
+  - 2379
+  yaw: 1.5708
+  pitch: 0.0
+- name: s21_hill_from_terrace
+  position:
+  - 82
+  - 18688
+  - 2379
+  yaw: -2.6104
+  pitch: -0.1396
+- name: s22_roofs_from_street
+  position:
+  - 512
+  - 2560
+  - -19
+  yaw: 0.7854
+  pitch: 0.4363
+- name: i01_tavern
+  position:
+  - -1024
+  - 512
+  - 1
+  yaw: -2.8966
+  pitch: 0.0
+- name: i02_temple
+  position:
+  - -5898
+  - -1792
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: i03_town_hall
+  position:
+  - 655
+  - 3891
+  - 83
+  yaw: 1.5708
+  pitch: 0.0
+- name: i04_magic_shop
+  position:
+  - 0
+  - 6272
+  - 1
+  yaw: -1.5708
+  pitch: 0.0
+- name: i05_general_store
+  position:
+  - 1966
+  - 8832
+  - 1
+  yaw: -2.1533
+  pitch: 0.0
+- name: i06_apothecary
+  position:
+  - -1075
+  - 8847
+  - 1
+  yaw: 2.7523
+  pitch: 0.0
+- name: i07_library
+  position:
+  - -6881
+  - 9216
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: i08_bank
+  position:
+  - -4915
+  - 11264
+  - 83
+  yaw: 1.8314
+  pitch: 0.0
+- name: i09_forge
+  position:
+  - -164
+  - 11264
+  - 1
+  yaw: 1.5708
+  pitch: 0.0
+- name: i10_armor_shop
+  position:
+  - -1638
+  - 11136
+  - 1
+  yaw: 2.4593
+  pitch: 0.0
+- name: i11_weapon_shop
+  position:
+  - 1311
+  - 11136
+  - 1
+  yaw: 0.6823
+  pitch: 0.0
+- name: i12_training_hall
+  position:
+  - -1331
+  - 14254
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: i13_university
+  position:
+  - 4352
+  - 12452
+  - 1
+  yaw: 0.0
+  pitch: 0.0
+- name: i14_palace_hall
+  position:
+  - 82
+  - 21504
+  - 3547
+  yaw: -1.5708
+  pitch: 0.0

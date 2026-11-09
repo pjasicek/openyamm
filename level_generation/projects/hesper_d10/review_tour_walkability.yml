@@ -1,0 +1,49 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_d10/review/walkability/captures
+settle_seconds: 1.5
+exit: true
+shots:
+- name: cleared-reading-aisle
+  position:
+  - 3000
+  - 1200
+  - 0
+  yaw: 0
+  pitch: 0.15
+  commands:
+  - config set immortal 1
+  - config set invisible 1
+- name: chamfered-reading-room
+  position:
+  - 4000
+  - 1200
+  - 0
+  yaw: 2.6
+  pitch: 0.1
+- name: gallery-upper-bend
+  position:
+  - 1200
+  - -140
+  - -31
+  yaw: -1.5707963267948966
+  pitch: -0.12
+- name: gallery-lower-bend
+  position:
+  - 1200
+  - -1720
+  - -498
+  yaw: 1.5707963267948966
+  pitch: 0.25
+- name: signature-atrium-dome
+  position:
+  - 1200
+  - 1800
+  - 0
+  yaw: -1.5707963267948966
+  pitch: 0.5
+- name: memory-wells
+  position:
+  - 1200
+  - -2000
+  - -512
+  yaw: -1.5707963267948966
+  pitch: 0.05

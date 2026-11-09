@@ -1,0 +1,578 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "CODEX_BRIEF.md",
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nFRONT VIEW: the guide is a small end-on cross-section, NOT the recognizable long full bow. Its exact nontransparent bounding rectangle is x=417..606, y=490..533 in a 1024-square image. Preserve this tiny horizontal shape and all of the enormous surrounding empty space. Left-pointed ivory projection at x417, the rounded/faceted ivory collar centered near x477, the horizontal dark resin bridge near x503..540, and the small ivory ferrule and right point ending x606 remain exactly where drawn. Decorate these visible surfaces only. Do not invent a bow profile, a string, new spikes, gems or projections.",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "6f643fd3201aa67bd5885e15f8ca0c41841ef0a6173b865bc8bbb161657e38ef"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": "paint_front.png",
+      "output_sha256": "bee1b12d7995d67c525db68be0a55d285d8b7107c2b711d9b12f2a3196f9e7d5",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de4f-70a0-a56d-37c49fc66781/exec-1bd32cf4-4f25-446b-8f8b-4e1ddb2a1276.png",
+      "selected": true,
+      "reason": "Only successful return retained; the single corrective request was rejected by the image service. Exact silhouette and flat-albedo checks remain failed.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          226,
+          109,
+          1031,
+          1182
+        ],
+        "guide_alpha_bbox": [
+          417,
+          490,
+          607,
+          534
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "resized": false,
+        "visible_alpha_bbox": [
+          512,
+          599,
+          742,
+          655
+        ],
+        "normalized_mask_iou": 0.7990906028965982,
+        "alpha_nonzero_pixels_outside_guide": 2245,
+        "alpha_over_127_pixels_outside_guide": 547,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "material_review": "Ivory, black-violet resin/leather and orange inlays follow the reference palette; small warm-gold accents.",
+        "flat_even_albedo_lighting": false,
+        "lighting_review": "Residual modeled highlights, seam shading and bright ivory edges remain; not strictly flat albedo.",
+        "no_floor_or_cast_shadow": true,
+        "clean_alpha_outside_guide": false,
+        "silhouette_review": "Exact silhouette check fails. Generated canvas differs in size; normalized shape also drifts and faint stray alpha pixels remain."
+      },
+      "kind": "initial"
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nBACK VIEW: the guide is a small end-on cross-section, NOT the recognizable long full bow. Its exact nontransparent bounding rectangle is x=417..606, y=490..533 in a 1024-square image. Preserve this tiny horizontal shape and all of the enormous surrounding empty space. The left ivory point/small ferrule, the thin horizontal resin connector, and the larger rounded/faceted ivory collar near x547 with its point extending to the right edge x606 remain exactly where drawn. This is the opposite end-on view from front. Paint these visible surfaces only; no invented profile, string, additional gems or projections.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "b9dbcfd6a7b040d44b94befcd8c49a4fd69c57fc9be64c6bec96f2ae8e52a5b7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": "paint_back_initial.png",
+      "output_sha256": "4db6e578fce9b37ae07375241d9eacdea55d323fbff5242192fbcbff1d711992",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de4f-70a0-a56d-37c49fc66781/exec-b8a95a3c-1e7b-4996-9ae3-f1aeee9a3b9d.png",
+      "selected": false,
+      "reason": "Not selected: corrective return had better normalized silhouette overlap. Original raw image preserved for provenance.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          272,
+          103,
+          1192,
+          1053
+        ],
+        "guide_alpha_bbox": [
+          417,
+          490,
+          607,
+          534
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "resized": false,
+        "visible_alpha_bbox": [
+          511,
+          598,
+          742,
+          655
+        ],
+        "normalized_mask_iou": 0.8699246738930737,
+        "alpha_nonzero_pixels_outside_guide": 1852,
+        "alpha_over_127_pixels_outside_guide": 208,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "material_review": "Ivory, black-violet resin/leather and orange inlays follow the reference palette; small warm-gold accents.",
+        "flat_even_albedo_lighting": false,
+        "lighting_review": "Residual modeled highlights, seam shading and bright ivory edges remain; not strictly flat albedo.",
+        "no_floor_or_cast_shadow": true,
+        "clean_alpha_outside_guide": false,
+        "silhouette_review": "Exact silhouette check fails. Generated canvas differs in size; normalized shape also drifts and faint stray alpha pixels remain."
+      },
+      "kind": "initial"
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nLEFT VIEW: preserve the extremely thin, edge-on horizontal bow across x=66..957, y=490..533 on the 1024-square transparent canvas. It is about 892 pixels wide and only 44 pixels tall, with ivory end caps, narrow black-violet resin arms, four small diamond-section ivory details exactly where the guide shows them, and the central rectangular grip x460..562. Paint the central grip dark wrapped violet-black leather with pale ivory edging kept inside its outline. Keep the guide's exact thin proportions and straight edge-on projection. Do not bend into a side silhouette or thicken it.",
+      "error": "image_gen HTTP 400 moderation_blocked, category violence; request ID c53037d0-ef46-4f57-abf8-949f8351b2c9. No image returned.",
+      "attempt": 1,
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "44072dcc5b33743fd2397d55ecced24913c455bb30554621466e58171bca6047"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Tool rejected benign fantasy item texture request; no image produced.",
+      "kind": "initial"
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nLEFT VIEW: preserve the extremely thin, edge-on horizontal bow across x=66..957, y=490..533 on the 1024-square transparent canvas. It is about 892 pixels wide and only 44 pixels tall, with ivory end caps, narrow black-violet resin arms, four small diamond-section ivory details exactly where the guide shows them, and the central rectangular grip x460..562. Paint the central grip dark wrapped violet-black leather with pale ivory edging kept inside its outline. Keep the guide's exact thin proportions and straight edge-on projection. Do not bend into a side silhouette or thicken it.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "44072dcc5b33743fd2397d55ecced24913c455bb30554621466e58171bca6047"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": "paint_left_initial.png",
+      "output_sha256": "ed2372a50d81f316dc726868ed13951df6d1a7145ec1bf59083f3ed162ec1a92",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de4f-70a0-a56d-37c49fc66781/exec-9fc02d79-f3cd-4cf8-9d22-8791c8351e71.png",
+      "selected": false,
+      "reason": "Not selected: corrective return had better normalized silhouette overlap. Original raw image preserved for provenance.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          57,
+          184,
+          1178,
+          1172
+        ],
+        "guide_alpha_bbox": [
+          66,
+          490,
+          958,
+          534
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "resized": false,
+        "visible_alpha_bbox": [
+          80,
+          602,
+          1175,
+          652
+        ],
+        "normalized_mask_iou": 0.8565351629502573,
+        "alpha_nonzero_pixels_outside_guide": 12098,
+        "alpha_over_127_pixels_outside_guide": 1446,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "material_review": "Ivory, black-violet resin/leather and orange inlays follow the reference palette; small warm-gold accents.",
+        "flat_even_albedo_lighting": false,
+        "lighting_review": "Residual modeled highlights, seam shading and bright ivory edges remain; not strictly flat albedo.",
+        "no_floor_or_cast_shadow": true,
+        "clean_alpha_outside_guide": false,
+        "silhouette_review": "Exact silhouette check fails. Generated canvas differs in size; normalized shape also drifts and faint stray alpha pixels remain."
+      },
+      "kind": "initial"
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nRIGHT VIEW: preserve the extremely thin, edge-on horizontal bow across x=66..957, y=490..533 on the 1024-square transparent canvas. It is about 892 pixels wide and only 44 pixels tall, with ivory end caps, narrow black-violet resin arms, a very fine near-horizontal string line exactly as shown, and the central rectangular grip x460..562. Paint central grip dark wrapped violet-black leather with pale ivory edging inside its outline. This is the opposite edge-on side: do not add the prominent diamond-section spikes of the other view. Keep exact guide surfaces, straight edge-on projection and thickness.",
+      "error": "image_gen HTTP 400 moderation_blocked, category violence; request ID c39ad400-2840-42d2-8d5e-ac56bfc6f2a1. No image returned.",
+      "attempt": 1,
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0f447b3eeddaf6f5161beb0544d93b49d0ce2ca5f8ed2b4f0f78f6a0f85fbd14"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Tool rejected benign fantasy item texture request; no image produced.",
+      "kind": "initial"
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nRIGHT VIEW: preserve the extremely thin, edge-on horizontal bow across x=66..957, y=490..533 on the 1024-square transparent canvas. It is about 892 pixels wide and only 44 pixels tall, with ivory end caps, narrow black-violet resin arms, a very fine near-horizontal string line exactly as shown, and the central rectangular grip x460..562. Paint central grip dark wrapped violet-black leather with pale ivory edging inside its outline. This is the opposite edge-on side: do not add the prominent diamond-section spikes of the other view. Keep exact guide surfaces, straight edge-on projection and thickness.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0f447b3eeddaf6f5161beb0544d93b49d0ce2ca5f8ed2b4f0f78f6a0f85fbd14"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": "paint_right.png",
+      "output_sha256": "62dc9169b62c44d654744dd777f782d50910845edfbc234bfe6d11165427499e",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de4f-70a0-a56d-37c49fc66781/exec-14cd64f3-970a-45e2-8511-b457a6621375.png",
+      "selected": true,
+      "reason": "Only successful return retained; the single corrective request was rejected by the image service. Exact silhouette and flat-albedo checks remain failed.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          25,
+          21,
+          1208,
+          1140
+        ],
+        "guide_alpha_bbox": [
+          66,
+          490,
+          958,
+          534
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "resized": false,
+        "visible_alpha_bbox": [
+          81,
+          601,
+          1173,
+          652
+        ],
+        "normalized_mask_iou": 0.8626535626535626,
+        "alpha_nonzero_pixels_outside_guide": 9998,
+        "alpha_over_127_pixels_outside_guide": 1100,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "material_review": "Ivory, black-violet resin/leather and orange inlays follow the reference palette; small warm-gold accents.",
+        "flat_even_albedo_lighting": false,
+        "lighting_review": "Residual modeled highlights, seam shading and bright ivory edges remain; not strictly flat albedo.",
+        "no_floor_or_cast_shadow": true,
+        "clean_alpha_outside_guide": false,
+        "silhouette_review": "Exact silhouette check fails. Generated canvas differs in size; normalized shape also drifts and faint stray alpha pixels remain."
+      },
+      "kind": "initial"
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nTOP VIEW: this guide shows the recognizable full bow upright, orthographic from directly above its plane. Preserve exact silhouette within x=417..606, y=66..957. The curved bow limb runs down the left (center at x477), four short ivory spikes point LEFT at their guide locations, hooked ivory tips point RIGHT, the straight thin string is at x550 from the upper hook to lower hook, and the rectangular central grip is x449..502, y460..564. Keep every spike, hook, curve, string and grip edge exactly. Apply pale worn ivory bone-ceramic to the existing hooks and four spikes, very dark black-violet resin with fine orange energy grooves to the existing curved limbs, and violet-black leather wrapping with ivory end collars INSIDE the existing central grip. No added silhouette details, gems, overlapping armor or changes to the gap between bow and string.",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "5ca64865c6d1b9d00dd8a575c9bfd4e40d92f0b5944313fe4893176dbf086ffe"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": "paint_top.png",
+      "output_sha256": "411fc9eef8322f82182e7412dc7ee27488d30674e3f3850e6db759be1c16be01",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de4f-70a0-a56d-37c49fc66781/exec-2f08646c-37fe-4a87-aebf-48170ba72fae.png",
+      "selected": true,
+      "reason": "Only successful return retained; the single corrective request was rejected by the image service. Exact silhouette and flat-albedo checks remain failed.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          105,
+          49,
+          1214,
+          1180
+        ],
+        "guide_alpha_bbox": [
+          417,
+          66,
+          607,
+          958
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "resized": false,
+        "visible_alpha_bbox": [
+          509,
+          58,
+          748,
+          1163
+        ],
+        "normalized_mask_iou": 0.5412342372503068,
+        "alpha_nonzero_pixels_outside_guide": 35470,
+        "alpha_over_127_pixels_outside_guide": 17811,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "material_review": "Ivory, black-violet resin/leather and orange inlays follow the reference palette; small warm-gold accents.",
+        "flat_even_albedo_lighting": false,
+        "lighting_review": "Residual modeled highlights, seam shading and bright ivory edges remain; not strictly flat albedo.",
+        "no_floor_or_cast_shadow": true,
+        "clean_alpha_outside_guide": false,
+        "silhouette_review": "Exact silhouette check fails. Generated canvas differs in size; normalized shape also drifts and faint stray alpha pixels remain."
+      },
+      "kind": "initial"
+    },
+    {
+      "view": "front",
+      "prompt": "CORRECTIVE PASS, maximum fidelity to the FIRST image is the priority. Treat the first image as a locked alpha stencil: recolor its interior, preserve all original edge contours and internal part boundaries. The previous result had excessive modeled lighting, small geometry drift and stray faint alpha pixels. Correct exactly these problems. Use flat base colors and fine incised linework, not bright white highlights or dark bevel/AO borders. No relief shading on bone or grip seams. Do not copy the design-reference image's red/yellow edge contamination, fringe or stray pixels; these are unwanted background artifacts. All space outside the guide shape must be clean alpha=0. No visible colored halo. Keep exact framing on 1024 x 1024 and do not zoom. \n\nUse case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nFRONT VIEW: the guide is a small end-on cross-section, NOT the recognizable long full bow. Its exact nontransparent bounding rectangle is x=417..606, y=490..533 in a 1024-square image. Preserve this tiny horizontal shape and all of the enormous surrounding empty space. Left-pointed ivory projection at x417, the rounded/faceted ivory collar centered near x477, the horizontal dark resin bridge near x503..540, and the small ivory ferrule and right point ending x606 remain exactly where drawn. Decorate these visible surfaces only. Do not invent a bow profile, a string, new spikes, gems or projections.",
+      "error": "image_gen HTTP 400 moderation_blocked, category violence; request ID 7a85d562-228c-491c-bb4e-f8493ff30632. No image returned.",
+      "attempt": 2,
+      "kind": "corrective",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "6f643fd3201aa67bd5885e15f8ca0c41841ef0a6173b865bc8bbb161657e38ef"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by image service; no image produced. Initial return retained; no further correction requested for this view."
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "kind": "corrective",
+      "prompt": "CORRECTIVE PASS, maximum fidelity to the FIRST image is the priority. Treat the first image as a locked alpha stencil: recolor its interior, preserve all original edge contours and internal part boundaries. The previous result had excessive modeled lighting, small geometry drift and stray faint alpha pixels. Correct exactly these problems. Use flat base colors and fine incised linework, not bright white highlights or dark bevel/AO borders. No relief shading on bone or grip seams. Do not copy the design-reference image's red/yellow edge contamination, fringe or stray pixels; these are unwanted background artifacts. All space outside the guide shape must be clean alpha=0. No visible colored halo. Keep exact framing on 1024 x 1024 and do not zoom. \n\nUse case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nBACK VIEW: the guide is a small end-on cross-section, NOT the recognizable long full bow. Its exact nontransparent bounding rectangle is x=417..606, y=490..533 in a 1024-square image. Preserve this tiny horizontal shape and all of the enormous surrounding empty space. The left ivory point/small ferrule, the thin horizontal resin connector, and the larger rounded/faceted ivory collar near x547 with its point extending to the right edge x606 remain exactly where drawn. This is the opposite end-on view from front. Paint these visible surfaces only; no invented profile, string, additional gems or projections.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "b9dbcfd6a7b040d44b94befcd8c49a4fd69c57fc9be64c6bec96f2ae8e52a5b7"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "a6838d1542fa788ec642b97a2795bf99e63b383bebcb93d97d8a4d99cd9a764d",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de4f-70a0-a56d-37c49fc66781/exec-5bb71c88-411e-4232-968a-fda564dd33b6.png",
+      "selected": true,
+      "reason": "Selected corrective return: higher normalized silhouette overlap than initial return. Best available unresized raw image, not an exact silhouette/albedo pass.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          210,
+          71,
+          1169,
+          1165
+        ],
+        "guide_alpha_bbox": [
+          417,
+          490,
+          607,
+          534
+        ],
+        "visible_alpha_bbox": [
+          512,
+          601,
+          742,
+          654
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.9151984511132624,
+        "resized": false,
+        "alpha_nonzero_pixels_outside_guide": 2026,
+        "alpha_over_127_pixels_outside_guide": 44,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "material_review": "Ivory, black-violet resin/leather and orange inlays follow the reference palette; small warm-gold accents.",
+        "flat_even_albedo_lighting": false,
+        "lighting_review": "Residual modeled highlights, seam shading and bright ivory edges remain; not strictly flat albedo.",
+        "no_floor_or_cast_shadow": true,
+        "clean_alpha_outside_guide": false,
+        "silhouette_review": "Exact silhouette check fails. Generated canvas differs in size; normalized shape also drifts and faint stray alpha pixels remain."
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 3,
+      "kind": "corrective",
+      "prompt": "CORRECTIVE PASS, maximum fidelity to the FIRST image is the priority. Treat the first image as a locked alpha stencil: recolor its interior, preserve all original edge contours and internal part boundaries. The previous result had excessive modeled lighting, small geometry drift and stray faint alpha pixels. Correct exactly these problems. Use flat base colors and fine incised linework, not bright white highlights or dark bevel/AO borders. No relief shading on bone or grip seams. Do not copy the design-reference image's red/yellow edge contamination, fringe or stray pixels; these are unwanted background artifacts. All space outside the guide shape must be clean alpha=0. No visible colored halo. Keep exact framing on 1024 x 1024 and do not zoom. \n\nUse case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nLEFT VIEW: preserve the extremely thin, edge-on horizontal bow across x=66..957, y=490..533 on the 1024-square transparent canvas. It is about 892 pixels wide and only 44 pixels tall, with ivory end caps, narrow black-violet resin arms, four small diamond-section ivory details exactly where the guide shows them, and the central rectangular grip x460..562. Paint the central grip dark wrapped violet-black leather with pale ivory edging kept inside its outline. Keep the guide's exact thin proportions and straight edge-on projection. Do not bend into a side silhouette or thicken it.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "sha256": "44072dcc5b33743fd2397d55ecced24913c455bb30554621466e58171bca6047"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": "paint_left.png",
+      "output_sha256": "253173c6267caf62257f57cb07d1b79f01366537aa9ae00f8ac5a9622f0129dc",
+      "source": "/home/pjasicek/.codex/generated_images/01a16ec6-de4f-70a0-a56d-37c49fc66781/exec-cb28dd69-8175-4ff4-a94c-f370254ee809.png",
+      "selected": true,
+      "reason": "Selected corrective return: higher normalized silhouette overlap than initial return. Best available unresized raw image, not an exact silhouette/albedo pass.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "guide_size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_bbox": [
+          33,
+          71,
+          1176,
+          1198
+        ],
+        "guide_alpha_bbox": [
+          66,
+          490,
+          958,
+          534
+        ],
+        "visible_alpha_bbox": [
+          81,
+          599,
+          1173,
+          652
+        ],
+        "transparent_background": true,
+        "silhouette_identical": false,
+        "normalized_mask_iou": 0.8673902455993877,
+        "resized": false,
+        "alpha_nonzero_pixels_outside_guide": 12609,
+        "alpha_over_127_pixels_outside_guide": 1462,
+        "no_text_or_letters": true,
+        "materials_match_reference": true,
+        "material_review": "Ivory, black-violet resin/leather and orange inlays follow the reference palette; small warm-gold accents.",
+        "flat_even_albedo_lighting": false,
+        "lighting_review": "Residual modeled highlights, seam shading and bright ivory edges remain; not strictly flat albedo.",
+        "no_floor_or_cast_shadow": true,
+        "clean_alpha_outside_guide": false,
+        "silhouette_review": "Exact silhouette check fails. Generated canvas differs in size; normalized shape also drifts and faint stray alpha pixels remain."
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "CORRECTIVE PASS, maximum fidelity to the FIRST image is the priority. Treat the first image as a locked alpha stencil: recolor its interior, preserve all original edge contours and internal part boundaries. The previous result had excessive modeled lighting, small geometry drift and stray faint alpha pixels. Correct exactly these problems. Use flat base colors and fine incised linework, not bright white highlights or dark bevel/AO borders. No relief shading on bone or grip seams. Do not copy the design-reference image's red/yellow edge contamination, fringe or stray pixels; these are unwanted background artifacts. All space outside the guide shape must be clean alpha=0. No visible colored halo. Keep exact framing on 1024 x 1024 and do not zoom. \n\nUse case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nRIGHT VIEW: preserve the extremely thin, edge-on horizontal bow across x=66..957, y=490..533 on the 1024-square transparent canvas. It is about 892 pixels wide and only 44 pixels tall, with ivory end caps, narrow black-violet resin arms, a very fine near-horizontal string line exactly as shown, and the central rectangular grip x460..562. Paint central grip dark wrapped violet-black leather with pale ivory edging inside its outline. This is the opposite edge-on side: do not add the prominent diamond-section spikes of the other view. Keep exact guide surfaces, straight edge-on projection and thickness.",
+      "error": "image_gen HTTP 400 moderation_blocked, category violence; request ID 4e8f643c-5b3f-4fbc-86fc-e8cb596f4766. No image returned.",
+      "attempt": 3,
+      "kind": "corrective",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "sha256": "0f447b3eeddaf6f5161beb0544d93b49d0ce2ca5f8ed2b4f0f78f6a0f85fbd14"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by image service; no image produced. Initial return retained; no further correction requested for this view."
+    },
+    {
+      "view": "top",
+      "prompt": "CORRECTIVE PASS, maximum fidelity to the FIRST image is the priority. Treat the first image as a locked alpha stencil: recolor its interior, preserve all original edge contours and internal part boundaries. The previous result had excessive modeled lighting, small geometry drift and stray faint alpha pixels. Correct exactly these problems. Use flat base colors and fine incised linework, not bright white highlights or dark bevel/AO borders. No relief shading on bone or grip seams. Do not copy the design-reference image's red/yellow edge contamination, fringe or stray pixels; these are unwanted background artifacts. All space outside the guide shape must be clean alpha=0. No visible colored halo. Keep exact framing on 1024 x 1024 and do not zoom. \n\nUse case: style-transfer. Asset type: orthographic albedo texture projection source for an existing 3D model.\nEdit ONLY the FIRST input image (the geometry guide). The SECOND input image is the approved design reference and supplies materials/colors only. Do not borrow its silhouette or camera view.\nCRITICAL: keep the guide's 1024 x 1024 canvas, original object pixel position, scale, silhouette, occlusion, every part edge, and transparent alpha coverage exactly. Repaint the pixels of the existing object only. All transparent pixels must remain transparent. Do not enlarge the object, center it differently, rotate it, change the camera, add geometry, or make a perspective beauty shot. The large empty transparent space in the guide is intentional.\nDesign reference: Hesper Noblebone Longbow, pale worn ivory/white bone-ceramic armor, very dark black-violet resin underneath with fine purple striations and incised ornament, dark violet-black leather grip with fine horizontal wrap seams, fine brushed warm-gold trim at existing seams, narrow bright ember-orange energy inlays on existing resin surfaces, and a thin dark bronze bowstring where visible. Continue these materials plausibly onto hidden faces. Paint fine engraved lines and restrained wear inside the existing surface shapes only. Geometry/material boundary locations come from the guide; guide's flat placeholder colors are NOT the final colors.\nLIGHTING: pure albedo, flat even shadowless viewer-facing light. No cast shadow, no ambient-occlusion darkening, no directional shading, no specular hot spots, no reflections, no rim lighting. Metal only base color and faint sheen. Orange light is painted bright orange locally, without bloom, glow haze or spill outside the surface. No background, no floor, no text, no letters, no labels, no border, no watermark.\nOutput exactly one 1024 x 1024 transparent RGBA PNG, an unresized image generation return.\n\nTOP VIEW: this guide shows the recognizable full bow upright, orthographic from directly above its plane. Preserve exact silhouette within x=417..606, y=66..957. The curved bow limb runs down the left (center at x477), four short ivory spikes point LEFT at their guide locations, hooked ivory tips point RIGHT, the straight thin string is at x550 from the upper hook to lower hook, and the rectangular central grip is x449..502, y460..564. Keep every spike, hook, curve, string and grip edge exactly. Apply pale worn ivory bone-ceramic to the existing hooks and four spikes, very dark black-violet resin with fine orange energy grooves to the existing curved limbs, and violet-black leather wrapping with ivory end collars INSIDE the existing central grip. No added silhouette details, gems, overlapping armor or changes to the gap between bow and string.\nSpecific TOP correction: the first return shifted the top hook upward and enlarged the grip and spikes. Trace the FIRST image's precise shape instead. In normalized coordinates the top hook starts y=66/1024, the lower hook ends y=957/1024, the central grip starts y=460/1024 and ends y=564/1024. The four spikes are shallow flat triangles in the guide; keep them that exact size. Keep the string in its guide position. Do not enlarge any portion for ornament.",
+      "error": "image_gen HTTP 400 moderation_blocked, category violence; request ID 2da5e508-b5e2-407c-b53f-6b98c2e6eb89. No image returned.",
+      "attempt": 2,
+      "kind": "corrective",
+      "inputs": [
+        {
+          "path": "guide_top.png",
+          "sha256": "5ca64865c6d1b9d00dd8a575c9bfd4e40d92f0b5944313fe4893176dbf086ffe"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "3dde42a3432201ccb8cf6e003a03d0009acece30aa294e6f864833a9d4dd5307"
+        }
+      ],
+      "output": null,
+      "selected": false,
+      "reason": "Corrective request rejected by image service; no image produced. Initial return retained; no further correction requested for this view."
+    }
+  ],
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "returned_size": [
+    1254,
+    1254
+  ],
+  "postprocessing": "None: byte-for-byte raw tool returns, copied/renamed only; no resizing, masking, color edits or cleanup.",
+  "qa_method": "Visual review plus alpha checks. Normalized IoU samples the guide mask at output pixel coordinates for comparison only; no image file was resampled.",
+  "status": "Five named deliverables saved; strict silhouette and flat-albedo requirements not met.",
+  "limitations": [
+    "All successful tool returns are 1254 x 1254, retained unresized as the brief instructs.",
+    "All views retain some shape drift and stray alpha pixels; top has the largest shape discrepancy.",
+    "Residual surface highlights and seam shading prevent strict flat-albedo acceptance.",
+    "One corrective request per view was made. Front, right and top corrections were rejected with moderation_blocked/violence; no output was produced for those requests."
+  ],
+  "selected_outputs": [
+    "paint_front.png",
+    "paint_right.png",
+    "paint_top.png",
+    "paint_back.png",
+    "paint_left.png"
+  ]
+}

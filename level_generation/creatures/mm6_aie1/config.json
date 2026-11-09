@@ -1,0 +1,24 @@
+{
+  "family": "aie1",
+  "title": "MM6 Air Elemental",
+  "descriptor_ids": [
+    523,
+    524,
+    525
+  ],
+  "base_palette": 198,
+  "inventory_file": "inventory.json",
+  "matte": "magenta",
+  "mask_kind": "blue",
+  "description": "Native MM6 air elemental: tall narrow inverted cone of ragged swirling wind, broad flat/uneven top tapering to a bottom point. Muted blue-gray and smoky charcoal central vortices with pale icy silver winding streaks and thin dusty tan/brown outer wisps. Preserve the suggestive stern face within the upper-right central cloud, NOT a new solid humanoid head or limbs. Dense overlapping horizontal torn wisps, native asymmetry and hollow gaps; no smooth tornado rings, photoreal clouds, glow or new debris.",
+  "regions": "Wind body and dusty peripheral wisps will be selectively mapped offline to native variants; generate ONLY the blue-gray/tan base palette 198 shown in input 1 for every frame.",
+  "variant_names": {
+    "198": "Air Elemental 1",
+    "199": "Air Elemental 2",
+    "724": "Air Elemental 3"
+  },
+  "material_module": "materials.py",
+  "material_mask_channels": 4,
+  "standing_reference_frame": 0,
+  "identity_full_sequence": true
+}

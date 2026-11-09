@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Ranger's Cloak (7item107). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Compact folded charcoal patterned cloak with thick rounded layers, diagonal flap and small round dark silver crescent clasp. Exact material boundaries: All charcoal patterned cloak fabric is CLOTH BLUE. Only the small round dark silver crescent clasp is METAL RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item107/inputs/guide_paint.png",
+  "input_guide_sha256": "2cb3ab7dd8c7300462dcd3b838464ca442357fade1874b9dc8a6e063e2f50c92",
+  "revision": 1,
+  "input_icon": "7item107",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-fd28bd56-f59c-4adc-90cd-c7497458f0a8.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "025f49c8ed07dcad2eede8042a41a81cc8a8591a91460c2520758cb0ff7bd785",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item107.png",
+  "input_icon_sha256": "f213e9a98d13fe6136cdd78a23f592ad8ea3d1a6f90e54403a473bcc07da369c",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

@@ -1,0 +1,1001 @@
+{
+  "method": "Native per-pixel nonnegative two-material decomposition; scalar alpha and shade transferred to restored masters. Shared axis/topology edge profiles. Fixed material phase, wrapped material gutters and edge-extended scalar fields. Road openings reuse accepted masks and linear edge deltas.",
+  "authoring_size": 512,
+  "runtime_size": 256,
+  "tiles": [
+    {
+      "tile": "6drsrcros",
+      "family": "roads",
+      "source_sha256": "ca14b8d701b2a7c9567c2dbe0523d5d0c467eeeee1a3b3212964c68272b1e9f4",
+      "reconstruction_mean_absolute_error": 2.9046927839062384,
+      "edge_topology": {
+        "N": "opening",
+        "S": "opening",
+        "E": "opening",
+        "W": "opening"
+      },
+      "shade_min": 0.45456430315971375,
+      "shade_below_95_fraction": 0.06908035278320312,
+      "runtime_sha256": "7ce770dc9e5ecb9f668ad4c1c02a204ae509e25f640a5ed75b13a5aac91626fe"
+    },
+    {
+      "tile": "6drsrew_n",
+      "family": "roads",
+      "source_sha256": "f6acb23c2c7ebda7d4c785a44027ab927d027fdbaa01c350485308b9ecfd8e9f",
+      "reconstruction_mean_absolute_error": 2.7995683694314115,
+      "edge_topology": {
+        "N": "opening",
+        "S": "0",
+        "E": "opening",
+        "W": "opening"
+      },
+      "shade_min": 0.44999999999999996,
+      "shade_below_95_fraction": 0.07190704345703125,
+      "runtime_sha256": "0b85a27dc2157408c366d09de99f8f61db093f172deacd74531e48135cf72ac6"
+    },
+    {
+      "tile": "6drsrncap",
+      "family": "roads",
+      "source_sha256": "ec86ae02bc5f1e391cfd010105385923f54b5f95d0032b9bbae31392742e7914",
+      "reconstruction_mean_absolute_error": 3.1323697543361932,
+      "edge_topology": {
+        "N": "0",
+        "S": "opening",
+        "E": "0",
+        "W": "0"
+      },
+      "shade_min": 0.4512737989425659,
+      "shade_below_95_fraction": 0.09889602661132812,
+      "runtime_sha256": "24462092e2238089d97e33abaee9222fa5233e7979fd167214d928156030b215"
+    },
+    {
+      "tile": "6drsrns_e",
+      "family": "roads",
+      "source_sha256": "889c3ad1aa0aa036546fa7b200f92be92a2dd440bd79a9e2ead2f4cda3ad92dd",
+      "reconstruction_mean_absolute_error": 2.977700975846282,
+      "edge_topology": {
+        "N": "opening",
+        "S": "opening",
+        "E": "opening",
+        "W": "0"
+      },
+      "shade_min": 0.45456430315971375,
+      "shade_below_95_fraction": 0.0690155029296875,
+      "runtime_sha256": "40be6d5879db2805dff1dd014a24532aab22eeb90a3c77066532a345df30ff63"
+    },
+    {
+      "tile": "6drsrns_w",
+      "family": "roads",
+      "source_sha256": "3810a2254d187d2ab22cc85c84101e02f5efed5cb11ad761c9018507aee0d120",
+      "reconstruction_mean_absolute_error": 2.894333341070495,
+      "edge_topology": {
+        "N": "opening",
+        "S": "opening",
+        "E": "0",
+        "W": "opening"
+      },
+      "shade_min": 0.45499372482299805,
+      "shade_below_95_fraction": 0.06917572021484375,
+      "runtime_sha256": "3464c51cbdcc2a43a0a3d760582c7b7f1f602fc0094dbd94a6c14bf987566a37"
+    },
+    {
+      "tile": "6drsrscap",
+      "family": "roads",
+      "source_sha256": "4aefee25ff94b79c2971ff860b181c2d83a9e67babfa18fb04695972899f16bc",
+      "reconstruction_mean_absolute_error": 2.4249989418302476,
+      "edge_topology": {
+        "N": "opening",
+        "S": "0",
+        "E": "0",
+        "W": "0"
+      },
+      "shade_min": 0.4520690441131592,
+      "shade_below_95_fraction": 0.08596038818359375,
+      "runtime_sha256": "517d34e211692cc68e7eb6babbe70f2b2558cd3dc97c73d4f13443bd3d4f93b9"
+    },
+    {
+      "tile": "6sndrte",
+      "family": "sand",
+      "source_sha256": "fa7ef01ecbc359e799a683f68de75ead8f6c8559f4de78943b1dcdcaf48af39c",
+      "reconstruction_mean_absolute_error": 0.805396489557828,
+      "edge_topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "shade_min": 0.6382400989532471,
+      "shade_below_95_fraction": 0.02472686767578125,
+      "runtime_sha256": "4cd5fe02fa96cab0250d15b5dec167ad878855fafd9739cd112f03b13a475f6e"
+    },
+    {
+      "tile": "6sndrtn",
+      "family": "sand",
+      "source_sha256": "623babd1720fec845eb4aa278f880335990c77398a473987ac2fe04f068bd168",
+      "reconstruction_mean_absolute_error": 0.8931868577869477,
+      "edge_topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "shade_min": 0.5779580473899841,
+      "shade_below_95_fraction": 0.016143798828125,
+      "runtime_sha256": "b4686c6b92b94176bb393f2789156d84067c7b6a243deaf18f5694333d34addd"
+    },
+    {
+      "tile": "6sndrtne",
+      "family": "sand",
+      "source_sha256": "3c0801c82153d644336119e9097abfb06964cb0fea0a47788b16eb6625f13326",
+      "reconstruction_mean_absolute_error": 1.379509926346873,
+      "edge_topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "shade_min": 0.5191368460655212,
+      "shade_below_95_fraction": 0.032657623291015625,
+      "runtime_sha256": "1eb803697d18c4c9ef6705b992a7c5e0d504aaa4b888b0035e472c720c792388"
+    },
+    {
+      "tile": "6sndrtnw",
+      "family": "sand",
+      "source_sha256": "380e08deeffeeefa30d6603ceed7ea1808641e82f62529dacb1e890024ea47d3",
+      "reconstruction_mean_absolute_error": 1.2974347671293767,
+      "edge_topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "shade_min": 0.5839229822158813,
+      "shade_below_95_fraction": 0.0308990478515625,
+      "runtime_sha256": "7ed00f15e4188be3ab98d479b3d91ffbc9443bfa491fd4df47852dd8e46c00a0"
+    },
+    {
+      "tile": "6sndrts",
+      "family": "sand",
+      "source_sha256": "248030d1da32bd8ee11918eba2c725795caa0e8daf1721f343baacc0a10ab5b2",
+      "reconstruction_mean_absolute_error": 1.321977805422055,
+      "edge_topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "shade_min": 0.5929932594299316,
+      "shade_below_95_fraction": 0.0245361328125,
+      "runtime_sha256": "ec5bbf4aa69774955c8424db4623be467d0abd7fe63441a6cffaf9bb837e5047"
+    },
+    {
+      "tile": "6sndrtse",
+      "family": "sand",
+      "source_sha256": "25bfa12161495d3a4366cce722952861f6d24fee6cd67ac4081805b4f502eb87",
+      "reconstruction_mean_absolute_error": 1.2134045383141354,
+      "edge_topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "shade_min": 0.5293986201286316,
+      "shade_below_95_fraction": 0.03081512451171875,
+      "runtime_sha256": "bc88a8424a1f5d10e9fa0b026afce3d4bb54902841ae18731b31e99c8afc4fb2"
+    },
+    {
+      "tile": "6sndrtsw",
+      "family": "sand",
+      "source_sha256": "6d84e0363b725d57ab6ef6e41c24be8c3571211347cc3ee9637affa72a927d56",
+      "reconstruction_mean_absolute_error": 1.2464663482814773,
+      "edge_topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "shade_min": 0.5868589878082275,
+      "shade_below_95_fraction": 0.035144805908203125,
+      "runtime_sha256": "4d0ca0511d9290542e354ecb05b3a5dcd0021e15af9cc68795ba77cc98b288df"
+    },
+    {
+      "tile": "6sndrtw",
+      "family": "sand",
+      "source_sha256": "95bdca45cc1a850390f9135dd6cd387cf53aa504b1c432384668bf0221b3bf4e",
+      "reconstruction_mean_absolute_error": 1.2706450215382794,
+      "edge_topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "shade_min": 0.48919692635536194,
+      "shade_below_95_fraction": 0.036289215087890625,
+      "runtime_sha256": "dfdad89bad978936962fb68b8de6a46ae4a0b73c95e0e7476515a625730b1893"
+    },
+    {
+      "tile": "6sndrtxne",
+      "family": "sand",
+      "source_sha256": "b37baaff1d190b0e618d7f42634fe14b42d02d3d3e121c928024fd7b415c0975",
+      "reconstruction_mean_absolute_error": 0.6286200472559723,
+      "edge_topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "shade_min": 0.6403939723968506,
+      "shade_below_95_fraction": 0.016056060791015625,
+      "runtime_sha256": "c993bea5549b2480a947ec730d10a2bfcb12dc66974bc8f3eeba07190cbbc04e"
+    },
+    {
+      "tile": "6sndrtxnw",
+      "family": "sand",
+      "source_sha256": "178f63177f0fc73e5a510a0061a1c15f4eae691e48ceab022cce4706d6204209",
+      "reconstruction_mean_absolute_error": 0.7577538533546277,
+      "edge_topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "shade_min": 0.5641722083091736,
+      "shade_below_95_fraction": 0.0244598388671875,
+      "runtime_sha256": "f3225c895a7fb9ed5c665317fe99e3b0a469d904b6f1f4d2b9027e39efc00c82"
+    },
+    {
+      "tile": "6sndrtxse",
+      "family": "sand",
+      "source_sha256": "a16a559ba9446c4677b6265c76a942304b9097ba9ed4392be84d8dd1252dfd10",
+      "reconstruction_mean_absolute_error": 0.7879796660316621,
+      "edge_topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "shade_min": 0.6084760427474976,
+      "shade_below_95_fraction": 0.012416839599609375,
+      "runtime_sha256": "2ee96bf57079065bd37201076e098e60c6b8213f027c42244bf306a90c14e7f2"
+    },
+    {
+      "tile": "6sndrtxsw",
+      "family": "sand",
+      "source_sha256": "c9650721ec901b0934879c4eeab5d3d60ed19a310a770f44e204ae13571b453b",
+      "reconstruction_mean_absolute_error": 0.8781755445888865,
+      "edge_topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "shade_min": 0.5132589936256409,
+      "shade_below_95_fraction": 0.029296875,
+      "runtime_sha256": "5ae78a8b32d33b51c619469b5bf764e89624752cbaf35f93fcc3228df5ee80a0"
+    },
+    {
+      "tile": "crkdrte",
+      "family": "cracked",
+      "source_sha256": "62e55763ac304729758fce2c6b2293a7892a1233f75353f63813001035e532bb",
+      "reconstruction_mean_absolute_error": 1.2540256602211604,
+      "edge_topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "shade_min": 0.767485499382019,
+      "shade_below_95_fraction": 0.0188140869140625,
+      "runtime_sha256": "81270a68c15e88e5bbac8a63a219482cb1697c73f7973100cd8a37b5533bf39f"
+    },
+    {
+      "tile": "crkdrtn",
+      "family": "cracked",
+      "source_sha256": "8d14ff1c3523beffd667d237ff9d5fedb7dbcb058e8d8fc0cce446a82f4bba45",
+      "reconstruction_mean_absolute_error": 1.290284949108839,
+      "edge_topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "shade_min": 0.7306056063098367,
+      "shade_below_95_fraction": 0.022579193115234375,
+      "runtime_sha256": "81fbe7244485d88edfc1207a5b740a07580b491873bec5eadc5b6b554d857234"
+    },
+    {
+      "tile": "crkdrtne",
+      "family": "cracked",
+      "source_sha256": "0fab92588be2d2ef6555c7788a1a5c776ba127161454551301d7045df00bff64",
+      "reconstruction_mean_absolute_error": 1.5844107363211541,
+      "edge_topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "shade_min": 0.6551379561424255,
+      "shade_below_95_fraction": 0.033172607421875,
+      "runtime_sha256": "3587b232ec8768c284f5044f9650ebd229ff55ccdb789d7c2bd92c0e4820c0dd"
+    },
+    {
+      "tile": "crkdrtnw",
+      "family": "cracked",
+      "source_sha256": "660589b7cddb568c944e2ed71d5f1c92bf859422ac13044c4bf6958514dab593",
+      "reconstruction_mean_absolute_error": 1.8094643215712733,
+      "edge_topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "shade_min": 0.6930761337280273,
+      "shade_below_95_fraction": 0.0340728759765625,
+      "runtime_sha256": "0d35c37728f6db6ae7de9e90b3ead1b20163b2faf5bb39d423177dbebe27c35a"
+    },
+    {
+      "tile": "crkdrts",
+      "family": "cracked",
+      "source_sha256": "9480a63a26ea2af9722e2ada5f1f2c4e7b7adfc59b670709025a865536a1c44d",
+      "reconstruction_mean_absolute_error": 1.1674520357947649,
+      "edge_topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "shade_min": 0.6854606866836548,
+      "shade_below_95_fraction": 0.02806854248046875,
+      "runtime_sha256": "778e2013a0b23c1c6813f5eb1397b4978c237967c0950d5f3d8cc1766d538639"
+    },
+    {
+      "tile": "crkdrtse",
+      "family": "cracked",
+      "source_sha256": "7ad1522e418b7bff4897bed67c5fddc40d0b38343faab662d4d4d9f495720717",
+      "reconstruction_mean_absolute_error": 1.5861327716046503,
+      "edge_topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "shade_min": 0.6837157607078552,
+      "shade_below_95_fraction": 0.028247833251953125,
+      "runtime_sha256": "2a784f9a7f32b078dd7ac0377df45e0f6285d182d741f7e31124fab5ffeaaf01"
+    },
+    {
+      "tile": "crkdrtsw",
+      "family": "cracked",
+      "source_sha256": "4a32cf4dfd2fce4532af97db22f15af0493d3639770e28a49559b64423c135f9",
+      "reconstruction_mean_absolute_error": 1.72094111392086,
+      "edge_topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "shade_min": 0.6221328377723694,
+      "shade_below_95_fraction": 0.04095458984375,
+      "runtime_sha256": "9dcc62d2b7cc1efe65ce3296527793ddc3d97cf31c8ff4eece4d7abacef2fe2e"
+    },
+    {
+      "tile": "crkdrtw",
+      "family": "cracked",
+      "source_sha256": "12f92cefd67b74ebdc45fdd7d535ce2f551558058ebad6314125eac212e65b2a",
+      "reconstruction_mean_absolute_error": 1.6031448817830682,
+      "edge_topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "shade_min": 0.6072367429733276,
+      "shade_below_95_fraction": 0.0482330322265625,
+      "runtime_sha256": "32b5bc5eefefa2a96b8f65be19e1b2eaa0fb405d538b0e14727b9a124ad39c8d"
+    },
+    {
+      "tile": "crkdrtxne",
+      "family": "cracked",
+      "source_sha256": "8d421f59735cea6dc52525d6d3af657f5f290b5fad3e7a18bfdbb5f0756744d0",
+      "reconstruction_mean_absolute_error": 1.4450452888409273,
+      "edge_topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "shade_min": 0.674492359161377,
+      "shade_below_95_fraction": 0.027599334716796875,
+      "runtime_sha256": "0483578c63728a3039198e6d7696abe91e9818d76195030dcabe1980d6868188"
+    },
+    {
+      "tile": "crkdrtxnw",
+      "family": "cracked",
+      "source_sha256": "c18ebed57eb5129fbeb1807e10b1ef4d3ab9c96edcc60c7b0a8ee5ce90fb2416",
+      "reconstruction_mean_absolute_error": 1.2065956699872498,
+      "edge_topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "shade_min": 0.7046667337417603,
+      "shade_below_95_fraction": 0.0333709716796875,
+      "runtime_sha256": "8aa063794fa655a82a4cf1b07bcba72400e0bba868f3575916d4716dc57482a2"
+    },
+    {
+      "tile": "crkdrtxse",
+      "family": "cracked",
+      "source_sha256": "c3c37a434e20da7e002bf08ecf7f469ed04901bc8d65de6db7ffe75d03913a8a",
+      "reconstruction_mean_absolute_error": 1.470069586640122,
+      "edge_topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "shade_min": 0.7094999551773071,
+      "shade_below_95_fraction": 0.023468017578125,
+      "runtime_sha256": "80a5e560026ebb33447ca9a4738a7dcf12e1181daf28e2bda3a059ecca90caf7"
+    },
+    {
+      "tile": "crkdrtxsw",
+      "family": "cracked",
+      "source_sha256": "1ff1333ba6f9474e01848d20b1cdbb9fdff09d031c1103585bb9c335d62aae3e",
+      "reconstruction_mean_absolute_error": 1.5913932221023233,
+      "edge_topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "shade_min": 0.6369941830635071,
+      "shade_below_95_fraction": 0.03864288330078125,
+      "runtime_sha256": "3fb199da5c79853d01de3b7004beee6e760763b748cc2c224d070e6db54c27e3"
+    },
+    {
+      "tile": "snodre",
+      "family": "snow",
+      "source_sha256": "8bfcbf818813a82f0f99947ed1040549e74b131a4b2b5a51f6b37252493efc01",
+      "reconstruction_mean_absolute_error": 2.8609642652307707,
+      "edge_topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "shade_min": 0.8710246086120605,
+      "shade_below_95_fraction": 0.005512237548828125,
+      "runtime_sha256": "b70f762315f6fc530ee85c2b828da27c9faa6c051eb7d6a6f5e7c4ba0ac39683"
+    },
+    {
+      "tile": "snodrn",
+      "family": "snow",
+      "source_sha256": "7748de839a714bcbb816d61567835bcba820b0f8a8c99affa65dca65ad2a8fbc",
+      "reconstruction_mean_absolute_error": 3.1002424242306406,
+      "edge_topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "shade_min": 0.9881225824356079,
+      "shade_below_95_fraction": 0.0,
+      "runtime_sha256": "41fea51613952e06e1487384ef9e85997a5c97371b7fd83062fa2622196690f4"
+    },
+    {
+      "tile": "snodrne",
+      "family": "snow",
+      "source_sha256": "e5b134b34cf55ea7ad046735ab2a1571bd4d15e7e06c2f1144f98ff56680a9a3",
+      "reconstruction_mean_absolute_error": 3.9364766122012926,
+      "edge_topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "shade_min": 0.8437963724136353,
+      "shade_below_95_fraction": 0.001453399658203125,
+      "runtime_sha256": "5d12398549e8fe8b87594ded2df29c3c6ddfcfedd367e8edea9fed34229c9dfb"
+    },
+    {
+      "tile": "snodrnw",
+      "family": "snow",
+      "source_sha256": "defe1ddb6e972deffa1bcf13e8d1bfe2da9e6d96066e44ffb0ac677f09f6a011",
+      "reconstruction_mean_absolute_error": 5.233635272572624,
+      "edge_topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "shade_min": 0.9670193195343018,
+      "shade_below_95_fraction": 0.0,
+      "runtime_sha256": "412da13bcc83958dced3fbe4b73c3357d8a6d327706cd8ba5d68e44802f314a5"
+    },
+    {
+      "tile": "snodrs",
+      "family": "snow",
+      "source_sha256": "c53b3fe6ccd328f48afaef001f3aff2490d08e8c9c1130de55e44448a42f6118",
+      "reconstruction_mean_absolute_error": 3.6583290974242044,
+      "edge_topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "shade_min": 0.9312499855077476,
+      "shade_below_95_fraction": 0.00030517578125,
+      "runtime_sha256": "30c230a339552e4752114ae8b4ccb36b6c7d4572c03dd6220c5f81e549f7a76e"
+    },
+    {
+      "tile": "snodrse",
+      "family": "snow",
+      "source_sha256": "df9b341b940e3b8daf603e692a9f545ae9235780e631d4ab4004f053ee9df8ee",
+      "reconstruction_mean_absolute_error": 4.1085657479851685,
+      "edge_topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "shade_min": 0.8665826320648193,
+      "shade_below_95_fraction": 0.001003265380859375,
+      "runtime_sha256": "33b4487ef79be733ce9a02c021ef02702f9074fe56d2f7606a09df300373e206"
+    },
+    {
+      "tile": "snodrsw",
+      "family": "snow",
+      "source_sha256": "cdc24c1747af407d771658dd81bb0e19904ab94a6dcf29d6b27a48c43ea22940",
+      "reconstruction_mean_absolute_error": 4.266018017309287,
+      "edge_topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "shade_min": 0.917466938495636,
+      "shade_below_95_fraction": 0.000244140625,
+      "runtime_sha256": "b3fdfb25b93023e6b5a1323f6e809656411a4a73d490d90e8a6fbcec29cbb0d5"
+    },
+    {
+      "tile": "snodrw",
+      "family": "snow",
+      "source_sha256": "af880d2b53bf822c0a82765d6349cf14fb4083313defb55e92f347898caa9d0c",
+      "reconstruction_mean_absolute_error": 3.445785391869868,
+      "edge_topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "shade_min": 0.9168968796730042,
+      "shade_below_95_fraction": 0.000255584716796875,
+      "runtime_sha256": "010da984d4704fd577370741f2dcdff6bff667c74666209044b8157f2e11ac3f"
+    },
+    {
+      "tile": "snodrxne",
+      "family": "snow",
+      "source_sha256": "dfddcd1c42ec7d69280a1ce5ea33fcb7c06fa534bb71b3113a7b9bd31f3d48a9",
+      "reconstruction_mean_absolute_error": 2.8432516731231794,
+      "edge_topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "shade_min": 0.9452992415172048,
+      "shade_below_95_fraction": 1.52587890625e-05,
+      "runtime_sha256": "3a1fd447f3758353483226d89fb61ac30e594b82c071b8b7ce274d7bfe151ca1"
+    },
+    {
+      "tile": "snodrxnw",
+      "family": "snow",
+      "source_sha256": "552b96661a2490e0baed744f7e916b69791cde768b9b84e536b9a0469ae6444f",
+      "reconstruction_mean_absolute_error": 2.0786258291626596,
+      "edge_topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "shade_min": 0.961352527141571,
+      "shade_below_95_fraction": 0.0,
+      "runtime_sha256": "5f221df48ab3d68ab2d0118797a7d9243779d8f9508998749de38c2dee9e1021"
+    },
+    {
+      "tile": "snodrxse",
+      "family": "snow",
+      "source_sha256": "f80876899e9e003f3859bf7db96effd6b342201d2228c9da17196b1de8ee7896",
+      "reconstruction_mean_absolute_error": 2.126591847601559,
+      "edge_topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "shade_min": 0.9670418500900269,
+      "shade_below_95_fraction": 0.0,
+      "runtime_sha256": "e7313e4620fedefeecbf856a549b03b25504b4f0530ed7792ff3b1a8b77d5fa8"
+    },
+    {
+      "tile": "snodrxsw",
+      "family": "snow",
+      "source_sha256": "3a0e301f3b854fdfba0eebbf3e76bd194f644941c67c46239306e4d34216d1a3",
+      "reconstruction_mean_absolute_error": 2.6213430142061003,
+      "edge_topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "shade_min": 0.9562166333198547,
+      "shade_below_95_fraction": 0.0,
+      "runtime_sha256": "ae049e91fca654f8dbeede60ad1b1dfc52f11c254faf4bed1274947c7b298fcc"
+    },
+    {
+      "tile": "swmdre",
+      "family": "swamp",
+      "source_sha256": "3fdf0eeb840ab0594d652d8f5b11d7867cefcbca3faaf1950abf81c54a490eaf",
+      "reconstruction_mean_absolute_error": 1.7332385765545713,
+      "edge_topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "shade_min": 0.4523175060749054,
+      "shade_below_95_fraction": 0.1597442626953125,
+      "runtime_sha256": "0c9175b047111cb7023c4724ad78f5c573be1e1abd2701a4244cbee9d34d2753"
+    },
+    {
+      "tile": "swmdrn",
+      "family": "swamp",
+      "source_sha256": "582b4cd7d6fa7ea896ed4493c94f5f15ccd26accd9db481895013da40bbce4d4",
+      "reconstruction_mean_absolute_error": 1.645435032164689,
+      "edge_topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "shade_min": 0.45472389459609985,
+      "shade_below_95_fraction": 0.15205764770507812,
+      "runtime_sha256": "81cbb39ba40711b4b967286d64e43dc678d4ea72386a2ff0e2c65d6946a8d942"
+    },
+    {
+      "tile": "swmdrne",
+      "family": "swamp",
+      "source_sha256": "8528181d6c9f0dfe6d06f73fec9f50ea9002b227a98b5420d3b97f5682b349df",
+      "reconstruction_mean_absolute_error": 2.8221233815753193,
+      "edge_topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "shade_min": 0.45004141330718994,
+      "shade_below_95_fraction": 0.21006011962890625,
+      "runtime_sha256": "15504e3cd538b88ec09ef9643da2408bdb29b76fd3df710799ac174190cab1ed"
+    },
+    {
+      "tile": "swmdrnw",
+      "family": "swamp",
+      "source_sha256": "caff890c1594d23e773f2c60b0fa243fd324fe19f047c8ad3d4d143310976b7a",
+      "reconstruction_mean_absolute_error": 2.4630254600147756,
+      "edge_topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "shade_min": 0.45,
+      "shade_below_95_fraction": 0.20522689819335938,
+      "runtime_sha256": "c3e9dca5addafed71d77a92b67cbb27ced46356e25560b5f21d70376dd89a1e6"
+    },
+    {
+      "tile": "swmdrs",
+      "family": "swamp",
+      "source_sha256": "f5a5b41c479f14281905121cb282547813bb928ee1e2f0f334cecf2fef65f48c",
+      "reconstruction_mean_absolute_error": 2.978547181565395,
+      "edge_topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "shade_min": 0.45,
+      "shade_below_95_fraction": 0.17560577392578125,
+      "runtime_sha256": "e0057249f21c148beeb487fb95bb866d418363de3f9e5c5ab4b6385780e80c30"
+    },
+    {
+      "tile": "swmdrse",
+      "family": "swamp",
+      "source_sha256": "f0fa8b088b3af312d768cdf5a1cb8daf7364ccbd9f75395ce9affdbc64b22ace",
+      "reconstruction_mean_absolute_error": 1.9343619434034798,
+      "edge_topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "shade_min": 0.45061418414115906,
+      "shade_below_95_fraction": 0.21851730346679688,
+      "runtime_sha256": "9e7d73e0bc94a21a2eab862d3a6467fb684efcfde6b203079546fdf9a1e596fa"
+    },
+    {
+      "tile": "swmdrsw",
+      "family": "swamp",
+      "source_sha256": "b5bdf498161162856ac218b9679c3910370cf9f1fa91b18d13c34a7766568623",
+      "reconstruction_mean_absolute_error": 1.9698752086454623,
+      "edge_topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "shade_min": 0.45,
+      "shade_below_95_fraction": 0.1677703857421875,
+      "runtime_sha256": "41ac4c614022077d29d467f34982a7dbec741cefaf7dab4fe0ae78b40380c6e8"
+    },
+    {
+      "tile": "swmdrw",
+      "family": "swamp",
+      "source_sha256": "ea2d335a3ed8871db9b6f1427bfe90fb3311930848c63cd8d054ec6eb5ed40af",
+      "reconstruction_mean_absolute_error": 2.0748244236926103,
+      "edge_topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "shade_min": 0.4521792232990265,
+      "shade_below_95_fraction": 0.17608261108398438,
+      "runtime_sha256": "9fc902692bd6f2fab712805d03da70c6bb61337a76cea4f75c93f4c061626a58"
+    },
+    {
+      "tile": "swmdrxne",
+      "family": "swamp",
+      "source_sha256": "8440731056b4c0997eff8d1cc6702bb8f1e899060f65a1d179e621e73ea40ecb",
+      "reconstruction_mean_absolute_error": 1.0961519263101545,
+      "edge_topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "shade_min": 0.45,
+      "shade_below_95_fraction": 0.10422897338867188,
+      "runtime_sha256": "d5c150bd04d797c64d82ff7f2904456b9609e219389ebc19db706971183cd140"
+    },
+    {
+      "tile": "swmdrxnw",
+      "family": "swamp",
+      "source_sha256": "ae209a94b325fb6509426ffcb184cc34a9a2995d3518233aea912dcc8ea6df8e",
+      "reconstruction_mean_absolute_error": 0.9756319248095446,
+      "edge_topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "shade_min": 0.45624685287475586,
+      "shade_below_95_fraction": 0.13836288452148438,
+      "runtime_sha256": "70bfb0f5c51ba92dd8193abb18ca0372c8c3d00b447a7b2cb155e08544083b13"
+    },
+    {
+      "tile": "swmdrxse",
+      "family": "swamp",
+      "source_sha256": "1e59a090588bc565ad8ca834f70189ddeb77638deb260414045cc1782a05aad6",
+      "reconstruction_mean_absolute_error": 1.741522617278864,
+      "edge_topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "shade_min": 0.45,
+      "shade_below_95_fraction": 0.214111328125,
+      "runtime_sha256": "18fada128ecc452369879f18662bfa1b900a918f0c10b59fb260729bc8488b1e"
+    },
+    {
+      "tile": "swmdrxsw",
+      "family": "swamp",
+      "source_sha256": "7b00fc4e9ae7206fd2a3c47ddcaea60a91a70fea2f262a20dea3bedcc5658224",
+      "reconstruction_mean_absolute_error": 1.3960324052081963,
+      "edge_topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "shade_min": 0.4512366056442261,
+      "shade_below_95_fraction": 0.18573760986328125,
+      "runtime_sha256": "b2e2da4a91b0850a030592d32a7050e5ced6df31e4a76ecdef32e4952be4d9b8"
+    },
+    {
+      "tile": "trope",
+      "family": "tropical",
+      "source_sha256": "9c4c9ad702865ba3c59a58b65962619fb0b44fec460cfa8f9726bc7292484b2e",
+      "reconstruction_mean_absolute_error": 1.1141548060959678,
+      "edge_topology": {
+        "N": "10",
+        "S": "10",
+        "E": "00",
+        "W": "11"
+      },
+      "shade_min": 0.46605756878852844,
+      "shade_below_95_fraction": 0.10730743408203125,
+      "runtime_sha256": "cf29c1e3d5f7cc68dc6f3c664b8f9aa8271a140a732a5ed47ee3c97944bfec21"
+    },
+    {
+      "tile": "tropn",
+      "family": "tropical",
+      "source_sha256": "24b26283fd281b06c36f96c7dd9dea0e49f8018ee80e7aee7c87c8408c0510b6",
+      "reconstruction_mean_absolute_error": 1.160239222138907,
+      "edge_topology": {
+        "N": "00",
+        "S": "11",
+        "E": "01",
+        "W": "01"
+      },
+      "shade_min": 0.48845767974853516,
+      "shade_below_95_fraction": 0.09795379638671875,
+      "runtime_sha256": "d714a5f623d95ea1f7809688309a7819a91ae7bd78000cf183a17e1b1dd46a9d"
+    },
+    {
+      "tile": "tropne",
+      "family": "tropical",
+      "source_sha256": "4d82abbeb9ddda9164e2283c17107c4e0a6f614a83787dc0d281676a2c2da573",
+      "reconstruction_mean_absolute_error": 1.4080193190304162,
+      "edge_topology": {
+        "N": "00",
+        "S": "10",
+        "E": "00",
+        "W": "01"
+      },
+      "shade_min": 0.4553958475589752,
+      "shade_below_95_fraction": 0.12315750122070312,
+      "runtime_sha256": "2396cf803c098458cfa78f97f73a80e9bd07f36b80c55262caacbd56f05ff7b5"
+    },
+    {
+      "tile": "tropnw",
+      "family": "tropical",
+      "source_sha256": "0bb635ccd65eeba810a329844859d07c97dd4f70a670a5b72e4fbbcfe9ebe697",
+      "reconstruction_mean_absolute_error": 1.3041917210904734,
+      "edge_topology": {
+        "N": "00",
+        "S": "01",
+        "E": "01",
+        "W": "00"
+      },
+      "shade_min": 0.49150627851486206,
+      "shade_below_95_fraction": 0.11754608154296875,
+      "runtime_sha256": "d1274031b236086dbff341464ee44c93726f92815f926ad61b6c0f5385f6cbc1"
+    },
+    {
+      "tile": "trops",
+      "family": "tropical",
+      "source_sha256": "28e612c1656bb3658e2d5ddfa2f1020dc90fca240627443322cd55e94d3a22d5",
+      "reconstruction_mean_absolute_error": 1.1887512786028223,
+      "edge_topology": {
+        "N": "11",
+        "S": "00",
+        "E": "10",
+        "W": "10"
+      },
+      "shade_min": 0.4569949805736542,
+      "shade_below_95_fraction": 0.13121795654296875,
+      "runtime_sha256": "2b64e1c80c5ace5a17519b666e63ef9dc6bbd4706733827737766913d7ace8d5"
+    },
+    {
+      "tile": "tropse",
+      "family": "tropical",
+      "source_sha256": "ab99dc2a48d80aa2f4e2ae29363f819307d1b2ec1a1f213faf8333e0e8027906",
+      "reconstruction_mean_absolute_error": 1.2794296927306852,
+      "edge_topology": {
+        "N": "10",
+        "S": "00",
+        "E": "00",
+        "W": "10"
+      },
+      "shade_min": 0.45,
+      "shade_below_95_fraction": 0.12189865112304688,
+      "runtime_sha256": "32534b54d2cbbda5bdb5bf8ea68ded483172b03d8e7021f1d5882ac11324292e"
+    },
+    {
+      "tile": "tropsw",
+      "family": "tropical",
+      "source_sha256": "15e8578b93547708009ae1c4e27a7368721bb0fc56ff84472422ea83cd218e7b",
+      "reconstruction_mean_absolute_error": 1.359469976051795,
+      "edge_topology": {
+        "N": "01",
+        "S": "00",
+        "E": "10",
+        "W": "00"
+      },
+      "shade_min": 0.4756433367729187,
+      "shade_below_95_fraction": 0.16599655151367188,
+      "runtime_sha256": "e656361d4eaa5b970abe1d6e84256dd79b8d95d2385531cf06cccc36ad9b9aad"
+    },
+    {
+      "tile": "tropw",
+      "family": "tropical",
+      "source_sha256": "23113638dcadfb617fcddd45d7116b9033e7e1b523907e0017c0279ca7ba311e",
+      "reconstruction_mean_absolute_error": 1.1916376616723896,
+      "edge_topology": {
+        "N": "01",
+        "S": "01",
+        "E": "11",
+        "W": "00"
+      },
+      "shade_min": 0.4539843201637268,
+      "shade_below_95_fraction": 0.152099609375,
+      "runtime_sha256": "8ce0ad0695f9156cc467aea0de76ecc52c661c1bcb5a31ff6ee4adb5d280e5aa"
+    },
+    {
+      "tile": "tropxne",
+      "family": "tropical",
+      "source_sha256": "7c3ce330a522db3cce4aae0c34e47e8fae52f4d886fa218cdc7e6815c75e6a25",
+      "reconstruction_mean_absolute_error": 0.9201198375638793,
+      "edge_topology": {
+        "N": "10",
+        "S": "11",
+        "E": "01",
+        "W": "11"
+      },
+      "shade_min": 0.4792519211769104,
+      "shade_below_95_fraction": 0.08395004272460938,
+      "runtime_sha256": "926352dae6c484f3813c66834c55146ac5ebefac424eb39f017a7cac912d05af"
+    },
+    {
+      "tile": "tropxnw",
+      "family": "tropical",
+      "source_sha256": "90afcacbc35839366dd55e30836a80d4c4089c9dec004536ef2cc1bf07117993",
+      "reconstruction_mean_absolute_error": 0.9527699007022986,
+      "edge_topology": {
+        "N": "01",
+        "S": "11",
+        "E": "11",
+        "W": "01"
+      },
+      "shade_min": 0.463122695684433,
+      "shade_below_95_fraction": 0.11323165893554688,
+      "runtime_sha256": "09de829c2a8ad340917a0282045d326c71d18f278ab69f990ad0edce1c5d6df8"
+    },
+    {
+      "tile": "tropxse",
+      "family": "tropical",
+      "source_sha256": "5c3a4d1226833bdb9d3755eec756e5bbaf06393a07c789b369bf7f4eca0c0ba8",
+      "reconstruction_mean_absolute_error": 1.0918835339049155,
+      "edge_topology": {
+        "N": "11",
+        "S": "10",
+        "E": "10",
+        "W": "11"
+      },
+      "shade_min": 0.4589278995990753,
+      "shade_below_95_fraction": 0.12323379516601562,
+      "runtime_sha256": "ee51858aa192f1b39e34865d36f854c299d82dd8cebd0a2af05c1277a8a832a4"
+    },
+    {
+      "tile": "tropxsw",
+      "family": "tropical",
+      "source_sha256": "4919ddfcb07f632a5a4613eb4c7ef71a40c1632b6ba429ff5a63b993b3eccd1e",
+      "reconstruction_mean_absolute_error": 1.0500438725036139,
+      "edge_topology": {
+        "N": "11",
+        "S": "01",
+        "E": "11",
+        "W": "10"
+      },
+      "shade_min": 0.4564778804779053,
+      "shade_below_95_fraction": 0.12229156494140625,
+      "runtime_sha256": "1c590083c9ab4caddfc9fbdcf377d5591fa11b6c888cd00d10b2ba5cec9f8439"
+    }
+  ],
+  "preserved_existing_files": 63,
+  "total_files": 134,
+  "covered_static_tiles": 120,
+  "covered_maps": 15
+}

@@ -1,0 +1,550 @@
+{
+ "id": "20261009-1649-mm7-7d32-09",
+ "world": "mm7",
+ "maps": [
+  "7d32.blv",
+  "7d06.blv"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/ch003b",
+  "mm7/t3s2fl1b",
+  "mm7/ceb1elfa",
+  "mm7/ceb1tap8",
+  "mm7/t3s2fl1",
+  "mm7/t3s2fl1i",
+  "mm7/t3s2fl1j",
+  "mm7/t3s2fl1k",
+  "mm7/t3s2fl1m",
+  "mm7/t1d1a",
+  "mm7/t1d1b",
+  "mm7/t1d1c",
+  "mm7/t1d1d",
+  "mm7/7tws2",
+  "mm7/tws2a",
+  "mm7/tws2b",
+  "mm7/t1s1b",
+  "mm7/7twb2vr",
+  "mm7/7twb2vl",
+  "mm7/twb3",
+  "mm7/tws2c",
+  "mm7/tws1a",
+  "mm7/cws1a",
+  "mm7/twb1"
+ ],
+ "requests": {
+  "mm7/ch003b": {
+   "name": "ch003b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "plain flat brushed grey steel chest plate with faint rust stains, no fittings",
+   "notes": {
+    "2": "keep the sharp steel areas exactly where they are, without shifting; the small blurred areas at the top centre and bottom centre are plain steel too: no latch, plate, bar or slot there, just continue the surrounding steel seamlessly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ch003f",
+      "mm7/ch003d"
+     ],
+     "fraction": 0.959
+    },
+    "2": {
+     "sources": [
+      "mm7/ch003f",
+      "mm7/ch003d"
+     ],
+     "fraction": 0.959
+    }
+   }
+  },
+  "mm7/t3s2fl1b": {
+   "name": "t3s2fl1b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t3s2fl1a"
+     ],
+     "fraction": 0.138
+    },
+    "2": {
+     "sources": [
+      "mm7/t3s2fl1a"
+     ],
+     "fraction": 0.138
+    }
+   }
+  },
+  "mm7/ceb1elfa": {
+   "name": "ceb1elfa",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "material": "pale grey-green dressed limestone blocks with light mortar joints, with a hanging green cloth banner on a rail bearing a golden tree emblem; copy the composition exactly",
+   "notes": {
+    "2": "the banner and stone reach the bottom edge at full brightness: no dark line along the bottom row",
+    "3": "the top rows above the hanging rod are the grey limestone wall, lit right to the top edge, with no dark line along the top edge; the bottom row stays at full brightness",
+    "4": "the banner rod and the stone above reach the top edge at full brightness: no dark line along the top row",
+    "5": "the banner rod and stone reach the top edge at full brightness with no dark line; the bottom continues exactly into the piece below (shown in the bottom border) with no line at the joint",
+    "6": "keep the banner exactly as wide and as high as the reference, with the grey stone wall visible on both sides; the tree emblem at exactly the reference size and height; the hanging rod and its tabs at the very top reach the top edge at full brightness with no dark line",
+    "7": "keep the banner exactly as wide and as high as the reference, with the grey stone wall visible on both sides; the tree emblem at exactly the reference size and height; the hanging rod and its tabs at the very top reach the top edge at full brightness with no dark line",
+    "8": "the green cloth continues straight into the sharp banner shown in the bottom margin with the same weave, vertical folds and shade: no horizontal line, fold, crease or shading change across the bottom edge; keep the golden tree exactly as large and as wide as in the reference",
+    "9": "the lower part of the banner is one even flat green cloth with only faint soft vertical folds, the same shade and weave as the sharp banner continuing in the bottom margin, so the cloth runs on below the bottom edge without any horizontal line, crease, shadow or brightness change; keep the golden tree exactly as large and as wide as in the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "6": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "7": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "8": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "9": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "2": {
+     "bottom": "mm7/ceb1elfb"
+    },
+    "3": {
+     "bottom": "mm7/ceb1elfb"
+    },
+    "4": {},
+    "5": {
+     "bottom": "mm7/ceb1elfb"
+    },
+    "6": {
+     "bottom": "mm7/ceb1elfb"
+    },
+    "7": {
+     "bottom": "mm7/ceb1elfb"
+    },
+    "8": {
+     "bottom": "mm7/ceb1elfb"
+    },
+    "9": {
+     "bottom": "mm7/ceb1elfb"
+    }
+   },
+   "border": "symmetric",
+   "roll": {
+    "4": [
+     0,
+     66
+    ]
+   },
+   "match_neighbor": true,
+   "pad": {
+    "7": [
+     16,
+     32
+    ],
+    "8": [
+     16,
+     32
+    ],
+    "9": [
+     16,
+     32
+    ]
+   },
+   "joint_tone": true
+  },
+  "mm7/ceb1tap8": {
+   "name": "ceb1tap8",
+   "versions": [
+    1
+   ],
+   "material": "woven tapestry with a royal blue border and a cream-gold field showing a brown stag in an ornate gold roundel frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl1": {
+   "name": "t3s2fl1",
+   "versions": [
+    1
+   ],
+   "material": "polished pale grey-cream mottled marble slab framed by dark grey stone border blocks with square corner blocks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl1i": {
+   "name": "t3s2fl1i",
+   "versions": [
+    1
+   ],
+   "material": "woven wool carpet with a deep green field and a single red, cream and gold floral medallion; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl1j": {
+   "name": "t3s2fl1j",
+   "versions": [
+    1
+   ],
+   "material": "plain deep green woven wool carpet field with fine soft pile texture",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl1k": {
+   "name": "t3s2fl1k",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {
+    "2": "the right edge must stay as bright as the native (green carpet, border and stone block reach the edge); no dark rim or shadow along the right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t3s2fl1m": {
+   "name": "t3s2fl1m",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "woven wool carpet with a deep green field patterned in gold-green floral medallions and a wide red, cream and gold floral border with golden fringe, laid on grey stone flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/t1d1a": {
+   "name": "t1d1a",
+   "versions": [],
+   "material": "smooth worn brown stone wall with part of a large round carved stone door ring set with red gems and a carved bone skull; copy the composition exactly",
+   "notes": {}
+  },
+  "mm7/t1d1b": {
+   "name": "t1d1b",
+   "versions": [],
+   "material": "smooth worn brown stone wall with part of a large round carved stone door ring set with red gems and a carved bone skull; copy the composition exactly",
+   "notes": {}
+  },
+  "mm7/t1d1c": {
+   "name": "t1d1c",
+   "versions": [],
+   "material": "smooth worn brown stone wall with part of a large round carved stone door ring set with red gems and a carved bone skull; copy the composition exactly",
+   "notes": {}
+  },
+  "mm7/t1d1d": {
+   "name": "t1d1d",
+   "versions": [],
+   "material": "smooth worn brown stone wall with part of a large round carved stone door ring set with red gems and a carved bone skull; copy the composition exactly",
+   "notes": {}
+  },
+  "mm7/7tws2": {
+   "name": "7tws2",
+   "versions": [
+    1
+   ],
+   "material": "worn brown sandstone blocks laid in staggered courses with thin dark mortar joints, dusty and slightly chipped, with a pale carved stone moulding along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.782
+    }
+   }
+  },
+  "mm7/tws2a": {
+   "name": "tws2a",
+   "versions": [
+    1
+   ],
+   "material": "worn brown sandstone blocks laid in staggered courses with thin dark mortar joints, dusty and slightly chipped, with a pale carved bone horned skull ornament at the top centre and a pale stone moulding along the bottom edge; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7tws2"
+     ],
+     "fraction": 0.841
+    }
+   }
+  },
+  "mm7/tws2b": {
+   "name": "tws2b",
+   "versions": [],
+   "material": "worn brown sandstone blocks laid in staggered courses with thin dark mortar joints, dusty and slightly chipped, with halves of pale carved bone horned skull ornaments at the top left and right edges and a pale stone moulding along the bottom edge; copy the composition exactly",
+   "notes": {}
+  },
+  "mm7/t1s1b": {
+   "name": "t1s1b",
+   "versions": [
+    1
+   ],
+   "material": "smooth worn brown sandstone plaster wall with a single uninterrupted pale carved stone moulding along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/twb1a"
+     ],
+     "fraction": 0.754
+    }
+   }
+  },
+  "mm7/7twb2vr": {
+   "name": "7twb2vr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "worn brown sandstone blocks laid in staggered courses with thin dark mortar joints, dusty and slightly chipped, with a narrow smooth pale limestone pilaster strip whose face fills the rightmost columns up to the right edge",
+   "notes": {
+    "2": "the pale stone pilaster strip runs all the way to the right edge, so the rightmost columns are pale stone at full brightness; no dark line, shadow or rim along the right edge",
+    "3": "keep the pale strip exactly as narrow as the native and flush with the right edge, smooth pale stone, not stacked blocks; the rightmost columns are pale stone at native brightness, no dark rim"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.86
+    },
+    "2": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.86
+    },
+    "3": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.86
+    }
+   }
+  },
+  "mm7/7twb2vl": {
+   "name": "7twb2vl",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "worn brown sandstone blocks laid in staggered courses with thin dark mortar joints, dusty and slightly chipped, with a pale stone pilaster strip on the left edge",
+   "notes": {
+    "2": "the pale stone pilaster strip fills the leftmost columns right up to the left edge at full brightness; no dark line, shadow or rim along the left edge",
+    "3": "the pale stone pilaster strip fills the leftmost columns right up to the left edge at full brightness; no dark line, shadow or rim along the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.853
+    },
+    "2": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.853
+    },
+    "3": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.853
+    }
+   }
+  },
+  "mm7/twb3": {
+   "name": "twb3",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "worn brown sandstone blocks laid in staggered courses with thin dark mortar joints, dusty and slightly chipped, filling a blind round-topped arch outlined in smooth carved grey-brown stone, with plain smooth stone above the arch and narrow smooth stone pilasters down both sides; copy the composition exactly",
+   "notes": {
+    "2": "the carved stone arch frame at the left edge keeps the native's brightness right up to the edge; no extra dark rim or shadow line along the left edge",
+    "3": "the carved stone arch frame at the left edge keeps the native's brightness right up to the edge; no extra dark rim or shadow line along the left edge",
+    "4": "the outer bevel of the stone pilasters at the left and right edges is only slightly darker than the stone face, mid grey-brown right up to the last pixel column; no near-black outline or shadow line on the left or right edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.455
+    },
+    "2": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.455
+    },
+    "3": {
+     "sources": [
+      "mm7/7t1s2b"
+     ],
+     "fraction": 0.455
+    },
+    "4": {
+     "sources": [
+      "mm7/7twb2vl"
+     ],
+     "fraction": 0.455
+    }
+   }
+  },
+  "mm7/tws2c": {
+   "name": "tws2c",
+   "versions": [
+    1
+   ],
+   "material": "worn brown sandstone blocks with a deep dark arched niche holding a pale carved horned skull, with pale stone mouldings along the top and bottom edges; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7tws2"
+     ],
+     "fraction": 0.416
+    }
+   }
+  },
+  "mm7/tws1a": {
+   "name": "tws1a",
+   "versions": [
+    1
+   ],
+   "material": "smooth worn brown sandstone plaster wall with a pale carved stone moulding along the top edge and a cracked carved stone plaque bearing a demon face relief; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/t1s1b",
+      "mm7/twb1a"
+     ],
+     "fraction": 0.36
+    }
+   }
+  },
+  "mm7/cws1a": {
+   "name": "cws1a",
+   "versions": [
+    1
+   ],
+   "material": "rough reddish-brown cave earth and broken rock with old pale bones of a skeleton embedded in it; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cwb1"
+     ],
+     "fraction": 0.114
+    }
+   }
+  },
+  "mm7/twb1": {
+   "name": "twb1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "smooth worn grey-brown sandy plaster wall under a carved pale grey stone moulding with a row of round bosses along the top edge, with a thin carved stone moulding strip along the bottom edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/c1t1b1"
+     ],
+     "fraction": 0.114
+    },
+    "2": {
+     "sources": [
+      "mm7/c1t1b1"
+     ],
+     "fraction": 0.114
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,35 @@
+# Hand-written (2026-11-06, scr_audit level_environment P2): the Six Fires (GuiltFire..RebirthFire, SetSprite keys
+# 420-425) are placed hidden and burn once their stage is done (keys 381, 383, 491, 387, 389, 391).
+id: mm9r.afterworld_fires
+title: 'Afterworld (native BLV): the Six Fires light by their stages'' keys'
+world: mm9
+mode: faithful
+tags: [mm9, mm9_rework, draft]
+steps:
+- load_map:
+    map: afterworld.blv
+- advance_runtime: {seconds: 0.5}
+- note:
+    text: 'No stage done: all six dark.'
+- assert:
+    sprite_hidden: [420, 421, 422, 423, 424, 425]
+- note:
+    text: 'Guilt, Confession and Suffering done: on the next load only Retribution, Absolution and Rebirth stay dark.'
+- console: {line: qbit set 90381}
+- console: {line: qbit set 90383}
+- console: {line: qbit set 90491}
+- execute_event: {id: 1}
+- assert:
+    sprite_hidden: [423, 424, 425]
+- note:
+    text: 'Forad Darre''s death (Retribution, key 387) lights its fire at once (the kill hook).'
+- console: {line: qbit set 90386}
+- console: {line: qbit set 95021}
+- execute_event: {id: 1}
+- advance_runtime: {seconds: 0.5}
+- damage_actor: {actor_index: 0, amount: 5000}
+- advance_runtime: {seconds: 2.0}
+- assert:
+    qbit_set: [90387]
+- assert:
+    sprite_hidden: [424, 425]

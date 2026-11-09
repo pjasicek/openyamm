@@ -1,0 +1,33 @@
+{
+  "front": {
+    "paint": "paint_front.png",
+    "paint_sha256": "fc8fe8825b44ef9518edbc3af17b0fac0beac993c02699500d32b952c6d02c6f",
+    "parent_raw": "paint_mask_raw_v2.png",
+    "parent_raw_sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5"
+  },
+  "back": {
+    "paint": "paint_back.png",
+    "paint_sha256": "88b4fde66cfdd9f67bb5bbfd9eff9454105817d7fb92c07e11a0e1f748b1d05f",
+    "parent_raw": "paint_mask_raw_v2.png",
+    "parent_raw_sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5"
+  },
+  "left": {
+    "paint": "paint_left.png",
+    "paint_sha256": "2314d73d64138605002490c6a39e261add33b75bb464f030200511c6ad7d89c4",
+    "parent_raw": "pair_left_raw_v1.png",
+    "parent_raw_sha256": "75b2218a97462101c62bda213d11f2fb6c8a2be7fdb825b9640ad0dbea005cb4"
+  },
+  "right": {
+    "paint": "paint_right.png",
+    "paint_sha256": "12731234047ffb0978eb4f3f87c7c83256dd32566b3da98612f9e9f53397093d",
+    "parent_raw": "paint_mask_raw_v2.png",
+    "parent_raw_sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5"
+  },
+  "top": {
+    "paint": "paint_top.png",
+    "paint_sha256": "6ad5269da30b1eabc9c63ccd623b201975f138927f9445e54bebfdf819779ca9",
+    "parent_raw": "paint_mask_raw_v2.png",
+    "parent_raw_sha256": "be8c8b400ab43929d9eb117b40a980e1d1fd0aefe623f1e61dbd84602a0253f5"
+  },
+  "materials": "reviewed_material_classes.json: authored brass hardware versus leather feet/shafts/lining. Generated masks unused."
+}

@@ -1,0 +1,111 @@
+{
+  "fixtures": {
+    "shore_grey": {
+      "folder": "fixtures/banks_extra_v1/shore_grey",
+      "placements": {
+        "patch0": {
+          "row": 52,
+          "col": 46,
+          "native_map": "out06",
+          "native_row": 102,
+          "native_col": 42,
+          "covered_names": [
+            "wae",
+            "wane",
+            "was",
+            "wase",
+            "waxne",
+            "waxse"
+          ],
+          "pose": [
+            -7424.0,
+            1536,
+            3500,
+            1.5707963268,
+            -0.96
+          ]
+        },
+        "patch1": {
+          "row": 52,
+          "col": 62,
+          "native_map": "out06",
+          "native_row": 78,
+          "native_col": 5,
+          "covered_names": [
+            "wan",
+            "wanw",
+            "waxnw"
+          ],
+          "pose": [
+            768.0,
+            1536,
+            3500,
+            1.5707963268,
+            -0.96
+          ]
+        }
+      },
+      "odm_sha256": "1027be53972e06c0d17855b17dabe0c07147bd32b9f1b80887c698601ae1bb21",
+      "covered_names": [
+        "wae",
+        "wan",
+        "wane",
+        "wanw",
+        "was",
+        "wase",
+        "waxne",
+        "waxnw",
+        "waxse"
+      ]
+    },
+    "lava_plains": {
+      "folder": "fixtures/banks_extra_v1/lava_plains",
+      "placements": {
+        "patch0": {
+          "row": 52,
+          "col": 46,
+          "native_map": "out04",
+          "native_row": 26,
+          "native_col": 85,
+          "covered_names": [
+            "lve",
+            "lvn",
+            "lvne",
+            "lvnw",
+            "lvs",
+            "lvse",
+            "lvsw",
+            "lvw",
+            "lvxne",
+            "lvxnw",
+            "lvxse",
+            "lvxsw"
+          ],
+          "pose": [
+            -7424.0,
+            1536,
+            3500,
+            1.5707963268,
+            -0.96
+          ]
+        }
+      },
+      "odm_sha256": "74b28874844a77d77a89e569d4da471bd21d2737ee1e23d071b5b747e0721231",
+      "covered_names": [
+        "lve",
+        "lvn",
+        "lvne",
+        "lvnw",
+        "lvs",
+        "lvse",
+        "lvsw",
+        "lvw",
+        "lvxne",
+        "lvxnw",
+        "lvxse",
+        "lvxsw"
+      ]
+    }
+  },
+  "script_sha256": "9b7b9c3c1579eab174c458e9f1a68d69b576327c2f0cca4e9a99b27408d65f25"
+}

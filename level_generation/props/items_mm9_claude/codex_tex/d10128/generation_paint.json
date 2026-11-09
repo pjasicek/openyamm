@@ -1,0 +1,27 @@
+{
+  "prompt": "# Chain Boots: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_mm9_claude/codex_tex/d10128/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: Boots of grey steel chain mail with a wide turned-down reddish-brown leather cuff at the top, small leather tabs under the cuff and dark leather soles..\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: Boots of grey steel chain mail with a wide turned-down reddish-brown leather cuff at the top, small leather tabs under the cuff and dark leather soles.\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_mm9_claude/codex_tex/d10128/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nInput roles: paint_mask_guide.png is the edit target and absolute placement/silhouette authority. design_reference.png is material/detail reference only. icon_x8.png is colour reference only. Preserve the guide's four-row atlas, including all repeated views in the lower half. Generate the image only; metadata is handled separately.\nCORRECTION: The previous attempt had scattered red and green spray pixels outside the lower-half silhouettes. This is unacceptable. Use perfectly clean solid filled material-mask shapes with sharp clean edges, absolutely NO splatter, noise, stray pixels, distressed edges or halo. The lower-half silhouettes must exactly match the clean grey guide. All background gaps remain transparent. Retain exact four-row layout and all object sizes and positions from the original guide. Upper half unlit material paint, lower half strictly flat RGB colour regions.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad29-2d15-7193-aca4-eb51dcf25c9c/exec-8827794c-ce5c-44d3-ae28-d829fae894b0.png",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10128/paint_mask_guide.png",
+      "sha256": "1d10cde0e3fc3b7a66f45c9f3f1a999f95bbc2af2d47c709e7a005dd4b04d4fd"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10128/design_reference.png",
+      "sha256": "386ed7b4d48cfc47f4ba489998406abe966e96e93d6b769d3b92800cf201227d"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10128/icon_x8.png",
+      "sha256": "51acbb2a05cc63c63bdf93e7b9548c4fb861b133e6abdd0cee3075a69b8f2c2d"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10128/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": "Layout retained, but visible stray mask pixels remain outside silhouettes; raw tool output preserved without processing."
+}

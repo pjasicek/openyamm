@@ -1,0 +1,682 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper two-handed plasma blade from Crownspire's guard.\nInput image 1 is the EDIT TARGET, a plain orthographic geometry guide. Input image 2 is ONLY the approved surface design/material reference. Edit image 1 itself. Its alpha silhouette, canvas, object position, object scale, orientation, geometry, occlusions and every existing part boundary are immutable. Transfer only surface colours and details from image 2, never its shape, camera or lighting.\nOutput a single 1024 x 1024 RGBA PNG with actual transparent background. Preserve the guide alpha outline exactly, including antialiased edges and the very large transparent margins. Do not zoom, recenter, rotate, widen, elongate or redesign the object. No extra geometry, no parts outside the guide, no surrounding glow.\nMaterials from the design reference: finely worn warm white ceramic for the guard tusks and ceramic plates; restrained brushed warm gold borders and narrow seams; dark black-violet resin for the sculpted structural parts and ribbed grip; fine gold fittings, small saturated orange light inlays; icy blue-white plasma where the guide shows the pale blade. Continue unseen surfaces plausibly. Match material locations to the visible geometry. Engraved lines, seams, joins and small non-letter markings only, never text or letters.\nLighting must be flat even shadowless albedo under uniform viewer-facing light. Metal is its base colour with only a faint sheen. No cast shadows, ambient occlusion darkening, rim lighting, strong specular highlights or reflections. Plasma and orange lights are bright colour within their own surfaces, no bloom, no halo, no light cast onto other parts. No background, floor, checkerboard pattern, labels, watermarks or lettering.\n\nRequested view: FRONT end-on view. The guide intentionally shows a tiny compact foreshortened end of the weapon, about 120 pixels wide and 62 pixels tall, centered at (512,512). Its occupied bounding box is x=452..571, y=481..542 on the 1024 square canvas. Preserve precisely that compact diamond-like/winged silhouette and its irregular small central protrusions. Most of the canvas is fully transparent. Do NOT show a long sword or reveal hidden blade or handle. Paint only the visible end-on surfaces, using ceramic outer lateral forms, violet resin central structural forms and restrained gold accents from the reference.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "83126ce81c80783d3cea8c4382a8a480f44ecd2f186866254a736ce524bea706"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_front_attempt1.png",
+    "selected": false,
+    "reason": "Initial return; checking exact guide alignment before selection. Not selected: the corrective return improves framing and/or flat material colour.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-88dbd638-7ef8-42ab-b922-85304a824eb6.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        130,
+        192,
+        806,
+        696
+      ],
+      "guide_alpha_bbox": [
+        452,
+        481,
+        572,
+        543
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        512,
+        562,
+        741,
+        692
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.3481475892250811,
+      "normalized_outside_guide_pixels_at_alpha128": 8639,
+      "normalized_missing_guide_pixels_at_alpha128": 0,
+      "normalized_outside_guide_pixels_at_any_alpha": 10172,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "16fd6212ea664b4bb702a46ea8f1bdd3f8e07c1ccacf26f628ec29c2c1fb2413"
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper two-handed plasma blade from Crownspire's guard.\nInput image 1 is the EDIT TARGET, a plain orthographic geometry guide. Input image 2 is ONLY the approved surface design/material reference. Edit image 1 itself. Its alpha silhouette, canvas, object position, object scale, orientation, geometry, occlusions and every existing part boundary are immutable. Transfer only surface colours and details from image 2, never its shape, camera or lighting.\nOutput a single 1024 x 1024 RGBA PNG with actual transparent background. Preserve the guide alpha outline exactly, including antialiased edges and the very large transparent margins. Do not zoom, recenter, rotate, widen, elongate or redesign the object. No extra geometry, no parts outside the guide, no surrounding glow.\nMaterials from the design reference: finely worn warm white ceramic for the guard tusks and ceramic plates; restrained brushed warm gold borders and narrow seams; dark black-violet resin for the sculpted structural parts and ribbed grip; fine gold fittings, small saturated orange light inlays; icy blue-white plasma where the guide shows the pale blade. Continue unseen surfaces plausibly. Match material locations to the visible geometry. Engraved lines, seams, joins and small non-letter markings only, never text or letters.\nLighting must be flat even shadowless albedo under uniform viewer-facing light. Metal is its base colour with only a faint sheen. No cast shadows, ambient occlusion darkening, rim lighting, strong specular highlights or reflections. Plasma and orange lights are bright colour within their own surfaces, no bloom, no halo, no light cast onto other parts. No background, floor, checkerboard pattern, labels, watermarks or lettering.\n\nRequested view: FRONT end-on view. The guide intentionally shows a tiny compact foreshortened end of the weapon, about 120 pixels wide and 62 pixels tall, centered at (512,512). Its occupied bounding box is x=452..571, y=481..542 on the 1024 square canvas. Preserve precisely that compact diamond-like/winged silhouette and its irregular small central protrusions. Most of the canvas is fully transparent. Do NOT show a long sword or reveal hidden blade or handle. Paint only the visible end-on surfaces, using ceramic outer lateral forms, violet resin central structural forms and restrained gold accents from the reference.\nCORRECTIVE REGENERATION (the one allowed correction): The first attempt changed the size and outline. Start again from the first input, preserving it as an immutable raster stencil. Output canvas must be exactly 1024 x 1024. The tiny object MUST occupy only x=452..571 and y=481..542, exactly the 120 x 62 pixel guide footprint, NOT a 230-pixel emblem. All pixels outside the original guide alpha must be alpha zero; no faint stray pixels, blur, shadows or halo. Preserve the irregular guide contour and visible facets, not a regular symmetrical jewelry emblem. Reduce shading: use matte flat material colour and fine surface detail. Change only the colours inside the existing guide. This is a paint-over of the tiny existing end-on render, not a newly composed sword illustration.",
+    "inputs": [
+      {
+        "path": "guide_front.png",
+        "sha256": "83126ce81c80783d3cea8c4382a8a480f44ecd2f186866254a736ce524bea706"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_front.png",
+    "selected": true,
+    "reason": "Selected the corrective return because its end-on footprint is closer to the guide than attempt 1 (normalized alpha128 overlap 0.3995 versus 0.3481). Still enlarged and reinterpreted; exact silhouette and flat-albedo requirements FAIL. Selection means best retained raw return, not acceptance as a compliant texture source. The one-correction limit has been reached.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-5608157b-4289-45e1-88ae-d7a2f6f1937b.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        41,
+        69,
+        1224,
+        796
+      ],
+      "guide_alpha_bbox": [
+        452,
+        481,
+        572,
+        543
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        519,
+        569,
+        740,
+        686
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.39951510953329294,
+      "normalized_outside_guide_pixels_at_alpha128": 6935,
+      "normalized_missing_guide_pixels_at_alpha128": 0,
+      "normalized_outside_guide_pixels_at_any_alpha": 8623,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "f921c3a6f90771970b360c69254a3742fcd0b2651e7f81b9ee046fad7fc43d90"
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper two-handed plasma blade from Crownspire's guard.\nInput image 1 is the EDIT TARGET, a plain orthographic geometry guide. Input image 2 is ONLY the approved surface design/material reference. Edit image 1 itself. Its alpha silhouette, canvas, object position, object scale, orientation, geometry, occlusions and every existing part boundary are immutable. Transfer only surface colours and details from image 2, never its shape, camera or lighting.\nOutput a single 1024 x 1024 RGBA PNG with actual transparent background. Preserve the guide alpha outline exactly, including antialiased edges and the very large transparent margins. Do not zoom, recenter, rotate, widen, elongate or redesign the object. No extra geometry, no parts outside the guide, no surrounding glow.\nMaterials from the design reference: finely worn warm white ceramic for the guard tusks and ceramic plates; restrained brushed warm gold borders and narrow seams; dark black-violet resin for the sculpted structural parts and ribbed grip; fine gold fittings, small saturated orange light inlays; icy blue-white plasma where the guide shows the pale blade. Continue unseen surfaces plausibly. Match material locations to the visible geometry. Engraved lines, seams, joins and small non-letter markings only, never text or letters.\nLighting must be flat even shadowless albedo under uniform viewer-facing light. Metal is its base colour with only a faint sheen. No cast shadows, ambient occlusion darkening, rim lighting, strong specular highlights or reflections. Plasma and orange lights are bright colour within their own surfaces, no bloom, no halo, no light cast onto other parts. No background, floor, checkerboard pattern, labels, watermarks or lettering.\n\nRequested view: BACK end-on view. The guide intentionally shows a tiny compact foreshortened end of the weapon, about 120 pixels wide and 62 pixels tall, centered at (512,512). Its occupied bounding box is x=452..571, y=481..542 on the 1024 square canvas. Preserve precisely this guide's silhouette and the visible asymmetric facets and cyan narrow blade facet. Most of the canvas is fully transparent. Do NOT show a long sword or reveal hidden blade or handle. Continue the design's ceramic, violet resin and restrained gold material onto these reverse-facing end-on surfaces.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "2ed8a936c78ca06a49c9dd95fde470d59436b35e60fa1d3710f04e81e6e11a1b"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_back_attempt1.png",
+    "selected": false,
+    "reason": "Initial return; footprint appears enlarged relative to guide. Checking raw pixels. Not selected: the corrective return improves framing and/or flat material colour.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-70265c77-677d-44ee-b676-fbef2d21b20c.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        49,
+        37,
+        1224,
+        1077
+      ],
+      "guide_alpha_bbox": [
+        452,
+        481,
+        572,
+        543
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        502,
+        560,
+        752,
+        689
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.31236046275624113,
+      "normalized_outside_guide_pixels_at_alpha128": 10164,
+      "normalized_missing_guide_pixels_at_alpha128": 0,
+      "normalized_outside_guide_pixels_at_any_alpha": 12420,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "b84971c41b46de22e340741ad3f6bb086cbdecd33266a582549081b605ccb947"
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "prompt": "Corrective paint-over, BACK view, one allowed correction. Image 1 (guide_back.png) is the exact raster to recolour. Image 2 is a surface palette reference only.\nKeep the first image's outline, camera, parts and completely empty margins unchanged. The little object occupies only 11.72% of the entire canvas width and 6.05% of its height, centered at 50%,50%. Absolutely do not enlarge it to 20% of the canvas. Preserve the irregular end-on guide geometry, not a symmetrical decorative emblem. The original is 1024x1024; return exactly 1024x1024 RGBA, occupied x452..571,y481..542. Transparent means alpha zero, not a black or checkerboard backdrop.\nOnly recolour its existing surfaces: worn warm white ceramic on the lateral curved forms, dark black-violet resin on the central structural facets, restrained brushed-gold seams and trim, the visible narrow pale blue blade facet blue-white, small orange light surfaces where appropriate. Continue the material distribution from image 2, without copying its upright sword shape. The side seen here is the compact back end-on view; never reveal the long sword length.\nUniform flat shadowless albedo source: no dark shading in crevices, no specular hotspots, no bloom, no halo, no reflections, no cast shadows, no floor. Glow is only bright local colour. No text or letters. All guide pixels outside the exact silhouette remain fully transparent. Return only this single tiny painted object in the exact original framing.",
+    "inputs": [
+      {
+        "path": "guide_back.png",
+        "sha256": "2ed8a936c78ca06a49c9dd95fde470d59436b35e60fa1d3710f04e81e6e11a1b"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_back.png",
+    "selected": true,
+    "reason": "Selected the corrective return because its end-on footprint and visible blade facet are closer to the guide than attempt 1 (normalized alpha128 overlap 0.4392 versus 0.3124). Still enlarged and reinterpreted; exact silhouette and flat-albedo requirements FAIL. Selection means best retained raw return, not acceptance as a compliant texture source. The one-correction limit has been reached.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-b84ae198-aa10-4922-bfa9-f49851dfeee7.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        121,
+        186,
+        1232,
+        1230
+      ],
+      "guide_alpha_bbox": [
+        452,
+        481,
+        572,
+        543
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        523,
+        584,
+        732,
+        693
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.4392130646547608,
+      "normalized_outside_guide_pixels_at_alpha128": 5854,
+      "normalized_missing_guide_pixels_at_alpha128": 18,
+      "normalized_outside_guide_pixels_at_any_alpha": 7521,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "7b910dba72d0049efbccffe1da351d67377d21951473bae5b45beaed3691570d"
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper two-handed plasma blade from Crownspire's guard.\nInput image 1 is the EDIT TARGET, a plain orthographic geometry guide. Input image 2 is ONLY the approved surface design/material reference. Edit image 1 itself. Its alpha silhouette, canvas, object position, object scale, orientation, geometry, occlusions and every existing part boundary are immutable. Transfer only surface colours and details from image 2, never its shape, camera or lighting.\nOutput a single 1024 x 1024 RGBA PNG with actual transparent background. Preserve the guide alpha outline exactly, including antialiased edges and the very large transparent margins. Do not zoom, recenter, rotate, widen, elongate or redesign the object. No extra geometry, no parts outside the guide, no surrounding glow.\nMaterials from the design reference: finely worn warm white ceramic for the guard tusks and ceramic plates; restrained brushed warm gold borders and narrow seams; dark black-violet resin for the sculpted structural parts and ribbed grip; fine gold fittings, small saturated orange light inlays; icy blue-white plasma where the guide shows the pale blade. Continue unseen surfaces plausibly. Match material locations to the visible geometry. Engraved lines, seams, joins and small non-letter markings only, never text or letters.\nLighting must be flat even shadowless albedo under uniform viewer-facing light. Metal is its base colour with only a faint sheen. No cast shadows, ambient occlusion darkening, rim lighting, strong specular highlights or reflections. Plasma and orange lights are bright colour within their own surfaces, no bloom, no halo, no light cast onto other parts. No background, floor, checkerboard pattern, labels, watermarks or lettering.\n\nRequested view: LEFT edge-on view. Preserve the thin horizontal sword exactly, tip at LEFT around (66,512), pommel point at RIGHT around (957,512). Total occupied bounds x=66..957 and y=481..542. Blade spans from left tip to the collar at x about 555; the sculpted guard, ribbed handle and pommel span the right half. The side is only about 62 pixels tall at its largest, and the blade is much thinner. Do not rotate upright, thicken the blade or add the tall rails from the design reference. Paint the existing thin blade icy blue-white, its hilt collar ceramic with gold edging, its grip black-violet resin with fine gold seams and narrow orange inlays, and the pointed pommel ceramic/violet/gold with a small orange inset where visible.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "bf8de3b7bb1e5f60dd75e6ea9bb228d51fbeeda47a2a95e6d18f5848e57425b1"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_left_attempt1.png",
+    "selected": false,
+    "reason": "Initial return preserves horizontal direction and overall placement, but adds a plasma halo and speckles outside the thin guide blade. Not selected: the corrective return improves framing and/or flat material colour.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-dad7feb6-d4a9-468a-8966-33418658f697.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        27,
+        25,
+        1190,
+        1164
+      ],
+      "guide_alpha_bbox": [
+        66,
+        481,
+        958,
+        543
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        84,
+        589,
+        1173,
+        663
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.8864338246999268,
+      "normalized_outside_guide_pixels_at_alpha128": 2418,
+      "normalized_missing_guide_pixels_at_alpha128": 1149,
+      "normalized_outside_guide_pixels_at_any_alpha": 17419,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "b2a8026ec601ca3e9c757a571d845a4a7003195b97bef9b55218e6d87bfe94b2"
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper two-handed plasma blade from Crownspire's guard.\nInput image 1 is the EDIT TARGET, a plain orthographic geometry guide. Input image 2 is ONLY the approved surface design/material reference. Edit image 1 itself. Its alpha silhouette, canvas, object position, object scale, orientation, geometry, occlusions and every existing part boundary are immutable. Transfer only surface colours and details from image 2, never its shape, camera or lighting.\nOutput a single 1024 x 1024 RGBA PNG with actual transparent background. Preserve the guide alpha outline exactly, including antialiased edges and the very large transparent margins. Do not zoom, recenter, rotate, widen, elongate or redesign the object. No extra geometry, no parts outside the guide, no surrounding glow.\nMaterials from the design reference: finely worn warm white ceramic for the guard tusks and ceramic plates; restrained brushed warm gold borders and narrow seams; dark black-violet resin for the sculpted structural parts and ribbed grip; fine gold fittings, small saturated orange light inlays; icy blue-white plasma where the guide shows the pale blade. Continue unseen surfaces plausibly. Match material locations to the visible geometry. Engraved lines, seams, joins and small non-letter markings only, never text or letters.\nLighting must be flat even shadowless albedo under uniform viewer-facing light. Metal is its base colour with only a faint sheen. No cast shadows, ambient occlusion darkening, rim lighting, strong specular highlights or reflections. Plasma and orange lights are bright colour within their own surfaces, no bloom, no halo, no light cast onto other parts. No background, floor, checkerboard pattern, labels, watermarks or lettering.\n\nRequested view: LEFT edge-on view. Preserve the thin horizontal sword exactly, tip at LEFT around (66,512), pommel point at RIGHT around (957,512). Total occupied bounds x=66..957 and y=481..542. Blade spans from left tip to the collar at x about 555; the sculpted guard, ribbed handle and pommel span the right half. The side is only about 62 pixels tall at its largest, and the blade is much thinner. Do not rotate upright, thicken the blade or add the tall rails from the design reference. Paint the existing thin blade icy blue-white, its hilt collar ceramic with gold edging, its grip black-violet resin with fine gold seams and narrow orange inlays, and the pointed pommel ceramic/violet/gold with a small orange inset where visible.\nCORRECTIVE REGENERATION, one correction only: remove all plasma bloom and stray speckles. The blade is an opaque, clean, thin straight strip of pale icy blue-white BASE COLOUR, with the exact smooth polygonal contour of guide_left.png. No luminous outline, blue haze, sparkles, distressed alpha, bright scratchy white edging, flames or particles. Nothing whatsoever outside the original guide's alpha. Every transparent pixel of the guide stays transparent.\nUse the actual guide as the stencil. The whole sword spans 87.1% of canvas width, centered horizontally and vertically; the maximum hilt height is 6.05% of the canvas, and blade thickness is only about 1.4%. Preserve these proportions as well as the exact x66..957,y481..542 pixel bounds on the requested 1024x1024 canvas. Matte ceramic white, muted base-colour gold, black-violet resin, local small orange inlays. No dark baked shadows under ribs or bright metallic highlights. Return exactly 1024x1024 transparent PNG.",
+    "inputs": [
+      {
+        "path": "guide_left.png",
+        "sha256": "bf8de3b7bb1e5f60dd75e6ea9bb228d51fbeeda47a2a95e6d18f5848e57425b1"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_left.png",
+    "selected": true,
+    "reason": "Selected the corrective return for flatter blue-white blade colour, reduced bloom and slightly closer silhouette than attempt 1. Exact silhouette FAILS; residual pale fringe, stray alpha and hilt shading remain. Selection means best retained raw return, not acceptance as a compliant texture source. The one-correction limit has been reached.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-33fe570b-0a8b-412b-9387-a35e05594f9c.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        21,
+        1216,
+        1174
+      ],
+      "guide_alpha_bbox": [
+        66,
+        481,
+        958,
+        543
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        82,
+        589,
+        1173,
+        664
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.8933316093997479,
+      "normalized_outside_guide_pixels_at_alpha128": 1946,
+      "normalized_missing_guide_pixels_at_alpha128": 1354,
+      "normalized_outside_guide_pixels_at_any_alpha": 15152,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "35abd7d33e6712c622b5dafc15242d3fbe6008661197d76c6c3ef5d40b2ea089"
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper two-handed plasma blade from Crownspire's guard.\nInput image 1 is the EDIT TARGET, a plain orthographic geometry guide. Input image 2 is ONLY the approved surface design/material reference. Edit image 1 itself. Its alpha silhouette, canvas, object position, object scale, orientation, geometry, occlusions and every existing part boundary are immutable. Transfer only surface colours and details from image 2, never its shape, camera or lighting.\nOutput a single 1024 x 1024 RGBA PNG with actual transparent background. Preserve the guide alpha outline exactly, including antialiased edges and the very large transparent margins. Do not zoom, recenter, rotate, widen, elongate or redesign the object. No extra geometry, no parts outside the guide, no surrounding glow.\nMaterials from the design reference: finely worn warm white ceramic for the guard tusks and ceramic plates; restrained brushed warm gold borders and narrow seams; dark black-violet resin for the sculpted structural parts and ribbed grip; fine gold fittings, small saturated orange light inlays; icy blue-white plasma where the guide shows the pale blade. Continue unseen surfaces plausibly. Match material locations to the visible geometry. Engraved lines, seams, joins and small non-letter markings only, never text or letters.\nLighting must be flat even shadowless albedo under uniform viewer-facing light. Metal is its base colour with only a faint sheen. No cast shadows, ambient occlusion darkening, rim lighting, strong specular highlights or reflections. Plasma and orange lights are bright colour within their own surfaces, no bloom, no halo, no light cast onto other parts. No background, floor, checkerboard pattern, labels, watermarks or lettering.\n\nRequested view: RIGHT edge-on view. Preserve the thin horizontal sword exactly, pommel point at LEFT around (66,512), blade tip at RIGHT around (957,512). Total occupied bounds x=66..957 and y=481..542. The sculpted pommel, ribbed handle and guard span the left half up to the collar at x about 468, and the very thin blade continues rightwards. The side is only about 62 pixels tall at its largest. Do not rotate upright, thicken the blade or add the tall rails from the design reference. Paint the existing thin blade icy blue-white, hilt collar ceramic with gold edging, grip black-violet resin with fine gold seams and narrow orange inlays, pointed pommel ceramic/violet/gold with a small orange inset where visible.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "8f9475c6a610ad42f4acb25241eaf114e3f4c4be2677a29cf4f515c89b4504f4"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_right_attempt1.png",
+    "selected": false,
+    "reason": "Initial return matches broad horizontal placement and material palette, but adds a luminous rim outside the blade and strong sculptural shading. Not selected: the corrective return improves framing and/or flat material colour.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-bfc99033-012e-402a-be74-89174455ccdd.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        0,
+        0,
+        1240,
+        1214
+      ],
+      "guide_alpha_bbox": [
+        66,
+        481,
+        958,
+        543
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        78,
+        590,
+        1174,
+        666
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.8417728954943312,
+      "normalized_outside_guide_pixels_at_alpha128": 5048,
+      "normalized_missing_guide_pixels_at_alpha128": 339,
+      "normalized_outside_guide_pixels_at_any_alpha": 20035,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "200b6a7ede45138a897473ea21eb2c01a388f96f8819d7ba21e769a208be8412"
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Corrective RIGHT-view albedo painting.\nRecolour input image 1, guide_right.png, without moving or changing ANY geometry or edge. Input image 2 supplies the white ceramic, warm gold, black-violet resin, orange inlays and icy blue-white palette only. Make a 1024x1024 RGBA transparent PNG, exactly matching the first image's silhouette, position, scale and orientation. Tip points RIGHT, pommel points LEFT. Sword spans x66..957,y481..542, horizontally centered. Preserve its thin side-on camera and all part boundaries, no added ornaments or rails.\nCorrection focus: this is a FLAT COLOUR TEXTURE SOURCE, with zero illumination effects. The blade is a perfectly clean narrow polygon filled with pale icy blue-white base colour; preserve the guide's exact contour, with no halo, no bloom, no sparks, no fuzzy or scratchy outline and no bright overspill beyond the polygon. Do not render a glowing sword photograph. Treat the blue-white blade as a flat painted surface.\nPaint worn white ceramic with subtle fine scratches and muted brushed gold edging on the existing collar and pommel surfaces. Black-violet resin on the ribbed grip and structural elements, fine gold seams and small orange base-colour inlays. Continue the reference materials plausibly on the narrow side view. Matte surfaces with constant diffuse colour, no dark shadows beneath grip ridges, no ambient occlusion, no strong specular highlights, no cast shadow, no reflections or rim light.\nThe canvas outside the first image's alpha is immutable transparent zero alpha. Do not add a background, floor, text, letters or symbols. This is the one permitted corrective regeneration.",
+    "inputs": [
+      {
+        "path": "guide_right.png",
+        "sha256": "8f9475c6a610ad42f4acb25241eaf114e3f4c4be2677a29cf4f515c89b4504f4"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_right.png",
+    "selected": true,
+    "reason": "Selected the corrective return for flatter blade colour, a collar shape closer to the guide and improved silhouette overlap. Exact silhouette FAILS; residual pale fringe, stray alpha and grip shading remain. Selection means best retained raw return, not acceptance as a compliant texture source. The one-correction limit has been reached.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-cd63707a-d753-4914-90c5-6c5bafeca7ce.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        76,
+        31,
+        1216,
+        1213
+      ],
+      "guide_alpha_bbox": [
+        66,
+        481,
+        958,
+        543
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        80,
+        590,
+        1172,
+        665
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.9070118120130686,
+      "normalized_outside_guide_pixels_at_alpha128": 2834,
+      "normalized_missing_guide_pixels_at_alpha128": 126,
+      "normalized_outside_guide_pixels_at_any_alpha": 17471,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "12a9f16ddaff8ab7124a12fb9e1a36460729ee3fe66427eb1de67a6274f77a49"
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting for the Hesper two-handed plasma blade from Crownspire's guard.\nInput image 1 is the EDIT TARGET, a plain orthographic geometry guide. Input image 2 is ONLY the approved surface design/material reference. Edit image 1 itself. Its alpha silhouette, canvas, object position, object scale, orientation, geometry, occlusions and every existing part boundary are immutable. Transfer only surface colours and details from image 2, never its shape, camera or lighting.\nOutput a single 1024 x 1024 RGBA PNG with actual transparent background. Preserve the guide alpha outline exactly, including antialiased edges and the very large transparent margins. Do not zoom, recenter, rotate, widen, elongate or redesign the object. No extra geometry, no parts outside the guide, no surrounding glow.\nMaterials from the design reference: finely worn warm white ceramic for the guard tusks and ceramic plates; restrained brushed warm gold borders and narrow seams; dark black-violet resin for the sculpted structural parts and ribbed grip; fine gold fittings, small saturated orange light inlays; icy blue-white plasma where the guide shows the pale blade. Continue unseen surfaces plausibly. Match material locations to the visible geometry. Engraved lines, seams, joins and small non-letter markings only, never text or letters.\nLighting must be flat even shadowless albedo under uniform viewer-facing light. Metal is its base colour with only a faint sheen. No cast shadows, ambient occlusion darkening, rim lighting, strong specular highlights or reflections. Plasma and orange lights are bright colour within their own surfaces, no bloom, no halo, no light cast onto other parts. No background, floor, checkerboard pattern, labels, watermarks or lettering.\n\nRequested view: TOP orthographic view looking directly down on the broad face. Preserve this guide exactly, not the proportions of the design art. Upright sword tip at about (512,66), pointed pommel at about (512,957), total occupied bounds x=451..571, y=66..957. The bare blade occupies y about 66..557; small curved guard tusks occupy y about 557..650; ribbed handle y about 650..850; pointed sculpted pommel y about 850..957. Keep every part edge and exact width. The reference's long ornamental rails alongside the blade DO NOT EXIST in this guide: do not add them. Paint icy pale blue-white plasma on the guide's blade, white worn ceramic on the two curved tusks and central collar with fine warm gold edging and blue inset, violet-black structural resin, dark violet ribbed grip with thin warm gold and small orange inlay details, white ceramic/violet/gold pointed pommel with orange inset. All markings remain inside existing surfaces.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "ad3765de4b27b8c3565d3c5888539d0f43656dabf812de51e741a8e5884d8c74"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_top_attempt1.png",
+    "selected": false,
+    "reason": "Initial return matches broad upright layout and design materials, but adds a bright plasma fringe and directional material shading. Not selected: the corrective return improves framing and/or flat material colour.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-4d842672-fdc9-4f4d-b6d1-a9723195ff64.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        49,
+        63,
+        1232,
+        1228
+      ],
+      "guide_alpha_bbox": [
+        451,
+        66,
+        572,
+        958
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        552,
+        79,
+        702,
+        1175
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.9431705979155238,
+      "normalized_outside_guide_pixels_at_alpha128": 2571,
+      "normalized_missing_guide_pixels_at_alpha128": 537,
+      "normalized_outside_guide_pixels_at_any_alpha": 16354,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "93a43829c34a4021f297aba5b0519f3920a36c253de4133d4a7f297633cefd04"
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "prompt": "Use case: style-transfer. Single corrective paint-over for TOP view of Hesper plasma longblade. Image 1, guide_top.png, is the exact shape to paint. Image 2, design_reference.png, supplies materials and palette only.\nReturn exactly 1024x1024 RGBA PNG. Do not change image 1's alpha silhouette, geometry, perspective, proportions, position or scale. Broad-face upright sword, tip at (512,66), pommel at (512,957), all occupied pixels within x451..571,y66..957. The tall bare blade remains bare, with NO extra ornamental rails. Guard tusks, collar, ribbed grip and pointed pommel must stay precisely where the guide puts them with the exact part edges.\nCORRECTION: remove every luminous fringe and render FLAT ALBEDO. The blade is a clean smooth flat polygon of very pale icy blue-white base colour, with subtle cyan material variation INSIDE only. No bright outer rim, no electric streaks, no bloom, no translucent glow, no particles, no rough edges or stray alpha pixels. The entire background is actual zero alpha. Match the guide's clean opaque blade silhouette exactly.\nPaint the actual guard tusks and central collar worn warm white ceramic with fine muted brushed gold trim and a small blue inlay. Violet-black resin on the existing structural forms and grip ribs, fine gold seams, small orange base-colour inlays. Pointed pommel uses worn white ceramic, violet resin, gold trim and a small orange inset. Preserve engraving, joins and subtle wear as surface colours, not geometric additions.\nEverything evenly lit from the viewer, shadowless, matte: no dark crevices or ambient occlusion, no cast shadows, no strong specular highlights, no reflections, no rim light, no floor. Metal stays its base colour with faint sheen only. No text, letters, labels or watermark. This is the one permitted corrective regeneration; only colour the first input inside its immutable outline.",
+    "inputs": [
+      {
+        "path": "guide_top.png",
+        "sha256": "ad3765de4b27b8c3565d3c5888539d0f43656dabf812de51e741a8e5884d8c74"
+      },
+      {
+        "path": "design_reference.png",
+        "sha256": "d4eea944baf2ab912b24d3514bd9d566a9ac0f62b656f8ab09ca4ec414ddf8fb"
+      }
+    ],
+    "output": "paint_top.png",
+    "selected": true,
+    "reason": "Selected the corrective return for substantially flatter blade colour and reduced hilt lighting. Attempt 1 has closer geometric overlap but stronger blue glow and highlights. Exact silhouette FAILS; pale fringe, stray alpha and residual hilt shading remain. Selection means best retained raw return, not acceptance as a compliant texture source. The one-correction limit has been reached.",
+    "tool": "built-in image_gen",
+    "source_output_path": "/home/pjasicek/.codex/generated_images/01a16ebb-2f5b-7d61-8667-58104cbf296d/exec-2cd5a26d-081f-4af1-a35e-f1d8038e06a2.png",
+    "checks": {
+      "size": [
+        1254,
+        1254
+      ],
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "unresized": true,
+      "mode": "RGBA",
+      "transparent_background": true,
+      "alpha_bbox": [
+        65,
+        39,
+        1196,
+        1230
+      ],
+      "guide_alpha_bbox": [
+        451,
+        66,
+        572,
+        958
+      ],
+      "silhouette_alpha_identical": false,
+      "raw_return_byte_identical": true,
+      "size_note": "Tool returned 1254 x 1254 despite a 1024 x 1024 request; kept unresized as required by the brief.",
+      "alpha128_bbox": [
+        553,
+        77,
+        702,
+        1175
+      ],
+      "normalized_silhouette_iou_at_alpha128": 0.9175813493115577,
+      "normalized_outside_guide_pixels_at_alpha128": 4458,
+      "normalized_missing_guide_pixels_at_alpha128": 205,
+      "normalized_outside_guide_pixels_at_any_alpha": 16174,
+      "normalized_metric_method": "For analysis only, sample guide alpha at output pixel centers in normalized canvas coordinates; saved images were never resized, masked or re-encoded. This metric is not an exact silhouette pass.",
+      "palette_matches_design_reference": true,
+      "material_review": "White ceramic, warm gold, black-violet resin and blue/orange light colours visually match. Surface placement is approximate; guide part boundaries were not preserved exactly.",
+      "flat_even_shadowless_albedo": false,
+      "lighting_review": "Residual sculptural shading and highlights remain on the hilt. Initial long-blade returns have visible blue glow; corrective long-blade returns reduce it but retain a pale outer fringe.",
+      "no_text_or_letters": true,
+      "no_floor_or_cast_shadow": true,
+      "background_review": "RGBA with transparent margins, but stray nonzero-alpha pixels and edge contamination remain outside the guide.",
+      "brief_quality_checks_pass": false
+    },
+    "output_sha256": "fe9a994496da3f47dc8c303b10715ed786e1a7df061dd7b91ebac7088f4887ce"
+  }
+]

@@ -1,0 +1,338 @@
+# Starport Reach's people beyond the arrival (stage.py merges npcs_*.yml with npcs.yml): the Ashrunner camp from S1,
+# Kesh's stall and Venn's shop (vendors), the keepers of Landfall's houses 1-4 (Salvage & Arms 9201, the Emitters 9202,
+# Provisions 9450, the Last Lamp 9451), Landfall's home residents (houses 9461-9470) and its six street people (on
+# villager actors). Texts: P4's design/kreegan_world/quests (dialogue/ASHRUNNERS.md, LANDFALL.md, NPCS.md, QUESTS.md
+# S1), wired by the integrator's follow-ups 24, 36, 39-41 (WORK_PACKAGES/requests/P4.md). Built and placed by
+# level_generation/projects/hesper_out1/build_out1.py (actor npc ids, house doors, the camp's events).
+#
+# Dace (9224, Grandmaster Shield Tech) is a teacher row of skills.yml, his topic 9756 in npcs.yml; Venn (9513) is in
+# npcs.yml (her shop is vendor 9460 below). The news topics 9771-9790 are npcs.yml's.
+# The home residents and street people have one short greeting each (LANDFALL.md, "Street people and home residents:
+# greetings"); their talk is two News items each (one opening, 9771-9774; one later, 9775-9790), neighbours different.
+#
+# QBits: 100101 S1 done (the scrapyard crawler's console, hes_out1 event 26), 100221 S1 given (the camp's shout, event
+# 27), 100113 Garrow's reward given, 100212 M12 given, 100012 M12 done, 100043 the Re-entry Emitter fitted (D0).
+
+npcs:
+  # The Ashrunner camp (row 10262, shown from S1; hes_out1 group 33).
+  - id: 9507
+    name: Garrow
+    portrait: design/kreegan_world/art/portraits/x2/hes_garrow.png
+    greeting:
+      - "So you're the ones who brought my crawler home. Garrow. This is my camp, my clan, my dirt. Sit by the fire; we don't bite friends."
+      - "Colonists. What's the trade?"
+    topics: [9705, 9706, 9707, 9708]
+  - id: 9580
+    name: Teg
+    portrait: design/kreegan_world/art/portraits/x2/hes_teg.png
+    greeting:
+      - "So you're the ones I shouted at. No hard feelings?"
+      - "So you're the ones I shouted at. No hard feelings?"
+    topics: [9854]
+  - id: 9581
+    name: Old Ketter
+    portrait: design/kreegan_world/art/portraits/x2/hes_ketter.png
+    greeting:
+      - "Come closer, I've one good eye left and it's tired."
+      - "Come closer, I've one good eye left and it's tired."
+    topics: [9855]
+  - id: 9582
+    name: Juna
+    portrait: design/kreegan_world/art/portraits/x2/hes_juna.png
+    greeting:
+      - "Did you see her roll home? Did you SEE her?"
+      - "Did you see her roll home? Did you SEE her?"
+    topics: [9856]
+  - id: 9508
+    name: Kesh
+    portrait: design/kreegan_world/art/portraits/x2/hes_ashrunner_trader.png
+    house: 9458
+    greeting:
+      - "Put your salvage on the cloth and I'll weigh it. Kesh. I've charges, couplers and cells to trade, if you'd rather have those than gold."
+      - "Back for more bang?"
+    topics: [9715, 9716, 9717]
+  # The keepers of Landfall's houses 1-4 (P4's dialogue/LANDFALL.md; hes_out1 events 51-54): Brask in Salvage & Arms
+  # (9201) and Ysel in the Emitters (9202), beside the houses' Novice lessons (skills.yml); Mother Ama in Provisions
+  # (vendor 9450) and Lorn in the Last Lamp (the inn, house 9451), whose Rumors give S5 (100225).
+  - id: 9516
+    name: Brask
+    portrait: design/kreegan_world/art/portraits/x2/hes_keeper_arms.png
+    house: 9201
+    greeting:
+      - "Salvage and Arms. Guns, blades, plate, and whatever you dragged in from the ash, I'll weigh it."
+      - "Back. What do you need, or what have you got?"
+    topics: [9745, 9746]
+  - id: 9517
+    name: Ysel
+    portrait: design/kreegan_world/art/portraits/x2/hes_keeper_emitters.png
+    house: 9202
+    greeting:
+      - "Careful by the bench, that one's live. You've come about emitters?"
+      - "Shields up? Let me see."
+    topics: [9747, 9748]
+  - id: 9518
+    name: Mother Ama
+    portrait: design/kreegan_world/art/portraits/x2/hes_keeper_provisions.png
+    house: 9450
+    greeting:
+      - "Come in, come in, you look half-burnt. Provisions: food, stims, cells."
+      - "Eating? Good."
+    topics: [9749, 9750]
+  - id: 9519
+    name: Lorn
+    portrait: design/kreegan_world/art/portraits/x2/hes_innkeeper.png
+    house: 9451
+    greeting:
+      - "Welcome to the Last Lamp, first door in from the gate and the last light out. A bed, a meal, a word?"
+      - "The lamp's lit. Sit."
+    topics: [9751, 9752, 9770]
+  # Landfall's home residents (houses 9461-9467 the cliff homes 18-24, 9468-9470 the family homes 25-27) and its
+  # street people (on six of the villager actors, build_out1.py STREET_PEOPLE). Faces: NPCS' street pool.
+  - id: 9523
+    name: Brin
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_03.png
+    house: 9461
+    greeting: ["You're looking for Brin? Last door in the cliff. Come in; the step is higher than it looks.", "You're looking for Brin? Last door in the cliff. Come in; the step is higher than it looks."]
+    topics: [9771, 9775]
+  - id: 9524
+    name: Cael
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_05.png
+    house: 9462
+    greeting: ["The neighbors sent me to ask about the crater. I'm Cael. Were you all aboard when it fell?", "The neighbors sent me to ask about the crater. I'm Cael. Were you all aboard when it fell?"]
+    topics: [9772, 9776]
+  - id: 9525
+    name: Dorra
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_02.png
+    house: 9463
+    greeting: ["Come in out of the ash. I've put the kettle on, and there's enough for you.", "Come in out of the ash. I've put the kettle on, and there's enough for you."]
+    topics: [9773, 9777]
+  - id: 9526
+    name: Esk
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_11.png
+    house: 9464
+    greeting: ["If you hear dripping in the night, that's a drum gone. Bring it to Esk; I'll have it tight by morning.", "If you hear dripping in the night, that's a drum gone. Bring it to Esk; I'll have it tight by morning."]
+    topics: [9774, 9778]
+  - id: 9527
+    name: Fael
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_08.png
+    house: 9465
+    greeting: ["Mother says strangers bring news. What do people talk about where you come from?", "Mother says strangers bring news. What do people talk about where you come from?"]
+    topics: [9771, 9779]
+  - id: 9528
+    name: Garna
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_12.png
+    house: 9466
+    greeting: ["Forty years in this house. My husband wanted one on Main Street, but I like the shade.", "Forty years in this house. My husband wanted one on Main Street, but I like the shade."]
+    topics: [9772, 9780]
+  - id: 9529
+    name: Avel
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_03.png
+    house: 9467
+    greeting: ["The pale clumps are next week's supper. Put your feet between them, please.", "The pale clumps are next week's supper. Put your feet between them, please."]
+    topics: [9773, 9781]
+  - id: 9530
+    name: Isra
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_02.png
+    house: 9468
+    greeting: ["My brother keeps the East Gate. He told me to let you in if you came by.", "My brother keeps the East Gate. He told me to let you in if you came by."]
+    topics: [9774, 9782]
+  - id: 9531
+    name: Jorel
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_11.png
+    house: 9469
+    greeting: ["The guards have been asking after strangers. If you're going to the square, keep your weapons down.", "The guards have been asking after strangers. If you're going to the square, keep your weapons down."]
+    topics: [9771, 9783]
+  - id: 9532
+    name: Kalla
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_08.png
+    house: 9470
+    greeting: ["Leave your boots by the door. I swept this floor twice before breakfast.", "Leave your boots by the door. I swept this floor twice before breakfast."]
+    topics: [9772, 9784]
+  - id: 9533
+    name: Lune
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_12.png
+    greeting: ["There's no ash blowing today. I thought I'd sit out while it lasts.", "There's no ash blowing today. I thought I'd sit out while it lasts."]
+    topics: [9773, 9785]
+  - id: 9534
+    name: Merrit
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_05.png
+    greeting: ["I'm taking this to Provisions. Walk with me if you like; I've been sent back twice already.", "I'm taking this to Provisions. Walk with me if you like; I've been sent back twice already."]
+    topics: [9774, 9786]
+  - id: 9535
+    name: Nessa
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_02.png
+    greeting: ["Have a drink before you go. The fountain's clean, and nobody charges for it.", "Have a drink before you go. The fountain's clean, and nobody charges for it."]
+    topics: [9771, 9787]
+  - id: 9536
+    name: Kito
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_03.png
+    greeting: ["Make a little room, friend. Provisions wants these crates before the next cart comes.", "Make a little room, friend. Provisions wants these crates before the next cart comes."]
+    topics: [9772, 9788]
+  - id: 9537
+    name: Pria
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_08.png
+    greeting: ["You keep looking up. Do you miss your own sky?", "You keep looking up. Do you miss your own sky?"]
+    topics: [9773, 9789]
+  - id: 9538
+    name: Quill
+    portrait: design/kreegan_world/art/portraits/x2/hes_street_11.png
+    greeting: ["Welcome to Landfall. If you hear a turret turning, stay behind the wall.", "Welcome to Landfall. If you hear a turret turning, stay behind the wall."]
+    topics: [9774, 9790]
+
+topics:
+  # Garrow (9507), from S1.
+  - id: 9705
+    title: "The Foundry"
+    show_after: 100101
+    show_until: 100012
+    lua: |
+      -- M12 (Re-entry) from Garrow: given here or by the Pilot (100212), done once the emitter is fitted in D0 (100043).
+      if IsQBitSet(QBit(100043)) then
+        ClearQBit(QBit(100212))
+        SetQBit(QBit(100012))
+        AddValue(Experience, 30000)
+        evt.SetMessage("You gutted the Foundry. My people will sleep tonight. Dace wants a word; he says you've earned the trick of holding a field under fire.")
+      elseif IsQBitSet(QBit(100212)) then
+        evt.SetMessage("The Foundry, north on the Scour, by the Kreegan Road. The plate stores are at the back.")
+      else
+        SetQBit(QBit(100212))
+        evt.SetMessage("North on the Scour the black have a Foundry, and every gun that hunts my people comes out of it. They keep old emitters in its plate stores, big ones, the kind a ship wears. Your Pilot wants one, they say. Go take it, and burn the place if you can.")
+      end
+  - id: 9706
+    title: "The crawler"
+    show_after: 100101
+    show_until: 100113
+    lua: |
+      -- S1's reward: an Engram Core (11332; an Engram until CR-INT-1's larger supply), once (100113).
+      SetQBit(QBit(100113))
+      AddValue(InventoryItem(11332), 11332)
+      AddValue(Experience, 10000)
+      evt.SetMessage("That crawler is my grandmother's. We were three days digging her out of the ash after the black ones took her. You brought her home without a scratch on her that wasn't there before. Here: a colony engram core, out of her old locker. Fair trade.")
+  - id: 9707
+    title: "The derelict"
+    show_after: 100101
+    lua: |
+      evt.SetMessage("On the Scour, by the north-west rim, there's a dead ship half buried in the spoil: one of theirs, old as the comet, gray as bone. The black ones won't go inside it; their Kept cut plate off it. My people go in. The salvage is good, if you don't mind the drudges.")
+  - id: 9708
+    title: "Ashrunners"
+    show_after: 100101
+    lua: |
+      evt.SetMessage("Our ancestors walked out of the old town when the Council said stay below. We've lived on the surface ever since. We call ourselves Ashrunners; we go where the salvage is and shoot what shoots first.")
+  # Kesh (9508), in her stall (house 9458).
+  - id: 9715
+    title: "Breach Charges"
+    lua: |
+      evt.SetMessage("Three of these on a node's couplings and the heart dies loud. One opens a door that won't. Don't stand next to it.")
+  - id: 9716
+    title: "Couplers"
+    lua: |
+      evt.SetMessage("An arc coupler in the arm, and your old iron bites their shields. Not much. Enough.")
+  - id: 9717
+    title: "EMP"
+    lua: |
+      evt.SetMessage("Rare. Throw it, and every shield near the blast loses half what it had. Machines stop for a breath. Don't waste them on drudges.")
+  # The camp folk (P4's ASHRUNNERS, The camp folk).
+  - id: 9854
+    title: "The shout"
+    lua: |
+      evt.SetMessage("I warn once. Garrow's rule. The second time I don't shout.")
+  - id: 9855
+    title: "The old days"
+    lua: |
+      evt.SetMessage("My grandmother said the old town had a lamp for every door. We have a fire for every crawler. Ours is warmer.")
+  - id: 9856
+    title: "The crawler"
+    lua: |
+      evt.SetMessage("Three hundred years old and she still climbs a dune. They don't make anything like her any more. Nobody makes anything any more.")
+  # Brask (9516), in Salvage & Arms (house 9201).
+  - id: 9745
+    title: "Kreegan arms"
+    lua: |
+      evt.SetMessage("Their guns are our guns, grown over. Pull the resin off a pulse pistol and there's colony work under it; that's why they fire in your hands at all. The first lesson's at my counter: how to hold one and not lose your fingers. Past that, Corra and Halder for guns, Edda and Rusk for blades, all on Main Street.")
+  - id: 9746
+    title: "Salvage"
+    lua: |
+      evt.SetMessage("Kreegan alloy and ion cells: I buy them, the Workshop below buys them better. Everything else, I pay what I can, and it isn't much. Gold's scarce up here. We weigh it.")
+  # Ysel (9517), in the Emitters (house 9202).
+  - id: 9747
+    title: "Shields"
+    lua: |
+      evt.SetMessage("Everything you wear out there should carry a field: armor, emitter, an implant if you can afford it. They all add up to one shield, and it grows back if you get out of the line of fire for a few breaths. A shield cell refills it at once. A buckler on the arm is the big one. Learn to hold it here; Fenna and Tove teach the rest.")
+  - id: 9748
+    title: "The devils' shields"
+    lua: |
+      evt.SetMessage("Theirs come in three strengths. Light, our bolts and blades still bite. Standard, barely. The nobles' kind, not at all: you need their own weapons or a coupler on yours. And no spell touches a raised shield. Break it, then hit what's under it.")
+  # Mother Ama (9518), in Provisions (vendor 9450). Food: Hesk's rations from S10 (100110).
+  - id: 9749
+    title: "Food"
+    show_until: 100110
+    lua: |
+      evt.SetMessage("Fungus bread, cave fish, algae cake. Everything we eat we grow in the dark or haul from the Garden past the pass, so it costs. I don't like the prices any more than you do. If Hesk's garden ever grew enough, we'd all eat cheaper.")
+  - id: 9750
+    title: "Food"
+    show_after: 100110
+    lua: |
+      evt.SetMessage("Hesk's rations come down the pass by the crate now. You'll find them at the Last Lamp. Thank you for that; the children are fatter for it.")
+  # Lorn (9519), in the Last Lamp (house 9451). Water: the pumps cleared (S2, 100102). Rumors: S5 given (100225)
+  # until Thrix has been found (100105, his first topic, npcs_scour.yml).
+  - id: 9751
+    title: "The Last Lamp"
+    lua: |
+      evt.SetMessage("When the sky was lost, the founders' people went below. The last ones out lit a lamp on this spot so the scouts could find the lift in the ash. The lamp's still lit. So is the inn.")
+  - id: 9752
+    title: "Water"
+    lua: |
+      if IsQBitSet(QBit(100102)) then
+        evt.SetMessage("The water's running clean since you cleared the pumps. First clean water this inn has poured in years. Don't tell the Warden; she'll want to tax it.")
+        return
+      end
+      evt.SetMessage("Everything costs double up here, water most of all. The pumps in the canyon went sour years ago; we buy what the old town can spare. Odo the plumber says he could fix it, if somebody cleared the Pumping Station.")
+  - id: 9770
+    title: "Rumors"
+    lua: |
+      if IsQBitSet(QBit(100105)) then
+        evt.SetMessage("Thrix, they call him now. A devil with a shop. What a world.")
+        return
+      end
+      SetQBit(QBit(100225))
+      evt.SetMessage("There's a story the scouts tell: a black one living in a cave up the Scour's west canyon, who talks like you and me and has never shot at anyone. Tarro swears it's true. Tarro also swears he once outran a Harvester.")
+
+# quests: S1's journal row (100221) lives in npcs.yml's quest list (one definition per QBit).
+
+# autonotes: S1's 10413 lives in npcs.yml (one definition per id); 10020 is the statue's (CR-P3-11).
+autonotes:
+  - {id: 10020, text: "The founder statue on the Starport apron has its head again, carried home from the Hierarch's trophy hall.", category: Misc}
+
+# The houses (house_data rows, stage.py): the ten homes and the inn.
+houses:
+  - {id: 9461, name: "Brin's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9462, name: "Cael's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9463, name: "Dorra's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9464, name: "Esk's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9465, name: "Fael's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9466, name: "Garna's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9467, name: "Avel's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9468, name: "Isra's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9469, name: "Jorel's home", map: hes_out1.odm, picture: 9804}
+  - {id: 9470, name: "Kalla's home", map: hes_out1.odm, picture: 9804}
+  # The Last Lamp (house 4 of the town plan, hes_out1 event 54): MM's tavern (rent a room, fill the packs; the
+  # type's own Learn Skills). price 13: a room 17 gold, the packs 22 (PriceCalculator: price^2 / 10, price^3 / 100),
+  # about twice a starting MM tavern (ITEMS, "Food and inn"). Lorn lives here; always open.
+  # Once the pumps run clean (S2, 100102) "everything costs double" no longer: price 9 (a room 8, the packs 7).
+  - {id: 9451, name: "The Last Lamp", map: hes_out1.odm, picture: 9813, type: Tavern, price: 13,
+     price_after: {qbit: 100102, price: 9}}
+
+# The shops with a fixed stock (CR-P4-13): Venn sells the scouts' list from her home (house 15), Kesh from her stall
+# from S1. Not staged yet, so not sold: the Ash Cloak (Venn; it needs its paperdoll art) and the Arc Coupler I
+# (Kesh; an implant, no slot in the engine).
+vendors:
+  - {id: 9460, picture: 9804, name: "Venn's home", location: Landfall, merchandise: "The scouts' list", restock_days: 7,
+     stock: [[11300, 4], [11302, 4], [11305, 6]]}
+  # Kesh (the Ashrunner trader, ITEMS "Who sells what"): Breach Charges from the start, EMP Grenades after 3
+  # objectives (a third element: the objectives done before it is sold).
+  - {id: 9458, picture: 9809, name: "Kesh's stall", location: The Ashrunner camp, merchandise: "Charges, cells, grenades", restock_days: 7,
+     stock: [[11304, 3], [11300, 4], [11303, 2, 3]]}
+  # Provisions (house 3 of the town plan, hes_out1 event 53): Mother Ama's shop, from the start Shield Cells and
+  # Stims, the Breach Charge after 3 objectives and the EMP Grenade after 7 (ITEMS, "Who sells what").
+  - {id: 9450, picture: 9812, name: "Provisions", location: Landfall, merchandise: "Food, stims and cells", restock_days: 7,
+     hours: [6, 22], stock: [[11300, 4], [11302, 4], [11304, 2, 3], [11303, 2, 7]]}

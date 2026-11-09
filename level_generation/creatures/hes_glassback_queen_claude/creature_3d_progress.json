@@ -1,0 +1,17 @@
+{
+  "creature_3d_identity": "hesper:glassback_queen",
+  "rows": [
+    10101
+  ],
+  "concept": "design/kreegan_world/concepts/monsters/boss_glassback_queen.png (candidate 3, user-approved 2026-10-23)",
+  "route": "reuse hes_glassback_reduce_claude body and rig (copied, never modified) + own ramps variant hgb_q + tall crest without neck spines + crown attachment on Head",
+  "meshy": {
+    "credit_limit": 1,
+    "jobs": {}
+  },
+  "status": {
+    "date": "2026-10-23",
+    "stage": "staged on the Hesper stage (monsters.yml); viewer ready; D1 smoke run ok",
+    "next": "integrator in-game acceptance (openyamm-30)"
+  }
+}

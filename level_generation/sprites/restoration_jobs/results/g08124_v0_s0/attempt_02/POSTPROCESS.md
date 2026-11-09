@@ -1,0 +1,1 @@
+Process with --adjust 0.98 0 8. Run restore_native_tone.py then queue.py check g08124_v0_s0. Script saves fresh ungraded output as .before_tone.png and matches native opaque RGB means with channel gamma while preserving alpha. Refresh backup after reprocessing.

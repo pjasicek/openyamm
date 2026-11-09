@@ -1,0 +1,14 @@
+[
+  {
+    "tool": "image_gen.imagegen",
+    "status": "selected",
+    "prompt": "Use case precise-object-edit. Paint Image 1 exact gray six-view geometry atlas as FLAT DIFFUSE ALBEDO. Preserve every silhouette, gap, view direction, cell placement and size EXACTLY. 1536x1024 atlas THREE columns TWO rows: FRONT BACK LEFT / RIGHT TOP BOTTOM. Some named front views show a lateral view; do not rotate them. Image 2 only defines design and material; IGNORE its lighting. Material: pale icy blue frosted crystal skull, subtle cloudy inclusions and fine facet lines. Eye sockets contain cloudy pale blue crystal, no new holes or empty black sockets. Do NOT paint sharp white reflection streaks. Base pigment pale cyan (#85b9d1) and cloudy ivory-blue (#b5d6df), no deep cast shadow. All six views use identical material colours. Fine pigment detail only. No shading, reflections, specular shine, white highlights, AO, cast shadows, gradients, glow, halo, floor, labels or new ornament. Exact guide scale and position in every cell. True transparent empty background. Return one 3:2 atlas.",
+    "raw_output": "/home/pjasicek/.codex/generated_images/01a14de2-c3a6-7462-b182-5de15f5ffe18/exec-cda7b2de-e9b9-4063-b10f-51c61fb90a96.png",
+    "raw_sha256": "3a5fdf77aca78e63a2defea28c79ed7e346ca6a3559f1d847c99f95747441e52",
+    "selected_atlas_sha256": "3a5fdf77aca78e63a2defea28c79ed7e346ca6a3559f1d847c99f95747441e52",
+    "material_reference": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/meshy/sculpture_crysskull/references_hd/00_three_quarter.png",
+    "material_reference_sha256": "187278d097f412de3b447fff20d390ea9db9d9c6b5ada861a2d0228380010b44",
+    "exact_guide_input": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_sculpture/codex_tex/sculpture_crysskull/paint_input_atlas.png",
+    "exact_guide_input_sha256": "ffa756ab017397cfeb21e7277f05ce45dcef95e134c5944b8b05907e0a5a2e52"
+  }
+]

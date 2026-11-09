@@ -1,0 +1,205 @@
+{
+ "sprite": "tree36",
+ "output": "mm7_deco_tree36.glb",
+ "height_m": 6.4,
+ "note": "Snow-laden spruce: pale straight trunk visible to the top, near-horizontal drooping branch shelves from the ground, widest at a fifth of the height, narrow spire; heavy snow on the lower and middle shelves.",
+ "sapling": {
+  "scale": 4.5,
+  "shape": "0",
+  "baseSplits": 0,
+  "baseSize": 0.05,
+  "splitHeight": 0.5,
+  "seed": 361,
+  "ratio": 0.022,
+  "segSplits": [
+   0,
+   0.1,
+   0.2,
+   0
+  ],
+  "branches": [
+   0,
+   70,
+   6,
+   6
+  ],
+  "downAngle": [
+   90,
+   95,
+   50,
+   45
+  ],
+  "attractUp": [
+   0,
+   -0.1,
+   0.3,
+   0
+  ],
+  "length": [
+   1.0,
+   0.42,
+   0.25,
+   0.3
+  ],
+  "curveRes": [
+   12,
+   5,
+   3,
+   1
+  ],
+  "rootFlare": 1.3,
+  "scaleV": 0.3,
+  "nrings": 14
+ },
+ "crown": {
+  "canopy_low": 0.03,
+  "centre": 0.35,
+  "radius_by_width": 0.3,
+  "along": {
+   "spacing": 0.12,
+   "start": 0.12,
+   "min_thickness": 0.0
+  },
+  "fronds": {
+   "size": [
+    0.6,
+    0.8
+   ],
+   "roll": 40,
+   "droop": 0.12,
+   "per_point": 2,
+   "leader": {
+    "from": 0.86,
+    "count": 5
+   }
+  }
+ },
+ "bark": {
+  "target_srgb": [
+   175,
+   160,
+   140
+  ],
+  "min_thickness": [
+   0.004,
+   0.012,
+   0.03
+  ],
+  "root_reach": 0.25,
+  "roots": 0,
+  "clip_below_crown": true,
+  "budget": [
+   1500,
+   600,
+   220
+  ]
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "tone": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "lod2": "subset",
+  "grow": [
+   1.0,
+   1.18,
+   1.65
+  ],
+  "outward": [
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "leaves": {
+  "kind": "fronds",
+  "target_srgb": [
+   124,
+   176,
+   100
+  ],
+  "seeds": [
+   361,
+   373,
+   389,
+   397
+  ],
+  "value": [
+   0.75,
+   1.45
+  ],
+  "jitter_blue": [
+   0.78,
+   0.95
+  ],
+  "snow": {
+   "cells": [
+    2,
+    3
+   ],
+   "cover": 0.6,
+   "radius": [
+    18,
+    36
+   ],
+   "srgb": [
+    250,
+    250,
+    240
+   ],
+   "lift": 0.92,
+   "by_height": [
+    [
+     0.0,
+     0.85
+    ],
+    [
+     0.45,
+     0.7
+    ],
+    [
+     0.75,
+     0.5
+    ],
+    [
+     1.0,
+     0.4
+    ]
+   ]
+  }
+ },
+ "impostor_tone": [
+  0.88,
+  0.89,
+  0.88
+ ],
+ "transparent_bounces": 64,
+ "occlusion": {
+  "floor": 0.55,
+  "range": 0.45,
+  "power": 1.0
+ },
+ "skeleton": {
+  "kind": "conifer",
+  "whorls": 22,
+  "per_whorl": 5,
+  "reach": [
+   0.85,
+   1.0
+  ],
+  "rise": 0.08,
+  "droop": 0.22,
+  "trunk_radius": 0.1,
+  "limb_radius": 0.035,
+  "top": 0.93,
+  "spacing_power": 0.8,
+  "seed": 36
+ },
+ "impostor_dilate": 1
+}

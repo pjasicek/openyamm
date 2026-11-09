@@ -1,0 +1,40 @@
+BATHHOUSE.dat isolated lights 30 ambient 60.0
+  BrightScale 0.30:  11 lights, median gain k 0.33 (quartiles 0.27-0.35)
+  BrightScale 0.40:   2 lights, median gain k 0.50 (quartiles 0.49-0.50)
+  BrightScale 0.50:   4 lights, median gain k 0.72 (quartiles 0.66-0.79)
+  BrightScale 0.70:  11 lights, median gain k 0.89 (quartiles 0.84-0.93)
+  BrightScale 0.75:   2 lights, median gain k 0.97 (quartiles 0.92-1.01)
+  correlation(BrightScale, k) 0.75
+VERHOFFINRUINS.dat isolated lights 20 ambient 50.0
+  BrightScale 0.30:   4 lights, median gain k 0.34 (quartiles 0.25-0.38)
+  BrightScale 0.45:   2 lights, median gain k 0.55 (quartiles 0.54-0.56)
+  BrightScale 0.50:  12 lights, median gain k 0.54 (quartiles 0.34-0.74)
+  BrightScale 0.80:   2 lights, median gain k 1.16 (quartiles 0.98-1.34)
+  correlation(BrightScale, k) 0.50
+STURMFORDCITY.dat isolated lights 34 ambient 70.0
+  BrightScale 0.30:   3 lights, median gain k 0.33 (quartiles 0.14-0.33)
+  BrightScale 0.40:   2 lights, median gain k -0.08 (quartiles -0.09--0.06)
+  BrightScale 0.50:   2 lights, median gain k 0.32 (quartiles 0.14-0.50)
+  BrightScale 0.60:   1 lights, median gain k 0.88 (quartiles 0.88-0.88)
+  BrightScale 0.75:   8 lights, median gain k 1.05 (quartiles 0.91-1.22)
+  BrightScale 1.00:  18 lights, median gain k 1.92 (quartiles 1.50-2.42)
+  correlation(BrightScale, k) 0.80
+THRONHEIMCITY.dat isolated lights 27 ambient 80.0
+  BrightScale 0.50:   5 lights, median gain k 0.03 (quartiles 0.03-0.03)
+  BrightScale 0.60:   6 lights, median gain k 0.72 (quartiles 0.17-0.96)
+  BrightScale 1.00:  16 lights, median gain k 1.12 (quartiles 0.82-1.25)
+  correlation(BrightScale, k) 0.55
+GUBERLANDCITY.dat isolated lights 31 ambient 80.0
+  BrightScale 0.60:  17 lights, median gain k 0.54 (quartiles 0.35-0.64)
+  BrightScale 1.00:  14 lights, median gain k 1.00 (quartiles 0.27-1.07)
+  correlation(BrightScale, k) 0.32
+KLUSOSHOUSE.dat isolated lights 15 ambient 60.0
+  BrightScale 0.60:  10 lights, median gain k 0.77 (quartiles 0.17-0.96)
+  BrightScale 1.00:   5 lights, median gain k 1.19 (quartiles 1.04-1.32)
+  correlation(BrightScale, k) 0.37
+RUINEDTEMPLE.dat isolated lights 49 ambient 50.0
+  BrightScale 0.20:   1 lights, median gain k 0.29 (quartiles 0.29-0.29)
+  BrightScale 0.30:   6 lights, median gain k 0.51 (quartiles 0.45-0.54)
+  BrightScale 0.50:  12 lights, median gain k 0.30 (quartiles 0.23-0.36)
+  BrightScale 0.60:  30 lights, median gain k 0.87 (quartiles 0.70-1.05)
+  correlation(BrightScale, k) 0.45

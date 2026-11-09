@@ -1,0 +1,604 @@
+{
+ "id": "20261009-1628-mm6-outc3-45",
+ "world": "mm6",
+ "maps": [
+  "outc3.odm",
+  "6t5.blv"
+ ],
+ "created": "2026-10-09T14:28:28+00:00",
+ "textures": [
+  "mm6/swprt3a",
+  "mm6/pbdorb",
+  "mm6/swpwin1",
+  "mm6/whtrim",
+  "mm6/brxlft",
+  "mm6/brxlwn",
+  "mm6/bmssmdr",
+  "mm6/swpwin3",
+  "mm6/brxcntr",
+  "mm6/brxwn",
+  "mm6/swpdr3",
+  "mm6/brxend",
+  "mm6/brxendwn",
+  "mm6/brxrt",
+  "mm6/brxrwn",
+  "mm6/swpdr1",
+  "mm6/tavpoor1",
+  "mm6/whcntr1",
+  "mm6/whdor",
+  "mm6/whrf",
+  "mm6/t4wb4",
+  "mm6/t4ws2",
+  "mm6/t4wb1",
+  "mm6/t4wb6"
+ ],
+ "requests": {
+  "mm6/swprt3a": {
+   "name": "swprt3a",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough plastered house wall framed by weathered grey wooden boards with rusty iron corner brackets on the right, with a small dark amber window in a grey wood frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swprt3",
+      "mm6/swpend3a"
+     ],
+     "fraction": 0.439
+    }
+   }
+  },
+  "mm6/pbdorb": {
+   "name": "pbdorb",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "wide red-brown vertical plank double barn door under a rounded arch of grey-brown wood and brick, with horizontal iron bands and a central iron latch plate; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: a single flat silver latch plate centred on the split between the two doors at the same height as in the reference; the iron straps run unbroken across both doors at the same heights as in the reference, with no short broken strap pieces.",
+    "3": "Copy the composition exactly: one flat silver latch plate centred on the split between the two door leaves at mid height; only the full-width iron bands of the reference, no extra bar fragments, second lock or loose iron pieces."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/brxdr"
+     ],
+     "fraction": 0.175
+    },
+    "2": {
+     "sources": [
+      "mm6/brxdr"
+     ],
+     "fraction": 0.175
+    },
+    "3": {
+     "sources": [
+      "mm6/brxdr"
+     ],
+     "fraction": 0.175
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm6/swpwin1": {
+   "name": "swpwin1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered grey vertical wooden plank wall with horizontal rails and a small window boarded with an X of grey planks over a glowing red-orange interior; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swplft1",
+      "mm6/swpcnr1",
+      "mm6/swplft1a",
+      "mm6/swprt1a"
+     ],
+     "fraction": 0.245
+    },
+    "2": {
+     "sources": [
+      "mm6/swplft1",
+      "mm6/swpcnr1",
+      "mm6/swplft1a",
+      "mm6/swprt1a"
+     ],
+     "fraction": 0.241
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     16
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/swpcnr1",
+     "right": "mm6/swpcnr1"
+    }
+   }
+  },
+  "mm6/whtrim": {
+   "name": "whtrim",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "plain strip of weathered grey-brown horizontal wooden planks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/whcntr"
+     ],
+     "fraction": 0.729
+    },
+    "2": {
+     "sources": [
+      "mm6/whcntr"
+     ],
+     "fraction": 0.729
+    },
+    "3": {
+     "sources": [
+      "mm6/whcntr"
+     ],
+     "fraction": 0.729
+    }
+   },
+   "context": {
+    "2": {},
+    "3": {
+     "top": "mm6/whcntr",
+     "right": "mm6/swprf",
+     "bottom": "mm6/swprf"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     32
+    ]
+   }
+  },
+  "mm6/brxlft": {
+   "name": "brxlft",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered red-brown brick house wall with pale mortar in a dark grey-brown timber frame with top beam and middle rail, a vertical timber post on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "right": "mm6/brxcntr",
+     "bottom": "mm6/swplft1",
+     "top": "mm6/swprrf1",
+     "left": "mm6/swprt3"
+    }
+   }
+  },
+  "mm6/brxlwn": {
+   "name": "brxlwn",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered red-brown brick house wall with pale mortar in a dark grey-brown timber frame with top beam and middle rail, a vertical timber post on the left edge and a grey glass multi-pane window in a dark timber frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/brxlft"
+     ],
+     "fraction": 0.095
+    },
+    "2": {
+     "sources": [
+      "mm6/brxlft"
+     ],
+     "fraction": 0.083
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "top": "mm6/brxlft",
+     "right": "mm6/brxcntr"
+    }
+   }
+  },
+  "mm6/bmssmdr": {
+   "name": "bmssmdr",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "arched dark brown wooden door with vertical planks, a brass handle and an oval stained-glass window showing a red eye in a mosaic of red, blue, green and yellow, set in a carved yellow-tan stone surround; copy the composition exactly",
+   "notes": {
+    "2": "Keep the native's edge joints exactly: dark joint lines stay dark, no added hairlines; the outermost pixels continue the material."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/bmslgdr"
+     ],
+     "fraction": 0.229
+    },
+    "2": {
+     "sources": [
+      "mm6/bmslgdr"
+     ],
+     "fraction": 0.229
+    }
+   },
+   "context": {
+    "2": {}
+   }
+  },
+  "mm6/swpwin3": {
+   "name": "swpwin3",
+   "versions": [
+    1
+   ],
+   "material": "dark brown rough plastered house wall with a small dark amber window in a weathered grey wood frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/swpcnr3",
+      "mm6/swpend3a"
+     ],
+     "fraction": 0.202
+    }
+   }
+  },
+  "mm6/brxcntr": {
+   "name": "brxcntr",
+   "versions": [
+    1
+   ],
+   "material": "weathered red-brown brick house wall with pale mortar in a dark grey-brown timber frame with top beam and middle rail",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/brxwn": {
+   "name": "brxwn",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered red-brown brick house wall with pale mortar in a dark grey-brown timber frame with top beam and middle rail and a grey glass multi-pane window in a dark timber frame in the centre",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/brxcntr"
+     ],
+     "fraction": 0.081
+    },
+    "2": {
+     "sources": [
+      "mm6/brxcntr"
+     ],
+     "fraction": 0.081
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/brxlft",
+     "right": "mm6/brxcntr",
+     "bottom": "mm6/brxcntr",
+     "top": "mm6/brxcntr"
+    }
+   }
+  },
+  "mm6/swpdr3": {
+   "name": "swpdr3",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-blue vertical wooden plank house door with horizontal battens, a small iron latch on the right and a twisted vine above the lintel; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/brxend": {
+   "name": "brxend",
+   "versions": [
+    1
+   ],
+   "material": "weathered red-brown brick house wall with pale mortar in a dark grey-brown timber frame with top beam and middle rail, vertical timber posts on both left and right edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/brxendwn": {
+   "name": "brxendwn",
+   "versions": [
+    1
+   ],
+   "material": "weathered red-brown brick house wall with pale mortar in a dark grey-brown timber frame with top beam and middle rail, vertical timber posts on both edges and a grey glass multi-pane window in a dark timber frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/brxrt": {
+   "name": "brxrt",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered red-brown brick house wall with pale mortar in a dark grey-brown timber frame with top beam and middle rail, a vertical timber post on the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "left": "mm6/brxwn",
+     "right": "mm6/bmsctr1",
+     "bottom": "mm6/bmsctr1",
+     "top": "mm6/swprrf1"
+    }
+   }
+  },
+  "mm6/brxrwn": {
+   "name": "brxrwn",
+   "versions": [
+    1
+   ],
+   "material": "weathered red-brown brick house wall with pale mortar in a dark grey-brown timber frame with top beam and middle rail, a vertical timber post on the right edge and a grey glass multi-pane window in a dark timber frame",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/swpdr1": {
+   "name": "swpdr1",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-green vertical wooden plank house door with horizontal battens and a brass latch handle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/tavpoor1": {
+   "name": "tavpoor1",
+   "versions": [
+    1
+   ],
+   "material": "tavern sign on a wooden plank board with dark iron rivets around the edge, showing a large blue tankard mug with a handle; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/whcntr1": {
+   "name": "whcntr1",
+   "versions": [
+    1
+   ],
+   "material": "weathered grey-brown horizontal wooden plank house wall with a central vertical timber post and two diagonal braces meeting at the top with an iron plate",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/whdor": {
+   "name": "whdor",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "weathered grey-brown wooden plank house door with a small barred dark window in the upper half and a brass latch; copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly: the window has four vertical and three horizontal bars, three horizontal rails below the window, door and window at the same heights as in the reference.",
+    "3": "Copy the composition exactly: the window has four vertical and three horizontal bars, three horizontal rails below the window, door and window at the same heights as in the reference.",
+    "4": "Copy the heights exactly: the window is taller, its sill ends at 55% of the door height from the top; the lower door has rails at 67% and 88% of the height; the brass latch sits just below the sill at 59%. Four vertical and two horizontal window bars as in the reference."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "3": {
+     "right": "mm6/whrt",
+     "left": "mm6/whcntr"
+    },
+    "4": {
+     "right": "mm6/whrt",
+     "left": "mm6/whcntr"
+    }
+   }
+  },
+  "mm6/whrf": {
+   "name": "whrf",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "brown-olive weathered wooden shingle roof in overlapping rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     16,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm6/whft"
+    }
+   }
+  },
+  "mm6/t4wb4": {
+   "name": "t4wb4",
+   "versions": [
+    1
+   ],
+   "material": "dense mesh of thin red-brown roots over brown pebble gravel earth, with exposed pebbles along the top and left edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4ws2": {
+   "name": "t4ws2",
+   "versions": [
+    1
+   ],
+   "material": "thick gnarled red-brown tree roots twisting over dark lumpy pebbled earth, with a rough red-brown rubble stone border along the right edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4wb1": {
+   "name": "t4wb1",
+   "versions": [
+    1
+   ],
+   "material": "dense mesh of thin red-brown roots over brown pebble gravel earth",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/t4wb6": {
+   "name": "t4wb6",
+   "versions": [
+    1
+   ],
+   "material": "dense mesh of thin red-brown roots over brown pebble gravel earth, with exposed pebbles along the top edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/t4wb1",
+      "mm6/t4wb4"
+     ],
+     "fraction": 0.652
+    }
+   }
+  }
+ }
+}

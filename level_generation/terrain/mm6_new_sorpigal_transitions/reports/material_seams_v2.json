@@ -1,0 +1,42 @@
+[
+  {
+    "material": "grass",
+    "source": "generated/v1/grass_512.png",
+    "source_sha256": "919c91dfa242557cc898229ad5582c32ead3d7025dc22ee5e081a3cf0ecfa37b",
+    "output_sha256": "6ad9eb15117ce8b3aa9d153048c765c71a46a82a7106514744729c247d986e6a",
+    "central_448x448_pixels_unchanged": true,
+    "runtime_opposite_edges_exact": true,
+    "imagegen_repair": null,
+    "method": "Imagegen boundary repair inserted within32px of outer edges; shared symmetric8px sampling strip faded by16px."
+  },
+  {
+    "material": "dirt",
+    "source": "generated/v6/dirt_512.png",
+    "source_sha256": "80007862a6330f3e1c5f1acbe011fe6e159c9f91c7cf31f30d9004063e9d9811",
+    "output_sha256": "dba0dce2c7b43a910ec75b9ba55fc1e15a9deaa33eaa023ffff5d53e310e540a",
+    "central_448x448_pixels_unchanged": true,
+    "runtime_opposite_edges_exact": true,
+    "imagegen_repair": null,
+    "method": "Imagegen boundary repair inserted within32px of outer edges; shared symmetric8px sampling strip faded by16px."
+  },
+  {
+    "material": "volcano",
+    "source": "generated/v2/volcano_512.png",
+    "source_sha256": "6bee53e395a867cedf455bc50c2aeaee034b06fefd3d33d39bcc5a41c9ae21b1",
+    "output_sha256": "a5ceb80d59b57f81647eb50ca6bdca11a0636139eb4a1cdec9cd8d2d1249530c",
+    "central_448x448_pixels_unchanged": true,
+    "runtime_opposite_edges_exact": true,
+    "imagegen_repair": "material_seams/volcano_repair_raw.png",
+    "method": "Imagegen boundary repair inserted within32px of outer edges; shared symmetric8px sampling strip faded by16px."
+  },
+  {
+    "material": "cobbles",
+    "source": "generated/v1/cobbles_512.png",
+    "source_sha256": "e51154975e5de53bbb579bff2444853b6fc1ed158f7476a3ef11d594e318ec08",
+    "output_sha256": "f6f301bec11ba8883e7cb660000499ffc763871de077871181fa8f7953129af9",
+    "central_448x448_pixels_unchanged": true,
+    "runtime_opposite_edges_exact": true,
+    "imagegen_repair": "material_seams/cobbles_repair_raw.png",
+    "method": "Imagegen boundary repair inserted within32px of outer edges; shared symmetric8px sampling strip faded by16px."
+  }
+]

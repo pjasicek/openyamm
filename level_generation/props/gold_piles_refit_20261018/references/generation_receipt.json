@@ -1,0 +1,16 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "images": 2,
+  "reference": "references/icons/item206.png",
+  "prompt": "references/coin_face_prompt.txt",
+  "result": "references/coin_face_painted.png",
+  "sha256": "0f426278dce77ea221dc108d6c00baa6fbdd77ca5c9a821adbaa12af9cb676ef",
+  "meshy_jobs": 0,
+  "meshy_credits": 0,
+  "readability_revision": {
+    "tool": "built-in image_gen.imagegen",
+    "result": "references/coin_face_readable.png",
+    "prompt": "references/coin_face_readable_prompt.txt",
+    "sha256": "8a4909d5c4f1c0435daa3823d8f2e9514427d743f7e7df6c03f6240388a089ec"
+  }
+}

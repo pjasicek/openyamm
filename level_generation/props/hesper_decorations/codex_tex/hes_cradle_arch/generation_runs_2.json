@@ -1,0 +1,101 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen",
+  "view": "back",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "corrective_regenerations_used": 1,
+  "corrective_regenerations_allowed": 1,
+  "status": "Best available unresized return saved; strict dimension, geometry and flat-lighting requirements not fully met.",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: flat albedo texture-source painting of the BACK of the Cradle arch, exactly 1024 x 1024 pixels, transparent RGBA PNG.\n\nInput 1 guide_back.png is the EDIT TARGET and the absolute authority for geometry, exact pixel silhouette, camera, orthographic back view, every shape edge, opening, detail, scale and frame position. Input 2 design_reference.png is ONLY the approved material, colour and design reference; its three-quarter camera and silhouette must NOT replace the guide. Input 3 concept_crop.png is supporting original concept reference only; exclude its sky, scenery and other objects.\n\nPaint directly over the grey surfaces of input 1. Preserve the guide's original alpha silhouette EXACTLY and preserve all internal geometric edges and openings. Keep the exact 1024 x 1024 composition unchanged: a broad base across the lower left and middle, a crescent curving upward to a fine tip pointing RIGHT at the upper right, a large empty transparent concavity on the right, the existing circular beacon housing on the left of centre, the lower pointed openings with their existing crosspiece, and every small existing base protrusion. Do not flip, rotate, move, reframe, resize, thicken, smooth away or add geometry. No additional rubble or architectural extensions. Nothing outside the guide silhouette, nothing cropped.\n\nMaterials: paint ivory bone plates with delicate thin gold-brown branching veins following the approved HD design. Keep ivory dominant, gold-brown vein tracery thin and restrained. The existing round housing becomes a round blue-white glowing beacon lens, using the approved lens's pale blue, white and subtle lavender colour, following the guide's exact local geometry and detail. Do not move, enlarge, elongate or duplicate the beacon. Colour all existing base details consistently with the approved materials while preserving every guide shape. Fine material texture only, no new geometric openings.\n\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless illumination from the viewer across every face. Remove the grey render's lighting and ambient-occlusion shading from the painting. No cast shadows, no ambient-occlusion darkening in recesses, no strong specular highlights, no reflections, no rim light, no directional light gradients. The beacon is painted in its glowing colour, with no bloom or light cast on surrounding surfaces. No background, floor, ground plane, black fill, checkerboard, text or watermark. All background and all original transparent openings must remain actually transparent.\n\nReturn ONE 1024 x 1024 image, original unresized output. This is a material-only repaint of input 1 with the exact original geometry and alpha outline.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "ee1411d9dbd91313744f7d38eed49e20c607eb5b3df7eb35c56691d303901f34"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_back_attempt_1.png",
+      "output_sha256": "dafbc936260196140b725afada54c09024eb61827ab4234519b8dea45a49b646",
+      "selected": false,
+      "reason": "Rejected: native return is 1254 x 1254, lower inset geometry was changed including an invented transparent opening, and gold is too glossy. One corrective regeneration requested.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_met": false,
+        "transparent_background": true,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_diagnostic_only": 0.9496063504457024,
+        "materials_colours": "Ivory, gold and blue-white palette broadly matches; gold is too bright and glossy.",
+        "flat_even_light": "Fail: strong specular-looking gold edges and dark recessed shading."
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "CORRECTIVE GENERATION — one final material-only repaint. Output resolution MUST be exactly 1024 x 1024 native pixels, transparent RGBA PNG. Do not output 1254 x 1254, upscale, resize, pad or crop.\n\nUse case: precise-object-edit.\nINPUT 1: guide_back.png — edit this exact 1024 x 1024 image. Preserve its alpha channel, silhouette, positions, scale, orthographic camera and every geometric edge EXACTLY. This guide is the authority.\nINPUT 2: design_reference.png — ivory bone, thin gold-brown vein pattern and blue-white beacon colours ONLY. Do NOT copy its geometry, perspective, lighting or shiny gold highlights.\nINPUT 3: concept_crop.png — original concept for material context only.\n\nPaint the grey surface pixels of INPUT 1 with flat albedo colours: dominant warm ivory bone plates, thin muted matte gold-brown vein lines, and a pale blue-white softly luminous lens inside the existing circular housing. Preserve the guide's small central lens detail. Keep all the guide's lower pointed inset shapes, the left lower pointed inset's horizontal crosspiece, every small base spike, and all their boundaries in their EXACT existing positions. Do not turn any solid recess into a transparent hole. Do not invent extra cavities, ribs, rubble, raised filigree or protrusions. Do not simplify or replace any geometry. The thin upper tip curves toward the RIGHT, exactly as in INPUT 1.\n\nThe previous attempt failed by changing the lower opening geometry, adding excessive glossy gold highlights and returning the wrong pixel dimensions. Correct precisely those errors. Copy INPUT 1's geometry and alpha outline without artistic reinterpretation. Preserve original transparent pixels; do not make solid guide pixels transparent.\n\nTEXTURE-SOURCE ALBEDO: completely even, flat, shadowless light from the viewer on every surface, including the lower recesses. No ambient occlusion, no cast shadows, no directional shading, no glossy/specular highlights or reflections, no rim lighting. Paint luminous lens colours locally without bloom or cast light. Matte thin gold-brown tracery, not thick reflective bright gold. Subtle ivory bone texture. No sky, scenery, background, floor, ground plane, text, grid or watermark.\n\nReturn only ONE painting of this exact back view on a genuine transparent background. EXACTLY 1024 x 1024 pixels. Unresized return.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "sha256": "ee1411d9dbd91313744f7d38eed49e20c607eb5b3df7eb35c56691d303901f34"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "c24512c128fc5493b49e45c0fb9cfac60482705c0c69cea85d47a0f4ed7c93aa"
+        },
+        {
+          "path": "concept_crop.png",
+          "sha256": "03da24a9ca51af96f0ad499d3dd566a82a5437020ea221f007229a79cbd909dd"
+        }
+      ],
+      "output": "paint_back.png",
+      "output_sha256": "db4e712bfaaf28abc5fd266b4d2c267c7f5f296ef60061f1d3919edd48d6af83",
+      "selected": true,
+      "accepted_as_brief_compliant": false,
+      "reason": "Selected as the better of the two allowed attempts: retains lower solid recesses and crosspiece, restores the central beacon detail, and reduces gold shine. Saved byte-for-byte as the unresized return. Still fails the requested 1024 x 1024 dimensions and exact guide silhouette, with residual recess shading. Corrective generation limit reached.",
+      "checks": {
+        "size": [
+          1254,
+          1254
+        ],
+        "required_size_met": false,
+        "transparent_background": true,
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "silhouette_identical": false,
+        "normalized_silhouette_iou_diagnostic_only": 0.976686071672879,
+        "materials_colours": "Ivory bone, thin gold-brown veins and blue-white/lavender lens broadly match the approved reference.",
+        "flat_even_light": "Improved, but not fully compliant: residual recess shading and relief lighting remain."
+      }
+    }
+  ],
+  "validation_notes": [
+    "Only image metadata and alpha arrays were analyzed; neither generated PNG was resized or otherwise edited.",
+    "Normalized silhouette IoU is only a diagnostic comparison using pixel-centre coordinate sampling in memory. It is not proof of exact silhouette preservation.",
+    "Original generation outputs were copied unchanged into this folder.",
+    "No builds, model edits, texture baking or runtime integration performed."
+  ]
+}

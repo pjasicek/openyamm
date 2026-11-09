@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](level_generation/creatures/mm7_m372_claude/references_hd/00_three_quarter.png), an unresized 1024 × 1536 RGBA return from built-in image generation.
+
+Both raw returns, exact prompts and checks are recorded in [generation_runs.json](level_generation/creatures/mm7_m372_claude/references_hd/generation_runs.json). After the one permitted correction, residual faults remain in finger spread, sleeve gaps and clasp placement.

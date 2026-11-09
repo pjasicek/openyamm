@@ -1,0 +1,22 @@
+{
+ "format_version": 1,
+ "kind": "outdoor_map_package",
+ "package_id": "hesper:starport_reach",
+ "display_name": "Starport Reach",
+ "map_file": "hes_out1.odm",
+ "scene_file": "hes_out1.scene.yml",
+ "geometry_metadata_file": "hes_out1.geometry.yml",
+ "terrain_metadata_file": "hes_out1.terrain.yml",
+ "script_module": "maps/hes_out1.lua",
+ "map_stats_id": 9101,
+ "redbook_track": 0,
+ "environment_name": "grassland",
+ "is_top_level_area": true,
+ "outdoor_bounds": {
+  "enabled": true,
+  "min_x": -23040,
+  "max_x": 23040,
+  "min_y": -23040,
+  "max_y": 23040
+ }
+}

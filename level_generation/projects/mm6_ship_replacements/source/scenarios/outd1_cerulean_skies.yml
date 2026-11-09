@@ -1,0 +1,62 @@
+id: mm6.ships.outd1.cerulean_skies
+title: Cerulean Skies boarding and cabin
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: outd1.odm
+- movement_segment:
+    start:
+      map: outd1.odm
+      x: 4480
+      y: -12056
+      z: 177
+      yaw: 4.71238898038469
+      pitch: 0
+    expect_stop:
+      map: outd1.odm
+      x: 4480
+      y: -12536
+      z: 105
+      yaw: 4.71238898038469
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- movement_segment:
+    start:
+      map: outd1.odm
+      x: 4480
+      y: -12536
+      z: 105
+      yaw: 1.5707963267948966
+      pitch: 0
+    expect_stop:
+      map: outd1.odm
+      x: 4480
+      y: -12151
+      z: 177
+      yaw: 1.5707963267948966
+      pitch: 0
+    seconds: 1.25
+    input: forward
+    shift: true
+    actor_ai: false
+    tolerance_xy: 16
+    tolerance_z: 3
+- press_interact:
+    pose:
+      map: outd1.odm
+      x: 4256
+      y: -12688
+      z: 105
+      yaw: 3.141592653589793
+      pitch: 0
+    expect:
+      can_activate: true
+      target_index: 126
+      face_index: 42
+      triggered_event: 12

@@ -1,0 +1,935 @@
+{
+ "id": "20261009-2101-mm7-7d26-01",
+ "world": "mm7",
+ "maps": [
+  "7d26.blv",
+  "7d29.blv",
+  "7d32.blv",
+  "7out05.odm",
+  "7d33.blv",
+  "d03.blv"
+ ],
+ "created": "2026-10-09T19:01:23+00:00",
+ "textures": [
+  "mm7/hnp2erw",
+  "mm7/hnp2er",
+  "mm7/hnm1el",
+  "mm7/nechuma",
+  "mm7/tfb09f-g",
+  "mm7/chb1p6",
+  "mm7/ceb1sa-d",
+  "mm7/hnp3le",
+  "mm7/hnp3w",
+  "mm7/hnp3re",
+  "mm7/hnp1er",
+  "mm7/hnp1el",
+  "mm7/cnb1sel",
+  "mm7/ch001c",
+  "mm7/ch001i",
+  "mm7/tfb1r4h",
+  "mm7/tfb1r4c",
+  "mm7/tfb1r4a",
+  "mm7/hnp2el"
+ ],
+ "requests": {
+  "mm7/hnp2erw": {
+   "name": "hnp2erw",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a broad dark wooden corner post at the right that is cut by the right edge and continues beyond it, and a carved horned demon head with red eyes above a tattered brown cloth hanging over a small window with a wooden sill; copy the composition exactly",
+   "notes": {
+    "2": "the dark wooden post on the right edge is solid weathered wood right up to the right edge, with no black outline, gap or line near the right edge; the planks at the bottom run straight on past the bottom edge with no dark line along it",
+    "3": "the dark wooden beam at the top runs straight on past the top edge with no dark line on its outermost row; the blue-green planks at the bottom run straight on past the bottom edge at the same brightness, with no dark joint, groove or shadow on the bottom rows; the right post is solid wood to the right edge",
+    "4": "the picture is cropped out of a longer wall: the beam continues past the top edge and the corner post continues past the right edge, so neither has an outline, shadow or dark line at the picture border",
+    "5": "the picture is cropped out of a longer wall: the beam continues past the top edge and the corner post past the right edge, so neither has an outline, shadow or dark line at the picture border; plank joints are thin soft lines, all equally light"
+   },
+   "roll": {
+    "1": [
+     0,
+     137
+    ],
+    "2": [
+     0,
+     137
+    ],
+    "5": [
+     0,
+     137
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2bw",
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.47
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp2bw",
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.47
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp2bw",
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.47
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp2bw",
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.47
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp2bw",
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.47
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnp2b"
+    },
+    "2": {
+     "left": "mm7/hnp2b"
+    },
+    "3": {
+     "left": "mm7/hnp2b"
+    },
+    "4": {
+     "left": "mm7/hnp2b"
+    },
+    "5": {
+     "left": "mm7/hnp2b"
+    }
+   }
+  },
+  "mm7/hnp2er": {
+   "name": "hnp2er",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a dark wooden post on the right edge",
+   "notes": {
+    "2": "the planks at the bottom run straight on past the bottom edge at the same brightness, with no dark joint or shadow on the bottom rows; the right post is solid wood up to the right edge with no outline",
+    "3": "the planks at the bottom run straight on past the bottom edge at the same brightness, with no dark joint or shadow on the bottom rows; the right post is solid wood up to the right edge with no outline"
+   },
+   "roll": {
+    "1": [
+     0,
+     121
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2b",
+      "mm7/hnp2el"
+     ],
+     "fraction": 0.477
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp2erw",
+      "mm7/hnp2b"
+     ],
+     "fraction": 0.777
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnp2bw",
+     "right": "mm7/hnp2el"
+    },
+    "2": {
+     "left": "mm7/hnp2b"
+    }
+   }
+  },
+  "mm7/hnm1el": {
+   "name": "hnm1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "house facade of green-grey stone block masonry crossed by dark red-brown carved timber framing with curved Y-shaped braces, dark iron scrollwork with red gem studs along the top beam, and a bottom band of carved dark stone gargoyle reliefs, with a dark timber post on the left edge and a small horned skull with glowing green eyes hanging at the upper left; copy the composition exactly",
+   "notes": {
+    "2": "the dark timber post on the left edge continues the neighbouring post in the left margin seamlessly: its weathered wood runs at the same brightness right up to the very first pixel column, with no dark outline, gap or groove along the left edge",
+    "3": "the dark timber post on the left edge is the other half of the neighbouring post in the left margin: the same dark red-brown tone, grain and studs, continuing it seamlessly with no brightness change, outline or line at the left edge",
+    "4": "the timber post on the left edge is very dark, deeply shadowed black-brown wood exactly as dark as the post half shown in the left margin, about as wide as in the reference, and its tone continues across the left edge without any change; the brighter red-brown wood is only on the curved braces and beams",
+    "5": "the dark timber post on the left edge is solid dark red-brown wood with visible grain right up to the very first pixel column, the same tone as the post half shown in the left margin and continuing it without any line: no black outline, gap, groove or shadow along the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    },
+    "2": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    },
+    "3": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    },
+    "4": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    },
+    "5": {
+     "sources": [
+      "mm7/hnm1b",
+      "mm7/hnm1d"
+     ],
+     "fraction": 0.336
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnm1er"
+    },
+    "2": {
+     "left": "mm7/hnm1er"
+    },
+    "3": {
+     "left": "mm7/hnm1er"
+    },
+    "4": {
+     "left": "mm7/hnm1er"
+    },
+    "5": {
+     "left": "mm7/hnm1er"
+    }
+   }
+  },
+  "mm7/nechuma": {
+   "name": "nechuma",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "brown wall of rounded flat cobble stones set in pale tan mortar, with the upper part of a hanging crimson cloth banner bearing a gold horned helmet over a pale skull emblem; copy the composition exactly",
+   "notes": {
+    "2": "the bottom margin shows the sharp continuation of this same banner and wall below: at the bottom edge every cobble, mortar line, cloth fold and the gold emblem must line up exactly with those sharp pixels and continue into them, with the same cloth tone, so the banner reads as one piece across the bottom edge",
+    "3": "the bottom margin shows the sharp continuation of this same banner and wall below: at the bottom edge every cobble, mortar line, cloth fold and the gold emblem must line up exactly with those sharp pixels and continue into them, with the same cloth tone, so the banner reads as one piece across the bottom edge",
+    "4": "the red cloth darkens gradually from the skull downwards, as in the reference: over the lower third it becomes a deeper shaded crimson, and along the bottom edge it has exactly the same deep red tone and weave as the sharp cloth shown in the bottom margin, so there is no lighter band or step where the banner continues below; the staff continues straight into the sharp staff below"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.243
+    },
+    "2": {
+     "sources": [
+      "mm7/chb1"
+     ],
+     "fraction": 0.243
+    },
+    "3": {
+     "sources": [
+      "mm7/chb1",
+      "mm7/chb1p4"
+     ],
+     "fraction": 0.243
+    },
+    "4": {
+     "sources": [
+      "mm7/chb1",
+      "mm7/chb1p4"
+     ],
+     "fraction": 0.243
+    }
+   },
+   "context": {
+    "1": {
+     "bottom": "mm7/nechumb"
+    },
+    "2": {
+     "bottom": "mm7/nechumb"
+    },
+    "3": {
+     "bottom": "mm7/nechumb"
+    },
+    "4": {
+     "bottom": "mm7/nechumb"
+    }
+   },
+   "pad": {
+    "3": [
+     16,
+     32
+    ],
+    "4": [
+     16,
+     32
+    ]
+   }
+  },
+  "mm7/tfb09f-g": {
+   "name": "tfb09f-g",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "weathered dark olive-green stone floor blocks with dark mortar, partly covered by a woven rust-orange and black patterned carpet with octagonal medallions and a key-pattern border, with patches of dark soot and grime",
+   "notes": {
+    "2": "the carpet's key-pattern border and its straight stripes run perfectly straight and unbroken from top to bottom; the stone blocks on the right continue straight past the right edge with no dark line along it",
+    "3": "the olive-green stone blocks at the right are cut by the right edge: their mottled stone surface continues at full brightness up to the very last pixel column, with no mortar line, groove or shadow along the right edge"
+   },
+   "roll": {
+    "1": [
+     85,
+     0
+    ],
+    "2": [
+     85,
+     39
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb09r1f"
+     ],
+     "fraction": 0.183
+    },
+    "2": {
+     "sources": [
+      "mm7/tfb09r1f"
+     ],
+     "fraction": 0.183
+    },
+    "3": {
+     "sources": [
+      "mm7/tfb09r1f"
+     ],
+     "fraction": 0.183
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/chb1p6": {
+   "name": "chb1p6",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "brown wall of rounded flat cobble stones set in dark mortar, with the upper part of a hanging violet and white striped heraldic banner bearing a gold rampant lion, hung from a rod; copy the composition exactly",
+   "notes": {
+    "2": "the bottom margin shows the sharp continuation of this same banner and wall below: at the bottom edge every cobble, mortar line, cloth fold and the gold dragon emblem must line up exactly with those sharp pixels and continue into them, with the same cloth tone, so the banner reads as one piece across the bottom edge",
+    "3": "the lion is exactly as large and placed exactly as low as in the reference: its lower hind paw and the lower tail tip reach right down to the bottom edge and join the small gold paw tips shown sharp in the bottom margin; the violet and white cloth keep the same tone as the sharp cloth in the bottom margin",
+    "4": "the banner keeps exactly the reference's width and position: its left and right cloth edges continue straight down into the sharp banner edges shown in the bottom margin, the violet/white division continues the sharp one below, and the lion's lowest paw and tail tip touch the bottom edge where the sharp gold tips continue them",
+    "5": "the banner cloth has exactly the tone of the sharp banner shown in the bottom margin: a muted greyish off-white, never bright white, and a deep dark violet; the lion's lowest paw and tail tip still touch the bottom edge where the sharp gold tips continue them"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "5": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "bottom": "mm7/chb1p7"
+    },
+    "2": {
+     "bottom": "mm7/chb1p7"
+    },
+    "3": {
+     "bottom": "mm7/chb1p7"
+    },
+    "4": {
+     "bottom": "mm7/chb1p7"
+    },
+    "5": {
+     "bottom": "mm7/chb1p7"
+    }
+   },
+   "match_neighbor": true
+  },
+  "mm7/ceb1sa-d": {
+   "name": "ceb1sa-d",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-green squared limestone blocks with recessed medium grey mortar joints, never black, with a hung painting of a green lizard creature in a dark carved wooden frame; copy the composition exactly",
+   "notes": {},
+   "roll": {
+    "1": [
+     0,
+     150
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/ceb1sa"
+     ],
+     "fraction": 0.534
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm7/hnp3le": {
+   "name": "hnp3le",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, with a dark vertical wooden post on the left edge",
+   "notes": {
+    "2": "the weathered wooden sill at the bottom keeps the reference brightness right down to the last row: no dark line, groove or shadow along or just above the bottom edge",
+    "3": "the rubble stonework runs evenly to the left and right edges with no dark column or joint line on either edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.982
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.982
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3b",
+      "mm7/hnp3wle"
+     ],
+     "fraction": 0.982
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hnp3b"
+    },
+    "2": {
+     "right": "mm7/hnp3b"
+    },
+    "3": {
+     "right": "mm7/hnp3b"
+    }
+   }
+  },
+  "mm7/hnp3w": {
+   "name": "hnp3w",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, with a jagged broken hole into black darkness in the upper stonework; copy the composition exactly",
+   "notes": {
+    "2": "the weathered wooden sill at the bottom keeps the reference brightness right down to the last row: no dark line, groove or shadow along or just above the bottom edge",
+    "3": "the rubble stonework runs evenly to the left and right edges with no dark column or joint line; the sill keeps the reference brightness to the last row"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3wle",
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.978
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3wle",
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.978
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3wle",
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.978
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnp3b",
+     "right": "mm7/hnp3b"
+    },
+    "2": {
+     "left": "mm7/hnp3b",
+     "right": "mm7/hnp3b"
+    },
+    "3": {
+     "left": "mm7/hnp3b",
+     "right": "mm7/hnp3b"
+    }
+   }
+  },
+  "mm7/hnp3re": {
+   "name": "hnp3re",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "house facade of grey rubble stonework with green moss patches, under a band of weathered wooden beams with a row of pale carved runes along a dark wooden board at the top, with a weathered wooden sill at the bottom, and a broad weathered wooden corner post filling the right edge that the picture border cuts through its middle",
+   "notes": {
+    "2": "the dark vertical wooden post on the right edge is cut by the tile edge and continues beyond it: its weathered wood runs right up to the last pixel column at an even tone, with no outline, groove, gap or dark line anywhere near the right edge",
+    "3": "the vertical wooden post at the right is weathered wood of even tone across its full width and continues straight out past the right edge: the last pixel columns are the post's own brown wood, never a dark outline, gap or groove",
+    "4": "the corner post's weathered wood fills the right side right up to the last pixel column at an even mid-brown tone; the post has no right-hand outline, shadow or edge inside the picture because its right half lies beyond the border",
+    "5": "the vertical post at the right is weathered wood whose surface runs flat right up to the last pixel column at its normal mid-brown tone; there is no shadow, outline or gap on its right side at all, the stonework of the next panel starts directly against it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp3b"
+     ],
+     "fraction": 0.824
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnp3le"
+    },
+    "2": {
+     "left": "mm7/hnp3le"
+    },
+    "3": {
+     "left": "mm7/hnp3le"
+    },
+    "4": {
+     "left": "mm7/hnp3le"
+    },
+    "5": {
+     "left": "mm7/hnp3le"
+    }
+   },
+   "ref_blur": {
+    "3": 1.8,
+    "5": 2.0
+   }
+  },
+  "mm7/hnp1er": {
+   "name": "hnp1er",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, under a band of dark rough rubble stone along the top, with a column of dark rough rubble stone along the right edge; one even plaster tone with no square patches",
+   "notes": {
+    "2": "the sharp pale mottled plaster continues across the whole plaster face with exactly the same pale tone, mottling and texture right up to the right post and the top band: no grey band, rectangle, frame or patch outline; at most a very soft gradual shading next to the post",
+    "3": "the plaster continues the sharp pale mottled plaster on the left seamlessly, at full brightness right up to the left edge with no line or groove there; toward the right post the same mottled plaster darkens only very softly and gradually, never as a flat grey band, rectangle or patch",
+    "4": "the sharp mottled cream plaster is final; continue it with the same mottled texture and cracks across the remaining strip beside the right rubble post, darkening only as a soft gradual shadow over the last few centimetres before the post, with no straight vertical boundary, flat grey band or patch; the left edge is plain plaster with no groove or dark marks",
+    "5": "plain mottled cream plaster with soft grey stains and fine hairline cracks only; no black marks, dashes, holes or deep cracks anywhere, especially near the left edge; toward the right rubble post the plaster darkens only softly, never with a straight boundary"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    },
+    "2": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    },
+    "3": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    },
+    "4": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    },
+    "5": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.618
+    }
+   },
+   "context": {
+    "1": {
+     "left": "mm7/hnp1b"
+    },
+    "2": {
+     "left": "mm7/hnp1b"
+    },
+    "3": {
+     "left": "mm7/hnp1b"
+    },
+    "4": {
+     "left": "mm7/hnp1b"
+    },
+    "5": {
+     "left": "mm7/hnp1b"
+    }
+   },
+   "ref_blur": {
+    "5": 2.5
+   }
+  },
+  "mm7/hnp1el": {
+   "name": "hnp1el",
+   "versions": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "material": "rough pale cream-white plaster wall with faint grey mottling, under a band of dark rough rubble stone along the top, with a column of dark rough rubble stone along the left edge; one even plaster tone with no square patches",
+   "notes": {
+    "2": "one even mottled cream plaster face that darkens only softly and gradually toward the left rubble post and the top band, with no straight boundary, flat grey band or patch",
+    "3": "keep the exact layout of the reference at the same scale: the rubble band along the top is exactly as thick as in the reference and the rubble post on the left exactly as wide; the plaster continues the sharp neighbouring wall on the right at full pale brightness up to the right edge, with no shadow there",
+    "4": "continue the sharp plaster areas exactly"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp1b"
+     ],
+     "fraction": 0.611
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "4": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hnp1b"
+    },
+    "2": {
+     "right": "mm7/hnp1b"
+    },
+    "3": {
+     "right": "mm7/hnp1b"
+    },
+    "4": {
+     "right": "mm7/hnp1b"
+    }
+   },
+   "standalone": true,
+   "match_neighbor": true
+  },
+  "mm7/cnb1sel": {
+   "name": "cnb1sel",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "grey cut stone blocks of irregular sizes in rough courses with dark mortar joints, under a band of pale tan stone along the top, with a column of large tan sandstone corner blocks along the left edge",
+   "notes": {
+    "2": "continue the sharp blocks exactly: the blocks of the top course under the tan band are the same grey stone as the sharp blocks below, each block one even tone with no line or tone change across it; only the mortar joints are dark",
+    "3": "keep every block exactly where it is in the reference, at the same scale; the pale tan band along the top is exactly as thin as in the reference and the first course of blocks starts right under it; the sharp blocks are final: complete each half-shown block above them in the same light grey stone and tone, with no line or tone change across any block"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb1s"
+     ],
+     "fraction": 0.756
+    },
+    "2": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb1s"
+     ],
+     "fraction": 0.756
+    },
+    "3": {
+     "sources": [
+      "mm7/cnb1el",
+      "mm7/cnb1s"
+     ],
+     "fraction": 0.756
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   }
+  },
+  "mm7/ch001c": {
+   "name": "ch001c",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "orange-brown varnished wooden chest panel of horizontal planks with fine wood grain, with dark riveted iron bands along the left and right edges; copy the composition exactly",
+   "notes": {
+    "2": "the plank joints are thin and soft, all identical; the joint that falls on the top and bottom edges is no darker or wider than the others"
+   },
+   "roll": {
+    "1": [
+     0,
+     16
+    ],
+    "2": [
+     0,
+     16
+    ]
+   },
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm7/ch001i": {
+   "name": "ch001i",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "orange-brown varnished wooden chest panel of vertical planks with fine wood grain",
+   "notes": {
+    "2": "the vertical planks run straight past the left and right edges; no dark border, groove or shadow along any edge",
+    "3": "five planks of equal width; the seams between planks are thin and soft medium brown, never black; the plank joint that falls on the left and right borders is only a faint soft shading, lighter than the inner seams"
+   },
+   "standalone": true,
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "roll": {
+    "2": [
+     31,
+     0
+    ],
+    "3": [
+     31,
+     0
+    ]
+   }
+  },
+  "mm7/tfb1r4h": {
+   "name": "tfb1r4h",
+   "versions": [
+    1
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {},
+   "roll": {
+    "1": [
+     68,
+     0
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4m"
+     ],
+     "fraction": 0.375
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm7/tfb1r4c": {
+   "name": "tfb1r4c",
+   "versions": [
+    1
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4b",
+      "mm7/tfb1r4e"
+     ],
+     "fraction": 0.664
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm7/tfb1r4a": {
+   "name": "tfb1r4a",
+   "versions": [
+    1
+   ],
+   "material": "floor of pale sea-green glazed tiles with a darker damask flourish pattern, edged by a navy blue band with white scrollwork between thin pale green stripes, set in worn brown flagstones; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/tfb1r4h",
+      "mm7/tfb1r4b"
+     ],
+     "fraction": 0.708
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm7/hnp2el": {
+   "name": "hnp2el",
+   "versions": [
+    1
+   ],
+   "material": "one complete picture made of two pieces that continue seamlessly into each other - left part: weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a dark wooden post on the right edge - right part: weathered blue-green painted horizontal wooden planks under a dark wooden beam with a row of hanging curved horn-like claws along the top, with a dark wooden post on the left edge; copy the composition exactly",
+   "notes": {},
+   "pad": {
+    "1": [
+     32,
+     16
+    ]
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hnp2erw",
+      "mm7/hnp2b",
+      "mm7/hnp2bw"
+     ],
+     "fraction": 0.62
+    }
+   },
+   "context": {
+    "1": {
+     "right": "mm7/hnp2bw",
+     "left": "mm7/hnp2bw"
+    }
+   }
+  }
+ }
+}

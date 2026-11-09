@@ -1,0 +1,141 @@
+{
+  "brief": "CODEX_BRIEF_2.md",
+  "tool": "built-in image_gen.imagegen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "resized": false,
+  "postprocessed": false,
+  "status": "generated_candidate_saved; strict_brief_checks_failed",
+  "runs": [
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit.\nAsset type: orthographic BACK-view albedo texture-paint source for the existing Roost spire 3D model.\nProduce exactly ONE 1024 x 1024 RGBA PNG, genuinely transparent background, native unresized return.\n\nInput 1, guide_back.png, is the EDIT TARGET and absolute geometry authority. Paint directly onto its existing opaque pixels. Preserve its alpha silhouette EXACTLY, pixel-for-pixel: same outline, size, position, every spike tip, concavity, opening, overlapping edge and detail. Keep the exact rear orthographic camera; no rotation or recentering or perspective. The guide occupies x=246..777, y=66..957 on a 1024x1024 canvas; preserve these margins and positions exactly. Preserve all of the grey guide's geometry, including the tall curved crown prongs on the upper right, smaller crown spikes at upper left, narrow neck, splayed root feet and level baseline. Colour existing shapes only, with no added silhouette details and no newly cut holes.\nInput 2, design_reference.png, is the approved authority for design, colours and materials only. Transfer those materials onto the target's existing rear-view surfaces, without transferring the reference's camera or silhouette.\nInput 3, concept_crop.png, is supporting original concept reference for the spire's material identity. Paint only the spire: no creature, person, wings, scenery or extra object.\n\nMaterials: black-violet / deep plum resin and chitin with wet organic material identity, hot saturated orange slit windows and orange sacs/seams, creamy ivory bone spikes and great curved ivory tusks, dark woven resin nest cup. The tall prongs retain precisely the guide shapes while receiving ivory bone material with restrained natural bone segmentation. Map black-violet resin strands and orange seams along the existing stem surfaces and root shapes; all surface decoration stays inside the guide's opaque coverage. The rear view shows the outside/underside of the nest, as established by the guide, not a newly exposed top-down cup.\n\nLIGHTING IS CRITICAL: flat even shadowless frontal illumination, intended as albedo/base-colour texture source. Show the material identity through base colours and fine surface patterns, not through lighting. NO cast shadows, NO ambient-occlusion darkening, NO directional shading, NO strong specular highlights, NO reflections, NO rim light. Orange glowing parts are painted at their glowing colour without bloom, halos or orange light cast onto adjacent bone/resin. No cinematic shading from the design reference.\nTransparent empty background, no floor, no shadow, no backdrop, no checkerboard painted into pixels, no text, no border. Keep the guide's exact alpha mask and internal shape-edge registration; change only surface colour/material paint.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target and geometry authority",
+          "sha256": "e6e221d459e0514f38ff6dda8a3f9d598d05db13d6300804414228e409d6a02c"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept reference",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "output": "paint_back_attempt1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687a-4a7e-74f0-bd4f-065c2ee37112/exec-d52499b6-4221-4193-8dcc-78f6df69fe4a.png",
+      "selected": false,
+      "reason": "Rejected: native output is 1254x1254 instead of 1024x1024, silhouette drifts from the guide, and highlights/shading are too strong for albedo.",
+      "visual_checks": {
+        "materials_and_colours_match_reference": true,
+        "flat_even_light": false,
+        "silhouette_identical": false,
+        "transparent_background": "Alpha transparency is present, but faint stray edge pixels and partial object transparency remain."
+      },
+      "output_sha256": "214051ec46999588435bb81c984b81d10ef16d0be1bda07bead410730417a24b",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_pass": false,
+        "mode": "RGBA",
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "transparent_pixels": 1292823,
+        "opaque_pixels": 436,
+        "partially_transparent_pixels": 279257,
+        "alpha_bounds": [
+          0,
+          19,
+          1240,
+          1230
+        ],
+        "guide_alpha_bounds": [
+          246,
+          66,
+          778,
+          958
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_return_verified": true,
+        "byte_identical_to_tool_output": true,
+        "strict_brief_pass": false
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "corrective_regeneration": true,
+      "prompt": "CORRECTIVE GENERATION \u2014 use case: precise-object-edit. One back-view albedo painting, native 1024 x 1024 pixel RGBA PNG.\n\nEdit the FIRST supplied image, guide_back.png, IN PLACE ON ITS EXISTING 1024 BY 1024 PIXEL CANVAS. Treat this as colouring a fixed stencil. Copy its alpha channel exactly. The resulting PNG must be exactly 1024 pixels wide and 1024 pixels high at original generation resolution. Do not resize, zoom, shift, pad, crop, rotate, reframe or redraw its geometry. All guide foreground pixels stay opaque and all transparent pixels stay transparent, including existing holes. No translucent material, edge haze, stray coloured pixels or soft shadows. Exact guide alpha bounds: left 246, top 66, right-exclusive 778, bottom-exclusive 958. The tallest horn tip stays at approximately (608,66), and the base stays on y=957. Preserve every angular silhouette segment, pointed spur, existing opening and overlap from this specific BACK view, including its three visible high crown prongs and uneven small upper-left spikes. Never substitute the design-reference silhouette.\n\nThe SECOND supplied image, design_reference.png, controls ONLY surface material colours and texture motifs: dark black-violet/plum resin and chitin strands, bright saturated orange slit windows and seams, creamy ivory bone spikes and great tusks, and dark woven resin nest material on the upper structure. Paint these onto the matching existing grey surfaces. The THIRD image, concept_crop.png, is secondary material reference only; ignore all creatures and people. This rear camera sees the nest exterior/underside as the guide shows. Keep all shapes and edge locations fixed.\n\nThis is UNLIT ALBEDO, NOT a lit beauty rendering. Paint even local material colours with restrained fine organic markings. Bone is uniform warm ivory with fine brownish segmentation markings, without bright white reflective streaks or dark shaded sides. Resin is dark violet/plum with subtle fine organic patterning, without glossy white lines or dark ambient-occlusion gradients. Preserve the design's wet resin/chitin identity through its material pattern only. Hot orange windows have vivid orange colour within their shapes; NO bloom, NO light spill, NO flames added outside a window. Lighting is flat, even and shadowless from the viewer. NO cast shadows, NO ambient occlusion, NO strong highlights, NO reflections, NO rim light, NO directional gradients, NO cinematic illumination.\nDo not reproduce the grey guide's shading; preserve its geometry and replace surface colours only. Nothing outside the guide alpha. Transparent background with alpha exactly zero, no floor, background, text or watermark.\n\nThe prior attempt failed because its native size was 1254x1254, geometry drifted, highlights were too strong and the alpha was semitransparent/contaminated. Correct those failures in this single return: an exactly registered 1024x1024, opaque-object/transparent-background, flat-albedo repaint of input 1.",
+      "inputs": [
+        {
+          "path": "guide_back.png",
+          "role": "edit target and geometry authority",
+          "sha256": "e6e221d459e0514f38ff6dda8a3f9d598d05db13d6300804414228e409d6a02c"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "approved design, colour and material authority",
+          "sha256": "e6fbf0043594061b37bb1672995b483aa3ad2161eca3dfbf22b59b5b1b1c7b07"
+        },
+        {
+          "path": "concept_crop.png",
+          "role": "supporting original concept reference",
+          "sha256": "278d9fe8849dc4607160748ccce8db9e7115ae25643de6747ed12f93795e7124"
+        }
+      ],
+      "output": "paint_back.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a1687a-4a7e-74f0-bd4f-065c2ee37112/exec-b966bb7e-60e0-4e64-8065-eefb678b727f.png",
+      "selected": true,
+      "accepted": false,
+      "reason": "Selected only as the better of the two permitted raw returns: reduced highlights and glow spill. Not compliant with the strict brief: the generator again returned 1254x1254, the alpha/silhouette is not identical to the guide, and some surface shading remains. Preserved byte-for-byte without resizing or alpha repair. The one-correction limit has been reached.",
+      "visual_checks": {
+        "materials_and_colours_match_reference": true,
+        "flat_even_light": false,
+        "lighting_note": "Flatter than attempt 1, but residual highlights and recess darkening remain.",
+        "silhouette_identical": false,
+        "transparent_background": "Alpha transparency is present, but faint stray edge pixels and partial object transparency remain."
+      },
+      "output_sha256": "df381ffc845582c12fbfc918bc14e28afa9c778104893b31e96370d76c0dd02c",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "requested_dimensions_pass": false,
+        "mode": "RGBA",
+        "has_alpha": true,
+        "has_transparent_background": true,
+        "transparent_pixels": 1292010,
+        "opaque_pixels": 630,
+        "partially_transparent_pixels": 279876,
+        "alpha_bounds": [
+          0,
+          23,
+          1236,
+          1230
+        ],
+        "guide_alpha_bounds": [
+          246,
+          66,
+          778,
+          958
+        ],
+        "alpha_identical_to_guide": false,
+        "unresized_return_verified": true,
+        "byte_identical_to_tool_output": true,
+        "strict_brief_pass": false
+      }
+    }
+  ]
+}

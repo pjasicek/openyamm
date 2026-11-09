@@ -1,0 +1,127 @@
+{
+ "output_dir": "/home/pjasicek/github/OpenYAMM/level_generation/projects/hesper_out1/review/landfall01",
+ "settle_seconds": 2.5,
+ "exit": true,
+ "shots": [
+  {
+   "name": "arrival",
+   "position": [
+    -10153,
+    -13496,
+    1254
+   ],
+   "yaw": -2.1789,
+   "pitch": 0.02
+  },
+  {
+   "name": "east_gate_outside",
+   "position": [
+    -10300,
+    -15000,
+    1145
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.08
+  },
+  {
+   "name": "main_street",
+   "position": [
+    -11650,
+    -15000,
+    1408
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.0
+  },
+  {
+   "name": "square",
+   "position": [
+    -14250,
+    -15850,
+    1408
+   ],
+   "yaw": 2.3919,
+   "pitch": 0.02
+  },
+  {
+   "name": "lift_and_stone",
+   "position": [
+    -14100,
+    -14750,
+    1408
+   ],
+   "yaw": -2.9516,
+   "pitch": 0.05
+  },
+  {
+   "name": "north_street",
+   "position": [
+    -15400,
+    -11950,
+    1408
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.0
+  },
+  {
+   "name": "teachers_south",
+   "position": [
+    -13300,
+    -14800,
+    1408
+   ],
+   "yaw": -0.9273,
+   "pitch": 0.02
+  },
+  {
+   "name": "fungus_beds",
+   "position": [
+    -16600,
+    -16700,
+    1408
+   ],
+   "yaw": -2.5415,
+   "pitch": -0.12
+  },
+  {
+   "name": "crawler_yard",
+   "position": [
+    -14100,
+    -16300,
+    1408
+   ],
+   "yaw": -0.723,
+   "pitch": -0.05
+  },
+  {
+   "name": "back_lane",
+   "position": [
+    -17300,
+    -12600,
+    1408
+   ],
+   "yaw": -2.2391,
+   "pitch": 0.0
+  },
+  {
+   "name": "north_wall_outside",
+   "position": [
+    -17500,
+    -10400,
+    1713
+   ],
+   "yaw": -1.5708,
+   "pitch": 0.22
+  },
+  {
+   "name": "overview",
+   "position": [
+    -9000,
+    -9000,
+    4205
+   ],
+   "yaw": -2.3721,
+   "pitch": -0.42
+  }
+ ]
+}

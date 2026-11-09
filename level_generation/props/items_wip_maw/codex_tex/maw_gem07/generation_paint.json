@@ -1,0 +1,36 @@
+{
+  "prompt": "Use case: precise-object-edit. Paint-only game asset view atlas.\nEdit guide_atlas.png (first input), exactly preserving its 1536x1024 canvas, transparency, silhouettes, positions, sizes, orthographic cameras and facet geometry. Other inputs: design_reference.png is approved material/detail reference; icon_x8.png is golden-yellow colour reference only (ignore magenta background).\nOutput ONE 1536x1024 RGBA PNG, transparent background. Three columns and two rows of 512x512 cells: row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, EMPTY. Paint only existing grey object pixels. Four side profiles must retain the shallow flat-table crown, narrow girdle, downward tapered pavilion and small flat tip from the guide. Top view retains exact polygonal round outline and central table. Never redraw, enlarge, move or redesign the objects.\nPaint unlit base colour: warm golden-yellow brilliant-cut gemstone, bright yellow centre/table, amber facets at rim, golden-yellow pavilion facets. Follow reference facet/detail character at each orthographic view, respecting existing model geometry. Material colour variation only, no illumination baked in. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text. Preserve every gap/opening as transparent. Bottom-right cell must remain completely transparent. Exact guide silhouette/layout takes priority over the perspective of the design reference.\nCORRECTION: Previous output incorrectly filled the entire canvas with dark background and golden glow. The alpha silhouette was therefore completely wrong. Match the guide's alpha mask: ALL pixels outside its five exact silhouettes must have alpha ZERO, including the entire bottom-right cell. No coloured or black backdrop, NO HALO anywhere. The gem itself is matte flat unlit yellow/amber base-colour facets, without white highlights or luminous radiance. Preserve exact guide bounds.",
+  "initial_prompt": "Use case: precise-object-edit. Paint-only game asset view atlas.\nEdit guide_atlas.png (first input), exactly preserving its 1536x1024 canvas, transparency, silhouettes, positions, sizes, orthographic cameras and facet geometry. Other inputs: design_reference.png is approved material/detail reference; icon_x8.png is golden-yellow colour reference only (ignore magenta background).\nOutput ONE 1536x1024 RGBA PNG, transparent background. Three columns and two rows of 512x512 cells: row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP, EMPTY. Paint only existing grey object pixels. Four side profiles must retain the shallow flat-table crown, narrow girdle, downward tapered pavilion and small flat tip from the guide. Top view retains exact polygonal round outline and central table. Never redraw, enlarge, move or redesign the objects.\nPaint unlit base colour: warm golden-yellow brilliant-cut gemstone, bright yellow centre/table, amber facets at rim, golden-yellow pavilion facets. Follow reference facet/detail character at each orthographic view, respecting existing model geometry. Material colour variation only, no illumination baked in. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow halo, sparkles, aura, ground, outlines or text. Preserve every gap/opening as transparent. Bottom-right cell must remain completely transparent. Exact guide silhouette/layout takes priority over the perspective of the design reference.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce4-cbf9-7340-bbaf-e6801c7aaf95/exec-4aefd292-3fc8-439d-b5ab-074dac19d5c3.png",
+  "output": "level_generation/props/items_wip_maw/codex_tex/maw_gem07/paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "tool": "built-in image_gen",
+  "corrective_regenerations": 1,
+  "validation": {
+    "passed": false,
+    "issues": [
+      "Visible glow/background outside guide silhouettes persists after correction; not a compliant unlit transparent atlas."
+    ],
+    "empty_cell_alpha_extrema": [
+      0,
+      1
+    ]
+  },
+  "inputs": [
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem07/guide_atlas.png",
+      "sha256": "ead84c721a64e7f2caf2fbda44028ba66307e3f1df225aa49fb321fe19fb730e"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem07/design_reference.png",
+      "sha256": "3359e8bd5bb23d301ffbbb7cb8826868e1f68fc0d58a1730ed607ebb7327c361"
+    },
+    {
+      "path": "level_generation/props/items_wip_maw/codex_tex/maw_gem07/icon_x8.png",
+      "sha256": "13ce619b757d4f7a529e01a51604b9dff3f3593ded3ff543fc1a0f71f7d35b45"
+    }
+  ]
+}

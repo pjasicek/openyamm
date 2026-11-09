@@ -1,0 +1,215 @@
+# Written by make_scenarios.py from the built map; rerun it after convert.py.
+id: mm9r.thearena_fight
+title: 'The Arena (native BLV) - a Page fight: RUDE 430 by clicks, the pens, the locks, the purse'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: thearena.blv
+- console:
+    line: gold set 1000
+- set_pose:
+    map: thearena.blv
+    x: -98
+    y: -3441
+    z: 1
+    yaw: 3.1416
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 430
+- select_topic:
+    action_id: 4
+    match_label: We're here to fight.
+- select_topic:
+    action_id: 3
+    match_label: We'd like to fight at the Page level.
+- assert:
+    qbit_set:
+    - 91004
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- note:
+    text: 'Arena.scr :OnRude -> :FightCheck -> ArenaFight.scr :OnPage: opponents drawn, key 1011, the party awaited (WaitingForPlayer).'
+- assert:
+    named_map_var_changed:
+      name: Waiting
+      current: 1
+- assert:
+    qbit_set:
+    - 91011
+- note:
+    text: 'Into the arena: the door opens on a click; past PlayerInTheHouse the doors shut and lock behind the party and the
+      pens open.'
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: -1786
+    z: 1
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- movement_segment:
+    input: forward
+    seconds: 0.9
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: thearena.blv
+      x: 0
+      y: -2000
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: thearena.blv
+      x: 0
+      y: -1310
+      z: 1
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 20
+- advance_runtime:
+    seconds: 1
+- assert:
+    named_map_var_changed:
+      name: Waiting
+      current: 0
+- assert:
+    named_map_var_changed:
+      name: FightGroup
+      current: 101
+- assert:
+    actor_visible:
+      actor_index: 5
+      hostile_to_party: true
+      report_state: true
+- advance_runtime:
+    seconds: 4
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- assert:
+    mechanism:
+      id: 3
+      state: open
+- assert:
+    mechanism:
+      id: 5
+      state: open
+- note:
+    text: The locked arena door does not open on a click from inside.
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: -1286
+    z: 1
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    mechanism:
+      id: 1
+      state: closed
+- note:
+    text: 'Every opponent down (ArenaFight.scr :OnDead): key 1020, the door unlocked (one or two opponents at Page: every
+      living actor is hit; the NPCs are hidden).'
+- damage_actor:
+    actor_index: 5
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 6
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 7
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 8
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 9
+    amount: 100000
+    skip_dead: true
+- advance_runtime:
+    seconds: 1
+- assert:
+    qbit_set:
+    - 91020
+- assert:
+    named_map_var_changed:
+      name: FightGroup
+      current: 0
+- set_pose:
+    map: thearena.blv
+    x: 0
+    y: -1286
+    z: 1
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    mechanism:
+      id: 1
+      state: open
+- note:
+    text: '"We won!" (row 430/6, needs 1020): Arena.scr :FightWin pays the purse, takes 1020, gives 1009 (no more fights today).'
+- console:
+    line: gold set 0
+- set_pose:
+    map: thearena.blv
+    x: -98
+    y: -3441
+    z: 1
+    yaw: 3.1416
+    pitch: -0.05
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- assert:
+    actor_dialog_started:
+      kind: mm9_rude
+      source_id: 430
+- select_topic:
+    action_id: 18
+    match_label: We won!
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 91009
+- assert:
+    qbit_clear:
+    - 91020
+- console:
+    line: gold get

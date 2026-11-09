@@ -1,0 +1,137 @@
+id: lmroll.yanmirsfort_stair_probes
+title: stair probes over dropped invisible bottoms
+world: mm9
+mode: faithful
+tags:
+- probe
+steps:
+- load_map:
+    map: yanmirsfort.blv
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id001
+      map: yanmirsfort.blv
+      x: 1679
+      y: -4547
+      z: 165
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id001
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id002
+      map: yanmirsfort.blv
+      x: -778
+      y: -4547
+      z: 165
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id002
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id003
+      map: yanmirsfort.blv
+      x: -2703
+      y: -2458
+      z: 165
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id003
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id004
+      map: yanmirsfort.blv
+      x: -778
+      y: -369
+      z: 165
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id004
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id005
+      map: yanmirsfort.blv
+      x: 1679
+      y: -369
+      z: 165
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id005
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id006
+      map: yanmirsfort.blv
+      x: 3604
+      y: -2458
+      z: 165
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id006
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id007
+      map: yanmirsfort.blv
+      x: -840
+      y: -2345
+      z: 165
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id007
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: &id008
+      map: yanmirsfort.blv
+      x: -840
+      y: -2570
+      z: 165
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop: *id008
+    loose_tolerance: true
+    tolerance_xy: 5000
+    tolerance_z: 5000

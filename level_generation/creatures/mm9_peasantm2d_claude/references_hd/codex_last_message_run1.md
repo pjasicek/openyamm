@@ -1,0 +1,3 @@
+Saved run 1’s selected image as [00_three_quarter.png](level_generation/creatures/mm9_peasantm2d_claude/references_hd/00_three_quarter.png), unresized at 1024×1536 RGBA using built-in image generation. Both raw returns, prompts and input hashes are recorded in `generation_runs.json`.
+
+Stopped before run 2. Residual faults: tight margins, lower boot wrapping and faint background alpha; mesh fit remains unchecked.

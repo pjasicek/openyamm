@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gait Rollout Viewer</title>
+<style>
+:root {
+  --bg: #16181c; --panel: #1f2227; --panel2: #262a30; --line: #343941; --text: #e4e6ea; --muted: #9aa1ab;
+  --accent: #6cb6ff; --new: #5fd18a; --old: #c9a46a; --warn: #e6b450; --bad: #f07178;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+#app { display: grid; grid-template-columns: 300px 1fr; height: 100vh; }
+#side { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column;
+  min-height: 0; }
+#side header { padding: 12px 12px 8px; border-bottom: 1px solid var(--line); }
+#side h1 { font-size: 15px; margin: 0 0 8px; }
+#search { width: 100%; padding: 6px 8px; background: var(--bg); color: var(--text); border: 1px solid var(--line);
+  border-radius: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.chip { padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; cursor: pointer; color: var(--muted);
+  user-select: none; }
+.chip.on { color: var(--text); border-color: var(--accent); background: #1d3147; }
+#count { color: var(--muted); margin-top: 6px; font-size: 12px; }
+#list { overflow-y: auto; flex: 1; }
+.item { padding: 7px 12px; border-bottom: 1px solid #23262b; cursor: pointer; }
+.item:hover { background: var(--panel2); }
+.item.sel { background: #1d3147; }
+.item .name { font-weight: 600; }
+.item .meta { color: var(--muted); font-size: 11px; }
+.badge { display: inline-block; font-size: 10px; padding: 0 5px; border-radius: 4px; margin-right: 3px;
+  background: #22382b; color: var(--new); }
+.badge.b { background: #2c2c2c; color: var(--muted); }
+#main { display: grid; grid-template-rows: auto 1fr auto; min-width: 0; min-height: 0; }
+#top { padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--panel); }
+#title { font-size: 16px; font-weight: 600; }
+#sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+#controls { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; margin-top: 8px; }
+#controls label { color: var(--muted); display: inline-flex; gap: 5px; align-items: center; }
+button, select { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 6px;
+  padding: 4px 9px; font: inherit; cursor: pointer; }
+button.on { border-color: var(--accent); background: #1d3147; }
+#stage { position: relative; min-height: 0; overflow: hidden; }
+#canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#tiles { position: absolute; inset: 0; display: grid; gap: 6px; padding: 6px; }
+.tile { position: relative; border: 1px solid var(--line); border-radius: 6px; pointer-events: none; }
+.tile .lab { position: absolute; left: 8px; top: 6px; font-size: 12px; text-shadow: 0 1px 2px #000;
+  pointer-events: none; }
+.tile .lab b { font-size: 13px; }
+.tile.new { border-color: #2f6b45; }
+.tile.old { border-color: #5a4b33; }
+.tag { font-size: 10px; padding: 0 5px; border-radius: 4px; margin-left: 4px; }
+.tag.new { background: #22382b; color: var(--new); }
+.tag.old { background: #3a3122; color: var(--old); }
+.tag.same { background: #2c2c2c; color: var(--muted); }
+#loading { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: var(--muted); }
+#bottom { max-height: 34vh; overflow: auto; border-top: 1px solid var(--line); background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 12px; }
+th, td { padding: 4px 8px; border-bottom: 1px solid #2a2e34; text-align: left; white-space: nowrap; }
+th { position: sticky; top: 0; background: var(--panel2); color: var(--muted); font-weight: 500; }
+tr.cur td { background: #1b2a3a; }
+.ok { color: var(--new); } .warn { color: var(--warn); } .bad { color: var(--bad); } .dim { color: var(--muted); }
+.arrow { color: var(--muted); padding: 0 4px; }
+#help { color: var(--muted); font-size: 11px; padding: 6px 14px; }
+@media (max-width: 800px) { #app { grid-template-columns: 1fr; grid-template-rows: 40vh 1fr; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <header>
+      <h1>Gait rollout · 2026-10-31</h1>
+      <input id="search" placeholder="Filter: name, model id, package…">
+      <div class="chips" id="worldChips"></div>
+      <div class="chips" id="kindChips"></div>
+      <div id="count"></div>
+    </header>
+    <div id="list"></div>
+  </aside>
+  <section id="main">
+    <div id="top">
+      <div id="title">—</div>
+      <div id="sub"></div>
+      <div id="controls">
+        <button id="play" class="on">Pause</button>
+        <label>Speed <select id="speed"><option>1</option><option>0.5</option><option>0.25</option></select></label>
+        <label>View <select id="view"><option value="side">side</option><option value="quarter">three-quarter</option>
+          <option value="front">front</option><option value="back">back</option></select></label>
+        <button id="sync" title="Every tile loops in the same time, as the engine shares one gait phase">Shared phase</button>
+        <button id="tread" class="on" title="Ground moves at the clip's bound stride: planted feet should stay still">Treadmill</button>
+        <button id="showOld" class="on">Old clips</button>
+        <label id="groupBox">Binding <select id="group"></select></label>
+      </div>
+    </div>
+    <div id="stage">
+      <canvas id="canvas"></canvas>
+      <div id="tiles"></div>
+      <div id="loading"></div>
+    </div>
+    <div id="bottom">
+      <div id="help">Rates are clip playback speed in game (window 0.75–1.5×). Old → new per tier (old rates are what the
+        clip played at before the rollout); “slides” means the 2× ceiling holds the new clip back and the feet slide. Keys: ↑/↓ model, space pause, drag to orbit.</div>
+      <table id="rates"></table>
+    </div>
+  </section>
+</div>
+<script type="importmap">{"imports":{"three":"../../mm6_goblin/review_20261006/vendor/build/three.module.js","three/addons/":"../../mm6_goblin/review_20261006/vendor/addons/"}}</script>
+<script type="module" src="viewer.js"></script>
+</body>
+</html>

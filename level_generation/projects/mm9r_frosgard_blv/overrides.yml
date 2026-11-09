@@ -1,0 +1,64 @@
+# Frosgard as a BLV open to the sky (devdocs/mm9_rework/OUTDOOR_BLV_ALL.md; template: Sturmford).
+# First draft by ../mm9r_common/outdoor_blv_draft.py --overrides; read by the shared converter.
+map:
+  stem: frosgard
+  display_name: Frosgard
+  starts: [DungeonOfSecretsExit, FTFrosgardStart, FrosgardCityExit, FTThronheimStart, YanmirsMainExit, RuinedTempleExit]   # the old map's party_start_points order
+  monster_classes: [Gezzampt, Yeti, GreyWolf, IceLobber, BlackWolf, RedWolf, GezzamptElder, IceLobbercicle]
+  swim: true                          # the sea is swum, as on the Isle of Ashes
+  painted_minimap: true
+  generate_bsp: false
+  offset: [7579, -2383, 0]
+  voxel: 32
+  ambient: 20
+  model_lighting: false
+  split_minor_rooms: true
+  split_retry: true
+  thin_walls: true
+  fog: false                          # the outdoor view's haze
+skip_lights: []
+model_patterns:
+  InvisibleBrush: static
+  WorldObject: static
+  DestructableBrush: static
+  BlueWater: skip
+  PerceptionBrush: skip
+  Rain: skip
+  Snow: skip
+models:
+  Terrain0: static   # Terrain
+  Ocean: static   # WorldObject
+  WavySurface4: static   # ClearWater
+  ToothTerrain: static   # Terrain
+  icicles: static   # WorldObject
+  SkyBox0: skip   # DemoSkyWorldModel
+  TOD_Sky0: skip   # TOD_Sky
+textures:
+  'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
+  'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
+city:
+  daylight: true
+  sky_preset: cloudy
+  half_steps: false
+outdoor:
+  weather: snow                      # Frosgard's snowfields
+  # MM9's props (level_generation/props/mm9_outdoor_regions_claude/scripts/placements.py; DECORATIONS_AND_GRASS.md)
+  props: props.json
+# Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
+# mm9r_common/terrain_textures.py FROSGARD): MM9 texture file stem -> material of terrain_materials_world.yml.
+terrain:
+  materials:
+    frosmountain: rock              # 64 %: grey rock with snow and moss patches
+    frossnowfloor: snow              # 12 %: snow over rock
+    frossnow: snow                   # 10 %
+    frosmountain2: grass_patches     # 8 %: rock with green
+    frosmountaingreen: grass
+    frosmountain3: rock
+  slope: cliff
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [GezzamptElder0, GezzamptElder1, GezzamptElder2]
+  themed_near: [Cookpot0, Cookpot1]

@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the supplied paint_mask_guide.png as an exact registration-preserving paint-over. Use case: precise-object-edit. Input 1 is the grey guide EDIT TARGET; input 2 design_reference.png is material/detail reference only; input 3 icon_x8.png is colour reference only (magenta is background). Output ONE transparent PNG, 1536x2048 (3:4), same three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows 3-4 have identical five orthographic views FRONT, BACK, LEFT / RIGHT, TOP, empty. Preserve every object's exact position, size, silhouette, geometry, openings and gaps from the guide. Paint grey objects only; never redraw, enlarge, move, redesign them. Rows 1-2 PAINT: unlit base colour, violet to lilac amethyst crystal prisms with paler tips and pale whitish crystalline base, warm yellow gold ornate filigree with darker gold recesses. Natural cluster of six to eight pointed amethyst prisms of different lengths spreading upward and outward, held in a low open gold cradle with curling scrollwork and small prongs around lower half and rim; upper crystals free. Facets, engravings, scrollwork, inner swirls follow design reference scaled to the exact guide views. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, aura, ground, outlines or text. Rows 3-4 MATERIAL MASK: same five exact silhouettes, FLAT pure colours ONLY: #FF0000 pure red for EVERY metal part; #000000 pure opaque black for EVERY gemstone/crystal/glass and pale crystalline base. Every pixel inside each silhouette is exactly red or black, no shading, texture, outlines, antialiased internal colour blends or other colours. Black crystal regions must be opaque, not transparent. All outside silhouettes and all openings remain fully transparent. Column 3 of rows 2 and 4 remain fully empty transparent. Preserve the layout and outlines of input 1 exactly; do not use composition of design reference.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a16ce6-f880-7843-bcbe-0fc80344b4ee/exec-ac49f6c5-3a84-4792-a56b-4f09bc07e3c7.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem13/paint_mask_raw_v1.png",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem13/paint_mask_guide.png",
+      "sha256": "5857d8f8d7af637d367a64d0d809dc41b92d39b28ebc58de12898f2d78c6953b"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem13/design_reference.png",
+      "sha256": "4231c22afa10245408d826bc7dd71a39ad413e45f1e28c7fd26723ea2704f0b2"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_maw/codex_tex/maw_gem13/icon_x8.png",
+      "sha256": "4a0139085b7f8f9008dbcd1db0670c271bb168a17e6e2e11f942184de2c4e96d"
+    }
+  ],
+  "size": [
+    1086,
+    1448
+  ]
+}

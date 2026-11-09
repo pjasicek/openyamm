@@ -1,0 +1,855 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_dragonking.glb",
+  "components": 29,
+  "body": 0,
+  "size": 27.803940296173096,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "1": {
+    "joint": "Yabase",
+    "where": "above, -x side, -z",
+    "triangles": 144,
+    "extent": 11.0463,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.2439,
+    "worst": {
+     "gap": 0.11324,
+     "to_body_cluster": 0.11324,
+     "clip": "AttackMelee",
+     "frame": 18,
+     "time": 0.6,
+     "part_point": [
+      -5.09288,
+      4.88927,
+      5.21407
+     ],
+     "attached_point": [
+      -5.19629,
+      4.85344,
+      5.24488
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 122,
+    "poses": 722,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.11324,
+      "frame": 18,
+      "time": 0.6,
+      "frames": 10
+     },
+     "AttackRanged": {
+      "max_gap": 0.03337,
+      "frame": 16,
+      "time": 0.5333,
+      "frames": 6
+     },
+     "Cast": {
+      "max_gap": 0.02975,
+      "frame": 39,
+      "time": 1.3,
+      "frames": 21
+     },
+     "Death": {
+      "max_gap": 0.06887,
+      "frame": 58,
+      "time": 1.9333,
+      "frames": 32
+     },
+     "Land": {
+      "max_gap": 0.05703,
+      "frame": 152,
+      "time": 5.0667,
+      "frames": 27
+     },
+     "Running": {
+      "max_gap": 0.04779,
+      "frame": 26,
+      "time": 0.8667,
+      "frames": 5
+     },
+     "Taunt": {
+      "max_gap": 0.06805,
+      "frame": 16,
+      "time": 0.5333,
+      "frames": 14
+     },
+     "Walking": {
+      "max_gap": 0.04754,
+      "frame": 34,
+      "time": 1.1333,
+      "frames": 7
+     }
+    },
+    "shallowest": {
+     "depth": 0.02395,
+     "on": "Yabase01",
+     "clip": "Death",
+     "frame": 79,
+     "time": 2.6333
+    },
+    "concealed_poses": 9,
+    "worst_concealed": {
+     "gap": 0.08026,
+     "clip": "Death",
+     "frame": 69,
+     "time": 2.3
+    },
+    "carried_poses": 51,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_dragonking_part1.png"
+   },
+   "2": {
+    "joint": "Yapivot",
+    "where": "-x side, -z",
+    "triangles": 82,
+    "extent": 8.1547,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.20355,
+    "worst": {
+     "gap": 0.10163,
+     "to_body_cluster": 0.10163,
+     "clip": "Land",
+     "frame": 14,
+     "time": 0.4667,
+     "part_point": [
+      2.26172,
+      50.52506,
+      -5.19688
+     ],
+     "attached_point": [
+      2.3539,
+      50.51802,
+      -5.24442
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 218,
+    "poses": 722,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.09256,
+      "frame": 30,
+      "time": 1.0,
+      "frames": 8
+     },
+     "AttackRanged": {
+      "max_gap": 0.09573,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 10
+     },
+     "Cast": {
+      "max_gap": 0.09256,
+      "frame": 60,
+      "time": 2.0,
+      "frames": 8
+     },
+     "Death": {
+      "max_gap": 0.0955,
+      "frame": 5,
+      "time": 0.1667,
+      "frames": 42
+     },
+     "Fidget": {
+      "max_gap": 0.09256,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 15
+     },
+     "Hit": {
+      "max_gap": 0.09467,
+      "frame": 4,
+      "time": 0.1333,
+      "frames": 12
+     },
+     "Land": {
+      "max_gap": 0.10163,
+      "frame": 14,
+      "time": 0.4667,
+      "frames": 49
+     },
+     "Standing": {
+      "max_gap": 0.09256,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 61
+     },
+     "Taunt": {
+      "max_gap": 0.09256,
+      "frame": 66,
+      "time": 2.2,
+      "frames": 13
+     }
+    },
+    "shallowest": {
+     "depth": 0.11803,
+     "on": "Xheadpiv",
+     "clip": "Fidget",
+     "frame": 41,
+     "time": 1.3667
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.019,
+     "clip": "Death",
+     "frame": 84,
+     "time": 2.8
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_dragonking_part2.png"
+   },
+   "20": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 22,
+    "extent": 0.2585,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02369,
+    "worst": {
+     "gap": 0.01119,
+     "to_body_cluster": 0.01119,
+     "clip": "Running",
+     "frame": 25,
+     "time": 0.8333,
+     "part_point": [
+      0.26653,
+      11.62665,
+      11.91667
+     ],
+     "attached_point": [
+      0.26574,
+      11.63027,
+      11.91651
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 5,
+    "poses": 722,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.00989,
+      "frame": 2,
+      "time": 0.0667,
+      "frames": 1
+     },
+     "Running": {
+      "max_gap": 0.01119,
+      "frame": 25,
+      "time": 0.8333,
+      "frames": 2
+     },
+     "Walking": {
+      "max_gap": 0.00811,
+      "frame": 32,
+      "time": 1.0667,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": -0.00094,
+     "on": "Xjaw",
+     "clip": "Standing",
+     "frame": 54,
+     "time": 1.8
+    },
+    "concealed_poses": 2,
+    "worst_concealed": {
+     "gap": 0.0084,
+     "clip": "Walking",
+     "frame": 31,
+     "time": 1.0333
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_dragonking_part20.png"
+   },
+   "26": {
+    "joint": "Xheadpiv",
+    "where": "above",
+    "triangles": 518,
+    "extent": 3.4248,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 1.08159,
+    "worst": {
+     "gap": 0.20162,
+     "to_body_cluster": 0.20162,
+     "clip": "Death",
+     "frame": 52,
+     "time": 1.7333,
+     "part_point": [
+      -4.09773,
+      6.57844,
+      -7.47058
+     ],
+     "attached_point": [
+      -4.11998,
+      6.55006,
+      -7.47529
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 24,
+    "poses": 722,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.00829,
+      "frame": 9,
+      "time": 0.3,
+      "frames": 1
+     },
+     "Death": {
+      "max_gap": 0.20162,
+      "frame": 52,
+      "time": 1.7333,
+      "frames": 14
+     },
+     "Fidget": {
+      "max_gap": 0.00882,
+      "frame": 31,
+      "time": 1.0333,
+      "frames": 7
+     },
+     "Land": {
+      "max_gap": 0.00968,
+      "frame": 156,
+      "time": 5.2,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": 1.08159,
+     "on": "Xheadpiv",
+     "clip": "bind",
+     "frame": 0,
+     "time": 0.0
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.50899,
+     "clip": "Death",
+     "frame": 53,
+     "time": 1.7667
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_dragonking_part26.png"
+   },
+   "27": {
+    "joint": "Yapivot01",
+    "where": "+x side, -z",
+    "triangles": 78,
+    "extent": 7.5178,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.1447,
+    "worst": {
+     "gap": 0.13933,
+     "to_body_cluster": 0.13933,
+     "clip": "Land",
+     "frame": 111,
+     "time": 3.7,
+     "part_point": [
+      -18.21813,
+      22.23264,
+      -20.29827
+     ],
+     "attached_point": [
+      -18.05944,
+      22.30585,
+      -20.23427
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 340,
+    "poses": 722,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.04817,
+      "frame": 18,
+      "time": 0.6,
+      "frames": 13
+     },
+     "AttackRanged": {
+      "max_gap": 0.04198,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 19
+     },
+     "Cast": {
+      "max_gap": 0.04544,
+      "frame": 29,
+      "time": 0.9667,
+      "frames": 42
+     },
+     "Death": {
+      "max_gap": 0.08462,
+      "frame": 78,
+      "time": 2.6,
+      "frames": 34
+     },
+     "Fidget": {
+      "max_gap": 0.03689,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 7
+     },
+     "Hit": {
+      "max_gap": 0.04377,
+      "frame": 4,
+      "time": 0.1333,
+      "frames": 8
+     },
+     "Land": {
+      "max_gap": 0.13933,
+      "frame": 111,
+      "time": 3.7,
+      "frames": 80
+     },
+     "Running": {
+      "max_gap": 0.03194,
+      "frame": 13,
+      "time": 0.4333,
+      "frames": 19
+     },
+     "Standing": {
+      "max_gap": 0.03689,
+      "frame": 60,
+      "time": 2.0,
+      "frames": 61
+     },
+     "Taunt": {
+      "max_gap": 0.03701,
+      "frame": 39,
+      "time": 1.3,
+      "frames": 33
+     },
+     "Walking": {
+      "max_gap": 0.03197,
+      "frame": 17,
+      "time": 0.5667,
+      "frames": 24
+     }
+    },
+    "shallowest": {
+     "depth": 0.1114,
+     "on": "Xheadpiv",
+     "clip": "Walking",
+     "frame": 23,
+     "time": 0.7667
+    },
+    "concealed_poses": 62,
+    "worst_concealed": {
+     "gap": 0.12537,
+     "clip": "Land",
+     "frame": 113,
+     "time": 3.7667
+    },
+    "carried_poses": 1,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_dragonking_part27.png"
+   },
+   "28": {
+    "joint": "Yabase01",
+    "where": "above, +x side, -z",
+    "triangles": 150,
+    "extent": 10.606,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.24439,
+    "worst": {
+     "gap": 0.29075,
+     "to_body_cluster": 0.29075,
+     "clip": "AttackMelee",
+     "frame": 18,
+     "time": 0.6,
+     "part_point": [
+      5.83293,
+      8.6205,
+      7.51717
+     ],
+     "attached_point": [
+      5.60866,
+      8.69991,
+      7.68829
+     ],
+     "kind": "parted",
+     "against": "Xheadpiv"
+    },
+    "detached_poses": 435,
+    "poses": 722,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.29075,
+      "frame": 18,
+      "time": 0.6,
+      "frames": 26
+     },
+     "AttackRanged": {
+      "max_gap": 0.1342,
+      "frame": 9,
+      "time": 0.3,
+      "frames": 8
+     },
+     "Cast": {
+      "max_gap": 0.14526,
+      "frame": 11,
+      "time": 0.3667,
+      "frames": 43
+     },
+     "Dead": {
+      "max_gap": 0.14941,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.23676,
+      "frame": 57,
+      "time": 1.9,
+      "frames": 72
+     },
+     "Fidget": {
+      "max_gap": 0.15368,
+      "frame": 20,
+      "time": 0.6667,
+      "frames": 34
+     },
+     "Hit": {
+      "max_gap": 0.03331,
+      "frame": 6,
+      "time": 0.2,
+      "frames": 9
+     },
+     "Land": {
+      "max_gap": 0.16567,
+      "frame": 113,
+      "time": 3.7667,
+      "frames": 131
+     },
+     "Running": {
+      "max_gap": 0.17491,
+      "frame": 27,
+      "time": 0.9,
+      "frames": 8
+     },
+     "Standing": {
+      "max_gap": 0.00974,
+      "frame": 60,
+      "time": 2.0,
+      "frames": 37
+     },
+     "Taunt": {
+      "max_gap": 0.18304,
+      "frame": 16,
+      "time": 0.5333,
+      "frames": 26
+     },
+     "Walking": {
+      "max_gap": 0.17545,
+      "frame": 36,
+      "time": 1.2,
+      "frames": 10
+     }
+    },
+    "shallowest": {
+     "depth": 0.24428,
+     "on": "Xheadpiv",
+     "clip": "Hit",
+     "frame": 19,
+     "time": 0.6333
+    },
+    "concealed_poses": 94,
+    "worst_concealed": {
+     "gap": 0.15086,
+     "clip": "Land",
+     "frame": 110,
+     "time": 3.6667
+    },
+    "carried_poses": 10,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_dragonking_part28.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 29,
+   "attached_in_every_pose": 22
+  },
+  "concealed": {
+   "4": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 59,
+    "extent": 0.6178,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.05259,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00389,
+     "on": "Xjaw",
+     "clip": "Standing",
+     "frame": 50,
+     "time": 1.6667
+    },
+    "concealed_poses": 2,
+    "worst_concealed": {
+     "gap": 0.01275,
+     "clip": "AttackRanged",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "carried_poses": 1
+   },
+   "8": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 14,
+    "extent": 0.1926,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0218,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00349,
+     "on": "Xjaw",
+     "clip": "Standing",
+     "frame": 52,
+     "time": 1.7333
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.01245,
+     "clip": "AttackRanged",
+     "frame": 3,
+     "time": 0.1
+    },
+    "carried_poses": 1
+   },
+   "10": {
+    "joint": "Xjaw",
+    "where": "above, +z",
+    "triangles": 10,
+    "extent": 0.1894,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02481,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00219,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 31,
+     "time": 1.0333
+    },
+    "concealed_poses": 2,
+    "worst_concealed": {
+     "gap": 0.00991,
+     "clip": "Running",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "carried_poses": 5
+   },
+   "11": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 18,
+    "extent": 0.1627,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04854,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00336,
+     "on": "Xjaw",
+     "clip": "Standing",
+     "frame": 44,
+     "time": 1.4667
+    },
+    "concealed_poses": 11,
+    "worst_concealed": {
+     "gap": 0.0216,
+     "clip": "AttackRanged",
+     "frame": 4,
+     "time": 0.1333
+    },
+    "carried_poses": 2
+   },
+   "13": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 20,
+    "extent": 0.1901,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03311,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00116,
+     "on": "Xjaw",
+     "clip": "Walking",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 17,
+    "worst_concealed": {
+     "gap": 0.00731,
+     "clip": "AttackRanged",
+     "frame": 2,
+     "time": 0.0667
+    },
+    "carried_poses": 7
+   },
+   "14": {
+    "joint": "Xjaw",
+    "where": "above, +z",
+    "triangles": 14,
+    "extent": 0.1773,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03329,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0004,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 24,
+     "time": 0.8
+    },
+    "concealed_poses": 4,
+    "worst_concealed": {
+     "gap": 0.00918,
+     "clip": "Running",
+     "frame": 24,
+     "time": 0.8
+    },
+    "carried_poses": 1
+   },
+   "15": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 23,
+    "extent": 0.2035,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03319,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00361,
+     "on": "Xjaw",
+     "clip": "Walking",
+     "frame": 24,
+     "time": 0.8
+    },
+    "concealed_poses": 6,
+    "worst_concealed": {
+     "gap": 0.01191,
+     "clip": "Standing",
+     "frame": 46,
+     "time": 1.5333
+    },
+    "carried_poses": 1
+   },
+   "17": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 20,
+    "extent": 0.2,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0336,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00138,
+     "on": "Xjaw",
+     "clip": "Standing",
+     "frame": 40,
+     "time": 1.3333
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.00914,
+     "clip": "Walking",
+     "frame": 34,
+     "time": 1.1333
+    },
+    "carried_poses": 0
+   },
+   "21": {
+    "joint": "Xjaw",
+    "where": "above, +z",
+    "triangles": 26,
+    "extent": 0.2625,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03363,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00341,
+     "on": "Xhead",
+     "clip": "Walking",
+     "frame": 30,
+     "time": 1.0
+    },
+    "concealed_poses": 2,
+    "worst_concealed": {
+     "gap": 0.00808,
+     "clip": "Standing",
+     "frame": 43,
+     "time": 1.4333
+    },
+    "carried_poses": 0
+   },
+   "22": {
+    "joint": "Xhead",
+    "where": "above, +z",
+    "triangles": 12,
+    "extent": 0.1818,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04414,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 722,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.0024,
+     "on": "Xjaw",
+     "clip": "Standing",
+     "frame": 49,
+     "time": 1.6333
+    },
+    "concealed_poses": 1,
+    "worst_concealed": {
+     "gap": 0.00859,
+     "clip": "AttackRanged",
+     "frame": 3,
+     "time": 0.1
+    },
+    "carried_poses": 2
+   }
+  },
+  "shallow": {}
+ }
+]

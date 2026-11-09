@@ -1,0 +1,130 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_anskramkeep/review/v02_original
+settle_seconds: 1.5
+exit: true
+shots:
+- name: entrance
+  position:
+  - 0
+  - 102
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: south_hall
+  position:
+  - 0
+  - 845
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: south_hall_west
+  position:
+  - 1024
+  - 2304
+  - -491
+  yaw: 3.1416
+  pitch: 0.0
+- name: south_passage
+  position:
+  - 0
+  - 3456
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: central_hall
+  position:
+  - 0
+  - 4506
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: central_hall_back
+  position:
+  - 0
+  - 8448
+  - -491
+  yaw: -1.5708
+  pitch: 0.0
+- name: central_west_door
+  position:
+  - -1280
+  - 6390
+  - -491
+  yaw: 3.1416
+  pitch: 0.0
+- name: north_gates
+  position:
+  - 0
+  - 8755
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: north_hall
+  position:
+  - 0
+  - 11008
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: north_hall_top
+  position:
+  - -1229
+  - 15232
+  - -491
+  yaw: -0.2013
+  pitch: 0.0
+- name: north_wing
+  position:
+  - -2304
+  - 12186
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: west_corridor
+  position:
+  - -4429
+  - 2304
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: west_diagonal
+  position:
+  - -4147
+  - 2304
+  - -491
+  yaw: 0.7908
+  pitch: 0.0
+- name: south_corridor
+  position:
+  - -2560
+  - 1802
+  - -491
+  yaw: 3.1416
+  pitch: 0.0
+- name: east_hall
+  position:
+  - 5243
+  - 4224
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: east_corridor
+  position:
+  - 4424
+  - 3200
+  - -511
+  yaw: 1.5708
+  pitch: 0.0
+- name: west_room
+  position:
+  - -5632
+  - 2304
+  - -491
+  yaw: 1.5708
+  pitch: 0.0
+- name: stairs_exit
+  position:
+  - 0
+  - -154
+  - -467
+  yaw: -1.5708
+  pitch: 0.0

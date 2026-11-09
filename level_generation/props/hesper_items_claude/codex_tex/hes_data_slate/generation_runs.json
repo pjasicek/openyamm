@@ -1,0 +1,632 @@
+[
+  {
+    "view": "front",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D model.\nEdit IMAGE 1, the guide, painting surfaces ONLY. IMAGE 2, design_reference.png, is the approved MATERIAL AND COLOUR reference only; never copy its perspective, silhouette, studio lighting or framing.\nReturn a single 1024 x 1024 PNG with true transparent background. Keep the guide's exact pixel canvas, projection, orientation, position, scale, outer alpha silhouette, every part boundary and empty space. Do not enlarge the object to fill the frame. Nothing added outside the guide silhouette; nothing cropped; no camera tilt, perspective or redesigned geometry.\nSubject: thin colonial data slate with lightly worn warm-white ceramic, brushed warm gold rim and gold stylus, and dark charcoal glass screen. Copy the approved reference's materials and restrained corner wear onto the guide's existing parts. The guide's grey, cream and blue-grey colours are only part labels, not finished colours. Paint subtle fine ceramic scratches and small gold scuffs, faint brushed metal grain, fine panel joins and seams, with all detail confined within existing silhouettes.\nLighting: this is ALBEDO, evenly lit straight from viewer, completely flat and shadowless. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, directional gradients, floor or background. Metal uses its gold base colour and only a faint sheen. Screen is dark charcoal glass; only on visible face-on screen areas, use faint blue-white horizontal abstract data lines, never letters or legible text. Do not invent orange light or materials absent from the reference. No labels, numbers, logos or watermark. Preserve genuine transparent pixels outside the object, never paint a checkerboard.\n\nVIEW: FRONT as named in guide_front.png. This is an exact EDGE-ON short-end view, a very thin horizontal strip across the centre of the square canvas, NOT the broad screen face. Follow Image 1 exactly. Object extent x=126..897, y=455..568 on the 1024 square. Screen edge is the narrow bar x=183..759, y=455..469, paint charcoal. Brushed gold rim is x=126..846, y=469..505. Warm-white ceramic body below is x=140..831, y=506..568. The separate little polygonal stylus end at RIGHT, x=844..897, y=506..560, stays exactly there and gold; retain transparent gap. Keep broad transparent margins above and below. No visible face-on screen and no script on this edge.",
+    "inputs": [
+      {
+        "file": "guide_front.png",
+        "sha256": "8d3746193358302b996ee4b062bbb8f09369de521b6fb740b974b04a2135b350"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      }
+    ],
+    "output": "paint_front_attempt1.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-1af461e9-d834-49f6-8e84-c84b6278e517.png",
+    "selected": false,
+    "reason": "Not selected: corrective return improves flat lighting and/or guide part conformity. This first return retains metallic highlights and silhouette drift.",
+    "size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "acb134d20d4bd542363d5c25cc0d96d0a9b996a7a2aea964e39c828a40466672",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        25,
+        54,
+        1226,
+        1230
+      ],
+      "opaque_bbox": [
+        152,
+        559,
+        1146,
+        703
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.880656,
+      "nonzero_alpha_pixels_outside_normalized_guide": 23738,
+      "opaque_pixels_outside_normalized_guide": 13633,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    },
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Visible metallic hotspots and edge/contact shading; approximate guide composition only."
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D model.\nIMAGE 1, design_reference.png, is the approved MATERIAL AND COLOUR reference only; never copy its perspective, silhouette, studio lighting or framing. Edit IMAGE 2, guide_back.png, painting surfaces ONLY. The SECOND image is the 1024x1024 edit target and controls output canvas dimensions.\nReturn a single 1024 x 1024 PNG with true transparent background. Keep the guide's exact pixel canvas, projection, orientation, position, scale, outer alpha silhouette, every part boundary and empty space. Do not enlarge the object to fill the frame. Nothing added outside the guide silhouette; nothing cropped; no camera tilt, perspective or redesigned geometry.\nSubject: thin colonial data slate with lightly worn warm-white ceramic, brushed warm gold rim and gold stylus, and dark charcoal glass screen. Copy the approved reference's materials and restrained corner wear onto the guide's existing parts. The guide's grey, cream and blue-grey colours are only part labels, not finished colours. Paint subtle fine ceramic scratches and small gold scuffs, faint brushed metal grain, fine panel joins and seams, with all detail confined within existing silhouettes.\nLighting: this is ALBEDO, evenly lit straight from viewer, completely flat and shadowless. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, directional gradients, floor or background. Metal uses its gold base colour and only a faint sheen. Screen is dark charcoal glass; only on visible face-on screen areas, use faint blue-white horizontal abstract data lines, never letters or legible text. Do not invent orange light or materials absent from the reference. No labels, numbers, logos or watermark. Preserve genuine transparent pixels outside the object, never paint a checkerboard.\n\nVIEW: BACK as named in guide_back.png. This is an exact EDGE-ON opposite short-end view, a very thin horizontal strip across the centre of the square canvas, NOT an underside or broad rear cover. Follow Image 2 exactly. Object extent x=126..897, y=455..568 on the 1024 square. Screen edge is the narrow bar x=264..840, y=455..469, paint charcoal. Brushed gold rim x=177..897, y=469..505. Warm-white ceramic body underneath x=192..883, y=506..568. The little polygonal stylus end at LEFT, x=126..179, y=506..560, stays exactly there and gold. Keep broad transparent margins above and below. No visible face-on screen and no script on this edge.\nExact alpha handling: background pixels outside the guide silhouette must remain fully transparent alpha 0, with no stray faint pixels, aura, fringe or shadow. Preserve the guide's original transparency and pixel positions. Use restrained matte surface colours suitable for albedo, gold about ochre-gold, warm-white ceramic, charcoal glass; no bright white metallic glints. Keep 1024x1024 pixels from IMAGE 2, not the larger design reference canvas.",
+    "inputs": [
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      },
+      {
+        "file": "guide_back.png",
+        "sha256": "a6d5fbac7d16454d8aa3d67a5514717b6436704b2de0cc951781967ff22e29f9"
+      }
+    ],
+    "output": "paint_back_attempt1.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-bd5765f2-b9e4-4458-adeb-fa0e550609b5.png",
+    "selected": false,
+    "reason": "Not selected: corrective return improves flat lighting and/or guide part conformity. This first return retains metallic highlights and silhouette drift.",
+    "size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "f8982a07b77d722e8c8ba0661ef63dd484346292a5d4aafb307bd3ceee2ab970",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        23,
+        1224,
+        1214
+      ],
+      "opaque_bbox": [
+        154,
+        578,
+        1103,
+        712
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.740971,
+      "nonzero_alpha_pixels_outside_normalized_guide": 22684,
+      "opaque_pixels_outside_normalized_guide": 17541,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    },
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Visible metallic hotspots and edge/contact shading; approximate guide composition only."
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D model.\nIMAGE 1, design_reference.png, is the approved MATERIAL AND COLOUR reference only; never copy its perspective, silhouette, studio lighting or framing. Edit IMAGE 2, guide_left.png, painting surfaces ONLY. The SECOND image is the 1024x1024 edit target and controls output canvas dimensions.\nReturn a single 1024 x 1024 PNG with true transparent background. Keep the guide's exact pixel canvas, projection, orientation, position, scale, outer alpha silhouette, every part boundary and empty space. Do not enlarge the object to fill the frame. Nothing added outside the guide silhouette; nothing cropped; no camera tilt, perspective or redesigned geometry.\nSubject: thin colonial data slate with lightly worn warm-white ceramic, brushed warm gold rim and gold stylus, and dark charcoal glass screen. Copy the approved reference's materials and restrained corner wear onto the guide's existing parts. The guide's grey, cream and blue-grey colours are only part labels, not finished colours. Paint subtle fine ceramic scratches and small gold scuffs, faint brushed metal grain, fine panel joins and seams, with all detail confined within existing silhouettes.\nLighting: this is ALBEDO, evenly lit straight from viewer, completely flat and shadowless. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, directional gradients, floor or background. Metal uses its gold base colour and only a faint sheen. Screen is dark charcoal glass; only on visible face-on screen areas, use faint blue-white horizontal abstract data lines, never letters or legible text. Do not invent orange light or materials absent from the reference. No labels, numbers, logos or watermark. Preserve genuine transparent pixels outside the object, never paint a checkerboard.\n\nVIEW: LEFT as named in guide_left.png. This is an exact EDGE-ON long-side view, a very thin horizontal strip across the centre of the square canvas. Follow Image 2 exactly. Object extent x=66..957, y=455..568 on the 1024 square. Narrow screen edge x=123..871, y=455..469, paint charcoal. Brushed gold rim x=66..957, y=469..505. Warm-white ceramic body below x=80..943, y=506..568. No visible stylus on this side, so do not add one. Keep broad transparent margins above and below. No visible face-on screen and no script on this edge.\nExact alpha handling: background pixels outside the guide silhouette must remain fully transparent alpha 0, with no stray faint pixels, aura, fringe or shadow. Preserve the guide's original transparency and pixel positions. Use restrained matte surface colours suitable for albedo, gold about ochre-gold, warm-white ceramic, charcoal glass; no bright white metallic glints. Keep 1024x1024 pixels from IMAGE 2, not the larger design reference canvas.",
+    "inputs": [
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      },
+      {
+        "file": "guide_left.png",
+        "sha256": "10e20a219af947e2b1baa0e17df3a448b39c1f4d4a475b6abeb62f80f5a9434b"
+      }
+    ],
+    "output": "paint_left.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-25745029-374f-4a0e-9603-be06bcc7de66.png",
+    "selected": true,
+    "reason": "Selected for substantially closer guide alignment: normalized opaque silhouette IoU 0.967511 versus 0.784713 for correction. Retains stronger highlights and small blue edge marks; exact silhouette and flat-light checks still fail.",
+    "size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "1b3b305d0787c675366bde7e15a153cef29c7be3a6cd39a374c167cb01847d94",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        39,
+        1224,
+        1238
+      ],
+      "opaque_bbox": [
+        79,
+        557,
+        1175,
+        694
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.967511,
+      "nonzero_alpha_pixels_outside_normalized_guide": 10614,
+      "opaque_pixels_outside_normalized_guide": 2599,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    },
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Visible metallic hotspots and edge/contact shading; approximate guide composition only."
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D model.\nIMAGE 1, design_reference.png, is the approved MATERIAL AND COLOUR reference only; never copy its perspective, silhouette, studio lighting or framing. Edit IMAGE 2, guide_right.png, painting surfaces ONLY. The SECOND image is the 1024x1024 edit target and controls output canvas dimensions.\nReturn a single 1024 x 1024 PNG with true transparent background. Keep the guide's exact pixel canvas, projection, orientation, position, scale, outer alpha silhouette, every part boundary and empty space. Do not enlarge the object to fill the frame. Nothing added outside the guide silhouette; nothing cropped; no camera tilt, perspective or redesigned geometry.\nSubject: thin colonial data slate with lightly worn warm-white ceramic, brushed warm gold rim and gold stylus, and dark charcoal glass screen. Copy the approved reference's materials and restrained corner wear onto the guide's existing parts. The guide's grey, cream and blue-grey colours are only part labels, not finished colours. Paint subtle fine ceramic scratches and small gold scuffs, faint brushed metal grain, fine panel joins and seams, with all detail confined within existing silhouettes.\nLighting: this is ALBEDO, evenly lit straight from viewer, completely flat and shadowless. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, directional gradients, floor or background. Metal uses its gold base colour and only a faint sheen. Screen is dark charcoal glass; only on visible face-on screen areas, use faint blue-white horizontal abstract data lines, never letters or legible text. Do not invent orange light or materials absent from the reference. No labels, numbers, logos or watermark. Preserve genuine transparent pixels outside the object, never paint a checkerboard.\n\nVIEW: RIGHT as named in guide_right.png. This is an exact EDGE-ON long-side view, a very thin horizontal strip across the centre of the square canvas. Follow Image 2 exactly. Object extent x=66..957, y=455..568 on the 1024 square. Narrow screen edge x=151..900, y=455..469, paint charcoal. Brushed gold rim x=66..957, y=469..505. Warm-white ceramic body below x=80..943, y=506..568. The long gold stylus is visible HORIZONTALLY over the ceramic, only within x=196..827, y=507..559, as the guide has it; paint fine gold collar seams and the reference's white ceramic grip in this fixed bar shape, without changing its contour or inventing pointed protrusions. Keep broad transparent margins above and below. No visible face-on screen and no script on this edge.\nExact alpha handling: background pixels outside the guide silhouette must remain fully transparent alpha 0, with no stray faint pixels, aura, fringe or shadow. Preserve the guide's original transparency and pixel positions. Use restrained matte surface colours suitable for albedo, gold about ochre-gold, warm-white ceramic, charcoal glass; no bright white metallic glints. Keep 1024x1024 pixels from IMAGE 2, not the larger design reference canvas.",
+    "inputs": [
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      },
+      {
+        "file": "guide_right.png",
+        "sha256": "d73444755ff035e7d753d610423e177e791ceb5a11cae0d2aa6add2dba9bcb9a"
+      }
+    ],
+    "output": "paint_right_attempt1.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-4455ec0d-2752-4bb7-aa22-253839074af4.png",
+    "selected": false,
+    "reason": "Not selected: corrective return improves flat lighting and/or guide part conformity. This first return retains metallic highlights and silhouette drift.",
+    "size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "7a1cd76deb92b6b0f0be4778e77e0d7d1ebb81cedab2b2228759fc56de947972",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        25,
+        1232,
+        1213
+      ],
+      "opaque_bbox": [
+        81,
+        558,
+        1173,
+        695
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.981775,
+      "nonzero_alpha_pixels_outside_normalized_guide": 13237,
+      "opaque_pixels_outside_normalized_guide": 1224,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    },
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Visible metallic hotspots and edge/contact shading; approximate guide composition only."
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 1,
+    "tool": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset type: orthographic albedo texture-source painting for an existing 3D model.\nIMAGE 1, design_reference.png, is the approved MATERIAL AND COLOUR reference only; never copy its perspective, silhouette, studio lighting or framing. Edit IMAGE 2, guide_top.png, painting surfaces ONLY. The SECOND image is the 1024x1024 edit target and controls output canvas dimensions.\nReturn a single 1024 x 1024 PNG with true transparent background. Keep the guide's exact pixel canvas, projection, orientation, position, scale, outer alpha silhouette, every part boundary and empty space. Do not enlarge the object to fill the frame. Nothing added outside the guide silhouette; nothing cropped; no camera tilt, perspective or redesigned geometry.\nSubject: thin colonial data slate with lightly worn warm-white ceramic, brushed warm gold rim and gold stylus, and dark charcoal glass screen. Copy the approved reference's materials and restrained corner wear onto the guide's existing parts. The guide's grey, cream and blue-grey colours are only part labels, not finished colours. Paint subtle fine ceramic scratches and small gold scuffs, faint brushed metal grain, fine panel joins and seams, with all detail confined within existing silhouettes.\nLighting: this is ALBEDO, evenly lit straight from viewer, completely flat and shadowless. No cast shadows, ambient occlusion darkening, strong specular highlights, reflections, rim light, directional gradients, floor or background. Metal uses its gold base colour and only a faint sheen. Screen is dark charcoal glass; only on visible face-on screen areas, use faint blue-white horizontal abstract data lines, never letters or legible text. Do not invent orange light or materials absent from the reference. No labels, numbers, logos or watermark. Preserve genuine transparent pixels outside the object, never paint a checkerboard.\n\nVIEW: TOP as named in guide_top.png. Exact orthographic view directly above, the broad screen face fills the guide's fixed rounded-rectangle area. No perspective. Object extent x=126..897, y=66..957. The main rounded tablet occupies x=126..846, y=66..957, screen inset x=183..758, y=124..871, stylus bar at RIGHT x=845..897, y=195..828. Keep the guide's exact cut corners, silhouette and surface boundaries. Paint main bezel with brushed warm gold matching reference, screen a uniform dark charcoal with faint blue-white abstract horizontal data bars of varied lengths, distributed like the approved art; absolutely no legible characters. Match reference ceramic and gold detailing only within corresponding existing surfaces, no added geometry. Stylus gold and warm-white ceramic grip, small gold collar seams, all inside fixed stylus bar. Fine wear at corners, flat evenly lit albedo, no glass reflections or bright hotspots.\nExact alpha handling: background pixels outside the guide silhouette must remain fully transparent alpha 0, with no stray faint pixels, aura, fringe or shadow. Preserve the guide's original transparency and pixel positions. Use restrained matte surface colours suitable for albedo, gold about ochre-gold, warm-white ceramic, charcoal glass; no bright white metallic glints. Keep 1024x1024 pixels from IMAGE 2, not the larger design reference canvas.",
+    "inputs": [
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      },
+      {
+        "file": "guide_top.png",
+        "sha256": "44856dd2f1935a32ac6062b7eece5ebfa8d9cadba01cd2d481a232b120e89d36"
+      }
+    ],
+    "output": "paint_top_attempt1.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-d45d0a3c-72c2-44a7-b4a6-8a3ac18d8b43.png",
+    "selected": false,
+    "reason": "Not selected: corrective return improves flat lighting and/or guide part conformity. This first return retains metallic highlights and silhouette drift.",
+    "size": [
+      1254,
+      1254
+    ],
+    "unresized": true,
+    "output_sha256": "84c2502d290f28316572d649fcc56f641d49bbebd5eb3135d7b895f126a8f41d",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1253,
+        1254
+      ],
+      "opaque_bbox": [
+        157,
+        81,
+        1102,
+        1172
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.992299,
+      "nonzero_alpha_pixels_outside_normalized_guide": 23634,
+      "opaque_pixels_outside_normalized_guide": 3242,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    },
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Visible metallic hotspots and edge/contact shading; approximate guide composition only."
+    }
+  },
+  {
+    "view": "front",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "CORRECTIVE REGENERATION \u2014 front albedo painting. ONE image, 1024x1024 RGBA with genuine transparency.\nInput 1 = guide_front.png, THE EDIT TARGET. Copy its exact canvas, exact hard silhouette, exact part contours and pixel placement. Input 2 = design_reference.png, MATERIAL PALETTE ONLY. The previous attempt failed by drifting contours, introducing stray alpha pixels and painting shiny lighting. Correct those errors.\n\nPaint the guide's existing surfaces as a FLAT UNLIT BASE-COLOUR TEXTURE MAP. Treat each material like a scanned paint swatch: matte warm gold with subtle fine brushing, matte warm-white ceramic with fine corner scuffing, uniformly near-black charcoal glass. Keep small surface wear and material detail, but remove ALL simulated lighting. NO shading, NO specular reflections, NO white edge shines, NO bright gold streaks, NO bevel highlights, NO drop shadow, NO contact shadow, NO dark edge gradients, NO AO, NO bloom. Even the cylindrical stylus must have flat colour, without a bright centre stripe or dark sides. Thin seams may be fine neutral lines only. Do not copy the photographed lighting from the reference. It is a game texture source, not a product render.\n\nVIEW: FRONT as named in guide_front.png. This is an exact EDGE-ON short-end view, a very thin horizontal strip across the centre of the square canvas, NOT the broad screen face. Follow Image 1 exactly. Object extent x=126..897, y=455..568 on the 1024 square. Screen edge is the narrow bar x=183..759, y=455..469, paint charcoal. Brushed gold rim is x=126..846, y=469..505. Warm-white ceramic body below is x=140..831, y=506..568. The separate little polygonal stylus end at RIGHT, x=844..897, y=506..560, stays exactly there and gold; retain transparent gap. Keep broad transparent margins above and below. No visible face-on screen and no script on this edge.\n\nThe original guide's geometry wins over appearance reference whenever they differ. DO NOT round, bevel, taper, add clips or reshape the guide silhouettes. Retain its exact existing part edges. The thin screen edge is plain charcoal with no data lines. Only the top view can show the screen's data graphics.\nOutside the guide's exact silhouette, every pixel must be alpha=0. No faint stray pixels anywhere in the empty margins. No text, glyphs, labels, digits, logo, watermark, background or checkerboard. Pixel size requested is exactly 1024x1024; preserve target canvas.",
+    "inputs": [
+      {
+        "file": "guide_front.png",
+        "sha256": "8d3746193358302b996ee4b062bbb8f09369de521b6fb740b974b04a2135b350"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      }
+    ],
+    "output": "paint_front.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-53175f82-e121-4510-b205-da745d818635.png",
+    "selected": true,
+    "reason": "Best available after the single allowed corrective regeneration. Flatter gold than attempt 1; faint seam shading and edge sheen remain. Main strip and stylus end retain the intended arrangement, with contour and position drift. Selected does not mean the strict silhouette and lighting checks passed.",
+    "unresized": true,
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Flatter gold than attempt 1; faint seam shading and edge sheen remain. Main strip and stylus end retain the intended arrangement, with contour and position drift."
+    },
+    "size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "96516bff737687f5725b72337580287603368389e506a4212f739eed20e14612",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        57,
+        55,
+        1224,
+        1220
+      ],
+      "opaque_bbox": [
+        153,
+        569,
+        1100,
+        707
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.835707,
+      "nonzero_alpha_pixels_outside_normalized_guide": 16159,
+      "opaque_pixels_outside_normalized_guide": 10570,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    }
+  },
+  {
+    "view": "back",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "CORRECTIVE REGENERATION \u2014 back albedo painting. ONE image, 1024x1024 RGBA with genuine transparency.\nInput 1 = guide_back.png, THE EDIT TARGET. Copy its exact canvas, exact hard silhouette, exact part contours and pixel placement. Input 2 = design_reference.png, MATERIAL PALETTE ONLY. The previous attempt failed by drifting contours, introducing stray alpha pixels and painting shiny lighting. Correct those errors.\n\nPaint the guide's existing surfaces as a FLAT UNLIT BASE-COLOUR TEXTURE MAP. Treat each material like a scanned paint swatch: matte warm gold with subtle fine brushing, matte warm-white ceramic with fine corner scuffing, uniformly near-black charcoal glass. Keep small surface wear and material detail, but remove ALL simulated lighting. NO shading, NO specular reflections, NO white edge shines, NO bright gold streaks, NO bevel highlights, NO drop shadow, NO contact shadow, NO dark edge gradients, NO AO, NO bloom. Even the cylindrical stylus must have flat colour, without a bright centre stripe or dark sides. Thin seams may be fine neutral lines only. Do not copy the photographed lighting from the reference. It is a game texture source, not a product render.\n\nVIEW: BACK as named in guide_back.png. This is an exact EDGE-ON opposite short-end view, a very thin horizontal strip across the centre of the square canvas, NOT an underside or broad rear cover. Follow Image 1 exactly. Object extent x=126..897, y=455..568 on the 1024 square. Screen edge is the narrow bar x=264..840, y=455..469, paint charcoal. Brushed gold rim x=177..897, y=469..505. Warm-white ceramic body underneath x=192..883, y=506..568. The little polygonal stylus end at LEFT, x=126..179, y=506..560, stays exactly there and gold. Keep broad transparent margins above and below. No visible face-on screen and no script on this edge.\n\nThe original guide's geometry wins over appearance reference whenever they differ. DO NOT round, bevel, taper, add clips or reshape the guide silhouettes. Retain its exact existing part edges. The thin screen edge is plain charcoal with no data lines. Only the top view can show the screen's data graphics.\nOutside the guide's exact silhouette, every pixel must be alpha=0. No faint stray pixels anywhere in the empty margins. No text, glyphs, labels, digits, logo, watermark, background or checkerboard. Pixel size requested is exactly 1024x1024; preserve target canvas.",
+    "inputs": [
+      {
+        "file": "guide_back.png",
+        "sha256": "a6d5fbac7d16454d8aa3d67a5514717b6436704b2de0cc951781967ff22e29f9"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      }
+    ],
+    "output": "paint_back.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-0986eb35-c38b-430f-8497-58d49f03b6a4.png",
+    "selected": true,
+    "reason": "Best available after the single allowed corrective regeneration. Flatter gold than attempt 1; fine dark separation beneath rim and a slight sheen on stylus end remain. Contours and alignment still differ from guide. Selected does not mean the strict silhouette and lighting checks passed.",
+    "unresized": true,
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Flatter gold than attempt 1; fine dark separation beneath rim and a slight sheen on stylus end remain. Contours and alignment still differ from guide."
+    },
+    "size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "888d7f403cfd84d92a09b1d10422122df213e21aace7b8243e11b548c06f9c56",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        33,
+        31,
+        1224,
+        1214
+      ],
+      "opaque_bbox": [
+        149,
+        575,
+        1108,
+        710
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.760728,
+      "nonzero_alpha_pixels_outside_normalized_guide": 22286,
+      "opaque_pixels_outside_normalized_guide": 16144,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    }
+  },
+  {
+    "view": "left",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "CORRECTIVE REGENERATION \u2014 left albedo painting. ONE image, 1024x1024 RGBA with genuine transparency.\nInput 1 = guide_left.png, THE EDIT TARGET. Copy its exact canvas, exact hard silhouette, exact part contours and pixel placement. Input 2 = design_reference.png, MATERIAL PALETTE ONLY. The previous attempt failed by drifting contours, introducing stray alpha pixels and painting shiny lighting. Correct those errors.\n\nPaint the guide's existing surfaces as a FLAT UNLIT BASE-COLOUR TEXTURE MAP. Treat each material like a scanned paint swatch: matte warm gold with subtle fine brushing, matte warm-white ceramic with fine corner scuffing, uniformly near-black charcoal glass. Keep small surface wear and material detail, but remove ALL simulated lighting. NO shading, NO specular reflections, NO white edge shines, NO bright gold streaks, NO bevel highlights, NO drop shadow, NO contact shadow, NO dark edge gradients, NO AO, NO bloom. Even the cylindrical stylus must have flat colour, without a bright centre stripe or dark sides. Thin seams may be fine neutral lines only. Do not copy the photographed lighting from the reference. It is a game texture source, not a product render.\n\nVIEW: LEFT as named in guide_left.png. This is an exact EDGE-ON long-side view, a very thin horizontal strip across the centre of the square canvas. Follow Image 1 exactly. Object extent x=66..957, y=455..568 on the 1024 square. Narrow screen edge x=123..871, y=455..469, paint charcoal. Brushed gold rim x=66..957, y=469..505. Warm-white ceramic body below x=80..943, y=506..568. No visible stylus on this side, so do not add one. Keep broad transparent margins above and below. No visible face-on screen and no script on this edge.\n\nThe original guide's geometry wins over appearance reference whenever they differ. DO NOT round, bevel, taper, add clips or reshape the guide silhouettes. Retain its exact existing part edges. The thin screen edge is plain charcoal with no data lines. Only the top view can show the screen's data graphics.\nOutside the guide's exact silhouette, every pixel must be alpha=0. No faint stray pixels anywhere in the empty margins. No text, glyphs, labels, digits, logo, watermark, background or checkerboard. Pixel size requested is exactly 1024x1024; preserve target canvas.",
+    "inputs": [
+      {
+        "file": "guide_left.png",
+        "sha256": "10e20a219af947e2b1baa0e17df3a448b39c1f4d4a475b6abeb62f80f5a9434b"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      }
+    ],
+    "output": "paint_left_attempt2.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-08b77780-7b74-4bc1-a86c-874150db67a7.png",
+    "selected": false,
+    "reason": "Not selected: lighting is flatter, but the strip moved vertically and widened; guide silhouette alignment is substantially worse than attempt 1.",
+    "unresized": true,
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Removed blue marks from the screen edge and reduced metallic hotspots; fine rim shading and contour/position drift remain."
+    },
+    "size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "5ab17867d797476862e7961add5d1004817bfad22437e7827818e3cfe4653e07",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        64,
+        23,
+        1194,
+        1156
+      ],
+      "opaque_bbox": [
+        70,
+        576,
+        1184,
+        708
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.784713,
+      "nonzero_alpha_pixels_outside_normalized_guide": 19703,
+      "opaque_pixels_outside_normalized_guide": 15749,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    }
+  },
+  {
+    "view": "right",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "CORRECTIVE REGENERATION \u2014 right albedo painting. ONE image, 1024x1024 RGBA with genuine transparency.\nInput 1 = guide_right.png, THE EDIT TARGET. Copy its exact canvas, exact hard silhouette, exact part contours and pixel placement. Input 2 = design_reference.png, MATERIAL PALETTE ONLY. The previous attempt failed by drifting contours, introducing stray alpha pixels and painting shiny lighting. Correct those errors.\n\nPaint the guide's existing surfaces as a FLAT UNLIT BASE-COLOUR TEXTURE MAP. Treat each material like a scanned paint swatch: matte warm gold with subtle fine brushing, matte warm-white ceramic with fine corner scuffing, uniformly near-black charcoal glass. Keep small surface wear and material detail, but remove ALL simulated lighting. NO shading, NO specular reflections, NO white edge shines, NO bright gold streaks, NO bevel highlights, NO drop shadow, NO contact shadow, NO dark edge gradients, NO AO, NO bloom. Even the cylindrical stylus must have flat colour, without a bright centre stripe or dark sides. Thin seams may be fine neutral lines only. Do not copy the photographed lighting from the reference. It is a game texture source, not a product render.\n\nVIEW: RIGHT as named in guide_right.png. This is an exact EDGE-ON long-side view, a very thin horizontal strip across the centre of the square canvas. Follow Image 1 exactly. Object extent x=66..957, y=455..568 on the 1024 square. Narrow screen edge x=151..900, y=455..469, paint charcoal. Brushed gold rim x=66..957, y=469..505. Warm-white ceramic body below x=80..943, y=506..568. The long gold stylus is visible HORIZONTALLY over the ceramic, only within x=196..827, y=507..559, as the guide has it; paint fine gold collar seams and the reference's white ceramic grip in this fixed bar shape, without changing its contour or inventing pointed protrusions. Keep broad transparent margins above and below. No visible face-on screen and no script on this edge.\n\nThe original guide's geometry wins over appearance reference whenever they differ. DO NOT round, bevel, taper, add clips or reshape the guide silhouettes. Retain its exact existing part edges. The thin screen edge is plain charcoal with no data lines. Only the top view can show the screen's data graphics.\nOutside the guide's exact silhouette, every pixel must be alpha=0. No faint stray pixels anywhere in the empty margins. No text, glyphs, labels, digits, logo, watermark, background or checkerboard. Pixel size requested is exactly 1024x1024; preserve target canvas.",
+    "inputs": [
+      {
+        "file": "guide_right.png",
+        "sha256": "d73444755ff035e7d753d610423e177e791ceb5a11cae0d2aa6add2dba9bcb9a"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      }
+    ],
+    "output": "paint_right.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-8155869a-2bcd-4ade-b509-0fa81f0383fc.png",
+    "selected": true,
+    "reason": "Best available after the single allowed corrective regeneration. Reduced highlights and simplified stylus to the guide's bar form; stylus shading/contact shadow and altered internal part boundaries remain. Selected does not mean the strict silhouette and lighting checks passed.",
+    "unresized": true,
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Reduced highlights and simplified stylus to the guide's bar form; stylus shading/contact shadow and altered internal part boundaries remain."
+    },
+    "size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "5b1acf8eca270cdfcf8e2adc4a0e7a5a1044863652ce0d336cf58077635f3be8",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        65,
+        48,
+        1214,
+        1182
+      ],
+      "opaque_bbox": [
+        78,
+        562,
+        1176,
+        697
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.95686,
+      "nonzero_alpha_pixels_outside_normalized_guide": 13184,
+      "opaque_pixels_outside_normalized_guide": 1442,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    }
+  },
+  {
+    "view": "top",
+    "attempt": 2,
+    "tool": "built-in image_gen",
+    "prompt": "CORRECTIVE REGENERATION \u2014 top albedo painting. ONE image, 1024x1024 RGBA with genuine transparency.\nInput 1 = guide_top.png, THE EDIT TARGET. Copy its exact canvas, exact hard silhouette, exact part contours and pixel placement. Input 2 = design_reference.png, MATERIAL PALETTE ONLY. The previous attempt failed by drifting contours, introducing stray alpha pixels and painting shiny lighting. Correct those errors.\n\nPaint the guide's existing surfaces as a FLAT UNLIT BASE-COLOUR TEXTURE MAP. Treat each material like a scanned paint swatch: matte warm gold with subtle fine brushing, matte warm-white ceramic with fine corner scuffing, uniformly near-black charcoal glass. Keep small surface wear and material detail, but remove ALL simulated lighting. NO shading, NO specular reflections, NO white edge shines, NO bright gold streaks, NO bevel highlights, NO drop shadow, NO contact shadow, NO dark edge gradients, NO AO, NO bloom. Even the cylindrical stylus must have flat colour, without a bright centre stripe or dark sides. Thin seams may be fine neutral lines only. Do not copy the photographed lighting from the reference. It is a game texture source, not a product render.\n\nVIEW: TOP as named in guide_top.png. Exact orthographic view directly above, the broad screen face fills the guide's fixed rounded-rectangle area. No perspective. Object extent x=126..897, y=66..957. The main rounded tablet occupies x=126..846, y=66..957, screen inset x=183..758, y=124..871, stylus bar at RIGHT x=845..897, y=195..828. Keep the guide's exact cut corners, silhouette and surface boundaries. Paint main bezel with brushed warm gold matching reference, screen a uniform dark charcoal with faint blue-white abstract horizontal data bars of varied lengths, distributed like the approved art; absolutely no legible characters. Match reference ceramic and gold detailing only within corresponding existing surfaces, no added geometry. Stylus gold and warm-white ceramic grip, small gold collar seams, all inside fixed stylus bar. Fine wear at corners, flat evenly lit albedo, no glass reflections or bright hotspots.\n\nThe original guide's geometry wins over appearance reference whenever they differ. DO NOT round, bevel, taper, add clips or reshape the guide silhouettes. Retain its exact existing part edges. The broad cream-tinted rim in this top guide is the GOLD part, so paint the entire rim brushed gold; do not replace it with ceramic panels or new bezel layers. The blue-grey inset is the full charcoal screen, preserve its exact bounds. The existing stylus is a straight rectangular projection with flat ends; do not turn it into a pointed pen. Data bars are faint blue-white flat colour only with no bloom or reflections.\nOutside the guide's exact silhouette, every pixel must be alpha=0. No faint stray pixels anywhere in the empty margins. No text, glyphs, labels, digits, logo, watermark, background or checkerboard. Pixel size requested is exactly 1024x1024; preserve target canvas.",
+    "inputs": [
+      {
+        "file": "guide_top.png",
+        "sha256": "44856dd2f1935a32ac6062b7eece5ebfa8d9cadba01cd2d481a232b120e89d36"
+      },
+      {
+        "file": "design_reference.png",
+        "sha256": "21bb4bb9f0997786e08f0ee5b4a2a8219dfef9efa5c145e2c4cb9f2cd3c35025"
+      }
+    ],
+    "output": "paint_top.png",
+    "source": "/home/pjasicek/.codex/generated_images/01a16dbf-d1ac-7cf0-b1d4-f4eb63e57402/exec-56ed3623-ecaf-46d6-b0c5-900ce88118b6.png",
+    "selected": true,
+    "reason": "Best available after the single allowed corrective regeneration. Flatter screen without bloom; gold rim follows guide's material labels more closely and stylus has flat ends. Gold edge highlights, corner rounding and stylus/screen boundary drift remain. Selected does not mean the strict silhouette and lighting checks passed.",
+    "unresized": true,
+    "visual_checks": {
+      "materials_match_reference_palette": true,
+      "flat_even_shadowless_lighting": false,
+      "no_text_or_letters": true,
+      "review": "Flatter screen without bloom; gold rim follows guide's material labels more closely and stylus has flat ends. Gold edge highlights, corner rounding and stylus/screen boundary drift remain."
+    },
+    "size": [
+      1254,
+      1254
+    ],
+    "output_sha256": "1ea1ef329af3ea5672e5a3ab71a5559025638dcb98b3103668101e5cb950716a",
+    "postprocessing": "none; byte-for-byte copy of built-in return",
+    "image_checks": {
+      "requested_size": [
+        1024,
+        1024
+      ],
+      "requested_size_met": false,
+      "mode": "RGBA",
+      "has_transparent_background": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1240,
+        1238
+      ],
+      "opaque_bbox": [
+        163,
+        73,
+        1102,
+        1153
+      ],
+      "silhouette_identical_to_guide": false,
+      "normalized_silhouette_iou_alpha128": 0.963124,
+      "nonzero_alpha_pixels_outside_normalized_guide": 25908,
+      "opaque_pixels_outside_normalized_guide": 11900,
+      "comparison_note": "Normalized diagnostic compares alpha >=128 at pixel-centre coordinates; exact silhouette gate also requires matching original canvas and alpha."
+    }
+  }
+]

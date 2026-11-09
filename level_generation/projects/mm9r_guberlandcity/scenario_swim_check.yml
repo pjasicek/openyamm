@@ -1,0 +1,28 @@
+# Written by mm9r_common/dungeon/swim_check.py from the built map; rerun it after convert.py.
+id: mm9r.guberlandcity_swim_check
+title: 'Guberland City (native BLV) - swim check: the party on each volume''s bed, up to its surface; swimmers stay in their
+  water'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+- draft
+steps:
+- load_map:
+    map: guberlandcity.blv
+- note:
+    text: 'BlueWater0: on its bed at 92, 92 under its top 184.3'
+- set_pose:
+    map: guberlandcity.blv
+    x: 2431
+    y: -1743
+    z: 93
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    water:
+      eye_under: false
+      foot_z_max: 104.2

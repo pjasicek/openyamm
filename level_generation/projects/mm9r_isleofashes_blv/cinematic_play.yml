@@ -1,0 +1,23 @@
+# The book's cinematic (book_sinking, isleofashes.cinematics.yml) played through: no save while it plays, key 28 and
+# the 5200 experience at OnSink (4.5 s), the departure for Sturmford at FadeOut2 (17 s). See README "Cinematic".
+id: mm9r.isleofashes_blv.cinematic_play
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: isleofashes.blv}
+- set_pose: {map: isleofashes.blv, x: -942, y: 5287, z: 22, yaw: 1.5708, pitch: 0.0}
+- setup_shortcut: {kind: set_qbit, id: 90029}
+- console: {line: cinematic list, expect_contains: book_sinking}
+- note: {text: "the lectern's Use (Prop159, PropTrigger.scr 'Book Use') starts the cinematic"}
+- execute_event: {id: 30496}
+- advance_runtime: {seconds: 0.5}
+- console: {line: cinematic list, expect_contains: playing book_sinking}
+- assert: {qbit_clear: [90028]}
+- save_game: {name: mid_cinematic, expect_failure: true}
+- advance_runtime: {seconds: 4.5}
+- note: {text: "OnSink (4.5 s): key 28"}
+- assert: {qbit_set: [90028]}
+- console: {line: cinematic list, expect_contains: playing book_sinking}
+- advance_runtime: {seconds: 13, follow_map_move: true}
+- note: {text: "FadeOut2 (17 s): ExitTrigger1 to Sturmford"}
+- assert: {map_arrived: {map: sturmford.blv}}

@@ -1,0 +1,66 @@
+# Hesper's own missiles (design/kreegan_world/PROJECTILES.md), staged by stage.py. Who fires which is the design's
+# make_monster_tables.py (MISSILES), written into the attack columns of the draft monster_data.txt.
+#
+# stage.py writes from this file
+#   - worlds/hesper/monster_projectiles.yml: each token, its object, impact object and shield tier (the engine reads it
+#     beside world.yml: GameDataLoader::loadMonsterProjectileTable; devdocs/PROJECTILE_VFX_ALL_PROPOSAL.md section 12);
+#   - worlds/hesper/data_tables/object_descriptors.txt: one object row per missile (the world's object_descriptors
+#     contribution, world.yml objects range below), a copy of MM's laser object 555 with its own name and speed;
+#   - worlds/hesper/effects/projectile_library.yml: the flight and impact effects (projectile_effects.py next to this
+#     file, built on tools/fx/generate_projectile_effects.py), imported by the stage's copy of engine/effects/library.yml;
+#   - the stage's copy of engine/effects/projectiles.yml with an `objects` section: each missile's object bound to its
+#     effects (hesper:fx/projectile/<object> and hesper:fx/impact/<object>), its flight light and its impact light.
+#     The native laser sprite is hidden: the effect draws the whole bolt.
+# Object names must not contain an MM recipe word (laser, fire bolt, light bolt, ice bolt, sparks, stun, ...): the
+# sprite (lzrbolt) classifies every one as the blaster recipe, and the object binding then wins over the recipe's.
+# impact_object 556 is MM's laser explosion (no sprite): the impact effect is bound through the flight object.
+# speed: world units a second (MM's laser: 6 000; the turrets' true aim is tuned for 6 000, MODIFIER_RULES).
+# impact_sound: the impact's sound by name (audio.yml sound_ids gives its number); the Crown's pulse has none (its
+# blast is the map script's cannon_blast).
+# tier: what a hit is to an energy shield (COMBAT.md): classic_blaster for the Ancient and salvage guns, kreegan_energy
+# for the Kreegans'; none (the crawlers' acid) follows the damage type, Body: spell.
+objects: {begin: 21000, end: 21999}
+missiles:
+  HesBolt:     {object: {id: 21000, name: hes_bolt, speed: 6000}, impact_object: 556, impact_sound: energy_hit_armor,
+                tier: classic_blaster,
+                light: {rgb: [110, 175, 255], radius: 170}, impact_light: {rgb: [120, 180, 255], radius: 256}}
+  HesHeavy:    {object: {id: 21001, name: hes_heavy_bolt, speed: 5000}, impact_object: 556, impact_sound: energy_hit_rock,
+                tier: classic_blaster,
+                light: {rgb: [100, 165, 255], radius: 260}, impact_light: {rgb: [130, 190, 255], radius: 420}}
+  HesRifle:    {object: {id: 21002, name: hes_rifle_bolt, speed: 6500}, impact_object: 556, impact_sound: energy_hit_armor,
+                tier: classic_blaster,
+                light: {rgb: [120, 185, 255], radius: 130}, impact_light: {rgb: [130, 190, 255], radius: 200}}
+  KrDart:      {object: {id: 21010, name: kr_dart, speed: 6000}, impact_object: 556, impact_sound: energy_hit_flesh,
+                tier: kreegan_energy,
+                light: {rgb: [255, 120, 40], radius: 110}, impact_light: {rgb: [255, 120, 40], radius: 180}}
+  KrPlasma:    {object: {id: 21011, name: kr_plasma, speed: 5000}, impact_object: 556, impact_sound: energy_hit_flesh,
+                tier: kreegan_energy,
+                light: {rgb: [255, 110, 35], radius: 180}, impact_light: {rgb: [255, 120, 40], radius: 256}}
+  KrHot:       {object: {id: 21012, name: kr_hot_plasma, speed: 5500}, impact_object: 556, impact_sound: energy_hit_flesh,
+                tier: kreegan_energy,
+                light: {rgb: [255, 180, 100], radius: 210}, impact_light: {rgb: [255, 190, 120], radius: 300}}
+  KrLance:     {object: {id: 21013, name: kr_lance, speed: 7000}, impact_object: 556, impact_sound: energy_hit_rock,
+                tier: kreegan_energy,
+                light: {rgb: [255, 140, 60], radius: 280}, impact_light: {rgb: [255, 160, 80], radius: 420}}
+  AshBlaster:  {object: {id: 21020, name: ash_blaster, speed: 5000}, impact_object: 556, impact_sound: energy_hit_armor,
+                tier: classic_blaster,
+                light: {rgb: [220, 230, 110], radius: 150}, impact_light: {rgb: [140, 230, 255], radius: 220}}
+  CrawlerAcid: {object: {id: 21030, name: crawler_acid, speed: 3500}, impact_object: 556, impact_sound: crawler_acid_hit,
+                light: {rgb: [140, 230, 60], radius: 120}, impact_light: {rgb: [150, 235, 70], radius: 200}}
+  # The great ion cannon's pulse (hes_out4's map script, evt.FireMissile: 0.15 s to the party, 600 splash on actors;
+  # its flight time sets its speed, and the object speed column is 16-bit).
+  CrownIon:    {object: {id: 21040, name: crown_ion, speed: 30000}, impact_object: 556, tier: kreegan_energy,
+                light: {rgb: [190, 140, 255], radius: 900}, impact_light: {rgb: [200, 160, 255], radius: 1600}}
+# The party's guns (PROJECTILES.md "The party's guns"): each item fires its missile, its shot sound by name (audio.yml
+# sound_ids); a hit keeps the item's own tier (Energy Guns: Kreegan energy). Classic blasters keep MM's bolt.
+party:
+  11000: {missile: KrPlasma, shot_sound: kr_plasma_fire}   # Pulse Pistol
+  11002: {missile: KrPlasma, shot_sound: kr_plasma_fire}   # Ion Carbine
+  11001: {missile: KrHot, shot_sound: kr_hot_fire}         # Noble Sidearm
+  11005: {missile: KrHot, shot_sound: kr_hot_fire}         # Storm Rifle
+  11003: {missile: KrLance, shot_sound: kr_lance_shot}     # Lancer Carbine
+  11008: {missile: KrLance, shot_sound: kr_lance_shot}     # Disruptor Cannon
+  11004: {missile: KrDart, shot_sound: kr_dart_fire}       # Arc Rifle
+  11006: {missile: KrDart, shot_sound: kr_dart_fire}       # Scatter Lance
+  11007: {missile: KrDart, shot_sound: kr_dart_fire}       # Breaker Lance
+  11420: {missile: HesRifle, shot_sound: party_rifle_fire} # The Founder's Repeater

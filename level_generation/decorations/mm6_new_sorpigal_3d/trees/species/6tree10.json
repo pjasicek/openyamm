@@ -1,0 +1,67 @@
+{
+ "sprite": "6tree10",
+ "output": "mm6_deco_tree10.glb",
+ "height_m": 7.28,
+ "note": "MM6 Silver Cove / Eel Infested Waters etc. Dense oblong crown reaching low, mid green, short dark reddish trunk.",
+ "sapling": {
+  "scale": 5.15,
+  "baseSize": 0.12,
+  "splitHeight": 0.3,
+  "attractUp": [
+   0,
+   0.75,
+   0.4,
+   0
+  ],
+  "downAngle": [
+   90,
+   42,
+   40,
+   45
+  ],
+  "seed": 81,
+  "ratio": 0.05
+ },
+ "crown": {
+  "canopy_low": 0.19,
+  "centre": 0.56,
+  "clumps": 135,
+  "inner_clumps": 24,
+  "card": [
+   0.4,
+   0.5
+  ],
+  "gap": 0.7
+ },
+ "bark": {
+  "target_srgb": [
+   88,
+   56,
+   46
+  ]
+ },
+ "leaves": {
+  "target_srgb": [
+   80,
+   185,
+   62
+  ],
+  "seeds": [
+   13,
+   29,
+   41,
+   67
+  ],
+  "value": [
+   0.8,
+   1.5
+  ],
+  "jitter_red": [
+   0.85,
+   1.2
+  ]
+ },
+ "lod": {
+  "lod2_card_scale": 1.03
+ }
+}

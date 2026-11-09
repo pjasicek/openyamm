@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/mm9_nobleman_claude/references_hd/00_three_quarter.png), unresized at 1024×1536, using built-in image generation. Both raw returns and prompts/input hashes are preserved in `raw/` and `generation_runs.json`.
+
+Stopped after the allowed correction; run 2 was not started. Residual faults: background haze remains despite requested transparency, fingers overlap, and arms sit too close to the body.

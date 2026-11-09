@@ -1,0 +1,455 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_magreeb.glb",
+  "components": 16,
+  "body": 5,
+  "size": 3.3724026679992676,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {
+   "0": {
+    "joint": "Bone108",
+    "where": "below, -x side, -z",
+    "triangles": 344,
+    "extent": 2.2792,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.06669,
+    "worst": {
+     "gap": 0.01114,
+     "to_body_cluster": 0.01114,
+     "clip": "Death",
+     "frame": 42,
+     "time": 1.4,
+     "part_point": [
+      0.17547,
+      0.60554,
+      -0.71355
+     ],
+     "attached_point": [
+      0.18182,
+      0.59662,
+      -0.7162
+     ],
+     "kind": "parted",
+     "against": "Bone37"
+    },
+    "detached_poses": 41,
+    "poses": 405,
+    "clips": {
+     "Dead": {
+      "max_gap": 0.01113,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.01114,
+      "frame": 42,
+      "time": 1.4,
+      "frames": 10
+     }
+    },
+    "shallowest": {
+     "depth": 0.04739,
+     "on": "Bone37",
+     "clip": "Death",
+     "frame": 22,
+     "time": 0.7333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_magreeb_part0.png"
+   },
+   "3": {
+    "joint": "Bone15",
+    "where": "above, -x side, +z",
+    "triangles": 562,
+    "extent": 0.9652,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.0301,
+    "worst": {
+     "gap": 0.00876,
+     "to_body_cluster": 0.00876,
+     "clip": "AttackRanged",
+     "frame": 15,
+     "time": 0.5,
+     "part_point": [
+      -0.52875,
+      1.03496,
+      0.99563
+     ],
+     "attached_point": [
+      -0.52107,
+      1.03391,
+      0.99379
+     ],
+     "kind": "parted",
+     "against": "Bone13"
+    },
+    "detached_poses": 3,
+    "poses": 405,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.00876,
+      "frame": 15,
+      "time": 0.5,
+      "frames": 3
+     }
+    },
+    "shallowest": {
+     "depth": 0.013,
+     "on": "Bone13",
+     "clip": "AttackMelee",
+     "frame": 5,
+     "time": 0.1667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_magreeb_part3.png"
+   },
+   "7": {
+    "joint": "Bone38",
+    "where": "central",
+    "triangles": 130,
+    "extent": 0.6788,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.12262,
+    "worst": {
+     "gap": 0.01917,
+     "to_body_cluster": 0.01917,
+     "clip": "Death",
+     "frame": 24,
+     "time": 0.8,
+     "part_point": [
+      0.88161,
+      0.59658,
+      -0.57611
+     ],
+     "attached_point": [
+      0.90048,
+      0.59718,
+      -0.57939
+     ],
+     "kind": "floating",
+     "against": "Bone21"
+    },
+    "detached_poses": 51,
+    "poses": 405,
+    "clips": {
+     "AttackRanged": {
+      "max_gap": 0.01576,
+      "frame": 4,
+      "time": 0.1333,
+      "frames": 7
+     },
+     "Dead": {
+      "max_gap": 0.01512,
+      "frame": 0,
+      "time": 0.0,
+      "frames": 31
+     },
+     "Death": {
+      "max_gap": 0.01917,
+      "frame": 24,
+      "time": 0.8,
+      "frames": 13
+     }
+    },
+    "shallowest": {
+     "depth": -0.00098,
+     "on": "Bone61",
+     "clip": "Death",
+     "frame": 21,
+     "time": 0.7
+    },
+    "concealed_poses": 3,
+    "worst_concealed": {
+     "gap": 0.01813,
+     "clip": "Death",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_magreeb_part7.png"
+   },
+   "11": {
+    "joint": "Bone09",
+    "where": "above, +z",
+    "triangles": 34,
+    "extent": 0.0444,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00925,
+    "worst": {
+     "gap": 0.01328,
+     "to_body_cluster": 0.01328,
+     "clip": "AttackRanged",
+     "frame": 24,
+     "time": 0.8,
+     "part_point": [
+      0.00652,
+      1.53211,
+      0.66411
+     ],
+     "attached_point": [
+      -0.00604,
+      1.52991,
+      0.6607
+     ],
+     "kind": "parted",
+     "against": "Bone02"
+    },
+    "detached_poses": 73,
+    "poses": 405,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.01321,
+      "frame": 28,
+      "time": 0.9333,
+      "frames": 30
+     },
+     "AttackRanged": {
+      "max_gap": 0.01328,
+      "frame": 24,
+      "time": 0.8,
+      "frames": 19
+     },
+     "Death": {
+      "max_gap": 0.01156,
+      "frame": 9,
+      "time": 0.3,
+      "frames": 3
+     },
+     "Hit": {
+      "max_gap": 0.01269,
+      "frame": 17,
+      "time": 0.5667,
+      "frames": 21
+     }
+    },
+    "shallowest": {
+     "depth": 0.00495,
+     "on": "Bone02",
+     "clip": "Death",
+     "frame": 6,
+     "time": 0.2
+    },
+    "concealed_poses": 73,
+    "worst_concealed": {
+     "gap": 0.01317,
+     "clip": "Death",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_magreeb_part11.png"
+   },
+   "12": {
+    "joint": "Bone61",
+    "where": "below, +x side",
+    "triangles": 487,
+    "extent": 1.2947,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.03708,
+    "worst": {
+     "gap": 0.01068,
+     "to_body_cluster": 0.01068,
+     "clip": "Running",
+     "frame": 4,
+     "time": 0.1333,
+     "part_point": [
+      0.20604,
+      0.84956,
+      -0.46064
+     ],
+     "attached_point": [
+      0.19967,
+      0.84187,
+      -0.4664
+     ],
+     "kind": "parted",
+     "against": "Bone37"
+    },
+    "detached_poses": 2,
+    "poses": 405,
+    "clips": {
+     "Running": {
+      "max_gap": 0.01068,
+      "frame": 4,
+      "time": 0.1333,
+      "frames": 2
+     }
+    },
+    "shallowest": {
+     "depth": 0.00265,
+     "on": "Bone56",
+     "clip": "Death",
+     "frame": 29,
+     "time": 0.9667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_magreeb_part12.png"
+   },
+   "13": {
+    "joint": "Bone56",
+    "where": "+x side, -z",
+    "triangles": 366,
+    "extent": 1.9513,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.04753,
+    "worst": {
+     "gap": 0.01597,
+     "to_body_cluster": 0.01597,
+     "clip": "Fidget",
+     "frame": 22,
+     "time": 0.7333,
+     "part_point": [
+      0.05988,
+      0.92975,
+      -0.65662
+     ],
+     "attached_point": [
+      0.04262,
+      0.93341,
+      -0.65485
+     ],
+     "kind": "parted",
+     "against": "Bone37"
+    },
+    "detached_poses": 43,
+    "poses": 405,
+    "clips": {
+     "AttackMelee": {
+      "max_gap": 0.01231,
+      "frame": 24,
+      "time": 0.8,
+      "frames": 12
+     },
+     "AttackRanged": {
+      "max_gap": 0.01129,
+      "frame": 21,
+      "time": 0.7,
+      "frames": 11
+     },
+     "Fidget": {
+      "max_gap": 0.01597,
+      "frame": 22,
+      "time": 0.7333,
+      "frames": 20
+     }
+    },
+    "shallowest": {
+     "depth": 0.0369,
+     "on": "Bone37",
+     "clip": "AttackRanged",
+     "frame": 23,
+     "time": 0.7667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "crop": "/home/pjasicek/github/OpenYAMM/level_generation/creatures/claude_shared/detached_parts_mm9/root_rules/mm9_magreeb_part13.png"
+   }
+  },
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 16,
+   "attached_in_every_pose": 9
+  },
+  "concealed": {},
+  "shallow": {
+   "2": {
+    "joint": "Bone13",
+    "where": "-x side, +z",
+    "triangles": 136,
+    "extent": 0.5451,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00063,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00073,
+     "on": "Bone12",
+     "clip": "Death",
+     "frame": 8,
+     "time": 0.2667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "4": {
+    "joint": "Bone114",
+    "where": "below, -x side, +z",
+    "triangles": 425,
+    "extent": 1.3501,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.02409,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00397,
+     "on": "Bone108",
+     "clip": "AttackMelee",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "14": {
+    "joint": "Bone21",
+    "where": "above",
+    "triangles": 148,
+    "extent": 0.5002,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00014,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00031,
+     "on": "Bone37",
+     "clip": "AttackRanged",
+     "frame": 10,
+     "time": 0.3333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   },
+   "15": {
+    "joint": "Bone24",
+    "where": "above, +x side, +z",
+    "triangles": 786,
+    "extent": 1.4291,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 1.00486,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 405,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00022,
+     "on": "Bone02",
+     "clip": "Death",
+     "frame": 34,
+     "time": 1.1333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0
+   }
+  }
+ }
+]

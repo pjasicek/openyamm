@@ -1,0 +1,553 @@
+{
+ "id": "20261009-1628-mm6-6t7-13",
+ "world": "mm6",
+ "maps": [
+  "6t7.blv",
+  "6d18.blv"
+ ],
+ "created": "2026-10-09T14:28:26+00:00",
+ "textures": [
+  "mm6/t3wcr",
+  "mm6/vlcceila",
+  "mm6/vlcdord",
+  "mm6/vlcflorb",
+  "mm6/orfyrlga",
+  "mm6/d8wlbx",
+  "mm6/vlcwl1",
+  "mm6/vlcwl3le",
+  "mm6/vlcwl3",
+  "mm6/vlcwl4",
+  "mm6/vlcwl3re",
+  "mm6/vlcwl4ua",
+  "mm6/vlcwl2b",
+  "mm6/vlcwl3u",
+  "mm6/d8wlbxl",
+  "mm6/vlcwl2",
+  "mm6/vlcwl1le",
+  "mm6/vlcwl4le",
+  "mm6/vlcwl4b",
+  "mm6/ctwl5re",
+  "mm6/ctwl5le",
+  "mm6/vlcwl1re",
+  "mm6/ctwl4le",
+  "mm6/ctwl4re"
+ ],
+ "requests": {
+  "mm6/t3wcr": {
+   "name": "t3wcr",
+   "versions": [
+    1
+   ],
+   "material": "dark crimson velvet curtain gathered and tied back with a cord, hanging over a grey stone block wall, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcceila": {
+   "name": "vlcceila",
+   "versions": [
+    1
+   ],
+   "material": "blue-grey rounded cobblestone cave ceiling with glowing orange lava seeping through the joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcdord": {
+   "name": "vlcdord",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "stone door carved as a giant Olmec-style head with a broad flat face, heavy brows and thick lips, framed by carved brown wooden totem borders, copy the composition exactly",
+   "notes": {
+    "2": "Copy the composition exactly (face, eyes, mouth, side posts). Stone surface is natural pitted rock with irregular grain: no mosaic of small cells or scales."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   }
+  },
+  "mm6/vlcflorb": {
+   "name": "vlcflorb",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-brown rough layered volcanic rock floor with flaky ridges",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/orfyrlga": {
+   "name": "orfyrlga",
+   "versions": [
+    1
+   ],
+   "material": "molten orange-red lava surface with bright yellow swirling hot streaks",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/d8wlbx": {
+   "name": "d8wlbx",
+   "versions": [
+    1
+   ],
+   "material": "dark grey rough fieldstone wall of irregular stacked stones with dark joints",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/vlcwl1": {
+   "name": "vlcwl1",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark brown-black rough volcanic rock wall with thin glowing orange lava veins in the cracks",
+   "notes": {
+    "2": "Natural volcanic rock with irregular grain and glowing cracks: no mosaic of cells or scales, no grid."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl1lg"
+     ],
+     "fraction": 0.917
+    },
+    "2": {
+     "sources": [
+      "mm6/vlcwl1lg"
+     ],
+     "fraction": 0.917
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm6/vlcwl3le": {
+   "name": "vlcwl3le",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark charcoal-grey speckled volcanic rock wall with a band of darker rubble along the bottom, left-hand piece",
+   "notes": {
+    "2": "Natural dark volcanic granite with irregular grain: no mosaic of cells or blotches, no grid."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.5
+   }
+  },
+  "mm6/vlcwl3": {
+   "name": "vlcwl3",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark charcoal-grey speckled volcanic rock wall with a band of darker rubble along the bottom",
+   "notes": {
+    "2": "Copy the composition exactly: keep the tall dark rocky ledge band along the bottom as in the reference, at the same height and position. Natural speckled stone with irregular grain: no mosaic of cells."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl3le"
+     ],
+     "fraction": 0.796
+    },
+    "2": {
+     "sources": [
+      "mm6/vlcwl3le"
+     ],
+     "fraction": 0.796
+    }
+   }
+  },
+  "mm6/vlcwl4": {
+   "name": "vlcwl4",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "volcanic cave wall of twisted grey-brown vertical rock streaks like gnarled roots, glowing orange lava in the cracks, broken rubble along the bottom",
+   "notes": {
+    "2": "Keep the layout of the rock strands and lava. Natural rock with irregular grain: no mosaic of cells or scales."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   }
+  },
+  "mm6/vlcwl3re": {
+   "name": "vlcwl3re",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey speckled volcanic rock wall with a band of darker rubble along the bottom, right-hand piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl3le",
+      "mm6/vlcwl3"
+     ],
+     "fraction": 0.827
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/vlcwl4ua": {
+   "name": "vlcwl4ua",
+   "versions": [
+    1
+   ],
+   "material": "volcanic cave wall of twisted grey-brown vertical rock streaks like gnarled roots, glowing orange lava in the cracks, broken rubble along the bottom, with a pale skeleton hanging against the wall, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl4"
+     ],
+     "fraction": 0.694
+    }
+   }
+  },
+  "mm6/vlcwl2b": {
+   "name": "vlcwl2b",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark basalt cave wall of tall vertical hexagonal columns with glowing orange lava seeping from the base and dark rubble along the bottom",
+   "notes": {
+    "2": "Keep the basalt column layout exactly. Column faces are natural rock with irregular grain: no mosaic of cells or scales."
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "ref_blur": {
+    "2": 2.0
+   }
+  },
+  "mm6/vlcwl3u": {
+   "name": "vlcwl3u",
+   "versions": [
+    1
+   ],
+   "material": "dark charcoal-grey speckled volcanic rock wall with a band of darker rubble along the bottom, with a skeleton and several yellowed skulls embedded in the rock, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl3",
+      "mm6/vlcwl3le",
+      "mm6/vlcwl3re"
+     ],
+     "fraction": 0.649
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm6/d8wlbxl": {
+   "name": "d8wlbxl",
+   "versions": [
+    1
+   ],
+   "material": "dark grey rough fieldstone wall with a smooth darker vertical stone pilaster on the left edge",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/d8wlbx"
+     ],
+     "fraction": 0.669
+    }
+   }
+  },
+  "mm6/vlcwl2": {
+   "name": "vlcwl2",
+   "versions": [
+    1
+   ],
+   "material": "dark basalt cave wall of tall vertical hexagonal columns with faint olive mineral flecks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl2b"
+     ],
+     "fraction": 0.439
+    }
+   }
+  },
+  "mm6/vlcwl1le": {
+   "name": "vlcwl1le",
+   "versions": [
+    1
+   ],
+   "material": "dark brown-black rough volcanic rock wall with thin glowing orange lava veins in the cracks, left-hand piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl1"
+     ],
+     "fraction": 0.287
+    }
+   }
+  },
+  "mm6/vlcwl4le": {
+   "name": "vlcwl4le",
+   "versions": [
+    1
+   ],
+   "material": "volcanic cave wall of twisted grey-brown vertical rock streaks like gnarled roots, glowing orange lava in the cracks, broken rubble along the bottom, with a mossy green boulder dripping lava on the left",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl4",
+      "mm6/vlcwl4ua"
+     ],
+     "fraction": 0.332
+    }
+   }
+  },
+  "mm6/vlcwl4b": {
+   "name": "vlcwl4b",
+   "versions": [
+    1
+   ],
+   "material": "volcanic cave wall of twisted grey-brown vertical rock streaks like gnarled roots, glowing orange lava in the cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl4",
+      "mm6/vlcwl4ua"
+     ],
+     "fraction": 0.325
+    }
+   }
+  },
+  "mm6/ctwl5re": {
+   "name": "ctwl5re",
+   "versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "material": "tan sandstone block wall with a fluted sandstone column on the right bearing a carved acanthus capital and a lion-head ring knocker, copy the composition exactly",
+   "notes": {
+    "4": "Copy the column exactly: one column whose shaft runs from a little right of the centre to the right edge, no second column; keep the dark background between the acanthus leaves, the shading on the wall left of the column and the sunburst mask face with its ring.",
+    "5": "Column from about 56% of the width to the right edge; a tall acanthus capital reaching down to about 27% of the height with near-black background between the leaves; a shadow band on the wall beside the shaft; keep the mask face with its ring.",
+    "6": "Column from about 56% of the width to the right edge; the space behind and around the tall acanthus capital (top 27% of the height) is near-black shadow, not light stone; a clear dark shadow band on the wall just left of the shaft; keep the mask face with its ring."
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/ctwl5"
+     ],
+     "fraction": 0.356
+    },
+    "2": {
+     "sources": [
+      "mm6/ctwl5"
+     ],
+     "fraction": 0.356
+    },
+    "3": {
+     "sources": [
+      "mm6/ctwl5"
+     ],
+     "fraction": 0.335
+    },
+    "4": {
+     "sources": [
+      "mm6/ctwl5"
+     ],
+     "fraction": 0.335
+    },
+    "5": {
+     "sources": [
+      "mm6/ctwl5"
+     ],
+     "fraction": 0.335
+    },
+    "6": {
+     "sources": [
+      "mm6/ctwl5"
+     ],
+     "fraction": 0.335
+    }
+   },
+   "context": {
+    "2": {
+     "left": "mm6/ctwl5"
+    },
+    "3": {
+     "left": "mm6/ctwl5"
+    },
+    "4": {
+     "left": "mm6/ctwl5"
+    },
+    "5": {
+     "left": "mm6/ctwl5"
+    },
+    "6": {
+     "left": "mm6/ctwl5"
+    }
+   },
+   "pad": {
+    "3": [
+     32,
+     16
+    ],
+    "4": [
+     32,
+     16
+    ],
+    "5": [
+     32,
+     16
+    ],
+    "6": [
+     32,
+     16
+    ]
+   }
+  },
+  "mm6/ctwl5le": {
+   "name": "ctwl5le",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone block wall with a fluted sandstone column on the left bearing a carved acanthus capital and a lion-head ring knocker, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/ctwl5"
+     ],
+     "fraction": 0.356
+    }
+   }
+  },
+  "mm6/vlcwl1re": {
+   "name": "vlcwl1re",
+   "versions": [
+    1
+   ],
+   "material": "dark brown-black rough volcanic rock wall with thin glowing orange lava veins in the cracks, right-hand piece",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/vlcwl1"
+     ],
+     "fraction": 0.18
+    }
+   }
+  },
+  "mm6/ctwl4le": {
+   "name": "ctwl4le",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone block wall with a carved sandstone pilaster of lattice ornament on the left topped by a lion-face capital, springing a carved lattice gothic arch to the right, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm6/ctwl4re": {
+   "name": "ctwl4re",
+   "versions": [
+    1
+   ],
+   "material": "tan sandstone block wall with a carved sandstone pilaster of lattice ornament on the right topped by a lion-face capital, springing a carved lattice gothic arch to the left, copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm6/ctwl4le"
+     ],
+     "fraction": 0.175
+    }
+   }
+  }
+ }
+}

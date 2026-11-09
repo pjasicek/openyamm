@@ -1,0 +1,220 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "tool": "built-in image_gen",
+  "status": "incomplete_requirements_not_met",
+  "postprocessing": "None. All PNGs are byte-for-byte unresized tool returns; generated alpha retained.",
+  "corrective_regenerations_per_view": {
+    "left": 1,
+    "right": 1
+  },
+  "runs": [
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Asset type: orthographic texture-source/albedo painting for an existing 3D statue.\nInput image 1 (guide_left.png) is the EDIT TARGET and absolute geometric authority. Input image 2 (design_reference.png) is the material/color design reference only.\nProduce ONE 1024 x 1024 RGBA transparent image: paint_left.png, the statue seen from its LEFT, facing screen RIGHT, exactly as in input 1.\nPaint only the surfaces of the grey guide. Keep its silhouette EXACTLY pixel-aligned: identical outline, size, position, orthographic camera, profile face, hair boundary, shoulder cape edge, sleeve edge and hand, every existing fold edge, opening, hanging sash, foot and all rectangular plinth steps. Head begins at y=65 and base ends at y=958; keep guide placement unchanged. Do not rotate, rescale, recenter, crop, remodel, round off, smooth away or add geometry. Do not introduce the reference's three-quarter camera.\nTransfer the approved reference's polished white-and-bone ceramic stone, clean smooth pale ivory with subtle fine warm marble veining, onto the full statue and plinth, including face, hands and hair (all carved stone, no human skin). Paint bright gold trim on the robe hem, sash/belt, existing cape/sleeve borders and plinth's top edge, matching the reference's gold and stone materials. Ornament is surface paint only within existing geometry. Preserve the guide's existing drapery rather than redrawing folds from the reference.\nLIGHTING: this is ALBEDO, not a beauty render. Even flat shadowless illumination from viewer on every surface including recesses. No cast shadow, no ambient-occlusion darkening, no dark crevices, no strong specular highlights, no reflections, no rim light. Pale white-bone base color should stay equally bright across facing planes. Convey materials through colors and subtle veining, not illumination. Absolutely no background, floor, drop shadow, text, watermark or additional object. True alpha transparency outside the unchanged guide silhouette. Return exactly 1024 x 1024, unresized.",
+      "output": "paint_left_attempt_1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a157e0-59af-7012-afe3-64b2a80e2fb6/exec-3f076463-ec00-4895-82bb-0c798c48ca25.png",
+      "selected": false,
+      "reason": "Rejected: returned 1254x1254 rather than 1024x1024; guide silhouette/internal folds were changed and directional shading remains.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit target; geometry authority",
+          "sha256": "0f1d528e71ccee66251680eee437bfdcaa58d49b03367396b8481ce383e1402f"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "output_sha256": "2f3f3bf2384d99a44473a2786b623e54d815dbfbe888797edd607f29d41c2100",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          23,
+          1222,
+          1229
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native dimensions differ from guide; visual inspection also shows changed folds and outlines.",
+        "materials_and_colours": "Broad ivory stone and bright gold palette matches; not an exact geometry-preserving paintover.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual form shading and occlusion remain.",
+        "unresized_return": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Edit guide_left.png (input 1) in place; design_reference.png (input 2) supplies ONLY material colours. Output ONE native 1024x1024 transparent PNG, exactly the same 1024x1024 canvas as the guide. This is a texture/albedo paintover, not a new statue render.\n\nCORRECTION: A prior attempt redrew the drapery, moved the hand, changed the silhouette and returned 1254x1254. These are unacceptable. Keep the original grey guide shape EXACTLY, pixel for pixel. Keep the guide's unmodified alpha outline and internal shape boundaries; simply colour its existing visible surfaces. Statue faces screen right. Keep every angular cape fold, profile, hair outline, sleeve, hand, sash, foot and all pedestal steps exactly at the guide positions. Do not reconstruct a new statue from the design. Guide's visible bounding box is x325..698, y66..957 in the 1024-square canvas. Preserve it.\n\nPaint polished white/bone ceramic stone, clean and smooth with subtle pale warm stone grain, as in design_reference. All anatomy and hair remain ivory stone. Bright gold surface bands follow the existing robe hem, sash, belt, sleeve/cape borders and plinth top edge, as in design_reference. No new shapes or edge protrusions.\n\nALBEDO ONLY: flat uniform colour brightness across all surfaces. Fully remove guide shadows and ambient occlusion, including under sleeve and inside folds. Shadowless viewer illumination; no highlights, reflections, dark occlusion, rim light, cast shadow, floor or background. Transparent alpha outside exact original guide silhouette, with no stray pixels. No text. Native output resolution MUST be 1024 by 1024 pixels; no resizing afterwards.",
+      "output": "paint_left.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a157e0-59af-7012-afe3-64b2a80e2fb6/exec-39828526-ae7e-4d56-9678-018546194eef.png",
+      "selected": true,
+      "reason": "Selected as the closer left-view candidate after the single permitted correction, but NOT accepted as brief-compliant: incorrect native resolution, altered guide edges/folds and residual shading remain.",
+      "inputs": [
+        {
+          "path": "guide_left.png",
+          "role": "edit target; geometry authority",
+          "sha256": "0f1d528e71ccee66251680eee437bfdcaa58d49b03367396b8481ce383e1402f"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "output_sha256": "99efb4d714476c353d147d6b55e1659ecc15bd67d96fc443745996aac91e5223",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          48,
+          1226,
+          1228
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native dimensions differ from guide; visual inspection also shows changed folds and outlines.",
+        "materials_and_colours": "Broad ivory stone and bright gold palette matches; not an exact geometry-preserving paintover.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual form shading and occlusion remain.",
+        "unresized_return": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: style-transfer. Paint an albedo texture source directly over the supplied guide_right.png, input 1. The design_reference.png, input 2, supplies materials and colours only.\nOutput ONE image: paint_right.png, NATIVE 1024 x 1024 pixels, RGBA transparent background. Preserve the original guide's 1024-square canvas, object size and object position.\nInput 1 is the EXACT 3D model from the RIGHT, facing screen LEFT. Keep the guide's silhouette EXACTLY pixel aligned, including profile, hair boundary, every cape and robe fold, openings, sleeve and hand, foot and plinth steps. Same outline, size, position, every edge and existing detail. Paint colours within those existing surfaces, with nothing added outside the silhouette and nothing cropped. Do not change camera, rotate, rescale, recenter or reconstruct the figure from the three-quarter design. Preserve all angular guide folds and every internal shape edge.\n\nPaint the reference's polished white-and-bone ceramic stone, clean and smooth, very pale warm ivory with subtle fine stone grain, onto the entire statue and plinth. Face, hair and hands are carved ivory stone too. Add bright gold trim matching the design onto the existing robe hem, sash/belt, sleeve/cape borders and the plinth's top edge. This is painted surface detail only; retain guide geometry exactly.\n\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; uniformly bright pale stone on all planes, with no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light. Do not bake guide shading into the texture; remove occlusion inside folds and under the arm. No background, no floor, no contact shadow. True transparency outside the exact guide outline, no stray pixels, no text or watermark. Return at native 1024x1024 resolution, not another size; it must not be resized afterwards.",
+      "output": "paint_right_attempt_1.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a157e0-59af-7012-afe3-64b2a80e2fb6/exec-9c1a89cd-3f1c-4070-a6e1-8a00732c24fb.png",
+      "selected": false,
+      "reason": "Rejected: returned 1254x1254 rather than 1024x1024; guide drapery and silhouette changed and shading remains.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit target; geometry authority",
+          "sha256": "ec1a09340ff1f3dd3335df9a8e6c69d802f670f67515eed5093ef7e9be997183"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "output_sha256": "fc55ccd1ae2a4bdb3da1fb6e1e2c4c740aaf8a74487e2a01180d641a5e9fef3d",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          33,
+          21,
+          1240,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native dimensions differ from guide; visual inspection also shows changed folds and outlines.",
+        "materials_and_colours": "Broad ivory stone and bright gold palette matches; not an exact geometry-preserving paintover.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual form shading and occlusion remain.",
+        "unresized_return": true,
+        "accepted": false
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Paint ONLY the grey surfaces of input 1, guide_right.png. Treat input 1 as a locked pixel-position template, not inspiration. Use input 2, design_reference.png, only to select pale white/bone polished ceramic stone and bright gold. Output is an orthographic albedo paintover with transparent background, NATIVE 1024x1024 pixels.\n\nA previous attempt changed the geometry, rounded the folds, moved the hand, and output 1254x1254 pixels. Correct these failures. Every silhouette pixel, interior shape edge and fold must follow the ORIGINAL grey guide. Preserve original alpha outline, original position, scale, sleeve edge, profile facing LEFT, angular cape folds, hand, robe, and every straight rectangular plinth step. Do not rebuild or beautify the sculpture. Do not add curls outside the hair silhouette. Do not rescale or recenter. Original head is near y66, plinth bottom is y957. Keep the original 1024x1024 canvas.\n\nSurface paint: clean smooth white-and-bone stone with restrained pale tan marble grain. Face, hand, hair and feet are stone. Flat bright gold trim follows robe hem, sash and belt, existing sleeve/cape borders and the plinth top edge, inside the guide surfaces. Colour and material authority is input 2; geometry authority is ONLY input 1.\n\nCritical correction: FLAT UNLIT ALBEDO. Eliminate all baked shading, shadows, ambient occlusion, dark crevices, light falloff, specular highlights and reflections. Use uniform pale ivory across all stone planes, even in folds/under arm. Gold is a uniformly bright gold colour with small surface ornament, no highlights or shadows. No rim light, background, floor, contact shadow, text, border or watermark. Exact original transparent outline. Native returned PNG must be 1024 x 1024, unresized.",
+      "output": "paint_right.png",
+      "source_output": "/home/pjasicek/.codex/generated_images/01a157e0-59af-7012-afe3-64b2a80e2fb6/exec-97e1a69d-71b5-479e-b404-1e5795b5f034.png",
+      "selected": true,
+      "reason": "Selected as the flatter right-view candidate after the single permitted correction, but NOT accepted as brief-compliant: incorrect native resolution, altered guide edges/folds and residual shading remain.",
+      "inputs": [
+        {
+          "path": "guide_right.png",
+          "role": "edit target; geometry authority",
+          "sha256": "ec1a09340ff1f3dd3335df9a8e6c69d802f670f67515eed5093ef7e9be997183"
+        },
+        {
+          "path": "design_reference.png",
+          "role": "design, colour and material authority",
+          "sha256": "affdee0262c917245e442d1b65b133c80cf60c83a207a7bb04b658927b2813ce"
+        }
+      ],
+      "output_sha256": "5b1378fd464c94eb4aff48d316b02559a37bc6459c3b5b6b1eac5b7d6d575f77",
+      "checks": {
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "required_dimensions": [
+          1024,
+          1024
+        ],
+        "dimensions_pass": false,
+        "mode": "RGBA",
+        "transparent_background": true,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "alpha_bbox": [
+          0,
+          0,
+          1226,
+          1226
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native dimensions differ from guide; visual inspection also shows changed folds and outlines.",
+        "materials_and_colours": "Broad ivory stone and bright gold palette matches; not an exact geometry-preserving paintover.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual form shading and occlusion remain.",
+        "unresized_return": true,
+        "accepted": false
+      }
+    }
+  ]
+}

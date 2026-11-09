@@ -1,0 +1,30 @@
+[
+  {
+    "name": "wywl_x4_section1_clean_v2",
+    "target": "wywl",
+    "section": 1,
+    "refs": [],
+    "transparent": false,
+    "prompt": "Use case: photorealistic-natural.\nAsset: a square tileable game albedo texture of warm ochre lime plaster, representing the plain upper half of a medieval interior wall.\nCreate entirely new artwork at the largest native square resolution. The whole image is plaster, no wood or other objects. Aged hand-trowelled plaster with broad subtle irregularities, a matte chalky surface, sparse hairline wear and very fine unobtrusive pores. Colour: muted warm honey ochre, roughly #b9975d with restrained variations; diffuse even illumination with no painted cast shadows or highlights. It should read as a continuous wall with fine detail, never as gold, pebbles or popcorn. Horizontally and vertically seamless; full bleed opaque. Clearly resolved smooth continuous surface forms and fine detail at 1:1.\nAvoid rasterized grit, stippling, posterized grains, mosaic fragments, coarse sand, embossed bumps, golden specular dots, chunky texture noise, pixel-art, sharpening halos, blur or brush-on noise. No vignette, perspective, border, text or watermark."
+  },
+  {
+    "name": "carpt01_x4_section1_clean_v2",
+    "target": "carpt01",
+    "section": 1,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/carpt01_native.png"
+    ],
+    "transparent": false,
+    "prompt": "Use case: stylized-concept.\nAsset: freshly painted high-definition texture, LEFT HALF of one rectangular medieval floral carpet.\nThe reference is a very small historic raster. Use ONLY its pattern placement, colours and shape. Discard every speckled raster grain; invent clean high-resolution textile artwork from scratch. Return one SQUARE section corresponding EXACTLY to the left half of the reference, x=0..50% and y=0..100%. This is not a full rug: its centre crosses the RIGHT edge, so there is NO right-side closing border. Outer floral band along left/top/bottom, inner narrow pale gold band, deep dark brown field, warm rust-red/gold round floral rosettes, vines and curved petal shapes; left half of the large central medallion is cut by the right edge. Preserve native border proportions and motif centres.\nArt direction: continuous refined curved outlines with clearly drawn petal edges, flowing thin stems, soft subtle thread direction visible only at the closest view. Smooth flat dyes and broad gentle wear, fine realistic textile finish underneath. The ornament is painted/embroidered with continuous curves; never built out of separate rough pebbles, blocky dots or pixel-sized beads. Entirely redrawn ornament and fibres, no upscaling of reference pixels. Deep rust-red brown and muted golden ochre; gentle even diffuse illumination. No raised embossing, sharpened dither, chunky stippling, mosaic/crystal fragments, harsh speckle, grain filter, perspective, tassels, text or watermark. Largest native square resolution, full bleed opaque."
+  },
+  {
+    "name": "wywt_x4_section1_clean_v2",
+    "target": "wywt",
+    "section": 1,
+    "refs": [
+      "/home/pjasicek/github/OpenYAMM/level_generation/terrain/mm6_abandoned_temple_textures/references/wywt_native.png"
+    ],
+    "transparent": false,
+    "prompt": "Use case: historical-scene.\nAsset: newly illustrated high-definition square albedo detail, TOP HALF of the referenced medieval wall tapestry texture.\nUse the tiny reference only for coarse layout and palette. Return exactly its upper half, x=0..100%, y=0..50%, as one square image. Preserve tapestry outer frame position/width, blue corners, thin gold acanthus scrolls and central heraldic shield. Woodland hunting scene inside: tall continuous trunks, layered dark green/ochre canopies, soft pale clearing receding into the woods, partial small hunting animals at the bottom section edge. Keep subject placement faithful; the lower part of the whole scene is deliberately outside this section. Plaster surrounding frame is muted warm ochre matte lime plaster with broad subtle trowel variation.\nDraw this as an entirely new refined medieval painted illustration: crisp continuous fine curves in gold decoration, smooth leafy silhouettes, delicate individual branches, soft continuous tonal transitions in the clearing. Fine unobtrusive weave only at the very closest view. NO coarse weave overlay and NO artificial speckled grain. Treat old raster grit as a defect to remove, never something to sharpen or reproduce. No pebble-like leaves, bright embossing on plaster, dither, stippled confetti, pixelated upscaling, noisy canvas texture, sharpening halos, added letters, perspective, watermark or whole-wall re-composition. Largest native square resolution, full bleed opaque, neutral diffuse light."
+  }
+]

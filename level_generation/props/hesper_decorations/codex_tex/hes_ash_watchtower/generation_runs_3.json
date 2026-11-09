@@ -1,0 +1,204 @@
+{
+  "brief": "CODEX_BRIEF_3.md",
+  "mode": "built-in image_gen",
+  "status": "Generated and saved best available unresized returns; strict size, silhouette and albedo checks failed.",
+  "selection_meaning": "selected identifies the saved candidate, not acceptance as compliant",
+  "runs": [
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting.\nEdit the FIRST input, guide_left.png, painting ONLY its existing surfaces. Return exactly one 1024 x 1024 PNG with genuine transparent background, unresized.\nInput roles: image 1 guide_left.png is the immutable geometry and framing target, a left-side orthographic grey render of the EXACT model. Image 2 design_reference.png is the approved design, colour and material authority ONLY. Image 3 concept_crop.png is supporting original concept ONLY.\nKeep the guide's silhouette EXACTLY: same outline, size and position in the frame, every edge, opening and detail at the same pixel locations. Preserve all negative spaces, beam intersections, ladder rungs, asymmetric torn fabric edges, roof contour, rocks and feet. Nothing added outside the silhouette, nothing cropped. Do not adopt the three-quarter camera or redesign geometry from the appearance reference. Do not add people or a scene.\nPaint rust-brown and dark grey salvaged steel girders and sheets, faded red-brown tarp, and a warm lantern where present in the guide. Surface patina and material colours match the approved reference. Steel must read as steel, not wood. Preserve the guide's existing structure exactly; material details must not alter geometry or openings.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on their surroundings. No theatrical orange lighting from the appearance references.\nOnly the painted LEFT view, no labels, no text, no comparison panels. Preserve the exact guide alpha silhouette and framing.",
+      "selected": false,
+      "reason": "Rejected: wrong native size, invented lantern in guide opening, altered geometry and baked shading.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/guide_left.png",
+          "sha256": "fd1ae73f1933f1ec9e6c7275b5a4f818fbef37d3e4a221ffd60b1757cb241c9f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "original_return": "/home/pjasicek/.codex/generated_images/01a15d93-766a-7631-a239-827f2f243374/exec-991d6aa0-31cb-4d21-b6a2-3092af2507b6.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a15d93-766a-7631-a239-827f2f243374/exec-991d6aa0-31cb-4d21-b6a2-3092af2507b6.png",
+      "output_sha256": "b916ac3f5d7245703508cc0bdf875a7cb62a0556c8748833aa9a0614a42f521e",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          22,
+          1242,
+          1226
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native canvas dimensions differ from guide; visual inspection also finds altered edges and details.",
+        "materials_and_colours": "Broad rust-brown/dark-grey steel and faded red-brown fabric palette matches reference.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual shaded recesses and edge highlights remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "left",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting.\nEdit the FIRST input, guide_left.png, painting ONLY its existing surfaces. Return exactly one 1024 x 1024 PNG with genuine transparent background, unresized.\nInput roles: image 1 guide_left.png is the immutable geometry and framing target, a left-side orthographic grey render of the EXACT model. Image 2 design_reference.png is the approved design, colour and material authority ONLY. Image 3 concept_crop.png is supporting original concept ONLY.\nKeep the guide's silhouette EXACTLY: same outline, size and position in the frame, every edge, opening and detail at the same pixel locations. Preserve all negative spaces, beam intersections, ladder rungs, asymmetric torn fabric edges, roof contour, rocks and feet. Nothing added outside the silhouette, nothing cropped. Do not adopt the three-quarter camera or redesign geometry from the appearance reference. Do not add people or a scene.\nPaint rust-brown and dark grey salvaged steel girders and sheets, faded red-brown tarp, and a warm lantern where present in the guide. Surface patina and material colours match the approved reference. Steel must read as steel, not wood. Preserve the guide's existing structure exactly; material details must not alter geometry or openings.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on their surroundings. No theatrical orange lighting from the appearance references.\nOnly the painted LEFT view, no labels, no text, no comparison panels. Preserve the exact guide alpha silhouette and framing.\nCORRECTIVE REGENERATION, final allowed attempt: The previous return failed because its native dimensions were 1254 x 1254 rather than 1024 x 1024 and it invented a lantern inside an empty guide opening. Generate at NATIVE 1024 x 1024 exactly. Do not upscale the returned image. Treat the input guide as a pixel-locked paint-over, preserve its alpha. Target occupied bounding box is x=216..807, y=66..957 on the 1024-square canvas. Do not add a lantern unless its geometry is actually present in the guide; every transparent opening must remain empty. Only recolour existing pixels and add surface material texture, without changing edges. Match all ladder rungs and existing fabric edges exactly. Flat base colours without baked lighting, bevel shading, dark occlusion or specular highlights.",
+      "selected": true,
+      "reason": "Best available within one-correction limit; removes invented lantern. Saved unresized, but NOT compliant: wrong native size, changed edges/details and residual shading.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/guide_left.png",
+          "sha256": "fd1ae73f1933f1ec9e6c7275b5a4f818fbef37d3e4a221ffd60b1757cb241c9f"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "original_return": "/home/pjasicek/.codex/generated_images/01a15d93-766a-7631-a239-827f2f243374/exec-aa4e232d-a2c0-461e-b64e-ccff1fb68b34.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/paint_left.png",
+      "output_sha256": "ecd6b4eaedda8d072910442b15f96dffc09220085e132dac2330639d0a57a43b",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          23,
+          1218,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native canvas dimensions differ from guide; visual inspection also finds altered edges and details.",
+        "materials_and_colours": "Broad rust-brown/dark-grey steel and faded red-brown fabric palette matches reference.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual shaded recesses and edge highlights remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting.\nEdit the FIRST input, guide_right.png, painting ONLY its existing surfaces. Return exactly one 1024 x 1024 PNG with genuine transparent background, unresized.\nInput roles: image 1 guide_right.png is the immutable geometry and framing target, a right-side orthographic grey render of the EXACT model. Image 2 design_reference.png is the approved design, colour and material authority ONLY. Image 3 concept_crop.png is supporting original concept ONLY.\nKeep the guide's silhouette EXACTLY: same outline, size and position in the frame, every edge, opening and detail at the same pixel locations. Preserve all negative spaces, beam intersections, ladder rungs, asymmetric torn fabric edges, roof contour, rocks and feet. Nothing added outside the silhouette, nothing cropped. Do not adopt the three-quarter camera or redesign geometry from the appearance reference. Do not add people or a scene.\nPaint rust-brown and dark grey salvaged steel girders and sheets, faded red-brown tarp, and a warm lantern where present in the guide. Surface patina and material colours match the approved reference. Steel must read as steel, not wood. Preserve the guide's existing structure exactly; material details must not alter geometry or openings.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on their surroundings. No theatrical orange lighting from the appearance references.\nOnly the painted RIGHT view, no labels, no text, no comparison panels. Preserve the exact guide alpha silhouette and framing.\nNative output dimensions MUST be 1024 x 1024. Use the 1024-square first input as the unchanged canvas, paint only its opaque surfaces. No resizing. No lantern if the guide does not contain its geometry. Preserve every transparent opening without inserting objects.",
+      "selected": false,
+      "reason": "Rejected: wrong native size, added geometric detail and strong shading/highlights.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/guide_right.png",
+          "sha256": "ed0184a1924ea83612b29af1097118630265f5712469602af476e1e59d71b492"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "original_return": "/home/pjasicek/.codex/generated_images/01a15d93-766a-7631-a239-827f2f243374/exec-8399656a-56e5-462f-8695-a112d1bd832b.png",
+      "output": "/home/pjasicek/.codex/generated_images/01a15d93-766a-7631-a239-827f2f243374/exec-8399656a-56e5-462f-8695-a112d1bd832b.png",
+      "output_sha256": "832946728d67c62422e5af634dbdb53bd60625daed92b454ad0a824185df6796",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1234,
+          1254
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native canvas dimensions differ from guide; visual inspection also finds altered edges and details.",
+        "materials_and_colours": "Broad rust-brown/dark-grey steel and faded red-brown fabric palette matches reference.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual shaded recesses and edge highlights remain.",
+        "accepted_as_brief_compliant": false
+      }
+    },
+    {
+      "view": "right",
+      "prompt": "Use case: style-transfer. Asset type: orthographic albedo texture-source painting.\nEdit the FIRST input, guide_right.png, painting ONLY its existing surfaces. Return exactly one 1024 x 1024 PNG with genuine transparent background, unresized.\nInput roles: image 1 guide_right.png is the immutable geometry and framing target, a right-side orthographic grey render of the EXACT model. Image 2 design_reference.png is the approved design, colour and material authority ONLY. Image 3 concept_crop.png is supporting original concept ONLY.\nKeep the guide's silhouette EXACTLY: same outline, size and position in the frame, every edge, opening and detail at the same pixel locations. Preserve all negative spaces, beam intersections, ladder rungs, asymmetric torn fabric edges, roof contour, rocks and feet. Nothing added outside the silhouette, nothing cropped. Do not adopt the three-quarter camera or redesign geometry from the appearance reference. Do not add people or a scene.\nPaint rust-brown and dark grey salvaged steel girders and sheets, faded red-brown tarp, and a warm lantern where present in the guide. Surface patina and material colours match the approved reference. Steel must read as steel, not wood. Preserve the guide's existing structure exactly; material details must not alter geometry or openings.\nLIGHTING: this is a TEXTURE SOURCE (albedo). Even, flat, shadowless light from the viewer; no cast shadows, no ambient-occlusion darkening, no strong specular highlights or reflections, no rim light, no background, no floor. Glowing parts are painted at their glowing colour, not as light cast on their surroundings. No theatrical orange lighting from the appearance references.\nOnly the painted RIGHT view, no labels, no text, no comparison panels. Preserve the exact guide alpha silhouette and framing.\nNative output dimensions MUST be 1024 x 1024. Use the 1024-square first input as the unchanged canvas, paint only its opaque surfaces. No resizing. No lantern if the guide does not contain its geometry. Preserve every transparent opening without inserting objects.\nCORRECTIVE REGENERATION, final allowed attempt: The previous native return incorrectly measured 1254 x 1254. Required native PNG canvas is EXACTLY 1024 x 1024, matching the first input. Keep the first input's alpha unchanged: do not redraw, reposition, scale, or redesign the model. Paint the exact existing surfaces in place. Do not make new rivets, rope silhouettes, holes or ladder shapes; use material colour only. Flatten the lighting completely: eliminate shaded recesses, bevel highlights and directional roof shading. This is albedo, not a beauty render. Preserve empty transparent pixels, including every hole and the entire background, fully transparent without stray pixels.",
+      "selected": true,
+      "reason": "Best available within one-correction limit; flatter lighting and fewer invented details. Saved unresized, but NOT compliant: wrong native size, changed edges/details and residual shading.",
+      "tool": "built-in image_gen",
+      "inputs": [
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/guide_right.png",
+          "sha256": "ed0184a1924ea83612b29af1097118630265f5712469602af476e1e59d71b492"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/design_reference.png",
+          "sha256": "42623b83bc4e71e3e9c25759da3ea50ba5395b6ab04448ade5c68ce76ed2f9e2"
+        },
+        {
+          "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/concept_crop.png",
+          "sha256": "9778eb280f7ac3791fb322f55685beecc3f48994c3e7b5d946c460a544b6c3c9"
+        }
+      ],
+      "original_return": "/home/pjasicek/.codex/generated_images/01a15d93-766a-7631-a239-827f2f243374/exec-26c287c5-87a3-41a0-accc-fbe11af7a13b.png",
+      "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/hesper_decorations/codex_tex/hes_ash_watchtower/paint_right.png",
+      "output_sha256": "b15694f0fd7a564aad9017acda8a3022ff5ea7b973a40598ef947f02fd60e5ae",
+      "checks": {
+        "native_size": [
+          1254,
+          1254
+        ],
+        "required_size": [
+          1024,
+          1024
+        ],
+        "size_pass": false,
+        "unresized": true,
+        "has_transparent_background": true,
+        "alpha_bbox": [
+          0,
+          17,
+          1244,
+          1230
+        ],
+        "silhouette_identical": false,
+        "silhouette_reason": "Native canvas dimensions differ from guide; visual inspection also finds altered edges and details.",
+        "materials_and_colours": "Broad rust-brown/dark-grey steel and faded red-brown fabric palette matches reference.",
+        "flat_even_light": false,
+        "lighting_reason": "Residual shaded recesses and edge highlights remain.",
+        "accepted_as_brief_compliant": false
+      }
+    }
+  ]
+}

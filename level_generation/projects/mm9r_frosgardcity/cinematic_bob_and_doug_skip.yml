@@ -1,0 +1,16 @@
+# Robert and Douglas's banter (bob_and_doug) skipped at 2 s: key 111 stays, the cinematic ends, and the poll does
+# not start it again. README "Cinematics".
+id: mm9r.frosgardcity.cinematic_bob_and_doug_skip
+world: mm9
+mode: faithful
+steps:
+- new_game_flow: {start_map: frosgardcity.blv}
+- set_pose: {map: frosgardcity.blv, x: 2100, y: -3000, z: 45, yaw: 0.0, pitch: 0.0}
+- advance_runtime: {seconds: 2.5}
+- console: {line: cinematic list, expect_contains: playing bob_and_doug}
+- console: {line: cinematic skip, expect_contains: Skipping}
+- advance_runtime: {seconds: 0.5}
+- assert: {qbit_set: [90111]}
+- save_game: {name: after_skip}
+- advance_runtime: {seconds: 2.5}
+- save_game: {name: not_again}

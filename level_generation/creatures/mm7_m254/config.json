@@ -1,0 +1,26 @@
+{
+  "label": "Golem A",
+  "creature": "golem",
+  "base_palette": 255,
+  "connected_pose_calibration": true,
+  "per_batch_window": true,
+  "neutralize_green_contours": false,
+  "protect_warm_contours": true,
+  "batch_mode": "per_action_view",
+  "actions": [
+    "w",
+    "a",
+    "n"
+  ],
+  "identity_frames": [
+    "m254sa0",
+    "m254sa1",
+    "m254sa2",
+    "m254sa3",
+    "m254sa4"
+  ],
+  "identity_view": "front, front-right oblique, right profile, rear-right oblique, back in row-major order",
+  "description": "The exact original Egyptian pharaoh golem: lean muscular metallic gold and bronze humanoid statue, small stern gold human face, smooth gold exposed chest, abdomen, arms and legs, warm pale gold highlights and very deep brown-black metal shadows. Flat-topped close-fitting nemes headdress with narrow gold rim, two short ivory side horns, and hanging fabric lobes striped dark near-black forest green and muted pale mint-green. Small matching striped false beard. Broad rounded black shoulder collar with two rows of small gold studs, black wrist cuffs with gold trim and narrow black ankle cuffs. Short rectangular striped green loincloth panels hang from the gold waist belt at front and back; preserve alternating horizontal near-black green and muted mint stripes, folds and exact native panel lengths. Bare gold human feet and bare gold hands. Preserve the narrow head, native muscular proportions, horn size, exact empty-hand poses and bent knee motion. Only the two cloth stripe colors change in native palette variants; gold metal body, ivory horns and black collar and cuffs stay unchanged. No weapon, shield, cape, hair, pedestal, glow, added ornament or redesign.",
+  "material_edge_hue_repair": true,
+  "exclude_magenta_interior": true
+}

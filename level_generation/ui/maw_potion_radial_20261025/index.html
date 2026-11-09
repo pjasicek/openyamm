@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Potion Quick-Slots Study</title>
+<!--
+  Browser study for MAW H.6's potion quick-slots (devdocs/maw/GAPS.md H.6, D.16): six potion slots per character,
+  drunk with one click or a key. Two options for the user to choose from, drawn over 1600x900 native captures with the
+  Carved Obsidian menu art, fonts and item icons. Nothing here is wired into the game.
+-->
+<style>
+@font-face { font-family: Fondamento; src: url(../../../assets_dev/engine/fonts/truetype/fondamento_regular.ttf); }
+@font-face { font-family: Arrus; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_arrus_faithful.ttf); }
+@font-face { font-family: Lucida; size-adjust: 120%; src: url(../../../assets_dev/engine/fonts/truetype/openyamm_lucida_faithful.ttf); }
+:root {
+  --ivory: #efe0bc; --label: #e6d1a8; --body: #c8c7a7; --muted: #9fa594; --gold: #e3c185; --brass: #8c815f;
+  --good: #8fe08a; --warn: #ffb347; --bad: #ff6a5a; --amount: #ffe66b; --blue: #8fc3ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #05090a; color: var(--ivory); font: 14px Lucida, sans-serif; }
+.review { display: flex; gap: 10px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #333a33;
+  flex-wrap: wrap; }
+.review button { background: #1b2524; color: #d6c6a2; border: 1px solid #556052; padding: 6px 10px; font: inherit;
+  cursor: pointer; }
+.review button[aria-pressed="true"] { border-color: #d6bb80; color: #ffe7b0; }
+.review label { color: #c8c7a7; display: inline-flex; gap: 5px; align-items: center; }
+.review span { color: #9aa597; }
+#wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: top left;
+  overflow: hidden; background: #071012 url(gameplay_backdrop.jpg) 0 0 / 100% 100%; }
+#stage.inventory { background-image: url(inventory_backdrop.jpg); }
+.abs { position: absolute; }
+.hidden { display: none !important; }
+
+/* The small round potion button at each portrait's upper right (option A), clear of the HP/mana arcs. */
+.pbtn { position: absolute; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+  background: radial-gradient(circle at 40% 35%, #2c3b39, #0b1414 70%); border: 2px solid #a8915c;
+  box-shadow: 0 0 0 1px #000, 0 2px 4px #000c; display: flex; align-items: center; justify-content: center; }
+.pbtn img { height: 24px; filter: drop-shadow(0 1px 1px #000); }
+.pbtn:hover, .pbtn.on { border-color: #ffd98a; box-shadow: 0 0 0 1px #000, 0 0 10px #e3c18599; }
+.pbtn.off { opacity: .45; }
+
+/* A recovering member: the portrait veiled, a gold recovery ring. */
+.veil { position: absolute; width: 104px; height: 128px; border-radius: 50%; background: #000a;
+  box-shadow: inset 0 0 0 3px #e3c18566; pointer-events: none; }
+.veil b { position: absolute; left: 0; right: 0; top: 50px; text-align: center; font: 13px Lucida, sans-serif;
+  color: var(--gold); text-shadow: 0 1px #000; }
+
+/* The ring of six slots (A) above a portrait, pointing down to it. */
+#radial { position: absolute; width: 330px; height: 330px; }
+#radial .dim { position: absolute; left: 15px; top: 15px; width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(#0a1312ee 55%, #0a131200 72%); }
+#radial .hub { position: absolute; left: 115px; top: 115px; width: 100px; height: 100px; border-radius: 50%;
+  background: radial-gradient(circle at 45% 35%, #22302e, #070e0e 75%); border: 2px solid var(--brass);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+#radial .hub .n { font: 19px Fondamento, serif; color: var(--label); text-shadow: 0 2px #000; }
+#radial .hub .s { font: 11px Lucida, sans-serif; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+#radial .stem { position: absolute; left: 160px; top: 300px; width: 10px; height: 34px;
+  background: linear-gradient(#a8915c, #a8915c00); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.slot { position: absolute; width: 74px; height: 74px; border-radius: 50%; cursor: pointer;
+  background: radial-gradient(circle at 45% 35%, #2a3836, #091110 72%); border: 2px solid #a8915c;
+  box-shadow: 0 0 0 1px #000, 0 3px 8px #000d; }
+.slot img { position: absolute; left: 50%; top: 50%; height: 58px; transform: translate(-50%, -52%);
+  filter: drop-shadow(0 2px 2px #000); }
+.slot .count { position: absolute; right: -4px; bottom: -2px; min-width: 26px; height: 20px; padding: 0 5px;
+  border-radius: 10px; background: #0b1212; border: 1px solid #8c815f; font: 13px/18px Lucida, sans-serif;
+  color: var(--ivory); text-align: center; }
+.slot .key { position: absolute; left: -6px; top: -4px; width: 22px; height: 22px; border-radius: 4px;
+  background: #1c2524; border: 1px solid #6b6a4e; font: 11px/20px Lucida, sans-serif; color: var(--gold);
+  text-align: center; }
+.slot:hover, .slot.hot { border-color: #ffd98a; box-shadow: 0 0 0 1px #000, 0 0 14px #ffd98a88; }
+.slot.empty { background: #0a1212cc; border: 2px dashed #6b6a4e; }
+.slot.empty::after { content: '+'; position: absolute; inset: 0; text-align: center; font: 34px/68px Fondamento, serif;
+  color: #9a8d64; }
+.slot.low .count { color: var(--warn); border-color: #a07a3a; }
+.slot.none img { filter: grayscale(1) brightness(.55); }
+.slot.none .count { color: var(--bad); border-color: #8a4a3a; }
+.slot.wait img { filter: brightness(.6); }
+.slot.wait::after { content: '⌛'; position: absolute; right: 4px; top: 2px; font-size: 16px; }
+.slot .name { position: absolute; left: 50%; top: 78px; transform: translateX(-50%); white-space: nowrap;
+  font: 12px Lucida, sans-serif; color: var(--body); text-shadow: 0 1px #000, 0 0 3px #000; }
+
+/* Option B: a slim strip over the party frame for the selected member. */
+#strip { position: absolute; left: 556px; top: 630px; height: 66px; padding: 6px 10px 6px 12px; display: flex; gap: 8px;
+  align-items: center; background: #070e0edb; border: 1px solid var(--brass); box-shadow: 0 0 0 1px #000a, 0 4px 12px #000c; }
+#strip .who { font: 17px Fondamento, serif; color: var(--label); margin-right: 6px; width: 70px; line-height: 1.05; }
+#strip .who small { display: block; font: 11px Lucida, sans-serif; color: var(--muted); }
+#strip .slot { position: relative; width: 48px; height: 48px; border-radius: 6px; }
+#strip .slot img { height: 40px; }
+#strip .slot .count { min-width: 22px; height: 17px; font-size: 11px; line-height: 15px; right: -6px; bottom: -5px; }
+#strip .slot .key { width: 17px; height: 17px; font-size: 10px; line-height: 15px; left: -5px; top: -5px; }
+#strip .slot.empty::after { font-size: 26px; line-height: 44px; }
+#strip .slot .name { display: none; }
+.pip { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #0b1212; border: 1px solid #8c815f;
+  font: 10px/16px Lucida, sans-serif; color: var(--ivory); text-align: center; }
+
+/* The status plate above the party frame, as the native status line. */
+#status { position: absolute; left: 50%; top: 668px; transform: translateX(-50%); padding: 5px 14px; white-space: nowrap;
+  background: #0b1212e6; border: 1px solid #5d6449; font: 15px Lucida, sans-serif; color: var(--ivory); }
+.tip { position: absolute; padding: 9px 12px; width: 300px; background: #0b1212f2; border: 1px solid var(--brass);
+  font: 13px/1.45 Lucida, sans-serif; color: var(--body); box-shadow: 0 4px 12px #000c; }
+.tip h4 { margin: 0 0 3px; font: 18px Fondamento, serif; color: var(--label); }
+.tip .k { color: var(--gold); }
+.good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); } .amt { color: var(--amount); }
+.muted { color: var(--muted); }
+
+/* The picker: the character's inventory filtered to what they can drink. */
+#picker { position: absolute; inset: 0; }
+#picker .veil-grid { position: absolute; left: 212px; top: 58px; width: 843px; height: 542px; background: #050a0acc; }
+#picker .banner { position: absolute; left: 212px; top: 8px; width: 843px; height: 44px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 12px; background: #070e0ef0; border: 1px solid var(--brass); }
+#picker .banner b { font: 20px Fondamento, serif; color: var(--label); font-weight: normal; }
+#picker .bottle { position: absolute; width: 60px; height: 120px; cursor: pointer; outline: 2px solid #e3c18599;
+  outline-offset: -2px; background: #e3c18514; }
+#picker .bottle img { width: 60px; height: 113px; }
+#picker .bottle:hover, #picker .bottle.on { outline-color: #ffd98a; background: #ffd98a2b; }
+#picker .bottle .d { position: absolute; right: 2px; bottom: 2px; font: 12px Lucida, sans-serif; color: var(--ivory);
+  text-shadow: 0 1px #000, 0 0 3px #000; }
+#picker .detail { position: absolute; left: 212px; top: 606px; width: 843px; height: 74px; padding: 8px 12px;
+  background: #070e0ef0; border: 1px solid var(--brass); display: flex; gap: 18px; align-items: center; }
+.chip { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; margin-right: 5px; cursor: pointer;
+  font: 13px Lucida, sans-serif; color: #c8c7a7; border: 1px solid #5d6449; background: #0d1716cc; }
+.chip.on { border-color: #d6bb80; color: #ffe4ac; background: #2b2a1acc; }
+.button { display: inline-flex; align-items: center; justify-content: center; width: 150px; height: 42px; cursor: pointer;
+  font: 21px Fondamento, serif; color: #e8d1a4; text-shadow: 0 2px 1px #000;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_default.png) 0 0 / 100% 100%; }
+.button:hover { background-image: url(../../../assets_dev/engine/hud_x2/menus/omenu_button_small_hover.png); }
+
+/* Key bindings: the settings' Potions group (the pause menu's modal art). */
+#keys { left: 330px; top: 120px; width: 940px; height: 600px;
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_modal.png) 0 0 / 100% 100% no-repeat; }
+#keys h2 { position: absolute; left: 56px; top: 40px; margin: 0; font: 32px Fondamento, serif; color: var(--ivory); }
+#keys .sub { position: absolute; left: 58px; top: 86px; font: 14px Lucida, sans-serif; color: var(--muted); }
+#keys .rows { position: absolute; left: 56px; top: 122px; width: 828px; }
+#keys .row { display: grid; grid-template-columns: 330px 150px 1fr; align-items: center; height: 36px; padding: 0 12px;
+  margin-bottom: 3px; font: 15px Lucida, sans-serif; color: var(--body);
+  background: url(../../../assets_dev/engine/hud_x2/menus/omenu_save_row.png) 0 0 / 100% 100%; }
+#keys .row .b { color: var(--gold); }
+#keys .row .c { color: var(--muted); font-size: 13px; }
+#keys .group { font: 19px Fondamento, serif; color: var(--label); margin: 10px 0 6px; }
+</style>
+</head>
+<body>
+<div class="review">
+  <strong style="font: 18px Fondamento, serif; color: #e9d4a6">Potion quick-slots · study</strong>
+  <button data-view="radial">A · Radial</button>
+  <button data-view="strip">B · Slot strip</button>
+  <button data-view="assign">Assign (both)</button>
+  <button data-view="keys">Hotkeys</button>
+  <label><input type="checkbox" id="enemies" checked> Enemies near</label>
+  <label><input type="checkbox" id="recovering"> Ariel recovering</label>
+  <label><input type="checkbox" id="nobody"> Nobody ready</label>
+  <span>Click a slot to drink, an empty slot (or right-click a filled one) to choose a potion. Browser only.</span>
+</div>
+<div id="wrap"><div id="stage">
+  <div id="buttons"></div>
+  <div id="veils"></div>
+  <div id="radial" class="hidden"><div class="dim"></div><div class="stem"></div><div class="hub"></div></div>
+  <div id="strip" class="hidden"></div>
+  <div id="pips"></div>
+  <div id="status" class="hidden"></div>
+  <div id="tip" class="tip hidden"></div>
+  <div id="picker" class="hidden">
+    <div class="veil-grid"></div>
+    <div class="banner"><b></b><span class="muted">Only what this character can drink · click one to put it in the slot</span></div>
+    <div class="bottles"></div>
+    <div class="detail"></div>
+  </div>
+  <div id="keys" class="abs hidden">
+    <h2>Key Bindings</h2>
+    <div class="sub">Settings · Controls · the new Potions group</div>
+    <div class="rows"></div>
+  </div>
+</div></div>
+
+<script>
+// The potions a slot can hold: a kind (and, if the player asks, one strength), shown with its item icon.
+const Kinds = {
+  'Cure Wounds': 'item178', 'Magic Potion': 'item177', 'Haste': 'item186', 'Heroism': 'item187', 'Bless': 'item188',
+  'Stoneskin': 'item192', 'Cure Disease': 'item185', 'Awaken': 'item184', 'Cure Poison': 'item183',
+  'Cure Weakness': 'item179'
+};
+const icon = kind => `../../../assets_dev/engine/icons_x2/${Kinds[kind]}.png`;
+// Portrait centres in the 1600x900 capture (the native split-arc basebar, five members).
+const Portraits = [500, 650, 800, 950, 1100].map(x => ({x, y: 800}));
+const party = [
+  {name: 'Ariel', slots: ['Cure Wounds', 'Magic Potion', 'Haste', null, 'Cure Disease', 'Awaken'],
+   bottles: [['Cure Wounds', 40, 5], ['Cure Wounds', 40, 5], ['Cure Wounds', 72, 2], ['Magic Potion', 40, 1],
+     ['Haste', 55, 5], ['Awaken', 30, 0]]},
+  {name: 'Lys', slots: ['Magic Potion', 'Cure Wounds', null, null, null, null],
+   bottles: [['Magic Potion', 60, 5], ['Magic Potion', 60, 4], ['Cure Wounds', 40, 3]]},
+  {name: 'Gerrard', slots: ['Cure Wounds', 'Heroism', 'Bless', null, null, null],
+   bottles: [['Cure Wounds', 40, 5], ['Heroism', 50, 5], ['Bless', 50, 2]]},
+  {name: 'Thalia', slots: [null, null, null, null, null, null], bottles: [['Stoneskin', 45, 5], ['Cure Poison', 30, 5]]},
+  {name: 'Kestrel', slots: ['Cure Wounds', null, null, null, null, null], bottles: [['Cure Wounds', 40, 1]]},
+];
+// MAW's bottles hold five drinks (potion_effects.yml). A slot counts the drinks of its kind in the member's bags.
+const drinksOf = (m, kind) => party[m].bottles.filter(b => b[0] === kind).reduce((n, b) => n + b[2], 0);
+const SlotKeys = ['Num1', 'Num2', 'Num3', 'Num4', 'Num5', 'Num6'];
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+let view = 'radial', open = 0, hot = -1, picking = null, pickChoice = 0, bottleRule = 'weakest';
+let recovering = new Set(), status = '';
+
+function ready(m) {
+  return !$('#nobody').checked && !recovering.has(m) && !(m === 0 && $('#recovering').checked);
+}
+// Who pays for the drink (potion_effects.yml combat_recovery): the drinker if ready, else the active member, else
+// the first ready one; near monsters it costs them 60 recovery, elsewhere nothing.
+function feeder(m) {
+  if (ready(m)) return m;
+  if (ready(open)) return open;
+  return party.findIndex((_, i) => ready(i));
+}
+function slotClass(m, s) {
+  const kind = party[m].slots[s];
+  if (!kind) return 'empty';
+  const n = drinksOf(m, kind);
+  if (n === 0) return 'none';
+  if ($('#enemies').checked && feeder(m) < 0) return 'wait';
+  return n <= 2 ? 'low' : '';
+}
+function slotHtml(m, s, withName) {
+  const kind = party[m].slots[s];
+  const cls = slotClass(m, s);
+  const inner = kind ? `<img src="${icon(kind)}"><span class="count">${drinksOf(m, kind)}</span>` : '';
+  return `<div class="slot ${cls}${hot === s ? ' hot' : ''}" data-m="${m}" data-s="${s}">${inner}`
+    + `<span class="key">${s + 1}</span>${withName && kind ? `<span class="name">${kind}</span>` : ''}</div>`;
+}
+function drink(m, s) {
+  const kind = party[m].slots[s];
+  if (!kind) { pick(m, s); return; }
+  const who = party[m].name;
+  const bottles = party[m].bottles.filter(b => b[0] === kind && b[2] > 0)
+    .sort((a, b) => bottleRule === 'strongest' ? b[1] - a[1] : a[1] - b[1]);
+  if (!bottles.length) {
+    say(`<span class="bad">${who} has no ${kind} left</span> · right-click the slot to choose another`);
+    return;
+  }
+  const near = $('#enemies').checked;
+  const f = near ? feeder(m) : m;
+  if (f < 0) { say(`<span class="warn">Nobody is ready</span> · the drink waits for the first member to recover`); return; }
+  const bottle = bottles[0];
+  bottle[2] -= 1;
+  const effect = kind === 'Cure Wounds' ? ` <span class="good">+${bottle[1] * 6} HP</span>`
+    : kind === 'Magic Potion' ? ` <span class="good">+${bottle[1] * 4} SP</span>` : '';
+  if (near) recovering.add(f);
+  say(f === m ? `${who} drinks ${kind} (strength ${bottle[1]})${effect}${near ? ' · <span class="muted">60 recovery</span>' : ''}`
+    : `${party[f].name} gives ${who} a ${kind} (strength ${bottle[1]})${effect} · <span class="muted">${party[f].name} recovers</span>`);
+  render();
+}
+function say(text) { status = text; render(); }
+function pick(m, s) { picking = {m, s}; pickChoice = 0; setView('assign', true); }
+
+function render() {
+  const stage = $('#stage');
+  stage.classList.toggle('inventory', view === 'assign');
+  // A: a potion button at every portrait; B: the count pips of the selected member's first slots under the strip.
+  $('#buttons').innerHTML = view === 'radial' ? Portraits.map((p, m) =>
+    `<div class="pbtn${open === m && !$('#radial').classList.contains('hidden') ? ' on' : ''}" data-m="${m}" `
+    + `style="left:${p.x + 40}px;top:${p.y - 82}px" title="${party[m].name}'s potions"><img src="${icon('Cure Wounds')}"></div>`).join('') : '';
+  $('#veils').innerHTML = view === 'assign' || view === 'keys' ? '' : Portraits.map((p, m) =>
+    ready(m) ? '' : `<div class="veil" style="left:${p.x - 52}px;top:${p.y - 64}px"><b>${recovering.has(m) || m === 0 ? 'recovering' : ''}</b></div>`).join('');
+  // The ring: slot 1 at the top, clockwise, around a hub naming the member.
+  const radial = $('#radial');
+  if (view === 'radial' && !radial.classList.contains('hidden')) {
+    const p = Portraits[open];
+    radial.style.left = `${p.x - 165}px`;
+    radial.style.top = `${p.y - 400}px`;
+    const near = $('#enemies').checked;
+    const f = feeder(open);
+    radial.querySelector('.hub').innerHTML = `<span class="n">${party[open].name}</span><span class="s">`
+      + (!near ? 'no enemies near' : f === open ? 'ready' : f < 0 ? '<span class="warn">nobody ready</span>'
+        : `recovering<br>next fed by ${party[f].name}`) + '</span>';
+    $$('.slot', radial).forEach(e => e.remove());
+    radial.insertAdjacentHTML('beforeend', party[open].slots.map((_, s) => {
+      const a = (-90 + s * 60) * Math.PI / 180;
+      return slotHtml(open, s, true).replace('class="slot', `style="left:${165 + 112 * Math.cos(a) - 37}px;top:${165 + 112 * Math.sin(a) - 37}px" class="slot`);
+    }).join(''));
+  }
+  // B: the strip over the frame, the selected member's six slots; a portrait click selects as today.
+  const strip = $('#strip');
+  if (view === 'strip') {
+    const f = feeder(open);
+    strip.innerHTML = `<div class="who">${party[open].name}<small>${!$('#enemies').checked ? 'no enemies near'
+      : f === open ? 'ready' : f < 0 ? 'nobody ready' : 'next fed by ' + party[f].name}</small></div>`
+      + party[open].slots.map((_, s) => slotHtml(open, s, false)).join('');
+    strip.style.left = `${Math.round(800 - strip.offsetWidth / 2)}px`;
+  }
+  $('#pips').innerHTML = view === 'strip' ? Portraits.map((p, m) => {
+    const n = party[m].slots.filter(Boolean).length;
+    return `<div class="pip" data-m="${m}" style="left:${p.x + 42}px;top:${p.y - 70}px;cursor:pointer;`
+      + `${m === open ? 'border-color:#ffd98a;color:#ffd98a' : ''}" title="${party[m].name}: ${n} potion slots">${n}</div>`;
+  }).join('') : '';
+  $('#status').classList.toggle('hidden', !status || view === 'assign' || view === 'keys');
+  $('#status').innerHTML = status;
+  // The status line clears the ring (to its right) and the strip (above it).
+  const ringOpen = view === 'radial' && !$('#radial').classList.contains('hidden');
+  Object.assign($('#status').style, ringOpen
+    ? {left: `${Portraits[open].x + 180}px`, top: '540px', transform: 'none'}
+    : view === 'strip' ? {left: '50%', top: '588px', transform: 'translateX(-50%)'}
+    : {left: '50%', top: '668px', transform: 'translateX(-50%)'});
+  renderPicker();
+  renderKeys();
+  wire();
+}
+function renderPicker() {
+  const pk = $('#picker');
+  pk.classList.toggle('hidden', view !== 'assign');
+  if (view !== 'assign') return;
+  const {m, s} = picking || {m: 0, s: 3};
+  pk.querySelector('.banner b').textContent = `${party[m].name} · potion slot ${s + 1}`;
+  // The member's bottles in their bag cells (two cells high), every other item veiled.
+  const cells = party[m].bottles.map((b, i) => ({b, i, x: 212 + 60.2 * (6 + (i % 7)), y: 58 + 60.2 * (i < 7 ? 0 : 2)}));
+  pk.querySelector('.bottles').innerHTML = cells.map(({b, i, x, y}) =>
+    `<div class="bottle${i === pickChoice ? ' on' : ''}" data-i="${i}" style="left:${Math.round(x)}px;top:${Math.round(y)}px">`
+    + `<img src="${icon(b[0])}"><span class="d">${b[2]}/5</span></div>`).join('');
+  const b = party[m].bottles[pickChoice] || party[m].bottles[0];
+  pk.querySelector('.detail').innerHTML = `<div style="width:300px"><div style="font:20px Fondamento,serif;color:var(--label)">${b[0]}</div>`
+    + `<div class="muted">strength ${b[1]} · ${b[2]} of 5 drinks · ${drinksOf(m, b[0])} in ${party[m].name}'s bags</div></div>`
+    + `<div><div class="muted" style="margin-bottom:4px">Which bottle the slot drinks from</div>`
+    + ['weakest', 'strongest', 'only'].map(r => `<span class="chip${bottleRule === r ? ' on' : ''}" data-rule="${r}">`
+      + (r === 'weakest' ? 'Weakest first' : r === 'strongest' ? 'Strongest first' : `Only strength ${b[1]}`) + '</span>').join('')
+    + `</div><span class="button" data-act="assign">Assign</span><span class="button" data-act="clear">Clear slot</span>`;
+}
+function renderKeys() {
+  $('#keys').classList.toggle('hidden', view !== 'keys');
+  if (view !== 'keys') return;
+  const rows = [
+    ['Potion wheel (hold)', 'V', 'A: the active member\'s ring at their portrait; release over a slot to drink'],
+    ...SlotKeys.map((k, i) => [`Potion slot ${i + 1}`, `Keypad ${i + 1}`, 'the active member drinks the slot\'s potion']),
+  ];
+  $('#keys .rows').innerHTML = `<div class="group">Potions</div>` + rows.map(([a, b, c]) =>
+    `<div class="row"><span>${a}</span><span class="b">${b}</span><span class="c">${c}</span></div>`).join('')
+    + `<div class="muted" style="margin-top:12px;font:13px/1.5 Lucida,sans-serif">No clash: digits 6-9 and 0 are the follower keys, `
+    + `F5-F8 the extra quick spells; the keypad digits pick dialogue options only while a dialogue is open.</div>`;
+}
+function wire() {
+  $$('.pbtn').forEach(e => e.onclick = () => {
+    const m = +e.dataset.m;
+    const radial = $('#radial');
+    radial.classList.toggle('hidden', !radial.classList.contains('hidden') && open === m);
+    open = m; hot = -1; render();
+  });
+  $$('.pip').forEach(e => e.onclick = () => { open = +e.dataset.m; render(); });
+  $$('#radial .slot, #strip .slot').forEach(e => {
+    e.onclick = () => drink(+e.dataset.m, +e.dataset.s);
+    e.oncontextmenu = ev => { ev.preventDefault(); pick(+e.dataset.m, +e.dataset.s); };
+    e.onmouseenter = () => showTip(e);
+    e.onmouseleave = () => $('#tip').classList.add('hidden');
+  });
+  $$('#picker .bottle').forEach(e => e.onclick = () => { pickChoice = +e.dataset.i; render(); });
+  $$('#picker .chip').forEach(e => e.onclick = () => { bottleRule = e.dataset.rule; render(); });
+  $$('#picker .button').forEach(e => e.onclick = () => {
+    const {m, s} = picking || {m: 0, s: 3};
+    party[m].slots[s] = e.dataset.act === 'assign' ? party[m].bottles[pickChoice][0] : null;
+    open = m;
+    setView(lastPlayView, true);
+    if (lastPlayView === 'radial') $('#radial').classList.remove('hidden');
+    say(e.dataset.act === 'assign' ? `${party[m].name}'s slot ${s + 1}: ${party[m].slots[s]}` : `${party[m].name}'s slot ${s + 1} cleared`);
+  });
+}
+function showTip(e) {
+  const m = +e.dataset.m, s = +e.dataset.s, kind = party[m].slots[s];
+  const r = e.getBoundingClientRect(), st = $('#stage').getBoundingClientRect(), k = st.width / 1600;
+  const tip = $('#tip');
+  const f = feeder(m), near = $('#enemies').checked;
+  tip.innerHTML = kind ? `<h4>${kind}</h4>${drinksOf(m, kind)} drinks in ${party[m].name}'s bags · `
+    + `${bottleRule === 'strongest' ? 'strongest' : 'weakest'} bottle first<br>`
+    + (drinksOf(m, kind) === 0 ? '<span class="bad">None left</span> · right-click to choose another'
+      : !near ? 'No enemies near: no recovery' : f === m ? 'Near enemies: costs 60 recovery'
+      : f < 0 ? '<span class="warn">Nobody ready</span>' : `${party[m].name} is recovering: ${party[f].name} gives it`)
+    + `<br><span class="k">Click</span> drink · <span class="k">Right-click</span> change · <span class="k">${SlotKeys[s]}</span>`
+    : `<h4>Empty slot ${s + 1}</h4><span class="k">Click</span> to choose a potion from ${party[m].name}'s bags`;
+  tip.style.left = `${Math.min(1280, (r.right - st.left) / k + 8)}px`;
+  tip.style.top = `${(r.top - st.top) / k - 20}px`;
+  tip.classList.remove('hidden');
+}
+let lastPlayView = 'radial';
+function setView(v, keep) {
+  if (v === 'radial' || v === 'strip') lastPlayView = v;
+  view = v;
+  if (!keep) status = '';
+  if (v !== 'radial') $('#radial').classList.add('hidden');
+  $('#strip').classList.toggle('hidden', v !== 'strip');
+  $$('.review button').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === v));
+  render();
+}
+$$('.review button').forEach(b => b.onclick = () => setView(b.dataset.view));
+$$('.review input').forEach(i => i.onchange = () => { recovering.clear(); render(); });
+function fit() { $('#stage').style.transform = `scale(${$('#wrap').clientWidth / 1600})`; }
+window.addEventListener('resize', fit);
+
+// Captures: ?view=radial|strip|assign|keys&open=N&export=1, plus &drink=S, &recovering=1, &nobody=1, &calm=1, &hot=S.
+const q = new URLSearchParams(location.search);
+if (q.get('export')) $('.review').classList.add('hidden');
+if (q.get('recovering')) $('#recovering').checked = true;
+if (q.get('nobody')) $('#nobody').checked = true;
+if (q.get('calm')) $('#enemies').checked = false;
+open = +(q.get('open') || 0);
+if (q.get('slot')) picking = {m: open, s: +q.get('slot')};
+setView(q.get('view') || 'radial');
+if (view === 'radial' && !q.get('closed')) { $('#radial').classList.remove('hidden'); render(); }
+if (q.get('hot')) { hot = +q.get('hot'); render(); }
+if (q.get('drink')) drink(open, +q.get('drink'));
+fit();
+</script>
+</body>
+</html>

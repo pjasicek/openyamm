@@ -1,0 +1,21 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "EDIT ONLY IMAGE 1, the exact grey mesh-guide atlas for existing Might and Magic Vampire's Cape (7item350). Image 2 is the authoritative inventory icon for colours/materials only. Identity: Compact folded black-and-crimson cloak with radiating angular folds and a small central silver skull brooch. Exact material boundaries: Black and crimson cloth BLUE; silver skull and wing brooch RED. Preserve the exact 1536x1024 3:2 canvas, three columns by two rows, all object sizes, outlines, positions, shape edges and transparency. Top row FRONT / BACK / LEFT; bottom row RIGHT / TOP / EMPTY. Do not move, expand, rotate, relight or reconstruct the geometry. Paint realistic base-colour materials from the inventory icon onto only the guide surfaces. Flat even shadowless illumination, no cast shadows, AO, reflections or specular highlights; subtle fine material grain. All existing solid grey surfaces remain opaque, including interiors and lower hidden-facing surfaces. Do not cut holes or alter outlines to illustrate surface texture. Background and empty bottom-right tile truly transparent; no floor, background haze, text, labels or borders. Keep EACH guide view's width/height and all internal edges EXACTLY. Output ONE 3:2 landscape atlas.",
+  "input_guide": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_wip_equipment/codex_tex/equipment_7item350/inputs/guide_paint.png",
+  "input_guide_sha256": "3caa50f71238f529976999f94fc4e444a9a498393051bb3a343d5acf85daa790",
+  "revision": 1,
+  "input_icon": "7item350",
+  "source_output": "/home/pjasicek/.codex/generated_images/01a14de2-7ad6-7e83-ba24-ee6db541bc51/exec-29715409-6e41-43b6-aed1-2b9d5e4bf757.png",
+  "output": "paint_atlas.png",
+  "selected": true,
+  "reason": "Selected raw artwork used by installed, reviewed export.",
+  "raw_output": "paint_raw_v1.png",
+  "output_sha256": "db34c02310e403d3f27819e60e36f230a49db654b05ddcfe2f0e2ed427d412fb",
+  "input_icon_path": "assets_dev/engine/icons_x2/7item350.png",
+  "input_icon_sha256": "f830d04f6a3665aa0efb8c83ffc73ad91f052e56678762b34a62eee620cecbd6",
+  "active_bytes_match": true,
+  "alpha_extrema": [
+    0,
+    254
+  ]
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PC background removal — deterministic investigation</title>
+<style>
+body { margin: 24px; background: #202427; color: #eceeea; font: 16px system-ui, sans-serif; }
+h1 { font-size: 24px; margin-bottom: 8px; }
+p { max-width: 1050px; line-height: 1.5; }
+a { color: #b9d4f8; }
+nav { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 24px 0; }
+select, button { font: inherit; padding: 5px 10px; }
+.panels { display: flex; flex-wrap: wrap; gap: 20px; }
+figure { margin: 0; }
+figcaption { margin-bottom: 10px; }
+.image { width: 236px; height: 316px; background: #eee; }
+.image img { width: 236px; height: 316px; display: block; }
+.native img, .mask img { image-rendering: pixelated; }
+.checker { background-color: #dedede;
+  background-image: conic-gradient(#aeb2b5 25%, transparent 0 50%, #aeb2b5 0 75%, transparent 0);
+  background-size: 20px 20px; }
+.dark { background: #141619; }
+.light { background: #eeeeee; }
+#note { color: #f3d092; min-height: 24px; }
+#details { color: #bcc8cb; font-size: 14px; }
+.frames { display: flex; flex-wrap: wrap; max-width: 1120px; gap: 6px; margin: 20px 0; }
+.frames button.active { background: #b6d5c3; }
+.good { color: #c0dfc6; }
+</style>
+<h1>PC backgrounds: stone and accessory revision</h1>
+<p id="summary"></p>
+<p>Each cutout uses the accepted portrait pixels at the same coordinates. Only transparency changes.
+  Compare the first pass with the revised masks. Stone faces use separate protection; rounded portraits keep
+  a solid interior. These are review candidates, with no runtime installation.</p>
+<nav>
+  <label>Character <select id="family"></select></label>
+  <label>Backdrop <select id="background">
+    <option value="checker">Checkerboard</option><option value="dark">Dark</option>
+    <option value="light">Light</option>
+  </select></label>
+  <button id="previous">Previous</button><button id="next">Next</button>
+  <button id="play">Play frame slideshow</button><span id="frameLabel"></span>
+  <button id="stone">Stone frame 12</button>
+  <label><input id="showRing" type="checkbox" checked> Selection ring</label>
+</nav>
+<div class="panels">
+  <figure><figcaption>Accepted portrait</figcaption><div class="image"><img id="before" alt="Accepted portrait"></div></figure>
+  <figure><figcaption>First pass</figcaption><div id="priorBackdrop" class="image checker">
+    <img id="prior" alt="First-pass alpha"></div></figure>
+  <figure><figcaption>Revised alpha</figcaption><div id="cutout" class="image checker">
+    <img id="candidate" alt="Background removal candidate"></div></figure>
+  <figure><figcaption>HUD layers and selection ring</figcaption>
+    <canvas id="context" width="124" height="164" style="width:248px;height:328px"></canvas></figure>
+</div>
+<details style="margin-top:20px"><summary>Show alpha mask and native reference</summary>
+<div class="panels" style="margin-top:15px">
+  <figure><figcaption>Alpha mask</figcaption><div class="image mask"><img id="alpha" alt="Alpha mask"></div></figure>
+  <figure><figcaption>Native pose reference</figcaption><div class="image native">
+    <img id="native" alt="Native pose reference"></div></figure>
+</div>
+</details>
+<div id="frames" class="frames"></div>
+<p id="note"></p>
+<p id="details"></p>
+<p><a id="download">Open transparent PNG</a> · <a id="maskLink">Open mask</a> ·
+  <a href="review_v2_04/stone_comparison.png">Stone comparisons</a> ·
+  <a href="review_v2_04/accessories_comparison.png">Accessories and full ovals</a> ·
+  <a href="review/difficult_poses.png">Earlier difficult poses</a> ·
+  <a href="README.md">Findings and reproduction</a></p>
+<p>The HUD preview follows the renderer's portrait inset, face mask and selection-ring offsets. It is a local
+  composite, not a game screenshot. The ring is an overlay, never an alpha stencil.</p>
+<p>The slideshow follows frame numbers; it is not the game's expression timing. It cannot repair movement
+  already present in the accepted artwork. Display is enlarged 2× here; each export remains 118×158.</p>
+<script src="review_v2_04/data.js"></script>
+<script src="viewer.js?v=4"></script>
+</html>

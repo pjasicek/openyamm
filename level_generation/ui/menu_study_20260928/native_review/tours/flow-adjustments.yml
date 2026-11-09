@@ -1,0 +1,116 @@
+output_dir: ../replay/flow-adjustments
+exit: true
+steps:
+- wait: 1
+- pointer_move:
+  - 1500
+  - 850
+- capture: main-location
+- click:
+  - 327
+  - 536
+- pointer_move:
+  - 1500
+  - 850
+- key: Return
+- capture: continents-neutral
+- pointer_move:
+  - 374
+  - 500
+- capture: continent-enroth-hover
+- click:
+  - 374
+  - 500
+- capture: party-enroth
+- click:
+  - 120
+  - 825
+- click:
+  - 327
+  - 536
+- pointer_move:
+  - 1500
+  - 850
+- key: Tab
+- key: Tab
+- capture: continent-keyboard-focus
+- key: Return
+- capture: party-antagarich
+- click:
+  - 120
+  - 825
+- click:
+  - 327
+  - 536
+- pointer_move:
+  - 1226
+  - 500
+- capture: continent-jadame-hover
+- click:
+  - 1226
+  - 500
+- capture: party-jadame
+- click:
+  - 120
+  - 825
+- click:
+  - 327
+  - 434
+- wait: 2
+- expect: gameplay
+- key: Escape
+- expect: pause
+- click:
+  - 800
+  - 366
+- expect: text_input
+- click:
+  - 1140
+  - 668
+- text: ' - flow'
+- capture: save-before-commit
+- click:
+  - 1300
+  - 801
+- expect: gameplay
+- wait: 1
+- capture: save-returned-gameplay
+- key: Escape
+- click:
+  - 800
+  - 366
+- click:
+  - 420
+  - 324
+- click:
+  - 1300
+  - 801
+- capture: replace-confirmation
+- click:
+  - 650
+  - 550
+- capture: replace-cancelled
+- click:
+  - 1300
+  - 801
+- click:
+  - 948
+  - 550
+- expect: gameplay
+- capture: replace-returned-gameplay
+- key: Escape
+- click:
+  - 800
+  - 366
+- click:
+  - 234
+  - 801
+- expect: pause
+- capture: cancel-returned-pause
+- click:
+  - 800.0
+  - 646.602
+- click:
+  - 948
+  - 550
+- capture: main-after-save

@@ -1,0 +1,81 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/projects/mm9r_wizardslab/review/walkthrough_v01
+settle_seconds: 2.0
+exit: true
+shots:
+- name: arrive_blue
+  position:
+  - -16323
+  - 8274
+  - 204
+  yaw: 4.7124
+  pitch: 0.0
+- name: arrive_green
+  position:
+  - -17654
+  - 12227
+  - -817
+  yaw: 4.7124
+  pitch: 0.0
+- name: arrive_purple
+  position:
+  - -7864
+  - 15043
+  - 1477
+  yaw: 4.7124
+  pitch: 0.0
+- name: arrive_red
+  position:
+  - -2949
+  - 3441
+  - 2
+  yaw: 1.5708
+  pitch: 0.0
+- name: arrive_white
+  position:
+  - 164
+  - 7168
+  - 2
+  yaw: 0.0
+  pitch: 0.0
+- name: arrive_yellow
+  position:
+  - 492
+  - 10834
+  - 2
+  yaw: 1.5708
+  pitch: 0.0
+- name: cauldron_room
+  position:
+  - 324
+  - 7168
+  - 0
+  yaw: 0.0
+  pitch: -0.2094
+- name: relic_table
+  position:
+  - -1120
+  - 12456
+  - 0
+  yaw: 0.6557
+  pitch: -0.2443
+- name: skeleton
+  position:
+  - 418
+  - 12857
+  - 0
+  yaw: -2.7367
+  pitch: -0.2793
+- name: robinssen
+  position:
+  - -16323
+  - 4538
+  - -165
+  yaw: 1.5708
+  pitch: 0.0
+- name: summoning_floor
+  position:
+  - -7864
+  - 14893
+  - 1477
+  yaw: -1.5708
+  pitch: -0.1745

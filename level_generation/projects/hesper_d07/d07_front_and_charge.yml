@@ -1,0 +1,88 @@
+id: hesper.d07_front_and_charge
+world: hesper
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: hes_d07.blv
+    party:
+      members:
+      - name: Ada
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Bram
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Cyra
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Dana
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+      - name: Eli
+        class: Knight
+        level: 1000
+        skills:
+        - name: Hacking
+          level: 12
+          mastery: 3
+        equipment: {}
+- set_pose:
+    map: hes_d07.blv
+    x: 4350
+    y: 2000
+    z: 0
+    yaw: 1.5707963267948966
+    pitch: 0
+- charge_actor:
+    actor_index: 0
+- advance_runtime:
+    seconds: 2
+- assert:
+    charges:
+      min_started: 1
+- set_pose:
+    map: hes_d07.blv
+    x: 4800
+    y: 180
+    z: 0
+    yaw: -1.5707963267948966
+    pitch: 0
+- press_interact: {}
+- select_topic:
+    kind: map_transition_confirm
+    source_id: 0
+    action_id: 0
+    selection_index: 0
+    label: OK
+- assert:
+    map: hes_out4.odm
+- set_pose:
+    map: hes_out4.odm
+    x: 10005
+    y: 0
+    z: 1088
+    yaw: -3.1416
+    pitch: 0
+- press_interact: {}
+- assert:
+    map: hes_d07.blv

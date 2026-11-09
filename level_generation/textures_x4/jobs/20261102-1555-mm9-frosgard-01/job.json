@@ -1,0 +1,522 @@
+{
+ "id": "20261102-1555-mm9-frosgard-01",
+ "world": "mm9",
+ "maps": [
+  "frosgard.odm",
+  "sturmford.odm",
+  "drangheim.odm",
+  "thronheim.odm",
+  "yorwick.odm"
+ ],
+ "created": "2026-11-02T14:55:26+00:00",
+ "textures": [
+  "mm9/snowd7sd4x",
+  "mm9/abndy9oyit",
+  "mm9/fros9hdn6m",
+  "mm9/sturcr4dba",
+  "mm9/sturvz46as",
+  "mm9/stur8xx24p",
+  "mm9/thjob3xi6b",
+  "mm9/dranhkp97t",
+  "mm9/dran5giksb",
+  "mm9/coludirm07",
+  "mm9/wall8qzdhe",
+  "mm9/wallpy84eq",
+  "mm9/darknnzk7r",
+  "mm9/sturiqrkzt",
+  "mm9/sturyjfj2o",
+  "mm9/dranme953d",
+  "mm9/shin9gbl24",
+  "mm9/throubbzbm",
+  "mm9/throylr9li",
+  "mm9/craczvb4pr",
+  "mm9/coluw11o92",
+  "mm9/throalzywf",
+  "mm9/refi2vhorh",
+  "mm9/refifv6o2k"
+ ],
+ "requests": {
+  "mm9/snowd7sd4x": {
+   "name": "snowd7sd4x",
+   "versions": [
+    1
+   ],
+   "material": "snowy ground, clean white snow with a few small dark patches of earth and stones showing through",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/abndy9oyit": {
+   "name": "abndy9oyit",
+   "versions": [
+    1
+   ],
+   "material": "carved grey stone trim band: a fan of curling acanthus leaves in relief between plain mouldings",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/fros9hdn6m": {
+   "name": "fros9hdn6m",
+   "versions": [
+    1
+   ],
+   "material": "carved grey stone trim band: a fan of curling acanthus leaves in relief between plain mouldings, snow lying along the top",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturcr4dba": {
+   "name": "sturcr4dba",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "dark green grass and low weeds, dense and fine over dark earth",
+   "notes": {
+    "2": "fine short blades of dark green grass and low weeds over dark earth, no clover, no round leaves, no purple",
+    "3": "fine short blades of mid grey-green grass, as light and as grey as the reference, over dark earth; no clover, no round leaves, no purple, not darker than the reference"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "ref_blur": {
+    "2": 2.5,
+    "3": 2.5
+   }
+  },
+  "mm9/sturvz46as": {
+   "name": "sturvz46as",
+   "versions": [
+    1
+   ],
+   "material": "vertical dark brown wooden planks with deep grain and dark gaps between them",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/stur8xx24p": {
+   "name": "stur8xx24p",
+   "versions": [
+    1
+   ],
+   "material": "brown stone ceiling of square and rectangular slabs in a grid, worn edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/thjob3xi6b": {
+   "name": "thjob3xi6b",
+   "versions": [
+    1
+   ],
+   "material": "weathered cliff of brown and grey sandstone, cracked and streaked",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dranhkp97t": {
+   "name": "dranhkp97t",
+   "versions": [
+    1
+   ],
+   "material": "dark iron-grey carved stone pilaster trim with a riveted diamond boss in the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dran5giksb": {
+   "name": "dran5giksb",
+   "versions": [
+    1
+   ],
+   "material": "pale grey-green rough stucco wall with a narrow dark slit window framed in wood",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/coludirm07": {
+   "name": "coludirm07",
+   "versions": [
+    1
+   ],
+   "material": "narrow dark stone column face with a carved chevron pattern down the middle",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wall8qzdhe": {
+   "name": "wall8qzdhe",
+   "versions": [
+    1
+   ],
+   "material": "warm cream plaster with faint mottling and fine cracks",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/wallpy84eq": {
+   "name": "wallpy84eq",
+   "versions": [
+    1
+   ],
+   "material": "dark grey-blue stone bricks of uneven size, rough and worn",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/darknnzk7r": {
+   "name": "darknnzk7r",
+   "versions": [
+    1
+   ],
+   "material": "dark mossy rock, near-black stone with green-brown lichen patches",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/sturiqrkzt": {
+   "name": "sturiqrkzt",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "wooden floor of long brown planks in staggered rows, worn and scuffed",
+   "notes": {
+    "2": "the weathered planks run straight to the very bottom edge; no dark line or shadow along the bottom edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/sturyjfj2o": {
+   "name": "sturyjfj2o",
+   "versions": [
+    1
+   ],
+   "material": "half-timbered wall: pale grey plaster with a dark wooden pointed arch brace and post",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/dranme953d": {
+   "name": "dranme953d",
+   "versions": [
+    1
+   ],
+   "material": "double door of dark carved wood with ornate stone-like frames, tall panels",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/shin9gbl24": {
+   "name": "shin9gbl24",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "dark slate roof shingles in overlapping rows, scale-shaped and pointed",
+   "notes": {
+    "2": "the overlapping dark slate scales are one even pattern from top edge to bottom edge, the same scale size and the same brightness everywhere, so the image repeats vertically with no band"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/throubbzbm": {
+   "name": "throubbzbm",
+   "versions": [
+    1
+   ],
+   "material": "sandy stone wall band with carved scroll friezes along the top and bottom edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/throylr9li": {
+   "name": "throylr9li",
+   "versions": [
+    1
+   ],
+   "material": "tan stone cornice trim with stacked carved mouldings and a row of dentils",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/craczvb4pr": {
+   "name": "craczvb4pr",
+   "versions": [
+    1
+   ],
+   "material": "dry cracked earth, dark grey-blue mud broken into irregular plates",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/coluw11o92": {
+   "name": "coluw11o92",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "cream marble column trim with a carved band of round arches near the bottom",
+   "notes": {
+    "2": "the band near the bottom is a row of small round arches carved in relief, an arcade, exactly where the reference has it; the bottom edge stays the plain pale stone of the reference, no dark line"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {},
+    "2": {}
+   }
+  },
+  "mm9/throalzywf": {
+   "name": "throalzywf",
+   "versions": [
+    1
+   ],
+   "material": "brown fieldstone wall of rough stones in irregular courses",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "context": {
+    "1": {}
+   }
+  },
+  "mm9/refi2vhorh": {
+   "name": "refi2vhorh",
+   "versions": [
+    1
+   ],
+   "material": "grey-green rock cliff face with dark folds, a strip of green grass along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/refikj0cwd"
+     ],
+     "fraction": 0.707
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      288
+     ],
+     [
+      260,
+      0,
+      544,
+      288
+     ]
+    ]
+   }
+  },
+  "mm9/refifv6o2k": {
+   "name": "refifv6o2k",
+   "versions": [
+    1
+   ],
+   "material": "grey-green rock cliff face with dark folds and a dark cave opening in the right half, grass along the bottom",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm9/refikj0cwd",
+      "mm9/refi2vhorh"
+     ],
+     "fraction": 0.645
+    }
+   },
+   "sections": {
+    "1": [
+     [
+      0,
+      0,
+      272,
+      288
+     ],
+     [
+      260,
+      0,
+      544,
+      288
+     ]
+    ]
+   }
+  }
+ }
+}

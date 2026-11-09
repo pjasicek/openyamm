@@ -1,0 +1,489 @@
+{
+ "id": "20261009-1649-mm7-7out13-14",
+ "world": "mm7",
+ "maps": [
+  "7out13.odm"
+ ],
+ "created": "2026-10-09T14:50:00+00:00",
+ "textures": [
+  "mm7/hhp2b",
+  "mm7/hhp2b1",
+  "mm7/hhm2d",
+  "mm7/7hhr1d1",
+  "mm7/7hhr1d2",
+  "mm7/7hhr1p",
+  "mm7/7hhr1rf",
+  "mm7/7sgstabl",
+  "mm7/7snow",
+  "mm7/7solid05",
+  "mm7/hhm1rf",
+  "mm7/hhm2rf",
+  "mm7/hhm3ch",
+  "mm7/hhm3d",
+  "mm7/hhm3rf",
+  "mm7/hhp1d",
+  "mm7/hhp2b2",
+  "mm7/hhp2bs",
+  "mm7/hhp2dr",
+  "mm7/hhp2er",
+  "mm7/hhp2ers",
+  "mm7/s_north",
+  "mm7/s_stable",
+  "mm7/s_stwk"
+ ],
+ "requests": {
+  "mm7/hhp2b": {
+   "name": "hhp2b",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "ramshackle wall of dark rough rubble stone and crumbling grey clay plaster with rough weathered wooden boards and posts, under a light weathered timber beam along the top",
+   "notes": {
+    "2": "the horizontal timber beam along the top must run fully to the top edge with its light weathered top face; no dark rim or shadow line along the top edge",
+    "3": "keep every element at exactly the reference position, do not shift the picture; the top band is a light grey-brown weathered timber beam whose upper face is lit and reaches the very top edge, with no dark line above it"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp2b1": {
+   "name": "hhp2b1",
+   "versions": [
+    1
+   ],
+   "material": "ramshackle wall of dark rough rubble stone and crumbling grey clay plaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhp2b"
+     ],
+     "fraction": 0.191
+    }
+   }
+  },
+  "mm7/hhm2d": {
+   "name": "hhm2d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "door of dark brown vertical wooden planks with black iron strap hinges in a timber frame; copy the composition exactly",
+   "notes": {
+    "2": "every edge keeps the reference colours right up to the last pixel row and column: the dark band along the bottom edge stays dark down to the very last pixel row; no pale or dark line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.186
+    },
+    "2": {
+     "sources": [
+      "mm7/hhm2b1"
+     ],
+     "fraction": 0.186
+    }
+   },
+   "context": {
+    "2": {
+     "right": "mm7/hhm2erw",
+     "left": "mm7/hhm2elw"
+    }
+   }
+  },
+  "mm7/7hhr1d1": {
+   "name": "7hhr1d1",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house wall of smooth cream-tan lime plaster framed by dark brown oak beams, carved timber trim along the top, with the left leaf of a tall round-arched double door of dark carved wood with scrollwork panels and a brass handle, and a thin carved timber post down the left edge; copy the composition exactly",
+   "notes": {
+    "3": "the carved oak band along the top edge is one continuous dense interlaced knotwork rope of small knots and loops running the full width, exactly as in the reference; not separate scroll panels or blocks"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7hhr1bw"
+     ],
+     "fraction": 0.137
+    },
+    "2": {
+     "sources": [
+      "mm7/7hhr1bw"
+     ],
+     "fraction": 0.137
+    },
+    "3": {
+     "sources": [
+      "mm7/7hhr1bw"
+     ],
+     "fraction": 0.137
+    }
+   }
+  },
+  "mm7/7hhr1d2": {
+   "name": "7hhr1d2",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "half-timbered house wall of smooth cream-tan lime plaster framed by dark brown oak beams, carved timber trim along the top, with the right leaf of a tall round-arched double door of dark carved wood with scrollwork panels and a brass handle, and a thin carved timber post down the right edge; copy the composition exactly",
+   "notes": {
+    "3": "the carved oak band along the top edge is one continuous dense interlaced knotwork rope of small knots and loops running the full width, exactly as in the reference; the door leaf's dark wood runs right up to the left edge where it meets the other leaf, with no light frame line, highlight or gap along the left edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [
+      "mm7/7hhr1b"
+     ],
+     "fraction": 0.142
+    },
+    "2": {
+     "sources": [
+      "mm7/7hhr1b"
+     ],
+     "fraction": 0.142
+    },
+    "3": {
+     "sources": [
+      "mm7/7hhr1bs2"
+     ],
+     "fraction": 0.164
+    }
+   }
+  },
+  "mm7/7hhr1p": {
+   "name": "7hhr1p",
+   "versions": [
+    1
+   ],
+   "material": "rough speckled grey-tan stone render with small embedded pebbles",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7hhr1rf": {
+   "name": "7hhr1rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of large overlapping irregular dark grey-brown slate shingles",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7sgstabl": {
+   "name": "7sgstabl",
+   "versions": [
+    1
+   ],
+   "material": "painted wooden shop sign of a chestnut horse on a pale ground in a red-brown wooden frame; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7snow": {
+   "name": "7snow",
+   "versions": [
+    1
+   ],
+   "material": "fresh white snow with soft faint blue-grey drifts",
+   "notes": {},
+   "ref_blur": {
+    "1": 2.5
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/7solid05": {
+   "name": "7solid05",
+   "versions": [
+    1
+   ],
+   "material": "flat uniform bright yellow painted surface",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhm1rf": {
+   "name": "hhm1rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of rows of weathered brown split wooden shingles with ragged lower edges",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhm2rf": {
+   "name": "hhm2rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of rows of weathered grey-brown wooden shingles with dark gaps between rows",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhm3ch": {
+   "name": "hhm3ch",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "chimney wall of rounded grey-brown fieldstones with dark mortar",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   },
+   "pad": {
+    "2": [
+     32,
+     32
+    ]
+   },
+   "context": {
+    "2": {
+     "bottom": "mm7/hhm2b2",
+     "top": "mm7/chb1",
+     "left": "mm7/hhp2b2"
+    }
+   }
+  },
+  "mm7/hhm3d": {
+   "name": "hhm3d",
+   "versions": [
+    1
+   ],
+   "material": "door of brown vertical wooden planks with iron strap hinges and a round iron lock plate; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhm3rf": {
+   "name": "hhm3rf",
+   "versions": [
+    1
+   ],
+   "material": "roof of rough overlapping split wooden shakes, reddish brown and weathered",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp1d": {
+   "name": "hhp1d",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "weathered dark wooden plank door with iron straps under a small barred vent, set in rough grey stucco; copy the composition exactly",
+   "notes": {
+    "2": "keep the door exactly as wide and as high as in the reference, with the soft dark soot shadow around the opening; the door planks run down to the bottom edge with no added sill"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp2b2": {
+   "name": "hhp2b2",
+   "versions": [
+    1
+   ],
+   "material": "ramshackle wall of dark rough rubble stone and crumbling grey clay plaster",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp2bs": {
+   "name": "hhp2bs",
+   "versions": [
+    1
+   ],
+   "material": "ramshackle wall of dark rough rubble stone and crumbling grey clay plaster with rough weathered wooden boards and posts, with a broken boarded window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp2dr": {
+   "name": "hhp2dr",
+   "versions": [
+    1,
+    2,
+    3
+   ],
+   "material": "door of rough weathered vertical wooden boards in a crude wooden frame; copy the composition exactly",
+   "notes": {
+    "2": "the wall above the door frame reaches the very top edge as bright as in the reference; no dark rim or shadow line along the top edge",
+    "3": "keep every element at exactly the reference position; the light timber beam runs across the very top edge and the dark rubble stone continues to the bottom edge, each as bright as in the reference; no dark rim, shadow or frame line along any edge"
+   },
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "3": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp2er": {
+   "name": "hhp2er",
+   "versions": [
+    1
+   ],
+   "material": "ramshackle wall of dark rough rubble stone and crumbling grey clay plaster with rough weathered wooden boards and posts",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/hhp2ers": {
+   "name": "hhp2ers",
+   "versions": [
+    1
+   ],
+   "material": "ramshackle wall of dark rough rubble stone and crumbling grey clay plaster with rough weathered wooden boards and posts, with a broken boarded window",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_north": {
+   "name": "s_north",
+   "versions": [
+    1
+   ],
+   "material": "painted parchment-yellow sign board with red runic lettering, plain black at the right end; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_stable": {
+   "name": "s_stable",
+   "versions": [
+    1,
+    2
+   ],
+   "material": "painted parchment-yellow sign board with red runic lettering, plain black at the right end; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    },
+    "2": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  },
+  "mm7/s_stwk": {
+   "name": "s_stwk",
+   "versions": [
+    1
+   ],
+   "material": "painted parchment-yellow sign board with red runic lettering, plain black at the right end; copy the composition exactly",
+   "notes": {},
+   "prefill": {
+    "1": {
+     "sources": [],
+     "fraction": 0.0
+    }
+   }
+  }
+ }
+}

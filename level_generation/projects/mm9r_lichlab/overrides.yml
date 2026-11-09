@@ -1,0 +1,218 @@
+# Explicit conversion choices for MM9's Lich Lab (convert.py reads this through the shared converter
+# ../mm9r_common/dungeon; a rerun keeps them). Rules and keys: ../mm9r_common/DUNGEON_PLAYBOOK.md.
+map:
+  stem: lichlab
+  display_name: Lich Lab
+  starts: [StartPoint0]               # the only start: the entrance from Yorwick (ExitTrigger0 beside it)
+  monster_classes: [SkeletonMaster, FlyingIcky, Oculus, Dagrell, PowerLich, LichKing, VenomousDagrell, Eye, Lich,
+                    Revenant, Ghast, SpectreDagrell]
+  offset: [0, 0, 0]                   # the old map's frame: x -9503..7864, y -5284..12452, z -1229..3768 fit int16
+  ambient: 20
+  model_lighting: true                # re-light 2026-10-31: MM9 model lighting (AmbientLight 60, ModelAdd 30); the old path drew props under x0.6 of their view in 14 of 25 views: work/relight/model_lighting_props.txt
+  split_minor_rooms: true             # every polygon is split at a portal plane it crosses (playbook gotchas)
+  extra_seed_classes: [ScriptObject, Shooter, Fire]
+plan_levels:
+  basement: [-500, -150]              # engine hall and the summoner's ghost pools (floor -256)
+  ground: [-150, 350]                 # the cross hall, wings, labs, cages (floor 0)
+  upper: [350, 800]                   # entrance, lobby, ring corridor round the atrium, ranges (floor 512)
+  top: [800, 1500]                    # kitchen, transformer 0, offices (floor 928)
+models:
+  # --- doors: every MM9 RotatingDoor with a PortalName is one 80-wide leaf in its own doorway (pairs stand side by
+  # side with a 48-wide post between, each with its own UserPortal): one rotating mover per leaf
+  # (MM9's swing, open-away, reopen on contact, auto-close), a click each.
+  RotatingDoor0: {group: RotatingDoor0, motion: rotate, doorway: true, portal: Doorportal0}
+  RotatingDoor128: {group: RotatingDoor128, motion: rotate, doorway: true, portal: Doorportal128}
+  RotatingDoor129: {group: RotatingDoor129, motion: rotate, doorway: true, portal: Doorportal129}
+  RotatingDoor130: {group: RotatingDoor130, motion: rotate, doorway: true, portal: Doorportal130}
+  RotatingDoor131: {group: RotatingDoor131, motion: rotate, doorway: true, portal: Doorportal131}
+  RotatingDoor134: {group: RotatingDoor134, motion: rotate, doorway: true, portal: Doorportal134}
+  RotatingDoor135: {group: RotatingDoor135, motion: rotate, doorway: true, portal: Doorportal135}
+  RotatingDoor136: {group: RotatingDoor136, motion: rotate, doorway: true, portal: Doorportal136}
+  RotatingDoor137: {group: RotatingDoor137, motion: rotate, doorway: true, portal: Doorportal137}
+  RotatingDoor138: {group: RotatingDoor138, motion: rotate, doorway: true, portal: Doorportal138}
+  RotatingDoor139: {group: RotatingDoor139, motion: rotate, doorway: true, portal: Doorportal139}
+  RotatingDoor146: {group: RotatingDoor146, motion: rotate, doorway: true, portal: Doorportal146}
+  RotatingDoor147: {group: RotatingDoor147, motion: rotate, doorway: true, portal: Doorportal147}
+  RotatingDoor148: {group: RotatingDoor148, motion: rotate, doorway: true, portal: Doorportal148}
+  RotatingDoor149: {group: RotatingDoor149, motion: rotate, doorway: true, portal: Doorportal149}
+  RotatingDoor150: {group: RotatingDoor150, motion: rotate, doorway: true, portal: Doorportal150}
+  RotatingDoor151: {group: RotatingDoor151, motion: rotate, doorway: true, portal: Doorportal151}
+  RotatingDoor152: {group: RotatingDoor152, motion: rotate, doorway: true, portal: Doorportal152}
+  RotatingDoor153: {group: RotatingDoor153, motion: rotate, doorway: true, portal: Doorportal153}
+  RotatingDoor154: {group: RotatingDoor154, motion: rotate, doorway: true, portal: Doorportal154}
+  RotatingDoor155: {group: RotatingDoor155, motion: rotate, doorway: true, portal: Doorportal155}
+  RotatingDoor156: {group: RotatingDoor156, motion: rotate, doorway: true, portal: Doorportal156}
+  RotatingDoor157: {group: RotatingDoor157, motion: rotate, doorway: true, portal: Doorportal157}
+  RotatingDoor158: {group: RotatingDoor158, motion: rotate, doorway: true, portal: Doorportal158}
+  RotatingDoor159: {group: RotatingDoor159, motion: rotate, doorway: true, portal: Doorportal159}
+  RotatingDoor160: {group: RotatingDoor160, motion: rotate, doorway: true, portal: Doorportal160}
+  RotatingDoor161: {group: RotatingDoor161, motion: rotate, doorway: true, portal: Doorportal161}
+  RotatingDoor162: {group: RotatingDoor162, motion: rotate, doorway: true, portal: Doorportal162}
+  RotatingDoor163: {group: RotatingDoor163, motion: rotate, doorway: true, portal: Doorportal163}
+  RotatingDoor164: {group: RotatingDoor164, motion: rotate, doorway: true, portal: Doorportal164}
+  RotatingDoor165: {group: RotatingDoor165, motion: rotate, doorway: true, portal: Doorportal165}
+  RotatingDoor166: {group: RotatingDoor166, motion: rotate, doorway: true, portal: Doorportal166}
+  RotatingDoor169: {group: RotatingDoor169, motion: rotate, doorway: true, portal: Doorportal169}
+  RotatingDoor170: {group: RotatingDoor170, motion: rotate, doorway: true, portal: Doorportal170}
+  RotatingDoor171: {group: RotatingDoor171, motion: rotate, doorway: true, portal: Doorportal171}
+  RotatingDoor172: {group: RotatingDoor172, motion: rotate, doorway: true, portal: Doorportal172}
+  RotatingDoor173: {group: RotatingDoor173, motion: rotate, doorway: true, portal: Doorportal173}
+  RotatingDoor174: {group: RotatingDoor174, motion: rotate, doorway: true, portal: Doorportal174}
+  RotatingDoor175: {group: RotatingDoor175, motion: rotate, doorway: true, portal: Doorportal175}
+  RotatingDoor176: {group: RotatingDoor176, motion: rotate, doorway: true, portal: Doorportal176}
+  RotatingDoor177: {group: RotatingDoor177, motion: rotate, doorway: true, portal: Doorportal177}
+  RotatingDoor178: {group: RotatingDoor178, motion: rotate, doorway: true, portal: Doorportal178}
+  RotatingDoor179: {group: RotatingDoor179, motion: rotate, doorway: true, portal: Doorportal179}
+  RotatingDoor180: {group: RotatingDoor180, motion: rotate, doorway: true, portal: Doorportal180}
+  RotatingDoor181: {group: RotatingDoor181, motion: rotate, doorway: true, portal: Doorportal181}
+  RotatingDoor182: {group: RotatingDoor182, motion: rotate, doorway: true, portal: Doorportal182}
+  RotatingDoor183: {group: RotatingDoor183, motion: rotate, doorway: true, portal: Doorportal183}
+  RotatingDoor184: {group: RotatingDoor184, motion: rotate, doorway: true, portal: Doorportal184}
+  RotatingDoor185: {group: RotatingDoor185, motion: rotate, doorway: true, portal: Doorportal185}
+  RotatingDoor186: {group: RotatingDoor186, motion: rotate, doorway: true, portal: Doorportal186}
+  RotatingDoor187: {group: RotatingDoor187, motion: rotate, doorway: true, portal: Doorportal187}
+  RotatingDoor188: {group: RotatingDoor188, motion: rotate, doorway: true, portal: Doorportal188}
+  RotatingDoor189: {group: RotatingDoor189, motion: rotate, doorway: true, portal: Doorportal189}
+  RotatingDoor190: {group: RotatingDoor190, motion: rotate, doorway: true, portal: Doorportal190}
+  RotatingDoor191: {group: RotatingDoor191, motion: rotate, doorway: true, portal: Doorportal191}
+  RotatingDoor192: {group: RotatingDoor192, motion: rotate, doorway: true, portal: Doorportal192}
+  RotatingDoor193: {group: RotatingDoor193, motion: rotate, doorway: true, portal: Doorportal193}
+  RotatingDoor194: {group: RotatingDoor194, motion: rotate, doorway: true, portal: Doorportal194}
+  RotatingDoor196: {group: RotatingDoor196, motion: rotate, doorway: true, portal: Doorportal196}
+  RotatingDoor197: {group: RotatingDoor197, motion: rotate, doorway: true, portal: Doorportal197}
+  RotatingDoor198: {group: RotatingDoor198, motion: rotate, doorway: true, portal: Doorportal198}
+  RotatingDoor199: {group: RotatingDoor199, motion: rotate, doorway: true, portal: Doorportal199}
+  RotatingDoor200: {group: RotatingDoor200, motion: rotate, doorway: true, portal: Doorportal200}
+  RotatingDoor201: {group: RotatingDoor201, motion: rotate, doorway: true, portal: Doorportal201}
+  RotatingDoor202: {group: RotatingDoor202, motion: rotate, doorway: true, portal: Doorportal202}
+  RotatingDoor203: {group: RotatingDoor203, motion: rotate, doorway: true, portal: Doorportal203}
+  # The two doors the transformer peasants walk through (TouchToOpen in MM9, no UserPortal): rotating doors with a
+  # doorway portal from their leaves.
+  RotatingDoor195: {group: RotatingDoor195, motion: rotate, doorway: true}   # the one leaf without a UserPortal
+  peasant door: {group: PeasantDoor, motion: rotate, doorway: true, one_node: true}
+  peasant door0: {group: PeasantDoor0, motion: rotate, doorway: true, one_node: true}
+  # --- the skeleton transformers (Converter.scr): the switches open the chamber door, MM9's linear Door motion
+  # MM9 hangs the glass doors over the chamber mouths (the gap under them is open) and its open lowers them to the
+  # floor (MoveDir down): built lowered (shut) and starting open, raised
+  skeletondoora: {group: SkeletonDoorA, motion: dat, doorway: true, click: false, authored_open: true}
+  skeletondoora0: {group: SkeletonDoorA0, motion: dat, doorway: true, click: false, authored_open: true}
+  TransformSwitch0: {group: TransformSwitch0, motion: rotate}
+  TransformSwitch1: {group: TransformSwitch1, motion: rotate}
+  TransformSwitch2: {group: TransformSwitch2, motion: rotate}
+  TransformSwitch3: {group: TransformSwitch3, motion: rotate}
+  # --- the Transmutation Engine (ILSHealerRoom.scr, Switch.scr, LichEngineProp.scr): pod 1 is the working pod; the
+  # lich switch lowers its lid and glass round the party (MM9 Door: down 96 at 25), the lever at the engine swings.
+  Enginedoor1: {group: EnginePod1, motion: dat}
+  Engineglass1: {group: EnginePod1, motion: dat}
+  RotatingDoor1: {group: EngineLever, motion: rotate, one_node: true}   # MM9 swings it -90 about x
+  # pods 2-4 have no trigger in MM9 (they never open): static, shut
+  Enginedoor2: static
+  Enginedoor3: static
+  Enginedoor4: static
+  Engineglass2: static
+  Engineglass3: static
+  Engineglass4: static
+  # MM9 swings this door open at the start and it never closes (StartOpen, Sticky, no trigger): left out (open)
+  RotatingDoor58: skip
+  # --- the cages of the explosion lab (KingKong.scr): TriggerExplodeL/R make the four critters smash their fronts
+  # (DestructableBrush): sinking plugs with doorway portals, wired by convert.py
+  DB1: {group: CageGhast, motion: sink, doorway: true, click: false}
+  breakwindow1: {group: CageGhast, motion: sink, doorway: true, click: false}
+  DB2: {group: CageSpectre, motion: sink, doorway: true, click: false}
+  breakwindow2: {group: CageSpectre, motion: sink, doorway: true, click: false}
+  RotatingDoor167: {group: CageVenomous, motion: sink, doorway: true, click: false}    # DestructableBrush
+  RotatingDoor168: {group: CageRevenant, motion: sink, doorway: true, click: false}    # DestructableBrush
+  # --- the shooting range's straw targets (DestructableBrush, 50 HP, wood): its book's fire bolts break them; they
+  # sink into the floor (convert.py)
+  DestructableBrush6: {group: Target6, motion: sink}
+  DestructableBrush16: {group: Target16, motion: sink}
+  DestructableBrush19: {group: Target19, motion: sink}
+  # --- static world objects: windows and their frames (Lichwindow glass), the ice column, carpets, panels
+  WorldObject0: static
+  WorldObject2: static
+  WorldObject6: static
+  WorldObject8: static
+  WorldObject11: static
+  WorldObject16: static
+  DestructableBrush17: static        # WorldObject (a window pane)
+  DestructableBrush18: static
+  DestructableBrush20: static
+  DestructableBrush21: static
+  MutateWindow0: static
+  MutateWindow1: static
+  # --- not built
+  SkyBox0: skip                       # MM9's sky box (DemoSkyWorldModel) and its sky dome
+  TOD_Sky0: skip
+  PromoVol1: skip                     # the engine pod's promotion volume (ILSHealerRoom.scr reads its box): a pad
+  BlueWater0: skip                    # the ghost pools' liquid volumes (coals; no damage): their floors stay
+  BlueWater1: skip
+  BlueWater2: skip
+  BlueWater3: skip
+model_patterns:
+  InvisibleBrush: static              # invisible collision (rails, gaps beside doors)
+  Carpet: static
+# The five sky faces (skymarker) of the shaft over the engine's crown, seen through its glass skylight (WorldObject0,
+# a glass portal): no sky indoors; they draw MM9's Clouds1 sky as the Temple of Honk's skylights do (2026-10-30; they
+# drew the bronze ceiling before), and the bake makes them the crown's sky light (profile `emitters`).
+textures:
+  'textures\skybox\skymarker.dtx': {alias: CLOUVKSJD0, width: 256, height: 256}
+# MM9's glass: Translucent surfaces blended at the texture's alpha times the brush's Alpha
+# (devdocs/mm9_rework/MM9_VISUAL_PROPERTIES.md): the pale blue Lichwindow (alpha 43-138 of 255; brushes 0.7, 0.8, 1:
+# the atrium and observation windows, the transformer and mutation windows, the cages) and the blue ice glass of the
+# engine's pods and crown (yanmirsolidice1, alpha 191; brushes 0.5, 0.6, 1). A pane between two rooms becomes a portal
+# shaped as the pane plus the pane itself as a translucent solid face (the scene's translucent_faces,
+# devdocs/INDOOR_TRANSLUCENT_FACES.md); a pane inside one room only the translucent face; a mover's panes a
+# translucent mover part; a pane with air on its front only is glass when a face stands behind it to be seen through,
+# else opaque (the shared converter's `glass`). Per texture: opacity (times texture alpha and brush Alpha), tint,
+# two_sided: MM9's panes are often single quads seen from both rooms.
+glass:
+  lichwindow.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+  yanmirsolidice1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+# Seeds of the air flood that stand outside the built air: the relay triggers TriggerUnlock/0 and the script holder
+# PromoTrigger (outside the walls), the auto-resurrecting SkeletonMaster52 (under the floor), two bat trigger boxes
+# whose centres lie under the north corridor's floor, and SpawnMgr (inside the summoning pedestal: a sealed pocket).
+seed_exclude: [PromoTrigger, TriggerUnlock, TriggerUnlock0, SkeletonMaster52, RightWingBatTrigger1, LeftWingBatTrigger0,
+               SpawnMgr, Oculus10]           # Oculus10 floats inside the east lab's wall (a sealed cavity; convert.py hides it)
+# Air no seeded object reaches: the two transformer chambers and the closets the peasants come from.
+seeds:
+  - [1120, 580, 1792]                 # chamber of SkeletonTransformer (behind skeletondoora)
+  - [960, 990, 768]                   # chamber of SkeletonTransformer0 (behind skeletondoora0)
+  - [1104, 570, 2104]                 # MarkerSpawn closet (behind peasant door)
+  - [960, 990, 1074]                  # MarkerSpawn0 closet (behind peasant door0)
+# Archway portals: a voxel slice perpendicular to `axis` through `point` (LT) seals the opening it stands in (within
+# `span`, default 256, along the cut). Chosen on work/rooms_<level>.png; frames are the corridors' arch beams.
+portals:
+  # ground ring (floor 0; the north corridor at 128): west corridor, north corridor, east corridor, south passages
+  - {name: west_stair_foot, axis: z, point: [-2560, 120, 3590]}
+  - {name: west_corridor_3072, axis: z, point: [-2560, 120, 3136]}
+  - {name: west_corridor_2304, axis: z, point: [-2560, 120, 2368]}
+  - {name: west_corridor_1536, axis: z, point: [-2560, 120, 1600]}
+  - {name: west_corridor_south, axis: z, point: [-2560, 120, 1120]}
+  - {name: north_corridor_m2050, axis: x, point: [-1986, 250, 4100]}
+  - {name: north_corridor_m900, axis: x, point: [-836, 250, 4100]}
+  - {name: north_corridor_128, axis: x, point: [192, 250, 4100]}
+  - {name: north_corridor_1280, axis: x, point: [1344, 250, 4100]}
+  - {name: east_stair_foot, axis: z, point: [1792, 120, 3590]}
+  - {name: east_corridor_3328, axis: z, point: [1792, 120, 3264]}
+  - {name: east_corridor_2304, axis: z, point: [1792, 120, 2240]}
+  - {name: east_corridor_1282, axis: z, point: [1792, 120, 1218]}
+  - {name: east_corridor_286, axis: z, point: [1792, 120, 222]}
+  - {name: south_passage_east, axis: x, point: [1530, 80, -120]}
+  - {name: ramp_top, axis: x, point: [460, 0, -120], span: 420}
+  - {name: ramp_middle, axis: z, point: [230, -60, -400], span: 220}       # the diagonal ramp to the ghost pools
+  # upper level (floor 512): entrance hall, its west corridor and the lobby corridor
+  - {name: lobby_m1100, axis: x, point: [-1036, 600, -80]}
+  - {name: lobby_m464, axis: x, point: [-400, 600, -80]}
+  - {name: lobby_178, axis: x, point: [242, 600, -80]}
+  - {name: entrance_west_m642, axis: z, point: [-1611, 600, -706], span: 330}
+  - {name: entrance_west_m1217, axis: z, point: [-1611, 600, -1281], span: 330}
+  - {name: entrance_hall_west, axis: x, points: [[-1300, 600, -1400], [-1300, 600, -1550], [-1300, 600, -1700]], span: 200}
+  - {name: grand_stair_top, axis: z, point: [-523, 1000, -330], span: 420}
+skip_lights: []
+
+# Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
+# objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places
+# to keep clear.
+treasure:
+  bonus_near: [LichSummoner, LichKing0, LichKing1]
+  themed_near: [Crate0, Crate10, Crate20, BonePile0, BonePile1, BonePile2]

@@ -1,0 +1,469 @@
+{
+  "item": "hes_lattice_pendant",
+  "tool": "built-in image_gen",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "status": "All five paintings generated; exact silhouette and completely flat lighting requirements not fully achieved.",
+  "postprocessing": "None; original generated PNGs copied without resizing or pixel edits.",
+  "max_corrective_regenerations_per_view": 1,
+  "runs": [
+    {
+      "view": "front",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a game asset albedo texture source over the FIRST input image, the exact orthographic model guide. SECOND input image is design_reference.png, the approved material and color reference ONLY.\nOUTPUT: ONE 1024 x 1024 PNG with a genuinely transparent background. Keep the guide's original canvas, framing, position and scale unchanged. Preserve the guide's alpha silhouette EXACTLY, including all holes, small chain links, polygon edges and internal component boundaries. Do not enlarge, recenter, rotate, crop, move or reshape anything. Paint only the existing surfaces inside the guide silhouette. Do not reproduce the reference image's camera, composition or shape.\nSUBJECT: Hesper lattice pendant, a fragment of Lattice crystal on a chain. Transfer only the materials actually visible in the approved reference: warm ivory-white ceramic with subtle fine wear, sparse tiny engraved slits and restrained fine crack/seam lines; warm brushed antique gold chain and hardware; luminous ice-blue/cyan-white faceted crystal with delicate internal crystalline veins. The guide's grey areas are ceramic, pale blue areas crystal, pale yellow areas gold. These guide tints are only material identifiers, not the target palette. Continue these materials plausibly on unseen faces. Do not invent additional components, ornamental framing or prongs.\nLIGHTING: diffuse base color/albedo, even flat shadowless frontal light. No cast shadows, no ambient occlusion, no dark crevice shading, no strong specular highlights or reflections, no rim light. Gold is its warm gold base color with only a faint brushed sheen. Crystal's luminous facets and fine veins are bright blue-white local color; no bloom or glow outside the silhouette. Ceramic is warm ivory with gentle surface variation. No floor, background, text, lettering, labels, watermark or border.\nCRITICAL: retain every part edge, exact guide silhouette and original small subject occupancy, including the large empty transparent areas. The shape is defined ONLY by the FIRST input.\nFRONT view: the pendant lies flat and is seen EDGE-ON, not hanging upright. Keep the small low horizontal assembly centered in the original guide bbox x=327..696, y=434..589 of the 1024 square canvas. The faceted crystal rises centrally from y=434 to about 540, ceramic cheeks lie left and right beneath it, and the gold chain forms the thin horizontal lower band. Keep the tiny downward gold point at y=589. Absolutely do not turn it into a face-on pendant.",
+      "output": "paint_front_attempt1.png",
+      "selected": false,
+      "reason": "Corrective pass requested: metallic highlights and bevel shading are too strong for flat albedo; silhouette edges drift from guide. Tool returned 1254x1254, retained unresized.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-6bd11fc8-f73a-4275-82ff-8efe4b092999.png",
+      "inputs": [
+        {
+          "path": "guide_front.png",
+          "sha256": "6bc92244674198c567c67394af336b8ef499d8a3cc244c33cf1349a1d557496d",
+          "role": "exact geometry, silhouette and placement guide"
+        },
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        }
+      ],
+      "output_sha256": "62fdf9c1d4c624c5e1bdcd0aca16e2e5c808b9bd06604302e0a3213374a3574f",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.748049,
+        "normalized_missing_guide_pixels": 4777,
+        "normalized_extra_painted_pixels": 5007,
+        "visible_alpha_bbox_threshold_128": [
+          405,
+          548,
+          852,
+          734
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1516157,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "front",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. Paint a game asset albedo texture source over the SECOND input image, the exact orthographic model guide. FIRST input image is design_reference.png, the approved material and color reference ONLY.\nOUTPUT: ONE 1024 x 1024 PNG with a genuinely transparent background. Keep the guide's original canvas, framing, position and scale unchanged. Preserve the guide's alpha silhouette EXACTLY, including all holes, small chain links, polygon edges and internal component boundaries. Do not enlarge, recenter, rotate, crop, move or reshape anything. Paint only the existing surfaces inside the guide silhouette. Do not reproduce the reference image's camera, composition or shape.\nSUBJECT: Hesper lattice pendant, a fragment of Lattice crystal on a chain. Transfer only the materials actually visible in the approved reference: warm ivory-white ceramic with subtle fine wear, sparse tiny engraved slits and restrained fine crack/seam lines; warm brushed antique gold chain and hardware; luminous ice-blue/cyan-white faceted crystal with delicate internal crystalline veins. The guide's grey areas are ceramic, pale blue areas crystal, pale yellow areas gold. These guide tints are only material identifiers, not the target palette. Continue these materials plausibly on unseen faces. Do not invent additional components, ornamental framing or prongs.\nLIGHTING: diffuse base color/albedo, even flat shadowless frontal light. No cast shadows, no ambient occlusion, no dark crevice shading, no strong specular highlights or reflections, no rim light. Gold is its warm gold base color with only a faint brushed sheen. Crystal's luminous facets and fine veins are bright blue-white local color; no bloom or glow outside the silhouette. Ceramic is warm ivory with gentle surface variation. No floor, background, text, lettering, labels, watermark or border.\nCRITICAL: retain every part edge, exact guide silhouette and original small subject occupancy, including the large empty transparent areas. The shape is defined ONLY by the SECOND input.\nFlat-color requirement: retain uniform matte local color across gold facets (muted warm ochre gold, no bright yellow/white shine). Ivory remains evenly lit with only tiny sparse wear marks. No dimensional bevel shadows, dark outline, glossy edge stripes or light-source gradients. Crystal has restrained blue-white internal veins but no reflected white hotspots. This must be usable as a diffuse/albedo texture projection, not an illuminated product render. Preserve the exact guide alpha mask including its polygonal chain holes. Canvas 1024x1024 as in the guide, not the reference art's 1254x1254 canvas.\nFRONT view: the pendant lies flat and is seen EDGE-ON, not hanging upright. Keep the small low horizontal assembly centered in the original guide bbox x=327..696, y=434..589 of the 1024 square canvas. The faceted crystal rises centrally from y=434 to about 540, ceramic cheeks lie left and right beneath it, and the gold chain forms the thin horizontal lower band. Keep the tiny downward gold point at y=589. Absolutely do not turn it into a face-on pendant.\nCORRECTIVE PASS, final allowed attempt: remove strong metallic highlights and dimensional shading; retain the exact guide silhouette and do not change the shape.",
+      "output": "paint_front.png",
+      "selected": true,
+      "reason": "Selected correction for flatter metallic treatment and improved guide placement (95.39% normalized silhouette overlap). Residual chain relief shading and edge drift remain. Exact silhouette and perfectly flat-albedo requirements are not fully met; one allowed correction exhausted.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-cddbabeb-2162-4ade-8d03-365c4b8c0874.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_front.png",
+          "sha256": "6bc92244674198c567c67394af336b8ef499d8a3cc244c33cf1349a1d557496d",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "dd9ecef78e0f4b2c94aeee830fbdd1552656523a26ca01456b0a8c6587870a64",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.953939,
+        "normalized_missing_guide_pixels": 420,
+        "normalized_extra_painted_pixels": 1193,
+        "visible_alpha_bbox_threshold_128": [
+          401,
+          533,
+          854,
+          721
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1515996,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. Paint a game asset albedo texture source over the SECOND input image, the exact orthographic model guide. FIRST input image is design_reference.png, the approved material and color reference ONLY.\nOUTPUT: ONE 1024 x 1024 PNG with a genuinely transparent background. Keep the guide's original canvas, framing, position and scale unchanged. Preserve the guide's alpha silhouette EXACTLY, including all holes, small chain links, polygon edges and internal component boundaries. Do not enlarge, recenter, rotate, crop, move or reshape anything. Paint only the existing surfaces inside the guide silhouette. Do not reproduce the reference image's camera, composition or shape.\nSUBJECT: Hesper lattice pendant, a fragment of Lattice crystal on a chain. Transfer only the materials actually visible in the approved reference: warm ivory-white ceramic with subtle fine wear, sparse tiny engraved slits and restrained fine crack/seam lines; warm brushed antique gold chain and hardware; luminous ice-blue/cyan-white faceted crystal with delicate internal crystalline veins. The guide's grey areas are ceramic, pale blue areas crystal, pale yellow areas gold. These guide tints are only material identifiers, not the target palette. Continue these materials plausibly on unseen faces. Do not invent additional components, ornamental framing or prongs.\nLIGHTING: diffuse base color/albedo, even flat shadowless frontal light. No cast shadows, no ambient occlusion, no dark crevice shading, no strong specular highlights or reflections, no rim light. Gold is its warm gold base color with only a faint brushed sheen. Crystal's luminous facets and fine veins are bright blue-white local color; no bloom or glow outside the silhouette. Ceramic is warm ivory with gentle surface variation. No floor, background, text, lettering, labels, watermark or border.\nCRITICAL: retain every part edge, exact guide silhouette and original small subject occupancy, including the large empty transparent areas. The shape is defined ONLY by the SECOND input.\nFlat-color requirement: retain uniform matte local color across gold facets (muted warm ochre gold, no bright yellow/white shine). Ivory remains evenly lit with only tiny sparse wear marks. No dimensional bevel shadows, dark outline, glossy edge stripes or light-source gradients. Crystal has restrained blue-white internal veins but no reflected white hotspots. This must be usable as a diffuse/albedo texture projection, not an illuminated product render. Preserve the exact guide alpha mask including its polygonal chain holes. Canvas 1024x1024 as in the guide, not the reference art's 1254x1254 canvas.\nBACK view: the pendant lies flat and is seen EDGE-ON from the opposite end. Keep the small low horizontal assembly centered in the original guide bbox x=327..696, y=434..589 of the 1024 square canvas. The crystal rises centrally, the ceramic plates are horizontal left and right, the visible gold chain links span the lower foreground and the small central gold attachment points down. Do not use the front guide; reproduce the back guide's specific overlap order and edges. Do not turn this into a face-on pendant.",
+      "output": "paint_back_attempt1.png",
+      "selected": false,
+      "reason": "Corrective pass requested: chain enlarged and over-shaded, with strong highlights inconsistent with flat albedo.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-380a354f-526b-482d-b954-6c2ddcc01921.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "b5937cde3f271d35d9a28dac18ced71fbd5d494ac3ae3b41fcbe349b94a9b7ea",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "7d0bb02f01db543e046c38b2bee46b3eab2a12a2129882ae63ef7aa364847b6b",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.77695,
+        "normalized_missing_guide_pixels": 572,
+        "normalized_extra_painted_pixels": 8975,
+        "visible_alpha_bbox_threshold_128": [
+          382,
+          530,
+          870,
+          745
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1504635,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "back",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. INPUT 1 is the approved design reference for color/material only. INPUT 2 is guide_back.png and is the exact edit target. Produce one transparent 1024x1024 PNG by recoloring ONLY the existing pixels of INPUT 2. Freeze its alpha silhouette, exact geometry, holes, overlap, framing and all component edges. Do not re-render or beautify the shapes; the guide's faceted polygon edges must stay intact. Keep the item tiny in the middle, bbox x327..696 y434..589. The back view is edge-on, ceramic plates left and right, flat-topped crystal center, thin chain across the bottom foreground, central pointed gold connector. Paint ceramic warm ivory with tiny fine wear, pale blue crystal bright ice blue with thin internal veins, and yellow hardware MATTE muted ochre-gold with faint brushed grain. Entire gold chain must be FLAT BASE COLOR: NO yellow or white shiny lines, no metallic reflections, no black grooves, no dark undersides, no shadows or ambient occlusion. Do not thicken links or fill chain holes. Crystal facets may have restrained local blue/cyan variation but no specular white hotspots. All illumination flat, uniform, shadowless. No cast shadows, no background, no floor, no text. FINAL corrective regeneration: prioritize exact guide silhouette and flat albedo over the reference's illustrated lighting.",
+      "output": "paint_back.png",
+      "selected": true,
+      "reason": "Selected correction for flatter gold/crystal treatment and improved guide alignment (95.99% normalized silhouette overlap). Residual relief shading and edge drift remain. Exact silhouette and perfectly flat-albedo requirements are not fully met; one allowed correction exhausted.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-53ae5a9a-3c6c-4785-a348-6d0bc29b0fd6.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_back.png",
+          "sha256": "b5937cde3f271d35d9a28dac18ced71fbd5d494ac3ae3b41fcbe349b94a9b7ea",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "5951d17260fe127b2f0db4f4a639409e825ee5ea4cbfe650585e1b5b0f7ea1c9",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.959934,
+        "normalized_missing_guide_pixels": 165,
+        "normalized_extra_painted_pixels": 1240,
+        "visible_alpha_bbox_threshold_128": [
+          402,
+          531,
+          852,
+          724
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1514512,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. INPUT 1 is the approved Hesper lattice pendant design reference for colors and materials ONLY. INPUT 2 is the exact orthographic guide to repaint. Return ONE genuinely transparent 1024x1024 PNG.\nRecolor ONLY the existing pixels of INPUT 2. Freeze its alpha silhouette, exact geometry, holes, overlap, framing, scale, position and every component edge. Do not beautify or redesign the shapes; retain all the guide's faceted polygon corners, not the design reference's contours. Preserve all empty transparent canvas.\nPaint the guide's grey ceramic warm ivory-white with sparse delicate wear, tiny engraved slits, fine restrained seam/crack lines. Paint pale blue crystal bright icy blue/cyan-white with subtle internal crystalline veins. Paint pale yellow chain and hardware MATTE muted warm gold with very faint brushed grain. Continue these materials plausibly on the sides. The guide tints identify materials, they are not the desired colors.\nTEXTURE SOURCE / DIFFUSE ALBEDO: illumination flat, uniform, frontal and shadowless. Gold is flat warm base color with NO shiny white/yellow stripes, no reflections, no dark undersides or crevices. No cast shadows, ambient occlusion, gloss, rim light, dark outlines or dimensional bevel shading. Crystal's light is bright local color within its silhouette, with no bloom, no reflected hotspots and no effect outside the silhouette. No background, floor, text, lettering, labels or watermark. Prioritize exact guide silhouette and flat albedo over the reference's illustrated lighting. Canvas 1024x1024 as in the guide.\nLEFT side orthographic view, the pendant lies FLAT, seen strictly EDGE-ON. Preserve the very thin horizontal composition inside bbox x=66..957, y=434..589 on the 1024 square canvas. The chain extends to the LEFT from x=66 to about 450, a gold connector is near the middle, and the crystal and ivory ceramic body lie on the RIGHT from roughly x=528 to 957. The crystal is a shallow faceted cap above the long thin ceramic profile. Keep all exact outlines, gaps and polygon corners. Do not rotate the pendant upright or tilt the camera.",
+      "output": "paint_left_attempt1.png",
+      "selected": false,
+      "reason": "Corrective pass requested: side profile position and silhouette drift; normalized mask overlap is 86.39%.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-f895a52d-822a-46ac-b0a2-208ea79c5532.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "43e548193a4e316c19d21ef8e349175ab5923b4cd6e16652e9c2ccafafdbed39",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "2441a99d9ea2118e05ae40c086936366dd2cf54a331fa4d35db56b40cae7a420",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.863889,
+        "normalized_missing_guide_pixels": 4166,
+        "normalized_extra_painted_pixels": 3680,
+        "visible_alpha_bbox_threshold_128": [
+          81,
+          544,
+          1175,
+          723
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1480156,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. INPUT 1 is the approved Hesper lattice pendant design reference for colors and materials ONLY. INPUT 2 is the exact orthographic guide to repaint. Return ONE genuinely transparent 1024x1024 PNG.\nRecolor ONLY the existing pixels of INPUT 2. Freeze its alpha silhouette, exact geometry, holes, overlap, framing, scale, position and every component edge. Do not beautify or redesign the shapes; retain all the guide's faceted polygon corners, not the design reference's contours. Preserve all empty transparent canvas.\nPaint the guide's grey ceramic warm ivory-white with sparse delicate wear, tiny engraved slits, fine restrained seam/crack lines. Paint pale blue crystal bright icy blue/cyan-white with subtle internal crystalline veins. Paint pale yellow chain and hardware MATTE muted warm gold with very faint brushed grain. Continue these materials plausibly on the sides. The guide tints identify materials, they are not the desired colors.\nTEXTURE SOURCE / DIFFUSE ALBEDO: illumination flat, uniform, frontal and shadowless. Gold is flat warm base color with NO shiny white/yellow stripes, no reflections, no dark undersides or crevices. No cast shadows, ambient occlusion, gloss, rim light, dark outlines or dimensional bevel shading. Crystal's light is bright local color within its silhouette, with no bloom, no reflected hotspots and no effect outside the silhouette. No background, floor, text, lettering, labels or watermark. Prioritize exact guide silhouette and flat albedo over the reference's illustrated lighting. Canvas 1024x1024 as in the guide.\nRIGHT side orthographic view, the pendant lies FLAT, seen strictly EDGE-ON. Preserve the very thin horizontal composition inside bbox x=66..957, y=434..589 on the 1024 square canvas. The crystal and ivory ceramic body are on the LEFT from x=66 to about 496, a gold connector is near the middle, and the chain extends to the RIGHT to x=957. The crystal is a shallow faceted cap above the long thin ceramic profile. Keep the exact right guide's outlines, gaps and polygon corners, do not mirror some other painting. Do not rotate the pendant upright or tilt the camera.",
+      "output": "paint_right.png",
+      "selected": true,
+      "reason": "Initial return retained because its normalized silhouette overlap (68.92%) exceeds the corrective return (54.32%). Right-side view remains displaced/overscaled and has residual shading. Exact silhouette and flat-albedo requirements are not met; one allowed correction exhausted.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-05d620b9-005d-4b89-9317-7385c4e188c8.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "d9dbe332699a6f3b9d4b3fe772c04e870c91b3b3f565af2c218a77d96c6bff14",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "a5571fda14751247767203316c55777b3b61802433ccfb451a4a21276ea0d0f0",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.6892,
+        "normalized_missing_guide_pixels": 8735,
+        "normalized_extra_painted_pixels": 11660,
+        "visible_alpha_bbox_threshold_128": [
+          83,
+          544,
+          1196,
+          734
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1470682,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 1,
+      "prompt": "Use case: precise-object-edit. INPUT 1 is the approved Hesper lattice pendant design reference for colors and materials ONLY. INPUT 2 is the exact orthographic guide to repaint. Return ONE genuinely transparent 1024x1024 PNG.\nRecolor ONLY the existing pixels of INPUT 2. Freeze its alpha silhouette, exact geometry, holes, overlap, framing, scale, position and every component edge. Do not beautify or redesign the shapes; retain all the guide's faceted polygon corners, not the design reference's contours. Preserve all empty transparent canvas.\nPaint the guide's grey ceramic warm ivory-white with sparse delicate wear, tiny engraved slits, fine restrained seam/crack lines. Paint pale blue crystal bright icy blue/cyan-white with subtle internal crystalline veins. Paint pale yellow chain and hardware MATTE muted warm gold with very faint brushed grain. Continue these materials plausibly on the sides. The guide tints identify materials, they are not the desired colors.\nTEXTURE SOURCE / DIFFUSE ALBEDO: illumination flat, uniform, frontal and shadowless. Gold is flat warm base color with NO shiny white/yellow stripes, no reflections, no dark undersides or crevices. No cast shadows, ambient occlusion, gloss, rim light, dark outlines or dimensional bevel shading. Crystal's light is bright local color within its silhouette, with no bloom, no reflected hotspots and no effect outside the silhouette. No background, floor, text, lettering, labels or watermark. Prioritize exact guide silhouette and flat albedo over the reference's illustrated lighting. Canvas 1024x1024 as in the guide.\nTOP orthographic view from directly above the flat-lying pendant. Retain the narrow vertical composition inside bbox x=327..696, y=66..957 on the 1024 square canvas. The gold chain loop occupies the top half, joining at the central gold connector and circular fitting near y=500. The elongated pointed blue crystal occupies the lower half around x=418..608, y=541..917, between two separated long angular ivory ceramic arms. Keep these arms' exact blunt ends, keep all chain gaps and the central open area transparent. Use the design reference for surface colors only; do NOT add its extra gold cradle, claw tips or any absent shapes, and do NOT enlarge the pendant.",
+      "output": "paint_top_attempt1.png",
+      "selected": false,
+      "reason": "Corrective pass requested: chain highlights and relief shading remain; normalized mask overlap is 95.54%, below exact requirement.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-a4c0e1a7-8375-4a71-8573-0f472ab6a754.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "733cdebf2048e7c4dc0bf61687a8d975da7003909c59c79ad02bb547b28e339e",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "0e9d744ff2dabfa7d34b13c30be1d36ac952256173ed1ab8b075c160ca56ef37",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.955414,
+        "normalized_missing_guide_pixels": 303,
+        "normalized_extra_painted_pixels": 5220,
+        "visible_alpha_bbox_threshold_128": [
+          399,
+          81,
+          853,
+          1174
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1359151,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "left",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. INPUT 1 is the approved design reference for color/material only. INPUT 2 is the orthographic guide and is the exact edit target. Produce one transparent 1024x1024 PNG by recoloring ONLY the existing pixels of INPUT 2. Freeze its alpha silhouette, exact geometry, holes, overlap, framing and all component edges. Do not re-render or beautify the shapes; the guide's faceted polygon edges must stay intact.\nPaint ceramic warm ivory with tiny fine wear, pale blue crystal bright ice blue with thin internal veins, and yellow hardware MATTE muted ochre-gold with faint brushed grain. Entire gold chain must be FLAT BASE COLOR: NO yellow or white shiny lines, no metallic reflections, no black grooves, no dark undersides, no shadows or ambient occlusion. Do not thicken links or fill chain holes. Crystal facets may have restrained local blue/cyan variation but no specular white hotspots. All illumination flat, uniform, shadowless. No cast shadows, no background, no floor, no text.\nFINAL corrective regeneration: prioritize exact guide silhouette and flat albedo over the reference's illustrated lighting. All surfaces must stay registered to the guide. Retain the original ceramic outline, crystal polygon corners and chain link count. No stray pixels or glow outside the guide silhouette. In particular, do NOT shift the subject downward or expand the canvas occupancy. Reproduce the guide's exact placement.\nLEFT side orthographic view, the pendant lies FLAT, seen strictly EDGE-ON. Preserve the very thin horizontal composition inside bbox x=66..957, y=434..589 on the 1024 square canvas. The chain extends to the LEFT from x=66 to about 450, a gold connector is near the middle, and the crystal and ivory ceramic body lie on the RIGHT from roughly x=528 to 957. The crystal is a shallow faceted cap above the long thin ceramic profile. Keep all exact outlines, gaps and polygon corners. Do not rotate the pendant upright or tilt the camera.",
+      "output": "paint_left.png",
+      "selected": true,
+      "reason": "Selected correction for flatter ceramic/crystal treatment and improved guide alignment (94.02% normalized silhouette overlap). Some edge drift and gold relief shading remain. Exact silhouette and perfectly flat-albedo requirements are not fully met; one allowed correction exhausted.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-e5c41f1c-dd4c-4aa0-986a-555dfb16a3a5.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_left.png",
+          "sha256": "43e548193a4e316c19d21ef8e349175ab5923b4cd6e16652e9c2ccafafdbed39",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "b6e00509db8a1718c984b9901f10829c90b83f2dca001de04b17243427b89077",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.94015,
+        "normalized_missing_guide_pixels": 602,
+        "normalized_extra_painted_pixels": 2795,
+        "visible_alpha_bbox_threshold_128": [
+          81,
+          532,
+          1173,
+          721
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1476430,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "right",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. INPUT 1 is the approved design reference for color/material only. INPUT 2 is the orthographic guide and is the exact edit target. Produce one transparent 1024x1024 PNG by recoloring ONLY the existing pixels of INPUT 2. Freeze its alpha silhouette, exact geometry, holes, overlap, framing and all component edges. Do not re-render or beautify the shapes; the guide's faceted polygon edges must stay intact.\nPaint ceramic warm ivory with tiny fine wear, pale blue crystal bright ice blue with thin internal veins, and yellow hardware MATTE muted ochre-gold with faint brushed grain. Entire gold chain must be FLAT BASE COLOR: NO yellow or white shiny lines, no metallic reflections, no black grooves, no dark undersides, no shadows or ambient occlusion. Do not thicken links or fill chain holes. Crystal facets may have restrained local blue/cyan variation but no specular white hotspots. All illumination flat, uniform, shadowless. No cast shadows, no background, no floor, no text.\nFINAL corrective regeneration: prioritize exact guide silhouette and flat albedo over the reference's illustrated lighting. All surfaces must stay registered to the guide. Retain the original ceramic outline, crystal polygon corners and chain link count. No stray pixels or glow outside the guide silhouette. In particular, do NOT shift the subject downward or expand the canvas occupancy. Reproduce the guide's exact placement.\nRIGHT side orthographic view, the pendant lies FLAT, seen strictly EDGE-ON. Preserve the very thin horizontal composition inside bbox x=66..957, y=434..589 on the 1024 square canvas. The crystal and ivory ceramic body are on the LEFT from x=66 to about 496, a gold connector is near the middle, and the chain extends to the RIGHT to x=957. The crystal is a shallow faceted cap above the long thin ceramic profile. Keep the exact right guide's outlines, gaps and polygon corners, do not mirror some other painting. Do not rotate the pendant upright or tilt the camera.",
+      "output": "paint_right_attempt2.png",
+      "selected": false,
+      "reason": "Rejected corrective return: flatter ceramic/gold treatment, but downward displacement worsened normalized silhouette overlap to 54.32%. No further regeneration allowed.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-4a0b5440-49e5-405a-b0d0-77b5c32a6de4.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_right.png",
+          "sha256": "d9dbe332699a6f3b9d4b3fe772c04e870c91b3b3f565af2c218a77d96c6bff14",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "d680f8680f86057d6e2bb3d633d80aea701bd3569704e2c14a622d03548edbf9",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.543225,
+        "normalized_missing_guide_pixels": 15354,
+        "normalized_extra_painted_pixels": 17109,
+        "visible_alpha_bbox_threshold_128": [
+          82,
+          555,
+          1175,
+          744
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1471939,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    },
+    {
+      "view": "top",
+      "attempt": 2,
+      "prompt": "Use case: precise-object-edit. INPUT 1 is the approved design reference for color/material only. INPUT 2 is the orthographic guide and is the exact edit target. Produce one transparent 1024x1024 PNG by recoloring ONLY the existing pixels of INPUT 2. Freeze its alpha silhouette, exact geometry, holes, overlap, framing and all component edges. Do not re-render or beautify the shapes; the guide's faceted polygon edges must stay intact.\nPaint ceramic warm ivory with tiny fine wear, pale blue crystal bright ice blue with thin internal veins, and yellow hardware MATTE muted ochre-gold with faint brushed grain. Entire gold chain must be FLAT BASE COLOR: NO yellow or white shiny lines, no metallic reflections, no black grooves, no dark undersides, no shadows or ambient occlusion. Do not thicken links or fill chain holes. Crystal facets may have restrained local blue/cyan variation but no specular white hotspots. All illumination flat, uniform, shadowless. No cast shadows, no background, no floor, no text.\nFINAL corrective regeneration: prioritize exact guide silhouette and flat albedo over the reference's illustrated lighting. All surfaces must stay registered to the guide. Retain the original ceramic outline, crystal polygon corners and chain link count. No stray pixels or glow outside the guide silhouette. In particular, do NOT shift the subject downward or expand the canvas occupancy. Reproduce the guide's exact placement.\nTOP orthographic view from directly above the flat-lying pendant. Retain the narrow vertical composition inside bbox x=327..696, y=66..957 on the 1024 square canvas. The gold chain loop occupies the top half, joining at the central gold connector and circular fitting near y=500. The elongated pointed blue crystal occupies the lower half around x=418..608, y=541..917, between two separated long angular ivory ceramic arms. Keep these arms' exact blunt ends, keep all chain gaps and the central open area transparent. Use the design reference for surface colors only; do NOT add its extra gold cradle, claw tips or any absent shapes, and do NOT enlarge the pendant.\nGold chain should be the same low-contrast diffuse ochre on every facet, not glossy jewelry lighting. Do not round off the guide's polygonal gold link edges. Ceramic fine wear is subtle, not thick brown outlines.",
+      "output": "paint_top.png",
+      "selected": true,
+      "reason": "Selected correction for flatter gold, polygonal chain links and subtler ceramic wear. It has lower normalized silhouette overlap (93.07%) than the first return (95.54%); this tradeoff reduces baked lighting. Edge drift and subtle relief shading remain. Exact silhouette and perfectly flat-albedo requirements are not fully met; one allowed correction exhausted.",
+      "original_tool_output": "/home/pjasicek/.codex/generated_images/01a16de0-1816-7191-8765-e0c150cc4404/exec-799ade31-9bd7-4808-982e-a72674c7494a.png",
+      "inputs": [
+        {
+          "path": "design_reference.png",
+          "sha256": "6723a9ed0d3a232fb556ca7341c938295eda8664556f5740507b3c3d43193d6c",
+          "role": "material and color reference"
+        },
+        {
+          "path": "guide_top.png",
+          "sha256": "733cdebf2048e7c4dc0bf61687a8d975da7003909c59c79ad02bb547b28e339e",
+          "role": "exact geometry, silhouette and placement guide"
+        }
+      ],
+      "output_sha256": "367b5478bdf3a1ad33fa0509973af858ae2d2ecbf0bf66767a6fe5a95b32485e",
+      "returned_size": [
+        1254,
+        1254
+      ],
+      "unresized": true,
+      "checks": {
+        "silhouette_identical": false,
+        "normalized_silhouette_iou": 0.930743,
+        "normalized_missing_guide_pixels": 67,
+        "normalized_extra_painted_pixels": 8757,
+        "visible_alpha_bbox_threshold_128": [
+          400,
+          79,
+          854,
+          1175
+        ],
+        "colors_materials": "Ivory ceramic, warm gold and luminous icy blue crystal match the reference palette; surface markings vary between views.",
+        "flat_even_lighting": "Partial: baked facet/relief shading remains; strongest in metallic chain surfaces. No floor or external cast shadow.",
+        "transparent_background": true,
+        "transparent_pixel_count": 1358397,
+        "transparency_note": "Original alpha preserved, including faint fringe/residual pixels outside the intended guide mask.",
+        "no_text_or_letters": true
+      }
+    }
+  ],
+  "validation_method": {
+    "visual": "Every generated return inspected for view, materials, lighting, transparency and absence of text.",
+    "silhouette": "Alpha masks thresholded at 128. Generated alpha is mapped to guide dimensions with nearest-neighbor sampling in memory for normalized intersection-over-union. No PNG is resized or edited.",
+    "exact_match": "Requires identical dimensions and identical full alpha arrays; every return differs from its guide.",
+    "provenance": "Each saved output is byte-identical to its built-in tool return; input hashes verified unchanged."
+  }
+}

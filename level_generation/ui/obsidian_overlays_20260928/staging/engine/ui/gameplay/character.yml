@@ -1,0 +1,1482 @@
+# APPROVED VISUAL DESIGN / RUNTIME DRAFT. Not mounted. See staging/INTEGRATION.md.
+# Keep existing IDs, actions and dynamic content. New bindings are explicitly noted.
+screen: Character
+elements:
+- id: CharacterRoot
+  anchor: center
+  width: 640
+  height: 480
+  scale:
+    min: 1.0
+    max: 8.0
+  notes: Character screen rooted to the classic MM8 composition from the reference screenshot.
+  children:
+  - id: CharacterTopBar
+    anchor: top_center
+    width: 640
+    height: 29
+    z_index: 50
+    asset:
+      default: obsidian_topbar
+    notes: Duplicated from the gameplay HUD so character pages can layer independently above it.
+    children:
+    - id: CharacterGoldFoodIcon
+      anchor: center_in
+      offset_x: -165
+      width: 134
+      height: 21
+      asset:
+        default: scoreBG
+      notes: Gold and food background art.
+    - id: CharacterGoldLabel
+      anchor: center_in
+      offset_x: -85
+      width: 28
+      height: 14
+      text:
+        value: '{gold}'
+        font: SMALLNUM
+        align_x: center
+        align_y: middle
+        color: '#e5dcc7'
+      notes: Gold counter.
+    - id: CharacterFoodLabel
+      anchor: center_in
+      offset_x: -180
+      width: 28
+      height: 14
+      text:
+        value: '{food}'
+        font: SMALLNUM
+        align_x: center
+        align_y: middle
+        color: '#e5dcc7'
+      notes: Food counter.
+  - id: CharacterDismissButton
+    anchor: top_left
+    offset_x: 525
+    offset_y: 380
+    width: 75
+    height: 26
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_tab_normal
+      highlighted: obsidian_button_tab_hover
+      pressed: obsidian_button_tab_pressed
+      selected: obsidian_button_tab_selected
+    text:
+      value: Dismiss
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+  - id: CharacterStatsButton
+    anchor: bottom_Left
+    offset_x: 16
+    offset_y: -118
+    width: 75
+    height: 26
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_tab_normal
+      highlighted: obsidian_button_tab_hover
+      pressed: obsidian_button_tab_pressed
+      selected: obsidian_button_tab_selected
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+    text:
+      value: Stats
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: CharacterSkillsButton
+    anchor: bottom_Left
+    offset_x: 106
+    offset_y: -118
+    width: 75
+    height: 26
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_tab_normal
+      highlighted: obsidian_button_tab_hover
+      pressed: obsidian_button_tab_pressed
+      selected: obsidian_button_tab_selected
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+    text:
+      value: Skills
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: CharacterInventoryButton
+    anchor: bottom_Left
+    offset_x: 196
+    offset_y: -118
+    width: 75
+    height: 26
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_tab_normal
+      highlighted: obsidian_button_tab_hover
+      pressed: obsidian_button_tab_pressed
+      selected: obsidian_button_tab_selected
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+    text:
+      value: Inventory
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: CharacterAwardsButton
+    anchor: bottom_Left
+    offset_x: 286
+    offset_y: -118
+    width: 75
+    height: 26
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_tab_normal
+      highlighted: obsidian_button_tab_hover
+      pressed: obsidian_button_tab_pressed
+      selected: obsidian_button_tab_selected
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+    text:
+      value: Awards
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: CharacterExitButton
+    anchor: bottom_left
+    offset_x: 376
+    offset_y: -118
+    width: 75
+    height: 26
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_tab_normal
+      highlighted: obsidian_button_tab_hover
+      pressed: obsidian_button_tab_pressed
+      selected: obsidian_button_tab_selected
+    notes: 'Draft: retain the existing action/hit target. Draw a live localized Fondamento label. Font registration,
+      state text colours and disabled plate selection require renderer wiring; see design/theme.yml and INTEGRATION.md.'
+    text:
+      value: Exit
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: CharacterStatsPage
+    anchor: top_left
+    offset_x: 0
+    offset_y: 24
+    z_index: 80
+    width: 468
+    height: 346
+    visible: true
+    asset:
+      default: obsidian_stats_surface
+    notes: Stats screen frame matching the reference screenshot.
+    children:
+    - id: CharacterStatsNameLabel
+      anchor: top_left
+      offset_x: 20
+      offset_y: 12
+      width: 180
+      height: 18
+      text:
+        value: '{character_name}'
+        font: Create
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+      notes: Preserve Create. Name/class share one line; point count uses positive colour only if available.
+      children:
+      - id: CharacterStatsClassLabel
+        anchor: right_of
+        offset_x: 4
+        offset_y: 0
+        width: 145
+        height: 22
+        text:
+          value: '{character_class}'
+          font: Create
+          color: '#e4c793'
+          align_x: left
+          align_y: top
+        notes: 'New binding: measure name width, then place class on same baseline; include localized article.'
+    - id: CharacterStatsSkillPointsTextLabel
+      anchor: top_right
+      offset_x: -52
+      offset_y: 12
+      width: 140
+      height: 18
+      text:
+        value: 'Skill Points:'
+        font: Create
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+      notes: Preserve Create. Name/class share one line; point count uses positive colour only if available.
+    - id: CharacterStatsSkillPointsValue
+      anchor: top_right
+      offset_x: -25
+      offset_y: 12
+      width: 60
+      height: 18
+      text:
+        value: '{stats_skill_points_value}'
+        font: Create
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+      notes: Preserve Create. Name/class share one line; point count uses positive colour only if available.
+    - id: CharacterStatMightLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 42.133334
+      width: 133.341667
+      height: 18
+      text:
+        value: Might
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatMightValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 42.133334
+      width: 85
+      height: 18
+      text:
+        value: '{might_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatIntellectLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 60.133334
+      width: 133.341667
+      height: 18
+      text:
+        value: Intellect
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatIntellectValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 60.133334
+      width: 85
+      height: 18
+      text:
+        value: '{intellect_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatPersonalityLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 78.133334
+      width: 133.341667
+      height: 18
+      text:
+        value: Personality
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatPersonalityValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 78.133334
+      width: 85
+      height: 18
+      text:
+        value: '{personality_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatEnduranceLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 96.133334
+      width: 133.341667
+      height: 18
+      text:
+        value: Endurance
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatEnduranceValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 96.133334
+      width: 85
+      height: 18
+      text:
+        value: '{endurance_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatAccuracyLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 114.133334
+      width: 133.341667
+      height: 18
+      text:
+        value: Accuracy
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatAccuracyValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 114.133334
+      width: 85
+      height: 18
+      text:
+        value: '{accuracy_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatSpeedLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 132.133334
+      width: 133.341667
+      height: 18
+      text:
+        value: Speed
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatSpeedValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 132.133334
+      width: 85
+      height: 18
+      text:
+        value: '{speed_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatLuckLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 150.133334
+      width: 133.341667
+      height: 18
+      text:
+        value: Luck
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatLuckValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 150.133334
+      width: 85
+      height: 18
+      text:
+        value: '{luck_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatHitPointsLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 180.933334
+      width: 133.341667
+      height: 18
+      text:
+        value: Hit Points
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatHitPointsValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 180.933334
+      width: 85
+      height: 18
+      text:
+        value: '{hit_points_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatSpellPointsLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 198.933334
+      width: 133.341667
+      height: 18
+      text:
+        value: Spell Points
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatSpellPointsValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 198.933334
+      width: 85
+      height: 18
+      text:
+        value: '{spell_points_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatArmorClassLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 216.933334
+      width: 133.341667
+      height: 18
+      text:
+        value: Armor Class
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatArmorClassValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 216.933334
+      width: 85
+      height: 18
+      text:
+        value: '{armor_class_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatConditionLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 247.733334
+      width: 133.341667
+      height: 18
+      text:
+        value: 'Condition:'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatConditionValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 247.733334
+      width: 85
+      height: 18
+      text:
+        value: '{condition_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatQuickSpellLabel
+      anchor: top_left
+      offset_x: 21.866667
+      offset_y: 265.733334
+      width: 133.341667
+      height: 18
+      text:
+        value: 'Quick Spell:'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatQuickSpellValue
+      anchor: top_left
+      offset_x: 155.208333
+      offset_y: 265.733334
+      width: 85
+      height: 18
+      text:
+        value: '{quick_spell_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatAgeLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 42.133334
+      width: 98.258333
+      height: 18
+      text:
+        value: Age
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatAgeValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 42.133334
+      width: 85
+      height: 18
+      text:
+        value: '{age_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatLevelLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 60.133334
+      width: 98.258333
+      height: 18
+      text:
+        value: Level
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatLevelValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 60.133334
+      width: 85
+      height: 18
+      text:
+        value: '{level_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatExperienceLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 78.133334
+      width: 98.258333
+      height: 18
+      text:
+        value: Experience
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatExperienceValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 78.133334
+      width: 85
+      height: 18
+      text:
+        value: '{experience_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatAttackLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 108.933334
+      width: 98.258333
+      height: 18
+      text:
+        value: Attack
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatAttackValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 108.933334
+      width: 85
+      height: 18
+      text:
+        value: '{attack_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatMeleeDamageLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 126.933334
+      width: 98.258333
+      height: 18
+      text:
+        value: Damage
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatMeleeDamageValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 126.933334
+      width: 85
+      height: 18
+      text:
+        value: '{melee_damage_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatShootLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 144.933334
+      width: 98.258333
+      height: 18
+      text:
+        value: Shoot
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatShootValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 144.933334
+      width: 85
+      height: 18
+      text:
+        value: '{shoot_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatRangedDamageLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 162.933334
+      width: 98.258333
+      height: 18
+      text:
+        value: Damage
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatRangedDamageValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 162.933334
+      width: 85
+      height: 18
+      text:
+        value: '{ranged_damage_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatFireResistanceLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 193.733334
+      width: 98.258333
+      height: 18
+      text:
+        value: Fire
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatFireResistanceValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 193.733334
+      width: 85
+      height: 18
+      text:
+        value: '{fire_resistance_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatAirResistanceLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 211.733334
+      width: 98.258333
+      height: 18
+      text:
+        value: Air
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatAirResistanceValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 211.733334
+      width: 85
+      height: 18
+      text:
+        value: '{air_resistance_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatWaterResistanceLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 229.733334
+      width: 98.258333
+      height: 18
+      text:
+        value: Water
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatWaterResistanceValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 229.733334
+      width: 85
+      height: 18
+      text:
+        value: '{water_resistance_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatEarthResistanceLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 247.733334
+      width: 98.258333
+      height: 18
+      text:
+        value: Earth
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatEarthResistanceValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 247.733334
+      width: 85
+      height: 18
+      text:
+        value: '{earth_resistance_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatMindResistanceLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 265.733334
+      width: 98.258333
+      height: 18
+      text:
+        value: Mind
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatMindResistanceValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 265.733334
+      width: 85
+      height: 18
+      text:
+        value: '{mind_resistance_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatBodyResistanceLabel
+      anchor: top_left
+      offset_x: 261.541667
+      offset_y: 283.733334
+      width: 98.258333
+      height: 18
+      text:
+        value: Body
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+    - id: CharacterStatBodyResistanceValue
+      anchor: top_left
+      offset_x: 359.8
+      offset_y: 283.733334
+      width: 85
+      height: 18
+      text:
+        value: '{body_resistance_value}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+        scale: 1.0588235294117647
+      notes: Approved section geometry; retain dynamic original content/formatting and semantic colour runs.
+  - id: CharacterSkillsPage
+    anchor: top_left
+    offset_x: 0
+    offset_y: 24
+    width: 468
+    height: 346
+    z_index: 80
+    visible: true
+    asset:
+      default: obsidian_skills_surface
+    notes: Skills frame in the same left-hand page slot as stats.
+    children:
+    - id: CharacterSkillsNameLabel
+      anchor: top_left
+      offset_x: 20
+      offset_y: 12
+      width: 180
+      height: 18
+      text:
+        value: '{character_name}'
+        font: Create
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+      notes: Preserve Create. Name/class share one line; point count uses positive colour only if available.
+      children:
+      - id: CharacterSkillsClassLabel
+        anchor: right_of
+        offset_x: 4
+        offset_y: 0
+        width: 145
+        height: 22
+        text:
+          value: '{character_class}'
+          font: Create
+          color: '#e4c793'
+          align_x: left
+          align_y: top
+        notes: 'New binding: measure name width, then place class on same baseline; include localized article.'
+    - id: CharacterSkillsSkillPointsTextLabel
+      anchor: top_right
+      offset_x: -52
+      offset_y: 12
+      width: 140
+      height: 18
+      text:
+        value: 'Skill Points:'
+        font: Create
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+      notes: Preserve Create. Name/class share one line; point count uses positive colour only if available.
+    - id: CharacterSkillsSkillPointsValue
+      anchor: top_right
+      offset_x: -25
+      offset_y: 12
+      width: 60
+      height: 18
+      text:
+        value: '{stats_skill_points_value}'
+        font: Create
+        color: '#e5dcc7'
+        align_x: right
+        align_y: middle
+      notes: Preserve Create. Name/class share one line; point count uses positive colour only if available.
+    - id: CharacterSkillsWeaponsHeader
+      anchor: top_left
+      offset_x: 20
+      offset_y: 44
+      width: 120
+      height: 16
+      text:
+        value: Weapons
+        font: Arrus
+        color: '#e4c793'
+        align_x: left
+        align_y: middle
+    - id: CharacterSkillsWeaponsLevelHeader
+      anchor: top_left
+      offset_x: 176
+      offset_y: 44
+      width: 48
+      height: 16
+      text:
+        value: Level
+        font: Arrus
+        color: '#e4c793'
+        align_x: left
+        align_y: middle
+      visible: false
+    - id: CharacterSkillsWeaponsListRegion
+      anchor: top_left
+      offset_x: 20
+      offset_y: 64
+      width: 204
+      height: 18
+      notes: Native Lucida 17 logical; row pitch 14; blue eligible whole-row clicks; held RMB inspects any row. Runtime
+        owns row count.
+      children:
+      - id: CharacterSkillsMagicHeader
+        anchor: below
+        offset_x: 0
+        offset_y: 12
+        width: 120
+        height: 16
+        text:
+          value: Magic
+          font: Arrus
+          color: '#e4c793'
+          align_x: left
+          align_y: middle
+        notes: Position follows the weapons list height.
+        children:
+        - id: CharacterSkillsMagicListRegion
+          anchor: below
+          offset_x: 0
+          offset_y: 6
+          width: 204
+          height: 18
+          notes: Native Lucida 17 logical; row pitch 14; blue eligible whole-row clicks; held RMB inspects any row.
+            Runtime owns row count.
+      - id: CharacterSkillsMagicLevelHeader
+        anchor: below
+        offset_x: 156
+        offset_y: 12
+        width: 48
+        height: 16
+        text:
+          value: Level
+          font: Arrus
+          color: '#e4c793'
+          align_x: left
+          align_y: middle
+        notes: Follows the dynamic magic section start.
+        visible: false
+    - id: CharacterSkillsArmorHeader
+      anchor: top_left
+      offset_x: 248
+      offset_y: 44
+      width: 90
+      height: 16
+      text:
+        value: Armor
+        font: Arrus
+        color: '#e4c793'
+        align_x: left
+        align_y: middle
+    - id: CharacterSkillsArmorLevelHeader
+      anchor: top_left
+      offset_x: 402
+      offset_y: 44
+      width: 48
+      height: 16
+      text:
+        value: Level
+        font: Arrus
+        color: '#e4c793'
+        align_x: left
+        align_y: middle
+      visible: false
+    - id: CharacterSkillsArmorListRegion
+      anchor: top_left
+      offset_x: 248
+      offset_y: 64
+      width: 182
+      height: 18
+      notes: Native Lucida 17 logical; row pitch 14; blue eligible whole-row clicks; held RMB inspects any row. Runtime
+        owns row count.
+      children:
+      - id: CharacterSkillsMiscHeader
+        anchor: below
+        offset_x: 0
+        offset_y: 12
+        width: 90
+        height: 16
+        text:
+          value: Misc
+          font: Arrus
+          color: '#e4c793'
+          align_x: left
+          align_y: middle
+        notes: Position follows the armor list height.
+        children:
+        - id: CharacterSkillsMiscListRegion
+          anchor: below
+          offset_x: 0
+          offset_y: 6
+          width: 182
+          height: 18
+          notes: Native Lucida 17 logical; row pitch 14; blue eligible whole-row clicks; held RMB inspects any row.
+            Runtime owns row count.
+      - id: CharacterSkillsMiscLevelHeader
+        anchor: below
+        offset_x: 154
+        offset_y: 12
+        width: 48
+        height: 16
+        text:
+          value: Level
+          font: Arrus
+          color: '#e4c793'
+          align_x: left
+          align_y: middle
+        notes: Follows the dynamic misc section start.
+        visible: false
+  - id: CharacterInventoryPage
+    anchor: top_left
+    offset_x: 0
+    offset_y: 24
+    width: 468
+    height: 346
+    z_index: 80
+    visible: true
+    asset:
+      default: obsidian_inventory_surface
+    notes: Inventory frame in the same left-hand slot.
+    children:
+    - id: CharacterInventoryGrid
+      anchor: top_left
+      offset_x: 7
+      offset_y: 8
+      width: 448
+      height: 288
+      interactive: true
+      notes: '14 columns × 9 rows; each 32×32 logical. Parent (0,24), grid (7,8): screen (7,32). Held RMB only; release
+        closes.'
+    - id: CharacterInventoryInfo
+      anchor: top_left
+      offset_x: 16
+      offset_y: 304
+      width: 434
+      height: 28
+      text:
+        value: '{inventory_info}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: top
+      notes: 'Approved: no hover label above Stats; no ordinary inventory hover overlay.'
+      visible: false
+  - id: CharacterAwardsPage
+    anchor: top_left
+    offset_x: 0
+    offset_y: 24
+    width: 468
+    height: 346
+    z_index: 80
+    visible: true
+    asset:
+      default: obsidian_awards_surface
+    notes: Awards frame in the same left-hand slot.
+    children:
+    - id: CharacterAwardsNameLabel
+      anchor: top_left
+      offset_x: 20
+      offset_y: 12
+      width: 180
+      height: 18
+      text:
+        value: '{character_name}'
+        font: Create
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+      notes: Preserve Create. Name/class share one line; point count uses positive colour only if available.
+    - id: CharacterAwardsList
+      anchor: top_left
+      offset_x: 18
+      offset_y: 41
+      width: 382
+      height: 275
+      interactive: true
+      text:
+        value: '{awards}'
+        font: Arrus
+        color: '#e5dcc7'
+        align_x: left
+        align_y: top
+      notes: Original priority palette; plain scrolling Arrus text, no nested border/bullets/rules.
+    - id: CharacterAwardsScrollUpButton
+      anchor: top_left
+      offset_x: 435
+      offset_y: 39
+      width: 17
+      height: 17
+      z_index: 300
+      interactive: true
+      asset:
+        default: AR_UP_UP
+        highlighted: AR_UP_HT
+        pressed: AR_UP_DN
+      notes: Awards list scroll up button.
+    - id: CharacterAwardsScrollTrack
+      anchor: top_left
+      offset_x: 440
+      offset_y: 53
+      width: 16
+      height: 236
+      z_index: 299
+      interactive: true
+      notes: Awards list invisible scroll track.
+    - id: CharacterAwardsScrollThumb
+      anchor: top_left
+      offset_x: 434
+      offset_y: 61
+      width: 17
+      height: 17
+      z_index: 301
+      interactive: true
+      asset:
+        default: but_thum
+      notes: Awards list scroll thumb.
+    - id: CharacterAwardsScrollDownButton
+      anchor: top_left
+      offset_x: 435
+      offset_y: 288
+      width: 17
+      height: 17
+      z_index: 300
+      interactive: true
+      asset:
+        default: AR_DN_UP
+        highlighted: AR_DN_HT
+        pressed: AR_DN_DN
+      notes: Awards list scroll down button.
+    - id: CharacterAwardDetail
+      anchor: top_left
+      offset_x: 18
+      offset_y: 326
+      width: 430
+      height: 18
+      text:
+        value: '{award_detail}'
+        font: Lucida
+        color: '#e5dcc7'
+        align_x: left
+        align_y: middle
+      notes: Selected award detail line.
+      visible: false
+  - id: CharacterDollPanel
+    anchor: top_right
+    offset_x: 0
+    offset_y: 24
+    width: 175
+    height: 378
+    z_index: 50
+    notes: Right-side doll column beside the page frame. Background art still needs proper wiring.
+    children:
+    - id: CharacterDollBackground
+      anchor: center
+      width: 175
+      height: 378
+      asset:
+        default: backdolm
+      notes: Placeholder for right-side doll background art.
+      children:
+      - id: CharacterDollJewelryOverlayPanel
+        anchor: top_right
+        width: 176
+        height: 345
+        z_index: 90
+        interactive: true
+        asset:
+          default: backhand
+        notes: Overlay view for displaying jewleries, gauntles over the doll view
+        children:
+        - id: CharacterDollGauntletsSlot
+          anchor: top_left
+          offset_x: 25
+          offset_y: 72
+          width: 32
+          height: 64
+          notes: Jewelry overlay gauntlets slot
+        - id: CharacterDollAmuletSlot
+          anchor: top_left
+          offset_x: 116
+          offset_y: 72
+          width: 32
+          height: 64
+          notes: Jewelry overlay amulet slot
+        - id: CharacterDollRing1Slot
+          anchor: top_left
+          offset_x: 25
+          offset_y: 181
+          width: 32
+          height: 32
+          notes: Jewelry overlay ring slot 1
+        - id: CharacterDollRing2Slot
+          anchor: top_left
+          offset_x: 73
+          offset_y: 181
+          width: 32
+          height: 32
+          notes: Jewelry overlay ring slot 2
+        - id: CharacterDollRing3Slot
+          anchor: top_left
+          offset_x: 121
+          offset_y: 181
+          width: 32
+          height: 32
+          notes: Jewelry overlay ring slot 3
+        - id: CharacterDollRing4Slot
+          anchor: top_left
+          offset_x: 25
+          offset_y: 229
+          width: 32
+          height: 32
+          notes: Jewelry overlay ring slot 4
+        - id: CharacterDollRing5Slot
+          anchor: top_left
+          offset_x: 73
+          offset_y: 229
+          width: 32
+          height: 32
+          notes: Jewelry overlay ring slot 5
+        - id: CharacterDollRing6Slot
+          anchor: top_left
+          offset_x: 121
+          offset_y: 229
+          width: 32
+          height: 32
+          notes: Jewelry overlay ring slot 6
+    - id: CharacterDollBowSlot
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 51
+      notes: Bow slot
+    - id: CharacterDollCloakSlot
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 52
+      notes: Cloak slot
+    - id: CharacterDollBody
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      z_index: 60
+      width: 0
+      height: 0
+      notes: Character doll body, set up by code according to the selected character
+    - id: CharacterDollRightHand
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 65
+      notes: Character doll right hand, set up by code according to the selected character
+    - id: CharacterDollLeftHand
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 65
+      notes: Character doll right hand, set up by code according to the selected character
+    - id: CharacterDollRightHandFingers
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 75
+      notes: Right hand fingers
+    - id: CharacterDollRightHandSlot
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      z_index: 70
+      width: 0
+      height: 0
+      notes: Right hand slot
+    - id: CharacterDollLeftHandSlot
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 70
+      notes: Left hand slot
+    - id: CharacterDollArmorSlot
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 66
+      notes: Armor slot
+    - id: CharacterDollBootsSlot
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 67
+      notes: Boots slot
+    - id: CharacterDollHelmetSlot
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 66
+      notes: Helmet slot
+    - id: CharacterDollBeltSlot
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 0
+      height: 0
+      z_index: 67
+      notes: Belt slot
+    - id: CharacterMagnifyButton
+      anchor: bottom_right
+      offset_x: -5
+      offset_y: -50
+      width: 33
+      height: 51
+      z_index: 95
+      interactive: true
+      asset:
+        default: MAGNIF-B
+        pressed: MAGNIF-B
+        highlighted: MAGNIF-B
+      notes: Magnifying glass toggle used by all four character views.

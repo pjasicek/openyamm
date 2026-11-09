@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MM6 frame placement &amp; acceptance</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+  <script defer src="/landmarks.js"></script>
+</head>
+<body>
+  <header>
+    <div class="heading">
+      <div>
+        <h1>MM6 frame placement &amp; acceptance</h1>
+        <p>Original and restored · native anchors, timing and relative frame scale</p>
+      </div>
+      <div id="counts" aria-live="polite"></div>
+    </div>
+    <div class="toolbar">
+      <button id="previousFamily" type="button">← Previous family</button>
+      <select id="family" aria-label="Family"></select>
+      <button id="nextFamily" type="button">Next family →</button>
+      <span id="familyPosition"></span>
+    </div>
+    <div class="toolbar">
+      <label>Action <select id="action"></select></label>
+      <label>View <select id="view"></select></label>
+      <label>Palette <select id="palette"></select></label>
+      <button id="previousClip" type="button" title="Shift+Left: previous native animation/view, skipping mirrored copies">← Clip</button>
+      <button id="nextClip" type="button" title="Shift+Right: next native animation/view, skipping mirrored copies">Clip →</button>
+      <button id="play" type="button">Pause</button>
+      <label class="check"><input id="tour" type="checkbox"> Tour clips</label>
+      <label title="Both views zoom together; 100% is original native size">Zoom <select id="zoom" aria-label="Zoom both views">
+        <option value="0.5">50%</option><option value="0.75">75%</option><option value="1">100%</option>
+        <option value="1.5">150%</option><option value="2" selected>200%</option>
+        <option value="2.5">250%</option><option value="3">300%</option>
+        <option value="4">400%</option><option value="6">600%</option><option value="8">800%</option>
+      </select></label>
+      <label class="check"><input id="frameScale" type="checkbox" checked> Game frame scale</label>
+      <label>Backdrop <select id="background">
+        <option value="game">Game dark</option><option value="light">Light</option>
+        <option value="checker">Checkerboard</option>
+      </select></label>
+      <label class="check"><input id="guides" type="checkbox"> Anchor guides</label>
+      <label class="check"><input id="topGuides" type="checkbox" checked> Top &amp; height guides</label>
+      <label class="check" title="Fixed reference shared by both panels; Auto center snaps to the current original">
+        <input id="centerGuide" type="checkbox" checked> Center guide</label>
+    </div>
+    <div class="meta">
+      <strong id="title"></strong>
+      <span id="detail"></span>
+      <span id="clip"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="editor" aria-label="Frame placement editor">
+      <div class="toolbar">
+        <label class="check"><input id="editMode" type="checkbox" checked> Edit placement</label>
+        <button id="previousFrame" type="button" title="Previous frame ([)">← Frame</button>
+        <input id="frameScrubber" type="range" min="0" max="0" value="0" aria-label="Frame within clip">
+        <button id="nextFrame" type="button" title="Next frame (])">Frame →</button>
+        <label>Master <select id="masterFrame" aria-label="All master frames"></select></label>
+        <button id="returnClip" type="button">Return to clip</button>
+        <label>Step <select id="nudgeStep"><option value="1">1 atlas pixel</option>
+          <option value="native">1 original pixel</option></select></label>
+        <button id="nudgeLeft" type="button" aria-label="Move restored left">←</button>
+        <button id="nudgeUp" type="button" aria-label="Move restored up">↑</button>
+        <button id="nudgeDown" type="button" aria-label="Move restored down">↓</button>
+        <button id="nudgeRight" type="button" aria-label="Move restored right">→</button>
+        <button id="undoFrame" type="button">Undo frame edit</button>
+        <button id="resetFrame" type="button">Reset offset</button>
+        <label class="check"><input id="previewFixups" type="checkbox" checked> Preview fixups</label>
+        <label title="Fixed position from the top of the comparison canvas at 1× zoom">Guide Y
+          <input id="guideOffset" type="number" step="0.5" value="0" aria-label="Fixed top guide position"> px</label>
+        <button id="resetGuide" type="button">Auto top</button>
+        <label title="Fixed position from the left of the comparison canvas at 1× zoom">Guide X
+          <input id="centerOffset" type="number" step="0.5" value="0" aria-label="Fixed center guide position"> px</label>
+        <button id="resetCenter" type="button">Auto center</button>
+        <button id="undoGuides" type="button">Undo guide</button>
+      </div>
+      <div class="toolbar">
+        <strong id="offsetReadout"></strong>
+        <span id="heightReadout"></span>
+        <label class="check"><input id="regenerate" type="checkbox"> Flag frame for regeneration</label>
+        <input id="frameNote" type="text" maxlength="2000" placeholder="Frame note: scale, shape, edges…"
+          aria-label="Frame fixup note">
+        <button id="saveFixups" type="button">Save now</button>
+        <a id="exportFixups" href="/api/fixups/export" download>Export checkpoints ↓</a>
+        <button id="exportUnsaved" type="button" hidden>Export unsaved edits</button>
+        <span id="saveStatus" role="status" aria-live="polite"></span>
+      </div>
+      <div class="toolbar" aria-label="Frame scale preview">
+        <label>Size change
+          <input id="scalePercent" type="number" min="-50" max="50" step="0.1" value="0"
+            aria-label="Frame size change percent"> %</label>
+        <input id="scaleSlider" type="range" min="-10" max="10" step="0.1" value="0"
+          aria-label="Quick size change percent" title="Quick range −10% to +10%; use the number for larger changes">
+        <label>Keep fixed <select id="scaleAnchor">
+          <option value="bottom">Bottom center</option><option value="top">Top center</option>
+          <option value="pivot">Native pivot</option></select></label>
+        <button id="resetScale" type="button">Reset size</button>
+        <button id="fitScale" type="button">Fit preview</button>
+        <label class="check"><input id="previewScale" type="checkbox" checked> Preview size</label>
+        <label>Measurement <select id="scaleHint" aria-label="Scale trial measurement"></select></label>
+        <button id="applyScaleHint" type="button">Try measured size</button>
+        <span id="scaleHintReadout"></span>
+        <button id="matchFamily" type="button"
+          title="Match each original silhouette's height and bottom; keep horizontal offsets and notes">
+          Match family height &amp; bottom</button>
+        <button id="undoFamilyMatch" type="button" disabled>Undo family match</button>
+        <span id="familyMatchStatus" role="status" aria-live="polite"></span>
+      </div>
+      <div class="toolbar" aria-label="Live color adjustment">
+        <strong>Color</strong>
+        <label>Area <select id="colorRegion" aria-label="Color adjustment area"></select></label>
+        <label>Saturation <input id="saturation" type="range" min="0" max="200" step="1" value="100">
+          <output id="saturationValue" for="saturation">100%</output></label>
+        <label>Brightness <input id="brightness" type="range" min="0" max="200" step="1" value="100">
+          <output id="brightnessValue" for="brightness">100%</output></label>
+        <label class="check"><input id="previewColor" type="checkbox" checked> Preview color</label>
+        <button id="resetColor" type="button">Reset color</button>
+        <span>All frames · current palette · 100% = unchanged · saved preview only</span>
+      </div>
+    </section>
+    <div class="review-workspace">
+      <aside class="landmark-bar" aria-label="Landmark calibration">
+        <strong>Landmarks</strong>
+        <label class="check"><input id="showLandmarks" type="checkbox" checked> Show points</label>
+        <span class="landmark-help">Shift+Space: align X + fit top/bottom where available.</span>
+        <div class="landmark-group">
+          <strong>Head X</strong>
+          <output id="headXReadout"></output>
+          <button id="headCenterGuide" type="button">Guide → head X</button>
+          <button id="headAlignX" type="button">Align restored X</button>
+        </div>
+        <div class="landmark-group">
+          <strong>Head top</strong>
+          <output id="headTopReadout"></output>
+          <button id="headTopGuide" type="button">Guide → head top</button>
+          <button id="headAlignY" type="button">Align restored Y</button>
+          <button id="headFitFeet" type="button" title="Uniform scale from head top to original bottom line; keeps head X in place">
+            Fit top + bottom</button>
+          <span class="landmark-help">Scale around feet; match the original bottom line.</span>
+          <button id="editHeadTop" type="button">Add / edit head top</button>
+        </div>
+        <button id="landmarkUndoPlacement" type="button">Undo sprite adjustment</button>
+        <button id="landmarkUndoGuide" type="button">Undo guide</button>
+        <p id="landmarkActionStatus" role="status" aria-live="polite"></p>
+        <details id="landmarkPanel">
+          <summary>Edit landmarks</summary>
+          <div class="landmark-group">
+            <label class="check"><input id="editLandmarks" type="checkbox"> Edit points</label>
+            <label>Point <select id="landmarkKind"><option value="eye1">Eye 1</option>
+              <option value="eye2">Eye 2</option><option value="head">Head axis X</option>
+              <option value="head_top">Head top</option><option value="groin">Groin / leg junction</option></select></label>
+            <label>Side <select id="landmarkSide"><option value="original">Original</option>
+              <option value="restored">Restored</option></select></label>
+            <button id="landmarkKeep" type="button">Keep suggestion</button>
+            <button id="landmarkAbsent" type="button">Hidden / not applicable</button>
+            <button id="landmarkReset" type="button">Clear edit</button>
+            <button id="landmarkUndo" type="button">Undo point edit</button>
+            <button id="landmarkAlign" type="button">Align selected point</button>
+            <button id="landmarkFit" type="button">Fit size &amp; offset to points</button>
+            <a id="exportLandmarks" href="/api/landmarks/export" download>Export landmarks ↓</a>
+          </div>
+          <p id="landmarkReadout" role="status"></p>
+          <p class="landmark-help">Choose a point, then click or drag on either sprite with Edit points enabled.
+            Circles are suggestions; crosses are recorded points. Head X marks X only.
+            Coordinates use original pixels before size, offset or mirroring. Empty means uncertain.
+            Eye numbers follow the stored view and mirroring. Sprite adjustments affect this frame only.</p>
+        </details>
+      </aside>
+      <div class="viewport" aria-label="Side by side animation comparison">
+      <div class="comparison">
+        <figure><figcaption>Original · drag top ↕ or vertical ↔ guide</figcaption><canvas id="native" tabindex="0"
+          aria-label="Original frame: drag guides or focus and use arrows to move them"></canvas></figure>
+        <figure><figcaption>Restored · vertical guide:
+          <span class="legend-original">red original</span> · <span class="legend-restored">pink restored</span> ·
+          <span class="legend-empty">green empty</span></figcaption>
+          <canvas id="restored" tabindex="0" aria-label="Restored frame: drag or use arrow keys to adjust"></canvas></figure>
+      </div>
+      </div>
+    </div>
+    <footer id="reviewFooter" hidden>
+    <details class="acceptance"><summary>Family acceptance &amp; review note</summary>
+    <section class="decision-bar" aria-label="Acceptance decision">
+      <div>
+        <label for="note">Review note <span>(optional for a flag)</span></label>
+        <textarea id="note" rows="2" placeholder="Describe the pose, motion, placement, palette, or edge issue"></textarea>
+      </div>
+      <div class="decision-buttons">
+        <button id="accept" class="accept" type="button">Accept &amp; next</button>
+        <button id="flag" class="flag" type="button">Flag &amp; next</button>
+        <button id="clear" type="button">Clear decision</button>
+        <a href="/api/export" download>Export decisions ↓</a>
+      </div>
+    </section>
+    </details>
+    <p id="message" role="status" aria-live="polite"></p>
+    <details id="excluded"><summary>Queue scope and controls</summary><ul></ul>
+    <p class="help">Drag restored art or use arrows; Shift+Up/Down = 10 steps; [ / ] steps frames; Space previews animation.
+      Shift+Left/Right changes native animation/view, skipping mirrored copies. Shift+Space aligns head X and fits
+      head top + bottom for this frame, applying whichever action has the required references. One Undo restores both.
+      At 2×, one atlas pixel = ½ original pixel. Fixups share a frame across palettes/views; arrows follow the screen.
+      Drag the top or vertical line on the original; both panels follow. Auto top / Auto center reset them.
+      Guides stay fixed across frames, actions and views; their positions are saved for each family.
+      The vertical line colors only intersected pixels: red original, pink restored, red/pink together for both,
+      green for neither.
+      Pink uses restored alpha ≥ 128.
+      JSON checkpoints are proposals; sprite files stay unchanged.</p>
+    </details>
+    </footer>
+  </main>
+  <button id="toggleReviewFooter" type="button" aria-controls="reviewFooter" aria-expanded="false"
+    title="Show family acceptance, saved status, and help">Show review</button>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{
+  "views": [
+    {
+      "view": {
+        "name": "settlement",
+        "target": [
+          -4192.0,
+          5552.0,
+          490.0
+        ],
+        "span": 12500
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm8/out04_decor_settlement.png",
+      "camera_position": [
+        1467.69287109375,
+        -5767.3857421875,
+        14324.806640625
+      ],
+      "highlighted": [
+        {
+          "index": 228,
+          "name": "rock30",
+          "position": [
+            -4736,
+            4352,
+            128
+          ]
+        },
+        {
+          "index": 415,
+          "name": "dec05",
+          "position": [
+            -4608,
+            7424,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "view": {
+        "name": "landscape",
+        "target": [
+          1952,
+          448,
+          466
+        ],
+        "span": 13000
+      },
+      "section_top_z": null,
+      "image": "level_generation/evidence/mm8/out04_decor_landscape.png",
+      "camera_position": [
+        7838.08056640625,
+        -11324.1611328125,
+        14854.197265625
+      ],
+      "highlighted": [
+        {
+          "index": 531,
+          "name": "plant54",
+          "position": [
+            1952,
+            448,
+            466
+          ]
+        },
+        {
+          "index": 203,
+          "name": "rock18",
+          "position": [
+            -1024,
+            -1792,
+            752
+          ]
+        },
+        {
+          "index": 449,
+          "name": "dec21",
+          "position": [
+            3600,
+            1952,
+            235
+          ]
+        }
+      ]
+    }
+  ],
+  "missing_sprites": [],
+  "limitations": "Native static geometry/initial decoration first frames, decoded palette and alpha; neutral study lighting, no actors, scripted changes, emitter particles or dynamic light validation. Labels mark source anchors; they may identify a sprite partly occluded by geometry. Not a gameplay screenshot."
+}

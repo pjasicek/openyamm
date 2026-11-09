@@ -1,0 +1,36 @@
+id: mm9.isleofashes_bridge_ramp
+title: The party walks onto the Isle of Ashes' bridge ramp from the terrain and back off it
+world: mm9
+mode: faithful
+tags:
+- mm9
+- movement
+- regression
+steps:
+- note:
+    text: >-
+      The bridge ramp's north end (ASHW5WT0XI, top 326 here) is buried in the terrain, which runs on under it. The
+      floor sampled at the feet kept the party on the terrain inside the ramp until the terrain met the ramp's
+      underside and trapped it 182 units on (user playtest, 2026-11-07). Now it steps onto the ramp and crosses.
+- load_map:
+    map: isleofashes.blv
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: false
+    actor_ai: false
+    start: {map: isleofashes.blv, x: -10373.557, y: -3809.433, z: 318.554, yaw_degrees: 285.5, pitch: 0}
+    expect_stop: {map: isleofashes.blv, x: -9892.7, y: -5175.8, z: 348.0, yaw_degrees: 285.5, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 12
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start: {map: isleofashes.blv, x: -10170.2, y: -4542.4, z: 348.0, yaw_degrees: 105.5, pitch: 0}
+    expect_stop: {map: isleofashes.blv, x: -10373.8, y: -3808.1, z: 325.7, yaw_degrees: 105.5, pitch: 0}
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 20

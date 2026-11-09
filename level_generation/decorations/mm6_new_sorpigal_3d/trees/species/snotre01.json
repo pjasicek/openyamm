@@ -1,0 +1,195 @@
+{
+ "sprite": "snotre01",
+ "output": "mm6_deco_snotre01.glb",
+ "height_m": 3.21,
+ "note": "Snow-covered spruce: broad dark cone from near the ground, snow patches on the upper sides of the branches.",
+ "sapling": {
+  "scale": 2.27,
+  "shape": "0",
+  "baseSplits": 0,
+  "baseSize": 0.15,
+  "splitHeight": 0.5,
+  "seed": 201,
+  "ratio": 0.035,
+  "segSplits": [
+   0,
+   0.1,
+   0.2,
+   0
+  ],
+  "branches": [
+   0,
+   55,
+   10,
+   8
+  ],
+  "downAngle": [
+   90,
+   86,
+   45,
+   45
+  ],
+  "attractUp": [
+   0,
+   -0.05,
+   0.3,
+   0
+  ],
+  "length": [
+   1.0,
+   0.4,
+   0.35,
+   0.3
+  ],
+  "curveRes": [
+   10,
+   4,
+   3,
+   1
+  ],
+  "rootFlare": 1.3,
+  "scaleV": 0.3
+ },
+ "crown": {
+  "canopy_low": 0.06,
+  "centre": 0.4,
+  "clumps": 320,
+  "inner_clumps": 20,
+  "outer_radius": [
+   0.16,
+   0.26
+  ],
+  "inner_radius": [
+   0.14,
+   0.2
+  ],
+  "card": [
+   0.26,
+   0.34
+  ],
+  "gap": 0.75,
+  "radius_by_width": 0.35,
+  "spire": [
+   0.15,
+   2.0
+  ],
+  "flatten": 0.45,
+  "card_up": 0.7,
+  "tiers": [
+   [
+    0.07,
+    0.15
+   ],
+   [
+    0.18,
+    0.26
+   ],
+   [
+    0.29,
+    0.37
+   ],
+   [
+    0.4,
+    0.48
+   ],
+   [
+    0.51,
+    0.59
+   ],
+   [
+    0.62,
+    0.7
+   ],
+   [
+    0.73,
+    0.81
+   ],
+   [
+    0.84,
+    1.0
+   ]
+  ]
+ },
+ "bark": {
+  "target_srgb": [
+   62,
+   56,
+   44
+  ],
+  "min_thickness": [
+   0.01,
+   0.025,
+   0.045
+  ],
+  "root_reach": 0.15,
+  "roots": 0,
+  "clip_below_crown": true
+ },
+ "lod": {
+  "triangles": [
+   6000,
+   2400,
+   900
+  ],
+  "tone": [
+   1.0,
+   [
+    0.876,
+    0.873,
+    0.867
+   ],
+   [
+    1.124,
+    1.076,
+    1.121
+   ]
+  ]
+ },
+ "leaves": {
+  "kind": "needles",
+  "target_srgb": [
+   72,
+   112,
+   84
+  ],
+  "seeds": [
+   201,
+   211,
+   223,
+   239
+  ],
+  "value": [
+   0.75,
+   1.45
+  ],
+  "jitter_blue": [
+   0.9,
+   1.2
+  ],
+  "snow": {
+   "cells": [
+    2,
+    3
+   ],
+   "up": 0.55,
+   "cover": 0.85,
+   "radius": [
+    26,
+    50
+   ],
+   "srgb": [
+    240,
+    240,
+    246
+   ],
+   "tilt": 0.3,
+   "lift": 0.7
+  }
+ },
+ "impostor_tone": [
+  0.767,
+  0.804,
+  0.798
+ ],
+ "transparent_bounces": 64
+}

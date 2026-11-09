@@ -1,0 +1,13 @@
+output_dir: /tmp/obsidian-2129-empty
+exit: true
+steps:
+- wait: 2
+- capture: gameplay
+- right_down:
+  - 87
+  - 0
+- capture: empty-inspect
+- right_up:
+  - 87
+  - 0
+- capture: released

@@ -1,0 +1,19 @@
+# The portcullis winch (RopeWheel, RotatingBrush: scene mover.spin, motion spin): SunTemplePrison.scr turns it (reverse,
+# on) as the prison gate opens, after PrisonButton3 has opened DoorCryptEscape0.
+id: mm9r.ruinedtemple_spin
+title: 'Ruined Temple (native BLV): the winch turns as the prison gate opens'
+world: mm9
+mode: faithful
+tags:
+- mm9
+- mm9_rework
+steps:
+- load_map:
+    map: ruinedtemple.blv
+- advance_runtime: {seconds: 0.5}
+- assert:
+    mechanism: {id: 46, spinning: false}
+- execute_event: {id: 221}
+- advance_runtime: {seconds: 7.0}
+- assert:
+    mechanism: {id: 46, spinning: true}

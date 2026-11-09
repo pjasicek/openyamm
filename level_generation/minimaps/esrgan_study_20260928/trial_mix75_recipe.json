@@ -1,0 +1,25 @@
+{
+  "status": "recommended_review_candidate_not_accepted_or_deployed",
+  "model": "realesr-animevideov3",
+  "scale": 2,
+  "tta": false,
+  "tile_size": 0,
+  "gpu_id": 0,
+  "threads": "1:1:1",
+  "reflection_pad_native_px": 16,
+  "pre_denoise": false,
+  "post_sharpen": false,
+  "colour_grade": false,
+  "blend": {
+    "esrgan": 0.75,
+    "original_lanczos_x2": 0.25,
+    "space": "encoded RGB, Pillow Image.blend"
+  },
+  "model_sha256": {
+    "bin": "548a36f9c3f4ab8da56cd3b13badf23968bee207b396dad14d04b830e5f2ab2d",
+    "param": "b88ff4f00ebf019a7fdac17fdd45a7fd3665d37509efc5baf2e4da2e24420a04"
+  },
+  "binary_sha256": "22c2296a39b40cc43ac92615c827ab6d4b60b7142e8cee59f718e3f8e2cdbda9",
+  "native_source": "Archived original BMP decoded to RGB; never an earlier generated replacement.",
+  "canvas": "Exactly 2x native width and height; no repositioning, warping or trimming."
+}

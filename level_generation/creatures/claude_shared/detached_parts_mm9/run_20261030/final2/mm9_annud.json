@@ -1,0 +1,276 @@
+[
+ {
+  "glb": "/home/pjasicek/github/OpenYAMM/assets_source/worlds/mm9/models/mm9_annud.glb",
+  "components": 16,
+  "body": 1,
+  "size": 1.7965751886367798,
+  "threshold": 0.004,
+  "fps": 30.0,
+  "rules": "root",
+  "parts": {},
+  "peer_ratio": 1.15,
+  "component_summary": {
+   "total": 16,
+   "attached_in_every_pose": 15
+  },
+  "concealed": {},
+  "shallow": {
+   "2": {
+    "joint": "Bip01 R Calf",
+    "where": "below",
+    "triangles": 1398,
+    "extent": 1.2606,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00113,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00048,
+     "on": "Bip01 Spine1",
+     "clip": "Hit",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "3": {
+    "joint": "Bip01 Head",
+    "where": "above",
+    "triangles": 1255,
+    "extent": 0.5016,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00589,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0043,
+     "on": "Bip01 Spine1",
+     "clip": "Death",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03278,
+     "on": "Bip01 Spine1",
+     "clip": "Death",
+     "frame": 30,
+     "time": 1.0
+    }
+   },
+   "5": {
+    "joint": "Bip01 Neck",
+    "where": "above",
+    "triangles": 103,
+    "extent": 0.1661,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00738,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00442,
+     "on": "Bip01 Spine1",
+     "clip": "Fidget",
+     "frame": 27,
+     "time": 0.9
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "6": {
+    "joint": "Bip01 Neck",
+    "where": "above",
+    "triangles": 96,
+    "extent": 0.1572,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00392,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00354,
+     "on": "Bip01 Spine1",
+     "clip": "Fidget",
+     "frame": 25,
+     "time": 0.8333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "7": {
+    "joint": "Bip01 Spine",
+    "where": "below, +z",
+    "triangles": 48,
+    "extent": 0.09,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00104,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.00063,
+     "on": "Bip01 Spine1",
+     "clip": "Death",
+     "frame": 1,
+     "time": 0.0333
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "9": {
+    "joint": "Bip01 Spine",
+    "where": "below, +z",
+    "triangles": 39,
+    "extent": 0.1134,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": -0.00339,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00399,
+     "on": "Bip01 Spine1",
+     "clip": "Walking",
+     "frame": 11,
+     "time": 0.3667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   },
+   "13": {
+    "joint": "Bip01 Spine",
+    "where": "below, +z",
+    "triangles": 36,
+    "extent": 0.1221,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00846,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": -0.00373,
+     "on": "Bip01 Spine1",
+     "clip": "Walking",
+     "frame": 12,
+     "time": 0.4
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": null
+   }
+  },
+  "root_lift": {
+   "0": {
+    "joint": "Bip01 L Forearm",
+    "where": "-x side",
+    "triangles": 870,
+    "extent": 0.5122,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.06684,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.03291,
+     "on": "Bip01 Spine1",
+     "clip": "AttackMelee",
+     "frame": 20,
+     "time": 0.6667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03072,
+     "on": "Bip01 Spine1",
+     "clip": "Talk",
+     "frame": 11,
+     "time": 0.3667
+    }
+   },
+   "3": {
+    "joint": "Bip01 Head",
+    "where": "above",
+    "triangles": 1255,
+    "extent": 0.5016,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.00589,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.0043,
+     "on": "Bip01 Spine1",
+     "clip": "Death",
+     "frame": 17,
+     "time": 0.5667
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03278,
+     "on": "Bip01 Spine1",
+     "clip": "Death",
+     "frame": 30,
+     "time": 1.0
+    }
+   },
+   "15": {
+    "joint": "Bip01 R Forearm",
+    "where": "+x side",
+    "triangles": 870,
+    "extent": 0.5132,
+    "bind_gap": 0.0,
+    "bind_rooted_depth": 0.06657,
+    "worst": null,
+    "detached_poses": 0,
+    "poses": 535,
+    "clips": {},
+    "shallowest": {
+     "depth": 0.02546,
+     "on": "Bip01 Spine1",
+     "clip": "AttackMelee",
+     "frame": 9,
+     "time": 0.3
+    },
+    "concealed_poses": 0,
+    "worst_concealed": null,
+    "carried_poses": 0,
+    "root_lift": {
+     "gap": 0.03119,
+     "on": "Bip01 Spine1",
+     "clip": "Talk",
+     "frame": 28,
+     "time": 0.9333
+    }
+   }
+  }
+ }
+]

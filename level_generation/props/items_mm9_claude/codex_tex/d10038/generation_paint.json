@@ -1,0 +1,28 @@
+{
+  "prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as binding original colour reference (magenta is background, not a material). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the guide exactly: three columns FOUR rows, five orthographic views duplicated in upper and lower halves, FRONT BACK LEFT / RIGHT TOP empty. Paint only existing grey silhouettes in exactly their existing positions, sizes, outlines, gaps and openings. Do not redraw, enlarge, move, join separated parts or redesign. Top two rows: unlit base colour faithful to original MM9 PCX in MM6-MM8 inventory style: ornate silver scalloped crescent flat metal piece, small angular rear flat metal piece, gold socket fittings, reddish-brown wood shaft, brown leather wrapped upper grip, gold end cap and gold curved top fitting. Follow HD reference facets engravings scrollwork and inner swirls scaled to each view, but no lighting, cast shadows, ambient occlusion, hot highlights or reflections. Bottom two rows: same silhouettes and material regions as upper half, but FLAT exact material ID colours only: every metal including gold and silver pure red #FF0000; leather/fur pure green #00FF00; cloth/cords/hair pure blue #0000FF; wood/bone/horn/stone/paper/wax pure yellow #FFFF00; gemstone/glass/enamel/liquid pure black #000000. No shading, texture, outlines or antialiased colour blends inside masks. Each silhouette pixel exactly one material colour. Keep all background and gaps genuinely alpha transparent. Column 3 rows 2 and 4 empty transparent. No text, labels, outlines, glow, aura, sparkles, ground or other elements. Harmless static decorative fantasy prop texture atlas only. Output the painted guide sheet, not a standalone enlarged object.",
+  "corrective_prompt": "Edit paint_mask_guide.png using design_reference.png as material/detail reference and icon_x8.png as binding original colour reference (magenta is background, not a material). Produce ONE transparent PNG, 1536x2048 or nearest 3:4 canvas. Preserve the guide exactly: three columns FOUR rows, five orthographic views duplicated in upper and lower halves, FRONT BACK LEFT / RIGHT TOP empty. Paint only existing grey silhouettes in exactly their existing positions, sizes, outlines, gaps and openings. Do not redraw, enlarge, move, join separated parts or redesign. Top two rows: unlit base colour faithful to original MM9 PCX in MM6-MM8 inventory style: ornate silver scalloped crescent flat metal piece, small angular rear flat metal piece, gold socket fittings, reddish-brown wood shaft, brown leather wrapped upper grip, gold end cap and gold curved top fitting. Follow HD reference facets engravings scrollwork and inner swirls scaled to each view, but no lighting, cast shadows, ambient occlusion, hot highlights or reflections. Bottom two rows: same silhouettes and material regions as upper half, but FLAT exact material ID colours only: every metal including gold and silver pure red #FF0000; leather/fur pure green #00FF00; cloth/cords/hair pure blue #0000FF; wood/bone/horn/stone/paper/wax pure yellow #FFFF00; gemstone/glass/enamel/liquid pure black #000000. No shading, texture, outlines or antialiased colour blends inside masks. Each silhouette pixel exactly one material colour. Keep all background and gaps genuinely alpha transparent. Column 3 rows 2 and 4 empty transparent. No text, labels, outlines, glow, aura, sparkles, ground or other elements. Harmless static decorative fantasy prop texture atlas only. Output the painted guide sheet, not a standalone enlarged object.\nCRITICAL correction: copy the guide's alpha silhouettes exactly, including the deliberate gap between head and shaft in the central upright view and side views. Do not connect these gaps. Lower half must be an EXACT duplicate of upper half geometry translated by half the canvas height, not repositioned. No stray pixels anywhere outside guide silhouettes. The guide is the sole geometry authority; other images only specify materials. Preserve plain flat mask fills without drawn edge lines. Do not add ornamental details absent from reference.",
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1ad27-2dab-72a0-b39a-8b951eeed0ab/exec-07520b2e-3523-4bc8-8188-8084f8797c04.png",
+  "corrective_output_path": "/home/pjasicek/.codex/generated_images/01a1ad27-2dab-72a0-b39a-8b951eeed0ab/exec-06e22ba7-96b8-49d6-a4d4-45eedf048cad.png",
+  "tool": "built-in image_gen",
+  "selection_reason": "Original retained: corrective attempt misclassified side-view wooden shafts as metal. Neither result fully satisfies exact silhouette and flat-mask requirements.",
+  "inputs": [
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10038/paint_mask_guide.png",
+      "sha256": "b7ef1ede59736c176eb647193fc714bf094bbec7761e0ccb1840d583d67bc1e3"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10038/design_reference.png",
+      "sha256": "f8ab9db08926578e9a8447fa65b0b7bc37529c7af0c4ca99dda917a0b2a16d55"
+    },
+    {
+      "path": "level_generation/props/items_mm9_claude/codex_tex/d10038/icon_x8.png",
+      "sha256": "b31809459bd0873dc5f89005764390ac1568b56226e61310515cae1323c6cbcc"
+    }
+  ],
+  "output": "level_generation/props/items_mm9_claude/codex_tex/d10038/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA"
+}

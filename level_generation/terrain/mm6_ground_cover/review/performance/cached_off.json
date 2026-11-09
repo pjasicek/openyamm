@@ -1,0 +1,64 @@
+{
+  "request": {
+    "name": "grass_cached_off",
+    "world": "mm6",
+    "map": null,
+    "save": "level_generation/terrain/mm6_new_sorpigal_dirt_fidelity/references/Dirt_View.oysav",
+    "position": [
+      -9728.0,
+      -11319.0,
+      161.0
+    ],
+    "yaw_radians": 4.758,
+    "pitch_degrees": -6.274,
+    "settings": "/tmp/openyamm-sorpigal-ground-cover/settings.ini",
+    "assets": null,
+    "set": [
+      "video.terrain_decorations=false"
+    ],
+    "seconds": 12.0,
+    "warmup": 4.0,
+    "prepare_only": false
+  },
+  "run_directory": "/tmp/openyamm-desktop-grass_cached_off-5yexkcp7",
+  "status": "completed",
+  "timing_note": "FPS log samples include ordinary simulation/rendering; these are not GPU timer results.",
+  "binary_sha256": "7a688fd57408a6dca773afdd075c1161e2626547fac81e65c1a47b55f2fa0505",
+  "source_save_sha256": "35557cc2fa47d4cb778d9a54df9bf71e287bfb6e93b784d72f9d27018fc51416",
+  "settings_sha256": "acfca3051933ef9c1421ee9ca782fdc5a5c1626e5c2ce301f13f3a7c69f966fe",
+  "save_sha256": "a9aa40e9fb9068772118dce4a8b3b4e8ade8f85d3ba2fe59785662240c95a5e6",
+  "assets": "/tmp/openyamm-sorpigal-ground-cover/assets_dev",
+  "display": ":1",
+  "command": [
+    "/home/pjasicek/github/OpenYAMM/build/game/openyamm",
+    "--world",
+    "mm6"
+  ],
+  "pid": 2544693,
+  "loaded_camera": {
+    "x": -9728.0,
+    "y": -11319.0,
+    "z": 161.0,
+    "yaw_radians": -1.52519,
+    "pitch_radians": -0.109502
+  },
+  "loaded_map": "oute3.odm",
+  "startup_seconds": 7.412278918985976,
+  "measurement_seconds": 12.016620637994492,
+  "fps_samples": [
+    2040.92,
+    1951.85,
+    2264.57,
+    2362.89,
+    2378.67,
+    1888.16,
+    2195.49,
+    2211.44,
+    2184.53,
+    2060.42,
+    2047.71,
+    1789.79
+  ],
+  "median_fps": 2122.4750000000004,
+  "exit_code": 0
+}

@@ -1,0 +1,50 @@
+output_dir: ../replay/save-load
+exit: true
+steps:
+- wait: 2
+- key: Escape
+- capture: pause
+- click:
+  - 799.99996875
+  - 365.60193749999996
+- capture: save-new
+- click: &id001
+  - 1316.30446875
+  - 801.4999687499999
+- expect: gameplay
+- capture: save-created
+- key: Escape
+- expect: pause
+- click:
+  - 800
+  - 366
+- click:
+  - 420
+  - 324
+- click: *id001
+- capture: save-overwrite
+- click:
+  - 948
+  - 550
+- expect: gameplay
+- key: Escape
+- expect: pause
+- click:
+  - 799.99996875
+  - 429.6020625
+- capture: load
+- click:
+  - 1314.2500312500001
+  - 801.4999687499999
+- capture: load-confirm
+- click:
+  - 948
+  - 550
+- wait: 6
+- key: Escape
+- capture: pause-after-load
+- click:
+  - 799.99996875
+  - 301.602
+- wait: 1
+- capture: resumed
